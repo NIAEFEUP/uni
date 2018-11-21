@@ -1,0 +1,5 @@
+name: any
+
+dependencies:
+  html: any
+  http: any
