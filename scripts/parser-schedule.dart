@@ -30,6 +30,8 @@ main() async {
             lect.day = day;
             lect.blocks = int.parse(children[i].attributes['rowspan']);
             lect.startTime = children[0].text.substring(0, 5);
+
+            semana[day] += lect.blocks;
             lecturesList.add(lect);
           }
           day++;
