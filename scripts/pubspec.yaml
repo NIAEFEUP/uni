@@ -1,5 +1,4 @@
-name: any
-
+name: parser
 dependencies:
   html: any
   http: any
