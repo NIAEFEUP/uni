@@ -14,3 +14,5 @@ doc/api/
 ./scripts/pubspec.lock
 .DS_Store
 .atom/
+.vscode/
+.packages
