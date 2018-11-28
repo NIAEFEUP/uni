@@ -15,6 +15,6 @@ The View part of the app is made of Widgets (stateful or stateless). They each s
 
 ## Controller
 
-In the controller folder we should only have classes and methods that process information.
+In the controller folder we should only have classes and methods that process information - Dart only.
 The networking side of the app will be in here, as well as the parsers.
 Subfolders are crucial to keep the code organized.
