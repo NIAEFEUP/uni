@@ -35,37 +35,36 @@ main() async{
 
         if(table.querySelectorAll('td.exame') != null)
         {
-          table.querySelectorAll('td.exame').forEach((Element classes){
-              if(element.querySelector('a') != null)
+          table.querySelectorAll('table.dados td.exame').forEach((Element classes){
+              if(classes.querySelector('a') != null)
               {
-                subject = element.querySelector('a').text;
-                print(subject);
+                subject = classes.querySelector('a').text;
               }
-              if(element.querySelector('span') != null) 
+              if(classes.querySelector('span.exame-sala') != null) 
               {
-                rooms = element.querySelector('span').text;
-                print(rooms);
+                rooms = classes.querySelector('span.exame-sala').text;
               }
-              if(element.querySelector('td')!= null)
-              {
-                // print(element.querySelector('td').text);
-              }
+              print(classes.text);
+              // if(classes.querySelector('td')!= null)
+              // {
+              //   print(classes.querySelector('td.l.exame').text);
+              // }
           });
         }
       });
     }
-    if(element.querySelector('a') != null)
-    {
-      subject = element.querySelector('a').text;
-    }
-    if(element.querySelector('span') != null) 
-    {
-      rooms = element.querySelector('span').text;
-    }
-    if(element.querySelector('td')!= null)
-    {
-      // print(element.querySelector('td').text);
-    }
+    // if(element.querySelector('a') != null)
+    // {
+    //   subject = element.querySelector('a').text;
+    // }
+    // if(element.querySelector('span') != null) 
+    // {
+    //   rooms = element.querySelector('span').text;
+    // }
+    // if(element.querySelector('td')!= null)
+    // {
+    //   // print(element.querySelector('td').text);
+    // }
     
   });
   
