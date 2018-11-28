@@ -4,11 +4,16 @@ import 'package:html/dom.dart';
 
 class Exam{
   String subject;
-  String subjectName;
   String schedule;
   String rooms;
   String date;
-  int day;
+  Exam(String schedule, String subject, String rooms, String date)
+  {
+    this.subject = subject;
+    this.schedule = schedule;
+    this.rooms = rooms;
+    this.date = date;
+  }
 }
 
 main() async{
@@ -17,55 +22,37 @@ main() async{
 
   var document = parse(response.body);
 
-  List<Exam> exams = new List();
+  List<Exam> Exams = new List();
   List<String> dates = new List();
   String subject, schedule, rooms;
   int days = 0;
-  document.querySelectorAll('table > tbody > tr > td').forEach((Element element){
-    if(element.querySelectorAll('table') != null)
-    {
-      element.querySelectorAll('table').forEach((Element table){
-        days = 0;
-        if(table.querySelectorAll('span.exame-data') != null)
-        {
-          table.querySelectorAll('span.exame-data').forEach((Element weekDates){
-            dates.add(weekDates.text);
-          });
-        }
-
-        if(table.querySelectorAll('td.exame') != null)
-        {
-          table.querySelectorAll('table.dados td.exame').forEach((Element classes){
-              if(classes.querySelector('a') != null)
-              {
-                subject = classes.querySelector('a').text;
-              }
-              if(classes.querySelector('span.exame-sala') != null) 
-              {
-                rooms = classes.querySelector('span.exame-sala').text;
-              }
-              print(classes.text);
-              // if(classes.querySelector('td')!= null)
-              // {
-              //   print(classes.querySelector('td.l.exame').text);
-              // }
-          });
-        }
+  document.querySelectorAll('div > table > tbody > tr > td').forEach((Element element){
+    element.querySelectorAll('table:not(.mapa)').forEach((Element table) {
+      table.querySelectorAll('span.exame-data').forEach((Element date) {
+        dates.add(date.text);
       });
-    }
-    // if(element.querySelector('a') != null)
-    // {
-    //   subject = element.querySelector('a').text;
-    // }
-    // if(element.querySelector('span') != null) 
-    // {
-    //   rooms = element.querySelector('span').text;
-    // }
-    // if(element.querySelector('td')!= null)
-    // {
-    //   // print(element.querySelector('td').text);
-    // }
-    
+
+      table.querySelectorAll('td.l.k').forEach((Element exams) {
+        if(exams.querySelector('td.exame') != null)
+        {
+          exams.querySelectorAll('td.exame').forEach((Element examsDay) {
+          if(examsDay.querySelector('a') != null)
+          {
+            subject = examsDay.querySelector('a').text;
+          }
+          if(examsDay.querySelector('span.exame-sala') != null) 
+          {
+            rooms = examsDay.querySelector('span.exame-sala').text;
+          }
+
+          schedule = examsDay.text.substring(exams.text.indexOf(':') -2, examsDay.text.indexOf(':') + 9);
+          Exam exam = new Exam(schedule, subject, rooms, dates[days]);
+          Exams.add(exam);
+          });
+        }
+          days++;
+      });
+    });
   });
   
 }
