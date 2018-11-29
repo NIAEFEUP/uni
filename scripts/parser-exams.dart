@@ -7,16 +7,19 @@ class Exam{
   String schedule;
   String rooms;
   String date;
-  Exam(String schedule, String subject, String rooms, String date)
+  String examType;
+
+  Exam(String schedule, String subject, String rooms, String date, String examType)
   {
     this.subject = subject;
     this.schedule = schedule;
     this.rooms = rooms;
     this.date = date;
+    this.examType = examType;
   }
   void printExam()
   {
-    print(this.subject + " - " + this.date + " - " + this.schedule + " - " + this.rooms);
+    print(this.subject + " - " + this.date + " - " + this.schedule + " - " + this.examType + " - " + this.rooms);
   }
 }
 
@@ -28,8 +31,14 @@ main() async{
 
   List<Exam> Exams = new List();
   List<String> dates = new List();
+  List<String> examTypes = new List();
   String subject, schedule, rooms;
   int days = 0;
+  int tableNum = 0;
+  document.querySelectorAll('h3').forEach((Element examType){
+    examTypes.add(examType.text);
+  });
+  
   document.querySelectorAll('div > table > tbody > tr > td').forEach((Element element){
     element.querySelectorAll('table:not(.mapa)').forEach((Element table) {
       table.querySelectorAll('span.exame-data').forEach((Element date) {
@@ -50,13 +59,14 @@ main() async{
           }
 
           schedule = examsDay.text.substring(exams.text.indexOf(':') -2, examsDay.text.indexOf(':') + 9);
-          Exam exam = new Exam(schedule, subject, rooms, dates[days]);
+          Exam exam = new Exam(schedule, subject, rooms, dates[days], examTypes[tableNum]);
           Exams.add(exam);
           });
         }
           days++;
       });
     });
+    tableNum++;
   });
   for(var i = 0; i < Exams.length; i++)
   {
