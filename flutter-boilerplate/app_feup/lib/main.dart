@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'view/ClickCounter.dart';
+import 'HomePage.dart';
 
 void main() => runApp(new MyApp());
 
@@ -20,31 +20,7 @@ class MyApp extends StatelessWidget {
         // counter didn't reset back to zero; the application is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: new MyHomePage(title: 'Flutter Demo Home Page'),
+      home: new HomePage(title: 'Flutter Demo Home Page'),
     );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  _MyHomePageState createState() => new _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _setClickedAmount(value) {
-    setState(() {
-      _counter = value;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return new ClickCounter(_counter, _setClickedAmount);
   }
 }
