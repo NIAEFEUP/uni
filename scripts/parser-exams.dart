@@ -14,6 +14,10 @@ class Exam{
     this.rooms = rooms;
     this.date = date;
   }
+  void printExam()
+  {
+    print(this.subject + " - " + this.date + " - " + this.schedule + " - " + this.rooms);
+  }
 }
 
 main() async{
@@ -54,5 +58,8 @@ main() async{
       });
     });
   });
-  
+  for(var i = 0; i < Exams.length; i++)
+  {
+    Exams[i].printExam();
+  }
 }
