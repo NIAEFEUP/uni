@@ -1,20 +1,10 @@
 import 'package:flutter/material.dart';
 
-class HomePageView extends StatefulWidget {
+class HomePageView extends StatelessWidget {
   HomePageView({Key key, this.value: 0, @required this.onChanged}) : super(key: key);
 
   final int value;
   final Function onChanged;
-
-  @override
-  _HomePageViewState createState() => new _HomePageViewState();
-}
-
-class _HomePageViewState extends State<HomePageView> {
-
-  void _incrementCounter() {
-    widget.onChanged(widget.value+1);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,20 +14,20 @@ class _HomePageViewState extends State<HomePageView> {
         // the App.build method, and use it to set our appbar title.
         title: new Text('Counter'),
       ),
-      body: createCounterDisplay(),
+      body: createCounterDisplay(context),
       floatingActionButton: createActionButton(),
     );
   }
 
   Widget createActionButton(){
     return new FloatingActionButton(
-      onPressed: _incrementCounter,
+      onPressed: () => onChanged(value+1),
       tooltip: 'Increment',
       child: new Icon(Icons.add),
     );
   }
 
-  Widget createCounterDisplay(){
+  Widget createCounterDisplay(BuildContext context){
     return new Center(
       child: new Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -46,7 +36,7 @@ class _HomePageViewState extends State<HomePageView> {
             'You have pushed the button this many times:',
           ),
           new Text(
-            '${widget.value}',
+            '$value',
             style: Theme.of(context).textTheme.display1,
           ),
         ],
