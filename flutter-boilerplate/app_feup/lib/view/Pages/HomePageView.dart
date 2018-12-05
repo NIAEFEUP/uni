@@ -1,25 +1,36 @@
 import 'package:flutter/material.dart';
 
 class HomePageView extends StatelessWidget {
-  HomePageView({Key key, this.value: 0, @required this.onChanged}) : super(key: key);
+  HomePageView({Key key,
+    @required this.title,
+    @required this.value,
+    @required this.color,
+    @required this.onChanged}) : super(key: key);
 
   final int value;
   final Function onChanged;
+  final Color color;
+  final String title;
 
+
+
+  /*********** MAIN BUILD METHOD ***********/
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: new Text('Counter'),
+        title: new Text(title),
       ),
       body: createCounterDisplay(context),
-      floatingActionButton: createActionButton(),
+      floatingActionButton: createActionButton(context),
     );
   }
 
-  Widget createActionButton(){
+
+
+  Widget createActionButton(BuildContext context){
     return new FloatingActionButton(
       onPressed: () => onChanged(value+1),
       tooltip: 'Increment',
@@ -34,10 +45,11 @@ class HomePageView extends StatelessWidget {
         children: <Widget>[
           new Text(
             'You have pushed the button this many times:',
+            style: Theme.of(context).textTheme.body1,
           ),
           new Text(
             '$value',
-            style: Theme.of(context).textTheme.display1,
+            style: Theme.of(context).textTheme.title.apply(color: color),
           ),
         ],
       ),

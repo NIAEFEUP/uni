@@ -7,9 +7,9 @@ import 'package:flutter/material.dart';
 // to the application's overall state (in other words
 // it only affects this widget and nothing else)
 
-// If you need to save something to the application's
-// state, you need to have a callback so the parent
-// widget can
+// If you need to save something to the application's or page's
+// state, you need to use callback functions until you
+// reach that widget
 
 
 class SampleStatefulWidget extends StatefulWidget {
@@ -21,6 +21,7 @@ class SampleStatefulWidgetState extends State<SampleStatefulWidget>{
 
   int someValue = 0;
 
+  //this is an action - it processes a state change
   void functionToProcessAStateChange(){
     setState(() {
       //Here we set the new state

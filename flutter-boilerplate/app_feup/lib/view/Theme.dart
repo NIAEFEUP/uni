@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 
+
+const Color primaryColor = Color.fromRGBO(79, 19, 21, 1.0);
+const Color accentColor = Color.fromRGBO(192, 55, 54, 1.0);
+
+
 ThemeData applicationTheme = new ThemeData(
 
-  brightness: Brightness.dark,
-  primaryColor: Colors.lightBlue[800],
-  accentColor: Colors.cyan[600],
-
+  brightness: Brightness.light,
+  primaryColor: primaryColor,
+  accentColor: accentColor,
 
   fontFamily: 'Montserrat',
 
-
   textTheme: TextTheme(
-    headline: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
-    title: TextStyle(fontSize: 36.0),
-    body1: TextStyle(fontSize: 14.0),
+    headline: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold, color: primaryColor),
+    title: TextStyle(fontSize: 36.0, color: accentColor),
+    body1: TextStyle(fontSize: 18.0, color: primaryColor),
   ),
 );
