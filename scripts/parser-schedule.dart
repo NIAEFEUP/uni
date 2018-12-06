@@ -40,9 +40,6 @@ Future<List<Lecture>> scheduleGet(String link) async {
       }
     });
     lecturesList.sort((a, b) => a.compare(b));
-    lecturesList.forEach((Lecture lect){
-      lect.printLecture();
-    });
     return lecturesList;
 }
 
