@@ -2,10 +2,10 @@ import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' show parse;
 import 'package:html/dom.dart';
 
-main() async {
+Future<List<Lecture>> examsGet(String link) async {
 
   var response = await http.get(
-      'http://localhost:8000');
+      link);
 
   var document = parse(response.body);
 
@@ -43,6 +43,7 @@ main() async {
     lecturesList.forEach((Lecture lect){
       lect.printLecture();
     });
+    return lecturesList;
 }
 
 class Lecture {

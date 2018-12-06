@@ -1,6 +1,7 @@
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' show parse;
 import 'package:html/dom.dart';
+import 'dart:async';
 
 class Exam{
   String subject;
@@ -23,9 +24,9 @@ class Exam{
   }
 }
 
-main() async{
+Future<List<Exam>> examsGet(String link) async{
 
-  var response = await http.get('https://sigarra.up.pt/feup/pt/exa_geral.mapa_de_exames?p_curso_id=742');
+  var response = await http.get(link);
 
   var document = parse(response.body);
 
@@ -68,8 +69,14 @@ main() async{
     });
     tableNum++;
   });
-  for(var i = 0; i < Exams.length; i++)
+  return Exams;
+}
+
+main() async
+{
+  List<Exam> exams = await examsGet('https://sigarra.up.pt/feup/pt/exa_geral.mapa_de_exames?p_curso_id=742');
+  for(var i = 0; i < exams.length; i++)
   {
-    Exams[i].printExam();
+    exams[i].printExam();
   }
 }
