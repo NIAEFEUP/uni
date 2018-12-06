@@ -20,7 +20,7 @@ class Exam{
   }
   void printExam()
   {
-    print('$schedule - $date - $schedule - $examType - $rooms');
+    print('$subject - $date - $schedule - $examType - $rooms');
   }
 }
 
@@ -59,7 +59,7 @@ Future<List<Exam>> examsGet(String link) async{
             rooms = examsDay.querySelector('span.exame-sala').text;
           }
 
-          schedule = examsDay.text.substring(exams.text.indexOf(':') -2, examsDay.text.indexOf(':') + 9);
+          schedule = examsDay.text.substring(examsDay.text.indexOf(':') -2, examsDay.text.indexOf(':') + 9);
           Exam exam = new Exam(schedule, subject, rooms, dates[days], examTypes[tableNum]);
           Exams.add(exam);
           });
@@ -70,4 +70,14 @@ Future<List<Exam>> examsGet(String link) async{
     tableNum++;
   });
   return Exams;
+}
+
+void main() async{
+  List<Exam> exams = await examsGet('https://sigarra.up.pt/feup/pt/exa_geral.mapa_de_exames?p_curso_id=742');
+  for(var i = 0; i < exams.length; i ++)
+  {
+    exams[i].printExam();
+  }
+  
+
 }
