@@ -72,12 +72,3 @@ Future<List<Exam>> examsGet(String link) async{
   return Exams;
 }
 
-void main() async{
-  List<Exam> exams = await examsGet('https://sigarra.up.pt/feup/pt/exa_geral.mapa_de_exames?p_curso_id=742');
-  for(var i = 0; i < exams.length; i ++)
-  {
-    exams[i].printExam();
-  }
-  
-
-}
