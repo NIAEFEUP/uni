@@ -20,7 +20,7 @@ class Exam{
   }
   void printExam()
   {
-    print(this.subject + " - " + this.date + " - " + this.schedule + " - " + this.examType + " - " + this.rooms);
+    print('$schedule - $date - $schedule - $examType - $rooms');
   }
 }
 
@@ -71,4 +71,3 @@ Future<List<Exam>> examsGet(String link) async{
   });
   return Exams;
 }
-
