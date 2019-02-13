@@ -1,4 +1,4 @@
-import 'package:app_feup/view/Widgets/ScheduleWidget.dart';
+import 'package:app_feup/view/widgets/GeneralCardWidget.dart';
 import 'package:flutter/material.dart';
 
 class HomePageView extends StatelessWidget {
@@ -25,9 +25,9 @@ class HomePageView extends StatelessWidget {
       title: new Text(title),
       ),
 //      body: createCounterDisplay(context),
-        body: new ScheduleWidget( 
+        body: new GeneralCard( 
           title: 'Horario',
-          widget: Text('ola'),
+          widget: Text('Meias e que sao do carago'),
         )
 //      floatingActionButton: createActionButton(context),
     );
