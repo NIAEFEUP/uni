@@ -5,17 +5,9 @@ import 'package:app_feup/redux/actionCreators.dart';
 
 class HomePageView extends StatelessWidget {
   HomePageView({Key key,
-    @required this.title,
-    @required this.value,
-    @required this.color,
-    @required this.onChanged}) : super(key: key);
+    @required this.title}) : super(key: key);
 
-  final int value;
-  final Function onChanged;
-  final Color color;
   final String title;
-
-
 
   /*********** MAIN BUILD METHOD ***********/
   @override
@@ -35,11 +27,11 @@ class HomePageView extends StatelessWidget {
 
   dynamic createActionButton(BuildContext context){
     return new StoreConnector<AppState, Function>(
-        converter: (store){ return () => store.dispatch(login("user", "password")); },
+        converter: (store) => () => store.dispatch(login("user", "password")),
         builder: (context, callback) {
           return new FloatingActionButton(
-            onPressed: () => callback(),
-            tooltip: 'Increment',
+            onPressed: ()=>callback(),
+            tooltip: 'Testing app state',
             child: new Icon(Icons.add),
           );}
           );
@@ -51,12 +43,8 @@ class HomePageView extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           new Text(
-            'You have pushed the button this many times:',
+            'This is a dummy text',
             style: Theme.of(context).textTheme.body1,
-          ),
-          new Text(
-            '$value',
-            style: Theme.of(context).textTheme.title.apply(color: color),
           ),
         ],
       ),

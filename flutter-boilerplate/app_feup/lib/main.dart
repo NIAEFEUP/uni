@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'model/HomePageModel.dart';
+import 'package:app_feup/view/Pages/HomePageView.dart';
 import 'view/Theme.dart';
 import 'model/AppState.dart';
 import 'package:redux/redux.dart';
@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
       home: new MaterialApp(
         title: 'Flutter Demo',
         theme: applicationTheme,
-        home: new HomePage(title: 'Flutter Demo Home Page'),
+        home: new HomePageView(title: 'Flutter Demo Home Page'),
       )
     ),
   );
