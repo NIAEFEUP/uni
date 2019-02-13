@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:app_feup/model/AppState.dart';
+import 'package:app_feup/redux/actionCreators.dart';
 
 class HomePageView extends StatelessWidget {
   HomePageView({Key key,
@@ -30,12 +33,16 @@ class HomePageView extends StatelessWidget {
 
 
 
-  Widget createActionButton(BuildContext context){
-    return new FloatingActionButton(
-      onPressed: () => onChanged(value+1),
-      tooltip: 'Increment',
-      child: new Icon(Icons.add),
-    );
+  dynamic createActionButton(BuildContext context){
+    return new StoreConnector<AppState, Function>(
+        converter: (store){ return () => store.dispatch(login("user", "password")); },
+        builder: (context, callback) {
+          return new FloatingActionButton(
+            onPressed: () => callback(),
+            tooltip: 'Increment',
+            child: new Icon(Icons.add),
+          );}
+          );
   }
 
   Widget createCounterDisplay(BuildContext context){
