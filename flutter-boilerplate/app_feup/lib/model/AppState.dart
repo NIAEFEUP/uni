@@ -1,19 +1,10 @@
-class AppState{
+class AppState {
 
-  Map content;
-
-  Map getInitialContent() {
-    return {
-      "cookies": ""
-    };
-  }
-
+  Map content = Map<String, dynamic>();
 
   AppState(Map content) {
     if (content != null) {
       this.content = content;
-    } else {
-      this.content = this.getInitialContent();
     }
   }
 

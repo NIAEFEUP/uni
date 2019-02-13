@@ -1,6 +1,4 @@
 class SaveLoginDataAction {
-  String cookies;
-  SaveLoginDataAction(this.cookies);
+  Map<String, dynamic> session;
+  SaveLoginDataAction(this.session);
 }
-
-

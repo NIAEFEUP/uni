@@ -9,6 +9,6 @@ AppState appReducers(AppState state, dynamic action) {
 }
 
 AppState login(AppState state, SaveLoginDataAction action) {
-  print('setting state: ' + action.cookies);
-  return state.cloneAndUpdateValue("cookies", action.cookies);
+  print('setting state: ' + action.session.toString());
+  return state.cloneAndUpdateValue('session', action.session);
 }

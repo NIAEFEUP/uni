@@ -6,48 +6,48 @@ import 'package:http/http.dart' as http;
 import 'package:query_params/query_params.dart';
 
 class NetworkRouter {
-  final Map<String, dynamic> session = Map<String, dynamic>();
-
-  void login(String user, String pass) async {
-    final url = 'https://sigarra.up.pt/feup/pt/mob_val_geral.autentica';
-    final response =
-        await http.post(url, body: {"pv_login": user, "pv_password": pass});
+  static Future<Map<String, dynamic>> login(String user, String pass) async {
+    final String url = 'https://sigarra.up.pt/feup/pt/mob_val_geral.autentica';
+    final Map<String, dynamic> res = Map<String, dynamic>();
+    final http.Response response = await http.post(url, body: {"pv_login": user, "pv_password": pass});
     if (response.statusCode == 200) {
       final responseBody = json.decode(response.body);
       if (responseBody['authenticated']) {
-        session.clear();
-        session['studentNumber'] = responseBody['codigo'];
-        session['type'] = responseBody['tipo'];
-        session['cookies'] = extractCookies(response.headers);
-        getProfile();
+        res['authenticated'] = true;
+        res['studentNumber'] = responseBody['codigo'];
+        res['type'] = responseBody['tipo'];
+        res['cookies'] = extractCookies(response.headers);
+        print('Login successful');
       }
     } else {
-      print('Login request failed');
-    }
-  }
-
-  static List<String> extractCookies(response) {
-    final List<String> res = List<String>();
-    final String cookies = response['set-cookie'];
-    if (cookies != null) {
-      final List<String> rawCookies = cookies.split(',');
-      for (var c in rawCookies) {
-        res.add(Cookie.fromSetCookieValue(c).toString());
-      }
+      res['authenticated'] = false;
+      print('Login failed');
     }
     return res;
   }
 
-  void getProfile() async{
+  static String extractCookies(response) {
+    final List<String> cookieList = List<String>();
+    final String cookies = response['set-cookie'];
+    if (cookies != null) {
+      final List<String> rawCookies = cookies.split(',');
+      for (var c in rawCookies) {
+        cookieList.add(Cookie.fromSetCookieValue(c).toString());
+      }
+    }
+    return cookieList.join(';');
+  } 
+
+  static void getProfile(Map<String, String> session) async {
     final response = await getWithCookies(
-      'https://sigarra.up.pt/feup/pt/mob_fest_geral.perfil?',
-      {"pv_codigo": session['studentNumber']}
-    );
+        'https://sigarra.up.pt/feup/pt/mob_fest_geral.perfil?',
+        {"pv_codigo": session['studentNumber']},
+        session['cookies']);
     print(response.body);
   }
 
-  Future<http.Response> getWithCookies(
-      String baseUrl, Map<String, String> query) {
+  static Future<http.Response> getWithCookies(
+      String baseUrl, Map<String, String> query, String cookies) {
     final URLQueryParams params = new URLQueryParams();
     query.forEach((key, value) {
       params.append(key, value);
@@ -56,7 +56,7 @@ class NetworkRouter {
     final url = baseUrl + params.toString();
 
     final Map<String, String> headers = Map<String, String>();
-    headers['cookie'] = session['cookies'].join(';');
+    headers['cookie'] = cookies;
 
     return http.get(url, headers: headers);
   }

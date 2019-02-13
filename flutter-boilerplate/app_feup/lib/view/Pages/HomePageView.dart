@@ -51,7 +51,7 @@ class HomePageView extends StatelessWidget {
 
   dynamic createActionButton(BuildContext context) {
     return new StoreConnector<AppState, Function>(
-        converter: (store) => () => store.dispatch(login("user", "password")),
+        converter: (store) => () => submitAuth(store),
         builder: (context, callback) {
           return new RaisedButton(
             onPressed: () => callback(),
@@ -60,12 +60,12 @@ class HomePageView extends StatelessWidget {
         });
   }
 
-  void submitAuth() {
+  void submitAuth(store) {
     //validate form before submiting
     final String username = _usernameController.text;
     final String password = _passwordController.text;
     debugPrint('user: $username | password: $password');
-    //onChanged(username, password);
+    store.dispatch(login(username, password));
   }
 
   /* Widget createCounterDisplay(BuildContext context){
