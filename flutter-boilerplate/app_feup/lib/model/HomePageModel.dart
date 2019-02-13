@@ -14,6 +14,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
+  final networkRouter = NetworkRouter();
   @override
   Widget build(BuildContext context) {
     //Here pass the state variables and callback functions needed for the view
@@ -22,6 +23,6 @@ class _HomePageState extends State<HomePage> {
         onChanged: _login);
   }
   void _login(user, password) {
-    //login(user, password);
+    networkRouter.login(user, password);
   }
 }
