@@ -4,8 +4,7 @@ import 'package:app_feup/model/AppState.dart';
 import 'package:app_feup/redux/actionCreators.dart';
 
 class HomePageView extends StatelessWidget {
-  HomePageView({Key key,
-    @required this.title}) : super(key: key);
+  HomePageView({Key key, @required this.title}) : super(key: key);
 
   final String title;
   final _formKey = GlobalKey<FormState>();
@@ -16,51 +15,49 @@ class HomePageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: new AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: new Text(title),
-      ),
-      body: createAuthForm(_formKey),
-    );
+        appBar: new AppBar(
+          // Here we take the value from the MyHomePage object that was created by
+          // the App.build method, and use it to set our appbar title.
+          title: new Text(title),
+        ),
+        body: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                createAuthForm(_formKey),
+                createActionButton(context)
+              ]
+            )));
   }
 
   Widget createAuthForm(key) {
     return new Form(
       key: key,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           TextFormField(
             controller: _usernameController,
-            decoration: const InputDecoration(
-              labelText: 'Username'
-            ),
+            decoration: const InputDecoration(labelText: 'Username'),
           ),
           TextFormField(
             controller: _passwordController,
-            decoration: const InputDecoration(
-              labelText: 'Password'
-            ),
+            decoration: const InputDecoration(labelText: 'Password'),
             obscureText: true,
-          ),
-          createSubmitButton()
+          )
         ],
       ),
     );
   }
 
-
-  dynamic createActionButton(BuildContext context){
+  dynamic createActionButton(BuildContext context) {
     return new StoreConnector<AppState, Function>(
         converter: (store) => () => store.dispatch(login("user", "password")),
         builder: (context, callback) {
-          return new FloatingActionButton(
-            onPressed: ()=>callback(),
-            tooltip: 'Testing app state',
-            child: new Icon(Icons.add),
-          );}
+          return new RaisedButton(
+            onPressed: () => callback(),
+            child: new Text('Submit'),
           );
+        });
   }
 
   void submitAuth() {
@@ -68,7 +65,7 @@ class HomePageView extends StatelessWidget {
     final String username = _usernameController.text;
     final String password = _passwordController.text;
     debugPrint('user: $username | password: $password');
-    onChanged(username, password);
+    //onChanged(username, password);
   }
 
   /* Widget createCounterDisplay(BuildContext context){
