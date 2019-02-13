@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:app_feup/model/AppState.dart';
+import 'package:app_feup/redux/actionCreators.dart';
 
 class HomePageView extends StatelessWidget {
   HomePageView({Key key,
-    @required this.title,
-    @required this.onChanged}) : super(key: key);
+    @required this.title}) : super(key: key);
 
-  final Function onChanged;
   final String title;
   final _formKey = GlobalKey<FormState>();
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
 
+  /*********** MAIN BUILD METHOD ***********/
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -48,13 +50,17 @@ class HomePageView extends StatelessWidget {
     );
   }
 
-  Widget createSubmitButton() {
-    return Center(
-      child: RaisedButton(
-        onPressed: () => submitAuth(),
-        child: Text('Submit'),
-      )
-    );
+
+  dynamic createActionButton(BuildContext context){
+    return new StoreConnector<AppState, Function>(
+        converter: (store) => () => store.dispatch(login("user", "password")),
+        builder: (context, callback) {
+          return new FloatingActionButton(
+            onPressed: ()=>callback(),
+            tooltip: 'Testing app state',
+            child: new Icon(Icons.add),
+          );}
+          );
   }
 
   void submitAuth() {
@@ -71,12 +77,8 @@ class HomePageView extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           new Text(
-            'You have pushed the button this many times:',
+            'This is a dummy text',
             style: Theme.of(context).textTheme.body1,
-          ),
-          new Text(
-            '$value',
-            style: Theme.of(context).textTheme.title.apply(color: color),
           ),
         ],
       ),
