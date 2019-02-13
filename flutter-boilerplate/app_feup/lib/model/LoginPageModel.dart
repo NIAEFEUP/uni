@@ -10,12 +10,33 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  
+  FocusNode usernameFocus;
+  FocusNode passwordFocus;
+
+  @override
+  void initState() {
+    super.initState();
+    usernameFocus = FocusNode();
+    passwordFocus = FocusNode();
+  }
+
+  @override
+  void dispose() {
+    // Clean up the focus node when the Form is disposed
+    usernameFocus.dispose();
+    passwordFocus.dispose();
+
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return new LoginPageView(
         saveData: _saveData,
         saveDataChanged: _changeSaveData,
+        usernameFocus: usernameFocus,
+        passwordFocus: passwordFocus,
         logInPressed: _logIn);
   }
 

@@ -3,18 +3,20 @@ import '../../view/Theme.dart';
 
 final usernameController = TextEditingController();
 final passwordController = TextEditingController();
-final usernameFocus = FocusNode();
-final passwordFocus = FocusNode();
 
 class LoginPageView extends StatelessWidget {
   LoginPageView({Key key,
     @required this.saveData,
     @required this.saveDataChanged,
+    @required this.usernameFocus,
+    @required this.passwordFocus,
     @required this.logInPressed}) : super(key: key);
 
   final bool saveData;
   final Function saveDataChanged;
   final Function logInPressed;
+  final FocusNode usernameFocus;
+  final FocusNode passwordFocus;
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +88,13 @@ class LoginPageView extends StatelessWidget {
       decoration: InputDecoration(
         hintText: 'username',
         contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-        border: new UnderlineInputBorder()
+        border: new UnderlineInputBorder(),
+        focusedBorder: new UnderlineInputBorder(
+          borderSide: new BorderSide(
+            color: Colors.white,
+            width: 3
+          )
+        )
       ),
     );
   }
@@ -107,7 +115,13 @@ class LoginPageView extends StatelessWidget {
       decoration: InputDecoration(
         hintText: 'password',
         contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-        border: new UnderlineInputBorder()
+        border: new UnderlineInputBorder(),
+        focusedBorder: new UnderlineInputBorder(
+          borderSide: new BorderSide(
+            color: Colors.white,
+            width: 3
+          )
+        )
       ),
     );
   }
