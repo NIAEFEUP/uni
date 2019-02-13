@@ -19,18 +19,19 @@ class _LoginPageState extends State<LoginPage> {
         logInPressed: _logIn);
   }
 
+  //check this boolean to save or not the username and password on the mobile
   bool _saveData = false;
   
   void _changeSaveData(value){
     setState(() {
       _saveData = value;
     });
-    //TODO: save data here
   }
 
   void _logIn(username, password) {
     //TODO: verify username and password here
     print(username);
     print(password);
+
   }
 }

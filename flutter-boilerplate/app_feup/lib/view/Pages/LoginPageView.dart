@@ -18,8 +18,48 @@ class LoginPageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: primaryColor,
+      resizeToAvoidBottomPadding: false,
+      body: Center(
+        child: Padding(
+          padding: EdgeInsets.only(left: 50.0, right: 50.0, top: 100.0, bottom: 10.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Expanded(
+                flex: 4,
+                child: createTitle(),
+              ),
+              Expanded(
+                flex: 4,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisSize: MainAxisSize.max,
+                  children: <Widget>[
+                    createUsernameInput(context),
+                    Padding(padding: EdgeInsets.only(bottom: 20)),
+                    createPasswordInput(),
+                    Padding(padding: EdgeInsets.only(bottom: 5)),
+                    createSaveDataCheckBox()
+                  ]
+                )
+              ),
+              createLogInButton(),
+              Padding(padding: EdgeInsets.only(bottom: 50)),
+              Expanded(
+                flex: 1,
+                child: createNoteLabel(),
+              ),
+            ],
+          ),
+        )
+      ),
+    );
+  }
 
-    final title = Text(
+  Widget createTitle(){
+    return Text(
       "APP\nFEUP",
       textAlign: TextAlign.center,
       style: TextStyle(
@@ -28,11 +68,13 @@ class LoginPageView extends StatelessWidget {
         fontWeight: FontWeight.w400
         ),
     );
+  }
 
-    final username = TextFormField(
+  Widget createUsernameInput(BuildContext context){
+    return TextFormField(
       style: new TextStyle(color: Colors.white),
       keyboardType: TextInputType.text,
-      autofocus: true,
+      autofocus: false,
       controller: usernameController,
       focusNode: usernameFocus,
       onFieldSubmitted: (term){
@@ -47,8 +89,10 @@ class LoginPageView extends StatelessWidget {
         border: new UnderlineInputBorder()
       ),
     );
+  }
 
-    final password = TextFormField(
+  Widget createPasswordInput(){
+    return TextFormField(
       style: new TextStyle(color: Colors.white),
       autofocus: false,
       controller: passwordController,
@@ -66,8 +110,10 @@ class LoginPageView extends StatelessWidget {
         border: new UnderlineInputBorder()
       ),
     );
+  }
 
-    final save = Row(
+  Widget createSaveDataCheckBox(){
+    return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Text(
@@ -82,54 +128,36 @@ class LoginPageView extends StatelessWidget {
         Checkbox(value: saveData, onChanged: saveDataChanged)
       ],
     );
+  }
 
-    final loginButton = Padding(
-      padding: EdgeInsets.symmetric(vertical: 16.0),
-      child: RaisedButton(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(25),
+  Widget createLogInButton(){
+    return new SizedBox(
+        width: 150,
+        height: 50,
+        child: RaisedButton(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(25),
+          ),
+          onPressed: () {
+            logInPressed(usernameController.text, passwordController.text);
+          },
+          padding: EdgeInsets.all(12),
+          color: Colors.white,
+          child: Text('Log In', style: TextStyle(color: primaryColor, fontWeight: FontWeight.w400, fontSize: 18), textAlign: TextAlign.center),
         ),
-        onPressed: () {
-          logInPressed(usernameController.text, passwordController.text);
-        },
-        padding: EdgeInsets.all(12),
-        color: Colors.white,
-        child: Text('Log In', style: TextStyle(color: primaryColor, fontWeight: FontWeight.w400)),
-      ),
     );
+  }
 
-    final notesLabel = FlatButton(
+  //TODO: probably a "Forgot my password" link
+  Widget createNoteLabel(){
+    return FlatButton(
       child: Text(
-        'Notas sobre login',
+        ' ', //no text for now
         style: TextStyle(color: Colors.white, fontWeight: FontWeight.w100),
       ),
       onPressed: () {
-        //TODO: what will happen when we presse this?
+        //TODO: redirect to sigarra page maybe
       },
-    );
-
-    return Scaffold(
-      backgroundColor: primaryColor,
-      body: Center(
-        child: ListView(
-          shrinkWrap: true,
-          padding: EdgeInsets.only(left: 50.0, right: 50.0),
-          children: <Widget>[
-            SizedBox(height: 30.0),
-            title,
-            SizedBox(height: 100.0),
-            username,
-            SizedBox(height: 20.0),
-            password,
-            SizedBox(height: 40.0),
-            save,
-            SizedBox(height: 40.0),
-            loginButton,
-            SizedBox(height: 24.0),
-            notesLabel
-          ],
-        ),
-      ),
     );
   }
 }

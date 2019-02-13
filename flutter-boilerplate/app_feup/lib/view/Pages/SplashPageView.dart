@@ -29,55 +29,19 @@ class _SplashScreenState extends State<SplashScreen>{
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Expanded(
-                flex: 4,
+                flex: 5,
                 child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        "APP\nFEUP",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.white, 
-                          fontSize: 50.0,
-                          fontWeight: FontWeight.w400
-                          ),
-                      )
-                    ],
-                  ),
+                  child: createTitle()
                 ),
               ),
               Expanded(
-                flex: 2,
+                flex: 3,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     CircularProgressIndicator(),
-                    Expanded(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text(
-                            "Powered by",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.w200
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.all(8.0),
-                          ),
-                          Container(
-                            child: Image(
-                              image: AssetImage('assets/ni_logo.png'),
-                              width: 85.0,
-                              height: 85.0
-                            ),
-                          )
-                        ],
-                      ),
-                    )
+                    Padding(padding: EdgeInsets.only(bottom: 50)),
+                    createNILogo(),
                   ],
                 )
               )
@@ -85,6 +49,44 @@ class _SplashScreenState extends State<SplashScreen>{
           )
         ],
       ),
+    );
+  }
+
+  Widget createTitle(){
+    return Text(
+      "APP\nFEUP",
+      textAlign: TextAlign.center,
+      style: TextStyle(
+        color: Colors.white, 
+        fontSize: 50.0,
+        fontWeight: FontWeight.w400
+        ),
+    );
+  }
+
+  Widget createNILogo(){
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Text(
+          "Powered by",
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 20.0,
+            fontWeight: FontWeight.w200
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.all(8.0),
+        ),
+        Container(
+          child: Image(
+            image: AssetImage('assets/ni_logo.png'),
+            width: 85.0,
+            height: 85.0
+          ),
+        )
+      ],
     );
   }
 }
