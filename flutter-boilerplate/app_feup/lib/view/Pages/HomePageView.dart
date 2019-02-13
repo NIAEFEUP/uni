@@ -27,7 +27,7 @@ class HomePageView extends StatelessWidget {
 //      body: createCounterDisplay(context),
         body: new GeneralCard( 
           title: 'Horario',
-          widget: Text('Meias e que sao do carago'),
+          child: Text('Meias e que sao do carago'),
         )
 //      floatingActionButton: createActionButton(context),
     );
