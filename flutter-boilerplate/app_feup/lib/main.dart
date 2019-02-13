@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'model/HomePageModel.dart';
+import 'view/Pages/SplashPageView.dart';
 import 'view/Theme.dart';
 
 void main() => runApp(new MyApp());
@@ -9,9 +9,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
-      title: 'Flutter Demo',
+      title: 'APP FEUP',
       theme: applicationTheme,
-      home: new HomePage(title: 'Flutter Demo Home Page'),
+      home: SplashScreen(),
     );
   }
 }
