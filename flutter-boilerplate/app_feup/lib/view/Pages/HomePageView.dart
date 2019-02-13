@@ -3,18 +3,14 @@ import 'package:flutter/material.dart';
 class HomePageView extends StatelessWidget {
   HomePageView({Key key,
     @required this.title,
-    @required this.value,
-    @required this.color,
     @required this.onChanged}) : super(key: key);
 
-  final int value;
   final Function onChanged;
-  final Color color;
   final String title;
+  final _formKey = GlobalKey<FormState>();
+  final _usernameController = TextEditingController();
+  final _passwordController = TextEditingController();
 
-
-
-  /*********** MAIN BUILD METHOD ***********/
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -23,24 +19,55 @@ class HomePageView extends StatelessWidget {
         // the App.build method, and use it to set our appbar title.
         title: new Text(title),
       ),
-      body: createCounterDisplay(context),
-      floatingActionButton: createActionButton(context),
+      body: createAuthForm(_formKey),
     );
   }
 
-
-
-  Widget createActionButton(BuildContext context){
-    return new FloatingActionButton(
-      onPressed: () => onChanged(value+1),
-      tooltip: 'Increment',
-      child: new Icon(Icons.add),
+  Widget createAuthForm(key) {
+    return new Form(
+      key: key,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          TextFormField(
+            controller: _usernameController,
+            decoration: const InputDecoration(
+              labelText: 'Username'
+            ),
+          ),
+          TextFormField(
+            controller: _passwordController,
+            decoration: const InputDecoration(
+              labelText: 'Password'
+            ),
+            obscureText: true,
+          ),
+          createSubmitButton()
+        ],
+      ),
     );
   }
 
-  Widget createCounterDisplay(BuildContext context){
-    return new Center(
-      child: new Column(
+  Widget createSubmitButton() {
+    return Center(
+      child: RaisedButton(
+        onPressed: () => submitAuth(),
+        child: Text('Submit'),
+      )
+    );
+  }
+
+  void submitAuth() {
+    //validate form before submiting
+    final String username = _usernameController.text;
+    final String password = _passwordController.text;
+    debugPrint('user: $username | password: $password');
+    onChanged(username, password);
+  }
+
+  /* Widget createCounterDisplay(BuildContext context){
+    return Center(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           new Text(
@@ -54,5 +81,5 @@ class HomePageView extends StatelessWidget {
         ],
       ),
     );
-  }
+  } */
 }

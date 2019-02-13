@@ -1,5 +1,5 @@
-import 'package:app_feup/controller/counterSelectors.dart';
 import 'package:app_feup/view/Pages/HomePageView.dart';
+import 'package:app_feup/controller/networking/NetworkRouter.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -19,25 +19,9 @@ class _HomePageState extends State<HomePage> {
     //Here pass the state variables and callback functions needed for the view
     return new HomePageView(
         title: widget.title,
-        value: _timesClicked,
-        color: _numberColor,
-        onChanged: _setClickedAmount);
+        onChanged: _login);
   }
-
-  /****************** STATE *********************/
-  //These are the state variables for this widget
-
-  int _timesClicked = 0;
-  Color _numberColor = getColorFromValue(0);
-
-
-  /**************** ACTIONS ********************/
-  //dont put complex code inside the actions. Use methods from controller
-
-  void _setClickedAmount(value) {
-    setState(() {
-      _timesClicked = value;
-      _numberColor = getColorFromValue(value);
-    });
+  void _login(user, password) {
+    //login(user, password);
   }
 }
