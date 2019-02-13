@@ -1,18 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:app_feup/model/AppState.dart';
+import 'package:app_feup/redux/actionCreators.dart';
 
 class HomePageView extends StatelessWidget {
   HomePageView({Key key,
-    @required this.title,
-    @required this.value,
-    @required this.color,
-    @required this.onChanged}) : super(key: key);
+    @required this.title}) : super(key: key);
 
-  final int value;
-  final Function onChanged;
-  final Color color;
   final String title;
-
-
 
   /*********** MAIN BUILD METHOD ***********/
   @override
@@ -30,12 +25,16 @@ class HomePageView extends StatelessWidget {
 
 
 
-  Widget createActionButton(BuildContext context){
-    return new FloatingActionButton(
-      onPressed: () => onChanged(value+1),
-      tooltip: 'Increment',
-      child: new Icon(Icons.add),
-    );
+  dynamic createActionButton(BuildContext context){
+    return new StoreConnector<AppState, Function>(
+        converter: (store) => () => store.dispatch(login("user", "password")),
+        builder: (context, callback) {
+          return new FloatingActionButton(
+            onPressed: ()=>callback(),
+            tooltip: 'Testing app state',
+            child: new Icon(Icons.add),
+          );}
+          );
   }
 
   Widget createCounterDisplay(BuildContext context){
@@ -44,12 +43,8 @@ class HomePageView extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           new Text(
-            'You have pushed the button this many times:',
+            'This is a dummy text',
             style: Theme.of(context).textTheme.body1,
-          ),
-          new Text(
-            '$value',
-            style: Theme.of(context).textTheme.title.apply(color: color),
           ),
         ],
       ),
