@@ -15,7 +15,7 @@ ThemeData applicationTheme = new ThemeData(
 
   textTheme: TextTheme(
     headline: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold, color: primaryColor),
-    title: TextStyle(fontSize: 36.0, color: accentColor),
-    body1: TextStyle(fontSize: 18.0, color: primaryColor),
+    title: TextStyle(fontSize: 17.0, color: primaryColor, fontWeight: FontWeight.w300),
+    body1: TextStyle(fontSize: 15.0, color: primaryColor),
   ),
 );

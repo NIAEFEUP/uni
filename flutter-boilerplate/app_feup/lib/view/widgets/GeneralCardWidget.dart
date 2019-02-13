@@ -7,7 +7,7 @@ class GeneralCard extends StatelessWidget {
 
   final String title;
   final Widget child;
-  final double borderRadius = 20.0;
+  final double borderRadius = 15.0;
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class GeneralCard extends StatelessWidget {
           minHeight: 150.0,
       ),
       child: new Card(
-        margin: EdgeInsets.fromLTRB(12, 0, 12, 0),
+        margin: EdgeInsets.fromLTRB(12, 12, 12, 0),
         color: Color.fromARGB(0, 0, 0, 0),
         shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(this.borderRadius)),
         child: new Container(
@@ -30,10 +30,10 @@ class GeneralCard extends StatelessWidget {
             children: <Widget>[
               new Container(
                 child: Text(title,
-                    style: TextStyle(color: Theme.of(context).textTheme.body1.color)),
-                height: 30,
+                    style: Theme.of(context).textTheme.title),
+                height: 26,
                 alignment: Alignment.centerLeft,
-                padding: EdgeInsets.fromLTRB(28, 0, 0, 0),
+                padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
               ),
               new Expanded(
                 child: new Container(
