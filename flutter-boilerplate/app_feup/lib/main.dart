@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:app_feup/view/Pages/HomePageView.dart';
+import 'view/Pages/SplashPageView.dart';
 import 'view/Theme.dart';
 import 'model/AppState.dart';
 import 'package:redux/redux.dart';
@@ -24,8 +25,9 @@ class MyApp extends StatelessWidget {
       home: new MaterialApp(
         title: 'Flutter Demo',
         theme: applicationTheme,
-        home: new HomePageView(title: 'Flutter Demo Home Page'),
+        home: SplashScreen(),
       )
     ),
   );
+      
 }
