@@ -1,3 +1,4 @@
+import 'package:app_feup/view/widgets/NavigationDrawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:app_feup/model/AppState.dart';
@@ -18,6 +19,7 @@ class HomePageView extends StatelessWidget {
         // the App.build method, and use it to set our appbar title.
         title: new Text(title),
       ),
+      drawer: new NavigationDrawer(),
       body: createCounterDisplay(context),
       floatingActionButton: createActionButton(context),
     );
