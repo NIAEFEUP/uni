@@ -52,10 +52,8 @@ class NavigationDrawerState extends State<NavigationDrawer> {
     }
 
     return new Drawer(
-        child: new Column(
-          children: <Widget>[
-            new Column(children: drawerOptions)
-          ],
+        child: new ListView(
+          children: drawerOptions,
         ),
     );
   }
