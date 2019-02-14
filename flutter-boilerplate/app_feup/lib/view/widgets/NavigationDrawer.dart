@@ -39,13 +39,26 @@ class NavigationDrawerState extends State<NavigationDrawer> {
 //    );
   }
 
+  _buildBorder(i) {
+    return (i == _selectedIndex)?  (const BoxDecoration( border: Border( bottom: BorderSide(width: 5.0, color: primaryColor)))) : null;
+  }
+
   @override
   Widget build(BuildContext context) {
     List<Widget> drawerOptions = [];
     for (var i = 0; i < drawerItems.length; i++) {
       var d = drawerItems[i];
+
       drawerOptions.add(new ListTile(
-        title: new Text(d, style: applicationTheme.textTheme.body1),
+        title:
+            new Row(
+              children: <Widget>[
+                new Container(
+                  decoration: _buildBorder(i),
+                  child: new Text(d, style: TextStyle(fontSize: 24.0, color: primaryColor)),
+                ),
+              ],
+            ),
         selected: i == _selectedIndex,
         onTap: () => _onSelectItem(i),
       ));
