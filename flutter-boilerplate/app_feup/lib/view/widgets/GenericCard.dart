@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class GeneralCard extends StatelessWidget {
-  GeneralCard({Key key,
+class GenericCard extends StatelessWidget {
+  GenericCard({Key key,
     @required this.title,
               this.child}) : super(key: key);
 

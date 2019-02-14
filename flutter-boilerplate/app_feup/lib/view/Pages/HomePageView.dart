@@ -1,4 +1,4 @@
-import 'package:app_feup/view/widgets/GeneralCardWidget.dart';
+import 'package:app_feup/view/widgets/GenericCard.dart';
 import 'package:flutter/material.dart';
 
 class HomePageView extends StatelessWidget {
@@ -24,7 +24,7 @@ class HomePageView extends StatelessWidget {
           title: new Text(title),
         ),
 //      body: createCounterDisplay(context),
-        body: new GeneralCard(
+        body: new GenericCard(
           title: 'Horário',
           child: Text("This\nis\na\nheight\ntest\nto\nknow\nif\nthe\ncard\nexpands")
         )
