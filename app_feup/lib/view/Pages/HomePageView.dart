@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import '../widgets/GenericCard.dart';
+import '../widgets/ExamCard.dart';
+import '../../controller/parsers/parser-exams.dart';
+
+Exam exam = Exam("hdhdhd", "shdhs", "didd", "shushsh", "shshsh", "shshshs");
 
 class HomePageView extends StatelessWidget {
   HomePageView({Key key}) : super(key: key);
@@ -14,7 +19,7 @@ class HomePageView extends StatelessWidget {
 
   Widget createActionButton(BuildContext context){
     return new FloatingActionButton(
-      onPressed: () => {}, //Add FAB functionality here
+      onPressed: () => getExams(), //Add FAB functionality here
       tooltip: 'Increment',
       child: new Icon(Icons.add),
     );
@@ -26,10 +31,9 @@ class HomePageView extends StatelessWidget {
         shrinkWrap: false,
         padding: const EdgeInsets.all(20.0),
         children: <Widget>[
-          new Text(
-            'Favorites:',
-            style: Theme.of(context).textTheme.title,
-          ),
+          new GenericCard(
+            title: "Meias"
+            , child: new ExamCard(exam: exam))
 
           //Cards go here
 
