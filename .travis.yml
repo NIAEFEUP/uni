@@ -1,0 +1,7 @@
+language: dart
+dart:
+  - stable
+
+dart_task:
+  - dartanalyzer: --fatal-warnings --options analysis_options.yaml app_feup/lib
+  - dartfmt: true
