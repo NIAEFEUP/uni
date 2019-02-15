@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:app_feup/view/Pages/HomePageView.dart';
 import 'view/Pages/SplashPageView.dart';
 import 'view/Theme.dart';
 import 'model/AppState.dart';
