@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 
-const Color primaryColor = Color.fromRGBO(79, 19, 21, 1.0);
-const Color accentColor = Color.fromRGBO(192, 55, 54, 1.0);
+const Color primaryColor = Color.fromARGB(255, 0x8C, 0x2D, 0x19);
+const Color accentColor = Color.fromARGB(255, 235, 235, 235);
 
 
 ThemeData applicationTheme = new ThemeData(
@@ -15,7 +15,7 @@ ThemeData applicationTheme = new ThemeData(
 
   textTheme: TextTheme(
     headline: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold, color: primaryColor),
-    title: TextStyle(fontSize: 36.0, color: accentColor),
-    body1: TextStyle(fontSize: 18.0, color: primaryColor),
+    title: TextStyle(fontSize: 17.0, color: primaryColor, fontWeight: FontWeight.w300),
+    body1: TextStyle(fontSize: 15.0, color: primaryColor),
   ),
 );

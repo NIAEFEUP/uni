@@ -1,4 +1,8 @@
+import 'package:app_feup/view/widgets/GenericCard.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:app_feup/model/AppState.dart';
+import 'package:app_feup/redux/actionCreators.dart';
 
 class HomePageView extends StatelessWidget {
   HomePageView({Key key}) : super(key: key);
