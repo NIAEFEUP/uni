@@ -9,18 +9,20 @@ class Exam{
   String rooms;
   String date;
   String examType;
+  String weekDay;
 
-  Exam(String schedule, String subject, String rooms, String date, String examType)
+  Exam(String schedule, String subject, String rooms, String date, String examType, String weekDay)
   {
     this.subject = subject;
     this.schedule = schedule;
     this.rooms = rooms;
     this.date = date;
     this.examType = examType;
+    this.weekDay = weekDay;
   }
   void printExam()
   {
-    print('$subject - $date - $schedule - $examType - $rooms');
+    print('$subject - $date - $schedule - $examType - $rooms - $weekDay');
   }
 }
 
@@ -33,7 +35,7 @@ Future<List<Exam>> examsGet(String link) async{
   List<Exam> Exams = new List();
   List<String> dates = new List();
   List<String> examTypes = new List();
-  String subject, schedule, rooms;
+  String subject, schedule, rooms, weekDay;
   int days = 0;
   int tableNum = 0;
   document.querySelectorAll('h3').forEach((Element examType){
@@ -42,6 +44,10 @@ Future<List<Exam>> examsGet(String link) async{
   
   document.querySelectorAll('div > table > tbody > tr > td').forEach((Element element){
     element.querySelectorAll('table:not(.mapa)').forEach((Element table) {
+      table.querySelectorAll('th').forEach((Element week){
+        weekDay = week.text.substring(0, week.text.indexOf('2'));
+
+      });
       table.querySelectorAll('span.exame-data').forEach((Element date) {
         dates.add(date.text);
       });
@@ -60,7 +66,7 @@ Future<List<Exam>> examsGet(String link) async{
           }
 
           schedule = examsDay.text.substring(examsDay.text.indexOf(':') -2, examsDay.text.indexOf(':') + 9);
-          Exam exam = new Exam(schedule, subject, rooms, dates[days], examTypes[tableNum]);
+          Exam exam = new Exam(schedule, subject, rooms, dates[days], examTypes[tableNum], weekDay);
           Exams.add(exam);
           });
         }
