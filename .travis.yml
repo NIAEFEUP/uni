@@ -1,6 +1,7 @@
 os:
   - linux
-sudo: required
+language: dart
+sudo: false
 addons:
   apt:
     # Flutter depends on /usr/lib/x86_64-linux-gnu/libstdc++.so.6 version GLIBCXX_3.4.18
@@ -9,21 +10,14 @@ addons:
     packages:
       - libstdc++6
       - fonts-droid
-install:
-  - sudo apt-get update
-  - sudo apt-get install apt-transport-https
-  - sudo sh -c 'curl https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -'
-  - sudo sh -c 'curl https://storage.googleapis.com/download.dartlang.org/linux/debian/dart_stable.list > /etc/apt/sources.list.d/dart_stable.list'
-  - sudo apt-get update
-  - sudo apt-get install dart
-  - export PATH="$PATH:/usr/lib/dart/bin"
 before_script:
   - git clone https://github.com/flutter/flutter.git -b beta
   - cd app_feup
   - ../flutter/bin/flutter doctor
   - ../flutter/bin/flutter packages get
-script:
-  - dartanalyzer --fatal-warnings --options analysis_options.yaml lib 
+  - cd ..
+dart_task:
+  - dartanalyzer: --fatal-warnings --options app_feup/analysis_options.yaml app_feup/lib 
 cache:
   directories:
     - $HOME/.pub-cache
