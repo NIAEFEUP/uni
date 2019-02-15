@@ -11,7 +11,10 @@ ThunkAction<AppState> login(username, password, persistentSession) {
       final Map<String, dynamic> session = await NetworkRouter.login(username, password, persistentSession);
       print(session);
       store.dispatch(new SaveLoginDataAction(session));
-      store.dispatch(fetchProfile());
+      if (session['authenticated'])
+        store.dispatch(fetchProfile());
+      else 
+        store.dispatch(new SetLoginMessageAction('Login failed'));
     } catch (e) {
       store.dispatch(new SetLoginMessageAction('Login failed: ${e.toString()}'));
     }

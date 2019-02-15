@@ -48,8 +48,6 @@ class NetworkRouter {
     if (response.statusCode == 200) {
       final responseBody = json.decode(response.body);
       return responseBody['nome'];
-    } else {
-      return 'Couldn\'t fetch profile';
     }
   }
 
