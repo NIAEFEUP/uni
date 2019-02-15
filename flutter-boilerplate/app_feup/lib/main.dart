@@ -18,14 +18,11 @@ class MyApp extends StatelessWidget {
   );
 
   @override
-  Widget build(BuildContext context) => StoreProvider(
-    store: this.state,
-    child: MaterialApp(
-      home: new MaterialApp(
-        title: 'Flutter Demo',
-        theme: applicationTheme,
-        home: new HomePageView(title: 'Flutter Demo Home Page'),
-      )
-    ),
-  );
+  Widget build(BuildContext context) {
+    return new MaterialApp(
+      title: 'Flutter Demo',
+      theme: applicationTheme,
+      home: new HomePageView(),
+    );
+  }
 }
