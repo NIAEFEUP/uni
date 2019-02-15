@@ -14,12 +14,13 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  
   FocusNode usernameFocus;
   FocusNode passwordFocus;
 
   TextEditingController usernameController;
   TextEditingController passwordController;
+
+  GlobalKey<FormState> _formKey;
 
   @override
   void initState() {
@@ -28,6 +29,7 @@ class _LoginPageState extends State<LoginPage> {
     passwordFocus = FocusNode();
     usernameController = TextEditingController();
     passwordController = TextEditingController();
+    _formKey = GlobalKey<FormState>();
   }
 
   @override
@@ -51,23 +53,26 @@ class _LoginPageState extends State<LoginPage> {
         passwordFocus: passwordFocus,
         usernameController: usernameController,
         passwordController: passwordController,
+        formKey: _formKey,
         submitForm: () => _login(StoreProvider.of<AppState>(context)));
   }
 
   //check this boolean to save or not the username and password on the mobile
   bool _keepSignedIn = false;
-  
-  void _setKeepSignedIn(value){
+
+  void _setKeepSignedIn(value) {
     setState(() {
       _keepSignedIn = value;
     });
   }
 
   void _login(Store<AppState> store) {
-    final user = usernameController.text;
-    final pass = passwordController.text;
-    print(user);
-    print(pass);
-    store.dispatch(login(user, pass, _keepSignedIn));
+    if (_formKey.currentState.validate()) {
+      final user = usernameController.text;
+      final pass = passwordController.text;
+      print(user);
+      print(pass);
+      store.dispatch(login(user, pass, _keepSignedIn));
+    }
   }
 }

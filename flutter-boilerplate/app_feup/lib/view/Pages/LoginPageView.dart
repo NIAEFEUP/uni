@@ -12,6 +12,7 @@ class LoginPageView extends StatelessWidget {
       @required this.passwordFocus,
       @required this.usernameController,
       @required this.passwordController,
+      @required this.formKey,
       @required this.submitForm})
       : super(key: key);
 
@@ -22,6 +23,7 @@ class LoginPageView extends StatelessWidget {
   final FocusNode passwordFocus;
   final TextEditingController usernameController;
   final TextEditingController passwordController;
+  final GlobalKey<FormState> formKey;
 
   @override
   Widget build(BuildContext context) {
@@ -45,10 +47,15 @@ class LoginPageView extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     mainAxisSize: MainAxisSize.max,
                     children: <Widget>[
-                      createUsernameInput(context),
-                      Padding(padding: EdgeInsets.only(bottom: 20)),
-                      createPasswordInput(),
-                      Padding(padding: EdgeInsets.only(bottom: 5)),
+                      Form(
+                        key: this.formKey,
+                        child: Column(children: [
+                          createUsernameInput(context),
+                          Padding(padding: EdgeInsets.only(bottom: 20)),
+                          createPasswordInput(),
+                          Padding(padding: EdgeInsets.only(bottom: 5))
+                        ]),
+                      ),
                       createSaveDataCheckBox()
                     ])),
             createLogInButton(),
@@ -72,7 +79,7 @@ class LoginPageView extends StatelessWidget {
   Widget createUsernameInput(BuildContext context) {
     return TextFormField(
       style: new TextStyle(color: Colors.white),
-      keyboardType: TextInputType.text,
+      keyboardType: TextInputType.number,
       autofocus: false,
       controller: usernameController,
       focusNode: usernameFocus,
@@ -82,36 +89,28 @@ class LoginPageView extends StatelessWidget {
       },
       textInputAction: TextInputAction.next,
       textAlign: TextAlign.center,
-      decoration: InputDecoration(
-          hasFloatingPlaceholder: true,
-          hintText: 'student nr',
-          contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-          border: new UnderlineInputBorder(),
-          focusedBorder: new UnderlineInputBorder(
-              borderSide: new BorderSide(color: Colors.white, width: 3))),
+      decoration: textFieldDecoration('student nr'),
+      validator: (String value) =>
+          value.isEmpty ? 'Student number can\'t be empty' : null,
     );
   }
 
   Widget createPasswordInput() {
     return TextFormField(
-      style: new TextStyle(color: Colors.white),
-      autofocus: false,
-      controller: passwordController,
-      focusNode: passwordFocus,
-      onFieldSubmitted: (term) {
-        passwordFocus.unfocus();
-        submitForm();
-      },
-      textInputAction: TextInputAction.done,
-      obscureText: true,
-      textAlign: TextAlign.center,
-      decoration: InputDecoration(
-          hintText: 'password',
-          contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-          border: new UnderlineInputBorder(),
-          focusedBorder: new UnderlineInputBorder(
-              borderSide: new BorderSide(color: Colors.white, width: 3))),
-    );
+        style: new TextStyle(color: Colors.white),
+        autofocus: false,
+        controller: passwordController,
+        focusNode: passwordFocus,
+        onFieldSubmitted: (term) {
+          passwordFocus.unfocus();
+          submitForm();
+        },
+        textInputAction: TextInputAction.done,
+        obscureText: true,
+        textAlign: TextAlign.center,
+        decoration: textFieldDecoration('password'),
+        validator: (String value) =>
+            value.isEmpty ? 'Password can\'t be empty' : null);
   }
 
   Widget createSaveDataCheckBox() {
@@ -148,18 +147,7 @@ class LoginPageView extends StatelessWidget {
     );
   }
 
-  //TODO: probably a "Forgot my password" link
   Widget createNoteLabel() {
-    /* return FlatButton(
-      child: Text(
-        ' ', //no text for now
-        style: TextStyle(color: Colors.white, fontWeight: FontWeight.w100),
-      ),
-      onPressed: () {
-        //TODO: redirect to sigarra page maybe
-      },
-    ); */
-
     return StoreConnector<AppState, String>(
         converter: (store) => store.state.content['loginMessage'],
         builder: (context, message) {
@@ -168,5 +156,17 @@ class LoginPageView extends StatelessWidget {
             style: TextStyle(color: Colors.white, fontWeight: FontWeight.w100),
           );
         });
+  }
+
+  InputDecoration textFieldDecoration(String placeholder) {
+    return InputDecoration(
+        errorStyle: TextStyle(
+          color: Colors.white70,
+          ),
+        hintText: placeholder,
+        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+        border: new UnderlineInputBorder(),
+        focusedBorder: new UnderlineInputBorder(
+            borderSide: new BorderSide(color: Colors.white, width: 3)));
   }
 }
