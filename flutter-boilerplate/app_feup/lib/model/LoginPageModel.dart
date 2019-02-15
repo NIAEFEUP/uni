@@ -1,5 +1,9 @@
+import 'package:app_feup/model/AppState.dart';
 import 'package:app_feup/view/Pages/LoginPageView.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:app_feup/redux/actionCreators.dart';
+import 'package:redux/redux.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -14,11 +18,16 @@ class _LoginPageState extends State<LoginPage> {
   FocusNode usernameFocus;
   FocusNode passwordFocus;
 
+  TextEditingController usernameController;
+  TextEditingController passwordController;
+
   @override
   void initState() {
     super.initState();
     usernameFocus = FocusNode();
     passwordFocus = FocusNode();
+    usernameController = TextEditingController();
+    passwordController = TextEditingController();
   }
 
   @override
@@ -27,32 +36,38 @@ class _LoginPageState extends State<LoginPage> {
     usernameFocus.dispose();
     passwordFocus.dispose();
 
+    usernameController.dispose();
+    passwordController.dispose();
+
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return new LoginPageView(
-        saveData: _saveData,
-        saveDataChanged: _changeSaveData,
+        checkboxValue: _keepSignedIn,
+        setCheckboxValue: _setKeepSignedIn,
         usernameFocus: usernameFocus,
         passwordFocus: passwordFocus,
-        logInPressed: _logIn);
+        usernameController: usernameController,
+        passwordController: passwordController,
+        submitForm: () => _login(StoreProvider.of<AppState>(context)));
   }
 
   //check this boolean to save or not the username and password on the mobile
-  bool _saveData = false;
+  bool _keepSignedIn = false;
   
-  void _changeSaveData(value){
+  void _setKeepSignedIn(value){
     setState(() {
-      _saveData = value;
+      _keepSignedIn = value;
     });
   }
 
-  void _logIn(username, password) {
-    //TODO: verify username and password here
-    print(username);
-    print(password);
-
+  void _login(Store<AppState> store) {
+    final user = usernameController.text;
+    final pass = passwordController.text;
+    print(user);
+    print(pass);
+    store.dispatch(login(user, pass, _keepSignedIn));
   }
 }

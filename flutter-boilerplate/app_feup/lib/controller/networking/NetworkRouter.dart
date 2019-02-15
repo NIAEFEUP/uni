@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:query_params/query_params.dart';
 
 class NetworkRouter {
-  static Future<Map<String, dynamic>> login(String user, String pass) async {
+  static Future<Map<String, dynamic>> login(String user, String pass, bool persistentSession) async {
     final String url = 'https://sigarra.up.pt/feup/pt/mob_val_geral.autentica';
     final Map<String, dynamic> res = Map<String, dynamic>();
     final http.Response response = await http.post(url, body: {"pv_login": user, "pv_password": pass});
@@ -15,6 +15,8 @@ class NetworkRouter {
       if (responseBody['authenticated']) {
         res['authenticated'] = true;
         res['studentNumber'] = responseBody['codigo'];
+        res['persistentSession'] = persistentSession;
+        if (persistentSession) res['password'] = pass;
         res['type'] = responseBody['tipo'];
         res['cookies'] = extractCookies(response.headers);
         print('Login successful');
@@ -38,12 +40,17 @@ class NetworkRouter {
     return cookieList.join(';');
   } 
 
-  static void getProfile(Map<String, String> session) async {
+  static Future<String> getProfile(Map<String, dynamic> session) async {
     final response = await getWithCookies(
         'https://sigarra.up.pt/feup/pt/mob_fest_geral.perfil?',
         {"pv_codigo": session['studentNumber']},
         session['cookies']);
-    print(response.body);
+    if (response.statusCode == 200) {
+      final responseBody = json.decode(response.body);
+      return responseBody['nome'];
+    } else {
+      return 'Couldn\'t fetch profile';
+    }
   }
 
   static Future<http.Response> getWithCookies(

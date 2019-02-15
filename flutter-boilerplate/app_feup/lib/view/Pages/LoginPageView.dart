@@ -1,22 +1,27 @@
+import 'package:app_feup/model/AppState.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import '../../view/Theme.dart';
 
-final usernameController = TextEditingController();
-final passwordController = TextEditingController();
-
 class LoginPageView extends StatelessWidget {
-  LoginPageView({Key key,
-    @required this.saveData,
-    @required this.saveDataChanged,
-    @required this.usernameFocus,
-    @required this.passwordFocus,
-    @required this.logInPressed}) : super(key: key);
+  LoginPageView(
+      {Key key,
+      @required this.checkboxValue,
+      @required this.setCheckboxValue,
+      @required this.usernameFocus,
+      @required this.passwordFocus,
+      @required this.usernameController,
+      @required this.passwordController,
+      @required this.submitForm})
+      : super(key: key);
 
-  final bool saveData;
-  final Function saveDataChanged;
-  final Function logInPressed;
+  final bool checkboxValue;
+  final Function setCheckboxValue;
+  final Function submitForm;
   final FocusNode usernameFocus;
   final FocusNode passwordFocus;
+  final TextEditingController usernameController;
+  final TextEditingController passwordController;
 
   @override
   Widget build(BuildContext context) {
@@ -24,147 +29,128 @@ class LoginPageView extends StatelessWidget {
       backgroundColor: primaryColor,
       resizeToAvoidBottomPadding: false,
       body: Center(
-        child: Padding(
-          padding: EdgeInsets.only(left: 50.0, right: 50.0, top: 100.0, bottom: 10.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Expanded(
-                flex: 4,
-                child: createTitle(),
-              ),
-              Expanded(
+          child: Padding(
+        padding:
+            EdgeInsets.only(left: 50.0, right: 50.0, top: 100.0, bottom: 10.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Expanded(
+              flex: 4,
+              child: createTitle(),
+            ),
+            Expanded(
                 flex: 4,
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  mainAxisSize: MainAxisSize.max,
-                  children: <Widget>[
-                    createUsernameInput(context),
-                    Padding(padding: EdgeInsets.only(bottom: 20)),
-                    createPasswordInput(),
-                    Padding(padding: EdgeInsets.only(bottom: 5)),
-                    createSaveDataCheckBox()
-                  ]
-                )
-              ),
-              createLogInButton(),
-              Padding(padding: EdgeInsets.only(bottom: 50)),
-              Expanded(
-                flex: 1,
-                child: createNoteLabel(),
-              ),
-            ],
-          ),
-        )
-      ),
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisSize: MainAxisSize.max,
+                    children: <Widget>[
+                      createUsernameInput(context),
+                      Padding(padding: EdgeInsets.only(bottom: 20)),
+                      createPasswordInput(),
+                      Padding(padding: EdgeInsets.only(bottom: 5)),
+                      createSaveDataCheckBox()
+                    ])),
+            createLogInButton(),
+            Padding(padding: EdgeInsets.only(bottom: 50)),
+            Expanded(flex: 1, child: createNoteLabel()),
+          ],
+        ),
+      )),
     );
   }
 
-  Widget createTitle(){
+  Widget createTitle() {
     return Text(
       "APP\nFEUP",
       textAlign: TextAlign.center,
       style: TextStyle(
-        color: Colors.white, 
-        fontSize: 50.0,
-        fontWeight: FontWeight.w400
-        ),
+          color: Colors.white, fontSize: 50.0, fontWeight: FontWeight.w400),
     );
   }
 
-  Widget createUsernameInput(BuildContext context){
+  Widget createUsernameInput(BuildContext context) {
     return TextFormField(
       style: new TextStyle(color: Colors.white),
       keyboardType: TextInputType.text,
       autofocus: false,
       controller: usernameController,
       focusNode: usernameFocus,
-      onFieldSubmitted: (term){
+      onFieldSubmitted: (term) {
         usernameFocus.unfocus();
         FocusScope.of(context).requestFocus(passwordFocus);
       },
       textInputAction: TextInputAction.next,
       textAlign: TextAlign.center,
       decoration: InputDecoration(
-        hintText: 'username',
-        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-        border: new UnderlineInputBorder(),
-        focusedBorder: new UnderlineInputBorder(
-          borderSide: new BorderSide(
-            color: Colors.white,
-            width: 3
-          )
-        )
-      ),
+          hasFloatingPlaceholder: true,
+          hintText: 'student nr',
+          contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+          border: new UnderlineInputBorder(),
+          focusedBorder: new UnderlineInputBorder(
+              borderSide: new BorderSide(color: Colors.white, width: 3))),
     );
   }
 
-  Widget createPasswordInput(){
+  Widget createPasswordInput() {
     return TextFormField(
       style: new TextStyle(color: Colors.white),
       autofocus: false,
       controller: passwordController,
       focusNode: passwordFocus,
-      onFieldSubmitted: (term){
+      onFieldSubmitted: (term) {
         passwordFocus.unfocus();
-        logInPressed(usernameController.text, passwordController.text);
+        submitForm();
       },
       textInputAction: TextInputAction.done,
       obscureText: true,
       textAlign: TextAlign.center,
       decoration: InputDecoration(
-        hintText: 'password',
-        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-        border: new UnderlineInputBorder(),
-        focusedBorder: new UnderlineInputBorder(
-          borderSide: new BorderSide(
-            color: Colors.white,
-            width: 3
-          )
-        )
-      ),
+          hintText: 'password',
+          contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+          border: new UnderlineInputBorder(),
+          focusedBorder: new UnderlineInputBorder(
+              borderSide: new BorderSide(color: Colors.white, width: 3))),
     );
   }
 
-  Widget createSaveDataCheckBox(){
+  Widget createSaveDataCheckBox() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Text(
-          "Guardar dados",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: Colors.white, 
-            fontSize: 13.0,
-            fontWeight: FontWeight.w300
-            )
-        ),
-        Checkbox(value: saveData, onChanged: saveDataChanged)
+        Text("Manter sessão iniciada",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                color: Colors.white,
+                fontSize: 13.0,
+                fontWeight: FontWeight.w300)),
+        Checkbox(value: checkboxValue, onChanged: setCheckboxValue)
       ],
     );
   }
 
-  Widget createLogInButton(){
+  Widget createLogInButton() {
     return new SizedBox(
-        width: 150,
-        height: 50,
-        child: RaisedButton(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(25),
-          ),
-          onPressed: () {
-            logInPressed(usernameController.text, passwordController.text);
-          },
-          padding: EdgeInsets.all(12),
-          color: Colors.white,
-          child: Text('Log In', style: TextStyle(color: primaryColor, fontWeight: FontWeight.w400, fontSize: 18), textAlign: TextAlign.center),
+      width: 150,
+      height: 50,
+      child: RaisedButton(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(25),
         ),
+        onPressed: submitForm,
+        padding: EdgeInsets.all(12),
+        color: Colors.white,
+        child: Text('Log In',
+            style: TextStyle(
+                color: primaryColor, fontWeight: FontWeight.w400, fontSize: 18),
+            textAlign: TextAlign.center),
+      ),
     );
   }
 
   //TODO: probably a "Forgot my password" link
-  Widget createNoteLabel(){
-    return FlatButton(
+  Widget createNoteLabel() {
+    /* return FlatButton(
       child: Text(
         ' ', //no text for now
         style: TextStyle(color: Colors.white, fontWeight: FontWeight.w100),
@@ -172,6 +158,15 @@ class LoginPageView extends StatelessWidget {
       onPressed: () {
         //TODO: redirect to sigarra page maybe
       },
-    );
+    ); */
+
+    return StoreConnector<AppState, String>(
+        converter: (store) => store.state.content['loginMessage'],
+        builder: (context, message) {
+          return Text(
+            message ?? 'No message',
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w100),
+          );
+        });
   }
 }
