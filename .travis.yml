@@ -23,7 +23,7 @@ before_script:
   - ../flutter/bin/flutter doctor
   - ../flutter/bin/flutter packages get
 script:
-  - dartanalyzer --fatal-warnings --options analysis_options.yaml app_feup/lib 
+  - dartanalyzer --fatal-warnings --options analysis_options.yaml lib 
 cache:
   directories:
     - $HOME/.pub-cache
