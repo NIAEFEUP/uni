@@ -41,7 +41,7 @@ class GenericCard extends StatelessWidget {
                         color: Colors.white,
                         borderRadius: BorderRadius.all(Radius.circular(this.borderRadius))),
                     width: (double.infinity),
-                    padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 8.0, bottom: 10.0),
+                    padding: EdgeInsets.only(left: 0, right: 0, top: 0, bottom: 10.0),
                     child: this.child,
                   ),
                 ),

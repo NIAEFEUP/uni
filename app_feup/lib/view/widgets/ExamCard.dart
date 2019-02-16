@@ -6,6 +6,7 @@ class ExamCard extends StatelessWidget{
 
   final Exam exam;
   final double borderRadius = 12.0;
+  final double leftPadding = 12.0;
 
   ExamCard({
     Key key,
@@ -24,6 +25,7 @@ class ExamCard extends StatelessWidget{
         mainAxisSize:  MainAxisSize.min,
         children: <Widget>[
           new Container(
+            padding: EdgeInsets.only(left: this.leftPadding),
             child: Text(
                 (" " + this.exam.weekDay + ", " + this.exam.day + " de " + this.exam.month),
                 style: Theme.of(context).textTheme.subtitle),
@@ -40,6 +42,7 @@ class ExamCard extends StatelessWidget{
           ),
           new Center(
             child: new Container(
+              padding: EdgeInsets.only(left: 12.0),
               margin: EdgeInsets.only(top: 5.0),
               child: new Row(
                 mainAxisSize: MainAxisSize.max,
@@ -90,6 +93,7 @@ class ExamCard extends StatelessWidget{
              )
           ),
           new Container(
+            padding: EdgeInsets.only(left: 12.0),
             child: Text(
                 (" " + this.exam.weekDay + ", " + this.exam.day + " de " + this.exam.month),
                 style: Theme.of(context).textTheme.subtitle),
@@ -110,6 +114,7 @@ class ExamCard extends StatelessWidget{
           ),
           new Center(
             child: new Container(
+              padding: EdgeInsets.only(left: 12.0),
               margin: EdgeInsets.only(top: 5.0),
               child: new Row(
                 mainAxisSize: MainAxisSize.max,
