@@ -5,24 +5,79 @@ import 'dart:async';
 
 class Exam{
   String subject;
-  String schedule;
+  String begin;
+  String end;
   String rooms;
-  String date;
+  String day;
   String examType;
   String weekDay;
+  String month;
 
   Exam(String schedule, String subject, String rooms, String date, String examType, String weekDay)
   {
     this.subject = subject;
-    this.schedule = schedule;
+    var scheduling = schedule.split('-');
+    var dateSepared = date.split('-');
+    this.begin = scheduling[0].replaceAll(':', 'h');
+    this.end = scheduling[1].replaceAll(':', 'h');
     this.rooms = rooms;
-    this.date = date;
+    this.day = dateSepared[2];
     this.examType = examType;
     this.weekDay = weekDay;
+    switch(dateSepared[1]){
+      case '01':{
+        this.month = "Janeiro";
+      }
+        break;
+      case '02':{
+        this.month = "Fevereiro";
+      }
+        break;
+      case '03':{
+        this.month = "Março";
+      }
+        break;
+      case '04':{
+        this.month = "Abril";
+      }
+        break;
+      case '05':{
+        this.month = "Maio";
+      }
+        break;
+      case '06':{
+        this.month = "Junho";
+      }
+        break;
+      case '07':{
+        this.month = "Julho";
+      }
+        break;
+      case '08':{
+        this.month = "Agosto";
+      }
+        break;
+      case '09':{
+        this.month = "Setembro";
+      }
+        break;
+      case '10':{
+        this.month = "Outubro";
+      }
+        break;
+      case '11':{
+        this.month = "Novembro";
+      }
+        break;
+      case '12':{
+        this.month = "Dezembro";
+      }
+        break;
+    }
   }
   void printExam()
   {
-    print('$subject - $date - $schedule - $examType - $rooms - $weekDay');
+    print('$subject - $day - $month - $begin-$end - $examType - $rooms - $weekDay');
   }
 }
 
