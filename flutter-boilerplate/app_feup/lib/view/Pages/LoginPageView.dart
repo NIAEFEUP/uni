@@ -25,54 +25,57 @@ class LoginPageView extends StatelessWidget {
   final TextEditingController passwordController;
   final GlobalKey<FormState> formKey;
 
+  MediaQueryData queryData;
+
   @override
   Widget build(BuildContext context) {
+    queryData = MediaQuery.of(context);
+    print(queryData.size.width);
+    print(queryData.size.height);
+    print(queryData.devicePixelRatio);
     return Scaffold(
       backgroundColor: primaryColor,
       resizeToAvoidBottomPadding: false,
       body: Center(
-          child: Padding(
-        padding:
-            EdgeInsets.only(left: 50.0, right: 50.0, top: 100.0, bottom: 10.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Expanded(
-              flex: 4,
-              child: createTitle(),
-            ),
-            Expanded(
-                flex: 4,
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    mainAxisSize: MainAxisSize.max,
-                    children: <Widget>[
-                      Form(
-                        key: this.formKey,
-                        child: Column(children: [
-                          createUsernameInput(context),
-                          Padding(padding: EdgeInsets.only(bottom: 20)),
-                          createPasswordInput(),
-                          Padding(padding: EdgeInsets.only(bottom: 5))
-                        ]),
-                      ),
-                      createSaveDataCheckBox()
-                    ])),
-            createLogInButton(),
-            Padding(padding: EdgeInsets.only(bottom: 50)),
-            Expanded(flex: 1, child: createNoteLabel()),
-          ],
-        ),
-      )),
+        child: Padding(
+          padding: EdgeInsets.only(left: queryData.size.width/8, right: queryData.size.width/8, top: queryData.size.height/6, bottom: queryData.size.height/6),
+          child: Flex(
+              direction: Axis.vertical,
+              children: <Widget>[
+                createTitle(),
+                Spacer(),
+                Form(
+                  key: this.formKey,
+                  child: Column(children: [
+                    createUsernameInput(context),
+                    Padding(padding: EdgeInsets.only(bottom: queryData.size.height/35)),
+                    createPasswordInput(),
+                  ]),
+                ),
+                createSaveDataCheckBox(),
+                Spacer(),
+                createLogInButton(),
+              ],
+        )),
+      )
     );
   }
 
   Widget createTitle() {
-    return Text(
-      "APP\nFEUP",
-      textAlign: TextAlign.center,
-      style: TextStyle(
-          color: Colors.white, fontSize: 50.0, fontWeight: FontWeight.w400),
+    return new ConstrainedBox(
+      constraints: new BoxConstraints(
+        minWidth: queryData.size.width/8,
+        minHeight: queryData.size.height/6,
+      ),
+      child: FittedBox(
+        child: Text(
+          "APP\nFEUP",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: Colors.white, fontWeight: FontWeight.w400),
+        ),
+        fit: BoxFit.fill
+      )
     );
   }
 
@@ -89,9 +92,9 @@ class LoginPageView extends StatelessWidget {
       },
       textInputAction: TextInputAction.next,
       textAlign: TextAlign.center,
-      decoration: textFieldDecoration('student nr'),
+      decoration: textFieldDecoration('número de estudante'),
       validator: (String value) =>
-          value.isEmpty ? 'Student number can\'t be empty' : null,
+          value.isEmpty ? 'Preencha este campo' : null,
     );
   }
 
@@ -108,9 +111,9 @@ class LoginPageView extends StatelessWidget {
         textInputAction: TextInputAction.done,
         obscureText: true,
         textAlign: TextAlign.center,
-        decoration: textFieldDecoration('password'),
+        decoration: textFieldDecoration('palavra-passe'),
         validator: (String value) =>
-            value.isEmpty ? 'Password can\'t be empty' : null);
+            value.isEmpty ? 'Preencha este campo' : null);
   }
 
   Widget createSaveDataCheckBox() {
@@ -130,32 +133,20 @@ class LoginPageView extends StatelessWidget {
 
   Widget createLogInButton() {
     return new SizedBox(
-      width: 150,
-      height: 50,
+      width: queryData.size.width/2.5,
+      height: queryData.size.height/16,
       child: RaisedButton(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(25),
         ),
         onPressed: submitForm,
-        padding: EdgeInsets.all(12),
         color: Colors.white,
-        child: Text('Log In',
+        child: Text('Entrar',
             style: TextStyle(
-                color: primaryColor, fontWeight: FontWeight.w400, fontSize: 18),
+                color: primaryColor, fontWeight: FontWeight.w400, fontSize: 16),
             textAlign: TextAlign.center),
       ),
     );
-  }
-
-  Widget createNoteLabel() {
-    return StoreConnector<AppState, String>(
-        converter: (store) => store.state.content['loginMessage'],
-        builder: (context, message) {
-          return Text(
-            message ?? 'No message',
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w100),
-          );
-        });
   }
 
   InputDecoration textFieldDecoration(String placeholder) {
