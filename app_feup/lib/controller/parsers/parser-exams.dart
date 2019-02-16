@@ -90,7 +90,8 @@ Future<List<Exam>> examsGet(String link) async{
   List<Exam> Exams = new List();
   List<String> dates = new List();
   List<String> examTypes = new List();
-  String subject, schedule, rooms, weekDay;
+  List<String> weekDays = new List();
+  String subject, schedule, rooms;
   int days = 0;
   int tableNum = 0;
   document.querySelectorAll('h3').forEach((Element examType){
@@ -100,8 +101,7 @@ Future<List<Exam>> examsGet(String link) async{
   document.querySelectorAll('div > table > tbody > tr > td').forEach((Element element){
     element.querySelectorAll('table:not(.mapa)').forEach((Element table) {
       table.querySelectorAll('th').forEach((Element week){
-        weekDay = week.text.substring(0, week.text.indexOf('2'));
-
+        weekDays.add(week.text.substring(0, week.text.indexOf('2')));
       });
       table.querySelectorAll('span.exame-data').forEach((Element date) {
         dates.add(date.text);
@@ -121,7 +121,7 @@ Future<List<Exam>> examsGet(String link) async{
           }
 
           schedule = examsDay.text.substring(examsDay.text.indexOf(':') -2, examsDay.text.indexOf(':') + 9);
-          Exam exam = new Exam(schedule, subject, rooms, dates[days], examTypes[tableNum], weekDay);
+          Exam exam = new Exam(schedule, subject, rooms, dates[days], examTypes[tableNum], weekDays[days]);
           Exams.add(exam);
           });
         }
