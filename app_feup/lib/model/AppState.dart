@@ -4,10 +4,10 @@ class AppState{
 
   Map getInitialContent() {
     return {
-      "cookies": ""
+      "cookies": "",
+      "selected_page": "Área Pessoal"
     };
   }
-
 
   AppState(Map content) {
     if (content != null) {
