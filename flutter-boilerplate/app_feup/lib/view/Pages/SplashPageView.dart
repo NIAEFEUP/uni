@@ -16,8 +16,11 @@ class _SplashScreenState extends State<SplashScreen>{
     Timer(Duration(seconds: 3), ()=> Navigator.pushReplacement(context, new MaterialPageRoute(builder: (__) => new LoginPage())));
   }
 
+  MediaQueryData queryData;
+
   @override
   Widget build(BuildContext context){
+    queryData = MediaQuery.of(context);
     return new Scaffold(
       body: Stack(
         fit: StackFit.expand,
@@ -28,23 +31,18 @@ class _SplashScreenState extends State<SplashScreen>{
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              Expanded(
-                flex: 5,
-                child: Center(
-                  child: createTitle()
-                ),
+              Padding(padding: EdgeInsets.only(bottom: queryData.size.height/4)),
+              createTitle(),
+              Spacer(),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  CircularProgressIndicator(),
+                  Padding(padding: EdgeInsets.only(bottom: queryData.size.height/16)),
+                  createNILogo(),
+                ],
               ),
-              Expanded(
-                flex: 3,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    CircularProgressIndicator(),
-                    Padding(padding: EdgeInsets.only(bottom: 50)),
-                    createNILogo(),
-                  ],
-                )
-              )
+              Padding(padding: EdgeInsets.only(bottom: queryData.size.height/10))
             ],
           )
         ],
@@ -52,15 +50,21 @@ class _SplashScreenState extends State<SplashScreen>{
     );
   }
 
-  Widget createTitle(){
-    return Text(
-      "APP\nFEUP",
-      textAlign: TextAlign.center,
-      style: TextStyle(
-        color: Colors.white, 
-        fontSize: 50.0,
-        fontWeight: FontWeight.w400
+  Widget createTitle() {
+    return new ConstrainedBox(
+      constraints: new BoxConstraints(
+        minWidth: queryData.size.width/8,
+        minHeight: queryData.size.height/6,
+      ),
+      child: FittedBox(
+        child: Text(
+          "APP\nFEUP",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: Colors.white, fontWeight: FontWeight.w400),
         ),
+        fit: BoxFit.fill
+      )
     );
   }
 
@@ -82,8 +86,8 @@ class _SplashScreenState extends State<SplashScreen>{
         Container(
           child: Image(
             image: AssetImage('assets/ni_logo.png'),
-            width: 85.0,
-            height: 85.0
+            width: queryData.size.height/9,
+            height: queryData.size.height/9
           ),
         )
       ],

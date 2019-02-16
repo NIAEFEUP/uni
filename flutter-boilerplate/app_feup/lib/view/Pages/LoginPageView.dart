@@ -30,9 +30,6 @@ class LoginPageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     queryData = MediaQuery.of(context);
-    print(queryData.size.width);
-    print(queryData.size.height);
-    print(queryData.devicePixelRatio);
     return Scaffold(
       backgroundColor: primaryColor,
       resizeToAvoidBottomPadding: false,

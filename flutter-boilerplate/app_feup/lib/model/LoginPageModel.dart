@@ -70,8 +70,6 @@ class _LoginPageState extends State<LoginPage> {
     if (_formKey.currentState.validate()) {
       final user = usernameController.text;
       final pass = passwordController.text;
-      print(user);
-      print(pass);
       store.dispatch(login(user, pass, _keepSignedIn));
     }
   }
