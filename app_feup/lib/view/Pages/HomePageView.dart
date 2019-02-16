@@ -32,7 +32,7 @@ class HomePageView extends StatelessWidget {
         padding: const EdgeInsets.all(20.0),
         children: <Widget>[
           new GenericCard(
-            title: "Meias"
+            title: "Exames"
             , child: new ExamCard(exam: exam))
 
           //Cards go here

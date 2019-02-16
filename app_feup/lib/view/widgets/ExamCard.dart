@@ -3,7 +3,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 class ExamCard extends StatelessWidget{
+
   final Exam exam;
+  final double borderRadius = 12.0;
+
   ExamCard({
     Key key,
     @required this.exam
@@ -35,29 +38,55 @@ class ExamCard extends StatelessWidget{
               )
             ),
           ),
-          new Row(
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              new Column(
+          new Center(
+            child: new Container(
+              margin: EdgeInsets.only(top: 5.0),
+              child: new Row(
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  new Container(
-                    child: Text(this.exam.begin,style: Theme.of(context).textTheme.body2),
-                    margin: EdgeInsets.only(top: 5.0),
-                  ),new Container(
-                    child: Text(this.exam.end,style: Theme.of(context).textTheme.body2),
-                    margin: EdgeInsets.only(top: 24.0),
+                  new Column(
+                    children: <Widget>[
+                      new Container(
+                        child: Text(this.exam.begin,style: Theme.of(context).textTheme.body2),
+                        margin: EdgeInsets.only(top: 5.0),
+                      ),new Container(
+                        child: Text(this.exam.end,style: Theme.of(context).textTheme.body2),
+                        margin: EdgeInsets.only(top: 24.0),
+                      ),
+                    ],
                   ),
+                  new ConstrainedBox(
+                    constraints: new BoxConstraints(
+                        minWidth: 210,
+                        minHeight: 30,
+                        maxWidth: 300,
+                        maxHeight: 65
+                    ),
+                    child: new Container(
+                      margin: EdgeInsets.only(left: 24.0, top: 2.0),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).primaryColor,
+                        borderRadius: BorderRadius.all(Radius.circular(this.borderRadius)),
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        children: <Widget>[
+                          new Container(
+                            margin: EdgeInsets.only(top: 5.0),
+                            child: new Text(this.exam.subject, style: TextStyle(color: Theme.of(context).accentColor),),
+                          ),
+                          new Container(
+                            margin: EdgeInsets.only(top: 13.0),
+                            child: new Text(this.exam.rooms, style: TextStyle(color: Theme.of(context).accentColor),),
+                          )
+                        ],
+                      ),
+                    ),
+                  )
                 ],
               ),
-              new Container(
-                margin: EdgeInsets.only(left: 24.0),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor
-                ),
-                child: new Text(this.exam.subject, style: TextStyle(color: Theme.of(context).accentColor),),
-              )
-            ],
+             )
           )
         ],
       )
