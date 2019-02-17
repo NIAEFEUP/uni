@@ -6,7 +6,6 @@ import 'package:app_feup/controller/networking/NetworkRouter.dart';
 
 ThunkAction<AppState> login(username, password, persistentSession) {
   return (Store<AppState> store) async {
-    //do requests, await futures
     try {
       final Map<String, dynamic> session = await NetworkRouter.login(username, password, persistentSession);
       print(session);
