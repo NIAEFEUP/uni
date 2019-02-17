@@ -49,6 +49,7 @@ class LoginPageView extends StatelessWidget {
                     createPasswordInput(),
                   ]),
                 ),
+                Padding(padding: EdgeInsets.only(bottom: queryData.size.height/35)),
                 createSaveDataCheckBox(),
                 Spacer(),
                 createLogInButton(),
@@ -80,7 +81,7 @@ class LoginPageView extends StatelessWidget {
 
   Widget createUsernameInput(BuildContext context) {
     return TextFormField(
-      style: new TextStyle(color: Colors.white),
+      style: new TextStyle(color: Colors.white, fontSize: 20),
       keyboardType: TextInputType.number,
       autofocus: false,
       controller: usernameController,
@@ -99,7 +100,7 @@ class LoginPageView extends StatelessWidget {
 
   Widget createPasswordInput() {
     return TextFormField(
-        style: new TextStyle(color: Colors.white),
+        style: new TextStyle(color: Colors.white, fontSize: 20),
         autofocus: false,
         controller: passwordController,
         focusNode: passwordFocus,
@@ -123,7 +124,7 @@ class LoginPageView extends StatelessWidget {
             textAlign: TextAlign.center,
             style: TextStyle(
                 color: Colors.white,
-                fontSize: 13.0,
+                fontSize: 17.0,
                 fontWeight: FontWeight.w300)),
         Checkbox(value: checkboxValue, onChanged: setCheckboxValue)
       ],
@@ -142,7 +143,7 @@ class LoginPageView extends StatelessWidget {
         color: Colors.white,
         child: Text('Entrar',
             style: TextStyle(
-                color: primaryColor, fontWeight: FontWeight.w400, fontSize: 16),
+                color: primaryColor, fontWeight: FontWeight.w400, fontSize: 20),
             textAlign: TextAlign.center),
       ),
     );
