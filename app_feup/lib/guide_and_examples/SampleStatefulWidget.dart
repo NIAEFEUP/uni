@@ -32,6 +32,7 @@ class SampleStatefulWidgetState extends State<SampleStatefulWidget>{
   @override
   Widget build(BuildContext context) {
     //Here return the widget tree that represents this widget
+    return new Text("");
   }
 
 }

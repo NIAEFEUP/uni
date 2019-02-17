@@ -1,4 +1,4 @@
-# Project-Schrodinger
+# Project-Schrödinger
 
 ## Overall structure
 

@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'dart:async';
+import 'package:flutter/material.dart';
 import '../../model/LoginPageModel.dart';
 import '../../view/Theme.dart';
 
