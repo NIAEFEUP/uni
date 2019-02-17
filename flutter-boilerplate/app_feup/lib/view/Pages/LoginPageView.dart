@@ -52,6 +52,8 @@ class LoginPageView extends StatelessWidget {
                 createSaveDataCheckBox(),
                 Spacer(),
                 createLogInButton(),
+                Spacer(),
+                createNoteLabel()
               ],
         )),
       )
@@ -144,6 +146,17 @@ class LoginPageView extends StatelessWidget {
             textAlign: TextAlign.center),
       ),
     );
+  }
+
+  Widget createNoteLabel() {
+    return StoreConnector<AppState, String>(
+        converter: (store) => store.state.content['loginMessage'],
+        builder: (context, message) {
+          return Text(
+            message ?? '',
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w100, fontSize: 14),
+          );
+        });
   }
 
   InputDecoration textFieldDecoration(String placeholder) {
