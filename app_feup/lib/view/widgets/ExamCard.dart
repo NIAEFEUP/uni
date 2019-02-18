@@ -4,18 +4,20 @@ import 'package:flutter/material.dart';
 
 class ExamCard extends StatelessWidget{
 
-  final Exam exam;
+  final Exam firstExam;
+  final Exam secondExam;
   final double borderRadius = 12.0;
   final double leftPadding = 12.0;
 
   ExamCard({
     Key key,
-    @required this.exam
+    @required this.firstExam,
+    @required this.secondExam
 }): super(key: key);
   List<Widget> parseExam()
   {
     List<Widget> examInfo;
-    examInfo.add(new Text(this.exam.subject));
+    examInfo.add(new Text(this.firstExam.subject));
     return examInfo;
   }
   @override
@@ -27,7 +29,7 @@ class ExamCard extends StatelessWidget{
           new Container(
             padding: EdgeInsets.only(left: this.leftPadding),
             child: Text(
-                (" " + this.exam.weekDay + ", " + this.exam.day + " de " + this.exam.month),
+                (" " + this.firstExam.weekDay + ", " + this.firstExam.day + " de " + this.firstExam.month),
                 style: Theme.of(context).textTheme.subtitle),
             alignment: Alignment.center,
             width: double.infinity,
@@ -51,10 +53,10 @@ class ExamCard extends StatelessWidget{
                   new Column(
                     children: <Widget>[
                       new Container(
-                        child: Text(this.exam.begin,style: Theme.of(context).textTheme.body2),
+                        child: Text(this.firstExam.begin,style: Theme.of(context).textTheme.body2),
                         margin: EdgeInsets.only(top: 5.0),
                       ),new Container(
-                        child: Text(this.exam.end,style: Theme.of(context).textTheme.body2),
+                        child: Text(this.firstExam.end,style: Theme.of(context).textTheme.body2),
                         margin: EdgeInsets.only(top: 24.0),
                       ),
                     ],
@@ -77,11 +79,11 @@ class ExamCard extends StatelessWidget{
                         children: <Widget>[
                           new Container(
                             margin: EdgeInsets.only(top: 5.0),
-                            child: new Text(this.exam.subject, style: TextStyle(color: Theme.of(context).accentColor),),
+                            child: new Text(this.firstExam.subject, style: TextStyle(color: Theme.of(context).accentColor),),
                           ),
                           new Container(
                             margin: EdgeInsets.only(top: 13.0),
-                            child: new Text(this.exam.rooms, style: TextStyle(color: Theme.of(context).accentColor),),
+                            child: new Text(this.firstExam.rooms, style: TextStyle(color: Theme.of(context).accentColor),),
                           )
                         ],
                       ),
@@ -95,7 +97,7 @@ class ExamCard extends StatelessWidget{
           new Container(
             padding: EdgeInsets.only(left: 12.0),
             child: Text(
-                (" " + this.exam.weekDay + ", " + this.exam.day + " de " + this.exam.month),
+                (" " + this.secondExam.weekDay + ", " + this.secondExam.day + " de " + this.secondExam.month),
                 style: Theme.of(context).textTheme.subtitle),
             alignment: Alignment.center,
             width: double.infinity,
@@ -123,10 +125,10 @@ class ExamCard extends StatelessWidget{
                   new Column(
                     children: <Widget>[
                       new Container(
-                        child: Text(this.exam.begin,style: Theme.of(context).textTheme.body2),
+                        child: Text(this.secondExam.begin,style: Theme.of(context).textTheme.body2),
                         margin: EdgeInsets.only(top: 5.0),
                       ),new Container(
-                        child: Text(this.exam.end,style: Theme.of(context).textTheme.body2),
+                        child: Text(this.secondExam.end,style: Theme.of(context).textTheme.body2),
                         margin: EdgeInsets.only(top: 24.0),
                       ),
                     ],
@@ -149,11 +151,11 @@ class ExamCard extends StatelessWidget{
                         children: <Widget>[
                           new Container(
                             margin: EdgeInsets.only(top: 5.0),
-                            child: new Text(this.exam.subject, style: TextStyle(color: Theme.of(context).accentColor),),
+                            child: new Text(this.secondExam.subject, style: TextStyle(color: Theme.of(context).accentColor),),
                           ),
                           new Container(
                             margin: EdgeInsets.only(top: 13.0),
-                            child: new Text(this.exam.rooms, style: TextStyle(color: Theme.of(context).accentColor),),
+                            child: new Text(this.secondExam.rooms, style: TextStyle(color: Theme.of(context).accentColor),),
                           )
                         ],
                       ),

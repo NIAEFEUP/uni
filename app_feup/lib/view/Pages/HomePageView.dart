@@ -33,7 +33,7 @@ class HomePageView extends StatelessWidget {
         children: <Widget>[
           new GenericCard(
             title: "Exames"
-            , child: new ExamCard(exam: exam))
+            , child: new ExamCard(firstExam: exam, secondExam: exam,))
 
           //Cards go here
 
