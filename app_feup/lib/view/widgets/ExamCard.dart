@@ -7,48 +7,41 @@ import 'package:flutter_redux/flutter_redux.dart';
 
 class ExamCard extends StatelessWidget{
 
-  final Exam firstExam;
-  final Exam secondExam;
   final double leftPadding = 12.0;
 
-  ExamCard({
-    Key key,
-    @required this.firstExam,
-    @required this.secondExam
-}): super(key: key);
-  List<Widget> parseExam()
-  {
-    List<Widget> examInfo;
-    examInfo.add(new Text(this.firstExam.subject));
-    return examInfo;
-  }
+  ExamCard({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, List<Exam>>(
+    return StoreConnector<AppState, List<dynamic>>(
       converter: (store) => store.state.content['exams'],
       builder: (context, exams){
-        return Container(
-            child: new Column(
-              mainAxisSize:  MainAxisSize.min,
-              children: <Widget>[
-                this.createDateContainer(context, exams[0]),
-                new ScheduleRow(
-                    subject: exams[0].subject,
-                    rooms: exams[0].rooms,
-                    begin: exams[0].begin,
-                    end: exams[0].end
-                ),
-                this.createDateContainer(context, exams[1]),
-                new ScheduleRow(
-                    subject: exams[1].subject,
-                    rooms: exams[1].rooms,
-                    begin: exams[1].begin,
-                    end: exams[1].end
-                )
+        if(exams.length >= 2) {
+          return Container(
+              child: new Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  this.createDateContainer(context, exams[0]),
+                  new ScheduleRow(
+                      subject: exams[0].subject,
+                      rooms: exams[0].rooms,
+                      begin: exams[0].begin,
+                      end: exams[0].end
+                  ),
+                  this.createDateContainer(context, exams[1]),
+                  new ScheduleRow(
+                      subject: exams[1].subject,
+                      rooms: exams[1].rooms,
+                      begin: exams[1].begin,
+                      end: exams[1].end
+                  )
 
-              ],
-            )
-        );
+                ],
+              )
+          );
+        }else {
+          return Text("No exams to show at the moment");
+        }
       },
     );
   }

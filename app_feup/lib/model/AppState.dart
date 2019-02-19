@@ -1,5 +1,3 @@
-import '../controller/parsers/parser-exams.dart';
-import '../main.dart';
 class AppState{
 
   Map content;
@@ -7,7 +5,7 @@ class AppState{
   Map getInitialContent() {
     return {
       "cookies": "",
-      "exams": exams
+      "exams": []
     };
   }
 

@@ -10,11 +10,7 @@ import 'controller/parsers/parser-exams.dart';
 
 List<Exam> exams;
 
-void main(){
-  examsGet('https://sigarra.up.pt/feup/pt/exa_geral.mapa_de_exames?p_curso_id=742').then((e) => exams = e);
-  runApp(new MyApp());
-
-}
+void main() => runApp(new MyApp());
 
 class MyApp extends StatelessWidget {
 
@@ -30,7 +26,7 @@ class MyApp extends StatelessWidget {
     child: MaterialApp(
       title: 'Flutter Demo',
       theme: applicationTheme,
-      home: new HomePageView(),
+      home: new HomePageView(store: this.state),
       )
     );
   }

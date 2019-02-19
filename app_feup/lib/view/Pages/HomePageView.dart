@@ -1,12 +1,13 @@
+import 'package:app_feup/controller/homePage.dart';
 import 'package:flutter/material.dart';
 import '../widgets/GenericCard.dart';
 import '../widgets/ExamCard.dart';
-import '../../controller/parsers/parser-exams.dart';
 
-Exam exam = Exam("14:30-16:30", "COMP", "B001", "2019-03-20", "Fuck off", "Quarta-feira");
 
 class HomePageView extends StatelessWidget {
-  HomePageView({Key key}) : super(key: key);
+  HomePageView({Key key, @required store}) : super(key: key) {
+        loadUserInfoToState(store);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,7 @@ class HomePageView extends StatelessWidget {
   Widget createActionButton(BuildContext context){
     return new FloatingActionButton(
       onPressed: () => {}, //Add FAB functionality here
-      tooltip: 'Increment',
+      tooltip: 'Add widget',
       child: new Icon(Icons.add),
     );
   }
@@ -33,11 +34,11 @@ class HomePageView extends StatelessWidget {
         children: <Widget>[
           new GenericCard(
             title: "Exames"
-            , child: new ExamCard(firstExam: exam, secondExam: exam,))
+            , child: new ExamCard()
 
           //Cards go here
 
-        ],
+          )],
       );
   }
 }
