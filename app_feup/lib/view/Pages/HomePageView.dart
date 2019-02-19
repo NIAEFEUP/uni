@@ -37,9 +37,12 @@ class HomePageView extends StatelessWidget {
           ,
           new GenericCard(
             title: "Horário",
-            child: new ScheduleCard(firstLecture: new Lecture(),secondLecture: new Lecture()),
+            child: new ScheduleCard(
+                firstLecture: new Lecture("SOPE", "TE", 1, "14:00", 4, "B303", "JAS"),
+                secondLecture: new Lecture("BDAD", "TP", 1, "17:00", 2, "B204", "PMMS")),
           )
           //Cards go here
+
 
         ],
       );

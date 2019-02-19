@@ -13,47 +13,75 @@ Future<List<Lecture>> scheduleGet(String link) async {
 
   List<Lecture> lecturesList = new List();
   document.querySelectorAll('.horario > tbody > tr').forEach((Element element){
-      if (element.getElementsByClassName('horas').length > 0){
-        var day = 0;
-        List<Element> children = element.children;
-        for (var i = 1; i < children.length; i++){
-          for (var d = day; d < semana.length; d++){
-            if (semana[d] == 0)
-              break;
-            day++;
-          }
-          var clsName = children[i].className;
-          if (clsName == 'TE' || clsName == 'TP' || clsName == 'PL'){
-            Lecture lect = new Lecture();
-            lect.subject = children[i].querySelector('b > acronym > a').text;
-            lect.typeClass = clsName;
-            lect.day = day;
-            lect.blocks = int.parse(children[i].attributes['rowspan']);
-            lect.startTime = children[0].text.substring(0, 5);
-
-            semana[day] += lect.blocks;
-            lecturesList.add(lect);
-          }
+    if (element.getElementsByClassName('horas').length > 0){
+      var day = 0;
+      List<Element> children = element.children;
+      for (var i = 1; i < children.length; i++){
+        for (var d = day; d < semana.length; d++){
+          if (semana[d] == 0)
+            break;
           day++;
         }
-        semana = semana.expand((i) => [(i-1) < 0? 0 : i - 1]).toList();
+        var clsName = children[i].className;
+        if (clsName == 'TE' || clsName == 'TP' || clsName == 'PL'){
+
+          String subject = children[i].querySelector('b > acronym > a').text;
+
+          Element rowSmall = children[i].querySelector('table > tbody > tr');
+          String room = rowSmall.querySelector('td > a').text;
+          String teacher = rowSmall.querySelector('td > acronym > a').text;
+
+          String typeClass = clsName;
+          int blocks  = int.parse(children[i].attributes['rowspan']);
+          String startTime = children[0].text.substring(0, 5);
+
+          semana[day] += blocks;
+
+          Lecture lect = new Lecture(subject, typeClass, day, startTime, blocks, room, teacher);
+          lecturesList.add(lect);
+        }
+        day++;
       }
-    });
-    lecturesList.sort((a, b) => a.compare(b));
-    return lecturesList;
+      semana = semana.expand((i) => [(i-1) < 0? 0 : i - 1]).toList();
+    }
+  });
+  lecturesList.sort((a, b) => a.compare(b));
+
+  return lecturesList;
 }
 
 class Lecture {
   static var dayName = ["Segunda", "Terca", "Quarta", "Quinta", "Sexta", "Sabado"];
   String subject;
   String startTime;
+  String endTime;
   String typeClass;
+  String room;
+  String teacher;
   int day;
   int blocks;
 
+  Lecture(String subject, String typeClass, int day, String startTime, int blocks, String room, String teacher){
+    this.subject = subject;
+    this.typeClass = typeClass;
+    this.room = room;
+    this.teacher = teacher;
+    this.day = day;
+    this.blocks = blocks;
+
+    int hour = int.parse(startTime.substring(0,2));
+    int min = int.parse(startTime.substring(3,5));
+    this.startTime = hour.toString().padLeft(2, '0') + 'h' + min.toString().padLeft(2, '0');
+    min += blocks*30;
+    hour += min~/60;
+    min %= 60;
+    this.endTime = hour.toString().padLeft(2, '0') + 'h' + min.toString().padLeft(2, '0');
+  }
+
   printLecture(){
     print(subject + " " + typeClass);
-    print(dayName[day] + " " + startTime + " " + blocks.toString() + " blocos\n");
+    print(dayName[day] + " " + startTime + " " + endTime + " " + blocks.toString() + " blocos");
+    print(room + "  " + teacher + "\n");
   }
 
   int compare(Lecture other) {

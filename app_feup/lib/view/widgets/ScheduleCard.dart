@@ -15,17 +15,6 @@ class ScheduleCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    firstLecture.subject = 'SOPE';
-    firstLecture.typeClass = 'TE';
-    firstLecture.day = 1;
-    firstLecture.blocks = 4;
-    firstLecture.startTime = "14:00";
-    secondLecture.subject = 'BDAD';
-    secondLecture.typeClass = 'TP';
-    secondLecture.day = 1;
-    secondLecture.blocks = 2;
-    secondLecture.startTime = "17:00";
-
     return new Container(
         child: new Column(
       mainAxisSize: MainAxisSize.max,
@@ -47,7 +36,7 @@ class ScheduleCard extends StatelessWidget {
                         margin: EdgeInsets.only(top: 8.0, bottom: 12.0),
                       ),
                       new Container(
-                        child: Text(firstLecture.startTime,
+                        child: Text(firstLecture.endTime,
                             style: Theme.of(context).textTheme.body2.apply(color: greyTextColor)),
                         margin: EdgeInsets.only(top: 12.0, bottom: 8.0),
                       ),
@@ -78,14 +67,14 @@ class ScheduleCard extends StatelessWidget {
                             new Container(
                               margin: EdgeInsets.only(top: 14.0, bottom: 12.0),
                               child: new Text(
-                                "DCS",
+                                firstLecture.teacher,
                                 style: Theme.of(context).textTheme.body2.apply(color: whiteTextColor),
                               ),
                             ),
                             new Container(
                               margin: EdgeInsets.only(top: 14.0, bottom: 12.0),
                               child: new Text(
-                                "B303",
+                                firstLecture.room,
                                 style: Theme.of(context).textTheme.body2.apply(color: whiteTextColor),
                               ),
                             )
@@ -110,12 +99,12 @@ class ScheduleCard extends StatelessWidget {
                   new Column(
                     children: <Widget>[
                       new Container(
-                        child: Text(firstLecture.startTime,
+                        child: Text(secondLecture.startTime,
                             style: Theme.of(context).textTheme.body2.apply(color: greyTextColor)),
                         margin: EdgeInsets.only(top: 8.0, bottom: 12.0),
                       ),
                       new Container(
-                        child: Text(firstLecture.startTime,
+                        child: Text(secondLecture.endTime,
                             style: Theme.of(context).textTheme.body2.apply(color: greyTextColor)),
                         margin: EdgeInsets.only(top: 12.0, bottom: 8.0),
                       ),
@@ -135,7 +124,7 @@ class ScheduleCard extends StatelessWidget {
                         new Container(
                           margin: EdgeInsets.only(top: 12.0),
                           child: new Text(
-                            firstLecture.subject,
+                            secondLecture.subject,
                             style: Theme.of(context).textTheme.body2.apply(color: whiteTextColor, fontWeightDelta: 2),
                           ),
                         ),
@@ -146,14 +135,14 @@ class ScheduleCard extends StatelessWidget {
                             new Container(
                               margin: EdgeInsets.only(top: 14.0, bottom: 12.0),
                               child: new Text(
-                                "DCS",
+                                secondLecture.teacher,
                                 style: Theme.of(context).textTheme.body2.apply(color: whiteTextColor),
                               ),
                             ),
                             new Container(
                               margin: EdgeInsets.only(top: 14.0, bottom: 12.0),
                               child: new Text(
-                                "B303",
+                                secondLecture.room,
                                 style: Theme.of(context).textTheme.body2.apply(color: whiteTextColor),
                               ),
                             )
