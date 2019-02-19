@@ -1,7 +1,7 @@
 import '../../controller/parsers/parser-exams.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
-
+import 'ScheduleCard.dart';
 class ExamCard extends StatelessWidget{
 
   final Exam firstExam;
@@ -50,17 +50,7 @@ class ExamCard extends StatelessWidget{
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  new Column(
-                    children: <Widget>[
-                      new Container(
-                        child: Text(this.firstExam.begin,style: Theme.of(context).textTheme.body2),
-                        margin: EdgeInsets.only(top: 5.0),
-                      ),new Container(
-                        child: Text(this.firstExam.end,style: Theme.of(context).textTheme.body2),
-                        margin: EdgeInsets.only(top: 24.0),
-                      ),
-                    ],
-                  ),
+                  new ScheduleCard(begin: this.firstExam.begin, end: this.firstExam.end),
                   new ConstrainedBox(
                     constraints: new BoxConstraints(
                         minWidth: 210,
@@ -122,17 +112,7 @@ class ExamCard extends StatelessWidget{
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  new Column(
-                    children: <Widget>[
-                      new Container(
-                        child: Text(this.secondExam.begin,style: Theme.of(context).textTheme.body2),
-                        margin: EdgeInsets.only(top: 5.0),
-                      ),new Container(
-                        child: Text(this.secondExam.end,style: Theme.of(context).textTheme.body2),
-                        margin: EdgeInsets.only(top: 24.0),
-                      ),
-                    ],
-                  ),
+                  new ScheduleCard(begin: this.secondExam.begin, end: this.secondExam.end),
                   new ConstrainedBox(
                     constraints: new BoxConstraints(
                         minWidth: 210,
