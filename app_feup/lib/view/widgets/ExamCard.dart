@@ -21,21 +21,8 @@ class ExamCard extends StatelessWidget{
               child: new Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  this.createDateContainer(context, exams[0]),
-                  new ScheduleRow(
-                      subject: exams[0].subject,
-                      rooms: exams[0].rooms,
-                      begin: exams[0].begin,
-                      end: exams[0].end
-                  ),
-                  this.createDateContainer(context, exams[1]),
-                  new ScheduleRow(
-                      subject: exams[1].subject,
-                      rooms: exams[1].rooms,
-                      begin: exams[1].begin,
-                      end: exams[1].end
-                  )
-
+                  this.createRowFromExam(context, exams[0]),
+                  this.createRowFromExam(context, exams[1]),
                 ],
               )
           );
@@ -44,6 +31,17 @@ class ExamCard extends StatelessWidget{
         }
       },
     );
+  }
+
+  Widget createRowFromExam(context, exam){
+    return new Column(children: [
+      this.createDateContainer(context, exam),
+      new ScheduleRow(
+          subject: exam.subject,
+          rooms: exam.rooms,
+          begin: exam.begin,
+          end: exam.end
+      ),]);
   }
 
   Widget createDateContainer(context, exam){

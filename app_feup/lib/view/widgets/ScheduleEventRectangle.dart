@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-class SubjectCard extends StatelessWidget{
+class ScheduleEventRectangle extends StatelessWidget{
   final String subject;
   final String rooms;
   final double borderRadius = 12.0;
   final double leftPadding = 12.0;
 
-  SubjectCard({Key key,
+  ScheduleEventRectangle({Key key,
     @required this.subject,
     @required this.rooms}) : super(key: key);
 

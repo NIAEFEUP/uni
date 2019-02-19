@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class ScheduleCard extends StatelessWidget{
+class ScheduleTimeInterval extends StatelessWidget{
   final String begin;
   final String end;
-  ScheduleCard({
+  ScheduleTimeInterval({
     Key key,
     @required this.begin,
     @required this.end

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'ScheduleCard.dart';
-import 'SubjectCard.dart';
+import 'ScheduleTimeInterval.dart';
+import 'ScheduleEventRectangle.dart';
 
 
 class ScheduleRow extends StatelessWidget{
@@ -18,7 +18,6 @@ class ScheduleRow extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return new Center(
         child: new Container(
           padding: EdgeInsets.only(left: 12.0),
@@ -27,9 +26,8 @@ class ScheduleRow extends StatelessWidget{
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              new ScheduleCard(begin: this.begin, end: this.end),
-              new SubjectCard(subject: this.subject, rooms: this.rooms)
-
+              new ScheduleTimeInterval(begin: this.begin, end: this.end),
+              new ScheduleEventRectangle(subject: this.subject, rooms: this.rooms)
             ],
           ),
         )
