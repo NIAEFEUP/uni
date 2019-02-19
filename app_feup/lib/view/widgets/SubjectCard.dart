@@ -12,12 +12,11 @@ class SubjectCard extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return new ConstrainedBox(
       constraints: new BoxConstraints(
-          minWidth: 210,
+          minWidth: MediaQuery.of(context).size.width * 0.6,
           minHeight: 30,
-          maxWidth: 300,
+          maxWidth: MediaQuery.of(context).size.width * 0.9,
           maxHeight: 65
       ),
       child: new Container(
