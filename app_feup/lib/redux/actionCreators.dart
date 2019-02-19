@@ -12,3 +12,9 @@ ThunkAction<AppState> login(name, password) {
     store.dispatch(new SaveLoginDataAction(cookies));
   };
 }
+
+ThunkAction<AppState> updateSelectedPage(new_page) {
+  return (Store<AppState> store) async {
+    store.dispatch(new UpdateSelectedPageAction(new_page));
+  };
+}

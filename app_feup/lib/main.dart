@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:app_feup/view/Pages/HomePageView.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'view/Theme.dart';
 import 'model/AppState.dart';
 import 'package:redux/redux.dart';
@@ -17,11 +18,16 @@ class MyApp extends StatelessWidget {
   );
 
   @override
-  Widget build(BuildContext context) {
-    return new MaterialApp(
-      title: 'Flutter Demo',
-      theme: applicationTheme,
-      home: new HomePageView(),
-    );
-  }
+  Widget build(BuildContext context) => StoreProvider(
+    store: this.state,
+    child: MaterialApp(
+      home: new MaterialApp(
+        title: 'Flutter Demo',
+        theme: applicationTheme,
+        home: new HomePageView(),
+      )
+    ),
+  );
+
+
 }
