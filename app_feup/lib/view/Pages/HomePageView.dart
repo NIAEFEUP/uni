@@ -3,7 +3,7 @@ import '../widgets/GenericCard.dart';
 import '../widgets/ExamCard.dart';
 import '../../controller/parsers/parser-exams.dart';
 
-Exam exam = Exam("14:30-16:30", "COMP", "B001", "2019-03-20", "Fuck off", "Sábado");
+Exam exam = Exam("14:30-16:30", "COMP", "B001", "2019-03-20", "Fuck off", "Quarta-feira");
 
 class HomePageView extends StatelessWidget {
   HomePageView({Key key}) : super(key: key);
