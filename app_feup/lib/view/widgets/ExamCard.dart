@@ -1,12 +1,12 @@
 import '../../controller/parsers/parser-exams.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'ScheduleCard.dart';
+import 'ScheduleRow.dart';
+
 class ExamCard extends StatelessWidget{
 
   final Exam firstExam;
   final Exam secondExam;
-  final double borderRadius = 12.0;
   final double leftPadding = 12.0;
 
   ExamCard({
@@ -42,47 +42,11 @@ class ExamCard extends StatelessWidget{
               )
             ),
           ),
-          new Center(
-            child: new Container(
-              padding: EdgeInsets.only(left: 12.0),
-              margin: EdgeInsets.only(top: 5.0),
-              child: new Row(
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  new ScheduleCard(begin: this.firstExam.begin, end: this.firstExam.end),
-                  new ConstrainedBox(
-                    constraints: new BoxConstraints(
-                        minWidth: 210,
-                        minHeight: 30,
-                        maxWidth: 300,
-                        maxHeight: 65
-                    ),
-                    child: new Container(
-                      margin: EdgeInsets.only(left: 24.0, top: 2.0),
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColor,
-                        borderRadius: BorderRadius.all(Radius.circular(this.borderRadius)),
-                      ),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.max,
-                        children: <Widget>[
-                          new Container(
-                            margin: EdgeInsets.only(top: 5.0),
-                            child: new Text(this.firstExam.subject, style: TextStyle(color: Theme.of(context).accentColor),),
-                          ),
-                          new Container(
-                            margin: EdgeInsets.only(top: 13.0),
-                            child: new Text(this.firstExam.rooms, style: TextStyle(color: Theme.of(context).accentColor),),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-
-                ],
-              ),
-             )
+          new ScheduleRow(
+              subject: this.firstExam.subject,
+              rooms: this.firstExam.rooms,
+              begin: this.firstExam.begin,
+              end: this.firstExam.end
           ),
           new Container(
             padding: EdgeInsets.only(left: 12.0),
@@ -104,47 +68,11 @@ class ExamCard extends StatelessWidget{
               )
             ),
           ),
-          new Center(
-            child: new Container(
-              padding: EdgeInsets.only(left: 12.0),
-              margin: EdgeInsets.only(top: 5.0),
-              child: new Row(
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  new ScheduleCard(begin: this.secondExam.begin, end: this.secondExam.end),
-                  new ConstrainedBox(
-                    constraints: new BoxConstraints(
-                        minWidth: 210,
-                        minHeight: 30,
-                        maxWidth: 300,
-                        maxHeight: 65
-                    ),
-                    child: new Container(
-                      margin: EdgeInsets.only(left: 24.0, top: 2.0),
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColor,
-                        borderRadius: BorderRadius.all(Radius.circular(this.borderRadius)),
-                      ),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.max,
-                        children: <Widget>[
-                          new Container(
-                            margin: EdgeInsets.only(top: 5.0),
-                            child: new Text(this.secondExam.subject, style: TextStyle(color: Theme.of(context).accentColor),),
-                          ),
-                          new Container(
-                            margin: EdgeInsets.only(top: 13.0),
-                            child: new Text(this.secondExam.rooms, style: TextStyle(color: Theme.of(context).accentColor),),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-
-                ],
-              ),
-             )
+          new ScheduleRow(
+              subject: this.secondExam.subject,
+              rooms: this.secondExam.rooms,
+              begin: this.secondExam.begin,
+              end: this.secondExam.end
           )
 
         ],
