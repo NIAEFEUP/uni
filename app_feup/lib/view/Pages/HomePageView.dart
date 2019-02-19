@@ -19,7 +19,7 @@ class HomePageView extends StatelessWidget {
 
   Widget createActionButton(BuildContext context){
     return new FloatingActionButton(
-      onPressed: () => getExams(), //Add FAB functionality here
+      onPressed: () => {}, //Add FAB functionality here
       tooltip: 'Increment',
       child: new Icon(Icons.add),
     );

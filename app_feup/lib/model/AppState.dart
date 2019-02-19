@@ -1,10 +1,13 @@
+import '../controller/parsers/parser-exams.dart';
+import '../main.dart';
 class AppState{
 
   Map content;
 
   Map getInitialContent() {
     return {
-      "cookies": ""
+      "cookies": "",
+      "exams": exams
     };
   }
 

@@ -4,9 +4,17 @@ import 'view/Theme.dart';
 import 'model/AppState.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'redux/reducers.dart';
+import 'controller/parsers/parser-exams.dart';
 
-void main() => runApp(new MyApp());
+List<Exam> exams;
+
+void main(){
+  examsGet('https://sigarra.up.pt/feup/pt/exa_geral.mapa_de_exames?p_curso_id=742').then((e) => exams = e);
+  runApp(new MyApp());
+
+}
 
 class MyApp extends StatelessWidget {
 
@@ -17,11 +25,12 @@ class MyApp extends StatelessWidget {
   );
 
   @override
-  Widget build(BuildContext context) {
-    return new MaterialApp(
+  Widget build(BuildContext context) => StoreProvider(
+    store: this.state,
+    child: MaterialApp(
       title: 'Flutter Demo',
       theme: applicationTheme,
       home: new HomePageView(),
+      )
     );
   }
-}

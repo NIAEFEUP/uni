@@ -1,7 +1,9 @@
 import '../../controller/parsers/parser-exams.dart';
-import 'dart:async';
+import '../../model/AppState.dart';
 import 'package:flutter/material.dart';
 import 'ScheduleRow.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+
 
 class ExamCard extends StatelessWidget{
 
@@ -22,66 +24,51 @@ class ExamCard extends StatelessWidget{
   }
   @override
   Widget build(BuildContext context) {
-    return new Container(
-      child: new Column(
-        mainAxisSize:  MainAxisSize.min,
-        children: <Widget>[
-          new Container(
-            padding: EdgeInsets.only(left: this.leftPadding),
-            child: Text(
-                (" " + this.firstExam.weekDay + ", " + this.firstExam.day + " de " + this.firstExam.month),
-                style: Theme.of(context).textTheme.subtitle),
-            alignment: Alignment.center,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                  color: Theme.of(context).accentColor,
-                  width: 0.5
-                )
-              )
-            ),
-          ),
-          new ScheduleRow(
-              subject: this.firstExam.subject,
-              rooms: this.firstExam.rooms,
-              begin: this.firstExam.begin,
-              end: this.firstExam.end
-          ),
-          new Container(
-            padding: EdgeInsets.only(left: 12.0),
-            child: Text(
-                (" " + this.secondExam.weekDay + ", " + this.secondExam.day + " de " + this.secondExam.month),
-                style: Theme.of(context).textTheme.subtitle),
-            alignment: Alignment.center,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                  color: Theme.of(context).accentColor,
-                  width: 0.5
+    return StoreConnector<AppState, List<Exam>>(
+      converter: (store) => store.state.content['exams'],
+      builder: (context, exams){
+        return Container(
+            child: new Column(
+              mainAxisSize:  MainAxisSize.min,
+              children: <Widget>[
+                this.createDateContainer(context, exams[0]),
+                new ScheduleRow(
+                    subject: exams[0].subject,
+                    rooms: exams[0].rooms,
+                    begin: exams[0].begin,
+                    end: exams[0].end
                 ),
-                top: BorderSide(
-                  color: Theme.of(context).accentColor,
-                  width: 0.5
+                this.createDateContainer(context, exams[1]),
+                new ScheduleRow(
+                    subject: exams[1].subject,
+                    rooms: exams[1].rooms,
+                    begin: exams[1].begin,
+                    end: exams[1].end
                 )
-              )
-            ),
-          ),
-          new ScheduleRow(
-              subject: this.secondExam.subject,
-              rooms: this.secondExam.rooms,
-              begin: this.secondExam.begin,
-              end: this.secondExam.end
-          )
 
-        ],
-      )
+              ],
+            )
+        );
+      },
     );
   }
-}
-Future<void> getExams() async{
-  List<Exam> meias = await examsGet("https://sigarra.up.pt/feup/pt/exa_geral.mapa_de_exames?p_curso_id=742");
-  meias[0].printExam();
 
+  Widget createDateContainer(context, exam){
+    return new Container(
+            padding: EdgeInsets.only(left: this.leftPadding),
+            child: Text(
+                (" " + exam.weekDay + ", " + exam.day + " de " + exam.month),
+                style: Theme.of(context).textTheme.subtitle),
+            alignment: Alignment.center,
+            width: double.infinity,
+            decoration: BoxDecoration(
+                border: Border(
+                    bottom: BorderSide(
+                        color: Theme.of(context).accentColor,
+                        width: 0.5
+                    )
+                )
+            ),
+          );
+  }
 }
