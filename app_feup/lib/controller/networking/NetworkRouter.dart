@@ -6,8 +6,8 @@ import 'package:http/http.dart' as http;
 import 'package:query_params/query_params.dart';
 
 class NetworkRouter {
-  static Future<Map<String, dynamic>> login(String user, String pass, bool persistentSession) async {
-    final String url = 'https://sigarra.up.pt/feup/pt/mob_val_geral.autentica';
+  static Future<Map<String, dynamic>> login(String user, String pass, String faculty, bool persistentSession) async {
+    final String url = NetworkRouter.getBaseUrl(faculty) + 'mob_val_geral.autentica';
     final Map<String, dynamic> res = Map<String, dynamic>();
     final http.Response response = await http.post(url, body: {"pv_login": user, "pv_password": pass});
     if (response.statusCode == 200) {
@@ -15,6 +15,7 @@ class NetworkRouter {
       if (responseBody['authenticated']) {
         res['authenticated'] = true;
         res['studentNumber'] = responseBody['codigo'];
+        res['faculty'] = faculty;
         res['persistentSession'] = persistentSession;
         if (persistentSession) res['password'] = pass;
         res['type'] = responseBody['tipo'];
@@ -41,8 +42,9 @@ class NetworkRouter {
   } 
 
   static Future<String> getProfile(Map<String, dynamic> session) async {
+    final url = NetworkRouter.getBaseUrlFromSession(session) + 'mob_fest_geral.perfil?';
     final response = await getWithCookies(
-        'https://sigarra.up.pt/feup/pt/mob_fest_geral.perfil?',
+        url,
         {"pv_codigo": session['studentNumber']},
         session['cookies']);
     if (response.statusCode == 200) {
@@ -64,5 +66,13 @@ class NetworkRouter {
     headers['cookie'] = cookies;
 
     return http.get(url, headers: headers);
+  }
+
+  static String getBaseUrl(String faculty) {
+    return 'https://sigarra.up.pt/$faculty/pt/';
+  }
+
+  static String getBaseUrlFromSession(Map<String, dynamic> session) {
+    return NetworkRouter.getBaseUrl(session['faculty']);
   }
 }

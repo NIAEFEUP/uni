@@ -22,6 +22,8 @@ class _LoginPageState extends State<LoginPage> {
 
   GlobalKey<FormState> _formKey;
 
+  String faculty = 'feup';
+
   @override
   void initState() {
     super.initState();
@@ -70,7 +72,7 @@ class _LoginPageState extends State<LoginPage> {
     if (_formKey.currentState.validate()) {
       final user = usernameController.text;
       final pass = passwordController.text;
-      store.dispatch(login(user, pass, _keepSignedIn));
+      store.dispatch(login(user, pass, faculty, _keepSignedIn));
     }
   }
 }

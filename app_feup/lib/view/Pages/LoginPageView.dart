@@ -81,7 +81,7 @@ class LoginPageView extends StatelessWidget {
   Widget createUsernameInput(BuildContext context) {
     return TextFormField(
       style: new TextStyle(color: Colors.white),
-      keyboardType: TextInputType.number,
+      keyboardType: TextInputType.text,
       autofocus: false,
       controller: usernameController,
       focusNode: usernameFocus,
