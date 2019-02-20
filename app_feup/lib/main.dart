@@ -4,7 +4,11 @@ import 'view/Theme.dart';
 import 'model/AppState.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'redux/reducers.dart';
+import 'controller/parsers/parser-exams.dart';
+
+List<Exam> exams;
 
 void main() => runApp(new MyApp());
 
@@ -17,11 +21,12 @@ class MyApp extends StatelessWidget {
   );
 
   @override
-  Widget build(BuildContext context) {
-    return new MaterialApp(
+  Widget build(BuildContext context) => StoreProvider(
+    store: this.state,
+    child: MaterialApp(
       title: 'Flutter Demo',
       theme: applicationTheme,
-      home: new HomePageView(),
+      home: new HomePageView(store: this.state),
+      )
     );
   }
-}

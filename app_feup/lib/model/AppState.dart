@@ -4,7 +4,9 @@ class AppState{
 
   Map getInitialContent() {
     return {
-      "cookies": ""
+      "cookies": "",
+      "exams": [],
+      "lectures": []
     };
   }
 
