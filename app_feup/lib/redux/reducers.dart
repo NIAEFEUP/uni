@@ -5,8 +5,8 @@ AppState appReducers(AppState state, dynamic action) {
   if (action is SaveLoginDataAction) {
     return login(state, action);
   }
-  if (action is SetLoginMessageAction) {
-    return setLoginMessage(state, action);
+  if (action is SetLoginStatusAction) {
+    return setLoginStatus(state, action);
   }
   return state;
 }
@@ -16,7 +16,7 @@ AppState login(AppState state, SaveLoginDataAction action) {
   return state.cloneAndUpdateValue('session', action.session);
 }
 
-AppState setLoginMessage(AppState state, SetLoginMessageAction action) {
-  print('setting login message: ' + action.loginMessage);
-  return state.cloneAndUpdateValue('loginMessage', action.loginMessage);
+AppState setLoginStatus(AppState state, SetLoginStatusAction action) {
+  print('setting login status: ' + action.status.toString());
+  return state.cloneAndUpdateValue('loginStatus', action.status);
 }

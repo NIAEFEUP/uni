@@ -1,4 +1,6 @@
 import 'package:app_feup/model/AppState.dart';
+import 'package:app_feup/model/LoginPageModel.dart';
+import 'package:app_feup/view/Pages/HomePageView.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import '../../view/Theme.dart';
@@ -31,52 +33,57 @@ class LoginPageView extends StatelessWidget {
   Widget build(BuildContext context) {
     queryData = MediaQuery.of(context);
     return Scaffold(
-      backgroundColor: primaryColor,
-      resizeToAvoidBottomPadding: false,
-      body: Center(
-        child: Padding(
-          padding: EdgeInsets.only(left: queryData.size.width/8, right: queryData.size.width/8, top: queryData.size.height/6, bottom: queryData.size.height/6),
-          child: Flex(
-              direction: Axis.vertical,
-              children: <Widget>[
-                createTitle(),
-                Spacer(),
-                Form(
-                  key: this.formKey,
-                  child: Column(children: [
-                    createUsernameInput(context),
-                    Padding(padding: EdgeInsets.only(bottom: queryData.size.height/35)),
-                    createPasswordInput(),
-                  ]),
-                ),
-                Padding(padding: EdgeInsets.only(bottom: queryData.size.height/35)),
-                createSaveDataCheckBox(),
-                Spacer(),
-                createLogInButton(),
-                Spacer(),
-                createNoteLabel()
-              ],
-        )),
-      )
-    );
+        backgroundColor: primaryColor,
+        resizeToAvoidBottomPadding: false,
+        body: Center(
+          child: Padding(
+              padding: EdgeInsets.only(
+                  left: queryData.size.width / 8,
+                  right: queryData.size.width / 8,
+                  top: queryData.size.height / 6,
+                  bottom: queryData.size.height / 6),
+              child: Flex(
+                direction: Axis.vertical,
+                children: <Widget>[
+                  createTitle(),
+                  Spacer(),
+                  Form(
+                    key: this.formKey,
+                    child: Column(children: [
+                      createUsernameInput(context),
+                      Padding(
+                          padding: EdgeInsets.only(
+                              bottom: queryData.size.height / 35)),
+                      createPasswordInput(),
+                    ]),
+                  ),
+                  Padding(
+                      padding:
+                          EdgeInsets.only(bottom: queryData.size.height / 35)),
+                  createSaveDataCheckBox(),
+                  Spacer(),
+                  createLogInButton(),
+                  Spacer(),
+                  createStatusWidget(context)
+                ],
+              )),
+        ));
   }
 
   Widget createTitle() {
     return new ConstrainedBox(
-      constraints: new BoxConstraints(
-        minWidth: queryData.size.width/8,
-        minHeight: queryData.size.height/6,
-      ),
-      child: FittedBox(
-        child: Text(
-          "APP\nFEUP",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: Colors.white, fontWeight: FontWeight.w400),
+        constraints: new BoxConstraints(
+          minWidth: queryData.size.width / 8,
+          minHeight: queryData.size.height / 6,
         ),
-        fit: BoxFit.fill
-      )
-    );
+        child: FittedBox(
+            child: Text(
+              "APP\nFEUP",
+              textAlign: TextAlign.center,
+              style:
+                  TextStyle(color: Colors.white, fontWeight: FontWeight.w400),
+            ),
+            fit: BoxFit.fill));
   }
 
   Widget createUsernameInput(BuildContext context) {
@@ -93,8 +100,7 @@ class LoginPageView extends StatelessWidget {
       textInputAction: TextInputAction.next,
       textAlign: TextAlign.center,
       decoration: textFieldDecoration('número de estudante'),
-      validator: (String value) =>
-          value.isEmpty ? 'Preencha este campo' : null,
+      validator: (String value) => value.isEmpty ? 'Preencha este campo' : null,
     );
   }
 
@@ -133,8 +139,8 @@ class LoginPageView extends StatelessWidget {
 
   Widget createLogInButton() {
     return new SizedBox(
-      width: queryData.size.width/2.5,
-      height: queryData.size.height/16,
+      width: queryData.size.width / 2.5,
+      height: queryData.size.height / 16,
       child: RaisedButton(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(25),
@@ -150,13 +156,29 @@ class LoginPageView extends StatelessWidget {
   }
 
   Widget createNoteLabel() {
-    return StoreConnector<AppState, String>(
-        converter: (store) => store.state.content['loginMessage'],
-        builder: (context, message) {
-          return Text(
-            message ?? '',
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w100, fontSize: 14),
-          );
+    return Text(
+      'O login falhou',
+      style: TextStyle(
+          color: Colors.white, fontWeight: FontWeight.w100, fontSize: 14),
+    );
+  }
+
+  Widget createStatusWidget(BuildContext context) {
+    return StoreConnector<AppState, LoginStatus>(
+        converter: (store) => store.state.content['loginStatus'],
+        onWillChange: (status) {
+          if (status ==LoginStatus.SUCCESSFUL)
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (__) => HomePageView()));
+        },
+        builder: (context, status) {
+          switch (status) {
+            case LoginStatus.BUSY:
+              return CircularProgressIndicator();
+            case LoginStatus.FAILED:
+              return createNoteLabel();
+            default:
+              return Container();
+          }
         });
   }
 
@@ -164,7 +186,7 @@ class LoginPageView extends StatelessWidget {
     return InputDecoration(
         errorStyle: TextStyle(
           color: Colors.white70,
-          ),
+        ),
         hintText: placeholder,
         contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
         border: new UnderlineInputBorder(),

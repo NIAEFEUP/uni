@@ -1,9 +1,11 @@
+import 'package:app_feup/model/LoginPageModel.dart';
+
 class SaveLoginDataAction {
   Map<String, dynamic> session;
   SaveLoginDataAction(this.session);
 }
 
-class SetLoginMessageAction {
-  String loginMessage;
-  SetLoginMessageAction(this.loginMessage);
+class SetLoginStatusAction {
+  LoginStatus status;
+  SetLoginStatusAction(this.status);
 }

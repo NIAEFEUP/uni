@@ -6,10 +6,13 @@ import 'package:http/http.dart' as http;
 import 'package:query_params/query_params.dart';
 
 class NetworkRouter {
-  static Future<Map<String, dynamic>> login(String user, String pass, String faculty, bool persistentSession) async {
-    final String url = NetworkRouter.getBaseUrl(faculty) + 'mob_val_geral.autentica';
+  static Future<Map<String, dynamic>> login(
+      String user, String pass, String faculty, bool persistentSession) async {
+    final String url =
+        NetworkRouter.getBaseUrl(faculty) + 'mob_val_geral.autentica';
     final Map<String, dynamic> res = Map<String, dynamic>();
-    final http.Response response = await http.post(url, body: {"pv_login": user, "pv_password": pass});
+    final http.Response response =
+        await http.post(url, body: {"pv_login": user, "pv_password": pass});
     if (response.statusCode == 200) {
       final responseBody = json.decode(response.body);
       if (responseBody['authenticated']) {
@@ -39,18 +42,19 @@ class NetworkRouter {
       }
     }
     return cookieList.join(';');
-  } 
+  }
 
-  static Future<String> getProfile(Map<String, dynamic> session) async {
-    final url = NetworkRouter.getBaseUrlFromSession(session) + 'mob_fest_geral.perfil?';
+  static Future<Map<String, dynamic>> getProfile(
+      Map<String, dynamic> session) async {
+    Map<String, dynamic> profile = Map<String, dynamic>();
+    final url =
+        NetworkRouter.getBaseUrlFromSession(session) + 'mob_fest_geral.perfil?';
     final response = await getWithCookies(
-        url,
-        {"pv_codigo": session['studentNumber']},
-        session['cookies']);
+        url, {"pv_codigo": session['studentNumber']}, session['cookies']);
     if (response.statusCode == 200) {
-      final responseBody = json.decode(response.body);
-      return responseBody['nome'];
+      profile = json.decode(response.body);
     }
+    return profile;
   }
 
   static Future<http.Response> getWithCookies(

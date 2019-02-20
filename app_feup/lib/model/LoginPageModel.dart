@@ -13,7 +13,12 @@ class LoginPage extends StatefulWidget {
   LoginPage({Key key}) : super(key: key);
 }
 
+enum LoginStatus {
+  NONE, BUSY, FAILED, SUCCESSFUL    
+}
+
 class _LoginPageState extends State<LoginPage> {
+
   FocusNode usernameFocus;
   FocusNode passwordFocus;
 
@@ -22,7 +27,7 @@ class _LoginPageState extends State<LoginPage> {
 
   GlobalKey<FormState> _formKey;
 
-  String faculty = 'feup';
+  final String faculty = 'feup';
 
   @override
   void initState() {
@@ -69,7 +74,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _login(Store<AppState> store) {
-    if (_formKey.currentState.validate()) {
+    if (store.state.content['loginStatus'] != LoginStatus.BUSY && _formKey.currentState.validate()) {
       final user = usernameController.text;
       final pass = passwordController.text;
       store.dispatch(login(user, pass, faculty, _keepSignedIn));
