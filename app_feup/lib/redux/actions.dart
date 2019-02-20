@@ -9,3 +9,8 @@ class SetExamsAction{
   List<Exam> exams;
   SetExamsAction(this.exams);
 }
+
+class UpdateSelectedPageAction {
+    String selected_page;
+    UpdateSelectedPageAction(this.selected_page);
+}

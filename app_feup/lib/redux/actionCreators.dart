@@ -23,3 +23,9 @@ ThunkAction<AppState> getUserExams() {
     store.dispatch(new SetExamsAction(exams));
   };
 }
+
+ThunkAction<AppState> updateSelectedPage(new_page) {
+  return (Store<AppState> store) async {
+    store.dispatch(new UpdateSelectedPageAction(new_page));
+  };
+}

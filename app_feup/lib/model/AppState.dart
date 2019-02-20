@@ -5,10 +5,10 @@ class AppState{
   Map getInitialContent() {
     return {
       "cookies": "",
-      "exams": []
+      "exams": [],
+      "selected_page": "Área Pessoal",
     };
   }
-
 
   AppState(Map content) {
     if (content != null) {

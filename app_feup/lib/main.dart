@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:app_feup/view/Pages/HomePageView.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'view/Theme.dart';
 import 'model/AppState.dart';
 import 'package:redux/redux.dart';
@@ -29,4 +30,4 @@ class MyApp extends StatelessWidget {
       home: new HomePageView(store: this.state),
       )
     );
-  }
+}
