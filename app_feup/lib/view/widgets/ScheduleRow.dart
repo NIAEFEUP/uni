@@ -20,7 +20,7 @@ class ScheduleRow extends StatelessWidget{
   Widget build(BuildContext context) {
     return new Center(
         child: new Container(
-          padding: EdgeInsets.only(left: 12.0),
+          padding: EdgeInsets.only(left: 12.0, bottom: 10.0),
           margin: EdgeInsets.only(top: 5.0),
           child: new Row(
             mainAxisSize: MainAxisSize.max,

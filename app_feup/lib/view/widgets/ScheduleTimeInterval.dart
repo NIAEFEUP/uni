@@ -1,3 +1,4 @@
+import 'package:app_feup/view/Theme.dart';
 import 'package:flutter/material.dart';
 
 class ScheduleTimeInterval extends StatelessWidget{
@@ -14,11 +15,11 @@ class ScheduleTimeInterval extends StatelessWidget{
     return  new Column(
       children: <Widget>[
         new Container(
-          child: Text(this.begin,style: Theme.of(context).textTheme.body2),
-          margin: EdgeInsets.only(top: 5.0),
+          child: Text(this.begin,style: Theme.of(context).textTheme.display1.apply(color: greyTextColor)),
+          margin: EdgeInsets.only(top: 8.0),
         ),new Container(
-          child: Text(this.end,style: Theme.of(context).textTheme.body2),
-          margin: EdgeInsets.only(top: 24.0),
+          child: Text(this.end,style: Theme.of(context).textTheme.display1.apply(color: greyTextColor)),
+          margin: EdgeInsets.only(top: 22.0, bottom: 8.0),
         ),
       ],
     );

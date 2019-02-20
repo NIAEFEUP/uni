@@ -7,7 +7,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 
 class ExamCard extends StatelessWidget{
 
-  final double leftPadding = 12.0;
+  final double padding = 12.0;
 
   ExamCard({Key key}) : super(key: key);
 
@@ -46,7 +46,7 @@ class ExamCard extends StatelessWidget{
 
   Widget createDateContainer(context, exam){
     return new Container(
-            padding: EdgeInsets.only(left: this.leftPadding),
+            padding: EdgeInsets.only(left: this.padding, right: this.padding),
             child: Text(
                 (" " + exam.weekDay + ", " + exam.day + " de " + exam.month),
                 style: Theme.of(context).textTheme.subtitle),
@@ -57,7 +57,11 @@ class ExamCard extends StatelessWidget{
                     bottom: BorderSide(
                         color: Theme.of(context).accentColor,
                         width: 0.5
-                    )
+                    ),
+                    top: BorderSide(
+                        color: Theme.of(context).accentColor,
+                        width: 0.5
+                    ),
                 )
             ),
           );
