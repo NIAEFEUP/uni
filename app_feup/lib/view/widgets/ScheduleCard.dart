@@ -20,20 +20,23 @@ class ScheduleCard extends StatelessWidget {
             return Container(
                 child: new Column(
                   mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    this.createRowFromLecture(context, lectures[0]),
-                    this.createRowFromLecture(context, lectures[1])
-                  ],
+                  children: this.getScheduleRows(context, lectures),
                 )
             );
           } else {
-            return Center(child: Text("No exams to show at the moment"));
+            return Center(child: Text("No lectures or classes to show at the moment"));
           }
         }
     );
   }
 
-
+  List<Widget> getScheduleRows(context, lectures){
+    List<Widget> rows = new List<Widget>();
+    for(int i = 0; i < 2 && i < lectures.length; i++){
+      rows.add(this.createRowFromLecture(context, lectures[i]));
+    }
+    return rows;
+  }
 
   Widget createRowFromLecture(context, lecture){
     return new ScheduleRow(
