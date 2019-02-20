@@ -1,3 +1,4 @@
+import 'package:app_feup/controller/parsers/parser-exams.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import '../model/AppState.dart';
 import 'actions.dart';
@@ -10,6 +11,16 @@ ThunkAction<AppState> login(name, password) {
     String cookies = name + password;
 
     store.dispatch(new SaveLoginDataAction(cookies));
+  };
+}
+
+ThunkAction<AppState> getUserExams() {
+  return (Store<AppState> store) async {
+    //need to get student course here
+
+    List<Exam> exams = await examsGet("https://sigarra.up.pt/feup/pt/exa_geral.mapa_de_exames?p_curso_id=742");
+
+    store.dispatch(new SetExamsAction(exams));
   };
 }
 

@@ -5,6 +5,9 @@ AppState appReducers(AppState state, dynamic action) {
   if (action is SaveLoginDataAction) {
     return login(state, action);
   }
+  else if (action is SetExamsAction){
+    return setExams(state, action);
+  }
   else if(action is UpdateSelectedPageAction) {
     return updateSelectedPage(state, action);
   }
@@ -19,4 +22,8 @@ AppState updateSelectedPage(AppState state, UpdateSelectedPageAction action) {
 AppState login(AppState state, SaveLoginDataAction action) {
   print('setting state: ' + action.cookies);
   return state.cloneAndUpdateValue("cookies", action.cookies);
+}
+
+AppState setExams(AppState state, SetExamsAction action) {
+  return state.cloneAndUpdateValue("exams", action.exams);
 }
