@@ -1,3 +1,4 @@
+import 'package:app_feup/controller/loadinfo.dart';
 import 'package:app_feup/controller/parsers/parser-exams.dart';
 import 'package:app_feup/controller/parsers/parser-schedule.dart';
 import 'package:redux_thunk/redux_thunk.dart';
@@ -15,7 +16,7 @@ ThunkAction<AppState> login(username, password, faculty, persistentSession) {
       print(session);
       store.dispatch(new SaveLoginDataAction(session));
       if (session['authenticated']){
-        store.dispatch(getUserExams());
+        loadUserInfoToState(store);
         store.dispatch(new SetLoginStatusAction(LoginStatus.SUCCESSFUL));
       } else {
         store.dispatch(new SetLoginStatusAction(LoginStatus.FAILED));
@@ -51,7 +52,7 @@ ThunkAction<AppState> getUserSchedule() {
   return (Store<AppState> store) async {
     //need to get student schedule here
 
-//    List<Lecture> lectures = await scheduleGet("");    TODO Later when login works
+    //List<Lecture> lectures = await scheduleGet(await NetworkRouter.getWithCookies("https://sigarra.up.pt/feup/pt/hor_geral.estudantes_view?pv_fest_id=1000108&pv_ano_lectivo=2018&pv_periodos=1", {}, store.state.content['session']['cookies']));
 
     List<Lecture> lectures = new List();
 

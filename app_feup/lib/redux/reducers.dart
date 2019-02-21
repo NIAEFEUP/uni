@@ -40,5 +40,6 @@ AppState setExams(AppState state, SetExamsAction action) {
 }
 
 AppState setSchedule(AppState state, SetScheduleAction action) {
+  print('setting schedule: ' + action.lectures.length.toString());
   return state.cloneAndUpdateValue("schedule", action.lectures);
 }

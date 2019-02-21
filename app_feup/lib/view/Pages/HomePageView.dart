@@ -1,7 +1,5 @@
-import 'package:app_feup/controller/parsers/parser-schedule.dart';
 import 'package:app_feup/view/widgets/GenericCard.dart';
 import 'package:app_feup/view/widgets/ScheduleCard.dart';
-import 'package:app_feup/controller/homePage.dart';
 import 'package:flutter/material.dart';
 import '../widgets/GenericCard.dart';
 import '../widgets/ExamCard.dart';

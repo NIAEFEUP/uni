@@ -4,10 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' show parse;
 import 'package:html/dom.dart';
 
-Future<List<Lecture>> scheduleGet(String link) async {
-
-  var response = await http.get(
-      link);
+Future<List<Lecture>> scheduleGet(http.Response response) async {
 
   var document = parse(response.body);
 

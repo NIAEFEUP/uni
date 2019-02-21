@@ -4,7 +4,7 @@ class AppState {
 
   Map getInitialContent() {
     return {
-      "lectures": [],
+      "schedule": [],
       "exams": [],
       "selected_page": "Área Pessoal",
     };
