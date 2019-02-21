@@ -52,7 +52,8 @@ ThunkAction<AppState> getUserSchedule() {
   return (Store<AppState> store) async {
     //need to get student schedule here
 
-    //List<Lecture> lectures = await scheduleGet(await NetworkRouter.getWithCookies("https://sigarra.up.pt/feup/pt/hor_geral.estudantes_view?pv_fest_id=1000108&pv_ano_lectivo=2018&pv_periodos=1", {}, store.state.content['session']['cookies']));
+    //TODO when login is done, uncomment and replace pv_fest_id with user's and pv_ano_letivo with current school year
+    // List<Lecture> lectures = await scheduleGet(await NetworkRouter.getWithCookies("https://sigarra.up.pt/feup/pt/hor_geral.estudantes_view?pv_fest_id=1000108&pv_ano_lectivo=2018&pv_periodos=1", {}, store.state.content['session']['cookies']));
 
     List<Lecture> lectures = new List();
 

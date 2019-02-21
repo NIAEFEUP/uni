@@ -28,7 +28,7 @@ Future<List<Lecture>> scheduleGet(http.Response response) async {
 
           Element rowSmall = children[i].querySelector('table > tbody > tr');
           String room = rowSmall.querySelector('td > a').text;
-          String teacher = rowSmall.querySelector('td > acronym > a').text;
+          String teacher = rowSmall.querySelector('td.textod a').text;
 
           String typeClass = clsName;
           int blocks  = int.parse(children[i].attributes['rowspan']);
