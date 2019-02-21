@@ -11,6 +11,7 @@ class SetLoginStatusAction {
   LoginStatus status;
   SetLoginStatusAction(this.status);
 }
+
 class SetExamsAction{
   List<Exam> exams;
   SetExamsAction(this.exams);

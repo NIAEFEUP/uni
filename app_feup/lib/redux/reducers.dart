@@ -11,6 +11,12 @@ AppState appReducers(AppState state, dynamic action) {
   } else if(action is UpdateSelectedPageAction) {
     return updateSelectedPage(state, action);
   }
+  else if (action is SetExamsAction){
+    return setExams(state, action);
+  }
+  else if(action is UpdateSelectedPageAction) {
+    return updateSelectedPage(state, action);
+  }
   return state;
 }
 

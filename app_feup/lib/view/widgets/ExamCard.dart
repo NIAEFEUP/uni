@@ -1,3 +1,4 @@
+import '../../controller/parsers/parser-exams.dart';
 import '../../model/AppState.dart';
 import 'package:flutter/material.dart';
 import 'ScheduleRow.dart';

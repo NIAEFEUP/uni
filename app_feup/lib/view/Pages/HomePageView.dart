@@ -1,3 +1,4 @@
+import 'package:app_feup/controller/homePage.dart';
 import 'package:flutter/material.dart';
 import '../widgets/GenericCard.dart';
 import '../widgets/ExamCard.dart';
