@@ -167,7 +167,7 @@ class LoginPageView extends StatelessWidget {
     return StoreConnector<AppState, LoginStatus>(
         converter: (store) => store.state.content['loginStatus'],
         onWillChange: (status) {
-          if (status ==LoginStatus.SUCCESSFUL)
+          if (status == LoginStatus.SUCCESSFUL)
             Navigator.pushReplacement(context, MaterialPageRoute(builder: (__) => HomePageView()));
         },
         builder: (context, status) {

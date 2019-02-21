@@ -1,12 +1,21 @@
+import 'package:app_feup/controller/homePage.dart';
 import 'package:flutter/material.dart';
+import '../widgets/GenericCard.dart';
+import '../widgets/ExamCard.dart';
+
+
+import '../widgets/NavigationDrawer.dart';
 
 class HomePageView extends StatelessWidget {
-  HomePageView({Key key}) : super(key: key);
+  HomePageView({Key key}) : super(key: key) {
+        //loadUserInfoToState(store);
+  }
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(title: new Text("App FEUP")),
+      drawer: new NavigationDrawer(),
       body: createScrollableCardView(context),
       floatingActionButton: createActionButton(context),
     );
@@ -15,7 +24,7 @@ class HomePageView extends StatelessWidget {
   Widget createActionButton(BuildContext context){
     return new FloatingActionButton(
       onPressed: () => {}, //Add FAB functionality here
-      tooltip: 'Increment',
+      tooltip: 'Add widget',
       child: new Icon(Icons.add),
     );
   }
@@ -26,14 +35,13 @@ class HomePageView extends StatelessWidget {
         shrinkWrap: false,
         padding: const EdgeInsets.all(20.0),
         children: <Widget>[
-          new Text(
-            'Favorites:',
-            style: Theme.of(context).textTheme.title,
-          ),
+          new GenericCard(
+            title: "Exames"
+            , child: new ExamCard()
 
           //Cards go here
 
-        ],
+          )],
       );
   }
 }
