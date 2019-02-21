@@ -260,16 +260,15 @@ class ProfilePageView extends StatelessWidget {
         onPressed: () => {print("logout")},
         color: primaryColor,
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Spacer(),
             Text('Terminar Sessão',
               style: TextStyle(
                 color: Colors.white, fontWeight: FontWeight.w300, fontSize: 20),
               textAlign: TextAlign.center
             ),
-            Spacer(),
+            Padding(padding: EdgeInsets.all(8.0)),
             Icon(IconData(0xe879, fontFamily: 'MaterialIcons'), color: Colors.white, size: 30),
-            Spacer(),
           ],
         )
       ),
