@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import '../widgets/GenericCard.dart';
 import '../widgets/ExamCard.dart';
 
+import 'ProfilePageView.dart';
+
 
 import '../widgets/NavigationDrawer.dart';
 
@@ -23,7 +25,7 @@ class HomePageView extends StatelessWidget {
 
   Widget createActionButton(BuildContext context){
     return new FloatingActionButton(
-      onPressed: () => {}, //Add FAB functionality here
+      onPressed: () => {Navigator.pushReplacement(context,new MaterialPageRoute(builder: (__) => new ProfilePageView()))}, //Add FAB functionality here
       tooltip: 'Add widget',
       child: new Icon(Icons.add),
     );

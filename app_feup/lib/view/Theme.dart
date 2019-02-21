@@ -7,6 +7,7 @@ const Color accentColor = Color.fromARGB(255, 235, 235, 235);
 const Color greyTextColor = Color.fromARGB(255, 0x46, 0x46, 0x46);
 const Color whiteTextColor = Color.fromARGB(255, 255, 255, 255);
 const Color bodyTitle = Color.fromARGB(255, 131, 131, 131);
+const Color greyBorder = Color.fromARGB(64, 0x46, 0x46, 0x46);
 
 
 ThemeData applicationTheme = new ThemeData(

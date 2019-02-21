@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../view/Theme.dart';
 
 class GenericCard extends StatelessWidget {
   GenericCard({Key key,
@@ -19,7 +20,7 @@ class GenericCard extends StatelessWidget {
         child: new Container(
             decoration: BoxDecoration(
                 color: Theme.of(context).accentColor,
-                border: Border.all(width: 0.5, color: Color.fromARGB(64, 0x46, 0x46, 0x46)),
+                border: Border.all(width: 0.5, color: greyBorder),
                 borderRadius: BorderRadius.all(Radius.circular(this.borderRadius))),
             child:
             new Column(
@@ -27,10 +28,9 @@ class GenericCard extends StatelessWidget {
               children: <Widget>[
                 new Container(
                   child: Text(title,
-                      style: Theme.of(context).textTheme.title),
-                  height: 26,
+                      style: TextStyle(fontWeight: FontWeight.w500)),
                   alignment: Alignment.centerLeft,
-                  padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                  padding: EdgeInsets.fromLTRB(20, 4, 0, 4),
                 ),
                 new ConstrainedBox(
                   constraints: new BoxConstraints(
