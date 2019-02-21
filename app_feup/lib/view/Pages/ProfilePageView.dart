@@ -11,7 +11,7 @@ class ProfilePageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: new AppBar(title: new Text("App FEUP")),
+      appBar: new AppBar(title: new Text("Perfil", textAlign: TextAlign.start)),
       drawer: new NavigationDrawer(),
       body: createScrollableProfileView(context)
     );
