@@ -1,8 +1,15 @@
+import 'package:app_feup/model/LoginPageModel.dart';
+
 import 'package:app_feup/controller/parsers/parser-exams.dart';
 
 class SaveLoginDataAction {
-  String cookies;
-  SaveLoginDataAction(this.cookies);
+  Map<String, dynamic> session;
+  SaveLoginDataAction(this.session);
+}
+
+class SetLoginStatusAction {
+  LoginStatus status;
+  SetLoginStatusAction(this.status);
 }
 
 class SetExamsAction{

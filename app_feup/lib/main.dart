@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:app_feup/view/Pages/HomePageView.dart';
+import 'package:app_feup/view/Pages/SplashPageView.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'view/Theme.dart';
 import 'model/AppState.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 import 'redux/reducers.dart';
 import 'controller/parsers/parser-exams.dart';
 
@@ -25,9 +24,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) => StoreProvider(
     store: this.state,
     child: MaterialApp(
-      title: 'Flutter Demo',
-      theme: applicationTheme,
-      home: new HomePageView(store: this.state),
+      home: new MaterialApp(
+        title: 'Flutter Demo',
+        theme: applicationTheme,
+        home: SplashScreen(),
       )
-    );
+    ),
+  );
 }
