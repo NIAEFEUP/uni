@@ -51,19 +51,3 @@ ThunkAction<AppState> updateSelectedPage(new_page) {
     store.dispatch(new UpdateSelectedPageAction(new_page));
   };
 }
-
-ThunkAction<AppState> getUserExams() {
-  return (Store<AppState> store) async {
-    //need to get student course here
-
-    List<Exam> exams = await examsGet("https://sigarra.up.pt/feup/pt/exa_geral.mapa_de_exames?p_curso_id=742");
-
-    store.dispatch(new SetExamsAction(exams));
-  };
-}
-
-ThunkAction<AppState> updateSelectedPage(new_page) {
-  return (Store<AppState> store) async {
-    store.dispatch(new UpdateSelectedPageAction(new_page));
-  };
-}

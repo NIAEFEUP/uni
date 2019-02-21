@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:app_feup/view/Pages/SplashPageView.dart';
-import 'package:app_feup/view/Pages/HomePageView.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'view/Theme.dart';
 import 'model/AppState.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 import 'redux/reducers.dart';
 import 'controller/parsers/parser-exams.dart';
 

@@ -27,11 +27,10 @@ class LoginPageView extends StatelessWidget {
   final TextEditingController passwordController;
   final GlobalKey<FormState> formKey;
 
-  MediaQueryData queryData;
-
   @override
   Widget build(BuildContext context) {
-    queryData = MediaQuery.of(context);
+    final MediaQueryData queryData = MediaQuery.of(context);
+
     return Scaffold(
         backgroundColor: primaryColor,
         resizeToAvoidBottomPadding: false,
@@ -45,7 +44,7 @@ class LoginPageView extends StatelessWidget {
               child: Flex(
                 direction: Axis.vertical,
                 children: <Widget>[
-                  createTitle(),
+                  createTitle(queryData),
                   Spacer(),
                   Form(
                     key: this.formKey,
@@ -62,7 +61,7 @@ class LoginPageView extends StatelessWidget {
                           EdgeInsets.only(bottom: queryData.size.height / 35)),
                   createSaveDataCheckBox(),
                   Spacer(),
-                  createLogInButton(),
+                  createLogInButton(queryData),
                   Spacer(),
                   createStatusWidget(context)
                 ],
@@ -70,7 +69,7 @@ class LoginPageView extends StatelessWidget {
         ));
   }
 
-  Widget createTitle() {
+  Widget createTitle(queryData) {
     return new ConstrainedBox(
         constraints: new BoxConstraints(
           minWidth: queryData.size.width / 8,
@@ -137,7 +136,7 @@ class LoginPageView extends StatelessWidget {
     );
   }
 
-  Widget createLogInButton() {
+  Widget createLogInButton(queryData) {
     return new SizedBox(
       width: queryData.size.width / 2.5,
       height: queryData.size.height / 16,
