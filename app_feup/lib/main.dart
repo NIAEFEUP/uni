@@ -24,11 +24,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) => StoreProvider(
     store: this.state,
     child: MaterialApp(
-      home: new MaterialApp(
         title: 'Flutter Demo',
         theme: applicationTheme,
         home: SplashScreen(),
-      )
-    ),
+    )
   );
 }

@@ -1,3 +1,4 @@
+import 'package:app_feup/view/widgets/DateRectangle.dart';
 import '../../model/AppState.dart';
 import 'package:flutter/material.dart';
 import 'ScheduleRow.dart';
@@ -41,35 +42,12 @@ class ExamCard extends StatelessWidget{
 
   Widget createRowFromExam(context, exam){
     return new Column(children: [
-      this.createDateContainer(context, exam),
+      new DateRectangle(date: exam.weekDay + ", " + exam.day + " de " + exam.month),
       new ScheduleRow(
           subject: exam.subject,
           rooms: exam.rooms,
           begin: exam.begin,
           end: exam.end
       ),]);
-  }
-
-  Widget createDateContainer(context, exam){
-    return new Container(
-            padding: EdgeInsets.all(this.padding),
-            child: Text(
-                (" " + exam.weekDay + ", " + exam.day + " de " + exam.month),
-                style: Theme.of(context).textTheme.subtitle),
-            alignment: Alignment.center,
-            width: double.infinity,
-            decoration: BoxDecoration(
-                border: Border(
-                    bottom: BorderSide(
-                        color: Theme.of(context).accentColor,
-                        width: 0.5
-                    ),
-                    top: BorderSide(
-                        color: Theme.of(context).accentColor,
-                        width: 0.5
-                    ),
-                )
-            ),
-          );
   }
 }

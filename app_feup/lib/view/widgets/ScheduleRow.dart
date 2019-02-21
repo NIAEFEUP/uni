@@ -8,12 +8,16 @@ class ScheduleRow extends StatelessWidget{
   final String rooms;
   final String begin;
   final String end;
+  final String teacher;
+
   ScheduleRow({
     Key key,
     @required this.subject,
     @required this.rooms,
     @required this.begin,
     @required this.end,
+    this.teacher
+
   }):super(key: key);
 
   @override
@@ -27,7 +31,7 @@ class ScheduleRow extends StatelessWidget{
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               new ScheduleTimeInterval(begin: this.begin, end: this.end),
-              new ScheduleEventRectangle(subject: this.subject, rooms: this.rooms)
+              new ScheduleEventRectangle(subject: this.subject, rooms: this.rooms, teacher: this.teacher)
             ],
           ),
         )

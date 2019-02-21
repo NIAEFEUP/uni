@@ -1,6 +1,6 @@
-import 'package:app_feup/model/LoginPageModel.dart';
-
 import 'package:app_feup/controller/parsers/parser-exams.dart';
+import 'package:app_feup/controller/parsers/parser-schedule.dart';
+import 'package:app_feup/model/LoginPageModel.dart';
 
 class SaveLoginDataAction {
   Map<String, dynamic> session;
@@ -15,6 +15,11 @@ class SetLoginStatusAction {
 class SetExamsAction{
   List<Exam> exams;
   SetExamsAction(this.exams);
+}
+
+class SetScheduleAction{
+  List<Lecture> lectures;
+  SetScheduleAction(this.lectures);
 }
 
 class UpdateSelectedPageAction {

@@ -8,8 +8,6 @@ const Color whiteTextColor = Color.fromARGB(255, 255, 255, 255);
 const Color bodyTitle = Color.fromARGB(255, 131, 131, 131);
 const Color hintColor = Colors.white;
 
-
-
 ThemeData applicationTheme = new ThemeData(
 
   brightness: Brightness.light,
@@ -26,4 +24,6 @@ ThemeData applicationTheme = new ThemeData(
     subtitle: TextStyle(fontSize: 22.0, color: subtitleColor, fontWeight: FontWeight.w200, fontFamily: 'HelveticaNeue'),
     display1: TextStyle(fontSize: 17.0, color: whiteTextColor, fontWeight: FontWeight.w300),
   ),
+
+
 );
