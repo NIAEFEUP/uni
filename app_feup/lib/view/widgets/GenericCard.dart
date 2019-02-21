@@ -34,7 +34,7 @@ class GenericCard extends StatelessWidget {
                 ),
                 new ConstrainedBox(
                   constraints: new BoxConstraints(
-                    minHeight: 100.0,
+                    minHeight: 60.0,
                   ),
                   child: new Container(
                     decoration: BoxDecoration(

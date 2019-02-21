@@ -38,15 +38,18 @@ class ProfilePageView extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Container(
+          width: 150.0,
+          height: 150.0,
           decoration: BoxDecoration(
-                border: Border.all(width: 0.5, color: Color.fromARGB(64, 0x46, 0x46, 0x46)),
-                borderRadius: BorderRadius.all(Radius.circular(90.0))),
-          child: Image(
-            image: AssetImage('assets/images/ni_logo.png'),
-            width: 200,
-            height: 200,
-          ),
+            shape: BoxShape.circle,
+            image: DecorationImage(
+              fit: BoxFit.cover,
+              image: NetworkImage(
+                "https://dei.fe.up.pt/gig/wp-content/uploads/sites/4/2017/02/AAS_Jorn-1.jpg")
+            )
+          )
         ),
+        Padding(padding: const EdgeInsets.all(8.0)),
         Text(
           "Nome Mais Um Nome Apelido Muito Grande Mesmo",
           textAlign: TextAlign.center,
@@ -73,21 +76,174 @@ class ProfilePageView extends StatelessWidget {
   Widget courseInfo (BuildContext context){
     return new GenericCard(
       title: "Mestrado Integrado em Engenharia Informática e Computação", 
-      //child: new ExamCard()
+      child: Table(
+        columnWidths: {1: FractionColumnWidth(.4)},
+        defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+        children: [
+          TableRow(children: [
+            Container(
+              margin: const EdgeInsets.only(top: 20.0, bottom: 8.0, left: 20.0),
+              child: Text("Ano curricular atual: ",
+                style: TextStyle(
+                  color: greyTextColor,
+                  fontSize: 14.0,
+                  fontWeight: FontWeight.w100
+                )
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.only(top: 20.0, bottom: 8.0, right: 30.0),
+              child: Text("3",
+                textAlign: TextAlign.end,
+                style: TextStyle(
+                  color: greyTextColor,
+                  fontSize: 14.0,
+                  fontWeight: FontWeight.w500
+                )
+              ),
+            )
+          ]),
+          TableRow(children: [
+            Container(
+              margin: const EdgeInsets.only(top: 10.0, bottom: 8.0, left: 20.0),
+              child: Text("Estado atual: ",
+                style: TextStyle(
+                  color: greyTextColor,
+                  fontSize: 14.0,
+                  fontWeight: FontWeight.w100
+                )
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.only(top: 10.0, bottom: 8.0, right: 30.0),
+              child: Text("A Frequentar",
+                textAlign: TextAlign.end,
+                style: TextStyle(
+                  color: greyTextColor,
+                  fontSize: 14.0,
+                  fontWeight: FontWeight.w500
+                )
+              ),
+            )
+          ]),
+          TableRow(children: [
+            Container(
+              margin: const EdgeInsets.only(top: 10.0, bottom: 20.0, left: 20.0),
+              child: Text("Ano da primeira inscrição: ",
+                style: TextStyle(
+                  color: greyTextColor,
+                  fontSize: 14.0,
+                  fontWeight: FontWeight.w100
+                )
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.only(top: 10.0, bottom: 20.0, right: 30.0),
+              child: Text("2016/2017",
+                textAlign: TextAlign.end,
+                style: TextStyle(
+                  color: greyTextColor,
+                  fontSize: 14.0,
+                  fontWeight: FontWeight.w500
+                )
+              ),
+            )
+          ]),
+        ]
+      )
     );
   }
 
   Widget printsInfo (BuildContext context){
     return new GenericCard(
       title: "Impressões", 
-      //child: new ExamCard()
+      child: Table(
+        columnWidths: {1: FractionColumnWidth(.4)},
+        defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+        children: [
+          TableRow(children: [
+            Container(
+              margin: const EdgeInsets.only(top: 20.0, bottom: 20.0, left: 20.0),
+              child: Text("Valor disponível: ",
+                style: TextStyle(
+                  color: greyTextColor,
+                  fontSize: 14.0,
+                  fontWeight: FontWeight.w100
+                )
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.only(top: 20.0, bottom: 20.0, right: 30.0),
+              child: Text("5,11€",
+                textAlign: TextAlign.end,
+                style: TextStyle(
+                  color: greyTextColor,
+                  fontSize: 14.0,
+                  fontWeight: FontWeight.w500
+                )
+              ),
+            )
+          ])
+        ]
+      )
     );
   }
 
   Widget accountInfo (BuildContext context){
     return new GenericCard(
       title: "Conta Corrente", 
-      //child: new ExamCard()
+      child: Table(
+        columnWidths: {1: FractionColumnWidth(.4)},
+        defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+        children: [
+          TableRow(children: [
+            Container(
+              margin: const EdgeInsets.only(top: 20.0, bottom: 8.0, left: 20.0),
+              child: Text("Saldo: ",
+                style: TextStyle(
+                  color: greyTextColor,
+                  fontSize: 14.0,
+                  fontWeight: FontWeight.w100
+                )
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.only(top: 20.0, bottom: 8.0, right: 30.0),
+              child: Text("-499,50€",
+                textAlign: TextAlign.end,
+                style: TextStyle(
+                  color: greyTextColor,
+                  fontSize: 14.0,
+                  fontWeight: FontWeight.w500
+                )
+              ),
+            )
+          ]),
+          TableRow(children: [
+            Container(
+              margin: const EdgeInsets.only(top: 8.0, bottom: 20.0, left: 20.0),
+              child: Text("Data limite próxima prestação: ",
+                style: TextStyle(
+                  color: greyTextColor,
+                  fontSize: 14.0,
+                  fontWeight: FontWeight.w100
+                )
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.only(top: 8.0, bottom: 20.0, right: 30.0),
+              child: Text("2019-02-28",
+                textAlign: TextAlign.end,
+                style: TextStyle(
+                  color: greyTextColor,
+                  fontSize: 14.0,
+                  fontWeight: FontWeight.w500
+                )
+              ),
+            )
+          ])
+        ]
+      )
     );
   }
 
