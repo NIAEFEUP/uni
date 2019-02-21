@@ -14,6 +14,7 @@ ThunkAction<AppState> login(username, password, faculty, persistentSession) {
       print(session);
       store.dispatch(new SaveLoginDataAction(session));
       if (session['authenticated']){
+        store.dispatch(getUserExams());
         store.dispatch(new SetLoginStatusAction(LoginStatus.SUCCESSFUL));
       } else {
         store.dispatch(new SetLoginStatusAction(LoginStatus.FAILED));
