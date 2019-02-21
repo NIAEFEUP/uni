@@ -51,7 +51,7 @@ Future<List<Lecture>> scheduleGet(String link) async {
 }
 
 class Lecture {
-  static var dayName = ["Segunda", "Terca", "Quarta", "Quinta", "Sexta", "Sabado"];
+  static var dayName = ["Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado", "Domingo"];
   String subject;
   String startTime;
   String endTime;
@@ -76,6 +76,10 @@ class Lecture {
     hour += min~/60;
     min %= 60;
     this.endTime = hour.toString().padLeft(2, '0') + 'h' + min.toString().padLeft(2, '0');
+  }
+
+  static Lecture clone(Lecture lec){
+    return Lecture(lec.subject, lec.typeClass, lec.day, lec.startTime, lec.blocks, lec.room, lec.teacher);
   }
 
   printLecture(){
