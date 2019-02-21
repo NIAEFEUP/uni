@@ -18,6 +18,7 @@ class ProfilePageView extends StatelessWidget {
   }
 
   Widget createScrollableProfileView(BuildContext context){
+    final MediaQueryData queryData = MediaQuery.of(context);
     return new ListView(
       shrinkWrap: false,
       padding: const EdgeInsets.all(20.0),
@@ -28,7 +29,9 @@ class ProfilePageView extends StatelessWidget {
         Padding(padding: const EdgeInsets.all(10.0)),
         printsInfo(context),
         Padding(padding: const EdgeInsets.all(10.0)),
-        accountInfo(context)
+        accountInfo(context),
+        Padding(padding: const EdgeInsets.all(15.0)),
+        logOutButton(context, queryData)
       ]
     );
   }
@@ -244,6 +247,32 @@ class ProfilePageView extends StatelessWidget {
           ])
         ]
       )
+    );
+  }
+
+  Widget logOutButton(BuildContext context, MediaQueryData queryData){
+    return SizedBox(
+      height: queryData.size.height / 18,
+      child: RaisedButton(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(25),
+        ),
+        onPressed: () => {print("logout")},
+        color: primaryColor,
+        child: Row(
+          children: <Widget>[
+            Spacer(),
+            Text('Terminar Sessão',
+              style: TextStyle(
+                color: Colors.white, fontWeight: FontWeight.w300, fontSize: 20),
+              textAlign: TextAlign.center
+            ),
+            Spacer(),
+            Icon(IconData(0xe879, fontFamily: 'MaterialIcons'), color: Colors.white, size: 30),
+            Spacer(),
+          ],
+        )
+      ),
     );
   }
 
