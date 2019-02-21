@@ -9,6 +9,7 @@ class ScheduleRow extends StatelessWidget{
   final String begin;
   final String end;
   final String teacher;
+
   ScheduleRow({
     Key key,
     @required this.subject,
@@ -16,6 +17,7 @@ class ScheduleRow extends StatelessWidget{
     @required this.begin,
     @required this.end,
     this.teacher
+
   }):super(key: key);
 
   @override

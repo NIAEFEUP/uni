@@ -1,5 +1,4 @@
 import 'package:app_feup/view/widgets/DateRectangle.dart';
-
 import '../../model/AppState.dart';
 import 'package:flutter/material.dart';
 import 'ScheduleRow.dart';
@@ -17,21 +16,28 @@ class ExamCard extends StatelessWidget{
     return StoreConnector<AppState, List<dynamic>>(
       converter: (store) => store.state.content['exams'],
       builder: (context, exams){
-        if(exams.length >= 2) {
+        if(exams.length >= 1) {
           return Container(
               child: new Column(
                 mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  this.createRowFromExam(context, exams[0]),
-                  this.createRowFromExam(context, exams[1]),
-                ],
+                children: this.getExamRows(context, exams),
               )
           );
         }else {
-          return Text("No exams to show at the moment");
+          return Center (
+            child: Text("No exams to show at the moment"),
+          );
         }
       },
     );
+  }
+
+  List<Widget> getExamRows(context, exams){
+    List<Widget> rows = new List<Widget>();
+    for(int i = 0; i < 2 && i < exams.length; i++){
+      rows.add(this.createRowFromExam(context, exams[i]));
+    }
+    return rows;
   }
 
   Widget createRowFromExam(context, exam){
