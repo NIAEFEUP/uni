@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:app_feup/controller/loadinfo.dart';
 import 'package:app_feup/controller/parsers/parser-exams.dart';
 import 'package:app_feup/controller/parsers/parser-schedule.dart';
@@ -17,7 +18,6 @@ ThunkAction<AppState> login(username, password, faculty, persistentSession) {
       store.dispatch(new SaveLoginDataAction(session));
       if (session['authenticated']){
         loadUserInfoToState(store);
-        store.dispatch(new SetLoginStatusAction(LoginStatus.SUCCESSFUL));
       } else {
         store.dispatch(new SetLoginStatusAction(LoginStatus.FAILED));
       }
@@ -27,11 +27,14 @@ ThunkAction<AppState> login(username, password, faculty, persistentSession) {
   };
 }
 
-ThunkAction<AppState> fetchProfile() {
+ThunkAction<AppState> fetchUserInfo() {
   return (Store<AppState> store) async {
     try {
-      final Map<String, dynamic> profile = await NetworkRouter.getProfile(store.state.content['session']);
-      print(profile); //just to supress warning for now
+      final profile = NetworkRouter.getProfile(store.state.content['session']).then((res) => store.dispatch(new SaveProfileAction(res)));
+      final ucs = NetworkRouter.getUcs(store.state.content['session']).then((res) => store.dispatch(new SaveUcsAction(res)));
+      await Future.wait([profile, ucs]);
+      store.dispatch(new SetLoginStatusAction(LoginStatus.SUCCESSFUL));
+      print(store.state.content);
     } catch (e) {
       print(e);
     }

@@ -23,6 +23,16 @@ class SetScheduleAction{
 }
 
 class UpdateSelectedPageAction {
-    String selected_page;
-    UpdateSelectedPageAction(this.selected_page);
+  String selected_page;
+  UpdateSelectedPageAction(this.selected_page);
+}
+
+class SaveProfileAction {
+  Map<String, dynamic> profile;
+  SaveProfileAction(this.profile);
+}
+
+class SaveUcsAction {
+  Map<String, dynamic> ucs;
+  SaveUcsAction(this.ucs);
 }

@@ -4,18 +4,18 @@ import 'actions.dart';
 AppState appReducers(AppState state, dynamic action) {
   if (action is SaveLoginDataAction) {
     return login(state, action);
-  } 
-  else if (action is SetLoginStatusAction) {
+  } else if (action is SetLoginStatusAction) {
     return setLoginStatus(state, action);
-  } 
-  else if(action is UpdateSelectedPageAction) {
+  } else if (action is UpdateSelectedPageAction) {
     return updateSelectedPage(state, action);
-  }
-  else if (action is SetExamsAction){
+  } else if (action is SetExamsAction) {
     return setExams(state, action);
-  }
-  else if (action is SetScheduleAction){
+  } else if (action is SetScheduleAction) {
     return setSchedule(state, action);
+  } else if (action is SaveProfileAction) {
+    return saveProfile(state, action);
+  } else if (action is SaveUcsAction) {
+    return saveUcs(state, action);
   }
   return state;
 }
@@ -42,4 +42,12 @@ AppState setExams(AppState state, SetExamsAction action) {
 AppState setSchedule(AppState state, SetScheduleAction action) {
   print('setting schedule: ' + action.lectures.length.toString());
   return state.cloneAndUpdateValue("schedule", action.lectures);
+}
+
+AppState saveProfile(AppState state, SaveProfileAction action) {
+  return state.cloneAndUpdateValue("profile", action.profile);
+}
+
+AppState saveUcs(AppState state, SaveUcsAction action) {
+  return state.cloneAndUpdateValue("profile", action.ucs);
 }

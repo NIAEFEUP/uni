@@ -57,6 +57,19 @@ class NetworkRouter {
     return profile;
   }
 
+  static Future<Map<String, dynamic>> getUcs(
+      Map<String, dynamic> session) async {
+    Map<String, dynamic> ucs = Map<String, dynamic>();
+    final url =
+        NetworkRouter.getBaseUrlFromSession(session) + 'mob_fest_geral.ucurr_inscricoes_corrente?';
+    final response = await getWithCookies(
+        url, {"pv_codigo": session['studentNumber']}, session['cookies']);
+    if (response.statusCode == 200) {
+      ucs = json.decode(response.body)[0];
+    }
+    return ucs;
+  }
+
   static Future<http.Response> getWithCookies(
       String baseUrl, Map<String, String> query, String cookies) {
     final URLQueryParams params = new URLQueryParams();
