@@ -1,16 +1,16 @@
-import 'TitleCard.dart';
+import '../widgets/TitleCard.dart';
 import '../../model/AppState.dart';
 import '../../controller/parsers/parser-exams.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'ScheduleRow.dart';
+import '../widgets/ScheduleRow.dart';
 
-class ExamMapCard extends StatelessWidget{
+class ExamMapView extends StatelessWidget{
 
   final double borderRadius = 15.0;
   final DateTime now = new DateTime.now();
 
-  ExamMapCard({
+  ExamMapView({
     Key key
   }):super(key: key);
 
