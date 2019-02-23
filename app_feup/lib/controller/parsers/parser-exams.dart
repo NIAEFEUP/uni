@@ -12,6 +12,7 @@ class Exam{
   String examType;
   String weekDay;
   String month;
+  String year;
 
   Exam(String schedule, String subject, String rooms, String date, String examType, String weekDay)
   {
@@ -21,6 +22,7 @@ class Exam{
     this.begin = scheduling[0].replaceAll(':', 'h');
     this.end = scheduling[1].replaceAll(':', 'h');
     this.rooms = rooms;
+    this.year = dateSepared[0];
     this.day = dateSepared[2];
     this.examType = examType;
     this.weekDay = weekDay;
@@ -77,7 +79,7 @@ class Exam{
   }
   void printExam()
   {
-    print('$subject - $day - $month - $begin-$end - $examType - $rooms - $weekDay');
+    print('$subject - $year - $month - $day -  $begin-$end - $examType - $rooms - $weekDay');
   }
 }
 
