@@ -13,10 +13,12 @@ class Exam{
   String weekDay;
   String month;
   String year;
+  DateTime date;
 
   Exam(String schedule, String subject, String rooms, String date, String examType, String weekDay)
   {
     this.subject = subject;
+    this.date = DateTime.parse(date);
     var scheduling = schedule.split('-');
     var dateSepared = date.split('-');
     this.begin = scheduling[0].replaceAll(':', 'h');

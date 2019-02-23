@@ -5,7 +5,7 @@ class TitleCard extends StatelessWidget{
   final String day;
   final String weekDay;
   final String month;
-  final double borderRadius = 15.0;
+  final double borderRadius = 8.0;
   TitleCard({
     Key key,
     @required this.day,
@@ -16,7 +16,6 @@ class TitleCard extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return new Card(
       margin: EdgeInsets.fromLTRB(12, 12, 12, 0),
       shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(this.borderRadius)),
