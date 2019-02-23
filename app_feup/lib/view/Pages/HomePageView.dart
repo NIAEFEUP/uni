@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../widgets/GenericCard.dart';
 import '../widgets/ExamCard.dart';
 import '../widgets/NavigationDrawer.dart';
+import '../../controller/refreshState.dart';
 
 class HomePageView extends StatelessWidget {
   @override
@@ -25,26 +26,30 @@ class HomePageView extends StatelessWidget {
   }
 
   Widget createScrollableCardView(BuildContext context) {
-    return new ListView(
-      shrinkWrap: false,
-      children: <Widget>[
-        new Container(
-          padding: EdgeInsets.fromLTRB(20, 20, 0, 0),
-          child: new Text(
-            'Favorites:',
-            style: Theme.of(context).textTheme.title,
-          ),
+    return new RefreshIndicator(
+        child: new ListView(
+          shrinkWrap: false,
+          children: <Widget>[
+            new Container(
+              padding: EdgeInsets.fromLTRB(20, 20, 0, 0),
+              child: new Text(
+                'Favorites:',
+                style: Theme.of(context).textTheme.title,
+              ),
+            ),
+            new GenericCard(
+                title: "Exames",
+                child: new ExamCard()
+            ),
+            new GenericCard(
+              title: "Horário",
+              child: new ScheduleCard(),
+            ),
+            //Cards go here
+          ],
         ),
-        new GenericCard(
-            title: "Exames",
-            child: new ExamCard()
-        ),
-        new GenericCard(
-          title: "Horário",
-          child: new ScheduleCard(),
-        ),
-        //Cards go here
-      ],
+        onRefresh: handleRefresh,
     );
+
   }
 }
