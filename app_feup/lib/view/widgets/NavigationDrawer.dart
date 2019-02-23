@@ -1,10 +1,3 @@
-import 'package:app_feup/view/Pages/ClassificationsPageView.dart';
-import 'package:app_feup/view/Pages/ExamsPageView.dart';
-import 'package:app_feup/view/Pages/HomePageView.dart';
-import 'package:app_feup/view/Pages/MapPageView.dart';
-import 'package:app_feup/view/Pages/MenuPageView.dart';
-import 'package:app_feup/view/Pages/ParkPageView.dart';
-import 'package:app_feup/view/Pages/SchedulePageView.dart';
 import 'package:app_feup/view/Theme.dart';
 import 'package:flutter/material.dart';
 
@@ -33,45 +26,13 @@ class NavigationDrawerState extends State<NavigationDrawer> {
 
   _onSelectItem(int index) {
 
+    var prev = StoreProvider.of<AppState>(context).state.content["selected_page"];
     StoreProvider.of<AppState>(context).dispatch(updateSelectedPage(drawerItems[index]));
-
-    print(StoreProvider.of<AppState>(context).state.content["selected_page"]);
 
     Navigator.of(context).pop();
 
-    Widget destinationPage;
-
-    switch(StoreProvider.of<AppState>(context).state.content["selected_page"]){
-      case "Área Pessoal":
-        destinationPage = HomePageView();
-        break;
-      case "Horário":
-        destinationPage = SchedulePageView();
-        break;
-      case "Classificações":
-        destinationPage = ClassificationsPageView();
-        break;
-      case "Ementa":
-        destinationPage = MenuPageView();
-        break;
-      case "Mapa de Exames":
-        destinationPage = ExamsPageView();
-        break;
-      case "Parques":
-        destinationPage = ParkPageView();
-        break;
-      case "Mapa FEUP":
-        destinationPage = MapPageView();
-        break;
-
-      default:
-        destinationPage = HomePageView();
-        break;
-    }
-
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (__) => destinationPage));
-
-
+    if (prev != drawerItems[index])  // If not already in selected page
+      Navigator.pushReplacementNamed(context, '/' + StoreProvider.of<AppState>(context).state.content["selected_page"]);
   }
 
   _buildBorder(name) {
@@ -120,8 +81,6 @@ class NavigationDrawerState extends State<NavigationDrawer> {
     List<Widget> drawerOptions = [];
 
     drawerOptions.add(createSearchInputField());
-
-    print("DRAWER " + StoreProvider.of<AppState>(context).state.content["selected_page"]);
 
     for (var i = 0; i < drawerItems.length; i++) {
       drawerOptions.add(createDrawerNavigationOption(drawerItems[i], i));
