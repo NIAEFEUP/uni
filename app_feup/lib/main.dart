@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:app_feup/view/Pages/SplashPageView.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'view/Theme.dart';
 import 'model/AppState.dart';
@@ -21,12 +22,17 @@ class MyApp extends StatelessWidget {
   );
 
   @override
-  Widget build(BuildContext context) => StoreProvider(
-    store: this.state,
-    child: MaterialApp(
-        title: 'Flutter Demo',
-        theme: applicationTheme,
-        home: SplashScreen(),
-    )
-  );
+  Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
+    return StoreProvider(
+        store: this.state,
+        child: MaterialApp(
+          title: 'Flutter Demo',
+          theme: applicationTheme,
+          home: SplashScreen(),
+        )
+    );
+  }
 }
