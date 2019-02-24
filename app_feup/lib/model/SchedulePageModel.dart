@@ -13,7 +13,7 @@ class _SchedulePageState extends State<SchedulePage> with SingleTickerProviderSt
 
   TabController tabController;
 
-  final daysOfTheWeek = [
+  final List<String> daysOfTheWeek = [
     'Segunda-Feira',
     'Terça-Feira',
     'Quarta-Feira',
@@ -21,10 +21,14 @@ class _SchedulePageState extends State<SchedulePage> with SingleTickerProviderSt
     'Sexta-feira'
   ];
 
+  final int weekDay = new DateTime.now().weekday;
+
   @override
   void initState() {
     super.initState();
     tabController = new TabController(vsync: this, length: daysOfTheWeek.length);
+    var offset = (weekDay > 5) ? 0 : (weekDay - 1) % daysOfTheWeek.length;
+    tabController.animateTo((tabController.index + offset));
   }
 
   @override
