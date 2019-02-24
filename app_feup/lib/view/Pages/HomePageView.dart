@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../widgets/GenericCard.dart';
 import '../widgets/ExamCard.dart';
 import '../widgets/NavigationDrawer.dart';
-import '../../controller/refreshState.dart';
+import '../../controller/loadinfo.dart';
 
 class HomePageView extends StatelessWidget {
   @override
@@ -48,7 +48,8 @@ class HomePageView extends StatelessWidget {
             //Cards go here
           ],
         ),
-        onRefresh: handleRefresh,
+        onRefresh:() {
+        },
     );
 
   }
