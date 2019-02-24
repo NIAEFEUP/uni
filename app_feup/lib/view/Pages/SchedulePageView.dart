@@ -1,5 +1,9 @@
+import 'package:app_feup/controller/parsers/parser-schedule.dart';
+import 'package:app_feup/model/AppState.dart';
 import 'package:app_feup/view/widgets/NavigationDrawer.dart';
+import 'package:app_feup/view/widgets/ScheduleRow.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 
 class SchedulePageView extends StatelessWidget {
 
@@ -48,13 +52,7 @@ class SchedulePageView extends StatelessWidget {
             new Expanded(
               child: new TabBarView(
                 controller: tabController,
-                children: [
-                  new Tab(text: "Segunda"),
-                  new Tab(text: 'Terça'),
-                  new Tab(text: 'Quarta'),
-                  new Tab(text: 'Quinta'),
-                  new Tab(text: 'Sexta')
-                ],
+                children: createSchedule(context),
               ),
             ),
           ],
@@ -63,7 +61,7 @@ class SchedulePageView extends StatelessWidget {
   }
 
   List<Widget> createTabs(queryData) {
-    List<Widget> tabs = [];
+    List<Widget> tabs = List<Widget>();
     for( var i = 0; i < daysOfTheWeek.length; i++) {
       tabs.add(
           new Container(
@@ -73,5 +71,58 @@ class SchedulePageView extends StatelessWidget {
       );
     }
     return tabs;
+  }
+
+  List<Widget> createSchedule(context) {
+    List<Widget> tabBarViewContent = List<Widget>();
+    for(int i = 0; i < daysOfTheWeek.length; i++) {
+      tabBarViewContent.add(createScheduleByDay(i));
+    }
+    return tabBarViewContent;
+  }
+
+  _getLecturesByDay(schedule, day) {
+    List<Lecture> lectures = List<Lecture>();
+    for(int i = 0; i < schedule.length; i++){
+      if(schedule[i].day == day)
+        lectures.add(schedule[i]);
+    }
+    return lectures;
+  }
+
+  List<Widget> createScheduleRows(lectures){
+    List<Widget> scheduleContent = List<Widget>();
+    for(int i = 0; i < lectures.length; i++) {
+      Lecture lecture = lectures[i];
+      scheduleContent.add(new ScheduleRow(
+      subject: lecture.subject,
+      rooms: lecture.room,
+      begin: lecture.startTime,
+      end: lecture.endTime,
+      teacher: lecture.teacher,
+      ));
+    }
+    return scheduleContent;
+  }
+
+  Widget createScheduleByDay(day) {
+    return StoreConnector<AppState, List<dynamic>>(
+        converter: (store) => store.state.content['schedule'],
+        builder: (context, lectures){
+
+          List<Lecture> aggLectures = _getLecturesByDay(lectures, day);
+
+          if(aggLectures.length >= 1) {
+            return Container(
+                child: new Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: createScheduleRows(aggLectures),
+                )
+            );
+          } else {
+            return Center(child: Text("Não possui aulas à " + daysOfTheWeek[day] + "."));
+          }
+        }
+    );
   }
 }

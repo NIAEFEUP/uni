@@ -14,10 +14,10 @@ class _SchedulePageState extends State<SchedulePage> with SingleTickerProviderSt
   TabController tabController;
 
   final List<String> daysOfTheWeek = [
-    'Segunda-Feira',
-    'Terça-Feira',
-    'Quarta-Feira',
-    'Quinta-Feira',
+    'Segunda-feira',
+    'Terça-feira',
+    'Quarta-feira',
+    'Quinta-feira',
     'Sexta-feira'
   ];
 
