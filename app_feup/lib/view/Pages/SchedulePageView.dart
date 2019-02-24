@@ -1,26 +1,14 @@
 import 'package:app_feup/view/widgets/NavigationDrawer.dart';
 import 'package:flutter/material.dart';
 
-class SchedulePage extends StatefulWidget{
-  @override
-  _SchedulePageState createState() => new _SchedulePageState();
-}
+class SchedulePageView extends StatelessWidget {
 
-class _SchedulePageState extends State<SchedulePage> with SingleTickerProviderStateMixin{
+  SchedulePageView(
+      {Key key,
+        @required this.daysOfTheWeek})
+      : super(key: key);
 
-  TabController controller;
-
-  @override
-  void initState() {
-    super.initState();
-    controller = new TabController(vsync: this, length: 4);
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
+  final daysOfTheWeek;
 
   @override
   Widget build(BuildContext context) {
@@ -52,28 +40,7 @@ class _SchedulePageState extends State<SchedulePage> with SingleTickerProviderSt
                   indicatorWeight: 3.0,
                   indicatorColor: Colors.grey,
                   labelPadding: EdgeInsets.all(0.0),
-                  tabs: [
-                    new Container(
-                      width:  queryData.size.width * 1/3,
-                      child: new Tab(text: "Segunda-Feira"),
-                    ),
-                    new Container(
-                      width:  queryData.size.width * 1/3,
-                      child: new Tab(text: 'Terça-Feira'),
-                    ),
-                    new Container(
-                      width:  queryData.size.width * 1/3,
-                      child: new Tab(text: 'Quarta-Feira')
-                    ),
-                    new Container(
-                        width:  queryData.size.width * 1/3,
-                        child: new Tab(text: 'Quinta-Feira')
-                    ),
-                    new Container(
-                        width:  queryData.size.width * 1/3,
-                        child: new Tab(text: 'Sexta-Feira')
-                    ),
-                  ],
+                  tabs: _createTabs(queryData),
                 ),
               ),
             ),
@@ -92,5 +59,18 @@ class _SchedulePageState extends State<SchedulePage> with SingleTickerProviderSt
         ),
       ),
     );
+  }
+
+  _createTabs(queryData) {
+    List<Widget> tabs = [];
+    for( var i = 0; i < daysOfTheWeek.length; i++) {
+      tabs.add(
+          new Container(
+            width:  queryData.size.width * 1/3,
+            child: new Tab(text: daysOfTheWeek[i]),
+          )
+      );
+    }
+    return tabs;
   }
 }
