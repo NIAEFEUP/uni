@@ -5,10 +5,12 @@ class SchedulePageView extends StatelessWidget {
 
   SchedulePageView(
       {Key key,
+        @required this.tabController,
         @required this.daysOfTheWeek})
       : super(key: key);
 
-  final daysOfTheWeek;
+  final List<String> daysOfTheWeek;
+  final TabController tabController;
 
   @override
   Widget build(BuildContext context) {
@@ -20,9 +22,7 @@ class SchedulePageView extends StatelessWidget {
             title: new Text("App FEUP"),
         ),
         drawer: new NavigationDrawer(),
-      body: new DefaultTabController(
-        length: 5,
-        child: new Column(
+        body:  new Column(
           children: <Widget>[
             new Container(
               decoration: const BoxDecoration(
@@ -34,18 +34,20 @@ class SchedulePageView extends StatelessWidget {
               child: new Material(
                 color: Colors.white,
                 child: new TabBar(
+                  controller: tabController,
                   isScrollable: true,
                   unselectedLabelColor: Colors.grey,
                   labelColor: Colors.grey,
                   indicatorWeight: 3.0,
                   indicatorColor: Colors.grey,
                   labelPadding: EdgeInsets.all(0.0),
-                  tabs: _createTabs(queryData),
+                  tabs: createTabs(queryData),
                 ),
               ),
             ),
             new Expanded(
               child: new TabBarView(
+                controller: tabController,
                 children: [
                   new Tab(text: "Segunda"),
                   new Tab(text: 'Terça'),
@@ -57,11 +59,10 @@ class SchedulePageView extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
+      );
   }
 
-  _createTabs(queryData) {
+  List<Widget> createTabs(queryData) {
     List<Widget> tabs = [];
     for( var i = 0; i < daysOfTheWeek.length; i++) {
       tabs.add(
