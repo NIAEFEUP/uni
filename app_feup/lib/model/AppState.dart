@@ -1,10 +1,10 @@
-class AppState{
+class AppState {
 
-  Map content;
+  Map content = Map<String, dynamic>();
 
   Map getInitialContent() {
     return {
-      "cookies": "",
+      "schedule": [],
       "exams": [],
       "selected_page": "Área Pessoal",
     };
