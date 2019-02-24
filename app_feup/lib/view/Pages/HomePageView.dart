@@ -3,7 +3,7 @@ import 'package:app_feup/view/widgets/ScheduleCard.dart';
 import 'package:flutter/material.dart';
 import '../widgets/GenericCard.dart';
 import '../widgets/ExamCard.dart';
-import 'ProfilePageView.dart';
+import '../../model/ProfilePageModel.dart';
 import '../widgets/NavigationDrawer.dart';
 
 class HomePageView extends StatelessWidget {
@@ -14,7 +14,7 @@ class HomePageView extends StatelessWidget {
         title: new Text("Área Pessoal", textAlign: TextAlign.start),
         actions: <Widget>[
           FlatButton(
-            onPressed: () => {Navigator.pushReplacement(context,new MaterialPageRoute(builder: (__) => new ProfilePageView()))},
+            onPressed: () => {Navigator.pushReplacement(context,new MaterialPageRoute(builder: (__) => new ProfilePage()))},
             child: Container(
                 width: 45.0,
                 height: 45.0,

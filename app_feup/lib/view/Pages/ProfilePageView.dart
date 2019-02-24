@@ -5,8 +5,32 @@ import '../../view/Theme.dart';
 import '../widgets/NavigationDrawer.dart';
 
 class ProfilePageView extends StatelessWidget {
+  ProfilePageView(
+    {Key key,
+    @required this.name,
+    @required this.email,
+    @required this.course,
+    @required this.currentYear,
+    @required this.currentState,
+    @required this.yearFirstRegistration,
+    @required this.printBalance,
+    @required this.feesBalance,
+    @required this.nextFeeLimitData,
+    @required this.profileImageLink,
+    @required this.logout}) 
+    : super(key: key);
 
-  ProfilePageView({Key key}) : super(key: key);
+  final String name;
+  final String email;
+  final String course;
+  final String currentYear;
+  final String currentState;
+  final String yearFirstRegistration;
+  final String printBalance;
+  final String feesBalance;
+  final String nextFeeLimitData;
+  final String profileImageLink;
+  final Function logout;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +43,7 @@ class ProfilePageView extends StatelessWidget {
 
   Widget createScrollableProfileView(BuildContext context){
     final MediaQueryData queryData = MediaQuery.of(context);
-    return new ListView(
+    return ListView(
       shrinkWrap: false,
       padding: const EdgeInsets.all(20.0),
       children: <Widget>[
@@ -47,14 +71,13 @@ class ProfilePageView extends StatelessWidget {
             shape: BoxShape.circle,
             image: DecorationImage(
               fit: BoxFit.cover,
-              image: NetworkImage(
-                "https://dei.fe.up.pt/gig/wp-content/uploads/sites/4/2017/02/AAS_Jorn-1.jpg")
+              image: NetworkImage(profileImageLink)
             )
           )
         ),
         Padding(padding: const EdgeInsets.all(8.0)),
         Text(
-          "Nome Mais Um Nome Apelido Muito Grande Mesmo",
+          name,
           textAlign: TextAlign.center,
           style: TextStyle(
             color: greyTextColor,
@@ -64,7 +87,7 @@ class ProfilePageView extends StatelessWidget {
         ),
         Padding(padding: const EdgeInsets.all(5.0)),
         Text(
-          "up201601234@fe.up.pt",
+          email,
           textAlign: TextAlign.center,
           style: TextStyle(
             color: greyTextColor,
@@ -78,7 +101,7 @@ class ProfilePageView extends StatelessWidget {
 
   Widget courseInfo (BuildContext context){
     return new GenericCard(
-      title: "Mestrado Integrado em Engenharia Informática e Computação", 
+      title: course, 
       child: Table(
         columnWidths: {1: FractionColumnWidth(.4)},
         defaultVerticalAlignment: TableCellVerticalAlignment.middle,
@@ -96,7 +119,7 @@ class ProfilePageView extends StatelessWidget {
             ),
             Container(
               margin: const EdgeInsets.only(top: 20.0, bottom: 8.0, right: 30.0),
-              child: Text("3",
+              child: Text(currentYear,
                 textAlign: TextAlign.end,
                 style: TextStyle(
                   color: greyTextColor,
@@ -119,7 +142,7 @@ class ProfilePageView extends StatelessWidget {
             ),
             Container(
               margin: const EdgeInsets.only(top: 10.0, bottom: 8.0, right: 30.0),
-              child: Text("A Frequentar",
+              child: Text(currentState,
                 textAlign: TextAlign.end,
                 style: TextStyle(
                   color: greyTextColor,
@@ -142,7 +165,7 @@ class ProfilePageView extends StatelessWidget {
             ),
             Container(
               margin: const EdgeInsets.only(top: 10.0, bottom: 20.0, right: 30.0),
-              child: Text("2016/2017",
+              child: Text(yearFirstRegistration,
                 textAlign: TextAlign.end,
                 style: TextStyle(
                   color: greyTextColor,
@@ -177,7 +200,7 @@ class ProfilePageView extends StatelessWidget {
             ),
             Container(
               margin: const EdgeInsets.only(top: 20.0, bottom: 20.0, right: 30.0),
-              child: Text("5,11€",
+              child: Text(printBalance,
                 textAlign: TextAlign.end,
                 style: TextStyle(
                   color: greyTextColor,
@@ -212,7 +235,7 @@ class ProfilePageView extends StatelessWidget {
             ),
             Container(
               margin: const EdgeInsets.only(top: 20.0, bottom: 8.0, right: 30.0),
-              child: Text("-499,50€",
+              child: Text(feesBalance,
                 textAlign: TextAlign.end,
                 style: TextStyle(
                   color: greyTextColor,
@@ -235,7 +258,7 @@ class ProfilePageView extends StatelessWidget {
             ),
             Container(
               margin: const EdgeInsets.only(top: 8.0, bottom: 20.0, right: 30.0),
-              child: Text("2019-02-28",
+              child: Text(nextFeeLimitData,
                 textAlign: TextAlign.end,
                 style: TextStyle(
                   color: greyTextColor,
@@ -252,27 +275,27 @@ class ProfilePageView extends StatelessWidget {
 
   Widget logOutButton(BuildContext context, MediaQueryData queryData){
     return SizedBox(
+      width: queryData.size.width / 2.5, // this doens't work
       height: queryData.size.height / 18,
       child: RaisedButton(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(25),
         ),
-        onPressed: () => {print("logout")},
+        onPressed: () => {logout()},
         color: primaryColor,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text('Terminar Sessão',
+            Text('Sair',
               style: TextStyle(
-                color: Colors.white, fontWeight: FontWeight.w300, fontSize: 20),
+                color: Colors.white, fontWeight: FontWeight.w300, fontSize: 18),
               textAlign: TextAlign.center
             ),
             Padding(padding: EdgeInsets.all(8.0)),
-            Icon(IconData(0xe879, fontFamily: 'MaterialIcons'), color: Colors.white, size: 30),
+            Icon(IconData(0xe879, fontFamily: 'MaterialIcons'), color: Colors.white, size: 23),
           ],
         )
       ),
     );
   }
-
 }
