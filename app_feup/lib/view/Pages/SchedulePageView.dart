@@ -10,10 +10,12 @@ class SchedulePageView extends StatelessWidget {
   SchedulePageView(
       {Key key,
         @required this.tabController,
-        @required this.daysOfTheWeek})
+        @required this.daysOfTheWeek,
+        @required this.aggLectures})
       : super(key: key);
 
   final List<String> daysOfTheWeek;
+  final List<List<Lecture>> aggLectures;
   final TabController tabController;
 
   @override
@@ -81,15 +83,6 @@ class SchedulePageView extends StatelessWidget {
     return tabBarViewContent;
   }
 
-  _getLecturesByDay(schedule, day) {
-    List<Lecture> lectures = List<Lecture>();
-    for(int i = 0; i < schedule.length; i++){
-      if(schedule[i].day == day)
-        lectures.add(schedule[i]);
-    }
-    return lectures;
-  }
-
   List<Widget> createScheduleRows(lectures){
     List<Widget> scheduleContent = List<Widget>();
     for(int i = 0; i < lectures.length; i++) {
@@ -110,13 +103,11 @@ class SchedulePageView extends StatelessWidget {
         converter: (store) => store.state.content['schedule'],
         builder: (context, lectures){
 
-          List<Lecture> aggLectures = _getLecturesByDay(lectures, day);
-
-          if(aggLectures.length >= 1) {
+          if(aggLectures[day].length >= 1) {
             return Container(
                 child: new Column(
                   mainAxisSize: MainAxisSize.min,
-                  children: createScheduleRows(aggLectures),
+                  children: createScheduleRows(aggLectures[day]),
                 )
             );
           } else {

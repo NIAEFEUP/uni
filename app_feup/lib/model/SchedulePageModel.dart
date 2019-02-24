@@ -1,5 +1,8 @@
+import 'package:app_feup/controller/parsers/parser-schedule.dart';
+import 'package:app_feup/model/AppState.dart';
 import 'package:app_feup/view/Pages/SchedulePageView.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 
 class SchedulePage extends StatefulWidget{
 
@@ -12,6 +15,8 @@ class SchedulePage extends StatefulWidget{
 class _SchedulePageState extends State<SchedulePage> with SingleTickerProviderStateMixin{
 
   TabController tabController;
+
+  List<List<Lecture>> aggLectures;
 
   final List<String> daysOfTheWeek = [
     'Segunda-feira',
@@ -37,9 +42,26 @@ class _SchedulePageState extends State<SchedulePage> with SingleTickerProviderSt
     super.dispose();
   }
 
+  void _groupLecturesByDay(schedule) {
+
+    aggLectures = new List<List<Lecture>>();
+
+    for(int i = 0; i < daysOfTheWeek.length; i++) {
+      List<Lecture> lectures = List<Lecture>();
+      for(int j = 0; j < schedule.length; j++){
+        if(schedule[j].day == i)
+          lectures.add(schedule[j]);
+      }
+      aggLectures.add(lectures);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return new SchedulePageView(tabController: tabController, daysOfTheWeek: daysOfTheWeek);
+
+    List<Lecture> schedule = StoreProvider.of<AppState>(context).state.content['schedule'];
+    _groupLecturesByDay(schedule);
+
+    return new SchedulePageView(tabController: tabController, daysOfTheWeek: daysOfTheWeek, aggLectures: aggLectures);
   }
 }
