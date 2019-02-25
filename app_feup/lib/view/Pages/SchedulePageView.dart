@@ -1,7 +1,7 @@
 import 'package:app_feup/controller/parsers/parser-schedule.dart';
 import 'package:app_feup/model/AppState.dart';
 import 'package:app_feup/view/widgets/NavigationDrawer.dart';
-import 'package:app_feup/view/widgets/ScheduleRow.dart';
+import 'package:app_feup/view/widgets/ScheduleSlot.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
@@ -87,8 +87,9 @@ class SchedulePageView extends StatelessWidget {
     List<Widget> scheduleContent = List<Widget>();
     for(int i = 0; i < lectures.length; i++) {
       Lecture lecture = lectures[i];
-      scheduleContent.add(new ScheduleRow(
+      scheduleContent.add(new ScheduleSlot(
       subject: lecture.subject,
+      typeClass: lecture.typeClass,
       rooms: lecture.room,
       begin: lecture.startTime,
       end: lecture.endTime,
