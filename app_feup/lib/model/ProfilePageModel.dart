@@ -1,5 +1,9 @@
+import 'package:app_feup/model/AppState.dart';
 import 'package:app_feup/view/Pages/ProfilePageView.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:http/http.dart' as http;
+import 'dart:async';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -11,25 +15,33 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   
-  String name = "";
-  String email = "";
-  String course = "";
-  String currentYear = "";
-  String currentState = "";
-  String yearFirstRegistration = "";
-  String printBalance = "";
-  String feesBalance = "";
-  String nextFeeLimitData = "";
-  String profileImageLink = "";
+  String name;
+  String email;
+  String course;
+  String currentYear;
+  String currentState;
+  String yearFirstRegistration;
+  String printBalance;
+  String feesBalance;
+  String nextFeeLimitData;
 
   @override
   void initState() {
     super.initState();
-    updateInfo();
+    name = "";
+    email = "";
+    course = "";
+    currentYear = "";
+    currentState = "";
+    yearFirstRegistration = "";
+    printBalance = "";
+    feesBalance = "";
+    nextFeeLimitData = "";
   }
 
   @override
   Widget build(BuildContext context) {
+    updateInfo();
     return new ProfilePageView(
       name: name,
       email: email,
@@ -40,7 +52,7 @@ class _ProfilePageState extends State<ProfilePage> {
       printBalance: printBalance,
       feesBalance: feesBalance,
       nextFeeLimitData: nextFeeLimitData,
-      profileImageLink: profileImageLink,
+      profileImage: getProfileImage(),
       logout: () => _logout());
   }
 
@@ -55,11 +67,26 @@ class _ProfilePageState extends State<ProfilePage> {
       printBalance = "5,12€";
       feesBalance = "-499,50€";
       nextFeeLimitData = "2019-02-28";
-      profileImageLink = "https://dei.fe.up.pt/gig/wp-content/uploads/sites/4/2017/02/AAS_Jorn-1.jpg";
     });
+  }
+
+  NetworkImage getProfileImage(){
+    NetworkImage profileImage;
+
+    String studentNo = StoreProvider.of<AppState>(context).state.content['session']['studentNumber'];
+    String url = "https://sigarra.up.pt/feup/pt/fotografias_service.foto?pct_cod=" + studentNo;
+
+    final Map<String, String> headers = Map<String, String>();
+    headers['cookie'] = StoreProvider.of<AppState>(context).state.content['session']['cookies'];
+
+    profileImage = NetworkImage(url, headers: headers);
+
+    //TODO: catch error if image is not loaded right
+    return profileImage;
   }
 
   void _logout() {
     print("logout");
   }
+
 }

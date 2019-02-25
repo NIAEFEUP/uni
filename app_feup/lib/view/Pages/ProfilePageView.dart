@@ -16,7 +16,7 @@ class ProfilePageView extends StatelessWidget {
     @required this.printBalance,
     @required this.feesBalance,
     @required this.nextFeeLimitData,
-    @required this.profileImageLink,
+    @required this.profileImage,
     @required this.logout}) 
     : super(key: key);
 
@@ -29,7 +29,7 @@ class ProfilePageView extends StatelessWidget {
   final String printBalance;
   final String feesBalance;
   final String nextFeeLimitData;
-  final String profileImageLink;
+  final NetworkImage profileImage;
   final Function logout;
 
   @override
@@ -71,7 +71,7 @@ class ProfilePageView extends StatelessWidget {
             shape: BoxShape.circle,
             image: DecorationImage(
               fit: BoxFit.cover,
-              image: NetworkImage(profileImageLink)
+              image: profileImage
             )
           )
         ),
