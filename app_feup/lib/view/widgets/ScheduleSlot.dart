@@ -69,26 +69,43 @@ class ScheduleSlot extends StatelessWidget{
   }
 
   Widget createScheduleSlotTime(context) {
-    return createTextField(this.begin + " - " +  this.end, TextStyle(fontSize: 14.0,  color: Colors.black, fontWeight: FontWeight.w300));
+    return createTextField(this.begin + " - " +  this.end, TextStyle(fontSize: 13.0,  color: Colors.black, fontWeight: FontWeight.w300), TextAlign.left);
   }
 
   List<Widget> createScheduleSlotPrimInfo(context) {
+    var subjectTextField = createTextField(this.subject, Theme.of(context).textTheme.display2, TextAlign.left);
+    var typeClassTextField = createTextField('(' + this.typeClass + ')', TextStyle(fontSize: 13.0,  color: Colors.black, fontWeight: FontWeight.w300), TextAlign.center);
+    var roomTextField = createTextField(this.rooms,  Theme.of(context).textTheme.body1, TextAlign.right);
+
     return [
-      createTextField(this.subject, Theme.of(context).textTheme.display2),
-      //createTextField('(' + this.typeClass + ')', TextStyle(fontSize: 14.0,  color: Colors.black, fontWeight: FontWeight.w300))
+      createScheduleSlotPrimInfoColumn(subjectTextField),
+      createScheduleSlotPrimInfoColumn(typeClassTextField),
+      createScheduleSlotPrimInfoColumn(roomTextField)
     ];
   }
 
   Widget createScheduleSlotTeacherInfo(context) {
-    return createTextField(this.teacher, TextStyle(fontSize: 14.0,  color: Colors.black, fontWeight: FontWeight.w300));
+    return createTextField(this.teacher, TextStyle(fontSize: 13.0,  color: Colors.black, fontWeight: FontWeight.w300), TextAlign.left);
   }
 
-  Widget createTextField(text, style) {
+  Widget createTextField(text, style, alignment) {
     return Text(
       text,
-      textAlign: TextAlign.center,
+      textAlign: alignment,
       overflow: TextOverflow.ellipsis,
       style: style,
+    );
+  }
+
+  Widget createScheduleSlotPrimInfoColumn(elements) {
+    return Expanded(
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          elements,
+        ],
+      ),
     );
   }
 }
