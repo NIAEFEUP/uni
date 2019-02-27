@@ -1,9 +1,12 @@
+import 'dart:async';
+import 'package:app_feup/controller/local_storage/LocalStorage.dart';
 import 'package:app_feup/model/AppState.dart';
 import 'package:app_feup/view/Pages/LoginPageView.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:app_feup/redux/actionCreators.dart';
 import 'package:redux/redux.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -37,6 +40,7 @@ class _LoginPageState extends State<LoginPage> {
     usernameController = TextEditingController();
     passwordController = TextEditingController();
     _formKey = GlobalKey<FormState>();
+    _loadPersistentInfoLogin();
   }
 
   @override
@@ -78,6 +82,21 @@ class _LoginPageState extends State<LoginPage> {
       final user = usernameController.text;
       final pass = passwordController.text;
       store.dispatch(login(user, pass, faculty, _keepSignedIn));
+    }
+  }
+
+  Future _loadPersistentInfoLogin() async {
+//    await LocalStorage.removePersistentUserInfo();
+    final prefs = await SharedPreferences.getInstance();
+
+    final user = prefs.getString('user_number') ?? "";
+    final pass = prefs.getString('user_pass') ?? "";
+
+    if (user != "" && pass != ""){
+      usernameController.text = user;
+      passwordController.text = pass;
+      _setKeepSignedIn(true);
+      _login(StoreProvider.of<AppState>(context));
     }
   }
 }
