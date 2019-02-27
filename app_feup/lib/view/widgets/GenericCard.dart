@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 
 class GenericCard extends StatelessWidget {
   GenericCard({Key key,
-    @required this.title,
-              this.child}) : super(key: key);
+    @required this.title, this.child, this.editingMode, this.onDelete}) : super(key: key);
 
   final String title;
   final Widget child;
   final double borderRadius = 15.0;
+  final bool editingMode;
+  final Function onDelete;
 
   @override
   Widget build(BuildContext context) {
     return new Card(
-        margin: EdgeInsets.fromLTRB(12, 12, 12, 0),
+        margin: EdgeInsets.fromLTRB(12, 8, 12, 8),
         color: Color.fromARGB(0, 0, 0, 0),
         shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(this.borderRadius)),
-
         child: new Container(
             decoration: BoxDecoration(
                 color: Theme.of(context).accentColor,
@@ -26,13 +26,14 @@ class GenericCard extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 new Container(
-                  child: Text(title,
-                      style: Theme.of(context).textTheme.title),
-                  height: 26,
+                  child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,children: <Widget>[
+                    Text(title, style: Theme.of(context).textTheme.title),
+                    this.getDeleteIcon(context)].where((e) => e != null).toList()),
+                  height: 35,
                   alignment: Alignment.centerLeft,
                   padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
                 ),
-                new ConstrainedBox(
+                this.editingMode ?  null : new ConstrainedBox(
                   constraints: new BoxConstraints(
                     minHeight: 100.0,
                   ),
@@ -44,10 +45,19 @@ class GenericCard extends StatelessWidget {
                     child: this.child,
                   ),
                 ),
-              ],
+              ].where((e) => e != null).toList(),
             ),
       ),
     );
 
+  }
+
+  Widget getDeleteIcon(context){
+    return  this.editingMode ? IconButton(
+      icon: Icon(Icons.cancel),
+      tooltip: 'Unfavorite',
+      color: Theme.of(context).textTheme.title.color,
+      onPressed: this.onDelete,
+    ) : null;
   }
 }
