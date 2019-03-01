@@ -12,7 +12,7 @@ Future<String> getFeesBalance(String link, Store<AppState> store) async{
 
   var response = await NetworkRouter.getWithCookies(link, query, cookies);
 
-  var document = parse(response.body);
+  var document = await parse(response.body);
 
   String balanceString = document.querySelector('span#span_saldo_total').text;
 

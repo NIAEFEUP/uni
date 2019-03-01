@@ -12,7 +12,7 @@ Future<String> getPrintsBalance(String link, Store<AppState> store) async{
 
   var response = await NetworkRouter.getWithCookies(link, query, cookies);
 
-  var document = parse(response.body);
+  var document = await parse(response.body);
 
   String balanceString = document.querySelector('div#conteudoinner > .info').text;
 

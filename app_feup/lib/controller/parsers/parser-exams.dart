@@ -85,7 +85,7 @@ Future<List<Exam>> examsGet(String link) async{
 
   var response = await http.get(link);
 
-  var document = parse(response.body);
+  var document = await parse(response.body);
 
   List<Exam> Exams = new List();
   List<String> dates = new List();

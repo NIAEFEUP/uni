@@ -6,7 +6,7 @@ import 'package:html/dom.dart';
 
 Future<List<Lecture>> scheduleGet(http.Response response) async {
 
-  var document = parse(response.body);
+  var document = await parse(response.body);
 
   var semana = [0,0,0,0,0,0];
 
