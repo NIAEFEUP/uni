@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../widgets/NavigationDrawer.dart';
 import 'package:app_feup/model/AppState.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 abstract class GeneralPageView extends StatelessWidget {
 
@@ -21,9 +22,7 @@ abstract class GeneralPageView extends StatelessWidget {
                   shape: BoxShape.circle,
                   image: DecorationImage(
                     fit: BoxFit.cover,
-                    //TODO: Change to profile pic when ready
-                    image: NetworkImage(
-                      "https://dei.fe.up.pt/gig/wp-content/uploads/sites/4/2017/02/AAS_Jorn-1-243x300.jpg")
+                    image: getProfileImage(context)
                   )
                 )
               ),
@@ -35,4 +34,18 @@ abstract class GeneralPageView extends StatelessWidget {
   }
 
   Widget getBody(BuildContext context){return new Container();}
+
+  CachedNetworkImageProvider getProfileImage(BuildContext context){
+    CachedNetworkImageProvider profileImage;
+
+    String studentNo = StoreProvider.of<AppState>(context).state.content['session']['studentNumber'];
+    String url = "https://sigarra.up.pt/feup/pt/fotografias_service.foto?pct_cod=" + studentNo;
+
+    final Map<String, String> headers = Map<String, String>();
+    headers['cookie'] = StoreProvider.of<AppState>(context).state.content['session']['cookies'];
+
+    profileImage = CachedNetworkImageProvider(url, headers: headers);
+
+    return profileImage;
+  }
 }
