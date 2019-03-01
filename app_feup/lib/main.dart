@@ -1,10 +1,10 @@
+import 'package:app_feup/model/SchedulePageModel.dart';
 import 'package:app_feup/view/Pages/ClassificationsPageView.dart';
 import 'package:app_feup/view/Pages/ExamsPageView.dart';
 import 'package:app_feup/view/Pages/HomePageView.dart';
 import 'package:app_feup/view/Pages/MapPageView.dart';
 import 'package:app_feup/view/Pages/MenuPageView.dart';
 import 'package:app_feup/view/Pages/ParkPageView.dart';
-import 'package:app_feup/view/Pages/SchedulePageView.dart';
 import 'package:flutter/material.dart';
 import 'package:app_feup/view/Pages/SplashPageView.dart';
 import 'package:flutter/services.dart';
@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
         home: SplashScreen(),
         routes: {
             '/Área Pessoal': (context) => HomePageView(),
-            '/Horário': (context) => SchedulePageView(),
+            '/Horário': (context) => SchedulePage(),
             '/Classificações': (context) => ClassificationsPageView(),
             '/Ementa': (context) => MenuPageView(),
             '/Mapa de Exames': (context) => ExamsPageView(),
