@@ -42,9 +42,8 @@ ThunkAction<AppState> fetchProfile() {
 
 ThunkAction<AppState> getUserExams() {
   return (Store<AppState> store) async {
-    //need to get student course here
 
-    List<Exam> exams = await examsGet("https://sigarra.up.pt/feup/pt/exa_geral.mapa_de_exames?p_curso_id=742");
+    List<Exam> exams = await examsGet("https://sigarra.up.pt/${store.state.content['session']['faculty']}/pt/exa_geral.mapa_de_exames?p_curso_id=742");
     
     store.dispatch(new SetExamsAction(exams));
   };
@@ -52,7 +51,6 @@ ThunkAction<AppState> getUserExams() {
 
 ThunkAction<AppState> getUserSchedule() {
   return (Store<AppState> store) async {
-    //need to get student schedule here
 
     var date = DateTime.now();
     String beginWeek = date.year.toString().padLeft(4, '0') + date.month.toString().padLeft(2, '0') + date.day.toString().padLeft(2, '0');
@@ -74,7 +72,7 @@ ThunkAction<AppState> updateSelectedPage(new_page) {
 ThunkAction<AppState> getUserPrintBalance() {
   return (Store<AppState> store) async {
 
-    String url = "https://sigarra.up.pt/feup/pt/imp4_impressoes.atribs?";
+    String url = "https://sigarra.up.pt/${store.state.content['session']['faculty']}/pt/imp4_impressoes.atribs?";
 
     String printBalance = await getPrintsBalance(url, store);
     
@@ -85,7 +83,7 @@ ThunkAction<AppState> getUserPrintBalance() {
 ThunkAction<AppState> getUserFeesBalance() {
   return (Store<AppState> store) async {
 
-    String url = "https://sigarra.up.pt/feup/pt/gpag_ccorrente_geral.conta_corrente_view?";
+    String url = "https://sigarra.up.pt/${store.state.content['session']['faculty']}/pt/gpag_ccorrente_geral.conta_corrente_view?";
 
     String feesBalance = await getFeesBalance(url, store);
     
