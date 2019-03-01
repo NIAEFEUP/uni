@@ -1,6 +1,4 @@
-import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' show parse;
-import 'package:html/dom.dart';
 import 'dart:async';
 import 'package:app_feup/controller/networking/NetworkRouter.dart';
 import 'package:app_feup/model/AppState.dart';
@@ -16,9 +14,9 @@ Future<String> getPrintsBalance(String link, Store<AppState> store) async{
 
   var document = parse(response.body);
 
-  //print(document);
-  
-  //TODO: CONTINUAR AQUI 
+  String balanceString = document.querySelector('div#conteudoinner > .info').text;
 
-  return "21";
+  String balance = balanceString.split(": ")[1];
+
+  return balance;
 }

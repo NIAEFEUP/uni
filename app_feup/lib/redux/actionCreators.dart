@@ -92,8 +92,6 @@ ThunkAction<AppState> getUserPrintBalance() {
     String url = "https://sigarra.up.pt/feup/pt/imp4_impressoes.atribs?";
 
     String printBalance = await getPrintsBalance(url, store);
-
-    print("PRINT BALANCE: " + printBalance);
     
     store.dispatch(new SetPrintBalanceAction(printBalance));
   };
