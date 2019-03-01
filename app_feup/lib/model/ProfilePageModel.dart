@@ -2,6 +2,8 @@ import 'package:app_feup/model/AppState.dart';
 import 'package:app_feup/view/Pages/ProfilePageView.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+
 import 'package:http/http.dart' as http;
 import 'dart:async';
 
@@ -70,8 +72,8 @@ class _ProfilePageState extends State<ProfilePage> {
     });
   }
 
-  NetworkImage getProfileImage(){
-    NetworkImage profileImage;
+  CachedNetworkImageProvider getProfileImage(){
+    CachedNetworkImageProvider profileImage;
 
     String studentNo = StoreProvider.of<AppState>(context).state.content['session']['studentNumber'];
     String url = "https://sigarra.up.pt/feup/pt/fotografias_service.foto?pct_cod=" + studentNo;
@@ -79,7 +81,7 @@ class _ProfilePageState extends State<ProfilePage> {
     final Map<String, String> headers = Map<String, String>();
     headers['cookie'] = StoreProvider.of<AppState>(context).state.content['session']['cookies'];
 
-    profileImage = NetworkImage(url, headers: headers);
+    profileImage = CachedNetworkImageProvider(url, headers: headers);
 
     return profileImage;
   }
@@ -87,5 +89,6 @@ class _ProfilePageState extends State<ProfilePage> {
   void _logout() {
     print("logout");
   }
+
 
 }

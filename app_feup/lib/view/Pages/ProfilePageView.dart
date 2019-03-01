@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/GenericCard.dart';
 import '../../view/Theme.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 import '../widgets/NavigationDrawer.dart';
 
@@ -29,7 +30,7 @@ class ProfilePageView extends StatelessWidget {
   final String printBalance;
   final String feesBalance;
   final String nextFeeLimitData;
-  final NetworkImage profileImage;
+  final CachedNetworkImageProvider profileImage;
   final Function logout;
 
   @override
