@@ -14,7 +14,7 @@ class NavigationDrawer extends StatefulWidget {
 
 class NavigationDrawerState extends State<NavigationDrawer> {
 
-  final drawerItems = [
+  static final drawerItems = [
     "Área Pessoal",
     "Horário",
     "Classificações",
@@ -26,9 +26,13 @@ class NavigationDrawerState extends State<NavigationDrawer> {
 
   _onSelectItem(int index) {
 
+    var prev = StoreProvider.of<AppState>(context).state.content["selected_page"];
     StoreProvider.of<AppState>(context).dispatch(updateSelectedPage(drawerItems[index]));
 
-    Navigator.of(context).pop(); // close the drawer
+    Navigator.of(context).pop();
+
+    if (prev != drawerItems[index])  // If not already in selected page
+      Navigator.pushReplacementNamed(context, '/' + StoreProvider.of<AppState>(context).state.content["selected_page"]);
   }
 
   _buildBorder(name) {
