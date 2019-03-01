@@ -1,16 +1,33 @@
 import 'dart:async';
-
 import 'package:http/http.dart' as http;
-import 'package:html/parser.dart' show parse;
-import 'package:html/dom.dart';
+import 'dart:convert';
 
 Future<List<Lecture>> scheduleGet(http.Response response) async {
 
+
+  List<Lecture> lecturesList = new List();
+
+  var json = jsonDecode(response.body);
+
+  var schedule = json['horario'];
+
+  for (var lecture in schedule) {
+    int day = (lecture['dia'] - 2) % 7;   // Api: monday = 2, Lecture class: monday = 0
+    int secBegin = lecture['hora_inicio'];
+    String subject = lecture['ucurr_sigla'];
+    String typeClass = lecture['tipo'];
+    int blocks = (lecture['aula_duracao'] * 2).round();  // Each block represents 30 minutes, Api uses float representing hours
+    String room = lecture['sala_sigla'];
+    String teacher = lecture['doc_sigla'];
+
+    lecturesList.add(Lecture(subject, typeClass, day, secBegin, blocks, room, teacher));
+  }
+
+  /*  Parser html backup
   var document = parse(response.body);
 
   var semana = [0,0,0,0,0,0];
 
-  List<Lecture> lecturesList = new List();
   document.querySelectorAll('.horario > tbody > tr').forEach((Element element){
     if (element.getElementsByClassName('horas').length > 0){
       var day = 0;
@@ -44,6 +61,8 @@ Future<List<Lecture>> scheduleGet(http.Response response) async {
       semana = semana.expand((i) => [(i-1) < 0? 0 : i - 1]).toList();
     }
   });
+  */
+
   lecturesList.sort((a, b) => a.compare(b));
 
   return lecturesList;
@@ -59,26 +78,24 @@ class Lecture {
   String teacher;
   int day;
   int blocks;
+  int startTimeSeconds;
 
-  Lecture(String subject, String typeClass, int day, String startTime, int blocks, String room, String teacher){
+  Lecture(String subject, String typeClass, int day, int startTimeSeconds, int blocks, String room, String teacher){
     this.subject = subject;
     this.typeClass = typeClass;
     this.room = room;
     this.teacher = teacher;
     this.day = day;
     this.blocks = blocks;
+    this.startTimeSeconds = startTimeSeconds;
 
-    int hour = int.parse(startTime.substring(0,2));
-    int min = int.parse(startTime.substring(3,5));
-    this.startTime = hour.toString().padLeft(2, '0') + 'h' + min.toString().padLeft(2, '0');
-    min += blocks*30;
-    hour += min~/60;
-    min %= 60;
-    this.endTime = hour.toString().padLeft(2, '0') + 'h' + min.toString().padLeft(2, '0');
+    this.startTime = (startTimeSeconds~/3600).toString().padLeft(2, '0') + 'h' + ((startTimeSeconds%3600)~/60).toString().padLeft(2, '0');
+    startTimeSeconds += 60*30*blocks;
+    this.endTime = (startTimeSeconds~/3600).toString().padLeft(2, '0') + 'h' + ((startTimeSeconds%3600)~/60).toString().padLeft(2, '0');
   }
 
   static Lecture clone(Lecture lec){
-    return Lecture(lec.subject, lec.typeClass, lec.day, lec.startTime, lec.blocks, lec.room, lec.teacher);
+    return Lecture(lec.subject, lec.typeClass, lec.day, lec.startTimeSeconds, lec.blocks, lec.room, lec.teacher);
   }
 
   printLecture(){
