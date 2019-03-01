@@ -2,6 +2,7 @@ import 'package:app_feup/controller/loadinfo.dart';
 import 'package:app_feup/controller/parsers/parser-exams.dart';
 import 'package:app_feup/controller/parsers/parser-schedule.dart';
 import 'package:app_feup/controller/parsers/parser-prints.dart';
+import 'package:app_feup/controller/parsers/parser-fees.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import '../model/AppState.dart';
 import 'actions.dart';
@@ -94,5 +95,16 @@ ThunkAction<AppState> getUserPrintBalance() {
     String printBalance = await getPrintsBalance(url, store);
     
     store.dispatch(new SetPrintBalanceAction(printBalance));
+  };
+}
+
+ThunkAction<AppState> getUserFeesBalance() {
+  return (Store<AppState> store) async {
+
+    String url = "https://sigarra.up.pt/feup/pt/gpag_ccorrente_geral.conta_corrente_view?";
+
+    String feesBalance = await getFeesBalance(url, store);
+    
+    store.dispatch(new SetFeesBalanceAction(feesBalance));
   };
 }

@@ -20,6 +20,9 @@ AppState appReducers(AppState state, dynamic action) {
   else if(action is SetPrintBalanceAction){
     return setPrintBalance(state, action);
   }
+  else if(action is SetFeesBalanceAction){
+    return setFeesBalance(state, action);
+  }
   return state;
 }
 
@@ -51,4 +54,9 @@ AppState setSchedule(AppState state, SetScheduleAction action) {
 AppState setPrintBalance(AppState state, SetPrintBalanceAction action) {
   print('setting print balance: ' + action.printBalance);
   return state.cloneAndUpdateValue("printBalance", action.printBalance);
+}
+
+AppState setFeesBalance(AppState state, SetFeesBalanceAction action) {
+  print('setting fees balance: ' + action.feesBalance);
+  return state.cloneAndUpdateValue("feesBalance", action.feesBalance);
 }
