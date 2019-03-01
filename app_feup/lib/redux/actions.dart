@@ -1,9 +1,10 @@
 import 'package:app_feup/controller/parsers/parser-exams.dart';
 import 'package:app_feup/controller/parsers/parser-schedule.dart';
 import 'package:app_feup/model/LoginPageModel.dart';
+import 'package:app_feup/model/entities/Session.dart';
 
 class SaveLoginDataAction {
-  Map<String, dynamic> session;
+  Session session;
   SaveLoginDataAction(this.session);
 }
 

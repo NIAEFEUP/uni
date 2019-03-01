@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:app_feup/controller/loadinfo.dart';
 import 'package:app_feup/controller/parsers/parser-exams.dart';
 import 'package:app_feup/controller/parsers/parser-schedule.dart';
+import 'package:app_feup/model/entities/Session.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import '../model/AppState.dart';
 import 'actions.dart';
@@ -13,10 +14,10 @@ ThunkAction<AppState> login(username, password, faculty, persistentSession) {
   return (Store<AppState> store) async {
     try {
       store.dispatch(new SetLoginStatusAction(LoginStatus.BUSY));
-      final Map<String, dynamic> session = await NetworkRouter.login(username, password, faculty, persistentSession);
+      final Session session = await NetworkRouter.login(username, password, faculty, persistentSession);
       print(session);
       store.dispatch(new SaveLoginDataAction(session));
-      if (session['authenticated']){
+      if (session.authenticated){
         loadUserInfoToState(store);
       } else {
         store.dispatch(new SetLoginStatusAction(LoginStatus.FAILED));
