@@ -4,9 +4,6 @@ import 'dart:convert';
 
 Future<List<Lecture>> scheduleGet(http.Response response) async {
 
-<<<<<<< HEAD
-  var document = await parse(response.body);
-=======
 
   List<Lecture> lecturesList = new List();
 
@@ -28,7 +25,6 @@ Future<List<Lecture>> scheduleGet(http.Response response) async {
 
   /*  Parser html backup
   var document = parse(response.body);
->>>>>>> origin/develop
 
   var semana = [0,0,0,0,0,0];
 
