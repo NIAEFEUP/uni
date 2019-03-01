@@ -1,6 +1,7 @@
 import 'package:app_feup/controller/loadinfo.dart';
 import 'package:app_feup/controller/parsers/parser-exams.dart';
 import 'package:app_feup/controller/parsers/parser-schedule.dart';
+import 'package:app_feup/controller/parsers/parser-prints.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import '../model/AppState.dart';
 import 'actions.dart';
@@ -43,7 +44,7 @@ ThunkAction<AppState> getUserExams() {
     //need to get student course here
 
     List<Exam> exams = await examsGet("https://sigarra.up.pt/feup/pt/exa_geral.mapa_de_exames?p_curso_id=742");
-
+    
     store.dispatch(new SetExamsAction(exams));
   };
 }
@@ -82,5 +83,18 @@ ThunkAction<AppState> getUserSchedule() {
 ThunkAction<AppState> updateSelectedPage(new_page) {
   return (Store<AppState> store) async {
     store.dispatch(new UpdateSelectedPageAction(new_page));
+  };
+}
+
+ThunkAction<AppState> getUserPrintBalance() {
+  return (Store<AppState> store) async {
+
+    String url = "https://sigarra.up.pt/feup/pt/imp4_impressoes.atribs?";
+
+    String printBalance = await getPrintsBalance(url, store);
+
+    print("PRINT BALANCE: " + printBalance);
+    
+    store.dispatch(new SetPrintBalanceAction(printBalance));
   };
 }
