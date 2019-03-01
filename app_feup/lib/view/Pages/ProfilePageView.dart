@@ -35,14 +35,28 @@ class ProfilePageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: new AppBar(title: new Text("Perfil", textAlign: TextAlign.start)),
+      appBar: new AppBar(
+        title: new Text("Perfil", textAlign: TextAlign.start),
+        actions: <Widget>[
+          PopupMenuButton<String>(
+            onSelected: choiceAction,
+            itemBuilder: (BuildContext context) {
+              return Choice.choices.map((String choice){
+                return PopupMenuItem<String>(
+                  value: choice,
+                  child: Text(choice),
+                );
+              }).toList();
+            },
+          ),
+        ],
+      ),
       drawer: new NavigationDrawer(),
       body: createScrollableProfileView(context)
     );
   }
 
   Widget createScrollableProfileView(BuildContext context){
-    final MediaQueryData queryData = MediaQuery.of(context);
     return ListView(
       shrinkWrap: false,
       padding: const EdgeInsets.all(20.0),
@@ -54,8 +68,6 @@ class ProfilePageView extends StatelessWidget {
         printsInfo(context),
         Padding(padding: const EdgeInsets.all(10.0)),
         accountInfo(context),
-        Padding(padding: const EdgeInsets.all(15.0)),
-        logOutButton(context, queryData)
       ]
     );
   }
@@ -273,29 +285,16 @@ class ProfilePageView extends StatelessWidget {
     );
   }
 
-  Widget logOutButton(BuildContext context, MediaQueryData queryData){
-    return SizedBox(
-      width: queryData.size.width / 2.5, // this doens't work
-      height: queryData.size.height / 18,
-      child: RaisedButton(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(25),
-        ),
-        onPressed: () => {logout()},
-        color: primaryColor,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text('Sair',
-              style: TextStyle(
-                color: Colors.white, fontWeight: FontWeight.w300, fontSize: 18),
-              textAlign: TextAlign.center
-            ),
-            Padding(padding: EdgeInsets.all(8.0)),
-            Icon(IconData(0xe879, fontFamily: 'MaterialIcons'), color: Colors.white, size: 23),
-          ],
-        )
-      ),
-    );
+  void choiceAction(String choice){
+    if(choice == Choice.logout)
+      logout();
   }
+}
+
+class Choice{
+  static const String logout = "Sair";
+
+  static const List<String> choices = <String>[
+    logout
+  ];
 }

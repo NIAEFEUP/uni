@@ -81,7 +81,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
     profileImage = NetworkImage(url, headers: headers);
 
-    //TODO: catch error if image is not loaded right
     return profileImage;
   }
 
