@@ -21,6 +21,7 @@ dependencies:
   redux_thunk: ^0.2.1
   http: ^0.12.0+1
   query_params: '^0.6.1'
+  cached_network_image: "^0.6.0"
   flutter_svg: ^0.11.0+1
 
   # The following adds the Cupertino Icons font to your application.
