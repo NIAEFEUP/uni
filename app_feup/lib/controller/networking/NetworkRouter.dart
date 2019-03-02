@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:app_feup/model/entities/Profile.dart';
 import 'package:app_feup/model/entities/Session.dart';
 import 'package:http/http.dart' as http;
 import 'package:query_params/query_params.dart';
@@ -26,9 +27,9 @@ class NetworkRouter {
     }
   }
 
-  static String extractCookies(response) {
+  static String extractCookies(dynamic headers) {
     final List<String> cookieList = List<String>();
-    final String cookies = response['set-cookie'];
+    final String cookies = headers['set-cookie'];
     if (cookies != null) {
       final List<String> rawCookies = cookies.split(',');
       for (var c in rawCookies) {
@@ -38,17 +39,17 @@ class NetworkRouter {
     return cookieList.join(';');
   }
 
-  static Future<Map<String, dynamic>> getProfile(
+  static Future<Profile> getProfile(
       Session session) async {
-    Map<String, dynamic> profile = Map<String, dynamic>();
     final url =
         NetworkRouter.getBaseUrlFromSession(session) + 'mob_fest_geral.perfil?';
     final response = await getWithCookies(
         url, {"pv_codigo": session.studentNumber}, session.cookies);
+  
     if (response.statusCode == 200) {
-      profile = json.decode(response.body);
+      return Profile.fromResponse(response);
     }
-    return profile;
+    return Profile();
   }
 
   static Future<Map<String, dynamic>> getUcs(

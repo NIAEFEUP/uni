@@ -25,7 +25,7 @@ class Session {
           authenticated: true,
           studentNumber: responseBody['codigo'],
           type: responseBody['tipo'],
-          cookies: NetworkRouter.extractCookies(responseBody));
+          cookies: NetworkRouter.extractCookies(response.headers));
     } else {
       return Session(authenticated: false);
     }

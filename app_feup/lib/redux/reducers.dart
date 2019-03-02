@@ -49,5 +49,5 @@ AppState saveProfile(AppState state, SaveProfileAction action) {
 }
 
 AppState saveUcs(AppState state, SaveUcsAction action) {
-  return state.cloneAndUpdateValue("profile", action.ucs);
+  return state.cloneAndUpdateValue("enrollments", action.ucs);
 }
