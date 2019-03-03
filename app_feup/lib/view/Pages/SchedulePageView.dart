@@ -1,65 +1,57 @@
+import 'package:flutter/material.dart';
+import '../Pages/GeneralPageView.dart';
 import 'package:app_feup/controller/parsers/parser-schedule.dart';
 import 'package:app_feup/model/AppState.dart';
-import 'package:app_feup/view/widgets/NavigationDrawer.dart';
 import 'package:app_feup/view/widgets/ScheduleSlot.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
-class SchedulePageView extends StatelessWidget {
+class SchedulePageView extends GeneralPageView {
 
   SchedulePageView(
-      {Key key,
-        @required this.tabController,
-        @required this.daysOfTheWeek,
-        @required this.aggLectures})
-      : super(key: key);
+    {Key key,
+      @required this.tabController,
+      @required this.daysOfTheWeek,
+      @required this.aggLectures});
 
   final List<String> daysOfTheWeek;
   final List<List<Lecture>> aggLectures;
   final TabController tabController;
 
   @override
-  Widget build(BuildContext context) {
-
+  Widget getBody(BuildContext context) {
     final MediaQueryData queryData = MediaQuery.of(context);
 
-    return new Scaffold(
-        appBar: new AppBar(
-            title: new Text("App FEUP"),
-        ),
-        drawer: new NavigationDrawer(),
-        body:  new Column(
-          children: <Widget>[
-            new Container(
-              decoration: const BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(width: 1.0, color: Colors.grey),
-                ),
-              ),
-              constraints: BoxConstraints(maxHeight: 150.0),
-              child: new Material(
-                color: Colors.white,
-                child: new TabBar(
-                  controller: tabController,
-                  isScrollable: true,
-                  unselectedLabelColor: Colors.grey,
-                  labelColor: Colors.grey,
-                  indicatorWeight: 3.0,
-                  indicatorColor: Colors.grey,
-                  labelPadding: EdgeInsets.all(0.0),
-                  tabs: createTabs(queryData),
-                ),
-              ),
+    return new Column(
+      children: <Widget>[
+        new Container(
+          decoration: const BoxDecoration(
+            border: Border(
+              bottom: BorderSide(width: 1.0, color: Colors.grey),
             ),
-            new Expanded(
-              child: new TabBarView(
-                controller: tabController,
-                children: createSchedule(context),
-              ),
+          ),
+          constraints: BoxConstraints(maxHeight: 150.0),
+          child: new Material(
+            color: Colors.white,
+            child: new TabBar(
+              controller: tabController,
+              isScrollable: true,
+              unselectedLabelColor: Colors.grey,
+              labelColor: Colors.grey,
+              indicatorWeight: 3.0,
+              indicatorColor: Colors.grey,
+              labelPadding: EdgeInsets.all(0.0),
+              tabs: createTabs(queryData),
             ),
-          ],
+          ),
         ),
-      );
+        new Expanded(
+          child: new TabBarView(
+            controller: tabController,
+            children: createSchedule(context),
+          ),
+        ),
+      ],
+    );
   }
 
   List<Widget> createTabs(queryData) {
