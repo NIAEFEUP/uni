@@ -62,8 +62,8 @@ class NetworkRouter {
       List<CourseUnit> ucs = List<CourseUnit>();
       for (var c in responseBody) {
         ucs.add(CourseUnit.fromJson(c));
-        return ucs;
       }
+      return ucs;
     }
     return List<CourseUnit>();
   }
