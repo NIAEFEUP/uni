@@ -32,7 +32,7 @@ ThunkAction<AppState> fetchUserInfo() {
   return (Store<AppState> store) async {
     try {
       final profile = NetworkRouter.getProfile(store.state.content['session']).then((res) => store.dispatch(new SaveProfileAction(res)));
-      final ucs = NetworkRouter.getUcs(store.state.content['session']).then((res) => store.dispatch(new SaveUcsAction(res)));
+      final ucs = NetworkRouter.getCurrentCourseUnits(store.state.content['session']).then((res) => store.dispatch(new SaveUcsAction(res)));
       await Future.wait([profile, ucs]);
       store.dispatch(new SetLoginStatusAction(LoginStatus.SUCCESSFUL));
     } catch (e) {

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:app_feup/model/entities/CourseUnit.dart';
 import 'package:app_feup/model/entities/Profile.dart';
 import 'package:app_feup/model/entities/Session.dart';
 import 'package:http/http.dart' as http;
@@ -39,30 +40,32 @@ class NetworkRouter {
     return cookieList.join(';');
   }
 
-  static Future<Profile> getProfile(
-      Session session) async {
+  static Future<Profile> getProfile(Session session) async {
     final url =
         NetworkRouter.getBaseUrlFromSession(session) + 'mob_fest_geral.perfil?';
     final response = await getWithCookies(
         url, {"pv_codigo": session.studentNumber}, session.cookies);
-  
+
     if (response.statusCode == 200) {
       return Profile.fromResponse(response);
     }
     return Profile();
   }
 
-  static Future<Map<String, dynamic>> getUcs(
-      Session session) async {
-    Map<String, dynamic> ucs = Map<String, dynamic>();
+  static Future<List<CourseUnit>> getCurrentCourseUnits(Session session) async {
     final url = NetworkRouter.getBaseUrlFromSession(session) +
         'mob_fest_geral.ucurr_inscricoes_corrente?';
     final response = await getWithCookies(
         url, {"pv_codigo": session.studentNumber}, session.cookies);
     if (response.statusCode == 200) {
-      ucs = json.decode(response.body)[0];
+      final responseBody = json.decode(response.body);
+      List<CourseUnit> ucs = List<CourseUnit>();
+      for (var c in responseBody) {
+        ucs.add(CourseUnit.fromJson(c));
+        return ucs;
+      }
     }
-    return ucs;
+    return List<CourseUnit>();
   }
 
   static Future<http.Response> getWithCookies(

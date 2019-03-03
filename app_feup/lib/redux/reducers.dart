@@ -15,7 +15,7 @@ AppState appReducers(AppState state, dynamic action) {
   } else if (action is SaveProfileAction) {
     return saveProfile(state, action);
   } else if (action is SaveUcsAction) {
-    return saveUcs(state, action);
+    return saveCurrUcs(state, action);
   }
   return state;
 }
@@ -48,6 +48,6 @@ AppState saveProfile(AppState state, SaveProfileAction action) {
   return state.cloneAndUpdateValue("profile", action.profile);
 }
 
-AppState saveUcs(AppState state, SaveUcsAction action) {
-  return state.cloneAndUpdateValue("enrollments", action.ucs);
+AppState saveCurrUcs(AppState state, SaveUcsAction action) {
+  return state.cloneAndUpdateValue("currUcs", action.ucs);
 }

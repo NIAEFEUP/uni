@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
-
 class Profile {
   String name;
   String email;
@@ -23,7 +21,7 @@ class Profile {
     return courses[0].currYear;
   }
 
-  Profile({@required this.name, @required this.email, @required this.courses});
+  Profile({this.name, this.email, this.courses});
 
   static Profile fromResponse(dynamic response) {
     final responseBody = json.decode(response.body);
