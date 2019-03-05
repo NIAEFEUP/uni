@@ -5,8 +5,6 @@ import '../widgets/NavigationDrawer.dart';
 import '../widgets/TitleCard.dart';
 import '../../model/AppState.dart';
 import '../../controller/parsers/parser-exams.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 import '../widgets/ScheduleRow.dart';
 
 class ExamsPageView extends StatelessWidget {

@@ -1,4 +1,5 @@
 import 'package:app_feup/controller/loadinfo.dart';
+import 'package:app_feup/controller/local_storage/AppDatabase.dart';
 import 'package:app_feup/controller/local_storage/AppSharedPreferences.dart';
 import 'package:app_feup/controller/parsers/parser-exams.dart';
 import 'package:app_feup/controller/parsers/parser-schedule.dart';
@@ -60,6 +61,16 @@ ThunkAction<AppState> getUserSchedule() {
     String endWeek = date.year.toString().padLeft(4, '0') + date.month.toString().padLeft(2, '0') + date.day.toString().padLeft(2, '0');
 
     List<Lecture> lectures = await scheduleGet(await NetworkRouter.getWithCookies("https://sigarra.up.pt/${store.state.content['session']['faculty']}/pt/mob_hor_geral.estudante?pv_codigo=${store.state.content['session']['studentNumber']}&pv_semana_ini=$beginWeek&pv_semana_fim=$endWeek", {}, store.state.content['session']['cookies']));
+
+    AppDatabase db = AppDatabase();
+    db.saveNewLectures(lectures);
+
+//    List<Lecture> lecs = await db.lectures();
+//
+//    for (Lecture lec in lecs)
+//      lec.printLecture();
+//
+//    print("length: ${lecs.length}");
 
     store.dispatch(new SetScheduleAction(lectures));
   };
