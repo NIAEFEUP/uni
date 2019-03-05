@@ -1,65 +1,35 @@
 import 'dart:async';
-import 'package:app_feup/controller/parsers/parser-schedule.dart';
-import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
 
 class AppDatabase {
-  static Future<Database> _dbLectures;
+  Database _db;
+  String name;
+  String command;
 
-  saveNewLectures(List<Lecture> lecs) async {
-    await _openDBLectures();
-    await _deleteLectures();
-    await _insertLectures(lecs);
+  AppDatabase(String name, String command) {
+    this.name = name;
+    this.command = command;
   }
 
-  Future<List<Lecture>> lectures() async {
-    // Get a reference to the database
-    final Database db = await _dbLectures;
-
-    // Query the table for All The Dogs.
-    final List<Map<String, dynamic>> maps = await db.query('lectures');
-
-    // Convert the List<Map<String, dynamic> into a List<Dog>.
-    return List.generate(maps.length, (i) {
-      return Lecture(
-        maps[i]['subject'],
-        maps[i]['typeClass'],
-        maps[i]['day'],
-        maps[i]['startTimeSeconds'],
-        maps[i]['blocks'],
-        maps[i]['room'],
-        maps[i]['teacher'],
-      );
-    });
+  Future<Database> getDatabase() async {
+    if (_db == null)
+      _db = await initializeDatabase();
+    return _db;
   }
 
-  _openDBLectures() async {
-    if (_dbLectures == null)
-      _dbLectures = openDatabase(
-        join(await getDatabasesPath(), 'lectures.db'),
-        onCreate: (db, version) {
-          return db.execute("CREATE TABLE lectures(subject TEXT, typeClass TEXT, day INTEGER, startTimeSeconds INTEGER, blocks INTEGER, room TEXT, teacher TEXT)");
-        },
-        version: 1,
-      );
+  Future<Database> initializeDatabase() async {
+    // Get the directory path for both Android and iOS to store database
+    Directory directory = await getApplicationDocumentsDirectory();
+    String path = directory.path + this.name;
+
+    // Open or create the database at the given path
+    var appFeupDatabase = await openDatabase(path, version: 1, onCreate: _createDatabase);
+    return appFeupDatabase;
   }
 
-  Future<void> _insertLectures(List<Lecture> lecs) async {
-    // Get a reference to the database
-    final Database db = await _dbLectures;
-
-    for (Lecture lec in lecs)
-      await db.insert(
-        'lectures',
-        lec.toMap(),
-        conflictAlgorithm: ConflictAlgorithm.replace,
-      );
-  }
-
-  Future<void> _deleteLectures() async {
-    // Get a reference to the database
-    final Database db = await _dbLectures;
-
-    await db.delete('lectures');
+  void _createDatabase(Database db, int newVersion) async {
+    await db.execute(command);
   }
 }

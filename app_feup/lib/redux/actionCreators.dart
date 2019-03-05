@@ -1,5 +1,6 @@
 import 'package:app_feup/controller/loadinfo.dart';
-import 'package:app_feup/controller/local_storage/AppDatabase.dart';
+import 'package:app_feup/controller/local_storage/AppExamsDatabase.dart';
+import 'package:app_feup/controller/local_storage/AppLecturesDatabase.dart';
 import 'package:app_feup/controller/local_storage/AppSharedPreferences.dart';
 import 'package:app_feup/controller/parsers/parser-exams.dart';
 import 'package:app_feup/controller/parsers/parser-schedule.dart';
@@ -47,6 +48,16 @@ ThunkAction<AppState> getUserExams() {
 
     List<Exam> exams = await examsGet("https://sigarra.up.pt/feup/pt/exa_geral.mapa_de_exames?p_curso_id=742");
 
+    AppExamsDatabase db = await AppExamsDatabase();
+    await db.saveNewExams(exams);
+
+    List<Exam> exs = await db.exams();
+
+    for (Exam ex in exs)
+      ex.printExam();
+
+    print("length: ${exs.length}");
+
     store.dispatch(new SetExamsAction(exams));
   };
 }
@@ -62,15 +73,15 @@ ThunkAction<AppState> getUserSchedule() {
 
     List<Lecture> lectures = await scheduleGet(await NetworkRouter.getWithCookies("https://sigarra.up.pt/${store.state.content['session']['faculty']}/pt/mob_hor_geral.estudante?pv_codigo=${store.state.content['session']['studentNumber']}&pv_semana_ini=$beginWeek&pv_semana_fim=$endWeek", {}, store.state.content['session']['cookies']));
 
-    AppDatabase db = AppDatabase();
-    db.saveNewLectures(lectures);
+    AppLecturesDatabase db = await AppLecturesDatabase();
+    await db.saveNewLectures(lectures);
 
-//    List<Lecture> lecs = await db.lectures();
-//
-//    for (Lecture lec in lecs)
-//      lec.printLecture();
-//
-//    print("length: ${lecs.length}");
+    List<Lecture> lecs = await db.lectures();
+
+    for (Lecture lec in lecs)
+      lec.printLecture();
+
+    print("length: ${lecs.length}");
 
     store.dispatch(new SetScheduleAction(lectures));
   };
