@@ -21,8 +21,10 @@ dependencies:
   redux_thunk: ^0.2.1
   http: ^0.12.0+1
   query_params: '^0.6.1'
+  tuple: ^1.0.2
   shared_preferences: ^0.5.1+1
   encrypt: ^2.0.0
+  sqflite: any
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2

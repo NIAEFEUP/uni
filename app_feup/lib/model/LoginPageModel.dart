@@ -1,12 +1,12 @@
 import 'dart:async';
-import 'package:app_feup/controller/local_storage/LocalStorage.dart';
+import 'package:app_feup/controller/local_storage/AppSharedPreferences.dart';
 import 'package:app_feup/model/AppState.dart';
 import 'package:app_feup/view/Pages/LoginPageView.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:app_feup/redux/actionCreators.dart';
 import 'package:redux/redux.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tuple/tuple.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -86,15 +86,12 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future _loadPersistentInfoLogin() async {
-//    await LocalStorage.removePersistentUserInfo();
-    final prefs = await SharedPreferences.getInstance();
 
-    final user = prefs.getString('user_number') ?? "";
-    final pass = prefs.getString('user_pass') ?? "";
+    Tuple2<String, String> userInfo = await AppSharedPreferences.getPersistentUserInfo();
 
-    if (user != "" && pass != ""){
-      usernameController.text = user;
-      passwordController.text = pass;
+    if (userInfo.item1 != "" && userInfo.item2 != ""){
+      usernameController.text = userInfo.item1;
+      passwordController.text = userInfo.item2;
       _setKeepSignedIn(true);
       _login(StoreProvider.of<AppState>(context));
     }

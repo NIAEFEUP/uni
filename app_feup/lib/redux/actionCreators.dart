@@ -1,5 +1,5 @@
 import 'package:app_feup/controller/loadinfo.dart';
-import 'package:app_feup/controller/local_storage/LocalStorage.dart';
+import 'package:app_feup/controller/local_storage/AppSharedPreferences.dart';
 import 'package:app_feup/controller/parsers/parser-exams.dart';
 import 'package:app_feup/controller/parsers/parser-schedule.dart';
 import 'package:redux_thunk/redux_thunk.dart';
@@ -17,7 +17,7 @@ ThunkAction<AppState> login(username, password, faculty, persistentSession) {
       store.dispatch(new SaveLoginDataAction(session));
       if (session['authenticated']){
         if (persistentSession)
-          LocalStorage.savePersistentUserInfo(username, password);
+          AppSharedPreferences.savePersistentUserInfo(username, password);
         loadUserInfoToState(store);
         store.dispatch(new SetLoginStatusAction(LoginStatus.SUCCESSFUL));
       } else {

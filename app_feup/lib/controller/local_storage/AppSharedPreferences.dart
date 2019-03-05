@@ -2,8 +2,9 @@ import 'dart:async';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:encrypt/encrypt.dart';
+import 'package:tuple/tuple.dart';
 
-class LocalStorage {
+class AppSharedPreferences {
 
   static final String userNumber = "user_number";
   static final String userPw = "user_password";
@@ -22,16 +23,22 @@ class LocalStorage {
     prefs.remove(userPw);
   }
 
+  static Future<Tuple2<String, String>> getPersistentUserInfo() async {
+    String user_num = await getUserNumber();
+    String user_pass = await getUserPassword();
+    return new Tuple2(user_num, user_pass);
+  }
+
   static Future<String> getUserNumber() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getString(userNumber) ?? '-1'; // - 1 for the case it does not exist
+    return prefs.getString(userNumber) ?? ""; // empty string for the case it does not exist
   }
 
   static Future<String> getUserPassword() async {
     final prefs = await SharedPreferences.getInstance();
-    String pass = prefs.getString(userPw) ?? "-1";
+    String pass = prefs.getString(userPw) ?? "";
 
-    if (pass != "-1")
+    if (pass != "")
       pass = decode(pass);
     else print('User password does not exist in shared preferences.');
 
