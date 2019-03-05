@@ -61,6 +61,9 @@ class LoginPageView extends StatelessWidget {
     widgets.add(
         Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)));
     widgets.add(createStatusWidget(context));
+    widgets.add(
+        Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)));
+    widgets.add(createSafeLoginButton(context));
 
     return widgets;
   }
@@ -229,5 +232,42 @@ class LoginPageView extends StatelessWidget {
         border: new UnderlineInputBorder(),
         focusedBorder: new UnderlineInputBorder(
             borderSide: new BorderSide(color: Colors.white, width: 3)));
+  }
+
+  createSafeLoginButton(BuildContext context) {
+    return InkResponse(
+        onTap: () {
+          _showLoginDetails(context);
+        },
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+        child: Container(
+            padding: EdgeInsets.all(8),
+            child: Text(
+              "É seguro fazer login?",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  decoration: TextDecoration.underline,
+                  color: Colors.white,
+                  fontSize: 17.0,
+                  fontWeight: FontWeight.w300),
+            )));
+  }
+
+  Future<void> _showLoginDetails(BuildContext context) async {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('É seguro fazer login?'),
+            content: const Text(' Os dados utilizados na App FEUP são guardados apenas localmente, sendo os dados mais sensíveis devidamente encriptados para assegurar maior segurança.\n Todas as informações mostradas na app provêm das informações disponíveis no Sigarra.'),
+            actions: <Widget>[
+              SimpleDialogOption(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('OK'),
+              )
+            ],
+          );
+        });
   }
 }
