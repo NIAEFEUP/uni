@@ -17,10 +17,20 @@ class HomePageView extends GeneralPageView {
             style: Theme.of(context).textTheme.title,
           ),
         ),
-        new ExamCard(),
+        GestureDetector(
+          onTap: () {
+            Navigator.pushReplacementNamed(context, '/Mapa de Exames');
+          },
+          child: ExamCard(),
+        ),
 
-        new ScheduleCard(),
-        //Cards go here
+        GestureDetector(
+          onTap: () {
+            Navigator.pushReplacementNamed(context, '/Horário');
+          },
+          child: ScheduleCard(),
+        )
+
       ],
     );
   }

@@ -9,7 +9,7 @@ AppState appReducers(AppState state, dynamic action) {
     return setLoginStatus(state, action);
   } 
   else if(action is UpdateSelectedPageAction) {
-    return updateSelectedPage(state, action);
+    return updateSelectedPageStatus(state, action);
   }
   else if (action is SetExamsAction){
     return setExams(state, action);
@@ -20,7 +20,7 @@ AppState appReducers(AppState state, dynamic action) {
   return state;
 }
 
-AppState updateSelectedPage(AppState state, UpdateSelectedPageAction action) {
+AppState updateSelectedPageStatus(AppState state, UpdateSelectedPageAction action) {
   print('updating selected page: ' + action.selected_page);
   return state.cloneAndUpdateValue("selected_page", action.selected_page);
 }
