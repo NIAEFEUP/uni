@@ -4,23 +4,9 @@ import 'package:app_feup/model/AppState.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:app_feup/controller/loadinfo.dart';
-import 'package:app_feup/controller/LifecycleEventHandler.dart';
 
 
-class GeneralPage extends StatefulWidget{
-  GeneralPage({
-    Key key
-  }): super(key: key);
-
-  @override
-  State<StatefulWidget> createState() {
-    return GeneralPageView();
-  }
-
-
-}
-
-class GeneralPageView extends State<GeneralPage> {
+abstract class GeneralPageView extends StatelessWidget {
 
   WidgetsBindingObserver lifeCycleEventHandler;
 
@@ -81,24 +67,6 @@ class GeneralPageView extends State<GeneralPage> {
     );
   }
 
-  @override
-  void initState() {
-    super.initState();
-    StoreConnector<AppState, VoidCallback>(
-      converter: (store){
 
-        return () =>
-          WidgetsBinding.instance.addObserver(this.lifeCycleEventHandler =  new LifecycleEventHandler(store: store));
-      },
-      builder: (context, observer){
-        observer;
-      },
-    );
-  }
 
-  @override
-  void dispose() {
-    WidgetsBinding.instance.removeObserver(this.lifeCycleEventHandler);
-    super.dispose();
-  }
 }
