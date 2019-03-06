@@ -54,14 +54,14 @@ abstract class GeneralPageView extends StatelessWidget {
   }
 
   Widget refreshState(BuildContext context, Widget child) {
-    return StoreConnector<AppState, Future<void>>(
+    return StoreConnector<AppState, VoidCallback>(
       converter: (store){
-        return handleRefresh(store);
+        return () => handleRefresh(store);
       },
       builder: (context, refresh){
         return new RefreshIndicator(
             child: child,
-            onRefresh: () => refresh
+            onRefresh: refresh
         );
       },
     );
