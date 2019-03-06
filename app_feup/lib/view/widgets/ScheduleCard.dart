@@ -26,7 +26,7 @@ class ScheduleCard extends StatelessWidget {
                 )
             );
           } else {
-            return Center(child: Text("No lectures or classes to show at the moment"));
+            return Center(child: CircularProgressIndicator());
           }
         }
     );

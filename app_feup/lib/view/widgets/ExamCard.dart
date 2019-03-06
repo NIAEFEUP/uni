@@ -25,7 +25,7 @@ class ExamCard extends StatelessWidget{
           );
         }else {
           return Center (
-            child: Text("No exams to show at the moment"),
+            child: CircularProgressIndicator(),
           );
         }
       },
