@@ -23,10 +23,10 @@ class ExamCard extends StatelessWidget{
                 children: this.getExamRows(context, exams),
               )
           );
-        }else {
-          return Center (
-            child: CircularProgressIndicator(),
-          );
+        }else if (StoreProvider.of<AppState>(context).state.content['examsStatus']){
+          return Center(child: CircularProgressIndicator());
+        } else {
+          return Center(child: Text("No exams found, check your Internet connection."));
         }
       },
     );

@@ -17,9 +17,19 @@ class SetExamsAction{
   SetExamsAction(this.exams);
 }
 
+class SetExamsStatusAction{
+  bool busy;
+  SetExamsStatusAction(this.busy);
+}
+
 class SetScheduleAction{
   List<Lecture> lectures;
   SetScheduleAction(this.lectures);
+}
+
+class SetScheduleStatusAction{
+  bool busy;
+  SetScheduleStatusAction(this.busy);
 }
 
 class UpdateSelectedPageAction {

@@ -5,7 +5,9 @@ class AppState {
   Map getInitialContent() {
     return {
       "schedule": [],
+      "scheduleStatus": true,
       "exams": [],
+      "examsStatus": true,
       "selected_page": "Área Pessoal",
     };
   }

@@ -41,9 +41,9 @@ ThunkAction<AppState> fetchProfile() {
 ThunkAction<AppState> getUserExams() {
   return (Store<AppState> store) async {
     //need to get student course here
-
+    store.dispatch(new SetExamsStatusAction(true));
     List<Exam> exams = await examsGet("https://sigarra.up.pt/feup/pt/exa_geral.mapa_de_exames?p_curso_id=742");
-
+    store.dispatch(new SetExamsStatusAction(false));
     store.dispatch(new SetExamsAction(exams));
   };
 }
@@ -51,14 +51,14 @@ ThunkAction<AppState> getUserExams() {
 ThunkAction<AppState> getUserSchedule() {
   return (Store<AppState> store) async {
     //need to get student schedule here
-
+    store.dispatch(new SetScheduleStatusAction(true));
     var date = DateTime.now();
     String beginWeek = date.year.toString().padLeft(4, '0') + date.month.toString().padLeft(2, '0') + date.day.toString().padLeft(2, '0');
     date = date.add(new Duration(days: 6));
     String endWeek = date.year.toString().padLeft(4, '0') + date.month.toString().padLeft(2, '0') + date.day.toString().padLeft(2, '0');
 
     List<Lecture> lectures = await scheduleGet(await NetworkRouter.getWithCookies("https://sigarra.up.pt/${store.state.content['session']['faculty']}/pt/mob_hor_geral.estudante?pv_codigo=${store.state.content['session']['studentNumber']}&pv_semana_ini=$beginWeek&pv_semana_fim=$endWeek", {}, store.state.content['session']['cookies']));
-
+    store.dispatch(new SetScheduleStatusAction(false));
     store.dispatch(new SetScheduleAction(lectures));
   };
 }

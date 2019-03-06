@@ -25,8 +25,10 @@ class ScheduleCard extends StatelessWidget {
                   children: this.getScheduleRows(context, lectures),
                 )
             );
-          } else {
+          } else if (StoreProvider.of<AppState>(context).state.content['scheduleStatus']){
             return Center(child: CircularProgressIndicator());
+          } else {
+            return Center(child: Text("No schedule found, check your Internet connection."));
           }
         }
     );

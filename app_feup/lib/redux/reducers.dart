@@ -17,6 +17,9 @@ AppState appReducers(AppState state, dynamic action) {
   else if (action is SetScheduleAction){
     return setSchedule(state, action);
   }
+  else if (action is SetScheduleStatusAction){
+    return setScheduleStatus(state, action);
+  }
   return state;
 }
 
@@ -39,7 +42,17 @@ AppState setExams(AppState state, SetExamsAction action) {
   return state.cloneAndUpdateValue("exams", action.exams);
 }
 
+AppState setExamsStatus(AppState state, SetScheduleStatusAction action) {
+  print('setting exams status: ' + action.busy.toString());
+  return state.cloneAndUpdateValue('examsStatus', action.busy);
+}
+
 AppState setSchedule(AppState state, SetScheduleAction action) {
   print('setting schedule: ' + action.lectures.length.toString());
   return state.cloneAndUpdateValue("schedule", action.lectures);
+}
+
+AppState setScheduleStatus(AppState state, SetScheduleStatusAction action) {
+  print('setting schedule status: ' + action.busy.toString());
+  return state.cloneAndUpdateValue('scheduleStatus', action.busy);
 }
