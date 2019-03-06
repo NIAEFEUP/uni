@@ -42,21 +42,30 @@ ThunkAction<AppState> fetchProfile() {
   };
 }
 
+ThunkAction<AppState> updateStateBasedOnLocalUserExams() {
+  return (Store<AppState> store) async {
+    AppExamsDatabase db = await AppExamsDatabase();
+    List<Exam> exs = await db.exams();
+    store.dispatch(new SetExamsAction(exs));
+  };
+}
+
+ThunkAction<AppState> updateStateBasedOnLocalUserLectures() {
+  return (Store<AppState> store) async {
+    AppLecturesDatabase db = await AppLecturesDatabase();
+    List<Lecture> lecs = await db.lectures();
+    store.dispatch(new SetScheduleAction(lecs));
+  };
+}
+
 ThunkAction<AppState> getUserExams() {
   return (Store<AppState> store) async {
     //need to get student course here
-
     List<Exam> exams = await examsGet("https://sigarra.up.pt/feup/pt/exa_geral.mapa_de_exames?p_curso_id=742");
 
+    // Updates local database according to the information fetched -- Exams
     AppExamsDatabase db = await AppExamsDatabase();
     await db.saveNewExams(exams);
-
-    List<Exam> exs = await db.exams();
-
-    for (Exam ex in exs)
-      ex.printExam();
-
-    print("length: ${exs.length}");
 
     store.dispatch(new SetExamsAction(exams));
   };
@@ -73,15 +82,9 @@ ThunkAction<AppState> getUserSchedule() {
 
     List<Lecture> lectures = await scheduleGet(await NetworkRouter.getWithCookies("https://sigarra.up.pt/${store.state.content['session']['faculty']}/pt/mob_hor_geral.estudante?pv_codigo=${store.state.content['session']['studentNumber']}&pv_semana_ini=$beginWeek&pv_semana_fim=$endWeek", {}, store.state.content['session']['cookies']));
 
+    // Updates local database according to the information fetched -- Lectures
     AppLecturesDatabase db = await AppLecturesDatabase();
     await db.saveNewLectures(lectures);
-
-    List<Lecture> lecs = await db.lectures();
-
-    for (Lecture lec in lecs)
-      lec.printLecture();
-
-    print("length: ${lecs.length}");
 
     store.dispatch(new SetScheduleAction(lectures));
   };
