@@ -20,7 +20,11 @@ class ScheduleCard extends StatelessWidget {
         converter: (store) => store.state.content['schedule'],
         builder: (context, lectures){
           if(lectures.length >= 1) {
-            return GenericCard(
+            return GestureDetector(
+              onTap: () {
+                Navigator.pushReplacementNamed(context, '/Horário');
+              },
+              child: GenericCard(
                 title: "Horário",
                 child: Container(
                     child: new Column(
@@ -28,13 +32,17 @@ class ScheduleCard extends StatelessWidget {
                       children: this.getScheduleRows(context, lectures),
                     )
                 )
-            );
+            ));
           } else {
-            return GenericCard(
+            return GestureDetector(
+              onTap: () {
+                Navigator.pushReplacementNamed(context, '/Horário');
+              },
+              child: GenericCard(
                 title: "Horário",
                 child: Center(
                     child: Text("No lectures or classes to show at the moment"))
-            );
+            ));
           }
         }
     );

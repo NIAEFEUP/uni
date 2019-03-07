@@ -17,20 +17,9 @@ class HomePageView extends GeneralPageView {
             style: Theme.of(context).textTheme.title,
           ),
         ),
-        GestureDetector(
-          onTap: () {
-            Navigator.pushReplacementNamed(context, '/Mapa de Exames');
-          },
-          child: ExamCard(),
-        ),
+        ExamCard(),
 
-        GestureDetector(
-          onTap: () {
-            Navigator.pushReplacementNamed(context, '/Horário');
-          },
-          child: ScheduleCard(),
-        )
-
+        ScheduleCard(),
       ],
     );
   }
