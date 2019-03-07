@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:app_feup/controller/loadinfo.dart';
 import 'package:app_feup/controller/parsers/parser-exams.dart';
 import 'package:app_feup/controller/parsers/parser-schedule.dart';
@@ -38,17 +39,18 @@ ThunkAction<AppState> fetchProfile() {
   };
 }
 
-ThunkAction<AppState> getUserExams() {
+ThunkAction<AppState> getUserExams(Completer<Null> action) {
   return (Store<AppState> store) async {
     //need to get student course here
 
     List<Exam> exams = await examsGet("https://sigarra.up.pt/feup/pt/exa_geral.mapa_de_exames?p_curso_id=742");
 
+    action.complete();
     store.dispatch(new SetExamsAction(exams));
   };
 }
 
-ThunkAction<AppState> getUserSchedule() {
+ThunkAction<AppState> getUserSchedule(Completer<Null> action) {
   return (Store<AppState> store) async {
     //need to get student schedule here
 
@@ -58,6 +60,8 @@ ThunkAction<AppState> getUserSchedule() {
     String endWeek = date.year.toString().padLeft(4, '0') + date.month.toString().padLeft(2, '0') + date.day.toString().padLeft(2, '0');
 
     List<Lecture> lectures = await scheduleGet(await NetworkRouter.getWithCookies("https://sigarra.up.pt/${store.state.content['session']['faculty']}/pt/mob_hor_geral.estudante?pv_codigo=${store.state.content['session']['studentNumber']}&pv_semana_ini=$beginWeek&pv_semana_fim=$endWeek", {}, store.state.content['session']['cookies']));
+
+    action.complete();
 
     store.dispatch(new SetScheduleAction(lectures));
   };

@@ -3,8 +3,10 @@ import 'package:app_feup/redux/actionCreators.dart';
 import 'package:app_feup/redux/RefreshItemsAction.dart';
 
 loadUserInfoToState(store){
-  store.dispatch(getUserExams());
-  store.dispatch(getUserSchedule());
+  Completer<Null> exams = new Completer(), schedule = new Completer();
+  store.dispatch(getUserExams(exams));
+  store.dispatch(getUserSchedule(schedule));
+  return Future.wait([exams.future, schedule.future]);
 }
 
 Future<void> handleRefresh(store){

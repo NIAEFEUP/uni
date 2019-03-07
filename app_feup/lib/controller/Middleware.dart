@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:app_feup/model/AppState.dart';
@@ -10,8 +11,8 @@ void generalMiddleware(
     NextDispatcher next,
     ){
   if(action is RefreshItemsAction){
-    loadUserInfoToState(store);
-    action.completer.complete();
+//    Future.wait(loadUserInfoToState(store)).then((List responses) => action.completer.complete());
+    loadUserInfoToState(store).whenComplete( () => action.completer.complete());
   }else if (action is ThunkAction<AppState>) {
     action(store);
   } else {
