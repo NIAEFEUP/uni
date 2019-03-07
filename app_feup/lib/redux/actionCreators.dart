@@ -1,6 +1,8 @@
 import 'package:app_feup/controller/loadinfo.dart';
 import 'package:app_feup/controller/parsers/parser-exams.dart';
 import 'package:app_feup/controller/parsers/parser-schedule.dart';
+import 'package:app_feup/controller/parsers/parser-prints.dart';
+import 'package:app_feup/controller/parsers/parser-fees.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import '../model/AppState.dart';
 import 'actions.dart';
@@ -66,5 +68,27 @@ ThunkAction<AppState> getUserSchedule() {
 ThunkAction<AppState> updateSelectedPage(new_page) {
   return (Store<AppState> store) async {
     store.dispatch(new UpdateSelectedPageAction(new_page));
+  };
+}
+
+ThunkAction<AppState> getUserPrintBalance() {
+  return (Store<AppState> store) async {
+
+    String url = "https://sigarra.up.pt/${store.state.content['session']['faculty']}/pt/imp4_impressoes.atribs?";
+
+    String printBalance = await getPrintsBalance(url, store);
+    
+    store.dispatch(new SetPrintBalanceAction(printBalance));
+  };
+}
+
+ThunkAction<AppState> getUserFeesBalance() {
+  return (Store<AppState> store) async {
+
+    String url = "https://sigarra.up.pt/${store.state.content['session']['faculty']}/pt/gpag_ccorrente_geral.conta_corrente_view?";
+
+    String feesBalance = await getFeesBalance(url, store);
+    
+    store.dispatch(new SetFeesBalanceAction(feesBalance));
   };
 }

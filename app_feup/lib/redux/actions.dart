@@ -36,3 +36,13 @@ class UpdateSelectedPageAction {
     String selected_page;
     UpdateSelectedPageAction(this.selected_page);
 }
+
+class SetPrintBalanceAction {
+  String printBalance;
+  SetPrintBalanceAction(this.printBalance);
+}
+
+class SetFeesBalanceAction {
+  String feesBalance;
+  SetFeesBalanceAction(this.feesBalance);
+}
