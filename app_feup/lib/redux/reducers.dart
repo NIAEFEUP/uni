@@ -17,8 +17,9 @@ AppState appReducers(AppState state, dynamic action) {
   else if (action is SetScheduleAction){
     return setSchedule(state, action);
   }
-  else if (action is SetScheduleStatusAction){
+  else if (action is SetScheduleStatusAction) {
     return setScheduleStatus(state, action);
+  }
   else if(action is SetPrintBalanceAction){
     return setPrintBalance(state, action);
   }
