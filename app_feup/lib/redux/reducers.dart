@@ -17,6 +17,12 @@ AppState appReducers(AppState state, dynamic action) {
   else if (action is SetScheduleAction){
     return setSchedule(state, action);
   }
+  else if(action is SetPrintBalanceAction){
+    return setPrintBalance(state, action);
+  }
+  else if(action is SetFeesBalanceAction){
+    return setFeesBalance(state, action);
+  }
   return state;
 }
 
@@ -36,10 +42,21 @@ AppState setLoginStatus(AppState state, SetLoginStatusAction action) {
 }
 
 AppState setExams(AppState state, SetExamsAction action) {
+  print('setting exams: ' + action.exams.length.toString());
   return state.cloneAndUpdateValue("exams", action.exams);
 }
 
 AppState setSchedule(AppState state, SetScheduleAction action) {
   print('setting schedule: ' + action.lectures.length.toString());
   return state.cloneAndUpdateValue("schedule", action.lectures);
+}
+
+AppState setPrintBalance(AppState state, SetPrintBalanceAction action) {
+  print('setting print balance: ' + action.printBalance);
+  return state.cloneAndUpdateValue("printBalance", action.printBalance);
+}
+
+AppState setFeesBalance(AppState state, SetFeesBalanceAction action) {
+  print('setting fees balance: ' + action.feesBalance);
+  return state.cloneAndUpdateValue("feesBalance", action.feesBalance);
 }

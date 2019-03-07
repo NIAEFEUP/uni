@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:app_feup/controller/loadinfo.dart';
 import 'package:app_feup/controller/parsers/parser-exams.dart';
 import 'package:app_feup/controller/parsers/parser-schedule.dart';
+import 'package:app_feup/controller/parsers/parser-prints.dart';
+import 'package:app_feup/controller/parsers/parser-fees.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import '../model/AppState.dart';
 import 'actions.dart';
@@ -41,18 +43,17 @@ ThunkAction<AppState> fetchProfile() {
 
 ThunkAction<AppState> getUserExams(Completer<Null> action) {
   return (Store<AppState> store) async {
-    //need to get student course here
 
-    List<Exam> exams = await examsGet("https://sigarra.up.pt/feup/pt/exa_geral.mapa_de_exames?p_curso_id=742");
+    List<Exam> exams = await examsGet("https://sigarra.up.pt/${store.state.content['session']['faculty']}/pt/exa_geral.mapa_de_exames?p_curso_id=742");
 
     action.complete();
+
     store.dispatch(new SetExamsAction(exams));
   };
 }
 
 ThunkAction<AppState> getUserSchedule(Completer<Null> action) {
   return (Store<AppState> store) async {
-    //need to get student schedule here
 
     var date = DateTime.now();
     String beginWeek = date.year.toString().padLeft(4, '0') + date.month.toString().padLeft(2, '0') + date.day.toString().padLeft(2, '0');
@@ -70,5 +71,27 @@ ThunkAction<AppState> getUserSchedule(Completer<Null> action) {
 ThunkAction<AppState> updateSelectedPage(new_page) {
   return (Store<AppState> store) async {
     store.dispatch(new UpdateSelectedPageAction(new_page));
+  };
+}
+
+ThunkAction<AppState> getUserPrintBalance(Completer<Null> action) {
+  return (Store<AppState> store) async {
+
+    String url = "https://sigarra.up.pt/${store.state.content['session']['faculty']}/pt/imp4_impressoes.atribs?";
+
+    String printBalance = await getPrintsBalance(url, store);
+    action.complete();
+    store.dispatch(new SetPrintBalanceAction(printBalance));
+  };
+}
+
+ThunkAction<AppState> getUserFeesBalance(Completer<Null> action) {
+  return (Store<AppState> store) async {
+
+    String url = "https://sigarra.up.pt/${store.state.content['session']['faculty']}/pt/gpag_ccorrente_geral.conta_corrente_view?";
+
+    String feesBalance = await getFeesBalance(url, store);
+    action.complete();
+    store.dispatch(new SetFeesBalanceAction(feesBalance));
   };
 }
