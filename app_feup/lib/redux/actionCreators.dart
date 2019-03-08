@@ -1,6 +1,9 @@
+import 'dart:async';
 import 'package:app_feup/controller/loadinfo.dart';
 import 'package:app_feup/controller/parsers/parser-exams.dart';
 import 'package:app_feup/controller/parsers/parser-schedule.dart';
+import 'package:app_feup/controller/parsers/parser-prints.dart';
+import 'package:app_feup/controller/parsers/parser-fees.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import '../model/AppState.dart';
 import 'actions.dart';
@@ -38,42 +41,28 @@ ThunkAction<AppState> fetchProfile() {
   };
 }
 
-ThunkAction<AppState> getUserExams() {
+ThunkAction<AppState> getUserExams(Completer<Null> action) {
   return (Store<AppState> store) async {
-    //need to get student course here
 
-    List<Exam> exams = await examsGet("https://sigarra.up.pt/feup/pt/exa_geral.mapa_de_exames?p_curso_id=742");
+    List<Exam> exams = await examsGet("https://sigarra.up.pt/${store.state.content['session']['faculty']}/pt/exa_geral.mapa_de_exames?p_curso_id=742");
+
+    action.complete();
 
     store.dispatch(new SetExamsAction(exams));
   };
 }
 
-ThunkAction<AppState> getUserSchedule() {
+ThunkAction<AppState> getUserSchedule(Completer<Null> action) {
   return (Store<AppState> store) async {
-    //need to get student schedule here
 
-    //TODO when login is done, uncomment and replace pv_fest_id with user's and pv_ano_letivo with current school year
-    // List<Lecture> lectures = await scheduleGet(await NetworkRouter.getWithCookies("https://sigarra.up.pt/feup/pt/hor_geral.estudantes_view?pv_fest_id=1000108&pv_ano_lectivo=2018&pv_periodos=1", {}, store.state.content['session']['cookies']));
+    var date = DateTime.now();
+    String beginWeek = date.year.toString().padLeft(4, '0') + date.month.toString().padLeft(2, '0') + date.day.toString().padLeft(2, '0');
+    date = date.add(new Duration(days: 6));
+    String endWeek = date.year.toString().padLeft(4, '0') + date.month.toString().padLeft(2, '0') + date.day.toString().padLeft(2, '0');
 
-    List<Lecture> lectures = new List();
+    List<Lecture> lectures = await scheduleGet(await NetworkRouter.getWithCookies("https://sigarra.up.pt/${store.state.content['session']['faculty']}/pt/mob_hor_geral.estudante?pv_codigo=${store.state.content['session']['studentNumber']}&pv_semana_ini=$beginWeek&pv_semana_fim=$endWeek", {}, store.state.content['session']['cookies']));
 
-    lectures.add(new Lecture("SOPE", "TP", 0, "14:00", 4, "B310", "FHFC"));
-    lectures.add(new Lecture("BDAD", "TE", 0, "17:00", 2, "B001", "CTL"));
-    lectures.add(new Lecture("BDAD", "TP", 0, "18:00", 4, "B301", "JPMM"));
-
-    lectures.add(new Lecture("LPOO", "TE", 1, "16:00", 4, "B022", "AOR"));
-
-    lectures.add(new Lecture("CAL", "TE", 2, "08:30", 2, "B001", "RR"));
-    lectures.add(new Lecture("BDAD", "TE", 2, "09:30", 2, "B001", "CTL"));
-    lectures.add(new Lecture("SOPE", "TE", 2, "10:30", 2, "B001", "JAS"));
-    lectures.add(new Lecture("CGRA", "TP", 2, "11:30", 4, "B310", "AFCC"));
-
-    lectures.add(new Lecture("LPOO", "TP", 3, "14:00", 6, "B203", "FFC"));
-    lectures.add(new Lecture("SOPE", "TE", 3, "17:00", 2, "B001", "JAS"));
-
-    lectures.add(new Lecture("CGRA", "TE", 4, "14:00", 4, "B003", "AAS"));
-    lectures.add(new Lecture("CAL", "TE", 4, "16:00", 2, "B003", "RR"));
-    lectures.add(new Lecture("CAL", "TP", 4, "17:00", 4, "B107", "LFT"));
+    action.complete();
 
     store.dispatch(new SetScheduleAction(lectures));
   };
@@ -82,5 +71,27 @@ ThunkAction<AppState> getUserSchedule() {
 ThunkAction<AppState> updateSelectedPage(new_page) {
   return (Store<AppState> store) async {
     store.dispatch(new UpdateSelectedPageAction(new_page));
+  };
+}
+
+ThunkAction<AppState> getUserPrintBalance(Completer<Null> action) {
+  return (Store<AppState> store) async {
+
+    String url = "https://sigarra.up.pt/${store.state.content['session']['faculty']}/pt/imp4_impressoes.atribs?";
+
+    String printBalance = await getPrintsBalance(url, store);
+    action.complete();
+    store.dispatch(new SetPrintBalanceAction(printBalance));
+  };
+}
+
+ThunkAction<AppState> getUserFeesBalance(Completer<Null> action) {
+  return (Store<AppState> store) async {
+
+    String url = "https://sigarra.up.pt/${store.state.content['session']['faculty']}/pt/gpag_ccorrente_geral.conta_corrente_view?";
+
+    String feesBalance = await getFeesBalance(url, store);
+    action.complete();
+    store.dispatch(new SetFeesBalanceAction(feesBalance));
   };
 }
