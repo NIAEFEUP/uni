@@ -65,7 +65,7 @@ ThunkAction<AppState> getUserExams() {
 
     // Updates local database according to the information fetched -- Exams
     AppExamsDatabase db = await AppExamsDatabase();
-    await db.saveNewExams(exams);
+    db.saveNewExams(exams);
 
     store.dispatch(new SetExamsAction(exams));
   };
@@ -84,7 +84,7 @@ ThunkAction<AppState> getUserSchedule() {
 
     // Updates local database according to the information fetched -- Lectures
     AppLecturesDatabase db = await AppLecturesDatabase();
-    await db.saveNewLectures(lectures);
+    db.saveNewLectures(lectures);
 
     store.dispatch(new SetScheduleAction(lectures));
   };
