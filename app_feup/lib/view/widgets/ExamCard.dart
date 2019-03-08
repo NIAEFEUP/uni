@@ -17,30 +17,22 @@ class ExamCard extends StatelessWidget{
     return StoreConnector<AppState, List<dynamic>>(
       converter: (store) => store.state.content['exams'],
       builder: (context, exams){
-        if(exams.length >= 1) {
-          return GestureDetector(
-            onTap: () {
-              Navigator.pushReplacementNamed(context, '/Mapa de Exames');
-            },
-            child: GenericCard(
-              title: "Exames",
-              child: Container(
-                  child: new Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: this.getExamRows(context, exams),
-                  )
-              )));
-        }else {
-          return GestureDetector(
-            onTap: () {
-              Navigator.pushReplacementNamed(context, '/Mapa de Exames');
-            },
-            child: GenericCard(
-              title: "Exames",
-              child: Center(
-                child: Text("No exams to show at the moment"),
-              )));
-        }
+        return GestureDetector(
+          onTap: () {
+            Navigator.pushReplacementNamed(context, '/Mapa de Exames');
+          },
+          child: GenericCard(
+            title: "Exames",
+            child:
+                exams.length >= 1 ?
+                Container(
+                    child: new Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: this.getExamRows(context, exams),
+                    ))
+                : Center(
+                  child: Text("No exams to show at the moment"),
+                )));
       },
     );
   }
