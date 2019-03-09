@@ -12,7 +12,7 @@ class CourseUnit {
   String grade;
   String ectsGrade;
   String result;
-  int ects;
+  num ects;
 
   CourseUnit({this.id,
   this.code,

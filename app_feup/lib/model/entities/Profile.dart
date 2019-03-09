@@ -5,22 +5,6 @@ class Profile {
   String email;
   List<Course> courses;
 
-  int get fest_id {
-    return courses[0].fest_id;
-  }
-
-  String get courseName {
-    return courses[0].name;
-  }
-
-  int get firstEnrollment {
-    return courses[0].firstEnrollment;
-  }
-
-  String get currYear {
-    return courses[0].currYear;
-  }
-
   Profile({this.name, this.email, this.courses});
 
   static Profile fromResponse(dynamic response) {

@@ -60,8 +60,10 @@ class NetworkRouter {
     if (response.statusCode == 200) {
       final responseBody = json.decode(response.body);
       List<CourseUnit> ucs = List<CourseUnit>();
-      for (var c in responseBody) {
-        ucs.add(CourseUnit.fromJson(c));
+      for (var course in responseBody) {
+        for (var uc in course['inscricoes']) {
+          ucs.add(CourseUnit.fromJson(uc));
+        }
       }
       return ucs;
     }
