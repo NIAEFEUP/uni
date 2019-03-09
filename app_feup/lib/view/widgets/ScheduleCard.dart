@@ -91,6 +91,7 @@ class ScheduleCard extends StatelessWidget {
       begin: lecture.startTime,
       end: lecture.endTime,
       teacher: lecture.teacher,
+      type: lecture.typeClass,
     );
   }
 }

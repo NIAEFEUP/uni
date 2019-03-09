@@ -3,8 +3,12 @@ import '../widgets/NavigationDrawer.dart';
 import 'package:app_feup/model/AppState.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:app_feup/controller/loadinfo.dart';
+
 
 abstract class GeneralPageView extends StatelessWidget {
+
+  WidgetsBindingObserver lifeCycleEventHandler;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +33,7 @@ abstract class GeneralPageView extends StatelessWidget {
           ),
         ],),
       drawer: new NavigationDrawer(),
-      body: getBody(context),
+      body: this.refreshState(context, getBody(context)),
     );
   }
 
@@ -48,4 +52,22 @@ abstract class GeneralPageView extends StatelessWidget {
 
     return profileImage;
   }
+
+  Widget refreshState(BuildContext context, Widget child) {
+    return StoreConnector<AppState, VoidCallback>(
+      converter: (store){
+        return () => handleRefresh(store);
+      },
+      builder: (context, refresh){
+        return new RefreshIndicator(
+            child: child,
+            onRefresh: refresh,
+            color: Theme.of(context).primaryColor
+        );
+      },
+    );
+  }
+
+
+
 }
