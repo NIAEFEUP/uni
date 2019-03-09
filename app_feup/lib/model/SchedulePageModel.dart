@@ -12,6 +12,10 @@ class SchedulePage extends StatefulWidget{
   _SchedulePageState createState() => new _SchedulePageState();
 }
 
+enum ScheduleStatus {
+  NONE, BUSY, FAILED, SUCCESSFUL
+}
+
 class _SchedulePageState extends State<SchedulePage> with SingleTickerProviderStateMixin{
 
   TabController tabController;

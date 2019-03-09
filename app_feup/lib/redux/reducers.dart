@@ -49,7 +49,7 @@ AppState setExams(AppState state, SetExamsAction action) {
   return state.cloneAndUpdateValue("exams", action.exams);
 }
 
-AppState setExamsStatus(AppState state, SetScheduleStatusAction action) {
+AppState setExamsStatus(AppState state, SetExamsStatusAction action) {
   print('setting exams status: ' + action.busy.toString());
   return state.cloneAndUpdateValue('examsStatus', action.busy);
 }
@@ -60,8 +60,8 @@ AppState setSchedule(AppState state, SetScheduleAction action) {
 }
 
 AppState setScheduleStatus(AppState state, SetScheduleStatusAction action) {
-  print('setting schedule status: ' + action.busy.toString());
-  return state.cloneAndUpdateValue('scheduleStatus', action.busy);
+  print('setting schedule status: ' + action.status.toString());
+  return state.cloneAndUpdateValue('scheduleStatus', action.status);
 }
   
 AppState setPrintBalance(AppState state, SetPrintBalanceAction action) {

@@ -9,6 +9,7 @@ import 'actions.dart';
 import 'package:redux/redux.dart';
 import 'package:app_feup/controller/networking/NetworkRouter.dart';
 import 'package:app_feup/model/LoginPageModel.dart';
+import 'package:app_feup/model/SchedulePageModel.dart';
 
 ThunkAction<AppState> login(username, password, faculty, persistentSession) {
   return (Store<AppState> store) async {
@@ -52,16 +53,19 @@ ThunkAction<AppState> getUserExams() {
 
 ThunkAction<AppState> getUserSchedule() {
   return (Store<AppState> store) async {
-    //need to get student schedule here
-    store.dispatch(new SetScheduleStatusAction(true));
-    var date = DateTime.now();
-    String beginWeek = date.year.toString().padLeft(4, '0') + date.month.toString().padLeft(2, '0') + date.day.toString().padLeft(2, '0');
-    date = date.add(new Duration(days: 6));
-    String endWeek = date.year.toString().padLeft(4, '0') + date.month.toString().padLeft(2, '0') + date.day.toString().padLeft(2, '0');
+    try {
+      store.dispatch(new SetScheduleStatusAction(ScheduleStatus.BUSY));
+      var date = DateTime.now();
+      String beginWeek = date.year.toString().padLeft(4, '0') + date.month.toString().padLeft(2, '0') + date.day.toString().padLeft(2, '0');
+      date = date.add(new Duration(days: 6));
+      String endWeek = date.year.toString().padLeft(4, '0') + date.month.toString().padLeft(2, '0') + date.day.toString().padLeft(2, '0');
 
-    List<Lecture> lectures = await scheduleGet(await NetworkRouter.getWithCookies("https://sigarra.up.pt/${store.state.content['session']['faculty']}/pt/mob_hor_geral.estudante?pv_codigo=${store.state.content['session']['studentNumber']}&pv_semana_ini=$beginWeek&pv_semana_fim=$endWeek", {}, store.state.content['session']['cookies']));
-    store.dispatch(new SetScheduleStatusAction(false));
-    store.dispatch(new SetScheduleAction(lectures));
+      List<Lecture> lectures = await scheduleGet(await NetworkRouter.getWithCookies("https://sigarra.up.pt/${store.state.content['session']['faculty']}/pt/mob_hor_geral.estudante?pv_codigo=${store.state.content['session']['studentNumber']}&pv_semana_ini=$beginWeek&pv_semana_fim=$endWeek", {}, store.state.content['session']['cookies']));
+      store.dispatch(new SetScheduleStatusAction(ScheduleStatus.SUCCESSFUL));
+      store.dispatch(new SetScheduleAction(lectures));
+    } catch (e) {
+      store.dispatch(new SetScheduleStatusAction(ScheduleStatus.FAILED));
+    }
   };
 }
 
@@ -74,7 +78,7 @@ ThunkAction<AppState> updateSelectedPage(new_page) {
 ThunkAction<AppState> getUserPrintBalance() {
   return (Store<AppState> store) async {
 
-    String url = "https://sigarra.up.pt/${store.state.content['session']['faculty']}/pt/imp4_impressoes.atribs?";
+      String url = "https://sigarra.up.pt/${store.state.content['session']['faculty']}/pt/imp4_impressoes.atribs?";
 
     String printBalance = await getPrintsBalance(url, store);
     
