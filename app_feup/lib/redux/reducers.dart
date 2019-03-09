@@ -16,6 +16,10 @@ AppState appReducers(AppState state, dynamic action) {
     return saveProfile(state, action);
   } else if (action is SaveUcsAction) {
     return saveCurrUcs(state, action);
+  } else if(action is SetPrintBalanceAction) {
+    return setPrintBalance(state, action);
+  } else if(action is SetFeesBalanceAction) {
+    return setFeesBalance(state, action);
   }
   return state;
 }
@@ -36,6 +40,7 @@ AppState setLoginStatus(AppState state, SetLoginStatusAction action) {
 }
 
 AppState setExams(AppState state, SetExamsAction action) {
+  print('setting exams: ' + action.exams.length.toString());
   return state.cloneAndUpdateValue("exams", action.exams);
 }
 
@@ -50,4 +55,15 @@ AppState saveProfile(AppState state, SaveProfileAction action) {
 
 AppState saveCurrUcs(AppState state, SaveUcsAction action) {
   return state.cloneAndUpdateValue("currUcs", action.ucs);
+}
+
+
+AppState setPrintBalance(AppState state, SetPrintBalanceAction action) {
+  print('setting print balance: ' + action.printBalance);
+  return state.cloneAndUpdateValue("printBalance", action.printBalance);
+}
+
+AppState setFeesBalance(AppState state, SetFeesBalanceAction action) {
+  print('setting fees balance: ' + action.feesBalance);
+  return state.cloneAndUpdateValue("feesBalance", action.feesBalance);
 }

@@ -39,3 +39,13 @@ class SaveUcsAction {
   List<CourseUnit> ucs;
   SaveUcsAction(this.ucs);
 }
+
+class SetPrintBalanceAction {
+  String printBalance;
+  SetPrintBalanceAction(this.printBalance);
+}
+
+class SetFeesBalanceAction {
+  String feesBalance;
+  SetFeesBalanceAction(this.feesBalance);
+}
