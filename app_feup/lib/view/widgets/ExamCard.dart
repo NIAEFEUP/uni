@@ -16,17 +16,29 @@ class ExamCard extends StatelessWidget{
     return StoreConnector<AppState, List<dynamic>>(
       converter: (store) => store.state.content['exams'],
       builder: (context, exams){
-        if(exams.length >= 1) {
-          return Container(
-              child: new Column(
-                mainAxisSize: MainAxisSize.min,
-                children: this.getExamRows(context, exams),
-              )
-          );
-        }else if (StoreProvider.of<AppState>(context).state.content['examsStatus']){
-          return Center(child: CircularProgressIndicator());
-        } else {
-          return Center(child: Text("No exams found, check your Internet connection."));
+
+        switch (StoreProvider.of<AppState>(context).state.content['examsStatus'])
+        {
+          case RequestStatus.SUCCESSFUL:
+            if(exams.length >= 1) {
+              return Container(
+                  child: new Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: this.getExamRows(context, exams),
+                  )
+              );
+            } else {
+              return Center(child: Text("No exams to display."));
+            }
+            break;
+          case RequestStatus.BUSY:
+            return Center(child: CircularProgressIndicator());
+            break;
+          case RequestStatus.FAILED:
+            return Center(child: Text("Comunication error. Please check your internet connection."));
+            break;
+          default:
+            return Container();
         }
       },
     );

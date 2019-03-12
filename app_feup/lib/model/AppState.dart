@@ -1,3 +1,8 @@
+// enum should be placed somewhere else?
+enum RequestStatus {
+  NONE, BUSY, FAILED, SUCCESSFUL
+}
+
 class AppState {
 
   Map content = Map<String, dynamic>();
@@ -5,9 +10,9 @@ class AppState {
   Map getInitialContent() {
     return {
       "schedule": [],
-      "scheduleStatus": true,
       "exams": [],
-      "examsStatus": true,
+      "scheduleStatus": RequestStatus.NONE,
+      "examsStatus": RequestStatus.NONE,
       "selected_page": "Área Pessoal",
     };
   }

@@ -1,6 +1,5 @@
 import 'package:app_feup/controller/parsers/parser-schedule.dart';
 import 'package:app_feup/model/AppState.dart';
-import 'package:app_feup/model/SchedulePageModel.dart';
 import 'package:app_feup/view/widgets/DateRectangle.dart';
 import 'package:app_feup/view/widgets/ScheduleRow.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -21,7 +20,7 @@ class ScheduleCard extends StatelessWidget {
         builder: (context, lectures){
           switch (StoreProvider.of<AppState>(context).state.content['scheduleStatus'])
           {
-            case ScheduleStatus.SUCCESSFUL:
+            case RequestStatus.SUCCESSFUL:
               if(lectures.length >= 1) {
                 return Container(
                   child: new Column(
@@ -33,10 +32,10 @@ class ScheduleCard extends StatelessWidget {
                 return Center(child: Text("No schedule to display."));
               }
               break;
-            case ScheduleStatus.BUSY:
+            case RequestStatus.BUSY:
               return Center(child: CircularProgressIndicator());
               break;
-            case ScheduleStatus.FAILED:
+            case RequestStatus.FAILED:
               return Center(child: Text("Comunication error. Please check your internet connection."));
               break;
             default:

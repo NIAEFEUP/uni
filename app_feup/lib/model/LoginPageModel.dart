@@ -13,10 +13,6 @@ class LoginPage extends StatefulWidget {
   LoginPage({Key key}) : super(key: key);
 }
 
-enum LoginStatus {
-  NONE, BUSY, FAILED, SUCCESSFUL    
-}
-
 class _LoginPageState extends State<LoginPage> {
 
   FocusNode usernameFocus;
@@ -74,7 +70,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _login(Store<AppState> store) {
-    if (store.state.content['loginStatus'] != LoginStatus.BUSY && _formKey.currentState.validate()) {
+    if (store.state.content['loginStatus'] != RequestStatus.BUSY && _formKey.currentState.validate()) {
       final user = usernameController.text;
       final pass = passwordController.text;
       store.dispatch(login(user, pass, faculty, _keepSignedIn));

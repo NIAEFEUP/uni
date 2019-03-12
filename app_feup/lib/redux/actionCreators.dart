@@ -9,24 +9,22 @@ import '../model/AppState.dart';
 import 'actions.dart';
 import 'package:redux/redux.dart';
 import 'package:app_feup/controller/networking/NetworkRouter.dart';
-import 'package:app_feup/model/LoginPageModel.dart';
-import 'package:app_feup/model/SchedulePageModel.dart';
 
 ThunkAction<AppState> login(username, password, faculty, persistentSession) {
   return (Store<AppState> store) async {
     try {
-      store.dispatch(new SetLoginStatusAction(LoginStatus.BUSY));
+      store.dispatch(new SetLoginStatusAction(RequestStatus.BUSY));
       final Map<String, dynamic> session = await NetworkRouter.login(username, password, faculty, persistentSession);
       print(session);
       store.dispatch(new SaveLoginDataAction(session));
       if (session['authenticated']){
         loadUserInfoToState(store);
-        store.dispatch(new SetLoginStatusAction(LoginStatus.SUCCESSFUL));
+        store.dispatch(new SetLoginStatusAction(RequestStatus.SUCCESSFUL));
       } else {
-        store.dispatch(new SetLoginStatusAction(LoginStatus.FAILED));
+        store.dispatch(new SetLoginStatusAction(RequestStatus.FAILED));
       }
     } catch (e) {
-      store.dispatch(new SetLoginStatusAction(LoginStatus.FAILED));
+      store.dispatch(new SetLoginStatusAction(RequestStatus.FAILED));
     }
   };
 }
@@ -44,19 +42,23 @@ ThunkAction<AppState> fetchProfile() {
 
 ThunkAction<AppState> getUserExams(Completer<Null> action) {
   return (Store<AppState> store) async {
+    try {
     //need to get student course here
-    store.dispatch(new SetExamsStatusAction(true));
+    store.dispatch(new SetExamsStatusAction(RequestStatus.BUSY));
     List<Exam> exams = await examsGet("https://sigarra.up.pt/${store.state.content['session']['faculty']}/pt/exa_geral.mapa_de_exames?p_curso_id=742");
     action.complete();
-    store.dispatch(new SetExamsStatusAction(false));
+    store.dispatch(new SetExamsStatusAction(RequestStatus.SUCCESSFUL));
     store.dispatch(new SetExamsAction(exams));
+    } catch (e) {
+      store.dispatch(new SetExamsStatusAction(RequestStatus.FAILED));
+    }
   };
 }
 
 ThunkAction<AppState> getUserSchedule(Completer<Null> action) {
   return (Store<AppState> store) async {
     try {
-      store.dispatch(new SetScheduleStatusAction(ScheduleStatus.BUSY));
+      store.dispatch(new SetScheduleStatusAction(RequestStatus.BUSY));
       var date = DateTime.now();
       String beginWeek = date.year.toString().padLeft(4, '0') + date.month.toString().padLeft(2, '0') + date.day.toString().padLeft(2, '0');
       date = date.add(new Duration(days: 6));
@@ -64,10 +66,10 @@ ThunkAction<AppState> getUserSchedule(Completer<Null> action) {
       
       List<Lecture> lectures = await scheduleGet(await NetworkRouter.getWithCookies("https://sigarra.up.pt/${store.state.content['session']['faculty']}/pt/mob_hor_geral.estudante?pv_codigo=${store.state.content['session']['studentNumber']}&pv_semana_ini=$beginWeek&pv_semana_fim=$endWeek", {}, store.state.content['session']['cookies']));
       action.complete();
-      store.dispatch(new SetScheduleStatusAction(ScheduleStatus.SUCCESSFUL));
+      store.dispatch(new SetScheduleStatusAction(RequestStatus.SUCCESSFUL));
       store.dispatch(new SetScheduleAction(lectures));
     } catch (e) {
-      store.dispatch(new SetScheduleStatusAction(ScheduleStatus.FAILED));
+      store.dispatch(new SetScheduleStatusAction(RequestStatus.FAILED));
     }
   };
 }

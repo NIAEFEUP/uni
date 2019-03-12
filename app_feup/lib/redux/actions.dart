@@ -1,7 +1,6 @@
 import 'package:app_feup/controller/parsers/parser-exams.dart';
 import 'package:app_feup/controller/parsers/parser-schedule.dart';
-import 'package:app_feup/model/LoginPageModel.dart';
-import 'package:app_feup/model/SchedulePageModel.dart';
+import 'package:app_feup/model/AppState.dart';
 
 class SaveLoginDataAction {
   Map<String, dynamic> session;
@@ -9,7 +8,7 @@ class SaveLoginDataAction {
 }
 
 class SetLoginStatusAction {
-  LoginStatus status;
+  RequestStatus status;
   SetLoginStatusAction(this.status);
 }
 
@@ -19,8 +18,8 @@ class SetExamsAction{
 }
 
 class SetExamsStatusAction{
-  bool busy;
-  SetExamsStatusAction(this.busy);
+  RequestStatus status;
+  SetExamsStatusAction(this.status);
 }
 
 class SetScheduleAction{
@@ -29,7 +28,7 @@ class SetScheduleAction{
 }
 
 class SetScheduleStatusAction{
-  ScheduleStatus status;
+  RequestStatus status;
   SetScheduleStatusAction(this.status);
 }
 
