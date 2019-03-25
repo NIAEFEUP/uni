@@ -1,5 +1,6 @@
 import 'package:app_feup/model/AppState.dart';
 import 'package:app_feup/view/Pages/ProfilePageView.dart';
+import 'package:app_feup/model/entities/Profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -16,26 +17,22 @@ class _ProfilePageState extends State<ProfilePage> {
   
   String name;
   String email;
-  String course;
-  String currentYear;
   String currentState;
-  String yearFirstRegistration;
   String printBalance;
   String feesBalance;
   String nextFeeLimitData;
+  List<Course> courses;
 
   @override
   void initState() {
     super.initState();
     name = "";
     email = "";
-    course = "";
-    currentYear = "";
     currentState = "";
-    yearFirstRegistration = "";
     printBalance = "";
     feesBalance = "";
     nextFeeLimitData = "";
+    courses = [];
   }
 
   @override
@@ -44,32 +41,25 @@ class _ProfilePageState extends State<ProfilePage> {
     return new ProfilePageView(
       name: name,
       email: email,
-      course: course,
-      currentYear: currentYear,
       currentState: currentState,
-      yearFirstRegistration: yearFirstRegistration,
       printBalance: printBalance,
       feesBalance: feesBalance,
       nextFeeLimitData: nextFeeLimitData,
+      courses: courses,
       profileImage: getProfileImage(),
       logout: () => _logout());
   }
 
   void updateInfo() {
     setState(() {
-      name = "Nome Mais Um Nome Apelido Muito Grande Mesmo";
-      email = "up201601234@fe.up.pt";
-      course = "Mestrado Integrado em Engenharia Informática e Computação";
-      currentYear = "3";
+      name = StoreProvider.of<AppState>(context).state.content['profile'].name;
+      email = StoreProvider.of<AppState>(context).state.content['profile'].email;
+      //TODO: get current state
       currentState = "A Frequentar";
-      yearFirstRegistration = "2016/2017";
-      //TODO:
-      if(StoreProvider.of<AppState>(context).state.content['printBalance'] != null)
-        printBalance = StoreProvider.of<AppState>(context).state.content['printBalance'];
-      if(StoreProvider.of<AppState>(context).state.content['feesBalance'] != null)
-        feesBalance = StoreProvider.of<AppState>(context).state.content['feesBalance'];
-      // printBalance = StoreProvider.of<AppState>(context).state.content['printBalance'];
-      // feesBalance = StoreProvider.of<AppState>(context).state.content['feesBalance'];
+      courses = StoreProvider.of<AppState>(context).state.content['profile'].courses;
+      printBalance = StoreProvider.of<AppState>(context).state.content['printBalance'];
+      feesBalance = StoreProvider.of<AppState>(context).state.content['feesBalance'];
+      //TODO: get next fee limit data
       nextFeeLimitData = "2019-02-28";
     });
   }
@@ -77,11 +67,11 @@ class _ProfilePageState extends State<ProfilePage> {
   CachedNetworkImageProvider getProfileImage(){
     CachedNetworkImageProvider profileImage;
 
-    String studentNo = StoreProvider.of<AppState>(context).state.content['session']['studentNumber'];
+    String studentNo = StoreProvider.of<AppState>(context).state.content['session'].studentNumber;
     String url = "https://sigarra.up.pt/feup/pt/fotografias_service.foto?pct_cod=" + studentNo;
 
     final Map<String, String> headers = Map<String, String>();
-    headers['cookie'] = StoreProvider.of<AppState>(context).state.content['session']['cookies'];
+    headers['cookie'] = StoreProvider.of<AppState>(context).state.content['session'].cookies;
 
     profileImage = CachedNetworkImageProvider(url, headers: headers);
 
@@ -89,6 +79,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   void _logout() {
+    //TODO: logout
     print("logout");
   }
 

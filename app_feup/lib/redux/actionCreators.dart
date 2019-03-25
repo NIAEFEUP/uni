@@ -17,7 +17,6 @@ ThunkAction<AppState> login(username, password, faculty, persistentSession) {
     try {
       store.dispatch(new SetLoginStatusAction(LoginStatus.BUSY));
       final Session session = await NetworkRouter.login(username, password, faculty, persistentSession);
-      print(session);
       store.dispatch(new SaveLoginDataAction(session));
       if (session.authenticated){
         await loadUserInfoToState(store);
