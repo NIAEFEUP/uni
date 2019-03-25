@@ -1,6 +1,5 @@
 import 'dart:async';
 
-
 class RefreshItemsAction {
   final Completer<Null> completer;
 
