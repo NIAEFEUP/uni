@@ -4,9 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
-import 'package:http/http.dart' as http;
-import 'dart:async';
-
 class ProfilePage extends StatefulWidget {
   @override
   _ProfilePageState createState() => new _ProfilePageState();
@@ -58,7 +55,7 @@ class _ProfilePageState extends State<ProfilePage> {
       logout: () => _logout());
   }
 
-  void updateInfo(){
+  void updateInfo() {
     setState(() {
       name = "Nome Mais Um Nome Apelido Muito Grande Mesmo";
       email = "up201601234@fe.up.pt";
@@ -66,8 +63,13 @@ class _ProfilePageState extends State<ProfilePage> {
       currentYear = "3";
       currentState = "A Frequentar";
       yearFirstRegistration = "2016/2017";
-      printBalance = "5,12€";
-      feesBalance = "-499,50€";
+      //TODO:
+      if(StoreProvider.of<AppState>(context).state.content['printBalance'] != null)
+        printBalance = StoreProvider.of<AppState>(context).state.content['printBalance'];
+      if(StoreProvider.of<AppState>(context).state.content['feesBalance'] != null)
+        feesBalance = StoreProvider.of<AppState>(context).state.content['feesBalance'];
+      // printBalance = StoreProvider.of<AppState>(context).state.content['printBalance'];
+      // feesBalance = StoreProvider.of<AppState>(context).state.content['feesBalance'];
       nextFeeLimitData = "2019-02-28";
     });
   }
