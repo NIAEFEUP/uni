@@ -86,10 +86,10 @@ ThunkAction<AppState> getUserPrintBalance(Completer<Null> action) {
 
     String url = "https://sigarra.up.pt/${store.state.content['session'].faculty}/pt/imp4_impressoes.atribs?";
 
-      String printBalance = await getPrintsBalance(url, store);
-      action.complete();
-      store.dispatch(new SetPrintBalanceAction(printBalance));
-    }
+    String printBalance = await getPrintsBalance(url, store);
+    action.complete();
+    store.dispatch(new SetPrintBalanceAction(printBalance));
+
   };
 }
 
@@ -98,9 +98,8 @@ ThunkAction<AppState> getUserFeesBalance(Completer<Null> action) {
 
     String url = "https://sigarra.up.pt/${store.state.content['session'].faculty}/pt/gpag_ccorrente_geral.conta_corrente_view?";
 
-      String feesBalance = await getFeesBalance(url, store);
-      action.complete();
-      store.dispatch(new SetFeesBalanceAction(feesBalance));
-    }
+    String feesBalance = await getFeesBalance(url, store);
+    action.complete();
+    store.dispatch(new SetFeesBalanceAction(feesBalance));
   };
 }
