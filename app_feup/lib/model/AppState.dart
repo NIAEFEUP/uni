@@ -9,7 +9,7 @@ class AppState {
       "schedule": [],
       "exams": [],
       "selected_page": "Área Pessoal",
-      "favoriteWidgets": [FAVORITE_WIDGET_TYPE.EXAMS, FAVORITE_WIDGET_TYPE.SCHEDULE, FAVORITE_WIDGET_TYPE.EXAMS, FAVORITE_WIDGET_TYPE.SCHEDULE]
+      "favoriteCards": [FAVORITE_WIDGET_TYPE.EXAMS, FAVORITE_WIDGET_TYPE.SCHEDULE, FAVORITE_WIDGET_TYPE.EXAMS, FAVORITE_WIDGET_TYPE.SCHEDULE]
     };
   }
 

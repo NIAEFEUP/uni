@@ -4,13 +4,15 @@ class ScheduleEventRectangle extends StatelessWidget{
   final String subject;
   final String rooms;
   final String teacher;
+  final String type;
   final double borderRadius = 12.0;
   final double sideSizing = 12.0;
 
   ScheduleEventRectangle({Key key,
     @required this.subject,
     @required this.rooms,
-    this.teacher}) : super(key: key);
+    this.teacher,
+    this.type}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,15 +26,37 @@ class ScheduleEventRectangle extends StatelessWidget{
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
-            new Container(
-              margin: EdgeInsets.only(top: 12.0),
-              child: new Text(this.subject, style: Theme.of(context).textTheme.display1.apply(fontWeightDelta: 2)),
-            ),
+            this.createTopRectangle(context),
             this.createBottomRectangle(context)
           ],
         ),
       ),
     );
+  }
+
+  Widget createTopRectangle(context){
+    if (type == null){
+      return Container(
+        margin: EdgeInsets.only(top: 12.0),
+        child: new Text(this.subject, style: Theme.of(context).textTheme.display1.apply(fontWeightDelta: 2)),
+      );
+    } else {
+      return Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          new Container(
+            margin: EdgeInsets.only(top: 12.0),
+            padding: EdgeInsets.fromLTRB(12.0, 0, 8, 0),
+            child: new Text(this.subject, style: Theme.of(context).textTheme.display1.apply(fontWeightDelta: 2)),
+          ),
+          new Container(
+              margin: EdgeInsets.only(top: 12.0),
+              child: new Text('($type)', style: TextStyle(color: Theme.of(context).accentColor, fontSize: 14),)
+          ),
+        ],
+      );
+    }
   }
   
   Widget createBottomRectangle(context){

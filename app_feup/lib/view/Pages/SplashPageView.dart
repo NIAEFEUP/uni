@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import '../../model/LoginPageModel.dart';
 import '../../view/Theme.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -84,11 +85,12 @@ class _SplashScreenState extends State<SplashScreen>{
           padding: EdgeInsets.all(8.0),
         ),
         Container(
-          child: Image(
-            image: AssetImage('assets/ni_logo.png'),
-            width: queryData.size.height/9,
-            height: queryData.size.height/9
-          ),
+          child: 
+          SvgPicture.asset(
+            'assets/images/ni_logo.svg',
+            width: queryData.size.height/7,
+            height: queryData.size.height/7,
+          )
         )
       ],
     );
