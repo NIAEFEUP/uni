@@ -6,9 +6,9 @@ import 'package:redux/redux.dart';
 
 
 Future<String> getPrintsBalance(String link, Store<AppState> store) async{
-  Map<String, String> query = {"p_codigo": store.state.content['session']['studentNumber']};
+  Map<String, String> query = {"p_codigo": store.state.content['session'].studentNumber};
 
-  String cookies = store.state.content['session']['cookies'];
+  String cookies = store.state.content['session'].cookies;
 
   var response = await NetworkRouter.getWithCookies(link, query, cookies);
 

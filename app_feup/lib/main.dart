@@ -13,7 +13,6 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'view/Theme.dart';
 import 'model/AppState.dart';
 import 'package:redux/redux.dart';
-import 'package:redux_thunk/redux_thunk.dart';
 import 'redux/reducers.dart';
 import 'controller/parsers/parser-exams.dart';
 import 'package:app_feup/controller/LifecycleEventHandler.dart';
