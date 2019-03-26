@@ -6,13 +6,8 @@ AppState appReducers(AppState state, dynamic action) {
     return login(state, action);
   } else if (action is SetLoginStatusAction) {
     return setLoginStatus(state, action);
-  } 
-  else if(action is UpdateSelectedPageAction) {
+  } else if(action is UpdateSelectedPageAction) {
     return updateSelectedPageStatus(state, action);
-  }
-  else if (action is SetExamsAction){
-  } else if (action is UpdateSelectedPageAction) {
-    return updateSelectedPage(state, action);
   } else if (action is SetExamsAction) {
     return setExams(state, action);
   } else if (action is SetScheduleAction) {
