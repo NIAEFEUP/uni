@@ -17,12 +17,9 @@ class ExamCard extends StatelessWidget{
     return StoreConnector<AppState, List<dynamic>>(
       converter: (store) => store.state.content['exams'],
       builder: (context, exams){
-        return GestureDetector(
-          onTap: () {
-            Navigator.pushReplacementNamed(context, '/Mapa de Exames');
-          },
-          child: GenericCard(
+        return GenericCard(
             title: "Exames",
+            func: () => Navigator.pushReplacementNamed(context, '/Mapa de Exames'),
             child:
                 exams.length >= 1 ?
                 Container(
@@ -32,7 +29,7 @@ class ExamCard extends StatelessWidget{
                     ))
                 : Center(
                   child: Text("No exams to show at the moment"),
-                )));
+                ));
       },
     );
   }

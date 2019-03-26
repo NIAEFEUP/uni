@@ -19,12 +19,9 @@ class ScheduleCard extends StatelessWidget {
     return StoreConnector<AppState, List<dynamic>>(
         converter: (store) => store.state.content['schedule'],
         builder: (context, lectures){
-            return GestureDetector(
-              onTap: () {
-                Navigator.pushReplacementNamed(context, '/Horário');
-              },
-              child: GenericCard(
+            return GenericCard(
                 title: "Horário",
+                func: () => Navigator.pushReplacementNamed(context, '/Horário'),
                 child:
                   lectures.length >= 1 ?
                   Container(
@@ -34,8 +31,7 @@ class ScheduleCard extends StatelessWidget {
                       ))
                   : Center(
                     child: Text("No lectures or classes to show at the moment"))
-                  )
-            );
+                  );
         }
     );
   }
