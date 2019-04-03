@@ -4,6 +4,7 @@ import 'package:app_feup/controller/parsers/parser-exams.dart';
 import 'package:app_feup/controller/parsers/parser-schedule.dart';
 import 'package:app_feup/controller/parsers/parser-prints.dart';
 import 'package:app_feup/controller/parsers/parser-fees.dart';
+import 'package:app_feup/model/entities/CourseUnit.dart';
 import 'package:app_feup/model/entities/Session.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import '../model/AppState.dart';
@@ -48,8 +49,20 @@ ThunkAction<AppState> getUserExams(Completer<Null> action) {
   return (Store<AppState> store) async {
     if(store.state.content['session'] != null){
       
-      List<Exam> exams = await examsGet("https://sigarra.up.pt/${store.state.content['session'].faculty}/pt/exa_geral.mapa_de_exames?p_curso_id=742");
-      
+      List<Exam> courseExams = await examsGet("https://sigarra.up.pt/${store.state.content['session'].faculty}/pt/exa_geral.mapa_de_exames?p_curso_id=742");
+
+      List<CourseUnit> userUcs = store.state.content['currUcs'];
+      List<Exam> exams = new List<Exam>();
+      for (Exam courseExam in courseExams)
+        for (CourseUnit uc in userUcs) {
+          if (!courseExam.examType.contains(
+              "Exames ao abrigo de estatutos especiais - Port.Est.Especiais") &&
+              courseExam.subject == uc.abbreviation) {
+            exams.add(courseExam);
+            break;
+          }
+        }
+
       action.complete();
       
       store.dispatch(new SetExamsAction(exams));
