@@ -1,9 +1,12 @@
 import 'package:app_feup/controller/parsers/parser-exams.dart';
 import 'package:app_feup/controller/parsers/parser-schedule.dart';
 import 'package:app_feup/model/LoginPageModel.dart';
+import 'package:app_feup/model/entities/CourseUnit.dart';
+import 'package:app_feup/model/entities/Profile.dart';
+import 'package:app_feup/model/entities/Session.dart';
 
 class SaveLoginDataAction {
-  Map<String, dynamic> session;
+  Session session;
   SaveLoginDataAction(this.session);
 }
 
@@ -23,6 +26,26 @@ class SetScheduleAction{
 }
 
 class UpdateSelectedPageAction {
-    String selected_page;
-    UpdateSelectedPageAction(this.selected_page);
+  String selected_page;
+  UpdateSelectedPageAction(this.selected_page);
+}
+
+class SaveProfileAction {
+  Profile profile;
+  SaveProfileAction(this.profile);
+}
+
+class SaveUcsAction {
+  List<CourseUnit> ucs;
+  SaveUcsAction(this.ucs);
+}
+
+class SetPrintBalanceAction {
+  String printBalance;
+  SetPrintBalanceAction(this.printBalance);
+}
+
+class SetFeesBalanceAction {
+  String feesBalance;
+  SetFeesBalanceAction(this.feesBalance);
 }

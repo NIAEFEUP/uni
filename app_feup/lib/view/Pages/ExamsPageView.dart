@@ -1,44 +1,36 @@
-import 'package:app_feup/model/AppState.dart';
 import 'package:flutter/material.dart';
+import '../Pages/GeneralPageView.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import '../widgets/NavigationDrawer.dart';
 import '../widgets/TitleCard.dart';
 import '../../model/AppState.dart';
 import '../../controller/parsers/parser-exams.dart';
 import '../widgets/ScheduleRow.dart';
 
-class ExamsPageView extends StatelessWidget {
+class ExamsPageView extends GeneralPageView {
 
   final double borderRadius = 15.0;
   final DateTime now = new DateTime.now();
 
   ExamsPageView({
     Key key
-  }):super(key: key);
+  });
 
   @override
-  Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
-          title: new Text(StoreProvider.of<AppState>(context)
-              .state
-              .content["selected_page"])),
-      drawer: new NavigationDrawer(),
-      body: StoreConnector<AppState, List<dynamic>>(
-        converter: (store) => store.state.content['exams'],
-        builder: (context, exams){
-          return ListView(
-            children: <Widget>[
-              Container(
-                child: new Column(
-                mainAxisSize: MainAxisSize.max,
-                children: this.parseExamsByDate(context, exams),
-            ),
-          )
-          ],
-          );
-        },
-      )
+  Widget getBody(BuildContext context) {
+    return StoreConnector<AppState, List<dynamic>>(
+      converter: (store) => store.state.content['exams'],
+      builder: (context, exams){
+        return ListView(
+          children: <Widget>[
+            Container(
+              child: new Column(
+              mainAxisSize: MainAxisSize.max,
+              children: this.parseExamsByDate(context, exams),
+          ),
+        )
+        ],
+        );
+      },
     );
   }
 
@@ -56,9 +48,20 @@ class ExamsPageView extends StatelessWidget {
     List<Exam> currentDayExams = new List<Exam>();
     for(int i = 0; i < exams.length; i++)
     {
-      if (i + 1 >= exams.length)
+      if (i + 1 >= exams.length){
+        if(exams[i].day == exams[i - 1].day && exams[i].month == exams[i - 1].month) {
+          currentDayExams.add(exams[i]);
+        }
+        else{
+          if(currentDayExams.length > 0)
+            columns.add(this.createExamCard(context, currentDayExams));
+          currentDayExams.clear();
+          currentDayExams.add(exams[i]);
+        }
+        columns.add(this.createExamCard(context, currentDayExams));
         break;
-      else if(exams[i].day == exams[i + 1].day && exams[i].month == exams[i + 1].month) {
+      }
+      if(exams[i].day == exams[i + 1].day && exams[i].month == exams[i + 1].month) {
         currentDayExams.add(exams[i]);
       }
       else {
@@ -69,7 +72,6 @@ class ExamsPageView extends StatelessWidget {
     }
     return columns;
   }
-
 
   Widget createExamCard(context, exams){
     return new Container(
@@ -97,5 +99,4 @@ class ExamsPageView extends StatelessWidget {
         child: new ScheduleRow(subject: exam.subject, rooms: exam.rooms, begin: exam.begin, end: exam.end)
     );
   }
-
 }

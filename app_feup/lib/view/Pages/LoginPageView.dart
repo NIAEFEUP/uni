@@ -1,5 +1,6 @@
 import 'package:app_feup/model/AppState.dart';
 import 'package:app_feup/model/LoginPageModel.dart';
+import 'package:app_feup/view/Pages/HomePageView.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import '../../view/Theme.dart';
@@ -166,7 +167,7 @@ class LoginPageView extends StatelessWidget {
         converter: (store) => store.state.content['loginStatus'],
         onWillChange: (status) {
           if (status == LoginStatus.SUCCESSFUL)
-            Navigator.pushReplacementNamed(context, '/Área Pessoal');
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => HomePageView()));
         },
         builder: (context, status) {
           switch (status) {
