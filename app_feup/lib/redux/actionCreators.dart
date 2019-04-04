@@ -84,6 +84,10 @@ ThunkAction<AppState> getUserExams(Completer<Null> action) {
         }
 
       action.complete();
+
+      // Updates local database according to the information fetched -- Exams
+      AppExamsDatabase db = await AppExamsDatabase();
+      db.saveNewExams(exams);
       
       store.dispatch(new SetExamsAction(exams));
     }
