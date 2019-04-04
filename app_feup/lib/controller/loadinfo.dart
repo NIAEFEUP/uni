@@ -17,7 +17,7 @@ Future loadUserInfoToState(store){
   store.dispatch(getUserSchedule(schedule));
   store.dispatch(getUserPrintBalance(printBalance));
   store.dispatch(getUserFeesBalance(feesBalance));
-  return Future.wait([exams.future, schedule.future, printBalance.future, feesBalance.future, userInfo.future])
+  return Future.wait([exams.future, schedule.future, printBalance.future, feesBalance.future, userInfo.future]);
 }
 
 Future<void> handleRefresh(store){

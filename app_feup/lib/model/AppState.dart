@@ -1,3 +1,5 @@
+import 'package:app_feup/model/entities/Session.dart';
+
 class AppState {
 
   Map content = Map<String, dynamic>();
@@ -7,6 +9,7 @@ class AppState {
       "schedule": [],
       "exams": [],
       "selected_page": "Área Pessoal",
+      "session": new Session(),
     };
   }
 
