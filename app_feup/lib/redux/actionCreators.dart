@@ -10,6 +10,7 @@ import 'package:app_feup/controller/parsers/parser-fees.dart';
 import 'package:app_feup/model/entities/CourseUnit.dart';
 import 'package:app_feup/model/entities/Session.dart';
 import 'package:redux_thunk/redux_thunk.dart';
+import 'package:tuple/tuple.dart';
 import '../model/AppState.dart';
 import 'actions.dart';
 import 'package:redux/redux.dart';
@@ -86,9 +87,12 @@ ThunkAction<AppState> getUserExams(Completer<Null> action) {
       action.complete();
 
       // Updates local database according to the information fetched -- Exams
-      AppExamsDatabase db = await AppExamsDatabase();
-      db.saveNewExams(exams);
-      
+      Tuple2<String, String> userPersistentInfo = await AppSharedPreferences.getPersistentUserInfo();
+      if(userPersistentInfo.item1 != "" && userPersistentInfo.item2 != ""){
+        AppExamsDatabase db = await AppExamsDatabase();
+        db.saveNewExams(exams);
+      }
+
       store.dispatch(new SetExamsAction(exams));
     }
   };
@@ -117,9 +121,14 @@ ThunkAction<AppState> getUserSchedule(Completer<Null> action) {
 
       action.complete();
 
+
+
       // Updates local database according to the information fetched -- Lectures
-      AppLecturesDatabase db = await AppLecturesDatabase();
-      db.saveNewLectures(lectures);
+      Tuple2<String, String> userPersistentInfo = await AppSharedPreferences.getPersistentUserInfo();
+      if(userPersistentInfo.item1 != "" && userPersistentInfo.item2 != ""){
+        AppLecturesDatabase db = await AppLecturesDatabase();
+        db.saveNewLectures(lectures);
+      }
 
       store.dispatch(new SetScheduleAction(lectures));
     }

@@ -1,11 +1,13 @@
 import 'dart:async';
+import 'package:app_feup/controller/local_storage/AppSharedPreferences.dart';
 import 'package:app_feup/redux/actionCreators.dart';
 import 'package:app_feup/redux/RefreshItemsAction.dart';
+import 'package:tuple/tuple.dart';
 
-Future loadUserInfoToState(store){
-  store.dispatch(updateStateBasedOnLocalUserExams());
-  store.dispatch(updateStateBasedOnLocalUserLectures());
-  
+Future loadUserInfoToState(store) {
+
+  loadLocalUserInfoToState(store);
+
   Completer<Null>
       userInfo = new Completer(),
       exams = new Completer(),
@@ -18,6 +20,14 @@ Future loadUserInfoToState(store){
   store.dispatch(getUserPrintBalance(printBalance));
   store.dispatch(getUserFeesBalance(feesBalance));
   return Future.wait([exams.future, schedule.future, printBalance.future, feesBalance.future, userInfo.future]);
+}
+
+void loadLocalUserInfoToState(store) async {
+  Tuple2<String, String> userPersistentInfo = await AppSharedPreferences.getPersistentUserInfo();
+  if(userPersistentInfo.item1 != "" && userPersistentInfo.item2 != "") {
+    store.dispatch(updateStateBasedOnLocalUserExams());
+    store.dispatch(updateStateBasedOnLocalUserLectures());
+  }
 }
 
 Future<void> handleRefresh(store){
