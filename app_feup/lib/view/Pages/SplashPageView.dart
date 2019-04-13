@@ -1,8 +1,14 @@
 import 'dart:async';
+import 'package:app_feup/controller/local_storage/AppSharedPreferences.dart';
+import 'package:app_feup/model/AppState.dart';
+import 'package:app_feup/view/Pages/HomePageView.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:tuple/tuple.dart';
 import '../../model/LoginPageModel.dart';
 import '../../view/Theme.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:app_feup/redux/actionCreators.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -12,9 +18,9 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen>{
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
-    Timer(Duration(seconds: 3), ()=> Navigator.pushReplacement(context, new MaterialPageRoute(builder: (__) => new LoginPage())));
+    startTimeAndChangeRoute();
   }
 
   MediaQueryData queryData;
@@ -94,5 +100,20 @@ class _SplashScreenState extends State<SplashScreen>{
         )
       ],
     );
+  }
+
+  void startTimeAndChangeRoute() async {
+    Route<Object> nextRoute;
+    Tuple2<String, String> userPersistentInfo = await AppSharedPreferences.getPersistentUserInfo();
+    String userName = userPersistentInfo.item1;
+    String password = userPersistentInfo.item2;
+    if(userName != "" && password != "") {
+      nextRoute = new MaterialPageRoute(builder: (context) => new HomePageView());
+      StoreProvider.of<AppState>(context).dispatch(reLogin(userName, password, 'feup'));
+    }
+    else {
+      nextRoute = new MaterialPageRoute(builder: (context) => new LoginPage());
+    }
+    Timer(Duration(seconds: 3), ()=> Navigator.pushReplacement(context, nextRoute));
   }
 }

@@ -4,12 +4,9 @@ import 'package:app_feup/redux/actionCreators.dart';
 import 'package:app_feup/redux/RefreshItemsAction.dart';
 import 'package:tuple/tuple.dart';
 
-Future loadUserInfoToState(store) {
-
-  loadLocalUserInfoToState(store);
-
+Future loadRemoteUserInfoToState(store) {
   Completer<Null>
-      userInfo = new Completer(),
+  userInfo = new Completer(),
       exams = new Completer(),
       schedule = new Completer(),
       printBalance = new Completer(),
@@ -20,6 +17,13 @@ Future loadUserInfoToState(store) {
   store.dispatch(getUserPrintBalance(printBalance));
   store.dispatch(getUserFeesBalance(feesBalance));
   return Future.wait([exams.future, schedule.future, printBalance.future, feesBalance.future, userInfo.future]);
+}
+
+Future loadUserInfoToState(store) {
+
+  loadLocalUserInfoToState(store);
+  return loadRemoteUserInfoToState(store);
+
 }
 
 void loadLocalUserInfoToState(store) async {

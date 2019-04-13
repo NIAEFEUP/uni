@@ -17,6 +17,25 @@ import 'package:redux/redux.dart';
 import 'package:app_feup/controller/networking/NetworkRouter.dart';
 import 'package:app_feup/model/LoginPageModel.dart';
 
+ThunkAction<AppState> reLogin(username, password, faculty) {
+  return (Store<AppState> store) async {
+    try {
+      loadLocalUserInfoToState(store);
+      store.dispatch(new SetLoginStatusAction(LoginStatus.BUSY));
+      final Session session = await NetworkRouter.login(username, password, faculty, true);
+      store.dispatch(new SaveLoginDataAction(session));
+      if (session.authenticated){
+        loadRemoteUserInfoToState(store);
+        store.dispatch(new SetLoginStatusAction(LoginStatus.SUCCESSFUL));
+      } else {
+        store.dispatch(new SetLoginStatusAction(LoginStatus.FAILED));
+      }
+    } catch (e) {
+      store.dispatch(new SetLoginStatusAction(LoginStatus.FAILED));
+    }
+  };
+}
+
 ThunkAction<AppState> login(username, password, faculty, persistentSession) {
   return (Store<AppState> store) async {
     try {
@@ -26,7 +45,7 @@ ThunkAction<AppState> login(username, password, faculty, persistentSession) {
       if (session.authenticated){
         if (persistentSession)
           AppSharedPreferences.savePersistentUserInfo(username, password);
-        loadUserInfoToState(store);
+        loadRemoteUserInfoToState(store);
         store.dispatch(new SetLoginStatusAction(LoginStatus.SUCCESSFUL));
       } else {
         store.dispatch(new SetLoginStatusAction(LoginStatus.FAILED));
