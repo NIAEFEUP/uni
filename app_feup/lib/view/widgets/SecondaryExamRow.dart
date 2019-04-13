@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'ExamTime.dart';
-import 'ScheduleEventRectangle.dart';
+import 'SecondaryExamTime.dart';
 
-
-class ExamRow extends StatelessWidget{
+class SecondaryExamRow extends StatelessWidget{
   final String subject;
   final String rooms;
   final String begin;
@@ -12,7 +10,7 @@ class ExamRow extends StatelessWidget{
   final String type;
   final String month;
 
-  ExamRow({
+  SecondaryExamRow({
     Key key,
     @required this.subject,
     @required this.rooms,
@@ -28,7 +26,7 @@ class ExamRow extends StatelessWidget{
     return new Center(
         child: new Container(
           padding: EdgeInsets.only(left: 15.0, bottom: 8.0),
-          margin: EdgeInsets.only(top: 8.0),
+          margin: EdgeInsets.only(top: 24.0),
           decoration: new BoxDecoration(
             border: Border(
               bottom: BorderSide(color: Theme.of(context).accentColor, width: 1),
@@ -38,8 +36,15 @@ class ExamRow extends StatelessWidget{
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              new ExamTime(begin: this.begin, day: this.day, month: this.month,),
-              new ScheduleEventRectangle(subject: this.subject, rooms: this.rooms, teacher: this.teacher, type: this.type)
+              new SecondaryExamTime(begin: this.begin, day: this.day, month: this.month),
+              new Container(
+                padding: EdgeInsets.only(left: 50),
+                child: new Text(this.subject, style: Theme.of(context).textTheme.subtitle.apply(fontSizeDelta: 1, fontWeightDelta: 1),),
+              ),
+              new Container(
+                padding: EdgeInsets.only(left: 20),
+                child: new Text(this.rooms.isEmpty ? "Salas em breve": this.rooms, style: Theme.of(context).textTheme.subtitle.apply(fontSizeDelta: -7),),
+              ),
             ],
           ),
         )

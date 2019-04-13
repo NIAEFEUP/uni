@@ -2,6 +2,7 @@ import 'package:app_feup/view/widgets/GenericCard.dart';
 import '../../model/AppState.dart';
 import 'package:flutter/material.dart';
 import 'ExamRow.dart';
+import 'SecondaryExamRow.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 
@@ -35,14 +36,28 @@ class ExamCard extends StatelessWidget{
 
   List<Widget> getExamRows(context, exams){
     List<Widget> rows = new List<Widget>();
-    for(int i = 0; i < 2 && i < exams.length; i++){
+    int i = 0;
+    for(; i < 2 && i < exams.length; i++){
       rows.add(this.createRowFromExam(context, exams[i]));
+    }
+    for(; i < 5 && i < exams.length; i++){
+      rows.add(this.createSecondaryRowFromExam(context, exams[i]));
     }
     return rows;
   }
 
   Widget createRowFromExam(context, exam){
     return new ExamRow(
+          subject: exam.subject,
+          rooms: exam.rooms,
+          begin: exam.begin,
+          day: exam.day,
+          month: exam.month,
+      );
+  }
+
+  Widget createSecondaryRowFromExam(context, exam){
+    return new SecondaryExamRow(
           subject: exam.subject,
           rooms: exam.rooms,
           begin: exam.begin,
