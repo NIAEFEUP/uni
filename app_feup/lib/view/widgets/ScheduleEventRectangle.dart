@@ -63,7 +63,7 @@ class ScheduleEventRectangle extends StatelessWidget{
     if(this.teacher == null){
       return new Container(
         margin: EdgeInsets.only(top: 12.0, bottom: 12.0),
-        child: new Text(this.rooms == " " ? this.rooms: "Salas em breve",style: Theme.of(context).textTheme.display1
+        child: new Text(this.rooms.isEmpty ? "Salas em breve": this.rooms,style: Theme.of(context).textTheme.display1
           ,),
       );
     }

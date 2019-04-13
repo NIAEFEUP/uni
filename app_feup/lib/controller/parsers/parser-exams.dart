@@ -30,51 +30,51 @@ class Exam{
     this.weekDay = weekDay;
     switch(dateSepared[1]){
       case '01':{
-        this.month = "Janeiro";
+        this.month = "JAN";
       }
         break;
       case '02':{
-        this.month = "Fevereiro";
+        this.month = "FEV";
       }
         break;
       case '03':{
-        this.month = "Março";
+        this.month = "MAR";
       }
         break;
       case '04':{
-        this.month = "Abril";
+        this.month = "ABR";
       }
         break;
       case '05':{
-        this.month = "Maio";
+        this.month = "MAI";
       }
         break;
       case '06':{
-        this.month = "Junho";
+        this.month = "JUN";
       }
         break;
       case '07':{
-        this.month = "Julho";
+        this.month = "JUL";
       }
         break;
       case '08':{
-        this.month = "Agosto";
+        this.month = "AGO";
       }
         break;
       case '09':{
-        this.month = "Setembro";
+        this.month = "SET";
       }
         break;
       case '10':{
-        this.month = "Outubro";
+        this.month = "OUT";
       }
         break;
       case '11':{
-        this.month = "Novembro";
+        this.month = "NOV";
       }
         break;
       case '12':{
-        this.month = "Dezembro";
+        this.month = "DEZ";
       }
         break;
     }
