@@ -15,7 +15,11 @@ class SecondaryPageBackButton extends StatelessWidget{
   Widget build(BuildContext context) {
     return new WillPopScope(
       child: this.child,
-      onWillPop: () => Navigator.pushReplacementNamed(context, '/Área Pessoal'),
+      onWillPop: () => this.getNewPage(context),
     );
+  }
+
+  Future<void> getNewPage(BuildContext context){
+    return Navigator.pushReplacementNamed(context, '/Área Pessoal');
   }
 }
