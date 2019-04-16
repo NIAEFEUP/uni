@@ -36,7 +36,14 @@ class ScheduleCard extends StatelessWidget {
               return Center(child: CircularProgressIndicator());
               break;
             case RequestStatus.FAILED:
-              return Center(child: Text("Comunication error. Please check your internet connection."));
+              if(lectures.length != 0)
+              return Container(
+                  child: new Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: this.getScheduleRows(context, lectures),
+                  )
+              );
+              else return Center(child: Text("Comunication error. Please check your internet connection."));
               break;
             default:
               return Container();

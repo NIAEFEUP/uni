@@ -35,7 +35,14 @@ class ExamCard extends StatelessWidget{
             return Center(child: CircularProgressIndicator());
             break;
           case RequestStatus.FAILED:
-            return Center(child: Text("Comunication error. Please check your internet connection."));
+            if(exams.length != 0)
+              return Container(
+                  child: new Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: this.getExamRows(context, exams),
+                  )
+              );
+            else return Center(child: Text("Comunication error. Please check your internet connection."));
             break;
           default:
             return Container();
