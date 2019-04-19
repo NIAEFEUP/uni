@@ -9,7 +9,7 @@ class AppState {
       "schedule": [],
       "exams": [],
       "selected_page": "Área Pessoal",
-      "session": new Session(),
+      "session": new Session(authenticated: false),
     };
   }
 
