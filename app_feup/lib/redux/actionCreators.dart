@@ -79,7 +79,7 @@ ThunkAction<AppState> getUserSchedule(Completer<Null> action) {
       date = date.add(new Duration(days: 6));
       String endWeek = date.year.toString().padLeft(4, '0') + date.month.toString().padLeft(2, '0') + date.day.toString().padLeft(2, '0');
 
-    List<Lecture> lectures = await scheduleGet(await NetworkRouter.getWithCookies("https://sigarra.up.pt/${store.state.content['session'].faculty}/pt/mob_hor_geral.estudante?pv_codigo=${store.state.content['session'].studentNumber}&pv_semana_ini=$beginWeek&pv_semana_fim=$endWeek", {}, store.state.content['session'].cookies));
+    List<Lecture> lectures = await scheduleGet(await NetworkRouter.getWithCookies("https://sigarra.up.pt/${store.state.content['session'].faculty}/pt/mob_hor_geral.estudante?pv_codigo=${store.state.content['session'].studentNumber}&pv_semana_ini=$beginWeek&pv_semana_fim=$endWeek", {}, store.state.content['session']));
 
       action.complete();
 

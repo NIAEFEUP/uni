@@ -18,13 +18,31 @@ class NetworkRouter {
     if (response.statusCode == 200) {
       final Session session = Session.fromLogin(response);
       if (persistentSession) {
-        session.setPersistentSession(pass);
+        session.setPersistentSession(faculty, pass);
       }
       print('Login successful');
       return session;
     } else {
       print('Login failed');
       return Session(authenticated: false);
+    }
+  }
+
+  static Future<bool> loginFromSession(Session session) async {
+    final String url =
+        NetworkRouter.getBaseUrl(session.faculty) + 'mob_val_geral.autentica';
+    final http.Response response = await http.post(url, body: {
+      "pv_login": session.studentNumber,
+      "pv_password": session.password
+    });
+    if (response.statusCode == 200) {
+      session.setCookies(NetworkRouter.extractCookies(response.headers));
+      print('Re-login successful');
+      return true;
+    } else {
+      print('Re-login failed');
+      //go to home screen
+      return false;
     }
   }
 
@@ -44,7 +62,7 @@ class NetworkRouter {
     final url =
         NetworkRouter.getBaseUrlFromSession(session) + 'mob_fest_geral.perfil?';
     final response = await getWithCookies(
-        url, {"pv_codigo": session.studentNumber}, session.cookies);
+        url, {"pv_codigo": session.studentNumber}, session);
 
     if (response.statusCode == 200) {
       return Profile.fromResponse(response);
@@ -56,7 +74,7 @@ class NetworkRouter {
     final url = NetworkRouter.getBaseUrlFromSession(session) +
         'mob_fest_geral.ucurr_inscricoes_corrente?';
     final response = await getWithCookies(
-        url, {"pv_codigo": session.studentNumber}, session.cookies);
+        url, {"pv_codigo": session.studentNumber}, session);
     if (response.statusCode == 200) {
       final responseBody = json.decode(response.body);
       List<CourseUnit> ucs = List<CourseUnit>();
@@ -71,7 +89,7 @@ class NetworkRouter {
   }
 
   static Future<http.Response> getWithCookies(
-      String baseUrl, Map<String, String> query, String cookies) {
+      String baseUrl, Map<String, String> query, Session session) async {
     final URLQueryParams params = new URLQueryParams();
     query.forEach((key, value) {
       params.append(key, value);
@@ -80,9 +98,20 @@ class NetworkRouter {
     final url = baseUrl + params.toString();
 
     final Map<String, String> headers = Map<String, String>();
-    headers['cookie'] = cookies;
-
-    return http.get(url, headers: headers);
+    headers['cookie'] = session.cookies;
+    final http.Response response = await http.get(url, headers: headers);
+    if (response.statusCode == 200) {
+      return response;
+    } else if (response.statusCode == 403) { // HTTP403 - Forbidden
+      if (await loginFromSession(session)) {
+        return http.get(url, headers: headers);
+      } else {
+        // Login failed
+      }
+    } else {
+      print('HTTP Error ${response.statusCode}');
+      // Error
+    }
   }
 
   static String getBaseUrl(String faculty) {

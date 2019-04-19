@@ -31,8 +31,13 @@ class Session {
     }
   }
 
-  void setPersistentSession(String password) {
+  void setCookies(String cookies) {
+    this.cookies = cookies;
+  }
+
+  void setPersistentSession(String faculty, String password) {
     this.persistentSession = true;
+    this.faculty = faculty;
     this.password = password;
   }
 
