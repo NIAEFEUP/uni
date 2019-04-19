@@ -26,7 +26,13 @@ class Exam{
     this.rooms = rooms;
     this.year = dateSepared[0];
     this.day = dateSepared[2];
-    this.examType = examType;
+    if(examType.contains("Port.Est.Especiais")){
+      this.examType = "EE";
+    }else if(examType.contains("Mini-testes")){
+      this.examType = "MT";
+    }else{
+      this.examType = "?";
+    }
     this.weekDay = weekDay;
     switch(dateSepared[1]){
       case '01':{

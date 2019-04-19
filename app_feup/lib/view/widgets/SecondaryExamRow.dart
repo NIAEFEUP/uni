@@ -1,24 +1,13 @@
+import 'package:app_feup/controller/parsers/parser-exams.dart';
 import 'package:flutter/material.dart';
 import 'SecondaryExamTime.dart';
 
 class SecondaryExamRow extends StatelessWidget{
-  final String subject;
-  final String rooms;
-  final String begin;
-  final String day;
-  final String teacher;
-  final String type;
-  final String month;
+  final Exam exam;
 
   SecondaryExamRow({
     Key key,
-    @required this.subject,
-    @required this.rooms,
-    @required this.begin,
-    @required this.day,
-    @required this.month,
-    this.teacher,
-    this.type
+    @required this.exam
   }):super(key: key);
 
   @override
@@ -36,14 +25,14 @@ class SecondaryExamRow extends StatelessWidget{
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              new SecondaryExamTime(begin: this.begin, day: this.day, month: this.month),
+              new SecondaryExamTime(begin: this.exam.begin, day: this.exam.day, month: this.exam.month),
               new Container(
-                padding: EdgeInsets.only(left: 50),
-                child: new Text(this.subject, style: Theme.of(context).textTheme.subtitle.apply(fontSizeDelta: 1, fontWeightDelta: 1),),
+                padding: EdgeInsets.only(left: 10),
+                child: new Text(this.exam.subject + ' (' + this.exam.examType + ')', style: Theme.of(context).textTheme.subtitle.apply(fontWeightDelta: 1),),
               ),
               new Container(
-                padding: EdgeInsets.only(left: 20),
-                child: new Text(this.rooms.isEmpty ? "Salas em breve": this.rooms, style: Theme.of(context).textTheme.subtitle.apply(fontSizeDelta: -7),),
+                padding: EdgeInsets.only(left: 10),
+                child: new Text(this.exam.rooms.isEmpty ? "Salas em breve": this.exam.rooms, style: Theme.of(context).textTheme.subtitle.apply(fontSizeDelta: -11, fontWeightDelta: 2),),
               ),
             ],
           ),

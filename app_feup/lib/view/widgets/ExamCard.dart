@@ -48,21 +48,13 @@ class ExamCard extends StatelessWidget{
 
   Widget createRowFromExam(context, exam){
     return new ExamRow(
-          subject: exam.subject,
-          rooms: exam.rooms,
-          begin: exam.begin,
-          day: exam.day,
-          month: exam.month,
+          exam: exam,
       );
   }
 
   Widget createSecondaryRowFromExam(context, exam){
     return new SecondaryExamRow(
-          subject: exam.subject,
-          rooms: exam.rooms,
-          begin: exam.begin,
-          day: exam.day,
-          month: exam.month,
+          exam: exam,
       );
   }
 }

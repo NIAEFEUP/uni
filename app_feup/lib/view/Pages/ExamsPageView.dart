@@ -96,7 +96,7 @@ class ExamsPageView extends GeneralPageView {
         margin: EdgeInsets.fromLTRB(12, 4, 12, 0),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(this.borderRadius))),
-        child: new ScheduleRow(subject: exam.subject, rooms: exam.rooms, begin: exam.begin, end: exam.end)
+        child: new ScheduleRow(subject: exam.subject, rooms: exam.rooms, begin: exam.begin, end: exam.end, type: exam.examType,)
     );
   }
 }

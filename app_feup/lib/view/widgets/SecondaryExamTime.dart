@@ -20,10 +20,10 @@ class SecondaryExamTime extends StatelessWidget{
       child: new Column(
         children: <Widget>[
           new Container(
-            child: Text(this.day + "/" + this.month, style: Theme.of(context).textTheme.subtitle.apply(fontSizeDelta: 1, fontWeightDelta: 1),),
+            child: Text(this.day + "/" + this.month, style: Theme.of(context).textTheme.subtitle.apply(fontSizeDelta: -5, fontWeightDelta: 1),),
           ),
           new Container(
-            child: Text(this.begin,style: Theme.of(context).textTheme.display1.apply(color: greyTextColor, fontSizeDelta: -5)),
+            child: Text(this.begin,style: Theme.of(context).textTheme.display1.apply(color: greyTextColor, fontSizeDelta: -8)),
             margin: EdgeInsets.only(top: 8.0),
           ),
         ],

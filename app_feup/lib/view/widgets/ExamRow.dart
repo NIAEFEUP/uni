@@ -1,26 +1,15 @@
 import 'package:flutter/material.dart';
 import 'ExamTime.dart';
+import 'package:app_feup/controller/parsers/parser-exams.dart';
 import 'ScheduleEventRectangle.dart';
 
 
 class ExamRow extends StatelessWidget{
-  final String subject;
-  final String rooms;
-  final String begin;
-  final String day;
-  final String teacher;
-  final String type;
-  final String month;
+  final Exam exam;
 
   ExamRow({
     Key key,
-    @required this.subject,
-    @required this.rooms,
-    @required this.begin,
-    @required this.day,
-    @required this.month,
-    this.teacher,
-    this.type
+    @required this.exam
   }):super(key: key);
 
   @override
@@ -38,8 +27,8 @@ class ExamRow extends StatelessWidget{
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              new ExamTime(begin: this.begin, day: this.day, month: this.month,),
-              new ScheduleEventRectangle(subject: this.subject, rooms: this.rooms, teacher: this.teacher, type: this.type)
+              new ExamTime(begin: this.exam.begin, day: this.exam.day, month: this.exam.month,),
+              new ScheduleEventRectangle(subject: this.exam.subject, rooms: this.exam.rooms, teacher: null, type: this.exam.examType)
             ],
           ),
         )
