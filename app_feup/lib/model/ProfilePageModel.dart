@@ -46,8 +46,7 @@ class _ProfilePageState extends State<ProfilePage> {
       feesBalance: feesBalance,
       nextFeeLimitData: nextFeeLimitData,
       courses: courses,
-      profileImage: getProfileImage(),
-      logout: () => _logout());
+      profileImage: getProfileImage());
   }
 
   void updateInfo() {
@@ -59,8 +58,7 @@ class _ProfilePageState extends State<ProfilePage> {
       courses = StoreProvider.of<AppState>(context).state.content['profile'].courses;
       printBalance = StoreProvider.of<AppState>(context).state.content['printBalance'];
       feesBalance = StoreProvider.of<AppState>(context).state.content['feesBalance'];
-      //TODO: get next fee limit data
-      nextFeeLimitData = "2019-02-28";
+      nextFeeLimitData = StoreProvider.of<AppState>(context).state.content['feesLimit'];
     });
   }
 
@@ -77,11 +75,4 @@ class _ProfilePageState extends State<ProfilePage> {
 
     return profileImage;
   }
-
-  void _logout() {
-    //TODO: logout
-    print("logout");
-  }
-
-
 }

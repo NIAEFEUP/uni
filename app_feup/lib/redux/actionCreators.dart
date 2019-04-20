@@ -97,3 +97,14 @@ ThunkAction<AppState> getUserFeesBalance(Completer<Null> action) {
     store.dispatch(new SetFeesBalanceAction(feesBalance));
   };
 }
+
+ThunkAction<AppState> getUserFeesNextLimit(Completer<Null> action) {
+  return (Store<AppState> store) async {
+
+    String url = "https://sigarra.up.pt/${store.state.content['session'].faculty}/pt/gpag_ccorrente_geral.conta_corrente_view?";
+
+    String feesLimit = await getFeesNextLimit(url, store);
+    action.complete();
+    store.dispatch(new SetFeesLimitAction(feesLimit));
+  };
+}

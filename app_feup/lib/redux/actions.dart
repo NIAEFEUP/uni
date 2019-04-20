@@ -49,3 +49,8 @@ class SetFeesBalanceAction {
   String feesBalance;
   SetFeesBalanceAction(this.feesBalance);
 }
+
+class SetFeesLimitAction{
+  String feesLimit;
+  SetFeesLimitAction(this.feesLimit);
+}

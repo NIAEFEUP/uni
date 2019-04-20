@@ -16,8 +16,7 @@ class ProfilePageView extends StatelessWidget {
     @required this.feesBalance,
     @required this.nextFeeLimitData,
     @required this.courses,
-    @required this.profileImage,
-    @required this.logout}) 
+    @required this.profileImage}) 
     : super(key: key);
 
   final String name;
@@ -28,26 +27,12 @@ class ProfilePageView extends StatelessWidget {
   final String nextFeeLimitData;
   final List<Course> courses;
   final CachedNetworkImageProvider profileImage;
-  final Function logout;
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
         title: new Text("Perfil", textAlign: TextAlign.start),
-        actions: <Widget>[
-          PopupMenuButton<String>(
-            onSelected: choiceAction,
-            itemBuilder: (BuildContext context) {
-              return Choice.choices.map((String choice){
-                return PopupMenuItem<String>(
-                  value: choice,
-                  child: Text(choice),
-                );
-              }).toList();
-            },
-          ),
-        ],
       ),
       drawer: new NavigationDrawer(),
       body: createScrollableProfileView(context)
@@ -287,17 +272,4 @@ class ProfilePageView extends StatelessWidget {
       )
     );
   }
-
-  void choiceAction(String choice){
-    if(choice == Choice.logout)
-      logout();
-  }
-}
-
-class Choice{
-  static const String logout = "Sair";
-
-  static const List<String> choices = <String>[
-    logout
-  ];
 }
