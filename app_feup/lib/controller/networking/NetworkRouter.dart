@@ -9,6 +9,7 @@ import 'package:http/http.dart' as http;
 import 'package:query_params/query_params.dart';
 
 class NetworkRouter {
+  static int requestCount = 0;
   static Future<Session> login(
       String user, String pass, String faculty, bool persistentSession) async {
     final String url =
@@ -90,6 +91,11 @@ class NetworkRouter {
 
   static Future<http.Response> getWithCookies(
       String baseUrl, Map<String, String> query, Session session) async {
+    print('getWithCookies: Req. count = $requestCount');
+    if (requestCount > 5) {
+      session.setCookies("cookies"); // Fake expired cookies
+      requestCount = 0;
+    }    
     final URLQueryParams params = new URLQueryParams();
     query.forEach((key, value) {
       params.append(key, value);
@@ -99,19 +105,23 @@ class NetworkRouter {
 
     final Map<String, String> headers = Map<String, String>();
     headers['cookie'] = session.cookies;
+    requestCount++;
     final http.Response response = await http.get(url, headers: headers);
     if (response.statusCode == 200) {
       return response;
     } else if (response.statusCode == 403) { // HTTP403 - Forbidden
-      if (await loginFromSession(session)) {
+      final bool success = await loginFromSession(session);
+      if (success) {
         return http.get(url, headers: headers);
       } else {
+        print('Login failed');
         // Login failed
       }
     } else {
       print('HTTP Error ${response.statusCode}');
       // Error
     }
+    
   }
 
   static String getBaseUrl(String faculty) {
