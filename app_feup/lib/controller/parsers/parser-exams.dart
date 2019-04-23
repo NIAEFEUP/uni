@@ -3,6 +3,21 @@ import 'package:html/parser.dart' show parse;
 import 'package:html/dom.dart';
 import 'dart:async';
 
+var months = {
+'Janeiro' : '01',
+'Fevereiro' : '02',
+'Março' : '03',
+'Abril' : '04',
+'Maio' : '05',
+'Junho' : '06',
+'Julho' : '07',
+'Agosto' : '08',
+'Setembro' : '09',
+'Outubro' : '10',
+'Novembro' : '11',
+'Dezembro' : '12'
+};
+
 class Exam{
   String subject;
   String begin;
@@ -15,6 +30,8 @@ class Exam{
   String year;
   DateTime date;
 
+
+
   Exam.secConstructor(String subject, String begin, String end, String rooms, String day, String examType, String weekDay, String month, String year){
     this.subject = subject;
     this.begin = begin;
@@ -25,6 +42,9 @@ class Exam{
     this.weekDay = weekDay;
     this.month = month;
     this.year = year;
+
+    var monthKey = months[this.month];
+    this.date = DateTime.parse(year + '-'  + monthKey + '-' + day);
   }
 
   Exam(String schedule, String subject, String rooms, String date, String examType, String weekDay)
@@ -40,56 +60,9 @@ class Exam{
     this.day = dateSepared[2];
     this.examType = examType;
     this.weekDay = weekDay;
-    switch(dateSepared[1]){
-      case '01':{
-        this.month = "Janeiro";
-      }
-        break;
-      case '02':{
-        this.month = "Fevereiro";
-      }
-        break;
-      case '03':{
-        this.month = "Março";
-      }
-        break;
-      case '04':{
-        this.month = "Abril";
-      }
-        break;
-      case '05':{
-        this.month = "Maio";
-      }
-        break;
-      case '06':{
-        this.month = "Junho";
-      }
-        break;
-      case '07':{
-        this.month = "Julho";
-      }
-        break;
-      case '08':{
-        this.month = "Agosto";
-      }
-        break;
-      case '09':{
-        this.month = "Setembro";
-      }
-        break;
-      case '10':{
-        this.month = "Outubro";
-      }
-        break;
-      case '11':{
-        this.month = "Novembro";
-      }
-        break;
-      case '12':{
-        this.month = "Dezembro";
-      }
-        break;
-    }
+
+    this.month = months.keys.firstWhere(
+            (k) => months[k] == dateSepared[1], orElse: () => null);
   }
 
   Map<String, dynamic> toMap() {
