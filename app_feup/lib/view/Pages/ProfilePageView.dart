@@ -21,7 +21,7 @@ class ProfilePageView extends StatelessWidget {
 
   final String name;
   final String email;
-  final String currentState;
+  final Map<String, String> currentState;
   final String printBalance;
   final String feesBalance;
   final String nextFeeLimitData;
@@ -52,7 +52,7 @@ class ProfilePageView extends StatelessWidget {
     list.add(profileInfo(context));
     list.add(Padding(padding: const EdgeInsets.all(10.0)));
     for(var i = 0; i < courses.length; i++){
-      list.add(courseInfo(context, courses[i]));
+      list.add(courseInfo(context, courses[i], currentState[courses[i].name]));
       list.add(Padding(padding: const EdgeInsets.all(10.0)));
     }
     list.add(printsInfo(context));
@@ -99,7 +99,7 @@ class ProfilePageView extends StatelessWidget {
     );
   }
 
-  Widget courseInfo (BuildContext context, Course course){
+  Widget courseInfo (BuildContext context, Course course, String state){
     return new GenericCard(
       title: course.name, 
       child: Table(
@@ -142,7 +142,7 @@ class ProfilePageView extends StatelessWidget {
             ),
             Container(
               margin: const EdgeInsets.only(top: 10.0, bottom: 8.0, right: 30.0),
-              child: Text(currentState,
+              child: Text(state,
                 textAlign: TextAlign.end,
                 style: TextStyle(
                   color: greyTextColor,

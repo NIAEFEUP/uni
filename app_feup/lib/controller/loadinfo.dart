@@ -9,14 +9,16 @@ Future loadUserInfoToState(store){
       schedule = new Completer(),
       printBalance = new Completer(),
       feesBalance = new Completer(),
-      feesLimit = new Completer();
+      feesLimit = new Completer(),
+      coursesStates = new Completer();
   store.dispatch(getUserInfo(userInfo));
   store.dispatch(getUserExams(exams));
   store.dispatch(getUserSchedule(schedule));
   store.dispatch(getUserPrintBalance(printBalance));
   store.dispatch(getUserFeesBalance(feesBalance));
   store.dispatch(getUserFeesNextLimit(feesLimit));
-  return Future.wait([exams.future, schedule.future, printBalance.future, feesBalance.future, feesLimit.future, userInfo.future]);
+  store.dispatch(getUserCoursesState(coursesStates));
+  return Future.wait([exams.future, schedule.future, printBalance.future, feesBalance.future, feesLimit.future, coursesStates.future, userInfo.future]);
 }
 
 Future<void> handleRefresh(store){

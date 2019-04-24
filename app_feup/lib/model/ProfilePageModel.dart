@@ -17,7 +17,7 @@ class _ProfilePageState extends State<ProfilePage> {
   
   String name;
   String email;
-  String currentState;
+  Map<String, String> currentState;
   String printBalance;
   String feesBalance;
   String nextFeeLimitData;
@@ -28,7 +28,7 @@ class _ProfilePageState extends State<ProfilePage> {
     super.initState();
     name = "";
     email = "";
-    currentState = "";
+    currentState = {};
     printBalance = "";
     feesBalance = "";
     nextFeeLimitData = "";
@@ -53,8 +53,7 @@ class _ProfilePageState extends State<ProfilePage> {
     setState(() {
       name = StoreProvider.of<AppState>(context).state.content['profile'].name;
       email = StoreProvider.of<AppState>(context).state.content['profile'].email;
-      //TODO: get current state
-      currentState = "A Frequentar";
+      currentState = StoreProvider.of<AppState>(context).state.content['coursesStates'];
       courses = StoreProvider.of<AppState>(context).state.content['profile'].courses;
       printBalance = StoreProvider.of<AppState>(context).state.content['printBalance'];
       feesBalance = StoreProvider.of<AppState>(context).state.content['feesBalance'];
