@@ -1,4 +1,5 @@
 import 'package:app_feup/view/widgets/DateRectangle.dart';
+import 'package:app_feup/view/widgets/GenericCard.dart';
 import '../../model/AppState.dart';
 import 'package:flutter/material.dart';
 import 'ScheduleRow.dart';
@@ -16,18 +17,19 @@ class ExamCard extends StatelessWidget{
     return StoreConnector<AppState, List<dynamic>>(
       converter: (store) => store.state.content['exams'],
       builder: (context, exams){
-        if(exams.length >= 1) {
-          return Container(
-              child: new Column(
-                mainAxisSize: MainAxisSize.min,
-                children: this.getExamRows(context, exams),
-              )
-          );
-        }else {
-          return Center (
-            child: Text("No exams to show at the moment"),
-          );
-        }
+        return GenericCard(
+            title: "Exames",
+            func: () => Navigator.pushReplacementNamed(context, '/Mapa de Exames'),
+            child:
+                exams.length >= 1 ?
+                Container(
+                    child: new Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: this.getExamRows(context, exams),
+                    ))
+                : Center(
+                  child: Text("No exams to show at the moment"),
+                ));
       },
     );
   }
