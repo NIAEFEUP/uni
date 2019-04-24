@@ -18,13 +18,16 @@ class HomePageBackButton extends StatelessWidget{
         builder: (context) => new AlertDialog(
           title: new Text('Tem a certeza que pretende sair?'),
           actions: <Widget>[
-            new FlatButton(
+            new RaisedButton(
                 onPressed: () => Navigator.of(context).pop(false),
-                child: new Text('No')
+                child: new Text('No'),
+                color: Theme.of(context).primaryColor,
             ),
-            new FlatButton(
+            new RaisedButton(
                 onPressed: () => Navigator.of(context).pop(true),
-                child: new Text('Yes')
+                child: new Text('Yes'),
+                color: Theme.of(context).primaryColor,
+
             )
           ],
         )
