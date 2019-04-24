@@ -30,6 +30,10 @@ class NetworkRouter {
   }
 
   static Future<bool> loginFromSession(Session session) async {
+    if (!session.persistentSession) {
+      // go to home screen
+      return false;
+    }
     final String url =
         NetworkRouter.getBaseUrl(session.faculty) + 'mob_val_geral.autentica';
     final http.Response response = await http.post(url, body: {
@@ -112,6 +116,7 @@ class NetworkRouter {
     } else if (response.statusCode == 403) { // HTTP403 - Forbidden
       final bool success = await loginFromSession(session);
       if (success) {
+        headers['cookie'] = session.cookies;
         return http.get(url, headers: headers);
       } else {
         print('Login failed');

@@ -4,8 +4,6 @@ import 'dart:convert';
 
 Future<List<Lecture>> scheduleGet(http.Response response) async {
 
-  print(response);
-
   List<Lecture> lecturesList = new List();
 
   var json = jsonDecode(response.body);
