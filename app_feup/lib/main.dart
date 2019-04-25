@@ -1,10 +1,6 @@
 import 'package:app_feup/model/SchedulePageModel.dart';
-import 'package:app_feup/view/Pages/ClassificationsPageView.dart';
 import 'package:app_feup/view/Pages/ExamsPageView.dart';
 import 'package:app_feup/view/Pages/HomePageView.dart';
-import 'package:app_feup/view/Pages/MapPageView.dart';
-import 'package:app_feup/view/Pages/MenuPageView.dart';
-import 'package:app_feup/view/Pages/ParkPageView.dart';
 import 'package:app_feup/controller/Middleware.dart';
 import 'package:flutter/material.dart';
 import 'package:app_feup/view/Pages/SplashPageView.dart';
