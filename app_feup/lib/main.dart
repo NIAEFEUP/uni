@@ -61,26 +61,10 @@ class MyAppState extends State<MyApp> {
               StoreProvider.of<AppState>(context).dispatch(updateSelectedPage("Horário"));
               return SchedulePage();
             },
-            '/Classificações': (context) {
-              StoreProvider.of<AppState>(context).dispatch(updateSelectedPage("Classificações"));
-              return ClassificationsPageView();
-            },
-            '/Ementa': (context) {
-              StoreProvider.of<AppState>(context).dispatch(updateSelectedPage("Ementa"));
-              return MenuPageView();
-            },
             '/Mapa de Exames': (context) {
               StoreProvider.of<AppState>(context).dispatch(updateSelectedPage("Mapa de Exames"));
               return ExamsPageView();
-            },
-            '/Parques': (context) {
-              StoreProvider.of<AppState>(context).dispatch(updateSelectedPage("Parques"));
-              return ParkPageView();
-            },
-            '/Mapa FEUP': (context) {
-              StoreProvider.of<AppState>(context).dispatch(updateSelectedPage("Mapa FEUP"));
-              return MapPageView();
-            },
+            }
         },
     )
   );}

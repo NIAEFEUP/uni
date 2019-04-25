@@ -16,11 +16,7 @@ class NavigationDrawerState extends State<NavigationDrawer> {
   static final drawerItems = [
     "Área Pessoal",
     "Horário",
-    "Classificações",
-    "Ementa",
-    "Mapa de Exames",
-    "Parques",
-    "Mapa FEUP",
+    "Mapa de Exames"
   ];
 
   _onSelectItem(int index) {
@@ -35,27 +31,6 @@ class NavigationDrawerState extends State<NavigationDrawer> {
 
   _buildBorder(name) {
     return (name == StoreProvider.of<AppState>(context).state.content["selected_page"])?  (const BoxDecoration( border: Border( bottom: BorderSide(width: 5.0, color: primaryColor)))) : null;
-  }
-
-  Widget createSearchInputField()
-  {
-    return new ListTile(
-        title:
-        new Padding (
-            padding: const EdgeInsets.only(bottom: 20.0,),
-            child: new Row (
-                children: <Widget> [
-                  new Flexible (
-                    child: new TextField (
-                        decoration: new InputDecoration(
-                            hintText: "Pesquisa..."
-                        ),
-                    ),
-                  ),
-                ]
-            )
-        )
-    );
   }
 
   Widget createDrawerNavigationOption(String d, int i) {
@@ -74,11 +49,24 @@ class NavigationDrawerState extends State<NavigationDrawer> {
     );
   }
 
+  Widget createLogoutBtn() {
+    return new RaisedButton(
+      onPressed: () => print('log out'),
+      textColor: Colors.white,
+      color: primaryColor,
+      elevation: 10,
+      highlightElevation: 0,
+      padding: const EdgeInsets.all(0.0),
+      child: Container(
+        padding: const EdgeInsets.all(15.0),
+        child: Text('Log out', style: Theme.of(context).textTheme.display1),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     List<Widget> drawerOptions = [];
-
-    drawerOptions.add(createSearchInputField());
 
     for (var i = 0; i < drawerItems.length; i++) {
       drawerOptions.add(createDrawerNavigationOption(drawerItems[i], i));
@@ -86,10 +74,23 @@ class NavigationDrawerState extends State<NavigationDrawer> {
 
     return new Drawer(
         child: new Padding (
-          padding: EdgeInsets.all(20.0),
-          child: new ListView(
-            children: drawerOptions,
-          ),
+          padding: EdgeInsets.only(top: 50.0, left: 20.0, right: 20.0, bottom: 20.0 ),
+          child: Column(
+            children: <Widget>[
+              Expanded(
+                child: new ListView(
+                  children: drawerOptions,
+                ),
+              ),
+              Row(
+                children: <Widget> [
+                  Expanded(
+                    child: createLogoutBtn()
+                  )
+                ]
+              )
+            ],
+          )
         )
     );
   }
