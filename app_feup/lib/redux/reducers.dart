@@ -10,6 +10,10 @@ AppState appReducers(AppState state, dynamic action) {
     return updateSelectedPageStatus(state, action);
   } else if (action is SetExamsAction) {
     return setExams(state, action);
+  } else if (action is SetExamsStatusAction) {
+    return setExamsStatus(state, action);
+  } else if (action is SetScheduleStatusAction) {
+    return setScheduleStatus(state, action);
   } else if (action is SetScheduleAction) {
     return setSchedule(state, action);
   } else if (action is SaveProfileAction) {
@@ -44,9 +48,19 @@ AppState setExams(AppState state, SetExamsAction action) {
   return state.cloneAndUpdateValue("exams", action.exams);
 }
 
+AppState setExamsStatus(AppState state, SetExamsStatusAction action) {
+  print('setting exams status: ' + action.status.toString());
+  return state.cloneAndUpdateValue('examsStatus', action.status);
+}
+
 AppState setSchedule(AppState state, SetScheduleAction action) {
   print('setting schedule: ' + action.lectures.length.toString());
   return state.cloneAndUpdateValue("schedule", action.lectures);
+}
+
+AppState setScheduleStatus(AppState state, SetScheduleStatusAction action) {
+  print('setting schedule status: ' + action.status.toString());
+  return state.cloneAndUpdateValue('scheduleStatus', action.status);
 }
 
 AppState saveProfile(AppState state, SaveProfileAction action) {
@@ -56,7 +70,6 @@ AppState saveProfile(AppState state, SaveProfileAction action) {
 AppState saveCurrUcs(AppState state, SaveUcsAction action) {
   return state.cloneAndUpdateValue("currUcs", action.ucs);
 }
-
 
 AppState setPrintBalance(AppState state, SetPrintBalanceAction action) {
   print('setting print balance: ' + action.printBalance);

@@ -8,6 +8,7 @@ Future loadUserInfoToState(Store<AppState> store){
   if(store.state.content['session'] == null){
     return null;
   }
+
   Completer<Null>
       userInfo = new Completer(),
       exams = new Completer(),
