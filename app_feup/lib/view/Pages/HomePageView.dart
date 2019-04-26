@@ -1,7 +1,5 @@
-import 'package:app_feup/view/widgets/GenericCard.dart';
 import 'package:app_feup/view/widgets/ScheduleCard.dart';
 import 'package:flutter/material.dart';
-import '../widgets/GenericCard.dart';
 import '../widgets/ExamCard.dart';
 import '../Pages/GeneralPageView.dart';
 
@@ -19,15 +17,9 @@ class HomePageView extends GeneralPageView {
             style: Theme.of(context).textTheme.title,
           ),
         ),
-        new GenericCard(
-            title: "Exames",
-            child: new ExamCard()
-        ),
-        new GenericCard(
-          title: "Horário",
-          child: new ScheduleCard(),
-        ),
-        //Cards go here
+        ExamCard(),
+
+        ScheduleCard(),
       ],
     );
   }
