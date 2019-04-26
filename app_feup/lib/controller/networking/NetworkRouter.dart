@@ -121,10 +121,10 @@ class NetworkRouter {
       } else {
         print('Login failed');
         // Login failed
+        return Future.error('Login failed');
       }
     } else {
-      print('HTTP Error ${response.statusCode}');
-      // Error
+      return Future.error('HTTP Error ${response.statusCode}');
     }
     
   }
