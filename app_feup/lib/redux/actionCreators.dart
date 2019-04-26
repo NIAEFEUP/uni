@@ -15,13 +15,13 @@ import 'package:app_feup/controller/networking/NetworkRouter.dart';
 ThunkAction<AppState> login(username, password, faculty, persistentSession) {
   return (Store<AppState> store) async {
     try {
-      store.dispatch(new SetLoginStatusAction(LoginStatus.BUSY));
+      store.dispatch(new SetLoginStatusAction(RequestStatus.BUSY));
       final Session session = await NetworkRouter.login(username, password, faculty, persistentSession);
       print(session);
       store.dispatch(new SaveLoginDataAction(session));
       if (session.authenticated){
         await loadUserInfoToState(store);
-        store.dispatch(new SetLoginStatusAction(LoginStatus.SUCCESSFUL));
+        store.dispatch(new SetLoginStatusAction(RequestStatus.SUCCESSFUL));
       } else {
         store.dispatch(new SetLoginStatusAction(RequestStatus.FAILED));
       }
@@ -81,7 +81,8 @@ ThunkAction<AppState> getUserSchedule(Completer<Null> action) {
       date = date.add(new Duration(days: 6));
       String endWeek = date.year.toString().padLeft(4, '0') + date.month.toString().padLeft(2, '0') + date.day.toString().padLeft(2, '0');
       
-      List<Lecture> lectures = await scheduleGet(await NetworkRouter.getWithCookies("https://sigarra.up.pt/${store.state.content['session'].faculty}/pt/mob_hor_geral.estudante?pv_codigo=${store.state.content['session']['studentNumber']}&pv_semana_ini=$beginWeek&pv_semana_fim=$endWeek", {}, store.state.content['session'].cookies));
+      List<Lecture> lectures = await scheduleGet(await NetworkRouter.getWithCookies("https://sigarra.up.pt/${store.state.content['session'].faculty}/pt/mob_hor_geral.estudante?pv_codigo=${store.state.content['session'].studentNumber}&pv_semana_ini=$beginWeek&pv_semana_fim=$endWeek", {}, store.state.content['session'].cookies));
+      print("https://sigarra.up.pt/${store.state.content['session'].faculty}/pt/mob_hor_geral.estudante?pv_codigo=${store.state.content['session'].studentNumber}&pv_semana_ini=$beginWeek&pv_semana_fim=$endWeek");
       action.complete();
       store.dispatch(new SetScheduleStatusAction(RequestStatus.SUCCESSFUL));
       store.dispatch(new SetScheduleAction(lectures));

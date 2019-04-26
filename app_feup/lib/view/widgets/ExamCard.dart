@@ -20,12 +20,13 @@ class ExamCard extends StatelessWidget{
         return GenericCard(
             title: "Exames",
             func: () => Navigator.pushReplacementNamed(context, '/Mapa de Exames'),
-            child: getCardContent();
+            child: getCardContent(context, exams)
+        );
       },
     );
   }
       
-  Widget getCardContent(){
+  Widget getCardContent(BuildContext context, exams){
     switch (StoreProvider.of<AppState>(context).state.content['examsStatus']){
       case RequestStatus.SUCCESSFUL:
         return exams.length >= 1 ?
@@ -36,8 +37,7 @@ class ExamCard extends StatelessWidget{
               ))
           : Center(
             child: Text("No exams to show at the moment"),
-          ));
-        break;
+          );
       case RequestStatus.BUSY:
         return Center(child: CircularProgressIndicator());
         break;

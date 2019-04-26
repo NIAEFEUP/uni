@@ -23,40 +23,34 @@ class ScheduleCard extends StatelessWidget {
               title: "Horário",
               func: () => Navigator.pushReplacementNamed(context, '/Horário'),
               child:
-                getCardContent();
-              });
-            
+                getCardContent(context, lectures)
+          );
         }
     );
   }
   
-  Widget getCardContent(){
+  Widget getCardContent(BuildContext context, lectures){
     switch (StoreProvider.of<AppState>(context).state.content['scheduleStatus']){
       case RequestStatus.SUCCESSFUL:
          return lectures.length >= 1 ?
           Container(
               child: new Column(
                 mainAxisSize: MainAxisSize.min,
-                children: this.getScheduleRows(context, lectures),
+                children: getScheduleRows(context, lectures),
               ))
           : Center(
-            child: Text("No lectures or classes to show at the moment"))
+            child: Text("No lectures or classes to show at the moment")
           );
-        } else {
-          return Center(child: Text("No schedule to display."));
-        }
-        break;
       case RequestStatus.BUSY:
         return Center(child: CircularProgressIndicator());
-        break;
       case RequestStatus.FAILED:
         if(lectures.length != 0)
-        return Container(
-            child: new Column(
-              mainAxisSize: MainAxisSize.min,
-              children: this.getScheduleRows(context, lectures),
-            )
-        );
+          return Container(
+              child: new Column(
+                mainAxisSize: MainAxisSize.min,
+                children: getScheduleRows(context, lectures),
+              )
+          );
         else return Center(child: Text("Comunication error. Please check your internet connection."));
         break;
       default:
@@ -90,7 +84,7 @@ class ScheduleCard extends StatelessWidget {
         if (now.weekday - 1 != lectures[i].day && lastDayAdded < lectures[i].day) // If it is a lecture from future days and no date title has been already added
           rows.add(new DateRectangle(date: Lecture.dayName[lectures[i].day % 7]));
 
-        rows.add(this.createRowFromLecture(context, lectures[i]));
+        rows.add(createRowFromLecture(context, lectures[i]));
         lastDayAdded = lectures[i].day;
         added++;
       }
@@ -98,7 +92,7 @@ class ScheduleCard extends StatelessWidget {
 
     if (rows.length == 0){ // Edge case where there is only one lecture in the week and we already had it this week
       rows.add(new DateRectangle(date: Lecture.dayName[lectures[0].day % 7]));
-      rows.add(this.createRowFromLecture(context, lectures[0]));
+      rows.add(createRowFromLecture(context, lectures[0]));
     }
     return rows;
   }
