@@ -98,6 +98,18 @@ class Lecture {
     return Lecture(lec.subject, lec.typeClass, lec.day, lec.startTimeSeconds, lec.blocks, lec.room, lec.teacher);
   }
 
+  Map<String, dynamic> toMap() {
+    return {
+      'subject': subject,
+      'typeClass': typeClass,
+      'day': day,
+      'startTimeSeconds': startTimeSeconds,
+      'blocks': blocks,
+      'room': room,
+      'teacher': teacher,
+    };
+  }
+
   printLecture(){
     print(subject + " " + typeClass);
     print(dayName[day] + " " + startTime + " " + endTime + " " + blocks.toString() + " blocos");

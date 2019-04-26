@@ -6,19 +6,32 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:app_feup/controller/loadinfo.dart';
 import 'package:app_feup/model/ProfilePageModel.dart';
 
-
 abstract class GeneralPageView extends StatelessWidget {
 
-  // WidgetsBindingObserver lifeCycleEventHandler;
+  WidgetsBindingObserver lifeCycleEventHandler;
 
   @override
   Widget build(BuildContext context) {
     return this.getScaffold(context, getBody(context));
   }
 
-  Widget getBody(BuildContext context){return new Container();}
+  Widget getBody(BuildContext context) {
+    return new Container();
+  }
 
-  CachedNetworkImageProvider getProfileImage(BuildContext context){
+  DecorationImage buildDecorageImage(context) {
+    String studentNo = StoreProvider.of<AppState>(context)
+            .state
+            .content['session']
+            .studentNumber ??
+        "";
+    return (studentNo != "")
+        ? DecorationImage(
+            fit: BoxFit.cover, image: getProfileImage(context))
+        : null;
+  }
+
+  CachedNetworkImageProvider getProfileImage(BuildContext context) {
     CachedNetworkImageProvider profileImage;
 
     String studentNo = StoreProvider.of<AppState>(context).state.content['session'].studentNumber;
@@ -34,15 +47,14 @@ abstract class GeneralPageView extends StatelessWidget {
 
   Widget refreshState(BuildContext context, Widget child) {
     return StoreConnector<AppState, VoidCallback>(
-      converter: (store){
+      converter: (store) {
         return () => handleRefresh(store);
       },
-      builder: (context, refresh){
+      builder: (context, refresh) {
         return new RefreshIndicator(
             child: child,
             onRefresh: refresh,
-            color: Theme.of(context).primaryColor
-        );
+            color: Theme.of(context).primaryColor);
       },
     );
   }
@@ -59,10 +71,7 @@ abstract class GeneralPageView extends StatelessWidget {
                 height: 45.0,
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: getProfileImage(context)
-                    )
+                    image: buildDecorageImage(context)
                 )
             ),
           ),

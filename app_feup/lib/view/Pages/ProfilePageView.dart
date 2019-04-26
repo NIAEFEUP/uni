@@ -1,12 +1,12 @@
+import 'package:app_feup/view/Pages/SecondaryPageView.dart';
 import 'package:flutter/material.dart';
 import '../widgets/GenericCard.dart';
 import '../../view/Theme.dart';
 import 'package:app_feup/model/entities/Profile.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 
 import '../widgets/NavigationDrawer.dart';
 
-class ProfilePageView extends StatelessWidget {
+class ProfilePageView extends SecondaryPageView {
   ProfilePageView(
     {Key key,
     @required this.name,
@@ -15,9 +15,7 @@ class ProfilePageView extends StatelessWidget {
     @required this.printBalance,
     @required this.feesBalance,
     @required this.nextFeeLimitData,
-    @required this.courses,
-    @required this.profileImage}) 
-    : super(key: key);
+    @required this.courses});
 
   final String name;
   final String email;
@@ -26,17 +24,10 @@ class ProfilePageView extends StatelessWidget {
   final String feesBalance;
   final String nextFeeLimitData;
   final List<Course> courses;
-  final CachedNetworkImageProvider profileImage;
 
   @override
-  Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
-        title: new Text("Perfil", textAlign: TextAlign.start),
-      ),
-      drawer: new NavigationDrawer(),
-      body: createScrollableProfileView(context)
-    );
+  Widget getBody(BuildContext context) {
+    return createScrollableProfileView(context);
   }
 
   Widget createScrollableProfileView(BuildContext context){
@@ -69,10 +60,7 @@ class ProfilePageView extends StatelessWidget {
           height: 150.0,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            image: DecorationImage(
-              fit: BoxFit.cover,
-              image: profileImage
-            )
+            image: buildDecorageImage(context)
           )
         ),
         Padding(padding: const EdgeInsets.all(8.0)),
