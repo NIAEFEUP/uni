@@ -1,8 +1,14 @@
 import 'dart:async';
+import 'package:app_feup/model/AppState.dart';
 import 'package:app_feup/redux/actionCreators.dart';
 import 'package:app_feup/redux/RefreshItemsAction.dart';
+import 'package:redux/redux.dart';
 
-Future loadUserInfoToState(store){
+Future loadUserInfoToState(Store<AppState> store){
+  if(store.state.content['session'] == null){
+    return null;
+  }
+
   Completer<Null>
       userInfo = new Completer(),
       exams = new Completer(),

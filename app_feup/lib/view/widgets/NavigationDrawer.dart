@@ -21,6 +21,7 @@ class NavigationDrawerState extends State<NavigationDrawer> {
     "Mapa de Exames",
     "Parques",
     "Mapa FEUP",
+    "About",
   ];
 
   _onSelectItem(int index) {

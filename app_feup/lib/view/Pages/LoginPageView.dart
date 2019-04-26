@@ -163,17 +163,17 @@ class LoginPageView extends StatelessWidget {
   }
 
   Widget createStatusWidget(BuildContext context) {
-    return StoreConnector<AppState, LoginStatus>(
+    return StoreConnector<AppState, RequestStatus>(
         converter: (store) => store.state.content['loginStatus'],
         onWillChange: (status) {
-          if (status == LoginStatus.SUCCESSFUL)
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => HomePageView()));
+          if (status == RequestStatus.SUCCESSFUL)
+            Navigator.pushReplacementNamed(context, '/Área Pessoal');
         },
         builder: (context, status) {
           switch (status) {
-            case LoginStatus.BUSY:
+            case RequestStatus.BUSY:
               return CircularProgressIndicator();
-            case LoginStatus.FAILED:
+            case RequestStatus.FAILED:
               return createNoteLabel();
             default:
               return Container();
