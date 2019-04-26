@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../widgets/NavigationDrawer.dart';
+import '../Widgets/NavigationDrawer.dart';
 import 'package:app_feup/model/AppState.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:cached_network_image/cached_network_image.dart';

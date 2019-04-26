@@ -1,6 +1,6 @@
-import 'package:app_feup/controller/parsers/ParserExams.dart';
 import 'package:app_feup/model/AppState.dart';
 import 'package:app_feup/model/entities/CourseUnit.dart';
+import 'package:app_feup/model/entities/Exam.dart';
 import 'package:app_feup/model/entities/Lecture.dart';
 import 'package:app_feup/model/entities/Profile.dart';
 import 'package:app_feup/model/entities/Session.dart';

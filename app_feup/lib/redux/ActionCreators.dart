@@ -9,6 +9,7 @@ import 'package:app_feup/controller/parsers/ParserPrintBalance.dart';
 import 'package:app_feup/controller/parsers/ParserFees.dart';
 import 'package:app_feup/controller/parsers/ParserCourses.dart';
 import 'package:app_feup/model/entities/CourseUnit.dart';
+import 'package:app_feup/model/entities/Exam.dart';
 import 'package:app_feup/model/entities/Lecture.dart';
 import 'package:app_feup/model/entities/Session.dart';
 import 'package:redux_thunk/redux_thunk.dart';
@@ -63,10 +64,10 @@ ThunkAction<AppState> getUserInfo(Completer<Null> action) {
       final profile = NetworkRouter.getProfile(store.state.content['session']).then((res) => store.dispatch(new SaveProfileAction(res)));
       final ucs = NetworkRouter.getCurrentCourseUnits(store.state.content['session']).then((res) => store.dispatch(new SaveUcsAction(res)));
       await Future.wait([profile, ucs]);
-      action.complete();
     } catch (e) {
-      print(e);
+      print("Failed to get User Info");
     }
+    action.complete();
   };
 }
 
@@ -110,7 +111,6 @@ ThunkAction<AppState> getUserExams(Completer<Null> action) {
 
         }
       }
-      action.complete();
 
       // Updates local database according to the information fetched -- Exams
       Tuple2<String, String> userPersistentInfo = await AppSharedPreferences.getPersistentUserInfo();
@@ -122,8 +122,11 @@ ThunkAction<AppState> getUserExams(Completer<Null> action) {
       store.dispatch(new SetExamsAction(exams));
       
     } catch (e) {
+      print("Failed to get Exams");
       store.dispatch(new SetExamsStatusAction(RequestStatus.FAILED));
     }
+
+    action.complete();
   };
 }
 
@@ -148,8 +151,6 @@ ThunkAction<AppState> getUserSchedule(Completer<Null> action) {
                   "&pv_semana_ini=$beginWeek&pv_semana_fim=$endWeek",
               {}, store.state.content['session'].cookies));
 
-      action.complete();
-
       // Updates local database according to the information fetched -- Lectures
       Tuple2<String, String> userPersistentInfo = await AppSharedPreferences.getPersistentUserInfo();
       if(userPersistentInfo.item1 != "" && userPersistentInfo.item2 != ""){
@@ -160,8 +161,10 @@ ThunkAction<AppState> getUserSchedule(Completer<Null> action) {
       store.dispatch(new SetScheduleAction(lectures));
       store.dispatch(new SetScheduleStatusAction(RequestStatus.SUCCESSFUL));
     } catch (e) {
+      print("Failed to get Schedule");
       store.dispatch(new SetScheduleStatusAction(RequestStatus.FAILED));
     }
+    action.complete();
   };
 }
 
@@ -180,12 +183,14 @@ ThunkAction<AppState> getUserPrintBalance(Completer<Null> action) {
 
     String cookies = store.state.content['session'].cookies;
 
-    var response = await NetworkRouter.getWithCookies(url, query, cookies);
-
-    String printBalance = await getPrintsBalance(response);
+    try {
+      var response = await NetworkRouter.getWithCookies(url, query, cookies);
+      String printBalance = await getPrintsBalance(response);
+      store.dispatch(new SetPrintBalanceAction(printBalance));
+    }catch(e){
+      print("Failed to get Print Balance");
+    }
     action.complete();
-    store.dispatch(new SetPrintBalanceAction(printBalance));
-
   };
 }
 
@@ -198,13 +203,17 @@ ThunkAction<AppState> getUserFees(Completer<Null> action) {
 
     String cookies = store.state.content['session'].cookies;
 
-    var response = await NetworkRouter.getWithCookies(url, query, cookies);
+    try{
+      var response = await NetworkRouter.getWithCookies(url, query, cookies);
 
-    String feesBalance = await parseFeesBalance(response);
-    store.dispatch(new SetFeesBalanceAction(feesBalance));
+      String feesBalance = await parseFeesBalance(response);
+      store.dispatch(new SetFeesBalanceAction(feesBalance));
 
-    String feesLimit = await parseFeesNextLimit(response);
-    store.dispatch(new SetFeesLimitAction(feesLimit));
+      String feesLimit = await parseFeesNextLimit(response);
+      store.dispatch(new SetFeesLimitAction(feesLimit));
+    }catch(e){
+      print("Failed to get Fees info");
+    }
 
     action.complete();
   };
@@ -219,12 +228,17 @@ ThunkAction<AppState> getUserCoursesState(Completer<Null> action) {
 
     String cookies = store.state.content['session'].cookies;
 
-    var response = await NetworkRouter.getWithCookies(url, query, cookies);
+    try{
+      var response = await NetworkRouter.getWithCookies(url, query, cookies);
 
-    Map<String,String> coursesStates = await parseCourses(response);
+      Map<String,String> coursesStates = await parseCourses(response);
+
+      store.dispatch(new SetCoursesStatesAction(coursesStates));
+
+    }catch(e){
+      print("Failed to get Fees info");
+    }
 
     action.complete();
-
-    store.dispatch(new SetCoursesStatesAction(coursesStates));
   };
 }

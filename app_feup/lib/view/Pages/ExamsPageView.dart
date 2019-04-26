@@ -1,10 +1,10 @@
+import 'package:app_feup/model/entities/Exam.dart';
 import 'package:flutter/material.dart';
 import '../Pages/SecondaryPageView.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import '../widgets/TitleCard.dart';
+import '../Widgets/TitleCard.dart';
 import '../../model/AppState.dart';
-import '../../controller/parsers/ParserExams.dart';
-import '../widgets/ScheduleRow.dart';
+import '../Widgets/ScheduleRow.dart';
 
 class ExamsPageView extends SecondaryPageView {
 

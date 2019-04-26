@@ -1,4 +1,5 @@
 import 'package:app_feup/model/SchedulePageModel.dart';
+import 'package:app_feup/model/entities/Exam.dart';
 import 'package:app_feup/view/Pages/ClassificationsPageView.dart';
 import 'package:app_feup/view/Pages/ExamsPageView.dart';
 import 'package:app_feup/view/Pages/HomePageView.dart';
@@ -15,7 +16,6 @@ import 'view/Theme.dart';
 import 'model/AppState.dart';
 import 'package:redux/redux.dart';
 import 'redux/Reducers.dart';
-import 'controller/parsers/ParserExams.dart';
 import 'package:app_feup/redux/ActionCreators.dart';
 import 'package:app_feup/model/AppState.dart';
 import 'package:app_feup/controller/LifecycleEventHandler.dart';

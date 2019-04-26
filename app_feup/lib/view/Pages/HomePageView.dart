@@ -1,7 +1,7 @@
-import 'package:app_feup/view/widgets/ScheduleCard.dart';
-import 'package:app_feup/view/widgets/HomePageBackButton.dart';
+import 'package:app_feup/view/Widgets/ScheduleCard.dart';
+import 'package:app_feup/view/Widgets/HomePageBackButton.dart';
 import 'package:flutter/material.dart';
-import '../widgets/ExamCard.dart';
+import '../Widgets/ExamCard.dart';
 import '../Pages/GeneralPageView.dart';
 
 class HomePageView extends GeneralPageView {
