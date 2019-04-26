@@ -7,6 +7,7 @@ import 'package:app_feup/controller/parsers/parser-exams.dart';
 import 'package:app_feup/controller/parsers/parser-schedule.dart';
 import 'package:app_feup/controller/parsers/parser-prints.dart';
 import 'package:app_feup/controller/parsers/parser-fees.dart';
+import 'package:app_feup/controller/parsers/parser-courses.dart';
 import 'package:app_feup/model/entities/CourseUnit.dart';
 import 'package:app_feup/model/entities/Session.dart';
 import 'package:redux_thunk/redux_thunk.dart';
@@ -15,7 +16,6 @@ import '../model/AppState.dart';
 import 'actions.dart';
 import 'package:redux/redux.dart';
 import 'package:app_feup/controller/networking/NetworkRouter.dart';
-import 'package:app_feup/model/LoginPageModel.dart';
 
 ThunkAction<AppState> reLogin(username, password, faculty) {
   return (Store<AppState> store) async {
@@ -39,19 +39,19 @@ ThunkAction<AppState> reLogin(username, password, faculty) {
 ThunkAction<AppState> login(username, password, faculty, persistentSession) {
   return (Store<AppState> store) async {
     try {
-      store.dispatch(new SetLoginStatusAction(LoginStatus.BUSY));
+      store.dispatch(new SetLoginStatusAction(RequestStatus.BUSY));
       final Session session = await NetworkRouter.login(username, password, faculty, persistentSession);
       store.dispatch(new SaveLoginDataAction(session));
       if (session.authenticated){
         if (persistentSession)
           AppSharedPreferences.savePersistentUserInfo(username, password);
-        loadRemoteUserInfoToState(store);
+        await loadRemoteUserInfoToState(store);
         store.dispatch(new SetLoginStatusAction(LoginStatus.SUCCESSFUL));
       } else {
-        store.dispatch(new SetLoginStatusAction(LoginStatus.FAILED));
+        store.dispatch(new SetLoginStatusAction(RequestStatus.FAILED));
       }
     } catch (e) {
-      store.dispatch(new SetLoginStatusAction(LoginStatus.FAILED));
+      store.dispatch(new SetLoginStatusAction(RequestStatus.FAILED));
     }
   };
 }
@@ -87,13 +87,15 @@ ThunkAction<AppState> updateStateBasedOnLocalUserLectures() {
 
 ThunkAction<AppState> getUserExams(Completer<Null> action) {
   return (Store<AppState> store) async {
-    if(store.state.content['session'] != null){
-      
+    try {
+      //need to get student course here
+      store.dispatch(new SetExamsStatusAction(RequestStatus.BUSY));
+
       List<Exam> courseExams = await examsGet("https://sigarra.up.pt/${store.state.content['session'].faculty}/pt/exa_geral.mapa_de_exames?p_curso_id=742");
 
       List<CourseUnit> userUcs = store.state.content['currUcs'];
       List<Exam> exams = new List<Exam>();
-      for (Exam courseExam in courseExams)
+      for (Exam courseExam in courseExams) {
         for (CourseUnit uc in userUcs) {
           if (!courseExam.examType.contains(
               "Exames ao abrigo de estatutos especiais - Port.Est.Especiais") &&
@@ -101,8 +103,9 @@ ThunkAction<AppState> getUserExams(Completer<Null> action) {
             exams.add(courseExam);
             break;
           }
-        }
 
+        }
+      }
       action.complete();
 
       // Updates local database according to the information fetched -- Exams
@@ -111,21 +114,25 @@ ThunkAction<AppState> getUserExams(Completer<Null> action) {
         AppExamsDatabase db = await AppExamsDatabase();
         db.saveNewExams(exams);
       }
-
+      store.dispatch(new SetExamsStatusAction(RequestStatus.SUCCESSFUL));
       store.dispatch(new SetExamsAction(exams));
+      
+    } catch (e) {
+      store.dispatch(new SetExamsStatusAction(RequestStatus.FAILED));
     }
   };
 }
 
 ThunkAction<AppState> getUserSchedule(Completer<Null> action) {
   return (Store<AppState> store) async {
-
-    if(store.state.content['session'] != null) {
+    try {
+      store.dispatch(new SetScheduleStatusAction(RequestStatus.BUSY));
       var date = DateTime.now();
       String beginWeek = date.year.toString().padLeft(4, '0') +
           date.month.toString().padLeft(2, '0') +
           date.day.toString().padLeft(2, '0');
       date = date.add(new Duration(days: 6));
+
       String endWeek = date.year.toString().padLeft(4, '0') +
           date.month.toString().padLeft(2, '0') +
           date.day.toString().padLeft(2, '0');
@@ -150,6 +157,9 @@ ThunkAction<AppState> getUserSchedule(Completer<Null> action) {
       }
 
       store.dispatch(new SetScheduleAction(lectures));
+      store.dispatch(new SetScheduleStatusAction(RequestStatus.SUCCESSFUL));
+    } catch (e) {
+      store.dispatch(new SetScheduleStatusAction(RequestStatus.FAILED));
     }
   };
 }
@@ -180,5 +190,27 @@ ThunkAction<AppState> getUserFeesBalance(Completer<Null> action) {
     String feesBalance = await getFeesBalance(url, store);
     action.complete();
     store.dispatch(new SetFeesBalanceAction(feesBalance));
+  };
+}
+
+ThunkAction<AppState> getUserFeesNextLimit(Completer<Null> action) {
+  return (Store<AppState> store) async {
+
+    String url = "https://sigarra.up.pt/${store.state.content['session'].faculty}/pt/gpag_ccorrente_geral.conta_corrente_view?";
+
+    String feesLimit = await getFeesNextLimit(url, store);
+    action.complete();
+    store.dispatch(new SetFeesLimitAction(feesLimit));
+  };
+}
+
+ThunkAction<AppState> getUserCoursesState(Completer<Null> action) {
+  return (Store<AppState> store) async {
+
+    String url = "https://sigarra.up.pt/${store.state.content['session'].faculty}/pt/fest_geral.cursos_list?";
+
+    Map<String,String> coursesStates = await getCourseState(url, store);
+    action.complete();
+    store.dispatch(new SetCoursesStatesAction(coursesStates));
   };
 }

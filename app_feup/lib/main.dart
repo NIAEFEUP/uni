@@ -5,6 +5,7 @@ import 'package:app_feup/view/Pages/HomePageView.dart';
 import 'package:app_feup/view/Pages/MapPageView.dart';
 import 'package:app_feup/view/Pages/MenuPageView.dart';
 import 'package:app_feup/view/Pages/ParkPageView.dart';
+import 'package:app_feup/view/Pages/AboutPageView.dart';
 import 'package:app_feup/controller/Middleware.dart';
 import 'package:flutter/material.dart';
 import 'package:app_feup/view/Pages/SplashPageView.dart';
@@ -81,6 +82,10 @@ class MyAppState extends State<MyApp> {
               StoreProvider.of<AppState>(context).dispatch(updateSelectedPage("Mapa FEUP"));
               return MapPageView();
             },
+            '/About': (context) {
+              StoreProvider.of<AppState>(context).dispatch(updateSelectedPage("About"));
+              return AboutPageView();
+            }
         },
     )
   );}
@@ -98,3 +103,5 @@ class MyAppState extends State<MyApp> {
     super.dispose();
   }
 }
+
+

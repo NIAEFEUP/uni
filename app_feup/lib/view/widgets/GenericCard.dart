@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../view/Theme.dart';
 
 class GenericCard extends StatelessWidget {
   GenericCard({Key key, @required this.title, this.child, this.func})
@@ -34,11 +35,11 @@ class GenericCard extends StatelessWidget {
                   child: Text(title, style: Theme.of(context).textTheme.title),
                   height: 26,
                   alignment: Alignment.centerLeft,
-                  padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                  padding: EdgeInsets.fromLTRB(20, 4, 0, 4),
                 ),
                 new ConstrainedBox(
                   constraints: new BoxConstraints(
-                    minHeight: 100.0,
+                    minHeight: 60.0,
                   ),
                   child: new Container(
                     decoration: BoxDecoration(

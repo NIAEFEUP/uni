@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../Pages/GeneralPageView.dart';
+import '../Pages/SecondaryPageView.dart';
 
-class MenuPageView extends GeneralPageView {
+class MenuPageView extends SecondaryPageView {
 
   @override
   Widget getBody(BuildContext context) {
