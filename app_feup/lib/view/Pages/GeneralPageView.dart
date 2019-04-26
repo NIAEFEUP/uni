@@ -27,19 +27,18 @@ abstract class GeneralPageView extends StatelessWidget {
         "";
     return (studentNo != "")
         ? DecorationImage(
-            fit: BoxFit.cover, image: getProfileImage(context, studentNo))
+            fit: BoxFit.cover, image: getProfileImage(context))
         : null;
   }
 
-  CachedNetworkImageProvider getProfileImage(BuildContext context, studentNo) {
+  CachedNetworkImageProvider getProfileImage(BuildContext context) {
     CachedNetworkImageProvider profileImage;
-    String url =
-        "https://sigarra.up.pt/feup/pt/fotografias_service.foto?pct_cod=" +
-            studentNo;
+
+    String studentNo = StoreProvider.of<AppState>(context).state.content['session'].studentNumber;
+    String url = "https://sigarra.up.pt/feup/pt/fotografias_service.foto?pct_cod=" + studentNo;
 
     final Map<String, String> headers = Map<String, String>();
-    headers['cookie'] =
-        StoreProvider.of<AppState>(context).state.content['session'].cookies;
+    headers['cookie'] = StoreProvider.of<AppState>(context).state.content['session'].cookies;
 
     profileImage = CachedNetworkImageProvider(url, headers: headers);
 
@@ -72,10 +71,7 @@ abstract class GeneralPageView extends StatelessWidget {
                 height: 45.0,
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: getProfileImage(context)
-                    )
+                    image: buildDecorageImage(context)
                 )
             ),
           ),

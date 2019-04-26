@@ -21,17 +21,17 @@ ThunkAction<AppState> reLogin(username, password, faculty) {
   return (Store<AppState> store) async {
     try {
       loadLocalUserInfoToState(store);
-      store.dispatch(new SetLoginStatusAction(LoginStatus.BUSY));
+      store.dispatch(new SetLoginStatusAction(RequestStatus.BUSY));
       final Session session = await NetworkRouter.login(username, password, faculty, true);
       store.dispatch(new SaveLoginDataAction(session));
       if (session.authenticated){
         loadRemoteUserInfoToState(store);
-        store.dispatch(new SetLoginStatusAction(LoginStatus.SUCCESSFUL));
+        store.dispatch(new SetLoginStatusAction(RequestStatus.SUCCESSFUL));
       } else {
-        store.dispatch(new SetLoginStatusAction(LoginStatus.FAILED));
+        store.dispatch(new SetLoginStatusAction(RequestStatus.FAILED));
       }
     } catch (e) {
-      store.dispatch(new SetLoginStatusAction(LoginStatus.FAILED));
+      store.dispatch(new SetLoginStatusAction(RequestStatus.FAILED));
     }
   };
 }
@@ -46,7 +46,7 @@ ThunkAction<AppState> login(username, password, faculty, persistentSession) {
         if (persistentSession)
           AppSharedPreferences.savePersistentUserInfo(username, password);
         await loadRemoteUserInfoToState(store);
-        store.dispatch(new SetLoginStatusAction(LoginStatus.SUCCESSFUL));
+        store.dispatch(new SetLoginStatusAction(RequestStatus.SUCCESSFUL));
       } else {
         store.dispatch(new SetLoginStatusAction(RequestStatus.FAILED));
       }

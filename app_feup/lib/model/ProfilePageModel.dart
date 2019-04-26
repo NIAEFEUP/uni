@@ -45,33 +45,41 @@ class _ProfilePageState extends State<ProfilePage> {
       printBalance: printBalance,
       feesBalance: feesBalance,
       nextFeeLimitData: nextFeeLimitData,
-      courses: courses,
-      profileImage: getProfileImage());
+      courses: courses);
   }
 
   void updateInfo() {
     setState(() {
-      name = StoreProvider.of<AppState>(context).state.content['profile'].name;
-      email = StoreProvider.of<AppState>(context).state.content['profile'].email;
-      currentState = StoreProvider.of<AppState>(context).state.content['coursesStates'];
-      courses = StoreProvider.of<AppState>(context).state.content['profile'].courses;
-      printBalance = StoreProvider.of<AppState>(context).state.content['printBalance'];
-      feesBalance = StoreProvider.of<AppState>(context).state.content['feesBalance'];
-      nextFeeLimitData = StoreProvider.of<AppState>(context).state.content['feesLimit'];
+      if(StoreProvider.of<AppState>(context).state.content['profile'] != null) {
+        name = StoreProvider
+            .of<AppState>(context)
+            .state
+            .content['profile'].name;
+        email = StoreProvider
+            .of<AppState>(context)
+            .state
+            .content['profile'].email;
+        currentState = StoreProvider
+            .of<AppState>(context)
+            .state
+            .content['coursesStates'];
+        courses = StoreProvider
+            .of<AppState>(context)
+            .state
+            .content['profile'].courses;
+        printBalance = StoreProvider
+            .of<AppState>(context)
+            .state
+            .content['printBalance'];
+        feesBalance = StoreProvider
+            .of<AppState>(context)
+            .state
+            .content['feesBalance'];
+        nextFeeLimitData = StoreProvider
+            .of<AppState>(context)
+            .state
+            .content['feesLimit'];
+      }
     });
-  }
-
-  CachedNetworkImageProvider getProfileImage(){
-    CachedNetworkImageProvider profileImage;
-
-    String studentNo = StoreProvider.of<AppState>(context).state.content['session'].studentNumber;
-    String url = "https://sigarra.up.pt/feup/pt/fotografias_service.foto?pct_cod=" + studentNo;
-
-    final Map<String, String> headers = Map<String, String>();
-    headers['cookie'] = StoreProvider.of<AppState>(context).state.content['session'].cookies;
-
-    profileImage = CachedNetworkImageProvider(url, headers: headers);
-
-    return profileImage;
   }
 }
