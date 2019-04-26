@@ -84,7 +84,7 @@ class MyAppState extends State<MyApp> {
             },
             '/About': (context) {
               StoreProvider.of<AppState>(context).dispatch(updateSelectedPage("About"));
-              return AboutPageView(),
+              return AboutPageView();
             }
         },
     )

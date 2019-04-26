@@ -28,7 +28,7 @@ class AboutPageView extends GeneralPageView {
                     bottom: queryData.size.width/12
                 ),
                 child : Text(
-                  "A app uNI foi desenvolvida pelo Núcleo estudantil de Informática da FEUP, com o intuito de facilitar a vida de qualquer estudante da Universidade do Porto. Donate to us at crowdfunding.com/NIAEFEUP",
+                  'Placeholder text',
                   textAlign: TextAlign.center,
                   textScaleFactor: 1.2,
                 )
