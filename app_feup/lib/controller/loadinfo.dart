@@ -26,17 +26,15 @@ Future loadRemoteUserInfoToState(Store<AppState> store){
       exams = new Completer(),
       schedule = new Completer(),
       printBalance = new Completer(),
-      feesBalance = new Completer(),
-      feesLimit = new Completer(),
+      fees = new Completer(),
       coursesStates = new Completer();
   store.dispatch(getUserInfo(userInfo));
   store.dispatch(getUserExams(exams));
   store.dispatch(getUserSchedule(schedule));
   store.dispatch(getUserPrintBalance(printBalance));
-  store.dispatch(getUserFeesBalance(feesBalance));
-  store.dispatch(getUserFeesNextLimit(feesLimit));
+  store.dispatch(getUserFees(fees));
   store.dispatch(getUserCoursesState(coursesStates));
-  return Future.wait([exams.future, schedule.future, printBalance.future, feesBalance.future, feesLimit.future, coursesStates.future, userInfo.future]);
+  return Future.wait([exams.future, schedule.future, printBalance.future, fees.future, coursesStates.future, userInfo.future]);
 }
 
 void loadLocalUserInfoToState(store) async {

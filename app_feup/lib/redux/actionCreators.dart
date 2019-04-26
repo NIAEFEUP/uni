@@ -91,7 +91,10 @@ ThunkAction<AppState> getUserExams(Completer<Null> action) {
       //need to get student course here
       store.dispatch(new SetExamsStatusAction(RequestStatus.BUSY));
 
-      List<Exam> courseExams = await examsGet("https://sigarra.up.pt/${store.state.content['session'].faculty}/pt/exa_geral.mapa_de_exames?p_curso_id=742");
+      List<Exam> courseExams = await parseExams(
+          await NetworkRouter.getWithCookies("https://sigarra.up.pt/${store.state.content['session'].faculty}/pt/exa_geral.mapa_de_exames?p_curso_id=742",
+          {}, store.state.content['session'].cookies)
+      );
 
       List<CourseUnit> userUcs = store.state.content['currUcs'];
       List<Exam> exams = new List<Exam>();
@@ -137,7 +140,7 @@ ThunkAction<AppState> getUserSchedule(Completer<Null> action) {
           date.month.toString().padLeft(2, '0') +
           date.day.toString().padLeft(2, '0');
 
-      List<Lecture> lectures = await scheduleGet(
+      List<Lecture> lectures = await parseSchedule(
           await NetworkRouter.getWithCookies(
               "https://sigarra.up.pt/${store.state.content['session']
                   .faculty}/pt/mob_hor_geral.estudante?pv_codigo=${store.state
@@ -146,8 +149,6 @@ ThunkAction<AppState> getUserSchedule(Completer<Null> action) {
               {}, store.state.content['session'].cookies));
 
       action.complete();
-
-
 
       // Updates local database according to the information fetched -- Lectures
       Tuple2<String, String> userPersistentInfo = await AppSharedPreferences.getPersistentUserInfo();
@@ -175,32 +176,37 @@ ThunkAction<AppState> getUserPrintBalance(Completer<Null> action) {
 
     String url = "https://sigarra.up.pt/${store.state.content['session'].faculty}/pt/imp4_impressoes.atribs?";
 
-    String printBalance = await getPrintsBalance(url, store);
+    Map<String, String> query = {"p_codigo": store.state.content['session'].studentNumber};
+
+    String cookies = store.state.content['session'].cookies;
+
+    var response = await NetworkRouter.getWithCookies(url, query, cookies);
+
+    String printBalance = await getPrintsBalance(response);
     action.complete();
     store.dispatch(new SetPrintBalanceAction(printBalance));
 
   };
 }
 
-ThunkAction<AppState> getUserFeesBalance(Completer<Null> action) {
+ThunkAction<AppState> getUserFees(Completer<Null> action) {
   return (Store<AppState> store) async {
 
     String url = "https://sigarra.up.pt/${store.state.content['session'].faculty}/pt/gpag_ccorrente_geral.conta_corrente_view?";
 
-    String feesBalance = await getFeesBalance(url, store);
-    action.complete();
+    Map<String, String> query = {"pct_cod": store.state.content['session'].studentNumber};
+
+    String cookies = store.state.content['session'].cookies;
+
+    var response = await NetworkRouter.getWithCookies(url, query, cookies);
+
+    String feesBalance = await parseFeesBalance(response);
     store.dispatch(new SetFeesBalanceAction(feesBalance));
-  };
-}
 
-ThunkAction<AppState> getUserFeesNextLimit(Completer<Null> action) {
-  return (Store<AppState> store) async {
-
-    String url = "https://sigarra.up.pt/${store.state.content['session'].faculty}/pt/gpag_ccorrente_geral.conta_corrente_view?";
-
-    String feesLimit = await getFeesNextLimit(url, store);
-    action.complete();
+    String feesLimit = await parseFeesNextLimit(response);
     store.dispatch(new SetFeesLimitAction(feesLimit));
+
+    action.complete();
   };
 }
 
@@ -209,8 +215,16 @@ ThunkAction<AppState> getUserCoursesState(Completer<Null> action) {
 
     String url = "https://sigarra.up.pt/${store.state.content['session'].faculty}/pt/fest_geral.cursos_list?";
 
-    Map<String,String> coursesStates = await getCourseState(url, store);
+    Map<String, String> query = {"pv_num_unico": store.state.content['session'].studentNumber};
+
+    String cookies = store.state.content['session'].cookies;
+
+    var response = await NetworkRouter.getWithCookies(url, query, cookies);
+
+    Map<String,String> coursesStates = await parseCourses(response);
+
     action.complete();
+
     store.dispatch(new SetCoursesStatesAction(coursesStates));
   };
 }

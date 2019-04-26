@@ -64,7 +64,7 @@ class ProfilePageView extends SecondaryPageView {
           )
         ),
         Padding(padding: const EdgeInsets.all(8.0)),
-        Text(
+         Text(
           name,
           textAlign: TextAlign.center,
           style: TextStyle(

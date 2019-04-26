@@ -85,9 +85,7 @@ class Exam{
   }
 }
 
-Future<List<Exam>> examsGet(String link) async{
-
-  var response = await http.get(link);
+Future<List<Exam>> parseExams(http.Response response) async{
 
   var document = await parse(response.body);
 
