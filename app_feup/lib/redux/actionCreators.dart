@@ -47,44 +47,39 @@ ThunkAction<AppState> getUserInfo(Completer<Null> action) {
 
 ThunkAction<AppState> getUserExams(Completer<Null> action) {
   return (Store<AppState> store) async {
-    if(store.state.content['session'] != null){
-      
-      List<Exam> courseExams = await examsGet("https://sigarra.up.pt/${store.state.content['session'].faculty}/pt/exa_geral.mapa_de_exames?p_curso_id=742");
 
-      List<CourseUnit> userUcs = store.state.content['currUcs'];
-      List<Exam> exams = new List<Exam>();
-      for (Exam courseExam in courseExams)
-        for (CourseUnit uc in userUcs) {
-          if (!courseExam.examType.contains(
-              "Exames ao abrigo de estatutos especiais - Port.Est.Especiais") &&
-              courseExam.subject == uc.abbreviation) {
-            exams.add(courseExam);
-            break;
-          }
+    List<Exam> courseExams = await examsGet("https://sigarra.up.pt/${store.state.content['session'].faculty}/pt/exa_geral.mapa_de_exames?p_curso_id=742");
+
+    List<CourseUnit> userUcs = store.state.content['currUcs'];
+    List<Exam> exams = new List<Exam>();
+    for (Exam courseExam in courseExams)
+      for (CourseUnit uc in userUcs) {
+        if (!courseExam.examType.contains(
+            "Exames ao abrigo de estatutos especiais - Port.Est.Especiais") &&
+            courseExam.subject == uc.abbreviation) {
+          exams.add(courseExam);
+          break;
         }
+      }
 
-      action.complete();
-      
-      store.dispatch(new SetExamsAction(exams));
-    }
+    action.complete();
+
+    store.dispatch(new SetExamsAction(exams));
   };
 }
 
 ThunkAction<AppState> getUserSchedule(Completer<Null> action) {
   return (Store<AppState> store) async {
+    var date = DateTime.now();
+    String beginWeek = date.year.toString().padLeft(4, '0') + date.month.toString().padLeft(2, '0') + date.day.toString().padLeft(2, '0');
+    date = date.add(new Duration(days: 6));
+    String endWeek = date.year.toString().padLeft(4, '0') + date.month.toString().padLeft(2, '0') + date.day.toString().padLeft(2, '0');
 
-    if(store.state.content['session'] != null){
-      var date = DateTime.now();
-      String beginWeek = date.year.toString().padLeft(4, '0') + date.month.toString().padLeft(2, '0') + date.day.toString().padLeft(2, '0');
-      date = date.add(new Duration(days: 6));
-      String endWeek = date.year.toString().padLeft(4, '0') + date.month.toString().padLeft(2, '0') + date.day.toString().padLeft(2, '0');
+  List<Lecture> lectures = await scheduleGet(await NetworkRouter.getWithCookies("https://sigarra.up.pt/${store.state.content['session'].faculty}/pt/mob_hor_geral.estudante?pv_codigo=${store.state.content['session'].studentNumber}&pv_semana_ini=$beginWeek&pv_semana_fim=$endWeek", {}, store.state.content['session'].cookies));
 
-    List<Lecture> lectures = await scheduleGet(await NetworkRouter.getWithCookies("https://sigarra.up.pt/${store.state.content['session'].faculty}/pt/mob_hor_geral.estudante?pv_codigo=${store.state.content['session'].studentNumber}&pv_semana_ini=$beginWeek&pv_semana_fim=$endWeek", {}, store.state.content['session'].cookies));
+    action.complete();
 
-      action.complete();
-
-      store.dispatch(new SetScheduleAction(lectures));
-    }
+    store.dispatch(new SetScheduleAction(lectures));
   };
 }
 
