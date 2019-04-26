@@ -1,5 +1,6 @@
 import 'package:app_feup/controller/parsers/parser-exams.dart';
 import 'package:app_feup/controller/parsers/parser-schedule.dart';
+import 'package:app_feup/model/AppState.dart';
 import 'package:app_feup/model/LoginPageModel.dart';
 import 'package:app_feup/model/entities/CourseUnit.dart';
 import 'package:app_feup/model/entities/Profile.dart';
@@ -11,7 +12,7 @@ class SaveLoginDataAction {
 }
 
 class SetLoginStatusAction {
-  LoginStatus status;
+  RequestStatus status;
   SetLoginStatusAction(this.status);
 }
 
@@ -20,9 +21,19 @@ class SetExamsAction{
   SetExamsAction(this.exams);
 }
 
+class SetExamsStatusAction{
+  RequestStatus status;
+  SetExamsStatusAction(this.status);
+}
+
 class SetScheduleAction{
   List<Lecture> lectures;
   SetScheduleAction(this.lectures);
+}
+
+class SetScheduleStatusAction{
+  RequestStatus status;
+  SetScheduleStatusAction(this.status);
 }
 
 class UpdateSelectedPageAction {
@@ -48,4 +59,14 @@ class SetPrintBalanceAction {
 class SetFeesBalanceAction {
   String feesBalance;
   SetFeesBalanceAction(this.feesBalance);
+}
+
+class SetFeesLimitAction{
+  String feesLimit;
+  SetFeesLimitAction(this.feesLimit);
+}
+
+class SetCoursesStatesAction{
+  Map<String, String> coursesStates;
+  SetCoursesStatesAction(this.coursesStates);
 }

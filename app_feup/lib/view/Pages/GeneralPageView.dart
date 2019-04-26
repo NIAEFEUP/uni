@@ -4,11 +4,12 @@ import 'package:app_feup/model/AppState.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:app_feup/controller/loadinfo.dart';
+import 'package:app_feup/model/ProfilePageModel.dart';
 
 
 abstract class GeneralPageView extends StatelessWidget {
 
-  WidgetsBindingObserver lifeCycleEventHandler;
+  // WidgetsBindingObserver lifeCycleEventHandler;
 
   @override
   Widget build(BuildContext context) {
@@ -52,8 +53,7 @@ abstract class GeneralPageView extends StatelessWidget {
         title: new Text(StoreProvider.of<AppState>(context).state.content["selected_page"], textAlign: TextAlign.start),
         actions: <Widget>[
           FlatButton(
-            //TODO:
-            //onPressed: () => {Navigator.pushReplacement(context,new MaterialPageRoute(builder: (__) => new ProfilePage()))},
+            onPressed: () => {Navigator.pushReplacement(context,new MaterialPageRoute(builder: (__) => new ProfilePage()))},
             child: Container(
                 width: 45.0,
                 height: 45.0,
