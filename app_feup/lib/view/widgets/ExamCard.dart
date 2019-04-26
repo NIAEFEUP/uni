@@ -20,18 +20,40 @@ class ExamCard extends StatelessWidget{
         return GenericCard(
             title: "Exames",
             func: () => Navigator.pushReplacementNamed(context, '/Mapa de Exames'),
-            child:
-                exams.length >= 1 ?
-                Container(
-                    child: new Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: this.getExamRows(context, exams),
-                    ))
-                : Center(
-                  child: Text("No exams to show at the moment"),
-                ));
+            child: getCardContent(context, exams)
+        );
       },
     );
+  }
+      
+  Widget getCardContent(BuildContext context, exams){
+    switch (StoreProvider.of<AppState>(context).state.content['examsStatus']){
+      case RequestStatus.SUCCESSFUL:
+        return exams.length >= 1 ?
+          Container(
+              child: new Column(
+                mainAxisSize: MainAxisSize.min,
+                children: this.getExamRows(context, exams),
+              ))
+          : Center(
+            child: Text("No exams to show at the moment"),
+          );
+      case RequestStatus.BUSY:
+        return Center(child: CircularProgressIndicator());
+        break;
+      case RequestStatus.FAILED:
+        if(exams.length != 0)
+          return Container(
+              child: new Column(
+                mainAxisSize: MainAxisSize.min,
+                children: this.getExamRows(context, exams),
+              )
+          );
+        else return Center(child: Text("Comunication error. Please check your internet connection."));
+        break;
+      default:
+        return Container();
+    } 
   }
 
   List<Widget> getExamRows(context, exams){
