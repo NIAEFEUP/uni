@@ -48,9 +48,20 @@ class ExamsPageView extends GeneralPageView {
     List<Exam> currentDayExams = new List<Exam>();
     for(int i = 0; i < exams.length; i++)
     {
-      if (i + 1 >= exams.length)
+      if (i + 1 >= exams.length){
+        if(exams[i].day == exams[i - 1].day && exams[i].month == exams[i - 1].month) {
+          currentDayExams.add(exams[i]);
+        }
+        else{
+          if(currentDayExams.length > 0)
+            columns.add(this.createExamCard(context, currentDayExams));
+          currentDayExams.clear();
+          currentDayExams.add(exams[i]);
+        }
+        columns.add(this.createExamCard(context, currentDayExams));
         break;
-      else if(exams[i].day == exams[i + 1].day && exams[i].month == exams[i + 1].month) {
+      }
+      if(exams[i].day == exams[i + 1].day && exams[i].month == exams[i + 1].month) {
         currentDayExams.add(exams[i]);
       }
       else {

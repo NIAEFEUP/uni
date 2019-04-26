@@ -4,35 +4,31 @@ import 'actions.dart';
 AppState appReducers(AppState state, dynamic action) {
   if (action is SaveLoginDataAction) {
     return login(state, action);
-  } 
-  else if (action is SetLoginStatusAction) {
+  } else if (action is SetLoginStatusAction) {
     return setLoginStatus(state, action);
-  } 
-  else if(action is UpdateSelectedPageAction) {
-    return updateSelectedPage(state, action);
-  }
-  else if (action is SetExamsAction){
+  } else if(action is UpdateSelectedPageAction) {
+    return updateSelectedPageStatus(state, action);
+  } else if (action is SetExamsAction) {
     return setExams(state, action);
-  }
-  else if (action is SetExamsStatusAction) {
+  } else if (action is SetExamsStatusAction) {
     return setExamsStatus(state, action);
-  }
-  else if (action is SetScheduleAction){
-    return setSchedule(state, action);
-  }
-  else if (action is SetScheduleStatusAction) {
+  } else if (action is SetScheduleStatusAction) {
     return setScheduleStatus(state, action);
-  }
-  else if(action is SetPrintBalanceAction){
+  } else if (action is SetScheduleAction) {
+    return setSchedule(state, action);
+  } else if (action is SaveProfileAction) {
+    return saveProfile(state, action);
+  } else if (action is SaveUcsAction) {
+    return saveCurrUcs(state, action);
+  } else if(action is SetPrintBalanceAction) {
     return setPrintBalance(state, action);
-  }
-  else if(action is SetFeesBalanceAction){
+  } else if(action is SetFeesBalanceAction) {
     return setFeesBalance(state, action);
   }
   return state;
 }
 
-AppState updateSelectedPage(AppState state, UpdateSelectedPageAction action) {
+AppState updateSelectedPageStatus(AppState state, UpdateSelectedPageAction action) {
   print('updating selected page: ' + action.selected_page);
   return state.cloneAndUpdateValue("selected_page", action.selected_page);
 }
@@ -66,7 +62,15 @@ AppState setScheduleStatus(AppState state, SetScheduleStatusAction action) {
   print('setting schedule status: ' + action.status.toString());
   return state.cloneAndUpdateValue('scheduleStatus', action.status);
 }
-  
+
+AppState saveProfile(AppState state, SaveProfileAction action) {
+  return state.cloneAndUpdateValue("profile", action.profile);
+}
+
+AppState saveCurrUcs(AppState state, SaveUcsAction action) {
+  return state.cloneAndUpdateValue("currUcs", action.ucs);
+}
+
 AppState setPrintBalance(AppState state, SetPrintBalanceAction action) {
   print('setting print balance: ' + action.printBalance);
   return state.cloneAndUpdateValue("printBalance", action.printBalance);

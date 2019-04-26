@@ -1,6 +1,7 @@
 import 'package:app_feup/controller/parsers/parser-schedule.dart';
 import 'package:app_feup/model/AppState.dart';
 import 'package:app_feup/view/widgets/DateRectangle.dart';
+import 'package:app_feup/view/widgets/GenericCard.dart';
 import 'package:app_feup/view/widgets/ScheduleRow.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter/material.dart';
@@ -18,38 +19,50 @@ class ScheduleCard extends StatelessWidget {
     return StoreConnector<AppState, List<dynamic>>(
         converter: (store) => store.state.content['schedule'],
         builder: (context, lectures){
-          switch (StoreProvider.of<AppState>(context).state.content['scheduleStatus'])
-          {
-            case RequestStatus.SUCCESSFUL:
-              if(lectures.length >= 1) {
-                return Container(
-                  child: new Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: this.getScheduleRows(context, lectures),
-                  )
-                );
-              } else {
-                return Center(child: Text("No schedule to display."));
-              }
-              break;
-            case RequestStatus.BUSY:
-              return Center(child: CircularProgressIndicator());
-              break;
-            case RequestStatus.FAILED:
-              if(lectures.length != 0)
-              return Container(
-                  child: new Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: this.getScheduleRows(context, lectures),
-                  )
-              );
-              else return Center(child: Text("Comunication error. Please check your internet connection."));
-              break;
-            default:
-              return Container();
-          }
-        });
-    }
+          return GenericCard(
+              title: "Horário",
+              func: () => Navigator.pushReplacementNamed(context, '/Horário'),
+              child:
+                getCardContent();
+              });
+            
+        }
+    );
+  }
+  
+  Widget getCardContent(){
+    switch (StoreProvider.of<AppState>(context).state.content['scheduleStatus']){
+      case RequestStatus.SUCCESSFUL:
+         return lectures.length >= 1 ?
+          Container(
+              child: new Column(
+                mainAxisSize: MainAxisSize.min,
+                children: this.getScheduleRows(context, lectures),
+              ))
+          : Center(
+            child: Text("No lectures or classes to show at the moment"))
+          );
+        } else {
+          return Center(child: Text("No schedule to display."));
+        }
+        break;
+      case RequestStatus.BUSY:
+        return Center(child: CircularProgressIndicator());
+        break;
+      case RequestStatus.FAILED:
+        if(lectures.length != 0)
+        return Container(
+            child: new Column(
+              mainAxisSize: MainAxisSize.min,
+              children: this.getScheduleRows(context, lectures),
+            )
+        );
+        else return Center(child: Text("Comunication error. Please check your internet connection."));
+        break;
+      default:
+        return Container();
+      } 
+  }
 
   List<Widget> getScheduleRows(context, List<Lecture> lectures){
     if (lectures.length >= 2){  // In order to display lectures of the next week

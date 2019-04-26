@@ -1,4 +1,5 @@
 import 'package:app_feup/view/widgets/DateRectangle.dart';
+import 'package:app_feup/view/widgets/GenericCard.dart';
 import '../../model/AppState.dart';
 import 'package:flutter/material.dart';
 import 'ScheduleRow.dart';
@@ -16,39 +17,43 @@ class ExamCard extends StatelessWidget{
     return StoreConnector<AppState, List<dynamic>>(
       converter: (store) => store.state.content['exams'],
       builder: (context, exams){
-
-        switch (StoreProvider.of<AppState>(context).state.content['examsStatus'])
-        {
-          case RequestStatus.SUCCESSFUL:
-            if(exams.length >= 1) {
-              return Container(
-                  child: new Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: this.getExamRows(context, exams),
-                  )
-              );
-            } else {
-              return Center(child: Text("No exams to display."));
-            }
-            break;
-          case RequestStatus.BUSY:
-            return Center(child: CircularProgressIndicator());
-            break;
-          case RequestStatus.FAILED:
-            if(exams.length != 0)
-              return Container(
-                  child: new Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: this.getExamRows(context, exams),
-                  )
-              );
-            else return Center(child: Text("Comunication error. Please check your internet connection."));
-            break;
-          default:
-            return Container();
-        }
+        return GenericCard(
+            title: "Exames",
+            func: () => Navigator.pushReplacementNamed(context, '/Mapa de Exames'),
+            child: getCardContent();
       },
     );
+  }
+      
+  Widget getCardContent(){
+    switch (StoreProvider.of<AppState>(context).state.content['examsStatus']){
+      case RequestStatus.SUCCESSFUL:
+        return exams.length >= 1 ?
+          Container(
+              child: new Column(
+                mainAxisSize: MainAxisSize.min,
+                children: this.getExamRows(context, exams),
+              ))
+          : Center(
+            child: Text("No exams to show at the moment"),
+          ));
+        break;
+      case RequestStatus.BUSY:
+        return Center(child: CircularProgressIndicator());
+        break;
+      case RequestStatus.FAILED:
+        if(exams.length != 0)
+          return Container(
+              child: new Column(
+                mainAxisSize: MainAxisSize.min,
+                children: this.getExamRows(context, exams),
+              )
+          );
+        else return Center(child: Text("Comunication error. Please check your internet connection."));
+        break;
+      default:
+        return Container();
+    } 
   }
 
   List<Widget> getExamRows(context, exams){

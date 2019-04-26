@@ -42,11 +42,11 @@ abstract class GeneralPageView extends StatelessWidget {
   CachedNetworkImageProvider getProfileImage(BuildContext context){
     CachedNetworkImageProvider profileImage;
 
-    String studentNo = StoreProvider.of<AppState>(context).state.content['session']['studentNumber'];
+    String studentNo = StoreProvider.of<AppState>(context).state.content['session'].studentNumber;
     String url = "https://sigarra.up.pt/feup/pt/fotografias_service.foto?pct_cod=" + studentNo;
 
     final Map<String, String> headers = Map<String, String>();
-    headers['cookie'] = StoreProvider.of<AppState>(context).state.content['session']['cookies'];
+    headers['cookie'] = StoreProvider.of<AppState>(context).state.content['session'].cookies;
 
     profileImage = CachedNetworkImageProvider(url, headers: headers);
 
