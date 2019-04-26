@@ -60,3 +60,13 @@ class SetFeesBalanceAction {
   String feesBalance;
   SetFeesBalanceAction(this.feesBalance);
 }
+
+class SetFeesLimitAction{
+  String feesLimit;
+  SetFeesLimitAction(this.feesLimit);
+}
+
+class SetCoursesStatesAction{
+  Map<String, String> coursesStates;
+  SetCoursesStatesAction(this.coursesStates);
+}

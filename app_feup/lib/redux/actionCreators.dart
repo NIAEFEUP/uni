@@ -4,6 +4,7 @@ import 'package:app_feup/controller/parsers/parser-exams.dart';
 import 'package:app_feup/controller/parsers/parser-schedule.dart';
 import 'package:app_feup/controller/parsers/parser-prints.dart';
 import 'package:app_feup/controller/parsers/parser-fees.dart';
+import 'package:app_feup/controller/parsers/parser-courses.dart';
 import 'package:app_feup/model/entities/CourseUnit.dart';
 import 'package:app_feup/model/entities/Session.dart';
 import 'package:redux_thunk/redux_thunk.dart';
@@ -118,5 +119,27 @@ ThunkAction<AppState> getUserFeesBalance(Completer<Null> action) {
     String feesBalance = await getFeesBalance(url, store);
     action.complete();
     store.dispatch(new SetFeesBalanceAction(feesBalance));
+  };
+}
+
+ThunkAction<AppState> getUserFeesNextLimit(Completer<Null> action) {
+  return (Store<AppState> store) async {
+
+    String url = "https://sigarra.up.pt/${store.state.content['session'].faculty}/pt/gpag_ccorrente_geral.conta_corrente_view?";
+
+    String feesLimit = await getFeesNextLimit(url, store);
+    action.complete();
+    store.dispatch(new SetFeesLimitAction(feesLimit));
+  };
+}
+
+ThunkAction<AppState> getUserCoursesState(Completer<Null> action) {
+  return (Store<AppState> store) async {
+
+    String url = "https://sigarra.up.pt/${store.state.content['session'].faculty}/pt/fest_geral.cursos_list?";
+
+    Map<String,String> coursesStates = await getCourseState(url, store);
+    action.complete();
+    store.dispatch(new SetCoursesStatesAction(coursesStates));
   };
 }

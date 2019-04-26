@@ -14,13 +14,17 @@ Future loadUserInfoToState(Store<AppState> store){
       exams = new Completer(),
       schedule = new Completer(),
       printBalance = new Completer(),
-      feesBalance = new Completer();
+      feesBalance = new Completer(),
+      feesLimit = new Completer(),
+      coursesStates = new Completer();
   store.dispatch(getUserInfo(userInfo));
   store.dispatch(getUserExams(exams));
   store.dispatch(getUserSchedule(schedule));
   store.dispatch(getUserPrintBalance(printBalance));
   store.dispatch(getUserFeesBalance(feesBalance));
-  return Future.wait([exams.future, schedule.future, printBalance.future, feesBalance.future, userInfo.future]);
+  store.dispatch(getUserFeesNextLimit(feesLimit));
+  store.dispatch(getUserCoursesState(coursesStates));
+  return Future.wait([exams.future, schedule.future, printBalance.future, feesBalance.future, feesLimit.future, coursesStates.future, userInfo.future]);
 }
 
 Future<void> handleRefresh(store){

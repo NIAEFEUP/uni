@@ -24,6 +24,10 @@ AppState appReducers(AppState state, dynamic action) {
     return setPrintBalance(state, action);
   } else if(action is SetFeesBalanceAction) {
     return setFeesBalance(state, action);
+  } else if(action is SetFeesLimitAction) {
+    return setFeesLimit(state, action);
+  } else if(action is SetCoursesStatesAction){
+    return setCoursesState(state, action);
   }
   return state;
 }
@@ -79,4 +83,14 @@ AppState setPrintBalance(AppState state, SetPrintBalanceAction action) {
 AppState setFeesBalance(AppState state, SetFeesBalanceAction action) {
   print('setting fees balance: ' + action.feesBalance);
   return state.cloneAndUpdateValue("feesBalance", action.feesBalance);
+}
+
+AppState setFeesLimit(AppState state, SetFeesLimitAction action) {
+  print('setting next fees limit: ' + action.feesLimit);
+  return state.cloneAndUpdateValue("feesLimit", action.feesLimit);
+}
+
+AppState setCoursesState(AppState state, SetCoursesStatesAction action) {
+  print('setting courses state: ' + action.coursesStates.toString());
+  return state.cloneAndUpdateValue("coursesStates", action.coursesStates);
 }
