@@ -3,7 +3,7 @@ import '../widgets/NavigationDrawer.dart';
 import 'package:app_feup/model/AppState.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:app_feup/controller/loadinfo.dart';
+import 'package:app_feup/controller/LoadInfo.dart';
 import 'package:app_feup/model/ProfilePageModel.dart';
 
 abstract class GeneralPageView extends StatelessWidget {

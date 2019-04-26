@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:app_feup/controller/local_storage/AppSharedPreferences.dart';
-import 'package:app_feup/redux/actionCreators.dart';
+import 'package:app_feup/redux/ActionCreators.dart';
 import 'package:app_feup/redux/RefreshItemsAction.dart';
-import 'package:app_feup/redux/actions.dart';
+import 'package:app_feup/redux/Actions.dart';
 import 'package:tuple/tuple.dart';
 import 'package:app_feup/model/AppState.dart';
 import 'package:redux/redux.dart';

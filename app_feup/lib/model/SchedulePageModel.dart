@@ -1,5 +1,5 @@
-import 'package:app_feup/controller/parsers/parser-schedule.dart';
 import 'package:app_feup/model/AppState.dart';
+import 'package:app_feup/model/entities/Lecture.dart';
 import 'package:app_feup/view/Pages/SchedulePageView.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';

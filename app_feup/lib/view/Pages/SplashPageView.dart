@@ -8,7 +8,7 @@ import 'package:tuple/tuple.dart';
 import '../../model/LoginPageModel.dart';
 import '../../view/Theme.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:app_feup/redux/actionCreators.dart';
+import 'package:app_feup/redux/ActionCreators.dart';
 
 class SplashScreen extends StatefulWidget {
   @override

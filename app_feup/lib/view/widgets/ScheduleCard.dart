@@ -1,5 +1,5 @@
-import 'package:app_feup/controller/parsers/parser-schedule.dart';
 import 'package:app_feup/model/AppState.dart';
+import 'package:app_feup/model/entities/Lecture.dart';
 import 'package:app_feup/view/widgets/DateRectangle.dart';
 import 'package:app_feup/view/widgets/GenericCard.dart';
 import 'package:app_feup/view/widgets/ScheduleRow.dart';

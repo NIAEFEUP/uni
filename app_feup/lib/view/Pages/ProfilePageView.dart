@@ -4,8 +4,6 @@ import '../widgets/GenericCard.dart';
 import '../../view/Theme.dart';
 import 'package:app_feup/model/entities/Profile.dart';
 
-import '../widgets/NavigationDrawer.dart';
-
 class ProfilePageView extends SecondaryPageView {
   ProfilePageView(
     {Key key,

@@ -3,7 +3,6 @@ import 'package:app_feup/view/Pages/ProfilePageView.dart';
 import 'package:app_feup/model/entities/Profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 
 class ProfilePage extends StatefulWidget {
   @override

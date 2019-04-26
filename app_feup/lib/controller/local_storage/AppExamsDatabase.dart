@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:app_feup/controller/local_storage/AppDatabase.dart';
-import 'package:app_feup/controller/parsers/parser-exams.dart';
+import 'package:app_feup/controller/parsers/ParserExams.dart';
 import 'package:sqflite/sqflite.dart';
 
 class AppExamsDatabase extends AppDatabase {

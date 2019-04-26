@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:app_feup/controller/local_storage/AppDatabase.dart';
-import 'package:app_feup/controller/parsers/parser-schedule.dart';
+import 'package:app_feup/model/entities/Lecture.dart';
 import 'package:sqflite/sqflite.dart';
 
 class AppLecturesDatabase extends AppDatabase {

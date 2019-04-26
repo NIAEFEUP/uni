@@ -1,8 +1,7 @@
-import 'package:app_feup/controller/parsers/parser-exams.dart';
-import 'package:app_feup/controller/parsers/parser-schedule.dart';
+import 'package:app_feup/controller/parsers/ParserExams.dart';
 import 'package:app_feup/model/AppState.dart';
-import 'package:app_feup/model/LoginPageModel.dart';
 import 'package:app_feup/model/entities/CourseUnit.dart';
+import 'package:app_feup/model/entities/Lecture.dart';
 import 'package:app_feup/model/entities/Profile.dart';
 import 'package:app_feup/model/entities/Session.dart';
 

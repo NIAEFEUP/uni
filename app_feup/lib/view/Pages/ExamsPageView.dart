@@ -3,7 +3,7 @@ import '../Pages/SecondaryPageView.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import '../widgets/TitleCard.dart';
 import '../../model/AppState.dart';
-import '../../controller/parsers/parser-exams.dart';
+import '../../controller/parsers/ParserExams.dart';
 import '../widgets/ScheduleRow.dart';
 
 class ExamsPageView extends SecondaryPageView {

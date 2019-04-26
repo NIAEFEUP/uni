@@ -1,19 +1,20 @@
 import 'dart:async';
-import 'package:app_feup/controller/loadinfo.dart';
+import 'package:app_feup/controller/LoadInfo.dart';
 import 'package:app_feup/controller/local_storage/AppExamsDatabase.dart';
 import 'package:app_feup/controller/local_storage/AppLecturesDatabase.dart';
 import 'package:app_feup/controller/local_storage/AppSharedPreferences.dart';
-import 'package:app_feup/controller/parsers/parser-exams.dart';
-import 'package:app_feup/controller/parsers/parser-schedule.dart';
-import 'package:app_feup/controller/parsers/parser-prints.dart';
-import 'package:app_feup/controller/parsers/parser-fees.dart';
-import 'package:app_feup/controller/parsers/parser-courses.dart';
+import 'package:app_feup/controller/parsers/ParserExams.dart';
+import 'package:app_feup/controller/parsers/ParserSchedule.dart';
+import 'package:app_feup/controller/parsers/ParserPrintBalance.dart';
+import 'package:app_feup/controller/parsers/ParserFees.dart';
+import 'package:app_feup/controller/parsers/ParserCourses.dart';
 import 'package:app_feup/model/entities/CourseUnit.dart';
+import 'package:app_feup/model/entities/Lecture.dart';
 import 'package:app_feup/model/entities/Session.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:tuple/tuple.dart';
 import '../model/AppState.dart';
-import 'actions.dart';
+import 'Actions.dart';
 import 'package:redux/redux.dart';
 import 'package:app_feup/controller/networking/NetworkRouter.dart';
 
@@ -92,7 +93,7 @@ ThunkAction<AppState> getUserExams(Completer<Null> action) {
       store.dispatch(new SetExamsStatusAction(RequestStatus.BUSY));
 
       List<Exam> courseExams = await parseExams(
-          await NetworkRouter.getWithCookies("https://sigarra.up.pt/${store.state.content['session'].faculty}/pt/exa_geral.mapa_de_exames?p_curso_id=742",
+          await NetworkRouter.getWithCookies(NetworkRouter.getBaseUrlFromSession(store.state.content['session']) + "exa_geral.mapa_de_exames?p_curso_id=742",
           {}, store.state.content['session'].cookies)
       );
 
@@ -142,10 +143,9 @@ ThunkAction<AppState> getUserSchedule(Completer<Null> action) {
 
       List<Lecture> lectures = await parseSchedule(
           await NetworkRouter.getWithCookies(
-              "https://sigarra.up.pt/${store.state.content['session']
-                  .faculty}/pt/mob_hor_geral.estudante?pv_codigo=${store.state
-                  .content['session']
-                  .studentNumber}&pv_semana_ini=$beginWeek&pv_semana_fim=$endWeek",
+              NetworkRouter.getBaseUrlFromSession(store.state.content['session'])
+                  + "mob_hor_geral.estudante?pv_codigo=${store.state.content['session'].studentNumber}"
+                  "&pv_semana_ini=$beginWeek&pv_semana_fim=$endWeek",
               {}, store.state.content['session'].cookies));
 
       action.complete();
@@ -174,7 +174,7 @@ ThunkAction<AppState> updateSelectedPage(new_page) {
 ThunkAction<AppState> getUserPrintBalance(Completer<Null> action) {
   return (Store<AppState> store) async {
 
-    String url = "https://sigarra.up.pt/${store.state.content['session'].faculty}/pt/imp4_impressoes.atribs?";
+    String url = NetworkRouter.getBaseUrlFromSession(store.state.content['session']) + "imp4_impressoes.atribs?";
 
     Map<String, String> query = {"p_codigo": store.state.content['session'].studentNumber};
 
@@ -192,7 +192,7 @@ ThunkAction<AppState> getUserPrintBalance(Completer<Null> action) {
 ThunkAction<AppState> getUserFees(Completer<Null> action) {
   return (Store<AppState> store) async {
 
-    String url = "https://sigarra.up.pt/${store.state.content['session'].faculty}/pt/gpag_ccorrente_geral.conta_corrente_view?";
+    String url = NetworkRouter.getBaseUrlFromSession(store.state.content['session']) + "gpag_ccorrente_geral.conta_corrente_view?";
 
     Map<String, String> query = {"pct_cod": store.state.content['session'].studentNumber};
 
@@ -213,7 +213,7 @@ ThunkAction<AppState> getUserFees(Completer<Null> action) {
 ThunkAction<AppState> getUserCoursesState(Completer<Null> action) {
   return (Store<AppState> store) async {
 
-    String url = "https://sigarra.up.pt/${store.state.content['session'].faculty}/pt/fest_geral.cursos_list?";
+    String url = NetworkRouter.getBaseUrlFromSession(store.state.content['session']) + "fest_geral.cursos_list?";
 
     Map<String, String> query = {"pv_num_unico": store.state.content['session'].studentNumber};
 
