@@ -36,11 +36,9 @@ class AppExamsDatabase extends AppDatabase {
   }
 
   Future<void> _insertExams(List<Exam> exams) async {
-    // Get a reference to the database
-    final Database db = await this.getDatabase();
 
     for (Exam exam in exams)
-      await db.insert(
+      await insertInDatabase(
         'exams',
         exam.toMap(),
         conflictAlgorithm: ConflictAlgorithm.replace,

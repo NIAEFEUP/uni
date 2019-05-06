@@ -8,8 +8,8 @@ class AppLecturesDatabase extends AppDatabase {
   AppLecturesDatabase():super('lectures.db', 'CREATE TABLE lectures(subject TEXT, typeClass TEXT, day INTEGER, startTimeSeconds INTEGER, blocks INTEGER, room TEXT, teacher TEXT)');
 
   saveNewLectures(List<Lecture> lecs) async {
-    await _deleteLectures();
-    await _insertLectures(lecs);
+      await _deleteLectures();
+      await _insertLectures(lecs);
   }
 
   Future<List<Lecture>> lectures() async {
@@ -34,11 +34,8 @@ class AppLecturesDatabase extends AppDatabase {
   }
 
   Future<void> _insertLectures(List<Lecture> lecs) async {
-    // Get a reference to the database
-    final Database db = await this.getDatabase();
-
     for (Lecture lec in lecs){
-      await db.insert(
+      await this.insertInDatabase(
         'lectures',
         lec.toMap(),
         conflictAlgorithm: ConflictAlgorithm.replace,
