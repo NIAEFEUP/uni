@@ -1,10 +1,8 @@
 import 'package:app_feup/view/Pages/SecondaryPageView.dart';
 import 'package:flutter/material.dart';
-import '../widgets/GenericCard.dart';
+import '../Widgets/GenericCard.dart';
 import '../../view/Theme.dart';
 import 'package:app_feup/model/entities/Profile.dart';
-
-import '../widgets/NavigationDrawer.dart';
 
 class ProfilePageView extends SecondaryPageView {
   ProfilePageView(
@@ -64,7 +62,7 @@ class ProfilePageView extends SecondaryPageView {
           )
         ),
         Padding(padding: const EdgeInsets.all(8.0)),
-        Text(
+         Text(
           name,
           textAlign: TextAlign.center,
           style: TextStyle(

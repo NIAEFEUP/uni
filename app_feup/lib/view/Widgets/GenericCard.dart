@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../view/Theme.dart';
 
 class GenericCard extends StatelessWidget {
   GenericCard({Key key, @required this.title, this.child, this.func})

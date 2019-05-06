@@ -1,5 +1,5 @@
-import 'package:app_feup/view/widgets/DateRectangle.dart';
-import 'package:app_feup/view/widgets/GenericCard.dart';
+import 'package:app_feup/view/Widgets/DateRectangle.dart';
+import 'package:app_feup/view/Widgets/GenericCard.dart';
 import '../../model/AppState.dart';
 import 'package:flutter/material.dart';
 import 'ScheduleRow.dart';

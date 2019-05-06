@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:app_feup/controller/local_storage/AppDatabase.dart';
-import 'package:app_feup/controller/parsers/parser-exams.dart';
+import 'package:app_feup/model/entities/Exam.dart';
 import 'package:sqflite/sqflite.dart';
 
 class AppExamsDatabase extends AppDatabase {
@@ -36,11 +36,9 @@ class AppExamsDatabase extends AppDatabase {
   }
 
   Future<void> _insertExams(List<Exam> exams) async {
-    // Get a reference to the database
-    final Database db = await this.getDatabase();
 
     for (Exam exam in exams)
-      await db.insert(
+      await insertInDatabase(
         'exams',
         exam.toMap(),
         conflictAlgorithm: ConflictAlgorithm.replace,
