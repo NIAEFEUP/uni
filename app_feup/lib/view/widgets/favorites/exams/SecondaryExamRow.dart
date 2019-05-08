@@ -14,7 +14,7 @@ class SecondaryExamRow extends StatelessWidget{
   Widget build(BuildContext context) {
     return new Center(
         child: new Container(
-          padding: EdgeInsets.only(left: 15.0, bottom: 8.0),
+          padding: EdgeInsets.only(right: 15.0, left: 15.0, bottom: 8.0),
           margin: EdgeInsets.only(top: 10.0),
           decoration: new BoxDecoration(
             border: Border(
@@ -24,15 +24,15 @@ class SecondaryExamRow extends StatelessWidget{
           child: new Row(
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               new SecondaryExamTime(begin: this.exam.begin, day: this.exam.day, month: this.exam.month),
               new Container(
-                padding: EdgeInsets.only(left: 10),
-                child: new Text(this.exam.subject + ' (' + this.exam.examType + ')', style: Theme.of(context).textTheme.subtitle.apply(fontWeightDelta: 1, fontSizeDelta: -4),),
+                child: new Text(this.exam.subject + ' (' + this.exam.examType + ')', style: Theme.of(context).textTheme.subtitle.apply(fontWeightDelta: 1, fontSizeFactor: 0.8),),
               ),
               new Container(
-                padding: EdgeInsets.only(left: 10),
-                child: new Text(this.exam.rooms.isEmpty ? "Salas em breve": this.exam.rooms, style: Theme.of(context).textTheme.subtitle.apply(fontSizeDelta: -15, fontWeightDelta: 2),),
+                width: 40.0,
+                child: new Text(this.exam.rooms.isEmpty ? "------": this.exam.rooms, style: Theme.of(context).textTheme.subtitle.apply(fontSizeFactor: 0.55, fontWeightDelta: 2), textAlign: TextAlign.right),
               ),
             ],
           ),

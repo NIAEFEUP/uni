@@ -1,7 +1,7 @@
 import 'package:app_feup/view/widgets/ScheduleCard.dart';
 import 'package:flutter/material.dart';
-import '../widgets/ExamCard.dart';
-import '../Pages/GeneralPageView.dart';
+import 'package:app_feup/view/widgets/favorites/exams/ExamCard.dart';
+import '../pages/GeneralPageView.dart';
 
 class HomePageView extends GeneralPageView {
 

@@ -1,5 +1,5 @@
 import 'package:app_feup/view/widgets/GenericCard.dart';
-import '../../model/AppState.dart';
+import 'package:app_feup/model/AppState.dart';
 import 'package:flutter/material.dart';
 import 'ExamRow.dart';
 import 'SecondaryExamRow.dart';

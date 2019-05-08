@@ -1,5 +1,5 @@
 import 'package:app_feup/model/AppState.dart';
-import 'package:app_feup/view/Pages/LoginPageView.dart';
+import 'package:app_feup/view/pages/LoginPageView.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:app_feup/redux/actionCreators.dart';

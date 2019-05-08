@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../Pages/GeneralPageView.dart';
+import '../pages/GeneralPageView.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import '../widgets/TitleCard.dart';
 import '../../model/AppState.dart';

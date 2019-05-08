@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import '../Pages/GeneralPageView.dart';
+import '../pages/GeneralPageView.dart';
 
-class MenuPageView extends GeneralPageView {
+class ParkPageView extends GeneralPageView {
 
   @override
   Widget getBody(BuildContext context) {
     return Center(
-      child: Text("Ementa"),
+      child: Text("PARQUE"),
     );
   }
 }

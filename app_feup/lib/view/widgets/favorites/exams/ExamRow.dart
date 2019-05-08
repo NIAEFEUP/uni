@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'ExamTime.dart';
 import 'package:app_feup/controller/parsers/parser-exams.dart';
-import 'ScheduleEventRectangle.dart';
+import '../../ScheduleEventRectangle.dart';
 
 
 class ExamRow extends StatelessWidget{

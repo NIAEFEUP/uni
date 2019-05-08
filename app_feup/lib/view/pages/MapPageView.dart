@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../Pages/GeneralPageView.dart';
+import '../pages/GeneralPageView.dart';
 
 class MapPageView extends GeneralPageView {
 
