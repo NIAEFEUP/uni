@@ -2,7 +2,7 @@ import 'package:app_feup/model/AppState.dart';
 import 'package:app_feup/view/Pages/LoginPageView.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:app_feup/redux/actionCreators.dart';
+import 'package:app_feup/redux/ActionCreators.dart';
 import 'package:redux/redux.dart';
 
 class LoginPage extends StatefulWidget {
@@ -11,10 +11,6 @@ class LoginPage extends StatefulWidget {
 
   //Handle arguments from parent
   LoginPage({Key key}) : super(key: key);
-}
-
-enum LoginStatus {
-  NONE, BUSY, FAILED, SUCCESSFUL    
 }
 
 class _LoginPageState extends State<LoginPage> {
@@ -74,7 +70,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _login(Store<AppState> store) {
-    if (store.state.content['loginStatus'] != LoginStatus.BUSY && _formKey.currentState.validate()) {
+    if (store.state.content['loginStatus'] != RequestStatus.BUSY && _formKey.currentState.validate()) {
       final user = usernameController.text;
       final pass = passwordController.text;
       store.dispatch(login(user, pass, faculty, _keepSignedIn));

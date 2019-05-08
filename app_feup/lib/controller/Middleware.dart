@@ -1,7 +1,7 @@
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:app_feup/model/AppState.dart';
-import 'package:app_feup/controller/loadinfo.dart';
+import 'package:app_feup/controller/LoadInfo.dart';
 import 'package:app_feup/redux/RefreshItemsAction.dart';
 
 void generalMiddleware(
