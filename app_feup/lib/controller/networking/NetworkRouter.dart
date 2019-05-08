@@ -7,8 +7,11 @@ import 'package:app_feup/model/entities/Profile.dart';
 import 'package:app_feup/model/entities/Session.dart';
 import 'package:http/http.dart' as http;
 import 'package:query_params/query_params.dart';
+import 'package:synchronized/synchronized.dart';
 
 class NetworkRouter {
+  static Lock loginLock = Lock();
+
   static int requestCount = 0;
   static Future<Session> login(
       String user, String pass, String faculty, bool persistentSession) async {
@@ -29,26 +32,37 @@ class NetworkRouter {
     }
   }
 
-  static Future<bool> loginFromSession(Session session) async {
-    if (!session.persistentSession) {
-      // go to home screen
-      return false;
-    }
-    final String url =
-        NetworkRouter.getBaseUrl(session.faculty) + 'mob_val_geral.autentica';
-    final http.Response response = await http.post(url, body: {
-      "pv_login": session.studentNumber,
-      "pv_password": session.password
+  static Future<bool> relogin(Session session) async {
+    return loginLock.synchronized(() async {
+      if (!session.persistentSession) {
+        // go to home screen
+        return false;
+      }
+
+      if (session.loginRequest != null) {
+        return session.loginRequest;
+      } else {
+        return session.loginRequest = loginFromSession(session).then((_) {session.loginRequest = null;});
+      }
     });
-    if (response.statusCode == 200) {
-      session.setCookies(NetworkRouter.extractCookies(response.headers));
-      print('Re-login successful');
-      return true;
-    } else {
-      print('Re-login failed');
-      //go to home screen
-      return false;
-    }
+  }
+
+  static Future<bool> loginFromSession(Session session) async {
+    print('called');
+    final String url =
+          NetworkRouter.getBaseUrl(session.faculty) + 'mob_val_geral.autentica';
+      final http.Response response = await http.post(url, body: {
+        "pv_login": session.studentNumber,
+        "pv_password": session.password
+      });
+      if (response.statusCode == 200) {
+        session.setCookies(NetworkRouter.extractCookies(response.headers));
+        print('Re-login successful');
+        return true;
+      } else {
+        print('Re-login failed');
+        return false;
+      }
   }
 
   static String extractCookies(dynamic headers) {
@@ -99,7 +113,7 @@ class NetworkRouter {
     if (requestCount > 5) {
       session.setCookies("cookies"); // Fake expired cookies
       requestCount = 0;
-    }    
+    }
     final URLQueryParams params = new URLQueryParams();
     query.forEach((key, value) {
       params.append(key, value);
@@ -113,8 +127,9 @@ class NetworkRouter {
     final http.Response response = await http.get(url, headers: headers);
     if (response.statusCode == 200) {
       return response;
-    } else if (response.statusCode == 403) { // HTTP403 - Forbidden
-      final bool success = await loginFromSession(session);
+    } else if (response.statusCode == 403) {
+      // HTTP403 - Forbidden
+      final bool success = await relogin(session);
       if (success) {
         headers['cookie'] = session.cookies;
         return http.get(url, headers: headers);
@@ -126,7 +141,6 @@ class NetworkRouter {
     } else {
       return Future.error('HTTP Error ${response.statusCode}');
     }
-    
   }
 
   static String getBaseUrl(String faculty) {

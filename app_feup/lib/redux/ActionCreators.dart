@@ -95,7 +95,7 @@ ThunkAction<AppState> getUserExams(Completer<Null> action) {
 
       List<Exam> courseExams = await parseExams(
           await NetworkRouter.getWithCookies(NetworkRouter.getBaseUrlFromSession(store.state.content['session']) + "exa_geral.mapa_de_exames?p_curso_id=742",
-          {}, store.state.content['session'].cookies)
+          {}, store.state.content['session'])
       );
 
       List<CourseUnit> userUcs = store.state.content['currUcs'];
@@ -149,7 +149,7 @@ ThunkAction<AppState> getUserSchedule(Completer<Null> action) {
               NetworkRouter.getBaseUrlFromSession(store.state.content['session'])
                   + "mob_hor_geral.estudante?pv_codigo=${store.state.content['session'].studentNumber}"
                   "&pv_semana_ini=$beginWeek&pv_semana_fim=$endWeek",
-              {}, store.state.content['session'].cookies));
+              {}, store.state.content['session']));
 
       // Updates local database according to the information fetched -- Lectures
       Tuple2<String, String> userPersistentInfo = await AppSharedPreferences.getPersistentUserInfo();
@@ -230,7 +230,8 @@ ThunkAction<AppState> getUserCoursesState(Completer<Null> action) {
       store.dispatch(new SetCoursesStatesAction(coursesStates));
 
     }catch(e){
-      print("Failed to get Fees info");
+      print("Failed to get courses info");
+      print(e);
     }
 
     action.complete();

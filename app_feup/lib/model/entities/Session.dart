@@ -11,6 +11,7 @@ class Session {
   String type;
   String cookies;
   String password;
+  Future loginRequest;
 
   Session(
       {@required bool this.authenticated,
