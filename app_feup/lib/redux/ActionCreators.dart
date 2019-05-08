@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'package:app_feup/controller/LoadInfo.dart';
+import 'package:app_feup/controller/local_storage/AppCoursesDatabase.dart';
 import 'package:app_feup/controller/local_storage/AppExamsDatabase.dart';
 import 'package:app_feup/controller/local_storage/AppLecturesDatabase.dart';
 import 'package:app_feup/controller/local_storage/AppSharedPreferences.dart';
+import 'package:app_feup/controller/local_storage/AppUserDataDatabase.dart';
 import 'package:app_feup/controller/parsers/ParserExams.dart';
 import 'package:app_feup/controller/parsers/ParserSchedule.dart';
 import 'package:app_feup/controller/parsers/ParserPrintBalance.dart';
@@ -11,6 +13,7 @@ import 'package:app_feup/controller/parsers/ParserCourses.dart';
 import 'package:app_feup/model/entities/CourseUnit.dart';
 import 'package:app_feup/model/entities/Exam.dart';
 import 'package:app_feup/model/entities/Lecture.dart';
+import 'package:app_feup/model/entities/Profile.dart';
 import 'package:app_feup/model/entities/Session.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:tuple/tuple.dart';
@@ -61,12 +64,27 @@ ThunkAction<AppState> login(username, password, faculty, persistentSession) {
 ThunkAction<AppState> getUserInfo(Completer<Null> action) {
   return (Store<AppState> store) async {
     try {
-      final profile = NetworkRouter.getProfile(store.state.content['session']).then((res) => store.dispatch(new SaveProfileAction(res)));
+      Profile user_profile;
+      final profile = NetworkRouter.getProfile(store.state.content['session']).then((res) {
+        user_profile = res;
+        store.dispatch(new SaveProfileAction(res));
+      });
       final ucs = NetworkRouter.getCurrentCourseUnits(store.state.content['session']).then((res) => store.dispatch(new SaveUcsAction(res)));
       await Future.wait([profile, ucs]);
+
+      Tuple2<String, String> userPersistentInfo = await AppSharedPreferences.getPersistentUserInfo();
+      if(userPersistentInfo.item1 != "" && userPersistentInfo.item2 != ""){
+        AppUserDataDatabase profile_db = await AppUserDataDatabase();
+        profile_db.saveUserData(user_profile);
+
+        AppCoursesDatabase courses_db = await AppCoursesDatabase();
+        courses_db.saveNewCourses(user_profile.courses);
+      }
+
     } catch (e) {
       print("Failed to get User Info");
     }
+
     action.complete();
   };
 }
@@ -84,6 +102,19 @@ ThunkAction<AppState> updateStateBasedOnLocalUserLectures() {
     AppLecturesDatabase db = await AppLecturesDatabase();
     List<Lecture> lecs = await db.lectures();
     store.dispatch(new SetScheduleAction(lecs));
+  };
+}
+
+ThunkAction<AppState> updateStateBasedOnLocalProfile() {
+  return (Store<AppState> store) async {
+    AppUserDataDatabase profile_db = await AppUserDataDatabase();
+    Profile profile = await profile_db.userdata();
+
+    AppCoursesDatabase courses_db = await AppCoursesDatabase();
+    List<Course> courses = await courses_db.courses();
+
+    profile.courses = courses;
+    store.dispatch(new SaveProfileAction(profile));
   };
 }
 

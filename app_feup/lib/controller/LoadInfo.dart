@@ -42,6 +42,7 @@ void loadLocalUserInfoToState(store) async {
   if(userPersistentInfo.item1 != "" && userPersistentInfo.item2 != "") {
     store.dispatch(updateStateBasedOnLocalUserExams());
     store.dispatch(updateStateBasedOnLocalUserLectures());
+    store.dispatch(updateStateBasedOnLocalProfile());
     store.dispatch(SetScheduleStatusAction(RequestStatus.SUCCESSFUL));
     store.dispatch(SetExamsStatusAction(RequestStatus.SUCCESSFUL));
   }
