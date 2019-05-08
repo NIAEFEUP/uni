@@ -8,8 +8,6 @@ import 'package:app_feup/model/ProfilePageModel.dart';
 
 abstract class GeneralPageView extends StatelessWidget {
 
-  WidgetsBindingObserver lifeCycleEventHandler;
-
   @override
   Widget build(BuildContext context) {
     return this.getScaffold(context, getBody(context));
