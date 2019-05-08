@@ -32,7 +32,7 @@ class SetScheduleAction{
 
 class SetScheduleStatusAction{
   RequestStatus status;
-  SetScheduleStatusAction(this.status);
+    SetScheduleStatusAction(this.status);
 }
 
 class UpdateSelectedPageAction {
@@ -43,6 +43,11 @@ class UpdateSelectedPageAction {
 class SaveProfileAction {
   Profile profile;
   SaveProfileAction(this.profile);
+}
+
+class SaveProfileStatusAction{
+  RequestStatus status;
+  SaveProfileStatusAction(this.status);
 }
 
 class SaveUcsAction {

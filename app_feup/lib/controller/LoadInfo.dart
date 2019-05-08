@@ -40,9 +40,10 @@ Future loadRemoteUserInfoToState(Store<AppState> store){
 void loadLocalUserInfoToState(store) async {
   Tuple2<String, String> userPersistentInfo = await AppSharedPreferences.getPersistentUserInfo();
   if(userPersistentInfo.item1 != "" && userPersistentInfo.item2 != "") {
+    store.dispatch(updateStateBasedOnLocalProfile());
     store.dispatch(updateStateBasedOnLocalUserExams());
     store.dispatch(updateStateBasedOnLocalUserLectures());
-    store.dispatch(updateStateBasedOnLocalProfile());
+    store.dispatch(SaveProfileStatusAction(RequestStatus.SUCCESSFUL));
     store.dispatch(SetScheduleStatusAction(RequestStatus.SUCCESSFUL));
     store.dispatch(SetExamsStatusAction(RequestStatus.SUCCESSFUL));
   }

@@ -18,6 +18,8 @@ AppState appReducers(AppState state, dynamic action) {
     return setSchedule(state, action);
   } else if (action is SaveProfileAction) {
     return saveProfile(state, action);
+  } else if (action is SaveProfileStatusAction) {
+    return saveProfileStatus(state, action);
   } else if (action is SaveUcsAction) {
     return saveCurrUcs(state, action);
   } else if(action is SetPrintBalanceAction) {
@@ -69,6 +71,11 @@ AppState setScheduleStatus(AppState state, SetScheduleStatusAction action) {
 
 AppState saveProfile(AppState state, SaveProfileAction action) {
   return state.cloneAndUpdateValue("profile", action.profile);
+}
+
+AppState saveProfileStatus(AppState state, SaveProfileStatusAction action) {
+  print('setting profile status: ' + action.status.toString());
+  return state.cloneAndUpdateValue("profileStatus", action.status);
 }
 
 AppState saveCurrUcs(AppState state, SaveUcsAction action) {

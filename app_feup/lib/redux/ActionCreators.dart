@@ -65,8 +65,12 @@ ThunkAction<AppState> getUserInfo(Completer<Null> action) {
   return (Store<AppState> store) async {
     try {
       Profile user_profile;
+
+      store.dispatch(SaveProfileStatusAction(RequestStatus.BUSY));
+
       final profile = NetworkRouter.getProfile(store.state.content['session']).then((res) {
         user_profile = res;
+        store.dispatch(new SaveProfileStatusAction(RequestStatus.SUCCESSFUL));
         store.dispatch(new SaveProfileAction(res));
       });
       final ucs = NetworkRouter.getCurrentCourseUnits(store.state.content['session']).then((res) => store.dispatch(new SaveUcsAction(res)));
@@ -83,6 +87,7 @@ ThunkAction<AppState> getUserInfo(Completer<Null> action) {
 
     } catch (e) {
       print("Failed to get User Info");
+      store.dispatch(new SaveProfileStatusAction(RequestStatus.FAILED));
     }
 
     action.complete();
