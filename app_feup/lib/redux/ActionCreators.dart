@@ -103,8 +103,7 @@ ThunkAction<AppState> getUserExams(Completer<Null> action) {
       for (Exam courseExam in courseExams) {
         print(courseExam.examType);
         for (CourseUnit uc in userUcs) {
-          if (!courseExam.examType.contains(
-              "EE") &&
+          if (!courseExam.examType.contains("EE") &&
               courseExam.subject == uc.abbreviation) {
             exams.add(courseExam);
             break;

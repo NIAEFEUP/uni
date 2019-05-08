@@ -60,7 +60,7 @@ class Exam{
 
     String monthKey = MONTHS.keys.firstWhere(
             (k) => MONTHS[k] == this.month, orElse: () => null);
-    print(monthKey);
+
     this.date = DateTime.parse(year + '-' + monthKey + '-' + day);
   }
 
