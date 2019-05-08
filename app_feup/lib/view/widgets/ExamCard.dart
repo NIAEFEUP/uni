@@ -37,10 +37,10 @@ class ExamCard extends StatelessWidget{
   List<Widget> getExamRows(context, exams){
     List<Widget> rows = new List<Widget>();
     int i = 0;
-    for(; i < 2 && i < exams.length; i++){
+    for(; i < 1 && i < exams.length; i++){
       rows.add(this.createRowFromExam(context, exams[i]));
     }
-    for(; i < 5 && i < exams.length; i++){
+    for(; i < 4 && i < exams.length; i++){
       rows.add(this.createSecondaryRowFromExam(context, exams[i]));
     }
     return rows;
