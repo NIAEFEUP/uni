@@ -1,6 +1,6 @@
+import 'package:app_feup/model/entities/Exam.dart';
 import 'package:flutter/material.dart';
 import 'ExamTime.dart';
-import 'package:app_feup/controller/parsers/parser-exams.dart';
 import '../../ScheduleEventRectangle.dart';
 
 

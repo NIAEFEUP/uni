@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'ScheduleTimeInterval.dart';
-import 'ScheduleEventRectangle.dart';
+import 'package:app_feup/view/widgets/ScheduleTimeInterval.dart';
+import 'package:app_feup/view/widgets/ScheduleEventRectangle.dart';
 
 
 class ScheduleRow extends StatelessWidget{

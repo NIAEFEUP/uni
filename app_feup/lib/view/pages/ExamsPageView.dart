@@ -1,12 +1,12 @@
+import 'package:app_feup/model/entities/Exam.dart';
 import 'package:flutter/material.dart';
-import '../pages/GeneralPageView.dart';
+import 'package:app_feup/view/pages/SecondaryPageView.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import '../widgets/TitleCard.dart';
+import 'package:app_feup/view/widgets/TitleCard.dart';
 import '../../model/AppState.dart';
-import '../../controller/parsers/parser-exams.dart';
-import '../widgets/ScheduleRow.dart';
+import 'package:app_feup/view/widgets/ScheduleRow.dart';
 
-class ExamsPageView extends GeneralPageView {
+class ExamsPageView extends SecondaryPageView {
 
   final double borderRadius = 15.0;
   final DateTime now = new DateTime.now();
