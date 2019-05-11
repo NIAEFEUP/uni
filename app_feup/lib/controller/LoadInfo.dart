@@ -29,11 +29,12 @@ Future loadRemoteUserInfoToState(Store<AppState> store){
       fees = new Completer(),
       coursesStates = new Completer();
   store.dispatch(getUserInfo(userInfo));
-  store.dispatch(getUserExams(exams));
+//  store.dispatch(getUserExams(exams));
   store.dispatch(getUserSchedule(schedule));
   store.dispatch(getUserPrintBalance(printBalance));
   store.dispatch(getUserFees(fees));
   store.dispatch(getUserCoursesState(coursesStates));
+  userInfo.future.then( (value) =>store.dispatch(getUserExams(exams)));
   return Future.wait([exams.future, schedule.future, printBalance.future, fees.future, coursesStates.future, userInfo.future]);
 }
 
