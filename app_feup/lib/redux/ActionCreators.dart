@@ -11,6 +11,7 @@ import 'package:app_feup/controller/parsers/ParserCourses.dart';
 import 'package:app_feup/model/entities/CourseUnit.dart';
 import 'package:app_feup/model/entities/Exam.dart';
 import 'package:app_feup/model/entities/Lecture.dart';
+import 'package:app_feup/model/entities/Profile.dart';
 import 'package:app_feup/model/entities/Session.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:tuple/tuple.dart';
@@ -92,11 +93,19 @@ ThunkAction<AppState> getUserExams(Completer<Null> action) {
     try {
       //need to get student course here
       store.dispatch(new SetExamsStatusAction(RequestStatus.BUSY));
+      print("QUESTA MERDA CARALHO ${store.state.content['profile'].courses}");
+      
+      List<Exam> courseExams;
+      
+      for(Course course in store.state.content['profile'].courses){
+        List<Exam> currentCourseExams = await parseExams(
+            await NetworkRouter.getWithCookies(NetworkRouter.getBaseUrlFromSession(store.state.content['session']) + "exa_geral.mapa_de_exames?p_curso_id=${course.id}",
+                {}, store.state.content['session'].cookies)
+        );
+        courseExams = new List.from(courseExams)..addAll(currentCourseExams);
+      }
 
-      List<Exam> courseExams = await parseExams(
-          await NetworkRouter.getWithCookies(NetworkRouter.getBaseUrlFromSession(store.state.content['session']) + "exa_geral.mapa_de_exames?p_curso_id=742",
-          {}, store.state.content['session'].cookies)
-      );
+      
 
       List<CourseUnit> userUcs = store.state.content['currUcs'];
       List<Exam> exams = new List<Exam>();
