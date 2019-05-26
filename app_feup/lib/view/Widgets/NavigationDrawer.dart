@@ -5,6 +5,11 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:app_feup/model/AppState.dart';
 
 class NavigationDrawer extends StatefulWidget {
+
+  final VoidCallback callbackAction;
+
+  const NavigationDrawer({Key key, this.callbackAction}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return new NavigationDrawerState();
@@ -16,7 +21,8 @@ class NavigationDrawerState extends State<NavigationDrawer> {
   static final drawerItems = [
     "Área Pessoal",
     "Horário",
-    "Mapa de Exames"
+    "Mapa de Exames",
+    "About",
   ];
 
   _onSelectItem(int index) {
@@ -27,6 +33,9 @@ class NavigationDrawerState extends State<NavigationDrawer> {
 
     if (prev != drawerItems[index])  // If not already in selected page
       Navigator.pushReplacementNamed(context, '/' + drawerItems[index]);
+
+    // Trigger action example
+    if(widget.callbackAction != null) widget.callbackAction();
   }
 
   _buildBorder(name) {
@@ -74,23 +83,23 @@ class NavigationDrawerState extends State<NavigationDrawer> {
 
     return new Drawer(
         child: new Padding (
-          padding: EdgeInsets.only(top: 50.0, left: 20.0, right: 20.0, bottom: 20.0 ),
-          child: Column(
-            children: <Widget>[
-              Expanded(
-                child: new ListView(
-                  children: drawerOptions,
+            padding: EdgeInsets.only(top: 50.0, left: 20.0, right: 20.0, bottom: 20.0 ),
+            child: Column(
+              children: <Widget>[
+                Expanded(
+                  child: new ListView(
+                    children: drawerOptions,
+                  ),
                 ),
-              ),
-              Row(
-                children: <Widget> [
-                  Expanded(
-                    child: createLogoutBtn()
-                  )
-                ]
-              )
-            ],
-          )
+                Row(
+                    children: <Widget> [
+                      Expanded(
+                          child: createLogoutBtn()
+                      )
+                    ]
+                )
+              ],
+            )
         )
     );
   }
