@@ -20,7 +20,16 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
     return new Container(
-      child: _tabBar,
+      decoration: const BoxDecoration(
+        border: Border(
+          bottom: BorderSide(width: 1.0, color: Colors.grey),
+        ),
+      ),
+      constraints: BoxConstraints(maxHeight: 150.0),
+      child: new Material(
+        color: Colors.white,
+        child: _tabBar,
+      ),
     );
   }
 
@@ -50,27 +59,6 @@ class SchedulePageView extends SecondaryPageView  {
 
     return new Column(
       children: <Widget>[
-        /* new Container(
-          decoration: const BoxDecoration(
-            border: Border(
-              bottom: BorderSide(width: 1.0, color: Colors.grey),
-            ),
-          ),
-          constraints: BoxConstraints(maxHeight: 150.0),
-          child: new Material(
-            color: Colors.white,
-            child: new TabBar(
-              controller: tabController,
-              isScrollable: true,
-              unselectedLabelColor: Colors.grey,
-              labelColor: Colors.grey,
-              indicatorWeight: 3.0,
-              indicatorColor: Colors.grey,
-              labelPadding: EdgeInsets.all(0.0),
-              tabs: createTabs(queryData),
-            ),
-          ),
-        ), */
         new Expanded(
           child: NestedScrollView(
             controller: scrollViewController,
