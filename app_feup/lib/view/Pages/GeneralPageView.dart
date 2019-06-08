@@ -63,7 +63,7 @@ abstract class GeneralPageView extends StatelessWidget {
         title: new Text(StoreProvider.of<AppState>(context).state.content["selected_page"], textAlign: TextAlign.start),
         actions: <Widget>[
           FlatButton(
-            onPressed: () => {Navigator.pushReplacement(context,new MaterialPageRoute(builder: (__) => new ProfilePage()))},
+            onPressed: () => Navigator.pushReplacement(context,new MaterialPageRoute(builder: (__) => new ProfilePage())),
             child: Container(
                 width: 45.0,
                 height: 45.0,

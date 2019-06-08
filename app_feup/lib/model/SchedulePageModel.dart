@@ -15,6 +15,7 @@ class SchedulePage extends StatefulWidget{
 class _SchedulePageState extends State<SchedulePage> with SingleTickerProviderStateMixin{
 
   TabController tabController;
+  ScrollController scrollViewController;
 
   List<List<Lecture>> aggLectures;
 
@@ -62,6 +63,6 @@ class _SchedulePageState extends State<SchedulePage> with SingleTickerProviderSt
     List<Lecture> schedule = StoreProvider.of<AppState>(context).state.content['schedule'];
     _groupLecturesByDay(schedule);
 
-    return new SchedulePageView(tabController: tabController, daysOfTheWeek: daysOfTheWeek, aggLectures: aggLectures);
+    return new SchedulePageView(tabController: tabController, scrollViewController: scrollViewController, daysOfTheWeek: daysOfTheWeek, aggLectures: aggLectures);
   }
 }
