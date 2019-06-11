@@ -40,6 +40,10 @@ class Exam{
       this.examType = "EE";
     }else if(examType.contains("Mini-testes")){
       this.examType = "MT";
+    }else if(examType.contains("Época Normal")){
+      this.examType = "EN";
+    }else if(examType.contains("Época Recurso")){
+      this.examType = "ER";
     }else{
       this.examType = "?";
     }
