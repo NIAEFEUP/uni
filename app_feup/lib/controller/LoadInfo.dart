@@ -29,7 +29,6 @@ Future loadRemoteUserInfoToState(Store<AppState> store){
       fees = new Completer(),
       coursesStates = new Completer();
   store.dispatch(getUserInfo(userInfo));
-//  store.dispatch(getUserExams(exams));
   store.dispatch(getUserSchedule(schedule));
   store.dispatch(getUserPrintBalance(printBalance));
   store.dispatch(getUserFees(fees));
