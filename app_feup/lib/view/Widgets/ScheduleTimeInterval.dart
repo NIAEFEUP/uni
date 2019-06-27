@@ -15,11 +15,11 @@ class ScheduleTimeInterval extends StatelessWidget{
     return  new Column(
       children: <Widget>[
         new Container(
-          child: Text(this.begin,style: Theme.of(context).textTheme.display1.apply(color: greyTextColor)),
+          child: Text(this.begin,style: Theme.of(context).textTheme.display1),
           margin: EdgeInsets.only(top: 8.0),
         ),new Container(
-          child: Text(this.end,style: Theme.of(context).textTheme.display1.apply(color: greyTextColor)),
-          margin: EdgeInsets.only(top: 22.0, bottom: 8.0),
+          child: Text(this.end,style: Theme.of(context).textTheme.display1),
+          margin: EdgeInsets.only(top: 8.0),
         ),
       ],
     );

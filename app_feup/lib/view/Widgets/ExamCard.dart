@@ -8,7 +8,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 
 class ExamCard extends StatelessWidget{
 
-  final double padding = 4.0;
+  final double padding = 8.0;
 
   ExamCard({Key key}) : super(key: key);
 
@@ -66,12 +66,19 @@ class ExamCard extends StatelessWidget{
 
   Widget createRowFromExam(context, exam){
     return new Column(children: [
-      new DateRectangle(date: exam.weekDay + ", " + exam.day + " de " + exam.month),
-      new ScheduleRow(
-          subject: exam.subject,
-          rooms: exam.rooms,
-          begin: exam.begin,
-          end: exam.end
-      ),]);
+                new DateRectangle(date: exam.weekDay + ", " + exam.day + " de " + exam.month),
+                new Container(
+                    child: new Card(
+                      child: ScheduleRow(
+                          subject: exam.subject,
+                          rooms: exam.rooms,
+                          begin: exam.begin,
+                          end: exam.end
+                      ),
+                ),
+                padding: EdgeInsets.only(left: this.padding, right: this.padding),)
+
+    ]
+    );
   }
 }

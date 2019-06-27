@@ -20,11 +20,11 @@ class ScheduleEventRectangle extends StatelessWidget{
       child: new Container(
         margin: EdgeInsets.only(left: 24.0, right: this.sideSizing),
         decoration: BoxDecoration(
-          color: Theme.of(context).primaryColor,
           borderRadius: BorderRadius.all(Radius.circular(this.borderRadius)),
         ),
-        child: Column(
+        child: Row(
           mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             this.createTopRectangle(context),
             this.createBottomRectangle(context)
@@ -38,7 +38,7 @@ class ScheduleEventRectangle extends StatelessWidget{
     if (type == null){
       return Container(
         margin: EdgeInsets.only(top: 12.0),
-        child: new Text(this.subject, style: Theme.of(context).textTheme.display1.apply(fontWeightDelta: 2)),
+        child: new Text(this.subject, style: Theme.of(context).textTheme.display2.apply(fontSizeDelta: 8)),
       );
     } else {
       return Row(
@@ -48,7 +48,7 @@ class ScheduleEventRectangle extends StatelessWidget{
           new Container(
             margin: EdgeInsets.only(top: 12.0),
             padding: EdgeInsets.fromLTRB(12.0, 0, 8, 0),
-            child: new Text(this.subject, style: Theme.of(context).textTheme.display1.apply(fontWeightDelta: 2)),
+            child: new Text(this.subject, style: Theme.of(context).textTheme.headline.apply(fontWeightDelta: 2)),
           ),
           new Container(
               margin: EdgeInsets.only(top: 12.0),
