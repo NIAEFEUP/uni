@@ -12,15 +12,11 @@ class DateRectangle extends StatelessWidget {
   Widget build(BuildContext context) {
     return new Container(
       padding: EdgeInsets.all(4.0),
+      margin: EdgeInsets.only(bottom: 14),
       child: Text( date ,
           style: Theme.of(context).textTheme.subtitle),
       alignment: Alignment.center,
       width: double.infinity,
-      decoration: BoxDecoration(
-          border: Border(
-        bottom: BorderSide(color: Theme.of(context).accentColor, width: 1),
-        top: BorderSide(color: Theme.of(context).accentColor, width: 1),
-      )),
     );
   }
 }

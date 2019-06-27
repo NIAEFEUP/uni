@@ -15,9 +15,10 @@ class HomePageView extends GeneralPageView {
           children: <Widget>[
             new Container(
               padding: EdgeInsets.fromLTRB(20, 20, 0, 0),
+              alignment: Alignment.center,
               child: new Text(
-                'Favorites:',
-                style: Theme.of(context).textTheme.title,
+                'Favorites',
+                style: Theme.of(context).textTheme.title.apply(fontSizeDelta: 7, fontWeightDelta: -2),
               ),
             ),
             ExamCard(),

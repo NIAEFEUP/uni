@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class GenericCard extends StatelessWidget {
@@ -27,16 +28,7 @@ class GenericCard extends StatelessWidget {
                     width: 0.5, color: Color.fromARGB(64, 0x46, 0x46, 0x46)),
                 borderRadius:
                     BorderRadius.all(Radius.circular(this.borderRadius))),
-            child: new Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                new Container(
-                  child: Text(title, style: Theme.of(context).textTheme.title),
-                  height: 26,
-                  alignment: Alignment.centerLeft,
-                  padding: EdgeInsets.fromLTRB(20, 4, 0, 4),
-                ),
-                new ConstrainedBox(
+            child: new ConstrainedBox(
                   constraints: new BoxConstraints(
                     minHeight: 60.0,
                   ),
@@ -46,10 +38,20 @@ class GenericCard extends StatelessWidget {
                         borderRadius: BorderRadius.all(
                             Radius.circular(this.borderRadius))),
                     width: (double.infinity),
-                    child: this.child,
+                    child: new Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        new Container(
+                          child: Text(title, style: Theme.of(context).textTheme.headline.apply(fontSizeDelta: -53, fontWeightDelta: -3)),
+                          height: 26,
+                          alignment: Alignment.centerLeft,
+                          padding: EdgeInsets.only(left: 16),
+                          margin: EdgeInsets.only(top: 11, bottom: 11),
+                        ),
+                        this.child
+                      ],
                   ),
                 ),
-              ],
             ),
           ),
         ));
