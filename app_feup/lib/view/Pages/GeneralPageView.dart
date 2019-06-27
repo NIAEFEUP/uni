@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../Widgets/NavigationDrawer.dart';
 import 'package:app_feup/model/AppState.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -62,10 +63,10 @@ abstract class GeneralPageView extends StatelessWidget {
       appBar: new AppBar(
         iconTheme: new IconThemeData(color: Theme.of(context).primaryColor),
         backgroundColor: Theme.of(context).backgroundColor,
-        title: new Text(
-            StoreProvider.of<AppState>(context).state.content["selected_page"],
-            textAlign: TextAlign.start,
-            style: Theme.of(context).textTheme.headline.apply(fontSizeDelta: -50),
+        title: new Container(
+          child: SvgPicture.asset(
+            'assets/images/logo_dark.svg'
+          ),
         ),
         actions: <Widget>[
           FlatButton(
