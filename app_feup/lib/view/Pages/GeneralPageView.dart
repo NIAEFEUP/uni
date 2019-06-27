@@ -60,7 +60,13 @@ abstract class GeneralPageView extends StatelessWidget {
   Widget getScaffold(BuildContext context, Widget body){
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text(StoreProvider.of<AppState>(context).state.content["selected_page"], textAlign: TextAlign.start),
+        iconTheme: new IconThemeData(color: Theme.of(context).primaryColor),
+        backgroundColor: Theme.of(context).backgroundColor,
+        title: new Text(
+            StoreProvider.of<AppState>(context).state.content["selected_page"],
+            textAlign: TextAlign.start,
+            style: Theme.of(context).textTheme.headline.apply(fontSizeDelta: -50),
+        ),
         actions: <Widget>[
           FlatButton(
             onPressed: () => {Navigator.pushReplacement(context,new MaterialPageRoute(builder: (__) => new ProfilePage()))},
