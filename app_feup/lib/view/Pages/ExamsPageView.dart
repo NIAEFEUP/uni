@@ -76,19 +76,20 @@ class ExamsPageView extends SecondaryPageView {
   Widget createExamCard(context, exams){
     return new Container(
       margin: EdgeInsets.only(bottom: 8),
-      child: new Column(children: this.createExamsCards(context, exams)
+      padding: EdgeInsets.all(8),
+      child: new Card(child: this.createExamsCards(context, exams)
       ),
     );
   }
 
-  List<Widget> createExamsCards(context, exams){
+  Widget createExamsCards(context, exams){
     List<Widget> examCards = new List<Widget>();
     examCards.add(new TitleCard(day: exams[0].day, weekDay: exams[0].weekDay, month: exams[0].month));
     for(int i = 0; i < exams.length; i++)
     {
       examCards.add(this.createExamContext(context, exams[i]));
     }
-    return examCards;
+    return new Column(children: examCards);
   }
 
   Widget createExamContext(context, exam){
