@@ -5,7 +5,7 @@ import 'ScheduleEventRectangle.dart';
 
 class ScheduleRow extends StatelessWidget{
   final String subject;
-  final String rooms;
+  final List<String> rooms;
   final String begin;
   final String end;
   final String teacher;

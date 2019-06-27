@@ -17,7 +17,7 @@ class Exam{
   String subject;
   String begin;
   String end;
-  String rooms;
+  List<String> rooms;
   String day;
   String examType;
   String weekDay;
@@ -31,7 +31,7 @@ class Exam{
     this.subject = subject;
     this.begin = begin;
     this.end = end;
-    this.rooms = rooms;
+    this.rooms = rooms.split(",");
     this.day = day;
     this.examType = examType;
     this.weekDay = weekDay;
@@ -50,7 +50,7 @@ class Exam{
     var dateSepared = date.split('-');
     this.begin = scheduling[0].replaceAll(':', 'h');
     this.end = scheduling[1].replaceAll(':', 'h');
-    this.rooms = rooms;
+    this.rooms = rooms.split(",");
     this.year = dateSepared[0];
     this.day = dateSepared[2];
     this.examType = examType;

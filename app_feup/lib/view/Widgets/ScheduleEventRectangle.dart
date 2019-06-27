@@ -1,8 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ScheduleEventRectangle extends StatelessWidget{
   final String subject;
-  final String rooms;
+  final List<String> rooms;
   final String teacher;
   final String type;
   final double borderRadius = 12.0;
@@ -24,7 +25,7 @@ class ScheduleEventRectangle extends StatelessWidget{
         ),
         child: Row(
           mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             this.createTopRectangle(context),
             this.createBottomRectangle(context)
@@ -63,8 +64,10 @@ class ScheduleEventRectangle extends StatelessWidget{
     if(this.teacher == null){
       return new Container(
         margin: EdgeInsets.only(top: 12.0, bottom: 12.0),
-        child: new Text(this.rooms == " " ? this.rooms: "Salas em breve",style: Theme.of(context).textTheme.display1
-          ,),
+        child: new Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: getScheduleRooms(context)
+        )
       );
     }
     else {
@@ -74,7 +77,7 @@ class ScheduleEventRectangle extends StatelessWidget{
         children: <Widget>[
 
           new Container(
-            margin: EdgeInsets.only(top: 12.0, bottom: 12.0),
+            margin: EdgeInsets.only(top: 15.0, bottom: 12.0),
             child: new Text(
               this.teacher,
               style: Theme.of(context).textTheme.display1,
@@ -83,14 +86,28 @@ class ScheduleEventRectangle extends StatelessWidget{
 
           new Container(
             margin: EdgeInsets.only(top: 12.0, bottom: 12.0),
-            child: new Text(
-              this.rooms,
-              style: Theme.of(context).textTheme.display1,
-            ),
+            child:  new Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: getScheduleRooms(context)
+            )
           )
         ],
       );
     }
     
+  }
+
+
+  List<Widget> getScheduleRooms(context){
+    List<Widget> rooms = new List();
+    for(String room in this.rooms){
+      rooms.add(
+          new Text(
+              room,
+              style: Theme.of(context).textTheme.display1,
+          ),
+      );
+    }
+    return rooms;
   }
 }

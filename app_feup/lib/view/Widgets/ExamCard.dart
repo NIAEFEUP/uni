@@ -31,6 +31,7 @@ class ExamCard extends StatelessWidget{
       case RequestStatus.SUCCESSFUL:
         return exams.length >= 1 ?
           Container(
+              padding: EdgeInsets.all(this.padding),
               child: new Column(
                 mainAxisSize: MainAxisSize.min,
                 children: this.getExamRows(context, exams),
@@ -44,6 +45,7 @@ class ExamCard extends StatelessWidget{
       case RequestStatus.FAILED:
         if(exams.length != 0)
           return Container(
+              padding: EdgeInsets.all(this.padding),
               child: new Column(
                 mainAxisSize: MainAxisSize.min,
                 children: this.getExamRows(context, exams),
@@ -58,8 +60,11 @@ class ExamCard extends StatelessWidget{
 
   List<Widget> getExamRows(context, exams){
     List<Widget> rows = new List<Widget>();
-    for(int i = 0; i < 2 && i < exams.length; i++){
+    for(int i = 0; i < 1 && i < exams.length; i++){
       rows.add(this.createRowFromExam(context, exams[i]));
+    }
+    for(int i = 1; i < 4 && i < exams.length; i++){
+      rows.add(this.createSecondaryRowFromExam(context, exams[i]));
     }
     return rows;
   }
@@ -79,6 +84,32 @@ class ExamCard extends StatelessWidget{
                 padding: EdgeInsets.only(left: this.padding, right: this.padding),)
 
     ]
+    );
+  }
+
+  Widget createSecondaryRowFromExam(context, exam) {
+    return new Container(
+      padding: EdgeInsets.only(left: this.padding, right: this.padding),
+      child: new Card(
+        child: new Container(
+          padding: EdgeInsets.all(11),
+        child: new Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            new Text(
+                exam.day + "/" + exam.month,
+                style: Theme.of(context).textTheme.display1.apply(fontWeightDelta: -1),
+            ),
+            new Text(
+                exam.subject,
+                style: Theme.of(context).textTheme.display2.apply(fontSizeDelta: 5)
+            )
+          ],
+        ),
+      ),
+      ),
     );
   }
 }
