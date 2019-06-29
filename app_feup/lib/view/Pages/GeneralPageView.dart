@@ -59,13 +59,15 @@ abstract class GeneralPageView extends StatelessWidget {
   }
 
   Widget getScaffold(BuildContext context, Widget body){
+    MediaQueryData queryData = MediaQuery.of(context);
     return new Scaffold(
       appBar: new AppBar(
         iconTheme: new IconThemeData(color: Theme.of(context).primaryColor),
         backgroundColor: Theme.of(context).backgroundColor,
         title: new Container(
           child: SvgPicture.asset(
-            'assets/images/logo_dark.svg'
+            'assets/images/logo_dark.svg',
+              height: queryData.size.height/27,
           ),
         ),
         actions: <Widget>[
