@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:app_feup/view/Theme.dart';
 
@@ -28,70 +29,64 @@ class ScheduleSlot extends StatelessWidget{
           decoration: new BoxDecoration(
               border: new Border(bottom: BorderSide(width: 2.0, color: divider))
           ),
-          child: new Column (
-            children: <Widget>[
-              createScheduleSlotRow(0, context),
-              createScheduleSlotRow(1, context),
-              createScheduleSlotRow(2, context),
-            ],
-          )
+          child: createScheduleSlotRow(context),
         )
     );
   }
 
-  List<Widget> getScheduleSlotRowContent(index, context) {
-    List<Widget> content = List<Widget>();
-    switch (index) {
-      case 0:
-        content.add(createScheduleSlotTime(context));
-        break;
-      case 1:
-        content = (createScheduleSlotPrimInfo(context));
-        break;
-      case 2:
-        content.add(createScheduleSlotTeacherInfo(context));
-    }
-    return content;
-  }
 
-  Widget createScheduleSlotRow(index, context) {
-
-    List<Widget> rowContent = getScheduleSlotRowContent(index, context);
-
+  Widget createScheduleSlotRow(context) {
     return new Container (
         margin: EdgeInsets.only(top: 3.0, bottom: 3.0),
         child: new Row(
           mainAxisSize: MainAxisSize.max,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: rowContent,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: createScheduleSlotPrimInfo(context),
         )
     );
   }
 
   Widget createScheduleSlotTime(context) {
-    return createTextField(this.begin + " - " +  this.end, TextStyle(fontSize: 13.0,  color: Colors.black, fontWeight: FontWeight.w300), TextAlign.left);
+    return new Column(
+      children: <Widget>[
+        createScheduleTime(this.begin, context),
+        createScheduleTime(this.end, context)
+      ],
+    );
   }
 
+  Widget createScheduleTime(String time, context) =>
+      createTextField(time, Theme.of(context).textTheme.display1.apply(fontSizeDelta: -3, fontWeightDelta: -1), TextAlign.center);
+
   List<Widget> createScheduleSlotPrimInfo(context) {
-    var subjectTextField = createTextField(this.subject, Theme.of(context).textTheme.display2, TextAlign.left);
+    var subjectTextField = createTextField(this.subject, Theme.of(context).textTheme.display2, TextAlign.center);
     var typeClassTextField = createTextField('(' + this.typeClass + ')', TextStyle(fontSize: 13.0,  color: Colors.black, fontWeight: FontWeight.w300), TextAlign.center);
-    var roomTextField = createTextField(this.rooms,  Theme.of(context).textTheme.body1, TextAlign.right);
+    var roomTextField = createTextField(
+        this.rooms,
+        Theme.of(context).textTheme.display1.apply(fontSizeDelta: -2, fontWeightDelta: -1),
+        TextAlign.right);
 
     return [
-      createScheduleSlotPrimInfoColumn(subjectTextField),
-      createScheduleSlotPrimInfoColumn(typeClassTextField),
+      createScheduleSlotTime(context),
+      new Column(
+        children: <Widget>[
+            subjectTextField,
+            typeClassTextField,
+            createScheduleSlotTeacherInfo(context)
+        ],
+      ),
       createScheduleSlotPrimInfoColumn(roomTextField)
     ];
   }
 
   Widget createScheduleSlotTeacherInfo(context) {
-    return createTextField(this.teacher, TextStyle(fontSize: 13.0,  color: Colors.black, fontWeight: FontWeight.w300), TextAlign.left);
+    return createTextField(this.teacher, TextStyle(fontSize: 13.0,  color: Colors.black, fontWeight: FontWeight.w300), TextAlign.center);
   }
 
   Widget createTextField(text, style, alignment) {
     return Text(
       text,
-      textAlign: alignment,
       overflow: TextOverflow.ellipsis,
       style: style,
     );
