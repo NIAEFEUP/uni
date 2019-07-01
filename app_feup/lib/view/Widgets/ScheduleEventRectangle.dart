@@ -39,7 +39,7 @@ class ScheduleEventRectangle extends StatelessWidget{
     if (type == null){
       return Container(
         margin: EdgeInsets.only(top: 12.0),
-        child: new Text(this.subject, style: Theme.of(context).textTheme.display2.apply(fontSizeDelta: 8)),
+        child: new Text(this.subject, style: Theme.of(context).textTheme.display2.apply(fontSizeDelta: 5)),
       );
     } else {
       return Row(
@@ -104,7 +104,7 @@ class ScheduleEventRectangle extends StatelessWidget{
       rooms.add(
           new Text(
               room,
-              style: Theme.of(context).textTheme.display1,
+              style: Theme.of(context).textTheme.display1.apply(fontSizeDelta: -3),
           ),
       );
     }

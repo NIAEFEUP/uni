@@ -22,14 +22,14 @@ ThemeData applicationTheme = new ThemeData(
   hintColor: hintColor,
   backgroundColor: backgroundColor,
 
-  fontFamily: 'Montserrat',
+  fontFamily: 'Raleway',
 
   textTheme: TextTheme(
     headline: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold, color: primaryColor),
     title: TextStyle(fontSize: 17.0, color: titleColor, fontWeight: FontWeight.w500),
     body1: TextStyle(fontSize: 15.0, color: primaryColor),
-    subtitle: TextStyle(fontSize: 22.0, color: subtitleColor, fontWeight: FontWeight.w200, fontFamily: 'HelveticaNeue'),
-    display1: TextStyle(fontSize: 17.0, color: greyTextColor, fontWeight: FontWeight.w300),
+    subtitle: TextStyle(fontSize: 22.0, color: subtitleColor, fontWeight: FontWeight.w200),
+    display1: TextStyle(fontSize: 17.0, color: greyTextColor, fontWeight: FontWeight.w200),
     display2: TextStyle(fontSize: 17.0, color: tonedDownPrimary, fontWeight: FontWeight.w300),
   ),
 
