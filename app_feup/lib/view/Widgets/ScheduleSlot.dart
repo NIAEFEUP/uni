@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:app_feup/view/Theme.dart';
+// TODO: fix alignment of all rows
 
 class ScheduleSlot extends StatelessWidget{
   final String subject;
@@ -66,13 +67,16 @@ class ScheduleSlot extends StatelessWidget{
         this.rooms,
         Theme.of(context).textTheme.display1.apply(fontSizeDelta: -2, fontWeightDelta: -1),
         TextAlign.right);
-
     return [
       createScheduleSlotTime(context),
       new Column(
         children: <Widget>[
-            subjectTextField,
-            typeClassTextField,
+            new Row(
+              children: <Widget>[
+              subjectTextField,
+              typeClassTextField,
+              ],
+            ),
             createScheduleSlotTeacherInfo(context)
         ],
       ),
@@ -94,13 +98,7 @@ class ScheduleSlot extends StatelessWidget{
 
   Widget createScheduleSlotPrimInfoColumn(elements) {
     return Expanded(
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          elements,
-        ],
-      ),
+      child: elements
     );
   }
 }
