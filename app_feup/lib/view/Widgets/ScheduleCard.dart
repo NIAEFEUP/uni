@@ -3,16 +3,21 @@ import 'package:app_feup/model/entities/Lecture.dart';
 import 'package:app_feup/view/Widgets/DateRectangle.dart';
 import 'package:app_feup/view/Widgets/GenericCard.dart';
 import 'package:app_feup/view/Widgets/ScheduleRow.dart';
+import 'package:app_feup/view/Widgets/ScheduleSlot.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter/material.dart';
 
 class ScheduleCard extends StatelessWidget {
   final double borderRadius = 12.0;
   final double leftPadding = 12.0;
+  final List<Lecture> lectures = new List<Lecture>();
 
   ScheduleCard(
       {Key key})
-      : super(key: key);
+      : super(key: key){
+    lectures.add(new Lecture("IART", "T", 0, 32400, 3, "B213", "LPR"));
+    lectures.add(new Lecture("LBAW", "TP", 0, 37800, 3, "B213", "TBS"));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +28,7 @@ class ScheduleCard extends StatelessWidget {
               title: "Horário",
               func: () => Navigator.pushReplacementNamed(context, '/Horário'),
               child:
-                getCardContent(context, lectures)
+                getCardContent(context, this.lectures)
           );
         }
     );
@@ -98,13 +103,13 @@ class ScheduleCard extends StatelessWidget {
   }
 
   Widget createRowFromLecture(context, lecture){
-    return new ScheduleRow(
+    return new ScheduleSlot(
       subject: lecture.subject,
       rooms: lecture.room,
       begin: lecture.startTime,
       end: lecture.endTime,
       teacher: lecture.teacher,
-      type: lecture.typeClass,
+      typeClass: lecture.typeClass,
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:app_feup/view/Widgets/DateRectangle.dart';
 import 'package:app_feup/view/Widgets/GenericCard.dart';
+import 'package:flutter/cupertino.dart';
 import '../../model/AppState.dart';
 import 'package:flutter/material.dart';
 import 'ScheduleRow.dart';
@@ -62,6 +63,16 @@ class ExamCard extends StatelessWidget{
     List<Widget> rows = new List<Widget>();
     for(int i = 0; i < 1 && i < exams.length; i++){
       rows.add(this.createRowFromExam(context, exams[i]));
+    }
+    if(exams.length > 1){
+      rows.add(
+        new Container(
+          margin: EdgeInsets.only(right: 80.0, left: 80.0, top: 15, bottom: 15),
+          decoration: new BoxDecoration(
+            border: new Border(bottom: BorderSide(width: 2.0, color: Theme.of(context).accentColor))
+          ),
+        )
+      );
     }
     for(int i = 1; i < 4 && i < exams.length; i++){
       rows.add(this.createSecondaryRowFromExam(context, exams[i]));
