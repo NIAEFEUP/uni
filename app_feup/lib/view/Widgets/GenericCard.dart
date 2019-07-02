@@ -7,8 +7,9 @@ class GenericCard extends StatelessWidget {
 
   final String title;
   final Widget child;
-  final double borderRadius = 15.0;
+  final double borderRadius = 10.0;
   final VoidCallback func;
+  final double padding = 12.0;
 
   @override
   Widget build(BuildContext context) {
@@ -17,15 +18,15 @@ class GenericCard extends StatelessWidget {
           if (func != null) func();
         },
         child: Card(
-          margin: EdgeInsets.fromLTRB(12, 12, 12, 0),
+          margin: EdgeInsets.all(10),
           color: Color.fromARGB(0, 0, 0, 0),
+          elevation: 0,
           shape: new RoundedRectangleBorder(
               borderRadius: new BorderRadius.circular(this.borderRadius)),
           child: new Container(
             decoration: BoxDecoration(
+                boxShadow: [new BoxShadow(color: Color.fromARGB(0x0f, 0, 0, 0), blurRadius: 7.0)],
                 color: Theme.of(context).accentColor,
-                border: Border.all(
-                    width: 0.5, color: Color.fromARGB(64, 0x46, 0x46, 0x46)),
                 borderRadius:
                     BorderRadius.all(Radius.circular(this.borderRadius))),
             child: new ConstrainedBox(
@@ -48,7 +49,10 @@ class GenericCard extends StatelessWidget {
                           padding: EdgeInsets.only(left: 16),
                           margin: EdgeInsets.only(top: 11, bottom: 11),
                         ),
-                        this.child
+                        Container(
+                          padding: EdgeInsets.all(this.padding),
+                          child: this.child,
+                        )
                       ],
                   ),
                 ),

@@ -2,7 +2,6 @@ import 'package:app_feup/model/AppState.dart';
 import 'package:app_feup/model/entities/Lecture.dart';
 import 'package:app_feup/view/Widgets/DateRectangle.dart';
 import 'package:app_feup/view/Widgets/GenericCard.dart';
-import 'package:app_feup/view/Widgets/ScheduleRow.dart';
 import 'package:app_feup/view/Widgets/ScheduleSlot.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter/material.dart';

@@ -1,3 +1,4 @@
+import 'package:app_feup/view/Widgets/RowContainer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:app_feup/view/Theme.dart';
@@ -24,15 +25,15 @@ class ScheduleSlot extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    return new Center(
-        child: new Container(
-          padding: EdgeInsets.only(top: 10.0, bottom: 10.0, left: 22.0, right: 22.0),
-          decoration: new BoxDecoration(
-              border: new Border(bottom: BorderSide(width: 2.0, color: divider))
-          ),
-          child: createScheduleSlotRow(context),
-        )
-    );
+    return new RowContainer(
+          child: new Container(
+            padding: EdgeInsets.only(top: 10.0, bottom: 10.0, left: 22.0, right: 22.0),
+            decoration: new BoxDecoration(
+                border: new Border(bottom: BorderSide(width: 2.0, color: divider))
+            ),
+            child: createScheduleSlotRow(context),
+          )
+        );
   }
 
 
@@ -41,7 +42,7 @@ class ScheduleSlot extends StatelessWidget{
         margin: EdgeInsets.only(top: 3.0, bottom: 3.0),
         child: new Row(
           mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: createScheduleSlotPrimInfo(context),
         )
@@ -103,7 +104,7 @@ class ScheduleSlot extends StatelessWidget{
   }
 
   Widget createScheduleSlotPrimInfoColumn(elements) {
-    return Expanded(
+    return Container(
       child: elements
     );
   }

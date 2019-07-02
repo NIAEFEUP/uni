@@ -107,11 +107,7 @@ class ProfilePageView extends SecondaryPageView {
               margin: const EdgeInsets.only(top: 20.0, bottom: 8.0, right: 30.0),
               child: Text(course.currYear,
                 textAlign: TextAlign.end,
-                style: TextStyle(
-                  color: greyTextColor,
-                  fontSize: 14.0,
-                  fontWeight: FontWeight.w500
-                )
+                style: Theme.of(context).textTheme.display2
               ),
             )
           ]),
@@ -130,11 +126,8 @@ class ProfilePageView extends SecondaryPageView {
               margin: const EdgeInsets.only(top: 10.0, bottom: 8.0, right: 30.0),
               child: Text(state,
                 textAlign: TextAlign.end,
-                style: TextStyle(
-                  color: greyTextColor,
-                  fontSize: 14.0,
-                  fontWeight: FontWeight.w500
-                )
+                style: Theme.of(context).textTheme.display2.apply(fontSizeDelta: -3)
+
               ),
             )
           ]),
@@ -153,11 +146,8 @@ class ProfilePageView extends SecondaryPageView {
               margin: const EdgeInsets.only(top: 10.0, bottom: 20.0, right: 30.0),
               child: Text(course.firstEnrollment.toString() + "/" + (course.firstEnrollment+1).toString(),
                 textAlign: TextAlign.end,
-                style: TextStyle(
-                  color: greyTextColor,
-                  fontSize: 14.0,
-                  fontWeight: FontWeight.w500
-                )
+                style: Theme.of(context).textTheme.display2
+
               ),
             )
           ]),

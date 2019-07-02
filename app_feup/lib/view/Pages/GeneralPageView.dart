@@ -8,6 +8,7 @@ import 'package:app_feup/controller/LoadInfo.dart';
 import 'package:app_feup/model/ProfilePageModel.dart';
 
 abstract class GeneralPageView extends StatelessWidget {
+  final double borderMargin = 18.0;
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +62,16 @@ abstract class GeneralPageView extends StatelessWidget {
   Widget getScaffold(BuildContext context, Widget body){
     MediaQueryData queryData = MediaQuery.of(context);
     return new Scaffold(
+      backgroundColor: Theme.of(context).backgroundColor,
       appBar: new AppBar(
+        bottom: PreferredSize(
+          child: Container(
+            margin: EdgeInsets.only(left: borderMargin, right: borderMargin),
+            color: Theme.of(context).accentColor,
+            height: 1.5,
+          ),
+        ),
+        elevation: 0,
         iconTheme: new IconThemeData(color: Theme.of(context).primaryColor),
         backgroundColor: Theme.of(context).backgroundColor,
         title: new Container(
@@ -74,8 +84,8 @@ abstract class GeneralPageView extends StatelessWidget {
           FlatButton(
             onPressed: () => {Navigator.pushReplacement(context,new MaterialPageRoute(builder: (__) => new ProfilePage()))},
             child: Container(
-                width: 45.0,
-                height: 45.0,
+                width: 40.0,
+                height: 40.0,
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     image: buildDecorageImage(context)
