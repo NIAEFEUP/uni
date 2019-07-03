@@ -1,3 +1,4 @@
+import 'package:app_feup/view/Widgets/PageTitle.dart';
 import 'package:app_feup/view/Widgets/ScheduleCard.dart';
 import 'package:app_feup/view/Widgets/HomePageBackButton.dart';
 import 'package:flutter/material.dart';
@@ -13,14 +14,7 @@ class HomePageView extends GeneralPageView {
         child:  new ListView(
           shrinkWrap: false,
           children: <Widget>[
-            new Container(
-              padding: EdgeInsets.fromLTRB(20, 20, 0, 0),
-              alignment: Alignment.center,
-              child: new Text(
-                'Favorites',
-                style: Theme.of(context).textTheme.title.apply(fontSizeDelta: 7, fontWeightDelta: -2),
-              ),
-            ),
+            new PageTitle(name: 'Favorites',),
             ExamCard(),
 
             ScheduleCard(),
@@ -29,3 +23,5 @@ class HomePageView extends GeneralPageView {
     );
   }
 }
+
+

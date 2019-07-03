@@ -1,4 +1,5 @@
 import 'package:app_feup/model/entities/Exam.dart';
+import 'package:app_feup/view/Widgets/PageTitle.dart';
 import 'package:flutter/material.dart';
 import '../Pages/SecondaryPageView.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -45,6 +46,7 @@ class ExamsPageView extends SecondaryPageView {
   }
   List<Widget> createExamsColumn(context, exams){
     List<Widget> columns = new List<Widget>();
+    columns.add(new PageTitle(name: 'Exams',));
     List<Exam> currentDayExams = new List<Exam>();
     for(int i = 0; i < exams.length; i++)
     {

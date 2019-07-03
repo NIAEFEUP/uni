@@ -1,4 +1,5 @@
 import 'package:app_feup/model/entities/Lecture.dart';
+import 'package:app_feup/view/Widgets/PageTitle.dart';
 import 'package:flutter/material.dart';
 import '../Pages/SecondaryPageView.dart';
 import 'package:app_feup/model/AppState.dart';
@@ -26,6 +27,7 @@ class SchedulePageView extends SecondaryPageView {
 
     return new Column(
       children: <Widget>[
+        new PageTitle(name: 'Schedule'),
         new Container(
           decoration: const BoxDecoration(
             border: Border(
