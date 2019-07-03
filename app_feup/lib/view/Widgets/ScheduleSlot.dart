@@ -1,8 +1,6 @@
 import 'package:app_feup/view/Widgets/RowContainer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:app_feup/view/Theme.dart';
-// TODO: fix alignment of all rows
 
 class ScheduleSlot extends StatelessWidget{
   final String subject;
@@ -28,9 +26,6 @@ class ScheduleSlot extends StatelessWidget{
     return new RowContainer(
           child: new Container(
             padding: EdgeInsets.only(top: 10.0, bottom: 10.0, left: 22.0, right: 22.0),
-            decoration: new BoxDecoration(
-                border: new Border(bottom: BorderSide(width: 2.0, color: divider))
-            ),
             child: createScheduleSlotRow(context),
           )
         );

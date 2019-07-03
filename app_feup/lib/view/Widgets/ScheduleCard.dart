@@ -102,13 +102,16 @@ class ScheduleCard extends StatelessWidget {
   }
 
   Widget createRowFromLecture(context, lecture){
-    return new ScheduleSlot(
-      subject: lecture.subject,
-      rooms: lecture.room,
-      begin: lecture.startTime,
-      end: lecture.endTime,
-      teacher: lecture.teacher,
-      typeClass: lecture.typeClass,
+    return new Container (
+        margin: EdgeInsets.only(bottom: 10),
+        child: new ScheduleSlot(
+          subject: lecture.subject,
+          rooms: lecture.room,
+          begin: lecture.startTime,
+          end: lecture.endTime,
+          teacher: lecture.teacher,
+          typeClass: lecture.typeClass,
+        )
     );
   }
 }
