@@ -65,7 +65,7 @@ class Exam{
       'subject': subject,
       'begin': begin,
       'end': end,
-      'rooms': rooms,
+      'rooms': rooms.join(','),
       'day': day,
       'examType': examType,
       'weekDay': weekDay,
