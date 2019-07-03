@@ -54,7 +54,7 @@ class ScheduleSlot extends StatelessWidget{
   }
 
   Widget createScheduleTime(String time, context) =>
-      createTextField(time, Theme.of(context).textTheme.display1.apply(fontSizeDelta: -3, fontWeightDelta: -1), TextAlign.center);
+      createTextField(time, Theme.of(context).textTheme.display1.apply(fontSizeDelta: -3), TextAlign.center);
 
   List<Widget> createScheduleSlotPrimInfo(context) {
     var subjectTextField = createTextField(
@@ -63,11 +63,11 @@ class ScheduleSlot extends StatelessWidget{
         TextAlign.center);
     var typeClassTextField = createTextField(
         '(' + this.typeClass + ')',
-        Theme.of(context).textTheme.display1.apply(fontSizeDelta: -4, fontWeightDelta: -1),
+        Theme.of(context).textTheme.display1.apply(fontSizeDelta: -4),
         TextAlign.center);
     var roomTextField = createTextField(
         this.rooms,
-        Theme.of(context).textTheme.display1.apply(fontSizeDelta: -2, fontWeightDelta: -1),
+        Theme.of(context).textTheme.display1.apply(fontSizeDelta: -4),
         TextAlign.right);
     return [
       createScheduleSlotTime(context),
@@ -87,7 +87,7 @@ class ScheduleSlot extends StatelessWidget{
   }
 
   Widget createScheduleSlotTeacherInfo(context) {
-    return createTextField(this.teacher, Theme.of(context).textTheme.display1.apply(fontSizeDelta: -4, fontWeightDelta: -1), TextAlign.center);
+    return createTextField(this.teacher, Theme.of(context).textTheme.display1.apply(fontSizeDelta: -4), TextAlign.center);
   }
 
   Widget createTextField(text, style, alignment) {

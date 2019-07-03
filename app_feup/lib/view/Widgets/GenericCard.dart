@@ -50,7 +50,7 @@ class GenericCard extends StatelessWidget {
                           margin: EdgeInsets.only(top: 11, bottom: 11),
                         ),
                         Container(
-                          padding: EdgeInsets.all(this.padding),
+                          padding: EdgeInsets.only(left: this.padding, right: this.padding, bottom: this.padding, top: 4.0),
                           child: this.child,
                         )
                       ],

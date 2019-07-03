@@ -22,7 +22,7 @@ ThemeData applicationTheme = new ThemeData(
   hintColor: hintColor,
   backgroundColor: backgroundColor,
 
-  fontFamily: 'Raleway',
+//  fontFamily: 'Raleway',
 
   textTheme: TextTheme(
     headline: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold, color: primaryColor),

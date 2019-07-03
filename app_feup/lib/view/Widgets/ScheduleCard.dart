@@ -77,7 +77,7 @@ class ScheduleCard extends StatelessWidget {
     var added = 0; // Lectures added to widget
     var lastDayAdded = 0; // Day of last added lecture
     var stringTimeNow = (now.weekday-1).toString().padLeft(2, '0') +
-                        now.hour.toString().padLeft(2, '0') + "h" +
+                        now.hour.toString().padLeft(2, '0') + ":" +
                         now.minute.toString().padLeft(2, '0');  // String with current time within the week
 
     for(int i = 0; added < 2 && i < lectures.length; i++){

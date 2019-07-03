@@ -48,8 +48,8 @@ class Exam{
     this.date = DateTime.parse(date);
     var scheduling = schedule.split('-');
     var dateSepared = date.split('-');
-    this.begin = scheduling[0].replaceAll(':', 'h');
-    this.end = scheduling[1].replaceAll(':', 'h');
+    this.begin = scheduling[0];
+    this.end = scheduling[1];
     this.rooms = rooms.split(",");
     this.year = dateSepared[0];
     this.day = dateSepared[2];

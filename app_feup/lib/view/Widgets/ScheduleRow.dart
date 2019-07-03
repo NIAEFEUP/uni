@@ -53,7 +53,7 @@ class ScheduleRow extends StatelessWidget{
       rooms.add(
         new Text(
           room,
-          style: Theme.of(context).textTheme.display1.apply(fontSizeDelta: -3),
+          style: Theme.of(context).textTheme.display1.apply(fontSizeDelta: -4),
         ),
       );
     }

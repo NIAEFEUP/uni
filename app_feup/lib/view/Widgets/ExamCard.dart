@@ -106,7 +106,7 @@ class ExamCard extends StatelessWidget{
             children: <Widget>[
               new Text(
                   exam.day + "/" + exam.month,
-                  style: Theme.of(context).textTheme.display1.apply(fontWeightDelta: -1),
+                  style: Theme.of(context).textTheme.display1,
               ),
               new Text(
                   exam.subject,
