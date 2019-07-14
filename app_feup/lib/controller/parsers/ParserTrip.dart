@@ -7,12 +7,12 @@ Future<List<Trip>> parseTrips(http.Response response) async {
   List<Trip> tripList = new List();
 
   var json = jsonDecode(response.body);
-  var trips = json['Value'];
 
-  for (var trip in trips) {
+  for (var TripKey in json) {
+    var trip = TripKey['Value'];
     String line = trip[0];
     String destination = trip[1];
-    int timeRemaining = trip[2];
+    int timeRemaining = int.parse(trip[2]);
     Trip newTrip = Trip(line:line, destination:destination, timeRemaining:timeRemaining);
     newTrip.printTrip();
     tripList.add(newTrip);
