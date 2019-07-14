@@ -85,6 +85,13 @@ class NetworkRouter {
     return http.get(url, headers: headers);
   }
 
+  static Future<http.Response> getNextArrivalsStop(String stop) async {
+    final String url = "http://move-me.mobi/NextArrivals/GetScheds?providerName=STCP&stopCode=" + stop;
+    final Map<String, String> headers = Map<String, String>();
+    final http.Response response = await http.get(url, headers: headers);
+    return response;
+  }
+
   static String getBaseUrl(String faculty) {
     return 'https://sigarra.up.pt/$faculty/pt/';
   }

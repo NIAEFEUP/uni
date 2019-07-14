@@ -1,3 +1,4 @@
+import 'package:app_feup/controller/networking/NetworkRouter.dart';
 import 'package:app_feup/model/SchedulePageModel.dart';
 import 'package:app_feup/model/entities/Exam.dart';
 import 'package:app_feup/view/Pages/ClassificationsPageView.dart';
@@ -12,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:app_feup/view/Pages/SplashPageView.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'controller/parsers/ParserTrip.dart';
 import 'view/Theme.dart';
 import 'model/AppState.dart';
 import 'package:redux/redux.dart';
@@ -91,8 +93,9 @@ class MyAppState extends State<MyApp> {
   );}
 
   @override
-  void initState() {
+  void initState() async{
     super.initState();
+    parseTrips(await NetworkRouter.getNextArrivalsStop("STCP_FEUP2"));
     this.lifeCycleEventHandler = new LifecycleEventHandler(store: this.state);
     WidgetsBinding.instance.addObserver(this.lifeCycleEventHandler);
   }
