@@ -93,9 +93,8 @@ class MyAppState extends State<MyApp> {
   );}
 
   @override
-  void initState() async{
+  void initState(){
     super.initState();
-    parseTrips(await NetworkRouter.getNextArrivalsStop("STCP_FEUP2"));
     this.lifeCycleEventHandler = new LifecycleEventHandler(store: this.state);
     WidgetsBinding.instance.addObserver(this.lifeCycleEventHandler);
   }

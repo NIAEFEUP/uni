@@ -86,9 +86,9 @@ class NetworkRouter {
   }
 
   static Future<http.Response> getNextArrivalsStop(String stop) async {
-    final String url = "http://move-me.mobi/NextArrivals/GetScheds?providerName=STCP&stopCode=" + stop;
-    final Map<String, String> headers = Map<String, String>();
-    final http.Response response = await http.get(url, headers: headers);
+    final String url = "http://move-me.mobi/NextArrivals/GetScheds?providerName=STCP&stopCode=$stop";
+    Future<http.Response> response = http.get(url);
+    print('Request for trips done');
     return response;
   }
 

@@ -8,10 +8,12 @@ import 'package:app_feup/controller/parsers/ParserSchedule.dart';
 import 'package:app_feup/controller/parsers/ParserPrintBalance.dart';
 import 'package:app_feup/controller/parsers/ParserFees.dart';
 import 'package:app_feup/controller/parsers/ParserCourses.dart';
+import 'package:app_feup/controller/parsers/ParserTrip.dart';
 import 'package:app_feup/model/entities/CourseUnit.dart';
 import 'package:app_feup/model/entities/Exam.dart';
 import 'package:app_feup/model/entities/Lecture.dart';
 import 'package:app_feup/model/entities/Session.dart';
+import 'package:app_feup/model/entities/Trip.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:tuple/tuple.dart';
 import '../model/AppState.dart';
@@ -143,6 +145,8 @@ ThunkAction<AppState> getUserSchedule(Completer<Null> action) {
       String endWeek = date.year.toString().padLeft(4, '0') +
           date.month.toString().padLeft(2, '0') +
           date.day.toString().padLeft(2, '0');
+
+      List<Trip> trips = await parseTrips(await NetworkRouter.getNextArrivalsStop("STCP_FEUP2"));
 
       List<Lecture> lectures = await parseSchedule(
           await NetworkRouter.getWithCookies(

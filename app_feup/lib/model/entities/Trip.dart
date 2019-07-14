@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class Trip{
   String line;
   String destination;
@@ -13,7 +15,7 @@ class Trip{
     };
   }
 
-  void printExam()
+  void printTrip()
   {
     print('$line ($destination) - $timeRemaining');
   }
