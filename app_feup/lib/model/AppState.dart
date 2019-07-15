@@ -17,6 +17,7 @@ class AppState {
       "examsStatus": RequestStatus.NONE,
       "selected_page": "Área Pessoal",
       "session": new Session(authenticated: false),
+      "busstops": [],
     };
   }
 

@@ -20,6 +20,11 @@ class Trip{
     print('$line ($destination) - $timeRemaining');
   }
 
+  String getTrip()
+  {
+    return '$line ($destination) - $timeRemaining';
+  }
+
   int compare(Trip other) {
     return (timeRemaining.compareTo(other.timeRemaining));
   }

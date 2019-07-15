@@ -5,6 +5,8 @@ import 'package:app_feup/model/entities/Lecture.dart';
 import 'package:app_feup/model/entities/Profile.dart';
 import 'package:app_feup/model/entities/Session.dart';
 
+import '../model/entities/BusStop.dart';
+
 class SaveLoginDataAction {
   Session session;
   SaveLoginDataAction(this.session);
@@ -68,4 +70,14 @@ class SetFeesLimitAction{
 class SetCoursesStatesAction{
   Map<String, String> coursesStates;
   SetCoursesStatesAction(this.coursesStates);
+}
+
+class SetBusStopAction{
+  List<String> stops;
+  SetBusStopAction(this.stops);
+}
+
+class SetBusStopTripsAction{
+  List<BusStop> stops;
+  SetBusStopTripsAction(this.stops);
 }
