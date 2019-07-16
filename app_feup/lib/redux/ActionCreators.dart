@@ -17,6 +17,7 @@ import 'package:app_feup/model/entities/Trip.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:tuple/tuple.dart';
 import '../model/AppState.dart';
+import '../model/entities/BusStop.dart';
 import 'Actions.dart';
 import 'package:redux/redux.dart';
 import 'package:app_feup/controller/networking/NetworkRouter.dart';
@@ -146,8 +147,6 @@ ThunkAction<AppState> getUserSchedule(Completer<Null> action) {
           date.month.toString().padLeft(2, '0') +
           date.day.toString().padLeft(2, '0');
 
-      List<Trip> trips = await parseTrips(await NetworkRouter.getNextArrivalsStop("STCP_FEUP2"));
-
       List<Lecture> lectures = await parseSchedule(
           await NetworkRouter.getWithCookies(
               NetworkRouter.getBaseUrlFromSession(store.state.content['session'])
@@ -242,6 +241,46 @@ ThunkAction<AppState> getUserCoursesState(Completer<Null> action) {
     }catch(e){
       print("Failed to get Fees info");
     }
+
+    action.complete();
+  };
+}
+
+ThunkAction<AppState> setUserBusStops(Completer<Null> action){
+  return(Store<AppState> store) async{
+
+    //onde devo ir buscar a lista de nomes de paragens?
+    List<String> stops = new List();
+
+    stops.add("STCP_FEUP2");
+    stops.add("STJ3");
+    stops.add("MPL2");
+
+    store.dispatch(new SetBusStopAction(stops));
+
+    List<BusStop> busStops = new List();
+
+    for(String id in stops){ //é suposto criar aqui as bus stops?
+      BusStop busStop = new BusStop.secConstructor(id);
+
+      List<Trip> trips = new List();
+
+      try{
+        trips = await parseTrips(await NetworkRouter.getNextArrivalsStop(id));
+      }catch(e){
+        print("Failed to get $id information");
+        trips.clear();
+      }
+
+      busStop.newTrips(trips);
+
+      busStops.add(busStop);
+    }
+
+    /*that unit testing tho....*/
+
+
+    store.dispatch(new SetBusStopTripsAction(busStops));
 
     action.complete();
   };
