@@ -12,7 +12,7 @@ class AppBusStopDatabase extends AppDatabase{
     await _insertBusStops(stops);
   }
 
-  Future<List<BusStop>> busStops() async {
+  Future<List<String>> busStops() async {
     // Get a reference to the database
     final Database db = await this.getDatabase();
 
@@ -21,9 +21,7 @@ class AppBusStopDatabase extends AppDatabase{
 
     // Convert the List<Map<String, dynamic> into a List<Dog>.
     return List.generate(maps.length, (i) {
-      return BusStop.secConstructor(
-          maps[i]['id']
-      );
+      return maps[i]['id']; //returns string value in key i
     });
   }
 
