@@ -37,22 +37,13 @@ class BusStopSelectionPage extends SecondaryPageView {
 }
 
 class busStopSearch extends SearchDelegate<String> {
-
   List<String> suggestionsList = new List();
-  final stopList = [
-    "FEUP",
-    "FCUP",
-    "FADEUP",
-    "FMUP",
-    "Campus"
-  ];
-
   List<String> configuredStops;
 
-  busStopSearch(){
+  /*busStopSearch(){
     AppBusStopDatabase db = await AppBusStopDatabase();
     configuredStops = db.busStops();
-  }
+  }*/
 
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -64,8 +55,8 @@ class busStopSearch extends SearchDelegate<String> {
   @override
   Widget buildLeading(BuildContext context) { //Back arrow to go back to menu
     //save selected stops on DB
-    AppBusStopDatabase db = await AppBusStopDatabase();
-    db.saveNewBusStops(configuredStops);
+    /*AppBusStopDatabase db = await AppBusStopDatabase();
+    db.saveNewBusStops(configuredStops);*/
 
     return IconButton(
         icon: AnimatedIcon(
@@ -81,42 +72,26 @@ class busStopSearch extends SearchDelegate<String> {
   @override
   Widget buildResults(BuildContext context) {
     // TODO: implement buildResults
-    return BusStopSelectionPage();
+    return null;
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
+    //this.suggestionsList.clear();
     this.getStops();
     return ListView.builder(
       itemBuilder: (context, index) => ListTile(
         onTap: () {
-          showResults(context);
+          //showResults(context);
         },
         leading: Icon(Icons.directions_bus),
-        title: RichText(text: TextSpan(
-          text: suggestionsList[index].substring(0, query.length),
-          style: TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.bold),
-              children: [
-                TextSpan(
-                  text: suggestionsList[index].substring(query.length),
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.normal
-                  )
-                )
-              ]
-          ),
-        ),
+        title: Text(suggestionsList[index])
       ),
-      itemCount: suggestionsList.length,
+      itemCount: suggestionsList.length-1,
     );
   }
 
   void getStops() async {
     this.suggestionsList = await NetworkRouter.getStopsByName(query);
   }
-
-
 }

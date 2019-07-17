@@ -7,7 +7,7 @@ class AppBusStopDatabase extends AppDatabase{
 
   AppBusStopDatabase():super('busstops.db', 'CREATE TABLE busstops(id TEXT)');
 
-  saveNewBusStops(List<BusStop> stops) async{
+  saveNewBusStops(List<String> stops) async{
     await _deleteBusStops();
     await _insertBusStops(stops);
   }
@@ -25,12 +25,12 @@ class AppBusStopDatabase extends AppDatabase{
     });
   }
 
-  Future<void> _insertBusStops(List<BusStop> stops) async {
+  Future<void> _insertBusStops(List<String> stops) async {
 
-    for (BusStop stop in stops)
+    for (String stop in stops)
       await insertInDatabase(
         'busstops',
-        stop.toMap(),
+        {'stopCode': stop},
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
   }
