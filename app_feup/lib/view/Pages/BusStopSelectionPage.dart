@@ -38,6 +38,7 @@ class BusStopSelectionPage extends SecondaryPageView {
 
 class busStopSearch extends SearchDelegate<String> {
 
+  List<String> suggestionsList = new List();
   final stopList = [
     "FEUP",
     "FCUP",
@@ -85,8 +86,7 @@ class busStopSearch extends SearchDelegate<String> {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    final suggestionsList = await NetworkRouter.getStopsByName(query);
-
+    this.getStops();
     return ListView.builder(
       itemBuilder: (context, index) => ListTile(
         onTap: () {
@@ -113,5 +113,10 @@ class busStopSearch extends SearchDelegate<String> {
       itemCount: suggestionsList.length,
     );
   }
+
+  void getStops() async {
+    this.suggestionsList = await NetworkRouter.getStopsByName(query);
+  }
+
 
 }
