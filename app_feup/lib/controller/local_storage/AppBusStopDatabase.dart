@@ -12,6 +12,21 @@ class AppBusStopDatabase extends AppDatabase{
     await _insertBusStops(stops);
   }
 
+  Future<List<BusStop>> busStops() async {
+    // Get a reference to the database
+    final Database db = await this.getDatabase();
+
+    // Query the table for All The Dogs.
+    final List<Map<String, dynamic>> maps = await db.query('busstops');
+
+    // Convert the List<Map<String, dynamic> into a List<Dog>.
+    return List.generate(maps.length, (i) {
+      return BusStop.secConstructor(
+          maps[i]['id']
+      );
+    });
+  }
+
   Future<void> _insertBusStops(List<BusStop> stops) async {
 
     for (BusStop stop in stops)
