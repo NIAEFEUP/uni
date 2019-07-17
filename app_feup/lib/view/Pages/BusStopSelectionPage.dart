@@ -1,3 +1,4 @@
+import 'package:app_feup/controller/local_storage/AppBusStopDatabase.dart';
 import 'package:app_feup/controller/networking/NetworkRouter.dart';
 import 'package:app_feup/model/AppState.dart';
 import 'package:flutter/material.dart';
@@ -45,6 +46,13 @@ class busStopSearch extends SearchDelegate<String> {
     "Campus"
   ];
 
+  List<String> configuredStops;
+
+  busStopSearch(){
+    AppBusStopDatabase db = await AppBusStopDatabase();
+    configuredStops = db.busStops();
+  }
+
   @override
   List<Widget> buildActions(BuildContext context) {
     return [IconButton(icon: Icon(Icons.clear), onPressed: () {
@@ -53,7 +61,11 @@ class busStopSearch extends SearchDelegate<String> {
   }
 
   @override
-  Widget buildLeading(BuildContext context) {
+  Widget buildLeading(BuildContext context) { //Back arrow to go back to menu
+    //save selected stops on DB
+    AppBusStopDatabase db = await AppBusStopDatabase();
+    db.saveNewBusStops(configuredStops);
+
     return IconButton(
         icon: AnimatedIcon(
           icon: AnimatedIcons.menu_arrow,
@@ -73,7 +85,7 @@ class busStopSearch extends SearchDelegate<String> {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    final suggestionsList = NetworkRouter.getStopsByName(query);
+    final suggestionsList = await NetworkRouter.getStopsByName(query);
 
     return ListView.builder(
       itemBuilder: (context, index) => ListTile(

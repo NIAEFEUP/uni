@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:app_feup/controller/LoadInfo.dart';
+import 'package:app_feup/controller/local_storage/AppBusStopDatabase.dart';
 import 'package:app_feup/controller/local_storage/AppExamsDatabase.dart';
 import 'package:app_feup/controller/local_storage/AppLecturesDatabase.dart';
 import 'package:app_feup/controller/local_storage/AppSharedPreferences.dart';
@@ -248,14 +249,16 @@ ThunkAction<AppState> getUserCoursesState(Completer<Null> action) {
 ThunkAction<AppState> setUserBusStops(Completer<Null> action){
   return(Store<AppState> store) async{
 
-    //onde devo ir buscar a lista de nomes de paragens?
     List<String> stops = new List();
 
     stops.add("STCP_FEUP2");
     stops.add("STJ3");
     stops.add("MPL2");
 
-    store.dispatch(new SetBusStopAction(stops));
+    /*
+    AppBusStopDatabase db = await AppBusStopDatabase();
+    List<String> stops = await db.busStops();
+     */
 
     List<BusStop> busStops = new List();
 
