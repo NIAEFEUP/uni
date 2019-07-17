@@ -14,7 +14,6 @@ import 'package:flutter/material.dart';
 import 'package:app_feup/view/Pages/SplashPageView.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'controller/parsers/ParserTrip.dart';
 import 'view/Theme.dart';
 import 'model/AppState.dart';
 import 'package:redux/redux.dart';

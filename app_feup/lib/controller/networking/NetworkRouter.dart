@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:app_feup/model/entities/CourseUnit.dart';
 import 'package:app_feup/model/entities/Profile.dart';
 import 'package:app_feup/model/entities/Session.dart';
+import 'package:app_feup/model/entities/Trip.dart';
 import 'package:http/http.dart' as http;
 import 'package:query_params/query_params.dart';
 
@@ -85,10 +86,35 @@ class NetworkRouter {
     return http.get(url, headers: headers);
   }
 
-  static Future<http.Response> getNextArrivalsStop(String stop) async {
+  static Future<List<String>> getStopsByName(String stop) async {
+    final String url = "http://move-me.mobi/Find/SearchByStops?keyword=$stop";
+    http.Response response = await http.post(url);
+
+    String stopsString = response.body;
+    List<String> stopsList = stopsString.split(';').toList();
+    return stopsList;
+  }
+
+  static Future<List<Trip>> getNextArrivalsStop(String stop) async {
     final String url = "http://move-me.mobi/NextArrivals/GetScheds?providerName=STCP&stopCode=$stop";
-    Future<http.Response> response = http.get(url);
-    return response;
+    http.Response response = await http.get(url);
+
+    List<Trip> tripList = new List();
+
+    var json = jsonDecode(response.body);
+
+    for (var TripKey in json) {
+      var trip = TripKey['Value'];
+      String line = trip[0];
+      String destination = trip[1];
+      int timeRemaining = int.parse(trip[2]);
+      Trip newTrip = Trip(line:line, destination:destination, timeRemaining:timeRemaining);
+      newTrip.printTrip();
+      tripList.add(newTrip);
+    }
+
+    tripList.sort((a, b) => a.compare(b));
+    return tripList;
   }
 
   static String getBaseUrl(String faculty) {

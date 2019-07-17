@@ -8,7 +8,6 @@ import 'package:app_feup/controller/parsers/ParserSchedule.dart';
 import 'package:app_feup/controller/parsers/ParserPrintBalance.dart';
 import 'package:app_feup/controller/parsers/ParserFees.dart';
 import 'package:app_feup/controller/parsers/ParserCourses.dart';
-import 'package:app_feup/controller/parsers/ParserTrip.dart';
 import 'package:app_feup/model/entities/CourseUnit.dart';
 import 'package:app_feup/model/entities/Exam.dart';
 import 'package:app_feup/model/entities/Lecture.dart';
@@ -266,7 +265,7 @@ ThunkAction<AppState> setUserBusStops(Completer<Null> action){
       List<Trip> trips = new List();
 
       try{
-        trips = await parseTrips(await NetworkRouter.getNextArrivalsStop(id));
+        trips = await NetworkRouter.getNextArrivalsStop(id);
       }catch(e){
         print("Failed to get $id information");
         trips.clear();

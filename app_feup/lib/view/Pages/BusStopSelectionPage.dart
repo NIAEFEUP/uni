@@ -1,3 +1,4 @@
+import 'package:app_feup/controller/networking/NetworkRouter.dart';
 import 'package:app_feup/model/AppState.dart';
 import 'package:flutter/material.dart';
 import '../Pages/SecondaryPageView.dart';
@@ -16,7 +17,7 @@ class BusStopSelectionPage extends SecondaryPageView {
   Widget getBody(BuildContext context) {
     return StoreConnector<AppState, List<dynamic>>(
       converter: (store) => store.state.content['busstops'],
-      builder: (context, exams){
+      builder: (context, busStops){
         return ListView(
             children: <Widget>[
               Text("Current bus stops:"),
@@ -67,20 +68,24 @@ class busStopSearch extends SearchDelegate<String> {
   @override
   Widget buildResults(BuildContext context) {
     // TODO: implement buildResults
-    return null;
+    return BusStopSelectionPage();
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    final suggestionsList = stopList.where((p)=>p.toLowerCase().startsWith(query.toLowerCase())).toList();
+    final suggestionsList = NetworkRouter.getStopsByName(query);
 
     return ListView.builder(
       itemBuilder: (context, index) => ListTile(
+        onTap: () {
+          showResults(context);
+        },
         leading: Icon(Icons.directions_bus),
         title: RichText(text: TextSpan(
           text: suggestionsList[index].substring(0, query.length),
           style: TextStyle(
-              color: Colors.black, fontWeight: FontWeight.bold),
+              color: Colors.black,
+              fontWeight: FontWeight.bold),
               children: [
                 TextSpan(
                   text: suggestionsList[index].substring(query.length),
