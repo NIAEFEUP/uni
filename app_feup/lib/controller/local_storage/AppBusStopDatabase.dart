@@ -6,11 +6,6 @@ class AppBusStopDatabase extends AppDatabase{
 
   AppBusStopDatabase():super('busstops.db', 'CREATE TABLE busstops(stopCode TEXT)');
 
-  saveNewBusStops(List<String> stops) async{
-    await _deleteBusStops();
-    await _insertBusStops(stops);
-  }
-
   Future<List<String>> busStops() async {
     // Get a reference to the database
     final Database db = await this.getDatabase();
@@ -24,12 +19,29 @@ class AppBusStopDatabase extends AppDatabase{
     });
   }
 
+  Future<void> addBusStop(String newStop) async {
+    List<String> stops = await busStops();
+    if(stops.contains(newStop)) {
+      return;
+    }
+    stops.add(newStop);
+    _deleteBusStops();
+    _insertBusStops(stops);
+  }
+
+  Future<void> removeBusStop(String removedStop) async {
+    List<String> stops = await busStops();
+    stops.remove(removedStop);
+    _deleteBusStops();
+    _insertBusStops(stops);
+  }
+
   Future<void> _insertBusStops(List<String> stops) async {
 
     for (String stop in stops)
       await insertInDatabase(
         'busstops',
-        {'stopCode': stop},
+        {'id': stop},
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
   }
@@ -37,7 +49,6 @@ class AppBusStopDatabase extends AppDatabase{
   Future<void> _deleteBusStops() async {
     // Get a reference to the database
     final Database db = await this.getDatabase();
-
     await db.delete('busstops');
   }
 }
