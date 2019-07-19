@@ -1,11 +1,10 @@
 import 'dart:async';
 import 'package:app_feup/controller/local_storage/AppDatabase.dart';
-import 'package:app_feup/model/entities/BusStop.dart';
 import 'package:sqflite/sqflite.dart';
 
 class AppBusStopDatabase extends AppDatabase{
 
-  AppBusStopDatabase():super('busstops.db', 'CREATE TABLE busstops(id TEXT)');
+  AppBusStopDatabase():super('busstops.db', 'CREATE TABLE busstops(stopCode TEXT)');
 
   saveNewBusStops(List<String> stops) async{
     await _deleteBusStops();

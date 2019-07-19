@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class Trip{
   String line;
   String destination;
@@ -20,9 +18,16 @@ class Trip{
     print('$line ($destination) - $timeRemaining');
   }
 
-  String getTrip()
-  {
-    return '$line ($destination) - $timeRemaining';
+  String getLine(){
+    return line;
+  }
+
+  String getDestination(){
+    return destination;
+  }
+
+  String getTimeRemaining(){
+    return timeRemaining.toString();
   }
 
   int compare(Trip other) {

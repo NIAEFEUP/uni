@@ -249,28 +249,27 @@ ThunkAction<AppState> getUserCoursesState(Completer<Null> action) {
 ThunkAction<AppState> setUserBusStops(Completer<Null> action){
   return(Store<AppState> store) async{
 
+    /* dummies for testing
     List<String> stops = new List();
 
     stops.add("STCP_FEUP2");
     stops.add("STJ3");
-    stops.add("MPL2");
+    stops.add("MPL2");*/
 
-    /*
     AppBusStopDatabase db = await AppBusStopDatabase();
     List<String> stops = await db.busStops();
-     */
 
     List<BusStop> busStops = new List();
 
-    for(String id in stops){ //é suposto criar aqui as bus stops?
-      BusStop busStop = new BusStop.secConstructor(id);
+    for(String stopCode in stops){ //é suposto criar aqui as bus stops?
+      BusStop busStop = new BusStop.secConstructor(stopCode);
 
       List<Trip> trips = new List();
 
       try{
-        trips = await NetworkRouter.getNextArrivalsStop(id);
+        trips = await NetworkRouter.getNextArrivalsStop(stopCode);
       }catch(e){
-        print("Failed to get $id information");
+        print("Failed to get $stopCode information");
         trips.clear();
       }
 
@@ -278,9 +277,6 @@ ThunkAction<AppState> setUserBusStops(Completer<Null> action){
 
       busStops.add(busStop);
     }
-
-    /*that unit testing tho....*/
-
 
     store.dispatch(new SetBusStopTripsAction(busStops));
 

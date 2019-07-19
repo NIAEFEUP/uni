@@ -72,12 +72,7 @@ class SetCoursesStatesAction{
   SetCoursesStatesAction(this.coursesStates);
 }
 
-class SetBusStopAction{
-  List<String> stops;
-  SetBusStopAction(this.stops);
-}
-
 class SetBusStopTripsAction{
-  List<BusStop> stops;
-  SetBusStopTripsAction(this.stops);
+  List<BusStop> busStops;
+  SetBusStopTripsAction(this.busStops);
 }

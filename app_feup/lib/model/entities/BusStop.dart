@@ -1,12 +1,12 @@
 import 'package:app_feup/model/entities/Trip.dart';
 
 class BusStop{
-  String id;
+  String stopCode;
 
   List<Trip> trips;
 
-  BusStop.secConstructor(String id){
-    this.id =  id;
+  BusStop.secConstructor(String stopCode){
+    this.stopCode =  stopCode;
 
     trips = new List();
   }
@@ -17,22 +17,15 @@ class BusStop{
 
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
-      //devo adicionar aqui as trips?
+      'stopCode': stopCode,
     };
   }
 
-  @override
-  String toString()
-  {
-    var result = '- $id :';
+  String getStopCode(){
+    return stopCode;
+  }
 
-    for (Trip trip in trips){
-      result += trip.getTrip();
-    }
-
-    result += '---';
-
-    return result;
+  List<Trip> getTrips(){
+    return trips;
   }
 }

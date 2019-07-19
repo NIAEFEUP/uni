@@ -1,3 +1,4 @@
+import 'package:app_feup/view/Widgets/BusStopCard.dart';
 import 'package:app_feup/view/Widgets/ScheduleCard.dart';
 import 'package:app_feup/view/Widgets/HomePageBackButton.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +24,8 @@ class HomePageView extends GeneralPageView {
             ExamCard(),
 
             ScheduleCard(),
+
+            BusStopCard(),
           ],
         ),
     );
