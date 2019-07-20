@@ -15,7 +15,7 @@ class AppBusStopDatabase extends AppDatabase{
 
     // Convert the List<Map<String, dynamic> into a List<Dog>.
     return List.generate(maps.length, (i) {
-      return maps[i]['id']; //returns string value in key i
+      return maps[i]['stopCode']; //returns string value in key i
     });
   }
 
@@ -41,7 +41,7 @@ class AppBusStopDatabase extends AppDatabase{
     for (String stop in stops)
       await insertInDatabase(
         'busstops',
-        {'id': stop},
+        {'stopCode': stop},
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
   }

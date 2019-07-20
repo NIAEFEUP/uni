@@ -15,45 +15,28 @@ class BusStopCard extends StatelessWidget{
   Widget build(BuildContext context) {
     return StoreConnector<AppState, List<dynamic>>(
       converter: (store) => store.state.content['busstops'],
-      builder: (context, busStops){
+      builder: (context, busstops){
         return GenericCard(
             title: "Paragens",
             func: () => Navigator.pushReplacementNamed(context, '/Próximas viagens'),
-            child: getCardContent(context, busStops)
+            child: getCardContent(context, busstops)
         );
       },
     );
   }
 
   Widget getCardContent(BuildContext context, busStops){
-    switch (StoreProvider.of<AppState>(context).state.content['busstops']){
-      case RequestStatus.SUCCESSFUL:
-        return busStops.length >= 1 ?
+    if (busStops.length >= 1)
+      return
           Container(
               child: new Column(
                 mainAxisSize: MainAxisSize.min,
                 children: this.getBusStopRows(context, busStops),
-              ))
-
-            : Center(
+              ));
+    else
+      return Center(
                 child: Text("No stops to show at the moment"),
-            );
-      case RequestStatus.BUSY:
-        return Center(child: CircularProgressIndicator());
-        break;
-      case RequestStatus.FAILED:
-        if(busStops.length != 0)
-          return Container(
-              child: new Column(
-                mainAxisSize: MainAxisSize.min,
-                children: this.getBusStopRows(context, busStops),
-              )
-          );
-        else return Center(child: Text("Comunication error. Please check your internet connection."));
-        break;
-      default:
-        return Container();
-    }
+             );
   }
 
   List<Widget> getBusStopRows(context, busStops){
