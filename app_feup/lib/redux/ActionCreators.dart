@@ -248,7 +248,7 @@ ThunkAction<AppState> getUserCoursesState(Completer<Null> action) {
 
 ThunkAction<AppState> setUserBusStops(Completer<Null> action){
   return(Store<AppState> store) async{
-    
+
     /* dummies for testing
     List<String> stops = new List();
 

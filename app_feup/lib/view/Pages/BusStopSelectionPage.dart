@@ -18,7 +18,7 @@ class BusStopSelectionPage extends SecondaryPageView {
     this.getDatabase();
   }
 
-  Future<AppBusStopDatabase> getDatabase() async {
+  Future<void> getDatabase() async {
     db = await AppBusStopDatabase();
   }
 
@@ -61,7 +61,6 @@ class BusStopSelectionPage extends SecondaryPageView {
                               onPressed: () {
                                 db.removeBusStop(configuredStops[i]);
                                 updateConfiguredStops();
-                                BusStopSelectionPage();
                               },
                             )
                             ]
@@ -127,7 +126,8 @@ class busStopSearch extends SearchDelegate<String> {
     return ListView.builder(
       itemBuilder: (context, index) => ListTile(
           onTap: () {
-            db.addBusStop(suggestionsList[index].splitMapJoin(RegExp(r"\[[A-Z0-9]+\]")));
+            db.addBusStop(suggestionsList[index].splitMapJoin(RegExp(r"\[[A-Z0-9_]+\]"), onMatch: (m) => '${m.group(0)}', onNonMatch: (m) => ''));
+            Navigator.pop(context);
           },
           leading: Icon(Icons.directions_bus),
           title: Text(suggestionsList[index])
