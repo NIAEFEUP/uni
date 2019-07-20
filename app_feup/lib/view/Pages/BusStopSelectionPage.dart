@@ -126,7 +126,7 @@ class busStopSearch extends SearchDelegate<String> {
     return ListView.builder(
       itemBuilder: (context, index) => ListTile(
           onTap: () {
-            db.addBusStop(suggestionsList[index].splitMapJoin(RegExp(r"\[[A-Z0-9_]+\]"), onMatch: (m) => '${m.group(0)}', onNonMatch: (m) => ''));
+            db.addBusStop(suggestionsList[index].splitMapJoin(RegExp(r"\[[A-Z0-9_]+\]"), onMatch: (m) => '${m.group(0).substring(1, m.group(0).length-1)}', onNonMatch: (m) => ''));
             Navigator.pop(context);
           },
           leading: Icon(Icons.directions_bus),
