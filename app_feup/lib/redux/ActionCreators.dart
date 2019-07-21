@@ -7,7 +7,7 @@ import 'package:app_feup/controller/parsers/parser-fees.dart';
 import 'package:app_feup/model/entities/Session.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import '../model/AppState.dart';
-import 'actions.dart';
+import 'Actions.dart';
 import 'package:redux/redux.dart';
 import 'package:app_feup/controller/networking/NetworkRouter.dart';
 import 'package:app_feup/model/LoginPageModel.dart';

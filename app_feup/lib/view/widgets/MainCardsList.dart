@@ -1,6 +1,6 @@
 import 'package:app_feup/model/AppState.dart';
 import 'package:app_feup/model/HomePageModel.dart';
-import 'package:app_feup/redux/actions.dart';
+import 'package:app_feup/redux/Actions.dart';
 import 'package:app_feup/view/widgets/ExamCard.dart';
 import 'package:app_feup/view/widgets/GenericCard.dart';
 import 'package:app_feup/view/widgets/ScheduleCard.dart';

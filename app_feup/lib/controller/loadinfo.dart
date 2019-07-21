@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:app_feup/redux/actionCreators.dart';
+import 'package:app_feup/redux/ActionCreators.dart';
 import 'package:app_feup/redux/RefreshItemsAction.dart';
 
 Future loadUserInfoToState(store){
