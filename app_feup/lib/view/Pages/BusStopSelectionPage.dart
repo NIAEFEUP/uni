@@ -133,6 +133,7 @@ class busStopSearch extends SearchDelegate<String> {
 
   @override
   Widget buildResults(BuildContext context) {
+    db.addBusStop(query);
     return Container();
   }
 
