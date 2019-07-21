@@ -17,7 +17,7 @@ class BusStopRow extends StatelessWidget{
   Widget build(BuildContext context) {
     return new Center(
         child: new Container(
-          padding: EdgeInsets.only(left: 12.0, bottom: 8.0),
+          padding: EdgeInsets.only(bottom: 8.0),
           margin: EdgeInsets.only(top: 8.0),
           child: new Column(
             mainAxisSize: MainAxisSize.max,
@@ -33,8 +33,7 @@ class BusStopRow extends StatelessWidget{
 
     rows.add(
         new Container(
-          child: Text(this.busStop.getStopCode(),style: Theme.of(context).textTheme.display1.apply(color: greyTextColor)),
-          margin: EdgeInsets.only(top: 22.0, bottom: 8.0),
+          child: Text(this.busStop.getStopCode().substring(5),style: Theme.of(context).textTheme.display1.apply(color: primaryColor)),
     ));
 
     for(int i = 0; i < nextTrips.length; i++){
@@ -44,10 +43,9 @@ class BusStopRow extends StatelessWidget{
   }
 
   Widget createRowFromTrips(context, Trip nextTrip) {
-    return new Row(children : [
-        new TripRow(
-            trip : nextTrip
-        ),
-    ]);
+    return new TripRow(
+            trip : nextTrip,
+            stopCode: this.busStop.getStopCode()
+        );
   }
 }

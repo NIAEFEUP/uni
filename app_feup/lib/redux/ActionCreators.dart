@@ -262,25 +262,25 @@ ThunkAction<AppState> setUserBusStops(Completer<Null> action){
     List<BusStop> busStops = new List();
 
     // second dummies for testing
-    var trip1 = new Trip(line : '201', destination : 'Destino 1', timeRemaining: 4);
+   /* var trip1 = new Trip(line : '201', destination : 'Destino 1', timeRemaining: 4);
     var trip2 = new Trip(line :'1M', destination :'Destino 1 e tal', timeRemaining : 16);
     var trip3 = new Trip(line : '391', destination : 'OUtro destino com nome grande', timeRemaining : 8);
      List<Trip> trips = new List();
      trips.add(trip1);
      trips.add(trip2);
      trips.add(trip3);
-
+*/
 
     for(String stopCode in stops){ //é suposto criar aqui as bus stops?
       BusStop busStop = new BusStop.secConstructor(stopCode);
 
-      /*List<Trip> trips = new List();
+      List<Trip> trips = new List();
 
       try{
         trips = await NetworkRouter.getNextArrivalsStop(stopCode);
       }catch(e){
         print("Failed to get $stopCode information");
-      }*/
+      }
 
       busStop.newTrips(trips);
 

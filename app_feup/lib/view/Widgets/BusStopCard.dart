@@ -7,7 +7,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 
 class BusStopCard extends StatelessWidget{
 
-  final double padding = 4.0;
+  final double padding = 8.0;
 
   BusStopCard({Key key}) : super(key: key);
 
@@ -29,6 +29,7 @@ class BusStopCard extends StatelessWidget{
     if (busStops.length >= 1)
       return
           Container(
+              padding: EdgeInsets.all(padding),
               child: new Column(
                 mainAxisSize: MainAxisSize.min,
                 children: this.getBusStopRows(context, busStops),
