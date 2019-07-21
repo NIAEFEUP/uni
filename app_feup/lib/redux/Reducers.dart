@@ -30,6 +30,10 @@ AppState appReducers(AppState state, dynamic action) {
     return setCoursesState(state, action);
   } else if(action is SetBusStopTripsAction){
     return setBusStopTrips(state, action);
+  } else if(action is SetBusStopStatusAction){
+    return setBusStopStatus(state, action);
+  } else if(action is SetBusStopTimeStampAction){
+    return setBusStopTimeStamp(state, action);
   }
   return state;
 }
@@ -100,4 +104,14 @@ AppState setCoursesState(AppState state, SetCoursesStatesAction action) {
 AppState setBusStopTrips(AppState state, SetBusStopTripsAction action) {
   print('setting bus stops: ' + action.busStops.toString());
   return state.cloneAndUpdateValue("busstops", action.busStops);
+}
+
+AppState setBusStopStatus(AppState state, SetBusStopStatusAction action) {
+  print('setting bus stop status: ' + action.status.toString());
+  return state.cloneAndUpdateValue('busstopStatus', action.status);
+}
+
+AppState setBusStopTimeStamp(AppState state, SetBusStopTimeStampAction action){
+  print('setting bus stop time stamp: ' + action.timeStamp.toString());
+  return state.cloneAndUpdateValue('timeStamp', action.timeStamp);
 }

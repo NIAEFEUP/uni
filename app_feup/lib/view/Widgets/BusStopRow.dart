@@ -36,9 +36,18 @@ class BusStopRow extends StatelessWidget{
           child: Text(this.busStop.getStopCode().substring(5),style: Theme.of(context).textTheme.display1.apply(color: primaryColor)),
     ));
 
-    for(int i = 0; i < nextTrips.length; i++){
-      rows.add(this.createRowFromTrips(context, nextTrips[i]));
+    if(nextTrips.length == 0){
+      rows.add(
+        new Container(
+          child: Text("No planned arrivals at the moment",style: Theme.of(context).textTheme.display1.apply(color: black)),
+        )
+      );
+    }else{
+      for(int i = 0; i < nextTrips.length; i++){
+        rows.add(this.createRowFromTrips(context, nextTrips[i]));
+      }
     }
+
     return rows;
   }
 

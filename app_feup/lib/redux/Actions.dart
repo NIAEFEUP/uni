@@ -76,3 +76,13 @@ class SetBusStopTripsAction{
   List<BusStop> busStops;
   SetBusStopTripsAction(this.busStops);
 }
+
+class SetBusStopStatusAction{
+  RequestStatus status;
+  SetBusStopStatusAction(this.status);
+}
+
+class SetBusStopTimeStampAction{
+  DateTime timeStamp;
+  SetBusStopTimeStampAction(this.timeStamp);
+}

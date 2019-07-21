@@ -18,6 +18,8 @@ class AppState {
       "selected_page": "Área Pessoal",
       "session": new Session(authenticated: false),
       "busstops": [],
+      "busstopStatus" : RequestStatus.NONE,
+      "timeStamp" : new DateTime.now(),
     };
   }
 

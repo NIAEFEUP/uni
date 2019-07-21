@@ -7,6 +7,7 @@ const Color greyTextColor = Color.fromARGB(255, 0x46, 0x46, 0x46);
 const Color whiteTextColor = Color.fromARGB(255, 255, 255, 255);
 const Color bodyTitle = Color.fromARGB(255, 131, 131, 131);
 const Color greyBorder = Color.fromARGB(64, 0x46, 0x46, 0x46);
+const Color black = Color.fromARGB(255, 0x00, 0x00, 0x00);
 
 const Color divider = Color.fromARGB(235, 235, 235, 255);
 const Color hintColor = Colors.white;

@@ -1,8 +1,11 @@
 import 'package:app_feup/view/Widgets/GenericCard.dart';
 import '../../model/AppState.dart';
 import 'package:flutter/material.dart';
+import '../Theme.dart';
 import 'BusStopRow.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+
+import 'BusStopTimeStampRow.dart';
 
 
 class BusStopCard extends StatelessWidget{
@@ -25,25 +28,60 @@ class BusStopCard extends StatelessWidget{
     );
   }
 
-  Widget getCardContent(BuildContext context, busStops){
+  Widget getCardContent(BuildContext context, busStops) {
+    switch (StoreProvider.of<AppState>(context).state.content['busstopStatus']) {
+      case RequestStatus.SUCCESSFUL:
+        return this.getBusStopInfo(context, busStops);
+        /*if (busStops.length >= 1)
+          return
+            Container(
+                padding: EdgeInsets.all(padding),
+                child: new Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: this.getBusStopRows(context, busStops),
+                ));
+        else
+          return
+            Center(
+              child: Text("No stops to show at the moment"),
+            );*/
+        break;
+      case RequestStatus.BUSY:
+        return Center(child: CircularProgressIndicator());
+        break;
+      case RequestStatus.FAILED:
+        return Column(
+          children : <Widget> [
+            Text("Failed to get new information", style: Theme.of(context).textTheme.display1.apply(color: primaryColor)),
+            this.getBusStopInfo(context, busStops),
+          ]
+        );
+        break;
+    }
+  }
+
+  Widget getBusStopInfo(context, busStops){
     if (busStops.length >= 1)
       return
-          Container(
-              padding: EdgeInsets.all(padding),
-              child: new Column(
-                mainAxisSize: MainAxisSize.min,
-                children: this.getBusStopRows(context, busStops),
-              ));
+        Container(
+            padding: EdgeInsets.all(padding),
+            child: new Column(
+              mainAxisSize: MainAxisSize.min,
+              children: this.getBusStopRows(context, busStops),
+            ));
     else
-      return Center(
-                child: Text("No stops to show at the moment"),
-             );
+      return
+        Center(
+          child: Text("No stops to show at the moment"),
+        );
   }
 
   List<Widget> getBusStopRows(context, busStops){
     List<Widget> rows = new List<Widget>();
+    var size = busStops.length;
+    print('PASSA POR AQUI $size');
 
-    //rows.add(this.createTimeLapseRow(context));
+    rows.add(new BusStopTimeStampRow());
 
     for(int i = 0; i < busStops.length; i++){
       rows.add(this.createRowFromBusStop(context, busStops[i]));
