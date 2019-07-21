@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:app_feup/controller/local_storage/AppBusStopDatabase.dart';
 import 'package:app_feup/controller/networking/NetworkRouter.dart';
@@ -11,10 +12,30 @@ class BusStopSelectionPage extends SecondaryPageView {
 
   final double borderRadius = 15.0;
   final DateTime now = new DateTime.now();
+
+  BusStopSelectionPage({Key key});
+
+  @override
+  Widget getBody(BuildContext context) {
+    return StoreConnector<AppState, List<dynamic>>(
+      converter: (store) => store.state.content['busstops'],
+      builder: (context, busStops) {
+        return stopsListing();
+      },
+    );
+  }
+}
+
+class stopsListing extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _stopsListingState();
+}
+
+class _stopsListingState extends State<stopsListing>{
   List<String> configuredStops = new List();
   AppBusStopDatabase db;
 
-  BusStopSelectionPage({Key key}) {
+  _stopsListingState() {
     this.getDatabase();
   }
 
@@ -37,49 +58,45 @@ class BusStopSelectionPage extends SecondaryPageView {
   }
 
   @override
-  Widget getBody(BuildContext context) {
-    return StoreConnector<AppState, List<dynamic>>(
-      converter: (store) => store.state.content['busstops'],
-      builder: (context, busStops) {
-        return ListView(
-            children: <Widget>[
-              Text("Current bus stops:"),
-              IconButton(
-                icon: Icon(Icons.ac_unit),
-                onPressed: () {
-                  db.addBusStop("STCP_FEUP1");
-                }
-              ),
-              Column(
-                      mainAxisSize: MainAxisSize.max,
-                      children: List.generate(getConfiguredStops().length, (i) {
-                        return Row(
-                          children: <Widget>[
-                            getConfiguredStops()[i],
-                            IconButton(
-                              icon: Icon(Icons.cancel),
-                              onPressed: () {
-                                db.removeBusStop(configuredStops[i]);
-                                updateConfiguredStops();
-                              },
-                            )
-                            ]
-                          );
-                      })
-              ),
-              Align(
-                alignment: Alignment.center,
-                child: RaisedButton(
-                    child: Text("Add Stop"),
-                    onPressed: () {
-                      showSearch(context: context, delegate: busStopSearch());
-                    }
-                )
+  Widget build(BuildContext context) {
+    this.updateConfiguredStops();
+    return ListView(
+        children: <Widget>[
+          Text("Current bus stops:"),
+          IconButton(
+              icon: Icon(Icons.ac_unit),
+              onPressed: () {
+                db.addBusStop("STCP_FEUP1");
+              }
+          ),
+          Column(
+              mainAxisSize: MainAxisSize.max,
+              children: List.generate(getConfiguredStops().length, (i) {
+                return Row(
+                    children: <Widget>[
+                      getConfiguredStops()[i],
+                      IconButton(
+                        icon: Icon(Icons.cancel),
+                        onPressed: () {
+                          db.removeBusStop(configuredStops[i]);
+                          updateConfiguredStops();
+                        },
+                      )
+                    ]
+                );
+              })
+          ),
+          Align(
+              alignment: Alignment.center,
+              child: RaisedButton(
+                  child: Text("Add Stop"),
+                  onPressed: () {
+                    showSearch(context: context, delegate: busStopSearch());
+                  }
               )
+          )
 
         ]
-        );
-      },
     );
   }
 }
@@ -121,7 +138,6 @@ class busStopSearch extends SearchDelegate<String> {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    //this.suggestionsList.clear();
     this.getStops();
     return ListView.builder(
       itemBuilder: (context, index) => ListTile(
@@ -132,7 +148,7 @@ class busStopSearch extends SearchDelegate<String> {
           leading: Icon(Icons.directions_bus),
           title: Text(suggestionsList[index])
       ),
-      itemCount: suggestionsList.length-1,
+      itemCount: min(suggestionsList.length-1,9),
     );
   }
 
