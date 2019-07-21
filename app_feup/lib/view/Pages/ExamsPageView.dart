@@ -44,15 +44,16 @@ class ExamsPageView extends SecondaryPageView {
     return this.createExamsColumn(context, currentExams);
   }
   List<Widget> createExamsColumn(context, exams){
+
+    if(exams.length == 1){
+      return [this.createExamCard(context, [exams[0]])];
+    }
+
     List<Widget> columns = new List<Widget>();
     List<Exam> currentDayExams = new List<Exam>();
+
     for(int i = 0; i < exams.length; i++)
     {
-      if(i == 0 && i + 1 == exams.length){
-        currentDayExams.add(exams[i]);
-        columns.add(this.createExamCard(context, currentDayExams));
-        break;
-      }
       if (i + 1 >= exams.length){
         if(exams[i].day == exams[i - 1].day && exams[i].month == exams[i - 1].month) {
           currentDayExams.add(exams[i]);
