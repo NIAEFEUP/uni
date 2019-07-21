@@ -32,19 +32,6 @@ class BusStopCard extends StatelessWidget{
     switch (StoreProvider.of<AppState>(context).state.content['busstopStatus']) {
       case RequestStatus.SUCCESSFUL:
         return this.getBusStopInfo(context, busStops);
-        /*if (busStops.length >= 1)
-          return
-            Container(
-                padding: EdgeInsets.all(padding),
-                child: new Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: this.getBusStopRows(context, busStops),
-                ));
-        else
-          return
-            Center(
-              child: Text("No stops to show at the moment"),
-            );*/
         break;
       case RequestStatus.BUSY:
         return Center(child: CircularProgressIndicator());

@@ -32,14 +32,12 @@ class BusStopTimeStampRow extends StatelessWidget{
       minute = '0$num';
     else minute = '$num';
 
-    return new Center(
-      child: new Row(
+    return new Row(
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.center,
         children : [
           Text('Last refreshed at $hour:$minute',style: Theme.of(context).textTheme.display1.apply(color: black))
         ]
-      ),
     );
   }
 

@@ -249,19 +249,20 @@ ThunkAction<AppState> getUserCoursesState(Completer<Null> action) {
 ThunkAction<AppState> setUserBusStops(Completer<Null> action){
   return(Store<AppState> store) async{
     try {
-      store.dispatch(new SetScheduleStatusAction(RequestStatus.BUSY));
+      store.dispatch(new SetBusStopStatusAction(RequestStatus.BUSY));
 
-      //dummies for testing
+      AppBusStopDatabase db = await AppBusStopDatabase();
       List<String> stops = new List();
 
-      stops.add('STCP_FEUP2');
+      //dummies for testing
+
+    /*  stops.add('STCP_FEUP2');
       stops.add('STCP_STJ3');
       stops.add('STCP_MPL2');
 
-      AppBusStopDatabase db = await AppBusStopDatabase();
       db.addBusStop(stops[0]);
       db.addBusStop(stops[1]);
-      db.addBusStop(stops[2]);
+      db.addBusStop(stops[2]);*/
 
       stops = await db.busStops();
 
