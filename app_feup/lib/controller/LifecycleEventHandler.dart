@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:app_feup/controller/loadinfo.dart';
+import 'package:app_feup/controller/LoadInfo.dart';
 import 'package:redux/redux.dart';
 import 'package:app_feup/model/AppState.dart';
 

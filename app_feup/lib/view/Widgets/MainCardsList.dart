@@ -1,11 +1,13 @@
 import 'package:app_feup/model/AppState.dart';
 import 'package:app_feup/model/HomePageModel.dart';
 import 'package:app_feup/redux/Actions.dart';
-import 'package:app_feup/view/widgets/ExamCard.dart';
-import 'package:app_feup/view/widgets/GenericCard.dart';
-import 'package:app_feup/view/widgets/ScheduleCard.dart';
+import 'package:app_feup/view/Widgets/ExamCard.dart';
+import 'package:app_feup/view/Widgets/GenericCard.dart';
+import 'package:app_feup/view/Widgets/ScheduleCard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+
+import 'HomePageBackButton.dart';
 
 class MainCardsList extends StatefulWidget {
   @override
@@ -19,7 +21,10 @@ class _MainCardsList extends State<MainCardsList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: createScrollableCardView(context),
+        body: HomePageBackButton(
+          context: context,
+          child:  createScrollableCardView(context),
+        ),
         floatingActionButton: this.editingMode ? createActionButton(context) : null,
     );
   }

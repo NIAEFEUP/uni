@@ -2,7 +2,6 @@ import 'package:app_feup/view/Theme.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:app_feup/redux/ActionCreators.dart';
 import 'package:app_feup/model/AppState.dart';
 
 class NavigationDrawer extends StatefulWidget {
@@ -22,17 +21,17 @@ class NavigationDrawerState extends State<NavigationDrawer> {
     "Mapa de Exames",
     "Parques",
     "Mapa FEUP",
+    "About",
   ];
 
   _onSelectItem(int index) {
 
     var prev = StoreProvider.of<AppState>(context).state.content["selected_page"];
-    StoreProvider.of<AppState>(context).dispatch(updateSelectedPage(drawerItems[index]));
 
     Navigator.of(context).pop();
 
     if (prev != drawerItems[index])  // If not already in selected page
-      Navigator.pushReplacementNamed(context, '/' + StoreProvider.of<AppState>(context).state.content["selected_page"]);
+      Navigator.pushReplacementNamed(context, '/' + drawerItems[index]);
   }
 
   _buildBorder(name) {

@@ -1,12 +1,12 @@
+import 'package:app_feup/model/entities/Exam.dart';
 import 'package:flutter/material.dart';
-import '../Pages/GeneralPageView.dart';
+import '../Pages/SecondaryPageView.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import '../widgets/TitleCard.dart';
+import '../Widgets/TitleCard.dart';
 import '../../model/AppState.dart';
-import '../../controller/parsers/parser-exams.dart';
-import '../widgets/ScheduleRow.dart';
+import '../Widgets/ScheduleRow.dart';
 
-class ExamsPageView extends GeneralPageView {
+class ExamsPageView extends SecondaryPageView {
 
   final double borderRadius = 15.0;
   final DateTime now = new DateTime.now();
@@ -44,8 +44,14 @@ class ExamsPageView extends GeneralPageView {
     return this.createExamsColumn(context, currentExams);
   }
   List<Widget> createExamsColumn(context, exams){
+
+    if(exams.length == 1){
+      return [this.createExamCard(context, [exams[0]])];
+    }
+
     List<Widget> columns = new List<Widget>();
     List<Exam> currentDayExams = new List<Exam>();
+
     for(int i = 0; i < exams.length; i++)
     {
       if (i + 1 >= exams.length){

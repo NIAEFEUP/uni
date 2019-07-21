@@ -1,11 +1,11 @@
+import 'package:app_feup/model/entities/Lecture.dart';
 import 'package:flutter/material.dart';
-import '../Pages/GeneralPageView.dart';
-import 'package:app_feup/controller/parsers/parser-schedule.dart';
+import '../Pages/SecondaryPageView.dart';
 import 'package:app_feup/model/AppState.dart';
-import 'package:app_feup/view/widgets/ScheduleSlot.dart';
+import 'package:app_feup/view/Widgets/ScheduleSlot.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
-class SchedulePageView extends GeneralPageView {
+class SchedulePageView extends SecondaryPageView {
 
   SchedulePageView(
     {Key key,
