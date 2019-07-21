@@ -15,22 +15,22 @@ class SetLoginStatusAction {
   SetLoginStatusAction(this.status);
 }
 
-class SetExamsAction{
+class SetExamsAction {
   List<Exam> exams;
   SetExamsAction(this.exams);
 }
 
-class SetExamsStatusAction{
+class SetExamsStatusAction {
   RequestStatus status;
   SetExamsStatusAction(this.status);
 }
 
-class SetScheduleAction{
+class SetScheduleAction {
   List<Lecture> lectures;
   SetScheduleAction(this.lectures);
 }
 
-class SetScheduleStatusAction{
+class SetScheduleStatusAction {
   RequestStatus status;
   SetScheduleStatusAction(this.status);
 }
@@ -38,6 +38,10 @@ class SetScheduleStatusAction{
 class UpdateSelectedPageAction {
   String selected_page;
   UpdateSelectedPageAction(this.selected_page);
+}
+
+class SetInitialStoreStateAction {
+  SetInitialStoreStateAction();
 }
 
 class SaveProfileAction {
@@ -60,12 +64,12 @@ class SetFeesBalanceAction {
   SetFeesBalanceAction(this.feesBalance);
 }
 
-class SetFeesLimitAction{
+class SetFeesLimitAction {
   String feesLimit;
   SetFeesLimitAction(this.feesLimit);
 }
 
-class SetCoursesStatesAction{
+class SetCoursesStatesAction {
   Map<String, String> coursesStates;
   SetCoursesStatesAction(this.coursesStates);
 }

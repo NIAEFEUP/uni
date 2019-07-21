@@ -35,5 +35,4 @@ class Session {
     this.persistentSession = true;
     this.password = password;
   }
-
 }

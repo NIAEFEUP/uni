@@ -32,7 +32,6 @@ class GenericCard extends StatelessWidget {
               children: <Widget>[
                 new Container(
                   child: Text(title, style: Theme.of(context).textTheme.title),
-                  height: 26,
                   alignment: Alignment.centerLeft,
                   padding: EdgeInsets.fromLTRB(20, 4, 0, 4),
                 ),

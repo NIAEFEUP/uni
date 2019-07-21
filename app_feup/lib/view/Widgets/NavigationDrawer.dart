@@ -12,7 +12,6 @@ class NavigationDrawer extends StatefulWidget {
 }
 
 class NavigationDrawerState extends State<NavigationDrawer> {
-
   static final drawerItems = [
     "Área Pessoal",
     "Horário",
@@ -21,56 +20,57 @@ class NavigationDrawerState extends State<NavigationDrawer> {
     "Mapa de Exames",
     "Parques",
     "Mapa FEUP",
-    "About",
+    "Sobre",
+    "Terminar sessão",
   ];
 
   _onSelectItem(int index) {
-
-    var prev = StoreProvider.of<AppState>(context).state.content["selected_page"];
+    var prev =
+        StoreProvider.of<AppState>(context).state.content["selected_page"];
 
     Navigator.of(context).pop();
 
-    if (prev != drawerItems[index])  // If not already in selected page
+    if (prev != drawerItems[index]) // If not already in selected page
       Navigator.pushReplacementNamed(context, '/' + drawerItems[index]);
   }
 
   _buildBorder(name) {
-    return (name == StoreProvider.of<AppState>(context).state.content["selected_page"])?  (const BoxDecoration( border: Border( bottom: BorderSide(width: 5.0, color: primaryColor)))) : null;
+    return (name ==
+            StoreProvider.of<AppState>(context).state.content["selected_page"])
+        ? (const BoxDecoration(
+            border:
+                Border(bottom: BorderSide(width: 5.0, color: primaryColor))))
+        : null;
   }
 
-  Widget createSearchInputField()
-  {
+  Widget createSearchInputField() {
     return new ListTile(
-        title:
-        new Padding (
-            padding: const EdgeInsets.only(bottom: 20.0,),
-            child: new Row (
-                children: <Widget> [
-                  new Flexible (
-                    child: new TextField (
-                        decoration: new InputDecoration(
-                            hintText: "Pesquisa..."
-                        ),
-                    ),
-                  ),
-                ]
-            )
-        )
-    );
+        title: new Padding(
+            padding: const EdgeInsets.only(
+              bottom: 20.0,
+            ),
+            child: new Row(children: <Widget>[
+              new Flexible(
+                child: new TextField(
+                  decoration: new InputDecoration(hintText: "Pesquisa..."),
+                ),
+              ),
+            ])));
   }
 
   Widget createDrawerNavigationOption(String d, int i) {
     return new ListTile(
-      title:
-      new Row(
+      title: new Row(
         children: <Widget>[
           new Container(
             decoration: _buildBorder(d),
-            child: new Text(d, style: TextStyle(fontSize: 24.0, color: primaryColor)),
+            child: new Text(d,
+                style: TextStyle(fontSize: 24.0, color: primaryColor)),
           ),
         ],
       ),
-      selected: d == StoreProvider.of<AppState>(context).state.content["selected_page"],
+      selected: d ==
+          StoreProvider.of<AppState>(context).state.content["selected_page"],
       onTap: () => _onSelectItem(i),
     );
   }
@@ -86,12 +86,11 @@ class NavigationDrawerState extends State<NavigationDrawer> {
     }
 
     return new Drawer(
-        child: new Padding (
-          padding: EdgeInsets.all(20.0),
-          child: new ListView(
-            children: drawerOptions,
-          ),
-        )
-    );
+        child: new Padding(
+      padding: EdgeInsets.all(20.0),
+      child: new ListView(
+        children: drawerOptions,
+      ),
+    ));
   }
 }

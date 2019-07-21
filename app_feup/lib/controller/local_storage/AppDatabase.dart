@@ -16,19 +16,18 @@ class AppDatabase {
   }
 
   Future<Database> getDatabase() async {
-    if (_db == null)
-      _db = await initializeDatabase();
+    if (_db == null) _db = await initializeDatabase();
     return _db;
   }
 
   insertInDatabase(String table, Map<String, dynamic> values,
-      {String nullColumnHack, ConflictAlgorithm conflictAlgorithm}) async{
+      {String nullColumnHack, ConflictAlgorithm conflictAlgorithm}) async {
+    lock.synchronized(() async {
+      Database db = await getDatabase();
 
-      lock.synchronized(() async {
-        Database db = await getDatabase();
-
-        db.insert(table, values, nullColumnHack: nullColumnHack, conflictAlgorithm: conflictAlgorithm);
-      });
+      db.insert(table, values,
+          nullColumnHack: nullColumnHack, conflictAlgorithm: conflictAlgorithm);
+    });
   }
 
   Future<Database> initializeDatabase() async {
@@ -37,11 +36,19 @@ class AppDatabase {
     String path = directory.path + this.name;
 
     // Open or create the database at the given path
-    var appFeupDatabase = await openDatabase(path, version: 1, onCreate: _createDatabase);
+    var appFeupDatabase =
+        await openDatabase(path, version: 1, onCreate: _createDatabase);
     return appFeupDatabase;
   }
 
   void _createDatabase(Database db, int newVersion) async {
     await db.execute(command);
+  }
+
+  static removeDatabase(String name) async {
+    Directory directory = await getApplicationDocumentsDirectory();
+    String path = directory.path + name;
+
+    await deleteDatabase(path);
   }
 }

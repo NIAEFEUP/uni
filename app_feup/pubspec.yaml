@@ -15,7 +15,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+  flutter_svg: ^0.13.1
   html: ^0.13.3+3
   flutter_redux: ^0.5.2
   redux_thunk: ^0.2.1
@@ -27,8 +27,7 @@ dependencies:
   path_provider: any
   sqflite: ^1.1.0
   path: ^1.6.2
-  cached_network_image: "^0.6.0"
-  flutter_svg: ^0.11.0+1
+  cached_network_image: "^0.8.0"
   synchronized: ^2.1.0
 
   # The following adds the Cupertino Icons font to your application.

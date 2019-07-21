@@ -6,7 +6,7 @@ AppState appReducers(AppState state, dynamic action) {
     return login(state, action);
   } else if (action is SetLoginStatusAction) {
     return setLoginStatus(state, action);
-  } else if(action is UpdateSelectedPageAction) {
+  } else if (action is UpdateSelectedPageAction) {
     return updateSelectedPageStatus(state, action);
   } else if (action is SetExamsAction) {
     return setExams(state, action);
@@ -20,19 +20,22 @@ AppState appReducers(AppState state, dynamic action) {
     return saveProfile(state, action);
   } else if (action is SaveUcsAction) {
     return saveCurrUcs(state, action);
-  } else if(action is SetPrintBalanceAction) {
+  } else if (action is SetPrintBalanceAction) {
     return setPrintBalance(state, action);
-  } else if(action is SetFeesBalanceAction) {
+  } else if (action is SetFeesBalanceAction) {
     return setFeesBalance(state, action);
-  } else if(action is SetFeesLimitAction) {
+  } else if (action is SetFeesLimitAction) {
     return setFeesLimit(state, action);
-  } else if(action is SetCoursesStatesAction){
+  } else if (action is SetCoursesStatesAction) {
     return setCoursesState(state, action);
+  } else if (action is SetInitialStoreStateAction) {
+    return setInitialStoreState(state, action);
   }
   return state;
 }
 
-AppState updateSelectedPageStatus(AppState state, UpdateSelectedPageAction action) {
+AppState updateSelectedPageStatus(
+    AppState state, UpdateSelectedPageAction action) {
   print('updating selected page: ' + action.selected_page);
   return state.cloneAndUpdateValue("selected_page", action.selected_page);
 }
@@ -93,4 +96,10 @@ AppState setFeesLimit(AppState state, SetFeesLimitAction action) {
 AppState setCoursesState(AppState state, SetCoursesStatesAction action) {
   print('setting courses state: ' + action.coursesStates.toString());
   return state.cloneAndUpdateValue("coursesStates", action.coursesStates);
+}
+
+AppState setInitialStoreState(
+    AppState state, SetInitialStoreStateAction action) {
+  print('setting initial store state');
+  return state.getInitialState();
 }
