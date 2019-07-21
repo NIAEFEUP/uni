@@ -16,8 +16,21 @@ class BusStopTimeStampRow extends StatelessWidget{
   }
 
   Widget getContent(BuildContext context, timeStamp) {
-    int hour = timeStamp.hour;
-    int minute = timeStamp.minute;
+    String hour;
+    String minute;
+    int num;
+
+    num = timeStamp.hour;
+
+    if(num < 10)
+      hour = '0$num';
+    else hour = '$num';
+
+    num = timeStamp.minute;
+
+    if(num < 10)
+      minute = '0$num';
+    else minute = '$num';
 
     return new Center(
       child: new Row(

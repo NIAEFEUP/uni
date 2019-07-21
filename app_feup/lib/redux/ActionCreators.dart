@@ -252,14 +252,18 @@ ThunkAction<AppState> setUserBusStops(Completer<Null> action){
       store.dispatch(new SetScheduleStatusAction(RequestStatus.BUSY));
 
       //dummies for testing
-      /*List<String> stops = new List();
+      List<String> stops = new List();
 
       stops.add('STCP_FEUP2');
       stops.add('STCP_STJ3');
       stops.add('STCP_MPL2');
-      */
+
       AppBusStopDatabase db = await AppBusStopDatabase();
-      List<String> stops = await db.busStops();
+      db.addBusStop(stops[0]);
+      db.addBusStop(stops[1]);
+      db.addBusStop(stops[2]);
+
+      stops = await db.busStops();
 
       List<BusStop> busStops = new List();
 

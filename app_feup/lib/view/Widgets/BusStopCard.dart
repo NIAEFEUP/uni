@@ -79,7 +79,6 @@ class BusStopCard extends StatelessWidget{
   List<Widget> getBusStopRows(context, busStops){
     List<Widget> rows = new List<Widget>();
     var size = busStops.length;
-    print('PASSA POR AQUI $size');
 
     rows.add(new BusStopTimeStampRow());
 
