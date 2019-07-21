@@ -93,7 +93,6 @@ ThunkAction<AppState> getUserExams(Completer<Null> action) {
     try {
       //need to get student course here
       store.dispatch(new SetExamsStatusAction(RequestStatus.BUSY));
-      print("QUESTA MERDA CARALHO ${store.state.content['profile'].courses}");
 
       List<Exam> courseExams = new List<Exam>();
 
