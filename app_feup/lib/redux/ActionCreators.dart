@@ -272,8 +272,9 @@ ThunkAction<AppState> setUserBusStops(Completer<Null> action){
         BusStop busStop = new BusStop.secConstructor(stopCode);
 
         List<Trip> trips = new List();
-
+        print("Here $stopCode");
         trips = await NetworkRouter.getNextArrivalsStop(stopCode);
+        print("Finished $stopCode");
 
         busStop.newTrips(trips);
 

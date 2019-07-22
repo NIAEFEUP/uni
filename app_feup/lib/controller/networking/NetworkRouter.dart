@@ -98,11 +98,11 @@ class NetworkRouter {
   static Future<List<Trip>> getNextArrivalsStop(String stop) async {
     final String url = "http://move-me.mobi/NextArrivals/GetScheds?providerName=STCP&stopCode=$stop";
     http.Response response = await http.get(url);
-
+    print("HERE!");
     List<Trip> tripList = new List();
 
     var json = jsonDecode(response.body);
-
+    print("HERE!!");
     var num_maximo = 6;
 
     for (var TripKey in json) {
@@ -113,7 +113,7 @@ class NetworkRouter {
       var trip = TripKey['Value'];
       String line = trip[0];
       String destination = trip[1];
-      int timeRemaining = int.parse(trip[2]);
+      String timeRemaining = trip[2];
       Trip newTrip = Trip(line:line, destination:destination, timeRemaining:timeRemaining);
       newTrip.printTrip();
       tripList.add(newTrip);
