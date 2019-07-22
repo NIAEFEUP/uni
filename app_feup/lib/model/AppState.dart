@@ -18,7 +18,6 @@ class AppState {
       "scheduleStatus": RequestStatus.NONE,
       "examsStatus": RequestStatus.NONE,
       "selected_page": "Área Pessoal",
-      "favoriteCards": [FAVORITE_WIDGET_TYPE.EXAMS, FAVORITE_WIDGET_TYPE.SCHEDULE, FAVORITE_WIDGET_TYPE.EXAMS, FAVORITE_WIDGET_TYPE.SCHEDULE],
       "session": new Session(authenticated: false),
     };
   }

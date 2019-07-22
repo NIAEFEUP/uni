@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:app_feup/model/HomePageModel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:encrypt/encrypt.dart';
 import 'package:tuple/tuple.dart';
@@ -10,6 +11,8 @@ class AppSharedPreferences {
   static final String userPw = "user_password";
   static final int keyLength = 32;
   static final int ivLength = 16;
+  static final String favoriteCards = "favorite_cards";
+  static final List<FAVORITE_WIDGET_TYPE> defaultFavoriteCards = [FAVORITE_WIDGET_TYPE.SCHEDULE, FAVORITE_WIDGET_TYPE.EXAMS];
 
   static Future savePersistentUserInfo(user, pass) async {
     final prefs = await SharedPreferences.getInstance();
@@ -44,6 +47,23 @@ class AppSharedPreferences {
 
     return pass;
   }
+
+  static Future<String> saveFavoriteCards(List<FAVORITE_WIDGET_TYPE> newFavorites) async{
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setStringList(favoriteCards, newFavorites.map((a)=>a.index.toString()).toList());
+  }
+
+  static Future<List<FAVORITE_WIDGET_TYPE>> getFavoriteCards() async {
+    final prefs = await SharedPreferences.getInstance();
+    List<String> storedFavorites = prefs.getStringList(favoriteCards);
+    if(storedFavorites == null) return defaultFavoriteCards;
+    return storedFavorites.map((i)=>FAVORITE_WIDGET_TYPE.values[int.parse(i)]).toList() ?? defaultFavoriteCards;
+  }
+
+
+
+
+
 
   static String encode(String plainText) {
     final encrypter = _createEncrypter();

@@ -44,6 +44,7 @@ void loadLocalUserInfoToState(store) async {
     store.dispatch(updateStateBasedOnLocalUserLectures());
     store.dispatch(SetScheduleStatusAction(RequestStatus.SUCCESSFUL));
     store.dispatch(SetExamsStatusAction(RequestStatus.SUCCESSFUL));
+    store.dispatch(UpdateFavoriteCards(await AppSharedPreferences.getFavoriteCards()));
   }
 }
 

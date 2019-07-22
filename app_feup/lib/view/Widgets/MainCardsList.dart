@@ -1,3 +1,4 @@
+import 'package:app_feup/controller/local_storage/AppSharedPreferences.dart';
 import 'package:app_feup/model/AppState.dart';
 import 'package:app_feup/model/HomePageModel.dart';
 import 'package:app_feup/redux/Actions.dart';
@@ -85,6 +86,8 @@ class _MainCardsList extends State<MainCardsList> {
   }
 
   List<Widget> createFavoriteWidgetsFromTypes(List<FAVORITE_WIDGET_TYPE> cards) {
+    if(cards == null) return null;
+
     List<Widget> result = List<Widget>();
     for(int i = 0; i < cards.length; i++) {
       result.add(this.createFavoriteWidgetFromType(cards[i], i));
@@ -104,11 +107,13 @@ class _MainCardsList extends State<MainCardsList> {
     favorites.removeAt(oldIndex);
     favorites.insert(oldIndex < newIndex ? newIndex - 1 : newIndex, tmp);
     StoreProvider.of<AppState>(context).dispatch(new UpdateFavoriteCards(favorites));
+    AppSharedPreferences.saveFavoriteCards(favorites);
   }
 
   removeFromFavorites(int i) {
     List<FAVORITE_WIDGET_TYPE> favorites = StoreProvider.of<AppState>(context).state.content["favoriteCards"];
     favorites.removeAt(i);
     StoreProvider.of<AppState>(context).dispatch(new UpdateFavoriteCards(favorites));
+    AppSharedPreferences.saveFavoriteCards(favorites);
   }
 }
