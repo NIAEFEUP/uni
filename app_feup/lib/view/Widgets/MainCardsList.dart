@@ -18,8 +18,18 @@ class _MainCardsList extends State<MainCardsList> {
 
   bool editingMode = false;
 
+  Map<FAVORITE_WIDGET_TYPE, Function> CARDS;
+
+  Map<FAVORITE_WIDGET_TYPE, Function> getCardCreators() => {
+      FAVORITE_WIDGET_TYPE.SCHEDULE: (int i) => ScheduleCard(key: Key(i.toString()), editingMode: this.editingMode, onDelete: () => removeFromFavorites(i)),
+      FAVORITE_WIDGET_TYPE.EXAMS: (int i) => ExamCard(key: Key(i.toString()), editingMode: this.editingMode, onDelete: () => removeFromFavorites(i)),
+  };
+
   @override
   Widget build(BuildContext context) {
+
+    this.CARDS = getCardCreators();
+
     return Scaffold(
         body: HomePageBackButton(
           context: context,
@@ -77,29 +87,13 @@ class _MainCardsList extends State<MainCardsList> {
   List<Widget> createFavoriteWidgetsFromTypes(List<FAVORITE_WIDGET_TYPE> cards) {
     List<Widget> result = List<Widget>();
     for(int i = 0; i < cards.length; i++) {
-      result.add(this.createFavoriteWidgetFromType(cards[i], Key(i.toString())));
+      result.add(this.createFavoriteWidgetFromType(cards[i], i));
     }
     return result;
   }
 
-  Widget createFavoriteWidgetFromType(FAVORITE_WIDGET_TYPE type, Key key){
-    switch(type){
-      case FAVORITE_WIDGET_TYPE.EXAMS:
-        return this.createGenericCard("Exames", ExamCard(), key);
-      case FAVORITE_WIDGET_TYPE.SCHEDULE:
-        return this.createGenericCard("O teu Horário", ScheduleCard(), key);
-    }
-    return null;
-  }
-
-  Widget createGenericCard(String title, Widget child, Key key){
-    return GenericCard(
-        key: key,
-        title: title,
-        child: child,
-        editingMode: this.editingMode,
-        onDelete: (){}
-    );
+  Widget createFavoriteWidgetFromType(FAVORITE_WIDGET_TYPE type, int i){
+    return this.CARDS[type](i);
   }
 
 
@@ -107,6 +101,12 @@ class _MainCardsList extends State<MainCardsList> {
     FAVORITE_WIDGET_TYPE tmp = favorites[oldIndex];
     favorites.removeAt(oldIndex);
     favorites.insert(oldIndex < newIndex ? newIndex - 1 : newIndex, tmp);
+    StoreProvider.of<AppState>(context).dispatch(new UpdateFavoriteCards(favorites));
+  }
+
+  removeFromFavorites(int i) {
+    List<FAVORITE_WIDGET_TYPE> favorites = StoreProvider.of<AppState>(context).state.content["favoriteCards"];
+    favorites.removeAt(i);
     StoreProvider.of<AppState>(context).dispatch(new UpdateFavoriteCards(favorites));
   }
 }

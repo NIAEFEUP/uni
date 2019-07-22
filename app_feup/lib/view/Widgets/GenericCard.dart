@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 
 class GenericCard extends StatelessWidget {
-  GenericCard({Key key, @required this.title, this.child, this.func})
+  GenericCard({Key key, @required this.title, this.child, this.onClick, this.editingMode, this.onDelete})
       : super(key: key);
 
   final String title;
   final Widget child;
   final double borderRadius = 15.0;
-  final VoidCallback func;
+  final VoidCallback onClick;
+  final bool editingMode;
+  final VoidCallback onDelete;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () {
-          if (func != null) func();
+          if (onClick != null) onClick();
         },
         child: Card(
           margin: EdgeInsets.fromLTRB(12, 12, 12, 0),
@@ -31,8 +33,12 @@ class GenericCard extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 new Container(
-                  child: Text(title, style: Theme.of(context).textTheme.title),
-                  height: 26,
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(title, style: Theme.of(context).textTheme.title),
+                        this.getDeleteIcon(context)
+                      ].where((e) => e != null).toList()),
                   alignment: Alignment.centerLeft,
                   padding: EdgeInsets.fromLTRB(20, 4, 0, 4),
                 ),
@@ -53,5 +59,16 @@ class GenericCard extends StatelessWidget {
             ),
           ),
         ));
+  }
+
+  Widget getDeleteIcon(context){
+    return (this.editingMode != null && this.editingMode) ?
+          IconButton(
+            iconSize: 22.0,
+            icon: Icon(Icons.delete),
+            tooltip: 'Unfavorite',
+            color: Theme.of(context).textTheme.title.color,
+            onPressed: this.onDelete,
+      ) : null;
   }
 }

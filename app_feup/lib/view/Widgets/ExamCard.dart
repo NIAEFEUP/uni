@@ -10,7 +10,10 @@ class ExamCard extends StatelessWidget{
 
   final double padding = 4.0;
 
-  ExamCard({Key key}) : super(key: key);
+  ExamCard({Key key, this.editingMode, this.onDelete}) : super(key: key);
+
+  final bool editingMode;
+  final VoidCallback onDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +22,10 @@ class ExamCard extends StatelessWidget{
       builder: (context, exams){
         return GenericCard(
             title: "Exames",
-            func: () => Navigator.pushReplacementNamed(context, '/Mapa de Exames'),
-            child: getCardContent(context, exams)
+            onClick: () => Navigator.pushReplacementNamed(context, '/Mapa de Exames'),
+            child: getCardContent(context, exams),
+            editingMode: this.editingMode,
+            onDelete: this.onDelete
         );
       },
     );

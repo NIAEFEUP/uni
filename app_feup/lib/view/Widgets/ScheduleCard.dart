@@ -10,8 +10,11 @@ class ScheduleCard extends StatelessWidget {
   final double borderRadius = 12.0;
   final double leftPadding = 12.0;
 
+  final bool editingMode;
+  final VoidCallback onDelete;
+
   ScheduleCard(
-      {Key key})
+      {Key key, this.editingMode, this.onDelete})
       : super(key: key);
 
   @override
@@ -21,9 +24,10 @@ class ScheduleCard extends StatelessWidget {
         builder: (context, lectures){
           return GenericCard(
               title: "Horário",
-              func: () => Navigator.pushReplacementNamed(context, '/Horário'),
-              child:
-              getCardContent(context, lectures)
+              onClick: () => Navigator.pushReplacementNamed(context, '/Horário'),
+              child: getCardContent(context, lectures),
+              editingMode: editingMode,
+              onDelete: onDelete,
           );
         }
     );
