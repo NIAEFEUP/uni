@@ -1,7 +1,7 @@
 class Trip{
   String line;
   String destination;
-  String timeRemaining;
+  int timeRemaining;
 
   Trip({this.line, this.destination, this.timeRemaining});
 
