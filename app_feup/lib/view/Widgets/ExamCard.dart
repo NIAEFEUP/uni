@@ -36,7 +36,7 @@ class ExamCard extends StatelessWidget{
                 children: this.getExamRows(context, exams),
               )
           : Center(
-            child: Text("No exams to show at the moment"),
+            child: Text("No exams to show at the moment", style: Theme.of(context).textTheme.display1),
           );
       case RequestStatus.BUSY:
         return Center(child: CircularProgressIndicator());
@@ -47,7 +47,7 @@ class ExamCard extends StatelessWidget{
                 mainAxisSize: MainAxisSize.min,
                 children: this.getExamRows(context, exams),
             );
-        else return Center(child: Text("Comunication error. Please check your internet connection."));
+        else return Center(child: Text("Comunication error. Please check your internet connection.", style: Theme.of(context).textTheme.display1));
         break;
       default:
         return Container();

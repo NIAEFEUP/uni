@@ -18,14 +18,14 @@ class GenericCard extends StatelessWidget {
           if (func != null) func();
         },
         child: Card(
-          margin: EdgeInsets.all(10),
+          margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
           color: Color.fromARGB(0, 0, 0, 0),
           elevation: 0,
           shape: new RoundedRectangleBorder(
               borderRadius: new BorderRadius.circular(this.borderRadius)),
           child: new Container(
             decoration: BoxDecoration(
-                boxShadow: [new BoxShadow(color: Color.fromARGB(0x0f, 0, 0, 0), blurRadius: 7.0)],
+                boxShadow: [new BoxShadow(color: Color.fromARGB(0x0c, 0, 0, 0), blurRadius: 7.0)],
                 color: Theme.of(context).accentColor,
                 borderRadius:
                     BorderRadius.all(Radius.circular(this.borderRadius))),

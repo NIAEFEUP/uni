@@ -31,21 +31,19 @@ class ProfilePageView extends SecondaryPageView {
   Widget createScrollableProfileView(BuildContext context){
     return ListView(
       shrinkWrap: false,
-      padding: const EdgeInsets.all(20.0),
       children: childrenList(context)
     );
   }
 
   List<Widget> childrenList(BuildContext context) {
     List<Widget> list = new List();
+    list.add(Padding(padding: const EdgeInsets.all(10.0)));
     list.add(profileInfo(context));
     list.add(Padding(padding: const EdgeInsets.all(10.0)));
     for(var i = 0; i < courses.length; i++){
       list.add(courseInfo(context, courses[i], currentState[courses[i].name]));
-      list.add(Padding(padding: const EdgeInsets.all(10.0)));
     }
     list.add(printsInfo(context));
-    list.add(Padding(padding: const EdgeInsets.all(10.0)));
     list.add(accountInfo(context));
     return list;
   }
