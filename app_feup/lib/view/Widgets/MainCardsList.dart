@@ -8,6 +8,7 @@ import 'package:app_feup/view/Widgets/ScheduleCard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../Theme.dart';
 import 'HomePageBackButton.dart';
 
 class MainCardsList extends StatefulWidget {
@@ -42,10 +43,46 @@ class _MainCardsList extends State<MainCardsList> {
 
   Widget createActionButton(BuildContext context) {
     return FloatingActionButton(
-      onPressed: () => {}, //Add FAB functionality here
+      onPressed: () =>
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Choose the card you wish to add to your favorites"),
+              content: Container(
+                child:
+                  ListView(
+                    children: getCardAdders()
+                  ),
+                height: 200.0,
+                width: 100.0,
+              ),
+              actions: [FlatButton(child: Text("Cancel", style: Theme.of(context).textTheme.display1.apply(color: Theme.of(context).primaryColor),), onPressed: () => Navigator.pop(context))]
+            );
+          }
+        )
+      , //Add FAB functionality here
       tooltip: 'Add widget',
       child: Icon(Icons.add),
     );
+  }
+
+  List<Widget> getCardAdders(){
+    List<Widget> result = [];
+    this.CARDS.forEach((FAVORITE_WIDGET_TYPE key, Function v) => result.add(
+        Container(
+          child:ListTile(
+            title: Text(
+                v(Key(key.index.toString())).getTitle(),
+                textAlign: TextAlign.center,
+            ),
+            onTap: () {addCardToFavorites(key); Navigator.pop(context);},
+        ),
+          decoration: BoxDecoration(border: Border(bottom: new BorderSide(color: accentColor))),
+      )
+    )
+    );
+    return result;
   }
 
   Widget createScrollableCardView(BuildContext context) {
@@ -110,9 +147,16 @@ class _MainCardsList extends State<MainCardsList> {
     AppSharedPreferences.saveFavoriteCards(favorites);
   }
 
-  removeFromFavorites(int i) {
+  void removeFromFavorites(int i) {
     List<FAVORITE_WIDGET_TYPE> favorites = StoreProvider.of<AppState>(context).state.content["favoriteCards"];
     favorites.removeAt(i);
+    StoreProvider.of<AppState>(context).dispatch(new UpdateFavoriteCards(favorites));
+    AppSharedPreferences.saveFavoriteCards(favorites);
+  }
+
+  void addCardToFavorites(FAVORITE_WIDGET_TYPE type){
+    List<FAVORITE_WIDGET_TYPE> favorites = StoreProvider.of<AppState>(context).state.content["favoriteCards"];
+    favorites.add(type);
     StoreProvider.of<AppState>(context).dispatch(new UpdateFavoriteCards(favorites));
     AppSharedPreferences.saveFavoriteCards(favorites);
   }
