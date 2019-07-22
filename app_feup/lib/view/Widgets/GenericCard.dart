@@ -1,22 +1,35 @@
 import 'package:flutter/material.dart';
 
-class GenericCard extends StatelessWidget {
-  GenericCard({Key key, @required this.title, this.child, this.onClick, this.editingMode, this.onDelete})
-      : super(key: key);
+abstract class GenericCard extends StatefulWidget {
 
-  final String title;
-  final Widget child;
+  GenericCard({Key key}):super(key: key);
+
+  GenericCardState state = new GenericCardState();
+
+  @override
+  State<StatefulWidget> createState() => state;
+
+
+  Widget buildCardContent(BuildContext context);
+  String getTitle();
+  onClick(BuildContext context);
+
+  void setEditingMode(bool mode) => state.setEditingMode(mode);
+  void setOnDelete(Function func) => state.setOnDelete(func);
+}
+
+
+class GenericCardState extends State<GenericCard> {
+
   final double borderRadius = 15.0;
-  final VoidCallback onClick;
-  final bool editingMode;
-  final VoidCallback onDelete;
+
+  bool editingMode;
+  Function onDelete;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        onTap: () {
-          if (onClick != null) onClick();
-        },
+        onTap: () => widget.onClick(context),
         child: Card(
           margin: EdgeInsets.fromLTRB(12, 12, 12, 0),
           color: Color.fromARGB(0, 0, 0, 0),
@@ -36,7 +49,7 @@ class GenericCard extends StatelessWidget {
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Text(title, style: Theme.of(context).textTheme.title),
+                        Text(widget.getTitle(), style: Theme.of(context).textTheme.title),
                         this.getDeleteIcon(context)
                       ].where((e) => e != null).toList()),
                   alignment: Alignment.centerLeft,
@@ -52,7 +65,7 @@ class GenericCard extends StatelessWidget {
                         borderRadius: BorderRadius.all(
                             Radius.circular(this.borderRadius))),
                     width: (double.infinity),
-                    child: this.child,
+                    child: widget.buildCardContent(context)
                   ),
                 ),
               ],
@@ -71,4 +84,7 @@ class GenericCard extends StatelessWidget {
             onPressed: this.onDelete,
       ) : null;
   }
+
+  void setEditingMode(bool mode) => editingMode = mode;
+  void setOnDelete(Function func) => onDelete = func;
 }

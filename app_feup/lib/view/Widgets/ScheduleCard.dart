@@ -6,30 +6,18 @@ import 'package:app_feup/view/Widgets/ScheduleRow.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter/material.dart';
 
-class ScheduleCard extends StatelessWidget {
+class ScheduleCard extends GenericCard {
+
+  ScheduleCard({Key key}):super(key: key);
+
   final double borderRadius = 12.0;
   final double leftPadding = 12.0;
 
-  final bool editingMode;
-  final VoidCallback onDelete;
-
-  ScheduleCard(
-      {Key key, this.editingMode, this.onDelete})
-      : super(key: key);
-
   @override
-  Widget build(BuildContext context) {
+  Widget buildCardContent(BuildContext context) {
     return StoreConnector<AppState, List<dynamic>>(
         converter: (store) => store.state.content['schedule'],
-        builder: (context, lectures){
-          return GenericCard(
-              title: "Horário",
-              onClick: () => Navigator.pushReplacementNamed(context, '/Horário'),
-              child: getCardContent(context, lectures),
-              editingMode: editingMode,
-              onDelete: onDelete,
-          );
-        }
+        builder: (context, lectures) => getCardContent(context, lectures)
     );
   }
 
@@ -111,4 +99,10 @@ class ScheduleCard extends StatelessWidget {
       type: lecture.typeClass,
     );
   }
+
+  @override
+  String getTitle() => "Horário";
+
+  @override
+  onClick(BuildContext context) => Navigator.pushReplacementNamed(context, '/Horário');
 }

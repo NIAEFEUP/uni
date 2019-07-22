@@ -21,8 +21,8 @@ class _MainCardsList extends State<MainCardsList> {
   Map<FAVORITE_WIDGET_TYPE, Function> CARDS;
 
   Map<FAVORITE_WIDGET_TYPE, Function> getCardCreators() => {
-      FAVORITE_WIDGET_TYPE.SCHEDULE: (int i) => ScheduleCard(key: Key(i.toString()), editingMode: this.editingMode, onDelete: () => removeFromFavorites(i)),
-      FAVORITE_WIDGET_TYPE.EXAMS: (int i) => ExamCard(key: Key(i.toString()), editingMode: this.editingMode, onDelete: () => removeFromFavorites(i)),
+      FAVORITE_WIDGET_TYPE.SCHEDULE: (k) => ScheduleCard(key:k),
+      FAVORITE_WIDGET_TYPE.EXAMS: (k) => ExamCard(key:k)
   };
 
   @override
@@ -93,7 +93,9 @@ class _MainCardsList extends State<MainCardsList> {
   }
 
   Widget createFavoriteWidgetFromType(FAVORITE_WIDGET_TYPE type, int i){
-    return this.CARDS[type](i);
+    return this.CARDS[type](Key(i.toString()))
+    ..setEditingMode(this.editingMode)
+    ..setOnDelete(() => removeFromFavorites(i));
   }
 
 

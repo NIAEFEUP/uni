@@ -6,28 +6,23 @@ import 'ScheduleRow.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 
-class ExamCard extends StatelessWidget{
+class ExamCard extends GenericCard{
 
   final double padding = 4.0;
 
-  ExamCard({Key key, this.editingMode, this.onDelete}) : super(key: key);
-
-  final bool editingMode;
-  final VoidCallback onDelete;
+  ExamCard({Key key}):super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  String getTitle() => "Exames";
+
+  @override
+  onClick(BuildContext context) => Navigator.pushReplacementNamed(context, '/Mapa de Exames');
+
+  @override
+  Widget buildCardContent(BuildContext context) {
     return StoreConnector<AppState, List<dynamic>>(
       converter: (store) => store.state.content['exams'],
-      builder: (context, exams){
-        return GenericCard(
-            title: "Exames",
-            onClick: () => Navigator.pushReplacementNamed(context, '/Mapa de Exames'),
-            child: getCardContent(context, exams),
-            editingMode: this.editingMode,
-            onDelete: this.onDelete
-        );
-      },
+      builder: (context, exams) => getCardContent(context, exams)
     );
   }
 
