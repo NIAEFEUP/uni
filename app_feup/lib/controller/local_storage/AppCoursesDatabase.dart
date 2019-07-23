@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'package:app_feup/controller/local_storage/AppDatabase.dart';
-import 'package:app_feup/model/entities/Profile.dart';
+import 'package:app_feup/model/entities/Course.dart';
 import 'package:sqflite/sqflite.dart';
 
 class AppCoursesDatabase extends AppDatabase {
 
-  AppCoursesDatabase():super('courses.db', 'CREATE TABLE courses(id INTEGER, fest_id INTEGER, name TEXT, abbreviation TEXT, currYear TEXT, firstEnrollment INTEGER)');
+  AppCoursesDatabase():super('courses.db', 'CREATE TABLE courses(id INTEGER, fest_id INTEGER, name TEXT, abbreviation TEXT, currYear TEXT, firstEnrollment INTEGER, state TEXT)');
 
   saveNewCourses(List<Course> courses) async {
     await _deleteCourses();
@@ -27,7 +27,8 @@ class AppCoursesDatabase extends AppDatabase {
           maps[i]['name'],
           maps[i]['abbreviation'],
           maps[i]['currYear'],
-          maps[i]['firstEnrollment']
+          maps[i]['firstEnrollment'],
+          maps[i]['state']
       );
     });
   }
@@ -47,5 +48,23 @@ class AppCoursesDatabase extends AppDatabase {
     final Database db = await this.getDatabase();
 
     await db.delete('courses');
+  }
+
+  void saveCoursesStates(Map<String, String> states) async{
+    final Database db = await this.getDatabase();
+
+    // Retrieve stored courses
+    List<Course> courses = await this.courses();
+
+    // For each course, save its state
+    for (Course course in courses) {
+      await db.update(
+        'courses',
+        {'state' : states[course.name]},
+        where: "id = ?",
+        whereArgs: [course.id],
+      );
+    }
+
   }
 }

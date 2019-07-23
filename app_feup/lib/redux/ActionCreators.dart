@@ -10,6 +10,7 @@ import 'package:app_feup/controller/parsers/ParserSchedule.dart';
 import 'package:app_feup/controller/parsers/ParserPrintBalance.dart';
 import 'package:app_feup/controller/parsers/ParserFees.dart';
 import 'package:app_feup/controller/parsers/ParserCourses.dart';
+import 'package:app_feup/model/entities/Course.dart';
 import 'package:app_feup/model/entities/CourseUnit.dart';
 import 'package:app_feup/model/entities/Exam.dart';
 import 'package:app_feup/model/entities/Lecture.dart';
@@ -120,10 +121,17 @@ ThunkAction<AppState> updateStateBasedOnLocalProfile() {
 
     profile.courses = courses;
 
+    // Build courses states map
+    Map<String, String> coursesStates = new Map<String, String>();
+    for (Course course in profile.courses) {
+      coursesStates[course.name] = course.state;
+    }
+
     store.dispatch(new SaveProfileAction(profile));
     store.dispatch(new SetPrintBalanceAction(profile.printBalance));
     store.dispatch(new SetFeesBalanceAction(profile.feesBalance));
     store.dispatch(new SetFeesLimitAction(profile.feesLimit));
+    store.dispatch(new SetCoursesStatesAction(coursesStates));
   };
 }
 
@@ -296,6 +304,12 @@ ThunkAction<AppState> getUserCoursesState(Completer<Null> action) {
       var response = await NetworkRouter.getWithCookies(url, query, cookies);
 
       Map<String,String> coursesStates = await parseCourses(response);
+
+      Tuple2<String, String> userPersistentInfo = await AppSharedPreferences.getPersistentUserInfo();
+      if(userPersistentInfo.item1 != "" && userPersistentInfo.item2 != ""){
+        AppCoursesDatabase courses_db = await AppCoursesDatabase();
+        await courses_db.saveCoursesStates(coursesStates);
+      }
 
       store.dispatch(new SetCoursesStatesAction(coursesStates));
 

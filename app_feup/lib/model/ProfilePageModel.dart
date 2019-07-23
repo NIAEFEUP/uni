@@ -4,6 +4,8 @@ import 'package:app_feup/model/entities/Profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import 'entities/Course.dart';
+
 class ProfilePage extends StatefulWidget {
   @override
   _ProfilePageState createState() => new _ProfilePageState();

@@ -1,3 +1,4 @@
+import 'package:app_feup/model/entities/Course.dart';
 import 'package:app_feup/view/Pages/SecondaryPageView.dart';
 import 'package:flutter/material.dart';
 import '../Widgets/GenericCard.dart';
