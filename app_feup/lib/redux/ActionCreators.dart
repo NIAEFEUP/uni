@@ -119,7 +119,7 @@ ThunkAction<AppState> updateStateBasedOnLocalProfile() {
     List<Course> courses = await courses_db.courses();
 
     profile.courses = courses;
-    
+
     store.dispatch(new SaveProfileAction(profile));
     store.dispatch(new SetPrintBalanceAction(profile.printBalance));
     store.dispatch(new SetFeesBalanceAction(profile.feesBalance));
@@ -216,6 +216,7 @@ ThunkAction<AppState> updateSelectedPage(new_page) {
 
 ThunkAction<AppState> getUserPrintBalance(Completer<Null> action) {
   return (Store<AppState> store) async {
+    store.dispatch(new SetPrintBalanceStatusAction(RequestStatus.BUSY));
 
     String url = NetworkRouter.getBaseUrlFromSession(store.state.content['session']) + "imp4_impressoes.atribs?";
 
@@ -234,8 +235,10 @@ ThunkAction<AppState> getUserPrintBalance(Completer<Null> action) {
       }
 
       store.dispatch(new SetPrintBalanceAction(printBalance));
+      store.dispatch(new SetPrintBalanceStatusAction(RequestStatus.SUCCESSFUL));
     }catch(e){
       print("Failed to get Print Balance");
+      store.dispatch(new SetPrintBalanceStatusAction(RequestStatus.FAILED));
     }
     action.complete();
   };
@@ -243,6 +246,7 @@ ThunkAction<AppState> getUserPrintBalance(Completer<Null> action) {
 
 ThunkAction<AppState> getUserFees(Completer<Null> action) {
   return (Store<AppState> store) async {
+    store.dispatch(new SetFeesStatusAction(RequestStatus.BUSY));
 
     String url = NetworkRouter.getBaseUrlFromSession(store.state.content['session']) + "gpag_ccorrente_geral.conta_corrente_view?";
 
@@ -254,10 +258,7 @@ ThunkAction<AppState> getUserFees(Completer<Null> action) {
       var response = await NetworkRouter.getWithCookies(url, query, cookies);
 
       String feesBalance = await parseFeesBalance(response);
-      store.dispatch(new SetFeesBalanceAction(feesBalance));
-
       String feesLimit = await parseFeesNextLimit(response);
-      store.dispatch(new SetFeesLimitAction(feesLimit));
 
       Tuple2<String, String> userPersistentInfo = await AppSharedPreferences.getPersistentUserInfo();
       if(userPersistentInfo.item1 != "" && userPersistentInfo.item2 != ""){
@@ -269,8 +270,13 @@ ThunkAction<AppState> getUserFees(Completer<Null> action) {
 
         await profile_db.saveUserFees(feesInfo);
       }
+
+      store.dispatch(new SetFeesBalanceAction(feesBalance));
+      store.dispatch(new SetFeesLimitAction(feesLimit));
+      store.dispatch(new SetFeesStatusAction(RequestStatus.SUCCESSFUL));
     }catch(e){
       print("Failed to get Fees info");
+      store.dispatch(new SetFeesStatusAction(RequestStatus.FAILED));
     }
 
     action.complete();

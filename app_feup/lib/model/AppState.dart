@@ -16,6 +16,8 @@ class AppState {
       "scheduleStatus": RequestStatus.NONE,
       "examsStatus": RequestStatus.NONE,
       "profileStatus": RequestStatus.NONE,
+      "printBalanceStatus": RequestStatus.NONE,
+      "feesStatus": RequestStatus.NONE,
       "selected_page": "Área Pessoal",
       "session": new Session(authenticated: false),
     };

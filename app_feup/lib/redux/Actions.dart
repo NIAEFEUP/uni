@@ -60,6 +60,11 @@ class SetPrintBalanceAction {
   SetPrintBalanceAction(this.printBalance);
 }
 
+class SetPrintBalanceStatusAction {
+  RequestStatus status;
+  SetPrintBalanceStatusAction(this.status);
+}
+
 class SetFeesBalanceAction {
   String feesBalance;
   SetFeesBalanceAction(this.feesBalance);
@@ -68,6 +73,11 @@ class SetFeesBalanceAction {
 class SetFeesLimitAction{
   String feesLimit;
   SetFeesLimitAction(this.feesLimit);
+}
+
+class SetFeesStatusAction {
+  RequestStatus status;
+  SetFeesStatusAction(this.status);
 }
 
 class SetCoursesStatesAction{
