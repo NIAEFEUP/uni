@@ -293,6 +293,7 @@ ThunkAction<AppState> getUserFees(Completer<Null> action) {
 
 ThunkAction<AppState> getUserCoursesState(Completer<Null> action) {
   return (Store<AppState> store) async {
+    store.dispatch(SetCoursesStatesStatusAction(RequestStatus.BUSY));
 
     String url = NetworkRouter.getBaseUrlFromSession(store.state.content['session']) + "fest_geral.cursos_list?";
 
@@ -312,9 +313,11 @@ ThunkAction<AppState> getUserCoursesState(Completer<Null> action) {
       }
 
       store.dispatch(new SetCoursesStatesAction(coursesStates));
+      store.dispatch(SetCoursesStatesStatusAction(RequestStatus.SUCCESSFUL));
 
     }catch(e){
       print("Failed to get Courses State info");
+      store.dispatch(SetCoursesStatesStatusAction(RequestStatus.FAILED));
     }
 
     action.complete();

@@ -32,8 +32,10 @@ AppState appReducers(AppState state, dynamic action) {
     return setFeesLimit(state, action);
   } else if(action is SetFeesStatusAction) {
     return setFeesStatus(state, action);
-  }  else if(action is SetCoursesStatesAction){
+  } else if(action is SetCoursesStatesAction){
     return setCoursesState(state, action);
+  } else if(action is SetCoursesStatesStatusAction){
+    return setCoursesStateStatus(state, action);
   }
   return state;
 }
@@ -114,4 +116,9 @@ AppState setFeesStatus(AppState state, SetFeesStatusAction action) {
 AppState setCoursesState(AppState state, SetCoursesStatesAction action) {
   print('setting courses state: ' + action.coursesStates.toString());
   return state.cloneAndUpdateValue("coursesStates", action.coursesStates);
+}
+
+AppState setCoursesStateStatus(AppState state, SetCoursesStatesStatusAction action) {
+  print('setting courses state status: ' + action.status.toString());
+  return state.cloneAndUpdateValue("coursesStatesStatus", action.status);
 }

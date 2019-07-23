@@ -18,6 +18,7 @@ class AppState {
       "profileStatus": RequestStatus.NONE,
       "printBalanceStatus": RequestStatus.NONE,
       "feesStatus": RequestStatus.NONE,
+      "coursesStateStatus": RequestStatus.NONE,
       "selected_page": "Área Pessoal",
       "session": new Session(authenticated: false),
     };

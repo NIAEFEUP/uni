@@ -84,3 +84,8 @@ class SetCoursesStatesAction{
   Map<String, String> coursesStates;
   SetCoursesStatesAction(this.coursesStates);
 }
+
+class SetCoursesStatesStatusAction{
+  RequestStatus status;
+  SetCoursesStatesStatusAction(this.status);
+}

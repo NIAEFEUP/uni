@@ -44,6 +44,9 @@ void loadLocalUserInfoToState(store) async {
     store.dispatch(updateStateBasedOnLocalUserExams());
     store.dispatch(updateStateBasedOnLocalUserLectures());
     store.dispatch(SaveProfileStatusAction(RequestStatus.SUCCESSFUL));
+    store.dispatch(SetPrintBalanceStatusAction(RequestStatus.SUCCESSFUL));
+    store.dispatch(SetFeesStatusAction(RequestStatus.SUCCESSFUL));
+    store.dispatch(SetCoursesStatesStatusAction(RequestStatus.SUCCESSFUL));
     store.dispatch(SetScheduleStatusAction(RequestStatus.SUCCESSFUL));
     store.dispatch(SetExamsStatusAction(RequestStatus.SUCCESSFUL));
   }
