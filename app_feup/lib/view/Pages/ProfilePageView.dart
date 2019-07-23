@@ -41,7 +41,7 @@ class ProfilePageView extends SecondaryPageView {
     list.add(profileInfo(context));
     list.add(Padding(padding: const EdgeInsets.all(10.0)));
     for(var i = 0; i < courses.length; i++){
-      list.add(courseInfo(context, courses[i], currentState[courses[i].name]));
+      list.add(courseInfo(context, courses[i], currentState == null ? "?" : currentState[courses[i].name]));
       list.add(Padding(padding: const EdgeInsets.all(10.0)));
     }
     list.add(printsInfo(context));
@@ -186,7 +186,7 @@ class ProfilePageView extends SecondaryPageView {
             ),
             Container(
               margin: const EdgeInsets.only(top: 20.0, bottom: 20.0, right: 30.0),
-              child: Text(printBalance,
+              child: Text(printBalance == null ? '?' : printBalance,
                 textAlign: TextAlign.end,
                 style: TextStyle(
                   color: greyTextColor,
@@ -221,7 +221,7 @@ class ProfilePageView extends SecondaryPageView {
             ),
             Container(
               margin: const EdgeInsets.only(top: 20.0, bottom: 8.0, right: 30.0),
-              child: Text(feesBalance,
+              child: Text(feesBalance == null ? "?" : feesBalance,
                 textAlign: TextAlign.end,
                 style: TextStyle(
                   color: greyTextColor,
@@ -244,7 +244,7 @@ class ProfilePageView extends SecondaryPageView {
             ),
             Container(
               margin: const EdgeInsets.only(top: 8.0, bottom: 20.0, right: 30.0),
-              child: Text(nextFeeLimitData,
+              child: Text(nextFeeLimitData == null ? "?" : nextFeeLimitData,
                 textAlign: TextAlign.end,
                 style: TextStyle(
                   color: greyTextColor,

@@ -70,8 +70,8 @@ ThunkAction<AppState> getUserInfo(Completer<Null> action) {
 
       final profile = NetworkRouter.getProfile(store.state.content['session']).then((res) {
         user_profile = res;
+        store.dispatch(new SaveProfileAction(user_profile));
         store.dispatch(new SaveProfileStatusAction(RequestStatus.SUCCESSFUL));
-        store.dispatch(new SaveProfileAction(res));
       });
       final ucs = NetworkRouter.getCurrentCourseUnits(store.state.content['session']).then((res) => store.dispatch(new SaveUcsAction(res)));
       await Future.wait([profile, ucs]);
@@ -79,10 +79,10 @@ ThunkAction<AppState> getUserInfo(Completer<Null> action) {
       Tuple2<String, String> userPersistentInfo = await AppSharedPreferences.getPersistentUserInfo();
       if(userPersistentInfo.item1 != "" && userPersistentInfo.item2 != ""){
         AppUserDataDatabase profile_db = await AppUserDataDatabase();
-        profile_db.saveUserData(user_profile);
+        await profile_db.saveUserData(user_profile);
 
         AppCoursesDatabase courses_db = await AppCoursesDatabase();
-        courses_db.saveNewCourses(user_profile.courses);
+        await courses_db.saveNewCourses(user_profile.courses);
       }
 
     } catch (e) {
