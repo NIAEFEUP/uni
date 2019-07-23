@@ -6,13 +6,19 @@ class Profile {
   String name;
   String email;
   List<Course> courses;
+  String printBalance;
+  String feesBalance;
+  String feesLimit;
 
   Profile({this.name, this.email, this.courses});
 
-  Profile.secConstructor(String name, String email, List<Course> courses) {
+  Profile.secConstructor(String name, String email, List<Course> courses, String printBalance, String feesBalance, String feesLimit) {
     this.name = name;
     this.email = email;
     this.courses = courses;
+    this.printBalance = printBalance;
+    this.feesBalance = feesBalance;
+    this.feesLimit = feesLimit;
   }
 
   static Profile fromResponse(dynamic response) {
@@ -42,6 +48,7 @@ class Course {
   String abbreviation;
   String currYear;
   int firstEnrollment;
+  String state;
 
   Course.secConstructor(int id, int fest_id, String name, String abbreviation, String currYear, int firstEnrollment) {
     this.id = id;

@@ -8,7 +8,7 @@ class AppUserDataDatabase extends AppDatabase {
 
   AppUserDataDatabase():super('userdata.db', 'CREATE TABLE userdata(key TEXT, value TEXT)');
 
-  saveUserData(Profile profile) async {
+  void saveUserData(Profile profile) async {
     await _deleteUserData();
     await _insertUserData(profile);
   }
@@ -31,15 +31,21 @@ class AppUserDataDatabase extends AppDatabase {
     final List<Map<String, dynamic>> maps = await db.query('userdata');
 
     // Convert the List<Map<String, dynamic> into a Profile.
-    String name, email;
+    String name, email, balance, feesBalance, feesLimit;
     for (Map<String, dynamic> entry in maps) {
       if (entry['key'] == 'name')
         name = entry['value'];
       if (entry['key'] == 'email')
         email = entry['value'];
+      if (entry['key'] == 'balance')
+        balance = entry['value'];
+      if (entry['key'] == 'feesBalance')
+        feesBalance = entry['value'];
+      if (entry['key'] == 'feesLimit')
+        feesLimit = entry['value'];
     }
 
-    return Profile.secConstructor(name, email, List<Course>());
+    return Profile.secConstructor(name, email, List<Course>(), balance, feesBalance, feesLimit);
   }
 
   Future<void> _deleteUserData() async {
@@ -47,5 +53,26 @@ class AppUserDataDatabase extends AppDatabase {
     final Database db = await this.getDatabase();
 
     await db.delete('userdata');
+  }
+
+  void saveUserPrintBalance(String userBalance) async {
+    await insertInDatabase(
+      'userdata',
+      {"key" : "balance",
+      "value" : userBalance}
+      );
+  }
+
+  void saveUserFees(List<String> feesInfo) async {
+    await insertInDatabase(
+        'userdata',
+        {"key" : "feesBalance",
+          "value" : feesInfo[0]}
+    );
+    await insertInDatabase(
+        'userdata',
+        {"key" : "feesLimit",
+          "value" : feesInfo[1]}
+    );
   }
 }

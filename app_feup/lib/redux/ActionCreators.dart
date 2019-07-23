@@ -119,7 +119,11 @@ ThunkAction<AppState> updateStateBasedOnLocalProfile() {
     List<Course> courses = await courses_db.courses();
 
     profile.courses = courses;
+    
     store.dispatch(new SaveProfileAction(profile));
+    store.dispatch(new SetPrintBalanceAction(profile.printBalance));
+    store.dispatch(new SetFeesBalanceAction(profile.feesBalance));
+    store.dispatch(new SetFeesLimitAction(profile.feesLimit));
   };
 }
 
@@ -222,6 +226,13 @@ ThunkAction<AppState> getUserPrintBalance(Completer<Null> action) {
     try {
       var response = await NetworkRouter.getWithCookies(url, query, cookies);
       String printBalance = await getPrintsBalance(response);
+
+      Tuple2<String, String> userPersistentInfo = await AppSharedPreferences.getPersistentUserInfo();
+      if(userPersistentInfo.item1 != "" && userPersistentInfo.item2 != ""){
+        AppUserDataDatabase profile_db = await AppUserDataDatabase();
+        await profile_db.saveUserPrintBalance(printBalance);
+      }
+
       store.dispatch(new SetPrintBalanceAction(printBalance));
     }catch(e){
       print("Failed to get Print Balance");
@@ -247,6 +258,17 @@ ThunkAction<AppState> getUserFees(Completer<Null> action) {
 
       String feesLimit = await parseFeesNextLimit(response);
       store.dispatch(new SetFeesLimitAction(feesLimit));
+
+      Tuple2<String, String> userPersistentInfo = await AppSharedPreferences.getPersistentUserInfo();
+      if(userPersistentInfo.item1 != "" && userPersistentInfo.item2 != ""){
+        AppUserDataDatabase profile_db = await AppUserDataDatabase();
+
+        List<String> feesInfo = new List<String>();
+        feesInfo.add(feesBalance);
+        feesInfo.add(feesLimit);
+
+        await profile_db.saveUserFees(feesInfo);
+      }
     }catch(e){
       print("Failed to get Fees info");
     }
@@ -272,7 +294,7 @@ ThunkAction<AppState> getUserCoursesState(Completer<Null> action) {
       store.dispatch(new SetCoursesStatesAction(coursesStates));
 
     }catch(e){
-      print("Failed to get Fees info");
+      print("Failed to get Courses State info");
     }
 
     action.complete();
