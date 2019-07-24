@@ -3,7 +3,6 @@ import 'package:app_feup/view/Pages/SecondaryPageView.dart';
 import 'package:flutter/material.dart';
 import '../Widgets/GenericCard.dart';
 import '../../view/Theme.dart';
-import 'package:app_feup/model/entities/Profile.dart';
 
 class ProfilePageView extends SecondaryPageView {
   ProfilePageView(
@@ -170,93 +169,126 @@ class ProfilePageView extends SecondaryPageView {
   Widget printsInfo (BuildContext context){
     return new GenericCard(
       title: "Impressões", 
-      child: Table(
-        columnWidths: {1: FractionColumnWidth(.4)},
-        defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-        children: [
-          TableRow(children: [
-            Container(
-              margin: const EdgeInsets.only(top: 20.0, bottom: 20.0, left: 20.0),
-              child: Text("Valor disponível: ",
-                style: TextStyle(
-                  color: greyTextColor,
-                  fontSize: 14.0,
-                  fontWeight: FontWeight.w100
-                )
-              ),
+      child:
+        new Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+              Table(
+                columnWidths: {1: FractionColumnWidth(.4)},
+                defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+                children: [
+                  TableRow(children: [
+                    Container(
+                      margin: const EdgeInsets.only(top: 20.0, bottom: 20.0, left: 20.0),
+                      child: Text("Valor disponível: ",
+                          style: TextStyle(
+                              color: greyTextColor,
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.w100
+                          )
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(top: 20.0, bottom: 20.0, right: 30.0),
+                      child: Text(printBalance == null ? '?' : printBalance,
+                          textAlign: TextAlign.end,
+                          style: TextStyle(
+                              color: greyTextColor,
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.w500
+                          )
+                      ),
+                    )
+                  ])
+                ]
             ),
-            Container(
-              margin: const EdgeInsets.only(top: 20.0, bottom: 20.0, right: 30.0),
-              child: Text(printBalance == null ? '?' : printBalance,
-                textAlign: TextAlign.end,
-                style: TextStyle(
-                  color: greyTextColor,
-                  fontSize: 14.0,
-                  fontWeight: FontWeight.w500
-                )
-              ),
+            new Container(
+              child:
+                Text("last updated 168 min ago",
+                    style: TextStyle(
+                      color: greyTextColor,
+                      fontSize: 12.0
+                    )),
+              height: 20,
+              alignment: Alignment.center
             )
-          ])
-        ]
-      )
+          ],
+        )
     );
   }
 
   Widget accountInfo (BuildContext context){
     return new GenericCard(
       title: "Conta Corrente", 
-      child: Table(
-        columnWidths: {1: FractionColumnWidth(.4)},
-        defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-        children: [
-          TableRow(children: [
-            Container(
-              margin: const EdgeInsets.only(top: 20.0, bottom: 8.0, left: 20.0),
-              child: Text("Saldo: ",
-                style: TextStyle(
-                  color: greyTextColor,
-                  fontSize: 14.0,
-                  fontWeight: FontWeight.w100
-                )
-              ),
+      child:
+        new Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+              Table(
+              columnWidths: {1: FractionColumnWidth(.4)},
+              defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+              children: [
+                  TableRow(children: [
+                        Container(
+                          margin: const EdgeInsets.only(top: 20.0, bottom: 8.0, left: 20.0),
+                          child: Text("Saldo: ",
+                              style: TextStyle(
+                                  color: greyTextColor,
+                                  fontSize: 14.0,
+                                  fontWeight: FontWeight.w100
+                              )
+                          ),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.only(top: 20.0, bottom: 8.0, right: 30.0),
+                          child: Text(feesBalance == null ? "?" : feesBalance,
+                              textAlign: TextAlign.end,
+                              style: TextStyle(
+                                  color: greyTextColor,
+                                  fontSize: 14.0,
+                                  fontWeight: FontWeight.w500
+                              )
+                          ),
+                        )
+                  ]),
+                  TableRow(children: [
+                        Container(
+                          margin: const EdgeInsets.only(top: 8.0, bottom: 20.0, left: 20.0),
+                          child: Text("Data limite próxima prestação: ",
+                              style: TextStyle(
+                                  color: greyTextColor,
+                                  fontSize: 14.0,
+                                  fontWeight: FontWeight.w100
+                              )
+                          ),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.only(top: 8.0, bottom: 20.0, right: 30.0),
+                          child: Text(nextFeeLimitData == null ? "?" : nextFeeLimitData,
+                              textAlign: TextAlign.end,
+                              style: TextStyle(
+                                  color: greyTextColor,
+                                  fontSize: 14.0,
+                                  fontWeight: FontWeight.w500
+                        )
+                      ),
+                    )
+                  ])
+              ]
             ),
-            Container(
-              margin: const EdgeInsets.only(top: 20.0, bottom: 8.0, right: 30.0),
-              child: Text(feesBalance == null ? "?" : feesBalance,
-                textAlign: TextAlign.end,
-                style: TextStyle(
-                  color: greyTextColor,
-                  fontSize: 14.0,
-                  fontWeight: FontWeight.w500
-                )
-              ),
+            new Container(
+                child:
+                Text("last updated 2565 min ago",
+                    style: TextStyle(
+                        color: greyTextColor,
+                        fontSize: 12.0
+                    )),
+                height: 20,
+                alignment: Alignment.center
             )
-          ]),
-          TableRow(children: [
-            Container(
-              margin: const EdgeInsets.only(top: 8.0, bottom: 20.0, left: 20.0),
-              child: Text("Data limite próxima prestação: ",
-                style: TextStyle(
-                  color: greyTextColor,
-                  fontSize: 14.0,
-                  fontWeight: FontWeight.w100
-                )
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(top: 8.0, bottom: 20.0, right: 30.0),
-              child: Text(nextFeeLimitData == null ? "?" : nextFeeLimitData,
-                textAlign: TextAlign.end,
-                style: TextStyle(
-                  color: greyTextColor,
-                  fontSize: 14.0,
-                  fontWeight: FontWeight.w500
-                )
-              ),
-            )
-          ])
-        ]
-      )
+          ],
+        )
+
     );
   }
 }
