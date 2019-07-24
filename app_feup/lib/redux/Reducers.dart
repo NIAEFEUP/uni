@@ -1,3 +1,5 @@
+import 'package:tuple/tuple.dart';
+
 import '../model/AppState.dart';
 import 'Actions.dart';
 
@@ -36,6 +38,10 @@ AppState appReducers(AppState state, dynamic action) {
     return setCoursesState(state, action);
   } else if(action is SetCoursesStatesStatusAction){
     return setCoursesStateStatus(state, action);
+  } else if (action is SetPrintRefreshTimeAction) {
+    return setPrintRefreshTime(state, action);
+  } else if (action is SetFeesRefreshTimeAction) {
+    return setFeesRefreshTime(state, action);
   }
   return state;
 }
@@ -122,3 +128,14 @@ AppState setCoursesStateStatus(AppState state, SetCoursesStatesStatusAction acti
   print('setting courses state status: ' + action.status.toString());
   return state.cloneAndUpdateValue("coursesStatesStatus", action.status);
 }
+
+AppState setPrintRefreshTime(AppState state, SetPrintRefreshTimeAction action) {
+  print('setting print refresh time ' + action.time);
+  return state.cloneAndUpdateValue("printRefreshTime", action.time);
+}
+
+AppState setFeesRefreshTime(AppState state, SetFeesRefreshTimeAction action) {
+  print('setting fees refresh time ' + action.time);
+  return state.cloneAndUpdateValue("feesRefreshTime", action.time);
+}
+

@@ -3,6 +3,7 @@ import 'package:app_feup/controller/LoadInfo.dart';
 import 'package:app_feup/controller/local_storage/AppCoursesDatabase.dart';
 import 'package:app_feup/controller/local_storage/AppExamsDatabase.dart';
 import 'package:app_feup/controller/local_storage/AppLecturesDatabase.dart';
+import 'package:app_feup/controller/local_storage/AppRefreshTimesDatabase.dart';
 import 'package:app_feup/controller/local_storage/AppSharedPreferences.dart';
 import 'package:app_feup/controller/local_storage/AppUserDataDatabase.dart';
 import 'package:app_feup/controller/parsers/ParserExams.dart';
@@ -135,6 +136,16 @@ ThunkAction<AppState> updateStateBasedOnLocalProfile() {
   };
 }
 
+ThunkAction<AppState> updateStateBasedOnLocalRefreshTimes() {
+  return (Store<AppState> store) async {
+    AppRefreshTimesDatabase refresh_times_db = await AppRefreshTimesDatabase();
+    Map<String, String> refreshTimes = await refresh_times_db.refreshTimes();
+
+    store.dispatch(new SetPrintRefreshTimeAction(refreshTimes["print"]));
+    store.dispatch(new SetFeesRefreshTimeAction(refreshTimes["fees"]));
+  };
+}
+
 ThunkAction<AppState> getUserExams(Completer<Null> action) {
   return (Store<AppState> store) async {
     try {
@@ -244,6 +255,7 @@ ThunkAction<AppState> getUserPrintBalance(Completer<Null> action) {
 
       store.dispatch(new SetPrintBalanceAction(printBalance));
       store.dispatch(new SetPrintBalanceStatusAction(RequestStatus.SUCCESSFUL));
+      store.dispatch(new SetPrintRefreshTimeAction(DateTime.now().toString()));
     }catch(e){
       print("Failed to get Print Balance");
       store.dispatch(new SetPrintBalanceStatusAction(RequestStatus.FAILED));
@@ -282,6 +294,7 @@ ThunkAction<AppState> getUserFees(Completer<Null> action) {
       store.dispatch(new SetFeesBalanceAction(feesBalance));
       store.dispatch(new SetFeesLimitAction(feesLimit));
       store.dispatch(new SetFeesStatusAction(RequestStatus.SUCCESSFUL));
+      store.dispatch(new SetFeesRefreshTimeAction(DateTime.now().toString()));
     }catch(e){
       print("Failed to get Fees info");
       store.dispatch(new SetFeesStatusAction(RequestStatus.FAILED));

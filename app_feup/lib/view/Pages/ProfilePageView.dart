@@ -11,16 +11,20 @@ class ProfilePageView extends SecondaryPageView {
     @required this.email,
     @required this.currentState,
     @required this.printBalance,
+    @required this.printRefreshTime,
     @required this.feesBalance,
     @required this.nextFeeLimitData,
+    @required this.feesRefreshTime,
     @required this.courses});
 
   final String name;
   final String email;
   final Map<String, String> currentState;
   final String printBalance;
+  final String printRefreshTime;
   final String feesBalance;
   final String nextFeeLimitData;
+  final String feesRefreshTime;
   final List<Course> courses;
 
   @override
@@ -204,9 +208,9 @@ class ProfilePageView extends SecondaryPageView {
             ),
             new Container(
               child:
-                Text("last updated 168 min ago",
+                Text("last updated " +  DateTime.now().difference(DateTime.parse(printRefreshTime)).inMinutes.toString() + " min ago",
                     style: TextStyle(
-                      color: greyTextColor,
+                      color: subtitleColor,
                       fontSize: 12.0
                     )),
               height: 20,
@@ -278,9 +282,9 @@ class ProfilePageView extends SecondaryPageView {
             ),
             new Container(
                 child:
-                Text("last updated 2565 min ago",
+                Text("last updated " +  DateTime.now().difference(DateTime.parse(feesRefreshTime)).inMinutes.toString() + " min ago",
                     style: TextStyle(
-                        color: greyTextColor,
+                        color: subtitleColor,
                         fontSize: 12.0
                     )),
                 height: 20,
