@@ -208,12 +208,12 @@ class ProfilePageView extends SecondaryPageView {
             ),
             new Container(
               child:
-                Text("last updated " +  DateTime.now().difference(DateTime.parse(printRefreshTime)).inMinutes.toString() + " min ago",
+                Text("última atualização " +  DateTime.now().difference(DateTime.parse(printRefreshTime)).inMinutes.toString() + " min atrás",
                     style: TextStyle(
-                      color: subtitleColor,
+                      color: lightGreyTextColor,
                       fontSize: 12.0
                     )),
-              height: 20,
+              height: 25,
               alignment: Alignment.center
             )
           ],
@@ -282,12 +282,12 @@ class ProfilePageView extends SecondaryPageView {
             ),
             new Container(
                 child:
-                Text("last updated " +  DateTime.now().difference(DateTime.parse(feesRefreshTime)).inMinutes.toString() + " min ago",
+                Text("última atualização " +  DateTime.now().difference(DateTime.parse(feesRefreshTime)).inMinutes.toString() + " min atrás",
                     style: TextStyle(
-                        color: subtitleColor,
+                        color: lightGreyTextColor,
                         fontSize: 12.0
                     )),
-                height: 20,
+                height: 25,
                 alignment: Alignment.center
             )
           ],

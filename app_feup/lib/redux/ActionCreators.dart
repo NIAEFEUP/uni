@@ -247,15 +247,22 @@ ThunkAction<AppState> getUserPrintBalance(Completer<Null> action) {
       var response = await NetworkRouter.getWithCookies(url, query, cookies);
       String printBalance = await getPrintsBalance(response);
 
+      String current_time = DateTime.now().toString();
       Tuple2<String, String> userPersistentInfo = await AppSharedPreferences.getPersistentUserInfo();
       if(userPersistentInfo.item1 != "" && userPersistentInfo.item2 != ""){
+
+        // Store refresh time
+        AppRefreshTimesDatabase refreshTimesDatabase = await AppRefreshTimesDatabase();
+        await refreshTimesDatabase.saveRefreshTime("print", current_time);
+
+        // Store fees info
         AppUserDataDatabase profile_db = await AppUserDataDatabase();
         await profile_db.saveUserPrintBalance(printBalance);
       }
 
       store.dispatch(new SetPrintBalanceAction(printBalance));
       store.dispatch(new SetPrintBalanceStatusAction(RequestStatus.SUCCESSFUL));
-      store.dispatch(new SetPrintRefreshTimeAction(DateTime.now().toString()));
+      store.dispatch(new SetPrintRefreshTimeAction(current_time));
     }catch(e){
       print("Failed to get Print Balance");
       store.dispatch(new SetPrintBalanceStatusAction(RequestStatus.FAILED));
@@ -280,8 +287,15 @@ ThunkAction<AppState> getUserFees(Completer<Null> action) {
       String feesBalance = await parseFeesBalance(response);
       String feesLimit = await parseFeesNextLimit(response);
 
+      String current_time = DateTime.now().toString();
       Tuple2<String, String> userPersistentInfo = await AppSharedPreferences.getPersistentUserInfo();
       if(userPersistentInfo.item1 != "" && userPersistentInfo.item2 != ""){
+
+        // Store refresh time
+        AppRefreshTimesDatabase refreshTimesDatabase = await AppRefreshTimesDatabase();
+        await refreshTimesDatabase.saveRefreshTime("fees", current_time);
+
+        // Store fees info
         AppUserDataDatabase profile_db = await AppUserDataDatabase();
 
         List<String> feesInfo = new List<String>();
@@ -294,7 +308,7 @@ ThunkAction<AppState> getUserFees(Completer<Null> action) {
       store.dispatch(new SetFeesBalanceAction(feesBalance));
       store.dispatch(new SetFeesLimitAction(feesLimit));
       store.dispatch(new SetFeesStatusAction(RequestStatus.SUCCESSFUL));
-      store.dispatch(new SetFeesRefreshTimeAction(DateTime.now().toString()));
+      store.dispatch(new SetFeesRefreshTimeAction(current_time));
     }catch(e){
       print("Failed to get Fees info");
       store.dispatch(new SetFeesStatusAction(RequestStatus.FAILED));
