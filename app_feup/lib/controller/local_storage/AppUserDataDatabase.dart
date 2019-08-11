@@ -46,7 +46,13 @@ class AppUserDataDatabase extends AppDatabase {
         feesLimit = entry['value'];
     }
 
-    return Profile.secConstructor(name, email, List<Course>(), balance, feesBalance, feesLimit);
+    return Profile(
+        name: name,
+        email: email,
+        courses: List<Course>(),
+        printBalance: balance,
+        feesBalance: feesBalance,
+        feesLimit: feesLimit);
   }
 
   Future<void> _deleteUserData() async {
@@ -64,16 +70,16 @@ class AppUserDataDatabase extends AppDatabase {
       );
   }
 
-  void saveUserFees(List<String> feesInfo) async {
+  void saveUserFees(Tuple2<String, String> feesInfo) async {
     await insertInDatabase(
         'userdata',
         {"key" : "feesBalance",
-          "value" : feesInfo[0]}
+          "value" : feesInfo.item1}
     );
     await insertInDatabase(
         'userdata',
         {"key" : "feesLimit",
-          "value" : feesInfo[1]}
+          "value" : feesInfo.item2}
     );
   }
 }

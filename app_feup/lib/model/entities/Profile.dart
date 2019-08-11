@@ -5,23 +5,20 @@ import 'package:tuple/tuple.dart';
 import 'Course.dart';
 
 class Profile {
-  String name;
-  String email;
+  final String name;
+  final String email;
   List<Course> courses;
-  String printBalance;
-  String feesBalance;
-  String feesLimit;
+  final String printBalance;
+  final String feesBalance;
+  final String feesLimit;
 
-  Profile({this.name, this.email, this.courses});
-
-  Profile.secConstructor(String name, String email, List<Course> courses, String printBalance, String feesBalance, String feesLimit) {
-    this.name = name;
-    this.email = email;
-    this.courses = courses;
-    this.printBalance = printBalance;
-    this.feesBalance = feesBalance;
-    this.feesLimit = feesLimit;
-  }
+  Profile({
+    this.name,
+    this.email,
+    this.courses,
+    this.printBalance = "",
+    this.feesBalance = "",
+    this.feesLimit = ""});
 
   static Profile fromResponse(dynamic response) {
     final responseBody = json.decode(response.body);

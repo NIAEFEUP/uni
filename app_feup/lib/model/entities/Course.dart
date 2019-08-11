@@ -1,21 +1,11 @@
 class Course {
-  int id;
-  int fest_id;
-  String name;
-  String abbreviation;
-  String currYear;
-  int firstEnrollment;
-  String state = "";
-
-  Course.secConstructor(int id, int fest_id, String name, String abbreviation, String currYear, int firstEnrollment, String state) {
-    this.id = id;
-    this.fest_id = fest_id;
-    this.name = name;
-    this.abbreviation = abbreviation;
-    this.currYear = currYear;
-    this.firstEnrollment = firstEnrollment;
-    this.state = state;
-  }
+  final int id;
+  final int fest_id;
+  final String name;
+  final String abbreviation;
+  final String currYear;
+  final int firstEnrollment;
+  final String state;
 
   Course(
       {int this.id,
@@ -23,7 +13,8 @@ class Course {
         String this.name,
         String this.abbreviation,
         String this.currYear,
-        int this.firstEnrollment});
+        int this.firstEnrollment,
+        String this.state = ""});
 
   static Course fromJson(dynamic data) {
     return Course(

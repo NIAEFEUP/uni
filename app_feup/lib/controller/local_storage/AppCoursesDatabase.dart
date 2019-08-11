@@ -21,14 +21,14 @@ class AppCoursesDatabase extends AppDatabase {
 
     // Convert the List<Map<String, dynamic> into a List<Course>.
     return List.generate(maps.length, (i) {
-      return Course.secConstructor(
-          maps[i]['id'],
-          maps[i]['fest_id'],
-          maps[i]['name'],
-          maps[i]['abbreviation'],
-          maps[i]['currYear'],
-          maps[i]['firstEnrollment'],
-          maps[i]['state']
+      return Course(
+          id: maps[i]['id'],
+          fest_id: maps[i]['fest_id'],
+          name: maps[i]['name'],
+          abbreviation: maps[i]['abbreviation'],
+          currYear: maps[i]['currYear'],
+          firstEnrollment: maps[i]['firstEnrollment'],
+          state: maps[i]['state']
       );
     });
   }

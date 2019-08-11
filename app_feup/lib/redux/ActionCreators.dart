@@ -251,9 +251,7 @@ ThunkAction<AppState> getUserPrintBalance(Completer<Null> action) {
       Tuple2<String, String> userPersistentInfo = await AppSharedPreferences.getPersistentUserInfo();
       if(userPersistentInfo.item1 != "" && userPersistentInfo.item2 != ""){
 
-        // Store refresh time
-        AppRefreshTimesDatabase refreshTimesDatabase = await AppRefreshTimesDatabase();
-        await refreshTimesDatabase.saveRefreshTime("print", current_time);
+        await storeRefreshTime("print", current_time);
 
         // Store fees info
         AppUserDataDatabase profile_db = await AppUserDataDatabase();
@@ -291,18 +289,11 @@ ThunkAction<AppState> getUserFees(Completer<Null> action) {
       Tuple2<String, String> userPersistentInfo = await AppSharedPreferences.getPersistentUserInfo();
       if(userPersistentInfo.item1 != "" && userPersistentInfo.item2 != ""){
 
-        // Store refresh time
-        AppRefreshTimesDatabase refreshTimesDatabase = await AppRefreshTimesDatabase();
-        await refreshTimesDatabase.saveRefreshTime("fees", current_time);
+        await storeRefreshTime("fees", current_time);
 
         // Store fees info
         AppUserDataDatabase profile_db = await AppUserDataDatabase();
-
-        List<String> feesInfo = new List<String>();
-        feesInfo.add(feesBalance);
-        feesInfo.add(feesLimit);
-
-        await profile_db.saveUserFees(feesInfo);
+        await profile_db.saveUserFees(new Tuple2<String,String>(feesBalance, feesLimit));
       }
 
       store.dispatch(new SetFeesBalanceAction(feesBalance));
@@ -349,4 +340,9 @@ ThunkAction<AppState> getUserCoursesState(Completer<Null> action) {
 
     action.complete();
   };
+}
+
+Future storeRefreshTime(String db, String current_time) async {
+  AppRefreshTimesDatabase refreshTimesDatabase = await AppRefreshTimesDatabase();
+  await refreshTimesDatabase.saveRefreshTime(db, current_time);
 }

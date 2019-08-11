@@ -18,6 +18,7 @@ ThemeData applicationTheme = new ThemeData(
   primaryColor: primaryColor,
   accentColor: accentColor,
   hintColor: hintColor,
+  indicatorColor: lightGreyTextColor,
 
   fontFamily: 'Montserrat',
 

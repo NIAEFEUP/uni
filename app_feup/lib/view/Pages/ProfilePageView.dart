@@ -210,7 +210,7 @@ class ProfilePageView extends SecondaryPageView {
               child:
                 Text("última atualização " +  DateTime.now().difference(DateTime.parse(printRefreshTime)).inMinutes.toString() + " min atrás",
                     style: TextStyle(
-                      color: lightGreyTextColor,
+                      color: Theme.of(context).indicatorColor,
                       fontSize: 12.0
                     )),
               height: 25,
@@ -284,7 +284,7 @@ class ProfilePageView extends SecondaryPageView {
                 child:
                 Text("última atualização " +  DateTime.now().difference(DateTime.parse(feesRefreshTime)).inMinutes.toString() + " min atrás",
                     style: TextStyle(
-                        color: lightGreyTextColor,
+                        color: Theme.of(context).indicatorColor,
                         fontSize: 12.0
                     )),
                 height: 25,
