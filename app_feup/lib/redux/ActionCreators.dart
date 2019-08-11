@@ -152,10 +152,17 @@ ThunkAction<AppState> getUserExams(Completer<Null> action) {
       //need to get student course here
       store.dispatch(new SetExamsStatusAction(RequestStatus.BUSY));
 
-      List<Exam> courseExams = await parseExams(
-          await NetworkRouter.getWithCookies(NetworkRouter.getBaseUrlFromSession(store.state.content['session']) + "exa_geral.mapa_de_exames?p_curso_id=742",
-          {}, store.state.content['session'].cookies)
-      );
+      List<Exam> courseExams = new List<Exam>();
+
+
+      for(Course course in store.state.content['profile'].courses){
+        List<Exam> currentCourseExams = await parseExams(
+            await NetworkRouter.getWithCookies(
+                NetworkRouter.getBaseUrlFromSession(store.state.content['session']) + "exa_geral.mapa_de_exames?p_curso_id=${course.id}",
+                {}, store.state.content['session'].cookies)
+        );
+        courseExams = new List.from(courseExams)..addAll(currentCourseExams);
+      }
 
       List<CourseUnit> userUcs = store.state.content['currUcs'];
       List<Exam> exams = new List<Exam>();
