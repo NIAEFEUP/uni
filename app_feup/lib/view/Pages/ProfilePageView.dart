@@ -209,10 +209,7 @@ class ProfilePageView extends SecondaryPageView {
             new Container(
               child:
                 Text("última atualização " +  DateTime.now().difference(DateTime.parse(printRefreshTime)).inMinutes.toString() + " min atrás",
-                    style: TextStyle(
-                      color: Theme.of(context).indicatorColor,
-                      fontSize: 12.0
-                    )),
+                    style: Theme.of(context).textTheme.display3),
               height: 25,
               alignment: Alignment.center
             )
@@ -283,10 +280,7 @@ class ProfilePageView extends SecondaryPageView {
             new Container(
                 child:
                 Text("última atualização " +  DateTime.now().difference(DateTime.parse(feesRefreshTime)).inMinutes.toString() + " min atrás",
-                    style: TextStyle(
-                        color: Theme.of(context).indicatorColor,
-                        fontSize: 12.0
-                    )),
+                    style: Theme.of(context).textTheme.display3),
                 height: 25,
                 alignment: Alignment.center
             )

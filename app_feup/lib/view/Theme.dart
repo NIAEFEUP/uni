@@ -18,7 +18,6 @@ ThemeData applicationTheme = new ThemeData(
   primaryColor: primaryColor,
   accentColor: accentColor,
   hintColor: hintColor,
-  indicatorColor: lightGreyTextColor,
 
   fontFamily: 'Montserrat',
 
@@ -29,6 +28,7 @@ ThemeData applicationTheme = new ThemeData(
     subtitle: TextStyle(fontSize: 22.0, color: subtitleColor, fontWeight: FontWeight.w200, fontFamily: 'HelveticaNeue'),
     display1: TextStyle(fontSize: 17.0, color: whiteTextColor, fontWeight: FontWeight.w300),
     display2: TextStyle(fontSize: 17.0, color: primaryColor, fontWeight: FontWeight.w500),
+    display3: TextStyle(fontSize: 12.0, color: lightGreyTextColor)
   ),
 
 
