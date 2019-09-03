@@ -46,6 +46,7 @@ class _stopsListingState extends State<stopsListing>{
   Future<void> updateConfiguredStops() async {
     await getDatabase();
     configuredStops = await db.busStops();
+    this.setState((){});
   }
 
   List<Widget> getConfiguredStops() {
@@ -57,18 +58,21 @@ class _stopsListingState extends State<stopsListing>{
     return stops;
   }
 
+  List<String> getConfiguredStopsStrings() {
+    updateConfiguredStops();
+    List<String> stops = new List();
+    for (String stop in configuredStops) {
+      stops.add(stop);
+    }
+    return stops;
+  }
+
   @override
   Widget build(BuildContext context) {
     this.updateConfiguredStops();
     return ListView(
         children: <Widget>[
           Text("Current bus stops:"),
-          IconButton(
-              icon: Icon(Icons.ac_unit),
-              onPressed: () {
-                db.addBusStop("STCP_FEUP1");
-              }
-          ),
           Column(
               mainAxisSize: MainAxisSize.max,
               children: List.generate(getConfiguredStops().length, (i) {
@@ -79,7 +83,7 @@ class _stopsListingState extends State<stopsListing>{
                         icon: Icon(Icons.cancel),
                         onPressed: () {
                           db.removeBusStop(configuredStops[i]);
-                          updateConfiguredStops();
+                          this.updateConfiguredStops();
                         },
                       )
                     ]
