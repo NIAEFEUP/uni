@@ -1,4 +1,5 @@
 import 'package:app_feup/model/entities/Exam.dart';
+import 'package:app_feup/view/Widgets/PageTitle.dart';
 import 'package:flutter/material.dart';
 import '../Pages/SecondaryPageView.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -45,6 +46,7 @@ class ExamsPageView extends SecondaryPageView {
   }
   List<Widget> createExamsColumn(context, exams){
     List<Widget> columns = new List<Widget>();
+    columns.add(new PageTitle(name: 'Exams',));
     List<Exam> currentDayExams = new List<Exam>();
     for(int i = 0; i < exams.length; i++)
     {
@@ -76,19 +78,20 @@ class ExamsPageView extends SecondaryPageView {
   Widget createExamCard(context, exams){
     return new Container(
       margin: EdgeInsets.only(bottom: 8),
-      child: new Column(children: this.createExamsCards(context, exams)
+      padding: EdgeInsets.all(8),
+      child: new Card(child: this.createExamsCards(context, exams)
       ),
     );
   }
 
-  List<Widget> createExamsCards(context, exams){
+  Widget createExamsCards(context, exams){
     List<Widget> examCards = new List<Widget>();
     examCards.add(new TitleCard(day: exams[0].day, weekDay: exams[0].weekDay, month: exams[0].month));
     for(int i = 0; i < exams.length; i++)
     {
       examCards.add(this.createExamContext(context, exams[i]));
     }
-    return examCards;
+    return new Column(children: examCards);
   }
 
   Widget createExamContext(context, exam){

@@ -39,7 +39,7 @@ class BusStopRow extends StatelessWidget{
     if(nextTrips.length == 0){
       rows.add(
         new Container(
-          child: Text("No planned arrivals at the moment",style: Theme.of(context).textTheme.display1.apply(color: black)),
+          child: Text("No planned arrivals at the moment",style: Theme.of(context).textTheme.display1.apply(color: Colors.black)),
         )
       );
     }else{

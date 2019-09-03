@@ -19,9 +19,9 @@ class Lecture {
     this.blocks = blocks;
     this.startTimeSeconds = startTimeSeconds;
 
-    this.startTime = (startTimeSeconds~/3600).toString().padLeft(2, '0') + 'h' + ((startTimeSeconds%3600)~/60).toString().padLeft(2, '0');
+    this.startTime = (startTimeSeconds~/3600).toString().padLeft(2, '0') + ':' + ((startTimeSeconds%3600)~/60).toString().padLeft(2, '0');
     startTimeSeconds += 60*30*blocks;
-    this.endTime = (startTimeSeconds~/3600).toString().padLeft(2, '0') + 'h' + ((startTimeSeconds%3600)~/60).toString().padLeft(2, '0');
+    this.endTime = (startTimeSeconds~/3600).toString().padLeft(2, '0') + ':' + ((startTimeSeconds%3600)~/60).toString().padLeft(2, '0');
   }
 
   static Lecture clone(Lecture lec){

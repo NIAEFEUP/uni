@@ -1,4 +1,5 @@
 import 'package:app_feup/view/Widgets/BusStopCard.dart';
+import 'package:app_feup/view/Widgets/PageTitle.dart';
 import 'package:app_feup/view/Widgets/ScheduleCard.dart';
 import 'package:app_feup/view/Widgets/HomePageBackButton.dart';
 import 'package:flutter/material.dart';
@@ -14,13 +15,7 @@ class HomePageView extends GeneralPageView {
         child:  new ListView(
           shrinkWrap: false,
           children: <Widget>[
-            new Container(
-              padding: EdgeInsets.fromLTRB(20, 20, 0, 0),
-              child: new Text(
-                'Favorites:',
-                style: Theme.of(context).textTheme.title,
-              ),
-            ),
+            new PageTitle(name: 'Favorites',),
             ExamCard(),
 
             ScheduleCard(),

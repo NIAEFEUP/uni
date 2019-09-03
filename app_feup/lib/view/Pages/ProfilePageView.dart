@@ -31,21 +31,19 @@ class ProfilePageView extends SecondaryPageView {
   Widget createScrollableProfileView(BuildContext context){
     return ListView(
       shrinkWrap: false,
-      padding: const EdgeInsets.all(20.0),
       children: childrenList(context)
     );
   }
 
   List<Widget> childrenList(BuildContext context) {
     List<Widget> list = new List();
+    list.add(Padding(padding: const EdgeInsets.all(10.0)));
     list.add(profileInfo(context));
     list.add(Padding(padding: const EdgeInsets.all(10.0)));
     for(var i = 0; i < courses.length; i++){
       list.add(courseInfo(context, courses[i], currentState[courses[i].name]));
-      list.add(Padding(padding: const EdgeInsets.all(10.0)));
     }
     list.add(printsInfo(context));
-    list.add(Padding(padding: const EdgeInsets.all(10.0)));
     list.add(accountInfo(context));
     return list;
   }
@@ -105,14 +103,7 @@ class ProfilePageView extends SecondaryPageView {
             ),
             Container(
               margin: const EdgeInsets.only(top: 20.0, bottom: 8.0, right: 30.0),
-              child: Text(course.currYear,
-                textAlign: TextAlign.end,
-                style: TextStyle(
-                  color: greyTextColor,
-                  fontSize: 14.0,
-                  fontWeight: FontWeight.w500
-                )
-              ),
+              child: getInfoText(course.currYear, context),
             )
           ]),
           TableRow(children: [
@@ -127,15 +118,8 @@ class ProfilePageView extends SecondaryPageView {
               ),
             ),
             Container(
-              margin: const EdgeInsets.only(top: 10.0, bottom: 8.0, right: 30.0),
-              child: Text(state,
-                textAlign: TextAlign.end,
-                style: TextStyle(
-                  color: greyTextColor,
-                  fontSize: 14.0,
-                  fontWeight: FontWeight.w500
-                )
-              ),
+              margin: const EdgeInsets.only(top: 10.0, bottom: 8.0, right: 20.0),
+              child: getInfoText(state, context),
             )
           ]),
           TableRow(children: [
@@ -150,20 +134,20 @@ class ProfilePageView extends SecondaryPageView {
               ),
             ),
             Container(
-              margin: const EdgeInsets.only(top: 10.0, bottom: 20.0, right: 30.0),
-              child: Text(course.firstEnrollment.toString() + "/" + (course.firstEnrollment+1).toString(),
-                textAlign: TextAlign.end,
-                style: TextStyle(
-                  color: greyTextColor,
-                  fontSize: 14.0,
-                  fontWeight: FontWeight.w500
-                )
-              ),
+              margin: const EdgeInsets.only(top: 10.0, bottom: 20.0, right: 25.0),
+              child: getInfoText(course.firstEnrollment.toString() + "/" + (course.firstEnrollment+1).toString(), context)
             )
           ]),
         ]
       )
     );
+  }
+
+  Text getInfoText(String text, BuildContext context) {
+    return Text(text,
+              textAlign: TextAlign.end,
+              style: Theme.of(context).textTheme.display2
+            );
   }
 
   Widget printsInfo (BuildContext context){
@@ -186,14 +170,7 @@ class ProfilePageView extends SecondaryPageView {
             ),
             Container(
               margin: const EdgeInsets.only(top: 20.0, bottom: 20.0, right: 30.0),
-              child: Text(printBalance,
-                textAlign: TextAlign.end,
-                style: TextStyle(
-                  color: greyTextColor,
-                  fontSize: 14.0,
-                  fontWeight: FontWeight.w500
-                )
-              ),
+              child: getInfoText(printBalance, context),
             )
           ])
         ]
@@ -221,14 +198,7 @@ class ProfilePageView extends SecondaryPageView {
             ),
             Container(
               margin: const EdgeInsets.only(top: 20.0, bottom: 8.0, right: 30.0),
-              child: Text(feesBalance,
-                textAlign: TextAlign.end,
-                style: TextStyle(
-                  color: greyTextColor,
-                  fontSize: 14.0,
-                  fontWeight: FontWeight.w500
-                )
-              ),
+              child: getInfoText(feesBalance, context),
             )
           ]),
           TableRow(children: [
@@ -244,14 +214,7 @@ class ProfilePageView extends SecondaryPageView {
             ),
             Container(
               margin: const EdgeInsets.only(top: 8.0, bottom: 20.0, right: 30.0),
-              child: Text(nextFeeLimitData,
-                textAlign: TextAlign.end,
-                style: TextStyle(
-                  color: greyTextColor,
-                  fontSize: 14.0,
-                  fontWeight: FontWeight.w500
-                )
-              ),
+              child: getInfoText(nextFeeLimitData, context),
             )
           ])
         ]
