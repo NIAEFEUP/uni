@@ -31,20 +31,40 @@ class BusStopCard extends StatelessWidget{
   Widget getCardContent(BuildContext context, busStops) {
     switch (StoreProvider.of<AppState>(context).state.content['busstopStatus']) {
       case RequestStatus.SUCCESSFUL:
-        return this.getBusStopInfo(context, busStops);
+        return Column(
+          children: <Widget>[
+            this.getTitle(context),
+            this.getBusStopInfo(context, busStops)
+          ]
+        );
         break;
       case RequestStatus.BUSY:
-        return Center(child: CircularProgressIndicator());
+        return Column(
+          children: <Widget>[
+            this.getTitle(context),
+            Center(child: CircularProgressIndicator())
+          ],)
+        ;
         break;
       case RequestStatus.FAILED:
         return Column(
           children : <Widget> [
+            this.getTitle(context),
             Text("Failed to get new information", style: Theme.of(context).textTheme.display1.apply(color: primaryColor)),
             this.getBusStopInfo(context, busStops),
           ]
         );
         break;
     }
+  }
+  
+  Widget getTitle(context){
+    return Row(
+      children: <Widget>[
+        Icon(Icons.directions_bus),
+        Text("STCP", style: Theme.of(context).textTheme.display1.apply(color: primaryColor))
+      ],
+    );
   }
 
   Widget getBusStopInfo(context, busStops){
