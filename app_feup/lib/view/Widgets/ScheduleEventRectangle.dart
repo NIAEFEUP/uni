@@ -3,14 +3,12 @@ import 'package:flutter/material.dart';
 
 class ScheduleEventRectangle extends StatelessWidget{
   final String subject;
-  final String teacher;
   final String type;
   final double borderRadius = 12.0;
   final double sideSizing = 12.0;
 
   ScheduleEventRectangle({Key key,
     @required this.subject,
-    this.teacher,
     this.type}) : super(key: key);
 
   @override
