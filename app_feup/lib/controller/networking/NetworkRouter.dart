@@ -102,13 +102,7 @@ class NetworkRouter {
 
     var json = jsonDecode(response.body);
 
-    var num_maximo = 6;
-
     for (var TripKey in json) {
-      if(num_maximo == 0){
-        break;
-      }
-
       var trip = TripKey['Value'];
       String line = trip[0];
       String destination = trip[1];
@@ -119,8 +113,6 @@ class NetworkRouter {
       Trip newTrip = Trip(line:line, destination:destination, timeRemaining:timeRemaining);
       newTrip.printTrip();
       tripList.add(newTrip);
-
-      num_maximo--;
     }
 
     tripList.sort((a, b) => a.compare(b));

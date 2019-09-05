@@ -11,8 +11,12 @@ import 'BusStopTimeStampRow.dart';
 class BusStopCard extends StatelessWidget{
 
   final double padding = 8.0;
+  String title;
 
-  BusStopCard({Key key}) : super(key: key);
+  BusStopCard({
+    Key key,
+    @required this.title
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +38,7 @@ class BusStopCard extends StatelessWidget{
         return Column(
           children: <Widget>[
             this.getTitle(context),
-            this.getBusStopInfo(context, busStops)
+            this.getBusStopsInfo(context, busStops)
           ]
         );
         break;
@@ -43,15 +47,15 @@ class BusStopCard extends StatelessWidget{
           children: <Widget>[
             this.getTitle(context),
             Center(child: CircularProgressIndicator())
-          ],)
-        ;
+          ],
+        );
         break;
       case RequestStatus.FAILED:
         return Column(
           children : <Widget> [
             this.getTitle(context),
             Text("Failed to get new information", style: Theme.of(context).textTheme.display1.apply(color: primaryColor)),
-            this.getBusStopInfo(context, busStops),
+            this.getBusStopsInfo(context, busStops),
           ]
         );
         break;
@@ -62,18 +66,17 @@ class BusStopCard extends StatelessWidget{
     return Row(
       children: <Widget>[
         Icon(Icons.directions_bus),
-        Text("STCP", style: Theme.of(context).textTheme.display1.apply(color: primaryColor))
+        Text(this.title, style: Theme.of(context).textTheme.display1.apply(color: primaryColor))
       ],
     );
   }
 
-  Widget getBusStopInfo(context, busStops){
+  Widget getBusStopsInfo(context, busStops){
     if (busStops.length >= 1)
       return
         Container(
             padding: EdgeInsets.all(padding),
             child: new Column(
-              mainAxisSize: MainAxisSize.min,
               children: this.getBusStopRows(context, busStops),
             ));
     else
@@ -87,17 +90,13 @@ class BusStopCard extends StatelessWidget{
     List<Widget> rows = new List<Widget>();
     var size = busStops.length;
 
-    rows.add(new BusStopTimeStampRow());
+    rows.add(new BusStopTimeStamp());
 
     for(int i = 0; i < busStops.length; i++){
-      rows.add(this.createRowFromBusStop(context, busStops[i]));
+      rows.add(new BusStopRow(
+          busStop : busStops[i]
+      ));
     }
     return rows;
-  }
-
-  Widget createRowFromBusStop(context, stop){
-    return new BusStopRow(
-        busStop : stop
-    );
   }
 }

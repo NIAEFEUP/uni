@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../Theme.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
-class BusStopTimeStampRow extends StatelessWidget{
+class BusStopTimeStamp extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
