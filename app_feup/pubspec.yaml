@@ -27,8 +27,8 @@ dependencies:
   path_provider: any
   sqflite: ^1.1.0
   path: ^1.6.2
-  cached_network_image: ^1.1.0
-  flutter_svg: ^0.13.0
+  cached_network_image: ^1.0.0
+  flutter_svg: ^0.13.1
   synchronized: ^2.1.0
 
   # The following adds the Cupertino Icons font to your application.
@@ -54,9 +54,26 @@ flutter:
   uses-material-design: true
 
   fonts:
-    - family: HelveticaNeue
+    - family: Raleway
       fonts:
-        - asset: assets/fonts/HelveticaNeue.ttf
+        - asset: assets/fonts/Raleway-Black.ttf
+          weight: 900
+        - asset: assets/fonts/Raleway-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Raleway-ExtraBold.ttf
+          weight: 800
+        - asset: assets/fonts/Raleway-ExtraLight.ttf
+          weight: 200
+        - asset: assets/fonts/Raleway-Light.ttf
+          weight: 300
+        - asset: assets/fonts/Raleway-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Raleway-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Raleway-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Raleway-Thin.ttf
+          weight: 100
 
   # To add assets to your application, add an assets section, like this:
   # assets:
