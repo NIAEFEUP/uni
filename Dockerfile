@@ -6,6 +6,4 @@ COPY ./app_feup/ /app
 
 WORKDIR /app
 
-RUN ls -la 
-
 RUN flutter pub get

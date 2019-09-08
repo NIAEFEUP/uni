@@ -70,6 +70,7 @@ abstract class GeneralPageView extends StatelessWidget {
             color: Theme.of(context).accentColor,
             height: 1.5,
           ),
+          preferredSize: null,
         ),
         elevation: 0,
         iconTheme: new IconThemeData(color: Theme.of(context).primaryColor),

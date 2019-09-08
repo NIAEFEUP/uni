@@ -9,9 +9,6 @@ import '../Widgets/ScheduleRow.dart';
 
 class ExamsPageView extends SecondaryPageView {
 
-  final double borderRadius = 15.0;
-  final DateTime now = new DateTime.now();
-
   ExamsPageView({
     Key key
   });
@@ -21,17 +18,33 @@ class ExamsPageView extends SecondaryPageView {
     return StoreConnector<AppState, List<dynamic>>(
       converter: (store) => store.state.content['exams'],
       builder: (context, exams){
-        return ListView(
-          children: <Widget>[
-            Container(
-              child: new Column(
-              mainAxisSize: MainAxisSize.max,
-              children: this.parseExamsByDate(context, exams),
+        return new ExamsList(exams: exams);
+      },
+    );
+  }
+}
+
+class ExamsList extends StatelessWidget {
+  final double borderRadius = 15.0;
+  final DateTime now = new DateTime.now();
+  final List<Exam> exams;
+
+  ExamsList({
+    Key key,
+    @required this.exams,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      children: <Widget>[
+        Container(
+          child: new Column(
+          mainAxisSize: MainAxisSize.max,
+          children: this.parseExamsByDate(context, this.exams),
           ),
         )
-        ],
-        );
-      },
+      ],
     );
   }
 
@@ -83,6 +96,7 @@ class ExamsPageView extends SecondaryPageView {
 
   Widget createExamCard(context, exams){
     return new Container(
+      key: new Key('exam-card'),  
       margin: EdgeInsets.only(bottom: 8),
       padding: EdgeInsets.all(8),
       child: new Card(child: this.createExamsCards(context, exams)
