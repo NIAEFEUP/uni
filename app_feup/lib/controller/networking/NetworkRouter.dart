@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:app_feup/controller/local_storage/AppSharedPreferences.dart';
 import 'package:app_feup/model/entities/CourseUnit.dart';
 import 'package:app_feup/model/entities/Profile.dart';
 import 'package:app_feup/model/entities/Session.dart';
@@ -13,6 +14,7 @@ class NetworkRouter {
   static Lock loginLock = Lock();
 
   static int requestCount = 0;
+
   static Future<Session> login(
       String user, String pass, String faculty, bool persistentSession) async {
     final String url =
@@ -21,9 +23,7 @@ class NetworkRouter {
         await http.post(url, body: {"pv_login": user, "pv_password": pass});
     if (response.statusCode == 200) {
       final Session session = Session.fromLogin(response);
-      if (persistentSession) {
-        session.setPersistentSession(faculty, pass);
-      }
+      session.persistentSession = persistentSession;
       print('Login successful');
       return session;
     } else {
@@ -53,7 +53,7 @@ class NetworkRouter {
           NetworkRouter.getBaseUrl(session.faculty) + 'mob_val_geral.autentica';
       final http.Response response = await http.post(url, body: {
         "pv_login": session.studentNumber,
-        "pv_password": session.password
+        "pv_password": await AppSharedPreferences.getUserPassword(),
       });
       if (response.statusCode == 200) {
         session.setCookies(NetworkRouter.extractCookies(response.headers));
@@ -109,6 +109,10 @@ class NetworkRouter {
 
   static Future<http.Response> getWithCookies(
       String baseUrl, Map<String, String> query, Session session) async {
+    final loginSuccessful = await session.loginRequest;
+    if (loginSuccessful is bool && !loginSuccessful)
+      return Future.error('Login failed');
+
     print('getWithCookies: Req. count = $requestCount');
     if (requestCount > 5) {
       session.setCookies("cookies"); // Fake expired cookies

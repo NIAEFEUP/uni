@@ -6,11 +6,10 @@ import 'package:app_feup/controller/networking/NetworkRouter.dart';
 class Session {
   bool authenticated;
   bool persistentSession = false;
-  String studentNumber;
-  String faculty = 'feup'; // change this
+  String faculty = 'feup'; // should not be hardcoded
   String type;
   String cookies;
-  String password;
+  String studentNumber;
   Future loginRequest;
 
   Session(
@@ -34,12 +33,6 @@ class Session {
 
   void setCookies(String cookies) {
     this.cookies = cookies;
-  }
-
-  void setPersistentSession(String faculty, String password) {
-    this.persistentSession = true;
-    this.faculty = faculty;
-    this.password = password;
   }
 
 }
