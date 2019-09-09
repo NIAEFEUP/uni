@@ -30,16 +30,20 @@ class BugReportFormState extends State<BugReportForm> {
   void loadBugClassList() {
     bugList = [];
     bugList.add(new DropdownMenuItem(
-      child: new Text('Bug 1'),
+      child: new Text('Mosca'),
       value: 0,
     ));
     bugList.add(new DropdownMenuItem(
-      child: new Text('Bug 2'),
+      child: new Text('Mosquito'),
       value: 1,
     ));
     bugList.add(new DropdownMenuItem(
-      child: new Text('Bug 3'),
+      child: new Text('Escaravelho'),
       value: 2,
+    ));
+    bugList.add(new DropdownMenuItem(
+      child: new Text('Aranha'),
+      value: 3,
     ));
   }
 
@@ -56,22 +60,33 @@ class BugReportFormState extends State<BugReportForm> {
     return new Container(
       margin: EdgeInsets.only(bottom: 50),
       child: new Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           new Text(
             'Seleciona o tipo de bug',
             style: Theme.of(context).textTheme.body1,
             textAlign: TextAlign.left,
           ),
-          new DropdownButton(
-            hint: new Text('Seleciona o tipo de bug'),
-            items: bugList,
-            value: _selectedBug,
-            onChanged: (value) {
-              setState(() {
-                _selectedBug = value;
-              });
-            },
-            isExpanded: true,
+          new Row(
+              children: <Widget>[
+                new Container(
+                  margin: new EdgeInsets.only(right:15),
+                  child: new Icon(Icons.bug_report)
+                ),
+                Expanded(
+                    child: new DropdownButton(
+                      hint: new Text('Seleciona o tipo de bug'),
+                      items: bugList,
+                      value: _selectedBug,
+                      onChanged: (value) {
+                        setState(() {
+                          _selectedBug = value;
+                        });
+                      },
+                      isExpanded: true,
+                    )
+                )
+              ]
           )
         ],
       ),
@@ -83,28 +98,37 @@ class BugReportFormState extends State<BugReportForm> {
     return new Container(
       //margin: EdgeInsets.all(0),
       child: new Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           new Text(
             'Descreve o bug',
             style: Theme.of(context).textTheme.body1,
             textAlign: TextAlign.left,
           ),
-          new TextFormField(
-            // margins
-            minLines: 6,
-            maxLines: 30,
-            decoration: const InputDecoration(
-              icon: Icon(Icons.description),
-              hintText: 'What do people call you?',
-              labelText: 'Descrição',
-            ),
-            validator: (value) {
-              // TODO filter stuff to prevent attacks?
-              if (value.isEmpty) {
-                return 'Please enter some text';
-              }
-              return null;
-            },
+          new Row(
+              children: <Widget>[
+                new Container(
+                    margin: new EdgeInsets.only(right:15),
+                    child: new Icon(Icons.description)
+                ),
+                Expanded(
+                    child: new TextFormField(
+                      // margins
+                      minLines: 1,
+                      maxLines: 15,
+                      decoration: const InputDecoration(
+                        hintText: 'Descrição do bug encontrado',
+                        labelText: 'Descrição',
+                      ),
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Please enter some text';
+                        }
+                        return null;
+                      },
+                    )
+                )
+              ]
           )
         ],
       ),

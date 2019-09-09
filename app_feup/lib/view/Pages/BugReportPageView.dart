@@ -8,9 +8,10 @@ class BugReportPageView extends GeneralPageView {
 
   @override
   Widget getBody(BuildContext context) {
-    return new Column(
+    return new ListView(
       children: <Widget>[
-        new PageTitle(name: 'Bug report'),
+        BugReportTitle(),
+        //new PageTitle(name: 'Bug report'),
         new Container(
           margin: new EdgeInsets.only(left: 20.0, right: 20.0, top: 10.0),
           child: new Center(
@@ -27,6 +28,34 @@ class BugReportPageView extends GeneralPageView {
             child: new BugReportForm()
         )
       ]
+    );
+  }
+
+  Widget BugReportTitle() {
+    return new Container(
+      alignment: Alignment.center,
+      margin: new EdgeInsets.symmetric(vertical: 20, horizontal: 70),
+        child: new Row(
+          children: <Widget>[
+            Icon(
+                Icons.bug_report,
+                color: Colors.deepOrange,
+                size: 50.0
+            ),
+            Expanded(
+              child: Text(
+                "Bug Report",
+                textScaleFactor: 2,
+                textAlign: TextAlign.center,
+              )
+            ),
+            Icon(
+                Icons.bug_report,
+                color: Colors.deepOrange,
+                size: 50.0
+            ),
+          ],
+        )
     );
   }
 }
