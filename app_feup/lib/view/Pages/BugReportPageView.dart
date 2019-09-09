@@ -10,10 +10,17 @@ class BugReportPageView extends GeneralPageView {
   Widget getBody(BuildContext context) {
     return new ListView(
       children: <Widget>[
+
         BugReportTitle(),
-        //new PageTitle(name: 'Bug report'),
+
         new Container(
+          decoration: const BoxDecoration(
+            border: Border(
+              bottom: BorderSide()
+            )
+          ),
           margin: new EdgeInsets.only(left: 20.0, right: 20.0, top: 10.0),
+          padding: new EdgeInsets.only(bottom: 20),
           child: new Center(
             child: Text(
               "Encontraste algum Bug na aplicação?\nConta-nos sobre ele para que o possamos resolver!",
@@ -22,11 +29,12 @@ class BugReportPageView extends GeneralPageView {
             ),
           ),
         ),
+
         new Container(
             height: 500,//queryData.size.height,
-            margin: new EdgeInsets.only(left: 40.0, right: 40.0, top: 50.0),
+            margin: new EdgeInsets.only(left: 40.0, right: 40.0),
             child: new BugReportForm()
-        )
+        ),
       ]
     );
   }

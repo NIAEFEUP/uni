@@ -52,13 +52,14 @@ class BugReportFormState extends State<BugReportForm> {
 
     formWidget.add(DropdownBugSelectWidget(context));
     formWidget.add(BugDescriptionWidget(context));
+    formWidget.add(SubmitButton());
 
     return formWidget;
   }
 
   Widget DropdownBugSelectWidget(BuildContext context) {
     return new Container(
-      margin: EdgeInsets.only(bottom: 50),
+      margin: EdgeInsets.only(bottom: 40, top: 20),
       child: new Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -96,7 +97,6 @@ class BugReportFormState extends State<BugReportForm> {
 
   Widget BugDescriptionWidget(BuildContext context) {
     return new Container(
-      //margin: EdgeInsets.all(0),
       child: new Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -115,14 +115,14 @@ class BugReportFormState extends State<BugReportForm> {
                     child: new TextFormField(
                       // margins
                       minLines: 1,
-                      maxLines: 15,
+                      maxLines: 30,
                       decoration: const InputDecoration(
                         hintText: 'Descrição do bug encontrado',
                         labelText: 'Descrição',
                       ),
                       validator: (value) {
                         if (value.isEmpty) {
-                          return 'Please enter some text';
+                          return 'Descreve lá o bug sefachavor';
                         }
                         return null;
                       },
@@ -133,6 +133,31 @@ class BugReportFormState extends State<BugReportForm> {
         ],
       ),
 
+    );
+  }
+
+  Widget SubmitButton() {
+    return new Container(
+      margin: new EdgeInsets.only(top: 50),
+      child: RaisedButton(
+        padding: EdgeInsets.symmetric(vertical: 10.0),
+        onPressed: () {
+
+          if (_formKey.currentState.validate()) {
+
+            
+
+          }
+        },
+        child: Text(
+          'Enviar',
+          style: TextStyle(
+              color: Colors.white,
+              fontSize: 20.0
+          ),
+        ),
+        color: Colors.deepOrange,
+      )
     );
   }
 
