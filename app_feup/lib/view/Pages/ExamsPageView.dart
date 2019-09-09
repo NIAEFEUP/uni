@@ -95,8 +95,9 @@ class ExamsList extends StatelessWidget {
   }
 
   Widget createExamCard(context, exams){
+    final keyValue = exams.map((exam) => exam.toString()).join();
     return new Container(
-      key: new Key('exam-card'),  
+      key: new Key(keyValue),  
       margin: EdgeInsets.only(bottom: 8),
       padding: EdgeInsets.all(8),
       child: new Card(child: this.createExamsCards(context, exams)
@@ -115,7 +116,9 @@ class ExamsList extends StatelessWidget {
   }
 
   Widget createExamContext(context, exam){
-    return Container(
+    final keyValue = '${exam.toString()}-exam';
+        return Container(
+        key: new Key(keyValue)  ,
         margin: EdgeInsets.fromLTRB(12, 4, 12, 0),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(this.borderRadius))),
