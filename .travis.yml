@@ -2,4 +2,4 @@ services:
   - docker
 
 script:
-  - docker-compose up --exit-code-from test
+  - docker build -t app-feup . && docker run -it app-feup 
