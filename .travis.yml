@@ -1,5 +1,14 @@
-services:
-  - docker
+services: docker
 
-script:
-  - docker build -t app-feup . && docker run -it app-feup 
+jobs:
+  include:
+    - stage: build docker image
+      script:
+      - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+      - docker build -t app-feup .
+      - docker images
+      - docker tag app-feup $DOCKER_USERNAME/app-feup
+      - docker push $DOCKER_USERNAME/app-feup
+    - stage: test
+      script: docker run --rm $DOCKER_USERNAME/app-feup flutter analyze --no-pub --preamble .
+    - script: docker run --rm $DOCKER_USERNAME/app-feup flutter test
