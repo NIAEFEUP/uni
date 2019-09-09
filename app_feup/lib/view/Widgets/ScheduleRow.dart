@@ -9,7 +9,6 @@ class ScheduleRow extends StatelessWidget{
   final String begin;
   final String end;
   final String teacher;
-  final String type;
 
   ScheduleRow({
     Key key,
@@ -17,12 +16,12 @@ class ScheduleRow extends StatelessWidget{
     @required this.rooms,
     @required this.begin,
     @required this.end,
-    this.teacher,
-    this.type
+    this.teacher
   }):super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final roomsKey = '$subject-$rooms-$begin-$end';
     return new Center(
         child: new Container(
           padding: EdgeInsets.only(left: 12.0, bottom: 8.0, right: 12),
@@ -33,10 +32,11 @@ class ScheduleRow extends StatelessWidget{
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               new ScheduleTimeInterval(begin: this.begin, end: this.end),
-              new ScheduleEventRectangle(subject: this.subject, type: this.type),
+              new ScheduleEventRectangle(subject: this.subject),
               new Container(
                 margin: EdgeInsets.only(top: 12.0, bottom: 12.0),
                 child: new Column(
+                    key: new Key(roomsKey),
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: getScheduleRooms(context)
                 )

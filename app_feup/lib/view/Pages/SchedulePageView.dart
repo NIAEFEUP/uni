@@ -21,8 +21,6 @@ class SchedulePageView extends SecondaryPageView {
   @override
   Widget getBody(BuildContext context) {
     final MediaQueryData queryData = MediaQuery.of(context);
-    this.aggLectures[0].add(new Lecture("IART", "T", 0, 32400, 3, "B213", "LPR"));
-    this.aggLectures[0].add(new Lecture("LBAW", "TP", 0, 37800, 3, "B213", "TBS"));
     Color labelColor = Color.fromARGB(255, 0x50, 0x50, 0x50);
 
     return new Column(
