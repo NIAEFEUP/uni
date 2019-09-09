@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class BugReportForm extends StatefulWidget {
   @override
@@ -13,6 +16,10 @@ class BugReportFormState extends State<BugReportForm> {
   static final _formKey = GlobalKey<FormState>();
   List<DropdownMenuItem<int>> bugList = [];
   int _selectedBug = 0;
+  TextEditingController bodyControler = new TextEditingController();
+
+  String postUrl = "https://api.github.com/repos/NIAEFEUP/project-schrodinger/issues";
+  String ghToken = "";
 
   @override
   Widget build(BuildContext context) {
@@ -120,6 +127,7 @@ class BugReportFormState extends State<BugReportForm> {
                         hintText: 'Descrição do bug encontrado',
                         labelText: 'Descrição',
                       ),
+                      controller: bodyControler,
                       validator: (value) {
                         if (value.isEmpty) {
                           return 'Descreve lá o bug sefachavor';
@@ -141,14 +149,25 @@ class BugReportFormState extends State<BugReportForm> {
       margin: new EdgeInsets.only(top: 50),
       child: RaisedButton(
         padding: EdgeInsets.symmetric(vertical: 10.0),
+
         onPressed: () {
-
           if (_formKey.currentState.validate()) {
+            http.post(
+                postUrl,
+                headers: {HttpHeaders.authorizationHeader: "Basic " + ghToken},
+                body: {
+                  "title": "bug n" + _selectedBug.toString(),
+                  "body": bodyControler.text
+                }).then((http.Response response) {
+                  final int statusCode = response.statusCode;
 
-            
-
+                  if (statusCode < 200 || statusCode > 400) {
+                    throw new Exception("Error " + statusCode.toString() + " while posting bug");
+                  };
+            });
           }
         },
+
         child: Text(
           'Enviar',
           style: TextStyle(
