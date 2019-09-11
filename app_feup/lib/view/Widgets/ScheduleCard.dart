@@ -25,7 +25,7 @@ class ScheduleCard extends StatelessWidget {
         builder: (context, lectures){
           return GenericCard(
               title: "Horário",
-              func: () => Navigator.pushReplacementNamed(context, '/Horário'),
+              func: () => Navigator.pushNamed(context, '/Horário'),
               child:
                 getCardContent(context, this.lectures)
           );

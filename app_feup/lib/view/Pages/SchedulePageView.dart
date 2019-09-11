@@ -36,7 +36,7 @@ class SchedulePageView extends SecondaryPageView {
           ),
           constraints: BoxConstraints(maxHeight: 150.0),
           child: new Material(
-            color: Colors.white,
+            color: Theme.of(context).backgroundColor,
             child: new TabBar(
               controller: tabController,
               isScrollable: true,

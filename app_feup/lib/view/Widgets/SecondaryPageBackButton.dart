@@ -19,7 +19,7 @@ class SecondaryPageBackButton extends StatelessWidget{
     );
   }
 
-  Future<void> getNewPage(BuildContext context){
-    return Navigator.pushReplacementNamed(context, '/Área Pessoal');
+  Future<void> getNewPage(BuildContext context) async{
+    Navigator.pop(context);
   }
 }

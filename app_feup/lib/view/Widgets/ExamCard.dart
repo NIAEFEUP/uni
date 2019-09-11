@@ -20,7 +20,7 @@ class ExamCard extends StatelessWidget{
       builder: (context, exams){
         return GenericCard(
             title: "Exames",
-            func: () => Navigator.pushReplacementNamed(context, '/Mapa de Exames'),
+            func: () => Navigator.pushNamed(context, '/Mapa de Exames'),
             child: getCardContent(context, exams)
         );
       },

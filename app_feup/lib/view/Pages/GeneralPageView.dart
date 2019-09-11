@@ -70,32 +70,41 @@ abstract class GeneralPageView extends StatelessWidget {
             color: Theme.of(context).accentColor,
             height: 1.5,
           ),
+          preferredSize: null,
         ),
         elevation: 0,
         iconTheme: new IconThemeData(color: Theme.of(context).primaryColor),
         backgroundColor: Theme.of(context).backgroundColor,
-        title: new Container(
-          child: SvgPicture.asset(
-            'assets/images/logo_dark.svg',
-              height: queryData.size.height/27,
-          ),
+        title: FlatButton(
+          onPressed: () => Navigator.pushNamed(context, '/Área Pessoal'),
+          child:
+            new Container(
+              child: SvgPicture.asset(
+                'assets/images/logo_dark.svg',
+                  height: queryData.size.height/27,
+              ),
+            ),
         ),
         actions: <Widget>[
-          FlatButton(
-            onPressed: () => {Navigator.pushReplacement(context,new MaterialPageRoute(builder: (__) => new ProfilePage()))},
-            child: Container(
-                width: 40.0,
-                height: 40.0,
-                decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: buildDecorageImage(context)
-                )
-            ),
-          ),
+          getTopRightButton(context),
         ],),
       drawer: new NavigationDrawer(),
       body: this.refreshState(context, body),
     );
+  }
+
+  Widget getTopRightButton(BuildContext context) {
+    return FlatButton(
+          onPressed: () => {Navigator.push(context,new MaterialPageRoute(builder: (__) => new ProfilePage()))},
+          child: Container(
+              width: 40.0,
+              height: 40.0,
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: buildDecorageImage(context)
+              )
+          ),
+        );
   }
 
 }
