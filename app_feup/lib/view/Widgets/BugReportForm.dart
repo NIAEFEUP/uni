@@ -1,5 +1,6 @@
 import 'dart:collection';
 import 'dart:convert';
+import 'package:app_feup/view/Widgets/BugPageTextWidget.dart';
 import 'package:crypto/crypto.dart';
 
 import 'package:flutter/cupertino.dart';
@@ -21,6 +22,9 @@ Things to change:
  - access token api github
  - cores
  - margens e paddings
+ - filter on validator?
+
+ - prevent spam (apagar on submit, maybe prevent from submitting more)
  */
 class BugReportFormState extends State<BugReportForm> {
 
@@ -30,7 +34,8 @@ class BugReportFormState extends State<BugReportForm> {
   List<DropdownMenuItem<int>> bugList = [];
 
   int _selectedBug = 0;
-  TextEditingController bodyController = new TextEditingController();
+  TextEditingController titleController = new TextEditingController();
+  TextEditingController descriptionController = new TextEditingController();
 
   String postUrl = "https://api.github.com/repos/NIAEFEUP/project-schrodinger/issues";
   String ghToken = "";
@@ -84,7 +89,34 @@ class BugReportFormState extends State<BugReportForm> {
     List<Widget> formWidget = new List();
 
     formWidget.add(DropdownBugSelectWidget(context));
-    formWidget.add(BugDescriptionWidget(context));
+    formWidget.add(
+        new BugPageTextWidget(
+            titleController,
+            Icons.title,
+            minLines: 1,
+            maxLines: 2,
+            description:
+            'Identifica o bug que encontraste',
+            hintText: 'Identificação do bug encontrado',
+            labelText: 'Título',
+            bottomMargin: 30.0,
+        )
+    );
+
+    formWidget.add(
+        new BugPageTextWidget(
+            descriptionController,
+            Icons.description,
+            minLines: 1,
+            maxLines: 30,
+            description:
+            'Descreve o bug',
+            hintText: 'Descrição do bug encontrado',
+            labelText: 'Descrição',
+            bottomMargin: 30.0,
+        )
+    );
+
     formWidget.add(SubmitButton());
 
     return formWidget;
@@ -128,59 +160,20 @@ class BugReportFormState extends State<BugReportForm> {
     );
   }
 
-  Widget BugDescriptionWidget(BuildContext context) {
-    return new Container(
-      child: new Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          new Text(
-            'Descreve o bug',
-            style: Theme.of(context).textTheme.body1,
-            textAlign: TextAlign.left,
-          ),
-          new Row(
-              children: <Widget>[
-                new Container(
-                    margin: new EdgeInsets.only(right:15),
-                    child: new Icon(Icons.description)
-                ),
-                Expanded(
-                    child: new TextFormField(
-                      // margins
-                      minLines: 1,
-                      maxLines: 30,
-                      decoration: const InputDecoration(
-                        hintText: 'Descrição do bug encontrado',
-                        labelText: 'Descrição',
-                      ),
-                      controller: bodyController,
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Descreve lá o bug sefachavor';
-                        }
-                        return null;
-                      },
-                    )
-                )
-              ]
-          )
-        ],
-      ),
-
-    );
-  }
-
   Widget SubmitButton() {
 
     String bugLabel = bugDescriptions[_selectedBug] == null ? "Unidentified bug" : bugDescriptions[_selectedBug];
     Map data = {
-      "title": "Bug report " + md5HashedDate(),
-      "body": bodyController.text,
-      "labels": ["bug", bugLabel]
+      "title": titleController.text + " - " + md5HashedDate().substring(0, 11),
+      "body": descriptionController.text,
+      "labels": ["bug report", bugLabel]
     };
 
+    print(data["title"]);
+    print(data["body"]);
+
     return new Container(
-      margin: new EdgeInsets.only(top: 50),
+      //margin: new EdgeInsets.only(top: 50),
       child: RaisedButton(
         padding: EdgeInsets.symmetric(vertical: 10.0),
 
