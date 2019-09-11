@@ -42,16 +42,6 @@ class BugReportFormState extends State<BugReportForm> {
     loadBugClassList();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return new Form(
-      key: _formKey,
-      child: new ListView(
-          children: getFormWidget(context)
-      )
-    );
-  }
-
   void initBugDescriptions() {
     bugDescriptions.clear();
     bugDescriptions.addAll({
@@ -82,9 +72,21 @@ class BugReportFormState extends State<BugReportForm> {
     ));
   }
 
+  @override
+  Widget build(BuildContext context) {
+    return new Form(
+      key: _formKey,
+      child: new ListView(
+          children: getFormWidget(context)
+      )
+    );
+  }
+
   List<Widget> getFormWidget(BuildContext context) {
     List<Widget> formWidget = new List();
 
+    formWidget.add(BugReportTitle(context));
+    formWidget.add(BugReportIntro(context));
     formWidget.add(DropdownBugSelectWidget(context));
     formWidget.add(
         new BugPageTextWidget(
@@ -117,6 +119,52 @@ class BugReportFormState extends State<BugReportForm> {
     formWidget.add(SubmitButton(context));
 
     return formWidget;
+  }
+
+  Widget BugReportTitle(BuildContext context) {
+    return new Container(
+        alignment: Alignment.center,
+        margin: new EdgeInsets.symmetric(vertical: 10.0, horizontal: 40),
+        child: new Row(
+          children: <Widget>[
+            Icon(
+                Icons.bug_report,
+                color: Theme.of(context).primaryColor,
+                size: 50.0
+            ),
+            Expanded(
+                child: Text(
+                  "Bug Report",
+                  textScaleFactor: 2,
+                  textAlign: TextAlign.center,
+                )
+            ),
+            Icon(
+                Icons.bug_report,
+                color: Theme.of(context).primaryColor,
+                size: 50.0
+            ),
+          ],
+        )
+    );
+  }
+
+  Widget BugReportIntro(BuildContext context) {
+    return new Container(
+      decoration: BoxDecoration(
+          border: Border(
+              bottom: BorderSide(color: Theme.of(context).dividerColor)
+          )
+      ),
+      padding: new EdgeInsets.only(bottom: 20),
+      child: new Center(
+        child: Text(
+            "Encontraste algum Bug na aplicação?\nConta-nos sobre ele para que o possamos resolver!",
+            style: Theme.of(context).textTheme.body1,
+            textAlign: TextAlign.center
+        ),
+      ),
+    );
   }
 
   Widget DropdownBugSelectWidget(BuildContext context) {
@@ -190,9 +238,7 @@ class BugReportFormState extends State<BugReportForm> {
                   print("Successfully submitted bug report.");
                   msg = "Enviado com sucesso";
 
-                  //String reportUrl = json.decode(response.body)["url"];
-
-                  clearForm();
+                  //clearForm();
                   Navigator.pushReplacementNamed(context, '/Área Pessoal');
                 };
 
@@ -221,10 +267,6 @@ class BugReportFormState extends State<BugReportForm> {
         color: Theme.of(context).primaryColor,
       )
     );
-  }
-
-  String md5HashedDate() {
-    return md5.convert(utf8.encode((new DateTime.now()).toString())).toString();
   }
 
   void clearForm() {

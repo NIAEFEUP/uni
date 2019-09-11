@@ -7,62 +7,9 @@ class BugReportPageView extends GeneralPageView {
 
   @override
   Widget getBody(BuildContext context) {
-    return new ListView(
-      children: <Widget>[
-
-        BugReportTitle(context),
-
-        new Container(
-          decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(color: Theme.of(context).dividerColor)
-            )
-          ),
-          margin: new EdgeInsets.only(left: 20.0, right: 20.0, top: 0),
-          padding: new EdgeInsets.only(bottom: 20),
-          child: new Center(
-            child: Text(
-              "Encontraste algum Bug na aplicação?\nConta-nos sobre ele para que o possamos resolver!",
-              style: Theme.of(context).textTheme.body1,
-              textAlign: TextAlign.center
-            ),
-          ),
-        ),
-
-        new Container(
-            height: 500,//queryData.size.height,
-            margin: new EdgeInsets.only(left: 40.0, right: 40.0),
-            child: new BugReportForm()
-        ),
-      ]
-    );
-  }
-
-  Widget BugReportTitle(BuildContext context) {
     return new Container(
-      alignment: Alignment.center,
-      margin: new EdgeInsets.symmetric(vertical: 20, horizontal: 70),
-        child: new Row(
-          children: <Widget>[
-            Icon(
-                Icons.bug_report,
-                color: Theme.of(context).primaryColor,
-                size: 50.0
-            ),
-            Expanded(
-              child: Text(
-                "Bug Report",
-                textScaleFactor: 2,
-                textAlign: TextAlign.center,
-              )
-            ),
-            Icon(
-                Icons.bug_report,
-                color: Theme.of(context).primaryColor,
-                size: 50.0
-            ),
-          ],
-        )
+        margin: new EdgeInsets.symmetric(horizontal: 30.0, vertical: 20.0),
+        child: new BugReportForm()
     );
   }
 }
