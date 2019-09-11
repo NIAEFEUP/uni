@@ -9,6 +9,8 @@ import 'package:http/http.dart' as http;
 import 'package:query_params/query_params.dart';
 
 class NetworkRouter {
+  static http.Client httpClient;
+
   static Future<Session> login(
       String user, String pass, String faculty, bool persistentSession) async {
     final String url =
@@ -82,7 +84,7 @@ class NetworkRouter {
     final Map<String, String> headers = Map<String, String>();
     headers['cookie'] = cookies;
 
-    return http.get(url, headers: headers);
+    return httpClient != null ? httpClient.get(url, headers: headers): http.get(url, headers: headers);
   }
 
   static String getBaseUrl(String faculty) {

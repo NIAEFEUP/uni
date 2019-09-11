@@ -18,7 +18,7 @@ class ExamsPageView extends SecondaryPageView {
     return StoreConnector<AppState, List<dynamic>>(
       converter: (store) => store.state.content['exams'],
       builder: (context, exams){
-        return new ExamsList(exams: exams);
+        return new ExamsList(exams: exams, now: DateTime.now(),);
       },
     );
   }
@@ -26,12 +26,13 @@ class ExamsPageView extends SecondaryPageView {
 
 class ExamsList extends StatelessWidget {
   final double borderRadius = 15.0;
-  final DateTime now = new DateTime.now();
+  final DateTime now;
   final List<Exam> exams;
 
   ExamsList({
     Key key,
     @required this.exams,
+    @required this.now,
   }) : super(key: key);
 
   @override

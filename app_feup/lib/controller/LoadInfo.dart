@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:app_feup/controller/local_storage/AppSharedPreferences.dart';
+import 'package:app_feup/controller/parsers/ParserExams.dart';
 import 'package:app_feup/redux/ActionCreators.dart';
 import 'package:app_feup/redux/RefreshItemsAction.dart';
 import 'package:app_feup/redux/Actions.dart';
@@ -16,7 +17,7 @@ Future loadUserInfoToState(store) {
 }
 
 
-Future loadRemoteUserInfoToState(Store<AppState> store){
+Future loadRemoteUserInfoToState(Store<AppState> store) async{
   if(store.state.content['session'] == null){
     return null;
   }
@@ -28,8 +29,9 @@ Future loadRemoteUserInfoToState(Store<AppState> store){
       printBalance = new Completer(),
       fees = new Completer(),
       coursesStates = new Completer();
+  Tuple2<String, String> userPersistentInfo = await AppSharedPreferences.getPersistentUserInfo();
   store.dispatch(getUserInfo(userInfo));
-  store.dispatch(getUserExams(exams));
+  store.dispatch(getUserExams(exams, new ParserExams(), userPersistentInfo));
   store.dispatch(getUserSchedule(schedule));
   store.dispatch(getUserPrintBalance(printBalance));
   store.dispatch(getUserFees(fees));

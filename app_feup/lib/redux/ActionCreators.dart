@@ -87,37 +87,23 @@ ThunkAction<AppState> updateStateBasedOnLocalUserLectures() {
   };
 }
 
-ThunkAction<AppState> getUserExams(Completer<Null> action) {
+ThunkAction<AppState> getUserExams(
+  Completer<Null> action, 
+  ParserExams parserExams,
+  Tuple2<String, String> userPersistentInfo
+  ) {
   return (Store<AppState> store) async {
     try {
-      //need to get student course here
       store.dispatch(new SetExamsStatusAction(RequestStatus.BUSY));
 
-      List<Exam> courseExams = await parseExams(
-          await NetworkRouter.getWithCookies(NetworkRouter.getBaseUrlFromSession(store.state.content['session']) + "exa_geral.mapa_de_exames?p_curso_id=742",
-          {}, store.state.content['session'].cookies)
-      );
-
-      List<CourseUnit> userUcs = store.state.content['currUcs'];
-      List<Exam> exams = new List<Exam>();
-      for (Exam courseExam in courseExams) {
-        for (CourseUnit uc in userUcs) {
-          if (!courseExam.examType.contains(
-              "Exames ao abrigo de estatutos especiais - Port.Est.Especiais") &&
-              courseExam.subject == uc.abbreviation) {
-            exams.add(courseExam);
-            break;
-          }
-
-        }
-      }
+      List<Exam> exams = await extractExams(store, parserExams);
 
       // Updates local database according to the information fetched -- Exams
-      Tuple2<String, String> userPersistentInfo = await AppSharedPreferences.getPersistentUserInfo();
       if(userPersistentInfo.item1 != "" && userPersistentInfo.item2 != ""){
         AppExamsDatabase db = await AppExamsDatabase();
         db.saveNewExams(exams);
       }
+
       store.dispatch(new SetExamsStatusAction(RequestStatus.SUCCESSFUL));
       store.dispatch(new SetExamsAction(exams));
       
@@ -128,6 +114,28 @@ ThunkAction<AppState> getUserExams(Completer<Null> action) {
 
     action.complete();
   };
+}
+
+Future<List<Exam>> extractExams(Store<AppState> store, ParserExams parserExams) async {
+  List<Exam> courseExams = await parserExams.parseExams(
+      await NetworkRouter.getWithCookies(NetworkRouter.getBaseUrlFromSession(store.state.content['session']) + "exa_geral.mapa_de_exames?p_curso_id=742",
+      {}, store.state.content['session'].cookies)
+  );
+  
+  List<CourseUnit> userUcs = store.state.content['currUcs'];
+  List<Exam> exams = new List<Exam>();
+  for (Exam courseExam in courseExams) {
+    for (CourseUnit uc in userUcs) {
+      if (!courseExam.examType.contains(
+          "Exames ao abrigo de estatutos especiais - Port.Est.Especiais") &&
+          courseExam.subject == uc.abbreviation) {
+        exams.add(courseExam);
+        break;
+      }
+  
+    }
+  }
+  return exams;
 }
 
 ThunkAction<AppState> getUserSchedule(Completer<Null> action) {
