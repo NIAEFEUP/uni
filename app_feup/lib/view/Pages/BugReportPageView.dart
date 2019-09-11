@@ -1,6 +1,5 @@
 import 'package:app_feup/view/Pages/GeneralPageView.dart';
 import 'package:app_feup/view/Widgets/BugReportForm.dart';
-import 'package:app_feup/view/Widgets/PageTitle.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -19,7 +18,7 @@ class BugReportPageView extends GeneralPageView {
               bottom: BorderSide()
             )
           ),
-          margin: new EdgeInsets.only(left: 20.0, right: 20.0, top: 10.0),
+          margin: new EdgeInsets.only(left: 20.0, right: 20.0, top: 0),
           padding: new EdgeInsets.only(bottom: 20),
           child: new Center(
             child: Text(

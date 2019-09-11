@@ -20,6 +20,7 @@ Things to change:
  - descricoes e tooltips
  - access token api github
  - cores
+ - margens e paddings
  */
 class BugReportFormState extends State<BugReportForm> {
 
@@ -171,10 +172,11 @@ class BugReportFormState extends State<BugReportForm> {
 
   Widget SubmitButton() {
 
+    String bugLabel = bugDescriptions[_selectedBug] == null ? "Unidentified bug" : bugDescriptions[_selectedBug];
     Map data = {
-      "title": bugDescriptions[_selectedBug] + " - " + md5HashedDate(),
+      "title": "Bug report " + md5HashedDate(),
       "body": bodyController.text,
-      "labels": ["bug"]
+      "labels": ["bug", bugLabel]
     };
 
     return new Container(
