@@ -1,5 +1,6 @@
+import 'dart:collection';
 import 'dart:convert';
-import 'dart:io';
+import 'package:crypto/crypto.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,21 +13,34 @@ class BugReportForm extends StatefulWidget {
   }
 }
 
-
+/* TODO
+Things to change:
+ - bugDescriptions hashMap
+ - bugClassList titles
+ - descricoes e tooltips
+ - access token api github
+ - cores
+ */
 class BugReportFormState extends State<BugReportForm> {
 
   static final _formKey = GlobalKey<FormState>();
+
+  HashMap<int, String> bugDescriptions = new HashMap();
   List<DropdownMenuItem<int>> bugList = [];
+
   int _selectedBug = 0;
   TextEditingController bodyController = new TextEditingController();
 
   String postUrl = "https://api.github.com/repos/NIAEFEUP/project-schrodinger/issues";
   String ghToken = "";
 
+  BugReportFormState() {
+    initBugDescriptions();
+    loadBugClassList();
+  }
+
   @override
   Widget build(BuildContext context) {
-    loadBugClassList();
-
     return new Form(
       key: _formKey,
       child: new ListView(
@@ -35,6 +49,15 @@ class BugReportFormState extends State<BugReportForm> {
     );
   }
 
+  void initBugDescriptions() {
+    bugDescriptions.clear();
+    bugDescriptions.addAll({
+      0 : "Bug 1",
+      1 : "Bug 2",
+      2 : "Bug 3",
+      3 : "Bug 4",
+    });
+  }
 
   void loadBugClassList() {
     bugList = [];
@@ -149,7 +172,7 @@ class BugReportFormState extends State<BugReportForm> {
   Widget SubmitButton() {
 
     Map data = {
-      "title": "bug n" + _selectedBug.toString(),
+      "title": bugDescriptions[_selectedBug] + " - " + md5HashedDate(),
       "body": bodyController.text,
       "labels": ["bug"]
     };
@@ -190,6 +213,10 @@ class BugReportFormState extends State<BugReportForm> {
         color: Colors.deepOrange,
       )
     );
+  }
+
+  String md5HashedDate() {
+    return md5.convert(utf8.encode((new DateTime.now()).toString())).toString();
   }
 
 }
