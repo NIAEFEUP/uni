@@ -1,5 +1,6 @@
 import 'dart:collection';
 import 'dart:convert';
+import 'dart:io';
 import 'package:app_feup/view/Widgets/BugPageTextWidget.dart';
 import 'package:crypto/crypto.dart';
 import 'package:toast/toast.dart';
@@ -253,6 +254,21 @@ class BugReportFormState extends State<BugReportForm> {
                   backgroundRadius: 16.0,
                   textColor: Colors.white,
                 );
+            }).catchError((error) {
+              print(error);
+              FocusScope.of(context).requestFocus(new FocusNode());
+
+              String msg = (error is SocketException) ? "Falha de rede" : "Ocorreu um erro";
+
+              Toast.show(
+                msg,
+                context,
+                duration: Toast.LENGTH_LONG,
+                gravity: Toast.BOTTOM,
+                backgroundColor: Theme.of(context).cardColor,
+                backgroundRadius: 16.0,
+                textColor: Colors.white,
+              );
             });
           }
         },
