@@ -3,7 +3,6 @@ import 'package:app_feup/model/AppState.dart';
 import 'package:app_feup/model/HomePageModel.dart';
 import 'package:app_feup/redux/Actions.dart';
 import 'package:app_feup/view/Widgets/ExamCard.dart';
-import 'package:app_feup/view/Widgets/GenericCard.dart';
 import 'package:app_feup/view/Widgets/ScheduleCard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -48,7 +47,7 @@ class _MainCardsList extends State<MainCardsList> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Text("Choose the card you wish to add to your favorites"),
+              title: Text("Escolhe um widget para adicionares à tua página inicial:"),
               content: Container(
                 child:
                   ListView(
@@ -57,7 +56,7 @@ class _MainCardsList extends State<MainCardsList> {
                 height: 200.0,
                 width: 100.0,
               ),
-              actions: [FlatButton(child: Text("Cancel", style: Theme.of(context).textTheme.display1.apply(color: Theme.of(context).primaryColor),), onPressed: () => Navigator.pop(context))]
+              actions: [FlatButton(child: Text("Cancelar", style: Theme.of(context).textTheme.display1.apply(color: Theme.of(context).primaryColor),), onPressed: () => Navigator.pop(context))]
             );
           }
         )
@@ -69,19 +68,28 @@ class _MainCardsList extends State<MainCardsList> {
 
   List<Widget> getCardAdders(){
     List<Widget> result = [];
-    this.CARDS.forEach((FAVORITE_WIDGET_TYPE key, Function v) => result.add(
-        Container(
-          child:ListTile(
-            title: Text(
+    this.CARDS.forEach((FAVORITE_WIDGET_TYPE key, Function v) {
+      if(!StoreProvider.of<AppState>(context).state.content["favoriteCards"].contains(key))
+      result.add(
+          Container(
+            child: ListTile(
+              title: Text(
                 v(Key(key.index.toString())).getTitle(),
                 textAlign: TextAlign.center,
+              ),
+              onTap: () {
+                addCardToFavorites(key);
+                Navigator.pop(context);
+              },
             ),
-            onTap: () {addCardToFavorites(key); Navigator.pop(context);},
-        ),
-          decoration: BoxDecoration(border: Border(bottom: new BorderSide(color: accentColor))),
-      )
-    )
-    );
+            decoration: BoxDecoration(
+                border: Border(bottom: new BorderSide(color: accentColor))),
+          )
+      );
+    });
+    if(result.isEmpty){
+      result.add(new Text("Todos os widgets disponíveis já foram adicionados aos teus favoritos!"));
+    }
     return result;
   }
 
@@ -114,7 +122,7 @@ class _MainCardsList extends State<MainCardsList> {
             GestureDetector(
                 onTap: () => setState(() => editingMode = !editingMode),
                 child: Text(
-                  editingMode ? 'Exit editing' : 'Edit',
+                  editingMode ? 'Concluir Edição' : 'Editar',
                   style: Theme.of(context).textTheme.subtitle.apply(decoration: TextDecoration.underline),
                 )
             )
@@ -156,7 +164,9 @@ class _MainCardsList extends State<MainCardsList> {
 
   void addCardToFavorites(FAVORITE_WIDGET_TYPE type){
     List<FAVORITE_WIDGET_TYPE> favorites = StoreProvider.of<AppState>(context).state.content["favoriteCards"];
-    favorites.add(type);
+    if(!favorites.contains(type)) {
+      favorites.add(type);
+    }
     StoreProvider.of<AppState>(context).dispatch(new UpdateFavoriteCards(favorites));
     AppSharedPreferences.saveFavoriteCards(favorites);
   }

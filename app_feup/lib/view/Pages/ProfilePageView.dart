@@ -3,7 +3,6 @@ import 'package:app_feup/view/Widgets/AccountInfoCard.dart';
 import 'package:app_feup/view/Widgets/CourseInfoCard.dart';
 import 'package:app_feup/view/Widgets/PrintInfoCard.dart';
 import 'package:flutter/material.dart';
-import '../Widgets/GenericCard.dart';
 import '../../view/Theme.dart';
 import 'package:app_feup/model/entities/Profile.dart';
 

@@ -48,7 +48,7 @@ class AppSharedPreferences {
     return pass;
   }
 
-  static Future<String> saveFavoriteCards(List<FAVORITE_WIDGET_TYPE> newFavorites) async{
+  static saveFavoriteCards(List<FAVORITE_WIDGET_TYPE> newFavorites) async{
     final prefs = await SharedPreferences.getInstance();
     prefs.setStringList(favoriteCards, newFavorites.map((a)=>a.index.toString()).toList());
   }

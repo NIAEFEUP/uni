@@ -1,5 +1,3 @@
-import 'package:app_feup/model/HomePageModel.dart';
-
 import 'package:app_feup/model/entities/Session.dart';
 
 // enum should be placed somewhere else?
