@@ -21,10 +21,7 @@ Things to change:
  - bugClassList titles
  - descricoes e tooltips
  - access token api github
- - margens e paddings
- - filter on validator?
-
- - prevent spam (apagar on submit, maybe prevent from submitting more)
+ - prevent spam
  */
 class BugReportFormState extends State<BugReportForm> {
 
@@ -185,20 +182,18 @@ class BugReportFormState extends State<BugReportForm> {
                 final int statusCode = response.statusCode;
 
                 String msg;
-                MaterialColor statusColor;
                 if (statusCode < 200 || statusCode > 400) {
                   print("Error " + statusCode.toString() + " while posting bug");
-
                   msg = "Ocorreu um erro no envio";
-                  statusColor = Colors.red;
                 }
                 else {
                   print("Successfully submitted bug report.");
-
                   msg = "Enviado com sucesso";
-                  statusColor = Colors.green;
+
+                  //String reportUrl = json.decode(response.body)["url"];
 
                   clearForm();
+                  Navigator.pushReplacementNamed(context, '/Área Pessoal');
                 };
 
                 FocusScope.of(context).requestFocus(new FocusNode());
@@ -208,7 +203,7 @@ class BugReportFormState extends State<BugReportForm> {
                   context,
                   duration: Toast.LENGTH_LONG,
                   gravity: Toast.BOTTOM,
-                  backgroundColor: statusColor,
+                  backgroundColor: Theme.of(context).cardColor,
                   backgroundRadius: 16.0,
                   textColor: Colors.white,
                 );

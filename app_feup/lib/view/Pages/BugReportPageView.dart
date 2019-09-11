@@ -13,9 +13,9 @@ class BugReportPageView extends GeneralPageView {
         BugReportTitle(context),
 
         new Container(
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             border: Border(
-              bottom: BorderSide()
+              bottom: BorderSide(color: Theme.of(context).dividerColor)
             )
           ),
           margin: new EdgeInsets.only(left: 20.0, right: 20.0, top: 0),
