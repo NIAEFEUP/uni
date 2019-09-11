@@ -10,7 +10,7 @@ class BugReportPageView extends GeneralPageView {
     return new ListView(
       children: <Widget>[
 
-        BugReportTitle(),
+        BugReportTitle(context),
 
         new Container(
           decoration: const BoxDecoration(
@@ -38,7 +38,7 @@ class BugReportPageView extends GeneralPageView {
     );
   }
 
-  Widget BugReportTitle() {
+  Widget BugReportTitle(BuildContext context) {
     return new Container(
       alignment: Alignment.center,
       margin: new EdgeInsets.symmetric(vertical: 20, horizontal: 70),
@@ -46,7 +46,7 @@ class BugReportPageView extends GeneralPageView {
           children: <Widget>[
             Icon(
                 Icons.bug_report,
-                color: Colors.deepOrange,
+                color: Theme.of(context).primaryColor,
                 size: 50.0
             ),
             Expanded(
@@ -58,7 +58,7 @@ class BugReportPageView extends GeneralPageView {
             ),
             Icon(
                 Icons.bug_report,
-                color: Colors.deepOrange,
+                color: Theme.of(context).primaryColor,
                 size: 50.0
             ),
           ],

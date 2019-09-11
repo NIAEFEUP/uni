@@ -20,7 +20,6 @@ Things to change:
  - bugClassList titles
  - descricoes e tooltips
  - access token api github
- - cores
  - margens e paddings
  - filter on validator?
 
@@ -58,29 +57,29 @@ class BugReportFormState extends State<BugReportForm> {
   void initBugDescriptions() {
     bugDescriptions.clear();
     bugDescriptions.addAll({
-      0 : "Bug 1",
-      1 : "Bug 2",
-      2 : "Bug 3",
-      3 : "Bug 4",
+      0 : "Detalhe visual",
+      1 : "Erro",
+      2 : "Sugestão",
+      3 : "Comportamento inesperado",
     });
   }
 
   void loadBugClassList() {
     bugList = [];
     bugList.add(new DropdownMenuItem(
-      child: new Text('Mosca'),
+      child: new Text('Detalhe visual'),
       value: 0,
     ));
     bugList.add(new DropdownMenuItem(
-      child: new Text('Mosquito'),
+      child: new Text('Erro'),
       value: 1,
     ));
     bugList.add(new DropdownMenuItem(
-      child: new Text('Escaravelho'),
+      child: new Text('Sugestão'),
       value: 2,
     ));
     bugList.add(new DropdownMenuItem(
-      child: new Text('Aranha'),
+      child: new Text('Comportamento inesperado'),
       value: 3,
     ));
   }
@@ -117,14 +116,14 @@ class BugReportFormState extends State<BugReportForm> {
         )
     );
 
-    formWidget.add(SubmitButton());
+    formWidget.add(SubmitButton(context));
 
     return formWidget;
   }
 
   Widget DropdownBugSelectWidget(BuildContext context) {
     return new Container(
-      margin: EdgeInsets.only(bottom: 40, top: 20),
+      margin: EdgeInsets.only(bottom: 30, top: 20),
       child: new Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -137,7 +136,7 @@ class BugReportFormState extends State<BugReportForm> {
               children: <Widget>[
                 new Container(
                   margin: new EdgeInsets.only(right:15),
-                  child: new Icon(Icons.bug_report)
+                  child: new Icon(Icons.bug_report, color: Theme.of(context).primaryColor,)
                 ),
                 Expanded(
                     child: new DropdownButton(
@@ -160,20 +159,16 @@ class BugReportFormState extends State<BugReportForm> {
     );
   }
 
-  Widget SubmitButton() {
+  Widget SubmitButton(BuildContext context) {
 
     String bugLabel = bugDescriptions[_selectedBug] == null ? "Unidentified bug" : bugDescriptions[_selectedBug];
     Map data = {
-      "title": titleController.text + " - " + md5HashedDate().substring(0, 11),
+      "title": titleController.text,
       "body": descriptionController.text,
       "labels": ["bug report", bugLabel]
     };
 
-    print(data["title"]);
-    print(data["body"]);
-
     return new Container(
-      //margin: new EdgeInsets.only(top: 50),
       child: RaisedButton(
         padding: EdgeInsets.symmetric(vertical: 10.0),
 
@@ -190,9 +185,16 @@ class BugReportFormState extends State<BugReportForm> {
 
                 if (statusCode < 200 || statusCode > 400) {
                   print("Error " + statusCode.toString() + " while posting bug");
+
+                  // display error message
                 }
                 else {
                   print("Successfully submitted bug report.");
+
+                  titleController.clear();
+                  descriptionController.clear();
+                  FocusScope.of(context).requestFocus(new FocusNode());
+                  // success message
                 };
             });
           }
@@ -205,7 +207,7 @@ class BugReportFormState extends State<BugReportForm> {
               fontSize: 20.0
           ),
         ),
-        color: Colors.deepOrange,
+        color: Theme.of(context).primaryColor,
       )
     );
   }

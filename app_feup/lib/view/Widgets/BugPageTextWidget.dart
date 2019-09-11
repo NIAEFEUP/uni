@@ -52,7 +52,7 @@ class BugPageTextWidget extends StatelessWidget {
               children: <Widget>[
                 new Container(
                     margin: new EdgeInsets.only(right:15),
-                    child: new Icon(icon)
+                    child: new Icon(icon, color: Theme.of(context).primaryColor,)
                 ),
                 Expanded(
                     child: new TextFormField(
