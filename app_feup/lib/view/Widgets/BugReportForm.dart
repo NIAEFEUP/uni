@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
@@ -11,12 +12,13 @@ class BugReportForm extends StatefulWidget {
   }
 }
 
+
 class BugReportFormState extends State<BugReportForm> {
 
   static final _formKey = GlobalKey<FormState>();
   List<DropdownMenuItem<int>> bugList = [];
   int _selectedBug = 0;
-  TextEditingController bodyControler = new TextEditingController();
+  TextEditingController bodyController = new TextEditingController();
 
   String postUrl = "https://api.github.com/repos/NIAEFEUP/project-schrodinger/issues";
   String ghToken = "";
@@ -127,7 +129,7 @@ class BugReportFormState extends State<BugReportForm> {
                         hintText: 'Descrição do bug encontrado',
                         labelText: 'Descrição',
                       ),
-                      controller: bodyControler,
+                      controller: bodyController,
                       validator: (value) {
                         if (value.isEmpty) {
                           return 'Descreve lá o bug sefachavor';
@@ -145,6 +147,13 @@ class BugReportFormState extends State<BugReportForm> {
   }
 
   Widget SubmitButton() {
+
+    Map data = {
+      "title": "bug n" + _selectedBug.toString(),
+      "body": bodyController.text,
+      "labels": ["bug"]
+    };
+
     return new Container(
       margin: new EdgeInsets.only(top: 50),
       child: RaisedButton(
@@ -153,17 +162,20 @@ class BugReportFormState extends State<BugReportForm> {
         onPressed: () {
           if (_formKey.currentState.validate()) {
             http.post(
-                postUrl,
-                headers: {HttpHeaders.authorizationHeader: "Basic " + ghToken},
-                body: {
-                  "title": "bug n" + _selectedBug.toString(),
-                  "body": bodyControler.text
-                }).then((http.Response response) {
-                  final int statusCode = response.statusCode;
+                postUrl + "?access_token=" + ghToken,
+                headers: {
+                  "Content-Type" : "application/json"
+                },
+                body: json.encode(data)
+              ).then((http.Response response) {
+                final int statusCode = response.statusCode;
 
-                  if (statusCode < 200 || statusCode > 400) {
-                    throw new Exception("Error " + statusCode.toString() + " while posting bug");
-                  };
+                if (statusCode < 200 || statusCode > 400) {
+                  print("Error " + statusCode.toString() + " while posting bug");
+                }
+                else {
+                  print("Successfully submitted bug report.");
+                };
             });
           }
         },
