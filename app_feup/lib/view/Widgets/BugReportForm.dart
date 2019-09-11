@@ -2,6 +2,7 @@ import 'dart:collection';
 import 'dart:convert';
 import 'package:app_feup/view/Widgets/BugPageTextWidget.dart';
 import 'package:crypto/crypto.dart';
+import 'package:toast/toast.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -183,19 +184,34 @@ class BugReportFormState extends State<BugReportForm> {
               ).then((http.Response response) {
                 final int statusCode = response.statusCode;
 
+                String msg;
+                MaterialColor statusColor;
                 if (statusCode < 200 || statusCode > 400) {
                   print("Error " + statusCode.toString() + " while posting bug");
 
-                  // display error message
+                  msg = "Ocorreu um erro no envio";
+                  statusColor = Colors.red;
                 }
                 else {
                   print("Successfully submitted bug report.");
 
-                  titleController.clear();
-                  descriptionController.clear();
-                  FocusScope.of(context).requestFocus(new FocusNode());
-                  // success message
+                  msg = "Enviado com sucesso";
+                  statusColor = Colors.green;
+
+                  clearForm();
                 };
+
+                FocusScope.of(context).requestFocus(new FocusNode());
+
+                Toast.show(
+                  msg,
+                  context,
+                  duration: Toast.LENGTH_LONG,
+                  gravity: Toast.BOTTOM,
+                  backgroundColor: statusColor,
+                  backgroundRadius: 16.0,
+                  textColor: Colors.white,
+                );
             });
           }
         },
@@ -214,6 +230,15 @@ class BugReportFormState extends State<BugReportForm> {
 
   String md5HashedDate() {
     return md5.convert(utf8.encode((new DateTime.now()).toString())).toString();
+  }
+
+  void clearForm() {
+    titleController.clear();
+    descriptionController.clear();
+
+    setState(() {
+      _selectedBug = 0;
+    });
   }
 
 }
