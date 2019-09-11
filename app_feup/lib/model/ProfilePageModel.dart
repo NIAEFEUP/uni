@@ -1,8 +1,9 @@
 import 'package:app_feup/model/AppState.dart';
 import 'package:app_feup/view/Pages/ProfilePageView.dart';
-import 'package:app_feup/model/entities/Profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+
+import 'entities/Course.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -18,8 +19,10 @@ class _ProfilePageState extends State<ProfilePage> {
   String email;
   Map<String, String> currentState;
   String printBalance;
+  String printRefreshTime;
   String feesBalance;
   String nextFeeLimitData;
+  String feesRefreshTime;
   List<Course> courses;
 
   @override
@@ -29,8 +32,10 @@ class _ProfilePageState extends State<ProfilePage> {
     email = "";
     currentState = {};
     printBalance = "";
+    printRefreshTime = "";
     feesBalance = "";
     nextFeeLimitData = "";
+    feesRefreshTime = "";
     courses = [];
   }
 
@@ -42,8 +47,10 @@ class _ProfilePageState extends State<ProfilePage> {
       email: email,
       currentState: currentState,
       printBalance: printBalance,
+      printRefreshTime: printRefreshTime,
       feesBalance: feesBalance,
       nextFeeLimitData: nextFeeLimitData,
+      feesRefreshTime: feesRefreshTime,
       courses: courses);
   }
 
@@ -70,6 +77,10 @@ class _ProfilePageState extends State<ProfilePage> {
             .of<AppState>(context)
             .state
             .content['printBalance'];
+        printRefreshTime = StoreProvider
+            .of<AppState>(context)
+            .state
+            .content['printRefreshTime'];
         feesBalance = StoreProvider
             .of<AppState>(context)
             .state
@@ -78,6 +89,10 @@ class _ProfilePageState extends State<ProfilePage> {
             .of<AppState>(context)
             .state
             .content['feesLimit'];
+        feesRefreshTime = StoreProvider
+            .of<AppState>(context)
+            .state
+            .content['feesRefreshTime'];
       }
     });
   }
