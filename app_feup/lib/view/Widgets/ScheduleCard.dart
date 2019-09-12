@@ -40,7 +40,7 @@ class ScheduleCard extends StatelessWidget {
                 children: getScheduleRows(context, lectures),
               ))
           : Center(
-            child: Text("No lectures or classes to show at the moment")
+            child: Text("No lectures or classes to show at the moment", style: Theme.of(context).textTheme.display1)
           );
       case RequestStatus.BUSY:
         return Center(child: CircularProgressIndicator());

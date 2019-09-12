@@ -69,21 +69,25 @@ abstract class GeneralPageView extends StatelessWidget {
           child: Container(
             margin: EdgeInsets.only(left: borderMargin, right: borderMargin),
             color: Theme.of(context).accentColor,
+            height: 1.0,
           ),
           preferredSize: null,
         ),
         elevation: 0,
         iconTheme: new IconThemeData(color: Theme.of(context).primaryColor),
         backgroundColor: Theme.of(context).backgroundColor,
-        title: FlatButton(
-          onPressed: () => Navigator.pushNamed(context, '/Área Pessoal'),
-          child:
-            new Container(
+        title: ButtonTheme(
+          minWidth: 0,
+          padding: EdgeInsets.only(left: 0),
+          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          shape: RoundedRectangleBorder(),
+          child: FlatButton(
+              onPressed: () => Navigator.pushNamed(context, '/Área Pessoal'),
               child: SvgPicture.asset(
-                'assets/images/logo_dark.svg',
-                  height: queryData.size.height/27,
-              ),
-            ),
+                    'assets/images/logo_dark.svg',
+                      height: queryData.size.height/25,
+                  ),
+            )
         ),
         actions: <Widget>[
           getTopRightButton(context),
