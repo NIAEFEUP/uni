@@ -7,7 +7,7 @@ import 'GenericCard.dart';
 
 class AccountInfoCard extends GenericCard {
 
-  AccountInfoCard({Key key});
+  AccountInfoCard({Key key}):super(key: key);
 
   @override
   Widget buildCardContent(BuildContext context) {

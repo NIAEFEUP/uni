@@ -1,13 +1,13 @@
+import 'package:app_feup/model/AppState.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:app_feup/view/Theme.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 
 import 'GenericCard.dart';
 
 class PrintInfoCard extends GenericCard{
-  PrintInfoCard({Key key, this.printBalance, this.printRefreshTime});
-
-  final String printBalance, printRefreshTime;
+  PrintInfoCard({Key key}):super(key: key);
 
   @override
   Widget buildCardContent(BuildContext context) {
@@ -31,12 +31,18 @@ class PrintInfoCard extends GenericCard{
                 ),
                 Container(
                   margin: const EdgeInsets.only(top: 20.0, bottom: 20.0, right: 30.0),
-                  child: getInfoText(printBalance, context),
+                  child: StoreConnector<AppState, String>(
+                    converter: (store) => store.state.content["printBalance"],
+                    builder: (context, printBalance) => getInfoText(printBalance, context)
+                  ),
                 ),
               ])
             ]
         ),
-        showLastRefreshedTime(printRefreshTime, context)
+        StoreConnector<AppState, String>(
+            converter: (store) => store.state.content["printRefreshTime"],
+            builder: (context, printRefreshTime) => showLastRefreshedTime(printRefreshTime, context)
+        )
       ],
     );
   }

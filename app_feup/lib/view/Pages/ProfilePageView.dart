@@ -12,26 +12,15 @@ class ProfilePageView extends SecondaryPageView {
     @required this.name,
     @required this.email,
     @required this.currentState,
-    @required this.printBalance,
-    @required this.printRefreshTime,
-    @required this.feesBalance,
-    @required this.nextFeeLimitData,
-    @required this.feesRefreshTime,
     @required this.courses});
 
   final String name;
   final String email;
   final Map<String, String> currentState;
-  final String printBalance;
-  final String printRefreshTime;
-  final String feesBalance;
-  final String nextFeeLimitData;
-  final String feesRefreshTime;
   final List<Course> courses;
 
   @override
   Widget getBody(BuildContext context) {
-    print(feesRefreshTime);
     return createScrollableProfileView(context);
   }
 
@@ -61,7 +50,7 @@ class ProfilePageView extends SecondaryPageView {
       list.add(CourseInfoCard(course: courses[i], courseState: currentState == null ? "?" : currentState[courses[i].name]));
       list.add(Padding(padding: const EdgeInsets.all(10.0)));
     }
-    list.add(PrintInfoCard(printBalance: printBalance, printRefreshTime: printRefreshTime));
+    list.add(PrintInfoCard());
     list.add(Padding(padding: const EdgeInsets.all(10.0)));
     list.add(AccountInfoCard());
 

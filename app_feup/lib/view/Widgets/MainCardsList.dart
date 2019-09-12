@@ -8,7 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 import '../Theme.dart';
+import 'AccountInfoCard.dart';
 import 'HomePageBackButton.dart';
+import 'PrintInfoCard.dart';
 
 class MainCardsList extends StatefulWidget {
   @override
@@ -21,7 +23,9 @@ class _MainCardsList extends State<MainCardsList> {
 
   Map<FAVORITE_WIDGET_TYPE, Function> CARD_CREATORS = {
     FAVORITE_WIDGET_TYPE.SCHEDULE: (k) => ScheduleCard(key:k),
-    FAVORITE_WIDGET_TYPE.EXAMS: (k) => ExamCard(key:k)
+    FAVORITE_WIDGET_TYPE.EXAMS: (k) => ExamCard(key:k),
+    FAVORITE_WIDGET_TYPE.ACCOUNT: (k) => AccountInfoCard(key:k),
+    FAVORITE_WIDGET_TYPE.PRINT_BALANCE: (k) => PrintInfoCard(key:k)
   };
 
   @override
