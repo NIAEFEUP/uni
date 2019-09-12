@@ -1,13 +1,17 @@
 import 'dart:async';
 import 'package:app_feup/controller/LoadInfo.dart';
+import 'package:app_feup/controller/local_storage/AppCoursesDatabase.dart';
 import 'package:app_feup/controller/local_storage/AppExamsDatabase.dart';
 import 'package:app_feup/controller/local_storage/AppLecturesDatabase.dart';
+import 'package:app_feup/controller/local_storage/AppRefreshTimesDatabase.dart';
 import 'package:app_feup/controller/local_storage/AppSharedPreferences.dart';
+import 'package:app_feup/controller/local_storage/AppUserDataDatabase.dart';
 import 'package:app_feup/controller/parsers/ParserExams.dart';
 import 'package:app_feup/controller/parsers/ParserSchedule.dart';
 import 'package:app_feup/controller/parsers/ParserPrintBalance.dart';
 import 'package:app_feup/controller/parsers/ParserFees.dart';
 import 'package:app_feup/controller/parsers/ParserCourses.dart';
+import 'package:app_feup/model/entities/Course.dart';
 import 'package:app_feup/model/entities/CourseUnit.dart';
 import 'package:app_feup/model/entities/Exam.dart';
 import 'package:app_feup/model/entities/Lecture.dart';
@@ -62,12 +66,32 @@ ThunkAction<AppState> login(username, password, faculty, persistentSession) {
 ThunkAction<AppState> getUserInfo(Completer<Null> action) {
   return (Store<AppState> store) async {
     try {
-      final profile = NetworkRouter.getProfile(store.state.content['session']).then((res) => store.dispatch(new SaveProfileAction(res)));
+      Profile user_profile;
+
+      store.dispatch(SaveProfileStatusAction(RequestStatus.BUSY));
+
+      final profile = NetworkRouter.getProfile(store.state.content['session']).then((res) {
+        user_profile = res;
+        store.dispatch(new SaveProfileAction(user_profile));
+        store.dispatch(new SaveProfileStatusAction(RequestStatus.SUCCESSFUL));
+      });
       final ucs = NetworkRouter.getCurrentCourseUnits(store.state.content['session']).then((res) => store.dispatch(new SaveUcsAction(res)));
       await Future.wait([profile, ucs]);
+
+      Tuple2<String, String> userPersistentInfo = await AppSharedPreferences.getPersistentUserInfo();
+      if(userPersistentInfo.item1 != "" && userPersistentInfo.item2 != ""){
+        AppUserDataDatabase profile_db = await AppUserDataDatabase();
+        await profile_db.saveUserData(user_profile);
+
+        AppCoursesDatabase courses_db = await AppCoursesDatabase();
+        await courses_db.saveNewCourses(user_profile.courses);
+      }
+
     } catch (e) {
       print("Failed to get User Info");
+      store.dispatch(new SaveProfileStatusAction(RequestStatus.FAILED));
     }
+
     action.complete();
   };
 }
@@ -85,6 +109,40 @@ ThunkAction<AppState> updateStateBasedOnLocalUserLectures() {
     AppLecturesDatabase db = await AppLecturesDatabase();
     List<Lecture> lecs = await db.lectures();
     store.dispatch(new SetScheduleAction(lecs));
+  };
+}
+
+ThunkAction<AppState> updateStateBasedOnLocalProfile() {
+  return (Store<AppState> store) async {
+    AppUserDataDatabase profile_db = await AppUserDataDatabase();
+    Profile profile = await profile_db.userdata();
+
+    AppCoursesDatabase courses_db = await AppCoursesDatabase();
+    List<Course> courses = await courses_db.courses();
+
+    profile.courses = courses;
+
+    // Build courses states map
+    Map<String, String> coursesStates = new Map<String, String>();
+    for (Course course in profile.courses) {
+      coursesStates[course.name] = course.state;
+    }
+
+    store.dispatch(new SaveProfileAction(profile));
+    store.dispatch(new SetPrintBalanceAction(profile.printBalance));
+    store.dispatch(new SetFeesBalanceAction(profile.feesBalance));
+    store.dispatch(new SetFeesLimitAction(profile.feesLimit));
+    store.dispatch(new SetCoursesStatesAction(coursesStates));
+  };
+}
+
+ThunkAction<AppState> updateStateBasedOnLocalRefreshTimes() {
+  return (Store<AppState> store) async {
+    AppRefreshTimesDatabase refresh_times_db = await AppRefreshTimesDatabase();
+    Map<String, String> refreshTimes = await refresh_times_db.refreshTimes();
+
+    store.dispatch(new SetPrintRefreshTimeAction(refreshTimes["print"]));
+    store.dispatch(new SetFeesRefreshTimeAction(refreshTimes["fees"]));
   };
 }
 
@@ -184,6 +242,7 @@ ThunkAction<AppState> updateSelectedPage(new_page) {
 
 ThunkAction<AppState> getUserPrintBalance(Completer<Null> action) {
   return (Store<AppState> store) async {
+    store.dispatch(new SetPrintBalanceStatusAction(RequestStatus.BUSY));
 
     String url = NetworkRouter.getBaseUrlFromSession(store.state.content['session']) + "imp4_impressoes.atribs?";
 
@@ -194,9 +253,24 @@ ThunkAction<AppState> getUserPrintBalance(Completer<Null> action) {
     try {
       var response = await NetworkRouter.getWithCookies(url, query, cookies);
       String printBalance = await getPrintsBalance(response);
+
+      String current_time = DateTime.now().toString();
+      Tuple2<String, String> userPersistentInfo = await AppSharedPreferences.getPersistentUserInfo();
+      if(userPersistentInfo.item1 != "" && userPersistentInfo.item2 != ""){
+
+        await storeRefreshTime("print", current_time);
+
+        // Store fees info
+        AppUserDataDatabase profile_db = await AppUserDataDatabase();
+        await profile_db.saveUserPrintBalance(printBalance);
+      }
+
       store.dispatch(new SetPrintBalanceAction(printBalance));
+      store.dispatch(new SetPrintBalanceStatusAction(RequestStatus.SUCCESSFUL));
+      store.dispatch(new SetPrintRefreshTimeAction(current_time));
     }catch(e){
       print("Failed to get Print Balance");
+      store.dispatch(new SetPrintBalanceStatusAction(RequestStatus.FAILED));
     }
     action.complete();
   };
@@ -204,6 +278,7 @@ ThunkAction<AppState> getUserPrintBalance(Completer<Null> action) {
 
 ThunkAction<AppState> getUserFees(Completer<Null> action) {
   return (Store<AppState> store) async {
+    store.dispatch(new SetFeesStatusAction(RequestStatus.BUSY));
 
     String url = NetworkRouter.getBaseUrlFromSession(store.state.content['session']) + "gpag_ccorrente_geral.conta_corrente_view?";
 
@@ -215,12 +290,26 @@ ThunkAction<AppState> getUserFees(Completer<Null> action) {
       var response = await NetworkRouter.getWithCookies(url, query, cookies);
 
       String feesBalance = await parseFeesBalance(response);
-      store.dispatch(new SetFeesBalanceAction(feesBalance));
-
       String feesLimit = await parseFeesNextLimit(response);
+
+      String current_time = DateTime.now().toString();
+      Tuple2<String, String> userPersistentInfo = await AppSharedPreferences.getPersistentUserInfo();
+      if(userPersistentInfo.item1 != "" && userPersistentInfo.item2 != ""){
+
+        await storeRefreshTime("fees", current_time);
+
+        // Store fees info
+        AppUserDataDatabase profile_db = await AppUserDataDatabase();
+        await profile_db.saveUserFees(new Tuple2<String,String>(feesBalance, feesLimit));
+      }
+
+      store.dispatch(new SetFeesBalanceAction(feesBalance));
       store.dispatch(new SetFeesLimitAction(feesLimit));
+      store.dispatch(new SetFeesStatusAction(RequestStatus.SUCCESSFUL));
+      store.dispatch(new SetFeesRefreshTimeAction(current_time));
     }catch(e){
       print("Failed to get Fees info");
+      store.dispatch(new SetFeesStatusAction(RequestStatus.FAILED));
     }
 
     action.complete();
@@ -229,6 +318,7 @@ ThunkAction<AppState> getUserFees(Completer<Null> action) {
 
 ThunkAction<AppState> getUserCoursesState(Completer<Null> action) {
   return (Store<AppState> store) async {
+    store.dispatch(SetCoursesStatesStatusAction(RequestStatus.BUSY));
 
     String url = NetworkRouter.getBaseUrlFromSession(store.state.content['session']) + "fest_geral.cursos_list?";
 
@@ -241,12 +331,25 @@ ThunkAction<AppState> getUserCoursesState(Completer<Null> action) {
 
       Map<String,String> coursesStates = await parseCourses(response);
 
+      Tuple2<String, String> userPersistentInfo = await AppSharedPreferences.getPersistentUserInfo();
+      if(userPersistentInfo.item1 != "" && userPersistentInfo.item2 != ""){
+        AppCoursesDatabase courses_db = await AppCoursesDatabase();
+        await courses_db.saveCoursesStates(coursesStates);
+      }
+
       store.dispatch(new SetCoursesStatesAction(coursesStates));
+      store.dispatch(SetCoursesStatesStatusAction(RequestStatus.SUCCESSFUL));
 
     }catch(e){
-      print("Failed to get Fees info");
+      print("Failed to get Courses State info");
+      store.dispatch(SetCoursesStatesStatusAction(RequestStatus.FAILED));
     }
 
     action.complete();
   };
+}
+
+Future storeRefreshTime(String db, String current_time) async {
+  AppRefreshTimesDatabase refreshTimesDatabase = await AppRefreshTimesDatabase();
+  await refreshTimesDatabase.saveRefreshTime(db, current_time);
 }

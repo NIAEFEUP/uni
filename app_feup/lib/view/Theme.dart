@@ -10,6 +10,7 @@ const Color whiteTextColor = Color.fromARGB(255, 255, 255, 255);
 const Color bodyTitle = Color.fromARGB(255, 131, 131, 131);
 const Color greyBorder = Color.fromARGB(64, 0x46, 0x46, 0x46);
 const Color backgroundColor = Color.fromARGB(255, 0xfa, 0xfa, 0xfa);
+const Color lightGreyTextColor = Color.fromARGB(255, 150, 150, 150);
 
 const Color divider = Color.fromARGB(235, 235, 235, 255);
 const Color hintColor = Colors.white;
@@ -31,6 +32,7 @@ ThemeData applicationTheme = new ThemeData(
     subtitle: TextStyle(fontSize: 22.0, color: subtitleColor, fontWeight: FontWeight.w200),
     display1: TextStyle(fontSize: 17.0, color: greyTextColor, fontWeight: FontWeight.w200),
     display2: TextStyle(fontSize: 17.0, color: tonedDownPrimary, fontWeight: FontWeight.w300),
+    display3: TextStyle(fontSize: 10.0, color: titleColor, fontWeight: FontWeight.w500),
   ),
 
 

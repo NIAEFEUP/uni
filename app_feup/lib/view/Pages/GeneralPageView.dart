@@ -52,6 +52,7 @@ abstract class GeneralPageView extends StatelessWidget {
       },
       builder: (context, refresh) {
         return new RefreshIndicator(
+            key: new GlobalKey<RefreshIndicatorState>(),
             child: child,
             onRefresh: refresh,
             color: Theme.of(context).primaryColor);
@@ -68,7 +69,6 @@ abstract class GeneralPageView extends StatelessWidget {
           child: Container(
             margin: EdgeInsets.only(left: borderMargin, right: borderMargin),
             color: Theme.of(context).accentColor,
-            height: 1.5,
           ),
           preferredSize: null,
         ),

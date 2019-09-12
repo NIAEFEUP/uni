@@ -1,10 +1,10 @@
+import 'package:app_feup/model/entities/Course.dart';
 import 'package:app_feup/view/Pages/SecondaryPageView.dart';
 import 'package:app_feup/view/Widgets/AccountInfoCard.dart';
 import 'package:app_feup/view/Widgets/CourseInfoCard.dart';
 import 'package:app_feup/view/Widgets/PrintInfoCard.dart';
 import 'package:flutter/material.dart';
 import '../../view/Theme.dart';
-import 'package:app_feup/model/entities/Profile.dart';
 
 class ProfilePageView extends SecondaryPageView {
   ProfilePageView(
@@ -13,20 +13,25 @@ class ProfilePageView extends SecondaryPageView {
     @required this.email,
     @required this.currentState,
     @required this.printBalance,
+    @required this.printRefreshTime,
     @required this.feesBalance,
     @required this.nextFeeLimitData,
+    @required this.feesRefreshTime,
     @required this.courses});
 
   final String name;
   final String email;
   final Map<String, String> currentState;
   final String printBalance;
+  final String printRefreshTime;
   final String feesBalance;
   final String nextFeeLimitData;
+  final String feesRefreshTime;
   final List<Course> courses;
 
   @override
   Widget getBody(BuildContext context) {
+    print(feesRefreshTime);
     return createScrollableProfileView(context);
   }
 
@@ -53,12 +58,12 @@ class ProfilePageView extends SecondaryPageView {
     list.add(profileInfo(context));
     list.add(Padding(padding: const EdgeInsets.all(10.0)));
     for(var i = 0; i < courses.length; i++){
-      list.add(CourseInfoCard(course: courses[i], courseState: currentState[courses[i].name]));
+      list.add(CourseInfoCard(course: courses[i], courseState: currentState == null ? "?" : currentState[courses[i].name]));
       list.add(Padding(padding: const EdgeInsets.all(10.0)));
     }
-    list.add(PrintInfoCard(printBalance: printBalance));
+    list.add(PrintInfoCard(printBalance: printBalance, printRefreshTime: printRefreshTime));
     list.add(Padding(padding: const EdgeInsets.all(10.0)));
-    list.add(AccountInfoCard(feesBalance: feesBalance, nextFeeLimitData: nextFeeLimitData));
+    list.add(AccountInfoCard(feesBalance: feesBalance, nextFeeLimitData: nextFeeLimitData, feesRefreshTime: feesRefreshTime));
 
     return list;
   }

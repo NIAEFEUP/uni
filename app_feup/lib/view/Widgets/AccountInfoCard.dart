@@ -5,13 +5,13 @@ import 'GenericCard.dart';
 
 class AccountInfoCard extends GenericCard {
 
-  AccountInfoCard({Key key, this.feesBalance, this.nextFeeLimitData});
+  AccountInfoCard({Key key, this.feesBalance, this.nextFeeLimitData, this.feesRefreshTime});
 
-  String feesBalance, nextFeeLimitData;
+  final String feesBalance, nextFeeLimitData, feesRefreshTime;
 
   @override
   Widget buildCardContent(BuildContext context) {
-    return Table(
+    return Column(children:[ Table(
         columnWidths: {1: FractionColumnWidth(.4)},
         defaultVerticalAlignment: TableCellVerticalAlignment.middle,
         children: [
@@ -46,8 +46,11 @@ class AccountInfoCard extends GenericCard {
               margin: const EdgeInsets.only(top: 8.0, bottom: 20.0, right: 30.0),
               child: getInfoText(nextFeeLimitData, context),
             )
-          ])
+          ]),
         ]
+    ),
+      this.showLastRefreshedTime(feesRefreshTime, context)
+    ]
     );
   }
 

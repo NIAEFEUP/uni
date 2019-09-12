@@ -1,4 +1,4 @@
-import 'package:app_feup/model/entities/Profile.dart';
+import 'package:app_feup/model/entities/Course.dart';
 import 'package:flutter/material.dart';
 import 'package:app_feup/view/Theme.dart';
 
@@ -8,12 +8,12 @@ class CourseInfoCard extends GenericCard {
 
   CourseInfoCard({Key key, this.course, this.courseState});
 
-  Course course;
-  String courseState;
+  final Course course;
+  final String courseState;
 
   @override
   Widget buildCardContent(BuildContext context) {
-    return  Table(
+    return Table(
         columnWidths: {1: FractionColumnWidth(.4)},
         defaultVerticalAlignment: TableCellVerticalAlignment.middle,
         children: [

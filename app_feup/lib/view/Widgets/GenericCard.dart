@@ -6,7 +6,7 @@ abstract class GenericCard extends StatefulWidget {
   GenericCard({Key key})
       : super(key: key);
 
-  GenericCardState state = new GenericCardState();
+  final GenericCardState state = new GenericCardState();
 
   @override
   State<StatefulWidget> createState() => state;
@@ -23,6 +23,19 @@ abstract class GenericCard extends StatefulWidget {
     return Text(text,
         textAlign: TextAlign.end,
         style: Theme.of(context).textTheme.display2
+    );
+  }
+
+  showLastRefreshedTime(time, context) {
+    var t = DateTime.parse(time);
+    return Container(
+        child: Text("última atualização às " +
+            t.hour.toString() + ":" + t.minute.toString(),
+            style: Theme
+                .of(context)
+                .textTheme
+                .display3),
+        alignment: Alignment.center
     );
   }
 }
@@ -68,12 +81,13 @@ class GenericCardState extends State<GenericCard> {
                       children: <Widget>[
                         new Row(
                           children:[
-                            new Container(
-                              child: Text(widget.getTitle(), style: Theme.of(context).textTheme.headline.apply(fontSizeDelta: -53, fontWeightDelta: -3)),
-                              height: 26,
-                              alignment: Alignment.centerLeft,
-                              padding: EdgeInsets.only(left: 16),
-                              margin: EdgeInsets.only(top: 11, bottom: 11),
+                            Flexible(
+                              child: Container(
+                                child: Text(widget.getTitle(), style: Theme.of(context).textTheme.headline.apply(fontSizeDelta: -53, fontWeightDelta: -3)),
+                                alignment: Alignment.centerLeft,
+                                padding: EdgeInsets.only(left: 16),
+                                margin: EdgeInsets.only(top: 11, bottom: 11),
+                              )
                             ),
                             this.getDeleteIcon(context)
                           ].where((e) => e != null).toList(),
