@@ -13,10 +13,7 @@ class ScheduleCard extends StatelessWidget {
 
   ScheduleCard(
       {Key key})
-      : super(key: key){
-    lectures.add(new Lecture("IART", "T", 0, 32400, 3, "B213", "LPR"));
-    lectures.add(new Lecture("LBAW", "TP", 0, 37800, 3, "B213", "TBS"));
-  }
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
