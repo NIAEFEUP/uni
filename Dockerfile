@@ -6,4 +6,4 @@ COPY ./app_feup/ .
 
 RUN flutter pub get
 
-CMD [ "bash", "-c" , "flutter analyze --no-pub --preamble . && flutter test"]
+CMD [ "sh", "-c" , "flutter analyze --no-pub --preamble . && flutter test"]
