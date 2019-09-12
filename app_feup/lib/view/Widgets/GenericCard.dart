@@ -20,13 +20,14 @@ abstract class GenericCard extends StatefulWidget {
   void setOnDelete(Function func) => state.setOnDelete(func);
 
   Text getInfoText(String text, BuildContext context) {
-    return Text(text,
+    return Text(text == null ? "N/A" : text,
         textAlign: TextAlign.end,
         style: Theme.of(context).textTheme.display2
     );
   }
 
   showLastRefreshedTime(time, context) {
+    if(time == null) return Text("N/A");
     var t = DateTime.parse(time);
     return Container(
         child: Text("última atualização às " +
