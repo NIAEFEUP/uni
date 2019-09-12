@@ -37,6 +37,16 @@ class ProfilePageView extends SecondaryPageView {
     );
   }
 
+  @override
+  Widget getTopRightButton(BuildContext context){
+    return IconButton(
+          onPressed: () => {Navigator.pop(context)},
+          icon: Icon(
+            Icons.close
+          )
+        );
+  }
+
   List<Widget> childrenList(BuildContext context) {
     List<Widget> list = new List();
     list.add(Padding(padding: const EdgeInsets.all(10.0)));

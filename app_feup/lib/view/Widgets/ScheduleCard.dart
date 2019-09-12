@@ -12,12 +12,7 @@ class ScheduleCard extends GenericCard {
   final double leftPadding = 12.0;
   final List<Lecture> lectures = new List<Lecture>();
 
-  ScheduleCard(
-      {Key key})
-      : super(key: key){
-    lectures.add(new Lecture("LDSO", "T", 0, 32400, 3, "B213", "LPR"));
-    lectures.add(new Lecture("AIAD", "TP", 0, 37800, 3, "B213", "TBS"));
-  }
+  ScheduleCard({Key key}) : super(key: key);
 
   @override
   Widget buildCardContent(BuildContext context) {
