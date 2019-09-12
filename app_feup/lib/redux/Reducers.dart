@@ -134,12 +134,12 @@ AppState setCoursesStateStatus(AppState state, SetCoursesStatesStatusAction acti
 }
 
 AppState setPrintRefreshTime(AppState state, SetPrintRefreshTimeAction action) {
-  print('setting print refresh time ' + action.time);
+  print('setting print refresh time ' + action.time.toString());
   return state.cloneAndUpdateValue("printRefreshTime", action.time);
 }
 
 AppState setFeesRefreshTime(AppState state, SetFeesRefreshTimeAction action) {
-  print('setting fees refresh time ' + action.time);
+  print('setting fees refresh time ' + action.time.toString());
   return state.cloneAndUpdateValue("feesRefreshTime", action.time);
 }
 

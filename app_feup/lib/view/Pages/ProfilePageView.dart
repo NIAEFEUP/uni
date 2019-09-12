@@ -63,7 +63,7 @@ class ProfilePageView extends SecondaryPageView {
     }
     list.add(PrintInfoCard(printBalance: printBalance, printRefreshTime: printRefreshTime));
     list.add(Padding(padding: const EdgeInsets.all(10.0)));
-    list.add(AccountInfoCard(feesBalance: feesBalance, nextFeeLimitData: nextFeeLimitData, feesRefreshTime: feesRefreshTime));
+    list.add(AccountInfoCard());
 
     return list;
   }

@@ -20,7 +20,7 @@ class AppState {
       "feesStatus": RequestStatus.NONE,
       "coursesStateStatus": RequestStatus.NONE,
       "selected_page": "Área Pessoal",
-      "session": new Session(authenticated: false),
+      "session": new Session(authenticated: false)
     };
   }
 

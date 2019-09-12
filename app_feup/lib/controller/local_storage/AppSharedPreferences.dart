@@ -61,10 +61,6 @@ class AppSharedPreferences {
   }
 
 
-
-
-
-
   static String encode(String plainText) {
     final encrypter = _createEncrypter();
     return encrypter.encrypt(plainText).base64;
