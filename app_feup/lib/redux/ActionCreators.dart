@@ -103,7 +103,7 @@ ThunkAction<AppState> getUserExams(
         AppExamsDatabase db = await AppExamsDatabase();
         db.saveNewExams(exams);
       }
-
+      
       store.dispatch(new SetExamsStatusAction(RequestStatus.SUCCESSFUL));
       store.dispatch(new SetExamsAction(exams));
       

@@ -15,7 +15,7 @@ class ExamsPageView extends SecondaryPageView {
 
   @override
   Widget getBody(BuildContext context) {
-    return StoreConnector<AppState, List<dynamic>>(
+    return StoreConnector<AppState, List<Exam>>(
       converter: (store) => store.state.content['exams'],
       builder: (context, exams){
         return new ExamsList(exams: exams, now: DateTime.now(),);

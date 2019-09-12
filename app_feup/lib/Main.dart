@@ -27,18 +27,24 @@ void main() => runApp(new MyApp());
 class MyApp extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return MyAppState();
+    return MyAppState(
+      state:  Store<AppState>(
+        appReducers, /* Function defined in the reducers file */
+        initialState: new AppState(null),
+        middleware: [generalMiddleware]
+      )
+   );
   }
 
 }
 
 class MyAppState extends State<MyApp> {
 
-  final Store<AppState> state = Store<AppState>(
-    appReducers, /* Function defined in the reducers file */
-    initialState: new AppState(null),
-    middleware: [generalMiddleware]
-  );
+  MyAppState({
+    @required this.state
+  }){}
+
+  final Store<AppState> state;
 
   WidgetsBindingObserver lifeCycleEventHandler;
 
