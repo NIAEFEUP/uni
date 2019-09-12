@@ -8,45 +8,52 @@ import 'dart:math' as math;
 
 
 class BusStopRow extends StatelessWidget {
-  final BusStop busStop;
+  final String stopCode;
+  final List<Trip> nextTrips;
+  var stopCodeShow;
 
   BusStopRow({
     Key key,
-    @required this.busStop
+    @required this.stopCode,
+    this.stopCodeShow = true,
+    @required this.nextTrips,
   }) :super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return new Container(
-      padding: EdgeInsets.all(10),
+      padding: EdgeInsets.only(top: 12.0),
       child: new RowContainer(
           child: new Container(
-            padding: EdgeInsets.all(10),
+            padding: EdgeInsets.all(4.0),
             child: new Row(
-              children: this.getTrips(context, this.busStop.getTrips()),
+              children: this.getTrips(context),
             ),
           ),
       )
     );
   }
 
-  List<Widget> getTrips(context, nextTrips) {
+  List<Widget> getTrips(context) {
     List<Widget> row = new List<Widget>();
 
-    row.add(
-        new Container(
-          alignment: Alignment.center,
-          child: new Transform (
-            child: Text(this.busStop.getStopCode().substring(5), style: Theme
-                .of(context)
-                .textTheme
-                .display1
-                .apply(color: primaryColor)),
-            transform: new Matrix4.identity()
-              ..rotateZ(-math.pi / 2),
-          ),
-        )
-    );
+    if(stopCodeShow){
+      row.add(
+          new Container(
+            padding: EdgeInsets.only(left: 4.0),
+            alignment: Alignment.center,
+            child: new Transform (
+              child: Text(this.stopCode.substring(5), style: Theme
+                  .of(context)
+                  .textTheme
+                  .display1
+                  .apply(color: primaryColor)),
+              transform: new Matrix4.identity()
+                ..rotateZ(-math.pi / 2),
+            ),
+          )
+      );
+    }
 
     if (nextTrips.length == 0) {
       row.add(
@@ -62,9 +69,8 @@ class BusStopRow extends StatelessWidget {
                   new Container(
                       padding: EdgeInsets.only(top: 5, bottom: 5),
                       child: new TripRow(
-                        trip: nextTrips[i],
-                        stopCode: this.busStop.getStopCode())
-                  )
+                        trip: nextTrips[i]
+                  ))
         );
       }
 

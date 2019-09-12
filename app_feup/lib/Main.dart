@@ -1,6 +1,7 @@
 import 'package:app_feup/controller/networking/NetworkRouter.dart';
 import 'package:app_feup/model/SchedulePageModel.dart';
 import 'package:app_feup/model/entities/Exam.dart';
+import 'package:app_feup/view/Pages/BusStopNextArrivalsPage.dart';
 import 'package:app_feup/view/Pages/BusStopSelectionPage.dart';
 import 'package:app_feup/view/Pages/ClassificationsPageView.dart';
 import 'package:app_feup/view/Pages/ExamsPageView.dart';
@@ -84,14 +85,18 @@ class MyAppState extends State<MyApp> {
               StoreProvider.of<AppState>(context).dispatch(updateSelectedPage("Mapa FEUP"));
               return MapPageView();
             },
+            '/ConfigurarParagens': (context) {
+              StoreProvider.of<AppState>(context).dispatch(updateSelectedPage("Paragens"));
+              return BusStopSelectionPage();
+            },
+            '/Paragens': (context){
+              StoreProvider.of<AppState>(context).dispatch(updateSelectedPage("Próximas Viagens"));
+              return BusStopNextArrivalsPage();
+            },
             '/About': (context) {
               StoreProvider.of<AppState>(context).dispatch(updateSelectedPage("About"));
               return AboutPageView();
             },
-            '/Paragens': (context) {
-              StoreProvider.of<AppState>(context).dispatch(updateSelectedPage("Paragens"));
-              return BusStopSelectionPage();
-            }
         },
     )
   );}

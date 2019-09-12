@@ -1,16 +1,14 @@
 import 'package:app_feup/model/entities/Trip.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../Theme.dart';
+import 'EstimatedArrivalTimeStamp.dart';
 
 class TripRow extends StatelessWidget{
   final Trip trip;
-  final String stopCode;
 
   TripRow({
     Key key,
     @required this.trip,
-    @required this.stopCode
   }): super(key: key);
 
   @override
@@ -27,7 +25,14 @@ class TripRow extends StatelessWidget{
             Text(this.trip.getDestination(),style: Theme.of(context).textTheme.display1.apply(color: greyTextColor)),
           ],
         ),
-        Text(this.trip.getTimeRemaining(),style: new TextStyle(color: Colors.black, fontWeight: FontWeight.bold)), // Theme.of(context).textTheme.display1.apply(color: Colors.black, fontWeightDelta: -3))
+        new Column(
+          children: <Widget>[
+            Text(this.trip.getTimeRemaining(),style: new TextStyle(color: Colors.black, fontWeight: FontWeight.bold)), // Theme.of(context).textTheme.display1.apply(color: Colors.black, fontWeightDelta: -3))
+            new EstimatedArrivalTimeStamp(
+                timeRemaining: this.trip.getTimeRemaining()
+            ),
+          ]
+        )
       ],
     );
   }

@@ -5,19 +5,10 @@ import '../Theme.dart';
 import 'BusStopRow.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
-import 'BusStopTimeStampRow.dart';
+import 'LastUpdateTimeStamp.dart';
 
 
 class BusStopCard extends StatelessWidget{
-
-  final double padding = 8.0;
-  String title;
-
-  BusStopCard({
-    Key key,
-    @required this.title
-  }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, List<dynamic>>(
@@ -25,7 +16,7 @@ class BusStopCard extends StatelessWidget{
       builder: (context, busstops){
         return GenericCard(
             title: "Paragens",
-            func: () => Navigator.pushReplacementNamed(context, '/Próximas viagens'),
+            func: () => Navigator.pushNamed(context, '/Paragens'),
             child: getCardContent(context, busstops)
         );
       },
@@ -36,37 +27,37 @@ class BusStopCard extends StatelessWidget{
     switch (StoreProvider.of<AppState>(context).state.content['busstopStatus']) {
       case RequestStatus.SUCCESSFUL:
         return Column(
-          children: <Widget>[
-            this.getTitle(context),
-            this.getBusStopsInfo(context, busStops)
-          ]
+            children: <Widget>[
+              this.getCardTitle(context),
+              this.getBusStopsInfo(context, busStops)
+            ]
         );
         break;
       case RequestStatus.BUSY:
         return Column(
           children: <Widget>[
-            this.getTitle(context),
+            this.getCardTitle(context),
             Center(child: CircularProgressIndicator())
           ],
         );
         break;
       case RequestStatus.FAILED:
         return Column(
-          children : <Widget> [
-            this.getTitle(context),
-            Text("Failed to get new information", style: Theme.of(context).textTheme.display1.apply(color: primaryColor)),
-            this.getBusStopsInfo(context, busStops),
-          ]
+            children : <Widget> [
+              this.getCardTitle(context),
+              Text("Failed to get new information", style: Theme.of(context).textTheme.display1.apply(color: primaryColor)),
+              this.getBusStopsInfo(context, busStops),
+            ]
         );
         break;
     }
   }
-  
-  Widget getTitle(context){
+
+  Widget getCardTitle(context){
     return Row(
       children: <Widget>[
         Icon(Icons.directions_bus),
-        Text(this.title, style: Theme.of(context).textTheme.display1.apply(color: primaryColor))
+        Text('STCP - Próximas Viagens', style: Theme.of(context).textTheme.display1.apply(color: primaryColor))
       ],
     );
   }
@@ -75,9 +66,9 @@ class BusStopCard extends StatelessWidget{
     if (busStops.length >= 1)
       return
         Container(
-            padding: EdgeInsets.all(padding),
+            padding: EdgeInsets.all(4.0),
             child: new Column(
-              children: this.getBusStopRows(context, busStops),
+              children: this.getEachBusStopInfo(context, busStops),
             ));
     else
       return
@@ -86,15 +77,16 @@ class BusStopCard extends StatelessWidget{
         );
   }
 
-  List<Widget> getBusStopRows(context, busStops){
+  List<Widget> getEachBusStopInfo(context, busStops){
     List<Widget> rows = new List<Widget>();
     var size = busStops.length;
 
-    rows.add(new BusStopTimeStamp());
+    rows.add(new LastUpdateTimeStamp());
 
     for(int i = 0; i < busStops.length; i++){
       rows.add(new BusStopRow(
-          busStop : busStops[i]
+        stopCode: busStops[i].stopCode,
+        nextTrips: busStops[i].trips.sublist(0, 1),
       ));
     }
     return rows;

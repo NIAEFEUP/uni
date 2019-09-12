@@ -20,7 +20,7 @@ class HomePageView extends GeneralPageView {
 
             ScheduleCard(),
 
-            BusStopCard(title: "STCP - Próximas viagens"),
+            BusStopCard(),
           ],
         ),
     );

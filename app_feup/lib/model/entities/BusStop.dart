@@ -20,12 +20,4 @@ class BusStop{
       'stopCode': stopCode,
     };
   }
-
-  String getStopCode(){
-    return stopCode;
-  }
-
-  List<Trip> getTrips(){
-    return trips;
-  }
 }
