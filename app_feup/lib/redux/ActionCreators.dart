@@ -260,7 +260,7 @@ ThunkAction<AppState> getUserCoursesState(Completer<Null> action) {
 
       store.dispatch(new SetCoursesStatesAction(coursesStates));
     } catch (e) {
-      print("Failed to get Fees info");
+      print("Failed to get Courses state info");
     }
 
     action.complete();

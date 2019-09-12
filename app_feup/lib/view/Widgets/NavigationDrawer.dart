@@ -21,7 +21,6 @@ class NavigationDrawerState extends State<NavigationDrawer> {
     "Parques",
     "Mapa FEUP",
     "Sobre",
-    "Terminar sessão",
   ];
 
   _onSelectItem(int index) {
@@ -47,7 +46,7 @@ class NavigationDrawerState extends State<NavigationDrawer> {
     return new ListTile(
         title: new Padding(
             padding: const EdgeInsets.only(
-              bottom: 20.0,
+              top: 10.0,
             ),
             child: new Row(children: <Widget>[
               new Flexible(
@@ -56,6 +55,21 @@ class NavigationDrawerState extends State<NavigationDrawer> {
                 ),
               ),
             ])));
+  }
+
+  Widget createLogOutOption() {
+    return new ListTile(
+      title: new Row(
+        children: <Widget>[
+          new Container(
+            decoration: _buildBorder("Terminar sessão"),
+            child: new Text("Terminar sessão",
+                style: TextStyle(fontSize: 24.0, color: primaryColor)),
+          ),
+        ],
+      ),
+      onTap: () => Navigator.pushReplacementNamed(context, '/Terminar sessão'),
+    );
   }
 
   Widget createDrawerNavigationOption(String d, int i) {
@@ -79,8 +93,6 @@ class NavigationDrawerState extends State<NavigationDrawer> {
   Widget build(BuildContext context) {
     List<Widget> drawerOptions = [];
 
-    drawerOptions.add(createSearchInputField());
-
     for (var i = 0; i < drawerItems.length; i++) {
       drawerOptions.add(createDrawerNavigationOption(drawerItems[i], i));
     }
@@ -88,8 +100,20 @@ class NavigationDrawerState extends State<NavigationDrawer> {
     return new Drawer(
         child: new Padding(
       padding: EdgeInsets.all(20.0),
-      child: new ListView(
-        children: drawerOptions,
+      child: new Column(
+        children: <Widget>[
+          Container(
+            child: createSearchInputField(),
+          ),
+          Flexible(
+            child: new ListView(
+              children: drawerOptions,
+            ),
+          ),
+          Container(
+            child: createLogOutOption(),
+          ),
+        ],
       ),
     ));
   }
