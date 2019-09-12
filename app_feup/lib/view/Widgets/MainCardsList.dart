@@ -19,17 +19,13 @@ class _MainCardsList extends State<MainCardsList> {
 
   bool editingMode = false;
 
-  Map<FAVORITE_WIDGET_TYPE, Function> CARDS;
-
-  Map<FAVORITE_WIDGET_TYPE, Function> getCardCreators() => {
-      FAVORITE_WIDGET_TYPE.SCHEDULE: (k) => ScheduleCard(key:k),
-      FAVORITE_WIDGET_TYPE.EXAMS: (k) => ExamCard(key:k)
+  Map<FAVORITE_WIDGET_TYPE, Function> CARD_CREATORS = {
+    FAVORITE_WIDGET_TYPE.SCHEDULE: (k) => ScheduleCard(key:k),
+    FAVORITE_WIDGET_TYPE.EXAMS: (k) => ExamCard(key:k)
   };
 
   @override
   Widget build(BuildContext context) {
-
-    this.CARDS = getCardCreators();
 
     return Scaffold(
         body: HomePageBackButton(
@@ -68,7 +64,7 @@ class _MainCardsList extends State<MainCardsList> {
 
   List<Widget> getCardAdders(){
     List<Widget> result = [];
-    this.CARDS.forEach((FAVORITE_WIDGET_TYPE key, Function v) {
+    this.CARD_CREATORS.forEach((FAVORITE_WIDGET_TYPE key, Function v) {
       if(!StoreProvider.of<AppState>(context).state.content["favoriteCards"].contains(key))
       result.add(
           Container(
@@ -131,7 +127,7 @@ class _MainCardsList extends State<MainCardsList> {
   }
 
   List<Widget> createFavoriteWidgetsFromTypes(List<FAVORITE_WIDGET_TYPE> cards) {
-    if(cards == null) return null;
+    if(cards == null) return [];
 
     List<Widget> result = List<Widget>();
     for(int i = 0; i < cards.length; i++) {
@@ -141,7 +137,7 @@ class _MainCardsList extends State<MainCardsList> {
   }
 
   Widget createFavoriteWidgetFromType(FAVORITE_WIDGET_TYPE type, int i){
-    return this.CARDS[type](Key(i.toString()))
+    return this.CARD_CREATORS[type](Key(i.toString()))
     ..setEditingMode(this.editingMode)
     ..setOnDelete(() => removeFromFavorites(i));
   }
