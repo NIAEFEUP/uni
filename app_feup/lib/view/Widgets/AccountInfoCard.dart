@@ -28,14 +28,7 @@ class AccountInfoCard extends GenericCard {
             ),
             Container(
               margin: const EdgeInsets.only(top: 20.0, bottom: 8.0, right: 30.0),
-              child: Text(feesBalance,
-                  textAlign: TextAlign.end,
-                  style: TextStyle(
-                      color: greyTextColor,
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.w500
-                  )
-              ),
+              child: getInfoText(feesBalance, context),
             )
           ]),
           TableRow(children: [
@@ -51,14 +44,7 @@ class AccountInfoCard extends GenericCard {
             ),
             Container(
               margin: const EdgeInsets.only(top: 8.0, bottom: 20.0, right: 30.0),
-              child: Text(nextFeeLimitData,
-                  textAlign: TextAlign.end,
-                  style: TextStyle(
-                      color: greyTextColor,
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.w500
-                  )
-              ),
+              child: getInfoText(nextFeeLimitData, context),
             )
           ])
         ]

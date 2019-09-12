@@ -33,13 +33,13 @@ class ProfilePageView extends SecondaryPageView {
   Widget createScrollableProfileView(BuildContext context){
     return ListView(
       shrinkWrap: false,
-      padding: const EdgeInsets.all(20.0),
       children: childrenList(context)
     );
   }
 
   List<Widget> childrenList(BuildContext context) {
     List<Widget> list = new List();
+    list.add(Padding(padding: const EdgeInsets.all(10.0)));
     list.add(profileInfo(context));
     list.add(Padding(padding: const EdgeInsets.all(10.0)));
     for(var i = 0; i < courses.length; i++){
@@ -49,8 +49,10 @@ class ProfilePageView extends SecondaryPageView {
     list.add(PrintInfoCard(printBalance: printBalance));
     list.add(Padding(padding: const EdgeInsets.all(10.0)));
     list.add(AccountInfoCard(feesBalance: feesBalance, nextFeeLimitData: nextFeeLimitData));
+
     return list;
   }
+
   Widget profileInfo (BuildContext context){
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
