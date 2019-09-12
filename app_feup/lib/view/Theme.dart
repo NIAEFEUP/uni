@@ -22,8 +22,6 @@ ThemeData applicationTheme = new ThemeData(
   accentColor: accentColor,
   hintColor: hintColor,
   backgroundColor: backgroundColor,
-  cardColor: toastColor,
-  dividerColor: divider,
 
 //  fontFamily: 'Raleway',
 

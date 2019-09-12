@@ -1,13 +1,14 @@
 import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
+import 'package:app_feup/view/Theme.dart' as theme;
 import 'package:app_feup/view/Widgets/BugPageTextWidget.dart';
-import 'package:crypto/crypto.dart';
 import 'package:toast/toast.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:tuple/tuple.dart';
 
 class BugReportForm extends StatefulWidget {
   @override
@@ -28,49 +29,35 @@ class BugReportFormState extends State<BugReportForm> {
 
   static final _formKey = GlobalKey<FormState>();
 
-  HashMap<int, String> bugDescriptions = new HashMap();
+  final Map<int, Tuple2<String,String>> bugDescriptions = {
+    0 : Tuple2<String,String>("Detalhe visual", "Visual detail"),
+    1 : Tuple2<String,String>("Erro", "Error"),
+    2 : Tuple2<String,String>("Sugestão de funcionalidade", "Suggestion"),
+    3 : Tuple2<String,String>("Comportamento inesperado", "Unexpected behaviour"),
+    4 : Tuple2<String,String>("Outro", "Other"),
+  };
   List<DropdownMenuItem<int>> bugList = [];
 
   int _selectedBug = 0;
-  TextEditingController titleController = new TextEditingController();
-  TextEditingController descriptionController = new TextEditingController();
+  final TextEditingController titleController = new TextEditingController();
+  final TextEditingController descriptionController = new TextEditingController();
 
-  String postUrl = "https://api.github.com/repos/NIAEFEUP/project-schrodinger/issues";
+  final String postUrl = "https://api.github.com/repos/NIAEFEUP/project-schrodinger/issues";
   String ghToken = "";
 
   BugReportFormState() {
-    initBugDescriptions();
     loadBugClassList();
-  }
-
-  void initBugDescriptions() {
-    bugDescriptions.clear();
-    bugDescriptions.addAll({
-      0 : "Detalhe visual",
-      1 : "Erro",
-      2 : "Sugestão",
-      3 : "Comportamento inesperado",
-    });
   }
 
   void loadBugClassList() {
     bugList = [];
-    bugList.add(new DropdownMenuItem(
-      child: new Text('Detalhe visual'),
-      value: 0,
-    ));
-    bugList.add(new DropdownMenuItem(
-      child: new Text('Erro'),
-      value: 1,
-    ));
-    bugList.add(new DropdownMenuItem(
-      child: new Text('Sugestão'),
-      value: 2,
-    ));
-    bugList.add(new DropdownMenuItem(
-      child: new Text('Comportamento inesperado'),
-      value: 3,
-    ));
+
+    bugDescriptions.forEach((int key, Tuple2<String,String> tup) => {
+      bugList.add(new DropdownMenuItem(
+        child: new Text(tup.item1),
+        value: key
+      ))
+    });
   }
 
   @override
@@ -208,7 +195,7 @@ class BugReportFormState extends State<BugReportForm> {
 
   Widget SubmitButton(BuildContext context) {
 
-    String bugLabel = bugDescriptions[_selectedBug] == null ? "Unidentified bug" : bugDescriptions[_selectedBug];
+    String bugLabel = bugDescriptions[_selectedBug] == null ? "Unidentified bug" : bugDescriptions[_selectedBug].item2;
     Map data = {
       "title": titleController.text,
       "body": descriptionController.text,
@@ -220,57 +207,8 @@ class BugReportFormState extends State<BugReportForm> {
         padding: EdgeInsets.symmetric(vertical: 10.0),
 
         onPressed: () {
-          if (_formKey.currentState.validate()) {
-            http.post(
-                postUrl + "?access_token=" + ghToken,
-                headers: {
-                  "Content-Type" : "application/json"
-                },
-                body: json.encode(data)
-              ).then((http.Response response) {
-                final int statusCode = response.statusCode;
-
-                String msg;
-                if (statusCode < 200 || statusCode > 400) {
-                  print("Error " + statusCode.toString() + " while posting bug");
-                  msg = "Ocorreu um erro no envio";
-                }
-                else {
-                  print("Successfully submitted bug report.");
-                  msg = "Enviado com sucesso";
-
-                  //clearForm();
-                  Navigator.pushReplacementNamed(context, '/Área Pessoal');
-                };
-
-                FocusScope.of(context).requestFocus(new FocusNode());
-
-                Toast.show(
-                  msg,
-                  context,
-                  duration: Toast.LENGTH_LONG,
-                  gravity: Toast.BOTTOM,
-                  backgroundColor: Theme.of(context).cardColor,
-                  backgroundRadius: 16.0,
-                  textColor: Colors.white,
-                );
-            }).catchError((error) {
-              print(error);
-              FocusScope.of(context).requestFocus(new FocusNode());
-
-              String msg = (error is SocketException) ? "Falha de rede" : "Ocorreu um erro";
-
-              Toast.show(
-                msg,
-                context,
-                duration: Toast.LENGTH_LONG,
-                gravity: Toast.BOTTOM,
-                backgroundColor: Theme.of(context).cardColor,
-                backgroundRadius: 16.0,
-                textColor: Colors.white,
-              );
-            });
-          }
+          if (_formKey.currentState.validate())
+            submitBugReport(data);
         },
 
         child: Text(
@@ -285,6 +223,42 @@ class BugReportFormState extends State<BugReportForm> {
     );
   }
 
+
+  void submitBugReport(Map data) {
+    http.post(
+        postUrl + "?access_token=" + ghToken,
+        headers: {
+          "Content-Type" : "application/json"
+        },
+        body: json.encode(data)
+    ).then((http.Response response) {
+      final int statusCode = response.statusCode;
+
+      String msg;
+      if (statusCode < 200 || statusCode > 400) {
+        print("Error " + statusCode.toString() + " while posting bug");
+        msg = "Ocorreu um erro no envio";
+      }
+      else {
+        print("Successfully submitted bug report.");
+        msg = "Enviado com sucesso";
+
+        //clearForm();
+        Navigator.pushReplacementNamed(context, '/Área Pessoal');
+      };
+
+      FocusScope.of(context).requestFocus(new FocusNode());
+      displayBugToast(msg);
+
+    }).catchError((error) {
+      print(error);
+      FocusScope.of(context).requestFocus(new FocusNode());
+
+      String msg = (error is SocketException) ? "Falha de rede" : "Ocorreu um erro";
+      displayBugToast(msg);
+    });
+  }
+
   void clearForm() {
     titleController.clear();
     descriptionController.clear();
@@ -292,6 +266,18 @@ class BugReportFormState extends State<BugReportForm> {
     setState(() {
       _selectedBug = 0;
     });
+  }
+
+  void displayBugToast(String msg) {
+    Toast.show(
+      msg,
+      context,
+      duration: Toast.LENGTH_LONG,
+      gravity: Toast.BOTTOM,
+      backgroundColor: theme.toastColor,
+      backgroundRadius: 16.0,
+      textColor: Colors.white,
+    );
   }
 
 }

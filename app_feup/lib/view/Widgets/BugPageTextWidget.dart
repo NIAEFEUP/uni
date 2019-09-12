@@ -15,26 +15,17 @@ class BugPageTextWidget extends StatelessWidget {
   final double bottomMargin;
 
   BugPageTextWidget(
-      TextEditingController controller,
-      IconData icon,
+      this.controller,
+      this.icon,
       {
-        String description = "",
-        int minLines = 1,
-        int maxLines = 1,
-        String labelText = "",
-        String hintText = "",
-        String emptyText = "Por favor escreve algo",
-        double bottomMargin = 0,
-      }
-      ) : controller=controller,
-          icon=icon,
-          description=description,
-          minLines=minLines,
-          maxLines=maxLines,
-          labelText=labelText,
-          emptyText=emptyText,
-          hintText=hintText,
-          bottomMargin=bottomMargin {}
+        this.description = "",
+        this.minLines = 1,
+        this.maxLines = 1,
+        this.labelText = "",
+        this.hintText = "",
+        this.emptyText = "Por favor escreve algo",
+        this.bottomMargin = 0,
+      });
 
   @override
   Widget build(BuildContext context) {
