@@ -5,17 +5,53 @@ import 'package:app_feup/model/AppState.dart';
 import 'package:app_feup/view/Widgets/ScheduleSlot.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
-class SchedulePageView extends SecondaryPageView {
+
+class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
+  _SliverAppBarDelegate(this._tabBar);
+
+  final TabBar _tabBar;
+
+  @override
+  double get minExtent => _tabBar.preferredSize.height;
+  @override
+  double get maxExtent => _tabBar.preferredSize.height;
+
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return new Container(
+      decoration: const BoxDecoration(
+        border: Border(
+          bottom: BorderSide(width: 1.0, color: Colors.grey),
+        ),
+      ),
+      constraints: BoxConstraints(maxHeight: 150.0),
+      child: new Material(
+        color: Colors.white,
+        child: _tabBar,
+      ),
+    );
+  }
+
+  @override
+  bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
+    return false;
+  }
+}
+
+class SchedulePageView extends SecondaryPageView  {
 
   SchedulePageView(
     {Key key,
       @required this.tabController,
+      @required this.scrollViewController,
       @required this.daysOfTheWeek,
       @required this.aggLectures});
 
   final List<String> daysOfTheWeek;
   final List<List<Lecture>> aggLectures;
   final TabController tabController;
+  final ScrollController scrollViewController;
 
   @override
   Widget getBody(BuildContext context) {
@@ -23,32 +59,32 @@ class SchedulePageView extends SecondaryPageView {
 
     return new Column(
       children: <Widget>[
-        new Container(
-          decoration: const BoxDecoration(
-            border: Border(
-              bottom: BorderSide(width: 1.0, color: Colors.grey),
-            ),
-          ),
-          constraints: BoxConstraints(maxHeight: 150.0),
-          child: new Material(
-            color: Colors.white,
-            child: new TabBar(
-              controller: tabController,
-              isScrollable: true,
-              unselectedLabelColor: Colors.grey,
-              labelColor: Colors.grey,
-              indicatorWeight: 3.0,
-              indicatorColor: Colors.grey,
-              labelPadding: EdgeInsets.all(0.0),
-              tabs: createTabs(queryData),
-            ),
-          ),
-        ),
         new Expanded(
-          child: new TabBarView(
+          child: NestedScrollView(
+            controller: scrollViewController,
+            headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+              return <Widget> [
+                SliverPersistentHeader(
+                  delegate: _SliverAppBarDelegate(
+                    new TabBar(
+                      controller: tabController,
+                      isScrollable: true,
+                      unselectedLabelColor: Colors.grey,
+                      labelColor: Colors.grey,
+                      indicatorWeight: 3.0,
+                      indicatorColor: Colors.grey,
+                      labelPadding: EdgeInsets.all(0.0),
+                      tabs: createTabs(queryData),
+                    ),
+                  ),
+                  pinned: true,
+                ),
+              ];
+            }, body: new TabBarView(
             controller: tabController,
             children: createSchedule(context),
           ),
+          )
         ),
       ],
     );

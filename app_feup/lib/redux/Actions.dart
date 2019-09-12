@@ -4,6 +4,7 @@ import 'package:app_feup/model/entities/Exam.dart';
 import 'package:app_feup/model/entities/Lecture.dart';
 import 'package:app_feup/model/entities/Profile.dart';
 import 'package:app_feup/model/entities/Session.dart';
+import 'package:tuple/tuple.dart';
 
 class SaveLoginDataAction {
   Session session;
@@ -49,6 +50,11 @@ class SaveProfileAction {
   SaveProfileAction(this.profile);
 }
 
+class SaveProfileStatusAction {
+  RequestStatus status;
+  SaveProfileStatusAction(this.status);
+}
+
 class SaveUcsAction {
   List<CourseUnit> ucs;
   SaveUcsAction(this.ucs);
@@ -57,6 +63,11 @@ class SaveUcsAction {
 class SetPrintBalanceAction {
   String printBalance;
   SetPrintBalanceAction(this.printBalance);
+}
+
+class SetPrintBalanceStatusAction {
+  RequestStatus status;
+  SetPrintBalanceStatusAction(this.status);
 }
 
 class SetFeesBalanceAction {
@@ -69,7 +80,27 @@ class SetFeesLimitAction {
   SetFeesLimitAction(this.feesLimit);
 }
 
+class SetFeesStatusAction {
+  RequestStatus status;
+  SetFeesStatusAction(this.status);
+}
+
 class SetCoursesStatesAction {
   Map<String, String> coursesStates;
   SetCoursesStatesAction(this.coursesStates);
+}
+
+class SetCoursesStatesStatusAction {
+  RequestStatus status;
+  SetCoursesStatesStatusAction(this.status);
+}
+
+class SetPrintRefreshTimeAction {
+  String time;
+  SetPrintRefreshTimeAction(this.time);
+}
+
+class SetFeesRefreshTimeAction {
+  String time;
+  SetFeesRefreshTimeAction(this.time);
 }
