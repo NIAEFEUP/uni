@@ -25,11 +25,11 @@ class GenericCard extends StatelessWidget {
               borderRadius: new BorderRadius.circular(this.borderRadius)),
           child: new Container(
             decoration: BoxDecoration(
-                boxShadow: [new BoxShadow(color: Color.fromARGB(0x0c, 0, 0, 0), blurRadius: 7.0)],
+                boxShadow: [new BoxShadow(color: Color.fromARGB(0x0c, 0, 0, 0), blurRadius: 7.0, offset: Offset(0.0, 1.0))],
                 color: Theme.of(context).accentColor,
                 borderRadius:
                     BorderRadius.all(Radius.circular(this.borderRadius))),
-            child: new ConstrainedBox(
+                child: new ConstrainedBox(
                   constraints: new BoxConstraints(
                     minHeight: 60.0,
                   ),
