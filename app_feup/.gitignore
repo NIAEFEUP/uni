@@ -29,10 +29,10 @@
 build/
 
 # Android related
-# **/android/
+**/android/
 
 # # iOS/XCode related
-# **/ios/
+**/ios/
 
 # Exceptions to above rules.
 !**/ios/**/default.mode1v3
