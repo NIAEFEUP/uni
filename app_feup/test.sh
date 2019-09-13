@@ -1,0 +1,1 @@
+flutter analyze --no-pub --preamble . && flutter test test/unit && flutter test test/integration

@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:app_feup/Main.dart';
 import 'package:app_feup/controller/Middleware.dart';
 import 'package:app_feup/controller/networking/NetworkRouter.dart';
 import 'package:app_feup/controller/parsers/ParserExams.dart';

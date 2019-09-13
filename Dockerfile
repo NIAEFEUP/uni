@@ -1,9 +1,9 @@
 FROM gableroux/flutter:v1.7.6
 
-RUN mkdir -p /app
-
-COPY ./app_feup/ /app
-
 WORKDIR /app
 
+COPY ./app_feup/ .
+
 RUN flutter pub get
+
+CMD ["sh", "test.sh"]

@@ -1,5 +1,11 @@
-services:
-  - docker
+services: docker
 
-script:
-  - docker-compose up --exit-code-from test
+jobs:
+  include:
+    - stage: lint & test
+      name: "Linter"
+      script: docker build -t app-feup . && docker run -it app-feup flutter analyze --no-pub --preamble .
+    - script: docker build -t app-feup . && docker run -it app-feup flutter test test/unit
+      name: "Unit test"
+    - script: docker build -t app-feup . && docker run -it app-feup flutter test test/integration
+      name: "Integration test"
