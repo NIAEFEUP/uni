@@ -27,7 +27,7 @@ dependencies:
   path_provider: any
   sqflite: ^1.1.0
   path: ^1.6.2
-  cached_network_image: ^1.0.0
+  cached_network_image: ^1.1.0
   flutter_svg: ^0.13.1
   synchronized: ^2.1.0
   toast: ^0.1.5
@@ -41,6 +41,12 @@ dev_dependencies:
     sdk: flutter
 
   test: any
+  flutter_launcher_icons: "^0.7.3"
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/icon/icon.png"
 
 
 # For information on the generic Dart part of this file, see the

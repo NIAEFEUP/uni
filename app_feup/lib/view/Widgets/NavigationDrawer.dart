@@ -32,32 +32,11 @@ class NavigationDrawerState extends State<NavigationDrawer> {
     Navigator.of(context).pop();
 
     if (prev != drawerItems[index])  // If not already in selected page
-      Navigator.pushReplacementNamed(context, '/' + drawerItems[index]);
+      Navigator.pushNamed(context, '/' + drawerItems[index]);
   }
 
   _buildBorder(name) {
     return (name == StoreProvider.of<AppState>(context).state.content["selected_page"])?  (const BoxDecoration( border: Border( bottom: BorderSide(width: 5.0, color: primaryColor)))) : null;
-  }
-
-  Widget createSearchInputField()
-  {
-    return new ListTile(
-        title:
-        new Padding (
-            padding: const EdgeInsets.only(bottom: 20.0,),
-            child: new Row (
-                children: <Widget> [
-                  new Flexible (
-                    child: new TextField (
-                        decoration: new InputDecoration(
-                            hintText: "Pesquisa..."
-                        ),
-                    ),
-                  ),
-                ]
-            )
-        )
-    );
   }
 
   Widget createDrawerNavigationOption(String d, int i) {
@@ -80,20 +59,16 @@ class NavigationDrawerState extends State<NavigationDrawer> {
   Widget build(BuildContext context) {
     List<Widget> drawerOptions = [];
 
-    drawerOptions.add(createSearchInputField());
-
     for (var i = 0; i < drawerItems.length; i++) {
       drawerOptions.add(createDrawerNavigationOption(drawerItems[i], i));
     }
 
     return new Drawer(
         child: new Container(
-            child: new Padding (
-              padding: EdgeInsets.all(20.0),
+            padding: EdgeInsets.all(20.0),
               child: new ListView(
                 children: drawerOptions,
           ),
-        )
         )
     );
   }

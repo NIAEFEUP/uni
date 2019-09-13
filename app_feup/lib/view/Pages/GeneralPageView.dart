@@ -52,6 +52,7 @@ abstract class GeneralPageView extends StatelessWidget {
       },
       builder: (context, refresh) {
         return new RefreshIndicator(
+            key: new GlobalKey<RefreshIndicatorState>(),
             child: child,
             onRefresh: refresh,
             color: Theme.of(context).primaryColor);
@@ -68,34 +69,47 @@ abstract class GeneralPageView extends StatelessWidget {
           child: Container(
             margin: EdgeInsets.only(left: borderMargin, right: borderMargin),
             color: Theme.of(context).accentColor,
-            height: 1.5,
+            height: 1.0,
           ),
+          preferredSize: null,
         ),
         elevation: 0,
         iconTheme: new IconThemeData(color: Theme.of(context).primaryColor),
         backgroundColor: Theme.of(context).backgroundColor,
-        title: new Container(
-          child: SvgPicture.asset(
-            'assets/images/logo_dark.svg',
-              height: queryData.size.height/27,
-          ),
+        titleSpacing: 0.0,
+        title: ButtonTheme(
+          minWidth: 0,
+          padding: EdgeInsets.only(left: 0),
+          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          shape: RoundedRectangleBorder(),
+          child: FlatButton(
+              onPressed: () => Navigator.pushNamed(context, '/Área Pessoal'),
+              child: SvgPicture.asset(
+                    'assets/images/logo_dark.svg',
+                      height: queryData.size.height/25,
+                  ),
+            )
         ),
         actions: <Widget>[
-          FlatButton(
-            onPressed: () => {Navigator.pushReplacement(context,new MaterialPageRoute(builder: (__) => new ProfilePage()))},
-            child: Container(
-                width: 40.0,
-                height: 40.0,
-                decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: buildDecorageImage(context)
-                )
-            ),
-          ),
+          getTopRightButton(context),
         ],),
       drawer: new NavigationDrawer(),
       body: this.refreshState(context, body),
     );
+  }
+
+  Widget getTopRightButton(BuildContext context) {
+    return FlatButton(
+          onPressed: () => {Navigator.push(context,new MaterialPageRoute(builder: (__) => new ProfilePage()))},
+          child: Container(
+              width: 40.0,
+              height: 40.0,
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: buildDecorageImage(context)
+              )
+          ),
+        );
   }
 
 }
