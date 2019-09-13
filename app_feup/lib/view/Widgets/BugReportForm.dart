@@ -1,4 +1,3 @@
-import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
 import 'package:app_feup/view/Theme.dart' as theme;
@@ -9,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:tuple/tuple.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
 class BugReportForm extends StatefulWidget {
   @override
@@ -17,14 +17,6 @@ class BugReportForm extends StatefulWidget {
   }
 }
 
-/* TODO
-Things to change:
- - bugDescriptions hashMap
- - bugClassList titles
- - descricoes e tooltips
- - access token api github
- - prevent spam
- */
 class BugReportFormState extends State<BugReportForm> {
 
   static final _formKey = GlobalKey<FormState>();
@@ -46,6 +38,7 @@ class BugReportFormState extends State<BugReportForm> {
   String ghToken = "";
 
   BugReportFormState() {
+    loadGHKey();
     loadBugClassList();
   }
 
@@ -194,21 +187,13 @@ class BugReportFormState extends State<BugReportForm> {
   }
 
   Widget SubmitButton(BuildContext context) {
-
-    String bugLabel = bugDescriptions[_selectedBug] == null ? "Unidentified bug" : bugDescriptions[_selectedBug].item2;
-    Map data = {
-      "title": titleController.text,
-      "body": descriptionController.text,
-      "labels": ["bug report", bugLabel]
-    };
-
     return new Container(
       child: RaisedButton(
         padding: EdgeInsets.symmetric(vertical: 10.0),
 
         onPressed: () {
           if (_formKey.currentState.validate())
-            submitBugReport(data);
+            submitBugReport();
         },
 
         child: Text(
@@ -224,7 +209,15 @@ class BugReportFormState extends State<BugReportForm> {
   }
 
 
-  void submitBugReport(Map data) {
+  void submitBugReport() {
+
+    String bugLabel = bugDescriptions[_selectedBug] == null ? "Unidentified bug" : bugDescriptions[_selectedBug].item2;
+    Map data = {
+      "title": titleController.text,
+      "body": descriptionController.text,
+      "labels": ["bug report", bugLabel]
+    };
+
     http.post(
         postUrl + "?access_token=" + ghToken,
         headers: {
@@ -278,6 +271,16 @@ class BugReportFormState extends State<BugReportForm> {
       backgroundRadius: 16.0,
       textColor: Colors.white,
     );
+  }
+  
+  Future<Map<String, dynamic>> parseJsonFromAssets(String assetsPath) async {
+    return rootBundle.loadString(assetsPath)
+        .then((jsonStr) => jsonDecode(jsonStr));
+  }
+  
+  void loadGHKey() async {
+    Map<String, dynamic> dataMap = await parseJsonFromAssets('assets/env/env.json');
+    this.ghToken = dataMap['gh_token'];
   }
 
 }
