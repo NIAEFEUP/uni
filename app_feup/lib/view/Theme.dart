@@ -10,9 +10,10 @@ const Color whiteTextColor = Color.fromARGB(255, 255, 255, 255);
 const Color bodyTitle = Color.fromARGB(255, 131, 131, 131);
 const Color greyBorder = Color.fromARGB(64, 0x46, 0x46, 0x46);
 const Color backgroundColor = Color.fromARGB(255, 0xfa, 0xfa, 0xfa);
+const Color toastColor = Color.fromARGB(255, 100, 100, 100);
 const Color lightGreyTextColor = Color.fromARGB(255, 150, 150, 150);
 
-const Color divider = Color.fromARGB(235, 235, 235, 255);
+const Color divider = Color.fromARGB(255, 180, 180, 180);
 const Color hintColor = Colors.white;
 
 ThemeData applicationTheme = new ThemeData(

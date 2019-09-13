@@ -27,6 +27,7 @@
 .pub-cache/
 .pub/
 build/
+assets/env/*
 
 # Android related
 **/android/
