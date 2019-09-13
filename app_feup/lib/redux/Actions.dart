@@ -6,7 +6,6 @@ import 'package:app_feup/model/entities/Profile.dart';
 import 'package:app_feup/model/entities/Session.dart';
 import 'package:app_feup/model/HomePageModel.dart';
 
-
 class SaveLoginDataAction {
   Session session;
   SaveLoginDataAction(this.session);

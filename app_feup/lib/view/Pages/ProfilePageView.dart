@@ -49,7 +49,6 @@ class ProfilePageView extends SecondaryPageView {
     list.add(PrintInfoCard());
     list.add(Padding(padding: const EdgeInsets.all(5.0)));
     list.add(AccountInfoCard());
-
     return list;
   }
 
