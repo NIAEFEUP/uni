@@ -64,12 +64,10 @@ class NavigationDrawerState extends State<NavigationDrawer> {
 
     return new Drawer(
         child: new Container(
-            child: new Padding (
-              padding: EdgeInsets.all(20.0),
+            padding: EdgeInsets.all(20.0),
               child: new ListView(
                 children: drawerOptions,
           ),
-        )
         )
     );
   }

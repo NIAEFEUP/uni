@@ -62,63 +62,44 @@ class SchedulePageView extends SecondaryPageView  {
     return new Column(
       children: <Widget>[
         new PageTitle(name: 'Schedule'),
-        new Container(
-          decoration: const BoxDecoration(
-            border: Border(
-              bottom: BorderSide(width: 1.0, color: Colors.grey),
-            ),
-          ),
-          constraints: BoxConstraints(maxHeight: 150.0),
-          child: new Material(
-            color: Theme.of(context).backgroundColor,
-            child: new TabBar(
-              controller: tabController,
-              isScrollable: true,
-              unselectedLabelColor: labelColor,
-              labelColor: labelColor,
-              indicatorWeight: 3.0,
-              indicatorColor: Theme.of(context).primaryColor,
-              labelPadding: EdgeInsets.all(0.0),
-              tabs: createTabs(queryData),
-            ),
-          ),
-        ),
         new Expanded(
-          child: NestedScrollView(
-            controller: scrollViewController,
-            headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-              return <Widget> [
-                SliverPersistentHeader(
-                  delegate: _SliverAppBarDelegate(
-                    new TabBar(
-                      controller: tabController,
-                      isScrollable: true,
-                      unselectedLabelColor: Colors.grey,
-                      labelColor: Colors.grey,
-                      indicatorWeight: 3.0,
-                      indicatorColor: Colors.grey,
-                      labelPadding: EdgeInsets.all(0.0),
-                      tabs: createTabs(queryData),
+          child: 
+              NestedScrollView(
+                controller: scrollViewController,
+                headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+                  return <Widget> [
+                    SliverPersistentHeader(
+                      delegate: _SliverAppBarDelegate(
+                        new TabBar(
+                          controller: tabController,
+                          isScrollable: true,
+                          unselectedLabelColor: labelColor,
+                          labelColor: labelColor,
+                          indicatorWeight: 3.0,
+                          indicatorColor: Theme.of(context).primaryColor,
+                          labelPadding: EdgeInsets.all(0.0),
+                          tabs: createTabs(queryData, context),
+                        ),
+                      ),
+                      pinned: true,
                     ),
-                  ),
-                  pinned: true,
-                ),
-              ];
-            }, body: new TabBarView(
-            controller: tabController,
-            children: createSchedule(context),
-          ),
-          )
+                  ];
+                }, body: new TabBarView(
+                controller: tabController,
+                children: createSchedule(context),
+              ),
+              ),
         ),
       ],
     );
   }
 
-  List<Widget> createTabs(queryData) {
+  List<Widget> createTabs(queryData, BuildContext context) {
     List<Widget> tabs = List<Widget>();
     for( var i = 0; i < daysOfTheWeek.length; i++) {
       tabs.add(
           new Container(
+            color: Theme.of(context).backgroundColor,
             width:  queryData.size.width * 1/3,
             child: new Tab(text: daysOfTheWeek[i]),
           )
