@@ -76,6 +76,7 @@ abstract class GeneralPageView extends StatelessWidget {
         elevation: 0,
         iconTheme: new IconThemeData(color: Theme.of(context).primaryColor),
         backgroundColor: Theme.of(context).backgroundColor,
+        titleSpacing: 0.0,
         title: ButtonTheme(
           minWidth: 0,
           padding: EdgeInsets.only(left: 0),
