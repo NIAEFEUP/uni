@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 abstract class GenericCard extends StatefulWidget {
-
+  
   GenericCard({Key key}): editingMode = false, onDelete = null, super(key: key);
 
   GenericCard.fromEditingInformation(Key key, bool editingMode, Function onDelete):editingMode = editingMode, onDelete = onDelete, super(key: key);
