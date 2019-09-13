@@ -90,7 +90,7 @@ class MainCardsList extends StatelessWidget {
     return StoreConnector<AppState, List<FAVORITE_WIDGET_TYPE>>(
         converter: (store) => store.state.content['favoriteCards'],
         builder: (context, favoriteWidgets) {
-          return Container(height: MediaQuery.of(context).size.height, margin: EdgeInsets.all(5.0),child:
+          return Container(height: MediaQuery.of(context).size.height,child:
           ReorderableListView(
             onReorder: (oldi, newi) => this.reorderCard(oldi, newi, favoriteWidgets, context),
             header: this.createTopBar(context),
