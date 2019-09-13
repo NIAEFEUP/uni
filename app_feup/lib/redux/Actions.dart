@@ -4,7 +4,6 @@ import 'package:app_feup/model/entities/Exam.dart';
 import 'package:app_feup/model/entities/Lecture.dart';
 import 'package:app_feup/model/entities/Profile.dart';
 import 'package:app_feup/model/entities/Session.dart';
-import 'package:tuple/tuple.dart';
 
 class SaveLoginDataAction {
   Session session;
