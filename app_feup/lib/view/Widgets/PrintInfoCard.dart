@@ -9,6 +9,8 @@ import 'GenericCard.dart';
 class PrintInfoCard extends GenericCard{
   PrintInfoCard({Key key}):super(key: key);
 
+  PrintInfoCard.fromEditingInformation(Key key, bool editingMode, Function onDelete):super.fromEditingInformation(key, editingMode, onDelete);
+
   @override
   Widget buildCardContent(BuildContext context) {
     return new Column(

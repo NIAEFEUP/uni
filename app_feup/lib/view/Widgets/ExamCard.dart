@@ -13,6 +13,8 @@ class ExamCard extends GenericCard{
 
   ExamCard({Key key}):super(key: key);
 
+  ExamCard.fromEditingInformation(Key key, bool editingMode, Function onDelete):super.fromEditingInformation(key, editingMode, onDelete);
+
   @override
   String getTitle() => "Exames";
 

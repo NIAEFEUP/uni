@@ -9,6 +9,8 @@ class AccountInfoCard extends GenericCard {
 
   AccountInfoCard({Key key}):super(key: key);
 
+  AccountInfoCard.fromEditingInformation(Key key, bool editingMode, Function onDelete):super.fromEditingInformation(key, editingMode, onDelete);
+
   @override
   Widget buildCardContent(BuildContext context) {
         return Column(children: [ Table(

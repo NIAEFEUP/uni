@@ -12,20 +12,13 @@ import 'AccountInfoCard.dart';
 import 'HomePageBackButton.dart';
 import 'PrintInfoCard.dart';
 
-class MainCardsList extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() => new _MainCardsList();
-}
-
-class _MainCardsList extends State<MainCardsList> {
-
-  bool editingMode = false;
-
-  Map<FAVORITE_WIDGET_TYPE, Function> CARD_CREATORS = {
-    FAVORITE_WIDGET_TYPE.SCHEDULE: (k) => ScheduleCard(key:k),
-    FAVORITE_WIDGET_TYPE.EXAMS: (k) => ExamCard(key:k),
-    FAVORITE_WIDGET_TYPE.ACCOUNT: (k) => AccountInfoCard(key:k),
-    FAVORITE_WIDGET_TYPE.PRINT_BALANCE: (k) => PrintInfoCard(key:k)
+class MainCardsList extends StatelessWidget {
+  
+  final Map<FAVORITE_WIDGET_TYPE, Function> CARD_CREATORS = {
+    FAVORITE_WIDGET_TYPE.SCHEDULE: (k, em, od) => ScheduleCard.fromEditingInformation(k, em, od),
+    FAVORITE_WIDGET_TYPE.EXAMS: (k, em, od) => ExamCard.fromEditingInformation(k, em, od),
+    FAVORITE_WIDGET_TYPE.ACCOUNT: (k, em, od) => AccountInfoCard.fromEditingInformation(k, em, od),
+    FAVORITE_WIDGET_TYPE.PRINT_BALANCE: (k, em, od) => PrintInfoCard.fromEditingInformation(k, em, od)
   };
 
   @override
@@ -36,7 +29,7 @@ class _MainCardsList extends State<MainCardsList> {
           context: context,
           child:  createScrollableCardView(context),
         ),
-        floatingActionButton: this.editingMode ? createActionButton(context) : null,
+        floatingActionButton: this.isEditing(context) ? createActionButton(context) : null,
     );
   }
 
@@ -51,7 +44,7 @@ class _MainCardsList extends State<MainCardsList> {
               content: Container(
                 child:
                   ListView(
-                    children: getCardAdders()
+                    children: getCardAdders(context)
                   ),
                 height: 200.0,
                 width: 100.0,
@@ -66,7 +59,7 @@ class _MainCardsList extends State<MainCardsList> {
     );
   }
 
-  List<Widget> getCardAdders(){
+  List<Widget> getCardAdders(BuildContext context){
     List<Widget> result = [];
     this.CARD_CREATORS.forEach((FAVORITE_WIDGET_TYPE key, Function v) {
       if(!StoreProvider.of<AppState>(context).state.content["favoriteCards"].contains(key))
@@ -74,11 +67,11 @@ class _MainCardsList extends State<MainCardsList> {
           Container(
             child: ListTile(
               title: Text(
-                v(Key(key.index.toString())).getTitle(),
+                v(Key(key.index.toString()), false, null).getTitle(),
                 textAlign: TextAlign.center,
               ),
               onTap: () {
-                addCardToFavorites(key);
+                addCardToFavorites(key, context);
                 Navigator.pop(context);
               },
             ),
@@ -99,16 +92,16 @@ class _MainCardsList extends State<MainCardsList> {
         builder: (context, favoriteWidgets) {
           return Container(height: MediaQuery.of(context).size.height, margin: EdgeInsets.all(5.0),child:
           ReorderableListView(
-            onReorder: (oldi, newi) => this.reorderCard(oldi, newi, favoriteWidgets),
-            header: this.createTopBar(),
-            children: this.createFavoriteWidgetsFromTypes(favoriteWidgets),
+            onReorder: (oldi, newi) => this.reorderCard(oldi, newi, favoriteWidgets, context),
+            header: this.createTopBar(context),
+            children: this.createFavoriteWidgetsFromTypes(favoriteWidgets, context),
             //Cards go here
           ));
         }
     );
   }
 
-  Widget createTopBar(){
+  Widget createTopBar(BuildContext context){
 
     return Container(
       padding: EdgeInsets.fromLTRB(20, 20, 20, 5),
@@ -120,9 +113,9 @@ class _MainCardsList extends State<MainCardsList> {
               style: Theme.of(context).textTheme.title.apply(fontSizeFactor: 1.3),
             ),
             GestureDetector(
-                onTap: () => setState(() => editingMode = !editingMode),
+                onTap: () => StoreProvider.of<AppState>(context).dispatch(new SetHomePageEditingMode(!this.isEditing(context))),
                 child: Text(
-                  editingMode ? 'Concluir Edição' : 'Editar',
+                  this.isEditing(context) ? 'Concluir Edição' : 'Editar',
                   style: Theme.of(context).textTheme.subtitle.apply(decoration: TextDecoration.underline),
                 )
             )
@@ -130,24 +123,22 @@ class _MainCardsList extends State<MainCardsList> {
     );
   }
 
-  List<Widget> createFavoriteWidgetsFromTypes(List<FAVORITE_WIDGET_TYPE> cards) {
+  List<Widget> createFavoriteWidgetsFromTypes(List<FAVORITE_WIDGET_TYPE> cards, BuildContext context) {
     if(cards == null) return [];
 
     List<Widget> result = List<Widget>();
     for(int i = 0; i < cards.length; i++) {
-      result.add(this.createFavoriteWidgetFromType(cards[i], i));
+      result.add(this.createFavoriteWidgetFromType(cards[i], i, context));
     }
     return result;
   }
 
-  Widget createFavoriteWidgetFromType(FAVORITE_WIDGET_TYPE type, int i){
-    return this.CARD_CREATORS[type](Key(i.toString()))
-    ..setEditingMode(this.editingMode)
-    ..setOnDelete(() => removeFromFavorites(i));
+  Widget createFavoriteWidgetFromType(FAVORITE_WIDGET_TYPE type, int i, BuildContext context){
+    return this.CARD_CREATORS[type](Key(i.toString()), this.isEditing(context), () => removeFromFavorites(i, context));
   }
 
 
-  void reorderCard(int oldIndex, int newIndex, List<FAVORITE_WIDGET_TYPE> favorites) {
+  void reorderCard(int oldIndex, int newIndex, List<FAVORITE_WIDGET_TYPE> favorites, BuildContext context) {
     FAVORITE_WIDGET_TYPE tmp = favorites[oldIndex];
     favorites.removeAt(oldIndex);
     favorites.insert(oldIndex < newIndex ? newIndex - 1 : newIndex, tmp);
@@ -155,19 +146,28 @@ class _MainCardsList extends State<MainCardsList> {
     AppSharedPreferences.saveFavoriteCards(favorites);
   }
 
-  void removeFromFavorites(int i) {
+  void removeFromFavorites(int i, BuildContext context) {
     List<FAVORITE_WIDGET_TYPE> favorites = StoreProvider.of<AppState>(context).state.content["favoriteCards"];
     favorites.removeAt(i);
     StoreProvider.of<AppState>(context).dispatch(new UpdateFavoriteCards(favorites));
     AppSharedPreferences.saveFavoriteCards(favorites);
   }
 
-  void addCardToFavorites(FAVORITE_WIDGET_TYPE type){
+  void addCardToFavorites(FAVORITE_WIDGET_TYPE type, BuildContext context){
     List<FAVORITE_WIDGET_TYPE> favorites = StoreProvider.of<AppState>(context).state.content["favoriteCards"];
     if(!favorites.contains(type)) {
       favorites.add(type);
     }
     StoreProvider.of<AppState>(context).dispatch(new UpdateFavoriteCards(favorites));
     AppSharedPreferences.saveFavoriteCards(favorites);
+  }
+  
+  bool isEditing(context){
+    bool result = StoreProvider
+        .of<AppState>(context)
+        .state
+        .content['homePageEditingMode'];
+    if(result == null) return false;
+    return result;
   }
 }

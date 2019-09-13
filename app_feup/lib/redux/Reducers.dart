@@ -42,6 +42,8 @@ AppState appReducers(AppState state, dynamic action) {
     return setPrintRefreshTime(state, action);
   } else if (action is SetFeesRefreshTimeAction) {
     return setFeesRefreshTime(state, action);
+  } else if (action is SetHomePageEditingMode) {
+    return setHomePageEditingMode(state, action);
   }
   return state;
 }
@@ -141,5 +143,10 @@ AppState setPrintRefreshTime(AppState state, SetPrintRefreshTimeAction action) {
 AppState setFeesRefreshTime(AppState state, SetFeesRefreshTimeAction action) {
   print('setting fees refresh time ' + action.time.toString());
   return state.cloneAndUpdateValue("feesRefreshTime", action.time);
+}
+
+AppState setHomePageEditingMode(AppState state, SetHomePageEditingMode action) {
+  print('setting home page editing mode to ' + action.state.toString());
+  return state.cloneAndUpdateValue("homePageEditingMode", action.state);
 }
 

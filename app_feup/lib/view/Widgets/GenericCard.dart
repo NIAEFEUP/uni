@@ -3,21 +3,21 @@ import 'package:flutter/material.dart';
 
 abstract class GenericCard extends StatefulWidget {
 
-  GenericCard({Key key})
-      : super(key: key);
+  GenericCard({Key key}): editingMode = false, onDelete = null, super(key: key);
 
-  final GenericCardState state = new GenericCardState();
+  GenericCard.fromEditingInformation(Key key, bool editingMode, Function onDelete):editingMode = editingMode, onDelete = onDelete, super(key: key);
+
+  final bool editingMode;
+  final Function onDelete;
 
   @override
-  State<StatefulWidget> createState() => state;
-
+  State<StatefulWidget> createState() {
+    return new GenericCardState();
+  }
 
   Widget buildCardContent(BuildContext context);
   String getTitle();
   onClick(BuildContext context);
-
-  void setEditingMode(bool mode) => state.setEditingMode(mode);
-  void setOnDelete(Function func) => state.setOnDelete(func);
 
   Text getInfoText(String text, BuildContext context) {
     return Text(text == null ? "N/A" : text,
@@ -43,9 +43,6 @@ abstract class GenericCard extends StatefulWidget {
 
 
 class GenericCardState extends State<GenericCard> {
-
-  bool editingMode;
-  Function onDelete;
 
   final double borderRadius = 10.0;
   final double padding = 12.0;
@@ -107,16 +104,13 @@ class GenericCardState extends State<GenericCard> {
   }
 
   Widget getDeleteIcon(context){
-    return (this.editingMode != null && this.editingMode) ?
+    return (widget.editingMode != null && widget.editingMode) ?
           IconButton(
             iconSize: 22.0,
             icon: Icon(Icons.delete),
             tooltip: 'Unfavorite',
             color: Theme.of(context).textTheme.title.color,
-            onPressed: this.onDelete,
+            onPressed: widget.onDelete,
       ) : null;
   }
-
-  void setEditingMode(bool mode) => editingMode = mode;
-  void setOnDelete(Function func) => onDelete = func;
 }

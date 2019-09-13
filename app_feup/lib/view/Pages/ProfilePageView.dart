@@ -21,13 +21,9 @@ class ProfilePageView extends SecondaryPageView {
 
   @override
   Widget getBody(BuildContext context) {
-    return createScrollableProfileView(context);
-  }
-
-  Widget createScrollableProfileView(BuildContext context){
     return ListView(
-      shrinkWrap: false,
-      children: childrenList(context)
+        shrinkWrap: false,
+        children: childrenList(context)
     );
   }
 
@@ -43,15 +39,15 @@ class ProfilePageView extends SecondaryPageView {
 
   List<Widget> childrenList(BuildContext context) {
     List<Widget> list = new List();
-    list.add(Padding(padding: const EdgeInsets.all(10.0)));
+    list.add(Padding(padding: const EdgeInsets.all(5.0)));
     list.add(profileInfo(context));
-    list.add(Padding(padding: const EdgeInsets.all(10.0)));
+    list.add(Padding(padding: const EdgeInsets.all(5.0)));
     for(var i = 0; i < courses.length; i++){
       list.add(CourseInfoCard(course: courses[i], courseState: currentState == null ? "?" : currentState[courses[i].name]));
       list.add(Padding(padding: const EdgeInsets.all(10.0)));
     }
     list.add(PrintInfoCard());
-    list.add(Padding(padding: const EdgeInsets.all(10.0)));
+    list.add(Padding(padding: const EdgeInsets.all(5.0)));
     list.add(AccountInfoCard());
 
     return list;

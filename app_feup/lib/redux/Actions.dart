@@ -106,3 +106,8 @@ class SetFeesRefreshTimeAction {
   String time;
   SetFeesRefreshTimeAction(this.time);
 }
+
+class SetHomePageEditingMode {
+  bool state;
+  SetHomePageEditingMode(this.state);
+}

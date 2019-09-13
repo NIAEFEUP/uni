@@ -8,11 +8,13 @@ import 'package:flutter/material.dart';
 
 class ScheduleCard extends GenericCard {
 
+  ScheduleCard({Key key}) : super(key: key);
+
+  ScheduleCard.fromEditingInformation(Key key, bool editingMode, Function onDelete):super.fromEditingInformation(key, editingMode, onDelete);
+
   final double borderRadius = 12.0;
   final double leftPadding = 12.0;
   final List<Lecture> lectures = new List<Lecture>();
-
-  ScheduleCard({Key key}) : super(key: key);
 
   @override
   Widget buildCardContent(BuildContext context) {
