@@ -112,5 +112,5 @@ class ScheduleCard extends GenericCard {
   String getTitle() => "Horário";
 
   @override
-  onClick(BuildContext context) => Navigator.pushReplacementNamed(context, '/Horário');
+  onClick(BuildContext context) => Navigator.pushNamed(context, '/Horário');
 }

@@ -19,7 +19,7 @@ class ExamCard extends GenericCard{
   String getTitle() => "Exames";
 
   @override
-  onClick(BuildContext context) => Navigator.pushReplacementNamed(context, '/Mapa de Exames');
+  onClick(BuildContext context) => Navigator.pushNamed(context, '/Mapa de Exames');
 
   @override
   Widget buildCardContent(BuildContext context) {
