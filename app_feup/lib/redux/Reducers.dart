@@ -95,7 +95,7 @@ AppState saveCurrUcs(AppState state, SaveUcsAction action) {
 }
 
 AppState setPrintBalance(AppState state, SetPrintBalanceAction action) {
-  print('setting print balance: ' + action.printBalance);
+  print('setting print balance: ' + action.printBalance.toString());
   return state.cloneAndUpdateValue("printBalance", action.printBalance);
 }
 
@@ -105,12 +105,12 @@ AppState setPrintBalanceStatus(AppState state, SetPrintBalanceStatusAction actio
 }
 
 AppState setFeesBalance(AppState state, SetFeesBalanceAction action) {
-  print('setting fees balance: ' + action.feesBalance);
+  print('setting fees balance: ' + action.feesBalance.toString());
   return state.cloneAndUpdateValue("feesBalance", action.feesBalance);
 }
 
 AppState setFeesLimit(AppState state, SetFeesLimitAction action) {
-  print('setting next fees limit: ' + action.feesLimit);
+  print('setting next fees limit: ' + action.feesLimit.toString());
   return state.cloneAndUpdateValue("feesLimit", action.feesLimit);
 }
 
