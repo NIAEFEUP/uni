@@ -236,7 +236,6 @@ class BugReportFormState extends State<BugReportForm> {
         print("Successfully submitted bug report.");
         msg = "Enviado com sucesso";
 
-        //clearForm();
         Navigator.pushReplacementNamed(context, '/Área Pessoal');
       };
 
@@ -249,15 +248,6 @@ class BugReportFormState extends State<BugReportForm> {
 
       String msg = (error is SocketException) ? "Falha de rede" : "Ocorreu um erro";
       displayBugToast(msg);
-    });
-  }
-
-  void clearForm() {
-    titleController.clear();
-    descriptionController.clear();
-
-    setState(() {
-      _selectedBug = 0;
     });
   }
 
