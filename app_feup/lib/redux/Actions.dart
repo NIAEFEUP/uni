@@ -86,3 +86,8 @@ class SetBusStopTimeStampAction{
   DateTime timeStamp;
   SetBusStopTimeStampAction(this.timeStamp);
 }
+
+class SetCurrentTimeAction{
+  DateTime currentTime;
+  SetCurrentTimeAction(this.currentTime);
+}

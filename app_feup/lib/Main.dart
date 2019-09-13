@@ -1,6 +1,8 @@
-import 'package:app_feup/controller/networking/NetworkRouter.dart';
+import 'dart:async';
+
 import 'package:app_feup/model/SchedulePageModel.dart';
 import 'package:app_feup/model/entities/Exam.dart';
+import 'package:app_feup/redux/Actions.dart' show SetCurrentTimeAction;
 import 'package:app_feup/view/Pages/BusStopNextArrivalsPage.dart';
 import 'package:app_feup/view/Pages/BusStopSelectionPage.dart';
 import 'package:app_feup/view/Pages/ClassificationsPageView.dart';
@@ -104,6 +106,11 @@ class MyAppState extends State<MyApp> {
   @override
   void initState(){
     super.initState();
+
+    Timer.periodic(new Duration(seconds: 60), (Timer t) =>
+        state.dispatch(new SetCurrentTimeAction(DateTime.now()))
+    );
+
     this.lifeCycleEventHandler = new LifecycleEventHandler(store: this.state);
     WidgetsBinding.instance.addObserver(this.lifeCycleEventHandler);
   }

@@ -268,7 +268,7 @@ ThunkAction<AppState> setUserBusStops(Completer<Null> action){
 
       List<BusStop> busStops = new List();
 
-      for (String stopCode in stops) { //é suposto criar aqui as bus stops?
+      for (String stopCode in stops) {
         BusStop busStop = new BusStop.secConstructor(stopCode);
 
         List<Trip> trips = new List();

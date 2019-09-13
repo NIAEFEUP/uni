@@ -1,3 +1,4 @@
+import 'package:app_feup/model/entities/BusStop.dart';
 import 'package:app_feup/model/entities/Session.dart';
 
 // enum should be placed somewhere else?
@@ -17,9 +18,10 @@ class AppState {
       "examsStatus": RequestStatus.NONE,
       "selected_page": "Área Pessoal",
       "session": new Session(authenticated: false),
-      "busstops": [],
+      "busstops": new List<BusStop>(),
       "busstopStatus" : RequestStatus.NONE,
       "timeStamp" : new DateTime.now(),
+      "currentTime" : new DateTime.now(),
     };
   }
 

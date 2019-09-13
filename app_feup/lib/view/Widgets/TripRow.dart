@@ -14,20 +14,19 @@ class TripRow extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return  new Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      mainAxisSize: MainAxisSize.max,
-      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween ,
       children: <Widget>[
         new Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text(this.trip.getLine(),style: new TextStyle(color: Colors.black, fontWeight: FontWeight.bold)), //Theme.of(context).textTheme.display1.apply(color: Colors.black, fontWeight: FontWeight.bold)),
-            Text(this.trip.getDestination(),style: Theme.of(context).textTheme.display1.apply(color: greyTextColor)),
+            Text(this.trip.getLine(),style: Theme.of(context).textTheme.display1.apply(color: greyBoldTextColor, fontWeightDelta: 2)), //Theme.of(context).textTheme.display1.apply(color: Colors.black, fontWeight: FontWeight.bold)),
+            Text(this.trip.getDestination(), style: Theme.of(context).textTheme.display1.apply(color: greyTextColor)),
           ],
         ),
         new Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: <Widget>[
-            Text(this.trip.getTimeRemaining(),style: new TextStyle(color: Colors.black, fontWeight: FontWeight.bold)), // Theme.of(context).textTheme.display1.apply(color: Colors.black, fontWeightDelta: -3))
+            Text(this.trip.getTimeRemaining(), style: Theme.of(context).textTheme.display1.apply(color: greyBoldTextColor, fontWeightDelta: 2)), // Theme.of(context).textTheme.display1.apply(color: Colors.black, fontWeightDelta: -3))
             new EstimatedArrivalTimeStamp(
                 timeRemaining: this.trip.getTimeRemaining()
             ),

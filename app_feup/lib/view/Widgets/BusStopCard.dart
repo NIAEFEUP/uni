@@ -6,6 +6,7 @@ import 'BusStopRow.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 import 'LastUpdateTimeStamp.dart';
+import 'RowContainer.dart';
 
 
 class BusStopCard extends StatelessWidget{
@@ -26,18 +27,35 @@ class BusStopCard extends StatelessWidget{
   Widget getCardContent(BuildContext context, busStops) {
     switch (StoreProvider.of<AppState>(context).state.content['busstopStatus']) {
       case RequestStatus.SUCCESSFUL:
-        return Column(
-            children: <Widget>[
-              this.getCardTitle(context),
-              this.getBusStopsInfo(context, busStops)
-            ]
-        );
+        if(busStops.length > 0){
+          return Column(
+              children: <Widget>[
+                this.getCardTitle(context),
+                this.getBusStopsInfo(context, busStops)
+              ]
+          );
+        } else{
+          return new Container(
+            padding: EdgeInsets.all(8.0),
+            child: new Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget> [
+                  Text("Configura as tuas paragens", style: Theme.of(context).textTheme.display1.apply(color: primaryColor)),
+                  IconButton(icon: new Icon(Icons.settings), onPressed: ()=> Navigator.pushNamed(context, '/ConfigurarParagens')),
+                ]
+            ),
+          );
+        }
+
         break;
       case RequestStatus.BUSY:
         return Column(
           children: <Widget>[
             this.getCardTitle(context),
-            Center(child: CircularProgressIndicator())
+            new Container(
+                padding: EdgeInsets.all(22.0),
+                child: Center(child: CircularProgressIndicator())
+            )
           ],
         );
         break;
@@ -45,7 +63,10 @@ class BusStopCard extends StatelessWidget{
         return Column(
             children : <Widget> [
               this.getCardTitle(context),
-              Text("Failed to get new information", style: Theme.of(context).textTheme.display1.apply(color: primaryColor)),
+              new Container(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text("Failed to get new information", style: Theme.of(context).textTheme.display1.apply(color: primaryColor))
+              ),
               this.getBusStopsInfo(context, busStops),
             ]
         );
@@ -73,21 +94,33 @@ class BusStopCard extends StatelessWidget{
     else
       return
         Center(
-          child: Text("No stops to show at the moment"),
+          child: Text("No information to show at the moment"),
         );
   }
 
   List<Widget> getEachBusStopInfo(context, busStops){
     List<Widget> rows = new List<Widget>();
-    var size = busStops.length;
 
     rows.add(new LastUpdateTimeStamp());
 
-    for(int i = 0; i < busStops.length; i++){
-      rows.add(new BusStopRow(
-        stopCode: busStops[i].stopCode,
-        nextTrips: busStops[i].trips.sublist(0, 1),
-      ));
+    int num_max_stops = 6;
+
+    for(int i = 0; i < busStops.length && num_max_stops > 0; i++){
+      if (busStops[i].trips.length > 0) {
+        rows.add(
+            new Container(
+              padding: EdgeInsets.only(top: 12.0),
+              child: new RowContainer(
+                child: new BusStopRow(
+                    busStop: busStops[i],
+                    singleTrip: true,
+                )
+              )
+            )
+        );
+
+        num_max_stops++;
+      }
     }
     return rows;
   }

@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:math';
 
 import 'package:app_feup/controller/local_storage/AppBusStopDatabase.dart';
