@@ -1,3 +1,4 @@
+import 'package:app_feup/redux/ActionCreators.dart';
 import 'package:app_feup/view/Theme.dart';
 import 'package:flutter/material.dart';
 
@@ -29,10 +30,12 @@ class NavigationDrawerState extends State<NavigationDrawer> {
 
     var prev = StoreProvider.of<AppState>(context).state.content["selected_page"];
 
-    Navigator.of(context).pop();
+    print(index);
 
-    if (prev != drawerItems[index])  // If not already in selected page
+    if (prev != drawerItems[index]){
+      StoreProvider.of<AppState>(context).dispatch(updateSelectedPage(drawerItems[index]));
       Navigator.pushNamed(context, '/' + drawerItems[index]);
+    }  // If not already in selected page
   }
 
   _buildBorder(name) {
