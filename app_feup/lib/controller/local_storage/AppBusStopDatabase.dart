@@ -3,6 +3,7 @@ import 'package:app_feup/controller/local_storage/AppDatabase.dart';
 import 'package:app_feup/controller/networking/NetworkRouter.dart';
 import 'package:app_feup/model/entities/Bus.dart';
 import 'package:app_feup/model/entities/BusStop.dart';
+import 'package:app_feup/model/entities/Trip.dart';
 import 'package:sqflite/sqflite.dart';
 
 class AppBusStopDatabase extends AppDatabase{
@@ -25,7 +26,7 @@ class AppBusStopDatabase extends AppDatabase{
     List<Bus> currentStopBuses = new List();
     String prevStop = maps[0]['stopCode'];
     for(int i = 0; i < maps.length; i++) {
-      if(maps[i]['stopCode'] != prevStop) {
+      if (maps[i]['stopCode'] != prevStop) {
         stops.add(BusStop.secConstructor(prevStop, currentStopBuses));
         currentStopBuses.clear();
         prevStop = maps[i]['stopCode'];
@@ -34,12 +35,9 @@ class AppBusStopDatabase extends AppDatabase{
       else {
         currentStopBuses.add(Bus.secConstructor(maps[i]['busCode']));
       }
-      if(i == maps.length-1) {
+      if (i == maps.length - 1) {
         stops.add(BusStop.secConstructor(prevStop, currentStopBuses));
       }
-    }
-    for (BusStop stop in stops) {
-      NetworkRouter.getNextArrivalsStop(stop);
     }
     return stops;
   }
