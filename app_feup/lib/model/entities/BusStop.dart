@@ -1,13 +1,13 @@
 import 'package:app_feup/model/entities/Trip.dart';
 
+import 'Bus.dart';
+
 class BusStop{
   String stopCode;
-
+  List<Bus> buses;
   List<Trip> trips;
 
-  BusStop.secConstructor(String stopCode){
-    this.stopCode =  stopCode;
-
+  BusStop.secConstructor(this.stopCode, this.buses) {
     trips = new List();
   }
 
@@ -19,5 +19,17 @@ class BusStop{
     return {
       'stopCode': stopCode,
     };
+  }
+
+  String getStopCode(){
+    return stopCode;
+  }
+
+  List<Trip> getTrips(){
+    return trips;
+  }
+
+  List<Bus> getBuses() {
+    return buses;
   }
 }

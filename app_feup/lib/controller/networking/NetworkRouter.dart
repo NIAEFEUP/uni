@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:app_feup/model/entities/Bus.dart';
+import 'package:app_feup/model/entities/BusStop.dart';
 import 'package:app_feup/model/entities/CourseUnit.dart';
 import 'package:app_feup/model/entities/Profile.dart';
 import 'package:app_feup/model/entities/Session.dart';
@@ -87,16 +89,19 @@ class NetworkRouter {
   }
 
   static Future<List<String>> getStopsByName(String stop) async {
-    final String url = "http://move-me.mobi/Find/SearchByStops?keyword=$stop";
+    final String url = "https://www.stcp.pt/pt/itinerarium/callservice.php?action=srchstoplines&stopname=$stop";
     http.Response response = await http.post(url);
-
-    String stopsString = response.body;
-    List<String> stopsList = stopsString.split(';').toList();
+    var json = jsonDecode(response.body);
+    List<String> stopsList = new List();
+    for (var busKey in json) {
+      String stop = busKey['name'] + " [" + busKey['code'] + "]";
+      stopsList.add(stop);
+    }
     return stopsList;
   }
 
-  static Future<List<Trip>> getNextArrivalsStop(String stop) async {
-    final String url = "http://move-me.mobi/NextArrivals/GetScheds?providerName=STCP&stopCode=$stop";
+  static Future<List<Trip>> getNextArrivalsStop(BusStop stop) async {
+    final String url = "http://move-me.mobi/NextArrivals/GetScheds?providerName=STCP&stopCode=STCP_$stop";
     http.Response response = await http.get(url);
     List<Trip> tripList = new List();
 
@@ -105,18 +110,42 @@ class NetworkRouter {
     for (var TripKey in json) {
       var trip = TripKey['Value'];
       String line = trip[0];
-      String destination = trip[1];
-      String timeString = trip[2];
-      if(timeString.substring(timeString.length-1) == '*')
-        timeString = timeString.substring(0, timeString.length-1);
-      int timeRemaining = int.parse(timeString);
-      Trip newTrip = Trip(line:line, destination:destination, timeRemaining:timeRemaining);
-      newTrip.printTrip();
-      tripList.add(newTrip);
+      print(stop.getBuses().map((bus) => bus.getBusCode()).toList());
+      if(stop.getBuses().map((bus) => bus.getBusCode()).toList().contains(line)) {
+        String destination = trip[1];
+        String timeString = trip[2];
+        if (timeString.substring(timeString.length - 1) == '*')
+          timeString = timeString.substring(0, timeString.length - 1);
+        int timeRemaining = int.parse(timeString);
+        Trip newTrip = Trip(
+            line: line, destination: destination, timeRemaining: timeRemaining);
+        newTrip.printTrip();
+        tripList.add(newTrip);
+      }
     }
 
     tripList.sort((a, b) => a.compare(b));
     return tripList;
+  }
+
+  static Future<List<Bus>> getBusesStoppingAt(String stop) async {
+    final String url = "https://www.stcp.pt/pt/itinerarium/callservice.php?action=srchstoplines&stopcode=$stop";
+    http.Response response = await http.post(url);
+    List<Trip> tripList = new List();
+
+    var json = jsonDecode(response.body);
+
+    List<Bus> buses = new List();
+
+    for (var busKey in json) {
+      var lines = busKey['lines'];
+      for (var bus in lines) {
+        Bus newBus = Bus(bus['code'], bus['description'], (bus['dir']==0?false:true));
+        buses.add(newBus);
+      }
+    }
+
+    return buses;
   }
 
   static String getBaseUrl(String faculty) {

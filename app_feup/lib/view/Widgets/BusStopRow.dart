@@ -64,6 +64,13 @@ class BusStopRow extends StatelessWidget {
           padding: EdgeInsets.only(left: 4.0),
           child: new RotatedBox (
             child: Text(busStop.stopCode.substring(5), style: Theme
+/*=======
+    row.add(
+        new Container(
+          alignment: Alignment.center,
+          child: new Transform (
+            child: Text(this.busStop.getStopCode(), style: Theme
+>>>>>>> Stashed changes*/
                 .of(context)
                 .textTheme
                 .display1
