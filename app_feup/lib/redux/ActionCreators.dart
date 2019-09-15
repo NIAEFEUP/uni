@@ -54,7 +54,7 @@ ThunkAction<AppState> login(username, password, faculty, persistentSession) {
       if (session.authenticated) {
         if (persistentSession)
           AppSharedPreferences.savePersistentUserInfo(username, password);
-        await loadRemoteUserInfoToState(store);
+        await loadUserInfoToState(store);
         store.dispatch(new SetLoginStatusAction(RequestStatus.SUCCESSFUL));
       } else {
         store.dispatch(new SetLoginStatusAction(RequestStatus.FAILED));

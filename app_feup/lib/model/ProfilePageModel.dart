@@ -18,11 +18,6 @@ class _ProfilePageState extends State<ProfilePage> {
   String name;
   String email;
   Map<String, String> currentState;
-  String printBalance;
-  String printRefreshTime;
-  String feesBalance;
-  String nextFeeLimitData;
-  String feesRefreshTime;
   List<Course> courses;
 
   @override
@@ -31,11 +26,6 @@ class _ProfilePageState extends State<ProfilePage> {
     name = "";
     email = "";
     currentState = {};
-    printBalance = "";
-    printRefreshTime = "";
-    feesBalance = "";
-    nextFeeLimitData = "";
-    feesRefreshTime = "";
     courses = [];
   }
 
@@ -46,11 +36,6 @@ class _ProfilePageState extends State<ProfilePage> {
       name: name,
       email: email,
       currentState: currentState,
-      printBalance: printBalance,
-      printRefreshTime: printRefreshTime,
-      feesBalance: feesBalance,
-      nextFeeLimitData: nextFeeLimitData,
-      feesRefreshTime: feesRefreshTime,
       courses: courses);
   }
 
@@ -73,26 +58,6 @@ class _ProfilePageState extends State<ProfilePage> {
             .of<AppState>(context)
             .state
             .content['profile'].courses;
-        printBalance = StoreProvider
-            .of<AppState>(context)
-            .state
-            .content['printBalance'];
-        printRefreshTime = StoreProvider
-            .of<AppState>(context)
-            .state
-            .content['printRefreshTime'];
-        feesBalance = StoreProvider
-            .of<AppState>(context)
-            .state
-            .content['feesBalance'];
-        nextFeeLimitData = StoreProvider
-            .of<AppState>(context)
-            .state
-            .content['feesLimit'];
-        feesRefreshTime = StoreProvider
-            .of<AppState>(context)
-            .state
-            .content['feesRefreshTime'];
       }
     });
   }

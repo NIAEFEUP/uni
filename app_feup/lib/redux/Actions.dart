@@ -4,7 +4,7 @@ import 'package:app_feup/model/entities/Exam.dart';
 import 'package:app_feup/model/entities/Lecture.dart';
 import 'package:app_feup/model/entities/Profile.dart';
 import 'package:app_feup/model/entities/Session.dart';
-import 'package:tuple/tuple.dart';
+import 'package:app_feup/model/HomePageModel.dart';
 
 class SaveLoginDataAction {
   Session session;
@@ -90,6 +90,11 @@ class SetCoursesStatesAction {
   SetCoursesStatesAction(this.coursesStates);
 }
 
+class UpdateFavoriteCards {
+  List<FAVORITE_WIDGET_TYPE> favoriteCards;
+  UpdateFavoriteCards(this.favoriteCards);
+}
+
 class SetCoursesStatesStatusAction {
   RequestStatus status;
   SetCoursesStatesStatusAction(this.status);
@@ -103,4 +108,9 @@ class SetPrintRefreshTimeAction {
 class SetFeesRefreshTimeAction {
   String time;
   SetFeesRefreshTimeAction(this.time);
+}
+
+class SetHomePageEditingMode {
+  bool state;
+  SetHomePageEditingMode(this.state);
 }

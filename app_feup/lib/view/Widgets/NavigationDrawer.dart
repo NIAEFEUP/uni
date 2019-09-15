@@ -20,7 +20,8 @@ class NavigationDrawerState extends State<NavigationDrawer> {
     "Mapa de Exames",
     "Parques",
     "Mapa FEUP",
-    "Sobre",
+    "About",
+    "Bug Report"
   ];
 
   _onSelectItem(int index) {
@@ -30,7 +31,7 @@ class NavigationDrawerState extends State<NavigationDrawer> {
     Navigator.of(context).pop();
 
     if (prev != drawerItems[index]) // If not already in selected page
-      Navigator.pushReplacementNamed(context, '/' + drawerItems[index]);
+      Navigator.pushNamed(context, '/' + drawerItems[index]);
   }
 
   _buildBorder(name) {
@@ -40,21 +41,6 @@ class NavigationDrawerState extends State<NavigationDrawer> {
             border:
                 Border(bottom: BorderSide(width: 5.0, color: primaryColor))))
         : null;
-  }
-
-  Widget createSearchInputField() {
-    return new ListTile(
-        title: new Padding(
-            padding: const EdgeInsets.only(
-              top: 10.0,
-            ),
-            child: new Row(children: <Widget>[
-              new Flexible(
-                child: new TextField(
-                  decoration: new InputDecoration(hintText: "Pesquisa..."),
-                ),
-              ),
-            ])));
   }
 
   Widget createLogOutOption() {
@@ -102,9 +88,6 @@ class NavigationDrawerState extends State<NavigationDrawer> {
       padding: EdgeInsets.all(20.0),
       child: new Column(
         children: <Widget>[
-          Container(
-            child: createSearchInputField(),
-          ),
           Flexible(
             child: new ListView(
               children: drawerOptions,

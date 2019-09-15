@@ -51,6 +51,7 @@ Future<List<Exam>> parseExams(http.Response response) async{
     });
     tableNum++;
   });
+  Exams.add(new Exam("09:00-12:00", "SOPE", "B119, B107, B205", "2019-07-03", "Recurso - Época Recurso (2ºS)", "Quarta"));
   return Exams;
 }
 

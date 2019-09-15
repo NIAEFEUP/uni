@@ -32,7 +32,7 @@ class _SplashScreenState extends State<SplashScreen> {
         fit: StackFit.expand,
         children: <Widget>[
           Container(
-            decoration: BoxDecoration(color: applicationTheme.primaryColor),
+            decoration: BoxDecoration(color: applicationTheme.backgroundColor),
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -66,14 +66,12 @@ class _SplashScreenState extends State<SplashScreen> {
           minWidth: queryData.size.width / 8,
           minHeight: queryData.size.height / 6,
         ),
-        child: FittedBox(
-            child: Text(
-              "APP\nFEUP",
-              textAlign: TextAlign.center,
-              style:
-                  TextStyle(color: Colors.white, fontWeight: FontWeight.w400),
+        child: SizedBox(
+            child: SvgPicture.asset(
+              'assets/images/logo_dark.svg',
+              color: Theme.of(context).primaryColor,
             ),
-            fit: BoxFit.fill));
+            width: 150.0));
   }
 
   Widget createNILogo() {
@@ -83,14 +81,17 @@ class _SplashScreenState extends State<SplashScreen> {
         Text(
           "Powered by",
           style: TextStyle(
-              color: Colors.white, fontSize: 20.0, fontWeight: FontWeight.w200),
+              color: Theme.of(context).primaryColor,
+              fontSize: 20.0,
+              fontWeight: FontWeight.w200),
         ),
         Padding(
           padding: EdgeInsets.all(8.0),
         ),
         Container(
             child: SvgPicture.asset(
-          'assets/images/ni_logo.svg',
+          'assets/images/outline_red.svg',
+          color: Theme.of(context).primaryColor,
           width: queryData.size.height / 7,
           height: queryData.size.height / 7,
         ))
