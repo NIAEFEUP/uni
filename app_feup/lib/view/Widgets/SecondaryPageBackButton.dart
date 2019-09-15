@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 
-
-class SecondaryPageBackButton extends StatelessWidget{
+class SecondaryPageBackButton extends StatelessWidget {
   SecondaryPageBackButton({
     Key key,
     @required this.context,
     @required this.child,
-  }):super(key: key);
+  }) : super(key: key);
 
   final BuildContext context;
   final Widget child;
@@ -19,7 +18,7 @@ class SecondaryPageBackButton extends StatelessWidget{
     );
   }
 
-  Future<void> getNewPage(BuildContext context) async{
+  Future<void> getNewPage(BuildContext context) async {
     Navigator.pop(context);
   }
 }
