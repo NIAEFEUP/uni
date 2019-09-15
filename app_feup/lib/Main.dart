@@ -89,9 +89,8 @@ class MyAppState extends State<MyApp> {
                 logout(context);
                 return MaterialPageRoute(builder: (context) => LoginPage());
                 break;
-            },
+              }
             }
-          }
       ),
     );
   }

@@ -36,6 +36,10 @@ class SetScheduleStatusAction {
   SetScheduleStatusAction(this.status);
 }
 
+class SetInitialStoreStateAction {
+  SetInitialStoreStateAction();
+}
+
 class SaveProfileAction {
   Profile profile;
   SaveProfileAction(this.profile);
