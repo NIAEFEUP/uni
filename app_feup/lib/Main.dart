@@ -29,61 +29,65 @@ class MyApp extends StatefulWidget {
   State<StatefulWidget> createState() {
     return MyAppState();
   }
-
 }
 
 class MyAppState extends State<MyApp> {
 
   final Store<AppState> state = Store<AppState>(
-    appReducers, /* Function defined in the reducers file */
-    initialState: new AppState(null),
-    middleware: [generalMiddleware]
+      appReducers, /* Function defined in the reducers file */
+      initialState: new AppState(null),
+      middleware: [generalMiddleware]
   );
 
   WidgetsBindingObserver lifeCycleEventHandler;
 
   @override
   Widget build(BuildContext context) {
-   SystemChrome.setPreferredOrientations([
+    SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);
-   return StoreProvider(
-    store: this.state,
-    child: MaterialApp(
-        title: 'App FEUP',
-        theme: applicationTheme,
-        home: SplashScreen(),
-        routes: {
-            '/Área Pessoal': (context) {
-              return HomePageView();
-            },
-            '/Horário': (context) {
-              return SchedulePage();
-            },
-            '/Classificações': (context) {
-              return ClassificationsPageView();
-            },
-            '/Ementa': (context) {
-              return MenuPageView();
-            },
-            '/Mapa de Exames': (context) {
-              return ExamsPageView();
-            },
-            '/Parques': (context) {
-              return ParkPageView();
-            },
-            '/Mapa FEUP': (context) {
-              return MapPageView();
-            },
-            '/About': (context) {
-              return AboutPageView();
-            },
-            '/Bug Report': (context) {
-              return BugReportPageView();
+    return StoreProvider(
+      store: this.state,
+      child: MaterialApp(
+          title: 'App FEUP',
+          theme: applicationTheme,
+          home: SplashScreen(),
+
+          // ignore: missing_return
+          onGenerateRoute: (RouteSettings settings) {
+            switch(settings.name) {
+              case '/Área Pessoal':
+                return MaterialPageRoute(builder: (context) => HomePageView());
+                break;
+              case '/Horário':
+                return MaterialPageRoute(builder: (context) => SchedulePage());
+                break;
+              case '/Classificações':
+                return MaterialPageRoute(builder: (context) => ClassificationsPageView());
+                break;
+              case '/Ementa':
+                return MaterialPageRoute(builder: (context) => MenuPageView());
+                break;
+              case '/Mapa de Exames':
+                return MaterialPageRoute(builder: (context) => ExamsPageView());
+                break;
+              case '/Parques':
+                return MaterialPageRoute(builder: (context) => ParkPageView());
+                break;
+              case '/Mapa FEUP':
+                return MaterialPageRoute(builder: (context) => MapPageView());
+                break;
+              case '/About':
+                return MaterialPageRoute(builder: (context) => AboutPageView());
+                break;
+              case '/Bug Report':
+                return MaterialPageRoute(builder: (context) => BugReportPageView(), maintainState: false);
+                break;
             }
-        },
-    )
-  );}
+          }
+      ),
+    );
+  }
 
   @override
   void initState() {

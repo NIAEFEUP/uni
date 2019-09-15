@@ -2,7 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class BugPageTextWidget extends StatelessWidget {
+class FormTextField extends StatelessWidget {
 
   final TextEditingController controller;
   final IconData icon;
@@ -14,7 +14,7 @@ class BugPageTextWidget extends StatelessWidget {
   final int maxLines;
   final double bottomMargin;
 
-  BugPageTextWidget(
+  FormTextField(
       this.controller,
       this.icon,
       {
