@@ -234,12 +234,6 @@ ThunkAction<AppState> getUserSchedule(Completer<Null> action) {
   };
 }
 
-ThunkAction<AppState> updateSelectedPage(new_page) {
-  return (Store<AppState> store) async {
-    store.dispatch(new UpdateSelectedPageAction(new_page));
-  };
-}
-
 ThunkAction<AppState> getUserPrintBalance(Completer<Null> action) {
   return (Store<AppState> store) async {
     store.dispatch(new SetPrintBalanceStatusAction(RequestStatus.BUSY));
