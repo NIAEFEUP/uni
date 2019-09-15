@@ -7,6 +7,7 @@ import 'package:app_feup/model/AppState.dart';
 import 'package:app_feup/redux/ActionCreators.dart';
 
 Future logout(BuildContext context) async {
+
   final prefs = await SharedPreferences.getInstance();
   await prefs.clear();
 

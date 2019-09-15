@@ -11,6 +11,7 @@ class AppState {
       "schedule": [],
       "exams": [],
       "scheduleStatus": RequestStatus.NONE,
+      "loginStatus": RequestStatus.NONE,
       "examsStatus": RequestStatus.NONE,
       "profileStatus": RequestStatus.NONE,
       "printBalanceStatus": RequestStatus.NONE,
@@ -33,6 +34,6 @@ class AppState {
   }
 
   AppState getInitialState() {
-    return new AppState(this.getInitialContent());
+    return new AppState(null);
   }
 }

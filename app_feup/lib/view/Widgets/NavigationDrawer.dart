@@ -25,12 +25,8 @@ class NavigationDrawerState extends State<NavigationDrawer> {
   static final drawerItems = [
     "Área Pessoal",
     "Horário",
-    "Classificações",
-    "Ementa",
     "Mapa de Exames",
-    "Parques",
-    "Mapa FEUP",
-    "About",
+    "Sobre",
     "Bug Report"
   ];
 
@@ -50,7 +46,7 @@ class NavigationDrawerState extends State<NavigationDrawer> {
   }
 
   _buildBorder(name) {
-    return (name == getCurrentRoute())?  (const BoxDecoration( border: Border( bottom: BorderSide(width: 5.0, color: primaryColor)))) : null;
+    return (name == getCurrentRoute()) ? (const BoxDecoration( border: Border( bottom: BorderSide(width: 5.0, color: primaryColor)))) : null;
   }
 
   Widget createLogOutOption() {
@@ -69,6 +65,7 @@ class NavigationDrawerState extends State<NavigationDrawer> {
   }
 
   Widget createDrawerNavigationOption(String d, int i) {
+    print(getCurrentRoute().toString());
     return new ListTile(
       title: new Row(
         children: <Widget>[

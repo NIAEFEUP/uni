@@ -1,13 +1,9 @@
 import 'package:app_feup/controller/Logout.dart';
 import 'package:app_feup/model/SchedulePageModel.dart';
 import 'package:app_feup/model/entities/Exam.dart';
-import 'package:app_feup/view/Pages/ClassificationsPageView.dart';
 import 'package:app_feup/view/Pages/ExamsPageView.dart';
 import 'package:app_feup/view/Pages/HomePageView.dart';
 import 'package:app_feup/model/LoginPageModel.dart';
-import 'package:app_feup/view/Pages/MapPageView.dart';
-import 'package:app_feup/view/Pages/MenuPageView.dart';
-import 'package:app_feup/view/Pages/ParkPageView.dart';
 import 'package:app_feup/view/Pages/AboutPageView.dart';
 import 'package:app_feup/view/Pages/BugReportPageView.dart';
 import 'package:app_feup/controller/Middleware.dart';
@@ -64,30 +60,17 @@ class MyAppState extends State<MyApp> {
               case '/Horário':
                 return MaterialPageRoute(builder: (context) => SchedulePage());
                 break;
-              case '/Classificações':
-                return MaterialPageRoute(builder: (context) => ClassificationsPageView());
-                break;
-              case '/Ementa':
-                return MaterialPageRoute(builder: (context) => MenuPageView());
-                break;
               case '/Mapa de Exames':
                 return MaterialPageRoute(builder: (context) => ExamsPageView());
                 break;
-              case '/Parques':
-                return MaterialPageRoute(builder: (context) => ParkPageView());
-                break;
-              case '/Mapa FEUP':
-                return MaterialPageRoute(builder: (context) => MapPageView());
-                break;
-              case '/About':
+              case '/Sobre':
                 return MaterialPageRoute(builder: (context) => AboutPageView());
                 break;
               case '/Bug Report':
                 return MaterialPageRoute(builder: (context) => BugReportPageView(), maintainState: false);
                 break;
               case '/Terminar sessão':
-                logout(context);
-                return MaterialPageRoute(builder: (context) => LoginPage());
+                return MaterialPageRoute(builder: (context) { logout(context); return LoginPage();});
                 break;
               }
             }

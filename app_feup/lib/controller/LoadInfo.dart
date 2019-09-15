@@ -11,7 +11,6 @@ import 'package:redux/redux.dart';
 Future loadUserInfoToState(store) {
   loadLocalUserInfoToState(store);
   return loadRemoteUserInfoToState(store);
-
 }
 
 
