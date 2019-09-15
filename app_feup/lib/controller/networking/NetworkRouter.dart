@@ -13,6 +13,8 @@ import 'package:synchronized/synchronized.dart';
 class NetworkRouter {
   static Lock loginLock = Lock();
 
+  static Function onReloginFail = (){};
+
   static Future<Session> login(
       String user, String pass, String faculty, bool persistentSession) async {
     final String url =
@@ -33,7 +35,6 @@ class NetworkRouter {
   static Future<bool> relogin(Session session) async {
     return loginLock.synchronized(() async {
       if (!session.persistentSession) {
-        // go to home screen
         return false;
       }
 
@@ -130,8 +131,8 @@ class NetworkRouter {
         headers['cookie'] = session.cookies;
         return http.get(url, headers: headers);
       } else {
+        onReloginFail();
         print('Login failed');
-        // Login failed
         return Future.error('Login failed');
       }
     } else {

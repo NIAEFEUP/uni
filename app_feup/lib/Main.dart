@@ -1,5 +1,6 @@
 import 'package:app_feup/model/SchedulePageModel.dart';
 import 'package:app_feup/model/entities/Exam.dart';
+import 'package:app_feup/view/NavigationService.dart';
 import 'package:app_feup/view/Pages/ClassificationsPageView.dart';
 import 'package:app_feup/view/Pages/ExamsPageView.dart';
 import 'package:app_feup/view/Pages/HomePageView.dart';
@@ -12,6 +13,8 @@ import 'package:flutter/material.dart';
 import 'package:app_feup/view/Pages/SplashPageView.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'controller/OnStartUp.dart';
+import 'model/LoginPageModel.dart';
 import 'view/Theme.dart';
 import 'model/AppState.dart';
 import 'package:redux/redux.dart';
@@ -22,7 +25,16 @@ import 'package:app_feup/controller/LifecycleEventHandler.dart';
 
 List<Exam> exams;
 
-void main() => runApp(new MyApp());
+final Store<AppState> state = Store<AppState>(
+    appReducers, /* Function defined in the reducers file */
+    initialState: new AppState(null),
+    middleware: [generalMiddleware]
+);
+
+void main() {
+  OnStartUp.onStart(state);
+  runApp(new MyApp());
+}
 
 class MyApp extends StatefulWidget {
   @override
@@ -34,12 +46,6 @@ class MyApp extends StatefulWidget {
 
 class MyAppState extends State<MyApp> {
 
-  final Store<AppState> state = Store<AppState>(
-    appReducers, /* Function defined in the reducers file */
-    initialState: new AppState(null),
-    middleware: [generalMiddleware]
-  );
-
   WidgetsBindingObserver lifeCycleEventHandler;
 
   @override
@@ -48,11 +54,12 @@ class MyAppState extends State<MyApp> {
       DeviceOrientation.portraitUp,
     ]);
    return StoreProvider(
-    store: this.state,
+    store: state,
     child: MaterialApp(
         title: 'App FEUP',
         theme: applicationTheme,
         home: SplashScreen(),
+        navigatorKey: NavigationService.navigatorKey,
         routes: {
             '/Área Pessoal': (context) {
               StoreProvider.of<AppState>(context).dispatch(updateSelectedPage("Área Pessoal"));
@@ -85,6 +92,9 @@ class MyAppState extends State<MyApp> {
             '/About': (context) {
               StoreProvider.of<AppState>(context).dispatch(updateSelectedPage("About"));
               return AboutPageView();
+            },
+            '/Login': (context) {
+              return LoginPage();
             }
         },
     )
@@ -93,7 +103,7 @@ class MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    this.lifeCycleEventHandler = new LifecycleEventHandler(store: this.state);
+    this.lifeCycleEventHandler = new LifecycleEventHandler(store: state);
     WidgetsBinding.instance.addObserver(this.lifeCycleEventHandler);
   }
 
