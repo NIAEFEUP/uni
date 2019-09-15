@@ -19,7 +19,7 @@ class BugReportForm extends StatefulWidget {
 
 class BugReportFormState extends State<BugReportForm> {
 
-  final _formKey = GlobalKey<FormState>();
+  static final _formKey = GlobalKey<FormState>();
 
   final Map<int, Tuple2<String,String>> bugDescriptions = {
     0 : Tuple2<String,String>("Detalhe visual", "Visual detail"),

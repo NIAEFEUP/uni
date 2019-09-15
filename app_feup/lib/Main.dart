@@ -17,7 +17,6 @@ import 'view/Theme.dart';
 import 'model/AppState.dart';
 import 'package:redux/redux.dart';
 import 'redux/Reducers.dart';
-import 'package:app_feup/redux/ActionCreators.dart';
 import 'package:app_feup/model/AppState.dart';
 import 'package:app_feup/controller/LifecycleEventHandler.dart';
 

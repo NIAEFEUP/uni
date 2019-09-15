@@ -1,9 +1,9 @@
-import 'package:app_feup/view/Pages/GeneralPageView.dart';
+import 'package:app_feup/view/Pages/SecondaryPageView.dart';
 import 'package:app_feup/view/Widgets/BugReportForm.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class BugReportPageView extends GeneralPageView {
+class BugReportPageView extends SecondaryPageView {
 
   @override
   Widget getBody(BuildContext context) {
