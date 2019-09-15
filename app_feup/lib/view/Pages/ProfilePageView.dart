@@ -53,38 +53,44 @@ class ProfilePageView extends SecondaryPageView {
   }
 
   Widget profileInfo (BuildContext context){
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Container(
-          width: 150.0,
-          height: 150.0,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            image: buildDecorageImage(context)
-          )
-        ),
-        Padding(padding: const EdgeInsets.all(8.0)),
-         Text(
-          name,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: greyTextColor,
-            fontSize: 20.0,
-            fontWeight: FontWeight.w400
-          )
-        ),
-        Padding(padding: const EdgeInsets.all(5.0)),
-        Text(
-          email,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: greyTextColor,
-            fontSize: 18.0,
-            fontWeight: FontWeight.w200
-          )
-        ),
-      ],
+    return FutureBuilder(
+      future: buildDecorageImage(context),
+      builder: (BuildContext context,
+      AsyncSnapshot<DecorationImage> decorationImage) {
+        return  Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Container(
+                width: 150.0,
+                height: 150.0,
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: decorationImage.data
+                )
+            ),
+            Padding(padding: const EdgeInsets.all(8.0)),
+            Text(
+                name,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: greyTextColor,
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.w400
+                )
+            ),
+            Padding(padding: const EdgeInsets.all(5.0)),
+            Text(
+                email,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: greyTextColor,
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.w200
+                )
+            ),
+          ],
+        );
+      }
     );
   }
 }
