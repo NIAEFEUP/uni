@@ -41,10 +41,10 @@ class NavigationDrawerState extends State<NavigationDrawer> {
 
     final prev = getCurrentRoute();
 
+    Navigator.of(context).pop();
+
     if (prev != drawerItems[index]){
-      Navigator.pushReplacementNamed(context, '/' + drawerItems[index]);
-    }  else {
-      Navigator.of(context).pop();
+      Navigator.pushNamed(context, '/' + drawerItems[index]);
     }
   }
 
