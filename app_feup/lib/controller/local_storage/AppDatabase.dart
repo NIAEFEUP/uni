@@ -33,7 +33,7 @@ class AppDatabase {
   Future<Database> initializeDatabase() async {
     // Get the directory path for both Android and iOS to store database
     Directory directory = await getApplicationDocumentsDirectory();
-    String path = directory.path + this.name;
+    final String path = directory.path + this.name;
 
     // Open or create the database at the given path
     var appFeupDatabase =
@@ -46,8 +46,8 @@ class AppDatabase {
   }
 
   static removeDatabase(String name) async {
-    Directory directory = await getApplicationDocumentsDirectory();
-    String path = directory.path + name;
+    final Directory directory = await getApplicationDocumentsDirectory();
+    final String path = directory.path + name;
 
     await deleteDatabase(path);
   }
