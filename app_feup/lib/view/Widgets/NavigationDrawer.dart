@@ -30,8 +30,6 @@ class NavigationDrawerState extends State<NavigationDrawer> {
 
     var prev = StoreProvider.of<AppState>(context).state.content["selected_page"];
 
-    print(index);
-
     if (prev != drawerItems[index]){
       StoreProvider.of<AppState>(context).dispatch(updateSelectedPage(drawerItems[index]));
       Navigator.pushNamed(context, '/' + drawerItems[index]);
