@@ -19,7 +19,6 @@ import 'view/Theme.dart';
 import 'model/AppState.dart';
 import 'package:redux/redux.dart';
 import 'redux/Reducers.dart';
-import 'package:app_feup/redux/ActionCreators.dart';
 import 'package:app_feup/model/AppState.dart';
 import 'package:app_feup/controller/LifecycleEventHandler.dart';
 
@@ -35,10 +34,12 @@ class MyApp extends StatefulWidget {
 }
 
 class MyAppState extends State<MyApp> {
-  final Store<AppState> state = Store<AppState>(appReducers,
-      /* Function defined in the reducers file */
+
+  final Store<AppState> state = Store<AppState>(
+      appReducers, /* Function defined in the reducers file */
       initialState: new AppState(null),
-      middleware: [generalMiddleware]);
+      middleware: [generalMiddleware]
+  );
 
   WidgetsBindingObserver lifeCycleEventHandler;
 
@@ -48,63 +49,51 @@ class MyAppState extends State<MyApp> {
       DeviceOrientation.portraitUp,
     ]);
     return StoreProvider(
-        store: this.state,
-        child: MaterialApp(
+      store: this.state,
+      child: MaterialApp(
           title: 'App FEUP',
           theme: applicationTheme,
           home: SplashScreen(),
-          routes: {
-            '/Área Pessoal': (context) {
-              StoreProvider.of<AppState>(context)
-                  .dispatch(updateSelectedPage("Área Pessoal"));
-              return HomePageView();
+
+          // ignore: missing_return
+          onGenerateRoute: (RouteSettings settings) {
+            switch(settings.name) {
+              case '/Área Pessoal':
+                return MaterialPageRoute(builder: (context) => HomePageView());
+                break;
+              case '/Horário':
+                return MaterialPageRoute(builder: (context) => SchedulePage());
+                break;
+              case '/Classificações':
+                return MaterialPageRoute(builder: (context) => ClassificationsPageView());
+                break;
+              case '/Ementa':
+                return MaterialPageRoute(builder: (context) => MenuPageView());
+                break;
+              case '/Mapa de Exames':
+                return MaterialPageRoute(builder: (context) => ExamsPageView());
+                break;
+              case '/Parques':
+                return MaterialPageRoute(builder: (context) => ParkPageView());
+                break;
+              case '/Mapa FEUP':
+                return MaterialPageRoute(builder: (context) => MapPageView());
+                break;
+              case '/About':
+                return MaterialPageRoute(builder: (context) => AboutPageView());
+                break;
+              case '/Bug Report':
+                return MaterialPageRoute(builder: (context) => BugReportPageView(), maintainState: false);
+                break;
+              case '/Terminar sessão':
+                logout(context);
+                return MaterialPageRoute(builder: (context) => LoginPage());
+                break;
             },
-            '/Horário': (context) {
-              StoreProvider.of<AppState>(context)
-                  .dispatch(updateSelectedPage("Horário"));
-              return SchedulePage();
-            },
-            '/Classificações': (context) {
-              StoreProvider.of<AppState>(context)
-                  .dispatch(updateSelectedPage("Classificações"));
-              return ClassificationsPageView();
-            },
-            '/Ementa': (context) {
-              StoreProvider.of<AppState>(context)
-                  .dispatch(updateSelectedPage("Ementa"));
-              return MenuPageView();
-            },
-            '/Mapa de Exames': (context) {
-              StoreProvider.of<AppState>(context)
-                  .dispatch(updateSelectedPage("Mapa de Exames"));
-              return ExamsPageView();
-            },
-            '/Parques': (context) {
-              StoreProvider.of<AppState>(context)
-                  .dispatch(updateSelectedPage("Parques"));
-              return ParkPageView();
-            },
-            '/Mapa FEUP': (context) {
-              StoreProvider.of<AppState>(context)
-                  .dispatch(updateSelectedPage("Mapa FEUP"));
-              return MapPageView();
-            },
-            '/Sobre': (context) {
-              StoreProvider.of<AppState>(context)
-                  .dispatch(updateSelectedPage("Sobre"));
-              return AboutPageView();
-            },
-            '/Bug Report': (context) {
-              StoreProvider.of<AppState>(context)
-                  .dispatch(updateSelectedPage("Bug Report"));
-              return BugReportPageView();
-            },
-            '/Terminar sessão': (context) {
-              logout(context);
-              return LoginPage();
-            },
-          },
-        ));
+            }
+          }
+      ),
+    );
   }
 
   @override

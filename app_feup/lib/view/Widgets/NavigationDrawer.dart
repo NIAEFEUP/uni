@@ -1,17 +1,27 @@
 import 'package:app_feup/view/Theme.dart';
 import 'package:flutter/material.dart';
 
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:app_feup/model/AppState.dart';
 
 class NavigationDrawer extends StatefulWidget {
+  final BuildContext parentContext;
+
+  NavigationDrawer({
+    @required this.parentContext
+  }){}
   @override
   State<StatefulWidget> createState() {
-    return new NavigationDrawerState();
+    return new NavigationDrawerState(parentContext: parentContext);
   }
 }
 
 class NavigationDrawerState extends State<NavigationDrawer> {
+
+  final BuildContext parentContext;
+
+  NavigationDrawerState({
+    @required this.parentContext
+  }){}
+
   static final drawerItems = [
     "Área Pessoal",
     "Horário",
@@ -24,23 +34,23 @@ class NavigationDrawerState extends State<NavigationDrawer> {
     "Bug Report"
   ];
 
+  getCurrentRoute() => ModalRoute.of(parentContext).settings.name == null ? 
+  drawerItems[0]:
+  ModalRoute.of(parentContext).settings.name.substring(1);
+
   _onSelectItem(int index) {
-    var prev =
-        StoreProvider.of<AppState>(context).state.content["selected_page"];
+
+    final prev = getCurrentRoute();
 
     Navigator.of(context).pop();
 
-    if (prev != drawerItems[index]) // If not already in selected page
+    if (prev != drawerItems[index]){
       Navigator.pushNamed(context, '/' + drawerItems[index]);
+    }
   }
 
   _buildBorder(name) {
-    return (name ==
-            StoreProvider.of<AppState>(context).state.content["selected_page"])
-        ? (const BoxDecoration(
-            border:
-                Border(bottom: BorderSide(width: 5.0, color: primaryColor))))
-        : null;
+    return (name == getCurrentRoute())?  (const BoxDecoration( border: Border( bottom: BorderSide(width: 5.0, color: primaryColor)))) : null;
   }
 
   Widget createLogOutOption() {
@@ -69,8 +79,7 @@ class NavigationDrawerState extends State<NavigationDrawer> {
           ),
         ],
       ),
-      selected: d ==
-          StoreProvider.of<AppState>(context).state.content["selected_page"],
+      selected: d == getCurrentRoute(),
       onTap: () => _onSelectItem(i),
     );
   }

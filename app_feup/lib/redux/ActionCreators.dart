@@ -242,12 +242,6 @@ ThunkAction<AppState> getUserSchedule(Completer<Null> action) {
   };
 }
 
-ThunkAction<AppState> updateSelectedPage(new_page) {
-  return (Store<AppState> store) async {
-    store.dispatch(new UpdateSelectedPageAction(new_page));
-  };
-}
-
 ThunkAction<AppState> setInitialStoreState() {
   return (Store<AppState> store) async {
     store.dispatch(new SetInitialStoreStateAction());

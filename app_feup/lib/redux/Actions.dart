@@ -36,15 +36,6 @@ class SetScheduleStatusAction {
   SetScheduleStatusAction(this.status);
 }
 
-class UpdateSelectedPageAction {
-  String selected_page;
-  UpdateSelectedPageAction(this.selected_page);
-}
-
-class SetInitialStoreStateAction {
-  SetInitialStoreStateAction();
-}
-
 class SaveProfileAction {
   Profile profile;
   SaveProfileAction(this.profile);
