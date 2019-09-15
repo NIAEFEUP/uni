@@ -13,8 +13,6 @@ import 'package:synchronized/synchronized.dart';
 class NetworkRouter {
   static Lock loginLock = Lock();
 
-  static int requestCount = 0;
-
   static Future<Session> login(
       String user, String pass, String faculty, bool persistentSession) async {
     final String url =
@@ -48,7 +46,7 @@ class NetworkRouter {
   }
 
   static Future<bool> loginFromSession(Session session) async {
-    print('called');
+    print('Trying to login...');
     final String url =
           NetworkRouter.getBaseUrl(session.faculty) + 'mob_val_geral.autentica';
       final http.Response response = await http.post(url, body: {
@@ -113,11 +111,6 @@ class NetworkRouter {
     if (loginSuccessful is bool && !loginSuccessful)
       return Future.error('Login failed');
 
-    print('getWithCookies: Req. count = $requestCount');
-    if (requestCount > 5) {
-      session.setCookies("cookies"); // Fake expired cookies
-      requestCount = 0;
-    }
     final URLQueryParams params = new URLQueryParams();
     query.forEach((key, value) {
       params.append(key, value);
@@ -127,7 +120,6 @@ class NetworkRouter {
 
     final Map<String, String> headers = Map<String, String>();
     headers['cookie'] = session.cookies;
-    requestCount++;
     final http.Response response = await http.get(url, headers: headers);
     if (response.statusCode == 200) {
       return response;
