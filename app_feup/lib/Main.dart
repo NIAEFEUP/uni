@@ -1,11 +1,9 @@
+import 'package:app_feup/controller/Logout.dart';
 import 'package:app_feup/model/SchedulePageModel.dart';
 import 'package:app_feup/model/entities/Exam.dart';
-import 'package:app_feup/view/Pages/ClassificationsPageView.dart';
 import 'package:app_feup/view/Pages/ExamsPageView.dart';
 import 'package:app_feup/view/Pages/HomePageView.dart';
-import 'package:app_feup/view/Pages/MapPageView.dart';
-import 'package:app_feup/view/Pages/MenuPageView.dart';
-import 'package:app_feup/view/Pages/ParkPageView.dart';
+import 'package:app_feup/model/LoginPageModel.dart';
 import 'package:app_feup/view/Pages/AboutPageView.dart';
 import 'package:app_feup/view/Pages/BugReportPageView.dart';
 import 'package:app_feup/controller/Middleware.dart';
@@ -57,34 +55,19 @@ class MyAppState extends State<MyApp> {
           onGenerateRoute: (RouteSettings settings) {
             switch(settings.name) {
               case '/Área Pessoal':
-                return MaterialPageRoute(builder: (context) => HomePageView());
-                break;
+                return MaterialPageRoute(builder: (context) => HomePageView(), settings: settings);
               case '/Horário':
-                return MaterialPageRoute(builder: (context) => SchedulePage());
-                break;
-              case '/Classificações':
-                return MaterialPageRoute(builder: (context) => ClassificationsPageView());
-                break;
-              case '/Ementa':
-                return MaterialPageRoute(builder: (context) => MenuPageView());
-                break;
+                return MaterialPageRoute(builder: (context) => SchedulePage(), settings: settings);
               case '/Mapa de Exames':
-                return MaterialPageRoute(builder: (context) => ExamsPageView());
-                break;
-              case '/Parques':
-                return MaterialPageRoute(builder: (context) => ParkPageView());
-                break;
-              case '/Mapa FEUP':
-                return MaterialPageRoute(builder: (context) => MapPageView());
-                break;
-              case '/About':
-                return MaterialPageRoute(builder: (context) => AboutPageView());
-                break;
+                return MaterialPageRoute(builder: (context) => ExamsPageView(), settings: settings);
+              case '/Sobre':
+                return MaterialPageRoute(builder: (context) => AboutPageView(), settings: settings);
               case '/Bug Report':
-                return MaterialPageRoute(builder: (context) => BugReportPageView(), maintainState: false);
-                break;
+                return MaterialPageRoute(builder: (context) => BugReportPageView(), settings: settings, maintainState: false);
+              case '/Terminar sessão':
+                return MaterialPageRoute(builder: (context) { logout(context); return LoginPage();});
+              }
             }
-          }
       ),
     );
   }
@@ -102,5 +85,3 @@ class MyAppState extends State<MyApp> {
     super.dispose();
   }
 }
-
-

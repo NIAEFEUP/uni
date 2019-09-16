@@ -11,7 +11,6 @@ import 'package:redux/redux.dart';
 Future loadUserInfoToState(store) {
   loadLocalUserInfoToState(store);
   return loadRemoteUserInfoToState(store);
-
 }
 
 
@@ -48,8 +47,6 @@ void loadLocalUserInfoToState(store) async {
     store.dispatch(SetPrintBalanceStatusAction(RequestStatus.SUCCESSFUL));
     store.dispatch(SetFeesStatusAction(RequestStatus.SUCCESSFUL));
     store.dispatch(SetCoursesStatesStatusAction(RequestStatus.SUCCESSFUL));
-    store.dispatch(SetScheduleStatusAction(RequestStatus.SUCCESSFUL));
-    store.dispatch(SetExamsStatusAction(RequestStatus.SUCCESSFUL));
   }
 }
 

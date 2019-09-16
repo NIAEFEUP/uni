@@ -15,6 +15,7 @@ class NavigationDrawer extends StatefulWidget {
 }
 
 class NavigationDrawerState extends State<NavigationDrawer> {
+
   final BuildContext parentContext;
 
   NavigationDrawerState({
@@ -24,12 +25,8 @@ class NavigationDrawerState extends State<NavigationDrawer> {
   static final drawerItems = [
     "Área Pessoal",
     "Horário",
-    "Classificações",
-    "Ementa",
     "Mapa de Exames",
-    "Parques",
-    "Mapa FEUP",
-    "About",
+    "Sobre",
     "Bug Report"
   ];
 
@@ -49,17 +46,33 @@ class NavigationDrawerState extends State<NavigationDrawer> {
   }
 
   _buildBorder(name) {
-    return (name == getCurrentRoute())?  (const BoxDecoration( border: Border( bottom: BorderSide(width: 5.0, color: primaryColor)))) : null;
+    return (name == getCurrentRoute()) ? (const BoxDecoration( border: Border( bottom: BorderSide(width: 5.0, color: primaryColor)))) : null;
+  }
+
+  Widget createLogOutOption() {
+    return new ListTile(
+      title: new Row(
+        children: <Widget>[
+          new Container(
+            decoration: _buildBorder("Terminar sessão"),
+            child: new Text("Terminar sessão",
+                style: TextStyle(fontSize: 24.0, color: primaryColor)),
+          ),
+        ],
+      ),
+      onTap: () => Navigator.pushReplacementNamed(context, '/Terminar sessão'),
+    );
   }
 
   Widget createDrawerNavigationOption(String d, int i) {
+    print(getCurrentRoute().toString());
     return new ListTile(
-      title:
-      new Row(
+      title: new Row(
         children: <Widget>[
           new Container(
             decoration: _buildBorder(d),
-            child: new Text(d, style: TextStyle(fontSize: 24.0, color: primaryColor)),
+            child: new Text(d,
+                style: TextStyle(fontSize: 24.0, color: primaryColor)),
           ),
         ],
       ),
@@ -77,12 +90,20 @@ class NavigationDrawerState extends State<NavigationDrawer> {
     }
 
     return new Drawer(
-        child: new Container(
-            padding: EdgeInsets.all(20.0),
-              child: new ListView(
-                children: drawerOptions,
+        child: new Padding(
+      padding: EdgeInsets.all(20.0),
+      child: new Column(
+        children: <Widget>[
+          Flexible(
+            child: new ListView(
+              children: drawerOptions,
+            ),
           ),
-        )
-    );
+          Container(
+            child: createLogOutOption(),
+          ),
+        ],
+      ),
+    ));
   }
 }
