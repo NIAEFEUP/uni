@@ -20,7 +20,7 @@ class ProfilePageView extends SecondaryPageView {
   final String email;
   final Map<String, String> currentState;
   final List<Course> courses;
-  final DecorationImage profilePicFile;
+  final File profilePicFile;
 
   @override
   Widget getBody(BuildContext context) {
@@ -64,7 +64,7 @@ class ProfilePageView extends SecondaryPageView {
                 height: 150.0,
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    image: profilePicFile
+                    image: DecorationImage(fit: BoxFit.cover, image: FileImage(profilePicFile))
                 )
             ),
             Padding(padding: const EdgeInsets.all(8.0)),

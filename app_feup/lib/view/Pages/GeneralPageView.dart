@@ -1,4 +1,3 @@
-import 'package:app_feup/controller/local_storage/ImageOfflineStorage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:app_feup/view/Widgets/NavigationDrawer.dart';
@@ -6,7 +5,6 @@ import 'package:app_feup/model/AppState.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:app_feup/controller/LoadInfo.dart';
 import 'package:app_feup/model/ProfilePageModel.dart';
-import 'dart:io';
 
 abstract class GeneralPageView extends StatelessWidget {
   final double borderMargin = 18.0;
@@ -21,33 +19,8 @@ abstract class GeneralPageView extends StatelessWidget {
   }
 
   Future<DecorationImage> buildDecorageImage(context) async {
-    String studentNo = StoreProvider.of<AppState>(context)
-            .state
-            .content['session']
-            .studentNumber ??
-        "";
-    if (studentNo != "") {
-      var x = await getProfileImage(context);
+      var x = await loadProfilePic(StoreProvider.of<AppState>(context));
       return DecorationImage(fit: BoxFit.cover, image: FileImage(x));
-    } else
-        return null;
-
-  }
-
-  Future<File> getProfileImage(BuildContext context) {
-    String studentNo = StoreProvider.of<AppState>(context)
-        .state
-        .content['session']
-        .studentNumber;
-    String url =
-        "https://sigarra.up.pt/feup/pt/fotografias_service.foto?pct_cod=" +
-            studentNo;
-
-    final Map<String, String> headers = Map<String, String>();
-    headers['cookie'] =
-        StoreProvider.of<AppState>(context).state.content['session'].cookies;
-
-    return retrieveImage(url, headers);
   }
 
   Widget refreshState(BuildContext context, Widget child) {

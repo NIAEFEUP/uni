@@ -1,9 +1,9 @@
+import 'package:app_feup/controller/LoadInfo.dart';
 import 'package:app_feup/model/AppState.dart';
 import 'package:app_feup/view/Pages/ProfilePageView.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'dart:io';
-import 'package:app_feup/controller/local_storage/ImageOfflineStorage.dart';
 
 import 'entities/Course.dart';
 
@@ -21,7 +21,7 @@ class _ProfilePageState extends State<ProfilePage> {
   String email;
   Map<String, String> currentState;
   List<Course> courses;
-  Future<DecorationImage> profilePicFile;
+  Future<File> profilePicFile;
 
   @override
   void initState() {
@@ -36,49 +36,18 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    profilePicFile = this.buildDecorageImage(context);
+    profilePicFile = loadProfilePic( StoreProvider.of<AppState>(context));
     updateInfo();
     return FutureBuilder(future: profilePicFile,
     builder: (BuildContext context,
-    AsyncSnapshot<DecorationImage> decorationImage){
+    AsyncSnapshot<File> profilePic){
       return new ProfilePageView(
           name: name,
           email: email,
           currentState: currentState,
-          courses: courses, profilePicFile: decorationImage.data);
+          courses: courses, profilePicFile: profilePic.data);
     });
 
-  }
-
-  Future<DecorationImage> buildDecorageImage(context) async {
-
-    String studentNo = StoreProvider.of<AppState>(context)
-        .state
-        .content['session']
-        .studentNumber ??
-        "";
-
-    if (studentNo != "") {
-      var x = await getProfileImage(context);
-      return DecorationImage(fit: BoxFit.cover, image: FileImage(x));
-    } else
-      return null;
-  }
-
-  Future<File> getProfileImage(BuildContext context) {
-    String studentNo = StoreProvider.of<AppState>(context)
-        .state
-        .content['session']
-        .studentNumber;
-    String url =
-        "https://sigarra.up.pt/feup/pt/fotografias_service.foto?pct_cod=" +
-            studentNo;
-
-    final Map<String, String> headers = Map<String, String>();
-    headers['cookie'] =
-        StoreProvider.of<AppState>(context).state.content['session'].cookies;
-
-    return retrieveImage(url, headers);
   }
 
   void updateInfo() async{
