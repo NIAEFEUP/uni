@@ -82,6 +82,9 @@ class NetworkRouter {
     final Map<String, String> headers = Map<String, String>();
     headers['cookie'] = cookies;
 
+
+    print(url);
+    print(cookies);
     return http.get(url, headers: headers);
   }
 
