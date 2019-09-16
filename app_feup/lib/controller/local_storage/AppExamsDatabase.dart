@@ -8,7 +8,7 @@ class AppExamsDatabase extends AppDatabase {
   AppExamsDatabase():super('exams.db', 'CREATE TABLE exams(subject TEXT, begin TEXT, end TEXT, rooms TEXT, day TEXT, examType TEXT, weekDay TEXT, month TEXT, year TEXT)');
 
   saveNewExams(List<Exam> exams) async {
-    await _deleteExams();
+    await deleteExams();
     await _insertExams(exams);
   }
 
@@ -45,7 +45,7 @@ class AppExamsDatabase extends AppDatabase {
       );
   }
 
-  Future<void> _deleteExams() async {
+  Future<void> deleteExams() async {
     // Get a reference to the database
     final Database db = await this.getDatabase();
 

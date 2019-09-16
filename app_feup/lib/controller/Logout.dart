@@ -6,13 +6,22 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:app_feup/model/AppState.dart';
 import 'package:app_feup/redux/ActionCreators.dart';
 
+import 'local_storage/AppCoursesDatabase.dart';
+import 'local_storage/AppExamsDatabase.dart';
+import 'local_storage/AppLecturesDatabase.dart';
+import 'local_storage/AppRefreshTimesDatabase.dart';
+import 'local_storage/AppUserDataDatabase.dart';
+
 Future logout(BuildContext context) async {
 
   final prefs = await SharedPreferences.getInstance();
   await prefs.clear();
 
-  AppDatabase.removeDatabase('exams.db');
-  AppDatabase.removeDatabase('lectures.db');
+  (await AppLecturesDatabase()).deleteLectures();
+  (await AppExamsDatabase()).deleteExams();
+  (await AppCoursesDatabase()).deleteCourses();
+  (await AppRefreshTimesDatabase()).deleteRefreshTimes();
+  (await AppUserDataDatabase()).deleteUserData();
 
   StoreProvider.of<AppState>(context).dispatch(setInitialStoreState());
 }
