@@ -20,37 +20,18 @@ class ScheduleCard extends GenericCard {
   Widget buildCardContent(BuildContext context) {
     return StoreConnector<AppState, List<dynamic>>(
         converter: (store) => store.state.content['schedule'],
-        builder: (context, lectures) =>
-          super.getCardContentBasedOnRequestStatus(
+        builder: (context, lectures) {
+          return super.getCardContentBasedOnRequestStatus(
               context,
-              StoreProvider.of<AppState>(context).state.content['scheduleStatus'],
+              StoreProvider
+                  .of<AppState>(context)
+                  .state
+                  .content['scheduleStatus'],
               generateSchedule,
               lectures,
-              lectures != null && lectures.length > 0)
+              lectures != null && lectures.length > 0);
+        }
     );
-  }
-
-  Widget getCardContent(BuildContext context, lectures){
-    switch (StoreProvider.of<AppState>(context).state.content['scheduleStatus']){
-      case RequestStatus.SUCCESSFUL:
-        return generateSchedule(lectures, context);
-      case RequestStatus.BUSY:
-        return (lectures != null && lectures.length > 0) ?
-        generateSchedule(lectures, context) :
-        Center(child: CircularProgressIndicator());
-      case RequestStatus.FAILED:
-        if(lectures.length != 0)
-          return Container(
-              child: new Column(
-                mainAxisSize: MainAxisSize.min,
-                children: getScheduleRows(context, lectures),
-              )
-          );
-        else return Center(child: Text("Comunication error. Please check your internet connection."));
-        break;
-      default:
-        return Container();
-    }
   }
 
   Widget generateSchedule(lectures, context){
