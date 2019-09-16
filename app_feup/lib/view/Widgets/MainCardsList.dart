@@ -9,6 +9,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 
 import '../Theme.dart';
 import 'AccountInfoCard.dart';
+import 'BusStopCard.dart';
 import 'HomePageBackButton.dart';
 import 'PrintInfoCard.dart';
 
@@ -18,7 +19,8 @@ class MainCardsList extends StatelessWidget {
     FAVORITE_WIDGET_TYPE.SCHEDULE: (k, em, od) => ScheduleCard.fromEditingInformation(k, em, od),
     FAVORITE_WIDGET_TYPE.EXAMS: (k, em, od) => ExamCard.fromEditingInformation(k, em, od),
     FAVORITE_WIDGET_TYPE.ACCOUNT: (k, em, od) => AccountInfoCard.fromEditingInformation(k, em, od),
-    FAVORITE_WIDGET_TYPE.PRINT_BALANCE: (k, em, od) => PrintInfoCard.fromEditingInformation(k, em, od)
+    FAVORITE_WIDGET_TYPE.PRINT_BALANCE: (k, em, od) => PrintInfoCard.fromEditingInformation(k, em, od),
+    FAVORITE_WIDGET_TYPE.BUS_STOPS: (k, em, od) => BusStopCard.fromEditingInformation(k, em, od)
   };
 
   @override

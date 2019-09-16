@@ -6,6 +6,7 @@ import 'package:app_feup/model/AppState.dart';
 import 'package:app_feup/model/entities/Bus.dart';
 import 'package:app_feup/model/entities/BusStop.dart';
 import 'package:app_feup/view/Widgets/PageTitle.dart';
+import 'package:app_feup/view/Widgets/RowContainer.dart';
 import 'package:flutter/material.dart';
 import '../Pages/SecondaryPageView.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -75,29 +76,39 @@ class _stopsListingState extends State<stopsListing>{
   Widget build(BuildContext context) {
     return ListView(
         children: <Widget>[
-          PageTitle(name: 'Paragens'),
-          Text("Current bus stops:"),
+          Container(
+            padding: EdgeInsets.only(bottom: 12.0, right: 22.0),
+            child: PageTitle(name: 'Paragens Configuradas')
+          ),
           Column(
-              mainAxisSize: MainAxisSize.max,
               children: List.generate(getConfiguredStops().length, (i) {
-                return Row(
-                    children: <Widget>[
-                      getConfiguredStops()[i],
-                      IconButton(
-                        icon: Icon(Icons.cancel),
-                        onPressed: () {
-                          db.removeBusStop(configuredStops[i]);
-                          this.updateConfiguredStops();
-                        },
+                return Container(
+                  padding: EdgeInsets.only(top: 8.0, bottom: 8.0, left: 40.0, right: 40.0),
+                  child: RowContainer(
+                      child: Container(
+                          padding: EdgeInsets.only(left: 60.0, right: 60.0),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                getConfiguredStops()[i],
+                                IconButton(
+                                  icon: Icon(Icons.cancel),
+                                  onPressed: () {
+                                    db.removeBusStop(configuredStops[i]);
+                                    this.updateConfiguredStops();
+                                  },
+                                )
+                              ]
+                          )
                       )
-                    ]
+                  )
                 );
               })
           ),
           Align(
               alignment: Alignment.center,
               child: RaisedButton(
-                  child: Text("Add Stop"),
+                  child: Text("Adicionar"),
                   onPressed: () {
                     showSearch(context: context, delegate: busStopSearch());
                   }

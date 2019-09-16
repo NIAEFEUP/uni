@@ -109,7 +109,12 @@ class _NextArrivalsState extends State<NextArrivals> with SingleTickerProviderSt
     return result;
   }
 
-  PageTitle getPageTitle() => new PageTitle(name: 'Paragens');
+  Container getPageTitle() {
+    return Container(
+        padding: EdgeInsets.only(bottom: 12.0, right: 22.0),
+        child: PageTitle(name: 'Paragens')
+    );
+  }
 
   List<Widget> RequestFailed(BuildContext context) {
     List<Widget> result = new List<Widget>();
