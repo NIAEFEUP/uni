@@ -200,7 +200,7 @@ ThunkAction<AppState> getUserFees(Completer<Null> action) {
     Map<String, String> query = {"pct_cod": store.state.content['session'].studentNumber};
 
     try{
-      var response = await NetworkRouter.getWithCookies(url, query, store.state.content['session']);
+      final response = await NetworkRouter.getWithCookies(url, query, store.state.content['session']);
 
       String feesBalance = await parseFeesBalance(response);
       store.dispatch(new SetFeesBalanceAction(feesBalance));
@@ -223,7 +223,7 @@ ThunkAction<AppState> getUserCoursesState(Completer<Null> action) {
     Map<String, String> query = {"pv_num_unico": store.state.content['session'].studentNumber};
 
     try{
-      var response = await NetworkRouter.getWithCookies(url, query, store.state.content['session']);
+      final response = await NetworkRouter.getWithCookies(url, query, store.state.content['session']);
 
       Map<String,String> coursesStates = await parseCourses(response);
 

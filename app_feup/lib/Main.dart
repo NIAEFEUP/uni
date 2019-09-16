@@ -23,8 +23,6 @@ import 'package:app_feup/redux/ActionCreators.dart';
 import 'package:app_feup/model/AppState.dart';
 import 'package:app_feup/controller/LifecycleEventHandler.dart';
 
-List<Exam> exams;
-
 final Store<AppState> state = Store<AppState>(
     appReducers, /* Function defined in the reducers file */
     initialState: new AppState(null),
