@@ -55,23 +55,17 @@ class MyAppState extends State<MyApp> {
           onGenerateRoute: (RouteSettings settings) {
             switch(settings.name) {
               case '/Área Pessoal':
-                return MaterialPageRoute(builder: (context) => HomePageView());
-                break;
+                return MaterialPageRoute(builder: (context) => HomePageView(), settings: settings);
               case '/Horário':
-                return MaterialPageRoute(builder: (context) => SchedulePage());
-                break;
+                return MaterialPageRoute(builder: (context) => SchedulePage(), settings: settings);
               case '/Mapa de Exames':
-                return MaterialPageRoute(builder: (context) => ExamsPageView());
-                break;
+                return MaterialPageRoute(builder: (context) => ExamsPageView(), settings: settings);
               case '/Sobre':
-                return MaterialPageRoute(builder: (context) => AboutPageView());
-                break;
+                return MaterialPageRoute(builder: (context) => AboutPageView(), settings: settings);
               case '/Bug Report':
-                return MaterialPageRoute(builder: (context) => BugReportPageView(), maintainState: false);
-                break;
+                return MaterialPageRoute(builder: (context) => BugReportPageView(), settings: settings, maintainState: false);
               case '/Terminar sessão':
                 return MaterialPageRoute(builder: (context) { logout(context); return LoginPage();});
-                break;
               }
             }
       ),
