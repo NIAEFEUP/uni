@@ -1,57 +1,154 @@
+import 'package:app_feup/model/AppState.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class GenericCard extends StatelessWidget {
-  GenericCard({Key key, @required this.title, this.child, this.func})
-      : super(key: key);
+abstract class GenericCard extends StatefulWidget {
+  GenericCard({Key key})
+      : editingMode = false,
+        onDelete = null,
+        super(key: key);
 
-  final String title;
-  final Widget child;
-  final double borderRadius = 15.0;
-  final VoidCallback func;
+  GenericCard.fromEditingInformation(
+      Key key, bool editingMode, Function onDelete)
+      : editingMode = editingMode,
+        onDelete = onDelete,
+        super(key: key);
+
+  final bool editingMode;
+  final Function onDelete;
+
+  @override
+  State<StatefulWidget> createState() {
+    return new GenericCardState();
+  }
+
+  Widget buildCardContent(BuildContext context);
+  String getTitle();
+  onClick(BuildContext context);
+
+  Text getInfoText(String text, BuildContext context) {
+    return Text(text == null ? "N/A" : text,
+        textAlign: TextAlign.end, style: Theme.of(context).textTheme.display2);
+  }
+
+  showLastRefreshedTime(time, context) {
+    if (time == null) return Text("N/A");
+    var t = DateTime.parse(time);
+    return Container(
+        child: Text(
+            "última atualização às " +
+                t.hour.toString() +
+                ":" +
+                t.minute.toString(),
+            style: Theme.of(context).textTheme.display3),
+        alignment: Alignment.center);
+  }
+
+
+  Widget getCardContentBasedOnRequestStatus(BuildContext context, RequestStatus status, Function contentGenerator, content, bool contentChecker) {
+    switch (status) {
+      case RequestStatus.SUCCESSFUL:
+        return contentGenerator(content, context);
+      case RequestStatus.BUSY:
+        return contentChecker ?
+        contentGenerator(content, context)
+            : Center(child: CircularProgressIndicator());
+      case RequestStatus.FAILED:
+        return contentChecker ?
+        contentGenerator(content, context)
+            : Center(child: Text(
+            "Comunication error. Please check your internet connection.",
+            style: Theme
+                .of(context)
+                .textTheme
+                .display1));
+      default:
+        return Container();
+    }
+  }
+}
+
+class GenericCardState extends State<GenericCard> {
+  final double borderRadius = 10.0;
+  final double padding = 12.0;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        onTap: () {
-          if (func != null) func();
-        },
+        onTap: () => widget.onClick(context),
         child: Card(
-          margin: EdgeInsets.fromLTRB(12, 12, 12, 0),
-          color: Color.fromARGB(0, 0, 0, 0),
-          shape: new RoundedRectangleBorder(
-              borderRadius: new BorderRadius.circular(this.borderRadius)),
-          child: new Container(
-            decoration: BoxDecoration(
-                color: Theme.of(context).accentColor,
-                border: Border.all(
-                    width: 0.5, color: Color.fromARGB(64, 0x46, 0x46, 0x46)),
-                borderRadius:
-                    BorderRadius.all(Radius.circular(this.borderRadius))),
-            child: new Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                new Container(
-                  child: Text(title, style: Theme.of(context).textTheme.title),
-                  height: 26,
-                  alignment: Alignment.centerLeft,
-                  padding: EdgeInsets.fromLTRB(20, 4, 0, 4),
+            margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+            color: Color.fromARGB(0, 0, 0, 0),
+            elevation: 0,
+            shape: new RoundedRectangleBorder(
+                borderRadius: new BorderRadius.circular(this.borderRadius)),
+            child: new Container(
+              decoration: BoxDecoration(
+                  boxShadow: [
+                    new BoxShadow(
+                        color: Color.fromARGB(0x0c, 0, 0, 0),
+                        blurRadius: 7.0,
+                        offset: Offset(0.0, 1.0))
+                  ],
+                  color: Theme.of(context).accentColor,
+                  borderRadius:
+                      BorderRadius.all(Radius.circular(this.borderRadius))),
+              child: new ConstrainedBox(
+                constraints: new BoxConstraints(
+                  minHeight: 60.0,
                 ),
-                new ConstrainedBox(
-                  constraints: new BoxConstraints(
-                    minHeight: 60.0,
-                  ),
-                  child: new Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(
-                            Radius.circular(this.borderRadius))),
-                    width: (double.infinity),
-                    child: this.child,
+                child: new Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius:
+                          BorderRadius.all(Radius.circular(this.borderRadius))),
+                  width: (double.infinity),
+                  child: new Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      new Row(
+                        children: [
+                          Flexible(
+                              child: Container(
+                            child: Text(widget.getTitle(),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline
+                                    .apply(
+                                        fontSizeDelta: -53,
+                                        fontWeightDelta: -3)),
+                            alignment: Alignment.centerLeft,
+                            padding: EdgeInsets.only(left: 16),
+                            margin: EdgeInsets.only(top: 11, bottom: 11),
+                          )),
+                          this.getDeleteIcon(context)
+                        ].where((e) => e != null).toList(),
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      ),
+                      Container(
+                        padding: EdgeInsets.only(
+                            left: this.padding,
+                            right: this.padding,
+                            bottom: this.padding,
+                            top: 4.0),
+                        child: widget.buildCardContent(context),
+                      )
+                    ],
                   ),
                 ),
-              ],
-            ),
-          ),
-        ));
+              ),
+            )));
+  }
+
+  Widget getDeleteIcon(context) {
+    return (widget.editingMode != null && widget.editingMode)
+        ? IconButton(
+            iconSize: 22.0,
+            icon: Icon(Icons.delete),
+            tooltip: 'Unfavorite',
+            color: Theme.of(context).textTheme.title.color,
+            onPressed: widget.onDelete,
+          )
+        : null;
   }
 }

@@ -15,7 +15,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
   html: ^0.13.3+3
   flutter_redux: ^0.5.2
   redux_thunk: ^0.2.1
@@ -30,6 +29,7 @@ dependencies:
   cached_network_image: ^1.1.0
   flutter_svg: ^0.13.1
   synchronized: ^2.1.0
+  toast: ^0.1.5
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -40,6 +40,12 @@ dev_dependencies:
     sdk: flutter
 
   test: any
+  flutter_launcher_icons: "^0.7.3"
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/icon/icon.png"
 
 
 # For information on the generic Dart part of this file, see the
@@ -54,9 +60,26 @@ flutter:
   uses-material-design: true
 
   fonts:
-    - family: HelveticaNeue
+    - family: Raleway
       fonts:
-        - asset: assets/fonts/HelveticaNeue.ttf
+        - asset: assets/fonts/Raleway-Black.ttf
+          weight: 900
+        - asset: assets/fonts/Raleway-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Raleway-ExtraBold.ttf
+          weight: 800
+        - asset: assets/fonts/Raleway-ExtraLight.ttf
+          weight: 200
+        - asset: assets/fonts/Raleway-Light.ttf
+          weight: 300
+        - asset: assets/fonts/Raleway-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Raleway-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Raleway-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Raleway-Thin.ttf
+          weight: 100
 
   # To add assets to your application, add an assets section, like this:
   # assets:
@@ -65,6 +88,7 @@ flutter:
   assets:
    - assets/
    - assets/images/
+   - assets/env/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.

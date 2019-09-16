@@ -1,8 +1,9 @@
 import 'package:app_feup/model/AppState.dart';
 import 'package:app_feup/view/Pages/ProfilePageView.dart';
-import 'package:app_feup/model/entities/Profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+
+import 'entities/Course.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -17,9 +18,6 @@ class _ProfilePageState extends State<ProfilePage> {
   String name;
   String email;
   Map<String, String> currentState;
-  String printBalance;
-  String feesBalance;
-  String nextFeeLimitData;
   List<Course> courses;
 
   @override
@@ -28,9 +26,6 @@ class _ProfilePageState extends State<ProfilePage> {
     name = "";
     email = "";
     currentState = {};
-    printBalance = "";
-    feesBalance = "";
-    nextFeeLimitData = "";
     courses = [];
   }
 
@@ -41,9 +36,6 @@ class _ProfilePageState extends State<ProfilePage> {
       name: name,
       email: email,
       currentState: currentState,
-      printBalance: printBalance,
-      feesBalance: feesBalance,
-      nextFeeLimitData: nextFeeLimitData,
       courses: courses);
   }
 
@@ -66,18 +58,6 @@ class _ProfilePageState extends State<ProfilePage> {
             .of<AppState>(context)
             .state
             .content['profile'].courses;
-        printBalance = StoreProvider
-            .of<AppState>(context)
-            .state
-            .content['printBalance'];
-        feesBalance = StoreProvider
-            .of<AppState>(context)
-            .state
-            .content['feesBalance'];
-        nextFeeLimitData = StoreProvider
-            .of<AppState>(context)
-            .state
-            .content['feesLimit'];
       }
     });
   }

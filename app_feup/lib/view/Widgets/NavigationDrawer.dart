@@ -1,76 +1,82 @@
 import 'package:app_feup/view/Theme.dart';
 import 'package:flutter/material.dart';
 
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:app_feup/model/AppState.dart';
 
 class NavigationDrawer extends StatefulWidget {
+  final BuildContext parentContext;
+
+  NavigationDrawer({
+    @required this.parentContext
+  }){}
   @override
   State<StatefulWidget> createState() {
-    return new NavigationDrawerState();
+    return new NavigationDrawerState(parentContext: parentContext);
   }
 }
 
 class NavigationDrawerState extends State<NavigationDrawer> {
 
+  final BuildContext parentContext;
+
+  NavigationDrawerState({
+    @required this.parentContext
+  }){}
+
   static final drawerItems = [
     "Área Pessoal",
     "Horário",
-    "Classificações",
-    "Ementa",
     "Mapa de Exames",
-    "Parques",
-    "Mapa FEUP",
-    "About",
+    "Sobre",
+    "Bug Report"
   ];
+
+  getCurrentRoute() => ModalRoute.of(parentContext).settings.name == null ? 
+  drawerItems[0]:
+  ModalRoute.of(parentContext).settings.name.substring(1);
 
   _onSelectItem(int index) {
 
-    var prev = StoreProvider.of<AppState>(context).state.content["selected_page"];
+    final prev = getCurrentRoute();
 
     Navigator.of(context).pop();
 
-    if (prev != drawerItems[index])  // If not already in selected page
-      Navigator.pushReplacementNamed(context, '/' + drawerItems[index]);
+    if (prev != drawerItems[index]){
+      Navigator.pushNamed(context, '/' + drawerItems[index]);
+    }
   }
 
   _buildBorder(name) {
-    return (name == StoreProvider.of<AppState>(context).state.content["selected_page"])?  (const BoxDecoration( border: Border( bottom: BorderSide(width: 5.0, color: primaryColor)))) : null;
+    return (name == getCurrentRoute()) ? (const BoxDecoration( border: Border( bottom: BorderSide(width: 5.0, color: primaryColor)))) : null;
   }
 
-  Widget createSearchInputField()
-  {
+  Widget createLogOutOption() {
     return new ListTile(
-        title:
-        new Padding (
-            padding: const EdgeInsets.only(bottom: 20.0,),
-            child: new Row (
-                children: <Widget> [
-                  new Flexible (
-                    child: new TextField (
-                        decoration: new InputDecoration(
-                            hintText: "Pesquisa..."
-                        ),
-                    ),
-                  ),
-                ]
-            )
-        )
+      title: new Row(
+        children: <Widget>[
+          new Container(
+            decoration: _buildBorder("Terminar sessão"),
+            child: new Text("Terminar sessão",
+                style: TextStyle(fontSize: 24.0, color: primaryColor)),
+          ),
+        ],
+      ),
+      onTap: () => Navigator.pushReplacementNamed(context, '/Terminar sessão'),
     );
   }
 
   Widget createDrawerNavigationOption(String d, int i) {
+    print(getCurrentRoute().toString());
     return new ListTile(
-      title:
-      new Row(
+      title: new Row(
         children: <Widget>[
           new Container(
             decoration: _buildBorder(d),
-            child: new Text(d, style: TextStyle(fontSize: 24.0, color: primaryColor)),
+            child: new Text(d,
+                style: TextStyle(fontSize: 24.0, color: primaryColor)),
           ),
         ],
       ),
-      selected: d == StoreProvider.of<AppState>(context).state.content["selected_page"],
+      selected: d == getCurrentRoute(),
       onTap: () => _onSelectItem(i),
     );
   }
@@ -79,19 +85,25 @@ class NavigationDrawerState extends State<NavigationDrawer> {
   Widget build(BuildContext context) {
     List<Widget> drawerOptions = [];
 
-    drawerOptions.add(createSearchInputField());
-
     for (var i = 0; i < drawerItems.length; i++) {
       drawerOptions.add(createDrawerNavigationOption(drawerItems[i], i));
     }
 
     return new Drawer(
-        child: new Padding (
-          padding: EdgeInsets.all(20.0),
-          child: new ListView(
-            children: drawerOptions,
+        child: new Padding(
+      padding: EdgeInsets.all(20.0),
+      child: new Column(
+        children: <Widget>[
+          Flexible(
+            child: new ListView(
+              children: drawerOptions,
+            ),
           ),
-        )
-    );
+          Container(
+            child: createLogOutOption(),
+          ),
+        ],
+      ),
+    ));
   }
 }

@@ -1,13 +1,13 @@
+import 'package:app_feup/controller/Logout.dart';
 import 'package:app_feup/model/SchedulePageModel.dart';
 import 'package:app_feup/model/entities/Exam.dart';
 import 'package:app_feup/view/NavigationService.dart';
 import 'package:app_feup/view/Pages/ClassificationsPageView.dart';
 import 'package:app_feup/view/Pages/ExamsPageView.dart';
 import 'package:app_feup/view/Pages/HomePageView.dart';
-import 'package:app_feup/view/Pages/MapPageView.dart';
-import 'package:app_feup/view/Pages/MenuPageView.dart';
-import 'package:app_feup/view/Pages/ParkPageView.dart';
+import 'package:app_feup/model/LoginPageModel.dart';
 import 'package:app_feup/view/Pages/AboutPageView.dart';
+import 'package:app_feup/view/Pages/BugReportPageView.dart';
 import 'package:app_feup/controller/Middleware.dart';
 import 'package:flutter/material.dart';
 import 'package:app_feup/view/Pages/SplashPageView.dart';
@@ -19,7 +19,6 @@ import 'view/Theme.dart';
 import 'model/AppState.dart';
 import 'package:redux/redux.dart';
 import 'redux/Reducers.dart';
-import 'package:app_feup/redux/ActionCreators.dart';
 import 'package:app_feup/model/AppState.dart';
 import 'package:app_feup/controller/LifecycleEventHandler.dart';
 
@@ -39,64 +38,44 @@ class MyApp extends StatefulWidget {
   State<StatefulWidget> createState() {
     return MyAppState();
   }
-
 }
 
 class MyAppState extends State<MyApp> {
-
+  
   WidgetsBindingObserver lifeCycleEventHandler;
 
   @override
   Widget build(BuildContext context) {
-   SystemChrome.setPreferredOrientations([
+    SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);
-   return StoreProvider(
-    store: state,
-    child: MaterialApp(
-        title: 'App FEUP',
-        theme: applicationTheme,
-        home: SplashScreen(),
-        navigatorKey: NavigationService.navigatorKey,
-        routes: {
-            '/Área Pessoal': (context) {
-              StoreProvider.of<AppState>(context).dispatch(updateSelectedPage("Área Pessoal"));
-              return HomePageView();
-            },
-            '/Horário': (context) {
-              StoreProvider.of<AppState>(context).dispatch(updateSelectedPage("Horário"));
-              return SchedulePage();
-            },
-            '/Classificações': (context) {
-              StoreProvider.of<AppState>(context).dispatch(updateSelectedPage("Classificações"));
-              return ClassificationsPageView();
-            },
-            '/Ementa': (context) {
-              StoreProvider.of<AppState>(context).dispatch(updateSelectedPage("Ementa"));
-              return MenuPageView();
-            },
-            '/Mapa de Exames': (context) {
-              StoreProvider.of<AppState>(context).dispatch(updateSelectedPage("Mapa de Exames"));
-              return ExamsPageView();
-            },
-            '/Parques': (context) {
-              StoreProvider.of<AppState>(context).dispatch(updateSelectedPage("Parques"));
-              return ParkPageView();
-            },
-            '/Mapa FEUP': (context) {
-              StoreProvider.of<AppState>(context).dispatch(updateSelectedPage("Mapa FEUP"));
-              return MapPageView();
-            },
-            '/About': (context) {
-              StoreProvider.of<AppState>(context).dispatch(updateSelectedPage("About"));
-              return AboutPageView();
-            },
-            '/Login': (context) {
-              return LoginPage();
+    return StoreProvider(
+      store: this.state,
+      child: MaterialApp(
+          title: 'App FEUP',
+          theme: applicationTheme,
+          home: SplashScreen(),
+
+          // ignore: missing_return
+          onGenerateRoute: (RouteSettings settings) {
+            switch(settings.name) {
+              case '/Área Pessoal':
+                return MaterialPageRoute(builder: (context) => HomePageView(), settings: settings);
+              case '/Horário':
+                return MaterialPageRoute(builder: (context) => SchedulePage(), settings: settings);
+              case '/Mapa de Exames':
+                return MaterialPageRoute(builder: (context) => ExamsPageView(), settings: settings);
+              case '/Sobre':
+                return MaterialPageRoute(builder: (context) => AboutPageView(), settings: settings);
+              case '/Bug Report':
+                return MaterialPageRoute(builder: (context) => BugReportPageView(), settings: settings, maintainState: false);
+              case '/Terminar sessão':
+                return MaterialPageRoute(builder: (context) { logout(context); return LoginPage();});
+              }
             }
-        },
-    )
-  );}
+      ),
+    );
+  }
 
   @override
   void initState() {
@@ -111,5 +90,3 @@ class MyAppState extends State<MyApp> {
     super.dispose();
   }
 }
-
-
