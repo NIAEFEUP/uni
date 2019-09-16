@@ -107,7 +107,7 @@ class BugReportFormState extends State<BugReportForm> {
   Widget BugReportTitle(BuildContext context) {
     return new Container(
         alignment: Alignment.center,
-        margin: new EdgeInsets.symmetric(vertical: 10.0, horizontal: 40),
+        margin: new EdgeInsets.symmetric(vertical: 10.0, horizontal: 20),
         child: new Row(
           children: <Widget>[
             Icon(
@@ -243,11 +243,11 @@ class BugReportFormState extends State<BugReportForm> {
         clearForm();
 
         Navigator.pop(context);
-        setState(() { _isButtonTapped = false; });
       };
 
       FocusScope.of(context).requestFocus(new FocusNode());
       displayBugToast(msg);
+      setState(() { _isButtonTapped = false; });
 
     }).catchError((error) {
       print(error);
