@@ -49,7 +49,7 @@ class MyAppState extends State<MyApp> {
     return StoreProvider(
       store: this.state,
       child: MaterialApp(
-          title: 'App FEUP',
+          title: 'UNI',
           theme: applicationTheme,
           home: SplashScreen(),
 
