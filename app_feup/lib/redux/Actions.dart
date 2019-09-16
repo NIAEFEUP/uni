@@ -4,6 +4,7 @@ import 'package:app_feup/model/entities/Exam.dart';
 import 'package:app_feup/model/entities/Lecture.dart';
 import 'package:app_feup/model/entities/Profile.dart';
 import 'package:app_feup/model/entities/Session.dart';
+import 'package:app_feup/model/HomePageModel.dart';
 
 import '../model/entities/BusStop.dart';
 
@@ -34,17 +35,17 @@ class SetScheduleAction{
 
 class SetScheduleStatusAction{
   RequestStatus status;
-  SetScheduleStatusAction(this.status);
-}
-
-class UpdateSelectedPageAction {
-  String selected_page;
-  UpdateSelectedPageAction(this.selected_page);
+    SetScheduleStatusAction(this.status);
 }
 
 class SaveProfileAction {
   Profile profile;
   SaveProfileAction(this.profile);
+}
+
+class SaveProfileStatusAction{
+  RequestStatus status;
+  SaveProfileStatusAction(this.status);
 }
 
 class SaveUcsAction {
@@ -57,6 +58,11 @@ class SetPrintBalanceAction {
   SetPrintBalanceAction(this.printBalance);
 }
 
+class SetPrintBalanceStatusAction {
+  RequestStatus status;
+  SetPrintBalanceStatusAction(this.status);
+}
+
 class SetFeesBalanceAction {
   String feesBalance;
   SetFeesBalanceAction(this.feesBalance);
@@ -65,6 +71,11 @@ class SetFeesBalanceAction {
 class SetFeesLimitAction{
   String feesLimit;
   SetFeesLimitAction(this.feesLimit);
+}
+
+class SetFeesStatusAction {
+  RequestStatus status;
+  SetFeesStatusAction(this.status);
 }
 
 class SetCoursesStatesAction{
@@ -87,7 +98,32 @@ class SetBusStopTimeStampAction{
   SetBusStopTimeStampAction(this.timeStamp);
 }
 
-class SetCurrentTimeAction{
+class SetCurrentTimeAction {
   DateTime currentTime;
   SetCurrentTimeAction(this.currentTime);
+}
+
+class UpdateFavoriteCards {
+  List<FAVORITE_WIDGET_TYPE> favoriteCards;
+  UpdateFavoriteCards(this.favoriteCards);
+}
+
+class SetCoursesStatesStatusAction{
+  RequestStatus status;
+  SetCoursesStatesStatusAction(this.status);
+}
+
+class SetPrintRefreshTimeAction {
+  String time;
+  SetPrintRefreshTimeAction(this.time);
+}
+
+class SetFeesRefreshTimeAction {
+  String time;
+  SetFeesRefreshTimeAction(this.time);
+}
+
+class SetHomePageEditingMode {
+  bool state;
+  SetHomePageEditingMode(this.state);
 }

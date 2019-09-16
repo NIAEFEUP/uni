@@ -9,7 +9,6 @@ import 'package:redux/redux.dart';
 
 
 Future loadUserInfoToState(store) {
-
   loadLocalUserInfoToState(store);
   return loadRemoteUserInfoToState(store);
 
@@ -30,20 +29,27 @@ Future loadRemoteUserInfoToState(Store<AppState> store){
       coursesStates = new Completer(),
       busStops = new Completer();
   store.dispatch(getUserInfo(userInfo));
-  store.dispatch(getUserExams(exams));
   store.dispatch(getUserSchedule(schedule));
   store.dispatch(getUserPrintBalance(printBalance));
   store.dispatch(getUserFees(fees));
   store.dispatch(getUserCoursesState(coursesStates));
   store.dispatch(setUserBusStops(busStops));
+  userInfo.future.then( (value) =>store.dispatch(getUserExams(exams)));
   return Future.wait([exams.future, schedule.future, printBalance.future, fees.future, coursesStates.future, userInfo.future, busStops.future]);
 }
 
 void loadLocalUserInfoToState(store) async {
+  store.dispatch(UpdateFavoriteCards(await AppSharedPreferences.getFavoriteCards()));
   Tuple2<String, String> userPersistentInfo = await AppSharedPreferences.getPersistentUserInfo();
   if(userPersistentInfo.item1 != "" && userPersistentInfo.item2 != "") {
+    store.dispatch(updateStateBasedOnLocalProfile());
     store.dispatch(updateStateBasedOnLocalUserExams());
     store.dispatch(updateStateBasedOnLocalUserLectures());
+    store.dispatch(updateStateBasedOnLocalRefreshTimes());
+    store.dispatch(SaveProfileStatusAction(RequestStatus.SUCCESSFUL));
+    store.dispatch(SetPrintBalanceStatusAction(RequestStatus.SUCCESSFUL));
+    store.dispatch(SetFeesStatusAction(RequestStatus.SUCCESSFUL));
+    store.dispatch(SetCoursesStatesStatusAction(RequestStatus.SUCCESSFUL));
     store.dispatch(SetScheduleStatusAction(RequestStatus.SUCCESSFUL));
     store.dispatch(SetExamsStatusAction(RequestStatus.SUCCESSFUL));
   }

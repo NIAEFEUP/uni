@@ -33,7 +33,7 @@ class ScheduleRow extends StatelessWidget{
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               new ScheduleTimeInterval(begin: this.begin, end: this.end),
-              new ScheduleEventRectangle(subject: this.subject, teacher: this.teacher, type: this.type),
+              new ScheduleEventRectangle(subject: this.subject, type: this.type),
               new Container(
                 margin: EdgeInsets.only(top: 12.0, bottom: 12.0),
                 child: new Column(

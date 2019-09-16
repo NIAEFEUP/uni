@@ -22,6 +22,10 @@ class AppState {
       "busstopStatus" : RequestStatus.NONE,
       "timeStamp" : new DateTime.now(),
       "currentTime" : new DateTime.now(),
+      "profileStatus": RequestStatus.NONE,
+      "printBalanceStatus": RequestStatus.NONE,
+      "feesStatus": RequestStatus.NONE,
+      "coursesStateStatus": RequestStatus.NONE,
     };
   }
 

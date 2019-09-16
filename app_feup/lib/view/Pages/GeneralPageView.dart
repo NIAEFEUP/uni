@@ -93,9 +93,23 @@ abstract class GeneralPageView extends StatelessWidget {
             ),
           ),
         ],),
-      drawer: new NavigationDrawer(),
+      drawer: new NavigationDrawer(parentContext: context),
       body: this.refreshState(context, body),
     );
   }
+    
+Widget getTopRightButton(BuildContext context) {
+  return FlatButton(
+        onPressed: () => {Navigator.push(context,new MaterialPageRoute(builder: (__) => new ProfilePage()))},
+        child: Container(
+            width: 40.0,
+            height: 40.0,
+            decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                image: buildDecorageImage(context)
+            )
+        ),
+      );
+}
 
 }

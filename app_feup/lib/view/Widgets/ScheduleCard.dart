@@ -6,45 +6,36 @@ import 'package:app_feup/view/Widgets/ScheduleSlot.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter/material.dart';
 
-class ScheduleCard extends StatelessWidget {
+class ScheduleCard extends GenericCard {
+
+  ScheduleCard({Key key}) : super(key: key);
+
+  ScheduleCard.fromEditingInformation(Key key, bool editingMode, Function onDelete):super.fromEditingInformation(key, editingMode, onDelete);
+
   final double borderRadius = 12.0;
   final double leftPadding = 12.0;
   final List<Lecture> lectures = new List<Lecture>();
 
-  ScheduleCard(
-      {Key key})
-      : super(key: key){
-    lectures.add(new Lecture("IART", "T", 0, 32400, 3, "B213", "LPR"));
-    lectures.add(new Lecture("LBAW", "TP", 0, 37800, 3, "B213", "TBS"));
-  }
-
   @override
-  Widget build(BuildContext context) {
+  Widget buildCardContent(BuildContext context) {
     return StoreConnector<AppState, List<dynamic>>(
         converter: (store) => store.state.content['schedule'],
-        builder: (context, lectures){
-          return GenericCard(
-              title: "Horário",
-              func: () => Navigator.pushReplacementNamed(context, '/Horário'),
-              child:
-                getCardContent(context, this.lectures)
-          );
-        }
+        builder: (context, lectures) => getCardContent(context, lectures)
     );
   }
-  
+
   Widget getCardContent(BuildContext context, lectures){
     switch (StoreProvider.of<AppState>(context).state.content['scheduleStatus']){
       case RequestStatus.SUCCESSFUL:
-         return lectures.length >= 1 ?
-          Container(
-              child: new Column(
-                mainAxisSize: MainAxisSize.min,
-                children: getScheduleRows(context, lectures),
-              ))
-          : Center(
-            child: Text("No lectures or classes to show at the moment")
-          );
+        return lectures.length >= 1 ?
+        Container(
+            child: new Column(
+              mainAxisSize: MainAxisSize.min,
+              children: getScheduleRows(context, lectures),
+            ))
+            : Center(
+            child: Text("No lectures or classes to show at the moment", style: Theme.of(context).textTheme.display1, textAlign: TextAlign.center)
+        );
       case RequestStatus.BUSY:
         return Center(child: CircularProgressIndicator());
       case RequestStatus.FAILED:
@@ -59,10 +50,11 @@ class ScheduleCard extends StatelessWidget {
         break;
       default:
         return Container();
-      } 
+    }
   }
 
   List<Widget> getScheduleRows(context, List<Lecture> lectures){
+
     if (lectures.length >= 2){  // In order to display lectures of the next week
       Lecture lecturefirstCycle = Lecture.clone(lectures[0]);
       lecturefirstCycle.day += 7;
@@ -77,8 +69,9 @@ class ScheduleCard extends StatelessWidget {
     var added = 0; // Lectures added to widget
     var lastDayAdded = 0; // Day of last added lecture
     var stringTimeNow = (now.weekday-1).toString().padLeft(2, '0') +
-                        now.hour.toString().padLeft(2, '0') + ":" +
-                        now.minute.toString().padLeft(2, '0');  // String with current time within the week
+
+    now.hour.toString().padLeft(2, '0') + ":" +
+    now.minute.toString().padLeft(2, '0');  // String with current time within the week
 
     for(int i = 0; added < 2 && i < lectures.length; i++){
       var stringEndTimeLecture = lectures[i].day.toString().padLeft(2, '0') + lectures[i].endTime; // String with end time of lecture
@@ -114,4 +107,10 @@ class ScheduleCard extends StatelessWidget {
         )
     );
   }
+
+  @override
+  String getTitle() => "Horário";
+
+  @override
+  onClick(BuildContext context) => Navigator.pushNamed(context, '/Horário');
 }

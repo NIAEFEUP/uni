@@ -9,18 +9,21 @@ import 'LastUpdateTimeStamp.dart';
 import 'RowContainer.dart';
 
 
-class BusStopCard extends StatelessWidget{
+class BusStopCard extends GenericCard {
+
+  BusStopCard.fromEditingInformation(Key key, bool editingMode, Function onDelete):super.fromEditingInformation(key, editingMode, onDelete);
+
   @override
-  Widget build(BuildContext context) {
+  String getTitle() => "Paragens";
+
+  @override
+  onClick(BuildContext context) => Navigator.pushNamed(context, '/Paragens');
+
+  @override
+  Widget buildCardContent(BuildContext context) {
     return StoreConnector<AppState, List<dynamic>>(
-      converter: (store) => store.state.content['busstops'],
-      builder: (context, busstops){
-        return GenericCard(
-            title: "Paragens",
-            func: () => Navigator.pushNamed(context, '/Paragens'),
-            child: getCardContent(context, busstops)
-        );
-      },
+        converter: (store) => store.state.content['busstops'],
+        builder: (context, busstops) => getCardContent(context, busstops)
     );
   }
 
