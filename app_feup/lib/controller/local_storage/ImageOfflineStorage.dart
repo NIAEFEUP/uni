@@ -17,7 +17,6 @@ Future<File> getImageFromNetwork(String url,  Map<String, String> headers) async
 }
 
 Future<File> retrieveImage(String url, Map<String, String> headers) async {
-  print("testing");
   var path = await _localPath;
   var connectivityResult = await (Connectivity().checkConnectivity());
   var hasInternetConnection = connectivityResult != ConnectivityResult.none;

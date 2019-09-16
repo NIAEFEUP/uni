@@ -2,6 +2,8 @@ import 'package:app_feup/model/AppState.dart';
 import 'package:app_feup/view/Pages/ProfilePageView.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'dart:io';
+import 'package:app_feup/controller/local_storage/ImageOfflineStorage.dart';
 
 import 'entities/Course.dart';
 
@@ -19,6 +21,7 @@ class _ProfilePageState extends State<ProfilePage> {
   String email;
   Map<String, String> currentState;
   List<Course> courses;
+  Future<DecorationImage> profilePicFile;
 
   @override
   void initState() {
@@ -27,19 +30,58 @@ class _ProfilePageState extends State<ProfilePage> {
     email = "";
     currentState = {};
     courses = [];
+    profilePicFile = null;
+
   }
 
   @override
   Widget build(BuildContext context) {
+    profilePicFile = this.buildDecorageImage(context);
     updateInfo();
-    return new ProfilePageView(
-      name: name,
-      email: email,
-      currentState: currentState,
-      courses: courses);
+    return FutureBuilder(future: profilePicFile,
+    builder: (BuildContext context,
+    AsyncSnapshot<DecorationImage> decorationImage){
+      return new ProfilePageView(
+          name: name,
+          email: email,
+          currentState: currentState,
+          courses: courses, profilePicFile: decorationImage.data);
+    });
+
   }
 
-  void updateInfo() {
+  Future<DecorationImage> buildDecorageImage(context) async {
+
+    String studentNo = StoreProvider.of<AppState>(context)
+        .state
+        .content['session']
+        .studentNumber ??
+        "";
+
+    if (studentNo != "") {
+      var x = await getProfileImage(context);
+      return DecorationImage(fit: BoxFit.cover, image: FileImage(x));
+    } else
+      return null;
+  }
+
+  Future<File> getProfileImage(BuildContext context) {
+    String studentNo = StoreProvider.of<AppState>(context)
+        .state
+        .content['session']
+        .studentNumber;
+    String url =
+        "https://sigarra.up.pt/feup/pt/fotografias_service.foto?pct_cod=" +
+            studentNo;
+
+    final Map<String, String> headers = Map<String, String>();
+    headers['cookie'] =
+        StoreProvider.of<AppState>(context).state.content['session'].cookies;
+
+    return retrieveImage(url, headers);
+  }
+
+  void updateInfo() async{
     setState(() {
       if(StoreProvider.of<AppState>(context).state.content['profile'] != null) {
         name = StoreProvider

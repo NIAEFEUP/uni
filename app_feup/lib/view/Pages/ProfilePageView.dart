@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:app_feup/model/entities/Course.dart';
 import 'package:app_feup/view/Pages/SecondaryPageView.dart';
 import 'package:app_feup/view/Widgets/AccountInfoCard.dart';
@@ -12,12 +14,13 @@ class ProfilePageView extends SecondaryPageView {
     @required this.name,
     @required this.email,
     @required this.currentState,
-    @required this.courses});
+    @required this.courses, @required this.profilePicFile});
 
   final String name;
   final String email;
   final Map<String, String> currentState;
   final List<Course> courses;
+  final DecorationImage profilePicFile;
 
   @override
   Widget getBody(BuildContext context) {
@@ -53,10 +56,6 @@ class ProfilePageView extends SecondaryPageView {
   }
 
   Widget profileInfo (BuildContext context){
-    return FutureBuilder(
-      future: buildDecorageImage(context),
-      builder: (BuildContext context,
-      AsyncSnapshot<DecorationImage> decorationImage) {
         return  Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -65,7 +64,7 @@ class ProfilePageView extends SecondaryPageView {
                 height: 150.0,
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    image: decorationImage.data
+                    image: profilePicFile
                 )
             ),
             Padding(padding: const EdgeInsets.all(8.0)),
@@ -90,7 +89,5 @@ class ProfilePageView extends SecondaryPageView {
             ),
           ],
         );
-      }
-    );
   }
 }
