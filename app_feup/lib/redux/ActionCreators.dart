@@ -155,7 +155,6 @@ ThunkAction<AppState> getUserExams(Completer<Null> action) {
   return (Store<AppState> store) async {
     try {
       //need to get student course here
-      store.state.content['session'].setCookies('cookies');
       store.dispatch(new SetExamsStatusAction(RequestStatus.BUSY));
 
       List<Exam> courseExams = new List<Exam>();
