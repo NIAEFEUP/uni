@@ -57,31 +57,31 @@ class MyAppState extends State<MyApp> {
           onGenerateRoute: (RouteSettings settings) {
             switch(settings.name) {
               case '/Área Pessoal':
-                return MaterialPageRoute(builder: (context) => HomePageView());
+                return MaterialPageRoute(builder: (context) => HomePageView(), settings: settings);
                 break;
               case '/Horário':
-                return MaterialPageRoute(builder: (context) => SchedulePage());
+                return MaterialPageRoute(builder: (context) => SchedulePage(), settings: settings);
                 break;
               case '/Classificações':
-                return MaterialPageRoute(builder: (context) => ClassificationsPageView());
+                return MaterialPageRoute(builder: (context) => ClassificationsPageView(), settings: settings);
                 break;
               case '/Ementa':
-                return MaterialPageRoute(builder: (context) => MenuPageView());
+                return MaterialPageRoute(builder: (context) => MenuPageView(), settings: settings);
                 break;
               case '/Mapa de Exames':
-                return MaterialPageRoute(builder: (context) => ExamsPageView());
+                return MaterialPageRoute(builder: (context) => ExamsPageView(), settings: settings);
                 break;
               case '/Parques':
-                return MaterialPageRoute(builder: (context) => ParkPageView());
+                return MaterialPageRoute(builder: (context) => ParkPageView(), settings: settings);
                 break;
               case '/Mapa FEUP':
-                return MaterialPageRoute(builder: (context) => MapPageView());
+                return MaterialPageRoute(builder: (context) => MapPageView(), settings: settings);
                 break;
               case '/About':
-                return MaterialPageRoute(builder: (context) => AboutPageView());
+                return MaterialPageRoute(builder: (context) => AboutPageView(), settings: settings);
                 break;
               case '/Bug Report':
-                return MaterialPageRoute(builder: (context) => BugReportPageView(), maintainState: false);
+                return MaterialPageRoute(builder: (context) => BugReportPageView(), settings: settings, maintainState: false);
                 break;
             }
           }
