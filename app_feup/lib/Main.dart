@@ -1,8 +1,6 @@
 import 'package:app_feup/controller/Logout.dart';
 import 'package:app_feup/model/SchedulePageModel.dart';
-import 'package:app_feup/model/entities/Exam.dart';
 import 'package:app_feup/view/NavigationService.dart';
-import 'package:app_feup/view/Pages/ClassificationsPageView.dart';
 import 'package:app_feup/view/Pages/ExamsPageView.dart';
 import 'package:app_feup/view/Pages/HomePageView.dart';
 import 'package:app_feup/model/LoginPageModel.dart';
@@ -50,12 +48,12 @@ class MyAppState extends State<MyApp> {
       DeviceOrientation.portraitUp,
     ]);
     return StoreProvider(
-      store: this.state,
+      store: state,
       child: MaterialApp(
           title: 'App FEUP',
           theme: applicationTheme,
           home: SplashScreen(),
-
+          navigatorKey: NavigationService.navigatorKey,
           // ignore: missing_return
           onGenerateRoute: (RouteSettings settings) {
             switch(settings.name) {

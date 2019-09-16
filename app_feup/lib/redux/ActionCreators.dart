@@ -155,6 +155,7 @@ ThunkAction<AppState> getUserExams(Completer<Null> action) {
   return (Store<AppState> store) async {
     try {
       //need to get student course here
+      store.state.content['session'].setCookies('cookies');
       store.dispatch(new SetExamsStatusAction(RequestStatus.BUSY));
 
       List<Exam> courseExams = new List<Exam>();
@@ -166,7 +167,7 @@ ThunkAction<AppState> getUserExams(Completer<Null> action) {
                         store.state.content['session']) +
                     "exa_geral.mapa_de_exames?p_curso_id=${course.id}",
                 {},
-                store.state.content['session'].cookies));
+                store.state.content['session']));
         courseExams = new List.from(courseExams)..addAll(currentCourseExams);
       }
 
@@ -222,7 +223,7 @@ ThunkAction<AppState> getUserSchedule(Completer<Null> action) {
                   "mob_hor_geral.estudante?pv_codigo=${store.state.content['session'].studentNumber}"
                       "&pv_semana_ini=$beginWeek&pv_semana_fim=$endWeek",
               {},
-              store.state.content['session'].cookies));
+              store.state.content['session']));
 
       // Updates local database according to the information fetched -- Lectures
       Tuple2<String, String> userPersistentInfo =
@@ -295,11 +296,9 @@ ThunkAction<AppState> getUserFees(Completer<Null> action) {
     Map<String, String> query = {
       "pct_cod": store.state.content['session'].studentNumber
     };
-    
-    String cookies = store.state.content['session'].cookies;
 
     try {
-      var response = await NetworkRouter.getWithCookies(url, query, cookies);
+      var response = await NetworkRouter.getWithCookies(url, query, store.state.content['session']);
 
       String feesBalance = await parseFeesBalance(response);
       String feesLimit = await parseFeesNextLimit(response);
@@ -341,10 +340,8 @@ ThunkAction<AppState> getUserCoursesState(Completer<Null> action) {
       "pv_num_unico": store.state.content['session'].studentNumber
     };
 
-    String cookies = store.state.content['session'].cookies;
-
     try {
-      var response = await NetworkRouter.getWithCookies(url, query, cookies);
+      var response = await NetworkRouter.getWithCookies(url, query, store.state.content['session']);
 
       Map<String, String> coursesStates = await parseCourses(response);
 
