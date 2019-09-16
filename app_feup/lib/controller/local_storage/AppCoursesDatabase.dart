@@ -8,7 +8,7 @@ class AppCoursesDatabase extends AppDatabase {
   AppCoursesDatabase():super('courses.db', 'CREATE TABLE courses(id INTEGER, fest_id INTEGER, name TEXT, abbreviation TEXT, currYear TEXT, firstEnrollment INTEGER, state TEXT)');
 
   saveNewCourses(List<Course> courses) async {
-    await _deleteCourses();
+    await deleteCourses();
     await _insertCourses(courses);
   }
 
@@ -43,7 +43,7 @@ class AppCoursesDatabase extends AppDatabase {
       );
   }
 
-  Future<void> _deleteCourses() async {
+  Future<void> deleteCourses() async {
     // Get a reference to the database
     final Database db = await this.getDatabase();
 

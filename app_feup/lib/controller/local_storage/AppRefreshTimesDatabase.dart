@@ -21,7 +21,7 @@ class AppRefreshTimesDatabase extends AppDatabase {
     return refreshTimes;
   }
 
-  Future<void> _deleteRefreshTimes() async {
+  Future<void> deleteRefreshTimes() async {
     // Get a reference to the database
     final Database db = await this.getDatabase();
 
