@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:app_feup/controller/local_storage/AppDatabase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:app_feup/model/AppState.dart';
