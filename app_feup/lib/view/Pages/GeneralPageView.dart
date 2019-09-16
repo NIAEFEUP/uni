@@ -18,9 +18,11 @@ abstract class GeneralPageView extends StatelessWidget {
     return new Container();
   }
 
-  Future<DecorationImage> buildDecorageImage(context) async {
-      var x = await loadProfilePic(StoreProvider.of<AppState>(context));
-      return DecorationImage(fit: BoxFit.cover, image: FileImage(x));
+  Future<DecorationImage> buildDecorageImage(context) async{
+    var x = await loadProfilePic( StoreProvider.of<AppState>(context));
+
+    return  DecorationImage(
+            fit: BoxFit.cover, image: FileImage(x));
   }
 
   Widget refreshState(BuildContext context, Widget child) {
@@ -38,7 +40,7 @@ abstract class GeneralPageView extends StatelessWidget {
     );
   }
 
-  Widget getScaffold(BuildContext context, Widget body) {
+  Widget getScaffold(BuildContext context, Widget body){
     MediaQueryData queryData = MediaQuery.of(context);
     return new Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
@@ -56,22 +58,22 @@ abstract class GeneralPageView extends StatelessWidget {
         backgroundColor: Theme.of(context).backgroundColor,
         titleSpacing: 0.0,
         title: ButtonTheme(
-            minWidth: 0,
-            padding: EdgeInsets.only(left: 0),
-            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            shape: RoundedRectangleBorder(),
-            child: FlatButton(
+          minWidth: 0,
+          padding: EdgeInsets.only(left: 0),
+          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          shape: RoundedRectangleBorder(),
+          child: FlatButton(
               onPressed: () => Navigator.pushNamed(context, '/Área Pessoal'),
               child: SvgPicture.asset(
-                'assets/images/logo_dark.svg',
-                height: queryData.size.height / 25,
-              ),
-            )),
+                    'assets/images/logo_dark.svg',
+                      height: queryData.size.height/25,
+
+            ),
+        )),
         actions: <Widget>[
-          getTopRightButton(context),
-        ],
-      ),
-      drawer: new NavigationDrawer(),
+          getTopRightButton(context),],
+        ),
+      drawer: new NavigationDrawer(parentContext: context),
       body: this.refreshState(context, body),
     );
   }
@@ -81,18 +83,16 @@ abstract class GeneralPageView extends StatelessWidget {
         future: buildDecorageImage(context),
         builder: (BuildContext context,
             AsyncSnapshot<DecorationImage> decorationImage) {
-          return FlatButton(
-            onPressed: () => {
-              Navigator.push(context,
-                  new MaterialPageRoute(builder: (__) => new ProfilePage()))
-            },
-            child: Container(
-                width: 40.0,
-                height: 40.0,
-                decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: decorationImage.data)),
-          );
-        });
-  }
+          returnFlatButton(
+          onPressed: () => {Navigator.push(context,new MaterialPageRoute(builder: (__) => new ProfilePage()))
+          },child: Container(
+              width: 40.0,
+              height: 40.0,
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: decorationImage.data
+          )),
+        );
+  });
+}
 }

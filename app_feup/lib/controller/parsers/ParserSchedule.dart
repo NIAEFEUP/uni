@@ -6,7 +6,7 @@ import 'dart:convert';
 Future<List<Lecture>> parseSchedule(http.Response response) async {
 
 
-  List<Lecture> lecturesList = new List();
+  Set<Lecture> lectures = new Set();
 
   var json = jsonDecode(response.body);
 
@@ -21,9 +21,11 @@ Future<List<Lecture>> parseSchedule(http.Response response) async {
     String room = lecture['sala_sigla'];
     String teacher = lecture['doc_sigla'];
 
-    lecturesList.add(Lecture(subject, typeClass, day, secBegin, blocks, room, teacher));
+    lectures.add(Lecture(subject, typeClass, day, secBegin, blocks, room, teacher));
   }
 
+  final lecturesList = lectures.toList();
+  
   lecturesList.sort((a, b) => a.compare(b));
 
   return lecturesList;

@@ -20,37 +20,30 @@ class ScheduleCard extends GenericCard {
   Widget buildCardContent(BuildContext context) {
     return StoreConnector<AppState, List<dynamic>>(
         converter: (store) => store.state.content['schedule'],
-        builder: (context, lectures) => getCardContent(context, lectures)
+        builder: (context, lectures) {
+          return super.getCardContentBasedOnRequestStatus(
+              context,
+              StoreProvider
+                  .of<AppState>(context)
+                  .state
+                  .content['scheduleStatus'],
+              generateSchedule,
+              lectures,
+              lectures != null && lectures.length > 0);
+        }
     );
   }
 
-  Widget getCardContent(BuildContext context, lectures){
-    switch (StoreProvider.of<AppState>(context).state.content['scheduleStatus']){
-      case RequestStatus.SUCCESSFUL:
-        return lectures.length >= 1 ?
-        Container(
-            child: new Column(
-              mainAxisSize: MainAxisSize.min,
-              children: getScheduleRows(context, lectures),
-            ))
-            : Center(
-            child: Text("No lectures or classes to show at the moment", style: Theme.of(context).textTheme.display1, textAlign: TextAlign.center)
-        );
-      case RequestStatus.BUSY:
-        return Center(child: CircularProgressIndicator());
-      case RequestStatus.FAILED:
-        if(lectures.length != 0)
-          return Container(
-              child: new Column(
-                mainAxisSize: MainAxisSize.min,
-                children: getScheduleRows(context, lectures),
-              )
-          );
-        else return Center(child: Text("Comunication error. Please check your internet connection."));
-        break;
-      default:
-        return Container();
-    }
+  Widget generateSchedule(lectures, context){
+    return lectures.length >= 1 ?
+    Container(
+        child: new Column(
+          mainAxisSize: MainAxisSize.min,
+          children: getScheduleRows(context, lectures),
+        ))
+        : Center(
+        child: Text("No lectures or classes to show at the moment", style: Theme.of(context).textTheme.display1, textAlign: TextAlign.center)
+    );
   }
 
   List<Widget> getScheduleRows(context, List<Lecture> lectures){
@@ -112,5 +105,5 @@ class ScheduleCard extends GenericCard {
   String getTitle() => "Horário";
 
   @override
-  onClick(BuildContext context) => Navigator.pushReplacementNamed(context, '/Horário');
+  onClick(BuildContext context) => Navigator.pushNamed(context, '/Horário');
 }

@@ -15,7 +15,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
   html: ^0.13.3+3
   flutter_redux: ^0.5.2
   redux_thunk: ^0.2.1

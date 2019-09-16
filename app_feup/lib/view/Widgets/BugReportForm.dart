@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:app_feup/view/Theme.dart' as theme;
-import 'package:app_feup/view/Widgets/BugPageTextWidget.dart';
+import 'package:app_feup/view/Widgets/FormTextField.dart';
 import 'package:toast/toast.dart';
 
 import 'package:flutter/cupertino.dart';
@@ -30,15 +30,17 @@ class BugReportFormState extends State<BugReportForm> {
   };
   List<DropdownMenuItem<int>> bugList = [];
 
-  int _selectedBug = 0;
-  final TextEditingController titleController = new TextEditingController();
-  final TextEditingController descriptionController = new TextEditingController();
+  static int _selectedBug = 0;
+  static final TextEditingController titleController = new TextEditingController();
+  static final TextEditingController descriptionController = new TextEditingController();
 
   final String postUrl = "https://api.github.com/repos/NIAEFEUP/project-schrodinger/issues";
   String ghToken = "";
 
+  bool _isButtonTapped = false;
+
   BugReportFormState() {
-    loadGHKey();
+    if (ghToken == "") loadGHKey();
     loadBugClassList();
   }
 
@@ -70,7 +72,7 @@ class BugReportFormState extends State<BugReportForm> {
     formWidget.add(BugReportIntro(context));
     formWidget.add(DropdownBugSelectWidget(context));
     formWidget.add(
-        new BugPageTextWidget(
+        new FormTextField(
             titleController,
             Icons.title,
             minLines: 1,
@@ -84,7 +86,7 @@ class BugReportFormState extends State<BugReportForm> {
     );
 
     formWidget.add(
-        new BugPageTextWidget(
+        new FormTextField(
             descriptionController,
             Icons.description,
             minLines: 1,
@@ -105,7 +107,7 @@ class BugReportFormState extends State<BugReportForm> {
   Widget BugReportTitle(BuildContext context) {
     return new Container(
         alignment: Alignment.center,
-        margin: new EdgeInsets.symmetric(vertical: 10.0, horizontal: 40),
+        margin: new EdgeInsets.symmetric(vertical: 10.0, horizontal: 20),
         child: new Row(
           children: <Widget>[
             Icon(
@@ -192,8 +194,9 @@ class BugReportFormState extends State<BugReportForm> {
         padding: EdgeInsets.symmetric(vertical: 10.0),
 
         onPressed: () {
-          if (_formKey.currentState.validate())
+          if (_formKey.currentState.validate() && !_isButtonTapped) {
             submitBugReport();
+          }
         },
 
         child: Text(
@@ -210,6 +213,7 @@ class BugReportFormState extends State<BugReportForm> {
 
 
   void submitBugReport() {
+    setState(() { _isButtonTapped = true; });
 
     String bugLabel = bugDescriptions[_selectedBug] == null ? "Unidentified bug" : bugDescriptions[_selectedBug].item2;
     Map data = {
@@ -236,11 +240,14 @@ class BugReportFormState extends State<BugReportForm> {
         print("Successfully submitted bug report.");
         msg = "Enviado com sucesso";
 
-        Navigator.pushReplacementNamed(context, '/Área Pessoal');
+        clearForm();
+
+        Navigator.pop(context);
       };
 
       FocusScope.of(context).requestFocus(new FocusNode());
       displayBugToast(msg);
+      setState(() { _isButtonTapped = false; });
 
     }).catchError((error) {
       print(error);
@@ -248,6 +255,7 @@ class BugReportFormState extends State<BugReportForm> {
 
       String msg = (error is SocketException) ? "Falha de rede" : "Ocorreu um erro";
       displayBugToast(msg);
+      setState(() { _isButtonTapped = false; });
     });
   }
 
@@ -261,6 +269,15 @@ class BugReportFormState extends State<BugReportForm> {
       backgroundRadius: 16.0,
       textColor: Colors.white,
     );
+  }
+
+  void clearForm() {
+    titleController.clear();
+    descriptionController.clear();
+
+    setState(() {
+      _selectedBug = 0;
+    });
   }
   
   Future<Map<String, dynamic>> parseJsonFromAssets(String assetsPath) async {
