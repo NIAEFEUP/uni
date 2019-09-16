@@ -25,35 +25,25 @@ class ExamCard extends GenericCard{
   Widget buildCardContent(BuildContext context) {
     return StoreConnector<AppState, List<dynamic>>(
       converter: (store) => store.state.content['exams'],
-      builder: (context, exams) => getCardContent(context, exams)
+      builder: (context, exams) =>
+          super.getCardContentBasedOnRequestStatus(
+              context,
+              StoreProvider.of<AppState>(context).state.content['examsStatus'],
+              generateExams,
+              exams,
+              exams != null && exams.length > 0)
     );
   }
 
-  Widget getCardContent(BuildContext context, exams){
-    switch (StoreProvider.of<AppState>(context).state.content['examsStatus']){
-      case RequestStatus.SUCCESSFUL:
-        return exams.length >= 1 ?
-          new Column(
-                mainAxisSize: MainAxisSize.min,
-                children: this.getExamRows(context, exams),
-              )
-          : Center(
-            child: Text("No exams to show at the moment", style: Theme.of(context).textTheme.display1),
-          );
-      case RequestStatus.BUSY:
-        return Center(child: CircularProgressIndicator());
-        break;
-      case RequestStatus.FAILED:
-        if(exams.length != 0)
-          return new Column(
-                mainAxisSize: MainAxisSize.min,
-                children: this.getExamRows(context, exams),
-            );
-        else return Center(child: Text("Comunication error. Please check your internet connection.", style: Theme.of(context).textTheme.display1));
-        break;
-      default:
-        return Container();
-    }
+  Widget generateExams(exams, context){
+    return exams.length >= 1 ?
+    new Column(
+      mainAxisSize: MainAxisSize.min,
+      children: this.getExamRows(context, exams),
+    )
+        : Center(
+      child: Text("No exams to show at the moment", style: Theme.of(context).textTheme.display1),
+    );
   }
 
   List<Widget> getExamRows(context, exams){
