@@ -40,6 +40,7 @@ class stopsListing extends StatefulWidget {
 class _stopsListingState extends State<stopsListing>{
   List<BusStop> configuredStops = new List();
   AppBusStopDatabase db;
+  List<String> suggestionsList = new List();
 
   _stopsListingState() {
     this.getDatabase();
@@ -114,7 +115,7 @@ class _stopsListingState extends State<stopsListing>{
               child: RaisedButton(
                   child: Text("Adicionar"),
                   onPressed: () {
-                    showSearch(context: context, delegate: busStopSearch());
+                    showSearch(context: context, delegate: BusStopSearch());
                   }
               )
           )
@@ -122,13 +123,20 @@ class _stopsListingState extends State<stopsListing>{
         ]
     );
   }
+
+  getSuggestedStops(String query) async { 
+    final newSuggestions =  await NetworkRouter.getStopsByName(query);
+    this.setState(() {
+      this.suggestionsList = newSuggestions;
+    });
+  }
 }
 
-class busStopSearch extends SearchDelegate<String> {
+class BusStopSearch extends SearchDelegate<String> {
   List<String> suggestionsList = new List();
-  AppBusStopDatabase db;
+  AppBusStopDatabase db;  
 
-  busStopSearch() {
+  BusStopSearch() {
     this.getDatabase();
   }
 
@@ -159,46 +167,57 @@ class busStopSearch extends SearchDelegate<String> {
     return Container();
   }
 
+  Widget getSuggestionList(BuildContext context) {
+    return ListView.builder(
+          itemBuilder: (context, index) => ListTile(
+              onTap: () {
+                Navigator.pop(context);
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      BusesForm busesForm = BusesForm(this.suggestionsList[index].splitMapJoin(RegExp(r"\[[A-Z0-9_]+\]"), onMatch: (m) => '${m.group(0).substring(1, m.group(0).length-1)}', onNonMatch: (m) => ''), db);
+                      return AlertDialog(
+                          title: Text("Seleciona os autocarros dos quais queres informação:"),
+                          content: Container(
+                            child: busesForm,
+                            height: 200.0,
+                            width: 100.0,
+                          ),
+                          actions: [
+                            FlatButton(child: Text("Confirmar", style: Theme.of(context).textTheme.display1.apply(color: Theme.of(context).primaryColor),), onPressed: (){
+                              busesForm.addBusStop();
+                              Navigator.pop(context);
+                            }),
+                            FlatButton(child: Text("Cancelar", style: Theme.of(context).textTheme.display1.apply(color: Theme.of(context).primaryColor),), onPressed: () => Navigator.pop(context))
+                          ]
+                      );
+                    }
+                );
+              },
+              leading: Icon(Icons.directions_bus),
+              title: Text(this.suggestionsList[index])
+          ),
+          itemCount: min(this.suggestionsList.length-1,9),
+        );
+  }
+
   @override
   Widget buildSuggestions(BuildContext context) {
-    this.getStops();
-    return ListView.builder(
-      itemBuilder: (context, index) => ListTile(
-          onTap: () {
-            Navigator.pop(context);
-            showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  BusesForm busesForm = BusesForm(suggestionsList[index].splitMapJoin(RegExp(r"\[[A-Z0-9_]+\]"), onMatch: (m) => '${m.group(0).substring(1, m.group(0).length-1)}', onNonMatch: (m) => ''), db);
-                  return AlertDialog(
-                      title: Text("Seleciona os autocarros dos quais queres informação:"),
-                      content: Container(
-                        child: busesForm,
-                        height: 200.0,
-                        width: 100.0,
-                      ),
-                      actions: [
-                        FlatButton(child: Text("Confirmar", style: Theme.of(context).textTheme.display1.apply(color: Theme.of(context).primaryColor),), onPressed: (){
-                          busesForm.addBusStop();
-                          Navigator.pop(context);
-                        }),
-                        FlatButton(child: Text("Cancelar", style: Theme.of(context).textTheme.display1.apply(color: Theme.of(context).primaryColor),), onPressed: () => Navigator.pop(context))
-                      ]
-                  );
-                }
-            );
-          },
-          leading: Icon(Icons.directions_bus),
-          title: Text(suggestionsList[index])
-      ),
-      itemCount: min(suggestionsList.length-1,9),
+    return FutureBuilder<List<String>>(
+      future: this.getStops(),
+      builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot){
+        if(snapshot.connectionState == ConnectionState.done && !snapshot.hasError)
+          this.suggestionsList = snapshot.data;
+        return getSuggestionList(context);
+      }
     );
   }
 
-  void getStops() async {
+  Future<List<String>> getStops() async {
     if(query != "") {
-      this.suggestionsList = await NetworkRouter.getStopsByName(query);
+      return NetworkRouter.getStopsByName(query);
     }
+    return [];
   }
 }
 
