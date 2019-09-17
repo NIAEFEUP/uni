@@ -6,6 +6,8 @@ import 'package:toast/toast.dart';
 import '../../view/Theme.dart';
 import 'dart:async';
 
+import '../Widgets/HomePageBackButton.dart';
+
 class LoginPageView extends StatelessWidget {
   LoginPageView(
       {Key key,
