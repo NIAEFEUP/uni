@@ -23,7 +23,7 @@ Future<File> retrieveImage(String url, Map<String, String> headers) async {
 
   var targetPath = '$path/profile_pic.png';
   File file  = new File(targetPath);
-  if(hasInternetConnection){
+  if(hasInternetConnection && headers.isNotEmpty){
     return saveImage(targetPath, url, headers);
   }
   else if(file.existsSync()) {

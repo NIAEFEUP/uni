@@ -66,16 +66,13 @@ Future<void> handleRefresh(store) {
 }
 
 Future<File> loadProfilePic(Store<AppState> store) {
-  var returnValue = null;
   String studentNo = store.state.content['session'].studentNumber;
+  String url = "https://sigarra.up.pt/feup/pt/fotografias_service.foto?pct_cod=";
+  final Map<String, String> headers = Map<String, String>();
+
   if(studentNo != null) {
-    String url = "https://sigarra.up.pt/feup/pt/fotografias_service.foto?pct_cod=" + studentNo;
-
-    final Map<String, String> headers = Map<String, String>();
+    url += studentNo;
     headers['cookie'] = store.state.content['session'].cookies;
-
-    returnValue = retrieveImage(url, headers);
   }
-
-  return returnValue;
+  return retrieveImage(url, headers);
 }
