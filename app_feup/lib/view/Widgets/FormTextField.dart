@@ -54,6 +54,7 @@ class FormTextField extends StatelessWidget {
                         hintText: hintText,
                         hintStyle: Theme.of(context).textTheme.body1,
                         labelText: labelText,
+                        labelStyle: Theme.of(context).textTheme.body1,
                       ),
                       controller: controller,
                       validator: (value) {
