@@ -122,7 +122,7 @@ class BusStopCard extends GenericCard {
             )
         );
 
-        num_max_stops++;
+        num_max_stops--;
       }
     }
     return rows;

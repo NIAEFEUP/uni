@@ -11,6 +11,9 @@ import 'package:flutter/material.dart';
 import '../Pages/SecondaryPageView.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../Theme.dart' show darkGreyColor;
+
+
 class BusStopSelectionPage extends SecondaryPageView {
 
   final double borderRadius = 15.0;
@@ -93,6 +96,7 @@ class _stopsListingState extends State<stopsListing>{
                                 getConfiguredStops()[i],
                                 IconButton(
                                   icon: Icon(Icons.cancel),
+                                  color: darkGreyColor,
                                   onPressed: () {
                                     db.removeBusStop(configuredStops[i]);
                                     this.updateConfiguredStops();

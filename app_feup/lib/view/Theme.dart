@@ -5,13 +5,14 @@ const Color primaryColor = Color.fromARGB(255, 0x75, 0x17, 0x1e);
 const Color tonedDownPrimary = Color.fromARGB(255, 0xd5, 0x83, 0x89);
 const Color subtitleColor = Color.fromARGB(255, 0x5f, 0x5f, 0x5f);
 const Color accentColor = Color.fromARGB(255, 235, 235, 235);
+const Color darkGreyColor = Color.fromARGB(255, 210, 210, 210);
 const Color greyTextColor = Color.fromARGB(255, 0x26, 0x26, 0x26);
 const Color whiteTextColor = Color.fromARGB(255, 255, 255, 255);
 const Color bodyTitle = Color.fromARGB(255, 131, 131, 131);
 const Color greyBorder = Color.fromARGB(64, 0x46, 0x46, 0x46);
 const Color backgroundColor = Color.fromARGB(255, 0xfa, 0xfa, 0xfa);
 const Color toastColor = Color.fromARGB(255, 100, 100, 100);
-const Color lightGreyTextColor = Color.fromARGB(255, 150, 150, 150);
+const Color lightGreyTextColor = Color.fromARGB(255, 90, 90, 90);
 
 const Color divider = Color.fromARGB(255, 180, 180, 180);
 const Color hintColor = Colors.white;

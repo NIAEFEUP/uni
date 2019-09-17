@@ -74,6 +74,9 @@ class _NextArrivalsState extends State<NextArrivals> with SingleTickerProviderSt
           children: this.RequestFailed(context)
         );
         break;
+      default:
+        return new Container();
+        break;
     }
   }
 
@@ -140,7 +143,10 @@ class _NextArrivalsState extends State<NextArrivals> with SingleTickerProviderSt
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget> [
               new LastUpdateTimeStamp(),
-              new IconButton(icon: new Icon(Icons.settings), onPressed: ()=> Navigator.pushNamed(context, '/ConfigurarParagens')),
+              new IconButton(
+                  icon: new Icon(Icons.settings),
+                  color: Color.fromARGB(255, 215, 215, 215),
+                  onPressed: ()=> Navigator.pushNamed(context, '/ConfigurarParagens')),
             ]
         ),
       )

@@ -1,3 +1,4 @@
+import 'package:app_feup/view/Theme.dart';
 import 'package:tuple/tuple.dart';
 
 import '../../model/AppState.dart';
@@ -26,7 +27,7 @@ class LastUpdateTimeStamp extends StatelessWidget{
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.center,
         children : [
-          Text('Last refreshed $last_update_minutes minutes ago',style: Theme.of(context).textTheme.display1.apply(color: Colors.black))
+          Text('Last refreshed $last_update_minutes minutes ago',style: Theme.of(context).textTheme.display1.apply(color: greyTextColor))
         ]
     );
   }
