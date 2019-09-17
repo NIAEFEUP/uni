@@ -11,6 +11,9 @@ class BusStop{
     trips = new List();
   }
 
+  @override
+  String toString() => this.stopCode;
+
   void newTrips(List<Trip> trips){
     this.trips = trips;
   }

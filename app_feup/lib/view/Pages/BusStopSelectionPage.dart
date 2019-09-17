@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:app_feup/controller/local_storage/AppBusStopDatabase.dart';
@@ -5,6 +6,8 @@ import 'package:app_feup/controller/networking/NetworkRouter.dart';
 import 'package:app_feup/model/AppState.dart';
 import 'package:app_feup/model/entities/Bus.dart';
 import 'package:app_feup/model/entities/BusStop.dart';
+import 'package:app_feup/redux/ActionCreators.dart';
+import 'package:app_feup/redux/Actions.dart';
 import 'package:app_feup/view/Widgets/PageTitle.dart';
 import 'package:app_feup/view/Widgets/RowContainer.dart';
 import 'package:flutter/material.dart';
@@ -43,7 +46,7 @@ class _stopsListingState extends State<stopsListing>{
   List<String> suggestionsList = new List();
 
   _stopsListingState() {
-    this.getDatabase();
+    this.updateConfiguredStops();
   }
 
   Future<void> getDatabase() async {
@@ -56,10 +59,10 @@ class _stopsListingState extends State<stopsListing>{
     this.setState((){
       configuredStops = newStops;
     });
+    StoreProvider.of<AppState>(context).dispatch(new SetBusStopTripsAction(newStops));
   }
 
   List<Widget> getConfiguredStops() {
-    updateConfiguredStops();
     List<Widget> stops = new List();
     for (BusStop stop in configuredStops) {
       stops.add(Text(stop.getStopCode()));
@@ -67,13 +70,9 @@ class _stopsListingState extends State<stopsListing>{
     return stops;
   }
 
-  List<String> getConfiguredStopsStrings() {
-    updateConfiguredStops();
-    List<String> stops = new List();
-    for (BusStop stop in configuredStops) {
-      stops.add(stop.getStopCode());
-    }
-    return stops;
+  Future deleteStop(BusStop stop) async {
+    await db.removeBusStop(stop);
+    this.updateConfiguredStops();
   }
 
   @override
@@ -99,8 +98,7 @@ class _stopsListingState extends State<stopsListing>{
                                   icon: Icon(Icons.cancel),
                                   color: darkGreyColor,
                                   onPressed: () {
-                                    db.removeBusStop(configuredStops[i]);
-                                    this.updateConfiguredStops();
+                                    deleteStop(configuredStops[i]);
                                   },
                                 )
                               ]
@@ -184,8 +182,9 @@ class BusStopSearch extends SearchDelegate<String> {
                             width: 100.0,
                           ),
                           actions: [
-                            FlatButton(child: Text("Confirmar", style: Theme.of(context).textTheme.display1.apply(color: Theme.of(context).primaryColor),), onPressed: (){
-                              busesForm.addBusStop();
+                            FlatButton(child: Text("Confirmar", style: Theme.of(context).textTheme.display1.apply(color: Theme.of(context).primaryColor),), onPressed: () async {
+                              await busesForm.addBusStop();
+                              StoreProvider.of<AppState>(context).dispatch(setUserBusStops(new Completer()));
                               Navigator.pop(context);
                             }),
                             FlatButton(child: Text("Cancelar", style: Theme.of(context).textTheme.display1.apply(color: Theme.of(context).primaryColor),), onPressed: () => Navigator.pop(context))
@@ -231,8 +230,9 @@ class BusesForm extends StatefulWidget {
     state = _BusesFormState(stop, db);
   }
 
-  addBusStop() async {
+  Future<void> addBusStop() async {
     await db.addBusStop(stopToAdd);
+    return;
   }
 
   @override
@@ -285,7 +285,7 @@ class _BusesFormState extends State<BusesForm>{
     );
   }
 
-  Future updateBusStop() async {
+  void updateBusStop() {
     List<Bus> newBuses = new List();
     for(int i = 0; i < buses.length; i++) {
       if(busesToAdd[i]) {

@@ -13,9 +13,10 @@ import '../Theme.dart';
 class BusStopNextArrivalsPage extends SecondaryPageView{
   @override
   Widget getBody(BuildContext context){
-    return StoreConnector<AppState, List<dynamic>>(
+    return StoreConnector<AppState, List<BusStop>>(
       converter: (store) => store.state.content['busstops'],
-      builder: (context, busstops){
+      builder: (context, busstops) {
+        print("$busstops (in BusStopNextArrivalsPage builder");
         return new NextArrivals(busstops);
       }
     );

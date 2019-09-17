@@ -363,6 +363,8 @@ ThunkAction<AppState> setUserBusStops(Completer<Null> action){
         busStops.add(stop);
       }
 
+      print("$stops (in setUserBusStops)");
+
       DateTime time = new DateTime.now();
 
       store.dispatch(new SetBusStopTripsAction(busStops));

@@ -83,10 +83,10 @@ class MyAppState extends State<MyApp> {
                 return MaterialPageRoute(builder: (context) => MapPageView());
                 break;
               case '/Paragens':
-                return MaterialPageRoute(builder: (context) => BusStopNextArrivalsPage(), settings: settings);
+                return MaterialPageRoute(builder: (context) => BusStopNextArrivalsPage(), settings: settings, maintainState: false);
                 break;
               case '/ConfigurarParagens':
-                return MaterialPageRoute(builder: (context) => BusStopSelectionPage(), settings: settings);
+                return MaterialPageRoute(builder: (context) => BusStopSelectionPage(), settings: settings, maintainState: false);
                 break;
               case '/About':
                 return MaterialPageRoute(builder: (context) => AboutPageView());
