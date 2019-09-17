@@ -5,6 +5,7 @@ import 'package:app_feup/model/AppState.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:app_feup/controller/LoadInfo.dart';
 import 'package:app_feup/model/ProfilePageModel.dart';
+import 'dart:io';
 
 abstract class GeneralPageView extends StatelessWidget {
   final double borderMargin = 18.0;
@@ -18,11 +19,15 @@ abstract class GeneralPageView extends StatelessWidget {
     return new Container();
   }
 
-  Future<DecorationImage> buildDecorageImage(context) async{
-    var x = await loadProfilePic( StoreProvider.of<AppState>(context));
-
+  DecorationImage getDecorageImage(File x) {
+    var image = (x == null)? new AssetImage("assets/images/profile_placeholder.png") : new FileImage(x);
     return  DecorationImage(
-            fit: BoxFit.cover, image: FileImage(x));
+        fit: BoxFit.cover, image: image);
+  }
+
+  Future<DecorationImage> buildDecorageImage(context) async{
+    var storedFile = await loadProfilePic( StoreProvider.of<AppState>(context));
+    return getDecorageImage(storedFile);
   }
 
   Widget refreshState(BuildContext context, Widget child) {
@@ -83,7 +88,7 @@ abstract class GeneralPageView extends StatelessWidget {
         future: buildDecorageImage(context),
         builder: (BuildContext context,
             AsyncSnapshot<DecorationImage> decorationImage) {
-          returnFlatButton(
+          return FlatButton(
           onPressed: () => {Navigator.push(context,new MaterialPageRoute(builder: (__) => new ProfilePage()))
           },child: Container(
               width: 40.0,

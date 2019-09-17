@@ -64,7 +64,7 @@ class ProfilePageView extends SecondaryPageView {
                 height: 150.0,
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    image: DecorationImage(fit: BoxFit.cover, image: FileImage(profilePicFile))
+                    image: getDecorageImage(profilePicFile)
                 )
             ),
             Padding(padding: const EdgeInsets.all(8.0)),
