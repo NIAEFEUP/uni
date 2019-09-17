@@ -269,7 +269,7 @@ class _BusesFormState extends State<BusesForm>{
       children: List.generate(buses.length, (i) {
         return Row(
             children: <Widget>[
-              Text(buses[i].getBusCode()),
+              Text('[${buses[i].busCode}] ${buses[i].destination.length > 20 ? buses[i].destination.substring(0,20) + "..." : buses[i].destination}'),
               Checkbox(value: busesToAdd[i],
                   onChanged: (value) {
                     setState(() {

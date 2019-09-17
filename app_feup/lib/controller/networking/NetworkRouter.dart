@@ -88,15 +88,25 @@ class NetworkRouter {
     return http.get(url, headers: headers);
   }
 
-  static Future<List<String>> getStopsByName(String stop) async {
-    final String url = "https://www.stcp.pt/pt/itinerarium/callservice.php?action=srchstoplines&stopname=$stop";
-    http.Response response = await http.post(url);
-    var json = jsonDecode(response.body);
+  static Future<List<String>> getStopsByName(String stopCode) async {
     List<String> stopsList = new List();
-    for (var busKey in json) {
+
+    //Search by exact stopCode
+    final String url1 = "https://www.stcp.pt/pt/itinerarium/callservice.php?action=srchstoplines&stopcode=$stopCode";
+    http.Response response1 = await http.post(url1);
+    var json1 = jsonDecode(response1.body) as List;
+    if(json1.length != 0)
+      stopsList.add(json1[0]['name'] + " [" + json1[0]['code'] + "]");
+
+    //Search by aproximate name
+    final String url2 = "https://www.stcp.pt/pt/itinerarium/callservice.php?action=srchstoplines&stopname=$stopCode";
+    http.Response response2 = await http.post(url2);
+    var json2 = jsonDecode(response2.body);
+    for (var busKey in json2) {
       String stop = busKey['name'] + " [" + busKey['code'] + "]";
       stopsList.add(stop);
     }
+
     return stopsList;
   }
 
@@ -110,7 +120,7 @@ class NetworkRouter {
     for (var TripKey in json) {
       var trip = TripKey['Value'];
       String line = trip[0];
-      if(stop.getBuses().map((bus) => bus.getBusCode()).toList().contains(line)) {
+      if(stop.getBuses().map((bus) => bus.busCode).toList().contains(line)) {
         String destination = trip[1];
         String timeString = trip[2];
         if (timeString.substring(timeString.length - 1) == '*')

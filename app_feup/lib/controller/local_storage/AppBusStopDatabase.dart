@@ -67,7 +67,7 @@ class AppBusStopDatabase extends AppDatabase{
         await insertInDatabase(
           'busstops',
           {'stopCode': stop.getStopCode(),
-            'busCode': bus.getBusCode()
+            'busCode': bus.busCode
           },
           conflictAlgorithm: ConflictAlgorithm.replace,
         );

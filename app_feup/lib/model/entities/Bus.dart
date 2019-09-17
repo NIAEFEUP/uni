@@ -21,8 +21,4 @@ class Bus{
       'direction': direction
     };
   }
-
-  String getBusCode(){
-    return busCode;
-  }
 }
