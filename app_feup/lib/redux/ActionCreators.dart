@@ -49,7 +49,7 @@ ThunkAction<AppState> login(username, password, faculty, persistentSession) {
     try {
       store.dispatch(new SetLoginStatusAction(RequestStatus.BUSY));
       final Session session = await NetworkRouter.login(
-          username, password, faculty, persistentSession);
+          username, password, faculty, persistentSession).timeout(const Duration(seconds: 10));
       store.dispatch(new SaveLoginDataAction(session));
       if (session.authenticated) {
         store.dispatch(new SetLoginStatusAction(RequestStatus.SUCCESSFUL));
