@@ -18,7 +18,7 @@ import 'package:http/http.dart' as http;
 import 'package:redux/redux.dart';
 import 'package:tuple/tuple.dart';
 
-import '../TestableWidget.dart';
+import '../../TestableReduxWidget.dart';
 
 class MockClient extends Mock implements http.Client {}
 class MockResponse extends Mock implements http.Response {}
@@ -61,7 +61,7 @@ void main() {
       final Completer<Null> completer = new Completer();
       final actionCreator = getUserExams(completer, ParserExams(), Tuple2("", ""));
 
-      final widget = makeTestableWidget(child: ExamsPageView(), store: store);
+      final widget = TestableReduxWidget(child: ExamsPageView(), store: store);
 
       await tester.pumpWidget(widget);
 

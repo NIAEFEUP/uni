@@ -4,7 +4,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
 
-Widget makeTestableWidget({Widget child, Store<AppState> store}){
+Widget TestableReduxWidget({Widget child, Store<AppState> store}){
   return StoreProvider(
     child: 
       MaterialApp(
