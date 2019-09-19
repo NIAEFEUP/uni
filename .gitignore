@@ -5,6 +5,7 @@
 .packages
 .pub/
 build/
+*.bin
 
 app_feup/pubspec.lock
 .DS_Store
