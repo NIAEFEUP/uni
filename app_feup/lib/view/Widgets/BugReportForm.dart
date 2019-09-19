@@ -79,8 +79,8 @@ class BugReportFormState extends State<BugReportForm> {
             Icons.title,
             minLines: 1,
             maxLines: 2,
-            description: 'Identifica o bug que encontraste',
-            labelText: 'Título identificativo',
+            description: 'Título',
+            labelText: 'Breve identificação do problema',
             bottomMargin: 30.0,
         )
     );
@@ -91,8 +91,8 @@ class BugReportFormState extends State<BugReportForm> {
             Icons.description,
             minLines: 1,
             maxLines: 30,
-            description: 'Descreve o bug',
-            labelText: 'Descrição do bug encontrado',
+            description: 'Descrição',
+            labelText: 'Bug encontrado, como o reproduzir, etc',
             bottomMargin: 30.0,
         )
     );
