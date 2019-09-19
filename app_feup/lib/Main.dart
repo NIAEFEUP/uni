@@ -50,7 +50,7 @@ class MyAppState extends State<MyApp> {
     return StoreProvider(
       store: state,
       child: MaterialApp(
-          title: 'App FEUP',
+          title: 'uni',
           theme: applicationTheme,
           home: SplashScreen(),
           navigatorKey: NavigationService.navigatorKey,
