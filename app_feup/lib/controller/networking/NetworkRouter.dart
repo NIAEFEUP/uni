@@ -12,7 +12,7 @@ import 'package:synchronized/synchronized.dart';
 
 class NetworkRouter {
 
-  static const int timeout = 20;
+  static const int loginRequestTimeout = 20;
 
   static Lock loginLock = Lock();
 
@@ -23,7 +23,7 @@ class NetworkRouter {
     final String url =
         NetworkRouter.getBaseUrl(faculty) + 'mob_val_geral.autentica';
     final http.Response response =
-        await http.post(url, body: {"pv_login": user, "pv_password": pass}).timeout(const Duration(seconds: timeout));
+        await http.post(url, body: {"pv_login": user, "pv_password": pass}).timeout(const Duration(seconds: loginRequestTimeout));
     if (response.statusCode == 200) {
       final Session session = Session.fromLogin(response);
       session.persistentSession = persistentSession;
@@ -56,7 +56,7 @@ class NetworkRouter {
       final http.Response response = await http.post(url, body: {
         "pv_login": session.studentNumber,
         "pv_password": await AppSharedPreferences.getUserPassword(),
-      }).timeout(const Duration(seconds: timeout));
+      }).timeout(const Duration(seconds: loginRequestTimeout));
       if (response.statusCode == 200) {
         session.setCookies(NetworkRouter.extractCookies(response.headers));
         print('Re-login successful');
