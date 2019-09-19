@@ -111,7 +111,7 @@ class NetworkRouter {
   }
 
   static Future<List<Trip>> getNextArrivalsStop(BusStop stop) async {
-    final String url = "http://move-me.mobi/NextArrivals/GetScheds?providerName=STCP&stopCode=STCP_" + stop.getStopCode();
+    final String url = "http://move-me.mobi/NextArrivals/GetScheds?providerName=STCP&stopCode=STCP_" + stop.stopCode;
     http.Response response = await http.get(url);
     List<Trip> tripList = new List();
 
@@ -120,7 +120,7 @@ class NetworkRouter {
     for (var TripKey in json) {
       var trip = TripKey['Value'];
       String line = trip[0];
-      if(stop.getBuses().map((bus) => bus.busCode).toList().contains(line)) {
+      if(stop.buses.map((bus) => bus.busCode).toList().contains(line)) {
         String destination = trip[1];
         String timeString = trip[2];
         if (timeString.substring(timeString.length - 1) == '*')
@@ -128,7 +128,6 @@ class NetworkRouter {
         int timeRemaining = int.parse(timeString);
         Trip newTrip = Trip(
             line: line, destination: destination, timeRemaining: timeRemaining);
-        newTrip.printTrip();
         tripList.add(newTrip);
       }
     }

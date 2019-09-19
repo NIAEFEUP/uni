@@ -16,7 +16,6 @@ class BusStopNextArrivalsPage extends SecondaryPageView{
     return StoreConnector<AppState, List<BusStop>>(
       converter: (store) => store.state.content['busstops'],
       builder: (context, busstops) {
-        print("$busstops (in BusStopNextArrivalsPage builder");
         return new NextArrivals(busstops);
       }
     );

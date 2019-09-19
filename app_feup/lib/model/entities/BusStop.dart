@@ -7,7 +7,7 @@ class BusStop{
   List<Bus> buses;
   List<Trip> trips;
 
-  BusStop.secConstructor(this.stopCode, this.buses) {
+  BusStop(this.stopCode, this.buses) {
     trips = new List();
   }
 
@@ -22,17 +22,5 @@ class BusStop{
     return {
       'stopCode': stopCode,
     };
-  }
-
-  String getStopCode(){
-    return stopCode;
-  }
-
-  List<Trip> getTrips(){
-    return trips;
-  }
-
-  List<Bus> getBuses() {
-    return buses;
   }
 }

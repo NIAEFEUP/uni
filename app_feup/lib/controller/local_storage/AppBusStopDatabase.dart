@@ -18,7 +18,7 @@ class AppBusStopDatabase extends AppDatabase{
     final List<Map<String, dynamic>> maps = await db.query('busstops');
 
     /*return List.generate(maps.length, (i) {
-      return BusStop.secConstructor(maps[i]['stopCode'], maps[i]['busCode']); //returns string value in key i
+      return BusStop(maps[i]['stopCode'], maps[i]['busCode']); //returns string value in key i
     });*/
     if(maps.length == 0)
       return new List();
@@ -27,7 +27,7 @@ class AppBusStopDatabase extends AppDatabase{
     String prevStop = maps[0]['stopCode'];
     for(int i = 0; i < maps.length; i++) {
       if (maps[i]['stopCode'] != prevStop) {
-        stops.add(BusStop.secConstructor(prevStop, currentStopBuses));
+        stops.add(BusStop(prevStop, currentStopBuses));
         currentStopBuses.clear();
         prevStop = maps[i]['stopCode'];
         currentStopBuses.add(Bus.secConstructor(maps[i]['busCode']));
@@ -36,7 +36,7 @@ class AppBusStopDatabase extends AppDatabase{
         currentStopBuses.add(Bus.secConstructor(maps[i]['busCode']));
       }
       if (i == maps.length - 1) {
-        stops.add(BusStop.secConstructor(prevStop, currentStopBuses));
+        stops.add(BusStop(prevStop, currentStopBuses));
       }
     }
     return stops;
@@ -45,16 +45,16 @@ class AppBusStopDatabase extends AppDatabase{
   Future<void> addBusStop(BusStop newStop) async {
     List<BusStop> stops = await busStops();
     stops.add(newStop);
-    print("Adding " + newStop.getStopCode());
+    print("Adding " + newStop.stopCode);
     await _deleteBusStops();
     await _insertBusStops(stops);
   }
 
   Future<void> removeBusStop(BusStop removedStop) async {
     List<BusStop> stops = await busStops();
-    print("Removing " + removedStop.getStopCode());
+    print("Removing " + removedStop.stopCode);
     for (int i = 0; i < stops.length; i++) {
-      if(stops[i].getStopCode() == removedStop.getStopCode())
+      if(stops[i].stopCode == removedStop.stopCode)
         stops.remove(stops[i]);
     }
     await _deleteBusStops();
@@ -63,10 +63,10 @@ class AppBusStopDatabase extends AppDatabase{
 
   Future<void> _insertBusStops(List<BusStop> stops) async {
     for (BusStop stop in stops) {
-      for (Bus bus in stop.getBuses()) {
+      for (Bus bus in stop.buses) {
         await insertInDatabase(
           'busstops',
-          {'stopCode': stop.getStopCode(),
+          {'stopCode': stop.stopCode,
             'busCode': bus.busCode
           },
           conflictAlgorithm: ConflictAlgorithm.replace,

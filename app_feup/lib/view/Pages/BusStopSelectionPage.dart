@@ -7,7 +7,6 @@ import 'package:app_feup/model/AppState.dart';
 import 'package:app_feup/model/entities/Bus.dart';
 import 'package:app_feup/model/entities/BusStop.dart';
 import 'package:app_feup/redux/ActionCreators.dart';
-import 'package:app_feup/redux/Actions.dart';
 import 'package:app_feup/view/Widgets/PageTitle.dart';
 import 'package:app_feup/view/Widgets/RowContainer.dart';
 import 'package:flutter/material.dart';
@@ -22,117 +21,85 @@ class BusStopSelectionPage extends SecondaryPageView {
   final double borderRadius = 15.0;
   final DateTime now = new DateTime.now();
 
-  BusStopSelectionPage({Key key});
+  AppBusStopDatabase db;
+  List<BusStop> configuredStops = new List();
+  List<String> suggestionsList = new List();
+
+  BusStopSelectionPage() {
+    db = AppBusStopDatabase();
+  }
+
+  List<Widget> getStopsTextList() {
+    List<Widget> stops = new List();
+    for (BusStop stop in configuredStops) {
+      stops.add(Text(stop.stopCode));
+    }
+    return stops;
+  }
+
+  Future deleteStop(BuildContext context, BusStop stop) async {
+    await db.removeBusStop(stop);
+    StoreProvider.of<AppState>(context).dispatch(setUserBusStops(new Completer()));
+  }
 
   @override
   Widget getBody(BuildContext context) {
     return StoreConnector<AppState, List<dynamic>>(
       converter: (store) => store.state.content['busstops'],
       builder: (context, busStops) {
-        return stopsListing();
+        this.configuredStops = busStops;
+        return ListView(
+            children: <Widget>[
+              Container(
+                  padding: EdgeInsets.only(bottom: 12.0, right: 22.0),
+                  child: PageTitle(name: 'Paragens Configuradas')
+              ),
+              Column(
+                  children: List.generate(getStopsTextList().length, (i) {
+                    return Container(
+                        padding: EdgeInsets.only(top: 8.0, bottom: 8.0, left: 40.0, right: 40.0),
+                        child: RowContainer(
+                            child: Container(
+                                padding: EdgeInsets.only(left: 60.0, right: 60.0),
+                                child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      getStopsTextList()[i],
+                                      IconButton(
+                                        icon: Icon(Icons.cancel),
+                                        color: darkGreyColor,
+                                        onPressed: () {
+                                          deleteStop(context, configuredStops[i]);
+                                        },
+                                      )
+                                    ]
+                                )
+                            )
+                        )
+                    );
+                  })
+              ),
+              Align(
+                  alignment: Alignment.center,
+                  child: RaisedButton(
+                      child: Text("Adicionar"),
+                      onPressed: () {
+                        showSearch(context: context, delegate: BusStopSearch());
+                      }
+                  )
+              )
+
+            ]
+        );
       },
     );
   }
 }
 
-class stopsListing extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() => _stopsListingState();
-}
-
-class _stopsListingState extends State<stopsListing>{
-  List<BusStop> configuredStops = new List();
-  AppBusStopDatabase db;
-  List<String> suggestionsList = new List();
-
-  _stopsListingState() {
-    this.updateConfiguredStops();
-  }
-
-  Future<void> getDatabase() async {
-    db = await AppBusStopDatabase();
-  }
-
-  Future<void> updateConfiguredStops() async {
-    await getDatabase();
-    List<BusStop> newStops = await db.busStops();
-    this.setState((){
-      configuredStops = newStops;
-    });
-    StoreProvider.of<AppState>(context).dispatch(new SetBusStopTripsAction(newStops));
-  }
-
-  List<Widget> getConfiguredStops() {
-    List<Widget> stops = new List();
-    for (BusStop stop in configuredStops) {
-      stops.add(Text(stop.getStopCode()));
-    }
-    return stops;
-  }
-
-  Future deleteStop(BusStop stop) async {
-    await db.removeBusStop(stop);
-    this.updateConfiguredStops();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView(
-        children: <Widget>[
-          Container(
-            padding: EdgeInsets.only(bottom: 12.0, right: 22.0),
-            child: PageTitle(name: 'Paragens Configuradas')
-          ),
-          Column(
-              children: List.generate(getConfiguredStops().length, (i) {
-                return Container(
-                  padding: EdgeInsets.only(top: 8.0, bottom: 8.0, left: 40.0, right: 40.0),
-                  child: RowContainer(
-                      child: Container(
-                          padding: EdgeInsets.only(left: 60.0, right: 60.0),
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                getConfiguredStops()[i],
-                                IconButton(
-                                  icon: Icon(Icons.cancel),
-                                  color: darkGreyColor,
-                                  onPressed: () {
-                                    deleteStop(configuredStops[i]);
-                                  },
-                                )
-                              ]
-                          )
-                      )
-                  )
-                );
-              })
-          ),
-          Align(
-              alignment: Alignment.center,
-              child: RaisedButton(
-                  child: Text("Adicionar"),
-                  onPressed: () {
-                    showSearch(context: context, delegate: BusStopSearch());
-                  }
-              )
-          )
-
-        ]
-    );
-  }
-
-  getSuggestedStops(String query) async { 
-    final newSuggestions =  await NetworkRouter.getStopsByName(query);
-    this.setState(() {
-      this.suggestionsList = newSuggestions;
-    });
-  }
-}
-
 class BusStopSearch extends SearchDelegate<String> {
   List<String> suggestionsList = new List();
-  AppBusStopDatabase db;  
+  AppBusStopDatabase db;
+  BusStop stopToAdd;
 
   BusStopSearch() {
     this.getDatabase();
@@ -165,6 +132,10 @@ class BusStopSearch extends SearchDelegate<String> {
     return Container();
   }
 
+  Function updateStopCallback(BusStop stop) {
+    this.stopToAdd = stop;
+  }
+
   Widget getSuggestionList(BuildContext context) {
     return ListView.builder(
           itemBuilder: (context, index) => ListTile(
@@ -173,7 +144,7 @@ class BusStopSearch extends SearchDelegate<String> {
                 showDialog(
                     context: context,
                     builder: (BuildContext context) {
-                      BusesForm busesForm = BusesForm(this.suggestionsList[index].splitMapJoin(RegExp(r"\[[A-Z0-9_]+\]"), onMatch: (m) => '${m.group(0).substring(1, m.group(0).length-1)}', onNonMatch: (m) => ''), db);
+                      BusesForm busesForm = new BusesForm(this.suggestionsList[index].splitMapJoin(RegExp(r"\[[A-Z0-9_]+\]"), onMatch: (m) => '${m.group(0).substring(1, m.group(0).length-1)}', onNonMatch: (m) => ''), updateStopCallback);
                       return AlertDialog(
                           title: Text("Seleciona os autocarros dos quais queres informação:"),
                           content: Container(
@@ -183,7 +154,7 @@ class BusStopSearch extends SearchDelegate<String> {
                           ),
                           actions: [
                             FlatButton(child: Text("Confirmar", style: Theme.of(context).textTheme.display1.apply(color: Theme.of(context).primaryColor),), onPressed: () async {
-                              await busesForm.addBusStop();
+                              await db.addBusStop(stopToAdd);
                               StoreProvider.of<AppState>(context).dispatch(setUserBusStops(new Completer()));
                               Navigator.pop(context);
                             }),
@@ -221,41 +192,31 @@ class BusStopSearch extends SearchDelegate<String> {
 }
 
 class BusesForm extends StatefulWidget {
-  String stop;
-  BusStop stopToAdd;
-  AppBusStopDatabase db;
-  _BusesFormState state;
+  String stopToAdd;
+  Function updateStopCallback;
 
-  BusesForm(this.stop, this.db) {
-    state = _BusesFormState(stop, db);
-  }
-
-  Future<void> addBusStop() async {
-    await db.addBusStop(stopToAdd);
-    return;
-  }
+  BusesForm(this.stopToAdd, this.updateStopCallback);
 
   @override
-  State<StatefulWidget> createState() {return state;}
-
+  State<StatefulWidget> createState() {return _BusesFormState(stopToAdd, updateStopCallback);}
 }
 
 class _BusesFormState extends State<BusesForm>{
-  String stop;
-  AppBusStopDatabase db;
+  String stopToAdd;
+  Function updateStopCallback;
   List<Bus> buses = new List();
   List<bool> busesToAdd = List<bool>.filled(20, false);
 
-  _BusesFormState(this.stop, this.db);
+  _BusesFormState(this.stopToAdd, this.updateStopCallback);
 
   @override
   void initState() {
-    updateBuses();
+    getStopBuses();
     super.initState();
   }
 
-  void updateBuses() async {
-    List<Bus> buses = await NetworkRouter.getBusesStoppingAt(stop);
+  void getStopBuses() async {
+    List<Bus> buses = await NetworkRouter.getBusesStoppingAt(stopToAdd);
     this.setState((){
       this.buses = buses;
       busesToAdd.fillRange(0, buses.length, false);
@@ -292,7 +253,6 @@ class _BusesFormState extends State<BusesForm>{
         newBuses.add(buses[i]);
       }
     }
-    BusStop newStop = BusStop.secConstructor(stop, newBuses);
-    this.widget.stopToAdd = newStop;
+    updateStopCallback(new BusStop(stopToAdd, newBuses));
   }
 }
