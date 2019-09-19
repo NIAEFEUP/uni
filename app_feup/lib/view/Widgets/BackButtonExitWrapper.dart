@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 
-class HomePageBackButton extends StatelessWidget{
-  HomePageBackButton({
+class BackButtonExitWrapper extends StatelessWidget{
+  BackButtonExitWrapper({
     Key key,
     @required this.context,
     @required this.child,
