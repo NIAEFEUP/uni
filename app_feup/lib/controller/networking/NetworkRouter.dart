@@ -124,7 +124,7 @@ class NetworkRouter {
 
     final Map<String, String> headers = Map<String, String>();
     headers['cookie'] = session.cookies;
-    final http.Response response = await http.get(url, headers: headers).timeout(const Duration(seconds: timeout));
+    final http.Response response = await http.get(url, headers: headers);
     if (response.statusCode == 200) {
       return response;
     } else if (response.statusCode == 403) {
