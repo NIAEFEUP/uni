@@ -65,7 +65,6 @@ class NavigationDrawerState extends State<NavigationDrawer> {
   }
 
   Widget createDrawerNavigationOption(String d, int i) {
-    print(getCurrentRoute().toString());
     return new ListTile(
       title: new Row(
         children: <Widget>[
