@@ -20,6 +20,15 @@ import 'redux/Reducers.dart';
 import 'package:app_feup/model/AppState.dart';
 import 'package:app_feup/controller/LifecycleEventHandler.dart';
 
+// Constants to guarantee less inconsistency and less error-phrone among different route usage
+// Maybe placed in a separate file?
+const NAV_PERSONAL_AREA = "Área Pessoal";
+const NAV_SCHEDULE = "Horário";
+const NAV_EXAMS = "Mapa de Exames";
+const NAV_ABOUT = "Sobre";
+const NAV_BUG_REPORT = "Bug Report";
+const NAV_LOG_OUT = "Terminar sessão";
+
 final Store<AppState> state = Store<AppState>(
     appReducers, /* Function defined in the reducers file */
     initialState: new AppState(null),
@@ -57,17 +66,17 @@ class MyAppState extends State<MyApp> {
           // ignore: missing_return
           onGenerateRoute: (RouteSettings settings) {
             switch(settings.name) {
-              case '/Área Pessoal':
+              case '/' + NAV_PERSONAL_AREA:
                 return MaterialPageRoute(builder: (context) => HomePageView(), settings: settings);
-              case '/Horário':
+              case '/' + NAV_SCHEDULE:
                 return MaterialPageRoute(builder: (context) => SchedulePage(), settings: settings);
-              case '/Mapa de Exames':
+              case '/' + NAV_EXAMS:
                 return MaterialPageRoute(builder: (context) => ExamsPageView(), settings: settings);
-              case '/Sobre':
+              case '/' + NAV_ABOUT:
                 return MaterialPageRoute(builder: (context) => AboutPageView(), settings: settings);
-              case '/Bug Report':
+              case '/' + NAV_BUG_REPORT:
                 return MaterialPageRoute(builder: (context) => BugReportPageView(), settings: settings, maintainState: false);
-              case '/Terminar sessão':
+              case '/' + NAV_LOG_OUT:
                 return MaterialPageRoute(builder: (context) { logout(context); return LoginPage();});
               }
             }
