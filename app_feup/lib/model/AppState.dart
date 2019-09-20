@@ -1,3 +1,5 @@
+import 'package:app_feup/model/entities/Exam.dart';
+import 'package:app_feup/model/entities/Lecture.dart';
 import 'package:app_feup/model/entities/Session.dart';
 
 // enum should be placed somewhere else?
@@ -8,8 +10,8 @@ class AppState {
 
   Map getInitialContent() {
     return {
-      "schedule": [],
-      "exams": [],
+      "schedule": new List<Lecture>(),
+      "exams": new List<Exam>(),
       "scheduleStatus": RequestStatus.NONE,
       "loginStatus": RequestStatus.NONE,
       "examsStatus": RequestStatus.NONE,
