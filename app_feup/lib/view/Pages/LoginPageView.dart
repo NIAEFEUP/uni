@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import '../../view/Theme.dart';
 
-import '../Widgets/BackButtonExitWrapper.dart';
-
 class LoginPageView extends StatelessWidget {
   LoginPageView(
       {Key key,
@@ -34,41 +32,39 @@ class LoginPageView extends StatelessWidget {
     return Scaffold(
         backgroundColor: primaryColor,
         resizeToAvoidBottomPadding: false,
-        body: BackButtonExitWrapper(
-            context: context,
-            child: Center(
-              child: Padding(
-                  padding: EdgeInsets.only(
-                      left: queryData.size.width / 8,
-                      right: queryData.size.width / 8,
-                      top: queryData.size.height / 6,
-                      bottom: queryData.size.height / 6),
-                  child: Flex(
-                    direction: Axis.vertical,
-                    children: <Widget>[
-                      createTitle(queryData),
-                      Spacer(),
-                      Form(
-                        key: this.formKey,
-                        child: Column(children: [
-                          createUsernameInput(context),
-                          Padding(
-                              padding: EdgeInsets.only(
-                                  bottom: queryData.size.height / 35)),
-                          createPasswordInput(),
-                        ]),
-                      ),
-                      Padding(
-                          padding: EdgeInsets.only(
-                              bottom: queryData.size.height / 35)),
-                      createSaveDataCheckBox(),
-                      Spacer(),
-                      createLogInButton(queryData),
-                      Spacer(),
-                      createStatusWidget(context)
-                    ],
-                  )),
-            )));
+          body: Center(
+            child: Padding(
+                padding: EdgeInsets.only(
+                    left: queryData.size.width / 8,
+                    right: queryData.size.width / 8,
+                    top: queryData.size.height / 6,
+                    bottom: queryData.size.height / 6),
+                child: Flex(
+                  direction: Axis.vertical,
+                  children: <Widget>[
+                    createTitle(queryData),
+                    Spacer(),
+                    Form(
+                      key: this.formKey,
+                      child: Column(children: [
+                        createUsernameInput(context),
+                        Padding(
+                            padding: EdgeInsets.only(
+                                bottom: queryData.size.height / 35)),
+                        createPasswordInput(),
+                      ]),
+                    ),
+                    Padding(
+                        padding: EdgeInsets.only(
+                            bottom: queryData.size.height / 35)),
+                    createSaveDataCheckBox(),
+                    Spacer(),
+                    createLogInButton(queryData),
+                    Spacer(),
+                    createStatusWidget(context)
+                  ],
+                )),
+          ));
   }
 
   Widget createTitle(queryData) {
