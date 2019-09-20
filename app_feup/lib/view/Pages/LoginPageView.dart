@@ -1,6 +1,7 @@
 import 'package:app_feup/model/AppState.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_svg/svg.dart';
 import '../../view/Theme.dart';
 
 class LoginPageView extends StatelessWidget {
@@ -32,55 +33,58 @@ class LoginPageView extends StatelessWidget {
     return Scaffold(
         backgroundColor: primaryColor,
         resizeToAvoidBottomPadding: false,
-          body: Center(
-            child: Padding(
-                padding: EdgeInsets.only(
-                    left: queryData.size.width / 8,
-                    right: queryData.size.width / 8,
-                    top: queryData.size.height / 6,
-                    bottom: queryData.size.height / 6),
-                child: Flex(
-                  direction: Axis.vertical,
-                  children: <Widget>[
-                    createTitle(queryData),
-                    Spacer(),
-                    Form(
-                      key: this.formKey,
-                      child: Column(children: [
-                        createUsernameInput(context),
-                        Padding(
-                            padding: EdgeInsets.only(
-                                bottom: queryData.size.height / 35)),
-                        createPasswordInput(),
-                      ]),
-                    ),
-                    Padding(
-                        padding: EdgeInsets.only(
-                            bottom: queryData.size.height / 35)),
-                    createSaveDataCheckBox(),
-                    Spacer(),
-                    createLogInButton(queryData),
-                    Spacer(),
-                    createStatusWidget(context)
-                  ],
-                )),
-          ));
+        body: Center(
+          child: Padding(
+              padding: EdgeInsets.only(
+                  left: queryData.size.width / 8,
+                  right: queryData.size.width / 8,
+                  top: queryData.size.height / 6,
+                  bottom: queryData.size.height / 6),
+              child: Flex(
+                direction: Axis.vertical,
+                children: <Widget>[
+                  createTitle(queryData, context),
+                  Spacer(),
+                  Form(
+                    key: this.formKey,
+                    child: Column(children: [
+                      createUsernameInput(context),
+                      Padding(
+                          padding: EdgeInsets.only(
+                              bottom: queryData.size.height / 35)),
+                      createPasswordInput(),
+                    ]),
+                  ),
+                  Padding(
+                      padding:
+                          EdgeInsets.only(bottom: queryData.size.height / 35)),
+                  createSaveDataCheckBox(),
+                  Spacer(),
+                  createLogInButton(queryData),
+                  Spacer(),
+                  createStatusWidget(context)
+                ],
+              )),
+        ));
   }
 
-  Widget createTitle(queryData) {
+  Widget createTitle(queryData, context) {
     return new ConstrainedBox(
         constraints: new BoxConstraints(
-          minWidth: queryData.size.width / 8,
-          minHeight: queryData.size.height / 6,
+          minWidth: queryData.size.width/8,
+          minHeight: queryData.size.height/6,
         ),
-        child: FittedBox(
-            child: Text(
-              "APP\nFEUP",
-              textAlign: TextAlign.center,
-              style:
-                  TextStyle(color: Colors.white, fontWeight: FontWeight.w400),
+        child:
+        Column(children:[
+          SizedBox(
+            child: SvgPicture.asset(
+              'assets/images/logo_dark.svg',
+              color: Colors.white,
             ),
-            fit: BoxFit.fill));
+            width: 100.0
+          ),
+        ])
+    );
   }
 
   Widget createUsernameInput(BuildContext context) {
