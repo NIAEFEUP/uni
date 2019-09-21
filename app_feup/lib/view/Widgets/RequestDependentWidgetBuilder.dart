@@ -30,6 +30,7 @@ class RequestDependentWidgetBuilder extends StatelessWidget {
       builder: (context, lastUpdateTime){
         switch (status) {
           case RequestStatus.SUCCESSFUL:
+          case RequestStatus.NONE:
             return contentChecker ? 
             contentGenerator(content, context): onNullContent;
           case RequestStatus.BUSY:
@@ -42,6 +43,7 @@ class RequestDependentWidgetBuilder extends StatelessWidget {
             contentGenerator(content, context)
                 : Center(child: CircularProgressIndicator());
           case RequestStatus.FAILED:
+          default:
             return contentChecker ?
             contentGenerator(content, context)
                 : Center(child: Text(
@@ -50,8 +52,6 @@ class RequestDependentWidgetBuilder extends StatelessWidget {
                     .of(context)
                     .textTheme
                     .display1));
-          default:
-            return Container();
         }
       },
     );
