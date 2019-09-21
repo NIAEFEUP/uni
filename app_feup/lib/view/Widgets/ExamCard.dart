@@ -1,8 +1,10 @@
+import 'package:app_feup/model/entities/Exam.dart';
 import 'package:app_feup/view/Widgets/DateRectangle.dart';
 import 'package:app_feup/view/Widgets/GenericCard.dart';
 import 'package:app_feup/view/Widgets/RequestDependentWidgetBuilder.dart';
 import 'package:app_feup/view/Widgets/RowContainer.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:tuple/tuple.dart';
 import '../../utils/Constants.dart' as Constants;
 import '../../model/AppState.dart';
 import 'package:flutter/material.dart';
@@ -24,15 +26,15 @@ class ExamCard extends GenericCard{
 
   @override
   Widget buildCardContent(BuildContext context) {
-    return StoreConnector<AppState, List<dynamic>>(
-      converter: (store) => store.state.content['exams'],
-      builder: (context, exams) =>
+    return StoreConnector<AppState, Tuple2<List<Exam>, RequestStatus>>(
+      converter: (store) => Tuple2(store.state.content['exams'], store.state.content['examsStatus']) ,
+      builder: (context, examsInfo) =>
           RequestDependentWidgetBuilder(
               context: context,
-              status: StoreProvider.of<AppState>(context).state.content['examsStatus'],
+              status: examsInfo.item2,
               contentGenerator: generateExams,
-              content: exams,
-              contentChecker: exams != null && exams.length > 0,
+              content: examsInfo.item1,
+              contentChecker: examsInfo.item1 != null && examsInfo.item1.length > 0,
               onNullContent:  Center(
                               child: Text("No exams to show at the moment",
                                style: Theme.of(context).textTheme.display1),

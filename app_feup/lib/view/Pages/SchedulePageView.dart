@@ -143,16 +143,16 @@ class SchedulePageView extends SecondaryPageView  {
   }
 
   Widget createScheduleByDay(BuildContext context, day) {
-    return RequestDependentWidgetBuilder(
-      context: context,
-      status: StoreProvider
-            .of<AppState>(context)
-            .state
-            .content['scheduleStatus'],
-      contentGenerator: createDayColumn,
-      content: aggLectures[day],
-      contentChecker: aggLectures[day].length >= 1,
-      onNullContent: Center(child: Text("Não possui aulas à " + daysOfTheWeek[day] + ".")),
+    return StoreConnector<AppState, RequestStatus>(
+      converter: (store) => store.state.content['scheduleStatus'],
+      builder: (context, status) => RequestDependentWidgetBuilder(
+          context: context,
+          status: status,
+          contentGenerator: createDayColumn,
+          content: aggLectures[day],
+          contentChecker: aggLectures[day].length >= 1,
+          onNullContent: Center(child: Text("Não possui aulas à " + daysOfTheWeek[day] + ".")),
+        )
     );
   }
 }

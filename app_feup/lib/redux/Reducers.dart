@@ -156,6 +156,5 @@ AppState setHomePageEditingMode(AppState state, SetHomePageEditingMode action) {
 }
 
 AppState setLastUserInfoUpdateTime(AppState state, SetLastUserInfoUpdateTime action) {
-  print('setting last update time to ' + action.currentTime?.toIso8601String());
   return state.cloneAndUpdateValue('lastUserInfoUpdateTime', action.currentTime);
 }

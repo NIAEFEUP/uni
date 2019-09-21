@@ -170,6 +170,8 @@ ThunkAction<AppState> getUserExams(Completer<Null> action) {
                 store.state.content['session']));
         courseExams = new List.from(courseExams)..addAll(currentCourseExams);
       }
+      
+      final DateTime now = new DateTime.now();
 
       List<CourseUnit> userUcs = store.state.content['currUcs'];
       List<Exam> exams = new List<Exam>();
@@ -177,7 +179,9 @@ ThunkAction<AppState> getUserExams(Completer<Null> action) {
         for (CourseUnit uc in userUcs) {
           if (!courseExam.examType.contains(
                   "Exames ao abrigo de estatutos especiais - Port.Est.Especiais") &&
-              courseExam.subject == uc.abbreviation) {
+              courseExam.subject == uc.abbreviation &&
+              now.compareTo(courseExam.date) <= 0
+              ) {
             exams.add(courseExam);
             break;
           }

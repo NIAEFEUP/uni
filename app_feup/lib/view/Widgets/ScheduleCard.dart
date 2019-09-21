@@ -6,6 +6,7 @@ import 'package:app_feup/view/Widgets/RequestDependentWidgetBuilder.dart';
 import 'package:app_feup/view/Widgets/ScheduleSlot.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter/material.dart';
+import 'package:tuple/tuple.dart';
 
 import '../../utils/Constants.dart' as Constants;
 
@@ -21,18 +22,15 @@ class ScheduleCard extends GenericCard {
 
   @override
   Widget buildCardContent(BuildContext context) {
-    return StoreConnector<AppState, List<dynamic>>(
-        converter: (store) => store.state.content['schedule'],
-        builder: (context, lectures) {
+    return StoreConnector<AppState, Tuple2<List<Lecture>, RequestStatus>>(
+        converter: (store) => Tuple2(store.state.content['schedule'], store.state.content['scheduleStatus']),
+        builder: (context, lecturesInfo) {
           return RequestDependentWidgetBuilder(
               context: context,
-              status: StoreProvider
-                  .of<AppState>(context)
-                  .state
-                  .content['scheduleStatus'],
+              status: lecturesInfo.item2,
               contentGenerator: generateSchedule,
-              content: lectures,
-              contentChecker: lectures != null && lectures.length > 0,
+              content: lecturesInfo.item1,
+              contentChecker: lecturesInfo.item1 != null && lecturesInfo.item1.length > 0,
               onNullContent: Center(
                                 child:
                                  Text("No lectures or classes to show at the moment",
