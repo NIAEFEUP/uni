@@ -1,7 +1,6 @@
 import 'package:app_feup/view/Theme.dart';
 import 'package:flutter/material.dart';
-
-import '../../Main.dart';
+import '../../utils/Constants.dart' as Constants;
 
 class NavigationDrawer extends StatefulWidget {
   final BuildContext parentContext;
@@ -26,11 +25,11 @@ class NavigationDrawerState extends State<NavigationDrawer> {
     super.initState();
 
     drawerItems = {
-      NAV_PERSONAL_AREA: _onSelectItem,
-      NAV_SCHEDULE: _onSelectItem,
-      NAV_EXAMS: _onSelectItem,
-      NAV_ABOUT: _onSelectItem,
-      NAV_BUG_REPORT: _onSelectItem,
+      Constants.NAV_PERSONAL_AREA: _onSelectItem,
+      Constants.NAV_SCHEDULE: _onSelectItem,
+      Constants.NAV_EXAMS: _onSelectItem,
+      Constants.NAV_ABOUT: _onSelectItem,
+      Constants.NAV_BUG_REPORT: _onSelectItem,
     };
   }
 
@@ -65,7 +64,7 @@ class NavigationDrawerState extends State<NavigationDrawer> {
 
   Widget createLogoutBtn() {
     return new RaisedButton(
-      onPressed: () => _onLogOut(NAV_LOG_OUT),
+      onPressed: () => _onLogOut(Constants.NAV_LOG_OUT),
       textColor: Colors.white,
       color: primaryColor,
       elevation: 10,
@@ -73,7 +72,7 @@ class NavigationDrawerState extends State<NavigationDrawer> {
       padding: const EdgeInsets.all(0.0),
       child: Container(
         padding: const EdgeInsets.all(15.0),
-        child: Text(NAV_LOG_OUT, style: Theme.of(context).textTheme.display4),
+        child: Text(Constants.NAV_LOG_OUT, style: Theme.of(context).textTheme.display4),
       ),
     );
   }

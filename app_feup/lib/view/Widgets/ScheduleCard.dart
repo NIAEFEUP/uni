@@ -6,7 +6,7 @@ import 'package:app_feup/view/Widgets/ScheduleSlot.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter/material.dart';
 
-import '../../Main.dart';
+import '../../utils/Constants.dart' as Constants;
 
 class ScheduleCard extends GenericCard {
 
@@ -107,5 +107,5 @@ class ScheduleCard extends GenericCard {
   String getTitle() => "Horário";
 
   @override
-  onClick(BuildContext context) => Navigator.pushNamed(context, '/' + NAV_SCHEDULE);
+  onClick(BuildContext context) => Navigator.pushNamed(context, '/' + Constants.NAV_SCHEDULE);
 }

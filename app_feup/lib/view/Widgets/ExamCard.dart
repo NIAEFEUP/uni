@@ -2,7 +2,7 @@ import 'package:app_feup/view/Widgets/DateRectangle.dart';
 import 'package:app_feup/view/Widgets/GenericCard.dart';
 import 'package:app_feup/view/Widgets/RowContainer.dart';
 import 'package:flutter/cupertino.dart';
-import '../../Main.dart';
+import '../../utils/Constants.dart' as Constants;
 import '../../model/AppState.dart';
 import 'package:flutter/material.dart';
 import 'ScheduleRow.dart';
@@ -10,7 +10,6 @@ import 'package:flutter_redux/flutter_redux.dart';
 
 
 class ExamCard extends GenericCard{
-
 
   ExamCard({Key key}):super(key: key);
 
@@ -20,7 +19,7 @@ class ExamCard extends GenericCard{
   String getTitle() => "Exames";
 
   @override
-  onClick(BuildContext context) => Navigator.pushNamed(context, '/' + NAV_EXAMS);
+  onClick(BuildContext context) => Navigator.pushNamed(context, '/' + Constants.NAV_EXAMS);
 
   @override
   Widget buildCardContent(BuildContext context) {

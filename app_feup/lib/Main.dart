@@ -19,15 +19,7 @@ import 'package:redux/redux.dart';
 import 'redux/Reducers.dart';
 import 'package:app_feup/model/AppState.dart';
 import 'package:app_feup/controller/LifecycleEventHandler.dart';
-
-// Constants to guarantee less inconsistency and less error-phrone among different route usage
-// Maybe placed in a separate file?
-const NAV_PERSONAL_AREA = "Área Pessoal";
-const NAV_SCHEDULE = "Horário";
-const NAV_EXAMS = "Mapa de Exames";
-const NAV_ABOUT = "Sobre";
-const NAV_BUG_REPORT = "Bug Report";
-const NAV_LOG_OUT = "Terminar sessão";
+import 'utils/Constants.dart' as Constants;
 
 final Store<AppState> state = Store<AppState>(
     appReducers, /* Function defined in the reducers file */
@@ -66,17 +58,17 @@ class MyAppState extends State<MyApp> {
           // ignore: missing_return
           onGenerateRoute: (RouteSettings settings) {
             switch(settings.name) {
-              case '/' + NAV_PERSONAL_AREA:
+              case '/' + Constants.NAV_PERSONAL_AREA:
                 return MaterialPageRoute(builder: (context) => HomePageView(), settings: settings);
-              case '/' + NAV_SCHEDULE:
+              case '/' + Constants.NAV_SCHEDULE:
                 return MaterialPageRoute(builder: (context) => SchedulePage(), settings: settings);
-              case '/' + NAV_EXAMS:
+              case '/' + Constants.NAV_EXAMS:
                 return MaterialPageRoute(builder: (context) => ExamsPageView(), settings: settings);
-              case '/' + NAV_ABOUT:
+              case '/' + Constants.NAV_ABOUT:
                 return MaterialPageRoute(builder: (context) => AboutPageView(), settings: settings);
-              case '/' + NAV_BUG_REPORT:
+              case '/' + Constants.NAV_BUG_REPORT:
                 return MaterialPageRoute(builder: (context) => BugReportPageView(), settings: settings, maintainState: false);
-              case '/' + NAV_LOG_OUT:
+              case '/' + Constants.NAV_LOG_OUT:
                 return MaterialPageRoute(builder: (context) { logout(context); return LoginPage();});
               }
             }
