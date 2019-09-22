@@ -17,12 +17,12 @@ Future<File> getImageFromNetwork(String url,  Map<String, String> headers) async
 }
 
 Future<File> retrieveImage(String url, Map<String, String> headers) async {
-  var path = await _localPath;
-  var connectivityResult = await (Connectivity().checkConnectivity());
-  var hasInternetConnection = connectivityResult != ConnectivityResult.none;
+  final path = await _localPath;
+  final connectivityResult = await (Connectivity().checkConnectivity());
+  final hasInternetConnection = connectivityResult != ConnectivityResult.none;
 
-  var targetPath = '$path/profile_pic.png';
-  File file  = new File(targetPath);
+  final targetPath = '$path/profile_pic.png';
+  final File file  = new File(targetPath);
   if(hasInternetConnection && headers.isNotEmpty){
     return saveImage(targetPath, url, headers);
   }
@@ -35,7 +35,7 @@ Future<File> retrieveImage(String url, Map<String, String> headers) async {
 Future<File> saveImage(String filepath, String url, Map<String, String> headers) async {
 
   final file = await getImageFromNetwork(url, headers);
-  Image image = decodeImage(file.readAsBytesSync());
+  final Image image = decodeImage(file.readAsBytesSync());
 
   return new File(filepath)
     ..writeAsBytesSync(encodePng(image));

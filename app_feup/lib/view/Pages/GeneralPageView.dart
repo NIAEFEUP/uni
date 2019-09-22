@@ -20,7 +20,7 @@ abstract class GeneralPageView extends StatelessWidget {
   }
 
   DecorationImage getDecorageImage(File x) {
-    var image = (x == null)? new AssetImage("assets/images/profile_placeholder.png") : new FileImage(x);
+    final image = (x == null)? new AssetImage("assets/images/profile_placeholder.png") : new FileImage(x);
     return  DecorationImage(
         fit: BoxFit.cover, image: image);
   }

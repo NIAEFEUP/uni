@@ -66,7 +66,7 @@ Future<void> handleRefresh(store) {
 }
 
 Future<File> loadProfilePic(Store<AppState> store) {
-  String studentNo = store.state.content['session'].studentNumber;
+  final String studentNo = store.state.content['session'].studentNumber;
   String url = "https://sigarra.up.pt/feup/pt/fotografias_service.foto?pct_cod=";
   final Map<String, String> headers = Map<String, String>();
 
