@@ -19,6 +19,9 @@ class BugReportForm extends StatefulWidget {
 
 class BugReportFormState extends State<BugReportForm> {
 
+  final String _postUrl = "https://api.github.com/repos/NIAEFEUP/project-schrodinger/issues";
+  final String _issueLabel = "In-app bug report";
+
   static final _formKey = GlobalKey<FormState>();
 
   final Map<int, Tuple2<String,String>> bugDescriptions = {
@@ -34,7 +37,6 @@ class BugReportFormState extends State<BugReportForm> {
   static final TextEditingController titleController = new TextEditingController();
   static final TextEditingController descriptionController = new TextEditingController();
 
-  final String postUrl = "https://api.github.com/repos/NIAEFEUP/project-schrodinger/issues";
   String ghToken = "";
 
   bool _isButtonTapped = false;
@@ -77,10 +79,8 @@ class BugReportFormState extends State<BugReportForm> {
             Icons.title,
             minLines: 1,
             maxLines: 2,
-            description:
-            'Identifica o bug que encontraste',
-            hintText: 'Identificação do bug encontrado',
-            labelText: 'Título',
+            description: 'Título',
+            labelText: 'Breve identificação do problema',
             bottomMargin: 30.0,
         )
     );
@@ -91,10 +91,8 @@ class BugReportFormState extends State<BugReportForm> {
             Icons.description,
             minLines: 1,
             maxLines: 30,
-            description:
-            'Descreve o bug',
-            hintText: 'Descrição do bug encontrado',
-            labelText: 'Descrição',
+            description: 'Descrição',
+            labelText: 'Bug encontrado, como o reproduzir, etc',
             bottomMargin: 30.0,
         )
     );
@@ -219,11 +217,11 @@ class BugReportFormState extends State<BugReportForm> {
     Map data = {
       "title": titleController.text,
       "body": descriptionController.text,
-      "labels": ["bug report", bugLabel]
+      "labels": [_issueLabel, bugLabel]
     };
 
     http.post(
-        postUrl + "?access_token=" + ghToken,
+        _postUrl + "?access_token=" + ghToken,
         headers: {
           "Content-Type" : "application/json"
         },
