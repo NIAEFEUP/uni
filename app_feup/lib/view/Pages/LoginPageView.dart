@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../view/Theme.dart';
+import '../Widgets/BackButtonExitWrapper.dart';
 
 class LoginPageView extends StatelessWidget {
   LoginPageView(
@@ -31,9 +32,11 @@ class LoginPageView extends StatelessWidget {
     final MediaQueryData queryData = MediaQuery.of(context);
 
     return Scaffold(
-        backgroundColor: primaryColor,
-        resizeToAvoidBottomPadding: false,
-        body: Center(
+      backgroundColor: primaryColor,
+      resizeToAvoidBottomPadding: false,
+      body: BackButtonExitWrapper(
+        context: context,
+        child: Center(
           child: Padding(
               padding: EdgeInsets.only(
                   left: queryData.size.width / 8,
@@ -64,8 +67,11 @@ class LoginPageView extends StatelessWidget {
                   Spacer(),
                   createStatusWidget(context)
                 ],
-              )),
-        ));
+              )
+            ),
+        )
+      )
+    );
   }
 
   Widget createTitle(queryData, context) {
