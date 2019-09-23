@@ -4,9 +4,13 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:toast/toast.dart';
 import '../../view/Theme.dart';
+<<<<<<< HEAD
 import '../Widgets/BackButtonExitWrapper.dart';
+=======
+import 'dart:async';
+>>>>>>> Changed onWillPop to use Future.delayed
 
-DateTime currentBackPressTime;
+bool exitApp = false;
 
 class LoginPageView extends StatelessWidget {
   LoginPageView(
@@ -29,7 +33,6 @@ class LoginPageView extends StatelessWidget {
   final TextEditingController usernameController;
   final TextEditingController passwordController;
   final GlobalKey<FormState> formKey;
-  // DateTime currentBackPressTime;
 
     @override
   Widget build(BuildContext context) {
@@ -80,15 +83,19 @@ class LoginPageView extends StatelessWidget {
     );
   }
 
+  Future<void> exitAppWaiter() async{
+    exitApp = true;
+    await new Future.delayed(Duration(seconds: 2));
+    exitApp = false;
+  }
+
   Future<bool> onWillPop(BuildContext context) {
-    DateTime now = DateTime.now();
-    if (currentBackPressTime == null ||
-        now.difference(currentBackPressTime) > Duration(seconds: 2)) {
-      currentBackPressTime = now;
-      displayToastMessage(context, 'Press back again to exit');
-      return Future.value(false);
+    if(exitApp){
+      return Future.value(true);
     }
-    return Future.value(true);
+    displayToastMessage(context, 'Pressione novamente para sair');
+    exitAppWaiter();
+    return Future.value(false);
   }
 
   Widget createTitle(queryData, context) {
