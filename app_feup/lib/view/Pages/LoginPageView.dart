@@ -85,7 +85,7 @@ class LoginPageView extends StatelessWidget {
 
   Future<void> exitAppWaiter() async{
     exitApp = true;
-    await new Future.delayed(Duration(seconds: 2));
+    await new Future.delayed(Duration(seconds: Toast.LENGTH_LONG));
     exitApp = false;
   }
 
