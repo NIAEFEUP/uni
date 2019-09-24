@@ -52,7 +52,9 @@ class FormTextField extends StatelessWidget {
                       maxLines: maxLines,
                       decoration: InputDecoration(
                         hintText: hintText,
+                        hintStyle: Theme.of(context).textTheme.body1,
                         labelText: labelText,
+                        labelStyle: Theme.of(context).textTheme.body1,
                       ),
                       controller: controller,
                       validator: (value) {
