@@ -4,11 +4,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:toast/toast.dart';
 import '../../view/Theme.dart';
-<<<<<<< HEAD
-import '../Widgets/BackButtonExitWrapper.dart';
-=======
 import 'dart:async';
->>>>>>> Changed onWillPop to use Future.delayed
 
 bool exitApp = false;
 
@@ -85,7 +81,7 @@ class LoginPageView extends StatelessWidget {
 
   Future<void> exitAppWaiter() async{
     exitApp = true;
-    await new Future.delayed(Duration(seconds: Toast.LENGTH_LONG));
+    await new Future.delayed(Duration(seconds: 2));
     exitApp = false;
   }
 
