@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 
-class HomePageBackButton extends StatelessWidget{
-  HomePageBackButton({
+class BackButtonExitWrapper extends StatelessWidget{
+  BackButtonExitWrapper({
     Key key,
     @required this.context,
     @required this.child,
@@ -20,12 +20,12 @@ class HomePageBackButton extends StatelessWidget{
           actions: <Widget>[
             new RaisedButton(
                 onPressed: () => Navigator.of(context).pop(false),
-                child: new Text('No'),
+                child: new Text('Não'),
                 color: Theme.of(context).primaryColor,
             ),
             new RaisedButton(
                 onPressed: () => Navigator.of(context).pop(true),
-                child: new Text('Yes'),
+                child: new Text('Sim'),
                 color: Theme.of(context).primaryColor,
 
             )
