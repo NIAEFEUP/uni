@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:app_feup/controller/LoadInfo.dart';
 import 'package:app_feup/controller/local_storage/AppCoursesDatabase.dart';
 import 'package:app_feup/controller/local_storage/AppExamsDatabase.dart';
+import 'package:app_feup/controller/local_storage/AppLastUpdateDatabase.dart';
 import 'package:app_feup/controller/local_storage/AppLecturesDatabase.dart';
 import 'package:app_feup/controller/local_storage/AppRefreshTimesDatabase.dart';
 import 'package:app_feup/controller/local_storage/AppSharedPreferences.dart';
@@ -365,4 +366,21 @@ Future storeRefreshTime(String db, String current_time) async {
   AppRefreshTimesDatabase refreshTimesDatabase =
       await AppRefreshTimesDatabase();
   await refreshTimesDatabase.saveRefreshTime(db, current_time);
+}
+ThunkAction<AppState> setLastUpdateTimestamp(Completer<Null> action){
+  return (Store<AppState> store) async{
+    DateTime currentTime = DateTime.now();
+    store.dispatch(new SetLastUpdateTime(currentTime));
+    AppLastUpdateDatabase db = await AppLastUpdateDatabase();
+    await db.insertNewTimeStamp(currentTime);
+    action.complete();
+  };
+}
+
+ThunkAction<AppState> updateStateBasedOnLocalTime(){
+  return (Store<AppState> store) async{
+    AppLastUpdateDatabase db = await AppLastUpdateDatabase();
+    DateTime savedTime = await db.getLastUpdateTime();
+    store.dispatch(new SetLastUpdateTime(savedTime));
+  };
 }

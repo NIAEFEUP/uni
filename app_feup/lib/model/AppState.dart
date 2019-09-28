@@ -19,7 +19,8 @@ class AppState {
       "printBalanceStatus": RequestStatus.NONE,
       "feesStatus": RequestStatus.NONE,
       "coursesStateStatus": RequestStatus.NONE,
-      "session": new Session(authenticated: false)
+      "session": new Session(authenticated: false),
+      "lastUpdateTime": null
     };
   }
 
