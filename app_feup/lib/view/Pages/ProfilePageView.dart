@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:app_feup/model/entities/Course.dart';
 import 'package:app_feup/view/Pages/SecondaryPageView.dart';
 import 'package:app_feup/view/Widgets/AccountInfoCard.dart';
@@ -12,12 +14,13 @@ class ProfilePageView extends SecondaryPageView {
     @required this.name,
     @required this.email,
     @required this.currentState,
-    @required this.courses});
+    @required this.courses, @required this.profilePicFile});
 
   final String name;
   final String email;
   final Map<String, String> currentState;
   final List<Course> courses;
+  final File profilePicFile;
 
   @override
   Widget getBody(BuildContext context) {
@@ -53,38 +56,38 @@ class ProfilePageView extends SecondaryPageView {
   }
 
   Widget profileInfo (BuildContext context){
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Container(
-          width: 150.0,
-          height: 150.0,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            image: buildDecorageImage(context)
-          )
-        ),
-        Padding(padding: const EdgeInsets.all(8.0)),
-         Text(
-          name,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: greyTextColor,
-            fontSize: 20.0,
-            fontWeight: FontWeight.w400
-          )
-        ),
-        Padding(padding: const EdgeInsets.all(5.0)),
-        Text(
-          email,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: greyTextColor,
-            fontSize: 18.0,
-            fontWeight: FontWeight.w200
-          )
-        ),
-      ],
-    );
+        return  Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Container(
+                width: 150.0,
+                height: 150.0,
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: getDecorageImage(profilePicFile)
+                )
+            ),
+            Padding(padding: const EdgeInsets.all(8.0)),
+            Text(
+                name,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: greyTextColor,
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.w400
+                )
+            ),
+            Padding(padding: const EdgeInsets.all(5.0)),
+            Text(
+                email,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: greyTextColor,
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.w200
+                )
+            ),
+          ],
+        );
   }
 }

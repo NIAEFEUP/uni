@@ -6,21 +6,21 @@ import 'package:app_feup/redux/Actions.dart';
 import 'package:tuple/tuple.dart';
 import 'package:app_feup/model/AppState.dart';
 import 'package:redux/redux.dart';
+import 'dart:io';
 
+import 'local_storage/ImageOfflineStorage.dart';
 
 Future loadUserInfoToState(store) {
   loadLocalUserInfoToState(store);
   return loadRemoteUserInfoToState(store);
 }
 
-
-Future loadRemoteUserInfoToState(Store<AppState> store){
-  if(store.state.content['session'] == null){
+Future loadRemoteUserInfoToState(Store<AppState> store) {
+  if (store.state.content['session'] == null) {
     return null;
   }
-  
-  Completer<Null>
-  userInfo = new Completer(),
+
+  Completer<Null> userInfo = new Completer(),
       exams = new Completer(),
       schedule = new Completer(),
       printBalance = new Completer(),
@@ -31,14 +31,23 @@ Future loadRemoteUserInfoToState(Store<AppState> store){
   store.dispatch(getUserPrintBalance(printBalance));
   store.dispatch(getUserFees(fees));
   store.dispatch(getUserCoursesState(coursesStates));
-  userInfo.future.then( (value) =>store.dispatch(getUserExams(exams)));
-  return Future.wait([exams.future, schedule.future, printBalance.future, fees.future, coursesStates.future, userInfo.future]);
+  userInfo.future.then((value) => store.dispatch(getUserExams(exams)));
+  return Future.wait([
+    exams.future,
+    schedule.future,
+    printBalance.future,
+    fees.future,
+    coursesStates.future,
+    userInfo.future
+  ]);
 }
 
 void loadLocalUserInfoToState(store) async {
-  store.dispatch(UpdateFavoriteCards(await AppSharedPreferences.getFavoriteCards()));
-  Tuple2<String, String> userPersistentInfo = await AppSharedPreferences.getPersistentUserInfo();
-  if(userPersistentInfo.item1 != "" && userPersistentInfo.item2 != "") {
+  store.dispatch(
+      UpdateFavoriteCards(await AppSharedPreferences.getFavoriteCards()));
+  Tuple2<String, String> userPersistentInfo =
+      await AppSharedPreferences.getPersistentUserInfo();
+  if (userPersistentInfo.item1 != "" && userPersistentInfo.item2 != "") {
     store.dispatch(updateStateBasedOnLocalProfile());
     store.dispatch(updateStateBasedOnLocalUserExams());
     store.dispatch(updateStateBasedOnLocalUserLectures());
@@ -47,13 +56,23 @@ void loadLocalUserInfoToState(store) async {
     store.dispatch(SetPrintBalanceStatusAction(RequestStatus.SUCCESSFUL));
     store.dispatch(SetFeesStatusAction(RequestStatus.SUCCESSFUL));
     store.dispatch(SetCoursesStatesStatusAction(RequestStatus.SUCCESSFUL));
-    store.dispatch(SetScheduleStatusAction(RequestStatus.SUCCESSFUL));
-    store.dispatch(SetExamsStatusAction(RequestStatus.SUCCESSFUL));
   }
 }
 
-Future<void> handleRefresh(store){
+Future<void> handleRefresh(store) {
   final action = new RefreshItemsAction();
   store.dispatch(action);
   return action.completer.future;
+}
+
+Future<File> loadProfilePic(Store<AppState> store) {
+  final String studentNo = store.state.content['session'].studentNumber;
+  String url = "https://sigarra.up.pt/feup/pt/fotografias_service.foto?pct_cod=";
+  final Map<String, String> headers = Map<String, String>();
+
+  if(studentNo != null) {
+    url += studentNo;
+    headers['cookie'] = store.state.content['session'].cookies;
+  }
+  return retrieveImage(url, headers);
 }

@@ -1,6 +1,6 @@
 import 'package:app_feup/controller/Logout.dart';
 import 'package:app_feup/model/SchedulePageModel.dart';
-import 'package:app_feup/model/entities/Exam.dart';
+import 'package:app_feup/view/NavigationService.dart';
 import 'package:app_feup/view/Pages/ExamsPageView.dart';
 import 'package:app_feup/view/Pages/HomePageView.dart';
 import 'package:app_feup/model/LoginPageModel.dart';
@@ -11,6 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:app_feup/view/Pages/SplashPageView.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'controller/OnStartUp.dart';
+import 'model/LoginPageModel.dart';
 import 'view/Theme.dart';
 import 'model/AppState.dart';
 import 'package:redux/redux.dart';
@@ -18,9 +20,16 @@ import 'redux/Reducers.dart';
 import 'package:app_feup/model/AppState.dart';
 import 'package:app_feup/controller/LifecycleEventHandler.dart';
 
-List<Exam> exams;
+final Store<AppState> state = Store<AppState>(
+    appReducers, /* Function defined in the reducers file */
+    initialState: new AppState(null),
+    middleware: [generalMiddleware]
+);
 
-void main() => runApp(new MyApp());
+void main() {
+  OnStartUp.onStart(state);
+  runApp(new MyApp());
+}
 
 class MyApp extends StatefulWidget {
   @override
@@ -30,13 +39,7 @@ class MyApp extends StatefulWidget {
 }
 
 class MyAppState extends State<MyApp> {
-
-  final Store<AppState> state = Store<AppState>(
-      appReducers, /* Function defined in the reducers file */
-      initialState: new AppState(null),
-      middleware: [generalMiddleware]
-  );
-
+  
   WidgetsBindingObserver lifeCycleEventHandler;
 
   @override
@@ -45,12 +48,12 @@ class MyAppState extends State<MyApp> {
       DeviceOrientation.portraitUp,
     ]);
     return StoreProvider(
-      store: this.state,
+      store: state,
       child: MaterialApp(
-          title: 'App FEUP',
+          title: 'uni',
           theme: applicationTheme,
           home: SplashScreen(),
-
+          navigatorKey: NavigationService.navigatorKey,
           // ignore: missing_return
           onGenerateRoute: (RouteSettings settings) {
             switch(settings.name) {
@@ -75,7 +78,7 @@ class MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    this.lifeCycleEventHandler = new LifecycleEventHandler(store: this.state);
+    this.lifeCycleEventHandler = new LifecycleEventHandler(store: state);
     WidgetsBinding.instance.addObserver(this.lifeCycleEventHandler);
   }
 

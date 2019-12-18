@@ -21,15 +21,18 @@ dependencies:
   http: ^0.12.0+1
   query_params: '^0.6.1'
   tuple: ^1.0.2
-  shared_preferences: ^0.5.1+1
+  shared_preferences: ^0.5.4
   encrypt: ^2.0.0
-  path_provider: any
-  sqflite: ^1.1.0
+  path_provider: ^1.4.5
+  sqflite: ^1.1.8
   path: ^1.6.2
   cached_network_image: ^1.1.0
   flutter_svg: ^0.13.1
   synchronized: ^2.1.0
   toast: ^0.1.5
+  image: ^2.1.4
+  connectivity: ^0.4.4
+
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

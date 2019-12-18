@@ -52,10 +52,10 @@ ThunkAction<AppState> login(username, password, faculty, persistentSession) {
           username, password, faculty, persistentSession);
       store.dispatch(new SaveLoginDataAction(session));
       if (session.authenticated) {
+        store.dispatch(new SetLoginStatusAction(RequestStatus.SUCCESSFUL));
         if (persistentSession)
           AppSharedPreferences.savePersistentUserInfo(username, password);
         await loadUserInfoToState(store);
-        store.dispatch(new SetLoginStatusAction(RequestStatus.SUCCESSFUL));
       } else {
         store.dispatch(new SetLoginStatusAction(RequestStatus.FAILED));
       }
@@ -166,7 +166,7 @@ ThunkAction<AppState> getUserExams(Completer<Null> action) {
                         store.state.content['session']) +
                     "exa_geral.mapa_de_exames?p_curso_id=${course.id}",
                 {},
-                store.state.content['session'].cookies));
+                store.state.content['session']));
         courseExams = new List.from(courseExams)..addAll(currentCourseExams);
       }
 
@@ -222,7 +222,7 @@ ThunkAction<AppState> getUserSchedule(Completer<Null> action) {
                   "mob_hor_geral.estudante?pv_codigo=${store.state.content['session'].studentNumber}"
                       "&pv_semana_ini=$beginWeek&pv_semana_fim=$endWeek",
               {},
-              store.state.content['session'].cookies));
+              store.state.content['session']));
 
       // Updates local database according to the information fetched -- Lectures
       Tuple2<String, String> userPersistentInfo =
@@ -258,10 +258,8 @@ ThunkAction<AppState> getUserPrintBalance(Completer<Null> action) {
       "p_codigo": store.state.content['session'].studentNumber
     };
 
-    String cookies = store.state.content['session'].cookies;
-
     try {
-      var response = await NetworkRouter.getWithCookies(url, query, cookies);
+      var response = await NetworkRouter.getWithCookies(url, query, store.state.content['session']);
       String printBalance = await getPrintsBalance(response);
 
       String current_time = DateTime.now().toString();
@@ -298,10 +296,8 @@ ThunkAction<AppState> getUserFees(Completer<Null> action) {
       "pct_cod": store.state.content['session'].studentNumber
     };
 
-    String cookies = store.state.content['session'].cookies;
-
     try {
-      var response = await NetworkRouter.getWithCookies(url, query, cookies);
+      var response = await NetworkRouter.getWithCookies(url, query, store.state.content['session']);
 
       String feesBalance = await parseFeesBalance(response);
       String feesLimit = await parseFeesNextLimit(response);
@@ -343,10 +339,8 @@ ThunkAction<AppState> getUserCoursesState(Completer<Null> action) {
       "pv_num_unico": store.state.content['session'].studentNumber
     };
 
-    String cookies = store.state.content['session'].cookies;
-
     try {
-      var response = await NetworkRouter.getWithCookies(url, query, cookies);
+      var response = await NetworkRouter.getWithCookies(url, query, store.state.content['session']);
 
       Map<String, String> coursesStates = await parseCourses(response);
 
@@ -356,7 +350,6 @@ ThunkAction<AppState> getUserCoursesState(Completer<Null> action) {
         AppCoursesDatabase courses_db = await AppCoursesDatabase();
         await courses_db.saveCoursesStates(coursesStates);
       }
-
       store.dispatch(new SetCoursesStatesAction(coursesStates));
       store.dispatch(SetCoursesStatesStatusAction(RequestStatus.SUCCESSFUL));
     } catch (e) {

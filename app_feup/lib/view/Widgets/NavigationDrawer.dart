@@ -30,7 +30,7 @@ class NavigationDrawerState extends State<NavigationDrawer> {
     "Bug Report"
   ];
 
-  getCurrentRoute() => ModalRoute.of(parentContext).settings.name == null ? 
+  getCurrentRoute() => ModalRoute.of(parentContext).settings.name == null ?
   drawerItems[0]:
   ModalRoute.of(parentContext).settings.name.substring(1);
 
@@ -60,12 +60,11 @@ class NavigationDrawerState extends State<NavigationDrawer> {
           ),
         ],
       ),
-      onTap: () => Navigator.pushReplacementNamed(context, '/Terminar sessão'),
+      onTap: () => Navigator.pushNamedAndRemoveUntil(context, '/Terminar sessão', (_) => false),
     );
   }
 
   Widget createDrawerNavigationOption(String d, int i) {
-    print(getCurrentRoute().toString());
     return new ListTile(
       title: new Row(
         children: <Widget>[

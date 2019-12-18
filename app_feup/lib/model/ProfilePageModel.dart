@@ -1,7 +1,9 @@
+import 'package:app_feup/controller/LoadInfo.dart';
 import 'package:app_feup/model/AppState.dart';
 import 'package:app_feup/view/Pages/ProfilePageView.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'dart:io';
 
 import 'entities/Course.dart';
 
@@ -19,6 +21,7 @@ class _ProfilePageState extends State<ProfilePage> {
   String email;
   Map<String, String> currentState;
   List<Course> courses;
+  Future<File> profilePicFile;
 
   @override
   void initState() {
@@ -27,19 +30,27 @@ class _ProfilePageState extends State<ProfilePage> {
     email = "";
     currentState = {};
     courses = [];
+    profilePicFile = null;
+
   }
 
   @override
   Widget build(BuildContext context) {
+    profilePicFile = loadProfilePic( StoreProvider.of<AppState>(context));
     updateInfo();
-    return new ProfilePageView(
-      name: name,
-      email: email,
-      currentState: currentState,
-      courses: courses);
+    return FutureBuilder(future: profilePicFile,
+    builder: (BuildContext context,
+    AsyncSnapshot<File> profilePic){
+      return new ProfilePageView(
+          name: name,
+          email: email,
+          currentState: currentState,
+          courses: courses, profilePicFile: profilePic.data);
+    });
+
   }
 
-  void updateInfo() {
+  void updateInfo() async{
     setState(() {
       if(StoreProvider.of<AppState>(context).state.content['profile'] != null) {
         name = StoreProvider
