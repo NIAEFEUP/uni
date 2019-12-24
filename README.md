@@ -2,7 +2,7 @@
 
 ## Overall structure
 
-For this project we are going to be separating the code into Model, View and Controller.
+For this project, we are going to be separating the code into Model, View and Controller.
 By making sure view-only components are clear from the rest of the code, we can assure safe reuse of widgets as well as separated testing and development.
 The state of app pages is stored in the model package, as well as the actions (methods that allow us to update the state), which then use controller's methods.
 
@@ -24,4 +24,4 @@ Subfolders are crucial to keep the code organized.
 As mentioned before, the Model is responsible for holding the overall state of the app and its pages. For that, we have a model class for each page where the state and actions are located. The state consists of the actual variables that dictate how the application is at a given moment. The actions are methods that allow us to alter and update the state. By passing the actions as arguments to the view widget of a page, we allow its children widgets to update the state.
 
 ## Guide and examples
-For helping with getting started, there are some code examples in the guide_and_examples folder. There you can find stateful widgets, futures and more explained through comments. Any doubt, please contact the project manager.
+For help with getting started, there are some code examples in the guide_and_examples folder. There you can find stateful widgets, futures and more explained through comments. Any doubt, please contact the project manager.
