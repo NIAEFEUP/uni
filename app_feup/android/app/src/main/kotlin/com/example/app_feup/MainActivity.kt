@@ -1,4 +1,4 @@
-package com.example.app_feup
+package pt.up.fe.ni.uni
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity
