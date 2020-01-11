@@ -25,11 +25,11 @@ class NavigationDrawerState extends State<NavigationDrawer> {
     super.initState();
 
     drawerItems = {
-      Constants.NAV_PERSONAL_AREA: _onSelectItem,
-      Constants.NAV_SCHEDULE: _onSelectItem,
-      Constants.NAV_EXAMS: _onSelectItem,
-      Constants.NAV_ABOUT: _onSelectItem,
-      Constants.NAV_BUG_REPORT: _onSelectItem,
+      Constants.NAV_PERSONAL_AREA: _onSelectPage,
+      Constants.NAV_SCHEDULE: _onSelectPage,
+      Constants.NAV_EXAMS: _onSelectPage,
+      Constants.NAV_ABOUT: _onSelectPage,
+      Constants.NAV_BUG_REPORT: _onSelectPage,
     };
   }
 
@@ -38,7 +38,7 @@ class NavigationDrawerState extends State<NavigationDrawer> {
       ? drawerItems.keys.toList()[0]
       : ModalRoute.of(parentContext).settings.name.substring(1);
 
-  _onSelectItem(String key) {
+  _onSelectPage(String key) {
     final prev = getCurrentRoute();
 
     Navigator.of(context).pop();
@@ -63,16 +63,13 @@ class NavigationDrawerState extends State<NavigationDrawer> {
   }
 
   Widget createLogoutBtn() {
-    return new RaisedButton(
+    return OutlineButton(
       onPressed: () => _onLogOut(Constants.NAV_LOG_OUT),
-      textColor: Colors.white,
-      color: primaryColor,
-      elevation: 10,
       highlightElevation: 0,
       padding: const EdgeInsets.all(0.0),
       child: Container(
         padding: const EdgeInsets.all(15.0),
-        child: Text(Constants.NAV_LOG_OUT, style: Theme.of(context).textTheme.display4),
+        child: Text(Constants.NAV_LOG_OUT, style: Theme.of(context).textTheme.title.apply(color: primaryColor)),
       ),
     );
   }
