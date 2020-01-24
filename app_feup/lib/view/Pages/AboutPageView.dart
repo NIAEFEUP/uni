@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import '../Pages/GeneralPageView.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class AboutPageView extends GeneralPageView {
+class AboutPageView extends StatefulWidget{
+  @override
+  State<StatefulWidget> createState() => AboutPageViewState();
+}
+
+class AboutPageViewState extends GeneralPageViewState {
 
   @override
   Widget getBody(BuildContext context) {

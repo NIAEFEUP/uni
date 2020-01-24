@@ -7,13 +7,14 @@ import '../Widgets/TitleCard.dart';
 import '../../model/AppState.dart';
 import '../Widgets/ScheduleRow.dart';
 
-class ExamsPageView extends SecondaryPageView {
+class ExamsPageView extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => ExamsPageViewState();
+
+}
+class ExamsPageViewState extends SecondaryPageViewState {
 
   final double borderRadius = 15.0;
-
-  ExamsPageView({
-    Key key
-  });
 
   @override
   Widget getBody(BuildContext context) {
