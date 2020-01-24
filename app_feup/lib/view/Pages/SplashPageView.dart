@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:app_feup/controller/local_storage/AppSharedPreferences.dart';
 import 'package:app_feup/model/AppState.dart';
 import 'package:app_feup/view/Pages/HomePageView.dart';
