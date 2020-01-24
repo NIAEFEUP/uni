@@ -33,7 +33,7 @@ ThunkAction<AppState> reLogin(username, password, faculty, onComplete) {
           await NetworkRouter.login(username, password, faculty, true);
       store.dispatch(new SaveLoginDataAction(session));
       if (session.authenticated) {
-        loadRemoteUserInfoToState(store);
+        await loadRemoteUserInfoToState(store);
         store.dispatch(new SetLoginStatusAction(RequestStatus.SUCCESSFUL));
       } else {
         store.dispatch(new SetLoginStatusAction(RequestStatus.FAILED));
