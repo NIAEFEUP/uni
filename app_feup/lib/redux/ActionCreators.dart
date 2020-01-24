@@ -24,7 +24,7 @@ import 'Actions.dart';
 import 'package:redux/redux.dart';
 import 'package:app_feup/controller/networking/NetworkRouter.dart';
 
-ThunkAction<AppState> reLogin(username, password, faculty) {
+ThunkAction<AppState> reLogin(username, password, faculty, onComplete) {
   return (Store<AppState> store) async {
     try {
       loadLocalUserInfoToState(store);
@@ -38,8 +38,10 @@ ThunkAction<AppState> reLogin(username, password, faculty) {
       } else {
         store.dispatch(new SetLoginStatusAction(RequestStatus.FAILED));
       }
+      onComplete(session.authenticated);
     } catch (e) {
       store.dispatch(new SetLoginStatusAction(RequestStatus.FAILED));
+      onComplete(false);
     }
   };
 }
