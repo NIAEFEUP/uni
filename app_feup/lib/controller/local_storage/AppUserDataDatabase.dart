@@ -10,7 +10,7 @@ class AppUserDataDatabase extends AppDatabase {
   AppUserDataDatabase():super('userdata.db', 'CREATE TABLE userdata(key TEXT, value TEXT)');
 
   void saveUserData(Profile profile) async {
-    await _deleteUserData();
+    await deleteUserData();
     await _insertUserData(profile);
   }
 
@@ -55,7 +55,7 @@ class AppUserDataDatabase extends AppDatabase {
         feesLimit: feesLimit);
   }
 
-  Future<void> _deleteUserData() async {
+  Future<void> deleteUserData() async {
     // Get a reference to the database
     final Database db = await this.getDatabase();
 

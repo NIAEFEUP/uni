@@ -32,9 +32,10 @@ ThunkAction<AppState> reLogin(username, password, faculty) {
     try {
       loadLocalUserInfoToState(store);
       store.dispatch(new SetLoginStatusAction(RequestStatus.BUSY));
-      final Session session = await NetworkRouter.login(username, password, faculty, true);
+      final Session session =
+          await NetworkRouter.login(username, password, faculty, true);
       store.dispatch(new SaveLoginDataAction(session));
-      if (session.authenticated){
+      if (session.authenticated) {
         loadRemoteUserInfoToState(store);
         store.dispatch(new SetLoginStatusAction(RequestStatus.SUCCESSFUL));
       } else {
@@ -50,13 +51,14 @@ ThunkAction<AppState> login(username, password, faculty, persistentSession) {
   return (Store<AppState> store) async {
     try {
       store.dispatch(new SetLoginStatusAction(RequestStatus.BUSY));
-      final Session session = await NetworkRouter.login(username, password, faculty, persistentSession);
+      final Session session = await NetworkRouter.login(
+          username, password, faculty, persistentSession);
       store.dispatch(new SaveLoginDataAction(session));
-      if (session.authenticated){
+      if (session.authenticated) {
+        store.dispatch(new SetLoginStatusAction(RequestStatus.SUCCESSFUL));
         if (persistentSession)
           AppSharedPreferences.savePersistentUserInfo(username, password);
         await loadUserInfoToState(store);
-        store.dispatch(new SetLoginStatusAction(RequestStatus.SUCCESSFUL));
       } else {
         store.dispatch(new SetLoginStatusAction(RequestStatus.FAILED));
       }
@@ -73,23 +75,26 @@ ThunkAction<AppState> getUserInfo(Completer<Null> action) {
 
       store.dispatch(SaveProfileStatusAction(RequestStatus.BUSY));
 
-      final profile = NetworkRouter.getProfile(store.state.content['session']).then((res) {
+      final profile =
+          NetworkRouter.getProfile(store.state.content['session']).then((res) {
         user_profile = res;
         store.dispatch(new SaveProfileAction(user_profile));
         store.dispatch(new SaveProfileStatusAction(RequestStatus.SUCCESSFUL));
       });
-      final ucs = NetworkRouter.getCurrentCourseUnits(store.state.content['session']).then((res) => store.dispatch(new SaveUcsAction(res)));
+      final ucs =
+          NetworkRouter.getCurrentCourseUnits(store.state.content['session'])
+              .then((res) => store.dispatch(new SaveUcsAction(res)));
       await Future.wait([profile, ucs]);
 
-      Tuple2<String, String> userPersistentInfo = await AppSharedPreferences.getPersistentUserInfo();
-      if(userPersistentInfo.item1 != "" && userPersistentInfo.item2 != ""){
+      Tuple2<String, String> userPersistentInfo =
+          await AppSharedPreferences.getPersistentUserInfo();
+      if (userPersistentInfo.item1 != "" && userPersistentInfo.item2 != "") {
         AppUserDataDatabase profile_db = await AppUserDataDatabase();
         await profile_db.saveUserData(user_profile);
 
         AppCoursesDatabase courses_db = await AppCoursesDatabase();
         await courses_db.saveNewCourses(user_profile.courses);
       }
-
     } catch (e) {
       print("Failed to get User Info");
       store.dispatch(new SaveProfileStatusAction(RequestStatus.FAILED));
@@ -157,13 +162,14 @@ ThunkAction<AppState> getUserExams(Completer<Null> action) {
 
       List<Exam> courseExams = new List<Exam>();
 
-
-      for(Course course in store.state.content['profile'].courses){
+      for (Course course in store.state.content['profile'].courses) {
         List<Exam> currentCourseExams = await parseExams(
             await NetworkRouter.getWithCookies(
-                NetworkRouter.getBaseUrlFromSession(store.state.content['session']) + "exa_geral.mapa_de_exames?p_curso_id=${course.id}",
-                {}, store.state.content['session'].cookies)
-        );
+                NetworkRouter.getBaseUrlFromSession(
+                        store.state.content['session']) +
+                    "exa_geral.mapa_de_exames?p_curso_id=${course.id}",
+                {},
+                store.state.content['session']));
         courseExams = new List.from(courseExams)..addAll(currentCourseExams);
       }
 
@@ -172,24 +178,23 @@ ThunkAction<AppState> getUserExams(Completer<Null> action) {
       for (Exam courseExam in courseExams) {
         for (CourseUnit uc in userUcs) {
           if (!courseExam.examType.contains(
-              "Exames ao abrigo de estatutos especiais - Port.Est.Especiais") &&
+                  "Exames ao abrigo de estatutos especiais - Port.Est.Especiais") &&
               courseExam.subject == uc.abbreviation) {
             exams.add(courseExam);
             break;
           }
-
         }
       }
 
       // Updates local database according to the information fetched -- Exams
-      Tuple2<String, String> userPersistentInfo = await AppSharedPreferences.getPersistentUserInfo();
-      if(userPersistentInfo.item1 != "" && userPersistentInfo.item2 != ""){
+      Tuple2<String, String> userPersistentInfo =
+          await AppSharedPreferences.getPersistentUserInfo();
+      if (userPersistentInfo.item1 != "" && userPersistentInfo.item2 != "") {
         AppExamsDatabase db = await AppExamsDatabase();
         db.saveNewExams(exams);
       }
       store.dispatch(new SetExamsStatusAction(RequestStatus.SUCCESSFUL));
       store.dispatch(new SetExamsAction(exams));
-      
     } catch (e) {
       print("Failed to get Exams");
       store.dispatch(new SetExamsStatusAction(RequestStatus.FAILED));
@@ -215,14 +220,17 @@ ThunkAction<AppState> getUserSchedule(Completer<Null> action) {
 
       List<Lecture> lectures = await parseSchedule(
           await NetworkRouter.getWithCookies(
-              NetworkRouter.getBaseUrlFromSession(store.state.content['session'])
-                  + "mob_hor_geral.estudante?pv_codigo=${store.state.content['session'].studentNumber}"
-                  "&pv_semana_ini=$beginWeek&pv_semana_fim=$endWeek",
-              {}, store.state.content['session'].cookies));
+              NetworkRouter.getBaseUrlFromSession(
+                      store.state.content['session']) +
+                  "mob_hor_geral.estudante?pv_codigo=${store.state.content['session'].studentNumber}"
+                      "&pv_semana_ini=$beginWeek&pv_semana_fim=$endWeek",
+              {},
+              store.state.content['session']));
 
       // Updates local database according to the information fetched -- Lectures
-      Tuple2<String, String> userPersistentInfo = await AppSharedPreferences.getPersistentUserInfo();
-      if(userPersistentInfo.item1 != "" && userPersistentInfo.item2 != ""){
+      Tuple2<String, String> userPersistentInfo =
+          await AppSharedPreferences.getPersistentUserInfo();
+      if (userPersistentInfo.item1 != "" && userPersistentInfo.item2 != "") {
         AppLecturesDatabase db = await AppLecturesDatabase();
         db.saveNewLectures(lectures);
       }
@@ -237,24 +245,30 @@ ThunkAction<AppState> getUserSchedule(Completer<Null> action) {
   };
 }
 
+ThunkAction<AppState> setInitialStoreState() {
+  return (Store<AppState> store) async {
+    store.dispatch(new SetInitialStoreStateAction());
+  };
+}
+
 ThunkAction<AppState> getUserPrintBalance(Completer<Null> action) {
   return (Store<AppState> store) async {
-    store.dispatch(new SetPrintBalanceStatusAction(RequestStatus.BUSY));
+    String url =
+        NetworkRouter.getBaseUrlFromSession(store.state.content['session']) +
+            "imp4_impressoes.atribs?";
 
-    String url = NetworkRouter.getBaseUrlFromSession(store.state.content['session']) + "imp4_impressoes.atribs?";
-
-    Map<String, String> query = {"p_codigo": store.state.content['session'].studentNumber};
-
-    String cookies = store.state.content['session'].cookies;
+    Map<String, String> query = {
+      "p_codigo": store.state.content['session'].studentNumber
+    };
 
     try {
-      var response = await NetworkRouter.getWithCookies(url, query, cookies);
+      var response = await NetworkRouter.getWithCookies(url, query, store.state.content['session']);
       String printBalance = await getPrintsBalance(response);
 
       String current_time = DateTime.now().toString();
-      Tuple2<String, String> userPersistentInfo = await AppSharedPreferences.getPersistentUserInfo();
-      if(userPersistentInfo.item1 != "" && userPersistentInfo.item2 != ""){
-
+      Tuple2<String, String> userPersistentInfo =
+          await AppSharedPreferences.getPersistentUserInfo();
+      if (userPersistentInfo.item1 != "" && userPersistentInfo.item2 != "") {
         await storeRefreshTime("print", current_time);
 
         // Store fees info
@@ -265,7 +279,7 @@ ThunkAction<AppState> getUserPrintBalance(Completer<Null> action) {
       store.dispatch(new SetPrintBalanceAction(printBalance));
       store.dispatch(new SetPrintBalanceStatusAction(RequestStatus.SUCCESSFUL));
       store.dispatch(new SetPrintRefreshTimeAction(current_time));
-    }catch(e){
+    } catch (e) {
       print("Failed to get Print Balance");
       store.dispatch(new SetPrintBalanceStatusAction(RequestStatus.FAILED));
     }
@@ -277,34 +291,37 @@ ThunkAction<AppState> getUserFees(Completer<Null> action) {
   return (Store<AppState> store) async {
     store.dispatch(new SetFeesStatusAction(RequestStatus.BUSY));
 
-    String url = NetworkRouter.getBaseUrlFromSession(store.state.content['session']) + "gpag_ccorrente_geral.conta_corrente_view?";
+    String url =
+        NetworkRouter.getBaseUrlFromSession(store.state.content['session']) +
+            "gpag_ccorrente_geral.conta_corrente_view?";
 
-    Map<String, String> query = {"pct_cod": store.state.content['session'].studentNumber};
+    Map<String, String> query = {
+      "pct_cod": store.state.content['session'].studentNumber
+    };
 
-    String cookies = store.state.content['session'].cookies;
-
-    try{
-      var response = await NetworkRouter.getWithCookies(url, query, cookies);
+    try {
+      var response = await NetworkRouter.getWithCookies(url, query, store.state.content['session']);
 
       String feesBalance = await parseFeesBalance(response);
       String feesLimit = await parseFeesNextLimit(response);
 
       String current_time = DateTime.now().toString();
-      Tuple2<String, String> userPersistentInfo = await AppSharedPreferences.getPersistentUserInfo();
-      if(userPersistentInfo.item1 != "" && userPersistentInfo.item2 != ""){
-
+      Tuple2<String, String> userPersistentInfo =
+          await AppSharedPreferences.getPersistentUserInfo();
+      if (userPersistentInfo.item1 != "" && userPersistentInfo.item2 != "") {
         await storeRefreshTime("fees", current_time);
 
         // Store fees info
         AppUserDataDatabase profile_db = await AppUserDataDatabase();
-        await profile_db.saveUserFees(new Tuple2<String,String>(feesBalance, feesLimit));
+        await profile_db
+            .saveUserFees(new Tuple2<String, String>(feesBalance, feesLimit));
       }
 
       store.dispatch(new SetFeesBalanceAction(feesBalance));
       store.dispatch(new SetFeesLimitAction(feesLimit));
       store.dispatch(new SetFeesStatusAction(RequestStatus.SUCCESSFUL));
       store.dispatch(new SetFeesRefreshTimeAction(current_time));
-    }catch(e){
+    } catch (e) {
       print("Failed to get Fees info");
       store.dispatch(new SetFeesStatusAction(RequestStatus.FAILED));
     }
@@ -317,27 +334,28 @@ ThunkAction<AppState> getUserCoursesState(Completer<Null> action) {
   return (Store<AppState> store) async {
     store.dispatch(SetCoursesStatesStatusAction(RequestStatus.BUSY));
 
-    String url = NetworkRouter.getBaseUrlFromSession(store.state.content['session']) + "fest_geral.cursos_list?";
+    String url =
+        NetworkRouter.getBaseUrlFromSession(store.state.content['session']) +
+            "fest_geral.cursos_list?";
 
-    Map<String, String> query = {"pv_num_unico": store.state.content['session'].studentNumber};
+    Map<String, String> query = {
+      "pv_num_unico": store.state.content['session'].studentNumber
+    };
 
-    String cookies = store.state.content['session'].cookies;
+    try {
+      var response = await NetworkRouter.getWithCookies(url, query, store.state.content['session']);
 
-    try{
-      var response = await NetworkRouter.getWithCookies(url, query, cookies);
+      Map<String, String> coursesStates = await parseCourses(response);
 
-      Map<String,String> coursesStates = await parseCourses(response);
-
-      Tuple2<String, String> userPersistentInfo = await AppSharedPreferences.getPersistentUserInfo();
-      if(userPersistentInfo.item1 != "" && userPersistentInfo.item2 != ""){
+      Tuple2<String, String> userPersistentInfo =
+          await AppSharedPreferences.getPersistentUserInfo();
+      if (userPersistentInfo.item1 != "" && userPersistentInfo.item2 != "") {
         AppCoursesDatabase courses_db = await AppCoursesDatabase();
         await courses_db.saveCoursesStates(coursesStates);
       }
-
       store.dispatch(new SetCoursesStatesAction(coursesStates));
       store.dispatch(SetCoursesStatesStatusAction(RequestStatus.SUCCESSFUL));
-
-    }catch(e){
+    } catch (e) {
       print("Failed to get Courses State info");
       store.dispatch(SetCoursesStatesStatusAction(RequestStatus.FAILED));
     }
@@ -378,6 +396,7 @@ ThunkAction<AppState> setUserBusStops(Completer<Null> action){
 }
 
 Future storeRefreshTime(String db, String current_time) async {
-  AppRefreshTimesDatabase refreshTimesDatabase = await AppRefreshTimesDatabase();
+  AppRefreshTimesDatabase refreshTimesDatabase =
+      await AppRefreshTimesDatabase();
   await refreshTimesDatabase.saveRefreshTime(db, current_time);
 }

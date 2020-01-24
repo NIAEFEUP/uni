@@ -10,11 +10,11 @@ import 'package:flutter_redux/flutter_redux.dart';
 import '../Theme.dart';
 import 'AccountInfoCard.dart';
 import 'BusStopCard.dart';
-import 'HomePageBackButton.dart';
+import 'BackButtonExitWrapper.dart';
 import 'PrintInfoCard.dart';
 
 class MainCardsList extends StatelessWidget {
-  
+
   final Map<FAVORITE_WIDGET_TYPE, Function> CARD_CREATORS = {
     FAVORITE_WIDGET_TYPE.SCHEDULE: (k, em, od) => ScheduleCard.fromEditingInformation(k, em, od),
     FAVORITE_WIDGET_TYPE.EXAMS: (k, em, od) => ExamCard.fromEditingInformation(k, em, od),
@@ -27,7 +27,7 @@ class MainCardsList extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Scaffold(
-        body: HomePageBackButton(
+        body: BackButtonExitWrapper(
           context: context,
           child:  createScrollableCardView(context),
         ),
@@ -163,7 +163,7 @@ class MainCardsList extends StatelessWidget {
     StoreProvider.of<AppState>(context).dispatch(new UpdateFavoriteCards(favorites));
     AppSharedPreferences.saveFavoriteCards(favorites);
   }
-  
+
   bool isEditing(context){
     bool result = StoreProvider
         .of<AppState>(context)

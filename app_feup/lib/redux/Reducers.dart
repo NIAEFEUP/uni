@@ -20,17 +20,17 @@ AppState appReducers(AppState state, dynamic action) {
     return saveProfileStatus(state, action);
   } else if (action is SaveUcsAction) {
     return saveCurrUcs(state, action);
-  } else if(action is SetPrintBalanceAction) {
+  } else if (action is SetPrintBalanceAction) {
     return setPrintBalance(state, action);
-  } else if(action is SetPrintBalanceStatusAction) {
+  } else if (action is SetPrintBalanceStatusAction) {
     return setPrintBalanceStatus(state, action);
-  } else if(action is SetFeesBalanceAction) {
+  } else if (action is SetFeesBalanceAction) {
     return setFeesBalance(state, action);
-  } else if(action is SetFeesLimitAction) {
+  } else if (action is SetFeesLimitAction) {
     return setFeesLimit(state, action);
-  } else if(action is SetFeesStatusAction) {
+  } else if (action is SetFeesStatusAction) {
     return setFeesStatus(state, action);
-  } else if(action is SetCoursesStatesAction){
+  } else if (action is SetCoursesStatesAction) {
     return setCoursesState(state, action);
   } else if(action is SetBusStopTripsAction){
     return setBusStopTrips(state, action);
@@ -42,12 +42,14 @@ AppState appReducers(AppState state, dynamic action) {
     return setCurrentTime(state, action);
   } else if(action is UpdateFavoriteCards) {
     return updateFavoriteCards(state, action);
-  } else if(action is SetCoursesStatesStatusAction){
+  } else if (action is SetCoursesStatesStatusAction) {
     return setCoursesStateStatus(state, action);
   } else if (action is SetPrintRefreshTimeAction) {
     return setPrintRefreshTime(state, action);
   } else if (action is SetFeesRefreshTimeAction) {
     return setFeesRefreshTime(state, action);
+  } else if (action is SetInitialStoreStateAction) {
+    return setInitialStoreState(state, action);
   } else if (action is SetHomePageEditingMode) {
     return setHomePageEditingMode(state, action);
   }
@@ -102,7 +104,8 @@ AppState setPrintBalance(AppState state, SetPrintBalanceAction action) {
   return state.cloneAndUpdateValue("printBalance", action.printBalance);
 }
 
-AppState setPrintBalanceStatus(AppState state, SetPrintBalanceStatusAction action) {
+AppState setPrintBalanceStatus(
+    AppState state, SetPrintBalanceStatusAction action) {
   print('setting print balance status: ' + action.status.toString());
   return state.cloneAndUpdateValue("printBalanceStatus", action.status);
 }
@@ -147,11 +150,18 @@ AppState setCurrentTime(AppState state, SetCurrentTimeAction action) {
   return state.cloneAndUpdateValue('currentTime', action.currentTime);
 }
 
+AppState setInitialStoreState(
+    AppState state, SetInitialStoreStateAction action) {
+  print('setting initial store state');
+  return state.getInitialState();
+}
+
 AppState updateFavoriteCards(AppState state, UpdateFavoriteCards action) {
   return state.cloneAndUpdateValue("favoriteCards", action.favoriteCards);
 }
 
-AppState setCoursesStateStatus(AppState state, SetCoursesStatesStatusAction action) {
+AppState setCoursesStateStatus(
+    AppState state, SetCoursesStatesStatusAction action) {
   print('setting courses state status: ' + action.status.toString());
   return state.cloneAndUpdateValue("coursesStatesStatus", action.status);
 }

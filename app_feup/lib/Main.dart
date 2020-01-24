@@ -5,12 +5,12 @@ import 'package:app_feup/model/entities/Exam.dart';
 import 'package:app_feup/redux/Actions.dart' show SetCurrentTimeAction;
 import 'package:app_feup/view/Pages/BusStopNextArrivalsPage.dart';
 import 'package:app_feup/view/Pages/BusStopSelectionPage.dart';
-import 'package:app_feup/view/Pages/ClassificationsPageView.dart';
+import 'package:app_feup/controller/Logout.dart';
+import 'package:app_feup/model/SchedulePageModel.dart';
+import 'package:app_feup/view/NavigationService.dart';
 import 'package:app_feup/view/Pages/ExamsPageView.dart';
 import 'package:app_feup/view/Pages/HomePageView.dart';
-import 'package:app_feup/view/Pages/MapPageView.dart';
-import 'package:app_feup/view/Pages/MenuPageView.dart';
-import 'package:app_feup/view/Pages/ParkPageView.dart';
+import 'package:app_feup/model/LoginPageModel.dart';
 import 'package:app_feup/view/Pages/AboutPageView.dart';
 import 'package:app_feup/view/Pages/BugReportPageView.dart';
 import 'package:app_feup/controller/Middleware.dart';
@@ -18,6 +18,8 @@ import 'package:flutter/material.dart';
 import 'package:app_feup/view/Pages/SplashPageView.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'controller/OnStartUp.dart';
+import 'model/LoginPageModel.dart';
 import 'view/Theme.dart';
 import 'model/AppState.dart';
 import 'package:redux/redux.dart';
@@ -25,9 +27,16 @@ import 'redux/Reducers.dart';
 import 'package:app_feup/model/AppState.dart';
 import 'package:app_feup/controller/LifecycleEventHandler.dart';
 
-List<Exam> exams;
+final Store<AppState> state = Store<AppState>(
+    appReducers, /* Function defined in the reducers file */
+    initialState: new AppState(null),
+    middleware: [generalMiddleware]
+);
 
-void main() => runApp(new MyApp());
+void main() {
+  OnStartUp.onStart(state);
+  runApp(new MyApp());
+}
 
 class MyApp extends StatefulWidget {
   @override
@@ -37,13 +46,6 @@ class MyApp extends StatefulWidget {
 }
 
 class MyAppState extends State<MyApp> {
-
-  final Store<AppState> state = Store<AppState>(
-      appReducers, /* Function defined in the reducers file */
-      initialState: new AppState(null),
-      middleware: [generalMiddleware]
-  );
-
   WidgetsBindingObserver lifeCycleEventHandler;
 
   @override
@@ -52,48 +54,47 @@ class MyAppState extends State<MyApp> {
       DeviceOrientation.portraitUp,
     ]);
     return StoreProvider(
-      store: this.state,
+      store: state,
       child: MaterialApp(
-          title: 'App FEUP',
+          title: 'uni',
           theme: applicationTheme,
           home: SplashScreen(),
-
+          navigatorKey: NavigationService.navigatorKey,
           // ignore: missing_return
           onGenerateRoute: (RouteSettings settings) {
             switch(settings.name) {
               case '/Área Pessoal':
-                return MaterialPageRoute(builder: (context) => HomePageView());
-                break;
+                return MaterialPageRoute(
+                    builder: (context) => HomePageView(), settings: settings);
               case '/Horário':
-                return MaterialPageRoute(builder: (context) => SchedulePage());
-                break;
-              case '/Classificações':
-                return MaterialPageRoute(builder: (context) => ClassificationsPageView());
-                break;
-              case '/Ementa':
-                return MaterialPageRoute(builder: (context) => MenuPageView());
-                break;
+                return MaterialPageRoute(
+                    builder: (context) => SchedulePage(), settings: settings);
               case '/Mapa de Exames':
-                return MaterialPageRoute(builder: (context) => ExamsPageView());
-                break;
-              case '/Parques':
-                return MaterialPageRoute(builder: (context) => ParkPageView());
-                break;
-              case '/Mapa FEUP':
-                return MaterialPageRoute(builder: (context) => MapPageView());
-                break;
-              case '/Paragens':
-                return MaterialPageRoute(builder: (context) => BusStopNextArrivalsPage(), settings: settings, maintainState: false);
-                break;
-              case '/ConfigurarParagens':
-                return MaterialPageRoute(builder: (context) => BusStopSelectionPage(), settings: settings, maintainState: false);
-                break;
-              case '/About':
-                return MaterialPageRoute(builder: (context) => AboutPageView());
-                break;
+                return MaterialPageRoute(
+                    builder: (context) => ExamsPageView(), settings: settings);
+              case '/Sobre':
+                return MaterialPageRoute(
+                    builder: (context) => AboutPageView(), settings: settings);
               case '/Bug Report':
-                return MaterialPageRoute(builder: (context) => BugReportPageView(), maintainState: false);
-                break;
+                return MaterialPageRoute(
+                    builder: (context) => BugReportPageView(),
+                    settings: settings,
+                    maintainState: false);
+              case '/Terminar sessão':
+                return MaterialPageRoute(builder: (context) {
+                  logout(context);
+                  return LoginPage();
+                });
+              case '/Paragens':
+                return MaterialPageRoute(
+                    builder: (context) => BusStopNextArrivalsPage(),
+                    settings: settings,
+                    maintainState: false);
+              case '/ConfigurarParagens':
+                return MaterialPageRoute(
+                    builder: (context) => BusStopSelectionPage(),
+                    settings: settings,
+                    maintainState: false);
             }
           }
       ),
@@ -108,7 +109,7 @@ class MyAppState extends State<MyApp> {
         state.dispatch(new SetCurrentTimeAction(DateTime.now()))
     );
 
-    this.lifeCycleEventHandler = new LifecycleEventHandler(store: this.state);
+    this.lifeCycleEventHandler = new LifecycleEventHandler(store: state);
     WidgetsBinding.instance.addObserver(this.lifeCycleEventHandler);
   }
 
@@ -118,5 +119,3 @@ class MyAppState extends State<MyApp> {
     super.dispose();
   }
 }
-
-

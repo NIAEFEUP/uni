@@ -3,9 +3,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:app_feup/view/Widgets/NavigationDrawer.dart';
 import 'package:app_feup/model/AppState.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:app_feup/controller/LoadInfo.dart';
 import 'package:app_feup/model/ProfilePageModel.dart';
+import 'dart:io';
 
 abstract class GeneralPageView extends StatelessWidget {
   final double borderMargin = 18.0;
@@ -19,30 +19,15 @@ abstract class GeneralPageView extends StatelessWidget {
     return new Container();
   }
 
-  DecorationImage buildDecorageImage(context) {
-    String studentNo = StoreProvider.of<AppState>(context)
-            .state
-            .content['session']
-            .studentNumber ??
-        "";
-    return (studentNo != "")
-        ? DecorationImage(
-            fit: BoxFit.cover, image: getProfileImage(context))
-        : null;
+  DecorationImage getDecorageImage(File x) {
+    final image = (x == null)? new AssetImage("assets/images/profile_placeholder.png") : new FileImage(x);
+    return  DecorationImage(
+        fit: BoxFit.cover, image: image);
   }
 
-  CachedNetworkImageProvider getProfileImage(BuildContext context) {
-    CachedNetworkImageProvider profileImage;
-
-    String studentNo = StoreProvider.of<AppState>(context).state.content['session'].studentNumber;
-    String url = "https://sigarra.up.pt/feup/pt/fotografias_service.foto?pct_cod=" + studentNo;
-
-    final Map<String, String> headers = Map<String, String>();
-    headers['cookie'] = StoreProvider.of<AppState>(context).state.content['session'].cookies;
-
-    profileImage = CachedNetworkImageProvider(url, headers: headers);
-
-    return profileImage;
+  Future<DecorationImage> buildDecorageImage(context) async{
+    var storedFile = await loadProfilePic( StoreProvider.of<AppState>(context));
+    return getDecorageImage(storedFile);
   }
 
   Widget refreshState(BuildContext context, Widget child) {
@@ -74,42 +59,44 @@ abstract class GeneralPageView extends StatelessWidget {
         elevation: 0,
         iconTheme: new IconThemeData(color: Theme.of(context).primaryColor),
         backgroundColor: Theme.of(context).backgroundColor,
-        title: new Container(
-          child: SvgPicture.asset(
-            'assets/images/logo_dark.svg',
-              height: queryData.size.height/27,
-          ),
-        ),
-        actions: <Widget>[
-          FlatButton(
-            onPressed: () => {Navigator.pushReplacement(context,new MaterialPageRoute(builder: (__) => new ProfilePage()))},
-            child: Container(
-                width: 40.0,
-                height: 40.0,
-                decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: buildDecorageImage(context)
-                )
+        titleSpacing: 0.0,
+        title: ButtonTheme(
+          minWidth: 0,
+          padding: EdgeInsets.only(left: 0),
+          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          shape: RoundedRectangleBorder(),
+          child: FlatButton(
+              onPressed: () => Navigator.pushNamed(context, '/Área Pessoal'),
+              child: SvgPicture.asset(
+                    'assets/images/logo_dark.svg',
+                      height: queryData.size.height/25,
+
             ),
-          ),
-        ],),
+        )),
+        actions: <Widget>[
+          getTopRightButton(context),],
+        ),
       drawer: new NavigationDrawer(parentContext: context),
       body: this.refreshState(context, body),
     );
   }
-    
-Widget getTopRightButton(BuildContext context) {
-  return FlatButton(
-        onPressed: () => {Navigator.push(context,new MaterialPageRoute(builder: (__) => new ProfilePage()))},
-        child: Container(
-            width: 40.0,
-            height: 40.0,
-            decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: buildDecorageImage(context)
-            )
-        ),
-      );
-}
+
+  Widget getTopRightButton(BuildContext context) {
+    return FutureBuilder(
+        future: buildDecorageImage(context),
+        builder: (BuildContext context,
+            AsyncSnapshot<DecorationImage> decorationImage) {
+          return FlatButton(
+          onPressed: () => {Navigator.push(context,new MaterialPageRoute(builder: (__) => new ProfilePage()))
+          },child: Container(
+              width: 40.0,
+              height: 40.0,
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: decorationImage.data
+          )),
+        );
+      });
+    }
 
 }

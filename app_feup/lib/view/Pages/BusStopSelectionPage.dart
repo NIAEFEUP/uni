@@ -137,6 +137,8 @@ class BusStopSearch extends SearchDelegate<String> {
   }
 
   Widget getSuggestionList(BuildContext context) {
+    if(this.suggestionsList.length == 0)
+      return ListView();
     return ListView.builder(
           itemBuilder: (context, index) => ListTile(
               onTap: () {
@@ -167,7 +169,7 @@ class BusStopSearch extends SearchDelegate<String> {
               leading: Icon(Icons.directions_bus),
               title: Text(this.suggestionsList[index])
           ),
-          itemCount: min(this.suggestionsList.length-1,9),
+          itemCount: min(this.suggestionsList.length,9),
         );
   }
 
@@ -175,11 +177,14 @@ class BusStopSearch extends SearchDelegate<String> {
   Widget buildSuggestions(BuildContext context) {
     return FutureBuilder<List<String>>(
       future: this.getStops(),
-      builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot){
-        if(snapshot.connectionState == ConnectionState.done && !snapshot.hasError)
+      builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
+        if (snapshot.connectionState == ConnectionState.done && !snapshot.hasError)
           this.suggestionsList = snapshot.data;
+        else
+          this.suggestionsList = [];
         return getSuggestionList(context);
-      }
+      },
+      initialData: null,
     );
   }
 

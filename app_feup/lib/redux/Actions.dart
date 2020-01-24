@@ -18,24 +18,28 @@ class SetLoginStatusAction {
   SetLoginStatusAction(this.status);
 }
 
-class SetExamsAction{
+class SetExamsAction {
   List<Exam> exams;
   SetExamsAction(this.exams);
 }
 
-class SetExamsStatusAction{
+class SetExamsStatusAction {
   RequestStatus status;
   SetExamsStatusAction(this.status);
 }
 
-class SetScheduleAction{
+class SetScheduleAction {
   List<Lecture> lectures;
   SetScheduleAction(this.lectures);
 }
 
-class SetScheduleStatusAction{
+class SetScheduleStatusAction {
   RequestStatus status;
-    SetScheduleStatusAction(this.status);
+  SetScheduleStatusAction(this.status);
+}
+
+class SetInitialStoreStateAction {
+  SetInitialStoreStateAction();
 }
 
 class SaveProfileAction {
@@ -43,7 +47,7 @@ class SaveProfileAction {
   SaveProfileAction(this.profile);
 }
 
-class SaveProfileStatusAction{
+class SaveProfileStatusAction {
   RequestStatus status;
   SaveProfileStatusAction(this.status);
 }
@@ -68,7 +72,7 @@ class SetFeesBalanceAction {
   SetFeesBalanceAction(this.feesBalance);
 }
 
-class SetFeesLimitAction{
+class SetFeesLimitAction {
   String feesLimit;
   SetFeesLimitAction(this.feesLimit);
 }
@@ -78,7 +82,7 @@ class SetFeesStatusAction {
   SetFeesStatusAction(this.status);
 }
 
-class SetCoursesStatesAction{
+class SetCoursesStatesAction {
   Map<String, String> coursesStates;
   SetCoursesStatesAction(this.coursesStates);
 }
@@ -108,7 +112,7 @@ class UpdateFavoriteCards {
   UpdateFavoriteCards(this.favoriteCards);
 }
 
-class SetCoursesStatesStatusAction{
+class SetCoursesStatesStatusAction {
   RequestStatus status;
   SetCoursesStatesStatusAction(this.status);
 }
