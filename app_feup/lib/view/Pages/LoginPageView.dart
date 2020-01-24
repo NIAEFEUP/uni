@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:toast/toast.dart';
 import '../../view/Theme.dart';
 import 'dart:async';
+import '../../controller/load_static/TermsAndConditions.dart';
 
 class LoginPageView extends StatelessWidget {
   LoginPageView(
@@ -244,7 +245,7 @@ class LoginPageView extends StatelessWidget {
         child: Container(
             padding: EdgeInsets.all(8),
             child: Text(
-              "É seguro fazer login?",
+              "Ao entrares confirmas que concordas com estes Termos e Condições",
               textAlign: TextAlign.center,
               style: TextStyle(
                   decoration: TextDecoration.underline,
@@ -255,12 +256,18 @@ class LoginPageView extends StatelessWidget {
   }
 
   Future<void> _showLoginDetails(BuildContext context) async {
+    Future<String> termsAndConditionsFuture = readTermsAndConditions();
     showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text('É seguro fazer login?'),
-            content: const Text(' Os dados utilizados na App FEUP são guardados apenas localmente, sendo os dados mais sensíveis devidamente encriptados para assegurar maior segurança.\n Todas as informações mostradas na app provêm das informações disponíveis no Sigarra.'),
+            title: const Text('Termos e Condições'),
+            content: FutureBuilder(
+                future: termsAndConditionsFuture,
+                builder: (BuildContext context, AsyncSnapshot<String> termsAndConditions) {
+                  return SingleChildScrollView(child: Text(termsAndConditions.data)); 
+                }
+              ),
             actions: <Widget>[
               SimpleDialogOption(
                 onPressed: () => Navigator.pop(context),
