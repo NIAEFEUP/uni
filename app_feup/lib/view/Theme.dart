@@ -34,6 +34,7 @@ ThemeData applicationTheme = new ThemeData(
     display1: TextStyle(fontSize: 17.0, color: greyTextColor, fontWeight: FontWeight.w200),
     display2: TextStyle(fontSize: 17.0, color: tonedDownPrimary, fontWeight: FontWeight.w300),
     display3: TextStyle(fontSize: 10.0, color: titleColor, fontWeight: FontWeight.w500),
+    display4: TextStyle(fontSize: 17.0, color: Colors.white, fontWeight: FontWeight.w200),
   ),
 
 
