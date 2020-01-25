@@ -61,8 +61,6 @@ class LoginPageView extends StatelessWidget {
     widgets.add(
         Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)));
     widgets.add(createStatusWidget(context));
-    widgets.add(
-        Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 10)));
 
     return widgets;
   }
