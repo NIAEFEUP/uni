@@ -1,10 +1,9 @@
 import 'dart:async';
 import 'package:app_feup/controller/local_storage/AppDatabase.dart';
-import 'package:app_feup/controller/networking/NetworkRouter.dart';
 import 'package:app_feup/model/entities/Bus.dart';
 import 'package:app_feup/model/entities/BusStop.dart';
-import 'package:app_feup/model/entities/Trip.dart';
 import 'package:sqflite/sqflite.dart';
+import "package:collection/collection.dart";
 
 class AppBusStopDatabase extends AppDatabase{
 
@@ -14,36 +13,18 @@ class AppBusStopDatabase extends AppDatabase{
     // Get a reference to the database
     final Database db = await this.getDatabase();
 
-    // Query the table for All The Dogs.
-    final List<Map<String, dynamic>> maps = await db.query('busstops');
-
-    /*return List.generate(maps.length, (i) {
-      return BusStop(maps[i]['stopCode'], maps[i]['busCode']); //returns string value in key i
-    });*/
-    if(maps.length == 0)
+    // Query the table for all bus stops
+    final List<Map<String, dynamic>> buses = await db.query('busstops');
+    if(buses.length == 0)
       return new List();
-    List<BusStop> stops = new List();
-    List<Bus> currentStopBuses = new List();
-    String prevStop = maps[0]['stopCode'];
-    for(int i = 0; i < maps.length; i++) {
-      if (maps[i]['stopCode'] != prevStop) {
-        stops.add(BusStop(prevStop, currentStopBuses));
-        currentStopBuses.clear();
-        prevStop = maps[i]['stopCode'];
-        currentStopBuses.add(Bus.secConstructor(maps[i]['busCode']));
-      }
-      else {
-        currentStopBuses.add(Bus.secConstructor(maps[i]['busCode']));
-      }
-      if (i == maps.length - 1) {
-        stops.add(BusStop(prevStop, currentStopBuses));
-      }
-    }
+
+    final List<BusStop> stops = new List();
+    groupBy(buses, (stop)=>stop['stopCode']).forEach((stopCode,busCodeList) => stops.add(BusStop(stopCode, busCodeList.map((busEntry)=>Bus(busCode: busEntry['busCode'])).toList())));
     return stops;
   }
 
   Future<void> addBusStop(BusStop newStop) async {
-    List<BusStop> stops = await busStops();
+    final List<BusStop> stops = await busStops();
     stops.add(newStop);
     print("Adding " + newStop.stopCode);
     await _deleteBusStops();
@@ -51,7 +32,7 @@ class AppBusStopDatabase extends AppDatabase{
   }
 
   Future<void> removeBusStop(BusStop removedStop) async {
-    List<BusStop> stops = await busStops();
+    final List<BusStop> stops = await busStops();
     print("Removing " + removedStop.stopCode);
     for (int i = 0; i < stops.length; i++) {
       if(stops[i].stopCode == removedStop.stopCode)

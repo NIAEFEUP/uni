@@ -149,18 +149,11 @@ class NetworkRouter {
   static Future<List<String>> getStopsByName(String stopCode) async {
     List<String> stopsList = new List();
 
-    //Search by exact stopCode
-    final String url1 = "https://www.stcp.pt/pt/itinerarium/callservice.php?action=srchstoplines&stopcode=$stopCode";
-    http.Response response1 = await http.post(url1);
-    var json1 = jsonDecode(response1.body) as List;
-    if(json1.length != 0)
-      stopsList.add(json1[0]['name'] + " [" + json1[0]['code'] + "]");
-
     //Search by aproximate name
-    final String url2 = "https://www.stcp.pt/pt/itinerarium/callservice.php?action=srchstoplines&stopname=$stopCode";
-    http.Response response2 = await http.post(url2);
-    var json2 = jsonDecode(response2.body);
-    for (var busKey in json2) {
+    final String url = "https://www.stcp.pt/pt/itinerarium/callservice.php?action=srchstoplines&stopname=$stopCode";
+    http.Response response = await http.post(url);
+    final List json = jsonDecode(response.body);
+    for (var busKey in json) {
       String stop = busKey['name'] + " [" + busKey['code'] + "]";
       stopsList.add(stop);
     }
@@ -173,7 +166,7 @@ class NetworkRouter {
     http.Response response = await http.get(url);
     List<Trip> tripList = new List();
 
-    var json = jsonDecode(response.body);
+    final List json = jsonDecode(response.body);
 
     for (var TripKey in json) {
       var trip = TripKey['Value'];
@@ -197,16 +190,15 @@ class NetworkRouter {
   static Future<List<Bus>> getBusesStoppingAt(String stop) async {
     final String url = "https://www.stcp.pt/pt/itinerarium/callservice.php?action=srchstoplines&stopcode=$stop";
     http.Response response = await http.post(url);
-    List<Trip> tripList = new List();
 
-    var json = jsonDecode(response.body);
+    final List json = jsonDecode(response.body);
 
     List<Bus> buses = new List();
 
     for (var busKey in json) {
       var lines = busKey['lines'];
       for (var bus in lines) {
-        Bus newBus = Bus(bus['code'], bus['description'], (bus['dir']==0?false:true));
+        Bus newBus = Bus(busCode: bus['code'], destination: bus['description'], direction: (bus['dir']==0?false:true));
         buses.add(newBus);
       }
     }

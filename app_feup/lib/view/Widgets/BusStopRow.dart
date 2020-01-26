@@ -19,11 +19,11 @@ class BusStopRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Container(
-            padding: EdgeInsets.all(4.0),
-            child: new Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: this.getTrips(context),
-            ),
+      padding: EdgeInsets.all(4.0),
+      child: new Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: this.getTrips(context),
+      ),
     );
   }
 
@@ -40,12 +40,11 @@ class BusStopRow extends StatelessWidget {
       List<Widget> tripRows = getTripRows();
 
       row.add(
-        new Expanded(
-            child: new Column(
-            children: tripRows
-        )
-        )
-
+          new Expanded(
+              child: new Column(
+                  children: tripRows
+              )
+          )
       );
     }
 
@@ -53,24 +52,23 @@ class BusStopRow extends StatelessWidget {
   }
 
   Widget noTripsContainer(context) {
-    return new Container(
-        padding: EdgeInsets.only(left: 22.0),
-        child: Text("Não há viagens planeadas de momento", style: Theme.of(context).textTheme.display1.apply(color: greyTextColor))
+    return new Flexible(
+      child: Text("Não há viagens planeadas de momento", style: Theme.of(context).textTheme.display1.apply(color: greyTextColor))
     );
   }
 
   Widget stopCodeRotatedContainer(context) {
     return new Container(
-          padding: EdgeInsets.only(left: 4.0),
-          child: new RotatedBox (
-            child: Text(busStop.stopCode, style: Theme
-                .of(context)
-                .textTheme
-                .display1
-                .apply(color: primaryColor)),
-            quarterTurns: 3,
-          ),
-        );
+      padding: EdgeInsets.only(left: 4.0),
+      child: new RotatedBox (
+        child: Text(busStop.stopCode, style: Theme
+            .of(context)
+            .textTheme
+            .display1
+            .apply(color: primaryColor)),
+        quarterTurns: 3,
+      ),
+    );
   }
 
   List<Widget> getTripRows() {

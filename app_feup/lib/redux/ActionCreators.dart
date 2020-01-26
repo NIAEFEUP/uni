@@ -372,18 +372,15 @@ ThunkAction<AppState> setUserBusStops(Completer<Null> action){
       AppBusStopDatabase db = await AppBusStopDatabase();
       List<BusStop> stops = await db.busStops();
 
-      List<BusStop> busStops = new List();
-
       for (BusStop stop in stops) {
         List<Trip> trips = new List();
         trips = await NetworkRouter.getNextArrivalsStop(stop);
         stop.newTrips(trips);
-        busStops.add(stop);
       }
 
       DateTime time = new DateTime.now();
 
-      store.dispatch(new SetBusStopTripsAction(busStops));
+      store.dispatch(new SetBusStopTripsAction(stops));
       store.dispatch(new SetBusStopTimeStampAction(time));
       store.dispatch(new SetBusStopStatusAction(RequestStatus.SUCCESSFUL));
     }catch(e){

@@ -1,7 +1,7 @@
 class Trip{
-  String line;
-  String destination;
-  int timeRemaining;
+  final String line;
+  final String destination;
+  final int timeRemaining;
 
   Trip({this.line, this.destination, this.timeRemaining});
 
@@ -16,18 +16,6 @@ class Trip{
   void printTrip()
   {
     print('$line ($destination) - $timeRemaining');
-  }
-
-  String getLine(){
-    return line;
-  }
-
-  String getDestination(){
-    return destination;
-  }
-
-  String getTimeRemaining(){
-    return timeRemaining.toString();
   }
 
   int compare(Trip other) {

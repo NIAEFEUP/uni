@@ -8,7 +8,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 class LastUpdateTimeStamp extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, dynamic>(
+    return StoreConnector<AppState, Tuple2<DateTime, DateTime>>(
       converter: (store) => Tuple2(store.state.content['timeStamp'], store.state.content['currentTime']),
       builder: (context, timeStamps){
         return new Container(

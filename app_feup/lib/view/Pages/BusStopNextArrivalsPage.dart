@@ -1,6 +1,8 @@
 import 'package:app_feup/model/entities/BusStop.dart';
+import 'package:app_feup/view/Pages/BusStopSelectionPage.dart';
 import 'package:app_feup/view/Pages/SecondaryPageView.dart';
 import 'package:app_feup/view/Widgets/PageTitle.dart';
+import 'package:tuple/tuple.dart';
 import '../../model/AppState.dart';
 import 'package:flutter/material.dart';
 import 'package:app_feup/view/Widgets/BusStopRow.dart';
@@ -13,10 +15,10 @@ import '../Theme.dart';
 class BusStopNextArrivalsPage extends SecondaryPageView{
   @override
   Widget getBody(BuildContext context){
-    return StoreConnector<AppState, List<BusStop>>(
-      converter: (store) => store.state.content['busstops'],
+    return StoreConnector<AppState, Tuple2<List<BusStop>,RequestStatus>> (
+      converter: (store) => Tuple2(store.state.content['busstops'], store.state.content['busstopStatus']),
       builder: (context, busstops) {
-        return new NextArrivals(busstops);
+        return new NextArrivals(busstops.item1, busstops.item2);
       }
     );
   }
@@ -24,30 +26,29 @@ class BusStopNextArrivalsPage extends SecondaryPageView{
 
 class NextArrivals extends StatefulWidget {
   final List<BusStop> busStops;
+  final RequestStatus busStopStatus;
 
   NextArrivals(
-    this.busStops
+    this.busStops, this.busStopStatus
   );
 
   @override
-  _NextArrivalsState createState() => new _NextArrivalsState(busStops);
+  _NextArrivalsState createState() => new _NextArrivalsState(busStops, busStopStatus);
 }
 
 class _NextArrivalsState extends State<NextArrivals> with SingleTickerProviderStateMixin{
-  List<BusStop> busStops;
+  final List<BusStop> busStops;
+  final RequestStatus busStopStatus;
   TabController tabController;
 
   _NextArrivalsState(
-      this.busStops
+      this.busStops, this.busStopStatus
   );
 
   @override
   void initState() {
     super.initState();
     tabController = new TabController(vsync: this, length: busStops.length);
-
- //   var offset = (weekDay > 5) ? 0 : (weekDay - 1) % daysOfTheWeek.length;
-  //  tabController.animateTo((tabController.index + offset));
   }
 
   @override
@@ -58,20 +59,20 @@ class _NextArrivalsState extends State<NextArrivals> with SingleTickerProviderSt
 
   @override
   Widget build(BuildContext context) {
-    switch (StoreProvider.of<AppState>(context).state.content['busstopStatus']) {
+    switch (busStopStatus) {
       case RequestStatus.SUCCESSFUL:
         return new Column(
-            children: this.RequestSuccessful(context)
+            children: this.requestSuccessful(context)
         );
         break;
       case RequestStatus.BUSY:
         return new Column(
-            children: this.RequestBusy(context)
+            children: this.requestBusy(context)
         );
         break;
       case RequestStatus.FAILED:
         return new Column(
-          children: this.RequestFailed(context)
+          children: this.requestFailed(context)
         );
         break;
       default:
@@ -80,7 +81,7 @@ class _NextArrivalsState extends State<NextArrivals> with SingleTickerProviderSt
     }
   }
 
-  List<Widget> RequestSuccessful(context){
+  List<Widget> requestSuccessful(context){
     List<Widget> result = new List<Widget>();
 
     result.addAll(this.getHeader(context));
@@ -98,7 +99,7 @@ class _NextArrivalsState extends State<NextArrivals> with SingleTickerProviderSt
     return result;
   }
 
-  List<Widget> RequestBusy(BuildContext context) {
+  List<Widget> requestBusy(BuildContext context) {
     List<Widget> result = new List<Widget>();
 
     result.add(getPageTitle());
@@ -119,7 +120,7 @@ class _NextArrivalsState extends State<NextArrivals> with SingleTickerProviderSt
     );
   }
 
-  List<Widget> RequestFailed(BuildContext context) {
+  List<Widget> requestFailed(BuildContext context) {
     List<Widget> result = new List<Widget>();
 
     result.addAll(this.getHeader(context));
@@ -129,7 +130,6 @@ class _NextArrivalsState extends State<NextArrivals> with SingleTickerProviderSt
             child: Text("Failed to get new information", style: Theme.of(context).textTheme.display1.apply(color: primaryColor))
         )
     );
-    result.addAll(this.getContent(context));
 
     return result;
   }
@@ -146,7 +146,8 @@ class _NextArrivalsState extends State<NextArrivals> with SingleTickerProviderSt
               new IconButton(
                   icon: new Icon(Icons.settings),
                   color: Color.fromARGB(255, 215, 215, 215),
-                  onPressed: ()=> Navigator.pushNamed(context, '/ConfigurarParagens')),
+                  onPressed: ()=> Navigator.push(context, new MaterialPageRoute(builder: (context) => new BusStopSelectionPage()))
+              )
             ]
         ),
       )

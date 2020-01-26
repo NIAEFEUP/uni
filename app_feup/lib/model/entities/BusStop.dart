@@ -3,8 +3,8 @@ import 'package:app_feup/model/entities/Trip.dart';
 import 'Bus.dart';
 
 class BusStop{
-  String stopCode;
-  List<Bus> buses;
+  final String stopCode;
+  final List<Bus> buses;
   List<Trip> trips;
 
   BusStop(this.stopCode, this.buses) {

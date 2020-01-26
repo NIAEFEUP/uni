@@ -1,4 +1,7 @@
+import 'package:app_feup/model/entities/BusStop.dart';
+import 'package:app_feup/view/Pages/BusStopSelectionPage.dart';
 import 'package:app_feup/view/Widgets/GenericCard.dart';
+import 'package:tuple/tuple.dart';
 import '../../model/AppState.dart';
 import 'package:flutter/material.dart';
 import '../Theme.dart';
@@ -21,14 +24,14 @@ class BusStopCard extends GenericCard {
 
   @override
   Widget buildCardContent(BuildContext context) {
-    return StoreConnector<AppState, List<dynamic>>(
-        converter: (store) => store.state.content['busstops'],
-        builder: (context, busstops) => getCardContent(context, busstops)
+    return StoreConnector<AppState, Tuple2<List<BusStop>,RequestStatus>>(
+        converter: (store) => Tuple2(store.state.content['busstops'],store.state.content['busstopStatus']),
+        builder: (context, busstops) => getCardContent(context, busstops.item1, busstops.item2)
     );
   }
 
-  Widget getCardContent(BuildContext context, busStops) {
-    switch (StoreProvider.of<AppState>(context).state.content['busstopStatus']) {
+  Widget getCardContent(BuildContext context, busStops, busStopStatus) {
+    switch (busStopStatus) {
       case RequestStatus.SUCCESSFUL:
         if(busStops.length > 0){
           return Column(
@@ -44,12 +47,11 @@ class BusStopCard extends GenericCard {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget> [
                   Text("Configura as tuas paragens", style: Theme.of(context).textTheme.display1.apply(color: primaryColor)),
-                  IconButton(icon: new Icon(Icons.settings), onPressed: ()=> Navigator.pushNamed(context, '/ConfigurarParagens')),
+                  IconButton(icon: new Icon(Icons.settings), onPressed: () => Navigator.push(context, new MaterialPageRoute(builder: (context) => new BusStopSelectionPage())))
                 ]
             ),
           );
         }
-
         break;
       case RequestStatus.BUSY:
         return Column(
@@ -61,7 +63,6 @@ class BusStopCard extends GenericCard {
             )
           ],
         );
-        break;
       case RequestStatus.FAILED:
         return Column(
             children : <Widget> [
@@ -73,6 +74,8 @@ class BusStopCard extends GenericCard {
               this.getBusStopsInfo(context, busStops),
             ]
         );
+        break;
+      default:
         break;
     }
   }
@@ -106,9 +109,7 @@ class BusStopCard extends GenericCard {
 
     rows.add(new LastUpdateTimeStamp());
 
-    int num_max_stops = 6;
-
-    for(int i = 0; i < busStops.length && num_max_stops > 0; i++){
+    for(int i = 0; i < busStops.length && i < 6; i++){
       if (busStops[i].trips.length > 0) {
         rows.add(
             new Container(
@@ -121,8 +122,6 @@ class BusStopCard extends GenericCard {
               )
             )
         );
-
-        num_max_stops--;
       }
     }
     return rows;

@@ -14,7 +14,7 @@ class EstimatedArrivalTimeStamp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, dynamic>(
+    return StoreConnector<AppState, DateTime>(
       converter: (store) => store.state.content['timeStamp'],
       builder: (context, timeStamp){
         return this.getContent(context, timeStamp);

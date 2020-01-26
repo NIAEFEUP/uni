@@ -90,11 +90,6 @@ class MyAppState extends State<MyApp> {
                     builder: (context) => BusStopNextArrivalsPage(),
                     settings: settings,
                     maintainState: false);
-              case '/ConfigurarParagens':
-                return MaterialPageRoute(
-                    builder: (context) => BusStopSelectionPage(),
-                    settings: settings,
-                    maintainState: false);
             }
           }
       ),

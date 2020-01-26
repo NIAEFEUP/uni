@@ -29,9 +29,7 @@ class NavigationDrawerState extends State<NavigationDrawer> {
     "Bug Report"
   ];
 
-  getCurrentRoute() => ModalRoute.of(parentContext).settings.name == null ?
-  drawerItems[0]:
-  ModalRoute.of(parentContext).settings.name.substring(1) == 'ConfigurarParagens' ? 'Paragens' : ModalRoute.of(parentContext).settings.name.substring(1);
+  getCurrentRoute() => ModalRoute.of(parentContext).settings.name == null ? drawerItems[0] : ModalRoute.of(parentContext).settings.name.substring(1);
 
   _onSelectItem(int index) {
 
