@@ -40,6 +40,8 @@ class NetworkRouter {
 
   static Future<bool> relogin(Session session) async {
     return loginLock.synchronized(() async {
+      print("STUDENT NUMBER");
+      print(session.studentNumber);
       if (!session.persistentSession) {
         return false;
       }

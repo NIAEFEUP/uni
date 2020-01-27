@@ -1,12 +1,9 @@
 import 'dart:async';
 
 import 'package:app_feup/model/SchedulePageModel.dart';
-import 'package:app_feup/model/entities/Exam.dart';
 import 'package:app_feup/redux/Actions.dart' show SetCurrentTimeAction;
 import 'package:app_feup/view/Pages/BusStopNextArrivalsPage.dart';
-import 'package:app_feup/view/Pages/BusStopSelectionPage.dart';
 import 'package:app_feup/controller/Logout.dart';
-import 'package:app_feup/model/SchedulePageModel.dart';
 import 'package:app_feup/view/NavigationService.dart';
 import 'package:app_feup/view/Pages/ExamsPageView.dart';
 import 'package:app_feup/view/Pages/HomePageView.dart';

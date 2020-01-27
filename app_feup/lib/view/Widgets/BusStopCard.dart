@@ -64,6 +64,7 @@ class BusStopCard extends GenericCard {
           ],
         );
       case RequestStatus.FAILED:
+      default:
         return Column(
             children : <Widget> [
               this.getCardTitle(context),
@@ -74,8 +75,6 @@ class BusStopCard extends GenericCard {
               this.getBusStopsInfo(context, busStops),
             ]
         );
-        break;
-      default:
         break;
     }
   }
