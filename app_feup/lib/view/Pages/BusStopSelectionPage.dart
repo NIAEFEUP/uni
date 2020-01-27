@@ -1,10 +1,7 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:app_feup/controller/local_storage/AppBusStopDatabase.dart';
-import 'package:app_feup/controller/networking/NetworkRouter.dart';
 import 'package:app_feup/model/AppState.dart';
-import 'package:app_feup/model/entities/Bus.dart';
 import 'package:app_feup/model/entities/BusStop.dart';
 import 'package:app_feup/redux/ActionCreators.dart';
 import 'package:app_feup/view/Widgets/BusStopSearch.dart';

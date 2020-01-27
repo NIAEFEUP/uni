@@ -11,7 +11,7 @@ class OnStartUp {
   static setHandleReloginFail(Store<AppState> store){
     NetworkRouter.onReloginFail = () {
       print("Á+SPJIG'NUHEGP ISDH  GPAO");
-      if (!store.state.content['session'].persistentSession) {
+      if (!store.state.content['session'].persistentSession && store.state.content['session'].authenticated) {
         return NavigationService.logout();
       }
       return Future.value();
