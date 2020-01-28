@@ -170,6 +170,7 @@ class NetworkRouter {
 
     final List json = jsonDecode(response.body);
 
+    print(stop.buses.map((bus)=>bus.busCode));
     for (var TripKey in json) {
       var trip = TripKey['Value'];
       String line = trip[0];

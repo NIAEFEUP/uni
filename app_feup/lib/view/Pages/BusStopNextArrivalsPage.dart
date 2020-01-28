@@ -16,10 +16,10 @@ class BusStopNextArrivalsPage extends SecondaryPageView{
   @override
   Widget getBody(BuildContext context){
     return StoreConnector<AppState, Tuple2<List<BusStop>,RequestStatus>> (
-      converter: (store) => Tuple2(store.state.content['busstops'], store.state.content['busstopStatus']),
-      builder: (context, busstops) {
-        return new NextArrivals(busstops.item1, busstops.item2);
-      }
+        converter: (store) => Tuple2(store.state.content['busstops'], store.state.content['busstopStatus']),
+        builder: (context, busstops) {
+          return new ListView(children: [NextArrivals(busstops.item1, busstops.item2)]);
+        }
     );
   }
 }
@@ -29,8 +29,8 @@ class NextArrivals extends StatefulWidget {
   final RequestStatus busStopStatus;
 
   NextArrivals(
-    this.busStops, this.busStopStatus
-  );
+      this.busStops, this.busStopStatus
+      );
 
   @override
   _NextArrivalsState createState() => new _NextArrivalsState(busStops, busStopStatus);
@@ -43,7 +43,7 @@ class _NextArrivalsState extends State<NextArrivals> with SingleTickerProviderSt
 
   _NextArrivalsState(
       this.busStops, this.busStopStatus
-  );
+      );
 
   @override
   void initState() {
@@ -61,18 +61,27 @@ class _NextArrivalsState extends State<NextArrivals> with SingleTickerProviderSt
   Widget build(BuildContext context) {
     switch (busStopStatus) {
       case RequestStatus.SUCCESSFUL:
-        return new Column(
-            children: this.requestSuccessful(context)
+        return new Container(
+            height: MediaQuery.of(context).size.height,
+            child: Column(
+                children: this.requestSuccessful(context)
+            )
         );
         break;
       case RequestStatus.BUSY:
-        return new Column(
-            children: this.requestBusy(context)
+        return new Container(
+            height: MediaQuery.of(context).size.height,
+            child:Column(
+                children: this.requestBusy(context)
+            )
         );
         break;
       case RequestStatus.FAILED:
-        return new Column(
-          children: this.requestFailed(context)
+        return new Container(
+            height: MediaQuery.of(context).size.height,
+            child:Column(
+                children: this.requestFailed(context)
+            )
         );
         break;
       default:
@@ -89,11 +98,11 @@ class _NextArrivalsState extends State<NextArrivals> with SingleTickerProviderSt
     if(busStops.length > 0)
       result.addAll(this.getContent(context));
     else{
-        result.add(
+      result.add(
           new Container(
               child: Text('Não se encontram configuradas paragens', style: Theme.of(context).textTheme.display1.apply(color: greyTextColor))
           )
-        );
+      );
     }
 
     return result;
@@ -159,34 +168,34 @@ class _NextArrivalsState extends State<NextArrivals> with SingleTickerProviderSt
     Color labelColor = Color.fromARGB(255, 0x50, 0x50, 0x50);
 
     return [
-        new Container(
-          decoration: const BoxDecoration(
-            border: Border(
-              bottom: BorderSide(width: 1.0, color: Colors.grey),
-            ),
-          ),
-          constraints: BoxConstraints(maxHeight: 150.0),
-          child: new Material(
-            color: Colors.white,
-            child: new TabBar(
-              controller: tabController,
-              isScrollable: true,
-              unselectedLabelColor: labelColor,
-              labelColor: labelColor,
-              indicatorWeight: 3.0,
-              indicatorColor: Theme.of(context).primaryColor,
-              labelPadding: EdgeInsets.all(0.0),
-              tabs: createTabs(queryData),
-            ),
+      new Container(
+        decoration: const BoxDecoration(
+          border: Border(
+            bottom: BorderSide(width: 1.0, color: Colors.grey),
           ),
         ),
-        new Expanded(
-          child: new TabBarView(
+        constraints: BoxConstraints(maxHeight: 150.0),
+        child: new Material(
+          color: Colors.white,
+          child: new TabBar(
             controller: tabController,
-            children: getEachBusStopInfo(context),
+            isScrollable: true,
+            unselectedLabelColor: labelColor,
+            labelColor: labelColor,
+            indicatorWeight: 3.0,
+            indicatorColor: Theme.of(context).primaryColor,
+            labelPadding: EdgeInsets.all(0.0),
+            tabs: createTabs(queryData),
           ),
         ),
-      ];
+      ),
+      new Expanded(
+        child: new TabBarView(
+          controller: tabController,
+          children: getEachBusStopInfo(context),
+        ),
+      ),
+    ];
   }
 
   List<Widget> createTabs(queryData) {
@@ -210,11 +219,11 @@ class _NextArrivalsState extends State<NextArrivals> with SingleTickerProviderSt
           new ListView(
               children: <Widget> [
                 new Container(
-                  padding: EdgeInsets.only(top: 8.0, bottom: 8.0, left: 22.0, right: 22.0),
-                  child: new BusStopRow(
-                    busStop: busStops[i],
-                    stopCodeShow: false,
-                  )
+                    padding: EdgeInsets.only(top: 8.0, bottom: 8.0, left: 22.0, right: 22.0),
+                    child: new BusStopRow(
+                      busStop: busStops[i],
+                      stopCodeShow: false,
+                    )
                 )
               ]
           )

@@ -25,6 +25,7 @@ class NavigationDrawerState extends State<NavigationDrawer> {
     "Área Pessoal",
     "Horário",
     "Mapa de Exames",
+    "Paragens",
     "Sobre",
     "Bug Report"
   ];

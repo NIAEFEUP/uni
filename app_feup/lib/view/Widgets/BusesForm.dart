@@ -62,7 +62,12 @@ class _BusesFormState extends State<BusesForm>{
   }
 
   void updateBusStop() {
-    List<Bus> newBuses = List.from(buses);
+    List<Bus> newBuses = new List();
+    for(int i = 0; i < buses.length; i++) {
+      if(busesToAdd[i]) {
+        newBuses.add(buses[i]);
+      }
+    }
     updateStopCallback(new BusStop(stopToAdd, newBuses));
   }
 }

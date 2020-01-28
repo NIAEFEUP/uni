@@ -71,8 +71,7 @@ class BusStopCard extends GenericCard {
               new Container(
                   padding: EdgeInsets.all(8.0),
                   child: Text("Failed to get new information", style: Theme.of(context).textTheme.display1.apply(color: primaryColor))
-              ),
-              this.getBusStopsInfo(context, busStops),
+              )
             ]
         );
         break;
