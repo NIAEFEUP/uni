@@ -365,13 +365,12 @@ ThunkAction<AppState> getUserCoursesState(Completer<Null> action) {
   };
 }
 
-ThunkAction<AppState> setUserBusStops(Completer<Null> action){
+ThunkAction<AppState> getUserBusStops(Completer<Null> action){
   return(Store<AppState> store) async{
     try {
       store.dispatch(new SetBusStopStatusAction(RequestStatus.BUSY));
 
-      AppBusStopDatabase db = await AppBusStopDatabase();
-      List<BusStop> stops = await db.busStops();
+      List<BusStop> stops = store.state.content['busstops'];
 
       for (BusStop stop in stops) {
         List<Trip> trips = new List();
@@ -384,12 +383,38 @@ ThunkAction<AppState> setUserBusStops(Completer<Null> action){
       store.dispatch(new SetBusStopTripsAction(stops));
       store.dispatch(new SetBusStopTimeStampAction(time));
       store.dispatch(new SetBusStopStatusAction(RequestStatus.SUCCESSFUL));
-    }catch(e){
+    }catch(e) {
       store.dispatch(new SetBusStopStatusAction(RequestStatus.FAILED));
       print("Failed to get Bus Stop information");
     }
 
     action.complete();
+  };
+}
+
+ThunkAction<AppState> addUserBusStop(Completer<Null> action, BusStop stop){
+  return(Store<AppState> store){
+    List<BusStop> stops = store.state.content['busstops'];
+
+    stops.add(stop);
+
+    store.dispatch(getUserBusStops(action));
+
+    AppBusStopDatabase db = AppBusStopDatabase();
+    db.setBusStops(stops);
+  };
+}
+
+ThunkAction<AppState> removeUserBusStop(Completer<Null> action, BusStop stop){
+  return(Store<AppState> store) {
+    List<BusStop> stops = store.state.content['busstops'];
+
+    stops.remove(stop);
+
+    store.dispatch(getUserBusStops(action));
+
+    AppBusStopDatabase db = AppBusStopDatabase();
+    db.setBusStops(stops);
   };
 }
 

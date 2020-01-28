@@ -22,7 +22,7 @@ class EstimatedArrivalTimeStamp extends StatelessWidget {
     );
   }
 
-  Widget getContent(BuildContext context, timeStamp) {
+  Widget getContent(BuildContext context, DateTime timeStamp) {
     DateTime estimatedTime = timeStamp.add(Duration(minutes: int.parse(timeRemaining), seconds: 30));
 
     int num = estimatedTime.hour;

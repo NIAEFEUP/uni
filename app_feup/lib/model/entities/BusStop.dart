@@ -23,4 +23,12 @@ class BusStop{
       'stopCode': stopCode,
     };
   }
+
+  @override
+  int get hashCode => stopCode.hashCode;
+
+  @override
+  bool operator ==(other) {
+    return other is BusStop && this.stopCode == other.stopCode;
+  }
 }

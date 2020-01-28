@@ -4,17 +4,17 @@ import 'package:app_feup/controller/local_storage/AppBusStopDatabase.dart';
 import 'package:app_feup/model/AppState.dart';
 import 'package:app_feup/model/entities/BusStop.dart';
 import 'package:app_feup/redux/ActionCreators.dart';
+import 'package:app_feup/view/Pages/UnnamedPageView.dart';
 import 'package:app_feup/view/Widgets/BusStopSearch.dart';
 import 'package:app_feup/view/Widgets/PageTitle.dart';
 import 'package:app_feup/view/Widgets/RowContainer.dart';
 import 'package:flutter/material.dart';
-import '../Pages/SecondaryPageView.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 import '../Theme.dart' show darkGreyColor;
 
 
-class BusStopSelectionPage extends SecondaryPageView {
+class BusStopSelectionPage extends UnnamedPageView {
 
   final double borderRadius = 15.0;
   final DateTime now = new DateTime.now();
@@ -32,8 +32,7 @@ class BusStopSelectionPage extends SecondaryPageView {
   }
 
   Future deleteStop(BuildContext context, BusStop stop) async {
-    await db.removeBusStop(stop);
-    StoreProvider.of<AppState>(context).dispatch(setUserBusStops(new Completer()));
+    StoreProvider.of<AppState>(context).dispatch(removeUserBusStop(new Completer(), stop));
   }
 
   @override

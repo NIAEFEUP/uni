@@ -26,7 +26,7 @@ class AppBusStopDatabase extends AppDatabase{
   Future<void> addBusStop(BusStop newStop) async {
     final List<BusStop> stops = await busStops();
     stops.add(newStop);
-    print("Adding " + newStop.stopCode);
+
     await _deleteBusStops();
     await _insertBusStops(stops);
   }
@@ -60,5 +60,10 @@ class AppBusStopDatabase extends AppDatabase{
     // Get a reference to the database
     final Database db = await this.getDatabase();
     await db.delete('busstops');
+  }
+
+  Future<void> setBusStops(List<BusStop> busStops) async{
+    await _deleteBusStops();
+    await _insertBusStops(busStops);
   }
 }

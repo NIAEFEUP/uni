@@ -32,7 +32,7 @@ Future loadRemoteUserInfoToState(Store<AppState> store) {
   store.dispatch(getUserPrintBalance(printBalance));
   store.dispatch(getUserFees(fees));
   store.dispatch(getUserCoursesState(coursesStates));
-  store.dispatch(setUserBusStops(busStops));
+  store.dispatch(getUserBusStops(busStops));
   userInfo.future.then( (value) =>store.dispatch(getUserExams(exams)));
   return Future.wait([exams.future,
                       schedule.future,

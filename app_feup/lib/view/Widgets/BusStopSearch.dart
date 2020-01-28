@@ -84,8 +84,7 @@ class BusStopSearch extends SearchDelegate<String> {
         ),
         actions: [
           FlatButton(child: Text("Confirmar", style: Theme.of(context).textTheme.display1.apply(color: Theme.of(context).primaryColor),), onPressed: () async {
-            await db.addBusStop(stopToAdd);
-            StoreProvider.of<AppState>(context).dispatch(setUserBusStops(new Completer()));
+            StoreProvider.of<AppState>(context).dispatch(addUserBusStop(new Completer(), stopToAdd));
             Navigator.pop(context);
           }),
           FlatButton(child: Text("Cancelar", style: Theme.of(context).textTheme.display1.apply(color: Theme.of(context).primaryColor),), onPressed: () => Navigator.pop(context))
