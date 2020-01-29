@@ -85,12 +85,16 @@ class BusStopRow extends StatelessWidget {
       );
     } else {
       for (int i = 0; i < busStop.trips.length; i++) {
+        Color color = primaryColor;
+        if(i == busStop.trips.length - 1)
+          color = Colors.transparent;
+
         tripRows.add(
             new Container(
                 padding: EdgeInsets.all(12.0),
                 decoration: new BoxDecoration(
                     border: Border(
-                        bottom: BorderSide(width: 0.1, color: primaryColor))),
+                        bottom: BorderSide(width: 0.1, color: color))),
                 child: new TripRow(
                     trip: busStop.trips[i]
                 )

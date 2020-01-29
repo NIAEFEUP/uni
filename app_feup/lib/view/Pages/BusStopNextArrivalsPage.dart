@@ -190,11 +190,14 @@ class _NextArrivalsState extends State<NextArrivals> with SingleTickerProviderSt
         ),
       ),
       new Expanded(
-        child: new TabBarView(
-          controller: tabController,
-          children: getEachBusStopInfo(context),
+          child: Container(
+            padding: EdgeInsets.only(bottom: 92.0),
+            child: new TabBarView(
+              controller: tabController,
+              children: getEachBusStopInfo(context),
+            ),
         ),
-      ),
+      )
     ];
   }
 

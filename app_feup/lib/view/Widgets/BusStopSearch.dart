@@ -101,7 +101,13 @@ class BusStopSearch extends SearchDelegate<String> {
           return Center(child: CircularProgressIndicator());
         if (snapshot.connectionState == ConnectionState.done && !snapshot.hasError) {
           if (snapshot.data.length == 0)
-            return Text("No results found.");
+            return Container(
+              margin: EdgeInsets.all(8.0),
+              height: 24.0,
+              child: Center(
+                child: Text("No results found."),
+              )
+            );
           else
             this.suggestionsList = snapshot.data;
         } else this.suggestionsList = [];
