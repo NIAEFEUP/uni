@@ -9,14 +9,30 @@ import 'package:app_feup/model/AppState.dart';
 import 'package:redux/redux.dart';
 import 'local_storage/ImageOfflineStorage.dart';
 
+Future loadReloginInfo(Store<AppState> store) async {
+  Tuple2<String, String> userPersistentInfo =
+      await AppSharedPreferences.getPersistentUserInfo();
+  String userName = userPersistentInfo.item1;
+  String password = userPersistentInfo.item2;
+  if (userName != "" && password != "") {
+    final action = Completer();
+    store.dispatch(reLogin(userName, password, 'feup', action: action));
+    return action.future;
+  }
+  return Future.error("No credentials stored");
+}
+
 Future loadUserInfoToState(store) {
   loadLocalUserInfoToState(store);
   return loadRemoteUserInfoToState(store);
 }
 
-Future loadRemoteUserInfoToState(Store<AppState> store) {
+Future loadRemoteUserInfoToState(Store<AppState> store) async {
   if (store.state.content['session'] == null) {
     return null;
+  }
+  else if (!store.state.content['session'].authenticated && store.state.content['session'].persistentSession) {
+    await loadReloginInfo(store);
   }
 
   Completer<Null> userInfo = new Completer(),

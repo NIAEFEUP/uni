@@ -35,7 +35,7 @@ class NetworkRouter {
     }
   }
 
-  static Future<bool> relogin(Session session) async {
+  static Future<bool> relogin(Session session) {
     return loginLock.synchronized(() async {
       if (!session.persistentSession) {
         return false;
@@ -57,8 +57,12 @@ class NetworkRouter {
         "pv_login": session.studentNumber,
         "pv_password": await AppSharedPreferences.getUserPassword(),
       }).timeout(const Duration(seconds: loginRequestTimeout));
-      if (response.statusCode == 200) {
-        session.setCookies(NetworkRouter.extractCookies(response.headers));
+      final responseBody = json.decode(response.body);
+      if (response.statusCode == 200 && responseBody['authenticated']) {
+        session.authenticated = true;
+        session.studentNumber = responseBody['codigo'];
+        session.type = responseBody['tipo'];
+        session.cookies = NetworkRouter.extractCookies(response.headers);
         print('Re-login successful');
         return true;
       } else {
