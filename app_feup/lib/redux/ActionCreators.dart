@@ -145,6 +145,17 @@ ThunkAction<AppState> updateStateBasedOnLocalProfile() {
   };
 }
 
+ThunkAction<AppState> updateStateBasedOnLocalUserBusStops() {
+  return (Store<AppState> store) async {
+    AppBusStopDatabase bus_stops_db = await AppBusStopDatabase();
+    List<BusStop> stops = await bus_stops_db.busStops();
+
+    store.dispatch(new SetBusStopAction(stops));
+
+    store.dispatch(getUserBusStops(new Completer()));
+  };
+}
+
 ThunkAction<AppState> updateStateBasedOnLocalRefreshTimes() {
   return (Store<AppState> store) async {
     AppRefreshTimesDatabase refresh_times_db = await AppRefreshTimesDatabase();
@@ -380,7 +391,7 @@ ThunkAction<AppState> getUserBusStops(Completer<Null> action){
 
       DateTime time = new DateTime.now();
 
-      store.dispatch(new SetBusStopTripsAction(stops));
+      store.dispatch(new SetBusStopAction(stops));
       store.dispatch(new SetBusStopTimeStampAction(time));
       store.dispatch(new SetBusStopStatusAction(RequestStatus.SUCCESSFUL));
     }catch(e) {

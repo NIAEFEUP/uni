@@ -87,9 +87,9 @@ class SetCoursesStatesAction {
   SetCoursesStatesAction(this.coursesStates);
 }
 
-class SetBusStopTripsAction{
+class SetBusStopAction{
   List<BusStop> busStops;
-  SetBusStopTripsAction(this.busStops);
+  SetBusStopAction(this.busStops);
 }
 
 class SetBusStopStatusAction{

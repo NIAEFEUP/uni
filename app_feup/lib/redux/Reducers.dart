@@ -32,8 +32,8 @@ AppState appReducers(AppState state, dynamic action) {
     return setFeesStatus(state, action);
   } else if (action is SetCoursesStatesAction) {
     return setCoursesState(state, action);
-  } else if(action is SetBusStopTripsAction){
-    return setBusStopTrips(state, action);
+  } else if(action is SetBusStopAction){
+    return setBusStop(state, action);
   } else if(action is SetBusStopStatusAction){
     return setBusStopStatus(state, action);
   } else if(action is SetBusStopTimeStampAction){
@@ -130,7 +130,7 @@ AppState setCoursesState(AppState state, SetCoursesStatesAction action) {
   return state.cloneAndUpdateValue("coursesStates", action.coursesStates);
 }
 
-AppState setBusStopTrips(AppState state, SetBusStopTripsAction action) {
+AppState setBusStop(AppState state, SetBusStopAction action) {
   print('setting bus stops: ' + action.busStops.toString());
   return state.cloneAndUpdateValue("busstops", action.busStops);
 }

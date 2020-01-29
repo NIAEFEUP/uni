@@ -47,7 +47,7 @@ class BusStopCard extends GenericCard {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget> [
                   Text("Configura as tuas paragens", style: Theme.of(context).textTheme.display1.apply(color: primaryColor)),
-                  IconButton(icon: new Icon(Icons.settings), onPressed: () => Navigator.push(context, new MaterialPageRoute(builder: (context) => new BusStopSelectionPage())))
+                  IconButton(icon: new Icon(Icons.settings), onPressed: () => Navigator.push(context, new MaterialPageRoute(builder: (context) => new BusStopSelectionPage())),color: lightGreyTextColor)
                 ]
             ),
           );
@@ -81,7 +81,7 @@ class BusStopCard extends GenericCard {
   Widget getCardTitle(context){
     return Row(
       children: <Widget>[
-        Icon(Icons.directions_bus),
+        Icon(Icons.directions_bus, color: lightGreyTextColor),
         Text('STCP - Próximas Viagens', style: Theme.of(context).textTheme.display1.apply(color: primaryColor))
       ],
     );

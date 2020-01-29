@@ -52,9 +52,7 @@ class BusStopRow extends StatelessWidget {
   }
 
   Widget noTripsContainer(context) {
-    return new Flexible(
-      child: Text("Não há viagens planeadas de momento", style: Theme.of(context).textTheme.display1.apply(color: greyTextColor))
-    );
+    return Text("Não há viagens planeadas de momento.", style: Theme.of(context).textTheme.display1.apply(color: greyTextColor));
   }
 
   Widget stopCodeRotatedContainer(context) {
