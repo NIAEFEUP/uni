@@ -1,5 +1,6 @@
 import 'package:app_feup/view/Widgets/DateRectangle.dart';
 import 'package:app_feup/view/Widgets/GenericCard.dart';
+import 'package:app_feup/view/Widgets/RequestDependentWidgetBuilder.dart';
 import 'package:app_feup/view/Widgets/RowContainer.dart';
 import 'package:flutter/cupertino.dart';
 import '../../utils/Constants.dart' as Constants;
@@ -26,23 +27,24 @@ class ExamCard extends GenericCard{
     return StoreConnector<AppState, List<dynamic>>(
       converter: (store) => store.state.content['exams'],
       builder: (context, exams) =>
-          super.getCardContentBasedOnRequestStatus(
-              context,
-              StoreProvider.of<AppState>(context).state.content['examsStatus'],
-              generateExams,
-              exams,
-              exams != null && exams.length > 0)
+          RequestDependentWidgetBuilder(
+              context: context,
+              status: StoreProvider.of<AppState>(context).state.content['examsStatus'],
+              contentGenerator: generateExams,
+              content: exams,
+              contentChecker: exams != null && exams.length > 0,
+              onNullContent:  Center(
+                              child: Text("No exams to show at the moment",
+                               style: Theme.of(context).textTheme.display1),
+                               ),
+          ),
     );
   }
 
   Widget generateExams(exams, context){
-    return exams.length >= 1 ?
-    new Column(
+    return new Column(
       mainAxisSize: MainAxisSize.min,
       children: this.getExamRows(context, exams),
-    )
-        : Center(
-      child: Text("No exams to show at the moment", style: Theme.of(context).textTheme.display1),
     );
   }
 

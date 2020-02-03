@@ -17,8 +17,6 @@ class _SchedulePageState extends State<SchedulePage> with SingleTickerProviderSt
   TabController tabController;
   ScrollController scrollViewController;
 
-  List<List<Lecture>> aggLectures;
-
   final List<String> daysOfTheWeek = [
     'Segunda-feira',
     'Terça-feira',
@@ -43,9 +41,9 @@ class _SchedulePageState extends State<SchedulePage> with SingleTickerProviderSt
     super.dispose();
   }
 
-  void _groupLecturesByDay(schedule) {
+  List<List<Lecture>> _groupLecturesByDay(schedule) {
 
-    aggLectures = new List<List<Lecture>>();
+    final aggLectures = new List<List<Lecture>>();
 
     for(int i = 0; i < daysOfTheWeek.length; i++) {
       List<Lecture> lectures = List<Lecture>();
@@ -55,14 +53,16 @@ class _SchedulePageState extends State<SchedulePage> with SingleTickerProviderSt
       }
       aggLectures.add(lectures);
     }
+    return aggLectures;
   }
 
   @override
   Widget build(BuildContext context) {
-
-    List<Lecture> schedule = StoreProvider.of<AppState>(context).state.content['schedule'];
-    _groupLecturesByDay(schedule);
-
-    return new SchedulePageView(tabController: tabController, scrollViewController: scrollViewController, daysOfTheWeek: daysOfTheWeek, aggLectures: aggLectures);
+    return StoreConnector<AppState, List<Lecture>>(
+      converter: (store) => store.state.content['schedule'],
+      builder: (context, lectures){
+        return  new SchedulePageView(tabController: tabController, scrollViewController: scrollViewController, daysOfTheWeek: daysOfTheWeek, aggLectures: _groupLecturesByDay(lectures));
+      },
+    );
   }
 }

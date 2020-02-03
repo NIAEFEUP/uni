@@ -28,7 +28,9 @@
 .packages
 .pub-cache/
 .pub/
-/build/
+build/
+assets/env/*
+.flutter-plugins-dependencies
 
 ### Flutter ###
 # Flutter/Dart/Pub related

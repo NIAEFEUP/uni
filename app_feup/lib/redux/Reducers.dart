@@ -44,6 +44,8 @@ AppState appReducers(AppState state, dynamic action) {
     return setInitialStoreState(state, action);
   } else if (action is SetHomePageEditingMode) {
     return setHomePageEditingMode(state, action);
+  } else if(action is SetLastUserInfoUpdateTime){
+    return setLastUserInfoUpdateTime(state, action);
   }
   return state;
 }
@@ -151,4 +153,9 @@ AppState setFeesRefreshTime(AppState state, SetFeesRefreshTimeAction action) {
 AppState setHomePageEditingMode(AppState state, SetHomePageEditingMode action) {
   print('setting home page editing mode to ' + action.state.toString());
   return state.cloneAndUpdateValue("homePageEditingMode", action.state);
+}
+
+AppState setLastUserInfoUpdateTime(AppState state, SetLastUserInfoUpdateTime action) {
+  print('setting last update time to ' + action.currentTime?.toIso8601String());
+  return state.cloneAndUpdateValue('lastUserInfoUpdateTime', action.currentTime);
 }

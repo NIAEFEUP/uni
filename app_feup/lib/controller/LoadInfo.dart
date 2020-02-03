@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:app_feup/controller/local_storage/AppSharedPreferences.dart';
 import 'package:app_feup/redux/ActionCreators.dart';
 import 'package:app_feup/redux/RefreshItemsAction.dart';
@@ -6,8 +7,6 @@ import 'package:app_feup/redux/Actions.dart';
 import 'package:tuple/tuple.dart';
 import 'package:app_feup/model/AppState.dart';
 import 'package:redux/redux.dart';
-import 'dart:io';
-
 import 'local_storage/ImageOfflineStorage.dart';
 
 Future loadUserInfoToState(store) {
@@ -25,21 +24,26 @@ Future loadRemoteUserInfoToState(Store<AppState> store) {
       schedule = new Completer(),
       printBalance = new Completer(),
       fees = new Completer(),
-      coursesStates = new Completer();
+      coursesStates = new Completer(),
+      lastUpdate = new Completer();
   store.dispatch(getUserInfo(userInfo));
   store.dispatch(getUserSchedule(schedule));
   store.dispatch(getUserPrintBalance(printBalance));
   store.dispatch(getUserFees(fees));
   store.dispatch(getUserCoursesState(coursesStates));
   userInfo.future.then((value) => store.dispatch(getUserExams(exams)));
-  return Future.wait([
+  final allRequests = Future.wait([
     exams.future,
     schedule.future,
     printBalance.future,
     fees.future,
     coursesStates.future,
-    userInfo.future
+    userInfo.future,
   ]);
+  allRequests.then((futures) {
+    store.dispatch(setLastUserInfoUpdateTimestamp(lastUpdate));
+  });
+  return lastUpdate.future; 
 }
 
 void loadLocalUserInfoToState(store) async {
@@ -52,6 +56,7 @@ void loadLocalUserInfoToState(store) async {
     store.dispatch(updateStateBasedOnLocalUserExams());
     store.dispatch(updateStateBasedOnLocalUserLectures());
     store.dispatch(updateStateBasedOnLocalRefreshTimes());
+    store.dispatch(updateStateBasedOnLocalTime());
     store.dispatch(SaveProfileStatusAction(RequestStatus.SUCCESSFUL));
     store.dispatch(SetPrintBalanceStatusAction(RequestStatus.SUCCESSFUL));
     store.dispatch(SetFeesStatusAction(RequestStatus.SUCCESSFUL));
