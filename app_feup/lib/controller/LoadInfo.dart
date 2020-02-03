@@ -41,7 +41,7 @@ Future loadRemoteUserInfoToState(Store<AppState> store) {
     userInfo.future,
   ]);
   allRequests.then((futures) {
-    store.dispatch(setLastUpdateTimestamp(lastUpdate));
+    store.dispatch(setLastUserInfoUpdateTimestamp(lastUpdate));
   });
   return lastUpdate.future; 
 }

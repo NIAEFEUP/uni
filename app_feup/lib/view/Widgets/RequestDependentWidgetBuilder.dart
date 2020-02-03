@@ -1,4 +1,4 @@
-import 'package:app_feup/controller/local_storage/AppLastUpdateDatabase.dart';
+import 'package:app_feup/controller/local_storage/AppLastUserInfoUpdateDatabase.dart';
 import 'package:app_feup/model/AppState.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -21,14 +21,13 @@ class RequestDependentWidgetBuilder extends StatelessWidget {
   final content;
   final bool contentChecker;
   final Widget onNullContent;
-  static final AppLastUpdateDatabase lastUpdateDatabase = AppLastUpdateDatabase();
+  static final AppLastUserInfoUpdateDatabase lastUpdateDatabase = AppLastUserInfoUpdateDatabase();
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, DateTime>(
-      converter: (store) => store.state.content['lastUpdateTime'],
+      converter: (store) => store.state.content['lastUserInfoUpdateTime'],
       builder: (context, lastUpdateTime){
-        print(lastUpdateTime);
         switch (status) {
           case RequestStatus.SUCCESSFUL:
             return contentChecker ? 
