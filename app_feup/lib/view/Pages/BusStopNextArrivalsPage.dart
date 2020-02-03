@@ -124,7 +124,7 @@ class _NextArrivalsState extends State<NextArrivals> with SingleTickerProviderSt
 
   Container getPageTitle() {
     return Container(
-        padding: EdgeInsets.only(bottom: 12.0, right: 22.0),
+        padding: EdgeInsets.only(bottom: 12.0),
         child: PageTitle(name: 'Paragens')
     );
   }
@@ -156,8 +156,8 @@ class _NextArrivalsState extends State<NextArrivals> with SingleTickerProviderSt
                 child: new LastUpdateTimeStamp(),
               ),
               new IconButton(
-                  icon: new Icon(Icons.settings),
-                  color: Color.fromARGB(255, 215, 215, 215),
+                  icon: new Icon(Icons.edit),
+                  color: Theme.of(context).primaryColor,
                   onPressed: ()=> Navigator.push(context, new MaterialPageRoute(builder: (context) => new BusStopSelectionPage()))
               )
             ]
