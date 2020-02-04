@@ -12,7 +12,7 @@ class AppSharedPreferences {
   static final int keyLength = 32;
   static final int ivLength = 16;
   static final String favoriteCards = "favorite_cards";
-  static final List<FAVORITE_WIDGET_TYPE> defaultFavoriteCards = [FAVORITE_WIDGET_TYPE.SCHEDULE, FAVORITE_WIDGET_TYPE.EXAMS];
+  static final List<FAVORITE_WIDGET_TYPE> defaultFavoriteCards = [FAVORITE_WIDGET_TYPE.SCHEDULE, FAVORITE_WIDGET_TYPE.EXAMS, FAVORITE_WIDGET_TYPE.BUS_STOPS];
 
   static Future savePersistentUserInfo(user, pass) async {
     final prefs = await SharedPreferences.getInstance();

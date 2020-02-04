@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 
 class BackButtonExitWrapper extends StatelessWidget{
@@ -24,7 +25,7 @@ class BackButtonExitWrapper extends StatelessWidget{
                 color: Theme.of(context).primaryColor,
             ),
             new RaisedButton(
-                onPressed: () => Navigator.of(context).pop(true),
+                onPressed: () => SystemChannels.platform.invokeMethod('SystemNavigator.pop'),
                 child: new Text('Sim'),
                 color: Theme.of(context).primaryColor,
 

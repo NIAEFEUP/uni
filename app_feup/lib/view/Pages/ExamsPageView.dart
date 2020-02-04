@@ -10,7 +10,6 @@ import '../Widgets/ScheduleRow.dart';
 class ExamsPageView extends SecondaryPageView {
 
   final double borderRadius = 15.0;
-  final DateTime now = new DateTime.now();
 
   ExamsPageView({
     Key key
@@ -26,7 +25,7 @@ class ExamsPageView extends SecondaryPageView {
             Container(
               child: new Column(
               mainAxisSize: MainAxisSize.max,
-              children: this.parseExamsByDate(context, exams),
+              children: this.createExamsColumn(context, exams),
           ),
         )
         ],
@@ -35,23 +34,16 @@ class ExamsPageView extends SecondaryPageView {
     );
   }
 
-  List<Widget> parseExamsByDate(context, exams){
-    List<Exam> currentExams = new List<Exam>();
-    for (int i = 0; i < exams.length; i++)
-    {
-      if(now.compareTo(exams[i].date) <= 0)
-        currentExams.add(exams[i]);
-    }
-    return this.createExamsColumn(context, currentExams);
-  }
   List<Widget> createExamsColumn(context, exams){
-
-    if(exams.length == 1){
-      return [this.createExamCard(context, [exams[0]])];
-    }
 
     List<Widget> columns = new List<Widget>();
     columns.add(new PageTitle(name: 'Exams',));
+
+    if(exams.length == 1){
+      columns.add(this.createExamCard(context, [exams[0]]));
+      return columns;
+    }
+
     List<Exam> currentDayExams = new List<Exam>();
 
     for(int i = 0; i < exams.length; i++)

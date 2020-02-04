@@ -2,9 +2,13 @@ import 'package:app_feup/model/AppState.dart';
 import 'package:app_feup/model/entities/Lecture.dart';
 import 'package:app_feup/view/Widgets/DateRectangle.dart';
 import 'package:app_feup/view/Widgets/GenericCard.dart';
+import 'package:app_feup/view/Widgets/RequestDependentWidgetBuilder.dart';
 import 'package:app_feup/view/Widgets/ScheduleSlot.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter/material.dart';
+import 'package:tuple/tuple.dart';
+
+import '../../utils/Constants.dart' as Constants;
 
 class ScheduleCard extends GenericCard {
 
@@ -18,32 +22,32 @@ class ScheduleCard extends GenericCard {
 
   @override
   Widget buildCardContent(BuildContext context) {
-    return StoreConnector<AppState, List<dynamic>>(
-        converter: (store) => store.state.content['schedule'],
-        builder: (context, lectures) {
-          return super.getCardContentBasedOnRequestStatus(
-              context,
-              StoreProvider
-                  .of<AppState>(context)
-                  .state
-                  .content['scheduleStatus'],
-              generateSchedule,
-              lectures,
-              lectures != null && lectures.length > 0);
+    return StoreConnector<AppState, Tuple2<List<Lecture>, RequestStatus>>(
+        converter: (store) => Tuple2(store.state.content['schedule'], store.state.content['scheduleStatus']),
+        builder: (context, lecturesInfo) {
+          return RequestDependentWidgetBuilder(
+              context: context,
+              status: lecturesInfo.item2,
+              contentGenerator: generateSchedule,
+              content: lecturesInfo.item1,
+              contentChecker: lecturesInfo.item1 != null && lecturesInfo.item1.length > 0,
+              onNullContent: Center(
+                                child:
+                                 Text("No lectures or classes to show at the moment",
+                                  style: Theme.of(context).textTheme.display1, textAlign: TextAlign.center
+                                  )
+                                )
+          );
         }
     );
   }
 
   Widget generateSchedule(lectures, context){
-    return lectures.length >= 1 ?
-    Container(
+    return Container(
         child: new Column(
           mainAxisSize: MainAxisSize.min,
           children: getScheduleRows(context, lectures),
-        ))
-        : Center(
-        child: Text("No lectures or classes to show at the moment", style: Theme.of(context).textTheme.display1, textAlign: TextAlign.center)
-    );
+        ));
   }
 
   List<Widget> getScheduleRows(context, List<Lecture> lectures){
@@ -105,5 +109,5 @@ class ScheduleCard extends GenericCard {
   String getTitle() => "Horário";
 
   @override
-  onClick(BuildContext context) => Navigator.pushNamed(context, '/Horário');
+  onClick(BuildContext context) => Navigator.pushNamed(context, '/' + Constants.NAV_SCHEDULE);
 }

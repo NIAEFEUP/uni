@@ -23,6 +23,7 @@ import 'package:redux/redux.dart';
 import 'redux/Reducers.dart';
 import 'package:app_feup/model/AppState.dart';
 import 'package:app_feup/controller/LifecycleEventHandler.dart';
+import 'utils/Constants.dart' as Constants;
 
 final Store<AppState> state = Store<AppState>(
     appReducers, /* Function defined in the reducers file */
@@ -60,33 +61,32 @@ class MyAppState extends State<MyApp> {
           // ignore: missing_return
           onGenerateRoute: (RouteSettings settings) {
             switch(settings.name) {
-              case '/Área Pessoal':
+              case '/' + Constants.NAV_PERSONAL_AREA:
                 return MaterialPageRoute(
                     builder: (context) => HomePageView(), settings: settings);
-              case '/Horário':
+              case '/' + Constants.NAV_SCHEDULE:
                 return MaterialPageRoute(
                     builder: (context) => SchedulePage(), settings: settings);
-              case '/Mapa de Exames':
+              case '/' + Constants.NAV_EXAMS:
                 return MaterialPageRoute(
                     builder: (context) => ExamsPageView(), settings: settings);
-              case '/Sobre':
+              case '/' + Constants.NAV_STOPS:
+                return MaterialPageRoute(
+                    builder: (context) => BusStopNextArrivalsPage(),
+                    settings: settings);
+              case '/' + Constants.NAV_ABOUT:
                 return MaterialPageRoute(
                     builder: (context) => AboutPageView(), settings: settings);
-              case '/Bug Report':
+              case '/' + Constants.NAV_BUG_REPORT:
                 return MaterialPageRoute(
                     builder: (context) => BugReportPageView(),
                     settings: settings,
                     maintainState: false);
-              case '/Terminar sessão':
+              case '/' + Constants.NAV_LOG_OUT:
                 return MaterialPageRoute(builder: (context) {
                   logout(context);
                   return LoginPage();
                 });
-              case '/Paragens':
-                return MaterialPageRoute(
-                    builder: (context) => BusStopNextArrivalsPage(),
-                    settings: settings,
-                    maintainState: false);
             }
           }
       ),

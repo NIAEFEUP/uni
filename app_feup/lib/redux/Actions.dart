@@ -131,3 +131,8 @@ class SetHomePageEditingMode {
   bool state;
   SetHomePageEditingMode(this.state);
 }
+
+class SetLastUserInfoUpdateTime {
+  DateTime currentTime;
+  SetLastUserInfoUpdateTime(this.currentTime);
+}
