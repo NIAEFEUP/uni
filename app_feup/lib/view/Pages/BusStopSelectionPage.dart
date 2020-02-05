@@ -6,6 +6,7 @@ import 'package:app_feup/model/entities/BusStop.dart';
 import 'package:app_feup/redux/ActionCreators.dart';
 import 'package:app_feup/view/Pages/UnnamedPageView.dart';
 import 'package:app_feup/view/Widgets/BusStopSearch.dart';
+import 'package:app_feup/view/Widgets/BusStopSelectionRow.dart';
 import 'package:app_feup/view/Widgets/PageTitle.dart';
 import 'package:app_feup/view/Widgets/RowContainer.dart';
 import 'package:flutter/cupertino.dart';
@@ -32,10 +33,6 @@ class BusStopSelectionPage extends UnnamedPageView {
     return stops;
   }
 
-  Future deleteStop(BuildContext context, BusStop stop) async {
-    StoreProvider.of<AppState>(context).dispatch(removeUserBusStop(new Completer(), stop));
-  }
-
   @override
   Widget getBody(BuildContext context) {
     return StoreConnector<AppState, List<BusStop>>(
@@ -50,35 +47,12 @@ class BusStopSelectionPage extends UnnamedPageView {
               Container(
                   padding: EdgeInsets.all(20.0),
                   child: Text(
-                      "As primeiras 6 paragens (a vermelho) serão apresentadas no widget \"Paragens\" dos favoritos. As restantes aparecem quando clicas nele.",
+                      "As paragens favoritas serão apresentadas no widget \"Paragens\" dos favoritos. As restantes serão apresentadas apenas na página.",
                       textAlign: TextAlign.center
                   )
               ),
               Column(
-                  children: busStops.asMap().map((index, stop) =>
-                      MapEntry(index, Container(
-                          padding: EdgeInsets.only(top: 8.0, bottom: 8.0, left: 90.0, right: 90.0),
-                          child: RowContainer(
-                              borderColor: index < 6 ? Theme.of(context).primaryColor : null,
-                              child: Container(
-                                  padding: EdgeInsets.only(left: 10.0, right: 10.0),
-                                  child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: <Widget>[
-                                        Text(stop.stopCode),
-                                        IconButton(
-                                          icon: Icon(Icons.cancel),
-                                          color: darkGreyColor,
-                                          onPressed: () {
-                                            deleteStop(context, stop);
-                                          },
-                                        )
-                                      ]
-                                  )
-                              )
-                          )
-                      ))
-                  ).values.toList()
+                  children: busStops.map((stop) => BusStopSelectionRow(stop)).toList()
               ),
               Container(
                 padding: EdgeInsets.only(left: 90.0, right: 90.0),

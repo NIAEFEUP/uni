@@ -107,8 +107,8 @@ class BusStopCard extends GenericCard {
 
     rows.add(new LastUpdateTimeStamp());
 
-    for(int i = 0; i < busStops.length && i < 6; i++){
-      if (busStops[i].trips.length > 0) {
+    for(int i = 0; i < busStops.length; i++){
+      if (busStops[i].trips.length > 0 && busStops[i].favorited) {
         rows.add(
             new Container(
               padding: EdgeInsets.only(top: 12.0),

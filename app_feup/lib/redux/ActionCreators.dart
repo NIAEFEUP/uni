@@ -434,6 +434,22 @@ ThunkAction<AppState> removeUserBusStop(Completer<Null> action, BusStop stop){
   };
 }
 
+ThunkAction<AppState> toggleFavoriteUserBusStop(Completer<Null> action, BusStop favStop) {
+  return(Store<AppState> store) {
+  List<BusStop> stops = store.state.content['busstops'];
+
+  for(BusStop stop in stops) {
+    if(stop.stopCode == favStop.stopCode)
+      stop.favorited = !stop.favorited;
+  }
+
+  store.dispatch(getUserBusStops(action));
+
+  AppBusStopDatabase db = AppBusStopDatabase();
+  db.updateFavoriteBusStop(favStop.stopCode);
+  };
+}
+
 Future storeRefreshTime(String db, String current_time) async {
   AppRefreshTimesDatabase refreshTimesDatabase =
       await AppRefreshTimesDatabase();

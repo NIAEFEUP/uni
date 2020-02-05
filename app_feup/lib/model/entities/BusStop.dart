@@ -1,13 +1,15 @@
 import 'package:app_feup/model/entities/Trip.dart';
+import 'package:flutter/material.dart';
 
 import 'Bus.dart';
 
 class BusStop{
   final String stopCode;
   final List<Bus> buses;
+  bool favorited;
   List<Trip> trips;
 
-  BusStop(this.stopCode, this.buses) {
+  BusStop({@required this.stopCode, this.buses, this.favorited = false}) {
     trips = new List();
   }
 
