@@ -1,5 +1,6 @@
 import 'package:app_feup/model/entities/Lecture.dart';
 import 'package:app_feup/view/Widgets/PageTitle.dart';
+import 'package:app_feup/view/Widgets/RequestDependentWidgetBuilder.dart';
 import 'package:flutter/material.dart';
 import '../Pages/SecondaryPageView.dart';
 import 'package:app_feup/model/AppState.dart';
@@ -111,12 +112,12 @@ class SchedulePageView extends SecondaryPageView  {
   List<Widget> createSchedule(context) {
     List<Widget> tabBarViewContent = List<Widget>();
     for(int i = 0; i < daysOfTheWeek.length; i++) {
-      tabBarViewContent.add(createScheduleByDay(i));
+      tabBarViewContent.add(createScheduleByDay(context, i));
     }
     return tabBarViewContent;
   }
 
-  List<Widget> createScheduleRows(lectures){
+  List<Widget> createScheduleRows(lectures, BuildContext context){
     List<Widget> scheduleContent = List<Widget>();
     for(int i = 0; i < lectures.length; i++) {
       Lecture lecture = lectures[i];
@@ -132,22 +133,26 @@ class SchedulePageView extends SecondaryPageView  {
     return scheduleContent;
   }
 
-  Widget createScheduleByDay(day) {
-    return StoreConnector<AppState, List<dynamic>>(
-        converter: (store) => store.state.content['schedule'],
-        builder: (context, lectures){
-
-          if(aggLectures[day].length >= 1) {
-            return Container(
+  Widget createDayColumn(dayContent, BuildContext context) {
+    return Container(
                 child: new Column(
                   mainAxisSize: MainAxisSize.min,
-                  children: createScheduleRows(aggLectures[day]),
+                  children: createScheduleRows(dayContent, context),
                 )
-            );
-          } else {
-            return Center(child: Text("Não possui aulas à " + daysOfTheWeek[day] + "."));
-          }
-        }
+    );
+  }
+
+  Widget createScheduleByDay(BuildContext context, day) {
+    return StoreConnector<AppState, RequestStatus>(
+      converter: (store) => store.state.content['scheduleStatus'],
+      builder: (context, status) => RequestDependentWidgetBuilder(
+          context: context,
+          status: status,
+          contentGenerator: createDayColumn,
+          content: aggLectures[day],
+          contentChecker: aggLectures[day].length >= 1,
+          onNullContent: Center(child: Text("Não possui aulas à " + daysOfTheWeek[day] + ".")),
+        )
     );
   }
 }

@@ -1,4 +1,3 @@
-import 'package:app_feup/model/AppState.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -42,29 +41,6 @@ abstract class GenericCard extends StatefulWidget {
                 t.minute.toString(),
             style: Theme.of(context).textTheme.display3),
         alignment: Alignment.center);
-  }
-
-
-  Widget getCardContentBasedOnRequestStatus(BuildContext context, RequestStatus status, Function contentGenerator, content, bool contentChecker) {
-    switch (status) {
-      case RequestStatus.SUCCESSFUL:
-        return contentGenerator(content, context);
-      case RequestStatus.BUSY:
-        return contentChecker ?
-        contentGenerator(content, context)
-            : Center(child: CircularProgressIndicator());
-      case RequestStatus.FAILED:
-        return contentChecker ?
-        contentGenerator(content, context)
-            : Center(child: Text(
-            "Comunication error. Please check your internet connection.",
-            style: Theme
-                .of(context)
-                .textTheme
-                .display1));
-      default:
-        return Container();
-    }
   }
 }
 

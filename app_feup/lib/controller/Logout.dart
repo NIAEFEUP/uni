@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:app_feup/controller/local_storage/AppLastUserInfoUpdateDatabase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -16,11 +17,13 @@ Future logout(BuildContext context) async {
   final prefs = await SharedPreferences.getInstance();
   await prefs.clear();
 
+  
   (await AppLecturesDatabase()).deleteLectures();
   (await AppExamsDatabase()).deleteExams();
   (await AppCoursesDatabase()).deleteCourses();
   (await AppRefreshTimesDatabase()).deleteRefreshTimes();
   (await AppUserDataDatabase()).deleteUserData();
+  (await AppLastUserInfoUpdateDatabase()).deleteLastUpdate();
 
   StoreProvider.of<AppState>(context).dispatch(setInitialStoreState());
 }

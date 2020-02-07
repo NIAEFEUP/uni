@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:app_feup/controller/LoadInfo.dart';
 import 'package:app_feup/controller/local_storage/AppCoursesDatabase.dart';
 import 'package:app_feup/controller/local_storage/AppExamsDatabase.dart';
+import 'package:app_feup/controller/local_storage/AppLastUserInfoUpdateDatabase.dart';
 import 'package:app_feup/controller/local_storage/AppLecturesDatabase.dart';
 import 'package:app_feup/controller/local_storage/AppRefreshTimesDatabase.dart';
 import 'package:app_feup/controller/local_storage/AppSharedPreferences.dart';
@@ -171,6 +172,8 @@ ThunkAction<AppState> getUserExams(Completer<Null> action) {
                 store.state.content['session']));
         courseExams = new List.from(courseExams)..addAll(currentCourseExams);
       }
+      
+      final DateTime now = new DateTime.now();
 
       List<CourseUnit> userUcs = store.state.content['currUcs'];
       List<Exam> exams = new List<Exam>();
@@ -178,7 +181,9 @@ ThunkAction<AppState> getUserExams(Completer<Null> action) {
         for (CourseUnit uc in userUcs) {
           if (!courseExam.examType.contains(
                   "Exames ao abrigo de estatutos especiais - Port.Est.Especiais") &&
-              courseExam.subject == uc.abbreviation) {
+              courseExam.subject == uc.abbreviation &&
+              now.compareTo(courseExam.date) <= 0
+              ) {
             exams.add(courseExam);
             break;
           }
@@ -367,4 +372,21 @@ Future storeRefreshTime(String db, String current_time) async {
   AppRefreshTimesDatabase refreshTimesDatabase =
       await AppRefreshTimesDatabase();
   await refreshTimesDatabase.saveRefreshTime(db, current_time);
+}
+ThunkAction<AppState> setLastUserInfoUpdateTimestamp(Completer<Null> action){
+  return (Store<AppState> store) async{
+    DateTime currentTime = DateTime.now();
+    store.dispatch(new SetLastUserInfoUpdateTime(currentTime));
+    AppLastUserInfoUpdateDatabase db = await AppLastUserInfoUpdateDatabase();
+    await db.insertNewTimeStamp(currentTime);
+    action.complete();
+  };
+}
+
+ThunkAction<AppState> updateStateBasedOnLocalTime(){
+  return (Store<AppState> store) async{
+    AppLastUserInfoUpdateDatabase db = await AppLastUserInfoUpdateDatabase();
+    DateTime savedTime = await db.getLastUserInfoUpdateTime();
+    store.dispatch(new SetLastUserInfoUpdateTime(savedTime));
+  };
 }
