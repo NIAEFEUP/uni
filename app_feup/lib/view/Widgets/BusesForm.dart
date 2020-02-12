@@ -68,6 +68,6 @@ class _BusesFormState extends State<BusesForm>{
         newBuses.add(buses[i]);
       }
     }
-    updateStopCallback(new BusStop(stopCode: stopToAdd, buses: newBuses));
+    updateStopCallback(new BusStop(stopCode: stopToAdd, buses: newBuses, favorited: true));
   }
 }

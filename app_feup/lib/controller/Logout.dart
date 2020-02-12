@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:app_feup/controller/local_storage/AppBusStopDatabase.dart';
 import 'package:app_feup/controller/local_storage/AppLastUserInfoUpdateDatabase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +25,7 @@ Future logout(BuildContext context) async {
   (await AppRefreshTimesDatabase()).deleteRefreshTimes();
   (await AppUserDataDatabase()).deleteUserData();
   (await AppLastUserInfoUpdateDatabase()).deleteLastUpdate();
+  (await AppBusStopDatabase()).deleteBusStops();
 
   StoreProvider.of<AppState>(context).dispatch(setInitialStoreState());
 }

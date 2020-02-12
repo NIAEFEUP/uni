@@ -29,7 +29,7 @@ class AppBusStopDatabase extends AppDatabase{
         stop.favorited = !stop.favorited;
     }
 
-    await _deleteBusStops();
+    await deleteBusStops();
     await _insertBusStops(stops);
   }
 
@@ -37,7 +37,7 @@ class AppBusStopDatabase extends AppDatabase{
     final List<BusStop> stops = await busStops();
     stops.add(newStop);
 
-    await _deleteBusStops();
+    await deleteBusStops();
     await _insertBusStops(stops);
   }
 
@@ -48,7 +48,7 @@ class AppBusStopDatabase extends AppDatabase{
       if(stops[i].stopCode == removedStop.stopCode)
         stops.remove(stops[i]);
     }
-    await _deleteBusStops();
+    await deleteBusStops();
     await _insertBusStops(stops);
   }
 
@@ -65,14 +65,14 @@ class AppBusStopDatabase extends AppDatabase{
     }
   }
 
-  Future<void> _deleteBusStops() async {
+  Future<void> deleteBusStops() async {
     // Get a reference to the database
     final Database db = await this.getDatabase();
     await db.delete('busstops');
   }
 
   Future<void> setBusStops(List<BusStop> busStops) async{
-    await _deleteBusStops();
+    await deleteBusStops();
     await _insertBusStops(busStops);
   }
 }

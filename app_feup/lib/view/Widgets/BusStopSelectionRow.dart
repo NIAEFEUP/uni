@@ -9,7 +9,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'RowContainer.dart';
 
 class BusStopSelectionRow extends StatefulWidget {
-  BusStop stop;
+  final BusStop stop;
 
   BusStopSelectionRow(this.stop);
 
@@ -18,7 +18,7 @@ class BusStopSelectionRow extends StatefulWidget {
 }
 
 class BusStopSelectionRowState extends State<BusStopSelectionRow>{
-  BusStop stop;
+  final BusStop stop;
 
   BusStopSelectionRowState(this.stop);
 
