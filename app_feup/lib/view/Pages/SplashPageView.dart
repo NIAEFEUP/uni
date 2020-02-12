@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:app_feup/controller/local_storage/AppSharedPreferences.dart';
 import 'package:app_feup/model/AppState.dart';
 import 'package:app_feup/view/Pages/HomePageView.dart';
@@ -100,20 +99,17 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void startTimeAndChangeRoute() async {
-    Route<Object> nextRoute;
     Tuple2<String, String> userPersistentInfo =
         await AppSharedPreferences.getPersistentUserInfo();
     String userName = userPersistentInfo.item1;
     String password = userPersistentInfo.item2;
-    if (userName != "" && password != "") {
-      nextRoute =
-          new MaterialPageRoute(builder: (context) => new HomePageView());
-      StoreProvider.of<AppState>(context)
-          .dispatch(reLogin(userName, password, 'feup'));
-    } else {
-      nextRoute = new MaterialPageRoute(builder: (context) => new LoginPage());
-    }
-    Timer(Duration(seconds: 3),
-        () => Navigator.pushReplacement(context, nextRoute));
+    Function onComplete = (bool success) {
+      if (success)
+        Navigator.pushReplacement(context, new MaterialPageRoute(builder: (context) => new HomePageView()));
+      else Navigator.pushReplacement(context,  new MaterialPageRoute(builder: (context) => new LoginPage()));
+    };
+    if (userName != "" && password != "")
+      StoreProvider.of<AppState>(context).dispatch(reLogin(userName, password, 'feup', onComplete));
+    else onComplete(false);
   }
 }

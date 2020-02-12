@@ -25,7 +25,7 @@ import 'Actions.dart';
 import 'package:redux/redux.dart';
 import 'package:app_feup/controller/networking/NetworkRouter.dart';
 
-ThunkAction<AppState> reLogin(username, password, faculty) {
+ThunkAction<AppState> reLogin(username, password, faculty, onComplete) {
   return (Store<AppState> store) async {
     try {
       loadLocalUserInfoToState(store);
@@ -34,13 +34,15 @@ ThunkAction<AppState> reLogin(username, password, faculty) {
           await NetworkRouter.login(username, password, faculty, true);
       store.dispatch(new SaveLoginDataAction(session));
       if (session.authenticated) {
-        loadRemoteUserInfoToState(store);
+        await loadRemoteUserInfoToState(store);
         store.dispatch(new SetLoginStatusAction(RequestStatus.SUCCESSFUL));
       } else {
         store.dispatch(new SetLoginStatusAction(RequestStatus.FAILED));
       }
+      onComplete(session.authenticated);
     } catch (e) {
       store.dispatch(new SetLoginStatusAction(RequestStatus.FAILED));
+      onComplete(false);
     }
   };
 }
