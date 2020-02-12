@@ -47,7 +47,7 @@ class RequestDependentWidgetBuilder extends StatelessWidget {
             return contentChecker ?
             contentGenerator(content, context)
                 : Center(child: Text(
-                "Comunication error. Please check your internet connection.",
+                "Erro de comunicação. Por favor verifica a tua ligação à internet.",
                 style: Theme
                     .of(context)
                     .textTheme
