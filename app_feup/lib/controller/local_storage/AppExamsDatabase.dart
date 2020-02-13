@@ -5,7 +5,7 @@ import 'package:sqflite/sqflite.dart';
 
 class AppExamsDatabase extends AppDatabase {
 
-  AppExamsDatabase():super('exams.db', 'CREATE TABLE exams(subject TEXT, begin TEXT, end TEXT, rooms TEXT, day TEXT, examType TEXT, weekDay TEXT, month TEXT, year TEXT)');
+  AppExamsDatabase():super('exams.db', ['CREATE TABLE exams(subject TEXT, begin TEXT, end TEXT, rooms TEXT, day TEXT, examType TEXT, weekDay TEXT, month TEXT, year TEXT)']);
 
   saveNewExams(List<Exam> exams) async {
     await deleteExams();

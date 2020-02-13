@@ -5,7 +5,7 @@ import 'package:sqflite/sqflite.dart';
 
 class AppLecturesDatabase extends AppDatabase {
 
-  AppLecturesDatabase():super('lectures.db', 'CREATE TABLE lectures(subject TEXT, typeClass TEXT, day INTEGER, startTimeSeconds INTEGER, blocks INTEGER, room TEXT, teacher TEXT)');
+  AppLecturesDatabase():super('lectures.db', ['CREATE TABLE lectures(subject TEXT, typeClass TEXT, day INTEGER, startTimeSeconds INTEGER, blocks INTEGER, room TEXT, teacher TEXT)']);
 
   saveNewLectures(List<Lecture> lecs) async {
       await deleteLectures();

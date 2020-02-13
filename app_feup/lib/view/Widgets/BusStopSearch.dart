@@ -83,11 +83,13 @@ class BusStopSearch extends SearchDelegate<String> {
           width: 100.0,
         ),
         actions: [
-          FlatButton(child: Text("Confirmar", style: Theme.of(context).textTheme.display1.apply(color: Theme.of(context).primaryColor),), onPressed: () async {
-            StoreProvider.of<AppState>(context).dispatch(addUserBusStop(new Completer(), stopToAdd));
-            Navigator.pop(context);
+          FlatButton(child: Text("Confirmar", style: Theme.of(context).textTheme.display1.apply(color: Theme.of(context).primaryColor)), onPressed: () async {
+            if(stopToAdd.buses.length > 0) {
+              StoreProvider.of<AppState>(context).dispatch(addUserBusStop(new Completer(), stopToAdd));
+              Navigator.pop(context);
+            }
           }),
-          FlatButton(child: Text("Cancelar", style: Theme.of(context).textTheme.display1.apply(color: Theme.of(context).primaryColor),), onPressed: () => Navigator.pop(context))
+          FlatButton(child: Text("Cancelar", style: Theme.of(context).textTheme.display1.apply(color: Theme.of(context).primaryColor)), onPressed: () => Navigator.pop(context))
         ]
     );
   }

@@ -1,7 +1,7 @@
 import 'package:app_feup/controller/local_storage/AppDatabase.dart';
 
 class AppLastUserInfoUpdateDatabase extends AppDatabase{
-  AppLastUserInfoUpdateDatabase():super('last_update.db', 'CREATE TABLE last_update(lastUpdate DATE)');
+  AppLastUserInfoUpdateDatabase():super('last_update.db', ['CREATE TABLE last_update(lastUpdate DATE)']);
 
   insertNewTimeStamp(DateTime timestamp) async {
     await deleteLastUpdate();

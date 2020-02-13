@@ -13,6 +13,7 @@ import 'package:app_feup/controller/parsers/ParserSchedule.dart';
 import 'package:app_feup/controller/parsers/ParserPrintBalance.dart';
 import 'package:app_feup/controller/parsers/ParserFees.dart';
 import 'package:app_feup/controller/parsers/ParserCourses.dart';
+import 'package:app_feup/model/entities/Bus.dart';
 import 'package:app_feup/model/entities/Course.dart';
 import 'package:app_feup/model/entities/CourseUnit.dart';
 import 'package:app_feup/model/entities/Exam.dart';
@@ -412,7 +413,20 @@ ThunkAction<AppState> addUserBusStop(Completer<Null> action, BusStop stop){
   return(Store<AppState> store){
     List<BusStop> stops = store.state.content['busstops'];
 
-    stops.add(stop);
+    bool added = false;
+    for(BusStop currStop in stops) {
+      if(currStop.stopCode == stop.stopCode) {
+        added = true;
+        int length = stop.buses.length;
+        for(int i = 0; i < length; i++) {
+          if(!currStop.buses.map((b) => b.busCode).contains(stop.buses[i].busCode))
+            currStop.buses.add(stop.buses[i]);
+        }
+      }
+    }
+
+    if(!added)
+      stops.add(stop);
 
     store.dispatch(getUserBusStops(action));
 

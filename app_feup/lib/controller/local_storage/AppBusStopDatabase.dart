@@ -3,22 +3,33 @@ import 'package:app_feup/controller/local_storage/AppDatabase.dart';
 import 'package:app_feup/model/entities/Bus.dart';
 import 'package:app_feup/model/entities/BusStop.dart';
 import 'package:sqflite/sqflite.dart';
+import "package:collection/collection.dart";
 
 class AppBusStopDatabase extends AppDatabase{
 
-  AppBusStopDatabase():super('busstops.db', 'CREATE TABLE busstops(stopCode TEXT, busCodes TEXT, favorited TEXT)');
+  AppBusStopDatabase():super('busstops.db', ['CREATE TABLE busstops(stopCode TEXT, busCode TEXT)', 'CREATE TABLE favoritestops(stopCode TEXT, favorited TEXT)']);
 
   Future<List<BusStop>> busStops() async {
     // Get a reference to the database
     final Database db = await this.getDatabase();
 
     // Query the table for all bus stops
-    final List<Map<String, dynamic>> maps = await db.query('busstops');
-    if(maps.length == 0)
+    final List<Map<String, dynamic>> buses = await db.query('busstops');
+    if(buses.length == 0)
       return new List();
 
+    final List<Map<String, dynamic>> favoritesQueryResult = await db.query('favoritestops');
+    Map<String, bool> favorites = new Map();
+    favoritesQueryResult.forEach((e) => favorites[e['stopCode']] = e['favorited'] == '1');
+
     final List<BusStop> stops = new List();
-    maps.forEach((stop) => stops.add(BusStop(stopCode: stop['stopCode'], buses: stop['busCodes'].split(",").map<Bus>((code) => Bus(busCode: code)).toList(), favorited: stop['favorited'] == '0' ? false : true)));
+    groupBy(buses, (stop)=>stop['stopCode']).forEach(
+            (stopCode,busCodeList) => stops.add(
+                BusStop(stopCode: stopCode, favorited: favorites[stopCode], buses: busCodeList.map(
+                    (busEntry)=>Bus(busCode: busEntry['busCode'])).toList()
+                )
+            )
+    );
     return stops;
   }
 
@@ -55,13 +66,21 @@ class AppBusStopDatabase extends AppDatabase{
   Future<void> _insertBusStops(List<BusStop> stops) async {
     for (BusStop stop in stops) {
       await insertInDatabase(
-        'busstops',
-        {'stopCode': stop.stopCode,
-          'busCodes': stop.buses.map((bus)=>bus.busCode).join(","),
-          'favorited': stop.favorited,
-        },
-        conflictAlgorithm: ConflictAlgorithm.replace,
+        'favoritestops',
+        {
+          'stopCode': stop.stopCode,
+          'favorited': stop.favorited
+        }
       );
+      for (Bus bus in stop.buses) {
+        await insertInDatabase(
+          'busstops',
+          {'stopCode': stop.stopCode,
+            'busCode': bus.busCode,
+          },
+          conflictAlgorithm: ConflictAlgorithm.replace,
+        );
+      }
     }
   }
 

@@ -7,12 +7,12 @@ import 'package:synchronized/synchronized.dart';
 class AppDatabase {
   Database _db;
   String name;
-  String command;
+  List<String> commands;
   static Lock lock = new Lock();
 
-  AppDatabase(String name, String command) {
+  AppDatabase(String name, List<String> commands) {
     this.name = name;
-    this.command = command;
+    this.commands = commands;
   }
 
   Future<Database> getDatabase() async {
@@ -42,7 +42,9 @@ class AppDatabase {
   }
 
   void _createDatabase(Database db, int newVersion) async {
-    await db.execute(command);
+    for (String command in commands) {
+      await db.execute(command);
+    }
   }
 
   static removeDatabase(String name) async {

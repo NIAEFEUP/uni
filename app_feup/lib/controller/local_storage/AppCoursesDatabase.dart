@@ -5,7 +5,7 @@ import 'package:sqflite/sqflite.dart';
 
 class AppCoursesDatabase extends AppDatabase {
 
-  AppCoursesDatabase():super('courses.db', 'CREATE TABLE courses(id INTEGER, fest_id INTEGER, name TEXT, abbreviation TEXT, currYear TEXT, firstEnrollment INTEGER, state TEXT)');
+  AppCoursesDatabase():super('courses.db', ['CREATE TABLE courses(id INTEGER, fest_id INTEGER, name TEXT, abbreviation TEXT, currYear TEXT, firstEnrollment INTEGER, state TEXT)']);
 
   saveNewCourses(List<Course> courses) async {
     await deleteCourses();
