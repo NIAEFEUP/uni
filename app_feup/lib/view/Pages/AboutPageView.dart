@@ -1,13 +1,12 @@
+import 'package:app_feup/view/Widgets/TermsAndConditions.dart';
 import 'package:flutter/material.dart';
 import '../Pages/GeneralPageView.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../../controller/load_static/TermsAndConditions.dart';
 
 class AboutPageView extends GeneralPageView {
 
   @override
   Widget getBody(BuildContext context) {
-    final Future<String> termsAndConditionsFuture = readTermsAndConditions();
     final MediaQueryData queryData = MediaQuery.of(context);
     return ListView(
         children: <Widget>[
@@ -32,12 +31,7 @@ class AboutPageView extends GeneralPageView {
               Column(
                 children: <Widget>[
                   Text("App desenvolvida pelo NIAEFEUP. De estudantes, para estudantes.\n\n"),
-                  FutureBuilder(
-                    future: termsAndConditionsFuture,
-                    builder: (BuildContext context, AsyncSnapshot<String> termsAndConditions) {
-                      return Text(termsAndConditions.connectionState == ConnectionState.done ? termsAndConditions.data : "Carregando os Termos e Condições..."); 
-                    }
-                  )
+                  TermsAndConditions(),
                 ]
               ),
             )

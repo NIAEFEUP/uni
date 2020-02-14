@@ -1,11 +1,11 @@
 import 'package:app_feup/model/AppState.dart';
+import 'package:app_feup/view/Widgets/TermsAndConditions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:toast/toast.dart';
 import '../../view/Theme.dart';
 import 'dart:async';
-import '../../controller/load_static/TermsAndConditions.dart';
 
 class LoginPageView extends StatelessWidget {
   LoginPageView(
@@ -256,18 +256,12 @@ class LoginPageView extends StatelessWidget {
   }
 
   Future<void> _showLoginDetails(BuildContext context) async {
-    Future<String> termsAndConditionsFuture = readTermsAndConditions();
     showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
             title: const Text('Termos e Condições'),
-            content: FutureBuilder(
-                future: termsAndConditionsFuture,
-                builder: (BuildContext context, AsyncSnapshot<String> termsAndConditions) {
-                  return SingleChildScrollView(child: Text(termsAndConditions.data)); 
-                }
-              ),
+            content: SingleChildScrollView(child: TermsAndConditions()),
             actions: <Widget>[
               SimpleDialogOption(
                 onPressed: () => Navigator.pop(context),
