@@ -115,8 +115,8 @@ class BugReportFormState extends State<BugReportForm> {
             ),
             Expanded(
                 child: Text(
-                  "Bug Report",
-                  textScaleFactor: 2,
+                  "Bugs e Sugestões",
+                  textScaleFactor: 1.6,
                   textAlign: TextAlign.center,
                 )
             ),
@@ -140,7 +140,7 @@ class BugReportFormState extends State<BugReportForm> {
       padding: new EdgeInsets.only(bottom: 20),
       child: new Center(
         child: Text(
-            "Encontraste algum Bug na aplicação?\nConta-nos sobre ele para que o possamos resolver!",
+            "Encontraste algum Bug na aplicação?\nTens alguma sugestão para a app?\nConta-nos para que nós possamos melhorar!",
             style: Theme.of(context).textTheme.body1,
             textAlign: TextAlign.center
         ),
@@ -155,7 +155,7 @@ class BugReportFormState extends State<BugReportForm> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           new Text(
-            'Seleciona o tipo de bug',
+            'Seleciona o tipo de occorrência',
             style: Theme.of(context).textTheme.body1,
             textAlign: TextAlign.left,
           ),
@@ -167,7 +167,7 @@ class BugReportFormState extends State<BugReportForm> {
                 ),
                 Expanded(
                     child: new DropdownButton(
-                      hint: new Text('Seleciona o tipo de bug'),
+                      hint: new Text('Seleciona o tipo de ocorrência'),
                       items: bugList,
                       value: _selectedBug,
                       onChanged: (value) {

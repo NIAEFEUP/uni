@@ -33,7 +33,7 @@ class ScheduleCard extends GenericCard {
               contentChecker: lecturesInfo.item1 != null && lecturesInfo.item1.length > 0,
               onNullContent: Center(
                                 child:
-                                 Text("No lectures or classes to show at the moment",
+                                 Text("Não existem aulas para apresentar",
                                   style: Theme.of(context).textTheme.display1, textAlign: TextAlign.center
                                   )
                                 )

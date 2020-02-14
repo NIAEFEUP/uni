@@ -121,7 +121,7 @@ class GenericCardState extends State<GenericCard> {
         ? IconButton(
             iconSize: 22.0,
             icon: Icon(Icons.delete),
-            tooltip: 'Unfavorite',
+            tooltip: 'Remover',
             color: Theme.of(context).textTheme.title.color,
             onPressed: widget.onDelete,
           )

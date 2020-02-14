@@ -37,7 +37,7 @@ class ExamsPageView extends SecondaryPageView {
   List<Widget> createExamsColumn(context, exams){
 
     List<Widget> columns = new List<Widget>();
-    columns.add(new PageTitle(name: 'Exams',));
+    columns.add(new PageTitle(name: 'Exames',));
 
     if(exams.length == 1){
       columns.add(this.createExamCard(context, [exams[0]]));

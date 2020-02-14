@@ -62,7 +62,7 @@ class SchedulePageView extends SecondaryPageView  {
 
     return new Column(
       children: <Widget>[
-        new PageTitle(name: 'Schedule'),
+        new PageTitle(name: 'Horário'),
         new Expanded(
           child: 
               NestedScrollView(
