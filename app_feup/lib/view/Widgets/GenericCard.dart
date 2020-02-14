@@ -62,7 +62,7 @@ class GenericCardState extends State<GenericCard> {
               decoration: BoxDecoration(
                   boxShadow: [
                     new BoxShadow(
-                        color: Color.fromARGB(0x0c, 0, 0, 0),
+                        color: Color.fromARGB(0x1c, 0, 0, 0),
                         blurRadius: 7.0,
                         offset: Offset(0.0, 1.0))
                   ],
