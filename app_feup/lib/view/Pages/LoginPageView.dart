@@ -15,6 +15,12 @@ class LoginPageView extends StatefulWidget {
 class _LoginPageViewState extends State<LoginPageView> {
   final String faculty = 'feup';
 
+  @override
+  void didChangeDependencies(){
+    super.didChangeDependencies();
+    setState(() {
+    });
+  }
 
   static final FocusNode usernameFocus = FocusNode();
   static final FocusNode passwordFocus = FocusNode();
@@ -33,7 +39,7 @@ class _LoginPageViewState extends State<LoginPageView> {
         _formKey.currentState.validate()) {
       final user = usernameController.text;
       final pass = passwordController.text;
-      store.dispatch(login(user, pass, faculty, _keepSignedIn));
+      store.dispatch(login(user, pass, faculty, _keepSignedIn, usernameController, passwordController));
     }
   }
 

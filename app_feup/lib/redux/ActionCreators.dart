@@ -47,7 +47,7 @@ ThunkAction<AppState> reLogin(username, password, faculty, onComplete) {
   };
 }
 
-ThunkAction<AppState> login(username, password, faculty, persistentSession) {
+ThunkAction<AppState> login(username, password, faculty, persistentSession, usernameController, passwordController) {
   return (Store<AppState> store) async {
     try {
       store.dispatch(new SetLoginStatusAction(RequestStatus.BUSY));
@@ -59,6 +59,8 @@ ThunkAction<AppState> login(username, password, faculty, persistentSession) {
         await loadUserInfoToState(store);
         if (persistentSession)
           AppSharedPreferences.savePersistentUserInfo(username, password);
+        usernameController.clear();
+        passwordController.clear();
       } else {
         store.dispatch(new SetLoginStatusAction(RequestStatus.FAILED));
       }
