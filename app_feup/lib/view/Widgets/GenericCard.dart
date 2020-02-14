@@ -95,7 +95,7 @@ class GenericCardState extends State<GenericCard> {
                                         fontWeightDelta: -3)),
                             alignment: Alignment.centerLeft,
                             padding: EdgeInsets.only(left: 16),
-                            margin: EdgeInsets.only(top: 11, bottom: 11),
+                            margin: EdgeInsets.only(top: 15, bottom: 11),
                           )),
                           this.getDeleteIcon(context)
                         ].where((e) => e != null).toList(),
