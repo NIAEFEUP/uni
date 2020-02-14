@@ -48,6 +48,15 @@ class ScheduleRow extends StatelessWidget{
   }
 
   List<Widget> getScheduleRooms(context){
+
+    if(this.rooms[0] == ""){
+      return [Text(
+          "sem\nsalas",
+          textAlign: TextAlign.right,
+          style: Theme.of(context).textTheme.display1.apply(fontSizeDelta: -4),
+      )];
+    }
+
     List<Widget> rooms = new List();
     for(String room in this.rooms){
       rooms.add(
@@ -57,6 +66,7 @@ class ScheduleRow extends StatelessWidget{
         ),
       );
     }
+    
     return rooms;
   }
 }
