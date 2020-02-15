@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'GeneralPageView.dart';
 import 'package:app_feup/view/Widgets/SecondaryPageBackButton.dart';
 
-abstract class SecondaryPageView extends GeneralPageView{
+abstract class SecondaryPageViewState extends GeneralPageViewState{
 
   @override
   Widget build(BuildContext context) {

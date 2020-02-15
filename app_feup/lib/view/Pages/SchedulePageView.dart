@@ -7,7 +7,6 @@ import 'package:app_feup/model/AppState.dart';
 import 'package:app_feup/view/Widgets/ScheduleSlot.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
-
 class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   _SliverAppBarDelegate(this._tabBar);
 
@@ -41,10 +40,30 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   }
 }
 
-class SchedulePageView extends SecondaryPageView  {
-
+class SchedulePageView extends StatefulWidget {
   SchedulePageView(
-    {Key key,
+      {Key key,
+      @required this.tabController,
+      @required this.scrollViewController,
+      @required this.daysOfTheWeek,
+      @required this.aggLectures});
+
+  final List<String> daysOfTheWeek;
+  final List<List<Lecture>> aggLectures;
+  final TabController tabController;
+  final ScrollController scrollViewController;
+
+  @override
+  State<StatefulWidget> createState() => SchedulePageViewState(
+      tabController: tabController,
+      scrollViewController: scrollViewController,
+      daysOfTheWeek: daysOfTheWeek,
+      aggLectures: aggLectures);
+}
+
+class SchedulePageViewState extends SecondaryPageViewState {
+  SchedulePageViewState(
+      {Key key,
       @required this.tabController,
       @required this.scrollViewController,
       @required this.daysOfTheWeek,
@@ -64,32 +83,33 @@ class SchedulePageView extends SecondaryPageView  {
       children: <Widget>[
         new PageTitle(name: 'Horário'),
         new Expanded(
-          child: 
-              NestedScrollView(
-                controller: scrollViewController,
-                headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-                  return <Widget> [
-                    SliverPersistentHeader(
-                      delegate: _SliverAppBarDelegate(
-                        new TabBar(
-                          controller: tabController,
-                          isScrollable: true,
-                          unselectedLabelColor: labelColor,
-                          labelColor: labelColor,
-                          indicatorWeight: 3.0,
-                          indicatorColor: Theme.of(context).primaryColor,
-                          labelPadding: EdgeInsets.all(0.0),
-                          tabs: createTabs(queryData, context),
-                        ),
-                      ),
-                      pinned: true,
+          child: NestedScrollView(
+            controller: scrollViewController,
+            headerSliverBuilder:
+                (BuildContext context, bool innerBoxIsScrolled) {
+              return <Widget>[
+                SliverPersistentHeader(
+                  delegate: _SliverAppBarDelegate(
+                    new TabBar(
+                      controller: tabController,
+                      isScrollable: true,
+                      unselectedLabelColor: labelColor,
+                      labelColor: labelColor,
+                      indicatorWeight: 3.0,
+                      indicatorColor: Theme.of(context).primaryColor,
+                      labelPadding: EdgeInsets.all(0.0),
+                      tabs: createTabs(queryData, context),
                     ),
-                  ];
-                }, body: new TabBarView(
-                controller: tabController,
-                children: createSchedule(context),
-              ),
-              ),
+                  ),
+                  pinned: true,
+                ),
+              ];
+            },
+            body: new TabBarView(
+              controller: tabController,
+              children: createSchedule(context),
+            ),
+          ),
         ),
       ],
     );
@@ -97,14 +117,12 @@ class SchedulePageView extends SecondaryPageView  {
 
   List<Widget> createTabs(queryData, BuildContext context) {
     List<Widget> tabs = List<Widget>();
-    for( var i = 0; i < daysOfTheWeek.length; i++) {
-      tabs.add(
-          new Container(
-            color: Theme.of(context).backgroundColor,
-            width:  queryData.size.width * 1/3,
-            child: new Tab(text: daysOfTheWeek[i]),
-          )
-      );
+    for (var i = 0; i < daysOfTheWeek.length; i++) {
+      tabs.add(new Container(
+        color: Theme.of(context).backgroundColor,
+        width: queryData.size.width * 1 / 3,
+        child: new Tab(text: daysOfTheWeek[i]),
+      ));
     }
     return tabs;
   }
@@ -119,15 +137,15 @@ class SchedulePageView extends SecondaryPageView  {
 
   List<Widget> createScheduleRows(lectures, BuildContext context){
     List<Widget> scheduleContent = List<Widget>();
-    for(int i = 0; i < lectures.length; i++) {
+    for (int i = 0; i < lectures.length; i++) {
       Lecture lecture = lectures[i];
       scheduleContent.add(new ScheduleSlot(
-      subject: lecture.subject,
-      typeClass: lecture.typeClass,
-      rooms: lecture.room,
-      begin: lecture.startTime,
-      end: lecture.endTime,
-      teacher: lecture.teacher,
+        subject: lecture.subject,
+        typeClass: lecture.typeClass,
+        rooms: lecture.room,
+        begin: lecture.startTime,
+        end: lecture.endTime,
+        teacher: lecture.teacher,
       ));
     }
     return scheduleContent;
