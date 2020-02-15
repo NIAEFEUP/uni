@@ -52,14 +52,14 @@ class NavigationDrawerState extends State<NavigationDrawer> {
     Navigator.pushReplacementNamed(context, '/' + key);
   }
 
+
   // End of Callback Functions
 
-  _buildBorder(name) {
-    return (name == getCurrentRoute())
-        ? (const BoxDecoration(
-            border:
-                Border(bottom: BorderSide(width: 5.0, color: primaryColor))))
-        : null;
+  Decoration _getSelectionDecoration(String name){
+    return (name == getCurrentRoute()) ? BoxDecoration(
+      border: Border(left: BorderSide(color: Theme.of(context).primaryColor, width: 3.0)),
+      color: Theme.of(context).accentColor,
+    ) : null;
   }
 
   Widget createLogoutBtn() {
@@ -75,18 +75,20 @@ class NavigationDrawerState extends State<NavigationDrawer> {
   }
 
   Widget createDrawerNavigationOption(String d) {
-    return new ListTile(
-      title: new Row(
-        children: <Widget>[
+    return new Container(
+      decoration: _getSelectionDecoration(d),
+      child: ListTile(
+        title: 
           new Container(
-            decoration: _buildBorder(d),
+            padding: EdgeInsets.only(bottom: 3.0, left: 20.0),
             child: new Text(d,
-                style: TextStyle(fontSize: 24.0, color: primaryColor)),
+                style: TextStyle(fontSize: 18.0, color: primaryColor, fontWeight: FontWeight.normal)),
           ),
-        ],
-      ),
-      selected: d == getCurrentRoute(),
-      onTap: () => drawerItems[d](d),
+        dense: true,
+        contentPadding: EdgeInsets.all(0.0),
+        selected: d == getCurrentRoute(),
+        onTap: () => drawerItems[d](d),
+      )
     );
   }
 
@@ -99,17 +101,18 @@ class NavigationDrawerState extends State<NavigationDrawer> {
     }
 
     return new Drawer(
-        child: new Padding(
-            padding: EdgeInsets.all(20.0),
-            child: Column(
+        child: Column(
               children: <Widget>[
                 Expanded(
-                  child: new ListView(
-                    children: drawerOptions,
-                  ),
+                  child: Container(
+                    padding: EdgeInsets.only(top: 55.0),
+                    child: new ListView(
+                      children: drawerOptions,
+                    ),
+                  )
                 ),
                 Row(children: <Widget>[Expanded(child: createLogoutBtn())])
               ],
-            )));
+            ));
   }
 }

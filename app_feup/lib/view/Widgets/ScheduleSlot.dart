@@ -54,7 +54,7 @@ class ScheduleSlot extends StatelessWidget{
   }
 
   Widget createScheduleTime(String time, context) =>
-      createTextField(time, Theme.of(context).textTheme.display1.apply(fontSizeDelta: -3), TextAlign.center);
+      createTextField(time, Theme.of(context).textTheme.display1.apply(fontSizeDelta: -4), TextAlign.center);
 
   List<Widget> createScheduleSlotPrimInfo(context) {
     var subjectTextField = createTextField(

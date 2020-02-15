@@ -155,7 +155,7 @@ class BugReportFormState extends State<BugReportForm> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           new Text(
-            'Seleciona o tipo de occorrência',
+            'Seleciona o tipo de ocorrência',
             style: Theme.of(context).textTheme.body1,
             textAlign: TextAlign.left,
           ),
