@@ -3,6 +3,7 @@ import 'package:app_feup/view/Widgets/DateRectangle.dart';
 import 'package:app_feup/view/Widgets/GenericCard.dart';
 import 'package:app_feup/view/Widgets/RequestDependentWidgetBuilder.dart';
 import 'package:app_feup/view/Widgets/RowContainer.dart';
+import 'package:app_feup/view/Widgets/ScheduleEventRectangle.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:tuple/tuple.dart';
 import '../../utils/Constants.dart' as Constants;
@@ -71,7 +72,7 @@ class ExamCard extends GenericCard{
     return rows;
   }
 
-  Widget createRowFromExam(context, exam){
+  Widget createRowFromExam(context, Exam exam){
     return new Column(children: [
                 new DateRectangle(date: exam.weekDay + ", " + exam.day + " de " + exam.month),
                 new Container(
@@ -80,7 +81,8 @@ class ExamCard extends GenericCard{
                           subject: exam.subject,
                           rooms: exam.rooms,
                           begin: exam.begin,
-                          end: exam.end
+                          end: exam.end,
+                          type: exam.examType,
                       ),
                     )
                 ),
@@ -100,18 +102,15 @@ class ExamCard extends GenericCard{
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              new Text(
+              Text(
                   exam.day + "/" + exam.month,
                   style: Theme.of(context).textTheme.display1,
               ),
-              new Text(
-                  exam.subject,
-                  style: Theme.of(context).textTheme.display2.apply(fontSizeDelta: 5)
-              )
-            ],
+              ScheduleEventRectangle(subject: exam.subject, type: exam.examType, reverseOrder: true)
+              ]
+            ),
+          ),
         ),
-      ),
-      ),
     );
   }
 }

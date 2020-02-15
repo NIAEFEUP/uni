@@ -1,4 +1,5 @@
 import 'package:app_feup/model/AppState.dart';
+import 'package:app_feup/view/Widgets/TermsAndConditions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
@@ -81,6 +82,9 @@ class _LoginPageViewState extends State<LoginPageView> {
     widgets.add(
         Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)));
     widgets.add(createStatusWidget(context));
+    widgets.add(
+        Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)));
+    widgets.add(createSafeLoginButton(context));
 
     return widgets;
   }
@@ -249,5 +253,42 @@ class _LoginPageViewState extends State<LoginPageView> {
         border: new UnderlineInputBorder(),
         focusedBorder: new UnderlineInputBorder(
             borderSide: new BorderSide(color: Colors.white, width: 3)));
+  }
+
+  createSafeLoginButton(BuildContext context) {
+    return InkResponse(
+        onTap: () {
+          _showLoginDetails(context);
+        },
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+        child: Container(
+            padding: EdgeInsets.all(8),
+            child: Text(
+              "Ao entrares confirmas que concordas com estes Termos e Condições",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  decoration: TextDecoration.underline,
+                  color: Colors.white,
+                  fontSize: 17.0,
+                  fontWeight: FontWeight.w300),
+            )));
+  }
+
+  Future<void> _showLoginDetails(BuildContext context) async {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Termos e Condições'),
+            content: SingleChildScrollView(child: TermsAndConditions()),
+            actions: <Widget>[
+              SimpleDialogOption(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('OK'),
+              )
+            ],
+          );
+        });
   }
 }

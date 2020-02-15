@@ -97,7 +97,7 @@ class ExamsPageViewState extends SecondaryPageViewState {
     return Container(
         margin: EdgeInsets.fromLTRB(12, 4, 12, 0),
         child: RowContainer(
-          child: new ScheduleRow(subject: exam.subject, rooms: exam.rooms, begin: exam.begin, end: exam.end)
+          child: new ScheduleRow(subject: exam.subject, rooms: exam.rooms, begin: exam.begin, end: exam.end, type: exam.examType)
         )
     );
   }
