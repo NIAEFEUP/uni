@@ -1,4 +1,3 @@
-import 'package:app_feup/controller/LoadInfo.dart';
 import 'package:app_feup/model/AppState.dart';
 import 'package:app_feup/view/Pages/ProfilePageView.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +15,6 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  
   String name;
   String email;
   Map<String, String> currentState;
@@ -31,44 +29,29 @@ class _ProfilePageState extends State<ProfilePage> {
     currentState = {};
     courses = [];
     profilePicFile = null;
-
   }
 
   @override
   Widget build(BuildContext context) {
-    profilePicFile = loadProfilePic( StoreProvider.of<AppState>(context));
     updateInfo();
-    return FutureBuilder(future: profilePicFile,
-    builder: (BuildContext context,
-    AsyncSnapshot<File> profilePic){
-      return new ProfilePageView(
-          name: name,
-          email: email,
-          currentState: currentState,
-          courses: courses, profilePicFile: profilePic.data);
-    });
-
+    return new ProfilePageView(
+        name: name, email: email, currentState: currentState, courses: courses);
   }
 
-  void updateInfo() async{
+  void updateInfo() async {
     setState(() {
-      if(StoreProvider.of<AppState>(context).state.content['profile'] != null) {
-        name = StoreProvider
-            .of<AppState>(context)
+      if (StoreProvider.of<AppState>(context).state.content['profile'] !=
+          null) {
+        name =
+            StoreProvider.of<AppState>(context).state.content['profile'].name;
+        email =
+            StoreProvider.of<AppState>(context).state.content['profile'].email;
+        currentState =
+            StoreProvider.of<AppState>(context).state.content['coursesStates'];
+        courses = StoreProvider.of<AppState>(context)
             .state
-            .content['profile'].name;
-        email = StoreProvider
-            .of<AppState>(context)
-            .state
-            .content['profile'].email;
-        currentState = StoreProvider
-            .of<AppState>(context)
-            .state
-            .content['coursesStates'];
-        courses = StoreProvider
-            .of<AppState>(context)
-            .state
-            .content['profile'].courses;
+            .content['profile']
+            .courses;
       }
     });
   }
