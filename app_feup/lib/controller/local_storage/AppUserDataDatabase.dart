@@ -7,7 +7,7 @@ import 'package:tuple/tuple.dart';
 
 class AppUserDataDatabase extends AppDatabase {
 
-  AppUserDataDatabase():super('userdata.db', 'CREATE TABLE userdata(key TEXT, value TEXT)');
+  AppUserDataDatabase():super('userdata.db', ['CREATE TABLE userdata(key TEXT, value TEXT)']);
 
   void saveUserData(Profile profile) async {
     await deleteUserData();

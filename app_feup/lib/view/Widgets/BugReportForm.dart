@@ -241,6 +241,7 @@ class BugReportFormState extends State<BugReportForm> {
         clearForm();
 
         Navigator.pop(context);
+        setState(() { _isButtonTapped = false; });
       };
 
       FocusScope.of(context).requestFocus(new FocusNode());

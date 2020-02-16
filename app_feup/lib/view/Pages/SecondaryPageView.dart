@@ -6,7 +6,7 @@ abstract class SecondaryPageViewState extends GeneralPageViewState{
 
   @override
   Widget build(BuildContext context) {
-    return super.getScaffold(
+    return this.getScaffold(
         context,
         this.bodyWrapper(context)
     );

@@ -32,7 +32,17 @@ AppState appReducers(AppState state, dynamic action) {
     return setFeesStatus(state, action);
   } else if (action is SetCoursesStatesAction) {
     return setCoursesState(state, action);
-  } else if (action is UpdateFavoriteCards) {
+  } else if(action is SetBusTripsAction) {
+    return setBusTrips(state, action);
+  } else if(action is SetBusStopsAction){
+    return setBusStop(state, action);
+  } else if(action is SetBusTripsStatusAction){
+    return setBusStopStatus(state, action);
+  } else if(action is SetBusStopTimeStampAction){
+    return setBusStopTimeStamp(state, action);
+  } else if(action is SetCurrentTimeAction){
+    return setCurrentTime(state, action);
+  } else if(action is UpdateFavoriteCards) {
     return updateFavoriteCards(state, action);
   } else if (action is SetCoursesStatesStatusAction) {
     return setCoursesStateStatus(state, action);
@@ -98,8 +108,7 @@ AppState setPrintBalance(AppState state, SetPrintBalanceAction action) {
   return state.cloneAndUpdateValue("printBalance", action.printBalance);
 }
 
-AppState setPrintBalanceStatus(
-    AppState state, SetPrintBalanceStatusAction action) {
+AppState setPrintBalanceStatus(AppState state, SetPrintBalanceStatusAction action) {
   print('setting print balance status: ' + action.status.toString());
   return state.cloneAndUpdateValue("printBalanceStatus", action.status);
 }
@@ -122,6 +131,31 @@ AppState setFeesStatus(AppState state, SetFeesStatusAction action) {
 AppState setCoursesState(AppState state, SetCoursesStatesAction action) {
   print('setting courses state: ' + action.coursesStates.toString());
   return state.cloneAndUpdateValue("coursesStates", action.coursesStates);
+}
+
+AppState setBusStop(AppState state, SetBusStopsAction action) {
+  print('setting bus stops: ' + action.busStops.toString());
+  return state.cloneAndUpdateValue("configuredBusStops", action.busStops);
+}
+
+AppState setBusTrips(AppState state, SetBusTripsAction action) {
+  print('setting bus trips: ' + action.trips.toString());
+  return state.cloneAndUpdateValue("currentBusTrips", action.trips);
+}
+
+AppState setBusStopStatus(AppState state, SetBusTripsStatusAction action) {
+  print('setting bus stop status: ' + action.status.toString());
+  return state.cloneAndUpdateValue('busstopStatus', action.status);
+}
+
+AppState setBusStopTimeStamp(AppState state, SetBusStopTimeStampAction action){
+  print('setting bus stop time stamp: ' + action.timeStamp.toString());
+  return state.cloneAndUpdateValue('timeStamp', action.timeStamp);
+}
+
+AppState setCurrentTime(AppState state, SetCurrentTimeAction action) {
+  print('setting bus stop time stamp: ' + action.currentTime.toString());
+  return state.cloneAndUpdateValue('currentTime', action.currentTime);
 }
 
 AppState setInitialStoreState(

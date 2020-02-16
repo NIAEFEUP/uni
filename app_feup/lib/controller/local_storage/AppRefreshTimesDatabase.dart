@@ -4,7 +4,7 @@ import 'package:sqflite/sqflite.dart';
 
 class AppRefreshTimesDatabase extends AppDatabase {
 
-  AppRefreshTimesDatabase():super('refreshtimes.db', 'CREATE TABLE refreshtimes(event TEXT, time TEXT)');
+  AppRefreshTimesDatabase():super('refreshtimes.db', ['CREATE TABLE refreshtimes(event TEXT, time TEXT)']);
 
   Future<Map<String,String>> refreshTimes() async {
     final Database db = await this.getDatabase();

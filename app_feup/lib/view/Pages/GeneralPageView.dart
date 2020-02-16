@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:app_feup/controller/LifecycleEventHandler.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -16,6 +18,7 @@ abstract class GeneralPageViewState extends State<StatefulWidget> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+
     this.lifeCycleEventHandler = new LifecycleEventHandler(store: StoreProvider.of<AppState>(context));
     WidgetsBinding.instance.addObserver(this.lifeCycleEventHandler);
   }
@@ -63,41 +66,45 @@ abstract class GeneralPageViewState extends State<StatefulWidget> {
   }
 
   Widget getScaffold(BuildContext context, Widget body){
-    MediaQueryData queryData = MediaQuery.of(context);
     return new Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
-      appBar: new AppBar(
-        bottom: PreferredSize(
-          child: Container(
-            margin: EdgeInsets.only(left: borderMargin, right: borderMargin),
-            color: Theme.of(context).accentColor,
-            height: 1.0,
-          ),
-          preferredSize: null,
-        ),
-        elevation: 0,
-        iconTheme: new IconThemeData(color: Theme.of(context).primaryColor),
-        backgroundColor: Theme.of(context).backgroundColor,
-        titleSpacing: 0.0,
-        title: ButtonTheme(
-          minWidth: 0,
-          padding: EdgeInsets.only(left: 0),
-          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-          shape: RoundedRectangleBorder(),
-          child: FlatButton(
-              onPressed: () => Navigator.pushNamed(context, '/Área Pessoal'),
-              child: SvgPicture.asset(
-                    'assets/images/logo_dark.svg',
-                      height: queryData.size.height/25,
-
-            ),
-        )),
-        actions: <Widget>[
-          getTopRightButton(context),],
-        ),
+      appBar: buildAppBar(context),
       drawer: new NavigationDrawer(parentContext: context),
       body: this.refreshState(context, body),
     );
+  }
+
+  AppBar buildAppBar(BuildContext context) {
+    MediaQueryData queryData = MediaQuery.of(context);
+
+    return new AppBar(
+      bottom: PreferredSize(
+        child: Container(
+          margin: EdgeInsets.only(left: borderMargin, right: borderMargin),
+          color: Theme.of(context).accentColor,
+          height: 1.5,
+        ),
+      ),
+      elevation: 0,
+      iconTheme: new IconThemeData(color: Theme.of(context).primaryColor),
+      backgroundColor: Theme.of(context).backgroundColor,
+      titleSpacing: 0.0,
+      title: ButtonTheme(
+        minWidth: 0,
+        padding: EdgeInsets.only(left: 0),
+        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        shape: RoundedRectangleBorder(),
+        child: FlatButton(
+            onPressed: () => Navigator.pushNamed(context, '/Área Pessoal'),
+            child: SvgPicture.asset(
+                  'assets/images/logo_dark.svg',
+                    height: queryData.size.height/25,
+
+          ),
+      )),
+      actions: <Widget>[
+        getTopRightButton(context),],
+      );
   }
 
   Widget getTopRightButton(BuildContext context) {
@@ -115,6 +122,7 @@ abstract class GeneralPageViewState extends State<StatefulWidget> {
                   image: decorationImage.data
           )),
         );
-  });
-}
+      });
+    }
+
 }

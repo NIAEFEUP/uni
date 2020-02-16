@@ -1,6 +1,9 @@
+import 'package:app_feup/model/entities/BusStop.dart';
 import 'package:app_feup/model/entities/Exam.dart';
 import 'package:app_feup/model/entities/Lecture.dart';
 import 'package:app_feup/model/entities/Session.dart';
+
+import 'entities/Trip.dart';
 
 // enum should be placed somewhere else?
 enum RequestStatus { NONE, BUSY, FAILED, SUCCESSFUL }
@@ -15,6 +18,13 @@ class AppState {
       "scheduleStatus": RequestStatus.NONE,
       "loginStatus": RequestStatus.NONE,
       "examsStatus": RequestStatus.NONE,
+      "selected_page": "Área Pessoal",
+      "session": new Session(authenticated: false),
+      "configuredBusStops": new Map<String, BusStopData>(),
+      "currentBusTrips": new Map<String, List<Trip>>(),
+      "busstopStatus" : RequestStatus.NONE,
+      "timeStamp" : new DateTime.now(),
+      "currentTime" : new DateTime.now(),
       "profileStatus": RequestStatus.NONE,
       "printBalanceStatus": RequestStatus.NONE,
       "feesStatus": RequestStatus.NONE,

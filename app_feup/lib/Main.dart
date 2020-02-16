@@ -1,5 +1,9 @@
-import 'package:app_feup/controller/Logout.dart';
+import 'dart:async';
+
 import 'package:app_feup/model/SchedulePageModel.dart';
+import 'package:app_feup/redux/Actions.dart';
+import 'package:app_feup/view/Pages/BusStopNextArrivalsPage.dart';
+import 'package:app_feup/controller/Logout.dart';
 import 'package:app_feup/view/NavigationService.dart';
 import 'package:app_feup/view/Pages/ExamsPageView.dart';
 import 'package:app_feup/view/Pages/HomePageView.dart';
@@ -54,20 +58,38 @@ class MyAppState extends State<MyApp> {
           onGenerateRoute: (RouteSettings settings) {
             switch(settings.name) {
               case '/' + Constants.NAV_PERSONAL_AREA:
-                return MaterialPageRoute(builder: (context) => HomePageView(), settings: settings);
+                return MaterialPageRoute(
+                    builder: (context) => HomePageView(), settings: settings);
               case '/' + Constants.NAV_SCHEDULE:
-                return MaterialPageRoute(builder: (context) => SchedulePage(), settings: settings);
+                return MaterialPageRoute(
+                    builder: (context) => SchedulePage(), settings: settings);
               case '/' + Constants.NAV_EXAMS:
-                return MaterialPageRoute(builder: (context) => ExamsPageView(), settings: settings);
+                return MaterialPageRoute(
+                    builder: (context) => ExamsPageView(), settings: settings);
+              case '/' + Constants.NAV_STOPS:
+                return MaterialPageRoute(
+                    builder: (context) => BusStopNextArrivalsPage(), settings: settings);
               case '/' + Constants.NAV_ABOUT:
-                return MaterialPageRoute(builder: (context) => AboutPageView(), settings: settings);
+                return MaterialPageRoute(
+                    builder: (context) => AboutPageView(), settings: settings);
               case '/' + Constants.NAV_BUG_REPORT:
-                return MaterialPageRoute(builder: (context) => BugReportPageView(), settings: settings, maintainState: false);
+                return MaterialPageRoute(
+                    builder: (context) => BugReportPageView(),
+                    settings: settings,
+                    maintainState: false);
               case '/' + Constants.NAV_LOG_OUT:
                 return MaterialPageRoute(builder: (context) { logout(context); return LoginPageView();});
               }
             }
       ),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    Timer.periodic(new Duration(seconds: 60), (Timer t) =>
+    state.dispatch(new SetCurrentTimeAction(DateTime.now()))
+  );
   }
 }

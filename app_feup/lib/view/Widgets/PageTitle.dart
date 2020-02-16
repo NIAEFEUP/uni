@@ -12,7 +12,7 @@ class PageTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Container(
-      padding: EdgeInsets.fromLTRB(20, 20, 0, 10),
+      padding: EdgeInsets.fromLTRB(20, 20, 20, 10),
       alignment: Alignment.center,
       child: new Text(
         name,

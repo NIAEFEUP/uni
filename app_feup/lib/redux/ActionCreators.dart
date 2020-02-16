@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:app_feup/controller/LoadInfo.dart';
+import 'package:app_feup/controller/local_storage/AppBusStopDatabase.dart';
 import 'package:app_feup/controller/local_storage/AppCoursesDatabase.dart';
 import 'package:app_feup/controller/local_storage/AppExamsDatabase.dart';
 import 'package:app_feup/controller/local_storage/AppLastUserInfoUpdateDatabase.dart';
@@ -18,9 +19,11 @@ import 'package:app_feup/model/entities/Exam.dart';
 import 'package:app_feup/model/entities/Lecture.dart';
 import 'package:app_feup/model/entities/Profile.dart';
 import 'package:app_feup/model/entities/Session.dart';
+import 'package:app_feup/model/entities/Trip.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:tuple/tuple.dart';
 import '../model/AppState.dart';
+import '../model/entities/BusStop.dart';
 import 'Actions.dart';
 import 'package:redux/redux.dart';
 import 'package:app_feup/controller/networking/NetworkRouter.dart';
@@ -150,6 +153,16 @@ ThunkAction<AppState> updateStateBasedOnLocalProfile() {
     store.dispatch(new SetFeesBalanceAction(profile.feesBalance));
     store.dispatch(new SetFeesLimitAction(profile.feesLimit));
     store.dispatch(new SetCoursesStatesAction(coursesStates));
+  };
+}
+
+ThunkAction<AppState> updateStateBasedOnLocalUserBusStops() {
+  return (Store<AppState> store) async {
+    AppBusStopDatabase bus_stops_db = await AppBusStopDatabase();
+    Map<String, BusStopData> stops = await bus_stops_db.busStops();
+
+    store.dispatch(new SetBusStopsAction(stops));
+    store.dispatch(getUserBusTrips(new Completer()));
   };
 }
 
@@ -374,6 +387,76 @@ ThunkAction<AppState> getUserCoursesState(Completer<Null> action) {
     }
 
     action.complete();
+  };
+}
+
+ThunkAction<AppState> getUserBusTrips(Completer<Null> action){
+  return(Store<AppState> store) async{
+    store.dispatch(new SetBusTripsStatusAction(RequestStatus.BUSY));
+    try {
+      Map<String, BusStopData> stops = store.state.content['configuredBusStops'];
+      Map<String, List<Trip>> trips = new Map<String, List<Trip>>();
+
+      for(String stopCode in stops.keys){
+        List<Trip> stopTrips = await NetworkRouter.getNextArrivalsStop(stopCode, stops[stopCode]);
+        trips[stopCode] = stopTrips;
+      }
+
+      DateTime time = new DateTime.now();
+
+      store.dispatch(new SetBusTripsAction(trips));
+      store.dispatch(new SetBusStopTimeStampAction(time));
+      store.dispatch(new SetBusTripsStatusAction(RequestStatus.SUCCESSFUL));
+    } catch(e) {
+      print("Failed to get Bus Stop information");
+      store.dispatch(new SetBusTripsStatusAction(RequestStatus.FAILED));
+    }
+
+    action.complete();
+  };
+}
+
+ThunkAction<AppState> addUserBusStop(Completer<Null> action, String stopCode, BusStopData stopData){
+  return(Store<AppState> store){
+    store.dispatch(new SetBusTripsStatusAction(RequestStatus.BUSY));
+    Map<String, BusStopData> stops = store.state.content['configuredBusStops'];
+
+    if(stops.containsKey(stopCode))
+      stops[stopCode].configuredBuses.addAll(stopData.configuredBuses);
+    else
+      stops[stopCode] = stopData;
+    store.dispatch(SetBusStopsAction(stops));
+    store.dispatch(getUserBusTrips(action));
+
+    AppBusStopDatabase db = AppBusStopDatabase();
+    db.setBusStops(stops);
+  };
+}
+
+ThunkAction<AppState> removeUserBusStop(Completer<Null> action, String stopCode){
+  return(Store<AppState> store) {
+    store.dispatch(new SetBusTripsStatusAction(RequestStatus.BUSY));
+    Map<String,BusStopData> stops = store.state.content['configuredBusStops'];
+    stops.remove(stopCode);
+
+    store.dispatch(SetBusStopsAction(stops));
+    store.dispatch(getUserBusTrips(action));
+
+    AppBusStopDatabase db = AppBusStopDatabase();
+    db.setBusStops(stops);
+  };
+}
+
+ThunkAction<AppState> toggleFavoriteUserBusStop(Completer<Null> action, String stopCode, BusStopData stopData) {
+  return(Store<AppState> store) {
+    Map<String, BusStopData> stops = store.state.content['configuredBusStops'];
+
+    stops[stopCode].favorited = !stops[stopCode].favorited;
+
+    store.dispatch(getUserBusTrips(action));
+
+    AppBusStopDatabase db = AppBusStopDatabase();
+    db.updateFavoriteBusStop(stopCode);
   };
 }
 

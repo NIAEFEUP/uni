@@ -5,6 +5,9 @@ import 'package:app_feup/model/entities/Lecture.dart';
 import 'package:app_feup/model/entities/Profile.dart';
 import 'package:app_feup/model/entities/Session.dart';
 import 'package:app_feup/model/HomePageModel.dart';
+import 'package:app_feup/model/entities/Trip.dart';
+
+import '../model/entities/BusStop.dart';
 
 class SaveLoginDataAction {
   Session session;
@@ -83,6 +86,31 @@ class SetFeesStatusAction {
 class SetCoursesStatesAction {
   Map<String, String> coursesStates;
   SetCoursesStatesAction(this.coursesStates);
+}
+
+class SetBusTripsAction{
+  Map<String, List<Trip>> trips;
+  SetBusTripsAction(this.trips);
+}
+
+class SetBusStopsAction{
+  Map<String, BusStopData> busStops;
+  SetBusStopsAction(this.busStops);
+}
+
+class SetBusTripsStatusAction{
+  RequestStatus status;
+  SetBusTripsStatusAction(this.status);
+}
+
+class SetBusStopTimeStampAction{
+  DateTime timeStamp;
+  SetBusStopTimeStampAction(this.timeStamp);
+}
+
+class SetCurrentTimeAction {
+  DateTime currentTime;
+  SetCurrentTimeAction(this.currentTime);
 }
 
 class UpdateFavoriteCards {
