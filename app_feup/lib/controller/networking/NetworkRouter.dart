@@ -40,8 +40,6 @@ class NetworkRouter {
 
   static Future<bool> relogin(Session session) async {
     return loginLock.synchronized(() async {
-      print("STUDENT NUMBER");
-      print(session.studentNumber);
       if (!session.persistentSession) {
         return false;
       }
@@ -163,8 +161,8 @@ class NetworkRouter {
     return stopsList;
   }
 
-  static Future<List<Trip>> getNextArrivalsStop(BusStop stop) async {
-    final String url = "http://move-me.mobi/NextArrivals/GetScheds?providerName=STCP&stopCode=STCP_" + stop.stopCode;
+  static Future<List<Trip>> getNextArrivalsStop(String stopCode, BusStopData stopData) async {
+    final String url = "http://move-me.mobi/NextArrivals/GetScheds?providerName=STCP&stopCode=STCP_" + stopCode;
     http.Response response = await http.get(url);
     List<Trip> tripList = new List();
 
@@ -173,7 +171,7 @@ class NetworkRouter {
     for (var TripKey in json) {
       var trip = TripKey['Value'];
       String line = trip[0];
-      if(stop.buses.map((bus) => bus.busCode).toList().contains(line)) {
+      if(stopData.configuredBuses.contains(line)) {
         String destination = trip[1];
         String timeString = trip[2];
         if (timeString.substring(timeString.length - 1) == '*')

@@ -5,6 +5,7 @@ import 'package:app_feup/model/entities/Lecture.dart';
 import 'package:app_feup/model/entities/Profile.dart';
 import 'package:app_feup/model/entities/Session.dart';
 import 'package:app_feup/model/HomePageModel.dart';
+import 'package:app_feup/model/entities/Trip.dart';
 
 import '../model/entities/BusStop.dart';
 
@@ -87,14 +88,19 @@ class SetCoursesStatesAction {
   SetCoursesStatesAction(this.coursesStates);
 }
 
-class SetBusStopAction{
-  List<BusStop> busStops;
-  SetBusStopAction(this.busStops);
+class SetBusTripsAction{
+  Map<String, List<Trip>> trips;
+  SetBusTripsAction(this.trips);
 }
 
-class SetBusStopStatusAction{
+class SetBusStopsAction{
+  Map<String, BusStopData> busStops;
+  SetBusStopsAction(this.busStops);
+}
+
+class SetBusTripsStatusAction{
   RequestStatus status;
-  SetBusStopStatusAction(this.status);
+  SetBusTripsStatusAction(this.status);
 }
 
 class SetBusStopTimeStampAction{

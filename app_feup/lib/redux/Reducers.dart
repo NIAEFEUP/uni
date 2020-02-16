@@ -32,9 +32,11 @@ AppState appReducers(AppState state, dynamic action) {
     return setFeesStatus(state, action);
   } else if (action is SetCoursesStatesAction) {
     return setCoursesState(state, action);
-  } else if(action is SetBusStopAction){
+  } else if(action is SetBusTripsAction) {
+    return setBusTrips(state, action);
+  } else if(action is SetBusStopsAction){
     return setBusStop(state, action);
-  } else if(action is SetBusStopStatusAction){
+  } else if(action is SetBusTripsStatusAction){
     return setBusStopStatus(state, action);
   } else if(action is SetBusStopTimeStampAction){
     return setBusStopTimeStamp(state, action);
@@ -106,8 +108,7 @@ AppState setPrintBalance(AppState state, SetPrintBalanceAction action) {
   return state.cloneAndUpdateValue("printBalance", action.printBalance);
 }
 
-AppState setPrintBalanceStatus(
-    AppState state, SetPrintBalanceStatusAction action) {
+AppState setPrintBalanceStatus(AppState state, SetPrintBalanceStatusAction action) {
   print('setting print balance status: ' + action.status.toString());
   return state.cloneAndUpdateValue("printBalanceStatus", action.status);
 }
@@ -132,12 +133,17 @@ AppState setCoursesState(AppState state, SetCoursesStatesAction action) {
   return state.cloneAndUpdateValue("coursesStates", action.coursesStates);
 }
 
-AppState setBusStop(AppState state, SetBusStopAction action) {
+AppState setBusStop(AppState state, SetBusStopsAction action) {
   print('setting bus stops: ' + action.busStops.toString());
-  return state.cloneAndUpdateValue("busstops", action.busStops);
+  return state.cloneAndUpdateValue("configuredBusStops", action.busStops);
 }
 
-AppState setBusStopStatus(AppState state, SetBusStopStatusAction action) {
+AppState setBusTrips(AppState state, SetBusTripsAction action) {
+  print('setting bus trips: ' + action.trips.toString());
+  return state.cloneAndUpdateValue("currentBusTrips", action.trips);
+}
+
+AppState setBusStopStatus(AppState state, SetBusTripsStatusAction action) {
   print('setting bus stop status: ' + action.status.toString());
   return state.cloneAndUpdateValue('busstopStatus', action.status);
 }

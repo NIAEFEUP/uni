@@ -15,22 +15,24 @@ class BusStopSelectionPage extends UnnamedPageView {
   final DateTime now = new DateTime.now();
 
   final AppBusStopDatabase db = AppBusStopDatabase();
-  final List<BusStop> configuredStops = new List();
+  final Map<String, BusStopData> configuredStops = new Map();
   final List<String> suggestionsList = new List();
 
   List<Widget> getStopsTextList() {
     List<Widget> stops = new List();
-    for (BusStop stop in configuredStops) {
-      stops.add(Text(stop.stopCode));
-    }
+    configuredStops.forEach((stopCode, stopData) {
+      stops.add(Text(stopCode));
+    });
     return stops;
   }
 
   @override
   Widget getBody(BuildContext context) {
-    return StoreConnector<AppState, List<BusStop>>(
-      converter: (store) => store.state.content['busstops'],
+    return StoreConnector<AppState, Map<String, BusStopData>>(
+      converter: (store) => store.state.content['configuredBusStops'],
       builder: (context, busStops) {
+        List<Widget> rows = new List();
+        busStops.forEach((stopCode, stopData) => rows.add(BusStopSelectionRow(stopCode, stopData)));
         return ListView(
             padding: EdgeInsets.only(bottom: 20),
             children: <Widget>[
@@ -45,7 +47,7 @@ class BusStopSelectionPage extends UnnamedPageView {
                   )
               ),
               Column(
-                  children: busStops.map((stop) => BusStopSelectionRow(stop)).toList()
+                  children: rows
               ),
               Container(
                 padding: EdgeInsets.only(left: 90.0, right: 90.0),

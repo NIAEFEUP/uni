@@ -5,22 +5,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class BusesForm extends StatefulWidget {
-  final String stopToAdd;
+  final String stopCode;
   final Function updateStopCallback;
 
-  BusesForm(this.stopToAdd, this.updateStopCallback);
+  BusesForm(this.stopCode, this.updateStopCallback);
 
   @override
-  State<StatefulWidget> createState() {return _BusesFormState(stopToAdd, updateStopCallback);}
+  State<StatefulWidget> createState() {return _BusesFormState(stopCode, updateStopCallback);}
 }
 
 class _BusesFormState extends State<BusesForm>{
-  final String stopToAdd;
+  final String stopCode;
   final Function updateStopCallback;
   List<Bus> buses = new List();
   final List<bool> busesToAdd = List<bool>.filled(20, false);
 
-  _BusesFormState(this.stopToAdd, this.updateStopCallback);
+  _BusesFormState(this.stopCode, this.updateStopCallback);
 
   @override
   void initState() {
@@ -29,7 +29,7 @@ class _BusesFormState extends State<BusesForm>{
   }
 
   void getStopBuses() async {
-    List<Bus> buses = await NetworkRouter.getBusesStoppingAt(stopToAdd);
+    List<Bus> buses = await NetworkRouter.getBusesStoppingAt(stopCode);
     this.setState((){
       this.buses = buses;
       busesToAdd.fillRange(0, buses.length, false);
@@ -62,12 +62,12 @@ class _BusesFormState extends State<BusesForm>{
   }
 
   void updateBusStop() {
-    List<Bus> newBuses = new List();
+    Set<String> newBuses = new Set();
     for(int i = 0; i < buses.length; i++) {
       if(busesToAdd[i]) {
-        newBuses.add(buses[i]);
+        newBuses.add(buses[i].busCode);
       }
     }
-    updateStopCallback(new BusStop(stopCode: stopToAdd, buses: newBuses, favorited: true));
+    updateStopCallback(this.stopCode, new BusStopData(configuredBuses: newBuses, favorited: true));
   }
 }

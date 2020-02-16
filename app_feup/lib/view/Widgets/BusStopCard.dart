@@ -1,4 +1,5 @@
 import 'package:app_feup/model/entities/BusStop.dart';
+import 'package:app_feup/model/entities/Trip.dart';
 import 'package:app_feup/view/Pages/BusStopSelectionPage.dart';
 import 'package:app_feup/view/Widgets/GenericCard.dart';
 import 'package:tuple/tuple.dart';
@@ -24,20 +25,20 @@ class BusStopCard extends GenericCard {
 
   @override
   Widget buildCardContent(BuildContext context) {
-    return StoreConnector<AppState, Tuple2<List<BusStop>,RequestStatus>>(
-        converter: (store) => Tuple2(store.state.content['busstops'],store.state.content['busstopStatus']),
-        builder: (context, busstops) => getCardContent(context, busstops.item1, busstops.item2)
+    return StoreConnector<AppState, Tuple3<Map<String, List<Trip>>, Map<String, BusStopData>, RequestStatus>>(
+        converter: (store) => Tuple3(store.state.content['currentBusTrips'], store.state.content['configuredBusStops'], store.state.content['busstopStatus']),
+        builder: (context, trips) => getCardContent(context, trips.item1, trips.item2, trips.item3)
     );
   }
 
-  Widget getCardContent(BuildContext context, busStops, busStopStatus) {
+  Widget getCardContent(BuildContext context, Map<String, List<Trip>> trips, Map<String, BusStopData> stopConfig, busStopStatus) {
     switch (busStopStatus) {
       case RequestStatus.SUCCESSFUL:
-        if(busStops.length > 0){
+        if(trips.length > 0){
           return Column(
               children: <Widget>[
                 this.getCardTitle(context),
-                this.getBusStopsInfo(context, busStops)
+                this.getBusStopsInfo(context, trips, stopConfig)
               ]
           );
         } else{
@@ -87,13 +88,13 @@ class BusStopCard extends GenericCard {
     );
   }
 
-  Widget getBusStopsInfo(context, busStops){
-    if (busStops.length >= 1)
+  Widget getBusStopsInfo(context, trips, stopConfig){
+    if (trips.length >= 1)
       return
         Container(
             padding: EdgeInsets.all(4.0),
             child: new Column(
-              children: this.getEachBusStopInfo(context, busStops),
+              children: this.getEachBusStopInfo(context, trips, stopConfig),
             ));
     else
       return
@@ -102,26 +103,28 @@ class BusStopCard extends GenericCard {
         );
   }
 
-  List<Widget> getEachBusStopInfo(context, busStops){
+  List<Widget> getEachBusStopInfo(context, trips, stopConfig){
     List<Widget> rows = new List<Widget>();
 
     rows.add(new LastUpdateTimeStamp());
 
-    for(int i = 0; i < busStops.length; i++){
-      if (busStops[i].trips.length > 0 && busStops[i].favorited) {
+    trips.forEach((stopCode, tripList) {
+      if (tripList.length > 0 && stopConfig[stopCode].favorited) {
         rows.add(
             new Container(
-              padding: EdgeInsets.only(top: 12.0),
-              child: new RowContainer(
-                child: new BusStopRow(
-                    busStop: busStops[i],
-                    singleTrip: true,
+                padding: EdgeInsets.only(top: 12.0),
+                child: new RowContainer(
+                    child: new BusStopRow(
+                      stopCode: stopCode,
+                      trips: tripList,
+                      singleTrip: true,
+                    )
                 )
-              )
             )
         );
       }
-    }
+    });
+
     return rows;
   }
 }

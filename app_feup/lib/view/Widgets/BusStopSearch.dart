@@ -15,7 +15,8 @@ import 'BusesForm.dart';
 class BusStopSearch extends SearchDelegate<String> {
   List<String> suggestionsList = new List();
   AppBusStopDatabase db;
-  BusStop stopToAdd;
+  String stopCode;
+  BusStopData stopData;
 
   BusStopSearch() {
     this.getDatabase();
@@ -48,8 +49,9 @@ class BusStopSearch extends SearchDelegate<String> {
     return Container();
   }
 
-  void updateStopCallback(BusStop stop) {
-    this.stopToAdd = stop;
+  void updateStopCallback(String stopCode, BusStopData stopData) {
+    this.stopCode = stopCode;
+    this.stopData = stopData;
   }
 
   Widget getSuggestionList(BuildContext context) {
@@ -84,8 +86,8 @@ class BusStopSearch extends SearchDelegate<String> {
         ),
         actions: [
           FlatButton(child: Text("Confirmar", style: Theme.of(context).textTheme.display1.apply(color: Theme.of(context).primaryColor)), onPressed: () async {
-            if(stopToAdd.buses.length > 0) {
-              StoreProvider.of<AppState>(context).dispatch(addUserBusStop(new Completer(), stopToAdd));
+            if(stopData.configuredBuses.length > 0) {
+              StoreProvider.of<AppState>(context).dispatch(addUserBusStop(new Completer(), stopCode, stopData));
               Navigator.pop(context);
             }
           }),

@@ -9,31 +9,33 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'RowContainer.dart';
 
 class BusStopSelectionRow extends StatefulWidget {
-  final BusStop stop;
+  final String stopCode;
+  final BusStopData stopData;
 
-  BusStopSelectionRow(this.stop);
+  BusStopSelectionRow(this.stopCode, this.stopData);
 
   @override
-  State<StatefulWidget> createState() => BusStopSelectionRowState(this.stop);
+  State<StatefulWidget> createState() => BusStopSelectionRowState(this.stopCode, this.stopData);
 }
 
 class BusStopSelectionRowState extends State<BusStopSelectionRow>{
-  final BusStop stop;
+  final String stopCode;
+  final BusStopData stopData;
 
-  BusStopSelectionRowState(this.stop);
+  BusStopSelectionRowState(this.stopCode, this.stopData);
 
   Future deleteStop(BuildContext context) async {
-    StoreProvider.of<AppState>(context).dispatch(removeUserBusStop(new Completer(), this.stop));
+    StoreProvider.of<AppState>(context).dispatch(removeUserBusStop(new Completer(), this.stopCode));
   }
 
   Future toggleFavorite(BuildContext context) async {
-    StoreProvider.of<AppState>(context).dispatch(toggleFavoriteUserBusStop(new Completer(), this.stop));
+    StoreProvider.of<AppState>(context).dispatch(toggleFavoriteUserBusStop(new Completer(), this.stopCode, this.stopData));
   }
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, List<BusStop>>(
-        converter: (store) => store.state.content['busstops'],
+    return StoreConnector<AppState, Map<String, BusStopData>> (
+        converter: (store) => store.state.content['configuredBusStops'],
         builder: (context, busStops) {
           return Container(
               padding: EdgeInsets.only(top: 8.0, bottom: 8.0, left: 90.0, right: 90.0),
@@ -44,11 +46,11 @@ class BusStopSelectionRowState extends State<BusStopSelectionRow>{
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            Text(stop.stopCode),
+                            Text(stopCode),
                             Row(
                                 children: [
                                   GestureDetector(
-                                      child: Icon(stop.favorited ? Icons.star : Icons.star_border, color: Theme.of(context).primaryColor),
+                                      child: Icon(stopData.favorited ? Icons.star : Icons.star_border, color: Theme.of(context).primaryColor),
                                       onTap: () => toggleFavorite(context)
                                   ),
                                   IconButton(

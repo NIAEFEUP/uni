@@ -1,4 +1,5 @@
 import 'package:app_feup/model/entities/BusStop.dart';
+import 'package:app_feup/model/entities/Trip.dart';
 import 'package:app_feup/view/Pages/BusStopSelectionPage.dart';
 import 'package:app_feup/view/Pages/SecondaryPageView.dart';
 import 'package:app_feup/view/Widgets/PageTitle.dart';
@@ -15,40 +16,38 @@ import '../Theme.dart';
 class BusStopNextArrivalsPage extends SecondaryPageView{
   @override
   Widget getBody(BuildContext context){
-    return StoreConnector<AppState, Tuple2<List<BusStop>,RequestStatus>> (
-        converter: (store) => Tuple2(store.state.content['busstops'], store.state.content['busstopStatus']),
+    return StoreConnector<AppState, Tuple3<Map<String, List<Trip>>, Map<String, BusStopData>, RequestStatus>> (
+        converter: (store) => Tuple3(store.state.content['currentBusTrips'], store.state.content['configuredBusStops'], store.state.content['busstopStatus']),
         builder: (context, busstops) {
-          return new ListView(children: [NextArrivals(busstops.item1, busstops.item2)]);
+          return new ListView(children: [NextArrivals(busstops.item1, busstops.item2, busstops.item3)]);
         }
     );
   }
 }
 
 class NextArrivals extends StatefulWidget {
-  final List<BusStop> busStops;
+  final Map<String, List<Trip>> trips;
+  final Map<String, BusStopData> busConfig;
   final RequestStatus busStopStatus;
 
-  NextArrivals(
-      this.busStops, this.busStopStatus
-      );
+  NextArrivals(this.trips, this.busConfig, this.busStopStatus);
 
   @override
-  _NextArrivalsState createState() => new _NextArrivalsState(busStops, busStopStatus);
+  _NextArrivalsState createState() => new _NextArrivalsState(trips, busConfig, busStopStatus);
 }
 
 class _NextArrivalsState extends State<NextArrivals> with SingleTickerProviderStateMixin{
-  final List<BusStop> busStops;
+  final Map<String, List<Trip>> trips;
+  final Map<String, BusStopData> busConfig;
   final RequestStatus busStopStatus;
   TabController tabController;
 
-  _NextArrivalsState(
-      this.busStops, this.busStopStatus
-      );
+  _NextArrivalsState(this.trips, this.busConfig, this.busStopStatus);
 
   @override
   void initState() {
     super.initState();
-    tabController = new TabController(vsync: this, length: busStops.length);
+    tabController = new TabController(vsync: this, length: busConfig.length);
   }
 
   @override
@@ -95,7 +94,7 @@ class _NextArrivalsState extends State<NextArrivals> with SingleTickerProviderSt
 
     result.addAll(this.getHeader(context));
 
-    if(busStops.length > 0)
+    if(busConfig.length > 0)
       result.addAll(this.getContent(context));
     else{
       result.add(
@@ -193,12 +192,12 @@ class _NextArrivalsState extends State<NextArrivals> with SingleTickerProviderSt
         ),
       ),
       new Expanded(
-          child: Container(
-            padding: EdgeInsets.only(bottom: 92.0),
-            child: new TabBarView(
-              controller: tabController,
-              children: getEachBusStopInfo(context),
-            ),
+        child: Container(
+          padding: EdgeInsets.only(bottom: 92.0),
+          child: new TabBarView(
+            controller: tabController,
+            children: getEachBusStopInfo(context),
+          ),
         ),
       )
     ];
@@ -206,35 +205,38 @@ class _NextArrivalsState extends State<NextArrivals> with SingleTickerProviderSt
 
   List<Widget> createTabs(queryData) {
     List<Widget> tabs = List<Widget>();
-    for( var i = 0; i < busStops.length; i++) {
+    busConfig.forEach((stopCode, stopData) {
       tabs.add(
           new Container(
-            width:  queryData.size.width / (busStops.length < 3 ? busStops.length : 3 ),
-            child: new Tab(text: busStops[i].stopCode),
+            width:  queryData.size.width / (busConfig.length < 3 ? busConfig.length : 3 ),
+            child: new Tab(text: stopCode),
           )
       );
-    }
+    });
     return tabs;
   }
 
   List<Widget> getEachBusStopInfo(context){
     List<Widget> rows = new List<Widget>();
 
-    for(int i = 0; i < busStops.length; i++){
+    busConfig.forEach((stopCode, stopData) {
       rows.add(
           new ListView(
-              children: <Widget> [
+              children: <Widget>[
                 new Container(
-                    padding: EdgeInsets.only(top: 8.0, bottom: 8.0, left: 22.0, right: 22.0),
+                    padding: EdgeInsets.only(
+                        top: 8.0, bottom: 8.0, left: 22.0, right: 22.0),
                     child: new BusStopRow(
-                      busStop: busStops[i],
+                      stopCode: stopCode,
+                      trips: trips[stopCode],
                       stopCodeShow: false,
                     )
                 )
               ]
           )
       );
-    }
+    });
+
     return rows;
   }
 }

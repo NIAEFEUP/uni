@@ -25,7 +25,7 @@ Future loadRemoteUserInfoToState(Store<AppState> store) {
       printBalance = new Completer(),
       fees = new Completer(),
       coursesStates = new Completer(),
-      busStops = new Completer(),
+      trips = new Completer(),
       lastUpdate = new Completer();
 
   store.dispatch(getUserInfo(userInfo));
@@ -33,8 +33,10 @@ Future loadRemoteUserInfoToState(Store<AppState> store) {
   store.dispatch(getUserPrintBalance(printBalance));
   store.dispatch(getUserFees(fees));
   store.dispatch(getUserCoursesState(coursesStates));
+  store.dispatch(getUserBusTrips(trips));
 
   userInfo.future.then((value) => store.dispatch(getUserExams(exams)));
+
   final allRequests = Future.wait([
     exams.future,
     schedule.future,
@@ -42,7 +44,7 @@ Future loadRemoteUserInfoToState(Store<AppState> store) {
     fees.future,
     coursesStates.future,
     userInfo.future,
-    busStops.future
+    trips.future
   ]);
   allRequests.then((futures) {
     store.dispatch(setLastUserInfoUpdateTimestamp(lastUpdate));
@@ -65,7 +67,6 @@ void loadLocalUserInfoToState(store) async {
     store.dispatch(SaveProfileStatusAction(RequestStatus.SUCCESSFUL));
     store.dispatch(SetPrintBalanceStatusAction(RequestStatus.SUCCESSFUL));
     store.dispatch(SetFeesStatusAction(RequestStatus.SUCCESSFUL));
-    store.dispatch(SetBusStopStatusAction(RequestStatus.SUCCESSFUL));
     store.dispatch(SetCoursesStatesStatusAction(RequestStatus.SUCCESSFUL));
   }
 }

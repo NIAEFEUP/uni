@@ -1,16 +1,18 @@
-import 'package:app_feup/model/entities/BusStop.dart';
+import 'package:app_feup/model/entities/Trip.dart';
 import 'package:flutter/material.dart';
 import '../Theme.dart';
 import 'TripRow.dart';
 
 class BusStopRow extends StatelessWidget {
-  final BusStop busStop;
+  final String stopCode;
+  final List<Trip> trips;
   final stopCodeShow;
   final singleTrip;
 
   BusStopRow({
     Key key,
-    @required this.busStop,
+    @required this.stopCode,
+    @required this.trips,
     this.singleTrip = false,
     this.stopCodeShow = true,
   }) :super(key: key);
@@ -34,7 +36,7 @@ class BusStopRow extends StatelessWidget {
       row.add(stopCodeRotatedContainer(context));
     }
 
-    if (busStop.trips.length < 1) {
+    if (trips.length < 1) {
       row.add(noTripsContainer(context));
     } else {
       List<Widget> tripRows = getTripRows();
@@ -59,7 +61,7 @@ class BusStopRow extends StatelessWidget {
     return new Container(
       padding: EdgeInsets.only(left: 4.0),
       child: new RotatedBox (
-        child: Text(busStop.stopCode, style: Theme
+        child: Text(this.stopCode, style: Theme
             .of(context)
             .textTheme
             .display1
@@ -77,14 +79,14 @@ class BusStopRow extends StatelessWidget {
           new Container(
               padding: EdgeInsets.all(12.0),
               child: new TripRow(
-                  trip: busStop.trips[0]
+                  trip: trips[0]
               )
           )
       );
     } else {
-      for (int i = 0; i < busStop.trips.length; i++) {
+      for (int i = 0; i < trips.length; i++) {
         Color color = primaryColor;
-        if(i == busStop.trips.length - 1)
+        if(i == trips.length - 1)
           color = Colors.transparent;
 
         tripRows.add(
@@ -94,7 +96,7 @@ class BusStopRow extends StatelessWidget {
                     border: Border(
                         bottom: BorderSide(width: 0.1, color: color))),
                 child: new TripRow(
-                    trip: busStop.trips[i]
+                    trip: trips[i]
                 )
             )
         );
