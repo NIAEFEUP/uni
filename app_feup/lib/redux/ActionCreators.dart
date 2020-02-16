@@ -387,10 +387,10 @@ ThunkAction<AppState> getUserBusTrips(Completer<Null> action){
       Map<String, BusStopData> stops = store.state.content['configuredBusStops'];
       Map<String, List<Trip>> trips = new Map<String, List<Trip>>();
 
-      stops.forEach((stopCode, stopData) async {
-        List<Trip> stopTrips = await NetworkRouter.getNextArrivalsStop(stopCode, stopData);
+      for(String stopCode in stops.keys){
+        List<Trip> stopTrips = await NetworkRouter.getNextArrivalsStop(stopCode, stops[stopCode]);
         trips[stopCode] = stopTrips;
-      });
+      }
 
       DateTime time = new DateTime.now();
 
