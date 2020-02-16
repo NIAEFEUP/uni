@@ -421,10 +421,12 @@ ThunkAction<AppState> addUserBusStop(Completer<Null> action, String stopCode, Bu
     store.dispatch(new SetBusTripsStatusAction(RequestStatus.BUSY));
     Map<String, BusStopData> stops = store.state.content['configuredBusStops'];
 
-    if(stops.containsKey(stopCode))
+    if(stops.containsKey(stopCode)) {
+      (stops[stopCode].configuredBuses).clear();
       stops[stopCode].configuredBuses.addAll(stopData.configuredBuses);
-    else
+    } else {
       stops[stopCode] = stopData;
+    }
     store.dispatch(SetBusStopsAction(stops));
     store.dispatch(getUserBusTrips(action));
 
