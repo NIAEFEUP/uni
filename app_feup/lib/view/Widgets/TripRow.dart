@@ -19,7 +19,7 @@ class TripRow extends StatelessWidget{
         new Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text(this.trip.line,style: Theme.of(context).textTheme.display1.apply(color: lightGreyTextColor, fontWeightDelta: 2)), //Theme.of(context).textTheme.display1.apply(color: Colors.black, fontWeight: FontWeight.bold)),
+            Text(this.trip.line, maxLines: 1, overflow: TextOverflow.ellipsis,style: Theme.of(context).textTheme.display1.apply(color: lightGreyTextColor, fontWeightDelta: 2)), //Theme.of(context).textTheme.display1.apply(color: Colors.black, fontWeight: FontWeight.bold)),
             Text(this.trip.destination, style: Theme.of(context).textTheme.display1.apply(color: greyTextColor)),
           ],
         ),

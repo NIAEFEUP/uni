@@ -47,7 +47,7 @@ class BusStopCard extends GenericCard {
             child: new Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget> [
-                  Text("Configura as tuas paragens", style: Theme.of(context).textTheme.display1.apply(color: primaryColor)),
+                  Text("Configura as tuas paragens", maxLines: 1, overflow: TextOverflow.ellipsis,style: Theme.of(context).textTheme.display1.apply(color: primaryColor)),
                   IconButton(icon: new Icon(Icons.settings), onPressed: () => Navigator.push(context, new MaterialPageRoute(builder: (context) => new BusStopSelectionPage())),color: lightGreyTextColor)
                 ]
             ),

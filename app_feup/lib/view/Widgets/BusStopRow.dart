@@ -1,4 +1,5 @@
 import 'package:app_feup/model/entities/Trip.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../Theme.dart';
 import 'TripRow.dart';
@@ -54,7 +55,7 @@ class BusStopRow extends StatelessWidget {
   }
 
   Widget noTripsContainer(context) {
-    return Text("Não há viagens planeadas de momento.", style: Theme.of(context).textTheme.display1.apply(color: greyTextColor));
+    return Text("Não há viagens planeadas de momento.", maxLines: 3, overflow: TextOverflow.ellipsis, style: Theme.of(context).textTheme.display1.apply(color: greyTextColor));
   }
 
   Widget stopCodeRotatedContainer(context) {
