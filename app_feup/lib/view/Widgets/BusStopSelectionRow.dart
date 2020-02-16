@@ -37,8 +37,9 @@ class BusStopSelectionRowState extends State<BusStopSelectionRow>{
     return StoreConnector<AppState, Map<String, BusStopData>> (
         converter: (store) => store.state.content['configuredBusStops'],
         builder: (context, busStops) {
+        final width = MediaQuery.of(context).size.width;
           return Container(
-              padding: EdgeInsets.only(top: 8.0, bottom: 8.0, left: 90.0, right: 90.0),
+              padding: EdgeInsets.only(top: 8.0, bottom: 8.0, left: width * 0.20, right: width * 0.20),
               child: RowContainer(
                   borderColor: Theme.of(context).primaryColor,
                   child: Container(

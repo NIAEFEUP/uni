@@ -15,7 +15,6 @@ class BusStopSelectionPage extends StatefulWidget {
 }
 
 class BusStopSelectionPageState extends UnnamedPageView {
-
   final double borderRadius = 15.0;
   final DateTime now = new DateTime.now();
 
@@ -33,61 +32,63 @@ class BusStopSelectionPageState extends UnnamedPageView {
 
   @override
   Widget getBody(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     return StoreConnector<AppState, Map<String, BusStopData>>(
       converter: (store) => store.state.content['configuredBusStops'],
       builder: (context, busStops) {
         List<Widget> rows = new List();
-        busStops.forEach((stopCode, stopData) => rows.add(BusStopSelectionRow(stopCode, stopData)));
+        busStops.forEach((stopCode, stopData) =>
+            rows.add(BusStopSelectionRow(stopCode, stopData)));
         return ListView(
-            padding: EdgeInsets.only(bottom: 20),
+            padding: EdgeInsets.only(bottom: 20,),
             children: <Widget>[
-              Container(
-                  child: PageTitle(name: 'Paragens Configuradas')
-              ),
+              Container(child: PageTitle(name: 'Paragens Configuradas')),
               Container(
                   padding: EdgeInsets.all(20.0),
                   child: Text(
                       "As paragens favoritas serão apresentadas no widget \"Paragens\" dos favoritos. As restantes serão apresentadas apenas na página.",
-                      textAlign: TextAlign.center
-                  )
-              ),
-              Column(
-                  children: rows
-              ),
+                      textAlign: TextAlign.center)),
+              Column(children: rows),
               Container(
-                padding: EdgeInsets.only(left: 90.0, right: 90.0),
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      RaisedButton(
-                        onPressed: () => showSearch(context: context, delegate: BusStopSearch()),
-                        color: Theme.of(context).primaryColor,
-                        padding: const EdgeInsets.all(0.0),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(12.0),
+                  padding: EdgeInsets.only(left: width * 0.20, right: width * 0.20),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        RaisedButton(
+                          onPressed: () => showSearch(
+                              context: context, delegate: BusStopSearch()),
+                          color: Theme.of(context).primaryColor,
+                          padding: const EdgeInsets.all(0.0),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(12.0),
+                          ),
+                          child: Container(
+                            padding: const EdgeInsets.all(15.0),
+                            child: Text("Adicionar",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .display1
+                                    .apply(color: Colors.white, fontSizeDelta: -2)),
+                          ),
                         ),
-                        child: Container(
-                          padding: const EdgeInsets.all(15.0),
-                          child: Text("Adicionar", style: Theme.of(context).textTheme.title.apply(color: Colors.white)),
+                        RaisedButton(
+                          onPressed: () => Navigator.pop(context),
+                          color: Theme.of(context).primaryColor,
+                          padding: const EdgeInsets.all(0.0),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(12.0),
+                          ),
+                          child: Container(
+                            padding: const EdgeInsets.all(15.0),
+                            child: Text("Concluído",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .display1
+                                    .apply(color: Colors.white, fontSizeDelta: -2)),
+                          ),
                         ),
-                      ),
-                      RaisedButton(
-                        onPressed: () => Navigator.pop(context),
-                        color: Theme.of(context).primaryColor,
-                        padding: const EdgeInsets.all(0.0),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(12.0),
-                        ),
-                        child: Container(
-                          padding: const EdgeInsets.all(15.0),
-                          child: Text("Concluído", style: Theme.of(context).textTheme.title.apply(color: Colors.white)),
-                        ),
-                      ),
-                    ]
-                )
-              )
-            ]
-        );
+                      ]))
+            ]);
       },
     );
   }

@@ -86,7 +86,10 @@ class MyAppState extends State<MyApp> {
   }
 
   @override
-  void initState() => Timer.periodic(new Duration(seconds: 60), (Timer t) =>
+  void initState() {
+    super.initState();
+    Timer.periodic(new Duration(seconds: 60), (Timer t) =>
     state.dispatch(new SetCurrentTimeAction(DateTime.now()))
   );
+  }
 }
