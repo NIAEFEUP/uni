@@ -31,7 +31,4 @@ class Session {
     }
   }
 
-  void setCookies(String cookies) {
-    this.cookies = cookies;
-  }
 }
