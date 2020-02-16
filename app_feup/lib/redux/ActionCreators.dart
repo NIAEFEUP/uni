@@ -28,7 +28,7 @@ import 'Actions.dart';
 import 'package:redux/redux.dart';
 import 'package:app_feup/controller/networking/NetworkRouter.dart';
 
-ThunkAction<AppState> reLogin(username, password, faculty) {
+ThunkAction<AppState> reLogin(username, password, faculty, {Completer action}) {
   return (Store<AppState> store) async {
     try {
       loadLocalUserInfoToState(store);
@@ -37,18 +37,27 @@ ThunkAction<AppState> reLogin(username, password, faculty) {
           await NetworkRouter.login(username, password, faculty, true);
       store.dispatch(new SaveLoginDataAction(session));
       if (session.authenticated) {
-        loadRemoteUserInfoToState(store);
+        await loadRemoteUserInfoToState(store);
         store.dispatch(new SetLoginStatusAction(RequestStatus.SUCCESSFUL));
+        action?.complete();
       } else {
         store.dispatch(new SetLoginStatusAction(RequestStatus.FAILED));
+        action?.completeError(RequestStatus.FAILED);
       }
     } catch (e) {
+      final Session renew_session = Session(studentNumber: username, authenticated: false);
+      renew_session.persistentSession = true;
+      renew_session.faculty = faculty;
+
+      action?.completeError(RequestStatus.FAILED);
+
+      store.dispatch(new SaveLoginDataAction(renew_session));
       store.dispatch(new SetLoginStatusAction(RequestStatus.FAILED));
     }
   };
 }
 
-ThunkAction<AppState> login(username, password, faculty, persistentSession) {
+ThunkAction<AppState> login(username, password, faculty, persistentSession, usernameController, passwordController) {
   return (Store<AppState> store) async {
     try {
       store.dispatch(new SetLoginStatusAction(RequestStatus.BUSY));
@@ -57,10 +66,11 @@ ThunkAction<AppState> login(username, password, faculty, persistentSession) {
       store.dispatch(new SaveLoginDataAction(session));
       if (session.authenticated) {
         store.dispatch(new SetLoginStatusAction(RequestStatus.SUCCESSFUL));
-        if (persistentSession) {
-          AppSharedPreferences.savePersistentUserInfo(username, password);
-        }
         await loadUserInfoToState(store);
+        if (persistentSession)
+          AppSharedPreferences.savePersistentUserInfo(username, password);
+        usernameController.clear();
+        passwordController.clear();
       } else {
         store.dispatch(new SetLoginStatusAction(RequestStatus.FAILED));
       }

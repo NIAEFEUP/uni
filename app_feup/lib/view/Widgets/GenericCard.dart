@@ -62,7 +62,7 @@ class GenericCardState extends State<GenericCard> {
               decoration: BoxDecoration(
                   boxShadow: [
                     new BoxShadow(
-                        color: Color.fromARGB(0x0c, 0, 0, 0),
+                        color: Color.fromARGB(0x1c, 0, 0, 0),
                         blurRadius: 7.0,
                         offset: Offset(0.0, 1.0))
                   ],
@@ -95,7 +95,7 @@ class GenericCardState extends State<GenericCard> {
                                         fontWeightDelta: -3)),
                             alignment: Alignment.centerLeft,
                             padding: EdgeInsets.only(left: 16),
-                            margin: EdgeInsets.only(top: 11, bottom: 11),
+                            margin: EdgeInsets.only(top: 15, bottom: 11),
                           )),
                           this.getDeleteIcon(context)
                         ].where((e) => e != null).toList(),
@@ -121,7 +121,7 @@ class GenericCardState extends State<GenericCard> {
         ? IconButton(
             iconSize: 22.0,
             icon: Icon(Icons.delete),
-            tooltip: 'Unfavorite',
+            tooltip: 'Remover',
             color: Theme.of(context).textTheme.title.color,
             onPressed: widget.onDelete,
           )

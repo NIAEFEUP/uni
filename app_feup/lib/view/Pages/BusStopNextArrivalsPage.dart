@@ -1,7 +1,6 @@
 import 'package:app_feup/model/entities/BusStop.dart';
 import 'package:app_feup/model/entities/Trip.dart';
 import 'package:app_feup/view/Pages/BusStopSelectionPage.dart';
-import 'package:app_feup/view/Pages/SecondaryPageView.dart';
 import 'package:app_feup/view/Widgets/PageTitle.dart';
 import 'package:tuple/tuple.dart';
 import '../../model/AppState.dart';
@@ -12,8 +11,14 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:app_feup/view/Widgets/LastUpdateTimeStamp.dart';
 
 import '../Theme.dart';
+import 'SecondaryPageView.dart';
 
-class BusStopNextArrivalsPage extends SecondaryPageView{
+class BusStopNextArrivalsPage extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => BusStopNextArrivalsPageState();
+}
+
+class BusStopNextArrivalsPageState extends SecondaryPageViewState {
   @override
   Widget getBody(BuildContext context){
     return StoreConnector<AppState, Tuple3<Map<String, List<Trip>>, Map<String, BusStopData>, RequestStatus>> (

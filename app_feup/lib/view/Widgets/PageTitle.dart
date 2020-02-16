@@ -16,7 +16,7 @@ class PageTitle extends StatelessWidget {
       alignment: Alignment.center,
       child: new Text(
         name,
-        style: Theme.of(context).textTheme.title.apply(fontSizeDelta: 7, fontWeightDelta: -2),
+        style: Theme.of(context).textTheme.title.apply(fontSizeDelta: 7),
       ),
     );
   }

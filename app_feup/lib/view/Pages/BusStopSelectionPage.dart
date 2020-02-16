@@ -9,7 +9,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
-class BusStopSelectionPage extends UnnamedPageView {
+class BusStopSelectionPage extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => BusStopSelectionPageState();
+}
+
+class BusStopSelectionPageState extends UnnamedPageView {
 
   final double borderRadius = 15.0;
   final DateTime now = new DateTime.now();

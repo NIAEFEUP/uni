@@ -42,7 +42,7 @@ class MainCardsList extends StatelessWidget {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Text("Escolhe um widget para adicionares à tua página inicial:"),
+              title: Text("Escolhe um widget para adicionares à tua área pessoal:"),
               content: Container(
                 child:
                   ListView(
@@ -56,7 +56,7 @@ class MainCardsList extends StatelessWidget {
           }
         )
       , //Add FAB functionality here
-      tooltip: 'Add widget',
+      tooltip: 'Adicionar widget',
       child: Icon(Icons.add),
     );
   }
@@ -83,7 +83,7 @@ class MainCardsList extends StatelessWidget {
       );
     });
     if(result.isEmpty){
-      result.add(new Text("Todos os widgets disponíveis já foram adicionados aos teus favoritos!"));
+      result.add(new Text("Todos os widgets disponíveis já foram adicionados à tua área pessoal!"));
     }
     return result;
   }
@@ -111,14 +111,14 @@ class MainCardsList extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children:[
             Text(
-              'Favorites',
+              'Área Pessoal',
               style: Theme.of(context).textTheme.title.apply(fontSizeFactor: 1.3),
             ),
             GestureDetector(
                 onTap: () => StoreProvider.of<AppState>(context).dispatch(new SetHomePageEditingMode(!this.isEditing(context))),
                 child: Text(
                   this.isEditing(context) ? 'Concluir Edição' : 'Editar',
-                  style: Theme.of(context).textTheme.subtitle.apply(decoration: TextDecoration.underline),
+                  style: Theme.of(context).textTheme.subtitle.apply(fontSizeFactor: 0.8),
                 )
             )
           ]),

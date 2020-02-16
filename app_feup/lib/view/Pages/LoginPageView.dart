@@ -1,33 +1,54 @@
 import 'package:app_feup/model/AppState.dart';
+import 'package:app_feup/view/Widgets/TermsAndConditions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:toast/toast.dart';
 import '../../view/Theme.dart';
-import 'dart:async';
+import 'package:app_feup/redux/ActionCreators.dart';
 
-class LoginPageView extends StatelessWidget {
-  LoginPageView(
-      {Key key,
-      @required this.checkboxValue,
-      @required this.setCheckboxValue,
-      @required this.usernameFocus,
-      @required this.passwordFocus,
-      @required this.usernameController,
-      @required this.passwordController,
-      @required this.formKey,
-      @required this.submitForm})
-      : super(key: key);
 
-  final bool checkboxValue;
-  final Function setCheckboxValue;
-  final Function submitForm;
-  final FocusNode usernameFocus;
-  final FocusNode passwordFocus;
-  final TextEditingController usernameController;
-  final TextEditingController passwordController;
-  final GlobalKey<FormState> formKey;
+class LoginPageView extends StatefulWidget {
+  @override
+  _LoginPageViewState createState() => _LoginPageViewState();
+}
+
+class _LoginPageViewState extends State<LoginPageView> {
+  final String faculty = 'feup';
+
+  @override
+  void didChangeDependencies(){
+    super.didChangeDependencies();
+    setState(() {
+    });
+  }
+
+  static final FocusNode usernameFocus = FocusNode();
+  static final FocusNode passwordFocus = FocusNode();
+
+  static final TextEditingController usernameController = TextEditingController();
+  static final TextEditingController passwordController = TextEditingController();
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   static bool _exitApp = false;
+  bool _keepSignedIn = false;
+  
+  
+  void _login(BuildContext context) {
+    final store = StoreProvider.of<AppState>(context);
+    if (store.state.content['loginStatus'] != RequestStatus.BUSY &&
+        _formKey.currentState.validate()) {
+      final user = usernameController.text;
+      final pass = passwordController.text;
+      store.dispatch(login(user, pass, faculty, _keepSignedIn, usernameController, passwordController));
+    }
+  }
+
+  void _setKeepSignedIn(value) {
+    setState(() {
+      _keepSignedIn = value;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,6 +82,9 @@ class LoginPageView extends StatelessWidget {
     widgets.add(
         Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)));
     widgets.add(createStatusWidget(context));
+    widgets.add(
+        Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)));
+    widgets.add(createSafeLoginButton(context));
 
     return widgets;
   }
@@ -110,7 +134,7 @@ class LoginPageView extends StatelessWidget {
 
   Widget getLoginForm(MediaQueryData queryData, BuildContext context) {
     return new Form(
-      key: this.formKey,
+      key: this._formKey,
       child: SingleChildScrollView(
         child: Column(children: [
           createUsernameInput(context),
@@ -149,7 +173,7 @@ class LoginPageView extends StatelessWidget {
         focusNode: passwordFocus,
         onFieldSubmitted: (term) {
           passwordFocus.unfocus();
-          submitForm();
+          _login(context);
         },
         textInputAction: TextInputAction.done,
         obscureText: true,
@@ -169,7 +193,7 @@ class LoginPageView extends StatelessWidget {
                 color: Colors.white,
                 fontSize: 17.0,
                 fontWeight: FontWeight.w300)),
-        Checkbox(value: checkboxValue, onChanged: setCheckboxValue, focusNode: passwordFocus,)
+        Checkbox(value: _keepSignedIn, onChanged: _setKeepSignedIn, focusNode: passwordFocus,)
       ],
     );
   }
@@ -184,7 +208,7 @@ class LoginPageView extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(25),
           ),
-          onPressed: submitForm,
+          onPressed:  () => _login(context),
           color: Colors.white,
           child: Text('Entrar',
               style: TextStyle(
@@ -229,5 +253,42 @@ class LoginPageView extends StatelessWidget {
         border: new UnderlineInputBorder(),
         focusedBorder: new UnderlineInputBorder(
             borderSide: new BorderSide(color: Colors.white, width: 3)));
+  }
+
+  createSafeLoginButton(BuildContext context) {
+    return InkResponse(
+        onTap: () {
+          _showLoginDetails(context);
+        },
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+        child: Container(
+            padding: EdgeInsets.all(8),
+            child: Text(
+              "Ao entrares confirmas que concordas com estes Termos e Condições",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  decoration: TextDecoration.underline,
+                  color: Colors.white,
+                  fontSize: 17.0,
+                  fontWeight: FontWeight.w300),
+            )));
+  }
+
+  Future<void> _showLoginDetails(BuildContext context) async {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Termos e Condições'),
+            content: SingleChildScrollView(child: TermsAndConditions()),
+            actions: <Widget>[
+              SimpleDialogOption(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('OK'),
+              )
+            ],
+          );
+        });
   }
 }

@@ -1,5 +1,6 @@
 import 'package:app_feup/model/entities/Exam.dart';
 import 'package:app_feup/view/Widgets/PageTitle.dart';
+import 'package:app_feup/view/Widgets/RowContainer.dart';
 import 'package:flutter/material.dart';
 import '../Pages/SecondaryPageView.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -7,13 +8,14 @@ import '../Widgets/TitleCard.dart';
 import '../../model/AppState.dart';
 import '../Widgets/ScheduleRow.dart';
 
-class ExamsPageView extends SecondaryPageView {
+class ExamsPageView extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => ExamsPageViewState();
 
-  final double borderRadius = 15.0;
+}
+class ExamsPageViewState extends SecondaryPageViewState {
 
-  ExamsPageView({
-    Key key
-  });
+  final double borderRadius = 10.0;
 
   @override
   Widget getBody(BuildContext context) {
@@ -37,7 +39,7 @@ class ExamsPageView extends SecondaryPageView {
   List<Widget> createExamsColumn(context, exams){
 
     List<Widget> columns = new List<Widget>();
-    columns.add(new PageTitle(name: 'Exams',));
+    columns.add(new PageTitle(name: 'Exames',));
 
     if(exams.length == 1){
       columns.add(this.createExamCard(context, [exams[0]]));
@@ -77,8 +79,7 @@ class ExamsPageView extends SecondaryPageView {
     return new Container(
       margin: EdgeInsets.only(bottom: 8),
       padding: EdgeInsets.all(8),
-      child: new Card(child: this.createExamsCards(context, exams)
-      ),
+      child: this.createExamsCards(context, exams),
     );
   }
 
@@ -95,9 +96,9 @@ class ExamsPageView extends SecondaryPageView {
   Widget createExamContext(context, exam){
     return Container(
         margin: EdgeInsets.fromLTRB(12, 4, 12, 0),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(this.borderRadius))),
-        child: new ScheduleRow(subject: exam.subject, rooms: exam.rooms, begin: exam.begin, end: exam.end)
+        child: RowContainer(
+          child: new ScheduleRow(subject: exam.subject, rooms: exam.rooms, begin: exam.begin, end: exam.end, type: exam.examType)
+        )
     );
   }
 }

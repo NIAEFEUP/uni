@@ -1,15 +1,20 @@
+import 'package:app_feup/view/Widgets/TermsAndConditions.dart';
 import 'package:flutter/material.dart';
 import '../Pages/GeneralPageView.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class AboutPageView extends GeneralPageView {
+class AboutPageView extends StatefulWidget{
+  @override
+  State<StatefulWidget> createState() => AboutPageViewState();
+}
+
+class AboutPageViewState extends GeneralPageViewState {
 
   @override
   Widget getBody(BuildContext context) {
     final MediaQueryData queryData = MediaQuery.of(context);
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
+    return ListView(
+        children: <Widget>[
         Container(
             child:
             SvgPicture.asset(
@@ -20,18 +25,20 @@ class AboutPageView extends GeneralPageView {
             )
         ),
         Center(
-            child: Padding(
-                padding: EdgeInsets.only(
-                    left: queryData.size.width/8,
-                    right: queryData.size.width/8,
-                    top: queryData.size.width/12,
-                    bottom: queryData.size.width/12
-                ),
-                child : Text(
-                  'Placeholder text',
-                  textAlign: TextAlign.center,
-                  textScaleFactor: 1.2,
-                )
+          child: Padding(
+            padding: EdgeInsets.only(
+                left: queryData.size.width/12,
+                right: queryData.size.width/12,
+                top: queryData.size.width/12,
+                bottom: queryData.size.width/12
+            ),
+            child : 
+              Column(
+                children: <Widget>[
+                  Text("App desenvolvida pelo NIAEFEUP. De estudantes, para estudantes.\n\n"),
+                  TermsAndConditions(),
+                ]
+              ),
             )
         )
       ],

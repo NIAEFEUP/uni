@@ -1,10 +1,11 @@
 
 
-import 'package:app_feup/view/Pages/GeneralPageView.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-abstract class UnnamedPageView extends GeneralPageView{
+import 'GeneralPageView.dart';
+
+abstract class UnnamedPageView extends GeneralPageViewState{
   @override
   getScaffold(BuildContext context, Widget body){
     return new Scaffold(

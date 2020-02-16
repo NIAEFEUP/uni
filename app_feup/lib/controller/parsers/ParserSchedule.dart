@@ -18,7 +18,7 @@ Future<List<Lecture>> parseSchedule(http.Response response) async {
     String subject = lecture['ucurr_sigla'];
     String typeClass = lecture['tipo'];
     int blocks = (lecture['aula_duracao'] * 2).round();  // Each block represents 30 minutes, Api uses float representing hours
-    String room = lecture['sala_sigla'];
+    String room = lecture['sala_sigla'].replaceAll(RegExp('\\+'), '\n');
     String teacher = lecture['doc_sigla'];
 
     lectures.add(Lecture(subject, typeClass, day, secBegin, blocks, room, teacher));

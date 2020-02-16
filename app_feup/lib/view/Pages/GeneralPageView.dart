@@ -1,3 +1,4 @@
+import 'package:app_feup/controller/LifecycleEventHandler.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:app_feup/view/Widgets/NavigationDrawer.dart';
@@ -7,8 +8,24 @@ import 'package:app_feup/controller/LoadInfo.dart';
 import 'package:app_feup/model/ProfilePageModel.dart';
 import 'dart:io';
 
-abstract class GeneralPageView extends StatelessWidget {
+abstract class GeneralPageViewState extends State<StatefulWidget> {
   final double borderMargin = 18.0;
+  WidgetsBindingObserver lifeCycleEventHandler;
+
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    this.lifeCycleEventHandler = new LifecycleEventHandler(store: StoreProvider.of<AppState>(context));
+    WidgetsBinding.instance.addObserver(this.lifeCycleEventHandler);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this.lifeCycleEventHandler);
+    super.dispose();
+  }
+
 
   @override
   Widget build(BuildContext context) {

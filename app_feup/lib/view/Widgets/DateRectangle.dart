@@ -12,7 +12,7 @@ class DateRectangle extends StatelessWidget {
   Widget build(BuildContext context) {
     return new Container(
       padding: EdgeInsets.all(4.0),
-      margin: EdgeInsets.only(bottom: 14),
+      margin: EdgeInsets.only(bottom: 10),
       child: Text( date ,
           style: Theme.of(context).textTheme.subtitle),
       alignment: Alignment.center,

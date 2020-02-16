@@ -4,6 +4,22 @@ import 'package:html/parser.dart' show parse;
 import 'package:html/dom.dart';
 import 'dart:async';
 
+const types = {
+  'Especial de Conclusão': 'EC',
+  'Port.Est.Especiais': 'EE',
+  'Mini-testes': 'MT',
+  'Normal': 'EN',
+  'Recurso': 'ER'
+};
+
+String getExamSeasonAbbr(String seasonStr){
+  for(String type in types.keys){
+    if(seasonStr.contains(type))
+      return types[type];
+  }
+  return '?';
+}
+
 Future<List<Exam>> parseExams(http.Response response) async{
 
   var document = await parse(response.body);
@@ -16,7 +32,7 @@ Future<List<Exam>> parseExams(http.Response response) async{
   int days = 0;
   int tableNum = 0;
   document.querySelectorAll('h3').forEach((Element examType){
-    examTypes.add(examType.text);
+    examTypes.add(getExamSeasonAbbr(examType.text));
   });
   
   document.querySelectorAll('div > table > tbody > tr > td').forEach((Element element){

@@ -1,6 +1,5 @@
 import 'package:app_feup/model/AppState.dart';
 import 'package:flutter/material.dart';
-import 'package:app_feup/view/Theme.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 import 'GenericCard.dart';
@@ -22,11 +21,7 @@ class AccountInfoCard extends GenericCard {
                   margin: const EdgeInsets.only(
                       top: 20.0, bottom: 8.0, left: 20.0),
                   child: Text("Saldo: ",
-                      style: TextStyle(
-                          color: greyTextColor,
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.w100
-                      )
+                      style: Theme.of(context).textTheme.display1.apply(fontSizeDelta: -4)
                   ),
                 ),
                 Container(
@@ -43,11 +38,7 @@ class AccountInfoCard extends GenericCard {
                   margin: const EdgeInsets.only(
                       top: 8.0, bottom: 20.0, left: 20.0),
                   child: Text("Data limite próxima prestação: ",
-                      style: TextStyle(
-                          color: greyTextColor,
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.w100
-                      )
+                      style: Theme.of(context).textTheme.display1.apply(fontSizeDelta: -4)
                   ),
                 ),
                 Container(
