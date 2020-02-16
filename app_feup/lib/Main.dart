@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:app_feup/model/SchedulePageModel.dart';
+import 'package:app_feup/redux/Actions.dart';
 import 'package:app_feup/view/Pages/BusStopNextArrivalsPage.dart';
 import 'package:app_feup/controller/Logout.dart';
 import 'package:app_feup/view/NavigationService.dart';
@@ -81,4 +84,9 @@ class MyAppState extends State<MyApp> {
       ),
     );
   }
+
+  @override
+  void initState() => Timer.periodic(new Duration(seconds: 60), (Timer t) =>
+    state.dispatch(new SetCurrentTimeAction(DateTime.now()))
+  );
 }

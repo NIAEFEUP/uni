@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:app_feup/controller/LifecycleEventHandler.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -16,6 +18,7 @@ abstract class GeneralPageViewState extends State<StatefulWidget> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+
     this.lifeCycleEventHandler = new LifecycleEventHandler(store: StoreProvider.of<AppState>(context));
     WidgetsBinding.instance.addObserver(this.lifeCycleEventHandler);
   }
