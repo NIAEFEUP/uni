@@ -109,7 +109,7 @@ class BusStopSearch extends SearchDelegate<String> {
               margin: EdgeInsets.all(8.0),
               height: 24.0,
               child: Center(
-                child: Text("No results found."),
+                child: Text("Sem resultados."),
               )
             );
           else

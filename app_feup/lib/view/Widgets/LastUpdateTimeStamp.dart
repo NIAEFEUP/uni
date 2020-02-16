@@ -27,7 +27,7 @@ class LastUpdateTimeStamp extends StatelessWidget{
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.center,
         children : [
-          Text('Last refreshed $last_update_minutes minutes ago',style: Theme.of(context).textTheme.display1.apply(color: greyTextColor))
+          Text('Atualizado há $last_update_minutes minuto' + (last_update_minutes != 1? 's' : ''),style: Theme.of(context).textTheme.display1.apply(color: greyTextColor))
         ]
     );
   }

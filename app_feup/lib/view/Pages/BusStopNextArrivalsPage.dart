@@ -135,7 +135,7 @@ class _NextArrivalsState extends State<NextArrivals> with SingleTickerProviderSt
     result.add(
         new Container(
             padding: EdgeInsets.only(bottom: 12.0),
-            child: Text("Failed to get new information", style: Theme.of(context).textTheme.display1.apply(color: primaryColor))
+            child: Text("Não foi possível obter informação", maxLines: 2, overflow: TextOverflow.fade, style: Theme.of(context).textTheme.display1.apply(color: primaryColor))
         )
     );
 

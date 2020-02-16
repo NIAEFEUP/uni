@@ -99,7 +99,7 @@ class BusStopCard extends GenericCard {
     else
       return
         Center(
-          child: Text("No information to show at the moment"),
+          child: Text("Não há dados a mostrar neste momento", maxLines: 2, overflow: TextOverflow.fade),
         );
   }
 
