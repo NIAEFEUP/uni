@@ -1,9 +1,9 @@
-import 'package:app_feup/controller/local_storage/AppSharedPreferences.dart';
-import 'package:app_feup/model/AppState.dart';
-import 'package:app_feup/model/HomePageModel.dart';
-import 'package:app_feup/redux/Actions.dart';
-import 'package:app_feup/view/Widgets/ExamCard.dart';
-import 'package:app_feup/view/Widgets/ScheduleCard.dart';
+import 'package:uni/controller/local_storage/AppSharedPreferences.dart';
+import 'package:uni/model/AppState.dart';
+import 'package:uni/model/HomePageModel.dart';
+import 'package:uni/redux/Actions.dart';
+import 'package:uni/view/Widgets/ExamCard.dart';
+import 'package:uni/view/Widgets/ScheduleCard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 

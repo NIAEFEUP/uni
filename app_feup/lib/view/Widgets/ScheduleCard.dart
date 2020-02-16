@@ -1,9 +1,9 @@
-import 'package:app_feup/model/AppState.dart';
-import 'package:app_feup/model/entities/Lecture.dart';
-import 'package:app_feup/view/Widgets/DateRectangle.dart';
-import 'package:app_feup/view/Widgets/GenericCard.dart';
-import 'package:app_feup/view/Widgets/RequestDependentWidgetBuilder.dart';
-import 'package:app_feup/view/Widgets/ScheduleSlot.dart';
+import 'package:uni/model/AppState.dart';
+import 'package:uni/model/entities/Lecture.dart';
+import 'package:uni/view/Widgets/DateRectangle.dart';
+import 'package:uni/view/Widgets/GenericCard.dart';
+import 'package:uni/view/Widgets/RequestDependentWidgetBuilder.dart';
+import 'package:uni/view/Widgets/ScheduleSlot.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter/material.dart';
 import 'package:tuple/tuple.dart';

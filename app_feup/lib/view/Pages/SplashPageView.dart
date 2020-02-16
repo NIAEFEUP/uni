@@ -1,8 +1,8 @@
-import 'package:app_feup/controller/local_storage/AppSharedPreferences.dart';
-import 'package:app_feup/model/AppState.dart';
-import 'package:app_feup/redux/ActionCreators.dart';
-import 'package:app_feup/view/Pages/HomePageView.dart';
-import 'package:app_feup/view/Pages/LoginPageView.dart';
+import 'package:uni/controller/local_storage/AppSharedPreferences.dart';
+import 'package:uni/model/AppState.dart';
+import 'package:uni/redux/ActionCreators.dart';
+import 'package:uni/view/Pages/HomePageView.dart';
+import 'package:uni/view/Pages/LoginPageView.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:tuple/tuple.dart';

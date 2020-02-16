@@ -1,5 +1,5 @@
-import 'package:app_feup/model/AppState.dart';
-import 'package:app_feup/view/NavigationService.dart';
+import 'package:uni/model/AppState.dart';
+import 'package:uni/view/NavigationService.dart';
 import 'package:redux/redux.dart';
 import 'networking/NetworkRouter.dart';
 

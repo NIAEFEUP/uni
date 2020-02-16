@@ -28,3 +28,16 @@ The token is read from the file ```assets/env/env.json```, which you may need to
   "gh_token" : "your super secret token"
 }
 ```
+
+## Release
+
+To release the app, a few steps are required:
+
+- Make sure the terms and conditions do not need updating
+- Make sure you have completed the **Requirements** section of this README
+- Increase the version in pubspec.yaml
+- Fill the fields in android/key.properties. [This might require creation of a store](https://flutter.dev/docs/deployment/android)
+- Run `flutter build appbundle lib/Main.dart` to generate the bundle ready for upload
+- Make sure the Play Store's Content Rating is accurate before rolling out the app
+
+[Here's the full guide to releasing a flutter application](https://flutter.dev/docs/deployment/android)

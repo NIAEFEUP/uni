@@ -1,8 +1,8 @@
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
-import 'package:app_feup/model/AppState.dart';
-import 'package:app_feup/controller/LoadInfo.dart';
-import 'package:app_feup/redux/RefreshItemsAction.dart';
+import 'package:uni/model/AppState.dart';
+import 'package:uni/controller/LoadInfo.dart';
+import 'package:uni/redux/RefreshItemsAction.dart';
 
 void generalMiddleware(
     Store<AppState> store,

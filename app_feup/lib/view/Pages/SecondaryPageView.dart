@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'GeneralPageView.dart';
-import 'package:app_feup/view/Widgets/SecondaryPageBackButton.dart';
+import 'package:uni/view/Widgets/SecondaryPageBackButton.dart';
 
 abstract class SecondaryPageViewState extends GeneralPageViewState{
 

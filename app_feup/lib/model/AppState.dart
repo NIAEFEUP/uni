@@ -1,7 +1,7 @@
-import 'package:app_feup/model/entities/BusStop.dart';
-import 'package:app_feup/model/entities/Exam.dart';
-import 'package:app_feup/model/entities/Lecture.dart';
-import 'package:app_feup/model/entities/Session.dart';
+import 'package:uni/model/entities/BusStop.dart';
+import 'package:uni/model/entities/Exam.dart';
+import 'package:uni/model/entities/Lecture.dart';
+import 'package:uni/model/entities/Session.dart';
 
 import 'entities/Trip.dart';
 

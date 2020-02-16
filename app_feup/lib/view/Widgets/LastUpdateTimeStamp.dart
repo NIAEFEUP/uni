@@ -1,4 +1,4 @@
-import 'package:app_feup/view/Theme.dart';
+import 'package:uni/view/Theme.dart';
 import 'package:tuple/tuple.dart';
 
 import '../../model/AppState.dart';

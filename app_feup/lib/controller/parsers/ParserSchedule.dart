@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:app_feup/model/entities/Lecture.dart';
+import 'package:uni/model/entities/Lecture.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 

@@ -1,6 +1,6 @@
-import 'package:app_feup/controller/networking/NetworkRouter.dart';
-import 'package:app_feup/model/entities/Bus.dart';
-import 'package:app_feup/model/entities/BusStop.dart';
+import 'package:uni/controller/networking/NetworkRouter.dart';
+import 'package:uni/model/entities/Bus.dart';
+import 'package:uni/model/entities/BusStop.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
