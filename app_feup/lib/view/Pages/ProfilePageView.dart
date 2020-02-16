@@ -1,11 +1,14 @@
 import 'dart:io';
 
+import 'package:app_feup/controller/LoadInfo.dart';
+import 'package:app_feup/model/AppState.dart';
 import 'package:app_feup/model/entities/Course.dart';
-import 'package:app_feup/view/Pages/SecondaryPageView.dart';
+import 'package:app_feup/view/Pages/UnnamedPageView.dart';
 import 'package:app_feup/view/Widgets/AccountInfoCard.dart';
 import 'package:app_feup/view/Widgets/CourseInfoCard.dart';
 import 'package:app_feup/view/Widgets/PrintInfoCard.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import '../../view/Theme.dart';
 
 class ProfilePageView extends StatefulWidget {
@@ -13,37 +16,28 @@ class ProfilePageView extends StatefulWidget {
   final String email;
   final Map<String, String> currentState;
   final List<Course> courses;
-  final File profilePicFile;
   ProfilePageView(
       {Key key,
       @required this.name,
       @required this.email,
       @required this.currentState,
-      @required this.courses,
-      @required this.profilePicFile});
+      @required this.courses});
   @override
   State<StatefulWidget> createState() => ProfilePageViewState(
-      name: name,
-      email: email,
-      currentState: currentState,
-      courses: courses,
-      profilePicFile: profilePicFile);
+      name: name, email: email, currentState: currentState, courses: courses);
 }
 
-class ProfilePageViewState extends SecondaryPageViewState {
+class ProfilePageViewState extends UnnamedPageView {
   ProfilePageViewState(
       {Key key,
       @required this.name,
       @required this.email,
       @required this.currentState,
-      @required this.courses,
-      @required this.profilePicFile});
-
+      @required this.courses});
   final String name;
   final String email;
   final Map<String, String> currentState;
   final List<Course> courses;
-  final File profilePicFile;
 
   @override
   Widget getBody(BuildContext context) {
@@ -52,8 +46,7 @@ class ProfilePageViewState extends SecondaryPageViewState {
 
   @override
   Widget getTopRightButton(BuildContext context) {
-    return IconButton(
-        onPressed: () => {Navigator.pop(context)}, icon: Icon(Icons.close));
+    return Container();
   }
 
   List<Widget> childrenList(BuildContext context) {
@@ -75,30 +68,37 @@ class ProfilePageViewState extends SecondaryPageViewState {
   }
 
   Widget profileInfo(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Container(
-            width: 150.0,
-            height: 150.0,
-            decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: getDecorageImage(profilePicFile))),
-        Padding(padding: const EdgeInsets.all(8.0)),
-        Text(name,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                color: greyTextColor,
-                fontSize: 20.0,
-                fontWeight: FontWeight.w400)),
-        Padding(padding: const EdgeInsets.all(5.0)),
-        Text(email,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                color: greyTextColor,
-                fontSize: 18.0,
-                fontWeight: FontWeight.w200)),
-      ],
+    return StoreConnector<AppState, Future<File>>(
+      converter: (store) => loadProfilePic(store),
+      builder: (context, profilePicFile) => FutureBuilder(
+        future: profilePicFile,
+        builder: (BuildContext context, AsyncSnapshot<File> profilePic) =>
+            Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Container(
+                width: 150.0,
+                height: 150.0,
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: getDecorageImage(profilePic.data))),
+            Padding(padding: const EdgeInsets.all(8.0)),
+            Text(name,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: greyTextColor,
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.w400)),
+            Padding(padding: const EdgeInsets.all(5.0)),
+            Text(email,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: greyTextColor,
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.w200)),
+          ],
+        ),
+      ),
     );
   }
 }
