@@ -1,9 +1,11 @@
-import 'package:app_feup/controller/LoadInfo.dart';
+import 'package:app_feup/controller/local_storage/AppSharedPreferences.dart';
 import 'package:app_feup/model/AppState.dart';
+import 'package:app_feup/redux/ActionCreators.dart';
 import 'package:app_feup/view/Pages/HomePageView.dart';
 import 'package:app_feup/view/Pages/LoginPageView.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:tuple/tuple.dart';
 import '../../view/Theme.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -81,16 +83,18 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void startTimeAndChangeRoute() async {
     Route<Object> nextRoute;
-
-    try {
+    Tuple2<String, String> userPersistentInfo =
+        await AppSharedPreferences.getPersistentUserInfo();
+    String userName = userPersistentInfo.item1;
+    String password = userPersistentInfo.item2;
+    if (userName != "" && password != ""){
       nextRoute =
-        new MaterialPageRoute(builder: (context) => new HomePageView());
-      await loadReloginInfo(StoreProvider.of<AppState>(context));
+          new MaterialPageRoute(builder: (context) => new HomePageView());
+      StoreProvider.of<AppState>(context).dispatch(reLogin(userName, password, 'feup'));
     }
-    catch(e) {
-      if(!(e is RequestStatus))
-        nextRoute = new MaterialPageRoute(builder: (context) => new LoginPageView());
-    }
+    else
+      nextRoute =
+          new MaterialPageRoute(builder: (context) => new LoginPageView());
 
     Navigator.pushReplacement(context, nextRoute);
   }
