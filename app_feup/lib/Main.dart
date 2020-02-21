@@ -79,8 +79,8 @@ class MyAppState extends State<MyApp> {
                     maintainState: false);
               case '/' + Constants.NAV_LOG_OUT:
                 return MaterialPageRoute(builder: (context) { logout(context); return LoginPageView();});
-              }
             }
+          }
       ),
     );
   }
@@ -89,7 +89,7 @@ class MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     Timer.periodic(new Duration(seconds: 60), (Timer t) =>
-    state.dispatch(new SetCurrentTimeAction(DateTime.now()))
-  );
+        state.dispatch(new SetCurrentTimeAction(DateTime.now()))
+    );
   }
 }
