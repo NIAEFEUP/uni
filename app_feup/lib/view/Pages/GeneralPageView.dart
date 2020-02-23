@@ -12,20 +12,21 @@ import 'dart:io';
 
 abstract class GeneralPageViewState extends State<StatefulWidget> {
   final double borderMargin = 18.0;
-  WidgetsBindingObserver lifeCycleEventHandler;
-
+  static WidgetsBindingObserver lifeCycleEventHandler;
+  static FileImage decorageImage;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-
-    this.lifeCycleEventHandler = new LifecycleEventHandler(store: StoreProvider.of<AppState>(context));
-    WidgetsBinding.instance.addObserver(this.lifeCycleEventHandler);
+    if(lifeCycleEventHandler != null){
+      WidgetsBinding.instance.removeObserver(lifeCycleEventHandler);
+    }
+    lifeCycleEventHandler = new LifecycleEventHandler(store: StoreProvider.of<AppState>(context));
+    WidgetsBinding.instance.addObserver(lifeCycleEventHandler);
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this.lifeCycleEventHandler);
     super.dispose();
   }
 
@@ -40,9 +41,16 @@ abstract class GeneralPageViewState extends State<StatefulWidget> {
   }
 
   DecorationImage getDecorageImage(File x) {
-    final image = (x == null)? new AssetImage("assets/images/profile_placeholder.png") : new FileImage(x);
-    return  DecorationImage(
+
+    final fallbackImage = decorageImage == null ? new AssetImage("assets/images/profile_placeholder.png") : decorageImage;
+
+    final image = (x == null) ? fallbackImage : new FileImage(x);
+    final result = DecorationImage(
         fit: BoxFit.cover, image: image);
+    if(x != null){
+      decorageImage = image;
+    }
+    return result;
   }
 
   Future<DecorationImage> buildDecorageImage(context) async{
