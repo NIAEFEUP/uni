@@ -4,6 +4,8 @@ import 'package:app_feup/controller/local_storage/AppSharedPreferences.dart';
 import 'package:app_feup/redux/ActionCreators.dart';
 import 'package:app_feup/redux/RefreshItemsAction.dart';
 import 'package:app_feup/redux/Actions.dart';
+import 'package:connectivity/connectivity.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:tuple/tuple.dart';
 import 'package:app_feup/model/AppState.dart';
 import 'package:redux/redux.dart';
@@ -22,9 +24,11 @@ Future loadReloginInfo(Store<AppState> store) async {
   return Future.error("No credentials stored");
 }
 
-Future loadUserInfoToState(store) {
+Future loadUserInfoToState(store) async {
   loadLocalUserInfoToState(store);
-  return loadRemoteUserInfoToState(store);
+  if(await (Connectivity().checkConnectivity()) != ConnectionState.none){
+    return loadRemoteUserInfoToState(store);
+  }
 }
 
 Future loadRemoteUserInfoToState(Store<AppState> store) async {

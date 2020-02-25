@@ -50,7 +50,7 @@ class NavigationDrawerState extends State<NavigationDrawer> {
   }
 
   _onLogOut(String key) {
-    Navigator.pushReplacementNamed(context, '/' + key);
+    Navigator.of(context).pushNamedAndRemoveUntil('/' + key, (Route<dynamic> route) => false);
   }
 
 
