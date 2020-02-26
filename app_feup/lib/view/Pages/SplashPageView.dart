@@ -1,9 +1,11 @@
-import 'package:app_feup/controller/LoadInfo.dart';
+import 'package:app_feup/controller/local_storage/AppSharedPreferences.dart';
 import 'package:app_feup/model/AppState.dart';
+import 'package:app_feup/redux/ActionCreators.dart';
 import 'package:app_feup/view/Pages/HomePageView.dart';
 import 'package:app_feup/view/Pages/LoginPageView.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:tuple/tuple.dart';
 import '../../view/Theme.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -49,7 +51,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 ],
               ),
               Padding(
-                  padding: EdgeInsets.only(bottom: queryData.size.height / 10))
+                  padding: EdgeInsets.only(bottom: queryData.size.height / 6))
             ],
           )
         ],
@@ -72,42 +74,27 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Widget createNILogo() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Text(
-          "Powered by",
-          style: TextStyle(
-              color: Theme.of(context).primaryColor,
-              fontSize: 20.0,
-              fontWeight: FontWeight.w200),
-        ),
-        Padding(
-          padding: EdgeInsets.all(8.0),
-        ),
-        Container(
-            child: SvgPicture.asset(
-          'assets/images/outline_red.svg',
-          color: Theme.of(context).primaryColor,
-          width: queryData.size.height / 7,
-          height: queryData.size.height / 7,
-        ))
-      ],
+    return SvgPicture.asset(
+      'assets/images/by_niaefeup.svg',
+      color: Theme.of(context).primaryColor,
+      width: queryData.size.width * 0.45,
     );
   }
 
   void startTimeAndChangeRoute() async {
     Route<Object> nextRoute;
-
-    try {
+    Tuple2<String, String> userPersistentInfo =
+        await AppSharedPreferences.getPersistentUserInfo();
+    String userName = userPersistentInfo.item1;
+    String password = userPersistentInfo.item2;
+    if (userName != "" && password != ""){
       nextRoute =
-        new MaterialPageRoute(builder: (context) => new HomePageView());
-      await loadReloginInfo(StoreProvider.of<AppState>(context));
+          new MaterialPageRoute(builder: (context) => new HomePageView());
+      StoreProvider.of<AppState>(context).dispatch(reLogin(userName, password, 'feup'));
     }
-    catch(e) {
-      if(!(e is RequestStatus))
-        nextRoute = new MaterialPageRoute(builder: (context) => new LoginPageView());
-    }
+    else
+      nextRoute =
+          new MaterialPageRoute(builder: (context) => new LoginPageView());
 
     Navigator.pushReplacement(context, nextRoute);
   }

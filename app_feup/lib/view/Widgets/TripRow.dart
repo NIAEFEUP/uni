@@ -26,7 +26,7 @@ class TripRow extends StatelessWidget{
         new Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: <Widget>[
-            Text(this.trip.timeRemaining.toString(), style: Theme.of(context).textTheme.display1.apply(color: lightGreyTextColor, fontWeightDelta: 2)), // Theme.of(context).textTheme.display1.apply(color: Colors.black, fontWeightDelta: -3))
+            Text(this.trip.timeRemaining.toString() + '\'', style: Theme.of(context).textTheme.display1.apply(color: lightGreyTextColor, fontWeightDelta: 2)), // Theme.of(context).textTheme.display1.apply(color: Colors.black, fontWeightDelta: -3))
             new EstimatedArrivalTimeStamp(
                 timeRemaining: this.trip.timeRemaining.toString()
             ),
