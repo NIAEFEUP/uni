@@ -1,10 +1,10 @@
-import 'package:app_feup/controller/local_storage/AppBusStopDatabase.dart';
-import 'package:app_feup/model/AppState.dart';
-import 'package:app_feup/model/entities/BusStop.dart';
-import 'package:app_feup/view/Pages/UnnamedPageView.dart';
-import 'package:app_feup/view/Widgets/BusStopSearch.dart';
-import 'package:app_feup/view/Widgets/BusStopSelectionRow.dart';
-import 'package:app_feup/view/Widgets/PageTitle.dart';
+import 'package:uni/controller/local_storage/AppBusStopDatabase.dart';
+import 'package:uni/model/AppState.dart';
+import 'package:uni/model/entities/BusStop.dart';
+import 'package:uni/view/Pages/UnnamedPageView.dart';
+import 'package:uni/view/Widgets/BusStopSearch.dart';
+import 'package:uni/view/Widgets/BusStopSelectionRow.dart';
+import 'package:uni/view/Widgets/PageTitle.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';

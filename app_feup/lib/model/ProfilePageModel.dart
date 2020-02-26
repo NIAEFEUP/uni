@@ -1,5 +1,5 @@
-import 'package:app_feup/model/AppState.dart';
-import 'package:app_feup/view/Pages/ProfilePageView.dart';
+import 'package:uni/model/AppState.dart';
+import 'package:uni/view/Pages/ProfilePageView.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'dart:io';

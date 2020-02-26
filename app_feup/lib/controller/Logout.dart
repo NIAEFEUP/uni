@@ -1,15 +1,15 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:flutter/painting.dart';
-import 'package:app_feup/controller/local_storage/AppBusStopDatabase.dart';
-import 'package:app_feup/controller/local_storage/AppLastUserInfoUpdateDatabase.dart';
+import 'package:uni/controller/local_storage/AppBusStopDatabase.dart';
+import 'package:uni/controller/local_storage/AppLastUserInfoUpdateDatabase.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
-import 'package:app_feup/model/AppState.dart';
-import 'package:app_feup/redux/ActionCreators.dart';
-import 'package:app_feup/view/Pages/GeneralPageView.dart';
+import 'package:uni/model/AppState.dart';
+import 'package:uni/redux/ActionCreators.dart';
+import 'package:uni/view/Pages/GeneralPageView.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 import 'local_storage/AppCoursesDatabase.dart';

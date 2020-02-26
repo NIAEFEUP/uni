@@ -1,4 +1,4 @@
-import 'package:app_feup/model/AppState.dart';
+import 'package:uni/model/AppState.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';

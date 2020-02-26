@@ -1,6 +1,6 @@
-import 'package:app_feup/model/entities/Exam.dart';
-import 'package:app_feup/view/Widgets/PageTitle.dart';
-import 'package:app_feup/view/Widgets/RowContainer.dart';
+import 'package:uni/model/entities/Exam.dart';
+import 'package:uni/view/Widgets/PageTitle.dart';
+import 'package:uni/view/Widgets/RowContainer.dart';
 import 'package:flutter/material.dart';
 import '../Pages/SecondaryPageView.dart';
 import 'package:flutter_redux/flutter_redux.dart';

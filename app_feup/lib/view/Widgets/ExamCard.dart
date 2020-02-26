@@ -1,9 +1,9 @@
-import 'package:app_feup/model/entities/Exam.dart';
-import 'package:app_feup/view/Widgets/DateRectangle.dart';
-import 'package:app_feup/view/Widgets/GenericCard.dart';
-import 'package:app_feup/view/Widgets/RequestDependentWidgetBuilder.dart';
-import 'package:app_feup/view/Widgets/RowContainer.dart';
-import 'package:app_feup/view/Widgets/ScheduleEventRectangle.dart';
+import 'package:uni/model/entities/Exam.dart';
+import 'package:uni/view/Widgets/DateRectangle.dart';
+import 'package:uni/view/Widgets/GenericCard.dart';
+import 'package:uni/view/Widgets/RequestDependentWidgetBuilder.dart';
+import 'package:uni/view/Widgets/RowContainer.dart';
+import 'package:uni/view/Widgets/ScheduleEventRectangle.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:tuple/tuple.dart';
 import '../../utils/Constants.dart' as Constants;

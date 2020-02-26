@@ -1,6 +1,6 @@
-import 'package:app_feup/model/AppState.dart';
-import 'package:app_feup/model/entities/Lecture.dart';
-import 'package:app_feup/view/Pages/SchedulePageView.dart';
+import 'package:uni/model/AppState.dart';
+import 'package:uni/model/entities/Lecture.dart';
+import 'package:uni/view/Pages/SchedulePageView.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 

@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:app_feup/view/Theme.dart' as theme;
-import 'package:app_feup/view/Widgets/FormTextField.dart';
+import 'package:uni/view/Theme.dart' as theme;
+import 'package:uni/view/Widgets/FormTextField.dart';
 import 'package:toast/toast.dart';
 
 import 'package:flutter/cupertino.dart';

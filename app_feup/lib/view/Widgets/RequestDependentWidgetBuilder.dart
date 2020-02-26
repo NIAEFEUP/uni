@@ -1,5 +1,5 @@
-import 'package:app_feup/controller/local_storage/AppLastUserInfoUpdateDatabase.dart';
-import 'package:app_feup/model/AppState.dart';
+import 'package:uni/controller/local_storage/AppLastUserInfoUpdateDatabase.dart';
+import 'package:uni/model/AppState.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';

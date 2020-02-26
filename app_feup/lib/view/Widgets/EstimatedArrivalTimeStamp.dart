@@ -1,5 +1,5 @@
-import 'package:app_feup/model/AppState.dart';
-import 'package:app_feup/view/Theme.dart';
+import 'package:uni/model/AppState.dart';
+import 'package:uni/view/Theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';

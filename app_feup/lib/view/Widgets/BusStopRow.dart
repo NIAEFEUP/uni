@@ -1,4 +1,4 @@
-import 'package:app_feup/model/entities/Trip.dart';
+import 'package:uni/model/entities/Trip.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../Theme.dart';

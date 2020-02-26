@@ -1,14 +1,14 @@
-import 'package:app_feup/model/entities/BusStop.dart';
-import 'package:app_feup/model/entities/Trip.dart';
-import 'package:app_feup/view/Pages/BusStopSelectionPage.dart';
-import 'package:app_feup/view/Widgets/PageTitle.dart';
+import 'package:uni/model/entities/BusStop.dart';
+import 'package:uni/model/entities/Trip.dart';
+import 'package:uni/view/Pages/BusStopSelectionPage.dart';
+import 'package:uni/view/Widgets/PageTitle.dart';
 import 'package:tuple/tuple.dart';
 import '../../model/AppState.dart';
 import 'package:flutter/material.dart';
-import 'package:app_feup/view/Widgets/BusStopRow.dart';
+import 'package:uni/view/Widgets/BusStopRow.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
-import 'package:app_feup/view/Widgets/LastUpdateTimeStamp.dart';
+import 'package:uni/view/Widgets/LastUpdateTimeStamp.dart';
 
 import '../Theme.dart';
 import 'SecondaryPageView.dart';

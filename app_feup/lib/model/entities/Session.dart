@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
-import 'package:app_feup/controller/networking/NetworkRouter.dart';
+import 'package:uni/controller/networking/NetworkRouter.dart';
 
 class Session {
   bool authenticated;

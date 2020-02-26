@@ -1,7 +1,7 @@
 import 'dart:async';
-import 'package:app_feup/controller/local_storage/AppDatabase.dart';
-import 'package:app_feup/model/entities/Course.dart';
-import 'package:app_feup/model/entities/Profile.dart';
+import 'package:uni/controller/local_storage/AppDatabase.dart';
+import 'package:uni/model/entities/Course.dart';
+import 'package:uni/model/entities/Profile.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:tuple/tuple.dart';
 

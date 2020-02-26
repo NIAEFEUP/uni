@@ -1,12 +1,12 @@
 import 'dart:io';
 
-import 'package:app_feup/controller/LoadInfo.dart';
-import 'package:app_feup/model/AppState.dart';
-import 'package:app_feup/model/entities/Course.dart';
-import 'package:app_feup/view/Pages/UnnamedPageView.dart';
-import 'package:app_feup/view/Widgets/AccountInfoCard.dart';
-import 'package:app_feup/view/Widgets/CourseInfoCard.dart';
-import 'package:app_feup/view/Widgets/PrintInfoCard.dart';
+import 'package:uni/controller/LoadInfo.dart';
+import 'package:uni/model/AppState.dart';
+import 'package:uni/model/entities/Course.dart';
+import 'package:uni/view/Pages/UnnamedPageView.dart';
+import 'package:uni/view/Widgets/AccountInfoCard.dart';
+import 'package:uni/view/Widgets/CourseInfoCard.dart';
+import 'package:uni/view/Widgets/PrintInfoCard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import '../../view/Theme.dart';
