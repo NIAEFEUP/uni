@@ -85,13 +85,20 @@ class BusStopSearch extends SearchDelegate<String> {
           width: 100.0,
         ),
         actions: [
-          FlatButton(child: Text("Confirmar", style: Theme.of(context).textTheme.display1.apply(color: Theme.of(context).primaryColor)), onPressed: () async {
-            if(stopData.configuredBuses.length > 0) {
-              StoreProvider.of<AppState>(context).dispatch(addUserBusStop(new Completer(), stopCode, stopData));
-              Navigator.pop(context);
-            }
-          }),
-          FlatButton(child: Text("Cancelar", style: Theme.of(context).textTheme.display1.apply(color: Theme.of(context).primaryColor)), onPressed: () => Navigator.pop(context))
+          FlatButton(child: Text("Cancelar", style: Theme.of(context).textTheme.display1.apply(color: Theme.of(context).primaryColor)), onPressed: () => Navigator.pop(context)),
+          FlatButton(child: Text("Confirmar",
+              style: Theme.of(context).textTheme.display1.apply(color: Theme.of(context).accentColor)),
+              color: Theme.of(context).primaryColor,
+              shape: RoundedRectangleBorder(
+                  borderRadius: new BorderRadius.circular(10.0),
+                  side: BorderSide(color: Theme.of(context).primaryColor)
+              ),
+              onPressed: () async {
+                if(stopData.configuredBuses.length > 0) {
+                  StoreProvider.of<AppState>(context).dispatch(addUserBusStop(new Completer(), stopCode, stopData));
+                  Navigator.pop(context);
+                }
+              })
         ]
     );
   }
@@ -106,11 +113,11 @@ class BusStopSearch extends SearchDelegate<String> {
         if (snapshot.connectionState == ConnectionState.done && !snapshot.hasError) {
           if (snapshot.data.length == 0)
             return Container(
-              margin: EdgeInsets.all(8.0),
-              height: 24.0,
-              child: Center(
-                child: Text("Sem resultados."),
-              )
+                margin: EdgeInsets.all(8.0),
+                height: 24.0,
+                child: Center(
+                  child: Text("Sem resultados."),
+                )
             );
           else
             this.suggestionsList = snapshot.data;
