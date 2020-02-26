@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'package:app_feup/controller/local_storage/AppDatabase.dart';
-import 'package:app_feup/model/entities/Course.dart';
+import 'package:uni/controller/local_storage/AppDatabase.dart';
+import 'package:uni/model/entities/Course.dart';
 import 'package:sqflite/sqflite.dart';
 
 class AppCoursesDatabase extends AppDatabase {

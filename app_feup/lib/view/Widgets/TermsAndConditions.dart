@@ -1,4 +1,4 @@
-import 'package:app_feup/controller/load_static/TermsAndConditions.dart';
+import 'package:uni/controller/load_static/TermsAndConditions.dart';
 import 'package:flutter/cupertino.dart';
 
 class TermsAndConditions extends StatelessWidget {

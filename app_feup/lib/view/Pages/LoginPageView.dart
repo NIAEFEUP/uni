@@ -1,11 +1,11 @@
-import 'package:app_feup/model/AppState.dart';
-import 'package:app_feup/view/Widgets/TermsAndConditions.dart';
+import 'package:uni/model/AppState.dart';
+import 'package:uni/view/Widgets/TermsAndConditions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:toast/toast.dart';
 import '../../view/Theme.dart';
-import 'package:app_feup/redux/ActionCreators.dart';
+import 'package:uni/redux/ActionCreators.dart';
 
 
 class LoginPageView extends StatefulWidget {

@@ -1,10 +1,10 @@
-import 'package:app_feup/controller/networking/NetworkRouter.dart';
-import 'package:app_feup/model/entities/Bus.dart';
-import 'package:app_feup/model/entities/BusStop.dart';
+import 'package:uni/controller/networking/NetworkRouter.dart';
+import 'package:uni/model/entities/Bus.dart';
+import 'package:uni/model/entities/BusStop.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:app_feup/model/AppState.dart';
+import 'package:uni/model/AppState.dart';
 
 class BusesForm extends StatefulWidget {
   final String stopCode;

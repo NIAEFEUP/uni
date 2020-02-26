@@ -1,13 +1,13 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:app_feup/controller/local_storage/AppSharedPreferences.dart';
-import 'package:app_feup/redux/ActionCreators.dart';
-import 'package:app_feup/redux/RefreshItemsAction.dart';
-import 'package:app_feup/redux/Actions.dart';
+import 'package:uni/controller/local_storage/AppSharedPreferences.dart';
+import 'package:uni/redux/ActionCreators.dart';
+import 'package:uni/redux/RefreshItemsAction.dart';
+import 'package:uni/redux/Actions.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:tuple/tuple.dart';
-import 'package:app_feup/model/AppState.dart';
+import 'package:uni/model/AppState.dart';
 import 'package:redux/redux.dart';
 import 'local_storage/ImageOfflineStorage.dart';
 

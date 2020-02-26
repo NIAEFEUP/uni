@@ -1,4 +1,4 @@
-import 'package:app_feup/model/entities/Course.dart';
+import 'package:uni/model/entities/Course.dart';
 import 'package:flutter/material.dart';
 
 import 'GenericCard.dart';

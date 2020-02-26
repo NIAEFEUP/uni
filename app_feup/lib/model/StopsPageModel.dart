@@ -1,4 +1,4 @@
-import 'package:app_feup/view/Pages/BusStopNextArrivalsPage.dart';
+import 'package:uni/view/Pages/BusStopNextArrivalsPage.dart';
 import 'package:flutter/material.dart';
 
 class StopsPage extends StatefulWidget{

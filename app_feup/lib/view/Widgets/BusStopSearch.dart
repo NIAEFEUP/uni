@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:app_feup/controller/local_storage/AppBusStopDatabase.dart';
-import 'package:app_feup/controller/networking/NetworkRouter.dart';
-import 'package:app_feup/model/AppState.dart';
-import 'package:app_feup/model/entities/BusStop.dart';
-import 'package:app_feup/redux/ActionCreators.dart';
+import 'package:uni/controller/local_storage/AppBusStopDatabase.dart';
+import 'package:uni/controller/networking/NetworkRouter.dart';
+import 'package:uni/model/AppState.dart';
+import 'package:uni/model/entities/BusStop.dart';
+import 'package:uni/redux/ActionCreators.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';

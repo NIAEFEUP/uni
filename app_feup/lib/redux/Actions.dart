@@ -1,11 +1,11 @@
-import 'package:app_feup/model/AppState.dart';
-import 'package:app_feup/model/entities/CourseUnit.dart';
-import 'package:app_feup/model/entities/Exam.dart';
-import 'package:app_feup/model/entities/Lecture.dart';
-import 'package:app_feup/model/entities/Profile.dart';
-import 'package:app_feup/model/entities/Session.dart';
-import 'package:app_feup/model/HomePageModel.dart';
-import 'package:app_feup/model/entities/Trip.dart';
+import 'package:uni/model/AppState.dart';
+import 'package:uni/model/entities/CourseUnit.dart';
+import 'package:uni/model/entities/Exam.dart';
+import 'package:uni/model/entities/Lecture.dart';
+import 'package:uni/model/entities/Profile.dart';
+import 'package:uni/model/entities/Session.dart';
+import 'package:uni/model/HomePageModel.dart';
+import 'package:uni/model/entities/Trip.dart';
 
 import '../model/entities/BusStop.dart';
 

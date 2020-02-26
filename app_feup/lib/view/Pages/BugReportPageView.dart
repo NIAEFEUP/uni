@@ -1,5 +1,5 @@
-import 'package:app_feup/view/Pages/SecondaryPageView.dart';
-import 'package:app_feup/view/Widgets/BugReportForm.dart';
+import 'package:uni/view/Pages/SecondaryPageView.dart';
+import 'package:uni/view/Widgets/BugReportForm.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

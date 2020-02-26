@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:app_feup/controller/local_storage/AppDatabase.dart';
+import 'package:uni/controller/local_storage/AppDatabase.dart';
 import 'package:sqflite/sqflite.dart';
 
 class AppRefreshTimesDatabase extends AppDatabase {

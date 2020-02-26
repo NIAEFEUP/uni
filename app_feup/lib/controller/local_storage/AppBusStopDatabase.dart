@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'package:app_feup/controller/local_storage/AppDatabase.dart';
-import 'package:app_feup/model/entities/BusStop.dart';
+import 'package:uni/controller/local_storage/AppDatabase.dart';
+import 'package:uni/model/entities/BusStop.dart';
 import 'package:sqflite/sqflite.dart';
 import "package:collection/collection.dart";
 

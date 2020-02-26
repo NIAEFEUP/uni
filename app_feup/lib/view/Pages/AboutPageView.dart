@@ -1,4 +1,4 @@
-import 'package:app_feup/view/Widgets/TermsAndConditions.dart';
+import 'package:uni/view/Widgets/TermsAndConditions.dart';
 import 'package:flutter/material.dart';
 import '../Pages/GeneralPageView.dart';
 import 'package:flutter_svg/flutter_svg.dart';

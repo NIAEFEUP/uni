@@ -1,4 +1,4 @@
-import 'package:app_feup/controller/local_storage/AppDatabase.dart';
+import 'package:uni/controller/local_storage/AppDatabase.dart';
 
 class AppLastUserInfoUpdateDatabase extends AppDatabase{
   AppLastUserInfoUpdateDatabase():super('last_update.db', ['CREATE TABLE last_update(lastUpdate DATE)']);

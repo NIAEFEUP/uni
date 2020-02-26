@@ -1,4 +1,4 @@
-import 'package:app_feup/view/Widgets/RowContainer.dart';
+import 'package:uni/view/Widgets/RowContainer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

@@ -1,18 +1,18 @@
 import 'dart:async';
 
-import 'package:app_feup/model/SchedulePageModel.dart';
-import 'package:app_feup/redux/Actions.dart';
-import 'package:app_feup/view/Pages/BusStopNextArrivalsPage.dart';
-import 'package:app_feup/controller/Logout.dart';
-import 'package:app_feup/view/NavigationService.dart';
-import 'package:app_feup/view/Pages/ExamsPageView.dart';
-import 'package:app_feup/view/Pages/HomePageView.dart';
-import 'package:app_feup/view/Pages/AboutPageView.dart';
-import 'package:app_feup/view/Pages/BugReportPageView.dart';
-import 'package:app_feup/controller/Middleware.dart';
-import 'package:app_feup/view/Pages/LoginPageView.dart';
+import 'package:uni/model/SchedulePageModel.dart';
+import 'package:uni/redux/Actions.dart';
+import 'package:uni/view/Pages/BusStopNextArrivalsPage.dart';
+import 'package:uni/controller/Logout.dart';
+import 'package:uni/view/NavigationService.dart';
+import 'package:uni/view/Pages/ExamsPageView.dart';
+import 'package:uni/view/Pages/HomePageView.dart';
+import 'package:uni/view/Pages/AboutPageView.dart';
+import 'package:uni/view/Pages/BugReportPageView.dart';
+import 'package:uni/controller/Middleware.dart';
+import 'package:uni/view/Pages/LoginPageView.dart';
 import 'package:flutter/material.dart';
-import 'package:app_feup/view/Pages/SplashPageView.dart';
+import 'package:uni/view/Pages/SplashPageView.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'controller/OnStartUp.dart';
@@ -20,7 +20,7 @@ import 'view/Theme.dart';
 import 'model/AppState.dart';
 import 'package:redux/redux.dart';
 import 'redux/Reducers.dart';
-import 'package:app_feup/model/AppState.dart';
+import 'package:uni/model/AppState.dart';
 import 'utils/Constants.dart' as Constants;
 
 final Store<AppState> state = Store<AppState>(

@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:app_feup/model/HomePageModel.dart';
+import 'package:uni/model/HomePageModel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:encrypt/encrypt.dart';
 import 'package:tuple/tuple.dart';
