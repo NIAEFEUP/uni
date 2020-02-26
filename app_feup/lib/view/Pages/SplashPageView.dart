@@ -51,7 +51,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 ],
               ),
               Padding(
-                  padding: EdgeInsets.only(bottom: queryData.size.height / 10))
+                  padding: EdgeInsets.only(bottom: queryData.size.height / 6))
             ],
           )
         ],
@@ -74,27 +74,10 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Widget createNILogo() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Text(
-          "Powered by",
-          style: TextStyle(
-              color: Theme.of(context).primaryColor,
-              fontSize: 20.0,
-              fontWeight: FontWeight.w200),
-        ),
-        Padding(
-          padding: EdgeInsets.all(8.0),
-        ),
-        Container(
-            child: SvgPicture.asset(
-          'assets/images/outline_red.svg',
-          color: Theme.of(context).primaryColor,
-          width: queryData.size.height / 7,
-          height: queryData.size.height / 7,
-        ))
-      ],
+    return SvgPicture.asset(
+      'assets/images/by_niaefeup.svg',
+      color: Theme.of(context).primaryColor,
+      width: queryData.size.width * 0.45,
     );
   }
 
