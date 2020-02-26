@@ -13,8 +13,8 @@ class Profile {
   final String feesLimit;
 
   Profile({
-    this.name,
-    this.email,
+    this.name = "",
+    this.email = "",
     this.courses,
     this.printBalance = "",
     this.feesBalance = "",

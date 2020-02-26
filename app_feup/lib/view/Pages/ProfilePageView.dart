@@ -38,6 +38,7 @@ class ProfilePageViewState extends UnnamedPageView {
   final String email;
   final Map<String, String> currentState;
   final List<Course> courses;
+  
 
   @override
   Widget getBody(BuildContext context) {
