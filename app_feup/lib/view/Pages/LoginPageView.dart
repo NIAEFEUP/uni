@@ -38,8 +38,8 @@ class _LoginPageViewState extends State<LoginPageView> {
     final store = StoreProvider.of<AppState>(context);
     if (store.state.content['loginStatus'] != RequestStatus.BUSY &&
         _formKey.currentState.validate()) {
-      final user = usernameController.text;
-      final pass = passwordController.text;
+      final user = usernameController.text.trim();
+      final pass = passwordController.text.trim();
       store.dispatch(login(user, pass, faculty, _keepSignedIn, usernameController, passwordController));
     }
   }
