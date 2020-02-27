@@ -3,6 +3,8 @@ import 'package:uni/model/entities/Bus.dart';
 import 'package:uni/model/entities/BusStop.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:uni/model/AppState.dart';
 
 class BusesForm extends StatefulWidget {
   final String stopCode;
@@ -23,9 +25,8 @@ class _BusesFormState extends State<BusesForm>{
   _BusesFormState(this.stopCode, this.updateStopCallback);
 
   @override
-  void initState() {
+  void didChangeDependencies() {
     getStopBuses();
-    super.initState();
   }
 
   void getStopBuses() async {
@@ -34,6 +35,13 @@ class _BusesFormState extends State<BusesForm>{
       this.buses = buses;
       busesToAdd.fillRange(0, buses.length, false);
     });
+    BusStopData currentConfig = StoreProvider.of<AppState>(context).state.content['configuredBusStops'][stopCode];
+    if(currentConfig == null) return;
+    for(int i = 0; i < buses.length; i++) {
+      if(currentConfig.configuredBuses.contains(buses[i].busCode)){
+        busesToAdd[i] = true;
+      }
+    }
   }
 
   @override
@@ -62,12 +70,13 @@ class _BusesFormState extends State<BusesForm>{
   }
 
   void updateBusStop() {
+    BusStopData currentConfig = StoreProvider.of<AppState>(context).state.content['configuredBusStops'][stopCode];
     Set<String> newBuses = new Set();
     for(int i = 0; i < buses.length; i++) {
       if(busesToAdd[i]) {
         newBuses.add(buses[i].busCode);
       }
     }
-    updateStopCallback(this.stopCode, new BusStopData(configuredBuses: newBuses, favorited: true));
+    updateStopCallback(this.stopCode, new BusStopData(configuredBuses: newBuses, favorited: currentConfig == null ? true : currentConfig.favorited));
   }
 }
