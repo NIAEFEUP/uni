@@ -32,6 +32,7 @@ dependencies:
   toast: ^0.1.5
   image: ^2.1.4
   connectivity: ^0.4.4
+  logger: ^0.8.3
 
 
   # The following adds the Cupertino Icons font to your application.
