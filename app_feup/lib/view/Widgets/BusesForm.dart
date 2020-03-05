@@ -26,6 +26,7 @@ class _BusesFormState extends State<BusesForm>{
 
   @override
   void didChangeDependencies() {
+    super.didChangeDependencies();
     getStopBuses();
   }
 

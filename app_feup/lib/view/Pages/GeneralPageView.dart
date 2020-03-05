@@ -86,6 +86,7 @@ abstract class GeneralPageViewState extends State<StatefulWidget> {
     MediaQueryData queryData = MediaQuery.of(context);
 
     return new AppBar(
+      // ignore: missing_required_param
       bottom: PreferredSize(
         child: Container(
           margin: EdgeInsets.only(left: borderMargin, right: borderMargin),
