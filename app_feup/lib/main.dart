@@ -25,12 +25,12 @@ import 'model/schedule_page_model.dart';
 
 final Store<AppState> state = Store<AppState>(appReducers,
     /* Function defined in the reducers file */
-    initialState: new AppState(null),
+    initialState:  AppState(null),
     middleware: [generalMiddleware]);
 
 void main() {
   OnStartUp.onStart(state);
-  runApp(new MyApp());
+  runApp( MyApp());
 }
 
 class MyApp extends StatefulWidget {
@@ -90,7 +90,7 @@ class MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    Timer.periodic(new Duration(seconds: 60),
-        (Timer t) => state.dispatch(new SetCurrentTimeAction(DateTime.now())));
+    Timer.periodic( Duration(seconds: 60),
+        (Timer t) => state.dispatch( SetCurrentTimeAction(DateTime.now())));
   }
 }

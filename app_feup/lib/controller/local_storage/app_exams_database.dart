@@ -6,8 +6,7 @@ import 'package:sqflite/sqflite.dart';
 class AppExamsDatabase extends AppDatabase {
   AppExamsDatabase()
       : super('exams.db', [
-          '''
-          CREATE TABLE exams(subject TEXT, begin TEXT, end TEXT,
+          '''CREATE TABLE exams(subject TEXT, begin TEXT, end TEXT,
           rooms TEXT, day TEXT, examType TEXT, weekDay TEXT, month TEXT, year TEXT)
           '''
         ]);
@@ -40,12 +39,13 @@ class AppExamsDatabase extends AppDatabase {
   }
 
   Future<void> _insertExams(List<Exam> exams) async {
-    for (Exam exam in exams)
+    for (Exam exam in exams) {
       await insertInDatabase(
         'exams',
         exam.toMap(),
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
+    }
   }
 
   Future<void> deleteExams() async {

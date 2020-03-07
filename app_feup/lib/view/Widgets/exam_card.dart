@@ -20,7 +20,7 @@ class ExamCard extends GenericCard {
       : super.fromEditingInformation(key, editingMode, onDelete);
 
   @override
-  String getTitle() => "Exames";
+  String getTitle() => 'Exames';
 
   @override
   onClick(BuildContext context) =>
@@ -36,9 +36,9 @@ class ExamCard extends GenericCard {
         status: examsInfo.item2,
         contentGenerator: generateExams,
         content: examsInfo.item1,
-        contentChecker: examsInfo.item1 != null && examsInfo.item1.length > 0,
+        contentChecker: examsInfo.item1 != null && examsInfo.item1.isNotEmpty,
         onNullContent: Center(
-          child: Text("Não existem exames para apresentar",
+          child: Text('Não existem exames para apresentar',
               style: Theme.of(context).textTheme.display1),
         ),
       ),
@@ -46,22 +46,22 @@ class ExamCard extends GenericCard {
   }
 
   Widget generateExams(exams, context) {
-    return new Column(
+    return  Column(
       mainAxisSize: MainAxisSize.min,
       children: this.getExamRows(context, exams),
     );
   }
 
   List<Widget> getExamRows(context, exams) {
-    final List<Widget> rows = new List<Widget>();
+    final List<Widget> rows =  List<Widget>();
     for (int i = 0; i < 1 && i < exams.length; i++) {
       rows.add(this.createRowFromExam(context, exams[i]));
     }
     if (exams.length > 1) {
-      rows.add(new Container(
+      rows.add( Container(
         margin: EdgeInsets.only(right: 80.0, left: 80.0, top: 15, bottom: 7),
-        decoration: new BoxDecoration(
-            border: new Border(
+        decoration:  BoxDecoration(
+            border:  Border(
                 bottom: BorderSide(
                     width: 1.5, color: Theme.of(context).accentColor))),
       ));
@@ -73,10 +73,10 @@ class ExamCard extends GenericCard {
   }
 
   Widget createRowFromExam(context, Exam exam) {
-    return new Column(children: [
-      new DateRectangle(
-          date: exam.weekDay + ", " + exam.day + " de " + exam.month),
-      new Container(
+    return  Column(children: [
+       DateRectangle(
+          date: exam.weekDay + ', ' + exam.day + ' de ' + exam.month),
+       Container(
           child: RowContainer(
         child: ScheduleRow(
           subject: exam.subject,
@@ -90,18 +90,18 @@ class ExamCard extends GenericCard {
   }
 
   Widget createSecondaryRowFromExam(context, exam) {
-    return new Container(
+    return  Container(
       margin: EdgeInsets.only(top: 8),
-      child: new RowContainer(
-        child: new Container(
+      child:  RowContainer(
+        child:  Container(
           padding: EdgeInsets.all(11),
-          child: new Row(
+          child:  Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Text(
-                  exam.day + "/" + exam.month,
+                  exam.day + '/' + exam.month,
                   style: Theme.of(context).textTheme.display1,
                 ),
                 ScheduleEventRectangle(

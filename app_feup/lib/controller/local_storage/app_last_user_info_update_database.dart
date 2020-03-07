@@ -29,7 +29,7 @@ class AppLastUserInfoUpdateDatabase extends AppDatabase {
 
     final List<Map<String, dynamic>> maps = await db.query('last_update');
 
-    if (maps.length > 0) {
+    if (maps.isNotEmpty) {
       return DateTime.parse(maps[0]['lastUpdate']);
     }
     return null;

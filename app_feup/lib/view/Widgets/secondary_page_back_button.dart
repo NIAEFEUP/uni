@@ -12,7 +12,7 @@ class SecondaryPageBackButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new WillPopScope(
+    return  WillPopScope(
       child: this.child,
       onWillPop: () => this.getNewPage(context),
     );

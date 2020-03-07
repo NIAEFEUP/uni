@@ -16,14 +16,14 @@ class BusStopSelectionPage extends StatefulWidget {
 
 class BusStopSelectionPageState extends UnnamedPageView {
   final double borderRadius = 15.0;
-  final DateTime now = new DateTime.now();
+  final DateTime now =  DateTime.now();
 
   final db = AppBusStopDatabase();
-  final Map<String, BusStopData> configuredStops = new Map();
-  final List<String> suggestionsList = new List();
+  final Map<String, BusStopData> configuredStops =  Map();
+  final List<String> suggestionsList =  List();
 
   List<Widget> getStopsTextList() {
-    final List<Widget> stops = new List();
+    final List<Widget> stops =  List();
     configuredStops.forEach((stopCode, stopData) {
       stops.add(Text(stopCode));
     });
@@ -36,7 +36,7 @@ class BusStopSelectionPageState extends UnnamedPageView {
     return StoreConnector<AppState, Map<String, BusStopData>>(
       converter: (store) => store.state.content['configuredBusStops'],
       builder: (context, busStops) {
-        final List<Widget> rows = new List();
+        final List<Widget> rows =  List();
         busStops.forEach((stopCode, stopData) =>
             rows.add(BusStopSelectionRow(stopCode, stopData)));
         return ListView(
@@ -47,8 +47,7 @@ class BusStopSelectionPageState extends UnnamedPageView {
               Container(child: PageTitle(name: 'Paragens Configuradas')),
               Container(
                   padding: EdgeInsets.all(20.0),
-                  child: Text("""As paragens favoritas serão apresentadas 
-                        no widget \"Paragens\" dos favoritos. As restantes serão apresentadas apenas na página.""",
+                  child: Text('''As paragens favoritas serão apresentadas no widget \'Paragens\' dos favoritos. As restantes serão apresentadas apenas na página.''',
                       textAlign: TextAlign.center)),
               Column(children: rows),
               Container(
@@ -63,11 +62,11 @@ class BusStopSelectionPageState extends UnnamedPageView {
                           color: Theme.of(context).primaryColor,
                           padding: const EdgeInsets.all(0.0),
                           shape: RoundedRectangleBorder(
-                            borderRadius: new BorderRadius.circular(12.0),
+                            borderRadius:  BorderRadius.circular(12.0),
                           ),
                           child: Container(
                             padding: const EdgeInsets.all(15.0),
-                            child: Text("Adicionar",
+                            child: Text('Adicionar',
                                 style: Theme.of(context)
                                     .textTheme
                                     .display1
@@ -81,11 +80,11 @@ class BusStopSelectionPageState extends UnnamedPageView {
                           color: Theme.of(context).primaryColor,
                           padding: const EdgeInsets.all(0.0),
                           shape: RoundedRectangleBorder(
-                            borderRadius: new BorderRadius.circular(12.0),
+                            borderRadius:  BorderRadius.circular(12.0),
                           ),
                           child: Container(
                             padding: const EdgeInsets.all(15.0),
-                            child: Text("Concluído",
+                            child: Text('Concluído',
                                 style: Theme.of(context)
                                     .textTheme
                                     .display1

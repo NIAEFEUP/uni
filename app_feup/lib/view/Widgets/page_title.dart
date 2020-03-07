@@ -11,10 +11,10 @@ class PageTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new Container(
+    return  Container(
       padding: EdgeInsets.fromLTRB(20, 20, 20, 10),
       alignment: Alignment.center,
-      child: new Text(
+      child:  Text(
         name,
         style: Theme.of(context).textTheme.title.apply(fontSizeDelta: 7),
       ),

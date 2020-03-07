@@ -51,7 +51,7 @@ class ProfilePageViewState extends UnnamedPageView {
   }
 
   List<Widget> childrenList(BuildContext context) {
-    final List<Widget> list = new List();
+    final List<Widget> list =  List();
     list.add(Padding(padding: const EdgeInsets.all(5.0)));
     list.add(profileInfo(context));
     list.add(Padding(padding: const EdgeInsets.all(5.0)));
@@ -59,7 +59,7 @@ class ProfilePageViewState extends UnnamedPageView {
       list.add(CourseInfoCard(
           course: courses[i],
           courseState:
-              currentState == null ? "?" : currentState[courses[i].name]));
+              currentState == null ? '?' : currentState[courses[i].name]));
       list.add(Padding(padding: const EdgeInsets.all(10.0)));
     }
     list.add(PrintInfoCard());

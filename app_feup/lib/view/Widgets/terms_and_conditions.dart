@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:uni/controller/load_static/terms_and_conditions.dart';
 
 class TermsAndConditions extends StatelessWidget {
-  static String termsAndConditionsSaved = "Carregando os Termos e Condições...";
+  static String termsAndConditionsSaved = 'Carregando os Termos e Condições...';
 
   @override
   Widget build(BuildContext context) {

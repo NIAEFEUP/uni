@@ -8,7 +8,7 @@ Future<String> parseFeesBalance(http.Response response) async {
   final String balanceString =
       document.querySelector('span#span_saldo_total').text;
 
-  final String balance = balanceString + " €";
+  final String balance = balanceString + ' €';
 
   return balance;
 }

@@ -18,7 +18,7 @@ abstract class GenericCard extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return new GenericCardState();
+    return  GenericCardState();
   }
 
   Widget buildCardContent(BuildContext context);
@@ -26,18 +26,18 @@ abstract class GenericCard extends StatefulWidget {
   onClick(BuildContext context);
 
   Text getInfoText(String text, BuildContext context) {
-    return Text(text == null ? "N/A" : text,
+    return Text(text == null ? 'N/A' : text,
         textAlign: TextAlign.end, style: Theme.of(context).textTheme.display2);
   }
 
   showLastRefreshedTime(time, context) {
-    if (time == null) return Text("N/A");
+    if (time == null) return Text('N/A');
     final t = DateTime.parse(time);
     return Container(
         child: Text(
-            "última atualização às " +
+            'última atualização às ' +
                 t.hour.toString() +
-                ":" +
+                ':' +
                 t.minute.toString(),
             style: Theme.of(context).textTheme.display3),
         alignment: Alignment.center);
@@ -56,12 +56,12 @@ class GenericCardState extends State<GenericCard> {
             margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
             color: Color.fromARGB(0, 0, 0, 0),
             elevation: 0,
-            shape: new RoundedRectangleBorder(
-                borderRadius: new BorderRadius.circular(this.borderRadius)),
-            child: new Container(
+            shape:  RoundedRectangleBorder(
+                borderRadius:  BorderRadius.circular(this.borderRadius)),
+            child:  Container(
               decoration: BoxDecoration(
                   boxShadow: [
-                    new BoxShadow(
+                     BoxShadow(
                         color: Color.fromARGB(0x1c, 0, 0, 0),
                         blurRadius: 7.0,
                         offset: Offset(0.0, 1.0))
@@ -69,20 +69,20 @@ class GenericCardState extends State<GenericCard> {
                   color: Theme.of(context).accentColor,
                   borderRadius:
                       BorderRadius.all(Radius.circular(this.borderRadius))),
-              child: new ConstrainedBox(
-                constraints: new BoxConstraints(
+              child:  ConstrainedBox(
+                constraints:  BoxConstraints(
                   minHeight: 60.0,
                 ),
-                child: new Container(
+                child:  Container(
                   decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius:
                           BorderRadius.all(Radius.circular(this.borderRadius))),
                   width: (double.infinity),
-                  child: new Column(
+                  child:  Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      new Row(
+                       Row(
                         children: [
                           Flexible(
                               child: Container(

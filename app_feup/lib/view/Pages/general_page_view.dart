@@ -23,7 +23,7 @@ abstract class GeneralPageViewState extends State<StatefulWidget> {
       WidgetsBinding.instance.removeObserver(lifeCycleEventHandler);
     }
     lifeCycleEventHandler =
-        new LifecycleEventHandler(store: StoreProvider.of<AppState>(context));
+         LifecycleEventHandler(store: StoreProvider.of<AppState>(context));
     WidgetsBinding.instance.addObserver(lifeCycleEventHandler);
   }
 
@@ -38,15 +38,15 @@ abstract class GeneralPageViewState extends State<StatefulWidget> {
   }
 
   Widget getBody(BuildContext context) {
-    return new Container();
+    return  Container();
   }
 
   DecorationImage getDecorageImage(File x) {
     final fallbackImage = decorageImage == null
-        ? new AssetImage("assets/images/profile_placeholder.png")
+        ?  AssetImage('assets/images/profile_placeholder.png')
         : decorageImage;
 
-    final image = (x == null) ? fallbackImage : new FileImage(x);
+    final image = (x == null) ? fallbackImage :  FileImage(x);
     final result = DecorationImage(fit: BoxFit.cover, image: image);
     if (x != null) {
       decorageImage = image;
@@ -66,8 +66,8 @@ abstract class GeneralPageViewState extends State<StatefulWidget> {
         return () => handleRefresh(store);
       },
       builder: (context, refresh) {
-        return new RefreshIndicator(
-            key: new GlobalKey<RefreshIndicatorState>(),
+        return  RefreshIndicator(
+            key:  GlobalKey<RefreshIndicatorState>(),
             child: child,
             onRefresh: refresh,
             color: Theme.of(context).primaryColor);
@@ -76,10 +76,10 @@ abstract class GeneralPageViewState extends State<StatefulWidget> {
   }
 
   Widget getScaffold(BuildContext context, Widget body) {
-    return new Scaffold(
+    return  Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: buildAppBar(context),
-      drawer: new NavigationDrawer(parentContext: context),
+      drawer:  NavigationDrawer(parentContext: context),
       body: this.refreshState(context, body),
     );
   }
@@ -87,7 +87,7 @@ abstract class GeneralPageViewState extends State<StatefulWidget> {
   AppBar buildAppBar(BuildContext context) {
     final MediaQueryData queryData = MediaQuery.of(context);
 
-    return new AppBar(
+    return  AppBar(
       // ignore: missing_required_param
       bottom: PreferredSize(
         child: Container(
@@ -97,7 +97,7 @@ abstract class GeneralPageViewState extends State<StatefulWidget> {
         ),
       ),
       elevation: 0,
-      iconTheme: new IconThemeData(color: Theme.of(context).primaryColor),
+      iconTheme:  IconThemeData(color: Theme.of(context).primaryColor),
       backgroundColor: Theme.of(context).backgroundColor,
       titleSpacing: 0.0,
       title: ButtonTheme(
@@ -126,7 +126,7 @@ abstract class GeneralPageViewState extends State<StatefulWidget> {
           return FlatButton(
             onPressed: () => {
               Navigator.push(context,
-                  new MaterialPageRoute(builder: (__) => new ProfilePage()))
+                   MaterialPageRoute(builder: (__) =>  ProfilePage()))
             },
             child: Container(
                 width: 40.0,

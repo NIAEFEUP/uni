@@ -32,7 +32,7 @@ class Exam {
     this.subject = subject;
     this.begin = begin;
     this.end = end;
-    this.rooms = rooms.split(",");
+    this.rooms = rooms.split(',');
     this.day = day;
     this.examType = examType;
     this.weekDay = weekDay;
@@ -51,7 +51,7 @@ class Exam {
     final dateSepared = date.split('-');
     this.begin = scheduling[0];
     this.end = scheduling[1];
-    this.rooms = rooms.split(",");
+    this.rooms = rooms.split(',');
     this.year = dateSepared[0];
     this.day = dateSepared[2];
     this.examType = examType;

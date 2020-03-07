@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 Future<List<Lecture>> parseSchedule(http.Response response) async {
-  final Set<Lecture> lectures = new Set();
+  final Set<Lecture> lectures =  Set();
 
   final json = jsonDecode(response.body);
 

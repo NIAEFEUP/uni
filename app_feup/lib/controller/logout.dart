@@ -30,7 +30,7 @@ Future logout(BuildContext context) async {
   AppBusStopDatabase().deleteBusStops();
 
   final path = (await getApplicationDocumentsDirectory()).path;
-  (new File('$path/profile_pic.png')).delete();
+  ( File('$path/profile_pic.png')).delete();
   WidgetsBinding.instance
       .removeObserver(GeneralPageViewState.lifeCycleEventHandler);
   GeneralPageViewState.decorageImage = null;

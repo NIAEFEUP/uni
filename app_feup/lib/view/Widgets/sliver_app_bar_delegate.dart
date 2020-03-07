@@ -14,14 +14,14 @@ class SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return new Container(
+    return  Container(
       decoration: const BoxDecoration(
         border: Border(
           bottom: BorderSide(width: 1.0, color: Colors.grey),
         ),
       ),
       constraints: BoxConstraints(maxHeight: 150.0),
-      child: new Material(
+      child:  Material(
         color: Colors.white,
         child: _tabBar,
       ),

@@ -11,7 +11,7 @@ class AppRefreshTimesDatabase extends AppDatabase {
     final Database db = await this.getDatabase();
     final List<Map<String, dynamic>> maps = await db.query('refreshtimes');
 
-    final Map<String, String> refreshTimes = new Map<String, String>();
+    final Map<String, String> refreshTimes =  Map<String, String>();
     for (Map<String, dynamic> entry in maps) {
       if (entry['event'] == 'print') refreshTimes['print'] = entry['time'];
       if (entry['event'] == 'fees') refreshTimes['fees'] = entry['time'];
@@ -34,15 +34,15 @@ class AppRefreshTimesDatabase extends AppDatabase {
         await db.query('refreshtimes', where: 'event = ?', whereArgs: [event]);
 
     // New element
-    if (maps.length == 0) {
-      await insertInDatabase('refreshtimes', {"event": event, "time": time});
+    if (maps.isEmpty) {
+      await insertInDatabase('refreshtimes', {'event': event, 'time': time});
     }
     // Update element
     else {
       await db.update(
         'refreshtimes',
         {'time': time},
-        where: "event = ?",
+        where: 'event = ?',
         whereArgs: [event],
       );
     }

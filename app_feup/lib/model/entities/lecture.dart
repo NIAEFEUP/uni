@@ -3,13 +3,13 @@ import 'package:logger/logger.dart';
 
 class Lecture {
   static var dayName = [
-    "Segunda-feira",
-    "Terça-feira",
-    "Quarta-feira",
-    "Quinta-feira",
-    "Sexta-feira",
-    "Sábado",
-    "Domingo"
+    'Segunda-feira',
+    'Terça-feira',
+    'Quarta-feira',
+    'Quinta-feira',
+    'Sexta-feira',
+    'Sábado',
+    'Domingo'
   ];
   String subject;
   String startTime;
@@ -58,16 +58,16 @@ class Lecture {
   }
 
   printLecture() {
-    Logger().i(subject + " " + typeClass);
+    Logger().i(subject + ' ' + typeClass);
     Logger().i(dayName[day] +
-        " " +
+        ' ' +
         startTime +
-        " " +
+        ' ' +
         endTime +
-        " " +
+        ' ' +
         blocks.toString() +
-        " blocos");
-    Logger().i(room + "  " + teacher + "\n");
+        ' blocos');
+    Logger().i(room + '  ' + teacher + '\n');
   }
 
   int compare(Lecture other) {

@@ -14,18 +14,18 @@ class BackButtonExitWrapper extends StatelessWidget {
   Future<bool> backButton() {
     return showDialog(
             context: context,
-            builder: (context) => new AlertDialog(
-                  title: new Text('Tens a certeza que pretendes sair?'),
+            builder: (context) =>  AlertDialog(
+                  title:  Text('Tens a certeza que pretendes sair?'),
                   actions: <Widget>[
-                    new RaisedButton(
+                     RaisedButton(
                       onPressed: () => Navigator.of(context).pop(false),
-                      child: new Text('Não'),
+                      child:  Text('Não'),
                       color: Theme.of(context).primaryColor,
                     ),
-                    new RaisedButton(
+                     RaisedButton(
                       onPressed: () => SystemChannels.platform
                           .invokeMethod('SystemNavigator.pop'),
-                      child: new Text('Sim'),
+                      child:  Text('Sim'),
                       color: Theme.of(context).primaryColor,
                     )
                   ],
@@ -35,7 +35,7 @@ class BackButtonExitWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new WillPopScope(
+    return  WillPopScope(
       child: this.child,
       onWillPop: () => this.backButton(),
     );

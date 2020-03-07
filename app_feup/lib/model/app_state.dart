@@ -14,24 +14,24 @@ class AppState {
 
   Map getInitialContent() {
     return {
-      "schedule": new List<Lecture>(),
-      "exams": new List<Exam>(),
-      "scheduleStatus": RequestStatus.none,
-      "loginStatus": RequestStatus.none,
-      "examsStatus": RequestStatus.none,
-      "selected_page": "Área Pessoal",
-      "session": new Session(authenticated: false),
-      "configuredBusStops": new Map<String, BusStopData>(),
-      "currentBusTrips": new Map<String, List<Trip>>(),
-      "busstopStatus" : RequestStatus.none,
-      "timeStamp" : new DateTime.now(),
-      "currentTime" : new DateTime.now(),
-      "profileStatus": RequestStatus.none,
-      "printBalanceStatus": RequestStatus.none,
-      "feesStatus": RequestStatus.none,
-      "coursesStateStatus": RequestStatus.none,
-      "session": new Session(authenticated: false),
-      "lastUserInfoUpdateTime": null
+      'schedule':  List<Lecture>(),
+      'exams':  List<Exam>(),
+      'scheduleStatus': RequestStatus.none,
+      'loginStatus': RequestStatus.none,
+      'examsStatus': RequestStatus.none,
+      'selected_page': 'Área Pessoal',
+      'session':  Session(authenticated: false),
+      'configuredBusStops':  Map<String, BusStopData>(),
+      'currentBusTrips':  Map<String, List<Trip>>(),
+      'busstopStatus' : RequestStatus.none,
+      'timeStamp' :  DateTime.now(),
+      'currentTime' :  DateTime.now(),
+      'profileStatus': RequestStatus.none,
+      'printBalanceStatus': RequestStatus.none,
+      'feesStatus': RequestStatus.none,
+      'coursesStateStatus': RequestStatus.none,
+      'session':  Session(authenticated: false),
+      'lastUserInfoUpdateTime': null
     };
   }
 
@@ -44,10 +44,10 @@ class AppState {
   }
 
   AppState cloneAndUpdateValue(key, value) {
-    return new AppState(Map.from(this.content)..[key] = value);
+    return  AppState(Map.from(this.content)..[key] = value);
   }
 
   AppState getInitialState() {
-    return new AppState(null);
+    return  AppState(null);
   }
 }

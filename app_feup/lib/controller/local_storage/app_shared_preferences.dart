@@ -7,11 +7,11 @@ import 'package:tuple/tuple.dart';
 import 'package:uni/model/home_page_model.dart';
 
 class AppSharedPreferences {
-  static final String userNumber = "user_number";
-  static final String userPw = "user_password";
+  static final String userNumber = 'user_number';
+  static final String userPw = 'user_password';
   static final int keyLength = 32;
   static final int ivLength = 16;
-  static final String favoriteCards = "favorite_cards";
+  static final String favoriteCards = 'favorite_cards';
   static final List<FAVORITE_WIDGET_TYPE> defaultFavoriteCards = [
     FAVORITE_WIDGET_TYPE.schedule,
     FAVORITE_WIDGET_TYPE.exams,
@@ -33,23 +33,24 @@ class AppSharedPreferences {
   static Future<Tuple2<String, String>> getPersistentUserInfo() async {
     final String userNum = await getUserNumber();
     final String userPass = await getUserPassword();
-    return new Tuple2(userNum, userPass);
+    return  Tuple2(userNum, userPass);
   }
 
   static Future<String> getUserNumber() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString(userNumber) ??
-        ""; // empty string for the case it does not exist
+        ''; // empty string for the case it does not exist
   }
 
   static Future<String> getUserPassword() async {
     final prefs = await SharedPreferences.getInstance();
-    String pass = prefs.getString(userPw) ?? "";
+    String pass = prefs.getString(userPw) ?? '';
 
-    if (pass != "")
+    if (pass != '') {
       pass = decode(pass);
-    else
+    } else {
       Logger().w('User password does not exist in shared preferences.');
+    }
 
     return pass;
   }

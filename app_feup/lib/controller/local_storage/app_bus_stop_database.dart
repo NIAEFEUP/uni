@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:uni/controller/local_storage/app_database.dart';
 import 'package:sqflite/sqflite.dart';
-import "package:collection/collection.dart";
+import 'package:collection/collection.dart';
 import 'package:uni/model/entities/bus_stop.dart';
 
 class AppBusStopDatabase extends AppDatabase {
@@ -20,14 +20,14 @@ class AppBusStopDatabase extends AppDatabase {
     final List<Map<String, dynamic>> favoritesQueryResult =
         await db.query('favoritestops');
 
-    final Map<String, bool> favorites = new Map();
+    final Map<String, bool> favorites =  Map();
     favoritesQueryResult
         .forEach((e) => favorites[e['stopCode']] = e['favorited'] == '1');
 
-    final Map<String, BusStopData> stops = new Map();
+    final Map<String, BusStopData> stops =  Map();
     groupBy(buses, (stop) => stop['stopCode']).forEach(
         (stopCode, busCodeList) => stops[stopCode] = BusStopData(
-            configuredBuses: new Set<String>.from(
+            configuredBuses:  Set<String>.from(
                 busCodeList.map((busEntry) => busEntry['busCode'])),
             favorited: favorites[stopCode]));
     return stops;

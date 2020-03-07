@@ -21,7 +21,7 @@ class BusesForm extends StatefulWidget {
 class _BusesFormState extends State<BusesForm> {
   final String stopCode;
   final Function updateStopCallback;
-  List<Bus> buses = new List();
+  List<Bus> buses =  List();
   final List<bool> busesToAdd = List<bool>.filled(20, false);
 
   _BusesFormState(this.stopCode, this.updateStopCallback);
@@ -77,7 +77,7 @@ class _BusesFormState extends State<BusesForm> {
     final BusStopData currentConfig = StoreProvider.of<AppState>(context)
         .state
         .content['configuredBusStops'][stopCode];
-    final Set<String> newBuses = new Set();
+    final Set<String> newBuses =  Set();
     for (int i = 0; i < buses.length; i++) {
       if (busesToAdd[i]) {
         newBuses.add(buses[i].busCode);
@@ -85,7 +85,7 @@ class _BusesFormState extends State<BusesForm> {
     }
     updateStopCallback(
         this.stopCode,
-        new BusStopData(
+         BusStopData(
             configuredBuses: newBuses,
             favorited: currentConfig == null ? true : currentConfig.favorited));
   }
