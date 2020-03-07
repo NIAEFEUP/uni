@@ -1,9 +1,11 @@
 services: docker
+before_script: docker build -t app-feup .
+
 
 jobs:
   include:
     - stage: lint & test
       name: "Linter"
-      script: docker build -t app-feup . && docker run -it app-feup flutter analyze --no-pub --preamble .
-    - script: docker build -t app-feup . && docker run -it app-feup flutter test
+      script: docker run -it app-feup flutter analyze --no-pub --preamble .
+    - script: docker run -it app-feup flutter test
       name: "Unit test"
