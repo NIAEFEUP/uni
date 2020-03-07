@@ -45,7 +45,7 @@ class MainCardsList extends StatelessWidget {
           builder: (BuildContext context) {
             return AlertDialog(
                 title: Text(
-                    "Escolhe um widget para adicionares à tua área pessoal:"),
+                    'Escolhe um widget para adicionares à tua área pessoal:'),
                 content: Container(
                   child: ListView(children: getCardAdders(context)),
                   height: 200.0,
@@ -54,7 +54,7 @@ class MainCardsList extends StatelessWidget {
                 actions: [
                   FlatButton(
                       child: Text(
-                        "Cancelar",
+                        'Cancelar',
                         style: Theme.of(context)
                             .textTheme
                             .display1
@@ -73,8 +73,8 @@ class MainCardsList extends StatelessWidget {
     this.cardCreators.forEach((FAVORITE_WIDGET_TYPE key, Function v) {
       if (!StoreProvider.of<AppState>(context)
           .state
-          .content["favoriteCards"]
-          .contains(key))
+          .content['favoriteCards']
+          .contains(key)) {
         result.add(Container(
           child: ListTile(
             title: Text(
@@ -87,12 +87,13 @@ class MainCardsList extends StatelessWidget {
             },
           ),
           decoration: BoxDecoration(
-              border: Border(bottom: new BorderSide(color: accentColor))),
+              border: Border(bottom:  BorderSide(color: accentColor))),
         ));
+      }
     });
     if (result.isEmpty) {
-      result.add(new Text(
-          """Todos os widgets disponíveis já foram adicionados à tua área pessoal!"""));
+      result.add( Text(
+          '''Todos os widgets disponíveis já foram adicionados à tua área pessoal!'''));
     }
     return result;
   }
@@ -124,7 +125,7 @@ class MainCardsList extends StatelessWidget {
         ),
         GestureDetector(
             onTap: () => StoreProvider.of<AppState>(context)
-                .dispatch(new SetHomePageEditingMode(!this.isEditing(context))),
+                .dispatch( SetHomePageEditingMode(!this.isEditing(context))),
             child: Text(
               this.isEditing(context) ? 'Concluir Edição' : 'Editar',
               style: Theme.of(context)
@@ -159,27 +160,27 @@ class MainCardsList extends StatelessWidget {
     favorites.removeAt(oldIndex);
     favorites.insert(oldIndex < newIndex ? newIndex - 1 : newIndex, tmp);
     StoreProvider.of<AppState>(context)
-        .dispatch(new UpdateFavoriteCards(favorites));
+        .dispatch( UpdateFavoriteCards(favorites));
     AppSharedPreferences.saveFavoriteCards(favorites);
   }
 
   void removeFromFavorites(int i, BuildContext context) {
     final List<FAVORITE_WIDGET_TYPE> favorites =
-        StoreProvider.of<AppState>(context).state.content["favoriteCards"];
+        StoreProvider.of<AppState>(context).state.content['favoriteCards'];
     favorites.removeAt(i);
     StoreProvider.of<AppState>(context)
-        .dispatch(new UpdateFavoriteCards(favorites));
+        .dispatch( UpdateFavoriteCards(favorites));
     AppSharedPreferences.saveFavoriteCards(favorites);
   }
 
   void addCardToFavorites(FAVORITE_WIDGET_TYPE type, BuildContext context) {
     final List<FAVORITE_WIDGET_TYPE> favorites =
-        StoreProvider.of<AppState>(context).state.content["favoriteCards"];
+        StoreProvider.of<AppState>(context).state.content['favoriteCards'];
     if (!favorites.contains(type)) {
       favorites.add(type);
     }
     StoreProvider.of<AppState>(context)
-        .dispatch(new UpdateFavoriteCards(favorites));
+        .dispatch( UpdateFavoriteCards(favorites));
     AppSharedPreferences.saveFavoriteCards(favorites);
   }
 

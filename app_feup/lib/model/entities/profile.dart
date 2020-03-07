@@ -13,12 +13,12 @@ class Profile {
   final String feesLimit;
 
   Profile({
-    this.name = "",
-    this.email = "",
+    this.name = '',
+    this.email = '',
     this.courses,
-    this.printBalance = "",
-    this.feesBalance = "",
-    this.feesLimit = ""});
+    this.printBalance = '',
+    this.feesBalance = '',
+    this.feesLimit = ''});
 
   static Profile fromResponse(dynamic response) {
     final responseBody = json.decode(response.body);
@@ -34,8 +34,8 @@ class Profile {
 
   List<Tuple2<String, String>> keymapValues() {
     return [
-      Tuple2("name", this.name),
-      Tuple2("email", this.email)
+      Tuple2('name', this.name),
+      Tuple2('email', this.email)
     ];
   }
 }

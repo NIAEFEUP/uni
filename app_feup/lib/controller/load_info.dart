@@ -17,12 +17,12 @@ Future loadReloginInfo(Store<AppState> store) async {
       await AppSharedPreferences.getPersistentUserInfo();
   final String userName = userPersistentInfo.item1;
   final String password = userPersistentInfo.item2;
-  if (userName != "" && password != "") {
+  if (userName != '' && password != '') {
     final action = Completer();
     store.dispatch(reLogin(userName, password, 'feup', action: action));
     return action.future;
   }
-  return Future.error("No credentials stored");
+  return Future.error('No credentials stored');
 }
 
 Future loadUserInfoToState(store) async {
@@ -40,14 +40,14 @@ Future loadRemoteUserInfoToState(Store<AppState> store) async {
     await loadReloginInfo(store);
   }
 
-  final Completer<Null> userInfo = new Completer(),
-      exams = new Completer(),
-      schedule = new Completer(),
-      printBalance = new Completer(),
-      fees = new Completer(),
-      coursesStates = new Completer(),
-      trips = new Completer(),
-      lastUpdate = new Completer();
+  final Completer<Null> userInfo = Completer(),
+      exams = Completer(),
+      schedule = Completer(),
+      printBalance = Completer(),
+      fees = Completer(),
+      coursesStates = Completer(),
+      trips = Completer(),
+      lastUpdate = Completer();
 
   store.dispatch(getUserInfo(userInfo));
   store.dispatch(getUserSchedule(schedule));
@@ -78,7 +78,7 @@ void loadLocalUserInfoToState(store) async {
       UpdateFavoriteCards(await AppSharedPreferences.getFavoriteCards()));
   final Tuple2<String, String> userPersistentInfo =
       await AppSharedPreferences.getPersistentUserInfo();
-  if (userPersistentInfo.item1 != "" && userPersistentInfo.item2 != "") {
+  if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {
     store.dispatch(updateStateBasedOnLocalProfile());
     store.dispatch(updateStateBasedOnLocalUserExams());
     store.dispatch(updateStateBasedOnLocalUserLectures());
@@ -93,7 +93,7 @@ void loadLocalUserInfoToState(store) async {
 }
 
 Future<void> handleRefresh(store) {
-  final action = new RefreshItemsAction();
+  final action = RefreshItemsAction();
   store.dispatch(action);
   return action.completer.future;
 }
@@ -101,7 +101,7 @@ Future<void> handleRefresh(store) {
 Future<File> loadProfilePic(Store<AppState> store) {
   final String studentNo = store.state.content['session'].studentNumber;
   String url =
-      "https://sigarra.up.pt/feup/pt/fotografias_service.foto?pct_cod=";
+      'https://sigarra.up.pt/feup/pt/fotografias_service.foto?pct_cod=';
   final Map<String, String> headers = Map<String, String>();
 
   if (studentNo != null) {

@@ -13,7 +13,7 @@ abstract class SecondaryPageViewState extends GeneralPageViewState{
   }
 
   Widget bodyWrapper(BuildContext context){
-    return new SecondaryPageBackButton(
+    return  SecondaryPageBackButton(
         context: context,
         child: this.getBody(context)
     );

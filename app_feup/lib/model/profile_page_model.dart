@@ -8,7 +8,7 @@ import 'entities/course.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
-  _ProfilePageState createState() => new _ProfilePageState();
+  _ProfilePageState createState() =>  _ProfilePageState();
 
   //Handle arguments from parent
   ProfilePage({Key key}) : super(key: key);
@@ -24,8 +24,8 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
     super.initState();
-    name = "";
-    email = "";
+    name = '';
+    email = '';
     currentState = {};
     courses = [];
     profilePicFile = null;
@@ -34,7 +34,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     updateInfo();
-    return new ProfilePageView(
+    return  ProfilePageView(
         name: name, email: email, currentState: currentState, courses: courses);
   }
 

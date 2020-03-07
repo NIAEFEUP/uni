@@ -22,7 +22,7 @@ class AccountInfoCard extends GenericCard {
               Container(
                 margin:
                     const EdgeInsets.only(top: 20.0, bottom: 8.0, left: 20.0),
-                child: Text("Saldo: ",
+                child: Text('Saldo: ',
                     style: Theme.of(context)
                         .textTheme
                         .display1
@@ -32,7 +32,7 @@ class AccountInfoCard extends GenericCard {
                 margin:
                     const EdgeInsets.only(top: 20.0, bottom: 8.0, right: 30.0),
                 child: StoreConnector<AppState, String>(
-                    converter: (store) => store.state.content["feesBalance"],
+                    converter: (store) => store.state.content['feesBalance'],
                     builder: (context, feesBalance) =>
                         getInfoText(feesBalance, context)),
               )
@@ -41,7 +41,7 @@ class AccountInfoCard extends GenericCard {
               Container(
                 margin:
                     const EdgeInsets.only(top: 8.0, bottom: 20.0, left: 20.0),
-                child: Text("Data limite próxima prestação: ",
+                child: Text('Data limite próxima prestação: ',
                     style: Theme.of(context)
                         .textTheme
                         .display1
@@ -51,21 +51,21 @@ class AccountInfoCard extends GenericCard {
                 margin:
                     const EdgeInsets.only(top: 8.0, bottom: 20.0, right: 30.0),
                 child: StoreConnector<AppState, String>(
-                    converter: (store) => store.state.content["feesLimit"],
+                    converter: (store) => store.state.content['feesLimit'],
                     builder: (context, feesLimit) =>
                         getInfoText(feesLimit, context)),
               )
             ]),
           ]),
       StoreConnector<AppState, String>(
-          converter: (store) => store.state.content["feesRefreshTime"],
+          converter: (store) => store.state.content['feesRefreshTime'],
           builder: (context, feesRefreshTime) =>
               this.showLastRefreshedTime(feesRefreshTime, context))
     ]);
   }
 
   @override
-  String getTitle() => "Conta Corrente";
+  String getTitle() => 'Conta Corrente';
 
   @override
   onClick(BuildContext context) {}

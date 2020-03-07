@@ -54,21 +54,21 @@ class _LoginPageViewState extends State<LoginPageView> {
   Widget build(BuildContext context) {
     final MediaQueryData queryData = MediaQuery.of(context);
 
-    return new Scaffold(
+    return  Scaffold(
         backgroundColor: primaryColor,
         body: WillPopScope(
             child: Padding(
                 padding: EdgeInsets.only(
                     left: queryData.size.width / 8,
                     right: queryData.size.width / 8),
-                child: new ListView(
+                child:  ListView(
                   children: getWidgets(context, queryData),
                 )),
             onWillPop: () => onWillPop(context)));
   }
 
   List<Widget> getWidgets(BuildContext context, MediaQueryData queryData) {
-    final List<Widget> widgets = new List();
+    final List<Widget> widgets =  List();
 
     widgets.add(
         Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 20)));
@@ -103,7 +103,7 @@ class _LoginPageViewState extends State<LoginPageView> {
 
   Future<void> exitAppWaiter() async {
     _exitApp = true;
-    await new Future.delayed(Duration(seconds: 2));
+    await  Future.delayed(Duration(seconds: 2));
     _exitApp = false;
   }
 
@@ -117,8 +117,8 @@ class _LoginPageViewState extends State<LoginPageView> {
   }
 
   Widget createTitle(queryData, context) {
-    return new ConstrainedBox(
-        constraints: new BoxConstraints(
+    return  ConstrainedBox(
+        constraints:  BoxConstraints(
           minWidth: queryData.size.width / 8,
           minHeight: queryData.size.height / 6,
         ),
@@ -133,7 +133,7 @@ class _LoginPageViewState extends State<LoginPageView> {
   }
 
   Widget getLoginForm(MediaQueryData queryData, BuildContext context) {
-    return new Form(
+    return  Form(
       key: this._formKey,
       child: SingleChildScrollView(
         child: Column(children: [
@@ -149,7 +149,7 @@ class _LoginPageViewState extends State<LoginPageView> {
 
   Widget createUsernameInput(BuildContext context) {
     return TextFormField(
-      style: new TextStyle(color: Colors.white, fontSize: 20),
+      style:  TextStyle(color: Colors.white, fontSize: 20),
       keyboardType: TextInputType.text,
       autofocus: false,
       controller: usernameController,
@@ -167,7 +167,7 @@ class _LoginPageViewState extends State<LoginPageView> {
 
   Widget createPasswordInput() {
     return TextFormField(
-        style: new TextStyle(color: Colors.white, fontSize: 20),
+        style:  TextStyle(color: Colors.white, fontSize: 20),
         autofocus: false,
         controller: passwordController,
         focusNode: passwordFocus,
@@ -187,7 +187,7 @@ class _LoginPageViewState extends State<LoginPageView> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Text("Manter sessão iniciada",
+        Text('Manter sessão iniciada',
             textAlign: TextAlign.center,
             style: TextStyle(
                 color: Colors.white,
@@ -203,7 +203,7 @@ class _LoginPageViewState extends State<LoginPageView> {
   }
 
   Widget createLogInButton(queryData) {
-    return new Padding(
+    return  Padding(
       padding: EdgeInsets.only(
           left: queryData.size.width / 7, right: queryData.size.width / 7),
       child: SizedBox(
@@ -229,17 +229,18 @@ class _LoginPageViewState extends State<LoginPageView> {
     return StoreConnector<AppState, RequestStatus>(
         converter: (store) => store.state.content['loginStatus'],
         onWillChange: (status) {
-          if (status == RequestStatus.successful)
+          if (status == RequestStatus.successful) {
             Navigator.pushReplacementNamed(context, '/Área Pessoal');
-          else if (status == RequestStatus.failed)
+          } else if (status == RequestStatus.failed) {
             displayToastMessage(context, 'O login falhou');
+          }
         },
         builder: (context, status) {
           switch (status) {
             case RequestStatus.busy:
-              return new Container(
+              return  Container(
                 height: 60.0,
-                child: new Center(child: new CircularProgressIndicator()),
+                child:  Center(child:  CircularProgressIndicator()),
               );
             default:
               return Container();
@@ -254,9 +255,9 @@ class _LoginPageViewState extends State<LoginPageView> {
         ),
         hintText: placeholder,
         contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-        border: new UnderlineInputBorder(),
-        focusedBorder: new UnderlineInputBorder(
-            borderSide: new BorderSide(color: Colors.white, width: 3)));
+        border:  UnderlineInputBorder(),
+        focusedBorder:  UnderlineInputBorder(
+            borderSide:  BorderSide(color: Colors.white, width: 3)));
   }
 
   createSafeLoginButton(BuildContext context) {
@@ -269,7 +270,7 @@ class _LoginPageViewState extends State<LoginPageView> {
         child: Container(
             padding: EdgeInsets.all(8),
             child: Text(
-              """Ao entrares confirmas que concordas com estes Termos e Condições""",
+              '''Ao entrares confirmas que concordas com estes Termos e Condições''',
               textAlign: TextAlign.center,
               style: TextStyle(
                   decoration: TextDecoration.underline,

@@ -12,7 +12,7 @@ import 'package:uni/redux/action_creators.dart';
 import 'package:uni/view/Widgets/buses_form.dart';
 
 class BusStopSearch extends SearchDelegate<String> {
-  List<String> suggestionsList = new List();
+  List<String> suggestionsList =  List();
   AppBusStopDatabase db;
   String stopCode;
   BusStopData stopData;
@@ -31,7 +31,7 @@ class BusStopSearch extends SearchDelegate<String> {
       IconButton(
           icon: Icon(Icons.clear),
           onPressed: () {
-            query = "";
+            query = '';
           })
     ];
   }
@@ -58,7 +58,7 @@ class BusStopSearch extends SearchDelegate<String> {
   }
 
   Widget getSuggestionList(BuildContext context) {
-    if (this.suggestionsList.length == 0) return ListView();
+    if (this.suggestionsList.isEmpty) return ListView();
     return ListView.builder(
       itemBuilder: (context, index) => ListTile(
           onTap: () {
@@ -76,13 +76,13 @@ class BusStopSearch extends SearchDelegate<String> {
   }
 
   Widget busListing(BuildContext context, String suggestion) {
-    final BusesForm busesForm = new BusesForm(
-        suggestion.splitMapJoin(RegExp(r"\[[A-Z0-9_]+\]"),
+    final BusesForm busesForm =  BusesForm(
+        suggestion.splitMapJoin(RegExp(r'\[[A-Z0-9_]+\]'),
             onMatch: (m) => '${m.group(0).substring(1, m.group(0).length - 1)}',
             onNonMatch: (m) => ''),
         updateStopCallback);
     return AlertDialog(
-        title: Text("Seleciona os autocarros dos quais queres informação:"),
+        title: Text('Seleciona os autocarros dos quais queres informação:'),
         content: Container(
           child: busesForm,
           height: 200.0,
@@ -90,26 +90,26 @@ class BusStopSearch extends SearchDelegate<String> {
         ),
         actions: [
           FlatButton(
-              child: Text("Cancelar",
+              child: Text('Cancelar',
                   style: Theme.of(context)
                       .textTheme
                       .display1
                       .apply(color: Theme.of(context).primaryColor)),
               onPressed: () => Navigator.pop(context)),
           FlatButton(
-              child: Text("Confirmar",
+              child: Text('Confirmar',
                   style: Theme.of(context)
                       .textTheme
                       .display1
                       .apply(color: Theme.of(context).accentColor)),
               color: Theme.of(context).primaryColor,
               shape: RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(10.0),
+                  borderRadius:  BorderRadius.circular(10.0),
                   side: BorderSide(color: Theme.of(context).primaryColor)),
               onPressed: () async {
-                if (stopData.configuredBuses.length > 0) {
+                if (stopData.configuredBuses.isNotEmpty) {
                   StoreProvider.of<AppState>(context).dispatch(
-                      addUserBusStop(new Completer(), stopCode, stopData));
+                      addUserBusStop( Completer(), stopCode, stopData));
                   Navigator.pop(context);
                 }
               })
@@ -121,21 +121,24 @@ class BusStopSearch extends SearchDelegate<String> {
     return FutureBuilder(
       future: this.getStops(),
       builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting)
+        if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(child: CircularProgressIndicator());
+        }
         if (snapshot.connectionState == ConnectionState.done &&
             !snapshot.hasError) {
-          if (snapshot.data.length == 0)
+          if (snapshot.data.isEmpty) {
             return Container(
                 margin: EdgeInsets.all(8.0),
                 height: 24.0,
                 child: Center(
-                  child: Text("Sem resultados."),
+                  child: Text('Sem resultados.'),
                 ));
-          else
+          } else {
             this.suggestionsList = snapshot.data;
-        } else
+          }
+        } else {
           this.suggestionsList = [];
+        }
         return getSuggestionList(context);
       },
       initialData: null,
@@ -143,7 +146,7 @@ class BusStopSearch extends SearchDelegate<String> {
   }
 
   Future<List<String>> getStops() async {
-    if (query != "") {
+    if (query != '') {
       return NetworkRouter.getStopsByName(query);
     }
     return [];

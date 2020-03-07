@@ -8,7 +8,7 @@ class SchedulePage extends StatefulWidget {
   const SchedulePage({Key key}) : super(key: key);
 
   @override
-  _SchedulePageState createState() => new _SchedulePageState();
+  _SchedulePageState createState() =>  _SchedulePageState();
 }
 
 class _SchedulePageState extends State<SchedulePage>
@@ -24,13 +24,13 @@ class _SchedulePageState extends State<SchedulePage>
     'Sexta-feira'
   ];
 
-  final int weekDay = new DateTime.now().weekday;
+  final int weekDay =  DateTime.now().weekday;
 
   @override
   void initState() {
     super.initState();
     tabController =
-        new TabController(vsync: this, length: daysOfTheWeek.length);
+         TabController(vsync: this, length: daysOfTheWeek.length);
     final offset = (weekDay > 5) ? 0 : (weekDay - 1) % daysOfTheWeek.length;
     tabController.animateTo((tabController.index + offset));
   }
@@ -42,7 +42,7 @@ class _SchedulePageState extends State<SchedulePage>
   }
 
   List<List<Lecture>> _groupLecturesByDay(schedule) {
-    final aggLectures = new List<List<Lecture>>();
+    final aggLectures =  List<List<Lecture>>();
 
     for (int i = 0; i < daysOfTheWeek.length; i++) {
       final List<Lecture> lectures = List<Lecture>();
@@ -59,7 +59,7 @@ class _SchedulePageState extends State<SchedulePage>
     return StoreConnector<AppState, List<Lecture>>(
       converter: (store) => store.state.content['schedule'],
       builder: (context, lectures) {
-        return new SchedulePageView(
+        return  SchedulePageView(
             tabController: tabController,
             scrollViewController: scrollViewController,
             daysOfTheWeek: daysOfTheWeek,

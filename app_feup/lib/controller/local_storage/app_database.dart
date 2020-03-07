@@ -8,7 +8,7 @@ class AppDatabase {
   Database _db;
   String name;
   List<String> commands;
-  static Lock lock = new Lock();
+  static Lock lock =  Lock();
 
   AppDatabase(String name, List<String> commands) {
     this.name = name;

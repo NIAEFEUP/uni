@@ -24,7 +24,7 @@ class ExamsPageViewState extends SecondaryPageViewState {
         return ListView(
           children: <Widget>[
             Container(
-              child: new Column(
+              child:  Column(
                 mainAxisSize: MainAxisSize.max,
                 children: this.createExamsColumn(context, exams),
               ),
@@ -36,8 +36,8 @@ class ExamsPageViewState extends SecondaryPageViewState {
   }
 
   List<Widget> createExamsColumn(context, exams) {
-    final List<Widget> columns = new List<Widget>();
-    columns.add(new PageTitle(
+    final List<Widget> columns =  List<Widget>();
+    columns.add( PageTitle(
       name: 'Exames',
     ));
 
@@ -46,7 +46,7 @@ class ExamsPageViewState extends SecondaryPageViewState {
       return columns;
     }
 
-    final List<Exam> currentDayExams = new List<Exam>();
+    final List<Exam> currentDayExams =  List<Exam>();
 
     for (int i = 0; i < exams.length; i++) {
       if (i + 1 >= exams.length) {
@@ -54,8 +54,9 @@ class ExamsPageViewState extends SecondaryPageViewState {
             exams[i].month == exams[i - 1].month) {
           currentDayExams.add(exams[i]);
         } else {
-          if (currentDayExams.length > 0)
+          if (currentDayExams.isNotEmpty) {
             columns.add(this.createExamCard(context, currentDayExams));
+          }
           currentDayExams.clear();
           currentDayExams.add(exams[i]);
         }
@@ -75,7 +76,7 @@ class ExamsPageViewState extends SecondaryPageViewState {
   }
 
   Widget createExamCard(context, exams) {
-    return new Container(
+    return  Container(
       margin: EdgeInsets.only(bottom: 8),
       padding: EdgeInsets.all(8),
       child: this.createExamsCards(context, exams),
@@ -83,20 +84,20 @@ class ExamsPageViewState extends SecondaryPageViewState {
   }
 
   Widget createExamsCards(context, exams) {
-    final List<Widget> examCards = new List<Widget>();
-    examCards.add(new TitleCard(
+    final List<Widget> examCards =  List<Widget>();
+    examCards.add( TitleCard(
         day: exams[0].day, weekDay: exams[0].weekDay, month: exams[0].month));
     for (int i = 0; i < exams.length; i++) {
       examCards.add(this.createExamContext(context, exams[i]));
     }
-    return new Column(children: examCards);
+    return  Column(children: examCards);
   }
 
   Widget createExamContext(context, exam) {
     return Container(
         margin: EdgeInsets.fromLTRB(12, 4, 12, 0),
         child: RowContainer(
-            child: new ScheduleRow(
+            child:  ScheduleRow(
                 subject: exam.subject,
                 rooms: exam.rooms,
                 begin: exam.begin,

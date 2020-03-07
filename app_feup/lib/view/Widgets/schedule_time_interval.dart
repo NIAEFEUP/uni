@@ -8,7 +8,7 @@ class ScheduleTimeInterval extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new Column(
+    return  Column(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       mainAxisSize: MainAxisSize.max,
       children: <Widget>[

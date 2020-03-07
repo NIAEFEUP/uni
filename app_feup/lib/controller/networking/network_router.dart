@@ -26,8 +26,8 @@ class NetworkRouter {
     final String url =
         NetworkRouter.getBaseUrl(faculty) + 'mob_val_geral.autentica';
     final http.Response response = await http.post(url, body: {
-      "pv_login": user,
-      "pv_password": pass
+      'pv_login': user,
+      'pv_password': pass
     }).timeout(const Duration(seconds: loginRequestTimeout));
     if (response.statusCode == 200) {
       final Session session = Session.fromLogin(response);
@@ -61,8 +61,8 @@ class NetworkRouter {
     final String url =
         NetworkRouter.getBaseUrl(session.faculty) + 'mob_val_geral.autentica';
     final http.Response response = await http.post(url, body: {
-      "pv_login": session.studentNumber,
-      "pv_password": await AppSharedPreferences.getUserPassword(),
+      'pv_login': session.studentNumber,
+      'pv_password': await AppSharedPreferences.getUserPassword(),
     }).timeout(const Duration(seconds: loginRequestTimeout));
     final responseBody = json.decode(response.body);
     if (response.statusCode == 200 && responseBody['authenticated']) {
@@ -94,7 +94,7 @@ class NetworkRouter {
     final url =
         NetworkRouter.getBaseUrlFromSession(session) + 'mob_fest_geral.perfil?';
     final response = await getWithCookies(
-        url, {"pv_codigo": session.studentNumber}, session);
+        url, {'pv_codigo': session.studentNumber}, session);
 
     if (response.statusCode == 200) {
       return Profile.fromResponse(response);
@@ -106,7 +106,7 @@ class NetworkRouter {
     final url = NetworkRouter.getBaseUrlFromSession(session) +
         'mob_fest_geral.ucurr_inscricoes_corrente?';
     final response = await getWithCookies(
-        url, {"pv_codigo": session.studentNumber}, session);
+        url, {'pv_codigo': session.studentNumber}, session);
     if (response.statusCode == 200) {
       final responseBody = json.decode(response.body);
       final List<CourseUnit> ucs = List<CourseUnit>();
@@ -123,10 +123,11 @@ class NetworkRouter {
   static Future<http.Response> getWithCookies(
       String baseUrl, Map<String, String> query, Session session) async {
     final loginSuccessful = await session.loginRequest;
-    if (loginSuccessful is bool && !loginSuccessful)
+    if (loginSuccessful is bool && !loginSuccessful) {
       return Future.error('Login failed');
+    }
 
-    final URLQueryParams params = new URLQueryParams();
+    final URLQueryParams params =  URLQueryParams();
     query.forEach((key, value) {
       params.append(key, value);
     });
@@ -155,15 +156,15 @@ class NetworkRouter {
   }
 
   static Future<List<String>> getStopsByName(String stopCode) async {
-    final List<String> stopsList = new List();
+    final List<String> stopsList =  List();
 
     //Search by aproximate name
     final String url =
-        "https://www.stcp.pt/pt/itinerarium/callservice.php?action=srchstoplines&stopname=$stopCode";
+        'https://www.stcp.pt/pt/itinerarium/callservice.php?action=srchstoplines&stopname=$stopCode';
     final http.Response response = await http.post(url);
     final List json = jsonDecode(response.body);
     for (var busKey in json) {
-      final String stop = busKey['name'] + " [" + busKey['code'] + "]";
+      final String stop = busKey['name'] + ' [' + busKey['code'] + ']';
       stopsList.add(stop);
     }
 
@@ -173,10 +174,10 @@ class NetworkRouter {
   static Future<List<Trip>> getNextArrivalsStop(
       String stopCode, BusStopData stopData) async {
     final String url =
-        "http://move-me.mobi/NextArrivals/GetScheds?providerName=STCP&stopCode=STCP_" +
+        'http://move-me.mobi/NextArrivals/GetScheds?providerName=STCP&stopCode=STCP_' +
             stopCode;
     final http.Response response = await http.get(url);
-    final List<Trip> tripList = new List();
+    final List<Trip> tripList =  List();
 
     final List json = jsonDecode(response.body);
 
@@ -186,8 +187,9 @@ class NetworkRouter {
       if (stopData.configuredBuses.contains(line)) {
         final String destination = trip[1];
         String timeString = trip[2];
-        if (timeString.substring(timeString.length - 1) == '*')
+        if (timeString.substring(timeString.length - 1) == '*') {
           timeString = timeString.substring(0, timeString.length - 1);
+        }
         final int timeRemaining = int.parse(timeString);
         final Trip newTrip = Trip(
             line: line, destination: destination, timeRemaining: timeRemaining);
@@ -201,12 +203,12 @@ class NetworkRouter {
 
   static Future<List<Bus>> getBusesStoppingAt(String stop) async {
     final String url =
-        "https://www.stcp.pt/pt/itinerarium/callservice.php?action=srchstoplines&stopcode=$stop";
+        'https://www.stcp.pt/pt/itinerarium/callservice.php?action=srchstoplines&stopcode=$stop';
     final http.Response response = await http.post(url);
 
     final List json = jsonDecode(response.body);
 
-    final List<Bus> buses = new List();
+    final List<Bus> buses =  List();
 
     for (var busKey in json) {
       final lines = busKey['lines'];

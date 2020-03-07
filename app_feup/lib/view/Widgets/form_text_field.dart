@@ -15,36 +15,36 @@ class FormTextField extends StatelessWidget {
   FormTextField(
     this.controller,
     this.icon, {
-    this.description = "",
+    this.description = '',
     this.minLines = 1,
     this.maxLines = 1,
-    this.labelText = "",
-    this.hintText = "",
-    this.emptyText = "Por favor escreve algo",
+    this.labelText = '',
+    this.hintText = '',
+    this.emptyText = 'Por favor escreve algo',
     this.bottomMargin = 0,
   });
 
   @override
   Widget build(BuildContext context) {
-    return new Container(
-      margin: new EdgeInsets.only(bottom: bottomMargin),
-      child: new Column(
+    return  Container(
+      margin:  EdgeInsets.only(bottom: bottomMargin),
+      child:  Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          new Text(
+           Text(
             description,
             style: Theme.of(context).textTheme.body1,
             textAlign: TextAlign.left,
           ),
-          new Row(children: <Widget>[
-            new Container(
-                margin: new EdgeInsets.only(right: 15),
-                child: new Icon(
+           Row(children: <Widget>[
+             Container(
+                margin:  EdgeInsets.only(right: 15),
+                child:  Icon(
                   icon,
                   color: Theme.of(context).primaryColor,
                 )),
             Expanded(
-                child: new TextFormField(
+                child:  TextFormField(
               // margins
               minLines: minLines,
               maxLines: maxLines,

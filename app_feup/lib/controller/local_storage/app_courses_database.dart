@@ -7,8 +7,7 @@ import 'app_database.dart';
 class AppCoursesDatabase extends AppDatabase {
   AppCoursesDatabase()
       : super('courses.db', [
-          '''
-          CREATE TABLE courses(id INTEGER, fest_id INTEGER, name TEXT,7
+          '''CREATE TABLE courses(id INTEGER, fest_id INTEGER, name TEXT,7
           abbreviation TEXT, currYear TEXT, firstEnrollment INTEGER, state TEXT)'''
         ]);
 
@@ -38,12 +37,13 @@ class AppCoursesDatabase extends AppDatabase {
   }
 
   Future<void> _insertCourses(List<Course> courses) async {
-    for (Course course in courses)
+    for (Course course in courses) {
       await insertInDatabase(
         'courses',
         course.toMap(),
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
+    }
   }
 
   Future<void> deleteCourses() async {
@@ -64,7 +64,7 @@ class AppCoursesDatabase extends AppDatabase {
       await db.update(
         'courses',
         {'state': states[course.name]},
-        where: "id = ?",
+        where: 'id = ?',
         whereArgs: [course.id],
       );
     }

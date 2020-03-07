@@ -14,39 +14,39 @@ import 'package:flutter/services.dart' show rootBundle;
 class BugReportForm extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return new BugReportFormState();
+    return  BugReportFormState();
   }
 }
 
 class BugReportFormState extends State<BugReportForm> {
   final String _postUrl =
-      "https://api.github.com/repos/NIAEFEUP/project-schrodinger/issues";
-  final String _issueLabel = "In-app bug report";
+      'https://api.github.com/repos/NIAEFEUP/project-schrodinger/issues';
+  final String _issueLabel = 'In-app bug report';
 
   static final _formKey = GlobalKey<FormState>();
 
   final Map<int, Tuple2<String, String>> bugDescriptions = {
-    0: Tuple2<String, String>("Detalhe visual", "Visual detail"),
-    1: Tuple2<String, String>("Erro", "Error"),
-    2: Tuple2<String, String>("Sugestão de funcionalidade", "Suggestion"),
+    0: Tuple2<String, String>('Detalhe visual', 'Visual detail'),
+    1: Tuple2<String, String>('Erro', 'Error'),
+    2: Tuple2<String, String>('Sugestão de funcionalidade', 'Suggestion'),
     3: Tuple2<String, String>(
-        "Comportamento inesperado", "Unexpected behaviour"),
-    4: Tuple2<String, String>("Outro", "Other"),
+        'Comportamento inesperado', 'Unexpected behaviour'),
+    4: Tuple2<String, String>('Outro', 'Other'),
   };
   List<DropdownMenuItem<int>> bugList = [];
 
   static int _selectedBug = 0;
   static final TextEditingController titleController =
-      new TextEditingController();
+       TextEditingController();
   static final TextEditingController descriptionController =
-      new TextEditingController();
+       TextEditingController();
 
-  String ghToken = "";
+  String ghToken = '';
 
   bool _isButtonTapped = false;
 
   BugReportFormState() {
-    if (ghToken == "") loadGHKey();
+    if (ghToken == '') loadGHKey();
     loadBugClassList();
   }
 
@@ -55,23 +55,23 @@ class BugReportFormState extends State<BugReportForm> {
 
     bugDescriptions.forEach((int key, Tuple2<String, String> tup) => {
           bugList
-              .add(new DropdownMenuItem(child: new Text(tup.item1), value: key))
+              .add( DropdownMenuItem(child:  Text(tup.item1), value: key))
         });
   }
 
   @override
   Widget build(BuildContext context) {
-    return new Form(
-        key: _formKey, child: new ListView(children: getFormWidget(context)));
+    return  Form(
+        key: _formKey, child:  ListView(children: getFormWidget(context)));
   }
 
   List<Widget> getFormWidget(BuildContext context) {
-    final List<Widget> formWidget = new List();
+    final List<Widget> formWidget =  List();
 
     formWidget.add(bugReportTitle(context));
     formWidget.add(bugReportIntro(context));
     formWidget.add(dropdownBugSelectWidget(context));
-    formWidget.add(new FormTextField(
+    formWidget.add( FormTextField(
       titleController,
       Icons.title,
       minLines: 1,
@@ -81,7 +81,7 @@ class BugReportFormState extends State<BugReportForm> {
       bottomMargin: 30.0,
     ));
 
-    formWidget.add(new FormTextField(
+    formWidget.add( FormTextField(
       descriptionController,
       Icons.description,
       minLines: 1,
@@ -97,16 +97,16 @@ class BugReportFormState extends State<BugReportForm> {
   }
 
   Widget bugReportTitle(BuildContext context) {
-    return new Container(
+    return  Container(
         alignment: Alignment.center,
-        margin: new EdgeInsets.symmetric(vertical: 10.0, horizontal: 20),
-        child: new Row(
+        margin:  EdgeInsets.symmetric(vertical: 10.0, horizontal: 20),
+        child:  Row(
           children: <Widget>[
             Icon(Icons.bug_report,
                 color: Theme.of(context).primaryColor, size: 50.0),
             Expanded(
                 child: Text(
-              "Bugs e Sugestões",
+              'Bugs e Sugestões',
               textScaleFactor: 1.6,
               textAlign: TextAlign.center,
             )),
@@ -117,15 +117,15 @@ class BugReportFormState extends State<BugReportForm> {
   }
 
   Widget bugReportIntro(BuildContext context) {
-    return new Container(
+    return  Container(
       decoration: BoxDecoration(
           border: Border(
               bottom: BorderSide(color: Theme.of(context).dividerColor))),
-      padding: new EdgeInsets.only(bottom: 20),
-      child: new Center(
+      padding:  EdgeInsets.only(bottom: 20),
+      child:  Center(
         child: Text(
-            """Encontraste algum Bug na aplicação?\nTens alguma
-             sugestão para a app?\nConta-nos para que nós possamos melhorar!""",
+            '''Encontraste algum Bug na aplicação?\nTens alguma
+             sugestão para a app?\nConta-nos para que nós possamos melhorar!''',
             style: Theme.of(context).textTheme.body1,
             textAlign: TextAlign.center),
       ),
@@ -133,26 +133,26 @@ class BugReportFormState extends State<BugReportForm> {
   }
 
   Widget dropdownBugSelectWidget(BuildContext context) {
-    return new Container(
+    return  Container(
       margin: EdgeInsets.only(bottom: 30, top: 20),
-      child: new Column(
+      child:  Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          new Text(
+           Text(
             'Seleciona o tipo de ocorrência',
             style: Theme.of(context).textTheme.body1,
             textAlign: TextAlign.left,
           ),
-          new Row(children: <Widget>[
-            new Container(
-                margin: new EdgeInsets.only(right: 15),
-                child: new Icon(
+           Row(children: <Widget>[
+             Container(
+                margin:  EdgeInsets.only(right: 15),
+                child:  Icon(
                   Icons.bug_report,
                   color: Theme.of(context).primaryColor,
                 )),
             Expanded(
-                child: new DropdownButton(
-              hint: new Text('Seleciona o tipo de ocorrência'),
+                child:  DropdownButton(
+              hint:  Text('Seleciona o tipo de ocorrência'),
               items: bugList,
               value: _selectedBug,
               onChanged: (value) {
@@ -169,7 +169,7 @@ class BugReportFormState extends State<BugReportForm> {
   }
 
   Widget submitButton(BuildContext context) {
-    return new Container(
+    return  Container(
         child: RaisedButton(
       padding: EdgeInsets.symmetric(vertical: 10.0),
       onPressed: () {
@@ -191,28 +191,28 @@ class BugReportFormState extends State<BugReportForm> {
     });
 
     final String bugLabel = bugDescriptions[_selectedBug] == null
-        ? "Unidentified bug"
+        ? 'Unidentified bug'
         : bugDescriptions[_selectedBug].item2;
     final Map data = {
-      "title": titleController.text,
-      "body": descriptionController.text,
-      "labels": [_issueLabel, bugLabel]
+      'title': titleController.text,
+      'body': descriptionController.text,
+      'labels': [_issueLabel, bugLabel]
     };
 
     http
-        .post(_postUrl + "?access_token=" + ghToken,
-            headers: {"Content-Type": "application/json"},
+        .post(_postUrl + '?access_token=' + ghToken,
+            headers: {'Content-Type': 'application/json'},
             body: json.encode(data))
         .then((http.Response response) {
       final int statusCode = response.statusCode;
 
       String msg;
       if (statusCode < 200 || statusCode > 400) {
-        Logger().e("Error " + statusCode.toString() + " while posting bug");
-        msg = "Ocorreu um erro no envio";
+        Logger().e('Error ' + statusCode.toString() + ' while posting bug');
+        msg = 'Ocorreu um erro no envio';
       } else {
-        Logger().i("Successfully submitted bug report.");
-        msg = "Enviado com sucesso";
+        Logger().i('Successfully submitted bug report.');
+        msg = 'Enviado com sucesso';
 
         clearForm();
 
@@ -223,17 +223,17 @@ class BugReportFormState extends State<BugReportForm> {
       }
       
 
-      FocusScope.of(context).requestFocus(new FocusNode());
+      FocusScope.of(context).requestFocus( FocusNode());
       displayBugToast(msg);
       setState(() {
         _isButtonTapped = false;
       });
     }).catchError((error) {
       Logger().e(error);
-      FocusScope.of(context).requestFocus(new FocusNode());
+      FocusScope.of(context).requestFocus( FocusNode());
 
       final String msg =
-          (error is SocketException) ? "Falha de rede" : "Ocorreu um erro";
+          (error is SocketException) ? 'Falha de rede' : 'Ocorreu um erro';
       displayBugToast(msg);
       setState(() {
         _isButtonTapped = false;

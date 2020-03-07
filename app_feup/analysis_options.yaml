@@ -19,6 +19,12 @@ linter:
     - prefer_final_fields
     - prefer_final_locals
     - package_names
+    - valid_regexps
+    - curly_braces_in_flow_control_structures
+    - prefer_is_empty
+    - prefer_single_quotes
+    - recursive_getters
+    - unnecessary_new
 
 analyzer:
   errors:

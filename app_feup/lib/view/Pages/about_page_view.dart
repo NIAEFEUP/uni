@@ -30,8 +30,7 @@ class AboutPageViewState extends GeneralPageViewState {
               bottom: queryData.size.width / 12),
           child: Column(children: <Widget>[
             Text(
-                """App desenvolvida pelo NIAEFEUP.
-                 De estudantes, para estudantes.\n\n"""),
+                '''App desenvolvida pelo NIAEFEUP. De estudantes, para estudantes.\n\n'''),
             TermsAndConditions(),
           ]),
         ))

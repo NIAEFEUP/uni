@@ -14,7 +14,7 @@ class Course {
         String this.abbreviation,
         String this.currYear,
         int this.firstEnrollment,
-        String this.state = ""});
+        String this.state = ''});
 
   static Course fromJson(dynamic data) {
     return Course(
@@ -27,13 +27,13 @@ class Course {
 
   Map<String, dynamic> toMap() {
     return {
-      "id" : id,
-      "fest_id" : festId,
-      "name" : name,
-      "abbreviation" : abbreviation,
-      "currYear" : currYear,
-      "firstEnrollment" : firstEnrollment,
-      "state": state
+      'id' : id,
+      'fest_id' : festId,
+      'name' : name,
+      'abbreviation' : abbreviation,
+      'currYear' : currYear,
+      'firstEnrollment' : firstEnrollment,
+      'state': state
     };
   }
 }

@@ -50,7 +50,7 @@ class RequestDependentWidgetBuilder extends StatelessWidget {
                 ? contentGenerator(content, context)
                 : Center(
                     child: Text(
-                        """Erro de comunicação. Por favor verifica a tua ligação à internet.""",
+                        '''Erro de comunicação. Por favor verifica a tua ligação à internet.''',
                         style: Theme.of(context).textTheme.display1));
         }
       },

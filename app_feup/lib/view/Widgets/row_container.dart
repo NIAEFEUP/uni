@@ -8,7 +8,7 @@ class RowContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new Container(
+    return  Container(
       decoration: BoxDecoration(
           border: Border.all(
               color: borderColor == null

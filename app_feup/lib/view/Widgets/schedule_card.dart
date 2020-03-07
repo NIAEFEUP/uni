@@ -19,7 +19,7 @@ class ScheduleCard extends GenericCard {
 
   final double borderRadius = 12.0;
   final double leftPadding = 12.0;
-  final List<Lecture> lectures = new List<Lecture>();
+  final List<Lecture> lectures =  List<Lecture>();
 
   @override
   Widget buildCardContent(BuildContext context) {
@@ -33,9 +33,9 @@ class ScheduleCard extends GenericCard {
               contentGenerator: generateSchedule,
               content: lecturesInfo.item1,
               contentChecker:
-                  lecturesInfo.item1 != null && lecturesInfo.item1.length > 0,
+                  lecturesInfo.item1 != null && lecturesInfo.item1.isNotEmpty,
               onNullContent: Center(
-                  child: Text("Não existem aulas para apresentar",
+                  child: Text('Não existem aulas para apresentar',
                       style: Theme.of(context).textTheme.display1,
                       textAlign: TextAlign.center)));
         });
@@ -43,7 +43,7 @@ class ScheduleCard extends GenericCard {
 
   Widget generateSchedule(lectures, context) {
     return Container(
-        child: new Column(
+        child:  Column(
       mainAxisSize: MainAxisSize.min,
       children: getScheduleRows(context, lectures),
     ));
@@ -59,14 +59,14 @@ class ScheduleCard extends GenericCard {
       lectures.add(lecturefirstCycle);
       lectures.add(lecturesecondCycle);
     }
-    final List<Widget> rows = new List<Widget>();
+    final List<Widget> rows =  List<Widget>();
 
-    final now = new DateTime.now();
+    final now =  DateTime.now();
     var added = 0; // Lectures added to widget
     var lastDayAdded = 0; // Day of last added lecture
     final stringTimeNow = (now.weekday - 1).toString().padLeft(2, '0') +
         now.hour.toString().padLeft(2, '0') +
-        ":" +
+        ':' +
         now.minute
             .toString()
             .padLeft(2, '0'); // String with current time within the week
@@ -79,9 +79,10 @@ class ScheduleCard extends GenericCard {
         if (now.weekday - 1 != lectures[i].day &&
             lastDayAdded <
                 lectures[i]
-                    .day)
+                    .day) {
           rows.add(
-              new DateRectangle(date: Lecture.dayName[lectures[i].day % 7]));
+               DateRectangle(date: Lecture.dayName[lectures[i].day % 7]));
+        }
 
         rows.add(createRowFromLecture(context, lectures[i]));
         lastDayAdded = lectures[i].day;
@@ -89,17 +90,17 @@ class ScheduleCard extends GenericCard {
       }
     }
 
-    if (rows.length == 0) {
-      rows.add(new DateRectangle(date: Lecture.dayName[lectures[0].day % 7]));
+    if (rows.isEmpty) {
+      rows.add( DateRectangle(date: Lecture.dayName[lectures[0].day % 7]));
       rows.add(createRowFromLecture(context, lectures[0]));
     }
     return rows;
   }
 
   Widget createRowFromLecture(context, lecture) {
-    return new Container(
+    return  Container(
         margin: EdgeInsets.only(bottom: 10),
-        child: new ScheduleSlot(
+        child:  ScheduleSlot(
           subject: lecture.subject,
           rooms: lecture.room,
           begin: lecture.startTime,
@@ -110,7 +111,7 @@ class ScheduleCard extends GenericCard {
   }
 
   @override
-  String getTitle() => "Horário";
+  String getTitle() => 'Horário';
 
   @override
   onClick(BuildContext context) =>

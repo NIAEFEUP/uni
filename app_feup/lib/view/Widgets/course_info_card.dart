@@ -17,7 +17,7 @@ class CourseInfoCard extends GenericCard {
           TableRow(children: [
             Container(
               margin: const EdgeInsets.only(top: 20.0, bottom: 8.0, left: 20.0),
-              child: Text("Ano curricular atual: ",
+              child: Text('Ano curricular atual: ',
                   style: Theme.of(context)
                       .textTheme
                       .display1
@@ -32,7 +32,7 @@ class CourseInfoCard extends GenericCard {
           TableRow(children: [
             Container(
               margin: const EdgeInsets.only(top: 10.0, bottom: 8.0, left: 20.0),
-              child: Text("Estado atual: ",
+              child: Text('Estado atual: ',
                   style: Theme.of(context)
                       .textTheme
                       .display1
@@ -48,7 +48,7 @@ class CourseInfoCard extends GenericCard {
             Container(
               margin:
                   const EdgeInsets.only(top: 10.0, bottom: 20.0, left: 20.0),
-              child: Text("Ano da primeira inscrição: ",
+              child: Text('Ano da primeira inscrição: ',
                   style: Theme.of(context)
                       .textTheme
                       .display1
@@ -59,7 +59,7 @@ class CourseInfoCard extends GenericCard {
                     const EdgeInsets.only(top: 10.0, bottom: 20.0, right: 25.0),
                 child: getInfoText(
                     course.firstEnrollment.toString() +
-                        "/" +
+                        '/' +
                         (course.firstEnrollment + 1).toString(),
                     context))
           ]),

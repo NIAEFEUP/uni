@@ -20,9 +20,9 @@ class BusStopRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new Container(
+    return  Container(
       padding: EdgeInsets.all(4.0),
-      child: new Row(
+      child:  Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: this.getTrips(context),
       ),
@@ -30,25 +30,25 @@ class BusStopRow extends StatelessWidget {
   }
 
   List<Widget> getTrips(context) {
-    final List<Widget> row = new List<Widget>();
+    final List<Widget> row =  List<Widget>();
 
     if (stopCodeShow) {
       row.add(stopCodeRotatedContainer(context));
     }
 
-    if (trips.length < 1) {
+    if (trips.isEmpty) {
       row.add(noTripsContainer(context));
     } else {
       final List<Widget> tripRows = getTripRows();
 
-      row.add(new Expanded(child: new Column(children: tripRows)));
+      row.add( Expanded(child:  Column(children: tripRows)));
     }
 
     return row;
   }
 
   Widget noTripsContainer(context) {
-    return Text("Não há viagens planeadas de momento.",
+    return Text('Não há viagens planeadas de momento.',
         maxLines: 3,
         overflow: TextOverflow.ellipsis,
         style:
@@ -56,9 +56,9 @@ class BusStopRow extends StatelessWidget {
   }
 
   Widget stopCodeRotatedContainer(context) {
-    return new Container(
+    return  Container(
       padding: EdgeInsets.only(left: 4.0),
-      child: new RotatedBox(
+      child:  RotatedBox(
         child: Text(this.stopCode,
             style: Theme.of(context)
                 .textTheme
@@ -70,21 +70,21 @@ class BusStopRow extends StatelessWidget {
   }
 
   List<Widget> getTripRows() {
-    final List<Widget> tripRows = new List<Widget>();
+    final List<Widget> tripRows =  List<Widget>();
 
     if (singleTrip) {
-      tripRows.add(new Container(
-          padding: EdgeInsets.all(12.0), child: new TripRow(trip: trips[0])));
+      tripRows.add( Container(
+          padding: EdgeInsets.all(12.0), child:  TripRow(trip: trips[0])));
     } else {
       for (int i = 0; i < trips.length; i++) {
         Color color = primaryColor;
         if (i == trips.length - 1) color = Colors.transparent;
 
-        tripRows.add(new Container(
+        tripRows.add( Container(
             padding: EdgeInsets.all(12.0),
-            decoration: new BoxDecoration(
+            decoration:  BoxDecoration(
                 border: Border(bottom: BorderSide(width: 0.1, color: color))),
-            child: new TripRow(trip: trips[i])));
+            child:  TripRow(trip: trips[i])));
       }
     }
 

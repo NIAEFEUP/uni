@@ -74,7 +74,7 @@ AppState setLoginStatus(AppState state, SetLoginStatusAction action) {
 
 AppState setExams(AppState state, SetExamsAction action) {
   Logger().i('setting exams: ' + action.exams.length.toString());
-  return state.cloneAndUpdateValue("exams", action.exams);
+  return state.cloneAndUpdateValue('exams', action.exams);
 }
 
 AppState setExamsStatus(AppState state, SetExamsStatusAction action) {
@@ -84,7 +84,7 @@ AppState setExamsStatus(AppState state, SetExamsStatusAction action) {
 
 AppState setSchedule(AppState state, SetScheduleAction action) {
   Logger().i('setting schedule: ' + action.lectures.length.toString());
-  return state.cloneAndUpdateValue("schedule", action.lectures);
+  return state.cloneAndUpdateValue('schedule', action.lectures);
 }
 
 AppState setScheduleStatus(AppState state, SetScheduleStatusAction action) {
@@ -93,57 +93,57 @@ AppState setScheduleStatus(AppState state, SetScheduleStatusAction action) {
 }
 
 AppState saveProfile(AppState state, SaveProfileAction action) {
-  return state.cloneAndUpdateValue("profile", action.profile);
+  return state.cloneAndUpdateValue('profile', action.profile);
 }
 
 AppState saveProfileStatus(AppState state, SaveProfileStatusAction action) {
   Logger().i('setting profile status: ' + action.status.toString());
-  return state.cloneAndUpdateValue("profileStatus", action.status);
+  return state.cloneAndUpdateValue('profileStatus', action.status);
 }
 
 AppState saveCurrUcs(AppState state, SaveUcsAction action) {
-  return state.cloneAndUpdateValue("currUcs", action.ucs);
+  return state.cloneAndUpdateValue('currUcs', action.ucs);
 }
 
 AppState setPrintBalance(AppState state, SetPrintBalanceAction action) {
   Logger().i('setting print balance: ' + action.printBalance.toString());
-  return state.cloneAndUpdateValue("printBalance", action.printBalance);
+  return state.cloneAndUpdateValue('printBalance', action.printBalance);
 }
 
 AppState setPrintBalanceStatus(
     AppState state, SetPrintBalanceStatusAction action) {
   Logger().i('setting print balance status: ' + action.status.toString());
-  return state.cloneAndUpdateValue("printBalanceStatus", action.status);
+  return state.cloneAndUpdateValue('printBalanceStatus', action.status);
 }
 
 AppState setFeesBalance(AppState state, SetFeesBalanceAction action) {
   Logger().i('setting fees balance: ' + action.feesBalance.toString());
-  return state.cloneAndUpdateValue("feesBalance", action.feesBalance);
+  return state.cloneAndUpdateValue('feesBalance', action.feesBalance);
 }
 
 AppState setFeesLimit(AppState state, SetFeesLimitAction action) {
   Logger().i('setting next fees limit: ' + action.feesLimit.toString());
-  return state.cloneAndUpdateValue("feesLimit", action.feesLimit);
+  return state.cloneAndUpdateValue('feesLimit', action.feesLimit);
 }
 
 AppState setFeesStatus(AppState state, SetFeesStatusAction action) {
   Logger().i('setting fees status: ' + action.status.toString());
-  return state.cloneAndUpdateValue("feesStatus", action.status);
+  return state.cloneAndUpdateValue('feesStatus', action.status);
 }
 
 AppState setCoursesState(AppState state, SetCoursesStatesAction action) {
   Logger().i('setting courses state: ' + action.coursesStates.toString());
-  return state.cloneAndUpdateValue("coursesStates", action.coursesStates);
+  return state.cloneAndUpdateValue('coursesStates', action.coursesStates);
 }
 
 AppState setBusStop(AppState state, SetBusStopsAction action) {
   Logger().i('setting bus stops: ' + action.busStops.toString());
-  return state.cloneAndUpdateValue("configuredBusStops", action.busStops);
+  return state.cloneAndUpdateValue('configuredBusStops', action.busStops);
 }
 
 AppState setBusTrips(AppState state, SetBusTripsAction action) {
   Logger().i('setting bus trips: ' + action.trips.toString());
-  return state.cloneAndUpdateValue("currentBusTrips", action.trips);
+  return state.cloneAndUpdateValue('currentBusTrips', action.trips);
 }
 
 AppState setBusStopStatus(AppState state, SetBusTripsStatusAction action) {
@@ -168,28 +168,28 @@ AppState setInitialStoreState(
 }
 
 AppState updateFavoriteCards(AppState state, UpdateFavoriteCards action) {
-  return state.cloneAndUpdateValue("favoriteCards", action.favoriteCards);
+  return state.cloneAndUpdateValue('favoriteCards', action.favoriteCards);
 }
 
 AppState setCoursesStateStatus(
     AppState state, SetCoursesStatesStatusAction action) {
   Logger().i('setting courses state status: ' + action.status.toString());
-  return state.cloneAndUpdateValue("coursesStatesStatus", action.status);
+  return state.cloneAndUpdateValue('coursesStatesStatus', action.status);
 }
 
 AppState setPrintRefreshTime(AppState state, SetPrintRefreshTimeAction action) {
   Logger().i('setting print refresh time ' + action.time.toString());
-  return state.cloneAndUpdateValue("printRefreshTime", action.time);
+  return state.cloneAndUpdateValue('printRefreshTime', action.time);
 }
 
 AppState setFeesRefreshTime(AppState state, SetFeesRefreshTimeAction action) {
   Logger().i('setting fees refresh time ' + action.time.toString());
-  return state.cloneAndUpdateValue("feesRefreshTime", action.time);
+  return state.cloneAndUpdateValue('feesRefreshTime', action.time);
 }
 
 AppState setHomePageEditingMode(AppState state, SetHomePageEditingMode action) {
   Logger().i('setting home page editing mode to ' + action.state.toString());
-  return state.cloneAndUpdateValue("homePageEditingMode", action.state);
+  return state.cloneAndUpdateValue('homePageEditingMode', action.state);
 }
 
 AppState setLastUserInfoUpdateTime(

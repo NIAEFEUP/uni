@@ -22,8 +22,8 @@ class ScheduleSlot extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new RowContainer(
-        child: new Container(
+    return  RowContainer(
+        child:  Container(
       padding:
           EdgeInsets.only(top: 10.0, bottom: 10.0, left: 22.0, right: 22.0),
       child: createScheduleSlotRow(context),
@@ -31,9 +31,9 @@ class ScheduleSlot extends StatelessWidget {
   }
 
   Widget createScheduleSlotRow(context) {
-    return new Container(
+    return  Container(
         margin: EdgeInsets.only(top: 3.0, bottom: 3.0),
-        child: new Row(
+        child:  Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -42,7 +42,7 @@ class ScheduleSlot extends StatelessWidget {
   }
 
   Widget createScheduleSlotTime(context) {
-    return new Column(
+    return  Column(
       children: <Widget>[
         createScheduleTime(this.begin, context),
         createScheduleTime(this.end, context)
@@ -70,9 +70,9 @@ class ScheduleSlot extends StatelessWidget {
         TextAlign.right);
     return [
       createScheduleSlotTime(context),
-      new Column(
+       Column(
         children: <Widget>[
-          new Row(
+           Row(
             children: <Widget>[
               subjectTextField,
               typeClassTextField,

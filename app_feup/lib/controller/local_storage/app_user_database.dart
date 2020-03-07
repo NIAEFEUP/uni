@@ -15,9 +15,10 @@ class AppUserDataDatabase extends AppDatabase {
   }
 
   Future<void> _insertUserData(Profile profile) async {
-    for (Tuple2<String, String> keymap in profile.keymapValues())
+    for (Tuple2<String, String> keymap in profile.keymapValues()) {
       await insertInDatabase(
-          'userdata', {"key": keymap.item1, "value": keymap.item2});
+          'userdata', {'key': keymap.item1, 'value': keymap.item2});
+    }
   }
 
   Future<Profile> userdata() async {
@@ -55,13 +56,13 @@ class AppUserDataDatabase extends AppDatabase {
 
   void saveUserPrintBalance(String userBalance) async {
     await insertInDatabase(
-        'userdata', {"key": "balance", "value": userBalance});
+        'userdata', {'key': 'balance', 'value': userBalance});
   }
 
   void saveUserFees(Tuple2<String, String> feesInfo) async {
     await insertInDatabase(
-        'userdata', {"key": "feesBalance", "value": feesInfo.item1});
+        'userdata', {'key': 'feesBalance', 'value': feesInfo.item1});
     await insertInDatabase(
-        'userdata', {"key": "feesLimit", "value": feesInfo.item2});
+        'userdata', {'key': 'feesLimit', 'value': feesInfo.item2});
   }
 }

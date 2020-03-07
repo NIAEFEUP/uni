@@ -18,7 +18,7 @@ class BusStopCard extends GenericCard {
       : super.fromEditingInformation(key, editingMode, onDelete);
 
   @override
-  String getTitle() => "Paragens";
+  String getTitle() => 'Paragens';
 
   @override
   onClick(BuildContext context) => Navigator.pushNamed(context, '/Paragens');
@@ -41,18 +41,18 @@ class BusStopCard extends GenericCard {
       Map<String, BusStopData> stopConfig, busStopStatus) {
     switch (busStopStatus) {
       case RequestStatus.successful:
-        if (trips.length > 0) {
+        if (trips.isNotEmpty) {
           return Column(children: <Widget>[
             this.getCardTitle(context),
             this.getBusStopsInfo(context, trips, stopConfig)
           ]);
         } else {
-          return new Container(
+          return  Container(
             padding: EdgeInsets.all(8.0),
-            child: new Row(
+            child:  Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Text("Configura as tuas paragens",
+                  Text('Configura as tuas paragens',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context)
@@ -60,12 +60,12 @@ class BusStopCard extends GenericCard {
                           .display1
                           .apply(color: primaryColor)),
                   IconButton(
-                      icon: new Icon(Icons.settings),
+                      icon:  Icon(Icons.settings),
                       onPressed: () => Navigator.push(
                           context,
-                          new MaterialPageRoute(
+                           MaterialPageRoute(
                               builder: (context) =>
-                                  new BusStopSelectionPage())),
+                                   BusStopSelectionPage())),
                       color: lightGreyTextColor)
                 ]),
           );
@@ -75,7 +75,7 @@ class BusStopCard extends GenericCard {
         return Column(
           children: <Widget>[
             this.getCardTitle(context),
-            new Container(
+             Container(
                 padding: EdgeInsets.all(22.0),
                 child: Center(child: CircularProgressIndicator()))
           ],
@@ -84,9 +84,9 @@ class BusStopCard extends GenericCard {
       default:
         return Column(children: <Widget>[
           this.getCardTitle(context),
-          new Container(
+           Container(
               padding: EdgeInsets.all(8.0),
-              child: Text("Não foi possível obter informação",
+              child: Text('Não foi possível obter informação',
                   style: Theme.of(context)
                       .textTheme
                       .display1
@@ -108,30 +108,31 @@ class BusStopCard extends GenericCard {
   }
 
   Widget getBusStopsInfo(context, trips, stopConfig) {
-    if (trips.length >= 1)
+    if (trips.length >= 1) {
       return Container(
           padding: EdgeInsets.all(4.0),
-          child: new Column(
+          child:  Column(
             children: this.getEachBusStopInfo(context, trips, stopConfig),
           ));
-    else
+    } else {
       return Center(
-        child: Text("Não há dados a mostrar neste momento",
+        child: Text('Não há dados a mostrar neste momento',
             maxLines: 2, overflow: TextOverflow.fade),
       );
+    }
   }
 
   List<Widget> getEachBusStopInfo(context, trips, stopConfig) {
-    final List<Widget> rows = new List<Widget>();
+    final List<Widget> rows =  List<Widget>();
 
-    rows.add(new LastUpdateTimeStamp());
+    rows.add( LastUpdateTimeStamp());
 
     trips.forEach((stopCode, tripList) {
       if (tripList.length > 0 && stopConfig[stopCode].favorited) {
-        rows.add(new Container(
+        rows.add( Container(
             padding: EdgeInsets.only(top: 12.0),
-            child: new RowContainer(
-                child: new BusStopRow(
+            child:  RowContainer(
+                child:  BusStopRow(
               stopCode: stopCode,
               trips: tripList,
               singleTrip: true,

@@ -5,7 +5,7 @@ class Bus{
   String destination;
   bool direction;
 
-  Bus({@required this.busCode, this.destination="", this.direction = false}){}
+  Bus({@required this.busCode, this.destination='', this.direction = false}){}
 
   Map<String, dynamic> toMap() {
     return {

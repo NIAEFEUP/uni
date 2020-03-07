@@ -13,10 +13,10 @@ class TripRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new Row(
+    return  Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        new Column(
+         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(this.trip.line,
@@ -33,7 +33,7 @@ class TripRow extends StatelessWidget {
                     .apply(color: greyTextColor)),
           ],
         ),
-        new Column(
+         Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
               Text(this.trip.timeRemaining.toString() + '\'',
@@ -41,7 +41,7 @@ class TripRow extends StatelessWidget {
                       .textTheme
                       .display1
                       .apply(color: lightGreyTextColor, fontWeightDelta: 2)),
-              new EstimatedArrivalTimeStamp(
+               EstimatedArrivalTimeStamp(
                   timeRemaining: this.trip.timeRemaining.toString()),
             ])
       ],

@@ -26,12 +26,12 @@ class BusStopSelectionRowState extends State<BusStopSelectionRow> {
 
   Future deleteStop(BuildContext context) async {
     StoreProvider.of<AppState>(context)
-        .dispatch(removeUserBusStop(new Completer(), this.stopCode));
+        .dispatch(removeUserBusStop( Completer(), this.stopCode));
   }
 
   Future toggleFavorite(BuildContext context) async {
     StoreProvider.of<AppState>(context).dispatch(toggleFavoriteUserBusStop(
-        new Completer(), this.stopCode, this.stopData));
+         Completer(), this.stopCode, this.stopData));
   }
 
   @override

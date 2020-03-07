@@ -9,7 +9,7 @@ import 'general_page_view.dart';
 abstract class UnnamedPageView extends GeneralPageViewState{
   @override
   getScaffold(BuildContext context, Widget body){
-    return new Scaffold(
+    return  Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: buildAppBar(context),
       body: this.refreshState(context, body),

@@ -8,7 +8,7 @@ Future<String> getPrintsBalance(http.Response response) async {
   final String balanceString =
       document.querySelector('div#conteudoinner > .info').text;
 
-  final String balance = balanceString.split(": ")[1];
+  final String balance = balanceString.split(': ')[1];
 
   return balance;
 }

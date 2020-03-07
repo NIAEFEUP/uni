@@ -22,10 +22,10 @@ String getExamSeasonAbbr(String seasonStr) {
 Future<List<Exam>> parseExams(http.Response response) async {
   final document = parse(response.body);
 
-  final List<Exam> examsList = new List();
-  final List<String> dates = new List();
-  final List<String> examTypes = new List();
-  final List<String> weekDays = new List();
+  final List<Exam> examsList =  List();
+  final List<String> dates =  List();
+  final List<String> examTypes =  List();
+  final List<String> weekDays =  List();
   String subject, schedule, rooms;
   int days = 0;
   int tableNum = 0;
@@ -56,7 +56,7 @@ Future<List<Exam>> parseExams(http.Response response) async {
 
             schedule = examsDay.text.substring(
                 examsDay.text.indexOf(':') - 2, examsDay.text.indexOf(':') + 9);
-            final Exam exam = new Exam(schedule, subject, rooms, dates[days],
+            final Exam exam =  Exam(schedule, subject, rooms, dates[days],
                 examTypes[tableNum], weekDays[days]);
             examsList.add(exam);
           });

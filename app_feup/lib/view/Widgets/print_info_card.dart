@@ -12,7 +12,7 @@ class PrintInfoCard extends GenericCard {
 
   @override
   Widget buildCardContent(BuildContext context) {
-    return new Column(
+    return  Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         Table(
@@ -23,7 +23,7 @@ class PrintInfoCard extends GenericCard {
                 Container(
                   margin: const EdgeInsets.only(
                       top: 20.0, bottom: 20.0, left: 20.0),
-                  child: Text("Valor disponível: ",
+                  child: Text('Valor disponível: ',
                       style: Theme.of(context)
                           .textTheme
                           .display1
@@ -33,14 +33,14 @@ class PrintInfoCard extends GenericCard {
                   margin: const EdgeInsets.only(
                       top: 20.0, bottom: 20.0, right: 30.0),
                   child: StoreConnector<AppState, String>(
-                      converter: (store) => store.state.content["printBalance"],
+                      converter: (store) => store.state.content['printBalance'],
                       builder: (context, printBalance) =>
                           getInfoText(printBalance, context)),
                 ),
               ])
             ]),
         StoreConnector<AppState, String>(
-            converter: (store) => store.state.content["printRefreshTime"],
+            converter: (store) => store.state.content['printRefreshTime'],
             builder: (context, printRefreshTime) =>
                 showLastRefreshedTime(printRefreshTime, context))
       ],
@@ -48,7 +48,7 @@ class PrintInfoCard extends GenericCard {
   }
 
   @override
-  String getTitle() => "Impressões";
+  String getTitle() => 'Impressões';
 
   @override
   onClick(BuildContext context) {}

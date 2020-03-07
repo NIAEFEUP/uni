@@ -22,20 +22,21 @@ Future<File> retrieveImage(String url, Map<String, String> headers) async {
   final hasInternetConnection = connectivityResult != ConnectivityResult.none;
 
   final targetPath = '$path/profile_pic.png';
-  final File file = new File(targetPath);
+  final File file =  File(targetPath);
 
   if (hasInternetConnection && headers.isNotEmpty) {
     return saveImage(targetPath, url, headers);
   } else if (file.existsSync()) {
     return file;
-  } else
+  } else {
     return null;
+  }
 }
 
 Future<File> saveImage(
     String filepath, String url, Map<String, String> headers) async {
   final File file = await getImageFromNetwork(url, headers);
   final Image image = decodeImage(await file.readAsBytes());
-  new File(filepath)..writeAsBytes(encodePng(image));
+   File(filepath)..writeAsBytes(encodePng(image));
   return file;
 }

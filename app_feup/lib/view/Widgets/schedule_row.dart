@@ -22,20 +22,20 @@ class ScheduleRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new Center(
-        child: new Container(
+    return  Center(
+        child:  Container(
       padding: EdgeInsets.only(left: 12.0, bottom: 8.0, right: 12),
       margin: EdgeInsets.only(top: 8.0),
-      child: new Row(
+      child:  Row(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          new ScheduleTimeInterval(begin: this.begin, end: this.end),
-          new ScheduleEventRectangle(subject: this.subject, type: this.type),
-          new Container(
+           ScheduleTimeInterval(begin: this.begin, end: this.end),
+           ScheduleEventRectangle(subject: this.subject, type: this.type),
+           Container(
               margin: EdgeInsets.only(top: 12.0, bottom: 12.0),
-              child: new Column(
+              child:  Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: getScheduleRooms(context)))
         ],
@@ -44,20 +44,20 @@ class ScheduleRow extends StatelessWidget {
   }
 
   List<Widget> getScheduleRooms(context) {
-    if (this.rooms[0] == "") {
+    if (this.rooms[0] == '') {
       return [
         Text(
-          "sem\nsalas",
+          'sem\nsalas',
           textAlign: TextAlign.right,
           style: Theme.of(context).textTheme.display1.apply(fontSizeDelta: -4),
         )
       ];
     }
 
-    final List<Widget> rooms = new List();
+    final List<Widget> rooms =  List();
     for (String room in this.rooms) {
       rooms.add(
-        new Text(
+         Text(
           room,
           style: Theme.of(context).textTheme.display1.apply(fontSizeDelta: -4),
         ),

@@ -31,7 +31,7 @@ class EstimatedArrivalTimeStamp extends StatelessWidget {
     num = estimatedTime.minute;
     final String minute = (num >= 10 ? '$num' : '0$num');
 
-    return new Text('$hour:$minute',
+    return  Text('$hour:$minute',
         style:
             Theme.of(context).textTheme.display1.apply(color: greyTextColor));
   }
