@@ -47,6 +47,7 @@ class MyAppState extends State<MyApp> {
   MyAppState({@required this.state}) {}
 
   final Store<AppState> state;
+  static final int pageTransitionDuration = 200;
 
   @override
   Widget build(BuildContext context) {
@@ -64,24 +65,23 @@ class MyAppState extends State<MyApp> {
           onGenerateRoute: (RouteSettings settings) {
             switch (settings.name) {
               case '/' + Constants.navPersonalArea:
-                return MaterialPageRoute(
-                    builder: (context) => HomePageView(), settings: settings);
+                return makePageTransition(
+                    page: HomePageView(), settings: settings);
               case '/' + Constants.navSchedule:
-                return MaterialPageRoute(
-                    builder: (context) => SchedulePage(), settings: settings);
+                return makePageTransition(
+                    page: SchedulePage(), settings: settings);
               case '/' + Constants.navExams:
-                return MaterialPageRoute(
-                    builder: (context) => ExamsPageView(), settings: settings);
+                return makePageTransition(
+                    page: ExamsPageView(), settings: settings);
               case '/' + Constants.navStops:
-                return MaterialPageRoute(
-                    builder: (context) => BusStopNextArrivalsPage(),
-                    settings: settings);
+                return makePageTransition(
+                    page: BusStopNextArrivalsPage(), settings: settings);
               case '/' + Constants.navAbout:
-                return MaterialPageRoute(
-                    builder: (context) => AboutPageView(), settings: settings);
+                return makePageTransition(
+                    page: AboutPageView(), settings: settings);
               case '/' + Constants.navBugReport:
-                return MaterialPageRoute(
-                    builder: (context) => BugReportPageView(),
+                return makePageTransition(
+                    page: BugReportPageView(),
                     settings: settings,
                     maintainState: false);
               case '/' + Constants.navLogOut:
@@ -99,5 +99,21 @@ class MyAppState extends State<MyApp> {
     super.initState();
     Timer.periodic(Duration(seconds: 60),
         (Timer t) => state.dispatch(SetCurrentTimeAction(DateTime.now())));
+  }
+
+  Route makePageTransition(
+      {Widget page, bool maintainState = true, RouteSettings settings}) {
+    return PageRouteBuilder(
+        pageBuilder: (BuildContext context, Animation<double> animation,
+            Animation<double> secondaryAnimation) {
+          return page;
+        },
+        transitionDuration: Duration(milliseconds: pageTransitionDuration),
+        settings: settings,
+        maintainState: maintainState,
+        transitionsBuilder: (BuildContext context, Animation<double> animation,
+            Animation<double> secondaryAnimation, Widget child) {
+          return FadeTransition(opacity: animation, child: child);
+        });
   }
 }
