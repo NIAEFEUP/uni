@@ -1,5 +1,5 @@
-name: app_feup
-description: A new Flutter project.
+name: uni
+description: A FEUP no teu bolso
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -7,7 +7,7 @@ description: A new Flutter project.
 # Both the version and the builder number may be overridden in flutter
 # build by specifying --build-name and --build-number, respectively.
 # Read more about versioning at semver.org.
-version: 1.0.0+1
+version: 1.0.0+2
 
 environment:
   sdk: ">=2.2.0 <3.0.0"
@@ -15,21 +15,25 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
   html: ^0.13.3+3
   flutter_redux: ^0.5.2
   redux_thunk: ^0.2.1
   http: ^0.12.0+1
   query_params: '^0.6.1'
   tuple: ^1.0.2
-  shared_preferences: ^0.5.1+1
+  shared_preferences: ^0.5.6
   encrypt: ^2.0.0
-  path_provider: any
-  sqflite: ^1.1.0
+  path_provider: ^1.5.1
+  sqflite: ^1.1.8
   path: ^1.6.2
   cached_network_image: ^1.1.0
   flutter_svg: ^0.13.1
   synchronized: ^2.1.0
+  toast: ^0.1.5
+  image: ^2.1.4
+  connectivity: ^0.4.4
+  logger: ^0.8.3
+
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -41,6 +45,18 @@ dev_dependencies:
 
   test: any
   mockito: ^4.1.1
+  flutter_launcher_icons: "^0.7.3"
+  flutter_native_splash: ^0.1.9
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/icon/icon.png"
+
+flutter_native_splash:
+  image: assets/images/splash_screen.png
+  color: "ffffff"
+  fill: true
 
 
 # For information on the generic Dart part of this file, see the
@@ -83,6 +99,8 @@ flutter:
   assets:
    - assets/
    - assets/images/
+   - assets/env/
+   - assets/text/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.
