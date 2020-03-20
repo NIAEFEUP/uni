@@ -11,6 +11,7 @@ import 'package:uni/view/Widgets/exam_card.dart';
 import 'package:uni/view/Widgets/print_info_card.dart';
 import 'package:uni/view/Widgets/schedule_card.dart';
 import 'package:uni/view/theme.dart';
+import 'package:uni/utils/constants.dart' as Constants;
 
 class MainCardsList extends StatelessWidget {
   final Map<FAVORITE_WIDGET_TYPE, Function> cardCreators = {
@@ -120,7 +121,7 @@ class MainCardsList extends StatelessWidget {
       padding: EdgeInsets.fromLTRB(20, 20, 20, 5),
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         Text(
-          'Área Pessoal',
+          Constants.navPersonalArea,
           style: Theme.of(context).textTheme.title.apply(fontSizeFactor: 1.3),
         ),
         GestureDetector(

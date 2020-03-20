@@ -3,6 +3,7 @@
 import 'package:uni/model/entities/bus_stop.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/entities/trip.dart';
+import 'package:uni/utils/constants.dart' as Constants;
 
 import 'entities/exam.dart';
 import 'entities/lecture.dart';
@@ -19,7 +20,7 @@ class AppState {
       'scheduleStatus': RequestStatus.none,
       'loginStatus': RequestStatus.none,
       'examsStatus': RequestStatus.none,
-      'selected_page': 'Área Pessoal',
+      'selected_page': Constants.navPersonalArea,
       'session':  Session(authenticated: false),
       'configuredBusStops':  Map<String, BusStopData>(),
       'currentBusTrips':  Map<String, List<Trip>>(),
@@ -30,7 +31,6 @@ class AppState {
       'printBalanceStatus': RequestStatus.none,
       'feesStatus': RequestStatus.none,
       'coursesStateStatus': RequestStatus.none,
-      'session':  Session(authenticated: false),
       'lastUserInfoUpdateTime': null
     };
   }
