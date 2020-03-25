@@ -36,15 +36,15 @@ void main() {
         '17:00-19:00',
         'SOPE',
         '',
-        '2019-11-18',
-        'Exames ao abrigo de estatutos especiais - Mini-testes (1�S)',
+        '2099-11-18',
+        'MT',
         'Segunda');
     final sdisExam = Exam(
         '17:00-19:00',
         'SDIS',
         '',
-        '2019-10-21',
-        'Exames ao abrigo de estatutos especiais - Mini-testes (1�S)',
+        '2099-10-21',
+        'MT',
         'Segunda');
 
     final profile = Profile();
@@ -81,7 +81,7 @@ void main() {
 
       await completer.future;
 
-      await tester.pump();
+      await tester.pumpAndSettle();
 
       expect(find.byKey(Key(sdisExam.toString())), findsOneWidget);
       expect(find.byKey(Key(sopeExam.toString())), findsOneWidget);
