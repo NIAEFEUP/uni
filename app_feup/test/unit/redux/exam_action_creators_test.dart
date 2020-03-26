@@ -1,12 +1,9 @@
 import 'dart:async';
 
-import 'package:redux/redux.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:http/http.dart' as http;
 import 'package:tuple/tuple.dart';
 import 'package:uni/controller/networking/network_router.dart';
-import 'package:uni/controller/parsers/parser_exams.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/course_unit.dart';
@@ -15,16 +12,9 @@ import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/redux/action_creators.dart';
 
-class MockStore extends Mock implements Store<AppState> {}
-
-class ParserMock extends Mock implements ParserExams {}
-
-class MockClient extends Mock implements http.Client {}
-
-class MockResponse extends Mock implements http.Response {}
+import 'action_creators.dart';
 
 void main() {
-  group('ActionCreators', () {
     group('Exams Action Creator', () {
       final sopeCourseUnit = CourseUnit(abbreviation: 'SOPE');
       final sdisCourseUnit = CourseUnit(abbreviation: 'SDIS');
@@ -120,5 +110,4 @@ void main() {
         expect(actions[1].status, RequestStatus.failed);
       });
     });
-  });
 }
