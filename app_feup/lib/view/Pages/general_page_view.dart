@@ -89,7 +89,12 @@ abstract class GeneralPageViewState extends State<StatefulWidget> {
           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
           shape: RoundedRectangleBorder(),
           child: TextButton(
-            onPressed: () => Navigator.pushNamed(context, '/' + Constants.navPersonalArea),
+            onPressed: () {
+              final currentRouteName = ModalRoute.of(context).settings.name;
+              if(currentRouteName != Constants.navPersonalArea){
+                Navigator.pushNamed(context, '/${Constants.navPersonalArea}');
+              }
+            },
             child: SvgPicture.asset(
               'assets/images/logo_dark.svg',
               height: queryData.size.height / 25,
