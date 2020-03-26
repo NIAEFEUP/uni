@@ -5,7 +5,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'dart:io';
 
-import 'package:uni/controller/lifecycle_event_handler.dart';
 import 'package:uni/controller/load_info.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/profile_page_model.dart';
@@ -14,24 +13,7 @@ import 'package:uni/utils/constants.dart' as Constants;
 
 abstract class GeneralPageViewState extends State<StatefulWidget> {
   final double borderMargin = 18.0;
-  static WidgetsBindingObserver lifeCycleEventHandler;
   static FileImage decorageImage;
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (lifeCycleEventHandler != null) {
-      WidgetsBinding.instance.removeObserver(lifeCycleEventHandler);
-    }
-    lifeCycleEventHandler =
-         LifecycleEventHandler(store: StoreProvider.of<AppState>(context));
-    WidgetsBinding.instance.addObserver(lifeCycleEventHandler);
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
