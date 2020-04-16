@@ -71,7 +71,8 @@ void main() {
         expect(actions[1].status, RequestStatus.successful);
         expect(actions[2].exams, [sopeExam, sdisExam]);
       });
-      test('When given three exams but one is to be parsed', () async {
+      test('''When given three exams but one is to be parsed out,
+                since it is a Special Season Exam''', () async {
         final specialExam = Exam(
             '12:00-15:00',
             'SDIS',
