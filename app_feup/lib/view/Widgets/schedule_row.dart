@@ -22,6 +22,7 @@ class ScheduleRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final roomsKey = '$subject-$rooms-$begin-$end';
     return  Center(
         child:  Container(
       padding: EdgeInsets.only(left: 12.0, bottom: 8.0, right: 12),
@@ -36,6 +37,7 @@ class ScheduleRow extends StatelessWidget {
            Container(
               margin: EdgeInsets.only(top: 12.0, bottom: 12.0),
               child:  Column(
+                  key: Key(roomsKey),
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: getScheduleRooms(context)))
         ],

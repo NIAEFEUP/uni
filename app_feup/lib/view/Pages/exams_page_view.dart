@@ -21,19 +21,34 @@ class ExamsPageViewState extends SecondaryPageViewState {
     return StoreConnector<AppState, List<dynamic>>(
       converter: (store) => store.state.content['exams'],
       builder: (context, exams) {
-        return ListView(
-          children: <Widget>[
-            Container(
-              child:  Column(
-                mainAxisSize: MainAxisSize.max,
-                children: this.createExamsColumn(context, exams),
-              ),
-            )
-          ],
-        );
+        return ExamsList(exams: exams);
       },
     );
   }
+}
+
+class ExamsList extends StatelessWidget {
+  final List<Exam> exams;
+
+  const ExamsList({
+    Key key,
+    @required this.exams
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      children: <Widget>[
+        Container(
+          child:  Column(
+            mainAxisSize: MainAxisSize.max,
+            children: this.createExamsColumn(context, exams),
+          ),
+        )
+      ],
+    );
+  }
+
 
   List<Widget> createExamsColumn(context, exams) {
     final List<Widget> columns =  List<Widget>();
@@ -76,7 +91,9 @@ class ExamsPageViewState extends SecondaryPageViewState {
   }
 
   Widget createExamCard(context, exams) {
+    final keyValue = exams.map((exam) => exam.toString()).join();
     return  Container(
+      key: Key(keyValue),  
       margin: EdgeInsets.only(bottom: 8),
       padding: EdgeInsets.all(8),
       child: this.createExamsCards(context, exams),
@@ -94,7 +111,9 @@ class ExamsPageViewState extends SecondaryPageViewState {
   }
 
   Widget createExamContext(context, exam) {
+    final keyValue = '${exam.toString()}-exam';
     return Container(
+        key: Key(keyValue),
         margin: EdgeInsets.fromLTRB(12, 4, 12, 0),
         child: RowContainer(
             child:  ScheduleRow(

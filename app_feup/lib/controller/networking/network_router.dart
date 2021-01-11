@@ -15,6 +15,8 @@ import 'package:query_params/query_params.dart';
 import 'package:synchronized/synchronized.dart';
 
 class NetworkRouter {
+  static http.Client httpClient;
+
   static const int loginRequestTimeout = 20;
 
   static Lock loginLock = Lock();
@@ -127,7 +129,7 @@ class NetworkRouter {
       return Future.error('Login failed');
     }
 
-    final URLQueryParams params =  URLQueryParams();
+    final URLQueryParams params = URLQueryParams();
     query.forEach((key, value) {
       params.append(key, value);
     });
@@ -136,7 +138,9 @@ class NetworkRouter {
 
     final Map<String, String> headers = Map<String, String>();
     headers['cookie'] = session.cookies;
-    final http.Response response = await http.get(url, headers: headers);
+    final http.Response response = await (httpClient != null
+        ? httpClient.get(url, headers: headers)
+        : http.get(url, headers: headers));
     if (response.statusCode == 200) {
       return response;
     } else if (response.statusCode == 403) {
@@ -156,7 +160,7 @@ class NetworkRouter {
   }
 
   static Future<List<String>> getStopsByName(String stopCode) async {
-    final List<String> stopsList =  List();
+    final List<String> stopsList = List();
 
     //Search by aproximate name
     final String url =
@@ -177,7 +181,7 @@ class NetworkRouter {
         'http://move-me.mobi/NextArrivals/GetScheds?providerName=STCP&stopCode=STCP_' +
             stopCode;
     final http.Response response = await http.get(url);
-    final List<Trip> tripList =  List();
+    final List<Trip> tripList = List();
 
     final List json = jsonDecode(response.body);
 
@@ -208,7 +212,7 @@ class NetworkRouter {
 
     final List json = jsonDecode(response.body);
 
-    final List<Bus> buses =  List();
+    final List<Bus> buses = List();
 
     for (var busKey in json) {
       final lines = busKey['lines'];

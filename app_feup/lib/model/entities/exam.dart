@@ -76,6 +76,12 @@ class Exam {
   }
 
   void printExam() {
-    Logger().i('''$subject - $year - $month - $day -  $begin-$end - $examType - $rooms - $weekDay''');
+    Logger().i(
+        '''$subject - $year - $month - $day -  $begin-$end - $examType - $rooms - $weekDay''');
+  }
+
+  @override
+  String toString() {
+    return '''$subject - $year - $month - $day -  $begin-$end - $examType - $rooms - $weekDay''';
   }
 }

@@ -34,16 +34,16 @@ ThunkAction<AppState> reLogin(username, password, faculty, {Completer action}) {
   return (Store<AppState> store) async {
     try {
       loadLocalUserInfoToState(store);
-      store.dispatch( SetLoginStatusAction(RequestStatus.busy));
+      store.dispatch(SetLoginStatusAction(RequestStatus.busy));
       final Session session =
           await NetworkRouter.login(username, password, faculty, true);
-      store.dispatch( SaveLoginDataAction(session));
+      store.dispatch(SaveLoginDataAction(session));
       if (session.authenticated) {
         await loadRemoteUserInfoToState(store);
-        store.dispatch( SetLoginStatusAction(RequestStatus.successful));
+        store.dispatch(SetLoginStatusAction(RequestStatus.successful));
         action?.complete();
       } else {
-        store.dispatch( SetLoginStatusAction(RequestStatus.failed));
+        store.dispatch(SetLoginStatusAction(RequestStatus.failed));
         action?.completeError(RequestStatus.failed);
       }
     } catch (e) {
@@ -54,8 +54,8 @@ ThunkAction<AppState> reLogin(username, password, faculty, {Completer action}) {
 
       action?.completeError(RequestStatus.failed);
 
-      store.dispatch( SaveLoginDataAction(renewSession));
-      store.dispatch( SetLoginStatusAction(RequestStatus.failed));
+      store.dispatch(SaveLoginDataAction(renewSession));
+      store.dispatch(SetLoginStatusAction(RequestStatus.failed));
     }
   };
 }
@@ -64,12 +64,12 @@ ThunkAction<AppState> login(username, password, faculty, persistentSession,
     usernameController, passwordController) {
   return (Store<AppState> store) async {
     try {
-      store.dispatch( SetLoginStatusAction(RequestStatus.busy));
+      store.dispatch(SetLoginStatusAction(RequestStatus.busy));
       final Session session = await NetworkRouter.login(
           username, password, faculty, persistentSession);
-      store.dispatch( SaveLoginDataAction(session));
+      store.dispatch(SaveLoginDataAction(session));
       if (session.authenticated) {
-        store.dispatch( SetLoginStatusAction(RequestStatus.successful));
+        store.dispatch(SetLoginStatusAction(RequestStatus.successful));
         await loadUserInfoToState(store);
         if (persistentSession) {
           AppSharedPreferences.savePersistentUserInfo(username, password);
@@ -77,10 +77,10 @@ ThunkAction<AppState> login(username, password, faculty, persistentSession,
         usernameController.clear();
         passwordController.clear();
       } else {
-        store.dispatch( SetLoginStatusAction(RequestStatus.failed));
+        store.dispatch(SetLoginStatusAction(RequestStatus.failed));
       }
     } catch (e) {
-      store.dispatch( SetLoginStatusAction(RequestStatus.failed));
+      store.dispatch(SetLoginStatusAction(RequestStatus.failed));
     }
   };
 }
@@ -95,12 +95,12 @@ ThunkAction<AppState> getUserInfo(Completer<Null> action) {
       final profile =
           NetworkRouter.getProfile(store.state.content['session']).then((res) {
         userProfile = res;
-        store.dispatch( SaveProfileAction(userProfile));
-        store.dispatch( SaveProfileStatusAction(RequestStatus.successful));
+        store.dispatch(SaveProfileAction(userProfile));
+        store.dispatch(SaveProfileStatusAction(RequestStatus.successful));
       });
       final ucs =
           NetworkRouter.getCurrentCourseUnits(store.state.content['session'])
-              .then((res) => store.dispatch( SaveUcsAction(res)));
+              .then((res) => store.dispatch(SaveUcsAction(res)));
       await Future.wait([profile, ucs]);
 
       final Tuple2<String, String> userPersistentInfo =
@@ -114,7 +114,7 @@ ThunkAction<AppState> getUserInfo(Completer<Null> action) {
       }
     } catch (e) {
       Logger().e('Failed to get User Info');
-      store.dispatch( SaveProfileStatusAction(RequestStatus.failed));
+      store.dispatch(SaveProfileStatusAction(RequestStatus.failed));
     }
 
     action.complete();
@@ -125,7 +125,7 @@ ThunkAction<AppState> updateStateBasedOnLocalUserExams() {
   return (Store<AppState> store) async {
     final AppExamsDatabase db = AppExamsDatabase();
     final List<Exam> exs = await db.exams();
-    store.dispatch( SetExamsAction(exs));
+    store.dispatch(SetExamsAction(exs));
   };
 }
 
@@ -133,7 +133,7 @@ ThunkAction<AppState> updateStateBasedOnLocalUserLectures() {
   return (Store<AppState> store) async {
     final AppLecturesDatabase db = AppLecturesDatabase();
     final List<Lecture> lecs = await db.lectures();
-    store.dispatch( SetScheduleAction(lecs));
+    store.dispatch(SetScheduleAction(lecs));
   };
 }
 
@@ -148,16 +148,16 @@ ThunkAction<AppState> updateStateBasedOnLocalProfile() {
     profile.courses = courses;
 
     // Build courses states map
-    final Map<String, String> coursesStates =  Map<String, String>();
+    final Map<String, String> coursesStates = Map<String, String>();
     for (Course course in profile.courses) {
       coursesStates[course.name] = course.state;
     }
 
-    store.dispatch( SaveProfileAction(profile));
-    store.dispatch( SetPrintBalanceAction(profile.printBalance));
-    store.dispatch( SetFeesBalanceAction(profile.feesBalance));
-    store.dispatch( SetFeesLimitAction(profile.feesLimit));
-    store.dispatch( SetCoursesStatesAction(coursesStates));
+    store.dispatch(SaveProfileAction(profile));
+    store.dispatch(SetPrintBalanceAction(profile.printBalance));
+    store.dispatch(SetFeesBalanceAction(profile.feesBalance));
+    store.dispatch(SetFeesLimitAction(profile.feesLimit));
+    store.dispatch(SetCoursesStatesAction(coursesStates));
   };
 }
 
@@ -166,8 +166,8 @@ ThunkAction<AppState> updateStateBasedOnLocalUserBusStops() {
     final AppBusStopDatabase busStopsDb = AppBusStopDatabase();
     final Map<String, BusStopData> stops = await busStopsDb.busStops();
 
-    store.dispatch( SetBusStopsAction(stops));
-    store.dispatch(getUserBusTrips( Completer()));
+    store.dispatch(SetBusStopsAction(stops));
+    store.dispatch(getUserBusTrips(Completer()));
   };
 }
 
@@ -177,57 +177,62 @@ ThunkAction<AppState> updateStateBasedOnLocalRefreshTimes() {
     final Map<String, String> refreshTimes =
         await refreshTimesDb.refreshTimes();
 
-    store.dispatch( SetPrintRefreshTimeAction(refreshTimes['print']));
-    store.dispatch( SetFeesRefreshTimeAction(refreshTimes['fees']));
+    store.dispatch(SetPrintRefreshTimeAction(refreshTimes['print']));
+    store.dispatch(SetFeesRefreshTimeAction(refreshTimes['fees']));
   };
 }
 
-ThunkAction<AppState> getUserExams(Completer<Null> action) {
+Future<List<Exam>> extractExams(
+    Store<AppState> store, ParserExams parserExams) async {
+  List<Exam> courseExams = List();
+  for (Course course in store.state.content['profile'].courses) {
+    final List<Exam> currentCourseExams = await parserExams.parseExams(
+        await NetworkRouter.getWithCookies(
+            NetworkRouter.getBaseUrlFromSession(
+                    store.state.content['session']) +
+                'exa_geral.mapa_de_exames?p_curso_id=${course.id}',
+            {},
+            store.state.content['session']));
+    courseExams = List.from(courseExams)..addAll(currentCourseExams);
+  }
+
+  final DateTime now = DateTime.now();
+
+  final List<CourseUnit> userUcs = store.state.content['currUcs'];
+  final List<Exam> exams = List<Exam>();
+  for (Exam courseExam in courseExams) {
+    for (CourseUnit uc in userUcs) {
+      if (!courseExam.examType.contains(
+              '''Exames ao abrigo de estatutos especiais - Port.Est.Especiais''') &&
+          courseExam.subject == uc.abbreviation &&
+          now.compareTo(courseExam.date) <= 0) {
+        exams.add(courseExam);
+        break;
+      }
+    }
+  }
+  return exams;
+}
+
+ThunkAction<AppState> getUserExams(Completer<Null> action,
+    ParserExams parserExams, Tuple2<String, String> userPersistentInfo) {
   return (Store<AppState> store) async {
     try {
       //need to get student course here
-      store.dispatch( SetExamsStatusAction(RequestStatus.busy));
+      store.dispatch(SetExamsStatusAction(RequestStatus.busy));
 
-      List<Exam> courseExams =  List<Exam>();
-
-      for (Course course in store.state.content['profile'].courses) {
-        final List<Exam> currentCourseExams = await parseExams(
-            await NetworkRouter.getWithCookies(
-                NetworkRouter.getBaseUrlFromSession(
-                        store.state.content['session']) +
-                    'exa_geral.mapa_de_exames?p_curso_id=${course.id}',
-                {},
-                store.state.content['session']));
-        courseExams =  List.from(courseExams)..addAll(currentCourseExams);
-      }
-
-      final DateTime now =  DateTime.now();
-
-      final List<CourseUnit> userUcs = store.state.content['currUcs'];
-      final List<Exam> exams =  List<Exam>();
-      for (Exam courseExam in courseExams) {
-        for (CourseUnit uc in userUcs) {
-          if (!courseExam.examType.contains('''Exames ao abrigo de estatutos especiais - Port.Est.Especiais''') &&
-              courseExam.subject == uc.abbreviation &&
-              now.compareTo(courseExam.date) <= 0) {
-            exams.add(courseExam);
-            break;
-          }
-        }
-      }
+      final List<Exam> exams = await extractExams(store, parserExams);
 
       // Updates local database according to the information fetched -- Exams
-      final Tuple2<String, String> userPersistentInfo =
-          await AppSharedPreferences.getPersistentUserInfo();
       if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {
         final AppExamsDatabase db = AppExamsDatabase();
         db.saveNewExams(exams);
       }
-      store.dispatch( SetExamsStatusAction(RequestStatus.successful));
-      store.dispatch( SetExamsAction(exams));
+      store.dispatch(SetExamsStatusAction(RequestStatus.successful));
+      store.dispatch(SetExamsAction(exams));
     } catch (e) {
       Logger().e('Failed to get Exams');
-      store.dispatch( SetExamsStatusAction(RequestStatus.failed));
+      store.dispatch(SetExamsStatusAction(RequestStatus.failed));
     }
 
     action.complete();
@@ -237,12 +242,12 @@ ThunkAction<AppState> getUserExams(Completer<Null> action) {
 ThunkAction<AppState> getUserSchedule(Completer<Null> action) {
   return (Store<AppState> store) async {
     try {
-      store.dispatch( SetScheduleStatusAction(RequestStatus.busy));
+      store.dispatch(SetScheduleStatusAction(RequestStatus.busy));
       var date = DateTime.now();
       final String beginWeek = date.year.toString().padLeft(4, '0') +
           date.month.toString().padLeft(2, '0') +
           date.day.toString().padLeft(2, '0');
-      date = date.add( Duration(days: 6));
+      date = date.add(Duration(days: 6));
 
       final String endWeek = date.year.toString().padLeft(4, '0') +
           date.month.toString().padLeft(2, '0') +
@@ -263,11 +268,11 @@ ThunkAction<AppState> getUserSchedule(Completer<Null> action) {
         db.saveNewLectures(lectures);
       }
 
-      store.dispatch( SetScheduleAction(lectures));
-      store.dispatch( SetScheduleStatusAction(RequestStatus.successful));
+      store.dispatch(SetScheduleAction(lectures));
+      store.dispatch(SetScheduleStatusAction(RequestStatus.successful));
     } catch (e) {
       Logger().e('Failed to get Schedule');
-      store.dispatch( SetScheduleStatusAction(RequestStatus.failed));
+      store.dispatch(SetScheduleStatusAction(RequestStatus.failed));
     }
     action.complete();
   };
@@ -275,7 +280,7 @@ ThunkAction<AppState> getUserSchedule(Completer<Null> action) {
 
 ThunkAction<AppState> setInitialStoreState() {
   return (Store<AppState> store) async {
-    store.dispatch( SetInitialStoreStateAction());
+    store.dispatch(SetInitialStoreStateAction());
   };
 }
 
@@ -305,12 +310,12 @@ ThunkAction<AppState> getUserPrintBalance(Completer<Null> action) {
         profileDb.saveUserPrintBalance(printBalance);
       }
 
-      store.dispatch( SetPrintBalanceAction(printBalance));
-      store.dispatch( SetPrintBalanceStatusAction(RequestStatus.successful));
-      store.dispatch( SetPrintRefreshTimeAction(currentTime));
+      store.dispatch(SetPrintBalanceAction(printBalance));
+      store.dispatch(SetPrintBalanceStatusAction(RequestStatus.successful));
+      store.dispatch(SetPrintRefreshTimeAction(currentTime));
     } catch (e) {
       Logger().e('Failed to get Print Balance');
-      store.dispatch( SetPrintBalanceStatusAction(RequestStatus.failed));
+      store.dispatch(SetPrintBalanceStatusAction(RequestStatus.failed));
     }
     action.complete();
   };
@@ -318,7 +323,7 @@ ThunkAction<AppState> getUserPrintBalance(Completer<Null> action) {
 
 ThunkAction<AppState> getUserFees(Completer<Null> action) {
   return (Store<AppState> store) async {
-    store.dispatch( SetFeesStatusAction(RequestStatus.busy));
+    store.dispatch(SetFeesStatusAction(RequestStatus.busy));
 
     final String url =
         NetworkRouter.getBaseUrlFromSession(store.state.content['session']) +
@@ -343,17 +348,16 @@ ThunkAction<AppState> getUserFees(Completer<Null> action) {
 
         // Store fees info
         final profileDb = AppUserDataDatabase();
-        profileDb
-            .saveUserFees( Tuple2<String, String>(feesBalance, feesLimit));
+        profileDb.saveUserFees(Tuple2<String, String>(feesBalance, feesLimit));
       }
 
-      store.dispatch( SetFeesBalanceAction(feesBalance));
-      store.dispatch( SetFeesLimitAction(feesLimit));
-      store.dispatch( SetFeesStatusAction(RequestStatus.successful));
-      store.dispatch( SetFeesRefreshTimeAction(currentTime));
+      store.dispatch(SetFeesBalanceAction(feesBalance));
+      store.dispatch(SetFeesLimitAction(feesLimit));
+      store.dispatch(SetFeesStatusAction(RequestStatus.successful));
+      store.dispatch(SetFeesRefreshTimeAction(currentTime));
     } catch (e) {
       Logger().e('Failed to get Fees info');
-      store.dispatch( SetFeesStatusAction(RequestStatus.failed));
+      store.dispatch(SetFeesStatusAction(RequestStatus.failed));
     }
 
     action.complete();
@@ -384,7 +388,7 @@ ThunkAction<AppState> getUserCoursesState(Completer<Null> action) {
         final AppCoursesDatabase coursesDb = AppCoursesDatabase();
         coursesDb.saveCoursesStates(coursesStates);
       }
-      store.dispatch( SetCoursesStatesAction(coursesStates));
+      store.dispatch(SetCoursesStatesAction(coursesStates));
       store.dispatch(SetCoursesStatesStatusAction(RequestStatus.successful));
     } catch (e) {
       Logger().e('Failed to get Courses State info');
@@ -397,11 +401,11 @@ ThunkAction<AppState> getUserCoursesState(Completer<Null> action) {
 
 ThunkAction<AppState> getUserBusTrips(Completer<Null> action) {
   return (Store<AppState> store) async {
-    store.dispatch( SetBusTripsStatusAction(RequestStatus.busy));
+    store.dispatch(SetBusTripsStatusAction(RequestStatus.busy));
     try {
       final Map<String, BusStopData> stops =
           store.state.content['configuredBusStops'];
-      final Map<String, List<Trip>> trips =  Map<String, List<Trip>>();
+      final Map<String, List<Trip>> trips = Map<String, List<Trip>>();
 
       for (String stopCode in stops.keys) {
         final List<Trip> stopTrips =
@@ -409,14 +413,14 @@ ThunkAction<AppState> getUserBusTrips(Completer<Null> action) {
         trips[stopCode] = stopTrips;
       }
 
-      final DateTime time =  DateTime.now();
+      final DateTime time = DateTime.now();
 
-      store.dispatch( SetBusTripsAction(trips));
-      store.dispatch( SetBusStopTimeStampAction(time));
-      store.dispatch( SetBusTripsStatusAction(RequestStatus.successful));
+      store.dispatch(SetBusTripsAction(trips));
+      store.dispatch(SetBusStopTimeStampAction(time));
+      store.dispatch(SetBusTripsStatusAction(RequestStatus.successful));
     } catch (e) {
       Logger().e('Failed to get Bus Stop information');
-      store.dispatch( SetBusTripsStatusAction(RequestStatus.failed));
+      store.dispatch(SetBusTripsStatusAction(RequestStatus.failed));
     }
 
     action.complete();
@@ -426,7 +430,7 @@ ThunkAction<AppState> getUserBusTrips(Completer<Null> action) {
 ThunkAction<AppState> addUserBusStop(
     Completer<Null> action, String stopCode, BusStopData stopData) {
   return (Store<AppState> store) {
-    store.dispatch( SetBusTripsStatusAction(RequestStatus.busy));
+    store.dispatch(SetBusTripsStatusAction(RequestStatus.busy));
     final Map<String, BusStopData> stops =
         store.state.content['configuredBusStops'];
 
@@ -447,7 +451,7 @@ ThunkAction<AppState> addUserBusStop(
 ThunkAction<AppState> removeUserBusStop(
     Completer<Null> action, String stopCode) {
   return (Store<AppState> store) {
-    store.dispatch( SetBusTripsStatusAction(RequestStatus.busy));
+    store.dispatch(SetBusTripsStatusAction(RequestStatus.busy));
     final Map<String, BusStopData> stops =
         store.state.content['configuredBusStops'];
     stops.remove(stopCode);
@@ -484,7 +488,7 @@ Future storeRefreshTime(String db, String currentTime) async {
 ThunkAction<AppState> setLastUserInfoUpdateTimestamp(Completer<Null> action) {
   return (Store<AppState> store) async {
     final DateTime currentTime = DateTime.now();
-    store.dispatch( SetLastUserInfoUpdateTime(currentTime));
+    store.dispatch(SetLastUserInfoUpdateTime(currentTime));
     final AppLastUserInfoUpdateDatabase db = AppLastUserInfoUpdateDatabase();
     await db.insertNewTimeStamp(currentTime);
     action.complete();
@@ -495,6 +499,6 @@ ThunkAction<AppState> updateStateBasedOnLocalTime() {
   return (Store<AppState> store) async {
     final AppLastUserInfoUpdateDatabase db = AppLastUserInfoUpdateDatabase();
     final DateTime savedTime = await db.getLastUserInfoUpdateTime();
-    store.dispatch( SetLastUserInfoUpdateTime(savedTime));
+    store.dispatch(SetLastUserInfoUpdateTime(savedTime));
   };
 }

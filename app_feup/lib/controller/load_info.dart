@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:tuple/tuple.dart';
 import 'package:redux/redux.dart';
 import 'package:uni/controller/local_storage/image_offline_storage.dart';
+import 'package:uni/controller/parsers/parser_exams.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/redux/action_creators.dart';
 import 'package:uni/redux/actions.dart';
@@ -56,7 +57,13 @@ Future loadRemoteUserInfoToState(Store<AppState> store) async {
   store.dispatch(getUserCoursesState(coursesStates));
   store.dispatch(getUserBusTrips(trips));
 
-  userInfo.future.then((value) => store.dispatch(getUserExams(exams)));
+  final Tuple2<String, String> userPersistentInfo =
+      await AppSharedPreferences.getPersistentUserInfo();
+  userInfo.future.then((value) => store.dispatch(getUserExams(
+        exams,
+        ParserExams(),
+        userPersistentInfo
+      )));
 
   final allRequests = Future.wait([
     exams.future,

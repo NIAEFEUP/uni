@@ -25,22 +25,30 @@ import 'model/schedule_page_model.dart';
 
 final Store<AppState> state = Store<AppState>(appReducers,
     /* Function defined in the reducers file */
-    initialState:  AppState(null),
+    initialState: AppState(null),
     middleware: [generalMiddleware]);
 
 void main() {
   OnStartUp.onStart(state);
-  runApp( MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return MyAppState();
+    return MyAppState(
+        state: Store<AppState>(appReducers,
+            /* Function defined in the reducers file */
+            initialState: AppState(null),
+            middleware: [generalMiddleware]));
   }
 }
 
 class MyAppState extends State<MyApp> {
+  MyAppState({@required this.state}) {}
+
+  final Store<AppState> state;
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
@@ -90,7 +98,7 @@ class MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    Timer.periodic( Duration(seconds: 60),
-        (Timer t) => state.dispatch( SetCurrentTimeAction(DateTime.now())));
+    Timer.periodic(Duration(seconds: 60),
+        (Timer t) => state.dispatch(SetCurrentTimeAction(DateTime.now())));
   }
 }
