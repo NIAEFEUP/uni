@@ -10,6 +10,7 @@ import 'package:uni/controller/load_info.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/profile_page_model.dart';
 import 'package:uni/view/Widgets/navigation_drawer.dart';
+import 'package:uni/utils/constants.dart' as Constants;
 
 abstract class GeneralPageViewState extends State<StatefulWidget> {
   final double borderMargin = 18.0;
@@ -106,7 +107,7 @@ abstract class GeneralPageViewState extends State<StatefulWidget> {
           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
           shape: RoundedRectangleBorder(),
           child: FlatButton(
-            onPressed: () => Navigator.pushNamed(context, '/Área Pessoal'),
+            onPressed: () => Navigator.pushNamed(context, '/' + Constants.navPersonalArea),
             child: SvgPicture.asset(
               'assets/images/logo_dark.svg',
               height: queryData.size.height / 25,
