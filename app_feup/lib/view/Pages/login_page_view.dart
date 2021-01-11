@@ -6,6 +6,9 @@ import 'package:uni/model/app_state.dart';
 import 'package:uni/redux/action_creators.dart';
 import 'package:uni/view/Widgets/terms_and_conditions.dart';
 import 'package:uni/view/theme.dart';
+import 'package:uni/utils/constants.dart' as Constants;
+
+import '../../model/app_state.dart';
 
 class LoginPageView extends StatefulWidget {
   @override
@@ -229,8 +232,12 @@ class _LoginPageViewState extends State<LoginPageView> {
     return StoreConnector<AppState, RequestStatus>(
         converter: (store) => store.state.content['loginStatus'],
         onWillChange: (status) {
-          if (status == RequestStatus.successful) {
-            Navigator.pushReplacementNamed(context, '/Área Pessoal');
+          if (
+            status == RequestStatus.successful &&
+            StoreProvider.of<AppState>(context).
+              state.content['session'].authenticated
+          ){
+            Navigator.pushReplacementNamed(context, '/' + Constants.navPersonalArea);
           } else if (status == RequestStatus.failed) {
             displayToastMessage(context, 'O login falhou');
           }
