@@ -201,11 +201,16 @@ Future<List<Exam>> extractExams(
   final List<CourseUnit> userUcs = store.state.content['currUcs'];
   final List<Exam> exams = List<Exam>();
   for (Exam courseExam in courseExams) {
+    final int endHour = int.parse(courseExam.end.split(':')[0]);
+    final int endMinute = int.parse(courseExam.end.split(':')[1]);
+    final DateTime endDateTime = DateTime(courseExam.date.year,
+        courseExam.date.month, courseExam.date.day, endHour, endMinute);
+
     for (CourseUnit uc in userUcs) {
       if (!courseExam.examType.contains(
               '''Exames ao abrigo de estatutos especiais - Port.Est.Especiais''') &&
           courseExam.subject == uc.abbreviation &&
-          now.compareTo(courseExam.date) <= 0) {
+          now.compareTo(endDateTime) <= 0) {
         exams.add(courseExam);
         break;
       }
