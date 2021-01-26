@@ -196,27 +196,29 @@ Future<List<Exam>> extractExams(
     courseExams = List.from(courseExams)..addAll(currentCourseExams);
   }
 
-  final DateTime now = DateTime.now();
-
   final List<CourseUnit> userUcs = store.state.content['currUcs'];
   final List<Exam> exams = List<Exam>();
   for (Exam courseExam in courseExams) {
-    final int endHour = int.parse(courseExam.end.split(':')[0]);
-    final int endMinute = int.parse(courseExam.end.split(':')[1]);
-    final DateTime endDateTime = DateTime(courseExam.date.year,
-        courseExam.date.month, courseExam.date.day, endHour, endMinute);
-
     for (CourseUnit uc in userUcs) {
       if (!courseExam.examType.contains(
               '''Exames ao abrigo de estatutos especiais - Port.Est.Especiais''') &&
           courseExam.subject == uc.abbreviation &&
-          now.compareTo(endDateTime) <= 0) {
+          beforeEndTime(courseExam)) {
         exams.add(courseExam);
         break;
       }
     }
   }
   return exams;
+}
+
+bool beforeEndTime(Exam courseExam) {
+  final DateTime now = DateTime.now();
+  final int endHour = int.parse(courseExam.end.split(':')[0]);
+  final int endMinute = int.parse(courseExam.end.split(':')[1]);
+  final DateTime endDateTime = DateTime(courseExam.date.year,
+      courseExam.date.month, courseExam.date.day, endHour, endMinute);
+  return now.compareTo(endDateTime) <= 0;
 }
 
 ThunkAction<AppState> getUserExams(Completer<Null> action,
