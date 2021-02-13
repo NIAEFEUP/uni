@@ -25,6 +25,10 @@ class Course {
         firstEnrollment: data['fest_a_lect_1_insc']);
   }
 
+  int getLectiveYear(){
+    return firstEnrollment + int.parse(currYear) - 1;
+  }
+
   Map<String, dynamic> toMap() {
     return {
       'id' : id,

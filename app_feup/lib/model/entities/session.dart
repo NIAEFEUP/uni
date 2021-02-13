@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
+import 'package:logger/logger.dart';
 import 'package:uni/controller/networking/network_router.dart';
 
 class Session {
@@ -19,6 +20,7 @@ class Session {
 
   static Session fromLogin(dynamic response) {
     final responseBody = json.decode(response.body);
+    Logger().d(responseBody);
     if (responseBody['authenticated']) {
       return Session(
           authenticated: true,
