@@ -82,6 +82,19 @@ class Lecture {
     };
   }
 
+
+  Map<String, dynamic> toHtmlMap() {
+    return {
+      'subject': subject,
+      'typeClass': typeClass,
+      'day': day,
+      'startTime': startTime,
+      'blocks': blocks,
+      'room': room,
+      'teacher': teacher,
+    };
+  }
+
   printLecture() {
     Logger().i(subject + ' ' + typeClass);
     Logger().i(dayName[day] +
