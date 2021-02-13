@@ -9,8 +9,8 @@ import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:uni/controller/local_storage/app_bus_stop_database.dart';
 import 'package:uni/controller/local_storage/app_courses_database.dart';
 import 'package:uni/controller/local_storage/app_exams_database.dart';
+import 'package:uni/controller/local_storage/app_html_lectures_database.dart';
 import 'package:uni/controller/local_storage/app_last_user_info_update_database.dart';
-import 'package:uni/controller/local_storage/app_lectures_database.dart';
 import 'package:uni/controller/local_storage/app_refresh_times_database.dart';
 import 'package:uni/controller/local_storage/app_user_database.dart';
 import 'package:uni/model/app_state.dart';
@@ -21,7 +21,7 @@ Future logout(BuildContext context) async {
   final prefs = await SharedPreferences.getInstance();
   await prefs.clear();
 
-  AppLecturesDatabase().deleteLectures();
+  AppHtmlLecturesDatabase().deleteLectures();
   AppExamsDatabase().deleteExams();
   AppCoursesDatabase().deleteCourses();
   AppRefreshTimesDatabase().deleteRefreshTimes();

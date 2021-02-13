@@ -52,9 +52,9 @@ class ScheduleCard extends GenericCard {
   List<Widget> getScheduleRows(context, List<Lecture> lectures) {
     if (lectures.length >= 2) {
       // In order to display lectures of the next week
-      final Lecture lecturefirstCycle = Lecture.clone(lectures[0]);
+      final Lecture lecturefirstCycle = Lecture.cloneHtml(lectures[0]);
       lecturefirstCycle.day += 7;
-      final Lecture lecturesecondCycle = Lecture.clone(lectures[1]);
+      final Lecture lecturesecondCycle = Lecture.cloneHtml(lectures[1]);
       lecturesecondCycle.day += 7;
       lectures.add(lecturefirstCycle);
       lectures.add(lecturesecondCycle);
