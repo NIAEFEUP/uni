@@ -1,21 +1,22 @@
 import 'dart:async';
+import 'package:http/http.dart';
 import 'package:logger/logger.dart';
 import 'package:uni/controller/load_info.dart';
 import 'package:uni/controller/local_storage/app_bus_stop_database.dart';
 import 'package:uni/controller/local_storage/app_courses_database.dart';
 import 'package:uni/controller/local_storage/app_exams_database.dart';
+import 'package:uni/controller/local_storage/app_html_lectures_database.dart';
 import 'package:uni/controller/local_storage/app_last_user_info_update_database.dart';
-import 'package:uni/controller/local_storage/app_lectures_database.dart';
 import 'package:uni/controller/local_storage/app_refresh_times_database.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/controller/local_storage/app_user_database.dart';
 import 'package:uni/controller/networking/network_router.dart'
     show NetworkRouter;
 import 'package:uni/controller/parsers/parser_exams.dart';
-import 'package:uni/controller/parsers/parser_schedule.dart';
 import 'package:uni/controller/parsers/parser_print_balance.dart';
 import 'package:uni/controller/parsers/parser_fees.dart';
 import 'package:uni/controller/parsers/parser_courses.dart';
+import 'package:uni/controller/parsers/parser_schedule_html.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/course_unit.dart';
@@ -131,7 +132,7 @@ ThunkAction<AppState> updateStateBasedOnLocalUserExams() {
 
 ThunkAction<AppState> updateStateBasedOnLocalUserLectures() {
   return (Store<AppState> store) async {
-    final AppLecturesDatabase db = AppLecturesDatabase();
+    final AppHtmlLecturesDatabase db = AppHtmlLecturesDatabase();
     final List<Lecture> lecs = await db.lectures();
     store.dispatch(SetScheduleAction(lecs));
   };
@@ -243,35 +244,58 @@ ThunkAction<AppState> getUserSchedule(Completer<Null> action) {
   return (Store<AppState> store) async {
     try {
       store.dispatch(SetScheduleStatusAction(RequestStatus.busy));
-      var date = DateTime.now();
-      final String beginWeek = date.year.toString().padLeft(4, '0') +
-          date.month.toString().padLeft(2, '0') +
-          date.day.toString().padLeft(2, '0');
-      date = date.add(Duration(days: 6));
 
-      final String endWeek = date.year.toString().padLeft(4, '0') +
-          date.month.toString().padLeft(2, '0') +
-          date.day.toString().padLeft(2, '0');
+      //TODO: Go back to API whenever it is fixed: https://github.com/NIAEFEUP/project-schrodinger/issues/300
+      //       var date = DateTime.now();
+      // final String beginWeek = date.year.toString().padLeft(4, '0') +
+      //     date.month.toString().padLeft(2, '0') +
+      //     date.day.toString().padLeft(2, '0');
+      // date = date.add(Duration(days: 6));
 
-      final List<Lecture> lectures = await parseSchedule(
-          await NetworkRouter.getWithCookies(
+      // final String endWeek = date.year.toString().padLeft(4, '0') +
+      //     date.month.toString().padLeft(2, '0') +
+      //     date.day.toString().padLeft(2, '0');
+      // final List<Lecture> lectures = await parseSchedule(
+      //     await NetworkRouter.getWithCookies(
+      //         NetworkRouter.getBaseUrlFromSession(
+      //                 store.state.content['session']) +
+      // ignore: lines_longer_than_80_chars
+      //             '''mob_hor_geral.estudante?pv_codigo=${store.state.content['session'].studentNumber}&pv_semana_ini=$beginWeek&pv_semana_fim=$endWeek''',
+      //         {},
+      //         store.state.content['session']));
+
+      //https://sigarra.up.pt/feup/pt/hor_geral.estudantes_view?pv_fest_id=1047393
+      //https://sigarra.up.pt/feup/pt/hor_geral.estudantes_view?pv_fest_id=1047393&pv_ano_lectivo=2020&pv_periodos=1
+
+      final List<Course> courses = store.state.content['profile'].courses;
+      final List<Response> lectureResponses = await Future.wait(courses.map(
+          (course) => NetworkRouter.getWithCookies(
               NetworkRouter.getBaseUrlFromSession(
                       store.state.content['session']) +
-                  '''mob_hor_geral.estudante?pv_codigo=${store.state.content['session'].studentNumber}&pv_semana_ini=$beginWeek&pv_semana_fim=$endWeek''',
+                  '''
+hor_geral.estudantes_view?pv_fest_id=${course.festId}&pv_ano_lectivo=${course.getLectiveYear()}&pv_periodos=1''',
               {},
-              store.state.content['session']));
+              store.state.content['session'])));
+
+      final List<Lecture> lectures = await Future.wait(
+              lectureResponses.map((response) => getScheduleFromHtml(response)))
+          .then(
+              (schedules) => schedules.expand((schedule) => schedule).toList());
+
+      lectures.sort((l1, l2) => l1.compare(l2));
+
       // Updates local database according to the information fetched -- Lectures
       final Tuple2<String, String> userPersistentInfo =
           await AppSharedPreferences.getPersistentUserInfo();
       if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {
-        final AppLecturesDatabase db = AppLecturesDatabase();
+        final AppHtmlLecturesDatabase db = AppHtmlLecturesDatabase();
         db.saveNewLectures(lectures);
       }
 
       store.dispatch(SetScheduleAction(lectures));
       store.dispatch(SetScheduleStatusAction(RequestStatus.successful));
     } catch (e) {
-      Logger().e('Failed to get Schedule');
+      Logger().e('Failed to get Schedule: ${e.toString()}');
       store.dispatch(SetScheduleStatusAction(RequestStatus.failed));
     }
     action.complete();
