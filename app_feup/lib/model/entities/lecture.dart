@@ -23,21 +23,21 @@ class Lecture {
 
   Lecture(String subject, String typeClass, int day, int startTimeSeconds,
       int blocks, String room, String teacher) {
-    this.subject = subject;
-    this.typeClass = typeClass;
-    this.room = room;
-    this.teacher = teacher;
-    this.day = day;
-    this.blocks = blocks;
-    this.startTimeSeconds = startTimeSeconds;
+    // this.subject = subject;
+    // this.typeClass = typeClass;
+    // this.room = room;
+    // this.teacher = teacher;
+    // this.day = day;
+    // this.blocks = blocks;
+    // this.startTimeSeconds = startTimeSeconds;
 
-    this.startTime = (startTimeSeconds ~/ 3600).toString().padLeft(2, '0') +
-        ':' +
-        ((startTimeSeconds % 3600) ~/ 60).toString().padLeft(2, '0');
-    startTimeSeconds += 60 * 30 * blocks;
-    this.endTime = (startTimeSeconds ~/ 3600).toString().padLeft(2, '0') +
-        ':' +
-        ((startTimeSeconds % 3600) ~/ 60).toString().padLeft(2, '0');
+    // this.startTime = (startTimeSeconds ~/ 3600).toString().padLeft(2, '0') +
+    //     ':' +
+    //     ((startTimeSeconds % 3600) ~/ 60).toString().padLeft(2, '0');
+    // startTimeSeconds += 60 * 30 * blocks;
+    // this.endTime = (startTimeSeconds ~/ 3600).toString().padLeft(2, '0') +
+    //     ':' +
+    //     ((startTimeSeconds % 3600) ~/ 60).toString().padLeft(2, '0');
   }
 
   Lecture.secConstructor(String subject, String typeClass, int day,
@@ -69,7 +69,6 @@ class Lecture {
     return Lecture.secConstructor(lec.subject, lec.typeClass, lec.day,
         lec.startTime, lec.blocks, lec.room, lec.teacher);
   }
-
 
   Map<String, dynamic> toMap() {
     return {

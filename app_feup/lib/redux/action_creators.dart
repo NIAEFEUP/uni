@@ -4,8 +4,8 @@ import 'package:uni/controller/load_info.dart';
 import 'package:uni/controller/local_storage/app_bus_stop_database.dart';
 import 'package:uni/controller/local_storage/app_courses_database.dart';
 import 'package:uni/controller/local_storage/app_exams_database.dart';
+import 'package:uni/controller/local_storage/app_html_lectures_database.dart';
 import 'package:uni/controller/local_storage/app_last_user_info_update_database.dart';
-import 'package:uni/controller/local_storage/app_lectures_database.dart';
 import 'package:uni/controller/local_storage/app_refresh_times_database.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/controller/local_storage/app_user_database.dart';
@@ -131,7 +131,7 @@ ThunkAction<AppState> updateStateBasedOnLocalUserExams() {
 
 ThunkAction<AppState> updateStateBasedOnLocalUserLectures() {
   return (Store<AppState> store) async {
-    final AppLecturesDatabase db = AppLecturesDatabase();
+    final AppHtmlLecturesDatabase db = AppHtmlLecturesDatabase();
     final List<Lecture> lecs = await db.lectures();
     store.dispatch(SetScheduleAction(lecs));
   };
@@ -220,7 +220,7 @@ ThunkAction<AppState> getUserExams(Completer<Null> action,
       store.dispatch(SetExamsStatusAction(RequestStatus.busy));
 
       final List<Exam> exams = await extractExams(store, parserExams);
-      
+
       exams.sort((exam1, exam2) => exam1.date.compareTo(exam2.date));
 
       // Updates local database according to the information fetched -- Exams
@@ -252,7 +252,7 @@ ThunkAction<AppState> getUserSchedule(Completer<Null> action) {
       final Tuple2<String, String> userPersistentInfo =
           await AppSharedPreferences.getPersistentUserInfo();
       if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {
-        final AppLecturesDatabase db = AppLecturesDatabase();
+        final AppHtmlLecturesDatabase db = AppHtmlLecturesDatabase();
         db.saveNewLectures(lectures);
       }
 
