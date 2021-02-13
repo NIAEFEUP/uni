@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
@@ -32,8 +33,8 @@ class AppDatabase {
 
   Future<Database> initializeDatabase() async {
     // Get the directory path for both Android and iOS to store database
-    final Directory directory = await getApplicationDocumentsDirectory();
-    final String path = directory.path + this.name;
+    final String directory = await getDatabasesPath();
+    final String path = join(directory, this.name);
 
     // Open or create the database at the given path
     final appFeupDatabase =

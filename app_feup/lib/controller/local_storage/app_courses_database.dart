@@ -7,7 +7,7 @@ import 'app_database.dart';
 class AppCoursesDatabase extends AppDatabase {
   AppCoursesDatabase()
       : super('courses.db', [
-          '''CREATE TABLE courses(id INTEGER, fest_id INTEGER, name TEXT,7
+          '''CREATE TABLE courses(id INTEGER, fest_id INTEGER, name TEXT,
           abbreviation TEXT, currYear TEXT, firstEnrollment INTEGER, state TEXT)'''
         ]);
 
