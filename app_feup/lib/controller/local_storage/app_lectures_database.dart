@@ -4,16 +4,18 @@ import 'package:uni/model/entities/lecture.dart';
 import 'package:sqflite/sqflite.dart';
 
 class AppLecturesDatabase extends AppDatabase {
-  static final createScript = '''CREATE TABLE lectures(subject TEXT, typeClass TEXT,
+  static final createScript =
+      '''CREATE TABLE lectures(subject TEXT, typeClass TEXT,
           day INTEGER, startTime TEXT, blocks INTEGER, room TEXT, teacher TEXT)''';
-           
+
   AppLecturesDatabase()
       : super(
             'lectures.db',
             [
               createScript,
             ],
-            onUpgrade: migrate, version: 2);
+            onUpgrade: migrate,
+            version: 2);
 
   saveNewLectures(List<Lecture> lecs) async {
     await deleteLectures();
@@ -50,7 +52,6 @@ class AppLecturesDatabase extends AppDatabase {
       );
     }
   }
-
 
   Future<void> deleteLectures() async {
     // Get a reference to the database

@@ -6,7 +6,7 @@ import 'package:sqflite/sqflite.dart';
 class AppHtmlLecturesDatabase extends AppDatabase {
   AppHtmlLecturesDatabase()
       : super('html_lectures.db', [
-          '''CREATE TABLE lectures(subject TEXT, typeClass TEXT,7
+          '''CREATE TABLE lectures(subject TEXT, typeClass TEXT,
           day INTEGER, startTime TEXT, blocks INTEGER, room TEXT, teacher TEXT)'''
         ]);
 
@@ -40,7 +40,7 @@ class AppHtmlLecturesDatabase extends AppDatabase {
     for (Lecture lec in lecs) {
       await this.insertInDatabase(
         'lectures',
-        lec.toMap(),
+        lec.toHtmlMap(),
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
     }
