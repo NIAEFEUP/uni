@@ -131,8 +131,8 @@ class BugReportFormState extends State<BugReportForm> {
               bottom: BorderSide(color: Theme.of(context).dividerColor))),
       padding: EdgeInsets.only(bottom: 20),
       child: Center(
-        child: Text('''Encontraste algum Bug na aplicação?\nTens alguma
-             sugestão para a app?\nConta-nos para que nós possamos melhorar!''',
+        child: Text(
+            '''Encontraste algum bug na aplicação?\nTens alguma sugestão para a app?\nConta-nos para que nós possamos melhorar!''',
             style: Theme.of(context).textTheme.body1,
             textAlign: TextAlign.center),
       ),
