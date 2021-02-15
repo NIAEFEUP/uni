@@ -206,19 +206,19 @@ class BugReportFormState extends State<BugReportForm> {
     return Container(
         child: RaisedButton(
       padding: EdgeInsets.symmetric(vertical: 10.0),
-      onPressed: () {
-        if (_formKey.currentState.validate() && !_isButtonTapped) {
-          if (_isConsentGiven) {
-            submitBugReport();
-          } else {
-            displayErrorToast('Aceita as condições primeiro!');
-          }
-        }
-      },
+      onPressed: !_isConsentGiven
+          ? null
+          : () {
+              if (_formKey.currentState.validate() && !_isButtonTapped) {
+                submitBugReport();
+              }
+            },
       child: Text(
         'Enviar',
         style: TextStyle(color: Colors.white, fontSize: 20.0),
       ),
+      disabledColor: Theme.of(context).disabledColor,
+      disabledElevation: 1,
       color: Theme.of(context).primaryColor,
     ));
   }
