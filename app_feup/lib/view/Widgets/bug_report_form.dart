@@ -211,7 +211,7 @@ class BugReportFormState extends State<BugReportForm> {
           if (_isConsentGiven) {
             submitBugReport();
           } else {
-            displayErrorToast('Aceite as condições primeiro!');
+            displayErrorToast('Aceita as condições primeiro!');
           }
         }
       },
