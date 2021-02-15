@@ -296,6 +296,7 @@ class BugReportFormState extends State<BugReportForm> {
   void clearForm() {
     titleController.clear();
     descriptionController.clear();
+    emailController.clear();
 
     setState(() {
       _selectedBug = 0;
