@@ -75,7 +75,7 @@ class Exam {
     };
   }
 
-  bool beforeEndTime() {
+  bool hasEnded() {
     final DateTime now = DateTime.now();
     final int endHour = int.parse(end.split(':')[0]);
     final int endMinute = int.parse(end.split(':')[1]);

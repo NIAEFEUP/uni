@@ -203,7 +203,7 @@ Future<List<Exam>> extractExams(
       if (!courseExam.examType.contains(
               '''Exames ao abrigo de estatutos especiais - Port.Est.Especiais''') &&
           courseExam.subject == uc.abbreviation &&
-          courseExam.beforeEndTime()) {
+          courseExam.hasEnded()) {
         exams.add(courseExam);
         break;
       }
