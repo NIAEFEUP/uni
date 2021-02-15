@@ -11,6 +11,7 @@ class FormTextField extends StatelessWidget {
   final int minLines;
   final int maxLines;
   final double bottomMargin;
+  final bool isOptional;
 
   FormTextField(
     this.controller,
@@ -22,29 +23,30 @@ class FormTextField extends StatelessWidget {
     this.hintText = '',
     this.emptyText = 'Por favor escreve algo',
     this.bottomMargin = 0,
+    this.isOptional = false,
   });
 
   @override
   Widget build(BuildContext context) {
-    return  Container(
-      margin:  EdgeInsets.only(bottom: bottomMargin),
-      child:  Column(
+    return Container(
+      margin: EdgeInsets.only(bottom: bottomMargin),
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-           Text(
+          Text(
             description,
             style: Theme.of(context).textTheme.body1,
             textAlign: TextAlign.left,
           ),
-           Row(children: <Widget>[
-             Container(
-                margin:  EdgeInsets.only(right: 15),
-                child:  Icon(
+          Row(children: <Widget>[
+            Container(
+                margin: EdgeInsets.only(right: 15),
+                child: Icon(
                   icon,
                   color: Theme.of(context).primaryColor,
                 )),
             Expanded(
-                child:  TextFormField(
+                child: TextFormField(
               // margins
               minLines: minLines,
               maxLines: maxLines,
@@ -56,7 +58,7 @@ class FormTextField extends StatelessWidget {
               ),
               controller: controller,
               validator: (value) {
-                if (value.isEmpty) {
+                if (!isOptional && value.isEmpty) {
                   return emptyText;
                 }
                 return null;

@@ -43,6 +43,7 @@ class BugReportFormState extends State<BugReportForm> {
   String ghToken = '';
 
   bool _isButtonTapped = false;
+  bool _isConsentGiven = false;
 
   BugReportFormState() {
     if (ghToken == '') loadGHKey();
@@ -95,9 +96,11 @@ class BugReportFormState extends State<BugReportForm> {
       maxLines: 2,
       description: 'Contacto (opcional)',
       labelText: 'Email em que desejas ser contactado',
-      hintText: 'Informação pública na página do GitHub!',
       bottomMargin: 30.0,
+      isOptional: true,
     ));
+
+    formWidget.add(consentBox(context));
 
     formWidget.add(submitButton(context));
 
@@ -175,13 +178,41 @@ class BugReportFormState extends State<BugReportForm> {
     );
   }
 
+  Widget consentBox(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.only(),
+      margin: EdgeInsets.only(bottom: 20, top: 0),
+      child: ListTileTheme(
+        contentPadding: EdgeInsets.all(0),
+        child: CheckboxListTile(
+          activeColor: Theme.of(context).primaryColor,
+          title: Text(
+              '''Consinto que a informação seja publicada no GitHub, incluindo o meu contacto pessoal, se fornecido.''',
+              style: Theme.of(context).textTheme.body1,
+              textAlign: TextAlign.left),
+          value: _isConsentGiven,
+          onChanged: (bool newValue) {
+            setState(() {
+              _isConsentGiven = newValue;
+            });
+          },
+          controlAffinity: ListTileControlAffinity.leading,
+        ),
+      ),
+    );
+  }
+
   Widget submitButton(BuildContext context) {
     return Container(
         child: RaisedButton(
       padding: EdgeInsets.symmetric(vertical: 10.0),
       onPressed: () {
         if (_formKey.currentState.validate() && !_isButtonTapped) {
-          submitBugReport();
+          if (_isConsentGiven) {
+            submitBugReport();
+          } else {
+            displayErrorToast('Aceite as condições primeiro!');
+          }
         }
       },
       child: Text(
@@ -233,7 +264,7 @@ class BugReportFormState extends State<BugReportForm> {
       }
 
       FocusScope.of(context).requestFocus(FocusNode());
-      displayBugToast(msg);
+      displayErrorToast(msg);
       setState(() {
         _isButtonTapped = false;
       });
@@ -243,14 +274,14 @@ class BugReportFormState extends State<BugReportForm> {
 
       final String msg =
           (error is SocketException) ? 'Falha de rede' : 'Ocorreu um erro';
-      displayBugToast(msg);
+      displayErrorToast(msg);
       setState(() {
         _isButtonTapped = false;
       });
     });
   }
 
-  void displayBugToast(String msg) {
+  void displayErrorToast(String msg) {
     Toast.show(
       msg,
       context,
