@@ -75,6 +75,15 @@ class Exam {
     };
   }
 
+  bool hasEnded() {
+    final DateTime now = DateTime.now();
+    final int endHour = int.parse(end.split(':')[0]);
+    final int endMinute = int.parse(end.split(':')[1]);
+    final DateTime endDateTime =
+        DateTime(date.year, date.month, date.day, endHour, endMinute);
+    return now.compareTo(endDateTime) <= 0;
+  }
+
   void printExam() {
     Logger().i(
         '''$subject - $year - $month - $day -  $begin-$end - $examType - $rooms - $weekDay''');
