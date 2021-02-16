@@ -300,6 +300,7 @@ class BugReportFormState extends State<BugReportForm> {
 
     setState(() {
       _selectedBug = 0;
+      _isConsentGiven = false;
     });
   }
 
