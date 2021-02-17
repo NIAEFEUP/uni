@@ -20,7 +20,6 @@ class Session {
 
   static Session fromLogin(dynamic response) {
     final responseBody = json.decode(response.body);
-    Logger().d(responseBody);
     if (responseBody['authenticated']) {
       return Session(
           authenticated: true,

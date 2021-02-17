@@ -4,11 +4,16 @@ import 'package:uni/model/entities/lecture.dart';
 import 'package:sqflite/sqflite.dart';
 
 class AppLecturesDatabase extends AppDatabase {
+  static final createScript = '''CREATE TABLE lectures(subject TEXT, typeClass TEXT,
+          day INTEGER, startTime TEXT, blocks INTEGER, room TEXT, teacher TEXT)''';
+           
   AppLecturesDatabase()
-      : super('lectures.db', [
-          '''CREATE TABLE lectures(subject TEXT, typeClass TEXT,
-          day INTEGER, startTimeSeconds INTEGER, blocks INTEGER, room TEXT, teacher TEXT)'''
-        ]);
+      : super(
+            'lectures.db',
+            [
+              createScript,
+            ],
+            onUpgrade: migrate, version: 2);
 
   saveNewLectures(List<Lecture> lecs) async {
     await deleteLectures();
@@ -24,11 +29,11 @@ class AppLecturesDatabase extends AppDatabase {
 
     // Convert the List<Map<String, dynamic> into a List<Dog>.
     return List.generate(maps.length, (i) {
-      return Lecture(
+      return Lecture.secConstructor(
         maps[i]['subject'],
         maps[i]['typeClass'],
         maps[i]['day'],
-        maps[i]['startTimeSeconds'],
+        maps[i]['startTime'],
         maps[i]['blocks'],
         maps[i]['room'],
         maps[i]['teacher'],
@@ -46,10 +51,21 @@ class AppLecturesDatabase extends AppDatabase {
     }
   }
 
+
   Future<void> deleteLectures() async {
     // Get a reference to the database
     final Database db = await this.getDatabase();
 
     await db.delete('lectures');
+  }
+
+  static FutureOr<void> migrate(
+      Database db, int oldVersion, int newVersion) async {
+    final batch = db.batch();
+    if (oldVersion == 1) {
+      batch.execute('DROP TABLE IF EXISTS lectures');
+      batch.execute(createScript);
+    }
+    await batch.commit();
   }
 }

@@ -9,9 +9,12 @@ class AppDatabase {
   Database _db;
   String name;
   List<String> commands;
-  static Lock lock =  Lock();
+  static Lock lock = Lock();
+  final OnDatabaseVersionChangeFn onUpgrade;
+  final int version;
 
-  AppDatabase(String name, List<String> commands) {
+  AppDatabase(String name, List<String> commands,
+      {this.onUpgrade, this.version = 1}) {
     this.name = name;
     this.commands = commands;
   }
@@ -37,8 +40,8 @@ class AppDatabase {
     final String path = join(directory, this.name);
 
     // Open or create the database at the given path
-    final appFeupDatabase =
-        await openDatabase(path, version: 1, onCreate: _createDatabase);
+    final appFeupDatabase = await openDatabase(path,
+        version: version, onCreate: _createDatabase, onUpgrade: onUpgrade);
     return appFeupDatabase;
   }
 
