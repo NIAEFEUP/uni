@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
-import 'package:logger/logger.dart';
 import 'package:uni/controller/networking/network_router.dart';
 
 class Session {
