@@ -10,8 +10,6 @@ Future<List<Lecture>> parseSchedule(http.Response response) async {
   final schedule = json['horario'];
 
   for (var lecture in schedule) {
-    print("ZAAAAAAAAAAAAAAAAAAAAS");
-    print(lecture);
     final int day = (lecture['dia'] - 2) %
         7; // Api: monday = 2, Lecture.dart class: monday = 0
     final int secBegin = lecture['hora_inicio'];
