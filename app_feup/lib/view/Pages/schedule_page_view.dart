@@ -20,14 +20,14 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return  Container(
+    return Container(
       decoration: const BoxDecoration(
         border: Border(
           bottom: BorderSide(width: 1.0, color: Colors.grey),
         ),
       ),
       constraints: BoxConstraints(maxHeight: 150.0),
-      child:  Material(
+      child: Material(
         color: Colors.white,
         child: _tabBar,
       ),
@@ -79,10 +79,10 @@ class SchedulePageViewState extends SecondaryPageViewState {
     final MediaQueryData queryData = MediaQuery.of(context);
     final Color labelColor = Color.fromARGB(255, 0x50, 0x50, 0x50);
 
-    return  Column(
+    return Column(
       children: <Widget>[
-         PageTitle(name: 'Horário'),
-         Expanded(
+        PageTitle(name: 'Horário'),
+        Expanded(
           child: NestedScrollView(
             controller: scrollViewController,
             headerSliverBuilder:
@@ -90,7 +90,7 @@ class SchedulePageViewState extends SecondaryPageViewState {
               return <Widget>[
                 SliverPersistentHeader(
                   delegate: _SliverAppBarDelegate(
-                     TabBar(
+                    TabBar(
                       controller: tabController,
                       isScrollable: true,
                       unselectedLabelColor: labelColor,
@@ -105,7 +105,7 @@ class SchedulePageViewState extends SecondaryPageViewState {
                 ),
               ];
             },
-            body:  TabBarView(
+            body: TabBarView(
               controller: tabController,
               children: createSchedule(context),
             ),
@@ -118,10 +118,10 @@ class SchedulePageViewState extends SecondaryPageViewState {
   List<Widget> createTabs(queryData, BuildContext context) {
     final List<Widget> tabs = List<Widget>();
     for (var i = 0; i < daysOfTheWeek.length; i++) {
-      tabs.add( Container(
+      tabs.add(Container(
         color: Theme.of(context).backgroundColor,
         width: queryData.size.width * 1 / 3,
-        child:  Tab(text: daysOfTheWeek[i]),
+        child: Tab(text: daysOfTheWeek[i]),
       ));
     }
     return tabs;
@@ -139,13 +139,14 @@ class SchedulePageViewState extends SecondaryPageViewState {
     final List<Widget> scheduleContent = List<Widget>();
     for (int i = 0; i < lectures.length; i++) {
       final Lecture lecture = lectures[i];
-      scheduleContent.add( ScheduleSlot(
+      scheduleContent.add(ScheduleSlot(
         subject: lecture.subject,
         typeClass: lecture.typeClass,
         rooms: lecture.room,
         begin: lecture.startTime,
         end: lecture.endTime,
         teacher: lecture.teacher,
+        //classNumber: lecture.,
       ));
     }
     return scheduleContent;
@@ -153,7 +154,7 @@ class SchedulePageViewState extends SecondaryPageViewState {
 
   Widget createDayColumn(dayContent, BuildContext context) {
     return Container(
-        child:  Column(
+        child: Column(
       mainAxisSize: MainAxisSize.min,
       children: createScheduleRows(dayContent, context),
     ));
