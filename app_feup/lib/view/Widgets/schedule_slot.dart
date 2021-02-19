@@ -83,7 +83,6 @@ class ScheduleSlot extends StatelessWidget {
           Row(
             children: [
               createScheduleSlotTeacherInfo(context),
-              Text(' | '),
               createScheduleSlotClass(context)
             ],
           )
@@ -100,14 +99,21 @@ class ScheduleSlot extends StatelessWidget {
         TextAlign.center);
   }
 
-  //TODO
   Widget createScheduleSlotClass(context) {
-    final classText =
-        this.classNumber != null ? this.classNumber : this.teacher;
+    final classText = this.classNumber != '' ? (' | ' + this.classNumber) : '';
     return createTextField(
         classText,
         Theme.of(context).textTheme.display1.apply(fontSizeDelta: -4),
         TextAlign.center);
+  }
+
+  //Funtion that returns the last digit that appears in class Number
+  String getClassNumberReduced() {
+    final RegExp exp = RegExp(r'(\d+)(?!.*\d)');
+    final match = exp.firstMatch(this.classNumber);
+    if (match == null) return this.classNumber;
+    final reducedClassNumber = match.group(0);
+    return reducedClassNumber;
   }
 
   Widget createTextField(text, style, alignment) {
