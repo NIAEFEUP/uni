@@ -7,7 +7,8 @@ class AppLecturesDatabase extends AppDatabase {
   static final createScript =
       '''CREATE TABLE lectures(subject TEXT, typeClass TEXT,
           day INTEGER, startTime TEXT, blocks INTEGER, room TEXT, teacher TEXT, classNumber TEXT)''';
-  static final updateClassNumber = '''ALTER TABLE lectures ADD classNumber TEXT''';
+  static final updateClassNumber =
+      '''ALTER TABLE lectures ADD classNumber TEXT''';
 
   AppLecturesDatabase()
       : super(
@@ -45,8 +46,6 @@ class AppLecturesDatabase extends AppDatabase {
     });
   }
 
- 
-
   Future<void> _insertLectures(List<Lecture> lecs) async {
     for (Lecture lec in lecs) {
       await this.insertInDatabase(
@@ -71,7 +70,7 @@ class AppLecturesDatabase extends AppDatabase {
       batch.execute('DROP TABLE IF EXISTS lectures');
       batch.execute(createScript);
     } else if (oldVersion == 2) {
-      batch.execute(updateClassNumber);      
+      batch.execute(updateClassNumber);
     }
     await batch.commit();
   }
