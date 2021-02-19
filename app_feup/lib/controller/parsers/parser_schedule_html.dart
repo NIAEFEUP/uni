@@ -31,6 +31,10 @@ Future<List<Lecture>> getScheduleFromHtml(http.Response response) async {
             classNumber = children[i].querySelector('span > a').text;
           }
 
+          //TODO
+          print("ZAAAAAAAAAAAAAS");
+          print(children[i].querySelector('b > acronym > a').text);
+
           final Element rowSmall =
               children[i].querySelector('table > tbody > tr');
           final String room = rowSmall.querySelector('td > a').text;
