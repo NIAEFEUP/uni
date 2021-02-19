@@ -25,20 +25,31 @@ class TermsAndConditions extends StatelessWidget {
   List<TextSpan> linkify(String txt) {
     final RegExp exp = RegExp(
         r'(http|ftp|https)://([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?');
-    List<TextSpan> lst = List<TextSpan>();
-    for (var s in txt.split(' ')) {
-      if (exp.hasMatch(s)) {
-        lst.add(TextSpan(
-            text: s + ' ',
-            style: TextStyle(color: Colors.blue, fontSize: 20.0),
-            recognizer: TapGestureRecognizer()
-              ..onTap = () {
-                launch(exp.firstMatch(s).group(0));
-                print("hey!");
-              }));
+    final List<TextSpan> lst = List<TextSpan>();
+    final textStyle = TextStyle(color: Colors.black);
+    final linkStyle =
+        TextStyle(color: Colors.black, decoration: TextDecoration.underline);
+
+    for (var line in txt.split('\n')) {
+      if (exp.hasMatch(line)) {
+        for (var word in line.split(' ')) {
+          if (exp.hasMatch(word)) {
+            lst.add(TextSpan(
+                style: linkStyle,
+                text: word + ' ',
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () {
+                    launch(exp.firstMatch(word).group(0));
+                  }));
+          } else {
+            lst.add(TextSpan(text: word + ' ', style: textStyle));
+          }
+        }
       } else {
-        lst.add(TextSpan(text: s + ' ', style: TextStyle(color: Colors.black)));
+        lst.add(TextSpan(text: line, style: textStyle));
       }
+
+      lst.add(TextSpan(text: '\n', style: textStyle));
     }
     return lst;
   }
