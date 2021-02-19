@@ -39,6 +39,7 @@ class AppLecturesDatabase extends AppDatabase {
         maps[i]['blocks'],
         maps[i]['room'],
         maps[i]['teacher'],
+        maps[i]['classNumber'],
       );
     });
   }

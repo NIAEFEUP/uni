@@ -11,8 +11,6 @@ Future<List<Lecture>> getScheduleFromHtml(http.Response response) async {
 
   final List<Lecture> lecturesList = List();
   document.querySelectorAll('.horario > tbody > tr').forEach((Element element) {
-
-
     if (element.getElementsByClassName('horas').isNotEmpty) {
       var day = 0;
       final List<Element> children = element.children;
@@ -27,10 +25,10 @@ Future<List<Lecture>> getScheduleFromHtml(http.Response response) async {
         if (clsName == 'TE' || clsName == 'TP' || clsName == 'PL') {
           final String subject =
               children[i].querySelector('b > acronym > a').text;
-          String classNumber = ''; 
+          String classNumber = '';
 
-          if( clsName == 'TP' || clsName == 'PL'){
-            classNumber = children[i].querySelector('span > a').text; 
+          if (clsName == 'TP' || clsName == 'PL') {
+            classNumber = children[i].querySelector('span > a').text;
           }
 
           final Element rowSmall =
@@ -44,8 +42,8 @@ Future<List<Lecture>> getScheduleFromHtml(http.Response response) async {
 
           semana[day] += blocks;
 
-          final Lecture lect = Lecture.secConstructor(
-              subject, typeClass, day, startTime, blocks, room, teacher);
+          final Lecture lect = Lecture.secConstructor(subject, typeClass, day,
+              startTime, blocks, room, teacher, classNumber);
           lecturesList.add(lect);
         }
         day++;
