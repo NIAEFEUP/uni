@@ -9,21 +9,23 @@ class ScheduleSlot extends StatelessWidget {
   final String end;
   final String teacher;
   final String typeClass;
+  final String classNumber;
 
-  ScheduleSlot(
-      {Key key,
-      @required this.subject,
-      @required this.typeClass,
-      @required this.rooms,
-      @required this.begin,
-      @required this.end,
-      this.teacher})
-      : super(key: key);
+  ScheduleSlot({
+    Key key,
+    @required this.subject,
+    @required this.typeClass,
+    @required this.rooms,
+    @required this.begin,
+    @required this.end,
+    this.teacher,
+    this.classNumber,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return  RowContainer(
-        child:  Container(
+    return RowContainer(
+        child: Container(
       padding:
           EdgeInsets.only(top: 10.0, bottom: 10.0, left: 22.0, right: 22.0),
       child: createScheduleSlotRow(context),
@@ -31,9 +33,9 @@ class ScheduleSlot extends StatelessWidget {
   }
 
   Widget createScheduleSlotRow(context) {
-    return  Container(
+    return Container(
         margin: EdgeInsets.only(top: 3.0, bottom: 3.0),
-        child:  Row(
+        child: Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -42,7 +44,7 @@ class ScheduleSlot extends StatelessWidget {
   }
 
   Widget createScheduleSlotTime(context) {
-    return  Column(
+    return Column(
       children: <Widget>[
         createScheduleTime(this.begin, context),
         createScheduleTime(this.end, context)
@@ -70,15 +72,21 @@ class ScheduleSlot extends StatelessWidget {
         TextAlign.right);
     return [
       createScheduleSlotTime(context),
-       Column(
+      Column(
         children: <Widget>[
-           Row(
+          Row(
             children: <Widget>[
               subjectTextField,
               typeClassTextField,
             ],
           ),
-          createScheduleSlotTeacherInfo(context)
+          Row(
+            children: [
+              createScheduleSlotTeacherInfo(context),
+              Text(' | '),
+              createScheduleSlotClass(context)
+            ],
+          )
         ],
       ),
       createScheduleSlotPrimInfoColumn(roomTextField)
@@ -88,6 +96,16 @@ class ScheduleSlot extends StatelessWidget {
   Widget createScheduleSlotTeacherInfo(context) {
     return createTextField(
         this.teacher,
+        Theme.of(context).textTheme.display1.apply(fontSizeDelta: -4),
+        TextAlign.center);
+  }
+
+  //TODO
+  Widget createScheduleSlotClass(context) {
+    final classText =
+        this.classNumber != null ? this.classNumber : this.teacher;
+    return createTextField(
+        classText,
         Theme.of(context).textTheme.display1.apply(fontSizeDelta: -4),
         TextAlign.center);
   }

@@ -7,6 +7,7 @@ import 'package:uni/model/entities/lecture.dart';
 
 Future<List<Lecture>> getScheduleFromHtml(http.Response response) async {
   final document = parse(response.body);
+  print(response.body);
 
   var semana = [0, 0, 0, 0, 0, 0];
 
@@ -26,6 +27,10 @@ Future<List<Lecture>> getScheduleFromHtml(http.Response response) async {
         if (clsName == 'TE' || clsName == 'TP' || clsName == 'PL') {
           final String subject =
               children[i].querySelector('b > acronym > a').text;
+
+          //TODO
+          print("ZAAAAAAAAAAAAAS");
+          print(children[i].querySelector('b > acronym > a').text);
 
           final Element rowSmall =
               children[i].querySelector('table > tbody > tr');
