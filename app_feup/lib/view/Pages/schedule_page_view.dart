@@ -146,7 +146,7 @@ class SchedulePageViewState extends SecondaryPageViewState {
         begin: lecture.startTime,
         end: lecture.endTime,
         teacher: lecture.teacher,
-        //classNumber: lecture.,
+        classNumber: lecture.classNumber,
       ));
     }
     return scheduleContent;
