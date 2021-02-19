@@ -17,40 +17,41 @@ class TermsAndConditions extends StatelessWidget {
           if (termsAndConditions.connectionState == ConnectionState.done) {
             termsAndConditionsSaved = termsAndConditions.data;
           }
-          return RichText(
-              text: TextSpan(children: linkify(termsAndConditionsSaved)));
+          return linkify(termsAndConditionsSaved);
         });
   }
 
-  List<TextSpan> linkify(String txt) {
-    final RegExp exp = RegExp(
+  Text linkify(String txt) {
+    final RegExp linkExp = RegExp(
         r'(http|ftp|https)://([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?');
+    final RegExp emailExp = RegExp(r'\w+@\w+.\w+');
     final List<TextSpan> lst = List<TextSpan>();
-    final textStyle = TextStyle(color: Colors.black);
-    final linkStyle =
-        TextStyle(color: Colors.black, decoration: TextDecoration.underline);
 
     for (var line in txt.split('\n')) {
-      if (exp.hasMatch(line)) {
+      if (linkExp.hasMatch(line) || emailExp.hasMatch(line)) {
         for (var word in line.split(' ')) {
-          if (exp.hasMatch(word)) {
+          if (linkExp.hasMatch(word) || emailExp.hasMatch(word)) {
             lst.add(TextSpan(
-                style: linkStyle,
+                style: TextStyle(fontStyle: FontStyle.italic),
                 text: word + ' ',
                 recognizer: TapGestureRecognizer()
-                  ..onTap = () {
-                    launch(exp.firstMatch(word).group(0));
+                  ..onTap = () async {
+                    final link = linkExp.hasMatch(word)
+                        ? linkExp.firstMatch(word).group(0)
+                        : 'mailto:' + emailExp.firstMatch(word).group(0);
+                    if (await canLaunch(link)) {
+                      launch(link);
+                    }
                   }));
           } else {
-            lst.add(TextSpan(text: word + ' ', style: textStyle));
+            lst.add(TextSpan(text: word + ' '));
           }
         }
       } else {
-        lst.add(TextSpan(text: line, style: textStyle));
+        lst.add(TextSpan(text: line));
       }
-
-      lst.add(TextSpan(text: '\n', style: textStyle));
+      lst.add(TextSpan(text: '\n'));
     }
-    return lst;
+    return Text.rich(TextSpan(children: lst));
   }
 }
