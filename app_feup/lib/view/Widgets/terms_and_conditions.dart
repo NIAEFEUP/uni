@@ -27,9 +27,9 @@ class TermsAndConditions extends StatelessWidget {
     final RegExp emailExp = RegExp(r'\w+@\w+.\w+');
     final List<TextSpan> lst = List<TextSpan>();
 
-    for (var line in txt.split('\n')) {
+    for (String line in txt.split('\n')) {
       if (linkExp.hasMatch(line) || emailExp.hasMatch(line)) {
-        for (var word in line.split(' ')) {
+        for (String word in line.split(' ')) {
           if (linkExp.hasMatch(word) || emailExp.hasMatch(word)) {
             lst.add(TextSpan(
                 style: TextStyle(fontStyle: FontStyle.italic),
@@ -50,6 +50,7 @@ class TermsAndConditions extends StatelessWidget {
       } else {
         lst.add(TextSpan(text: line));
       }
+
       lst.add(TextSpan(text: '\n'));
     }
     return Text.rich(TextSpan(children: lst));
