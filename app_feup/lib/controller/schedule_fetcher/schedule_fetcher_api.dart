@@ -8,21 +8,14 @@ import 'package:redux/redux.dart';
 class ScheduleFetcherApi extends ScheduleFetcher {
   @override
   Future<List<Lecture>> getLectures(Store<AppState> store) async {
-    var date = DateTime.now();
-    final String beginWeek = date.year.toString().padLeft(4, '0') +
-        date.month.toString().padLeft(2, '0') +
-        date.day.toString().padLeft(2, '0');
-    date = date.add(Duration(days: 6));
 
-    final String endWeek = date.year.toString().padLeft(4, '0') +
-        date.month.toString().padLeft(2, '0') +
-        date.day.toString().padLeft(2, '0');
+    final dates = getDates();
     final List<Lecture> lectures = await parseSchedule(
         await NetworkRouter.getWithCookies(
             NetworkRouter.getBaseUrlFromSession(
                     store.state.content['session']) +
                 //ignore: lines_longer_than_80_chars
-                '''mob_hor_geral.estudante?pv_codigo=${store.state.content['session'].studentNumber}&pv_semana_ini=$beginWeek&pv_semana_fim=$endWeek''',
+                '''mob_hor_geral.estudante?pv_codigo=${store.state.content['session'].studentNumber}&pv_semana_ini=${dates.beginWeek}&pv_semana_fim=${dates.endWeek}''',
             {},
             store.state.content['session']));
     return lectures;
