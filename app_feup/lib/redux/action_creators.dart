@@ -221,9 +221,7 @@ ThunkAction<AppState> getUserExams(Completer<Null> action,
 
       final List<Exam> exams = await extractExams(store, parserExams);
       
-      exams.sort((exam1, exam2) {
-        return exam1.date.compareTo(exam2.date);
-      });
+      exams.sort((exam1, exam2) => exam1.date.compareTo(exam2.date));
 
       // Updates local database according to the information fetched -- Exams
       if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {
