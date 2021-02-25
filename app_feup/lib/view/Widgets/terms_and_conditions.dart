@@ -26,6 +26,7 @@ class TermsAndConditions extends StatelessWidget {
                   .headline
                   .copyWith(fontSize: 18, fontWeight: FontWeight.w400),
             ),
+            shrinkWrap: false,
             data: termsAndConditionsSaved,
             onTapLink: (url) async {
               if (await canLaunch(url)) {
