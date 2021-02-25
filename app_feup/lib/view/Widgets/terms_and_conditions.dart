@@ -18,7 +18,14 @@ class TermsAndConditions extends StatelessWidget {
             termsAndConditionsSaved = termsAndConditions.data;
           }
           return MarkdownBody(
-            shrinkWrap: false,
+            styleSheet: MarkdownStyleSheet(
+              // Once we upgrade to the current stable version of Flutter,
+              // this should be passed through 'headline1' property in ThemeData
+              h1: Theme.of(context)
+                  .textTheme
+                  .headline
+                  .copyWith(fontSize: 18, fontWeight: FontWeight.w400),
+            ),
             data: termsAndConditionsSaved,
             onTapLink: (url) async {
               if (await canLaunch(url)) {

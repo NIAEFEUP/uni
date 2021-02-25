@@ -17,7 +17,7 @@ const Color lightGreyTextColor = Color.fromARGB(255, 90, 90, 90);
 const Color divider = Color.fromARGB(255, 180, 180, 180);
 const Color hintColor = Colors.white;
 
-ThemeData applicationTheme =  ThemeData(
+ThemeData applicationTheme = ThemeData(
   brightness: Brightness.light,
   primaryColor: primaryColor,
   accentColor: accentColor,
