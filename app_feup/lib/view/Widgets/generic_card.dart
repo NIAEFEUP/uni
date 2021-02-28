@@ -36,9 +36,9 @@ abstract class GenericCard extends StatefulWidget {
     return Container(
         child: Text(
             'última atualização às ' +
-                t.hour.toString() +
+                t.hour.toString().padLeft(2, '0') +
                 ':' +
-                t.minute.toString(),
+                t.minute.toString().padLeft(2, '0'),
             style: Theme.of(context).textTheme.display3),
         alignment: Alignment.center);
   }
