@@ -100,7 +100,7 @@ class ScheduleSlot extends StatelessWidget {
   }
 
   Widget createScheduleSlotClass(context) {
-    final classText = this.classNumber != '' ? (' | ' + this.classNumber) : '';
+    final classText = this.classNumber != null ? (' | ' + this.classNumber) : '';
     return createTextField(
         classText,
         Theme.of(context).textTheme.display1.apply(fontSizeDelta: -4),
