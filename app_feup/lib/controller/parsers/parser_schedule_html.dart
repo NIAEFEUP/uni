@@ -25,7 +25,7 @@ Future<List<Lecture>> getScheduleFromHtml(http.Response response) async {
         if (clsName == 'TE' || clsName == 'TP' || clsName == 'PL') {
           final String subject =
               children[i].querySelector('b > acronym > a').text;
-          String classNumber = '';
+          String classNumber = null;
 
           if (clsName == 'TP' || clsName == 'PL') {
             classNumber = children[i].querySelector('span > a').text;
