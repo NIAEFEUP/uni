@@ -47,7 +47,7 @@ You acknowledge that you have read this Agreement and agree to all its terms and
 \
 **Contacting us**
 
-If you would like to contact us to understand more about this Agreement or wish to contact us concerning any matter relating to it, you may send an email to [ni@aefeup.pt](mailto:ni@aefeup.pt)
+If you would like to contact us to understand more about this Agreement or wish to contact us concerning any matter relating to it, you may send an email to [ni@aefeup.pt](mailto:ni@aefeup.pt).
 \
 \
 This document was last updated on February 25, 2021
