@@ -11,6 +11,7 @@ import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/entities/trip.dart';
 import 'package:http/http.dart' as http;
+import 'package:html/parser.dart';
 import 'package:query_params/query_params.dart';
 import 'package:synchronized/synchronized.dart';
 
@@ -178,27 +179,46 @@ class NetworkRouter {
   static Future<List<Trip>> getNextArrivalsStop(
       String stopCode, BusStopData stopData) async {
     final String url =
-        'http://move-me.mobi/NextArrivals/GetScheds?providerName=STCP&stopCode=STCP_' +
-            stopCode;
+        'https://www.stcp.pt/pt/itinerarium/soapclient.php?codigo=' + stopCode;
+
     final http.Response response = await http.get(url);
-    final List<Trip> tripList = List();
+    var htmlResponse = parse(response.body);
 
-    final List json = jsonDecode(response.body);
+    final tableEntries = htmlResponse.querySelectorAll('#smsBusResults > tbody > tr.even');
 
-    for (var TripKey in json) {
-      final trip = TripKey['Value'];
-      final String line = trip[0];
-      if (stopData.configuredBuses.contains(line)) {
-        final String destination = trip[1];
-        String timeString = trip[2];
-        if (timeString.substring(timeString.length - 1) == '*') {
-          timeString = timeString.substring(0, timeString.length - 1);
-        }
-        final int timeRemaining = int.parse(timeString);
-        final Trip newTrip = Trip(
-            line: line, destination: destination, timeRemaining: timeRemaining);
-        tripList.add(newTrip);
+    final configuredBuses = stopData.configuredBuses;
+    final tripList = List<Trip>();
+
+    for (var entry in tableEntries) {
+      final line = entry.querySelector('td > ul > li').text;
+
+      if(!configuredBuses.contains(line)){
+        continue;
       }
+
+      var destination = entry.querySelector('td').text
+          .replaceAll('\n', '')
+          .replaceAll('\t', '')
+          .replaceAll(' ', '')
+          .replaceAll('-', '');
+
+      destination = destination.substring(line.length);
+
+      var timeRemaining = entry.querySelector('td:nth-child(3)').text;
+
+      if(timeRemaining == 'a passar'){
+        timeRemaining = '0';
+      }
+      else if (timeRemaining.substring(timeRemaining.length - 1) == '*') {
+        timeRemaining = timeRemaining.substring(0, timeRemaining.length - 1);
+      }
+
+      final Trip newTrip = Trip(
+          line: line,
+          destination: destination,
+          timeRemaining: int.parse(timeRemaining)
+      );
+      tripList.add(newTrip);
     }
 
     tripList.sort((a, b) => a.compare(b));
