@@ -54,7 +54,7 @@ class _LoginPageViewState extends State<LoginPageView> {
     });
   }
 
-  void _toggleShowPassword() {
+  void _toggleObscurePasswordInput() {
     setState(() {
       _obscurePasswordInput = !_obscurePasswordInput;
     });
@@ -104,7 +104,7 @@ class _LoginPageViewState extends State<LoginPageView> {
       msg,
       context,
       duration: Toast.LENGTH_LONG,
-      gravity: Toast.BOTTOM,
+      gravity: Toast.TOP,
       backgroundColor: toastColor,
       backgroundRadius: 16.0,
       textColor: Colors.white,
@@ -169,7 +169,7 @@ class _LoginPageViewState extends State<LoginPageView> {
         FocusScope.of(context).requestFocus(passwordFocus);
       },
       textInputAction: TextInputAction.next,
-      textAlign: TextAlign.center,
+      textAlign: TextAlign.left,
       decoration: textFieldDecoration('número de estudante'),
       validator: (String value) => value.isEmpty ? 'Preencha este campo' : null,
     );
@@ -189,15 +189,9 @@ class _LoginPageViewState extends State<LoginPageView> {
         },
         textInputAction: TextInputAction.done,
         obscureText: _obscurePasswordInput,
-        textAlign: TextAlign.center,
-        decoration: InputDecoration(
-            hintText: 'palavra-passe',
-            suffix: InkWell(
-              onTap: _toggleShowPassword,
-              child: Icon(
-                _obscurePasswordInput ? Icons.visibility : Icons.visibility_off,
-              ),
-            )),
+        enableInteractiveSelection: !_obscurePasswordInput,
+        textAlign: TextAlign.left,
+        decoration: passwordFieldDecoration('palavra-passe'),
         validator: (String value) =>
             value.isEmpty ? 'Preencha este campo' : null);
   }
@@ -278,10 +272,27 @@ class _LoginPageViewState extends State<LoginPageView> {
           color: Colors.white70,
         ),
         hintText: placeholder,
-        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+        contentPadding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
         border: UnderlineInputBorder(),
         focusedBorder: UnderlineInputBorder(
             borderSide: BorderSide(color: Colors.white, width: 3)));
+  }
+
+  InputDecoration passwordFieldDecoration(String placeholder) {
+    final genericDecoration = textFieldDecoration(placeholder);
+    return InputDecoration(
+        errorStyle: genericDecoration.errorStyle,
+        hintText: genericDecoration.hintText,
+        contentPadding: genericDecoration.contentPadding,
+        border: genericDecoration.border,
+        focusedBorder: genericDecoration.focusedBorder,
+        suffixIcon: IconButton(
+          icon: Icon(
+            _obscurePasswordInput ? Icons.visibility : Icons.visibility_off,
+          ),
+          onPressed: _toggleObscurePasswordInput,
+          color: Theme.of(context).accentColor,
+        ));
   }
 
   createSafeLoginButton(BuildContext context) {
