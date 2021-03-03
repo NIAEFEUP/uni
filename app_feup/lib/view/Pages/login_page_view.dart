@@ -35,6 +35,7 @@ class _LoginPageViewState extends State<LoginPageView> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   static bool _exitApp = false;
   bool _keepSignedIn = false;
+  bool _obscurePasswordInput = true;
 
   void _login(BuildContext context) {
     final store = StoreProvider.of<AppState>(context);
@@ -50,6 +51,12 @@ class _LoginPageViewState extends State<LoginPageView> {
   void _setKeepSignedIn(value) {
     setState(() {
       _keepSignedIn = value;
+    });
+  }
+
+  void _toggleShowPassword() {
+    setState(() {
+      _obscurePasswordInput = !_obscurePasswordInput;
     });
   }
 
@@ -171,6 +178,8 @@ class _LoginPageViewState extends State<LoginPageView> {
   Widget createPasswordInput() {
     return TextFormField(
         style: TextStyle(color: Colors.white, fontSize: 20),
+        enableSuggestions: false,
+        autocorrect: false,
         autofocus: false,
         controller: passwordController,
         focusNode: passwordFocus,
@@ -179,9 +188,16 @@ class _LoginPageViewState extends State<LoginPageView> {
           _login(context);
         },
         textInputAction: TextInputAction.done,
-        obscureText: true,
+        obscureText: _obscurePasswordInput,
         textAlign: TextAlign.center,
-        decoration: textFieldDecoration('palavra-passe'),
+        decoration: InputDecoration(
+            hintText: 'palavra-passe',
+            suffix: InkWell(
+              onTap: _toggleShowPassword,
+              child: Icon(
+                _obscurePasswordInput ? Icons.visibility : Icons.visibility_off,
+              ),
+            )),
         validator: (String value) =>
             value.isEmpty ? 'Preencha este campo' : null);
   }
