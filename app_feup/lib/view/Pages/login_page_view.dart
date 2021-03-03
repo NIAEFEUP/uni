@@ -288,7 +288,7 @@ class _LoginPageViewState extends State<LoginPageView> {
         focusedBorder: genericDecoration.focusedBorder,
         suffixIcon: IconButton(
           icon: Icon(
-            _obscurePasswordInput ? Icons.visibility_off : Icons.visibility,
+            _obscurePasswordInput ? Icons.visibility : Icons.visibility_off,
           ),
           onPressed: _toggleObscurePasswordInput,
           color: Theme.of(context).accentColor,
