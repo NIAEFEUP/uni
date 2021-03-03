@@ -17,7 +17,7 @@ class ScheduleFetcherHtml extends ScheduleFetcher {
             NetworkRouter.getBaseUrlFromSession(
                     store.state.content['session']) +
                 '''
-hor_geral.estudantes_view?pv_fest_id=${course.festId}&pv_ano_lectivo=${course.getLectiveYear()}&p_semana_inicio=${dates.beginWeek}&p_semana_fim=${dates.endWeek}''',
+hor_geral.estudantes_view?pv_fest_id=${course.festId}&pv_ano_lectivo=${dates.lectiveYear}&p_semana_inicio=${dates.beginWeek}&p_semana_fim=${dates.endWeek}''',
             {},
             store.state.content['session'])));
 

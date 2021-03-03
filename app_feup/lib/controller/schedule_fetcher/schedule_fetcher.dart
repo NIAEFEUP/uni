@@ -17,13 +17,15 @@ abstract class ScheduleFetcher {
         date.month.toString().padLeft(2, '0') +
         date.day.toString().padLeft(2, '0');
 
-    return Dates(beginWeek, endWeek);
+    final lectiveYear = date.month < 8 ? date.year - 1 : date.year; 
+    return Dates(beginWeek, endWeek, lectiveYear);
   }
 }
 
 class Dates {
   final String beginWeek;
   final String endWeek;
+  final int lectiveYear;
 
-  Dates(this.beginWeek, this.endWeek); 
+  Dates(this.beginWeek, this.endWeek, this.lectiveYear); 
 }
