@@ -105,4 +105,9 @@ class Exam {
   static Map<String, String> getExamTypes() {
     return _types;
   }
+
+  static getExamTypeLong(String abr) {
+    final Map<String, String> reversed = _types.map((k, v) => MapEntry(v, k));
+    return reversed[abr];
+  }
 }
