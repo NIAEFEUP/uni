@@ -3,7 +3,7 @@ import 'package:uni/model/entities/exam.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:uni/view/Pages/secondary_page_view.dart';
-import 'package:uni/view/Widgets/page_title.dart';
+import 'package:uni/view/Widgets/exam_page_title.dart';
 import 'package:uni/view/Widgets/row_container.dart';
 import 'package:uni/view/Widgets/schedule_row.dart';
 import 'package:uni/view/Widgets/title_card.dart';
@@ -30,17 +30,14 @@ class ExamsPageViewState extends SecondaryPageViewState {
 class ExamsList extends StatelessWidget {
   final List<Exam> exams;
 
-  const ExamsList({
-    Key key,
-    @required this.exams
-  }) : super(key: key);
+  const ExamsList({Key key, @required this.exams}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ListView(
       children: <Widget>[
         Container(
-          child:  Column(
+          child: Column(
             mainAxisSize: MainAxisSize.max,
             children: this.createExamsColumn(context, exams),
           ),
@@ -49,10 +46,9 @@ class ExamsList extends StatelessWidget {
     );
   }
 
-
   List<Widget> createExamsColumn(context, exams) {
-    final List<Widget> columns =  <Widget>[];
-    columns.add( PageTitle(
+    final List<Widget> columns = <Widget>[];
+    columns.add(ExamPageTitle(
       name: 'Exames',
     ));
 
@@ -61,7 +57,7 @@ class ExamsList extends StatelessWidget {
       return columns;
     }
 
-    final List<Exam> currentDayExams =  <Exam>[];
+    final List<Exam> currentDayExams = <Exam>[];
 
     for (int i = 0; i < exams.length; i++) {
       if (i + 1 >= exams.length) {
@@ -92,8 +88,8 @@ class ExamsList extends StatelessWidget {
 
   Widget createExamCard(context, exams) {
     final keyValue = exams.map((exam) => exam.toString()).join();
-    return  Container(
-      key: Key(keyValue),  
+    return Container(
+      key: Key(keyValue),
       margin: EdgeInsets.only(bottom: 8),
       padding: EdgeInsets.all(8),
       child: this.createExamsCards(context, exams),
@@ -101,13 +97,13 @@ class ExamsList extends StatelessWidget {
   }
 
   Widget createExamsCards(context, exams) {
-    final List<Widget> examCards =  <Widget>[];
-    examCards.add( TitleCard(
+    final List<Widget> examCards = <Widget>[];
+    examCards.add(TitleCard(
         day: exams[0].day, weekDay: exams[0].weekDay, month: exams[0].month));
     for (int i = 0; i < exams.length; i++) {
       examCards.add(this.createExamContext(context, exams[i]));
     }
-    return  Column(children: examCards);
+    return Column(children: examCards);
   }
 
   Widget createExamContext(context, exam) {
@@ -116,7 +112,7 @@ class ExamsList extends StatelessWidget {
         key: Key(keyValue),
         margin: EdgeInsets.fromLTRB(12, 4, 12, 0),
         child: RowContainer(
-            child:  ScheduleRow(
+            child: ScheduleRow(
                 subject: exam.subject,
                 rooms: exam.rooms,
                 begin: exam.begin,
