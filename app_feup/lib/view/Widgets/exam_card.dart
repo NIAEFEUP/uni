@@ -14,9 +14,10 @@ import 'package:uni/view/Widgets/schedule_row.dart';
 import 'generic_card.dart';
 
 Color examColor(Exam exam, context) {
-  return
-    (exam.examType.contains('''EN''')) || (exam.examType.contains('''MT'''))
-        ? Theme.of(context).hintColor : Theme.of(context).backgroundColor;
+  return (exam.examType.contains('''EN''')) ||
+          (exam.examType.contains('''MT'''))
+      ? Theme.of(context).hintColor
+      : Theme.of(context).backgroundColor;
 }
 
 class ExamCard extends GenericCard {
@@ -52,22 +53,22 @@ class ExamCard extends GenericCard {
   }
 
   Widget generateExams(exams, context) {
-    return  Column(
+    return Column(
       mainAxisSize: MainAxisSize.min,
       children: this.getExamRows(context, exams),
     );
   }
 
   List<Widget> getExamRows(context, exams) {
-    final List<Widget> rows =  <Widget>[];
+    final List<Widget> rows = <Widget>[];
     for (int i = 0; i < 1 && i < exams.length; i++) {
       rows.add(this.createRowFromExam(context, exams[i]));
     }
     if (exams.length > 1) {
-      rows.add( Container(
+      rows.add(Container(
         margin: EdgeInsets.only(right: 80.0, left: 80.0, top: 15, bottom: 7),
-        decoration:  BoxDecoration(
-            border:  Border(
+        decoration: BoxDecoration(
+            border: Border(
                 bottom: BorderSide(
                     width: 1.5, color: Theme.of(context).accentColor))),
       ));
@@ -79,32 +80,31 @@ class ExamCard extends GenericCard {
   }
 
   Widget createRowFromExam(context, Exam exam) {
-    return  Column(children: [
-       DateRectangle(
-          date: exam.weekDay + ', ' + exam.day + ' de ' + exam.month),
-       Container(
-          child: RowContainer(
-            color: examColor(exam, context),
-        child: ScheduleRow(
-          subject: exam.subject,
-          rooms: exam.rooms,
-          begin: exam.begin,
-          end: exam.end,
-          type: exam.examType,
+    return Column(children: [
+      DateRectangle(date: exam.weekDay + ', ' + exam.day + ' de ' + exam.month),
+      Container(
+        child: RowContainer(
+          color: examColor(exam, context),
+          child: ScheduleRow(
+            subject: exam.subject,
+            rooms: exam.rooms,
+            begin: exam.begin,
+            end: exam.end,
+            type: exam.examType,
+          ),
         ),
-       ),
-       ),
+      ),
     ]);
   }
 
   Widget createSecondaryRowFromExam(context, exam) {
-    return  Container(
+    return Container(
       margin: EdgeInsets.only(top: 8),
-      child:  RowContainer(
+      child: RowContainer(
         color: examColor(exam, context),
-        child:  Container(
+        child: Container(
           padding: EdgeInsets.all(11),
-          child:  Row(
+          child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.center,
