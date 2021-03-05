@@ -12,10 +12,10 @@ import 'package:uni/controller/local_storage/app_user_database.dart';
 import 'package:uni/controller/networking/network_router.dart'
     show NetworkRouter;
 import 'package:uni/controller/parsers/parser_exams.dart';
-import 'package:uni/controller/parsers/parser_schedule.dart';
 import 'package:uni/controller/parsers/parser_print_balance.dart';
 import 'package:uni/controller/parsers/parser_fees.dart';
 import 'package:uni/controller/parsers/parser_courses.dart';
+import 'package:uni/controller/schedule_fetcher/schedule_fetcher_html.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/course_unit.dart';
@@ -243,23 +243,11 @@ ThunkAction<AppState> getUserSchedule(Completer<Null> action) {
   return (Store<AppState> store) async {
     try {
       store.dispatch(SetScheduleStatusAction(RequestStatus.busy));
-      var date = DateTime.now();
-      final String beginWeek = date.year.toString().padLeft(4, '0') +
-          date.month.toString().padLeft(2, '0') +
-          date.day.toString().padLeft(2, '0');
-      date = date.add(Duration(days: 6));
 
-      final String endWeek = date.year.toString().padLeft(4, '0') +
-          date.month.toString().padLeft(2, '0') +
-          date.day.toString().padLeft(2, '0');
+      //TODO: Go back to API whenever it is fixed: https://github.com/NIAEFEUP/project-schrodinger/issues/300
+      final List<Lecture> lectures =
+          await ScheduleFetcherHtml().getLectures(store);
 
-      final List<Lecture> lectures = await parseSchedule(
-          await NetworkRouter.getWithCookies(
-              NetworkRouter.getBaseUrlFromSession(
-                      store.state.content['session']) +
-                  '''mob_hor_geral.estudante?pv_codigo=${store.state.content['session'].studentNumber}&pv_semana_ini=$beginWeek&pv_semana_fim=$endWeek''',
-              {},
-              store.state.content['session']));
       // Updates local database according to the information fetched -- Lectures
       final Tuple2<String, String> userPersistentInfo =
           await AppSharedPreferences.getPersistentUserInfo();
@@ -271,7 +259,7 @@ ThunkAction<AppState> getUserSchedule(Completer<Null> action) {
       store.dispatch(SetScheduleAction(lectures));
       store.dispatch(SetScheduleStatusAction(RequestStatus.successful));
     } catch (e) {
-      Logger().e('Failed to get Schedule');
+      Logger().e('Failed to get Schedule: ${e.toString()}');
       store.dispatch(SetScheduleStatusAction(RequestStatus.failed));
     }
     action.complete();

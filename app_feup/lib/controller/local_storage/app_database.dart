@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
@@ -8,9 +9,12 @@ class AppDatabase {
   Database _db;
   String name;
   List<String> commands;
-  static Lock lock =  Lock();
+  static Lock lock = Lock();
+  final OnDatabaseVersionChangeFn onUpgrade;
+  final int version;
 
-  AppDatabase(String name, List<String> commands) {
+  AppDatabase(String name, List<String> commands,
+      {this.onUpgrade, this.version = 1}) {
     this.name = name;
     this.commands = commands;
   }
@@ -32,12 +36,12 @@ class AppDatabase {
 
   Future<Database> initializeDatabase() async {
     // Get the directory path for both Android and iOS to store database
-    final Directory directory = await getApplicationDocumentsDirectory();
-    final String path = directory.path + this.name;
+    final String directory = await getDatabasesPath();
+    final String path = join(directory, this.name);
 
     // Open or create the database at the given path
-    final appFeupDatabase =
-        await openDatabase(path, version: 1, onCreate: _createDatabase);
+    final appFeupDatabase = await openDatabase(path,
+        version: version, onCreate: _createDatabase, onUpgrade: onUpgrade);
     return appFeupDatabase;
   }
 

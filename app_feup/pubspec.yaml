@@ -7,7 +7,7 @@ description: A FEUP no teu bolso
 # Both the version and the builder number may be overridden in flutter
 # build by specifying --build-name and --build-number, respectively.
 # Read more about versioning at semver.org.
-version: 1.0.0+5
+version: 1.0.0+7
 
 environment:
   sdk: ">=2.2.0 <3.0.0"
@@ -33,7 +33,8 @@ dependencies:
   image: ^2.1.4
   connectivity: ^0.4.4
   logger: ^0.8.3
-
+  url_launcher: ^4.1.0
+  flutter_markdown: ^0.3.5
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
