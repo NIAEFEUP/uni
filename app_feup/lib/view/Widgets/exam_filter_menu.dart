@@ -5,7 +5,9 @@ import 'package:uni/view/Widgets/exam_filter_form.dart';
 
 // ignore: must_be_immutable
 class ExamFilterMenu extends StatefulWidget {
-  Map<String, bool> checkboxes = {};
+  final Map<String, bool> checkboxes;
+
+  ExamFilterMenu(this.checkboxes);
 
   @override
   _ExamFilterMenuState createState() => _ExamFilterMenuState();
