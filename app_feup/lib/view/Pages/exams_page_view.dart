@@ -35,8 +35,10 @@ class ExamsPageViewState extends SecondaryPageViewState {
   }
 }
 
+// ignore: must_be_immutable
 class ExamsList extends StatelessWidget {
   final List<Exam> exams;
+  Map<String, bool> pretendedExamTypes;
 
   ExamsList({Key key, @required this.exams}) : super(key: key);
   @override
@@ -57,6 +59,7 @@ class ExamsList extends StatelessWidget {
     final List<Widget> columns = <Widget>[];
     columns.add(ExamPageTitleFilter(
       name: 'Exames',
+      pretendedExams: pretendedExamTypes,
     ));
 
     if (exams.length == 1) {
@@ -67,6 +70,8 @@ class ExamsList extends StatelessWidget {
     final List<Exam> currentDayExams = <Exam>[];
 
     for (int i = 0; i < exams.length; i++) {
+      final examTypeLong = Exam.getExamTypeLong(exams[i].examType);
+      if (!pretendedExamTypes[examTypeLong]) continue;
       if (i + 1 >= exams.length) {
         if (exams[i].day == exams[i - 1].day &&
             exams[i].month == exams[i - 1].month) {
@@ -125,5 +130,12 @@ class ExamsList extends StatelessWidget {
                 begin: exam.begin,
                 end: exam.end,
                 type: exam.examType)));
+  }
+
+  Map<String, bool> checkboxValues() {
+    final Iterable<String> examTypes = Exam.getExamTypes().keys;
+    final Map<String, bool> chekboxes = {};
+    examTypes.forEach((type) => chekboxes[type] = true);
+    return chekboxes;
   }
 }
