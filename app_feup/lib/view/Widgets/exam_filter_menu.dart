@@ -3,30 +3,15 @@ import 'package:uni/model/entities/exam.dart';
 
 // ignore: must_be_immutable
 class ExamFilterMenu extends StatefulWidget {
-  Map<String, bool> checkboxes = {};
+  final Map<String, bool> checkboxes;
+
+  ExamFilterMenu(this.checkboxes);
 
   @override
   _ExamFilterMenuState createState() => _ExamFilterMenuState();
 }
 
 class _ExamFilterMenuState extends State<ExamFilterMenu> {
-  @override
-  void initState() {
-    super.initState();
-    widget.checkboxes = checkboxValues();
-  }
-
-  Map<String, bool> checkboxValues() {
-    final Iterable<String> examTypes = Exam.getExamTypes().keys;
-    final Map<String, bool> chekboxes = {/*'Todos': true*/};
-    examTypes.forEach((type) => chekboxes[type] = true);
-    return chekboxes;
-  }
-
-  filterExam(String key, bool value) {
-    //if (value) print("ZAAAAAAAAAAAAAAAAS" + key);
-  }
-
   showAlertDialog(BuildContext context) {
     // set up the AlertDialog
     final AlertDialog alert = AlertDialog(
@@ -43,7 +28,7 @@ class _ExamFilterMenuState extends State<ExamFilterMenu> {
                 onChanged: (bool value) {
                   setState(() {
                     widget.checkboxes[key] = value;
-                    filterExam(key, value);
+                    //filterExam(key, value);
                   });
                 },
               );
