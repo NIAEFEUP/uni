@@ -14,6 +14,9 @@ import 'package:http/http.dart' as http;
 import 'package:html/parser.dart';
 import 'package:query_params/query_params.dart';
 import 'package:synchronized/synchronized.dart';
+extension UriString on String{
+  Uri toUri() => Uri.parse(this); 
+}
 
 class NetworkRouter {
   static http.Client httpClient;
@@ -24,11 +27,12 @@ class NetworkRouter {
 
   static Function onReloginFail = () {};
 
+
   static Future<Session> login(
       String user, String pass, String faculty, bool persistentSession) async {
     final String url =
         NetworkRouter.getBaseUrl(faculty) + 'mob_val_geral.autentica';
-    final http.Response response = await http.post(url, body: {
+    final http.Response response = await http.post(url.toUri(), body: {
       'pv_login': user,
       'pv_password': pass
     }).timeout(const Duration(seconds: loginRequestTimeout));
@@ -63,7 +67,7 @@ class NetworkRouter {
     Logger().i('Trying to login...');
     final String url =
         NetworkRouter.getBaseUrl(session.faculty) + 'mob_val_geral.autentica';
-    final http.Response response = await http.post(url, body: {
+    final http.Response response = await http.post(url.toUri(), body: {
       'pv_login': session.studentNumber,
       'pv_password': await AppSharedPreferences.getUserPassword(),
     }).timeout(const Duration(seconds: loginRequestTimeout));
@@ -82,7 +86,7 @@ class NetworkRouter {
   }
 
   static String extractCookies(dynamic headers) {
-    final List<String> cookieList = List<String>();
+    final List<String> cookieList = <String>[];
     final String cookies = headers['set-cookie'];
     if (cookies != null) {
       final List<String> rawCookies = cookies.split(',');
@@ -112,7 +116,7 @@ class NetworkRouter {
         url, {'pv_codigo': session.studentNumber}, session);
     if (response.statusCode == 200) {
       final responseBody = json.decode(response.body);
-      final List<CourseUnit> ucs = List<CourseUnit>();
+      final List<CourseUnit> ucs = <CourseUnit>[];
       for (var course in responseBody) {
         for (var uc in course['inscricoes']) {
           ucs.add(CourseUnit.fromJson(uc));
@@ -120,7 +124,7 @@ class NetworkRouter {
       }
       return ucs;
     }
-    return List<CourseUnit>();
+    return <CourseUnit>[];
   }
 
   static Future<http.Response> getWithCookies(
@@ -140,8 +144,8 @@ class NetworkRouter {
     final Map<String, String> headers = Map<String, String>();
     headers['cookie'] = session.cookies;
     final http.Response response = await (httpClient != null
-        ? httpClient.get(url, headers: headers)
-        : http.get(url, headers: headers));
+        ? httpClient.get(url.toUri(), headers: headers)
+        : http.get(url.toUri(), headers: headers));
     if (response.statusCode == 200) {
       return response;
     } else if (response.statusCode == 403) {
@@ -149,7 +153,7 @@ class NetworkRouter {
       final bool success = await relogin(session);
       if (success) {
         headers['cookie'] = session.cookies;
-        return http.get(url, headers: headers);
+        return http.get(url.toUri(), headers: headers);
       } else {
         onReloginFail();
         Logger().e('Login failed');
@@ -161,12 +165,12 @@ class NetworkRouter {
   }
 
   static Future<List<String>> getStopsByName(String stopCode) async {
-    final List<String> stopsList = List();
+    final List<String> stopsList = [];
 
     //Search by aproximate name
     final String url =
         'https://www.stcp.pt/pt/itinerarium/callservice.php?action=srchstoplines&stopname=$stopCode';
-    final http.Response response = await http.post(url);
+    final http.Response response = await http.post(url.toUri());
     final List json = jsonDecode(response.body);
     for (var busKey in json) {
       final String stop = busKey['name'] + ' [' + busKey['code'] + ']';
@@ -181,7 +185,7 @@ class NetworkRouter {
     final url =
         'https://www.stcp.pt/pt/itinerarium/soapclient.php?codigo=' + stopCode;
 
-    final http.Response response = await http.get(url);
+    final http.Response response = await http.get(url.toUri());
     final htmlResponse = parse(response.body);
 
     final tableEntries =
@@ -234,11 +238,11 @@ class NetworkRouter {
   static Future<List<Bus>> getBusesStoppingAt(String stop) async {
     final String url =
         'https://www.stcp.pt/pt/itinerarium/callservice.php?action=srchstoplines&stopcode=$stop';
-    final http.Response response = await http.post(url);
+    final http.Response response = await http.post(url.toUri());
 
     final List json = jsonDecode(response.body);
 
-    final List<Bus> buses = List();
+    final List<Bus> buses = [];
 
     for (var busKey in json) {
       final lines = busKey['lines'];
