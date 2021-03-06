@@ -187,7 +187,7 @@ class BugReportFormState extends State<BugReportForm> {
         child: CheckboxListTile(
           activeColor: Theme.of(context).primaryColor,
           title: Text(
-              '''Consinto que a informação seja publicada no GitHub, incluindo o meu contacto pessoal, se fornecido.''',
+              '''Consinto que toda esta informação seja disponibilizada publicamente na plataforma GitHub, incluindo o meu contacto pessoal, se fornecido''',
               style: Theme.of(context).textTheme.body1,
               textAlign: TextAlign.left),
           value: _isConsentGiven,
