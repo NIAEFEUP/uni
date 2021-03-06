@@ -56,7 +56,7 @@ class ScheduleRow extends StatelessWidget {
       ];
     }
 
-    final List<Widget> rooms =  List();
+    final List<Widget> rooms =  [];
     for (String room in this.rooms) {
       rooms.add(
          Text(

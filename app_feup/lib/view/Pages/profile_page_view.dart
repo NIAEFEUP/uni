@@ -51,7 +51,7 @@ class ProfilePageViewState extends UnnamedPageView {
   }
 
   List<Widget> childrenList(BuildContext context) {
-    final List<Widget> list =  List();
+    final List<Widget> list =  [];
     list.add(Padding(padding: const EdgeInsets.all(5.0)));
     list.add(profileInfo(context));
     list.add(Padding(padding: const EdgeInsets.all(5.0)));

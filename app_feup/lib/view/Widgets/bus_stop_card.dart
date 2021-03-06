@@ -123,7 +123,7 @@ class BusStopCard extends GenericCard {
   }
 
   List<Widget> getEachBusStopInfo(context, trips, stopConfig) {
-    final List<Widget> rows =  List<Widget>();
+    final List<Widget> rows =  <Widget>[];
 
     rows.add( LastUpdateTimeStamp());
 

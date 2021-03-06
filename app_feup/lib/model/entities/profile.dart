@@ -22,7 +22,7 @@ class Profile {
 
   static Profile fromResponse(dynamic response) {
     final responseBody = json.decode(response.body);
-    final List<Course> courses = List<Course>();
+    final List<Course> courses = <Course>[];
     for (var c in responseBody['cursos']) {
       courses.add(Course.fromJson(c));
     }

@@ -53,7 +53,7 @@ class MainCardsList extends StatelessWidget {
                   width: 100.0,
                 ),
                 actions: [
-                  FlatButton(
+                  TextButton(
                       child: Text(
                         'Cancelar',
                         style: Theme.of(context)
@@ -142,7 +142,7 @@ class MainCardsList extends StatelessWidget {
       List<FAVORITE_WIDGET_TYPE> cards, BuildContext context) {
     if (cards == null) return [];
 
-    final List<Widget> result = List<Widget>();
+    final List<Widget> result = <Widget>[];
     for (int i = 0; i < cards.length; i++) {
       result.add(this.createFavoriteWidgetFromType(cards[i], i, context));
     }

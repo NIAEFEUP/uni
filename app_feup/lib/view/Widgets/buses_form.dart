@@ -21,7 +21,7 @@ class BusesForm extends StatefulWidget {
 class _BusesFormState extends State<BusesForm> {
   final String stopCode;
   final Function updateStopCallback;
-  List<Bus> buses =  List();
+  List<Bus> buses =  [];
   final List<bool> busesToAdd = List<bool>.filled(20, false);
 
   _BusesFormState(this.stopCode, this.updateStopCallback);

@@ -51,7 +51,7 @@ class ExamsList extends StatelessWidget {
 
 
   List<Widget> createExamsColumn(context, exams) {
-    final List<Widget> columns =  List<Widget>();
+    final List<Widget> columns =  <Widget>[];
     columns.add( PageTitle(
       name: 'Exames',
     ));
@@ -61,7 +61,7 @@ class ExamsList extends StatelessWidget {
       return columns;
     }
 
-    final List<Exam> currentDayExams =  List<Exam>();
+    final List<Exam> currentDayExams =  <Exam>[];
 
     for (int i = 0; i < exams.length; i++) {
       if (i + 1 >= exams.length) {
@@ -101,7 +101,7 @@ class ExamsList extends StatelessWidget {
   }
 
   Widget createExamsCards(context, exams) {
-    final List<Widget> examCards =  List<Widget>();
+    final List<Widget> examCards =  <Widget>[];
     examCards.add( TitleCard(
         day: exams[0].day, weekDay: exams[0].weekDay, month: exams[0].month));
     for (int i = 0; i < exams.length; i++) {

@@ -30,7 +30,7 @@ class BusStopRow extends StatelessWidget {
   }
 
   List<Widget> getTrips(context) {
-    final List<Widget> row =  List<Widget>();
+    final List<Widget> row =  <Widget>[];
 
     if (stopCodeShow) {
       row.add(stopCodeRotatedContainer(context));
@@ -70,7 +70,7 @@ class BusStopRow extends StatelessWidget {
   }
 
   List<Widget> getTripRows() {
-    final List<Widget> tripRows =  List<Widget>();
+    final List<Widget> tripRows =  <Widget>[];
 
     if (singleTrip) {
       tripRows.add( Container(

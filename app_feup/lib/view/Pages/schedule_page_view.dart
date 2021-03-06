@@ -116,7 +116,7 @@ class SchedulePageViewState extends SecondaryPageViewState {
   }
 
   List<Widget> createTabs(queryData, BuildContext context) {
-    final List<Widget> tabs = List<Widget>();
+    final List<Widget> tabs = <Widget>[];
     for (var i = 0; i < daysOfTheWeek.length; i++) {
       tabs.add(Container(
         color: Theme.of(context).backgroundColor,
@@ -128,7 +128,7 @@ class SchedulePageViewState extends SecondaryPageViewState {
   }
 
   List<Widget> createSchedule(context) {
-    final List<Widget> tabBarViewContent = List<Widget>();
+    final List<Widget> tabBarViewContent = <Widget>[];
     for (int i = 0; i < daysOfTheWeek.length; i++) {
       tabBarViewContent.add(createScheduleByDay(context, i));
     }
@@ -136,7 +136,7 @@ class SchedulePageViewState extends SecondaryPageViewState {
   }
 
   List<Widget> createScheduleRows(lectures, BuildContext context) {
-    final List<Widget> scheduleContent = List<Widget>();
+    final List<Widget> scheduleContent = <Widget>[];
     for (int i = 0; i < lectures.length; i++) {
       final Lecture lecture = lectures[i];
       scheduleContent.add(ScheduleSlot(

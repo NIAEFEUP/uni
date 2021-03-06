@@ -41,7 +41,7 @@ class AppUserDataDatabase extends AppDatabase {
     return Profile(
         name: name,
         email: email,
-        courses: List<Course>(),
+        courses: <Course>[],
         printBalance: balance,
         feesBalance: feesBalance,
         feesLimit: feesLimit);
