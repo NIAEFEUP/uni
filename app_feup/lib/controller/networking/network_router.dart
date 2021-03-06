@@ -15,7 +15,7 @@ import 'package:html/parser.dart';
 import 'package:query_params/query_params.dart';
 import 'package:synchronized/synchronized.dart';
 extension UriString on String{
-  Uri toUri() => Uri.parse(this); 
+  Uri toUri() => Uri.parse(this);
 }
 
 class NetworkRouter {
