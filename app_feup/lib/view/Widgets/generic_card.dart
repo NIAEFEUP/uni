@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:uni/model/entities/time_utilities.dart';
 
 abstract class GenericCard extends StatefulWidget {
   GenericCard({Key key})
@@ -36,9 +37,7 @@ abstract class GenericCard extends StatefulWidget {
     return Container(
         child: Text(
             'última atualização às ' +
-                t.hour.toString().padLeft(2, '0') +
-                ':' +
-                t.minute.toString().padLeft(2, '0'),
+                t.toTimeString(),
             style: Theme.of(context).textTheme.display3),
         alignment: Alignment.center);
   }
