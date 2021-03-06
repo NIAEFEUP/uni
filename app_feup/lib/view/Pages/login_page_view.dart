@@ -231,7 +231,7 @@ class _LoginPageViewState extends State<LoginPageView> {
   Widget createStatusWidget(BuildContext context) {
     return StoreConnector<AppState, RequestStatus>(
         converter: (store) => store.state.content['loginStatus'],
-        onWillChange: (status) {
+        onWillChange: (oldStatus, status) {
           if (
             status == RequestStatus.successful &&
             StoreProvider.of<AppState>(context).

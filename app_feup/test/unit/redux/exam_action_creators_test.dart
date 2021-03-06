@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:intl/intl.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tuple/tuple.dart';
-import 'package:intl/intl.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/course.dart';
