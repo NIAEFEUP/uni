@@ -98,6 +98,8 @@ class BugReportFormState extends State<BugReportForm> {
       labelText: 'Email em que desejas ser contactado',
       bottomMargin: 30.0,
       isOptional: true,
+      emptyText: 'Por favor coloca um email válido',
+      validatorType: FormTextFieldValidator.email,
     ));
 
     formWidget.add(consentBox(context));
@@ -135,7 +137,7 @@ class BugReportFormState extends State<BugReportForm> {
       padding: EdgeInsets.only(bottom: 20),
       child: Center(
         child: Text(
-            '''Encontraste algum bug na aplicação?\nTens alguma sugestão para a app?\nConta-nos para que nós possamos melhorar!''',
+            '''Encontraste algum bug na aplicação?\nTens alguma sugestão para a app?\nConta-nos para que possamos melhorar!''',
             style: Theme.of(context).textTheme.body1,
             textAlign: TextAlign.center),
       ),
@@ -149,7 +151,7 @@ class BugReportFormState extends State<BugReportForm> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            'Seleciona o tipo de ocorrência',
+            'Tipo de ocorrência',
             style: Theme.of(context).textTheme.body1,
             textAlign: TextAlign.left,
           ),
@@ -187,7 +189,7 @@ class BugReportFormState extends State<BugReportForm> {
         child: CheckboxListTile(
           activeColor: Theme.of(context).primaryColor,
           title: Text(
-              '''Consinto que toda esta informação seja disponibilizada publicamente na plataforma GitHub, incluindo o meu contacto pessoal, se fornecido''',
+              '''Consinto que toda esta informação seja disponibilizada publicamente na plataforma GitHub, incluindo o meu contacto pessoal, se fornecido.''',
               style: Theme.of(context).textTheme.body1,
               textAlign: TextAlign.left),
           value: _isConsentGiven,
@@ -218,7 +220,6 @@ class BugReportFormState extends State<BugReportForm> {
         style: TextStyle(color: Colors.white, fontSize: 20.0),
       ),
       disabledColor: Theme.of(context).disabledColor,
-      disabledElevation: 1,
       color: Theme.of(context).primaryColor,
     ));
   }
@@ -286,7 +287,7 @@ class BugReportFormState extends State<BugReportForm> {
       msg,
       context,
       duration: Toast.LENGTH_LONG,
-      gravity: Toast.BOTTOM,
+      gravity: Toast.TOP,
       backgroundColor: theme.toastColor,
       backgroundRadius: 16.0,
       textColor: Colors.white,

@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:email_validator/email_validator.dart';
+
+enum FormTextFieldValidator { none, email }
 
 class FormTextField extends StatelessWidget {
   final TextEditingController controller;
@@ -12,6 +15,7 @@ class FormTextField extends StatelessWidget {
   final int maxLines;
   final double bottomMargin;
   final bool isOptional;
+  final FormTextFieldValidator validatorType;
 
   FormTextField(
     this.controller,
@@ -21,9 +25,10 @@ class FormTextField extends StatelessWidget {
     this.maxLines = 1,
     this.labelText = '',
     this.hintText = '',
-    this.emptyText = 'Por favor escreve algo',
+    this.emptyText = 'Por favor preenche corretamente este campo',
     this.bottomMargin = 0,
     this.isOptional = false,
+    this.validatorType = FormTextFieldValidator.none,
   });
 
   @override
@@ -58,10 +63,15 @@ class FormTextField extends StatelessWidget {
               ),
               controller: controller,
               validator: (value) {
-                if (!isOptional && value.isEmpty) {
-                  return emptyText;
+                if (value.isEmpty) {
+                  return isOptional ? null : emptyText;
                 }
-                return null;
+                switch (validatorType) {
+                  case FormTextFieldValidator.email:
+                    return EmailValidator.validate(value) ? null : emptyText;
+                  default:
+                    return null;
+                }
               },
             ))
           ])
