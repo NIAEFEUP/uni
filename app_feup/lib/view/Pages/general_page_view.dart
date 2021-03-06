@@ -88,7 +88,7 @@ abstract class GeneralPageViewState extends State<StatefulWidget> {
           padding: EdgeInsets.only(left: 0),
           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
           shape: RoundedRectangleBorder(),
-          child: FlatButton(
+          child: TextButton(
             onPressed: () => Navigator.pushNamed(context, '/' + Constants.navPersonalArea),
             child: SvgPicture.asset(
               'assets/images/logo_dark.svg',
@@ -106,7 +106,7 @@ abstract class GeneralPageViewState extends State<StatefulWidget> {
         future: buildDecorageImage(context),
         builder: (BuildContext context,
             AsyncSnapshot<DecorationImage> decorationImage) {
-          return FlatButton(
+          return TextButton(
             onPressed: () => {
               Navigator.push(context,
                    MaterialPageRoute(builder: (__) =>  ProfilePage()))

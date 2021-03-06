@@ -93,7 +93,7 @@ class _NextArrivalsState extends State<NextArrivals>
   }
 
   List<Widget> requestSuccessful(context) {
-    final List<Widget> result =  List<Widget>();
+    final List<Widget> result =  <Widget>[];
 
     result.addAll(this.getHeader(context));
 
@@ -112,7 +112,7 @@ class _NextArrivalsState extends State<NextArrivals>
   }
 
   List<Widget> requestBusy(BuildContext context) {
-    final List<Widget> result =  List<Widget>();
+    final List<Widget> result =  <Widget>[];
 
     result.add(getPageTitle());
     result.add( Container(
@@ -129,7 +129,7 @@ class _NextArrivalsState extends State<NextArrivals>
   }
 
   List<Widget> requestFailed(BuildContext context) {
-    final List<Widget> result =  List<Widget>();
+    final List<Widget> result =  <Widget>[];
 
     result.addAll(this.getHeader(context));
     result.add( Container(
@@ -208,7 +208,7 @@ class _NextArrivalsState extends State<NextArrivals>
   }
 
   List<Widget> createTabs(queryData) {
-    final List<Widget> tabs = List<Widget>();
+    final List<Widget> tabs = <Widget>[];
     busConfig.forEach((stopCode, stopData) {
       tabs.add( Container(
         width: queryData.size.width /
@@ -220,7 +220,7 @@ class _NextArrivalsState extends State<NextArrivals>
   }
 
   List<Widget> getEachBusStopInfo(context) {
-    final List<Widget> rows =  List<Widget>();
+    final List<Widget> rows =  <Widget>[];
 
     busConfig.forEach((stopCode, stopData) {
       rows.add( ListView(children: <Widget>[

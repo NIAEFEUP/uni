@@ -39,7 +39,7 @@ class ExamCard extends GenericCard {
         contentChecker: examsInfo.item1 != null && examsInfo.item1.isNotEmpty,
         onNullContent: Center(
           child: Text('Não existem exames para apresentar',
-              style: Theme.of(context).textTheme.display1),
+              style: Theme.of(context).textTheme.headline4),
         ),
       ),
     );
@@ -53,7 +53,7 @@ class ExamCard extends GenericCard {
   }
 
   List<Widget> getExamRows(context, exams) {
-    final List<Widget> rows =  List<Widget>();
+    final List<Widget> rows =  <Widget>[];
     for (int i = 0; i < 1 && i < exams.length; i++) {
       rows.add(this.createRowFromExam(context, exams[i]));
     }
@@ -102,7 +102,7 @@ class ExamCard extends GenericCard {
               children: <Widget>[
                 Text(
                   exam.day + '/' + exam.month,
-                  style: Theme.of(context).textTheme.display1,
+                  style: Theme.of(context).textTheme.headline4,
                 ),
                 ScheduleEventRectangle(
                     subject: exam.subject,

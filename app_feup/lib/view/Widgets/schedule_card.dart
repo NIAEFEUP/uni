@@ -19,7 +19,7 @@ class ScheduleCard extends GenericCard {
 
   final double borderRadius = 12.0;
   final double leftPadding = 12.0;
-  final List<Lecture> lectures =  List<Lecture>();
+  final List<Lecture> lectures =  <Lecture>[];
 
   @override
   Widget buildCardContent(BuildContext context) {
@@ -59,7 +59,7 @@ class ScheduleCard extends GenericCard {
       lectures.add(lecturefirstCycle);
       lectures.add(lecturesecondCycle);
     }
-    final List<Widget> rows =  List<Widget>();
+    final List<Widget> rows =  <Widget>[];
 
     final now =  DateTime.now();
     var added = 0; // Lectures added to widget

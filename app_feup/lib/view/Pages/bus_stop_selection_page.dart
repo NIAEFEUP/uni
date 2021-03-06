@@ -20,10 +20,10 @@ class BusStopSelectionPageState extends UnnamedPageView {
 
   final db = AppBusStopDatabase();
   final Map<String, BusStopData> configuredStops =  Map();
-  final List<String> suggestionsList =  List();
+  final List<String> suggestionsList =  [];
 
   List<Widget> getStopsTextList() {
-    final List<Widget> stops =  List();
+    final List<Widget> stops =  [];
     configuredStops.forEach((stopCode, stopData) {
       stops.add(Text(stopCode));
     });
@@ -36,9 +36,17 @@ class BusStopSelectionPageState extends UnnamedPageView {
     return StoreConnector<AppState, Map<String, BusStopData>>(
       converter: (store) => store.state.content['configuredBusStops'],
       builder: (context, busStops) {
-        final List<Widget> rows =  List();
+        final List<Widget> rows =  [];
         busStops.forEach((stopCode, stopData) =>
             rows.add(BusStopSelectionRow(stopCode, stopData)));
+        final buttonStyle = ElevatedButton.styleFrom(
+            primary: Theme.of(context).primaryColor,
+            padding: const EdgeInsets.all(0.0),
+            shape: RoundedRectangleBorder(
+              borderRadius:  BorderRadius.circular(12.0),
+            ),
+        );
+
         return ListView(
             padding: EdgeInsets.only(
               bottom: 20,
@@ -56,14 +64,10 @@ class BusStopSelectionPageState extends UnnamedPageView {
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        RaisedButton(
+                        ElevatedButton(
                           onPressed: () => showSearch(
                               context: context, delegate: BusStopSearch()),
-                          color: Theme.of(context).primaryColor,
-                          padding: const EdgeInsets.all(0.0),
-                          shape: RoundedRectangleBorder(
-                            borderRadius:  BorderRadius.circular(12.0),
-                          ),
+                          style: buttonStyle,
                           child: Container(
                             padding: const EdgeInsets.all(15.0),
                             child: Text('Adicionar',
@@ -75,13 +79,9 @@ class BusStopSelectionPageState extends UnnamedPageView {
                                         fontSizeDelta: -2)),
                           ),
                         ),
-                        RaisedButton(
+                        ElevatedButton(
                           onPressed: () => Navigator.pop(context),
-                          color: Theme.of(context).primaryColor,
-                          padding: const EdgeInsets.all(0.0),
-                          shape: RoundedRectangleBorder(
-                            borderRadius:  BorderRadius.circular(12.0),
-                          ),
+                          style: buttonStyle,
                           child: Container(
                             padding: const EdgeInsets.all(15.0),
                             child: Text('Concluído',

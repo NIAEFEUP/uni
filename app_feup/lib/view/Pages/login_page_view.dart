@@ -71,7 +71,7 @@ class _LoginPageViewState extends State<LoginPageView> {
   }
 
   List<Widget> getWidgets(BuildContext context, MediaQueryData queryData) {
-    final List<Widget> widgets =  List();
+    final List<Widget> widgets =  [];
 
     widgets.add(
         Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 20)));
@@ -211,12 +211,14 @@ class _LoginPageViewState extends State<LoginPageView> {
           left: queryData.size.width / 7, right: queryData.size.width / 7),
       child: SizedBox(
         height: queryData.size.height / 16,
-        child: RaisedButton(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(25),
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(25),
+            ),
+            primary: Colors.white,
           ),
           onPressed: () => _login(context),
-          color: Colors.white,
           child: Text('Entrar',
               style: TextStyle(
                   color: primaryColor,

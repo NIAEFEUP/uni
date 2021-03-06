@@ -53,7 +53,7 @@ void main() {
         initialState: AppState({
           'session': Session(authenticated: true),
           'currUcs': [sopeCourseUnit, sdisCourseUnit],
-          'exams': List<Exam>(),
+          'exams': <Exam>[],
           'profile': profile
         }),
         middleware: [generalMiddleware]);

@@ -10,7 +10,7 @@ Future<List<Lecture>> getScheduleFromHtml(http.Response response) async {
 
   var semana = [0, 0, 0, 0, 0, 0];
 
-  final List<Lecture> lecturesList = List();
+  final List<Lecture> lecturesList = [];
   document.querySelectorAll('.horario > tbody > tr').forEach((Element element) {
     if (element.getElementsByClassName('horas').isNotEmpty) {
       var day = 0;
