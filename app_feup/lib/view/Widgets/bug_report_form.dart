@@ -127,7 +127,7 @@ class BugReportFormState extends State<BugReportForm> {
         child: Text(
             '''Encontraste algum Bug na aplicação?\nTens alguma
              sugestão para a app?\nConta-nos para que nós possamos melhorar!''',
-            style: Theme.of(context).textTheme.body1,
+            style: Theme.of(context).textTheme.bodyText2,
             textAlign: TextAlign.center),
       ),
     );
@@ -141,7 +141,7 @@ class BugReportFormState extends State<BugReportForm> {
         children: <Widget>[
            Text(
             'Seleciona o tipo de ocorrência',
-            style: Theme.of(context).textTheme.body1,
+            style: Theme.of(context).textTheme.bodyText2,
             textAlign: TextAlign.left,
           ),
            Row(children: <Widget>[
@@ -197,7 +197,7 @@ class BugReportFormState extends State<BugReportForm> {
         ? 'Unidentified bug'
         : bugDescriptions[_selectedBug].item2;
     final Map data = {
-      'title': titleController.text,
+      'headline6': titleController.text,
       'body': descriptionController.text,
       'labels': [_issueLabel, bugLabel]
     };

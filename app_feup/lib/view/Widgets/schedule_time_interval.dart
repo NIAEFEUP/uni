@@ -14,10 +14,10 @@ class ScheduleTimeInterval extends StatelessWidget {
       children: <Widget>[
         Text(this.begin,
             style:
-                Theme.of(context).textTheme.display1.apply(fontSizeDelta: -3)),
+                Theme.of(context).textTheme.headline4.apply(fontSizeDelta: -3)),
         Text(this.end,
             style:
-                Theme.of(context).textTheme.display1.apply(fontSizeDelta: -3)),
+                Theme.of(context).textTheme.headline4.apply(fontSizeDelta: -3)),
       ],
     );
   }

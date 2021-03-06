@@ -104,7 +104,7 @@ class _NextArrivalsState extends State<NextArrivals>
           child: Text('Não se encontram configuradas paragens',
               style: Theme.of(context)
                   .textTheme
-                  .display1
+                  .headline4
                   .apply(color: greyTextColor))));
     }
 
@@ -139,7 +139,7 @@ class _NextArrivalsState extends State<NextArrivals>
             overflow: TextOverflow.fade,
             style: Theme.of(context)
                 .textTheme
-                .display1
+                .headline4
                 .apply(color: primaryColor))));
 
     return result;

@@ -20,7 +20,7 @@ class CourseInfoCard extends GenericCard {
               child: Text('Ano curricular atual: ',
                   style: Theme.of(context)
                       .textTheme
-                      .display1
+                      .headline4
                       .apply(fontSizeDelta: -4)),
             ),
             Container(
@@ -35,7 +35,7 @@ class CourseInfoCard extends GenericCard {
               child: Text('Estado atual: ',
                   style: Theme.of(context)
                       .textTheme
-                      .display1
+                      .headline4
                       .apply(fontSizeDelta: -4)),
             ),
             Container(
@@ -51,7 +51,7 @@ class CourseInfoCard extends GenericCard {
               child: Text('Ano da primeira inscrição: ',
                   style: Theme.of(context)
                       .textTheme
-                      .display1
+                      .headline4
                       .apply(fontSizeDelta: -4)),
             ),
             Container(

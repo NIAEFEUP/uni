@@ -52,7 +52,7 @@ class BusStopRow extends StatelessWidget {
         maxLines: 3,
         overflow: TextOverflow.ellipsis,
         style:
-            Theme.of(context).textTheme.display1.apply(color: greyTextColor));
+            Theme.of(context).textTheme.headline4.apply(color: greyTextColor));
   }
 
   Widget stopCodeRotatedContainer(context) {
@@ -62,7 +62,7 @@ class BusStopRow extends StatelessWidget {
         child: Text(this.stopCode,
             style: Theme.of(context)
                 .textTheme
-                .display1
+                .headline4
                 .apply(color: primaryColor)),
         quarterTurns: 3,
       ),

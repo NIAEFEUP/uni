@@ -32,7 +32,7 @@ class LastUpdateTimeStamp extends StatelessWidget {
                   (lastUpdateMinutes != 1 ? 's' : ''),
               style: Theme.of(context)
                   .textTheme
-                  .display1
+                  .headline4
                   .apply(color: greyTextColor))
         ]);
   }

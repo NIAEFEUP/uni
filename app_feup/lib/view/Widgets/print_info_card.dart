@@ -26,7 +26,7 @@ class PrintInfoCard extends GenericCard {
                   child: Text('Valor disponível: ',
                       style: Theme.of(context)
                           .textTheme
-                          .display1
+                          .headline4
                           .apply(fontSizeDelta: -4)),
                 ),
                 Container(

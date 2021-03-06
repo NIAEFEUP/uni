@@ -51,7 +51,7 @@ class ScheduleRow extends StatelessWidget {
         Text(
           'sem\nsalas',
           textAlign: TextAlign.right,
-          style: Theme.of(context).textTheme.display1.apply(fontSizeDelta: -4),
+          style: Theme.of(context).textTheme.headline4.apply(fontSizeDelta: -4),
         )
       ];
     }
@@ -61,7 +61,7 @@ class ScheduleRow extends StatelessWidget {
       rooms.add(
          Text(
           room,
-          style: Theme.of(context).textTheme.display1.apply(fontSizeDelta: -4),
+          style: Theme.of(context).textTheme.headline4.apply(fontSizeDelta: -4),
         ),
       );
     }

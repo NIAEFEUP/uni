@@ -73,7 +73,7 @@ class BusStopSelectionPageState extends UnnamedPageView {
                             child: Text('Adicionar',
                                 style: Theme.of(context)
                                     .textTheme
-                                    .display1
+                                    .headline4
                                     .apply(
                                         color: Colors.white,
                                         fontSizeDelta: -2)),
@@ -87,7 +87,7 @@ class BusStopSelectionPageState extends UnnamedPageView {
                             child: Text('Concluído',
                                 style: Theme.of(context)
                                     .textTheme
-                                    .display1
+                                    .headline4
                                     .apply(
                                         color: Colors.white,
                                         fontSizeDelta: -2)),

@@ -23,7 +23,7 @@ class TermsAndConditions extends StatelessWidget {
               // this should be passed through 'headline1' property in ThemeData
               h1: Theme.of(context)
                   .textTheme
-                  .headline
+                  .headline5
                   .copyWith(fontSize: 18, fontWeight: FontWeight.w400),
             ),
             shrinkWrap: false,

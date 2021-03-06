@@ -33,6 +33,6 @@ class EstimatedArrivalTimeStamp extends StatelessWidget {
 
     return  Text('$hour:$minute',
         style:
-            Theme.of(context).textTheme.display1.apply(color: greyTextColor));
+            Theme.of(context).textTheme.headline4.apply(color: greyTextColor));
   }
 }
