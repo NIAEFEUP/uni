@@ -25,7 +25,7 @@ class AccountInfoCard extends GenericCard {
                 child: Text('Saldo: ',
                     style: Theme.of(context)
                         .textTheme
-                        .display1
+                        .headline4
                         .apply(fontSizeDelta: -4)),
               ),
               Container(
@@ -44,7 +44,7 @@ class AccountInfoCard extends GenericCard {
                 child: Text('Data limite próxima prestação: ',
                     style: Theme.of(context)
                         .textTheme
-                        .display1
+                        .headline4
                         .apply(fontSizeDelta: -4)),
               ),
               Container(

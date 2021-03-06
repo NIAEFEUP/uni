@@ -24,12 +24,12 @@ class TripRow extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context)
                     .textTheme
-                    .display1
+                    .headline4
                     .apply(color: lightGreyTextColor, fontWeightDelta: 2)),
             Text(this.trip.destination,
                 style: Theme.of(context)
                     .textTheme
-                    .display1
+                    .headline4
                     .apply(color: greyTextColor)),
           ],
         ),
@@ -39,7 +39,7 @@ class TripRow extends StatelessWidget {
               Text(this.trip.timeRemaining.toString() + '\'',
                   style: Theme.of(context)
                       .textTheme
-                      .display1
+                      .headline4
                       .apply(color: lightGreyTextColor, fontWeightDelta: 2)),
                EstimatedArrivalTimeStamp(
                   timeRemaining: this.trip.timeRemaining.toString()),

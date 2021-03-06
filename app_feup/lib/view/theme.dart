@@ -27,20 +27,20 @@ ThemeData applicationTheme = ThemeData(
 //  fontFamily: 'Raleway',
 
   textTheme: TextTheme(
-    headline: TextStyle(
+    headline5: TextStyle(
         fontSize: 72.0, fontWeight: FontWeight.bold, color: primaryColor),
-    title: TextStyle(
+    headline6: TextStyle(
         fontSize: 17.0, color: greyTextColor, fontWeight: FontWeight.w300),
-    body1: TextStyle(fontSize: 15.0, color: primaryColor),
-    subtitle: TextStyle(
+    bodyText2: TextStyle(fontSize: 15.0, color: primaryColor),
+    subtitle2: TextStyle(
         fontSize: 17.0, color: subtitleColor, fontWeight: FontWeight.w300),
-    display1: TextStyle(
+    headline4: TextStyle(
         fontSize: 17.0, color: greyTextColor, fontWeight: FontWeight.w300),
-    display2: TextStyle(
+    headline3: TextStyle(
         fontSize: 17.0, color: tonedDownPrimary, fontWeight: FontWeight.w300),
-    display3: TextStyle(
+    headline2: TextStyle(
         fontSize: 10.0, color: greyTextColor, fontWeight: FontWeight.w500),
-    display4: TextStyle(
+    headline1: TextStyle(
         fontSize: 17.0, color: Colors.white, fontWeight: FontWeight.w200),
   ),
 );

@@ -47,9 +47,9 @@ class BusStopCard extends GenericCard {
             this.getBusStopsInfo(context, trips, stopConfig)
           ]);
         } else {
-          return  Container(
+          return Container(
             padding: EdgeInsets.all(8.0),
-            child:  Row(
+            child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text('Configura as tuas paragens',
@@ -57,15 +57,14 @@ class BusStopCard extends GenericCard {
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context)
                           .textTheme
-                          .display1
+                          .headline4
                           .apply(color: primaryColor)),
                   IconButton(
-                      icon:  Icon(Icons.settings),
+                      icon: Icon(Icons.settings),
                       onPressed: () => Navigator.push(
                           context,
-                           MaterialPageRoute(
-                              builder: (context) =>
-                                   BusStopSelectionPage())),
+                          MaterialPageRoute(
+                              builder: (context) => BusStopSelectionPage())),
                       color: lightGreyTextColor)
                 ]),
           );
@@ -75,7 +74,7 @@ class BusStopCard extends GenericCard {
         return Column(
           children: <Widget>[
             this.getCardTitle(context),
-             Container(
+            Container(
                 padding: EdgeInsets.all(22.0),
                 child: Center(child: CircularProgressIndicator()))
           ],
@@ -84,12 +83,12 @@ class BusStopCard extends GenericCard {
       default:
         return Column(children: <Widget>[
           this.getCardTitle(context),
-           Container(
+          Container(
               padding: EdgeInsets.all(8.0),
               child: Text('Não foi possível obter informação',
                   style: Theme.of(context)
                       .textTheme
-                      .display1
+                      .headline4
                       .apply(color: primaryColor)))
         ]);
         break;
@@ -101,8 +100,10 @@ class BusStopCard extends GenericCard {
       children: <Widget>[
         Icon(Icons.directions_bus, color: lightGreyTextColor),
         Text('STCP - Próximas Viagens',
-            style:
-                Theme.of(context).textTheme.display1.apply(color: primaryColor))
+            style: Theme.of(context)
+                .textTheme
+                .headline4
+                .apply(color: primaryColor))
       ],
     );
   }
@@ -111,7 +112,7 @@ class BusStopCard extends GenericCard {
     if (trips.length >= 1) {
       return Container(
           padding: EdgeInsets.all(4.0),
-          child:  Column(
+          child: Column(
             children: this.getEachBusStopInfo(context, trips, stopConfig),
           ));
     } else {
@@ -123,16 +124,16 @@ class BusStopCard extends GenericCard {
   }
 
   List<Widget> getEachBusStopInfo(context, trips, stopConfig) {
-    final List<Widget> rows =  <Widget>[];
+    final List<Widget> rows = <Widget>[];
 
-    rows.add( LastUpdateTimeStamp());
+    rows.add(LastUpdateTimeStamp());
 
     trips.forEach((stopCode, tripList) {
       if (tripList.length > 0 && stopConfig[stopCode].favorited) {
-        rows.add( Container(
+        rows.add(Container(
             padding: EdgeInsets.only(top: 12.0),
-            child:  RowContainer(
-                child:  BusStopRow(
+            child: RowContainer(
+                child: BusStopRow(
               stopCode: stopCode,
               trips: tripList,
               singleTrip: true,

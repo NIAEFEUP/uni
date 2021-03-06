@@ -36,7 +36,7 @@ class ScheduleCard extends GenericCard {
                   lecturesInfo.item1 != null && lecturesInfo.item1.isNotEmpty,
               onNullContent: Center(
                   child: Text('Não existem aulas para apresentar',
-                      style: Theme.of(context).textTheme.display1,
+                      style: Theme.of(context).textTheme.headline4,
                       textAlign: TextAlign.center)));
         });
   }
