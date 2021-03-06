@@ -247,14 +247,13 @@ class _LoginPageViewState extends State<LoginPageView> {
   Widget createStatusWidget(BuildContext context) {
     return StoreConnector<AppState, RequestStatus>(
         converter: (store) => store.state.content['loginStatus'],
-        onWillChange: (status) {
-          if (status == RequestStatus.successful &&
-              StoreProvider.of<AppState>(context)
-                  .state
-                  .content['session']
-                  .authenticated) {
-            Navigator.pushReplacementNamed(
-                context, '/' + Constants.navPersonalArea);
+        onWillChange: (oldStatus, status) {
+          if (
+            status == RequestStatus.successful &&
+            StoreProvider.of<AppState>(context).
+              state.content['session'].authenticated
+          ){
+            Navigator.pushReplacementNamed(context, '/' + Constants.navPersonalArea);
           } else if (status == RequestStatus.failed) {
             displayToastMessage(context, 'O login falhou');
           }

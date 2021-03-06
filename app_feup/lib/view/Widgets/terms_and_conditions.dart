@@ -28,7 +28,7 @@ class TermsAndConditions extends StatelessWidget {
             ),
             shrinkWrap: false,
             data: termsAndConditionsSaved,
-            onTapLink: (url) async {
+            onTapLink: (text, url, title) async {
               if (await canLaunch(url)) {
                 await launch(url);
               }

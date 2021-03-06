@@ -11,6 +11,8 @@ class AppSharedPreferences {
   static final String userPw = 'user_password';
   static final int keyLength = 32;
   static final int ivLength = 16;
+  static final iv = IV.fromLength(ivLength);
+
   static final String favoriteCards = 'favorite_cards';
   static final List<FAVORITE_WIDGET_TYPE> defaultFavoriteCards = [
     FAVORITE_WIDGET_TYPE.schedule,
@@ -73,17 +75,16 @@ class AppSharedPreferences {
 
   static String encode(String plainText) {
     final encrypter = _createEncrypter();
-    return encrypter.encrypt(plainText).base64;
+    return encrypter.encrypt(plainText, iv: iv).base64;
   }
 
   static String decode(String base64Text) {
     final encrypter = _createEncrypter();
-    return encrypter.decrypt64(base64Text);
+    return encrypter.decrypt64(base64Text, iv: iv);
   }
 
   static Encrypter _createEncrypter() {
     final key = Key.fromLength(keyLength);
-    final iv = IV.fromLength(ivLength);
-    return Encrypter(AES(key, iv));
+    return Encrypter(AES(key));
   }
 }

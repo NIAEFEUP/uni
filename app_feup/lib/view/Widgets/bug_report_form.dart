@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:logger/logger.dart';
 import 'package:uni/view/Widgets/form_text_field.dart';
 import 'package:uni/view/theme.dart' as theme;
+import 'package:uni/controller/networking/network_router.dart';
 import 'package:toast/toast.dart';
 
 import 'package:flutter/cupertino.dart';
@@ -199,8 +200,9 @@ class BugReportFormState extends State<BugReportForm> {
       'labels': [_issueLabel, bugLabel]
     };
 
+    final url = _postUrl + '?access_token=' + ghToken;
     http
-        .post(_postUrl + '?access_token=' + ghToken,
+        .post(url.toUri(),
             headers: {'Content-Type': 'application/json'},
             body: json.encode(data))
         .then((http.Response response) {
