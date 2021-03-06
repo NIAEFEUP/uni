@@ -68,10 +68,12 @@ class NavigationDrawerState extends State<NavigationDrawer> {
   }
 
   Widget createLogoutBtn() {
-    return OutlineButton(
+    return OutlinedButton(
       onPressed: () => _onLogOut(Constants.navLogOut),
-      highlightElevation: 0,
-      padding: const EdgeInsets.all(0.0),
+      style: OutlinedButton.styleFrom(
+        elevation: 0,
+        padding: const EdgeInsets.all(0.0),
+      ),
       child: Container(
         padding: const EdgeInsets.all(15.0),
         child: Text(Constants.navLogOut,

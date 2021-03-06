@@ -15,8 +15,8 @@ class AppState {
 
   Map getInitialContent() {
     return {
-      'schedule':  List<Lecture>(),
-      'exams':  List<Exam>(),
+      'schedule':  <Lecture>[],
+      'exams':  <Exam>[],
       'scheduleStatus': RequestStatus.none,
       'loginStatus': RequestStatus.none,
       'examsStatus': RequestStatus.none,

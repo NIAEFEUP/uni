@@ -12,7 +12,7 @@ import 'package:uni/redux/action_creators.dart';
 import 'package:uni/view/Widgets/buses_form.dart';
 
 class BusStopSearch extends SearchDelegate<String> {
-  List<String> suggestionsList =  List();
+  List<String> suggestionsList =  [];
   AppBusStopDatabase db;
   String stopCode;
   BusStopData stopData;
@@ -89,23 +89,25 @@ class BusStopSearch extends SearchDelegate<String> {
           width: 100.0,
         ),
         actions: [
-          FlatButton(
+          TextButton(
               child: Text('Cancelar',
                   style: Theme.of(context)
                       .textTheme
                       .display1
                       .apply(color: Theme.of(context).primaryColor)),
               onPressed: () => Navigator.pop(context)),
-          FlatButton(
+          TextButton(
               child: Text('Confirmar',
                   style: Theme.of(context)
                       .textTheme
                       .display1
                       .apply(color: Theme.of(context).accentColor)),
-              color: Theme.of(context).primaryColor,
-              shape: RoundedRectangleBorder(
-                  borderRadius:  BorderRadius.circular(10.0),
-                  side: BorderSide(color: Theme.of(context).primaryColor)),
+              style: TextButton.styleFrom(
+                primary: Theme.of(context).primaryColor,
+                shape: RoundedRectangleBorder(
+                    borderRadius:  BorderRadius.circular(10.0),
+                    side: BorderSide(color: Theme.of(context).primaryColor)),
+              ),
               onPressed: () async {
                 if (stopData.configuredBuses.isNotEmpty) {
                   StoreProvider.of<AppState>(context).dispatch(

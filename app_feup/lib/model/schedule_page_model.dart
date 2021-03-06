@@ -42,10 +42,10 @@ class _SchedulePageState extends State<SchedulePage>
   }
 
   List<List<Lecture>> _groupLecturesByDay(schedule) {
-    final aggLectures =  List<List<Lecture>>();
+    final aggLectures =  <List<Lecture>>[];
 
     for (int i = 0; i < daysOfTheWeek.length; i++) {
-      final List<Lecture> lectures = List<Lecture>();
+      final List<Lecture> lectures = <Lecture>[];
       for (int j = 0; j < schedule.length; j++) {
         if (schedule[j].day == i) lectures.add(schedule[j]);
       }

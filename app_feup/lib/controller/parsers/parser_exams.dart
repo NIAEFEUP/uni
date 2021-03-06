@@ -24,10 +24,10 @@ class ParserExams {
   Future<List<Exam>> parseExams(http.Response response) async {
     final document = parse(response.body);
 
-    final List<Exam> examsList = List();
-    final List<String> dates = List();
-    final List<String> examTypes = List();
-    final List<String> weekDays = List();
+    final List<Exam> examsList = [];
+    final List<String> dates = [];
+    final List<String> examTypes = [];
+    final List<String> weekDays = [];
     String subject, schedule, rooms;
     int days = 0;
     int tableNum = 0;

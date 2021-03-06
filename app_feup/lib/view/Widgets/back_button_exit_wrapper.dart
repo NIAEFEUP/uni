@@ -12,21 +12,25 @@ class BackButtonExitWrapper extends StatelessWidget {
   final Widget child;
 
   Future<bool> backButton() {
+    final buttonStyle = ElevatedButton.styleFrom(
+        primary: Theme.of(context).primaryColor,
+    );
+
     return showDialog(
             context: context,
             builder: (context) =>  AlertDialog(
                   title:  Text('Tens a certeza que pretendes sair?'),
                   actions: <Widget>[
-                     RaisedButton(
+                     ElevatedButton(
                       onPressed: () => Navigator.of(context).pop(false),
                       child:  Text('Não'),
-                      color: Theme.of(context).primaryColor,
+                      style: buttonStyle,
                     ),
-                     RaisedButton(
+                     ElevatedButton(
                       onPressed: () => SystemChannels.platform
                           .invokeMethod('SystemNavigator.pop'),
                       child:  Text('Sim'),
-                      color: Theme.of(context).primaryColor,
+                      style: buttonStyle,
                     )
                   ],
                 )) ??
