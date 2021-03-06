@@ -93,14 +93,14 @@ class BusStopSearch extends SearchDelegate<String> {
               child: Text('Cancelar',
                   style: Theme.of(context)
                       .textTheme
-                      .display1
+                      .headline4
                       .apply(color: Theme.of(context).primaryColor)),
               onPressed: () => Navigator.pop(context)),
           TextButton(
               child: Text('Confirmar',
                   style: Theme.of(context)
                       .textTheme
-                      .display1
+                      .headline4
                       .apply(color: Theme.of(context).accentColor)),
               style: TextButton.styleFrom(
                 primary: Theme.of(context).primaryColor,

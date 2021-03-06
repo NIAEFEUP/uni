@@ -58,7 +58,7 @@ class MainCardsList extends StatelessWidget {
                         'Cancelar',
                         style: Theme.of(context)
                             .textTheme
-                            .display1
+                            .headline4
                             .apply(color: Theme.of(context).primaryColor),
                       ),
                       onPressed: () => Navigator.pop(context))
@@ -88,12 +88,12 @@ class MainCardsList extends StatelessWidget {
             },
           ),
           decoration: BoxDecoration(
-              border: Border(bottom:  BorderSide(color: accentColor))),
+              border: Border(bottom: BorderSide(color: accentColor))),
         ));
       }
     });
     if (result.isEmpty) {
-      result.add( Text(
+      result.add(Text(
           '''Todos os widgets disponíveis já foram adicionados à tua área pessoal!'''));
     }
     return result;
@@ -122,16 +122,17 @@ class MainCardsList extends StatelessWidget {
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         Text(
           Constants.navPersonalArea,
-          style: Theme.of(context).textTheme.title.apply(fontSizeFactor: 1.3),
+          style:
+              Theme.of(context).textTheme.headline6.apply(fontSizeFactor: 1.3),
         ),
         GestureDetector(
             onTap: () => StoreProvider.of<AppState>(context)
-                .dispatch( SetHomePageEditingMode(!this.isEditing(context))),
+                .dispatch(SetHomePageEditingMode(!this.isEditing(context))),
             child: Text(
               this.isEditing(context) ? 'Concluir Edição' : 'Editar',
               style: Theme.of(context)
                   .textTheme
-                  .subtitle
+                  .subtitle2
                   .apply(fontSizeFactor: 0.8),
             ))
       ]),
@@ -161,7 +162,7 @@ class MainCardsList extends StatelessWidget {
     favorites.removeAt(oldIndex);
     favorites.insert(oldIndex < newIndex ? newIndex - 1 : newIndex, tmp);
     StoreProvider.of<AppState>(context)
-        .dispatch( UpdateFavoriteCards(favorites));
+        .dispatch(UpdateFavoriteCards(favorites));
     AppSharedPreferences.saveFavoriteCards(favorites);
   }
 
@@ -170,7 +171,7 @@ class MainCardsList extends StatelessWidget {
         StoreProvider.of<AppState>(context).state.content['favoriteCards'];
     favorites.removeAt(i);
     StoreProvider.of<AppState>(context)
-        .dispatch( UpdateFavoriteCards(favorites));
+        .dispatch(UpdateFavoriteCards(favorites));
     AppSharedPreferences.saveFavoriteCards(favorites);
   }
 
@@ -181,7 +182,7 @@ class MainCardsList extends StatelessWidget {
       favorites.add(type);
     }
     StoreProvider.of<AppState>(context)
-        .dispatch( UpdateFavoriteCards(favorites));
+        .dispatch(UpdateFavoriteCards(favorites));
     AppSharedPreferences.saveFavoriteCards(favorites);
   }
 

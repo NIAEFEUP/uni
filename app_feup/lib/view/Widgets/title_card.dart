@@ -22,7 +22,7 @@ class TitleCard extends StatelessWidget {
         '${this.weekDay}, ${this.day} de ${this.month}',
         style: Theme.of(context)
             .textTheme
-            .title
+            .headline6
             .apply(fontSizeDelta: 3, fontWeightDelta: -1),
       ),
     );

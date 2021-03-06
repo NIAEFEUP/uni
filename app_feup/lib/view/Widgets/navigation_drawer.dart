@@ -9,7 +9,7 @@ class NavigationDrawer extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return  NavigationDrawerState(parentContext: parentContext);
+    return NavigationDrawerState(parentContext: parentContext);
   }
 }
 
@@ -77,19 +77,21 @@ class NavigationDrawerState extends State<NavigationDrawer> {
       child: Container(
         padding: const EdgeInsets.all(15.0),
         child: Text(Constants.navLogOut,
-            style:
-                Theme.of(context).textTheme.title.apply(color: primaryColor)),
+            style: Theme.of(context)
+                .textTheme
+                .headline6
+                .apply(color: primaryColor)),
       ),
     );
   }
 
   Widget createDrawerNavigationOption(String d) {
-    return  Container(
+    return Container(
         decoration: _getSelectionDecoration(d),
         child: ListTile(
-          title:  Container(
+          title: Container(
             padding: EdgeInsets.only(bottom: 3.0, left: 20.0),
-            child:  Text(d,
+            child: Text(d,
                 style: TextStyle(
                     fontSize: 18.0,
                     color: primaryColor,
@@ -110,13 +112,13 @@ class NavigationDrawerState extends State<NavigationDrawer> {
       drawerOptions.add(createDrawerNavigationOption(key));
     }
 
-    return  Drawer(
+    return Drawer(
         child: Column(
       children: <Widget>[
         Expanded(
             child: Container(
           padding: EdgeInsets.only(top: 55.0),
-          child:  ListView(
+          child: ListView(
             children: drawerOptions,
           ),
         )),
