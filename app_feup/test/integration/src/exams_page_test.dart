@@ -59,7 +59,7 @@ void main() {
         middleware: [generalMiddleware]);
     NetworkRouter.httpClient = mockClient;
     testWidgets('Exams', (WidgetTester tester) async {
-      final mockHtml = File('integration/resources/exam_example.html')
+      final mockHtml = File('test/integration/resources/exam_example.html')
           .readAsStringSync();
       when(mockResponse.body).thenReturn(mockHtml);
       when(mockResponse.statusCode).thenReturn(200);
