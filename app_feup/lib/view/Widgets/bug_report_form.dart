@@ -216,7 +216,9 @@ class BugReportFormState extends State<BugReportForm> {
           ? null
           : () {
               if (_formKey.currentState.validate() && !_isButtonTapped) {
-                FocusScope.of(context).unfocus();
+                if (!FocusScope.of(context).hasPrimaryFocus) {
+                  FocusScope.of(context).unfocus();
+                }
                 submitBugReport();
               }
             },
