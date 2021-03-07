@@ -7,6 +7,7 @@ import 'package:tuple/tuple.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/home_page_model.dart';
 
+//TODO Adicionar a databse exames filtrados
 class AppSharedPreferences {
   static final String userNumber = 'user_number';
   static final String userPw = 'user_password';
