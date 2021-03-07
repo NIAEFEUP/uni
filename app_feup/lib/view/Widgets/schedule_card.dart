@@ -66,7 +66,7 @@ class ScheduleCard extends GenericCard {
     var added = 0; // Lectures added to widget
     var lastDayAdded = 0; // Day of last added lecture
     final stringTimeNow = (now.weekday - 1).toString().padLeft(2, '0') +
-        now.toTimeString(); // String with current time within the week
+        now.toTimeHourMinString(); // String with current time within the week
 
     for (int i = 0; added < 2 && i < lectures.length; i++) {
       final stringEndTimeLecture = lectures[i].day.toString().padLeft(2, '0') +
