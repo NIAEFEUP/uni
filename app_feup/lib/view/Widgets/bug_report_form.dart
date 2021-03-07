@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:logger/logger.dart';
 import 'package:uni/view/Widgets/form_text_field.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:uni/view/theme.dart' as theme;
 import 'package:toast/toast.dart';
 
@@ -98,8 +99,11 @@ class BugReportFormState extends State<BugReportForm> {
       labelText: 'Email em que desejas ser contactado',
       bottomMargin: 30.0,
       isOptional: true,
-      emptyText: 'Por favor coloca um email válido',
-      validatorType: FormTextFieldValidator.email,
+      formatValidator: (value) {
+        return EmailValidator.validate(value)
+            ? null
+            : 'Por favor insere um email válido';
+      },
     ));
 
     formWidget.add(consentBox(context));
@@ -212,6 +216,7 @@ class BugReportFormState extends State<BugReportForm> {
           ? null
           : () {
               if (_formKey.currentState.validate() && !_isButtonTapped) {
+                FocusScope.of(context).unfocus();
                 submitBugReport();
               }
             },
@@ -287,7 +292,7 @@ class BugReportFormState extends State<BugReportForm> {
       msg,
       context,
       duration: Toast.LENGTH_LONG,
-      gravity: Toast.TOP,
+      gravity: Toast.BOTTOM,
       backgroundColor: theme.toastColor,
       backgroundRadius: 16.0,
       textColor: Colors.white,
