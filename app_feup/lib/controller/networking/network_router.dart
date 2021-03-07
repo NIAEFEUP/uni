@@ -193,7 +193,7 @@ class NetworkRouter {
 
     final configuredBuses = stopData.configuredBuses;
 
-    final tripList = List<Trip>();
+    final tripList = <Trip>[];
 
     for (var entry in tableEntries) {
       final rawBusInformation = entry.querySelectorAll('td');

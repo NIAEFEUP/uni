@@ -1,10 +1,8 @@
-FROM cirrusci/flutter:v1.12.13-hotfix.8-web
+FROM cirrusci/flutter:2.0.1
 
 WORKDIR /app
 
 COPY ./app_feup/ .
-
-RUN sudo chown -R cirrus:cirrus /app
 
 RUN flutter pub get
 

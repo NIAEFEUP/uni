@@ -104,7 +104,7 @@ class ScheduleSlot extends StatelessWidget {
         this.classNumber != null ? (' | ' + this.classNumber) : '';
     return createTextField(
         classText,
-        Theme.of(context).textTheme.display1.apply(fontSizeDelta: -4),
+        Theme.of(context).textTheme.headline4.apply(fontSizeDelta: -4),
         TextAlign.center);
   }
 

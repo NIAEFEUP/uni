@@ -235,7 +235,6 @@ class _LoginPageViewState extends State<LoginPageView> {
             }
             _login(context);
           },
-          color: Colors.white,
           child: Text('Entrar',
               style: TextStyle(
                   color: primaryColor,
