@@ -104,7 +104,7 @@ class _LoginPageViewState extends State<LoginPageView> {
       msg,
       context,
       duration: Toast.LENGTH_LONG,
-      gravity: Toast.TOP,
+      gravity: Toast.BOTTOM,
       backgroundColor: toastColor,
       backgroundRadius: 16.0,
       textColor: Colors.white,
@@ -225,7 +225,12 @@ class _LoginPageViewState extends State<LoginPageView> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(25),
           ),
-          onPressed: () => _login(context),
+          onPressed: () {
+            if (!FocusScope.of(context).hasPrimaryFocus) {
+              FocusScope.of(context).unfocus();
+            }
+            _login(context);
+          },
           color: Colors.white,
           child: Text('Entrar',
               style: TextStyle(
