@@ -1,4 +1,3 @@
-
 // enum should be placed somewhere else?
 import 'package:uni/model/entities/bus_stop.dart';
 import 'package:uni/model/entities/session.dart';
@@ -15,18 +14,19 @@ class AppState {
 
   Map getInitialContent() {
     return {
-      'schedule':  <Lecture>[],
-      'exams':  <Exam>[],
+      'schedule': <Lecture>[],
+      'exams': <Exam>[],
+      'filteredExam': Map<String, bool>(), //TODO Isto devia estar aqui sequer?
       'scheduleStatus': RequestStatus.none,
       'loginStatus': RequestStatus.none,
       'examsStatus': RequestStatus.none,
       'selected_page': Constants.navPersonalArea,
-      'session':  Session(authenticated: false),
-      'configuredBusStops':  Map<String, BusStopData>(),
-      'currentBusTrips':  Map<String, List<Trip>>(),
-      'busstopStatus' : RequestStatus.none,
-      'timeStamp' :  DateTime.now(),
-      'currentTime' :  DateTime.now(),
+      'session': Session(authenticated: false),
+      'configuredBusStops': Map<String, BusStopData>(),
+      'currentBusTrips': Map<String, List<Trip>>(),
+      'busstopStatus': RequestStatus.none,
+      'timeStamp': DateTime.now(),
+      'currentTime': DateTime.now(),
       'profileStatus': RequestStatus.none,
       'printBalanceStatus': RequestStatus.none,
       'feesStatus': RequestStatus.none,
@@ -44,10 +44,10 @@ class AppState {
   }
 
   AppState cloneAndUpdateValue(key, value) {
-    return  AppState(Map.from(this.content)..[key] = value);
+    return AppState(Map.from(this.content)..[key] = value);
   }
 
   AppState getInitialState() {
-    return  AppState(null);
+    return AppState(null);
   }
 }
