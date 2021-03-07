@@ -25,6 +25,16 @@ class ExamsPageViewState extends SecondaryPageViewState {
       },
     );
   }
+
+  //TODO Talvez aqui fizesse mais sentido ele ser criado logo com os exames filtrados
+  Widget getBody1(BuildContext context) {
+    return StoreConnector<AppState, List<dynamic>>(
+      converter: (store) => store.state.content['filteredExams'],
+      builder: (context, filteredExams) {
+        return ExamsList(exams: filteredExams);
+      },
+    );
+  }
 }
 
 // ignore: must_be_immutable
@@ -67,6 +77,7 @@ class ExamsList extends StatelessWidget {
 
     for (int i = 0; i < exams.length; i++) {
       final examTypeLong = Exam.getExamTypeLong(exams[i].examType);
+      //TODO Passar a frente caso no mapa esteja a falso
       if (!pretendedExamTypes[examTypeLong]) continue;
       if (i + 1 >= exams.length) {
         if (exams[i].day == exams[i - 1].day &&
@@ -128,6 +139,7 @@ class ExamsList extends StatelessWidget {
                 type: exam.examType)));
   }
 
+  //TODO Adicionar isto no app shared preferences
   Map<String, bool> checkboxValues() {
     final Iterable<String> examTypes = Exam.getExamTypes().keys;
     final Map<String, bool> chekboxes = {};

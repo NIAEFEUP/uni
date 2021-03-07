@@ -88,22 +88,22 @@ class SetCoursesStatesAction {
   SetCoursesStatesAction(this.coursesStates);
 }
 
-class SetBusTripsAction{
+class SetBusTripsAction {
   Map<String, List<Trip>> trips;
   SetBusTripsAction(this.trips);
 }
 
-class SetBusStopsAction{
+class SetBusStopsAction {
   Map<String, BusStopData> busStops;
   SetBusStopsAction(this.busStops);
 }
 
-class SetBusTripsStatusAction{
+class SetBusTripsStatusAction {
   RequestStatus status;
   SetBusTripsStatusAction(this.status);
 }
 
-class SetBusStopTimeStampAction{
+class SetBusStopTimeStampAction {
   DateTime timeStamp;
   SetBusStopTimeStampAction(this.timeStamp);
 }
@@ -141,4 +141,15 @@ class SetHomePageEditingMode {
 class SetLastUserInfoUpdateTime {
   DateTime currentTime;
   SetLastUserInfoUpdateTime(this.currentTime);
+}
+
+//TODO Help, qual destes dois?
+class SetExamFilter {
+  Map<String, bool> filteredExams;
+  SetExamFilter(this.filteredExams);
+}
+
+class UpdateFilterExamTypes {
+  List<String> filteredExamTypes;
+  UpdateFilterExamTypes(this.filteredExamTypes);
 }

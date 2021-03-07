@@ -4,8 +4,10 @@ import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:encrypt/encrypt.dart';
 import 'package:tuple/tuple.dart';
+import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/home_page_model.dart';
 
+//TODO Adicionar a databse exames filtrados
 class AppSharedPreferences {
   static final String userNumber = 'user_number';
   static final String userPw = 'user_password';
@@ -19,6 +21,9 @@ class AppSharedPreferences {
     FAVORITE_WIDGET_TYPE.exams,
     FAVORITE_WIDGET_TYPE.busStops
   ];
+  static final String filteredExamsTypes = 'filtered_exam_types';
+  static final List<String> defaultFilteredExamTypes =
+      Exam.getExamTypes().keys.toList();
 
   static Future savePersistentUserInfo(user, pass) async {
     final prefs = await SharedPreferences.getInstance();
@@ -35,7 +40,7 @@ class AppSharedPreferences {
   static Future<Tuple2<String, String>> getPersistentUserInfo() async {
     final String userNum = await getUserNumber();
     final String userPass = await getUserPassword();
-    return  Tuple2(userNum, userPass);
+    return Tuple2(userNum, userPass);
   }
 
   static Future<String> getUserNumber() async {
@@ -71,6 +76,33 @@ class AppSharedPreferences {
             .map((i) => FAVORITE_WIDGET_TYPE.values[int.parse(i)])
             .toList() ??
         defaultFavoriteCards;
+  }
+
+  //TODO nao sei o que estou a fazer help
+  static saveFilteredExams(List<String> newFilteredExamTypes) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setStringList(filteredExamsTypes, newFilteredExamTypes);
+  }
+
+  //TODO Aqui também não
+  static Future<List<String>> getFilteredExams() async {
+    final prefs = await SharedPreferences.getInstance();
+    final List<String> storedFilteredExamTypes =
+        prefs.getStringList(filteredExamsTypes);
+    if (storedFilteredExamTypes == null) return defaultFilteredExamTypes;
+
+    // final Map<String, bool> examsfiltered = {};
+    // if (storedFilteredExamTypes == null) {
+    //   defaultFilteredExamTypes.forEach((type) => examsfiltered[type] = true);
+    //   return examsfiltered;
+    // }
+
+    // final Iterable<String> examTypes = Exam.getExamTypes().keys;
+    // final Map<String, bool> chekboxes = {};
+    // examTypes.forEach((type) => chekboxes[type] = true);
+    // return chekboxes;
+
+    return storedFilteredExamTypes;
   }
 
   static String encode(String plainText) {

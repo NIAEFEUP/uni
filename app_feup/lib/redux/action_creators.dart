@@ -467,6 +467,22 @@ ThunkAction<AppState> toggleFavoriteUserBusStop(
   };
 }
 
+//TODO
+ThunkAction<AppState> setFilteredExams(String examType) {
+  return (Store<AppState> store) {
+    //Mas o filtered exams ainda não está preenchido!
+    final Map<String, bool> filteredExams =
+        store.state.content['filteredExams'];
+
+    filteredExams[examType] = !filteredExams[examType];
+
+    //O que faz o store Dispatch?
+    //store.dispatch(getUserBusTrips(action));
+
+    //Update databse
+  };
+}
+
 Future storeRefreshTime(String db, String currentTime) async {
   final AppRefreshTimesDatabase refreshTimesDatabase =
       AppRefreshTimesDatabase();
