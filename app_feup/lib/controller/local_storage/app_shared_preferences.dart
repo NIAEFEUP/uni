@@ -26,9 +26,9 @@ class AppSharedPreferences {
   static final List<String> defaultFilteredExamTypes =
       Exam.getExamTypes().keys.toList();
 
-  static final String filteredExamsTypesBools = 'filtered_exam_types';
-  static final List<String> defaultFilteredExamTypesBools =
-      Exam.getExamTypes().values.toList();
+  static final String filteredExamsTypesChecked = 'filtered_exam_types_checked';
+  static final List<String> defaultFilteredExamTypesChecked =
+      Exam.getExamTypes().keys.toList();
 
   static Future savePersistentUserInfo(user, pass) async {
     final prefs = await SharedPreferences.getInstance();
