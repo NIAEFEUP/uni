@@ -4,11 +4,8 @@ import 'package:uni/view/Widgets/exam_filter_menu.dart';
 
 class ExamPageTitleFilter extends StatelessWidget {
   final String name;
-  final Map<String, bool> pretendedExams;
 
-  const ExamPageTitleFilter(
-      {Key key, @required this.name, @required this.pretendedExams})
-      : super(key: key);
+  const ExamPageTitleFilter({Key key, @required this.name}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +19,7 @@ class ExamPageTitleFilter extends StatelessWidget {
             name,
             style: Theme.of(context).textTheme.title.apply(fontSizeDelta: 7),
           ),
-          ExamFilterMenu(pretendedExams),
+          ExamFilterMenu(),
         ],
       ),
     );
