@@ -21,9 +21,14 @@ class AppSharedPreferences {
     FAVORITE_WIDGET_TYPE.exams,
     FAVORITE_WIDGET_TYPE.busStops
   ];
+  //TODO
   static final String filteredExamsTypes = 'filtered_exam_types';
   static final List<String> defaultFilteredExamTypes =
       Exam.getExamTypes().keys.toList();
+
+  static final String filteredExamsTypesBools = 'filtered_exam_types';
+  static final List<String> defaultFilteredExamTypesBools =
+      Exam.getExamTypes().values.toList();
 
   static Future savePersistentUserInfo(user, pass) async {
     final prefs = await SharedPreferences.getInstance();
