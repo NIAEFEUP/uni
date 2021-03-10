@@ -24,57 +24,25 @@ class ExamsPageViewState extends SecondaryPageViewState {
         final List<Exam> exams = store.state.content['exams'];
         final Map<String, bool> filteredExams =
             store.state.content['filteredExams'];
-        return exams
-            .where((exam) =>
-                filteredExams[Exam.getExamTypeLong(exam.examType)] ?? true)
-            .toList();
+        final List<Exam> examListFiltered = [];
+
+        for (Exam exam in exams) {
+          //TODO change this to false if i want covid ones not to appear
+          if (filteredExams[Exam.getExamTypeLong(exam.examType)] ?? true) {
+            examListFiltered.add(exam);
+          }
+        }
+        return examListFiltered;
       },
       builder: (context, exams) {
         return ExamsList(exams: exams);
       },
     );
   }
-
-  // List<String> getCheckedExamTypes(Map<String, bool> filteredExamMap) {
-  //   List<String> filteredExamList;
-  //   final Iterable<String> examTypes = Exam.getExamTypes().keys;
-  //   examTypes.forEach((type) {
-  //     if (filteredExamMap[type] = true) filteredExamList.add(type);
-  //   });
-  //   return filteredExamList;
-  // }
-
-  // @override
-  // Widget getBody(BuildContext context) {
-  //   return StoreConnector<AppState, List<dynamic>>(
-  //     converter: (store) => store.state.content['filteredExams'],
-  //     builder: (context, exams) {
-  //       for (Exam exam in exams) {
-  //         //Exam type é a abrev
-  //         print(exam.examType);
-  //         if()
-  //       }
-  //       return ExamsList(exams: exams);
-  //     },
-  //   );
-  // }
-
-  //TODO Talvez aqui fizesse mais sentido ele ser criado logo com os exames filtrados
-  // Transformar mapa na lista dos que estiverem a true
-  // Widget getBody1(BuildContext context) {
-  //   return StoreConnector<AppState, List<dynamic>>(
-  //     converter: (store) => store.state.content['filteredExams'],
-  //     builder: (context, filteredExams) {
-  //       return ExamsList(exams: filteredExams);
-  //     },
-  //   );
-  // }
 }
 
-// ignore: must_be_immutable
 class ExamsList extends StatelessWidget {
   final List<Exam> exams;
-  Map<String, bool> pretendedExamTypes;
 
   ExamsList({Key key, @required this.exams}) : super(key: key);
   @override
@@ -95,7 +63,6 @@ class ExamsList extends StatelessWidget {
     final List<Widget> columns = <Widget>[];
     columns.add(ExamPageTitleFilter(
       name: 'Exames',
-      pretendedExams: pretendedExamTypes,
     ));
 
     if (exams.length == 1) {
@@ -106,9 +73,6 @@ class ExamsList extends StatelessWidget {
     final List<Exam> currentDayExams = <Exam>[];
 
     for (int i = 0; i < exams.length; i++) {
-      final examTypeLong = Exam.getExamTypeLong(exams[i].examType);
-      //TODO Passar a frente caso no mapa esteja a falso
-      //if (!pretendedExamTypes[examTypeLong]) continue;
       if (i + 1 >= exams.length) {
         if (exams[i].day == exams[i - 1].day &&
             exams[i].month == exams[i - 1].month) {

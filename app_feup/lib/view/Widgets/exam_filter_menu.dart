@@ -5,10 +5,14 @@ import 'package:uni/view/Widgets/exam_filter_form.dart';
 
 // ignore: must_be_immutable
 class ExamFilterMenu extends StatefulWidget {
-  final Map<String, bool> checkboxes;
-
-  ExamFilterMenu(this.checkboxes);
-
+  //TODO
+  // Isto com as checkboxes dava, mas ao adicionar o storeConnector isto deixou de atualizar
+  //Verificar que os exams da epoca de covid aparecem com ?
+  //Verificar o que acontece quando ele nao tem shared preferences
+  //StoreConnector mais dentro tb nao funciona
+  //uma opçao é ir buscar os dados aqui, e no state usar o valor
+  //Versao a funcionar no commit anterior
+  //Ver a questão dos exams covid
   @override
   _ExamFilterMenuState createState() => _ExamFilterMenuState();
 }
