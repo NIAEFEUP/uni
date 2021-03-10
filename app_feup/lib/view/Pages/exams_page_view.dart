@@ -16,25 +16,65 @@ class ExamsPageView extends StatefulWidget {
 class ExamsPageViewState extends SecondaryPageViewState {
   final double borderRadius = 10.0;
 
+  //TODO
   @override
   Widget getBody(BuildContext context) {
     return StoreConnector<AppState, List<dynamic>>(
-      converter: (store) => store.state.content['exams'],
+      converter: (store) {
+        List<Exam> exams = store.state.content['exams'];
+        Map<String, bool> filteredExams = store.state.content['filteredExams'];
+
+        return exams.where((exam) => filteredExams[exam.examType]).toList();
+      },
       builder: (context, exams) {
         return ExamsList(exams: exams);
       },
     );
   }
 
-  //TODO Talvez aqui fizesse mais sentido ele ser criado logo com os exames filtrados
-  Widget getBody1(BuildContext context) {
+  List<String> getCheckedExamTypes(Map<String, bool> filteredExamMap) {
+    List<String> filteredExamList;
+    final Iterable<String> examTypes = Exam.getExamTypes().keys;
+    examTypes.forEach((type) {
+      if (filteredExamMap[type] = true) filteredExamList.add(type);
+    });
+    return filteredExamList;
+  }
+
+  Widget getFilteredExams(BuildContext context) {
     return StoreConnector<AppState, List<dynamic>>(
       converter: (store) => store.state.content['filteredExams'],
-      builder: (context, filteredExams) {
-        return ExamsList(exams: filteredExams);
+      builder: (context, exams) {
+        return ExamsList(exams: exams);
       },
     );
   }
+
+  // @override
+  // Widget getBody(BuildContext context) {
+  //   return StoreConnector<AppState, List<dynamic>>(
+  //     converter: (store) => store.state.content['filteredExams'],
+  //     builder: (context, exams) {
+  //       for (Exam exam in exams) {
+  //         //Exam type é a abrev
+  //         print(exam.examType);
+  //         if()
+  //       }
+  //       return ExamsList(exams: exams);
+  //     },
+  //   );
+  // }
+
+  //TODO Talvez aqui fizesse mais sentido ele ser criado logo com os exames filtrados
+  // Transformar mapa na lista dos que estiverem a true
+  // Widget getBody1(BuildContext context) {
+  //   return StoreConnector<AppState, List<dynamic>>(
+  //     converter: (store) => store.state.content['filteredExams'],
+  //     builder: (context, filteredExams) {
+  //       return ExamsList(exams: filteredExams);
+  //     },
+  //   );
+  // }
 }
 
 // ignore: must_be_immutable
@@ -78,7 +118,7 @@ class ExamsList extends StatelessWidget {
     for (int i = 0; i < exams.length; i++) {
       final examTypeLong = Exam.getExamTypeLong(exams[i].examType);
       //TODO Passar a frente caso no mapa esteja a falso
-      if (!pretendedExamTypes[examTypeLong]) continue;
+      //if (!pretendedExamTypes[examTypeLong]) continue;
       if (i + 1 >= exams.length) {
         if (exams[i].day == exams[i - 1].day &&
             exams[i].month == exams[i - 1].month) {

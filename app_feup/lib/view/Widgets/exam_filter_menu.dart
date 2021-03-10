@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/exam.dart';
+import 'package:uni/redux/action_creators.dart';
 
 // ignore: must_be_immutable
 class ExamFilterMenu extends StatefulWidget {
@@ -30,6 +33,8 @@ class _ExamFilterMenuState extends State<ExamFilterMenu> {
                     widget.checkboxes[key] = value;
                     //filterExam(key, value);
                   });
+                  StoreProvider.of<AppState>(context)
+                      .dispatch(setFilteredExams(key));
                 },
               );
             }).toList(),

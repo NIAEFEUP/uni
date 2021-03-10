@@ -21,9 +21,14 @@ class AppSharedPreferences {
     FAVORITE_WIDGET_TYPE.exams,
     FAVORITE_WIDGET_TYPE.busStops
   ];
+  //TODO
   static final String filteredExamsTypes = 'filtered_exam_types';
   static final List<String> defaultFilteredExamTypes =
       Exam.getExamTypes().keys.toList();
+
+  static final String filteredExamsTypesBools = 'filtered_exam_types';
+  static final List<String> defaultFilteredExamTypesBools =
+      Exam.getExamTypes().values.toList();
 
   static Future savePersistentUserInfo(user, pass) async {
     final prefs = await SharedPreferences.getInstance();
@@ -79,10 +84,14 @@ class AppSharedPreferences {
   }
 
   //TODO nao sei o que estou a fazer help
-  static saveFilteredExams(List<String> newFilteredExamTypes) async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.setStringList(filteredExamsTypes, newFilteredExamTypes);
-  }
+  //Adicionar segunda lista com dados que estiverem a true
+
+  // static saveFilteredExams(Map<String, bool> newFilteredExamTypes) async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   prefs.setStringList(filteredExamsTypes, newFilteredExamTypes.keys.toList());
+  //   prefs.setStringList(
+  //       filteredExamsTypesBools, newFilteredExamTypes.values.toList());
+  // }
 
   //TODO Aqui também não
   static Future<List<String>> getFilteredExams() async {
