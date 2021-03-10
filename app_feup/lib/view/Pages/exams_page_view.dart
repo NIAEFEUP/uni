@@ -16,7 +16,7 @@ class ExamsPageView extends StatefulWidget {
 class ExamsPageViewState extends SecondaryPageViewState {
   final double borderRadius = 10.0;
 
-  //TODO
+  //TODO Descobrir pq que os valores estao null
   @override
   Widget getBody(BuildContext context) {
     return StoreConnector<AppState, List<dynamic>>(
@@ -35,23 +35,14 @@ class ExamsPageViewState extends SecondaryPageViewState {
     );
   }
 
-  List<String> getCheckedExamTypes(Map<String, bool> filteredExamMap) {
-    List<String> filteredExamList;
-    final Iterable<String> examTypes = Exam.getExamTypes().keys;
-    examTypes.forEach((type) {
-      if (filteredExamMap[type] = true) filteredExamList.add(type);
-    });
-    return filteredExamList;
-  }
-
-  Widget getFilteredExams(BuildContext context) {
-    return StoreConnector<AppState, List<dynamic>>(
-      converter: (store) => store.state.content['filteredExams'],
-      builder: (context, exams) {
-        return ExamsList(exams: exams);
-      },
-    );
-  }
+  // List<String> getCheckedExamTypes(Map<String, bool> filteredExamMap) {
+  //   List<String> filteredExamList;
+  //   final Iterable<String> examTypes = Exam.getExamTypes().keys;
+  //   examTypes.forEach((type) {
+  //     if (filteredExamMap[type] = true) filteredExamList.add(type);
+  //   });
+  //   return filteredExamList;
+  // }
 
   // @override
   // Widget getBody(BuildContext context) {
