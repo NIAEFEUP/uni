@@ -467,19 +467,25 @@ ThunkAction<AppState> toggleFavoriteUserBusStop(
   };
 }
 
-//TODO
-ThunkAction<AppState> setFilteredExams(String examType) {
+//TODO Adicionar butao com todas
+ThunkAction<AppState> setFilteredExams(
+    String examType, Completer<Null> action) {
   return (Store<AppState> store) {
     //Mas o filtered exams ainda não está preenchido!
     final Map<String, bool> filteredExams =
         store.state.content['filteredExams'];
 
     filteredExams[examType] = !filteredExams[examType];
-
-    //O que faz o store Dispatch?
-    //store.dispatch(getUserBusTrips(action));
+    store.dispatch(SetExamFilter(filteredExams));
 
     //Update databse
+
+    Session persistentSession = store.state.content['session'];
+    if (persistentSession) {
+      AppSharedPreferences.savePersistentUserInfo(username, password);
+    }
+
+    action.complete();
   };
 }
 

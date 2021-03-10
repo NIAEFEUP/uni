@@ -206,6 +206,6 @@ AppState setLastUserInfoUpdateTime(
 //   //Adicionar Logger
 //   return state.cloneAndUpdateValue('filteredExams', action.filteredExams);
 // }
-AppState updateFilterExamTypes(AppState state, UpdateFilterExamTypes action) {
-  return state.cloneAndUpdateValue('filteredExams', action.filteredExamTypes);
+AppState updateFilterExamTypes(AppState state, SetExamFilter action) {
+  return state.cloneAndUpdateValue('filteredExams', action.filteredExams);
 }

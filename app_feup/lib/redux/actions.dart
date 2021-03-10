@@ -148,8 +148,3 @@ class SetExamFilter {
   Map<String, bool> filteredExams;
   SetExamFilter(this.filteredExams);
 }
-
-class UpdateFilterExamTypes {
-  List<String> filteredExamTypes;
-  UpdateFilterExamTypes(this.filteredExamTypes);
-}
