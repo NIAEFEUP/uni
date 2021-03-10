@@ -16,15 +16,27 @@ class ExamsPageView extends StatefulWidget {
 class ExamsPageViewState extends SecondaryPageViewState {
   final double borderRadius = 10.0;
 
-  //TODO
+  //TODO Descobrir pq que os valores estao null
   @override
   Widget getBody(BuildContext context) {
     return StoreConnector<AppState, List<dynamic>>(
       converter: (store) {
-        List<Exam> exams = store.state.content['exams'];
-        Map<String, bool> filteredExams = store.state.content['filteredExams'];
+        final List<Exam> exams = store.state.content['exams'];
+        final Map<String, bool> filteredExams =
+            store.state.content['filteredExams'];
+        List<Exam> examListFiltered = [];
 
-        return exams.where((exam) => filteredExams[exam.examType]).toList();
+
+          print(filteredExams);
+          for(Exam exam in exams){
+            bool checked = filteredExams[Exam.getExamTypeLong(exam.examType)] ?? false;
+            print(checked);
+            if(checked) examListFiltered.add(exam);
+          }
+ 
+        return examListFiltered;
+            // .where((exam) => filteredExams[Exam.getExamTypeLong(exam.examType)] && exam.examType!=null )
+            // .toList();
       },
       builder: (context, exams) {
         return ExamsList(exams: exams);
@@ -32,23 +44,14 @@ class ExamsPageViewState extends SecondaryPageViewState {
     );
   }
 
-  List<String> getCheckedExamTypes(Map<String, bool> filteredExamMap) {
-    List<String> filteredExamList;
-    final Iterable<String> examTypes = Exam.getExamTypes().keys;
-    examTypes.forEach((type) {
-      if (filteredExamMap[type] = true) filteredExamList.add(type);
-    });
-    return filteredExamList;
-  }
-
-  Widget getFilteredExams(BuildContext context) {
-    return StoreConnector<AppState, List<dynamic>>(
-      converter: (store) => store.state.content['filteredExams'],
-      builder: (context, exams) {
-        return ExamsList(exams: exams);
-      },
-    );
-  }
+  // List<String> getCheckedExamTypes(Map<String, bool> filteredExamMap) {
+  //   List<String> filteredExamList;
+  //   final Iterable<String> examTypes = Exam.getExamTypes().keys;
+  //   examTypes.forEach((type) {
+  //     if (filteredExamMap[type] = true) filteredExamList.add(type);
+  //   });
+  //   return filteredExamList;
+  // }
 
   // @override
   // Widget getBody(BuildContext context) {

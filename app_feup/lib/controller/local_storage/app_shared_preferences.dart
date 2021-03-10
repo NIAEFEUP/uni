@@ -26,9 +26,9 @@ class AppSharedPreferences {
   static final List<String> defaultFilteredExamTypes =
       Exam.getExamTypes().keys.toList();
 
-  static final String filteredExamsTypesBools = 'filtered_exam_types';
-  static final List<String> defaultFilteredExamTypesBools =
-      Exam.getExamTypes().values.toList();
+  static final String filteredExamsTypesChecked = 'filtered_exam_types_checked';
+  static final List<String> defaultFilteredExamTypesChecked =
+      Exam.getExamTypes().keys.toList();
 
   static Future savePersistentUserInfo(user, pass) async {
     final prefs = await SharedPreferences.getInstance();
@@ -84,34 +84,34 @@ class AppSharedPreferences {
   }
 
   //TODO nao sei o que estou a fazer help
-  //Adicionar segunda lista com dados que estiverem a true
+  static saveFilteredExams(Map<String, bool> newFilteredExamTypes) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setStringList(
+        filteredExamsTypesChecked, newFilteredExamTypes.keys.toList());
+  }
 
-  // static saveFilteredExams(Map<String, bool> newFilteredExamTypes) async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   prefs.setStringList(filteredExamsTypes, newFilteredExamTypes.keys.toList());
-  //   prefs.setStringList(
-  //       filteredExamsTypesBools, newFilteredExamTypes.values.toList());
-  // }
-
-  //TODO Aqui também não
-  static Future<List<String>> getFilteredExams() async {
+  //TODO Aqui também não Verificar se o storedChecked pode estar a null
+  static Future<Map<String, bool>> getFilteredExams() async {
     final prefs = await SharedPreferences.getInstance();
     final List<String> storedFilteredExamTypes =
         prefs.getStringList(filteredExamsTypes);
-    if (storedFilteredExamTypes == null) return defaultFilteredExamTypes;
+    final List<String> storedFilteredExamTypesChecked =
+        prefs.getStringList(filteredExamsTypesChecked);
 
-    // final Map<String, bool> examsfiltered = {};
-    // if (storedFilteredExamTypes == null) {
-    //   defaultFilteredExamTypes.forEach((type) => examsfiltered[type] = true);
-    //   return examsfiltered;
-    // }
+    final Map<String, bool> examsfiltered = {};
+    if (storedFilteredExamTypes == null || storedFilteredExamTypesChecked == null) {
+      defaultFilteredExamTypes.forEach((type) => examsfiltered[type] = true);
+      return examsfiltered;
+    }
 
-    // final Iterable<String> examTypes = Exam.getExamTypes().keys;
-    // final Map<String, bool> chekboxes = {};
-    // examTypes.forEach((type) => chekboxes[type] = true);
-    // return chekboxes;
-
-    return storedFilteredExamTypes;
+    for (String examType in storedFilteredExamTypes) {
+      if (storedFilteredExamTypesChecked.contains(examType)) {
+        examsfiltered[examType] = true;
+      } else {
+        examsfiltered[examType] = false;
+      }
+    }
+    return examsfiltered;
   }
 
   static String encode(String plainText) {

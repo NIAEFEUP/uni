@@ -479,10 +479,9 @@ ThunkAction<AppState> setFilteredExams(
     store.dispatch(SetExamFilter(filteredExams));
 
     //Update databse
-
-    Session persistentSession = store.state.content['session'];
-    if (persistentSession) {
-      AppSharedPreferences.savePersistentUserInfo(username, password);
+    final Session persistentSession = store.state.content['session'];
+    if (persistentSession.persistentSession) {
+      AppSharedPreferences.saveFilteredExams(filteredExams);
     }
 
     action.complete();

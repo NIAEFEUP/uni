@@ -58,8 +58,8 @@ AppState appReducers(AppState state, dynamic action) {
     return setHomePageEditingMode(state, action);
   } else if (action is SetLastUserInfoUpdateTime) {
     return setLastUserInfoUpdateTime(state, action);
-  } else if (action is UpdateFilterExamTypes) {
-    return updateFilterExamTypes(state, action);
+  } else if (action is SetExamFilter) {
+    return setExamFilter(state, action);
   }
   return state;
 }
@@ -201,11 +201,6 @@ AppState setLastUserInfoUpdateTime(
 }
 
 //TODO
-// AppState setExamFilter(AppState state, SetExamFilter action) {
-//   //Aqui supostamente seria newState.sliderFontSize = action.sliderFontSize por exemplo
-//   //Adicionar Logger
-//   return state.cloneAndUpdateValue('filteredExams', action.filteredExams);
-// }
-AppState updateFilterExamTypes(AppState state, SetExamFilter action) {
+AppState setExamFilter(AppState state, SetExamFilter action) {
   return state.cloneAndUpdateValue('filteredExams', action.filteredExams);
 }

@@ -81,8 +81,7 @@ Future loadRemoteUserInfoToState(Store<AppState> store) async {
 void loadLocalUserInfoToState(store) async {
   store.dispatch(
       UpdateFavoriteCards(await AppSharedPreferences.getFavoriteCards()));
-  store.dispatch(
-      UpdateFilterExamTypes(await AppSharedPreferences.getFilteredExams()));
+  store.dispatch(SetExamFilter(await AppSharedPreferences.getFilteredExams()));
   final Tuple2<String, String> userPersistentInfo =
       await AppSharedPreferences.getPersistentUserInfo();
   if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {
