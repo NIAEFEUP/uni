@@ -1,7 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:uni/model/app_state.dart';
-import 'package:uni/model/entities/exam.dart';
 import 'package:uni/redux/action_creators.dart';
 
 // ignore: must_be_immutable
@@ -31,10 +32,9 @@ class _ExamFilterMenuState extends State<ExamFilterMenu> {
                 onChanged: (bool value) {
                   setState(() {
                     widget.checkboxes[key] = value;
-                    //filterExam(key, value);
                   });
                   StoreProvider.of<AppState>(context)
-                      .dispatch(setFilteredExams(key));
+                      .dispatch(setFilteredExams(key, Completer()));
                 },
               );
             }).toList(),
@@ -43,7 +43,6 @@ class _ExamFilterMenuState extends State<ExamFilterMenu> {
       ),
     );
 
-    // show the dialog
     showDialog(
       context: context,
       builder: (BuildContext context) {

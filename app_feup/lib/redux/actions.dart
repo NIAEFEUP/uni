@@ -143,7 +143,7 @@ class SetLastUserInfoUpdateTime {
   SetLastUserInfoUpdateTime(this.currentTime);
 }
 
-//TODO Help, qual destes dois?
+//TODO
 class SetExamFilter {
   Map<String, bool> filteredExams;
   SetExamFilter(this.filteredExams);
