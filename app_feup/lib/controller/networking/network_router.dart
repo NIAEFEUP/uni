@@ -178,39 +178,45 @@ class NetworkRouter {
 
   static Future<List<Trip>> getNextArrivalsStop(
       String stopCode, BusStopData stopData) async {
+
     final String url =
         'https://www.stcp.pt/pt/itinerarium/soapclient.php?codigo=' + stopCode;
 
     final http.Response response = await http.get(url);
     var htmlResponse = parse(response.body);
 
-    final tableEntries = htmlResponse.querySelectorAll('#smsBusResults > tbody > tr.even');
+    final tableEntries =
+        htmlResponse.querySelectorAll('#smsBusResults > tbody > tr.even');
 
     final configuredBuses = stopData.configuredBuses;
+
     final tripList = List<Trip>();
 
     for (var entry in tableEntries) {
-      final line = entry.querySelector('td > ul > li').text;
+      final info = entry.querySelectorAll('td');
+
+      final String line = info[0].querySelector('ul > li').text.trim();
 
       if(!configuredBuses.contains(line)){
         continue;
       }
 
-      var destination = entry.querySelector('td').text
+      var destination = info[0].text
           .replaceAll('\n', '')
           .replaceAll('\t', '')
           .replaceAll(' ', '')
           .replaceAll('-', '');
 
-      destination = destination.substring(line.length);
+      destination = destination.substring(line.length + 1);
 
-      var timeRemaining = entry.querySelector('td:nth-child(3)').text;
+      var timeOfArrival = info[1].text.trim();
+      var timeRemaining = '0';
 
-      if(timeRemaining == 'a passar'){
-        timeRemaining = '0';
-      }
-      else if (timeRemaining.substring(timeRemaining.length - 1) == '*') {
-        timeRemaining = timeRemaining.substring(0, timeRemaining.length - 1);
+      if(timeOfArrival != 'a passar'){
+        timeRemaining = info[2].text;
+        if(timeRemaining.contains('min')){
+          timeRemaining = timeRemaining.substring(0, timeRemaining.length - 3);
+        }
       }
 
       final Trip newTrip = Trip(
@@ -218,10 +224,10 @@ class NetworkRouter {
           destination: destination,
           timeRemaining: int.parse(timeRemaining)
       );
+
       tripList.add(newTrip);
     }
 
-    tripList.sort((a, b) => a.compare(b));
     return tripList;
   }
 
