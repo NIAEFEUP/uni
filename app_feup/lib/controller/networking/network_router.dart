@@ -179,11 +179,11 @@ class NetworkRouter {
   static Future<List<Trip>> getNextArrivalsStop(
       String stopCode, BusStopData stopData) async {
 
-    final String url =
+    final url =
         'https://www.stcp.pt/pt/itinerarium/soapclient.php?codigo=' + stopCode;
 
     final http.Response response = await http.get(url);
-    var htmlResponse = parse(response.body);
+    final htmlResponse = parse(response.body);
 
     final tableEntries =
         htmlResponse.querySelectorAll('#smsBusResults > tbody > tr.even');
@@ -195,7 +195,7 @@ class NetworkRouter {
     for (var entry in tableEntries) {
       final info = entry.querySelectorAll('td');
 
-      final String line = info[0].querySelector('ul > li').text.trim();
+      final line = info[0].querySelector('ul > li').text.trim();
 
       if(!configuredBuses.contains(line)){
         continue;
@@ -209,7 +209,7 @@ class NetworkRouter {
 
       destination = destination.substring(line.length + 1);
 
-      var timeOfArrival = info[1].text.trim();
+      final timeOfArrival = info[1].text.trim();
       var timeRemaining = '0';
 
       if(timeOfArrival != 'a passar'){
