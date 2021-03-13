@@ -467,7 +467,6 @@ ThunkAction<AppState> toggleFavoriteUserBusStop(
   };
 }
 
-//TODO Adicionar butao com todas
 ThunkAction<AppState> setFilteredExams(
     String examType, Completer<Null> action) {
   return (Store<AppState> store) {

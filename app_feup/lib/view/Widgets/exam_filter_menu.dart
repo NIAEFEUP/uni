@@ -8,12 +8,8 @@ import 'package:uni/redux/action_creators.dart';
 // ignore: must_be_immutable
 class ExamFilterMenu extends StatefulWidget {
   //TODO
-  // Isto com as checkboxes dava, mas ao adicionar o storeConnector isto deixou de atualizar
   //Verificar que os exams da epoca de covid aparecem com ?
   //Verificar o que acontece quando ele nao tem shared preferences
-  //StoreConnector mais dentro tb nao funciona
-  //uma opçao é ir buscar os dados aqui, e no state usar o valor
-  //Versao a funcionar no commit anterior
   //Ver a questão dos exams covid
   @override
   _ExamFilterMenuState createState() => _ExamFilterMenuState();
@@ -38,9 +34,6 @@ class _ExamFilterMenuState extends State<ExamFilterMenu> {
                         value: filteredExams[key],
                         onChanged: (bool value) {
                           setState(() {
-                            filteredExams[key] = value;
-                            //Not calling OnChanged?
-                            print("ZAAAS" + value.toString());
                             StoreProvider.of<AppState>(context)
                                 .dispatch(setFilteredExams(key, Completer()));
                           });

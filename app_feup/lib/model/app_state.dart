@@ -16,7 +16,7 @@ class AppState {
     return {
       'schedule': <Lecture>[],
       'exams': <Exam>[],
-      'filteredExam': Map<String, bool>(), //TODO Isto devia estar aqui sequer?
+      'filteredExam': Map<String, bool>(),
       'scheduleStatus': RequestStatus.none,
       'loginStatus': RequestStatus.none,
       'examsStatus': RequestStatus.none,

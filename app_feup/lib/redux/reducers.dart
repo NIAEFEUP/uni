@@ -200,7 +200,6 @@ AppState setLastUserInfoUpdateTime(
       'lastUserInfoUpdateTime', action.currentTime);
 }
 
-//TODO
 AppState setExamFilter(AppState state, SetExamFilter action) {
   return state.cloneAndUpdateValue('filteredExams', action.filteredExams);
 }

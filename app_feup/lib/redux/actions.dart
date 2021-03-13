@@ -143,7 +143,6 @@ class SetLastUserInfoUpdateTime {
   SetLastUserInfoUpdateTime(this.currentTime);
 }
 
-//TODO
 class SetExamFilter {
   Map<String, bool> filteredExams;
   SetExamFilter(this.filteredExams);
