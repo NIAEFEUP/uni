@@ -20,7 +20,8 @@ var _types = {
   'Normal': 'EN',
   'Recurso': 'ER',
   'Especial de Conclusão': 'EC',
-  'Port.Est.Especiais': 'EE'
+  'Port.Est.Especiais': 'EE',
+  'Exames ao abrigo de estatutos especiais': 'EAE'
 };
 
 class Exam {

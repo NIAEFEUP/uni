@@ -5,13 +5,7 @@ import 'package:html/dom.dart';
 import 'dart:async';
 
 class ParserExams {
-  static final types = {
-    'Especial de Conclusão': 'EC',
-    'Port.Est.Especiais': 'EE',
-    'Mini-testes': 'MT',
-    'Normal': 'EN',
-    'Recurso': 'ER'
-  };
+  static final types = Exam.getExamTypes();
 
   String getExamSeasonAbbr(String seasonStr) {
     for (String type in types.keys) {
