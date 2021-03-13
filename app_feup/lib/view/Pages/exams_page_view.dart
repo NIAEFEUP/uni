@@ -16,7 +16,6 @@ class ExamsPageView extends StatefulWidget {
 class ExamsPageViewState extends SecondaryPageViewState {
   final double borderRadius = 10.0;
 
-  //TODO Descobrir pq que os valores estao null
   @override
   Widget getBody(BuildContext context) {
     return StoreConnector<AppState, List<dynamic>>(
