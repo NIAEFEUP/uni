@@ -24,10 +24,6 @@ class AppSharedPreferences {
   static final List<String> defaultFilteredExamTypes =
       Exam.getExamTypes().keys.toList();
 
-  static final String filteredExamsTypesChecked = 'filtered_exam_types_checked';
-  static final List<String> defaultFilteredExamTypesChecked =
-      Exam.getExamTypes().keys.toList();
-
   static Future savePersistentUserInfo(user, pass) async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setString(userNumber, user);
@@ -83,31 +79,25 @@ class AppSharedPreferences {
 
   static saveFilteredExams(Map<String, bool> newFilteredExamTypes) async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.setStringList(
-        filteredExamsTypesChecked, newFilteredExamTypes.keys.toList());
+
+    final List<String> newTypes = newFilteredExamTypes.keys
+        .where((type) => newFilteredExamTypes[type] == true)
+        .toList();
+    prefs.setStringList(filteredExamsTypes, newTypes);
   }
 
   static Future<Map<String, bool>> getFilteredExams() async {
     final prefs = await SharedPreferences.getInstance();
     final List<String> storedFilteredExamTypes =
         prefs.getStringList(filteredExamsTypes);
-    final List<String> storedFilteredExamTypesChecked =
-        prefs.getStringList(filteredExamsTypesChecked);
 
     final Map<String, bool> examsfiltered = {};
-    if (storedFilteredExamTypes == null ||
-        storedFilteredExamTypesChecked == null) {
+    if (storedFilteredExamTypes == null) {
       defaultFilteredExamTypes.forEach((type) => examsfiltered[type] = true);
       return examsfiltered;
     }
-
-    for (String examType in storedFilteredExamTypes) {
-      if (storedFilteredExamTypesChecked.contains(examType)) {
-        examsfiltered[examType] = true;
-      } else {
-        examsfiltered[examType] = false;
-      }
-    }
+    defaultFilteredExamTypes.forEach(
+        (type) => examsfiltered[type] = storedFilteredExamTypes.contains(type));
     return examsfiltered;
   }
 

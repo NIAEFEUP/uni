@@ -8,48 +8,51 @@ import 'package:uni/redux/action_creators.dart';
 // ignore: must_be_immutable
 class ExamFilterMenu extends StatefulWidget {
   //TODO
-  //Verificar que os exams da epoca de covid aparecem com ?
   //Verificar o que acontece quando ele nao tem shared preferences
-  //Ver a questão dos exams covid
   @override
   _ExamFilterMenuState createState() => _ExamFilterMenuState();
 }
 
 class _ExamFilterMenuState extends State<ExamFilterMenu> {
   showAlertDialog(BuildContext context) {
-    // set up the AlertDialog
-    final store = StoreConnector<AppState, Map<String, bool>>(
-        converter: (store) => store.state.content['filteredExams'],
-        builder: (context, filteredExams) {
-          return AlertDialog(
-            content: Container(
-                height: 300.0,
-                width: 200.0,
-                child: StatefulBuilder(
-                    builder: (BuildContext context, StateSetter setState) {
-                  return ListView(
-                    children: filteredExams.keys.map((String key) {
-                      return CheckboxListTile(
-                        title: Text(key),
-                        value: filteredExams[key],
-                        onChanged: (bool value) {
-                          setState(() {
-                            StoreProvider.of<AppState>(context)
-                                .dispatch(setFilteredExams(key, Completer()));
-                          });
-                        },
-                      );
-                    }).toList(),
-                  );
-                })),
-          );
-        });
-
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return store;
+        return StoreConnector<AppState, Map<String, bool>>(
+            converter: (store) => store.state.content['filteredExams'],
+            builder: (context, filteredExams) {
+              return getAlertDialog(filteredExams);
+            });
       },
+    );
+  }
+
+  Widget getExamCheckboxes(Map<String, bool> filteredExams) {
+    return ListView(
+      children: filteredExams.keys.map((String key) {
+        return CheckboxListTile(
+          title: Text(key),
+          value: filteredExams[key],
+          onChanged: (bool value) {
+            setState(() {
+              StoreProvider.of<AppState>(context)
+                  .dispatch(setFilteredExams(key, Completer()));
+            });
+          },
+        );
+      }).toList(),
+    );
+  }
+
+  Widget getAlertDialog(Map<String, bool> filteredExams) {
+    return AlertDialog(
+      content: Container(
+          height: 300.0,
+          width: 200.0,
+          child: StatefulBuilder(
+              builder: (BuildContext context, StateSetter setState) {
+            return getExamCheckboxes(filteredExams);
+          })),
     );
   }
 
