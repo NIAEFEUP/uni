@@ -13,10 +13,12 @@ class SchedulePageView extends StatefulWidget {
       @required this.tabController,
       @required this.scrollViewController,
       @required this.daysOfTheWeek,
-      @required this.aggLectures});
+      @required this.aggLectures,
+      @required this.scheduleStatus});
 
   final List<String> daysOfTheWeek;
   final List<List<Lecture>> aggLectures;
+  final RequestStatus scheduleStatus;
   final TabController tabController;
   final ScrollController scrollViewController;
 
@@ -25,7 +27,8 @@ class SchedulePageView extends StatefulWidget {
       tabController: tabController,
       scrollViewController: scrollViewController,
       daysOfTheWeek: daysOfTheWeek,
-      aggLectures: aggLectures);
+      aggLectures: aggLectures,
+      scheduleStatus: scheduleStatus);
 }
 
 class SchedulePageViewState extends SecondaryPageViewState {
@@ -34,10 +37,12 @@ class SchedulePageViewState extends SecondaryPageViewState {
       @required this.tabController,
       @required this.scrollViewController,
       @required this.daysOfTheWeek,
-      @required this.aggLectures});
+      @required this.aggLectures,
+      @required this.scheduleStatus});
 
   final List<String> daysOfTheWeek;
   final List<List<Lecture>> aggLectures;
+  final RequestStatus scheduleStatus;
   final TabController tabController;
   final ScrollController scrollViewController;
 
@@ -115,17 +120,14 @@ class SchedulePageViewState extends SecondaryPageViewState {
   }
 
   Widget createScheduleByDay(BuildContext context, day) {
-    return StoreConnector<AppState, RequestStatus>(
-        converter: (store) => store.state.content['scheduleStatus'],
-        builder: (context, status) => RequestDependentWidgetBuilder(
-              context: context,
-              status: status,
-              contentGenerator: createDayColumn,
-              content: aggLectures[day],
-              contentChecker: aggLectures[day].isNotEmpty,
-              onNullContent: Center(
-                  child:
-                      Text('Não possui aulas à ' + daysOfTheWeek[day] + '.')),
-            ));
+    return RequestDependentWidgetBuilder(
+      context: context,
+      status: scheduleStatus,
+      contentGenerator: createDayColumn,
+      content: aggLectures[day],
+      contentChecker: aggLectures[day].isNotEmpty,
+      onNullContent:
+          Center(child: Text('Não possui aulas à ' + daysOfTheWeek[day] + '.')),
+    );
   }
 }
