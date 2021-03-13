@@ -23,15 +23,10 @@ class ExamsPageViewState extends SecondaryPageViewState {
         final List<Exam> exams = store.state.content['exams'];
         final Map<String, bool> filteredExams =
             store.state.content['filteredExams'];
-        final List<Exam> examListFiltered = [];
-
-        for (Exam exam in exams) {
-          //TODO change this to false if i want covid ones not to appear
-          if (filteredExams[Exam.getExamTypeLong(exam.examType)] ?? true) {
-            examListFiltered.add(exam);
-          }
-        }
-        return examListFiltered;
+        return exams
+            .where((exam) =>
+                filteredExams[Exam.getExamTypeLong(exam.examType)] ?? true)
+            .toList();
       },
       builder: (context, exams) {
         return ExamsList(exams: exams);

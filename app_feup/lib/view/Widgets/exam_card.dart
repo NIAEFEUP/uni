@@ -33,6 +33,7 @@ class ExamCard extends GenericCard {
   onClick(BuildContext context) =>
       Navigator.pushNamed(context, '/' + Constants.navExams);
 
+  //TODO
   @override
   Widget buildCardContent(BuildContext context) {
     return StoreConnector<AppState, Tuple2<List<Exam>, RequestStatus>>(
