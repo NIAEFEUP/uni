@@ -6,9 +6,7 @@ import 'package:uni/view/Widgets/exam_filter_form.dart';
 // ignore: must_be_immutable
 class ExamFilterMenu extends StatefulWidget {
   //TODO
-  //Verificar que os exams da epoca de covid aparecem com ?
   //Verificar o que acontece quando ele nao tem shared preferences
-  //Ver a questão dos exams covid
   @override
   _ExamFilterMenuState createState() => _ExamFilterMenuState();
 }
