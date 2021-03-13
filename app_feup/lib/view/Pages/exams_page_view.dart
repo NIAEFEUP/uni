@@ -126,12 +126,4 @@ class ExamsList extends StatelessWidget {
                 end: exam.end,
                 type: exam.examType)));
   }
-
-  //TODO Adicionar isto no app shared preferences
-  Map<String, bool> checkboxValues() {
-    final Iterable<String> examTypes = Exam.getExamTypes().keys;
-    final Map<String, bool> chekboxes = {};
-    examTypes.forEach((type) => chekboxes[type] = true);
-    return chekboxes;
-  }
 }

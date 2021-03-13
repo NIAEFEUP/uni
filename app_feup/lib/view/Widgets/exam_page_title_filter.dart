@@ -20,7 +20,7 @@ class ExamPageTitleFilter extends StatelessWidget {
             style:
                 Theme.of(context).textTheme.headline6.apply(fontSizeDelta: 7),
           ),
-          ExamFilterMenu(),
+          Material(child: ExamFilterMenu()),
         ],
       ),
     );
