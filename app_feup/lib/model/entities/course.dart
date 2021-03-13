@@ -9,12 +9,12 @@ class Course {
 
   Course(
       {int this.id,
-        int this.festId,
-        String this.name,
-        String this.abbreviation,
-        String this.currYear,
-        int this.firstEnrollment,
-        String this.state = ''});
+      int this.festId,
+      String this.name,
+      String this.abbreviation,
+      String this.currYear,
+      int this.firstEnrollment,
+      String this.state = ''});
 
   static Course fromJson(dynamic data) {
     return Course(
@@ -25,16 +25,14 @@ class Course {
         firstEnrollment: data['fest_a_lect_1_insc']);
   }
 
-
-
   Map<String, dynamic> toMap() {
     return {
-      'id' : id,
-      'fest_id' : festId,
-      'name' : name,
-      'abbreviation' : abbreviation,
-      'currYear' : currYear,
-      'firstEnrollment' : firstEnrollment,
+      'id': id,
+      'fest_id': festId,
+      'name': name,
+      'abbreviation': abbreviation,
+      'currYear': currYear,
+      'firstEnrollment': firstEnrollment,
       'state': state
     };
   }
