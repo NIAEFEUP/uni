@@ -1,3 +1,4 @@
+import 'package:tuple/tuple.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +9,7 @@ class SchedulePage extends StatefulWidget {
   const SchedulePage({Key key}) : super(key: key);
 
   @override
-  _SchedulePageState createState() =>  _SchedulePageState();
+  _SchedulePageState createState() => _SchedulePageState();
 }
 
 class _SchedulePageState extends State<SchedulePage>
@@ -24,13 +25,12 @@ class _SchedulePageState extends State<SchedulePage>
     'Sexta-feira'
   ];
 
-  final int weekDay =  DateTime.now().weekday;
+  final int weekDay = DateTime.now().weekday;
 
   @override
   void initState() {
     super.initState();
-    tabController =
-         TabController(vsync: this, length: daysOfTheWeek.length);
+    tabController = TabController(vsync: this, length: daysOfTheWeek.length);
     final offset = (weekDay > 5) ? 0 : (weekDay - 1) % daysOfTheWeek.length;
     tabController.animateTo((tabController.index + offset));
   }
@@ -42,7 +42,7 @@ class _SchedulePageState extends State<SchedulePage>
   }
 
   List<List<Lecture>> _groupLecturesByDay(schedule) {
-    final aggLectures =  <List<Lecture>>[];
+    final aggLectures = <List<Lecture>>[];
 
     for (int i = 0; i < daysOfTheWeek.length; i++) {
       final List<Lecture> lectures = <Lecture>[];
@@ -56,14 +56,18 @@ class _SchedulePageState extends State<SchedulePage>
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, List<Lecture>>(
-      converter: (store) => store.state.content['schedule'],
-      builder: (context, lectures) {
-        return  SchedulePageView(
+    return StoreConnector<AppState, Tuple2<List<Lecture>, RequestStatus>>(
+      converter: (store) => Tuple2(store.state.content['schedule'],
+          store.state.content['scheduleStatus']),
+      builder: (context, lectureData) {
+        final lectures = lectureData.item1;
+        final scheduleStatus = lectureData.item2;
+        return SchedulePageView(
             tabController: tabController,
             scrollViewController: scrollViewController,
             daysOfTheWeek: daysOfTheWeek,
-            aggLectures: _groupLecturesByDay(lectures));
+            aggLectures: _groupLecturesByDay(lectures),
+            scheduleStatus: scheduleStatus);
       },
     );
   }
