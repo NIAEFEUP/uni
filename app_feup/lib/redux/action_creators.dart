@@ -470,19 +470,16 @@ ThunkAction<AppState> toggleFavoriteUserBusStop(
 ThunkAction<AppState> setFilteredExams(
     String examType, Completer<Null> action) {
   return (Store<AppState> store) {
-    //Mas o filtered exams ainda não está preenchido!
     final Map<String, bool> filteredExams =
         store.state.content['filteredExams'];
 
     filteredExams[examType] = !filteredExams[examType];
     store.dispatch(SetExamFilter(filteredExams));
 
-    //Update databse
     final Session persistentSession = store.state.content['session'];
     if (persistentSession.persistentSession) {
       AppSharedPreferences.saveFilteredExams(filteredExams);
     }
-
     action.complete();
   };
 }
