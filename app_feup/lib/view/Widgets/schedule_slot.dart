@@ -44,7 +44,8 @@ class ScheduleSlot extends StatelessWidget {
   }
 
   Widget createScheduleSlotTime(context) {
-    return Column(
+    return  Column(
+      key: Key('schedule-slot-time-${this.begin}-${this.end}'),
       children: <Widget>[
         createScheduleTime(this.begin, context),
         createScheduleTime(this.end, context)

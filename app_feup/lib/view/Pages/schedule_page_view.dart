@@ -1,7 +1,6 @@
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 import 'package:uni/view/Pages/secondary_page_view.dart';
 import 'package:uni/view/Widgets/page_title.dart';
 import 'package:uni/view/Widgets/request_dependent_widget_builder.dart';
@@ -10,8 +9,6 @@ import 'package:uni/view/Widgets/schedule_slot.dart';
 class SchedulePageView extends StatefulWidget {
   SchedulePageView(
       {Key key,
-      @required this.tabController,
-      @required this.scrollViewController,
       @required this.daysOfTheWeek,
       @required this.aggLectures,
       @required this.scheduleStatus});
@@ -19,23 +16,18 @@ class SchedulePageView extends StatefulWidget {
   final List<String> daysOfTheWeek;
   final List<List<Lecture>> aggLectures;
   final RequestStatus scheduleStatus;
-  final TabController tabController;
-  final ScrollController scrollViewController;
 
   @override
   State<StatefulWidget> createState() => SchedulePageViewState(
-      tabController: tabController,
-      scrollViewController: scrollViewController,
       daysOfTheWeek: daysOfTheWeek,
       aggLectures: aggLectures,
       scheduleStatus: scheduleStatus);
 }
 
-class SchedulePageViewState extends SecondaryPageViewState {
+class SchedulePageViewState extends SecondaryPageViewState 
+    with SingleTickerProviderStateMixin  {
   SchedulePageViewState(
       {Key key,
-      @required this.tabController,
-      @required this.scrollViewController,
       @required this.daysOfTheWeek,
       @required this.aggLectures,
       @required this.scheduleStatus});
@@ -43,8 +35,23 @@ class SchedulePageViewState extends SecondaryPageViewState {
   final List<String> daysOfTheWeek;
   final List<List<Lecture>> aggLectures;
   final RequestStatus scheduleStatus;
-  final TabController tabController;
-  final ScrollController scrollViewController;
+  TabController tabController;
+  final int weekDay = DateTime.now().weekday;
+
+  
+  @override
+  void initState() {
+    super.initState();
+    tabController = TabController(vsync: this, length: daysOfTheWeek.length);
+    final offset = (weekDay > 5) ? 0 : (weekDay - 1) % daysOfTheWeek.length;
+    tabController.animateTo((tabController.index + offset));
+  }
+    
+  @override
+  void dispose() {
+    tabController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget getBody(BuildContext context) {
@@ -82,7 +89,9 @@ class SchedulePageViewState extends SecondaryPageViewState {
       tabs.add(Container(
         color: Theme.of(context).backgroundColor,
         width: queryData.size.width * 1 / 3,
-        child: Tab(text: daysOfTheWeek[i]),
+        child: Tab(
+          key: Key('schedule-page-tab-$i'),
+          text: daysOfTheWeek[i]),
       ));
     }
     return tabs;
@@ -113,17 +122,24 @@ class SchedulePageViewState extends SecondaryPageViewState {
     return scheduleContent;
   }
 
-  Widget createDayColumn(dayContent, BuildContext context) {
-    return ListView(
-        controller: scrollViewController,
-        children: createScheduleRows(dayContent, context));
+  Widget Function(dynamic daycontent, BuildContext context) dayColumnBuilder(
+      int day) {
+    Widget createDayColumn(dayContent, BuildContext context) {
+      return ListView(          
+          key: Key('schedule-page-day-column-$day'),
+          controller: scrollViewController,
+          children: createScheduleRows(dayContent, context));
+    }
+    }
+
+    return createDayColumn;
   }
 
-  Widget createScheduleByDay(BuildContext context, day) {
+  Widget createScheduleByDay(BuildContext context, int day) {
     return RequestDependentWidgetBuilder(
       context: context,
       status: scheduleStatus,
-      contentGenerator: createDayColumn,
+      contentGenerator: dayColumnBuilder(day),
       content: aggLectures[day],
       contentChecker: aggLectures[day].isNotEmpty,
       onNullContent:
