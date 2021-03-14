@@ -11,6 +11,7 @@ class ExamFilterMenu extends StatefulWidget {
   _ExamFilterMenuState createState() => _ExamFilterMenuState();
 }
 
+//TODO varias checkboxes ao mesmo tempo
 class _ExamFilterMenuState extends State<ExamFilterMenu> {
   showAlertDialog(BuildContext context) {
     showDialog(
