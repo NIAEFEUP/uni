@@ -5,6 +5,7 @@ import 'package:html/dom.dart';
 import 'dart:async';
 
 class ParserExams {
+  //TODO corrigir para usar o examtype
   static final types = Exam.getExamTypes();
 
   String getExamSeasonAbbr(String seasonStr) {
