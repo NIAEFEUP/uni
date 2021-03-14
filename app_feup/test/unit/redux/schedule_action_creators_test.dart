@@ -1,14 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:intl/intl.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tuple/tuple.dart';
-import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/course.dart';
-import 'package:uni/model/entities/course_unit.dart';
-import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/session.dart';
@@ -18,12 +14,6 @@ import 'action_creators.dart';
 
 void main() {
   group('Schedule Action Creator', () {
-    final sopeCourseUnit = CourseUnit(abbreviation: 'SOPE');
-    final sdisCourseUnit = CourseUnit(abbreviation: 'SDIS');
-    final sopeExam = Exam('09:00-12:00', 'SOPE', 'B119, B107, B205',
-        '2800-09-11', 'Recurso - Época Recurso (2ºS)', 'Quarta');
-    final sdisExam = Exam('12:00-15:00', 'SDIS', 'B119, B107, B205',
-        '2800-09-12', 'Recurso - Época Recurso (2ºS)', 'Quarta');
     final fetcherMock = MockScheduleFetcher();
     final Tuple2<String, String> userPersistentInfo = Tuple2('', '');
     final mockStore = MockStore();
@@ -80,10 +70,9 @@ void main() {
       await completer.future;
       final List<dynamic> actions =
           verify(mockStore.dispatch(captureAny)).captured;
-      expect(actions.length, 3);
+      expect(actions.length, 2);
       expect(actions[0].status, RequestStatus.busy);
-      expect(actions[1].lectures, [lecture1, lecture2]);
-      expect(actions[2].status, RequestStatus.successful);
+      expect(actions[1].status, RequestStatus.failed);
     });
   });
 }

@@ -1,7 +1,5 @@
 import 'package:uni/model/app_state.dart';
-import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/entities/lecture.dart';
-import 'package:uni/view/Pages/exams_page_view.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
 import 'package:uni/view/Pages/schedule_page_view.dart';
@@ -80,10 +78,14 @@ void main() {
       ];
 
       final widget = makeTestableWidget(
+          child: DefaultTabController(
+              length: daysOfTheWeek.length,
               child: SchedulePageView(
-                  daysOfTheWeek: daysOfTheWeek,
-                  aggLectures: aggLectures,
-                  scheduleStatus: RequestStatus.successful));
+                daysOfTheWeek: daysOfTheWeek,
+                aggLectures: aggLectures,
+                scheduleStatus: RequestStatus.successful,
+                tabController: null,
+              )));
       await tester.pumpWidget(widget);
 
       expect(
@@ -103,10 +105,14 @@ void main() {
       ];
 
       final widget = makeTestableWidget(
+          child: DefaultTabController(
+              length: daysOfTheWeek.length,
               child: SchedulePageView(
-                  daysOfTheWeek: daysOfTheWeek,
-                  aggLectures: aggLectures,
-                  scheduleStatus: RequestStatus.successful));
+                daysOfTheWeek: daysOfTheWeek,
+                aggLectures: aggLectures,
+                scheduleStatus: RequestStatus.successful,
+                tabController: null,
+              )));
       await tester.pumpWidget(widget);
 
       expect(
@@ -126,10 +132,14 @@ void main() {
       ];
 
       final widget = makeTestableWidget(
+          child: DefaultTabController(
+              length: daysOfTheWeek.length,
               child: SchedulePageView(
-                  daysOfTheWeek: daysOfTheWeek,
-                  aggLectures: aggLectures,
-                  scheduleStatus: RequestStatus.successful));
+                daysOfTheWeek: daysOfTheWeek,
+                aggLectures: aggLectures,
+                scheduleStatus: RequestStatus.successful,
+                tabController: null,
+              )));
       await tester.pumpWidget(widget);
 
       expect(
@@ -149,7 +159,7 @@ void main() {
 
       await tester.tap(find.byKey(Key('schedule-page-tab-2')));
       await tester.pumpAndSettle();
-      
+
       expect(
           find.descendant(
               of: find.byKey(Key('schedule-page-day-column-2')),
