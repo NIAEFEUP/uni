@@ -12,8 +12,7 @@ class SchedulePage extends StatefulWidget {
   _SchedulePageState createState() => _SchedulePageState();
 }
 
-class _SchedulePageState extends State<SchedulePage>
-    with SingleTickerProviderStateMixin {
+class _SchedulePageState extends State<SchedulePage>{
   TabController tabController;
   ScrollController scrollViewController;
 
@@ -24,22 +23,6 @@ class _SchedulePageState extends State<SchedulePage>
     'Quinta-feira',
     'Sexta-feira'
   ];
-
-  final int weekDay = DateTime.now().weekday;
-
-  @override
-  void initState() {
-    super.initState();
-    tabController = TabController(vsync: this, length: daysOfTheWeek.length);
-    final offset = (weekDay > 5) ? 0 : (weekDay - 1) % daysOfTheWeek.length;
-    tabController.animateTo((tabController.index + offset));
-  }
-
-  @override
-  void dispose() {
-    tabController.dispose();
-    super.dispose();
-  }
 
   List<List<Lecture>> _groupLecturesByDay(schedule) {
     final aggLectures = <List<Lecture>>[];
@@ -63,8 +46,6 @@ class _SchedulePageState extends State<SchedulePage>
         final lectures = lectureData.item1;
         final scheduleStatus = lectureData.item2;
         return SchedulePageView(
-            tabController: tabController,
-            scrollViewController: scrollViewController,
             daysOfTheWeek: daysOfTheWeek,
             aggLectures: _groupLecturesByDay(lectures),
             scheduleStatus: scheduleStatus);
