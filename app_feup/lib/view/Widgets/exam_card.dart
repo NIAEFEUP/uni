@@ -109,6 +109,7 @@ class ExamCard extends GenericCard {
                     type: exam.examType,
                     reverseOrder: true)
               ]),
+          color: Theme.of(context).highlightColor,
         ),
       ),
     );
