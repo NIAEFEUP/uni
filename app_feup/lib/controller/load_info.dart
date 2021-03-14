@@ -60,7 +60,7 @@ Future loadRemoteUserInfoToState(Store<AppState> store) async {
       await AppSharedPreferences.getPersistentUserInfo();
   userInfo.future.then((value) {
     store.dispatch(getUserExams(exams, ParserExams(), userPersistentInfo));
-    store.dispatch(getUserSchedule(schedule));
+    store.dispatch(getUserSchedule(schedule, userPersistentInfo));
   });
 
   final allRequests = Future.wait([

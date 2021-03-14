@@ -15,6 +15,7 @@ import 'package:uni/controller/parsers/parser_exams.dart';
 import 'package:uni/controller/parsers/parser_print_balance.dart';
 import 'package:uni/controller/parsers/parser_fees.dart';
 import 'package:uni/controller/parsers/parser_courses.dart';
+import 'package:uni/controller/schedule_fetcher/schedule_fetcher.dart';
 import 'package:uni/controller/schedule_fetcher/schedule_fetcher_api.dart';
 import 'package:uni/controller/schedule_fetcher/schedule_fetcher_html.dart';
 import 'package:uni/model/app_state.dart';
@@ -240,13 +241,15 @@ ThunkAction<AppState> getUserExams(Completer<Null> action,
   };
 }
 
-ThunkAction<AppState> getUserSchedule(Completer<Null> action) {
+ThunkAction<AppState> getUserSchedule(
+    Completer<Null> action, Tuple2<String, String> userPersistentInfo,
+    {ScheduleFetcher fetcher}) {
   return (Store<AppState> store) async {
     try {
       store.dispatch(SetScheduleStatusAction(RequestStatus.busy));
 
       //TODO: Go back to API whenever it is fixed: https://github.com/NIAEFEUP/project-schrodinger/issues/300
-      final List<Lecture> lectures = await getLectures(store);
+      final List<Lecture> lectures = await fetcher?.getLectures(store) ?? getLectures(store);
 
       // Updates local database according to the information fetched -- Lectures
       final Tuple2<String, String> userPersistentInfo =
