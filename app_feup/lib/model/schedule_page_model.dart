@@ -4,6 +4,7 @@ import 'package:uni/model/entities/lecture.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:uni/view/Pages/schedule_page_view.dart';
+import 'package:uni/view/Pages/secondary_page_view.dart';
 
 class SchedulePage extends StatefulWidget {
   const SchedulePage({Key key}) : super(key: key);
@@ -12,7 +13,10 @@ class SchedulePage extends StatefulWidget {
   _SchedulePageState createState() => _SchedulePageState();
 }
 
-class _SchedulePageState extends State<SchedulePage>{
+class _SchedulePageState extends SecondaryPageViewState
+    with TickerProviderStateMixin {
+  final int weekDay = DateTime.now().weekday;
+
   TabController tabController;
   ScrollController scrollViewController;
 
@@ -38,6 +42,20 @@ class _SchedulePageState extends State<SchedulePage>{
   }
 
   @override
+  void initState() {
+    super.initState();
+    tabController = TabController(vsync: this, length: daysOfTheWeek.length);
+    final offset = (weekDay > 5) ? 0 : (weekDay - 1) % daysOfTheWeek.length;
+    tabController.animateTo((tabController.index + offset));
+  }
+
+  @override
+  void dispose() {
+    tabController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, Tuple2<List<Lecture>, RequestStatus>>(
       converter: (store) => Tuple2(store.state.content['schedule'],
@@ -46,6 +64,7 @@ class _SchedulePageState extends State<SchedulePage>{
         final lectures = lectureData.item1;
         final scheduleStatus = lectureData.item2;
         return SchedulePageView(
+            tabController: tabController,
             daysOfTheWeek: daysOfTheWeek,
             aggLectures: _groupLecturesByDay(lectures),
             scheduleStatus: scheduleStatus);

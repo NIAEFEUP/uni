@@ -9,14 +9,27 @@ void testScheduleSlot(String subject, String begin, String end, String rooms,
   final scheduleSlotTimeKey = 'schedule-slot-time-$begin-$end';
   expect(
       find.descendant(
+          of: find.byKey(Key(scheduleSlotTimeKey)), matching: find.text(begin)),
+      findsOneWidget);
+  expect(
+      find.descendant(
+          of: find.byKey(Key(scheduleSlotTimeKey)), matching: find.text(end)),
+      findsOneWidget);
+  expect(
+      find.descendant(
           of: find.byKey(Key(scheduleSlotTimeKey)),
-          matching: find.byType(Text)),
-      findsNWidgets(2));
-  expect(find.text(begin), findsOneWidget);
-  expect(find.text(end), findsOneWidget);
-  expect(find.text(subject), findsOneWidget);
-  expect(find.text(' ($typeClass)'), findsOneWidget);
-  expect(find.text(teacher), findsOneWidget);
+          matching: find.text(subject)),
+      findsOneWidget);
+  expect(
+      find.descendant(
+          of: find.byKey(Key(scheduleSlotTimeKey)),
+          matching: find.text(' ($typeClass)')),
+      findsOneWidget);
+  expect(
+      find.descendant(
+          of: find.byKey(Key(scheduleSlotTimeKey)),
+          matching: find.text(teacher)),
+      findsOneWidget);
 }
 
 void main() {

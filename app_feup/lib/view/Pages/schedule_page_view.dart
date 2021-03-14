@@ -1,7 +1,6 @@
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:flutter/material.dart';
-import 'package:uni/view/Pages/secondary_page_view.dart';
 import 'package:uni/view/Widgets/page_title.dart';
 import 'package:uni/view/Widgets/request_dependent_widget_builder.dart';
 import 'package:uni/view/Widgets/schedule_slot.dart';
@@ -9,6 +8,7 @@ import 'package:uni/view/Widgets/schedule_slot.dart';
 class SchedulePageView extends StatefulWidget {
   SchedulePageView(
       {Key key,
+      @required this.tabController,
       @required this.daysOfTheWeek,
       @required this.aggLectures,
       @required this.scheduleStatus});
@@ -16,45 +16,10 @@ class SchedulePageView extends StatefulWidget {
   final List<String> daysOfTheWeek;
   final List<List<Lecture>> aggLectures;
   final RequestStatus scheduleStatus;
+  final TabController tabController;
 
   @override
-  State<StatefulWidget> createState() => SchedulePageViewState(
-      daysOfTheWeek: daysOfTheWeek,
-      aggLectures: aggLectures,
-      scheduleStatus: scheduleStatus);
-}
-
-class SchedulePageViewState extends SecondaryPageViewState 
-    with SingleTickerProviderStateMixin  {
-  SchedulePageViewState(
-      {Key key,
-      @required this.daysOfTheWeek,
-      @required this.aggLectures,
-      @required this.scheduleStatus});
-
-  final List<String> daysOfTheWeek;
-  final List<List<Lecture>> aggLectures;
-  final RequestStatus scheduleStatus;
-  TabController tabController;
-  final int weekDay = DateTime.now().weekday;
-
-  
-  @override
-  void initState() {
-    super.initState();
-    tabController = TabController(vsync: this, length: daysOfTheWeek.length);
-    final offset = (weekDay > 5) ? 0 : (weekDay - 1) % daysOfTheWeek.length;
-    tabController.animateTo((tabController.index + offset));
-  }
-    
-  @override
-  void dispose() {
-    tabController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget getBody(BuildContext context) {
+  Widget build(BuildContext context) {
     final MediaQueryData queryData = MediaQuery.of(context);
     final Color labelColor = Color.fromARGB(255, 0x50, 0x50, 0x50);
 
@@ -125,7 +90,7 @@ class SchedulePageViewState extends SecondaryPageViewState
   Widget Function(dynamic daycontent, BuildContext context) dayColumnBuilder(
       int day) {
     Widget createDayColumn(dayContent, BuildContext context) {
-      return ListView(          
+      return ListView(
           key: Key('schedule-page-day-column-$day'),
           controller: scrollViewController,
           children: createScheduleRows(dayContent, context));
