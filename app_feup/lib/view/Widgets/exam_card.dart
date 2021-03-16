@@ -85,7 +85,9 @@ class ExamCard extends GenericCard {
           end: exam.end,
           type: exam.examType,
         ),
-      )),
+       ),
+         color: Theme.of(context).highlightColor,
+       ),
     ]);
   }
 
