@@ -7,13 +7,11 @@ import 'package:uni/redux/action_creators.dart';
 
 // ignore: must_be_immutable
 class ExamFilterMenu extends StatefulWidget {
-  //TODO
-  //Verificar o que acontece quando ele nao tem shared preferences
+  //TODO Quando ele não tem shared preferences, aquilo não da save
   @override
   _ExamFilterMenuState createState() => _ExamFilterMenuState();
 }
 
-//TODO varias checkboxes ao mesmo tempo
 class _ExamFilterMenuState extends State<ExamFilterMenu> {
   showAlertDialog(BuildContext context) {
     showDialog(
