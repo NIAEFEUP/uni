@@ -36,6 +36,7 @@ void main() {
         Exam('17:00-19:00', 'SOPE', '', '2099-11-18', 'MT', 'Segunda');
     final sdisExam =
         Exam('17:00-19:00', 'SDIS', '', '2099-10-21', 'MT', 'Segunda');
+    final Map<String, bool> filteredExams = {'MT': true};
 
     final profile = Profile();
     profile.courses = [Course(id: 7474)];
@@ -44,7 +45,8 @@ void main() {
           'session': Session(authenticated: true),
           'currUcs': [sopeCourseUnit, sdisCourseUnit],
           'exams': <Exam>[],
-          'profile': profile
+          'profile': profile,
+          'filteredExams': filteredExams
         }),
         middleware: [generalMiddleware]);
     NetworkRouter.httpClient = mockClient;
