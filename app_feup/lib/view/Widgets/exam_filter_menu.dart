@@ -28,17 +28,16 @@ class _ExamFilterMenuState extends State<ExamFilterMenu> {
     );
   }
 
-  Widget getExamCheckboxes(Map<String, bool> filteredExams) {
+  Widget getExamCheckboxes(
+      Map<String, bool> filteredExams, BuildContext context) {
     return ListView(
       children: filteredExams.keys.map((String key) {
         return CheckboxListTile(
           title: Text(key),
           value: filteredExams[key],
           onChanged: (bool value) {
-            setState(() {
-              StoreProvider.of<AppState>(context)
-                  .dispatch(setFilteredExams(key, Completer()));
-            });
+            StoreProvider.of<AppState>(context)
+                .dispatch(setFilteredExams(key, Completer()));
           },
         );
       }).toList(),
@@ -52,7 +51,7 @@ class _ExamFilterMenuState extends State<ExamFilterMenu> {
           width: 200.0,
           child: StatefulBuilder(
               builder: (BuildContext context, StateSetter setState) {
-            return getExamCheckboxes(filteredExams);
+            return getExamCheckboxes(filteredExams, context);
           })),
     );
   }
