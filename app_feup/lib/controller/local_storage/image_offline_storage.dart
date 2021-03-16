@@ -6,16 +6,24 @@ import 'package:connectivity/connectivity.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart' show DefaultCacheManager;
 import 'package:path_provider/path_provider.dart';
 
+/// The offline image storage location on the device.
 Future<String> get _localPath async {
   final directory = await getApplicationDocumentsDirectory();
   return directory.path;
 }
 
+/// Downloads an image located at the given [url].
+/// The image is accessed with the provided [headers], if they are present.
 Future<File> getImageFromNetwork(
     String url, Map<String, String> headers) async {
   return DefaultCacheManager().getSingleFile(url, headers: headers);
 }
 
+/// Downloads and caches the user's profile image located at [url]. The image
+/// is accessed with the provided [headers], if they are present. 
+/// 
+/// If no connectivity is available, the cached version is used instead.
+/// If there is no cached version, returns [null].
 Future<File> retrieveImage(String url, Map<String, String> headers) async {
   final path = await _localPath;
   final connectivityResult = await (Connectivity().checkConnectivity());
@@ -33,6 +41,8 @@ Future<File> retrieveImage(String url, Map<String, String> headers) async {
   }
 }
 
+/// Downloads the image located at [url] and saves it in [filepath]. The image
+/// is accessed with the provided [headers], if they are present.
 Future<File> saveImage(
     String filepath, String url, Map<String, String> headers) async {
   final File file = await getImageFromNetwork(url, headers);

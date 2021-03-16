@@ -15,9 +15,11 @@ import 'package:html/parser.dart';
 import 'package:query_params/query_params.dart';
 import 'package:synchronized/synchronized.dart';
 extension UriString on String{
+  /// Converts a [String] to an [Uri].
   Uri toUri() => Uri.parse(this);
 }
 
+/// Manages the networking of the app.
 class NetworkRouter {
   static http.Client httpClient;
 
@@ -28,6 +30,8 @@ class NetworkRouter {
   static Function onReloginFail = () {};
 
 
+  /// Creates an authenticated [Session] on the given [faculty] with the
+  /// given username [user] and password [pass].
   static Future<Session> login(
       String user, String pass, String faculty, bool persistentSession) async {
     final String url =
@@ -47,6 +51,7 @@ class NetworkRouter {
     }
   }
 
+  /// Determines if a re-login with the [session] is possible.
   static Future<bool> relogin(Session session) {
     return loginLock.synchronized(() async {
       if (!session.persistentSession) {
@@ -63,6 +68,7 @@ class NetworkRouter {
     });
   }
 
+  /// Re-authenticates the user [session].
   static Future<bool> loginFromSession(Session session) async {
     Logger().i('Trying to login...');
     final String url =
@@ -85,6 +91,7 @@ class NetworkRouter {
     }
   }
 
+  /// Extracts the cookies present in [headers].
   static String extractCookies(dynamic headers) {
     final List<String> cookieList = <String>[];
     final String cookies = headers['set-cookie'];
@@ -97,6 +104,7 @@ class NetworkRouter {
     return cookieList.join(';');
   }
 
+  /// Returns the user's [Profile].
   static Future<Profile> getProfile(Session session) async {
     final url =
         NetworkRouter.getBaseUrlFromSession(session) + 'mob_fest_geral.perfil?';
@@ -109,6 +117,7 @@ class NetworkRouter {
     return Profile();
   }
 
+  /// Returns the user's current list of [CourseUnit].
   static Future<List<CourseUnit>> getCurrentCourseUnits(Session session) async {
     final url = NetworkRouter.getBaseUrlFromSession(session) +
         'mob_fest_geral.ucurr_inscricoes_corrente?';
@@ -127,6 +136,8 @@ class NetworkRouter {
     return <CourseUnit>[];
   }
 
+  /// Makes an authenticated GET request with the given [session] to the
+  /// resource located at [url] with the given [query] parameters.
   static Future<http.Response> getWithCookies(
       String baseUrl, Map<String, String> query, Session session) async {
     final loginSuccessful = await session.loginRequest;
@@ -164,6 +175,7 @@ class NetworkRouter {
     }
   }
 
+  /// Retrieves the name and code of the stops with code [stopCode].
   static Future<List<String>> getStopsByName(String stopCode) async {
     final List<String> stopsList = [];
 
@@ -180,6 +192,7 @@ class NetworkRouter {
     return stopsList;
   }
 
+  /// Retrieves real-time information about the user's selected bus lines.
   static Future<List<Trip>> getNextArrivalsStop(
       String stopCode, BusStopData stopData) async {
     final url =
@@ -225,6 +238,7 @@ class NetworkRouter {
     return tripList;
   }
 
+  /// Extracts the time remaining for a bus to reach a stop.
   static int getBusTimeRemaining(rawBusInformation) {
     if (rawBusInformation[1].text.trim() == 'a passar') {
       return 0;
@@ -235,6 +249,7 @@ class NetworkRouter {
     }
   }
 
+  /// Returns the bus lines that stop at the given [stop].
   static Future<List<Bus>> getBusesStoppingAt(String stop) async {
     final String url =
         'https://www.stcp.pt/pt/itinerarium/callservice.php?action=srchstoplines&stopcode=$stop';
@@ -258,10 +273,12 @@ class NetworkRouter {
     return buses;
   }
 
+  /// Returns the base url of the user's faculty.
   static String getBaseUrl(String faculty) {
     return 'https://sigarra.up.pt/$faculty/pt/';
   }
 
+  /// Returns the base url from the user's previous session.
   static String getBaseUrlFromSession(Session session) {
     return NetworkRouter.getBaseUrl(session.faculty);
   }

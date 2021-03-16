@@ -2,6 +2,7 @@ import 'package:html/parser.dart' show parse;
 import 'package:http/http.dart' as http;
 import 'dart:async';
 
+/// Extracts the balance of the user's account from an HTTP [response].
 Future<String> parseFeesBalance(http.Response response) async {
   final document = parse(response.body);
 
@@ -13,6 +14,9 @@ Future<String> parseFeesBalance(http.Response response) async {
   return balance;
 }
 
+/// Extracts the user's payment due date from an HTTP [response].
+/// 
+/// If there are no due payments, `Sem data` is returned.
 Future<String> parseFeesNextLimit(http.Response response) async {
   final document = parse(response.body);
 

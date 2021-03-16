@@ -2,9 +2,12 @@ import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:redux/redux.dart';
 
+/// Class for fetching the user's schedule.
 abstract class ScheduleFetcher {
+  // Returns the user's lectures.
   Future<List<Lecture>> getLectures(Store<AppState> store);
 
+  /// Returns [Dates].
   Dates getDates() {
     var date = DateTime.now();
 
@@ -22,6 +25,7 @@ abstract class ScheduleFetcher {
   }
 }
 
+/// Stores the start and end dates of the week and the current lective year.
 class Dates {
   final String beginWeek;
   final String endWeek;
