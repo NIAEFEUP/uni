@@ -7,7 +7,9 @@ import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:redux/redux.dart';
 
+/// Class for fetching the user's lectures from the schedule's HTML page.
 class ScheduleFetcherHtml extends ScheduleFetcher {
+  /// Fetches the user's lectures from the schedule's HTML page.
   @override
   Future<List<Lecture>> getLectures(Store<AppState> store) async {
     final List<Course> courses = store.state.content['profile'].courses;

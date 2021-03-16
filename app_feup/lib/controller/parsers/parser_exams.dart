@@ -4,7 +4,11 @@ import 'package:html/parser.dart' show parse;
 import 'package:html/dom.dart';
 import 'dart:async';
 
+/// Parses information about the user's exams.
 class ParserExams {
+  /// Returns the abbreviature of the exam season.
+  ///
+  /// If an abbreviature doesn't exist, a '?' is returned.
   String getExamSeasonAbbr(String seasonStr) {
     final Map<String, String> examTypes = Exam.getExamTypes();
     for (String type in examTypes.keys) {
@@ -13,6 +17,7 @@ class ParserExams {
     return '?';
   }
 
+  /// Extracts a list of exams from an HTTP [response].
   Future<Set<Exam>> parseExams(http.Response response) async {
     final document = parse(response.body);
 

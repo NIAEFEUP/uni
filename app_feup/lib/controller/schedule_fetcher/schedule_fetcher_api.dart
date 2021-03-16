@@ -5,7 +5,9 @@ import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:redux/redux.dart';
 
+/// Class for fetching the user's lectures from the faculty's API.
 class ScheduleFetcherApi extends ScheduleFetcher {
+  /// Fetches the user's lectures from the faculty's API.
   @override
   Future<List<Lecture>> getLectures(Store<AppState> store) async {
     final dates = getDates();
