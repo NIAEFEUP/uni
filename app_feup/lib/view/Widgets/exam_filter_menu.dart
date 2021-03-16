@@ -7,7 +7,7 @@ import 'package:uni/redux/action_creators.dart';
 
 // ignore: must_be_immutable
 class ExamFilterMenu extends StatefulWidget {
-  //TODO Quando ele não tem shared preferences, aquilo não da save
+  //TODO Is this the intended behaviour when the session is not persistent?
   @override
   _ExamFilterMenuState createState() => _ExamFilterMenuState();
 }

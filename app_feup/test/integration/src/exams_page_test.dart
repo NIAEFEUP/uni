@@ -74,7 +74,6 @@ void main() {
       await completer.future;
 
       await tester.pumpAndSettle();
-      //TODO CORRIGIR TESTE
       expect(find.byKey(Key(sdisExam.toString())), findsOneWidget);
       expect(find.byKey(Key(sopeExam.toString())), findsOneWidget);
     });
