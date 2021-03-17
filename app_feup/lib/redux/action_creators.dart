@@ -17,7 +17,9 @@ import 'package:uni/controller/local_storage/app_user_database.dart';
 import 'package:uni/controller/local_storage/app_restaurant_database.dart';
 import 'package:uni/controller/networking/network_router.dart'
     show NetworkRouter;
+
 import 'package:uni/controller/parsers/parser_courses.dart';
+import 'package:uni/controller/notifications/fee_notifications.dart';
 import 'package:uni/controller/parsers/parser_exams.dart';
 import 'package:uni/controller/parsers/parser_fees.dart';
 import 'package:uni/controller/parsers/parser_print_balance.dart';
@@ -392,6 +394,7 @@ ThunkAction<AppState> getUserFees(Completer<Null> action) {
       store.dispatch(SetFeesLimitAction(feesLimit));
       store.dispatch(SetFeesStatusAction(RequestStatus.successful));
       store.dispatch(SetFeesRefreshTimeAction(currentTime));
+      store.dispatch(updateFeeNotifications(Completer(), feesLimit));
     } catch (e) {
       Logger().e('Failed to get Fees info');
       store.dispatch(SetFeesStatusAction(RequestStatus.failed));
@@ -399,6 +402,13 @@ ThunkAction<AppState> getUserFees(Completer<Null> action) {
 
     action.complete();
   };
+}
+
+ThunkAction<AppState> updateFeeNotifications(Completer<Null> action, String feesLimit) {
+  // TODO call to controller to process limit date and send user notification
+  FeeNotifications notifications = FeeNotifications(feesLimit);
+
+  action.complete();
 }
 
 ThunkAction<AppState> getUserCoursesState(Completer<Null> action) {
