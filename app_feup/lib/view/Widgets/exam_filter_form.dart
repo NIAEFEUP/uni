@@ -5,21 +5,28 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/redux/action_creators.dart';
 
-class ExamForm extends StatefulWidget {
-  Map<String, bool> filteredExams = Map();
+class ExamFilterForm extends StatefulWidget {
+  final Map<String, bool> filteredExams;
 
-  ExamForm(this.filteredExams);
+  ExamFilterForm(this.filteredExams);
   @override
-  _ExamFormState createState() => _ExamFormState();
+  _ExamFilterFormState createState() => _ExamFilterFormState();
 }
 
-class _ExamFormState extends State<ExamForm> {
+class _ExamFilterFormState extends State<ExamFilterForm> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       actions: [
         FlatButton(
-            child: Text('Ok',
+            child: Text('Cancelar',
+                style: Theme.of(context)
+                    .textTheme
+                    .display1
+                    .apply(color: Theme.of(context).primaryColor)),
+            onPressed: () => Navigator.pop(context)),
+        FlatButton(
+            child: Text('Confirmar',
                 style: Theme.of(context)
                     .textTheme
                     .display1
@@ -31,6 +38,8 @@ class _ExamFormState extends State<ExamForm> {
             onPressed: () {
               StoreProvider.of<AppState>(context).dispatch(
                   setFilteredExams(widget.filteredExams, Completer()));
+
+              Navigator.pop(context);
             })
       ],
       content: Container(
@@ -44,16 +53,21 @@ class _ExamFormState extends State<ExamForm> {
       Map<String, bool> filteredExams, BuildContext context) {
     return ListView(
         children: List.generate(filteredExams.length, (i) {
-      final String zas = filteredExams.keys.elementAt(i);
+      final String key = filteredExams.keys.elementAt(i);
       return Row(
         children: <Widget>[
           Flexible(
-              child: Text(zas, overflow: TextOverflow.fade, softWrap: false)),
+              child: Text(
+            key,
+            overflow: TextOverflow.ellipsis,
+            softWrap: false,
+            maxLines: 2,
+          )),
           Checkbox(
-              value: filteredExams[zas],
+              value: filteredExams[key],
               onChanged: (value) {
                 setState(() {
-                  filteredExams[zas] = value;
+                  filteredExams[key] = value;
                 });
               },
               activeColor: Theme.of(context).primaryColor),
@@ -61,21 +75,5 @@ class _ExamFormState extends State<ExamForm> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
       );
     }));
-    // return ListView.builder(
-    //   itemCount: filteredExams.length,
-    //   itemBuilder: (BuildContext context, int index) {
-    //     final String key = filteredExams.keys.elementAt(index);
-    //     return CheckboxListTile(
-    //       title: Text(key),
-    //       activeColor: Theme.of(context).primaryColor,
-    //       value: filteredExams[key],
-    //       onChanged: (bool value) {
-    //         StoreProvider.of<AppState>(context).dispatch(
-    //             setFilteredExams(widget.filteredExams, Completer()));
-    //         //filteredExams[key] = !filteredExams[key];
-    //       },
-    //     );
-    //   },
-    // );
   }
 }
