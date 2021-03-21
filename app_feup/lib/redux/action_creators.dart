@@ -468,12 +468,10 @@ ThunkAction<AppState> toggleFavoriteUserBusStop(
 }
 
 ThunkAction<AppState> setFilteredExams(
-    String examType, Completer<Null> action) {
+    Map<String, bool> newFilteredExams, Completer<Null> action) {
   return (Store<AppState> store) {
-    final Map<String, bool> filteredExams =
-        store.state.content['filteredExams'];
-
-    filteredExams[examType] = !filteredExams[examType];
+    Map<String, bool> filteredExams = store.state.content['filteredExams'];
+    filteredExams = Map<String, bool>.from(newFilteredExams);
     store.dispatch(SetExamFilter(filteredExams));
 
     final Session persistentSession = store.state.content['session'];
