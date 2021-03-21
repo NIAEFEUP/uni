@@ -5,8 +5,6 @@ import 'package:uni/view/Widgets/exam_filter_form.dart';
 
 // ignore: must_be_immutable
 class ExamFilterMenu extends StatefulWidget {
-  //TODO Is this the intended behaviour when the session is not persistent?
-  Map<String, bool> filteredExamsTemp = Map();
   @override
   _ExamFilterMenuState createState() => _ExamFilterMenuState();
 }

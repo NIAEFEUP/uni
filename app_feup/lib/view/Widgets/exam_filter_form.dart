@@ -18,18 +18,18 @@ class _ExamFilterFormState extends State<ExamFilterForm> {
   Widget build(BuildContext context) {
     return AlertDialog(
       actions: [
-        TextButton(
+        FlatButton(
             child: Text('Cancelar',
                 style: Theme.of(context)
                     .textTheme
-                    .headline4
+                    .display1
                     .apply(color: Theme.of(context).primaryColor)),
             onPressed: () => Navigator.pop(context)),
-        TextButton(
+        FlatButton(
             child: Text('Confirmar',
                 style: Theme.of(context)
                     .textTheme
-                    .headline4
+                    .display1
                     .apply(color: Theme.of(context).accentColor)),
             color: Theme.of(context).primaryColor,
             shape: RoundedRectangleBorder(
