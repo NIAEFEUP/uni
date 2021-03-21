@@ -1,15 +1,10 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:uni/model/app_state.dart';
-import 'package:uni/redux/action_creators.dart';
-import 'package:uni/view/Widgets/exam_form.dart';
+import 'package:uni/view/Widgets/exam_filter_form.dart';
 
 // ignore: must_be_immutable
 class ExamFilterMenu extends StatefulWidget {
-  //TODO Is this the intended behaviour when the session is not persistent?
-  Map<String, bool> filteredExamsTemp = Map();
   @override
   _ExamFilterMenuState createState() => _ExamFilterMenuState();
 }
@@ -29,8 +24,7 @@ class _ExamFilterMenuState extends State<ExamFilterMenu> {
   }
 
   Widget getAlertDialog(Map<String, bool> filteredExams, BuildContext context) {
-    widget.filteredExamsTemp = Map<String, bool>.from(filteredExams);
-    return ExamForm(widget.filteredExamsTemp);
+    return ExamFilterForm(Map<String, bool>.from(filteredExams));
   }
 
   @override
