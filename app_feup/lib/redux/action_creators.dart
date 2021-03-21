@@ -473,11 +473,8 @@ ThunkAction<AppState> setFilteredExams(
     Map<String, bool> filteredExams = store.state.content['filteredExams'];
     filteredExams = Map<String, bool>.from(newFilteredExams);
     store.dispatch(SetExamFilter(filteredExams));
+    AppSharedPreferences.saveFilteredExams(filteredExams);
 
-    final Session persistentSession = store.state.content['session'];
-    if (persistentSession.persistentSession) {
-      AppSharedPreferences.saveFilteredExams(filteredExams);
-    }
     action.complete();
   };
 }
