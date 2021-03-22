@@ -86,8 +86,7 @@ class ExamCard extends GenericCard {
           type: exam.examType,
         ),
        ),
-         color: (exam.examType.contains('''EN''')) || (exam.examType.contains('''MT'''))
-             ? null : Theme.of(context).highlightColor,
+         color: examColor(exam, context),
        ),
     ]);
   }
@@ -112,8 +111,7 @@ class ExamCard extends GenericCard {
                     type: exam.examType,
                     reverseOrder: true)
               ]),
-          color: (exam.examType.contains('''EN''')) || (exam.examType.contains('''MT'''))
-           ? null : Theme.of(context).highlightColor,
+          color: examColor(exam, context),
         ),
       ),
     );
