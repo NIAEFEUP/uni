@@ -193,42 +193,48 @@ class NetworkRouter {
     final tripList = List<Trip>();
 
     for (var entry in tableEntries) {
-      final info = entry.querySelectorAll('td');
+      final rawBusInformation = entry.querySelectorAll('td');
 
-      final line = info[0].querySelector('ul > li').text.trim();
+      final busLine = rawBusInformation[0].querySelector('ul > li').text.trim();
 
-      if(!configuredBuses.contains(line)){
+      if(!configuredBuses.contains(busLine)){
         continue;
       }
 
-      var destination = info[0].text
+      final busDestination = rawBusInformation[0].text
           .replaceAll('\n', '')
           .replaceAll('\t', '')
           .replaceAll(' ', '')
-          .replaceAll('-', '');
+          .replaceAll('-', '')
+          .substring(busLine.length + 1);
 
-      destination = destination.substring(line.length + 1);
-
-      final timeOfArrival = info[1].text.trim();
-      var timeRemaining = '0';
-
-      if(timeOfArrival != 'a passar'){
-        timeRemaining = info[2].text;
-        if(timeRemaining.contains('min')){
-          timeRemaining = timeRemaining.substring(0, timeRemaining.length - 3);
-        }
-      }
+      final busTimeRemaining = getBusTimeRemaining(rawBusInformation);
 
       final Trip newTrip = Trip(
-          line: line,
-          destination: destination,
-          timeRemaining: int.parse(timeRemaining)
+          line: busLine,
+          destination: busDestination,
+          timeRemaining: int.parse(busTimeRemaining)
       );
 
       tripList.add(newTrip);
     }
 
     return tripList;
+  }
+
+  static String getBusTimeRemaining(rawBusInformation){
+    final busTimeOfArrival = rawBusInformation[1].text.trim();
+    var busTimeRemaining = '0';
+
+    if(busTimeOfArrival != 'a passar'){
+      busTimeRemaining = rawBusInformation[2].text;
+      if(busTimeRemaining.contains('min')){
+        busTimeRemaining =
+            busTimeRemaining.substring(0, busTimeRemaining.length - 3);
+      }
+    }
+
+    return busTimeRemaining;
   }
 
   static Future<List<Bus>> getBusesStoppingAt(String stop) async {
