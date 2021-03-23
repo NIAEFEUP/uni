@@ -1,5 +1,3 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 
 var months = {
@@ -96,9 +94,3 @@ class Exam {
     return '''$subject - $year - $month - $day -  $begin-$end - $examType - $rooms - $weekDay''';
   }
 }
-
-Color examColor(Exam exam, context) {
-    return
-        (exam.examType.contains('''EN''')) || (exam.examType.contains('''MT'''))
-        ? Theme.of(context).backgroundColor : Theme.of(context).highlightColor;
-  }
