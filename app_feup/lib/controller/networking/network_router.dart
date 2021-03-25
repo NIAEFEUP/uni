@@ -178,7 +178,6 @@ class NetworkRouter {
 
   static Future<List<Trip>> getNextArrivalsStop(
       String stopCode, BusStopData stopData) async {
-
     final url =
         'https://www.stcp.pt/pt/itinerarium/soapclient.php?codigo=' + stopCode;
 
@@ -197,11 +196,12 @@ class NetworkRouter {
 
       final busLine = rawBusInformation[0].querySelector('ul > li').text.trim();
 
-      if(!configuredBuses.contains(busLine)){
+      if (!configuredBuses.contains(busLine)) {
         continue;
       }
 
-      final busDestination = rawBusInformation[0].text
+      final busDestination = rawBusInformation[0]
+          .text
           .replaceAll('\n', '')
           .replaceAll('\t', '')
           .replaceAll(' ', '')
@@ -213,8 +213,7 @@ class NetworkRouter {
       final Trip newTrip = Trip(
           line: busLine,
           destination: busDestination,
-          timeRemaining: int.parse(busTimeRemaining)
-      );
+          timeRemaining: busTimeRemaining);
 
       tripList.add(newTrip);
     }
@@ -222,19 +221,14 @@ class NetworkRouter {
     return tripList;
   }
 
-  static String getBusTimeRemaining(rawBusInformation){
-    final busTimeOfArrival = rawBusInformation[1].text.trim();
-    var busTimeRemaining = '0';
+  static int getBusTimeRemaining(rawBusInformation) {
+    if (rawBusInformation[1].text.trim() == 'a passar') {
+      return 0;
+    } else {
+      final regex = RegExp(r'([0-9]+)');
 
-    if(busTimeOfArrival != 'a passar'){
-      busTimeRemaining = rawBusInformation[2].text;
-      if(busTimeRemaining.contains('min')){
-        busTimeRemaining =
-            busTimeRemaining.substring(0, busTimeRemaining.length - 3);
-      }
+      return int.parse(regex.stringMatch(rawBusInformation[2].text).toString());
     }
-
-    return busTimeRemaining;
   }
 
   static Future<List<Bus>> getBusesStoppingAt(String stop) async {
