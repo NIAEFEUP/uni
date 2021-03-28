@@ -36,23 +36,29 @@ void main() {
         Exam('17:00-19:00', 'SOPE', '', '2099-11-18', 'MT', 'Segunda');
     final sdisExam =
         Exam('17:00-19:00', 'SDIS', '', '2099-10-21', 'MT', 'Segunda');
-    final Map<String, bool> filteredExams = {'MT': true};
+
+    final Map<String, bool> filteredExams = {};
+    Exam.getExamTypes()
+        .keys
+        .toList()
+        .forEach((type) => filteredExams[type] = true);
 
     final profile = Profile();
     profile.courses = [Course(id: 7474)];
-    final store = Store<AppState>(appReducers,
-        initialState: AppState({
-          'session': Session(authenticated: true),
-          'currUcs': [sopeCourseUnit, sdisCourseUnit],
-          'exams': <Exam>[],
-          'profile': profile,
-          'filteredExams': filteredExams
-        }),
-        middleware: [generalMiddleware]);
-    NetworkRouter.httpClient = mockClient;
+
     testWidgets('Exams', (WidgetTester tester) async {
-      final mockHtml = File('test/integration/resources/exam_example.html')
-          .readAsStringSync();
+      final store = Store<AppState>(appReducers,
+          initialState: AppState({
+            'session': Session(authenticated: true),
+            'currUcs': [sopeCourseUnit, sdisCourseUnit],
+            'exams': List<Exam>(),
+            'profile': profile,
+            'filteredExams': filteredExams
+          }),
+          middleware: [generalMiddleware]);
+      NetworkRouter.httpClient = mockClient;
+      final mockHtml =
+          File('integration/resources/exam_example.html').readAsStringSync();
       when(mockResponse.body).thenReturn(mockHtml);
       when(mockResponse.statusCode).thenReturn(200);
       when(mockClient.get(any, headers: anyNamed('headers')))
@@ -76,6 +82,61 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.byKey(Key(sdisExam.toString())), findsOneWidget);
       expect(find.byKey(Key(sopeExam.toString())), findsOneWidget);
+    });
+
+    testWidgets('Filtered Exams', (WidgetTester tester) async {
+      final store = Store<AppState>(appReducers,
+          initialState: AppState({
+            'session': Session(authenticated: true),
+            'currUcs': [sopeCourseUnit, sdisCourseUnit],
+            'exams': List<Exam>(),
+            'profile': profile,
+            'filteredExams': filteredExams
+          }),
+          middleware: [generalMiddleware]);
+
+      NetworkRouter.httpClient = mockClient;
+
+      final mockHtml =
+          File('integration/resources/exam_example.html').readAsStringSync();
+      when(mockResponse.body).thenReturn(mockHtml);
+      when(mockResponse.statusCode).thenReturn(200);
+      when(mockClient.get(any, headers: anyNamed('headers')))
+          .thenAnswer((_) async => mockResponse);
+
+      final Completer<Null> completer = Completer();
+      final actionCreator =
+          getUserExams(completer, ParserExams(), Tuple2('', ''));
+
+      final newfilteredExams = Map<String, bool>.from(filteredExams);
+      newfilteredExams['Mini-testes'] = false;
+      final Completer<Null> completerFilter = Completer();
+
+      final actionCreatorFilter =
+          setFilteredExams(newfilteredExams, completerFilter);
+
+      final widget = testableReduxWidget(child: ExamsPageView(), store: store);
+
+      await tester.pumpWidget(widget);
+
+      expect(find.byKey(Key(sdisExam.toString())), findsNothing);
+      expect(find.byKey(Key(sopeExam.toString())), findsNothing);
+
+      actionCreator(store);
+
+      await completer.future;
+
+      await tester.pumpAndSettle();
+      expect(find.byKey(Key(sdisExam.toString())), findsOneWidget);
+      expect(find.byKey(Key(sopeExam.toString())), findsOneWidget);
+
+      actionCreatorFilter(store);
+
+      await completerFilter.future;
+
+      await tester.pumpAndSettle();
+      expect(find.byKey(Key(sdisExam.toString())), findsNothing);
+      expect(find.byKey(Key(sopeExam.toString())), findsNothing);
     });
   });
 }
