@@ -30,7 +30,7 @@ class _ExamFilterMenuState extends State<ExamFilterMenu> {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: Icon(Icons.filter_list),
+      icon: Icon(Icons.settings),
       onPressed: () {
         showAlertDialog(context);
       },
