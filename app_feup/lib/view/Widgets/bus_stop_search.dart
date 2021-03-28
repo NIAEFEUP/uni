@@ -103,7 +103,7 @@ class BusStopSearch extends SearchDelegate<String> {
                       .headline4
                       .apply(color: Theme.of(context).accentColor)),
               style: TextButton.styleFrom(
-                primary: Theme.of(context).backgroundColor,
+                backgroundColor: Theme.of(context).primaryColor,
                 shape: RoundedRectangleBorder(
                     borderRadius:  BorderRadius.circular(10.0),
                     side: BorderSide(color: Theme.of(context).primaryColor)),
