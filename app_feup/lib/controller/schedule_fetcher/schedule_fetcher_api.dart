@@ -8,7 +8,6 @@ import 'package:redux/redux.dart';
 class ScheduleFetcherApi extends ScheduleFetcher {
   @override
   Future<List<Lecture>> getLectures(Store<AppState> store) async {
-
     final dates = getDates();
     final List<Lecture> lectures = await parseSchedule(
         await NetworkRouter.getWithCookies(

@@ -11,6 +11,7 @@ import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/entities/trip.dart';
 import 'package:http/http.dart' as http;
+import 'package:html/parser.dart';
 import 'package:query_params/query_params.dart';
 import 'package:synchronized/synchronized.dart';
 
@@ -177,32 +178,57 @@ class NetworkRouter {
 
   static Future<List<Trip>> getNextArrivalsStop(
       String stopCode, BusStopData stopData) async {
-    final String url =
-        'http://move-me.mobi/NextArrivals/GetScheds?providerName=STCP&stopCode=STCP_' +
-            stopCode;
+    final url =
+        'https://www.stcp.pt/pt/itinerarium/soapclient.php?codigo=' + stopCode;
+
     final http.Response response = await http.get(url);
-    final List<Trip> tripList = List();
+    final htmlResponse = parse(response.body);
 
-    final List json = jsonDecode(response.body);
+    final tableEntries =
+        htmlResponse.querySelectorAll('#smsBusResults > tbody > tr.even');
 
-    for (var TripKey in json) {
-      final trip = TripKey['Value'];
-      final String line = trip[0];
-      if (stopData.configuredBuses.contains(line)) {
-        final String destination = trip[1];
-        String timeString = trip[2];
-        if (timeString.substring(timeString.length - 1) == '*') {
-          timeString = timeString.substring(0, timeString.length - 1);
-        }
-        final int timeRemaining = int.parse(timeString);
-        final Trip newTrip = Trip(
-            line: line, destination: destination, timeRemaining: timeRemaining);
-        tripList.add(newTrip);
+    final configuredBuses = stopData.configuredBuses;
+
+    final tripList = List<Trip>();
+
+    for (var entry in tableEntries) {
+      final rawBusInformation = entry.querySelectorAll('td');
+
+      final busLine = rawBusInformation[0].querySelector('ul > li').text.trim();
+
+      if (!configuredBuses.contains(busLine)) {
+        continue;
       }
+
+      final busDestination = rawBusInformation[0]
+          .text
+          .replaceAll('\n', '')
+          .replaceAll('\t', '')
+          .replaceAll(' ', '')
+          .replaceAll('-', '')
+          .substring(busLine.length + 1);
+
+      final busTimeRemaining = getBusTimeRemaining(rawBusInformation);
+
+      final Trip newTrip = Trip(
+          line: busLine,
+          destination: busDestination,
+          timeRemaining: busTimeRemaining);
+
+      tripList.add(newTrip);
     }
 
-    tripList.sort((a, b) => a.compare(b));
     return tripList;
+  }
+
+  static int getBusTimeRemaining(rawBusInformation) {
+    if (rawBusInformation[1].text.trim() == 'a passar') {
+      return 0;
+    } else {
+      final regex = RegExp(r'([0-9]+)');
+
+      return int.parse(regex.stringMatch(rawBusInformation[2].text).toString());
+    }
   }
 
   static Future<List<Bus>> getBusesStoppingAt(String stop) async {

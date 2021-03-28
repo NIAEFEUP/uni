@@ -35,6 +35,7 @@ class _LoginPageViewState extends State<LoginPageView> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   static bool _exitApp = false;
   bool _keepSignedIn = false;
+  bool _obscurePasswordInput = true;
 
   void _login(BuildContext context) {
     final store = StoreProvider.of<AppState>(context);
@@ -53,25 +54,31 @@ class _LoginPageViewState extends State<LoginPageView> {
     });
   }
 
+  void _toggleObscurePasswordInput() {
+    setState(() {
+      _obscurePasswordInput = !_obscurePasswordInput;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final MediaQueryData queryData = MediaQuery.of(context);
 
-    return  Scaffold(
+    return Scaffold(
         backgroundColor: primaryColor,
         body: WillPopScope(
             child: Padding(
                 padding: EdgeInsets.only(
                     left: queryData.size.width / 8,
                     right: queryData.size.width / 8),
-                child:  ListView(
+                child: ListView(
                   children: getWidgets(context, queryData),
                 )),
             onWillPop: () => onWillPop(context)));
   }
 
   List<Widget> getWidgets(BuildContext context, MediaQueryData queryData) {
-    final List<Widget> widgets =  List();
+    final List<Widget> widgets = List();
 
     widgets.add(
         Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 20)));
@@ -106,7 +113,7 @@ class _LoginPageViewState extends State<LoginPageView> {
 
   Future<void> exitAppWaiter() async {
     _exitApp = true;
-    await  Future.delayed(Duration(seconds: 2));
+    await Future.delayed(Duration(seconds: 2));
     _exitApp = false;
   }
 
@@ -120,8 +127,8 @@ class _LoginPageViewState extends State<LoginPageView> {
   }
 
   Widget createTitle(queryData, context) {
-    return  ConstrainedBox(
-        constraints:  BoxConstraints(
+    return ConstrainedBox(
+        constraints: BoxConstraints(
           minWidth: queryData.size.width / 8,
           minHeight: queryData.size.height / 6,
         ),
@@ -136,7 +143,7 @@ class _LoginPageViewState extends State<LoginPageView> {
   }
 
   Widget getLoginForm(MediaQueryData queryData, BuildContext context) {
-    return  Form(
+    return Form(
       key: this._formKey,
       child: SingleChildScrollView(
         child: Column(children: [
@@ -152,8 +159,8 @@ class _LoginPageViewState extends State<LoginPageView> {
 
   Widget createUsernameInput(BuildContext context) {
     return TextFormField(
-      style:  TextStyle(color: Colors.white, fontSize: 20),
-      keyboardType: TextInputType.text,
+      style: TextStyle(color: Colors.white, fontSize: 20),
+      keyboardType: TextInputType.number,
       autofocus: false,
       controller: usernameController,
       focusNode: usernameFocus,
@@ -162,7 +169,7 @@ class _LoginPageViewState extends State<LoginPageView> {
         FocusScope.of(context).requestFocus(passwordFocus);
       },
       textInputAction: TextInputAction.next,
-      textAlign: TextAlign.center,
+      textAlign: TextAlign.left,
       decoration: textFieldDecoration('número de estudante'),
       validator: (String value) => value.isEmpty ? 'Preencha este campo' : null,
     );
@@ -170,7 +177,9 @@ class _LoginPageViewState extends State<LoginPageView> {
 
   Widget createPasswordInput() {
     return TextFormField(
-        style:  TextStyle(color: Colors.white, fontSize: 20),
+        style: TextStyle(color: Colors.white, fontSize: 20),
+        enableSuggestions: false,
+        autocorrect: false,
         autofocus: false,
         controller: passwordController,
         focusNode: passwordFocus,
@@ -179,9 +188,10 @@ class _LoginPageViewState extends State<LoginPageView> {
           _login(context);
         },
         textInputAction: TextInputAction.done,
-        obscureText: true,
-        textAlign: TextAlign.center,
-        decoration: textFieldDecoration('palavra-passe'),
+        obscureText: _obscurePasswordInput,
+        enableInteractiveSelection: !_obscurePasswordInput,
+        textAlign: TextAlign.left,
+        decoration: passwordFieldDecoration('palavra-passe'),
         validator: (String value) =>
             value.isEmpty ? 'Preencha este campo' : null);
   }
@@ -206,7 +216,7 @@ class _LoginPageViewState extends State<LoginPageView> {
   }
 
   Widget createLogInButton(queryData) {
-    return  Padding(
+    return Padding(
       padding: EdgeInsets.only(
           left: queryData.size.width / 7, right: queryData.size.width / 7),
       child: SizedBox(
@@ -215,7 +225,12 @@ class _LoginPageViewState extends State<LoginPageView> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(25),
           ),
-          onPressed: () => _login(context),
+          onPressed: () {
+            if (!FocusScope.of(context).hasPrimaryFocus) {
+              FocusScope.of(context).unfocus();
+            }
+            _login(context);
+          },
           color: Colors.white,
           child: Text('Entrar',
               style: TextStyle(
@@ -232,12 +247,13 @@ class _LoginPageViewState extends State<LoginPageView> {
     return StoreConnector<AppState, RequestStatus>(
         converter: (store) => store.state.content['loginStatus'],
         onWillChange: (status) {
-          if (
-            status == RequestStatus.successful &&
-            StoreProvider.of<AppState>(context).
-              state.content['session'].authenticated
-          ){
-            Navigator.pushReplacementNamed(context, '/' + Constants.navPersonalArea);
+          if (status == RequestStatus.successful &&
+              StoreProvider.of<AppState>(context)
+                  .state
+                  .content['session']
+                  .authenticated) {
+            Navigator.pushReplacementNamed(
+                context, '/' + Constants.navPersonalArea);
           } else if (status == RequestStatus.failed) {
             displayToastMessage(context, 'O login falhou');
           }
@@ -245,9 +261,9 @@ class _LoginPageViewState extends State<LoginPageView> {
         builder: (context, status) {
           switch (status) {
             case RequestStatus.busy:
-              return  Container(
+              return Container(
                 height: 60.0,
-                child:  Center(child:  CircularProgressIndicator()),
+                child: Center(child: CircularProgressIndicator()),
               );
             default:
               return Container();
@@ -261,10 +277,27 @@ class _LoginPageViewState extends State<LoginPageView> {
           color: Colors.white70,
         ),
         hintText: placeholder,
-        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-        border:  UnderlineInputBorder(),
-        focusedBorder:  UnderlineInputBorder(
-            borderSide:  BorderSide(color: Colors.white, width: 3)));
+        contentPadding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+        border: UnderlineInputBorder(),
+        focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Colors.white, width: 3)));
+  }
+
+  InputDecoration passwordFieldDecoration(String placeholder) {
+    final genericDecoration = textFieldDecoration(placeholder);
+    return InputDecoration(
+        errorStyle: genericDecoration.errorStyle,
+        hintText: genericDecoration.hintText,
+        contentPadding: genericDecoration.contentPadding,
+        border: genericDecoration.border,
+        focusedBorder: genericDecoration.focusedBorder,
+        suffixIcon: IconButton(
+          icon: Icon(
+            _obscurePasswordInput ? Icons.visibility : Icons.visibility_off,
+          ),
+          onPressed: _toggleObscurePasswordInput,
+          color: Theme.of(context).accentColor,
+        ));
   }
 
   createSafeLoginButton(BuildContext context) {

@@ -220,7 +220,7 @@ ThunkAction<AppState> getUserExams(Completer<Null> action,
       store.dispatch(SetExamsStatusAction(RequestStatus.busy));
 
       final List<Exam> exams = await extractExams(store, parserExams);
-      
+
       exams.sort((exam1, exam2) => exam1.date.compareTo(exam2.date));
 
       // Updates local database according to the information fetched -- Exams

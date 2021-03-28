@@ -17,6 +17,7 @@ class Lecture {
   String typeClass;
   String room;
   String teacher;
+  String classNumber;
   int day;
   int blocks;
   int startTimeSeconds;
@@ -40,14 +41,22 @@ class Lecture {
         ((startTimeSeconds % 3600) ~/ 60).toString().padLeft(2, '0');
   }
 
-  Lecture.secConstructor(String subject, String typeClass, int day,
-      String startTime, int blocks, String room, String teacher) {
+  Lecture.secConstructor(
+      String subject,
+      String typeClass,
+      int day,
+      String startTime,
+      int blocks,
+      String room,
+      String teacher,
+      String classNumber) {
     this.subject = subject;
     this.typeClass = typeClass;
     this.room = room;
     this.teacher = teacher;
     this.day = day;
     this.blocks = blocks;
+    this.classNumber = classNumber;
 
     int hour = int.parse(startTime.substring(0, 2));
     int min = int.parse(startTime.substring(3, 5));
@@ -67,9 +76,8 @@ class Lecture {
 
   static Lecture cloneHtml(Lecture lec) {
     return Lecture.secConstructor(lec.subject, lec.typeClass, lec.day,
-        lec.startTime, lec.blocks, lec.room, lec.teacher);
+        lec.startTime, lec.blocks, lec.room, lec.teacher, lec.classNumber);
   }
-
 
   Map<String, dynamic> toMap() {
     return {
@@ -80,6 +88,7 @@ class Lecture {
       'blocks': blocks,
       'room': room,
       'teacher': teacher,
+      'classNumber': classNumber,
     };
   }
 

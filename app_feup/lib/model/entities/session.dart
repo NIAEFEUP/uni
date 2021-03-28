@@ -29,5 +29,4 @@ class Session {
       return Session(authenticated: false);
     }
   }
-
 }
