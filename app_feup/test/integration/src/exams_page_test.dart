@@ -109,13 +109,6 @@ void main() {
       final actionCreator =
           getUserExams(completer, ParserExams(), Tuple2('', ''));
 
-      final newfilteredExams = Map<String, bool>.from(filteredExams);
-      newfilteredExams['Mini-testes'] = false;
-      final Completer<Null> completerFilter = Completer();
-
-      final actionCreatorFilter =
-          setFilteredExams(newfilteredExams, completerFilter);
-
       final widget = testableReduxWidget(child: ExamsPageView(), store: store);
 
       await tester.pumpWidget(widget);
@@ -157,26 +150,20 @@ void main() {
           find.byKey(Key('ExamCheck' + 'Mini-testes')).evaluate().first.widget;
 
       expect(find.byWidget(mtCheckbox), findsOneWidget);
+      expect(mtCheckbox.value, true);
+      await tester.tap(find.byWidget(mtCheckbox));
+      //await completer.future;
 
-      // mtCheckbox.onChanged(false);
-      // await tester.pumpAndSettle();
+      //TODO THIS PUMP DOES NOT WORK
+      //Talvez seja do completer
+      //await tester.pumpAndSettle();
 
-      // final FlatButton okButton =
-      //     find.widgetWithText(FlatButton, 'Confirmar').evaluate().first.widget;
+      final FlatButton okButton =
+          find.widgetWithText(FlatButton, 'Confirmar').evaluate().first.widget;
 
-      //expect(find.byWidget(okButton), findsOneWidget);
+      expect(find.byWidget(okButton), findsOneWidget);
+      okButton.onPressed();
 
-      // okButton.onPressed();
-      // await tester.pumpAndSettle();
-
-      // expect(find.byKey(Key(sdisExam.toString())), findsNothing);
-      // expect(find.byKey(Key(sopeExam.toString())), findsNothing);
-
-      // actionCreatorFilter(store);
-
-      // await completerFilter.future;
-
-      // await tester.pumpAndSettle();
       // expect(find.byKey(Key(sdisExam.toString())), findsNothing);
       // expect(find.byKey(Key(sopeExam.toString())), findsNothing);
     });
