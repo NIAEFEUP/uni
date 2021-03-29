@@ -16,7 +16,7 @@ import 'generic_card.dart';
 Color examColor(Exam exam, context) {
   return
     (exam.examType.contains('''EN''')) || (exam.examType.contains('''MT'''))
-        ? Theme.of(context).backgroundColor : Theme.of(context).highlightColor;
+        ? Theme.of(context).hintColor : Theme.of(context).backgroundColor;
 }
 
 class ExamCard extends GenericCard {
