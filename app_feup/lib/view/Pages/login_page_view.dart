@@ -160,7 +160,8 @@ class _LoginPageViewState extends State<LoginPageView> {
   Widget createUsernameInput(BuildContext context) {
     return TextFormField(
       style: TextStyle(color: Colors.white, fontSize: 20),
-      keyboardType: TextInputType.number,
+      enableSuggestions: false,
+      autocorrect: false,
       autofocus: false,
       controller: usernameController,
       focusNode: usernameFocus,
