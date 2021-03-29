@@ -19,6 +19,7 @@ import 'package:uni/model/entities/session.dart';
 import 'package:uni/redux/action_creators.dart';
 import 'package:uni/redux/reducers.dart';
 import 'package:uni/view/Pages/exams_page_view.dart';
+import 'package:uni/view/Widgets/exam_filter_form.dart';
 
 import '../../testable_redux_widget.dart';
 
@@ -130,13 +131,54 @@ void main() {
       expect(find.byKey(Key(sdisExam.toString())), findsOneWidget);
       expect(find.byKey(Key(sopeExam.toString())), findsOneWidget);
 
-      actionCreatorFilter(store);
+      // final modalWidget = testableReduxWidget(
+      //     child: ExamFilterForm(filteredExams), store: store);
 
-      await completerFilter.future;
+      // await tester.pumpWidget(modalWidget);
+
+      final filterIcon = find.byIcon(Icons.settings);
+      expect(filterIcon, findsOneWidget);
 
       await tester.pumpAndSettle();
-      expect(find.byKey(Key(sdisExam.toString())), findsNothing);
-      expect(find.byKey(Key(sopeExam.toString())), findsNothing);
+      final IconButton filterButton = find
+          .widgetWithIcon(IconButton, Icons.settings)
+          .evaluate()
+          .first
+          .widget;
+      filterButton.onPressed();
+      await tester.pumpAndSettle();
+
+      expect(find.byType(AlertDialog), findsOneWidget);
+      expect(find.byType(Checkbox), findsNWidgets(Exam.getExamTypes().length));
+      expect(find.byKey(Key('CheckboxFilterRow')),
+          findsNWidgets(Exam.getExamTypes().length));
+
+      final Checkbox mtCheckbox =
+          find.byKey(Key('ExamCheck' + 'Mini-testes')).evaluate().first.widget;
+
+      expect(find.byWidget(mtCheckbox), findsOneWidget);
+
+      // mtCheckbox.onChanged(false);
+      // await tester.pumpAndSettle();
+
+      // final FlatButton okButton =
+      //     find.widgetWithText(FlatButton, 'Confirmar').evaluate().first.widget;
+
+      //expect(find.byWidget(okButton), findsOneWidget);
+
+      // okButton.onPressed();
+      // await tester.pumpAndSettle();
+
+      // expect(find.byKey(Key(sdisExam.toString())), findsNothing);
+      // expect(find.byKey(Key(sopeExam.toString())), findsNothing);
+
+      // actionCreatorFilter(store);
+
+      // await completerFilter.future;
+
+      // await tester.pumpAndSettle();
+      // expect(find.byKey(Key(sdisExam.toString())), findsNothing);
+      // expect(find.byKey(Key(sopeExam.toString())), findsNothing);
     });
   });
 }

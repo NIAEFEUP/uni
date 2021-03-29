@@ -57,6 +57,7 @@ class _ExamFilterFormState extends State<ExamFilterForm> {
         children: List.generate(filteredExams.length, (i) {
       final String key = filteredExams.keys.elementAt(i);
       return Row(
+        key: Key('CheckboxFilterRow'),
         children: <Widget>[
           Flexible(
               child: Text(
@@ -66,6 +67,7 @@ class _ExamFilterFormState extends State<ExamFilterForm> {
             maxLines: 2,
           )),
           Checkbox(
+              key: Key('ExamCheck' + key),
               value: filteredExams[key],
               onChanged: (value) {
                 setState(() {
