@@ -152,7 +152,7 @@ void main() {
       expect(find.byWidget(mtCheckbox), findsOneWidget);
       expect(mtCheckbox.value, true);
       await tester.tap(find.byWidget(mtCheckbox));
-      //await completer.future;
+      await completer.future;
 
       //TODO THIS PUMP DOES NOT WORK
       //Talvez seja do completer
