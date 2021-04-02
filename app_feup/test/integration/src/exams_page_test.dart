@@ -141,10 +141,9 @@ void main() {
       filterButton.onPressed();
       await tester.pumpAndSettle();
 
+
       expect(find.byType(AlertDialog), findsOneWidget);
       expect(find.byType(Checkbox), findsNWidgets(Exam.getExamTypes().length));
-      expect(find.byKey(Key('CheckboxFilterRow')),
-          findsNWidgets(Exam.getExamTypes().length));
 
       final Checkbox mtCheckbox =
           find.byKey(Key('ExamCheck' + 'Mini-testes')).evaluate().first.widget;
@@ -154,18 +153,17 @@ void main() {
       await tester.tap(find.byWidget(mtCheckbox));
       await completer.future;
 
-      //TODO THIS PUMP DOES NOT WORK
-      //Talvez seja do completer
-      //await tester.pumpAndSettle();
+      await tester.pumpAndSettle();
 
       final FlatButton okButton =
           find.widgetWithText(FlatButton, 'Confirmar').evaluate().first.widget;
-
       expect(find.byWidget(okButton), findsOneWidget);
-      okButton.onPressed();
 
-      // expect(find.byKey(Key(sdisExam.toString())), findsNothing);
-      // expect(find.byKey(Key(sopeExam.toString())), findsNothing);
+      okButton.onPressed();
+      await tester.pumpAndSettle();
+
+      expect(find.byKey(Key(sdisExam.toString())), findsNothing);
+      expect(find.byKey(Key(sopeExam.toString())), findsNothing);
     });
   });
 }
