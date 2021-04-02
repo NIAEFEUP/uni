@@ -19,8 +19,6 @@ import 'package:uni/model/entities/session.dart';
 import 'package:uni/redux/action_creators.dart';
 import 'package:uni/redux/reducers.dart';
 import 'package:uni/view/Pages/exams_page_view.dart';
-import 'package:uni/view/Widgets/exam_filter_form.dart';
-
 import '../../testable_redux_widget.dart';
 
 class MockClient extends Mock implements http.Client {}
@@ -124,11 +122,6 @@ void main() {
       expect(find.byKey(Key(sdisExam.toString())), findsOneWidget);
       expect(find.byKey(Key(sopeExam.toString())), findsOneWidget);
 
-      // final modalWidget = testableReduxWidget(
-      //     child: ExamFilterForm(filteredExams), store: store);
-
-      // await tester.pumpWidget(modalWidget);
-
       final filterIcon = find.byIcon(Icons.settings);
       expect(filterIcon, findsOneWidget);
 
@@ -140,7 +133,6 @@ void main() {
           .widget;
       filterButton.onPressed();
       await tester.pumpAndSettle();
-
 
       expect(find.byType(AlertDialog), findsOneWidget);
       expect(find.byType(Checkbox), findsNWidgets(Exam.getExamTypes().length));
