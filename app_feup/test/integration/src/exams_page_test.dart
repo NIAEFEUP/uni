@@ -50,14 +50,14 @@ void main() {
           initialState: AppState({
             'session': Session(authenticated: true),
             'currUcs': [sopeCourseUnit, sdisCourseUnit],
-            'exams': List<Exam>(),
+            'exams': <Exam>[],
             'profile': profile,
             'filteredExams': filteredExams
           }),
           middleware: [generalMiddleware]);
       NetworkRouter.httpClient = mockClient;
-      final mockHtml =
-          File('integration/resources/exam_example.html').readAsStringSync();
+      final mockHtml = File('test/integration/resources/exam_example.html')
+          .readAsStringSync();
       when(mockResponse.body).thenReturn(mockHtml);
       when(mockResponse.statusCode).thenReturn(200);
       when(mockClient.get(any, headers: anyNamed('headers')))
@@ -88,7 +88,7 @@ void main() {
           initialState: AppState({
             'session': Session(authenticated: true),
             'currUcs': [sopeCourseUnit, sdisCourseUnit],
-            'exams': List<Exam>(),
+            'exams': <Exam>[],
             'profile': profile,
             'filteredExams': filteredExams
           }),
@@ -96,8 +96,8 @@ void main() {
 
       NetworkRouter.httpClient = mockClient;
 
-      final mockHtml =
-          File('integration/resources/exam_example.html').readAsStringSync();
+      final mockHtml = File('test/integration/resources/exam_example.html')
+          .readAsStringSync();
       when(mockResponse.body).thenReturn(mockHtml);
       when(mockResponse.statusCode).thenReturn(200);
       when(mockClient.get(any, headers: anyNamed('headers')))
@@ -150,8 +150,8 @@ void main() {
 
       await tester.pumpAndSettle();
 
-      final FlatButton okButton =
-          find.widgetWithText(FlatButton, 'Confirmar').evaluate().first.widget;
+      final TextButton okButton =
+          find.widgetWithText(TextButton, 'Confirmar').evaluate().first.widget;
       expect(find.byWidget(okButton), findsOneWidget);
 
       okButton.onPressed();
