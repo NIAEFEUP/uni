@@ -125,6 +125,8 @@ void main() {
       final filterIcon = find.byIcon(Icons.settings);
       expect(filterIcon, findsOneWidget);
 
+      filteredExams['ExamDoesNotExist'] = true;
+
       await tester.pumpAndSettle();
       final IconButton filterButton = find
           .widgetWithIcon(IconButton, Icons.settings)
@@ -135,6 +137,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.byType(AlertDialog), findsOneWidget);
+      //This checks if the ExamDoesNotExist is not displayed
       expect(find.byType(Checkbox), findsNWidgets(Exam.getExamTypes().length));
 
       final Checkbox mtCheckbox =

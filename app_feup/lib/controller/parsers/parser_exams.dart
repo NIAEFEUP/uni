@@ -6,8 +6,9 @@ import 'dart:async';
 
 class ParserExams {
   String getExamSeasonAbbr(String seasonStr) {
-    for (String type in Exam.getExamTypes().keys) {
-      if (seasonStr.contains(type)) return Exam.getExamTypes()[type];
+    final Map<String, String> examTypes = Exam.getExamTypes();
+    for (String type in examTypes.keys) {
+      if (seasonStr.contains(type)) return examTypes[type];
     }
     return '?';
   }
