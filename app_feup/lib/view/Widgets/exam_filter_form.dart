@@ -17,8 +17,8 @@ class _ExamFilterFormState extends State<ExamFilterForm> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('Filtro de Exames',
-          style: Theme.of(context).textTheme.title.apply(fontSizeDelta: 5)),
+      title: Text('Definições Filtro de Exames',
+          style: Theme.of(context).textTheme.title.apply(fontSizeDelta: 2)),
       actions: [
         FlatButton(
             child: Text('Cancelar',
