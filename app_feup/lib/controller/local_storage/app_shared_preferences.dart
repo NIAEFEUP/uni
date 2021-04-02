@@ -91,14 +91,11 @@ class AppSharedPreferences {
     final List<String> storedFilteredExamTypes =
         prefs.getStringList(filteredExamsTypes);
 
-    final Map<String, bool> examsfiltered = {};
     if (storedFilteredExamTypes == null) {
-      defaultFilteredExamTypes.forEach((type) => examsfiltered[type] = true);
-      return examsfiltered;
+      return Map.fromIterable(defaultFilteredExamTypes, value: (type) => true);
     }
-    defaultFilteredExamTypes.forEach(
-        (type) => examsfiltered[type] = storedFilteredExamTypes.contains(type));
-    return examsfiltered;
+    return Map.fromIterable(defaultFilteredExamTypes,
+        value: (type) => storedFilteredExamTypes.contains(type));
   }
 
   static String encode(String plainText) {

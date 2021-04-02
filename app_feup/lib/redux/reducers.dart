@@ -201,5 +201,6 @@ AppState setLastUserInfoUpdateTime(
 }
 
 AppState setExamFilter(AppState state, SetExamFilter action) {
+  Logger().i('setting exam type filter to ' + action.filteredExams.toString());
   return state.cloneAndUpdateValue('filteredExams', action.filteredExams);
 }
