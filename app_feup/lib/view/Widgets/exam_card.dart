@@ -92,7 +92,9 @@ class ExamCard extends GenericCard {
           type: exam.examType,
         ),
        ),
-         color: examColor(exam, context),
+         decoration: BoxDecoration(
+             color: examColor(exam, context),
+             borderRadius: BorderRadius.all(Radius.circular(7))),
        ),
     ]);
   }
@@ -117,7 +119,9 @@ class ExamCard extends GenericCard {
                     type: exam.examType,
                     reverseOrder: true)
               ]),
-          color: examColor(exam, context),
+          decoration: BoxDecoration(
+              color: examColor(exam, context),
+              borderRadius: BorderRadius.all(Radius.circular(7))),
         ),
       ),
     );
