@@ -84,6 +84,7 @@ class ExamCard extends GenericCard {
           date: exam.weekDay + ', ' + exam.day + ' de ' + exam.month),
        Container(
           child: RowContainer(
+            color: examColor(exam, context),
         child: ScheduleRow(
           subject: exam.subject,
           rooms: exam.rooms,
@@ -92,9 +93,6 @@ class ExamCard extends GenericCard {
           type: exam.examType,
         ),
        ),
-         decoration: BoxDecoration(
-             color: examColor(exam, context),
-             borderRadius: BorderRadius.all(Radius.circular(7))),
        ),
     ]);
   }
@@ -103,6 +101,7 @@ class ExamCard extends GenericCard {
     return  Container(
       margin: EdgeInsets.only(top: 8),
       child:  RowContainer(
+        color: examColor(exam, context),
         child:  Container(
           padding: EdgeInsets.all(11),
           child:  Row(
@@ -119,9 +118,6 @@ class ExamCard extends GenericCard {
                     type: exam.examType,
                     reverseOrder: true)
               ]),
-          decoration: BoxDecoration(
-              color: examColor(exam, context),
-              borderRadius: BorderRadius.all(Radius.circular(7))),
         ),
       ),
     );

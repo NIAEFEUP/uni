@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 class RowContainer extends StatelessWidget {
   final Widget child;
   final Color borderColor;
-  RowContainer({Key key, @required this.child, this.borderColor})
+  final Color color;
+  RowContainer({Key key, @required this.child, this.borderColor, this.color})
       : super(key: key);
 
   @override
@@ -15,6 +16,7 @@ class RowContainer extends StatelessWidget {
                   ? Theme.of(context).accentColor
                   : this.borderColor,
               width: 0.5),
+          color: this.color,
           borderRadius: BorderRadius.all(Radius.circular(7))),
       child: this.child,
     );
