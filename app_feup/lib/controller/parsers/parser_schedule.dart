@@ -18,14 +18,19 @@ Future<List<Lecture>> parseSchedule(http.Response response) async {
     final int blocks = (lecture['aula_duracao'] * 2).round();
     final String room = lecture['sala_sigla'].replaceAll(RegExp('\\+'), '\n');
     final String teacher = lecture['doc_sigla'];
+    final String classNumber = lecture['turma_sigla'];
 
-    lectures
-        .add(Lecture(subject, typeClass, day, secBegin, blocks, room, teacher));
+    lectures.add(Lecture(
+        subject, typeClass, day, secBegin, blocks, room, teacher, classNumber));
   }
 
   final lecturesList = lectures.toList();
 
   lecturesList.sort((a, b) => a.compare(b));
 
-  return lecturesList;
+  if (lecturesList.isEmpty) {
+    return Future.error(Exception('Found empty schedule'));
+  } else {
+    return lecturesList;
+  }
 }

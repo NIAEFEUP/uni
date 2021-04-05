@@ -23,7 +23,7 @@ class Lecture {
   int startTimeSeconds;
 
   Lecture(String subject, String typeClass, int day, int startTimeSeconds,
-      int blocks, String room, String teacher) {
+      int blocks, String room, String teacher, String classNumber) {
     this.subject = subject;
     this.typeClass = typeClass;
     this.room = room;
@@ -31,6 +31,7 @@ class Lecture {
     this.day = day;
     this.blocks = blocks;
     this.startTimeSeconds = startTimeSeconds;
+    this.classNumber = classNumber;
 
     this.startTime = (startTimeSeconds ~/ 3600).toString().padLeft(2, '0') +
         ':' +
@@ -71,7 +72,7 @@ class Lecture {
 
   static Lecture clone(Lecture lec) {
     return Lecture(lec.subject, lec.typeClass, lec.day, lec.startTimeSeconds,
-        lec.blocks, lec.room, lec.teacher);
+        lec.blocks, lec.room, lec.teacher, lec.classNumber);
   }
 
   static Lecture cloneHtml(Lecture lec) {
