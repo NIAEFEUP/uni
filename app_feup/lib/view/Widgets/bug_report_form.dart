@@ -4,6 +4,7 @@ import 'package:logger/logger.dart';
 import 'package:uni/view/Widgets/form_text_field.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/view/Widgets/toast_message.dart';
+import 'package:email_validator/email_validator.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -40,10 +41,11 @@ class BugReportFormState extends State<BugReportForm> {
   static final TextEditingController titleController = TextEditingController();
   static final TextEditingController descriptionController =
       TextEditingController();
-
+  static final TextEditingController emailController = TextEditingController();
   String ghToken = '';
 
   bool _isButtonTapped = false;
+  bool _isConsentGiven = false;
 
   BugReportFormState() {
     if (ghToken == '') loadGHKey();
@@ -89,6 +91,24 @@ class BugReportFormState extends State<BugReportForm> {
       bottomMargin: 30.0,
     ));
 
+    formWidget.add(FormTextField(
+      emailController,
+      Icons.mail,
+      minLines: 1,
+      maxLines: 2,
+      description: 'Contacto (opcional)',
+      labelText: 'Email em que desejas ser contactado',
+      bottomMargin: 30.0,
+      isOptional: true,
+      formatValidator: (value) {
+        return EmailValidator.validate(value)
+            ? null
+            : 'Por favor insere um email válido';
+      },
+    ));
+
+    formWidget.add(consentBox(context));
+
     formWidget.add(submitButton(context));
 
     return formWidget;
@@ -123,8 +143,8 @@ class BugReportFormState extends State<BugReportForm> {
               bottom: BorderSide(color: Theme.of(context).dividerColor))),
       padding: EdgeInsets.only(bottom: 20),
       child: Center(
-        child: Text('''Encontraste algum Bug na aplicação?\nTens alguma
-             sugestão para a app?\nConta-nos para que nós possamos melhorar!''',
+        child: Text(
+            '''Encontraste algum bug na aplicação?\nTens alguma sugestão para a app?\nConta-nos para que possamos melhorar!''',
             style: Theme.of(context).textTheme.bodyText2,
             textAlign: TextAlign.center),
       ),
@@ -140,7 +160,7 @@ class BugReportFormState extends State<BugReportForm> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            'Seleciona o tipo de ocorrência',
+            'Tipo de ocorrência',
             style: Theme.of(context).textTheme.bodyText2,
             textAlign: TextAlign.left,
           ),
@@ -169,18 +189,48 @@ class BugReportFormState extends State<BugReportForm> {
     );
   }
 
-  /// Returns a widget for the button to send the bug report
-  Widget submitButton(BuildContext context) {
+  Widget consentBox(BuildContext context) {
     return Container(
-      child: ElevatedButton(
-        onPressed: () {
-          if (_formKey.currentState.validate() && !_isButtonTapped) {
-            submitBugReport();
-          }
-        },
-        child: Text('Enviar'),
+      padding: EdgeInsets.only(),
+      margin: EdgeInsets.only(bottom: 20, top: 0),
+      child: ListTileTheme(
+        contentPadding: EdgeInsets.all(0),
+        child: CheckboxListTile(
+          activeColor: Theme.of(context).primaryColor,
+          title: Text(
+              '''Consinto que toda esta informação seja disponibilizada publicamente na plataforma GitHub, incluindo o meu contacto pessoal, se fornecido.''',
+              style: Theme.of(context).textTheme.bodyText2,
+              textAlign: TextAlign.left),
+          value: _isConsentGiven,
+          onChanged: (bool newValue) {
+            setState(() {
+              _isConsentGiven = newValue;
+            });
+          },
+          controlAffinity: ListTileControlAffinity.leading,
+        ),
       ),
     );
+  }
+
+  Widget submitButton(BuildContext context) {
+    return Container(
+        child: ElevatedButton(
+      onPressed: !_isConsentGiven
+          ? null
+          : () {
+              if (_formKey.currentState.validate() && !_isButtonTapped) {
+                if (!FocusScope.of(context).hasPrimaryFocus) {
+                  FocusScope.of(context).unfocus();
+                }
+                submitBugReport();
+              }
+            },
+      child: Text(
+        'Enviar',
+        style: TextStyle(color: Colors.white, fontSize: 20.0),
+      ),
+    ));
   }
 
   /// Submits the user's bug report
@@ -196,6 +246,9 @@ class BugReportFormState extends State<BugReportForm> {
     final String bugLabel = bugDescriptions[_selectedBug] == null
         ? 'Unidentified bug'
         : bugDescriptions[_selectedBug].item2;
+    final String description = emailController.text == ''
+        ? descriptionController.text
+        : descriptionController.text + '\nContact: ' + emailController.text;
     final Map data = {
       'title': titleController.text,
       'body': descriptionController.text,
@@ -250,9 +303,11 @@ class BugReportFormState extends State<BugReportForm> {
   void clearForm() {
     titleController.clear();
     descriptionController.clear();
+    emailController.clear();
 
     setState(() {
       _selectedBug = 0;
+      _isConsentGiven = false;
     });
   }
 
