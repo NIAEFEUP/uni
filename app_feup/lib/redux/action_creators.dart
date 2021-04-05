@@ -15,6 +15,7 @@ import 'package:uni/controller/parsers/parser_exams.dart';
 import 'package:uni/controller/parsers/parser_print_balance.dart';
 import 'package:uni/controller/parsers/parser_fees.dart';
 import 'package:uni/controller/parsers/parser_courses.dart';
+import 'package:uni/controller/schedule_fetcher/schedule_fetcher_api.dart';
 import 'package:uni/controller/schedule_fetcher/schedule_fetcher_html.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/course.dart';
@@ -245,8 +246,7 @@ ThunkAction<AppState> getUserSchedule(Completer<Null> action) {
       store.dispatch(SetScheduleStatusAction(RequestStatus.busy));
 
       //TODO: Go back to API whenever it is fixed: https://github.com/NIAEFEUP/project-schrodinger/issues/300
-      final List<Lecture> lectures =
-          await ScheduleFetcherHtml().getLectures(store);
+      final List<Lecture> lectures = await getLectures(store);
 
       // Updates local database according to the information fetched -- Lectures
       final Tuple2<String, String> userPersistentInfo =
@@ -264,6 +264,12 @@ ThunkAction<AppState> getUserSchedule(Completer<Null> action) {
     }
     action.complete();
   };
+}
+
+Future<List<Lecture>> getLectures(Store<AppState> store) {
+  return ScheduleFetcherApi()
+      .getLectures(store)
+      .catchError((e) => ScheduleFetcherHtml().getLectures(store));
 }
 
 ThunkAction<AppState> setInitialStoreState() {
