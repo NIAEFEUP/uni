@@ -31,6 +31,10 @@ final Store<AppState> state = Store<AppState>(appReducers,
     initialState: AppState(null),
     middleware: [generalMiddleware]);
 
+SentryEvent beforeSend(SentryEvent event, {dynamic hint}) {
+  return event.level == SentryLevel.info ? event : null;
+}
+
 Future<void> main() async {
   OnStartUp.onStart(state);
   await SentryFlutter.init(

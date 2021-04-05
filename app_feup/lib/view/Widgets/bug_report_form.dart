@@ -1,16 +1,12 @@
-import 'dart:convert';
-import 'dart:io';
 import 'package:logger/logger.dart';
+import 'package:sentry/sentry.dart';
 import 'package:uni/view/Widgets/form_text_field.dart';
-import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/view/Widgets/toast_message.dart';
 import 'package:email_validator/email_validator.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:tuple/tuple.dart';
-import 'package:flutter/services.dart' show rootBundle;
 
 class BugReportForm extends StatefulWidget {
   @override
@@ -21,10 +17,6 @@ class BugReportForm extends StatefulWidget {
 
 /// Manages the 'Bugs and Suggestions' section of the app
 class BugReportFormState extends State<BugReportForm> {
-  final String _postUrl =
-      'https://api.github.com/repos/NIAEFEUP/project-schrodinger/issues';
-  final String _issueLabel = 'In-app bug report';
-
   static final _formKey = GlobalKey<FormState>();
 
   final Map<int, Tuple2<String, String>> bugDescriptions = {
@@ -42,13 +34,11 @@ class BugReportFormState extends State<BugReportForm> {
   static final TextEditingController descriptionController =
       TextEditingController();
   static final TextEditingController emailController = TextEditingController();
-  String ghToken = '';
 
   bool _isButtonTapped = false;
   bool _isConsentGiven = false;
 
   BugReportFormState() {
-    if (ghToken == '') loadGHKey();
     loadBugClassList();
   }
 
@@ -198,7 +188,7 @@ class BugReportFormState extends State<BugReportForm> {
         child: CheckboxListTile(
           activeColor: Theme.of(context).primaryColor,
           title: Text(
-              '''Consinto que toda esta informação seja disponibilizada publicamente na plataforma GitHub, incluindo o meu contacto pessoal, se fornecido.''',
+              '''Consinto que esta informação seja revista pelo NIAEFEUP, podendo ser eliminada a meu pedido.''',
               style: Theme.of(context).textTheme.bodyText2,
               textAlign: TextAlign.left),
           value: _isConsentGiven,
@@ -249,54 +239,23 @@ class BugReportFormState extends State<BugReportForm> {
     final String description = emailController.text == ''
         ? descriptionController.text
         : descriptionController.text + '\nContact: ' + emailController.text;
-    final Map data = {
-      'title': titleController.text,
-      'body': descriptionController.text,
-      'labels': [_issueLabel, bugLabel]
-    };
+    final String title = titleController.text;
 
-    final url = _postUrl;
-    http
-        .post(url.toUri(),
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': 'token $ghToken'
-            },
-            body: json.encode(data))
-        .then((http.Response response) {
-      final int statusCode = response.statusCode;
+    String toastMsg;
+    try {
+      Sentry.captureMessage(bugLabel + ': ' + title + '\n' + description);
+      Logger().i('Successfully submitted bug report.');
+      toastMsg = 'Enviado com sucesso';
+    } catch (e) {
+      Logger().e('Error while posting bug report to Sentry');
+      toastMsg = 'Ocorreu um erro no envio';
+    }
 
-      String msg;
-      if (statusCode < 200 || statusCode > 400) {
-        Logger().e('Error ' + statusCode.toString() + ' while posting bug');
-        msg = 'Ocorreu um erro no envio';
-      } else {
-        Logger().i('Successfully submitted bug report.');
-        msg = 'Enviado com sucesso';
-
-        clearForm();
-
-        Navigator.pop(context);
-        setState(() {
-          _isButtonTapped = false;
-        });
-      }
-
-      FocusScope.of(context).requestFocus(FocusNode());
-      ToastMessage.display(context, msg);
-      setState(() {
-        _isButtonTapped = false;
-      });
-    }).catchError((error) {
-      Logger().e(error);
-      FocusScope.of(context).requestFocus(FocusNode());
-
-      final String msg =
-          (error is SocketException) ? 'Falha de rede' : 'Ocorreu um erro';
-      ToastMessage.display(context, msg);
-      setState(() {
-        _isButtonTapped = false;
-      });
+    clearForm();
+    FocusScope.of(context).requestFocus(FocusNode());
+    ToastMessage.display(context, toastMsg);
+    setState(() {
+      _isButtonTapped = false;
     });
   }
 
@@ -309,17 +268,5 @@ class BugReportFormState extends State<BugReportForm> {
       _selectedBug = 0;
       _isConsentGiven = false;
     });
-  }
-
-  Future<Map<String, dynamic>> parseJsonFromAssets(String assetsPath) async {
-    return rootBundle
-        .loadString(assetsPath)
-        .then((jsonStr) => jsonDecode(jsonStr));
-  }
-
-  void loadGHKey() async {
-    final Map<String, dynamic> dataMap =
-        await parseJsonFromAssets('assets/env/env.json');
-    this.ghToken = dataMap['gh_token'];
   }
 }
