@@ -14,7 +14,7 @@ class SchedulePage extends StatefulWidget {
 }
 
 class _SchedulePageState extends SecondaryPageViewState
-    with TickerProviderStateMixin {
+    with SingleTickerProviderStateMixin {
   final int weekDay = DateTime.now().weekday;
 
   TabController tabController;
@@ -56,7 +56,7 @@ class _SchedulePageState extends SecondaryPageViewState
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget getBody(BuildContext context) {
     return StoreConnector<AppState, Tuple2<List<Lecture>, RequestStatus>>(
       converter: (store) => Tuple2(store.state.content['schedule'],
           store.state.content['scheduleStatus']),
