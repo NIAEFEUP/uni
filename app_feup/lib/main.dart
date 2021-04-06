@@ -31,7 +31,7 @@ final Store<AppState> state = Store<AppState>(appReducers,
     initialState: AppState(null),
     middleware: [generalMiddleware]);
 
-SentryEvent beforeSend(SentryEvent event, {dynamic hint}) {
+SentryEvent beforeSend(SentryEvent event) {
   return event.level == SentryLevel.info ? event : null;
 }
 
