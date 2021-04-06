@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:logger/logger.dart';
 import 'package:sentry/sentry.dart';
 import 'package:uni/view/Widgets/form_text_field.dart';
@@ -6,7 +7,9 @@ import 'package:email_validator/email_validator.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:tuple/tuple.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
 class BugReportForm extends StatefulWidget {
   @override
@@ -17,6 +20,11 @@ class BugReportForm extends StatefulWidget {
 
 /// Manages the 'Bugs and Suggestions' section of the app
 class BugReportFormState extends State<BugReportForm> {
+  final String _gitHubPostUrl =
+      'https://api.github.com/repos/NIAEFEUP/project-schrodinger/issues';
+  final String _sentryLink =
+      'https://sentry.io/organizations/niaefeup/issues/?query=';
+
   static final _formKey = GlobalKey<FormState>();
 
   final Map<int, Tuple2<String, String>> bugDescriptions = {
@@ -34,11 +42,13 @@ class BugReportFormState extends State<BugReportForm> {
   static final TextEditingController descriptionController =
       TextEditingController();
   static final TextEditingController emailController = TextEditingController();
+  String ghToken = '';
 
   bool _isButtonTapped = false;
   bool _isConsentGiven = false;
 
   BugReportFormState() {
+    if (ghToken == '') loadGHKey();
     loadBugClassList();
   }
 
@@ -228,7 +238,7 @@ class BugReportFormState extends State<BugReportForm> {
   /// If successful, an issue based on the bug
   /// report is created in the project repository.
   /// If unsuccessful, the user receives an error message.
-  void submitBugReport() {
+  void submitBugReport() async {
     setState(() {
       _isButtonTapped = true;
     });
@@ -236,27 +246,58 @@ class BugReportFormState extends State<BugReportForm> {
     final String bugLabel = bugDescriptions[_selectedBug] == null
         ? 'Unidentified bug'
         : bugDescriptions[_selectedBug].item2;
-    final String description = emailController.text == ''
-        ? descriptionController.text
-        : descriptionController.text + '\nContact: ' + emailController.text;
-    final String title = titleController.text;
 
     String toastMsg;
     try {
-      Sentry.captureMessage(bugLabel + ': ' + title + '\n' + description);
+      final sentryId = await submitSentryEvent(bugLabel);
+      final gitHubRequestStatus = await submitGitHubIssue(sentryId, bugLabel);
+      if (gitHubRequestStatus < 200 || gitHubRequestStatus > 400) {
+        throw Exception('Network error');
+      }
       Logger().i('Successfully submitted bug report.');
       toastMsg = 'Enviado com sucesso';
     } catch (e) {
-      Logger().e('Error while posting bug report to Sentry');
+      Logger().e('Error while posting bug report:' + e.toString());
       toastMsg = 'Ocorreu um erro no envio';
     }
 
     clearForm();
     FocusScope.of(context).requestFocus(FocusNode());
     ToastMessage.display(context, toastMsg);
+
     setState(() {
       _isButtonTapped = false;
     });
+  }
+
+  Future<int> submitGitHubIssue(SentryId sentryEvent, String bugLabel) async {
+    final String description = descriptionController.text +
+        '\nFurther information on: ' +
+        _sentryLink +
+        sentryEvent.toString();
+    final Map data = {
+      'title': titleController.text,
+      'body': description,
+      'labels': ['In-app bug report', bugLabel],
+    };
+    return http
+        .post(Uri.parse(_gitHubPostUrl),
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'token $ghToken'
+            },
+            body: json.encode(data))
+        .then((http.Response response) {
+      return response.statusCode;
+    });
+  }
+
+  Future<SentryId> submitSentryEvent(String bugLabel) async {
+    final String description = emailController.text == ''
+        ? descriptionController.text
+        : descriptionController.text + '\nContact: ' + emailController.text;
+    return Sentry.captureMessage(
+        bugLabel + ': ' + titleController.text + '\n' + description);
   }
 
   void clearForm() {
@@ -268,5 +309,17 @@ class BugReportFormState extends State<BugReportForm> {
       _selectedBug = 0;
       _isConsentGiven = false;
     });
+  }
+
+  Future<Map<String, dynamic>> parseJsonFromAssets(String assetsPath) async {
+    return rootBundle
+        .loadString(assetsPath)
+        .then((jsonStr) => jsonDecode(jsonStr));
+  }
+
+  void loadGHKey() async {
+    final Map<String, dynamic> dataMap =
+        await parseJsonFromAssets('assets/env/env.json');
+    this.ghToken = dataMap['gh_token'];
   }
 }
