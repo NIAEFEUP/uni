@@ -7,39 +7,6 @@ import 'package:uni/view/Widgets/page_title.dart';
 import 'package:uni/view/Widgets/request_dependent_widget_builder.dart';
 import 'package:uni/view/Widgets/schedule_slot.dart';
 
-class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
-  _SliverAppBarDelegate(this._tabBar);
-
-  final TabBar _tabBar;
-
-  @override
-  double get minExtent => _tabBar.preferredSize.height;
-  @override
-  double get maxExtent => _tabBar.preferredSize.height;
-
-  @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return Container(
-      decoration: const BoxDecoration(
-        border: Border(
-          bottom: BorderSide(width: 1.0, color: Colors.grey),
-        ),
-      ),
-      constraints: BoxConstraints(maxHeight: 150.0),
-      child: Material(
-        color: Colors.white,
-        child: _tabBar,
-      ),
-    );
-  }
-
-  @override
-  bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
-    return false;
-  }
-}
-
 class SchedulePageView extends StatefulWidget {
   SchedulePageView(
       {Key key,
@@ -79,40 +46,29 @@ class SchedulePageViewState extends SecondaryPageViewState {
     final MediaQueryData queryData = MediaQuery.of(context);
     final Color labelColor = Color.fromARGB(255, 0x50, 0x50, 0x50);
 
-    return Column(
-      children: <Widget>[
-        PageTitle(name: 'Horário'),
-        Expanded(
-          child: NestedScrollView(
-            controller: scrollViewController,
-            headerSliverBuilder:
-                (BuildContext context, bool innerBoxIsScrolled) {
-              return <Widget>[
-                SliverPersistentHeader(
-                  delegate: _SliverAppBarDelegate(
-                    TabBar(
-                      controller: tabController,
-                      isScrollable: true,
-                      unselectedLabelColor: labelColor,
-                      labelColor: labelColor,
-                      indicatorWeight: 3.0,
-                      indicatorColor: Theme.of(context).primaryColor,
-                      labelPadding: EdgeInsets.all(0.0),
-                      tabs: createTabs(queryData, context),
-                    ),
-                  ),
-                  pinned: true,
-                ),
-              ];
-            },
-            body: TabBarView(
-              controller: tabController,
-              children: createSchedule(context),
-            ),
+    return Column(children: <Widget>[
+      ListView(
+        shrinkWrap: true,
+        children: <Widget>[
+          PageTitle(name: 'Horário'),
+          TabBar(
+            controller: tabController,
+            unselectedLabelColor: labelColor,
+            labelColor: labelColor,
+            isScrollable: true,
+            indicatorWeight: 3.0,
+            indicatorColor: Theme.of(context).primaryColor,
+            labelPadding: EdgeInsets.all(0.0),
+            tabs: createTabs(queryData, context),
           ),
-        ),
-      ],
-    );
+        ],
+      ),
+      Expanded(
+          child: TabBarView(
+        controller: tabController,
+        children: createSchedule(context),
+      ))
+    ]);
   }
 
   List<Widget> createTabs(queryData, BuildContext context) {
@@ -153,11 +109,9 @@ class SchedulePageViewState extends SecondaryPageViewState {
   }
 
   Widget createDayColumn(dayContent, BuildContext context) {
-    return Container(
-        child: Column(
-      mainAxisSize: MainAxisSize.min,
-      children: createScheduleRows(dayContent, context),
-    ));
+    return ListView(
+        controller: scrollViewController,
+        children: createScheduleRows(dayContent, context));
   }
 
   Widget createScheduleByDay(BuildContext context, day) {
