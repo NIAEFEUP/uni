@@ -20,7 +20,7 @@ ThemeData applicationLightTheme = ThemeData(
     headline1:
         TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold, color: _darkRed),
     headline2: TextStyle(
-        fontSize: 10.0, color: _mildBlack, fontWeight: FontWeight.w500),
+        fontSize: 17.0, color: _mildBlack, fontWeight: FontWeight.w300),
     headline3: TextStyle(
         fontSize: 17.0, color: _lightRed, fontWeight: FontWeight.w300),
     headline4: TextStyle(
@@ -29,10 +29,13 @@ ThemeData applicationLightTheme = ThemeData(
         TextStyle(fontSize: 17.0, color: _darkRed, fontWeight: FontWeight.w400),
     headline6: TextStyle(
         fontSize: 17.0, color: _mildBlack, fontWeight: FontWeight.w300),
-    subtitle2:
+    subtitle1:
         TextStyle(fontSize: 17.0, color: _grey, fontWeight: FontWeight.w300),
+    subtitle2:
+        TextStyle(fontSize: 16.0, color: _grey, fontWeight: FontWeight.w300),
     bodyText1: TextStyle(fontSize: 15.0, color: _darkRed),
     bodyText2: TextStyle(fontSize: 15.0, color: _darkRed),
+    caption: TextStyle(fontSize: 12.0, color: _grey),
   ),
   iconTheme: IconThemeData(color: _strongGrey),
   unselectedWidgetColor: _strongGrey,
