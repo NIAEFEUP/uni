@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:uni/controller/load_info.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/course.dart';
@@ -58,7 +57,7 @@ class ProfilePageViewState extends UnnamedPageView {
           course: courses[i],
           courseState:
               currentState == null ? '?' : currentState[courses[i].name]));
-      list.add(Padding(padding: const EdgeInsets.all(10.0)));
+      list.add(Padding(padding: const EdgeInsets.all(5.0)));
     }
     list.add(PrintInfoCard());
     list.add(Padding(padding: const EdgeInsets.all(5.0)));
@@ -84,17 +83,11 @@ class ProfilePageViewState extends UnnamedPageView {
             Padding(padding: const EdgeInsets.all(8.0)),
             Text(name,
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                    //color: greyTextColor,
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.w400)),
+                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400)),
             Padding(padding: const EdgeInsets.all(5.0)),
             Text(email,
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                    //color: greyTextColor,
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.w300)),
+                style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300)),
           ],
         ),
       ),

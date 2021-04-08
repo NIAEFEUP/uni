@@ -7,7 +7,6 @@ abstract class UnnamedPageView extends GeneralPageViewState {
   @override
   getScaffold(BuildContext context, Widget body) {
     return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: buildAppBar(context),
       body: this.refreshState(context, body),
     );

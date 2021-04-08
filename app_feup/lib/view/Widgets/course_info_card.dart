@@ -25,7 +25,7 @@ class CourseInfoCard extends GenericCard {
             ),
             Container(
               margin:
-                  const EdgeInsets.only(top: 20.0, bottom: 8.0, right: 30.0),
+                  const EdgeInsets.only(top: 20.0, bottom: 8.0, right: 20.0),
               child: getInfoText(course.currYear, context),
             )
           ]),
@@ -56,7 +56,7 @@ class CourseInfoCard extends GenericCard {
             ),
             Container(
                 margin:
-                    const EdgeInsets.only(top: 10.0, bottom: 20.0, right: 25.0),
+                    const EdgeInsets.only(top: 10.0, bottom: 20.0, right: 20.0),
                 child: getInfoText(
                     course.firstEnrollment.toString() +
                         '/' +
