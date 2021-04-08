@@ -37,7 +37,8 @@ class _SplashScreenState extends State<SplashScreen> {
         fit: StackFit.expand,
         children: <Widget>[
           Container(
-            decoration: BoxDecoration(color: applicationTheme.backgroundColor),
+            decoration:
+                BoxDecoration(color: applicationLightTheme.backgroundColor),
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -99,7 +100,6 @@ class _SplashScreenState extends State<SplashScreen> {
       await acceptTermsAndConditions();
       nextRoute = MaterialPageRoute(builder: (context) => LoginPageView());
     }
-
     Navigator.pushReplacement(context, nextRoute);
   }
 

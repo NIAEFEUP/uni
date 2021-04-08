@@ -28,7 +28,7 @@ class BusStopNextArrivalsPageState extends SecondaryPageViewState {
             store.state.content['configuredBusStops'],
             store.state.content['busstopStatus']),
         builder: (context, busstops) {
-          return  ListView(children: [
+          return ListView(children: [
             NextArrivals(busstops.item1, busstops.item2, busstops.item3)
           ]);
         });
@@ -44,7 +44,7 @@ class NextArrivals extends StatefulWidget {
 
   @override
   _NextArrivalsState createState() =>
-       _NextArrivalsState(trips, busConfig, busStopStatus);
+      _NextArrivalsState(trips, busConfig, busStopStatus);
 }
 
 class _NextArrivalsState extends State<NextArrivals>
@@ -59,7 +59,7 @@ class _NextArrivalsState extends State<NextArrivals>
   @override
   void initState() {
     super.initState();
-    tabController =  TabController(vsync: this, length: busConfig.length);
+    tabController = TabController(vsync: this, length: busConfig.length);
   }
 
   @override
@@ -72,50 +72,47 @@ class _NextArrivalsState extends State<NextArrivals>
   Widget build(BuildContext context) {
     switch (busStopStatus) {
       case RequestStatus.successful:
-        return  Container(
+        return Container(
             height: MediaQuery.of(context).size.height,
             child: Column(children: this.requestSuccessful(context)));
         break;
       case RequestStatus.busy:
-        return  Container(
+        return Container(
             height: MediaQuery.of(context).size.height,
             child: Column(children: this.requestBusy(context)));
         break;
       case RequestStatus.failed:
-        return  Container(
+        return Container(
             height: MediaQuery.of(context).size.height,
             child: Column(children: this.requestFailed(context)));
         break;
       default:
-        return  Container();
+        return Container();
         break;
     }
   }
 
   List<Widget> requestSuccessful(context) {
-    final List<Widget> result =  <Widget>[];
+    final List<Widget> result = <Widget>[];
 
     result.addAll(this.getHeader(context));
 
     if (busConfig.isNotEmpty) {
       result.addAll(this.getContent(context));
     } else {
-      result.add( Container(
+      result.add(Container(
           child: Text('Não se encontram configuradas paragens',
-              style: Theme.of(context)
-                  .textTheme
-                  .headline4
-                  .apply(color: greyTextColor))));
+              style: Theme.of(context).textTheme.headline4)));
     }
 
     return result;
   }
 
   List<Widget> requestBusy(BuildContext context) {
-    final List<Widget> result =  <Widget>[];
+    final List<Widget> result = <Widget>[];
 
     result.add(getPageTitle());
-    result.add( Container(
+    result.add(Container(
         padding: EdgeInsets.all(22.0),
         child: Center(child: CircularProgressIndicator())));
 
@@ -129,18 +126,15 @@ class _NextArrivalsState extends State<NextArrivals>
   }
 
   List<Widget> requestFailed(BuildContext context) {
-    final List<Widget> result =  <Widget>[];
+    final List<Widget> result = <Widget>[];
 
     result.addAll(this.getHeader(context));
-    result.add( Container(
+    result.add(Container(
         padding: EdgeInsets.only(bottom: 12.0),
         child: Text('Não foi possível obter informação',
             maxLines: 2,
             overflow: TextOverflow.fade,
-            style: Theme.of(context)
-                .textTheme
-                .headline4
-                .apply(color: primaryColor))));
+            style: Theme.of(context).textTheme.bodyText1)));
 
     return result;
   }
@@ -148,22 +142,22 @@ class _NextArrivalsState extends State<NextArrivals>
   List<Widget> getHeader(context) {
     return [
       getPageTitle(),
-       Container(
+      Container(
         padding: EdgeInsets.all(8.0),
-        child:  Row(
+        child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-               Container(
+              Container(
                 padding: EdgeInsets.only(left: 10.0),
-                child:  LastUpdateTimeStamp(),
+                child: LastUpdateTimeStamp(),
               ),
-               IconButton(
-                  icon:  Icon(Icons.edit),
+              IconButton(
+                  icon: Icon(Icons.edit),
                   color: Theme.of(context).primaryColor,
                   onPressed: () => Navigator.push(
                       context,
-                       MaterialPageRoute(
-                          builder: (context) =>  BusStopSelectionPage())))
+                      MaterialPageRoute(
+                          builder: (context) => BusStopSelectionPage())))
             ]),
       )
     ];
@@ -174,16 +168,16 @@ class _NextArrivalsState extends State<NextArrivals>
     final Color labelColor = Color.fromARGB(255, 0x50, 0x50, 0x50);
 
     return [
-       Container(
+      Container(
         decoration: const BoxDecoration(
           border: Border(
             bottom: BorderSide(width: 1.0, color: Colors.grey),
           ),
         ),
         constraints: BoxConstraints(maxHeight: 150.0),
-        child:  Material(
+        child: Material(
           color: Colors.white,
-          child:  TabBar(
+          child: TabBar(
             controller: tabController,
             isScrollable: true,
             unselectedLabelColor: labelColor,
@@ -195,10 +189,10 @@ class _NextArrivalsState extends State<NextArrivals>
           ),
         ),
       ),
-       Expanded(
+      Expanded(
         child: Container(
           padding: EdgeInsets.only(bottom: 92.0),
-          child:  TabBarView(
+          child: TabBarView(
             controller: tabController,
             children: getEachBusStopInfo(context),
           ),
@@ -210,24 +204,24 @@ class _NextArrivalsState extends State<NextArrivals>
   List<Widget> createTabs(queryData) {
     final List<Widget> tabs = <Widget>[];
     busConfig.forEach((stopCode, stopData) {
-      tabs.add( Container(
+      tabs.add(Container(
         width: queryData.size.width /
             (busConfig.length < 3 ? busConfig.length : 3),
-        child:  Tab(text: stopCode),
+        child: Tab(text: stopCode),
       ));
     });
     return tabs;
   }
 
   List<Widget> getEachBusStopInfo(context) {
-    final List<Widget> rows =  <Widget>[];
+    final List<Widget> rows = <Widget>[];
 
     busConfig.forEach((stopCode, stopData) {
-      rows.add( ListView(children: <Widget>[
-         Container(
+      rows.add(ListView(children: <Widget>[
+        Container(
             padding:
                 EdgeInsets.only(top: 8.0, bottom: 8.0, left: 22.0, right: 22.0),
-            child:  BusStopRow(
+            child: BusStopRow(
               stopCode: stopCode,
               trips: trips[stopCode],
               stopCodeShow: false,
