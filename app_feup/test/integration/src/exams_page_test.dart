@@ -151,8 +151,11 @@ void main() {
 
       await tester.pumpAndSettle();
 
-      final ElevatedButton okButton =
-          find.byType(ElevatedButton).evaluate().first.widget;
+      final ElevatedButton okButton = find
+          .widgetWithText(ElevatedButton, 'Confirmar')
+          .evaluate()
+          .first
+          .widget;
       expect(find.byWidget(okButton), findsOneWidget);
 
       okButton.onPressed();
