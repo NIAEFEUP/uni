@@ -6,7 +6,7 @@ const Color _mildWhite = Color.fromARGB(255, 0xfa, 0xfa, 0xfa);
 const Color _lightGrey = Color.fromARGB(255, 215, 215, 215);
 const Color _grey = Color.fromARGB(255, 0x7f, 0x7f, 0x7f);
 const Color _strongGrey = Color.fromARGB(255, 90, 90, 90);
-const Color _mildBlack = Color.fromARGB(255, 0x46, 0x46, 0x46);
+const Color _mildBlack = Color.fromARGB(255, 0x30, 0x30, 0x30);
 
 ThemeData applicationLightTheme = ThemeData(
   brightness: Brightness.light,
@@ -25,17 +25,18 @@ ThemeData applicationLightTheme = ThemeData(
         fontSize: 17.0, color: _lightRed, fontWeight: FontWeight.w300),
     headline4: TextStyle(
         fontSize: 17.0, color: _mildBlack, fontWeight: FontWeight.w300),
-    headline5:
-        TextStyle(fontSize: 17.0, color: _darkRed, fontWeight: FontWeight.w400),
-    headline6: TextStyle(
+    headline5: TextStyle(
         fontSize: 17.0, color: _mildBlack, fontWeight: FontWeight.w400),
+    headline6: TextStyle(
+        fontSize: 17.0, color: _mildBlack, fontWeight: FontWeight.w300),
     subtitle1:
         TextStyle(fontSize: 17.0, color: _grey, fontWeight: FontWeight.w300),
     subtitle2:
         TextStyle(fontSize: 16.0, color: _grey, fontWeight: FontWeight.w300),
-    bodyText1: TextStyle(fontSize: 15.0, color: _darkRed),
-    bodyText2: TextStyle(fontSize: 15.0, color: _darkRed),
-    caption: TextStyle(fontSize: 12.0, color: _grey),
+    bodyText1: TextStyle(fontSize: 16.0, color: _mildBlack),
+    bodyText2: TextStyle(fontSize: 15.0, color: _mildBlack),
+    caption:
+        TextStyle(fontSize: 12.0, color: _grey, fontWeight: FontWeight.w500),
   ),
   iconTheme: IconThemeData(color: _strongGrey),
   unselectedWidgetColor: _grey,
