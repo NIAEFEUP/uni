@@ -64,7 +64,7 @@ class BusStopCard extends GenericCard {
                         context,
                         MaterialPageRoute(
                             builder: (context) => BusStopSelectionPage())),
-                  ) // color lightgrey
+                  )
                 ]),
           );
         }

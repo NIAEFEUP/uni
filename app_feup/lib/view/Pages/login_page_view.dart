@@ -159,7 +159,7 @@ class _LoginPageViewState extends State<LoginPageView> {
       textInputAction: TextInputAction.next,
       textAlign: TextAlign.left,
       decoration: textFieldDecoration('número de estudante'),
-      validator: (String value) => value.isEmpty ? 'Preencha este campo' : null,
+      validator: (String value) => value.isEmpty ? 'Preenche este campo' : null,
     );
   }
 
@@ -181,7 +181,7 @@ class _LoginPageViewState extends State<LoginPageView> {
         textAlign: TextAlign.left,
         decoration: passwordFieldDecoration('palavra-passe'),
         validator: (String value) =>
-            value.isEmpty ? 'Preencha este campo' : null);
+            value.isEmpty ? 'Preenche este campo' : null);
   }
 
   Widget createSaveDataCheckBox() {

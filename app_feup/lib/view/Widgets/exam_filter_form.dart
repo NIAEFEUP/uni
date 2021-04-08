@@ -76,8 +76,7 @@ class _ExamFilterFormState extends State<ExamFilterForm> {
             setState(() {
               filteredExams[key] = value;
             });
-          },
-          activeColor: Theme.of(context).primaryColor);
+          });
     }));
   }
 }
