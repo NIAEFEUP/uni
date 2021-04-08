@@ -21,15 +21,15 @@ abstract class GeneralPageViewState extends State<StatefulWidget> {
   }
 
   Widget getBody(BuildContext context) {
-    return  Container();
+    return Container();
   }
 
   DecorationImage getDecorageImage(File x) {
     final fallbackImage = decorageImage == null
-        ?  AssetImage('assets/images/profile_placeholder.png')
+        ? AssetImage('assets/images/profile_placeholder.png')
         : decorageImage;
 
-    final image = (x == null) ? fallbackImage :  FileImage(x);
+    final image = (x == null) ? fallbackImage : FileImage(x);
     final result = DecorationImage(fit: BoxFit.cover, image: image);
     if (x != null) {
       decorageImage = image;
@@ -49,8 +49,8 @@ abstract class GeneralPageViewState extends State<StatefulWidget> {
         return () => handleRefresh(store);
       },
       builder: (context, refresh) {
-        return  RefreshIndicator(
-            key:  GlobalKey<RefreshIndicatorState>(),
+        return RefreshIndicator(
+            key: GlobalKey<RefreshIndicatorState>(),
             child: child,
             onRefresh: refresh,
             color: Theme.of(context).primaryColor);
@@ -59,10 +59,10 @@ abstract class GeneralPageViewState extends State<StatefulWidget> {
   }
 
   Widget getScaffold(BuildContext context, Widget body) {
-    return  Scaffold(
+    return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: buildAppBar(context),
-      drawer:  NavigationDrawer(parentContext: context),
+      drawer: NavigationDrawer(parentContext: context),
       body: this.refreshState(context, body),
     );
   }
@@ -70,17 +70,17 @@ abstract class GeneralPageViewState extends State<StatefulWidget> {
   AppBar buildAppBar(BuildContext context) {
     final MediaQueryData queryData = MediaQuery.of(context);
 
-    return  AppBar(
+    return AppBar(
       bottom: PreferredSize(
         preferredSize: Size.zero,
         child: Container(
           margin: EdgeInsets.only(left: borderMargin, right: borderMargin),
-          color: Theme.of(context).accentColor,
+          color: Theme.of(context).dividerColor,
           height: 1.5,
         ),
       ),
       elevation: 0,
-      iconTheme:  IconThemeData(color: Theme.of(context).primaryColor),
+      iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
       backgroundColor: Theme.of(context).backgroundColor,
       titleSpacing: 0.0,
       title: ButtonTheme(
@@ -91,7 +91,7 @@ abstract class GeneralPageViewState extends State<StatefulWidget> {
           child: TextButton(
             onPressed: () {
               final currentRouteName = ModalRoute.of(context).settings.name;
-              if(currentRouteName != Constants.navPersonalArea){
+              if (currentRouteName != Constants.navPersonalArea) {
                 Navigator.pushNamed(context, '/${Constants.navPersonalArea}');
               }
             },
@@ -113,8 +113,8 @@ abstract class GeneralPageViewState extends State<StatefulWidget> {
             AsyncSnapshot<DecorationImage> decorationImage) {
           return TextButton(
             onPressed: () => {
-              Navigator.push(context,
-                   MaterialPageRoute(builder: (__) =>  ProfilePage()))
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (__) => ProfilePage()))
             },
             child: Container(
                 width: 40.0,

@@ -166,21 +166,15 @@ class BugReportFormState extends State<BugReportForm> {
 
   Widget submitButton(BuildContext context) {
     return Container(
-        child: ElevatedButton(
-      onPressed: () {
-        if (_formKey.currentState.validate() && !_isButtonTapped) {
-          submitBugReport();
-        }
-      },
-      child: Text(
-        'Enviar',
-        style: TextStyle(color: Colors.white, fontSize: 20.0),
+      child: ElevatedButton(
+        onPressed: () {
+          if (_formKey.currentState.validate() && !_isButtonTapped) {
+            submitBugReport();
+          }
+        },
+        child: Text('Enviar'),
       ),
-      style: ElevatedButton.styleFrom(
-        padding: EdgeInsets.symmetric(vertical: 10.0),
-        primary: Theme.of(context).primaryColor,
-      ),
-    ));
+    );
   }
 
   void submitBugReport() {

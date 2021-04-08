@@ -164,23 +164,19 @@ class _NextArrivalsState extends State<NextArrivals>
 
   List<Widget> getContent(BuildContext context) {
     final MediaQueryData queryData = MediaQuery.of(context);
-    final Color labelColor = Color.fromARGB(255, 0x50, 0x50, 0x50);
 
     return [
       Container(
         decoration: const BoxDecoration(
           border: Border(
-            bottom: BorderSide(width: 1.0, color: Colors.grey),
+            bottom: BorderSide(width: 1.0),
           ),
         ),
         constraints: BoxConstraints(maxHeight: 150.0),
         child: Material(
-          color: Colors.white,
           child: TabBar(
             controller: tabController,
             isScrollable: true,
-            unselectedLabelColor: labelColor,
-            labelColor: labelColor,
             indicatorWeight: 3.0,
             indicatorColor: Theme.of(context).primaryColor,
             labelPadding: EdgeInsets.all(0.0),
