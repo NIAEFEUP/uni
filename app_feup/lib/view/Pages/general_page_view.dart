@@ -60,7 +60,6 @@ abstract class GeneralPageViewState extends State<StatefulWidget> {
 
   Widget getScaffold(BuildContext context, Widget body) {
     return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: buildAppBar(context),
       drawer: NavigationDrawer(parentContext: context),
       body: this.refreshState(context, body),
