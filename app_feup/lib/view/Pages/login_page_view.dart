@@ -257,6 +257,7 @@ class _LoginPageViewState extends State<LoginPageView> {
 
   InputDecoration textFieldDecoration(String placeholder) {
     return InputDecoration(
+        hintStyle: TextStyle(color: Colors.white),
         errorStyle: TextStyle(
           color: Colors.white70,
         ),
@@ -270,6 +271,7 @@ class _LoginPageViewState extends State<LoginPageView> {
   InputDecoration passwordFieldDecoration(String placeholder) {
     final genericDecoration = textFieldDecoration(placeholder);
     return InputDecoration(
+        hintStyle: genericDecoration.hintStyle,
         errorStyle: genericDecoration.errorStyle,
         hintText: genericDecoration.hintText,
         contentPadding: genericDecoration.contentPadding,
@@ -280,7 +282,7 @@ class _LoginPageViewState extends State<LoginPageView> {
             _obscurePasswordInput ? Icons.visibility : Icons.visibility_off,
           ),
           onPressed: _toggleObscurePasswordInput,
-          color: Colors.white70,
+          color: Colors.white,
         ));
   }
 

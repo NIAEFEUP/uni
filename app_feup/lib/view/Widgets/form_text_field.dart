@@ -49,6 +49,9 @@ class FormTextField extends StatelessWidget {
               minLines: minLines,
               maxLines: maxLines,
               decoration: InputDecoration(
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Theme.of(context).accentColor),
+                ),
                 hintText: hintText,
                 hintStyle: Theme.of(context).textTheme.bodyText2,
                 labelText: labelText,
