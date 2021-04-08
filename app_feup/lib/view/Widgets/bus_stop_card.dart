@@ -57,7 +57,7 @@ class BusStopCard extends GenericCard {
                       style: Theme.of(context)
                           .textTheme
                           .headline4
-                          .apply(color: Theme.of(context).primaryColor)),
+                          .apply(color: Theme.of(context).accentColor)),
                   IconButton(
                     icon: Icon(Icons.settings),
                     onPressed: () => Navigator.push(
@@ -88,7 +88,7 @@ class BusStopCard extends GenericCard {
                   style: Theme.of(context)
                       .textTheme
                       .headline4
-                      .apply(color: Theme.of(context).primaryColor)))
+                      .apply(color: Theme.of(context).accentColor)))
         ]);
         break;
     }
@@ -102,7 +102,7 @@ class BusStopCard extends GenericCard {
             style: Theme.of(context)
                 .textTheme
                 .headline4
-                .apply(color: Theme.of(context).primaryColor)),
+                .apply(color: Theme.of(context).accentColor)),
       ],
     );
   }

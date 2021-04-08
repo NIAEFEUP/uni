@@ -26,25 +26,25 @@ class FormTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Container(
-      margin:  EdgeInsets.only(bottom: bottomMargin),
-      child:  Column(
+    return Container(
+      margin: EdgeInsets.only(bottom: bottomMargin),
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-           Text(
+          Text(
             description,
             style: Theme.of(context).textTheme.bodyText2,
             textAlign: TextAlign.left,
           ),
-           Row(children: <Widget>[
-             Container(
-                margin:  EdgeInsets.only(right: 15),
-                child:  Icon(
+          Row(children: <Widget>[
+            Container(
+                margin: EdgeInsets.only(right: 15),
+                child: Icon(
                   icon,
-                  color: Theme.of(context).primaryColor,
+                  color: Theme.of(context).accentColor,
                 )),
             Expanded(
-                child:  TextFormField(
+                child: TextFormField(
               // margins
               minLines: minLines,
               maxLines: maxLines,

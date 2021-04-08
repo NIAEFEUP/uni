@@ -53,14 +53,14 @@ abstract class GeneralPageViewState extends State<StatefulWidget> {
             key: GlobalKey<RefreshIndicatorState>(),
             child: child,
             onRefresh: refresh,
-            color: Theme.of(context).primaryColor);
+            color: Theme.of(context).accentColor);
       },
     );
   }
 
   Widget getScaffold(BuildContext context, Widget body) {
     return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: buildAppBar(context),
       drawer: NavigationDrawer(parentContext: context),
       body: this.refreshState(context, body),
@@ -80,8 +80,8 @@ abstract class GeneralPageViewState extends State<StatefulWidget> {
         ),
       ),
       elevation: 0,
-      iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
-      backgroundColor: Theme.of(context).backgroundColor,
+      iconTheme: IconThemeData(color: Theme.of(context).accentColor),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       titleSpacing: 0.0,
       title: ButtonTheme(
           minWidth: 0,

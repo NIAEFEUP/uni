@@ -23,7 +23,6 @@ class SchedulePageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final MediaQueryData queryData = MediaQuery.of(context);
-    final Color labelColor = Color.fromARGB(255, 0x50, 0x50, 0x50);
 
     return Column(children: <Widget>[
       ListView(
@@ -33,12 +32,7 @@ class SchedulePageView extends StatelessWidget {
           PageTitle(name: 'Horário'),
           TabBar(
             controller: tabController,
-            unselectedLabelColor: labelColor,
-            labelColor: labelColor,
             isScrollable: true,
-            indicatorWeight: 3.0,
-            indicatorColor: Theme.of(context).primaryColor,
-            labelPadding: EdgeInsets.all(0.0),
             tabs: createTabs(queryData, context),
           ),
         ],

@@ -53,13 +53,7 @@ class MainCardsList extends StatelessWidget {
                 ),
                 actions: [
                   TextButton(
-                      child: Text(
-                        'Cancelar',
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline4
-                            .apply(color: Theme.of(context).primaryColor),
-                      ),
+                      child: Text('Cancelar'),
                       onPressed: () => Navigator.pop(context))
                 ]);
           }), //Add FAB functionality here
@@ -88,7 +82,7 @@ class MainCardsList extends StatelessWidget {
           ),
           decoration: BoxDecoration(
               border: Border(
-                  bottom: BorderSide(color: Theme.of(context).accentColor))),
+                  bottom: BorderSide(color: Theme.of(context).dividerColor))),
         ));
       }
     });

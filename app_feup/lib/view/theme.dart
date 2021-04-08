@@ -10,10 +10,12 @@ const Color _mildBlack = Color.fromARGB(255, 0x46, 0x46, 0x46);
 
 ThemeData applicationLightTheme = ThemeData(
   brightness: Brightness.light,
-  primaryColor: _darkRed,
-  accentColor: _lightGrey,
+  primaryColor: Colors.white,
+  accentColor: _darkRed,
+  dividerColor: _lightGrey,
   hintColor: _grey,
   backgroundColor: _mildWhite,
+  scaffoldBackgroundColor: _mildWhite,
   textTheme: TextTheme(
     headline6: TextStyle(
         fontSize: 17.0, color: _mildBlack, fontWeight: FontWeight.w300),
@@ -49,6 +51,10 @@ ThemeData applicationLightTheme = ThemeData(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12.0),
         ),
-        textStyle: TextStyle(fontWeight: FontWeight.w400)),
+        textStyle: TextStyle(fontWeight: FontWeight.w400, fontSize: 15.0)),
   ),
+  textButtonTheme: TextButtonThemeData(
+      style: TextButton.styleFrom(
+          primary: _darkRed,
+          textStyle: TextStyle(fontSize: 15.0, fontWeight: FontWeight.w400))),
 );
