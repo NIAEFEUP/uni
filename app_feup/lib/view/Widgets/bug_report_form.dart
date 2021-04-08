@@ -2,9 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:logger/logger.dart';
 import 'package:uni/view/Widgets/form_text_field.dart';
-import 'package:uni/view/theme.dart' as theme;
 import 'package:uni/controller/networking/network_router.dart';
-import 'package:toast/toast.dart';
+import 'package:uni/view/Widgets/toast_message.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -226,7 +225,7 @@ class BugReportFormState extends State<BugReportForm> {
       }
 
       FocusScope.of(context).requestFocus(FocusNode());
-      displayBugToast(msg);
+      ToastMessage.display(context, msg);
       setState(() {
         _isButtonTapped = false;
       });
@@ -236,23 +235,11 @@ class BugReportFormState extends State<BugReportForm> {
 
       final String msg =
           (error is SocketException) ? 'Falha de rede' : 'Ocorreu um erro';
-      displayBugToast(msg);
+      ToastMessage.display(context, msg);
       setState(() {
         _isButtonTapped = false;
       });
     });
-  }
-
-  void displayBugToast(String msg) {
-    Toast.show(
-      msg,
-      context,
-      duration: Toast.LENGTH_LONG,
-      gravity: Toast.BOTTOM,
-      backgroundColor: theme.toastColor,
-      backgroundRadius: 16.0,
-      textColor: Colors.white,
-    );
   }
 
   void clearForm() {

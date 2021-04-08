@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:toast/toast.dart';
+import 'package:uni/view/Widgets/toast_message.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/redux/action_creators.dart';
 import 'package:uni/view/Widgets/terms_and_conditions.dart';
@@ -99,18 +99,6 @@ class _LoginPageViewState extends State<LoginPageView> {
     return widgets;
   }
 
-  void displayToastMessage(BuildContext context, String msg) {
-    Toast.show(
-      msg,
-      context,
-      duration: Toast.LENGTH_LONG,
-      gravity: Toast.BOTTOM,
-      backgroundColor: toastColor,
-      backgroundRadius: 16.0,
-      textColor: Colors.white,
-    );
-  }
-
   Future<void> exitAppWaiter() async {
     _exitApp = true;
     await Future.delayed(Duration(seconds: 2));
@@ -121,7 +109,7 @@ class _LoginPageViewState extends State<LoginPageView> {
     if (_exitApp) {
       return Future.value(true);
     }
-    displayToastMessage(context, 'Pressione novamente para sair');
+    ToastMessage.display(context, 'Pressione novamente para sair');
     exitAppWaiter();
     return Future.value(false);
   }
@@ -252,7 +240,7 @@ class _LoginPageViewState extends State<LoginPageView> {
             Navigator.pushReplacementNamed(
                 context, '/' + Constants.navPersonalArea);
           } else if (status == RequestStatus.failed) {
-            displayToastMessage(context, 'O login falhou');
+            ToastMessage.display(context, 'O login falhou');
           }
         },
         builder: (context, status) {

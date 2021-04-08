@@ -17,30 +17,29 @@ const Color lightGreyTextColor = Color.fromARGB(255, 90, 90, 90);
 const Color divider = Color.fromARGB(255, 180, 180, 180);
 const Color hintColor = Colors.white;
 
-ThemeData applicationTheme = ThemeData(
-  brightness: Brightness.light,
-  primaryColor: primaryColor,
-  accentColor: accentColor,
-  hintColor: hintColor,
-  backgroundColor: backgroundColor,
-
-//  fontFamily: 'Raleway',
-
-  textTheme: TextTheme(
-    headline5: TextStyle(
-        fontSize: 72.0, fontWeight: FontWeight.bold, color: primaryColor),
-    headline6: TextStyle(
-        fontSize: 17.0, color: greyTextColor, fontWeight: FontWeight.w300),
-    bodyText2: TextStyle(fontSize: 15.0, color: primaryColor),
-    subtitle2: TextStyle(
-        fontSize: 17.0, color: subtitleColor, fontWeight: FontWeight.w300),
-    headline4: TextStyle(
-        fontSize: 17.0, color: greyTextColor, fontWeight: FontWeight.w300),
-    headline3: TextStyle(
-        fontSize: 17.0, color: tonedDownPrimary, fontWeight: FontWeight.w300),
-    headline2: TextStyle(
-        fontSize: 10.0, color: greyTextColor, fontWeight: FontWeight.w500),
-    headline1: TextStyle(
-        fontSize: 17.0, color: Colors.white, fontWeight: FontWeight.w200),
-  ),
-);
+ThemeData applicationLightTheme = ThemeData(
+    brightness: Brightness.light,
+    primaryColor: primaryColor,
+    accentColor: accentColor,
+    hintColor: hintColor,
+    backgroundColor: backgroundColor,
+    dialogBackgroundColor: toastColor,
+    textTheme: TextTheme(
+      headline6: TextStyle(
+          fontSize: 17.0, color: greyTextColor, fontWeight: FontWeight.w300),
+      headline5: TextStyle(
+          fontSize: 72.0, fontWeight: FontWeight.bold, color: primaryColor),
+      subtitle2: TextStyle(
+          fontSize: 17.0, color: subtitleColor, fontWeight: FontWeight.w300),
+      headline4: TextStyle(
+          fontSize: 17.0, color: greyTextColor, fontWeight: FontWeight.w300),
+      headline3: TextStyle(
+          fontSize: 17.0, color: tonedDownPrimary, fontWeight: FontWeight.w300),
+      headline2: TextStyle(
+          fontSize: 10.0, color: greyTextColor, fontWeight: FontWeight.w500),
+      headline1: TextStyle(
+          fontSize: 17.0, color: Colors.white, fontWeight: FontWeight.w200),
+      bodyText2: TextStyle(fontSize: 15.0, color: primaryColor),
+      bodyText1: TextStyle(fontSize: 17.0, color: primaryColor),
+    ),
+    primaryIconTheme: IconThemeData(color: primaryColor));
