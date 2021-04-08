@@ -2,7 +2,6 @@ import 'package:uni/model/entities/trip.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:uni/view/Widgets/trip_row.dart';
-import 'package:uni/view/theme.dart';
 
 class BusStopRow extends StatelessWidget {
   final String stopCode;
@@ -20,9 +19,9 @@ class BusStopRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Container(
+    return Container(
       padding: EdgeInsets.all(4.0),
-      child:  Row(
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: this.getTrips(context),
       ),
@@ -30,7 +29,7 @@ class BusStopRow extends StatelessWidget {
   }
 
   List<Widget> getTrips(context) {
-    final List<Widget> row =  <Widget>[];
+    final List<Widget> row = <Widget>[];
 
     if (stopCodeShow) {
       row.add(stopCodeRotatedContainer(context));
@@ -39,9 +38,9 @@ class BusStopRow extends StatelessWidget {
     if (trips.isEmpty) {
       row.add(noTripsContainer(context));
     } else {
-      final List<Widget> tripRows = getTripRows();
+      final List<Widget> tripRows = getTripRows(context);
 
-      row.add( Expanded(child:  Column(children: tripRows)));
+      row.add(Expanded(child: Column(children: tripRows)));
     }
 
     return row;
@@ -51,40 +50,39 @@ class BusStopRow extends StatelessWidget {
     return Text('Não há viagens planeadas de momento.',
         maxLines: 3,
         overflow: TextOverflow.ellipsis,
-        style:
-            Theme.of(context).textTheme.headline4.apply(color: greyTextColor));
+        style: Theme.of(context).textTheme.headline4);
   }
 
   Widget stopCodeRotatedContainer(context) {
-    return  Container(
+    return Container(
       padding: EdgeInsets.only(left: 4.0),
-      child:  RotatedBox(
+      child: RotatedBox(
         child: Text(this.stopCode,
             style: Theme.of(context)
                 .textTheme
                 .headline4
-                .apply(color: primaryColor)),
+                .apply(color: Theme.of(context).primaryColor)),
         quarterTurns: 3,
       ),
     );
   }
 
-  List<Widget> getTripRows() {
-    final List<Widget> tripRows =  <Widget>[];
+  List<Widget> getTripRows(BuildContext context) {
+    final List<Widget> tripRows = <Widget>[];
 
     if (singleTrip) {
-      tripRows.add( Container(
-          padding: EdgeInsets.all(12.0), child:  TripRow(trip: trips[0])));
+      tripRows.add(Container(
+          padding: EdgeInsets.all(12.0), child: TripRow(trip: trips[0])));
     } else {
       for (int i = 0; i < trips.length; i++) {
-        Color color = primaryColor;
+        Color color = Theme.of(context).primaryColor;
         if (i == trips.length - 1) color = Colors.transparent;
 
-        tripRows.add( Container(
+        tripRows.add(Container(
             padding: EdgeInsets.all(12.0),
-            decoration:  BoxDecoration(
+            decoration: BoxDecoration(
                 border: Border(bottom: BorderSide(width: 0.1, color: color))),
-            child:  TripRow(trip: trips[i])));
+            child: TripRow(trip: trips[i])));
       }
     }
 

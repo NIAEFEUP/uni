@@ -11,7 +11,6 @@ import 'package:uni/view/Widgets/bus_stop_card.dart';
 import 'package:uni/view/Widgets/exam_card.dart';
 import 'package:uni/view/Widgets/print_info_card.dart';
 import 'package:uni/view/Widgets/schedule_card.dart';
-import 'package:uni/view/theme.dart';
 
 class MainCardsList extends StatelessWidget {
   final Map<FAVORITE_WIDGET_TYPE, Function> cardCreators = {
@@ -88,7 +87,8 @@ class MainCardsList extends StatelessWidget {
             },
           ),
           decoration: BoxDecoration(
-              border: Border(bottom: BorderSide(color: accentColor))),
+              border: Border(
+                  bottom: BorderSide(color: Theme.of(context).accentColor))),
         ));
       }
     });
@@ -194,4 +194,3 @@ class MainCardsList extends StatelessWidget {
     return result;
   }
 }
-

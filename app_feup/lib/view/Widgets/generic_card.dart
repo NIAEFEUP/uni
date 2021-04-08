@@ -19,7 +19,7 @@ abstract class GenericCard extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return  GenericCardState();
+    return GenericCardState();
   }
 
   Widget buildCardContent(BuildContext context);
@@ -35,9 +35,7 @@ abstract class GenericCard extends StatefulWidget {
     if (time == null) return Text('N/A');
     final t = DateTime.parse(time);
     return Container(
-        child: Text(
-            'última atualização às ' +
-                t.toTimeHourMinString(),
+        child: Text('última atualização às ' + t.toTimeHourMinString(),
             style: Theme.of(context).textTheme.headline2),
         alignment: Alignment.center);
   }
@@ -55,12 +53,12 @@ class GenericCardState extends State<GenericCard> {
             margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
             color: Color.fromARGB(0, 0, 0, 0),
             elevation: 0,
-            shape:  RoundedRectangleBorder(
-                borderRadius:  BorderRadius.circular(this.borderRadius)),
-            child:  Container(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(this.borderRadius)),
+            child: Container(
               decoration: BoxDecoration(
                   boxShadow: [
-                     BoxShadow(
+                    BoxShadow(
                         color: Color.fromARGB(0x1c, 0, 0, 0),
                         blurRadius: 7.0,
                         offset: Offset(0.0, 1.0))
@@ -68,27 +66,27 @@ class GenericCardState extends State<GenericCard> {
                   color: Theme.of(context).accentColor,
                   borderRadius:
                       BorderRadius.all(Radius.circular(this.borderRadius))),
-              child:  ConstrainedBox(
-                constraints:  BoxConstraints(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
                   minHeight: 60.0,
                 ),
-                child:  Container(
+                child: Container(
                   decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius:
                           BorderRadius.all(Radius.circular(this.borderRadius))),
                   width: (double.infinity),
-                  child:  Column(
+                  child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                       Row(
+                      Row(
                         children: [
                           Flexible(
                               child: Container(
                             child: Text(widget.getTitle(),
                                 style: Theme.of(context)
                                     .textTheme
-                                    .headline5
+                                    .headline1
                                     .apply(
                                         fontSizeDelta: -53,
                                         fontWeightDelta: -3)),

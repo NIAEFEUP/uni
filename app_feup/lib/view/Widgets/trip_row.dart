@@ -1,7 +1,6 @@
 import 'package:uni/model/entities/trip.dart';
 import 'package:flutter/material.dart';
 import 'package:uni/view/Widgets/estimated_arrival_timestamp.dart';
-import '../theme.dart';
 
 class TripRow extends StatelessWidget {
   final Trip trip;
@@ -13,10 +12,10 @@ class TripRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Row(
+    return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-         Column(
+        Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(this.trip.line,
@@ -25,25 +24,20 @@ class TripRow extends StatelessWidget {
                 style: Theme.of(context)
                     .textTheme
                     .headline4
-                    .apply(color: lightGreyTextColor, fontWeightDelta: 2)),
+                    .apply(fontWeightDelta: 2)),
             Text(this.trip.destination,
-                style: Theme.of(context)
-                    .textTheme
-                    .headline4
-                    .apply(color: greyTextColor)),
+                style: Theme.of(context).textTheme.headline4),
           ],
         ),
-         Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: <Widget>[
-              Text(this.trip.timeRemaining.toString() + '\'',
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline4
-                      .apply(color: lightGreyTextColor, fontWeightDelta: 2)),
-               EstimatedArrivalTimeStamp(
-                  timeRemaining: this.trip.timeRemaining.toString()),
-            ])
+        Column(crossAxisAlignment: CrossAxisAlignment.end, children: <Widget>[
+          Text(this.trip.timeRemaining.toString() + '\'',
+              style: Theme.of(context)
+                  .textTheme
+                  .headline4
+                  .apply(fontWeightDelta: 2)),
+          EstimatedArrivalTimeStamp(
+              timeRemaining: this.trip.timeRemaining.toString()),
+        ])
       ],
     );
   }

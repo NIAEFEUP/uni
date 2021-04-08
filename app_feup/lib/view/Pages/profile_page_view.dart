@@ -9,7 +9,6 @@ import 'package:uni/view/Pages/unnamed_page_view.dart';
 import 'package:uni/view/Widgets/account_info_card.dart';
 import 'package:uni/view/Widgets/course_info_card.dart';
 import 'package:uni/view/Widgets/print_info_card.dart';
-import 'package:uni/view/theme.dart';
 
 class ProfilePageView extends StatefulWidget {
   final String name;
@@ -38,7 +37,6 @@ class ProfilePageViewState extends UnnamedPageView {
   final String email;
   final Map<String, String> currentState;
   final List<Course> courses;
-  
 
   @override
   Widget getBody(BuildContext context) {
@@ -51,7 +49,7 @@ class ProfilePageViewState extends UnnamedPageView {
   }
 
   List<Widget> childrenList(BuildContext context) {
-    final List<Widget> list =  [];
+    final List<Widget> list = [];
     list.add(Padding(padding: const EdgeInsets.all(5.0)));
     list.add(profileInfo(context));
     list.add(Padding(padding: const EdgeInsets.all(5.0)));
@@ -87,16 +85,16 @@ class ProfilePageViewState extends UnnamedPageView {
             Text(name,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    color: greyTextColor,
+                    //color: greyTextColor,
                     fontSize: 20.0,
                     fontWeight: FontWeight.w400)),
             Padding(padding: const EdgeInsets.all(5.0)),
             Text(email,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    color: greyTextColor,
+                    //color: greyTextColor,
                     fontSize: 18.0,
-                    fontWeight: FontWeight.w200)),
+                    fontWeight: FontWeight.w300)),
           ],
         ),
       ),

@@ -5,7 +5,6 @@ import 'package:uni/view/Widgets/toast_message.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/redux/action_creators.dart';
 import 'package:uni/view/Widgets/terms_and_conditions.dart';
-import 'package:uni/view/theme.dart';
 import 'package:uni/utils/constants.dart' as Constants;
 
 import '../../model/app_state.dart';
@@ -65,7 +64,7 @@ class _LoginPageViewState extends State<LoginPageView> {
     final MediaQueryData queryData = MediaQuery.of(context);
 
     return Scaffold(
-        backgroundColor: primaryColor,
+        backgroundColor: Theme.of(context).primaryColor,
         body: WillPopScope(
             child: Padding(
                 padding: EdgeInsets.only(
@@ -88,7 +87,7 @@ class _LoginPageViewState extends State<LoginPageView> {
     widgets.add(getLoginForm(queryData, context));
     widgets.add(
         Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 15)));
-    widgets.add(createLogInButton(queryData));
+    widgets.add(createLogInButton(queryData, context));
     widgets.add(
         Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)));
     widgets.add(createStatusWidget(context));
@@ -198,7 +197,7 @@ class _LoginPageViewState extends State<LoginPageView> {
     );
   }
 
-  Widget createLogInButton(queryData) {
+  Widget createLogInButton(queryData, BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(
           left: queryData.size.width / 7, right: queryData.size.width / 7),
@@ -219,7 +218,7 @@ class _LoginPageViewState extends State<LoginPageView> {
           },
           child: Text('Entrar',
               style: TextStyle(
-                  color: primaryColor,
+                  color: Theme.of(context).primaryColor,
                   fontWeight: FontWeight.w400,
                   fontSize: 20),
               textAlign: TextAlign.center),

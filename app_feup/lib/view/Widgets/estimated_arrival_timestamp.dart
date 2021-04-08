@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:uni/model/app_state.dart';
-import 'package:uni/view/theme.dart';
 
 class EstimatedArrivalTimeStamp extends StatelessWidget {
   final String timeRemaining;
@@ -31,8 +30,6 @@ class EstimatedArrivalTimeStamp extends StatelessWidget {
     num = estimatedTime.minute;
     final String minute = (num >= 10 ? '$num' : '0$num');
 
-    return  Text('$hour:$minute',
-        style:
-            Theme.of(context).textTheme.headline4.apply(color: greyTextColor));
+    return Text('$hour:$minute', style: Theme.of(context).textTheme.headline4);
   }
 }
