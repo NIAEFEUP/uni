@@ -28,7 +28,7 @@ ThemeData applicationLightTheme = ThemeData(
     headline5:
         TextStyle(fontSize: 17.0, color: _darkRed, fontWeight: FontWeight.w400),
     headline6: TextStyle(
-        fontSize: 17.0, color: _mildBlack, fontWeight: FontWeight.w300),
+        fontSize: 17.0, color: _mildBlack, fontWeight: FontWeight.w400),
     subtitle1:
         TextStyle(fontSize: 17.0, color: _grey, fontWeight: FontWeight.w300),
     subtitle2:
@@ -38,14 +38,14 @@ ThemeData applicationLightTheme = ThemeData(
     caption: TextStyle(fontSize: 12.0, color: _grey),
   ),
   iconTheme: IconThemeData(color: _strongGrey),
-  unselectedWidgetColor: _strongGrey,
+  unselectedWidgetColor: _grey,
   toggleableActiveColor: _darkRed,
   tabBarTheme: TabBarTheme(
     unselectedLabelColor: _strongGrey,
     labelColor: _strongGrey,
     labelPadding: EdgeInsets.all(0.0),
   ),
-  canvasColor: Colors.white,
+  canvasColor: _mildWhite,
   cardColor: Colors.white,
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
