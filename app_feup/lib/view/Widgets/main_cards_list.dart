@@ -122,13 +122,8 @@ class MainCardsList extends StatelessWidget {
         GestureDetector(
             onTap: () => StoreProvider.of<AppState>(context)
                 .dispatch(SetHomePageEditingMode(!this.isEditing(context))),
-            child: Text(
-              this.isEditing(context) ? 'Concluir Edição' : 'Editar',
-              style: Theme.of(context)
-                  .textTheme
-                  .subtitle2
-                  .apply(fontSizeFactor: 0.8),
-            ))
+            child: Text(this.isEditing(context) ? 'Concluir Edição' : 'Editar',
+                style: Theme.of(context).textTheme.caption))
       ]),
     );
   }
