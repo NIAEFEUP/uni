@@ -12,7 +12,7 @@ import 'package:uni/redux/action_creators.dart';
 import 'package:uni/view/Widgets/buses_form.dart';
 
 class BusStopSearch extends SearchDelegate<String> {
-  List<String> suggestionsList =  [];
+  List<String> suggestionsList = [];
   AppBusStopDatabase db;
   String stopCode;
   BusStopData stopData;
@@ -76,7 +76,7 @@ class BusStopSearch extends SearchDelegate<String> {
   }
 
   Widget busListing(BuildContext context, String suggestion) {
-    final BusesForm busesForm =  BusesForm(
+    final BusesForm busesForm = BusesForm(
         suggestion.splitMapJoin(RegExp(r'\[[A-Z0-9_]+\]'),
             onMatch: (m) => '${m.group(0).substring(1, m.group(0).length - 1)}',
             onNonMatch: (m) => ''),
@@ -90,28 +90,13 @@ class BusStopSearch extends SearchDelegate<String> {
         ),
         actions: [
           TextButton(
-              child: Text('Cancelar',
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline4
-                      .apply(color: Theme.of(context).primaryColor)),
-              onPressed: () => Navigator.pop(context)),
-          TextButton(
-              child: Text('Confirmar',
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline4
-                      .apply(color: Theme.of(context).accentColor)),
-              style: TextButton.styleFrom(
-                backgroundColor: Theme.of(context).primaryColor,
-                shape: RoundedRectangleBorder(
-                    borderRadius:  BorderRadius.circular(10.0),
-                    side: BorderSide(color: Theme.of(context).primaryColor)),
-              ),
+              child: Text('Cancelar'), onPressed: () => Navigator.pop(context)),
+          ElevatedButton(
+              child: Text('Confirmar'),
               onPressed: () async {
                 if (stopData.configuredBuses.isNotEmpty) {
                   StoreProvider.of<AppState>(context).dispatch(
-                      addUserBusStop( Completer(), stopCode, stopData));
+                      addUserBusStop(Completer(), stopCode, stopData));
                   Navigator.pop(context);
                 }
               })

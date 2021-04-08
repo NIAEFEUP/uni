@@ -61,7 +61,7 @@ class BusStopRow extends StatelessWidget {
             style: Theme.of(context)
                 .textTheme
                 .headline4
-                .apply(color: Theme.of(context).primaryColor)),
+                .apply(color: Theme.of(context).accentColor)),
         quarterTurns: 3,
       ),
     );
@@ -75,7 +75,7 @@ class BusStopRow extends StatelessWidget {
           padding: EdgeInsets.all(12.0), child: TripRow(trip: trips[0])));
     } else {
       for (int i = 0; i < trips.length; i++) {
-        Color color = Theme.of(context).primaryColor;
+        Color color = Theme.of(context).accentColor;
         if (i == trips.length - 1) color = Colors.transparent;
 
         tripRows.add(Container(

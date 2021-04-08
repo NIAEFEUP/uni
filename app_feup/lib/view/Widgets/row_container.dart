@@ -9,11 +9,11 @@ class RowContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Container(
+    return Container(
       decoration: BoxDecoration(
           border: Border.all(
               color: borderColor == null
-                  ? Theme.of(context).accentColor
+                  ? Theme.of(context).dividerColor
                   : this.borderColor,
               width: 0.5),
           color: this.color,

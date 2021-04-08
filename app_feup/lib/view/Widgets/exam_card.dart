@@ -72,7 +72,7 @@ class ExamCard extends GenericCard {
         decoration: BoxDecoration(
             border: Border(
                 bottom: BorderSide(
-                    width: 1.5, color: Theme.of(context).accentColor))),
+                    width: 1.5, color: Theme.of(context).dividerColor))),
       ));
     }
     for (int i = 1; i < 4 && i < exams.length; i++) {

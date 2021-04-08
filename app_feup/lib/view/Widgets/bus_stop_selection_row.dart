@@ -26,12 +26,12 @@ class BusStopSelectionRowState extends State<BusStopSelectionRow> {
 
   Future deleteStop(BuildContext context) async {
     StoreProvider.of<AppState>(context)
-        .dispatch(removeUserBusStop( Completer(), this.stopCode));
+        .dispatch(removeUserBusStop(Completer(), this.stopCode));
   }
 
   Future toggleFavorite(BuildContext context) async {
-    StoreProvider.of<AppState>(context).dispatch(toggleFavoriteUserBusStop(
-         Completer(), this.stopCode, this.stopData));
+    StoreProvider.of<AppState>(context).dispatch(
+        toggleFavoriteUserBusStop(Completer(), this.stopCode, this.stopData));
   }
 
   @override
@@ -47,7 +47,7 @@ class BusStopSelectionRowState extends State<BusStopSelectionRow> {
                   left: width * 0.20,
                   right: width * 0.20),
               child: RowContainer(
-                  borderColor: Theme.of(context).primaryColor,
+                  borderColor: Theme.of(context).accentColor,
                   child: Container(
                       padding: EdgeInsets.only(left: 10.0, right: 10.0),
                       child: Row(
@@ -60,7 +60,7 @@ class BusStopSelectionRowState extends State<BusStopSelectionRow> {
                                       stopData.favorited
                                           ? Icons.star
                                           : Icons.star_border,
-                                      color: Theme.of(context).primaryColor),
+                                      color: Theme.of(context).accentColor),
                                   onTap: () => toggleFavorite(context)),
                               IconButton(
                                 icon: Icon(Icons.cancel),

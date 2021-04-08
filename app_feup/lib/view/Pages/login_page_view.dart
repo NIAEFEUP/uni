@@ -64,7 +64,7 @@ class _LoginPageViewState extends State<LoginPageView> {
     final MediaQueryData queryData = MediaQuery.of(context);
 
     return Scaffold(
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: Theme.of(context).accentColor,
         body: WillPopScope(
             child: Padding(
                 padding: EdgeInsets.only(
@@ -218,7 +218,7 @@ class _LoginPageViewState extends State<LoginPageView> {
           },
           child: Text('Entrar',
               style: TextStyle(
-                  color: Theme.of(context).primaryColor,
+                  color: Theme.of(context).accentColor,
                   fontWeight: FontWeight.w400,
                   fontSize: 20),
               textAlign: TextAlign.center),
@@ -280,7 +280,7 @@ class _LoginPageViewState extends State<LoginPageView> {
             _obscurePasswordInput ? Icons.visibility : Icons.visibility_off,
           ),
           onPressed: _toggleObscurePasswordInput,
-          color: Theme.of(context).accentColor,
+          color: Colors.white70,
         ));
   }
 

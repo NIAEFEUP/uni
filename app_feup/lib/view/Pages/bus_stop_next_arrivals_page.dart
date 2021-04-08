@@ -152,7 +152,7 @@ class _NextArrivalsState extends State<NextArrivals>
               ),
               IconButton(
                   icon: Icon(Icons.edit),
-                  color: Theme.of(context).primaryColor,
+                  color: Theme.of(context).accentColor,
                   onPressed: () => Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -177,9 +177,6 @@ class _NextArrivalsState extends State<NextArrivals>
           child: TabBar(
             controller: tabController,
             isScrollable: true,
-            indicatorWeight: 3.0,
-            indicatorColor: Theme.of(context).primaryColor,
-            labelPadding: EdgeInsets.all(0.0),
             tabs: createTabs(queryData),
           ),
         ),

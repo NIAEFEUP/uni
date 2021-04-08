@@ -63,8 +63,7 @@ class _BusesFormState extends State<BusesForm> {
             setState(() {
               busesToAdd[i] = value;
             });
-          },
-          activeColor: Theme.of(context).primaryColor);
+          });
     }));
   }
 

@@ -22,24 +22,9 @@ class _ExamFilterFormState extends State<ExamFilterForm> {
           style: Theme.of(context).textTheme.headline6.apply(fontSizeDelta: 2)),
       actions: [
         TextButton(
-            child: Text('Cancelar',
-                style: Theme.of(context)
-                    .textTheme
-                    .headline4
-                    .apply(color: Theme.of(context).primaryColor)),
-            onPressed: () => Navigator.pop(context)),
-        TextButton(
-            child: Text('Confirmar',
-                style: Theme.of(context)
-                    .textTheme
-                    .headline4
-                    .apply(color: Theme.of(context).accentColor)),
-            style: TextButton.styleFrom(
-              backgroundColor: Theme.of(context).primaryColor,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                  side: BorderSide(color: Theme.of(context).primaryColor)),
-            ),
+            child: Text('Cancelar'), onPressed: () => Navigator.pop(context)),
+        ElevatedButton(
+            child: Text('Confirmar'),
             onPressed: () {
               StoreProvider.of<AppState>(context).dispatch(
                   setFilteredExams(widget.filteredExams, Completer()));
