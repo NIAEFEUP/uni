@@ -1,45 +1,35 @@
 import 'package:flutter/material.dart';
 
-//fff9f9f9
-const Color primaryColor = Color.fromARGB(255, 0x75, 0x17, 0x1e);
-const Color tonedDownPrimary = Color.fromARGB(255, 190, 40, 40);
-const Color subtitleColor = Color.fromARGB(255, 0x7f, 0x7f, 0x7f);
-const Color accentColor = Color.fromARGB(255, 215, 215, 215);
-const Color darkGreyColor = Color.fromARGB(255, 210, 210, 210);
-const Color greyTextColor = Color.fromARGB(255, 0x46, 0x46, 0x46);
-const Color whiteTextColor = Color.fromARGB(255, 255, 255, 255);
-const Color bodyTitle = Color.fromARGB(255, 131, 131, 131);
-const Color greyBorder = Color.fromARGB(64, 0x46, 0x46, 0x46);
-const Color backgroundColor = Color.fromARGB(255, 0xfa, 0xfa, 0xfa);
-const Color toastColor = Color.fromARGB(255, 100, 100, 100);
-const Color lightGreyTextColor = Color.fromARGB(255, 90, 90, 90);
-
-const Color divider = Color.fromARGB(255, 180, 180, 180);
-const Color hintColor = Colors.white;
+const Color _darkRed = Color.fromARGB(255, 0x75, 0x17, 0x1e);
+const Color _lightRed = Color.fromARGB(255, 190, 40, 40);
+const Color _mildWhite = Color.fromARGB(255, 0xfa, 0xfa, 0xfa);
+const Color _lightGrey = Color.fromARGB(255, 215, 215, 215);
+const Color _grey = Color.fromARGB(255, 0x7f, 0x7f, 0x7f);
+const Color _strongGrey = Color.fromARGB(255, 90, 90, 90);
+const Color _mildBlack = Color.fromARGB(255, 0x46, 0x46, 0x46);
 
 ThemeData applicationLightTheme = ThemeData(
     brightness: Brightness.light,
-    primaryColor: primaryColor,
-    accentColor: accentColor,
-    hintColor: hintColor,
-    backgroundColor: backgroundColor,
-    dialogBackgroundColor: toastColor,
+    primaryColor: _darkRed,
+    accentColor: _lightGrey,
+    hintColor: Colors.white,
+    backgroundColor: _mildWhite,
     textTheme: TextTheme(
       headline6: TextStyle(
-          fontSize: 17.0, color: greyTextColor, fontWeight: FontWeight.w300),
+          fontSize: 17.0, color: _mildBlack, fontWeight: FontWeight.w300),
       headline5: TextStyle(
-          fontSize: 72.0, fontWeight: FontWeight.bold, color: primaryColor),
-      subtitle2: TextStyle(
-          fontSize: 17.0, color: subtitleColor, fontWeight: FontWeight.w300),
+          fontSize: 17.0, color: _darkRed, fontWeight: FontWeight.w400),
+      subtitle2:
+          TextStyle(fontSize: 17.0, color: _grey, fontWeight: FontWeight.w300),
       headline4: TextStyle(
-          fontSize: 17.0, color: greyTextColor, fontWeight: FontWeight.w300),
+          fontSize: 17.0, color: _mildBlack, fontWeight: FontWeight.w300),
       headline3: TextStyle(
-          fontSize: 17.0, color: tonedDownPrimary, fontWeight: FontWeight.w300),
+          fontSize: 17.0, color: _lightRed, fontWeight: FontWeight.w300),
       headline2: TextStyle(
-          fontSize: 10.0, color: greyTextColor, fontWeight: FontWeight.w500),
+          fontSize: 10.0, color: _mildBlack, fontWeight: FontWeight.w500),
       headline1: TextStyle(
-          fontSize: 17.0, color: Colors.white, fontWeight: FontWeight.w200),
-      bodyText2: TextStyle(fontSize: 15.0, color: primaryColor),
-      bodyText1: TextStyle(fontSize: 17.0, color: primaryColor),
+          fontSize: 72.0, fontWeight: FontWeight.bold, color: _darkRed),
+      bodyText2: TextStyle(fontSize: 15.0, color: _darkRed),
+      bodyText1: TextStyle(fontSize: 17.0, color: _darkRed),
     ),
-    primaryIconTheme: IconThemeData(color: primaryColor));
+    iconTheme: IconThemeData(color: _strongGrey));

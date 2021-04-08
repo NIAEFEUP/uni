@@ -1,4 +1,3 @@
-import 'package:uni/view/theme.dart';
 import 'package:flutter/material.dart';
 import '../../utils/constants.dart' as Constants;
 
@@ -80,7 +79,7 @@ class NavigationDrawerState extends State<NavigationDrawer> {
             style: Theme.of(context)
                 .textTheme
                 .headline6
-                .apply(color: primaryColor)),
+                .apply(color: Theme.of(context).primaryColor)),
       ),
     );
   }
@@ -94,7 +93,7 @@ class NavigationDrawerState extends State<NavigationDrawer> {
             child: Text(d,
                 style: TextStyle(
                     fontSize: 18.0,
-                    color: primaryColor,
+                    color: Theme.of(context).primaryColor,
                     fontWeight: FontWeight.normal)),
           ),
           dense: true,

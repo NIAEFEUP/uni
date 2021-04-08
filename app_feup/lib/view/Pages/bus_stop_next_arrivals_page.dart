@@ -9,7 +9,6 @@ import 'package:uni/view/Pages/secondary_page_view.dart';
 import 'package:uni/view/Widgets/bus_stop_row.dart';
 import 'package:uni/view/Widgets/last_update_timestamp.dart';
 import 'package:uni/view/Widgets/page_title.dart';
-import 'package:uni/view/theme.dart';
 
 class BusStopNextArrivalsPage extends StatefulWidget {
   @override

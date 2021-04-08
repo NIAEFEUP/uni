@@ -8,7 +8,6 @@ import 'package:uni/view/Pages/bus_stop_selection_page.dart';
 import 'package:uni/view/Widgets/bus_stop_row.dart';
 import 'package:uni/view/Widgets/last_update_timestamp.dart';
 import 'package:uni/view/Widgets/row_container.dart';
-import 'package:uni/view/theme.dart';
 
 import 'generic_card.dart';
 
@@ -58,14 +57,14 @@ class BusStopCard extends GenericCard {
                       style: Theme.of(context)
                           .textTheme
                           .headline4
-                          .apply(color: primaryColor)),
+                          .apply(color: Theme.of(context).primaryColor)),
                   IconButton(
-                      icon: Icon(Icons.settings),
-                      onPressed: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => BusStopSelectionPage())),
-                      color: lightGreyTextColor)
+                    icon: Icon(Icons.settings),
+                    onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => BusStopSelectionPage())),
+                  ) // color lightgrey
                 ]),
           );
         }
@@ -89,7 +88,7 @@ class BusStopCard extends GenericCard {
                   style: Theme.of(context)
                       .textTheme
                       .headline4
-                      .apply(color: primaryColor)))
+                      .apply(color: Theme.of(context).primaryColor)))
         ]);
         break;
     }
@@ -98,12 +97,12 @@ class BusStopCard extends GenericCard {
   Widget getCardTitle(context) {
     return Row(
       children: <Widget>[
-        Icon(Icons.directions_bus, color: lightGreyTextColor),
+        Icon(Icons.directions_bus), // color lightgrey
         Text('STCP - Próximas Viagens',
             style: Theme.of(context)
                 .textTheme
                 .headline4
-                .apply(color: primaryColor))
+                .apply(color: Theme.of(context).primaryColor)),
       ],
     );
   }

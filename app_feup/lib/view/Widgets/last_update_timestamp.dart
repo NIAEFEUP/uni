@@ -1,5 +1,4 @@
 import 'package:uni/model/app_state.dart';
-import 'package:uni/view/theme.dart';
 import 'package:tuple/tuple.dart';
 
 import 'package:flutter/material.dart';
@@ -12,7 +11,7 @@ class LastUpdateTimeStamp extends StatelessWidget {
       converter: (store) => Tuple2(
           store.state.content['timeStamp'], store.state.content['currentTime']),
       builder: (context, timeStamps) {
-        return  Container(
+        return Container(
             padding: EdgeInsets.only(top: 8.0, bottom: 10.0),
             child: this.getContent(context, timeStamps));
       },
@@ -23,17 +22,14 @@ class LastUpdateTimeStamp extends StatelessWidget {
     final Duration lastUpdate = timeStamps.item2.difference(timeStamps.item1);
     final int lastUpdateMinutes = lastUpdate.inMinutes;
 
-    return  Row(
+    return Row(
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
               'Atualizado há $lastUpdateMinutes minuto' +
                   (lastUpdateMinutes != 1 ? 's' : ''),
-              style: Theme.of(context)
-                  .textTheme
-                  .headline4
-                  .apply(color: greyTextColor))
+              style: Theme.of(context).textTheme.headline4)
         ]);
   }
 }
