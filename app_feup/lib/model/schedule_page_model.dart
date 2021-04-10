@@ -65,6 +65,7 @@ class _SchedulePageState extends SecondaryPageViewState
         final scheduleStatus = lectureData.item2;
         return SchedulePageView(
             tabController: tabController,
+            scrollViewController: scrollViewController,
             daysOfTheWeek: daysOfTheWeek,
             aggLectures: _groupLecturesByDay(lectures),
             scheduleStatus: scheduleStatus);
