@@ -173,7 +173,7 @@ class BugReportFormState extends State<BugReportForm> {
                 )),
             Expanded(
                 child: DropdownButton(
-              hint: Text('Seleciona o tipo de ocorrência'),
+              hint: Text('Tipo de ocorrência'),
               items: bugList,
               value: _selectedBug,
               onChanged: (value) {
