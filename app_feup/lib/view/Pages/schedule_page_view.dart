@@ -27,6 +27,7 @@ class SchedulePageView extends StatelessWidget {
 
     return Column(children: <Widget>[
       ListView(
+        scrollDirection: Axis.vertical,
         shrinkWrap: true,
         children: <Widget>[
           PageTitle(name: 'Horário'),
@@ -90,10 +91,12 @@ class SchedulePageView extends StatelessWidget {
   Widget Function(dynamic daycontent, BuildContext context) dayColumnBuilder(
       int day) {
     Widget createDayColumn(dayContent, BuildContext context) {
-      return ListView(
+      return Container(
           key: Key('schedule-page-day-column-$day'),
-          controller: scrollViewController,
-          children: createScheduleRows(dayContent, context));
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: createScheduleRows(dayContent, context),
+          ));
     }
 
     return createDayColumn;

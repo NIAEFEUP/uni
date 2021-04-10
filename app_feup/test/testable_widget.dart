@@ -6,7 +6,9 @@ import 'package:uni/model/app_state.dart';
 Widget makeTestableWidget({Widget child}) {
   return StoreProvider(
       child: MaterialApp(
-        home: child,
+        home: Scaffold(
+          body: child,
+        ),
       ),
       store: Store<AppState>(
         (state, context) => null,

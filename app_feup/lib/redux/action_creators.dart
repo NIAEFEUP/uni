@@ -248,12 +248,10 @@ ThunkAction<AppState> getUserSchedule(
     try {
       store.dispatch(SetScheduleStatusAction(RequestStatus.busy));
 
-      //TODO: Go back to API whenever it is fixed: https://github.com/NIAEFEUP/project-schrodinger/issues/300
-      final List<Lecture> lectures = await fetcher?.getLectures(store) ?? getLectures(store);
+      final List<Lecture> lectures =
+          await getLecturesFromFetcherOrElse(fetcher, store);
 
       // Updates local database according to the information fetched -- Lectures
-      final Tuple2<String, String> userPersistentInfo =
-          await AppSharedPreferences.getPersistentUserInfo();
       if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {
         final AppLecturesDatabase db = AppLecturesDatabase();
         db.saveNewLectures(lectures);
@@ -268,6 +266,10 @@ ThunkAction<AppState> getUserSchedule(
     action.complete();
   };
 }
+
+Future<List<Lecture>> getLecturesFromFetcherOrElse(
+        ScheduleFetcher fetcher, Store<AppState> store) =>
+    (fetcher?.getLectures(store)) ?? getLectures(store);
 
 Future<List<Lecture>> getLectures(Store<AppState> store) {
   return ScheduleFetcherApi()
