@@ -5,18 +5,20 @@ import 'package:uni/view/Widgets/page_title.dart';
 import 'package:uni/view/Widgets/request_dependent_widget_builder.dart';
 import 'package:uni/view/Widgets/schedule_slot.dart';
 
-class SchedulePageView extends StatefulWidget {
+class SchedulePageView extends StatelessWidget {
   SchedulePageView(
       {Key key,
       @required this.tabController,
       @required this.daysOfTheWeek,
       @required this.aggLectures,
-      @required this.scheduleStatus});
+      @required this.scheduleStatus,
+      this.scrollViewController});
 
   final List<String> daysOfTheWeek;
   final List<List<Lecture>> aggLectures;
   final RequestStatus scheduleStatus;
   final TabController tabController;
+  final ScrollController scrollViewController;
 
   @override
   Widget build(BuildContext context) {
@@ -54,9 +56,7 @@ class SchedulePageView extends StatefulWidget {
       tabs.add(Container(
         color: Theme.of(context).backgroundColor,
         width: queryData.size.width * 1 / 3,
-        child: Tab(
-          key: Key('schedule-page-tab-$i'),
-          text: daysOfTheWeek[i]),
+        child: Tab(key: Key('schedule-page-tab-$i'), text: daysOfTheWeek[i]),
       ));
     }
     return tabs;
@@ -94,7 +94,6 @@ class SchedulePageView extends StatefulWidget {
           key: Key('schedule-page-day-column-$day'),
           controller: scrollViewController,
           children: createScheduleRows(dayContent, context));
-    }
     }
 
     return createDayColumn;
