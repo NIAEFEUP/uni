@@ -14,6 +14,7 @@ import 'package:uni/view/Pages/exams_page_view.dart';
 import 'package:uni/view/Pages/home_page_view.dart';
 import 'package:uni/view/Pages/login_page_view.dart';
 import 'package:uni/view/Pages/splash_page_view.dart';
+import 'package:uni/view/Widgets/page_transition.dart';
 import 'package:uni/view/navigation_service.dart';
 import 'package:uni/view/theme.dart';
 import 'package:uni/utils/constants.dart' as Constants;
@@ -47,7 +48,6 @@ class MyAppState extends State<MyApp> {
   MyAppState({@required this.state}) {}
 
   final Store<AppState> state;
-  static final int pageTransitionDuration = 200;
 
   @override
   Widget build(BuildContext context) {
@@ -65,22 +65,22 @@ class MyAppState extends State<MyApp> {
           onGenerateRoute: (RouteSettings settings) {
             switch (settings.name) {
               case '/' + Constants.navPersonalArea:
-                return makePageTransition(
+                return PageTransition.makePageTransition(
                     page: HomePageView(), settings: settings);
               case '/' + Constants.navSchedule:
-                return makePageTransition(
+                return PageTransition.makePageTransition(
                     page: SchedulePage(), settings: settings);
               case '/' + Constants.navExams:
-                return makePageTransition(
+                return PageTransition.makePageTransition(
                     page: ExamsPageView(), settings: settings);
               case '/' + Constants.navStops:
-                return makePageTransition(
+                return PageTransition.makePageTransition(
                     page: BusStopNextArrivalsPage(), settings: settings);
               case '/' + Constants.navAbout:
-                return makePageTransition(
+                return PageTransition.makePageTransition(
                     page: AboutPageView(), settings: settings);
               case '/' + Constants.navBugReport:
-                return makePageTransition(
+                return PageTransition.makePageTransition(
                     page: BugReportPageView(),
                     settings: settings,
                     maintainState: false);
@@ -99,21 +99,5 @@ class MyAppState extends State<MyApp> {
     super.initState();
     Timer.periodic(Duration(seconds: 60),
         (Timer t) => state.dispatch(SetCurrentTimeAction(DateTime.now())));
-  }
-
-  Route makePageTransition(
-      {Widget page, bool maintainState = true, RouteSettings settings}) {
-    return PageRouteBuilder(
-        pageBuilder: (BuildContext context, Animation<double> animation,
-            Animation<double> secondaryAnimation) {
-          return page;
-        },
-        transitionDuration: Duration(milliseconds: pageTransitionDuration),
-        settings: settings,
-        maintainState: maintainState,
-        transitionsBuilder: (BuildContext context, Animation<double> animation,
-            Animation<double> secondaryAnimation, Widget child) {
-          return FadeTransition(opacity: animation, child: child);
-        });
   }
 }
