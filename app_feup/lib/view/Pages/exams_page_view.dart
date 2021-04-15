@@ -120,7 +120,9 @@ class ExamsList extends StatelessWidget {
         key: Key(keyValue),
         margin: EdgeInsets.fromLTRB(12, 4, 12, 0),
         child: RowContainer(
-            color: examColor(exam, context),
+            color: isHighlighted(exam, context)
+                ? Theme.of(context).hintColor
+                : Theme.of(context).backgroundColor,
             child: ScheduleRow(
                 subject: exam.subject,
                 rooms: exam.rooms,
