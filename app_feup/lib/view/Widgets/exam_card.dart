@@ -13,11 +13,11 @@ import 'package:uni/view/Widgets/schedule_row.dart';
 
 import 'generic_card.dart';
 
-Color examColor(Exam exam, context) {
+bool isHighlighted(Exam exam, context) {
   return (exam.examType.contains('''EN''')) ||
           (exam.examType.contains('''MT'''))
-      ? Theme.of(context).hintColor
-      : Theme.of(context).backgroundColor;
+      ? true
+      : false;
 }
 
 class ExamCard extends GenericCard {
@@ -92,7 +92,9 @@ class ExamCard extends GenericCard {
       DateRectangle(date: exam.weekDay + ', ' + exam.day + ' de ' + exam.month),
       Container(
         child: RowContainer(
-          color: examColor(exam, context),
+          color: isHighlighted(exam, context)
+              ? Theme.of(context).backgroundColor
+              : Theme.of(context).hintColor,
           child: ScheduleRow(
             subject: exam.subject,
             rooms: exam.rooms,
@@ -109,7 +111,9 @@ class ExamCard extends GenericCard {
     return Container(
       margin: EdgeInsets.only(top: 8),
       child: RowContainer(
-        color: examColor(exam, context),
+        color: isHighlighted(exam, context)
+            ? Theme.of(context).backgroundColor
+            : Theme.of(context).hintColor,
         child: Container(
           padding: EdgeInsets.all(11),
           child: Row(
