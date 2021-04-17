@@ -10,6 +10,7 @@ import 'package:uni/model/home_page_model.dart';
 class AppSharedPreferences {
   static final String userNumber = 'user_number';
   static final String userPw = 'user_password';
+  static final String termsAndConditions = 'terms_and_conditions';
   static final int keyLength = 32;
   static final int ivLength = 16;
   static final iv = IV.fromLength(ivLength);
@@ -28,6 +29,16 @@ class AppSharedPreferences {
     final prefs = await SharedPreferences.getInstance();
     prefs.setString(userNumber, user);
     prefs.setString(userPw, encode(pass));
+  }
+
+  static Future<String> getTermsAndConditionHash() async{
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(termsAndConditions);
+  }
+
+  static Future<bool> setTermsAndConditionHash(String hashed) async{
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.setString(termsAndConditions, hashed);
   }
 
   static Future removePersistentUserInfo() async {
