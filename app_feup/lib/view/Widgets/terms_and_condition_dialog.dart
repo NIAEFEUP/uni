@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:uni/controller/load_static/terms_and_conditions.dart';
+import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/redux/action_creators.dart';
 import 'package:uni/view/Pages/home_page_view.dart';
@@ -23,15 +24,18 @@ class TermsAndConditionDialog {
       Completer<MaterialPageRoute> routeCompleter,
       String userName,
       String password) async {
-    final didTermsAndConditionChange = await didTermsAndConditionsChange();
-    if (didTermsAndConditionChange) {
+    final acceptance =
+        await doTermsAndConditionsNeedAcceptance();
+    if (acceptance) {
       SchedulerBinding.instance?.addPostFrameCallback((timestamp) =>
           _buildShowDialog(context, routeCompleter, userName, password));
     } else {
+      StoreProvider.of<AppState>(context)
+          .dispatch(reLogin(userName, password, 'feup'));
       routeCompleter.complete(successRoute);
     }
 
-    return didTermsAndConditionChange;
+    return acceptance;
   }
 
   static Future<void> _buildShowDialog(
@@ -56,20 +60,24 @@ class TermsAndConditionDialog {
             ),
             actions: [
               TextButton(
-                  onPressed: () {
+                  onPressed: () async {
                     Navigator.of(context).pop();
                     StoreProvider.of<AppState>(context)
                         .dispatch(reLogin(userName, password, 'feup'));
                     routeCompleter.complete(successRoute);
+                    await AppSharedPreferences.setTermsAndConditionsAcceptance(
+                        true);
                   },
                   child: Text(
                     'Aceito os novos Termos e Condições',
                     style: getTextMethod(context),
                   )),
               TextButton(
-                  onPressed: () {
+                  onPressed: () async {
                     Navigator.of(context).pop();
                     routeCompleter.complete(errorRoute);
+                    await AppSharedPreferences.setTermsAndConditionsAcceptance(
+                        true);
                   },
                   child: Text(
                     'Rejeito os novos Termos e Condições',
@@ -82,9 +90,6 @@ class TermsAndConditionDialog {
 
   static TextStyle getTextMethod(BuildContext context) {
     return Theme.of(context).textTheme.headline3.apply(fontSizeDelta: -2);
-  }
-
-  static Future<void> storeTermsAndConditionsHash() async {
   }
 
 }

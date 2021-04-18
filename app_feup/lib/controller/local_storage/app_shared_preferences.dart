@@ -1,8 +1,8 @@
 import 'dart:async';
 
+import 'package:encrypt/encrypt.dart';
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:encrypt/encrypt.dart';
 import 'package:tuple/tuple.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/home_page_model.dart';
@@ -11,6 +11,8 @@ class AppSharedPreferences {
   static final String userNumber = 'user_number';
   static final String userPw = 'user_password';
   static final String termsAndConditions = 'terms_and_conditions';
+  static final String areTermsAndConditionsAcceptedKey =
+      'is_t&c_accepted';
   static final int keyLength = 32;
   static final int ivLength = 16;
   static final iv = IV.fromLength(ivLength);
@@ -31,12 +33,22 @@ class AppSharedPreferences {
     prefs.setString(userPw, encode(pass));
   }
 
-  static Future<String> getTermsAndConditionHash() async{
+  static Future<void> setTermsAndConditionsAcceptance(bool areAccepted) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setBool(areTermsAndConditionsAcceptedKey, areAccepted);
+  }
+
+  static Future<bool> areTermsAndConditionsAccepted() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(areTermsAndConditionsAcceptedKey) ?? false;
+  }
+
+  static Future<String> getTermsAndConditionHash() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString(termsAndConditions);
   }
 
-  static Future<bool> setTermsAndConditionHash(String hashed) async{
+  static Future<bool> setTermsAndConditionHash(String hashed) async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.setString(termsAndConditions, hashed);
   }

@@ -12,8 +12,9 @@ Future<String> readTermsAndConditions() async {
   }
 }
 
-Future<bool> didTermsAndConditionsChange() async {
+Future<bool> doTermsAndConditionsNeedAcceptance() async {
   final hash = await AppSharedPreferences.getTermsAndConditionHash();
+  final acceptance = await AppSharedPreferences.areTermsAndConditionsAccepted();
   final termsAndConditions = await readTermsAndConditions();
   final currentHash = md5.convert(utf8.encode(termsAndConditions)).toString();
   if (hash == null) {
@@ -22,14 +23,16 @@ Future<bool> didTermsAndConditionsChange() async {
   }
 
   if (currentHash != hash) {
+    await AppSharedPreferences.setTermsAndConditionsAcceptance(false);
     await AppSharedPreferences.setTermsAndConditionHash(currentHash);
   }
 
-  return currentHash != hash;
+  return currentHash != hash || !acceptance;
 }
 
-Future<void> storeTermsAndConditionsHash() async {
+Future<void> acceptTermsAndConditions() async {
   final termsAndConditions = await readTermsAndConditions();
   final currentHash = md5.convert(utf8.encode(termsAndConditions)).toString();
   await AppSharedPreferences.setTermsAndConditionHash(currentHash);
+  await AppSharedPreferences.setTermsAndConditionsAcceptance(true);
 }
