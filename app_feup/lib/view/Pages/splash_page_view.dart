@@ -1,12 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tuple/tuple.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
-import 'package:uni/model/app_state.dart';
-import 'package:uni/redux/action_creators.dart';
 import 'package:uni/view/Pages/login_page_view.dart';
 import 'package:uni/view/Widgets/terms_and_condition_dialog.dart';
 import 'package:uni/view/theme.dart';
@@ -86,15 +83,14 @@ class _SplashScreenState extends State<SplashScreen> {
   void startTimeAndChangeRoute() async {
     Route<Object> nextRoute;
     final Tuple2<String, String> userPersistentInfo =
-    await AppSharedPreferences.getPersistentUserInfo();
+        await AppSharedPreferences.getPersistentUserInfo();
     final String userName = userPersistentInfo.item1;
     final String password = userPersistentInfo.item2;
     if (userName != '' && password != '') {
       final completer = Completer<MaterialPageRoute>();
-      await TermsAndConditionDialog.build(context, completer);
+      await TermsAndConditionDialog.build(
+          context, completer, userName, password);
       nextRoute = await completer.future;
-      StoreProvider.of<AppState>(context)
-          .dispatch(reLogin(userName, password, 'feup'));
     } else {
       nextRoute = MaterialPageRoute(builder: (context) => LoginPageView());
     }
