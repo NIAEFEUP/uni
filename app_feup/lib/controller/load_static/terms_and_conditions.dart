@@ -1,4 +1,8 @@
+import 'dart:convert';
+
+import 'package:crypto/crypto.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 
 Future<String> readTermsAndConditions() async {
   try {
@@ -6,4 +10,26 @@ Future<String> readTermsAndConditions() async {
   } catch (e) {
     return 'Could not load terms and conditions. Please try again later';
   }
+}
+
+Future<bool> didTermsAndConditionsChange() async {
+  final hash = await AppSharedPreferences.getTermsAndConditionHash();
+  final termsAndConditions = await readTermsAndConditions();
+  final currentHash = md5.convert(utf8.encode(termsAndConditions)).toString();
+  if (hash == null) {
+    await AppSharedPreferences.setTermsAndConditionHash(currentHash);
+    return true;
+  }
+
+  if (currentHash != hash) {
+    await AppSharedPreferences.setTermsAndConditionHash(currentHash);
+  }
+
+  return currentHash != hash;
+}
+
+Future<void> storeTermsAndConditionsHash() async {
+  final termsAndConditions = await readTermsAndConditions();
+  final currentHash = md5.convert(utf8.encode(termsAndConditions)).toString();
+  await AppSharedPreferences.setTermsAndConditionHash(currentHash);
 }
