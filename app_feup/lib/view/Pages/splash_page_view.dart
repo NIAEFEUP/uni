@@ -93,7 +93,7 @@ class _SplashScreenState extends State<SplashScreen> {
           context, completer, userName, password);
       nextRoute = await completer.future;
     } else {
-      await storeTermsAndConditionsHash();
+      await acceptTermsAndConditions();
       nextRoute = MaterialPageRoute(builder: (context) => LoginPageView());
     }
 
