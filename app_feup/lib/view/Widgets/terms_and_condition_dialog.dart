@@ -49,41 +49,53 @@ class TermsAndConditionDialog {
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text('Mudança nos Termos e Condições da uni'),
-            content: SingleChildScrollView(
-              child: ListBody(
-                children: [
-                  Text(
-                      '''Os Termos e Condições da aplicação mudaram desde a última vez que a abriste:'''),
-                  TermsAndConditions()
-                ],
-              ),
+            content: Column(
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: ListBody(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(bottom: 10),
+                          child: Text(
+                              '''Os Termos e Condições da aplicação mudaram desde a última vez que a abriste:'''),
+                        ),
+                        TermsAndConditions()
+                      ],
+                    ),
+                  ),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TextButton(
+                        onPressed: () async {
+                          Navigator.of(context).pop();
+                          StoreProvider.of<AppState>(context)
+                              .dispatch(reLogin(userName, password, 'feup'));
+                          routeCompleter.complete(successRoute);
+                          await AppSharedPreferences
+                              .setTermsAndConditionsAcceptance(true);
+                        },
+                        child: Text(
+                          'Aceito os novos Termos e Condições',
+                          style: getTextMethod(context),
+                        )),
+                    TextButton(
+                        onPressed: () async {
+                          Navigator.of(context).pop();
+                          routeCompleter.complete(errorRoute);
+                          await AppSharedPreferences
+                              .setTermsAndConditionsAcceptance(true);
+                        },
+                        child: Text(
+                          'Rejeito os novos Termos e Condições',
+                          style: getTextMethod(context),
+                        )),
+                  ],
+                )
+              ],
             ),
-            actions: [
-              TextButton(
-                  onPressed: () async {
-                    Navigator.of(context).pop();
-                    StoreProvider.of<AppState>(context)
-                        .dispatch(reLogin(userName, password, 'feup'));
-                    routeCompleter.complete(successRoute);
-                    await AppSharedPreferences.setTermsAndConditionsAcceptance(
-                        true);
-                  },
-                  child: Text(
-                    'Aceito os novos Termos e Condições',
-                    style: getTextMethod(context),
-                  )),
-              TextButton(
-                  onPressed: () async {
-                    Navigator.of(context).pop();
-                    routeCompleter.complete(errorRoute);
-                    await AppSharedPreferences.setTermsAndConditionsAcceptance(
-                        true);
-                  },
-                  child: Text(
-                    'Rejeito os novos Termos e Condições',
-                    style: getTextMethod(context),
-                  )),
-            ],
           );
         });
   }
