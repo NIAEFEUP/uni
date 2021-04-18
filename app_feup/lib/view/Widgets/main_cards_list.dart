@@ -11,7 +11,6 @@ import 'package:uni/view/Widgets/bus_stop_card.dart';
 import 'package:uni/view/Widgets/exam_card.dart';
 import 'package:uni/view/Widgets/print_info_card.dart';
 import 'package:uni/view/Widgets/schedule_card.dart';
-import 'package:uni/view/Widgets/terms_and_condition_dialog.dart';
 import 'package:uni/view/theme.dart';
 
 class MainCardsList extends StatelessWidget {
@@ -28,13 +27,8 @@ class MainCardsList extends StatelessWidget {
         BusStopCard.fromEditingInformation(k, em, od)
   };
 
-  final bool didTermsAndConditionChange;
-
-  MainCardsList(this.didTermsAndConditionChange);
-
   @override
   Widget build(BuildContext context) {
-    TermsAndConditionDialog.build(context, didTermsAndConditionChange);
     return Scaffold(
       body: BackButtonExitWrapper(
         context: context,

@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -7,19 +8,18 @@ import 'package:uni/controller/middleware.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/redux/actions.dart';
 import 'package:uni/redux/reducers.dart';
+import 'package:uni/utils/constants.dart' as Constants;
 import 'package:uni/view/Pages/about_page_view.dart';
 import 'package:uni/view/Pages/bug_report_page_view.dart';
 import 'package:uni/view/Pages/bus_stop_next_arrivals_page.dart';
 import 'package:uni/view/Pages/exams_page_view.dart';
 import 'package:uni/view/Pages/home_page_view.dart';
-import 'package:uni/view/Pages/login_page_view.dart';
+import 'package:uni/view/Pages/logout_route.dart';
 import 'package:uni/view/Pages/splash_page_view.dart';
 import 'package:uni/view/Widgets/page_transition.dart';
 import 'package:uni/view/navigation_service.dart';
 import 'package:uni/view/theme.dart';
-import 'package:uni/utils/constants.dart' as Constants;
 
-import 'controller/logout.dart';
 import 'controller/on_start_up.dart';
 import 'model/schedule_page_model.dart';
 
@@ -85,10 +85,7 @@ class MyAppState extends State<MyApp> {
                     settings: settings,
                     maintainState: false);
               case '/' + Constants.navLogOut:
-                return MaterialPageRoute(builder: (context) {
-                  logout(context);
-                  return LoginPageView();
-                });
+                return LogoutRoute.buildLogoutRoute();
             }
           }),
     );
