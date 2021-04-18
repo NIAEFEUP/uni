@@ -1,12 +1,9 @@
 import 'dart:async';
-import 'dart:convert';
 
-import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:uni/controller/load_static/terms_and_conditions.dart';
-import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/redux/action_creators.dart';
 import 'package:uni/view/Pages/home_page_view.dart';
@@ -26,7 +23,7 @@ class TermsAndConditionDialog {
       Completer<MaterialPageRoute> routeCompleter,
       String userName,
       String password) async {
-    final didTermsAndConditionChange = await _didTermsAndConditionsChange();
+    final didTermsAndConditionChange = await didTermsAndConditionsChange();
     if (didTermsAndConditionChange) {
       SchedulerBinding.instance?.addPostFrameCallback((timestamp) =>
           _buildShowDialog(context, routeCompleter, userName, password));
@@ -87,19 +84,7 @@ class TermsAndConditionDialog {
     return Theme.of(context).textTheme.headline3.apply(fontSizeDelta: -2);
   }
 
-  static Future<bool> _didTermsAndConditionsChange() async {
-    final hash = await AppSharedPreferences.getTermsAndConditionHash();
-    final termsAndConditions = await readTermsAndConditions();
-    final currentHash = md5.convert(utf8.encode(termsAndConditions)).toString();
-    if (hash == null) {
-      await AppSharedPreferences.setTermsAndConditionHash(currentHash);
-      return true;
-    }
-
-    if (currentHash != hash) {
-      await AppSharedPreferences.setTermsAndConditionHash(currentHash);
-    }
-
-    return currentHash != hash;
+  static Future<void> storeTermsAndConditionsHash() async {
   }
+
 }
