@@ -1,16 +1,14 @@
-import 'dart:convert';
+import 'dart:async';
 
-import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tuple/tuple.dart';
-import 'package:uni/controller/load_static/terms_and_conditions.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/redux/action_creators.dart';
-import 'package:uni/view/Pages/home_page_view.dart';
 import 'package:uni/view/Pages/login_page_view.dart';
+import 'package:uni/view/Widgets/terms_and_condition_dialog.dart';
 import 'package:uni/view/theme.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -92,11 +90,9 @@ class _SplashScreenState extends State<SplashScreen> {
     final String userName = userPersistentInfo.item1;
     final String password = userPersistentInfo.item2;
     if (userName != '' && password != '') {
-      final bool didTermsAndConditionChange =
-          await didTermsAndConditionsChange();
-      nextRoute = MaterialPageRoute(
-          builder: (context) => HomePageView(
-              didTermsAndConditionChange: didTermsAndConditionChange));
+      final completer = Completer<MaterialPageRoute>();
+      await TermsAndConditionDialog.build(context, completer);
+      nextRoute = await completer.future;
       StoreProvider.of<AppState>(context)
           .dispatch(reLogin(userName, password, 'feup'));
     } else {
@@ -104,19 +100,5 @@ class _SplashScreenState extends State<SplashScreen> {
     }
 
     Navigator.pushReplacement(context, nextRoute);
-  }
-
-  Future<bool> didTermsAndConditionsChange() async {
-    final hash = await AppSharedPreferences.getTermsAndConditionHash();
-    if (hash == null) {
-      return true;
-    }
-    final termsAndConditions = await readTermsAndConditions();
-    final currentHash = md5.convert(utf8.encode(termsAndConditions)).toString();
-    if (currentHash != hash) {
-      await AppSharedPreferences.setTermsAndConditionHash(currentHash);
-    }
-
-    return currentHash != hash;
   }
 }

@@ -1,11 +1,36 @@
+import 'dart:async';
+import 'dart:convert';
+
+import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
-import 'package:uni/utils/constants.dart' as Constants;
+import 'package:flutter/scheduler.dart';
+import 'package:uni/controller/load_static/terms_and_conditions.dart';
+import 'package:uni/controller/local_storage/app_shared_preferences.dart';
+import 'package:uni/view/Pages/home_page_view.dart';
+import 'package:uni/view/Pages/logout_route.dart';
 
 import 'terms_and_conditions.dart';
 
 class TermsAndConditionDialog {
+  TermsAndConditionDialog._();
+
+  static final successRoute =
+      MaterialPageRoute(builder: (context) => HomePageView());
+  static final errorRoute = LogoutRoute.buildLogoutRoute();
+
   static Future<void> build(
-      BuildContext context, bool didTermsAndConditionChange) async {
+      BuildContext context, Completer<MaterialPageRoute> routeCompleter) async {
+    final didTermsAndConditionChange = await _didTermsAndConditionsChange();
+    if (didTermsAndConditionChange) {
+      SchedulerBinding.instance?.addPostFrameCallback(
+          (timestamp) => _buildShowDialog(context, routeCompleter));
+    } else {
+      routeCompleter.complete(successRoute);
+    }
+  }
+
+  static Future<void> _buildShowDialog(
+      BuildContext context, Completer<MaterialPageRoute> routeCompleter) {
     return showDialog(
         context: context,
         barrierDismissible: false,
@@ -23,15 +48,29 @@ class TermsAndConditionDialog {
             ),
             actions: [
               TextButton(
-                  onPressed: () => Navigator.of(context).pop(),
+                  onPressed: () => routeCompleter.complete(successRoute),
                   child: Text('Aceito os novos Termos e Condições')),
               TextButton(
-                  onPressed: () => Navigator.of(context)
-                      .pushNamedAndRemoveUntil('/' + Constants.navLogOut,
-                          (Route<dynamic> route) => false),
+                  onPressed: () => routeCompleter.complete(errorRoute),
                   child: Text('Rejeito os novos Termos e Condições')),
             ],
           );
         });
+  }
+
+  static Future<bool> _didTermsAndConditionsChange() async {
+    final hash = await AppSharedPreferences.getTermsAndConditionHash();
+    final termsAndConditions = await readTermsAndConditions();
+    final currentHash = md5.convert(utf8.encode(termsAndConditions)).toString();
+    if (hash == null) {
+      await AppSharedPreferences.setTermsAndConditionHash(currentHash);
+      return true;
+    }
+
+    if (currentHash != hash) {
+      await AppSharedPreferences.setTermsAndConditionHash(currentHash);
+    }
+
+    return currentHash != hash;
   }
 }
