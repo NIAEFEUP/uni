@@ -1,3 +1,4 @@
+import 'package:uni/controller/exam.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,11 +13,6 @@ import 'package:uni/view/Widgets/schedule_event_rectangle.dart';
 import 'package:uni/view/Widgets/schedule_row.dart';
 
 import 'generic_card.dart';
-
-bool isHighlighted(Exam exam) {
-  return (exam.examType.contains('''EN''')) ||
-          (exam.examType.contains('''MT'''));
-}
 
 class ExamCard extends GenericCard {
   ExamCard({Key key}) : super(key: key);
