@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter/material.dart';
+//import 'package:flutter/material.dart';
 
 import 'package:uni/view/Widgets/schedule_slot.dart';
 import '../../../testable_widget.dart';
@@ -8,8 +8,8 @@ import '../../../testable_widget.dart';
 // https://github.com/NIAEFEUP/project-schrodinger/issues/354
 void testScheduleSlot(String subject, String begin, String end, String rooms,
     String typeClass, String teacher) {
-  final scheduleSlotTimeKey = 'schedule-slot-time-$begin-$end';
   /*
+  final scheduleSlotTimeKey = 'schedule-slot-time-$begin-$end';
   expect(
       find.descendant(
           of: find.byKey(Key(scheduleSlotTimeKey)), matching: find.text(begin)),
