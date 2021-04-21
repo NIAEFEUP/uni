@@ -1,0 +1,11 @@
+version: '2'
+
+services:
+  test:
+    build:
+      context: .
+    command: bash -c "flutter analyze --no-pub --preamble .
+            && flutter test"
+    volumes:
+      - ./app_feup/lib:/app/lib
+      - ./app_feup/test:/app/test

@@ -1,6 +1,7 @@
 # app_feup
 
-A new Flutter project.
+An app to make the lives of FEUP students easier.
+[View changelog here](changelog.md)
 
 ## Getting Started
 
