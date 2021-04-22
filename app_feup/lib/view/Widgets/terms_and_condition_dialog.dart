@@ -25,7 +25,7 @@ class TermsAndConditionDialog {
       String userName,
       String password) async {
     final acceptance =
-        await doTermsAndConditionsNeedAcceptance();
+        await updateTermsAndConditionsAcceptancePreference();
     if (acceptance) {
       SchedulerBinding.instance?.addPostFrameCallback((timestamp) =>
           _buildShowDialog(context, routeCompleter, userName, password));
@@ -86,7 +86,7 @@ class TermsAndConditionDialog {
                           Navigator.of(context).pop();
                           routeCompleter.complete(errorRoute);
                           await AppSharedPreferences
-                              .setTermsAndConditionsAcceptance(true);
+                              .setTermsAndConditionsAcceptance(false);
                         },
                         child: Text(
                           'Rejeito os novos Termos e Condições',
