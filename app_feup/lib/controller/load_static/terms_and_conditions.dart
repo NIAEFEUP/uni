@@ -12,7 +12,7 @@ Future<String> readTermsAndConditions() async {
   }
 }
 
-Future<bool> doTermsAndConditionsNeedAcceptance() async {
+Future<bool> updateTermsAndConditionsAcceptancePreference() async {
   final hash = await AppSharedPreferences.getTermsAndConditionHash();
   final acceptance = await AppSharedPreferences.areTermsAndConditionsAccepted();
   final termsAndConditions = await readTermsAndConditions();
