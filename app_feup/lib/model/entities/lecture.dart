@@ -34,11 +34,11 @@ class Lecture {
     this.classNumber = classNumber;
 
     this.startTime = (startTimeSeconds ~/ 3600).toString().padLeft(2, '0') +
-        ':' +
+        'h' +
         ((startTimeSeconds % 3600) ~/ 60).toString().padLeft(2, '0');
     startTimeSeconds += 60 * 30 * blocks;
     this.endTime = (startTimeSeconds ~/ 3600).toString().padLeft(2, '0') +
-        ':' +
+        'h' +
         ((startTimeSeconds % 3600) ~/ 60).toString().padLeft(2, '0');
   }
 
