@@ -2,37 +2,27 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 import 'package:uni/controller/load_static/terms_and_conditions.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
-import 'package:uni/model/app_state.dart';
-import 'package:uni/redux/action_creators.dart';
-import 'package:uni/view/Pages/home_page_view.dart';
-import 'package:uni/view/Pages/logout_route.dart';
 
 import 'terms_and_conditions.dart';
+
+enum TermsAndConditionsState { accepted, rejected }
 
 class TermsAndConditionDialog {
   TermsAndConditionDialog._();
 
-  static final successRoute =
-      MaterialPageRoute(builder: (context) => HomePageView());
-  static final errorRoute = LogoutRoute.buildLogoutRoute();
-
   static Future<bool> build(
       BuildContext context,
-      Completer<MaterialPageRoute> routeCompleter,
+      Completer<TermsAndConditionsState> routeCompleter,
       String userName,
       String password) async {
-    final acceptance =
-        await updateTermsAndConditionsAcceptancePreference();
+    final acceptance = await updateTermsAndConditionsAcceptancePreference();
     if (acceptance) {
       SchedulerBinding.instance?.addPostFrameCallback((timestamp) =>
           _buildShowDialog(context, routeCompleter, userName, password));
     } else {
-      StoreProvider.of<AppState>(context)
-          .dispatch(reLogin(userName, password, 'feup'));
-      routeCompleter.complete(successRoute);
+      routeCompleter.complete(TermsAndConditionsState.accepted);
     }
 
     return acceptance;
@@ -40,7 +30,7 @@ class TermsAndConditionDialog {
 
   static Future<void> _buildShowDialog(
       BuildContext context,
-      Completer<MaterialPageRoute> routeCompleter,
+      Completer<TermsAndConditionsState> routeCompleter,
       String userName,
       String password) {
     return showDialog(
@@ -71,9 +61,8 @@ class TermsAndConditionDialog {
                     TextButton(
                         onPressed: () async {
                           Navigator.of(context).pop();
-                          StoreProvider.of<AppState>(context)
-                              .dispatch(reLogin(userName, password, 'feup'));
-                          routeCompleter.complete(successRoute);
+                          routeCompleter
+                              .complete(TermsAndConditionsState.accepted);
                           await AppSharedPreferences
                               .setTermsAndConditionsAcceptance(true);
                         },
@@ -84,7 +73,8 @@ class TermsAndConditionDialog {
                     TextButton(
                         onPressed: () async {
                           Navigator.of(context).pop();
-                          routeCompleter.complete(errorRoute);
+                          routeCompleter
+                              .complete(TermsAndConditionsState.rejected);
                           await AppSharedPreferences
                               .setTermsAndConditionsAcceptance(false);
                         },
@@ -103,5 +93,4 @@ class TermsAndConditionDialog {
   static TextStyle getTextMethod(BuildContext context) {
     return Theme.of(context).textTheme.headline3.apply(fontSizeDelta: -2);
   }
-
 }
