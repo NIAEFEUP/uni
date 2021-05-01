@@ -42,7 +42,7 @@ Future<List<Lecture>> getScheduleFromHtml(http.Response response) async {
 
           semana[day] += blocks;
 
-          final Lecture lect = Lecture.secConstructor(subject, typeClass, day,
+          final Lecture lect = Lecture.fromHtml(subject, typeClass, day,
               startTime, blocks, room, teacher, classNumber);
           lecturesList.add(lect);
         }

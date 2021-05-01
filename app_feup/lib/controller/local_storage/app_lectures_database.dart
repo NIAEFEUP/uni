@@ -33,7 +33,7 @@ class AppLecturesDatabase extends AppDatabase {
 
     // Convert the List<Map<String, dynamic> into a List<Dog>.
     return List.generate(maps.length, (i) {
-      return Lecture.secConstructor(
+      return Lecture.fromHtml(
         maps[i]['subject'],
         maps[i]['typeClass'],
         maps[i]['day'],
