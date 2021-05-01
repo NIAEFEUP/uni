@@ -22,27 +22,64 @@ class Lecture {
   int blocks;
   int startTimeSeconds;
 
-  Lecture(String subject, String typeClass, int day, int startTimeSeconds,
-      int blocks, String room, String teacher, String classNumber) {
+  Lecture(
+      String subject,
+      String typeClass,
+      int day,
+      int blocks,
+      String room,
+      String teacher,
+      String classNumber,
+      int startTimeHours,
+      int startTimeMinutes,
+      int endTimeHours,
+      int endTimeMinutes) {
     this.subject = subject;
     this.typeClass = typeClass;
     this.room = room;
     this.teacher = teacher;
     this.day = day;
     this.blocks = blocks;
-    this.startTimeSeconds = startTimeSeconds;
     this.classNumber = classNumber;
-
-    this.startTime = (startTimeSeconds ~/ 3600).toString().padLeft(2, '0') +
+    this.startTime = startTimeHours.toString().padLeft(2, '0') +
         'h' +
-        ((startTimeSeconds % 3600) ~/ 60).toString().padLeft(2, '0');
-    startTimeSeconds += 60 * 30 * blocks;
-    this.endTime = (startTimeSeconds ~/ 3600).toString().padLeft(2, '0') +
+        startTimeMinutes.toString().padLeft(2, '0');
+    this.endTime = endTimeHours.toString().padLeft(2, '0') +
         'h' +
-        ((startTimeSeconds % 3600) ~/ 60).toString().padLeft(2, '0');
+        endTimeMinutes.toString().padLeft(2, '0');
   }
 
-  Lecture.secConstructor(
+  factory Lecture.fromApi(
+      String subject,
+      String typeClass,
+      int day,
+      int startTimeSeconds,
+      int blocks,
+      String room,
+      String teacher,
+      String classNumber) {
+    final startTimeHours = (startTimeSeconds ~/ 3600);
+    final startTimeMinutes = ((startTimeSeconds % 3600) ~/ 60);
+    final endTimeSeconds = 60 * 30 * blocks;
+    final endTimeHours = (endTimeSeconds ~/ 3600);
+    final endTimeMinutes = ((endTimeSeconds % 3600) ~/ 60);
+    final lecture = Lecture(
+        subject,
+        typeClass,
+        day,
+        blocks,
+        room,
+        teacher,
+        classNumber,
+        startTimeHours,
+        startTimeMinutes,
+        endTimeHours,
+        endTimeMinutes);
+    lecture.startTimeSeconds = startTimeSeconds;
+    return lecture;
+  }
+
+  factory Lecture.fromHtml(
       String subject,
       String typeClass,
       int day,
@@ -51,33 +88,30 @@ class Lecture {
       String room,
       String teacher,
       String classNumber) {
-    this.subject = subject;
-    this.typeClass = typeClass;
-    this.room = room;
-    this.teacher = teacher;
-    this.day = day;
-    this.blocks = blocks;
-    this.classNumber = classNumber;
-
-    int hour = int.parse(startTime.substring(0, 2));
-    int min = int.parse(startTime.substring(3, 5));
-    this.startTime =
-        hour.toString().padLeft(2, '0') + 'h' + min.toString().padLeft(2, '0');
-    min += blocks * 30;
-    hour += min ~/ 60;
-    min %= 60;
-    this.endTime =
-        hour.toString().padLeft(2, '0') + 'h' + min.toString().padLeft(2, '0');
+    final startTimeHours = int.parse(startTime.substring(0, 2));
+    final startTimeMinutes = int.parse(startTime.substring(3, 5));
+    final endTimeHours =
+        (startTimeMinutes + (blocks * 30)) ~/ 60 + startTimeHours;
+    final endTimeMinutes = (startTimeMinutes + (blocks * 30)) % 60;
+    return Lecture(subject, typeClass, day, blocks, room, teacher, classNumber,
+        startTimeHours, startTimeMinutes, endTimeHours, endTimeMinutes);
   }
 
   static Lecture clone(Lecture lec) {
-    return Lecture(lec.subject, lec.typeClass, lec.day, lec.startTimeSeconds,
-        lec.blocks, lec.room, lec.teacher, lec.classNumber);
+    return Lecture.fromApi(
+        lec.subject,
+        lec.typeClass,
+        lec.day,
+        lec.startTimeSeconds,
+        lec.blocks,
+        lec.room,
+        lec.teacher,
+        lec.classNumber);
   }
 
   static Lecture cloneHtml(Lecture lec) {
-    return Lecture.secConstructor(lec.subject, lec.typeClass, lec.day,
-        lec.startTime, lec.blocks, lec.room, lec.teacher, lec.classNumber);
+    return Lecture.fromHtml(lec.subject, lec.typeClass, lec.day, lec.startTime,
+        lec.blocks, lec.room, lec.teacher, lec.classNumber);
   }
 
   Map<String, dynamic> toMap() {
