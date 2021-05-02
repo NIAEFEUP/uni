@@ -21,7 +21,7 @@ class BusesForm extends StatefulWidget {
 class _BusesFormState extends State<BusesForm> {
   final String stopCode;
   final Function updateStopCallback;
-  List<Bus> buses =  [];
+  List<Bus> buses = [];
   final List<bool> busesToAdd = List<bool>.filled(20, false);
 
   _BusesFormState(this.stopCode, this.updateStopCallback);
@@ -54,22 +54,17 @@ class _BusesFormState extends State<BusesForm> {
     updateBusStop();
     return ListView(
         children: List.generate(buses.length, (i) {
-      return Row(
-        children: <Widget>[
-          Flexible(
-              child: Text('[${buses[i].busCode}] ${buses[i].destination}',
-                  overflow: TextOverflow.fade, softWrap: false)),
-          Checkbox(
-              value: busesToAdd[i],
-              onChanged: (value) {
-                setState(() {
-                  busesToAdd[i] = value;
-                });
-              },
-              activeColor: Theme.of(context).primaryColor),
-        ],
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      );
+      return CheckboxListTile(
+          contentPadding: EdgeInsets.all(0),
+          title: Text('[${buses[i].busCode}] ${buses[i].destination}',
+              overflow: TextOverflow.fade, softWrap: false),
+          value: busesToAdd[i],
+          onChanged: (value) {
+            setState(() {
+              busesToAdd[i] = value;
+            });
+          },
+          activeColor: Theme.of(context).primaryColor);
     }));
   }
 
@@ -77,7 +72,7 @@ class _BusesFormState extends State<BusesForm> {
     final BusStopData currentConfig = StoreProvider.of<AppState>(context)
         .state
         .content['configuredBusStops'][stopCode];
-    final Set<String> newBuses =  Set();
+    final Set<String> newBuses = Set();
     for (int i = 0; i < buses.length; i++) {
       if (busesToAdd[i]) {
         newBuses.add(buses[i].busCode);
@@ -85,7 +80,7 @@ class _BusesFormState extends State<BusesForm> {
     }
     updateStopCallback(
         this.stopCode,
-         BusStopData(
+        BusStopData(
             configuredBuses: newBuses,
             favorited: currentConfig == null ? true : currentConfig.favorited));
   }
