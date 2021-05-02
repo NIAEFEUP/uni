@@ -62,27 +62,22 @@ class _ExamFilterFormState extends State<ExamFilterForm> {
         children: List.generate(filteredExams.length, (i) {
       final String key = filteredExams.keys.elementAt(i);
       if (!Exam.getExamTypes().containsKey(key)) return null;
-      return Row(
-        children: <Widget>[
-          Flexible(
-              child: Text(
+      return CheckboxListTile(
+          contentPadding: EdgeInsets.all(0),
+          title: Text(
             key,
             overflow: TextOverflow.ellipsis,
             softWrap: false,
             maxLines: 2,
-          )),
-          Checkbox(
-              key: Key('ExamCheck' + key),
-              value: filteredExams[key],
-              onChanged: (value) {
-                setState(() {
-                  filteredExams[key] = value;
-                });
-              },
-              activeColor: Theme.of(context).primaryColor),
-        ],
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      );
+          ),
+          key: Key('ExamCheck' + key),
+          value: filteredExams[key],
+          onChanged: (value) {
+            setState(() {
+              filteredExams[key] = value;
+            });
+          },
+          activeColor: Theme.of(context).primaryColor);
     }));
   }
 }
