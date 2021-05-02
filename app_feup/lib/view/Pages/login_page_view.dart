@@ -78,7 +78,7 @@ class _LoginPageViewState extends State<LoginPageView> {
   }
 
   List<Widget> getWidgets(BuildContext context, MediaQueryData queryData) {
-    final List<Widget> widgets =  [];
+    final List<Widget> widgets = [];
 
     widgets.add(
         Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 20)));
@@ -198,21 +198,15 @@ class _LoginPageViewState extends State<LoginPageView> {
   }
 
   Widget createSaveDataCheckBox() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Text('Manter sessão iniciada',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                color: Colors.white,
-                fontSize: 17.0,
-                fontWeight: FontWeight.w300)),
-        Checkbox(
-          value: _keepSignedIn,
-          onChanged: _setKeepSignedIn,
-          focusNode: passwordFocus,
-        )
-      ],
+    return CheckboxListTile(
+      value: _keepSignedIn,
+      onChanged: _setKeepSignedIn,
+      title: Text(
+        'Manter sessão iniciada',
+        textAlign: TextAlign.center,
+        style: TextStyle(
+            color: Colors.white, fontSize: 17.0, fontWeight: FontWeight.w300),
+      ),
     );
   }
 
@@ -250,12 +244,13 @@ class _LoginPageViewState extends State<LoginPageView> {
     return StoreConnector<AppState, RequestStatus>(
         converter: (store) => store.state.content['loginStatus'],
         onWillChange: (oldStatus, status) {
-          if (
-            status == RequestStatus.successful &&
-            StoreProvider.of<AppState>(context).
-              state.content['session'].authenticated
-          ){
-            Navigator.pushReplacementNamed(context, '/' + Constants.navPersonalArea);
+          if (status == RequestStatus.successful &&
+              StoreProvider.of<AppState>(context)
+                  .state
+                  .content['session']
+                  .authenticated) {
+            Navigator.pushReplacementNamed(
+                context, '/' + Constants.navPersonalArea);
           } else if (status == RequestStatus.failed) {
             displayToastMessage(context, 'O login falhou');
           }
