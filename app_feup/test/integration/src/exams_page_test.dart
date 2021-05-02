@@ -138,14 +138,15 @@ void main() {
 
       expect(find.byType(AlertDialog), findsOneWidget);
       //This checks if the ExamDoesNotExist is not displayed
-      expect(find.byType(Checkbox), findsNWidgets(Exam.getExamTypes().length));
+      expect(find.byType(CheckboxListTile),
+          findsNWidgets(Exam.getExamTypes().length));
 
-      final Checkbox mtCheckbox =
+      final CheckboxListTile mtCheckboxTile =
           find.byKey(Key('ExamCheck' + 'Mini-testes')).evaluate().first.widget;
 
-      expect(find.byWidget(mtCheckbox), findsOneWidget);
-      expect(mtCheckbox.value, true);
-      await tester.tap(find.byWidget(mtCheckbox));
+      expect(find.byWidget(mtCheckboxTile), findsOneWidget);
+      expect(mtCheckboxTile.value, true);
+      await tester.tap(find.byWidget(mtCheckboxTile));
       await completer.future;
 
       await tester.pumpAndSettle();
