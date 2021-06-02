@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:image/image.dart';
 import 'package:connectivity/connectivity.dart';
 
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart' show DefaultCacheManager;
 import 'package:path_provider/path_provider.dart';
 
 Future<String> get _localPath async {
