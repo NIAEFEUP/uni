@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:encrypt/encrypt.dart';
+import 'package:encrypt/encrypt.dart' as encrypt;
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -69,6 +69,17 @@ class AppSharedPreferences {
   static Future<ThemeMode> getThemeMode() async {
     final prefs = await SharedPreferences.getInstance();
     return ThemeMode.values[prefs.getInt(themeMode)];
+  }
+
+  static Future<bool> setThemeMode(ThemeMode thmMode) async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.setInt(themeMode, thmMode.index);
+  }
+
+  static Future<bool> setNextThemeMode() async {
+    final prefs = await SharedPreferences.getInstance();
+    final themeIndex = (await getThemeMode()).index;
+    return prefs.setInt(themeMode, (themeIndex + 1) % 3);
   }
 
   /// Deletes the user's student number and passoword.
@@ -165,8 +176,8 @@ class AppSharedPreferences {
   }
 
   /// Creates an [Encrypter] for encrypting and decrypting the user's password.
-  static Encrypter _createEncrypter() {
-    final key = Key.fromLength(keyLength);
-    return Encrypter(AES(key));
+  static encrypt.Encrypter _createEncrypter() {
+    final key = encrypt.Key.fromLength(keyLength);
+    return encrypt.Encrypter(encrypt.AES(key));
   }
 }
