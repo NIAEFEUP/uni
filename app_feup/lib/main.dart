@@ -76,7 +76,9 @@ class MyAppState extends State<MyApp> {
       store: state,
       child: MaterialApp(
           title: 'uni',
-          theme: applicationDarkTheme,
+          theme: applicationLightTheme,
+          darkTheme: applicationDarkTheme,
+          themeMode: ThemeMode.system,
           home: SplashScreen(),
           navigatorKey: NavigationService.navigatorKey,
           // ignore: missing_return
