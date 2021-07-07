@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:encrypt/encrypt.dart';
+import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tuple/tuple.dart';
@@ -8,15 +9,15 @@ import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/home_page_model.dart';
 
 /// Manages the app's Shared Preferences.
-/// 
+///
 /// This database stores the user's student number, password and favorite
 /// widgets.
 class AppSharedPreferences {
   static final String userNumber = 'user_number';
   static final String userPw = 'user_password';
   static final String termsAndConditions = 'terms_and_conditions';
-  static final String areTermsAndConditionsAcceptedKey =
-      'is_t&c_accepted';
+  static final String areTermsAndConditionsAcceptedKey = 'is_t&c_accepted';
+  static final String themeMode = 'theme_mode';
   static final int keyLength = 32;
   static final int ivLength = 16;
   static final iv = IV.fromLength(ivLength);
@@ -64,6 +65,12 @@ class AppSharedPreferences {
     return prefs.setString(termsAndConditions, hashed);
   }
 
+  /// Gets current used theme mode.
+  static Future<ThemeMode> getThemeMode() async {
+    final prefs = await SharedPreferences.getInstance();
+    return ThemeMode.values[prefs.getInt(themeMode)];
+  }
+
   /// Deletes the user's student number and passoword.
   static Future removePersistentUserInfo() async {
     final prefs = await SharedPreferences.getInstance();
@@ -72,7 +79,7 @@ class AppSharedPreferences {
   }
 
   /// Returns a tuple containing the user's student number and password.
-  /// 
+  ///
   /// *Note:*
   /// * the first element in the tuple is the user's student number.
   /// * the second element in the tuple is the user's password, in plain text
