@@ -68,7 +68,7 @@ class AppSharedPreferences {
   /// Gets current used theme mode.
   static Future<ThemeMode> getThemeMode() async {
     final prefs = await SharedPreferences.getInstance();
-    return ThemeMode.values[prefs.getInt(themeMode)];
+    return ThemeMode.values[prefs.getInt(themeMode) ?? ThemeMode.system.index];
   }
 
   static Future<bool> setThemeMode(ThemeMode thmMode) async {
