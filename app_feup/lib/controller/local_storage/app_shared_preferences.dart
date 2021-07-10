@@ -21,7 +21,7 @@ class AppSharedPreferences {
   static final String themeMode = 'theme_mode';
   static final int keyLength = 32;
   static final int ivLength = 16;
-  static final iv = IV.fromLength(ivLength);
+  static final iv = encrypt.IV.fromLength(ivLength);
 
   static final String favoriteCards = 'favorite_cards';
   static final List<FAVORITE_WIDGET_TYPE> defaultFavoriteCards = [
