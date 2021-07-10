@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../utils/constants.dart' as Constants;
+import '../theme_notifier.dart';
+import 'package:provider/provider.dart';
 
 class NavigationDrawer extends StatefulWidget {
   final BuildContext parentContext;
@@ -67,11 +69,11 @@ class NavigationDrawerState extends State<NavigationDrawer> {
   }
 
   Widget createLogoutBtn() {
-    return OutlinedButton(
+    return TextButton(
       onPressed: () => _onLogOut(Constants.navLogOut),
-      style: OutlinedButton.styleFrom(
+      style: TextButton.styleFrom(
         elevation: 0,
-        padding: const EdgeInsets.all(0.0),
+        padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 5.0),
       ),
       child: Container(
         padding: const EdgeInsets.all(15.0),
@@ -82,6 +84,23 @@ class NavigationDrawerState extends State<NavigationDrawer> {
                 .apply(color: Theme.of(context).accentColor)),
       ),
     );
+  }
+
+  Widget createThemeSwitchBtn() {
+    final themeNotifier = Provider.of<ThemeNotifier>(context);
+    Icon _getThemeIcon() {
+      switch (themeNotifier.getTheme()) {
+        case ThemeMode.light:
+          return Icon(Icons.wb_sunny);
+        case ThemeMode.dark:
+          return Icon(Icons.nightlight_round);
+        default:
+          return Icon(Icons.brightness_6);
+      }
+    }
+
+    return IconButton(
+        icon: _getThemeIcon(), onPressed: themeNotifier.setNextTheme);
   }
 
   Widget createDrawerNavigationOption(String d) {
@@ -121,7 +140,10 @@ class NavigationDrawerState extends State<NavigationDrawer> {
             children: drawerOptions,
           ),
         )),
-        Row(children: <Widget>[Expanded(child: createLogoutBtn())])
+        Row(children: <Widget>[
+          Expanded(child: createLogoutBtn()),
+          createThemeSwitchBtn()
+        ])
       ],
     ));
   }
