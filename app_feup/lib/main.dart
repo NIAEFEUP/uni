@@ -24,7 +24,6 @@ import 'package:uni/view/Widgets/page_transition.dart';
 import 'package:uni/view/navigation_service.dart';
 import 'package:uni/view/theme.dart';
 import 'package:uni/view/theme_notifier.dart';
-
 import 'controller/on_start_up.dart';
 import 'model/schedule_page_model.dart';
 

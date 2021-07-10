@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:encrypt/encrypt.dart' as encrypt;
-import 'package:encrypt/encrypt.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -78,7 +77,14 @@ class AppSharedPreferences {
     return prefs.setInt(themeMode, thmMode.index);
   }
 
-  /// Deletes the user's student number and passoword.
+  /// Switch to next available theme mode.
+  static Future<bool> setNextThemeMode() async {
+    final prefs = await SharedPreferences.getInstance();
+    final themeIndex = (await getThemeMode()).index;
+    return prefs.setInt(themeMode, (themeIndex + 1) % 3);
+  }
+
+  /// Deletes the user's student number and password.
   static Future removePersistentUserInfo() async {
     final prefs = await SharedPreferences.getInstance();
     prefs.remove(userNumber);
@@ -146,7 +152,7 @@ class AppSharedPreferences {
     prefs.setStringList(filteredExamsTypes, newTypes);
   }
 
-  // Returns the user's exam filter settings.
+  /// Returns the user's exam filter settings.
   static Future<Map<String, bool>> getFilteredExams() async {
     final prefs = await SharedPreferences.getInstance();
     final List<String> storedFilteredExamTypes =
