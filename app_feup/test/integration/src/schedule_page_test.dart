@@ -1,3 +1,4 @@
+@Skip('https://github.com/NIAEFEUP/project-schrodinger/issues/367')
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
