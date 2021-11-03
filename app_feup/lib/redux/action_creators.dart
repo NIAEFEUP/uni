@@ -218,6 +218,19 @@ Future<List<Exam>> extractExams(
   return exams;
 }
 
+// Call this function if there is a need to hardcode exams, mainly for debugging
+Future<List<Exam>> getHardcodedExams() async {
+  final sopeExam = Exam(
+      '17:00-19:00', 'SOPE', 'B119, B107, B205', '2099-04-18', 'MT', 'Segunda');
+  final sdisExam = Exam(
+      '17:00-19:00', 'SDIS', 'B001, B002, B005', '2099-04-21', 'MT', 'Segunda');
+  final lpooExam = Exam(
+      '18:00-20:00', 'LPOO', 'B003, B004, B005', '2099-04-21', 'MT', 'Segunda');
+
+  final List<Exam> exams = [sopeExam, sdisExam, lpooExam];
+  return exams;
+}
+
 ThunkAction<AppState> getUserExams(Completer<Null> action,
     ParserExams parserExams, Tuple2<String, String> userPersistentInfo) {
   return (Store<AppState> store) async {
@@ -225,6 +238,8 @@ ThunkAction<AppState> getUserExams(Completer<Null> action,
       //need to get student course here
       store.dispatch(SetExamsStatusAction(RequestStatus.busy));
 
+      //Extracts user exams to a list
+      //If developer wants to hardcode exams, call getHardcodedExams()
       final List<Exam> exams = await extractExams(store, parserExams);
 
       exams.sort((exam1, exam2) => exam1.date.compareTo(exam2.date));

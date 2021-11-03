@@ -17,6 +17,18 @@ class ScheduleFetcherApi extends ScheduleFetcher {
                 '''mob_hor_geral.estudante?pv_codigo=${store.state.content['session'].studentNumber}&pv_semana_ini=${dates.beginWeek}&pv_semana_fim=${dates.endWeek}''',
             {},
             store.state.content['session']));
+
     return lectures;
+  }
+
+  //If developer wants to hardcode lectures for debugging,
+  //should call this function in the getLectures function
+  List<Lecture> getHardcodedLectures() {
+    //Uncomment in order to simulate hardcoded lectures
+    return <Lecture>[
+      Lecture.fromHtml('SOPE', 'T', 0, '10:00', 4, 'B315', 'JAS', 'MIEIC03'),
+      Lecture.fromHtml('SDIS', 'T', 0, '13:00', 4, 'B315', 'PMMS', 'MIEIC03'),
+      Lecture.fromHtml('AMAT', 'T', 1, '12:00', 4, 'B315', 'PMMS', 'MIEIC03')
+    ];
   }
 }
