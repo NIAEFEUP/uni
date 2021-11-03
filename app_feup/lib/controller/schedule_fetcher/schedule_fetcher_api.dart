@@ -17,7 +17,6 @@ class ScheduleFetcherApi extends ScheduleFetcher {
                 '''mob_hor_geral.estudante?pv_codigo=${store.state.content['session'].studentNumber}&pv_semana_ini=${dates.beginWeek}&pv_semana_fim=${dates.endWeek}''',
             {},
             store.state.content['session']));
-
     return lectures;
   }
 
