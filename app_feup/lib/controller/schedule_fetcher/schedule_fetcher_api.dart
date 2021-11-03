@@ -28,7 +28,7 @@ class ScheduleFetcherApi extends ScheduleFetcher {
     return <Lecture>[
       Lecture.fromHtml('SOPE', 'T', 0, '10:00', 4, 'B315', 'JAS', 'MIEIC03'),
       Lecture.fromHtml('SDIS', 'T', 0, '13:00', 4, 'B315', 'PMMS', 'MIEIC03'),
-      Lecture.fromHtml('AMAT', 'T', 1, '12:00', 4, 'B315', 'PMMS', 'MIEIC03')
+      Lecture.fromHtml('AMAT', 'T', 1, '12:00', 4, 'B315', 'PMMS', 'MIEIC04')
     ];
   }
 }
