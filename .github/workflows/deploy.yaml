@@ -42,13 +42,24 @@ jobs:
           unset ANDROID_NDK_HOME
           flutter build appbundle
 
+      - name: Build Android App Bundle
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/featuer/ci-cd-release'
+        run: flutter build appbundle
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '2.6'
-          bundler-cache: true
+
+      - name: Cache bundle dependencies
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/featuer/ci-cd-release'
+        uses: actions/cache@v2
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: ${{ runner.os }}-gems-
 
       - name: Download bundle dependencies
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/featuer/ci-cd-release'
         run: |
           gem install bundler:2.0.2
           bundle config path vendor/bundle
