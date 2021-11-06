@@ -15,3 +15,4 @@ app_feup/pubspec.lock
 
 # Key properties
 app_feup/android/key.properties
+**.jks

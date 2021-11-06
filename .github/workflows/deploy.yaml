@@ -26,12 +26,13 @@ jobs:
         id: android_keystore
         uses: timheuer/base64-to-file@v1.0.3
         with:
-          fileName: key.jks
+          fileName: upload-keystore.jks
           encodedString: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
 
       - name: Create key.properties
         if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/featuer/ci-cd-release'
         run: |
+          touch android/key.properties
           echo "storeFile=${{ steps.android_keystore.outputs.filePath }}" > android/key.properties
           echo "storePassword=${{ secrets.ANDROID_KEYSTORE_PASSWORD }}" >> android/key.properties
           echo "keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}" >> android/key.properties
@@ -39,7 +40,9 @@ jobs:
 
       - name: Build Android App Bundle
         if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/featuer/ci-cd-release'
-        run: flutter build appbundle
+        run: |
+          mkdir -p assets/env
+          flutter build appbundle
       - name: Setup Ruby
         if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/develop'
         uses: actions/setup-ruby@v1
