@@ -12,3 +12,6 @@ app_feup/pubspec.lock
 .atom/
 .vscode/
 .packages
+
+# Key properties
+app_feup/android/key.properties
