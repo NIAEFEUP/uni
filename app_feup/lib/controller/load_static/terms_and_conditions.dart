@@ -2,13 +2,20 @@ import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:http/http.dart' as http;
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 
 Future<String> readTermsAndConditions() async {
   try {
+    final String url = 'https://pastebin.com/raw/J9X7dhip';
+    final http.Response response =
+        await http.get(Uri.parse(url));
+    if (response.statusCode == 200) {
+      return response.body;
+    }
     return await rootBundle.loadString('assets/text/TermsAndConditions.md');
   } catch (e) {
-    return 'Could not load terms and conditions. Please try again later';
+    return 'Could not load terms and conditions. Please try again later.';
   }
 }
 
