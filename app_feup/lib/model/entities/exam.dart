@@ -1,4 +1,5 @@
 import 'package:logger/logger.dart';
+import 'package:collection/collection.dart';
 
 var months = {
   'Janeiro': '01',
@@ -102,6 +103,33 @@ class Exam {
   String toString() {
     return '''$subject - $year - $month - $day -  $begin-$end - $examType - $rooms - $weekDay''';
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Exam &&
+          runtimeType == other.runtimeType &&
+          subject == other.subject &&
+          begin == other.begin &&
+          end == other.end &&
+          ListEquality().equals(rooms, other.rooms) &&
+          day == other.day &&
+          examType == other.examType &&
+          weekDay == other.weekDay &&
+          month == other.month &&
+          year == other.year;
+
+  @override
+  int get hashCode =>
+      subject.hashCode ^
+      begin.hashCode ^
+      end.hashCode ^
+      ListEquality().hash(rooms) ^
+      day.hashCode ^
+      examType.hashCode ^
+      weekDay.hashCode ^
+      month.hashCode ^
+      year.hashCode;
 
   static Map<String, String> getExamTypes() {
     return _types;
