@@ -13,10 +13,10 @@ class ParserExams {
     return '?';
   }
 
-  Future<List<Exam>> parseExams(http.Response response) async {
+  Future<Set<Exam>> parseExams(http.Response response) async {
     final document = parse(response.body);
 
-    final List<Exam> examsList = [];
+    final Set<Exam> examsList = Set();
     final List<String> dates = [];
     final List<String> examTypes = [];
     final List<String> weekDays = [];

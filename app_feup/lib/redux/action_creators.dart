@@ -190,20 +190,20 @@ ThunkAction<AppState> updateStateBasedOnLocalRefreshTimes() {
 
 Future<List<Exam>> extractExams(
     Store<AppState> store, ParserExams parserExams) async {
-  List<Exam> courseExams = [];
+  Set<Exam> courseExams = Set();
   for (Course course in store.state.content['profile'].courses) {
-    final List<Exam> currentCourseExams = await parserExams.parseExams(
+    final Set<Exam> currentCourseExams = await parserExams.parseExams(
         await NetworkRouter.getWithCookies(
             NetworkRouter.getBaseUrlFromSession(
                     store.state.content['session']) +
                 'exa_geral.mapa_de_exames?p_curso_id=${course.id}',
             {},
             store.state.content['session']));
-    courseExams = List.from(courseExams)..addAll(currentCourseExams);
+    courseExams = Set.from(courseExams)..addAll(currentCourseExams);
   }
 
   final List<CourseUnit> userUcs = store.state.content['currUcs'];
-  final List<Exam> exams = <Exam>[];
+  final Set<Exam> exams = Set();
   for (Exam courseExam in courseExams) {
     for (CourseUnit uc in userUcs) {
       if (!courseExam.examType.contains(
@@ -215,7 +215,8 @@ Future<List<Exam>> extractExams(
       }
     }
   }
-  return exams;
+
+  return exams.toList();
 }
 
 ThunkAction<AppState> getUserExams(Completer<Null> action,
