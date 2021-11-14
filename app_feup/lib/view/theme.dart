@@ -16,6 +16,8 @@ ThemeData applicationLightTheme = ThemeData(
   hintColor: _lightGrey,
   backgroundColor: _mildWhite,
   scaffoldBackgroundColor: _mildWhite,
+
+
   textTheme: TextTheme(
     headline1:
         TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold, color: _darkRed),
@@ -53,7 +55,7 @@ ThemeData applicationLightTheme = ThemeData(
         primary: _darkRed,
         padding: const EdgeInsets.all(10.0),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12.0),
+          borderRadius: BorderRadius.circular(25.0),
         ),
         textStyle: TextStyle(fontWeight: FontWeight.w400, fontSize: 15.0)),
   ),
@@ -61,4 +63,17 @@ ThemeData applicationLightTheme = ThemeData(
       style: TextButton.styleFrom(
           primary: _darkRed,
           textStyle: TextStyle(fontSize: 15.0, fontWeight: FontWeight.w400))),
+
+  checkboxTheme: CheckboxThemeData(
+    checkColor: MaterialStateProperty.all(Colors.white),
+    fillColor: MaterialStateColor.resolveWith(
+      (states) {
+      if (states.contains(MaterialState.selected)) {
+        return _darkRed; // the color when checkbox is selected;
+      }
+      return _grey; //the color when checkbox is unselected;
+      },
+
+    )
+  )
 );
