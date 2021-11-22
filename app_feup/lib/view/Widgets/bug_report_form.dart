@@ -186,7 +186,7 @@ class BugReportFormState extends State<BugReportForm> {
         ? 'Unidentified bug'
         : bugDescriptions[_selectedBug].item2;
     final Map data = {
-      'headline6': titleController.text,
+      'title': titleController.text,
       'body': descriptionController.text,
       'labels': [_issueLabel, bugLabel]
     };
