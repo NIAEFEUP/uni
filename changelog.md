@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Fix inconsistency in lecture display
 - Fix possible duplicated exams during parsing
+- Fix Github issues header changes
 
 ### Changed
 - Updated Android's `targetSdkVersion` to 30
