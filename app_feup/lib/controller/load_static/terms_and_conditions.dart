@@ -1,18 +1,28 @@
 import 'dart:convert';
+import 'dart:developer'; //TODO: Remove this
 
+import 'package:connectivity/connectivity.dart';
 import 'package:crypto/crypto.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:http/http.dart' as http;
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 
 Future<String> readTermsAndConditions() async {
   try {
-    final String url = 'https://pastebin.com/raw/J9X7dhip';
-    final http.Response response =
-        await http.get(Uri.parse(url));
-    if (response.statusCode == 200) {
-      return response.body;
+    if (await (Connectivity().checkConnectivity()) != ConnectionState.none) {
+      final String url = 'https://pastebin.com/raw/ZHPUQW6b'; //TODO: Update this
+      final http.Response response = await http.get(Uri.parse(url));
+      if (response.statusCode == 200) {
+        final hash = await AppSharedPreferences.getTermsAndConditionHash();
+        final fetchedHash = md5.convert(utf8.encode(response.body)).toString();
+        if (hash != fetchedHash) {
+          //TODO: Write new T&C to assets/text/TermsAndConditions.md
+        }
+        return response.body;
+      }
     }
+    log('Falling back to local'); //TODO: Remove this
     return await rootBundle.loadString('assets/text/TermsAndConditions.md');
   } catch (e) {
     return 'Could not load terms and conditions. Please try again later.';
