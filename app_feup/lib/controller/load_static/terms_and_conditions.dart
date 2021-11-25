@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer'; //TODO: Remove this
 
 import 'package:connectivity/connectivity.dart';
 import 'package:crypto/crypto.dart';
@@ -11,7 +10,7 @@ import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 Future<String> readTermsAndConditions() async {
   try {
     if (await (Connectivity().checkConnectivity()) != ConnectionState.none) {
-      final String url = 'https://pastebin.com/raw/ZHPUQW6b'; //TODO: Update this
+      final String url = 'https://pastebin.com/raw/J9X7dhip';
       final http.Response response = await http.get(Uri.parse(url));
       if (response.statusCode == 200) {
         final hash = await AppSharedPreferences.getTermsAndConditionHash();
@@ -22,7 +21,6 @@ Future<String> readTermsAndConditions() async {
         return response.body;
       }
     }
-    log('Falling back to local'); //TODO: Remove this
     return await rootBundle.loadString('assets/text/TermsAndConditions.md');
   } catch (e) {
     return 'Could not load terms and conditions. Please try again later.';
