@@ -27,6 +27,11 @@
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UISupportedInterfaceOrientations</key>
+	<key>NSAppTransportSecurity</key>
+	<key>NSAllowsArbitraryLoads</key>
+	<true />
+	<key>NSAllowsArbitraryLoadsInWebContent</key>
+	<true />
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>

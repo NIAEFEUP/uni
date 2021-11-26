@@ -413,7 +413,8 @@ ThunkAction<AppState> getUserBusTrips(Completer<Null> action) {
 
       for (String stopCode in stops.keys) {
         final List<Trip> stopTrips =
-            await NetworkRouter.getNextArrivalsStop(stopCode, stops[stopCode]);
+            await NetworkRouter.getNextArrivalsStopNewJava(
+                stopCode, stops[stopCode]);
         trips[stopCode] = stopTrips;
       }
 

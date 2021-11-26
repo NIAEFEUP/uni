@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+import 'package:html/dom.dart';
 import 'package:logger/logger.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/model/entities/bus.dart';
@@ -14,7 +16,8 @@ import 'package:http/http.dart' as http;
 import 'package:html/parser.dart';
 import 'package:query_params/query_params.dart';
 import 'package:synchronized/synchronized.dart';
-extension UriString on String{
+
+extension UriString on String {
   Uri toUri() => Uri.parse(this);
 }
 
@@ -26,7 +29,6 @@ class NetworkRouter {
   static Lock loginLock = Lock();
 
   static Function onReloginFail = () {};
-
 
   static Future<Session> login(
       String user, String pass, String faculty, bool persistentSession) async {
@@ -202,6 +204,136 @@ class NetworkRouter {
 
       if (!configuredBuses.contains(busLine)) {
         continue;
+      }
+
+      final busDestination = rawBusInformation[0]
+          .text
+          .replaceAll('\n', '')
+          .replaceAll('\t', '')
+          .replaceAll(' ', '')
+          .replaceAll('-', '')
+          .substring(busLine.length + 1);
+
+      final busTimeRemaining = getBusTimeRemaining(rawBusInformation);
+
+      final Trip newTrip = Trip(
+          line: busLine,
+          destination: busDestination,
+          timeRemaining: busTimeRemaining);
+
+      tripList.add(newTrip);
+    }
+
+    return tripList;
+  }
+
+  static Future<List<Trip>> getNextArrivalsStopNewJava(
+      String stopCode, BusStopData stopData) async {
+    final flutterWebviewPlugin = FlutterWebviewPlugin();
+    flutterWebviewPlugin.launch(
+        'https://www.stcp.pt/en/travel/timetables/?paragem=' +
+            stopCode +
+            '&t=smsbus',
+        hidden: true);
+    flutterWebviewPlugin.onStateChanged.listen((viewState) async {
+      if (viewState.type == WebViewState.finishLoad) {
+        flutterWebviewPlugin
+            //.evalJavascript('document.documentElement.innerHTML')
+            .evalJavascript(
+                "document.querySelector('#paragem_info_result').innerHTML")
+            .then((html) {
+          //log('HTML String' + htmlResponse.outerHtml);
+
+          final htmlNew = html
+              .replaceAll('\\t', '')
+              .replaceAll('\\n', '')
+              .replaceAll('\\u', '')
+              .replaceAll('\\', '')
+              .replaceAll('003C', '<')
+              .replaceAll('-', '')
+              .trim();
+          // log("OI" + htmlNew);
+          final htmlResponse = parseFragment(htmlNew);
+          // log('HTML NEW' + htmlNew);
+          // log('MaaaAS' +
+          //     htmlResponse.querySelector('#smsBusResults').innerHtml);
+
+          final tableEntries =
+              htmlResponse.querySelectorAll('#smsBusResults > tbody > tr.even');
+
+          // final tableEntries = htmlResponse
+          //     .querySelectorAll('#paragem_info_result > tbody > tr.even');
+
+          final configuredBuses = stopData.configuredBuses;
+
+          final tripList = <Trip>[];
+
+          for (var entry in tableEntries) {
+            final rawBusInformation = entry.querySelectorAll('td');
+
+            final busLine =
+                rawBusInformation[0].querySelector('ul > li').text.trim();
+
+            if (!configuredBuses.contains(busLine)) {
+              continue;
+            }
+
+            final busDestination = rawBusInformation[0].text;
+
+            final busTimeRemaining = getBusTimeRemaining(rawBusInformation);
+            final Trip newTrip = Trip(
+                line: busLine,
+                destination: busDestination,
+                timeRemaining: busTimeRemaining);
+
+            newTrip.printTrip();
+
+            tripList.add(newTrip);
+          }
+
+          flutterWebviewPlugin.close();
+          return tripList;
+        });
+      }
+    });
+
+    final tripList = <Trip>[];
+    return tripList;
+  }
+
+  static Future<List<Trip>> getNextArrivalsStopNew(
+      String stopCode, BusStopData stopData) async {
+    final url = 'https://www.stcp.pt/en/travel/timetables/?paragem=' +
+        stopCode +
+        '&t=smsbus';
+    final http.Response response = await http.get(url.toUri());
+    final htmlResponse = parse(response.body);
+
+    //log('HTML RESPONSE' + response.body);
+
+    // final busLine = htmlResponse.querySelector('#paragem_info_result').text.trim();
+    // final busLine2 =
+    //     htmlResponse.querySelector('#paragem_info_result').text.trim();
+    // log('1 BUS' + busLine);
+    // log('2 BUS' + busLine2);
+
+    final List<Element> zas =
+        htmlResponse.querySelectorAll('#paragem_info_result');
+
+    final tableEntries =
+        htmlResponse.querySelectorAll('#paragem_info_result > tbody > tr.even');
+
+    final configuredBuses = stopData.configuredBuses;
+
+    final tripList = <Trip>[];
+
+    for (var entry in tableEntries) {
+      final rawBusInformation = entry.querySelectorAll('td');
+
+      final busLine = rawBusInformation[0].querySelector('ul > li').text.trim();
+
+      if (!configuredBuses.contains(busLine)) {
+        //continue;
       }
 
       final busDestination = rawBusInformation[0]
