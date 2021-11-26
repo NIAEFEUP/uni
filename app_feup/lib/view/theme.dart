@@ -16,8 +16,6 @@ ThemeData applicationLightTheme = ThemeData(
   hintColor: _lightGrey,
   backgroundColor: _mildWhite,
   scaffoldBackgroundColor: _mildWhite,
-
-
   textTheme: TextTheme(
     headline1:
         TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold, color: _darkRed),
@@ -73,7 +71,6 @@ ThemeData applicationLightTheme = ThemeData(
       }
       return _grey; //the color when checkbox is unselected;
       },
-
     )
   )
 );
