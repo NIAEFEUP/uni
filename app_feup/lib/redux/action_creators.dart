@@ -413,12 +413,16 @@ ThunkAction<AppState> getUserBusTrips(Completer<Null> action) {
 
       for (String stopCode in stops.keys) {
         final List<Trip> stopTrips =
-            await NetworkRouter.getNextArrivalsStopNewJava(
+            await NetworkRouter.getNexArrivalsAfterLoadingJS(
                 stopCode, stops[stopCode]);
+
+        print('StopCode ' + stopCode + ' StopTrips ' + stopTrips.toString());
         trips[stopCode] = stopTrips;
       }
 
       final DateTime time = DateTime.now();
+
+      print('getUserBusTrips' + trips.toString());
 
       store.dispatch(SetBusTripsAction(trips));
       store.dispatch(SetBusStopTimeStampAction(time));

@@ -207,6 +207,7 @@ class _NextArrivalsState extends State<NextArrivals>
 
   List<Widget> getEachBusStopInfo(context) {
     final List<Widget> rows = <Widget>[];
+    print('getEachBusStopInfo ' + trips.toString());
 
     busConfig.forEach((stopCode, stopData) {
       rows.add(ListView(children: <Widget>[

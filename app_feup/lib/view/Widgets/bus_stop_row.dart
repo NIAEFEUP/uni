@@ -19,6 +19,7 @@ class BusStopRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('TRIPS WIDGET' + this.trips.toString());
     return Container(
       padding: EdgeInsets.all(4.0),
       child: Row(

@@ -1,6 +1,6 @@
 import 'package:logger/logger.dart';
 
-class Trip{
+class Trip {
   final String line;
   final String destination;
   final int timeRemaining;
@@ -15,9 +15,13 @@ class Trip{
     };
   }
 
-  void printTrip()
-  {
+  void printTrip() {
     Logger().i('$line ($destination) - $timeRemaining');
+  }
+
+  @override
+  String toString() {
+    return '$line ($destination) - $timeRemaining';
   }
 
   int compare(Trip other) {

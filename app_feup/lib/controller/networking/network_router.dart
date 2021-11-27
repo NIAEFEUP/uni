@@ -227,9 +227,10 @@ class NetworkRouter {
     return tripList;
   }
 
-  static Future<List<Trip>> getNextArrivalsStopNewJava(
+  static Future<List<Trip>> getNexArrivalsAfterLoadingJS(
       String stopCode, BusStopData stopData) async {
     final flutterWebviewPlugin = FlutterWebviewPlugin();
+
     flutterWebviewPlugin.launch(
         'https://www.stcp.pt/en/travel/timetables/?paragem=' +
             stopCode +
@@ -242,8 +243,6 @@ class NetworkRouter {
             .evalJavascript(
                 "document.querySelector('#paragem_info_result').innerHTML")
             .then((html) {
-          //log('HTML String' + htmlResponse.outerHtml);
-
           final htmlNew = html
               .replaceAll('\\t', '')
               .replaceAll('\\n', '')
@@ -252,17 +251,11 @@ class NetworkRouter {
               .replaceAll('003C', '<')
               .replaceAll('-', '')
               .trim();
-          // log("OI" + htmlNew);
+
           final htmlResponse = parseFragment(htmlNew);
-          // log('HTML NEW' + htmlNew);
-          // log('MaaaAS' +
-          //     htmlResponse.querySelector('#smsBusResults').innerHtml);
 
           final tableEntries =
               htmlResponse.querySelectorAll('#smsBusResults > tbody > tr.even');
-
-          // final tableEntries = htmlResponse
-          //     .querySelectorAll('#paragem_info_result > tbody > tr.even');
 
           final configuredBuses = stopData.configuredBuses;
 
@@ -286,75 +279,22 @@ class NetworkRouter {
                 destination: busDestination,
                 timeRemaining: busTimeRemaining);
 
-            newTrip.printTrip();
-
             tripList.add(newTrip);
           }
 
           flutterWebviewPlugin.close();
+
+          for (Trip t in tripList) {
+            print('TRIP LIST ROUTER ' + t.toString());
+          }
+
+          //TODO FAZER COM QUE A FUNÇÃO RETORNE ESTE TRIP LIST
+          // SO DEVE RETORNAR DEPOIS DE TER ACABADO DE DAR LOAD AO JAVASCRIPT DA PAGINA
           return tripList;
         });
+        //log('HTML String' + htmlResponse.outerHtml);
       }
     });
-
-    final tripList = <Trip>[];
-    return tripList;
-  }
-
-  static Future<List<Trip>> getNextArrivalsStopNew(
-      String stopCode, BusStopData stopData) async {
-    final url = 'https://www.stcp.pt/en/travel/timetables/?paragem=' +
-        stopCode +
-        '&t=smsbus';
-    final http.Response response = await http.get(url.toUri());
-    final htmlResponse = parse(response.body);
-
-    //log('HTML RESPONSE' + response.body);
-
-    // final busLine = htmlResponse.querySelector('#paragem_info_result').text.trim();
-    // final busLine2 =
-    //     htmlResponse.querySelector('#paragem_info_result').text.trim();
-    // log('1 BUS' + busLine);
-    // log('2 BUS' + busLine2);
-
-    final List<Element> zas =
-        htmlResponse.querySelectorAll('#paragem_info_result');
-
-    final tableEntries =
-        htmlResponse.querySelectorAll('#paragem_info_result > tbody > tr.even');
-
-    final configuredBuses = stopData.configuredBuses;
-
-    final tripList = <Trip>[];
-
-    for (var entry in tableEntries) {
-      final rawBusInformation = entry.querySelectorAll('td');
-
-      final busLine = rawBusInformation[0].querySelector('ul > li').text.trim();
-
-      if (!configuredBuses.contains(busLine)) {
-        //continue;
-      }
-
-      final busDestination = rawBusInformation[0]
-          .text
-          .replaceAll('\n', '')
-          .replaceAll('\t', '')
-          .replaceAll(' ', '')
-          .replaceAll('-', '')
-          .substring(busLine.length + 1);
-
-      final busTimeRemaining = getBusTimeRemaining(rawBusInformation);
-
-      final Trip newTrip = Trip(
-          line: busLine,
-          destination: busDestination,
-          timeRemaining: busTimeRemaining);
-
-      tripList.add(newTrip);
-    }
-
-    return tripList;
   }
 
   static int getBusTimeRemaining(rawBusInformation) {
