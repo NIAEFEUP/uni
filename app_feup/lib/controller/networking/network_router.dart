@@ -227,19 +227,26 @@ class NetworkRouter {
     return tripList;
   }
 
+  // Gets the next arrivals for a given bus stop
+  // Uses FlutterWebviewPlugin in order to scrap the information after the
+  // Javascript is loaded
   static Future<List<Trip>> getNexArrivalsAfterLoadingJS(
       String stopCode, BusStopData stopData) async {
     final flutterWebviewPlugin = FlutterWebviewPlugin();
+
+    final Completer<List<Trip>> tripsCompleter = Completer();
+    final tripList = <Trip>[];
 
     flutterWebviewPlugin.launch(
         'https://www.stcp.pt/en/travel/timetables/?paragem=' +
             stopCode +
             '&t=smsbus',
         hidden: true);
+
+    // When it finishes loading the page, should complete future for tripList
     flutterWebviewPlugin.onStateChanged.listen((viewState) async {
       if (viewState.type == WebViewState.finishLoad) {
         flutterWebviewPlugin
-            //.evalJavascript('document.documentElement.innerHTML')
             .evalJavascript(
                 "document.querySelector('#paragem_info_result').innerHTML")
             .then((html) {
@@ -258,8 +265,6 @@ class NetworkRouter {
               htmlResponse.querySelectorAll('#smsBusResults > tbody > tr.even');
 
           final configuredBuses = stopData.configuredBuses;
-
-          final tripList = <Trip>[];
 
           for (var entry in tableEntries) {
             final rawBusInformation = entry.querySelectorAll('td');
@@ -282,19 +287,16 @@ class NetworkRouter {
             tripList.add(newTrip);
           }
 
+          tripsCompleter.complete(tripList);
+
           flutterWebviewPlugin.close();
 
-          for (Trip t in tripList) {
-            print('TRIP LIST ROUTER ' + t.toString());
-          }
-
-          //TODO FAZER COM QUE A FUNÇÃO RETORNE ESTE TRIP LIST
-          // SO DEVE RETORNAR DEPOIS DE TER ACABADO DE DAR LOAD AO JAVASCRIPT DA PAGINA
           return tripList;
         });
-        //log('HTML String' + htmlResponse.outerHtml);
       }
     });
+
+    return tripsCompleter.future;
   }
 
   static int getBusTimeRemaining(rawBusInformation) {
