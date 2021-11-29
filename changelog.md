@@ -1,4 +1,3 @@
-
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
@@ -6,16 +5,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Added 
+### Added
 
 - Clickable checkbox rows
 
 ### Fixed
+
 - Fix inconsistency in lecture display
 - Fix possible duplicated exams during parsing
 - Fix Github issues header changes
+- Fix bus schedules
 
 ### Changed
+
 - Updated Android's `targetSdkVersion` to 30
 
 ## [1.1.0] - 2021-04-18
@@ -39,6 +41,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0] - 2020-03-01
 
 ### Added
+
 - Schedule page and widget
 - Exams page and widget
 - Profile page with basic user information
