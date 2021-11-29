@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
-import 'package:html/dom.dart';
 import 'package:logger/logger.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/model/entities/bus.dart';
