@@ -5,21 +5,25 @@ import 'package:crypto/crypto.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:http/http.dart' as http;
+import 'package:logger/logger.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 
 Future<String> readTermsAndConditions() async {
   if (await (Connectivity().checkConnectivity()) != ConnectionState.none) {
     try {
-      final String url = 'https://pastebin.com/raw/eCMbHLPD';
+      final String url = 'https://pastebin.com/raw/J9X7dhip';
       final http.Response response = await http.get(Uri.parse(url));
       if (response.statusCode == 200) {
         return response.body;
       }
-    } catch (e) {}
+    } catch (e) {
+      Logger().e('Failed to fetch Terms and Conditions: ${e.toString()}');
+    }
   }
   try {
     return await rootBundle.loadString('assets/text/TermsAndConditions.md');
   } catch (e) {
+    Logger().e('Failed to read Terms and Conditions: ${e.toString()}');
     return 'Não foi possível carregar os Termos e Condições. '
         'Por favor tente mais tarde.';
   }
