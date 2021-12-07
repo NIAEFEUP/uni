@@ -99,16 +99,9 @@ class _SplashScreenState extends State<SplashScreen> {
     final String userName = userPersistentInfo.item1;
     final String password = userPersistentInfo.item2;
     if (userName != '' && password != '') {
-<<<<<<< HEAD
       nextRoute = await getTermsAndConditions(userName, password);
     } else {
       await acceptTermsAndConditions();
-=======
-      nextRoute = MaterialPageRoute(builder: (context) => HomePageView());
-      StoreProvider.of<AppState>(context)
-          .dispatch(reLogin(userName, password, 'feup'));
-    } else {
->>>>>>> 53f5b11 (Send token through authorization header)
       nextRoute = MaterialPageRoute(builder: (context) => LoginPageView());
     }
     Navigator.pushReplacement(context, nextRoute);
