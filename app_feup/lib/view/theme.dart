@@ -53,7 +53,7 @@ ThemeData applicationLightTheme = ThemeData(
         primary: _darkRed,
         padding: const EdgeInsets.all(10.0),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(25.0),
+          borderRadius: BorderRadius.circular(12.0),
         ),
         textStyle: TextStyle(fontWeight: FontWeight.w400, fontSize: 15.0)),
   ),
@@ -61,7 +61,6 @@ ThemeData applicationLightTheme = ThemeData(
       style: TextButton.styleFrom(
           primary: _darkRed,
           textStyle: TextStyle(fontSize: 15.0, fontWeight: FontWeight.w400))),
-
   checkboxTheme: CheckboxThemeData(
     checkColor: MaterialStateProperty.all(Colors.white),
     fillColor: MaterialStateColor.resolveWith(
