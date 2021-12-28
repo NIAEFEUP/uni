@@ -305,6 +305,7 @@ class BugReportFormState extends State<BugReportForm> {
     descriptionController.clear();
     emailController.clear();
 
+    if (!mounted) return;
     setState(() {
       _selectedBug = 0;
       _isConsentGiven = false;
