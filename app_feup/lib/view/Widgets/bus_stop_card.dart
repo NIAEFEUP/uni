@@ -18,10 +18,10 @@ class BusStopCard extends GenericCard {
       : super.fromEditingInformation(key, editingMode, onDelete);
 
   @override
-  String getTitle() => 'Paragens';
+  String getTitle() => 'Autocarros';
 
   @override
-  onClick(BuildContext context) => Navigator.pushNamed(context, '/Paragens');
+  onClick(BuildContext context) => Navigator.pushNamed(context, '/Autocarros');
 
   @override
   Widget buildCardContent(BuildContext context) {
@@ -53,7 +53,7 @@ class BusStopCard extends GenericCard {
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Text('Configura as tuas paragens',
+                  Text('Configura os teus autocarros',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context)
