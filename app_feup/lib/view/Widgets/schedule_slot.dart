@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/view/Widgets/row_container.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ScheduleSlot extends StatelessWidget {
+  final int occurrId;
   final String subject;
   final String rooms;
   final String begin;
@@ -13,6 +16,7 @@ class ScheduleSlot extends StatelessWidget {
 
   ScheduleSlot({
     Key key,
+    @required this.occurrId,
     @required this.subject,
     @required this.typeClass,
     @required this.rooms,
@@ -59,6 +63,33 @@ class ScheduleSlot extends StatelessWidget {
       Theme.of(context).textTheme.headline4.apply(fontSizeDelta: -4),
       TextAlign.center);
 
+  String toUcLink(int occurrId) {
+    final String faculty = 'feup'; //should not be hardcoded
+    return '${NetworkRouter.getBaseUrl(faculty)}UCURR_GERAL.FICHA_UC_VIEW?pv_ocorrencia_id=$occurrId';
+  }
+
+  _launchURL() async {
+    final String url = toUcLink(occurrId);
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
+  Widget createSubjectButton(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        IconButton(
+          icon: Icon(Icons.open_in_browser),
+          tooltip: 'Abrir página da UC no browser',
+          onPressed: _launchURL,
+        ),
+      ],
+    );
+  }
+
   List<Widget> createScheduleSlotPrimInfo(context) {
     final subjectTextField = createTextField(
         this.subject,
@@ -78,6 +109,7 @@ class ScheduleSlot extends StatelessWidget {
         children: <Widget>[
           Row(
             children: <Widget>[
+              createSubjectButton(context),
               subjectTextField,
               typeClassTextField,
             ],
