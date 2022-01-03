@@ -22,6 +22,7 @@ class Lecture {
   int day;
   int blocks;
   int startTimeSeconds;
+  int occurrId;
 
   /// Creates an instance of the class [Lecture].
   Lecture(
@@ -35,7 +36,8 @@ class Lecture {
       int startTimeHours,
       int startTimeMinutes,
       int endTimeHours,
-      int endTimeMinutes) {
+      int endTimeMinutes,
+      [int occurrId]) {
     this.subject = subject;
     this.typeClass = typeClass;
     this.room = room;
@@ -43,6 +45,7 @@ class Lecture {
     this.day = day;
     this.blocks = blocks;
     this.classNumber = classNumber;
+    this.occurrId = occurrId;
     this.startTime = startTimeHours.toString().padLeft(2, '0') +
         'h' +
         startTimeMinutes.toString().padLeft(2, '0');
@@ -59,7 +62,8 @@ class Lecture {
       int blocks,
       String room,
       String teacher,
-      String classNumber) {
+      String classNumber,
+      [int occurrId]) {
     final startTimeHours = (startTimeSeconds ~/ 3600);
     final startTimeMinutes = ((startTimeSeconds % 3600) ~/ 60);
     final endTimeSeconds = 60 * 30 * blocks;
