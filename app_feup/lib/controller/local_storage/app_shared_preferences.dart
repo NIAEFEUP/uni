@@ -25,6 +25,7 @@ class AppSharedPreferences {
   static final List<FAVORITE_WIDGET_TYPE> defaultFavoriteCards = [
     FAVORITE_WIDGET_TYPE.schedule,
     FAVORITE_WIDGET_TYPE.exams,
+    FAVORITE_WIDGET_TYPE.cantine,
     FAVORITE_WIDGET_TYPE.busStops
   ];
   static final String filteredExamsTypes = 'filtered_exam_types';
