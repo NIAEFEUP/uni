@@ -21,7 +21,7 @@ class CantineCard extends GenericCard {
 
   @override
   onClick(BuildContext context) =>
-      Navigator.pushNamed(context, '/' + Constants.navExams); // TODO: CHANGE
+      null;
 
   @override
   Widget buildCardContent(BuildContext context) {
@@ -59,7 +59,7 @@ class CantineCard extends GenericCard {
   Widget createRowFromCantine(context, String cantine) { // TODO: Cantine class
     return Column(children: [
       DateRectangle(date: "Segunda" + ', ' + "08" + ' de ' + "Janeiro"), // cantine.nextSchoolDay
-      Container( // TODO: change this from here
+      Container(
         child: Center(
           child: Container(
               padding: EdgeInsets.all(12.0),
