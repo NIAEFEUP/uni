@@ -60,6 +60,8 @@ AppState appReducers(AppState state, dynamic action) {
     return setLastUserInfoUpdateTime(state, action);
   } else if (action is SetExamFilter) {
     return setExamFilter(state, action);
+  } else if(action is SetRestaurantsAction){
+    return setRestaurantsAction(state, action);
   }
   return state;
 }
@@ -77,6 +79,11 @@ AppState setLoginStatus(AppState state, SetLoginStatusAction action) {
 AppState setExams(AppState state, SetExamsAction action) {
   Logger().i('setting exams: ' + action.exams.length.toString());
   return state.cloneAndUpdateValue('exams', action.exams);
+}
+
+AppState setRestaurantsAction(AppState state, SetRestaurantsAction action) {
+  Logger().i('setting restaurants: ' + action.restaurants.length.toString());
+  return state.cloneAndUpdateValue('restaurants', action.restaurants);
 }
 
 AppState setExamsStatus(AppState state, SetExamsStatusAction action) {
