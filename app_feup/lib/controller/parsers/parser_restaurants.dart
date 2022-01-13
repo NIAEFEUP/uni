@@ -16,8 +16,6 @@ import 'package:uni/model/utils/day_of_week.dart';
 Future<List<Restaurant>> getRestaurantsFromHtml(Response response) async {
   final document = parse(response.body);
 
-  final Map<String, String> coursesStates =  HashMap();
-
   final List<Element> restaurantsHtml =
               document.querySelectorAll('#conteudoinner ul li > a');
   final List<Restaurant> restaurants = [];
@@ -59,10 +57,9 @@ Future<List<Restaurant>> getRestaurantsFromHtml(Response response) async {
           final List<Element> collumns = row.querySelectorAll('td');
           collumns.forEach((collumn) {
             final String value = collumn.innerHtml;
-            int i=0;
             final String header = collumn.attributes['headers'];
             if(header == 'Data'){
-              DayOfWeek d = parseDayOfWeek(value);
+              final DayOfWeek d = parseDayOfWeek(value);
 
 
               if(d == null){

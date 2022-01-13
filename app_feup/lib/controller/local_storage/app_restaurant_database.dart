@@ -41,7 +41,7 @@ class RestaurantDatabase extends AppDatabase {
     final List<Map<String, dynamic>> restMaps = await db.query('restaurants');
 
     // Retrieve data from query.
-    List<Restaurant> restaurants =  List.generate(restMaps.length, (i) {
+    final List<Restaurant> restaurants =  List.generate(restMaps.length, (i) {
       return
         Restaurant(restMaps[i]['name'], restMaps[i]['ref'], restMaps[i]['id'] );
     });
