@@ -9,9 +9,9 @@ class ToastMessage {
       context,
       duration: Toast.LENGTH_LONG,
       gravity: Toast.BOTTOM,
-      backgroundColor: toastColor,
+      // backgroundColor: toastColor,
       backgroundRadius: 16.0,
-      textColor: Colors.white,
+      // textColor: Colors.white,
     );
   }
 }

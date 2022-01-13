@@ -59,11 +59,11 @@ class GenericCardState extends State<GenericCard> {
               decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
-                        color: Color.fromARGB(0x1c, 0, 0, 0),
+                        // color: Color.fromARGB(0x1c, 0, 0, 0),
                         blurRadius: 7.0,
                         offset: Offset(0.0, 1.0))
                   ],
-                  color: Theme.of(context).dividerColor,
+                  //color: Theme.of(context).dividerColor,
                   borderRadius:
                       BorderRadius.all(Radius.circular(this.borderRadius))),
               child: ConstrainedBox(
@@ -72,7 +72,7 @@ class GenericCardState extends State<GenericCard> {
                 ),
                 child: Container(
                   decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColor,
+                      //color: Theme.of(context).primaryColor,
                       borderRadius:
                           BorderRadius.all(Radius.circular(this.borderRadius))),
                   width: (double.infinity),

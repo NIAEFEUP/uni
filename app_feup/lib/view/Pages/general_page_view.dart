@@ -26,7 +26,7 @@ abstract class GeneralPageViewState extends State<StatefulWidget> {
   }
 
   /// Returns the current user image.
-  /// 
+  ///
   /// If the image is not found / doesn't exist returns a generic placeholder.
   DecorationImage getDecorageImage(File x) {
     final fallbackImage = decorageImage == null
@@ -54,10 +54,11 @@ abstract class GeneralPageViewState extends State<StatefulWidget> {
       },
       builder: (context, refresh) {
         return RefreshIndicator(
-            key: GlobalKey<RefreshIndicatorState>(),
-            child: child,
-            onRefresh: refresh,
-            color: Theme.of(context).accentColor);
+          key: GlobalKey<RefreshIndicatorState>(),
+          child: child,
+          onRefresh: refresh,
+          /* color: Theme.of(context).accentColor */
+        );
       },
     );
   }
@@ -71,7 +72,7 @@ abstract class GeneralPageViewState extends State<StatefulWidget> {
   }
 
   /// Builds the upper bar of the app.
-  /// 
+  ///
   /// This method returns an instance of `AppBar` containing the app's logo,
   /// an option button and a button with the user's picture.
   AppBar buildAppBar(BuildContext context) {
@@ -82,13 +83,13 @@ abstract class GeneralPageViewState extends State<StatefulWidget> {
         preferredSize: Size.zero,
         child: Container(
           margin: EdgeInsets.only(left: borderMargin, right: borderMargin),
-          color: Theme.of(context).dividerColor,
+          // color: Theme.of(context).dividerColor,
           height: 1.5,
         ),
       ),
       elevation: 0,
-      iconTheme: IconThemeData(color: Theme.of(context).accentColor),
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      // iconTheme: IconThemeData(color: Theme.of(context).accentColor),
+      // backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       titleSpacing: 0.0,
       title: ButtonTheme(
           minWidth: 0,

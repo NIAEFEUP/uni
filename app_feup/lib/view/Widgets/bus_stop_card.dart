@@ -88,10 +88,8 @@ class BusStopCard extends GenericCard {
           Container(
               padding: EdgeInsets.all(8.0),
               child: Text('Não foi possível obter informação',
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline4
-                      .apply(color: Theme.of(context).accentColor)))
+                  style: Theme.of(context).textTheme.headline4
+                  /* .apply(color: Theme.of(context).accentColor) */))
         ]);
         break;
     }
@@ -103,10 +101,8 @@ class BusStopCard extends GenericCard {
       children: <Widget>[
         Icon(Icons.directions_bus), // color lightgrey
         Text('STCP - Próximas Viagens',
-            style: Theme.of(context)
-                .textTheme
-                .headline4
-                .apply(color: Theme.of(context).accentColor)),
+            style: Theme.of(context).textTheme.headline4
+            /* .apply(color: Theme.of(context).accentColor) */),
       ],
     );
   }

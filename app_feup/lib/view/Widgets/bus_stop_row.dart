@@ -57,11 +57,8 @@ class BusStopRow extends StatelessWidget {
     return Container(
       padding: EdgeInsets.only(left: 4.0),
       child: RotatedBox(
-        child: Text(this.stopCode,
-            style: Theme.of(context)
-                .textTheme
-                .headline4
-                .apply(color: Theme.of(context).accentColor)),
+        child: Text(this.stopCode, style: Theme.of(context).textTheme.headline4
+            /* .apply(color: Theme.of(context).accentColor) */),
         quarterTurns: 3,
       ),
     );
@@ -75,13 +72,16 @@ class BusStopRow extends StatelessWidget {
           padding: EdgeInsets.all(12.0), child: TripRow(trip: trips[0])));
     } else {
       for (int i = 0; i < trips.length; i++) {
-        Color color = Theme.of(context).accentColor;
-        if (i == trips.length - 1) color = Colors.transparent;
+/*         Color color = Theme.of(context).accentColor;
+        if (i == trips.length - 1) color = Colors.transparent; */
 
         tripRows.add(Container(
             padding: EdgeInsets.all(12.0),
             decoration: BoxDecoration(
-                border: Border(bottom: BorderSide(width: 0.1, color: color))),
+                border: Border(
+                    bottom: BorderSide(
+              width: 0.1, /* color: color */
+            ))),
             child: TripRow(trip: trips[i])));
       }
     }

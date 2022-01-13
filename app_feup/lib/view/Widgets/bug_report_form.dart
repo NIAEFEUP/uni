@@ -121,16 +121,20 @@ class BugReportFormState extends State<BugReportForm> {
         margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20),
         child: Row(
           children: <Widget>[
-            Icon(Icons.bug_report,
-                color: Theme.of(context).accentColor, size: 50.0),
+            Icon(
+              Icons.bug_report,
+              /* color: Theme.of(context).accentColor, size: 50.0 */
+            ),
             Expanded(
                 child: Text(
               'Bugs e Sugestões',
               textScaleFactor: 1.6,
               textAlign: TextAlign.center,
             )),
-            Icon(Icons.bug_report,
-                color: Theme.of(context).accentColor, size: 50.0),
+            Icon(
+              Icons.bug_report,
+              /* color: Theme.of(context).accentColor, size: 50.0 */
+            ),
           ],
         ));
   }
@@ -139,8 +143,9 @@ class BugReportFormState extends State<BugReportForm> {
   Widget bugReportIntro(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          border: Border(
-              bottom: BorderSide(color: Theme.of(context).dividerColor))),
+          /* border: Border(
+              bottom: BorderSide(color: Theme.of(context).dividerColor)) */
+          ),
       padding: EdgeInsets.only(bottom: 20),
       child: Center(
         child: Text(
@@ -169,7 +174,7 @@ class BugReportFormState extends State<BugReportForm> {
                 margin: EdgeInsets.only(right: 15),
                 child: Icon(
                   Icons.bug_report,
-                  color: Theme.of(context).accentColor,
+                  //color: Theme.of(context).accentColor,
                 )),
             Expanded(
                 child: DropdownButton(

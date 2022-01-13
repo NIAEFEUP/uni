@@ -47,7 +47,7 @@ class BusStopSelectionRowState extends State<BusStopSelectionRow> {
                   left: width * 0.20,
                   right: width * 0.20),
               child: RowContainer(
-                  borderColor: Theme.of(context).accentColor,
+                  // borderColor: Theme.of(context).accentColor,
                   child: Container(
                       padding: EdgeInsets.only(left: 10.0, right: 10.0),
                       child: Row(
@@ -64,7 +64,7 @@ class BusStopSelectionRowState extends State<BusStopSelectionRow> {
                                   onTap: () => toggleFavorite(context)),
                               IconButton(
                                 icon: Icon(Icons.cancel),
-                                color: Theme.of(context).buttonColor,
+                                //color: Theme.of(context).buttonColor,
                                 onPressed: () {
                                   deleteStop(context);
                                 },

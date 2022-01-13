@@ -69,7 +69,7 @@ class _LoginPageViewState extends State<LoginPageView> {
 
     return Scaffold(
         backgroundColor: Theme.of(context).brightness == Brightness.light
-            ? Theme.of(context).accentColor
+            ? Theme.of(context).primaryColor
             : Theme.of(context).scaffoldBackgroundColor,
         body: WillPopScope(
             child: Padding(
@@ -133,7 +133,7 @@ class _LoginPageViewState extends State<LoginPageView> {
           SizedBox(
               child: SvgPicture.asset(
                 'assets/images/logo_dark.svg',
-                color: Colors.white,
+                // color: Colors.white,
               ),
               width: 100.0),
         ]));
@@ -158,7 +158,7 @@ class _LoginPageViewState extends State<LoginPageView> {
   /// Creates the widget for the username input.
   Widget createUsernameInput(BuildContext context) {
     return TextFormField(
-      style: TextStyle(color: Colors.white, fontSize: 20),
+      style: TextStyle(/* color: Colors.white, */ fontSize: 20),
       enableSuggestions: false,
       autocorrect: false,
       autofocus: false,
@@ -178,7 +178,7 @@ class _LoginPageViewState extends State<LoginPageView> {
   /// Creates the widget for the password input.
   Widget createPasswordInput() {
     return TextFormField(
-        style: TextStyle(color: Colors.white, fontSize: 20),
+        style: TextStyle(/* color: Colors.white, */ fontSize: 20),
         enableSuggestions: false,
         autocorrect: false,
         autofocus: false,
@@ -206,7 +206,8 @@ class _LoginPageViewState extends State<LoginPageView> {
         'Manter sessão iniciada',
         textAlign: TextAlign.center,
         style: TextStyle(
-            color: Colors.white, fontSize: 17.0, fontWeight: FontWeight.w300),
+            /* color: Colors.white, */ fontSize: 17.0,
+            fontWeight: FontWeight.w300),
       ),
     );
   }
@@ -235,7 +236,7 @@ class _LoginPageViewState extends State<LoginPageView> {
           },
           child: Text('Entrar',
               style: TextStyle(
-                  color: Theme.of(context).accentColor,
+                  //color: Theme.of(context).accentColor,
                   fontWeight: FontWeight.w400,
                   fontSize: 20),
               textAlign: TextAlign.center),
@@ -278,13 +279,13 @@ class _LoginPageViewState extends State<LoginPageView> {
     return InputDecoration(
         hintStyle: TextStyle(color: Colors.white),
         errorStyle: TextStyle(
-          color: Colors.white70,
-        ),
+            //color: Colors.white70,
+            ),
         hintText: placeholder,
         contentPadding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
         border: UnderlineInputBorder(),
         focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.white, width: 3)));
+            borderSide: BorderSide(/* color: Colors.white, */ width: 3)));
   }
 
   /// Decoration for the password field.
@@ -302,7 +303,7 @@ class _LoginPageViewState extends State<LoginPageView> {
             _obscurePasswordInput ? Icons.visibility : Icons.visibility_off,
           ),
           onPressed: _toggleObscurePasswordInput,
-          color: Colors.white,
+          //color: Colors.white,
         ));
   }
 
@@ -313,8 +314,8 @@ class _LoginPageViewState extends State<LoginPageView> {
         onTap: () {
           _showLoginDetails(context);
         },
-        splashColor: Colors.transparent,
-        highlightColor: Colors.transparent,
+        //splashColor: Colors.transparent,
+        //highlightColor: Colors.transparent,
         child: Container(
             padding: EdgeInsets.all(8),
             child: Text(
@@ -322,7 +323,7 @@ class _LoginPageViewState extends State<LoginPageView> {
               textAlign: TextAlign.center,
               style: TextStyle(
                   decoration: TextDecoration.underline,
-                  color: Colors.white,
+                  // color: Colors.white,
                   fontSize: 17.0,
                   fontWeight: FontWeight.w300),
             )));

@@ -80,7 +80,8 @@ class ExamCard extends GenericCard {
         decoration: BoxDecoration(
             border: Border(
                 bottom: BorderSide(
-                    width: 1.5, color: Theme.of(context).dividerColor))),
+          width: 1.5, /* color: Theme.of(context).dividerColor */
+        ))),
       ));
     }
     for (int i = 1; i < 4 && i < exams.length; i++) {
@@ -96,9 +97,9 @@ class ExamCard extends GenericCard {
       DateRectangle(date: exam.weekDay + ', ' + exam.day + ' de ' + exam.month),
       Container(
         child: RowContainer(
-          color: isHighlighted(exam)
+/*           color: isHighlighted(exam)
               ? Theme.of(context).backgroundColor
-              : Theme.of(context).hintColor,
+              : Theme.of(context).hintColor, */
           child: ScheduleRow(
             subject: exam.subject,
             rooms: exam.rooms,
@@ -117,9 +118,9 @@ class ExamCard extends GenericCard {
     return Container(
       margin: EdgeInsets.only(top: 8),
       child: RowContainer(
-        color: isHighlighted(exam)
+/*         color: isHighlighted(exam)
             ? Theme.of(context).backgroundColor
-            : Theme.of(context).hintColor,
+            : Theme.of(context).hintColor, */
         child: Container(
           padding: EdgeInsets.all(11),
           child: Row(
