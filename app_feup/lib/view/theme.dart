@@ -114,7 +114,7 @@ ThemeData applicationDarkTheme = ThemeData(
     cardColor: Colors.white,
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-          primary: Colors.white,
+          primary: Colors.black45,
           padding: const EdgeInsets.all(10.0),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12.0),
