@@ -1,6 +1,5 @@
 import 'package:intl/intl.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:tuple/tuple.dart';
 import 'package:uni/model/entities/meal.dart';
 import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/utils/day_of_week.dart';
@@ -8,8 +7,17 @@ import 'package:uni/model/utils/day_of_week.dart';
 import 'app_database.dart';
 
 class RestaurantDatabase extends AppDatabase {
-  RestaurantDatabase() : super('restaurant.db', ['CREATE TABLE RESTAURANTS(id INTEGER PRIMARY KEY, ref TEXT , name TEXT)',
-                                                 "CREATE TABLE MEALS(id INTEGER PRIMARY KEY AUTOINCREMENT, day TEXT, type TEXT,date TEXT, name TEXT, id_restaurant INTEGER, FOREIGN KEY (id_restaurant) REFERENCES RESTAURANTS(id))"]);
+  RestaurantDatabase()
+      : super('restaurant.db',
+      ['CREATE TABLE RESTAURANTS(id INTEGER PRIMARY KEY, ref TEXT , name TEXT)',
+      '''CREATE TABLE MEALS(
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          day TEXT,
+          type TEXT,
+          date TEXT,
+          name TEXT,
+          id_restaurant INTEGER,
+          FOREIGN KEY (id_restaurant) REFERENCES RESTAURANTS(id))''']);
 
   /**
    * Delets all data, and saves the new restaurants
@@ -34,11 +42,12 @@ class RestaurantDatabase extends AppDatabase {
 
     // Retrieve data from query.
     List<Restaurant> restaurants =  List.generate(restMaps.length, (i) {
-      return Restaurant( restMaps[i]['name'], restMaps[i]['ref'], restMaps[i]['id'] );
+      return
+        Restaurant(restMaps[i]['name'], restMaps[i]['ref'], restMaps[i]['id'] );
     });
     restaurants.forEach((rest) async {
 
-      List<dynamic> whereArgs = [rest.id];
+      final List<dynamic> whereArgs = [rest.id];
       String whereQuery = 'id_restaurant = ? ';
       if(day != null){
         whereQuery += ' and day = ?';
@@ -51,13 +60,13 @@ class RestaurantDatabase extends AppDatabase {
           whereArgs: whereArgs);
 
       //Retreive data from query
-      // (DayOfWeek, TypeOfMeal, MealName)
       final List<Meal> meals = List.generate(mealsMaps.length, (i) {
         final DayOfWeek day = parseDayOfWeek(mealsMaps[i]['day']);
         final String type = mealsMaps[i]['type'];
         final String name = mealsMaps[i]['name'];
         final DateFormat format = DateFormat('d-M-y');
-        final DateTime date = mealsMaps[i]['date']!= null ? format.parse(mealsMaps[i]['date']) : null;
+        final DateTime date = mealsMaps[i]['date']!= null ?
+                                    format.parse(mealsMaps[i]['date']) : null;
         return Meal(name, type, day, date, rest);
       });
       //Add meals to restaurants
@@ -71,7 +80,7 @@ class RestaurantDatabase extends AppDatabase {
    * Insert restaurant and meals in database
    */
   Future<void> insertRestaurant(Database db, Restaurant restaurant) async{
-    int id = await db.insert('RESTAURANTS', restaurant.toMap());
+    final int id = await db.insert('RESTAURANTS', restaurant.toMap());
     restaurant.id = id;
     final Iterable<DayOfWeek> days = restaurant.meals.keys;
 
