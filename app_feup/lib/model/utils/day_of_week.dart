@@ -46,5 +46,5 @@ String toString(DayOfWeek day){
     case DayOfWeek.sunday:
       return 'Domingo';
   }
-  return '';
+  return null;
 }

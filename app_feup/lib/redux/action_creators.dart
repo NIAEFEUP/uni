@@ -285,7 +285,7 @@ ThunkAction<AppState> getRestaurantsFromFetcher(Completer<Null> action){
       // Updates local database according to information fetched -- Restaurants
       final RestaurantDatabase db = RestaurantDatabase();
       db.saveRestaurants(restaurants);
-      db.restaurants(null);
+      db.restaurants(day:null);
       store.dispatch(SetRestaurantsAction(restaurants));
       store.dispatch(SetRestaurantsStatusAction(RequestStatus.successful));
 

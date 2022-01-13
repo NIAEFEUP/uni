@@ -20,4 +20,8 @@ class Meal{
       'date': this.date != null ? format.format(this.date) : null,
       'id_restaurant':restaurant.id};
   }
+
+  void assignRestaurant(Restaurant restaurant){
+    this.restaurant = restaurant;
+  }
 }

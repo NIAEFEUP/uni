@@ -25,69 +25,78 @@ class RestaurantDatabase extends AppDatabase {
   void saveRestaurants(List<Restaurant> restaurants) async{
     final Database db = await this.getDatabase();
     //final Batch batch = db.batch();
-    deleteAll(db);
-    restaurants.forEach((restaurant) {
-      insertRestaurant(db, restaurant);
+    db.transaction((transaction) async {
+      deleteAll(transaction);
+      restaurants.forEach((restaurant) {
+        insertRestaurant(transaction, restaurant);
+      });
     });
+
 
   }
 
   /**
    * Get all restaurants and meals, if day is null, all meals are returned
    */
-  Future<List<Restaurant>> restaurants(DayOfWeek day) async {
+  Future<List<Restaurant>> restaurants({DayOfWeek day = null}) async {
     final Database db = await this.getDatabase();
+    final List<Map<String, dynamic>> restaurantMaps =
+      await db.query('restaurants');
 
-    final List<Map<String, dynamic>> restMaps = await db.query('restaurants');
+    final List<Restaurant> restaurants =
+      await Future.wait(restaurantMaps.map((map) async {
+        final int restaurantId =  map['id'];
 
-    // Retrieve data from query.
-    final List<Restaurant> restaurants =  List.generate(restMaps.length, (i) {
-      return
-        Restaurant(restMaps[i]['name'], restMaps[i]['ref'], restMaps[i]['id'] );
-    });
-    restaurants.forEach((rest) async {
+        final List<Meal> meals =
+          await getRestaurantMeals(db, restaurantId, day: day);
 
-      final List<dynamic> whereArgs = [rest.id];
-      String whereQuery = 'id_restaurant = ? ';
-      if(day != null){
-        whereQuery += ' and day = ?';
-        whereArgs.add(toString(day));
-      }
+        return Restaurant(map['name'], map['ref'], restaurantId, meals: meals);
+    }).toList());
 
-      final List<Map<String, dynamic>> mealsMaps =
-      await db.query('meals',
-          where: whereQuery,
-          whereArgs: whereArgs);
-
-      //Retreive data from query
-      final List<Meal> meals = List.generate(mealsMaps.length, (i) {
-        final DayOfWeek day = parseDayOfWeek(mealsMaps[i]['day']);
-        final String type = mealsMaps[i]['type'];
-        final String name = mealsMaps[i]['name'];
-        final DateFormat format = DateFormat('d-M-y');
-        final DateTime date = mealsMaps[i]['date']!= null ?
-                                    format.parse(mealsMaps[i]['date']) : null;
-        return Meal(name, type, day, date, rest);
-      });
-      //Add meals to restaurants
-      meals.forEach((meal) {
-        rest.addMeal(meal);
-      });
-    });
     return restaurants;
+  }
+
+  Future<List<Meal>> getRestaurantMeals(Database db,
+                                        int restaurantId,
+                                        {DayOfWeek day = null}) async{
+    final List<dynamic> whereArgs = [restaurantId];
+    String whereQuery = 'id_restaurant = ? ';
+    if(day != null){
+      whereQuery += ' and day = ?';
+      whereArgs.add(toString(day));
+    }
+
+    //Get restaurant meals
+    final List<Map<String, dynamic>> mealsMaps =
+        await db.query('meals',
+        where: whereQuery,
+        whereArgs: whereArgs);
+
+    //Retreive data from query
+    final List<Meal> meals = mealsMaps.map((map) {
+      final DayOfWeek day = parseDayOfWeek(map['day']);
+      final String type = map['type'];
+      final String name = map['name'];
+      final DateFormat format = DateFormat('d-M-y');
+      final DateTime date = map['date']!= null ?
+      format.parse(map['date']) : null;
+      return Meal(name, type, day, date, null);
+    }).toList();
+
+    return meals;
   }
   /**
    * Insert restaurant and meals in database
    */
-  Future<void> insertRestaurant(Database db, Restaurant restaurant) async{
-    final int id = await db.insert('RESTAURANTS', restaurant.toMap());
+  Future<void> insertRestaurant(Transaction txn, Restaurant restaurant) async{
+    final int id = await txn.insert('RESTAURANTS', restaurant.toMap());
     restaurant.id = id;
     final Iterable<DayOfWeek> days = restaurant.meals.keys;
 
     days.forEach((dayOfWeek) {
       final List<Meal> meals = restaurant.meals[dayOfWeek];
       meals.forEach((meal) {
-        db.insert('MEALS', meal.toMap());
+        txn.insert('MEALS', meal.toMap());
       });
     });
 
@@ -96,9 +105,9 @@ class RestaurantDatabase extends AppDatabase {
   /**
    * Deletes all restaurants and meals
    */
-  Future<void> deleteAll(Database db) async{
-    db.delete('meals');
-    db.delete('restaurants');
+  Future<void> deleteAll(Transaction txn) async{
+    txn.delete('meals');
+    txn.delete('restaurants');
   }
 
 }
