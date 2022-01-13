@@ -7,3 +7,4 @@ const navStops = 'Autocarros';
 const navAbout = 'Sobre';
 const navBugReport = 'Bugs e Sugestões';
 const navLogOut = 'Terminar sessão';
+const navUsefulContacts = 'Contactos Úteis';
