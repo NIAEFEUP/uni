@@ -17,8 +17,8 @@ Future<List<Restaurant>> getRestaurantsFromHtml(Response response) async {
   final List<Restaurant> restaurants = restaurantsHtml.map( (restaurantHtml) {
     final String name = restaurantHtml.text ;
     final String ref = restaurantHtml.attributes['href'].replaceAll('#', '');
-    return Restaurant(name, ref, null);
-  });
+    return Restaurant(null, name, ref, meals:null);
+  }).toList();
 
 
 
@@ -69,7 +69,7 @@ Future<List<Restaurant>> getRestaurantsFromHtml(Response response) async {
               }
             } else {
               type = document.querySelector('#${header}').text ;
-              final Meal meal = Meal(type, value,dayOfWeek, date, restaurant);
+              final Meal meal = Meal(type, value,dayOfWeek, date);
               restaurant.addMeal(meal);
             }
           });

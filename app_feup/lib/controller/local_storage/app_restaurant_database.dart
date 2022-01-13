@@ -50,7 +50,7 @@ class RestaurantDatabase extends AppDatabase {
         final List<Meal> meals =
           await getRestaurantMeals(db, restaurantId, day: day);
 
-        return Restaurant(map['name'], map['ref'], restaurantId, meals: meals);
+        return Restaurant(restaurantId, map['name'], map['ref'], meals: meals);
     }).toList());
 
     return restaurants;
@@ -80,7 +80,7 @@ class RestaurantDatabase extends AppDatabase {
       final DateFormat format = DateFormat('d-M-y');
       final DateTime date = map['date']!= null ?
       format.parse(map['date']) : null;
-      return Meal(name, type, day, date, null);
+      return Meal(name, type, day, date);
     }).toList();
 
     return meals;
@@ -90,14 +90,18 @@ class RestaurantDatabase extends AppDatabase {
    */
   Future<void> insertRestaurant(Transaction txn, Restaurant restaurant) async{
     final int id = await txn.insert('RESTAURANTS', restaurant.toMap());
-    restaurant.id = id;
+    final Map<String, dynamic> map = (await
+          (txn.query('RESTAURANTS', where:' id = ?', whereArgs: [id]))).first;
+    restaurant = Restaurant.fromMap(map);
     final Iterable<DayOfWeek> days = restaurant.meals.keys;
 
     days.forEach((dayOfWeek) {
       final List<Meal> meals = restaurant.meals[dayOfWeek];
-      meals.forEach((meal) {
-        txn.insert('MEALS', meal.toMap());
-      });
+      if(meals != null) {
+        meals.forEach((meal) {
+          txn.insert('MEALS', meal.toMap(restaurant.id));
+        });
+      }
     });
 
   }

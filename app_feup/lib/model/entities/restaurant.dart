@@ -4,23 +4,23 @@ import 'package:uni/model/utils/day_of_week.dart';
 import 'meal.dart';
 
 class Restaurant{
-  int id;
-  String name;
-  String reference; // Used only in html parser
-  HashMap<DayOfWeek, List<Meal>> meals;
-  Restaurant(String name, String reference, int id, {List<Meal> meals = null}){
-    this.id = id;
-    this.name = name;
-    this.reference = reference;
-    this.meals = HashMap<DayOfWeek, List<Meal>>();
+  final int id;
+  final String name;
+  final String reference; // Used only in html parser
+  final HashMap<DayOfWeek, List<Meal>> meals = HashMap<DayOfWeek, List<Meal>>();
 
+  Restaurant(this.id, this.name, this.reference, {List<Meal> meals = null}){
     DayOfWeek.values.forEach((dayOfWeek) => this.meals[dayOfWeek] = []);
-    meals.forEach((meal) {
-      meal.assignRestaurant(this);
-      this.addMeal(meal);
-    });
+    if(meals != null) {
+      meals.forEach((meal) {
+        this.addMeal(meal);
+      });
+    }
 
 
+  }
+  static Restaurant fromMap(Map<String, dynamic> map){
+    return Restaurant(map['id'], map['name'], map['ref'], meals:map['meals']);
   }
 
 
