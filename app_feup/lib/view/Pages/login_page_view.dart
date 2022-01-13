@@ -70,7 +70,9 @@ class _LoginPageViewState extends State<LoginPageView> {
     final MediaQueryData queryData = MediaQuery.of(context);
 
     return Scaffold(
-        backgroundColor: Theme.of(context).accentColor,
+        backgroundColor: Theme.of(context).brightness == Brightness.light
+            ? Theme.of(context).accentColor
+            : Theme.of(context).scaffoldBackgroundColor,
         body: WillPopScope(
             child: Padding(
                 padding: EdgeInsets.only(
@@ -250,7 +252,9 @@ class _LoginPageViewState extends State<LoginPageView> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(25),
             ),
-            primary: Colors.white,
+            primary: Theme.of(context).brightness == Brightness.light
+                ? Colors.white
+                : Colors.black54,
           ),
           onPressed: () {
             if (!FocusScope.of(context).hasPrimaryFocus) {
