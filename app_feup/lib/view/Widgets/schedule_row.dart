@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:uni/view/Widgets/schedule_event_rectangle.dart';
 import 'package:uni/view/Widgets/schedule_time_interval.dart';
+import 'package:add_2_calendar/add_2_calendar.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class ScheduleRow extends StatelessWidget {
   final String subject;
   final List<String> rooms;
   final String begin;
   final String end;
+  final DateTime date;
   final String teacher;
   final String type;
 
@@ -16,6 +19,7 @@ class ScheduleRow extends StatelessWidget {
       @required this.rooms,
       @required this.begin,
       @required this.end,
+      this.date,
       this.teacher,
       this.type})
       : super(key: key);
@@ -32,7 +36,17 @@ class ScheduleRow extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-           ScheduleTimeInterval(begin: this.begin, end: this.end),
+          Column(
+            children: [
+              IconButton(
+                icon: Icon(MdiIcons.calendarPlus,size:25),
+                onPressed: (){
+                      Add2Calendar.addEvent2Cal(this.creatEvent());
+                    }, 
+                    ),
+              ScheduleTimeInterval(begin: this.begin, end: this.end),
+            ],
+          ),
            ScheduleEventRectangle(subject: this.subject, type: this.type),
            Container(
               margin: EdgeInsets.only(top: 12.0, bottom: 12.0),
@@ -67,5 +81,22 @@ class ScheduleRow extends StatelessWidget {
     }
 
     return rooms;
+  }
+  
+
+ Event creatEvent() {
+    final List<String> partsBegin = begin.split(':');
+    final int hoursBegin = int.parse(partsBegin[0]);
+    final int minutesBegin = int.parse(partsBegin[1]); 
+    final List<String> partsEnd = end.split(':');
+    final int hoursEnd = int.parse(partsEnd[0]);
+    final int minutesEnd = int.parse(partsBegin[1]);
+    return Event(
+      title: type.toString()+' '+(subject).toString(),
+      location: rooms.toString(),
+      
+      startDate:date.add(Duration(hours:hoursBegin, minutes:minutesBegin)),
+      endDate: date.add(Duration(hours:hoursEnd,minutes:minutesEnd)),
+    );
   }
 }

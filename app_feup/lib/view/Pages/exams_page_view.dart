@@ -8,8 +8,6 @@ import 'package:uni/view/Widgets/exam_page_title_filter.dart';
 import 'package:uni/view/Widgets/row_container.dart';
 import 'package:uni/view/Widgets/schedule_row.dart';
 import 'package:uni/view/Widgets/title_card.dart';
-import 'package:add_2_calendar/add_2_calendar.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 
 class ExamsPageView extends StatefulWidget {
@@ -115,13 +113,6 @@ class ExamsList extends StatelessWidget {
     examCards.add(TitleCard(
         day: exams[0].day, weekDay: exams[0].weekDay, month: exams[0].month));
     for (int i = 0; i < exams.length; i++) {
-      final Exam exam = exams[i];
-      examCards.add(ListTile(
-        trailing:  Icon(MdiIcons.calendarPlus),
-        onTap: (){
-          Add2Calendar.addEvent2Cal(this.creatEvent(exam));
-        }
-      ));
        examCards.add(this.createExamContext(context, exams[i]));
     }
     return Column(children: examCards);
@@ -141,22 +132,7 @@ class ExamsList extends StatelessWidget {
                 rooms: exam.rooms,
                 begin: exam.begin,
                 end: exam.end,
-                type: exam.examType)));
-  }
-
-
-  Event creatEvent(exam) {
-    final List<String> partsBegin = exam.begin.split(':');
-    final int hoursBegin = int.parse(partsBegin[0]);
-    final int minutesBegin = int.parse(partsBegin[1]); 
-    final List<String> partsEnd = exam.end.split(':');
-    final int hoursEnd = int.parse(partsEnd[0]);
-    final int minutesEnd = int.parse(partsBegin[1]);
-    return Event(
-      title: (exam.examType).toString()+' '+(exam.subject).toString(),
-      location: (exam.rooms).toString(),
-      startDate:exam.date.add(Duration(hours:hoursBegin, minutes:minutesBegin)),
-      endDate: exam.date.add(Duration(hours:hoursEnd,minutes:minutesEnd)),
-    );
+                type: exam.examType,
+                date: exam.date)));
   }
 }
