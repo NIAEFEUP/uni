@@ -14,9 +14,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix inconsistency in lecture display
 - Fix possible duplicated exams during parsing
 - Fix Github issues header changes
+- Fix Lecture data coming from Sigarra's API
 
 ### Changed
 - Updated Android's `targetSdkVersion` to 30
+- Changed the Checkbox background to dark red
 
 ## [1.1.0] - 2021-04-18
 
