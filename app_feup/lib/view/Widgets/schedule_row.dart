@@ -83,7 +83,6 @@ class ScheduleRow extends StatelessWidget {
     return rooms;
   }
   
-
  Event creatEvent() {
     final List<String> partsBegin = begin.split(':');
     final int hoursBegin = int.parse(partsBegin[0]);

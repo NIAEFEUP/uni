@@ -108,6 +108,7 @@ class SchedulePageView extends StatelessWidget {
       contentChecker: aggLectures[day].isNotEmpty,
       onNullContent:
           Center(child: Text('Não possui aulas à ' + daysOfTheWeek[day] + '.')),
+      index: day,
     );
   }
 }

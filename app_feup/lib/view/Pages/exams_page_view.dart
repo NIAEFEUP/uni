@@ -9,7 +9,6 @@ import 'package:uni/view/Widgets/row_container.dart';
 import 'package:uni/view/Widgets/schedule_row.dart';
 import 'package:uni/view/Widgets/title_card.dart';
 
-
 class ExamsPageView extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => ExamsPageViewState();
