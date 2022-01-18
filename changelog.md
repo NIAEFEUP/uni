@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix possible duplicated exams during parsing
 - Fix Github issues header changes
 - Fix Lecture data coming from Sigarra's API
+- Fix Bus Stops departures, to obtain new CSRF for the API
 
 ### Changed
 - Updated Android's `targetSdkVersion` to 30
