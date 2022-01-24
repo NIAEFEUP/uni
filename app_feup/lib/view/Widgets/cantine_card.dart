@@ -26,7 +26,8 @@ class CantineCard extends GenericCard {
   @override
   Widget buildCardContent(BuildContext context) {
     return StoreConnector<AppState, Tuple2<String, RequestStatus>> (
-        converter: (store) => Tuple2('One', RequestStatus.none),
+        converter: (store) => Tuple2('Cantina da FEUP - Almoço',
+         RequestStatus.none),
         builder: (context, cantine) {
           return RequestDependentWidgetBuilder(
               context: context,
@@ -45,15 +46,10 @@ class CantineCard extends GenericCard {
   Widget generateCantines(cantines, context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
-      children: this.getCantineRows(context, cantines),
+      children: [
+        createRowFromCantine(context, cantines)
+      ],
     );
-  }
-
-  List<Widget> getCantineRows(context, cantines) {
-    final List<Widget> rows = <Widget>[];
-    rows.add(this.createRowFromCantine(context, 'Cantina da FEUP - Almoço'));
-
-    return rows;
   }
 
   Widget createRowFromCantine(context, String cantine) { // TODO: Cantine class

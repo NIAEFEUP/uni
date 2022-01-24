@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CantineRow extends StatelessWidget {
@@ -26,44 +25,35 @@ class CantineRow extends StatelessWidget {
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: getMenus(context),
+            children: [
+              Expanded(child: Column(children: getMenuRows(context),))
+            ],
           ),
         ));
   }
 
-  List<Widget> getMenus(context) {
-    final List<Widget> row = <Widget>[];
-
-    final List<Widget> tripRows = getMenuRows(context);
-
-    row.add(Expanded(child: Column(children: tripRows)));
-
-    return row;
-  }
-
-
-  List<Widget> getMenuRows(BuildContext context) {
-    final List<Widget> row = <Widget>[];
-
-    Color color = Theme.of(context).accentColor;
-
-    row.add(Container(
-        padding: EdgeInsets.all(12.0),
-        decoration: BoxDecoration(
-            border: Border(bottom: BorderSide(width: 0.1, color: color))),
-        child: Text(this.meatMenu)));
-    row.add(Container(
-        padding: EdgeInsets.all(12.0),
-        decoration: BoxDecoration(
-            border: Border(bottom: BorderSide(width: 0.1, color: color))),
-        child: Text(this.fishMenu)));
-    row.add(Container(
-        padding: EdgeInsets.all(12.0),
-        decoration: BoxDecoration(
-            border: Border(bottom: BorderSide(width: 0.1, color: color))),
-        child: Text(this.vegetarianMenu)));
-
-    return row;
-  }
+  List<Widget> getMenuRows(BuildContext context) => [
+        Container(
+            padding: EdgeInsets.all(12.0),
+            decoration: BoxDecoration(
+                border: Border(
+                    bottom: BorderSide(
+                        width: 0.1, color: Theme.of(context).accentColor))),
+            child: Text(this.meatMenu)),
+        Container(
+            padding: EdgeInsets.all(12.0),
+            decoration: BoxDecoration(
+                border: Border(
+                    bottom: BorderSide(
+                        width: 0.1, color: Theme.of(context).accentColor))),
+            child: Text(this.fishMenu)),
+        Container(
+            padding: EdgeInsets.all(12.0),
+            decoration: BoxDecoration(
+                border: Border(
+                    bottom: BorderSide(
+                        width: 0.1, color: Theme.of(context).accentColor))),
+            child: Text(this.vegetarianMenu))
+      ];
 
 }
