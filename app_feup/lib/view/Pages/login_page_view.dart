@@ -157,26 +157,23 @@ class _LoginPageViewState extends State<LoginPageView> {
 
   /// Creates the widget for the user to choose their faculty
   Widget createFacultyInput() {
-    final faculties = ['faup', 'fbaup', 'fcup', 'fcnaup', 'fadeup', 'fdup',
-      'fep', 'feup', 'ffup', 'flup', 'fmup', 'fmdup', 'fpceup', 'icbas'];
-
-    return DropdownButton<String> (
-      value: faculty,
-      items: faculties.map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String> (
-          value: value,
-          child: Text(value),
-        );
-      }).toList(),
+    return DropdownButton (
+      value: faculty.toUpperCase(),
+      items: Constants.faculties.map((value) =>
+          DropdownMenuItem (
+            value: value.toUpperCase(),
+            child: Text(value.toUpperCase()),
+          )
+      ).toList(),
       onChanged: (newDropdownValue) {
         setState(() {
-          faculty = newDropdownValue;
+          faculty = newDropdownValue.toLowerCase();
         });
       },
       isExpanded: true,
-      dropdownColor: Color.fromARGB(255, 0x75, 0x17, 0x1e),
-      iconDisabledColor: Colors.white,
-      iconEnabledColor: Colors.white,
+      dropdownColor: Theme.of(context).accentColor,
+      iconDisabledColor: Theme.of(context).primaryColor,
+      iconEnabledColor: Theme.of(context).primaryColor,
       style: TextStyle(color: Colors.white, fontSize: 20),
       underline: Container(width: 200, height: 0.2, color: Colors.black87),
     );
