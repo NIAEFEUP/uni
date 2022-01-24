@@ -1,1 +1,2 @@
-enum FAVORITE_WIDGET_TYPE { exams, schedule, printBalance, account, busStops, cantine }
+enum FAVORITE_WIDGET_TYPE { exams, schedule, printBalance, account, busStops,
+ cantine }
