@@ -73,8 +73,9 @@ class PrintInfoCard extends GenericCard {
 
   /// Returns a widget with all the print balance movements.
   Widget printBalanceMovementsWidget(movements, context) {
-    if (movements.length <= 0)
-      return Text('Sem movimentos'); //TODO: add style here
+    if (movements.length <= 0) {
+      return Text('Sem movimentos');
+    } //TODO: add style here
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: this.printBalanceMovements(context, movements),
