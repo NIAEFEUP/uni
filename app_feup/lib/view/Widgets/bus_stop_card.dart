@@ -59,7 +59,7 @@ class BusStopCard extends GenericCard {
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context)
                           .textTheme
-                          .headline4
+                          .subtitle2
                           .apply(color: Theme.of(context).accentColor)),
                   IconButton(
                     icon: Icon(Icons.settings),

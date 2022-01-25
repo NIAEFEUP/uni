@@ -9,70 +9,73 @@ const Color _grey = Color.fromARGB(255, 0x7f, 0x7f, 0x7f);
 const Color _strongGrey = Color.fromARGB(255, 90, 90, 90);
 const Color _mildBlack = Color.fromARGB(255, 0x30, 0x30, 0x30);
 
-MaterialColor generateMaterialColor(Color color) {
-  return MaterialColor(color.value, {
-    50: tintColor(color, 0.9),
-    100: tintColor(color, 0.8),
-    200: tintColor(color, 0.6),
-    300: tintColor(color, 0.4),
-    400: tintColor(color, 0.2),
-    500: color,
-    600: shadeColor(color, 0.1),
-    700: shadeColor(color, 0.2),
-    800: shadeColor(color, 0.3),
-    900: shadeColor(color, 0.4),
-  });
-}
-
-int tintValue(int value, double factor) =>
+int _tintValue(int value, double factor) =>
     max(0, min((value + ((255 - value) * factor)).round(), 255));
 
 Color tintColor(Color color, double factor) => Color.fromRGBO(
-    tintValue(color.red, factor),
-    tintValue(color.green, factor),
-    tintValue(color.blue, factor),
+    _tintValue(color.red, factor),
+    _tintValue(color.green, factor),
+    _tintValue(color.blue, factor),
     1);
 
-int shadeValue(int value, double factor) =>
+int _shadeValue(int value, double factor) =>
     max(0, min(value - (value * factor).round(), 255));
 
 Color shadeColor(Color color, double factor) => Color.fromRGBO(
-    shadeValue(color.red, factor),
-    shadeValue(color.green, factor),
-    shadeValue(color.blue, factor),
+    _shadeValue(color.red, factor),
+    _shadeValue(color.green, factor),
+    _shadeValue(color.blue, factor),
     1);
 
 ThemeData applicationLightTheme = ThemeData(
   brightness: Brightness.light,
-  primarySwatch: generateMaterialColor(_darkRed),
-  /* primaryColor: _darkRed, */
+  primaryColor: _darkRed,
+  accentColor: _lightRed,
+  backgroundColor: _mildWhite,
+  scaffoldBackgroundColor: _mildWhite,
+  hintColor: Colors.white,
+  dividerColor: _lightGrey,
+  tabBarTheme: TabBarTheme(
+    unselectedLabelColor: _strongGrey,
+    labelColor: _strongGrey,
+    labelPadding: EdgeInsets.all(0.0),
+    indicator: ShapeDecoration(
+        shape: UnderlineInputBorder(
+            borderSide: BorderSide(width: 4.0, color: _darkRed))),
+  ),
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+        primary: _darkRed,
+        padding: const EdgeInsets.all(10.0),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12.0),
+        ),
+        textStyle: TextStyle(fontWeight: FontWeight.w400, fontSize: 15.0)),
+  ),
+  iconTheme: IconThemeData(color: _darkRed),
+  textButtonTheme: TextButtonThemeData(
+      style: TextButton.styleFrom(
+          primary: _darkRed,
+          textStyle: TextStyle(fontSize: 15.0, fontWeight: FontWeight.w400))),
+  checkboxTheme: CheckboxThemeData(
+      checkColor: MaterialStateProperty.all(Colors.white),
+      fillColor: MaterialStateColor.resolveWith(
+        (states) {
+          return states.contains(MaterialState.selected) ? _darkRed : _grey;
+        },
+      )),
   textTheme: TextTheme(
-    headline1: TextStyle(
-      fontSize: 72.0,
-      fontWeight: FontWeight.bold, /* color: _darkRed */
-    ),
-    headline2: TextStyle(
-        fontSize: 17.0, /* color: _mildBlack, */ fontWeight: FontWeight.w300),
-    headline3: TextStyle(
-        fontSize: 17.0, /* color: _lightRed, */ fontWeight: FontWeight.w300),
-    headline4: TextStyle(
-        fontSize: 17.0, /* color: _mildBlack, */ fontWeight: FontWeight.w300),
-    headline5: TextStyle(
-        fontSize: 17.0, /* color: _mildBlack, */ fontWeight: FontWeight.w400),
-    headline6: TextStyle(
-        fontSize: 17.0, /* color: _mildBlack, */ fontWeight: FontWeight.w300),
-    subtitle1: TextStyle(
-        fontSize: 17.0, /* color: _grey, */ fontWeight: FontWeight.w300),
-    subtitle2: TextStyle(
-        fontSize: 16.0, /* color: _grey, */ fontWeight: FontWeight.w300),
-    bodyText1: TextStyle(
-      fontSize: 16.0, /* color: _mildBlack */
-    ),
-    bodyText2: TextStyle(
-      fontSize: 15.0, /* color: _mildBlack */
-    ),
-    caption: TextStyle(
-        fontSize: 12.0, /* color: _grey, */ fontWeight: FontWeight.w500),
+    headline1: TextStyle(fontSize: 72.0, fontWeight: FontWeight.w400),
+    headline2: TextStyle(fontSize: 50.0, fontWeight: FontWeight.w300),
+    headline3: TextStyle(fontSize: 42.0, fontWeight: FontWeight.w300),
+    headline4: TextStyle(fontSize: 28.0, fontWeight: FontWeight.w300),
+    headline5: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w300),
+    headline6: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300),
+    subtitle1: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300),
+    subtitle2: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w300),
+    bodyText1: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w400),
+    bodyText2: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w400),
+    caption: TextStyle(fontSize: 13.0, fontWeight: FontWeight.w400),
   ),
 );
 /* 

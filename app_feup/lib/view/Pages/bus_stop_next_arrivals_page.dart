@@ -103,8 +103,8 @@ class _NextArrivalsState extends State<NextArrivals>
       result.addAll(this.getContent(context));
     } else {
       result.add(Container(
-          child: Text('Não se encontram configurados autocarros',
-              style: Theme.of(context).textTheme.headline4)));
+          child: Text('Não se encontram configuradas paragens',
+              style: Theme.of(context).textTheme.headline6)));
     }
 
     return result;
@@ -160,7 +160,6 @@ class _NextArrivalsState extends State<NextArrivals>
               ),
               IconButton(
                   icon: Icon(Icons.edit),
-                  // color: Theme.of(context).accentColor,
                   onPressed: () => Navigator.push(
                       context,
                       MaterialPageRoute(

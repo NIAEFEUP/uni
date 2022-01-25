@@ -11,7 +11,7 @@ import 'package:uni/model/profile_page_model.dart';
 import 'package:uni/view/Widgets/navigation_drawer.dart';
 import 'package:uni/utils/constants.dart' as Constants;
 
-/// Manages the  section inside the user's personal area.
+/// Manages the section inside the user's personal area.
 abstract class GeneralPageViewState extends State<StatefulWidget> {
   final double borderMargin = 18.0;
   static FileImage decorageImage;
@@ -57,7 +57,6 @@ abstract class GeneralPageViewState extends State<StatefulWidget> {
           key: GlobalKey<RefreshIndicatorState>(),
           child: child,
           onRefresh: refresh,
-          /* color: Theme.of(context).accentColor */
         );
       },
     );
@@ -82,14 +81,14 @@ abstract class GeneralPageViewState extends State<StatefulWidget> {
       bottom: PreferredSize(
         preferredSize: Size.zero,
         child: Container(
+          color: Theme.of(context).dividerColor,
           margin: EdgeInsets.only(left: borderMargin, right: borderMargin),
-          // color: Theme.of(context).dividerColor,
           height: 1.5,
         ),
       ),
       elevation: 0,
-      // iconTheme: IconThemeData(color: Theme.of(context).accentColor),
-      // backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       titleSpacing: 0.0,
       title: ButtonTheme(
           minWidth: 0,

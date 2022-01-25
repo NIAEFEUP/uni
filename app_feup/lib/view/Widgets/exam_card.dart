@@ -53,7 +53,7 @@ class ExamCard extends GenericCard {
         contentChecker: examsInfo.item1 != null && examsInfo.item1.isNotEmpty,
         onNullContent: Center(
           child: Text('Não existem exames para apresentar',
-              style: Theme.of(context).textTheme.headline4),
+              style: Theme.of(context).textTheme.headline6),
         ),
       ),
     );
@@ -80,8 +80,7 @@ class ExamCard extends GenericCard {
         decoration: BoxDecoration(
             border: Border(
                 bottom: BorderSide(
-          width: 1.5, /* color: Theme.of(context).dividerColor */
-        ))),
+                    width: 1.5, color: Theme.of(context).dividerColor))),
       ));
     }
     for (int i = 1; i < 4 && i < exams.length; i++) {
@@ -118,9 +117,9 @@ class ExamCard extends GenericCard {
     return Container(
       margin: EdgeInsets.only(top: 8),
       child: RowContainer(
-/*         color: isHighlighted(exam)
-            ? Theme.of(context).backgroundColor
-            : Theme.of(context).hintColor, */
+        color: isHighlighted(exam)
+            ? Theme.of(context).scaffoldBackgroundColor
+            : Colors.white,
         child: Container(
           padding: EdgeInsets.all(11),
           child: Row(
@@ -129,8 +128,8 @@ class ExamCard extends GenericCard {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Text(
-                  exam.day + '/' + exam.month,
-                  style: Theme.of(context).textTheme.headline4,
+                  exam.day + ' de ' + exam.month,
+                  style: Theme.of(context).textTheme.bodyText1,
                 ),
                 ScheduleEventRectangle(
                     subject: exam.subject,

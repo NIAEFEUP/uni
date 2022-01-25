@@ -33,7 +33,7 @@ class ScheduleSlot extends StatelessWidget {
   }
 
   Widget createScheduleSlotRow(context) {
-    return  Container(
+    return Container(
         key: Key('schedule-slot-time-${this.begin}-${this.end}'),
         margin: EdgeInsets.only(top: 3.0, bottom: 3.0),
         child: Row(
@@ -45,7 +45,7 @@ class ScheduleSlot extends StatelessWidget {
   }
 
   Widget createScheduleSlotTime(context) {
-    return  Column(
+    return Column(
       key: Key('schedule-slot-time-${this.begin}-${this.end}'),
       children: <Widget>[
         createScheduleTime(this.begin, context),
@@ -55,23 +55,15 @@ class ScheduleSlot extends StatelessWidget {
   }
 
   Widget createScheduleTime(String time, context) => createTextField(
-      time,
-      Theme.of(context).textTheme.headline4.apply(fontSizeDelta: -4),
-      TextAlign.center);
+      time, Theme.of(context).textTheme.bodyText2, TextAlign.center);
 
   List<Widget> createScheduleSlotPrimInfo(context) {
     final subjectTextField = createTextField(
-        this.subject,
-        Theme.of(context).textTheme.headline3.apply(fontSizeDelta: 5),
-        TextAlign.center);
-    final typeClassTextField = createTextField(
-        ' (' + this.typeClass + ')',
-        Theme.of(context).textTheme.headline4.apply(fontSizeDelta: -4),
-        TextAlign.center);
+        this.subject, Theme.of(context).textTheme.headline5, TextAlign.center);
+    final typeClassTextField = createTextField(' (' + this.typeClass + ')',
+        Theme.of(context).textTheme.headline5, TextAlign.center);
     final roomTextField = createTextField(
-        this.rooms,
-        Theme.of(context).textTheme.headline4.apply(fontSizeDelta: -4),
-        TextAlign.right);
+        this.rooms, Theme.of(context).textTheme.headline5, TextAlign.right);
     return [
       createScheduleSlotTime(context),
       Column(

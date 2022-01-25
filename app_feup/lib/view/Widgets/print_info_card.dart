@@ -12,7 +12,7 @@ class PrintInfoCard extends GenericCard {
 
   @override
   Widget buildCardContent(BuildContext context) {
-    return  Column(
+    return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         Table(
@@ -24,10 +24,7 @@ class PrintInfoCard extends GenericCard {
                   margin: const EdgeInsets.only(
                       top: 20.0, bottom: 20.0, left: 20.0),
                   child: Text('Valor disponível: ',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline4
-                          .apply(fontSizeDelta: -4)),
+                      style: Theme.of(context).textTheme.subtitle2),
                 ),
                 Container(
                   margin: const EdgeInsets.only(

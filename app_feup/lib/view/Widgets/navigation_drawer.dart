@@ -59,10 +59,12 @@ class NavigationDrawerState extends State<NavigationDrawer> {
 
   Decoration _getSelectionDecoration(String name) {
     return (name == getCurrentRoute())
-        ? BoxDecoration(border: Border(left: BorderSide())
-            //color: Theme.of(context).accentColor, width: 3.0)),
-            //color: Theme.of(context).dividerColor,
-            )
+        ? BoxDecoration(
+            border: Border(
+                left: BorderSide(
+                    color: Theme.of(context).primaryColor, width: 3.0)),
+            color: Theme.of(context).dividerColor,
+          )
         : null;
   }
 
@@ -74,11 +76,13 @@ class NavigationDrawerState extends State<NavigationDrawer> {
         padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 5.0),
       ),
       child: Container(
-          padding: const EdgeInsets.all(15.0),
-          child: Text(Constants.navLogOut,
-              style: Theme.of(context).textTheme.headline6)
-          //.apply(color: Theme.of(context).accentColor)),
-          ),
+        padding: const EdgeInsets.all(15.0),
+        child: Text(Constants.navLogOut,
+            style: Theme.of(context)
+                .textTheme
+                .headline6
+                .apply(color: Theme.of(context).primaryColor)),
+      ),
     );
   }
 
@@ -108,7 +112,7 @@ class NavigationDrawerState extends State<NavigationDrawer> {
             child: Text(d,
                 style: TextStyle(
                     fontSize: 18.0,
-                    //color: Theme.of(context).accentColor,
+                    color: Theme.of(context).primaryColor,
                     fontWeight: FontWeight.normal)),
           ),
           dense: true,
