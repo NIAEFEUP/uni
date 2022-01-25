@@ -24,8 +24,10 @@ AppState appReducers(AppState state, dynamic action) {
     return saveCurrUcs(state, action);
   } else if (action is SetPrintBalanceAction) {
     return setPrintBalance(state, action);
-  } else if (action is SetPrintBalanceStatusAction) {
-    return setPrintBalanceStatus(state, action);
+  } else if (action is SetPrintMovementsAction) {
+    return setPrintMovements(state, action);
+  } else if (action is SetPrintStatusAction) {
+    return setPrintStatus(state, action);
   } else if (action is SetFeesBalanceAction) {
     return setFeesBalance(state, action);
   } else if (action is SetFeesLimitAction) {
@@ -119,10 +121,14 @@ AppState setPrintBalance(AppState state, SetPrintBalanceAction action) {
   return state.cloneAndUpdateValue('printBalance', action.printBalance);
 }
 
-AppState setPrintBalanceStatus(
-    AppState state, SetPrintBalanceStatusAction action) {
+AppState setPrintMovements(AppState state, SetPrintMovementsAction action) {
+  Logger().i('setting print movements: ' + action.printMovements.toString());
+  return state.cloneAndUpdateValue('printMovements', action.printMovements);
+}
+
+AppState setPrintStatus(AppState state, SetPrintStatusAction action) {
   Logger().i('setting print balance status: ' + action.status.toString());
-  return state.cloneAndUpdateValue('printBalanceStatus', action.status);
+  return state.cloneAndUpdateValue('printStatus', action.status);
 }
 
 AppState setFeesBalance(AppState state, SetFeesBalanceAction action) {

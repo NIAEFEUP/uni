@@ -75,9 +75,14 @@ class SetPrintBalanceAction {
   SetPrintBalanceAction(this.printBalance);
 }
 
-class SetPrintBalanceStatusAction {
+class SetPrintMovementsAction {
+  List<dynamic> printMovements;
+  SetPrintMovementsAction(this.printMovements);
+}
+
+class SetPrintStatusAction {
   RequestStatus status;
-  SetPrintBalanceStatusAction(this.status);
+  SetPrintStatusAction(this.status);
 }
 
 class SetFeesBalanceAction {

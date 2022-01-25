@@ -11,6 +11,7 @@ import 'package:uni/controller/local_storage/app_courses_database.dart';
 import 'package:uni/controller/local_storage/app_exams_database.dart';
 import 'package:uni/controller/local_storage/app_last_user_info_update_database.dart';
 import 'package:uni/controller/local_storage/app_lectures_database.dart';
+import 'package:uni/controller/local_storage/app_print_movements_database.dart';
 import 'package:uni/controller/local_storage/app_refresh_times_database.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/controller/local_storage/app_user_database.dart';
@@ -180,6 +181,14 @@ ThunkAction<AppState> updateStateBasedOnLocalUserBusStops() {
   };
 }
 
+ThunkAction<AppState> updateStateBasedOnLocalUserPrintMovements() {
+  return (Store<AppState> store) async {
+    final AppPrintMovementsDatabase db = AppPrintMovementsDatabase();
+    final List movements = await db.printMovements();
+    store.dispatch(SetPrintMovementsAction(movements));
+  };
+}
+
 ThunkAction<AppState> updateStateBasedOnLocalRefreshTimes() {
   return (Store<AppState> store) async {
     final AppRefreshTimesDatabase refreshTimesDb = AppRefreshTimesDatabase();
@@ -328,6 +337,7 @@ ThunkAction<AppState> getUserPrintBalance(Completer<Null> action) {
       final response = await NetworkRouter.getWithCookies(
           url, query, store.state.content['session']);
       final String printBalance = await getPrintsBalance(response);
+      final List printMovements = await getPrintMovements(response);
 
       final String currentTime = DateTime.now().toString();
       final Tuple2<String, String> userPersistentInfo =
@@ -338,14 +348,18 @@ ThunkAction<AppState> getUserPrintBalance(Completer<Null> action) {
         // Store fees info
         final profileDb = AppUserDataDatabase();
         profileDb.saveUserPrintBalance(printBalance);
+        final printMovementsDb = AppPrintMovementsDatabase();
+        printMovementsDb.setPrintMovements(printMovements);
       }
 
       store.dispatch(SetPrintBalanceAction(printBalance));
-      store.dispatch(SetPrintBalanceStatusAction(RequestStatus.successful));
+      store.dispatch(SetPrintMovementsAction(printMovements));
+      store.dispatch(SetPrintStatusAction(RequestStatus.successful));
+
       store.dispatch(SetPrintRefreshTimeAction(currentTime));
     } catch (e) {
-      Logger().e('Failed to get Print Balance');
-      store.dispatch(SetPrintBalanceStatusAction(RequestStatus.failed));
+      Logger().e('Failed to get Print Balance and Print Movements');
+      store.dispatch(SetPrintStatusAction(RequestStatus.failed));
     }
     action.complete();
   };

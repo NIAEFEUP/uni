@@ -92,10 +92,11 @@ void loadLocalUserInfoToState(store) async {
     store.dispatch(updateStateBasedOnLocalUserExams());
     store.dispatch(updateStateBasedOnLocalUserLectures());
     store.dispatch(updateStateBasedOnLocalUserBusStops());
+    store.dispatch(updateStateBasedOnLocalUserPrintMovements());
     store.dispatch(updateStateBasedOnLocalRefreshTimes());
     store.dispatch(updateStateBasedOnLocalTime());
     store.dispatch(SaveProfileStatusAction(RequestStatus.successful));
-    store.dispatch(SetPrintBalanceStatusAction(RequestStatus.successful));
+    store.dispatch(SetPrintStatusAction(RequestStatus.successful));
     store.dispatch(SetFeesStatusAction(RequestStatus.successful));
     store.dispatch(SetCoursesStatesStatusAction(RequestStatus.successful));
   }

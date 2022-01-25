@@ -20,6 +20,7 @@ class AppState {
       'exams': <Exam>[],
       'restaurants': <Restaurant>[],
       'filteredExam': Map<String, bool>(),
+      'printMovements': <List>[],
       'scheduleStatus': RequestStatus.none,
       'loginStatus': RequestStatus.none,
       'examsStatus': RequestStatus.none,
@@ -31,7 +32,7 @@ class AppState {
       'timeStamp': DateTime.now(),
       'currentTime': DateTime.now(),
       'profileStatus': RequestStatus.none,
-      'printBalanceStatus': RequestStatus.none,
+      'printStatus': RequestStatus.none,
       'feesStatus': RequestStatus.none,
       'coursesStateStatus': RequestStatus.none,
       'lastUserInfoUpdateTime': null
