@@ -40,23 +40,26 @@ class RestaurantDatabase extends AppDatabase {
    */
   Future<List<Restaurant>> restaurants({DayOfWeek day = null}) async {
     final Database db = await this.getDatabase();
-    final List<Map<String, dynamic>> restaurantMaps =
+    List<Restaurant> restaurants;
+    await db.transaction((txn)  async {
+      final List<Map<String, dynamic>> restaurantMaps =
       await db.query('restaurants');
 
-    final List<Restaurant> restaurants =
-      await Future.wait(restaurantMaps.map((map) async {
+      restaurants = await Future.wait(restaurantMaps.map((map) async {
         final int restaurantId =  map['id'];
-
         final List<Meal> meals =
-          await getRestaurantMeals(db, restaurantId, day: day);
+          await getRestaurantMeals(txn, restaurantId, day: day);
 
         return Restaurant(restaurantId, map['name'], map['ref'], meals: meals);
-    }).toList());
+      }).toList());
+
+    });
+
 
     return restaurants;
   }
 
-  Future<List<Meal>> getRestaurantMeals(Database db,
+  Future<List<Meal>> getRestaurantMeals(Transaction txn,
                                         int restaurantId,
                                         {DayOfWeek day = null}) async{
     final List<dynamic> whereArgs = [restaurantId];
@@ -68,7 +71,7 @@ class RestaurantDatabase extends AppDatabase {
 
     //Get restaurant meals
     final List<Map<String, dynamic>> mealsMaps =
-        await db.query('meals',
+        await txn.query('meals',
         where: whereQuery,
         whereArgs: whereArgs);
 
@@ -90,18 +93,10 @@ class RestaurantDatabase extends AppDatabase {
    */
   Future<void> insertRestaurant(Transaction txn, Restaurant restaurant) async{
     final int id = await txn.insert('RESTAURANTS', restaurant.toMap());
-    final Map<String, dynamic> map = (await
-          (txn.query('RESTAURANTS', where:' id = ?', whereArgs: [id]))).first;
-    restaurant = Restaurant.fromMap(map);
-    final Iterable<DayOfWeek> days = restaurant.meals.keys;
-
-    days.forEach((dayOfWeek) {
-      final List<Meal> meals = restaurant.meals[dayOfWeek];
-      if(meals != null) {
-        meals.forEach((meal) {
-          txn.insert('MEALS', meal.toMap(restaurant.id));
-        });
-      }
+    restaurant.meals.forEach((dayOfWeak, meals) {
+      meals.forEach((meal) {
+        txn.insert('MEALS', meal.toMap(id));
+      });
     });
 
   }
