@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added 
 
 - Clickable checkbox rows
+- Fetch restaurants from sigarra and stored locally using action creator
 
 ### Fixed
 - Fix inconsistency in lecture display

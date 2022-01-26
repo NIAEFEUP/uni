@@ -26,7 +26,7 @@ Future<List<Restaurant>> getRestaurantsFromHtml(Response response) async {
 
   //Get restaurant meals and create the Restaurant class
   final List<Restaurant> restaurants = restaurantsTuple.map( (restaurantTuple) {
-    List<Meal> meals = [];
+    final List<Meal> meals = [];
     final DateFormat format = DateFormat('d-M-y');
     final Element referenceA =
                   document.querySelector('a[name="${restaurantTuple.item1}"]');
