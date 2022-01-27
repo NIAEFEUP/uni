@@ -26,13 +26,7 @@ Future<List> getPrintMovements(http.Response response) async {
 
   for (var row in rows) {
     movements.add({
-      'date': row.children[0].innerHtml
-          .trim()
-          .split(' ')[0]
-          .split('/')
-          .reversed
-          .join('/'),
-      'hour': row.children[0].innerHtml.trim().split(' ')[1],
+      'datetime': row.children[0].innerHtml.trim().replaceAll('/', '-'),
       'value': row.children[2].innerHtml.replaceAll('&nbsp;', ''),
     });
   }

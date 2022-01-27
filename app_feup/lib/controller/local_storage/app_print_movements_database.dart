@@ -10,7 +10,7 @@ import 'package:sqflite/sqflite.dart';
 class AppPrintMovementsDatabase extends AppDatabase {
   AppPrintMovementsDatabase()
       : super('print_movements.db', [
-          'CREATE TABLE movements(day TEXT, hour TEXT, value TEXT)',
+          'CREATE TABLE movements(datetime DATETIME, value TEXT)',
         ]);
 
   Future<List> printMovements() async {
@@ -18,7 +18,7 @@ class AppPrintMovementsDatabase extends AppDatabase {
     final Database db = await this.getDatabase();
 
     // Query the table for all movements
-    final List movements = await db.query('movements.db');
+    final List movements = await db.query('movements');
 
     return movements;
   }
@@ -27,12 +27,8 @@ class AppPrintMovementsDatabase extends AppDatabase {
   Future<void> _insertPrintMovements(List movements) async {
     movements.forEach((movement) async {
       await insertInDatabase(
-        'print_movements',
-        {
-          'date': movement['date'],
-          'hour': movement['hour'],
-          'value': movement['value']
-        },
+        'movements',
+        {'datetime': movement['datetime'], 'value': movement['value']},
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
     });
@@ -42,7 +38,7 @@ class AppPrintMovementsDatabase extends AppDatabase {
   Future<void> deletePrintMovements() async {
     // Get a reference to the database
     final Database db = await this.getDatabase();
-    await db.delete('print_movements');
+    await db.delete('movements');
   }
 
   /// Replaces all the movements in this database with entries

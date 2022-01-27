@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:uni/model/app_state.dart';
 import 'generic_card.dart';
 import 'package:uni/view/Widgets/row_container.dart';
+import 'package:uni/model/entities/time_utilities.dart';
 
 class PrintInfoCard extends GenericCard {
   PrintInfoCard({Key key}) : super(key: key);
@@ -10,12 +11,6 @@ class PrintInfoCard extends GenericCard {
   PrintInfoCard.fromEditingInformation(
       Key key, bool editingMode, Function onDelete)
       : super.fromEditingInformation(key, editingMode, onDelete);
-
-  //hard coded variables
-  final List movements = [
-    {'datetime': '2021/12/07 14:15', 'value': -0.63},
-    {'datetime': '2021/10/06 12:04', 'value': 5.00}
-  ];
 
   @override
   Widget buildCardContent(BuildContext context) {
@@ -106,22 +101,13 @@ class PrintInfoCard extends GenericCard {
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Text.rich(
-                  TextSpan(
-                    text: movement['date'] + ' ', // default
-                    children: [
-                      TextSpan(
-                          text: movement['hour'],
-                          style: TextStyle(fontWeight: FontWeight.bold)),
-                    ],
-                  ),
-                ),
+                Text(DateTime.parse(movement['datetime']).formatter()),
                 Text(
-                  movement['value'][0] != '-' //is is positive, add + character
+                  movement['value'][0] != '-' //it is positive, add + character
                       ? '+' + movement['value']
                       : movement['value'],
                   style: Theme.of(context).textTheme.headline2.apply(
-                      color: movement['value'][0] == '-' //check if is negative
+                      color: movement['value'][0] == '-' //check if its negative
                           ? Theme.of(context).textTheme.headline3.color
                           : Colors.green),
                 ),
