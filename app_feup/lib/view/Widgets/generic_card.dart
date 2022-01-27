@@ -35,7 +35,7 @@ abstract class GenericCard extends StatefulWidget {
     if (time == null) return Text('N/A');
     final t = DateTime.parse(time);
     return Container(
-        child: Text('última atualização às ' + t.toTimeHourMinString(),
+        child: Text('Última atualização às ' + t.toTimeHourMinString(),
             style: Theme.of(context).textTheme.caption),
         alignment: Alignment.center);
   }
