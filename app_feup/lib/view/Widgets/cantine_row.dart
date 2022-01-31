@@ -5,6 +5,8 @@ class CantineRow extends StatelessWidget {
   final String meatMenu;
   final String fishMenu;
   final String vegetarianMenu;
+  final String dietMenu;
+  final double iconSize;
 
   CantineRow(
       {Key key,
@@ -12,6 +14,8 @@ class CantineRow extends StatelessWidget {
         @required this.meatMenu,
         @required this.fishMenu,
         @required this.vegetarianMenu,
+        @required this.dietMenu,
+        this.iconSize = 20.0,
         })
       : super(key: key);
 
@@ -39,21 +43,52 @@ class CantineRow extends StatelessWidget {
                 border: Border(
                     bottom: BorderSide(
                         width: 0.1, color: Theme.of(context).accentColor))),
-            child: Text(this.meatMenu)),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget> [
+                  Icon(Icons.restaurant, size: this.iconSize), 
+                  Expanded(child: Text(this.meatMenu)) ,
+              ]
+            )),
         Container(
             padding: EdgeInsets.all(12.0),
             decoration: BoxDecoration(
                 border: Border(
                     bottom: BorderSide(
                         width: 0.1, color: Theme.of(context).accentColor))),
-            child: Text(this.fishMenu)),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget> [
+                  Icon(Icons.restaurant, size: this.iconSize), 
+                  Expanded(child: Text(this.fishMenu)) ,
+              ]
+            )),
         Container(
             padding: EdgeInsets.all(12.0),
             decoration: BoxDecoration(
                 border: Border(
                     bottom: BorderSide(
                         width: 0.1, color: Theme.of(context).accentColor))),
-            child: Text(this.vegetarianMenu))
+            child: Row(
+              //mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget> [
+                  Icon(Icons.restaurant, size: this.iconSize), 
+                  Expanded(child: Text(this.vegetarianMenu)) ,
+              ]
+            )),
+        Container(
+            padding: EdgeInsets.all(12.0),
+            decoration: BoxDecoration(
+                border: Border(
+                    bottom: BorderSide(
+                        width: 0.1, color: Theme.of(context).accentColor))),
+            child: Row(
+              //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget> [
+                  Icon(Icons.restaurant, size: this.iconSize), 
+                  Expanded(child: Text(this.dietMenu)) ,
+              ]
+            )),
       ];
 
 }
