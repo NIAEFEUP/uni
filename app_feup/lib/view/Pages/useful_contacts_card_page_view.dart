@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:uni/view/Pages/general_page_view.dart';
 import 'package:uni/view/Widgets/academic_services_card.dart';
+import 'package:uni/view/Widgets/info_desk_card.dart';
 
 class UsefulContactsCardView extends StatefulWidget {
   @override
@@ -12,7 +13,13 @@ class UsefulContactsCardView extends StatefulWidget {
 class UsefulContactsCardViewState extends GeneralPageViewState {
   @override
   Widget getBody(BuildContext context) {
-    final MediaQueryData queryData = MediaQuery.of(context);
-    return ListView(children: <Widget>[AcademicServicesCard()]);
+    return ListView(children: childrenList(context));
   }
+}
+
+List<Widget> childrenList(BuildContext context) {
+  final List<Widget> list = [];
+  list.add(AcademicServicesCard());
+  list.add(InfoDeskCard());
+  return list;
 }
