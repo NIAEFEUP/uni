@@ -75,6 +75,7 @@ class CantineCard extends GenericCard {
             meatMenu: 'Tripas à moda do Porto',
             fishMenu: 'Bacalhau à Brás',
             vegetarianMenu: 'Risoto de shitake',
+            dietMenu: 'Perna de frango cozida com batata',
          )
         ),
       ),
