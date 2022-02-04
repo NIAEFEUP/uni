@@ -19,16 +19,15 @@ Future<String> getPrintsBalance(http.Response response) async {
 Future<List> getPrintMovements(http.Response response) async {
   final document = parse(response.body);
 
-  final List<Map> movements = [];
-
   final List rows =
       document.querySelectorAll('table#tab_resultado > tbody > tr');
 
-  for (var row in rows) {
-    movements.add({
+  final List<Map> movements = rows.map((row) {
+      return {
       'datetime': row.children[0].innerHtml.trim().replaceAll('/', '-'),
       'value': row.children[2].innerHtml.replaceAll('&nbsp;', ''),
-    });
-  }
+      };
+  }).toList();
+
   return movements;
 }
