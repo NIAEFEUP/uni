@@ -79,13 +79,11 @@ class PrintInfoCard extends GenericCard {
 
   /// Returns a list of widgets with movements to be displayed in the print card
   List<Widget> printBalanceMovements(context, movements) {
-    final List<Widget> rows = <Widget>[];
+    final List<Widget> rows = movements.map<Widget>((movement) {
+      return this.balanceMovement(context, movement);
+    }).toList();
 
-    for (int i = 0; i < 3 && i < movements.length; i++) {
-      rows.add(this.balanceMovement(context, movements[i]));
-    }
-
-    return rows;
+    return rows.sublist(0, 3);
   }
 
   // Individual movement row
