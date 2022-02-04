@@ -31,6 +31,17 @@ abstract class GenericCard extends StatefulWidget {
         textAlign: TextAlign.end, style: Theme.of(context).textTheme.headline3);
   }
 
+  Container empty(String text, BuildContext context) {
+    return Container(
+      height: 80.0,
+      child: Align(
+        child: Text(text ?? 'Vazio',
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.headline2),
+      ),
+    );
+  }
+
   showLastRefreshedTime(time, context) {
     if (time == null) return Text('N/A');
     final t = DateTime.parse(time);

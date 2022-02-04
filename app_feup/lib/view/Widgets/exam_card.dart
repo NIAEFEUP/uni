@@ -52,8 +52,7 @@ class ExamCard extends GenericCard {
         content: examsInfo.item1,
         contentChecker: examsInfo.item1 != null && examsInfo.item1.isNotEmpty,
         onNullContent: Center(
-          child: Text('Não existem exames para apresentar',
-              style: Theme.of(context).textTheme.headline4),
+          child: empty('Não existem exames para apresentar', context),
         ),
       ),
     );
