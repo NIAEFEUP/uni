@@ -3,14 +3,18 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../location.dart';
 
 class CoffeeMachine implements Location{
+  @override
   final int floor;
-  final weight;
+
+  @override
+  final weight = 2;
 
   @override
   final icon = FontAwesomeIcons.coffee;
 
-  CoffeeMachine(this.floor, {this.weight = 2});
+  CoffeeMachine(this.floor);
 
+  @override
   String description(){
     return 'Máquina de café';
   }

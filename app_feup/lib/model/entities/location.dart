@@ -12,7 +12,7 @@ abstract class Location{
   final int floor;
   final int weight;
   final icon;
-  Location(this.floor, {this.weight = null, this.icon = null});
+  Location(this.floor, this.weight , this.icon);
 
   String description();
 }
