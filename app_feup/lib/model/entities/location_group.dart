@@ -8,8 +8,9 @@ import 'location.dart';
  */
 class LocationGroup{
   final Map<int, List<Location>> floors;
+  final bool isFloorless;
 
-  LocationGroup({List<Location> locations = null})
+  LocationGroup({List<Location> locations = null, this.isFloorless = false})
       : this.floors = locations != null
       ? groupBy(locations, (location) => location.floor)
       : Map.identity(){}

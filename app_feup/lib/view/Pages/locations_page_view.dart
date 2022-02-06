@@ -14,6 +14,7 @@ import 'package:uni/model/entities/locations/room_group_location.dart';
 import 'package:uni/model/entities/locations/room_location.dart';
 import 'package:uni/model/entities/locations/special_room_location.dart';
 import 'package:uni/model/entities/locations/vending_machine.dart';
+import 'package:uni/view/Widgets/floorless_location_marker_popup.dart';
 import 'package:uni/view/Widgets/location_marker_popup.dart';
 
 
@@ -61,7 +62,9 @@ class LocationsPageView extends StatelessWidget {
                     PopupAnimation.fade(duration: Duration(milliseconds: 400)),
             popupBuilder: (_, Marker marker) {
               if (marker is LocationMarker) {
-                return LocationMarkerPopup(marker.locationGroup);
+                if(marker.locationGroup.isFloorless)
+                  return FloorlessLocationMarkerPopup(marker.locationGroup);
+                else return LocationMarkerPopup(marker.locationGroup);
               }
               return Card(child: const Text('undefined'));
             },
@@ -96,11 +99,12 @@ class LocationsPageView extends StatelessWidget {
     locations = [];
     locations.add(CoffeeMachine(0));
     locations.add(VendingMachine(0));
-    group = LocationGroup(locations: locations);
+    group = LocationGroup(locations: locations, isFloorless: true);
     markers.add(LocationMarker(LatLng(41.17785, -8.59755), group));
 
     group = LocationGroup(locations:
-    [RestaurantLocation(0, 'Bar da biblioteca')]);
+    [RestaurantLocation(0, 'Bar da biblioteca')]
+    , isFloorless: true);
     markers.add(LocationMarker(LatLng(41.17744, -8.59487), group));
 
     group = LocationGroup(locations:
