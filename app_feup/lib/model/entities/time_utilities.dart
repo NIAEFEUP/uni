@@ -21,7 +21,7 @@ extension TimeString on DateTime {
 
     final daysDif = now.difference(this).inDays;
 
-    if (daysDif < 1) {
+    if (0 < daysDif && daysDif < 1) {
       final hoursDif = now.difference(this).inHours; // hours difference
 
       if (hoursDif == 0) {
@@ -31,10 +31,9 @@ extension TimeString on DateTime {
       return 'Há $hoursDif horas';
     } else if (daysDif == 1) {
       return 'Ontem';
-    } else if (daysDif < 7) {
+    } else if (0 < daysDif && daysDif < 7) {
       return weekdays[this.weekday];
-    } else {
-      return DateFormat('dd/MM').format(this); //yyyy-MM-dd – kk:mm
     }
+    return DateFormat('dd/MM').format(this); //yyyy-MM-dd – kk:mm
   }
 }
