@@ -36,8 +36,12 @@ class PrintInfoCard extends GenericCard {
                       top: 20.0, bottom: 20.0, right: 30.0),
                   child: StoreConnector<AppState, String>(
                       converter: (store) => store.state.content['printBalance'],
-                      builder: (context, printBalance) =>
-                          getInfoText(printBalance, context)),
+                      builder: (context, printBalance) => Text(
+                          printBalance == null ? 'N/A' : printBalance,
+                          textAlign: TextAlign.end,
+                          style: Theme.of(context).textTheme.headline3.apply(
+                              color: Color.fromARGB(255, 0x30, 0x30, 0x30),
+                              fontWeightDelta: 1))),
                 ),
               ])
             ]),
