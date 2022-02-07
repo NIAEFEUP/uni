@@ -4,6 +4,8 @@ import 'package:uni/model/app_state.dart';
 import 'generic_card.dart';
 import 'package:uni/view/Widgets/row_container.dart';
 import 'package:uni/model/entities/time_utilities.dart';
+import 'package:uni/view/Widgets/request_dependent_widget_builder.dart';
+import 'package:tuple/tuple.dart';
 
 class PrintInfoCard extends GenericCard {
   PrintInfoCard({Key key}) : super(key: key);
@@ -55,13 +57,24 @@ class PrintInfoCard extends GenericCard {
                     .headline4
                     .apply(fontSizeDelta: -2))),
         Container(
-          margin: const EdgeInsets.only(
-              top: 5.0, bottom: 20.0, left: 20.0, right: 20.0),
-          child: StoreConnector<AppState, List>(
-              converter: (store) => store.state.content['printMovements'],
-              builder: (context, printMovements) =>
-                  printBalanceMovementsWidget(printMovements, context)),
-        ),
+            margin: const EdgeInsets.only(
+                top: 5.0, bottom: 20.0, left: 20.0, right: 20.0),
+            child: StoreConnector<AppState, Tuple2>(
+                converter: (store) => Tuple2(
+                    store.state.content['printMovements'],
+                    store.state.content['printStatus']),
+                builder: (context, printMovements) {
+                  return RequestDependentWidgetBuilder(
+                      context: context,
+                      status: printMovements.item2,
+                      contentGenerator: printBalanceMovementsWidget,
+                      content: printMovements.item1,
+                      contentChecker: printMovements.item1.isNotEmpty,
+                      onNullContent: Center(
+                          child: empty(
+                              'Não existem movimentos recentes', context)));
+                  //printBalanceMovementsWidget(printMovements, context)),
+                })),
         StoreConnector<AppState, String>(
             converter: (store) => store.state.content['printRefreshTime'],
             builder: (context, printRefreshTime) =>
