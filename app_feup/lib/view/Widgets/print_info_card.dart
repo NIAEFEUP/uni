@@ -69,7 +69,8 @@ class PrintInfoCard extends GenericCard {
                       status: printMovements.item2,
                       contentGenerator: printBalanceMovementsWidget,
                       content: printMovements.item1,
-                      contentChecker: printMovements.item1.isNotEmpty,
+                      contentChecker: printMovements.item1 != null &&
+                          printMovements.item1.isNotEmpty,
                       onNullContent: Center(
                           child: empty(
                               'Não existem movimentos recentes', context)));
