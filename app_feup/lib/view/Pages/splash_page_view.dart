@@ -10,7 +10,6 @@ import 'package:uni/model/app_state.dart';
 import 'package:uni/redux/action_creators.dart';
 import 'package:uni/view/Pages/login_page_view.dart';
 import 'package:uni/view/Widgets/terms_and_condition_dialog.dart';
-import 'package:uni/view/theme.dart';
 
 import 'home_page_view.dart';
 import 'logout_route.dart';

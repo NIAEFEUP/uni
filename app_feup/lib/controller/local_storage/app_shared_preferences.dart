@@ -77,13 +77,6 @@ class AppSharedPreferences {
     return prefs.setInt(themeMode, thmMode.index);
   }
 
-  /// Switch to next available theme mode.
-  static Future<bool> setNextThemeMode() async {
-    final prefs = await SharedPreferences.getInstance();
-    final themeIndex = (await getThemeMode()).index;
-    return prefs.setInt(themeMode, (themeIndex + 1) % 3);
-  }
-
   /// Deletes the user's student number and password.
   static Future removePersistentUserInfo() async {
     final prefs = await SharedPreferences.getInstance();

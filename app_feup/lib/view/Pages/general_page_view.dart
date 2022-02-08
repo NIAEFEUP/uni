@@ -87,7 +87,10 @@ abstract class GeneralPageViewState extends State<StatefulWidget> {
         ),
       ),
       elevation: 0,
-      iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
+      iconTheme: IconThemeData(
+          color: Theme.of(context).brightness == Brightness.light
+              ? Theme.of(context).primaryColor
+              : Colors.white),
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       titleSpacing: 0.0,
       title: ButtonTheme(
@@ -104,6 +107,9 @@ abstract class GeneralPageViewState extends State<StatefulWidget> {
             },
             child: SvgPicture.asset(
               'assets/images/logo_dark.svg',
+              color: Theme.of(context).brightness == Brightness.light
+                  ? Theme.of(context).primaryColor
+                  : Colors.white,
               height: queryData.size.height / 25,
             ),
           )),

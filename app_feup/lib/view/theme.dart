@@ -64,73 +64,38 @@ ThemeData applicationLightTheme = ThemeData(
   ),
 );
 
-/*
 ThemeData applicationDarkTheme = ThemeData(
-    brightness: Brightness.dark,
-    primaryColor: _strongGrey,
-    accentColor: Colors.white,
-    dividerColor: _lightGrey,
-    hintColor: _lightGrey,
-    backgroundColor: _mildBlack,
-    scaffoldBackgroundColor: _mildBlack,
-    textTheme: TextTheme(
-      headline1: TextStyle(
-          fontSize: 72.0, fontWeight: FontWeight.bold, color: Colors.white),
-      headline2: TextStyle(
-          fontSize: 17.0, color: Colors.white, fontWeight: FontWeight.w300),
-      headline3: TextStyle(
-          fontSize: 17.0, color: Colors.white, fontWeight: FontWeight.w300),
-      headline4: TextStyle(
-          fontSize: 17.0, color: Colors.white, fontWeight: FontWeight.w300),
-      headline5: TextStyle(
-          fontSize: 17.0, color: Colors.white, fontWeight: FontWeight.w400),
-      headline6: TextStyle(
-          fontSize: 17.0, color: Colors.white, fontWeight: FontWeight.w300),
-      subtitle1: TextStyle(
-          fontSize: 17.0, color: Colors.white, fontWeight: FontWeight.w300),
-      subtitle2: TextStyle(
-          fontSize: 16.0, color: Colors.white, fontWeight: FontWeight.w300),
-      bodyText1: TextStyle(fontSize: 16.0, color: Colors.white),
-      bodyText2: TextStyle(fontSize: 15.0, color: Colors.white),
-      caption: TextStyle(
-          fontSize: 12.0, color: Colors.white, fontWeight: FontWeight.w500),
-    ),
-    iconTheme: IconThemeData(color: Colors.white),
-    unselectedWidgetColor: _grey,
-    toggleableActiveColor: Colors.white,
-    tabBarTheme: TabBarTheme(
-      unselectedLabelColor: Colors.white,
-      labelColor: Colors.white,
-      labelPadding: EdgeInsets.all(0.0),
-    ),
-    canvasColor: _mildBlack,
-    cardColor: Colors.white,
-    elevatedButtonTheme: ElevatedButtonThemeData(
-      style: ElevatedButton.styleFrom(
-          primary: Colors.black45,
-          padding: const EdgeInsets.all(10.0),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12.0),
-          ),
-          textStyle: TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.w400,
-              fontSize: 15.0)),
-    ),
-    textButtonTheme: TextButtonThemeData(
-        style: TextButton.styleFrom(
-            primary: Colors.white,
-            textStyle: TextStyle(fontSize: 15.0, fontWeight: FontWeight.w400))),
-    checkboxTheme: CheckboxThemeData(
-        checkColor: MaterialStateProperty.all(Colors.white),
-        fillColor: MaterialStateColor.resolveWith(
-          (states) {
-            if (states.contains(MaterialState.selected)) {
-              return _darkRed; // the color when checkbox is selected;
-            }
-            return _grey; //the color when checkbox is unselected;
-          },
-        ))); */
-
-ThemeData applicationDarkTheme =
-    applicationLightTheme.copyWith(brightness: Brightness.dark);
+  brightness: Brightness.dark,
+  hintColor: _grey,
+  primaryColor: Colors.white,
+  accentColor: Colors.white,
+  backgroundColor: _mildBlack,
+  scaffoldBackgroundColor: _mildBlack,
+  textButtonTheme: TextButtonThemeData(
+      style: TextButton.styleFrom(
+          primary: Colors.white,
+          textStyle: TextStyle(fontSize: 15.0, fontWeight: FontWeight.w400))),
+  textTheme: TextTheme(
+    headline1: TextStyle(fontSize: 40.0, fontWeight: FontWeight.w400),
+    headline2: TextStyle(fontSize: 32.0, fontWeight: FontWeight.w400),
+    headline3: TextStyle(fontSize: 28.0, fontWeight: FontWeight.w400),
+    headline4: TextStyle(
+        fontSize: 24.0, fontWeight: FontWeight.w300, color: Colors.white),
+    headline5: TextStyle(
+        fontSize: 20.0, fontWeight: FontWeight.w400, color: Colors.white),
+    headline6: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300),
+    subtitle1: TextStyle(
+        fontSize: 17.0, fontWeight: FontWeight.w300, color: Colors.white),
+    subtitle2: TextStyle(
+        fontSize: 16.0, fontWeight: FontWeight.w300, color: Colors.white),
+    bodyText1: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w400),
+    bodyText2: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w400),
+    caption: TextStyle(fontSize: 13.0, fontWeight: FontWeight.w400),
+  ),
+  tabBarTheme: TabBarTheme(
+    unselectedLabelColor: Colors.white,
+    labelColor: Colors.white,
+    labelPadding: EdgeInsets.all(0.0),
+  ),
+  checkboxTheme: applicationLightTheme.checkboxTheme,
+);

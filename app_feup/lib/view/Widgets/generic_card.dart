@@ -93,7 +93,10 @@ class GenericCardState extends State<GenericCard> {
                                     .textTheme
                                     .headline5
                                     .apply(
-                                        color: Theme.of(context).primaryColor)),
+                                        color: Theme.of(context).brightness ==
+                                                Brightness.light
+                                            ? Theme.of(context).primaryColor
+                                            : Colors.white)),
                             alignment: Alignment.centerLeft,
                             padding: EdgeInsets.symmetric(horizontal: 15),
                             margin: EdgeInsets.only(top: 15, bottom: 10),
