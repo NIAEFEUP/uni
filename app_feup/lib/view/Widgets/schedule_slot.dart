@@ -88,18 +88,14 @@ class ScheduleSlot extends StatelessWidget {
 
   Widget createScheduleSlotTeacherInfo(context) {
     return createTextField(
-        this.teacher,
-        Theme.of(context).textTheme.headline4.apply(fontSizeDelta: -4),
-        TextAlign.center);
+        this.teacher, Theme.of(context).textTheme.subtitle1, TextAlign.center);
   }
 
   Widget createScheduleSlotClass(context) {
     final classText =
         this.classNumber != null ? (' | ' + this.classNumber) : '';
     return createTextField(
-        classText,
-        Theme.of(context).textTheme.headline4.apply(fontSizeDelta: -4),
-        TextAlign.center);
+        classText, Theme.of(context).textTheme.subtitle1, TextAlign.center);
   }
 
   Widget createTextField(text, style, alignment) {

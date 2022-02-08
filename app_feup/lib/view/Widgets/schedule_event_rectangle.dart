@@ -26,8 +26,7 @@ class ScheduleEventRectangle extends StatelessWidget {
         style: Theme.of(context)
             .textTheme
             .headline5
-            .apply(color: Theme.of(context).accentColor)
-            .apply(fontWeightDelta: -1));
+            .apply(color: Theme.of(context).accentColor));
 
     return Row(
         children: (reverseOrder

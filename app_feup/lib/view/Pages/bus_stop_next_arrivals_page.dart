@@ -136,12 +136,10 @@ class _NextArrivalsState extends State<NextArrivals>
     result.addAll(this.getHeader(context));
     result.add(Container(
         padding: EdgeInsets.only(bottom: 12.0),
-        child: Text(
-          'Não foi possível obter informação',
-          maxLines: 2,
-          overflow: TextOverflow.fade,
-          /* style: Theme.of(context).textTheme.bodyText1 */
-        )));
+        child: Text('Não foi possível obter informação',
+            maxLines: 2,
+            overflow: TextOverflow.fade,
+            style: Theme.of(context).textTheme.subtitle1)));
 
     return result;
   }

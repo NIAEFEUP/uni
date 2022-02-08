@@ -57,10 +57,7 @@ class BusStopCard extends GenericCard {
                   Text('Configura os teus autocarros',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context)
-                          .textTheme
-                          .subtitle2
-                          .apply(color: Theme.of(context).accentColor)),
+                      style: Theme.of(context).textTheme.subtitle2.apply()),
                   IconButton(
                     icon: Icon(Icons.settings),
                     onPressed: () => Navigator.push(
@@ -88,8 +85,7 @@ class BusStopCard extends GenericCard {
           Container(
               padding: EdgeInsets.all(8.0),
               child: Text('Não foi possível obter informação',
-                  style: Theme.of(context).textTheme.headline4
-                  /* .apply(color: Theme.of(context).accentColor) */))
+                  style: Theme.of(context).textTheme.subtitle1))
         ]);
         break;
     }
@@ -101,8 +97,7 @@ class BusStopCard extends GenericCard {
       children: <Widget>[
         Icon(Icons.directions_bus), // color lightgrey
         Text('STCP - Próximas Viagens',
-            style: Theme.of(context).textTheme.headline4
-            /* .apply(color: Theme.of(context).accentColor) */),
+            style: Theme.of(context).textTheme.subtitle1),
       ],
     );
   }

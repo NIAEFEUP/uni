@@ -117,8 +117,7 @@ class MainCardsList extends StatelessWidget {
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         Text(
           Constants.navPersonalArea,
-          style:
-              Theme.of(context).textTheme.headline6.apply(fontSizeFactor: 1.3),
+          style: Theme.of(context).textTheme.headline4,
         ),
         GestureDetector(
             onTap: () => StoreProvider.of<AppState>(context)

@@ -38,8 +38,7 @@ class _SplashScreenState extends State<SplashScreen> {
         fit: StackFit.expand,
         children: <Widget>[
           Container(
-            decoration: BoxDecoration(
-                /* color: applicationLightTheme.backgroundColor */),
+            decoration: BoxDecoration(),
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -77,7 +76,7 @@ class _SplashScreenState extends State<SplashScreen> {
         child: SizedBox(
             child: SvgPicture.asset(
               'assets/images/logo_dark.svg',
-              // color: Theme.of(context).accentColor,
+              color: Theme.of(context).primaryColor,
             ),
             width: 150.0));
   }
@@ -86,7 +85,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget createNILogo() {
     return SvgPicture.asset(
       'assets/images/by_niaefeup.svg',
-      // color: Theme.of(context).accentColor,
+      color: Theme.of(context).primaryColor,
       width: queryData.size.width * 0.45,
     );
   }

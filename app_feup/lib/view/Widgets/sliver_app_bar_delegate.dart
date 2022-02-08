@@ -18,7 +18,8 @@ class SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
       decoration: const BoxDecoration(
         border: Border(
           bottom: BorderSide(
-            width: 1.0, /* color: Colors.grey */
+            width: 1.0,
+            color: Colors.grey,
           ),
         ),
       ),

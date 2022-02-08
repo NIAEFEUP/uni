@@ -50,15 +50,15 @@ class BusStopRow extends StatelessWidget {
     return Text('Não há viagens planeadas de momento.',
         maxLines: 3,
         overflow: TextOverflow.ellipsis,
-        style: Theme.of(context).textTheme.headline4);
+        style: Theme.of(context).textTheme.subtitle1);
   }
 
   Widget stopCodeRotatedContainer(context) {
     return Container(
       padding: EdgeInsets.only(left: 4.0),
       child: RotatedBox(
-        child: Text(this.stopCode, style: Theme.of(context).textTheme.headline4
-            /* .apply(color: Theme.of(context).accentColor) */),
+        child:
+            Text(this.stopCode, style: Theme.of(context).textTheme.subtitle1),
         quarterTurns: 3,
       ),
     );
