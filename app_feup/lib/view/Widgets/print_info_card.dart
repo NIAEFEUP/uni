@@ -101,7 +101,7 @@ class PrintInfoCard extends GenericCard {
       return this.balanceMovement(context, movement);
     }).toList();
 
-    return rows.sublist(0, 3);
+    return rows.length <= 3 ? rows : rows.sublist(0, 3);
   }
 
   // Individual movement row
