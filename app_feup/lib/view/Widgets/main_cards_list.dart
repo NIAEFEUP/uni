@@ -80,10 +80,7 @@ class MainCardsList extends StatelessWidget {
               Navigator.pop(context);
             },
           ),
-          decoration: BoxDecoration()
-          /* border: Border(
-                  bottom: BorderSide(color: Theme.of(context).dividerColor))) */
-          ,
+          decoration: BoxDecoration(),
         ));
       }
     });

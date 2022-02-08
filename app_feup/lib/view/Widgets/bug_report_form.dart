@@ -136,10 +136,7 @@ class BugReportFormState extends State<BugReportForm> {
   /// Returns a widget for the overview text of the bug report form
   Widget bugReportIntro(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-          /* border: Border(
-              bottom: BorderSide(color: Theme.of(context).dividerColor)) */
-          ),
+      decoration: BoxDecoration(),
       padding: EdgeInsets.only(bottom: 20),
       child: Center(
         child: Text(

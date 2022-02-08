@@ -46,11 +46,11 @@ ThemeData applicationLightTheme = ThemeData(
         },
       )),
   textTheme: TextTheme(
-    headline1: TextStyle(fontSize: 72.0, fontWeight: FontWeight.w400),
-    headline2: TextStyle(fontSize: 50.0, fontWeight: FontWeight.w400),
-    headline3: TextStyle(fontSize: 40.0, fontWeight: FontWeight.w400),
+    headline1: TextStyle(fontSize: 40.0, fontWeight: FontWeight.w400),
+    headline2: TextStyle(fontSize: 32.0, fontWeight: FontWeight.w400),
+    headline3: TextStyle(fontSize: 28.0, fontWeight: FontWeight.w400),
     headline4: TextStyle(
-        fontSize: 26.0, fontWeight: FontWeight.w300, color: _mildBlack),
+        fontSize: 24.0, fontWeight: FontWeight.w300, color: _mildBlack),
     headline5: TextStyle(
         fontSize: 20.0, fontWeight: FontWeight.w400, color: _strongGrey),
     headline6: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300),
