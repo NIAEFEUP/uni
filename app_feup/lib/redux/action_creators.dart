@@ -65,20 +65,22 @@ ThunkAction<AppState> reLogin(username, password, faculty, {Completer action}) {
   };
 }
 
-ThunkAction<AppState> login(username, password, faculty, persistentSession,
+ThunkAction<AppState> login(username, password, faculties, persistentSession,
     usernameController, passwordController) {
   return (Store<AppState> store) async {
     try {
       store.dispatch(SetLoginStatusAction(RequestStatus.busy));
+
+      // TODO: multiple faculties support
       final Session session = await NetworkRouter.login(
-          username, password, faculty, persistentSession);
+          username, password, faculties[0], persistentSession);
       store.dispatch(SaveLoginDataAction(session));
       if (session.authenticated) {
         store.dispatch(SetLoginStatusAction(RequestStatus.successful));
         await loadUserInfoToState(store);
         if (persistentSession) {
           AppSharedPreferences.savePersistentUserInfo(
-              username, password, faculty);
+              username, password, faculties);
         }
         usernameController.clear();
         passwordController.clear();
