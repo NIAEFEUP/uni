@@ -52,9 +52,6 @@ class _ProfilePageState extends State<ProfilePage> {
             .state
             .content['profile']
             .courses;
-        List<String> faculties =
-            StoreProvider.of<AppState>(context).state.content['userFaculties'];
-        print('\n\n\n\n\n Something:' + faculties.toString() + '\n\n\n');
       }
     });
   }
