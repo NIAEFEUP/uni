@@ -3,12 +3,12 @@ import 'package:uni/model/entities/location.dart';
 import 'package:uni/model/entities/location_group.dart';
 
 class LocationMarkerPopup extends StatelessWidget {
-  const LocationMarkerPopup(this.locationGroup);
+  const LocationMarkerPopup(this.locationGroup, {this.debug = false});
   final LocationGroup locationGroup;
+  final bool debug;
 
   @override
   Widget build(BuildContext context) {
-    final bool debug = true;
     return Card(
       color: Theme.of(context).backgroundColor.withOpacity(0.8),
       shape: RoundedRectangleBorder(
@@ -21,7 +21,7 @@ class LocationMarkerPopup extends StatelessWidget {
             direction: Axis.vertical,
             spacing: 8,
             children:
-            (debug ? <Widget>[Text(locationGroup.id.toString())] : []) +
+            (this.debug ? <Widget>[Text(locationGroup.id.toString())] : <Widget>[]) +
             buildFloors(context),
           )
       ),

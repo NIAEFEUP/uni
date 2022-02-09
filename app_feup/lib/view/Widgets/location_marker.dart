@@ -13,7 +13,7 @@ class LocationMarker extends Marker{
 
   LocationMarker(this.latlng, this.locationGroup)
     : super(
-        anchorPos: AnchorPos.align(AnchorAlign.top),
+        anchorPos: AnchorPos.align(AnchorAlign.center),
         height: 20,
         width: 20,
         point: latlng,

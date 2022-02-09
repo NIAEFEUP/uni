@@ -82,54 +82,5 @@ class LocationsPageView extends StatelessWidget {
     return locations.map((location) {
       return LocationMarker(location.latlng, location);
     }).toList();
-    /*
-    List<Location> locations = [];
-    locations.add(CoffeeMachine(1));
-    locations.add(VendingMachine(1));
-    locations.add(CoffeeMachine(2));
-    locations.add(VendingMachine(2));
-    locations.add(RoomGroupLocation(0, 'B004', 'B007'));
-    locations.add(RoomGroupLocation(1, 'B101', 'B103'));
-    locations.add(RoomGroupLocation(2, 'B201', 'B206'));
-    locations.add(RoomGroupLocation(3, 'B301', 'B306'));
-    LocationGroup group = LocationGroup(locations: locations);
-    final List<LocationMarker> markers = [];
-    markers.add(LocationMarker(LatLng(41.17726, -8.59523), group));
-
-    locations = [];
-    locations.add(RoomGroupLocation(0, 'B008', 'B009'));
-    locations.add(RoomLocation(1, 'B104'));
-    locations.add(RoomLocation(2, 'B207'));
-    locations.add(RoomGroupLocation(3, 'B307', 'B308'));
-    group = LocationGroup(locations: locations);
-    markers.add(LocationMarker(LatLng(41.17736, -8.59539), group));
-
-    locations = [];
-    locations.add(CoffeeMachine(0));
-    locations.add(VendingMachine(0));
-    group = LocationGroup(locations: locations, isFloorless: true);
-    markers.add(LocationMarker(LatLng(41.17785, -8.59755), group));
-
-    group = LocationGroup(locations:
-    [RestaurantLocation(0, 'Bar da biblioteca')]
-        , isFloorless: true);
-    markers.add(LocationMarker(LatLng(41.17744, -8.59487), group));
-
-    group = LocationGroup(locations:
-    [RestaurantLocation(0, 'Bar de minas')]);
-    markers.add(LocationMarker(LatLng(41.17853, -8.59745
-    ), group));
-
-    group = LocationGroup(locations:
-    [RestaurantLocation(0, 'Cantina da Feup')]);
-    markers.add(LocationMarker(LatLng(41.17619, -8.59548), group));
-
-    group = LocationGroup(locations:
-    [SpecialRoomLocation(3,'B315','Sala do NIFEUP')]);
-    markers.add(LocationMarker(LatLng(41.1774, -8.59601), group));
-    return markers;
-
-     */
-    return null;
   }
 }

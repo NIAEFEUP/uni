@@ -20,6 +20,7 @@ class LocationDatabase extends AppDatabase {
         '''CREATE TABLE LOCATIONS(
           id INTEGER PRIMARY KEY, 
           floor INTEGER,  
+          type TEXT ,
           name TEXT ,  
           first_room TEXT, 
           last_room TEXT, 

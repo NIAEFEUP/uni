@@ -3,9 +3,9 @@ import 'package:uni/model/entities/location.dart';
 import 'package:uni/model/entities/location_group.dart';
 
 class FloorlessLocationMarkerPopup extends StatelessWidget {
-  const FloorlessLocationMarkerPopup(this.locationGroup);
+  const FloorlessLocationMarkerPopup(this.locationGroup, {this.debug = false});
   final LocationGroup locationGroup;
-
+  final bool debug;
   @override
   Widget build(BuildContext context) {
     final bool debug = true;
@@ -24,7 +24,7 @@ class FloorlessLocationMarkerPopup extends StatelessWidget {
             direction: Axis.vertical,
             spacing: 8,
             children:
-            (debug ? <Widget>[Text(locationGroup.id.toString())] : []) +
+            (debug ? <Widget>[Text(locationGroup.id.toString())] : <Widget>[]) +
             buildLocations(context, locations),
           )
       ),
