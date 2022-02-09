@@ -18,4 +18,12 @@ class CoffeeMachine implements Location{
   String description(){
     return 'Máquina de café';
   }
+
+  @override
+  Map<String, dynamic> toMap({int groupId = null}){
+    return {
+      'floor' : floor,
+      'type' : locationTypeToString(LocationType.coffeeMachine)
+    };
+  }
 }

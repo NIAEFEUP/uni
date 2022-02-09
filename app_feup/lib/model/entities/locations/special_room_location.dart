@@ -20,4 +20,14 @@ class SpecialRoomLocation implements Location{
   String description(){
     return '''${this.roomNumber} - ${this.name}''';
   }
+
+  @override
+  Map<String, dynamic> toMap({int groupId = null}){
+    return {
+      'floor' : this.floor,
+      'type' : locationTypeToString(LocationType.printer),
+      'first_room' : this.roomNumber,
+      'name' : this.name
+    };
+  }
 }

@@ -19,4 +19,13 @@ class StoreLocation implements Location{
   String description(){
     return name;
   }
+
+  @override
+  Map<String, dynamic> toMap({int groupId = null}){
+    return {
+      'floor' : this.floor,
+      'type' : locationTypeToString(LocationType.store),
+      'name' : this.name
+    };
+  }
 }

@@ -20,4 +20,13 @@ class RestaurantLocation implements Location{
   String description(){
     return this.name;
   }
+
+  @override
+  Map<String, dynamic> toMap({int groupId = null}){
+    return {
+      'floor' : this.floor,
+      'type' : locationTypeToString(LocationType.restaurant),
+      'name' : this.name
+    };
+  }
 }

@@ -48,14 +48,15 @@ Future loadRemoteUserInfoToState(Store<AppState> store) async {
       fees = Completer(),
       coursesStates = Completer(),
       trips = Completer(),
-      lastUpdate = Completer();
+      lastUpdate = Completer(),
+      locations = Completer();
 
   store.dispatch(getUserInfo(userInfo));
   store.dispatch(getUserPrintBalance(printBalance));
   store.dispatch(getUserFees(fees));
   store.dispatch(getUserCoursesState(coursesStates));
   store.dispatch(getUserBusTrips(trips));
-
+  store.dispatch(getFacultyLocations(locations));
   final Tuple2<String, String> userPersistentInfo =
       await AppSharedPreferences.getPersistentUserInfo();
   userInfo.future.then((value) {

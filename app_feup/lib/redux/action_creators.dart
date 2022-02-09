@@ -11,9 +11,12 @@ import 'package:uni/controller/local_storage/app_courses_database.dart';
 import 'package:uni/controller/local_storage/app_exams_database.dart';
 import 'package:uni/controller/local_storage/app_last_user_info_update_database.dart';
 import 'package:uni/controller/local_storage/app_lectures_database.dart';
+import 'package:uni/controller/local_storage/app_locations_database.dart';
 import 'package:uni/controller/local_storage/app_refresh_times_database.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/controller/local_storage/app_user_database.dart';
+import 'package:uni/controller/location_fetcher/location_fetcher.dart';
+import 'package:uni/controller/location_fetcher/location_fetcher_git.dart';
 import 'package:uni/controller/networking/network_router.dart'
     show NetworkRouter;
 import 'package:uni/controller/parsers/parser_courses.dart';
@@ -28,6 +31,7 @@ import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/course_unit.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/entities/lecture.dart';
+import 'package:uni/model/entities/location_group.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/entities/trip.dart';
@@ -427,6 +431,28 @@ ThunkAction<AppState> getUserBusTrips(Completer<Null> action) {
       store.dispatch(SetBusTripsStatusAction(RequestStatus.failed));
     }
 
+    action.complete();
+  };
+}
+
+ThunkAction<AppState> getFacultyLocations(Completer<Null> action){
+  return (Store<AppState> store) async{
+    try{
+      store.dispatch(SetLocationsStatusAction(RequestStatus.busy));
+
+      final List<LocationGroup> locations =
+      await LocationFetcherGit().getLocations(store);
+      // Updates local database according to information fetched -- Restaurants
+      final LocationDatabase db = LocationDatabase();
+      db.initLocations(locations);
+      store.dispatch(SetLocationsAction(locations));
+      store.dispatch(SetLocationsStatusAction(RequestStatus.successful));
+
+
+    } catch(e){
+      Logger().e('Failed to get locations: ${e.toString()}');
+      store.dispatch(SetLocationsStatusAction(RequestStatus.failed));
+    }
     action.complete();
   };
 }

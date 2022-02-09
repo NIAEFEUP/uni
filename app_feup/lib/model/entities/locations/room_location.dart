@@ -19,4 +19,13 @@ class RoomLocation implements Location{
   String description(){
     return '''${this.roomNumber}''';
   }
+
+  @override
+  Map<String, dynamic> toMap({int groupId = null}){
+    return {
+      'floor' : this.floor,
+      'type' : locationTypeToString(LocationType.room),
+      'first_room' : this.roomNumber
+    };
+  }
 }

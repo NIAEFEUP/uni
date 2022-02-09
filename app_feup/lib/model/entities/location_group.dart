@@ -1,5 +1,6 @@
 import 'package:flutter_map/flutter_map.dart';
 import 'package:collection/collection.dart';
+import 'package:latlong2/latlong.dart';
 import 'location.dart';
 
 /**
@@ -9,11 +10,17 @@ import 'location.dart';
 class LocationGroup{
   final Map<int, List<Location>> floors;
   final bool isFloorless;
-
-  LocationGroup({List<Location> locations = null, this.isFloorless = false})
-      : this.floors = locations != null
-      ? groupBy(locations, (location) => location.floor)
-      : Map.identity(){}
+  final LatLng latlng;
+  final id;
+  LocationGroup(this.latlng,
+        {
+          List<Location> locations = null,
+          this.isFloorless = false,
+          this.id = null
+        }
+  ) : this.floors = locations != null
+    ? groupBy(locations, (location) => location.floor)
+    : Map.identity(){}
 
   /**
    * Returns the Location with the most weight
@@ -25,6 +32,15 @@ class LocationGroup{
           //Get Location with most weight
           return allLocations.reduce((current, next ) =>
                 current.weight > next.weight ? current: next);
-      }
+  }
+
+  Map<String, dynamic> toMap(){
+    return {
+      'id' : this.id,
+      'lat' : latlng.latitude,
+      'lng' : latlng.longitude,
+      'is_floorless' : isFloorless
+    };
+  }
 
 }

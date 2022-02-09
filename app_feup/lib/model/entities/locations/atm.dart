@@ -2,7 +2,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../location.dart';
 
-class VendingMachine implements Location{
+class Atm implements Location{
   @override
   final int floor;
 
@@ -10,20 +10,21 @@ class VendingMachine implements Location{
   final weight = 2;
 
   @override
-  final icon = FontAwesomeIcons.cookie;
+  final icon = FontAwesomeIcons.moneyBill;
 
-  VendingMachine(this.floor);
+  Atm(this.floor);
 
   @override
   String description(){
-    return 'Máquina de venda';
+    return 'Atm';
   }
 
   @override
   Map<String, dynamic> toMap({int groupId = null}){
     return {
-      'floor' : this.floor,
-      'type' : locationTypeToString(LocationType.vendingMachine)
+      'floor' : floor,
+      'type' : locationTypeToString(LocationType.atm)
     };
   }
+
 }

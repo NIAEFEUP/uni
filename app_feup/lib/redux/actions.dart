@@ -2,6 +2,7 @@ import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/course_unit.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/entities/lecture.dart';
+import 'package:uni/model/entities/location_group.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/entities/trip.dart';
@@ -147,3 +148,15 @@ class SetExamFilter {
   Map<String, bool> filteredExams;
   SetExamFilter(this.filteredExams);
 }
+
+class SetLocationsAction {
+  List<LocationGroup> locationGroups;
+  SetLocationsAction(this.locationGroups);
+}
+
+class SetLocationsStatusAction {
+  RequestStatus status;
+  SetLocationsStatusAction(this.status);
+}
+
+

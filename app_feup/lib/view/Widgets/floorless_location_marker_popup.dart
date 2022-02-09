@@ -8,6 +8,8 @@ class FloorlessLocationMarkerPopup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool debug = true;
+
     final List<Location> locations =
       locationGroup.floors.values.expand((x) => x).toList();
     return Card(
@@ -21,7 +23,9 @@ class FloorlessLocationMarkerPopup extends StatelessWidget {
           Wrap(
             direction: Axis.vertical,
             spacing: 8,
-            children: buildLocations(context, locations),
+            children:
+            (debug ? <Widget>[Text(locationGroup.id.toString())] : []) +
+            buildLocations(context, locations),
           )
       ),
     );

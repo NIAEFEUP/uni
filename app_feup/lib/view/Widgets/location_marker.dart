@@ -3,8 +3,8 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:collection/collection.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:latlong2/latlong.dart';
-import 'location.dart';
-import 'location_group.dart';
+import '../../model/entities/location.dart';
+import '../../model/entities/location_group.dart';
 
 
 class LocationMarker extends Marker{

@@ -18,4 +18,13 @@ class Printer implements Location{
   String description(){
     return 'Impressora';
   }
+
+  @override
+  Map<String, dynamic> toMap({int groupId = null}){
+    return {
+      'floor' : floor,
+      'type' : locationTypeToString(LocationType.printer)
+    };
+  }
+
 }

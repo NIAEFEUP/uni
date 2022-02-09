@@ -1,10 +1,11 @@
 import 'package:tuple/tuple.dart';
 import 'package:uni/model/app_state.dart';
-import 'package:uni/model/entities/lecture.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:uni/view/Pages/locations_page_view.dart';
 import 'package:uni/view/Pages/secondary_page_view.dart';
+
+import 'entities/location_group.dart';
 
 class LocationsPage extends StatefulWidget {
   const LocationsPage({Key key}) : super(key: key);
@@ -35,13 +36,11 @@ class _LocationsPageState extends SecondaryPageViewState
 
   @override
   Widget getBody(BuildContext context) {
-    return StoreConnector<AppState, Tuple2<List<Lecture>, RequestStatus>>(
-      converter: (store) => Tuple2(store.state.content['schedule'],
-          store.state.content['scheduleStatus']),
-      builder: (context, lectureData) {
-        final lectures = lectureData.item1;
-        final scheduleStatus = lectureData.item2;
-        return LocationsPageView();
+    return StoreConnector<AppState, List<LocationGroup>>(
+      converter: (store) => store.state.content['locationGroups'],
+      builder: (context, data) {
+        print(data);
+        return LocationsPageView(data);
       },
     );
   }

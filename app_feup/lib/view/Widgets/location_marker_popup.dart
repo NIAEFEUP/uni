@@ -8,6 +8,7 @@ class LocationMarkerPopup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool debug = true;
     return Card(
       color: Theme.of(context).backgroundColor.withOpacity(0.8),
       shape: RoundedRectangleBorder(
@@ -19,7 +20,9 @@ class LocationMarkerPopup extends StatelessWidget {
           Wrap(
             direction: Axis.vertical,
             spacing: 8,
-            children: buildFloors(context),
+            children:
+            (debug ? <Widget>[Text(locationGroup.id.toString())] : []) +
+            buildFloors(context),
           )
       ),
     );

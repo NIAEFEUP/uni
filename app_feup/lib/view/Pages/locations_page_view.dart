@@ -7,7 +7,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:uni/model/entities/location.dart';
 import 'package:uni/model/entities/location_group.dart';
-import 'package:uni/model/entities/location_marker.dart';
+import 'package:uni/view/Widgets/location_marker.dart';
 import 'package:uni/model/entities/locations/coffee_machine.dart';
 import 'package:uni/model/entities/locations/restaurant_location.dart';
 import 'package:uni/model/entities/locations/room_group_location.dart';
@@ -21,7 +21,8 @@ import 'package:uni/view/Widgets/location_marker_popup.dart';
 class LocationsPageView extends StatelessWidget {
 
   final PopupController _popupLayerController = PopupController();
-  LocationsPageView();
+  final List<LocationGroup> locations;
+  LocationsPageView(List<LocationGroup> this.locations);
 
   @override
   Widget build(BuildContext context) {
@@ -62,9 +63,12 @@ class LocationsPageView extends StatelessWidget {
                     PopupAnimation.fade(duration: Duration(milliseconds: 400)),
             popupBuilder: (_, Marker marker) {
               if (marker is LocationMarker) {
-                if(marker.locationGroup.isFloorless)
+                if(marker.locationGroup.isFloorless) {
                   return FloorlessLocationMarkerPopup(marker.locationGroup);
-                else return LocationMarkerPopup(marker.locationGroup);
+                }
+                else {
+                  return LocationMarkerPopup(marker.locationGroup);
+                }
               }
               return Card(child: const Text('undefined'));
             },
@@ -75,6 +79,10 @@ class LocationsPageView extends StatelessWidget {
   }
 
   List<Marker> getMarkers(){
+    return locations.map((location) {
+      return LocationMarker(location.latlng, location);
+    }).toList();
+    /*
     List<Location> locations = [];
     locations.add(CoffeeMachine(1));
     locations.add(VendingMachine(1));
@@ -104,7 +112,7 @@ class LocationsPageView extends StatelessWidget {
 
     group = LocationGroup(locations:
     [RestaurantLocation(0, 'Bar da biblioteca')]
-    , isFloorless: true);
+        , isFloorless: true);
     markers.add(LocationMarker(LatLng(41.17744, -8.59487), group));
 
     group = LocationGroup(locations:
@@ -120,5 +128,8 @@ class LocationsPageView extends StatelessWidget {
     [SpecialRoomLocation(3,'B315','Sala do NIFEUP')]);
     markers.add(LocationMarker(LatLng(41.1774, -8.59601), group));
     return markers;
+
+     */
+    return null;
   }
 }
