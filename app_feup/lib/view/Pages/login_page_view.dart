@@ -16,7 +16,9 @@ class LoginPageView extends StatefulWidget {
 
 /// Manages the 'login section' view.
 class _LoginPageViewState extends State<LoginPageView> {
-  final String faculty = 'feup';
+  final List<String> faculty = [
+    'feup'
+  ]; // May choose more than one faculties in the dropdown.
 
   @override
   void didChangeDependencies() {

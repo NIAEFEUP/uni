@@ -8,15 +8,15 @@ import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/home_page_model.dart';
 
 /// Manages the app's Shared Preferences.
-/// 
+///
 /// This database stores the user's student number, password and favorite
 /// widgets.
 class AppSharedPreferences {
   static final String userNumber = 'user_number';
   static final String userPw = 'user_password';
+  static final String userFaculties = 'user_faculties';
   static final String termsAndConditions = 'terms_and_conditions';
-  static final String areTermsAndConditionsAcceptedKey =
-      'is_t&c_accepted';
+  static final String areTermsAndConditionsAcceptedKey = 'is_t&c_accepted';
   static final int keyLength = 32;
   static final int ivLength = 16;
   static final iv = IV.fromLength(ivLength);
@@ -31,11 +31,13 @@ class AppSharedPreferences {
   static final List<String> defaultFilteredExamTypes =
       Exam.getExamTypes().keys.toList();
 
-  /// Saves the user's student number and password.
-  static Future savePersistentUserInfo(user, pass) async {
+  /// Saves the user's student number, password and faculties.
+  static Future savePersistentUserInfo(user, pass, faculties) async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setString(userNumber, user);
     prefs.setString(userPw, encode(pass));
+    prefs.setStringList(
+        userFaculties, faculties); // Could be multiple faculties
   }
 
   /// Sets whether or not the Terms and Conditions have been accepted.
@@ -71,8 +73,25 @@ class AppSharedPreferences {
     prefs.remove(userPw);
   }
 
+  /// Returns a tuple containing the user's student number and password
+  /// and faculties he is associated to.
+  ///
+  /// *Note:*
+  /// * the first element in the tuple is the user's student number.
+  /// * the second element in the tuple is the user's password, in plain text
+  ///   format.
+  /// * the third element in the tuple is a list of strings
+  ///   with the code of the faculty.
+  static Future<Tuple3<String, String, List<String>>>
+      getPersistentUserInfoFac() async {
+    final String userNum = await getUserNumber();
+    final String userPass = await getUserPassword();
+    final List<String> userFaculties = await getUserFaculties();
+    return Tuple3(userNum, userPass, userFaculties);
+  }
+
   /// Returns a tuple containing the user's student number and password.
-  /// 
+  ///
   /// *Note:*
   /// * the first element in the tuple is the user's student number.
   /// * the second element in the tuple is the user's password, in plain text
@@ -81,6 +100,12 @@ class AppSharedPreferences {
     final String userNum = await getUserNumber();
     final String userPass = await getUserPassword();
     return Tuple2(userNum, userPass);
+  }
+
+  /// Returns the user's faculties
+  static Future<List<String>> getUserFaculties() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getStringList(userFaculties);
   }
 
   /// Returns the user's student number.
