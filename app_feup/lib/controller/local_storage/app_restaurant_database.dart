@@ -24,9 +24,8 @@ class RestaurantDatabase extends AppDatabase {
    */
   void saveRestaurants(List<Restaurant> restaurants) async{
     final Database db = await this.getDatabase();
-    //final Batch batch = db.batch();
     db.transaction((transaction) async {
-      deleteAll(transaction);
+      await deleteAll(transaction);
       restaurants.forEach((restaurant) {
         insertRestaurant(transaction, restaurant);
       });
@@ -81,8 +80,7 @@ class RestaurantDatabase extends AppDatabase {
       final String type = map['type'];
       final String name = map['name'];
       final DateFormat format = DateFormat('d-M-y');
-      final DateTime date = map['date']!= null ?
-      format.parse(map['date']) : null;
+      final DateTime date = format.parse(map['date']) ?? null;
       return Meal(name, type, day, date);
     }).toList();
 
@@ -105,8 +103,8 @@ class RestaurantDatabase extends AppDatabase {
    * Deletes all restaurants and meals
    */
   Future<void> deleteAll(Transaction txn) async{
-    txn.delete('meals');
-    txn.delete('restaurants');
+    await txn.delete('meals');
+    await txn.delete('restaurants');
   }
 
 }
