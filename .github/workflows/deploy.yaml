@@ -26,6 +26,13 @@ jobs:
         with:
           flutter-version: ${{env.FLUTTER_VERSION}}
 
+      - name: Setup production environment
+        run: |
+          mkdir -p assets/env
+          rm -f -- assets/env/env.json
+          touch assets/env/env.json
+          echo "{{ secrets.PRODUCTION_ENV_JSON }}" >> assets/env/env.json
+
       - name: Download Android keystore
         run: echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 --decode > /tmp/key.jks
 
@@ -39,7 +46,6 @@ jobs:
 
       - name: Build Android App Bundle
         run: |
-          mkdir -p assets/env
           flutter pub get
           flutter build appbundle
 
