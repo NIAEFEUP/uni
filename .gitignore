@@ -11,7 +11,6 @@ app_feup/pubspec.lock
 .DS_Store
 .atom/
 .vscode/
-.packages
 
 # Key properties
 app_feup/android/key.properties
