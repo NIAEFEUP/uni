@@ -81,7 +81,7 @@ class InfoDeskCard extends GenericCard {
   }
 
   @override
-  String getTitle() => 'Serviços Académicos';
+  String getTitle() => 'Info Desk';
 
   @override
   onClick(BuildContext context) {}
