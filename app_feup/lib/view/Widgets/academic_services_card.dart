@@ -26,36 +26,29 @@ class AcademicServicesCard extends GenericCard {
                     style: Theme.of(context)
                         .textTheme
                         .headline4
-                        .apply(fontSizeDelta: -4)),
+                        .apply(fontSizeDelta: 0)),
               ),
               Container(
-                margin:
-                    const EdgeInsets.only(top: 20.0, bottom: 8.0, right: 30.0),
-                child: Text('9:30h - 16:00h',
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline4
-                        .apply(fontSizeDelta: -4)),
-              )
+                  margin: const EdgeInsets.only(
+                      top: 20.0, bottom: 8.0, right: 30.0),
+                  child: Text('9:30h - 16:00h',
+                      style: Theme.of(context).textTheme.headline3))
             ]),
             TableRow(children: [
               Container(
                 margin:
-                    const EdgeInsets.only(top: 8.0, bottom: 20.0, left: 20.0),
+                    const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 20.0),
                 child: Text('Telefónico: ',
                     style: Theme.of(context)
                         .textTheme
                         .headline4
-                        .apply(fontSizeDelta: -4)),
+                        .apply(fontSizeDelta: 0)),
               ),
               Container(
                 margin:
-                    const EdgeInsets.only(top: 8.0, bottom: 20.0, right: 30.0),
+                    const EdgeInsets.only(top: 8.0, bottom: 8.0, right: 30.0),
                 child: Text('9:30h - 12:00h | 14:00h - 16:00h',
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline4
-                        .apply(fontSizeDelta: -4)),
+                    style: Theme.of(context).textTheme.headline3),
               )
             ]),
             TableRow(children: [
@@ -72,10 +65,7 @@ class AcademicServicesCard extends GenericCard {
                 margin:
                     const EdgeInsets.only(top: 20.0, bottom: 8.0, right: 30.0),
                 child: Text('acesso.ingresso@fe.up.pt',
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline4
-                        .apply(fontSizeDelta: -4)),
+                    style: Theme.of(context).textTheme.headline3),
               )
             ]),
             TableRow(children: [
@@ -91,11 +81,8 @@ class AcademicServicesCard extends GenericCard {
               Container(
                 margin:
                     const EdgeInsets.only(top: 20.0, bottom: 8.0, right: 30.0),
-                child: Text('+351 22 508 1977 / 1405',
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline4
-                        .apply(fontSizeDelta: -4)),
+                child: Text('+351 22 508 1977 | 22 508 1405',
+                    style: Theme.of(context).textTheme.headline3),
               )
             ])
           ]),
