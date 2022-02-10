@@ -20,9 +20,9 @@ class AcademicServicesCard extends GenericCard {
             TableRow(children: [
               Container(
                 margin: const EdgeInsets.only(
-                    top: 20.0, bottom: 8.0), // add margin left: 20
+                    top: 20.0, bottom: 8.0, left: 20.0), // add margin left: 20
                 child: Text('Atendimento presencial',
-                    textAlign: TextAlign.center,
+                    //textAlign: TextAlign.center,
                     style: Theme.of(context)
                         .textTheme
                         .headline4
@@ -31,16 +31,18 @@ class AcademicServicesCard extends GenericCard {
             ]),
             TableRow(children: [
               Container(
-                  margin: const EdgeInsets.only(top: 0, bottom: 12.0),
+                  margin:
+                      const EdgeInsets.only(top: 0, bottom: 12.0, left: 20.0),
                   child: Text('9:30h - 16:00h',
-                      textAlign: TextAlign.center,
+                      //textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.headline3))
             ]),
             TableRow(children: [
               Container(
-                margin: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                margin:
+                    const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 20.0),
                 child: Text('Atendimento telefónico',
-                    textAlign: TextAlign.center,
+                    //textAlign: TextAlign.center,
                     style: Theme.of(context)
                         .textTheme
                         .headline4
@@ -49,16 +51,18 @@ class AcademicServicesCard extends GenericCard {
             ]),
             TableRow(children: [
               Container(
-                  margin: const EdgeInsets.only(top: 0.0, bottom: 8.0),
+                  margin:
+                      const EdgeInsets.only(top: 0.0, bottom: 8.0, left: 20.0),
                   child: Text('9:30h - 12:00h | 14:00h - 16:00h',
-                      textAlign: TextAlign.center,
+                      //textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.headline3))
             ]),
             TableRow(children: [
               Container(
-                margin: const EdgeInsets.only(top: 20.0, bottom: 8.0),
+                margin:
+                    const EdgeInsets.only(top: 20.0, bottom: 8.0, left: 20.0),
                 child: Text('Telefone',
-                    textAlign: TextAlign.center,
+                    //textAlign: TextAlign.center,
                     style: Theme.of(context)
                         .textTheme
                         .headline4
@@ -67,23 +71,26 @@ class AcademicServicesCard extends GenericCard {
             ]),
             TableRow(children: [
               Container(
-                  margin: const EdgeInsets.only(top: 0.0, bottom: 8.0),
+                  margin:
+                      const EdgeInsets.only(top: 0.0, bottom: 8.0, left: 20.0),
                   child: Text('+351 22 508 1977',
-                      textAlign: TextAlign.center,
+                      //textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.headline3))
             ]),
             TableRow(children: [
               Container(
-                  margin: const EdgeInsets.only(top: 0.0, bottom: 8.0),
+                  margin:
+                      const EdgeInsets.only(top: 0.0, bottom: 8.0, left: 20.0),
                   child: Text('+351 22 508 1405',
-                      textAlign: TextAlign.center,
+                      //textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.headline3))
             ]),
             TableRow(children: [
               Container(
-                margin: const EdgeInsets.only(top: 20.0, bottom: 8.0),
+                margin:
+                    const EdgeInsets.only(top: 20.0, bottom: 8.0, left: 20.0),
                 child: Text('Gestão de Acesso, Ingresso e Certificação',
-                    textAlign: TextAlign.center,
+                    //textAlign: TextAlign.center,
                     style: Theme.of(context)
                         .textTheme
                         .headline4
@@ -92,23 +99,26 @@ class AcademicServicesCard extends GenericCard {
             ]),
             TableRow(children: [
               Container(
-                  margin: const EdgeInsets.only(top: 0.0, bottom: 8.0),
+                  margin:
+                      const EdgeInsets.only(top: 0.0, bottom: 8.0, left: 20.0),
                   child: Text('acesso.ingresso@fe.up.pt',
-                      textAlign: TextAlign.center,
+                      //textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.headline3))
             ]),
             TableRow(children: [
               Container(
-                  margin: const EdgeInsets.only(top: 0.0, bottom: 8.0),
+                  margin:
+                      const EdgeInsets.only(top: 0.0, bottom: 8.0, left: 20.0),
                   child: Text('certificacao@fe.up.pt',
-                      textAlign: TextAlign.center,
+                      //textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.headline3))
             ]),
             TableRow(children: [
               Container(
-                margin: const EdgeInsets.only(top: 20.0, bottom: 8.0),
+                margin:
+                    const EdgeInsets.only(top: 20.0, bottom: 8.0, left: 20.0),
                 child: Text('Gestão do estudante',
-                    textAlign: TextAlign.center,
+                    //textAlign: TextAlign.center,
                     style: Theme.of(context)
                         .textTheme
                         .headline4
@@ -117,16 +127,18 @@ class AcademicServicesCard extends GenericCard {
             ]),
             TableRow(children: [
               Container(
-                  margin: const EdgeInsets.only(top: 0.0, bottom: 8.0),
+                  margin:
+                      const EdgeInsets.only(top: 0.0, bottom: 8.0, left: 20.0),
                   child: Text('percurso.académico@fe.up.pt',
-                      textAlign: TextAlign.center,
+                      //textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.headline3))
             ]),
             TableRow(children: [
               Container(
-                margin: const EdgeInsets.only(top: 20.0, bottom: 8.0),
+                margin:
+                    const EdgeInsets.only(top: 20.0, bottom: 8.0, left: 20.0),
                 child: Text('Gestão de curso',
-                    textAlign: TextAlign.center,
+                    //textAlign: TextAlign.center,
                     style: Theme.of(context)
                         .textTheme
                         .headline4
@@ -135,9 +147,10 @@ class AcademicServicesCard extends GenericCard {
             ]),
             TableRow(children: [
               Container(
-                  margin: const EdgeInsets.only(top: 0.0, bottom: 8.0),
+                  margin:
+                      const EdgeInsets.only(top: 0.0, bottom: 8.0, left: 20.0),
                   child: Text('suporte.cursos@fe.up.pt',
-                      textAlign: TextAlign.center,
+                      //textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.headline3))
             ]),
           ]),
