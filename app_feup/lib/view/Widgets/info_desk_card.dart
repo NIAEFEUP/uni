@@ -14,23 +14,14 @@ class InfoDeskCard extends GenericCard {
   Widget buildCardContent(BuildContext context) {
     return Column(children: [
       Table(
-          columnWidths: {1: FractionColumnWidth(.4)},
           defaultVerticalAlignment: TableCellVerticalAlignment.middle,
           children: [
             TableRow(children: [
               Container(
-                margin:
-                    const EdgeInsets.only(top: 20.0, bottom: 8.0, left: 20.0),
-                child: Text('Presencial e Telefónico: ',
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline4
-                        .apply(fontSizeDelta: -4)),
-              ),
-              Container(
-                margin:
-                    const EdgeInsets.only(top: 20.0, bottom: 8.0, right: 30.0),
-                child: Text('9:30h - 13:00h | 14:00h - 17:30h',
+                margin: const EdgeInsets.only(
+                    top: 20.0, bottom: 8.0, left: 20.0), // add margin left: 20
+                child: Text('Atendimento presencial e telefónico',
+                    //textAlign: TextAlign.center,
                     style: Theme.of(context)
                         .textTheme
                         .headline4
@@ -39,50 +30,58 @@ class InfoDeskCard extends GenericCard {
             ]),
             TableRow(children: [
               Container(
-                margin:
-                    const EdgeInsets.only(top: 20.0, bottom: 8.0, left: 20.0),
-                child: Text('Email: ',
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline4
-                        .apply(fontSizeDelta: -4)),
-              ),
-              Container(
-                margin:
-                    const EdgeInsets.only(top: 20.0, bottom: 8.0, right: 30.0),
-                child: Text('candidato@fe.up.pt',
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline4
-                        .apply(fontSizeDelta: -4)),
-              )
+                  margin:
+                      const EdgeInsets.only(top: 0, bottom: 12.0, left: 20.0),
+                  child: Text('9:30h - 13:00h | 14:00h - 17:30h',
+                      //textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.headline3))
             ]),
             TableRow(children: [
               Container(
                 margin:
                     const EdgeInsets.only(top: 20.0, bottom: 8.0, left: 20.0),
-                child: Text('Telefone: ',
+                child: Text('Telefone',
+                    //textAlign: TextAlign.center,
                     style: Theme.of(context)
                         .textTheme
                         .headline4
                         .apply(fontSizeDelta: -4)),
               ),
+            ]),
+            TableRow(children: [
+              Container(
+                  margin:
+                      const EdgeInsets.only(top: 0.0, bottom: 8.0, left: 20.0),
+                  child: Text('+351 22 041 3508',
+                      //textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.headline3))
+            ]),
+            TableRow(children: [
               Container(
                 margin:
-                    const EdgeInsets.only(top: 20.0, bottom: 8.0, right: 30.0),
-                child: Text('+351 22 041 3508',
+                    const EdgeInsets.only(top: 20.0, bottom: 8.0, left: 20.0),
+                child: Text('Gestão de Acesso, Ingresso e Certificação',
+                    //textAlign: TextAlign.center,
                     style: Theme.of(context)
                         .textTheme
                         .headline4
                         .apply(fontSizeDelta: -4)),
-              )
-            ])
+              ),
+            ]),
+            TableRow(children: [
+              Container(
+                  margin:
+                      const EdgeInsets.only(top: 0.0, bottom: 8.0, left: 20.0),
+                  child: Text('candidato@fe.up.pt',
+                      //textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.headline3))
+            ]),
           ]),
     ]);
   }
 
   @override
-  String getTitle() => 'Info Desk';
+  String getTitle() => 'Serviços Académicos';
 
   @override
   onClick(BuildContext context) {}
