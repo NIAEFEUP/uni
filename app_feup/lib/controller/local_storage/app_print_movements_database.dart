@@ -2,11 +2,9 @@ import 'dart:async';
 import 'package:uni/controller/local_storage/app_database.dart';
 import 'package:sqflite/sqflite.dart';
 
-/// Manages the app's Bus Stops database.
+/// Manages the app's Print Movements database.
 ///
-/// This database stores information about the bus stops that the user
-/// wants to keep track of. It also stores information about
-/// which ones are the user's favorite stops.
+/// This database stores information about the user's print movements
 class AppPrintMovementsDatabase extends AppDatabase {
   AppPrintMovementsDatabase()
       : super('print_movements.db', [
