@@ -16,6 +16,7 @@ import 'package:uni/view/Pages/exams_page_view.dart';
 import 'package:uni/view/Pages/home_page_view.dart';
 import 'package:uni/view/Pages/logout_route.dart';
 import 'package:uni/view/Pages/splash_page_view.dart';
+import 'package:uni/view/Pages/useful_links_card_page_view.dart';
 import 'package:uni/view/Widgets/page_transition.dart';
 import 'package:uni/view/navigation_service.dart';
 import 'package:uni/view/theme.dart';
@@ -90,6 +91,9 @@ class MyAppState extends State<MyApp> {
                     page: BugReportPageView(),
                     settings: settings,
                     maintainState: false);
+              case '/' + Constants.navUsefulLinks:
+                return PageTransition.makePageTransition(
+                    page: UsefulLinksCardView(), settings: settings);
               case '/' + Constants.navLogOut:
                 return LogoutRoute.buildLogoutRoute();
             }

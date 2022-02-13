@@ -7,3 +7,4 @@ const navStops = 'Paragens';
 const navAbout = 'Sobre';
 const navBugReport = 'Bugs e Sugestões';
 const navLogOut = 'Terminar sessão';
+const navUsefulLinks = 'Links Úteis';
