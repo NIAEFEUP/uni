@@ -7,7 +7,7 @@ class CoffeeMachine implements Location{
   final int floor;
 
   @override
-  final weight = 2;
+  final weight = 3;
 
   @override
   final icon = FontAwesomeIcons.coffee;

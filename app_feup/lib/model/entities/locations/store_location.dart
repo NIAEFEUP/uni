@@ -7,7 +7,7 @@ class StoreLocation implements Location{
   final int floor;
 
   @override
-  final weight = 3;
+  final weight = 4;
 
   final String name;
   @override

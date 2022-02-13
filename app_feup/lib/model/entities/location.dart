@@ -1,5 +1,6 @@
 
 import 'package:uni/model/entities/locations/coffee_machine.dart';
+import 'package:uni/model/entities/locations/restaurant_location.dart';
 import 'package:uni/model/entities/locations/room_group_location.dart';
 import 'package:uni/model/entities/locations/special_room_location.dart';
 import 'package:uni/model/entities/locations/store_location.dart';
@@ -57,8 +58,9 @@ abstract class Location{
 
   Map<String, dynamic> toMap({int groupId = null});
 
-  static Location fromJSON(Map<String, dynamic>args, int floor){
-    switch(args['type']){
+  static Location fromJSON(Map<String, dynamic> json, int floor){
+    final Map<String, dynamic> args = json['args'];
+    switch(json['type']){
       case 'COFFEE_MACHINE':
         return CoffeeMachine(floor);
         break;
@@ -81,11 +83,12 @@ abstract class Location{
         return Printer(floor);
         break;
       case 'RESTAURANT':
-        return Printer(floor);
+        return RestaurantLocation(floor, args['name']);
         break;
       case 'STORE':
         return StoreLocation(floor, args['name']);
         break;
+
     }
     return null;
   }
