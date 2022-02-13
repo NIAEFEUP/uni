@@ -30,11 +30,4 @@ class Restaurant{
       'ref': reference
     };
   }
-
-
-
-
-
-
-
 }

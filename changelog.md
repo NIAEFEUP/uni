@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Send bug reports and app crashes details to Sentry
 - Clickable checkbox rows
-- Fetch restaurants from sigarra and stored locally using action creator
+- Fetch restaurants from sigarra and stored locally
 
 ### Fixed
 
