@@ -42,7 +42,6 @@ class AcademicServicesCard extends GenericCard {
                 margin:
                     const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 20.0),
                 child: Text('Atendimento telefónico',
-                    //textAlign: TextAlign.center,
                     style: Theme.of(context)
                         .textTheme
                         .headline4
@@ -54,7 +53,6 @@ class AcademicServicesCard extends GenericCard {
                   margin:
                       const EdgeInsets.only(top: 0.0, bottom: 8.0, left: 20.0),
                   child: Text('9:30h - 12:00h | 14:00h - 16:00h',
-                      //textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.headline3))
             ]),
             TableRow(children: [
@@ -62,7 +60,6 @@ class AcademicServicesCard extends GenericCard {
                 margin:
                     const EdgeInsets.only(top: 20.0, bottom: 8.0, left: 20.0),
                 child: Text('Telefone',
-                    //textAlign: TextAlign.center,
                     style: Theme.of(context)
                         .textTheme
                         .headline4
@@ -74,7 +71,6 @@ class AcademicServicesCard extends GenericCard {
                   margin:
                       const EdgeInsets.only(top: 0.0, bottom: 8.0, left: 20.0),
                   child: Text('+351 22 508 1977',
-                      //textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.headline3))
             ]),
             TableRow(children: [
@@ -82,7 +78,6 @@ class AcademicServicesCard extends GenericCard {
                   margin:
                       const EdgeInsets.only(top: 0.0, bottom: 8.0, left: 20.0),
                   child: Text('+351 22 508 1405',
-                      //textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.headline3))
             ]),
             TableRow(children: [
@@ -90,7 +85,6 @@ class AcademicServicesCard extends GenericCard {
                 margin:
                     const EdgeInsets.only(top: 20.0, bottom: 8.0, left: 20.0),
                 child: Text('Gestão de Acesso, Ingresso e Certificação',
-                    //textAlign: TextAlign.center,
                     style: Theme.of(context)
                         .textTheme
                         .headline4
@@ -129,8 +123,7 @@ class AcademicServicesCard extends GenericCard {
               Container(
                   margin:
                       const EdgeInsets.only(top: 0.0, bottom: 8.0, left: 20.0),
-                  child: Text('percurso.académico@fe.up.pt',
-                      //textAlign: TextAlign.center,
+                  child: Text('percurso.academico@fe.up.pt',
                       style: Theme.of(context).textTheme.headline3))
             ]),
             TableRow(children: [
@@ -138,7 +131,6 @@ class AcademicServicesCard extends GenericCard {
                 margin:
                     const EdgeInsets.only(top: 20.0, bottom: 8.0, left: 20.0),
                 child: Text('Gestão de curso',
-                    //textAlign: TextAlign.center,
                     style: Theme.of(context)
                         .textTheme
                         .headline4
@@ -150,7 +142,6 @@ class AcademicServicesCard extends GenericCard {
                   margin:
                       const EdgeInsets.only(top: 0.0, bottom: 8.0, left: 20.0),
                   child: Text('suporte.cursos@fe.up.pt',
-                      //textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.headline3))
             ]),
           ]),

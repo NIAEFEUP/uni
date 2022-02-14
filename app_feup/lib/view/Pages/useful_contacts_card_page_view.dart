@@ -18,7 +18,7 @@ class UsefulContactsCardViewState extends GeneralPageViewState {
 
 List<Widget> childrenList(BuildContext context) {
   final List<Widget> list = [];
-  list.add(AcademicServicesCard());
   list.add(InfoDeskCard());
+  list.add(AcademicServicesCard());
   return list;
 }
