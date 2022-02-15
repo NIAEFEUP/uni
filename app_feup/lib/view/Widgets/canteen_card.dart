@@ -26,7 +26,7 @@ class CanteenCard extends GenericCard {
   @override
   Widget buildCardContent(BuildContext context) {
     return StoreConnector<AppState, Tuple2<String, RequestStatus>> (
-        converter: (store) => Tuple2('Cantina da FEUP - Almoço',
+        converter: (store) => Tuple2('', // TODO: Issue #390
          RequestStatus.none),
         builder: (context, canteen) {
           return RequestDependentWidgetBuilder(
@@ -43,18 +43,18 @@ class CanteenCard extends GenericCard {
       });
   }
 
-  Widget generateCanteens(cantines, context) {
+  Widget generateCanteens(canteens, context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        createRowFromCanteen(context, cantines)
+        createRowFromCanteen(context, canteens)
       ],
     );
   }
 
-  Widget createRowFromCanteen(context, String canteen) { // TODO: Canteen class
+  Widget createRowFromCanteen(context, String canteen) { // TODO: Issue #390
     return Column(children: [
-      DateRectangle(date: 'Segunda' + ', ' + '08' + ' de ' + 'Janeiro'),
+      DateRectangle(date: ''), // TODO: Issue #390
        // cantine.nextSchoolDay
       Container(
         child: Center(
@@ -70,10 +70,10 @@ class CanteenCard extends GenericCard {
           color:  Color.fromARGB(0, 0, 0, 0),
           child:  CanteenRow(
             local: canteen,
-            meatMenu: 'Tripas à moda do Porto',
-            fishMenu: 'Bacalhau à Brás',
-            vegetarianMenu: 'Risoto de shitake',
-            dietMenu: 'Perna de frango cozida com batata',
+            meatMenu: '', // TODO: Issue #390
+            fishMenu: '',
+            vegetarianMenu: '',
+            dietMenu: '',
          )
         ),
       ),
