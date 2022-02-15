@@ -10,19 +10,23 @@ import 'package:uni/model/app_state.dart';
 import 'package:uni/redux/action_creators.dart';
 import 'package:uni/redux/actions.dart';
 import 'package:uni/redux/refresh_items_action.dart';
+import 'package:uni/model/user_credentials.dart';
 
 import 'local_storage/app_shared_preferences.dart';
 
 Future loadReloginInfo(Store<AppState> store) async {
-  final Tuple3<String, String, List<String>> userPersistentInfo =
+  final UserCredentials userPersistentInfo =
       await AppSharedPreferences.getPersistentUserInfoFac();
-  final String userName = userPersistentInfo.item1;
-  final String password = userPersistentInfo.item2;
-  final List<String> faculties = userPersistentInfo.item3;
-  if (userName != '' && password != '' && faculties != []) {
+  final String userName = userPersistentInfo.userNumber;
+  final String password = userPersistentInfo.userPassword;
+  final List<String> faculties = userPersistentInfo.userFaculties.isEmpty
+      ? userPersistentInfo.userFaculties
+      : ['feup'];
+
+  if (userName != '' && password != '') {
     final action = Completer();
 
-    /// TODO: support for multiple faculties
+    /// TODO: support for multiple faculties. Issue: #445
     store.dispatch(reLogin(userName, password, faculties[0], action: action));
     return action.future;
   }

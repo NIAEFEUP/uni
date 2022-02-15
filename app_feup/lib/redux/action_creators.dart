@@ -36,6 +36,7 @@ import 'package:uni/redux/actions.dart';
 import '../model/entities/bus_stop.dart';
 
 ThunkAction<AppState> reLogin(username, password, faculty, {Completer action}) {
+  /// TODO: support for multiple faculties. Issue: #445
   return (Store<AppState> store) async {
     try {
       loadLocalUserInfoToState(store);
@@ -71,7 +72,7 @@ ThunkAction<AppState> login(username, password, faculties, persistentSession,
     try {
       store.dispatch(SetLoginStatusAction(RequestStatus.busy));
 
-      // TODO: multiple faculties support
+      /// TODO: support for multiple faculties. Issue: #445
       final Session session = await NetworkRouter.login(
           username, password, faculties[0], persistentSession);
       store.dispatch(SaveLoginDataAction(session));
@@ -79,12 +80,8 @@ ThunkAction<AppState> login(username, password, faculties, persistentSession,
         store.dispatch(SetLoginStatusAction(RequestStatus.successful));
         await loadUserInfoToState(store);
 
-        /// A little bit crude
-        /// Slide down has priority over shared preferences
-        /// if value is not null or something like that
-        if (faculties != []) {
-          store.dispatch(SetUserFaculties(faculties));
-        }
+        /// Faculties chosen in the dropdown
+        store.dispatch(SetUserFaculties(faculties));
         if (persistentSession) {
           AppSharedPreferences.savePersistentUserInfo(
               username, password, faculties);
