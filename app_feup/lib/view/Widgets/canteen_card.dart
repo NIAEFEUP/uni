@@ -3,16 +3,16 @@ import 'package:uni/model/app_state.dart';
 import 'package:flutter/material.dart';
 import 'package:tuple/tuple.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:uni/view/Widgets/cantine_row.dart';
+import 'package:uni/view/Widgets/canteen_row.dart';
 import 'package:uni/view/Widgets/request_dependent_widget_builder.dart';
 import 'package:uni/view/Widgets/row_container.dart';
 import 'date_rectangle.dart';
 import 'generic_card.dart';
 
-class CantineCard extends GenericCard {
-  CantineCard({Key key}) : super(key: key);
+class CanteenCard extends GenericCard {
+  CanteenCard({Key key}) : super(key: key);
 
-  CantineCard.fromEditingInformation(
+  CanteenCard.fromEditingInformation(
     Key key, bool editingMode, Function onDelete) 
   : super.fromEditingInformation(key, editingMode, onDelete);
 
@@ -28,14 +28,14 @@ class CantineCard extends GenericCard {
     return StoreConnector<AppState, Tuple2<String, RequestStatus>> (
         converter: (store) => Tuple2('Cantina da FEUP - Almoço',
          RequestStatus.none),
-        builder: (context, cantine) {
+        builder: (context, canteen) {
           return RequestDependentWidgetBuilder(
               context: context,
-              status: cantine.item2,
-              contentGenerator: generateCantines,
-              content: cantine.item1,
+              status: canteen.item2,
+              contentGenerator: generateCanteens,
+              content: canteen.item1,
               contentChecker:
-                  cantine.item1 != null && cantine.item1.isNotEmpty,
+                  canteen.item1 != null && canteen.item1.isNotEmpty,
               onNullContent: Center(
                   child: Text('Não existem cantinas para apresentar',
                       style: Theme.of(context).textTheme.headline4,
@@ -43,16 +43,16 @@ class CantineCard extends GenericCard {
       });
   }
 
-  Widget generateCantines(cantines, context) {
+  Widget generateCanteens(cantines, context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        createRowFromCantine(context, cantines)
+        createRowFromCanteen(context, cantines)
       ],
     );
   }
 
-  Widget createRowFromCantine(context, String cantine) { // TODO: Cantine class
+  Widget createRowFromCanteen(context, String canteen) { // TODO: Canteen class
     return Column(children: [
       DateRectangle(date: 'Segunda' + ', ' + '08' + ' de ' + 'Janeiro'),
        // cantine.nextSchoolDay
@@ -60,18 +60,16 @@ class CantineCard extends GenericCard {
         child: Center(
           child: Container(
               padding: EdgeInsets.all(12.0),
-              decoration: BoxDecoration(
-              border: Border(bottom: BorderSide(
-                width: 0.1, color: Theme.of(context).accentColor))),
-              child: Text(cantine)
+              child: Text(canteen)
           )
         ),
       ),
-      Container(
+      Card(
+        elevation: 1,
         child: RowContainer(
-          color: Theme.of(context).backgroundColor,
-          child:  CantineRow(
-            local: cantine,
+          color:  Color.fromARGB(0, 0, 0, 0),
+          child:  CanteenRow(
+            local: canteen,
             meatMenu: 'Tripas à moda do Porto',
             fishMenu: 'Bacalhau à Brás',
             vegetarianMenu: 'Risoto de shitake',
