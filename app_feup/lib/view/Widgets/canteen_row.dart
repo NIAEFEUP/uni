@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class CantineRow extends StatelessWidget {
+class CanteenRow extends StatelessWidget {
   final String local;
   final String meatMenu;
   final String fishMenu;
@@ -8,7 +8,7 @@ class CantineRow extends StatelessWidget {
   final String dietMenu;
   final double iconSize;
 
-  CantineRow(
+  CanteenRow(
       {Key key,
         @required this.local,
         @required this.meatMenu,
@@ -42,12 +42,50 @@ class CantineRow extends StatelessWidget {
             decoration: BoxDecoration(
                 border: Border(
                     bottom: BorderSide(
-                        width: 0.1, color: Theme.of(context).accentColor))),
+                        width: 0.7, color: Theme.of(context).accentColor))),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget> [
+                  Icon(Icons.restaurant, size: this.iconSize),
+                  Expanded(
+                      child: Text(this.meatMenu,
+                        textAlign: TextAlign.center
+                      )
+                  ) ,
+              ]
+            )),
+        Container(
+            padding: EdgeInsets.all(12.0),
+            decoration: BoxDecoration(
+                border: Border(
+                    bottom: BorderSide(
+                        width: 0.7, color: Theme.of(context).accentColor))),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget> [
+                  Icon(Icons.restaurant, size: this.iconSize),
+                  Expanded(
+                      child: Text(this.fishMenu,
+                          textAlign: TextAlign.center
+                      )
+                  ) ,
+              ]
+            )),
+        Container(
+            padding: EdgeInsets.all(12.0),
+            decoration: BoxDecoration(
+                border: Border(
+                    bottom: BorderSide(
+                        width: 0.7, color: Theme.of(context).accentColor))),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget> [
-                  Icon(Icons.restaurant, size: this.iconSize), 
-                  Expanded(child: Text(this.meatMenu)) ,
+                  Icon(Icons.restaurant, size: this.iconSize),
+                  Expanded(
+                    child: Text(this.vegetarianMenu,
+                        textAlign: TextAlign.center
+                    )
+                ) ,
               ]
             )),
         Container(
@@ -55,40 +93,17 @@ class CantineRow extends StatelessWidget {
             decoration: BoxDecoration(
                 border: Border(
                     bottom: BorderSide(
-                        width: 0.1, color: Theme.of(context).accentColor))),
+                        width: 0.7, color: Theme.of(context).accentColor))),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget> [
-                  Icon(Icons.restaurant, size: this.iconSize), 
-                  Expanded(child: Text(this.fishMenu)) ,
-              ]
-            )),
-        Container(
-            padding: EdgeInsets.all(12.0),
-            decoration: BoxDecoration(
-                border: Border(
-                    bottom: BorderSide(
-                        width: 0.1, color: Theme.of(context).accentColor))),
-            child: Row(
-              //mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget> [
-                  Icon(Icons.restaurant, size: this.iconSize), 
-                  Expanded(child: Text(this.vegetarianMenu)) ,
-              ]
-            )),
-        Container(
-            padding: EdgeInsets.all(12.0),
-            decoration: BoxDecoration(
-                border: Border(
-                    bottom: BorderSide(
-                        width: 0.1, color: Theme.of(context).accentColor))),
-            child: Row(
-              //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget> [
-                  Icon(Icons.restaurant, size: this.iconSize), 
-                  Expanded(child: Text(this.dietMenu)) ,
+                  Icon(Icons.restaurant, size: this.iconSize),
+                  Expanded(
+                       child: Text(this.dietMenu,
+                           textAlign: TextAlign.center
+                    )
+                ) ,
               ]
             )),
       ];
-
 }
