@@ -75,9 +75,7 @@ class GenericCardState extends State<GenericCard> {
                 ),
                 child: Container(
                   decoration: BoxDecoration(
-                      color: Theme.of(context).brightness == Brightness.light
-                          ? Colors.white
-                          : Colors.black,
+                      color: Theme.of(context).cardColor,
                       borderRadius:
                           BorderRadius.all(Radius.circular(this.borderRadius))),
                   width: (double.infinity),
@@ -93,10 +91,7 @@ class GenericCardState extends State<GenericCard> {
                                     .textTheme
                                     .headline5
                                     .apply(
-                                        color: Theme.of(context).brightness ==
-                                                Brightness.light
-                                            ? Theme.of(context).primaryColor
-                                            : Colors.white)),
+                                        color: Theme.of(context).primaryColor)),
                             alignment: Alignment.centerLeft,
                             padding: EdgeInsets.symmetric(horizontal: 15),
                             margin: EdgeInsets.only(top: 15, bottom: 10),

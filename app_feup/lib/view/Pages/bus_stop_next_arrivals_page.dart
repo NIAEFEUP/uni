@@ -103,7 +103,7 @@ class _NextArrivalsState extends State<NextArrivals>
       result.addAll(this.getContent(context));
     } else {
       result.add(Container(
-          child: Text('Não se encontram configuradas paragens',
+          child: Text('Não existe nenhuma paragem configurada',
               style: Theme.of(context).textTheme.headline6)));
     }
 

@@ -200,8 +200,12 @@ class _LoginPageViewState extends State<LoginPageView> {
   /// Creates the widget for the user to keep signed in (save his data).
   Widget createSaveDataCheckBox() {
     return CheckboxListTile(
-      activeColor: Colors.white,
-      checkColor: Theme.of(context).primaryColor,
+      activeColor: Theme.of(context).brightness == Brightness.light
+          ? Colors.white
+          : Colors.black54,
+      checkColor: Theme.of(context).brightness == Brightness.light
+          ? Theme.of(context).primaryColor
+          : Colors.white,
       value: _keepSignedIn,
       onChanged: _setKeepSignedIn,
       title: Text(
