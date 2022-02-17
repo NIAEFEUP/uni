@@ -131,11 +131,11 @@ class GenericCardState extends State<GenericCard> {
 
   Widget getMoveIcon(context) {
     return (widget.editingMode != null && widget.editingMode)
-        ? IconButton(
-          iconSize: 22.0,
+        ? Icon(
+          Icons.drag_handle_rounded,
           color: Colors.grey.shade500,
-          icon: Icon(Icons.drag_handle_rounded)
+          size: 22.0
         )
-        : null;
+        : null; 
   }
 }
