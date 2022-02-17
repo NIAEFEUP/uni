@@ -8,7 +8,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added 
 - Clickable checkbox rows
-- Button to add exams details to calendar
 
 ### Fixed
 - Fix inconsistency in lecture display

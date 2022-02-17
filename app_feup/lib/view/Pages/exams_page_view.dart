@@ -112,7 +112,7 @@ class ExamsList extends StatelessWidget {
     examCards.add(TitleCard(
         day: exams[0].day, weekDay: exams[0].weekDay, month: exams[0].month));
     for (int i = 0; i < exams.length; i++) {
-       examCards.add(this.createExamContext(context, exams[i]));
+      examCards.add(this.createExamContext(context, exams[i]));
     }
     return Column(children: examCards);
   }
