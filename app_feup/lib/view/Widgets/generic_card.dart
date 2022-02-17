@@ -27,7 +27,7 @@ abstract class GenericCard extends StatefulWidget {
   onClick(BuildContext context);
 
   Text getInfoText(String text, BuildContext context) {
-    return Text(text == null ? 'N/A' : text,
+    return Text(text ?? 'N/A',
         textAlign: TextAlign.end, style: Theme.of(context).textTheme.headline3);
   }
 

@@ -28,10 +28,7 @@ class PrintInfoCard extends GenericCard {
                   margin: const EdgeInsets.only(
                       top: 20.0, bottom: 20.0, left: 20.0),
                   child: Text('Valor disponível: ',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline4
-                          .apply(fontSizeDelta: -2)),
+                      style: Theme.of(context).textTheme.headline4),
                 ),
                 Container(
                   margin: const EdgeInsets.only(
@@ -39,11 +36,10 @@ class PrintInfoCard extends GenericCard {
                   child: StoreConnector<AppState, String>(
                       converter: (store) => store.state.content['printBalance'],
                       builder: (context, printBalance) => Text(
-                          printBalance == null ? 'N/A' : printBalance,
+                          printBalance ?? 'N/A',
                           textAlign: TextAlign.end,
                           style: Theme.of(context).textTheme.headline3.apply(
-                              color: Color.fromARGB(255, 0x30, 0x30, 0x30),
-                              fontWeightDelta: 1))),
+                              color: Color.fromARGB(255, 0x30, 0x30, 0x30)))),
                 ),
               ])
             ]),
@@ -52,10 +48,7 @@ class PrintInfoCard extends GenericCard {
             margin: const EdgeInsets.only(
                 top: 5.0, bottom: 0.0, left: 20.0, right: 20.0),
             child: Text('Movimentos Recentes: ',
-                style: Theme.of(context)
-                    .textTheme
-                    .headline4
-                    .apply(fontSizeDelta: -2))),
+                style: Theme.of(context).textTheme.headline4)),
         Container(
             margin: const EdgeInsets.only(
                 top: 5.0, bottom: 20.0, left: 20.0, right: 20.0),

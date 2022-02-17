@@ -21,17 +21,6 @@ class AppPrintMovementsDatabase extends AppDatabase {
     return movements;
   }
 
-  /// Adds all entries from [movements] to this database.
-  Future<void> _insertPrintMovements(List movements) async {
-    movements.forEach((movement) async {
-      await insertInDatabase(
-        'movements',
-        {'datetime': movement['datetime'], 'value': movement['value']},
-        conflictAlgorithm: ConflictAlgorithm.replace,
-      );
-    });
-  }
-
   /// Deletes all of the movements from this database.
   Future<void> deletePrintMovements() async {
     // Get a reference to the database
@@ -42,7 +31,18 @@ class AppPrintMovementsDatabase extends AppDatabase {
   /// Replaces all the movements in this database with entries
   /// from [movements].
   Future<void> setPrintMovements(List movements) async {
-    await deletePrintMovements();
-    await _insertPrintMovements(movements);
+    final Database db = await this.getDatabase();
+
+    await db.transaction((txn) async {
+      await txn.delete('movements');
+
+      movements.forEach((movement) async {
+        await insertInDatabase(
+          'movements',
+          {'datetime': movement['datetime'], 'value': movement['value']},
+          conflictAlgorithm: ConflictAlgorithm.replace,
+        );
+      });
+    });
   }
 }
