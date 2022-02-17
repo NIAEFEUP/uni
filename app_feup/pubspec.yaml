@@ -7,12 +7,12 @@ description: A FEUP no teu bolso
 # Both the version and the builder number may be overridden in flutter
 # build by specifying --build-name and --build-number, respectively.
 # Read more about versioning at semver.org.
-version: 1.1.1+24
+
+version: 1.1.1+27
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
   flutter: 2.0.1
-
 
 dependencies:
   flutter:
@@ -40,6 +40,9 @@ dependencies:
   intl: ^0.17.0
   crypto: ^3.0.1
   add_2_calendar: ^1.4.0
+  sentry_flutter: ^5.0.0
+  email_validator: ^1.0.6
+
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
@@ -65,13 +68,11 @@ flutter_native_splash:
   color: "ffffff"
   fill: true
 
-
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec
 
 # The following section is specific to Flutter.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -104,10 +105,10 @@ flutter:
   #  - images/a_dot_burr.jpeg
   #  - images/a_dot_ham.jpeg
   assets:
-   - assets/
-   - assets/images/
-   - assets/env/
-   - assets/text/
+    - assets/
+    - assets/images/
+    - assets/env/
+    - assets/text/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.
