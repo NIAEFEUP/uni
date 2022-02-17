@@ -37,7 +37,7 @@ class AppPrintMovementsDatabase extends AppDatabase {
       await txn.delete('movements');
 
       movements.forEach((movement) async {
-        await insertInDatabase(
+        insertInDatabase(
           'movements',
           {'datetime': movement['datetime'], 'value': movement['value']},
           conflictAlgorithm: ConflictAlgorithm.replace,
