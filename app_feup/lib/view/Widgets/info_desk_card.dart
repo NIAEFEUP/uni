@@ -60,7 +60,7 @@ class InfoDeskCard extends GenericCard {
               Container(
                 margin:
                     const EdgeInsets.only(top: 20.0, bottom: 8.0, left: 20.0),
-                child: Text('Email: ',
+                child: Text('Email ',
                     //textAlign: TextAlign.center,
                     style: Theme.of(context)
                         .textTheme
