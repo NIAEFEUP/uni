@@ -3,17 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_popup/flutter_map_marker_popup.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:uni/model/entities/location.dart';
 import 'package:uni/model/entities/location_group.dart';
 import 'package:uni/view/Widgets/location_marker.dart';
-import 'package:uni/model/entities/locations/coffee_machine.dart';
-import 'package:uni/model/entities/locations/restaurant_location.dart';
-import 'package:uni/model/entities/locations/room_group_location.dart';
-import 'package:uni/model/entities/locations/room_location.dart';
-import 'package:uni/model/entities/locations/special_room_location.dart';
-import 'package:uni/model/entities/locations/vending_machine.dart';
 import 'package:uni/view/Widgets/floorless_location_marker_popup.dart';
 import 'package:uni/view/Widgets/location_marker_popup.dart';
 

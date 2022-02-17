@@ -1,7 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:collection/collection.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:latlong2/latlong.dart';
 import '../../model/entities/location.dart';
 import '../../model/entities/location_group.dart';
@@ -27,11 +27,30 @@ class LocationMarker extends Marker{
             ),
             borderRadius: BorderRadius.all(Radius.circular(20))
           ),
-          child: Icon(
-            locationGroup.getFirst().icon,
-            color: Theme.of(ctx).accentColor,
-            size: 12),
+          child: getIcon(locationGroup.getFirst(), ctx),
         ),
       );
+  static Widget getIcon(Location location, BuildContext context){
+    if(location.icon is String){
+      print(location.icon);
+      return Container(
+        padding: const EdgeInsets.all(2.0),
+        child: SvgPicture.asset(
+          location.icon,
+          color: Theme.of(context).accentColor
 
+        )
+      );
+    } else if (location.icon is IconData){
+      return Icon(
+          location.icon,
+          color: Theme.of(context).accentColor,
+          size: 12);
+    } else {
+      return Icon(
+          CupertinoIcons.question_diamond_fill,
+          color: Theme.of(context).accentColor,
+          size: 12);
+    }
+  }
 }

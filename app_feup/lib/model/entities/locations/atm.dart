@@ -1,5 +1,4 @@
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
+import 'package:flutter/cupertino.dart';
 import '../location.dart';
 
 class Atm implements Location{
@@ -10,7 +9,7 @@ class Atm implements Location{
   final weight = 2;
 
   @override
-  final icon = FontAwesomeIcons.moneyBill;
+  final icon = CupertinoIcons.creditcard;
 
   Atm(this.floor);
 

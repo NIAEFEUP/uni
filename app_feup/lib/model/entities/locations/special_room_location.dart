@@ -1,4 +1,4 @@
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter/material.dart';
 
 import '../location.dart';
 
@@ -12,7 +12,7 @@ class SpecialRoomLocation implements Location{
   final String roomNumber;
   final String name;
   @override
-  final icon = FontAwesomeIcons.solidStar;
+  final icon = Icons.star;
 
   SpecialRoomLocation(this.floor, this.roomNumber, this.name);
 

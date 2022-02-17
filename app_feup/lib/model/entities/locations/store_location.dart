@@ -1,4 +1,4 @@
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter/material.dart';
 
 import '../location.dart';
 
@@ -11,7 +11,7 @@ class StoreLocation implements Location{
 
   final String name;
   @override
-  final icon = FontAwesomeIcons.store;
+  final icon = Icons.store;
 
   StoreLocation(this.floor,this.name);
 

@@ -1,4 +1,4 @@
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter/cupertino.dart';
 
 import '../location.dart';
 
@@ -10,7 +10,7 @@ class Printer implements Location{
   final weight = 1;
 
   @override
-  final icon = FontAwesomeIcons.print;
+  final icon = CupertinoIcons.printer_fill;
 
   Printer(this.floor);
 

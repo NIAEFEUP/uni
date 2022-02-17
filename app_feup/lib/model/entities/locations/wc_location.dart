@@ -1,33 +1,30 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import '../location.dart';
 
-class RestaurantLocation implements Location{
+class WcLocation implements Location{
   @override
   final int floor;
 
   @override
-  final weight = 4;
-
-  final name;
+  final weight = 1;
 
   @override
-  final icon = Icons.restaurant;
+  final icon = Icons.wc;
 
-  RestaurantLocation(this.floor,this.name);
+  WcLocation(this.floor);
 
   @override
   String description(){
-    return this.name;
+    return 'Atm';
   }
 
   @override
   Map<String, dynamic> toMap({int groupId = null}){
     return {
-      'floor' : this.floor,
-      'type' : locationTypeToString(LocationType.restaurant),
-      'name' : this.name
+      'floor' : floor,
+      'type' : locationTypeToString(LocationType.atm)
     };
   }
+
 }

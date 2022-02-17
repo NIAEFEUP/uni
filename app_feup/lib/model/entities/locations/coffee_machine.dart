@@ -1,5 +1,3 @@
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
 import '../location.dart';
 
 class CoffeeMachine implements Location{
@@ -10,7 +8,8 @@ class CoffeeMachine implements Location{
   final weight = 3;
 
   @override
-  final icon = FontAwesomeIcons.coffee;
+  final icon = 'assets/images/coffee.svg';
+
 
   CoffeeMachine(this.floor);
 

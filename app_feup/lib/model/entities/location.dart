@@ -5,6 +5,7 @@ import 'package:uni/model/entities/locations/room_group_location.dart';
 import 'package:uni/model/entities/locations/special_room_location.dart';
 import 'package:uni/model/entities/locations/store_location.dart';
 import 'package:uni/model/entities/locations/vending_machine.dart';
+import 'package:uni/model/entities/locations/wc_location.dart';
 
 import 'location_group.dart';
 import 'locations/atm.dart';
@@ -87,7 +88,9 @@ abstract class Location{
         break;
       case 'STORE':
         return StoreLocation(floor, args['name']);
-        break;
+      case 'WC':
+        return WcLocation(floor);
+
 
     }
     return null;

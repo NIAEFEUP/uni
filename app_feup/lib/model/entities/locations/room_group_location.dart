@@ -1,4 +1,4 @@
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter/cupertino.dart';
 
 import '../location.dart';
 
@@ -12,7 +12,7 @@ class RoomGroupLocation implements Location{
   final String firstRoomNumber;
   final String secondRoomNumber;
   @override
-  final icon = FontAwesomeIcons.book;
+  final icon = CupertinoIcons.book_solid;
 
   RoomGroupLocation(this.floor,this.firstRoomNumber, this.secondRoomNumber);
 

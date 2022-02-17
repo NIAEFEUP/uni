@@ -1,4 +1,5 @@
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 import '../location.dart';
 
@@ -10,7 +11,7 @@ class VendingMachine implements Location{
   final weight = 2;
 
   @override
-  final icon = FontAwesomeIcons.cookie;
+  final icon = CupertinoIcons.tag_fill;
 
   VendingMachine(this.floor);
 

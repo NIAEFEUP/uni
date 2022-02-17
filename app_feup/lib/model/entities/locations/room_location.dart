@@ -1,4 +1,4 @@
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter/cupertino.dart';
 
 import '../location.dart';
 
@@ -11,7 +11,7 @@ class RoomLocation implements Location{
 
   final String roomNumber;
   @override
-  final icon = FontAwesomeIcons.book;
+  final icon = CupertinoIcons.book_solid;
 
   RoomLocation(this.floor,this.roomNumber);
 
