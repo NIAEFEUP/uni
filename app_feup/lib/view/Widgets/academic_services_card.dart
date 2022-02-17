@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 import 'generic_card.dart';
 
 /// Manages the 'Current account' section inside the user's page (accessible
