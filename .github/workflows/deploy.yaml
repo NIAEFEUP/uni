@@ -38,6 +38,7 @@ jobs:
 
       - name: Create key.properties
         run: |
+          rm -f -- ${{env.PROPERTIES_PATH}}
           touch ${{env.PROPERTIES_PATH}}
           echo "storeFile=/tmp/key.jks" >> ${{env.PROPERTIES_PATH}}
           echo "storePassword=${{ secrets.ANDROID_KEYSTORE_PASSWORD }}" >> ${{env.PROPERTIES_PATH}}
@@ -75,6 +76,7 @@ jobs:
           packageName: ${{ secrets.ANDROID_PACKAGE_NAME }}
           releaseFiles: app-release.aab
           track: internal
+          status: completed
 
       - name: Release app to beta track
         if: github.ref == 'refs/heads/develop'
@@ -84,6 +86,7 @@ jobs:
           packageName: ${{ secrets.ANDROID_PACKAGE_NAME }}
           releaseFiles: app-release.aab
           track: beta
+          status: completed
 
       - name: Release app to production track
         if: github.ref == 'refs/heads/master'
@@ -94,3 +97,4 @@ jobs:
           releaseFiles: app-release.aab
           whatsNewDirectory: whatsnew
           track: production
+          status: completed
