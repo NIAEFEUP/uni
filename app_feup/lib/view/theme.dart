@@ -5,6 +5,7 @@ const Color _lightRed = Color.fromARGB(255, 190, 40, 40);
 const Color _white = Color.fromARGB(255, 232, 232, 232);
 const Color _mildWhite = Color.fromARGB(255, 0xfa, 0xfa, 0xfa);
 const Color _lightGrey = Color.fromARGB(255, 215, 215, 215);
+const Color _mildGrey = Color.fromARGB(255, 180, 180, 180);
 const Color _grey = Color.fromARGB(255, 0x7f, 0x7f, 0x7f);
 const Color _strongGrey = Color.fromARGB(255, 90, 90, 90);
 const Color _mildBlack = Color.fromARGB(255, 0x30, 0x30, 0x30);
@@ -81,7 +82,7 @@ ThemeData applicationDarkTheme = ThemeData(
   cardColor: Color.fromARGB(255, 43, 43, 43),
   textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
-          primary: Colors.white,
+          primary: _white,
           textStyle: TextStyle(fontSize: 15.0, fontWeight: FontWeight.w400))),
   textTheme: TextTheme(
     headline1: TextStyle(fontSize: 40.0, fontWeight: FontWeight.w400),
@@ -89,22 +90,22 @@ ThemeData applicationDarkTheme = ThemeData(
     headline3: TextStyle(fontSize: 28.0, fontWeight: FontWeight.w400),
     headline4: TextStyle(
         fontSize: 24.0, fontWeight: FontWeight.w300, color: Colors.white),
-    headline5:
-        TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400, color: _grey),
+    headline5: TextStyle(
+        fontSize: 20.0, fontWeight: FontWeight.w400, color: _mildGrey),
     headline6: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300),
     subtitle1: TextStyle(
         fontSize: 17.0, fontWeight: FontWeight.w300, color: _lightGrey),
-    subtitle2:
-        TextStyle(fontSize: 16.0, fontWeight: FontWeight.w300, color: _grey),
+    subtitle2: TextStyle(
+        fontSize: 16.0, fontWeight: FontWeight.w300, color: _mildGrey),
     bodyText1: TextStyle(
         fontSize: 16.0, fontWeight: FontWeight.w400, color: _lightGrey),
-    bodyText2:
-        TextStyle(fontSize: 14.0, fontWeight: FontWeight.w400, color: _grey),
+    bodyText2: TextStyle(
+        fontSize: 14.0, fontWeight: FontWeight.w400, color: _mildGrey),
     caption: TextStyle(fontSize: 13.0, fontWeight: FontWeight.w400),
   ),
   tabBarTheme: TabBarTheme(
-    unselectedLabelColor: Colors.white,
-    labelColor: Colors.white,
+    unselectedLabelColor: _white,
+    labelColor: _white,
     labelPadding: EdgeInsets.all(0.0),
   ),
   checkboxTheme: applicationLightTheme.checkboxTheme,
