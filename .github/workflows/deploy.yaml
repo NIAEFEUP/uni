@@ -3,7 +3,6 @@ on:
     branches:
       - master
       - develop
-      - featuer/ci-cd-release
 
 env:
   JAVA_VERSION: "11.x"
@@ -69,7 +68,7 @@ jobs:
           name: appbundle
 
       - name: Release app to internal track
-        if: github.ref == 'refs/heads/featuer/ci-cd-release'
+        if: github.ref == 'refs/heads/develop'
         uses: r0adkll/upload-google-play@v1
         with:
           serviceAccountJsonPlainText: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
