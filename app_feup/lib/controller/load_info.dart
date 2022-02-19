@@ -10,18 +10,18 @@ import 'package:uni/model/app_state.dart';
 import 'package:uni/redux/action_creators.dart';
 import 'package:uni/redux/actions.dart';
 import 'package:uni/redux/refresh_items_action.dart';
-import 'package:uni/model/user_credentials.dart';
 
 import 'local_storage/app_shared_preferences.dart';
 
 Future loadReloginInfo(Store<AppState> store) async {
-  final UserCredentials userPersistentInfo =
-      await AppSharedPreferences.getPersistentUserInfoFac();
-  final String userName = userPersistentInfo.userNumber;
-  final String password = userPersistentInfo.userPassword;
-  final List<String> faculties = userPersistentInfo.userFaculties.isEmpty
-      ? userPersistentInfo.userFaculties
-      : ['feup'];
+  final Tuple2<String, String> userPersistentCredentials =
+      await AppSharedPreferences.getPersistentUserInfo();
+  final List<String> userPersistentFacs =
+      await AppSharedPreferences.getUserFaculties();
+  final String userName = userPersistentCredentials.item1;
+  final String password = userPersistentCredentials.item2;
+  final List<String> faculties =
+      userPersistentFacs.isEmpty ? userPersistentFacs : ['feup'];
 
   if (userName != '' && password != '') {
     final action = Completer();

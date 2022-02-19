@@ -6,7 +6,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tuple/tuple.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/home_page_model.dart';
-import 'package:uni/model/user_credentials.dart';
 
 /// Manages the app's Shared Preferences.
 ///
@@ -73,16 +72,6 @@ class AppSharedPreferences {
     final prefs = await SharedPreferences.getInstance();
     prefs.remove(userNumber);
     prefs.remove(userPw);
-  }
-
-  /// Returns an object of the class UserCredentials
-  /// containing the user's student number and password
-  /// and faculties he is associated to.
-  static Future<UserCredentials> getPersistentUserInfoFac() async {
-    final String userNum = await getUserNumber();
-    final String userPass = await getUserPassword();
-    final List<String> userFaculties = await getUserFaculties();
-    return UserCredentials(userNum, userPass, userFaculties);
   }
 
   /// Returns a tuple containing the user's student number and password.
