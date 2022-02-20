@@ -94,12 +94,16 @@ class GenericCardState extends State<GenericCard> {
                             padding: EdgeInsets.symmetric(horizontal: 15),
                             margin: EdgeInsets.only(top: 15, bottom: 10),
                           )),
+                          Container(
+                            child: this.getMoveIcon(context),
+                            alignment: Alignment.center,
+                            margin: EdgeInsets.only(top: 15, bottom: 10),
+                          ),
                           Flexible(
-                              child: Container(
-                            child: getMoveIcon(context),
-                            alignment: Alignment.centerLeft,
-                          )),
-                          this.getDeleteIcon(context)
+                            child: Container(
+                              child: this.getDeleteIcon(context),
+                              alignment: Alignment.centerRight,
+                            )),
                         ].where((e) => e != null).toList(),
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       ),
@@ -121,7 +125,7 @@ class GenericCardState extends State<GenericCard> {
   Widget getDeleteIcon(context) {
     return (widget.editingMode != null && widget.editingMode)
         ? IconButton(
-            iconSize: 22.0,
+            iconSize: 22,
             icon: Icon(Icons.delete),
             tooltip: 'Remover',
             onPressed: widget.onDelete,
