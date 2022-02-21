@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - User faculty storage in shared preferences
 - Send bug reports and app crashes details to Sentry
 - Clickable checkbox rows
+- Fetch restaurants from sigarra and stored locally
+- Dropdown to choose the student's faculty in the login page
 
 ### Fixed
 

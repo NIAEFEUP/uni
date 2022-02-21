@@ -30,9 +30,9 @@ class _LoginPageViewState extends State<LoginPageView> {
   static final FocusNode passwordFocus = FocusNode();
 
   static final TextEditingController usernameController =
-      TextEditingController();
+  TextEditingController();
   static final TextEditingController passwordController =
-      TextEditingController();
+  TextEditingController();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   static bool _exitApp = false;
@@ -145,6 +145,8 @@ class _LoginPageViewState extends State<LoginPageView> {
       key: this._formKey,
       child: SingleChildScrollView(
         child: Column(children: [
+          createFacultyInput(),
+          Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)),
           createUsernameInput(context),
           Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)),
           createPasswordInput(),
@@ -152,6 +154,30 @@ class _LoginPageViewState extends State<LoginPageView> {
           createSaveDataCheckBox()
         ]),
       ),
+    );
+  }
+
+  /// Creates the widget for the user to choose their faculty
+  Widget createFacultyInput() {
+    return DropdownButton (
+      value: faculty.toUpperCase(),
+      items: Constants.faculties.map((value) =>
+          DropdownMenuItem (
+            value: value.toUpperCase(),
+            child: Text(value.toUpperCase()),
+          )
+      ).toList(),
+      onChanged: (newDropdownValue) {
+        setState(() {
+          faculty = newDropdownValue.toLowerCase();
+        });
+      },
+      isExpanded: true,
+      dropdownColor: Theme.of(context).accentColor,
+      iconDisabledColor: Theme.of(context).primaryColor,
+      iconEnabledColor: Theme.of(context).primaryColor,
+      style: TextStyle(color: Colors.white, fontSize: 20),
+      underline: Container(width: 200, height: 0.2, color: Colors.black87),
     );
   }
 
@@ -194,7 +220,7 @@ class _LoginPageViewState extends State<LoginPageView> {
         textAlign: TextAlign.left,
         decoration: passwordFieldDecoration('palavra-passe'),
         validator: (String value) =>
-            value.isEmpty ? 'Preenche este campo' : null);
+        value.isEmpty ? 'Preenche este campo' : null);
   }
 
   /// Creates the widget for the user to keep signed in (save his data).
