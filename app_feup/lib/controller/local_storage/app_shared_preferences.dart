@@ -90,10 +90,7 @@ class AppSharedPreferences {
   static Future<List<String>> getUserFaculties() async {
     final prefs = await SharedPreferences.getInstance();
     final List<String> storedFaculties = prefs.getStringList(userFaculties);
-    if (storedFaculties == null) {
-      return [];
-    }
-    return storedFaculties;
+    return storedFaculties == null ? [] : storedFaculties;
   }
 
   /// Returns the user's student number.
