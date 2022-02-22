@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Send bug reports and app crashes details to Sentry
 - Clickable checkbox rows
+- Calendar button to add an event to the calendar with the details of a exam
 
 ### Fixed
 
