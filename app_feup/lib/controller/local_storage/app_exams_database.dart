@@ -1,19 +1,38 @@
 import 'dart:async';
 import 'package:uni/controller/local_storage/app_database.dart';
 import 'package:uni/model/entities/exam.dart';
+
+import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:sqflite_migration/sqflite_migration.dart';
 
 /// Manages the app's Exams database.
 /// 
 /// This database stores information about the user's exams.
 /// See the [Exam] class to see what data is stored in this database.
 class AppExamsDatabase extends AppDatabase {
+
+  static final createScript =
+  '''CREATE TABLE exams(subject TEXT, begin TEXT, end TEXT,
+   rooms TEXT, examType TEXT, weekDay TEXT) ''';
+
+  /*
   AppExamsDatabase()
-      : super('exams.db', [
-          '''CREATE TABLE exams(subject TEXT, begin TEXT, end TEXT,
-          rooms TEXT, day TEXT, examType TEXT, weekDay TEXT, month TEXT, year TEXT)
-          '''
-        ]);
+      : super('exams.db',
+      ['''CREATE TABLE exams(subject TEXT, begin TEXT, end TEXT,
+          rooms TEXT, day TEXT, examType TEXT, weekDay TEXT, month TEXT, year TEXT) ''']);
+
+   */
+  AppExamsDatabase()
+      : super(
+              'exams.db',
+              [
+              createScript,
+              ],
+              onUpgrade: migrate,
+              version: 2);
+
+
 
   /// Replaces all of the data in this database with [exams].
   saveNewExams(List<Exam> exams) async {
@@ -33,14 +52,17 @@ class AppExamsDatabase extends AppDatabase {
     return List.generate(maps.length, (i) {
       return Exam.secConstructor(
           maps[i]['subject'],
-          maps[i]['begin'],
-          maps[i]['end'],
+          //maps[i]['begin'],
+          DateTime.parse(maps[i]['begin']),
+          DateTime.parse(maps[i]['end']),
+         // maps[i]['end'],
           maps[i]['rooms'],
-          maps[i]['day'],
+          //maps[i]['day'],
           maps[i]['examType'],
-          maps[i]['weekDay'],
-          maps[i]['month'],
-          maps[i]['year']);
+          maps[i]['weekDay']);
+         // maps[i]['month'],
+         // maps[i]['year']);
+          //DateTime.parse(maps[i]['date']));
     });
   }
 
@@ -63,5 +85,15 @@ class AppExamsDatabase extends AppDatabase {
     final Database db = await this.getDatabase();
 
     await db.delete('exams');
+  }
+
+  static FutureOr<void> migrate(
+      Database db, int oldVersion, int newVersion) async {
+    final batch = db.batch();
+    if (oldVersion< newVersion){
+      batch.execute('DROP TABLE IF EXISTS exams');
+      batch.execute(createScript);
+    }
+    await batch.commit();
   }
 }

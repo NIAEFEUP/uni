@@ -102,8 +102,8 @@ class ExamCard extends GenericCard {
           child: ScheduleRow(
             subject: exam.subject,
             rooms: exam.rooms,
-            begin: exam.begin,
-            end: exam.end,
+            begin: exam.begin.toString(),
+            end: exam.end.toString(),
             type: exam.examType,
           ),
         ),

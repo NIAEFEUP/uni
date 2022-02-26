@@ -35,8 +35,8 @@ var _types = {
 /// - The Exam `type`
 class Exam {
   String subject;
-  String begin;
-  String end;
+  DateTime begin;
+  DateTime end;
   List<String> rooms;
   String day;
   String examType;
@@ -45,30 +45,39 @@ class Exam {
   String year;
   DateTime date;
 
-  Exam.secConstructor(String subject, String begin, String end, String rooms,
-      String day, String examType, String weekDay, String month, String year) {
+  Exam.secConstructor(String subject, DateTime begin, DateTime end, String rooms,
+      String examType, String weekDay) {
     this.subject = subject;
     this.begin = begin;
     this.end = end;
     this.rooms = rooms.split(',');
-    this.day = day;
+    //this.day = day;
     this.examType = examType;
     this.weekDay = weekDay;
-    this.month = month;
-    this.year = year;
-
-    final monthKey = months[this.month];
-    this.date = DateTime.parse(year + '-' + monthKey + '-' + day);
+    //this.month = month;
+    //this.year = year;
+    final monthKey = months[begin.month];
+    //final monthKey = months[this.month];
+    //this.date = DateTime.parse(year + '-' + monthKey + '-' + day);
   }
 
   Exam(String schedule, String subject, String rooms, String date,
       String examType, String weekDay) {
-    this.subject = subject;
-    this.date = DateTime.parse(date);
     final scheduling = schedule.split('-');
     final dateSepared = date.split('-');
-    this.begin = scheduling[0];
-    this.end = scheduling[1];
+    this.date = DateTime.parse(date);
+    final DateTime endDateTime =
+     DateTime(this.date.year, this.date.month, this.date.day, int.parse(scheduling[1].split(':')[0]), int.parse(scheduling[1].split(':')[1]));
+    final DateTime beginDateTime =
+    DateTime(this.date.year, this.date.month, this.date.day, int.parse(scheduling[0].split(':')[0]), int.parse(scheduling[0].split(':')[1]));
+    //String sBegin = date + ' ' + scheduling[0] + ':00' ;
+    //String sEnd = date + ' ' + scheduling[1] + ':00' ;
+    this.begin = beginDateTime;
+    this.end = endDateTime;
+    this.subject = subject;
+    //this.date = DateTime.parse(date);
+    //this.begin = scheduling[0];
+    //this.end = scheduling[1];
     this.rooms = rooms.split(',');
     this.year = dateSepared[0];
     this.day = dateSepared[2];
@@ -97,11 +106,12 @@ class Exam {
   /// Returns whether or not this exam has already ended.
   bool hasEnded() {
     final DateTime now = DateTime.now();
-    final int endHour = int.parse(end.split(':')[0]);
-    final int endMinute = int.parse(end.split(':')[1]);
-    final DateTime endDateTime =
-        DateTime(date.year, date.month, date.day, endHour, endMinute);
-    return now.compareTo(endDateTime) <= 0;
+    //final int endHour = int.parse(end.split(':')[0]);
+    //final int endMinute = int.parse(end.split(':')[1]);
+    //final DateTime endDateTime =
+       // DateTime(date.year, date.month, date.day, endHour, endMinute);
+    //return now.compareTo(endDateTime) <= 0;
+    return now.compareTo(end) <= 0;
   }
 
   /// Prints the data in this exam to the [Logger] with an INFO level.
