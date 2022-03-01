@@ -2,19 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:uni/view/Pages/general_page_view.dart';
 import 'package:uni/view/Widgets/sigarra_links_card.dart';
-
+import 'package:uni/view/Widgets/other_links_card.dart';
 
 class UsefulLinksCardView extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => UsefulLinksCardViewState();
+  State<StatefulWidget> createState() => UsefulContactsCardViewState();
 }
 
-/// Manages the 'Useful Links' section of the app.
-class UsefulLinksCardViewState extends GeneralPageViewState {
+/// Manages the 'Useful Contacts' section of the app.
+class UsefulContactsCardViewState extends GeneralPageViewState {
   @override
   Widget getBody(BuildContext context) {
-    final MediaQueryData queryData = MediaQuery.of(context);
-    return ListView(children: <Widget>[SigarraLinksCard()]);
-
+    return ListView(children: childrenList(context));
   }
+}
+
+List<Widget> childrenList(BuildContext context) {
+  final List<Widget> list = [];
+  list.add(SigarraLinksCard());
+  list.add(OtherLinksCard());
+  return list;
 }
