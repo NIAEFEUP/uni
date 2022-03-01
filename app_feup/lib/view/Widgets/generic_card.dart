@@ -97,12 +97,13 @@ class GenericCardState extends State<GenericCard> {
                           Container(
                             child: this.getMoveIcon(context),
                             alignment: Alignment.center,
-                            margin: EdgeInsets.only(top: 15, bottom: 10),
+                            margin: EdgeInsets.only(top: 8),
                           ),
                           Flexible(
                             child: Container(
                               child: this.getDeleteIcon(context),
                               alignment: Alignment.centerRight,
+                              height: 32,
                             )),
                         ].where((e) => e != null).toList(),
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
