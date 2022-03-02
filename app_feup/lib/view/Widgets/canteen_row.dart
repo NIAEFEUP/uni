@@ -36,74 +36,39 @@ class CanteenRow extends StatelessWidget {
         ));
   }
 
-  List<Widget> getMenuRows(BuildContext context) => [
-        Container(
-            padding: EdgeInsets.all(12.0),
-            decoration: BoxDecoration(
-                border: Border(
-                    bottom: BorderSide(
-                        width: 0.7, color: Theme.of(context).accentColor))),
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget> [
-                  Icon(Icons.restaurant, size: this.iconSize),
-                  Expanded(
-                      child: Text(this.meatMenu,
-                        textAlign: TextAlign.center
-                      )
-                  ) ,
-              ]
-            )),
-        Container(
-            padding: EdgeInsets.all(12.0),
-            decoration: BoxDecoration(
-                border: Border(
-                    bottom: BorderSide(
-                        width: 0.7, color: Theme.of(context).accentColor))),
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget> [
-                  Icon(Icons.restaurant, size: this.iconSize),
-                  Expanded(
-                      child: Text(this.fishMenu,
-                          textAlign: TextAlign.center
-                      )
-                  ) ,
-              ]
-            )),
-        Container(
-            padding: EdgeInsets.all(12.0),
-            decoration: BoxDecoration(
-                border: Border(
-                    bottom: BorderSide(
-                        width: 0.7, color: Theme.of(context).accentColor))),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget> [
-                  Icon(Icons.restaurant, size: this.iconSize),
-                  Expanded(
-                    child: Text(this.vegetarianMenu,
-                        textAlign: TextAlign.center
-                    )
-                ) ,
-              ]
-            )),
-        Container(
-            padding: EdgeInsets.all(12.0),
-            decoration: BoxDecoration(
-                border: Border(
-                    bottom: BorderSide(
-                        width: 0.7, color: Theme.of(context).accentColor))),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget> [
-                  Icon(Icons.restaurant, size: this.iconSize),
-                  Expanded(
-                       child: Text(this.dietMenu,
-                           textAlign: TextAlign.center
-                    )
-                ) ,
-              ]
-            )),
-      ];
+  List<Widget> getMenuRows(BuildContext context) {
+    final List<Widget> widgets = [];
+    final List<String> meals = [meatMenu, fishMenu, vegetarianMenu,
+    dietMenu];
+    final Map<String, IconData> mealIcon = {
+    meatMenu: Icons.restaurant,
+    fishMenu: Icons.restaurant,
+    vegetarianMenu: Icons.restaurant,
+    dietMenu: Icons.restaurant};
+
+    meals.forEach((element) {
+      widgets.add(Container(
+        padding: EdgeInsets.all(12.0),
+        decoration: BoxDecoration(
+            border: Border(
+                bottom: BorderSide(
+                    width: 0.7, color: Theme
+                    .of(context)
+                    .accentColor))),
+        child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Icon(mealIcon[element], size: this.iconSize),
+              Expanded(
+                  child: Text(element,
+                      textAlign: TextAlign.center
+                  )
+              ),
+            ]
+        )));
+      }
+    );
+
+    return widgets;
+  }
 }
