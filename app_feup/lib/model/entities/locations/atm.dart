@@ -9,9 +9,9 @@ class Atm implements Location{
   final weight = 2;
 
   @override
-  final icon = CupertinoIcons.creditcard;
+  final icon = 'assets/images/cash_multiple.svg';
 
-  Atm(this.floor);
+  Atm(this.floor) : super();
 
   @override
   String description(){

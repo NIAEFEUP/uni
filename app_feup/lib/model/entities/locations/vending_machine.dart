@@ -1,6 +1,3 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-
 import '../location.dart';
 
 class VendingMachine implements Location{
@@ -11,7 +8,7 @@ class VendingMachine implements Location{
   final weight = 2;
 
   @override
-  final icon = CupertinoIcons.tag_fill;
+  final icon = 'assets/images/bottle_soda_classic.svg';
 
   VendingMachine(this.floor);
 

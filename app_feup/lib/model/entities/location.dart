@@ -1,4 +1,3 @@
-
 import 'package:uni/model/entities/locations/coffee_machine.dart';
 import 'package:uni/model/entities/locations/restaurant_location.dart';
 import 'package:uni/model/entities/locations/room_group_location.dart';
@@ -6,8 +5,6 @@ import 'package:uni/model/entities/locations/special_room_location.dart';
 import 'package:uni/model/entities/locations/store_location.dart';
 import 'package:uni/model/entities/locations/vending_machine.dart';
 import 'package:uni/model/entities/locations/wc_location.dart';
-
-import 'location_group.dart';
 import 'locations/atm.dart';
 import 'locations/printer.dart';
 import 'locations/room_location.dart';
@@ -21,7 +18,8 @@ enum LocationType{
   printer,
   restaurant,
   specialRoom,
-  store
+  store,
+  wc
 }
 
 String locationTypeToString(LocationType type){
@@ -44,6 +42,8 @@ String locationTypeToString(LocationType type){
       return 'SPECIAL_ROOM';
     case LocationType.store:
       return 'STORE';
+    case LocationType.wc:
+      return 'WC';
     default:
       return 'LOCATION';
   }

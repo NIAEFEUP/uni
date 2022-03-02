@@ -15,8 +15,7 @@ import 'package:uni/controller/local_storage/app_locations_database.dart';
 import 'package:uni/controller/local_storage/app_refresh_times_database.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/controller/local_storage/app_user_database.dart';
-import 'package:uni/controller/location_fetcher/location_fetcher.dart';
-import 'package:uni/controller/location_fetcher/location_fetcher_git.dart';
+import 'package:uni/controller/location_fetcher/location_fetcher_asset.dart';
 import 'package:uni/controller/networking/network_router.dart'
     show NetworkRouter;
 import 'package:uni/controller/parsers/parser_courses.dart';
@@ -441,7 +440,7 @@ ThunkAction<AppState> getFacultyLocations(Completer<Null> action){
       store.dispatch(SetLocationsStatusAction(RequestStatus.busy));
 
       final List<LocationGroup> locations =
-      await LocationFetcherGit().getLocations(store);
+      await LocationFetcherAsset().getLocations(store);
       // Updates local database according to information fetched -- Restaurants
       final LocationDatabase db = LocationDatabase();
       db.initLocations(locations);

@@ -1,5 +1,4 @@
-import 'package:flutter/cupertino.dart';
-
+import 'package:flutter/material.dart';
 import '../location.dart';
 
 class RoomLocation implements Location{
@@ -11,7 +10,7 @@ class RoomLocation implements Location{
 
   final String roomNumber;
   @override
-  final icon = CupertinoIcons.book_solid;
+  final icon = 'assets/images/book_open_blank_variant.svg';
 
   RoomLocation(this.floor,this.roomNumber);
 

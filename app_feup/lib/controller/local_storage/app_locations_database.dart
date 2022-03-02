@@ -1,6 +1,3 @@
-import 'dart:convert';
-
-import 'package:latlong2/latlong.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:uni/model/entities/location.dart';
 import 'package:uni/model/entities/location_group.dart';

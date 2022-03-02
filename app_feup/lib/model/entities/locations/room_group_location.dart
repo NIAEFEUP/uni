@@ -1,5 +1,4 @@
-import 'package:flutter/cupertino.dart';
-
+import 'package:flutter/material.dart';
 import '../location.dart';
 
 class RoomGroupLocation implements Location{
@@ -12,7 +11,7 @@ class RoomGroupLocation implements Location{
   final String firstRoomNumber;
   final String secondRoomNumber;
   @override
-  final icon = CupertinoIcons.book_solid;
+  final icon = 'assets/images/book_open_blank_variant.svg';
 
   RoomGroupLocation(this.floor,this.firstRoomNumber, this.secondRoomNumber);
 

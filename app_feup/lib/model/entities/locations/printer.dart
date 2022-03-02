@@ -1,5 +1,3 @@
-import 'package:flutter/cupertino.dart';
-
 import '../location.dart';
 
 class Printer implements Location{
@@ -10,7 +8,7 @@ class Printer implements Location{
   final weight = 1;
 
   @override
-  final icon = CupertinoIcons.printer_fill;
+  final icon = 'assets/images/printer.svg';
 
   Printer(this.floor);
 

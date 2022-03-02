@@ -32,7 +32,6 @@ class LocationMarker extends Marker{
       );
   static Widget getIcon(Location location, BuildContext context){
     if(location.icon is String){
-      print(location.icon);
       return Container(
         padding: const EdgeInsets.all(2.0),
         child: SvgPicture.asset(

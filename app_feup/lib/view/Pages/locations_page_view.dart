@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_popup/flutter_map_marker_popup.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/location_group.dart';
 import 'package:uni/view/Widgets/location_marker.dart';
 import 'package:uni/view/Widgets/floorless_location_marker_popup.dart';
@@ -14,7 +15,8 @@ class LocationsPageView extends StatelessWidget {
 
   final PopupController _popupLayerController = PopupController();
   final List<LocationGroup> locations;
-  LocationsPageView(List<LocationGroup> this.locations);
+  final RequestStatus status;
+  LocationsPageView({this.locations = null, this.status = RequestStatus.none});
 
   @override
   Widget build(BuildContext context) {
@@ -24,10 +26,12 @@ class LocationsPageView extends StatelessWidget {
       alignment: Alignment.center,
       child:
       feupMap(),
-    );feupMap();
+    );
   }
 
   FlutterMap feupMap(){
+    if(this.status != RequestStatus.successful)
+      return null;
     return FlutterMap(
       options: MapOptions(
         minZoom: 17,

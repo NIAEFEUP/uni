@@ -21,8 +21,9 @@ class LocationMarkerPopup extends StatelessWidget {
             direction: Axis.vertical,
             spacing: 8,
             children:
-            (this.debug ? <Widget>[Text(locationGroup.id.toString())] : <Widget>[]) +
-            buildFloors(context),
+            (this.debug ?
+              <Widget>[Text(locationGroup.id.toString())] : <Widget>[]) +
+              buildFloors(context),
           )
       ),
     );

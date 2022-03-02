@@ -61,7 +61,9 @@ AppState appReducers(AppState state, dynamic action) {
   } else if (action is SetExamFilter) {
     return setExamFilter(state, action);
   } else if (action is SetLocationsAction){
-    return setLocationsAction(state, action);
+    return setLocations(state, action);
+  } else if (action is SetLocationsStatusAction){
+    return setLocationsStatus(state, action);
   }
   return state;
 }
@@ -207,7 +209,12 @@ AppState setExamFilter(AppState state, SetExamFilter action) {
   return state.cloneAndUpdateValue('filteredExams', action.filteredExams);
 }
 
-AppState setLocationsAction(AppState state, SetLocationsAction action){
+AppState setLocations(AppState state, SetLocationsAction action){
   Logger().i('setting locations: ' + action.locationGroups.length.toString());
   return state.cloneAndUpdateValue('locationGroups', action.locationGroups);
+}
+
+AppState setLocationsStatus(AppState state, SetLocationsStatusAction action){
+  Logger().i('setting locations state to ' + action.status.toString());
+  return state.cloneAndUpdateValue('locationGroupsStatus', action.status);
 }

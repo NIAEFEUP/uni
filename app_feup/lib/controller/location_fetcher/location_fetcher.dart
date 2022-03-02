@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:latlong2/latlong.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:redux/redux.dart';
