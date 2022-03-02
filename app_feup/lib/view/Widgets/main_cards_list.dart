@@ -8,7 +8,6 @@ import 'package:uni/utils/constants.dart' as Constants;
 import 'package:uni/view/Widgets/account_info_card.dart';
 import 'package:uni/view/Widgets/back_button_exit_wrapper.dart';
 import 'package:uni/view/Widgets/bus_stop_card.dart';
-import 'package:uni/view/Widgets/canteen_card.dart';
 import 'package:uni/view/Widgets/exam_card.dart';
 import 'package:uni/view/Widgets/print_info_card.dart';
 import 'package:uni/view/Widgets/schedule_card.dart';
@@ -24,9 +23,7 @@ class MainCardsList extends StatelessWidget {
     FAVORITE_WIDGET_TYPE.printBalance: (k, em, od) =>
         PrintInfoCard.fromEditingInformation(k, em, od),
     FAVORITE_WIDGET_TYPE.busStops: (k, em, od) =>
-        BusStopCard.fromEditingInformation(k, em, od),
-    FAVORITE_WIDGET_TYPE.canteen : (k, em, od) =>
-        CanteenCard.fromEditingInformation(k, em, od)
+        BusStopCard.fromEditingInformation(k, em, od)
   };
 
   @override
