@@ -3,16 +3,16 @@ import 'package:uni/model/app_state.dart';
 import 'package:flutter/material.dart';
 import 'package:tuple/tuple.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:uni/view/Widgets/canteen_row.dart';
+import 'package:uni/view/Widgets/restaurant_row.dart';
 import 'package:uni/view/Widgets/request_dependent_widget_builder.dart';
 import 'package:uni/view/Widgets/row_container.dart';
 import 'date_rectangle.dart';
 import 'generic_card.dart';
 
-class CanteenCard extends GenericCard {
-  CanteenCard({Key key}) : super(key: key);
+class RestaurantCard extends GenericCard {
+  RestaurantCard({Key key}) : super(key: key);
 
-  CanteenCard.fromEditingInformation(
+  RestaurantCard.fromEditingInformation(
     Key key, bool editingMode, Function onDelete) 
   : super.fromEditingInformation(key, editingMode, onDelete);
 
@@ -32,7 +32,7 @@ class CanteenCard extends GenericCard {
           return RequestDependentWidgetBuilder(
               context: context,
               status: canteen.item2,
-              contentGenerator: generateCanteens,
+              contentGenerator: generateRestaurant,
               content: canteen.item1,
               contentChecker:
                   canteen.item1 != null && canteen.item1.isNotEmpty,
@@ -43,16 +43,16 @@ class CanteenCard extends GenericCard {
       });
   }
 
-  Widget generateCanteens(canteens, context) {
+  Widget generateRestaurant(canteens, context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        createRowFromCanteen(context, canteens)
+        createRowFromRestaurant(context, canteens)
       ],
     );
   }
 
-  Widget createRowFromCanteen(context, String canteen) { // TODO: Issue #390
+  Widget createRowFromRestaurant(context, String canteen) { // TODO: Issue #390
     return Column(children: [
       DateRectangle(date: ''), // TODO: Issue #390
        // cantine.nextSchoolDay
@@ -68,7 +68,7 @@ class CanteenCard extends GenericCard {
         elevation: 1,
         child: RowContainer(
           color:  Color.fromARGB(0, 0, 0, 0),
-          child:  CanteenRow(
+          child:  RestaurantRow(
             local: canteen,
             meatMenu: '', // TODO: Issue #390
             fishMenu: '',

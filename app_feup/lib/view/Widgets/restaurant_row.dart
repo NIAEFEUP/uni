@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class CanteenRow extends StatelessWidget {
+class RestaurantRow extends StatelessWidget {
   final String local;
   final String meatMenu;
   final String fishMenu;
@@ -8,7 +8,7 @@ class CanteenRow extends StatelessWidget {
   final String dietMenu;
   final double iconSize;
 
-  CanteenRow(
+  RestaurantRow(
       {Key key,
         @required this.local,
         @required this.meatMenu,
