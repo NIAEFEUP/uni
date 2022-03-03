@@ -65,9 +65,8 @@ class PrintInfoCard extends GenericCard {
                       contentChecker: printMovements.item1 != null &&
                           printMovements.item1.isNotEmpty,
                       onNullContent: Center(
-                          child: empty(
+                          child: getEmptyContainer(
                               'Não existem movimentos recentes', context)));
-                  //printBalanceMovementsWidget(printMovements, context)),
                 })),
         StoreConnector<AppState, String>(
             converter: (store) => store.state.content['printRefreshTime'],
@@ -80,7 +79,7 @@ class PrintInfoCard extends GenericCard {
   /// Returns a widget with all the print balance movements.
   Widget printBalanceMovementsWidget(movements, context) {
     if (movements.length <= 0) {
-      return empty('Não existem movimentos recentes', context);
+      return getEmptyContainer('Não existem movimentos recentes', context);
     }
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -110,16 +109,14 @@ class PrintInfoCard extends GenericCard {
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Text(DateTime.parse(movement['datetime']).formatter()),
+                Text(DateTime.parse(movement['datetime'])
+                    .toFormattedDateString()),
                 Text(
-                  movement['value'][0] != '-' //it is positive, add + character
-                      ? '+' + movement['value']
-                      : movement['value'],
-                  style: Theme.of(context).textTheme.headline2.apply(
-                      color: movement['value'][0] == '-' //check if its negative
-                          ? Theme.of(context).textTheme.headline3.color
-                          : Colors.green),
-                ),
+                    movement['value'][0] != '-'
+                        ? '+' + movement['value']
+                        : movement['value'],
+                    style: Theme.of(context).textTheme.headline2.apply(
+                        color: Theme.of(context).textTheme.headline3.color))
               ]),
         ),
       ),

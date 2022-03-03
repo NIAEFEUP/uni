@@ -31,7 +31,7 @@ abstract class GenericCard extends StatefulWidget {
         textAlign: TextAlign.end, style: Theme.of(context).textTheme.headline3);
   }
 
-  Container empty(String text, BuildContext context) {
+  Container getEmptyContainer(String text, BuildContext context) {
     return Container(
       height: 80.0,
       child: Align(

@@ -36,7 +36,8 @@ class ScheduleCard extends GenericCard {
               contentChecker:
                   lecturesInfo.item1 != null && lecturesInfo.item1.isNotEmpty,
               onNullContent: Center(
-                  child: empty('Não existem aulas para apresentar', context)));
+                  child: getEmptyContainer(
+                      'Não existem aulas para apresentar', context)));
         });
   }
 
