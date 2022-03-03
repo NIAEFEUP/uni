@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class RestaurantRow extends StatelessWidget {
   final String local;
@@ -41,10 +42,10 @@ class RestaurantRow extends StatelessWidget {
     final List<String> meals = [meatMenu, fishMenu, vegetarianMenu,
     dietMenu];
     final Map<String, IconData> mealIcon = {
-    meatMenu: Icons.restaurant,
-    fishMenu: Icons.restaurant,
-    vegetarianMenu: Icons.restaurant,
-    dietMenu: Icons.restaurant};
+    meatMenu: MdiIcons.foodDrumstickOutline,
+    fishMenu: MdiIcons.fish,
+    vegetarianMenu: MdiIcons.corn,
+    dietMenu: MdiIcons.nutrition};
 
     meals.forEach((element) {
       widgets.add(Container(
