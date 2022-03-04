@@ -12,26 +12,37 @@ import 'package:sqflite_migration/sqflite_migration.dart';
 /// See the [Exam] class to see what data is stored in this database.
 class AppExamsDatabase extends AppDatabase {
 
-  static final createScript =
+  var months = {
+    'Janeiro': '01',
+    'Fevereiro': '02',
+    'Março': '03',
+    'Abril': '04',
+    'Maio': '05',
+    'Junho': '06',
+    'Julho': '07',
+    'Agosto': '08',
+    'Setembro': '09',
+    'Outubro': '10',
+    'Novembro': '11',
+    'Dezembro': '12'
+  };
+
+   static final create_Script =
   '''CREATE TABLE exams(subject TEXT, begin TEXT, end TEXT,
-   rooms TEXT, examType TEXT, weekDay TEXT) ''';
+          rooms TEXT, day TEXT, examType TEXT, weekDay TEXT, month TEXT, year TEXT) ''';
 
   /*
   AppExamsDatabase()
       : super('exams.db',
-      ['''CREATE TABLE exams(subject TEXT, begin TEXT, end TEXT,
-          rooms TEXT, day TEXT, examType TEXT, weekDay TEXT, month TEXT, year TEXT) ''']);
+      []);
 
    */
   AppExamsDatabase()
       : super(
               'exams.db',
               [
-              createScript,
-              ],
-              onUpgrade: migrate,
-              version: 2);
-
+              create_Script,
+              ]);
 
 
   /// Replaces all of the data in this database with [exams].
@@ -52,17 +63,11 @@ class AppExamsDatabase extends AppDatabase {
     return List.generate(maps.length, (i) {
       return Exam.secConstructor(
           maps[i]['subject'],
-          //maps[i]['begin'],
-          DateTime.parse(maps[i]['begin']),
-          DateTime.parse(maps[i]['end']),
-         // maps[i]['end'],
+          DateTime.parse(maps[i]['year'] +'-' + months[maps[i]['month']] +'-' +maps[i]['day']+'T'+maps[i]['begin']),
+          DateTime.parse(maps[i]['year'] +'-' + months[maps[i]['month']] +'-' +maps[i]['day']+'T'+maps[i]['end']),
           maps[i]['rooms'],
-          //maps[i]['day'],
           maps[i]['examType'],
           maps[i]['weekDay']);
-         // maps[i]['month'],
-         // maps[i]['year']);
-          //DateTime.parse(maps[i]['date']));
     });
   }
 
@@ -87,6 +92,7 @@ class AppExamsDatabase extends AppDatabase {
     await db.delete('exams');
   }
 
+  /*
   static FutureOr<void> migrate(
       Database db, int oldVersion, int newVersion) async {
     final batch = db.batch();
@@ -96,4 +102,6 @@ class AppExamsDatabase extends AppDatabase {
     }
     await batch.commit();
   }
+
+   */
 }

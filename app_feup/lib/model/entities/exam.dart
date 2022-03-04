@@ -51,11 +51,8 @@ class Exam {
     this.begin = begin;
     this.end = end;
     this.rooms = rooms.split(',');
-    //this.day = day;
     this.examType = examType;
     this.weekDay = weekDay;
-    //this.month = month;
-    //this.year = year;
     final monthKey = months[begin.month];
     //final monthKey = months[this.month];
     //this.date = DateTime.parse(year + '-' + monthKey + '-' + day);
@@ -70,12 +67,9 @@ class Exam {
      DateTime(this.date.year, this.date.month, this.date.day, int.parse(scheduling[1].split(':')[0]), int.parse(scheduling[1].split(':')[1]));
     final DateTime beginDateTime =
     DateTime(this.date.year, this.date.month, this.date.day, int.parse(scheduling[0].split(':')[0]), int.parse(scheduling[0].split(':')[1]));
-    //String sBegin = date + ' ' + scheduling[0] + ':00' ;
-    //String sEnd = date + ' ' + scheduling[1] + ':00' ;
     this.begin = beginDateTime;
     this.end = endDateTime;
     this.subject = subject;
-    //this.date = DateTime.parse(date);
     //this.begin = scheduling[0];
     //this.end = scheduling[1];
     this.rooms = rooms.split(',');
