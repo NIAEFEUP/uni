@@ -70,6 +70,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   material_design_icons_flutter: ^5.0.6595
 
+  cookie_jar: ^3.0.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
