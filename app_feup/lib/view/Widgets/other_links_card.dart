@@ -22,27 +22,13 @@ class OtherLinksCard extends GenericCard {
           children: [
             TableRow(children: [
               Container(
-                margin: const EdgeInsets.only(
-                    top: 20.0, bottom: 8.0, left: 20.0), // add margin left: 20
-                child: Text('Impressão',
-                    //textAlign: TextAlign.center,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline3
-                        
-                        ),
-              )
-            ]),
-            TableRow(children: [
-              Container(
                   margin:
-                      const EdgeInsets.only(top: 0, bottom: 12.0, left: 20.0),
+                      const EdgeInsets.only(top: 0, bottom: 14.0, left: 20.0),
                   child:InkWell(
-                    child: new Text('https://webprint.up.pt/wprint/',
+                    child: new Text('Impressão',
                       style: Theme.of(context)
                         .textTheme
-                        .headline4
-                        .apply(fontSizeDelta: -2)
+                        .headline3
                     ),
                     onTap: () => launch('https://webprint.up.pt/wprint/'),
                   )

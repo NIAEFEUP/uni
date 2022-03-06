@@ -22,27 +22,13 @@ class SigarraLinksCard extends GenericCard {
           children: [
             TableRow(children: [
               Container(
-                margin: const EdgeInsets.only(
-                    top: 20.0, bottom: 8.0, left: 20.0), // add margin left: 20
-                child: Text('Notícias',
-                    //textAlign: TextAlign.center,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline3
-                        
-                        ),
-              )
-            ]),
-            TableRow(children: [
-              Container(
                   margin:
-                      const EdgeInsets.only(top: 0, bottom: 12.0, left: 20.0),
+                      const EdgeInsets.only(top: 0, bottom: 14.0, left: 20.0),
                   child:InkWell(
-                    child: new Text('https://sigarra.up.pt/feup/pt/noticias_geral.lista_noticias',
+                    child: Text('Notícias',
                       style: Theme.of(context)
                         .textTheme
-                        .headline4
-                        .apply(fontSizeDelta: -2)
+                        .headline3
                     ),
                     onTap: () => launch('https://sigarra.up.pt/feup/pt/noticias_geral.lista_noticias'),
                   )
@@ -50,27 +36,13 @@ class SigarraLinksCard extends GenericCard {
             ]),
             TableRow(children: [
               Container(
-                margin: const EdgeInsets.only(
-                    top: 20.0, bottom: 8.0, left: 20.0), // add margin left: 20
-                child: Text('Erasmus',
-                    //textAlign: TextAlign.center,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline3
-                        
-                        ),
-              )
-            ]),
-            TableRow(children: [
-              Container(
                   margin:
-                      const EdgeInsets.only(top: 0, bottom: 12.0, left: 20.0),
+                      const EdgeInsets.only(top: 0, bottom: 14.0, left: 20.0),
                   child:InkWell(
-                    child: new Text('https://sigarra.up.pt/feup/pt/web_base.gera_pagina?P_pagina=257769',
+                    child: new Text('Erasmus',
                       style: Theme.of(context)
                         .textTheme
-                        .headline4
-                        .apply(fontSizeDelta: -2)
+                        .headline3
                     ),
                     onTap: () => launch('https://sigarra.up.pt/feup/pt/web_base.gera_pagina?P_pagina=257769'),
                   )
@@ -78,111 +50,55 @@ class SigarraLinksCard extends GenericCard {
             ]),
             TableRow(children: [
               Container(
-                margin: const EdgeInsets.only(
-                    top: 20.0, bottom: 8.0, left: 20.0), // add margin left: 20
-                child: Text('Inscrição Geral',
-                    //textAlign: TextAlign.center,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline3
-                        
-                        ),
-              )
-            ]),
-            TableRow(children: [
-              Container(
                   margin:
-                      const EdgeInsets.only(top: 0, bottom: 12.0, left: 20.0),
+                      const EdgeInsets.only(top: 0, bottom: 14.0, left: 20.0),
                   child:InkWell(
-                    child: new Text('https://sigarra.up.pt/feup/pt/ins_geral.inscricao',
+                    child: new Text('Inscrição Geral',
                       style: Theme.of(context)
                         .textTheme
-                        .headline4
-                        .apply(fontSizeDelta: -2)
+                        .headline3
                     ),
                     onTap: () => launch('https://sigarra.up.pt/feup/pt/ins_geral.inscricao'),
                   )
                       )
             ]),
-           TableRow(children: [
-              Container(
-                margin: const EdgeInsets.only(
-                    top: 20.0, bottom: 8.0, left: 20.0), // add margin left: 20
-                child: Text('Inscrição de Turmas',
-                    //textAlign: TextAlign.center,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline3
-                        
-                        ),
-              )
-            ]),
             TableRow(children: [
               Container(
                   margin:
-                      const EdgeInsets.only(top: 0, bottom: 12.0, left: 20.0),
+                      const EdgeInsets.only(top: 0, bottom: 14.0, left: 20.0),
                   child:InkWell(
-                    child: new Text('https://sigarra.up.pt/feup/pt/it_geral.ver_insc',
+                    child: new Text('Inscrição de Turmas',
                       style: Theme.of(context)
                         .textTheme
-                        .headline4
-                        .apply(fontSizeDelta: -2)
+                        .headline3
                     ),
                     onTap: () => launch('https://sigarra.up.pt/feup/pt/it_geral.ver_insc'),
                   )
                       )
             ]),
-           TableRow(children: [
-              Container(
-                margin: const EdgeInsets.only(
-                    top: 20.0, bottom: 8.0, left: 20.0), // add margin left: 20
-                child: Text('Inscrição para Melhoria',
-                    //textAlign: TextAlign.center,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline3
-                        
-                        ),
-              )
-            ]),
             TableRow(children: [
               Container(
                   margin:
-                      const EdgeInsets.only(top: 0, bottom: 12.0, left: 20.0),
+                      const EdgeInsets.only(top: 0, bottom: 14.0, left: 20.0),
                   child:InkWell(
-                    child: new Text('https://sigarra.up.pt/feup/pt/inqueritos_geral.inqueritos_list',
+                    child: new Text('Inscrição para Melhoria',
                       style: Theme.of(context)
                         .textTheme
-                        .headline4
-                        .apply(fontSizeDelta: -2)
+                        .headline3
                     ),
                     onTap: () => launch('https://sigarra.up.pt/feup/pt/inqueritos_geral.inqueritos_list'),
                   )
                       )
             ]),
-                       TableRow(children: [
-              Container(
-                margin: const EdgeInsets.only(
-                    top: 20.0, bottom: 8.0, left: 20.0), // add margin left: 20
-                child: Text('Calendário Escolar',
-                    //textAlign: TextAlign.center,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline3
-                        
-                        ),
-              )
-            ]),
             TableRow(children: [
               Container(
                   margin:
-                      const EdgeInsets.only(top: 0, bottom: 12.0, left: 20.0),
+                      const EdgeInsets.only(top: 0, bottom: 14.0, left: 20.0),
                   child:InkWell(
-                    child: new Text('https://sigarra.up.pt/feup/pt/web_base.gera_pagina?p_pagina=p%c3%a1gina%20est%c3%a1tica%20gen%c3%a9rica%20106',
+                    child: new Text('Calendário Escolar',
                       style: Theme.of(context)
                         .textTheme
-                        .headline4
-                        .apply(fontSizeDelta: -2)
+                        .headline3
                     ),
                     onTap: () => launch('https://sigarra.up.pt/feup/pt/web_base.gera_pagina?p_pagina=p%c3%a1gina%20est%c3%a1tica%20gen%c3%a9rica%20106'),
                   )
