@@ -29,6 +29,7 @@ class OtherLinksCard extends GenericCard {
                       style: Theme.of(context)
                         .textTheme
                         .headline3
+                        .copyWith(decoration: TextDecoration.underline)
                     ),
                     onTap: () => launch('https://webprint.up.pt/wprint/'),
                   )

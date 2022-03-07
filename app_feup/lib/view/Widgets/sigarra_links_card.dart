@@ -29,6 +29,7 @@ class SigarraLinksCard extends GenericCard {
                       style: Theme.of(context)
                         .textTheme
                         .headline3
+                        .copyWith(decoration: TextDecoration.underline)
                     ),
                     onTap: () => launch('https://sigarra.up.pt/feup/pt/noticias_geral.lista_noticias'),
                   )
@@ -43,6 +44,7 @@ class SigarraLinksCard extends GenericCard {
                       style: Theme.of(context)
                         .textTheme
                         .headline3
+                        .copyWith(decoration: TextDecoration.underline)
                     ),
                     onTap: () => launch('https://sigarra.up.pt/feup/pt/web_base.gera_pagina?P_pagina=257769'),
                   )
@@ -57,6 +59,7 @@ class SigarraLinksCard extends GenericCard {
                       style: Theme.of(context)
                         .textTheme
                         .headline3
+                        .copyWith(decoration: TextDecoration.underline)
                     ),
                     onTap: () => launch('https://sigarra.up.pt/feup/pt/ins_geral.inscricao'),
                   )
@@ -71,6 +74,7 @@ class SigarraLinksCard extends GenericCard {
                       style: Theme.of(context)
                         .textTheme
                         .headline3
+                        .copyWith(decoration: TextDecoration.underline)
                     ),
                     onTap: () => launch('https://sigarra.up.pt/feup/pt/it_geral.ver_insc'),
                   )
@@ -85,6 +89,7 @@ class SigarraLinksCard extends GenericCard {
                       style: Theme.of(context)
                         .textTheme
                         .headline3
+                        .copyWith(decoration: TextDecoration.underline)
                     ),
                     onTap: () => launch('https://sigarra.up.pt/feup/pt/inqueritos_geral.inqueritos_list'),
                   )
@@ -99,6 +104,7 @@ class SigarraLinksCard extends GenericCard {
                       style: Theme.of(context)
                         .textTheme
                         .headline3
+                        .copyWith(decoration: TextDecoration.underline)
                     ),
                     onTap: () => launch('https://sigarra.up.pt/feup/pt/web_base.gera_pagina?p_pagina=p%c3%a1gina%20est%c3%a1tica%20gen%c3%a9rica%20106'),
                   )
