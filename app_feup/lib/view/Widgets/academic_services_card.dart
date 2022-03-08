@@ -12,163 +12,170 @@ class AcademicServicesCard extends GenericCard {
 
   @override
   Widget buildCardContent(BuildContext context) {
-    return Column(children: [
-      Table(
-          defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-          children: [
-            TableRow(children: [
-              Container(
-                margin: const EdgeInsets.only(
-                    top: 20.0, bottom: 0.0, left: 20.0), // add margin left: 20
-                child: Text('Horários',
-                    //textAlign: TextAlign.center,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline4
-                        .apply(fontSizeDelta: 0)),
-              )
-            ]),
-            TableRow(children: [
-              Container(
-                margin: const EdgeInsets.only(
-                    top: 13.0, bottom: 0.0, left: 20.0), // add margin left: 20
-                child: Text('Atendimento presencial',
-                    //textAlign: TextAlign.center,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline4
-                        .apply(fontSizeDelta: -4)),
-              )
-            ]),
-            TableRow(children: [
-              Container(
-                  margin:
-                      const EdgeInsets.only(top: 8, bottom: 0.0, left: 20.0),
-                  child: Text('9:30h - 16:00h',
-                      //textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.headline3))
-            ]),
-            TableRow(children: [
-              Container(
-                margin:
-                    const EdgeInsets.only(top: 18.0, bottom: 0.0, left: 20.0),
-                child: Text('Atendimento telefónico',
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline4
-                        .apply(fontSizeDelta: -4)),
-              ),
-            ]),
-            TableRow(children: [
-              Container(
-                  margin:
-                      const EdgeInsets.only(top: 8.0, bottom: 0.0, left: 20.0),
-                  child: Text('9:30h - 12:00h | 14:00h - 16:00h',
-                      style: Theme.of(context).textTheme.headline3))
-            ]),
-            TableRow(children: [
-              Container(
-                margin:
-                    const EdgeInsets.only(top: 35.0, bottom: 0.0, left: 20.0),
-                child: Text('Telefone',
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline4
-                        .apply(fontSizeDelta: 0)),
-              ),
-            ]),
-            TableRow(children: [
-              Container(
-                  margin:
-                      const EdgeInsets.only(top: 8.0, bottom: 0.0, left: 20.0),
-                  child: Text('+351 22 508 1977',
-                      style: Theme.of(context).textTheme.headline3))
-            ]),
-            TableRow(children: [
-              Container(
-                  margin:
-                      const EdgeInsets.only(top: 8.0, bottom: 0.0, left: 20.0),
-                  child: Text('+351 22 508 1405',
-                      style: Theme.of(context).textTheme.headline3))
-            ]),
-            TableRow(children: [
-              Container(
-                margin: const EdgeInsets.only(
-                    top: 35.0, bottom: 0.0, left: 20.0), // add margin left: 20
-                child: Text('Departamentos',
-                    //textAlign: TextAlign.center,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline4
-                        .apply(fontSizeDelta: 0)),
-              )
-            ]),
-            TableRow(children: [
-              Container(
-                margin:
-                    const EdgeInsets.only(top: 15.0, bottom: 0.0, left: 20.0),
-                child: Text('Gestão de Acesso, Ingresso e Certificação',
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline4
-                        .apply(fontSizeDelta: -4)),
-              ),
-            ]),
-            TableRow(children: [
-              Container(
-                  margin:
-                      const EdgeInsets.only(top: 8.0, bottom: 0.0, left: 20.0),
-                  child: Text('acesso.ingresso@fe.up.pt',
-                      //textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.headline3))
-            ]),
-            TableRow(children: [
-              Container(
-                  margin:
-                      const EdgeInsets.only(top: 8.0, bottom: 0.0, left: 20.0),
-                  child: Text('certificacao@fe.up.pt',
-                      //textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.headline3))
-            ]),
-            TableRow(children: [
-              Container(
-                margin:
-                    const EdgeInsets.only(top: 18.0, bottom: 0.0, left: 20.0),
-                child: Text('Gestão do estudante',
-                    //textAlign: TextAlign.center,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline4
-                        .apply(fontSizeDelta: -4)),
-              ),
-            ]),
-            TableRow(children: [
-              Container(
-                  margin:
-                      const EdgeInsets.only(top: 8.0, bottom: 0.0, left: 20.0),
-                  child: Text('percurso.academico@fe.up.pt',
-                      style: Theme.of(context).textTheme.headline3))
-            ]),
-            TableRow(children: [
-              Container(
-                margin:
-                    const EdgeInsets.only(top: 18.0, bottom: 0.0, left: 20.0),
-                child: Text('Gestão de curso',
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline4
-                        .apply(fontSizeDelta: -4)),
-              ),
-            ]),
-            TableRow(children: [
-              Container(
-                  margin:
-                      const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 20.0),
-                  child: Text('suporte.cursos@fe.up.pt',
-                      style: Theme.of(context).textTheme.headline3))
-            ]),
-          ]),
-    ]);
+    return Column(
+      children: <Container>[
+        Container(
+          margin: const EdgeInsets.only(top: 20.0, bottom: 0.0, left: 20.0),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text('Horários',
+                style: Theme.of(context)
+                    .textTheme
+                    .headline4
+                    .apply(fontSizeDelta: 0)),
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.only(top: 13.0, bottom: 0.0, left: 20.0),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text('Atendimento presencial',
+                style: Theme.of(context)
+                    .textTheme
+                    .headline4
+                    .apply(fontSizeDelta: -4)),
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.only(top: 8, bottom: 0, left: 20.0),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text('9:30h - 16:00h',
+                style: Theme.of(context).textTheme.headline3),
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.only(top: 13.0, bottom: 0.0, left: 20.0),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text('Atendimento telefónico',
+                style: Theme.of(context)
+                    .textTheme
+                    .headline4
+                    .apply(fontSizeDelta: -4)),
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.only(top: 8, bottom: 0, left: 20.0),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text('9:30h - 12:00h | 14:00h - 16:00h',
+                style: Theme.of(context).textTheme.headline3),
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.only(top: 35, bottom: 0.0, left: 20.0),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text('Telefone',
+                //textAlign: TextAlign.center,
+                style: Theme.of(context)
+                    .textTheme
+                    .headline4
+                    .apply(fontSizeDelta: 0)),
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.only(top: 8, bottom: 0, left: 20.0),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text('+351 22 508 1977',
+                //textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.headline3),
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.only(top: 8, bottom: 0, left: 20.0),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text('+351 22 508 1405',
+                //textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.headline3),
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.only(top: 35, bottom: 0, left: 20.0),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text('Departamentos',
+                //textAlign: TextAlign.center,
+                style: Theme.of(context)
+                    .textTheme
+                    .headline4
+                    .apply(fontSizeDelta: 0)),
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.only(top: 15.0, bottom: 0.0, left: 20.0),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text('Gestão de Acesso, Ingresso e Certificação',
+                style: Theme.of(context)
+                    .textTheme
+                    .headline4
+                    .apply(fontSizeDelta: -4)),
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.only(top: 8, bottom: 0, left: 20.0),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text('acesso.ingresso@fe.up.pt',
+                //textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.headline3),
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.only(top: 8, bottom: 0, left: 20.0),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text('certificacao@fe.up.pt',
+                //textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.headline3),
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.only(top: 15.0, bottom: 0.0, left: 20.0),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text('Gestão do Estudante',
+                style: Theme.of(context)
+                    .textTheme
+                    .headline4
+                    .apply(fontSizeDelta: -4)),
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.only(top: 8, bottom: 0, left: 20.0),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text('percurso.academico@fe.up.pt',
+                //textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.headline3),
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.only(top: 15.0, bottom: 0.0, left: 20.0),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text('Gestão do curso',
+                style: Theme.of(context)
+                    .textTheme
+                    .headline4
+                    .apply(fontSizeDelta: -4)),
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.only(top: 8, bottom: 8, left: 20.0),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text('suporte.cursos@fe.up.pt',
+                //textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.headline3),
+          ),
+        ),
+      ],
+    );
   }
 
   @override
