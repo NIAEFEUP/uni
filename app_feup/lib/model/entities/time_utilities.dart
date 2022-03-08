@@ -2,7 +2,6 @@ import 'package:intl/intl.dart';
 
 extension TimeString on DateTime {
   static const weekdays = [
-    'N/A',
     'Segunda',
     'Terça',
     'Quarta',
@@ -32,7 +31,7 @@ extension TimeString on DateTime {
       return 'Ontem';
     }
     if (daysDif > 0 && daysDif < 7) {
-      return weekdays[this.weekday];
+      return weekdays[this.weekday-1];
     }
     return DateFormat('dd/MM').format(this);
   }

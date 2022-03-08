@@ -111,12 +111,16 @@ class PrintInfoCard extends GenericCard {
               children: <Widget>[
                 Text(DateTime.parse(movement['datetime'])
                     .toFormattedDateString()),
-                Text(
-                    movement['value'][0] != '-'
-                        ? '+' + movement['value']
-                        : movement['value'],
-                    style: Theme.of(context).textTheme.headline2.apply(
-                        color: Theme.of(context).textTheme.headline3.color))
+                movement['value'][0] != '-'
+                  ? Text('+' + movement['value'],
+                      style: Theme.of(context).textTheme.headline2.apply(
+                        color: Colors.green)
+                    )
+                  : Text(movement['value'],
+                      style: Theme.of(context).textTheme.headline2.apply(
+                        color: Theme.of(context).textTheme.headline3.color)
+                    )
+
               ]),
         ),
       ),
