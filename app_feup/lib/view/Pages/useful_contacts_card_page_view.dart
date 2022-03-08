@@ -12,11 +12,11 @@ class UsefulContactsCardView extends StatefulWidget {
 class UsefulContactsCardViewState extends GeneralPageViewState {
   @override
   Widget getBody(BuildContext context) {
-    return ListView(children: childrenList(context));
+    return ListView(children: childrenList());
   }
 }
 
-List<Widget> childrenList(BuildContext context) {
+List<Widget> childrenList() {
   final List<Widget> list = [];
   list.add(InfoDeskCard());
   list.add(AcademicServicesCard());
