@@ -13,14 +13,15 @@ class InfoDeskCard extends GenericCard {
   @override
   Widget buildCardContent(BuildContext context) {
     return Column(
-      children: <Container> [
+      children: <Container>[
         Container(
           margin: const EdgeInsets.only(top: 20.0, bottom: 0.0, left: 20.0),
           child: Align(
             alignment: Alignment.centerLeft,
             child: Text('Horários',
                 style: Theme.of(context)
-                    .textTheme.headline4
+                    .textTheme
+                    .headline4
                     .apply(fontSizeDelta: 0)),
           ),
         ),
@@ -30,62 +31,62 @@ class InfoDeskCard extends GenericCard {
             alignment: Alignment.centerLeft,
             child: Text('Atendimento presencial e telefónico',
                 style: Theme.of(context)
-                    .textTheme.headline4
+                    .textTheme
+                    .headline4
                     .apply(fontSizeDelta: -4)),
           ),
         ),
         Container(
-          margin: const EdgeInsets.only(top: 8, bottom: 12.0, left: 20.0),
+          margin: const EdgeInsets.only(top: 8, bottom: 0, left: 20.0),
           child: Align(
             alignment: Alignment.centerLeft,
             child: Text('9:30h - 13:00h | 14:00h - 17:30h',
-                style: Theme.of(context)
-                    .textTheme.headline3),
+                style: Theme.of(context).textTheme.headline3),
           ),
         ),
+        Container(
+          margin: const EdgeInsets.only(top: 30, bottom: 0.0, left: 20.0),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text('Telefone',
+                //textAlign: TextAlign.center,
+                style: Theme.of(context)
+                    .textTheme
+                    .headline4
+                    .apply(fontSizeDelta: 0)),
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.only(top: 8, bottom: 0, left: 20.0),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text('+351 22 041 3508',
+                //textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.headline3),
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.only(top: 30, bottom: 0, left: 20.0),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text('Email',
+                //textAlign: TextAlign.center,
+                style: Theme.of(context)
+                    .textTheme
+                    .headline4
+                    .apply(fontSizeDelta: 0)),
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.only(top: 8, bottom: 8, left: 20.0),
+          child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text('candidato@fe.up.pt',
+                  //textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.headline3)),
+        ),
       ],
-            TableRow(children: [
-              Container(
-                margin:
-                    const EdgeInsets.only(top: 20.0, bottom: 8.0, left: 20.0),
-                child: Text('Telefone',
-                    //textAlign: TextAlign.center,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline4
-                        .apply(fontSizeDelta: 0)),
-              ),
-            ]),
-            TableRow(children: [
-              Container(
-                  margin:
-                      const EdgeInsets.only(top: 0.0, bottom: 8.0, left: 20.0),
-                  child: Text('+351 22 041 3508',
-                      //textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.headline3))
-            ]),
-            TableRow(children: [
-              Container(
-                margin:
-                    const EdgeInsets.only(top: 20.0, bottom: 8.0, left: 20.0),
-                child: Text('Email ',
-                    //textAlign: TextAlign.center,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline4
-                        .apply(fontSizeDelta: 0)),
-              ),
-            ]),
-            TableRow(children: [
-              Container(
-                  margin:
-                      const EdgeInsets.only(top: 0.0, bottom: 8.0, left: 20.0),
-                  child: Text('candidato@fe.up.pt',
-                      //textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.headline3))
-            ]),
-          ]),
-    ]);
+    );
   }
 
   @override
