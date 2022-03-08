@@ -12,42 +12,38 @@ class InfoDeskCard extends GenericCard {
 
   @override
   Widget buildCardContent(BuildContext context) {
-    return Column(children: [
-      Table(
-          defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-          children: [
-            TableRow(children: [
-              Container(
-                margin: const EdgeInsets.only(
-                    top: 20.0, bottom: 0.0, left: 20.0), // add margin left: 20
-                child: Text('Horários',
-                    //textAlign: TextAlign.center,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline4
-                        .apply(fontSizeDelta: 0)),
-              )
-            ]),
-            TableRow(children: [
-              Container(
-                margin: const EdgeInsets.only(
-                    top: 13.0, bottom: 0.0, left: 20.0), // add margin left: 20
-                child: Text('Atendimento presencial e telefónico',
-                    //textAlign: TextAlign.center,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline4
-                        .apply(fontSizeDelta: -4)),
-              )
-            ]),
-            TableRow(children: [
-              Container(
-                  margin:
-                      const EdgeInsets.only(top: 8, bottom: 12.0, left: 20.0),
-                  child: Text('9:30h - 13:00h | 14:00h - 17:30h',
-                      //textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.headline3))
-            ]),
+    return Column(
+      children: <Container> [
+        Container(
+          margin: const EdgeInsets.only(top: 20.0, bottom: 0.0, left: 20.0),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text('Horários',
+                style: Theme.of(context)
+                    .textTheme.headline4
+                    .apply(fontSizeDelta: 0)),
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.only(top: 13.0, bottom: 0.0, left: 20.0),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text('Atendimento presencial e telefónico',
+                style: Theme.of(context)
+                    .textTheme.headline4
+                    .apply(fontSizeDelta: -4)),
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.only(top: 8, bottom: 12.0, left: 20.0),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text('9:30h - 13:00h | 14:00h - 17:30h',
+                style: Theme.of(context)
+                    .textTheme.headline3),
+          ),
+        ),
+      ],
             TableRow(children: [
               Container(
                 margin:
