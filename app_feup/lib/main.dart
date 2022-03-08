@@ -95,6 +95,9 @@ class MyAppState extends State<MyApp> {
               case '/' + Constants.navStops:
                 return PageTransition.makePageTransition(
                     page: BusStopNextArrivalsPage(), settings: settings);
+              case '/' + Constants.navUsefulContacts:
+                return PageTransition.makePageTransition(
+                    page: UsefulContactsCardView(), settings: settings);
               case '/' + Constants.navAbout:
                 return PageTransition.makePageTransition(
                     page: AboutPageView(), settings: settings);
@@ -103,9 +106,6 @@ class MyAppState extends State<MyApp> {
                     page: BugReportPageView(),
                     settings: settings,
                     maintainState: false);
-              case '/' + Constants.navUsefulContacts:
-                return PageTransition.makePageTransition(
-                    page: UsefulContactsCardView(), settings: settings);
               case '/' + Constants.navLogOut:
                 return LogoutRoute.buildLogoutRoute();
             }
