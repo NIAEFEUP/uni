@@ -21,18 +21,15 @@ class OtherLinksCard extends GenericCard {
               Container(
                   margin:
                       const EdgeInsets.only(top: 0, bottom: 14.0, left: 20.0),
-                  child:InkWell(
+                  child: InkWell(
                     child: Text('Impressão',
-                      style: Theme.of(context)
-                        .textTheme
-                        .headline3
-                        .copyWith(decoration: TextDecoration.underline)
-                    ),
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline3
+                            .copyWith(decoration: TextDecoration.underline)),
                     onTap: () => launch('https://webprint.up.pt/wprint/'),
-                  )
-                      )
+                  ))
             ]),
-
           ]),
     ]);
   }
