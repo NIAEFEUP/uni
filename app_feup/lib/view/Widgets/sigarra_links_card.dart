@@ -1,9 +1,6 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'generic_card.dart';
-import 'package:url_launcher/link.dart';
 
 /// Manages the 'Current account' section inside the user's page (accessible
 /// through the top-right widget with the user picture)
@@ -40,7 +37,7 @@ class SigarraLinksCard extends GenericCard {
                   margin:
                       const EdgeInsets.only(top: 0, bottom: 14.0, left: 20.0),
                   child:InkWell(
-                    child: new Text('Erasmus',
+                    child: Text('Erasmus',
                       style: Theme.of(context)
                         .textTheme
                         .headline3
@@ -55,7 +52,7 @@ class SigarraLinksCard extends GenericCard {
                   margin:
                       const EdgeInsets.only(top: 0, bottom: 14.0, left: 20.0),
                   child:InkWell(
-                    child: new Text('Inscrição Geral',
+                    child: Text('Inscrição Geral',
                       style: Theme.of(context)
                         .textTheme
                         .headline3
@@ -70,7 +67,7 @@ class SigarraLinksCard extends GenericCard {
                   margin:
                       const EdgeInsets.only(top: 0, bottom: 14.0, left: 20.0),
                   child:InkWell(
-                    child: new Text('Inscrição de Turmas',
+                    child: Text('Inscrição de Turmas',
                       style: Theme.of(context)
                         .textTheme
                         .headline3
@@ -85,7 +82,7 @@ class SigarraLinksCard extends GenericCard {
                   margin:
                       const EdgeInsets.only(top: 0, bottom: 14.0, left: 20.0),
                   child:InkWell(
-                    child: new Text('Inscrição para Melhoria',
+                    child: Text('Inscrição para Melhoria',
                       style: Theme.of(context)
                         .textTheme
                         .headline3
@@ -100,7 +97,7 @@ class SigarraLinksCard extends GenericCard {
                   margin:
                       const EdgeInsets.only(top: 0, bottom: 14.0, left: 20.0),
                   child:InkWell(
-                    child: new Text('Calendário Escolar',
+                    child: Text('Calendário Escolar',
                       style: Theme.of(context)
                         .textTheme
                         .headline3

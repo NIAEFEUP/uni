@@ -1,9 +1,6 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'generic_card.dart';
-import 'package:url_launcher/link.dart';
 
 /// Manages the 'Current account' section inside the user's page (accessible
 /// through the top-right widget with the user picture)
@@ -25,7 +22,7 @@ class OtherLinksCard extends GenericCard {
                   margin:
                       const EdgeInsets.only(top: 0, bottom: 14.0, left: 20.0),
                   child:InkWell(
-                    child: new Text('Impressão',
+                    child: Text('Impressão',
                       style: Theme.of(context)
                         .textTheme
                         .headline3
