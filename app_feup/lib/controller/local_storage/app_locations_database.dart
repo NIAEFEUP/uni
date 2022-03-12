@@ -22,12 +22,14 @@ class LocationDatabase extends AppDatabase {
           first_room TEXT, 
           last_room TEXT, 
           id_location_group, 
-          FOREIGN KEY (id_location_group) REFERENCES LOCATION_GROUP(id)
+          FOREIGN KEY (id_location_group) REFERENCES LOCATION_GROUP(id) ON DELETE CASCADE
          )''']);
 
     initLocations(List<LocationGroup> locations) async {
       final Database db = await this.getDatabase();
       await db.transaction((txn)  async {
+        db.delete('location_group');
+        db.delete('locations');
         locations.forEach((group) => saveLocationGroup(txn, group));
       });
     }

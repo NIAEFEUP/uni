@@ -9,6 +9,7 @@ import 'package:uni/model/entities/location_group.dart';
 import 'package:uni/view/Widgets/location_marker.dart';
 import 'package:uni/view/Widgets/floorless_location_marker_popup.dart';
 import 'package:uni/view/Widgets/location_marker_popup.dart';
+import 'package:uni/view/Widgets/row_container.dart';
 
 
 class LocationsPageView extends StatelessWidget {
@@ -20,18 +21,30 @@ class LocationsPageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 500,
-      padding: const EdgeInsets.fromLTRB(24.0, 8.0, 24.0, 8.0),
-      alignment: Alignment.center,
-      child:
-      feupMap(),
-    );
+    return Container( padding: EdgeInsets.fromLTRB(20, 20, 20, 10),
+        child: Column(mainAxisSize: MainAxisSize.max,
+        children:
+        [upperMenuContainer(context),
+          Container(
+            height: MediaQuery.of(context).size.height * 0.75,
+            alignment: Alignment.center,
+            child:
+            feupMap(context),
+          )]));
   }
 
-  FlutterMap feupMap(){
-    if(this.status != RequestStatus.successful)
+  Container upperMenuContainer(BuildContext context){
+    return Container(
+      width: MediaQuery.of(context).size.width * 0.95,
+      padding: const EdgeInsets.fromLTRB(0, 0, 0, 4.0),
+      child: Text('Feup',
+        textAlign: TextAlign.left,
+        style: Theme.of(context).textTheme.headline6.apply(fontSizeDelta: 7)));
+  }
+  FlutterMap feupMap(BuildContext context){
+    if(this.status != RequestStatus.successful) {
       return null;
+    }
     return FlutterMap(
       options: MapOptions(
         minZoom: 17,
