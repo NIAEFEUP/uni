@@ -2,13 +2,13 @@ import 'package:logger/logger.dart';
 import 'package:collection/collection.dart';
 
 var months = {
-  'Janeiro': '01',
-  'Fevereiro': '02',
-  'Março': '03',
-  'Abril': '04',
-  'Maio': '05',
-  'Junho': '06',
-  'Julho': '07',
+  'Janeiro': 1,
+  'Fevereiro': 2,
+  'Março': 3,
+  'Abril': 4,
+  'Maio': 5,
+  'Junho': 6,
+  'Julho': 7,
   'Agosto': '08',
   'Setembro': '09',
   'Outubro': '10',
@@ -35,8 +35,10 @@ var _types = {
 /// - The Exam `type`
 class Exam {
   String subject;
-  DateTime begin;
-  DateTime end;
+  String begin;
+  String end;
+  DateTime beginDateTime;
+  DateTime endDateTime;
   List<String> rooms;
   String day;
   String examType;
@@ -45,17 +47,22 @@ class Exam {
   String year;
   DateTime date;
 
-  Exam.secConstructor(String subject, DateTime begin, DateTime end, String rooms,
+  Exam.secConstructor(String subject, DateTime beginDateTime, DateTime endDateTime, String rooms,
       String examType, String weekDay) {
     this.subject = subject;
-    this.begin = begin;
-    this.end = end;
+    this.beginDateTime = beginDateTime;
+    this.endDateTime = endDateTime;
+    this.begin = beginDateTime.hour.toString()+':'+beginDateTime.minute.toString();
+    this.end = endDateTime.hour.toString() + ':' + endDateTime.minute.toString();
     this.rooms = rooms.split(',');
     this.examType = examType;
     this.weekDay = weekDay;
-    final monthKey = months[begin.month];
-    //final monthKey = months[this.month];
-    //this.date = DateTime.parse(year + '-' + monthKey + '-' + day);
+    this.day = beginDateTime.day.toString();
+    this.month = months.keys
+        .firstWhere((k) => months[k] == this.beginDateTime.month, orElse: () => null);
+
+    this.year = beginDateTime.year.toString();
+    this.date = DateTime(beginDateTime.year,beginDateTime.month,beginDateTime.day);
   }
 
   Exam(String schedule, String subject, String rooms, String date,
@@ -63,15 +70,11 @@ class Exam {
     final scheduling = schedule.split('-');
     final dateSepared = date.split('-');
     this.date = DateTime.parse(date);
-    final DateTime endDateTime =
-     DateTime(this.date.year, this.date.month, this.date.day, int.parse(scheduling[1].split(':')[0]), int.parse(scheduling[1].split(':')[1]));
-    final DateTime beginDateTime =
-    DateTime(this.date.year, this.date.month, this.date.day, int.parse(scheduling[0].split(':')[0]), int.parse(scheduling[0].split(':')[1]));
-    this.begin = beginDateTime;
-    this.end = endDateTime;
+    this.endDateTime = DateTime(this.date.year, this.date.month, this.date.day, int.parse(scheduling[1].split(':')[0]), int.parse(scheduling[1].split(':')[1]));
+    this.beginDateTime = DateTime(this.date.year, this.date.month, this.date.day, int.parse(scheduling[0].split(':')[0]), int.parse(scheduling[0].split(':')[1]));
+    this.begin =  scheduling[0];
+    this.end = scheduling[1];
     this.subject = subject;
-    //this.begin = scheduling[0];
-    //this.end = scheduling[1];
     this.rooms = rooms.split(',');
     this.year = dateSepared[0];
     this.day = dateSepared[2];
@@ -79,7 +82,7 @@ class Exam {
     this.weekDay = weekDay;
 
     this.month = months.keys
-        .firstWhere((k) => months[k] == dateSepared[1], orElse: () => null);
+        .firstWhere((k) => months[k] == this.date.month, orElse: () => null);
   }
 
   /// Converts this exam to a map.
@@ -100,12 +103,7 @@ class Exam {
   /// Returns whether or not this exam has already ended.
   bool hasEnded() {
     final DateTime now = DateTime.now();
-    //final int endHour = int.parse(end.split(':')[0]);
-    //final int endMinute = int.parse(end.split(':')[1]);
-    //final DateTime endDateTime =
-       // DateTime(date.year, date.month, date.day, endHour, endMinute);
-    //return now.compareTo(endDateTime) <= 0;
-    return now.compareTo(end) <= 0;
+    return now.compareTo(endDateTime) <= 0;
   }
 
   /// Prints the data in this exam to the [Logger] with an INFO level.

@@ -27,16 +27,10 @@ class AppExamsDatabase extends AppDatabase {
     'Dezembro': '12'
   };
 
-   static final create_Script =
+  static final create_Script =
   '''CREATE TABLE exams(subject TEXT, begin TEXT, end TEXT,
           rooms TEXT, day TEXT, examType TEXT, weekDay TEXT, month TEXT, year TEXT) ''';
 
-  /*
-  AppExamsDatabase()
-      : super('exams.db',
-      []);
-
-   */
   AppExamsDatabase()
       : super(
               'exams.db',
@@ -63,13 +57,13 @@ class AppExamsDatabase extends AppDatabase {
     return List.generate(maps.length, (i) {
       return Exam.secConstructor(
           maps[i]['subject'],
-          DateTime.parse(maps[i]['year'] +'-' + months[maps[i]['month']] +'-' +maps[i]['day']+'T'+maps[i]['begin']),
-          DateTime.parse(maps[i]['year'] +'-' + months[maps[i]['month']] +'-' +maps[i]['day']+'T'+maps[i]['end']),
+          DateTime.parse(maps[i]['year'] +'-' + months[maps[i]['month']] +'-' +maps[i]['day']+' '+maps[i]['begin']),
+          DateTime.parse(maps[i]['year'] +'-' + months[maps[i]['month']] +'-' +maps[i]['day']+' '+maps[i]['end']),
           maps[i]['rooms'],
           maps[i]['examType'],
           maps[i]['weekDay']);
-    });
-  }
+    });}
+
 
   /// Adds all items from [exams] to this database.
   /// 
@@ -92,16 +86,4 @@ class AppExamsDatabase extends AppDatabase {
     await db.delete('exams');
   }
 
-  /*
-  static FutureOr<void> migrate(
-      Database db, int oldVersion, int newVersion) async {
-    final batch = db.batch();
-    if (oldVersion< newVersion){
-      batch.execute('DROP TABLE IF EXISTS exams');
-      batch.execute(createScript);
-    }
-    await batch.commit();
-  }
-
-   */
 }
