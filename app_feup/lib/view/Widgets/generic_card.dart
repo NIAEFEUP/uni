@@ -28,7 +28,11 @@ abstract class GenericCard extends StatefulWidget {
 
   Text getInfoText(String text, BuildContext context) {
     return Text(text == null ? 'N/A' : text,
-        textAlign: TextAlign.end, style: Theme.of(context).textTheme.headline3);
+        textAlign: TextAlign.end,
+        style: Theme.of(context)
+            .textTheme
+            .headline6
+            .apply(color: Theme.of(context).accentColor));
   }
 
   showLastRefreshedTime(time, context) {
@@ -63,7 +67,6 @@ class GenericCardState extends State<GenericCard> {
                         blurRadius: 7.0,
                         offset: Offset(0.0, 1.0))
                   ],
-                  color: Theme.of(context).dividerColor,
                   borderRadius:
                       BorderRadius.all(Radius.circular(this.borderRadius))),
               child: ConstrainedBox(
@@ -72,7 +75,7 @@ class GenericCardState extends State<GenericCard> {
                 ),
                 child: Container(
                   decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColor,
+                      color: Theme.of(context).cardColor,
                       borderRadius:
                           BorderRadius.all(Radius.circular(this.borderRadius))),
                   width: (double.infinity),
@@ -86,10 +89,9 @@ class GenericCardState extends State<GenericCard> {
                             child: Text(widget.getTitle(),
                                 style: Theme.of(context)
                                     .textTheme
-                                    .headline1
+                                    .headline5
                                     .apply(
-                                        fontSizeDelta: -53,
-                                        fontWeightDelta: -3)),
+                                        color: Theme.of(context).primaryColor)),
                             alignment: Alignment.centerLeft,
                             padding: EdgeInsets.symmetric(horizontal: 15),
                             margin: EdgeInsets.only(top: 15, bottom: 10),

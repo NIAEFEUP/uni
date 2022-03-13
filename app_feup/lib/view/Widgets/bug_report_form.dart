@@ -121,16 +121,14 @@ class BugReportFormState extends State<BugReportForm> {
         margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20),
         child: Row(
           children: <Widget>[
-            Icon(Icons.bug_report,
-                color: Theme.of(context).accentColor, size: 50.0),
+            Icon(Icons.bug_report, size: 50.0),
             Expanded(
                 child: Text(
               'Bugs e Sugestões',
               textScaleFactor: 1.6,
               textAlign: TextAlign.center,
             )),
-            Icon(Icons.bug_report,
-                color: Theme.of(context).accentColor, size: 50.0),
+            Icon(Icons.bug_report, size: 50.0),
           ],
         ));
   }
@@ -138,13 +136,12 @@ class BugReportFormState extends State<BugReportForm> {
   /// Returns a widget for the overview text of the bug report form
   Widget bugReportIntro(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-          border: Border(
-              bottom: BorderSide(color: Theme.of(context).dividerColor))),
+      decoration: BoxDecoration(),
       padding: EdgeInsets.only(bottom: 20),
       child: Center(
         child: Text(
-            '''Encontraste algum bug na aplicação?\nTens alguma sugestão para a app?\nConta-nos para que possamos melhorar!''',
+            '''Encontraste algum bug na aplicação?\nTens alguma '''
+            '''sugestão para a app?\nConta-nos para que possamos melhorar!''',
             style: Theme.of(context).textTheme.bodyText2,
             textAlign: TextAlign.center),
       ),
@@ -169,7 +166,6 @@ class BugReportFormState extends State<BugReportForm> {
                 margin: EdgeInsets.only(right: 15),
                 child: Icon(
                   Icons.bug_report,
-                  color: Theme.of(context).accentColor,
                 )),
             Expanded(
                 child: DropdownButton(

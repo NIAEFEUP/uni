@@ -53,7 +53,7 @@ class ExamCard extends GenericCard {
         contentChecker: examsInfo.item1 != null && examsInfo.item1.isNotEmpty,
         onNullContent: Center(
           child: Text('Não existem exames para apresentar',
-              style: Theme.of(context).textTheme.headline4),
+              style: Theme.of(context).textTheme.headline6),
         ),
       ),
     );
@@ -129,8 +129,8 @@ class ExamCard extends GenericCard {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Text(
-                  exam.day + '/' + exam.month,
-                  style: Theme.of(context).textTheme.headline4,
+                  exam.day + ' de ' + exam.month,
+                  style: Theme.of(context).textTheme.bodyText1,
                 ),
                 ScheduleEventRectangle(
                     subject: exam.subject,

@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:encrypt/encrypt.dart' as encrypt;
-import 'package:encrypt/encrypt.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -82,6 +81,7 @@ class AppSharedPreferences {
     return prefs.setInt(themeMode, thmMode.index);
   }
 
+  /// Set app next theme mode.
   static Future<bool> setNextThemeMode() async {
     final prefs = await SharedPreferences.getInstance();
     final themeIndex = (await getThemeMode()).index;
@@ -163,7 +163,7 @@ class AppSharedPreferences {
     prefs.setStringList(filteredExamsTypes, newTypes);
   }
 
-  // Returns the user's exam filter settings.
+  /// Returns the user's exam filter settings.
   static Future<Map<String, bool>> getFilteredExams() async {
     final prefs = await SharedPreferences.getInstance();
     final List<String> storedFilteredExamTypes =

@@ -45,7 +45,6 @@ class FormTextField extends StatelessWidget {
                 margin: EdgeInsets.only(right: 15),
                 child: Icon(
                   icon,
-                  color: Theme.of(context).accentColor,
                 )),
             Expanded(
                 child: TextFormField(
@@ -53,9 +52,7 @@ class FormTextField extends StatelessWidget {
               minLines: minLines,
               maxLines: maxLines,
               decoration: InputDecoration(
-                focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Theme.of(context).accentColor),
-                ),
+                focusedBorder: UnderlineInputBorder(),
                 hintText: hintText,
                 hintStyle: Theme.of(context).textTheme.bodyText2,
                 labelText: labelText,
