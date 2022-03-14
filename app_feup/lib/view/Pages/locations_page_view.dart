@@ -9,7 +9,7 @@ import 'package:uni/model/entities/location_group.dart';
 import 'package:uni/view/Widgets/location_marker.dart';
 import 'package:uni/view/Widgets/floorless_location_marker_popup.dart';
 import 'package:uni/view/Widgets/location_marker_popup.dart';
-import 'package:uni/view/Widgets/row_container.dart';
+
 
 
 class LocationsPageView extends StatelessWidget {

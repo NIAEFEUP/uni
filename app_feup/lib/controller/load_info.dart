@@ -49,7 +49,7 @@ Future loadRemoteUserInfoToState(Store<AppState> store) async {
       coursesStates = Completer(),
       trips = Completer(),
       lastUpdate = Completer(),
-      locations = Completer();
+      locations = Completer(),
       restaurants = Completer();
 
   store.dispatch(getUserInfo(userInfo));
@@ -75,7 +75,7 @@ Future loadRemoteUserInfoToState(Store<AppState> store) async {
     coursesStates.future,
     userInfo.future,
     trips.future,
-    restaurants.future
+    restaurants.future,
   ]);
   allRequests.then((futures) {
     store.dispatch(setLastUserInfoUpdateTimestamp(lastUpdate));
