@@ -14,8 +14,9 @@ class LoginPageView extends StatefulWidget {
   _LoginPageViewState createState() => _LoginPageViewState();
 }
 
+/// Manages the 'login section' view.
 class _LoginPageViewState extends State<LoginPageView> {
-  final String faculty = 'feup';
+  String faculty = 'feup';
 
   @override
   void didChangeDependencies() {
@@ -27,9 +28,9 @@ class _LoginPageViewState extends State<LoginPageView> {
   static final FocusNode passwordFocus = FocusNode();
 
   static final TextEditingController usernameController =
-      TextEditingController();
+  TextEditingController();
   static final TextEditingController passwordController =
-      TextEditingController();
+  TextEditingController();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   static bool _exitApp = false;
@@ -47,12 +48,15 @@ class _LoginPageViewState extends State<LoginPageView> {
     }
   }
 
+  /// Tracks if the user wants to keep signed in (has a
+  /// checkmark on the button).
   void _setKeepSignedIn(value) {
     setState(() {
       _keepSignedIn = value;
     });
   }
 
+  /// Makes the password input view hidden.
   void _toggleObscurePasswordInput() {
     setState(() {
       _obscurePasswordInput = !_obscurePasswordInput;
@@ -98,12 +102,15 @@ class _LoginPageViewState extends State<LoginPageView> {
     return widgets;
   }
 
+  /// Delay time before the user leaves the app
   Future<void> exitAppWaiter() async {
     _exitApp = true;
     await Future.delayed(Duration(seconds: 2));
     _exitApp = false;
   }
 
+  /// If the user tries to leave, displays a quick prompt for him to confirm.
+  /// If this is already the second time, the user leaves the app.
   Future<bool> onWillPop(BuildContext context) {
     if (_exitApp) {
       return Future.value(true);
@@ -113,6 +120,7 @@ class _LoginPageViewState extends State<LoginPageView> {
     return Future.value(false);
   }
 
+  /// Creates the title for the login menu.
   Widget createTitle(queryData, context) {
     return ConstrainedBox(
         constraints: BoxConstraints(
@@ -129,11 +137,14 @@ class _LoginPageViewState extends State<LoginPageView> {
         ]));
   }
 
+  /// Creates the widgets for the user input fields.
   Widget getLoginForm(MediaQueryData queryData, BuildContext context) {
     return Form(
       key: this._formKey,
       child: SingleChildScrollView(
         child: Column(children: [
+          createFacultyInput(),
+          Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)),
           createUsernameInput(context),
           Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)),
           createPasswordInput(),
@@ -144,6 +155,31 @@ class _LoginPageViewState extends State<LoginPageView> {
     );
   }
 
+  /// Creates the widget for the user to choose their faculty
+  Widget createFacultyInput() {
+    return DropdownButton (
+      value: faculty.toUpperCase(),
+      items: Constants.faculties.map((value) =>
+          DropdownMenuItem (
+            value: value.toUpperCase(),
+            child: Text(value.toUpperCase()),
+          )
+      ).toList(),
+      onChanged: (newDropdownValue) {
+        setState(() {
+          faculty = newDropdownValue.toLowerCase();
+        });
+      },
+      isExpanded: true,
+      dropdownColor: Theme.of(context).accentColor,
+      iconDisabledColor: Theme.of(context).primaryColor,
+      iconEnabledColor: Theme.of(context).primaryColor,
+      style: TextStyle(color: Colors.white, fontSize: 20),
+      underline: Container(width: 200, height: 0.2, color: Colors.black87),
+    );
+  }
+
+  /// Creates the widget for the username input.
   Widget createUsernameInput(BuildContext context) {
     return TextFormField(
       style: TextStyle(color: Colors.white, fontSize: 20),
@@ -163,6 +199,7 @@ class _LoginPageViewState extends State<LoginPageView> {
     );
   }
 
+  /// Creates the widget for the password input.
   Widget createPasswordInput() {
     return TextFormField(
         style: TextStyle(color: Colors.white, fontSize: 20),
@@ -181,9 +218,10 @@ class _LoginPageViewState extends State<LoginPageView> {
         textAlign: TextAlign.left,
         decoration: passwordFieldDecoration('palavra-passe'),
         validator: (String value) =>
-            value.isEmpty ? 'Preenche este campo' : null);
+        value.isEmpty ? 'Preenche este campo' : null);
   }
 
+  /// Creates the widget for the user to keep signed in (save his data).
   Widget createSaveDataCheckBox() {
     return CheckboxListTile(
       value: _keepSignedIn,
@@ -197,6 +235,7 @@ class _LoginPageViewState extends State<LoginPageView> {
     );
   }
 
+  /// Creates the widget for the user to confirm the inputted login info
   Widget createLogInButton(queryData, BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(
@@ -227,6 +266,7 @@ class _LoginPageViewState extends State<LoginPageView> {
     );
   }
 
+  /// Creates a widget for the user login depending on the status of his login.
   Widget createStatusWidget(BuildContext context) {
     return StoreConnector<AppState, RequestStatus>(
         converter: (store) => store.state.content['loginStatus'],
@@ -255,6 +295,7 @@ class _LoginPageViewState extends State<LoginPageView> {
         });
   }
 
+  /// Decoration for the username field.
   InputDecoration textFieldDecoration(String placeholder) {
     return InputDecoration(
         hintStyle: TextStyle(color: Colors.white),
@@ -268,6 +309,7 @@ class _LoginPageViewState extends State<LoginPageView> {
             borderSide: BorderSide(color: Colors.white, width: 3)));
   }
 
+  /// Decoration for the password field.
   InputDecoration passwordFieldDecoration(String placeholder) {
     final genericDecoration = textFieldDecoration(placeholder);
     return InputDecoration(
@@ -286,6 +328,8 @@ class _LoginPageViewState extends State<LoginPageView> {
         ));
   }
 
+  /// Displays terms and conditions if the user is
+  /// logging in for the first time.
   createSafeLoginButton(BuildContext context) {
     return InkResponse(
         onTap: () {
@@ -306,6 +350,7 @@ class _LoginPageViewState extends State<LoginPageView> {
             )));
   }
 
+  /// Displays 'Terms and conditions' section.
   Future<void> _showLoginDetails(BuildContext context) async {
     showDialog(
         context: context,

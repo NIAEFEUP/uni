@@ -15,6 +15,7 @@ class BusStopNextArrivalsPage extends StatefulWidget {
   State<StatefulWidget> createState() => BusStopNextArrivalsPageState();
 }
 
+/// Manages the 'Bus arrivals' section inside the user's personal area
 class BusStopNextArrivalsPageState extends SecondaryPageViewState {
   @override
   Widget getBody(BuildContext context) {
@@ -46,6 +47,7 @@ class NextArrivals extends StatefulWidget {
       _NextArrivalsState(trips, busConfig, busStopStatus);
 }
 
+/// Manages the 'Bus arrivals' section inside the user's personal area
 class _NextArrivalsState extends State<NextArrivals>
     with SingleTickerProviderStateMixin {
   final Map<String, List<Trip>> trips;
@@ -91,6 +93,7 @@ class _NextArrivalsState extends State<NextArrivals>
     }
   }
 
+  /// Returns a list of widgets for a successfull request
   List<Widget> requestSuccessful(context) {
     final List<Widget> result = <Widget>[];
 
@@ -100,13 +103,15 @@ class _NextArrivalsState extends State<NextArrivals>
       result.addAll(this.getContent(context));
     } else {
       result.add(Container(
-          child: Text('Não se encontram configuradas paragens',
+          child: Text('Não se encontram configurados autocarros',
               style: Theme.of(context).textTheme.headline4)));
     }
 
     return result;
   }
 
+  /// TODO: Is this ok?
+  /// Returns a list of widgets for a busy request
   List<Widget> requestBusy(BuildContext context) {
     final List<Widget> result = <Widget>[];
 
@@ -121,9 +126,10 @@ class _NextArrivalsState extends State<NextArrivals>
   Container getPageTitle() {
     return Container(
         padding: EdgeInsets.only(bottom: 12.0),
-        child: PageTitle(name: 'Paragens'));
+        child: PageTitle(name: 'Autocarros'));
   }
 
+  /// Returns a list of widgets for a failed request
   List<Widget> requestFailed(BuildContext context) {
     final List<Widget> result = <Widget>[];
 
@@ -205,6 +211,7 @@ class _NextArrivalsState extends State<NextArrivals>
     return tabs;
   }
 
+  /// Returns a list of widgets, for each bus stop configured by the user
   List<Widget> getEachBusStopInfo(context) {
     final List<Widget> rows = <Widget>[];
 

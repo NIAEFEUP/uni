@@ -1,6 +1,7 @@
 import 'package:flutter/rendering.dart';
 import 'package:logger/logger.dart';
 
+/// Stores information about a lecture.
 class Lecture {
   static var dayName = [
     'Segunda-feira',
@@ -22,6 +23,7 @@ class Lecture {
   int blocks;
   int startTimeSeconds;
 
+  /// Creates an instance of the class [Lecture].
   Lecture(
       String subject,
       String typeClass,
@@ -60,7 +62,7 @@ class Lecture {
       String classNumber) {
     final startTimeHours = (startTimeSeconds ~/ 3600);
     final startTimeMinutes = ((startTimeSeconds % 3600) ~/ 60);
-    final endTimeSeconds = 60 * 30 * blocks;
+    final endTimeSeconds = 60 * 30 * blocks + startTimeSeconds;
     final endTimeHours = (endTimeSeconds ~/ 3600);
     final endTimeMinutes = ((endTimeSeconds % 3600) ~/ 60);
     final lecture = Lecture(
@@ -97,6 +99,7 @@ class Lecture {
         startTimeHours, startTimeMinutes, endTimeHours, endTimeMinutes);
   }
 
+  /// Clones a lecture from the api.
   static Lecture clone(Lecture lec) {
     return Lecture.fromApi(
         lec.subject,
@@ -109,11 +112,15 @@ class Lecture {
         lec.classNumber);
   }
 
+
+  /// Clones a lecture from the html.
   static Lecture cloneHtml(Lecture lec) {
     return Lecture.fromHtml(lec.subject, lec.typeClass, lec.day, lec.startTime,
         lec.blocks, lec.room, lec.teacher, lec.classNumber);
   }
 
+
+  /// Converts this lecture to a map.
   Map<String, dynamic> toMap() {
     return {
       'subject': subject,
@@ -127,6 +134,7 @@ class Lecture {
     };
   }
 
+  /// Prints the data in this lecture to the [Logger] with an INFO level.
   printLecture() {
     Logger().i(subject + ' ' + typeClass);
     Logger().i(dayName[day] +
@@ -140,6 +148,7 @@ class Lecture {
     Logger().i(room + '  ' + teacher + '\n');
   }
 
+  /// Compares the date and time of two lectures.
   int compare(Lecture other) {
     if (day == other.day) {
       return startTime.compareTo(other.startTime);

@@ -1,0 +1,274 @@
+{
+  "blocos": [
+    {
+      "semana_ini": "2021-10-17",
+      "semana_fim": "2021-10-23",
+      "bloco_codigo": null,
+      "c_turma_id": null,
+      "turmas_bloco": "",
+      "turma_real": "",
+      "periodo": ""
+    },
+    {
+      "semana_ini": "2021-10-24",
+      "semana_fim": "2021-10-30",
+      "bloco_codigo": null,
+      "c_turma_id": null,
+      "turmas_bloco": "",
+      "turma_real": "",
+      "periodo": ""
+    },
+    {
+      "semana_ini": "2021-10-31",
+      "semana_fim": "2021-11-06",
+      "bloco_codigo": null,
+      "c_turma_id": null,
+      "turmas_bloco": "",
+      "turma_real": "",
+      "periodo": ""
+    },
+    {
+      "semana_ini": "2021-11-07",
+      "semana_fim": "2021-11-13",
+      "bloco_codigo": null,
+      "c_turma_id": null,
+      "turmas_bloco": "",
+      "turma_real": "",
+      "periodo": ""
+    },
+    {
+      "semana_ini": "2021-11-14",
+      "semana_fim": "2021-11-20",
+      "bloco_codigo": null,
+      "c_turma_id": null,
+      "turmas_bloco": "",
+      "turma_real": "",
+      "periodo": ""
+    },
+    {
+      "semana_ini": "2021-11-21",
+      "semana_fim": "2021-11-27",
+      "bloco_codigo": null,
+      "c_turma_id": null,
+      "turmas_bloco": "",
+      "turma_real": "",
+      "periodo": ""
+    },
+    {
+      "semana_ini": "2021-11-28",
+      "semana_fim": "2021-12-04",
+      "bloco_codigo": null,
+      "c_turma_id": null,
+      "turmas_bloco": "",
+      "turma_real": "",
+      "periodo": ""
+    },
+    {
+      "semana_ini": "2021-12-05",
+      "semana_fim": "2021-12-11",
+      "bloco_codigo": null,
+      "c_turma_id": null,
+      "turmas_bloco": "",
+      "turma_real": "",
+      "periodo": ""
+    },
+    {
+      "semana_ini": "2021-12-12",
+      "semana_fim": "2021-12-18",
+      "bloco_codigo": null,
+      "c_turma_id": null,
+      "turmas_bloco": "",
+      "turma_real": "",
+      "periodo": ""
+    },
+    {
+      "semana_ini": "2022-01-02",
+      "semana_fim": "2022-01-22",
+      "bloco_codigo": null,
+      "c_turma_id": null,
+      "turmas_bloco": "",
+      "turma_real": "",
+      "periodo": ""
+    }
+  ],
+  "horario": [
+    {
+      "dia": 2,
+      "hora_inicio": 39600,
+      "ucurr_sigla": "ASSO",
+      "ocorrencia_id": 484406,
+      "tipo": "TP",
+      "aula_id": 5877394,
+      "aula_duracao": 2,
+      "sala_sigla": "EaD",
+      "salas": [
+        {
+          "espaco_id": 73218,
+          "espaco_nome": "B323"
+        }
+      ],
+      "doc_sigla": "DRP",
+      "docentes": [
+        {
+          "doc_codigo": "211847",
+          "doc_nome": "Jaime Enrique Villate Matiz"
+        }
+      ],
+      "turma_sigla": "2LEIC12",
+      "turmas": [
+        {
+          "turma_id": 211027,
+          "turma_sigla": "2LEIC12"
+        }
+      ],
+      "periodo": 2
+    },
+    {
+      "dia": 5,
+      "hora_inicio": 50400,
+      "ucurr_sigla": "IOPE",
+      "ocorrencia_id": 484406,
+      "tipo": "TE",
+      "aula_id": 5877072,
+      "aula_duracao": 2,
+      "sala_sigla": "EaD",
+      "salas": [],
+      "doc_sigla": "MTD",
+      "docentes": [
+        {
+          "doc_codigo": "470161",
+          "doc_nome": "Mercedes Esteves Filho"
+        }
+      ],
+      "turma_sigla": "COMP_1635",
+      "turmas": [
+        {
+          "turma_id": 211028,
+          "turma_sigla": "2LEIC13"
+        },
+        {
+          "turma_id": 211029,
+          "turma_sigla": "2LEIC14"
+        },
+        {
+          "turma_id": 211025,
+          "turma_sigla": "2LEIC10"
+        },
+        {
+          "turma_id": 211027,
+          "turma_sigla": "2LEIC12"
+        },
+        {
+          "turma_id": 211030,
+          "turma_sigla": "2LEIC15"
+        },
+        {
+          "turma_id": 211031,
+          "turma_sigla": "2LEIC16"
+        },
+        {
+          "turma_id": 211026,
+          "turma_sigla": "2LEIC11"
+        },
+        {
+          "turma_id": 211024,
+          "turma_sigla": "2LEIC09"
+        }
+      ],
+      "periodo": 2
+    },
+    {
+      "dia": 3,
+      "hora_inicio": 50400,
+      "ucurr_sigla": "AED",
+      "ocorrencia_id": 484404,
+      "tipo": "TP",
+      "aula_id": 5877541,
+      "aula_duracao": 2,
+      "sala_sigla": "B101",
+      "salas": [
+        {
+          "espaco_id": 73388,
+          "espaco_nome": "B101"
+        }
+      ],
+      "doc_sigla": "RR",
+      "docentes": [
+        {
+          "doc_codigo": "419241",
+          "doc_nome": "Rosaldo Jos\u00E9 Fernandes Rossetti"
+        }
+      ],
+      "turma_sigla": "2LEIC10",
+      "turmas": [
+        {
+          "turma_id": 211025,
+          "turma_sigla": "2LEIC10"
+        }
+      ],
+      "periodo": 2
+    },
+    {
+      "dia": 6,
+      "hora_inicio": 50400,
+      "ucurr_sigla": "LDTS",
+      "ocorrencia_id": 484407,
+      "tipo": "PL",
+      "aula_id": 5877553,
+      "aula_duracao": 2,
+      "sala_sigla": "B101",
+      "salas": [
+        {
+          "espaco_id": 73388,
+          "espaco_nome": "B101"
+        }
+      ],
+      "doc_sigla": "BMCL",
+      "docentes": [
+        {
+          "doc_codigo": "547486",
+          "doc_nome": "Bruno Miguel Carvalhido Lima"
+        }
+      ],
+      "turma_sigla": "2LEIC10",
+      "turmas": [
+        {
+          "turma_id": 211025,
+          "turma_sigla": "2LEIC10"
+        }
+      ],
+      "periodo": 2
+    },
+    {
+      "dia": 6,
+      "hora_inicio": 57600,
+      "ucurr_sigla": "BD",
+      "ocorrencia_id": 484405,
+      "tipo": "TP",
+      "aula_id": 5877550,
+      "aula_duracao": 2,
+      "sala_sigla": "B101",
+      "salas": [
+        {
+          "espaco_id": 73388,
+          "espaco_nome": "B101"
+        }
+      ],
+      "doc_sigla": "PES",
+      "docentes": [
+        {
+          "doc_codigo": "665577",
+          "doc_nome": "Pedro Emanuel Cardoso de Sousa"
+        }
+      ],
+      "turma_sigla": "2LEIC10",
+      "turmas": [
+        {
+          "turma_id": 211025,
+          "turma_sigla": "2LEIC10"
+        }
+      ],
+      "periodo": 2
+    }
+  ]
+}

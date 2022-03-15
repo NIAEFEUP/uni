@@ -1,4 +1,5 @@
 import 'package:logger/logger.dart';
+import 'package:collection/collection.dart';
 
 var months = {
   'Janeiro': '01',
@@ -24,6 +25,14 @@ var _types = {
   'Exames ao abrigo de estatutos especiais': 'EAE'
 };
 
+/// Manages a generic Exam.
+///
+/// The information stored is:
+/// - The Exam `subject`
+/// - The `begin` and `end` times of the Exam
+/// - A List with the `rooms` in which the Exam takes place
+/// - The Exam `day`, `weekDay` and `month`
+/// - The Exam `type`
 class Exam {
   String subject;
   String begin;
@@ -70,6 +79,7 @@ class Exam {
         .firstWhere((k) => months[k] == dateSepared[1], orElse: () => null);
   }
 
+  /// Converts this exam to a map.
   Map<String, dynamic> toMap() {
     return {
       'subject': subject,
@@ -84,6 +94,7 @@ class Exam {
     };
   }
 
+  /// Returns whether or not this exam has already ended.
   bool hasEnded() {
     final DateTime now = DateTime.now();
     final int endHour = int.parse(end.split(':')[0]);
@@ -93,6 +104,7 @@ class Exam {
     return now.compareTo(endDateTime) <= 0;
   }
 
+  /// Prints the data in this exam to the [Logger] with an INFO level.
   void printExam() {
     Logger().i(
         '''$subject - $year - $month - $day -  $begin-$end - $examType - $rooms - $weekDay''');
@@ -102,6 +114,33 @@ class Exam {
   String toString() {
     return '''$subject - $year - $month - $day -  $begin-$end - $examType - $rooms - $weekDay''';
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Exam &&
+          runtimeType == other.runtimeType &&
+          subject == other.subject &&
+          begin == other.begin &&
+          end == other.end &&
+          ListEquality().equals(rooms, other.rooms) &&
+          day == other.day &&
+          examType == other.examType &&
+          weekDay == other.weekDay &&
+          month == other.month &&
+          year == other.year;
+
+  @override
+  int get hashCode =>
+      subject.hashCode ^
+      begin.hashCode ^
+      end.hashCode ^
+      ListEquality().hash(rooms) ^
+      day.hashCode ^
+      examType.hashCode ^
+      weekDay.hashCode ^
+      month.hashCode ^
+      year.hashCode;
 
   static Map<String, String> getExamTypes() {
     return _types;

@@ -45,7 +45,8 @@ void main() {
       final Completer<Null> completer = Completer();
       final actionCreator =
           getUserExams(completer, parserMock, userPersistentInfo);
-      when(parserMock.parseExams(any)).thenAnswer((_) async => [sopeExam]);
+      when(parserMock.parseExams(any))
+          .thenAnswer((_) async => [sopeExam].toSet());
 
       actionCreator(mockStore);
       await completer.future;
@@ -61,7 +62,7 @@ void main() {
       final actionCreator =
           getUserExams(completer, parserMock, userPersistentInfo);
       when(parserMock.parseExams(any))
-          .thenAnswer((_) async => [sopeExam, sdisExam]);
+          .thenAnswer((_) async => [sopeExam, sdisExam].toSet());
 
       actionCreator(mockStore);
       await completer.future;
@@ -85,7 +86,7 @@ void main() {
       final actionCreator =
           getUserExams(completer, parserMock, userPersistentInfo);
       when(parserMock.parseExams(any))
-          .thenAnswer((_) async => [sopeExam, sdisExam, specialExam]);
+          .thenAnswer((_) async => [sopeExam, sdisExam, specialExam].toSet());
 
       actionCreator(mockStore);
       await completer.future;
@@ -127,7 +128,8 @@ void main() {
       final Completer<Null> completer = Completer();
       final actionCreator =
           getUserExams(completer, parserMock, userPersistentInfo);
-      when(parserMock.parseExams(any)).thenAnswer((_) async => [todayExam]);
+      when(parserMock.parseExams(any))
+          .thenAnswer((_) async => [todayExam].toSet());
 
       actionCreator(mockStore);
       await completer.future;
@@ -154,7 +156,8 @@ void main() {
       final Completer<Null> completer = Completer();
       final actionCreator =
           getUserExams(completer, parserMock, userPersistentInfo);
-      when(parserMock.parseExams(any)).thenAnswer((_) async => [todayExam]);
+      when(parserMock.parseExams(any))
+          .thenAnswer((_) async => [todayExam].toSet());
 
       actionCreator(mockStore);
       await completer.future;
@@ -181,7 +184,8 @@ void main() {
       final Completer<Null> completer = Completer();
       final actionCreator =
           getUserExams(completer, parserMock, userPersistentInfo);
-      when(parserMock.parseExams(any)).thenAnswer((_) async => [todayExam]);
+      when(parserMock.parseExams(any))
+          .thenAnswer((_) async => [todayExam].toSet());
 
       actionCreator(mockStore);
       await completer.future;

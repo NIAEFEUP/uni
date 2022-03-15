@@ -61,4 +61,15 @@ ThemeData applicationLightTheme = ThemeData(
       style: TextButton.styleFrom(
           primary: _darkRed,
           textStyle: TextStyle(fontSize: 15.0, fontWeight: FontWeight.w400))),
+  checkboxTheme: CheckboxThemeData(
+    checkColor: MaterialStateProperty.all(Colors.white),
+    fillColor: MaterialStateColor.resolveWith(
+      (states) {
+      if (states.contains(MaterialState.selected)) {
+        return _darkRed; // the color when checkbox is selected;
+      }
+      return _grey; //the color when checkbox is unselected;
+      },
+    )
+  )
 );
