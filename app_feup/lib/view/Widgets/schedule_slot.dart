@@ -83,6 +83,9 @@ class ScheduleSlot extends StatelessWidget {
       children: <Widget>[
         IconButton(
           icon: Icon(Icons.open_in_browser),
+          iconSize: 18,
+          color: Colors.grey,
+          alignment: Alignment.centerRight,
           tooltip: 'Abrir página da UC no browser',
           onPressed: _launchURL,
         ),
