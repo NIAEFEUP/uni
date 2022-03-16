@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Dropdown to choose the student's faculty in the login page
 - Calendar button to add an event to the calendar with the details of a exam
 - Drag icon appears on widgets during editing mode
+- Fetching of Terms and Conditions.
 
 ### Fixed
 
