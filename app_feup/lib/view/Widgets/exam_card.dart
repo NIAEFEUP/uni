@@ -105,6 +105,7 @@ class ExamCard extends GenericCard {
             begin: exam.begin,
             end: exam.end,
             type: exam.examType,
+            date: exam.date,
           ),
         ),
       ),
