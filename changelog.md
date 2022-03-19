@@ -7,12 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- User faculty storage in shared preferences
 - Send bug reports and app crashes details to Sentry
 - Clickable checkbox rows
 - Fetch restaurants from sigarra and stored locally
 - Dropdown to choose the student's faculty in the login page
 - Calendar button to add an event to the calendar with the details of a exam
 - Drag icon appears on widgets during editing mode
+- A Canteen Page in the personal area
 - Fetching of Terms and Conditions.
 
 ### Fixed
