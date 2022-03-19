@@ -27,7 +27,7 @@ class AppExamsDatabase extends AppDatabase {
     'Dezembro': '12'
   };
 
-  static final create_Script =
+  static final _createScript =
   '''CREATE TABLE exams(subject TEXT, begin TEXT, end TEXT,
           rooms TEXT, day TEXT, examType TEXT, weekDay TEXT, month TEXT, year TEXT) ''';
 
@@ -35,7 +35,7 @@ class AppExamsDatabase extends AppDatabase {
       : super(
               'exams.db',
               [
-              create_Script,
+              _createScript,
               ]);
 
 
