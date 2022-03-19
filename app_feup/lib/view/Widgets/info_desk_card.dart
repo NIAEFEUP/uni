@@ -49,7 +49,6 @@ class InfoDeskCard extends GenericCard {
           child: Align(
             alignment: Alignment.centerLeft,
             child: Text('Telefone',
-                //textAlign: TextAlign.center,
                 style: Theme.of(context)
                     .textTheme
                     .headline4
@@ -61,7 +60,6 @@ class InfoDeskCard extends GenericCard {
           child: Align(
             alignment: Alignment.centerLeft,
             child: Text('+351 22 041 3508',
-                //textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.headline3),
           ),
         ),
@@ -70,7 +68,6 @@ class InfoDeskCard extends GenericCard {
           child: Align(
             alignment: Alignment.centerLeft,
             child: Text('Email',
-                //textAlign: TextAlign.center,
                 style: Theme.of(context)
                     .textTheme
                     .headline4
@@ -82,7 +79,6 @@ class InfoDeskCard extends GenericCard {
           child: Align(
               alignment: Alignment.centerLeft,
               child: Text('candidato@fe.up.pt',
-                  //textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.headline3)),
         ),
       ],
@@ -90,7 +86,7 @@ class InfoDeskCard extends GenericCard {
   }
 
   @override
-  String getTitle() => 'Info Desk';
+  String getTitle() => 'Infodesk';
 
   @override
   onClick(BuildContext context) {}

@@ -68,7 +68,6 @@ class AcademicServicesCard extends GenericCard {
           child: Align(
             alignment: Alignment.centerLeft,
             child: Text('Telefone',
-                //textAlign: TextAlign.center,
                 style: Theme.of(context)
                     .textTheme
                     .headline4
@@ -80,7 +79,6 @@ class AcademicServicesCard extends GenericCard {
           child: Align(
             alignment: Alignment.centerLeft,
             child: Text('+351 22 508 1977',
-                //textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.headline3),
           ),
         ),
@@ -89,7 +87,6 @@ class AcademicServicesCard extends GenericCard {
           child: Align(
             alignment: Alignment.centerLeft,
             child: Text('+351 22 508 1405',
-                //textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.headline3),
           ),
         ),
@@ -98,7 +95,6 @@ class AcademicServicesCard extends GenericCard {
           child: Align(
             alignment: Alignment.centerLeft,
             child: Text('Departamentos',
-                //textAlign: TextAlign.center,
                 style: Theme.of(context)
                     .textTheme
                     .headline4
@@ -121,7 +117,6 @@ class AcademicServicesCard extends GenericCard {
           child: Align(
             alignment: Alignment.centerLeft,
             child: Text('acesso.ingresso@fe.up.pt',
-                //textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.headline3),
           ),
         ),
@@ -130,7 +125,6 @@ class AcademicServicesCard extends GenericCard {
           child: Align(
             alignment: Alignment.centerLeft,
             child: Text('certificacao@fe.up.pt',
-                //textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.headline3),
           ),
         ),
@@ -150,7 +144,6 @@ class AcademicServicesCard extends GenericCard {
           child: Align(
             alignment: Alignment.centerLeft,
             child: Text('percurso.academico@fe.up.pt',
-                //textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.headline3),
           ),
         ),
@@ -170,7 +163,6 @@ class AcademicServicesCard extends GenericCard {
           child: Align(
             alignment: Alignment.centerLeft,
             child: Text('suporte.cursos@fe.up.pt',
-                //textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.headline3),
           ),
         ),
