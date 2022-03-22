@@ -68,7 +68,7 @@ class Exam {
   Exam(String schedule, String subject, String rooms, String date,
       String examType, String weekDay) {
     final scheduling = schedule.split('-');
-    final dateSepared = date.split('-');
+    final splittedDate = date.split('-');
     this.date = DateTime.parse(date);
     this.endDateTime = DateTime(this.date.year, this.date.month, this.date.day, int.parse(scheduling[1].split(':')[0]), int.parse(scheduling[1].split(':')[1]));
     this.beginDateTime = DateTime(this.date.year, this.date.month, this.date.day, int.parse(scheduling[0].split(':')[0]), int.parse(scheduling[0].split(':')[1]));
@@ -76,8 +76,8 @@ class Exam {
     this.end = scheduling[1];
     this.subject = subject;
     this.rooms = rooms.split(',');
-    this.year = dateSepared[0];
-    this.day = dateSepared[2];
+    this.year = splittedDate[0];
+    this.day = splittedDate[2];
     this.examType = examType;
     this.weekDay = weekDay;
 
