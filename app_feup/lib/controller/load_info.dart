@@ -14,13 +14,20 @@ import 'package:uni/redux/refresh_items_action.dart';
 import 'local_storage/app_shared_preferences.dart';
 
 Future loadReloginInfo(Store<AppState> store) async {
-  final Tuple2<String, String> userPersistentInfo =
+  final Tuple2<String, String> userPersistentCredentials =
       await AppSharedPreferences.getPersistentUserInfo();
-  final String userName = userPersistentInfo.item1;
-  final String password = userPersistentInfo.item2;
+  final List<String> userPersistentFacs =
+      await AppSharedPreferences.getUserFaculties();
+  final String userName = userPersistentCredentials.item1;
+  final String password = userPersistentCredentials.item2;
+  final List<String> faculties =
+      userPersistentFacs.isEmpty ? userPersistentFacs : ['feup'];
+
   if (userName != '' && password != '') {
     final action = Completer();
-    store.dispatch(reLogin(userName, password, 'feup', action: action));
+
+    /// TODO: support for multiple faculties. Issue: #445
+    store.dispatch(reLogin(userName, password, faculties[0], action: action));
     return action.future;
   }
   return Future.error('No credentials stored');
@@ -48,13 +55,15 @@ Future loadRemoteUserInfoToState(Store<AppState> store) async {
       fees = Completer(),
       coursesStates = Completer(),
       trips = Completer(),
-      lastUpdate = Completer();
+      lastUpdate = Completer(),
+      restaurants = Completer();
 
   store.dispatch(getUserInfo(userInfo));
   store.dispatch(getUserPrintBalance(printBalance));
   store.dispatch(getUserFees(fees));
   store.dispatch(getUserCoursesState(coursesStates));
   store.dispatch(getUserBusTrips(trips));
+  store.dispatch(getRestaurantsFromFetcher(restaurants));
 
   final Tuple2<String, String> userPersistentInfo =
       await AppSharedPreferences.getPersistentUserInfo();
@@ -70,7 +79,8 @@ Future loadRemoteUserInfoToState(Store<AppState> store) async {
     fees.future,
     coursesStates.future,
     userInfo.future,
-    trips.future
+    trips.future,
+    restaurants.future
   ]);
   allRequests.then((futures) {
     store.dispatch(setLastUserInfoUpdateTimestamp(lastUpdate));
@@ -82,6 +92,8 @@ void loadLocalUserInfoToState(store) async {
   store.dispatch(
       UpdateFavoriteCards(await AppSharedPreferences.getFavoriteCards()));
   store.dispatch(SetExamFilter(await AppSharedPreferences.getFilteredExams()));
+  store.dispatch(
+      SetUserFaculties(await AppSharedPreferences.getUserFaculties()));
   final Tuple2<String, String> userPersistentInfo =
       await AppSharedPreferences.getPersistentUserInfo();
   if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {
