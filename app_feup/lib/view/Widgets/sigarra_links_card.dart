@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:uni/view/Widgets/link_button.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'generic_card.dart';
 
 /// Manages the 'Current account' section inside the user's page (accessible
