@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:uni/view/Pages/general_page_view.dart';
 import 'package:uni/view/Widgets/academic_services_card.dart';
 import 'package:uni/view/Widgets/info_desk_card.dart';
+import 'package:uni/view/Widgets/dona_bia_card.dart';
 
 class UsefulContactsCardView extends StatefulWidget {
   @override
@@ -19,6 +20,6 @@ class UsefulContactsCardViewState extends GeneralPageViewState {
 List<Widget> childrenList() {
   final List<Widget> list = [];
   list.add(InfoDeskCard());
-  list.add(AcademicServicesCard());
+  list.add(DonaBiaCard());
   return list;
 }

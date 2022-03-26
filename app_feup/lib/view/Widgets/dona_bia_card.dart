@@ -3,10 +3,10 @@ import 'generic_card.dart';
 
 /// Manages the 'Current account' section inside the user's page (accessible
 /// through the top-right widget with the user picture)
-class InfoDeskCard extends GenericCard {
-  InfoDeskCard({Key key}) : super(key: key);
+class DonaBiaCard extends GenericCard {
+  DonaBiaCard({Key key}) : super(key: key);
 
-  InfoDeskCard.fromEditingInformation(
+  DonaBiaCard.fromEditingInformation(
       Key key, bool editingMode, Function onDelete)
       : super.fromEditingInformation(key, editingMode, onDelete);
 
@@ -29,7 +29,7 @@ class InfoDeskCard extends GenericCard {
           margin: const EdgeInsets.only(top: 13.0, bottom: 0.0, left: 20.0),
           child: Align(
             alignment: Alignment.centerLeft,
-            child: Text('Atendimento presencial e telefónico',
+            child: Text('Piso -1 do edifício B (B -142)',
                 style: Theme.of(context)
                     .textTheme
                     .headline4
@@ -40,7 +40,7 @@ class InfoDeskCard extends GenericCard {
           margin: const EdgeInsets.only(top: 8, bottom: 0, left: 20.0),
           child: Align(
             alignment: Alignment.centerLeft,
-            child: Text('9:30h - 13:00h | 14:00h - 17:30h',
+            child: Text('8:30h - 12:00h | 13:30h - 19:00h',
                 style: Theme.of(context).textTheme.headline3),
           ),
         ),
@@ -59,15 +59,7 @@ class InfoDeskCard extends GenericCard {
           margin: const EdgeInsets.only(top: 8, bottom: 0, left: 20.0),
           child: Align(
             alignment: Alignment.centerLeft,
-            child: Text('+351 225 081 400',
-                style: Theme.of(context).textTheme.headline3),
-          ),
-        ),
-        Container(
-          margin: const EdgeInsets.only(top: 8, bottom: 0, left: 20.0),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Text('+351 225 081 895',
+            child: Text('+351 225 081 416',
                 style: Theme.of(context).textTheme.headline3),
           ),
         ),
@@ -83,17 +75,10 @@ class InfoDeskCard extends GenericCard {
           ),
         ),
         Container(
-          margin: const EdgeInsets.only(top: 8, bottom: 0, left: 20.0),
-          child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text('feup@fe.up.pt',
-                  style: Theme.of(context).textTheme.headline3)),
-        ),
-        Container(
           margin: const EdgeInsets.only(top: 8, bottom: 8, left: 20.0),
           child: Align(
               alignment: Alignment.centerLeft,
-              child: Text('infodesk@fe.up.pt',
+              child: Text('papelaria.fe.up@gmail.com',
                   style: Theme.of(context).textTheme.headline3)),
         ),
       ],
@@ -101,7 +86,7 @@ class InfoDeskCard extends GenericCard {
   }
 
   @override
-  String getTitle() => 'Infodesk';
+  String getTitle() => 'Papelaria D. Bia';
 
   @override
   onClick(BuildContext context) {}
