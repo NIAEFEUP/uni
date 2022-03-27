@@ -68,6 +68,8 @@ AppState appReducers(AppState state, dynamic action) {
     return setLocations(state, action);
   } else if (action is SetLocationsStatusAction){
     return setLocationsStatus(state, action);
+  } else if (action is SetUserFaculties) {
+    return setUserFaculties(state, action);
   } else if(action is SetRestaurantsAction){
     return setRestaurantsAction(state, action);
   }
@@ -228,4 +230,8 @@ AppState setLocations(AppState state, SetLocationsAction action){
 AppState setLocationsStatus(AppState state, SetLocationsStatusAction action){
   Logger().i('setting locations state to ' + action.status.toString());
   return state.cloneAndUpdateValue('locationGroupsStatus', action.status);
+}
+AppState setUserFaculties(AppState state, SetUserFaculties action) {
+  Logger().i('setting user faculty(ies) ' + action.faculties.toString());
+  return state.cloneAndUpdateValue('userFaculties', action.faculties);
 }

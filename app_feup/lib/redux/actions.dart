@@ -172,3 +172,7 @@ class SetLocationsStatusAction {
 }
 
 
+class SetUserFaculties {
+  List<String> faculties;
+  SetUserFaculties(this.faculties);
+}
