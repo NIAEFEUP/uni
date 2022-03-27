@@ -27,7 +27,7 @@ class LocationMarker extends Marker{
             ),
             borderRadius: BorderRadius.all(Radius.circular(20))
           ),
-          child: getIcon(locationGroup.getFirst(), ctx),
+          child: getIcon(locationGroup.getLocationWithMostWeight(), ctx),
         ),
       );
   static Widget getIcon(Location location, BuildContext context){
@@ -47,7 +47,7 @@ class LocationMarker extends Marker{
           size: 12);
     } else {
       return Icon(
-          CupertinoIcons.question_diamond_fill,
+          Icons.device_unknown,
           color: Theme.of(context).accentColor,
           size: 12);
     }

@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import '../location.dart';
 
 class RoomGroupLocation implements Location{

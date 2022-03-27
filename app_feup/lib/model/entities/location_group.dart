@@ -24,7 +24,7 @@ class LocationGroup{
   /**
    * Returns the Location with the most weight
    */
-  Location getFirst(){
+  Location getLocationWithMostWeight(){
           final List<Location> allLocations =
             floors.values.expand((x) => x).toList();
           if(allLocations == null) return null;
@@ -38,7 +38,7 @@ class LocationGroup{
       'id' : this.id,
       'lat' : latlng.latitude,
       'lng' : latlng.longitude,
-      'is_floorless' : isFloorless
+      'is_floorless' : isFloorless ? 1 : 0,
     };
   }
 

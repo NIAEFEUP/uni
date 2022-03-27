@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import '../location.dart';
 
 class Atm implements Location{

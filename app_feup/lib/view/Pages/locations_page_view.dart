@@ -37,7 +37,7 @@ class LocationsPageView extends StatelessWidget {
     return Container(
       width: MediaQuery.of(context).size.width * 0.95,
       padding: const EdgeInsets.fromLTRB(0, 0, 0, 4.0),
-      child: Text('Feup',
+      child: Text('FEUP',
         textAlign: TextAlign.left,
         style: Theme.of(context).textTheme.headline6.apply(fontSizeDelta: 7)));
   }

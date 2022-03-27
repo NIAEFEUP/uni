@@ -1,3 +1,5 @@
+import 'package:uni/view/Fonts/location_icons.dart';
+
 import '../location.dart';
 
 class CoffeeMachine implements Location{
@@ -8,7 +10,7 @@ class CoffeeMachine implements Location{
   final weight = 3;
 
   @override
-  final icon = 'assets/images/coffee.svg';
+  final icon = LocationIcons.coffee;
 
 
   CoffeeMachine(this.floor);

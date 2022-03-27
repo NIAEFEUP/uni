@@ -82,24 +82,27 @@ flutter:
   fonts:
     - family: Raleway
       fonts:
-        - asset: assets/fonts/Raleway-Black.ttf
+        - asset: assets/Fonts/Raleway-Black.ttf
           weight: 900
-        - asset: assets/fonts/Raleway-Bold.ttf
+        - asset: assets/Fonts/Raleway-Bold.ttf
           weight: 700
-        - asset: assets/fonts/Raleway-ExtraBold.ttf
+        - asset: assets/Fonts/Raleway-ExtraBold.ttf
           weight: 800
-        - asset: assets/fonts/Raleway-ExtraLight.ttf
+        - asset: assets/Fonts/Raleway-ExtraLight.ttf
           weight: 200
-        - asset: assets/fonts/Raleway-Light.ttf
+        - asset: assets/Fonts/Raleway-Light.ttf
           weight: 300
-        - asset: assets/fonts/Raleway-Medium.ttf
+        - asset: assets/Fonts/Raleway-Medium.ttf
           weight: 500
-        - asset: assets/fonts/Raleway-Regular.ttf
+        - asset: assets/Fonts/Raleway-Regular.ttf
           weight: 400
-        - asset: assets/fonts/Raleway-SemiBold.ttf
+        - asset: assets/Fonts/Raleway-SemiBold.ttf
           weight: 600
-        - asset: assets/fonts/Raleway-Thin.ttf
+        - asset: assets/Fonts/Raleway-Thin.ttf
           weight: 100
+    - family: LocationIcons
+      fonts:
+        - asset: assets/Fonts/LocationIcons.ttf
 
   # To add assets to your application, add an assets section, like this:
   # assets:
@@ -118,22 +121,22 @@ flutter:
   # For details regarding adding assets from package dependencies, see
   # https://flutter.io/assets-and-images/#from-packages
 
-  # To add custom fonts to your application, add a fonts section here,
+  # To add custom Fonts to your application, add a Fonts section here,
   # in this "flutter" section. Each entry in this list should have a
-  # "family" key with the font family name, and a "fonts" key with a
+  # "family" key with the font family name, and a "Fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
+  # Fonts:
   #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
+  #     Fonts:
+  #       - asset: Fonts/Schyler-Regular.ttf
+  #       - asset: Fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
+  #     Fonts:
+  #       - asset: Fonts/TrajanPro.ttf
+  #       - asset: Fonts/TrajanPro_Bold.ttf
   #         weight: 700
   #
-  # For details regarding fonts from package dependencies,
+  # For details regarding Fonts from package dependencies,
   # see https://flutter.io/custom-fonts/#from-packages

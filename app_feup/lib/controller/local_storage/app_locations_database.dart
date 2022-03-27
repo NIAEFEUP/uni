@@ -27,21 +27,38 @@ class LocationDatabase extends AppDatabase {
 
     initLocations(List<LocationGroup> locations) async {
       final Database db = await this.getDatabase();
-      await db.transaction((txn)  async {
+      final batch = db.batch();
+      batch.delete('location_group');
+      batch.delete('locations');
+      locations.forEach((group) => saveLocationGroup(batch, group));
+      await batch.commit(noResult: true);
+
+      /*await db.transaction((txn)  async {
         db.delete('location_group');
         db.delete('locations');
         locations.forEach((group) => saveLocationGroup(txn, group));
       });
+      */
     }
+  /*
+  saveLocationGroup(Transaction t, LocationGroup group){
+    t.insert('location_group', group.toMap());
+    final List<Location> locations =
+    group.floors.values.expand((x) => x).toList();
+    locations.forEach((location) {
+      t.insert('locations', location.toMap(groupId: group.id));
+    });
+  }*/
+  saveLocationGroup(Batch batch, LocationGroup group){
+    batch.insert('location_group', group.toMap());
+    final List<Location> locations =
+    group.floors.values.expand((x) => x).toList();
+    locations.forEach((location) {
+      batch.insert('locations', location.toMap(groupId: group.id));
+    });
+  }
 
-    saveLocationGroup(Transaction t, LocationGroup group){
-      t.insert('location_group', group.toMap());
-      final List<Location> locations =
-        group.floors.values.expand((x) => x).toList();
-      locations.forEach((location) { 
-        t.insert('locations', location.toMap(groupId: group.id));
-      });
-    }
+
 
 
 
