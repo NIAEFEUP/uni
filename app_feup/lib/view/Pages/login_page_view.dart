@@ -16,7 +16,7 @@ class LoginPageView extends StatefulWidget {
 
 /// Manages the 'login section' view.
 class _LoginPageViewState extends State<LoginPageView> {
-  final List<String> faculty = [
+  List<String> userFaculties = [
     'feup'
   ]; // May choose more than one faculties in the dropdown.
 
@@ -30,9 +30,9 @@ class _LoginPageViewState extends State<LoginPageView> {
   static final FocusNode passwordFocus = FocusNode();
 
   static final TextEditingController usernameController =
-      TextEditingController();
+  TextEditingController();
   static final TextEditingController passwordController =
-      TextEditingController();
+  TextEditingController();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   static bool _exitApp = false;
@@ -45,7 +45,7 @@ class _LoginPageViewState extends State<LoginPageView> {
         _formKey.currentState.validate()) {
       final user = usernameController.text.trim();
       final pass = passwordController.text.trim();
-      store.dispatch(login(user, pass, faculty, _keepSignedIn,
+      store.dispatch(login(user, pass, userFaculties, _keepSignedIn,
           usernameController, passwordController));
     }
   }
@@ -100,7 +100,6 @@ class _LoginPageViewState extends State<LoginPageView> {
     widgets.add(
         Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)));
     widgets.add(createSafeLoginButton(context));
-
     return widgets;
   }
 
@@ -160,26 +159,42 @@ class _LoginPageViewState extends State<LoginPageView> {
   /// Creates the widget for the user to choose their faculty
   /// TODO: support for multiple faculties. Issue: #445
   Widget createFacultyInput() {
-    return DropdownButton(
-      value: faculty[0].toUpperCase(),
-      items: Constants.faculties
-          .map((value) => DropdownMenuItem(
-                value: value.toUpperCase(),
-                child: Text(value.toUpperCase()),
-              ))
-          .toList(),
-      onChanged: (newDropdownValue) {
-        setState(() {
-          faculty[0] = newDropdownValue.toLowerCase();
+    return TextButton(
+        child: Text('a(s) tua(s) faculdade(s)'),
+        style: TextButton.styleFrom(
+            primary: Colors.white,
+            textStyle: TextStyle(fontSize: 20)
+        ),
+        onPressed: () {
+          showDialog(context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                    title: Text('seleciona a(s) tua(s) faculdade(s)'),
+                    content: Container(
+                        height: 600.0,
+                        width: 200.0,
+                        child: ListView(
+                            children: List.generate(Constants.faculties.length,
+                              (i) {
+                              final String faculty =
+                              Constants.faculties.elementAt(i);
+                              return CheckboxListTile(
+                                  title: Text(faculty),
+                                  value: userFaculties.contains(faculty),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      if (value) {
+                                        userFaculties.add(faculty);
+                                      } else {
+                                        userFaculties.remove(faculty);
+                                      }
+                                      for (String s in userFaculties)
+                                        print(s);
+                                    });
+                                  });
+                              }))));
+                });
         });
-      },
-      isExpanded: true,
-      dropdownColor: Theme.of(context).accentColor,
-      iconDisabledColor: Theme.of(context).primaryColor,
-      iconEnabledColor: Theme.of(context).primaryColor,
-      style: TextStyle(color: Colors.white, fontSize: 20),
-      underline: Container(width: 200, height: 0.2, color: Colors.black87),
-    );
   }
 
   /// Creates the widget for the username input.
@@ -221,7 +236,7 @@ class _LoginPageViewState extends State<LoginPageView> {
         textAlign: TextAlign.left,
         decoration: passwordFieldDecoration('palavra-passe'),
         validator: (String value) =>
-            value.isEmpty ? 'Preenche este campo' : null);
+        value.isEmpty ? 'Preenche este campo' : null);
   }
 
   /// Creates the widget for the user to keep signed in (save his data).
