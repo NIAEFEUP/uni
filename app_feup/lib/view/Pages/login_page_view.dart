@@ -160,13 +160,29 @@ class _LoginPageViewState extends State<LoginPageView> {
   /// TODO: support for multiple faculties. Issue: #445
   Widget createFacultyInput() {
     return TextButton(
-        child: Text('a(s) tua(s) faculdade(s)'),
+        child: Container(
+          child: Row(
+            children: [
+            Text('a(s) tua(s) faculdade(s)'),
+            Spacer(),
+            Icon(Icons.arrow_drop_down),
+            ]
+          ),
+          padding: const EdgeInsets.fromLTRB(5, 0, 5, 7),
+          decoration: BoxDecoration(
+            border: Border(
+                bottom: BorderSide(
+                color: Colors.black,
+                width: 0.5,
+        )))),
         style: TextButton.styleFrom(
             primary: Colors.white,
-            textStyle: TextStyle(fontSize: 20)
+            textStyle: TextStyle(fontSize: 20,
+                fontWeight: FontWeight.w300)
         ),
         onPressed: () {
-          showDialog(context: context,
+          showDialog(
+              context: context,
               builder: (BuildContext context) {
                 return AlertDialog(
                     title: Text('seleciona a(s) tua(s) faculdade(s)'),
@@ -175,24 +191,24 @@ class _LoginPageViewState extends State<LoginPageView> {
                         width: 200.0,
                         child: ListView(
                             children: List.generate(Constants.faculties.length,
-                              (i) {
-                              final String faculty =
-                              Constants.faculties.elementAt(i);
-                              return CheckboxListTile(
-                                  title: Text(faculty),
-                                  value: userFaculties.contains(faculty),
-                                  onChanged: (value) {
-                                    setState(() {
-                                      if (value) {
-                                        userFaculties.add(faculty);
-                                      } else {
-                                        userFaculties.remove(faculty);
-                                      }
-                                      for (String s in userFaculties)
-                                        print(s);
-                                    });
-                                  });
-                              }))));
+                                  (i) {
+                                  final String faculty =
+                                  Constants.faculties.elementAt(i);
+                                  return CheckboxListTile(
+                                      title: Text(faculty),
+                                      value: userFaculties.contains(faculty),
+                                      onChanged: (value) {
+                                        setState(() {
+                                          if (value) {
+                                            userFaculties.add(faculty);
+                                          } else {
+                                            userFaculties.remove(faculty);
+                                          }
+                                          for (String s in userFaculties)
+                                            print(s);
+                                        });
+                                      });
+                                  }))));
                 });
         });
   }
