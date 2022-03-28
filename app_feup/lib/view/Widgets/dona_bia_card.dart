@@ -15,11 +15,11 @@ class DonaBiaCard extends GenericCard {
       children: <Container>[
         h1('Horário', context, initial: true),
         h2('Piso -1 do edifício B (B -142)', context),
-        info_text('8:30h - 12:00h | 13:30h - 19:00h', context),
+        infoText('8:30h - 12:00h | 13:30h - 19:00h', context),
         h1('Telefone', context),
-        info_text('+351 225 081 416', context),
+        infoText('+351 225 081 416', context),
         h1('Email', context),
-        info_text('papelaria.fe.up@gmail.com', context, last: true)
+        infoText('papelaria.fe.up@gmail.com', context, last: true)
       ],
     );
   }

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'generic_card.dart';
 
 Container h1(String text, BuildContext context, {bool initial = false}) {
-  double margin_top = initial ? 15.0 : 30.0;
+  final double marginTop = initial ? 15.0 : 30.0;
   return Container(
-      margin: EdgeInsets.only(top: margin_top, bottom: 0.0, left: 20.0),
+      margin: EdgeInsets.only(top: marginTop, bottom: 0.0, left: 20.0),
       child: Align(
         alignment: Alignment.centerLeft,
         child: Text(text,
@@ -24,10 +24,10 @@ Container h2(String text, BuildContext context) {
       ));
 }
 
-Container info_text(String text, BuildContext context, {bool last = false}) {
-  double margin_bottom = last ? 8.0 : 0.0;
+Container infoText(String text, BuildContext context, {bool last = false}) {
+  final double marginBottom = last ? 8.0 : 0.0;
   return Container(
-    margin: EdgeInsets.only(top: 8, bottom: margin_bottom, left: 20.0),
+    margin: EdgeInsets.only(top: 8, bottom: marginBottom, left: 20.0),
     child: Align(
       alignment: Alignment.centerLeft,
       child: Text(text, style: Theme.of(context).textTheme.headline3),
@@ -48,13 +48,13 @@ class InfoDeskCard extends GenericCard {
       children: <Container>[
         h1('Horário', context, initial: true),
         h2('Atendimento presencial e telefónico', context),
-        info_text('9:30h - 13:00h | 14:00h - 17:30h', context),
+        infoText('9:30h - 13:00h | 14:00h - 17:30h', context),
         h1('Telefone', context),
-        info_text('+351 225 081 400', context),
-        info_text('+351 225 081 895', context),
+        infoText('+351 225 081 400', context),
+        infoText('+351 225 081 895', context),
         h1('Email', context),
-        info_text('feup@fe.up.pt', context),
-        info_text('infodesk@fe.up.pt', context, last: true)
+        infoText('feup@fe.up.pt', context),
+        infoText('infodesk@fe.up.pt', context, last: true)
       ],
     );
   }
