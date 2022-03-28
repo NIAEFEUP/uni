@@ -1,8 +1,40 @@
 import 'package:flutter/material.dart';
 import 'generic_card.dart';
 
-/// Manages the 'Current account' section inside the user's page (accessible
-/// through the top-right widget with the user picture)
+Container h1(String text, BuildContext context, {bool initial = false}) {
+  double margin_top = initial ? 15.0 : 30.0;
+  return Container(
+      margin: EdgeInsets.only(top: margin_top, bottom: 0.0, left: 20.0),
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: Text(text,
+            style:
+                Theme.of(context).textTheme.headline4.apply(fontSizeDelta: 0)),
+      ));
+}
+
+Container h2(String text, BuildContext context) {
+  return Container(
+      margin: const EdgeInsets.only(top: 13.0, bottom: 0.0, left: 20.0),
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: Text(text,
+            style:
+                Theme.of(context).textTheme.headline4.apply(fontSizeDelta: -4)),
+      ));
+}
+
+Container info_text(String text, BuildContext context, {bool last = false}) {
+  double margin_bottom = last ? 8.0 : 0.0;
+  return Container(
+    margin: EdgeInsets.only(top: 8, bottom: margin_bottom, left: 20.0),
+    child: Align(
+      alignment: Alignment.centerLeft,
+      child: Text(text, style: Theme.of(context).textTheme.headline3),
+    ),
+  );
+}
+
 class InfoDeskCard extends GenericCard {
   InfoDeskCard({Key key}) : super(key: key);
 
@@ -14,88 +46,15 @@ class InfoDeskCard extends GenericCard {
   Widget buildCardContent(BuildContext context) {
     return Column(
       children: <Container>[
-        Container(
-          margin: const EdgeInsets.only(top: 20.0, bottom: 0.0, left: 20.0),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Text('Horário',
-                style: Theme.of(context)
-                    .textTheme
-                    .headline4
-                    .apply(fontSizeDelta: 0)),
-          ),
-        ),
-        Container(
-          margin: const EdgeInsets.only(top: 13.0, bottom: 0.0, left: 20.0),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Text('Atendimento presencial e telefónico',
-                style: Theme.of(context)
-                    .textTheme
-                    .headline4
-                    .apply(fontSizeDelta: -4)),
-          ),
-        ),
-        Container(
-          margin: const EdgeInsets.only(top: 8, bottom: 0, left: 20.0),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Text('9:30h - 13:00h | 14:00h - 17:30h',
-                style: Theme.of(context).textTheme.headline3),
-          ),
-        ),
-        Container(
-          margin: const EdgeInsets.only(top: 30, bottom: 0.0, left: 20.0),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Text('Telefone',
-                style: Theme.of(context)
-                    .textTheme
-                    .headline4
-                    .apply(fontSizeDelta: 0)),
-          ),
-        ),
-        Container(
-          margin: const EdgeInsets.only(top: 8, bottom: 0, left: 20.0),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Text('+351 225 081 400',
-                style: Theme.of(context).textTheme.headline3),
-          ),
-        ),
-        Container(
-          margin: const EdgeInsets.only(top: 8, bottom: 0, left: 20.0),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Text('+351 225 081 895',
-                style: Theme.of(context).textTheme.headline3),
-          ),
-        ),
-        Container(
-          margin: const EdgeInsets.only(top: 30, bottom: 0, left: 20.0),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Text('Email',
-                style: Theme.of(context)
-                    .textTheme
-                    .headline4
-                    .apply(fontSizeDelta: 0)),
-          ),
-        ),
-        Container(
-          margin: const EdgeInsets.only(top: 8, bottom: 0, left: 20.0),
-          child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text('feup@fe.up.pt',
-                  style: Theme.of(context).textTheme.headline3)),
-        ),
-        Container(
-          margin: const EdgeInsets.only(top: 8, bottom: 8, left: 20.0),
-          child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text('infodesk@fe.up.pt',
-                  style: Theme.of(context).textTheme.headline3)),
-        ),
+        h1('Horário', context, initial: true),
+        h2('Atendimento presencial e telefónico', context),
+        info_text('9:30h - 13:00h | 14:00h - 17:30h', context),
+        h1('Telefone', context),
+        info_text('+351 225 081 400', context),
+        info_text('+351 225 081 895', context),
+        h1('Email', context),
+        info_text('feup@fe.up.pt', context),
+        info_text('infodesk@fe.up.pt', context, last: true)
       ],
     );
   }

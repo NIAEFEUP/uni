@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:uni/view/Pages/general_page_view.dart';
-import 'package:uni/view/Widgets/academic_services_card.dart';
 import 'package:uni/view/Widgets/info_desk_card.dart';
 import 'package:uni/view/Widgets/dona_bia_card.dart';
 
