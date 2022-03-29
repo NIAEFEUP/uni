@@ -15,6 +15,8 @@ extension TimeString on DateTime {
     return DateFormat('kk:mm').format(this);
   }
 
+  String s(n) => n != 1 ? 's' : '';
+
   String toFormattedDateString() {
     final now = DateTime.now();
     final daysDif = now.difference(this).inDays;
@@ -23,9 +25,12 @@ extension TimeString on DateTime {
       final hoursDif = now.difference(this).inHours;
       if (hoursDif == 0) {
         final minutesDif = now.difference(this).inMinutes;
-        return 'Há $minutesDif minutos';
+        if (minutesDif < 1) {
+          return 'Agora mesmo';
+        }
+        return 'Há $minutesDif minuto' + s(minutesDif);
       }
-      return 'Há $hoursDif horas';
+      return 'Há $hoursDif hora' + s(hoursDif);
     }
     if (daysDif == 1) {
       return 'Ontem';

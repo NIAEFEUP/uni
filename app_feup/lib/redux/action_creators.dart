@@ -325,19 +325,25 @@ ThunkAction<AppState> setInitialStoreState() {
 
 ThunkAction<AppState> getUserPrintBalance(Completer<Null> action) {
   return (Store<AppState> store) async {
-    final String url =
+    final String urlMovements =
         NetworkRouter.getBaseUrlFromSession(store.state.content['session']) +
             'imp4_impressoes.atribs?';
+    final String urlNewMovements =
+        NetworkRouter.getBaseUrlFromSession(store.state.content['session']) +
+            'imp4_impressoes.logs?';
 
     final Map<String, String> query = {
       'p_codigo': store.state.content['session'].studentNumber
     };
 
     try {
-      final response = await NetworkRouter.getWithCookies(
-          url, query, store.state.content['session']);
-      final String printBalance = await getPrintsBalance(response);
-      final List printMovements = await getPrintMovements(response);
+      final responseMovements = await NetworkRouter.getWithCookies(
+          urlMovements, query, store.state.content['session']);
+      final responseNewMovements = await NetworkRouter.getWithCookies(
+          urlNewMovements, query, store.state.content['session']);    
+
+      final String printBalance = await getPrintsBalance(responseMovements);
+      final List printMovements = await getPrintMovements(responseMovements, responseNewMovements);
 
       final String currentTime = DateTime.now().toString();
       final Tuple2<String, String> userPersistentInfo =
