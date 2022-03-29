@@ -40,6 +40,7 @@ import 'package:uni/redux/actions.dart';
 import '../model/entities/bus_stop.dart';
 
 ThunkAction<AppState> reLogin(username, password, faculty, {Completer action}) {
+  /// TODO: support for multiple faculties. Issue: #445
   return (Store<AppState> store) async {
     try {
       loadLocalUserInfoToState(store);
@@ -69,19 +70,25 @@ ThunkAction<AppState> reLogin(username, password, faculty, {Completer action}) {
   };
 }
 
-ThunkAction<AppState> login(username, password, faculty, persistentSession,
+ThunkAction<AppState> login(username, password, faculties, persistentSession,
     usernameController, passwordController) {
   return (Store<AppState> store) async {
     try {
       store.dispatch(SetLoginStatusAction(RequestStatus.busy));
+
+      /// TODO: support for multiple faculties. Issue: #445
       final Session session = await NetworkRouter.login(
-          username, password, faculty, persistentSession);
+          username, password, faculties[0], persistentSession);
       store.dispatch(SaveLoginDataAction(session));
       if (session.authenticated) {
         store.dispatch(SetLoginStatusAction(RequestStatus.successful));
         await loadUserInfoToState(store);
+
+        /// Faculties chosen in the dropdown
+        store.dispatch(SetUserFaculties(faculties));
         if (persistentSession) {
-          AppSharedPreferences.savePersistentUserInfo(username, password);
+          AppSharedPreferences.savePersistentUserInfo(
+              username, password, faculties);
         }
         usernameController.clear();
         passwordController.clear();
