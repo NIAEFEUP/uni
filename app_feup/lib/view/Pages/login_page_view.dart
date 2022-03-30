@@ -176,7 +176,7 @@ class _LoginPageViewState extends State<LoginPageView> {
                 width: 0.5,
         )))),
         style: TextButton.styleFrom(
-            primary: Colors.white,
+            primary: Theme.of(context).primaryColor,
             textStyle: TextStyle(fontSize: 20,
                 fontWeight: FontWeight.w300)
         ),
@@ -185,9 +185,13 @@ class _LoginPageViewState extends State<LoginPageView> {
               context: context,
               builder: (BuildContext context) {
                 return AlertDialog(
+                    backgroundColor: Theme.of(context).accentColor,
                     title: Text('seleciona a(s) tua(s) faculdade(s)'),
+                    titleTextStyle: TextStyle(
+                        color: Theme.of(context).primaryColor,
+                        fontSize: 18),
                     content: Container(
-                        height: 600.0,
+                        height: 500.0,
                         width: 200.0,
                         child: ListView(
                             children: List.generate(Constants.faculties.length,
@@ -195,7 +199,12 @@ class _LoginPageViewState extends State<LoginPageView> {
                                   final String faculty =
                                   Constants.faculties.elementAt(i);
                                   return CheckboxListTile(
-                                      title: Text(faculty),
+                                      title: Text(faculty.toUpperCase(),
+                                      style: TextStyle(
+                                          color: Theme.of(context).primaryColor,
+                                          fontSize: 20.0)),
+                                      activeColor: Theme.of(context).primaryColor,
+                                      checkColor: Theme.of(context).accentColor,
                                       value: userFaculties.contains(faculty),
                                       onChanged: (value) {
                                         setState(() {
