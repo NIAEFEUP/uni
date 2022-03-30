@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'package:uni/controller/local_storage/app_database.dart';
 import 'package:uni/model/entities/exam.dart';
-
-import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 /// Manages the app's Exams database.
@@ -56,8 +54,10 @@ class AppExamsDatabase extends AppDatabase {
     return List.generate(maps.length, (i) {
       return Exam.secConstructor(
           maps[i]['subject'],
-          DateTime.parse(maps[i]['year'] +'-' + months[maps[i]['month']] +'-' +maps[i]['day']+' '+maps[i]['begin']),
-          DateTime.parse(maps[i]['year'] +'-' + months[maps[i]['month']] +'-' +maps[i]['day']+' '+maps[i]['end']),
+          DateTime.parse(maps[i]['year'] +'-' +
+           months[maps[i]['month']] +'-' + maps[i]['day']+' '+maps[i]['begin']),
+          DateTime.parse(maps[i]['year'] +'-' +
+           months[maps[i]['month']] +'-' +maps[i]['day']+' '+maps[i]['end']),
           maps[i]['rooms'],
           maps[i]['examType'],
           maps[i]['weekDay']);

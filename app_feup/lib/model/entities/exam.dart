@@ -2,13 +2,13 @@ import 'package:logger/logger.dart';
 import 'package:collection/collection.dart';
 
 var months = {
-  'Janeiro': 1,
-  'Fevereiro': 2,
-  'Março': 3,
-  'Abril': 4,
-  'Maio': 5,
-  'Junho': 6,
-  'Julho': 7,
+  'Janeiro': '01',
+  'Fevereiro': '02',
+  'Março': '03',
+  'Abril': '04',
+  'Maio': '05',
+  'Junho': '06',
+  'Julho': '07',
   'Agosto': '08',
   'Setembro': '09',
   'Outubro': '10',
@@ -47,42 +47,54 @@ class Exam {
   String year;
   DateTime date;
 
-  Exam.secConstructor(String subject, DateTime beginDateTime, DateTime endDateTime, String rooms,
-      String examType, String weekDay) {
+  Exam.secConstructor(String subject, DateTime beginDateTime,
+   DateTime endDateTime, String rooms, String examType, String weekDay) {
     this.subject = subject;
     this.beginDateTime = beginDateTime;
     this.endDateTime = endDateTime;
-    this.begin = formattedString(beginDateTime.hour)+':'+formattedString(beginDateTime.minute);
-    this.end = formattedString(endDateTime.hour) + ':' + formattedString(endDateTime.minute);
+    this.begin = formattedString(beginDateTime.hour) + ':' +
+    formattedString(beginDateTime.minute);
+    this.end = formattedString(endDateTime.hour) + ':' + 
+    formattedString(endDateTime.minute);
     this.rooms = rooms.split(',');
     this.examType = examType;
     this.weekDay = weekDay;
     this.day = formattedString(beginDateTime.day);
     this.month = months.keys
-        .firstWhere((k) => months[k] == this.beginDateTime.month, orElse: () => null);
-
+        .firstWhere((k) => months[k] == formattedString(beginDateTime.month),
+        orElse: () => null);
     this.year = beginDateTime.year.toString();
-    this.date = DateTime(beginDateTime.year,beginDateTime.month,beginDateTime.day);
+    this.date = 
+    DateTime(beginDateTime.year,beginDateTime.month,beginDateTime.day);
   }
 
   Exam(String schedule, String subject, String rooms, String date,
       String examType, String weekDay) {
     final scheduling = schedule.split('-');
-    final splittedDate = date.split('-');
+    final splitDate = date.split('-');
     this.date = DateTime.parse(date);
-    this.endDateTime = DateTime(this.date.year, this.date.month, this.date.day, int.parse(scheduling[1].split(':')[0]), int.parse(scheduling[1].split(':')[1]));
-    this.beginDateTime = DateTime(this.date.year, this.date.month, this.date.day, int.parse(scheduling[0].split(':')[0]), int.parse(scheduling[0].split(':')[1]));
+
+    this.endDateTime = 
+    DateTime(this.date.year, this.date.month, this.date.day,
+    int.parse(scheduling[1].split(':')[0]),
+    int.parse(scheduling[1].split(':')[1]));
+
+    this.beginDateTime = 
+    DateTime(this.date.year, this.date.month, this.date.day,
+    int.parse(scheduling[0].split(':')[0]),
+    int.parse(scheduling[0].split(':')[1]));
+
     this.begin =  scheduling[0];
     this.end = scheduling[1];
     this.subject = subject;
     this.rooms = rooms.split(',');
-    this.year = splittedDate[0];
-    this.day = splittedDate[2];
+    this.year = splitDate[0];
+    this.day = splitDate[2];
     this.examType = examType;
     this.weekDay = weekDay;
 
     this.month = months.keys
-        .firstWhere((k) => months[k] == this.date.month, orElse: () => null);
+        .firstWhere((k) => months[k] == splitDate[1], orElse: () => null);
   }
 
   /// Converts this exam to a map.
