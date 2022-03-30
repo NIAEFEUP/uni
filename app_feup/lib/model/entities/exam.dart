@@ -52,12 +52,12 @@ class Exam {
     this.subject = subject;
     this.beginDateTime = beginDateTime;
     this.endDateTime = endDateTime;
-    this.begin = beginDateTime.hour.toString()+':'+beginDateTime.minute.toString();
-    this.end = endDateTime.hour.toString() + ':' + endDateTime.minute.toString();
+    this.begin = formattedString(beginDateTime.hour)+':'+formattedString(beginDateTime.minute);
+    this.end = formattedString(endDateTime.hour) + ':' + formattedString(endDateTime.minute);
     this.rooms = rooms.split(',');
     this.examType = examType;
     this.weekDay = weekDay;
-    this.day = beginDateTime.day.toString();
+    this.day = formattedString(beginDateTime.day);
     this.month = months.keys
         .firstWhere((k) => months[k] == this.beginDateTime.month, orElse: () => null);
 
@@ -153,3 +153,11 @@ class Exam {
     return reversed[abr];
   }
 }
+String formattedString(int dateType){
+    if (dateType>9){
+    return dateType.toString();
+    }
+    else {
+      return '0'+dateType.toString();
+    }
+  }

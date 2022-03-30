@@ -4,7 +4,6 @@ import 'package:uni/model/entities/exam.dart';
 
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:sqflite_migration/sqflite_migration.dart';
 
 /// Manages the app's Exams database.
 /// 
@@ -82,7 +81,6 @@ class AppExamsDatabase extends AppDatabase {
   Future<void> deleteExams() async {
     // Get a reference to the database
     final Database db = await this.getDatabase();
-
     await db.delete('exams');
   }
 
