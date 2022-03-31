@@ -51,9 +51,7 @@ class InfoDeskCard extends GenericCard {
         infoText('9:30h - 13:00h | 14:00h - 17:30h', context),
         h1('Telefone', context),
         infoText('+351 225 081 400', context),
-        infoText('+351 225 081 895', context),
         h1('Email', context),
-        infoText('feup@fe.up.pt', context),
         infoText('infodesk@fe.up.pt', context, last: true)
       ],
     );

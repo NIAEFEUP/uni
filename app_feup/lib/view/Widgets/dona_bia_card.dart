@@ -25,7 +25,7 @@ class DonaBiaCard extends GenericCard {
   }
 
   @override
-  String getTitle() => 'Papelaria D. Bia';
+  String getTitle() => 'Papelaria D. Beatriz';
 
   @override
   onClick(BuildContext context) {}
