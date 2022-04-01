@@ -16,7 +16,9 @@ class LoginPageView extends StatefulWidget {
 
 /// Manages the 'login section' view.
 class _LoginPageViewState extends State<LoginPageView> {
-  String faculty = 'feup';
+  final List<String> faculty = [
+    'feup'
+  ]; // May choose more than one faculties in the dropdown.
 
   @override
   void didChangeDependencies() {
@@ -28,9 +30,9 @@ class _LoginPageViewState extends State<LoginPageView> {
   static final FocusNode passwordFocus = FocusNode();
 
   static final TextEditingController usernameController =
-  TextEditingController();
+      TextEditingController();
   static final TextEditingController passwordController =
-  TextEditingController();
+      TextEditingController();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   static bool _exitApp = false;
@@ -156,18 +158,19 @@ class _LoginPageViewState extends State<LoginPageView> {
   }
 
   /// Creates the widget for the user to choose their faculty
+  /// TODO: support for multiple faculties. Issue: #445
   Widget createFacultyInput() {
-    return DropdownButton (
-      value: faculty.toUpperCase(),
-      items: Constants.faculties.map((value) =>
-          DropdownMenuItem (
-            value: value.toUpperCase(),
-            child: Text(value.toUpperCase()),
-          )
-      ).toList(),
+    return DropdownButton(
+      value: faculty[0].toUpperCase(),
+      items: Constants.faculties
+          .map((value) => DropdownMenuItem(
+                value: value.toUpperCase(),
+                child: Text(value.toUpperCase()),
+              ))
+          .toList(),
       onChanged: (newDropdownValue) {
         setState(() {
-          faculty = newDropdownValue.toLowerCase();
+          faculty[0] = newDropdownValue.toLowerCase();
         });
       },
       isExpanded: true,
@@ -218,7 +221,7 @@ class _LoginPageViewState extends State<LoginPageView> {
         textAlign: TextAlign.left,
         decoration: passwordFieldDecoration('palavra-passe'),
         validator: (String value) =>
-        value.isEmpty ? 'Preenche este campo' : null);
+            value.isEmpty ? 'Preenche este campo' : null);
   }
 
   /// Creates the widget for the user to keep signed in (save his data).

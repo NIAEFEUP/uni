@@ -159,3 +159,8 @@ class SetExamFilter {
   Map<String, bool> filteredExams;
   SetExamFilter(this.filteredExams);
 }
+
+class SetUserFaculties {
+  List<String> faculties;
+  SetUserFaculties(this.faculties);
+}
