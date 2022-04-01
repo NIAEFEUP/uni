@@ -14,7 +14,8 @@ class TermsAndConditions extends StatelessWidget {
         future: termsAndConditionsFuture,
         builder:
             (BuildContext context, AsyncSnapshot<String> termsAndConditions) {
-          if (termsAndConditions.connectionState == ConnectionState.done) {
+          if (termsAndConditions.connectionState == ConnectionState.done &&
+              termsAndConditions.hasData) {
             termsAndConditionsSaved = termsAndConditions.data;
           }
           return MarkdownBody(
