@@ -14,7 +14,7 @@ class OtherLinksCard extends GenericCard {
   @override
   Widget buildCardContent(BuildContext context) {
     return Column(children: [
-      LinkButton(title: 'Impressão', link: 'https://webprint.up.pt/wprint/')
+      LinkButton(title: 'Impressão', link: 'https://print.up.pt')
     ]);
   }
 
