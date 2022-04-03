@@ -60,6 +60,8 @@ AppState appReducers(AppState state, dynamic action) {
     return setLastUserInfoUpdateTime(state, action);
   } else if (action is SetExamFilter) {
     return setExamFilter(state, action);
+  } else if (action is SetUserFaculties) {
+    return setUserFaculties(state, action);
   } else if(action is SetRestaurantsAction){
     return setRestaurantsAction(state, action);
   }
@@ -210,4 +212,9 @@ AppState setLastUserInfoUpdateTime(
 AppState setExamFilter(AppState state, SetExamFilter action) {
   Logger().i('setting exam type filter to ' + action.filteredExams.toString());
   return state.cloneAndUpdateValue('filteredExams', action.filteredExams);
+}
+
+AppState setUserFaculties(AppState state, SetUserFaculties action) {
+  Logger().i('setting user faculty(ies) ' + action.faculties.toString());
+  return state.cloneAndUpdateValue('userFaculties', action.faculties);
 }
