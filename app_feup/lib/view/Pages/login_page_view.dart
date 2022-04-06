@@ -203,8 +203,6 @@ class _LoginPageViewState extends State<LoginPageView> {
                                       style: TextStyle(
                                           color: Theme.of(context).primaryColor,
                                           fontSize: 20.0)),
-                                      activeColor: Theme.of(context).primaryColor,
-                                      checkColor: Theme.of(context).accentColor,
                                       value: userFaculties.contains(faculty),
                                       onChanged: (value) {
                                         setState(() {
