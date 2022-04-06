@@ -14,7 +14,8 @@ import 'package:uni/model/entities/trip.dart';
 import 'package:http/http.dart' as http;
 import 'package:query_params/query_params.dart';
 import 'package:synchronized/synchronized.dart';
-extension UriString on String{
+
+extension UriString on String {
   /// Converts a [String] to an [Uri].
   Uri toUri() => Uri.parse(this);
 }
@@ -28,7 +29,6 @@ class NetworkRouter {
   static Lock loginLock = Lock();
 
   static Function onReloginFail = () {};
-
 
   /// Creates an authenticated [Session] on the given [faculty] with the
   /// given username [user] and password [pass].
@@ -71,8 +71,8 @@ class NetworkRouter {
   /// Re-authenticates the user [session].
   static Future<bool> loginFromSession(Session session) async {
     Logger().i('Trying to login...');
-    final String url =
-        NetworkRouter.getBaseUrl(session.faculty) + 'mob_val_geral.autentica';
+    final String url = NetworkRouter.getBaseUrl(session.faculties[0]) +
+        'mob_val_geral.autentica';
     final http.Response response = await http.post(url.toUri(), body: {
       'pv_login': session.studentNumber,
       'pv_password': await AppSharedPreferences.getUserPassword(),
@@ -223,12 +223,12 @@ class NetworkRouter {
   }
 
   /// Returns the base url of the user's faculty.
-  static String getBaseUrl(String faculty) {
+  static String getBaseUrl(faculty) {
     return 'https://sigarra.up.pt/$faculty/pt/';
   }
 
   /// Returns the base url from the user's previous session.
   static String getBaseUrlFromSession(Session session) {
-    return NetworkRouter.getBaseUrl(session.faculty);
+    return NetworkRouter.getBaseUrl(session.faculties[0]);
   }
 }

@@ -7,7 +7,7 @@ class Session {
   /// Whether or not the user is authenticated.
   bool authenticated;
   bool persistentSession = false;
-  String faculty = 'feup'; // should not be hardcoded
+  List<String> faculties;
   String type;
   String cookies;
   String studentNumber;
@@ -15,6 +15,7 @@ class Session {
 
   Session(
       {@required bool this.authenticated,
+      @required List<String> this.faculties,
       this.studentNumber,
       this.type,
       this.cookies}) {}
@@ -26,11 +27,12 @@ class Session {
     if (responseBody['authenticated']) {
       return Session(
           authenticated: true,
+          faculties: ["feup"],
           studentNumber: responseBody['codigo'],
           type: responseBody['tipo'],
           cookies: NetworkRouter.extractCookies(response.headers));
     } else {
-      return Session(authenticated: false);
+      return Session(authenticated: false, faculties: ["feup"]);
     }
   }
 }
