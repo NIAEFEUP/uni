@@ -12,15 +12,14 @@ class RestaurantFetcherHtml extends RestaurantFetcher {
   /// Fetches the user's lectures from the schedule's HTML page.
   @override
   Future<List<Restaurant>> getRestaurants(Store<AppState> store) async {
-    final String baseUrl = NetworkRouter.getBaseUrlFromSession(
-        store.state.content['session']) +
-        'CANTINA.EMENTASHOW';
+    final String baseUrl = NetworkRouter.getBaseUrlsFromSession(
+            store.state.content['session'])[0] +
+        'CANTINA.EMENTASHOW'; // breaks when not feup
     final Session session = store.state.content['session'];
-    final Future<Response> response = NetworkRouter.getWithCookies(baseUrl,
-        {}, session);
+    final Future<Response> response =
+        NetworkRouter.getWithCookies(baseUrl, {}, session);
     final List<Restaurant> restaurants =
-          await response.then((response) => getRestaurantsFromHtml(response));
-
+        await response.then((response) => getRestaurantsFromHtml(response));
 
     return restaurants;
   }

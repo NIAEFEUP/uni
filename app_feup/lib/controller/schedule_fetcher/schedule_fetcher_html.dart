@@ -16,8 +16,8 @@ class ScheduleFetcherHtml extends ScheduleFetcher {
     final dates = getDates();
     final List<Response> lectureResponses = await Future.wait(courses.map(
         (course) => NetworkRouter.getWithCookies(
-            NetworkRouter.getBaseUrlFromSession(
-                    store.state.content['session']) +
+            NetworkRouter.getBaseUrlsFromSession(
+                    store.state.content['session'])[0] +
                 '''
 hor_geral.estudantes_view?pv_fest_id=${course.festId}&pv_ano_lectivo=${dates.lectiveYear}&p_semana_inicio=${dates.beginWeek}&p_semana_fim=${dates.endWeek}''',
             {},

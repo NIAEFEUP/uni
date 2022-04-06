@@ -13,8 +13,8 @@ class ScheduleFetcherApi extends ScheduleFetcher {
     final dates = getDates();
     final List<Lecture> lectures = await parseSchedule(
         await NetworkRouter.getWithCookies(
-            NetworkRouter.getBaseUrlFromSession(
-                    store.state.content['session']) +
+            NetworkRouter.getBaseUrlsFromSession(
+                    store.state.content['session'])[0] +
                 //ignore: lines_longer_than_80_chars
                 '''mob_hor_geral.estudante?pv_codigo=${store.state.content['session'].studentNumber}&pv_semana_ini=${dates.beginWeek}&pv_semana_fim=${dates.endWeek}''',
             {},

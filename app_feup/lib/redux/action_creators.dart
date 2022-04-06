@@ -204,8 +204,8 @@ Future<List<Exam>> extractExams(
   for (Course course in store.state.content['profile'].courses) {
     final Set<Exam> currentCourseExams = await parserExams.parseExams(
         await NetworkRouter.getWithCookies(
-            NetworkRouter.getBaseUrlFromSession(
-                    store.state.content['session']) +
+            NetworkRouter.getBaseUrlsFromSession(
+                    store.state.content['session'])[0] +
                 'exa_geral.mapa_de_exames?p_curso_id=${course.id}',
             {},
             store.state.content['session']));
@@ -321,9 +321,9 @@ ThunkAction<AppState> setInitialStoreState() {
 
 ThunkAction<AppState> getUserPrintBalance(Completer<Null> action) {
   return (Store<AppState> store) async {
-    final String url =
-        NetworkRouter.getBaseUrlFromSession(store.state.content['session']) +
-            'imp4_impressoes.atribs?';
+    final String url = NetworkRouter.getBaseUrlsFromSession(
+            store.state.content['session'])[0] +
+        'imp4_impressoes.atribs?';
 
     final Map<String, String> query = {
       'p_codigo': store.state.content['session'].studentNumber
@@ -360,9 +360,9 @@ ThunkAction<AppState> getUserFees(Completer<Null> action) {
   return (Store<AppState> store) async {
     store.dispatch(SetFeesStatusAction(RequestStatus.busy));
 
-    final String url =
-        NetworkRouter.getBaseUrlFromSession(store.state.content['session']) +
-            'gpag_ccorrente_geral.conta_corrente_view?';
+    final String url = NetworkRouter.getBaseUrlsFromSession(
+            store.state.content['session'])[0] +
+        'gpag_ccorrente_geral.conta_corrente_view?';
 
     final Map<String, String> query = {
       'pct_cod': store.state.content['session'].studentNumber
@@ -403,9 +403,9 @@ ThunkAction<AppState> getUserCoursesState(Completer<Null> action) {
   return (Store<AppState> store) async {
     store.dispatch(SetCoursesStatesStatusAction(RequestStatus.busy));
 
-    final String url =
-        NetworkRouter.getBaseUrlFromSession(store.state.content['session']) +
-            'fest_geral.cursos_list?';
+    final String url = NetworkRouter.getBaseUrlsFromSession(
+            store.state.content['session'])[0] +
+        'fest_geral.cursos_list?';
 
     final Map<String, String> query = {
       'pv_num_unico': store.state.content['session'].studentNumber

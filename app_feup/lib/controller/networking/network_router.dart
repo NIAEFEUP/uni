@@ -35,7 +35,7 @@ class NetworkRouter {
   static Future<Session> login(
       String user, String pass, String faculty, bool persistentSession) async {
     final String url =
-        NetworkRouter.getBaseUrl(faculty) + 'mob_val_geral.autentica';
+        NetworkRouter.getBaseUrls([faculty])[0] + 'mob_val_geral.autentica';
     final http.Response response = await http.post(url.toUri(), body: {
       'pv_login': user,
       'pv_password': pass
@@ -71,7 +71,7 @@ class NetworkRouter {
   /// Re-authenticates the user [session].
   static Future<bool> loginFromSession(Session session) async {
     Logger().i('Trying to login...');
-    final String url = NetworkRouter.getBaseUrl(session.faculties[0]) +
+    final String url = NetworkRouter.getBaseUrls(session.faculties)[0] +
         'mob_val_geral.autentica';
     final http.Response response = await http.post(url.toUri(), body: {
       'pv_login': session.studentNumber,
@@ -106,8 +106,8 @@ class NetworkRouter {
 
   /// Returns the user's [Profile].
   static Future<Profile> getProfile(Session session) async {
-    final url =
-        NetworkRouter.getBaseUrlFromSession(session) + 'mob_fest_geral.perfil?';
+    final url = NetworkRouter.getBaseUrlsFromSession(session)[0] +
+        'mob_fest_geral.perfil?';
     final response = await getWithCookies(
         url, {'pv_codigo': session.studentNumber}, session);
 
@@ -119,7 +119,7 @@ class NetworkRouter {
 
   /// Returns the user's current list of [CourseUnit].
   static Future<List<CourseUnit>> getCurrentCourseUnits(Session session) async {
-    final url = NetworkRouter.getBaseUrlFromSession(session) +
+    final url = NetworkRouter.getBaseUrlsFromSession(session)[0] +
         'mob_fest_geral.ucurr_inscricoes_corrente?';
     final response = await getWithCookies(
         url, {'pv_codigo': session.studentNumber}, session);
@@ -223,12 +223,14 @@ class NetworkRouter {
   }
 
   /// Returns the base url of the user's faculty.
-  static String getBaseUrl(faculty) {
-    return 'https://sigarra.up.pt/$faculty/pt/';
+  static List<String> getBaseUrls(List<String> faculties) {
+    return faculties
+        .map((faculty) => 'https://sigarra.up.pt/$faculty/pt/')
+        .toList();
   }
 
   /// Returns the base url from the user's previous session.
-  static String getBaseUrlFromSession(Session session) {
-    return NetworkRouter.getBaseUrl(session.faculties[0]);
+  static List<String> getBaseUrlsFromSession(Session session) {
+    return NetworkRouter.getBaseUrls(session.faculties);
   }
 }
