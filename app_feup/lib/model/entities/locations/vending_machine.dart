@@ -1,3 +1,5 @@
+import 'package:uni/view/Fonts/location_icons.dart';
+
 import '../location.dart';
 
 class VendingMachine implements Location{
@@ -8,7 +10,7 @@ class VendingMachine implements Location{
   final weight = 2;
 
   @override
-  final icon = 'assets/images/bottle_soda_classic.svg';
+  final icon = LocationIcons.bottle_soda_classic;
 
   VendingMachine(this.floor);
 

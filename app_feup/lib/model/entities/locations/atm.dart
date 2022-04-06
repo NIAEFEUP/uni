@@ -1,3 +1,5 @@
+import 'package:uni/view/Fonts/location_icons.dart';
+
 import '../location.dart';
 
 class Atm implements Location{
@@ -8,7 +10,7 @@ class Atm implements Location{
   final weight = 2;
 
   @override
-  final icon = 'assets/images/cash_multiple.svg';
+  final icon = LocationIcons.cash_multiple;
 
   Atm(this.floor) : super();
 

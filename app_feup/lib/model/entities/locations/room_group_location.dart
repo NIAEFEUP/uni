@@ -1,3 +1,5 @@
+import 'package:uni/view/Fonts/location_icons.dart';
+
 import '../location.dart';
 
 class RoomGroupLocation implements Location{
@@ -10,7 +12,7 @@ class RoomGroupLocation implements Location{
   final String firstRoomNumber;
   final String secondRoomNumber;
   @override
-  final icon = 'assets/images/book_open_blank_variant.svg';
+  final icon = LocationIcons.book_open_blank_variant;
 
   RoomGroupLocation(this.floor,this.firstRoomNumber, this.secondRoomNumber);
 

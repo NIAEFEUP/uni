@@ -1,3 +1,5 @@
+import 'package:uni/view/Fonts/location_icons.dart';
+
 import '../location.dart';
 
 class Printer implements Location{
@@ -8,7 +10,7 @@ class Printer implements Location{
   final weight = 1;
 
   @override
-  final icon = 'assets/images/printer.svg';
+  final icon = LocationIcons.printer;
 
   Printer(this.floor);
 

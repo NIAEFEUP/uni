@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:uni/model/entities/location.dart';
 import 'package:uni/model/entities/location_group.dart';
@@ -32,23 +33,8 @@ class LocationDatabase extends AppDatabase {
       batch.delete('locations');
       locations.forEach((group) => saveLocationGroup(batch, group));
       await batch.commit(noResult: true);
-
-      /*await db.transaction((txn)  async {
-        db.delete('location_group');
-        db.delete('locations');
-        locations.forEach((group) => saveLocationGroup(txn, group));
-      });
-      */
     }
-  /*
-  saveLocationGroup(Transaction t, LocationGroup group){
-    t.insert('location_group', group.toMap());
-    final List<Location> locations =
-    group.floors.values.expand((x) => x).toList();
-    locations.forEach((location) {
-      t.insert('locations', location.toMap(groupId: group.id));
-    });
-  }*/
+
   saveLocationGroup(Batch batch, LocationGroup group){
     batch.insert('location_group', group.toMap());
     final List<Location> locations =
@@ -58,9 +44,12 @@ class LocationDatabase extends AppDatabase {
     });
   }
 
+  getLocations(Map<String, dynamic> filters) async{
+      final Database db = await this.getDatabase();
+      if(filters.containsKey('types')){
+        List<LocationType> types = filters['types'];
+      }
+      List<Map<String, Object>> result = await db.query('location_group');
 
-
-
-
-
+  }
 }
