@@ -36,7 +36,7 @@ SentryEvent beforeSend(SentryEvent event) {
 }
 
 Future<void> main() async {
-  OnStartUp.onStart(state);
+  OnStartUp().onStart(state);
   await SentryFlutter.init(
     (options) {
       options.dsn =

@@ -6,12 +6,12 @@ import 'package:uni/view/navigation_service.dart';
 import 'networking/network_router.dart';
 
 class OnStartUp {
-  static onStart(Store<AppState> store){
+  onStart(Store<AppState> store) {
     setHandleReloginFail(store);
-    LocalNotifications.start();
+    LocalNotifications().start();
   }
 
-  static setHandleReloginFail(Store<AppState> store){
+  static setHandleReloginFail(Store<AppState> store) {
     NetworkRouter.onReloginFail = () {
       if (!store.state.content['session'].persistentSession) {
         return NavigationService.logout();
