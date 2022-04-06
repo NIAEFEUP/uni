@@ -38,14 +38,15 @@ import 'package:uni/redux/actions.dart';
 
 import '../model/entities/bus_stop.dart';
 
-ThunkAction<AppState> reLogin(username, password, faculty, {Completer action}) {
-  /// TODO: support for multiple faculties. Issue: #445
+ThunkAction<AppState> reLogin(
+    String username, String password, List<String> faculties,
+    {Completer action}) {
   return (Store<AppState> store) async {
     try {
       loadLocalUserInfoToState(store);
       store.dispatch(SetLoginStatusAction(RequestStatus.busy));
       final Session session =
-          await NetworkRouter.login(username, password, faculty, true);
+          await NetworkRouter.login(username, password, faculties, true);
       store.dispatch(SaveLoginDataAction(session));
       if (session.authenticated) {
         await loadRemoteUserInfoToState(store);
@@ -57,9 +58,9 @@ ThunkAction<AppState> reLogin(username, password, faculty, {Completer action}) {
       }
     } catch (e) {
       final Session renewSession = Session(
-          studentNumber: username, authenticated: false, faculties: [faculty]);
+          studentNumber: username, authenticated: false, faculties: faculties);
       renewSession.persistentSession = true;
-      renewSession.faculties = [faculty];
+      renewSession.faculties = faculties;
 
       action?.completeError(RequestStatus.failed);
 
@@ -69,15 +70,19 @@ ThunkAction<AppState> reLogin(username, password, faculty, {Completer action}) {
   };
 }
 
-ThunkAction<AppState> login(username, password, faculties, persistentSession,
-    usernameController, passwordController) {
+ThunkAction<AppState> login(
+    String username,
+    String password,
+    List<String> faculties,
+    persistentSession,
+    usernameController,
+    passwordController) {
   return (Store<AppState> store) async {
     try {
       store.dispatch(SetLoginStatusAction(RequestStatus.busy));
 
-      /// TODO: support for multiple faculties. Issue: #445
       final Session session = await NetworkRouter.login(
-          username, password, faculties[0], persistentSession);
+          username, password, faculties, persistentSession);
       store.dispatch(SaveLoginDataAction(session));
       if (session.authenticated) {
         store.dispatch(SetLoginStatusAction(RequestStatus.successful));

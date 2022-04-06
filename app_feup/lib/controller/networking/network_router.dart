@@ -32,22 +32,22 @@ class NetworkRouter {
 
   /// Creates an authenticated [Session] on the given [faculty] with the
   /// given username [user] and password [pass].
-  static Future<Session> login(
-      String user, String pass, String faculty, bool persistentSession) async {
+  static Future<Session> login(String user, String pass, List<String> faculties,
+      bool persistentSession) async {
     final String url =
-        NetworkRouter.getBaseUrls([faculty])[0] + 'mob_val_geral.autentica';
+        NetworkRouter.getBaseUrls(faculties)[0] + 'mob_val_geral.autentica';
     final http.Response response = await http.post(url.toUri(), body: {
       'pv_login': user,
       'pv_password': pass
     }).timeout(const Duration(seconds: loginRequestTimeout));
     if (response.statusCode == 200) {
-      final Session session = Session.fromLogin(response);
+      final Session session = Session.fromLogin(response, faculties);
       session.persistentSession = persistentSession;
       Logger().i('Login successful');
       return session;
     } else {
       Logger().e('Login failed');
-      return Session(authenticated: false);
+      return Session(authenticated: false, faculties: faculties);
     }
   }
 

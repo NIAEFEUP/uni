@@ -15,24 +15,24 @@ class Session {
 
   Session(
       {@required bool this.authenticated,
-      @required List<String> this.faculties,
+      List<String> this.faculties,
       this.studentNumber,
       this.type,
       this.cookies}) {}
 
   // TODO: Is this descriptive enough?
-  /// Creates a new instance from an HTTP response containing a JSON document.
-  static Session fromLogin(dynamic response) {
+  /// Creates a new instance from an HTTP response to one of the faculties.
+  static Session fromLogin(dynamic response, List<String> faculties) {
     final responseBody = json.decode(response.body);
     if (responseBody['authenticated']) {
       return Session(
           authenticated: true,
-          faculties: ["feup"],
+          faculties: faculties,
           studentNumber: responseBody['codigo'],
           type: responseBody['tipo'],
           cookies: NetworkRouter.extractCookies(response.headers));
     } else {
-      return Session(authenticated: false, faculties: ["feup"]);
+      return Session(authenticated: false, faculties: faculties);
     }
   }
 }

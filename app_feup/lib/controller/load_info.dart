@@ -20,14 +20,11 @@ Future loadReloginInfo(Store<AppState> store) async {
       await AppSharedPreferences.getUserFaculties();
   final String userName = userPersistentCredentials.item1;
   final String password = userPersistentCredentials.item2;
-  final List<String> faculties =
-      userPersistentFacs.isEmpty ? userPersistentFacs : ['feup'];
+  final List<String> faculties = userPersistentFacs;
 
   if (userName != '' && password != '') {
     final action = Completer();
-
-    /// TODO: support for multiple faculties. Issue: #445
-    store.dispatch(reLogin(userName, password, faculties[0], action: action));
+    store.dispatch(reLogin(userName, password, faculties, action: action));
     return action.future;
   }
   return Future.error('No credentials stored');
@@ -117,14 +114,11 @@ Future<void> handleRefresh(store) {
 }
 
 Future<File> loadProfilePic(Store<AppState> store) {
-  final String studentNo = store.state.content['session'].studentNumber;
-  String url =
-      'https://sigarra.up.pt/feup/pt/fotografias_service.foto?pct_cod=';
+  final String studentNumber = store.state.content['session'].studentNumber;
+  final List<String> faculty = store.state.content['session'].faculties[0];
+  final String url =
+      'https://sigarra.up.pt/$faculty/pt/fotografias_service.foto?pct_cod=$studentNumber';
   final Map<String, String> headers = Map<String, String>();
-
-  if (studentNo != null) {
-    url += studentNo;
-    headers['cookie'] = store.state.content['session'].cookies;
-  }
+  headers['cookie'] = store.state.content['session'].cookies;
   return retrieveImage(url, headers);
 }
