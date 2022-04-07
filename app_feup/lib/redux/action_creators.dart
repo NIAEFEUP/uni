@@ -14,12 +14,14 @@ import 'package:uni/controller/local_storage/app_lectures_database.dart';
 import 'package:uni/controller/local_storage/app_refresh_times_database.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/controller/local_storage/app_user_database.dart';
+import 'package:uni/controller/local_storage/app_restaurant_database.dart';
 import 'package:uni/controller/networking/network_router.dart'
     show NetworkRouter;
 import 'package:uni/controller/parsers/parser_courses.dart';
 import 'package:uni/controller/parsers/parser_exams.dart';
 import 'package:uni/controller/parsers/parser_fees.dart';
 import 'package:uni/controller/parsers/parser_print_balance.dart';
+import 'package:uni/controller/restaurant_fetcher/restaurant_fetcher_html.dart';
 import 'package:uni/controller/schedule_fetcher/schedule_fetcher.dart';
 import 'package:uni/controller/schedule_fetcher/schedule_fetcher_api.dart';
 import 'package:uni/controller/schedule_fetcher/schedule_fetcher_html.dart';
@@ -29,6 +31,7 @@ import 'package:uni/model/entities/course_unit.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/entities/profile.dart';
+import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/entities/trip.dart';
 import 'package:uni/redux/actions.dart';
@@ -36,6 +39,7 @@ import 'package:uni/redux/actions.dart';
 import '../model/entities/bus_stop.dart';
 
 ThunkAction<AppState> reLogin(username, password, faculty, {Completer action}) {
+  /// TODO: support for multiple faculties. Issue: #445
   return (Store<AppState> store) async {
     try {
       loadLocalUserInfoToState(store);
@@ -65,19 +69,25 @@ ThunkAction<AppState> reLogin(username, password, faculty, {Completer action}) {
   };
 }
 
-ThunkAction<AppState> login(username, password, faculty, persistentSession,
+ThunkAction<AppState> login(username, password, faculties, persistentSession,
     usernameController, passwordController) {
   return (Store<AppState> store) async {
     try {
       store.dispatch(SetLoginStatusAction(RequestStatus.busy));
+
+      /// TODO: support for multiple faculties. Issue: #445
       final Session session = await NetworkRouter.login(
-          username, password, faculty, persistentSession);
+          username, password, faculties[0], persistentSession);
       store.dispatch(SaveLoginDataAction(session));
       if (session.authenticated) {
         store.dispatch(SetLoginStatusAction(RequestStatus.successful));
         await loadUserInfoToState(store);
+
+        /// Faculties chosen in the dropdown
+        store.dispatch(SetUserFaculties(faculties));
         if (persistentSession) {
-          AppSharedPreferences.savePersistentUserInfo(username, password);
+          AppSharedPreferences.savePersistentUserInfo(
+              username, password, faculties);
         }
         usernameController.clear();
         passwordController.clear();
@@ -267,6 +277,29 @@ ThunkAction<AppState> getUserSchedule(
     } catch (e) {
       Logger().e('Failed to get Schedule: ${e.toString()}');
       store.dispatch(SetScheduleStatusAction(RequestStatus.failed));
+    }
+    action.complete();
+  };
+}
+
+ThunkAction<AppState> getRestaurantsFromFetcher(Completer<Null> action){
+  return (Store<AppState> store) async{
+    try{
+      store.dispatch(SetRestaurantsStatusAction(RequestStatus.busy));
+
+      final List<Restaurant> restaurants =
+                      await RestaurantFetcherHtml().getRestaurants(store);
+      // Updates local database according to information fetched -- Restaurants
+      final RestaurantDatabase db = RestaurantDatabase();
+      db.saveRestaurants(restaurants);
+      db.restaurants(day:null);
+      store.dispatch(SetRestaurantsAction(restaurants));
+      store.dispatch(SetRestaurantsStatusAction(RequestStatus.successful));
+
+
+    } catch(e){
+      Logger().e('Failed to get Restaurants: ${e.toString()}');
+      store.dispatch(SetRestaurantsStatusAction(RequestStatus.failed));
     }
     action.complete();
   };

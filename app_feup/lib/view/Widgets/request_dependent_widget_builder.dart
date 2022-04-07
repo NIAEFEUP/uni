@@ -13,6 +13,7 @@ class RequestDependentWidgetBuilder extends StatelessWidget {
     @required this.content,
     @required this.contentChecker,
     @required this.onNullContent,
+    this.index
   }) : super(key: key);
 
   final BuildContext context;
@@ -21,6 +22,7 @@ class RequestDependentWidgetBuilder extends StatelessWidget {
   final content;
   final bool contentChecker;
   final Widget onNullContent;
+  final int index;
   static final AppLastUserInfoUpdateDatabase lastUpdateDatabase =
       AppLastUserInfoUpdateDatabase();
 

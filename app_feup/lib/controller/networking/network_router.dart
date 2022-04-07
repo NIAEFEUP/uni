@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:logger/logger.dart';
+import 'package:uni/controller/bus_stops/departures_fetcher.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/model/entities/bus.dart';
 import 'package:uni/model/entities/bus_stop.dart';
@@ -11,7 +12,6 @@ import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/entities/trip.dart';
 import 'package:http/http.dart' as http;
-import 'package:html/parser.dart';
 import 'package:query_params/query_params.dart';
 import 'package:synchronized/synchronized.dart';
 extension UriString on String{
@@ -194,59 +194,8 @@ class NetworkRouter {
 
   /// Retrieves real-time information about the user's selected bus lines.
   static Future<List<Trip>> getNextArrivalsStop(
-      String stopCode, BusStopData stopData) async {
-    final url =
-        'https://www.stcp.pt/pt/itinerarium/soapclient.php?codigo=' + stopCode;
-
-    final http.Response response = await http.get(url.toUri());
-    final htmlResponse = parse(response.body);
-
-    final tableEntries =
-        htmlResponse.querySelectorAll('#smsBusResults > tbody > tr.even');
-
-    final configuredBuses = stopData.configuredBuses;
-
-    final tripList = <Trip>[];
-
-    for (var entry in tableEntries) {
-      final rawBusInformation = entry.querySelectorAll('td');
-
-      final busLine = rawBusInformation[0].querySelector('ul > li').text.trim();
-
-      if (!configuredBuses.contains(busLine)) {
-        continue;
-      }
-
-      final busDestination = rawBusInformation[0]
-          .text
-          .replaceAll('\n', '')
-          .replaceAll('\t', '')
-          .replaceAll(' ', '')
-          .replaceAll('-', '')
-          .substring(busLine.length + 1);
-
-      final busTimeRemaining = getBusTimeRemaining(rawBusInformation);
-
-      final Trip newTrip = Trip(
-          line: busLine,
-          destination: busDestination,
-          timeRemaining: busTimeRemaining);
-
-      tripList.add(newTrip);
-    }
-
-    return tripList;
-  }
-
-  /// Extracts the time remaining for a bus to reach a stop.
-  static int getBusTimeRemaining(rawBusInformation) {
-    if (rawBusInformation[1].text.trim() == 'a passar') {
-      return 0;
-    } else {
-      final regex = RegExp(r'([0-9]+)');
-
-      return int.parse(regex.stringMatch(rawBusInformation[2].text).toString());
-    }
+      String stopCode, BusStopData stopData) {
+    return DeparturesFetcher(stopCode, stopData).getDepartures();
   }
 
   /// Returns the bus lines that stop at the given [stop].

@@ -16,7 +16,9 @@ class LoginPageView extends StatefulWidget {
 
 /// Manages the 'login section' view.
 class _LoginPageViewState extends State<LoginPageView> {
-  final String faculty = 'feup';
+  final List<String> faculty = [
+    'feup'
+  ]; // May choose more than one faculties in the dropdown.
 
   @override
   void didChangeDependencies() {
@@ -143,6 +145,8 @@ class _LoginPageViewState extends State<LoginPageView> {
       key: this._formKey,
       child: SingleChildScrollView(
         child: Column(children: [
+          createFacultyInput(),
+          Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)),
           createUsernameInput(context),
           Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)),
           createPasswordInput(),
@@ -150,6 +154,31 @@ class _LoginPageViewState extends State<LoginPageView> {
           createSaveDataCheckBox()
         ]),
       ),
+    );
+  }
+
+  /// Creates the widget for the user to choose their faculty
+  /// TODO: support for multiple faculties. Issue: #445
+  Widget createFacultyInput() {
+    return DropdownButton(
+      value: faculty[0].toUpperCase(),
+      items: Constants.faculties
+          .map((value) => DropdownMenuItem(
+                value: value.toUpperCase(),
+                child: Text(value.toUpperCase()),
+              ))
+          .toList(),
+      onChanged: (newDropdownValue) {
+        setState(() {
+          faculty[0] = newDropdownValue.toLowerCase();
+        });
+      },
+      isExpanded: true,
+      dropdownColor: Theme.of(context).accentColor,
+      iconDisabledColor: Theme.of(context).primaryColor,
+      iconEnabledColor: Theme.of(context).primaryColor,
+      style: TextStyle(color: Colors.white, fontSize: 20),
+      underline: Container(width: 200, height: 0.2, color: Colors.black87),
     );
   }
 

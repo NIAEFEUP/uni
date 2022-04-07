@@ -131,6 +131,7 @@ class ExamsList extends StatelessWidget {
                 rooms: exam.rooms,
                 begin: exam.begin,
                 end: exam.end,
-                type: exam.examType)));
+                type: exam.examType,
+                date: exam.date)));
   }
 }
