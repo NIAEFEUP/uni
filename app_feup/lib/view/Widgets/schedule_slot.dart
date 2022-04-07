@@ -95,8 +95,14 @@ class ScheduleSlot extends StatelessWidget {
   }
 
   Widget createScheduleSlotTeacherInfo(context) {
+    final int maxSizeTeacher = 14;
+    String teacher = this.teacher.replaceAll(
+        RegExp('[A-Z]*-',
+            unicode: true),'');
+    teacher = teacher.length > maxSizeTeacher ? teacher.substring(0,10) + '...'
+        : teacher;
     return createTextField(
-        this.teacher,
+        teacher,
         Theme.of(context).textTheme.headline4.apply(fontSizeDelta: -4),
         TextAlign.center);
   }
