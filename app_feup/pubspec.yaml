@@ -83,23 +83,23 @@ flutter:
   fonts:
     - family: Raleway
       fonts:
-        - asset: assets/Fonts/Raleway-Black.ttf
+        - asset: assets/fonts/Raleway-Black.ttf
           weight: 900
-        - asset: assets/Fonts/Raleway-Bold.ttf
+        - asset: assets/fonts/Raleway-Bold.ttf
           weight: 700
-        - asset: assets/Fonts/Raleway-ExtraBold.ttf
+        - asset: assets/fonts/Raleway-ExtraBold.ttf
           weight: 800
-        - asset: assets/Fonts/Raleway-ExtraLight.ttf
+        - asset: assets/fonts/Raleway-ExtraLight.ttf
           weight: 200
-        - asset: assets/Fonts/Raleway-Light.ttf
+        - asset: assets/fonts/Raleway-Light.ttf
           weight: 300
-        - asset: assets/Fonts/Raleway-Medium.ttf
+        - asset: assets/fonts/Raleway-Medium.ttf
           weight: 500
-        - asset: assets/Fonts/Raleway-Regular.ttf
+        - asset: assets/fonts/Raleway-Regular.ttf
           weight: 400
-        - asset: assets/Fonts/Raleway-SemiBold.ttf
+        - asset: assets/fonts/Raleway-SemiBold.ttf
           weight: 600
-        - asset: assets/Fonts/Raleway-Thin.ttf
+        - asset: assets/fonts/Raleway-Thin.ttf
           weight: 100
     - family: LocationIcons
       fonts:
