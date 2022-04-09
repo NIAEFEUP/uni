@@ -10,9 +10,11 @@ class Atm implements Location{
   final weight = 2;
 
   @override
-  final icon = LocationIcons.cash_multiple;
+  final icon = LocationIcons.cashMultiple;
 
-  Atm(this.floor) : super();
+  final int locationGroupId;
+
+  Atm(this.floor, {this.locationGroupId = null}) : super();
 
   @override
   String description(){

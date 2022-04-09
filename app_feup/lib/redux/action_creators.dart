@@ -32,7 +32,6 @@ import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/course_unit.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/entities/lecture.dart';
-import 'package:uni/model/entities/location.dart';
 import 'package:uni/model/entities/location_group.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/restaurant.dart';
@@ -471,16 +470,11 @@ ThunkAction<AppState> getUserBusTrips(Completer<Null> action) {
 ThunkAction<AppState> getFacultyLocations(Completer<Null> action){
   return (Store<AppState> store) async{
     final LocationDatabase db = LocationDatabase();
-    final List<LocationGroup> locations = db.getLocations(null);
-    store.dispatch(SetLocationsAction(locations));
-    store.dispatch(SetLocationsStatusAction(RequestStatus.successful));
-    /*
     try{
       store.dispatch(SetLocationsStatusAction(RequestStatus.busy));
 
-      locations =
+      final List<LocationGroup> locations =
       await LocationFetcherAsset().getLocations(store);
-      // Updates local database according to information fetched -- Restaurants
 
       db.initLocations(locations);
       store.dispatch(SetLocationsAction(locations));
@@ -491,7 +485,7 @@ ThunkAction<AppState> getFacultyLocations(Completer<Null> action){
       Logger().e('Failed to get locations: ${e.toString()}');
       store.dispatch(SetLocationsStatusAction(RequestStatus.failed));
     }
-    */
+
 
     action.complete();
   };

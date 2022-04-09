@@ -12,8 +12,9 @@ class CoffeeMachine implements Location{
   @override
   final icon = LocationIcons.coffee;
 
+  final int locationGroupId;
 
-  CoffeeMachine(this.floor);
+  CoffeeMachine(this.floor, {this.locationGroupId = null});
 
   @override
   String description(){

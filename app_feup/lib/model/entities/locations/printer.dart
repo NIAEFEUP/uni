@@ -12,7 +12,9 @@ class Printer implements Location{
   @override
   final icon = LocationIcons.printer;
 
-  Printer(this.floor);
+  final int locationGroupId;
+
+  Printer(this.floor, {this.locationGroupId = null});
 
   @override
   String description(){

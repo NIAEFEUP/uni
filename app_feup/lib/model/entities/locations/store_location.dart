@@ -13,7 +13,9 @@ class StoreLocation implements Location{
   @override
   final icon = Icons.store;
 
-  StoreLocation(this.floor,this.name);
+  final int locationGroupId;
+
+  StoreLocation(this.floor,this.name, {this.locationGroupId = null});
 
   @override
   String description(){

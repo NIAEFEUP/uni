@@ -11,7 +11,9 @@ class WcLocation implements Location{
   @override
   final icon = Icons.wc;
 
-  WcLocation(this.floor);
+  final int locationGroupId;
+
+  WcLocation(this.floor, {this.locationGroupId = null});
 
   @override
   String description(){

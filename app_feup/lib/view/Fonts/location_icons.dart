@@ -21,11 +21,11 @@ class LocationIcons {
   static const _kFontFam = 'LocationIcons';
   static const String _kFontPkg = null;
 
-  static const IconData book_open_blank_variant =
+  static const IconData bookOpenBlankVariant =
     IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData bottle_soda_classic =
+  static const IconData bottleSodaClassic =
     IconData(0xe801, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData cash_multiple =
+  static const IconData cashMultiple =
     IconData(0xe802, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData coffee =
     IconData(0xe803, fontFamily: _kFontFam, fontPackage: _kFontPkg);

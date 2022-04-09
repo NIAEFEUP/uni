@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:uni/model/entities/location.dart';
 import 'package:uni/model/entities/location_group.dart';
@@ -36,6 +35,7 @@ class LocationDatabase extends AppDatabase {
     }
 
   saveLocationGroup(Batch batch, LocationGroup group){
+
     batch.insert('location_group', group.toMap());
     final List<Location> locations =
     group.floors.values.expand((x) => x).toList();
@@ -44,12 +44,5 @@ class LocationDatabase extends AppDatabase {
     });
   }
 
-  getLocations(Map<String, dynamic> filters) async{
-      final Database db = await this.getDatabase();
-      if(filters.containsKey('types')){
-        List<LocationType> types = filters['types'];
-      }
-      List<Map<String, Object>> result = await db.query('location_group');
 
-  }
 }

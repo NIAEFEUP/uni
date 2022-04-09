@@ -10,9 +10,11 @@ class VendingMachine implements Location{
   final weight = 2;
 
   @override
-  final icon = LocationIcons.bottle_soda_classic;
+  final icon = LocationIcons.bottleSodaClassic;
 
-  VendingMachine(this.floor);
+  final int locationGroupId;
+
+  VendingMachine(this.floor, {this.locationGroupId = null});
 
   @override
   String description(){

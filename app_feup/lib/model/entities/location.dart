@@ -53,11 +53,44 @@ abstract class Location{
   final int floor;
   final int weight;
   final icon;
-  Location(this.floor, this.weight , this.icon);
+  Location(this.floor, this.weight , this.icon, {locationGroupId = null});
 
   String description();
 
   Map<String, dynamic> toMap({int groupId = null});
+
+  /**
+   * Used when retrieving from local database
+   */
+  static Location fromMap(Map<String, dynamic> map){
+    switch(map['type']){
+      case 'COFFEE_MACHINE':
+        return CoffeeMachine(map['floor'],
+            locationGroupId : map['id_location_group']);
+        break;
+      case 'VENDING_MACHINE':
+        return VendingMachine(map['floor']);
+        break;
+      case 'ROOM':
+        return RoomLocation(map['floor'], map['firstRoom']);
+      case 'SPECIAL_ROOM':
+        return SpecialRoomLocation(map['floor'], map['firstRoom'], map['name']);
+      case 'ROOMS':
+        return
+          RoomGroupLocation(map['floor'], map['firstRoom'], map['lastRoom']);
+      case 'ATM':
+        return Atm(map['floor']);
+      case 'PRINTER':
+        return Printer(map['floor']);
+      case 'RESTAURANT':
+        return RestaurantLocation(map['floor'], map['name']);
+      case 'STORE':
+        return StoreLocation(map['floor'], map['name']);
+      case 'WC':
+        return WcLocation(map['floor']);
+    }
+    return null;
+  }
 
   static Location fromJSON(Map<String, dynamic> json, int floor){
     final Map<String, dynamic> args = json['args'];
@@ -90,8 +123,6 @@ abstract class Location{
         return StoreLocation(floor, args['name']);
       case 'WC':
         return WcLocation(floor);
-
-
     }
     return null;
   }

@@ -13,7 +13,9 @@ class RestaurantLocation implements Location{
   @override
   final icon = Icons.restaurant;
 
-  RestaurantLocation(this.floor,this.name);
+  final int locationGroupId;
+
+  RestaurantLocation(this.floor,this.name, {this.locationGroupId = null});
 
   @override
   String description(){

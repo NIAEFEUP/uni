@@ -12,9 +12,12 @@ class RoomGroupLocation implements Location{
   final String firstRoomNumber;
   final String secondRoomNumber;
   @override
-  final icon = LocationIcons.book_open_blank_variant;
+  final icon = LocationIcons.bookOpenBlankVariant;
 
-  RoomGroupLocation(this.floor,this.firstRoomNumber, this.secondRoomNumber);
+  final int locationGroupId;
+
+  RoomGroupLocation(this.floor,this.firstRoomNumber, this.secondRoomNumber,
+      {this.locationGroupId = null});
 
   @override
   String description(){

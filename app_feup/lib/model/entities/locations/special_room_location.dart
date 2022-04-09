@@ -14,7 +14,9 @@ class SpecialRoomLocation implements Location{
   @override
   final icon = Icons.star;
 
-  SpecialRoomLocation(this.floor, this.roomNumber, this.name);
+  final int locationGroupId;
+  SpecialRoomLocation(this.floor, this.roomNumber, this.name,
+      {this.locationGroupId = null});
 
   @override
   String description(){
