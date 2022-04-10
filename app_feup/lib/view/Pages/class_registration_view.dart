@@ -1,16 +1,21 @@
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:flutter/material.dart';
+import 'package:uni/view/Pages/secondary_page_view.dart';
 import 'package:uni/view/Widgets/page_title.dart';
 import 'package:uni/view/Widgets/request_dependent_widget_builder.dart';
 import 'package:uni/view/Widgets/schedule_slot.dart';
 
-/// Manages the 'schedule' sections of the app
-class ClassRegistrationView extends StatelessWidget {
-  ClassRegistrationView({Key key});
+class ClassRegistrationPageView extends StatefulWidget {
+  const ClassRegistrationPageView({Key key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  _ClassRegistrationPageViewState createState() => _ClassRegistrationPageViewState();
+}
+
+class _ClassRegistrationPageViewState extends SecondaryPageViewState {
+  @override
+  Widget getBody(BuildContext context) {
     return Column(children: <Widget>[
       PageTitle(name: 'Escolha de Turmas'),
       SizedBox(height: 40),
