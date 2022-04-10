@@ -16,6 +16,7 @@ import 'package:uni/view/Pages/bug_report_page_view.dart';
 import 'package:uni/view/Pages/bus_stop_next_arrivals_page.dart';
 import 'package:uni/view/Pages/exams_page_view.dart';
 import 'package:uni/view/Pages/home_page_view.dart';
+import 'package:uni/model/class_registration_model.dart';
 import 'package:uni/view/Pages/logout_route.dart';
 import 'package:uni/view/Pages/splash_page_view.dart';
 import 'package:uni/view/Widgets/page_transition.dart';
@@ -85,6 +86,9 @@ class MyAppState extends State<MyApp> {
               case '/' + Constants.navPersonalArea:
                 return PageTransition.makePageTransition(
                     page: HomePageView(), settings: settings);
+              case '/' + Constants.navClassRegistration:
+                return PageTransition.makePageTransition(
+                    page: ClassRegistrationPage(), settings: settings);
               case '/' + Constants.navSchedule:
                 return PageTransition.makePageTransition(
                     page: SchedulePage(), settings: settings);
