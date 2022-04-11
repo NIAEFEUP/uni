@@ -29,7 +29,6 @@ class NetworkRouter {
 
   static Function onReloginFail = () {};
 
-
   /// Creates an authenticated [Session] on the given [faculty] with the
   /// given username [user] and password [pass].
   static Future<Session> login(
@@ -230,5 +229,27 @@ class NetworkRouter {
   /// Returns the base url from the user's previous session.
   static String getBaseUrlFromSession(Session session) {
     return NetworkRouter.getBaseUrl(session.faculty);
+  }
+
+  // Generates MB reference to add money to print balance
+  static Future<http.Response> generatePrintMoneyReference(
+      double amount, Session session) async {
+    if (amount < 1) return Future.error('Amount less than 1,00€');
+
+    final url = NetworkRouter.getBaseUrlFromSession(session) +
+        'gpag_ccorrentes_geral.gerar_mb';
+
+    final Map data = {
+      'p_tipo_id': '3',
+      'pct_codigo': session.studentNumber,
+      'p_valor': '1',
+      'p_valor_livre': amount.toStringAsFixed(2).trim().replaceAll('.', ',')
+    };
+
+    final Map<String, String> headers = Map<String, String>();
+    headers['cookie'] = session.cookies;
+    headers['content-type'] = 'application/x-www-form-urlencoded';
+
+    return await http.post(url.toUri(), headers: headers, body: data);
   }
 }
