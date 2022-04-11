@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'generic_card.dart';
 import 'package:uni/view/Widgets/info_desk_card.dart';
 
-class DonaBiaCard extends GenericCard {
-  DonaBiaCard({Key key}) : super(key: key);
+class MulimediaCenterCard extends GenericCard {
+  MulimediaCenterCard({Key key}) : super(key: key);
 
-  DonaBiaCard.fromEditingInformation(
+  MulimediaCenterCard.fromEditingInformation(
       Key key, bool editingMode, Function onDelete)
       : super.fromEditingInformation(key, editingMode, onDelete);
 
@@ -14,19 +14,19 @@ class DonaBiaCard extends GenericCard {
     return Column(
       children: <Container>[
         h1('Horário', context, initial: true),
-        h2('Piso -1 do edifício B (B -142)', context),
-        infoText('8:30h - 12:00h | 13:30h - 19:00h', context),
+        h2('Sala B123', context),
+        infoText('9:00h - 12:30h | 14:30h - 17:00h', context),
         h1('Telefone', context),
-        infoText('+351 225 081 416', context, link: 'tel:225 081 416'),
+        infoText('+351 225 081 466', context, link: 'tel:225 081 466'),
         h1('Email', context),
-        infoText('papelaria.fe.up@gmail.com', context,
-            last: true, link: 'mailto:papelaria.fe.up@gmail.com')
+        infoText('imprimir@fe.up.pt', context,
+            last: true, link: 'mailto:imprimir@fe.up.pt')
       ],
     );
   }
 
   @override
-  String getTitle() => 'Papelaria D. Beatriz';
+  String getTitle() => 'Centro de Multimédia';
 
   @override
   onClick(BuildContext context) {}
