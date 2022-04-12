@@ -17,10 +17,9 @@ class DonaBiaCard extends GenericCard {
         h2('Piso -1 do edifício B (B -142)', context),
         infoText('8:30h - 12:00h | 13:30h - 19:00h', context),
         h1('Telefone', context),
-        infoText('+351 225 081 416', context, link: 'tel:225 081 416'),
+        infoText('+351 225 081 416', context),
         h1('Email', context),
-        infoText('papelaria.fe.up@gmail.com', context,
-            last: true, link: 'mailto:papelaria.fe.up@gmail.com')
+        infoText('papelaria.fe.up@gmail.com', context,last: true)
       ],
     );
   }
