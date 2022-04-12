@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'generic_card.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 Container h1(String text, BuildContext context, {bool initial = false}) {
   final double marginTop = initial ? 15.0 : 30.0;
