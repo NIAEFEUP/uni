@@ -46,12 +46,10 @@ Future<void> main() async {
         'https://a2661645df1c4992b24161010c5e0ecb@o553498.ingest.sentry.io/5680848';
   },
       appRunner: () => {
-            runApp(
-              ChangeNotifierProvider<ThemeNotifier>(
-                create: (_) => ThemeNotifier(savedTheme),
-                child: MyApp(),
-              ),
-            )
+            runApp(ChangeNotifierProvider<ThemeNotifier>(
+              create: (_) => ThemeNotifier(savedTheme),
+              child: MyApp(),
+            ))
           });
 }
 
@@ -83,44 +81,44 @@ class MyAppState extends State<MyApp> {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);
-    final themeNotifier = Provider.of<ThemeNotifier>(context);
     return StoreProvider(
-      store: state,
-      child: MaterialApp(
-          title: 'uni',
-          theme: applicationLightTheme,
-          darkTheme: applicationDarkTheme,
-          themeMode: themeNotifier.getTheme(),
-          home: SplashScreen(),
-          navigatorKey: NavigationService.navigatorKey,
-          // ignore: missing_return
-          onGenerateRoute: (RouteSettings settings) {
-            switch (settings.name) {
-              case '/' + Constants.navPersonalArea:
-                return PageTransition.makePageTransition(
-                    page: HomePageView(), settings: settings);
-              case '/' + Constants.navSchedule:
-                return PageTransition.makePageTransition(
-                    page: SchedulePage(), settings: settings);
-              case '/' + Constants.navExams:
-                return PageTransition.makePageTransition(
-                    page: ExamsPageView(), settings: settings);
-              case '/' + Constants.navStops:
-                return PageTransition.makePageTransition(
-                    page: BusStopNextArrivalsPage(), settings: settings);
-              case '/' + Constants.navAbout:
-                return PageTransition.makePageTransition(
-                    page: AboutPageView(), settings: settings);
-              case '/' + Constants.navBugReport:
-                return PageTransition.makePageTransition(
-                    page: BugReportPageView(),
-                    settings: settings,
-                    maintainState: false);
-              case '/' + Constants.navLogOut:
-                return LogoutRoute.buildLogoutRoute();
-            }
-          }),
-    );
+        store: state,
+        child: Consumer<ThemeNotifier>(
+          builder: (context, themeNotifier, _) => MaterialApp(
+              title: 'uni',
+              theme: applicationLightTheme,
+              darkTheme: applicationDarkTheme,
+              themeMode: themeNotifier.getTheme(),
+              home: SplashScreen(),
+              navigatorKey: NavigationService.navigatorKey,
+              // ignore: missing_return
+              onGenerateRoute: (RouteSettings settings) {
+                switch (settings.name) {
+                  case '/' + Constants.navPersonalArea:
+                    return PageTransition.makePageTransition(
+                        page: HomePageView(), settings: settings);
+                  case '/' + Constants.navSchedule:
+                    return PageTransition.makePageTransition(
+                        page: SchedulePage(), settings: settings);
+                  case '/' + Constants.navExams:
+                    return PageTransition.makePageTransition(
+                        page: ExamsPageView(), settings: settings);
+                  case '/' + Constants.navStops:
+                    return PageTransition.makePageTransition(
+                        page: BusStopNextArrivalsPage(), settings: settings);
+                  case '/' + Constants.navAbout:
+                    return PageTransition.makePageTransition(
+                        page: AboutPageView(), settings: settings);
+                  case '/' + Constants.navBugReport:
+                    return PageTransition.makePageTransition(
+                        page: BugReportPageView(),
+                        settings: settings,
+                        maintainState: false);
+                  case '/' + Constants.navLogOut:
+                    return LogoutRoute.buildLogoutRoute();
+                }
+              }),
+        ));
   }
 
   @override
