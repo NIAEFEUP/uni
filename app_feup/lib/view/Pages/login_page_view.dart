@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:uni/view/Widgets/faculties_multiselect.dart';
 import 'package:uni/view/Widgets/toast_message.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/redux/action_creators.dart';
@@ -18,7 +19,7 @@ class LoginPageView extends StatefulWidget {
 class _LoginPageViewState extends State<LoginPageView> {
   List<String> userFaculties = [
     'feup'
-  ]; // May choose more than one faculties in the dropdown.
+  ]; // May choose more than one faculty in the dropdown.
 
   @override
   void didChangeDependencies() {
@@ -157,67 +158,8 @@ class _LoginPageViewState extends State<LoginPageView> {
   }
 
   /// Creates the widget for the user to choose their faculty
-  /// TODO: support for multiple faculties. Issue: #445
   Widget createFacultyInput() {
-    return TextButton(
-        child: Container(
-          child: Row(
-            children: [
-            Text('a(s) tua(s) faculdade(s)'),
-            Spacer(),
-            Icon(Icons.arrow_drop_down),
-            ]
-          ),
-          padding: const EdgeInsets.fromLTRB(5, 0, 5, 7),
-          decoration: BoxDecoration(
-            border: Border(
-                bottom: BorderSide(
-                color: Colors.black,
-                width: 0.5,
-        )))),
-        style: TextButton.styleFrom(
-            primary: Theme.of(context).primaryColor,
-            textStyle: TextStyle(fontSize: 20,
-                fontWeight: FontWeight.w300)
-        ),
-        onPressed: () {
-          showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return AlertDialog(
-                    backgroundColor: Theme.of(context).accentColor,
-                    title: Text('seleciona a(s) tua(s) faculdade(s)'),
-                    titleTextStyle: TextStyle(
-                        color: Theme.of(context).primaryColor,
-                        fontSize: 18),
-                    content: Container(
-                        height: 500.0,
-                        width: 200.0,
-                        child: ListView(
-                            children: List.generate(Constants.faculties.length,
-                                  (i) {
-                                  final String faculty =
-                                  Constants.faculties.elementAt(i);
-                                  return CheckboxListTile(
-                                      title: Text(faculty.toUpperCase(),
-                                      style: TextStyle(
-                                          color: Theme.of(context).primaryColor,
-                                          fontSize: 20.0)),
-                                      value: userFaculties.contains(faculty),
-                                      onChanged: (value) {
-                                        setState(() {
-                                          if (value) {
-                                            userFaculties.add(faculty);
-                                          } else {
-                                            userFaculties.remove(faculty);
-                                          }
-                                          for (String s in userFaculties)
-                                            print(s);
-                                        });
-                                      });
-                                  }))));
-                });
-        });
+    return FacultiesMultiselect(userFaculties: userFaculties);
   }
 
   /// Creates the widget for the username input.
