@@ -8,12 +8,33 @@ import 'package:sqflite/sqflite.dart';
 /// This database stores information about the user's exams.
 /// See the [Exam] class to see what data is stored in this database.
 class AppExamsDatabase extends AppDatabase {
+
+  var months = {
+    'Janeiro': '01',
+    'Fevereiro': '02',
+    'Março': '03',
+    'Abril': '04',
+    'Maio': '05',
+    'Junho': '06',
+    'Julho': '07',
+    'Agosto': '08',
+    'Setembro': '09',
+    'Outubro': '10',
+    'Novembro': '11',
+    'Dezembro': '12'
+  };
+
+  static final _createScript =
+  '''CREATE TABLE exams(subject TEXT, begin TEXT, end TEXT,
+          rooms TEXT, day TEXT, examType TEXT, weekDay TEXT, month TEXT, year TEXT) ''';
+
   AppExamsDatabase()
-      : super('exams.db', [
-          '''CREATE TABLE exams(subject TEXT, begin TEXT, end TEXT,
-          rooms TEXT, day TEXT, examType TEXT, weekDay TEXT, month TEXT, year TEXT)
-          '''
-        ]);
+      : super(
+              'exams.db',
+              [
+              _createScript,
+              ]);
+
 
   /// Replaces all of the data in this database with [exams].
   saveNewExams(List<Exam> exams) async {
@@ -33,16 +54,15 @@ class AppExamsDatabase extends AppDatabase {
     return List.generate(maps.length, (i) {
       return Exam.secConstructor(
           maps[i]['subject'],
-          maps[i]['begin'],
-          maps[i]['end'],
+          DateTime.parse(maps[i]['year'] +'-' +
+           months[maps[i]['month']] +'-' + maps[i]['day']+' '+maps[i]['begin']),
+          DateTime.parse(maps[i]['year'] +'-' +
+           months[maps[i]['month']] +'-' +maps[i]['day']+' '+maps[i]['end']),
           maps[i]['rooms'],
-          maps[i]['day'],
           maps[i]['examType'],
-          maps[i]['weekDay'],
-          maps[i]['month'],
-          maps[i]['year']);
-    });
-  }
+          maps[i]['weekDay']);
+    });}
+
 
   /// Adds all items from [exams] to this database.
   /// 
@@ -61,7 +81,7 @@ class AppExamsDatabase extends AppDatabase {
   Future<void> deleteExams() async {
     // Get a reference to the database
     final Database db = await this.getDatabase();
-
     await db.delete('exams');
   }
+
 }
