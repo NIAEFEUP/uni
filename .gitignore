@@ -14,3 +14,7 @@ app_feup/pubspec.lock
 .vscode/
 .idea/
 .gradle/
+
+# Key properties
+app_feup/android/key.properties
+**.jks
