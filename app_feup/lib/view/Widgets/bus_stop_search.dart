@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:uni/controller/fetchers/departures_fetcher.dart';
 import 'package:uni/controller/local_storage/app_bus_stop_database.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/model/app_state.dart';
@@ -141,7 +142,7 @@ class BusStopSearch extends SearchDelegate<String> {
 
   Future<List<String>> getStops() async {
     if (query != '') {
-      return NetworkRouter.getStopsByName(query);
+      return DeparturesFetcher.getStopsByName(query);
     }
     return [];
   }

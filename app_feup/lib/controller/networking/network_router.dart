@@ -3,14 +3,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:logger/logger.dart';
-import 'package:uni/controller/fetchers/bus_stops/departures_fetcher.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
-import 'package:uni/model/entities/bus.dart';
-import 'package:uni/model/entities/bus_stop.dart';
-import 'package:uni/model/entities/course_unit.dart';
-import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/session.dart';
-import 'package:uni/model/entities/trip.dart';
 import 'package:http/http.dart' as http;
 import 'package:query_params/query_params.dart';
 import 'package:synchronized/synchronized.dart';
@@ -104,38 +98,6 @@ class NetworkRouter {
     return cookieList.join(';');
   }
 
-  /// Returns the user's [Profile].
-  static Future<Profile> getProfile(Session session) async {
-    final url = NetworkRouter.getBaseUrlsFromSession(session)[0] +
-        'mob_fest_geral.perfil?';
-    final response = await getWithCookies(
-        url, {'pv_codigo': session.studentNumber}, session);
-
-    if (response.statusCode == 200) {
-      return Profile.fromResponse(response);
-    }
-    return Profile();
-  }
-
-  /// Returns the user's current list of [CourseUnit].
-  static Future<List<CourseUnit>> getCurrentCourseUnits(Session session) async {
-    final url = NetworkRouter.getBaseUrlsFromSession(session)[0] +
-        'mob_fest_geral.ucurr_inscricoes_corrente?';
-    final response = await getWithCookies(
-        url, {'pv_codigo': session.studentNumber}, session);
-    if (response.statusCode == 200) {
-      final responseBody = json.decode(response.body);
-      final List<CourseUnit> ucs = <CourseUnit>[];
-      for (var course in responseBody) {
-        for (var uc in course['inscricoes']) {
-          ucs.add(CourseUnit.fromJson(uc));
-        }
-      }
-      return ucs;
-    }
-    return <CourseUnit>[];
-  }
-
   /// Makes an authenticated GET request with the given [session] to the
   /// resource located at [url] with the given [query] parameters.
   static Future<http.Response> getWithCookies(
@@ -175,58 +137,14 @@ class NetworkRouter {
     }
   }
 
-  /// Retrieves the name and code of the stops with code [stopCode].
-  static Future<List<String>> getStopsByName(String stopCode) async {
-    final List<String> stopsList = [];
-
-    //Search by aproximate name
-    final String url =
-        'https://www.stcp.pt/pt/itinerarium/callservice.php?action=srchstoplines&stopname=$stopCode';
-    final http.Response response = await http.post(url.toUri());
-    final List json = jsonDecode(response.body);
-    for (var busKey in json) {
-      final String stop = busKey['name'] + ' [' + busKey['code'] + ']';
-      stopsList.add(stop);
-    }
-
-    return stopsList;
-  }
-
-  /// Retrieves real-time information about the user's selected bus lines.
-  static Future<List<Trip>> getNextArrivalsStop(
-      String stopCode, BusStopData stopData) {
-    return DeparturesFetcher(stopCode, stopData).getDepartures();
-  }
-
-  /// Returns the bus lines that stop at the given [stop].
-  static Future<List<Bus>> getBusesStoppingAt(String stop) async {
-    final String url =
-        'https://www.stcp.pt/pt/itinerarium/callservice.php?action=srchstoplines&stopcode=$stop';
-    final http.Response response = await http.post(url.toUri());
-
-    final List json = jsonDecode(response.body);
-
-    final List<Bus> buses = [];
-
-    for (var busKey in json) {
-      final lines = busKey['lines'];
-      for (var bus in lines) {
-        final Bus newBus = Bus(
-            busCode: bus['code'],
-            destination: bus['description'],
-            direction: (bus['dir'] == 0 ? false : true));
-        buses.add(newBus);
-      }
-    }
-
-    return buses;
+  /// Returns the base url of the user's faculties.
+  static List<String> getBaseUrls(List<String> faculties) {
+    return faculties.map(getBaseUrl).toList();
   }
 
   /// Returns the base url of the user's faculty.
-  static List<String> getBaseUrls(List<String> faculties) {
-    return faculties
-        .map((faculty) => 'https://sigarra.up.pt/$faculty/pt/')
-        .toList();
+  static String getBaseUrl(String faculty) {
+    return 'https://sigarra.up.pt/$faculty/pt/';
   }
 
   /// Returns the base url from the user's previous session.

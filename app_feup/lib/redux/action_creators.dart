@@ -4,6 +4,8 @@ import 'package:logger/logger.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:tuple/tuple.dart';
+import 'package:uni/controller/fetchers/departures_fetcher.dart';
+import 'package:uni/controller/fetchers/profile_fetcher.dart';
 import 'package:uni/controller/load_info.dart';
 import 'package:uni/controller/load_static/terms_and_conditions.dart';
 import 'package:uni/controller/local_storage/app_bus_stop_database.dart';
@@ -22,6 +24,7 @@ import 'package:uni/controller/parsers/parser_exams.dart';
 import 'package:uni/controller/parsers/parser_fees.dart';
 import 'package:uni/controller/parsers/parser_print_balance.dart';
 import 'package:uni/controller/fetchers/restaurant_fetcher/restaurant_fetcher_html.dart';
+import 'package:uni/controller/fetchers/courses_fetcher.dart';
 import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher.dart';
 import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher_api.dart';
 import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher_html.dart';
@@ -114,13 +117,13 @@ ThunkAction<AppState> getUserInfo(Completer<Null> action) {
       store.dispatch(SaveProfileStatusAction(RequestStatus.busy));
 
       final profile =
-          NetworkRouter.getProfile(store.state.content['session']).then((res) {
+          ProfileFetcher.getProfile(store.state.content['session']).then((res) {
         userProfile = res;
         store.dispatch(SaveProfileAction(userProfile));
         store.dispatch(SaveProfileStatusAction(RequestStatus.successful));
       });
       final ucs =
-          NetworkRouter.getCurrentCourseUnits(store.state.content['session'])
+          CoursesFetcher.getCurrentCourseUnits(store.state.content['session'])
               .then((res) => store.dispatch(SaveUcsAction(res)));
       await Future.wait([profile, ucs]);
 
@@ -449,7 +452,8 @@ ThunkAction<AppState> getUserBusTrips(Completer<Null> action) {
 
       for (String stopCode in stops.keys) {
         final List<Trip> stopTrips =
-            await NetworkRouter.getNextArrivalsStop(stopCode, stops[stopCode]);
+            await DeparturesFetcher.getNextArrivalsStop(
+                stopCode, stops[stopCode]);
         trips[stopCode] = stopTrips;
       }
 
