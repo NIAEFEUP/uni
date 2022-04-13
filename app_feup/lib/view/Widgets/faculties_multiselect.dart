@@ -33,24 +33,18 @@ class _FacultiesMultiselectState extends State<FacultiesMultiselect> {
             )
         ),
         style: TextButton.styleFrom(
-            primary: Theme
-                .of(context)
-                .primaryColor,
-            textStyle: TextStyle(fontSize: 20,
-                fontWeight: FontWeight.w300)
+            primary: Theme.of(context).primaryColor,
+            textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.w300)
         ),
         onPressed: () {
           showDialog(
               context: context,
               builder: (BuildContext context) {
-                return getAlertDialog(context);
+                return FacultiesSelectionForm(
+                    userFaculties: widget.userFaculties);
               }
           );
         }
     );
-  }
-
-  Widget getAlertDialog(BuildContext context) {
-    return FacultiesSelectionForm(userFaculties: widget.userFaculties);
   }
 }
