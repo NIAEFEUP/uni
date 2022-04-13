@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:http/http.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/model/entities/course_unit.dart';
 import 'package:uni/model/entities/session.dart';
@@ -22,5 +23,12 @@ class CoursesFetcher {
       return ucs;
     }
     return <CourseUnit>[];
+  }
+
+  static Future<Response> getDegreesListResponse(Session session) async {
+    final String url = NetworkRouter.getBaseUrlsFromSession(session)[0] +
+        'fest_geral.cursos_list?';
+    final Map<String, String> query = {'pv_num_unico': session.studentNumber};
+    return NetworkRouter.getWithCookies(url, query, session);
   }
 }

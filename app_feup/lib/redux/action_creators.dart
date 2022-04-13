@@ -5,6 +5,8 @@ import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:tuple/tuple.dart';
 import 'package:uni/controller/fetchers/departures_fetcher.dart';
+import 'package:uni/controller/fetchers/fees_fetcher.dart';
+import 'package:uni/controller/fetchers/print_fetcher.dart';
 import 'package:uni/controller/fetchers/profile_fetcher.dart';
 import 'package:uni/controller/load_info.dart';
 import 'package:uni/controller/load_static/terms_and_conditions.dart';
@@ -329,17 +331,9 @@ ThunkAction<AppState> setInitialStoreState() {
 
 ThunkAction<AppState> getUserPrintBalance(Completer<Null> action) {
   return (Store<AppState> store) async {
-    final String url = NetworkRouter.getBaseUrlsFromSession(
-            store.state.content['session'])[0] +
-        'imp4_impressoes.atribs?';
-
-    final Map<String, String> query = {
-      'p_codigo': store.state.content['session'].studentNumber
-    };
-
     try {
-      final response = await NetworkRouter.getWithCookies(
-          url, query, store.state.content['session']);
+      final response = await PrintFetcher.getUserPrintsResponse(
+          store.state.content['session']);
       final String printBalance = await getPrintsBalance(response);
 
       final String currentTime = DateTime.now().toString();
@@ -367,18 +361,9 @@ ThunkAction<AppState> getUserPrintBalance(Completer<Null> action) {
 ThunkAction<AppState> getUserFees(Completer<Null> action) {
   return (Store<AppState> store) async {
     store.dispatch(SetFeesStatusAction(RequestStatus.busy));
-
-    final String url = NetworkRouter.getBaseUrlsFromSession(
-            store.state.content['session'])[0] +
-        'gpag_ccorrente_geral.conta_corrente_view?';
-
-    final Map<String, String> query = {
-      'pct_cod': store.state.content['session'].studentNumber
-    };
-
     try {
-      final response = await NetworkRouter.getWithCookies(
-          url, query, store.state.content['session']);
+      final response =
+          await FeesFetcher.getUserFeesResponse(store.state.content['session']);
 
       final String feesBalance = await parseFeesBalance(response);
       final String feesLimit = await parseFeesNextLimit(response);
@@ -410,21 +395,10 @@ ThunkAction<AppState> getUserFees(Completer<Null> action) {
 ThunkAction<AppState> getUserCoursesState(Completer<Null> action) {
   return (Store<AppState> store) async {
     store.dispatch(SetCoursesStatesStatusAction(RequestStatus.busy));
-
-    final String url = NetworkRouter.getBaseUrlsFromSession(
-            store.state.content['session'])[0] +
-        'fest_geral.cursos_list?';
-
-    final Map<String, String> query = {
-      'pv_num_unico': store.state.content['session'].studentNumber
-    };
-
     try {
-      final response = await NetworkRouter.getWithCookies(
-          url, query, store.state.content['session']);
-
+      final response = await CoursesFetcher.getDegreesListResponse(
+          store.state.content['session']);
       final Map<String, String> coursesStates = await parseCourses(response);
-
       final Tuple2<String, String> userPersistentInfo =
           await AppSharedPreferences.getPersistentUserInfo();
       if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {

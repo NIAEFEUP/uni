@@ -115,7 +115,7 @@ Future<void> handleRefresh(store) {
 
 Future<File> loadProfilePic(Store<AppState> store) {
   final String studentNumber = store.state.content['session'].studentNumber;
-  final List<String> faculty = store.state.content['session'].faculties[0];
+  final String faculty = store.state.content['session'].faculties[0];
   final String url =
       'https://sigarra.up.pt/$faculty/pt/fotografias_service.foto?pct_cod=$studentNumber';
   final Map<String, String> headers = Map<String, String>();
