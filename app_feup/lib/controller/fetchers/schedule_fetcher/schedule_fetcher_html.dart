@@ -1,7 +1,7 @@
 import 'package:http/http.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/parsers/parser_schedule_html.dart';
-import 'package:uni/controller/schedule_fetcher/schedule_fetcher.dart';
+import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/lecture.dart';

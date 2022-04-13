@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:logger/logger.dart';
-import 'package:uni/controller/bus_stops/departures_fetcher.dart';
+import 'package:uni/controller/fetchers/bus_stops/departures_fetcher.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/model/entities/bus.dart';
 import 'package:uni/model/entities/bus_stop.dart';
