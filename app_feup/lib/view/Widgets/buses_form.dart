@@ -1,5 +1,4 @@
 import 'package:uni/controller/fetchers/departures_fetcher.dart';
-import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/bus.dart';
 import 'package:uni/model/entities/bus_stop.dart';

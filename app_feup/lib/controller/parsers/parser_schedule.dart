@@ -3,8 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:uni/model/entities/lecture.dart';
 
-Future<List<Lecture>> parseScheduleMultipleRequests(
-    List<http.Response> responses) async {
+Future<List<Lecture>> parseScheduleMultipleRequests(responses) async {
   List<Lecture> lectures = [];
   for (var response in responses) {
     lectures += await parseSchedule(response);

@@ -26,10 +26,10 @@ class BusStopNextArrivalsPageState extends SecondaryPageViewState {
         converter: (store) => Tuple3(
             store.state.content['currentBusTrips'],
             store.state.content['configuredBusStops'],
-            store.state.content['busstopStatus']),
-        builder: (context, busstops) {
+            store.state.content['busStopStatus']),
+        builder: (context, busStops) {
           return ListView(children: [
-            NextArrivals(busstops.item1, busstops.item2, busstops.item3)
+            NextArrivals(busStops.item1, busStops.item2, busStops.item3)
           ]);
         });
   }

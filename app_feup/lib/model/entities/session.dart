@@ -15,13 +15,14 @@ class Session {
 
   Session(
       {@required bool this.authenticated,
-      List<String> this.faculties,
-      this.studentNumber,
-      this.type,
-      this.cookies}) {}
+      String this.studentNumber,
+      String this.type,
+      String this.cookies,
+      List<String> faculties})
+      : faculties = faculties ?? ['feup'] {}
 
-  // TODO: Is this descriptive enough?
-  /// Creates a new instance from an HTTP response to one of the faculties.
+  /// Creates a new instance from an HTTP response
+  /// to login in one of the faculties.
   static Session fromLogin(dynamic response, List<String> faculties) {
     final responseBody = json.decode(response.body);
     if (responseBody['authenticated']) {
