@@ -5,10 +5,6 @@ import 'package:uni/view/Widgets/info_desk_card.dart';
 class CopyCenterCard extends GenericCard {
   CopyCenterCard({Key key}) : super(key: key);
 
-  CopyCenterCard.fromEditingInformation(
-      Key key, bool editingMode, Function onDelete)
-      : super.fromEditingInformation(key, editingMode, onDelete);
-
   @override
   Widget buildCardContent(BuildContext context) {
     return Column(
@@ -20,7 +16,7 @@ class CopyCenterCard extends GenericCard {
         h2('FEUP ', context),
         infoText('+351 220 994 122', context),
         h2('AEFEUP ', context),
-        infoText('+351 220 994 132', context,last: true),
+        infoText('+351 220 994 132', context, last: true),
       ],
     );
   }

@@ -5,10 +5,6 @@ import 'package:uni/view/Widgets/info_desk_card.dart';
 class DonaBiaCard extends GenericCard {
   DonaBiaCard({Key key}) : super(key: key);
 
-  DonaBiaCard.fromEditingInformation(
-      Key key, bool editingMode, Function onDelete)
-      : super.fromEditingInformation(key, editingMode, onDelete);
-
   @override
   Widget buildCardContent(BuildContext context) {
     return Column(

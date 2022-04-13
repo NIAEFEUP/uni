@@ -42,10 +42,6 @@ Container infoText(String text, BuildContext context, {bool last = false}) {
 class InfoDeskCard extends GenericCard {
   InfoDeskCard({Key key}) : super(key: key);
 
-  InfoDeskCard.fromEditingInformation(
-      Key key, bool editingMode, Function onDelete)
-      : super.fromEditingInformation(key, editingMode, onDelete);
-
   @override
   Widget buildCardContent(BuildContext context) {
     return Column(

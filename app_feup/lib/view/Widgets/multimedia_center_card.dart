@@ -5,10 +5,6 @@ import 'package:uni/view/Widgets/info_desk_card.dart';
 class MulimediaCenterCard extends GenericCard {
   MulimediaCenterCard({Key key}) : super(key: key);
 
-  MulimediaCenterCard.fromEditingInformation(
-      Key key, bool editingMode, Function onDelete)
-      : super.fromEditingInformation(key, editingMode, onDelete);
-
   @override
   Widget buildCardContent(BuildContext context) {
     return Column(
@@ -19,7 +15,7 @@ class MulimediaCenterCard extends GenericCard {
         h1('Telefone', context),
         infoText('+351 225 081 466', context),
         h1('Email', context),
-        infoText('imprimir@fe.up.pt', context,last: true)
+        infoText('imprimir@fe.up.pt', context, last: true)
       ],
     );
   }
