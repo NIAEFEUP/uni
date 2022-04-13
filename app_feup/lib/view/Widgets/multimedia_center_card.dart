@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'generic_card.dart';
-import 'package:uni/view/Widgets/info_desk_card.dart';
+import '../Pages/useful_contacts_card_page_view.dart';
 
 class MulimediaCenterCard extends GenericCard {
   MulimediaCenterCard({Key key}) : super(key: key);
