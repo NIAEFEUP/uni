@@ -54,13 +54,13 @@ class UsefulContactsCardViewState extends GeneralPageViewState {
   Widget getBody(BuildContext context) {
     return ListView(children: childrenList());
   }
-}
-
-List<Widget> childrenList() {
-  final List<Widget> list = [];
-  list.add(InfoDeskCard());
-  list.add(DonaBiaCard());
-  list.add(CopyCenterCard());
-  list.add(MulimediaCenterCard());
-  return list;
+  
+  List<Widget> childrenList() {
+    final List<Widget> list = [];
+    list.add(InfoDeskCard());
+    list.add(DonaBiaCard());
+    list.add(CopyCenterCard());
+    list.add(MulimediaCenterCard());
+    return list;
+  }
 }
