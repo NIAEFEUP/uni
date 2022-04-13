@@ -192,7 +192,6 @@ class BugReportFormState extends State<BugReportForm> {
       child: ListTileTheme(
         contentPadding: EdgeInsets.all(0),
         child: CheckboxListTile(
-          activeColor: Theme.of(context).primaryColor,
           title: Text(
               '''Consinto que esta informação seja revista pelo NIAEFEUP, podendo ser eliminada a meu pedido.''',
               style: Theme.of(context).textTheme.bodyText2,
