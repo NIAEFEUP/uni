@@ -176,9 +176,9 @@ class _LoginPageViewState extends State<LoginPageView> {
         });
       },
       isExpanded: true,
-      dropdownColor: Theme.of(context).accentColor,
-      iconDisabledColor: Theme.of(context).primaryColor,
-      iconEnabledColor: Theme.of(context).primaryColor,
+      dropdownColor: Theme.of(context).brightness == Brightness.light
+          ? Theme.of(context).primaryColor
+          : Theme.of(context).scaffoldBackgroundColor,
       style: TextStyle(color: Colors.white, fontSize: 20),
       underline: Container(width: 200, height: 0.2, color: Colors.black87),
     );
