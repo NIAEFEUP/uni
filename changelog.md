@@ -31,6 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated Android's `targetSdkVersion` to 30
 - Changed the Checkbox background to dark red
 - Changed 'Paragens' to 'Autocarros'
+- Changed Exam's constructor
 
 ## [1.1.0] - 2021-04-18
 
