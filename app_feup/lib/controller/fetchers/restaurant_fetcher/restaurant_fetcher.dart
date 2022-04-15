@@ -1,7 +1,9 @@
-import 'package:uni/model/app_state.dart';
-import 'package:redux/redux.dart';
+import 'package:uni/controller/fetchers/session_dependant_fetcher.dart';
 import 'package:uni/model/entities/restaurant.dart';
+
+import '../../../model/entities/session.dart';
+
 /// Class for fetching the menu
-abstract class RestaurantFetcher {
-  Future<List<Restaurant>> getRestaurants(Store<AppState> store);
+abstract class RestaurantFetcher extends SessionDependantFetcher {
+  Future<List<Restaurant>> getRestaurants(Session session);
 }

@@ -14,21 +14,23 @@ class ExamFetcher implements SessionDependantFetcher {
 
   @override
   List<String> getEndpoints(Session session) {
-    // TODO: implement getEndpoints
-    throw UnimplementedError();
+    final urls = NetworkRouter.getBaseUrlsFromSession(session)
+        .map((url) => url + 'exa_geral.mapa_de_exames')
+        .toList();
+    return urls;
   }
 
   Future<List<Exam>> extractExams(
       Session session, ParserExams parserExams) async {
     Set<Exam> courseExams = Set();
+    final urls = getEndpoints(session);
     for (Course course in courses) {
-      final Set<Exam> currentCourseExams = await parserExams.parseExams(
-          await NetworkRouter.getWithCookies(
-              NetworkRouter.getBaseUrlsFromSession(session)[0] +
-                  'exa_geral.mapa_de_exames?p_curso_id=${course.id}',
-              {},
-              session));
-      courseExams = Set.from(courseExams)..addAll(currentCourseExams);
+      for (final url in urls) {
+        final Set<Exam> currentCourseExams = await parserExams.parseExams(
+            await NetworkRouter.getWithCookies(
+                url, {'p_curso_id': course.id.toString()}, session));
+        courseExams = Set.from(courseExams)..addAll(currentCourseExams);
+      }
     }
 
     final Set<Exam> exams = Set();

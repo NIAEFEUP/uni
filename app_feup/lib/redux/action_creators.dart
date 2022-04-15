@@ -4,6 +4,7 @@ import 'package:logger/logger.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:tuple/tuple.dart';
+import 'package:uni/controller/fetchers/course_units_fetcher.dart';
 import 'package:uni/controller/fetchers/courses_fetcher.dart';
 import 'package:uni/controller/fetchers/departures_fetcher.dart';
 import 'package:uni/controller/fetchers/exam_fetcher.dart';
@@ -124,9 +125,9 @@ ThunkAction<AppState> getUserInfo(Completer<Null> action) {
         store.dispatch(SaveProfileAction(userProfile));
         store.dispatch(SaveProfileStatusAction(RequestStatus.successful));
       });
-      final ucs =
-          CoursesFetcher.getCurrentCourseUnits(store.state.content['session'])
-              .then((res) => store.dispatch(SaveUcsAction(res)));
+      final ucs = CourseUnitsFetcher()
+          .getCurrentCourseUnits(store.state.content['session'])
+          .then((res) => store.dispatch(SaveUcsAction(res)));
       await Future.wait([profile, ucs]);
 
       final Tuple2<String, String> userPersistentInfo =
@@ -158,8 +159,8 @@ ThunkAction<AppState> updateStateBasedOnLocalUserExams() {
 ThunkAction<AppState> updateStateBasedOnLocalUserLectures() {
   return (Store<AppState> store) async {
     final AppLecturesDatabase db = AppLecturesDatabase();
-    final List<Lecture> lecs = await db.lectures();
-    store.dispatch(SetScheduleAction(lecs));
+    final List<Lecture> lectures = await db.lectures();
+    store.dispatch(SetScheduleAction(lectures));
   };
 }
 
@@ -269,8 +270,8 @@ ThunkAction<AppState> getRestaurantsFromFetcher(Completer<Null> action) {
     try {
       store.dispatch(SetRestaurantsStatusAction(RequestStatus.busy));
 
-      final List<Restaurant> restaurants =
-          await RestaurantFetcherHtml().getRestaurants(store);
+      final List<Restaurant> restaurants = await RestaurantFetcherHtml()
+          .getRestaurants(store.state.content['session']);
       // Updates local database according to information fetched -- Restaurants
       final RestaurantDatabase db = RestaurantDatabase();
       db.saveRestaurants(restaurants);
@@ -304,8 +305,8 @@ ThunkAction<AppState> setInitialStoreState() {
 ThunkAction<AppState> getUserPrintBalance(Completer<Null> action) {
   return (Store<AppState> store) async {
     try {
-      final response = await PrintFetcher.getUserPrintsResponse(
-          store.state.content['session']);
+      final response = await PrintFetcher()
+          .getUserPrintsResponse(store.state.content['session']);
       final String printBalance = await getPrintsBalance(response);
 
       final String currentTime = DateTime.now().toString();
@@ -334,8 +335,8 @@ ThunkAction<AppState> getUserFees(Completer<Null> action) {
   return (Store<AppState> store) async {
     store.dispatch(SetFeesStatusAction(RequestStatus.busy));
     try {
-      final response =
-          await FeesFetcher.getUserFeesResponse(store.state.content['session']);
+      final response = await FeesFetcher()
+          .getUserFeesResponse(store.state.content['session']);
 
       final String feesBalance = await parseFeesBalance(response);
       final String feesLimit = await parseFeesNextLimit(response);
@@ -368,8 +369,9 @@ ThunkAction<AppState> getUserCoursesState(Completer<Null> action) {
   return (Store<AppState> store) async {
     store.dispatch(SetCoursesStatesStatusAction(RequestStatus.busy));
     try {
-      final response = await CoursesFetcher.getDegreesListResponse(
-          store.state.content['session']);
+      // TO DO: Parse courses from all faculties, and discard repeated
+      final response = await CoursesFetcher()
+          .getDegreesListResponses(store.state.content['session'])[0];
       final Map<String, String> coursesStates = await parseCourses(response);
       final Tuple2<String, String> userPersistentInfo =
           await AppSharedPreferences.getPersistentUserInfo();
