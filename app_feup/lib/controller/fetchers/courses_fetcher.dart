@@ -14,7 +14,7 @@ class CoursesFetcher implements SessionDependantFetcher {
     return urls;
   }
 
-  List<Future<Response>> getDegreesListResponses(Session session) {
+  List<Future<Response>> getCoursesListResponses(Session session) {
     final urls = getEndpoints(session);
     return urls
         .map((url) => NetworkRouter.getWithCookies(

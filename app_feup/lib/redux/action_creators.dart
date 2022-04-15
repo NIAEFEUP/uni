@@ -42,6 +42,7 @@ import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/entities/trip.dart';
 import 'package:uni/redux/actions.dart';
 
+import '../controller/parsers/parser_courses.dart';
 import '../model/entities/bus_stop.dart';
 
 ThunkAction<AppState> reLogin(
@@ -288,12 +289,16 @@ ThunkAction<AppState> getRestaurantsFromFetcher(Completer<Null> action) {
 
 Future<List<Lecture>> getLecturesFromFetcherOrElse(
         ScheduleFetcher fetcher, Store<AppState> store) =>
-    (fetcher?.getLectures(store)) ?? getLectures(store);
+    (fetcher?.getLectures(
+        store.state.content['session'], store.state.content['profile'])) ??
+    getLectures(store);
 
 Future<List<Lecture>> getLectures(Store<AppState> store) {
   return ScheduleFetcherApi()
-      .getLectures(store)
-      .catchError((e) => ScheduleFetcherHtml().getLectures(store));
+      .getLectures(
+          store.state.content['session'], store.state.content['profile'])
+      .catchError((e) => ScheduleFetcherHtml().getLectures(
+          store.state.content['session'], store.state.content['profile']));
 }
 
 ThunkAction<AppState> setInitialStoreState() {
@@ -369,10 +374,10 @@ ThunkAction<AppState> getUserCoursesState(Completer<Null> action) {
   return (Store<AppState> store) async {
     store.dispatch(SetCoursesStatesStatusAction(RequestStatus.busy));
     try {
-      // TO DO: Parse courses from all faculties, and discard repeated
-      final response = await CoursesFetcher()
-          .getDegreesListResponses(store.state.content['session'])[0];
-      final Map<String, String> coursesStates = await parseCourses(response);
+      final responses = CoursesFetcher()
+          .getCoursesListResponses(store.state.content['session']);
+      final Map<String, String> coursesStates =
+          parseMultipleCourses(await Future.wait(responses));
       final Tuple2<String, String> userPersistentInfo =
           await AppSharedPreferences.getPersistentUserInfo();
       if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {

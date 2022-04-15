@@ -1,7 +1,16 @@
+import 'dart:collection';
+
 import 'package:html/parser.dart' show parse;
 import 'package:http/http.dart' as http;
-import 'dart:async';
-import 'dart:collection';
+
+Map<String, String> parseMultipleCourses(List<http.Response> responses) {
+  final Map<String, String> coursesStates = HashMap();
+  responses.forEach((response) {
+    final map = parseCourses(response);
+    coursesStates.addAll(map);
+  });
+  return coursesStates;
+}
 
 /// Extracts a map containing information about the user's courses from an HTTP
 /// [response].
@@ -9,7 +18,7 @@ import 'dart:collection';
 /// *Note:*
 /// * a key in this map is the name of a course
 /// * a value in this map is the state of the corresponding course
-Future<Map<String, String>> parseCourses(http.Response response) async {
+Map<String, String> parseCourses(http.Response response) {
   final document = parse(response.body);
 
   final Map<String, String> coursesStates = HashMap();

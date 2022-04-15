@@ -49,7 +49,7 @@ void main() {
       final Completer<Null> completer = Completer();
       final actionCreator =
           getUserSchedule(completer, userPersistentInfo, fetcher: fetcherMock);
-      when(fetcherMock.getLectures(any))
+      when(fetcherMock.getLectures(any, any))
           .thenAnswer((_) async => [lecture1, lecture2]);
 
       actionCreator(mockStore);
@@ -66,7 +66,7 @@ void main() {
       final Completer<Null> completer = Completer();
       final actionCreator =
           getUserSchedule(completer, userPersistentInfo, fetcher: fetcherMock);
-      when(fetcherMock.getLectures(any))
+      when(fetcherMock.getLectures(any, any))
           .thenAnswer((_) async => throw Exception('💥'));
 
       actionCreator(mockStore);
