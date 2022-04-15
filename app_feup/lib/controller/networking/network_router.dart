@@ -2,12 +2,12 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:logger/logger.dart';
-import 'package:uni/controller/local_storage/app_shared_preferences.dart';
-import 'package:uni/model/entities/session.dart';
 import 'package:http/http.dart' as http;
+import 'package:logger/logger.dart';
 import 'package:query_params/query_params.dart';
 import 'package:synchronized/synchronized.dart';
+import 'package:uni/controller/local_storage/app_shared_preferences.dart';
+import 'package:uni/model/entities/session.dart';
 
 extension UriString on String {
   /// Converts a [String] to an [Uri].
@@ -112,6 +112,9 @@ class NetworkRouter {
       params.append(key, value);
     });
 
+    if (!baseUrl.contains('?')) {
+      baseUrl += '?';
+    }
     final url = baseUrl + params.toString();
 
     final Map<String, String> headers = Map<String, String>();

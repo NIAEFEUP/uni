@@ -115,14 +115,14 @@ void main() {
     test('When Exam is today in one hour', () async {
       final DateTime begin = DateTime.now().add(Duration(hours: 1));
       final DateTime end = DateTime.now().add(Duration(hours: 2));
-      final String formatedDate = DateFormat('yyyy-MM-dd').format(begin);
-      final String formatedHourBegin = DateFormat('kk:mm').format(begin);
-      final String formatedHourEnd = DateFormat('kk:mm').format(end);
+      final String formattedDate = DateFormat('yyyy-MM-dd').format(begin);
+      final String formattedHourBegin = DateFormat('kk:mm').format(begin);
+      final String formattedHourEnd = DateFormat('kk:mm').format(end);
       final todayExam = Exam(
-          formatedHourBegin + '-' + formatedHourEnd,
+          formattedHourBegin + '-' + formattedHourEnd,
           'SDIS',
           'B119, B107, B205',
-          formatedDate,
+          formattedDate,
           'Recurso - Época Recurso (1ºS)',
           'Quarta');
       final Completer<Null> completer = Completer();
@@ -143,14 +143,14 @@ void main() {
     test('When Exam was one hour ago', () async {
       final DateTime end = DateTime.now().subtract(Duration(hours: 1));
       final DateTime begin = DateTime.now().subtract(Duration(hours: 2));
-      final String formatedDate = DateFormat('yyyy-MM-dd').format(begin);
-      final String formatedHourBegin = DateFormat('kk:mm').format(begin);
-      final String formatedHourEnd = DateFormat('kk:mm').format(end);
+      final String formattedDate = DateFormat('yyyy-MM-dd').format(begin);
+      final String formattedHourBegin = DateFormat('kk:mm').format(begin);
+      final String formattedHourEnd = DateFormat('kk:mm').format(end);
       final todayExam = Exam(
-          formatedHourBegin + '-' + formatedHourEnd,
+          formattedHourBegin + '-' + formattedHourEnd,
           'SDIS',
           'B119, B107, B205',
-          formatedDate,
+          formattedDate,
           'Recurso - Época Recurso (1ºS)',
           'Quarta');
       final Completer<Null> completer = Completer();
@@ -171,14 +171,14 @@ void main() {
     test('When Exam is ocurring', () async {
       final DateTime before = DateTime.now().subtract(Duration(hours: 1));
       final DateTime after = DateTime.now().add(Duration(hours: 1));
-      final String formatedDate = DateFormat('yyyy-MM-dd').format(before);
-      final String formatedHourBefore = DateFormat('kk:mm').format(before);
-      final String formatedHourAfter = DateFormat('kk:mm').format(after);
+      final String formattedDate = DateFormat('yyyy-MM-dd').format(before);
+      final String formattedHourBefore = DateFormat('kk:mm').format(before);
+      final String formattedHourAfter = DateFormat('kk:mm').format(after);
       final todayExam = Exam(
-          formatedHourBefore + '-' + formatedHourAfter,
+          formattedHourBefore + '-' + formattedHourAfter,
           'SDIS',
           'B119, B107, B205',
-          formatedDate,
+          formattedDate,
           'Recurso - Época Recurso (1ºS)',
           'Quarta');
       final Completer<Null> completer = Completer();

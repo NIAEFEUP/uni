@@ -4,10 +4,16 @@ import 'package:logger/logger.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:tuple/tuple.dart';
+import 'package:uni/controller/fetchers/courses_fetcher.dart';
 import 'package:uni/controller/fetchers/departures_fetcher.dart';
+import 'package:uni/controller/fetchers/exam_fetcher.dart';
 import 'package:uni/controller/fetchers/fees_fetcher.dart';
 import 'package:uni/controller/fetchers/print_fetcher.dart';
 import 'package:uni/controller/fetchers/profile_fetcher.dart';
+import 'package:uni/controller/fetchers/restaurant_fetcher/restaurant_fetcher_html.dart';
+import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher.dart';
+import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher_api.dart';
+import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher_html.dart';
 import 'package:uni/controller/load_info.dart';
 import 'package:uni/controller/load_static/terms_and_conditions.dart';
 import 'package:uni/controller/local_storage/app_bus_stop_database.dart';
@@ -16,23 +22,17 @@ import 'package:uni/controller/local_storage/app_exams_database.dart';
 import 'package:uni/controller/local_storage/app_last_user_info_update_database.dart';
 import 'package:uni/controller/local_storage/app_lectures_database.dart';
 import 'package:uni/controller/local_storage/app_refresh_times_database.dart';
+import 'package:uni/controller/local_storage/app_restaurant_database.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/controller/local_storage/app_user_database.dart';
-import 'package:uni/controller/local_storage/app_restaurant_database.dart';
 import 'package:uni/controller/networking/network_router.dart'
     show NetworkRouter;
 import 'package:uni/controller/parsers/parser_courses.dart';
 import 'package:uni/controller/parsers/parser_exams.dart';
 import 'package:uni/controller/parsers/parser_fees.dart';
 import 'package:uni/controller/parsers/parser_print_balance.dart';
-import 'package:uni/controller/fetchers/restaurant_fetcher/restaurant_fetcher_html.dart';
-import 'package:uni/controller/fetchers/courses_fetcher.dart';
-import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher.dart';
-import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher_api.dart';
-import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher_html.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/course.dart';
-import 'package:uni/model/entities/course_unit.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/entities/profile.dart';
@@ -208,37 +208,6 @@ ThunkAction<AppState> updateStateBasedOnLocalRefreshTimes() {
   };
 }
 
-Future<List<Exam>> extractExams(
-    Store<AppState> store, ParserExams parserExams) async {
-  Set<Exam> courseExams = Set();
-  for (Course course in store.state.content['profile'].courses) {
-    final Set<Exam> currentCourseExams = await parserExams.parseExams(
-        await NetworkRouter.getWithCookies(
-            NetworkRouter.getBaseUrlsFromSession(
-                    store.state.content['session'])[0] +
-                'exa_geral.mapa_de_exames?p_curso_id=${course.id}',
-            {},
-            store.state.content['session']));
-    courseExams = Set.from(courseExams)..addAll(currentCourseExams);
-  }
-
-  final List<CourseUnit> userUcs = store.state.content['currUcs'];
-  final Set<Exam> exams = Set();
-  for (Exam courseExam in courseExams) {
-    for (CourseUnit uc in userUcs) {
-      if (!courseExam.examType.contains(
-              '''Exames ao abrigo de estatutos especiais - Port.Est.Especiais''') &&
-          courseExam.subject == uc.abbreviation &&
-          courseExam.hasEnded()) {
-        exams.add(courseExam);
-        break;
-      }
-    }
-  }
-
-  return exams.toList();
-}
-
 ThunkAction<AppState> getUserExams(Completer<Null> action,
     ParserExams parserExams, Tuple2<String, String> userPersistentInfo) {
   return (Store<AppState> store) async {
@@ -246,7 +215,10 @@ ThunkAction<AppState> getUserExams(Completer<Null> action,
       //need to get student course here
       store.dispatch(SetExamsStatusAction(RequestStatus.busy));
 
-      final List<Exam> exams = await extractExams(store, parserExams);
+      final List<Exam> exams = await ExamFetcher(
+              store.state.content['profile'].courses,
+              store.state.content['currUcs'])
+          .extractExams(store.state.content['session'], parserExams);
 
       exams.sort((exam1, exam2) => exam1.date.compareTo(exam2.date));
 

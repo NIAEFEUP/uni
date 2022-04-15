@@ -1,9 +1,10 @@
+import 'package:uni/controller/fetchers/session_dependant_fetcher.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:redux/redux.dart';
 
 /// Class for fetching the user's schedule.
-abstract class ScheduleFetcher {
+abstract class ScheduleFetcher extends SessionDependantFetcher{
   // Returns the user's lectures.
   Future<List<Lecture>> getLectures(Store<AppState> store);
 
