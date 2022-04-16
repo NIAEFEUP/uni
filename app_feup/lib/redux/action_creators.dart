@@ -4,9 +4,11 @@ import 'package:logger/logger.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:tuple/tuple.dart';
+import 'package:uni/controller/calendar_fetcher/calendar_fetcher_html.dart';
 import 'package:uni/controller/load_info.dart';
 import 'package:uni/controller/load_static/terms_and_conditions.dart';
 import 'package:uni/controller/local_storage/app_bus_stop_database.dart';
+import 'package:uni/controller/local_storage/app_calendar_database.dart';
 import 'package:uni/controller/local_storage/app_courses_database.dart';
 import 'package:uni/controller/local_storage/app_exams_database.dart';
 import 'package:uni/controller/local_storage/app_last_user_info_update_database.dart';
@@ -26,6 +28,7 @@ import 'package:uni/controller/schedule_fetcher/schedule_fetcher.dart';
 import 'package:uni/controller/schedule_fetcher/schedule_fetcher_api.dart';
 import 'package:uni/controller/schedule_fetcher/schedule_fetcher_html.dart';
 import 'package:uni/model/app_state.dart';
+import 'package:uni/model/entities/calendar_event.dart';
 import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/course_unit.dart';
 import 'package:uni/model/entities/exam.dart';
@@ -300,6 +303,25 @@ ThunkAction<AppState> getRestaurantsFromFetcher(Completer<Null> action){
     } catch(e){
       Logger().e('Failed to get Restaurants: ${e.toString()}');
       store.dispatch(SetRestaurantsStatusAction(RequestStatus.failed));
+    }
+    action.complete();
+  };
+}
+
+ThunkAction<AppState> getCalendarFromFethcer(Completer<Null> action) {
+  return (Store<AppState> store) async {
+    try {
+      store.dispatch(SetCalendarStatusAction(RequestStatus.busy));
+
+      final List<CalendarEvent> calendar = 
+                      await CalendarFetcherHtml().getCalendar(store);
+      final CalendarDatabase db = CalendarDatabase();
+      db.saveCalendar(calendar);
+      store.dispatch(SetCalendarAction(calendar));
+      store.dispatch(SetCalendarStatusAction(RequestStatus.successful));
+    } catch(e) {
+      Logger().e('Failed to get the Calendar: ${e.toString()}');
+      store.dispatch(SetCalendarStatusAction(RequestStatus.failed));
     }
     action.complete();
   };
