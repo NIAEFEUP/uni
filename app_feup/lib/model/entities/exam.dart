@@ -37,6 +37,8 @@ class Exam {
   String subject;
   String begin;
   String end;
+  DateTime beginDateTime;
+  DateTime endDateTime;
   List<String> rooms;
   String day;
   String examType;
@@ -45,38 +47,54 @@ class Exam {
   String year;
   DateTime date;
 
-  Exam.secConstructor(String subject, String begin, String end, String rooms,
-      String day, String examType, String weekDay, String month, String year) {
+  Exam.secConstructor(String subject, DateTime beginDateTime,
+   DateTime endDateTime, String rooms, String examType, String weekDay) {
     this.subject = subject;
-    this.begin = begin;
-    this.end = end;
+    this.beginDateTime = beginDateTime;
+    this.endDateTime = endDateTime;
+    this.begin = formattedString(beginDateTime.hour) + ':' +
+    formattedString(beginDateTime.minute);
+    this.end = formattedString(endDateTime.hour) + ':' + 
+    formattedString(endDateTime.minute);
     this.rooms = rooms.split(',');
-    this.day = day;
     this.examType = examType;
     this.weekDay = weekDay;
-    this.month = month;
-    this.year = year;
-
-    final monthKey = months[this.month];
-    this.date = DateTime.parse(year + '-' + monthKey + '-' + day);
+    this.day = formattedString(beginDateTime.day);
+    this.month = months.keys
+        .firstWhere((k) => months[k] == formattedString(beginDateTime.month),
+        orElse: () => null);
+    this.year = beginDateTime.year.toString();
+    this.date = 
+    DateTime(beginDateTime.year,beginDateTime.month,beginDateTime.day);
   }
 
   Exam(String schedule, String subject, String rooms, String date,
       String examType, String weekDay) {
-    this.subject = subject;
-    this.date = DateTime.parse(date);
     final scheduling = schedule.split('-');
-    final dateSepared = date.split('-');
-    this.begin = scheduling[0];
+    final splitDate = date.split('-');
+    this.date = DateTime.parse(date);
+
+    this.endDateTime = 
+    DateTime(this.date.year, this.date.month, this.date.day,
+    int.parse(scheduling[1].split(':')[0]),
+    int.parse(scheduling[1].split(':')[1]));
+
+    this.beginDateTime = 
+    DateTime(this.date.year, this.date.month, this.date.day,
+    int.parse(scheduling[0].split(':')[0]),
+    int.parse(scheduling[0].split(':')[1]));
+
+    this.begin =  scheduling[0];
     this.end = scheduling[1];
+    this.subject = subject;
     this.rooms = rooms.split(',');
-    this.year = dateSepared[0];
-    this.day = dateSepared[2];
+    this.year = splitDate[0];
+    this.day = splitDate[2];
     this.examType = examType;
     this.weekDay = weekDay;
 
     this.month = months.keys
-        .firstWhere((k) => months[k] == dateSepared[1], orElse: () => null);
+        .firstWhere((k) => months[k] == splitDate[1], orElse: () => null);
   }
 
   /// Converts this exam to a map.
@@ -97,10 +115,6 @@ class Exam {
   /// Returns whether or not this exam has already ended.
   bool hasEnded() {
     final DateTime now = DateTime.now();
-    final int endHour = int.parse(end.split(':')[0]);
-    final int endMinute = int.parse(end.split(':')[1]);
-    final DateTime endDateTime =
-        DateTime(date.year, date.month, date.day, endHour, endMinute);
     return now.compareTo(endDateTime) <= 0;
   }
 
@@ -151,3 +165,11 @@ class Exam {
     return reversed[abr];
   }
 }
+String formattedString(int dateType){
+    if (dateType>9){
+    return dateType.toString();
+    }
+    else {
+      return '0'+dateType.toString();
+    }
+  }
