@@ -32,6 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Changed the Checkbox background to dark red
 - Changed 'Paragens' to 'Autocarros'
 - Changed Exam's constructor
+- Limited widget dragging to within editing mode
 
 ## [1.1.0] - 2021-04-18
 
