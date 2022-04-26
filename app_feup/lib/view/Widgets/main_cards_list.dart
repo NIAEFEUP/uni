@@ -97,13 +97,19 @@ class MainCardsList extends StatelessWidget {
         builder: (context, favoriteWidgets) {
           return Container(
               height: MediaQuery.of(context).size.height,
-              child: ReorderableListView(
+              child: isEditing(context) ? ReorderableListView(
                 onReorder: (oldi, newi) =>
                     this.reorderCard(oldi, newi, favoriteWidgets, context),
                 header: this.createTopBar(context),
                 children: this
                     .createFavoriteWidgetsFromTypes(favoriteWidgets, context),
                 //Cards go here
+              ) : ListView(
+                children: <Widget>[
+                  this.createTopBar(context),
+                  ...this
+                      .createFavoriteWidgetsFromTypes(favoriteWidgets, context)
+                ],
               ));
         });
   }

@@ -52,7 +52,7 @@ class GenericCardState extends State<GenericCard> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        onTap: () => widget.onClick(context),
+        onTap: () => !widget.editingMode && widget.onClick(context),
         child: Card(
             margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
             color: Color.fromARGB(0, 0, 0, 0),

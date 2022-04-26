@@ -20,6 +20,7 @@ import 'package:uni/view/Pages/exams_page_view.dart';
 import 'package:uni/view/Pages/home_page_view.dart';
 import 'package:uni/view/Pages/logout_route.dart';
 import 'package:uni/view/Pages/splash_page_view.dart';
+import 'package:uni/view/Pages/useful_contacts_card_page_view.dart';
 import 'package:uni/view/Widgets/page_transition.dart';
 import 'package:uni/view/navigation_service.dart';
 import 'package:uni/view/theme.dart';
@@ -106,6 +107,9 @@ class MyAppState extends State<MyApp> {
                   case '/' + Constants.navStops:
                     return PageTransition.makePageTransition(
                         page: BusStopNextArrivalsPage(), settings: settings);
+                  case '/' + Constants.navUsefulContacts:
+                    return PageTransition.makePageTransition(
+                        page: UsefulContactsCardView(), settings: settings);
                   case '/' + Constants.navAbout:
                     return PageTransition.makePageTransition(
                         page: AboutPageView(), settings: settings);
