@@ -2,18 +2,18 @@ import 'package:logger/logger.dart';
 import 'package:collection/collection.dart';
 
 var months = {
-  'Janeiro': '01',
-  'Fevereiro': '02',
-  'Março': '03',
-  'Abril': '04',
-  'Maio': '05',
-  'Junho': '06',
-  'Julho': '07',
-  'Agosto': '08',
-  'Setembro': '09',
-  'Outubro': '10',
-  'Novembro': '11',
-  'Dezembro': '12'
+  'janeiro': '01',
+  'fevereiro': '02',
+  'março': '03',
+  'abril': '04',
+  'maio': '05',
+  'junho': '06',
+  'julho': '07',
+  'agosto': '08',
+  'setembro': '09',
+  'outubro': '10',
+  'novembro': '11',
+  'dezembro': '12'
 };
 
 var _types = {

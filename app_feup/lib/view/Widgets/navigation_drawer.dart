@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../utils/constants.dart' as Constants;
+import '../theme_notifier.dart';
+import 'package:provider/provider.dart';
 
 class NavigationDrawer extends StatefulWidget {
   final BuildContext parentContext;
@@ -61,18 +63,18 @@ class NavigationDrawerState extends State<NavigationDrawer> {
         ? BoxDecoration(
             border: Border(
                 left: BorderSide(
-                    color: Theme.of(context).accentColor, width: 3.0)),
+                    color: Theme.of(context).primaryColor, width: 3.0)),
             color: Theme.of(context).dividerColor,
           )
         : null;
   }
 
   Widget createLogoutBtn() {
-    return OutlinedButton(
+    return TextButton(
       onPressed: () => _onLogOut(Constants.navLogOut),
-      style: OutlinedButton.styleFrom(
+      style: TextButton.styleFrom(
         elevation: 0,
-        padding: const EdgeInsets.all(0.0),
+        padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 5.0),
       ),
       child: Container(
         padding: const EdgeInsets.all(15.0),
@@ -80,9 +82,26 @@ class NavigationDrawerState extends State<NavigationDrawer> {
             style: Theme.of(context)
                 .textTheme
                 .headline6
-                .apply(color: Theme.of(context).accentColor)),
+                .apply(color: Theme.of(context).primaryColor)),
       ),
     );
+  }
+
+  Widget createThemeSwitchBtn() {
+    final themeNotifier = Provider.of<ThemeNotifier>(context);
+    Icon _getThemeIcon() {
+      switch (themeNotifier.getTheme()) {
+        case ThemeMode.light:
+          return Icon(Icons.wb_sunny);
+        case ThemeMode.dark:
+          return Icon(Icons.nightlight_round);
+        default:
+          return Icon(Icons.brightness_6);
+      }
+    }
+
+    return IconButton(
+        icon: _getThemeIcon(), onPressed: themeNotifier.setNextTheme);
   }
 
   Widget createDrawerNavigationOption(String d) {
@@ -94,7 +113,7 @@ class NavigationDrawerState extends State<NavigationDrawer> {
             child: Text(d,
                 style: TextStyle(
                     fontSize: 18.0,
-                    color: Theme.of(context).accentColor,
+                    color: Theme.of(context).primaryColor,
                     fontWeight: FontWeight.normal)),
           ),
           dense: true,
@@ -122,7 +141,10 @@ class NavigationDrawerState extends State<NavigationDrawer> {
             children: drawerOptions,
           ),
         )),
-        Row(children: <Widget>[Expanded(child: createLogoutBtn())])
+        Row(children: <Widget>[
+          Expanded(child: createLogoutBtn()),
+          createThemeSwitchBtn()
+        ])
       ],
     ));
   }

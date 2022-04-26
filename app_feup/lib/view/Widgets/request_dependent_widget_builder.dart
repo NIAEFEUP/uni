@@ -5,16 +5,16 @@ import 'package:uni/controller/local_storage/app_last_user_info_update_database.
 import 'package:uni/model/app_state.dart';
 
 class RequestDependentWidgetBuilder extends StatelessWidget {
-  const RequestDependentWidgetBuilder({
-    Key key,
-    @required this.context,
-    @required this.status,
-    @required this.contentGenerator,
-    @required this.content,
-    @required this.contentChecker,
-    @required this.onNullContent,
-    this.index
-  }) : super(key: key);
+  const RequestDependentWidgetBuilder(
+      {Key key,
+      @required this.context,
+      @required this.status,
+      @required this.contentGenerator,
+      @required this.content,
+      @required this.contentChecker,
+      @required this.onNullContent,
+      this.index})
+      : super(key: key);
 
   final BuildContext context;
   final RequestStatus status;
@@ -53,7 +53,7 @@ class RequestDependentWidgetBuilder extends StatelessWidget {
                 : Center(
                     child: Text(
                         '''Erro de comunicação. Por favor verifica a tua ligação à internet.''',
-                        style: Theme.of(context).textTheme.headline4));
+                        style: Theme.of(context).textTheme.subtitle1));
         }
       },
     );
