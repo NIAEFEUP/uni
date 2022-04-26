@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:uni/model/app_state.dart';
 import 'generic_card.dart';
+import 'package:uni/view/Widgets/create_print_mb_dialog.dart';
 
 class PrintInfoCard extends GenericCard {
   PrintInfoCard({Key key}) : super(key: key);
@@ -12,7 +13,7 @@ class PrintInfoCard extends GenericCard {
 
   @override
   Widget buildCardContent(BuildContext context) {
-    return  Column(
+    return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         Table(
@@ -37,6 +38,7 @@ class PrintInfoCard extends GenericCard {
                       builder: (context, printBalance) =>
                           getInfoText(printBalance, context)),
                 ),
+                addMoneyButton(context)
               ])
             ]),
         StoreConnector<AppState, String>(
@@ -44,6 +46,13 @@ class PrintInfoCard extends GenericCard {
             builder: (context, printRefreshTime) =>
                 showLastRefreshedTime(printRefreshTime, context))
       ],
+    );
+  }
+
+  Widget addMoneyButton(BuildContext context) {
+    return TextButton(
+      onPressed: () => addMoneyDialog(context),
+      child: const Text('Adicionar'),
     );
   }
 
