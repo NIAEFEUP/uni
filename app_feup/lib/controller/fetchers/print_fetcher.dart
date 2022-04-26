@@ -6,7 +6,7 @@ class PrintFetcher implements SessionDependantFetcher {
   @override
   List<String> getEndpoints(Session session) {
     final url = NetworkRouter.getBaseUrl('feup') +
-        'imp4_impressoes.atribs'; // print page returns 403 on some faculties
+        'imp4_impressoes.atribs'; // endpoint only available for feup
     return [url];
   }
 

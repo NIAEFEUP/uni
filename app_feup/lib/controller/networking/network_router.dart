@@ -111,23 +111,22 @@ class NetworkRouter {
     query.forEach((key, value) {
       params.append(key, value);
     });
-
     if (!baseUrl.contains('?')) {
       baseUrl += '?';
     }
     final url = baseUrl + params.toString();
-
     final Map<String, String> headers = Map<String, String>();
     headers['cookie'] = session.cookies;
+
     final http.Response response = await (httpClient != null
         ? httpClient.get(url.toUri(), headers: headers)
         : http.get(url.toUri(), headers: headers));
     if (response.statusCode == 200) {
       return response;
-    } else if (response.statusCode == 403) {
+    } else if (response.statusCode == 403 && !(await userLoggedIn(session))) {
       // HTTP403 - Forbidden
-      final bool success = await relogin(session);
-      if (success) {
+      final bool reLoginSuccessful = await relogin(session);
+      if (reLoginSuccessful) {
         headers['cookie'] = session.cookies;
         return http.get(url.toUri(), headers: headers);
       } else {
@@ -138,6 +137,19 @@ class NetworkRouter {
     } else {
       return Future.error('HTTP Error ${response.statusCode}');
     }
+  }
+
+  /// Check if the user is still logged in,
+  /// performing a health check on the user's personal page.
+  static Future<bool> userLoggedIn(Session session) async {
+    final url = getBaseUrl(session.faculties[0]) +
+        'fest_geral.cursos_list?pv_num_unico=${session.studentNumber}';
+    final Map<String, String> headers = Map<String, String>();
+    headers['cookie'] = session.cookies;
+    final http.Response response = await (httpClient != null
+        ? httpClient.get(url.toUri(), headers: headers)
+        : http.get(url.toUri(), headers: headers));
+    return response.statusCode == 200;
   }
 
   /// Returns the base url of the user's faculties.
