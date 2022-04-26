@@ -13,13 +13,15 @@ class CalendarEvent {
   Map<String, dynamic> toMap() {
     final Map<String, dynamic> map = {
       'name': name,
+      'startDate': 0,
+      'endDate': 0
     };
     if (dates.isNotEmpty) {
-      map['startDate'] = dates[0];
+      map['startDate'] = dates[0].millisecondsSinceEpoch;
     }
     if (dates.length > 1) {
-      map['endDate'] = dates[1];
+      map['endDate'] = dates[1].millisecondsSinceEpoch;
     }
-  return map;
+    return map;
   }
 }
