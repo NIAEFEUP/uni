@@ -25,6 +25,8 @@ import 'package:uni/view/theme.dart';
 import 'controller/on_start_up.dart';
 import 'model/schedule_page_model.dart';
 
+import 'model/cantine_page_model.dart';
+
 /// Stores the state of the app
 final Store<AppState> state = Store<AppState>(appReducers,
     /* Function defined in the reducers file */
@@ -102,6 +104,11 @@ class MyAppState extends State<MyApp> {
                     page: BugReportPageView(),
                     settings: settings,
                     maintainState: false);
+
+              case '/' + Constants.navCantine:
+                return PageTransition.makePageTransition(
+                    page: CantinePage(), settings: settings);
+
               case '/' + Constants.navLogOut:
                 return LogoutRoute.buildLogoutRoute();
             }
