@@ -1,0 +1,40 @@
+on:
+  pull_request_target:
+    types:
+      - opened
+
+jobs:
+  bump_version:
+    name: "Bump pubspec version"
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./app_feup
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+
+      - name: Bump flutter patch version (Debug)
+        if: github.ref == 'refs/heads/feature/bump-pubspec-version-automatically'
+        run: cat pubspec.yaml && perl -i -pe 's/^(version:\s+\d+\.\d+\.)(\d+)$/$1.($2+1)/e' pubspec.yaml
+
+      - name: Bump flutter patch version
+        if: github.ref == 'refs/heads/develop'
+        run: perl -i -pe 's/^(version:\s+\d+\.\d+\.)(\d+)$/$1.($2+1)/e' pubspec.yaml
+
+      - name: Bump flutter minor version
+        if: github.ref == 'refs/heads/master'
+        run: perl -i -pe 's/^(version:\s+\d+\.)(\d+)(\.\d+)$/$1.($2+1).(".".0)/e' pubspec.yaml
+
+      - name: Get last commit message
+        id: last-commit-message
+        run: |
+          echo "::set-output name=msg::$(git log -1 --pretty=%s)"
+
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: ${{ steps.last-commit-message.outputs.msg }}
+          commit_options: '--amend --no-edit'
+          push_options: '--force'
+          skip_fetch: true
