@@ -4,41 +4,38 @@ on:
       - master
       - develop
       - feature/bump-pubspec-version-automatically
-env:
-  JAVA_VERSION: "11.x"
-  FLUTTER_VERSION: "2.0.1"
-  PROPERTIES_PATH: "android/key.properties"
 
 jobs:
   bump_version:
     name: "Bump pubspec version"
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./app_feup
+    env:
+      APP_VERSION_PATH: "app_feup/app_version.txt"
+      PUBSPEC_PATH: "app_feup/pubspec.yaml"
     steps:
       - uses: actions/checkout@v2
         with:
           token: ${{ secrets.NIAEFEUPBOT_PAT }}
           fetch-depth: 2
 
-      - name: Ensure app_version was not changed manually
-        run: git diff HEAD^:app_version.txt HEAD:app_version.txt
+      - name: Ensure app_version was not changed manually or was created just now
+        run: |
+          (! git cat-file -e ${{ github.ref_name }}^:${{ env.APP_VERSION_PATH }} && git cat-file -e HEAD:${{env.APP_VERSION_PATH}}) || git diff ${{ github.ref_name }}^:${{ env.APP_VERSION_PATH }} HEAD:${{ env.APP_VERSION_PATH }}
 
       - name: Bump flutter patch version (Debug)
         if: github.ref == 'refs/heads/feature/bump-pubspec-version-automatically'
-        run: perl -i -pe 's/^(\d+\.\d+\.)(\d+)$/$1.($2+1)/e' app_version.txt
+        run: perl -i -pe 's/^(\d+\.\d+\.)(\d+)$/$1.($2+1)/e' ${{ env.APP_VERSION_PATH }}
 
       - name: Bump flutter patch version
         if: github.ref == 'refs/heads/develop'
-        run: perl -i -pe 's/^(\d+\.\d+\.)(\d+)$/$1.($2+1)/e' app_version.txt
+        run: perl -i -pe 's/^(\d+\.\d+\.)(\d+)$/$1.($2+1)/e' ${{ env.APP_VERSION_PATH }}
 
       - name: Bump flutter minor version
         if: github.ref == 'refs/heads/master'
-        run: perl -i -pe 's/^(\d+\.)(\d+)(\.\d+)$/$1.($2+1).(".".0)/e' app_version.txt
+        run: perl -i -pe 's/^(\d+\.)(\d+)(\.\d+)$/$1.($2+1).(".".0)/e' ${{ env.APP_VERSION_PATH }}
 
       - name: Copy app version to pubspec
-        run: cat app_version.txt | perl -i -pe 's/^(version:\s+)(\d+\.\d+\.\d+)$/$1.(<STDIN>)/e' pubspec.yaml
+        run: cat ${{ env.APP_VERSION_PATH }} | perl -i -pe 's/^(version:\s+)(\d+\.\d+\.\d+)$/$1.(<STDIN>)/e' ${{ env.PUBSPEC_PATH }}
 
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
@@ -48,6 +45,10 @@ jobs:
     name: "Build App Bundle"
     runs-on: ubuntu-latest
     needs: [bump_version]
+    env:
+      PROPERTIES_PATH: "android/key.properties"
+      JAVA_VERSION: "11.x"
+      FLUTTER_VERSION: "2.0.1"
     defaults:
       run:
         working-directory: ./app_feup
