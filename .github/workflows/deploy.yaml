@@ -3,16 +3,44 @@ on:
     branches:
       - master
       - develop
-
+      - feature/bump-pubspec-version-automatically
 env:
   JAVA_VERSION: "11.x"
   FLUTTER_VERSION: "2.0.1"
   PROPERTIES_PATH: "android/key.properties"
 
 jobs:
+  bump_version:
+    name: "Bump pubspec version"
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./app_feup
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.NIAEFEUPBOT_PAT }}
+
+      - name: Bump flutter patch version (Debug)
+        if: github.ref == 'refs/heads/feature/bump-pubspec-version-automatically'
+        run: perl -i -pe 's/^(version:\s+\d+\.\d+\.)(\d+)$/$1.($2+1)/e' pubspec.yaml
+
+      - name: Bump flutter patch version
+        if: github.ref == 'refs/heads/develop'
+        run: perl -i -pe 's/^(version:\s+\d+\.\d+\.)(\d+)$/$1.($2+1)/e' pubspec.yaml
+
+      - name: Bump flutter minor version
+        if: github.ref == 'refs/heads/master'
+        run: perl -i -pe 's/^(version:\s+\d+\.)(\d+)(\.\d+)$/$1.($2+1).(".".0)/e' pubspec.yaml
+
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "Bump app version [no ci]"
+
   build:
     name: "Build App Bundle"
     runs-on: ubuntu-latest
+    needs: [bump_version]
     defaults:
       run:
         working-directory: ./app_feup
