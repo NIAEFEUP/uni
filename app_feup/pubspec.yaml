@@ -8,6 +8,9 @@ description: A FEUP no teu bolso
 # build by specifying --build-name and --build-number, respectively.
 # Read more about versioning at semver.org.
 
+# This version number is automatically bumped by CI.
+# To change it manually, override the value in app_version.txt.
+
 version: 1.2.0
 
 environment:
