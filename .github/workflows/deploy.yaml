@@ -20,7 +20,7 @@ jobs:
 
       - name: Ensure app_version was not changed manually or was created just now
         run: |
-          (! git cat-file -e ${{ github.ref_name }}^:${{ env.APP_VERSION_PATH }} && git cat-file -e HEAD:${{env.APP_VERSION_PATH}}) || git diff ${{ github.ref_name }}^:${{ env.APP_VERSION_PATH }} HEAD:${{ env.APP_VERSION_PATH }}
+          (! git cat-file -e ${{ github.ref_name }}^:${{ env.APP_VERSION_PATH }} && git cat-file -e HEAD:${{env.APP_VERSION_PATH}}) || git diff --quiet ${{ github.ref_name }}^:${{ env.APP_VERSION_PATH }} HEAD:${{ env.APP_VERSION_PATH }} || exit 1
 
       - name: Bump flutter patch version (Debug)
         if: github.ref == 'refs/heads/feature/bump-pubspec-version-automatically'
