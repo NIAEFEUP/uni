@@ -20,18 +20,25 @@ jobs:
       - uses: actions/checkout@v2
         with:
           token: ${{ secrets.NIAEFEUPBOT_PAT }}
+          fetch-depth: 2
+
+      - name: Ensure app_version was not changed manually
+        run: git diff HEAD^:app_version.txt HEAD:app_version.txt
 
       - name: Bump flutter patch version (Debug)
         if: github.ref == 'refs/heads/feature/bump-pubspec-version-automatically'
-        run: perl -i -pe 's/^(version:\s+\d+\.\d+\.)(\d+)$/$1.($2+1)/e' pubspec.yaml
+        run: perl -i -pe 's/^(\d+\.\d+\.)(\d+)$/$1.($2+1)/e' app_version.txt
 
       - name: Bump flutter patch version
         if: github.ref == 'refs/heads/develop'
-        run: perl -i -pe 's/^(version:\s+\d+\.\d+\.)(\d+)$/$1.($2+1)/e' pubspec.yaml
+        run: perl -i -pe 's/^(\d+\.\d+\.)(\d+)$/$1.($2+1)/e' app_version.txt
 
       - name: Bump flutter minor version
         if: github.ref == 'refs/heads/master'
-        run: perl -i -pe 's/^(version:\s+\d+\.)(\d+)(\.\d+)$/$1.($2+1).(".".0)/e' pubspec.yaml
+        run: perl -i -pe 's/^(\d+\.)(\d+)(\.\d+)$/$1.($2+1).(".".0)/e' app_version.txt
+
+      - name: Copy app version to pubspec
+        run: cat app_version.txt | perl -i -pe 's/^(version:\s+)(\d+\.\d+\.\d+)$/$1.(<STDIN>)/e' pubspec.yaml
 
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
