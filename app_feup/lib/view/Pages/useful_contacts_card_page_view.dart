@@ -13,7 +13,7 @@ Container h1(String text, BuildContext context, {bool initial = false}) {
         alignment: Alignment.centerLeft,
         child: Text(text,
             style:
-                Theme.of(context).textTheme.headline4.apply(fontSizeDelta: 0)),
+                Theme.of(context).textTheme.headline5),
       ));
 }
 
@@ -24,7 +24,7 @@ Container h2(String text, BuildContext context) {
         alignment: Alignment.centerLeft,
         child: Text(text,
             style:
-                Theme.of(context).textTheme.headline4.apply(fontSizeDelta: -4)),
+                Theme.of(context).textTheme.subtitle2),
       ));
 }
 
@@ -37,7 +37,9 @@ Container infoText(String text, BuildContext context, {bool last = false}) {
         child: InkWell(
           child: Text(
             text,
-            style: Theme.of(context).textTheme.headline3,
+            style: Theme.of(context).textTheme.bodyText1.apply(
+              color: Theme.of(context).accentColor,
+            )
           ),
         ),
       ));
