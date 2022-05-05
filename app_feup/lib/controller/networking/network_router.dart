@@ -232,24 +232,25 @@ class NetworkRouter {
   }
 
   // Generates MB reference to add money to print balance
-  static Future<http.Response> generatePrintMoneyReference(
-      double amount, Session session) async {
-    if (amount < 1) return Future.error('Amount less than 1,00€');
+  static Future generatePrintMoneyReference(double amount) async {
+      if (amount < 1) return Future.error('Amount less than 1,00€');
+      final Session session = store.state.content['session'];
+      final url = NetworkRouter.getBaseUrlFromSession(session) +
+          'gpag_ccorrentes_geral.gerar_mb';
 
-    final url = NetworkRouter.getBaseUrlFromSession(session) +
-        'gpag_ccorrentes_geral.gerar_mb';
+      final Map data = {
+        'p_tipo_id': '3',
+        'pct_codigo': session.studentNumber,
+        'p_valor': '1',
+        'p_valor_livre': amount.toStringAsFixed(2).trim().replaceAll('.', ',')
+      };
 
-    final Map data = {
-      'p_tipo_id': '3',
-      'pct_codigo': session.studentNumber,
-      'p_valor': '1',
-      'p_valor_livre': amount.toStringAsFixed(2).trim().replaceAll('.', ',')
-    };
+      final Map<String, String> headers = Map<String, String>();
+      headers['cookie'] = session.cookies;
+      headers['content-type'] = 'application/x-www-form-urlencoded';
 
-    final Map<String, String> headers = Map<String, String>();
-    headers['cookie'] = session.cookies;
-    headers['content-type'] = 'application/x-www-form-urlencoded';
-
-    return await http.post(url.toUri(), headers: headers, body: data);
+      final response =
+          await http.post(url.toUri(), headers: headers, body: data);
+      return response;
   }
 }
