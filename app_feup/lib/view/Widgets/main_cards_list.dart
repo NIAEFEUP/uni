@@ -80,9 +80,7 @@ class MainCardsList extends StatelessWidget {
               Navigator.pop(context);
             },
           ),
-          decoration: BoxDecoration(
-              border: Border(
-                  bottom: BorderSide(color: Theme.of(context).dividerColor))),
+          decoration: BoxDecoration(),
         ));
       }
     });
@@ -99,13 +97,19 @@ class MainCardsList extends StatelessWidget {
         builder: (context, favoriteWidgets) {
           return Container(
               height: MediaQuery.of(context).size.height,
-              child: ReorderableListView(
+              child: isEditing(context) ? ReorderableListView(
                 onReorder: (oldi, newi) =>
                     this.reorderCard(oldi, newi, favoriteWidgets, context),
                 header: this.createTopBar(context),
                 children: this
                     .createFavoriteWidgetsFromTypes(favoriteWidgets, context),
                 //Cards go here
+              ) : ListView(
+                children: <Widget>[
+                  this.createTopBar(context),
+                  ...this
+                      .createFavoriteWidgetsFromTypes(favoriteWidgets, context)
+                ],
               ));
         });
   }
@@ -116,8 +120,7 @@ class MainCardsList extends StatelessWidget {
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         Text(
           Constants.navPersonalArea,
-          style:
-              Theme.of(context).textTheme.headline6.apply(fontSizeFactor: 1.3),
+          style: Theme.of(context).textTheme.headline4,
         ),
         GestureDetector(
             onTap: () => StoreProvider.of<AppState>(context)

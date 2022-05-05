@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Useful Contacts Page
 - User faculty storage in shared preferences
 - Send bug reports and app crashes details to Sentry
 - Clickable checkbox rows
@@ -14,8 +15,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Dropdown to choose the student's faculty in the login page
 - Calendar button to add an event to the calendar with the details of a exam
 - Drag icon appears on widgets during editing mode
+- Application dark theme
 - A Canteen Page in the personal area
-- Fetching of Terms and Conditions.
+- Fetching of Terms and Conditions
 
 ### Fixed
 
@@ -30,6 +32,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated Android's `targetSdkVersion` to 30
 - Changed the Checkbox background to dark red
 - Changed 'Paragens' to 'Autocarros'
+- Changed Exam's constructor
+- Limited widget dragging to within editing mode
 
 ## [1.1.0] - 2021-04-18
 
