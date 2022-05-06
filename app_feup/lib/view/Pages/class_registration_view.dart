@@ -1,43 +1,68 @@
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:uni/model/app_state.dart';
-import 'package:uni/model/entities/lecture.dart';
 import 'package:flutter/material.dart';
 import 'package:uni/view/Pages/secondary_page_view.dart';
 import 'package:uni/view/Widgets/page_title.dart';
-import 'package:uni/view/Widgets/request_dependent_widget_builder.dart';
-import 'package:uni/view/Widgets/schedule_slot.dart';
+import 'package:uni/view/Widgets/schedule_planner_card.dart';
 
 class ClassRegistrationPageView extends StatefulWidget {
   const ClassRegistrationPageView({Key key}) : super(key: key);
 
   @override
-  _ClassRegistrationPageViewState createState() => _ClassRegistrationPageViewState();
+  _ClassRegistrationPageViewState createState() =>
+      _ClassRegistrationPageViewState();
 }
 
 class _ClassRegistrationPageViewState extends SecondaryPageViewState {
   @override
   Widget getBody(BuildContext context) {
-    return Column(children: <Widget>[
+    return StoreConnector<AppState, List<dynamic>>(
+      converter: (store) {
+        // TODO get items from appstate
+        final List<String> items =
+            List<String>.generate(6, (int index) => 'Novo horário $index');
+
+        return items;
+      },
+      builder: (context, scheduleOptions) {
+        return _ClassRegistrationView(scheduleOptions: scheduleOptions);
+      },
+    );
+  }
+}
+
+class _ClassRegistrationView extends StatefulWidget {
+  final List<String> scheduleOptions;
+
+  const _ClassRegistrationView({this.scheduleOptions, Key key})
+      : super(key: key);
+
+  @override
+  _ClassRegistrationViewState createState() =>
+      _ClassRegistrationViewState(this.scheduleOptions);
+}
+
+class _ClassRegistrationViewState extends State<_ClassRegistrationView> {
+  final List<String> scheduleOptions;
+
+  _ClassRegistrationViewState(this.scheduleOptions);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(children: <Widget>[
       PageTitle(name: 'Escolha de Turmas'),
-      SizedBox(height: 40),
-      Container(
-        margin: const EdgeInsets.only(left: 12),
-        child: Text(
-            'Esta funcionalidade é da autoria do grupo t4g12 da unidade curricular ES 2021/2022.'),
-      ),
-      SizedBox(height: 25),
-      Container(
-        margin: const EdgeInsets.only(left: 15),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text('Isabel Vieira - up201907399'),
-            Text('João Baltazar - up201905616'),
-            Text('Nuno Costa - up201906272'),
-            Text('Pedro Gonçalo Correia - up201905348'),
-            Text('Pedro Silva - up201907523'),
-          ],
-        ),
-      )
+      SchedulePlannerCard(
+          items: scheduleOptions,
+          onReorder: (int oldIndex, int newIndex) {
+            setState(() {
+              if (oldIndex < newIndex) {
+                newIndex -= 1;
+              }
+              // TODO reorder schedule
+              final String item = scheduleOptions.removeAt(oldIndex);
+              scheduleOptions.insert(newIndex, item);
+            });
+          }),
     ]);
   }
 }
