@@ -25,6 +25,8 @@ class _ClassRegistrationScheduleEditorPageViewState
     extends SecondaryPageViewState {
   final ScheduleOption scheduleOption;
 
+  final viewKey = GlobalKey();
+
   _ClassRegistrationScheduleEditorPageViewState(this.scheduleOption) : super();
 
   @override
@@ -150,7 +152,9 @@ class _ClassRegistrationScheduleEditorPageViewState
       },
       builder: (context, course_units) {
         return _ClassRegistrationScheduleEditorView(
-            scheduleOption: this.scheduleOption, courseUnits: course_units);
+            scheduleOption: this.scheduleOption,
+            courseUnits: course_units,
+            key: viewKey);
       },
     );
   }
@@ -204,13 +208,19 @@ class _ClassRegistrationScheduleEditorViewState
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Expanded(
-                child: TextField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Nome da opção',
+              child: TextField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide:
+                        BorderSide(color: Colors.black.withOpacity(0.75)),
+                  ),
+                  labelText: 'Nome do horário',
+                  labelStyle: TextStyle(color: Theme.of(context).accentColor),
+                ),
+                controller: _renameController, // TODO schedule option rename
               ),
-              controller: _renameController, // TODO schedule option rename
-            )),
+            ),
             IconButton(
               color: Theme.of(context).accentColor,
               icon: Icon(Icons.file_copy_outlined),
@@ -250,17 +260,63 @@ class _ClassRegistrationScheduleEditorViewState
   }
 
   Widget buildCourseDropdown(int index, BuildContext context) {
+    final CourseUnit courseUnit = courseUnits.selected[index];
+    final CourseUnitClass selectedClass =
+        scheduleOption.classesSelected[courseUnit];
+
     return Card(
       margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: ExpansionTile(
         key: _expandableKeys[index],
-        title: Text(courseUnits.selected[index].name),
-        subtitle: Text('3LEIC01'),
+        title: Text(courseUnit.name),
+        subtitle: selectedClass == null ? null : Text(selectedClass?.name),
         children: <Widget>[
-          ListTile(title: Text('3LEIC01'), onTap: () {}),
-          ListTile(title: Text('3LEIC02')),
-          ListTile(title: Text('3LEIC03')),
-          ListTile(title: Text('3LEIC04')),
+          for (CourseUnitClass courseUnitClass in courseUnit.classes)
+            Container(
+              // border
+              decoration: BoxDecoration(
+                border: Border(
+                  top: BorderSide(
+                    color: Theme.of(context).dividerColor.withOpacity(0.25),
+                    width: 1,
+                  ),
+                ),
+              ),
+              child: ListTile(
+                  title: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(courseUnitClass.name),
+                      Column(children: [
+                        for (Lecture lecture in courseUnitClass.lectures)
+                          Text(lecture.typeClass,
+                              style: TextStyle(fontSize: 10)),
+                      ]),
+                      Column(children: [
+                        for (Lecture lecture in courseUnitClass.lectures)
+                          Text(lecture.teacher, style: TextStyle(fontSize: 10)),
+                      ]),
+                      Column(children: [
+                        for (Lecture lecture in courseUnitClass.lectures)
+                          Text(lecture.getDayAbbreviated(),
+                              style: TextStyle(fontSize: 10)),
+                      ]),
+                      Column(children: [
+                        for (Lecture lecture in courseUnitClass.lectures)
+                          Text(lecture.startTime,
+                              style: TextStyle(fontSize: 10)),
+                      ]),
+                    ],
+                  ),
+                  selected: courseUnitClass == selectedClass,
+                  selectedTileColor: Theme.of(context).accentColor,
+                  onTap: () {
+                    setState(() {
+                      scheduleOption.classesSelected[courseUnit] =
+                          courseUnitClass;
+                    });
+                  }),
+            ),
         ],
       ),
     );

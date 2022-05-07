@@ -26,6 +26,7 @@ class _ClassRegistrationPageViewState extends SecondaryPageViewState {
             ScheduleOption(
               id: index,
               name: 'Novo horário $index',
+              classesSelected: Map(),
             )
           )
         );
