@@ -12,7 +12,7 @@ class ScheduleFetcherHtml extends ScheduleFetcher {
   /// Fetches the user's lectures from the schedule's HTML page.
   @override
   Future<List<Lecture>> getLectures(Store<AppState> store) async {
-    final List<Course> courses = store.state.content['profile'].selected;
+    final List<Course> courses = store.state.content['profile'].courses;
     final dates = getDates();
     final List<Response> lectureResponses = await Future.wait(courses.map(
         (course) => NetworkRouter.getWithCookies(
