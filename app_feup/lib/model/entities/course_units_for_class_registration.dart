@@ -1,4 +1,3 @@
-import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/course_unit.dart';
 
 class CourseUnitsForClassRegistration {

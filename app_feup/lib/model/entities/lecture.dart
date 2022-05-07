@@ -175,6 +175,6 @@ class Lecture {
       this.startTimeSeconds == o.startTimeSeconds;
 
   String getDayAbbreviated() {
-    return ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"][this.day];
+    return ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'][this.day];
   }
 }

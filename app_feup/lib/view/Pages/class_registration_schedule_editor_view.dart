@@ -8,7 +8,6 @@ import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/entities/schedule_option.dart';
 import 'package:uni/view/Pages/secondary_page_view.dart';
 import 'package:uni/view/Widgets/page_title.dart';
-import 'package:uni/view/Widgets/schedule_planner_card.dart';
 
 class ClassRegistrationScheduleEditorPageView extends StatefulWidget {
   final ScheduleOption scheduleOption;
@@ -150,10 +149,10 @@ class _ClassRegistrationScheduleEditorPageViewState
           ]),
         ]);
       },
-      builder: (context, course_units) {
+      builder: (context, courseUnits) {
         return _ClassRegistrationScheduleEditorView(
             scheduleOption: this.scheduleOption,
-            courseUnits: course_units,
+            courseUnits: courseUnits,
             key: viewKey);
       },
     );
