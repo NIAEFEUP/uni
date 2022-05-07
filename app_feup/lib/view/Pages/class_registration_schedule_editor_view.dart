@@ -179,6 +179,7 @@ class _ClassRegistrationScheduleEditorViewState
   final ScheduleOption scheduleOption;
 
   TextEditingController _renameController;
+  PageController _pageController;
   List<PageStorageKey<_ClassRegistrationScheduleEditorViewState>>
       _expandableKeys;
 
@@ -193,69 +194,84 @@ class _ClassRegistrationScheduleEditorViewState
   void initState() {
     super.initState();
     _renameController = TextEditingController(text: this.scheduleOption.name);
+    _pageController = PageController();
   }
 
   @override
   Widget build(BuildContext context) {
+    return PageView(
+      controller: _pageController,
+      children: [
+        buildScheduleEditor(context),
+        buildScheduleDisplay(context),
+      ],
+    );
+  }
+
+  Widget buildScheduleEditor(BuildContext context) {
     return ListView(children: [
-      PageTitle(name: 'Planeador de Horário'),
-      SizedBox(height: 20),
-      Container(
-        margin: EdgeInsets.symmetric(horizontal: 20),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Expanded(
-              child: TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide:
-                        BorderSide(color: Colors.black.withOpacity(0.75)),
-                  ),
-                  labelText: 'Nome do horário',
-                  labelStyle: TextStyle(color: Theme.of(context).accentColor),
+    PageTitle(name: 'Planeador de Horário'),
+    SizedBox(height: 20),
+    Container(
+      margin: EdgeInsets.symmetric(horizontal: 20),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Expanded(
+            child: TextField(
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                focusedBorder: OutlineInputBorder(
+                  borderSide:
+                      BorderSide(color: Colors.black.withOpacity(0.75)),
                 ),
-                controller: _renameController, // TODO schedule option rename
+                labelText: 'Nome do horário',
+                labelStyle: TextStyle(color: Theme.of(context).accentColor),
               ),
+              controller: _renameController, // TODO schedule option rename
             ),
-            IconButton(
-              color: Theme.of(context).accentColor,
-              icon: Icon(Icons.file_copy_outlined),
-              onPressed: () => {/* TODO copy */},
-            ),
-            IconButton(
-              color: Theme.of(context).accentColor,
-              icon: Icon(Icons.delete_outline),
-              onPressed: () => {/* TODO delete */},
-            ),
-          ],
-        ),
-      ),
-      SizedBox(height: 20),
-      for (int i = 0; i < courseUnits.selected.length; i++)
-        buildCourseDropdown(i, context),
-      SizedBox(height: 20),
-      Column(
-        children: <Widget>[
-          ElevatedButton(
-            style: TextButton.styleFrom(
-              padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
-            ),
-            onPressed: () {/* TODO save */},
-            child: Text('Guardar', style: TextStyle(color: Colors.white)),
           ),
-          TextButton(
-            style: TextButton.styleFrom(
-              padding: EdgeInsets.symmetric(horizontal: 50, vertical: 12),
-            ),
-            onPressed: () => Navigator.pop(context),
-            child: Text('Cancelar'),
+          IconButton(
+            color: Theme.of(context).accentColor,
+            icon: Icon(Icons.file_copy_outlined),
+            onPressed: () => {/* TODO copy */},
+          ),
+          IconButton(
+            color: Theme.of(context).accentColor,
+            icon: Icon(Icons.delete_outline),
+            onPressed: () => {/* TODO delete */},
           ),
         ],
       ),
-    ]);
+    ),
+    SizedBox(height: 20),
+    for (int i = 0; i < courseUnits.selected.length; i++)
+      buildCourseDropdown(i, context),
+    SizedBox(height: 20),
+    Column(
+      children: <Widget>[
+        ElevatedButton(
+          style: TextButton.styleFrom(
+            padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+          ),
+          onPressed: () {/* TODO save */},
+          child: Text('Guardar', style: TextStyle(color: Colors.white)),
+        ),
+        TextButton(
+          style: TextButton.styleFrom(
+            padding: EdgeInsets.symmetric(horizontal: 50, vertical: 12),
+          ),
+          onPressed: () => Navigator.pop(context),
+          child: Text('Cancelar'),
+        ),
+      ],
+    ),
+  ]);
+  }
+
+  Widget buildScheduleDisplay(BuildContext context) {
+    return Placeholder();
   }
 
   Widget buildCourseDropdown(int index, BuildContext context) {
