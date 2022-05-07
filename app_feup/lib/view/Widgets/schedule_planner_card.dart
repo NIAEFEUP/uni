@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:uni/model/entities/schedule_option.dart';
+import 'package:uni/model/entities/schedule_preference_list.dart';
+import 'package:uni/view/Pages/class_registration_schedule_editor_view.dart';
 
 import 'generic_card.dart';
 
 class SchedulePlannerCard extends GenericCard {
   SchedulePlannerCard({this.items, this.onReorder, Key key}) : super(key: key);
 
-  final List<String> items;
+  final SchedulePreferenceList items;
   final Function(int oldIndex, int newIndex) onReorder;
   final double _itemHeight = 50.0;
   final double _borderRadius = 10.0;
@@ -22,15 +25,19 @@ class SchedulePlannerCard extends GenericCard {
         ),
         SizedBox(height: 5.0),
         Align(
-            alignment: Alignment.bottomRight,
-            child: IconButton(
-              iconSize: 32,
-              color: Theme.of(context).accentColor,
-              icon: Icon(Icons.add_circle_outline_rounded),
-              onPressed: () {
-                // TODO new schedule
-              },
-            )),
+          alignment: Alignment.bottomRight,
+          child: IconButton(
+            iconSize: 32,
+            color: Theme.of(context).accentColor,
+            icon: Icon(Icons.add_circle_outline_rounded),
+            onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        ClassRegistrationScheduleEditorPageView(
+                            ScheduleOption.newInstance()))),
+          ),
+        ),
       ],
     );
   }
@@ -96,9 +103,11 @@ class SchedulePlannerCard extends GenericCard {
   Widget buildScheduleItem(int index, BuildContext context) {
     return GestureDetector(
         key: Key('$index'),
-        onTap: () {
-          // TODO edit schedule
-        },
+        onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+              builder: (context) =>
+              ClassRegistrationScheduleEditorPageView(items[index]))),
         child: ConstrainedBox(
           constraints: BoxConstraints(
             minHeight: this._itemHeight,
@@ -119,7 +128,7 @@ class SchedulePlannerCard extends GenericCard {
                     BorderRadius.all(Radius.circular(this._borderRadius))),
             child: Align(
               alignment: Alignment.center,
-              child: Text(items[index],
+              child: Text(items[index].name,
                   style: Theme.of(context).textTheme.subtitle1),
             ),
           ),

@@ -173,4 +173,8 @@ class Lecture {
       this.day == o.day &&
       this.blocks == o.blocks &&
       this.startTimeSeconds == o.startTimeSeconds;
+
+  String getDayAbbreviated() {
+    return ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'][this.day];
+  }
 }

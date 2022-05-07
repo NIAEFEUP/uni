@@ -1,3 +1,5 @@
+import 'package:uni/model/entities/course_unit_class.dart';
+
 /// Stores information about a course unit.
 class CourseUnit {
   int id;
@@ -14,6 +16,7 @@ class CourseUnit {
   String ectsGrade;
   String result;
   num ects;
+  List<CourseUnitClass> classes;
 
   CourseUnit({this.id,
   this.code,
@@ -28,7 +31,8 @@ class CourseUnit {
   this.grade,
   this.ectsGrade,
   this.result,
-  this.ects});
+  this.ects,
+  this.classes});
 
   /// Creates a new instance from a JSON object.
   static CourseUnit fromJson(dynamic data) {
