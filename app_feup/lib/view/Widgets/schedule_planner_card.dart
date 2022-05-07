@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uni/view/Pages/class_registration_schedule_editor_view.dart';
 
 import 'generic_card.dart';
 
@@ -22,15 +23,20 @@ class SchedulePlannerCard extends GenericCard {
         ),
         SizedBox(height: 5.0),
         Align(
-            alignment: Alignment.bottomRight,
-            child: IconButton(
-              iconSize: 32,
-              color: Theme.of(context).accentColor,
-              icon: Icon(Icons.add_circle_outline_rounded),
-              onPressed: () {
-                // TODO new schedule
-              },
-            )),
+          alignment: Alignment.bottomRight,
+          child: IconButton(
+            iconSize: 32,
+            color: Theme.of(context).accentColor,
+            icon: Icon(Icons.add_circle_outline_rounded),
+            onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                    // TODO new schedule
+                    builder: (context) =>
+                        ClassRegistrationScheduleEditorPageView(
+                            "Novo horario 10"))),
+          ),
+        ),
       ],
     );
   }
