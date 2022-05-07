@@ -51,7 +51,7 @@ class _ProfilePageState extends State<ProfilePage> {
         courses = StoreProvider.of<AppState>(context)
             .state
             .content['profile']
-            .courses;
+            .selected;
       }
     });
   }

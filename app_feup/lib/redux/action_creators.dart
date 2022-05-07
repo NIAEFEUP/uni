@@ -201,7 +201,7 @@ ThunkAction<AppState> updateStateBasedOnLocalRefreshTimes() {
 Future<List<Exam>> extractExams(
     Store<AppState> store, ParserExams parserExams) async {
   Set<Exam> courseExams = Set();
-  for (Course course in store.state.content['profile'].courses) {
+  for (Course course in store.state.content['profile'].selected) {
     final Set<Exam> currentCourseExams = await parserExams.parseExams(
         await NetworkRouter.getWithCookies(
             NetworkRouter.getBaseUrlFromSession(

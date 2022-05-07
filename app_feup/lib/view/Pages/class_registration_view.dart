@@ -1,6 +1,8 @@
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:flutter/material.dart';
+import 'package:uni/model/entities/schedule_option.dart';
+import 'package:uni/model/entities/schedule_preference_list.dart';
 import 'package:uni/view/Pages/secondary_page_view.dart';
 import 'package:uni/view/Widgets/page_title.dart';
 import 'package:uni/view/Widgets/schedule_planner_card.dart';
@@ -16,51 +18,51 @@ class ClassRegistrationPageView extends StatefulWidget {
 class _ClassRegistrationPageViewState extends SecondaryPageViewState {
   @override
   Widget getBody(BuildContext context) {
-    return StoreConnector<AppState, List<dynamic>>(
+    return StoreConnector<AppState, SchedulePreferenceList>(
       converter: (store) {
         // TODO get items from appstate
-        final List<String> items =
-            List<String>.generate(6, (int index) => 'Novo horário $index');
-
-        return items;
+        return SchedulePreferenceList(
+          preferences: List<ScheduleOption>.generate(6, (int index) =>
+            ScheduleOption(
+              id: index,
+              name: 'Novo horário $index',
+            )
+          )
+        );
       },
-      builder: (context, scheduleOptions) {
-        return _ClassRegistrationView(scheduleOptions: scheduleOptions);
+      builder: (context, schedulePreferences) {
+        return _ClassRegistrationView(schedulePreferences: schedulePreferences);
       },
     );
   }
 }
 
 class _ClassRegistrationView extends StatefulWidget {
-  final List<String> scheduleOptions;
+  final SchedulePreferenceList schedulePreferences;
 
-  const _ClassRegistrationView({this.scheduleOptions, Key key})
+  const _ClassRegistrationView({this.schedulePreferences, Key key})
       : super(key: key);
 
   @override
   _ClassRegistrationViewState createState() =>
-      _ClassRegistrationViewState(this.scheduleOptions);
+      _ClassRegistrationViewState(this.schedulePreferences);
 }
 
 class _ClassRegistrationViewState extends State<_ClassRegistrationView> {
-  final List<String> scheduleOptions;
+  final SchedulePreferenceList schedulePreferences;
 
-  _ClassRegistrationViewState(this.scheduleOptions);
+  _ClassRegistrationViewState(this.schedulePreferences);
 
   @override
   Widget build(BuildContext context) {
     return ListView(children: <Widget>[
       PageTitle(name: 'Escolha de Turmas'),
       SchedulePlannerCard(
-          items: scheduleOptions,
+          items: schedulePreferences,
           onReorder: (int oldIndex, int newIndex) {
             setState(() {
-              if (oldIndex < newIndex) {
-                newIndex -= 1;
-              }
-              // TODO reorder schedule
-              final String item = scheduleOptions.removeAt(oldIndex);
-              scheduleOptions.insert(newIndex, item);
+              // TODO update appstate
+              schedulePreferences.reorder(oldIndex, newIndex);
             });
           }),
     ]);
