@@ -112,13 +112,11 @@ class Lecture {
         lec.classNumber);
   }
 
-
   /// Clones a lecture from the html.
   static Lecture cloneHtml(Lecture lec) {
     return Lecture.fromHtml(lec.subject, lec.typeClass, lec.day, lec.startTime,
         lec.blocks, lec.room, lec.teacher, lec.classNumber);
   }
-
 
   /// Converts this lecture to a map.
   Map<String, dynamic> toMap() {
@@ -174,7 +172,8 @@ class Lecture {
       this.blocks == o.blocks &&
       this.startTimeSeconds == o.startTimeSeconds;
 
-  String getDayAbbreviated() {
-    return ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'][this.day];
+  bool collidesWith(Lecture other) {
+    return other.endTime.compareTo(this.startTime) == 1 &&
+        this.endTime.compareTo(other.startTime) == 1;
   }
 }

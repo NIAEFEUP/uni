@@ -9,7 +9,6 @@ import 'package:uni/model/entities/schedule_option.dart';
 import 'package:uni/view/Pages/secondary_page_view.dart';
 import 'package:uni/view/Widgets/class_registration_schedule_tile.dart';
 import 'package:uni/view/Widgets/page_title.dart';
-import 'package:uni/view/Widgets/schedule_slot.dart';
 
 class ClassRegistrationScheduleEditorPageView extends StatefulWidget {
   final ScheduleOption scheduleOption;
@@ -177,6 +176,16 @@ class _ClassRegistrationScheduleEditorView extends StatefulWidget {
 
 class _ClassRegistrationScheduleEditorViewState
     extends State<_ClassRegistrationScheduleEditorView> {
+  static const List<String> abbreviatedDayOfWeek = [
+    'Seg',
+    'Ter',
+    'Qua',
+    'Qui',
+    'Sex',
+    'Sab',
+    'Dom',
+  ];
+
   final CourseUnitsForClassRegistration courseUnits;
   final ScheduleOption scheduleOption;
 
@@ -274,19 +283,24 @@ class _ClassRegistrationScheduleEditorViewState
   }
 
   Widget buildScheduleDisplay(BuildContext context) {
-    final List<Lecture> dayLectures = scheduleOption.getLectures(_selectedDay);
     final List<Lecture> lectures = scheduleOption.getLectures(_selectedDay);
-    final List<bool> hasDiscontinuity = List.filled(lectures.length, false);
-    for (int i = 1; i < lectures.length; i++) {
-      if (lectures[i].startTime.compareTo(lectures[i - 1].endTime) == 1) {
-        hasDiscontinuity[i] = true;
-      }
+    final List<bool> hasDiscontinuity =
+        ScheduleOption.getDiscontinuities(lectures);
+    final List<bool> hasCollision = ScheduleOption.getCollisions(lectures);
+
+    int daysInWeek;
+    if (scheduleOption.getLectures(6).isNotEmpty) {
+      daysInWeek = 7;
+    } else if (scheduleOption.getLectures(5).isNotEmpty) {
+      daysInWeek = 6;
+    } else {
+      daysInWeek = 5;
     }
 
     return Row(
       children: <Widget>[
         Expanded(
-          child: dayLectures.isEmpty
+          child: lectures.isEmpty
               ? Center(
                   child: Text('Não possui aulas ' +
                       [
@@ -314,6 +328,7 @@ class _ClassRegistrationScheduleEditorViewState
                           teacher: lectures[i].teacher,
                           classNumber: lectures[i].classNumber,
                           hasDiscontinuity: hasDiscontinuity[i],
+                          hasCollision: hasCollision[i],
                         ),
                       ),
                   ],
@@ -335,25 +350,53 @@ class _ClassRegistrationScheduleEditorViewState
                       });
                     },
                     labelType: NavigationRailLabelType.none,
-                    destinations:
-                        ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab', 'Dom']
-                            .map(
-                              (day) => NavigationRailDestination(
-                                icon: Text(day),
-                                selectedIcon: Text(day,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headline1
-                                        .apply(fontSizeDelta: -52)),
-                                label: Placeholder(),
-                              ),
-                            )
-                            .toList(),
+                    destinations: [
+                      for (int day = 0;
+                          day < daysInWeek;
+                          day++)
+                        NavigationRailDestination(
+                          icon: getNavigationRailDestinationIcon(
+                            context,
+                            day,
+                            scheduleOption.hasCollisions(day),
+                            false,
+                          ),
+                          selectedIcon: getNavigationRailDestinationIcon(
+                            context,
+                            day,
+                            scheduleOption.hasCollisions(day),
+                            true,
+                          ),
+                          label: Placeholder(),
+                        )
+                    ],
                   ),
                 ),
               ),
             );
           },
+        ),
+      ],
+    );
+  }
+
+  Widget getNavigationRailDestinationIcon(
+      BuildContext context, int day, bool hasCollision, bool isSelected) {
+    TextStyle style = isSelected
+        ? Theme.of(context).textTheme.headline1.apply(fontSizeDelta: -52)
+        : TextStyle();
+
+    if (hasCollision) {
+      style = style.apply(color: Colors.red);
+    }
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        if (hasCollision) Icon(Icons.warning, color: Colors.red),
+        Text(
+          abbreviatedDayOfWeek[day],
+          style: style,
         ),
       ],
     );
@@ -398,7 +441,7 @@ class _ClassRegistrationScheduleEditorViewState
                       ]),
                       Column(children: [
                         for (Lecture lecture in courseUnitClass.lectures)
-                          Text(lecture.getDayAbbreviated(),
+                          Text(abbreviatedDayOfWeek[lecture.day],
                               style: TextStyle(fontSize: 10)),
                       ]),
                       Column(children: [

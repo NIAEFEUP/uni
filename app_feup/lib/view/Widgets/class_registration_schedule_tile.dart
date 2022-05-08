@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:uni/view/Widgets/row_container.dart';
 
 class ClassRegistrationScheduleTile extends StatelessWidget {
   final String subject;
@@ -11,6 +10,7 @@ class ClassRegistrationScheduleTile extends StatelessWidget {
   final String typeClass;
   final String classNumber;
   final bool hasDiscontinuity;
+  final bool hasCollision;
 
   ClassRegistrationScheduleTile({
     Key key,
@@ -22,12 +22,14 @@ class ClassRegistrationScheduleTile extends StatelessWidget {
     this.teacher,
     this.classNumber,
     this.hasDiscontinuity = false,
+    this.hasCollision = false,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
+        color: hasCollision ? Colors.red.withOpacity(0.4) : Colors.white,
         border: Border(
           bottom: BorderSide(
             color: Theme.of(context).dividerColor,
@@ -52,11 +54,18 @@ class ClassRegistrationScheduleTile extends StatelessWidget {
         Align(
           alignment: Alignment.centerLeft,
           child: Text(
-            this.begin + " - " + this.end,
+            this.begin + ' - ' + this.end,
             key: Key('schedule-slot-time-${this.begin}-${this.end}'),
             overflow: TextOverflow.ellipsis,
-            style:
-                Theme.of(context).textTheme.headline4.apply(fontSizeDelta: -4),
+            style: hasCollision
+                ? Theme.of(context)
+                    .textTheme
+                    .headline4
+                    .apply(fontSizeDelta: -4, color: Colors.red)
+                : Theme.of(context)
+                    .textTheme
+                    .headline4
+                    .apply(fontSizeDelta: -4),
           ),
         ),
         Row(
