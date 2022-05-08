@@ -7,7 +7,9 @@ import 'package:uni/model/entities/course_units_for_class_registration.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/entities/schedule_option.dart';
 import 'package:uni/view/Pages/secondary_page_view.dart';
+import 'package:uni/view/Widgets/class_registration_schedule_tile.dart';
 import 'package:uni/view/Widgets/page_title.dart';
+import 'package:uni/view/Widgets/schedule_slot.dart';
 
 class ClassRegistrationScheduleEditorPageView extends StatefulWidget {
   final ScheduleOption scheduleOption;
@@ -36,30 +38,30 @@ class _ClassRegistrationScheduleEditorPageViewState
         return CourseUnitsForClassRegistration(selected: [
           CourseUnit(
               name: 'Engenharia de Software',
-              abbreviation: 'ESOF',
+              abbreviation: 'ES',
               classes: [
                 CourseUnitClass(name: '3LEIC01', lectures: [
-                  Lecture('ESOF', 'T', 3, 4, 'B003', 'AMA+JPF', 'COMP_3315', 8,
+                  Lecture('ES', 'T', 3, 4, 'B003', 'AMA+JPF', 'COMP_3315', 8,
                       30, 10, 30),
-                  Lecture('ESOF', 'TP', 2, 4, 'B115', 'ASL', '3LEIC01', 8, 30,
-                      10, 30),
+                  Lecture('ES', 'TP', 2, 4, 'B115', 'ASL', '3LEIC01', 8, 30, 10,
+                      30),
                 ]),
                 CourseUnitClass(name: '3LEIC02', lectures: [
-                  Lecture('ESOF', 'T', 3, 4, 'B003', 'AMA+JPF', 'COMP_3315', 8,
+                  Lecture('ES', 'T', 3, 4, 'B003', 'AMA+JPF', 'COMP_3315', 8,
                       30, 10, 30),
-                  Lecture('ESOF', 'TP', 1, 4, 'B343', 'FFC', '3LEIC02', 10, 30,
+                  Lecture('ES', 'TP', 1, 4, 'B343', 'FFC', '3LEIC02', 10, 30,
                       12, 30),
                 ]),
                 CourseUnitClass(name: '3LEIC03', lectures: [
-                  Lecture('ESOF', 'T', 3, 4, 'B003', 'AMA+JPF', 'COMP_3315', 8,
+                  Lecture('ES', 'T', 3, 4, 'B003', 'AMA+JPF', 'COMP_3315', 8,
                       30, 10, 30),
-                  Lecture('ESOF', 'TP', 1, 4, 'B206', 'AOR', '3LEIC03', 8, 30,
-                      10, 30),
+                  Lecture('ES', 'TP', 1, 4, 'B206', 'AOR', '3LEIC03', 8, 30, 10,
+                      30),
                 ]),
                 CourseUnitClass(name: '3LEIC04', lectures: [
-                  Lecture('ESOF', 'T', 3, 4, 'B003', 'AMA+JPF', 'COMP_3315', 8,
+                  Lecture('ES', 'T', 3, 4, 'B003', 'AMA+JPF', 'COMP_3315', 8,
                       30, 10, 30),
-                  Lecture('ESOF', 'TP', 2, 4, 'B310', 'ASL', '3LEIC04', 10, 30,
+                  Lecture('ES', 'TP', 2, 4, 'B310', 'ASL', '3LEIC04', 10, 30,
                       12, 30),
                 ]),
               ]),
@@ -180,13 +182,14 @@ class _ClassRegistrationScheduleEditorViewState
 
   TextEditingController _renameController;
   PageController _pageController;
-  List<PageStorageKey<_ClassRegistrationScheduleEditorViewState>>
-      _expandableKeys;
+  List<PageStorageKey<CourseUnit>> _expandableKeys;
+
+  int _selectedDay = 0;
 
   _ClassRegistrationScheduleEditorViewState(
       this.scheduleOption, this.courseUnits) {
     _expandableKeys = [
-      for (CourseUnit _ in courseUnits.selected) PageStorageKey(this)
+      for (CourseUnit unit in courseUnits.selected) PageStorageKey(unit)
     ];
   }
 
@@ -210,68 +213,150 @@ class _ClassRegistrationScheduleEditorViewState
 
   Widget buildScheduleEditor(BuildContext context) {
     return ListView(children: [
-    PageTitle(name: 'Planeador de Horário'),
-    SizedBox(height: 20),
-    Container(
-      margin: EdgeInsets.symmetric(horizontal: 20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Expanded(
-            child: TextField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                focusedBorder: OutlineInputBorder(
-                  borderSide:
-                      BorderSide(color: Colors.black.withOpacity(0.75)),
+      PageTitle(name: 'Planeador de Horário'),
+      SizedBox(height: 20),
+      Container(
+        margin: EdgeInsets.symmetric(horizontal: 20),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(
+              child: TextField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide:
+                        BorderSide(color: Colors.black.withOpacity(0.75)),
+                  ),
+                  labelText: 'Nome do horário',
+                  labelStyle: TextStyle(color: Theme.of(context).accentColor),
                 ),
-                labelText: 'Nome do horário',
-                labelStyle: TextStyle(color: Theme.of(context).accentColor),
+                controller: _renameController, // TODO schedule option rename
               ),
-              controller: _renameController, // TODO schedule option rename
             ),
+            IconButton(
+              color: Theme.of(context).accentColor,
+              icon: Icon(Icons.file_copy_outlined),
+              onPressed: () => {/* TODO copy */},
+            ),
+            IconButton(
+              color: Theme.of(context).accentColor,
+              icon: Icon(Icons.delete_outline),
+              onPressed: () => {/* TODO delete */},
+            ),
+          ],
+        ),
+      ),
+      SizedBox(height: 20),
+      for (int i = 0; i < courseUnits.selected.length; i++)
+        buildCourseDropdown(i, context),
+      SizedBox(height: 20),
+      Column(
+        children: <Widget>[
+          ElevatedButton(
+            style: TextButton.styleFrom(
+              padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+            ),
+            onPressed: () {/* TODO save */},
+            child: Text('Guardar', style: TextStyle(color: Colors.white)),
           ),
-          IconButton(
-            color: Theme.of(context).accentColor,
-            icon: Icon(Icons.file_copy_outlined),
-            onPressed: () => {/* TODO copy */},
-          ),
-          IconButton(
-            color: Theme.of(context).accentColor,
-            icon: Icon(Icons.delete_outline),
-            onPressed: () => {/* TODO delete */},
+          TextButton(
+            style: TextButton.styleFrom(
+              padding: EdgeInsets.symmetric(horizontal: 50, vertical: 12),
+            ),
+            onPressed: () => Navigator.pop(context),
+            child: Text('Cancelar'),
           ),
         ],
       ),
-    ),
-    SizedBox(height: 20),
-    for (int i = 0; i < courseUnits.selected.length; i++)
-      buildCourseDropdown(i, context),
-    SizedBox(height: 20),
-    Column(
-      children: <Widget>[
-        ElevatedButton(
-          style: TextButton.styleFrom(
-            padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
-          ),
-          onPressed: () {/* TODO save */},
-          child: Text('Guardar', style: TextStyle(color: Colors.white)),
-        ),
-        TextButton(
-          style: TextButton.styleFrom(
-            padding: EdgeInsets.symmetric(horizontal: 50, vertical: 12),
-          ),
-          onPressed: () => Navigator.pop(context),
-          child: Text('Cancelar'),
-        ),
-      ],
-    ),
-  ]);
+    ]);
   }
 
   Widget buildScheduleDisplay(BuildContext context) {
-    return Placeholder();
+    final List<Lecture> dayLectures = scheduleOption.getLectures(_selectedDay);
+    final List<Lecture> lectures = scheduleOption.getLectures(_selectedDay);
+    final List<bool> hasDiscontinuity = List.filled(lectures.length, false);
+    for (int i = 1; i < lectures.length; i++) {
+      if (lectures[i].startTime.compareTo(lectures[i - 1].endTime) == 1) {
+        hasDiscontinuity[i] = true;
+      }
+    }
+
+    return Row(
+      children: <Widget>[
+        Expanded(
+          child: dayLectures.isEmpty
+              ? Center(
+                  child: Text('Não possui aulas ' +
+                      [
+                        'à Segunda-feira',
+                        'à Terça-feira',
+                        'à Quarta-feira',
+                        'à Quinta-feira',
+                        'à Sexta-feira',
+                        'ao Sábado',
+                        'ao Domingo'
+                      ][_selectedDay] +
+                      '.'))
+              : ListView(
+                  children: [
+                    for (int i = 0; i < lectures.length; i++)
+                      Container(
+                        margin:
+                            EdgeInsets.only(top: hasDiscontinuity[i] ? 70 : 0),
+                        child: ClassRegistrationScheduleTile(
+                          subject: lectures[i].subject,
+                          typeClass: lectures[i].typeClass,
+                          rooms: lectures[i].room,
+                          begin: lectures[i].startTime,
+                          end: lectures[i].endTime,
+                          teacher: lectures[i].teacher,
+                          classNumber: lectures[i].classNumber,
+                          hasDiscontinuity: hasDiscontinuity[i],
+                        ),
+                      ),
+                  ],
+                ),
+        ),
+        const VerticalDivider(thickness: 1, width: 1),
+        // This is the main content.
+        LayoutBuilder(
+          builder: (context, constraint) {
+            return SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: constraint.maxHeight),
+                child: IntrinsicHeight(
+                  child: NavigationRail(
+                    selectedIndex: _selectedDay,
+                    onDestinationSelected: (int index) {
+                      setState(() {
+                        _selectedDay = index;
+                      });
+                    },
+                    labelType: NavigationRailLabelType.none,
+                    destinations:
+                        ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab', 'Dom']
+                            .map(
+                              (day) => NavigationRailDestination(
+                                icon: Text(day),
+                                selectedIcon: Text(day,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline1
+                                        .apply(fontSizeDelta: -52)),
+                                label: Placeholder(),
+                              ),
+                            )
+                            .toList(),
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
+      ],
+    );
   }
 
   Widget buildCourseDropdown(int index, BuildContext context) {
