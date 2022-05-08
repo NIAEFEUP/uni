@@ -51,6 +51,12 @@ class _LoginPageViewState extends State<LoginPageView> {
     }
   }
 
+  void setFaculties(faculties) {
+    setState(() {
+      userFaculties = faculties;
+    });
+  }
+
   /// Tracks if the user wants to keep signed in (has a
   /// checkmark on the button).
   void _setKeepSignedIn(value) {
@@ -159,7 +165,7 @@ class _LoginPageViewState extends State<LoginPageView> {
 
   /// Creates the widget for the user to choose their faculty
   Widget createFacultyInput() {
-    return FacultiesMultiselect(userFaculties: userFaculties);
+    return FacultiesMultiselect(userFaculties, setFaculties);
   }
 
   /// Creates the widget for the username input.

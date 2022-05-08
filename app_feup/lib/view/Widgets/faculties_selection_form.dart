@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:uni/utils/constants.dart' as Constants;
 
 class FacultiesSelectionForm extends StatefulWidget {
-  final List<String> userFaculties;
+  final userFaculties;
+  final Function callback;
 
-  FacultiesSelectionForm({@required this.userFaculties});
+  FacultiesSelectionForm(this.userFaculties, this.callback);
 
   @override
   State<StatefulWidget> createState() => _FacultiesSelectionForm();
@@ -31,7 +32,7 @@ class _FacultiesSelectionForm extends State<FacultiesSelectionForm> {
               style: TextButton.styleFrom(
                 primary: Theme.of(context).primaryColor
               ),
-              onPressed: () {}
+              onPressed: () => Navigator.pop(context)
           ),
           ElevatedButton(
               child: Text('Confirmar'),
@@ -39,7 +40,10 @@ class _FacultiesSelectionForm extends State<FacultiesSelectionForm> {
                 primary: Theme.of(context).primaryColor,
                 onPrimary: Theme.of(context).accentColor
               ),
-              onPressed: () {}
+              onPressed: () {
+                Navigator.pop(context);
+                widget.callback(widget.userFaculties);
+              }
           )
         ]
     );

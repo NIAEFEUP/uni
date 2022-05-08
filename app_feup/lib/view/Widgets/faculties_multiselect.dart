@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:uni/view/Widgets/faculties_selection_form.dart';
 
 class FacultiesMultiselect extends StatefulWidget {
-  final List<String> userFaculties;
+  final userFaculties;
+  final Function callback;
 
-  FacultiesMultiselect({@required this.userFaculties});
+  FacultiesMultiselect(this.userFaculties, this.callback);
 
   @override
   State<StatefulWidget> createState() => _FacultiesMultiselectState();
@@ -41,7 +42,8 @@ class _FacultiesMultiselectState extends State<FacultiesMultiselect> {
               context: context,
               builder: (BuildContext context) {
                 return FacultiesSelectionForm(
-                    userFaculties: widget.userFaculties);
+                    widget.userFaculties, widget.callback
+                );
               }
           );
         }
