@@ -42,7 +42,7 @@ class _FacultiesMultiselectState extends State<FacultiesMultiselect> {
               context: context,
               builder: (BuildContext context) {
                 return FacultiesSelectionForm(
-                    widget.userFaculties, widget.callback
+                    List<String>.from(widget.userFaculties), widget.callback
                 );
               }
           );

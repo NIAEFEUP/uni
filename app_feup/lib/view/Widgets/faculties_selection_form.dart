@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:uni/utils/constants.dart' as Constants;
 
 class FacultiesSelectionForm extends StatefulWidget {
-  final userFaculties;
+  final List<String> userFaculties;
   final Function callback;
 
   FacultiesSelectionForm(this.userFaculties, this.callback);
