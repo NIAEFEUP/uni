@@ -24,7 +24,24 @@ class _FacultiesSelectionForm extends State<FacultiesSelectionForm> {
             height: 500.0,
             width: 200.0,
             child: createCheckList()
-        )
+        ),
+        actions: [
+          TextButton(
+              child: Text('Cancelar'),
+              style: TextButton.styleFrom(
+                primary: Theme.of(context).primaryColor
+              ),
+              onPressed: () {}
+          ),
+          ElevatedButton(
+              child: Text('Confirmar'),
+              style: ElevatedButton.styleFrom(
+                primary: Theme.of(context).primaryColor,
+                onPrimary: Theme.of(context).accentColor
+              ),
+              onPressed: () {}
+          )
+        ]
     );
   }
 
