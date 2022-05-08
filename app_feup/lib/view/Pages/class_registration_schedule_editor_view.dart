@@ -7,6 +7,7 @@ import 'package:uni/model/entities/course_units_for_class_registration.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/entities/schedule_option.dart';
 import 'package:uni/view/Pages/secondary_page_view.dart';
+import 'package:uni/view/Widgets/class_registration_schedule_tile.dart';
 import 'package:uni/view/Widgets/page_title.dart';
 
 class ClassRegistrationScheduleEditorPageView extends StatefulWidget {
@@ -36,30 +37,30 @@ class _ClassRegistrationScheduleEditorPageViewState
         return CourseUnitsForClassRegistration(selected: [
           CourseUnit(
               name: 'Engenharia de Software',
-              abbreviation: 'ESOF',
+              abbreviation: 'ES',
               classes: [
                 CourseUnitClass(name: '3LEIC01', lectures: [
-                  Lecture('ESOF', 'T', 3, 4, 'B003', 'AMA+JPF', 'COMP_3315', 8,
+                  Lecture('ES', 'T', 3, 4, 'B003', 'AMA+JPF', 'COMP_3315', 8,
                       30, 10, 30),
-                  Lecture('ESOF', 'TP', 2, 4, 'B115', 'ASL', '3LEIC01', 8, 30,
-                      10, 30),
+                  Lecture('ES', 'TP', 2, 4, 'B115', 'ASL', '3LEIC01', 8, 30, 10,
+                      30),
                 ]),
                 CourseUnitClass(name: '3LEIC02', lectures: [
-                  Lecture('ESOF', 'T', 3, 4, 'B003', 'AMA+JPF', 'COMP_3315', 8,
+                  Lecture('ES', 'T', 3, 4, 'B003', 'AMA+JPF', 'COMP_3315', 8,
                       30, 10, 30),
-                  Lecture('ESOF', 'TP', 1, 4, 'B343', 'FFC', '3LEIC02', 10, 30,
+                  Lecture('ES', 'TP', 1, 4, 'B343', 'FFC', '3LEIC02', 10, 30,
                       12, 30),
                 ]),
                 CourseUnitClass(name: '3LEIC03', lectures: [
-                  Lecture('ESOF', 'T', 3, 4, 'B003', 'AMA+JPF', 'COMP_3315', 8,
+                  Lecture('ES', 'T', 3, 4, 'B003', 'AMA+JPF', 'COMP_3315', 8,
                       30, 10, 30),
-                  Lecture('ESOF', 'TP', 1, 4, 'B206', 'AOR', '3LEIC03', 8, 30,
-                      10, 30),
+                  Lecture('ES', 'TP', 1, 4, 'B206', 'AOR', '3LEIC03', 8, 30, 10,
+                      30),
                 ]),
                 CourseUnitClass(name: '3LEIC04', lectures: [
-                  Lecture('ESOF', 'T', 3, 4, 'B003', 'AMA+JPF', 'COMP_3315', 8,
+                  Lecture('ES', 'T', 3, 4, 'B003', 'AMA+JPF', 'COMP_3315', 8,
                       30, 10, 30),
-                  Lecture('ESOF', 'TP', 2, 4, 'B310', 'ASL', '3LEIC04', 10, 30,
+                  Lecture('ES', 'TP', 2, 4, 'B310', 'ASL', '3LEIC04', 10, 30,
                       12, 30),
                 ]),
               ]),
@@ -175,17 +176,29 @@ class _ClassRegistrationScheduleEditorView extends StatefulWidget {
 
 class _ClassRegistrationScheduleEditorViewState
     extends State<_ClassRegistrationScheduleEditorView> {
+  static const List<String> abbreviatedDayOfWeek = [
+    'Seg',
+    'Ter',
+    'Qua',
+    'Qui',
+    'Sex',
+    'Sab',
+    'Dom',
+  ];
+
   final CourseUnitsForClassRegistration courseUnits;
   final ScheduleOption scheduleOption;
 
   TextEditingController _renameController;
-  List<PageStorageKey<_ClassRegistrationScheduleEditorViewState>>
-      _expandableKeys;
+  PageController _pageController;
+  List<PageStorageKey<CourseUnit>> _expandableKeys;
+
+  int _selectedDay = 0;
 
   _ClassRegistrationScheduleEditorViewState(
       this.scheduleOption, this.courseUnits) {
     _expandableKeys = [
-      for (CourseUnit _ in courseUnits.selected) PageStorageKey(this)
+      for (CourseUnit unit in courseUnits.selected) PageStorageKey(unit)
     ];
   }
 
@@ -193,10 +206,21 @@ class _ClassRegistrationScheduleEditorViewState
   void initState() {
     super.initState();
     _renameController = TextEditingController(text: this.scheduleOption.name);
+    _pageController = PageController();
   }
 
   @override
   Widget build(BuildContext context) {
+    return PageView(
+      controller: _pageController,
+      children: [
+        buildScheduleEditor(context),
+        buildScheduleDisplay(context),
+      ],
+    );
+  }
+
+  Widget buildScheduleEditor(BuildContext context) {
     return ListView(children: [
       PageTitle(name: 'Planeador de Horário'),
       SizedBox(height: 20),
@@ -258,6 +282,126 @@ class _ClassRegistrationScheduleEditorViewState
     ]);
   }
 
+  Widget buildScheduleDisplay(BuildContext context) {
+    final List<Lecture> lectures = scheduleOption.getLectures(_selectedDay);
+    final List<bool> hasDiscontinuity =
+        ScheduleOption.getDiscontinuities(lectures);
+    final List<bool> hasCollision = ScheduleOption.getCollisions(lectures);
+
+    int daysInWeek;
+    if (scheduleOption.getLectures(6).isNotEmpty) {
+      daysInWeek = 7;
+    } else if (scheduleOption.getLectures(5).isNotEmpty) {
+      daysInWeek = 6;
+    } else {
+      daysInWeek = 5;
+    }
+
+    return Row(
+      children: <Widget>[
+        Expanded(
+          child: lectures.isEmpty
+              ? Center(
+                  child: Text('Não possui aulas ' +
+                      [
+                        'à Segunda-feira',
+                        'à Terça-feira',
+                        'à Quarta-feira',
+                        'à Quinta-feira',
+                        'à Sexta-feira',
+                        'ao Sábado',
+                        'ao Domingo'
+                      ][_selectedDay] +
+                      '.'))
+              : ListView(
+                  children: [
+                    for (int i = 0; i < lectures.length; i++)
+                      Container(
+                        margin:
+                            EdgeInsets.only(top: hasDiscontinuity[i] ? 70 : 0),
+                        child: ClassRegistrationScheduleTile(
+                          subject: lectures[i].subject,
+                          typeClass: lectures[i].typeClass,
+                          rooms: lectures[i].room,
+                          begin: lectures[i].startTime,
+                          end: lectures[i].endTime,
+                          teacher: lectures[i].teacher,
+                          classNumber: lectures[i].classNumber,
+                          hasDiscontinuity: hasDiscontinuity[i],
+                          hasCollision: hasCollision[i],
+                        ),
+                      ),
+                  ],
+                ),
+        ),
+        const VerticalDivider(thickness: 1, width: 1),
+        // This is the main content.
+        LayoutBuilder(
+          builder: (context, constraint) {
+            return SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: constraint.maxHeight),
+                child: IntrinsicHeight(
+                  child: NavigationRail(
+                    selectedIndex: _selectedDay,
+                    onDestinationSelected: (int index) {
+                      setState(() {
+                        _selectedDay = index;
+                      });
+                    },
+                    labelType: NavigationRailLabelType.none,
+                    destinations: [
+                      for (int day = 0;
+                          day < daysInWeek;
+                          day++)
+                        NavigationRailDestination(
+                          icon: getNavigationRailDestinationIcon(
+                            context,
+                            day,
+                            scheduleOption.hasCollisions(day),
+                            false,
+                          ),
+                          selectedIcon: getNavigationRailDestinationIcon(
+                            context,
+                            day,
+                            scheduleOption.hasCollisions(day),
+                            true,
+                          ),
+                          label: Placeholder(),
+                        )
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget getNavigationRailDestinationIcon(
+      BuildContext context, int day, bool hasCollision, bool isSelected) {
+    TextStyle style = isSelected
+        ? Theme.of(context).textTheme.headline1.apply(fontSizeDelta: -52)
+        : TextStyle();
+
+    if (hasCollision) {
+      style = style.apply(color: Colors.red);
+    }
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        if (hasCollision) Icon(Icons.warning, color: Colors.red),
+        Text(
+          abbreviatedDayOfWeek[day],
+          style: style,
+        ),
+      ],
+    );
+  }
+
   Widget buildCourseDropdown(int index, BuildContext context) {
     final CourseUnit courseUnit = courseUnits.selected[index];
     final CourseUnitClass selectedClass =
@@ -297,7 +441,7 @@ class _ClassRegistrationScheduleEditorViewState
                       ]),
                       Column(children: [
                         for (Lecture lecture in courseUnitClass.lectures)
-                          Text(lecture.getDayAbbreviated(),
+                          Text(abbreviatedDayOfWeek[lecture.day],
                               style: TextStyle(fontSize: 10)),
                       ]),
                       Column(children: [
