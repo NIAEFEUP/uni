@@ -79,7 +79,9 @@ class _LoginPageViewState extends State<LoginPageView> {
     final MediaQueryData queryData = MediaQuery.of(context);
 
     return Scaffold(
-        backgroundColor: Theme.of(context).accentColor,
+        backgroundColor: Theme.of(context).brightness == Brightness.light
+            ? Theme.of(context).primaryColor
+            : Theme.of(context).scaffoldBackgroundColor,
         body: WillPopScope(
             child: Padding(
                 padding: EdgeInsets.only(
@@ -215,6 +217,12 @@ class _LoginPageViewState extends State<LoginPageView> {
   /// Creates the widget for the user to keep signed in (save his data).
   Widget createSaveDataCheckBox() {
     return CheckboxListTile(
+      activeColor: Theme.of(context).brightness == Brightness.light
+          ? Colors.white
+          : Colors.black54,
+      checkColor: Theme.of(context).brightness == Brightness.light
+          ? Theme.of(context).primaryColor
+          : Colors.white,
       value: _keepSignedIn,
       onChanged: _setKeepSignedIn,
       title: Text(
@@ -238,7 +246,9 @@ class _LoginPageViewState extends State<LoginPageView> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(25),
             ),
-            primary: Colors.white,
+            primary: Theme.of(context).brightness == Brightness.light
+                ? Colors.white
+                : Colors.black54,
           ),
           onPressed: () {
             if (!FocusScope.of(context).hasPrimaryFocus) {
@@ -248,7 +258,7 @@ class _LoginPageViewState extends State<LoginPageView> {
           },
           child: Text('Entrar',
               style: TextStyle(
-                  color: Theme.of(context).accentColor,
+                  color: Theme.of(context).primaryColor,
                   fontWeight: FontWeight.w400,
                   fontSize: 20),
               textAlign: TextAlign.center),

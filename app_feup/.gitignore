@@ -1,3 +1,6 @@
+# App keys
+*.jks
+
 # Miscellaneous
 *.class
 *.log
