@@ -17,7 +17,7 @@ class LoginPageView extends StatefulWidget {
 
 /// Manages the 'login section' view.
 class _LoginPageViewState extends State<LoginPageView> {
-  List<String> userFaculties = [
+  List<String> faculties = [
     'feup'
   ]; // May choose more than one faculty in the dropdown.
 
@@ -46,14 +46,16 @@ class _LoginPageViewState extends State<LoginPageView> {
         _formKey.currentState.validate()) {
       final user = usernameController.text.trim();
       final pass = passwordController.text.trim();
-      store.dispatch(login(user, pass, userFaculties, _keepSignedIn,
+      store.dispatch(login(user, pass, faculties, _keepSignedIn,
           usernameController, passwordController));
     }
   }
 
+  /// Updates the list of faculties
+  /// based on the options the user selected (used as a callback)
   void setFaculties(faculties) {
     setState(() {
-      userFaculties = faculties;
+      this.faculties = faculties;
     });
   }
 
@@ -165,7 +167,7 @@ class _LoginPageViewState extends State<LoginPageView> {
 
   /// Creates the widget for the user to choose their faculty
   Widget createFacultyInput() {
-    return FacultiesMultiselect(userFaculties, setFaculties);
+    return FacultiesMultiselect(faculties, setFaculties);
   }
 
   /// Creates the widget for the username input.
