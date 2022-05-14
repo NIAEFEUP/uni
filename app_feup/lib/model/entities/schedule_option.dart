@@ -1,25 +1,41 @@
 import 'package:uni/model/entities/course_unit.dart';
 import 'package:uni/model/entities/course_unit_class.dart';
 import 'package:uni/model/entities/lecture.dart';
+import 'package:collection/collection.dart';
 
 class ScheduleOption {
-  int id;
   String name;
-  Map<CourseUnit, CourseUnitClass> classesSelected;
+  Map<String, String> classesSelected;
 
-  ScheduleOption({this.id, this.name, this.classesSelected});
+  ScheduleOption({this.name, this.classesSelected});
 
   ScheduleOption.newInstance() {
-    this.id = 5; // TODO: generate unique id
+    // this.id = 5; // TODO: generate unique id
     this.name = 'Novo Horário';
-    this.classesSelected = Map<CourseUnit, CourseUnitClass>();
+    // course unit code  to course unit class name
+    this.classesSelected = Map<String, String>();
+    // TODO: add preference
   }
 
-  List<Lecture> getLectures(int day) {
+  List<Lecture> getLectures(int day, List<CourseUnit> courseUnits) {
     final List<Lecture> lectures = [];
-    for (final value in this.classesSelected.values) {
-      lectures.addAll(value.lectures.where((lecture) => lecture.day == day));
-    }
+
+    this.classesSelected.forEach((code, value) {
+      final CourseUnit courseUnit =
+        courseUnits.firstWhereOrNull((cUnit) => cUnit.code == code);
+      final String name =
+        this.classesSelected[courseUnit.code];
+      final CourseUnitClass courseUnitClass =
+        courseUnit.classes.firstWhereOrNull((cUClass) => cUClass.name == name);
+
+      lectures.addAll(
+          courseUnitClass
+              .lectures
+              .where((lecture) => lecture.day == day)
+      );
+
+    });
+
     lectures.sort((a, b) => a.startTime.compareTo(b.startTime));
     return lectures;
   }
@@ -47,8 +63,8 @@ class ScheduleOption {
     return hasCollisions;
   }
 
-  bool hasCollisions(int day) {
-    final List<Lecture> lectures = this.getLectures(day);
+  bool hasCollisions(int day, List<CourseUnit> courseUnits) {
+    final List<Lecture> lectures = this.getLectures(day, courseUnits);
     for (int i = 0; i < lectures.length; i++) {
       for (int j = 0; j < lectures.length; j++) {
         if (i != j && lectures[i].collidesWith(lectures[j])) {

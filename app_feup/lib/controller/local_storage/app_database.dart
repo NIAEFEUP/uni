@@ -35,12 +35,12 @@ class AppDatabase {
   }
 
   /// Inserts [values] into the corresponding [table] in this database.
-  insertInDatabase(String table, Map<String, dynamic> values,
+  Future<int> insertInDatabase(String table, Map<String, dynamic> values,
       {String nullColumnHack, ConflictAlgorithm conflictAlgorithm}) async {
     lock.synchronized(() async {
       final Database db = await getDatabase();
 
-      db.insert(table, values,
+      return db.insert(table, values,
           nullColumnHack: nullColumnHack, conflictAlgorithm: conflictAlgorithm);
     });
   }

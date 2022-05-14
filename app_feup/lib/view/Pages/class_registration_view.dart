@@ -24,7 +24,6 @@ class _ClassRegistrationPageViewState extends SecondaryPageViewState {
         return SchedulePreferenceList(
           preferences: List<ScheduleOption>.generate(6, (int index) =>
             ScheduleOption(
-              id: index,
               name: 'Novo horário $index',
               classesSelected: Map(),
             )

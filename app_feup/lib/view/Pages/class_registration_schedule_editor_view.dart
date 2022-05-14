@@ -1,4 +1,5 @@
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:uni/controller/local_storage/app_planned_schedules_database.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:flutter/material.dart';
 import 'package:uni/model/entities/course_unit.dart';
@@ -188,7 +189,8 @@ class _ClassRegistrationScheduleEditorViewState
 
   final CourseUnitsForClassRegistration courseUnits;
   final ScheduleOption scheduleOption;
-
+  final AppPlannedScheduleDatabase db = AppPlannedScheduleDatabase();
+  
   TextEditingController _renameController;
   PageController _pageController;
   List<PageStorageKey<CourseUnit>> _expandableKeys;
@@ -267,7 +269,7 @@ class _ClassRegistrationScheduleEditorViewState
             style: TextButton.styleFrom(
               padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
             ),
-            onPressed: () {/* TODO save */},
+            onPressed: () => db.createSchedule(scheduleOption),
             child: Text('Guardar', style: TextStyle(color: Colors.white)),
           ),
           TextButton(
@@ -283,15 +285,16 @@ class _ClassRegistrationScheduleEditorViewState
   }
 
   Widget buildScheduleDisplay(BuildContext context) {
-    final List<Lecture> lectures = scheduleOption.getLectures(_selectedDay);
+    final List<Lecture> lectures = scheduleOption.
+      getLectures(_selectedDay, courseUnits.selected);
     final List<bool> hasDiscontinuity =
         ScheduleOption.getDiscontinuities(lectures);
     final List<bool> hasCollision = ScheduleOption.getCollisions(lectures);
 
     int daysInWeek;
-    if (scheduleOption.getLectures(6).isNotEmpty) {
+    if (scheduleOption.getLectures(6, courseUnits.selected).isNotEmpty) {
       daysInWeek = 7;
-    } else if (scheduleOption.getLectures(5).isNotEmpty) {
+    } else if (scheduleOption.getLectures(5, courseUnits.selected).isNotEmpty) {
       daysInWeek = 6;
     } else {
       daysInWeek = 5;
@@ -358,13 +361,15 @@ class _ClassRegistrationScheduleEditorViewState
                           icon: getNavigationRailDestinationIcon(
                             context,
                             day,
-                            scheduleOption.hasCollisions(day),
+                            scheduleOption
+                                .hasCollisions(day, courseUnits.selected),
                             false,
                           ),
                           selectedIcon: getNavigationRailDestinationIcon(
                             context,
                             day,
-                            scheduleOption.hasCollisions(day),
+                            scheduleOption
+                                .hasCollisions(day, courseUnits.selected),
                             true,
                           ),
                           label: Placeholder(),
@@ -404,15 +409,15 @@ class _ClassRegistrationScheduleEditorViewState
 
   Widget buildCourseDropdown(int index, BuildContext context) {
     final CourseUnit courseUnit = courseUnits.selected[index];
-    final CourseUnitClass selectedClass =
-        scheduleOption.classesSelected[courseUnit];
+    final String selectedClass =
+        scheduleOption.classesSelected[courseUnit.code];
 
     return Card(
       margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: ExpansionTile(
         key: _expandableKeys[index],
         title: Text(courseUnit.name),
-        subtitle: selectedClass == null ? null : Text(selectedClass?.name),
+        subtitle: selectedClass == null ? null : Text(selectedClass),
         children: <Widget>[
           for (CourseUnitClass courseUnitClass in courseUnit.classes)
             Container(
@@ -451,12 +456,12 @@ class _ClassRegistrationScheduleEditorViewState
                       ]),
                     ],
                   ),
-                  selected: courseUnitClass == selectedClass,
+                  selected: courseUnitClass.name == selectedClass,
                   selectedTileColor: Theme.of(context).accentColor,
                   onTap: () {
                     setState(() {
-                      scheduleOption.classesSelected[courseUnit] =
-                          courseUnitClass;
+                      scheduleOption.classesSelected[courseUnit.code] =
+                          courseUnitClass.name;
                     });
                   }),
             ),
