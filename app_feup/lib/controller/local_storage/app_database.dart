@@ -35,7 +35,7 @@ class AppDatabase {
   }
 
   /// Inserts [values] into the corresponding [table] in this database.
-  Future<int> insertInDatabase(String table, Map<String, dynamic> values,
+  insertInDatabase(String table, Map<String, dynamic> values,
       {String nullColumnHack, ConflictAlgorithm conflictAlgorithm}) async {
     lock.synchronized(() async {
       final Database db = await getDatabase();

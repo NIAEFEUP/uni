@@ -410,7 +410,7 @@ class _ClassRegistrationScheduleEditorViewState
   Widget buildCourseDropdown(int index, BuildContext context) {
     final CourseUnit courseUnit = courseUnits.selected[index];
     final String selectedClass =
-        scheduleOption.classesSelected[courseUnit.code];
+        scheduleOption.classesSelected[courseUnit.abbreviation];
 
     return Card(
       margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -460,7 +460,7 @@ class _ClassRegistrationScheduleEditorViewState
                   selectedTileColor: Theme.of(context).accentColor,
                   onTap: () {
                     setState(() {
-                      scheduleOption.classesSelected[courseUnit.code] =
+                      scheduleOption.classesSelected[courseUnit.abbreviation] =
                           courseUnitClass.name;
                     });
                   }),

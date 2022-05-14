@@ -9,10 +9,15 @@ class ScheduleOption {
 
   ScheduleOption({this.name, this.classesSelected});
 
+  ScheduleOption.generate(String name, Map<String, String> classesSelected) {
+    this.name = name;
+    this.classesSelected = classesSelected;
+  }
+
   ScheduleOption.newInstance() {
     // this.id = 5; // TODO: generate unique id
     this.name = 'Novo Horário';
-    // course unit code  to course unit class name
+    // course unit abbreviation  to course unit class name
     this.classesSelected = Map<String, String>();
     // TODO: add preference
   }
@@ -20,11 +25,13 @@ class ScheduleOption {
   List<Lecture> getLectures(int day, List<CourseUnit> courseUnits) {
     final List<Lecture> lectures = [];
 
-    this.classesSelected.forEach((code, value) {
+    this.classesSelected.forEach((abbreviation, value) {
       final CourseUnit courseUnit =
-        courseUnits.firstWhereOrNull((cUnit) => cUnit.code == code);
+        courseUnits.firstWhereOrNull(
+                (cUnit) => cUnit.abbreviation == abbreviation
+        );
       final String name =
-        this.classesSelected[courseUnit.code];
+        this.classesSelected[courseUnit.abbreviation];
       final CourseUnitClass courseUnitClass =
         courseUnit.classes.firstWhereOrNull((cUClass) => cUClass.name == name);
 
