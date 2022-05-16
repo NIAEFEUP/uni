@@ -1,19 +1,19 @@
 import 'package:uni/model/entities/lecture.dart';
-import 'package:uni/model/entities/schedule_option.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('Collision', () {
     test('Lectures should collide', () {
-      final lecture1 = Lecture(null, null, 0, -1, null, null,
+      final lecture1 = Lecture(null, null, 0, null, null, null,
                                 null, 8, 30, 10, 30);
 
-      final lecture2 = Lecture(null, null, 0, -1, null, null,
+      final lecture2 = Lecture(null, null, 0, null, null, null,
                                 null, 10, 0, 10, 30);
 
-      final lecture3 = Lecture(null, null, 0, -1, null, null,
+      final lecture3 = Lecture(null, null, 0, null, null, null,
                                 null, 10, 30, 12, 30);
 
+      final lecture4 = Lecture(null, null, 0, null, null, null,
                                 null, 8, 30, 11, 30);
 
       expect(lecture1.collidesWith(lecture2), true);
@@ -22,40 +22,44 @@ void main() {
     });
 
     test('Lectures should not collide', () {
-      final lecture1 = Lecture(null, null, 0, -1, null, null,
+      final lecture1 = Lecture(null, null, 0, null, null, null,
                                 null, 8, 30, 9, 30);
 
-      final lecture2 = Lecture(null, null, 0, -1, null, null,
+      final lecture2 = Lecture(null, null, 0, null, null, null,
                                 null, 10, 0, 10, 30);
 
-      final lecture3 = Lecture(null, null, 0, -1, null, null,
+      final lecture3 = Lecture(null, null, 0, null, null, null,
                                 null, 8, 30, 10, 0);
 
-      final lecture4 = Lecture(null, null, 0, -1, null, null,
+      final lecture4 = Lecture(null, null, 0, null, null, null,
                                 null, 10, 30, 11, 0);
+
+      final lecture5 = Lecture(null, null, 1, null, null, null,
+          null, 8, 30, 9, 30);
 
       expect(lecture1.collidesWith(lecture2), false);
       expect(lecture2.collidesWith(lecture3), false);
       expect(lecture3.collidesWith(lecture4), false);
+      expect(lecture1.collidesWith(lecture5), false);
     });
 
     test('Schedule option should have 3 discontinuities', () {
-      final lecture1 = Lecture(null, null, 0, -1, null, null,
+      final lecture1 = Lecture(null, null, 0, null, null, null,
                                 null, 8, 30, 9, 30);
 
-      final lecture2 = Lecture(null, null, 0, -1, null, null,
+      final lecture2 = Lecture(null, null, 0, null, null, null,
                                 null, 10, 0, 10, 30);
 
-      final lecture3 = Lecture(null, null, 0, -1, null, null,
+      final lecture3 = Lecture(null, null, 0, null, null, null,
                                 null, 10, 30, 12, 30);
 
-      final lecture4 = Lecture(null, null, 0, -1, null, null,
+      final lecture4 = Lecture(null, null, 0, null, null, null,
                                 null, 14, 0, 15, 0);
 
-      final lecture5 = Lecture(null, null, 0, -1, null, null,
+      final lecture5 = Lecture(null, null, 0, null, null, null,
                                 null, 15, 30, 18, 0);
 
-      final lecture6 = Lecture(null, null, 0, -1, null, null,
+      final lecture6 = Lecture(null, null, 0, null, null, null,
           null, 18, 0, 19, 0);
 
       final lectures = [
@@ -67,7 +71,7 @@ void main() {
                         lecture6
                       ];
 
-      final discontinuities = ScheduleOption.getDiscontinuities(lectures);
+      final discontinuities = Lecture.getDiscontinuities(lectures);
 
       expect(discontinuities[1], true);
       expect(discontinuities[2], false);
@@ -77,22 +81,22 @@ void main() {
     });
 
     test('Schedule option should have 3 collisions', () {
-      final lecture1 = Lecture(null, null, 0, -1, null, null,
+      final lecture1 = Lecture(null, null, 0, null, null, null,
                                 null, 8, 30, 9, 30);
 
-      final lecture2 = Lecture(null, null, 0, -1, null, null,
+      final lecture2 = Lecture(null, null, 0, null, null, null,
                                 null, 9, 0, 10, 30);
 
-      final lecture3 = Lecture(null, null, 0, -1, null, null,
+      final lecture3 = Lecture(null, null, 0, null, null, null,
                                 null, 10, 30, 12, 30);
 
-      final lecture4 = Lecture(null, null, 0, -1, null, null,
+      final lecture4 = Lecture(null, null, 0, null, null, null,
                                 null, 8, 45, 9, 0);
 
-      final lecture5 = Lecture(null, null, 0, -1, null, null,
+      final lecture5 = Lecture(null, null, 0, null, null, null,
                                 null, 15, 30, 18, 0);
 
-      final lecture6 = Lecture(null, null, 0, -1, null, null,
+      final lecture6 = Lecture(null, null, 0, null, null, null,
                                 null, 18, 0, 19, 0);
 
       final lectures = [
@@ -104,7 +108,7 @@ void main() {
                         lecture6
                        ];
 
-      final hasCollision = ScheduleOption.getCollisions(lectures);
+      final hasCollision = Lecture.getCollisions(lectures);
 
       expect(hasCollision[0], true);
       expect(hasCollision[1], true);
@@ -114,6 +118,4 @@ void main() {
       expect(hasCollision[5], false);
     });
   });
-
-
 }
