@@ -172,7 +172,33 @@ class Lecture {
       this.blocks == o.blocks &&
       this.startTimeSeconds == o.startTimeSeconds;
 
+  static List<bool> getDiscontinuities(List<Lecture> lectures) {
+    final List<bool> hasDiscontinuity = List.filled(lectures.length, false);
+    for (int i = 1; i < lectures.length; i++) {
+      if (lectures[i].startTime.compareTo(lectures[i - 1].endTime) == 1) {
+        hasDiscontinuity[i] = true;
+      }
+    }
+    return hasDiscontinuity;
+  }
+
+  static List<bool> getCollisions(List<Lecture> lectures) {
+    final List<bool> hasCollisions = List.filled(lectures.length, false);
+    for (int i = 0; i < lectures.length; i++) {
+      for (int j = 0; j < lectures.length; j++) {
+        if (i != j && lectures[i].collidesWith(lectures[j])) {
+          hasCollisions[i] = true;
+          break;
+        }
+      }
+    }
+    return hasCollisions;
+  }
+
   bool collidesWith(Lecture other) {
+    if (this.day != other.day) {
+      return false;
+    }
     return other.endTime.compareTo(this.startTime) == 1 &&
         this.endTime.compareTo(other.startTime) == 1;
   }

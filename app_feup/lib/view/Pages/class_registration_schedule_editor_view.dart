@@ -285,8 +285,8 @@ class _ClassRegistrationScheduleEditorViewState
   Widget buildScheduleDisplay(BuildContext context) {
     final List<Lecture> lectures = scheduleOption.getLectures(_selectedDay);
     final List<bool> hasDiscontinuity =
-        ScheduleOption.getDiscontinuities(lectures);
-    final List<bool> hasCollision = ScheduleOption.getCollisions(lectures);
+        Lecture.getDiscontinuities(lectures);
+    final List<bool> hasCollision = Lecture.getCollisions(lectures);
 
     int daysInWeek;
     if (scheduleOption.getLectures(6).isNotEmpty) {

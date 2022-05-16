@@ -14,7 +14,6 @@ void main() {
       final lecture3 = Lecture(null, null, 0, -1, null, null,
                                 null, 10, 30, 12, 30);
 
-      final lecture4 = Lecture(null, null, 0, -1, null, null,
                                 null, 8, 30, 11, 30);
 
       expect(lecture1.collidesWith(lecture2), true);
