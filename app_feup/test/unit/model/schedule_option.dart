@@ -24,7 +24,7 @@ class LectureMock extends Mock implements Lecture {
 void main() {
   group('ScheduleOption', () {
     test('New instance has correct name and no classes selected', () {
-      ScheduleOption instance = ScheduleOption.newInstance();
+      final ScheduleOption instance = ScheduleOption.newInstance();
       for (int i = 0; i < 7; i++) {
         expect(instance.getLectures(i).length, 0);
       }
