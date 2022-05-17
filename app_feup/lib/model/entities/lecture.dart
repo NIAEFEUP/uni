@@ -66,7 +66,7 @@ class Lecture {
       [int occurrId]) {
     final startTimeHours = (startTimeSeconds ~/ 3600);
     final startTimeMinutes = ((startTimeSeconds % 3600) ~/ 60);
-    final endTimeSeconds = 60 * 30 * blocks;
+    final endTimeSeconds = 60 * 30 * blocks + startTimeSeconds;
     final endTimeHours = (endTimeSeconds ~/ 3600);
     final endTimeMinutes = ((endTimeSeconds % 3600) ~/ 60);
     final lecture = Lecture(

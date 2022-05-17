@@ -16,7 +16,9 @@ class LoginPageView extends StatefulWidget {
 
 /// Manages the 'login section' view.
 class _LoginPageViewState extends State<LoginPageView> {
-  final String faculty = 'feup';
+  final List<String> faculty = [
+    'feup'
+  ]; // May choose more than one faculties in the dropdown.
 
   @override
   void didChangeDependencies() {
@@ -68,7 +70,9 @@ class _LoginPageViewState extends State<LoginPageView> {
     final MediaQueryData queryData = MediaQuery.of(context);
 
     return Scaffold(
-        backgroundColor: Theme.of(context).accentColor,
+        backgroundColor: Theme.of(context).brightness == Brightness.light
+            ? Theme.of(context).primaryColor
+            : Theme.of(context).scaffoldBackgroundColor,
         body: WillPopScope(
             child: Padding(
                 padding: EdgeInsets.only(
@@ -143,6 +147,8 @@ class _LoginPageViewState extends State<LoginPageView> {
       key: this._formKey,
       child: SingleChildScrollView(
         child: Column(children: [
+          createFacultyInput(),
+          Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)),
           createUsernameInput(context),
           Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)),
           createPasswordInput(),
@@ -150,6 +156,31 @@ class _LoginPageViewState extends State<LoginPageView> {
           createSaveDataCheckBox()
         ]),
       ),
+    );
+  }
+
+  /// Creates the widget for the user to choose their faculty
+  /// TODO: support for multiple faculties. Issue: #445
+  Widget createFacultyInput() {
+    return DropdownButton(
+      value: faculty[0].toUpperCase(),
+      items: Constants.faculties
+          .map((value) => DropdownMenuItem(
+                value: value.toUpperCase(),
+                child: Text(value.toUpperCase()),
+              ))
+          .toList(),
+      onChanged: (newDropdownValue) {
+        setState(() {
+          faculty[0] = newDropdownValue.toLowerCase();
+        });
+      },
+      isExpanded: true,
+      dropdownColor: Theme.of(context).brightness == Brightness.light
+          ? Theme.of(context).primaryColor
+          : Theme.of(context).scaffoldBackgroundColor,
+      style: TextStyle(color: Colors.white, fontSize: 20),
+      underline: Container(width: 200, height: 0.2, color: Colors.black87),
     );
   }
 
@@ -198,6 +229,12 @@ class _LoginPageViewState extends State<LoginPageView> {
   /// Creates the widget for the user to keep signed in (save his data).
   Widget createSaveDataCheckBox() {
     return CheckboxListTile(
+      activeColor: Theme.of(context).brightness == Brightness.light
+          ? Colors.white
+          : Colors.black54,
+      checkColor: Theme.of(context).brightness == Brightness.light
+          ? Theme.of(context).primaryColor
+          : Colors.white,
       value: _keepSignedIn,
       onChanged: _setKeepSignedIn,
       title: Text(
@@ -221,7 +258,9 @@ class _LoginPageViewState extends State<LoginPageView> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(25),
             ),
-            primary: Colors.white,
+            primary: Theme.of(context).brightness == Brightness.light
+                ? Colors.white
+                : Colors.black54,
           ),
           onPressed: () {
             if (!FocusScope.of(context).hasPrimaryFocus) {
@@ -231,7 +270,7 @@ class _LoginPageViewState extends State<LoginPageView> {
           },
           child: Text('Entrar',
               style: TextStyle(
-                  color: Theme.of(context).accentColor,
+                  color: Theme.of(context).primaryColor,
                   fontWeight: FontWeight.w400,
                   fontSize: 20),
               textAlign: TextAlign.center),

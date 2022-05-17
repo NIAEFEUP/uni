@@ -11,6 +11,8 @@ class FormTextField extends StatelessWidget {
   final int minLines;
   final int maxLines;
   final double bottomMargin;
+  final bool isOptional;
+  final Function formatValidator;
 
   FormTextField(
     this.controller,
@@ -20,8 +22,10 @@ class FormTextField extends StatelessWidget {
     this.maxLines = 1,
     this.labelText = '',
     this.hintText = '',
-    this.emptyText = 'Por favor escreve algo',
+    this.emptyText = 'Por favor preenche este campo',
     this.bottomMargin = 0,
+    this.isOptional = false,
+    this.formatValidator = null,
   });
 
   @override
@@ -41,7 +45,6 @@ class FormTextField extends StatelessWidget {
                 margin: EdgeInsets.only(right: 15),
                 child: Icon(
                   icon,
-                  color: Theme.of(context).accentColor,
                 )),
             Expanded(
                 child: TextFormField(
@@ -49,9 +52,7 @@ class FormTextField extends StatelessWidget {
               minLines: minLines,
               maxLines: maxLines,
               decoration: InputDecoration(
-                focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Theme.of(context).accentColor),
-                ),
+                focusedBorder: UnderlineInputBorder(),
                 hintText: hintText,
                 hintStyle: Theme.of(context).textTheme.bodyText2,
                 labelText: labelText,
@@ -60,9 +61,9 @@ class FormTextField extends StatelessWidget {
               controller: controller,
               validator: (value) {
                 if (value.isEmpty) {
-                  return emptyText;
+                  return isOptional ? null : emptyText;
                 }
-                return null;
+                return formatValidator != null ? formatValidator(value) : null;
               },
             ))
           ])

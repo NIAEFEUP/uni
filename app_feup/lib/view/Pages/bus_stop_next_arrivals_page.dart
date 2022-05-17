@@ -103,8 +103,8 @@ class _NextArrivalsState extends State<NextArrivals>
       result.addAll(this.getContent(context));
     } else {
       result.add(Container(
-          child: Text('Não se encontram configuradas paragens',
-              style: Theme.of(context).textTheme.headline4)));
+          child: Text('Não existe nenhuma paragem configurada',
+              style: Theme.of(context).textTheme.headline6)));
     }
 
     return result;
@@ -126,7 +126,7 @@ class _NextArrivalsState extends State<NextArrivals>
   Container getPageTitle() {
     return Container(
         padding: EdgeInsets.only(bottom: 12.0),
-        child: PageTitle(name: 'Paragens'));
+        child: PageTitle(name: 'Autocarros'));
   }
 
   /// Returns a list of widgets for a failed request
@@ -139,7 +139,7 @@ class _NextArrivalsState extends State<NextArrivals>
         child: Text('Não foi possível obter informação',
             maxLines: 2,
             overflow: TextOverflow.fade,
-            style: Theme.of(context).textTheme.bodyText1)));
+            style: Theme.of(context).textTheme.subtitle1)));
 
     return result;
   }
@@ -158,7 +158,6 @@ class _NextArrivalsState extends State<NextArrivals>
               ),
               IconButton(
                   icon: Icon(Icons.edit),
-                  color: Theme.of(context).accentColor,
                   onPressed: () => Navigator.push(
                       context,
                       MaterialPageRoute(

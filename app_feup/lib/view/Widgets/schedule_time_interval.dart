@@ -8,16 +8,12 @@ class ScheduleTimeInterval extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Column(
+    return Column(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       mainAxisSize: MainAxisSize.max,
       children: <Widget>[
-        Text(this.begin,
-            style:
-                Theme.of(context).textTheme.headline4.apply(fontSizeDelta: -3)),
-        Text(this.end,
-            style:
-                Theme.of(context).textTheme.headline4.apply(fontSizeDelta: -3)),
+        Text(this.begin, style: Theme.of(context).textTheme.bodyText2),
+        Text(this.end, style: Theme.of(context).textTheme.bodyText2),
       ],
     );
   }

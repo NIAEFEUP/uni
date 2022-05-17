@@ -11,7 +11,7 @@ import 'package:uni/model/profile_page_model.dart';
 import 'package:uni/view/Widgets/navigation_drawer.dart';
 import 'package:uni/utils/constants.dart' as Constants;
 
-/// Manages the  section inside the user's personal area.
+/// Manages the section inside the user's personal area.
 abstract class GeneralPageViewState extends State<StatefulWidget> {
   final double borderMargin = 18.0;
   static FileImage decorageImage;
@@ -26,7 +26,7 @@ abstract class GeneralPageViewState extends State<StatefulWidget> {
   }
 
   /// Returns the current user image.
-  /// 
+  ///
   /// If the image is not found / doesn't exist returns a generic placeholder.
   DecorationImage getDecorageImage(File x) {
     final fallbackImage = decorageImage == null
@@ -54,10 +54,10 @@ abstract class GeneralPageViewState extends State<StatefulWidget> {
       },
       builder: (context, refresh) {
         return RefreshIndicator(
-            key: GlobalKey<RefreshIndicatorState>(),
-            child: child,
-            onRefresh: refresh,
-            color: Theme.of(context).accentColor);
+          key: GlobalKey<RefreshIndicatorState>(),
+          child: child,
+          onRefresh: refresh,
+        );
       },
     );
   }
@@ -71,7 +71,7 @@ abstract class GeneralPageViewState extends State<StatefulWidget> {
   }
 
   /// Builds the upper bar of the app.
-  /// 
+  ///
   /// This method returns an instance of `AppBar` containing the app's logo,
   /// an option button and a button with the user's picture.
   AppBar buildAppBar(BuildContext context) {
@@ -81,13 +81,13 @@ abstract class GeneralPageViewState extends State<StatefulWidget> {
       bottom: PreferredSize(
         preferredSize: Size.zero,
         child: Container(
-          margin: EdgeInsets.only(left: borderMargin, right: borderMargin),
           color: Theme.of(context).dividerColor,
+          margin: EdgeInsets.only(left: borderMargin, right: borderMargin),
           height: 1.5,
         ),
       ),
       elevation: 0,
-      iconTheme: IconThemeData(color: Theme.of(context).accentColor),
+      iconTheme: Theme.of(context).accentIconTheme,
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       titleSpacing: 0.0,
       title: ButtonTheme(
@@ -104,6 +104,7 @@ abstract class GeneralPageViewState extends State<StatefulWidget> {
             },
             child: SvgPicture.asset(
               'assets/images/logo_dark.svg',
+              color: Theme.of(context).accentIconTheme.color,
               height: queryData.size.height / 25,
             ),
           )),

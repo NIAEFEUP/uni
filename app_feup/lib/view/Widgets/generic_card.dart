@@ -28,7 +28,11 @@ abstract class GenericCard extends StatefulWidget {
 
   Text getInfoText(String text, BuildContext context) {
     return Text(text == null ? 'N/A' : text,
-        textAlign: TextAlign.end, style: Theme.of(context).textTheme.headline3);
+        textAlign: TextAlign.end,
+        style: Theme.of(context)
+            .textTheme
+            .headline6
+            .apply(color: Theme.of(context).accentColor));
   }
 
   showLastRefreshedTime(time, context) {
@@ -48,7 +52,7 @@ class GenericCardState extends State<GenericCard> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        onTap: () => widget.onClick(context),
+        onTap: () => !widget.editingMode && widget.onClick(context),
         child: Card(
             margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
             color: Color.fromARGB(0, 0, 0, 0),
@@ -63,7 +67,6 @@ class GenericCardState extends State<GenericCard> {
                         blurRadius: 7.0,
                         offset: Offset(0.0, 1.0))
                   ],
-                  color: Theme.of(context).dividerColor,
                   borderRadius:
                       BorderRadius.all(Radius.circular(this.borderRadius))),
               child: ConstrainedBox(
@@ -72,7 +75,7 @@ class GenericCardState extends State<GenericCard> {
                 ),
                 child: Container(
                   decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColor,
+                      color: Theme.of(context).cardColor,
                       borderRadius:
                           BorderRadius.all(Radius.circular(this.borderRadius))),
                   width: (double.infinity),
@@ -86,15 +89,24 @@ class GenericCardState extends State<GenericCard> {
                             child: Text(widget.getTitle(),
                                 style: Theme.of(context)
                                     .textTheme
-                                    .headline1
+                                    .headline5
                                     .apply(
-                                        fontSizeDelta: -53,
-                                        fontWeightDelta: -3)),
+                                        color: Theme.of(context).primaryColor)),
                             alignment: Alignment.centerLeft,
                             padding: EdgeInsets.symmetric(horizontal: 15),
                             margin: EdgeInsets.only(top: 15, bottom: 10),
                           )),
-                          this.getDeleteIcon(context)
+                          Container(
+                            child: this.getMoveIcon(context),
+                            alignment: Alignment.center,
+                            margin: EdgeInsets.only(top: 8),
+                          ),
+                          Flexible(
+                            child: Container(
+                              child: this.getDeleteIcon(context),
+                              alignment: Alignment.centerRight,
+                              height: 32,
+                            )),
                         ].where((e) => e != null).toList(),
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       ),
@@ -116,11 +128,21 @@ class GenericCardState extends State<GenericCard> {
   Widget getDeleteIcon(context) {
     return (widget.editingMode != null && widget.editingMode)
         ? IconButton(
-            iconSize: 22.0,
+            iconSize: 22,
             icon: Icon(Icons.delete),
             tooltip: 'Remover',
             onPressed: widget.onDelete,
           )
         : null;
+  }
+
+  Widget getMoveIcon(context) {
+    return (widget.editingMode != null && widget.editingMode)
+        ? Icon(
+          Icons.drag_handle_rounded,
+          color: Colors.grey.shade500,
+          size: 22.0
+        )
+        : null; 
   }
 }
