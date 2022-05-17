@@ -12,7 +12,7 @@ class FacultiesMultiselect extends StatelessWidget {
     return TextButton(
         child: createButtonContent(),
         style: TextButton.styleFrom(
-            primary: Theme.of(context).primaryColor,
+            primary: Theme.of(context).canvasColor,
             textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.w300)
         ),
         onPressed: () {

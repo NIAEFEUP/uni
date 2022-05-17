@@ -15,10 +15,10 @@ class _FacultiesSelectionForm extends State<FacultiesSelectionForm> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-        backgroundColor: Theme.of(context).accentColor,
+        backgroundColor: Theme.of(context).primaryColor,
         title: Text('seleciona a(s) tua(s) faculdade(s)'),
         titleTextStyle: TextStyle(
-            color: Theme.of(context).primaryColor,
+            color: Theme.of(context).canvasColor,
             fontSize: 18
         ),
         content: Container(
@@ -34,14 +34,15 @@ class _FacultiesSelectionForm extends State<FacultiesSelectionForm> {
     return [
       TextButton(
           child: Text('Cancelar'),
-          style: TextButton.styleFrom(primary: Theme.of(context).primaryColor),
+          style: TextButton.styleFrom(
+              primary: Theme.of(context).canvasColor),
           onPressed: () => Navigator.pop(context)
       ),
       ElevatedButton(
           child: Text('Confirmar'),
           style: ElevatedButton.styleFrom(
-              primary: Theme.of(context).primaryColor,
-              onPrimary: Theme.of(context).accentColor
+              primary: Theme.of(context).canvasColor,
+              onPrimary: Theme.of(context).primaryColor
           ),
           onPressed: () {
             Navigator.pop(context);
@@ -60,7 +61,7 @@ class _FacultiesSelectionForm extends State<FacultiesSelectionForm> {
             title: Text(
                 faculty.toUpperCase(),
                 style: TextStyle(
-                    color: Theme.of(context).primaryColor,
+                    color: Theme.of(context).canvasColor,
                     fontSize: 20.0
                 )
             ),
