@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:uni/controller/local_storage/app_planned_schedules_database.dart';
 import 'package:uni/model/entities/schedule_option.dart';
 import 'package:uni/model/entities/schedule_preference_list.dart';
 import 'package:uni/view/Pages/class_registration_schedule_editor_view.dart';
@@ -15,6 +18,7 @@ class SchedulePlannerCard extends GenericCard {
 
   @override
   Widget buildCardContent(BuildContext context) {
+    int newScheduleID;
     return Column(
       children: [
         Row(
@@ -30,12 +34,23 @@ class SchedulePlannerCard extends GenericCard {
             iconSize: 32,
             color: Theme.of(context).accentColor,
             icon: Icon(Icons.add_circle_outline_rounded),
-            onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        ClassRegistrationScheduleEditorPageView(
-                            ScheduleOption.newInstance()))),
+            onPressed: () async {
+              newScheduleID =
+                await AppPlannedScheduleDatabase().createSchedule();
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          ClassRegistrationScheduleEditorPageView(
+                              ScheduleOption.generate(
+                                  newScheduleID,
+                                  'Novo Horário',
+                                  {}
+                              )
+                          )
+                  )
+              );
+            },
           ),
         ),
       ],
@@ -46,7 +61,7 @@ class SchedulePlannerCard extends GenericCard {
     return ConstrainedBox(
         constraints: BoxConstraints(
           minHeight: 1.0,
-          maxHeight: this._itemHeight * items.length,
+          maxHeight: max(this._itemHeight * items.length, 1.0),
           minWidth: 1.0,
           maxWidth: 50.0,
         ),
@@ -87,7 +102,7 @@ class SchedulePlannerCard extends GenericCard {
         child: ConstrainedBox(
             constraints: BoxConstraints(
               minHeight: 1.0,
-              maxHeight: this._itemHeight * items.length,
+              maxHeight: max(this._itemHeight * items.length, 1.0),
             ),
             child: ReorderableListView(
               physics: NeverScrollableScrollPhysics(),

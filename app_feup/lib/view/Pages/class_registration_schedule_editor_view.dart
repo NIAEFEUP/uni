@@ -234,6 +234,9 @@ class _ClassRegistrationScheduleEditorViewState
           children: [
             Expanded(
               child: TextField(
+                onChanged: (text) {
+                  scheduleOption.name = text;
+                },
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   focusedBorder: OutlineInputBorder(
@@ -243,7 +246,7 @@ class _ClassRegistrationScheduleEditorViewState
                   labelText: 'Nome do horário',
                   labelStyle: TextStyle(color: Theme.of(context).accentColor),
                 ),
-                controller: _renameController, // TODO schedule option rename
+                controller: _renameController,
               ),
             ),
             IconButton(
@@ -254,7 +257,31 @@ class _ClassRegistrationScheduleEditorViewState
             IconButton(
               color: Theme.of(context).accentColor,
               icon: Icon(Icons.delete_outline),
-              onPressed: () => {/* TODO delete */},
+              onPressed: () async {
+                List<Map<String, dynamic>> optionInfo =
+                  await (await db.getDatabase())
+                  .rawQuery('SELECT * FROM "selectedCourses"');
+
+                for (var map in optionInfo) {
+                  print(map);
+                }
+
+                optionInfo =
+                await (await db.getDatabase())
+                    .rawQuery('SELECT * FROM "scheduleoption"');
+
+                for (var map in optionInfo) {
+                  print(map);
+                }
+
+                optionInfo =
+                await (await db.getDatabase())
+                    .rawQuery('SELECT * FROM "class"');
+
+                for (var map in optionInfo) {
+                  print(map);
+                }
+              },
             ),
           ],
         ),
@@ -269,7 +296,7 @@ class _ClassRegistrationScheduleEditorViewState
             style: TextButton.styleFrom(
               padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
             ),
-            onPressed: () => db.createSchedule(scheduleOption),
+            onPressed: () => db.saveSchedule(scheduleOption),
             child: Text('Guardar', style: TextStyle(color: Colors.white)),
           ),
           TextButton(

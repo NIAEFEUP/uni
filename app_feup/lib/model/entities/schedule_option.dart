@@ -4,22 +4,18 @@ import 'package:uni/model/entities/lecture.dart';
 import 'package:collection/collection.dart';
 
 class ScheduleOption {
+  int id;
   String name;
   Map<String, String> classesSelected;
 
   ScheduleOption({this.name, this.classesSelected});
 
-  ScheduleOption.generate(String name, Map<String, String> classesSelected) {
+  ScheduleOption.generate(
+      int id, String name, Map<String, String> classesSelected
+      ) {
+    this.id = id;
     this.name = name;
     this.classesSelected = classesSelected;
-  }
-
-  ScheduleOption.newInstance() {
-    // this.id = 5; // TODO: generate unique id
-    this.name = 'Novo Horário';
-    // course unit abbreviation  to course unit class name
-    this.classesSelected = Map<String, String>();
-    // TODO: add preference
   }
 
   List<Lecture> getLectures(int day, List<CourseUnit> courseUnits) {
