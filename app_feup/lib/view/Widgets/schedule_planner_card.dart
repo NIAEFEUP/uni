@@ -16,6 +16,13 @@ class SchedulePlannerCard extends GenericCard {
   final double _itemHeight = 50.0;
   final double _borderRadius = 10.0;
 
+  int getNextPreferenceValue() {
+    List<ScheduleOption> preferences = items.preferences;
+    if (preferences.isEmpty) return 1;
+    print(preferences.last.preference);
+    return preferences.last.preference + 1;
+  }
+
   @override
   Widget buildCardContent(BuildContext context) {
     int newScheduleID;
@@ -37,6 +44,7 @@ class SchedulePlannerCard extends GenericCard {
             onPressed: () async {
               newScheduleID =
                 await AppPlannedScheduleDatabase().createSchedule();
+              print(newScheduleID);
               Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -45,7 +53,8 @@ class SchedulePlannerCard extends GenericCard {
                               ScheduleOption.generate(
                                   newScheduleID,
                                   'Novo Horário',
-                                  {}
+                                  {},
+                                  getNextPreferenceValue()
                               )
                           )
                   )

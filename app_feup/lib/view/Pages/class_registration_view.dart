@@ -70,6 +70,7 @@ class _ClassRegistrationView extends StatefulWidget {
 
 class _ClassRegistrationViewState extends State<_ClassRegistrationView> {
   final SchedulePreferenceList schedulePreferences;
+  final AppPlannedScheduleDatabase db = AppPlannedScheduleDatabase();
 
   _ClassRegistrationViewState(this.schedulePreferences);
 
@@ -81,8 +82,8 @@ class _ClassRegistrationViewState extends State<_ClassRegistrationView> {
           items: schedulePreferences,
           onReorder: (int oldIndex, int newIndex) {
             setState(() {
-              // TODO update appstate
               schedulePreferences.reorder(oldIndex, newIndex);
+              db.reorderOptions(schedulePreferences.preferences);
             });
           }),
     ]);

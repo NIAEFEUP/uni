@@ -6,6 +6,7 @@ import 'package:uni/model/entities/bus_stop.dart';
 import 'package:uni/model/entities/course_unit.dart';
 import 'package:uni/model/entities/course_unit_class.dart';
 import 'package:uni/model/entities/schedule_option.dart';
+import 'package:collection/collection.dart';
 
 /// Manages the app's Schedule Planner database.
 /// 
@@ -45,9 +46,9 @@ class AppPlannedScheduleDatabase extends AppDatabase {
 
   /// Adds a schedule option to this database.
   Future<int> createSchedule() async {
-    // await deleteDB();
+    final Database db = await this.getDatabase();
 
-    return await this.insertInDatabase(
+    return await db.insert(
       'scheduleoption',
       {
         'scheduleName': 'Novo Horário',
@@ -60,34 +61,33 @@ class AppPlannedScheduleDatabase extends AppDatabase {
   // Saves a schedule information
   saveSchedule(ScheduleOption scheduleOption) async{
     final Database db = await this.getDatabase();
+    final classesSelected = scheduleOption.classesSelected;
+    final scheduleID = scheduleOption.id;
+    final scheduleName = scheduleOption.name;
+    final preference = scheduleOption.preference;
 
-    var classesSelected = scheduleOption.classesSelected;
-    var scheduleID = scheduleOption.id;
-    var scheduleName = scheduleOption.name;
+    print(classesSelected);
+    print(scheduleID);
+    print(scheduleName);
+    print(preference);
 
-    print("update!");
-    db.update("scheduleoption", {
-      "scheduleName": scheduleName,
-      // "preference": preference
+    db.update('scheduleoption', {
+      'scheduleName': scheduleName,
+      'preference': preference
     }, where: '"id" = ?',
     whereArgs: [scheduleID]);
 
-    print("delete!");
     await db.delete(
         'selectedCourses',
         where: '"schedule" = ?',
         whereArgs: [scheduleOption.id]
     );
-    print("length");
-    print(classesSelected.length);
+
     classesSelected.forEach((courseUnitAbrv, courseUnitClassName) async {
-      print("class selected!");
       int courseUnitClassID =
         await this.getClassID(courseUnitClassName, courseUnitAbrv);
-      print("here:");
-      print(courseUnitClassID);
       if (courseUnitClassID == -1) {
-        courseUnitClassID = await this.insertInDatabase(
+        courseUnitClassID = await db.insert(
           'class',
           {
             'className': courseUnitClassName,
@@ -97,7 +97,7 @@ class AppPlannedScheduleDatabase extends AppDatabase {
         );
       }
 
-      int value = await db.insert(
+      await db.insert(
         'selectedCourses',
         {
           'schedule': scheduleID,
@@ -106,14 +106,31 @@ class AppPlannedScheduleDatabase extends AppDatabase {
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
 
-      print(value);
-
     });
+  }
+
+  reorderOptions(List<ScheduleOption> scheduleOptions) async {
+    final Database db = await this.getDatabase();
+
+    scheduleOptions.forEachIndexed((index, element) {
+      db.update('scheduleoption', {
+        'preference': index + 1
+      }, where: '"id" = ?',
+          whereArgs: [element.id]);
+    });
+  }
+
+  deleteOption(ScheduleOption scheduleOption) async {
+    final Database db = await this.getDatabase();
+
+    await db.delete('scheduleoption',
+      where: '"id" = ?',
+      whereArgs: [scheduleOption.id]);
   }
 
   Future<List<ScheduleOption>> getScheduleOptions() async {
     final Database db = await this.getDatabase();
-    print("in here!");
+
     final List<Map<String, dynamic>> scheduleOptionsQuery = await db.rawQuery(
         'SELECT * FROM "scheduleoption"'
     );
@@ -128,32 +145,33 @@ class AppPlannedScheduleDatabase extends AppDatabase {
              JOIN "class" ON "selectedCourses".class = "class".id
              WHERE "scheduleoption".id = :opt:;''';
 
-      query = query.replaceFirst(":opt:", optionID.toString());
+      query = query.replaceFirst(':opt:', optionID.toString());
 
       final List<Map<String, dynamic>> optionInfo = await db.rawQuery(query);
 
-      /*
-      '''SELECT * FROM "scheduleoption"
-             JOIN "selectedCourses" ON "scheduleoption".id = "selectedCourses".schedule
-             JOIN "class" ON "selectedCourses".class = "class".id
-             WHERE "scheduleoption".id = 8;'''
-       */
       // course unit abbreviation  to course unit class name
       Map<String, String> selectedCourses = Map<String, String>();
 
       for (var selectedCourse in optionInfo) {
-          selectedCourses[selectedCourse["courseAbrv"]] =
-            selectedCourse["className"];
+          selectedCourses[selectedCourse['courseAbrv']] =
+            selectedCourse['className'];
       }
+
       scheduleOptions.add(
           ScheduleOption
               .generate(
-              option["id"],
-              option["scheduleName"],
-              selectedCourses
+              option['id'],
+              option['scheduleName'],
+              selectedCourses,
+              option['preference']
           ));
 
     }
+
+    scheduleOptions.sort((a,b) {
+      return a.preference.compareTo(b.preference);
+    });
+
     return scheduleOptions;
   }
 

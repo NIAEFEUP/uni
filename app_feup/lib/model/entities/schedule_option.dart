@@ -7,15 +7,17 @@ class ScheduleOption {
   int id;
   String name;
   Map<String, String> classesSelected;
+  int preference;
 
-  ScheduleOption({this.name, this.classesSelected});
+  ScheduleOption({this.id, this.name, this.classesSelected, this.preference});
 
   ScheduleOption.generate(
-      int id, String name, Map<String, String> classesSelected
+      int id, String name, Map<String, String> classesSelected, int preference
       ) {
     this.id = id;
     this.name = name;
     this.classesSelected = classesSelected;
+    this.preference = preference;
   }
 
   List<Lecture> getLectures(int day, List<CourseUnit> courseUnits) {

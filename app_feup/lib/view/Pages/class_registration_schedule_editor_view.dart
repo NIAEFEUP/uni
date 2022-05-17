@@ -258,29 +258,8 @@ class _ClassRegistrationScheduleEditorViewState
               color: Theme.of(context).accentColor,
               icon: Icon(Icons.delete_outline),
               onPressed: () async {
-                List<Map<String, dynamic>> optionInfo =
-                  await (await db.getDatabase())
-                  .rawQuery('SELECT * FROM "selectedCourses"');
-
-                for (var map in optionInfo) {
-                  print(map);
-                }
-
-                optionInfo =
-                await (await db.getDatabase())
-                    .rawQuery('SELECT * FROM "scheduleoption"');
-
-                for (var map in optionInfo) {
-                  print(map);
-                }
-
-                optionInfo =
-                await (await db.getDatabase())
-                    .rawQuery('SELECT * FROM "class"');
-
-                for (var map in optionInfo) {
-                  print(map);
-                }
+                db.deleteOption(scheduleOption);
+                Navigator.pop(context);
               },
             ),
           ],
