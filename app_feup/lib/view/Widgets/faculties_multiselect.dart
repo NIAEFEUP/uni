@@ -3,9 +3,9 @@ import 'package:uni/view/Widgets/faculties_selection_form.dart';
 
 class FacultiesMultiselect extends StatelessWidget {
   final faculties;
-  final Function callback;
+  final Function setFaculties;
 
-  FacultiesMultiselect(this.faculties, this.callback);
+  FacultiesMultiselect(this.faculties, this.setFaculties);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class FacultiesMultiselect extends StatelessWidget {
               context: context,
               builder: (BuildContext context) {
                 return FacultiesSelectionForm(
-                    List<String>.from(faculties), callback
+                    List<String>.from(faculties), setFaculties
                 );
               }
           );

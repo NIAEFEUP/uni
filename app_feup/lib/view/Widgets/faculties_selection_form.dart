@@ -3,15 +3,15 @@ import 'package:uni/utils/constants.dart' as Constants;
 
 class FacultiesSelectionForm extends StatefulWidget {
   final faculties;
-  final Function callback;
+  final Function setFaculties;
 
-  FacultiesSelectionForm(this.faculties, this.callback);
+  FacultiesSelectionForm(this.faculties, this.setFaculties);
 
   @override
-  State<StatefulWidget> createState() => _FacultiesSelectionForm();
+  State<StatefulWidget> createState() => _FacultiesSelectionFormState();
 }
 
-class _FacultiesSelectionForm extends State<FacultiesSelectionForm> {
+class _FacultiesSelectionFormState extends State<FacultiesSelectionForm> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -46,7 +46,7 @@ class _FacultiesSelectionForm extends State<FacultiesSelectionForm> {
           ),
           onPressed: () {
             Navigator.pop(context);
-            widget.callback(widget.faculties);
+            widget.setFaculties(widget.faculties);
           }
       )
     ];
