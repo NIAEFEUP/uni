@@ -20,10 +20,7 @@ class CourseInfoCard extends GenericCard {
             Container(
               margin: const EdgeInsets.only(top: 20.0, bottom: 8.0, left: 20.0),
               child: Text('Ano curricular atual: ',
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline4
-                      .apply(fontSizeDelta: -4)),
+                  style: Theme.of(context).textTheme.subtitle2),
             ),
             Container(
               margin:
@@ -35,10 +32,7 @@ class CourseInfoCard extends GenericCard {
             Container(
               margin: const EdgeInsets.only(top: 10.0, bottom: 8.0, left: 20.0),
               child: Text('Estado atual: ',
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline4
-                      .apply(fontSizeDelta: -4)),
+                  style: Theme.of(context).textTheme.subtitle2),
             ),
             Container(
               margin:
@@ -51,10 +45,7 @@ class CourseInfoCard extends GenericCard {
               margin:
                   const EdgeInsets.only(top: 10.0, bottom: 20.0, left: 20.0),
               child: Text('Ano da primeira inscrição: ',
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline4
-                      .apply(fontSizeDelta: -4)),
+                  style: Theme.of(context).textTheme.subtitle2),
             ),
             Container(
                 margin:

@@ -6,9 +6,15 @@
 .pub/
 build/
 *.bin
-
 app_feup/pubspec.lock
+
+# IDE files
 .DS_Store
 .atom/
 .vscode/
-.packages
+.idea/
+.gradle/
+
+# Key properties
+app_feup/android/key.properties
+**.jks

@@ -1,6 +1,7 @@
 import 'dart:async';
 
-import 'package:encrypt/encrypt.dart';
+import 'package:encrypt/encrypt.dart' as encrypt;
+import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tuple/tuple.dart';
@@ -8,18 +9,19 @@ import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/home_page_model.dart';
 
 /// Manages the app's Shared Preferences.
-/// 
+///
 /// This database stores the user's student number, password and favorite
 /// widgets.
 class AppSharedPreferences {
   static final String userNumber = 'user_number';
   static final String userPw = 'user_password';
+  static final String userFaculties = 'user_faculties';
   static final String termsAndConditions = 'terms_and_conditions';
-  static final String areTermsAndConditionsAcceptedKey =
-      'is_t&c_accepted';
+  static final String areTermsAndConditionsAcceptedKey = 'is_t&c_accepted';
+  static final String themeMode = 'theme_mode';
   static final int keyLength = 32;
   static final int ivLength = 16;
-  static final iv = IV.fromLength(ivLength);
+  static final iv = encrypt.IV.fromLength(ivLength);
 
   static final String favoriteCards = 'favorite_cards';
   static final List<FAVORITE_WIDGET_TYPE> defaultFavoriteCards = [
@@ -31,11 +33,14 @@ class AppSharedPreferences {
   static final List<String> defaultFilteredExamTypes =
       Exam.getExamTypes().keys.toList();
 
-  /// Saves the user's student number and password.
-  static Future savePersistentUserInfo(user, pass) async {
+  /// Saves the user's student number, password and faculties.
+  static Future savePersistentUserInfo(user, pass, faculties) async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setString(userNumber, user);
     prefs.setString(userPw, encode(pass));
+    // print('There are faculties ' + faculties[0] + '\n\n\n\n');
+    prefs.setStringList(
+        userFaculties, faculties); // Could be multiple faculties
   }
 
   /// Sets whether or not the Terms and Conditions have been accepted.
@@ -64,7 +69,26 @@ class AppSharedPreferences {
     return prefs.setString(termsAndConditions, hashed);
   }
 
-  /// Deletes the user's student number and passoword.
+  /// Gets current used theme mode.
+  static Future<ThemeMode> getThemeMode() async {
+    final prefs = await SharedPreferences.getInstance();
+    return ThemeMode.values[prefs.getInt(themeMode) ?? ThemeMode.system.index];
+  }
+
+  /// Set new app theme mode.
+  static Future<bool> setThemeMode(ThemeMode thmMode) async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.setInt(themeMode, thmMode.index);
+  }
+
+  /// Set app next theme mode.
+  static Future<bool> setNextThemeMode() async {
+    final prefs = await SharedPreferences.getInstance();
+    final themeIndex = (await getThemeMode()).index;
+    return prefs.setInt(themeMode, (themeIndex + 1) % 3);
+  }
+
+  /// Deletes the user's student number and password.
   static Future removePersistentUserInfo() async {
     final prefs = await SharedPreferences.getInstance();
     prefs.remove(userNumber);
@@ -72,7 +96,7 @@ class AppSharedPreferences {
   }
 
   /// Returns a tuple containing the user's student number and password.
-  /// 
+  ///
   /// *Note:*
   /// * the first element in the tuple is the user's student number.
   /// * the second element in the tuple is the user's password, in plain text
@@ -81,6 +105,13 @@ class AppSharedPreferences {
     final String userNum = await getUserNumber();
     final String userPass = await getUserPassword();
     return Tuple2(userNum, userPass);
+  }
+
+  /// Returns the user's faculties
+  static Future<List<String>> getUserFaculties() async {
+    final prefs = await SharedPreferences.getInstance();
+    final List<String> storedFaculties = prefs.getStringList(userFaculties);
+    return storedFaculties == null ? [] : storedFaculties;
   }
 
   /// Returns the user's student number.
@@ -132,7 +163,7 @@ class AppSharedPreferences {
     prefs.setStringList(filteredExamsTypes, newTypes);
   }
 
-  // Returns the user's exam filter settings.
+  /// Returns the user's exam filter settings.
   static Future<Map<String, bool>> getFilteredExams() async {
     final prefs = await SharedPreferences.getInstance();
     final List<String> storedFilteredExamTypes =
@@ -158,8 +189,8 @@ class AppSharedPreferences {
   }
 
   /// Creates an [Encrypter] for encrypting and decrypting the user's password.
-  static Encrypter _createEncrypter() {
-    final key = Key.fromLength(keyLength);
-    return Encrypter(AES(key));
+  static encrypt.Encrypter _createEncrypter() {
+    final key = encrypt.Key.fromLength(keyLength);
+    return encrypt.Encrypter(encrypt.AES(key));
   }
 }
