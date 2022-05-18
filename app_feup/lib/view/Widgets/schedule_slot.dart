@@ -33,7 +33,7 @@ class ScheduleSlot extends StatelessWidget {
   }
 
   Widget createScheduleSlotRow(context) {
-    return  Container(
+    return Container(
         key: Key('schedule-slot-time-${this.begin}-${this.end}'),
         margin: EdgeInsets.only(top: 3.0, bottom: 3.0),
         child: Row(
@@ -45,7 +45,7 @@ class ScheduleSlot extends StatelessWidget {
   }
 
   Widget createScheduleSlotTime(context) {
-    return  Column(
+    return Column(
       key: Key('schedule-slot-time-${this.begin}-${this.end}'),
       children: <Widget>[
         createScheduleTime(this.begin, context),
@@ -95,16 +95,19 @@ class ScheduleSlot extends StatelessWidget {
   }
 
   Widget createScheduleSlotTeacherInfo(context) {
-    final int maxSizeTeacher = 14;
-    String teacher = this.teacher.replaceAll(
-        RegExp('[A-Z]*-',
-            unicode: true),'');
-    teacher = teacher.length > maxSizeTeacher ? teacher.substring(0,10) + '...'
-        : teacher;
-    return createTextField(
-        teacher,
-        Theme.of(context).textTheme.headline4.apply(fontSizeDelta: -4),
-        TextAlign.center);
+    return Align(
+        alignment: Alignment.centerRight,
+        child: Container(
+          width: MediaQuery.of(context).size.width * 0.3,
+          child: Container(
+              child: createTextField(
+                  this.teacher,
+                  Theme.of(context)
+                      .textTheme
+                      .headline4
+                      .apply(fontSizeDelta: -4),
+                  TextAlign.right)),
+        ));
   }
 
   Widget createScheduleSlotClass(context) {
@@ -119,8 +122,11 @@ class ScheduleSlot extends StatelessWidget {
   Widget createTextField(text, style, alignment) {
     return Text(
       text,
-      overflow: TextOverflow.ellipsis,
+      overflow: TextOverflow.fade,
+      softWrap: false,
+      maxLines: 1,
       style: style,
+      textAlign: alignment
     );
   }
 
