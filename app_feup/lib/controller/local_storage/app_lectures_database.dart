@@ -4,7 +4,7 @@ import 'package:uni/model/entities/lecture.dart';
 import 'package:sqflite/sqflite.dart';
 
 /// Manages the app's Lectures database.
-/// 
+///
 /// This database stores information about the user's lectures.
 /// See the [Lecture] class to see what data is stored in this database.
 class AppLecturesDatabase extends AppDatabase {
@@ -21,7 +21,7 @@ class AppLecturesDatabase extends AppDatabase {
               createScript,
             ],
             onUpgrade: migrate,
-            version: 3);
+            version: 4);
 
   /// Replaces all of the data in this database with [lecs].
   saveNewLectures(List<Lecture> lecs) async {
@@ -48,12 +48,13 @@ class AppLecturesDatabase extends AppDatabase {
         maps[i]['room'],
         maps[i]['teacher'],
         maps[i]['classNumber'],
+        maps[i]['occurrId'],
       );
     });
   }
 
   /// Adds all items from [lecs] to this database.
-  /// 
+  ///
   /// If a row with the same data is present, it will be replaced.
   Future<void> _insertLectures(List<Lecture> lecs) async {
     for (Lecture lec in lecs) {
@@ -74,18 +75,13 @@ class AppLecturesDatabase extends AppDatabase {
   }
 
   /// Migrates [db] from [oldVersion] to [newVersion].
-  /// 
+  ///
   /// *Note:* This operation only updates the schema of the tables present in
   /// the database and, as such, all data is lost.
   static FutureOr<void> migrate(
       Database db, int oldVersion, int newVersion) async {
     final batch = db.batch();
-    if (oldVersion == 1) {
-      batch.execute('DROP TABLE IF EXISTS lectures');
-      batch.execute(createScript);
-    } else if (oldVersion == 2) {
-      batch.execute(updateClassNumber);
-    }
-    await batch.commit();
+    batch.execute('DROP TABLE IF EXISTS lectures');
+    batch.execute(createScript);
   }
 }

@@ -5,7 +5,6 @@ import 'package:uni/view/Widgets/row_container.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ScheduleSlot extends StatelessWidget {
-  final int occurrId;
   final String subject;
   final String rooms;
   final String begin;
@@ -13,15 +12,16 @@ class ScheduleSlot extends StatelessWidget {
   final String teacher;
   final String typeClass;
   final String classNumber;
+  final int occurrId;
 
   ScheduleSlot({
     Key key,
-    @required this.occurrId,
     @required this.subject,
     @required this.typeClass,
     @required this.rooms,
     @required this.begin,
     @required this.end,
+    @required this.occurrId,
     this.teacher,
     this.classNumber,
   }) : super(key: key);
@@ -67,7 +67,7 @@ class ScheduleSlot extends StatelessWidget {
   }
 
   _launchURL() async {
-    final String url = toUcLink(occurrId);
+    final String url = toUcLink(this.occurrId);
     print(url);
     await launch(url);
   }

@@ -37,7 +37,7 @@ class Lecture {
       int startTimeMinutes,
       int endTimeHours,
       int endTimeMinutes,
-      [int occurrId]) {
+      int occurrId) {
     this.subject = subject;
     this.typeClass = typeClass;
     this.room = room;
@@ -94,14 +94,15 @@ class Lecture {
       int blocks,
       String room,
       String teacher,
-      String classNumber) {
+      String classNumber,
+      int occurrId) {
     final startTimeHours = int.parse(startTime.substring(0, 2));
     final startTimeMinutes = int.parse(startTime.substring(3, 5));
     final endTimeHours =
         (startTimeMinutes + (blocks * 30)) ~/ 60 + startTimeHours;
     final endTimeMinutes = (startTimeMinutes + (blocks * 30)) % 60;
     return Lecture(subject, typeClass, day, blocks, room, teacher, classNumber,
-        startTimeHours, startTimeMinutes, endTimeHours, endTimeMinutes);
+        startTimeHours, startTimeMinutes, endTimeHours, endTimeMinutes, occurrId);
   }
 
   /// Clones a lecture from the api.
@@ -122,7 +123,7 @@ class Lecture {
   /// Clones a lecture from the html.
   static Lecture cloneHtml(Lecture lec) {
     return Lecture.fromHtml(lec.subject, lec.typeClass, lec.day, lec.startTime,
-        lec.blocks, lec.room, lec.teacher, lec.classNumber);
+        lec.blocks, lec.room, lec.teacher, lec.classNumber, lec.occurrId);
   }
 
 
@@ -166,7 +167,7 @@ class Lecture {
 
   @override
   int get hashCode => hashValues(subject, startTime, endTime, typeClass, room,
-      teacher, day, blocks, startTimeSeconds);
+      teacher, day, blocks, startTimeSeconds, occurrId);
 
   @override
   bool operator ==(o) =>
