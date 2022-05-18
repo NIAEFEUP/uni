@@ -1,9 +1,9 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:logger/logger.dart';
+import 'package:sentry/sentry.dart';
 import 'package:uni/view/Widgets/form_text_field.dart';
-import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/view/Widgets/toast_message.dart';
+import 'package:email_validator/email_validator.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -20,9 +20,10 @@ class BugReportForm extends StatefulWidget {
 
 /// Manages the 'Bugs and Suggestions' section of the app
 class BugReportFormState extends State<BugReportForm> {
-  final String _postUrl =
+  final String _gitHubPostUrl =
       'https://api.github.com/repos/NIAEFEUP/project-schrodinger/issues';
-  final String _issueLabel = 'In-app bug report';
+  final String _sentryLink =
+      'https://sentry.io/organizations/niaefeup/issues/?query=';
 
   static final _formKey = GlobalKey<FormState>();
 
@@ -40,10 +41,11 @@ class BugReportFormState extends State<BugReportForm> {
   static final TextEditingController titleController = TextEditingController();
   static final TextEditingController descriptionController =
       TextEditingController();
-
+  static final TextEditingController emailController = TextEditingController();
   String ghToken = '';
 
   bool _isButtonTapped = false;
+  bool _isConsentGiven = false;
 
   BugReportFormState() {
     if (ghToken == '') loadGHKey();
@@ -89,6 +91,24 @@ class BugReportFormState extends State<BugReportForm> {
       bottomMargin: 30.0,
     ));
 
+    formWidget.add(FormTextField(
+      emailController,
+      Icons.mail,
+      minLines: 1,
+      maxLines: 2,
+      description: 'Contacto (opcional)',
+      labelText: 'Email em que desejas ser contactado',
+      bottomMargin: 30.0,
+      isOptional: true,
+      formatValidator: (value) {
+        return EmailValidator.validate(value)
+            ? null
+            : 'Por favor insere um email válido';
+      },
+    ));
+
+    formWidget.add(consentBox(context));
+
     formWidget.add(submitButton(context));
 
     return formWidget;
@@ -123,8 +143,8 @@ class BugReportFormState extends State<BugReportForm> {
               bottom: BorderSide(color: Theme.of(context).dividerColor))),
       padding: EdgeInsets.only(bottom: 20),
       child: Center(
-        child: Text('''Encontraste algum Bug na aplicação?\nTens alguma
-             sugestão para a app?\nConta-nos para que nós possamos melhorar!''',
+        child: Text(
+            '''Encontraste algum bug na aplicação?\nTens alguma sugestão para a app?\nConta-nos para que possamos melhorar!''',
             style: Theme.of(context).textTheme.bodyText2,
             textAlign: TextAlign.center),
       ),
@@ -140,7 +160,7 @@ class BugReportFormState extends State<BugReportForm> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            'Seleciona o tipo de ocorrência',
+            'Tipo de ocorrência',
             style: Theme.of(context).textTheme.bodyText2,
             textAlign: TextAlign.left,
           ),
@@ -153,7 +173,7 @@ class BugReportFormState extends State<BugReportForm> {
                 )),
             Expanded(
                 child: DropdownButton(
-              hint: Text('Seleciona o tipo de ocorrência'),
+              hint: Text('Tipo de ocorrência'),
               items: bugList,
               value: _selectedBug,
               onChanged: (value) {
@@ -169,18 +189,48 @@ class BugReportFormState extends State<BugReportForm> {
     );
   }
 
-  /// Returns a widget for the button to send the bug report
-  Widget submitButton(BuildContext context) {
+  Widget consentBox(BuildContext context) {
     return Container(
-      child: ElevatedButton(
-        onPressed: () {
-          if (_formKey.currentState.validate() && !_isButtonTapped) {
-            submitBugReport();
-          }
-        },
-        child: Text('Enviar'),
+      padding: EdgeInsets.only(),
+      margin: EdgeInsets.only(bottom: 20, top: 0),
+      child: ListTileTheme(
+        contentPadding: EdgeInsets.all(0),
+        child: CheckboxListTile(
+          activeColor: Theme.of(context).primaryColor,
+          title: Text(
+              '''Consinto que esta informação seja revista pelo NIAEFEUP, podendo ser eliminada a meu pedido.''',
+              style: Theme.of(context).textTheme.bodyText2,
+              textAlign: TextAlign.left),
+          value: _isConsentGiven,
+          onChanged: (bool newValue) {
+            setState(() {
+              _isConsentGiven = newValue;
+            });
+          },
+          controlAffinity: ListTileControlAffinity.leading,
+        ),
       ),
     );
+  }
+
+  Widget submitButton(BuildContext context) {
+    return Container(
+        child: ElevatedButton(
+      onPressed: !_isConsentGiven
+          ? null
+          : () {
+              if (_formKey.currentState.validate() && !_isButtonTapped) {
+                if (!FocusScope.of(context).hasPrimaryFocus) {
+                  FocusScope.of(context).unfocus();
+                }
+                submitBugReport();
+              }
+            },
+      child: Text(
+        'Enviar',
+        style: TextStyle(color: Colors.white, fontSize: 20.0),
+      ),
+    ));
   }
 
   /// Submits the user's bug report
@@ -188,7 +238,7 @@ class BugReportFormState extends State<BugReportForm> {
   /// If successful, an issue based on the bug
   /// report is created in the project repository.
   /// If unsuccessful, the user receives an error message.
-  void submitBugReport() {
+  void submitBugReport() async {
     setState(() {
       _isButtonTapped = true;
     });
@@ -196,63 +246,69 @@ class BugReportFormState extends State<BugReportForm> {
     final String bugLabel = bugDescriptions[_selectedBug] == null
         ? 'Unidentified bug'
         : bugDescriptions[_selectedBug].item2;
+
+    String toastMsg;
+    try {
+      final sentryId = await submitSentryEvent(bugLabel);
+      final gitHubRequestStatus = await submitGitHubIssue(sentryId, bugLabel);
+      if (gitHubRequestStatus < 200 || gitHubRequestStatus > 400) {
+        throw Exception('Network error');
+      }
+      Logger().i('Successfully submitted bug report.');
+      toastMsg = 'Enviado com sucesso';
+    } catch (e) {
+      Logger().e('Error while posting bug report:' + e.toString());
+      toastMsg = 'Ocorreu um erro no envio';
+    }
+
+    clearForm();
+    FocusScope.of(context).requestFocus(FocusNode());
+    ToastMessage.display(context, toastMsg);
+
+    setState(() {
+      _isButtonTapped = false;
+    });
+  }
+
+  Future<int> submitGitHubIssue(SentryId sentryEvent, String bugLabel) async {
+    final String description = descriptionController.text +
+        '\nFurther information on: ' +
+        _sentryLink +
+        sentryEvent.toString();
     final Map data = {
       'title': titleController.text,
-      'body': descriptionController.text,
-      'labels': [_issueLabel, bugLabel]
+      'body': description,
+      'labels': ['In-app bug report', bugLabel],
     };
-
-    final url = _postUrl;
-    http
-        .post(url.toUri(),
+    return http
+        .post(Uri.parse(_gitHubPostUrl),
             headers: {
               'Content-Type': 'application/json',
               'Authorization': 'token $ghToken'
             },
             body: json.encode(data))
         .then((http.Response response) {
-      final int statusCode = response.statusCode;
-
-      String msg;
-      if (statusCode < 200 || statusCode > 400) {
-        Logger().e('Error ' + statusCode.toString() + ' while posting bug');
-        msg = 'Ocorreu um erro no envio';
-      } else {
-        Logger().i('Successfully submitted bug report.');
-        msg = 'Enviado com sucesso';
-
-        clearForm();
-
-        Navigator.pop(context);
-        setState(() {
-          _isButtonTapped = false;
-        });
-      }
-
-      FocusScope.of(context).requestFocus(FocusNode());
-      ToastMessage.display(context, msg);
-      setState(() {
-        _isButtonTapped = false;
-      });
-    }).catchError((error) {
-      Logger().e(error);
-      FocusScope.of(context).requestFocus(FocusNode());
-
-      final String msg =
-          (error is SocketException) ? 'Falha de rede' : 'Ocorreu um erro';
-      ToastMessage.display(context, msg);
-      setState(() {
-        _isButtonTapped = false;
-      });
+      return response.statusCode;
     });
+  }
+
+  Future<SentryId> submitSentryEvent(String bugLabel) async {
+    final String description = emailController.text == ''
+        ? descriptionController.text
+        : descriptionController.text + '\nContact: ' + emailController.text;
+    return Sentry.captureMessage(
+        bugLabel + ': ' + titleController.text + '\n' + description);
   }
 
   void clearForm() {
     titleController.clear();
     descriptionController.clear();
+    emailController.clear();
 
+    if (!mounted) return;
     setState(() {
       _selectedBug = 0;
+      _isConsentGiven = false;
     });
   }
 
