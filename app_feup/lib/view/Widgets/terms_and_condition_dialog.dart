@@ -91,6 +91,6 @@ class TermsAndConditionDialog {
   }
 
   static TextStyle getTextMethod(BuildContext context) {
-    return Theme.of(context).textTheme.headline3.apply(fontSizeDelta: -2);
+    return Theme.of(context).textTheme.headline6;
   }
 }
