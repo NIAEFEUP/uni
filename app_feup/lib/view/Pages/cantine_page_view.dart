@@ -76,12 +76,18 @@ class CantinePageView extends StatelessWidget {
 
   List<Widget> createCantineRows(restaurants, BuildContext context){
     final List<Widget> cantineContent = <Widget>[];
-
     for (int i = 0; i < restaurants.lenght; i++){
       final Restaurant restaurant = restaurants[i];
-      cantineContent.add(CantineSlot( //para cada dia, percorre a lista de meals
-        
-      ));
+
+      restaurant.meals.forEach((key, value) {
+        //para cada dia, percorre a lista de meals
+        for (var meal in value){
+          cantineContent.add(CantineSlot(
+            type: meal.type,
+            name: meal.name,
+          ));
+        }
+      });
     }
     return cantineContent;
   }
