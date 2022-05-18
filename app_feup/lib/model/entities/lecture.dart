@@ -63,7 +63,7 @@ class Lecture {
       String room,
       String teacher,
       String classNumber,
-      [int occurrId]) {
+      int occurrId) {
     final startTimeHours = (startTimeSeconds ~/ 3600);
     final startTimeMinutes = ((startTimeSeconds % 3600) ~/ 60);
     final endTimeSeconds = 60 * 30 * blocks + startTimeSeconds;
@@ -80,7 +80,8 @@ class Lecture {
         startTimeHours,
         startTimeMinutes,
         endTimeHours,
-        endTimeMinutes);
+        endTimeMinutes,
+        occurrId);
     lecture.startTimeSeconds = startTimeSeconds;
     return lecture;
   }
@@ -113,7 +114,8 @@ class Lecture {
         lec.blocks,
         lec.room,
         lec.teacher,
-        lec.classNumber);
+        lec.classNumber,
+        lec.occurrId);
   }
 
 
@@ -135,6 +137,7 @@ class Lecture {
       'room': room,
       'teacher': teacher,
       'classNumber': classNumber,
+      'occurrId': occurrId
     };
   }
 
@@ -176,5 +179,6 @@ class Lecture {
       this.teacher == o.teacher &&
       this.day == o.day &&
       this.blocks == o.blocks &&
-      this.startTimeSeconds == o.startTimeSeconds;
+      this.startTimeSeconds == o.startTimeSeconds &&
+      this.occurrId == o.occurrId;
 }

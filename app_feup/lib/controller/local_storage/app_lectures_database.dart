@@ -10,7 +10,7 @@ import 'package:sqflite/sqflite.dart';
 class AppLecturesDatabase extends AppDatabase {
   static final createScript =
       '''CREATE TABLE lectures(subject TEXT, typeClass TEXT,
-          day INTEGER, startTime TEXT, blocks INTEGER, room TEXT, teacher TEXT, classNumber TEXT)''';
+          day INTEGER, startTime TEXT, blocks INTEGER, room TEXT, teacher TEXT, classNumber TEXT, occurrId INTEGER)''';
   static final updateClassNumber =
       '''ALTER TABLE lectures ADD classNumber TEXT''';
 

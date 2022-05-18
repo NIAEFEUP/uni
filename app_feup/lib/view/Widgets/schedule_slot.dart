@@ -68,11 +68,8 @@ class ScheduleSlot extends StatelessWidget {
 
   _launchURL() async {
     final String url = toUcLink(occurrId);
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
+    print(url);
+    await launch(url);
   }
 
   Widget createSubjectButton(BuildContext context) {
