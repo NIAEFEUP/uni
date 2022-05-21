@@ -1,4 +1,5 @@
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:uni/controller/local_storage/app_planned_schedules_database.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:flutter/material.dart';
 import 'package:uni/model/entities/course_unit.dart';
@@ -188,7 +189,8 @@ class _ClassRegistrationScheduleEditorViewState
 
   final CourseUnitsForClassRegistration courseUnits;
   final ScheduleOption scheduleOption;
-
+  final AppPlannedScheduleDatabase db = AppPlannedScheduleDatabase();
+  
   TextEditingController _renameController;
   PageController _pageController;
   List<PageStorageKey<CourseUnit>> _expandableKeys;
@@ -232,6 +234,9 @@ class _ClassRegistrationScheduleEditorViewState
           children: [
             Expanded(
               child: TextField(
+                onChanged: (text) {
+                  scheduleOption.name = text;
+                },
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   focusedBorder: OutlineInputBorder(
@@ -241,18 +246,33 @@ class _ClassRegistrationScheduleEditorViewState
                   labelText: 'Nome do horário',
                   labelStyle: TextStyle(color: Theme.of(context).accentColor),
                 ),
-                controller: _renameController, // TODO schedule option rename
+                controller: _renameController,
               ),
             ),
             IconButton(
               color: Theme.of(context).accentColor,
               icon: Icon(Icons.file_copy_outlined),
-              onPressed: () => {/* TODO copy */},
+              onPressed: scheduleOption.isNew()? null : () {
+                // TODO if changes make a confirmation window
+                Navigator.pop(context);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            ClassRegistrationScheduleEditorPageView(
+                                ScheduleOption.copy(scheduleOption)
+                            )
+                    )
+                );
+              },
             ),
             IconButton(
               color: Theme.of(context).accentColor,
               icon: Icon(Icons.delete_outline),
-              onPressed: () => {/* TODO delete */},
+              onPressed: () async {
+                db.deleteOption(scheduleOption);
+                Navigator.pop(context);
+              },
             ),
           ],
         ),
@@ -267,7 +287,14 @@ class _ClassRegistrationScheduleEditorViewState
             style: TextButton.styleFrom(
               padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
             ),
-            onPressed: () {/* TODO save */},
+            onPressed: () async {
+              Navigator.pop(context);
+              if (scheduleOption.isNew()) {
+                await db.createSchedule(scheduleOption.name);
+              } else {
+                await db.saveSchedule(scheduleOption);
+              }
+            },
             child: Text('Guardar', style: TextStyle(color: Colors.white)),
           ),
           TextButton(
@@ -283,15 +310,16 @@ class _ClassRegistrationScheduleEditorViewState
   }
 
   Widget buildScheduleDisplay(BuildContext context) {
-    final List<Lecture> lectures = scheduleOption.getLectures(_selectedDay);
+    final List<Lecture> lectures = scheduleOption.
+      getLectures(_selectedDay, courseUnits.selected);
     final List<bool> hasDiscontinuity =
         Lecture.getDiscontinuities(lectures);
     final List<bool> hasCollision = Lecture.getCollisions(lectures);
 
     int daysInWeek;
-    if (scheduleOption.getLectures(6).isNotEmpty) {
+    if (scheduleOption.getLectures(6, courseUnits.selected).isNotEmpty) {
       daysInWeek = 7;
-    } else if (scheduleOption.getLectures(5).isNotEmpty) {
+    } else if (scheduleOption.getLectures(5, courseUnits.selected).isNotEmpty) {
       daysInWeek = 6;
     } else {
       daysInWeek = 5;
@@ -358,13 +386,15 @@ class _ClassRegistrationScheduleEditorViewState
                           icon: getNavigationRailDestinationIcon(
                             context,
                             day,
-                            scheduleOption.hasCollisions(day),
+                            scheduleOption
+                                .hasCollisions(day, courseUnits.selected),
                             false,
                           ),
                           selectedIcon: getNavigationRailDestinationIcon(
                             context,
                             day,
-                            scheduleOption.hasCollisions(day),
+                            scheduleOption
+                                .hasCollisions(day, courseUnits.selected),
                             true,
                           ),
                           label: Placeholder(),
@@ -404,15 +434,15 @@ class _ClassRegistrationScheduleEditorViewState
 
   Widget buildCourseDropdown(int index, BuildContext context) {
     final CourseUnit courseUnit = courseUnits.selected[index];
-    final CourseUnitClass selectedClass =
-        scheduleOption.classesSelected[courseUnit];
+    final String selectedClass =
+        scheduleOption.classesSelected[courseUnit.abbreviation];
 
     return Card(
       margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: ExpansionTile(
         key: _expandableKeys[index],
         title: Text(courseUnit.name),
-        subtitle: selectedClass == null ? null : Text(selectedClass?.name),
+        subtitle: selectedClass == null ? null : Text(selectedClass),
         children: <Widget>[
           for (CourseUnitClass courseUnitClass in courseUnit.classes)
             Container(
@@ -451,12 +481,12 @@ class _ClassRegistrationScheduleEditorViewState
                       ]),
                     ],
                   ),
-                  selected: courseUnitClass == selectedClass,
+                  selected: courseUnitClass.name == selectedClass,
                   selectedTileColor: Theme.of(context).accentColor,
                   onTap: () {
                     setState(() {
-                      scheduleOption.classesSelected[courseUnit] =
-                          courseUnitClass;
+                      scheduleOption.classesSelected[courseUnit.abbreviation] =
+                          courseUnitClass.name;
                     });
                   }),
             ),
