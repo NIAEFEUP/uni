@@ -45,14 +45,27 @@ class AppPlannedScheduleDatabase extends AppDatabase {
   }
 
   /// Adds a schedule option to this database.
-  Future<int> createSchedule() async {
+  Future<int> createSchedule(String name, int preference) async {
     final Database db = await this.getDatabase();
 
     return await db.insert(
       'scheduleoption',
       {
-        'scheduleName': 'Novo Horário',
-        'preference': 0
+        'scheduleName': name,
+        'preference': preference
+      },
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
+  Future<int> copySchedule(ScheduleOption option) async {
+    final Database db = await this.getDatabase();
+
+    return await db.insert(
+      'scheduleoption',
+      {
+        'scheduleName': option.name + '(Cópia)',
+        'preference': option.preference
       },
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
@@ -153,13 +166,13 @@ class AppPlannedScheduleDatabase extends AppDatabase {
       }
 
       scheduleOptions.add(
-          ScheduleOption
-              .generate(
-              option['id'],
-              option['scheduleName'],
-              selectedCourses,
-              option['preference']
-          ));
+          ScheduleOption(
+              id: option['id'],
+              name: option['scheduleName'],
+              classesSelected: selectedCourses,
+              preference: option['preference']
+          )
+      );
 
     }
 

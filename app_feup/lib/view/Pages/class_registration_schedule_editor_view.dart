@@ -206,7 +206,7 @@ class _ClassRegistrationScheduleEditorViewState
   final ScheduleOption scheduleOption;
   final SchedulePreferenceList options;
   final AppPlannedScheduleDatabase db = AppPlannedScheduleDatabase();
-  
+
   TextEditingController _renameController;
   PageController _pageController;
   List<PageStorageKey<CourseUnit>> _expandableKeys;
@@ -268,16 +268,54 @@ class _ClassRegistrationScheduleEditorViewState
             IconButton(
               color: Theme.of(context).accentColor,
               icon: Icon(Icons.file_copy_outlined),
-              onPressed: () => {/* TODO copy */},
+              onPressed: () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) {
+                                ScheduleOption copy =
+                                ScheduleOption.copy(
+                                    scheduleOption,
+                                    options.preferences.length);
+                                options.preferences.add(copy);
+                                return ClassRegistrationScheduleEditorPageView(
+                                    options,
+                                    copy
+                                );
+                              }
+                        )
+                );
+
+
+                    },
             ),
             IconButton(
               color: Theme.of(context).accentColor,
               icon: Icon(Icons.delete_outline),
-              onPressed: () async {
-                this.options.preferences.remove(scheduleOption);
-                db.deleteOption(scheduleOption);
-                Navigator.pop(context);
-              },
+              onPressed: () => showDialog<String>(
+                        context: context,
+                        builder: (BuildContext context) => AlertDialog(
+                          title: const Text('Apagar horário'),
+                          content: const Text(
+                              'Tem a certeza que pretende apagar o horário?'),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: const Text('Cancelar'),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                db.deleteOption(scheduleOption);
+                                options.preferences.remove(scheduleOption);
+                                Navigator.pop(context);
+                                Navigator.pop(context);
+                              },
+                              child: const Text('Apagar'),
+                            ),
+                          ],
+                        ),
+                      ),
             ),
           ],
         ),
@@ -292,7 +330,10 @@ class _ClassRegistrationScheduleEditorViewState
             style: TextButton.styleFrom(
               padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
             ),
-            onPressed: () => db.saveSchedule(scheduleOption),
+            onPressed: () async {
+              Navigator.pop(context);
+              await db.saveSchedule(scheduleOption);
+            },
             child: Text('Guardar', style: TextStyle(color: Colors.white)),
           ),
           TextButton(
@@ -308,11 +349,10 @@ class _ClassRegistrationScheduleEditorViewState
   }
 
   Widget buildScheduleDisplay(BuildContext context) {
-    final List<Lecture> lectures = scheduleOption.
-      getLectures(_selectedDay, courseUnits.selected);
-    final List<bool> hasDiscontinuity =
-        ScheduleOption.getDiscontinuities(lectures);
-    final List<bool> hasCollision = ScheduleOption.getCollisions(lectures);
+    final List<Lecture> lectures =
+        scheduleOption.getLectures(_selectedDay, courseUnits.selected);
+    final List<bool> hasDiscontinuity = Lecture.getDiscontinuities(lectures);
+    final List<bool> hasCollision = Lecture.getCollisions(lectures);
 
     int daysInWeek;
     if (scheduleOption.getLectures(6, courseUnits.selected).isNotEmpty) {
@@ -377,22 +417,20 @@ class _ClassRegistrationScheduleEditorViewState
                     },
                     labelType: NavigationRailLabelType.none,
                     destinations: [
-                      for (int day = 0;
-                          day < daysInWeek;
-                          day++)
+                      for (int day = 0; day < daysInWeek; day++)
                         NavigationRailDestination(
                           icon: getNavigationRailDestinationIcon(
                             context,
                             day,
-                            scheduleOption
-                                .hasCollisions(day, courseUnits.selected),
+                            scheduleOption.hasCollisions(
+                                day, courseUnits.selected),
                             false,
                           ),
                           selectedIcon: getNavigationRailDestinationIcon(
                             context,
                             day,
-                            scheduleOption
-                                .hasCollisions(day, courseUnits.selected),
+                            scheduleOption.hasCollisions(
+                                day, courseUnits.selected),
                             true,
                           ),
                           label: Placeholder(),
