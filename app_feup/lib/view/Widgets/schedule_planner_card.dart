@@ -5,6 +5,7 @@ import 'package:uni/controller/local_storage/app_planned_schedules_database.dart
 import 'package:uni/model/entities/schedule_option.dart';
 import 'package:uni/model/entities/schedule_preference_list.dart';
 import 'package:uni/view/Pages/class_registration_schedule_editor_view.dart';
+import 'package:uni/utils/constants.dart' as Constants;
 
 import 'generic_card.dart';
 
@@ -19,19 +20,19 @@ class SchedulePlannerCard extends GenericCard {
   int getNextPreferenceValue() {
     List<ScheduleOption> preferences = items.preferences;
     if (preferences.isEmpty) return 1;
-    print(preferences.last.preference);
     return preferences.last.preference + 1;
   }
 
   @override
-  Widget buildCardContent(BuildContext context) {
+  Widget buildCardContentWithState(BuildContext context,
+      void Function(void Function()) setState) {
     int newScheduleID;
     return Column(
       children: [
         Row(
           children: [
             buildPriorityItems(context),
-            buildScheduleItems(context),
+            buildScheduleItems(context, setState),
           ],
         ),
         SizedBox(height: 5.0),
@@ -44,21 +45,25 @@ class SchedulePlannerCard extends GenericCard {
             onPressed: () async {
               newScheduleID =
                 await AppPlannedScheduleDatabase().createSchedule();
-              print(newScheduleID);
+
+              ScheduleOption newOption = ScheduleOption.generate(
+                  newScheduleID,
+                  'Novo Horário',
+                  {},
+                  getNextPreferenceValue()
+              );
+
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) =>
-                          ClassRegistrationScheduleEditorPageView(
-                              ScheduleOption.generate(
-                                  newScheduleID,
-                                  'Novo Horário',
-                                  {},
-                                  getNextPreferenceValue()
-                              )
-                          )
+                      builder: (context) {
+                          this.items.preferences.add(newOption);
+                          return ClassRegistrationScheduleEditorPageView(
+                            this.items,
+                          newOption
+                          );}
                   )
-              );
+              ).then(setState);
             },
           ),
         ),
@@ -106,7 +111,7 @@ class SchedulePlannerCard extends GenericCard {
     );
   }
 
-  Widget buildScheduleItems(BuildContext context) {
+  Widget buildScheduleItems(BuildContext context, void Function(void Function()) setState) {
     return Expanded(
         child: ConstrainedBox(
             constraints: BoxConstraints(
@@ -118,20 +123,23 @@ class SchedulePlannerCard extends GenericCard {
               padding: const EdgeInsets.symmetric(horizontal: 10),
               children: <Widget>[
                 for (int index = 0; index < items.length; index += 1)
-                  buildScheduleItem(index, context)
+                  buildScheduleItem(index, context, setState)
               ],
               onReorder: this.onReorder,
             )));
   }
 
-  Widget buildScheduleItem(int index, BuildContext context) {
+  Widget buildScheduleItem(int index, BuildContext context, void Function(void Function()) setState) {
     return GestureDetector(
         key: Key('$index'),
         onTap: () => Navigator.push(
               context,
               MaterialPageRoute(
               builder: (context) =>
-              ClassRegistrationScheduleEditorPageView(items[index]))),
+              ClassRegistrationScheduleEditorPageView(
+                  items,
+                  items[index]
+              ))).then((value) => setState(() {})),
         child: ConstrainedBox(
           constraints: BoxConstraints(
             minHeight: this._itemHeight,

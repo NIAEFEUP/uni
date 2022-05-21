@@ -66,11 +66,6 @@ class AppPlannedScheduleDatabase extends AppDatabase {
     final scheduleName = scheduleOption.name;
     final preference = scheduleOption.preference;
 
-    print(classesSelected);
-    print(scheduleID);
-    print(scheduleName);
-    print(preference);
-
     db.update('scheduleoption', {
       'scheduleName': scheduleName,
       'preference': preference

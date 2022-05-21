@@ -7,28 +7,41 @@ import 'package:uni/model/entities/course_unit_class.dart';
 import 'package:uni/model/entities/course_units_for_class_registration.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/entities/schedule_option.dart';
+import 'package:uni/model/entities/schedule_preference_list.dart';
 import 'package:uni/view/Pages/secondary_page_view.dart';
 import 'package:uni/view/Widgets/class_registration_schedule_tile.dart';
 import 'package:uni/view/Widgets/page_title.dart';
 
 class ClassRegistrationScheduleEditorPageView extends StatefulWidget {
   final ScheduleOption scheduleOption;
+  final SchedulePreferenceList options;
 
-  const ClassRegistrationScheduleEditorPageView(this.scheduleOption, {Key key})
+  const ClassRegistrationScheduleEditorPageView(
+      this.options,
+      this.scheduleOption,
+      {Key key}
+      )
       : super(key: key);
 
   @override
   _ClassRegistrationScheduleEditorPageViewState createState() =>
-      _ClassRegistrationScheduleEditorPageViewState(this.scheduleOption);
+      _ClassRegistrationScheduleEditorPageViewState(
+          this.options,
+          this.scheduleOption
+      );
 }
 
 class _ClassRegistrationScheduleEditorPageViewState
     extends SecondaryPageViewState {
   final ScheduleOption scheduleOption;
+  final SchedulePreferenceList options;
 
   final viewKey = GlobalKey();
 
-  _ClassRegistrationScheduleEditorPageViewState(this.scheduleOption) : super();
+  _ClassRegistrationScheduleEditorPageViewState(
+      this.options,
+      this.scheduleOption
+      ) : super();
 
   @override
   Widget getBody(BuildContext context) {
@@ -153,6 +166,7 @@ class _ClassRegistrationScheduleEditorPageViewState
       },
       builder: (context, courseUnits) {
         return _ClassRegistrationScheduleEditorView(
+            options: this.options,
             scheduleOption: this.scheduleOption,
             courseUnits: courseUnits,
             key: viewKey);
@@ -162,17 +176,18 @@ class _ClassRegistrationScheduleEditorPageViewState
 }
 
 class _ClassRegistrationScheduleEditorView extends StatefulWidget {
+  final SchedulePreferenceList options;
   final CourseUnitsForClassRegistration courseUnits;
   final ScheduleOption scheduleOption;
 
   const _ClassRegistrationScheduleEditorView(
-      {this.scheduleOption, this.courseUnits, Key key})
+      {this.options, this.scheduleOption, this.courseUnits, Key key})
       : super(key: key);
 
   @override
   _ClassRegistrationScheduleEditorViewState createState() =>
       _ClassRegistrationScheduleEditorViewState(
-          this.scheduleOption, this.courseUnits);
+          this.options, this.scheduleOption, this.courseUnits);
 }
 
 class _ClassRegistrationScheduleEditorViewState
@@ -189,6 +204,7 @@ class _ClassRegistrationScheduleEditorViewState
 
   final CourseUnitsForClassRegistration courseUnits;
   final ScheduleOption scheduleOption;
+  final SchedulePreferenceList options;
   final AppPlannedScheduleDatabase db = AppPlannedScheduleDatabase();
   
   TextEditingController _renameController;
@@ -198,7 +214,7 @@ class _ClassRegistrationScheduleEditorViewState
   int _selectedDay = 0;
 
   _ClassRegistrationScheduleEditorViewState(
-      this.scheduleOption, this.courseUnits) {
+      this.options, this.scheduleOption, this.courseUnits) {
     _expandableKeys = [
       for (CourseUnit unit in courseUnits.selected) PageStorageKey(unit)
     ];
@@ -258,6 +274,7 @@ class _ClassRegistrationScheduleEditorViewState
               color: Theme.of(context).accentColor,
               icon: Icon(Icons.delete_outline),
               onPressed: () async {
+                this.options.preferences.remove(scheduleOption);
                 db.deleteOption(scheduleOption);
                 Navigator.pop(context);
               },

@@ -22,7 +22,12 @@ abstract class GenericCard extends StatefulWidget {
     return GenericCardState();
   }
 
-  Widget buildCardContent(BuildContext context);
+  Widget buildCardContent(BuildContext context) {}
+  Widget buildCardContentWithState(
+      BuildContext context, void Function(void Function()) setState) {
+    return buildCardContent(context);
+  }
+
   String getTitle();
   onClick(BuildContext context);
 
@@ -100,11 +105,11 @@ class GenericCardState extends State<GenericCard> {
                             margin: EdgeInsets.only(top: 8),
                           ),
                           Flexible(
-                            child: Container(
-                              child: this.getDeleteIcon(context),
-                              alignment: Alignment.centerRight,
-                              height: 32,
-                            )),
+                              child: Container(
+                            child: this.getDeleteIcon(context),
+                            alignment: Alignment.centerRight,
+                            height: 32,
+                          )),
                         ].where((e) => e != null).toList(),
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       ),
@@ -114,7 +119,8 @@ class GenericCardState extends State<GenericCard> {
                           right: this.padding,
                           bottom: this.padding,
                         ),
-                        child: widget.buildCardContent(context),
+                        child: widget.buildCardContentWithState(
+                            context, this.setState),
                       )
                     ],
                   ),
@@ -136,11 +142,8 @@ class GenericCardState extends State<GenericCard> {
 
   Widget getMoveIcon(context) {
     return (widget.editingMode != null && widget.editingMode)
-        ? Icon(
-          Icons.drag_handle_rounded,
-          color: Colors.grey.shade500,
-          size: 22.0
-        )
-        : null; 
+        ? Icon(Icons.drag_handle_rounded,
+            color: Colors.grey.shade500, size: 22.0)
+        : null;
   }
 }

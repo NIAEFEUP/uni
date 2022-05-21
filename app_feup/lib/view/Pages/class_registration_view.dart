@@ -18,28 +18,28 @@ class ClassRegistrationPageView extends StatefulWidget {
 
 class _ClassRegistrationPageViewState extends SecondaryPageViewState {
   final AppPlannedScheduleDatabase db = AppPlannedScheduleDatabase();
+  Future<List<ScheduleOption>> options;
+
+  @override
+  void initState() {
+    super.initState();
+    options = db.getScheduleOptions();
+  }
 
   @override
   Widget getBody(BuildContext context) {
 
     return FutureBuilder<List<ScheduleOption>>(
-        future: db.getScheduleOptions(),
+        future: this.options,
         builder: (
             BuildContext innerContext,
             AsyncSnapshot<List<ScheduleOption>> snapshot) {
           if (snapshot.hasData) {
-            return StoreConnector<AppState, SchedulePreferenceList>(
-              converter: (store) {
-                return SchedulePreferenceList(
-                    preferences: snapshot.data
-                );
-              },
-              builder: (context, schedulePreferences) {
                 return _ClassRegistrationView(
-                    schedulePreferences: schedulePreferences
+                    schedulePreferences: SchedulePreferenceList(
+                        preferences: snapshot.data
+                    )
                 );
-              },
-            );
           }
 
           return Center(
