@@ -68,7 +68,6 @@ class ScheduleSlot extends StatelessWidget {
 
   _launchURL() async {
     final String url = toUcLink(this.occurrId);
-    print(url);
     await launch(url);
   }
 
