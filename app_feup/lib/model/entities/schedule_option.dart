@@ -12,12 +12,19 @@ class ScheduleOption {
   ScheduleOption({this.id, this.name, this.classesSelected, this.preference});
 
   ScheduleOption.generate(
-      int id, String name, Map<String, String> classesSelected, int preference
+      String name, Map<String, String> classesSelected, int preference
       ) {
-    this.id = id;
+    this.id = null;
     this.name = name;
     this.classesSelected = classesSelected;
     this.preference = preference;
+  }
+
+  ScheduleOption.copy(ScheduleOption scheduleOption) {
+    this.id = null;
+    this.name = scheduleOption.name + ' (Cópia)';
+    this.classesSelected = Map.from(scheduleOption.classesSelected);
+    this.preference = null;
   }
 
   List<Lecture> getLectures(int day, List<CourseUnit> courseUnits) {
@@ -78,5 +85,9 @@ class ScheduleOption {
       }
     }
     return false;
+  }
+
+  isNew() {
+    return id == null;
   }
 }
