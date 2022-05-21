@@ -4,6 +4,7 @@ import 'package:uni/view/Widgets/info_desk_card.dart';
 import 'package:uni/view/Widgets/dona_bia_card.dart';
 import 'package:uni/view/Widgets/copy_center_card.dart';
 import 'package:uni/view/Widgets/multimedia_center_card.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 Container h1(String text, BuildContext context, {bool initial = false}) {
   final double marginTop = initial ? 15.0 : 30.0;
@@ -28,7 +29,8 @@ Container h2(String text, BuildContext context) {
       ));
 }
 
-Container infoText(String text, BuildContext context, {bool last = false}) {
+Container infoText(String text, BuildContext context,
+    {bool last = false, link = ''}) {
   final double marginBottom = last ? 8.0 : 0.0;
   return Container(
       margin: EdgeInsets.only(top: 8, bottom: marginBottom, left: 20.0),
@@ -39,9 +41,9 @@ Container infoText(String text, BuildContext context, {bool last = false}) {
             text,
             style: Theme.of(context).textTheme.bodyText1.apply(
               color: Theme.of(context).accentColor,
-            )
+            ),
           ),
-        ),
+          onTap: () => link != '' ? launch(link) : null),
       ));
 }
 
