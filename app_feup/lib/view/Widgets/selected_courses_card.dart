@@ -6,7 +6,7 @@ import 'package:uni/controller/local_storage/app_planned_schedules_database.dart
 import 'package:uni/model/entities/course_units_for_class_registration.dart';
 import 'package:uni/model/entities/schedule_option.dart';
 import 'package:uni/model/entities/schedule_preference_list.dart';
-import 'package:uni/view/Pages/class_registration_schedule_editor_view.dart';
+import 'package:uni/view/Pages/selected_course_units_page_view.dart';
 
 import 'generic_card.dart';
 
@@ -30,17 +30,23 @@ class SelectedCoursesCard extends GenericCard {
           child: Icon(Icons.edit_outlined),
         ),
         Column(
-          children: [
-            Text('Unidades curriculares selecionadas:'),
-            Text(
-              courseUnitsAbbreviated.join(', '),
-              style: Theme.of(context)
-                  .textTheme
-                  .headline4
-                  .apply(color: Theme.of(context).accentColor),
-            ),
-            SizedBox(height: 10)
-          ],
+          children: selectedCourseUnits.selected.length == 0
+              ? [
+                  Text('Nenhuma unidade curricular'),
+                  Text('selecionada'),
+                  SizedBox(height: 10)
+                ]
+              : [
+                  Text('Unidades curriculares selecionadas:'),
+                  Text(
+                    courseUnitsAbbreviated.join(', '),
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline4
+                        .apply(color: Theme.of(context).accentColor),
+                  ),
+                  SizedBox(height: 10)
+                ],
         ),
       ],
     );
@@ -50,7 +56,12 @@ class SelectedCoursesCard extends GenericCard {
   String getTitle() => null;
 
   @override
-  onClick(BuildContext context) => {
-        // TODO open the select courses page
-      };
+  onClick(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SelectedCourseUnitsPageView(selectedCourseUnits),
+      ),
+    );
+  }
 }
