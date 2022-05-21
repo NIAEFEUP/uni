@@ -8,29 +8,29 @@ enum DayOfWeek {
   sunday
 }
 
-DayOfWeek parseDayOfWeek(String str){
+DayOfWeek parseDayOfWeek(String str) {
   str = str.replaceAll(' ', '').toLowerCase();
-  if(str == 'segunda-feira') {
+  if (str == 'segunda-feira') {
     return DayOfWeek.monday;
-  } else if(str == 'terça-feira') {
+  } else if (str == 'terça-feira') {
     return DayOfWeek.tuesday;
-  } else if(str == 'quarta-feira' ) {
+  } else if (str == 'quarta-feira') {
     return DayOfWeek.wednesday;
-  } else if(str == 'quinta-feira') {
+  } else if (str == 'quinta-feira') {
     return DayOfWeek.thursday;
-  } else if(str == 'sexta-feira') {
+  } else if (str == 'sexta-feira') {
     return DayOfWeek.friday;
-  } else if(str == 'sábado' || str == 'sabado') {
+  } else if (str == 'sábado' || str == 'sabado') {
     return DayOfWeek.saturday;
-  } else if(str == 'domingo') {
+  } else if (str == 'domingo') {
     return DayOfWeek.sunday;
   } else {
     return null;
   }
 }
 
-String toString(DayOfWeek day){
-  switch(day){
+String toString(DayOfWeek day) {
+  switch (day) {
     case DayOfWeek.monday:
       return 'Segunda-feira';
     case DayOfWeek.tuesday:

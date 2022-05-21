@@ -50,7 +50,6 @@ class SetScheduleStatusAction {
   SetScheduleStatusAction(this.status);
 }
 
-
 class SetInitialStoreStateAction {
   SetInitialStoreStateAction();
 }

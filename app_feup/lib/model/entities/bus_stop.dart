@@ -1,5 +1,5 @@
 /// Stores information about a bus stop.
-class BusStopData{
+class BusStopData {
   final Set<String> configuredBuses;
   bool favorited;
 

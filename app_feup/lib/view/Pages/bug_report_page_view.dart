@@ -10,12 +10,10 @@ class BugReportPageView extends StatefulWidget {
 
 /// Manages the 'Bugs and sugestions' section of the app.
 class BugReportPageViewState extends SecondaryPageViewState {
-
   @override
   Widget getBody(BuildContext context) {
-    return  Container(
-        margin:  EdgeInsets.symmetric(horizontal: 30.0, vertical: 20.0),
-        child:  BugReportForm()
-    );
+    return Container(
+        margin: EdgeInsets.symmetric(horizontal: 30.0, vertical: 20.0),
+        child: BugReportForm());
   }
 }

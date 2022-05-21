@@ -6,7 +6,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:tuple/tuple.dart';
 
 /// Manages the app's User Data database.
-/// 
+///
 /// This database stores information about the user's university profile.
 class AppUserDataDatabase extends AppDatabase {
   AppUserDataDatabase()
@@ -68,7 +68,7 @@ class AppUserDataDatabase extends AppDatabase {
   }
 
   /// Saves the user's balance and payment due date to the database.
-  /// 
+  ///
   /// *Note:*
   /// * the first value in [feesInfo] is the user's balance.
   /// * the second value in [feesInfo] is the user's payment due date.

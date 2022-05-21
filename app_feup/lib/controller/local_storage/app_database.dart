@@ -11,14 +11,18 @@ import 'package:synchronized/synchronized.dart';
 class AppDatabase {
   /// An instance of this database.
   Database _db;
+
   /// The name of this database.
   String name;
+
   /// A list of commands to be executed on database creation.
   List<String> commands;
   // A lock that synchronizes all database insertions.
   static Lock lock = Lock();
+
   /// A function that is called when the [version] changes.
   final OnDatabaseVersionChangeFn onUpgrade;
+
   /// The version of this database.
   final int version;
 

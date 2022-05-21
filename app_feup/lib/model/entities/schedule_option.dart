@@ -12,8 +12,7 @@ class ScheduleOption {
   ScheduleOption({this.id, this.name, this.classesSelected, this.preference});
 
   ScheduleOption.generate(
-      String name, Map<String, String> classesSelected, int preference
-      ) {
+      String name, Map<String, String> classesSelected, int preference) {
     this.id = null;
     this.name = name;
     this.classesSelected = classesSelected;
@@ -24,28 +23,21 @@ class ScheduleOption {
     this.id = null;
     this.name = scheduleOption.name + ' (Cópia)';
     this.classesSelected = Map.from(scheduleOption.classesSelected);
-    this.preference = null;
+    this.preference = null; // TODO fill this value
   }
 
   List<Lecture> getLectures(int day, List<CourseUnit> courseUnits) {
     final List<Lecture> lectures = [];
 
     this.classesSelected.forEach((abbreviation, value) {
-      final CourseUnit courseUnit =
-        courseUnits.firstWhereOrNull(
-                (cUnit) => cUnit.abbreviation == abbreviation
-        );
-      final String name =
-        this.classesSelected[courseUnit.abbreviation];
-      final CourseUnitClass courseUnitClass =
-        courseUnit.classes.firstWhereOrNull((cUClass) => cUClass.name == name);
+      final CourseUnit courseUnit = courseUnits
+          .firstWhereOrNull((cUnit) => cUnit.abbreviation == abbreviation);
+      final String name = this.classesSelected[courseUnit.abbreviation];
+      final CourseUnitClass courseUnitClass = courseUnit.classes
+          .firstWhereOrNull((cUClass) => cUClass.name == name);
 
       lectures.addAll(
-          courseUnitClass
-              .lectures
-              .where((lecture) => lecture.day == day)
-      );
-
+          courseUnitClass.lectures.where((lecture) => lecture.day == day));
     });
 
     lectures.sort((a, b) => a.startTime.compareTo(b.startTime));

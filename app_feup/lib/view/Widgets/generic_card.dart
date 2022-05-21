@@ -79,35 +79,38 @@ class GenericCardState extends State<GenericCard> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      Row(
-                        children: [
-                          Flexible(
-                              child: Container(
-                            child: Text(widget.getTitle(),
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headline1
-                                    .apply(
-                                        fontSizeDelta: -53,
-                                        fontWeightDelta: -3)),
-                            alignment: Alignment.centerLeft,
-                            padding: EdgeInsets.symmetric(horizontal: 15),
-                            margin: EdgeInsets.only(top: 15, bottom: 10),
-                          )),
-                          Container(
-                            child: this.getMoveIcon(context),
-                            alignment: Alignment.center,
-                            margin: EdgeInsets.only(top: 8),
-                          ),
-                          Flexible(
-                            child: Container(
+                      if (widget.getTitle() != null)
+                        Row(
+                          children: [
+                            Flexible(
+                                child: Container(
+                              child: Text(widget.getTitle(),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headline1
+                                      .apply(
+                                          fontSizeDelta: -53,
+                                          fontWeightDelta: -3)),
+                              alignment: Alignment.centerLeft,
+                              padding: EdgeInsets.symmetric(horizontal: 15),
+                              margin: EdgeInsets.only(top: 15, bottom: 10),
+                            )),
+                            Container(
+                              child: this.getMoveIcon(context),
+                              alignment: Alignment.center,
+                              margin: EdgeInsets.only(top: 8),
+                            ),
+                            Flexible(
+                                child: Container(
                               child: this.getDeleteIcon(context),
                               alignment: Alignment.centerRight,
                               height: 32,
                             )),
-                        ].where((e) => e != null).toList(),
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      ),
+                          ].where((e) => e != null).toList(),
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        )
+                      else
+                        SizedBox(height: 18),
                       Container(
                         padding: EdgeInsets.only(
                           left: this.padding,
@@ -136,11 +139,8 @@ class GenericCardState extends State<GenericCard> {
 
   Widget getMoveIcon(context) {
     return (widget.editingMode != null && widget.editingMode)
-        ? Icon(
-          Icons.drag_handle_rounded,
-          color: Colors.grey.shade500,
-          size: 22.0
-        )
-        : null; 
+        ? Icon(Icons.drag_handle_rounded,
+            color: Colors.grey.shade500, size: 22.0)
+        : null;
   }
 }

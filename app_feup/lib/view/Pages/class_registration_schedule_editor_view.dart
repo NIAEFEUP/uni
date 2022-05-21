@@ -13,150 +13,36 @@ import 'package:uni/view/Widgets/page_title.dart';
 
 class ClassRegistrationScheduleEditorPageView extends StatefulWidget {
   final ScheduleOption scheduleOption;
+  final CourseUnitsForClassRegistration selectedCourseUnits;
 
-  const ClassRegistrationScheduleEditorPageView(this.scheduleOption, {Key key})
+  const ClassRegistrationScheduleEditorPageView(
+      this.scheduleOption, this.selectedCourseUnits,
+      {Key key})
       : super(key: key);
 
   @override
   _ClassRegistrationScheduleEditorPageViewState createState() =>
-      _ClassRegistrationScheduleEditorPageViewState(this.scheduleOption);
+      _ClassRegistrationScheduleEditorPageViewState(
+          this.scheduleOption, this.selectedCourseUnits);
 }
 
 class _ClassRegistrationScheduleEditorPageViewState
     extends SecondaryPageViewState {
   final ScheduleOption scheduleOption;
+  final CourseUnitsForClassRegistration selectedCourseUnits;
 
   final viewKey = GlobalKey();
 
-  _ClassRegistrationScheduleEditorPageViewState(this.scheduleOption) : super();
+  _ClassRegistrationScheduleEditorPageViewState(
+      this.scheduleOption, this.selectedCourseUnits)
+      : super();
 
   @override
   Widget getBody(BuildContext context) {
-    return StoreConnector<AppState, CourseUnitsForClassRegistration>(
-      converter: (store) {
-        // TODO get classes from appstate
-        return CourseUnitsForClassRegistration(selected: [
-          CourseUnit(
-              name: 'Engenharia de Software',
-              abbreviation: 'ES',
-              classes: [
-                CourseUnitClass(name: '3LEIC01', lectures: [
-                  Lecture('ES', 'T', 3, 4, 'B003', 'AMA+JPF', 'COMP_3315', 8,
-                      30, 10, 30),
-                  Lecture('ES', 'TP', 2, 4, 'B115', 'ASL', '3LEIC01', 8, 30, 10,
-                      30),
-                ]),
-                CourseUnitClass(name: '3LEIC02', lectures: [
-                  Lecture('ES', 'T', 3, 4, 'B003', 'AMA+JPF', 'COMP_3315', 8,
-                      30, 10, 30),
-                  Lecture('ES', 'TP', 1, 4, 'B343', 'FFC', '3LEIC02', 10, 30,
-                      12, 30),
-                ]),
-                CourseUnitClass(name: '3LEIC03', lectures: [
-                  Lecture('ES', 'T', 3, 4, 'B003', 'AMA+JPF', 'COMP_3315', 8,
-                      30, 10, 30),
-                  Lecture('ES', 'TP', 1, 4, 'B206', 'AOR', '3LEIC03', 8, 30, 10,
-                      30),
-                ]),
-                CourseUnitClass(name: '3LEIC04', lectures: [
-                  Lecture('ES', 'T', 3, 4, 'B003', 'AMA+JPF', 'COMP_3315', 8,
-                      30, 10, 30),
-                  Lecture('ES', 'TP', 2, 4, 'B310', 'ASL', '3LEIC04', 10, 30,
-                      12, 30),
-                ]),
-              ]),
-          CourseUnit(
-              name: 'Inteligência Artificial',
-              abbreviation: 'IA',
-              classes: [
-                CourseUnitClass(name: '3LEIC01', lectures: [
-                  Lecture(
-                      'IA', 'T', 0, 4, 'B002', 'LPR', 'COMP_2345', 9, 0, 11, 0),
-                  Lecture('IA', 'TP', 2, 4, 'B342', 'HCL', '3LEIC01', 10, 30,
-                      12, 30),
-                ]),
-                CourseUnitClass(name: '3LEIC02', lectures: [
-                  Lecture(
-                      'IA', 'T', 0, 4, 'B002', 'LPR', 'COMP_2345', 9, 0, 11, 0),
-                  Lecture('IA', 'TP', 2, 4, 'B217', 'APR', '3LEIC02', 8, 30, 10,
-                      30),
-                ]),
-                CourseUnitClass(name: '3LEIC03', lectures: [
-                  Lecture(
-                      'IA', 'T', 0, 4, 'B002', 'LPR', 'COMP_2345', 9, 0, 11, 0),
-                  Lecture('IA', 'TP', 1, 4, 'B206', 'NRSG', '3LEIC03', 10, 30,
-                      12, 30),
-                ]),
-                CourseUnitClass(name: '3LEIC04', lectures: [
-                  Lecture(
-                      'IA', 'T', 0, 4, 'B002', 'LPR', 'COMP_2345', 9, 0, 11, 0),
-                  Lecture('IA', 'TP', 1, 4, 'B202', 'NRSG', '3LEIC04', 8, 30,
-                      10, 30),
-                ]),
-              ]),
-          CourseUnit(
-              name: 'Computação Paralela e Distribuída',
-              abbreviation: 'CPD',
-              classes: [
-                CourseUnitClass(name: '3LEIC01', lectures: [
-                  Lecture('CPD', 'T', 3, 4, 'B020', 'JGB+PF', 'COMP_3112', 14,
-                      0, 16, 0),
-                  Lecture('CPD', 'TP', 1, 4, 'B342', 'PFS+JGB', '3LEIC01', 8,
-                      30, 10, 30),
-                ]),
-                CourseUnitClass(name: '3LEIC02', lectures: [
-                  Lecture('CPD', 'T', 3, 4, 'B020', 'JGB+PF', 'COMP_3112', 14,
-                      0, 16, 0),
-                  Lecture('CPD', 'TP', 1, 4, 'B343', 'SCS1', '3LEIC02', 8, 30,
-                      10, 30),
-                ]),
-                CourseUnitClass(name: '3LEIC03', lectures: [
-                  Lecture('CPD', 'T', 3, 4, 'B020', 'JGB+PF', 'COMP_3112', 14,
-                      0, 16, 0),
-                  Lecture('CPD', 'TP', 2, 4, 'B205', 'PMAADO', '3LEIC03', 8, 30,
-                      10, 30),
-                ]),
-                CourseUnitClass(name: '3LEIC04', lectures: [
-                  Lecture('CPD', 'T', 3, 4, 'B020', 'JGB+PF', 'COMP_3112', 14,
-                      0, 16, 0),
-                  Lecture('CPD', 'TP', 1, 4, 'B202', 'AJMC', '3LEIC04', 10, 30,
-                      12, 30),
-                ]),
-              ]),
-          CourseUnit(name: 'Compiladores', abbreviation: 'C', classes: [
-            CourseUnitClass(name: '3LEIC01', lectures: [
-              Lecture('C', 'T', 3, 4, 'B013', 'DCC-AMSMF+PNF', 'COMP_3112', 10,
-                  30, 12, 30),
-              Lecture(
-                  'C', 'TP', 1, 4, 'B342', 'AMSMF', '3LEIC01', 10, 30, 12, 30),
-            ]),
-            CourseUnitClass(name: '3LEIC02', lectures: [
-              Lecture('C', 'T', 3, 4, 'B013', 'DCC-AMSMF+PNF', 'COMP_3112', 10,
-                  30, 12, 30),
-              Lecture(
-                  'C', 'TP', 2, 4, 'B217', 'LGBC', '3LEIC02', 10, 30, 12, 30),
-            ]),
-            CourseUnitClass(name: '3LEIC03', lectures: [
-              Lecture('C', 'T', 3, 4, 'B013', 'DCC-AMSMF+PNF', 'COMP_3112', 10,
-                  30, 12, 30),
-              Lecture(
-                  'C', 'TP', 2, 4, 'B205', 'PMSP', '3LEIC03', 10, 30, 12, 30),
-            ]),
-            CourseUnitClass(name: '3LEIC04', lectures: [
-              Lecture('C', 'T', 3, 4, 'B013', 'DCC-AMSMF+PNF', 'COMP_3112', 10,
-                  30, 12, 30),
-              Lecture(
-                  'C', 'TP', 2, 4, 'B310', 'PMSP', '3LEIC04', 8, 30, 10, 30),
-            ]),
-          ]),
-        ]);
-      },
-      builder: (context, courseUnits) {
-        return _ClassRegistrationScheduleEditorView(
-            scheduleOption: this.scheduleOption,
-            courseUnits: courseUnits,
-            key: viewKey);
-      },
+    return _ClassRegistrationScheduleEditorView(
+      scheduleOption: scheduleOption,
+      courseUnits: selectedCourseUnits,
+      key: viewKey,
     );
   }
 }
@@ -263,7 +149,8 @@ class _ClassRegistrationScheduleEditorViewState
                           MaterialPageRoute(
                               builder: (context) =>
                                   ClassRegistrationScheduleEditorPageView(
-                                      ScheduleOption.copy(scheduleOption))));
+                                      ScheduleOption.copy(scheduleOption),
+                                      courseUnits)));
                     },
             ),
             IconButton(

@@ -26,7 +26,7 @@ abstract class GeneralPageViewState extends State<StatefulWidget> {
   }
 
   /// Returns the current user image.
-  /// 
+  ///
   /// If the image is not found / doesn't exist returns a generic placeholder.
   DecorationImage getDecorageImage(File x) {
     final fallbackImage = decorageImage == null
@@ -71,7 +71,7 @@ abstract class GeneralPageViewState extends State<StatefulWidget> {
   }
 
   /// Builds the upper bar of the app.
-  /// 
+  ///
   /// This method returns an instance of `AppBar` containing the app's logo,
   /// an option button and a button with the user's picture.
   AppBar buildAppBar(BuildContext context) {

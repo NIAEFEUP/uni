@@ -3,16 +3,16 @@ import 'package:sqflite/sqflite.dart';
 import 'package:uni/controller/local_storage/app_database.dart';
 
 /// Manages the app's Refresh Times database.
-/// 
+///
 /// This database stores information about when certain data was updated
-/// for the last time. 
+/// for the last time.
 class AppRefreshTimesDatabase extends AppDatabase {
   AppRefreshTimesDatabase()
       : super('refreshtimes.db',
             ['CREATE TABLE refreshtimes(event TEXT, time TEXT)']);
 
   /// Returns a map containing all the data stored in this database.
-  /// 
+  ///
   /// *Note:*
   /// * a key in this map is an event type.
   /// * a value in this map is the timestamp at which the data of the given type
@@ -21,7 +21,7 @@ class AppRefreshTimesDatabase extends AppDatabase {
     final Database db = await this.getDatabase();
     final List<Map<String, dynamic>> maps = await db.query('refreshtimes');
 
-    final Map<String, String> refreshTimes =  Map<String, String>();
+    final Map<String, String> refreshTimes = Map<String, String>();
     for (Map<String, dynamic> entry in maps) {
       if (entry['event'] == 'print') refreshTimes['print'] = entry['time'];
       if (entry['event'] == 'fees') refreshTimes['fees'] = entry['time'];

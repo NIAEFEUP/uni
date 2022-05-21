@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:uni/controller/local_storage/app_planned_schedules_database.dart';
+import 'package:uni/model/entities/course_units_for_class_registration.dart';
 import 'package:uni/model/entities/schedule_option.dart';
 import 'package:uni/model/entities/schedule_preference_list.dart';
 import 'package:uni/view/Pages/class_registration_schedule_editor_view.dart';
@@ -9,7 +10,11 @@ import 'package:uni/view/Pages/class_registration_schedule_editor_view.dart';
 import 'generic_card.dart';
 
 class SchedulePlannerCard extends GenericCard {
-  SchedulePlannerCard({this.items, this.onReorder, Key key}) : super(key: key);
+  final CourseUnitsForClassRegistration selectedCourseUnits;
+
+  SchedulePlannerCard(
+      {this.items, this.selectedCourseUnits, this.onReorder, Key key})
+      : super(key: key);
 
   final SchedulePreferenceList items;
   final Function(int oldIndex, int newIndex) onReorder;
@@ -25,7 +30,6 @@ class SchedulePlannerCard extends GenericCard {
 
   @override
   Widget buildCardContent(BuildContext context) {
-    int newScheduleID;
     return Column(
       children: [
         Row(
@@ -48,13 +52,8 @@ class SchedulePlannerCard extends GenericCard {
                       builder: (context) =>
                           ClassRegistrationScheduleEditorPageView(
                               ScheduleOption.generate(
-                                  'Novo Horário',
-                                  {},
-                                  getNextPreferenceValue()
-                              )
-                          )
-                  )
-              );
+                                  'Novo Horário', {}, getNextPreferenceValue()),
+                              selectedCourseUnits)));
             },
           ),
         ),
@@ -124,10 +123,10 @@ class SchedulePlannerCard extends GenericCard {
     return GestureDetector(
         key: Key('$index'),
         onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-              builder: (context) =>
-              ClassRegistrationScheduleEditorPageView(items[index]))),
+            context,
+            MaterialPageRoute(
+                builder: (context) => ClassRegistrationScheduleEditorPageView(
+                    items[index], selectedCourseUnits))),
         child: ConstrainedBox(
           constraints: BoxConstraints(
             minHeight: this._itemHeight,

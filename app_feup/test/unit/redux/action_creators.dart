@@ -1,4 +1,3 @@
-
 import 'package:redux/redux.dart';
 import 'package:mockito/mockito.dart';
 import 'package:http/http.dart' as http;

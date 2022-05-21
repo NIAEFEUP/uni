@@ -15,7 +15,7 @@ Future<String> parseFeesBalance(http.Response response) async {
 }
 
 /// Extracts the user's payment due date from an HTTP [response].
-/// 
+///
 /// If there are no due payments, `Sem data` is returned.
 Future<String> parseFeesNextLimit(http.Response response) async {
   final document = parse(response.body);
