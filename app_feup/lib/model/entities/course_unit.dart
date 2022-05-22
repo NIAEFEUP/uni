@@ -10,6 +10,7 @@ class CourseUnit {
   int occurrId;
   String semesterCode;
   String semesterName;
+  int semester;
   String type;
   String status;
   String grade;
@@ -27,6 +28,7 @@ class CourseUnit {
       this.occurrId,
       this.semesterCode,
       this.semesterName,
+        this.semester,
       this.type,
       this.status,
       this.grade,

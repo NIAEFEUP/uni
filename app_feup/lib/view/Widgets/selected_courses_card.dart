@@ -1,6 +1,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:uni/model/entities/course_unit.dart';
 import 'package:uni/model/entities/course_units_for_class_registration.dart';
 import 'package:uni/view/Pages/selected_course_units_page_view.dart';
 
@@ -8,12 +9,17 @@ import 'generic_card.dart';
 
 class SelectedCoursesCard extends GenericCard {
   final CourseUnitsForClassRegistration selectedCourseUnits;
+  final List<CourseUnit> courseUnits;
 
-  SelectedCoursesCard({this.selectedCourseUnits, Key key}) : super(key: key);
+  SelectedCoursesCard({
+    this.selectedCourseUnits,
+    this.courseUnits,
+    Key key}) : super(key: key);
 
   @override
   Widget buildCardContent(BuildContext context) {
-    final List<String> courseUnitsAbbreviated = selectedCourseUnits?.selected
+    final List<String> courseUnitsAbbreviated =
+    selectedCourseUnits.selected
         ?.map((courseUnit) => courseUnit.abbreviation)
         ?.toList();
 
@@ -56,7 +62,10 @@ class SelectedCoursesCard extends GenericCard {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => SelectedCourseUnitsPageView(selectedCourseUnits),
+        builder: (context) => SelectedCourseUnitsPageView(
+            selectedCourseUnits,
+            courseUnits
+        ),
       ),
     );
   }

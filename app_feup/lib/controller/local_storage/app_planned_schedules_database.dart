@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:uni/controller/local_storage/app_database.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:collection/collection.dart';
+import 'package:uni/model/entities/course_unit.dart';
 import 'package:uni/model/entities/schedule_option.dart';
 
 /// Manages the app's Schedule Planner database.
@@ -9,6 +10,8 @@ import 'package:uni/model/entities/schedule_option.dart';
 /// This database stores information about the schedule planning that the user
 /// wants to keep track of.
 class AppPlannedScheduleDatabase extends AppDatabase {
+  static final curricularUnitChoice =
+      '''CREATE TABLE curricularUnitChoice(id INTEGER PRIMARY KEY AUTOINCREMENT, semester INTEGER, courseAbrv TEXT NOT NULL)''';
   static final schedulePlannerTable =
       '''CREATE TABLE scheduleoption(id INTEGER PRIMARY KEY AUTOINCREMENT, scheduleName TEXT, preference INTEGER)''';
   static final selectedCoursesPlanner =
@@ -17,12 +20,59 @@ class AppPlannedScheduleDatabase extends AppDatabase {
       '''CREATE TABLE class(id INTEGER PRIMARY KEY AUTOINCREMENT, className TEXT NOT NULL, courseAbrv TEXT NOT NULL)''';
 
   static final createScript = [
+    curricularUnitChoice,
     schedulePlannerTable,
     selectedCoursesPlanner,
     classes
   ];
 
   AppPlannedScheduleDatabase() : super('scheduleplanner.db', createScript);
+
+
+  Future<List<String>> getSelectedCourseUnits(int semester) async {
+    final Database db = await this.getDatabase();
+
+    final List<Map<String, dynamic>> maps = await db.query(
+        'curricularUnitChoice',
+        columns: ['courseAbrv'],
+        where: '"semester" = ?',
+        whereArgs: [semester]
+    );
+
+    final List<String> abbreviations = List.empty(growable: true);
+
+    for(var row in maps) {
+      print(row);
+      abbreviations.add(row['courseAbrv']);
+    }
+    print("here\nhere\n");
+    print(abbreviations);
+
+    return abbreviations;
+  }
+
+  insertSelectedCourseUnit(CourseUnit courseUnit) async {
+    final Database db = await this.getDatabase();
+
+    return await db.insert(
+      'curricularUnitChoice',
+      {
+        'semester': courseUnit.semester,
+        'courseAbrv': courseUnit.abbreviation
+      },
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+
+  }
+
+  removeSelectedCourseUnit(CourseUnit courseUnit) async {
+    final Database db = await this.getDatabase();
+
+    await db.delete('curricularUnitChoice',
+    where: '"courseAbrv" = ? AND "semester" = ?',
+    whereArgs: [courseUnit.abbreviation, courseUnit.semester]);
+
+  }
 
   Future<int> getClassID(String className, String courseAbrv) async {
     final Database db = await this.getDatabase();
@@ -165,6 +215,7 @@ class AppPlannedScheduleDatabase extends AppDatabase {
     // Get a reference to the database
     final Database db = await this.getDatabase();
 
+    await db.delete('curricularUnitChoice');
     await db.delete('scheduleoption');
     await db.delete('selectedCourses');
     await db.delete('class');
