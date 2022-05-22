@@ -63,7 +63,8 @@ class ScheduleSlot extends StatelessWidget {
 
   String toUcLink(int occurrId) {
     final String faculty = 'feup'; //should not be hardcoded
-    return '${NetworkRouter.getBaseUrl(faculty)}UCURR_GERAL.FICHA_UC_VIEW?pv_ocorrencia_id=$occurrId';
+    return '${NetworkRouter.getBaseUrl(faculty)}'
+        'UCURR_GERAL.FICHA_UC_VIEW?pv_ocorrencia_id=$occurrId';
   }
 
   _launchURL() async {
