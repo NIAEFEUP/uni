@@ -42,11 +42,8 @@ class AppPlannedScheduleDatabase extends AppDatabase {
     final List<String> abbreviations = List.empty(growable: true);
 
     for(var row in maps) {
-      print(row);
       abbreviations.add(row['courseAbrv']);
     }
-    print("here\nhere\n");
-    print(abbreviations);
 
     return abbreviations;
   }

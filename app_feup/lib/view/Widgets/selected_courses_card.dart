@@ -16,6 +16,7 @@ class SelectedCoursesCard extends GenericCard {
     this.courseUnits,
     Key key}) : super(key: key);
 
+
   @override
   Widget buildCardContent(BuildContext context) {
     final List<String> courseUnitsAbbreviated =
@@ -67,6 +68,8 @@ class SelectedCoursesCard extends GenericCard {
             courseUnits
         ),
       ),
-    );
+    ).then((value) => {
+      // TODO : update state to update UI accordingly
+    });
   }
 }
