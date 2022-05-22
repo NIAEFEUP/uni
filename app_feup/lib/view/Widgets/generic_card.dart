@@ -22,7 +22,7 @@ abstract class GenericCard extends StatefulWidget {
     return GenericCardState();
   }
 
-  Widget buildCardContent(BuildContext context) {}
+  Widget buildCardContent(BuildContext context) { return SizedBox(); }
   Widget buildCardContentWithState(
       BuildContext context, void Function(void Function()) setState) {
     return buildCardContent(context);

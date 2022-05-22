@@ -274,7 +274,7 @@ class _ClassRegistrationScheduleEditorViewState
                           context,
                           MaterialPageRoute(
                               builder: (context) {
-                                ScheduleOption copy =
+                                final ScheduleOption copy =
                                 ScheduleOption.copy(
                                     scheduleOption,
                                     options.preferences.length);

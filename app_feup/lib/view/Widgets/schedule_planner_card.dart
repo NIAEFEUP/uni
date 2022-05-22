@@ -5,7 +5,6 @@ import 'package:uni/controller/local_storage/app_planned_schedules_database.dart
 import 'package:uni/model/entities/schedule_option.dart';
 import 'package:uni/model/entities/schedule_preference_list.dart';
 import 'package:uni/view/Pages/class_registration_schedule_editor_view.dart';
-import 'package:uni/utils/constants.dart' as Constants;
 
 import 'generic_card.dart';
 
@@ -49,7 +48,7 @@ class SchedulePlannerCard extends GenericCard {
                   items.preferences.length
                 );
 
-              ScheduleOption newOption = ScheduleOption.generate(
+              final ScheduleOption newOption = ScheduleOption.generate(
                   newScheduleID,
                   'Novo Horário',
                   {},
@@ -114,7 +113,10 @@ class SchedulePlannerCard extends GenericCard {
     );
   }
 
-  Widget buildScheduleItems(BuildContext context, void Function(void Function()) setState) {
+  Widget buildScheduleItems(
+      BuildContext context,
+      void Function(void Function()) setState
+      ) {
     return Expanded(
         child: ConstrainedBox(
             constraints: BoxConstraints(
@@ -132,7 +134,11 @@ class SchedulePlannerCard extends GenericCard {
             )));
   }
 
-  Widget buildScheduleItem(int index, BuildContext context, void Function(void Function()) setState) {
+  Widget buildScheduleItem(
+      int index,
+      BuildContext context,
+      void Function(void Function()) setState
+      ) {
     return GestureDetector(
         key: Key('$index'),
         onTap: () => Navigator.push(

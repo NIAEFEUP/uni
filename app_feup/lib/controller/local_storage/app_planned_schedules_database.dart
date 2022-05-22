@@ -2,11 +2,7 @@ import 'dart:async';
 import 'package:uni/controller/local_storage/app_database.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:collection/collection.dart';
-import 'package:uni/model/entities/bus_stop.dart';
-import 'package:uni/model/entities/course_unit.dart';
-import 'package:uni/model/entities/course_unit_class.dart';
 import 'package:uni/model/entities/schedule_option.dart';
-import 'package:collection/collection.dart';
 
 /// Manages the app's Schedule Planner database.
 /// 
@@ -147,7 +143,7 @@ class AppPlannedScheduleDatabase extends AppDatabase {
       List.empty(growable: true);
     
     for(var option in scheduleOptionsQuery) {
-      int optionID = option['id'];
+      final int optionID = option['id'];
       String query = '''SELECT * FROM "scheduleoption"
              JOIN "selectedCourses" ON "scheduleoption".id = "selectedCourses".schedule
              JOIN "class" ON "selectedCourses".class = "class".id
@@ -158,7 +154,7 @@ class AppPlannedScheduleDatabase extends AppDatabase {
       final List<Map<String, dynamic>> optionInfo = await db.rawQuery(query);
 
       // course unit abbreviation  to course unit class name
-      Map<String, String> selectedCourses = Map<String, String>();
+      final Map<String, String> selectedCourses = Map<String, String>();
 
       for (var selectedCourse in optionInfo) {
           selectedCourses[selectedCourse['courseAbrv']] =

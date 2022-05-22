@@ -1,6 +1,4 @@
-import 'package:flutter_redux/flutter_redux.dart';
 import 'package:uni/controller/local_storage/app_planned_schedules_database.dart';
-import 'package:uni/model/app_state.dart';
 import 'package:flutter/material.dart';
 import 'package:uni/model/entities/schedule_option.dart';
 import 'package:uni/model/entities/schedule_preference_list.dart';
