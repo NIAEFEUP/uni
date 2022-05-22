@@ -102,7 +102,8 @@ class Lecture {
         (startTimeMinutes + (blocks * 30)) ~/ 60 + startTimeHours;
     final endTimeMinutes = (startTimeMinutes + (blocks * 30)) % 60;
     return Lecture(subject, typeClass, day, blocks, room, teacher, classNumber,
-        startTimeHours, startTimeMinutes, endTimeHours, endTimeMinutes, occurrId);
+        startTimeHours, startTimeMinutes, endTimeHours,
+        endTimeMinutes, occurrId);
   }
 
   /// Clones a lecture from the api.

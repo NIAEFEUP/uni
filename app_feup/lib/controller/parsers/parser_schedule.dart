@@ -27,7 +27,8 @@ Future<List<Lecture>> parseSchedule(http.Response response) async {
     final int occurrId = lecture['ocorrencia_id'];
 
     lectures.add(Lecture.fromApi(
-        subject, typeClass, day, secBegin, blocks, room, teacher, classNumber, occurrId));
+        subject, typeClass, day, secBegin, blocks,
+        room, teacher, classNumber, occurrId));
   }
 
   final lecturesList = lectures.toList();
