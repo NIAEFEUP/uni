@@ -1,4 +1,5 @@
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:uni/controller/local_storage/app_planned_schedules_database.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:flutter/material.dart';
 import 'package:uni/model/entities/course_unit.dart';
@@ -6,28 +7,41 @@ import 'package:uni/model/entities/course_unit_class.dart';
 import 'package:uni/model/entities/course_units_for_class_registration.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/entities/schedule_option.dart';
+import 'package:uni/model/entities/schedule_preference_list.dart';
 import 'package:uni/view/Pages/secondary_page_view.dart';
 import 'package:uni/view/Widgets/class_registration_schedule_tile.dart';
 import 'package:uni/view/Widgets/page_title.dart';
 
 class ClassRegistrationScheduleEditorPageView extends StatefulWidget {
   final ScheduleOption scheduleOption;
+  final SchedulePreferenceList options;
 
-  const ClassRegistrationScheduleEditorPageView(this.scheduleOption, {Key key})
+  const ClassRegistrationScheduleEditorPageView(
+      this.options,
+      this.scheduleOption,
+      {Key key}
+      )
       : super(key: key);
 
   @override
   _ClassRegistrationScheduleEditorPageViewState createState() =>
-      _ClassRegistrationScheduleEditorPageViewState(this.scheduleOption);
+      _ClassRegistrationScheduleEditorPageViewState(
+          this.options,
+          this.scheduleOption
+      );
 }
 
 class _ClassRegistrationScheduleEditorPageViewState
     extends SecondaryPageViewState {
   final ScheduleOption scheduleOption;
+  final SchedulePreferenceList options;
 
   final viewKey = GlobalKey();
 
-  _ClassRegistrationScheduleEditorPageViewState(this.scheduleOption) : super();
+  _ClassRegistrationScheduleEditorPageViewState(
+      this.options,
+      this.scheduleOption
+      ) : super();
 
   @override
   Widget getBody(BuildContext context) {
@@ -152,6 +166,7 @@ class _ClassRegistrationScheduleEditorPageViewState
       },
       builder: (context, courseUnits) {
         return _ClassRegistrationScheduleEditorView(
+            options: this.options,
             scheduleOption: this.scheduleOption,
             courseUnits: courseUnits,
             key: viewKey);
@@ -161,17 +176,18 @@ class _ClassRegistrationScheduleEditorPageViewState
 }
 
 class _ClassRegistrationScheduleEditorView extends StatefulWidget {
+  final SchedulePreferenceList options;
   final CourseUnitsForClassRegistration courseUnits;
   final ScheduleOption scheduleOption;
 
   const _ClassRegistrationScheduleEditorView(
-      {this.scheduleOption, this.courseUnits, Key key})
+      {this.options, this.scheduleOption, this.courseUnits, Key key})
       : super(key: key);
 
   @override
   _ClassRegistrationScheduleEditorViewState createState() =>
       _ClassRegistrationScheduleEditorViewState(
-          this.scheduleOption, this.courseUnits);
+          this.options, this.scheduleOption, this.courseUnits);
 }
 
 class _ClassRegistrationScheduleEditorViewState
@@ -188,6 +204,8 @@ class _ClassRegistrationScheduleEditorViewState
 
   final CourseUnitsForClassRegistration courseUnits;
   final ScheduleOption scheduleOption;
+  final SchedulePreferenceList options;
+  final AppPlannedScheduleDatabase db = AppPlannedScheduleDatabase();
 
   TextEditingController _renameController;
   PageController _pageController;
@@ -196,7 +214,7 @@ class _ClassRegistrationScheduleEditorViewState
   int _selectedDay = 0;
 
   _ClassRegistrationScheduleEditorViewState(
-      this.scheduleOption, this.courseUnits) {
+      this.options, this.scheduleOption, this.courseUnits) {
     _expandableKeys = [
       for (CourseUnit unit in courseUnits.selected) PageStorageKey(unit)
     ];
@@ -232,6 +250,9 @@ class _ClassRegistrationScheduleEditorViewState
           children: [
             Expanded(
               child: TextField(
+                onChanged: (text) {
+                  scheduleOption.name = text;
+                },
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   focusedBorder: OutlineInputBorder(
@@ -241,18 +262,60 @@ class _ClassRegistrationScheduleEditorViewState
                   labelText: 'Nome do horário',
                   labelStyle: TextStyle(color: Theme.of(context).accentColor),
                 ),
-                controller: _renameController, // TODO schedule option rename
+                controller: _renameController,
               ),
             ),
             IconButton(
               color: Theme.of(context).accentColor,
               icon: Icon(Icons.file_copy_outlined),
-              onPressed: () => {/* TODO copy */},
+              onPressed: () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) {
+                                final ScheduleOption copy =
+                                ScheduleOption.copy(
+                                    scheduleOption,
+                                    options.preferences.length);
+                                options.preferences.add(copy);
+                                return ClassRegistrationScheduleEditorPageView(
+                                    options,
+                                    copy
+                                );
+                              }
+                        )
+                );
+
+
+                    },
             ),
             IconButton(
               color: Theme.of(context).accentColor,
               icon: Icon(Icons.delete_outline),
-              onPressed: () => {/* TODO delete */},
+              onPressed: () => showDialog<String>(
+                        context: context,
+                        builder: (BuildContext context) => AlertDialog(
+                          title: const Text('Apagar horário'),
+                          content: const Text(
+                              'Tem a certeza que pretende apagar o horário?'),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: const Text('Cancelar'),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                db.deleteOption(scheduleOption);
+                                options.preferences.remove(scheduleOption);
+                                Navigator.pop(context);
+                                Navigator.pop(context);
+                              },
+                              child: const Text('Apagar'),
+                            ),
+                          ],
+                        ),
+                      ),
             ),
           ],
         ),
@@ -267,7 +330,10 @@ class _ClassRegistrationScheduleEditorViewState
             style: TextButton.styleFrom(
               padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
             ),
-            onPressed: () {/* TODO save */},
+            onPressed: () async {
+              Navigator.pop(context);
+              await db.saveSchedule(scheduleOption);
+            },
             child: Text('Guardar', style: TextStyle(color: Colors.white)),
           ),
           TextButton(
@@ -283,15 +349,15 @@ class _ClassRegistrationScheduleEditorViewState
   }
 
   Widget buildScheduleDisplay(BuildContext context) {
-    final List<Lecture> lectures = scheduleOption.getLectures(_selectedDay);
-    final List<bool> hasDiscontinuity =
-        Lecture.getDiscontinuities(lectures);
+    final List<Lecture> lectures =
+        scheduleOption.getLectures(_selectedDay, courseUnits.selected);
+    final List<bool> hasDiscontinuity = Lecture.getDiscontinuities(lectures);
     final List<bool> hasCollision = Lecture.getCollisions(lectures);
 
     int daysInWeek;
-    if (scheduleOption.getLectures(6).isNotEmpty) {
+    if (scheduleOption.getLectures(6, courseUnits.selected).isNotEmpty) {
       daysInWeek = 7;
-    } else if (scheduleOption.getLectures(5).isNotEmpty) {
+    } else if (scheduleOption.getLectures(5, courseUnits.selected).isNotEmpty) {
       daysInWeek = 6;
     } else {
       daysInWeek = 5;
@@ -351,20 +417,20 @@ class _ClassRegistrationScheduleEditorViewState
                     },
                     labelType: NavigationRailLabelType.none,
                     destinations: [
-                      for (int day = 0;
-                          day < daysInWeek;
-                          day++)
+                      for (int day = 0; day < daysInWeek; day++)
                         NavigationRailDestination(
                           icon: getNavigationRailDestinationIcon(
                             context,
                             day,
-                            scheduleOption.hasCollisions(day),
+                            scheduleOption.hasCollisions(
+                                day, courseUnits.selected),
                             false,
                           ),
                           selectedIcon: getNavigationRailDestinationIcon(
                             context,
                             day,
-                            scheduleOption.hasCollisions(day),
+                            scheduleOption.hasCollisions(
+                                day, courseUnits.selected),
                             true,
                           ),
                           label: Placeholder(),
@@ -404,15 +470,15 @@ class _ClassRegistrationScheduleEditorViewState
 
   Widget buildCourseDropdown(int index, BuildContext context) {
     final CourseUnit courseUnit = courseUnits.selected[index];
-    final CourseUnitClass selectedClass =
-        scheduleOption.classesSelected[courseUnit];
+    final String selectedClass =
+        scheduleOption.classesSelected[courseUnit.abbreviation];
 
     return Card(
       margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: ExpansionTile(
         key: _expandableKeys[index],
         title: Text(courseUnit.name),
-        subtitle: selectedClass == null ? null : Text(selectedClass?.name),
+        subtitle: selectedClass == null ? null : Text(selectedClass),
         children: <Widget>[
           for (CourseUnitClass courseUnitClass in courseUnit.classes)
             Container(
@@ -451,12 +517,12 @@ class _ClassRegistrationScheduleEditorViewState
                       ]),
                     ],
                   ),
-                  selected: courseUnitClass == selectedClass,
+                  selected: courseUnitClass.name == selectedClass,
                   selectedTileColor: Theme.of(context).accentColor,
                   onTap: () {
                     setState(() {
-                      scheduleOption.classesSelected[courseUnit] =
-                          courseUnitClass;
+                      scheduleOption.classesSelected[courseUnit.abbreviation] =
+                          courseUnitClass.name;
                     });
                   }),
             ),

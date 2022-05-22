@@ -40,7 +40,7 @@ class AppDatabase {
     lock.synchronized(() async {
       final Database db = await getDatabase();
 
-      db.insert(table, values,
+      return db.insert(table, values,
           nullColumnHack: nullColumnHack, conflictAlgorithm: conflictAlgorithm);
     });
   }

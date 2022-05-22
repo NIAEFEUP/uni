@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:uni/controller/local_storage/app_planned_schedules_database.dart';
 import 'package:uni/model/entities/schedule_option.dart';
 import 'package:uni/model/entities/schedule_preference_list.dart';
 import 'package:uni/view/Pages/class_registration_schedule_editor_view.dart';
@@ -13,14 +16,22 @@ class SchedulePlannerCard extends GenericCard {
   final double _itemHeight = 50.0;
   final double _borderRadius = 10.0;
 
+  int getNextPreferenceValue() {
+    final List<ScheduleOption> preferences = items.preferences;
+    if (preferences.isEmpty) return 1;
+    return preferences.last.preference + 1;
+  }
+
   @override
-  Widget buildCardContent(BuildContext context) {
+  Widget buildCardContentWithState(BuildContext context,
+      void Function(void Function()) setState) {
+    int newScheduleID;
     return Column(
       children: [
         Row(
           children: [
             buildPriorityItems(context),
-            buildScheduleItems(context),
+            buildScheduleItems(context, setState),
           ],
         ),
         SizedBox(height: 5.0),
@@ -30,12 +41,32 @@ class SchedulePlannerCard extends GenericCard {
             iconSize: 32,
             color: Theme.of(context).accentColor,
             icon: Icon(Icons.add_circle_outline_rounded),
-            onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        ClassRegistrationScheduleEditorPageView(
-                            ScheduleOption.newInstance()))),
+            onPressed: () async {
+              newScheduleID =
+                await AppPlannedScheduleDatabase().createSchedule(
+                    'Novo Horário',
+                  items.preferences.length
+                );
+
+              final ScheduleOption newOption = ScheduleOption.generate(
+                  newScheduleID,
+                  'Novo Horário',
+                  {},
+                  getNextPreferenceValue()
+              );
+
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) {
+                          this.items.preferences.add(newOption);
+                          return ClassRegistrationScheduleEditorPageView(
+                            this.items,
+                            newOption
+                          );}
+                  )
+              ).then(setState);
+            },
           ),
         ),
       ],
@@ -46,7 +77,7 @@ class SchedulePlannerCard extends GenericCard {
     return ConstrainedBox(
         constraints: BoxConstraints(
           minHeight: 1.0,
-          maxHeight: this._itemHeight * items.length,
+          maxHeight: max(this._itemHeight * items.length, 1.0),
           minWidth: 1.0,
           maxWidth: 50.0,
         ),
@@ -82,32 +113,42 @@ class SchedulePlannerCard extends GenericCard {
     );
   }
 
-  Widget buildScheduleItems(BuildContext context) {
+  Widget buildScheduleItems(
+      BuildContext context,
+      void Function(void Function()) setState
+      ) {
     return Expanded(
         child: ConstrainedBox(
             constraints: BoxConstraints(
               minHeight: 1.0,
-              maxHeight: this._itemHeight * items.length,
+              maxHeight: max(this._itemHeight * items.length, 1.0),
             ),
             child: ReorderableListView(
               physics: NeverScrollableScrollPhysics(),
               padding: const EdgeInsets.symmetric(horizontal: 10),
               children: <Widget>[
                 for (int index = 0; index < items.length; index += 1)
-                  buildScheduleItem(index, context)
+                  buildScheduleItem(index, context, setState)
               ],
               onReorder: this.onReorder,
             )));
   }
 
-  Widget buildScheduleItem(int index, BuildContext context) {
+  Widget buildScheduleItem(
+      int index,
+      BuildContext context,
+      void Function(void Function()) setState
+      ) {
     return GestureDetector(
         key: Key('$index'),
         onTap: () => Navigator.push(
               context,
               MaterialPageRoute(
               builder: (context) =>
-              ClassRegistrationScheduleEditorPageView(items[index]))),
+              ClassRegistrationScheduleEditorPageView(
+                  items,
+                  items[index]
+              ))).then((value) => setState(() {})),
         child: ConstrainedBox(
           constraints: BoxConstraints(
             minHeight: this._itemHeight,

@@ -1,5 +1,4 @@
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:uni/model/app_state.dart';
+import 'package:uni/controller/local_storage/app_planned_schedules_database.dart';
 import 'package:flutter/material.dart';
 import 'package:uni/model/entities/schedule_option.dart';
 import 'package:uni/model/entities/schedule_preference_list.dart';
@@ -16,24 +15,42 @@ class ClassRegistrationPageView extends StatefulWidget {
 }
 
 class _ClassRegistrationPageViewState extends SecondaryPageViewState {
+  final AppPlannedScheduleDatabase db = AppPlannedScheduleDatabase();
+  Future<List<ScheduleOption>> options;
+
+  @override
+  void initState() {
+    super.initState();
+    options = db.getScheduleOptions();
+  }
+
   @override
   Widget getBody(BuildContext context) {
-    return StoreConnector<AppState, SchedulePreferenceList>(
-      converter: (store) {
-        // TODO get items from appstate
-        return SchedulePreferenceList(
-          preferences: List<ScheduleOption>.generate(6, (int index) =>
-            ScheduleOption(
-              id: index,
-              name: 'Novo horário $index',
-              classesSelected: Map(),
-            )
-          )
-        );
-      },
-      builder: (context, schedulePreferences) {
-        return _ClassRegistrationView(schedulePreferences: schedulePreferences);
-      },
+
+    return FutureBuilder<List<ScheduleOption>>(
+        future: this.options,
+        builder: (
+            BuildContext innerContext,
+            AsyncSnapshot<List<ScheduleOption>> snapshot) {
+          if (snapshot.hasData) {
+                return _ClassRegistrationView(
+                    schedulePreferences: SchedulePreferenceList(
+                        preferences: snapshot.data
+                    )
+                );
+          }
+
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [SizedBox(
+                width: 60,
+                height: 60,
+                child: CircularProgressIndicator(),
+              )],
+            ),
+          );
+        }
     );
   }
 }
@@ -51,6 +68,7 @@ class _ClassRegistrationView extends StatefulWidget {
 
 class _ClassRegistrationViewState extends State<_ClassRegistrationView> {
   final SchedulePreferenceList schedulePreferences;
+  final AppPlannedScheduleDatabase db = AppPlannedScheduleDatabase();
 
   _ClassRegistrationViewState(this.schedulePreferences);
 
@@ -62,8 +80,8 @@ class _ClassRegistrationViewState extends State<_ClassRegistrationView> {
           items: schedulePreferences,
           onReorder: (int oldIndex, int newIndex) {
             setState(() {
-              // TODO update appstate
               schedulePreferences.reorder(oldIndex, newIndex);
+              db.reorderOptions(schedulePreferences.preferences);
             });
           }),
     ]);
