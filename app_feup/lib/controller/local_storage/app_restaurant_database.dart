@@ -9,7 +9,8 @@ import 'app_database.dart';
 class RestaurantDatabase extends AppDatabase {
   RestaurantDatabase()
       : super('restaurant.db', [
-          'CREATE TABLE RESTAURANTS(id INTEGER PRIMARY KEY, ref TEXT , name TEXT)',
+          'CREATE TABLE RESTAURANTS(id '
+              'INTEGER PRIMARY KEY, ref TEXT , name TEXT)',
           '''CREATE TABLE MEALS(
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           day TEXT,

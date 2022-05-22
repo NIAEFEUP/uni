@@ -1,11 +1,7 @@
-import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:uni/controller/local_storage/app_planned_schedules_database.dart';
 import 'package:uni/model/entities/course_units_for_class_registration.dart';
-import 'package:uni/model/entities/schedule_option.dart';
-import 'package:uni/model/entities/schedule_preference_list.dart';
 import 'package:uni/view/Pages/selected_course_units_page_view.dart';
 
 import 'generic_card.dart';
@@ -17,9 +13,9 @@ class SelectedCoursesCard extends GenericCard {
 
   @override
   Widget buildCardContent(BuildContext context) {
-    final List<String> courseUnitsAbbreviated = selectedCourseUnits.selected
-        .map((courseUnit) => courseUnit.abbreviation)
-        .toList();
+    final List<String> courseUnitsAbbreviated = selectedCourseUnits?.selected
+        ?.map((courseUnit) => courseUnit.abbreviation)
+        ?.toList();
 
     return Stack(
       alignment: Alignment.bottomCenter,
@@ -30,7 +26,7 @@ class SelectedCoursesCard extends GenericCard {
           child: Icon(Icons.edit_outlined),
         ),
         Column(
-          children: selectedCourseUnits.selected.length == 0
+          children: selectedCourseUnits.selected.isEmpty
               ? [
                   Text('Nenhuma unidade curricular'),
                   Text('selecionada'),

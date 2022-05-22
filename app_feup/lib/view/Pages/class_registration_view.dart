@@ -1,6 +1,4 @@
-import 'package:flutter_redux/flutter_redux.dart';
 import 'package:uni/controller/local_storage/app_planned_schedules_database.dart';
-import 'package:uni/model/app_state.dart';
 import 'package:flutter/material.dart';
 import 'package:uni/model/entities/course_unit.dart';
 import 'package:uni/model/entities/course_unit_class.dart';
@@ -23,66 +21,62 @@ class ClassRegistrationPageView extends StatefulWidget {
 
 class _ClassRegistrationPageViewState extends SecondaryPageViewState {
   final AppPlannedScheduleDatabase db = AppPlannedScheduleDatabase();
+  Future<List<ScheduleOption>> options;
+
+  @override
+  void initState() {
+    super.initState();
+    options = db.getScheduleOptions();
+  }
 
   @override
   Widget getBody(BuildContext context) {
+
+    CourseUnit courseUnitMock = CourseUnit(
+        id: 2,
+        name: 'Computação Paralela e Distribuída',
+        abbreviation: 'CPD',
+        classes: [
+          CourseUnitClass(name: '3LEIC01', lectures: [
+            Lecture('CPD', 'T', 3, 4, 'B020', 'JGB+PF', 'COMP_3112', 14,
+                0, 16, 0),
+            Lecture('CPD', 'TP', 1, 4, 'B342', 'PFS+JGB', '3LEIC01', 8,
+                30, 10, 30),
+          ]),
+          CourseUnitClass(name: '3LEIC02', lectures: [
+            Lecture('CPD', 'T', 3, 4, 'B020', 'JGB+PF', 'COMP_3112', 14,
+                0, 16, 0),
+            Lecture('CPD', 'TP', 1, 4, 'B343', 'SCS1', '3LEIC02', 8, 30,
+                10, 30),
+          ]),
+          CourseUnitClass(name: '3LEIC03', lectures: [
+            Lecture('CPD', 'T', 3, 4, 'B020', 'JGB+PF', 'COMP_3112', 14,
+                0, 16, 0),
+            Lecture('CPD', 'TP', 2, 4, 'B205', 'PMAADO', '3LEIC03', 8, 30,
+                10, 30),
+          ]),
+          CourseUnitClass(name: '3LEIC04', lectures: [
+            Lecture('CPD', 'T', 3, 4, 'B020', 'JGB+PF', 'COMP_3112', 14,
+                0, 16, 0),
+            Lecture('CPD', 'TP', 1, 4, 'B202', 'AJMC', '3LEIC04', 10, 30,
+                12, 30),
+          ]),
+        ]);
+
     return FutureBuilder<List<ScheduleOption>>(
-        future: db.getScheduleOptions(),
-        builder: (BuildContext innerContext,
+        future: this.options,
+        builder: (
+            BuildContext innerContext,
             AsyncSnapshot<List<ScheduleOption>> snapshot) {
           if (snapshot.hasData) {
-            return StoreConnector<AppState, SchedulePreferenceList>(
-              converter: (store) {
-                // TODO get classes from appstate
-                return SchedulePreferenceList(preferences: snapshot.data);
-              },
-              builder: (context, schedulePreferences) {
-                return StoreConnector<AppState,
-                    CourseUnitsForClassRegistration>(
-                  converter: (store) {
-                    // TODO get classes from appstate
-                    return CourseUnitsForClassRegistration(selected: [
-                      CourseUnit(
-                        id: 2,
-                        name: 'Computação Paralela e Distribuída',
-                        abbreviation: 'CPD',
-                        classes: [
-                          CourseUnitClass(name: '3LEIC01', lectures: [
-                            Lecture('CPD', 'T', 3, 4, 'B020', 'JGB+PF', 'COMP_3112', 14,
-                                0, 16, 0),
-                            Lecture('CPD', 'TP', 1, 4, 'B342', 'PFS+JGB', '3LEIC01', 8,
-                                30, 10, 30),
-                          ]),
-                          CourseUnitClass(name: '3LEIC02', lectures: [
-                            Lecture('CPD', 'T', 3, 4, 'B020', 'JGB+PF', 'COMP_3112', 14,
-                                0, 16, 0),
-                            Lecture('CPD', 'TP', 1, 4, 'B343', 'SCS1', '3LEIC02', 8, 30,
-                                10, 30),
-                          ]),
-                          CourseUnitClass(name: '3LEIC03', lectures: [
-                            Lecture('CPD', 'T', 3, 4, 'B020', 'JGB+PF', 'COMP_3112', 14,
-                                0, 16, 0),
-                            Lecture('CPD', 'TP', 2, 4, 'B205', 'PMAADO', '3LEIC03', 8, 30,
-                                10, 30),
-                          ]),
-                          CourseUnitClass(name: '3LEIC04', lectures: [
-                            Lecture('CPD', 'T', 3, 4, 'B020', 'JGB+PF', 'COMP_3112', 14,
-                                0, 16, 0),
-                            Lecture('CPD', 'TP', 1, 4, 'B202', 'AJMC', '3LEIC04', 10, 30,
-                                12, 30),
-                          ]),
-                        ]),
-                    ]);
-                  },
-                  builder: (context, selectedCourseUnits) {
-                    return _ClassRegistrationView(
-                      schedulePreferences: schedulePreferences,
-                      selectedCourseUnits: selectedCourseUnits,
-                    );
-                  },
+                return _ClassRegistrationView(
+                    schedulePreferences: SchedulePreferenceList(
+                        preferences: snapshot.data
+                    ),
+                    selectedCourseUnits: CourseUnitsForClassRegistration(
+                        selected: [courseUnitMock]
+                    ),
                 );
-              },
-            );
           }
 
           return Center(

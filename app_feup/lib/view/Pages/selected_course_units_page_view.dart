@@ -1,14 +1,11 @@
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:uni/controller/local_storage/app_planned_schedules_database.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:flutter/material.dart';
 import 'package:uni/model/entities/course_unit.dart';
 import 'package:uni/model/entities/course_unit_class.dart';
 import 'package:uni/model/entities/course_units_for_class_registration.dart';
 import 'package:uni/model/entities/lecture.dart';
-import 'package:uni/model/entities/schedule_option.dart';
 import 'package:uni/view/Pages/secondary_page_view.dart';
-import 'package:uni/view/Widgets/class_registration_schedule_tile.dart';
 import 'package:uni/view/Widgets/page_title.dart';
 
 class SelectedCourseUnitsPageView extends StatefulWidget {
@@ -184,6 +181,7 @@ class _SelectedCourseUnitsViewState extends State<_SelectedCourseUnitsView> {
   Widget build(BuildContext context) {
     return ListView(
       children: [
+        PageTitle(name: 'Unidades Curriculares'),
         for (CourseUnit courseUnit in courseUnits)
           CheckboxListTile(
             title: Text(courseUnit.name),
@@ -196,6 +194,28 @@ class _SelectedCourseUnitsViewState extends State<_SelectedCourseUnitsView> {
               }
             }),
           ),
+        Column(
+          children: <Widget>[
+            ElevatedButton(
+              style: TextButton.styleFrom(
+                padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+              ),
+              onPressed: () async {
+                Navigator.pop(context);
+              },
+              child: Text('Guardar', style: TextStyle(color: Colors.white)),
+            ),
+            TextButton(
+              style: TextButton.styleFrom(
+                padding: EdgeInsets.symmetric(horizontal: 50, vertical: 12),
+              ),
+              onPressed: () => Navigator.pop(context),
+              child: Text('Cancelar'),
+            ),
+          ],
+        ),
+
+
       ],
     );
   }

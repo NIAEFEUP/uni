@@ -2,11 +2,7 @@ import 'dart:async';
 import 'package:uni/controller/local_storage/app_database.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:collection/collection.dart';
-import 'package:uni/model/entities/bus_stop.dart';
-import 'package:uni/model/entities/course_unit.dart';
-import 'package:uni/model/entities/course_unit_class.dart';
 import 'package:uni/model/entities/schedule_option.dart';
-import 'package:collection/collection.dart';
 
 /// Manages the app's Schedule Planner database.
 ///
@@ -44,12 +40,28 @@ class AppPlannedScheduleDatabase extends AppDatabase {
   }
 
   /// Adds a schedule option to this database.
-  Future<int> createSchedule(String name) async {
+  Future<int> createSchedule(String name, int preference) async {
     final Database db = await this.getDatabase();
 
     return await db.insert(
       'scheduleoption',
-      {'scheduleName': name, 'preference': 0},
+      {
+        'scheduleName': name,
+        'preference': preference
+      },
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
+  Future<int> copySchedule(ScheduleOption option) async {
+    final Database db = await this.getDatabase();
+
+    return await db.insert(
+      'scheduleoption',
+      {
+        'scheduleName': option.name + '(Cópia)',
+        'preference': option.preference
+      },
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
@@ -62,14 +74,11 @@ class AppPlannedScheduleDatabase extends AppDatabase {
     final scheduleName = scheduleOption.name;
     final preference = scheduleOption.preference;
 
-    print(classesSelected);
-    print(scheduleID);
-    print(scheduleName);
-    print(preference);
-
-    db.update('scheduleoption',
-        {'scheduleName': scheduleName, 'preference': preference},
-        where: '"id" = ?', whereArgs: [scheduleID]);
+    db.update('scheduleoption', {
+      'scheduleName': scheduleName,
+      'preference': preference
+    }, where: '"id" = ?',
+    whereArgs: [scheduleID]);
 
     await db.delete('selectedCourses',
         where: '"schedule" = ?', whereArgs: [scheduleOption.id]);
@@ -112,13 +121,15 @@ class AppPlannedScheduleDatabase extends AppDatabase {
   Future<List<ScheduleOption>> getScheduleOptions() async {
     final Database db = await this.getDatabase();
 
-    final List<Map<String, dynamic>> scheduleOptionsQuery =
-        await db.rawQuery('SELECT * FROM "scheduleoption"');
-
-    final List<ScheduleOption> scheduleOptions = List.empty(growable: true);
-
-    for (var option in scheduleOptionsQuery) {
-      int optionID = option['id'];
+    final List<Map<String, dynamic>> scheduleOptionsQuery = await db.rawQuery(
+        'SELECT * FROM "scheduleoption"'
+    );
+  
+    final List<ScheduleOption> scheduleOptions = 
+      List.empty(growable: true);
+    
+    for(var option in scheduleOptionsQuery) {
+      final int optionID = option['id'];
       String query = '''SELECT * FROM "scheduleoption"
              JOIN "selectedCourses" ON "scheduleoption".id = "selectedCourses".schedule
              JOIN "class" ON "selectedCourses".class = "class".id
@@ -129,7 +140,7 @@ class AppPlannedScheduleDatabase extends AppDatabase {
       final List<Map<String, dynamic>> optionInfo = await db.rawQuery(query);
 
       // course unit abbreviation  to course unit class name
-      Map<String, String> selectedCourses = Map<String, String>();
+      final Map<String, String> selectedCourses = Map<String, String>();
 
       for (var selectedCourse in optionInfo) {
         selectedCourses[selectedCourse['courseAbrv']] =

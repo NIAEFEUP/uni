@@ -1,3 +1,4 @@
+import 'package:uni/controller/local_storage/app_planned_schedules_database.dart';
 import 'package:uni/model/entities/course_unit.dart';
 import 'package:uni/model/entities/course_unit_class.dart';
 import 'package:uni/model/entities/lecture.dart';
@@ -12,18 +13,26 @@ class ScheduleOption {
   ScheduleOption({this.id, this.name, this.classesSelected, this.preference});
 
   ScheduleOption.generate(
-      String name, Map<String, String> classesSelected, int preference) {
-    this.id = null;
+      int id, String name, Map<String, String> classesSelected, int preference
+      ) {
+    this.id = id;
     this.name = name;
     this.classesSelected = classesSelected;
     this.preference = preference;
   }
 
-  ScheduleOption.copy(ScheduleOption scheduleOption) {
+  getNewID(ScheduleOption option) async {
+    this.id =
+    await AppPlannedScheduleDatabase().copySchedule(this);
+  }
+
+  ScheduleOption.copy(ScheduleOption scheduleOption, int preference) {
     this.id = null;
     this.name = scheduleOption.name + ' (Cópia)';
     this.classesSelected = Map.from(scheduleOption.classesSelected);
-    this.preference = null; // TODO fill this value
+    this.preference = preference;
+
+    getNewID(this);
   }
 
   List<Lecture> getLectures(int day, List<CourseUnit> courseUnits) {
@@ -32,12 +41,15 @@ class ScheduleOption {
     this.classesSelected.forEach((abbreviation, value) {
       final CourseUnit courseUnit = courseUnits
           .firstWhereOrNull((cUnit) => cUnit.abbreviation == abbreviation);
-      final String name = this.classesSelected[courseUnit.abbreviation];
-      final CourseUnitClass courseUnitClass = courseUnit.classes
-          .firstWhereOrNull((cUClass) => cUClass.name == name);
 
-      lectures.addAll(
-          courseUnitClass.lectures.where((lecture) => lecture.day == day));
+      if (courseUnit != null) {
+        final String name = this.classesSelected[courseUnit.abbreviation];
+        final CourseUnitClass courseUnitClass = courseUnit.classes
+            .firstWhereOrNull((cUClass) => cUClass.name == name);
+
+        lectures.addAll(
+            courseUnitClass.lectures.where((lecture) => lecture.day == day));
+      }
     });
 
     lectures.sort((a, b) => a.startTime.compareTo(b.startTime));
@@ -77,9 +89,5 @@ class ScheduleOption {
       }
     }
     return false;
-  }
-
-  isNew() {
-    return id == null;
   }
 }

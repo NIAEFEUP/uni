@@ -22,7 +22,12 @@ abstract class GenericCard extends StatefulWidget {
     return GenericCardState();
   }
 
-  Widget buildCardContent(BuildContext context);
+  Widget buildCardContent(BuildContext context) { return SizedBox(); }
+  Widget buildCardContentWithState(
+      BuildContext context, void Function(void Function()) setState) {
+    return buildCardContent(context);
+  }
+
   String getTitle();
   onClick(BuildContext context);
 
@@ -117,7 +122,8 @@ class GenericCardState extends State<GenericCard> {
                           right: this.padding,
                           bottom: this.padding,
                         ),
-                        child: widget.buildCardContent(context),
+                        child: widget.buildCardContentWithState(
+                            context, this.setState),
                       )
                     ],
                   ),
