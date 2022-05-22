@@ -7,6 +7,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'package:mockito/mockito.dart';
 import 'package:redux/redux.dart';
 import 'package:tuple/tuple.dart';
@@ -41,15 +42,15 @@ void main() {
     final mockResponse = MockResponse();
     final badMockResponse = MockResponse();
     const subject1 = 'ASSO';
-    const startTime1 = '11h00';
-    const endTime1 = '13h00';
+    final startTime1 = DateTime(1, 1, 1, 11, 0);
+    final endTime1 = DateTime(1, 1, 1, 13, 0);
     const room1 = 'EaD';
     const typeClass1 = 'TP';
     const teacher1 = 'DRP';
 
     const subject2 = 'IOPE';
-    const startTime2 = '14h00';
-    const endTime2 = '16h00';
+    final startTime2 = DateTime(1, 1, 1, 14, 0);
+    final endTime2 = DateTime(1, 1, 1, 16, 0);
     const room2 = 'EaD';
     const typeClass2 = 'TE';
     const teacher2 = 'MTD';
@@ -78,11 +79,17 @@ void main() {
 
       await tester.pumpWidget(widget);
 
-      const scheduleSlotTimeKey1 = 'schedule-slot-time-$startTime1-$endTime1';
-      const scheduleSlotTimeKey2 = 'schedule-slot-time-$startTime2-$endTime2';
 
-      expect(find.byKey(const Key(scheduleSlotTimeKey1)), findsNothing);
-      expect(find.byKey(const Key(scheduleSlotTimeKey2)), findsNothing);
+      final begin1 = DateFormat('HHhmm').format(startTime1);
+      final end1 = DateFormat('HHhmm').format(endTime1);
+      final begin2 = DateFormat('HHhmm').format(startTime2);
+      final end2 = DateFormat('HHhmm').format(endTime2);
+
+      final scheduleSlotTimeKey1 = 'schedule-slot-time-$begin1-$end1';
+      final scheduleSlotTimeKey2 = 'schedule-slot-time-$begin2-$end2';
+
+      expect(find.byKey(Key(scheduleSlotTimeKey1)), findsNothing);
+      expect(find.byKey(Key(scheduleSlotTimeKey2)), findsNothing);
 
       actionCreator(store);
 

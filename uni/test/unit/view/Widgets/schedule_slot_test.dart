@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:intl/intl.dart';
 import 'package:uni/view/schedule/widgets/schedule_slot.dart';
 
 import '../../../testable_widget.dart';
 
-void testScheduleSlot(String subject, String begin, String end, String rooms,
+void testScheduleSlot(String subject, DateTime beginTime, DateTime endTime, String rooms,
     String typeClass, String teacher) {
+    final begin = DateFormat('HHhmm').format(beginTime);
+    final end = DateFormat('HHhmm').format(endTime);
   final scheduleSlotTimeKey = 'schedule-slot-time-$begin-$end';
   expect(
       find.descendant(
@@ -31,8 +34,8 @@ void testScheduleSlot(String subject, String begin, String end, String rooms,
 void main() {
   group('ScheduleSlot', () {
     const subject = 'SOPE';
-    const begin = '10:00';
-    const end = '12:00';
+    final begin = DateTime(1, 1, 1, 10, 0);
+    final end = DateTime(1, 1, 1, 12, 0);
     const rooms = 'B315';
     const typeClass = 'T';
     const teacher = 'JAS';
@@ -40,7 +43,7 @@ void main() {
 
     testWidgets('When given a single room', (WidgetTester tester) async {
       final widget = makeTestableWidget(
-          child: const ScheduleSlot(
+          child: ScheduleSlot(
         subject: subject,
         typeClass: typeClass,
         rooms: rooms,

@@ -1,3 +1,7 @@
+import 'package:intl/intl.dart';
+import 'package:uni/model/app_state.dart';
+import 'package:uni/model/entities/lecture.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:tuple/tuple.dart';
@@ -51,9 +55,9 @@ class ScheduleCard extends GenericCard {
   List<Widget> getScheduleRows(context, List<Lecture> lectures) {
     if (lectures.length >= 2) {
       // In order to display lectures of the next week
-      final Lecture lecturefirstCycle = Lecture.cloneHtml(lectures[0]);
+      final Lecture lecturefirstCycle = Lecture.clone(lectures[0]);
       lecturefirstCycle.day += 7;
-      final Lecture lecturesecondCycle = Lecture.cloneHtml(lectures[1]);
+      final Lecture lecturesecondCycle = Lecture.clone(lectures[1]);
       lecturesecondCycle.day += 7;
       lectures.add(lecturefirstCycle);
       lectures.add(lecturesecondCycle);
@@ -61,18 +65,15 @@ class ScheduleCard extends GenericCard {
     final List<Widget> rows = <Widget>[];
 
     final now = DateTime.now();
-    var added = 0; // Lectures added to widget
-    var lastDayAdded = 0; // Day of last added lecture
-    final stringTimeNow = (now.weekday - 1).toString().padLeft(2, '0') +
-        now.toTimeHourMinString(); // String with current time within the week
-
+    var added = 0;  // Lectures added to widget
+    var lastDayAdded = 0;  // Day of last added lecture
+    
     for (int i = 0; added < 2 && i < lectures.length; i++) {
-      final stringEndTimeLecture = lectures[i].day.toString().padLeft(2, '0') +
-          lectures[i].endTime; // String with end time of lecture
-
-      if (stringTimeNow.compareTo(stringEndTimeLecture) < 0) {
-        if (now.weekday - 1 != lectures[i].day &&
-            lastDayAdded < lectures[i].day) {
+      if (now.hour < lectures[i].endTime.hour
+          || (now.hour == lectures[i].endTime.hour
+          && now.minute < lectures[i].endTime.minute)) {
+        if (now.weekday - 1 != lectures[i].day
+            && lastDayAdded < lectures[i].day) {
           rows.add(DateRectangle(date: Lecture.dayName[lectures[i].day % 7]));
         }
 
