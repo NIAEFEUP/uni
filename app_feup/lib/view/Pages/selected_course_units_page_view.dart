@@ -33,16 +33,9 @@ class _SelectedCourseUnitsPageViewState extends SecondaryPageViewState {
 
   @override
   Widget getBody(BuildContext context) {
-    return StoreConnector<AppState, List<CourseUnit>>(
-      converter: (store) {
-        return courseUnits;
-      },
-      builder: (context, courseUnits) {
-        return _SelectedCourseUnitsView(
-          selectedCourseUnits: selectedCourseUnits,
-          courseUnits: courseUnits,
-        );
-      },
+    return _SelectedCourseUnitsView(
+      selectedCourseUnits: selectedCourseUnits,
+      courseUnits: courseUnits,
     );
   }
 }

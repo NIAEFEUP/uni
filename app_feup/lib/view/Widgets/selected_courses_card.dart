@@ -3,7 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:uni/model/entities/course_unit.dart';
 import 'package:uni/model/entities/course_units_for_class_registration.dart';
+import 'package:uni/view/Pages/class_registration_view.dart';
 import 'package:uni/view/Pages/selected_course_units_page_view.dart';
+import 'package:uni/view/Widgets/page_transition.dart';
 
 import 'generic_card.dart';
 
@@ -68,8 +70,10 @@ class SelectedCoursesCard extends GenericCard {
             courseUnits
         ),
       ),
-    ).then((value) => {
-      // TODO : update state to update UI accordingly
+    ).then((value) {
+      Navigator.pop(context);
+      Navigator.push(context, PageTransition.makePageTransition(
+          page: ClassRegistrationPageView()));
     });
   }
 }

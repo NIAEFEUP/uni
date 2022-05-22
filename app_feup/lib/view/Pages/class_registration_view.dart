@@ -120,7 +120,7 @@ class _ClassRegistrationPageViewState extends SecondaryPageViewState {
         id: 3,
         name: 'Compiladores',
         abbreviation: 'C',
-        semester: 1,
+        semester: 2,
         classes: [
           CourseUnitClass(name: '3LEIC01', lectures: [
             Lecture('C', 'T', 3, 4, 'B013', 'DCC-AMSMF+PNF', 'COMP_3112', 10,
@@ -184,6 +184,7 @@ class _ClassRegistrationPageViewState extends SecondaryPageViewState {
                     selectedCourseUnits: CourseUnitsForClassRegistration(
                         snapshot.data.item2, courseUnits
                     ),
+                    courseUnits: courseUnits,
                 );
           }
 
@@ -206,23 +207,26 @@ class _ClassRegistrationPageViewState extends SecondaryPageViewState {
 class _ClassRegistrationView extends StatefulWidget {
   final SchedulePreferenceList schedulePreferences;
   final CourseUnitsForClassRegistration selectedCourseUnits;
+  final List<CourseUnit> courseUnits;
 
   const _ClassRegistrationView(
-      {this.schedulePreferences, this.selectedCourseUnits, Key key})
+      {this.schedulePreferences, this.selectedCourseUnits, this.courseUnits,
+        Key key})
       : super(key: key);
 
   @override
   _ClassRegistrationViewState createState() => _ClassRegistrationViewState(
-      this.schedulePreferences, this.selectedCourseUnits);
+      this.schedulePreferences, this.selectedCourseUnits, this.courseUnits);
 }
 
 class _ClassRegistrationViewState extends State<_ClassRegistrationView> {
   final SchedulePreferenceList schedulePreferences;
   final CourseUnitsForClassRegistration selectedCourseUnits;
+  final List<CourseUnit> courseUnits;
   final AppPlannedScheduleDatabase db = AppPlannedScheduleDatabase();
 
   _ClassRegistrationViewState(
-      this.schedulePreferences, this.selectedCourseUnits);
+      this.schedulePreferences, this.selectedCourseUnits, this.courseUnits);
 
   @override
   Widget build(BuildContext context) {
@@ -230,7 +234,7 @@ class _ClassRegistrationViewState extends State<_ClassRegistrationView> {
       PageTitle(name: 'Escolha de Turmas'),
       SelectedCoursesCard(
         selectedCourseUnits: selectedCourseUnits,
-        courseUnits: selectedCourseUnits.allCourseUnits,
+        courseUnits: courseUnits,
       ),
       SchedulePlannerCard(
           items: schedulePreferences,

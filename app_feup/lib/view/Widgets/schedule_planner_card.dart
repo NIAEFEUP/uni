@@ -33,6 +33,7 @@ class SchedulePlannerCard extends GenericCard {
     int newScheduleID;
     return Column(
       children: [
+        items.length == 0?  Text('Ainda não planeaste nenhum horário.') :
         Row(
           children: [
             buildPriorityItems(context),

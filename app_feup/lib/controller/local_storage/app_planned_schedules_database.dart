@@ -50,8 +50,7 @@ class AppPlannedScheduleDatabase extends AppDatabase {
 
   insertSelectedCourseUnit(CourseUnit courseUnit) async {
     final Database db = await this.getDatabase();
-
-    return await db.insert(
+    await db.insert(
       'curricularUnitChoice',
       {
         'semester': courseUnit.semester,
@@ -59,6 +58,10 @@ class AppPlannedScheduleDatabase extends AppDatabase {
       },
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
+
+    print("inserted");
+
+    print((await db.query('curricularUnitChoice')).length);
 
   }
 
@@ -68,6 +71,9 @@ class AppPlannedScheduleDatabase extends AppDatabase {
     await db.delete('curricularUnitChoice',
     where: '"courseAbrv" = ? AND "semester" = ?',
     whereArgs: [courseUnit.abbreviation, courseUnit.semester]);
+
+    print("deleted");
+    print((await db.query('curricularUnitChoice')).length);
 
   }
 

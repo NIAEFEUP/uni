@@ -52,6 +52,7 @@ class _ClassRegistrationScheduleEditorPageViewState
     return _ClassRegistrationScheduleEditorView(
       scheduleOption: scheduleOption,
       selectedCourseUnits: selectedCourseUnits,
+      options: options,
       key: viewKey,
     );
   }
