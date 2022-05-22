@@ -94,15 +94,14 @@ class ScheduleCard extends GenericCard {
     return Container(
         margin: const EdgeInsets.only(bottom: 10),
         child: ScheduleSlot(
-          subject: lecture.subject,
-          rooms: lecture.room,
-          begin: lecture.startTime,
-          end: lecture.endTime,
-          teacher: lecture.teacher,
-          typeClass: lecture.typeClass,
-          classNumber: lecture.classNumber,
-          occurrId: lecture.occurrId,
-        ));
+            subject: lecture.subject,
+            rooms: lecture.room,
+            begin: lecture.startTime,
+            end: lecture.endTime,
+            teacher: lecture.teacher,
+            typeClass: lecture.typeClass,
+            classNumber: lecture.classNumber,
+            occurrId: lecture.occurrId,));
   }
 
   @override

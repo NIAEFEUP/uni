@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 import 'package:uni/controller/networking/network_router.dart';
+import 'package:uni/model/utils/datetime.dart';
 import 'package:uni/view/common_widgets/row_container.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -49,21 +51,17 @@ class ScheduleSlot extends StatelessWidget {
   }
 
   Widget createScheduleSlotTime(context) {
-    final startHours = DateFormat('HH').format(begin);
-    final startMinutes = DateFormat('mm').format(begin);
-    final endHours = DateFormat('HH').format(end);
-    final endMinutes = DateFormat('mm').format(end);
     return Column(
       key: Key('schedule-slot-time-$begin-$end'),
       children: <Widget>[
-        createScheduleTime(startHours + 'h' + startMinutes.toString(), context),
-        createScheduleTime(endHours + 'h' + endMinutes, context),
+        createScheduleTime(begin, context),
+        createScheduleTime(end, context),
       ],
     );
   }
 
-  Widget createScheduleTime(String time, context) => createTextField(
-      time, Theme.of(context).textTheme.bodyText2, TextAlign.center);
+  Widget createScheduleTime(DateTime time, context) => createTextField(
+      readableTime(time), Theme.of(context).textTheme.bodyText2, TextAlign.center);
 
   String toUcLink(int occurrId) {
     const String faculty = 'feup'; //should not be hardcoded
