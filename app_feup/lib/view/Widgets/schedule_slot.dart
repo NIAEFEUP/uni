@@ -77,6 +77,9 @@ class ScheduleSlot extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         IconButton(
+          constraints: BoxConstraints(
+              minHeight: kMinInteractiveDimension/3,
+              minWidth: kMinInteractiveDimension/3),
           icon: Icon(Icons.open_in_browser),
           iconSize: 18,
           color: Colors.grey,
