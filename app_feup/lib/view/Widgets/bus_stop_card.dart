@@ -22,7 +22,8 @@ class BusStopCard extends GenericCard {
   String getTitle() => 'Autocarros';
 
   @override
-  onClick(BuildContext context) => Navigator.pushNamed(context, '/' + Constants.navStops);
+  onClick(BuildContext context) =>
+      Navigator.pushNamed(context, '/' + Constants.navStops);
 
   @override
   Widget buildCardContent(BuildContext context) {

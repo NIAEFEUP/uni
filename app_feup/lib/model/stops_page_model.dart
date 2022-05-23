@@ -5,13 +5,13 @@ class StopsPage extends StatefulWidget {
   const StopsPage({Key key}) : super(key: key);
 
   @override
-  _StopsPageState createState() =>  _StopsPageState();
+  _StopsPageState createState() => _StopsPageState();
 }
 
 class _StopsPageState extends State<StopsPage>
     with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
-    return  BusStopNextArrivalsPage();
+    return BusStopNextArrivalsPage();
   }
 }

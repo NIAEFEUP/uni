@@ -1,3 +1,4 @@
+import 'package:uni/model/class_registration_model.dart';
 import 'package:uni/model/entities/schedule_option.dart';
 import 'package:uni/model/entities/schedule_preference_list.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -11,7 +12,7 @@ void main() {
       final ScheduleOption option4 = ScheduleOption(name: 'D');
       final ScheduleOption option5 = ScheduleOption(name: 'E');
       final SchedulePreferenceList preferences = SchedulePreferenceList(
-        preferences: [
+        Semester.second, [
           option1,
           option2,
           option3,
@@ -40,7 +41,7 @@ void main() {
       final ScheduleOption option4 = ScheduleOption(name: 'D');
       final ScheduleOption option5 = ScheduleOption(name: 'E');
       final SchedulePreferenceList preferences = SchedulePreferenceList(
-        preferences: [
+        Semester.second, [
           option1,
           option2,
           option3,
@@ -63,7 +64,7 @@ void main() {
       final ScheduleOption option4 = ScheduleOption(name: 'D');
       final ScheduleOption option5 = ScheduleOption(name: 'E');
       final SchedulePreferenceList preferences = SchedulePreferenceList(
-        preferences: [
+        Semester.second, [
           option1,
           option2,
           option3,

@@ -5,7 +5,7 @@ import 'package:collection/collection.dart';
 import 'package:uni/model/entities/bus_stop.dart';
 
 /// Manages the app's Bus Stops database.
-/// 
+///
 /// This database stores information about the bus stops that the user
 /// wants to keep track of. It also stores information about
 /// which ones are the user's favorite stops.
@@ -15,8 +15,9 @@ class AppBusStopDatabase extends AppDatabase {
           'CREATE TABLE busstops(stopCode TEXT, busCode TEXT)',
           'CREATE TABLE favoritestops(stopCode TEXT, favorited TEXT)'
         ]);
+
   /// Returns a map containing all the data stored in this database.
-  /// 
+  ///
   /// *Note:*
   /// * a key in this map is a bus stop's stop code.
   /// * a value in this map is the corresponding [BusStopData] instance.
@@ -30,14 +31,14 @@ class AppBusStopDatabase extends AppDatabase {
     final List<Map<String, dynamic>> favoritesQueryResult =
         await db.query('favoritestops');
 
-    final Map<String, bool> favorites =  Map();
+    final Map<String, bool> favorites = Map();
     favoritesQueryResult
         .forEach((e) => favorites[e['stopCode']] = e['favorited'] == '1');
 
-    final Map<String, BusStopData> stops =  Map();
+    final Map<String, BusStopData> stops = Map();
     groupBy(buses, (stop) => stop['stopCode']).forEach(
         (stopCode, busCodeList) => stops[stopCode] = BusStopData(
-            configuredBuses:  Set<String>.from(
+            configuredBuses: Set<String>.from(
                 busCodeList.map((busEntry) => busEntry['busCode'])),
             favorited: favorites[stopCode]));
     return stops;
@@ -68,7 +69,7 @@ class AppBusStopDatabase extends AppDatabase {
   }
 
   /// Adds all entries from [stops] to this database.
-  /// 
+  ///
   /// If a row with the same data is present, it will be replaced.
   Future<void> _insertBusStops(Map<String, BusStopData> stops) async {
     stops.forEach((stopCode, stopData) async {

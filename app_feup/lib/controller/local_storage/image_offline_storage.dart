@@ -3,7 +3,8 @@ import 'dart:io';
 import 'package:image/image.dart';
 import 'package:connectivity/connectivity.dart';
 
-import 'package:flutter_cache_manager/flutter_cache_manager.dart' show DefaultCacheManager;
+import 'package:flutter_cache_manager/flutter_cache_manager.dart'
+    show DefaultCacheManager;
 import 'package:path_provider/path_provider.dart';
 
 /// The offline image storage location on the device.
@@ -20,8 +21,8 @@ Future<File> getImageFromNetwork(
 }
 
 /// Downloads and caches the user's profile image located at [url]. The image
-/// is accessed with the provided [headers], if they are present. 
-/// 
+/// is accessed with the provided [headers], if they are present.
+///
 /// If no connectivity is available, the cached version is used instead.
 /// If there is no cached version, returns [null].
 Future<File> retrieveImage(String url, Map<String, String> headers) async {
@@ -30,7 +31,7 @@ Future<File> retrieveImage(String url, Map<String, String> headers) async {
   final hasInternetConnection = connectivityResult != ConnectivityResult.none;
 
   final targetPath = '$path/profile_pic.png';
-  final File file =  File(targetPath);
+  final File file = File(targetPath);
 
   if (hasInternetConnection && headers.isNotEmpty) {
     return saveImage(targetPath, url, headers);
@@ -47,6 +48,6 @@ Future<File> saveImage(
     String filepath, String url, Map<String, String> headers) async {
   final File file = await getImageFromNetwork(url, headers);
   final Image image = decodeImage(await file.readAsBytes());
-   File(filepath)..writeAsBytes(encodePng(image));
+  File(filepath)..writeAsBytes(encodePng(image));
   return file;
 }

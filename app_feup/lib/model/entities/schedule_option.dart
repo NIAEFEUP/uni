@@ -1,4 +1,3 @@
-import 'package:uni/controller/local_storage/app_planned_schedules_database.dart';
 import 'package:uni/model/entities/course_unit.dart';
 import 'package:uni/model/entities/course_unit_class.dart';
 import 'package:uni/model/entities/lecture.dart';
@@ -21,39 +20,28 @@ class ScheduleOption {
     this.preference = preference;
   }
 
-  getNewID(ScheduleOption option) async {
-    this.id =
-    await AppPlannedScheduleDatabase().copySchedule(this);
-  }
-
-  ScheduleOption.copy(ScheduleOption scheduleOption, int preference) {
-    this.id = null;
+  ScheduleOption.copy(int id, ScheduleOption scheduleOption, int preference) {
+    this.id = id;
     this.name = scheduleOption.name + ' (Cópia)';
     this.classesSelected = Map.from(scheduleOption.classesSelected);
     this.preference = preference;
-
-    getNewID(this);
   }
 
   List<Lecture> getLectures(int day, List<CourseUnit> courseUnits) {
     final List<Lecture> lectures = [];
 
     this.classesSelected.forEach((abbreviation, value) {
-      final CourseUnit courseUnit =
-        courseUnits.firstWhereOrNull(
-                (cUnit) => cUnit.abbreviation == abbreviation
-        );
-      final String name =
-        this.classesSelected[courseUnit.abbreviation];
-      final CourseUnitClass courseUnitClass =
-        courseUnit.classes.firstWhereOrNull((cUClass) => cUClass.name == name);
+      final CourseUnit courseUnit = courseUnits
+          .firstWhereOrNull((cUnit) => cUnit.abbreviation == abbreviation);
 
-      lectures.addAll(
-          courseUnitClass
-              .lectures
-              .where((lecture) => lecture.day == day)
-      );
+      if (courseUnit != null) {
+        final String name = this.classesSelected[courseUnit.abbreviation];
+        final CourseUnitClass courseUnitClass = courseUnit.classes
+            .firstWhereOrNull((cUClass) => cUClass.name == name);
 
+        lectures.addAll(
+            courseUnitClass.lectures.where((lecture) => lecture.day == day));
+      }
     });
 
     lectures.sort((a, b) => a.startTime.compareTo(b.startTime));

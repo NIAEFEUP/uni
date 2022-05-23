@@ -4,7 +4,7 @@ import 'package:uni/model/entities/lecture.dart';
 import 'package:sqflite/sqflite.dart';
 
 /// Manages the app's Lectures database.
-/// 
+///
 /// This database stores information about the user's lectures.
 /// See the [Lecture] class to see what data is stored in this database.
 class AppLecturesDatabase extends AppDatabase {
@@ -53,7 +53,7 @@ class AppLecturesDatabase extends AppDatabase {
   }
 
   /// Adds all items from [lecs] to this database.
-  /// 
+  ///
   /// If a row with the same data is present, it will be replaced.
   Future<void> _insertLectures(List<Lecture> lecs) async {
     for (Lecture lec in lecs) {
@@ -74,7 +74,7 @@ class AppLecturesDatabase extends AppDatabase {
   }
 
   /// Migrates [db] from [oldVersion] to [newVersion].
-  /// 
+  ///
   /// *Note:* This operation only updates the schema of the tables present in
   /// the database and, as such, all data is lost.
   static FutureOr<void> migrate(

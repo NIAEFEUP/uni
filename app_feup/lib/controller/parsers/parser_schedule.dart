@@ -5,7 +5,7 @@ import 'package:uni/model/entities/lecture.dart';
 
 /// Extracts the user's lectures from an HTTP [response] and sorts them by
 /// date.
-/// 
+///
 /// This function parses a JSON object.
 Future<List<Lecture>> parseSchedule(http.Response response) async {
   final Set<Lecture> lectures = Set();

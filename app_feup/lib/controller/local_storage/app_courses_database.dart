@@ -5,7 +5,7 @@ import 'package:sqflite/sqflite.dart';
 import 'app_database.dart';
 
 /// Manages the app's Courses database.
-/// 
+///
 /// This database stores information about the user's courses.
 /// See the [Course] class to see what data is stored in this database.
 class AppCoursesDatabase extends AppDatabase {
@@ -43,7 +43,7 @@ class AppCoursesDatabase extends AppDatabase {
   }
 
   /// Adds all items from [courses] to this database.
-  /// 
+  ///
   /// If a row with the same data is present, it will be replaced.
   Future<void> _insertCourses(List<Course> courses) async {
     for (Course course in courses) {
@@ -64,7 +64,7 @@ class AppCoursesDatabase extends AppDatabase {
   }
 
   /// Updates the state of all courses present in [states].
-  /// 
+  ///
   /// *Note:*
   /// * a key in [states] is a [Course.id].
   /// * a value in [states] is the new state of the corresponding course.

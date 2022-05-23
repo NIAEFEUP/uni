@@ -282,22 +282,20 @@ ThunkAction<AppState> getUserSchedule(
   };
 }
 
-ThunkAction<AppState> getRestaurantsFromFetcher(Completer<Null> action){
-  return (Store<AppState> store) async{
-    try{
+ThunkAction<AppState> getRestaurantsFromFetcher(Completer<Null> action) {
+  return (Store<AppState> store) async {
+    try {
       store.dispatch(SetRestaurantsStatusAction(RequestStatus.busy));
 
       final List<Restaurant> restaurants =
-                      await RestaurantFetcherHtml().getRestaurants(store);
+          await RestaurantFetcherHtml().getRestaurants(store);
       // Updates local database according to information fetched -- Restaurants
       final RestaurantDatabase db = RestaurantDatabase();
       db.saveRestaurants(restaurants);
-      db.restaurants(day:null);
+      db.restaurants(day: null);
       store.dispatch(SetRestaurantsAction(restaurants));
       store.dispatch(SetRestaurantsStatusAction(RequestStatus.successful));
-
-
-    } catch(e){
+    } catch (e) {
       Logger().e('Failed to get Restaurants: ${e.toString()}');
       store.dispatch(SetRestaurantsStatusAction(RequestStatus.failed));
     }

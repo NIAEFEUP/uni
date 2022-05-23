@@ -22,12 +22,7 @@ abstract class GenericCard extends StatefulWidget {
     return GenericCardState();
   }
 
-  Widget buildCardContent(BuildContext context) { return SizedBox(); }
-  Widget buildCardContentWithState(
-      BuildContext context, void Function(void Function()) setState) {
-    return buildCardContent(context);
-  }
-
+  Widget buildCardContent(BuildContext context);
   String getTitle();
   onClick(BuildContext context);
 
@@ -70,7 +65,7 @@ class GenericCardState extends State<GenericCard> {
                   ],
                   color: Theme.of(context).dividerColor,
                   borderRadius:
-                      BorderRadius.all(Radius.circular(this.borderRadius))),
+                  BorderRadius.all(Radius.circular(this.borderRadius))),
               child: ConstrainedBox(
                 constraints: BoxConstraints(
                   minHeight: 60.0,
@@ -79,7 +74,7 @@ class GenericCardState extends State<GenericCard> {
                   decoration: BoxDecoration(
                       color: Theme.of(context).primaryColor,
                       borderRadius:
-                          BorderRadius.all(Radius.circular(this.borderRadius))),
+                      BorderRadius.all(Radius.circular(this.borderRadius))),
                   width: (double.infinity),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -88,17 +83,17 @@ class GenericCardState extends State<GenericCard> {
                         children: [
                           Flexible(
                               child: Container(
-                            child: Text(widget.getTitle(),
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headline1
-                                    .apply(
+                                child: Text(widget.getTitle(),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline1
+                                        .apply(
                                         fontSizeDelta: -53,
                                         fontWeightDelta: -3)),
-                            alignment: Alignment.centerLeft,
-                            padding: EdgeInsets.symmetric(horizontal: 15),
-                            margin: EdgeInsets.only(top: 15, bottom: 10),
-                          )),
+                                alignment: Alignment.centerLeft,
+                                padding: EdgeInsets.symmetric(horizontal: 15),
+                                margin: EdgeInsets.only(top: 15, bottom: 10),
+                              )),
                           Container(
                             child: this.getMoveIcon(context),
                             alignment: Alignment.center,
@@ -106,10 +101,10 @@ class GenericCardState extends State<GenericCard> {
                           ),
                           Flexible(
                               child: Container(
-                            child: this.getDeleteIcon(context),
-                            alignment: Alignment.centerRight,
-                            height: 32,
-                          )),
+                                child: this.getDeleteIcon(context),
+                                alignment: Alignment.centerRight,
+                                height: 32,
+                              )),
                         ].where((e) => e != null).toList(),
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       ),
@@ -119,8 +114,7 @@ class GenericCardState extends State<GenericCard> {
                           right: this.padding,
                           bottom: this.padding,
                         ),
-                        child: widget.buildCardContentWithState(
-                            context, this.setState),
+                        child: widget.buildCardContent(context),
                       )
                     ],
                   ),
@@ -132,18 +126,21 @@ class GenericCardState extends State<GenericCard> {
   Widget getDeleteIcon(context) {
     return (widget.editingMode != null && widget.editingMode)
         ? IconButton(
-            iconSize: 22,
-            icon: Icon(Icons.delete),
-            tooltip: 'Remover',
-            onPressed: widget.onDelete,
-          )
+      iconSize: 22,
+      icon: Icon(Icons.delete),
+      tooltip: 'Remover',
+      onPressed: widget.onDelete,
+    )
         : null;
   }
 
   Widget getMoveIcon(context) {
     return (widget.editingMode != null && widget.editingMode)
-        ? Icon(Icons.drag_handle_rounded,
-            color: Colors.grey.shade500, size: 22.0)
+        ? Icon(
+        Icons.drag_handle_rounded,
+        color: Colors.grey.shade500,
+        size: 22.0
+    )
         : null;
   }
 }

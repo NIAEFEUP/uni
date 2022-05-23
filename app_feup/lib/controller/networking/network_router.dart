@@ -14,7 +14,8 @@ import 'package:uni/model/entities/trip.dart';
 import 'package:http/http.dart' as http;
 import 'package:query_params/query_params.dart';
 import 'package:synchronized/synchronized.dart';
-extension UriString on String{
+
+extension UriString on String {
   /// Converts a [String] to an [Uri].
   Uri toUri() => Uri.parse(this);
 }
@@ -28,7 +29,6 @@ class NetworkRouter {
   static Lock loginLock = Lock();
 
   static Function onReloginFail = () {};
-
 
   /// Creates an authenticated [Session] on the given [faculty] with the
   /// given username [user] and password [pass].

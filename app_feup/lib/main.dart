@@ -48,7 +48,7 @@ Future<void> main() async {
 }
 
 /// Manages the state of the app
-/// 
+///
 /// This class is necessary to track the app's state for
 /// the current execution
 class MyApp extends StatefulWidget {

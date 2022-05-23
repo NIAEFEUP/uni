@@ -12,7 +12,7 @@ class PrintInfoCard extends GenericCard {
 
   @override
   Widget buildCardContent(BuildContext context) {
-    return  Column(
+    return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         Table(

@@ -32,16 +32,16 @@ void main() {
     final teacher1 = 'JAS';
     final day1 = 0;
     final classNumber = 'MIEIC03';
-    final lecture1 = Lecture.fromHtml(subject1, typeClass1, day1,
-        startTime1, blocks, room1, teacher1, classNumber);
+    final lecture1 = Lecture.fromHtml(subject1, typeClass1, day1, startTime1,
+        blocks, room1, teacher1, classNumber);
     final subject2 = 'SDIS';
     final startTime2 = '13:00';
     final room2 = 'B315';
     final typeClass2 = 'T';
     final teacher2 = 'PMMS';
     final day2 = 0;
-    final lecture2 = Lecture.fromHtml(subject2, typeClass2, day2,
-        startTime2, blocks, room2, teacher2, classNumber);
+    final lecture2 = Lecture.fromHtml(subject2, typeClass2, day2, startTime2,
+        blocks, room2, teacher2, classNumber);
 
     when(mockStore.state).thenReturn(AppState(content));
     test('When given a single schedule', () async {

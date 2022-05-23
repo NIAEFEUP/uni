@@ -62,7 +62,7 @@ AppState appReducers(AppState state, dynamic action) {
     return setExamFilter(state, action);
   } else if (action is SetUserFaculties) {
     return setUserFaculties(state, action);
-  } else if(action is SetRestaurantsAction){
+  } else if (action is SetRestaurantsAction) {
     return setRestaurantsAction(state, action);
   }
   return state;

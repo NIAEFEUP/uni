@@ -14,11 +14,11 @@ class TitleCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Container(
+    return Container(
       margin: EdgeInsets.fromLTRB(12, 12, 12, 0),
       padding: EdgeInsets.only(top: 3, bottom: 3),
       alignment: Alignment.center,
-      child:  Text(
+      child: Text(
         '${this.weekDay}, ${this.day} de ${this.month}',
         style: Theme.of(context)
             .textTheme

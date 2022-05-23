@@ -1,0 +1,1 @@
+enum EditorAction { delete, duplicate }
