@@ -34,15 +34,19 @@ class _SelectedCourseUnitsPageViewState extends UnnamedPageView {
           CheckboxListTile(
             title: Text(courseUnit.name),
             value: selectedCourseUnits.contains(courseUnit),
-            onChanged: (bool value) => setState(() {
+            onChanged: (bool value) {
               if (value) {
-                selectedCourseUnits.select(courseUnit);
+                setState(() {
+                  selectedCourseUnits.select(courseUnit);
+                });
                 db.insertSelectedCourseUnit(courseUnit);
               } else {
-                selectedCourseUnits.unselect(courseUnit);
+                setState(() {
+                  selectedCourseUnits.unselect(courseUnit);
+                });
                 db.removeSelectedCourseUnit(courseUnit);
               }
-            }),
+            },
           ),
       ],
     );

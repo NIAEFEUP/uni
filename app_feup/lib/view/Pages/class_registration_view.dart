@@ -235,16 +235,19 @@ class _ClassRegistrationViewState extends State<_ClassRegistrationView> {
       SelectedCoursesCard(
         selectedCourseUnits: selectedCourseUnits,
         courseUnits: courseUnits,
+        onUpdateList: () => setState(() => {}),
       ),
-      SchedulePlannerCard(
-          items: schedulePreferences,
-          selectedCourseUnits: selectedCourseUnits,
-          onReorder: (int oldIndex, int newIndex) {
-            setState(() {
-              schedulePreferences.reorder(oldIndex, newIndex);
+      if (this.selectedCourseUnits.isNotEmpty)
+        SchedulePlannerCard(
+            items: schedulePreferences,
+            selectedCourseUnits: selectedCourseUnits,
+            onReorder: (int oldIndex, int newIndex) {
+              setState(() {
+                schedulePreferences.reorder(oldIndex, newIndex);
+              });
               db.reorderOptions(schedulePreferences.preferences);
-            });
-          }),
+            },
+        ),
     ]);
   }
 }

@@ -8,8 +8,10 @@ import 'package:uni/view/Widgets/section_card.dart';
 class SelectedCoursesCard extends StatefulWidget {
   final CourseUnitsForClassRegistration selectedCourseUnits;
   final List<CourseUnit> courseUnits;
+  final void Function() onUpdateList;
 
-  SelectedCoursesCard({Key key, this.selectedCourseUnits, this.courseUnits})
+  SelectedCoursesCard(
+      {Key key, this.selectedCourseUnits, this.courseUnits, this.onUpdateList})
       : super(key: key);
 
   @override
@@ -17,6 +19,7 @@ class SelectedCoursesCard extends StatefulWidget {
     return SelectedCoursesCardState(
       selectedCourseUnits: this.selectedCourseUnits,
       courseUnits: this.courseUnits,
+      onUpdateList: this.onUpdateList,
     );
   }
 }
@@ -24,8 +27,10 @@ class SelectedCoursesCard extends StatefulWidget {
 class SelectedCoursesCardState extends State<SelectedCoursesCard> {
   final CourseUnitsForClassRegistration selectedCourseUnits;
   final List<CourseUnit> courseUnits;
+  void Function() onUpdateList;
 
-  SelectedCoursesCardState({this.selectedCourseUnits, this.courseUnits});
+  SelectedCoursesCardState(
+      {this.selectedCourseUnits, this.courseUnits, this.onUpdateList});
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +48,10 @@ class SelectedCoursesCardState extends State<SelectedCoursesCard> {
             courseUnits,
           ),
         ),
-      ).then((value) => setState(() {})),
+      ).then((value) {
+        setState(() {});
+        widget.onUpdateList();
+      }),
       content: Stack(
         alignment: Alignment.bottomCenter,
         fit: StackFit.passthrough,

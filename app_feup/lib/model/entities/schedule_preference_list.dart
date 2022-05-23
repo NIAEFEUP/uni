@@ -5,7 +5,7 @@ class SchedulePreferenceList {
 
   SchedulePreferenceList({this.preferences});
 
-  int get length => (preferences.length);
+  int get length => preferences.length;
   ScheduleOption operator [](int index) => preferences[index];
 
   void reorder(int oldIndex, int newIndex) {

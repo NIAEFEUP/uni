@@ -44,4 +44,6 @@ class CourseUnitsForClassRegistration {
     selectedCourseUnit.id != courseUnit.id)
         .toList();
   }
+
+  bool get isNotEmpty => this.selected.isNotEmpty;
 }
