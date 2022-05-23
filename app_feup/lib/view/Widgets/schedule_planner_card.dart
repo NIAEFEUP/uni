@@ -210,7 +210,7 @@ class SchedulePlannerCardState extends State<SchedulePlannerCard> {
           ),
           child: Container(
             margin: EdgeInsets.symmetric(vertical: 2),
-            padding: const EdgeInsets.all(5),
+            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
             decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(
@@ -223,8 +223,13 @@ class SchedulePlannerCardState extends State<SchedulePlannerCard> {
                     BorderRadius.all(Radius.circular(this._borderRadius))),
             child: Align(
               alignment: Alignment.center,
-              child: Text(items[index].name,
-                  style: Theme.of(context).textTheme.subtitle1),
+              child: Text(
+                items[index].name,
+                maxLines: 1,
+                overflow: TextOverflow.fade,
+                softWrap: false,
+                style: Theme.of(context).textTheme.subtitle1,
+              ),
             ),
           ),
         ));

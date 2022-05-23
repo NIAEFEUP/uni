@@ -26,6 +26,43 @@ class ClassRegistrationScheduleEditorPageView extends StatefulWidget {
 
 class _ClassRegistrationScheduleEditorPageViewState
     extends UnnamedPageView {
+  final ScheduleOption scheduleOption;
+  final CourseUnitsForClassRegistration selectedCourseUnits;
+
+  final viewKey = GlobalKey();
+
+  _ClassRegistrationScheduleEditorPageViewState(
+      this.scheduleOption, this.selectedCourseUnits)
+      : super();
+
+  @override
+  Widget getBody(BuildContext context) {
+    return _ClassRegistrationScheduleEditorView(
+      scheduleOption: scheduleOption,
+      selectedCourseUnits: selectedCourseUnits,
+      key: viewKey,
+    );
+  }
+}
+
+class _ClassRegistrationScheduleEditorView extends StatefulWidget {
+  final ScheduleOption scheduleOption;
+  final CourseUnitsForClassRegistration selectedCourseUnits;
+
+  const _ClassRegistrationScheduleEditorView(
+      {this.scheduleOption, this.selectedCourseUnits, Key key})
+      : super(key: key);
+
+  @override
+  _ClassRegistrationScheduleEditorViewState createState() =>
+      _ClassRegistrationScheduleEditorViewState(
+          this.scheduleOption, this.selectedCourseUnits);
+}
+
+class _ClassRegistrationScheduleEditorViewState
+    extends State<_ClassRegistrationScheduleEditorView> {
+  final ScheduleOption scheduleOption;
+  final CourseUnitsForClassRegistration courseUnits;
 
   static const List<String> abbreviatedDayOfWeek = [
     'Seg',
@@ -37,17 +74,13 @@ class _ClassRegistrationScheduleEditorPageViewState
     'Dom',
   ];
 
-  final ScheduleOption scheduleOption;
-  final CourseUnitsForClassRegistration courseUnits;
-  final viewKey = GlobalKey();
-
   TextEditingController _renameController;
   PageController _pageController;
   List<PageStorageKey<CourseUnit>> _expandableKeys;
 
   int _selectedDay = 0;
 
-  _ClassRegistrationScheduleEditorPageViewState(
+  _ClassRegistrationScheduleEditorViewState(
       this.scheduleOption, this.courseUnits) {
     _expandableKeys = [
       for (CourseUnit unit in courseUnits.selected) PageStorageKey(unit)
@@ -62,7 +95,7 @@ class _ClassRegistrationScheduleEditorPageViewState
   }
 
   @override
-  Widget getBody(BuildContext context) {
+  Widget build(BuildContext context) {
     return PageView(
       controller: _pageController,
       children: [
