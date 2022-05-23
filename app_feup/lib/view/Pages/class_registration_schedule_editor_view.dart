@@ -6,7 +6,7 @@ import 'package:uni/model/entities/course_unit_class.dart';
 import 'package:uni/model/entities/course_units_for_class_registration.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/entities/schedule_option.dart';
-import 'package:uni/view/Pages/secondary_page_view.dart';
+import 'package:uni/view/Pages/unnamed_page_view.dart';
 import 'package:uni/view/Widgets/class_registration_schedule_tile.dart';
 import 'package:uni/view/Widgets/page_title.dart';
 
@@ -15,8 +15,7 @@ class ClassRegistrationScheduleEditorPageView extends StatefulWidget {
   final CourseUnitsForClassRegistration selectedCourseUnits;
 
   const ClassRegistrationScheduleEditorPageView(
-      this.scheduleOption, this.selectedCourseUnits,
-      {Key key})
+      this.scheduleOption, this.selectedCourseUnits, {Key key})
       : super(key: key);
 
   @override
@@ -26,44 +25,7 @@ class ClassRegistrationScheduleEditorPageView extends StatefulWidget {
 }
 
 class _ClassRegistrationScheduleEditorPageViewState
-    extends SecondaryPageViewState {
-  final ScheduleOption scheduleOption;
-  final CourseUnitsForClassRegistration selectedCourseUnits;
-
-  final viewKey = GlobalKey();
-
-  _ClassRegistrationScheduleEditorPageViewState(
-      this.scheduleOption, this.selectedCourseUnits)
-      : super();
-
-  @override
-  Widget getBody(BuildContext context) {
-    return _ClassRegistrationScheduleEditorView(
-      scheduleOption: scheduleOption,
-      selectedCourseUnits: selectedCourseUnits,
-      key: viewKey,
-    );
-  }
-}
-
-class _ClassRegistrationScheduleEditorView extends StatefulWidget {
-  final ScheduleOption scheduleOption;
-  final CourseUnitsForClassRegistration selectedCourseUnits;
-
-  const _ClassRegistrationScheduleEditorView(
-      {this.scheduleOption, this.selectedCourseUnits, Key key})
-      : super(key: key);
-
-  @override
-  _ClassRegistrationScheduleEditorViewState createState() =>
-      _ClassRegistrationScheduleEditorViewState(
-          this.scheduleOption, this.selectedCourseUnits);
-}
-
-class _ClassRegistrationScheduleEditorViewState
-    extends State<_ClassRegistrationScheduleEditorView> {
-  final ScheduleOption scheduleOption;
-  final CourseUnitsForClassRegistration courseUnits;
+    extends UnnamedPageView {
 
   static const List<String> abbreviatedDayOfWeek = [
     'Seg',
@@ -75,13 +37,17 @@ class _ClassRegistrationScheduleEditorViewState
     'Dom',
   ];
 
+  final ScheduleOption scheduleOption;
+  final CourseUnitsForClassRegistration courseUnits;
+  final viewKey = GlobalKey();
+
   TextEditingController _renameController;
   PageController _pageController;
   List<PageStorageKey<CourseUnit>> _expandableKeys;
 
   int _selectedDay = 0;
 
-  _ClassRegistrationScheduleEditorViewState(
+  _ClassRegistrationScheduleEditorPageViewState(
       this.scheduleOption, this.courseUnits) {
     _expandableKeys = [
       for (CourseUnit unit in courseUnits.selected) PageStorageKey(unit)
@@ -96,7 +62,7 @@ class _ClassRegistrationScheduleEditorViewState
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget getBody(BuildContext context) {
     return PageView(
       controller: _pageController,
       children: [
@@ -126,7 +92,7 @@ class _ClassRegistrationScheduleEditorViewState
                   border: OutlineInputBorder(),
                   focusedBorder: OutlineInputBorder(
                     borderSide:
-                        BorderSide(color: Colors.black.withOpacity(0.75)),
+                    BorderSide(color: Colors.black.withOpacity(0.75)),
                   ),
                   labelText: 'Nome do horário',
                   labelStyle: TextStyle(color: Theme.of(context).accentColor),
@@ -175,7 +141,7 @@ class _ClassRegistrationScheduleEditorViewState
 
   Widget buildScheduleDisplay(BuildContext context) {
     final List<Lecture> lectures =
-        scheduleOption.getLectures(_selectedDay, courseUnits.selected);
+    scheduleOption.getLectures(_selectedDay, courseUnits.selected);
     final List<bool> hasDiscontinuity = Lecture.getDiscontinuities(lectures);
     final List<bool> hasCollision = Lecture.getCollisions(lectures);
 
@@ -193,37 +159,37 @@ class _ClassRegistrationScheduleEditorViewState
         Expanded(
           child: lectures.isEmpty
               ? Center(
-                  child: Text('Não possui aulas ' +
-                      [
-                        'à Segunda-feira',
-                        'à Terça-feira',
-                        'à Quarta-feira',
-                        'à Quinta-feira',
-                        'à Sexta-feira',
-                        'ao Sábado',
-                        'ao Domingo'
-                      ][_selectedDay] +
-                      '.'))
+              child: Text('Não possui aulas ' +
+                  [
+                    'à Segunda-feira',
+                    'à Terça-feira',
+                    'à Quarta-feira',
+                    'à Quinta-feira',
+                    'à Sexta-feira',
+                    'ao Sábado',
+                    'ao Domingo'
+                  ][_selectedDay] +
+                  '.'))
               : ListView(
-                  children: [
-                    for (int i = 0; i < lectures.length; i++)
-                      Container(
-                        margin:
-                            EdgeInsets.only(top: hasDiscontinuity[i] ? 70 : 0),
-                        child: ClassRegistrationScheduleTile(
-                          subject: lectures[i].subject,
-                          typeClass: lectures[i].typeClass,
-                          rooms: lectures[i].room,
-                          begin: lectures[i].startTime,
-                          end: lectures[i].endTime,
-                          teacher: lectures[i].teacher,
-                          classNumber: lectures[i].classNumber,
-                          hasDiscontinuity: hasDiscontinuity[i],
-                          hasCollision: hasCollision[i],
-                        ),
-                      ),
-                  ],
+            children: [
+              for (int i = 0; i < lectures.length; i++)
+                Container(
+                  margin:
+                  EdgeInsets.only(top: hasDiscontinuity[i] ? 70 : 0),
+                  child: ClassRegistrationScheduleTile(
+                    subject: lectures[i].subject,
+                    typeClass: lectures[i].typeClass,
+                    rooms: lectures[i].room,
+                    begin: lectures[i].startTime,
+                    end: lectures[i].endTime,
+                    teacher: lectures[i].teacher,
+                    classNumber: lectures[i].classNumber,
+                    hasDiscontinuity: hasDiscontinuity[i],
+                    hasCollision: hasCollision[i],
+                  ),
                 ),
+            ],
+          ),
         ),
         const VerticalDivider(thickness: 1, width: 1),
         // This is the main content.
@@ -296,7 +262,7 @@ class _ClassRegistrationScheduleEditorViewState
   Widget buildCourseDropdown(int index, BuildContext context) {
     final CourseUnit courseUnit = courseUnits.selected[index];
     final String selectedClass =
-        scheduleOption.classesSelected[courseUnit.abbreviation];
+    scheduleOption.classesSelected[courseUnit.abbreviation];
 
     return Card(
       margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
