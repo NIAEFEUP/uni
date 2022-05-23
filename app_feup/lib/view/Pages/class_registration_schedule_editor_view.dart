@@ -1,11 +1,11 @@
 import 'package:uni/controller/local_storage/app_planned_schedules_database.dart';
 import 'package:flutter/material.dart';
+import 'package:uni/model/class_registration_schedule_editor_model.dart';
 import 'package:uni/model/entities/course_unit.dart';
 import 'package:uni/model/entities/course_unit_class.dart';
 import 'package:uni/model/entities/course_units_for_class_registration.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/entities/schedule_option.dart';
-import 'package:uni/model/entities/schedule_preference_list.dart';
 import 'package:uni/view/Pages/secondary_page_view.dart';
 import 'package:uni/view/Widgets/class_registration_schedule_tile.dart';
 import 'package:uni/view/Widgets/page_title.dart';
@@ -13,38 +13,27 @@ import 'package:uni/view/Widgets/page_title.dart';
 class ClassRegistrationScheduleEditorPageView extends StatefulWidget {
   final ScheduleOption scheduleOption;
   final CourseUnitsForClassRegistration selectedCourseUnits;
-  final SchedulePreferenceList options;
-
 
   const ClassRegistrationScheduleEditorPageView(
-      this.scheduleOption,
-      this.selectedCourseUnits,
-      this.options,
+      this.scheduleOption, this.selectedCourseUnits,
       {Key key})
       : super(key: key);
 
   @override
   _ClassRegistrationScheduleEditorPageViewState createState() =>
       _ClassRegistrationScheduleEditorPageViewState(
-          this.scheduleOption,
-          this.selectedCourseUnits,
-          this.options
-      );
-
+          this.scheduleOption, this.selectedCourseUnits);
 }
 
 class _ClassRegistrationScheduleEditorPageViewState
     extends SecondaryPageViewState {
   final ScheduleOption scheduleOption;
   final CourseUnitsForClassRegistration selectedCourseUnits;
-  final SchedulePreferenceList options;
 
   final viewKey = GlobalKey();
 
   _ClassRegistrationScheduleEditorPageViewState(
-      this.scheduleOption,
-      this.selectedCourseUnits,
-      this.options)
+      this.scheduleOption, this.selectedCourseUnits)
       : super();
 
   @override
@@ -52,7 +41,6 @@ class _ClassRegistrationScheduleEditorPageViewState
     return _ClassRegistrationScheduleEditorView(
       scheduleOption: scheduleOption,
       selectedCourseUnits: selectedCourseUnits,
-      options: options,
       key: viewKey,
     );
   }
@@ -61,25 +49,21 @@ class _ClassRegistrationScheduleEditorPageViewState
 class _ClassRegistrationScheduleEditorView extends StatefulWidget {
   final ScheduleOption scheduleOption;
   final CourseUnitsForClassRegistration selectedCourseUnits;
-  final SchedulePreferenceList options;
 
   const _ClassRegistrationScheduleEditorView(
-      {this.scheduleOption, this.selectedCourseUnits, this.options, Key key})
+      {this.scheduleOption, this.selectedCourseUnits, Key key})
       : super(key: key);
 
   @override
   _ClassRegistrationScheduleEditorViewState createState() =>
       _ClassRegistrationScheduleEditorViewState(
-          this.scheduleOption,
-          this.selectedCourseUnits,
-          this.options);
+          this.scheduleOption, this.selectedCourseUnits);
 }
 
 class _ClassRegistrationScheduleEditorViewState
     extends State<_ClassRegistrationScheduleEditorView> {
   final ScheduleOption scheduleOption;
   final CourseUnitsForClassRegistration courseUnits;
-  final SchedulePreferenceList options;
 
   static const List<String> abbreviatedDayOfWeek = [
     'Seg',
@@ -91,8 +75,6 @@ class _ClassRegistrationScheduleEditorViewState
     'Dom',
   ];
 
-  final AppPlannedScheduleDatabase db = AppPlannedScheduleDatabase();
-
   TextEditingController _renameController;
   PageController _pageController;
   List<PageStorageKey<CourseUnit>> _expandableKeys;
@@ -100,7 +82,7 @@ class _ClassRegistrationScheduleEditorViewState
   int _selectedDay = 0;
 
   _ClassRegistrationScheduleEditorViewState(
-      this.scheduleOption, this.courseUnits, this.options) {
+      this.scheduleOption, this.courseUnits) {
     _expandableKeys = [
       for (CourseUnit unit in courseUnits.selected) PageStorageKey(unit)
     ];
@@ -138,6 +120,7 @@ class _ClassRegistrationScheduleEditorViewState
               child: TextField(
                 onChanged: (text) {
                   scheduleOption.name = text;
+                  AppPlannedScheduleDatabase().saveSchedule(scheduleOption);
                 },
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
@@ -154,54 +137,32 @@ class _ClassRegistrationScheduleEditorViewState
             IconButton(
               color: Theme.of(context).accentColor,
               icon: Icon(Icons.file_copy_outlined),
-              onPressed: () {
-                      Navigator.pop(context);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-
-                              builder: (context) {
-                                final ScheduleOption copy =
-                                ScheduleOption.copy(
-                                    scheduleOption,
-                                    options.preferences.length);
-                                options.preferences.add(copy);
-                                return ClassRegistrationScheduleEditorPageView(
-                                    copy,
-                                    courseUnits,
-                                    options
-                                );
-                              }
-                        )
-                );
-                    },
+              onPressed: () => Navigator.pop(context, EditorAction.duplicate),
             ),
             IconButton(
               color: Theme.of(context).accentColor,
               icon: Icon(Icons.delete_outline),
               onPressed: () => showDialog<String>(
-                        context: context,
-                        builder: (BuildContext context) => AlertDialog(
-                          title: const Text('Apagar horário'),
-                          content: const Text(
-                              'Tem a certeza que pretende apagar o horário?'),
-                          actions: <Widget>[
-                            TextButton(
-                              onPressed: () => Navigator.pop(context),
-                              child: const Text('Cancelar'),
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                db.deleteOption(scheduleOption);
-                                options.preferences.remove(scheduleOption);
-                                Navigator.pop(context);
-                                Navigator.pop(context);
-                              },
-                              child: const Text('Apagar'),
-                            ),
-                          ],
-                        ),
-                      ),
+                context: context,
+                builder: (BuildContext context) => AlertDialog(
+                  title: const Text('Apagar horário'),
+                  content: const Text(
+                      'Tem a certeza que pretende apagar o horário?'),
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text('Cancelar'),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                        Navigator.pop(context, EditorAction.delete);
+                      },
+                      child: const Text('Apagar'),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ],
         ),
@@ -209,28 +170,6 @@ class _ClassRegistrationScheduleEditorViewState
       SizedBox(height: 20),
       for (int i = 0; i < courseUnits.selected.length; i++)
         buildCourseDropdown(i, context),
-      SizedBox(height: 20),
-      Column(
-        children: <Widget>[
-          ElevatedButton(
-            style: TextButton.styleFrom(
-              padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
-            ),
-            onPressed: () async {
-              Navigator.pop(context);
-              await db.saveSchedule(scheduleOption);
-            },
-            child: Text('Guardar', style: TextStyle(color: Colors.white)),
-          ),
-          TextButton(
-            style: TextButton.styleFrom(
-              padding: EdgeInsets.symmetric(horizontal: 50, vertical: 12),
-            ),
-            onPressed: () => Navigator.pop(context),
-            child: Text('Cancelar'),
-          ),
-        ],
-      ),
     ]);
   }
 
@@ -410,6 +349,7 @@ class _ClassRegistrationScheduleEditorViewState
                       scheduleOption.classesSelected[courseUnit.abbreviation] =
                           courseUnitClass.name;
                     });
+                    AppPlannedScheduleDatabase().saveSchedule(scheduleOption);
                   }),
             ),
         ],

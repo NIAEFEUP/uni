@@ -58,11 +58,6 @@ class AppPlannedScheduleDatabase extends AppDatabase {
       },
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
-
-    print("inserted");
-
-    print((await db.query('curricularUnitChoice')).length);
-
   }
 
   removeSelectedCourseUnit(CourseUnit courseUnit) async {
@@ -71,10 +66,6 @@ class AppPlannedScheduleDatabase extends AppDatabase {
     await db.delete('curricularUnitChoice',
     where: '"courseAbrv" = ? AND "semester" = ?',
     whereArgs: [courseUnit.abbreviation, courseUnit.semester]);
-
-    print("deleted");
-    print((await db.query('curricularUnitChoice')).length);
-
   }
 
   Future<int> getClassID(String className, String courseAbrv) async {
@@ -101,19 +92,6 @@ class AppPlannedScheduleDatabase extends AppDatabase {
       {
         'scheduleName': name,
         'preference': preference
-      },
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
-  }
-
-  Future<int> copySchedule(ScheduleOption option) async {
-    final Database db = await this.getDatabase();
-
-    return await db.insert(
-      'scheduleoption',
-      {
-        'scheduleName': option.name + '(Cópia)',
-        'preference': option.preference
       },
       conflictAlgorithm: ConflictAlgorithm.replace,
     );

@@ -1,4 +1,3 @@
-import 'package:uni/controller/local_storage/app_planned_schedules_database.dart';
 import 'package:uni/model/entities/course_unit.dart';
 import 'package:uni/model/entities/course_unit_class.dart';
 import 'package:uni/model/entities/lecture.dart';
@@ -21,18 +20,11 @@ class ScheduleOption {
     this.preference = preference;
   }
 
-  getNewID(ScheduleOption option) async {
-    this.id =
-    await AppPlannedScheduleDatabase().copySchedule(this);
-  }
-
-  ScheduleOption.copy(ScheduleOption scheduleOption, int preference) {
-    this.id = null;
+  ScheduleOption.copy(int id, ScheduleOption scheduleOption, int preference) {
+    this.id = id;
     this.name = scheduleOption.name + ' (Cópia)';
     this.classesSelected = Map.from(scheduleOption.classesSelected);
     this.preference = preference;
-
-    getNewID(this);
   }
 
   List<Lecture> getLectures(int day, List<CourseUnit> courseUnits) {

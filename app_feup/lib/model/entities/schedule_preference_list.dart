@@ -16,4 +16,12 @@ class SchedulePreferenceList {
     final ScheduleOption item = preferences.removeAt(oldIndex);
     preferences.insert(newIndex, item);
   }
+
+  void remove(int index) {
+    this.preferences.removeAt(index);
+  }
+
+  void add(ScheduleOption option) {
+    this.preferences.add(option);
+  }
 }

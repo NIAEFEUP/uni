@@ -2,24 +2,41 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:uni/controller/local_storage/app_planned_schedules_database.dart';
+import 'package:uni/model/class_registration_schedule_editor_model.dart';
 import 'package:uni/model/entities/course_units_for_class_registration.dart';
 import 'package:uni/model/entities/schedule_option.dart';
 import 'package:uni/model/entities/schedule_preference_list.dart';
 import 'package:uni/view/Pages/class_registration_schedule_editor_view.dart';
+import 'package:uni/view/Widgets/section_card.dart';
 
-import 'generic_card.dart';
-
-class SchedulePlannerCard extends GenericCard {
+class SchedulePlannerCard extends StatefulWidget {
   final CourseUnitsForClassRegistration selectedCourseUnits;
+  final SchedulePreferenceList items;
+  final Function(int oldIndex, int newIndex) onReorder;
 
   SchedulePlannerCard(
-      {this.items, this.selectedCourseUnits, this.onReorder, Key key})
+      {Key key, this.items, this.selectedCourseUnits, this.onReorder})
       : super(key: key);
 
+  @override
+  State<StatefulWidget> createState() {
+    return SchedulePlannerCardState(
+      items: this.items,
+      onReorder: this.onReorder,
+      selectedCourseUnits: this.selectedCourseUnits,
+    );
+  }
+}
+
+class SchedulePlannerCardState extends State<SchedulePlannerCard> {
+  final CourseUnitsForClassRegistration selectedCourseUnits;
   final SchedulePreferenceList items;
   final Function(int oldIndex, int newIndex) onReorder;
   final double _itemHeight = 50.0;
   final double _borderRadius = 10.0;
+
+  SchedulePlannerCardState(
+      {this.items, this.selectedCourseUnits, this.onReorder});
 
   int getNextPreferenceValue() {
     final List<ScheduleOption> preferences = items.preferences;
@@ -27,56 +44,91 @@ class SchedulePlannerCard extends GenericCard {
     return preferences.last.preference + 1;
   }
 
-  @override
-  Widget buildCardContentWithState(BuildContext context,
-      void Function(void Function()) setState) {
-    int newScheduleID;
-    return Column(
-      children: [
-        items.length == 0?  Text('Ainda não planeaste nenhum horário.') :
-        Row(
-          children: [
-            buildPriorityItems(context),
-            buildScheduleItems(context, setState),
-          ],
-        ),
-        SizedBox(height: 5.0),
-        Align(
-          alignment: Alignment.bottomRight,
-          child: IconButton(
-            iconSize: 32,
-            color: Theme.of(context).accentColor,
-            icon: Icon(Icons.add_circle_outline_rounded),
-            onPressed: () async {
-              newScheduleID =
-                await AppPlannedScheduleDatabase().createSchedule(
-                    'Novo Horário',
-                  items.preferences.length
-                );
+  Future<void> updateList(
+      BuildContext context, EditorAction action, int index) async {
+    if (action == null) {
+      setState(() {});
+      return;
+    }
 
-              final ScheduleOption newOption = ScheduleOption.generate(
-                  newScheduleID,
-                  'Novo Horário',
-                  {},
-                  getNextPreferenceValue()
-              );
+    final AppPlannedScheduleDatabase db = AppPlannedScheduleDatabase();
+    switch (action) {
+      case EditorAction.delete:
+        await db.deleteOption(items[index]);
+        setState(() {
+          items.remove(index);
+        });
+        break;
+      case EditorAction.duplicate:
+        final ScheduleOption copy =
+            ScheduleOption.copy(null, items[index], items.length);
 
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) {
-                          this.items.preferences.add(newOption);
-                          return ClassRegistrationScheduleEditorPageView(
-                            newOption,
-                            selectedCourseUnits,
-                            this.items
-                          );}
-                  )
-              ).then(setState);
-            },
+        final int copyIndex = items.length;
+        setState(() {
+          items.add(copy);
+        });
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ClassRegistrationScheduleEditorPageView(
+                copy, selectedCourseUnits),
           ),
-        ),
-      ],
+        ).then((action) => updateList(context, action, copyIndex));
+
+        final int copyId = await db.createSchedule('', 0);
+        copy.id = copyId;
+        await db.saveSchedule(copy);
+        break;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    int newScheduleID;
+    return SectionCard(
+      title: 'Planeamento de Horário',
+      content: Column(
+        children: [
+          items.length == 0
+              ? Text('Ainda não planeaste nenhum horário.')
+              : Row(
+                  children: [
+                    buildPriorityItems(context),
+                    buildScheduleItems(context, setState),
+                  ],
+                ),
+          SizedBox(height: 5.0),
+          Align(
+            alignment: Alignment.bottomRight,
+            child: IconButton(
+              iconSize: 32,
+              color: Theme.of(context).accentColor,
+              icon: Icon(Icons.add_circle_outline_rounded),
+              onPressed: () async {
+                newScheduleID = await AppPlannedScheduleDatabase()
+                    .createSchedule('Novo Horário', items.length);
+
+                final ScheduleOption newOption = ScheduleOption.generate(
+                    newScheduleID,
+                    'Novo Horário',
+                    {},
+                    getNextPreferenceValue());
+                final int index = items.length;
+                this.items.add(newOption);
+                final EditorAction action = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            ClassRegistrationScheduleEditorPageView(
+                                newOption, selectedCourseUnits)));
+
+                updateList(context, action, index);
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -121,9 +173,7 @@ class SchedulePlannerCard extends GenericCard {
   }
 
   Widget buildScheduleItems(
-      BuildContext context,
-      void Function(void Function()) setState
-      ) {
+      BuildContext context, void Function(void Function()) setState) {
     return Expanded(
         child: ConstrainedBox(
             constraints: BoxConstraints(
@@ -141,22 +191,18 @@ class SchedulePlannerCard extends GenericCard {
             )));
   }
 
-  Widget buildScheduleItem(
-      int index,
-      BuildContext context,
-      void Function(void Function()) setState
-      ) {
+  Widget buildScheduleItem(int index, BuildContext context,
+      void Function(void Function()) setState) {
     return GestureDetector(
         key: Key('$index'),
-        onTap: () => Navigator.push(
+        onTap: () async {
+          final EditorAction action = await Navigator.push(
               context,
               MaterialPageRoute(
-              builder: (context) =>
-              ClassRegistrationScheduleEditorPageView(
-                  items[index],
-                  selectedCourseUnits,
-                  items
-    ))).then((value) => setState(() {})),
+                  builder: (context) => ClassRegistrationScheduleEditorPageView(
+                      items[index], selectedCourseUnits)));
+          updateList(context, action, index);
+        },
         child: ConstrainedBox(
           constraints: BoxConstraints(
             minHeight: this._itemHeight,
@@ -183,10 +229,4 @@ class SchedulePlannerCard extends GenericCard {
           ),
         ));
   }
-
-  @override
-  String getTitle() => 'Planeamento de Horário';
-
-  @override
-  onClick(BuildContext context) => null;
 }
