@@ -11,7 +11,7 @@ import 'package:uni/model/entities/schedule_option.dart';
 /// wants to keep track of.
 class AppPlannedScheduleDatabase extends AppDatabase {
   static final curricularUnitChoice =
-      '''CREATE TABLE curricularUnitChoice(id INTEGER PRIMARY KEY AUTOINCREMENT, semester INTEGER, courseAbrv TEXT NOT NULL)''';
+      '''CREATE TABLE curricularUnitChoice(id INTEGER PRIMARY KEY AUTOINCREMENT, semester INTEGER, courseAbrv TEXT NOT NULL, UNIQUE(semester, courseAbrv))''';
   static final schedulePlannerTable =
       '''CREATE TABLE scheduleoption(id INTEGER PRIMARY KEY AUTOINCREMENT, scheduleName TEXT, preference INTEGER)''';
   static final selectedCoursesPlanner =

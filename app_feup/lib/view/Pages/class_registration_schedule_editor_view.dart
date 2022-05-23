@@ -167,21 +167,23 @@ class _ClassRegistrationScheduleEditorViewState
         ),
       ),
       SizedBox(height: 20),
-      for (int i = 0; i < courseUnits.selected.length; i++)
+      for (int i = 0; i < courseUnits.countSelected; i++)
         buildCourseDropdown(i, context),
     ]);
   }
 
   Widget buildScheduleDisplay(BuildContext context) {
+    final List<CourseUnit> courseUnitsList = courseUnits.selected;
+
     final List<Lecture> lectures =
-    scheduleOption.getLectures(_selectedDay, courseUnits.selected);
+    scheduleOption.getLectures(_selectedDay, courseUnitsList);
     final List<bool> hasDiscontinuity = Lecture.getDiscontinuities(lectures);
     final List<bool> hasCollision = Lecture.getCollisions(lectures);
 
     int daysInWeek;
-    if (scheduleOption.getLectures(6, courseUnits.selected).isNotEmpty) {
+    if (scheduleOption.getLectures(6, courseUnitsList).isNotEmpty) {
       daysInWeek = 7;
-    } else if (scheduleOption.getLectures(5, courseUnits.selected).isNotEmpty) {
+    } else if (scheduleOption.getLectures(5, courseUnitsList).isNotEmpty) {
       daysInWeek = 6;
     } else {
       daysInWeek = 5;
@@ -247,14 +249,14 @@ class _ClassRegistrationScheduleEditorViewState
                             context,
                             day,
                             scheduleOption.hasCollisions(
-                                day, courseUnits.selected),
+                                day, courseUnitsList),
                             false,
                           ),
                           selectedIcon: getNavigationRailDestinationIcon(
                             context,
                             day,
                             scheduleOption.hasCollisions(
-                                day, courseUnits.selected),
+                                day, courseUnitsList),
                             true,
                           ),
                           label: Placeholder(),

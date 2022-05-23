@@ -49,8 +49,9 @@ class SelectedCoursesCardState extends State<SelectedCoursesCard> {
           ),
         ),
       ).then((value) {
-        setState(() {});
-        widget.onUpdateList();
+        setState(() {
+          widget.onUpdateList();
+        });
       }),
       content: Stack(
         alignment: Alignment.bottomCenter,
@@ -64,7 +65,7 @@ class SelectedCoursesCardState extends State<SelectedCoursesCard> {
             ),
           ),
           Column(
-            children: selectedCourseUnits.selected.isEmpty
+            children: selectedCourseUnits.isEmpty
                 ? [
                     Text('Nenhuma unidade curricular'),
                     Text('selecionada'),

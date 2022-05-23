@@ -11,7 +11,7 @@ void main() {
       final ScheduleOption option4 = ScheduleOption(name: 'D');
       final ScheduleOption option5 = ScheduleOption(name: 'E');
       final SchedulePreferenceList preferences = SchedulePreferenceList(
-        preferences: [
+        [
           option1,
           option2,
           option3,
@@ -40,7 +40,7 @@ void main() {
       final ScheduleOption option4 = ScheduleOption(name: 'D');
       final ScheduleOption option5 = ScheduleOption(name: 'E');
       final SchedulePreferenceList preferences = SchedulePreferenceList(
-        preferences: [
+        [
           option1,
           option2,
           option3,
@@ -63,7 +63,7 @@ void main() {
       final ScheduleOption option4 = ScheduleOption(name: 'D');
       final ScheduleOption option5 = ScheduleOption(name: 'E');
       final SchedulePreferenceList preferences = SchedulePreferenceList(
-        preferences: [
+        [
           option1,
           option2,
           option3,

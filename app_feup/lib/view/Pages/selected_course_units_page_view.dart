@@ -9,8 +9,8 @@ class SelectedCourseUnitsPageView extends StatefulWidget {
   final CourseUnitsForClassRegistration selectedCourseUnits;
   final List<CourseUnit> courseUnits;
 
-  const SelectedCourseUnitsPageView(
-      this.selectedCourseUnits, this.courseUnits, {Key key})
+  const SelectedCourseUnitsPageView(this.selectedCourseUnits, this.courseUnits,
+      {Key key})
       : super(key: key);
 
   @override
@@ -22,7 +22,6 @@ class SelectedCourseUnitsPageView extends StatefulWidget {
 class _SelectedCourseUnitsPageViewState extends UnnamedPageView {
   final CourseUnitsForClassRegistration selectedCourseUnits;
   final List<CourseUnit> courseUnits;
-  final AppPlannedScheduleDatabase db = AppPlannedScheduleDatabase();
   _SelectedCourseUnitsPageViewState(this.selectedCourseUnits, this.courseUnits);
 
   @override
@@ -39,12 +38,14 @@ class _SelectedCourseUnitsPageViewState extends UnnamedPageView {
                 setState(() {
                   selectedCourseUnits.select(courseUnit);
                 });
-                db.insertSelectedCourseUnit(courseUnit);
+                AppPlannedScheduleDatabase()
+                    .insertSelectedCourseUnit(courseUnit);
               } else {
                 setState(() {
                   selectedCourseUnits.unselect(courseUnit);
                 });
-                db.removeSelectedCourseUnit(courseUnit);
+                AppPlannedScheduleDatabase()
+                    .removeSelectedCourseUnit(courseUnit);
               }
             },
           ),

@@ -1,7 +1,7 @@
 import 'package:uni/model/entities/course_unit.dart';
 
 class CourseUnitsForClassRegistration {
-  List<CourseUnit> selected;
+  Set<CourseUnit> _selected;
   List<CourseUnit> allCourseUnits;
 
   CourseUnitsForClassRegistration(
@@ -9,10 +9,9 @@ class CourseUnitsForClassRegistration {
       List<CourseUnit> courseUnits
       ) {
 
-    final List<CourseUnit> newSelected = List.empty(growable: true);
+    final Set<CourseUnit> newSelected = Set();
 
     for (String courseUnitAbrv in selectedAbrv) {
-
       final CourseUnit selectedCourseUnit = courseUnits.firstWhere(
               (element) => element.abbreviation == courseUnitAbrv
       );
@@ -20,30 +19,27 @@ class CourseUnitsForClassRegistration {
       if (selectedCourseUnit != null) newSelected.add(selectedCourseUnit);
     }
 
-    this.selected = newSelected;
+    this._selected = newSelected;
     this.allCourseUnits = courseUnits;
 
   }
 
-  bool contains(CourseUnit courseUnit) {
-    for (CourseUnit selectedCourseUnit in selected) {
-      if (selectedCourseUnit.id == courseUnit.id) {
-        return true;
-      }
-    }
-    return false;
+  List<CourseUnit> get selected {
+    final List<CourseUnit> list = _selected.toList();
+    list.sort((v1, v2) => v1.name.compareTo(v2.name));
+    return list;
   }
+  bool get isNotEmpty => this._selected.isNotEmpty;
+  bool get isEmpty => this._selected.isEmpty;
+  int get countSelected => this._selected.length;
+
+  bool contains(CourseUnit courseUnit) => _selected.contains(courseUnit);
 
   void select(CourseUnit courseUnit) {
-    selected.add(courseUnit);
+    _selected.add(courseUnit);
   }
 
   void unselect(CourseUnit courseUnit) {
-    selected = selected
-        .where((selectedCourseUnit) =>
-    selectedCourseUnit.id != courseUnit.id)
-        .toList();
+    _selected.remove(courseUnit);
   }
-
-  bool get isNotEmpty => this.selected.isNotEmpty;
 }
