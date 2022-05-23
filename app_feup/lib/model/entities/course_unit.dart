@@ -10,7 +10,6 @@ class CourseUnit {
   int occurrId;
   String semesterCode;
   String semesterName;
-  int semester;
   String type;
   String status;
   String grade;
@@ -28,14 +27,14 @@ class CourseUnit {
       this.occurrId,
       this.semesterCode,
       this.semesterName,
-        this.semester,
       this.type,
       this.status,
       this.grade,
       this.ectsGrade,
       this.result,
       this.ects,
-      this.classes});
+      this.classes}) {
+  }
 
   /// Creates a new instance from a JSON object.
   static CourseUnit fromJson(dynamic data) {

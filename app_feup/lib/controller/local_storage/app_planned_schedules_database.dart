@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:uni/controller/local_storage/app_database.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:collection/collection.dart';
+import 'package:uni/model/class_registration_model.dart';
 import 'package:uni/model/entities/course_unit.dart';
 import 'package:uni/model/entities/schedule_option.dart';
 
@@ -13,7 +14,7 @@ class AppPlannedScheduleDatabase extends AppDatabase {
   static final curricularUnitChoice =
       '''CREATE TABLE curricularUnitChoice(id INTEGER PRIMARY KEY AUTOINCREMENT, semester INTEGER, courseAbrv TEXT NOT NULL, UNIQUE(semester, courseAbrv))''';
   static final schedulePlannerTable =
-      '''CREATE TABLE scheduleoption(id INTEGER PRIMARY KEY AUTOINCREMENT, scheduleName TEXT, preference INTEGER)''';
+      '''CREATE TABLE scheduleoption(id INTEGER PRIMARY KEY AUTOINCREMENT, semester INTEGER, scheduleName TEXT, preference INTEGER)''';
   static final selectedCoursesPlanner =
       '''CREATE TABLE selectedCourses(id INTEGER PRIMARY KEY AUTOINCREMENT, schedule INTEGER NOT NULL, class INTEGER NOT NULL, FOREIGN KEY (schedule) REFERENCES scheduleoption,FOREIGN KEY (class) REFERENCES class)''';
   static final classes =
@@ -28,20 +29,18 @@ class AppPlannedScheduleDatabase extends AppDatabase {
 
   AppPlannedScheduleDatabase() : super('scheduleplanner.db', createScript);
 
-
-  Future<List<String>> getSelectedCourseUnits(int semester) async {
+  Future<List<String>> getSelectedCourseUnits(Semester semester) async {
     final Database db = await this.getDatabase();
 
     final List<Map<String, dynamic>> maps = await db.query(
         'curricularUnitChoice',
         columns: ['courseAbrv'],
         where: '"semester" = ?',
-        whereArgs: [semester]
-    );
+        whereArgs: [semester.toInt().toString()]);
 
     final List<String> abbreviations = List.empty(growable: true);
 
-    for(var row in maps) {
+    for (var row in maps) {
       abbreviations.add(row['courseAbrv']);
     }
 
@@ -53,7 +52,7 @@ class AppPlannedScheduleDatabase extends AppDatabase {
     await db.insert(
       'curricularUnitChoice',
       {
-        'semester': courseUnit.semester,
+        'semester': SemesterUtils.fromCode(courseUnit.semesterCode).toInt(),
         'courseAbrv': courseUnit.abbreviation
       },
       conflictAlgorithm: ConflictAlgorithm.replace,
@@ -64,8 +63,11 @@ class AppPlannedScheduleDatabase extends AppDatabase {
     final Database db = await this.getDatabase();
 
     await db.delete('curricularUnitChoice',
-    where: '"courseAbrv" = ? AND "semester" = ?',
-    whereArgs: [courseUnit.abbreviation, courseUnit.semester]);
+        where: '"courseAbrv" = ? AND "semester" = ?',
+        whereArgs: [
+          courseUnit.abbreviation,
+          SemesterUtils.fromCode(courseUnit.semesterCode).toInt()
+        ]);
   }
 
   Future<int> getClassID(String className, String courseAbrv) async {
@@ -84,14 +86,16 @@ class AppPlannedScheduleDatabase extends AppDatabase {
   }
 
   /// Adds a schedule option to this database.
-  Future<int> createSchedule(String name, int preference) async {
+  Future<int> createSchedule(
+      String name, int preference, Semester semester) async {
     final Database db = await this.getDatabase();
 
     return await db.insert(
       'scheduleoption',
       {
         'scheduleName': name,
-        'preference': preference
+        'preference': preference,
+        'semester': semester.toInt().toString(),
       },
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
@@ -105,14 +109,12 @@ class AppPlannedScheduleDatabase extends AppDatabase {
     final scheduleName = scheduleOption.name;
     final preference = scheduleOption.preference;
 
-    db.update('scheduleoption', {
-      'scheduleName': scheduleName,
-      'preference': preference
-    }, where: '"id" = ?',
-    whereArgs: [scheduleID]);
+    db.update('scheduleoption',
+        {'scheduleName': scheduleName, 'preference': preference},
+        where: '"id" = ?', whereArgs: [scheduleID]);
 
     await db.delete('selectedCourses',
-        where: '"schedule" = ?', whereArgs: [scheduleOption.id]);
+        where: '"schedule" = ?', whereArgs: [scheduleID]);
 
     classesSelected.forEach((courseUnitAbrv, courseUnitClassName) async {
       int courseUnitClassID =
@@ -149,17 +151,15 @@ class AppPlannedScheduleDatabase extends AppDatabase {
         where: '"id" = ?', whereArgs: [scheduleOption.id]);
   }
 
-  Future<List<ScheduleOption>> getScheduleOptions() async {
+  Future<List<ScheduleOption>> getScheduleOptions(Semester semester) async {
     final Database db = await this.getDatabase();
-
     final List<Map<String, dynamic>> scheduleOptionsQuery = await db.rawQuery(
-        'SELECT * FROM "scheduleoption"'
-    );
-  
-    final List<ScheduleOption> scheduleOptions = 
-      List.empty(growable: true);
-    
-    for(var option in scheduleOptionsQuery) {
+        '''SELECT * FROM "scheduleoption" WHERE semester = :sem:;'''
+            .replaceFirst(':sem:', semester.toInt().toString()));
+
+    final List<ScheduleOption> scheduleOptions = List.empty(growable: true);
+
+    for (var option in scheduleOptionsQuery) {
       final int optionID = option['id'];
       String query = '''SELECT * FROM "scheduleoption"
              JOIN "selectedCourses" ON "scheduleoption".id = "selectedCourses".schedule
@@ -200,5 +200,14 @@ class AppPlannedScheduleDatabase extends AppDatabase {
     await db.delete('scheduleoption');
     await db.delete('selectedCourses');
     await db.delete('class');
+  }
+
+  Future<Semester>getScheduleOptionSemester(ScheduleOption option) async {
+    final Database db = await this.getDatabase();
+    final List<Map<String, dynamic>> query = await db.query('scheduleoption',
+        columns: ['semester'],
+        where: '"id" = ?',
+        whereArgs: [option.id]);
+    return SemesterUtils.fromInt(query[0]['semester']);
   }
 }

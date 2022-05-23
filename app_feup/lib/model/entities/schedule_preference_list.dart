@@ -1,9 +1,12 @@
 import 'package:uni/model/entities/schedule_option.dart';
 
+import '../class_registration_model.dart';
+
 class SchedulePreferenceList {
   List<ScheduleOption> preferences;
+  Semester semester;
 
-  SchedulePreferenceList(this.preferences);
+  SchedulePreferenceList(this.semester, this.preferences);
 
   int get length => preferences.length;
   ScheduleOption operator [](int index) => preferences[index];

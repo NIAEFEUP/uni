@@ -2,7 +2,6 @@ import 'package:uni/model/entities/course_unit.dart';
 
 class CourseUnitsForClassRegistration {
   Set<CourseUnit> _selected;
-  List<CourseUnit> allCourseUnits;
 
   CourseUnitsForClassRegistration(
       List<String> selectedAbrv,
@@ -20,8 +19,6 @@ class CourseUnitsForClassRegistration {
     }
 
     this._selected = newSelected;
-    this.allCourseUnits = courseUnits;
-
   }
 
   List<CourseUnit> get selected {

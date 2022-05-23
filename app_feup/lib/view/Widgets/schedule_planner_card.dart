@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:uni/controller/local_storage/app_planned_schedules_database.dart';
+import 'package:uni/model/class_registration_model.dart';
 import 'package:uni/model/class_registration_schedule_editor_model.dart';
 import 'package:uni/model/entities/course_units_for_class_registration.dart';
 import 'package:uni/model/entities/schedule_option.dart';
@@ -76,7 +77,9 @@ class SchedulePlannerCardState extends State<SchedulePlannerCard> {
           ),
         ).then((action) => updateList(context, action, copyIndex));
 
-        final int copyId = await db.createSchedule('', 0);
+        final Semester semester =
+            await db.getScheduleOptionSemester(items[index]);
+        final int copyId = await db.createSchedule('', 0, semester);
         copy.id = copyId;
         await db.saveSchedule(copy);
         break;
@@ -107,7 +110,8 @@ class SchedulePlannerCardState extends State<SchedulePlannerCard> {
               icon: Icon(Icons.add_circle_outline_rounded),
               onPressed: () async {
                 newScheduleID = await AppPlannedScheduleDatabase()
-                    .createSchedule('Novo Horário', items.length);
+                    .createSchedule(
+                        'Novo Horário', items.length, items.semester);
 
                 final ScheduleOption newOption = ScheduleOption.generate(
                     newScheduleID,
