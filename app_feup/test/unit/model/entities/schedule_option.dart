@@ -349,4 +349,46 @@ void main() {
       }
     });
   });
+
+  test('Copy', () {
+    final Map<String, String> classes = Map();
+    final CourseUnitClass courseUnitClass1 = CourseUnitClass(
+        name: '3LEIC01',
+        lectures: [
+          LectureMock(0, '10h00', 'A'),
+          LectureMock(1, '09h30', 'B'),
+        ]);
+    final CourseUnitClass courseUnitClass2 = CourseUnitClass(
+        name: '3LEIC01',
+        lectures: [
+          LectureMock(1, '08h30', 'C'),
+        ]);
+
+    final CourseUnit courseUnit1 = CourseUnit(
+        abbreviation: 'ABC',
+        classes: [courseUnitClass1]
+    );
+    final CourseUnit courseUnit2 = CourseUnit(
+        abbreviation: 'BAC',
+        classes: [courseUnitClass2]
+    );
+
+    classes[courseUnit1.abbreviation] = courseUnitClass1.name;
+
+    final ScheduleOption instance = ScheduleOption(
+      id: 1,
+      name: 'Horário Teste',
+      classesSelected: classes,
+      preference: 0,
+    );
+
+    final ScheduleOption copy = ScheduleOption.copy(5, instance, 1);
+    expect(copy.id, isNot(equals(instance.id)));
+    expect(copy.preference, isNot(equals(instance.preference)));
+    expect(copy.name, 'Horário Teste (Cópia)');
+    expect(copy.classesSelected, instance.classesSelected);
+    // Changes to copy shouldn't reflect original
+    copy.classesSelected[courseUnit2.abbreviation] = courseUnitClass2.name;
+    expect(copy.classesSelected, isNot(equals(instance.classesSelected)));
+  });
 }

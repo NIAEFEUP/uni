@@ -43,7 +43,7 @@ void main() {
       expect(lecture1.collidesWith(lecture5), false);
     });
 
-    test('Schedule option should have 3 discontinuities', () {
+    test('Lecture list should have 3 discontinuities', () {
       final lecture1 =
           Lecture(null, null, 0, null, null, null, null, 8, 30, 9, 30);
 
@@ -80,7 +80,7 @@ void main() {
       expect(discontinuities[5], false);
     });
 
-    test('Schedule option should have 3 collisions', () {
+    test('Lecture list should have 3 collisions', () {
       final lecture1 =
           Lecture(null, null, 0, null, null, null, null, 8, 30, 9, 30);
 
