@@ -12,7 +12,8 @@ class CourseUnitsForClassRegistration {
 
     for (String courseUnitAbrv in selectedAbrv) {
       final CourseUnit selectedCourseUnit = courseUnits.firstWhere(
-              (element) => element.abbreviation == courseUnitAbrv
+              (element) => element.abbreviation == courseUnitAbrv,
+              orElse: () => null,
       );
 
       if (selectedCourseUnit != null) newSelected.add(selectedCourseUnit);
