@@ -303,7 +303,7 @@ class _ClassRegistrationPageViewState extends SecondaryPageViewState {
 
   Map<Semester, SchedulePreferenceList> options = Map();
   Map<Semester, CourseUnitsForClassRegistration> selectedCourseUnits = Map();
-  Semester _semester;
+  Semester _semester = Semester.second;
   Future<void> ongoingFuture = null;
 
   Future<void> startGetData(Semester semester) async {
