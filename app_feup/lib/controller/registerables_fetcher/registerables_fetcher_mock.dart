@@ -5,8 +5,9 @@ import 'package:uni/model/class_registration_model.dart';
 import 'package:uni/model/entities/course_unit.dart';
 
 class RegisterablesFetcherMock extends RegisterablesFetcher {
+  @override
   Future<List<CourseUnit>> getRegisterables(Store<AppState> store) async {
-    List<CourseUnit> fetchedUnits = [
+    final List<CourseUnit> fetchedUnits = [
       CourseUnit(
           id: 0,
           occurrId: 484425,
@@ -72,9 +73,9 @@ class RegisterablesFetcherMock extends RegisterablesFetcher {
           semesterName: Semester.first.toName()),
     ];
 
-    int semester = 2;
+    final int semester = 2;
 
-    List<CourseUnit> registerables = [];
+    final List<CourseUnit> registerables = [];
 
     for (var unit in fetchedUnits) {
       if (unit.semesterCode == semester) {
