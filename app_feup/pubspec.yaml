@@ -13,7 +13,7 @@ description: A FEUP no teu bolso
 # The app version code is automatically also bumped by CI.
 # Do not change it manually.
 
-version: 1.2.1+42
+version: 1.2.2+43
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
