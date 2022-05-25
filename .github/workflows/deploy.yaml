@@ -93,16 +93,6 @@ jobs:
         with:
           name: appbundle
 
-      - name: Release app to internal track
-        if: github.ref == 'refs/heads/develop'
-        uses: r0adkll/upload-google-play@v1
-        with:
-          serviceAccountJsonPlainText: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
-          packageName: ${{ secrets.ANDROID_PACKAGE_NAME }}
-          releaseFiles: app-release.aab
-          track: internal
-          status: completed
-
       - name: Release app to beta track
         if: github.ref == 'refs/heads/develop'
         uses: r0adkll/upload-google-play@v1
