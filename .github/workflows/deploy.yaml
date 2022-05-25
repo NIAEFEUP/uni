@@ -15,11 +15,6 @@ jobs:
       - uses: actions/checkout@v2
         with:
           token: ${{ secrets.NIAEFEUPBOT_PAT }}
-          fetch-depth: 2
-
-      - name: Ensure app_version was not changed manually or was created just now
-        run: |
-          (! git cat-file -e ${{ github.ref_name }}^:${{ env.APP_VERSION_PATH }} && git cat-file -e HEAD:${{env.APP_VERSION_PATH}}) || git diff --quiet ${{ github.ref_name }}^:${{ env.APP_VERSION_PATH }} HEAD:${{ env.APP_VERSION_PATH }} || (echo "App version file was modified manually. Skipping deploy" && exit 1)
 
       - name: Bump flutter patch version
         if: github.ref == 'refs/heads/develop'
