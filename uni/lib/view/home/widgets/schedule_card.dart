@@ -1,4 +1,3 @@
-import 'package:intl/intl.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -14,6 +13,9 @@ import 'package:uni/view/common_widgets/generic_card.dart';
 import 'package:uni/view/schedule/widgets/schedule_slot.dart';
 import 'package:uni/utils/drawer_items.dart';
 
+
+import '../../utils/constants.dart' as Constants;
+import 'generic_card.dart';
 
 class ScheduleCard extends GenericCard {
   ScheduleCard({Key? key}) : super(key: key);
