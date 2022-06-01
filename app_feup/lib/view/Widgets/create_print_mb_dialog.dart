@@ -1,31 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
-import 'package:uni/controller/networking/network_router.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:uni/controller/fetchers/print_fetcher.dart';
+import 'package:uni/model/app_state.dart';
+import 'package:uni/view/Widgets/toast_message.dart';
 
 Future<void> addMoneyDialog(BuildContext context) async {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _controller =
       TextEditingController(text: '1,00 €');
 
-  final CurrencyTextInputFormatter formatter = CurrencyTextInputFormatter(
-      locale: 'pt-PT', decimalDigits: 2, symbol: '€ ');
-
-  double valueTextToNumber(String value) =>
-      double.parse(value.substring(0, value.length - 2).replaceAll(',', '.'));
-  String numberToValueText(double number) =>
-      formatter.format(number.toStringAsFixed(2));
-
-  generateReference(context, amount) async {
-    final response = await NetworkRouter.generatePrintMoneyReference(amount);
-    Navigator.of(context).pop(false);
-  }
-
   return showDialog(
       context: context,
       builder: (BuildContext context) {
-        //State
         double value = 1.00;
-        double iva = value * 0.19;
+        double iva = calculateIva(value);
         double total = value - iva;
 
         return StatefulBuilder(builder: (context, setState) {
@@ -33,8 +22,8 @@ Future<void> addMoneyDialog(BuildContext context) async {
             final inputValue = valueTextToNumber(_controller.text);
             setState(() {
               value = inputValue;
-              iva = (inputValue * 0.19);
-              total = inputValue * 0.81;
+              iva = calculateIva(value);
+              total = inputValue - iva;
             });
           }
 
@@ -64,28 +53,28 @@ Future<void> addMoneyDialog(BuildContext context) async {
                           padding:
                               EdgeInsets.symmetric(horizontal: 5, vertical: 10),
                           child: TextFormField(
-                              controller: _controller,
-                              inputFormatters: [formatter],
-                              keyboardType: TextInputType.number,
-                              textAlign: TextAlign.right,
-                              decoration: InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color:
-                                              Theme.of(context).accentColor))),
-                              onTap: () {
-                                _controller.value = TextEditingValue(
-                                    text: '',
-                                    selection:
-                                        TextSelection.collapsed(offset: 0));
-                              },
-                              onChanged: (string) {
-                                _controller.value = TextEditingValue(
-                                    text: string,
-                                    selection: TextSelection.collapsed(
-                                        offset: string.length));
-                              }),
+                            controller: _controller,
+                            inputFormatters: [formatter],
+                            keyboardType: TextInputType.number,
+                            textAlign: TextAlign.right,
+                            decoration: InputDecoration(
+                                border: OutlineInputBorder(),
+                                focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Theme.of(context).focusColor))),
+                            onTap: () {
+                              _controller.value = TextEditingValue(
+                                  text: '',
+                                  selection:
+                                      TextSelection.collapsed(offset: 0));
+                            },
+                            onChanged: (string) {
+                              _controller.value = TextEditingValue(
+                                  text: string,
+                                  selection: TextSelection.collapsed(
+                                      offset: string.length));
+                            },
+                          ),
                         ),
                       ),
                       IconButton(
@@ -103,11 +92,11 @@ Future<void> addMoneyDialog(BuildContext context) async {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('IVA 23%:',
+                          Text('IVA:',
                               textAlign: TextAlign.start,
-                              style: Theme.of(context).textTheme.headline2),
+                              style: Theme.of(context).textTheme.subtitle2),
                           Text(numberToValueText(iva),
-                              style: Theme.of(context).textTheme.headline3),
+                              style: Theme.of(context).textTheme.bodyText2),
                         ],
                       ),
                     ),
@@ -118,14 +107,14 @@ Future<void> addMoneyDialog(BuildContext context) async {
                           children: [
                             Text('Crédito a adicionar: ',
                                 textAlign: TextAlign.start,
-                                style: Theme.of(context).textTheme.headline2),
+                                style: Theme.of(context).textTheme.subtitle2),
                             Text(numberToValueText(total),
-                                style: Theme.of(context).textTheme.headline3),
+                                style: Theme.of(context).textTheme.bodyText2),
                           ]),
                     ),
                     ElevatedButton(
                       onPressed: () => generateReference(context, value),
-                      child: Text('Gerar Refêrencia'),
+                      child: Text('Gerar referência'),
                     )
                   ],
                 )),
@@ -133,4 +122,33 @@ Future<void> addMoneyDialog(BuildContext context) async {
           );
         });
       });
+}
+
+final CurrencyTextInputFormatter formatter =
+    CurrencyTextInputFormatter(locale: 'pt-PT', decimalDigits: 2, symbol: '€ ');
+double valueTextToNumber(String value) =>
+    double.parse(value.substring(0, value.length - 2).replaceAll(',', '.'));
+String numberToValueText(double number) =>
+    formatter.format(number.toStringAsFixed(2));
+
+double calculateIva(double number) {
+  final value = number * 0.186; //O VALOR MÁGICO é 0.186
+  return ((value * 100).round().toDouble() / 100);
+}
+
+generateReference(context, amount) async {
+  if (amount < 1) {
+    return ToastMessage.display(context, 'Valor mínimo: 1,00 €');
+  }
+
+  final session = StoreProvider.of<AppState>(context).state.content['session'];
+  final response =
+      await PrintFetcher.generatePrintMoneyReference(amount, session);
+
+  if (response.statusCode == 200) {
+    Navigator.of(context).pop(false);
+    ToastMessage.display(context, 'Referência criada com sucesso!');
+  } else {
+    ToastMessage.display(context, 'Algum erro!');
+  }
 }

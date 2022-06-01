@@ -17,7 +17,10 @@ class PrintInfoCard extends GenericCard {
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         Table(
-            columnWidths: {1: FractionColumnWidth(.4)},
+            columnWidths: {
+              1: FractionColumnWidth(0.4),
+              2: FractionColumnWidth(.1)
+            },
             defaultVerticalAlignment: TableCellVerticalAlignment.middle,
             children: [
               TableRow(children: [
@@ -28,14 +31,18 @@ class PrintInfoCard extends GenericCard {
                       style: Theme.of(context).textTheme.subtitle2),
                 ),
                 Container(
-                  margin: const EdgeInsets.only(
-                      top: 20.0, bottom: 20.0, right: 30.0),
+                  margin: const EdgeInsets.only(right: 15.0),
                   child: StoreConnector<AppState, String>(
                       converter: (store) => store.state.content['printBalance'],
-                      builder: (context, printBalance) =>
-                          getInfoText(printBalance, context)),
+                      builder: (context, printBalance) => Text(
+                          printBalance ?? 'N/A',
+                          textAlign: TextAlign.end,
+                          style: Theme.of(context).textTheme.headline6)),
                 ),
-                addMoneyButton(context)
+                Container(
+                    margin: EdgeInsets.only(right: 5.0),
+                    height: 30,
+                    child: addMoneyButton(context))
               ])
             ]),
         StoreConnector<AppState, String>(
@@ -47,9 +54,13 @@ class PrintInfoCard extends GenericCard {
   }
 
   Widget addMoneyButton(BuildContext context) {
-    return TextButton(
+    return OutlinedButton(
+      style: OutlinedButton.styleFrom(
+        primary: Theme.of(context).accentColor,
+        padding: EdgeInsets.zero,
+      ),
       onPressed: () => addMoneyDialog(context),
-      child: const Text('Adicionar'),
+      child: Center(child: Icon(Icons.add)),
     );
   }
 
