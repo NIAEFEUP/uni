@@ -113,8 +113,12 @@ class _SplashScreenState extends State<SplashScreen> {
 
     switch (state) {
       case TermsAndConditionsState.accepted:
+        final List<String> faculties = StoreProvider.of<AppState>(context)
+            .state
+            .content['session']
+            .faculties;
         StoreProvider.of<AppState>(context)
-            .dispatch(reLogin(userName, password, 'feup'));
+            .dispatch(reLogin(userName, password, faculties));
         return MaterialPageRoute(builder: (context) => HomePageView());
 
       case TermsAndConditionsState.rejected:
