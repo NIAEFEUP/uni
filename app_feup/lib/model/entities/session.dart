@@ -7,7 +7,7 @@ class Session {
   /// Whether or not the user is authenticated.
   bool authenticated;
   bool persistentSession = false;
-  String faculty = 'feup'; // should not be hardcoded
+  List<String> faculties;
   String type;
   String cookies;
   String studentNumber;
@@ -15,22 +15,25 @@ class Session {
 
   Session(
       {@required bool this.authenticated,
-      this.studentNumber,
-      this.type,
-      this.cookies}) {}
+      String this.studentNumber,
+      String this.type,
+      String this.cookies,
+      List<String> faculties})
+      : faculties = faculties ?? ['feup'] {}
 
-  // TODO: Is this descriptive enough?
-  /// Creates a new instance from an HTTP response containing a JSON document.
-  static Session fromLogin(dynamic response) {
+  /// Creates a new instance from an HTTP response
+  /// to login in one of the faculties.
+  static Session fromLogin(dynamic response, List<String> faculties) {
     final responseBody = json.decode(response.body);
     if (responseBody['authenticated']) {
       return Session(
           authenticated: true,
+          faculties: faculties,
           studentNumber: responseBody['codigo'],
           type: responseBody['tipo'],
           cookies: NetworkRouter.extractCookies(response.headers));
     } else {
-      return Session(authenticated: false);
+      return Session(authenticated: false, faculties: faculties);
     }
   }
 }

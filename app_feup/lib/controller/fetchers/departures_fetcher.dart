@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:uni/model/entities/bus.dart';
 import 'package:uni/model/entities/bus_stop.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart';
@@ -92,5 +95,52 @@ class DeparturesFetcher {
 
       return int.parse(regex.stringMatch(rawBusInformation[2].text).toString());
     }
+  }
+
+  /// Retrieves the name and code of the stops with code [stopCode].
+  static Future<List<String>> getStopsByName(String stopCode) async {
+    final List<String> stopsList = [];
+
+    //Search by approximate name
+    final String url =
+        'https://www.stcp.pt/pt/itinerarium/callservice.php?action=srchstoplines&stopname=$stopCode';
+    final http.Response response = await http.post(url.toUri());
+    final List json = jsonDecode(response.body);
+    for (var busKey in json) {
+      final String stop = busKey['name'] + ' [' + busKey['code'] + ']';
+      stopsList.add(stop);
+    }
+
+    return stopsList;
+  }
+
+  /// Retrieves real-time information about the user's selected bus lines.
+  static Future<List<Trip>> getNextArrivalsStop(
+      String stopCode, BusStopData stopData) {
+    return DeparturesFetcher(stopCode, stopData).getDepartures();
+  }
+
+  /// Returns the bus lines that stop at the given [stop].
+  static Future<List<Bus>> getBusesStoppingAt(String stop) async {
+    final String url =
+        'https://www.stcp.pt/pt/itinerarium/callservice.php?action=srchstoplines&stopcode=$stop';
+    final http.Response response = await http.post(url.toUri());
+
+    final List json = jsonDecode(response.body);
+
+    final List<Bus> buses = [];
+
+    for (var busKey in json) {
+      final lines = busKey['lines'];
+      for (var bus in lines) {
+        final Bus newBus = Bus(
+            busCode: bus['code'],
+            destination: bus['description'],
+            direction: (bus['dir'] == 0 ? false : true));
+        buses.add(newBus);
+      }
+    }
+
+    return buses;
   }
 }
