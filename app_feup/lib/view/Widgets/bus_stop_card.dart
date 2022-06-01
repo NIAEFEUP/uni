@@ -22,7 +22,8 @@ class BusStopCard extends GenericCard {
   String getTitle() => 'Autocarros';
 
   @override
-  onClick(BuildContext context) => Navigator.pushNamed(context, '/' + Constants.navStops);
+  onClick(BuildContext context) =>
+      Navigator.pushNamed(context, '/' + Constants.navStops);
 
   @override
   Widget buildCardContent(BuildContext context) {
@@ -33,7 +34,7 @@ class BusStopCard extends GenericCard {
         converter: (store) => Tuple3(
             store.state.content['currentBusTrips'],
             store.state.content['configuredBusStops'],
-            store.state.content['busstopStatus']),
+            store.state.content['busStopStatus']),
         builder: (context, trips) =>
             getCardContent(context, trips.item1, trips.item2, trips.item3));
   }
