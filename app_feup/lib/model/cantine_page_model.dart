@@ -1,12 +1,13 @@
-import 'package:tuple/tuple.dart';
-import 'package:uni/model/app_state.dart';
+//import 'package:tuple/tuple.dart';
+//import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/meal.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
+//import 'package:flutter_redux/flutter_redux.dart';
 import 'package:uni/view/Pages/cantine_page_view.dart';
 import 'package:uni/view/Pages/secondary_page_view.dart';
 
 import 'package:uni/model/entities/restaurant.dart';
+import 'package:uni/view/Widgets/page_title.dart';
 
 class CantinePage extends StatefulWidget {
   const CantinePage({Key key}) : super(key : key);
@@ -41,6 +42,7 @@ class _CantinePageState extends SecondaryPageViewState
     tabController.dispose();
     super.dispose();
   }
+
 
 
   /*

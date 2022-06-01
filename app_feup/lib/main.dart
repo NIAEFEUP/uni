@@ -120,9 +120,9 @@ class MyAppState extends State<MyApp> {
                         page: BugReportPageView(),
                         settings: settings,
                         maintainState: false);
-                    case '/' + Constants.navCantine:
+                  case '/' + Constants.navCantine:
                     return PageTransition.makePageTransition(
-                        page: CantinePage(), settings: settings);
+                      page:CantinePage(), settings: settings);
                   case '/' + Constants.navLogOut:
                     return LogoutRoute.buildLogoutRoute();
                 }
