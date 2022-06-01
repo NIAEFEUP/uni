@@ -38,7 +38,6 @@ class AppSharedPreferences {
     final prefs = await SharedPreferences.getInstance();
     prefs.setString(userNumber, user);
     prefs.setString(userPw, encode(pass));
-    // print('There are faculties ' + faculties[0] + '\n\n\n\n');
     prefs.setStringList(
         userFaculties, faculties); // Could be multiple faculties
   }
