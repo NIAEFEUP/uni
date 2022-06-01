@@ -1,4 +1,4 @@
-import 'package:uni/controller/networking/network_router.dart';
+import 'package:uni/controller/fetchers/departures_fetcher.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/bus.dart';
 import 'package:uni/model/entities/bus_stop.dart';
@@ -33,7 +33,8 @@ class _BusesFormState extends State<BusesForm> {
   }
 
   void getStopBuses() async {
-    final List<Bus> buses = await NetworkRouter.getBusesStoppingAt(stopCode);
+    final List<Bus> buses =
+        await DeparturesFetcher.getBusesStoppingAt(stopCode);
     this.setState(() {
       this.buses = buses;
       busesToAdd.fillRange(0, buses.length, false);
