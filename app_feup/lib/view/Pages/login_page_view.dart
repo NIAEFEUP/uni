@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 import 'package:uni/view/Widgets/faculties_multiselect.dart';
 import 'package:uni/view/Widgets/toast_message.dart';
 import 'package:uni/model/app_state.dart';
@@ -9,6 +10,7 @@ import 'package:uni/view/Widgets/terms_and_conditions.dart';
 import 'package:uni/utils/constants.dart' as Constants;
 
 import '../../model/app_state.dart';
+import '../theme_notifier.dart';
 
 class LoginPageView extends StatefulWidget {
   @override
@@ -169,7 +171,9 @@ class _LoginPageViewState extends State<LoginPageView> {
 
   /// Creates the widget for the user to choose their faculty
   Widget createFacultyInput() {
-    return FacultiesMultiselect(faculties, setFaculties);
+    return FacultiesMultiselect(
+        faculties, setFaculties, Provider.of<ThemeNotifier>(context)
+    );
   }
 
   /// Creates the widget for the username input.

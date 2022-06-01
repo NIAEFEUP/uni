@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:uni/utils/constants.dart' as Constants;
 
+import '../theme_notifier.dart';
+
 class FacultiesSelectionForm extends StatefulWidget {
   final faculties;
   final Function setFaculties;
+  final ThemeNotifier themeNotifier;
 
-  FacultiesSelectionForm(this.faculties, this.setFaculties);
+  FacultiesSelectionForm(this.faculties, this.setFaculties, this.themeNotifier);
 
   @override
   State<StatefulWidget> createState() => _FacultiesSelectionFormState();
@@ -14,35 +17,51 @@ class FacultiesSelectionForm extends StatefulWidget {
 class _FacultiesSelectionFormState extends State<FacultiesSelectionForm> {
   @override
   Widget build(BuildContext context) {
+    final Color textColor = Color.fromARGB(255, 0xfa, 0xfa, 0xfa);
+    Color backgroundColor;
+    if (widget.themeNotifier.getTheme() == ThemeMode.dark) {
+      backgroundColor = Color.fromARGB(255, 27, 27, 27);
+    } else {
+      backgroundColor = Color.fromARGB(255, 0x75, 0x17, 0x1e);
+    }
+
     return AlertDialog(
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: backgroundColor,
         title: Text('seleciona a(s) tua(s) faculdade(s)'),
         titleTextStyle: TextStyle(
-            color: Theme.of(context).canvasColor,
+            color: textColor,
             fontSize: 18
         ),
         content: Container(
             height: 500.0,
             width: 200.0,
-            child: createCheckList()
+            child: createCheckList(context)
         ),
-        actions: createActionButtons()
+        actions: createActionButtons(context)
     );
   }
 
-  List<Widget> createActionButtons() {
+  List<Widget> createActionButtons(BuildContext context) {
+    final Color primaryColor = Color.fromARGB(255, 0xfa, 0xfa, 0xfa);
+    Color onPrimaryColor;
+    if (widget.themeNotifier.getTheme() == ThemeMode.dark) {
+      onPrimaryColor = Color.fromARGB(255, 27, 27, 27);
+    } else {
+      onPrimaryColor = Color.fromARGB(255, 0x75, 0x17, 0x1e);
+    }
+
     return [
       TextButton(
           child: Text('Cancelar'),
           style: TextButton.styleFrom(
-              primary: Theme.of(context).canvasColor),
+              primary: primaryColor),
           onPressed: () => Navigator.pop(context)
       ),
       ElevatedButton(
           child: Text('Confirmar'),
           style: ElevatedButton.styleFrom(
-              primary: Theme.of(context).canvasColor,
-              onPrimary: Theme.of(context).primaryColor
+              primary: primaryColor,
+              onPrimary: onPrimaryColor
           ),
           onPressed: () {
             Navigator.pop(context);
@@ -52,7 +71,15 @@ class _FacultiesSelectionFormState extends State<FacultiesSelectionForm> {
     ];
   }
 
-  Widget createCheckList() {
+  Widget createCheckList(BuildContext context) {
+    final Color textColor = Color.fromARGB(255, 0xfa, 0xfa, 0xfa);
+    Color activeColor;
+    if (widget.themeNotifier.getTheme() == ThemeMode.dark) {
+      activeColor = Color.fromARGB(255, 27, 27, 27);
+    } else {
+      activeColor = Color.fromARGB(255, 0x75, 0x17, 0x1e);
+    }
+
     return ListView(
       children: List.generate(
         Constants.faculties.length, (i) {
@@ -61,10 +88,11 @@ class _FacultiesSelectionFormState extends State<FacultiesSelectionForm> {
             title: Text(
                 faculty.toUpperCase(),
                 style: TextStyle(
-                    color: Theme.of(context).canvasColor,
+                    color: textColor,
                     fontSize: 20.0
                 )
             ),
+            activeColor: activeColor,
             key: Key('FacultyCheck' + faculty),
             value: widget.faculties.contains(faculty),
             onChanged: (value) {

@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:uni/view/Widgets/faculties_selection_form.dart';
+import '../theme_notifier.dart';
 
 class FacultiesMultiselect extends StatelessWidget {
   final faculties;
   final Function setFaculties;
+  final ThemeNotifier themeNotifier;
 
-  FacultiesMultiselect(this.faculties, this.setFaculties);
+  FacultiesMultiselect(this.faculties, this.setFaculties, this.themeNotifier);
 
   @override
   Widget build(BuildContext context) {
+    final Color textColor = Color.fromARGB(255, 0xfa, 0xfa, 0xfa);
+
     return TextButton(
-        child: createButtonContent(),
+        child: createButtonContent(context),
         style: TextButton.styleFrom(
-            primary: Theme.of(context).canvasColor,
+            primary: textColor,
             textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.w300)
         ),
         onPressed: () {
@@ -20,7 +24,7 @@ class FacultiesMultiselect extends StatelessWidget {
               context: context,
               builder: (BuildContext context) {
                 return FacultiesSelectionForm(
-                    List<String>.from(faculties), setFaculties
+                    List<String>.from(faculties), setFaculties, themeNotifier
                 );
               }
           );
@@ -28,7 +32,14 @@ class FacultiesMultiselect extends StatelessWidget {
     );
   }
 
-  Widget createButtonContent() {
+  Widget createButtonContent(BuildContext context) {
+    Color borderColor;
+    if (themeNotifier.getTheme() == ThemeMode.dark) {
+      borderColor = Colors.white;
+    } else {
+      borderColor = Colors.black;
+    }
+
     return Container(
         child: Row(
             children: [
@@ -41,7 +52,7 @@ class FacultiesMultiselect extends StatelessWidget {
         decoration: BoxDecoration(
             border: Border(
                 bottom: BorderSide(
-                  color: Colors.black,
+                  color: borderColor,
                   width: 0.5,
                 )
             )
