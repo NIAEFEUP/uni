@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:uni/view/Widgets/faculties_selection_form.dart';
-import '../theme_notifier.dart';
 
 class FacultiesMultiselect extends StatelessWidget {
   final faculties;
   final Function setFaculties;
-  final ThemeNotifier themeNotifier;
+  final Brightness brightness;
 
-  FacultiesMultiselect(this.faculties, this.setFaculties, this.themeNotifier);
+  FacultiesMultiselect(this.faculties, this.setFaculties, this.brightness);
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +23,7 @@ class FacultiesMultiselect extends StatelessWidget {
               context: context,
               builder: (BuildContext context) {
                 return FacultiesSelectionForm(
-                    List<String>.from(faculties), setFaculties, themeNotifier
+                    List<String>.from(faculties), setFaculties, brightness
                 );
               }
           );
@@ -34,7 +33,7 @@ class FacultiesMultiselect extends StatelessWidget {
 
   Widget createButtonContent(BuildContext context) {
     Color borderColor;
-    if (themeNotifier.getTheme() == ThemeMode.dark) {
+    if (brightness == Brightness.dark) {
       borderColor = Colors.white;
     } else {
       borderColor = Colors.black;

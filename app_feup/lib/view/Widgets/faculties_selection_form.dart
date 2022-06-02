@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:uni/utils/constants.dart' as Constants;
 
-import '../theme_notifier.dart';
-
 class FacultiesSelectionForm extends StatefulWidget {
   final faculties;
   final Function setFaculties;
-  final ThemeNotifier themeNotifier;
+  final Brightness brightness;
 
-  FacultiesSelectionForm(this.faculties, this.setFaculties, this.themeNotifier);
+  FacultiesSelectionForm(this.faculties, this.setFaculties, this.brightness);
 
   @override
   State<StatefulWidget> createState() => _FacultiesSelectionFormState();
@@ -19,7 +17,7 @@ class _FacultiesSelectionFormState extends State<FacultiesSelectionForm> {
   Widget build(BuildContext context) {
     final Color textColor = Color.fromARGB(255, 0xfa, 0xfa, 0xfa);
     Color backgroundColor;
-    if (widget.themeNotifier.getTheme() == ThemeMode.dark) {
+    if (widget.brightness == Brightness.dark) {
       backgroundColor = Color.fromARGB(255, 27, 27, 27);
     } else {
       backgroundColor = Color.fromARGB(255, 0x75, 0x17, 0x1e);
@@ -44,7 +42,7 @@ class _FacultiesSelectionFormState extends State<FacultiesSelectionForm> {
   List<Widget> createActionButtons(BuildContext context) {
     final Color primaryColor = Color.fromARGB(255, 0xfa, 0xfa, 0xfa);
     Color onPrimaryColor;
-    if (widget.themeNotifier.getTheme() == ThemeMode.dark) {
+    if (widget.brightness == Brightness.dark) {
       onPrimaryColor = Color.fromARGB(255, 27, 27, 27);
     } else {
       onPrimaryColor = Color.fromARGB(255, 0x75, 0x17, 0x1e);
@@ -74,7 +72,7 @@ class _FacultiesSelectionFormState extends State<FacultiesSelectionForm> {
   Widget createCheckList(BuildContext context) {
     final Color textColor = Color.fromARGB(255, 0xfa, 0xfa, 0xfa);
     Color activeColor;
-    if (widget.themeNotifier.getTheme() == ThemeMode.dark) {
+    if (widget.brightness == Brightness.dark) {
       activeColor = Color.fromARGB(255, 27, 27, 27);
     } else {
       activeColor = Color.fromARGB(255, 0x75, 0x17, 0x1e);

@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:provider/provider.dart';
 import 'package:uni/view/Widgets/faculties_multiselect.dart';
 import 'package:uni/view/Widgets/toast_message.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/redux/action_creators.dart';
 import 'package:uni/view/Widgets/terms_and_conditions.dart';
 import 'package:uni/utils/constants.dart' as Constants;
-
-import '../../model/app_state.dart';
-import '../theme_notifier.dart';
 
 class LoginPageView extends StatefulWidget {
   @override
@@ -157,7 +153,7 @@ class _LoginPageViewState extends State<LoginPageView> {
       key: this._formKey,
       child: SingleChildScrollView(
         child: Column(children: [
-          createFacultyInput(),
+          createFacultyInput(context),
           Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)),
           createUsernameInput(context),
           Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)),
@@ -170,9 +166,9 @@ class _LoginPageViewState extends State<LoginPageView> {
   }
 
   /// Creates the widget for the user to choose their faculty
-  Widget createFacultyInput() {
+  Widget createFacultyInput(BuildContext context) {
     return FacultiesMultiselect(
-        faculties, setFaculties, Provider.of<ThemeNotifier>(context)
+        faculties, setFaculties, Theme.of(context).brightness
     );
   }
 
