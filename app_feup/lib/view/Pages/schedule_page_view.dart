@@ -77,6 +77,7 @@ class SchedulePageView extends StatelessWidget {
         rooms: lecture.room,
         begin: lecture.startTime,
         end: lecture.endTime,
+        occurrId: lecture.occurrId,
         teacher: lecture.teacher,
         classNumber: lecture.classNumber,
       ));

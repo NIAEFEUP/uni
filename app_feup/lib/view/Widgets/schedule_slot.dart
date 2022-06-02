@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/view/Widgets/row_container.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ScheduleSlot extends StatelessWidget {
   final String subject;
@@ -10,6 +12,7 @@ class ScheduleSlot extends StatelessWidget {
   final String teacher;
   final String typeClass;
   final String classNumber;
+  final int occurrId;
 
   ScheduleSlot({
     Key key,
@@ -18,6 +21,7 @@ class ScheduleSlot extends StatelessWidget {
     @required this.rooms,
     @required this.begin,
     @required this.end,
+    @required this.occurrId,
     this.teacher,
     this.classNumber,
   }) : super(key: key);
@@ -57,6 +61,36 @@ class ScheduleSlot extends StatelessWidget {
   Widget createScheduleTime(String time, context) => createTextField(
       time, Theme.of(context).textTheme.bodyText2, TextAlign.center);
 
+  String toUcLink(int occurrId) {
+    final String faculty = 'feup'; //should not be hardcoded
+    return '${NetworkRouter.getBaseUrl(faculty)}'
+        'UCURR_GERAL.FICHA_UC_VIEW?pv_ocorrencia_id=$occurrId';
+  }
+
+  _launchURL() async {
+    final String url = toUcLink(this.occurrId);
+    await launch(url);
+  }
+
+  Widget createSubjectButton(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        IconButton(
+          constraints: BoxConstraints(
+              minHeight: kMinInteractiveDimension/3,
+              minWidth: kMinInteractiveDimension/3),
+          icon: Icon(Icons.open_in_browser),
+          iconSize: 18,
+          color: Colors.grey,
+          alignment: Alignment.centerRight,
+          tooltip: 'Abrir página da UC no browser',
+          onPressed: _launchURL,
+        ),
+      ],
+    );
+  }
+
   List<Widget> createScheduleSlotPrimInfo(context) {
     final subjectTextField = createTextField(
         this.subject,
@@ -75,6 +109,7 @@ class ScheduleSlot extends StatelessWidget {
         children: <Widget>[
           Row(
             children: <Widget>[
+              createSubjectButton(context),
               subjectTextField,
               typeClassTextField,
             ],
