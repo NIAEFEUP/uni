@@ -42,6 +42,7 @@ void main() {
     final rooms = 'B315';
     final typeClass = 'T';
     final teacher = 'JAS';
+    final occurrId = 12345;
 
     testWidgets('When given a single room', (WidgetTester tester) async {
       final widget = makeTestableWidget(
@@ -52,6 +53,7 @@ void main() {
         begin: begin,
         end: end,
         teacher: teacher,
+        occurrId: occurrId,
       ));
 
       await tester.pumpWidget(widget);

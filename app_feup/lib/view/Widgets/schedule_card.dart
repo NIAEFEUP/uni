@@ -91,7 +91,7 @@ class ScheduleCard extends GenericCard {
     return rows;
   }
 
-  Widget createRowFromLecture(context, lecture) {
+  Widget createRowFromLecture(context, Lecture lecture) {
     return Container(
         margin: EdgeInsets.only(bottom: 10),
         child: ScheduleSlot(
@@ -101,7 +101,7 @@ class ScheduleCard extends GenericCard {
             end: lecture.endTime,
             teacher: lecture.teacher,
             typeClass: lecture.typeClass,
-            classNumber: lecture.classNumber));
+            classNumber: lecture.classNumber, occurrId: lecture.occurrId,));
   }
 
   @override

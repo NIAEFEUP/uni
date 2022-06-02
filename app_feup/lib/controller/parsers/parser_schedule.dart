@@ -32,9 +32,11 @@ Future<List<Lecture>> parseSchedule(http.Response response) async {
     final String room = lecture['sala_sigla'].replaceAll(RegExp('\\+'), '\n');
     final String teacher = lecture['doc_sigla'];
     final String classNumber = lecture['turma_sigla'];
+    final int occurrId = lecture['ocorrencia_id'];
 
     lectures.add(Lecture.fromApi(
-        subject, typeClass, day, secBegin, blocks, room, teacher, classNumber));
+        subject, typeClass, day, secBegin, blocks,
+        room, teacher, classNumber, occurrId));
   }
 
   final lecturesList = lectures.toList();
