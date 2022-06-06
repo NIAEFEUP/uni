@@ -422,7 +422,14 @@ class _ClassRegistrationViewState extends State<_ClassRegistrationView> {
         groupValue: _semester,
         onChanged: onChangeSemester,
       ),
-      Text(semester.toName()),
+      GestureDetector(
+        onTap: () {
+          setState(() {
+            onChangeSemester(semester);
+          });
+        },
+        child: Text(semester.toName()),
+      ),
     ];
   }
 
