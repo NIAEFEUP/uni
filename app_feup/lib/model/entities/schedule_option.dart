@@ -11,15 +11,6 @@ class ScheduleOption {
 
   ScheduleOption({this.id, this.name, this.classesSelected, this.preference});
 
-  ScheduleOption.generate(
-      int id, String name, Map<String, String> classesSelected, int preference
-      ) {
-    this.id = id;
-    this.name = name;
-    this.classesSelected = classesSelected;
-    this.preference = preference;
-  }
-
   ScheduleOption.copy(int id, ScheduleOption scheduleOption, int preference) {
     this.id = id;
     this.name = scheduleOption.name + ' (Cópia)';

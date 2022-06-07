@@ -460,6 +460,7 @@ class _ClassRegistrationViewState extends State<_ClassRegistrationView> {
         SchedulePlannerCard(
           items: schedulePreferences,
           selectedCourseUnits: selectedCourseUnits,
+          onUpdateList: () => onChangeSemester(_semester),
           onReorder: (int oldIndex, int newIndex) {
             setState(() {
               schedulePreferences.reorder(oldIndex, newIndex);

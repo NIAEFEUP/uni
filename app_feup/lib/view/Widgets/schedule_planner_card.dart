@@ -14,9 +14,14 @@ class SchedulePlannerCard extends StatefulWidget {
   final CourseUnitsForClassRegistration selectedCourseUnits;
   final SchedulePreferenceList items;
   final Function(int oldIndex, int newIndex) onReorder;
+  final void Function() onUpdateList;
 
   SchedulePlannerCard(
-      {Key key, this.items, this.selectedCourseUnits, this.onReorder})
+      {Key key,
+      this.items,
+      this.selectedCourseUnits,
+      this.onReorder,
+      void Function() this.onUpdateList})
       : super(key: key);
 
   @override
@@ -25,6 +30,7 @@ class SchedulePlannerCard extends StatefulWidget {
       items: this.items,
       onReorder: this.onReorder,
       selectedCourseUnits: this.selectedCourseUnits,
+      onUpdateList: this.onUpdateList,
     );
   }
 }
@@ -35,9 +41,13 @@ class SchedulePlannerCardState extends State<SchedulePlannerCard> {
   final Function(int oldIndex, int newIndex) onReorder;
   final double _itemHeight = 50.0;
   final double _borderRadius = 10.0;
+  final void Function() onUpdateList;
 
   SchedulePlannerCardState(
-      {this.items, this.selectedCourseUnits, this.onReorder});
+      {this.items,
+      this.selectedCourseUnits,
+      this.onReorder,
+      void Function() this.onUpdateList});
 
   int getNextPreferenceValue() {
     final List<ScheduleOption> preferences = items.preferences;
@@ -48,34 +58,33 @@ class SchedulePlannerCardState extends State<SchedulePlannerCard> {
   Future<void> updateList(
       BuildContext context, EditorAction action, int index) async {
     if (action == null) {
-      setState(() {});
+      onUpdateList();
       return;
     }
 
     final AppPlannedScheduleDatabase db = AppPlannedScheduleDatabase();
     switch (action) {
       case EditorAction.delete:
-        await db.deleteOption(items[index]);
-        setState(() {
-          items.remove(index);
-        });
+        final ScheduleOption option = items[index];
+        items.remove(index);
+        onUpdateList();
+        await db.deleteOption(option);
         break;
       case EditorAction.duplicate:
         final ScheduleOption copy =
             ScheduleOption.copy(null, items[index], items.length);
 
         final int copyIndex = items.length;
-        setState(() {
-          items.add(copy);
-        });
-
+        items.add(copy);
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => ClassRegistrationScheduleEditorPageView(
                 copy, selectedCourseUnits),
           ),
-        ).then((action) => updateList(context, action, copyIndex));
+        ).then((action) {
+          updateList(context, action, copyIndex);
+        });
 
         final Semester semester =
             await db.getScheduleOptionSemester(items[index]);
@@ -98,7 +107,7 @@ class SchedulePlannerCardState extends State<SchedulePlannerCard> {
               : Row(
                   children: [
                     buildPriorityItems(context),
-                    buildScheduleItems(context, setState),
+                    buildScheduleItems(context),
                   ],
                 ),
           SizedBox(height: 5.0),
@@ -112,12 +121,11 @@ class SchedulePlannerCardState extends State<SchedulePlannerCard> {
                 newScheduleID = await AppPlannedScheduleDatabase()
                     .createSchedule(
                         'Novo Horário', items.length, items.semester);
-
-                final ScheduleOption newOption = ScheduleOption.generate(
-                    newScheduleID,
-                    'Novo Horário',
-                    {},
-                    getNextPreferenceValue());
+                final ScheduleOption newOption = ScheduleOption(
+                    id: newScheduleID,
+                    name: 'Novo Horário',
+                    classesSelected: {},
+                    preference: getNextPreferenceValue());
                 final int index = items.length;
                 this.items.add(newOption);
                 final EditorAction action = await Navigator.push(
@@ -176,8 +184,7 @@ class SchedulePlannerCardState extends State<SchedulePlannerCard> {
     );
   }
 
-  Widget buildScheduleItems(
-      BuildContext context, void Function(void Function()) setState) {
+  Widget buildScheduleItems(BuildContext context) {
     return Expanded(
         child: ConstrainedBox(
             constraints: BoxConstraints(
@@ -189,14 +196,13 @@ class SchedulePlannerCardState extends State<SchedulePlannerCard> {
               padding: const EdgeInsets.symmetric(horizontal: 10),
               children: <Widget>[
                 for (int index = 0; index < items.length; index += 1)
-                  buildScheduleItem(index, context, setState)
+                  buildScheduleItem(index, context)
               ],
               onReorder: this.onReorder,
             )));
   }
 
-  Widget buildScheduleItem(int index, BuildContext context,
-      void Function(void Function()) setState) {
+  Widget buildScheduleItem(int index, BuildContext context) {
     return GestureDetector(
         key: Key('$index'),
         onTap: () async {
