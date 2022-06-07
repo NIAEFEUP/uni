@@ -202,6 +202,15 @@ class AppPlannedScheduleDatabase extends AppDatabase {
     await db.delete('class');
   }
 
+  Future<void> dropDB() async {
+    final Database db = await this.getDatabase();
+    await db.execute("DROP TABLE IF EXISTS class");
+    await db.execute("DROP TABLE IF EXISTS selectedCourses");
+    await db.execute("DROP TABLE IF EXISTS curricularUnitChoice");
+    await db.execute("DROP TABLE IF EXISTS scheduleoption");
+
+  }
+
   Future<Semester>getScheduleOptionSemester(ScheduleOption option) async {
     final Database db = await this.getDatabase();
     final List<Map<String, dynamic>> query = await db.query('scheduleoption',
