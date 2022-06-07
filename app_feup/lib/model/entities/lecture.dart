@@ -22,6 +22,7 @@ class Lecture {
   int day;
   int blocks;
   int startTimeSeconds;
+  int occurrId;
 
   /// Creates an instance of the class [Lecture].
   Lecture(
@@ -35,7 +36,8 @@ class Lecture {
       int startTimeHours,
       int startTimeMinutes,
       int endTimeHours,
-      int endTimeMinutes) {
+      int endTimeMinutes,
+      int occurrId) {
     this.subject = subject;
     this.typeClass = typeClass;
     this.room = room;
@@ -43,6 +45,7 @@ class Lecture {
     this.day = day;
     this.blocks = blocks;
     this.classNumber = classNumber;
+    this.occurrId = occurrId;
     this.startTime = startTimeHours.toString().padLeft(2, '0') +
         'h' +
         startTimeMinutes.toString().padLeft(2, '0');
@@ -59,7 +62,8 @@ class Lecture {
       int blocks,
       String room,
       String teacher,
-      String classNumber) {
+      String classNumber,
+      int occurrId) {
     final startTimeHours = (startTimeSeconds ~/ 3600);
     final startTimeMinutes = ((startTimeSeconds % 3600) ~/ 60);
     final endTimeSeconds = 60 * 30 * blocks + startTimeSeconds;
@@ -76,7 +80,8 @@ class Lecture {
         startTimeHours,
         startTimeMinutes,
         endTimeHours,
-        endTimeMinutes);
+        endTimeMinutes,
+        occurrId);
     lecture.startTimeSeconds = startTimeSeconds;
     return lecture;
   }
@@ -89,14 +94,16 @@ class Lecture {
       int blocks,
       String room,
       String teacher,
-      String classNumber) {
+      String classNumber,
+      int occurrId) {
     final startTimeHours = int.parse(startTime.substring(0, 2));
     final startTimeMinutes = int.parse(startTime.substring(3, 5));
     final endTimeHours =
         (startTimeMinutes + (blocks * 30)) ~/ 60 + startTimeHours;
     final endTimeMinutes = (startTimeMinutes + (blocks * 30)) % 60;
     return Lecture(subject, typeClass, day, blocks, room, teacher, classNumber,
-        startTimeHours, startTimeMinutes, endTimeHours, endTimeMinutes);
+        startTimeHours, startTimeMinutes, endTimeHours,
+        endTimeMinutes, occurrId);
   }
 
   /// Clones a lecture from the api.
@@ -109,14 +116,15 @@ class Lecture {
         lec.blocks,
         lec.room,
         lec.teacher,
-        lec.classNumber);
+        lec.classNumber,
+        lec.occurrId);
   }
 
 
   /// Clones a lecture from the html.
   static Lecture cloneHtml(Lecture lec) {
     return Lecture.fromHtml(lec.subject, lec.typeClass, lec.day, lec.startTime,
-        lec.blocks, lec.room, lec.teacher, lec.classNumber);
+        lec.blocks, lec.room, lec.teacher, lec.classNumber, lec.occurrId);
   }
 
 
@@ -131,6 +139,7 @@ class Lecture {
       'room': room,
       'teacher': teacher,
       'classNumber': classNumber,
+      'occurrId': occurrId
     };
   }
 
@@ -159,7 +168,7 @@ class Lecture {
 
   @override
   int get hashCode => hashValues(subject, startTime, endTime, typeClass, room,
-      teacher, day, blocks, startTimeSeconds);
+      teacher, day, blocks, startTimeSeconds, occurrId);
 
   @override
   bool operator ==(o) =>
@@ -172,5 +181,6 @@ class Lecture {
       this.teacher == o.teacher &&
       this.day == o.day &&
       this.blocks == o.blocks &&
-      this.startTimeSeconds == o.startTimeSeconds;
+      this.startTimeSeconds == o.startTimeSeconds &&
+      this.occurrId == o.occurrId;
 }
