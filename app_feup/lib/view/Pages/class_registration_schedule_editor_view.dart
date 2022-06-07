@@ -15,7 +15,8 @@ class ClassRegistrationScheduleEditorPageView extends StatefulWidget {
   final CourseUnitsForClassRegistration selectedCourseUnits;
 
   const ClassRegistrationScheduleEditorPageView(
-      this.scheduleOption, this.selectedCourseUnits, {Key key})
+      this.scheduleOption, this.selectedCourseUnits,
+      {Key key})
       : super(key: key);
 
   @override
@@ -24,8 +25,7 @@ class ClassRegistrationScheduleEditorPageView extends StatefulWidget {
           this.scheduleOption, this.selectedCourseUnits);
 }
 
-class _ClassRegistrationScheduleEditorPageViewState
-    extends UnnamedPageView {
+class _ClassRegistrationScheduleEditorPageViewState extends UnnamedPageView {
   final ScheduleOption scheduleOption;
   final CourseUnitsForClassRegistration selectedCourseUnits;
 
@@ -80,6 +80,8 @@ class _ClassRegistrationScheduleEditorViewState
 
   int _selectedDay = 0;
 
+  FocusNode _renameFocus;
+
   _ClassRegistrationScheduleEditorViewState(
       this.scheduleOption, this.courseUnits) {
     _expandableKeys = [
@@ -91,6 +93,7 @@ class _ClassRegistrationScheduleEditorViewState
   void initState() {
     super.initState();
     _renameController = TextEditingController(text: this.scheduleOption.name);
+    _renameFocus = FocusNode();
     _pageController = PageController();
   }
 
@@ -102,6 +105,9 @@ class _ClassRegistrationScheduleEditorViewState
         buildScheduleEditor(context),
         buildScheduleDisplay(context),
       ],
+      onPageChanged: (page) {
+        _renameFocus.unfocus();
+      },
     );
   }
 
@@ -121,11 +127,12 @@ class _ClassRegistrationScheduleEditorViewState
                   scheduleOption.name = text;
                   AppPlannedScheduleDatabase().saveSchedule(scheduleOption);
                 },
+                focusNode: _renameFocus,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   focusedBorder: OutlineInputBorder(
                     borderSide:
-                    BorderSide(color: Colors.black.withOpacity(0.75)),
+                        BorderSide(color: Colors.black.withOpacity(0.75)),
                   ),
                   labelText: 'Nome do horário',
                   labelStyle: TextStyle(color: Theme.of(context).accentColor),
@@ -154,6 +161,7 @@ class _ClassRegistrationScheduleEditorViewState
                     ),
                     TextButton(
                       onPressed: () {
+                        _renameFocus.unfocus();
                         Navigator.pop(context);
                         Navigator.pop(context, EditorAction.delete);
                       },
@@ -176,7 +184,7 @@ class _ClassRegistrationScheduleEditorViewState
     final List<CourseUnit> courseUnitsList = courseUnits.selected;
 
     final List<Lecture> lectures =
-    scheduleOption.getLectures(_selectedDay, courseUnitsList);
+        scheduleOption.getLectures(_selectedDay, courseUnitsList);
     final List<bool> hasDiscontinuity = Lecture.getDiscontinuities(lectures);
     final List<bool> hasCollision = Lecture.getCollisions(lectures);
 
@@ -194,37 +202,37 @@ class _ClassRegistrationScheduleEditorViewState
         Expanded(
           child: lectures.isEmpty
               ? Center(
-              child: Text('Não possui aulas ' +
-                  [
-                    'à Segunda-feira',
-                    'à Terça-feira',
-                    'à Quarta-feira',
-                    'à Quinta-feira',
-                    'à Sexta-feira',
-                    'ao Sábado',
-                    'ao Domingo'
-                  ][_selectedDay] +
-                  '.'))
+                  child: Text('Não possui aulas ' +
+                      [
+                        'à Segunda-feira',
+                        'à Terça-feira',
+                        'à Quarta-feira',
+                        'à Quinta-feira',
+                        'à Sexta-feira',
+                        'ao Sábado',
+                        'ao Domingo'
+                      ][_selectedDay] +
+                      '.'))
               : ListView(
-            children: [
-              for (int i = 0; i < lectures.length; i++)
-                Container(
-                  margin:
-                  EdgeInsets.only(top: hasDiscontinuity[i] ? 70 : 0),
-                  child: ClassRegistrationScheduleTile(
-                    subject: lectures[i].subject,
-                    typeClass: lectures[i].typeClass,
-                    rooms: lectures[i].room,
-                    begin: lectures[i].startTime,
-                    end: lectures[i].endTime,
-                    teacher: lectures[i].teacher,
-                    classNumber: lectures[i].classNumber,
-                    hasDiscontinuity: hasDiscontinuity[i],
-                    hasCollision: hasCollision[i],
-                  ),
+                  children: [
+                    for (int i = 0; i < lectures.length; i++)
+                      Container(
+                        margin:
+                            EdgeInsets.only(top: hasDiscontinuity[i] ? 70 : 0),
+                        child: ClassRegistrationScheduleTile(
+                          subject: lectures[i].subject,
+                          typeClass: lectures[i].typeClass,
+                          rooms: lectures[i].room,
+                          begin: lectures[i].startTime,
+                          end: lectures[i].endTime,
+                          teacher: lectures[i].teacher,
+                          classNumber: lectures[i].classNumber,
+                          hasDiscontinuity: hasDiscontinuity[i],
+                          hasCollision: hasCollision[i],
+                        ),
+                      ),
+                  ],
                 ),
-            ],
-          ),
         ),
         const VerticalDivider(thickness: 1, width: 1),
         // This is the main content.
@@ -248,15 +256,13 @@ class _ClassRegistrationScheduleEditorViewState
                           icon: getNavigationRailDestinationIcon(
                             context,
                             day,
-                            scheduleOption.hasCollisions(
-                                day, courseUnitsList),
+                            scheduleOption.hasCollisions(day, courseUnitsList),
                             false,
                           ),
                           selectedIcon: getNavigationRailDestinationIcon(
                             context,
                             day,
-                            scheduleOption.hasCollisions(
-                                day, courseUnitsList),
+                            scheduleOption.hasCollisions(day, courseUnitsList),
                             true,
                           ),
                           label: Placeholder(),
@@ -297,7 +303,7 @@ class _ClassRegistrationScheduleEditorViewState
   Widget buildCourseDropdown(int index, BuildContext context) {
     final CourseUnit courseUnit = courseUnits.selected[index];
     final String selectedClass =
-    scheduleOption.classesSelected[courseUnit.abbreviation];
+        scheduleOption.classesSelected[courseUnit.abbreviation];
 
     return Card(
       margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
