@@ -43,6 +43,8 @@ class SchedulePlannerCardState extends State<SchedulePlannerCard> {
   final double _borderRadius = 10.0;
   final void Function() onUpdateList;
 
+  final int _maximumSubmitableSchedules = 10;
+
   SchedulePlannerCardState(
       {this.items,
       this.selectedCourseUnits,
@@ -102,14 +104,22 @@ class SchedulePlannerCardState extends State<SchedulePlannerCard> {
       title: 'Planeamento de Horário',
       content: Column(
         children: [
-          items.length == 0
-              ? Text('Ainda não planeaste nenhum horário.')
-              : Row(
-                  children: [
-                    buildPriorityItems(context),
-                    buildScheduleItems(context),
-                  ],
-                ),
+          if (items.length == 0) Text('Ainda não planeaste nenhum horário.'),
+          if (items.length != 0)
+            SectionCard(
+                content: Column(children: [
+              Text('Podes ajustar as prioridades',
+                  style: TextStyle(fontSize: 14.0)),
+              Text('movendo as opções.', style: TextStyle(fontSize: 14.0)),
+            ])),
+          if (items.length != 0) SizedBox(height: 10),
+          if (items.length != 0)
+            Row(
+              children: [
+                buildPriorityItems(context),
+                buildScheduleItems(context),
+              ],
+            ),
           SizedBox(height: 5.0),
           Align(
             alignment: Alignment.bottomRight,
@@ -156,7 +166,9 @@ class SchedulePlannerCardState extends State<SchedulePlannerCard> {
           physics: NeverScrollableScrollPhysics(),
           padding: const EdgeInsets.symmetric(horizontal: 10),
           children: <Widget>[
-            for (int index = 0; index < items.length; index += 1)
+            for (int index = 0;
+                index < min(items.length, _maximumSubmitableSchedules);
+                index += 1)
               buildPriorityItem(index, context)
           ],
         ));
