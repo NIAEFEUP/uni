@@ -1,3 +1,4 @@
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uni/controller/local_storage/app_planned_schedules_database.dart';
 import 'package:flutter/material.dart';
 import 'package:uni/model/class_registration_model.dart';
@@ -303,11 +304,19 @@ class _ClassRegistrationPageViewState extends SecondaryPageViewState {
 
   Map<Semester, SchedulePreferenceList> options = Map();
   Map<Semester, CourseUnitsForClassRegistration> selectedCourseUnits = Map();
-  Semester _semester = Semester.second;
+  Semester _semester = null;
   Future<void> ongoingFuture = null;
-
+  SharedPreferences prefs = null;
   Future<void> startGetData(Semester semester) async {
     final AppPlannedScheduleDatabase db = AppPlannedScheduleDatabase();
+
+    if (semester == null) {
+      prefs = await SharedPreferences.getInstance();
+      _semester = (prefs.getInt('semester') ?? 1) == 1
+          ? Semester.first : Semester.second;
+      semester = _semester;
+    }
+
     if (!options.containsKey(semester)) {
       options[semester] = SchedulePreferenceList(
         semester,
@@ -325,7 +334,7 @@ class _ClassRegistrationPageViewState extends SecondaryPageViewState {
     }
   }
 
-  Future<void> getOngoingOrStart(Semester semester) {
+  Future<void> getOngoingOrStart(Semester semester) async {
     if (ongoingFuture == null) {
       ongoingFuture = startGetData(semester);
     }
@@ -355,6 +364,7 @@ class _ClassRegistrationPageViewState extends SecondaryPageViewState {
             onChangeSemester: (Semester semester) {
               setState(() {
                 _semester = semester;
+                prefs.setInt('semester', _semester.toInt());
                 ongoingFuture = null;
               });
             },
@@ -422,7 +432,14 @@ class _ClassRegistrationViewState extends State<_ClassRegistrationView> {
         groupValue: _semester,
         onChanged: onChangeSemester,
       ),
-      Text(semester.toName()),
+      GestureDetector(
+        onTap: () {
+          setState(() {
+            onChangeSemester(semester);
+          });
+        },
+        child: Text(semester.toName()),
+      ),
     ];
   }
 
