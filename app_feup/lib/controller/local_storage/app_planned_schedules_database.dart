@@ -204,10 +204,10 @@ class AppPlannedScheduleDatabase extends AppDatabase {
 
   Future<void> dropDB() async {
     final Database db = await this.getDatabase();
-    await db.execute("DROP TABLE IF EXISTS class");
-    await db.execute("DROP TABLE IF EXISTS selectedCourses");
-    await db.execute("DROP TABLE IF EXISTS curricularUnitChoice");
-    await db.execute("DROP TABLE IF EXISTS scheduleoption");
+    await db.execute('DROP TABLE IF EXISTS class');
+    await db.execute('DROP TABLE IF EXISTS selectedCourses');
+    await db.execute('DROP TABLE IF EXISTS curricularUnitChoice');
+    await db.execute('DROP TABLE IF EXISTS scheduleoption');
 
   }
 
