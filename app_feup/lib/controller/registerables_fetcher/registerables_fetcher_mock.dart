@@ -1,12 +1,10 @@
 import 'package:uni/controller/registerables_fetcher/registerables_fetcher.dart';
-import 'package:uni/model/app_state.dart';
-import 'package:redux/redux.dart';
 import 'package:uni/model/class_registration_model.dart';
 import 'package:uni/model/entities/course_unit.dart';
 
 class RegisterablesFetcherMock extends RegisterablesFetcher {
   @override
-  Future<List<CourseUnit>> getRegisterables(Store<AppState> store) async {
+  Future<List<CourseUnit>> getRegisterables() async {
     final List<CourseUnit> fetchedUnits = [
       CourseUnit(
           id: 0,
@@ -73,7 +71,7 @@ class RegisterablesFetcherMock extends RegisterablesFetcher {
           semesterName: Semester.first.toName()),
     ];
 
-    final int semester = 2;
+    final String semester = '2S';
 
     final List<CourseUnit> registerables = [];
 
