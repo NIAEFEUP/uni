@@ -1,3 +1,4 @@
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:uni/controller/local_storage/app_planned_schedules_database.dart';
 import 'package:flutter/material.dart';
 import 'package:uni/model/class_registration_schedule_editor_model.dart';
@@ -99,11 +100,45 @@ class _ClassRegistrationScheduleEditorViewState
 
   @override
   Widget build(BuildContext context) {
-    return PageView(
-      controller: _pageController,
+    return Stack(
       children: [
-        buildScheduleEditor(context),
-        buildScheduleDisplay(context),
+        PageView(
+          controller: _pageController,
+          children: [
+            buildScheduleEditor(context),
+            buildScheduleDisplay(context),
+          ],
+        ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).backgroundColor,
+                  border: Border.all(
+                    color: Colors.grey,
+                  )
+                ),
+                padding: const EdgeInsets.all(10),
+                child: Center(
+                    child: SmoothPageIndicator(
+                      controller: _pageController,
+                      count: 2,
+                      effect: ExpandingDotsEffect(
+                        activeDotColor:  Theme.of(context).accentColor,
+                      ),
+                      onDotClicked:
+                          (index) => _pageController.animateToPage(
+                              index,
+                              duration: Duration(milliseconds: 500),
+                              curve: Curves.bounceOut
+                          ),
+                    )
+                )
+            )
+          ],
+        ),
       ],
       onPageChanged: (page) {
         _renameFocus.unfocus();
@@ -177,6 +212,7 @@ class _ClassRegistrationScheduleEditorViewState
       SizedBox(height: 20),
       for (int i = 0; i < courseUnits.countSelected; i++)
         buildCourseDropdown(i, context),
+      SizedBox(height: 40),
     ]);
   }
 
