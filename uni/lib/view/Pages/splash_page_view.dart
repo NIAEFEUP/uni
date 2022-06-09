@@ -29,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen> {
     startTimeAndChangeRoute();
   }
 
-  late final MediaQueryData queryData;
+  MediaQueryData? queryData;
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +45,7 @@ class _SplashScreenState extends State<SplashScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Padding(
-                  padding: EdgeInsets.only(bottom: queryData.size.height / 4)),
+                  padding: EdgeInsets.only(bottom: queryData!.size.height / 4)),
               createTitle(),
               const Spacer(),
               Column(
@@ -54,12 +54,12 @@ class _SplashScreenState extends State<SplashScreen> {
                   const CircularProgressIndicator(),
                   Padding(
                       padding:
-                          EdgeInsets.only(bottom: queryData.size.height / 16)),
+                          EdgeInsets.only(bottom: queryData!.size.height / 16)),
                   createNILogo(),
                 ],
               ),
               Padding(
-                  padding: EdgeInsets.only(bottom: queryData.size.height / 6))
+                  padding: EdgeInsets.only(bottom: queryData!.size.height / 6))
             ],
           )
         ],
@@ -71,8 +71,8 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget createTitle() {
     return ConstrainedBox(
         constraints: BoxConstraints(
-          minWidth: queryData.size.width / 8,
-          minHeight: queryData.size.height / 6,
+          minWidth: queryData!.size.width / 8,
+          minHeight: queryData!.size.height / 6,
         ),
         child: SizedBox(
             width: 150.0,
@@ -87,7 +87,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return SvgPicture.asset(
       'assets/images/by_niaefeup.svg',
       color: Theme.of(context).primaryColor,
-      width: queryData.size.width * 0.45,
+      width: queryData!.size.width * 0.45,
     );
   }
 
@@ -103,6 +103,9 @@ class _SplashScreenState extends State<SplashScreen> {
     } else {
       await acceptTermsAndConditions();
       nextRoute = MaterialPageRoute(builder: (context) => LoginPageView());
+    }
+    if (!mounted) {
+      return;
     }
     Navigator.pushReplacement(context, nextRoute);
   }

@@ -9,8 +9,8 @@ jobs:
     name: "Bump pubspec version"
     runs-on: ubuntu-latest
     env:
-      APP_VERSION_PATH: "app_feup/app_version.txt"
-      PUBSPEC_PATH: "app_feup/pubspec.yaml"
+      APP_VERSION_PATH: "uni/app_version.txt"
+      PUBSPEC_PATH: "uni/pubspec.yaml"
     steps:
       - uses: actions/checkout@v2
         with:

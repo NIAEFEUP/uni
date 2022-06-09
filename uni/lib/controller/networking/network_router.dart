@@ -57,12 +57,12 @@ class NetworkRouter {
       }
 
       if (session.loginRequest != null) {
-        return session.loginRequest!;
+        return session.loginRequest! as Future<bool>;
       } else {
         return session.loginRequest = loginFromSession(session).then((_) {
           session.loginRequest = null;
           return true;
-        });
+        }) as Future<bool>;
       }
     });
   }

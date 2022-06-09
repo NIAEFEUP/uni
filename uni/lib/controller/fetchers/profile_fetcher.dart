@@ -15,8 +15,8 @@ class ProfileFetcher implements SessionDependantFetcher {
 
   /// Returns the user's [Profile].
   static Future<Profile> getProfile(Session session) async {
-    final url = NetworkRouter.getBaseUrlsFromSession(session)[0] +
-        'mob_fest_geral.perfil?';
+    final url =
+        '${NetworkRouter.getBaseUrlsFromSession(session)[0]}mob_fest_geral.perfil?';
     final response = await NetworkRouter.getWithCookies(
         url, {'pv_codigo': session.studentNumber}, session);
 

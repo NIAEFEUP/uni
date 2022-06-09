@@ -7,6 +7,7 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:sentry/sentry.dart';
 import 'package:redux/redux.dart';
 import 'package:provider/provider.dart';
+import 'package:toast/toast.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/controller/middleware.dart';
 import 'package:uni/model/app_state.dart';
@@ -78,6 +79,7 @@ class MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    ToastContext().init(context);
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);

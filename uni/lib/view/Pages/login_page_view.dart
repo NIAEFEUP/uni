@@ -299,9 +299,9 @@ class _LoginPageViewState extends State<LoginPageView> {
         builder: (context, status) {
           switch (status) {
             case RequestStatus.busy:
-              return Container(
+              return const SizedBox(
                 height: 60.0,
-                child: const Center(child: const CircularProgressIndicator()),
+                child: Center(child: CircularProgressIndicator()),
               );
             default:
               return Container();
@@ -371,7 +371,7 @@ class _LoginPageViewState extends State<LoginPageView> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: const Text('Termos e Condições'),
-            content: SingleChildScrollView(child: TermsAndConditions()),
+            content: const SingleChildScrollView(child: TermsAndConditions()),
             actions: <Widget>[
               SimpleDialogOption(
                 onPressed: () => Navigator.pop(context),
