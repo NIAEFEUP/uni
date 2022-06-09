@@ -1,5 +1,8 @@
 import 'dart:async';
 
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'package:sqflite/sqflite.dart';
+import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -40,6 +43,14 @@ Future<void> main() async {
       /* Function defined in the reducers file */
       initialState: AppState(null),
       middleware: [generalMiddleware]);
+
+  if (Platform.isWindows || Platform.isLinux) {
+    // Initialize FFI
+    sqfliteFfiInit();
+  }
+  // Change the default factory. On iOS/Android, if not using `sqlite_flutter_lib` you can forget
+  // this step, it will use the sqlite version available on the system.
+  databaseFactory = databaseFactoryFfi;
 
   OnStartUp.onStart(state);
   WidgetsFlutterBinding.ensureInitialized();
