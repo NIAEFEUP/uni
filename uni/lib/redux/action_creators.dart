@@ -69,9 +69,8 @@ ThunkAction<AppState> reLogin(
           authenticated: false,
           faculties: faculties,
           type: '',
-          cookies: '');
-      renewSession.persistentSession = true;
-      renewSession.faculties = faculties;
+          cookies: '',
+          persistentSession: true);
 
       action?.completeError(RequestStatus.failed);
 
@@ -209,8 +208,8 @@ ThunkAction<AppState> updateStateBasedOnLocalRefreshTimes() {
     final Map<String, String> refreshTimes =
         await refreshTimesDb.refreshTimes();
 
-    store.dispatch(SetPrintRefreshTimeAction(refreshTimes['print']!));
-    store.dispatch(SetFeesRefreshTimeAction(refreshTimes['fees']!));
+    store.dispatch(SetPrintRefreshTimeAction(refreshTimes['print']));
+    store.dispatch(SetFeesRefreshTimeAction(refreshTimes['fees']));
   };
 }
 

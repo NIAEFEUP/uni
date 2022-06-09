@@ -12,17 +12,17 @@ class Lecture {
     'Sábado',
     'Domingo'
   ];
-  late final String subject;
-  late final String startTime;
-  late final String endTime;
-  final String typeClass;
-  final String room;
-  final String teacher;
-  final String classNumber;
-  late final int day;
-  final int blocks;
-  late final int startTimeSeconds;
-  final int occurrId;
+  late String subject;
+  late String startTime;
+  late String endTime;
+  late String typeClass;
+  late String room;
+  late String teacher;
+  late String classNumber;
+  late int day;
+  late int blocks;
+  late int startTimeSeconds;
+  late int occurrId;
 
   /// Creates an instance of the class [Lecture].
   Lecture(
@@ -162,16 +162,16 @@ class Lecture {
       teacher, day, blocks, startTimeSeconds, occurrId);
 
   @override
-  bool operator ==(o) =>
-      o is Lecture &&
-      subject == o.subject &&
-      startTime == o.startTime &&
-      endTime == o.endTime &&
-      typeClass == o.typeClass &&
-      room == o.room &&
-      teacher == o.teacher &&
-      day == o.day &&
-      blocks == o.blocks &&
-      startTimeSeconds == o.startTimeSeconds &&
-      occurrId == o.occurrId;
+  bool operator ==(other) =>
+      other is Lecture &&
+      subject == other.subject &&
+      startTime == other.startTime &&
+      endTime == other.endTime &&
+      typeClass == other.typeClass &&
+      room == other.room &&
+      teacher == other.teacher &&
+      day == other.day &&
+      blocks == other.blocks &&
+      startTimeSeconds == other.startTimeSeconds &&
+      occurrId == other.occurrId;
 }

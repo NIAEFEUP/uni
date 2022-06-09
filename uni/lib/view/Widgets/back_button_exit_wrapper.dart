@@ -34,7 +34,7 @@ class BackButtonExitWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: backButton() as Future<bool> Function(),
+      onWillPop: () => backButton() as Future<bool>,
       child: child,
     );
   }

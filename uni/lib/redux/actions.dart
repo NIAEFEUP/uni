@@ -50,7 +50,6 @@ class SetScheduleStatusAction {
   SetScheduleStatusAction(this.status);
 }
 
-
 class SetInitialStoreStateAction {
   SetInitialStoreStateAction();
 }
@@ -136,12 +135,12 @@ class SetCoursesStatesStatusAction {
 }
 
 class SetPrintRefreshTimeAction {
-  String time;
+  String? time;
   SetPrintRefreshTimeAction(this.time);
 }
 
 class SetFeesRefreshTimeAction {
-  String time;
+  String? time;
   SetFeesRefreshTimeAction(this.time);
 }
 

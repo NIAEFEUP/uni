@@ -45,7 +45,8 @@ class NetworkRouter {
           faculties: faculties,
           studentNumber: '',
           cookies: '',
-          type: '');
+          type: '',
+          persistentSession: false);
     }
   }
 

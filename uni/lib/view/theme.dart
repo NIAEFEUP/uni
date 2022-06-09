@@ -20,8 +20,8 @@ ThemeData applicationLightTheme = ThemeData(
   scaffoldBackgroundColor: _mildWhite,
   hintColor: _lightGrey,
   dividerColor: _lightGrey,
-  cardColor: Color.fromARGB(255, 0xff, 0xff, 0xff),
-  tabBarTheme: TabBarTheme(
+  cardColor: const Color.fromARGB(255, 0xff, 0xff, 0xff),
+  tabBarTheme: const TabBarTheme(
     unselectedLabelColor: _strongGrey,
     labelColor: _strongGrey,
     labelPadding: EdgeInsets.all(0.0),
@@ -36,14 +36,16 @@ ThemeData applicationLightTheme = ThemeData(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12.0),
         ),
-        textStyle: TextStyle(fontWeight: FontWeight.w400, fontSize: 15.0)),
+        textStyle:
+            const TextStyle(fontWeight: FontWeight.w400, fontSize: 15.0)),
   ),
-  iconTheme: IconThemeData(color: _darkRed),
-  accentIconTheme: IconThemeData(color: _darkRed),
+  iconTheme: const IconThemeData(color: _darkRed),
+  accentIconTheme: const IconThemeData(color: _darkRed),
   textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
           primary: _darkRed,
-          textStyle: TextStyle(fontSize: 15.0, fontWeight: FontWeight.w400))),
+          textStyle:
+              const TextStyle(fontSize: 15.0, fontWeight: FontWeight.w400))),
   checkboxTheme: CheckboxThemeData(
       checkColor: MaterialStateProperty.all(Colors.white),
       fillColor: MaterialStateColor.resolveWith(
@@ -51,7 +53,7 @@ ThemeData applicationLightTheme = ThemeData(
           return states.contains(MaterialState.selected) ? _darkRed : _grey;
         },
       )),
-  textTheme: TextTheme(
+  textTheme: const TextTheme(
     headline1: TextStyle(fontSize: 40.0, fontWeight: FontWeight.w400),
     headline2: TextStyle(fontSize: 32.0, fontWeight: FontWeight.w400),
     headline3: TextStyle(fontSize: 28.0, fontWeight: FontWeight.w400),
@@ -72,19 +74,20 @@ ThemeData applicationLightTheme = ThemeData(
 
 ThemeData applicationDarkTheme = ThemeData(
   brightness: Brightness.dark,
-  hintColor: Color.fromARGB(255, 43, 43, 43),
-  dividerColor: Color.fromARGB(255, 100, 100, 100),
+  hintColor: const Color.fromARGB(255, 43, 43, 43),
+  dividerColor: const Color.fromARGB(255, 100, 100, 100),
   primaryColor: _white,
   accentColor: _white,
   canvasColor: _darkBlack,
   backgroundColor: _darkBlack,
   scaffoldBackgroundColor: _darkBlack,
-  cardColor: Color.fromARGB(255, 43, 43, 43),
+  cardColor: const Color.fromARGB(255, 43, 43, 43),
   textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
           primary: _white,
-          textStyle: TextStyle(fontSize: 15.0, fontWeight: FontWeight.w400))),
-  textTheme: TextTheme(
+          textStyle:
+              const TextStyle(fontSize: 15.0, fontWeight: FontWeight.w400))),
+  textTheme: const TextTheme(
     headline1: TextStyle(fontSize: 40.0, fontWeight: FontWeight.w400),
     headline2: TextStyle(fontSize: 32.0, fontWeight: FontWeight.w400),
     headline3: TextStyle(fontSize: 28.0, fontWeight: FontWeight.w400),
@@ -103,13 +106,13 @@ ThemeData applicationDarkTheme = ThemeData(
         fontSize: 14.0, fontWeight: FontWeight.w400, color: _mildGrey),
     caption: TextStyle(fontSize: 13.0, fontWeight: FontWeight.w400),
   ),
-  tabBarTheme: TabBarTheme(
+  tabBarTheme: const TabBarTheme(
     unselectedLabelColor: _white,
     labelColor: _white,
     labelPadding: EdgeInsets.all(0.0),
   ),
   checkboxTheme: applicationLightTheme.checkboxTheme,
   elevatedButtonTheme: applicationLightTheme.elevatedButtonTheme,
-  iconTheme: IconThemeData(color: _white),
-  accentIconTheme: IconThemeData(color: _white),
+  iconTheme: const IconThemeData(color: _white),
+  accentIconTheme: const IconThemeData(color: _white),
 );

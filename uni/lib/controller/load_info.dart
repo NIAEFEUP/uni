@@ -16,11 +16,9 @@ import 'local_storage/app_shared_preferences.dart';
 Future loadReloginInfo(Store<AppState> store) async {
   final Tuple2<String, String> userPersistentCredentials =
       await AppSharedPreferences.getPersistentUserInfo();
-  final List<String> userPersistentFacs =
-      await AppSharedPreferences.getUserFaculties();
   final String userName = userPersistentCredentials.item1;
   final String password = userPersistentCredentials.item2;
-  final List<String> faculties = userPersistentFacs;
+  final List<String> faculties = await AppSharedPreferences.getUserFaculties();
 
   if (userName != '' && password != '') {
     final action = Completer();
@@ -118,7 +116,7 @@ Future<File?> loadProfilePic(Store<AppState> store) {
   final String faculty = store.state.content['session'].faculties[0];
   final String url =
       'https://sigarra.up.pt/$faculty/pt/fotografias_service.foto?pct_cod=$studentNumber';
-  final Map<String, String> headers = Map<String, String>();
+  final Map<String, String> headers = <String, String>{};
   headers['cookie'] = store.state.content['session'].cookies;
   return retrieveImage(url, headers);
 }

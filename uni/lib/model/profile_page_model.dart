@@ -15,10 +15,10 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  late final String name;
-  late final String email;
-  late final Map<String, String> currentState;
-  late final List<Course> courses;
+  late String name;
+  late String email;
+  late Map<String, String> currentState;
+  late List<Course> courses;
   Future<File>? profilePicFile;
 
   @override

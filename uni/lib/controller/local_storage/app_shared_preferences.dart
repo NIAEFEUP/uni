@@ -110,7 +110,8 @@ class AppSharedPreferences {
   static Future<List<String>> getUserFaculties() async {
     final prefs = await SharedPreferences.getInstance();
     final List<String>? storedFaculties = prefs.getStringList(userFaculties);
-    return storedFaculties ?? [];
+    return storedFaculties ??
+        ['feup']; // TODO: Store dropdown choices in the db for later storage;
   }
 
   /// Returns the user's student number.

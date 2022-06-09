@@ -17,8 +17,8 @@ class _SchedulePageState extends SecondaryPageViewState
     with SingleTickerProviderStateMixin {
   final int weekDay = DateTime.now().weekday;
 
-  late final TabController tabController;
-  late final ScrollController scrollViewController;
+  late TabController tabController;
+  //late ScrollController scrollViewController;
 
   final List<String> daysOfTheWeek = [
     'Segunda-feira',
@@ -65,7 +65,7 @@ class _SchedulePageState extends SecondaryPageViewState
         final scheduleStatus = lectureData.item2;
         return SchedulePageView(
             tabController: tabController,
-            scrollViewController: scrollViewController,
+            //scrollViewController: scrollViewController,
             daysOfTheWeek: daysOfTheWeek,
             aggLectures: _groupLecturesByDay(lectures),
             scheduleStatus: scheduleStatus);

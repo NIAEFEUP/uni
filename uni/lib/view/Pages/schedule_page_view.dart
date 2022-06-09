@@ -7,20 +7,20 @@ import 'package:uni/view/Widgets/schedule_slot.dart';
 
 /// Manages the 'schedule' sections of the app
 class SchedulePageView extends StatelessWidget {
-  const SchedulePageView(
-      {Key? key,
-      required this.tabController,
-      required this.daysOfTheWeek,
-      required this.aggLectures,
-      required this.scheduleStatus,
-      required this.scrollViewController})
-      : super(key: key);
+  const SchedulePageView({
+    Key? key,
+    required this.tabController,
+    required this.daysOfTheWeek,
+    required this.aggLectures,
+    required this.scheduleStatus,
+    /*required this.scrollViewController*/
+  }) : super(key: key);
 
   final List<String> daysOfTheWeek;
   final List<List<Lecture>> aggLectures;
   final RequestStatus scheduleStatus;
   final TabController tabController;
-  final ScrollController scrollViewController;
+  //final ScrollController scrollViewController;
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +51,7 @@ class SchedulePageView extends StatelessWidget {
   List<Widget> createTabs(queryData, BuildContext context) {
     final List<Widget> tabs = <Widget>[];
     for (var i = 0; i < daysOfTheWeek.length; i++) {
-      tabs.add(Container(
+      tabs.add(SizedBox(
         width: queryData.size.width * 1 / 3,
         child: Tab(key: Key('schedule-page-tab-$i'), text: daysOfTheWeek[i]),
       ));

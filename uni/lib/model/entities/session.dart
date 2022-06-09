@@ -6,7 +6,7 @@ import 'package:uni/controller/networking/network_router.dart';
 class Session {
   /// Whether or not the user is authenticated.
   bool authenticated;
-  bool persistentSession = false;
+  bool persistentSession;
   List<String> faculties;
   String type;
   String cookies;
@@ -19,7 +19,8 @@ class Session {
       required this.studentNumber,
       required this.type,
       required this.cookies,
-      required this.faculties});
+      required this.faculties,
+      required this.persistentSession});
 
   /// Creates a new instance from an HTTP response
   /// to login in one of the faculties.
@@ -31,14 +32,16 @@ class Session {
           faculties: faculties,
           studentNumber: responseBody['codigo'],
           type: responseBody['tipo'],
-          cookies: NetworkRouter.extractCookies(response.headers));
+          cookies: NetworkRouter.extractCookies(response.headers),
+          persistentSession: false);
     } else {
       return Session(
           authenticated: false,
           faculties: faculties,
           type: '',
           cookies: '',
-          studentNumber: '');
+          studentNumber: '',
+          persistentSession: false);
     }
   }
 }

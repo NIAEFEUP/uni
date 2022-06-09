@@ -22,7 +22,7 @@ abstract class GenericCard extends StatefulWidget {
 
   Widget buildCardContent(BuildContext context);
   String getTitle();
-  onClick(BuildContext context);
+  dynamic onClick(BuildContext context);
 
   Text getInfoText(String text, BuildContext context) {
     return Text(text,
@@ -50,7 +50,11 @@ class GenericCardState extends State<GenericCard> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        onTap: () => !widget.editingMode && widget.onClick(context),
+        onTap: () {
+          if (!widget.editingMode) {
+            widget.onClick(context);
+          }
+        },
         child: Card(
             margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
             color: const Color.fromARGB(0, 0, 0, 0),
@@ -93,9 +97,9 @@ class GenericCardState extends State<GenericCard> {
                                         color: Theme.of(context).primaryColor)),
                           )),
                           Container(
-                            child: getMoveIcon(context),
                             alignment: Alignment.center,
                             margin: const EdgeInsets.only(top: 8),
+                            child: getMoveIcon(context),
                           ),
                           Flexible(
                               child: Container(

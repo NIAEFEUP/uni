@@ -26,8 +26,9 @@ class AppState {
           authenticated: false,
           type: '',
           cookies: '',
-          faculties: [],
-          studentNumber: ''),
+          faculties: ['feup'], // TODO: Why does this need to be here?
+          studentNumber: '',
+          persistentSession: false),
       'configuredBusStops': <String, BusStopData>{},
       'currentBusTrips': <String, List<Trip>>{},
       'busStopStatus': RequestStatus.none,

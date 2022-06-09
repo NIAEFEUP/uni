@@ -8,7 +8,7 @@ import 'course.dart';
 class Profile {
   final String name;
   final String email;
-  late final List<Course> courses;
+  late List<Course> courses;
   final String printBalance;
   final String feesBalance;
   final String feesLimit;

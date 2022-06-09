@@ -70,7 +70,7 @@ class _BusesFormState extends State<BusesForm> {
   }
 
   void updateBusStop() {
-    final BusStopData currentConfig = StoreProvider.of<AppState>(context)
+    final BusStopData? currentConfig = StoreProvider.of<AppState>(context)
         .state
         .content['configuredBusStops'][stopCode];
     final Set<String> newBuses = {};
