@@ -1,0 +1,55 @@
+import 'package:uni/model/entities/bus_stop.dart';
+import 'package:uni/model/entities/session.dart';
+import 'package:uni/model/entities/trip.dart';
+import 'package:uni/utils/constants.dart' as constants;
+
+import 'entities/exam.dart';
+import 'entities/lecture.dart';
+import 'entities/restaurant.dart';
+
+enum RequestStatus { none, busy, failed, successful }
+
+class AppState {
+  Map content = <String, dynamic>{};
+
+  Map getInitialContent() {
+    return {
+      'schedule': <Lecture>[],
+      'exams': <Exam>[],
+      'restaurants': <Restaurant>[],
+      'filteredExam': <String, bool>{},
+      'scheduleStatus': RequestStatus.none,
+      'loginStatus': RequestStatus.none,
+      'examsStatus': RequestStatus.none,
+      'selected_page': constants.navPersonalArea,
+      'session': Session(
+          authenticated: false,
+          type: '',
+          cookies: '',
+          faculties: [],
+          studentNumber: ''),
+      'configuredBusStops': <String, BusStopData>{},
+      'currentBusTrips': <String, List<Trip>>{},
+      'busStopStatus': RequestStatus.none,
+      'timeStamp': DateTime.now(),
+      'currentTime': DateTime.now(),
+      'profileStatus': RequestStatus.none,
+      'printBalanceStatus': RequestStatus.none,
+      'feesStatus': RequestStatus.none,
+      'coursesStateStatus': RequestStatus.none,
+      'lastUserInfoUpdateTime': null
+    };
+  }
+
+  AppState(Map? content) {
+    this.content = content ?? getInitialContent();
+  }
+
+  AppState cloneAndUpdateValue(key, value) {
+    return AppState(Map.from(content)..[key] = value);
+  }
+
+  AppState getInitialState() {
+    return AppState(null);
+  }
+}
