@@ -4,7 +4,18 @@ import 'package:logger/logger.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:tuple/tuple.dart';
-import 'package:uni/controller/calendar_fetcher/calendar_fetcher_html.dart';
+import 'package:uni/controller/fetchers/calendar_fetcher_html.dart';
+import 'package:uni/controller/fetchers/course_units_fetcher.dart';
+import 'package:uni/controller/fetchers/courses_fetcher.dart';
+import 'package:uni/controller/fetchers/departures_fetcher.dart';
+import 'package:uni/controller/fetchers/exam_fetcher.dart';
+import 'package:uni/controller/fetchers/fees_fetcher.dart';
+import 'package:uni/controller/fetchers/print_fetcher.dart';
+import 'package:uni/controller/fetchers/profile_fetcher.dart';
+import 'package:uni/controller/fetchers/restaurant_fetcher/restaurant_fetcher_html.dart';
+import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher.dart';
+import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher_api.dart';
+import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher_html.dart';
 import 'package:uni/controller/load_info.dart';
 import 'package:uni/controller/load_static/terms_and_conditions.dart';
 import 'package:uni/controller/local_storage/app_bus_stop_database.dart';
@@ -14,23 +25,18 @@ import 'package:uni/controller/local_storage/app_exams_database.dart';
 import 'package:uni/controller/local_storage/app_last_user_info_update_database.dart';
 import 'package:uni/controller/local_storage/app_lectures_database.dart';
 import 'package:uni/controller/local_storage/app_refresh_times_database.dart';
+import 'package:uni/controller/local_storage/app_restaurant_database.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/controller/local_storage/app_user_database.dart';
-import 'package:uni/controller/local_storage/app_restaurant_database.dart';
 import 'package:uni/controller/networking/network_router.dart'
     show NetworkRouter;
 import 'package:uni/controller/parsers/parser_courses.dart';
 import 'package:uni/controller/parsers/parser_exams.dart';
 import 'package:uni/controller/parsers/parser_fees.dart';
 import 'package:uni/controller/parsers/parser_print_balance.dart';
-import 'package:uni/controller/restaurant_fetcher/restaurant_fetcher_html.dart';
-import 'package:uni/controller/schedule_fetcher/schedule_fetcher.dart';
-import 'package:uni/controller/schedule_fetcher/schedule_fetcher_api.dart';
-import 'package:uni/controller/schedule_fetcher/schedule_fetcher_html.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/calendar_event.dart';
 import 'package:uni/model/entities/course.dart';
-import 'package:uni/model/entities/course_unit.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/entities/profile.dart';
@@ -39,16 +45,18 @@ import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/entities/trip.dart';
 import 'package:uni/redux/actions.dart';
 
+import '../controller/parsers/parser_courses.dart';
 import '../model/entities/bus_stop.dart';
 
-ThunkAction<AppState> reLogin(username, password, faculty, {Completer action}) {
-  /// TODO: support for multiple faculties. Issue: #445
+ThunkAction<AppState> reLogin(
+    String username, String password, List<String> faculties,
+    {Completer action}) {
   return (Store<AppState> store) async {
     try {
       loadLocalUserInfoToState(store);
       store.dispatch(SetLoginStatusAction(RequestStatus.busy));
       final Session session =
-          await NetworkRouter.login(username, password, faculty, true);
+          await NetworkRouter.login(username, password, faculties, true);
       store.dispatch(SaveLoginDataAction(session));
       if (session.authenticated) {
         await loadRemoteUserInfoToState(store);
@@ -59,10 +67,10 @@ ThunkAction<AppState> reLogin(username, password, faculty, {Completer action}) {
         action?.completeError(RequestStatus.failed);
       }
     } catch (e) {
-      final Session renewSession =
-          Session(studentNumber: username, authenticated: false);
+      final Session renewSession = Session(
+          studentNumber: username, authenticated: false, faculties: faculties);
       renewSession.persistentSession = true;
-      renewSession.faculty = faculty;
+      renewSession.faculties = faculties;
 
       action?.completeError(RequestStatus.failed);
 
@@ -72,15 +80,19 @@ ThunkAction<AppState> reLogin(username, password, faculty, {Completer action}) {
   };
 }
 
-ThunkAction<AppState> login(username, password, faculties, persistentSession,
-    usernameController, passwordController) {
+ThunkAction<AppState> login(
+    String username,
+    String password,
+    List<String> faculties,
+    persistentSession,
+    usernameController,
+    passwordController) {
   return (Store<AppState> store) async {
     try {
       store.dispatch(SetLoginStatusAction(RequestStatus.busy));
 
-      /// TODO: support for multiple faculties. Issue: #445
       final Session session = await NetworkRouter.login(
-          username, password, faculties[0], persistentSession);
+          username, password, faculties, persistentSession);
       store.dispatch(SaveLoginDataAction(session));
       if (session.authenticated) {
         store.dispatch(SetLoginStatusAction(RequestStatus.successful));
@@ -112,14 +124,14 @@ ThunkAction<AppState> getUserInfo(Completer<Null> action) {
       store.dispatch(SaveProfileStatusAction(RequestStatus.busy));
 
       final profile =
-          NetworkRouter.getProfile(store.state.content['session']).then((res) {
+          ProfileFetcher.getProfile(store.state.content['session']).then((res) {
         userProfile = res;
         store.dispatch(SaveProfileAction(userProfile));
         store.dispatch(SaveProfileStatusAction(RequestStatus.successful));
       });
-      final ucs =
-          NetworkRouter.getCurrentCourseUnits(store.state.content['session'])
-              .then((res) => store.dispatch(SaveUcsAction(res)));
+      final ucs = CourseUnitsFetcher()
+          .getCurrentCourseUnits(store.state.content['session'])
+          .then((res) => store.dispatch(SaveUcsAction(res)));
       await Future.wait([profile, ucs]);
 
       final Tuple2<String, String> userPersistentInfo =
@@ -151,8 +163,8 @@ ThunkAction<AppState> updateStateBasedOnLocalUserExams() {
 ThunkAction<AppState> updateStateBasedOnLocalUserLectures() {
   return (Store<AppState> store) async {
     final AppLecturesDatabase db = AppLecturesDatabase();
-    final List<Lecture> lecs = await db.lectures();
-    store.dispatch(SetScheduleAction(lecs));
+    final List<Lecture> lectures = await db.lectures();
+    store.dispatch(SetScheduleAction(lectures));
   };
 }
 
@@ -201,37 +213,6 @@ ThunkAction<AppState> updateStateBasedOnLocalRefreshTimes() {
   };
 }
 
-Future<List<Exam>> extractExams(
-    Store<AppState> store, ParserExams parserExams) async {
-  Set<Exam> courseExams = Set();
-  for (Course course in store.state.content['profile'].courses) {
-    final Set<Exam> currentCourseExams = await parserExams.parseExams(
-        await NetworkRouter.getWithCookies(
-            NetworkRouter.getBaseUrlFromSession(
-                    store.state.content['session']) +
-                'exa_geral.mapa_de_exames?p_curso_id=${course.id}',
-            {},
-            store.state.content['session']));
-    courseExams = Set.from(courseExams)..addAll(currentCourseExams);
-  }
-
-  final List<CourseUnit> userUcs = store.state.content['currUcs'];
-  final Set<Exam> exams = Set();
-  for (Exam courseExam in courseExams) {
-    for (CourseUnit uc in userUcs) {
-      if (!courseExam.examType.contains(
-              '''Exames ao abrigo de estatutos especiais - Port.Est.Especiais''') &&
-          courseExam.subject == uc.abbreviation &&
-          courseExam.hasEnded()) {
-        exams.add(courseExam);
-        break;
-      }
-    }
-  }
-
-  return exams.toList();
-}
-
 ThunkAction<AppState> getUserExams(Completer<Null> action,
     ParserExams parserExams, Tuple2<String, String> userPersistentInfo) {
   return (Store<AppState> store) async {
@@ -239,7 +220,10 @@ ThunkAction<AppState> getUserExams(Completer<Null> action,
       //need to get student course here
       store.dispatch(SetExamsStatusAction(RequestStatus.busy));
 
-      final List<Exam> exams = await extractExams(store, parserExams);
+      final List<Exam> exams = await ExamFetcher(
+              store.state.content['profile'].courses,
+              store.state.content['currUcs'])
+          .extractExams(store.state.content['session'], parserExams);
 
       exams.sort((exam1, exam2) => exam1.date.compareTo(exam2.date));
 
@@ -285,22 +269,20 @@ ThunkAction<AppState> getUserSchedule(
   };
 }
 
-ThunkAction<AppState> getRestaurantsFromFetcher(Completer<Null> action){
-  return (Store<AppState> store) async{
-    try{
+ThunkAction<AppState> getRestaurantsFromFetcher(Completer<Null> action) {
+  return (Store<AppState> store) async {
+    try {
       store.dispatch(SetRestaurantsStatusAction(RequestStatus.busy));
 
-      final List<Restaurant> restaurants =
-                      await RestaurantFetcherHtml().getRestaurants(store);
+      final List<Restaurant> restaurants = await RestaurantFetcherHtml()
+          .getRestaurants(store.state.content['session']);
       // Updates local database according to information fetched -- Restaurants
       final RestaurantDatabase db = RestaurantDatabase();
       db.saveRestaurants(restaurants);
-      db.restaurants(day:null);
+      db.restaurants(day: null);
       store.dispatch(SetRestaurantsAction(restaurants));
       store.dispatch(SetRestaurantsStatusAction(RequestStatus.successful));
-
-
-    } catch(e){
+    } catch (e) {
       Logger().e('Failed to get Restaurants: ${e.toString()}');
       store.dispatch(SetRestaurantsStatusAction(RequestStatus.failed));
     }
@@ -329,12 +311,16 @@ ThunkAction<AppState> getCalendarFromFethcer(Completer<Null> action) {
 
 Future<List<Lecture>> getLecturesFromFetcherOrElse(
         ScheduleFetcher fetcher, Store<AppState> store) =>
-    (fetcher?.getLectures(store)) ?? getLectures(store);
+    (fetcher?.getLectures(
+        store.state.content['session'], store.state.content['profile'])) ??
+    getLectures(store);
 
 Future<List<Lecture>> getLectures(Store<AppState> store) {
   return ScheduleFetcherApi()
-      .getLectures(store)
-      .catchError((e) => ScheduleFetcherHtml().getLectures(store));
+      .getLectures(
+          store.state.content['session'], store.state.content['profile'])
+      .catchError((e) => ScheduleFetcherHtml().getLectures(
+          store.state.content['session'], store.state.content['profile']));
 }
 
 ThunkAction<AppState> setInitialStoreState() {
@@ -345,17 +331,9 @@ ThunkAction<AppState> setInitialStoreState() {
 
 ThunkAction<AppState> getUserPrintBalance(Completer<Null> action) {
   return (Store<AppState> store) async {
-    final String url =
-        NetworkRouter.getBaseUrlFromSession(store.state.content['session']) +
-            'imp4_impressoes.atribs?';
-
-    final Map<String, String> query = {
-      'p_codigo': store.state.content['session'].studentNumber
-    };
-
     try {
-      final response = await NetworkRouter.getWithCookies(
-          url, query, store.state.content['session']);
+      final response = await PrintFetcher()
+          .getUserPrintsResponse(store.state.content['session']);
       final String printBalance = await getPrintsBalance(response);
 
       final String currentTime = DateTime.now().toString();
@@ -383,18 +361,9 @@ ThunkAction<AppState> getUserPrintBalance(Completer<Null> action) {
 ThunkAction<AppState> getUserFees(Completer<Null> action) {
   return (Store<AppState> store) async {
     store.dispatch(SetFeesStatusAction(RequestStatus.busy));
-
-    final String url =
-        NetworkRouter.getBaseUrlFromSession(store.state.content['session']) +
-            'gpag_ccorrente_geral.conta_corrente_view?';
-
-    final Map<String, String> query = {
-      'pct_cod': store.state.content['session'].studentNumber
-    };
-
     try {
-      final response = await NetworkRouter.getWithCookies(
-          url, query, store.state.content['session']);
+      final response = await FeesFetcher()
+          .getUserFeesResponse(store.state.content['session']);
 
       final String feesBalance = await parseFeesBalance(response);
       final String feesLimit = await parseFeesNextLimit(response);
@@ -426,21 +395,11 @@ ThunkAction<AppState> getUserFees(Completer<Null> action) {
 ThunkAction<AppState> getUserCoursesState(Completer<Null> action) {
   return (Store<AppState> store) async {
     store.dispatch(SetCoursesStatesStatusAction(RequestStatus.busy));
-
-    final String url =
-        NetworkRouter.getBaseUrlFromSession(store.state.content['session']) +
-            'fest_geral.cursos_list?';
-
-    final Map<String, String> query = {
-      'pv_num_unico': store.state.content['session'].studentNumber
-    };
-
     try {
-      final response = await NetworkRouter.getWithCookies(
-          url, query, store.state.content['session']);
-
-      final Map<String, String> coursesStates = await parseCourses(response);
-
+      final responses = CoursesFetcher()
+          .getCoursesListResponses(store.state.content['session']);
+      final Map<String, String> coursesStates =
+          parseMultipleCourses(await Future.wait(responses));
       final Tuple2<String, String> userPersistentInfo =
           await AppSharedPreferences.getPersistentUserInfo();
       if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {
@@ -468,7 +427,8 @@ ThunkAction<AppState> getUserBusTrips(Completer<Null> action) {
 
       for (String stopCode in stops.keys) {
         final List<Trip> stopTrips =
-            await NetworkRouter.getNextArrivalsStop(stopCode, stops[stopCode]);
+            await DeparturesFetcher.getNextArrivalsStop(
+                stopCode, stops[stopCode]);
         trips[stopCode] = stopTrips;
       }
 

@@ -29,7 +29,7 @@ class AppState {
       'session': Session(authenticated: false),
       'configuredBusStops': Map<String, BusStopData>(),
       'currentBusTrips': Map<String, List<Trip>>(),
-      'busstopStatus': RequestStatus.none,
+      'busStopStatus': RequestStatus.none,
       'timeStamp': DateTime.now(),
       'currentTime': DateTime.now(),
       'profileStatus': RequestStatus.none,

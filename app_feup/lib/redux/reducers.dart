@@ -62,7 +62,7 @@ AppState appReducers(AppState state, dynamic action) {
     return setExamFilter(state, action);
   } else if (action is SetUserFaculties) {
     return setUserFaculties(state, action);
-  } else if(action is SetRestaurantsAction){
+  } else if (action is SetRestaurantsAction) {
     return setRestaurantsAction(state, action);
   } else if(action is SetCalendarAction){
     return setCalendarAction(state, action);
@@ -166,7 +166,7 @@ AppState setBusTrips(AppState state, SetBusTripsAction action) {
 
 AppState setBusStopStatus(AppState state, SetBusTripsStatusAction action) {
   Logger().i('setting bus stop status: ' + action.status.toString());
-  return state.cloneAndUpdateValue('busstopStatus', action.status);
+  return state.cloneAndUpdateValue('busStopStatus', action.status);
 }
 
 AppState setBusStopTimeStamp(AppState state, SetBusStopTimeStampAction action) {

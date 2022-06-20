@@ -9,9 +9,8 @@ import 'package:uni/model/entities/session.dart';
 /// Fetch the school calendar from HTML
 class CalendarFetcherHtml {
   Future<List<CalendarEvent>> getCalendar(Store<AppState> store) async {
-    final String url = NetworkRouter.getBaseUrlFromSession(
-      store.state.content['session']) + 
-      'web_base.gera_pagina?p_pagina=página%20estática%20genérica%20106';
+    final String url = NetworkRouter.getBaseUrl('feup')
+      + 'web_base.gera_pagina?p_pagina=página%20estática%20genérica%20106';
     final Session session = store.state.content['session'];
     final Future<Response> response = NetworkRouter.getWithCookies(
       url, {}, session);
