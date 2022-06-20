@@ -1,27 +1,19 @@
 /// An event in the school calendar
 class CalendarEvent {
   String name;
-  List<DateTime> dates;
+  String date;
 
   /// Creates an instance of the class [CalendarEvent]
-  CalendarEvent(String name, List<DateTime> dates) {
+  CalendarEvent(String name, String date) {
     this.name = name;
-    this.dates = dates;
+    this.date = date;
   }
 
   /// Converts the event into a map
   Map<String, dynamic> toMap() {
-    final Map<String, dynamic> map = {
+    return {
       'name': name,
-      'startDate': 0,
-      'endDate': 0
+      'date': date
     };
-    if (dates.isNotEmpty) {
-      map['startDate'] = dates[0].millisecondsSinceEpoch;
-    }
-    if (dates.length > 1) {
-      map['endDate'] = dates[1].millisecondsSinceEpoch;
-    }
-    return map;
   }
 }

@@ -9,8 +9,7 @@ class CalendarDatabase extends AppDatabase {
           CREATE TABLE CALENDAR(
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT,
-            startDate INTEGER,
-            endDate INTEGER)'''
+            date TEXT)'''
         ]);
 
   void saveCalendar(List<CalendarEvent> calendar) async {
