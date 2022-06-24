@@ -6,7 +6,6 @@ Closes #[issue number]
 # Review checklist
 -   [ ] Terms and conditions reflect the current change
 -   [ ] Contains enough appropriate tests
--   [ ] Increments version in `pubspec.yaml` (changes `1.0.0+1` to `1.0.0+2` for example)
 -   [ ] Properly mentions the change in `whatsnew/whatsnew-pt-PT`
 -   [ ] Properly adds entry in `changelog.md` with the change
 -   [ ] If PR includes UI updates/additions, its description has screenshots

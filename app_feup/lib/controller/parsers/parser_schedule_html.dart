@@ -46,7 +46,7 @@ Future<List<Lecture>> getScheduleFromHtml(http.Response response) async {
           semana[day] += blocks;
 
           final Lecture lect = Lecture.fromHtml(subject, typeClass, day,
-              startTime, blocks, room, teacher, classNumber);
+              startTime, blocks, room, teacher, classNumber, null);
           lecturesList.add(lect);
         }
         day++;

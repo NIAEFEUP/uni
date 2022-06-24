@@ -2,19 +2,14 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:logger/logger.dart';
-import 'package:uni/controller/bus_stops/departures_fetcher.dart';
-import 'package:uni/controller/local_storage/app_shared_preferences.dart';
-import 'package:uni/model/entities/bus.dart';
-import 'package:uni/model/entities/bus_stop.dart';
-import 'package:uni/model/entities/course_unit.dart';
-import 'package:uni/model/entities/profile.dart';
-import 'package:uni/model/entities/session.dart';
-import 'package:uni/model/entities/trip.dart';
 import 'package:http/http.dart' as http;
+import 'package:logger/logger.dart';
 import 'package:query_params/query_params.dart';
 import 'package:synchronized/synchronized.dart';
-extension UriString on String{
+import 'package:uni/controller/local_storage/app_shared_preferences.dart';
+import 'package:uni/model/entities/session.dart';
+
+extension UriString on String {
   /// Converts a [String] to an [Uri].
   Uri toUri() => Uri.parse(this);
 }
@@ -29,25 +24,24 @@ class NetworkRouter {
 
   static Function onReloginFail = () {};
 
-
   /// Creates an authenticated [Session] on the given [faculty] with the
   /// given username [user] and password [pass].
-  static Future<Session> login(
-      String user, String pass, String faculty, bool persistentSession) async {
+  static Future<Session> login(String user, String pass, List<String> faculties,
+      bool persistentSession) async {
     final String url =
-        NetworkRouter.getBaseUrl(faculty) + 'mob_val_geral.autentica';
+        NetworkRouter.getBaseUrls(faculties)[0] + 'mob_val_geral.autentica';
     final http.Response response = await http.post(url.toUri(), body: {
       'pv_login': user,
       'pv_password': pass
     }).timeout(const Duration(seconds: loginRequestTimeout));
     if (response.statusCode == 200) {
-      final Session session = Session.fromLogin(response);
+      final Session session = Session.fromLogin(response, faculties);
       session.persistentSession = persistentSession;
       Logger().i('Login successful');
       return session;
     } else {
       Logger().e('Login failed');
-      return Session(authenticated: false);
+      return Session(authenticated: false, faculties: faculties);
     }
   }
 
@@ -71,8 +65,8 @@ class NetworkRouter {
   /// Re-authenticates the user [session].
   static Future<bool> loginFromSession(Session session) async {
     Logger().i('Trying to login...');
-    final String url =
-        NetworkRouter.getBaseUrl(session.faculty) + 'mob_val_geral.autentica';
+    final String url = NetworkRouter.getBaseUrls(session.faculties)[0] +
+        'mob_val_geral.autentica';
     final http.Response response = await http.post(url.toUri(), body: {
       'pv_login': session.studentNumber,
       'pv_password': await AppSharedPreferences.getUserPassword(),
@@ -104,38 +98,6 @@ class NetworkRouter {
     return cookieList.join(';');
   }
 
-  /// Returns the user's [Profile].
-  static Future<Profile> getProfile(Session session) async {
-    final url =
-        NetworkRouter.getBaseUrlFromSession(session) + 'mob_fest_geral.perfil?';
-    final response = await getWithCookies(
-        url, {'pv_codigo': session.studentNumber}, session);
-
-    if (response.statusCode == 200) {
-      return Profile.fromResponse(response);
-    }
-    return Profile();
-  }
-
-  /// Returns the user's current list of [CourseUnit].
-  static Future<List<CourseUnit>> getCurrentCourseUnits(Session session) async {
-    final url = NetworkRouter.getBaseUrlFromSession(session) +
-        'mob_fest_geral.ucurr_inscricoes_corrente?';
-    final response = await getWithCookies(
-        url, {'pv_codigo': session.studentNumber}, session);
-    if (response.statusCode == 200) {
-      final responseBody = json.decode(response.body);
-      final List<CourseUnit> ucs = <CourseUnit>[];
-      for (var course in responseBody) {
-        for (var uc in course['inscricoes']) {
-          ucs.add(CourseUnit.fromJson(uc));
-        }
-      }
-      return ucs;
-    }
-    return <CourseUnit>[];
-  }
-
   /// Makes an authenticated GET request with the given [session] to the
   /// resource located at [url] with the given [query] parameters.
   static Future<http.Response> getWithCookies(
@@ -149,20 +111,22 @@ class NetworkRouter {
     query.forEach((key, value) {
       params.append(key, value);
     });
-
+    if (!baseUrl.contains('?')) {
+      baseUrl += '?';
+    }
     final url = baseUrl + params.toString();
-
     final Map<String, String> headers = Map<String, String>();
     headers['cookie'] = session.cookies;
+
     final http.Response response = await (httpClient != null
         ? httpClient.get(url.toUri(), headers: headers)
         : http.get(url.toUri(), headers: headers));
     if (response.statusCode == 200) {
       return response;
-    } else if (response.statusCode == 403) {
+    } else if (response.statusCode == 403 && !(await userLoggedIn(session))) {
       // HTTP403 - Forbidden
-      final bool success = await relogin(session);
-      if (success) {
+      final bool reLoginSuccessful = await relogin(session);
+      if (reLoginSuccessful) {
         headers['cookie'] = session.cookies;
         return http.get(url.toUri(), headers: headers);
       } else {
@@ -175,51 +139,22 @@ class NetworkRouter {
     }
   }
 
-  /// Retrieves the name and code of the stops with code [stopCode].
-  static Future<List<String>> getStopsByName(String stopCode) async {
-    final List<String> stopsList = [];
-
-    //Search by aproximate name
-    final String url =
-        'https://www.stcp.pt/pt/itinerarium/callservice.php?action=srchstoplines&stopname=$stopCode';
-    final http.Response response = await http.post(url.toUri());
-    final List json = jsonDecode(response.body);
-    for (var busKey in json) {
-      final String stop = busKey['name'] + ' [' + busKey['code'] + ']';
-      stopsList.add(stop);
-    }
-
-    return stopsList;
+  /// Check if the user is still logged in,
+  /// performing a health check on the user's personal page.
+  static Future<bool> userLoggedIn(Session session) async {
+    final url = getBaseUrl(session.faculties[0]) +
+        'fest_geral.cursos_list?pv_num_unico=${session.studentNumber}';
+    final Map<String, String> headers = Map<String, String>();
+    headers['cookie'] = session.cookies;
+    final http.Response response = await (httpClient != null
+        ? httpClient.get(url.toUri(), headers: headers)
+        : http.get(url.toUri(), headers: headers));
+    return response.statusCode == 200;
   }
 
-  /// Retrieves real-time information about the user's selected bus lines.
-  static Future<List<Trip>> getNextArrivalsStop(
-      String stopCode, BusStopData stopData) {
-    return DeparturesFetcher(stopCode, stopData).getDepartures();
-  }
-
-  /// Returns the bus lines that stop at the given [stop].
-  static Future<List<Bus>> getBusesStoppingAt(String stop) async {
-    final String url =
-        'https://www.stcp.pt/pt/itinerarium/callservice.php?action=srchstoplines&stopcode=$stop';
-    final http.Response response = await http.post(url.toUri());
-
-    final List json = jsonDecode(response.body);
-
-    final List<Bus> buses = [];
-
-    for (var busKey in json) {
-      final lines = busKey['lines'];
-      for (var bus in lines) {
-        final Bus newBus = Bus(
-            busCode: bus['code'],
-            destination: bus['description'],
-            direction: (bus['dir'] == 0 ? false : true));
-        buses.add(newBus);
-      }
-    }
-
-    return buses;
+  /// Returns the base url of the user's faculties.
+  static List<String> getBaseUrls(List<String> faculties) {
+    return faculties.map(getBaseUrl).toList();
   }
 
   /// Returns the base url of the user's faculty.
@@ -228,7 +163,7 @@ class NetworkRouter {
   }
 
   /// Returns the base url from the user's previous session.
-  static String getBaseUrlFromSession(Session session) {
-    return NetworkRouter.getBaseUrl(session.faculty);
+  static List<String> getBaseUrlsFromSession(Session session) {
+    return NetworkRouter.getBaseUrls(session.faculties);
   }
 }
