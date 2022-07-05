@@ -129,8 +129,8 @@ class ExamCard extends GenericCard {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Text(
-                  exam.day + '/' + exam.month,
-                  style: Theme.of(context).textTheme.headline4,
+                  exam.day + ' de ' + exam.month,
+                  style: Theme.of(context).textTheme.bodyText1,
                 ),
                 ScheduleEventRectangle(
                     subject: exam.subject,

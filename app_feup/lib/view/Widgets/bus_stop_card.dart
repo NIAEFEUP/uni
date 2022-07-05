@@ -22,7 +22,8 @@ class BusStopCard extends GenericCard {
   String getTitle() => 'Autocarros';
 
   @override
-  onClick(BuildContext context) => Navigator.pushNamed(context, '/' + Constants.navStops);
+  onClick(BuildContext context) =>
+      Navigator.pushNamed(context, '/' + Constants.navStops);
 
   @override
   Widget buildCardContent(BuildContext context) {
@@ -33,7 +34,7 @@ class BusStopCard extends GenericCard {
         converter: (store) => Tuple3(
             store.state.content['currentBusTrips'],
             store.state.content['configuredBusStops'],
-            store.state.content['busstopStatus']),
+            store.state.content['busStopStatus']),
         builder: (context, trips) =>
             getCardContent(context, trips.item1, trips.item2, trips.item3));
   }
@@ -57,10 +58,7 @@ class BusStopCard extends GenericCard {
                   Text('Configura os teus autocarros',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline4
-                          .apply(color: Theme.of(context).accentColor)),
+                      style: Theme.of(context).textTheme.subtitle2.apply()),
                   IconButton(
                     icon: Icon(Icons.settings),
                     onPressed: () => Navigator.push(
@@ -88,10 +86,7 @@ class BusStopCard extends GenericCard {
           Container(
               padding: EdgeInsets.all(8.0),
               child: Text('Não foi possível obter informação',
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline4
-                      .apply(color: Theme.of(context).accentColor)))
+                  style: Theme.of(context).textTheme.subtitle1))
         ]);
         break;
     }
@@ -103,10 +98,7 @@ class BusStopCard extends GenericCard {
       children: <Widget>[
         Icon(Icons.directions_bus), // color lightgrey
         Text('STCP - Próximas Viagens',
-            style: Theme.of(context)
-                .textTheme
-                .headline4
-                .apply(color: Theme.of(context).accentColor)),
+            style: Theme.of(context).textTheme.subtitle1),
       ],
     );
   }

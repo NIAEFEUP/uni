@@ -8,9 +8,12 @@ description: A FEUP no teu bolso
 # build by specifying --build-name and --build-number, respectively.
 # Read more about versioning at semver.org.
 
+# The app version name is automatically bumped by CI.
+# To change it manually, override the value in app_version.txt.
+# The app version code is automatically also bumped by CI.
+# Do not change it manually.
 
-version: 1.1.1+39
-
+version: 1.2.8+49
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -26,6 +29,7 @@ dependencies:
   query_params: ^0.6.1
   tuple: ^1.0.3
   shared_preferences: ^2.0.3
+  provider: ^5.0.0
   encrypt: ^5.0.0-beta.1
   path_provider: ^2.0.0
   sqflite: ^2.0.0

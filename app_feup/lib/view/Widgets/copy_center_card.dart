@@ -14,9 +14,10 @@ class CopyCenterCard extends GenericCard {
         infoText('9:00h - 11:30h | 12:30h - 18:00h', context),
         h1('Telefone', context),
         h2('FEUP ', context),
-        infoText('+351 220 994 122', context),
+        infoText('+351 220 994 122', context, link: 'tel:220 994 122'),
         h2('AEFEUP ', context),
-        infoText('+351 220 994 132', context, last: true),
+        infoText('+351 220 994 132', context,
+            link: 'tel:220 994 132', last: true),
       ],
     );
   }

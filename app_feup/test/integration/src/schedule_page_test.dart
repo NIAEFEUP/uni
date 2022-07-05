@@ -2,10 +2,10 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
-import 'package:mockito/mockito.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
+import 'package:mockito/mockito.dart';
 import 'package:redux/redux.dart';
 import 'package:tuple/tuple.dart';
 import 'package:uni/controller/middleware.dart';
@@ -53,7 +53,7 @@ void main() {
     final teacher2 = 'MTD';
 
     final htmlFetcherIdentifier = 'hor_geral.estudantes_view';
-    final jsonFetcherIdentifier = 'mob_hor_geral.estudante?pv_codigo';
+    final jsonFetcherIdentifier = 'mob_hor_geral.estudante';
 
     Future testSchedule(WidgetTester tester) async {
       final profile = Profile();
@@ -106,10 +106,9 @@ void main() {
 
     testWidgets('Schedule with JSON Fetcher', (WidgetTester tester) async {
       NetworkRouter.httpClient = mockClient;
-      when(badMockResponse.statusCode).thenReturn(500);
-      final mockHtml = File('test/integration/resources/schedule_example.json')
+      final mockJson = File('test/integration/resources/schedule_example.json')
           .readAsStringSync(encoding: Latin1Codec());
-      when(mockResponse.body).thenReturn(mockHtml);
+      when(mockResponse.body).thenReturn(mockJson);
       when(mockResponse.statusCode).thenReturn(200);
       when(mockClient.get(argThat(UriMatcher(contains(htmlFetcherIdentifier))),
               headers: anyNamed('headers')))

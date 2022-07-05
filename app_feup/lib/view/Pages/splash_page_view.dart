@@ -10,7 +10,6 @@ import 'package:uni/model/app_state.dart';
 import 'package:uni/redux/action_creators.dart';
 import 'package:uni/view/Pages/login_page_view.dart';
 import 'package:uni/view/Widgets/terms_and_condition_dialog.dart';
-import 'package:uni/view/theme.dart';
 
 import 'home_page_view.dart';
 import 'logout_route.dart';
@@ -38,8 +37,7 @@ class _SplashScreenState extends State<SplashScreen> {
         fit: StackFit.expand,
         children: <Widget>[
           Container(
-            decoration:
-                BoxDecoration(color: applicationLightTheme.backgroundColor),
+            decoration: BoxDecoration(),
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -77,7 +75,7 @@ class _SplashScreenState extends State<SplashScreen> {
         child: SizedBox(
             child: SvgPicture.asset(
               'assets/images/logo_dark.svg',
-              color: Theme.of(context).accentColor,
+              color: Theme.of(context).primaryColor,
             ),
             width: 150.0));
   }
@@ -86,7 +84,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget createNILogo() {
     return SvgPicture.asset(
       'assets/images/by_niaefeup.svg',
-      color: Theme.of(context).accentColor,
+      color: Theme.of(context).primaryColor,
       width: queryData.size.width * 0.45,
     );
   }
@@ -115,8 +113,12 @@ class _SplashScreenState extends State<SplashScreen> {
 
     switch (state) {
       case TermsAndConditionsState.accepted:
+        final List<String> faculties = StoreProvider.of<AppState>(context)
+            .state
+            .content['session']
+            .faculties;
         StoreProvider.of<AppState>(context)
-            .dispatch(reLogin(userName, password, 'feup'));
+            .dispatch(reLogin(userName, password, faculties));
         return MaterialPageRoute(builder: (context) => HomePageView());
 
       case TermsAndConditionsState.rejected:

@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Clickable contact cards
 - Useful Contacts Page
 - User faculty storage in shared preferences
 - Send bug reports and app crashes details to Sentry
@@ -15,9 +16,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Dropdown to choose the student's faculty in the login page
 - Calendar button to add an event to the calendar with the details of a exam
 - Drag icon appears on widgets during editing mode
+- Application dark theme
 - A Canteen Page in the personal area
 - Fetching of Terms and Conditions
-- Print balance movements
 
 ### Fixed
 

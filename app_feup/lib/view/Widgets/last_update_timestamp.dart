@@ -29,7 +29,7 @@ class LastUpdateTimeStamp extends StatelessWidget {
           Text(
               'Atualizado há $lastUpdateMinutes minuto' +
                   (lastUpdateMinutes != 1 ? 's' : ''),
-              style: Theme.of(context).textTheme.headline4)
+              style: Theme.of(context).textTheme.subtitle2)
         ]);
   }
 }

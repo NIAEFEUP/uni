@@ -26,10 +26,10 @@ class BusStopNextArrivalsPageState extends SecondaryPageViewState {
         converter: (store) => Tuple3(
             store.state.content['currentBusTrips'],
             store.state.content['configuredBusStops'],
-            store.state.content['busstopStatus']),
-        builder: (context, busstops) {
+            store.state.content['busStopStatus']),
+        builder: (context, busStops) {
           return ListView(children: [
-            NextArrivals(busstops.item1, busstops.item2, busstops.item3)
+            NextArrivals(busStops.item1, busStops.item2, busStops.item3)
           ]);
         });
   }
@@ -103,8 +103,8 @@ class _NextArrivalsState extends State<NextArrivals>
       result.addAll(this.getContent(context));
     } else {
       result.add(Container(
-          child: Text('Não se encontram configurados autocarros',
-              style: Theme.of(context).textTheme.headline4)));
+          child: Text('Não existe nenhuma paragem configurada',
+              style: Theme.of(context).textTheme.headline6)));
     }
 
     return result;
@@ -139,7 +139,7 @@ class _NextArrivalsState extends State<NextArrivals>
         child: Text('Não foi possível obter informação',
             maxLines: 2,
             overflow: TextOverflow.fade,
-            style: Theme.of(context).textTheme.bodyText1)));
+            style: Theme.of(context).textTheme.subtitle1)));
 
     return result;
   }
@@ -158,7 +158,6 @@ class _NextArrivalsState extends State<NextArrivals>
               ),
               IconButton(
                   icon: Icon(Icons.edit),
-                  color: Theme.of(context).accentColor,
                   onPressed: () => Navigator.push(
                       context,
                       MaterialPageRoute(

@@ -51,7 +51,6 @@ class SchedulePageView extends StatelessWidget {
     final List<Widget> tabs = <Widget>[];
     for (var i = 0; i < daysOfTheWeek.length; i++) {
       tabs.add(Container(
-        color: Theme.of(context).backgroundColor,
         width: queryData.size.width * 1 / 3,
         child: Tab(key: Key('schedule-page-tab-$i'), text: daysOfTheWeek[i]),
       ));
@@ -78,6 +77,7 @@ class SchedulePageView extends StatelessWidget {
         rooms: lecture.room,
         begin: lecture.startTime,
         end: lecture.endTime,
+        occurrId: lecture.occurrId,
         teacher: lecture.teacher,
         classNumber: lecture.classNumber,
       ));
