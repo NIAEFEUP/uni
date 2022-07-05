@@ -38,8 +38,7 @@ class PrintInfoCard extends GenericCard {
                       builder: (context, printBalance) => Text(
                           printBalance ?? 'N/A',
                           textAlign: TextAlign.end,
-                          style: Theme.of(context).textTheme.headline3.apply(
-                              color: Color.fromARGB(255, 0x30, 0x30, 0x30)))),
+                          style: Theme.of(context).textTheme.headline6)),
                 ),
               ])
             ]),
@@ -48,7 +47,7 @@ class PrintInfoCard extends GenericCard {
             margin: const EdgeInsets.only(
                 top: 5.0, bottom: 0.0, left: 20.0, right: 20.0),
             child: Text('Movimentos Recentes: ',
-                style: Theme.of(context).textTheme.headline4)),
+                style: Theme.of(context).textTheme.subtitle2)),
         Container(
             margin: const EdgeInsets.only(
                 top: 5.0, bottom: 20.0, left: 20.0, right: 20.0),
@@ -96,6 +95,8 @@ class PrintInfoCard extends GenericCard {
     return rows.length <= 3 ? rows : rows.sublist(0, 3);
   }
 
+  bool isNegative(movement) => movement['value'][0] != '-';
+
   // Individual movement row
   Widget balanceMovement(context, movement) {
     return Container(
@@ -111,16 +112,17 @@ class PrintInfoCard extends GenericCard {
               children: <Widget>[
                 Text(DateTime.parse(movement['datetime'])
                     .toFormattedDateString()),
-                movement['value'][0] != '-'
+                isNegative(movement)
                   ? Text('+' + movement['value'],
-                      style: Theme.of(context).textTheme.headline2.apply(
-                        color: Colors.green)
-                    )
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline6
+                          .apply(color: Colors.green))
                   : Text(movement['value'],
-                      style: Theme.of(context).textTheme.headline2.apply(
-                        color: Theme.of(context).textTheme.headline3.color)
-                    )
-
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline6
+                          .apply(color: Theme.of(context).accentColor))
               ]),
         ),
       ),

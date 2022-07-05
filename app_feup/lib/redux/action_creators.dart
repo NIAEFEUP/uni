@@ -323,6 +323,11 @@ ThunkAction<AppState> getUserPrintBalance(Completer<Null> action) {
           .getUserPrintsResponse(store.state.content['session']);
       final String printBalance = await getPrintsBalance(response);
 
+      final movementsResponse = await PrintFetcher()
+          .getUserPrintsMovements(store.state.content['session']);
+      final printMovements = 
+          await getPrintMovements(response, movementsResponse);
+
       final String currentTime = DateTime.now().toString();
       final Tuple2<String, String> userPersistentInfo =
           await AppSharedPreferences.getPersistentUserInfo();

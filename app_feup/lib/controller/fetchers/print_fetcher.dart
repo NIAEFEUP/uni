@@ -15,4 +15,11 @@ class PrintFetcher implements SessionDependantFetcher {
     final Map<String, String> query = {'p_codigo': session.studentNumber};
     return NetworkRouter.getWithCookies(url, query, session);
   }
+  
+  getUserPrintsMovements(Session session) {
+    final String url =
+      NetworkRouter.getBaseUrl('feup') + 'imp4_impressoes.logs?';  
+    final Map<String, String> query = {'p_codigo': session.studentNumber};
+    return NetworkRouter.getWithCookies(url, query, session);
+  }
 }

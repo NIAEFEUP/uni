@@ -41,7 +41,7 @@ abstract class GenericCard extends StatefulWidget {
       child: Align(
         child: Text(text ?? 'Vazio',
             textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.headline2),
+            style: Theme.of(context).textTheme.headline6),
       ),
     );
   }

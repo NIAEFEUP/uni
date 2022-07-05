@@ -76,7 +76,7 @@ class SetPrintBalanceAction {
 }
 
 class SetPrintMovementsAction {
-  List<dynamic> printMovements;
+  List<Map> printMovements;
   SetPrintMovementsAction(this.printMovements);
 }
 
