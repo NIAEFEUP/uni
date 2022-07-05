@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:uni/model/app_state.dart';
+import 'package:uni/model/entities/calendar_event.dart';
 import 'package:uni/view/Pages/general_page_view.dart';
 import 'package:timelines/timelines.dart';
 
@@ -10,11 +13,20 @@ class CalendarPageView extends StatefulWidget {
 class CalendarPageViewState extends GeneralPageViewState {
   @override
   Widget getBody(BuildContext context) {
+    return StoreConnector<AppState, List<dynamic>>(
+      converter: (store) {
+        return store.state.content['calendar'];
+      },
+      builder: (context, calendar) => getTimeline(context, calendar)
+    );
+  }
+
+  Widget getTimeline(BuildContext context, List<CalendarEvent> calendar) {
     return Timeline.tileBuilder(
       theme: TimelineTheme.of(context).copyWith(
         connectorTheme: TimelineTheme.of(context)
             .connectorTheme
-            .copyWith(thickness: 3.0, color: Theme.of(context).dividerColor),
+            .copyWith(thickness: 2.0, color: Theme.of(context).dividerColor),
         indicatorTheme: TimelineTheme.of(context)
             .indicatorTheme
             .copyWith(size: 15.0, color: Theme.of(context).primaryColor),
@@ -24,20 +36,22 @@ class CalendarPageViewState extends GeneralPageViewState {
         contentsBuilder: (context, index) => Padding(
           padding: const EdgeInsets.all(24.0),
           child: Text(
-            'Timeline Event Crazy $index',
-            style: Theme.of(context).textTheme.headline5
+            calendar[index].name,
+            style: Theme.of(context).textTheme.headline6.copyWith(
+              fontWeight: FontWeight.w500
+            )
             ),
         ),
         oppositeContentsBuilder: (context, index) => Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(24.0),
           child: Text(
-            '17 a 18 de julho',
+            calendar[index].date,
             style: Theme.of(context).textTheme.subtitle1.copyWith(
               fontStyle: FontStyle.italic,
             )
           ),
         ),
-        itemCount: 10,
+        itemCount: calendar.length,
       ),
     );
   }
