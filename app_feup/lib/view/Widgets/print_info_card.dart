@@ -56,7 +56,7 @@ class PrintInfoCard extends GenericCard {
   Widget addMoneyButton(BuildContext context) {
     return OutlinedButton(
       style: OutlinedButton.styleFrom(
-        primary: Theme.of(context).accentColor,
+        primary: Theme.of(context).primaryColor,
         padding: EdgeInsets.zero,
       ),
       onPressed: () => addMoneyDialog(context),
