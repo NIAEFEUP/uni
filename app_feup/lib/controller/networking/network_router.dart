@@ -8,6 +8,7 @@ import 'package:query_params/query_params.dart';
 import 'package:synchronized/synchronized.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/model/entities/session.dart';
+import 'package:uni/controller/networking/print_login.dart';
 
 extension UriString on String {
   /// Converts a [String] to an [Uri].
@@ -37,6 +38,9 @@ class NetworkRouter {
     if (response.statusCode == 200) {
       final Session session = Session.fromLogin(response, faculties);
       session.persistentSession = persistentSession;
+      final printUpCookie = await printLogin(user, pass);
+      session.cookies += '; ' + printUpCookie;
+      print("COOKIES: ${session.cookies}");
       Logger().i('Login successful');
       return session;
     } else {
