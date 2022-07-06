@@ -3,15 +3,13 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 
 /// Extracts the print balance of the user's account from an HTTP [response].
-Future<String> getPrintsBalance(http.Response response) async {
+Future<String> getPrintBalance(http.Response response) async {
   final document = parse(response.body);
 
   final String balanceString =
-      document.querySelector('div#conteudoinner > .info').text;
-
-  final String balance = balanceString.split(': ')[1];
-
-  return balance;
+      document.querySelector('.stat-bal').children[1].text;
+      
+  return balanceString.replaceAll('\n', ' ');
 }
 
 /// Extracts the print balance movements of the user's account

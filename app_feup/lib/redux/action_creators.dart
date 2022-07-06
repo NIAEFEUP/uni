@@ -321,11 +321,15 @@ ThunkAction<AppState> getUserPrintBalance(Completer<Null> action) {
     try {
       final response = await PrintFetcher()
           .getUserPrintsResponse(store.state.content['session']);
-      final String printBalance = await getPrintsBalance(response);
+
+      final printUpResponse =
+          await PrintFetcher().getPrintHomePage(store.state.content['session']);
+
+      final String printBalance = await getPrintBalance(printUpResponse);
 
       final movementsResponse = await PrintFetcher()
           .getUserPrintsMovements(store.state.content['session']);
-      final printMovements = 
+      final printMovements =
           await getPrintMovements(response, movementsResponse);
 
       final String currentTime = DateTime.now().toString();
