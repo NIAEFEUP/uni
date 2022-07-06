@@ -40,7 +40,6 @@ class NetworkRouter {
       session.persistentSession = persistentSession;
       final printUpCookie = await printLogin(user, pass);
       session.cookies += '; ' + printUpCookie;
-      print("COOKIES: ${session.cookies}");
       Logger().i('Login successful');
       return session;
     } else {
