@@ -290,7 +290,7 @@ ThunkAction<AppState> getRestaurantsFromFetcher(Completer<Null> action) {
   };
 }
 
-ThunkAction<AppState> getCalendarFromFethcer(Completer<Null> action) {
+ThunkAction<AppState> getCalendarFromFetcher(Completer<Null> action) {
   return (Store<AppState> store) async {
     try {
       store.dispatch(SetCalendarStatusAction(RequestStatus.busy));
