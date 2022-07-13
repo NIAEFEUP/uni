@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:uni/model/app_state.dart';
 import 'generic_card.dart';
-import 'package:uni/view/Widgets/row_container.dart';
 import 'package:uni/model/entities/time_utilities.dart';
+import 'package:uni/view/Widgets/row_container.dart';
+import 'package:uni/view/Widgets/create_print_mb_dialog.dart';
 import 'package:uni/view/Widgets/request_dependent_widget_builder.dart';
 import 'package:tuple/tuple.dart';
 
@@ -20,7 +21,10 @@ class PrintInfoCard extends GenericCard {
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         Table(
-            columnWidths: {1: FractionColumnWidth(.4)},
+            columnWidths: {
+              1: FractionColumnWidth(0.4),
+              2: FractionColumnWidth(.1)
+            },
             defaultVerticalAlignment: TableCellVerticalAlignment.middle,
             children: [
               TableRow(children: [
@@ -31,8 +35,7 @@ class PrintInfoCard extends GenericCard {
                       style: Theme.of(context).textTheme.subtitle2),
                 ),
                 Container(
-                  margin: const EdgeInsets.only(
-                      top: 20.0, bottom: 20.0, right: 30.0),
+                  margin: const EdgeInsets.only(right: 15.0),
                   child: StoreConnector<AppState, String>(
                       converter: (store) => store.state.content['printBalance'],
                       builder: (context, printBalance) => Text(
@@ -40,6 +43,10 @@ class PrintInfoCard extends GenericCard {
                           textAlign: TextAlign.end,
                           style: Theme.of(context).textTheme.headline6)),
                 ),
+                Container(
+                    margin: EdgeInsets.only(right: 5.0),
+                    height: 30,
+                    child: addMoneyButton(context))
               ])
             ]),
         Container(
@@ -126,6 +133,15 @@ class PrintInfoCard extends GenericCard {
               ]),
         ),
       ),
+
+  Widget addMoneyButton(BuildContext context) {
+    return OutlinedButton(
+      style: OutlinedButton.styleFrom(
+        primary: Theme.of(context).primaryColor,
+        padding: EdgeInsets.zero,
+      ),
+      onPressed: () => addMoneyDialog(context),
+      child: Center(child: Icon(Icons.add)),
     );
   }
 
