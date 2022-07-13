@@ -14,17 +14,11 @@ Future<void> addMoneyDialog(BuildContext context) async {
       context: context,
       builder: (BuildContext context) {
         double value = 1.00;
-        double iva = calculateIva(value);
-        double total = value - iva;
 
         return StatefulBuilder(builder: (context, setState) {
           void _onValueChange() {
             final inputValue = valueTextToNumber(_controller.text);
-            setState(() {
-              value = inputValue;
-              iva = calculateIva(value);
-              total = inputValue - iva;
-            });
+            setState(() => value = inputValue);
           }
 
           _controller.addListener(_onValueChange);
@@ -87,31 +81,6 @@ Future<void> addMoneyDialog(BuildContext context) async {
                         },
                       )
                     ]),
-                    Padding(
-                      padding: EdgeInsets.only(top: 20, bottom: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('IVA:',
-                              textAlign: TextAlign.start,
-                              style: Theme.of(context).textTheme.subtitle2),
-                          Text(numberToValueText(iva),
-                              style: Theme.of(context).textTheme.bodyText2),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(bottom: 20),
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('Crédito a adicionar: ',
-                                textAlign: TextAlign.start,
-                                style: Theme.of(context).textTheme.subtitle2),
-                            Text(numberToValueText(total),
-                                style: Theme.of(context).textTheme.bodyText2),
-                          ]),
-                    ),
                     ElevatedButton(
                       onPressed: () => generateReference(context, value),
                       child: Text('Gerar referência'),
@@ -130,11 +99,6 @@ double valueTextToNumber(String value) =>
     double.parse(value.substring(0, value.length - 2).replaceAll(',', '.'));
 String numberToValueText(double number) =>
     formatter.format(number.toStringAsFixed(2));
-
-double calculateIva(double number) {
-  final value = number * 0.186; //O VALOR MÁGICO é 0.186
-  return ((value * 100).round().toDouble() / 100);
-}
 
 generateReference(context, amount) async {
   if (amount < 1) {
