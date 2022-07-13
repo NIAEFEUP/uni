@@ -14,7 +14,10 @@ Future<String> printLogin(String studentNumber, String password) async {
   headers['origin'] = 'https://print.up.pt';
 
   String payload =
-      'service=direct%2F1%2FHome%2F%24Form&sp=S0&Form0=%24Hidden%240%2C%24Hidden%241%2CinputUsername%2CinputPassword%2C%24Submit%240%2C%24PropertySelection&%24Hidden%240=true&%24Hidden%241=X&%24Submit%240=Entrar&%24PropertySelection=pt_PT';
+      'service=direct%2F1%2FHome%2F%24Form&sp=S0'
+      '&Form0=%24Hidden%240%2C%24Hidden%241%2CinputUsername%2CinputPassword'
+      '%2C%24Submit%240%2C%24PropertySelection&%24Hidden%240=true&%24'
+      'Hidden%241=X&%24Submit%240=Entrar&%24PropertySelection=pt_PT';
   final username = 'up${studentNumber}@up.pt';
   payload += '&inputUsername=${username}&inputPassword=${password}';
 

@@ -106,11 +106,18 @@ class PrintInfoCard extends GenericCard {
 
   bool isNegative(movement) => movement['value'][0] != '-';
 
+  List properLength(list) =>
+      list.map((str) => str.length == 2 ? str : '0' + str).toList();
+
   // Individual movement row
   Widget balanceMovement(context, movement) {
-    List datetime = movement['datetime'].split('/');
-    //datetime[1] = TimeString.months.indexOf(datetime[1]) + 1;
-    datetime.join('/');
+    final List splitedDate = movement['datetime'].split(' ');
+    List date = splitedDate[0].split('/');
+    List time = splitedDate[1].split(':');
+    date[1] = (TimeString.months.indexOf(date[1]) + 1).toString();
+    date = properLength(date);
+    time = properLength(time);
+    final datetime = date.reversed.join('-') + ' ' + time.join(':');
 
     return Container(
       margin: EdgeInsets.only(top: 8),
@@ -123,8 +130,7 @@ class PrintInfoCard extends GenericCard {
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Text(DateTime.parse(movement['datetime'])
-                    .toFormattedDateString()),
+                Text(DateTime.parse(datetime).toFormattedDateString()),
                 isNegative(movement)
                     ? Text('+' + movement['value'],
                         style: Theme.of(context)
