@@ -8,7 +8,7 @@ Future<String> getPrintBalance(http.Response response) async {
 
   final String balanceString =
       document.querySelector('.stat-bal').children[1].text;
-      
+
   return balanceString.replaceAll('\n', ' ');
 }
 
@@ -42,4 +42,28 @@ Future<List> getPrintMovements(
   mergedMovements.sort((b, a) => a['datetime'].compareTo(b['datetime']));
 
   return mergedMovements;
+}
+
+/// Extracts the print balance movements of the user's account
+///  from an HTTP [response].
+Future<List> getNewPrintMovements(http.Response response) async {
+  final document = parse(response.body);
+  final table = document.querySelector('.results tbody');
+  final List rows = table.querySelectorAll('.even,.odd');
+  final List<Map> movements = rows.map((row) {
+    return {
+      'datetime': row
+          .querySelector('.transactionDateColumnValue')
+          .innerHtml
+          .replaceAll('\n', ''),
+      'value': row
+          .querySelector('.amountColumnValue')
+          .children[0]
+          .innerHtml
+          .replaceAll('\n', '')
+          .trim()
+    };
+  }).toList();
+
+  return movements;
 }

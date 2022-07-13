@@ -53,7 +53,7 @@ class PrintInfoCard extends GenericCard {
             alignment: Alignment.centerLeft,
             margin: const EdgeInsets.only(
                 top: 5.0, bottom: 0.0, left: 20.0, right: 20.0),
-            child: Text('Movimentos Recentes: ',
+            child: Text('Débitos Recentes: ',
                 style: Theme.of(context).textTheme.subtitle2)),
         Container(
             margin: const EdgeInsets.only(
@@ -72,7 +72,8 @@ class PrintInfoCard extends GenericCard {
                           printMovements.item1.isNotEmpty,
                       onNullContent: Center(
                           child: getEmptyContainer(
-                              'Não existem movimentos recentes', context)));
+                              'Nenhum movimento realizado recentemente',
+                              context)));
                 })),
         StoreConnector<AppState, String>(
             converter: (store) => store.state.content['printRefreshTime'],
@@ -85,7 +86,8 @@ class PrintInfoCard extends GenericCard {
   /// Returns a widget with all the print balance movements.
   Widget printBalanceMovementsWidget(movements, context) {
     if (movements.length <= 0) {
-      return getEmptyContainer('Não existem movimentos recentes', context);
+      return getEmptyContainer(
+          'Não existem movimentos nas duas últimas semanas', context);
     }
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -106,6 +108,10 @@ class PrintInfoCard extends GenericCard {
 
   // Individual movement row
   Widget balanceMovement(context, movement) {
+    List datetime = movement['datetime'].split('/');
+    //datetime[1] = TimeString.months.indexOf(datetime[1]) + 1;
+    datetime.join('/');
+
     return Container(
       margin: EdgeInsets.only(top: 8),
       child: RowContainer(
@@ -120,19 +126,21 @@ class PrintInfoCard extends GenericCard {
                 Text(DateTime.parse(movement['datetime'])
                     .toFormattedDateString()),
                 isNegative(movement)
-                  ? Text('+' + movement['value'],
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline6
-                          .apply(color: Colors.green))
-                  : Text(movement['value'],
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline6
-                          .apply(color: Theme.of(context).accentColor))
+                    ? Text('+' + movement['value'],
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline6
+                            .apply(color: Colors.green))
+                    : Text(movement['value'],
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline6
+                            .apply(color: Theme.of(context).accentColor))
               ]),
         ),
       ),
+    );
+  }
 
   Widget addMoneyButton(BuildContext context) {
     return OutlinedButton(

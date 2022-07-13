@@ -11,6 +11,21 @@ extension TimeString on DateTime {
     'Domingo'
   ];
 
+  static const months = [
+    'jan',
+    'fev',
+    'mar',
+    'abr',
+    'maio',
+    'jun',
+    'jul',
+    'ago',
+    'set',
+    'out',
+    'nov',
+    'dez'
+  ];
+
   String toTimeHourMinString() {
     return DateFormat('kk:mm').format(this);
   }
@@ -36,7 +51,7 @@ extension TimeString on DateTime {
       return 'Ontem';
     }
     if (daysDif > 0 && daysDif < 7) {
-      return weekdays[this.weekday-1];
+      return weekdays[this.weekday - 1];
     }
     return DateFormat('dd/MM').format(this);
   }

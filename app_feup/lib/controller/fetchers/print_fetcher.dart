@@ -17,7 +17,6 @@ class PrintFetcher implements SessionDependantFetcher {
     return NetworkRouter.getWithCookies(url, query, session);
   }
 
-
   getUserPrintsMovements(Session session) {
     final String url =
         NetworkRouter.getBaseUrl('feup') + 'imp4_impressoes.logs?';
@@ -25,9 +24,15 @@ class PrintFetcher implements SessionDependantFetcher {
     return NetworkRouter.getWithCookies(url, query, session);
   }
 
-  getPrintHomePage(Session session) async {
+  getHomePage(Session session) async {
     final url = 'https://print.up.pt/app?service=page/UserSummary';
     return await NetworkRouter.getWithCookies(url, {}, session);
+  }
+
+  getNewPrintMovements(Session session) async {
+    final url = 'https://print.up.pt/app?service=page/UserPrintLogs';
+    return await NetworkRouter.getWithCookies(url, {}, session);
+  }
 
   static Future generatePrintMoneyReference(
       double amount, Session session) async {

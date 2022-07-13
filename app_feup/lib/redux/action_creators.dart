@@ -323,7 +323,7 @@ ThunkAction<AppState> getUserPrintBalance(Completer<Null> action) {
           .getUserPrintsResponse(store.state.content['session']);
 
       final printUpResponse =
-          await PrintFetcher().getPrintHomePage(store.state.content['session']);
+          await PrintFetcher().getHomePage(store.state.content['session']);
 
       final String printBalance = await getPrintBalance(printUpResponse);
 
@@ -331,6 +331,13 @@ ThunkAction<AppState> getUserPrintBalance(Completer<Null> action) {
           .getUserPrintsMovements(store.state.content['session']);
       final printMovements =
           await getPrintMovements(response, movementsResponse);
+
+      final newMovementsResponse = await PrintFetcher()
+          .getNewPrintMovements(store.state.content['session']);
+
+      final newPrintMovements =
+          await getNewPrintMovements(newMovementsResponse);
+      print("SOME ${newPrintMovements}");
 
       final String currentTime = DateTime.now().toString();
       final Tuple2<String, String> userPersistentInfo =
@@ -342,11 +349,11 @@ ThunkAction<AppState> getUserPrintBalance(Completer<Null> action) {
         final profileDb = AppUserDataDatabase();
         profileDb.saveUserPrintBalance(printBalance);
         final printMovementsDb = AppPrintMovementsDatabase();
-        printMovementsDb.setPrintMovements(printMovements);
+        printMovementsDb.setPrintMovements(newPrintMovements);
       }
 
       store.dispatch(SetPrintBalanceAction(printBalance));
-      store.dispatch(SetPrintMovementsAction(printMovements));
+      store.dispatch(SetPrintMovementsAction(newPrintMovements));
       store.dispatch(SetPrintStatusAction(RequestStatus.successful));
 
       store.dispatch(SetPrintRefreshTimeAction(currentTime));
