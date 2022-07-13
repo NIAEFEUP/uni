@@ -48,6 +48,7 @@ dependencies:
   add_2_calendar: ^1.4.0
   sentry_flutter: ^5.0.0
   email_validator: ^1.0.6
+  currency_text_input_formatter: ^2.1.5
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
