@@ -1,15 +1,11 @@
 import 'dart:async';
 
-import 'package:sqflite_common_ffi/sqflite_ffi.dart';
-import 'package:sqflite/sqflite.dart';
-import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
-import 'package:sentry/sentry.dart';
-import 'package:redux/redux.dart';
 import 'package:provider/provider.dart';
+import 'package:redux/redux.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:toast/toast.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/controller/middleware.dart';
@@ -30,6 +26,7 @@ import 'package:uni/view/Widgets/page_transition.dart';
 import 'package:uni/view/navigation_service.dart';
 import 'package:uni/view/theme.dart';
 import 'package:uni/view/theme_notifier.dart';
+
 import 'controller/on_start_up.dart';
 import 'model/schedule_page_model.dart';
 
@@ -44,13 +41,13 @@ Future<void> main() async {
       initialState: AppState(null),
       middleware: [generalMiddleware]);
 
-  if (Platform.isWindows || Platform.isLinux) {
+/*  if (Platform.isWindows || Platform.isLinux) {
     // Initialize FFI
     sqfliteFfiInit();
   }
   // Change the default factory. On iOS/Android, if not using `sqlite_flutter_lib` you can forget
   // this step, it will use the sqlite version available on the system.
-  databaseFactory = databaseFactoryFfi;
+  databaseFactory = databaseFactoryFfi;*/
 
   OnStartUp.onStart(state);
   WidgetsFlutterBinding.ensureInitialized();

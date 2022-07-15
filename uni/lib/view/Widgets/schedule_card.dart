@@ -1,21 +1,21 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:tuple/tuple.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/lecture.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter/material.dart';
-import 'package:tuple/tuple.dart';
+import 'package:uni/model/entities/time_utilities.dart';
 import 'package:uni/view/Widgets/date_rectangle.dart';
 import 'package:uni/view/Widgets/request_dependent_widget_builder.dart';
 import 'package:uni/view/Widgets/schedule_slot.dart';
-import 'package:uni/model/entities/time_utilities.dart';
 
-import '../../utils/constants.dart' as Constants;
+import '../../utils/constants.dart' as constants;
 import 'generic_card.dart';
 
 class ScheduleCard extends GenericCard {
   ScheduleCard({Key? key}) : super(key: key);
 
   ScheduleCard.fromEditingInformation(
-      Key key, bool editingMode, Function onDelete)
+      Key key, bool editingMode, Function()? onDelete)
       : super.fromEditingInformation(key, editingMode, onDelete);
 
   final double borderRadius = 12.0;
@@ -43,11 +43,10 @@ class ScheduleCard extends GenericCard {
   }
 
   Widget generateSchedule(lectures, context) {
-    return Container(
-        child: Column(
+    return Column(
       mainAxisSize: MainAxisSize.min,
       children: getScheduleRows(context, lectures),
-    ));
+    );
   }
 
   List<Widget> getScheduleRows(context, List<Lecture> lectures) {
@@ -111,5 +110,5 @@ class ScheduleCard extends GenericCard {
 
   @override
   onClick(BuildContext context) =>
-      Navigator.pushNamed(context, '/${Constants.navSchedule}');
+      Navigator.pushNamed(context, '/${constants.navSchedule}');
 }

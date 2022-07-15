@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Application dark theme
 - A Canteen Page in the personal area
 - Fetching of Terms and Conditions
+- A dialog to create MB references to add money to print balance
 
 ### Fixed
 
@@ -27,6 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix Github issues header changes
 - Fix Lecture data coming from Sigarra's API
 - Fix Bus Stops departures, to obtain new CSRF for the API
+- Fix card title not occupying full width
 
 ### Changed
 

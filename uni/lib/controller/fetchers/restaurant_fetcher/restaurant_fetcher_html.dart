@@ -12,7 +12,7 @@ class RestaurantFetcherHtml implements RestaurantFetcher {
   List<String> getEndpoints(Session session) {
     // TO DO: Implement parsers for all faculties
     // and dispatch for different fetchers
-    final url = NetworkRouter.getBaseUrl('feup') + 'CANTINA.EMENTASHOW';
+    final url = '${NetworkRouter.getBaseUrl('feup')}CANTINA.EMENTASHOW';
     return [url];
   }
 

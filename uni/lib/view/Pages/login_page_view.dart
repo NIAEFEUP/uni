@@ -1,24 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:uni/view/Widgets/toast_message.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/redux/action_creators.dart';
-import 'package:uni/view/Widgets/terms_and_conditions.dart';
 import 'package:uni/utils/constants.dart' as Constants;
-
-import '../../model/app_state.dart';
+import 'package:uni/view/Widgets/faculties_multiselect.dart';
+import 'package:uni/view/Widgets/terms_and_conditions.dart';
+import 'package:uni/view/Widgets/toast_message.dart';
 
 class LoginPageView extends StatefulWidget {
+  const LoginPageView({super.key});
+
   @override
-  _LoginPageViewState createState() => _LoginPageViewState();
+  LoginPageViewState createState() => LoginPageViewState();
 }
 
 /// Manages the 'login section' view.
-class _LoginPageViewState extends State<LoginPageView> {
-  final List<String> faculty = [
+class LoginPageViewState extends State<LoginPageView> {
+  List<String> faculties = [
     'feup'
-  ]; // May choose more than one faculties in the dropdown.
+  ]; // May choose more than one faculty in the dropdown.
 
   @override
   void didChangeDependencies() {
@@ -45,9 +46,17 @@ class _LoginPageViewState extends State<LoginPageView> {
         _formKey.currentState!.validate()) {
       final user = usernameController.text.trim();
       final pass = passwordController.text.trim();
-      store.dispatch(login(user, pass, faculty, _keepSignedIn,
+      store.dispatch(login(user, pass, faculties, _keepSignedIn,
           usernameController, passwordController));
     }
+  }
+
+  /// Updates the list of faculties
+  /// based on the options the user selected (used as a callback)
+  void setFaculties(faculties) {
+    setState(() {
+      this.faculties = faculties;
+    });
   }
 
   /// Tracks if the user wants to keep signed in (has a
@@ -102,7 +111,6 @@ class _LoginPageViewState extends State<LoginPageView> {
     widgets.add(
         Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)));
     widgets.add(createSafeLoginButton(context));
-
     return widgets;
   }
 
@@ -147,7 +155,7 @@ class _LoginPageViewState extends State<LoginPageView> {
       key: _formKey,
       child: SingleChildScrollView(
         child: Column(children: [
-          createFacultyInput(),
+          createFacultyInput(context),
           Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)),
           createUsernameInput(context),
           Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)),
@@ -160,28 +168,9 @@ class _LoginPageViewState extends State<LoginPageView> {
   }
 
   /// Creates the widget for the user to choose their faculty
-  /// TODO: support for multiple faculties. Issue: #445
-  Widget createFacultyInput() {
-    return DropdownButton(
-      value: faculty[0].toUpperCase(),
-      items: Constants.faculties
-          .map((value) => DropdownMenuItem(
-                value: value.toUpperCase(),
-                child: Text(value.toUpperCase()),
-              ))
-          .toList(),
-      onChanged: (String? newDropdownValue) {
-        setState(() {
-          faculty[0] = newDropdownValue!.toLowerCase();
-        });
-      },
-      isExpanded: true,
-      dropdownColor: Theme.of(context).brightness == Brightness.light
-          ? Theme.of(context).primaryColor
-          : Theme.of(context).scaffoldBackgroundColor,
-      style: const TextStyle(color: Colors.white, fontSize: 20),
-      underline: Container(width: 200, height: 0.2, color: Colors.black87),
-    );
+  Widget createFacultyInput(BuildContext context) {
+    return FacultiesMultiselect(
+        faculties, setFaculties, Theme.of(context).brightness);
   }
 
   /// Creates the widget for the username input.
@@ -224,7 +213,7 @@ class _LoginPageViewState extends State<LoginPageView> {
         textAlign: TextAlign.left,
         decoration: passwordFieldDecoration('palavra-passe'),
         validator: (String? value) =>
-            value!.isEmpty ? 'Preenche este campo' : null);
+            value != null && value.isEmpty ? 'Preenche este campo' : null);
   }
 
   /// Creates the widget for the user to keep signed in (save his data).

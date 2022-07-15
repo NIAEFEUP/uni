@@ -1,18 +1,19 @@
-import 'package:uni/model/app_state.dart';
 import 'package:flutter/material.dart';
-import 'package:tuple/tuple.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:uni/view/Widgets/restaurant_row.dart';
+import 'package:tuple/tuple.dart';
+import 'package:uni/model/app_state.dart';
 import 'package:uni/view/Widgets/request_dependent_widget_builder.dart';
+import 'package:uni/view/Widgets/restaurant_row.dart';
 import 'package:uni/view/Widgets/row_container.dart';
+
 import 'date_rectangle.dart';
 import 'generic_card.dart';
 
 class RestaurantCard extends GenericCard {
   RestaurantCard({Key? key}) : super(key: key);
 
-  RestaurantCard.fromEditingInformation(
-      Key key, bool editingMode, Function onDelete)
+  const RestaurantCard.fromEditingInformation(
+      Key key, bool editingMode, Function()? onDelete)
       : super.fromEditingInformation(key, editingMode, onDelete);
 
   @override
@@ -24,7 +25,7 @@ class RestaurantCard extends GenericCard {
   @override
   Widget buildCardContent(BuildContext context) {
     return StoreConnector<AppState, Tuple2<String, RequestStatus>>(
-        converter: (store) => Tuple2(
+        converter: (store) => const Tuple2(
             '', // TODO: Issue #390
             RequestStatus.none),
         builder: (context, canteen) {
@@ -61,7 +62,7 @@ class RestaurantCard extends GenericCard {
       Card(
         elevation: 1,
         child: RowContainer(
-            color: Color.fromARGB(0, 0, 0, 0),
+            color: const Color.fromARGB(0, 0, 0, 0),
             child: RestaurantRow(
               local: canteen,
               meatMenu: '', // TODO: Issue #390

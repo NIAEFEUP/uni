@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:uni/model/app_state.dart';
+import 'package:uni/view/Widgets/create_print_mb_dialog.dart';
+
 import 'generic_card.dart';
 
 class PrintInfoCard extends GenericCard {
   PrintInfoCard({Key? key}) : super(key: key);
 
   const PrintInfoCard.fromEditingInformation(
-      Key key, bool editingMode, Function onDelete)
+      Key key, bool editingMode, Function()? onDelete)
       : super.fromEditingInformation(key, editingMode, onDelete);
 
   @override
@@ -16,7 +18,10 @@ class PrintInfoCard extends GenericCard {
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         Table(
-            columnWidths: const {1: FractionColumnWidth(.4)},
+            columnWidths: const {
+              1: FractionColumnWidth(0.4),
+              2: FractionColumnWidth(.1)
+            },
             defaultVerticalAlignment: TableCellVerticalAlignment.middle,
             children: [
               TableRow(children: [
@@ -27,13 +32,18 @@ class PrintInfoCard extends GenericCard {
                       style: Theme.of(context).textTheme.subtitle2),
                 ),
                 Container(
-                  margin: const EdgeInsets.only(
-                      top: 20.0, bottom: 20.0, right: 30.0),
+                  margin: const EdgeInsets.only(right: 15.0),
                   child: StoreConnector<AppState, String>(
                       converter: (store) => store.state.content['printBalance'],
-                      builder: (context, printBalance) =>
-                          getInfoText(printBalance, context)),
+                      builder: (context, printBalance) => Text(
+                          printBalance ?? 'N/A',
+                          textAlign: TextAlign.end,
+                          style: Theme.of(context).textTheme.headline6)),
                 ),
+                Container(
+                    margin: const EdgeInsets.only(right: 5.0),
+                    height: 30,
+                    child: addMoneyButton(context))
               ])
             ]),
         StoreConnector<AppState, String>(
@@ -41,6 +51,17 @@ class PrintInfoCard extends GenericCard {
             builder: (context, printRefreshTime) =>
                 showLastRefreshedTime(printRefreshTime, context))
       ],
+    );
+  }
+
+  Widget addMoneyButton(BuildContext context) {
+    return OutlinedButton(
+      style: OutlinedButton.styleFrom(
+        primary: Theme.of(context).primaryColor,
+        padding: EdgeInsets.zero,
+      ),
+      onPressed: () => addMoneyDialog(context),
+      child: const Center(child: Icon(Icons.add)),
     );
   }
 

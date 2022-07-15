@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:uni/model/entities/time_utilities.dart';
 
@@ -13,7 +12,7 @@ abstract class GenericCard extends StatefulWidget {
       : super(key: key);
 
   final bool editingMode;
-  final Function onDelete;
+  final Function()? onDelete;
 
   @override
   State<StatefulWidget> createState() {
@@ -96,18 +95,14 @@ class GenericCardState extends State<GenericCard> {
                                     .apply(
                                         color: Theme.of(context).primaryColor)),
                           )),
-                          Container(
-                            alignment: Alignment.center,
-                            margin: const EdgeInsets.only(top: 8),
-                            child: getMoveIcon(context),
-                          ),
-                          Flexible(
-                              child: Container(
-                            alignment: Alignment.centerRight,
-                            height: 32,
-                            child: getDeleteIcon(context),
-                          )),
-                        ].where((e) => e != null).toList(),
+                          if (widget.editingMode)
+                            Container(
+                              alignment: Alignment.center,
+                              margin: const EdgeInsets.only(top: 8),
+                              child: getMoveIcon(context),
+                            ),
+                          if (widget.editingMode) getDeleteIcon(context)
+                        ],
                       ),
                       Container(
                         padding: EdgeInsets.only(
@@ -124,21 +119,22 @@ class GenericCardState extends State<GenericCard> {
             )));
   }
 
-  IconButton? getDeleteIcon(context) {
-    return (widget.editingMode)
-        ? IconButton(
-            iconSize: 22,
-            icon: const Icon(Icons.delete),
-            tooltip: 'Remover',
-            onPressed: widget.onDelete as void Function(),
-          )
-        : null;
+  Widget getDeleteIcon(context) {
+    return Flexible(
+        child: Container(
+      alignment: Alignment.centerRight,
+      height: 32,
+      child: IconButton(
+        iconSize: 22,
+        icon: const Icon(Icons.delete),
+        tooltip: 'Remover',
+        onPressed: widget.onDelete,
+      ),
+    ));
   }
 
-  Icon? getMoveIcon(context) {
-    return (widget.editingMode)
-        ? Icon(Icons.drag_handle_rounded,
-            color: Colors.grey.shade500, size: 22.0)
-        : null;
+  Widget getMoveIcon(context) {
+    return Icon(Icons.drag_handle_rounded,
+        color: Colors.grey.shade500, size: 22.0);
   }
 }

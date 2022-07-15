@@ -9,15 +9,15 @@ import 'generic_card.dart';
 class AccountInfoCard extends GenericCard {
   AccountInfoCard({Key? key}) : super(key: key);
 
-  AccountInfoCard.fromEditingInformation(
-      Key key, bool editingMode, Function onDelete)
+  const AccountInfoCard.fromEditingInformation(
+      Key key, bool editingMode, Function()? onDelete)
       : super.fromEditingInformation(key, editingMode, onDelete);
 
   @override
   Widget buildCardContent(BuildContext context) {
     return Column(children: [
       Table(
-          columnWidths: {1: FractionColumnWidth(.4)},
+          columnWidths: const {1: FractionColumnWidth(.4)},
           defaultVerticalAlignment: TableCellVerticalAlignment.middle,
           children: [
             TableRow(children: [
@@ -56,7 +56,7 @@ class AccountInfoCard extends GenericCard {
       StoreConnector<AppState, String>(
           converter: (store) => store.state.content['feesRefreshTime'],
           builder: (context, feesRefreshTime) =>
-              this.showLastRefreshedTime(feesRefreshTime, context))
+              showLastRefreshedTime(feesRefreshTime, context))
     ]);
   }
 

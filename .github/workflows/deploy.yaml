@@ -38,7 +38,7 @@ jobs:
     env:
       PROPERTIES_PATH: "android/key.properties"
       JAVA_VERSION: "11.x"
-      FLUTTER_VERSION: "3.0.1"
+      FLUTTER_VERSION: "3.0.5"
     defaults:
       run:
         working-directory: ./app_feup

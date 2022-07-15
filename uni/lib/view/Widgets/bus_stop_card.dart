@@ -1,21 +1,21 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:tuple/tuple.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/bus_stop.dart';
 import 'package:uni/model/entities/trip.dart';
-import 'package:tuple/tuple.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
+import 'package:uni/utils/constants.dart' as constants;
 import 'package:uni/view/Pages/bus_stop_selection_page.dart';
 import 'package:uni/view/Widgets/bus_stop_row.dart';
 import 'package:uni/view/Widgets/last_update_timestamp.dart';
 import 'package:uni/view/Widgets/row_container.dart';
-import 'package:uni/utils/constants.dart' as Constants;
 
 import 'generic_card.dart';
 
 /// Manages the bus stops card displayed on the user's personal area
 class BusStopCard extends GenericCard {
-  BusStopCard.fromEditingInformation(
-      Key key, bool editingMode, Function onDelete)
+  const BusStopCard.fromEditingInformation(
+      Key key, bool editingMode, Function()? onDelete)
       : super.fromEditingInformation(key, editingMode, onDelete);
 
   @override
@@ -23,7 +23,7 @@ class BusStopCard extends GenericCard {
 
   @override
   onClick(BuildContext context) =>
-      Navigator.pushNamed(context, '/' + Constants.navStops);
+      Navigator.pushNamed(context, '/${constants.navStops}');
 
   @override
   Widget buildCardContent(BuildContext context) {
@@ -46,12 +46,12 @@ class BusStopCard extends GenericCard {
       case RequestStatus.successful:
         if (trips.isNotEmpty) {
           return Column(children: <Widget>[
-            this.getCardTitle(context),
-            this.getBusStopsInfo(context, trips, stopConfig)
+            getCardTitle(context),
+            getBusStopsInfo(context, trips, stopConfig)
           ]);
         } else {
           return Container(
-            padding: EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -60,7 +60,7 @@ class BusStopCard extends GenericCard {
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.subtitle2!.apply()),
                   IconButton(
-                    icon: Icon(Icons.settings),
+                    icon: const Icon(Icons.settings),
                     onPressed: () => Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -73,18 +73,18 @@ class BusStopCard extends GenericCard {
       case RequestStatus.busy:
         return Column(
           children: <Widget>[
-            this.getCardTitle(context),
+            getCardTitle(context),
             Container(
-                padding: EdgeInsets.all(22.0),
-                child: Center(child: CircularProgressIndicator()))
+                padding: const EdgeInsets.all(22.0),
+                child: const Center(child: CircularProgressIndicator()))
           ],
         );
       case RequestStatus.failed:
       default:
         return Column(children: <Widget>[
-          this.getCardTitle(context),
+          getCardTitle(context),
           Container(
-              padding: EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8.0),
               child: Text('Não foi possível obter informação',
                   style: Theme.of(context).textTheme.subtitle1))
         ]);
@@ -96,7 +96,7 @@ class BusStopCard extends GenericCard {
   Widget getCardTitle(context) {
     return Row(
       children: <Widget>[
-        Icon(Icons.directions_bus), // color lightgrey
+        const Icon(Icons.directions_bus), // color lightgrey
         Text('STCP - Próximas Viagens',
             style: Theme.of(context).textTheme.subtitle1),
       ],
@@ -109,10 +109,10 @@ class BusStopCard extends GenericCard {
       return Container(
           padding: EdgeInsets.all(4.0),
           child: Column(
-            children: this.getEachBusStopInfo(context, trips, stopConfig),
+            children: getEachBusStopInfo(context, trips, stopConfig),
           ));
     } else {
-      return Center(
+      return const Center(
         child: Text('Não há dados a mostrar neste momento',
             maxLines: 2, overflow: TextOverflow.fade),
       );
@@ -128,7 +128,7 @@ class BusStopCard extends GenericCard {
     trips.forEach((stopCode, tripList) {
       if (tripList.length > 0 && stopConfig[stopCode].favorited) {
         rows.add(Container(
-            padding: EdgeInsets.only(top: 12.0),
+            padding: const EdgeInsets.only(top: 12.0),
             child: RowContainer(
                 color: Theme.of(context).primaryColor,
                 child: BusStopRow(
