@@ -1,6 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/lecture.dart';
-import 'package:flutter/material.dart';
 import 'package:uni/view/Widgets/page_title.dart';
 import 'package:uni/view/Widgets/request_dependent_widget_builder.dart';
 import 'package:uni/view/Widgets/schedule_slot.dart';
@@ -19,7 +19,7 @@ class SchedulePageView extends StatelessWidget {
   final List<String> daysOfTheWeek;
   final List<List<Lecture>> aggLectures;
   final RequestStatus scheduleStatus;
-  final TabController tabController;
+  final TabController? tabController;
   //final ScrollController scrollViewController;
 
   @override
@@ -31,7 +31,7 @@ class SchedulePageView extends StatelessWidget {
         scrollDirection: Axis.vertical,
         shrinkWrap: true,
         children: <Widget>[
-          PageTitle(name: 'Horário'),
+          const PageTitle(name: 'Horário'),
           TabBar(
             controller: tabController,
             isScrollable: true,

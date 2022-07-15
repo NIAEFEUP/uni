@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:flutter/foundation.dart';
+
 import 'package:uni/controller/networking/network_router.dart';
 
 /// Stores information about a user session.
@@ -15,12 +15,12 @@ class Session {
       loginRequest; // TODO: accessed directly in Network Router; change the logic
 
   Session(
-      {required this.authenticated,
-      required this.studentNumber,
-      required this.type,
-      required this.cookies,
-      required this.faculties,
-      required this.persistentSession});
+      {this.authenticated = false,
+      this.studentNumber = '',
+      this.type = '',
+      this.cookies = '',
+      this.faculties = const [''],
+      this.persistentSession = false});
 
   /// Creates a new instance from an HTTP response
   /// to login in one of the faculties.

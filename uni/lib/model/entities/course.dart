@@ -17,13 +17,13 @@ class Course {
   final String state;
 
   Course(
-      {required int this.id,
-      required int this.festId,
-      required String this.name,
-      required this.abbreviation,
-      required String this.currYear,
-      required int this.firstEnrollment,
-      String this.state = ''});
+      {required this.id,
+      this.festId = 0,
+      this.name = 'Course',
+      this.abbreviation = 'cs',
+      this.currYear = '',
+      this.firstEnrollment = 0,
+      this.state = ''});
 
   /// Creates a new instance from a JSON object.
   static Course fromJson(dynamic data) {

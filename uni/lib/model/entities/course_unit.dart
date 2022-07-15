@@ -16,20 +16,20 @@ class CourseUnit {
   num ects;
 
   CourseUnit(
-      {required this.id,
-      required this.code,
+      {this.id = 0,
+      this.code = '',
       required this.abbreviation,
-      required this.name,
-      required this.curricularYear,
-      required this.occurrId,
-      required this.semesterCode,
-      required this.semesterName,
-      required this.type,
-      required this.status,
-      required this.grade,
-      required this.ectsGrade,
-      required this.result,
-      required this.ects});
+      this.name = '',
+      this.curricularYear = 0,
+      this.occurrId = 0,
+      this.semesterCode = '',
+      this.semesterName = '',
+      this.type = '',
+      this.status = '',
+      this.grade = '',
+      this.ectsGrade = '',
+      this.result = '',
+      this.ects = 0});
 
   /// Creates a new instance from a JSON object.
   static CourseUnit fromJson(dynamic data) {

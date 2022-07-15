@@ -1,10 +1,12 @@
+// @dart=2.10
+
 import 'dart:async';
 import 'dart:io';
 
-import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
-import 'package:mockito/mockito.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
+import 'package:mockito/mockito.dart';
 import 'package:redux/redux.dart';
 import 'package:tuple/tuple.dart';
 import 'package:uni/controller/middleware.dart';
@@ -19,6 +21,7 @@ import 'package:uni/model/entities/session.dart';
 import 'package:uni/redux/action_creators.dart';
 import 'package:uni/redux/reducers.dart';
 import 'package:uni/view/Pages/exams_page_view.dart';
+
 import '../../testable_redux_widget.dart';
 
 class MockClient extends Mock implements http.Client {}

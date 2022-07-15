@@ -1,3 +1,5 @@
+// @dart=2.10
+
 import 'dart:async';
 
 import 'package:flutter_test/flutter_test.dart';
@@ -15,7 +17,7 @@ import 'action_creators.dart';
 void main() {
   group('Schedule Action Creator', () {
     final fetcherMock = MockScheduleFetcher();
-    final Tuple2<String, String> userPersistentInfo = Tuple2('', '');
+    const Tuple2<String, String> userPersistentInfo = Tuple2('', '');
     final mockStore = MockStore();
 
     final profile = Profile();
@@ -24,31 +26,31 @@ void main() {
       'session': Session(authenticated: true),
       'profile': profile,
     };
-    final blocks = 4;
-    final subject1 = 'SOPE';
-    final startTime1 = '10:00';
-    final room1 = 'B315';
-    final typeClass1 = 'T';
-    final teacher1 = 'JAS';
-    final day1 = 0;
-    final classNumber = 'MIEIC03';
-    final occurrId1 = 484378;
+    const blocks = 4;
+    const subject1 = 'SOPE';
+    const startTime1 = '10:00';
+    const room1 = 'B315';
+    const typeClass1 = 'T';
+    const teacher1 = 'JAS';
+    const day1 = 0;
+    const classNumber = 'MIEIC03';
+    const occurrId1 = 484378;
     final lecture1 = Lecture.fromHtml(subject1, typeClass1, day1, startTime1,
         blocks, room1, teacher1, classNumber, occurrId1);
-    final subject2 = 'SDIS';
-    final startTime2 = '13:00';
-    final room2 = 'B315';
-    final typeClass2 = 'T';
-    final teacher2 = 'PMMS';
-    final day2 = 0;
-    final occurrId2 = 484381;
+    const subject2 = 'SDIS';
+    const startTime2 = '13:00';
+    const room2 = 'B315';
+    const typeClass2 = 'T';
+    const teacher2 = 'PMMS';
+    const day2 = 0;
+    const occurrId2 = 484381;
     final lecture2 = Lecture.fromHtml(subject2, typeClass2, day2, startTime2,
         blocks, room2, teacher2, classNumber, occurrId2);
 
     when(mockStore.state).thenReturn(AppState(content));
 
     test('When given a single schedule', () async {
-      final Completer<Null> completer = Completer();
+      final Completer<void> completer = Completer();
       final actionCreator =
           getUserSchedule(completer, userPersistentInfo, fetcher: fetcherMock);
       when(fetcherMock.getLectures(any, any))
@@ -65,7 +67,7 @@ void main() {
     });
 
     test('When an error occurs while trying to obtain the schedule', () async {
-      final Completer<Null> completer = Completer();
+      final Completer<void> completer = Completer();
       final actionCreator =
           getUserSchedule(completer, userPersistentInfo, fetcher: fetcherMock);
       when(fetcherMock.getLectures(any, any))

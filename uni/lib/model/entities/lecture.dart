@@ -12,17 +12,17 @@ class Lecture {
     'Sábado',
     'Domingo'
   ];
-  late String subject;
-  late String startTime;
-  late String endTime;
-  late String typeClass;
-  late String room;
-  late String teacher;
-  late String classNumber;
-  late int day;
-  late int blocks;
-  late int startTimeSeconds;
-  late int occurrId;
+  String subject;
+  String startTime;
+  String endTime;
+  String typeClass;
+  String room;
+  String teacher;
+  String classNumber;
+  int day;
+  int blocks;
+  int startTimeSeconds;
+  int occurrId;
 
   /// Creates an instance of the class [Lecture].
   Lecture(
@@ -37,12 +37,12 @@ class Lecture {
       int startTimeMinutes,
       int endTimeHours,
       int endTimeMinutes,
-      this.occurrId) {
-    startTime = '${startTimeHours.toString().padLeft(2, '0')}h'
-        '${startTimeMinutes.toString().padLeft(2, '0')}';
-    endTime = '${endTimeHours.toString().padLeft(2, '0')}h'
-        '${endTimeMinutes.toString().padLeft(2, '0')}';
-  }
+      this.occurrId)
+      : startTime = '${startTimeHours.toString().padLeft(2, '0')}h'
+            '${startTimeMinutes.toString().padLeft(2, '0')}',
+        endTime = '${endTimeHours.toString().padLeft(2, '0')}h'
+            '${endTimeMinutes.toString().padLeft(2, '0')}',
+        startTimeSeconds = 0;
 
   factory Lecture.fromApi(
       String subject,
