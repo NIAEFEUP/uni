@@ -4,6 +4,8 @@ import 'package:uni/view/Pages/general_page_view.dart';
 import 'package:uni/view/Widgets/terms_and_conditions.dart';
 
 class AboutPageView extends StatefulWidget {
+  const AboutPageView({super.key});
+
   @override
   State<StatefulWidget> createState() => AboutPageViewState();
 }
@@ -15,13 +17,12 @@ class AboutPageViewState extends GeneralPageViewState {
     final MediaQueryData queryData = MediaQuery.of(context);
     return ListView(
       children: <Widget>[
-        Container(
-            child: SvgPicture.asset(
+        SvgPicture.asset(
           'assets/images/ni_logo.svg',
           color: Theme.of(context).primaryColor,
           width: queryData.size.height / 7,
           height: queryData.size.height / 7,
-        )),
+        ),
         Center(
             child: Padding(
           padding: EdgeInsets.only(
@@ -29,7 +30,7 @@ class AboutPageViewState extends GeneralPageViewState {
               right: queryData.size.width / 12,
               top: queryData.size.width / 12,
               bottom: queryData.size.width / 12),
-          child: Column(children: <Widget>[
+          child: Column(children: const <Widget>[
             TermsAndConditions(),
           ]),
         ))

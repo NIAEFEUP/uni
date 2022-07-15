@@ -33,8 +33,7 @@ Future<List<Restaurant>> getRestaurantsFromHtml(Response response) async {
       next = next.nextElementSibling;
       if (next!.classes.contains('dados')) {
         //It's the menu table
-        final List<Element>? rows = next.querySelectorAll('tr');
-        if (rows == null) break;
+        final List<Element> rows = next.querySelectorAll('tr');
         //Check if is empty
         if (rows.length <= 1) {
           break;
@@ -47,11 +46,11 @@ Future<List<Restaurant>> getRestaurantsFromHtml(Response response) async {
           DateTime? date;
           final List<Element> columns = row.querySelectorAll('td');
 
-          for (var collumn in columns) {
-            final String value = collumn.text;
-            final String? header = collumn.attributes['headers'];
+          for (var column in columns) {
+            final String value = column.text;
+            final String? header = column.attributes['headers'];
             if (header == 'Data') {
-              final DayOfWeek d = parseDayOfWeek(value);
+              final DayOfWeek? d = parseDayOfWeek(value);
               if (d == null) {
                 //It's a date
                 date = format.parse(value);
@@ -59,7 +58,7 @@ Future<List<Restaurant>> getRestaurantsFromHtml(Response response) async {
                 dayOfWeek = d;
               }
             } else {
-              type = document.querySelector('#${header}')?.text;
+              type = document.querySelector('#$header')?.text;
               final Meal meal = Meal(type ?? '', value, dayOfWeek!, date!);
               meals.add(meal);
             }
@@ -68,7 +67,7 @@ Future<List<Restaurant>> getRestaurantsFromHtml(Response response) async {
         break;
       }
     }
-    return Restaurant(-1, restaurantTuple.item2, restaurantTuple.item1,
+    return Restaurant(null, restaurantTuple.item2, restaurantTuple.item1,
         meals: meals);
   }).toList();
   return restaurants;

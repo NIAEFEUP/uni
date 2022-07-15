@@ -3,7 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/redux/action_creators.dart';
-import 'package:uni/utils/constants.dart' as Constants;
+import 'package:uni/utils/constants.dart' as constants;
 import 'package:uni/view/Widgets/faculties_multiselect.dart';
 import 'package:uni/view/Widgets/terms_and_conditions.dart';
 import 'package:uni/view/Widgets/toast_message.dart';
@@ -248,7 +248,7 @@ class LoginPageViewState extends State<LoginPageView> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(25),
             ),
-            primary: Theme.of(context).brightness == Brightness.light
+            backgroundColor: Theme.of(context).brightness == Brightness.light
                 ? Colors.white
                 : Colors.black54,
           ),
@@ -280,7 +280,7 @@ class LoginPageViewState extends State<LoginPageView> {
                   .content['session']
                   .authenticated) {
             Navigator.pushReplacementNamed(
-                context, '/${Constants.navPersonalArea}');
+                context, '/${constants.navPersonalArea}');
           } else if (status == RequestStatus.failed) {
             ToastMessage.display(context, 'O login falhou');
           }

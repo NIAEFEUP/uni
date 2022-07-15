@@ -10,7 +10,7 @@ class ScheduleFetcherApi extends ScheduleFetcher {
   @override
   List<String> getEndpoints(Session session) {
     final urls = NetworkRouter.getBaseUrlsFromSession(session)
-        .map((url) => url + 'mob_hor_geral.estudante')
+        .map((url) => '${url}mob_hor_geral.estudante')
         .toList();
     return urls;
   }

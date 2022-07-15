@@ -124,7 +124,7 @@ void main() {
 
       expect(
           find.descendant(
-              of: find.byKey(Key('schedule-page-day-column-0')),
+              of: find.byKey(const Key('schedule-page-day-column-0')),
               matching: find.byType(ScheduleSlot)),
           findsNWidgets(2));
     });
@@ -151,43 +151,43 @@ void main() {
 
       expect(
           find.descendant(
-              of: find.byKey(Key('schedule-page-day-column-0')),
+              of: find.byKey(const Key('schedule-page-day-column-0')),
               matching: find.byType(ScheduleSlot)),
           findsNWidgets(2));
 
-      await tester.tap(find.byKey(Key('schedule-page-tab-1')));
+      await tester.tap(find.byKey(const Key('schedule-page-tab-1')));
       await tester.pumpAndSettle();
 
       expect(
           find.descendant(
-              of: find.byKey(Key('schedule-page-day-column-1')),
+              of: find.byKey(const Key('schedule-page-day-column-1')),
               matching: find.byType(ScheduleSlot)),
           findsOneWidget);
 
-      await tester.tap(find.byKey(Key('schedule-page-tab-2')));
+      await tester.tap(find.byKey(const Key('schedule-page-tab-2')));
       await tester.pumpAndSettle();
 
       expect(
           find.descendant(
-              of: find.byKey(Key('schedule-page-day-column-2')),
+              of: find.byKey(const Key('schedule-page-day-column-2')),
               matching: find.byType(ScheduleSlot)),
           findsOneWidget);
 
-      await tester.tap(find.byKey(Key('schedule-page-tab-3')));
+      await tester.tap(find.byKey(const Key('schedule-page-tab-3')));
       await tester.pumpAndSettle();
 
       expect(
           find.descendant(
-              of: find.byKey(Key('schedule-page-day-column-3')),
+              of: find.byKey(const Key('schedule-page-day-column-3')),
               matching: find.byType(ScheduleSlot)),
           findsOneWidget);
 
-      await tester.tap(find.byKey(Key('schedule-page-tab-4')));
+      await tester.tap(find.byKey(const Key('schedule-page-tab-4')));
       await tester.pumpAndSettle();
 
       expect(
           find.descendant(
-              of: find.byKey(Key('schedule-page-day-column-4')),
+              of: find.byKey(const Key('schedule-page-day-column-4')),
               matching: find.byType(ScheduleSlot)),
           findsOneWidget);
     });

@@ -18,11 +18,11 @@ class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
 
   @override
-  _SplashScreenState createState() => _SplashScreenState();
+  SplashScreenState createState() => SplashScreenState();
 }
 
 /// Manages the splash screen displayed after a successful login.
-class _SplashScreenState extends State<SplashScreen> {
+class SplashScreenState extends State<SplashScreen> {
   late MediaQueryData queryData;
 
   @override
@@ -102,7 +102,8 @@ class _SplashScreenState extends State<SplashScreen> {
       nextRoute = await getTermsAndConditions(userName, password);
     } else {
       await acceptTermsAndConditions();
-      nextRoute = MaterialPageRoute(builder: (context) => LoginPageView());
+      nextRoute =
+          MaterialPageRoute(builder: (context) => const LoginPageView());
     }
     if (!mounted) {
       return;
@@ -118,13 +119,15 @@ class _SplashScreenState extends State<SplashScreen> {
 
     switch (state) {
       case TermsAndConditionsState.accepted:
-        final List<String> faculties = StoreProvider.of<AppState>(context)
-            .state
-            .content['session']
-            .faculties;
-        StoreProvider.of<AppState>(context)
-            .dispatch(reLogin(userName, password, faculties));
-        return MaterialPageRoute(builder: (context) => HomePageView());
+        if (mounted) {
+          final List<String> faculties = StoreProvider.of<AppState>(context)
+              .state
+              .content['session']
+              .faculties;
+          StoreProvider.of<AppState>(context)
+              .dispatch(reLogin(userName, password, faculties));
+        }
+        return MaterialPageRoute(builder: (context) => const HomePageView());
 
       case TermsAndConditionsState.rejected:
         return LogoutRoute.buildLogoutRoute();

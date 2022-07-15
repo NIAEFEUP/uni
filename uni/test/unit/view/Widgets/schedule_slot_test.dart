@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 //import 'package:flutter/material.dart';
 
 import 'package:uni/view/Widgets/schedule_slot.dart';
+
 import '../../../testable_widget.dart';
 
 void testScheduleSlot(String subject, String begin, String end, String rooms,
@@ -36,17 +37,17 @@ void testScheduleSlot(String subject, String begin, String end, String rooms,
 
 void main() {
   group('ScheduleSlot', () {
-    final subject = 'SOPE';
-    final begin = '10:00';
-    final end = '12:00';
-    final rooms = 'B315';
-    final typeClass = 'T';
-    final teacher = 'JAS';
-    final occurrId = 12345;
+    const subject = 'SOPE';
+    const begin = '10:00';
+    const end = '12:00';
+    const rooms = 'B315';
+    const typeClass = 'T';
+    const teacher = 'JAS';
+    const occurrId = 12345;
 
     testWidgets('When given a single room', (WidgetTester tester) async {
       final widget = makeTestableWidget(
-          child: ScheduleSlot(
+          child: const ScheduleSlot(
         subject: subject,
         typeClass: typeClass,
         rooms: rooms,

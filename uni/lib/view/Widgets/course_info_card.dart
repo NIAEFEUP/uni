@@ -1,5 +1,5 @@
-import 'package:uni/model/entities/course.dart';
 import 'package:flutter/material.dart';
+import 'package:uni/model/entities/course.dart';
 import 'package:uni/view/Widgets/generic_card.dart';
 
 /// Manages the courses info (course name, atual year, state and year of
@@ -14,7 +14,7 @@ class CourseInfoCard extends GenericCard {
   @override
   Widget buildCardContent(BuildContext context) {
     return Table(
-        columnWidths: {1: FractionColumnWidth(.4)},
+        columnWidths: const {1: FractionColumnWidth(.4)},
         defaultVerticalAlignment: TableCellVerticalAlignment.middle,
         children: [
           TableRow(children: [

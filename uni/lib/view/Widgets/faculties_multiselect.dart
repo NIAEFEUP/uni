@@ -2,33 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:uni/view/Widgets/faculties_selection_form.dart';
 
 class FacultiesMultiselect extends StatelessWidget {
-  final faculties;
+  final List<String> faculties;
   final Function setFaculties;
   final Brightness brightness;
 
-  FacultiesMultiselect(this.faculties, this.setFaculties, this.brightness);
+  const FacultiesMultiselect(this.faculties, this.setFaculties, this.brightness,
+      {super.key});
 
   @override
   Widget build(BuildContext context) {
-    final Color textColor = Color.fromARGB(255, 0xfa, 0xfa, 0xfa);
+    const Color textColor = Color.fromARGB(255, 0xfa, 0xfa, 0xfa);
 
     return TextButton(
-        child: createButtonContent(context),
         style: TextButton.styleFrom(
-            primary: textColor,
-            textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.w300)
-        ),
+            textStyle: const TextStyle(
+                fontSize: 20, fontWeight: FontWeight.w300, color: textColor)),
         onPressed: () {
           showDialog(
               context: context,
               builder: (BuildContext context) {
                 return FacultiesSelectionForm(
-                    List<String>.from(faculties), setFaculties, brightness
-                );
-              }
-          );
-        }
-    );
+                    List<String>.from(faculties), setFaculties, brightness);
+              });
+        },
+        child: createButtonContent(context));
   }
 
   Widget createButtonContent(BuildContext context) {
@@ -40,22 +37,17 @@ class FacultiesMultiselect extends StatelessWidget {
     }
 
     return Container(
-        child: Row(
-            children: [
-              Text('a(s) tua(s) faculdade(s)'),
-              Spacer(),
-              Icon(Icons.arrow_drop_down),
-            ]
-        ),
         padding: const EdgeInsets.fromLTRB(5, 0, 5, 7),
         decoration: BoxDecoration(
             border: Border(
                 bottom: BorderSide(
-                  color: borderColor,
-                  width: 0.5,
-                )
-            )
-        )
-    );
+          color: borderColor,
+          width: 0.5,
+        ))),
+        child: Row(children: const [
+          Text('a(s) tua(s) faculdade(s)'),
+          Spacer(),
+          Icon(Icons.arrow_drop_down),
+        ]));
   }
 }

@@ -1,4 +1,3 @@
-import 'package:flutter/rendering.dart';
 import 'package:logger/logger.dart';
 
 /// Stores information about a lecture.
@@ -158,7 +157,7 @@ class Lecture {
   }
 
   @override
-  int get hashCode => hashValues(subject, startTime, endTime, typeClass, room,
+  int get hashCode => Object.hash(subject, startTime, endTime, typeClass, room,
       teacher, day, blocks, startTimeSeconds, occurrId);
 
   @override

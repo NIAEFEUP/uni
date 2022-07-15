@@ -33,8 +33,7 @@ class ScheduleCard extends GenericCard {
               status: lecturesInfo.item2,
               contentGenerator: generateSchedule,
               content: lecturesInfo.item1,
-              contentChecker:
-                  lecturesInfo.item1 != null && lecturesInfo.item1.isNotEmpty,
+              contentChecker: lecturesInfo.item1.isNotEmpty,
               onNullContent: Center(
                   child: Text('Não existem aulas para apresentar',
                       style: Theme.of(context).textTheme.headline6,

@@ -11,7 +11,7 @@ class Session {
   String type;
   String cookies;
   String studentNumber;
-  Future?
+  Future<bool>?
       loginRequest; // TODO: accessed directly in Network Router; change the logic
 
   Session(

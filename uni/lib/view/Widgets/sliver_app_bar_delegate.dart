@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
@@ -23,7 +22,7 @@ class SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
           ),
         ),
       ),
-      constraints: BoxConstraints(maxHeight: 150.0),
+      constraints: const BoxConstraints(maxHeight: 150.0),
       child: Material(
         child: _tabBar,
       ),

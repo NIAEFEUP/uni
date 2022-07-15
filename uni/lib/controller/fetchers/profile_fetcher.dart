@@ -3,8 +3,6 @@ import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/session.dart';
 
-import '../networking/network_router.dart';
-
 class ProfileFetcher implements SessionDependantFetcher {
   @override
   List<String> getEndpoints(Session session) {

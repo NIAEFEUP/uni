@@ -1,5 +1,5 @@
+import 'package:flutter/foundation.dart';
 import 'package:logger/logger.dart';
-import 'package:collection/collection.dart';
 
 var months = {
   'janeiro': '01',
@@ -132,7 +132,7 @@ class Exam {
           subject == other.subject &&
           begin == other.begin &&
           end == other.end &&
-          const ListEquality().equals(rooms, other.rooms) &&
+          listEquals(rooms, other.rooms) &&
           day == other.day &&
           examType == other.examType &&
           weekDay == other.weekDay &&
@@ -144,7 +144,7 @@ class Exam {
       subject.hashCode ^
       begin.hashCode ^
       end.hashCode ^
-      const ListEquality().hash(rooms) ^
+      rooms.hashCode ^
       day.hashCode ^
       examType.hashCode ^
       weekDay.hashCode ^

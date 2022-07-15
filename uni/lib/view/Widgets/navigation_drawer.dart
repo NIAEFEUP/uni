@@ -1,24 +1,22 @@
 import 'package:flutter/material.dart';
-import '../../utils/constants.dart' as Constants;
-import '../theme_notifier.dart';
 import 'package:provider/provider.dart';
+
+import '../../utils/constants.dart' as constants;
+import '../theme_notifier.dart';
 
 class NavigationDrawer extends StatefulWidget {
   final BuildContext parentContext;
 
-  NavigationDrawer({required this.parentContext}) {}
+  const NavigationDrawer({super.key, required this.parentContext});
 
   @override
   State<StatefulWidget> createState() {
-    return NavigationDrawerState(parentContext: parentContext);
+    return NavigationDrawerState();
   }
 }
 
 class NavigationDrawerState extends State<NavigationDrawer> {
-  final BuildContext parentContext;
-
-  NavigationDrawerState({required this.parentContext}) {}
-
+  NavigationDrawerState();
   Map drawerItems = {};
 
   @override
@@ -26,21 +24,22 @@ class NavigationDrawerState extends State<NavigationDrawer> {
     super.initState();
 
     drawerItems = {
-      Constants.navPersonalArea: _onSelectPage,
-      Constants.navSchedule: _onSelectPage,
-      Constants.navExams: _onSelectPage,
-      Constants.navStops: _onSelectPage,
-      Constants.navUsefulLinks: _onSelectPage,
-      Constants.navUsefulContacts: _onSelectPage,
-      Constants.navAbout: _onSelectPage,
-      Constants.navBugReport: _onSelectPage,
+      constants.navPersonalArea: _onSelectPage,
+      constants.navSchedule: _onSelectPage,
+      constants.navExams: _onSelectPage,
+      constants.navStops: _onSelectPage,
+      constants.navUsefulLinks: _onSelectPage,
+      constants.navUsefulContacts: _onSelectPage,
+      constants.navAbout: _onSelectPage,
+      constants.navBugReport: _onSelectPage,
     };
   }
 
   // Callback Functions
-  getCurrentRoute() => ModalRoute.of(parentContext)!.settings.name == null
-      ? drawerItems.keys.toList()[0]
-      : ModalRoute.of(parentContext)!.settings.name!.substring(1);
+  getCurrentRoute() =>
+      ModalRoute.of(widget.parentContext)!.settings.name == null
+          ? drawerItems.keys.toList()[0]
+          : ModalRoute.of(widget.parentContext)!.settings.name!.substring(1);
 
   _onSelectPage(String key) {
     final prev = getCurrentRoute();
@@ -48,13 +47,13 @@ class NavigationDrawerState extends State<NavigationDrawer> {
     Navigator.of(context).pop();
 
     if (prev != key) {
-      Navigator.pushNamed(context, '/' + key);
+      Navigator.pushNamed(context, '/$key');
     }
   }
 
   _onLogOut(String key) {
     Navigator.of(context)
-        .pushNamedAndRemoveUntil('/' + key, (Route<dynamic> route) => false);
+        .pushNamedAndRemoveUntil('/$key', (Route<dynamic> route) => false);
   }
 
   // End of Callback Functions
@@ -72,37 +71,34 @@ class NavigationDrawerState extends State<NavigationDrawer> {
 
   Widget createLogoutBtn() {
     return TextButton(
-      onPressed: () => _onLogOut(Constants.navLogOut),
+      onPressed: () => _onLogOut(constants.navLogOut),
       style: TextButton.styleFrom(
         elevation: 0,
         padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 5.0),
       ),
       child: Container(
         padding: const EdgeInsets.all(15.0),
-        child: Text(Constants.navLogOut,
-            style: Theme.of(context)
-                .textTheme
-                .headline6!
-                .apply(color: Theme.of(context).primaryColor)),
+        child: Text(constants.navLogOut,
+            style: Theme.of(context).textTheme.headline6!),
       ),
     );
   }
 
   Widget createThemeSwitchBtn() {
     final themeNotifier = Provider.of<ThemeNotifier>(context);
-    Icon _getThemeIcon() {
+    Icon getThemeIcon() {
       switch (themeNotifier.getTheme()) {
         case ThemeMode.light:
-          return Icon(Icons.wb_sunny);
+          return const Icon(Icons.wb_sunny);
         case ThemeMode.dark:
-          return Icon(Icons.nightlight_round);
+          return const Icon(Icons.nightlight_round);
         default:
-          return Icon(Icons.brightness_6);
+          return const Icon(Icons.brightness_6);
       }
     }
 
     return IconButton(
-        icon: _getThemeIcon(), onPressed: themeNotifier.setNextTheme);
+        icon: getThemeIcon(), onPressed: themeNotifier.setNextTheme);
   }
 
   Widget createDrawerNavigationOption(String d) {
@@ -110,7 +106,7 @@ class NavigationDrawerState extends State<NavigationDrawer> {
         decoration: _getSelectionDecoration(d),
         child: ListTile(
           title: Container(
-            padding: EdgeInsets.only(bottom: 3.0, left: 20.0),
+            padding: const EdgeInsets.only(bottom: 3.0, left: 20.0),
             child: Text(d,
                 style: TextStyle(
                     fontSize: 18.0,
@@ -118,7 +114,7 @@ class NavigationDrawerState extends State<NavigationDrawer> {
                     fontWeight: FontWeight.normal)),
           ),
           dense: true,
-          contentPadding: EdgeInsets.all(0.0),
+          contentPadding: const EdgeInsets.all(0.0),
           selected: d == getCurrentRoute(),
           onTap: () => drawerItems[d](d),
         ));
@@ -137,7 +133,7 @@ class NavigationDrawerState extends State<NavigationDrawer> {
       children: <Widget>[
         Expanded(
             child: Container(
-          padding: EdgeInsets.only(top: 55.0),
+          padding: const EdgeInsets.only(top: 55.0),
           child: ListView(
             children: drawerOptions,
           ),

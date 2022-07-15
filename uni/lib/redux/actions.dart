@@ -125,7 +125,7 @@ class SetCurrentTimeAction {
 }
 
 class UpdateFavoriteCards {
-  List<FAVORITE_WIDGET_TYPE> favoriteCards;
+  List<FavoriteWidgetType> favoriteCards;
   UpdateFavoriteCards(this.favoriteCards);
 }
 

@@ -35,8 +35,7 @@ class PrintInfoCard extends GenericCard {
                   margin: const EdgeInsets.only(right: 15.0),
                   child: StoreConnector<AppState, String>(
                       converter: (store) => store.state.content['printBalance'],
-                      builder: (context, printBalance) => Text(
-                          printBalance ?? 'N/A',
+                      builder: (context, printBalance) => Text(printBalance,
                           textAlign: TextAlign.end,
                           style: Theme.of(context).textTheme.headline6)),
                 ),
@@ -57,7 +56,7 @@ class PrintInfoCard extends GenericCard {
   Widget addMoneyButton(BuildContext context) {
     return OutlinedButton(
       style: OutlinedButton.styleFrom(
-        primary: Theme.of(context).primaryColor,
+        backgroundColor: Theme.of(context).primaryColor,
         padding: EdgeInsets.zero,
       ),
       onPressed: () => addMoneyDialog(context),

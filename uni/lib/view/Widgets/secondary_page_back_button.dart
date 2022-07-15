@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class SecondaryPageBackButton extends StatelessWidget {
-  SecondaryPageBackButton({
+  const SecondaryPageBackButton({
     Key? key,
     required this.context,
     required this.child,

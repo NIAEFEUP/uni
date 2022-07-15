@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ScheduleEventRectangle extends StatelessWidget {
@@ -8,25 +7,25 @@ class ScheduleEventRectangle extends StatelessWidget {
   final double sideSizing = 12.0;
   final bool reverseOrder;
 
-  ScheduleEventRectangle(
+  const ScheduleEventRectangle(
       {Key? key, required this.subject, this.type, this.reverseOrder = false})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: this.createTopRectangle(context),
+      child: createTopRectangle(context),
     );
   }
 
   Widget createTopRectangle(context) {
-    final Text typeWidget = Text(type != null ? ' (${type}) ' : '',
+    final Text typeWidget = Text(type != null ? ' ($type) ' : '',
         style: Theme.of(context).textTheme.bodyText2);
-    final Text subjectWidget = Text(this.subject,
+    final Text subjectWidget = Text(subject,
         style: Theme.of(context)
             .textTheme
             .headline5!
-            .apply(color: Theme.of(context).accentColor));
+            .apply(color: Theme.of(context).colorScheme.secondary));
 
     return Row(
         children: (reverseOrder

@@ -1,13 +1,12 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:uni/controller/fetchers/departures_fetcher.dart';
 import 'package:uni/controller/local_storage/app_bus_stop_database.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/bus_stop.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 import 'package:uni/redux/action_creators.dart';
 import 'package:uni/view/Widgets/buses_form.dart';
 
@@ -20,7 +19,7 @@ class BusStopSearch extends SearchDelegate<String> {
   BusStopData? stopData;
 
   BusStopSearch() {
-    this.getDatabase();
+    getDatabase();
   }
 
   Future<void> getDatabase() async {
@@ -31,7 +30,7 @@ class BusStopSearch extends SearchDelegate<String> {
   List<Widget> buildActions(BuildContext context) {
     return [
       IconButton(
-          icon: Icon(Icons.clear),
+          icon: const Icon(Icons.clear),
           onPressed: () {
             query = '';
           })
@@ -43,7 +42,7 @@ class BusStopSearch extends SearchDelegate<String> {
     //Back arrow to go back to menu
 
     return IconButton(
-        icon: Icon(Icons.arrow_back),
+        icon: const Icon(Icons.arrow_back),
         onPressed: () {
           Navigator.pop(context);
         });
@@ -61,7 +60,7 @@ class BusStopSearch extends SearchDelegate<String> {
 
   /// Returns a widget for the list of search suggestions displayed to  the user
   Widget getSuggestionList(BuildContext context) {
-    if (this.suggestionsList.isEmpty) return ListView();
+    if (suggestionsList.isEmpty) return ListView();
     return ListView.builder(
       itemBuilder: (context, index) => ListTile(
           onTap: () {
@@ -69,12 +68,12 @@ class BusStopSearch extends SearchDelegate<String> {
             showDialog(
                 context: context,
                 builder: (BuildContext context) {
-                  return busListing(context, this.suggestionsList[index]);
+                  return busListing(context, suggestionsList[index]);
                 });
           },
-          leading: Icon(Icons.directions_bus),
-          title: Text(this.suggestionsList[index])),
-      itemCount: min(this.suggestionsList.length, 9),
+          leading: const Icon(Icons.directions_bus),
+          title: Text(suggestionsList[index])),
+      itemCount: min(suggestionsList.length, 9),
     );
   }
 
@@ -87,10 +86,10 @@ class BusStopSearch extends SearchDelegate<String> {
     return AlertDialog(
         title:
             const Text('Seleciona os autocarros dos quais queres informação:'),
-        content: Container(
-          child: busesForm,
+        content: SizedBox(
           height: 200.0,
           width: 100.0,
+          child: busesForm,
         ),
         actions: [
           TextButton(

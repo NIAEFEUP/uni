@@ -42,7 +42,6 @@ import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/entities/trip.dart';
 import 'package:uni/redux/actions.dart';
 
-import '../controller/parsers/parser_courses.dart';
 import '../model/entities/bus_stop.dart';
 
 ThunkAction<AppState> reLogin(

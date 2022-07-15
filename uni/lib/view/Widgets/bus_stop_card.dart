@@ -64,12 +64,12 @@ class BusStopCard extends GenericCard {
                     onPressed: () => Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => BusStopSelectionPage())),
+                            builder: (context) =>
+                                const BusStopSelectionPage())),
                   )
                 ]),
           );
         }
-        break;
       case RequestStatus.busy:
         return Column(
           children: <Widget>[
@@ -88,7 +88,6 @@ class BusStopCard extends GenericCard {
               child: Text('Não foi possível obter informação',
                   style: Theme.of(context).textTheme.subtitle1))
         ]);
-        break;
     }
   }
 
@@ -107,7 +106,7 @@ class BusStopCard extends GenericCard {
   Widget getBusStopsInfo(context, trips, stopConfig) {
     if (trips.length >= 1) {
       return Container(
-          padding: EdgeInsets.all(4.0),
+          padding: const EdgeInsets.all(4.0),
           child: Column(
             children: getEachBusStopInfo(context, trips, stopConfig),
           ));
@@ -123,7 +122,7 @@ class BusStopCard extends GenericCard {
   List<Widget> getEachBusStopInfo(context, trips, stopConfig) {
     final List<Widget> rows = <Widget>[];
 
-    rows.add(LastUpdateTimeStamp());
+    rows.add(const LastUpdateTimeStamp());
 
     trips.forEach((stopCode, tripList) {
       if (tripList.length > 0 && stopConfig[stopCode].favorited) {

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:uni/view/Pages/general_page_view.dart';
-import 'package:uni/view/Widgets/info_desk_card.dart';
-import 'package:uni/view/Widgets/dona_bia_card.dart';
 import 'package:uni/view/Widgets/copy_center_card.dart';
+import 'package:uni/view/Widgets/dona_bia_card.dart';
+import 'package:uni/view/Widgets/info_desk_card.dart';
 import 'package:uni/view/Widgets/multimedia_center_card.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -36,14 +36,16 @@ Container infoText(String text, BuildContext context,
             child: Text(
               text,
               style: Theme.of(context).textTheme.bodyText1!.apply(
-                    color: Theme.of(context).accentColor,
+                    color: Theme.of(context).primaryColor,
                   ),
             ),
-            onTap: () => link != '' ? launch(link) : null),
+            onTap: () => link != '' ? launchUrl(Uri.parse(link)) : null),
       ));
 }
 
 class UsefulContactsCardView extends StatefulWidget {
+  const UsefulContactsCardView({super.key});
+
   @override
   State<StatefulWidget> createState() => UsefulContactsCardViewState();
 }

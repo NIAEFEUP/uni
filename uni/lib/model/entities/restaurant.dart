@@ -1,10 +1,10 @@
-import 'dart:collection';
-import 'package:uni/model/utils/day_of_week.dart';
 import 'package:collection/collection.dart';
+import 'package:uni/model/utils/day_of_week.dart';
+
 import 'meal.dart';
 
 class Restaurant {
-  final int id;
+  final int? id;
   final String name;
   final String reference; // Used only in html parser
   final Map<DayOfWeek, List<Meal>> meals;

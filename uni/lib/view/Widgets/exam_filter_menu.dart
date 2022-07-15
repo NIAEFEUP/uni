@@ -5,11 +5,13 @@ import 'package:uni/view/Widgets/exam_filter_form.dart';
 
 // ignore: must_be_immutable
 class ExamFilterMenu extends StatefulWidget {
+  const ExamFilterMenu({super.key});
+
   @override
-  _ExamFilterMenuState createState() => _ExamFilterMenuState();
+  ExamFilterMenuState createState() => ExamFilterMenuState();
 }
 
-class _ExamFilterMenuState extends State<ExamFilterMenu> {
+class ExamFilterMenuState extends State<ExamFilterMenu> {
   showAlertDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -30,7 +32,7 @@ class _ExamFilterMenuState extends State<ExamFilterMenu> {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: Icon(Icons.settings),
+      icon: const Icon(Icons.settings),
       onPressed: () {
         showAlertDialog(context);
       },

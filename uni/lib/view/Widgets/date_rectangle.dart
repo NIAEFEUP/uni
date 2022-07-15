@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 class DateRectangle extends StatelessWidget {
   final String date;
 
-  DateRectangle({Key? key, required this.date}) : super(key: key);
+  const DateRectangle({Key? key, required this.date}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

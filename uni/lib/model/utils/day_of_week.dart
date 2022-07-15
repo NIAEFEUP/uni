@@ -8,7 +8,7 @@ enum DayOfWeek {
   sunday
 }
 
-DayOfWeek parseDayOfWeek(String str) {
+DayOfWeek? parseDayOfWeek(String str) {
   str = str.replaceAll(' ', '').toLowerCase();
   if (str == 'segunda-feira') {
     return DayOfWeek.monday;
@@ -22,9 +22,10 @@ DayOfWeek parseDayOfWeek(String str) {
     return DayOfWeek.friday;
   } else if (str == 'sábado' || str == 'sabado') {
     return DayOfWeek.saturday;
-  } else {
+  } else if (str == 'domingo') {
     return DayOfWeek.sunday;
   }
+  return null;
 }
 
 String toString(DayOfWeek day) {

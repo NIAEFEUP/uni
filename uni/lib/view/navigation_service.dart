@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../utils/constants.dart' as Constants;
+import '../utils/constants.dart' as constants;
 
 /// Manages the navigation logic
 class NavigationService {
@@ -8,6 +8,6 @@ class NavigationService {
       GlobalKey<NavigatorState>();
   static logout() {
     navigatorKey.currentState!
-        .pushNamedAndRemoveUntil('/${Constants.navLogOut}', (_) => false);
+        .pushNamedAndRemoveUntil('/${constants.navLogOut}', (_) => false);
   }
 }

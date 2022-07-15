@@ -9,21 +9,22 @@ import 'package:uni/redux/action_creators.dart';
 class ExamFilterForm extends StatefulWidget {
   final Map<String, bool> filteredExams;
 
-  ExamFilterForm(this.filteredExams);
+  const ExamFilterForm(this.filteredExams, {super.key});
   @override
-  _ExamFilterFormState createState() => _ExamFilterFormState();
+  ExamFilterFormState createState() => ExamFilterFormState();
 }
 
-class _ExamFilterFormState extends State<ExamFilterForm> {
+class ExamFilterFormState extends State<ExamFilterForm> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('Definições Filtro de Exames'),
+      title: const Text('Definições Filtro de Exames'),
       actions: [
         TextButton(
-            child: Text('Cancelar'), onPressed: () => Navigator.pop(context)),
+            child: const Text('Cancelar'),
+            onPressed: () => Navigator.pop(context)),
         ElevatedButton(
-            child: Text('Confirmar'),
+            child: const Text('Confirmar'),
             onPressed: () {
               StoreProvider.of<AppState>(context).dispatch(
                   setFilteredExams(widget.filteredExams, Completer()));
@@ -31,7 +32,7 @@ class _ExamFilterFormState extends State<ExamFilterForm> {
               Navigator.pop(context);
             })
       ],
-      content: Container(
+      content: SizedBox(
           height: 300.0,
           width: 200.0,
           child: getExamCheckboxes(widget.filteredExams, context)),
@@ -47,14 +48,14 @@ class _ExamFilterFormState extends State<ExamFilterForm> {
       final String key = filteredExams.keys.elementAt(i);
       if (!Exam.getExamTypes().containsKey(key)) return const Text("");
       return CheckboxListTile(
-          contentPadding: EdgeInsets.all(0),
+          contentPadding: const EdgeInsets.all(0),
           title: Text(
             key,
             overflow: TextOverflow.ellipsis,
             softWrap: false,
             maxLines: 2,
           ),
-          key: Key('ExamCheck' + key),
+          key: Key('ExamCheck$key'),
           value: filteredExams[key],
           onChanged: (value) {
             setState(() {

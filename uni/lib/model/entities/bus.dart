@@ -1,5 +1,3 @@
-import 'package:flutter/widgets.dart';
-
 /// Stores information about a bus.
 ///
 /// Stores the bus code (`busCode`), the `destination` of the bus
@@ -9,7 +7,7 @@ class Bus {
   String destination;
   bool direction;
 
-  Bus({required this.busCode, this.destination = '', this.direction = false}) {}
+  Bus({required this.busCode, this.destination = '', this.direction = false});
 
   /// Converts a [Bus] instance to a map.
   ///

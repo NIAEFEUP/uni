@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:uni/controller/local_storage/app_last_user_info_update_database.dart';
 import 'package:uni/model/app_state.dart';
@@ -18,7 +17,7 @@ class RequestDependentWidgetBuilder extends StatelessWidget {
   final BuildContext context;
   final RequestStatus status;
   final Widget Function(dynamic, BuildContext) contentGenerator;
-  final content;
+  final dynamic content;
   final bool contentChecker;
   final Widget onNullContent;
   static final AppLastUserInfoUpdateDatabase lastUpdateDatabase =

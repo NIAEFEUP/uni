@@ -40,22 +40,22 @@ void main() {
     final mockClient = MockClient();
     final mockResponse = MockResponse();
     final badMockResponse = MockResponse();
-    final subject1 = 'ASSO';
-    final startTime1 = '11h00';
-    final endTime1 = '13h00';
-    final room1 = 'EaD';
-    final typeClass1 = 'TP';
-    final teacher1 = 'DRP';
+    const subject1 = 'ASSO';
+    const startTime1 = '11h00';
+    const endTime1 = '13h00';
+    const room1 = 'EaD';
+    const typeClass1 = 'TP';
+    const teacher1 = 'DRP';
 
-    final subject2 = 'IOPE';
-    final startTime2 = '14h00';
-    final endTime2 = '16h00';
-    final room2 = 'EaD';
-    final typeClass2 = 'TE';
-    final teacher2 = 'MTD';
+    const subject2 = 'IOPE';
+    const startTime2 = '14h00';
+    const endTime2 = '16h00';
+    const room2 = 'EaD';
+    const typeClass2 = 'TE';
+    const teacher2 = 'MTD';
 
-    final htmlFetcherIdentifier = 'hor_geral.estudantes_view';
-    final jsonFetcherIdentifier = 'mob_hor_geral.estudante';
+    const htmlFetcherIdentifier = 'hor_geral.estudantes_view';
+    const jsonFetcherIdentifier = 'mob_hor_geral.estudante';
 
     Future testSchedule(WidgetTester tester) async {
       final profile = Profile();
@@ -70,36 +70,37 @@ void main() {
           middleware: [generalMiddleware]);
       NetworkRouter.httpClient = mockClient;
       when(badMockResponse.statusCode).thenReturn(500);
-      final Completer<Null> completer = Completer();
-      final actionCreator = getUserSchedule(completer, Tuple2('', ''));
+      final Completer<void> completer = Completer();
+      final actionCreator = getUserSchedule(completer, const Tuple2('', ''));
 
-      final widget = testableReduxWidget(child: SchedulePage(), store: store);
+      final widget =
+          testableReduxWidget(child: const SchedulePage(), store: store);
 
       await tester.pumpWidget(widget);
 
-      final scheduleSlotTimeKey1 = 'schedule-slot-time-$startTime1-$endTime1';
-      final scheduleSlotTimeKey2 = 'schedule-slot-time-$startTime2-$endTime2';
+      const scheduleSlotTimeKey1 = 'schedule-slot-time-$startTime1-$endTime1';
+      const scheduleSlotTimeKey2 = 'schedule-slot-time-$startTime2-$endTime2';
 
-      expect(find.byKey(Key(scheduleSlotTimeKey1)), findsNothing);
-      expect(find.byKey(Key(scheduleSlotTimeKey2)), findsNothing);
+      expect(find.byKey(const Key(scheduleSlotTimeKey1)), findsNothing);
+      expect(find.byKey(const Key(scheduleSlotTimeKey2)), findsNothing);
 
       actionCreator(store);
 
       await completer.future;
 
-      await tester.tap(find.byKey(Key('schedule-page-tab-2')));
+      await tester.tap(find.byKey(const Key('schedule-page-tab-2')));
       await tester.pumpAndSettle();
-      await tester.tap(find.byKey(Key('schedule-page-tab-1')));
+      await tester.tap(find.byKey(const Key('schedule-page-tab-1')));
       await tester.pumpAndSettle();
-      await tester.tap(find.byKey(Key('schedule-page-tab-0')));
+      await tester.tap(find.byKey(const Key('schedule-page-tab-0')));
       await tester.pumpAndSettle();
 
       testScheduleSlot(
           subject1, startTime1, endTime1, room1, typeClass1, teacher1);
 
-      await tester.tap(find.byKey(Key('schedule-page-tab-2')));
+      await tester.tap(find.byKey(const Key('schedule-page-tab-2')));
       await tester.pumpAndSettle();
-      await tester.tap(find.byKey(Key('schedule-page-tab-3')));
+      await tester.tap(find.byKey(const Key('schedule-page-tab-3')));
       await tester.pumpAndSettle();
 
       testScheduleSlot(
@@ -109,7 +110,7 @@ void main() {
     testWidgets('Schedule with JSON Fetcher', (WidgetTester tester) async {
       NetworkRouter.httpClient = mockClient;
       final mockJson = File('test/integration/resources/schedule_example.json')
-          .readAsStringSync(encoding: Latin1Codec());
+          .readAsStringSync(encoding: const Latin1Codec());
       when(mockResponse.body).thenReturn(mockJson);
       when(mockResponse.statusCode).thenReturn(200);
       when(mockClient.get(argThat(UriMatcher(contains(htmlFetcherIdentifier))),
@@ -125,7 +126,7 @@ void main() {
 
     testWidgets('Schedule with HTML Fetcher', (WidgetTester tester) async {
       final mockHtml = File('test/integration/resources/schedule_example.html')
-          .readAsStringSync(encoding: Latin1Codec());
+          .readAsStringSync(encoding: const Latin1Codec());
       when(mockResponse.body).thenReturn(mockHtml);
       when(mockResponse.statusCode).thenReturn(200);
       when(mockClient.get(argThat(UriMatcher(contains(htmlFetcherIdentifier))),

@@ -15,14 +15,14 @@ class ExamFetcher implements SessionDependantFetcher {
   @override
   List<String> getEndpoints(Session session) {
     final urls = NetworkRouter.getBaseUrlsFromSession(session)
-        .map((url) => url + 'exa_geral.mapa_de_exames')
+        .map((url) => '${url}exa_geral.mapa_de_exames')
         .toList();
     return urls;
   }
 
   Future<List<Exam>> extractExams(
       Session session, ParserExams parserExams) async {
-    Set<Exam> courseExams = Set();
+    Set<Exam> courseExams = {};
     final urls = getEndpoints(session);
     for (Course course in courses) {
       for (final url in urls) {
@@ -33,7 +33,7 @@ class ExamFetcher implements SessionDependantFetcher {
       }
     }
 
-    final Set<Exam> exams = Set();
+    final Set<Exam> exams = {};
     for (Exam courseExam in courseExams) {
       for (CourseUnit uc in userUcs) {
         if (!courseExam.examType.contains(

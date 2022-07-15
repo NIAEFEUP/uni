@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:uni/utils/constants.dart' as Constants;
+import 'package:uni/utils/constants.dart' as constants;
 
 class FacultiesSelectionForm extends StatefulWidget {
-  final faculties;
+  final List<String> faculties;
   final Function setFaculties;
   final Brightness brightness;
 
-  FacultiesSelectionForm(this.faculties, this.setFaculties, this.brightness);
+  const FacultiesSelectionForm(
+      this.faculties, this.setFaculties, this.brightness,
+      {super.key});
 
   @override
   State<StatefulWidget> createState() => _FacultiesSelectionFormState();
@@ -27,28 +29,28 @@ class _FacultiesSelectionFormState extends State<FacultiesSelectionForm> {
         backgroundColor: backgroundColor,
         title: const Text('seleciona a(s) tua(s) faculdade(s)'),
         titleTextStyle: const TextStyle(color: textColor, fontSize: 18),
-        content: Container(
+        content: SizedBox(
             height: 500.0, width: 200.0, child: createCheckList(context)),
         actions: createActionButtons(context));
   }
 
   List<Widget> createActionButtons(BuildContext context) {
-    const Color primaryColor = Color.fromARGB(255, 0xfa, 0xfa, 0xfa);
-    Color onPrimaryColor;
+    const Color backgroundColor = Color.fromARGB(255, 0xfa, 0xfa, 0xfa);
+    Color foregroundColor;
     if (widget.brightness == Brightness.dark) {
-      onPrimaryColor = const Color.fromARGB(255, 27, 27, 27);
+      foregroundColor = const Color.fromARGB(255, 27, 27, 27);
     } else {
-      onPrimaryColor = const Color.fromARGB(255, 0x75, 0x17, 0x1e);
+      foregroundColor = const Color.fromARGB(255, 0x75, 0x17, 0x1e);
     }
 
     return [
       TextButton(
-          style: TextButton.styleFrom(primary: primaryColor),
           onPressed: () => Navigator.pop(context),
           child: const Text('Cancelar')),
       ElevatedButton(
           style: ElevatedButton.styleFrom(
-              primary: primaryColor, onPrimary: onPrimaryColor),
+              backgroundColor: backgroundColor,
+              foregroundColor: foregroundColor),
           onPressed: () {
             Navigator.pop(context);
             widget.setFaculties(widget.faculties);
@@ -67,8 +69,8 @@ class _FacultiesSelectionFormState extends State<FacultiesSelectionForm> {
     }
 
     return ListView(
-        children: List.generate(Constants.faculties.length, (i) {
-      final String faculty = Constants.faculties.elementAt(i);
+        children: List.generate(constants.faculties.length, (i) {
+      final String faculty = constants.faculties.elementAt(i);
       return CheckboxListTile(
           title: Text(faculty.toUpperCase(),
               style: const TextStyle(color: textColor, fontSize: 20.0)),

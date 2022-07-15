@@ -16,6 +16,6 @@ class BugReportPageViewState extends SecondaryPageViewState {
   Widget getBody(BuildContext context) {
     return Container(
         margin: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 20.0),
-        child: BugReportForm());
+        child: const BugReportForm());
   }
 }

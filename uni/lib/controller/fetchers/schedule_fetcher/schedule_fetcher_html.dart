@@ -11,7 +11,7 @@ class ScheduleFetcherHtml extends ScheduleFetcher {
   @override
   List<String> getEndpoints(Session session) {
     final urls = NetworkRouter.getBaseUrlsFromSession(session)
-        .map((url) => url + 'hor_geral.estudantes_view')
+        .map((url) => '${url}hor_geral.estudantes_view')
         .toList();
     return urls;
   }

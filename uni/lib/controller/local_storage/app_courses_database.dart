@@ -1,11 +1,12 @@
 import 'dart:async';
-import 'package:uni/model/entities/course.dart';
+
 import 'package:sqflite/sqflite.dart';
+import 'package:uni/model/entities/course.dart';
 
 import 'app_database.dart';
 
 /// Manages the app's Courses database.
-/// 
+///
 /// This database stores information about the user's courses.
 /// See the [Course] class to see what data is stored in this database.
 class AppCoursesDatabase extends AppDatabase {
@@ -24,7 +25,7 @@ class AppCoursesDatabase extends AppDatabase {
   /// Returns a list containing all of the courses stored in this database.
   Future<List<Course>> courses() async {
     // Get a reference to the database
-    final Database db = await this.getDatabase();
+    final Database db = await getDatabase();
 
     // Query the table for All The Courses.
     final List<Map<String, dynamic>> maps = await db.query('courses');
@@ -43,7 +44,7 @@ class AppCoursesDatabase extends AppDatabase {
   }
 
   /// Adds all items from [courses] to this database.
-  /// 
+  ///
   /// If a row with the same data is present, it will be replaced.
   Future<void> _insertCourses(List<Course> courses) async {
     for (Course course in courses) {
@@ -58,18 +59,18 @@ class AppCoursesDatabase extends AppDatabase {
   /// Deletes all of the data stored in this database.
   Future<void> deleteCourses() async {
     // Get a reference to the database
-    final Database db = await this.getDatabase();
+    final Database db = await getDatabase();
 
     await db.delete('courses');
   }
 
   /// Updates the state of all courses present in [states].
-  /// 
+  ///
   /// *Note:*
   /// * a key in [states] is a [Course.id].
   /// * a value in [states] is the new state of the corresponding course.
   void saveCoursesStates(Map<String, String> states) async {
-    final Database db = await this.getDatabase();
+    final Database db = await getDatabase();
 
     // Retrieve stored courses
     final List<Course> courses = await this.courses();

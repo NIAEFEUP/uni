@@ -12,7 +12,8 @@ void main() {
     const secondExamSubject = 'SDIS';
     const secondExameDate = '2019-09-12';
     testWidgets('When given an empty list', (WidgetTester tester) async {
-      final widget = makeTestableWidget(child: ExamsList(exams: <Exam>[]));
+      final widget =
+          makeTestableWidget(child: const ExamsList(exams: <Exam>[]));
       await tester.pumpWidget(widget);
 
       expect(find.byType(Card), findsNothing);

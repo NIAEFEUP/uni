@@ -15,7 +15,7 @@ abstract class ScheduleFetcher extends SessionDependantFetcher {
     final String beginWeek = date.year.toString().padLeft(4, '0') +
         date.month.toString().padLeft(2, '0') +
         date.day.toString().padLeft(2, '0');
-    date = date.add(Duration(days: 6));
+    date = date.add(const Duration(days: 6));
 
     final String endWeek = date.year.toString().padLeft(4, '0') +
         date.month.toString().padLeft(2, '0') +

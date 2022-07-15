@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/view/Widgets/row_container.dart';
@@ -31,8 +30,8 @@ class ScheduleSlot extends StatelessWidget {
     return RowContainer(
         color: Theme.of(context).primaryColor,
         child: Container(
-          padding:
-              EdgeInsets.only(top: 10.0, bottom: 10.0, left: 22.0, right: 22.0),
+          padding: const EdgeInsets.only(
+              top: 10.0, bottom: 10.0, left: 22.0, right: 22.0),
           child: createScheduleSlotRow(context),
         ));
   }
@@ -70,7 +69,7 @@ class ScheduleSlot extends StatelessWidget {
 
   _launchURL() async {
     final String url = toUcLink(occurrId);
-    await launch(url);
+    await launchUrl(Uri.parse(url));
   }
 
   Widget createSubjectButton(BuildContext context) {
@@ -81,7 +80,7 @@ class ScheduleSlot extends StatelessWidget {
           constraints: const BoxConstraints(
               minHeight: kMinInteractiveDimension / 3,
               minWidth: kMinInteractiveDimension / 3),
-          icon: Icon(Icons.open_in_browser),
+          icon: const Icon(Icons.open_in_browser),
           iconSize: 18,
           color: Colors.grey,
           alignment: Alignment.centerRight,
@@ -98,7 +97,7 @@ class ScheduleSlot extends StatelessWidget {
         Theme.of(context)
             .textTheme
             .headline5!
-            .apply(color: Theme.of(context).accentColor),
+            .apply(color: Theme.of(context).colorScheme.secondary),
         TextAlign.center);
     final typeClassTextField = createTextField(' ($typeClass)',
         Theme.of(context).textTheme.bodyText2, TextAlign.center);

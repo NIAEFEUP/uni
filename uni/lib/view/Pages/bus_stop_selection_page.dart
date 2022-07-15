@@ -1,15 +1,16 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:uni/controller/local_storage/app_bus_stop_database.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/bus_stop.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 import 'package:uni/view/Pages/unnamed_page_view.dart';
 import 'package:uni/view/Widgets/bus_stop_search.dart';
 import 'package:uni/view/Widgets/bus_stop_selection_row.dart';
 import 'package:uni/view/Widgets/page_title.dart';
 
 class BusStopSelectionPage extends StatefulWidget {
+  const BusStopSelectionPage({super.key});
+
   @override
   State<StatefulWidget> createState() => BusStopSelectionPageState();
 }
@@ -20,7 +21,7 @@ class BusStopSelectionPageState extends UnnamedPageView {
   final DateTime now = DateTime.now();
 
   final db = AppBusStopDatabase();
-  final Map<String, BusStopData> configuredStops = Map();
+  final Map<String, BusStopData> configuredStops = {};
   final List<String> suggestionsList = [];
 
   List<Widget> getStopsTextList() {
@@ -42,15 +43,15 @@ class BusStopSelectionPageState extends UnnamedPageView {
             rows.add(BusStopSelectionRow(stopCode, stopData)));
 
         return ListView(
-            padding: EdgeInsets.only(
+            padding: const EdgeInsets.only(
               bottom: 20,
             ),
             children: <Widget>[
-              Container(child: PageTitle(name: 'Autocarros Configurados')),
+              const PageTitle(name: 'Autocarros Configurados'),
               Container(
-                  padding: EdgeInsets.all(20.0),
-                  child: Text(
-                      '''Os autocarros favoritos serão apresentados no widget \'Autocarros\' dos favoritos. Os restantes serão apresentados apenas na página.''',
+                  padding: const EdgeInsets.all(20.0),
+                  child: const Text(
+                      '''Os autocarros favoritos serão apresentados no widget 'Autocarros' dos favoritos. Os restantes serão apresentados apenas na página.''',
                       textAlign: TextAlign.center)),
               Column(children: rows),
               Container(
@@ -62,15 +63,11 @@ class BusStopSelectionPageState extends UnnamedPageView {
                         ElevatedButton(
                           onPressed: () => showSearch(
                               context: context, delegate: BusStopSearch()),
-                          child: Container(
-                            child: Text('Adicionar'),
-                          ),
+                          child: const Text('Adicionar'),
                         ),
                         ElevatedButton(
                           onPressed: () => Navigator.pop(context),
-                          child: Container(
-                            child: Text('Concluído'),
-                          ),
+                          child: const Text('Concluído'),
                         ),
                       ]))
             ]);

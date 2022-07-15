@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:uni/view/Pages/general_page_view.dart';
 import 'package:uni/view/Widgets/main_cards_list.dart';
 
-
 class HomePageView extends StatefulWidget {
+  const HomePageView({super.key});
+
   @override
   State<StatefulWidget> createState() => HomePageViewState();
 }

@@ -12,7 +12,7 @@ import 'package:uni/controller/middleware.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/redux/actions.dart';
 import 'package:uni/redux/reducers.dart';
-import 'package:uni/utils/constants.dart' as Constants;
+import 'package:uni/utils/constants.dart' as constants;
 import 'package:uni/view/Pages/about_page_view.dart';
 import 'package:uni/view/Pages/bug_report_page_view.dart';
 import 'package:uni/view/Pages/bus_stop_next_arrivals_page.dart';
@@ -99,40 +99,42 @@ class MyAppState extends State<MyApp> {
               theme: applicationLightTheme,
               darkTheme: applicationDarkTheme,
               themeMode: themeNotifier.getTheme(),
-              home: SplashScreen(),
+              home: const SplashScreen(),
               navigatorKey: NavigationService.navigatorKey,
-              // ignore: missing_return
               onGenerateRoute: (RouteSettings settings) {
                 switch (settings.name) {
-                  case '/${Constants.navPersonalArea}':
+                  case '/${constants.navPersonalArea}':
                     return PageTransition.makePageTransition(
-                        page: HomePageView(), settings: settings);
-                  case '/${Constants.navSchedule}':
+                        page: const HomePageView(), settings: settings);
+                  case '/${constants.navSchedule}':
                     return PageTransition.makePageTransition(
-                        page: SchedulePage(), settings: settings);
-                  case '/${Constants.navExams}':
+                        page: const SchedulePage(), settings: settings);
+                  case '/${constants.navExams}':
                     return PageTransition.makePageTransition(
-                        page: ExamsPageView(), settings: settings);
-                  case '/${Constants.navStops}':
+                        page: const ExamsPageView(), settings: settings);
+                  case '/${constants.navStops}':
                     return PageTransition.makePageTransition(
-                        page: BusStopNextArrivalsPage(), settings: settings);
-                  case '/${Constants.navUsefulContacts}':
+                        page: const BusStopNextArrivalsPage(),
+                        settings: settings);
+                  case '/${constants.navUsefulContacts}':
                     return PageTransition.makePageTransition(
-                        page: UsefulContactsCardView(), settings: settings);
-                  case '/${Constants.navUsefulLinks}':
+                        page: const UsefulContactsCardView(),
+                        settings: settings);
+                  case '/${constants.navUsefulLinks}':
                     return PageTransition.makePageTransition(
-                        page: UsefulLinksCardView(), settings: settings);
-                  case '/${Constants.navAbout}':
+                        page: const UsefulLinksCardView(), settings: settings);
+                  case '/${constants.navAbout}':
                     return PageTransition.makePageTransition(
-                        page: AboutPageView(), settings: settings);
-                  case '/${Constants.navBugReport}':
+                        page: const AboutPageView(), settings: settings);
+                  case '/${constants.navBugReport}':
                     return PageTransition.makePageTransition(
-                        page: BugReportPageView(),
+                        page: const BugReportPageView(),
                         settings: settings,
                         maintainState: false);
-                  case '/${Constants.navLogOut}':
+                  case '/${constants.navLogOut}':
                     return LogoutRoute.buildLogoutRoute();
                 }
+                return null;
               }),
         ));
   }

@@ -66,11 +66,12 @@ void main() {
       when(mockClient.get(any, headers: anyNamed('headers')))
           .thenAnswer((_) async => mockResponse);
 
-      final Completer<Null> completer = Completer();
+      final Completer<void> completer = Completer();
       final actionCreator =
-          getUserExams(completer, ParserExams(), Tuple2('', ''));
+          getUserExams(completer, ParserExams(), const Tuple2('', ''));
 
-      final widget = testableReduxWidget(child: ExamsPageView(), store: store);
+      final widget =
+          testableReduxWidget(child: const ExamsPageView(), store: store);
 
       await tester.pumpWidget(widget);
 
@@ -106,11 +107,12 @@ void main() {
       when(mockClient.get(any, headers: anyNamed('headers')))
           .thenAnswer((_) async => mockResponse);
 
-      final Completer<Null> completer = Completer();
+      final Completer<void> completer = Completer();
       final actionCreator =
-          getUserExams(completer, ParserExams(), Tuple2('', ''));
+          getUserExams(completer, ParserExams(), const Tuple2('', ''));
 
-      final widget = testableReduxWidget(child: ExamsPageView(), store: store);
+      final widget =
+          testableReduxWidget(child: const ExamsPageView(), store: store);
 
       await tester.pumpWidget(widget);
 
@@ -144,8 +146,11 @@ void main() {
       expect(find.byType(CheckboxListTile),
           findsNWidgets(Exam.getExamTypes().length));
 
-      final CheckboxListTile mtCheckboxTile =
-          find.byKey(Key('ExamCheck' + 'Mini-testes')).evaluate().first.widget;
+      final CheckboxListTile mtCheckboxTile = find
+          .byKey(const Key('ExamCheck' 'Mini-testes'))
+          .evaluate()
+          .first
+          .widget;
 
       expect(find.byWidget(mtCheckboxTile), findsOneWidget);
       expect(mtCheckboxTile.value, true);

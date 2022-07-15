@@ -22,9 +22,8 @@ class RestaurantRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        child: Container(
-      padding: EdgeInsets.only(left: 12.0, bottom: 8.0, right: 12),
-      margin: EdgeInsets.only(top: 8.0),
+      padding: const EdgeInsets.only(left: 12.0, bottom: 8.0, right: 12),
+      margin: const EdgeInsets.only(top: 8.0),
       child: Row(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -36,7 +35,7 @@ class RestaurantRow extends StatelessWidget {
           ))
         ],
       ),
-    ));
+    );
   }
 
   List<Widget> getMenuRows(BuildContext context) {
@@ -49,20 +48,21 @@ class RestaurantRow extends StatelessWidget {
       dietMenu: MdiIcons.nutrition
     };
 
-    meals.forEach((element) {
+    for (var element in meals) {
       widgets.add(Container(
-          padding: EdgeInsets.all(12.0),
+          padding: const EdgeInsets.all(12.0),
           decoration: BoxDecoration(
               border: Border(
                   bottom: BorderSide(
-                      width: 0.7, color: Theme.of(context).accentColor))),
+                      width: 0.7,
+                      color: Theme.of(context).colorScheme.secondary))),
           child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Icon(mealIcon[element], size: this.iconSize),
+                Icon(mealIcon[element], size: iconSize),
                 Expanded(child: Text(element, textAlign: TextAlign.center)),
               ])));
-    });
+    }
 
     return widgets;
   }

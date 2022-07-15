@@ -63,7 +63,7 @@ void main() {
       final actionCreator =
           getUserExams(completer, parserMock, userPersistentInfo);
       when(parserMock.parseExams(any))
-          .thenAnswer((_) async => [sopeExam, sdisExam].toSet());
+          .thenAnswer((_) async => {sopeExam, sdisExam});
 
       actionCreator(mockStore);
       await completer.future;
@@ -83,11 +83,11 @@ void main() {
           '2800-09-12',
           'Exames ao abrigo de estatutos especiais - Port.Est.Especiais',
           'Quarta');
-      final Completer<Null> completer = Completer();
+      final Completer<void> completer = Completer();
       final actionCreator =
           getUserExams(completer, parserMock, userPersistentInfo);
       when(parserMock.parseExams(any))
-          .thenAnswer((_) async => [sopeExam, sdisExam, specialExam].toSet());
+          .thenAnswer((_) async => {sopeExam, sdisExam, specialExam});
 
       actionCreator(mockStore);
       await completer.future;
@@ -99,7 +99,7 @@ void main() {
       expect(actions[2].exams, [sopeExam, sdisExam]);
     });
     test('When an error occurs while trying to obtain the exams', () async {
-      final Completer<Null> completer = Completer();
+      final Completer<void> completer = Completer();
       final actionCreator =
           getUserExams(completer, parserMock, userPersistentInfo);
       when(parserMock.parseExams(any))
@@ -114,8 +114,8 @@ void main() {
       expect(actions[1].status, RequestStatus.failed);
     });
     test('When Exam is today in one hour', () async {
-      final DateTime begin = DateTime.now().add(Duration(hours: 1));
-      final DateTime end = DateTime.now().add(Duration(hours: 2));
+      final DateTime begin = DateTime.now().add(const Duration(hours: 1));
+      final DateTime end = DateTime.now().add(const Duration(hours: 2));
       final String formattedDate = DateFormat('yyyy-MM-dd').format(begin);
       final String formattedHourBegin = DateFormat('kk:mm').format(begin);
       final String formattedHourEnd = DateFormat('kk:mm').format(end);
@@ -126,7 +126,7 @@ void main() {
           formattedDate,
           'Recurso - Época Recurso (1ºS)',
           'Quarta');
-      final Completer<Null> completer = Completer();
+      final Completer<void> completer = Completer();
       final actionCreator =
           getUserExams(completer, parserMock, userPersistentInfo);
       when(parserMock.parseExams(any)).thenAnswer((_) async => {todayExam});
@@ -141,8 +141,8 @@ void main() {
       expect(actions[2].exams, [todayExam]);
     });
     test('When Exam was one hour ago', () async {
-      final DateTime end = DateTime.now().subtract(Duration(hours: 1));
-      final DateTime begin = DateTime.now().subtract(Duration(hours: 2));
+      final DateTime end = DateTime.now().subtract(const Duration(hours: 1));
+      final DateTime begin = DateTime.now().subtract(const Duration(hours: 2));
       final String formattedDate = DateFormat('yyyy-MM-dd').format(begin);
       final String formattedHourBegin = DateFormat('kk:mm').format(begin);
       final String formattedHourEnd = DateFormat('kk:mm').format(end);
@@ -153,7 +153,7 @@ void main() {
           formattedDate,
           'Recurso - Época Recurso (1ºS)',
           'Quarta');
-      final Completer<Null> completer = Completer();
+      final Completer<void> completer = Completer();
       final actionCreator =
           getUserExams(completer, parserMock, userPersistentInfo);
       when(parserMock.parseExams(any)).thenAnswer((_) async => {todayExam});
@@ -180,7 +180,7 @@ void main() {
           formattedDate,
           'Recurso - Época Recurso (1ºS)',
           'Quarta');
-      final Completer<Null> completer = Completer();
+      final Completer<void> completer = Completer();
       final actionCreator =
           getUserExams(completer, parserMock, userPersistentInfo);
       when(parserMock.parseExams(any)).thenAnswer((_) async => {todayExam});

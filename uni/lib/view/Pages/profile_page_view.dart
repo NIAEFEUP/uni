@@ -1,9 +1,10 @@
 import 'dart:io';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:uni/controller/load_info.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/course.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 import 'package:uni/view/Pages/unnamed_page_view.dart';
 import 'package:uni/view/Widgets/account_info_card.dart';
 import 'package:uni/view/Widgets/course_info_card.dart';

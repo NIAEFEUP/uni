@@ -24,10 +24,10 @@ class AppSharedPreferences {
   static final iv = encrypt.IV.fromLength(ivLength);
 
   static const String favoriteCards = 'favorite_cards';
-  static final List<FAVORITE_WIDGET_TYPE> defaultFavoriteCards = [
-    FAVORITE_WIDGET_TYPE.schedule,
-    FAVORITE_WIDGET_TYPE.exams,
-    FAVORITE_WIDGET_TYPE.busStops
+  static final List<FavoriteWidgetType> defaultFavoriteCards = [
+    FavoriteWidgetType.schedule,
+    FavoriteWidgetType.exams,
+    FavoriteWidgetType.busStops
   ];
   static const String filteredExamsTypes = 'filtered_exam_types';
   static final List<String> defaultFilteredExamTypes =
@@ -136,19 +136,19 @@ class AppSharedPreferences {
   }
 
   /// Replaces the user's favorite widgets with [newFavorites].
-  static saveFavoriteCards(List<FAVORITE_WIDGET_TYPE> newFavorites) async {
+  static saveFavoriteCards(List<FavoriteWidgetType> newFavorites) async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setStringList(
         favoriteCards, newFavorites.map((a) => a.index.toString()).toList());
   }
 
   /// Returns a list containing the user's favorite widgets.
-  static Future<List<FAVORITE_WIDGET_TYPE>> getFavoriteCards() async {
+  static Future<List<FavoriteWidgetType>> getFavoriteCards() async {
     final prefs = await SharedPreferences.getInstance();
     final List<String>? storedFavorites = prefs.getStringList(favoriteCards);
     if (storedFavorites == null) return defaultFavoriteCards;
     return storedFavorites
-        .map((i) => FAVORITE_WIDGET_TYPE.values[int.parse(i)])
+        .map((i) => FavoriteWidgetType.values[int.parse(i)])
         .toList();
   }
 

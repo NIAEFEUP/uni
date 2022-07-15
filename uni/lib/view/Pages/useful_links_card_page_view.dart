@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:uni/view/Pages/general_page_view.dart';
-import 'package:uni/view/Widgets/sigarra_links_card.dart';
 import 'package:uni/view/Widgets/other_links_card.dart';
+import 'package:uni/view/Widgets/sigarra_links_card.dart';
 
 class UsefulLinksCardView extends StatefulWidget {
+  const UsefulLinksCardView({super.key});
+
   @override
   State<StatefulWidget> createState() => UsefulContactsCardViewState();
 }

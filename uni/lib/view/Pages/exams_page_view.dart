@@ -1,8 +1,8 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:uni/controller/exam.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/exam.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 import 'package:uni/view/Pages/secondary_page_view.dart';
 import 'package:uni/view/Widgets/exam_page_title_filter.dart';
 import 'package:uni/view/Widgets/row_container.dart';
@@ -10,6 +10,8 @@ import 'package:uni/view/Widgets/schedule_row.dart';
 import 'package:uni/view/Widgets/title_card.dart';
 
 class ExamsPageView extends StatefulWidget {
+  const ExamsPageView({super.key});
+
   @override
   State<StatefulWidget> createState() => ExamsPageViewState();
 }
@@ -46,11 +48,9 @@ class ExamsList extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(
       children: <Widget>[
-        Container(
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            children: createExamsColumn(context, exams),
-          ),
+        Column(
+          mainAxisSize: MainAxisSize.max,
+          children: createExamsColumn(context, exams),
         )
       ],
     );
@@ -59,12 +59,12 @@ class ExamsList extends StatelessWidget {
   /// Creates a column with all the user's exams.
   List<Widget> createExamsColumn(context, exams) {
     final List<Widget> columns = <Widget>[];
-    columns.add(ExamPageTitleFilter(
+    columns.add(const ExamPageTitleFilter(
       name: 'Exames',
     ));
 
     if (exams.length == 1) {
-      columns.add(this.createExamCard(context, [exams[0]]));
+      columns.add(createExamCard(context, [exams[0]]));
       return columns;
     }
 
@@ -77,12 +77,12 @@ class ExamsList extends StatelessWidget {
           currentDayExams.add(exams[i]);
         } else {
           if (currentDayExams.isNotEmpty) {
-            columns.add(this.createExamCard(context, currentDayExams));
+            columns.add(createExamCard(context, currentDayExams));
           }
           currentDayExams.clear();
           currentDayExams.add(exams[i]);
         }
-        columns.add(this.createExamCard(context, currentDayExams));
+        columns.add(createExamCard(context, currentDayExams));
         break;
       }
       if (exams[i].day == exams[i + 1].day &&
@@ -90,7 +90,7 @@ class ExamsList extends StatelessWidget {
         currentDayExams.add(exams[i]);
       } else {
         currentDayExams.add(exams[i]);
-        columns.add(this.createExamCard(context, currentDayExams));
+        columns.add(createExamCard(context, currentDayExams));
         currentDayExams.clear();
       }
     }
@@ -101,9 +101,9 @@ class ExamsList extends StatelessWidget {
     final keyValue = exams.map((exam) => exam.toString()).join();
     return Container(
       key: Key(keyValue),
-      margin: EdgeInsets.only(bottom: 8),
-      padding: EdgeInsets.all(8),
-      child: this.createExamsCards(context, exams),
+      margin: const EdgeInsets.only(bottom: 8),
+      padding: const EdgeInsets.all(8),
+      child: createExamsCards(context, exams),
     );
   }
 
@@ -112,7 +112,7 @@ class ExamsList extends StatelessWidget {
     examCards.add(TitleCard(
         day: exams[0].day, weekDay: exams[0].weekDay, month: exams[0].month));
     for (int i = 0; i < exams.length; i++) {
-      examCards.add(this.createExamContext(context, exams[i]));
+      examCards.add(createExamContext(context, exams[i]));
     }
     return Column(children: examCards);
   }
@@ -121,7 +121,7 @@ class ExamsList extends StatelessWidget {
     final keyValue = '${exam.toString()}-exam';
     return Container(
         key: Key(keyValue),
-        margin: EdgeInsets.fromLTRB(12, 4, 12, 0),
+        margin: const EdgeInsets.fromLTRB(12, 4, 12, 0),
         child: RowContainer(
             color: isHighlighted(exam)
                 ? Theme.of(context).hintColor

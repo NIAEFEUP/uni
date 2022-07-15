@@ -34,7 +34,7 @@ class RestaurantCard extends GenericCard {
               status: canteen.item2,
               contentGenerator: generateRestaurant,
               content: canteen.item1,
-              contentChecker: canteen.item1 != null && canteen.item1.isNotEmpty,
+              contentChecker: canteen.item1.isNotEmpty,
               onNullContent: Center(
                   child: Text('Não existem cantinas para apresentar',
                       style: Theme.of(context).textTheme.headline4,
@@ -52,13 +52,11 @@ class RestaurantCard extends GenericCard {
   Widget createRowFromRestaurant(context, String canteen) {
     // TODO: Issue #390
     return Column(children: [
-      DateRectangle(date: ''), // TODO: Issue #390
+      const DateRectangle(date: ''), // TODO: Issue #390
       // cantine.nextSchoolDay
-      Container(
-        child: Center(
-            child:
-                Container(padding: EdgeInsets.all(12.0), child: Text(canteen))),
-      ),
+      Center(
+          child: Container(
+              padding: const EdgeInsets.all(12.0), child: Text(canteen))),
       Card(
         elevation: 1,
         child: RowContainer(

@@ -26,10 +26,7 @@ abstract class GenericCard extends StatefulWidget {
   Text getInfoText(String text, BuildContext context) {
     return Text(text,
         textAlign: TextAlign.end,
-        style: Theme.of(context)
-            .textTheme
-            .headline6!
-            .apply(color: Theme.of(context).accentColor));
+        style: Theme.of(context).textTheme.headline6!);
   }
 
   showLastRefreshedTime(time, context) {
@@ -93,7 +90,9 @@ class GenericCardState extends State<GenericCard> {
                                     .textTheme
                                     .headline5!
                                     .apply(
-                                        color: Theme.of(context).primaryColor)),
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .secondary)),
                           )),
                           if (widget.editingMode)
                             Container(

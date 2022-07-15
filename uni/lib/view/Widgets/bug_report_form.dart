@@ -1,17 +1,18 @@
 import 'dart:convert';
+
+import 'package:email_validator/email_validator.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show rootBundle;
+import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
-import 'package:sentry/sentry.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:tuple/tuple.dart';
 import 'package:uni/view/Widgets/form_text_field.dart';
 import 'package:uni/view/Widgets/toast_message.dart';
-import 'package:email_validator/email_validator.dart';
-
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:tuple/tuple.dart';
-import 'package:flutter/services.dart' show rootBundle;
 
 class BugReportForm extends StatefulWidget {
+  const BugReportForm({super.key});
+
   @override
   State<StatefulWidget> createState() {
     return BugReportFormState();
@@ -28,12 +29,12 @@ class BugReportFormState extends State<BugReportForm> {
   static final _formKey = GlobalKey<FormState>();
 
   final Map<int, Tuple2<String, String>> bugDescriptions = {
-    0: Tuple2<String, String>('Detalhe visual', 'Visual detail'),
-    1: Tuple2<String, String>('Erro', 'Error'),
-    2: Tuple2<String, String>('Sugestão de funcionalidade', 'Suggestion'),
-    3: Tuple2<String, String>(
+    0: const Tuple2<String, String>('Detalhe visual', 'Visual detail'),
+    1: const Tuple2<String, String>('Erro', 'Error'),
+    2: const Tuple2<String, String>('Sugestão de funcionalidade', 'Suggestion'),
+    3: const Tuple2<String, String>(
         'Comportamento inesperado', 'Unexpected behaviour'),
-    4: Tuple2<String, String>('Outro', 'Other'),
+    4: const Tuple2<String, String>('Outro', 'Other'),
   };
   List<DropdownMenuItem<int>> bugList = [];
 
@@ -56,7 +57,7 @@ class BugReportFormState extends State<BugReportForm> {
     bugList = [];
 
     bugDescriptions.forEach((int key, Tuple2<String, String> tup) =>
-        {bugList.add(DropdownMenuItem(child: Text(tup.item1), value: key))});
+        {bugList.add(DropdownMenuItem(value: key, child: Text(tup.item1)))});
   }
 
   @override
@@ -118,9 +119,9 @@ class BugReportFormState extends State<BugReportForm> {
   Widget bugReportTitle(BuildContext context) {
     return Container(
         alignment: Alignment.center,
-        margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20),
+        margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20),
         child: Row(
-          children: <Widget>[
+          children: const <Widget>[
             Icon(Icons.bug_report, size: 50.0),
             Expanded(
                 child: Text(
@@ -136,8 +137,8 @@ class BugReportFormState extends State<BugReportForm> {
   /// Returns a widget for the overview text of the bug report form
   Widget bugReportIntro(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(),
-      padding: EdgeInsets.only(bottom: 20),
+      decoration: const BoxDecoration(),
+      padding: const EdgeInsets.only(bottom: 20),
       child: Center(
         child: Text(
             '''Encontraste algum bug na aplicação?\nTens alguma '''
@@ -152,7 +153,7 @@ class BugReportFormState extends State<BugReportForm> {
   /// the type of bug on the form
   Widget dropdownBugSelectWidget(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 30, top: 20),
+      margin: const EdgeInsets.only(bottom: 30, top: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -163,13 +164,13 @@ class BugReportFormState extends State<BugReportForm> {
           ),
           Row(children: <Widget>[
             Container(
-                margin: EdgeInsets.only(right: 15),
-                child: Icon(
+                margin: const EdgeInsets.only(right: 15),
+                child: const Icon(
                   Icons.bug_report,
                 )),
             Expanded(
                 child: DropdownButton(
-              hint: Text('Tipo de ocorrência'),
+              hint: const Text('Tipo de ocorrência'),
               items: bugList,
               value: _selectedBug,
               onChanged: (value) {
@@ -187,10 +188,10 @@ class BugReportFormState extends State<BugReportForm> {
 
   Widget consentBox(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(),
-      margin: EdgeInsets.only(bottom: 20, top: 0),
+      padding: const EdgeInsets.only(),
+      margin: const EdgeInsets.only(bottom: 20, top: 0),
       child: ListTileTheme(
-        contentPadding: EdgeInsets.all(0),
+        contentPadding: const EdgeInsets.all(0),
         child: CheckboxListTile(
           title: Text(
               '''Consinto que esta informação seja revista pelo NIAEFEUP, podendo ser eliminada a meu pedido.''',
@@ -209,8 +210,7 @@ class BugReportFormState extends State<BugReportForm> {
   }
 
   Widget submitButton(BuildContext context) {
-    return Container(
-        child: ElevatedButton(
+    return ElevatedButton(
       onPressed: !_isConsentGiven
           ? null
           : () {
@@ -221,11 +221,11 @@ class BugReportFormState extends State<BugReportForm> {
                 submitBugReport();
               }
             },
-      child: Text(
+      child: const Text(
         'Enviar',
         style: TextStyle(color: Colors.white, fontSize: 20.0),
       ),
-    ));
+    );
   }
 
   /// Submits the user's bug report
@@ -252,24 +252,24 @@ class BugReportFormState extends State<BugReportForm> {
       Logger().i('Successfully submitted bug report.');
       toastMsg = 'Enviado com sucesso';
     } catch (e) {
-      Logger().e('Error while posting bug report:' + e.toString());
+      Logger().e('Error while posting bug report:$e');
       toastMsg = 'Ocorreu um erro no envio';
     }
 
     clearForm();
-    FocusScope.of(context).requestFocus(FocusNode());
-    ToastMessage.display(context, toastMsg);
 
-    setState(() {
-      _isButtonTapped = false;
-    });
+    if (mounted) {
+      FocusScope.of(context).requestFocus(FocusNode());
+      ToastMessage.display(context, toastMsg);
+      setState(() {
+        _isButtonTapped = false;
+      });
+    }
   }
 
   Future<int> submitGitHubIssue(SentryId sentryEvent, String bugLabel) async {
-    final String description = descriptionController.text +
-        '\nFurther information on: ' +
-        _sentryLink +
-        sentryEvent.toString();
+    final String description =
+        '${descriptionController.text}\nFurther information on: $_sentryLink$sentryEvent';
     final Map data = {
       'title': titleController.text,
       'body': description,
@@ -290,9 +290,9 @@ class BugReportFormState extends State<BugReportForm> {
   Future<SentryId> submitSentryEvent(String bugLabel) async {
     final String description = emailController.text == ''
         ? descriptionController.text
-        : descriptionController.text + '\nContact: ' + emailController.text;
+        : '${descriptionController.text}\nContact: ${emailController.text}';
     return Sentry.captureMessage(
-        bugLabel + ': ' + titleController.text + '\n' + description);
+        '$bugLabel: ${titleController.text}\n$description');
   }
 
   void clearForm() {
@@ -316,6 +316,6 @@ class BugReportFormState extends State<BugReportForm> {
   void loadGHKey() async {
     final Map<String, dynamic> dataMap =
         await parseJsonFromAssets('assets/env/env.json');
-    this.ghToken = dataMap['gh_token'];
+    ghToken = dataMap['gh_token'];
   }
 }

@@ -1,9 +1,10 @@
 import 'dart:async';
 import 'dart:io';
+
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:tuple/tuple.dart';
 import 'package:redux/redux.dart';
+import 'package:tuple/tuple.dart';
 import 'package:uni/controller/local_storage/image_offline_storage.dart';
 import 'package:uni/controller/parsers/parser_exams.dart';
 import 'package:uni/model/app_state.dart';
@@ -43,7 +44,7 @@ Future loadRemoteUserInfoToState(Store<AppState> store) async {
     await loadReloginInfo(store);
   }
 
-  final Completer<Null> userInfo = Completer(),
+  final Completer<void> userInfo = Completer(),
       exams = Completer(),
       schedule = Completer(),
       printBalance = Completer(),

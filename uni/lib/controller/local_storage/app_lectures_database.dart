@@ -8,10 +8,10 @@ import 'package:sqflite/sqflite.dart';
 /// This database stores information about the user's lectures.
 /// See the [Lecture] class to see what data is stored in this database.
 class AppLecturesDatabase extends AppDatabase {
-  static final createScript =
+  static const createScript =
       '''CREATE TABLE lectures(subject TEXT, typeClass TEXT,
           day INTEGER, startTime TEXT, blocks INTEGER, room TEXT, teacher TEXT, classNumber TEXT, occurrId INTEGER)''';
-  static final updateClassNumber =
+  static const updateClassNumber =
       '''ALTER TABLE lectures ADD classNumber TEXT''';
 
   AppLecturesDatabase()
@@ -32,7 +32,7 @@ class AppLecturesDatabase extends AppDatabase {
   /// Returns a list containing all of the lectures stored in this database.
   Future<List<Lecture>> lectures() async {
     // Get a reference to the database
-    final Database db = await this.getDatabase();
+    final Database db = await getDatabase();
 
     // Query the table for All The Dogs.
     final List<Map<String, dynamic>> maps = await db.query('lectures');
@@ -58,7 +58,7 @@ class AppLecturesDatabase extends AppDatabase {
   /// If a row with the same data is present, it will be replaced.
   Future<void> _insertLectures(List<Lecture> lecs) async {
     for (Lecture lec in lecs) {
-      await this.insertInDatabase(
+      await insertInDatabase(
         'lectures',
         lec.toMap(),
         conflictAlgorithm: ConflictAlgorithm.replace,
@@ -69,7 +69,7 @@ class AppLecturesDatabase extends AppDatabase {
   /// Deletes all of the data stored in this database.
   Future<void> deleteLectures() async {
     // Get a reference to the database
-    final Database db = await this.getDatabase();
+    final Database db = await getDatabase();
 
     await db.delete('lectures');
   }

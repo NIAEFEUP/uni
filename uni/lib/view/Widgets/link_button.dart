@@ -24,7 +24,7 @@ class LinkButton extends StatelessWidget {
                           .textTheme
                           .headline5!
                           .copyWith(decoration: TextDecoration.underline)),
-                  onTap: () => launch(link),
+                  onTap: () => launchUrl(Uri.parse(link)),
                 ))
           ]),
         ]);

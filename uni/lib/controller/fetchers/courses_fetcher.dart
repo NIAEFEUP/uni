@@ -9,7 +9,7 @@ class CoursesFetcher implements SessionDependantFetcher {
   @override
   List<String> getEndpoints(Session session) {
     final urls = NetworkRouter.getBaseUrlsFromSession(session)
-        .map((url) => url + 'fest_geral.cursos_list?')
+        .map((url) => '${url}fest_geral.cursos_list?')
         .toList();
     return urls;
   }

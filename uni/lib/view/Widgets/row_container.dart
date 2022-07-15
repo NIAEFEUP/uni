@@ -15,7 +15,7 @@ class RowContainer extends StatelessWidget {
           border: Border.all(
               color: borderColor ?? Theme.of(context).dividerColor, width: 0.5),
           color: color,
-          borderRadius: BorderRadius.all(Radius.circular(7))),
+          borderRadius: const BorderRadius.all(Radius.circular(7))),
       child: child,
     );
   }

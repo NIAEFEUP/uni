@@ -16,7 +16,7 @@ Future<List<Lecture>> parseScheduleMultipleRequests(responses) async {
 ///
 /// This function parses a JSON object.
 Future<List<Lecture>> parseSchedule(http.Response response) async {
-  final Set<Lecture> lectures = Set();
+  final Set<Lecture> lectures = {};
 
   final json = jsonDecode(response.body);
 
@@ -34,8 +34,7 @@ Future<List<Lecture>> parseSchedule(http.Response response) async {
     final String classNumber = lecture['turma_sigla'];
     final int occurrId = lecture['ocorrencia_id'];
 
-    lectures.add(Lecture.fromApi(
-        subject, typeClass, day, secBegin, blocks,
+    lectures.add(Lecture.fromApi(subject, typeClass, day, secBegin, blocks,
         room, teacher, classNumber, occurrId));
   }
 

@@ -1,11 +1,11 @@
-import 'package:uni/model/entities/trip.dart';
 import 'package:flutter/material.dart';
+import 'package:uni/model/entities/trip.dart';
 import 'package:uni/view/Widgets/estimated_arrival_timestamp.dart';
 
 class TripRow extends StatelessWidget {
   final Trip trip;
 
-  TripRow({
+  const TripRow({
     Key? key,
     required this.trip,
   }) : super(key: key);

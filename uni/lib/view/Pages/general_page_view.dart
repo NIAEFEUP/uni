@@ -1,15 +1,14 @@
 import 'dart:async';
-
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 import 'dart:io';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:uni/controller/load_info.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/profile_page_model.dart';
+import 'package:uni/utils/constants.dart' as constants;
 import 'package:uni/view/Widgets/navigation_drawer.dart';
-import 'package:uni/utils/constants.dart' as Constants;
 
 /// Manages the section inside the user's personal area.
 abstract class GeneralPageViewState extends State<StatefulWidget> {
@@ -87,7 +86,7 @@ abstract class GeneralPageViewState extends State<StatefulWidget> {
         ),
       ),
       elevation: 0,
-      iconTheme: Theme.of(context).accentIconTheme,
+      iconTheme: Theme.of(context).iconTheme,
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       titleSpacing: 0.0,
       title: ButtonTheme(
@@ -98,13 +97,13 @@ abstract class GeneralPageViewState extends State<StatefulWidget> {
           child: TextButton(
             onPressed: () {
               final currentRouteName = ModalRoute.of(context)!.settings.name;
-              if (currentRouteName != Constants.navPersonalArea) {
-                Navigator.pushNamed(context, '/${Constants.navPersonalArea}');
+              if (currentRouteName != constants.navPersonalArea) {
+                Navigator.pushNamed(context, '/${constants.navPersonalArea}');
               }
             },
             child: SvgPicture.asset(
               'assets/images/logo_dark.svg',
-              color: Theme.of(context).accentIconTheme.color,
+              color: Theme.of(context).primaryColor,
               height: queryData.size.height / 25,
             ),
           )),
@@ -122,8 +121,8 @@ abstract class GeneralPageViewState extends State<StatefulWidget> {
             AsyncSnapshot<DecorationImage> decorationImage) {
           return TextButton(
             onPressed: () => {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (__) => ProfilePage()))
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (__) => const ProfilePage()))
             },
             child: Container(
                 width: 40.0,

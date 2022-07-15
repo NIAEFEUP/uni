@@ -38,7 +38,7 @@ class TermsAndConditionDialog {
         barrierDismissible: false,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Mudança nos Termos e Condições da uni'),
+            title: const Text('Mudança nos Termos e Condições da uni'),
             content: Column(
               children: [
                 Expanded(
@@ -46,11 +46,11 @@ class TermsAndConditionDialog {
                     child: ListBody(
                       children: [
                         Container(
-                          margin: EdgeInsets.only(bottom: 10),
+                          margin: const EdgeInsets.only(bottom: 10),
                           child: const Text(
                               '''Os Termos e Condições da aplicação mudaram desde a última vez que a abriste:'''),
                         ),
-                        TermsAndConditions()
+                        const TermsAndConditions()
                       ],
                     ),
                   ),

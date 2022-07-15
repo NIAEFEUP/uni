@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:uni/view/Widgets/exam_filter_menu.dart';
 
 class ExamPageTitleFilter extends StatelessWidget {
@@ -10,7 +9,7 @@ class ExamPageTitleFilter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.fromLTRB(20, 20, 20, 10),
+      padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
       alignment: Alignment.center,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -19,7 +18,7 @@ class ExamPageTitleFilter extends StatelessWidget {
             name,
             style: Theme.of(context).textTheme.headline4,
           ),
-          Material(child: ExamFilterMenu()),
+          const Material(child: ExamFilterMenu()),
         ],
       ),
     );

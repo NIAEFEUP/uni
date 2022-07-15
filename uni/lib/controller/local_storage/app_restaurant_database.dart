@@ -67,12 +67,12 @@ class RestaurantDatabase extends AppDatabase {
 
     //Retrieve data from query
     final List<Meal> meals = mealsMaps.map((map) {
-      final DayOfWeek day = parseDayOfWeek(map['day']);
+      final DayOfWeek? day = parseDayOfWeek(map['day']);
       final String type = map['type'];
       final String name = map['name'];
       final DateFormat format = DateFormat('d-M-y');
-      final DateTime? date = format.parse(map['date']);
-      return Meal(name, type, day, date ?? DateTime.now());
+      final DateTime date = format.parse(map['date']);
+      return Meal(name, type, day!, date);
     }).toList();
 
     return meals;
@@ -82,9 +82,9 @@ class RestaurantDatabase extends AppDatabase {
   Future<void> insertRestaurant(Transaction txn, Restaurant restaurant) async {
     final int id = await txn.insert('RESTAURANTS', restaurant.toMap());
     restaurant.meals.forEach((dayOfWeak, meals) {
-      meals.forEach((meal) {
+      for (var meal in meals) {
         txn.insert('MEALS', meal.toMap(id));
-      });
+      }
     });
   }
 

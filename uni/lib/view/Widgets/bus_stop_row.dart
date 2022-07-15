@@ -1,13 +1,12 @@
-import 'package:uni/model/entities/trip.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:uni/model/entities/trip.dart';
 import 'package:uni/view/Widgets/trip_row.dart';
 
 class BusStopRow extends StatelessWidget {
   final String stopCode;
   final List<Trip> trips;
-  final stopCodeShow;
-  final singleTrip;
+  final bool stopCodeShow;
+  final bool singleTrip;
 
   const BusStopRow({
     Key? key,
@@ -20,10 +19,10 @@ class BusStopRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(4.0),
+      padding: const EdgeInsets.all(4.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: this.getTrips(context),
+        children: getTrips(context),
       ),
     );
   }
@@ -55,11 +54,10 @@ class BusStopRow extends StatelessWidget {
 
   Widget stopCodeRotatedContainer(context) {
     return Container(
-      padding: EdgeInsets.only(left: 4.0),
+      padding: const EdgeInsets.only(left: 4.0),
       child: RotatedBox(
-        child:
-            Text(this.stopCode, style: Theme.of(context).textTheme.subtitle1),
         quarterTurns: 3,
+        child: Text(stopCode, style: Theme.of(context).textTheme.subtitle1),
       ),
     );
   }
@@ -69,15 +67,15 @@ class BusStopRow extends StatelessWidget {
 
     if (singleTrip) {
       tripRows.add(Container(
-          padding: EdgeInsets.all(12.0), child: TripRow(trip: trips[0])));
+          padding: const EdgeInsets.all(12.0), child: TripRow(trip: trips[0])));
     } else {
       for (int i = 0; i < trips.length; i++) {
 /*         Color color = Theme.of(context).accentColor;
         if (i == trips.length - 1) color = Colors.transparent; */
 
         tripRows.add(Container(
-            padding: EdgeInsets.all(12.0),
-            decoration: BoxDecoration(
+            padding: const EdgeInsets.all(12.0),
+            decoration: const BoxDecoration(
                 border: Border(
                     bottom: BorderSide(
               width: 0.1, /* color: color */

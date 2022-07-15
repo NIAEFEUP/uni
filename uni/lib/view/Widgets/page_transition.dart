@@ -12,7 +12,8 @@ class PageTransition {
             Animation<double> secondaryAnimation) {
           return page;
         },
-        transitionDuration: Duration(milliseconds: pageTransitionDuration),
+        transitionDuration:
+            const Duration(milliseconds: pageTransitionDuration),
         settings: settings,
         maintainState: maintainState,
         transitionsBuilder: (BuildContext context, Animation<double> animation,

@@ -12,9 +12,10 @@ const Color _mildBlack = Color.fromARGB(255, 0x30, 0x30, 0x30);
 const Color _darkBlack = Color.fromARGB(255, 27, 27, 27);
 
 ThemeData applicationLightTheme = ThemeData(
+  colorScheme:
+      ColorScheme.fromSeed(seedColor: _darkRed, brightness: Brightness.light),
   brightness: Brightness.light,
   primaryColor: _darkRed,
-  accentColor: _lightRed,
   canvasColor: _mildWhite,
   backgroundColor: _mildWhite,
   scaffoldBackgroundColor: _mildWhite,
@@ -31,7 +32,7 @@ ThemeData applicationLightTheme = ThemeData(
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
-        primary: _darkRed,
+        backgroundColor: _darkRed,
         padding: const EdgeInsets.all(10.0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12.0),
@@ -40,10 +41,9 @@ ThemeData applicationLightTheme = ThemeData(
             const TextStyle(fontWeight: FontWeight.w400, fontSize: 15.0)),
   ),
   iconTheme: const IconThemeData(color: _darkRed),
-  accentIconTheme: const IconThemeData(color: _darkRed),
   textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
-          primary: _darkRed,
+          foregroundColor: _darkRed,
           textStyle:
               const TextStyle(fontSize: 15.0, fontWeight: FontWeight.w400))),
   checkboxTheme: CheckboxThemeData(
@@ -73,18 +73,19 @@ ThemeData applicationLightTheme = ThemeData(
 );
 
 ThemeData applicationDarkTheme = ThemeData(
+  colorScheme:
+      ColorScheme.fromSeed(seedColor: _darkRed, brightness: Brightness.dark),
   brightness: Brightness.dark,
   hintColor: const Color.fromARGB(255, 43, 43, 43),
   dividerColor: const Color.fromARGB(255, 100, 100, 100),
   primaryColor: _white,
-  accentColor: _white,
   canvasColor: _darkBlack,
   backgroundColor: _darkBlack,
   scaffoldBackgroundColor: _darkBlack,
   cardColor: const Color.fromARGB(255, 43, 43, 43),
   textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
-          primary: _white,
+          foregroundColor: _white,
           textStyle:
               const TextStyle(fontSize: 15.0, fontWeight: FontWeight.w400))),
   textTheme: const TextTheme(
@@ -114,5 +115,4 @@ ThemeData applicationDarkTheme = ThemeData(
   checkboxTheme: applicationLightTheme.checkboxTheme,
   elevatedButtonTheme: applicationLightTheme.elevatedButtonTheme,
   iconTheme: const IconThemeData(color: _white),
-  accentIconTheme: const IconThemeData(color: _white),
 );
