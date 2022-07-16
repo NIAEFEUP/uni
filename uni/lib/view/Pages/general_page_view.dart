@@ -90,8 +90,6 @@ abstract class GeneralPageViewState extends State<StatefulWidget> {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       titleSpacing: 0.0,
       title: ButtonTheme(
-          minWidth: 0,
-          padding: const EdgeInsets.only(left: 0),
           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
           shape: const RoundedRectangleBorder(),
           child: TextButton(
@@ -102,8 +100,8 @@ abstract class GeneralPageViewState extends State<StatefulWidget> {
               }
             },
             child: SvgPicture.asset(
-              'assets/images/logo_dark.svg',
               color: Theme.of(context).primaryColor,
+              'assets/images/logo_dark.svg',
               height: queryData.size.height / 25,
             ),
           )),

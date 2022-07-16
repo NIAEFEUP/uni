@@ -55,7 +55,7 @@ Future<void> addMoneyDialog(BuildContext context) async {
                                 border: const OutlineInputBorder(),
                                 focusedBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
-                                        color: Theme.of(context).focusColor))),
+                                        /*color: Theme.of(context).focusColor))*/))),
                             onTap: () {
                               controller.value = const TextEditingValue(
                                   text: '',

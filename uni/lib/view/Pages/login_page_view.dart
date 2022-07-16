@@ -7,6 +7,7 @@ import 'package:uni/utils/constants.dart' as constants;
 import 'package:uni/view/Widgets/faculties_multiselect.dart';
 import 'package:uni/view/Widgets/terms_and_conditions.dart';
 import 'package:uni/view/Widgets/toast_message.dart';
+import 'package:uni/view/theme.dart';
 
 class LoginPageView extends StatefulWidget {
   const LoginPageView({super.key});
@@ -78,19 +79,20 @@ class LoginPageViewState extends State<LoginPageView> {
   Widget build(BuildContext context) {
     final MediaQueryData queryData = MediaQuery.of(context);
 
-    return Scaffold(
-        backgroundColor: Theme.of(context).brightness == Brightness.light
-            ? Theme.of(context).primaryColor
-            : Theme.of(context).scaffoldBackgroundColor,
-        body: WillPopScope(
-            child: Padding(
-                padding: EdgeInsets.only(
-                    left: queryData.size.width / 8,
-                    right: queryData.size.width / 8),
-                child: ListView(
-                  children: getWidgets(context, queryData),
-                )),
-            onWillPop: () => onWillPop(context)));
+    return Theme(
+        data: applicationLightTheme,
+        child: Builder(
+            builder: (context) => Scaffold(
+                backgroundColor: darkRed,
+                body: WillPopScope(
+                    child: Padding(
+                        padding: EdgeInsets.only(
+                            left: queryData.size.width / 8,
+                            right: queryData.size.width / 8),
+                        child: ListView(
+                          children: getWidgets(context, queryData),
+                        )),
+                    onWillPop: () => onWillPop(context)))));
   }
 
   List<Widget> getWidgets(BuildContext context, MediaQueryData queryData) {
@@ -169,8 +171,7 @@ class LoginPageViewState extends State<LoginPageView> {
 
   /// Creates the widget for the user to choose their faculty
   Widget createFacultyInput(BuildContext context) {
-    return FacultiesMultiselect(
-        faculties, setFaculties, Theme.of(context).brightness);
+    return FacultiesMultiselect(faculties, setFaculties);
   }
 
   /// Creates the widget for the username input.
@@ -219,12 +220,8 @@ class LoginPageViewState extends State<LoginPageView> {
   /// Creates the widget for the user to keep signed in (save his data).
   Widget createSaveDataCheckBox() {
     return CheckboxListTile(
-      activeColor: Theme.of(context).brightness == Brightness.light
-          ? Colors.white
-          : Colors.black54,
-      checkColor: Theme.of(context).brightness == Brightness.light
-          ? Theme.of(context).primaryColor
-          : Colors.white,
+      activeColor: Colors.white,
+      checkColor: Theme.of(context).primaryColor,
       value: _keepSignedIn,
       onChanged: _setKeepSignedIn,
       title: const Text(
@@ -248,9 +245,7 @@ class LoginPageViewState extends State<LoginPageView> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(25),
             ),
-            backgroundColor: Theme.of(context).brightness == Brightness.light
-                ? Colors.white
-                : Colors.black54,
+            backgroundColor: Colors.white,
           ),
           onPressed: () {
             if (!FocusScope.of(context).hasPrimaryFocus) {
@@ -290,7 +285,8 @@ class LoginPageViewState extends State<LoginPageView> {
             case RequestStatus.busy:
               return const SizedBox(
                 height: 60.0,
-                child: Center(child: CircularProgressIndicator()),
+                child: Center(
+                    child: CircularProgressIndicator(color: Colors.white)),
               );
             default:
               return Container();

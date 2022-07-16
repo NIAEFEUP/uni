@@ -9,6 +9,7 @@ import 'package:uni/view/Widgets/account_info_card.dart';
 import 'package:uni/view/Widgets/back_button_exit_wrapper.dart';
 import 'package:uni/view/Widgets/bus_stop_card.dart';
 import 'package:uni/view/Widgets/exam_card.dart';
+import 'package:uni/view/Widgets/page_title.dart';
 import 'package:uni/view/Widgets/print_info_card.dart';
 import 'package:uni/view/Widgets/schedule_card.dart';
 
@@ -122,10 +123,7 @@ class MainCardsList extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.fromLTRB(20, 20, 20, 5),
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Text(
-          constants.navPersonalArea,
-          style: Theme.of(context).textTheme.headline4,
-        ),
+        const PageTitle(name: constants.navPersonalArea, center: false),
         GestureDetector(
             onTap: () => StoreProvider.of<AppState>(context)
                 .dispatch(SetHomePageEditingMode(!isEditing(context))),

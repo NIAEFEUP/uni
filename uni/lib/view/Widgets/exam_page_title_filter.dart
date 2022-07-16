@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uni/view/Widgets/exam_filter_menu.dart';
+import 'package:uni/view/Widgets/page_title.dart';
 
 class ExamPageTitleFilter extends StatelessWidget {
   final String name;
@@ -13,12 +14,9 @@ class ExamPageTitleFilter extends StatelessWidget {
       alignment: Alignment.center,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            name,
-            style: Theme.of(context).textTheme.headline4,
-          ),
-          const Material(child: ExamFilterMenu()),
+        children: const [
+          PageTitle(name: 'Exames', center: false),
+          Material(child: ExamFilterMenu()),
         ],
       ),
     );

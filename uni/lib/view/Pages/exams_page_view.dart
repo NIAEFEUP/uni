@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:uni/controller/exam.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/view/Pages/secondary_page_view.dart';
 import 'package:uni/view/Widgets/exam_page_title_filter.dart';
-import 'package:uni/view/Widgets/row_container.dart';
 import 'package:uni/view/Widgets/schedule_row.dart';
 import 'package:uni/view/Widgets/title_card.dart';
 
@@ -122,18 +120,18 @@ class ExamsList extends StatelessWidget {
     return Container(
         key: Key(keyValue),
         margin: const EdgeInsets.fromLTRB(12, 4, 12, 0),
-        child: RowContainer(
-            color: isHighlighted(exam)
+        child: Container(
+/*            color: isHighlighted(exam)
                 ? Theme.of(context).hintColor
-                : Theme.of(context).scaffoldBackgroundColor,
+                : Theme.of(context).scaffoldBackgroundColor,*/
             child: ScheduleRow(
-              subject: exam.subject,
-              rooms: exam.rooms,
-              begin: exam.begin,
-              end: exam.end,
-              type: exam.examType,
-              date: exam.date,
-              teacher: '',
-            )));
+          subject: exam.subject,
+          rooms: exam.rooms,
+          begin: exam.begin,
+          end: exam.end,
+          type: exam.examType,
+          date: exam.date,
+          teacher: '',
+        )));
   }
 }

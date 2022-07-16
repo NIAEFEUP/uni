@@ -8,6 +8,7 @@ import 'package:logger/logger.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:tuple/tuple.dart';
 import 'package:uni/view/Widgets/form_text_field.dart';
+import 'package:uni/view/Widgets/page_title.dart';
 import 'package:uni/view/Widgets/toast_message.dart';
 
 class BugReportForm extends StatefulWidget {
@@ -118,18 +119,13 @@ class BugReportFormState extends State<BugReportForm> {
   /// Returns a widget for the title of the bug report form
   Widget bugReportTitle(BuildContext context) {
     return Container(
-        alignment: Alignment.center,
-        margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20),
+        margin: const EdgeInsets.symmetric(vertical: 10.0),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: const <Widget>[
-            Icon(Icons.bug_report, size: 50.0),
-            Expanded(
-                child: Text(
-              'Bugs e Sugestões',
-              textScaleFactor: 1.6,
-              textAlign: TextAlign.center,
-            )),
-            Icon(Icons.bug_report, size: 50.0),
+            Icon(Icons.bug_report, size: 40.0),
+            PageTitle(name: 'Bugs e Sugestões', center: false),
+            Icon(Icons.bug_report, size: 40.0),
           ],
         ));
   }
@@ -223,7 +219,7 @@ class BugReportFormState extends State<BugReportForm> {
             },
       child: const Text(
         'Enviar',
-        style: TextStyle(color: Colors.white, fontSize: 20.0),
+        style: TextStyle(/*color: Colors.white*/ fontSize: 20.0),
       ),
     );
   }

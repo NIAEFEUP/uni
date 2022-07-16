@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/lecture.dart';
+import 'package:uni/utils/constants.dart' as constants;
 import 'package:uni/view/Widgets/page_title.dart';
 import 'package:uni/view/Widgets/request_dependent_widget_builder.dart';
 import 'package:uni/view/Widgets/schedule_slot.dart';
@@ -13,14 +14,12 @@ class SchedulePageView extends StatelessWidget {
     required this.daysOfTheWeek,
     required this.aggLectures,
     required this.scheduleStatus,
-    /*required this.scrollViewController*/
   }) : super(key: key);
 
   final List<String> daysOfTheWeek;
   final List<List<Lecture>> aggLectures;
   final RequestStatus scheduleStatus;
   final TabController? tabController;
-  //final ScrollController scrollViewController;
 
   @override
   Widget build(BuildContext context) {
@@ -31,10 +30,11 @@ class SchedulePageView extends StatelessWidget {
         scrollDirection: Axis.vertical,
         shrinkWrap: true,
         children: <Widget>[
-          const PageTitle(name: 'Horário'),
+          const PageTitle(name: constants.navSchedule),
           TabBar(
             controller: tabController,
             isScrollable: true,
+            physics: const BouncingScrollPhysics(),
             tabs: createTabs(queryData, context),
           ),
         ],
@@ -52,7 +52,7 @@ class SchedulePageView extends StatelessWidget {
     final List<Widget> tabs = <Widget>[];
     for (var i = 0; i < daysOfTheWeek.length; i++) {
       tabs.add(SizedBox(
-        width: queryData.size.width * 1 / 3,
+        width: queryData.size.width * 1 / 4,
         child: Tab(key: Key('schedule-page-tab-$i'), text: daysOfTheWeek[i]),
       ));
     }

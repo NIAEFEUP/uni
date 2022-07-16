@@ -79,7 +79,10 @@ class NavigationDrawerState extends State<NavigationDrawer> {
       child: Container(
         padding: const EdgeInsets.all(15.0),
         child: Text(constants.navLogOut,
-            style: Theme.of(context).textTheme.headline6!),
+            style: Theme.of(context)
+                .textTheme
+                .headline6!
+                .copyWith(color: Theme.of(context).primaryColor)),
       ),
     );
   }

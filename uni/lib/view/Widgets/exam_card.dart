@@ -28,6 +28,13 @@ class ExamCard extends GenericCard {
   onClick(BuildContext context) =>
       Navigator.pushNamed(context, '/${constants.navExams}');
 
+  static getExamCardColor(BuildContext context, Exam exam) {
+    return Colors.green;
+    return isHighlighted(exam)
+        ? Theme.of(context).backgroundColor
+        : Theme.of(context).hintColor;
+  }
+
   /// Returns a widget with all the exams card content.
   ///
   /// If there are no exams, a message telling the user
@@ -76,13 +83,14 @@ class ExamCard extends GenericCard {
     }
     if (exams.length > 1) {
       rows.add(Container(
-        margin:
-            const EdgeInsets.only(right: 80.0, left: 80.0, top: 15, bottom: 7),
-        decoration: BoxDecoration(
+          margin: const EdgeInsets.only(
+              right: 80.0, left: 80.0, top: 15, bottom: 7),
+          decoration: BoxDecoration(
             border: Border(
                 bottom: BorderSide(
-                    width: 1.5, color: Theme.of(context).dividerColor))),
-      ));
+              width: 1.5, /*color: Theme.of(context).dividerColor))*/
+            )),
+          )));
     }
     for (int i = 1; i < 4 && i < exams.length; i++) {
       rows.add(createSecondaryRowFromExam(context, exams[i]));
@@ -96,9 +104,7 @@ class ExamCard extends GenericCard {
     return Column(children: [
       DateRectangle(date: '${exam.weekDay}, ${exam.day} de ${exam.month}'),
       RowContainer(
-        color: isHighlighted(exam)
-            ? Theme.of(context).backgroundColor
-            : Theme.of(context).hintColor,
+        color: getExamCardColor(context, exam),
         child: ScheduleRow(
           subject: exam.subject,
           rooms: exam.rooms,
@@ -118,9 +124,7 @@ class ExamCard extends GenericCard {
     return Container(
       margin: const EdgeInsets.only(top: 8),
       child: RowContainer(
-        color: isHighlighted(exam)
-            ? Theme.of(context).backgroundColor
-            : Theme.of(context).hintColor,
+        color: getExamCardColor(context, exam),
         child: Container(
           padding: const EdgeInsets.all(11),
           child: Row(

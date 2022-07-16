@@ -8,7 +8,6 @@ import 'package:uni/utils/constants.dart' as constants;
 import 'package:uni/view/Pages/bus_stop_selection_page.dart';
 import 'package:uni/view/Widgets/bus_stop_row.dart';
 import 'package:uni/view/Widgets/last_update_timestamp.dart';
-import 'package:uni/view/Widgets/row_container.dart';
 
 import 'generic_card.dart';
 
@@ -128,13 +127,13 @@ class BusStopCard extends GenericCard {
       if (tripList.length > 0 && stopConfig[stopCode].favorited) {
         rows.add(Container(
             padding: const EdgeInsets.only(top: 12.0),
-            child: RowContainer(
-                color: Theme.of(context).primaryColor,
+            child: Container(
+                //color: Theme.of(context).primaryColor,
                 child: BusStopRow(
-                  stopCode: stopCode,
-                  trips: tripList,
-                  singleTrip: true,
-                ))));
+              stopCode: stopCode,
+              trips: tripList,
+              singleTrip: true,
+            ))));
       }
     });
 

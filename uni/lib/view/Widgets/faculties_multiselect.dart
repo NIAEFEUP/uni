@@ -4,10 +4,8 @@ import 'package:uni/view/Widgets/faculties_selection_form.dart';
 class FacultiesMultiselect extends StatelessWidget {
   final List<String> faculties;
   final Function setFaculties;
-  final Brightness brightness;
 
-  const FacultiesMultiselect(this.faculties, this.setFaculties, this.brightness,
-      {super.key});
+  const FacultiesMultiselect(this.faculties, this.setFaculties, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,32 +20,31 @@ class FacultiesMultiselect extends StatelessWidget {
               context: context,
               builder: (BuildContext context) {
                 return FacultiesSelectionForm(
-                    List<String>.from(faculties), setFaculties, brightness);
+                    List<String>.from(faculties), setFaculties);
               });
         },
         child: createButtonContent(context));
   }
 
   Widget createButtonContent(BuildContext context) {
-    Color borderColor;
-    if (brightness == Brightness.dark) {
-      borderColor = Colors.white;
-    } else {
-      borderColor = Colors.black;
-    }
-
     return Container(
         padding: const EdgeInsets.fromLTRB(5, 0, 5, 7),
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             border: Border(
                 bottom: BorderSide(
-          color: borderColor,
-          width: 0.5,
+          color: Colors.white,
+          width: 1,
         ))),
         child: Row(children: const [
-          Text('a(s) tua(s) faculdade(s)'),
+          Text(
+            'a(s) tua(s) faculdade(s)',
+            style: TextStyle(color: Colors.white),
+          ),
           Spacer(),
-          Icon(Icons.arrow_drop_down),
+          Icon(
+            Icons.arrow_drop_down,
+            color: Colors.white,
+          ),
         ]));
   }
 }

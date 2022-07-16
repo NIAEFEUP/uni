@@ -18,7 +18,6 @@ class SchedulePageState extends SecondaryPageViewState
   final int weekDay = DateTime.now().weekday;
 
   late TabController tabController;
-  //late ScrollController scrollViewController;
 
   final List<String> daysOfTheWeek = [
     'Segunda-feira',
@@ -65,7 +64,6 @@ class SchedulePageState extends SecondaryPageViewState
         final scheduleStatus = lectureData.item2;
         return SchedulePageView(
             tabController: tabController,
-            //scrollViewController: scrollViewController,
             daysOfTheWeek: daysOfTheWeek,
             aggLectures: _groupLecturesByDay(lectures),
             scheduleStatus: scheduleStatus);

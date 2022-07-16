@@ -36,7 +36,7 @@ Container infoText(String text, BuildContext context,
             child: Text(
               text,
               style: Theme.of(context).textTheme.bodyText1!.apply(
-                    color: Theme.of(context).primaryColor,
+                  //color: Theme.of(context).primaryColor,
                   ),
             ),
             onTap: () => link != '' ? launchUrl(Uri.parse(link)) : null),

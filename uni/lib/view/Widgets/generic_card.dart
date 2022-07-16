@@ -89,10 +89,8 @@ class GenericCardState extends State<GenericCard> {
                                 style: Theme.of(context)
                                     .textTheme
                                     .headline5!
-                                    .apply(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .secondary)),
+                                    .copyWith(
+                                        color: Theme.of(context).primaryColor)),
                           )),
                           if (widget.editingMode)
                             Container(

@@ -13,8 +13,8 @@ class RowContainer extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
           border: Border.all(
-              color: borderColor ?? Theme.of(context).dividerColor, width: 0.5),
-          color: color,
+              /*color: borderColor ?? Theme.of(context).dividerColor*/ width: 0.5),
+          //color: color,
           borderRadius: const BorderRadius.all(Radius.circular(7))),
       child: child,
     );

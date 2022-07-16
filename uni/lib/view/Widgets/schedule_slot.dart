@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:uni/controller/networking/network_router.dart';
-import 'package:uni/view/Widgets/row_container.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ScheduleSlot extends StatelessWidget {
@@ -27,13 +26,13 @@ class ScheduleSlot extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RowContainer(
-        color: Theme.of(context).primaryColor,
+    return Container(
+        //color: Theme.of(context).primaryColor,
         child: Container(
-          padding: const EdgeInsets.only(
-              top: 10.0, bottom: 10.0, left: 22.0, right: 22.0),
-          child: createScheduleSlotRow(context),
-        ));
+      padding: const EdgeInsets.only(
+          top: 10.0, bottom: 10.0, left: 22.0, right: 22.0),
+      child: createScheduleSlotRow(context),
+    ));
   }
 
   Widget createScheduleSlotRow(context) {
@@ -94,10 +93,8 @@ class ScheduleSlot extends StatelessWidget {
   List<Widget> createScheduleSlotPrimInfo(context) {
     final subjectTextField = createTextField(
         subject,
-        Theme.of(context)
-            .textTheme
-            .headline5!
-            .apply(color: Theme.of(context).colorScheme.secondary),
+        Theme.of(context).textTheme.headline5!.apply(
+            /*color: Theme.of(context).colorScheme.secondary*/),
         TextAlign.center);
     final typeClassTextField = createTextField(' ($typeClass)',
         Theme.of(context).textTheme.bodyText2, TextAlign.center);
