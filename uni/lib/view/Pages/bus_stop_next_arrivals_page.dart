@@ -18,7 +18,8 @@ class BusStopNextArrivalsPage extends StatefulWidget {
 }
 
 /// Manages the 'Bus arrivals' section inside the user's personal area
-class BusStopNextArrivalsPageState extends SecondaryPageView {
+class BusStopNextArrivalsPageState
+    extends SecondaryPageViewState<BusStopNextArrivalsPage> {
   @override
   Widget getBody(BuildContext context) {
     return StoreConnector<

@@ -247,7 +247,7 @@ class LoginPageViewState extends State<LoginPageView> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(25),
             ),
-            backgroundColor: Colors.white,
+            primary: Colors.white,
           ),
           onPressed: () {
             if (!FocusScope.of(context).hasPrimaryFocus) {

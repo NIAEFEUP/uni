@@ -45,7 +45,6 @@ dependencies:
   provider: ^6.0.3
   encrypt: ^5.0.0-beta.1
   path_provider: ^2.0.0
-  #sqflite_common_ffi: ^2.1.1   # TODO: test sqflite adapter for windows/linux
   sqflite: ^2.0.3
   path: ^1.8.0
   cached_network_image: ^3.0.0-nullsafety

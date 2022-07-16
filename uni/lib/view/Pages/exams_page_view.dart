@@ -4,6 +4,7 @@ import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/view/Pages/secondary_page_view.dart';
 import 'package:uni/view/Widgets/exam_page_title_filter.dart';
+import 'package:uni/view/Widgets/row_container.dart';
 import 'package:uni/view/Widgets/schedule_row.dart';
 import 'package:uni/view/Widgets/title_card.dart';
 
@@ -17,7 +18,7 @@ class ExamsPageView extends StatefulWidget {
 }
 
 /// Tracks the state of `ExamsLists`.
-class ExamsPageViewState extends SecondaryPageView {
+class ExamsPageViewState extends SecondaryPageViewState<ExamsPageView> {
   final double borderRadius = 10.0;
 
   @override
@@ -122,7 +123,7 @@ class ExamsList extends StatelessWidget {
     return Container(
         key: Key(keyValue),
         margin: const EdgeInsets.fromLTRB(12, 4, 12, 0),
-        child: Container(
+        child: RowContainer(
             color: isHighlighted(exam)
                 ? Theme.of(context).hintColor
                 : Theme.of(context).scaffoldBackgroundColor,

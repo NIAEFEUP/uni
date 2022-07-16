@@ -31,8 +31,7 @@ class _FacultiesSelectionFormState extends State<FacultiesSelectionForm> {
           child: const Text('Cancelar', style: TextStyle(color: Colors.white))),
       ElevatedButton(
           style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.white,
-              foregroundColor: Theme.of(context).primaryColor),
+              onPrimary: Theme.of(context).primaryColor, primary: Colors.white),
           onPressed: () {
             Navigator.pop(context);
             widget.setFaculties(widget.faculties);
