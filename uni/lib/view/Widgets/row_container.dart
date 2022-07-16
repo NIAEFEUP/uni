@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 class RowContainer extends StatelessWidget {
   final Widget child;
   final Color? borderColor;
-  final Color color;
+  final Color? color;
   const RowContainer(
-      {Key? key, required this.child, this.borderColor, required this.color})
+      {Key? key, required this.child, this.borderColor, this.color})
       : super(key: key);
 
   @override
@@ -13,8 +13,8 @@ class RowContainer extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
           border: Border.all(
-              /*color: borderColor ?? Theme.of(context).dividerColor*/ width: 0.5),
-          //color: color,
+              color: borderColor ?? Theme.of(context).dividerColor, width: 0.5),
+          color: color,
           borderRadius: const BorderRadius.all(Radius.circular(7))),
       child: child,
     );

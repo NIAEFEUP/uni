@@ -4,7 +4,7 @@ import 'package:uni/view/Widgets/secondary_page_back_button.dart';
 import 'general_page_view.dart';
 
 /// Generic class implementation for the secondary page view.
-abstract class SecondaryPageViewState extends GeneralPageViewState {
+abstract class SecondaryPageView extends GeneralPageViewState {
   @override
   Widget build(BuildContext context) {
     return getScaffold(context, bodyWrapper(context));

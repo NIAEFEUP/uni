@@ -18,7 +18,7 @@ class BusStopNextArrivalsPage extends StatefulWidget {
 }
 
 /// Manages the 'Bus arrivals' section inside the user's personal area
-class BusStopNextArrivalsPageState extends SecondaryPageViewState {
+class BusStopNextArrivalsPageState extends SecondaryPageView {
   @override
   Widget getBody(BuildContext context) {
     return StoreConnector<
@@ -197,7 +197,7 @@ class NextArrivalsState extends State<NextArrivals>
     widget.busConfig.forEach((stopCode, stopData) {
       tabs.add(SizedBox(
         width: queryData.size.width /
-            (widget.busConfig.length < 3 ? widget.busConfig.length : 3),
+            ((widget.busConfig.length < 3 ? widget.busConfig.length : 3) + 1),
         child: Tab(text: stopCode),
       ));
     });

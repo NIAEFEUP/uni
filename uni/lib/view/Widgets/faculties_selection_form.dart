@@ -47,10 +47,7 @@ class _FacultiesSelectionFormState extends State<FacultiesSelectionForm> {
       final String faculty = constants.faculties.elementAt(i);
       return CheckboxListTile(
           title: Text(faculty.toUpperCase(),
-              style: const TextStyle(
-                  color: Color.fromARGB(255, 0xfa, 0xfa, 0xfa),
-                  fontSize: 20.0)),
-          activeColor: const Color.fromARGB(255, 0x75, 0x17, 0x1e),
+              style: const TextStyle(color: Colors.white, fontSize: 20.0)),
           key: Key('FacultyCheck$faculty'),
           value: widget.faculties.contains(faculty),
           onChanged: (value) {

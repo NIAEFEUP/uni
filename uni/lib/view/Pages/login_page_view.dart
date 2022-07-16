@@ -80,7 +80,11 @@ class LoginPageViewState extends State<LoginPageView> {
     final MediaQueryData queryData = MediaQuery.of(context);
 
     return Theme(
-        data: applicationLightTheme,
+        data: applicationLightTheme.copyWith(
+          checkboxTheme: CheckboxThemeData(
+              checkColor: MaterialStateProperty.all(darkRed),
+              fillColor: MaterialStateProperty.all(Colors.white)),
+        ),
         child: Builder(
             builder: (context) => Scaffold(
                 backgroundColor: darkRed,
@@ -220,8 +224,6 @@ class LoginPageViewState extends State<LoginPageView> {
   /// Creates the widget for the user to keep signed in (save his data).
   Widget createSaveDataCheckBox() {
     return CheckboxListTile(
-      activeColor: Colors.white,
-      checkColor: Theme.of(context).primaryColor,
       value: _keepSignedIn,
       onChanged: _setKeepSignedIn,
       title: const Text(

@@ -23,23 +23,11 @@ class ProfilePageView extends StatefulWidget {
       required this.courses})
       : super(key: key);
   @override
-  State<StatefulWidget> createState() => ProfilePageViewState(
-      name: name, email: email, currentState: currentState, courses: courses);
+  State<StatefulWidget> createState() => ProfilePageViewState();
 }
 
 /// Manages the 'Personal user page' section.
-class ProfilePageViewState extends UnnamedPageView {
-  ProfilePageViewState(
-      {Key? key,
-      required this.name,
-      required this.email,
-      required this.currentState,
-      required this.courses});
-  final String name;
-  final String email;
-  final Map<String, String> currentState;
-  final List<Course> courses;
-
+class ProfilePageViewState extends UnnamedPageViewState<ProfilePageView> {
   @override
   Widget getBody(BuildContext context) {
     return ListView(shrinkWrap: false, children: childrenList(context));
@@ -56,10 +44,10 @@ class ProfilePageViewState extends UnnamedPageView {
     list.add(const Padding(padding: EdgeInsets.all(5.0)));
     list.add(profileInfo(context));
     list.add(const Padding(padding: EdgeInsets.all(5.0)));
-    for (var i = 0; i < courses.length; i++) {
+    for (var i = 0; i < widget.courses.length; i++) {
       list.add(CourseInfoCard(
-          course: courses[i],
-          courseState: currentState[courses[i].name] ?? '?'));
+          course: widget.courses[i],
+          courseState: widget.currentState[widget.courses[i].name] ?? '?'));
       list.add(const Padding(padding: EdgeInsets.all(5.0)));
     }
     list.add(PrintInfoCard());
@@ -85,12 +73,12 @@ class ProfilePageViewState extends UnnamedPageView {
                     shape: BoxShape.circle,
                     image: getDecorageImage(profilePic.data))),
             const Padding(padding: EdgeInsets.all(8.0)),
-            Text(name,
+            Text(widget.name,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                     fontSize: 20.0, fontWeight: FontWeight.w400)),
             const Padding(padding: EdgeInsets.all(5.0)),
-            Text(email,
+            Text(widget.email,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                     fontSize: 18.0, fontWeight: FontWeight.w300)),

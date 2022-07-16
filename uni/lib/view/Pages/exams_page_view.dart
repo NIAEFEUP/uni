@@ -7,6 +7,8 @@ import 'package:uni/view/Widgets/exam_page_title_filter.dart';
 import 'package:uni/view/Widgets/schedule_row.dart';
 import 'package:uni/view/Widgets/title_card.dart';
 
+import '../../controller/exam.dart';
+
 class ExamsPageView extends StatefulWidget {
   const ExamsPageView({super.key});
 
@@ -15,7 +17,7 @@ class ExamsPageView extends StatefulWidget {
 }
 
 /// Tracks the state of `ExamsLists`.
-class ExamsPageViewState extends SecondaryPageViewState {
+class ExamsPageViewState extends SecondaryPageView {
   final double borderRadius = 10.0;
 
   @override
@@ -121,17 +123,17 @@ class ExamsList extends StatelessWidget {
         key: Key(keyValue),
         margin: const EdgeInsets.fromLTRB(12, 4, 12, 0),
         child: Container(
-/*            color: isHighlighted(exam)
+            color: isHighlighted(exam)
                 ? Theme.of(context).hintColor
-                : Theme.of(context).scaffoldBackgroundColor,*/
+                : Theme.of(context).scaffoldBackgroundColor,
             child: ScheduleRow(
-          subject: exam.subject,
-          rooms: exam.rooms,
-          begin: exam.begin,
-          end: exam.end,
-          type: exam.examType,
-          date: exam.date,
-          teacher: '',
-        )));
+              subject: exam.subject,
+              rooms: exam.rooms,
+              begin: exam.begin,
+              end: exam.end,
+              type: exam.examType,
+              date: exam.date,
+              teacher: '',
+            )));
   }
 }

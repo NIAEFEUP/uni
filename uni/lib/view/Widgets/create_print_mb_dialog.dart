@@ -50,12 +50,7 @@ Future<void> addMoneyDialog(BuildContext context) async {
                             controller: controller,
                             inputFormatters: [formatter],
                             keyboardType: TextInputType.number,
-                            textAlign: TextAlign.right,
-                            decoration: InputDecoration(
-                                border: const OutlineInputBorder(),
-                                focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        /*color: Theme.of(context).focusColor))*/))),
+                            textAlign: TextAlign.center,
                             onTap: () {
                               controller.value = const TextEditingValue(
                                   text: '',

@@ -95,25 +95,25 @@ class MainCardsList extends StatelessWidget {
   }
 
   Widget createScrollableCardView(BuildContext context) {
-    return StoreConnector<AppState, List<FavoriteWidgetType>>(
+    return StoreConnector<AppState, List<FavoriteWidgetType>?>(
         converter: (store) => store.state.content['favoriteCards'],
         builder: (context, favoriteWidgets) {
           return SizedBox(
               height: MediaQuery.of(context).size.height,
               child: isEditing(context)
                   ? ReorderableListView(
-                      onReorder: (oldi, newi) =>
-                          reorderCard(oldi, newi, favoriteWidgets, context),
+                      onReorder: (oldi, newi) => reorderCard(
+                          oldi, newi, favoriteWidgets ?? [], context),
                       header: createTopBar(context),
                       children: createFavoriteWidgetsFromTypes(
-                          favoriteWidgets, context),
+                          favoriteWidgets ?? [], context),
                       //Cards go here
                     )
                   : ListView(
                       children: <Widget>[
                         createTopBar(context),
                         ...createFavoriteWidgetsFromTypes(
-                            favoriteWidgets, context)
+                            favoriteWidgets ?? [], context)
                       ],
                     ));
         });

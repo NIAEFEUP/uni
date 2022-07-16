@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uni/controller/networking/network_router.dart';
+import 'package:uni/view/Widgets/row_container.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ScheduleSlot extends StatelessWidget {
@@ -26,8 +27,7 @@ class ScheduleSlot extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        //color: Theme.of(context).primaryColor,
+    return RowContainer(
         child: Container(
       padding: const EdgeInsets.only(
           top: 10.0, bottom: 10.0, left: 22.0, right: 22.0),

@@ -11,7 +11,7 @@ import 'package:uni/utils/constants.dart' as constants;
 import 'package:uni/view/Widgets/navigation_drawer.dart';
 
 /// Manages the section inside the user's personal area.
-abstract class GeneralPageViewState extends State<StatefulWidget> {
+abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
   final double borderMargin = 18.0;
   static ImageProvider? decorageImage;
 

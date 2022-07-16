@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 
 const Color darkRed = Color.fromARGB(255, 0x75, 0x17, 0x1e);
 const Color lightRed = Color.fromARGB(255, 0xbf, 0xa5, 0xa3);
+
 const Color _mildWhite = Color.fromARGB(255, 0xfa, 0xfa, 0xfa);
 const Color _lightGrey = Color.fromARGB(255, 215, 215, 215);
 const Color _grey = Color.fromARGB(255, 0x7f, 0x7f, 0x7f);
 const Color _strongGrey = Color.fromARGB(255, 90, 90, 90);
 const Color _mildBlack = Color.fromARGB(255, 43, 43, 43);
+const Color _darkishBlack = Color.fromARGB(255, 43, 43, 43);
 const Color _darkBlack = Color.fromARGB(255, 27, 27, 27);
 
 const _textTheme = TextTheme(
@@ -68,6 +70,7 @@ ThemeData applicationDarkTheme = ThemeData(
     backgroundColor: _darkBlack,
     scaffoldBackgroundColor: _darkBlack,
     cardColor: _mildBlack,
+    hintColor: _darkishBlack,
     indicatorColor: Colors.white,
     primaryTextTheme: Typography().white,
     toggleableActiveColor: _mildBlack,

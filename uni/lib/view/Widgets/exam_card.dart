@@ -29,7 +29,6 @@ class ExamCard extends GenericCard {
       Navigator.pushNamed(context, '/${constants.navExams}');
 
   static getExamCardColor(BuildContext context, Exam exam) {
-    return Colors.green;
     return isHighlighted(exam)
         ? Theme.of(context).backgroundColor
         : Theme.of(context).hintColor;
@@ -83,14 +82,13 @@ class ExamCard extends GenericCard {
     }
     if (exams.length > 1) {
       rows.add(Container(
-          margin: const EdgeInsets.only(
-              right: 80.0, left: 80.0, top: 15, bottom: 7),
-          decoration: BoxDecoration(
+        margin:
+            const EdgeInsets.only(right: 80.0, left: 80.0, top: 15, bottom: 7),
+        decoration: BoxDecoration(
             border: Border(
                 bottom: BorderSide(
-              width: 1.5, /*color: Theme.of(context).dividerColor))*/
-            )),
-          )));
+                    width: 1.5, color: Theme.of(context).dividerColor))),
+      ));
     }
     for (int i = 1; i < 4 && i < exams.length; i++) {
       rows.add(createSecondaryRowFromExam(context, exams[i]));

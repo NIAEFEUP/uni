@@ -127,13 +127,11 @@ class BusStopCard extends GenericCard {
       if (tripList.length > 0 && stopConfig[stopCode].favorited) {
         rows.add(Container(
             padding: const EdgeInsets.only(top: 12.0),
-            child: Container(
-                //color: Theme.of(context).primaryColor,
-                child: BusStopRow(
+            child: BusStopRow(
               stopCode: stopCode,
               trips: tripList,
               singleTrip: true,
-            ))));
+            )));
       }
     });
 

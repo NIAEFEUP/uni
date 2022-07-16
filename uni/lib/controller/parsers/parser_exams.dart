@@ -1,8 +1,9 @@
-import 'package:uni/model/entities/exam.dart';
-import 'package:http/http.dart' as http;
-import 'package:html/parser.dart' show parse;
-import 'package:html/dom.dart';
 import 'dart:async';
+
+import 'package:html/dom.dart';
+import 'package:html/parser.dart' show parse;
+import 'package:http/http.dart' as http;
+import 'package:uni/model/entities/exam.dart';
 
 /// Parses information about the user's exams.
 class ParserExams {

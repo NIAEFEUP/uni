@@ -13,7 +13,7 @@ class SchedulePage extends StatefulWidget {
   SchedulePageState createState() => SchedulePageState();
 }
 
-class SchedulePageState extends SecondaryPageViewState
+class SchedulePageState extends SecondaryPageView
     with SingleTickerProviderStateMixin {
   final int weekDay = DateTime.now().weekday;
 
