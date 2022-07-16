@@ -31,45 +31,51 @@ class ScheduleRow extends StatelessWidget {
         child: Container(
       padding: EdgeInsets.only(left: 12.0, bottom: 8.0, right: 12),
       margin: EdgeInsets.only(top: 8.0),
-      child: IntrinsicHeight(
+      child: Column(children: [
+        Container(
+          margin: EdgeInsets.only(top: 8, bottom: 8),
           child: Row(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
           Container(
-              margin: EdgeInsets.only(top: 4.0, bottom: 12.0),
-              child: Stack(children: [
-                IconButton(
-                  padding: EdgeInsets.only(top: 5.0, bottom: 12.0),
-                  alignment: Alignment.topLeft,
-                  icon: Icon(MdiIcons.calendarPlus, size: 30),
-                  onPressed: () {
-                    Add2Calendar.addEvent2Cal(this.createExamEvent());
-                  },
-                ),
-                Container(
-                    margin: EdgeInsets.only(top: 60.0, bottom: 45.0),
-                    child: Column(
+              child: Column(
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           ScheduleTimeInterval(begin: this.begin, end: this.end)
                         ])),
-              ])),
           Container(
-              margin: EdgeInsets.only(top: 60.0, bottom: 45.0),
               child: ScheduleEventRectangle(
                   subject: this.subject, type: this.type)),
           Container(
-              margin: EdgeInsets.only(top: 12.0, bottom: 12.0),
-              child: Column(
-                  key: Key(roomsKey),
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: getScheduleRooms(context)))
+              child: IconButton(
+                  icon: Icon(MdiIcons.calendarPlus, size: 30),
+                  onPressed: () {
+                    Add2Calendar.addEvent2Cal(this.createExamEvent());
+                  },
+                ),)
         ],
       )),
+        Container(
+          
+          alignment: Alignment.centerLeft,
+          child:
+        
+        Wrap(
+          alignment: WrapAlignment.start,
+          children: rooms.map((room) =>  
+          Container(
+            margin: EdgeInsets.only(right: 10),
+            child: 
+          Text(room,
+              style: Theme.of(context).textTheme.bodyText2
+            )
+          )).toList()
+          ))
+      ],)
     ));
   }
 
