@@ -56,17 +56,17 @@ class SchedulePageState extends SecondaryPageViewState<SchedulePage>
 
   @override
   Widget getBody(BuildContext context) {
-    return StoreConnector<AppState, Tuple2<List<Lecture>, RequestStatus>>(
+    return StoreConnector<AppState, Tuple2<List<Lecture>, RequestStatus>?>(
       converter: (store) => Tuple2(store.state.content['schedule'],
           store.state.content['scheduleStatus']),
       builder: (context, lectureData) {
-        final lectures = lectureData.item1;
-        final scheduleStatus = lectureData.item2;
+        final lectures = lectureData?.item1;
+        final scheduleStatus = lectureData?.item2;
         return SchedulePageView(
             tabController: tabController,
             daysOfTheWeek: daysOfTheWeek,
             aggLectures: _groupLecturesByDay(lectures),
-            scheduleStatus: scheduleStatus);
+            scheduleStatus: scheduleStatus ?? RequestStatus.none);
       },
     );
   }

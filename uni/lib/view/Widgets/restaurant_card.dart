@@ -24,17 +24,17 @@ class RestaurantCard extends GenericCard {
 
   @override
   Widget buildCardContent(BuildContext context) {
-    return StoreConnector<AppState, Tuple2<String, RequestStatus>>(
+    return StoreConnector<AppState, Tuple2<String, RequestStatus>?>(
         converter: (store) => const Tuple2(
             '', // TODO: Issue #390
             RequestStatus.none),
         builder: (context, canteen) {
           return RequestDependentWidgetBuilder(
               context: context,
-              status: canteen.item2,
+              status: canteen?.item2 ?? RequestStatus.none,
               contentGenerator: generateRestaurant,
-              content: canteen.item1,
-              contentChecker: canteen.item1.isNotEmpty,
+              content: canteen?.item1 ?? false,
+              contentChecker: canteen?.item1.isNotEmpty ?? false,
               onNullContent: Center(
                   child: Text('Não existem cantinas para apresentar',
                       style: Theme.of(context).textTheme.headline4,

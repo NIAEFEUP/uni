@@ -25,14 +25,15 @@ class BusStopNextArrivalsPageState
     return StoreConnector<
             AppState,
             Tuple3<Map<String, List<Trip>>, Map<String, BusStopData>,
-                RequestStatus>>(
+                RequestStatus>?>(
         converter: (store) => Tuple3(
             store.state.content['currentBusTrips'],
             store.state.content['configuredBusStops'],
             store.state.content['busStopStatus']),
         builder: (context, busStops) {
           return ListView(children: [
-            NextArrivals(busStops.item1, busStops.item2, busStops.item3)
+            NextArrivals(busStops?.item1 ?? {}, busStops?.item2 ?? {},
+                busStops?.item3 ?? RequestStatus.none)
           ]);
         });
   }

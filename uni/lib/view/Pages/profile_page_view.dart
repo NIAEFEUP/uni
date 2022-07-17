@@ -58,7 +58,7 @@ class ProfilePageViewState extends UnnamedPageViewState<ProfilePageView> {
 
   /// Returns a widget with the user's profile info (Picture, name and email).
   Widget profileInfo(BuildContext context) {
-    return StoreConnector<AppState, Future<File?>>(
+    return StoreConnector<AppState, Future<File?>?>(
       converter: (store) => loadProfilePic(store),
       builder: (context, profilePicFile) => FutureBuilder(
         future: profilePicFile,

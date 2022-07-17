@@ -29,13 +29,13 @@ class BusStopCard extends GenericCard {
     return StoreConnector<
             AppState,
             Tuple3<Map<String, List<Trip>>, Map<String, BusStopData>,
-                RequestStatus>>(
+                RequestStatus>?>(
         converter: (store) => Tuple3(
             store.state.content['currentBusTrips'],
             store.state.content['configuredBusStops'],
             store.state.content['busStopStatus']),
-        builder: (context, trips) =>
-            getCardContent(context, trips.item1, trips.item2, trips.item3));
+        builder: (context, trips) => getCardContent(
+            context, trips?.item1 ?? {}, trips?.item2 ?? {}, trips?.item3));
   }
 
   /// Returns a widget with the bus stop card final content

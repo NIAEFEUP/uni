@@ -268,7 +268,7 @@ class LoginPageViewState extends State<LoginPageView> {
 
   /// Creates a widget for the user login depending on the status of his login.
   Widget createStatusWidget(BuildContext context) {
-    return StoreConnector<AppState, RequestStatus>(
+    return StoreConnector<AppState, RequestStatus?>(
         converter: (store) => store.state.content['loginStatus'],
         onWillChange: (oldStatus, status) {
           if (status == RequestStatus.successful &&

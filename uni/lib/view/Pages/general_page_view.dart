@@ -47,14 +47,14 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
   }
 
   Widget refreshState(BuildContext context, Widget child) {
-    return StoreConnector<AppState, Future<void> Function()>(
+    return StoreConnector<AppState, Future<void> Function()?>(
       converter: (store) {
         return () => handleRefresh(store);
       },
       builder: (context, refresh) {
         return RefreshIndicator(
           key: GlobalKey<RefreshIndicatorState>(),
-          onRefresh: refresh,
+          onRefresh: refresh ?? () async => {},
           child: child,
         );
       },

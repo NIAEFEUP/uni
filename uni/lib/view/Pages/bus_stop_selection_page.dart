@@ -35,11 +35,11 @@ class BusStopSelectionPageState extends UnnamedPageViewState {
   @override
   Widget getBody(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    return StoreConnector<AppState, Map<String, BusStopData>>(
+    return StoreConnector<AppState, Map<String, BusStopData>?>(
       converter: (store) => store.state.content['configuredBusStops'],
       builder: (context, busStops) {
         final List<Widget> rows = [];
-        busStops.forEach((stopCode, stopData) =>
+        busStops?.forEach((stopCode, stopData) =>
             rows.add(BusStopSelectionRow(stopCode, stopData)));
 
         return ListView(

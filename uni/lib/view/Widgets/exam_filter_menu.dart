@@ -16,10 +16,10 @@ class ExamFilterMenuState extends State<ExamFilterMenu> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return StoreConnector<AppState, Map<String, bool>>(
+        return StoreConnector<AppState, Map<String, bool>?>(
             converter: (store) => store.state.content['filteredExams'],
             builder: (context, filteredExams) {
-              return getAlertDialog(filteredExams, context);
+              return getAlertDialog(filteredExams ?? {}, context);
             });
       },
     );

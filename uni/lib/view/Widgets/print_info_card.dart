@@ -33,9 +33,10 @@ class PrintInfoCard extends GenericCard {
                 ),
                 Container(
                   margin: const EdgeInsets.only(right: 15.0),
-                  child: StoreConnector<AppState, String>(
+                  child: StoreConnector<AppState, String?>(
                       converter: (store) => store.state.content['printBalance'],
-                      builder: (context, printBalance) => Text(printBalance,
+                      builder: (context, printBalance) => Text(
+                          printBalance ?? '',
                           textAlign: TextAlign.end,
                           style: Theme.of(context).textTheme.headline6)),
                 ),
@@ -45,7 +46,7 @@ class PrintInfoCard extends GenericCard {
                     child: addMoneyButton(context))
               ])
             ]),
-        StoreConnector<AppState, String>(
+        StoreConnector<AppState, String?>(
             converter: (store) => store.state.content['printRefreshTime'],
             builder: (context, printRefreshTime) =>
                 showLastRefreshedTime(printRefreshTime, context))

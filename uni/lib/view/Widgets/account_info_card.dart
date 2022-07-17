@@ -30,10 +30,10 @@ class AccountInfoCard extends GenericCard {
               Container(
                 margin:
                     const EdgeInsets.only(top: 20.0, bottom: 8.0, right: 30.0),
-                child: StoreConnector<AppState, String>(
+                child: StoreConnector<AppState, String?>(
                     converter: (store) => store.state.content['feesBalance'],
                     builder: (context, feesBalance) =>
-                        getInfoText(feesBalance, context)),
+                        getInfoText(feesBalance ?? '', context)),
               )
             ]),
             TableRow(children: [
@@ -46,14 +46,14 @@ class AccountInfoCard extends GenericCard {
               Container(
                 margin:
                     const EdgeInsets.only(top: 8.0, bottom: 20.0, right: 30.0),
-                child: StoreConnector<AppState, String>(
+                child: StoreConnector<AppState, String?>(
                     converter: (store) => store.state.content['feesLimit'],
                     builder: (context, feesLimit) =>
-                        getInfoText(feesLimit, context)),
+                        getInfoText(feesLimit ?? '', context)),
               )
             ]),
           ]),
-      StoreConnector<AppState, String>(
+      StoreConnector<AppState, String?>(
           converter: (store) => store.state.content['feesRefreshTime'],
           builder: (context, feesRefreshTime) =>
               showLastRefreshedTime(feesRefreshTime, context))

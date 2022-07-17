@@ -23,11 +23,11 @@ class ExamsPageViewState extends SecondaryPageViewState<ExamsPageView> {
 
   @override
   Widget getBody(BuildContext context) {
-    return StoreConnector<AppState, List<dynamic>>(
+    return StoreConnector<AppState, List<dynamic>?>(
       converter: (store) {
         final List<Exam> exams = store.state.content['exams'];
         final Map<String, bool> filteredExams =
-            store.state.content['filteredExams'];
+            store.state.content['filteredExams'] ?? [];
         return exams
             .where((exam) =>
                 filteredExams[Exam.getExamTypeLong(exam.examType)] ?? true)

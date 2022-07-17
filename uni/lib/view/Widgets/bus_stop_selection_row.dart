@@ -32,7 +32,7 @@ class BusStopSelectionRowState extends State<BusStopSelectionRow> {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, Map<String, BusStopData>>(
+    return StoreConnector<AppState, Map<String, BusStopData>?>(
         converter: (store) => store.state.content['configuredBusStops'],
         builder: (context, busStops) {
           final width = MediaQuery.of(context).size.width;

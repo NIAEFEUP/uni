@@ -40,7 +40,7 @@ class ExamCard extends GenericCard {
   /// that no exams exist is displayed.
   @override
   Widget buildCardContent(BuildContext context) {
-    return StoreConnector<AppState, Tuple2<List<Exam>, RequestStatus>>(
+    return StoreConnector<AppState, Tuple2<List<Exam>, RequestStatus>?>(
       converter: (store) {
         final Map<String, bool> filteredExams =
             store.state.content['filteredExams'];
@@ -53,10 +53,10 @@ class ExamCard extends GenericCard {
       },
       builder: (context, examsInfo) => RequestDependentWidgetBuilder(
         context: context,
-        status: examsInfo.item2,
+        status: examsInfo?.item2 ?? RequestStatus.none,
         contentGenerator: generateExams,
-        content: examsInfo.item1,
-        contentChecker: examsInfo.item1.isNotEmpty,
+        content: examsInfo?.item1 ?? RequestStatus.none,
+        contentChecker: examsInfo?.item1.isNotEmpty ?? false,
         onNullContent: Center(
           child: Text('Não existem exames para apresentar',
               style: Theme.of(context).textTheme.headline6),
