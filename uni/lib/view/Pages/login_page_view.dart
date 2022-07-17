@@ -86,7 +86,7 @@ class LoginPageViewState extends State<LoginPageView> {
               fillColor: MaterialStateProperty.all(Colors.white)),
         ),
         child: Builder(
-            builder: (context) => Scaffold(
+            builder: (themeContext) => Scaffold(
                 backgroundColor: darkRed,
                 body: WillPopScope(
                     child: Padding(
@@ -94,9 +94,9 @@ class LoginPageViewState extends State<LoginPageView> {
                             left: queryData.size.width / 8,
                             right: queryData.size.width / 8),
                         child: ListView(
-                          children: getWidgets(context, queryData),
+                          children: getWidgets(themeContext, queryData),
                         )),
-                    onWillPop: () => onWillPop(context)))));
+                    onWillPop: () => onWillPop(themeContext)))));
   }
 
   List<Widget> getWidgets(BuildContext context, MediaQueryData queryData) {

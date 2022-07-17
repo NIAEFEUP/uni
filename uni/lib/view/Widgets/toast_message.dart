@@ -4,6 +4,7 @@ import 'package:toast/toast.dart';
 class ToastMessage {
   static const Color toastColor = Color.fromARGB(255, 100, 100, 100);
   static display(BuildContext context, String msg) {
+    ToastContext().init(context);
     Toast.show(msg,
         duration: Toast.lengthShort,
         gravity: Toast.bottom,
