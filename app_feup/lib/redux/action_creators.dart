@@ -310,9 +310,7 @@ Future<List<Lecture>> getLecturesFromFetcherOrElse(
     (fetcher?.getLectures(store)) ?? getLectures(store);
 
 Future<List<Lecture>> getLectures(Store<AppState> store) {
-  return ScheduleFetcherApi()
-      .getLectures(store)
-      .catchError((e) => ScheduleFetcherHtml().getLectures(store));
+  return  ScheduleFetcherHtml().getLectures(store);
 }
 
 ThunkAction<AppState> setInitialStoreState() {

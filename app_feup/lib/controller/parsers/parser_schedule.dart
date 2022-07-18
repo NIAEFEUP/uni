@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:uni/model/entities/lecture.dart';
-
+import 'package:flutter/services.dart' show rootBundle;
 /// Extracts the user's lectures from an HTTP [response] and sorts them by
 /// date.
 /// 

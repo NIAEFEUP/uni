@@ -4,12 +4,14 @@ import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' show parse;
 import 'package:html/dom.dart';
 import 'package:uni/model/entities/lecture.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
 /// Extracts the user's lectures from an HTTP [response] and sorts them by date.
 /// 
 /// This function parses the schedule's HTML page.
 Future<List<Lecture>> getScheduleFromHtml(http.Response response) async {
-  final document = parse(response.body);
+  final str = await rootBundle.loadString("assets/Teste.html");
+  final document = parse(str);
   var semana = [0, 0, 0, 0, 0, 0];
 
   final List<Lecture> lecturesList = [];
@@ -54,6 +56,28 @@ Future<List<Lecture>> getScheduleFromHtml(http.Response response) async {
       semana = semana.expand((i) => [(i - 1) < 0 ? 0 : i - 1]).toList();
     }
   });
+
+  document.querySelectorAll('.dados > tbody > .d').forEach((Element element) {
+
+    final subject = element.querySelector('acronym > a').text;
+    final typeClass = element.querySelector('td[headers=t1]').nodes[2].text
+        .trim().replaceAll(RegExp(r'[()]+'), '');
+    final textDay = element.querySelector('td[headers=t2]').text;
+    final day = document.querySelector('.horario > tbody > tr:first-child')
+        .children
+        .indexWhere((element) => element.text == textDay) - 1;
+    final startTime = element.querySelector('td[headers=t3]').text;
+    final room = element.querySelector('td[headers=t4] > a').text;
+    final teacher = element.querySelector('td[headers=t5] > a').text;
+    final classNumber = element.querySelector('td[headers=t6] > a').text;
+
+    final Lecture lect = Lecture.fromHtml(subject, typeClass, day,
+        startTime, 4, room, teacher, classNumber);
+
+    lecturesList.add(lect);
+  });
+
+
   lecturesList.sort((a, b) => a.compare(b));
 
   return lecturesList;
