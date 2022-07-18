@@ -60,46 +60,30 @@ class ScheduleRow extends StatelessWidget {
         ],
       )),
         Container(
-          
-          alignment: Alignment.centerLeft,
-          child:
-        
-        Wrap(
-          alignment: WrapAlignment.start,
-          children: rooms.map((room) =>  
-          Container(
-            margin: EdgeInsets.only(right: 10),
-            child: 
-          Text(room,
-              style: Theme.of(context).textTheme.bodyText2
-            )
-          )).toList()
-          ))
+          key: Key(roomsKey),
+          alignment: Alignment.topLeft,
+          child: getScheduleRooms(context)
+        )
       ],)
     ));
   }
 
-  List<Widget> getScheduleRooms(context) {
+  Widget getScheduleRooms(context) {
     if (this.rooms[0] == '') {
-      return [
-        Text(
-          'sem\nsalas',
-          textAlign: TextAlign.right,
-          style: Theme.of(context).textTheme.bodyText2,
-        )
-      ];
-    }
-    final List<Widget> rooms = [];
-    for (String room in this.rooms) {
-      rooms.add(
-        Text(
-          room,
-          style: Theme.of(context).textTheme.bodyText2,
-        ),
+      return Text(
+        'Sem salas',
+        style: Theme.of(context).textTheme.bodyText2,
       );
     }
-
-    return rooms;
+    return Wrap(
+      alignment: WrapAlignment.start,
+      spacing: 13,
+      children: rooms.map((room) =>  
+        Text(room.trim(),
+            style: Theme.of(context).textTheme.bodyText2
+          )
+      ).toList()
+    );
   }
 
   Event createExamEvent() {
