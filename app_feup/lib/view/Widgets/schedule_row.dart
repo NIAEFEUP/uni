@@ -29,61 +29,56 @@ class ScheduleRow extends StatelessWidget {
     final roomsKey = '$subject-$rooms-$begin-$end';
     return Center(
         child: Container(
-      padding: EdgeInsets.only(left: 12.0, bottom: 8.0, right: 12),
-      margin: EdgeInsets.only(top: 8.0),
-      child: Column(children: [
-        Container(
-          margin: EdgeInsets.only(top: 8, bottom: 8),
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-          Container(
-              child: Column(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          ScheduleTimeInterval(begin: this.begin, end: this.end)
-                        ])),
-          Container(
-              child: ScheduleEventRectangle(
-                  subject: this.subject, type: this.type)),
-          Container(
-              child: IconButton(
-                  icon: Icon(MdiIcons.calendarPlus, size: 30),
-                  onPressed: () {
-                    Add2Calendar.addEvent2Cal(this.createExamEvent());
-                  },
-                ),)
-        ],
-      )),
-        Container(
-          key: Key(roomsKey),
-          alignment: Alignment.topLeft,
-          child: getScheduleRooms(context)
-        )
-      ],)
-    ));
+            padding: EdgeInsets.only(left: 12.0, bottom: 8.0, right: 12),
+            margin: EdgeInsets.only(top: 8.0),
+            child: Column(
+              children: [
+                Container(
+                    margin: EdgeInsets.only(top: 8, bottom: 8),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Container(
+                            child: Column(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                              ScheduleTimeInterval(
+                                  begin: this.begin, end: this.end)
+                            ])),
+                        Container(
+                            child: ScheduleEventRectangle(
+                                subject: this.subject, type: this.type)),
+                        Container(
+                          child: IconButton(
+                            icon: Icon(MdiIcons.calendarPlus, size: 30),
+                            onPressed: () {
+                              Add2Calendar.addEvent2Cal(this.createExamEvent());
+                            },
+                          ),
+                        )
+                      ],
+                    )),
+                Container(
+                    key: Key(roomsKey),
+                    alignment: Alignment.topLeft,
+                    child: getScheduleRooms(context))
+              ],
+            )));
   }
 
   Widget getScheduleRooms(context) {
-    if (this.rooms[0] == '') {
-      return Text(
-        'Sem salas',
-        style: Theme.of(context).textTheme.bodyText2,
-      );
-    }
+    if (this.rooms[0] == '') return null;
     return Wrap(
-      alignment: WrapAlignment.start,
-      spacing: 13,
-      children: rooms.map((room) =>  
-        Text(room.trim(),
-            style: Theme.of(context).textTheme.bodyText2
-          )
-      ).toList()
-    );
+        alignment: WrapAlignment.start,
+        spacing: 13,
+        children: rooms
+            .map((room) =>
+                Text(room.trim(), style: Theme.of(context).textTheme.bodyText2))
+            .toList());
   }
 
   Event createExamEvent() {
