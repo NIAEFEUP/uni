@@ -103,7 +103,7 @@ flutter:
           weight: 100
     - family: LocationIcons
       fonts:
-        - asset: assets/fonts/LocationIcons.ttf
+        - asset: fonts/LocationIcons.ttf
 
   # To add assets to your application, add an assets section, like this:
   # assets:
