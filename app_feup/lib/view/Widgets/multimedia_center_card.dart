@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'generic_card.dart';
+import 'generic_expansion_card.dart';
 import '../Pages/useful_contacts_card_page_view.dart';
 
-class MulimediaCenterCard extends GenericCard {
-  MulimediaCenterCard({Key key}) : super(key: key);
+class MulimediaCenterCard extends GenericExpansionCard {
+  MulimediaCenterCard({Key key});
 
   @override
   Widget buildCardContent(BuildContext context) {

@@ -2,27 +2,27 @@ import 'package:flutter/material.dart';
 import 'generic_expansion_card.dart';
 import '../Pages/useful_contacts_card_page_view.dart';
 
-class DonaBiaCard extends GenericExpansionCard {
-  DonaBiaCard({Key key});
+class InfoDeskCard extends GenericExpansionCard {
+  InfoDeskCard({Key key});
 
   @override
   Widget buildCardContent(BuildContext context) {
     return Column(
       children: <Container>[
         h1('Horário', context, initial: true),
-        h2('Piso -1 do edifício B (B -142)', context),
-        infoText('8:30h - 12:00h | 13:30h - 19:00h', context),
+        h2('Atendimento presencial e telefónico', context),
+        infoText('9:30h - 13:00h | 14:00h - 17:30h', context),
         h1('Telefone', context),
-        infoText('+351 225 081 416', context, link: 'tel:225 081 416'),
+        infoText('+351 225 081 400', context, link: 'tel:225 081 400'),
         h1('Email', context),
-        infoText('papelaria.fe.up@gmail.com', context,
-            last: true, link: 'mailto:papelaria.fe.up@gmail.com')
+        infoText('infodesk@fe.up.pt', context,
+            last: true, link: 'mailto:infodesk@fe.up.pt')
       ],
     );
   }
 
   @override
-  String getTitle() => 'Papelaria D. Beatriz';
+  String getTitle() => 'Infodesk';
 
   @override
   onClick(BuildContext context) {}

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'generic_card.dart';
+import 'generic_expansion_card.dart';
 import '../Pages/useful_contacts_card_page_view.dart';
 
-class CopyCenterCard extends GenericCard {
-  CopyCenterCard({Key key}) : super(key: key);
+class CopyCenterCard extends GenericExpansionCard {
+  CopyCenterCard({Key key});
 
   @override
   Widget buildCardContent(BuildContext context) {
