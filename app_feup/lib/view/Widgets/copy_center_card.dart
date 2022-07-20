@@ -24,7 +24,4 @@ class CopyCenterCard extends GenericExpansionCard {
 
   @override
   String getTitle() => 'Centro de Cópias';
-
-  @override
-  onClick(BuildContext context) {}
 }

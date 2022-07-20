@@ -23,7 +23,4 @@ class AcademicServicesCard extends GenericExpansionCard {
 
   @override
   String getTitle() => 'Serviços Académicos';
-
-  @override
-  onClick(BuildContext context) {}
 }

@@ -16,7 +16,4 @@ class OtherLinksCard extends GenericExpansionCard {
 
   @override
   String getTitle() => 'Outros Links';
-
-  @override
-  onClick(BuildContext context) {}
 }

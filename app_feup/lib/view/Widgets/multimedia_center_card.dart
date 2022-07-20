@@ -23,7 +23,4 @@ class MulimediaCenterCard extends GenericExpansionCard {
 
   @override
   String getTitle() => 'Centro de Multimédia';
-
-  @override
-  onClick(BuildContext context) {}
 }

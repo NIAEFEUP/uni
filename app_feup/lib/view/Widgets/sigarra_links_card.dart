@@ -36,7 +36,4 @@ class SigarraLinksCard extends GenericExpansionCard {
 
   @override
   String getTitle() => 'Links Sigarra';
-
-  @override
-  onClick(BuildContext context) {}
 }
