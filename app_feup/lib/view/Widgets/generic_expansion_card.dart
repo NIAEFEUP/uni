@@ -14,14 +14,7 @@ abstract class GenericExpansionCard extends StatefulWidget {
 
 class GenericExpansionCardState extends State<GenericExpansionCard> {
   final GlobalKey<ExpansionTileCardState> cardA = GlobalKey();
-
-  final double borderRadius = 10.0;
   final double padding = 12.0;
-
-  Color expandLightMode = Color.fromARGB(0xf, 0, 0, 0);
-  Color expandDarkMode = Color.fromARGB(255, 43, 43, 43);
-
-
 
   @override
   Widget build(BuildContext context) {
