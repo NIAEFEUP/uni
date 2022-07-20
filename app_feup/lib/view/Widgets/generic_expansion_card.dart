@@ -18,13 +18,18 @@ class GenericExpansionCardState extends State<GenericExpansionCard> {
   final double borderRadius = 10.0;
   final double padding = 12.0;
 
+  Color expandLightMode = Color.fromARGB(0xf, 0, 0, 0);
+  Color expandDarkMode = Color.fromARGB(255, 43, 43, 43);
+
+
+
   @override
   Widget build(BuildContext context) {
     return Padding(
         padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
         child: ExpansionTileCard(
           baseColor: Color.fromARGB(0, 0, 0, 0),
-          expandedColor: Color.fromARGB(0xf, 0, 0, 0),
+          expandedColor: Theme.of(context).hintColor,
           key: cardA,
           title: Text(widget.getTitle(),
               style: Theme.of(context)
