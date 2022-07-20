@@ -13,7 +13,7 @@ abstract class GenericExpansionCard extends StatefulWidget {
 }
 
 class GenericExpansionCardState extends State<GenericExpansionCard> {
-  final GlobalKey<ExpansionTileCardState> cardA = new GlobalKey();
+  final GlobalKey<ExpansionTileCardState> cardA = GlobalKey();
 
   final double borderRadius = 10.0;
   final double padding = 12.0;
