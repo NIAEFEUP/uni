@@ -23,7 +23,4 @@ class InfoDeskCard extends GenericExpansionCard {
 
   @override
   String getTitle() => 'Infodesk';
-
-  @override
-  onClick(BuildContext context) {}
 }
