@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uni/view/Pages/general_page_view.dart';
+import 'package:uni/view/Widgets/academic_services_card.dart';
 import 'package:uni/view/Widgets/info_desk_card.dart';
 import 'package:uni/view/Widgets/dona_bia_card.dart';
 import 'package:uni/view/Widgets/copy_center_card.dart';
@@ -12,9 +13,7 @@ Container h1(String text, BuildContext context, {bool initial = false}) {
       margin: EdgeInsets.only(top: marginTop, bottom: 0.0, left: 20.0),
       child: Align(
         alignment: Alignment.centerLeft,
-        child: Text(text,
-            style:
-                Theme.of(context).textTheme.headline5),
+        child: Text(text, style: Theme.of(context).textTheme.headline5),
       ));
 }
 
@@ -23,9 +22,7 @@ Container h2(String text, BuildContext context) {
       margin: const EdgeInsets.only(top: 13.0, bottom: 0.0, left: 20.0),
       child: Align(
         alignment: Alignment.centerLeft,
-        child: Text(text,
-            style:
-                Theme.of(context).textTheme.subtitle2),
+        child: Text(text, style: Theme.of(context).textTheme.subtitle2),
       ));
 }
 
@@ -37,13 +34,13 @@ Container infoText(String text, BuildContext context,
       child: Align(
         alignment: Alignment.centerLeft,
         child: InkWell(
-          child: Text(
-            text,
-            style: Theme.of(context).textTheme.bodyText1.apply(
-              color: Theme.of(context).accentColor,
+            child: Text(
+              text,
+              style: Theme.of(context).textTheme.bodyText1.apply(
+                    color: Theme.of(context).accentColor,
+                  ),
             ),
-          ),
-          onTap: () => link != '' ? launch(link) : null),
+            onTap: () => link != '' ? launch(link) : null),
       ));
 }
 
@@ -58,9 +55,10 @@ class UsefulContactsCardViewState extends GeneralPageViewState {
   Widget getBody(BuildContext context) {
     return ListView(children: childrenList());
   }
-  
+
   List<Widget> childrenList() {
     final List<Widget> list = [];
+    list.add(AcademicServicesCard());
     list.add(InfoDeskCard());
     list.add(DonaBiaCard());
     list.add(CopyCenterCard());
