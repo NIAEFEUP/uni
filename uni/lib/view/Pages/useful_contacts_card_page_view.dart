@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uni/view/Pages/general_page_view.dart';
+import 'package:uni/view/Widgets/academic_services_card.dart';
 import 'package:uni/view/Widgets/copy_center_card.dart';
 import 'package:uni/view/Widgets/dona_bia_card.dart';
 import 'package:uni/view/Widgets/info_desk_card.dart';
@@ -35,9 +36,7 @@ Container infoText(String text, BuildContext context,
         child: InkWell(
             child: Text(
               text,
-              style: Theme.of(context).textTheme.bodyText1!.apply(
-                  //color: Theme.of(context).primaryColor,
-                  ),
+              style: Theme.of(context).textTheme.bodyText1!.apply(),
             ),
             onTap: () => link != '' ? launchUrl(Uri.parse(link)) : null),
       ));
@@ -59,6 +58,7 @@ class UsefulContactsCardViewState extends GeneralPageViewState {
 
   List<Widget> childrenList() {
     final List<Widget> list = [];
+    list.add(AcademicServicesCard());
     list.add(InfoDeskCard());
     list.add(DonaBiaCard());
     list.add(CopyCenterCard());

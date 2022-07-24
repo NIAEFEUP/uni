@@ -93,8 +93,10 @@ class ScheduleSlot extends StatelessWidget {
   List<Widget> createScheduleSlotPrimInfo(context) {
     final subjectTextField = createTextField(
         subject,
-        Theme.of(context).textTheme.headline5!.apply(
-            /*color: Theme.of(context).colorScheme.secondary*/),
+        Theme.of(context)
+            .textTheme
+            .headline5!
+            .apply(color: Theme.of(context).colorScheme.secondary),
         TextAlign.center);
     final typeClassTextField = createTextField(' ($typeClass)',
         Theme.of(context).textTheme.bodyText2, TextAlign.center);
@@ -135,11 +137,12 @@ class ScheduleSlot extends StatelessWidget {
   }
 
   Widget createTextField(text, style, alignment) {
-    return Text(
-      text,
-      overflow: TextOverflow.ellipsis,
-      style: style,
-    );
+    return Text(text,
+        overflow: TextOverflow.fade,
+        softWrap: false,
+        maxLines: 1,
+        style: style,
+        textAlign: alignment);
   }
 
   Widget createScheduleSlotPrimInfoColumn(elements) {
