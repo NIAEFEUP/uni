@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'general_page_view.dart';
+import 'package:uni/view/PagesLayouts/General/general.dart';
 
 /// TODO: CHANGE THIS DOC
 /// Generic class implementation for the user's personal page view.

@@ -1,4 +1,4 @@
-/// Stores information about a course unit.
+/// Stores information About a course unit.
 class CourseUnit {
   int id;
   String code;

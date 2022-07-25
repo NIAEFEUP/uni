@@ -6,7 +6,7 @@ import 'package:uni/model/entities/exam.dart';
 
 /// Manages the app's Exams database.
 ///
-/// This database stores information about the user's exams.
+/// This database stores information About the user's exams.
 /// See the [Exam] class to see what data is stored in this database.
 class AppExamsDatabase extends AppDatabase {
   var months = {

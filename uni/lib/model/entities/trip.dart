@@ -1,6 +1,6 @@
 import 'package:logger/logger.dart';
 
-/// Stores information about a bus trip.
+/// Stores information About a bus trip.
 class Trip {
   final String line;
   final String destination;

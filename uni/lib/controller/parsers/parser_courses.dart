@@ -12,7 +12,7 @@ Map<String, String> parseMultipleCourses(List<http.Response> responses) {
   return coursesStates;
 }
 
-/// Extracts a map containing information about the user's courses from an HTTP
+/// Extracts a map containing information About the user's courses from an HTTP
 /// [response].
 ///
 /// *Note:*

@@ -7,7 +7,7 @@ import 'package:tuple/tuple.dart';
 
 /// Manages the app's User Data database.
 ///
-/// This database stores information about the user's university profile.
+/// This database stores information About the user's university profile.
 class AppUserDataDatabase extends AppDatabase {
   AppUserDataDatabase()
       : super('userdata.db', ['CREATE TABLE userdata(key TEXT, value TEXT)']);

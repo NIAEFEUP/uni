@@ -199,7 +199,7 @@ AppState setFeesRefreshTime(AppState state, SetFeesRefreshTimeAction action) {
 }
 
 AppState setHomePageEditingMode(AppState state, SetHomePageEditingMode action) {
-  Logger().i('setting home page editing mode to ${action.state}');
+  Logger().i('setting Home page editing mode to ${action.state}');
   return state.cloneAndUpdateValue('homePageEditingMode', action.state);
 }
 

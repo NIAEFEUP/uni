@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:uni/controller/networking/network_router.dart';
 
-/// Stores information about a user session.
+/// Stores information About a user session.
 class Session {
   /// Whether or not the user is authenticated.
   bool authenticated;

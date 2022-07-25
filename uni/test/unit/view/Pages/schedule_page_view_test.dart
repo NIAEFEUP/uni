@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/lecture.dart';
-import 'package:uni/view/Pages/schedule_page_view.dart';
-import 'package:uni/view/Widgets/schedule_slot.dart';
+import 'package:uni/view/Pages/Schedule/schedule.dart';
+import 'package:uni/view/Pages/Schedule/widgets/schedule_slot.dart';
 
 import '../../../testable_widget.dart';
 

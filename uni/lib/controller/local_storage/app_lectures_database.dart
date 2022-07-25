@@ -5,7 +5,7 @@ import 'package:sqflite/sqflite.dart';
 
 /// Manages the app's Lectures database.
 ///
-/// This database stores information about the user's lectures.
+/// This database stores information About the user's lectures.
 /// See the [Lecture] class to see what data is stored in this database.
 class AppLecturesDatabase extends AppDatabase {
   static const createScript =

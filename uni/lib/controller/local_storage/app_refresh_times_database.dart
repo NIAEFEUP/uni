@@ -5,7 +5,7 @@ import 'package:uni/controller/local_storage/app_database.dart';
 
 /// Manages the app's Refresh Times database.
 ///
-/// This database stores information about when certain data was updated
+/// This database stores information About when certain data was updated
 /// for the last time.
 class AppRefreshTimesDatabase extends AppDatabase {
   AppRefreshTimesDatabase()

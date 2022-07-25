@@ -1,4 +1,4 @@
-/// Stores information about a bus stop.
+/// Stores information About a bus stop.
 class BusStopData {
   final Set<String> configuredBuses;
   bool favorited;

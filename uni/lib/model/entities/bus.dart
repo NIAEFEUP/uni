@@ -1,4 +1,4 @@
-/// Stores information about a bus.
+/// Stores information About a bus.
 ///
 /// Stores the bus code (`busCode`), the `destination` of the bus
 /// and its `direction`.
