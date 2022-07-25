@@ -3,14 +3,28 @@ import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' show parse;
 import 'package:html/dom.dart';
+import 'package:http/http.dart';
+import 'package:uni/controller/networking/network_router.dart';
+import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:redux/redux.dart';
 
 /// Extracts the user's lectures from an HTTP [response] and sorts them by date.
 /// 
 /// This function parses the schedule's HTML page.
-Future<List<Lecture>> getScheduleFromHtml(http.Response response) async {
-  final str = await rootBundle.loadString("assets/Teste.html");
+bool testVariable = false;
+Future<List<Lecture>> getScheduleFromHtml(http.Response response,
+    Store<AppState> store) async {
+
+  String str;
+  if (!testVariable) {
+    str = await rootBundle.loadString('assets/Teste.html');
+  } else {
+    str = response.body;
+    testVariable = false;
+  }
+
   final document = parse(str);
   var semana = [0, 0, 0, 0, 0, 0];
 
@@ -56,9 +70,8 @@ Future<List<Lecture>> getScheduleFromHtml(http.Response response) async {
       semana = semana.expand((i) => [(i - 1) < 0 ? 0 : i - 1]).toList();
     }
   });
-
-  document.querySelectorAll('.dados > tbody > .d').forEach((Element element) {
-
+  final overlappingClasses = document.querySelectorAll('.dados > tbody > .d');
+  for (final element in overlappingClasses) {
     final subject = element.querySelector('acronym > a').text;
     final typeClass = element.querySelector('td[headers=t1]').nodes[2].text
         .trim().replaceAll(RegExp(r'[()]+'), '');
@@ -71,12 +84,26 @@ Future<List<Lecture>> getScheduleFromHtml(http.Response response) async {
     final teacher = element.querySelector('td[headers=t5] > a').text;
     final classNumber = element.querySelector('td[headers=t6] > a').text;
 
-    final Lecture lect = Lecture.fromHtml(subject, typeClass, day,
-        startTime, 4, room, teacher, classNumber);
+    try {
+      final Response response = await NetworkRouter.getWithCookies(element
+          .querySelector('td[headers=t6] > a')
+          .attributes['href']
+          , {}, store.state.content['session']);
 
-    lecturesList.add(lect);
-  });
+      testVariable = true; //TODO remove
 
+      final classLectures = await getScheduleFromHtml(response, store);
+      lecturesList.add(classLectures.where((element) =>
+      element.subject == subject
+          && startTime.replaceFirst(':', 'h') == element.startTime
+          && element.day == day).first);
+
+    }catch(e) {
+      final Lecture lect = Lecture.fromHtml(subject, typeClass, day,
+          startTime, 0, room, teacher, classNumber);
+      lecturesList.add(lect);
+    }
+  }
 
   lecturesList.sort((a, b) => a.compare(b));
 

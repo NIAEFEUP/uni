@@ -24,7 +24,8 @@ hor_geral.estudantes_view?pv_fest_id=${course.festId}&pv_ano_lectivo=${dates.lec
             store.state.content['session'])));
 
     final List<Lecture> lectures = await Future.wait(
-            lectureResponses.map((response) => getScheduleFromHtml(response)))
+            lectureResponses.map((response) =>
+                getScheduleFromHtml(response, store)))
         .then((schedules) => schedules.expand((schedule) => schedule).toList());
 
     lectures.sort((l1, l2) => l1.compare(l2));
