@@ -7,8 +7,7 @@ import 'package:uni/view/Pages/Exams/widgets/exam_page_title_filter.dart';
 import 'package:uni/view/Common/row_container.dart';
 import 'package:uni/view/Pages/Exams/widgets/schedule_row.dart';
 import 'package:uni/view/Pages/Exams/widgets/title_card.dart';
-
-import '../../../controller/exam.dart';
+import 'package:uni/controller/exam.dart';
 
 class ExamsPageView extends StatefulWidget {
   const ExamsPageView({super.key});

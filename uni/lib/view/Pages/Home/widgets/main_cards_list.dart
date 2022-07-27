@@ -5,12 +5,12 @@ import 'package:uni/model/app_state.dart';
 import 'package:uni/model/home_page_model.dart';
 import 'package:uni/redux/actions.dart';
 import 'package:uni/utils/constants.dart' as constants;
-import 'package:uni/view/Common/account_info_card.dart';
+import 'package:uni/view/Pages/Profile/widgets/account_info_card.dart';
 import 'package:uni/view/Pages/Home/widgets/exit_app_dialog.dart';
 import 'package:uni/view/Pages/Home/widgets/bus_stop_card.dart';
 import 'package:uni/view/Pages/Home/widgets/exam_card.dart';
 import 'package:uni/view/Common/page_title.dart';
-import 'package:uni/view/Common/print_info_card.dart';
+import 'package:uni/view/Pages/Profile/widgets/print_info_card.dart';
 import 'package:uni/view/Pages/Home/widgets/schedule_card.dart';
 
 class MainCardsList extends StatelessWidget {

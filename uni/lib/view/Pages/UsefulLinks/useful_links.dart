@@ -17,10 +17,3 @@ class UsefulContactsCardViewState extends GeneralPageViewState {
     return ListView(children: [SigarraLinksCard(), OtherLinksCard()]);
   }
 }
-
-List<Widget> childrenList(BuildContext context) {
-  final List<Widget> list = [];
-  list.add(SigarraLinksCard());
-  list.add(OtherLinksCard());
-  return list;
-}

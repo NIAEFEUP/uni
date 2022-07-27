@@ -12,7 +12,7 @@ import 'package:uni/model/app_state.dart';
 import 'package:uni/redux/actions.dart';
 import 'package:uni/redux/reducers.dart';
 import 'package:uni/utils/constants.dart' as constants;
-import 'package:uni/view/Pages/About/About.dart';
+import 'package:uni/view/Pages/About/about.dart';
 import 'package:uni/view/Pages/BugReport/bug_report.dart';
 import 'package:uni/view/Pages/BusStopNextArrivals/bus_stop_next_arrivals.dart';
 import 'package:uni/view/Pages/Exams/exams.dart';

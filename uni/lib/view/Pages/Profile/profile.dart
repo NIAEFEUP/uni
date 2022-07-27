@@ -5,10 +5,10 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:uni/controller/load_info.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/course.dart';
-import 'package:uni/view/Common/account_info_card.dart';
-import 'package:uni/view/Common/print_info_card.dart';
-import 'package:uni/view/Pages/unnamed_page_view.dart';
+import 'package:uni/view/Pages/Profile/widgets/account_info_card.dart';
+import 'package:uni/view/Pages/Profile/widgets/print_info_card.dart';
 import 'package:uni/view/Pages/Profile/widgets/course_info_card.dart';
+import 'package:uni/view/Pages/unnamed_page_view.dart';
 
 class ProfilePageView extends StatefulWidget {
   final String name;

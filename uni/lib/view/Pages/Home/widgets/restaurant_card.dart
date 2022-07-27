@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:tuple/tuple.dart';
 import 'package:uni/model/app_state.dart';
-import 'package:uni/view/Common/request_dependent_widget_builder.dart';
 import 'package:uni/view/Pages/Home/widgets/restaurant_row.dart';
+import 'package:uni/view/Common/request_dependent_widget_builder.dart';
 import 'package:uni/view/Common/row_container.dart';
-
-import '../../../Common/date_rectangle.dart';
-import '../../../Common/generic_card.dart';
+import 'package:uni/view/Common/date_rectangle.dart';
+import 'package:uni/view/Common/generic_card.dart';
 
 class RestaurantCard extends GenericCard {
   RestaurantCard({Key? key}) : super(key: key);

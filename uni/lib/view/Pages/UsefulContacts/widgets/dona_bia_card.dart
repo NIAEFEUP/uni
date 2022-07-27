@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../Common/generic_card.dart';
-import '../useful_contacts.dart';
+import 'package:uni/view/Common/generic_card.dart';
+import 'text_components.dart';
 
 class DonaBiaCard extends GenericCard {
   DonaBiaCard({Key? key}) : super(key: key);
