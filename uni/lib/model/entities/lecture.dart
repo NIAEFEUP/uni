@@ -1,6 +1,6 @@
 import 'package:logger/logger.dart';
 
-/// Stores information About a lecture.
+/// Stores information about a lecture.
 class Lecture {
   static var dayName = [
     'Segunda-feira',

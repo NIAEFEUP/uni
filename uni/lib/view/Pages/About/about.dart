@@ -10,7 +10,7 @@ class AboutPageView extends StatefulWidget {
   State<StatefulWidget> createState() => AboutPageViewState();
 }
 
-/// Manages the 'About' section of the app.
+/// Manages the 'about' section of the app.
 class AboutPageViewState extends GeneralPageViewState {
   @override
   Widget getBody(BuildContext context) {

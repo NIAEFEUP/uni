@@ -4,7 +4,7 @@ import 'package:tuple/tuple.dart';
 
 import 'course.dart';
 
-/// Stores information About the user's profile.
+/// Stores information about the user's profile.
 class Profile {
   final String name;
   final String email;

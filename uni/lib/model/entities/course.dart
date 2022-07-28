@@ -1,4 +1,4 @@
-/// Stores information About a course.
+/// Stores information about a course.
 ///
 /// The information stored is:
 /// - Course `id`

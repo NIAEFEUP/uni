@@ -115,7 +115,7 @@ class DeparturesFetcher {
     return stopsList;
   }
 
-  /// Retrieves real-time information About the user's selected bus lines.
+  /// Retrieves real-time information about the user's selected bus lines.
   static Future<List<Trip>> getNextArrivalsStop(
       String stopCode, BusStopData stopData) {
     return DeparturesFetcher(stopCode, stopData).getDepartures();

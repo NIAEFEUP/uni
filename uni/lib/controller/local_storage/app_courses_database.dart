@@ -7,7 +7,7 @@ import 'app_database.dart';
 
 /// Manages the app's Courses database.
 ///
-/// This database stores information About the user's courses.
+/// This database stores information about the user's courses.
 /// See the [Course] class to see what data is stored in this database.
 class AppCoursesDatabase extends AppDatabase {
   AppCoursesDatabase()

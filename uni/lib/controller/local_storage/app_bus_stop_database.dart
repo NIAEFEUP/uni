@@ -7,8 +7,8 @@ import 'package:uni/model/entities/bus_stop.dart';
 
 /// Manages the app's Bus Stops database.
 ///
-/// This database stores information About the bus stops that the user
-/// wants to keep track of. It also stores information About
+/// This database stores information about the bus stops that the user
+/// wants to keep track of. It also stores information about
 /// which ones are the user's favorite stops.
 class AppBusStopDatabase extends AppDatabase {
   AppBusStopDatabase()

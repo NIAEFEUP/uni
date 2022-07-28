@@ -2,7 +2,7 @@ import 'app_database.dart';
 
 /// Manages the app's Last User Info Update database.
 ///
-/// This database stores information About when the app last fetched and updated
+/// This database stores information about when the app last fetched and updated
 /// the user's data.
 class AppLastUserInfoUpdateDatabase extends AppDatabase {
   AppLastUserInfoUpdateDatabase()

@@ -109,7 +109,7 @@ class BusStopSearch extends SearchDelegate<String> {
 
   /// Returns a widget for the suggestions list displayed to the user.
   ///
-  /// If the suggestions list is empty a text warning About no results found
+  /// If the suggestions list is empty a text warning about no results found
   /// is displayed.
   @override
   Widget buildSuggestions(BuildContext context) {
