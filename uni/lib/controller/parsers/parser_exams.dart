@@ -5,7 +5,7 @@ import 'package:html/parser.dart' show parse;
 import 'package:http/http.dart' as http;
 import 'package:uni/model/entities/exam.dart';
 
-/// Parses information About the user's exams.
+/// Parses information about the user's exams.
 class ParserExams {
   /// Returns the abbreviature of the exam season.
   ///
