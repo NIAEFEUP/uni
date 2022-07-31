@@ -33,6 +33,7 @@ import 'package:uni/controller/parsers/parser_exams.dart';
 import 'package:uni/controller/parsers/parser_fees.dart';
 import 'package:uni/controller/parsers/parser_print_balance.dart';
 import 'package:uni/model/app_state.dart';
+import 'package:uni/model/entities/bus_stop.dart';
 import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/entities/lecture.dart';
@@ -41,8 +42,6 @@ import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/entities/trip.dart';
 import 'package:uni/redux/actions.dart';
-
-import '../model/entities/bus_stop.dart';
 
 ThunkAction<AppState> reLogin(
     String username, String password, List<String> faculties,

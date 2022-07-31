@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:uni/model/app_state.dart';
-
-import 'generic_card.dart';
+import 'package:uni/view/Widgets/generic_card.dart';
 
 /// Manages the 'Current account' section inside the user's page (accessible
 /// through the top-right widget with the user picture)

@@ -3,9 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:uni/model/app_state.dart';
+import 'package:uni/model/entities/course.dart';
 import 'package:uni/view/Pages/profile_page_view.dart';
-
-import 'entities/course.dart';
 
 class ProfilePage extends StatefulWidget {
   @override

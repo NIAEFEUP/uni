@@ -1,11 +1,10 @@
 import 'package:uni/model/entities/bus_stop.dart';
+import 'package:uni/model/entities/exam.dart';
+import 'package:uni/model/entities/lecture.dart';
+import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/entities/trip.dart';
 import 'package:uni/utils/constants.dart' as constants;
-
-import 'entities/exam.dart';
-import 'entities/lecture.dart';
-import 'entities/restaurant.dart';
 
 enum RequestStatus { none, busy, failed, successful }
 

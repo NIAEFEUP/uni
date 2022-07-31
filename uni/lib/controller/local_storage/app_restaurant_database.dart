@@ -1,10 +1,9 @@
 import 'package:intl/intl.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:uni/controller/local_storage/app_database.dart';
 import 'package:uni/model/entities/meal.dart';
 import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/utils/day_of_week.dart';
-
-import 'app_database.dart';
 
 class RestaurantDatabase extends AppDatabase {
   RestaurantDatabase()

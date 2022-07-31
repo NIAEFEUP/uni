@@ -4,12 +4,11 @@ import 'package:tuple/tuple.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/entities/time_utilities.dart';
+import 'package:uni/utils/constants.dart' as constants;
 import 'package:uni/view/Widgets/date_rectangle.dart';
+import 'package:uni/view/Widgets/generic_card.dart';
 import 'package:uni/view/Widgets/request_dependent_widget_builder.dart';
 import 'package:uni/view/Widgets/schedule_slot.dart';
-
-import '../../utils/constants.dart' as constants;
-import 'generic_card.dart';
 
 class ScheduleCard extends GenericCard {
   ScheduleCard({Key? key}) : super(key: key);

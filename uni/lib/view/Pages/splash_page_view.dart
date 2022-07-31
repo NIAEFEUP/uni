@@ -8,11 +8,10 @@ import 'package:uni/controller/load_static/terms_and_conditions.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/redux/action_creators.dart';
+import 'package:uni/view/Pages/home_page_view.dart';
 import 'package:uni/view/Pages/login_page_view.dart';
+import 'package:uni/view/Pages/logout_route.dart';
 import 'package:uni/view/Widgets/terms_and_condition_dialog.dart';
-
-import 'home_page_view.dart';
-import 'logout_route.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);

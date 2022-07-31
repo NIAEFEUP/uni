@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
-import '../Pages/useful_contacts_card_page_view.dart';
-import 'generic_card.dart';
+import 'package:uni/view/Pages/useful_contacts_card_page_view.dart';
+import 'package:uni/view/Widgets/generic_card.dart';
 
 class AcademicServicesCard extends GenericCard {
   AcademicServicesCard({Key? key}) : super(key: key);

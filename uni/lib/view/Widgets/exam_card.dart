@@ -6,12 +6,11 @@ import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/utils/constants.dart' as constants;
 import 'package:uni/view/Widgets/date_rectangle.dart';
+import 'package:uni/view/Widgets/generic_card.dart';
 import 'package:uni/view/Widgets/request_dependent_widget_builder.dart';
 import 'package:uni/view/Widgets/row_container.dart';
 import 'package:uni/view/Widgets/schedule_event_rectangle.dart';
 import 'package:uni/view/Widgets/schedule_row.dart';
-
-import 'generic_card.dart';
 
 /// Manages the exam card section inside the personal area.
 class ExamCard extends GenericCard {

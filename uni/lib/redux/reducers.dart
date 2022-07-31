@@ -1,7 +1,6 @@
 import 'package:logger/logger.dart';
 import 'package:uni/model/app_state.dart';
-
-import 'actions.dart';
+import 'package:uni/redux/actions.dart';
 
 AppState appReducers(AppState state, dynamic action) {
   if (action is SaveLoginDataAction) {

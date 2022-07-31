@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../../utils/constants.dart' as constants;
-import '../theme_notifier.dart';
+import 'package:uni/utils/constants.dart' as constants;
+import 'package:uni/view/theme_notifier.dart';
 
 class NavigationDrawer extends StatefulWidget {
   final BuildContext parentContext;

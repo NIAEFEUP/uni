@@ -7,9 +7,8 @@ import 'package:uni/model/entities/trip.dart';
 import 'package:uni/utils/constants.dart' as constants;
 import 'package:uni/view/Pages/bus_stop_selection_page.dart';
 import 'package:uni/view/Widgets/bus_stop_row.dart';
+import 'package:uni/view/Widgets/generic_card.dart';
 import 'package:uni/view/Widgets/last_update_timestamp.dart';
-
-import 'generic_card.dart';
 
 /// Manages the bus stops card displayed on the user's personal area
 class BusStopCard extends GenericCard {

@@ -1,10 +1,9 @@
 import 'package:http/http.dart';
+import 'package:uni/controller/fetchers/restaurant_fetcher/restaurant_fetcher.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/parsers/parser_restaurants.dart';
 import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/entities/session.dart';
-
-import 'restaurant_fetcher.dart';
 
 /// Class for fetching the user's lectures from the schedule's HTML page.
 class RestaurantFetcherHtml implements RestaurantFetcher {

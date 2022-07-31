@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:uni/controller/load_static/terms_and_conditions.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
-
-import 'terms_and_conditions.dart';
+import 'package:uni/view/Widgets/terms_and_conditions.dart';
 
 enum TermsAndConditionsState { accepted, rejected }
 
