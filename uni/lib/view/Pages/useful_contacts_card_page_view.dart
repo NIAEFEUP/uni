@@ -13,7 +13,9 @@ Container h1(String text, BuildContext context, {bool initial = false}) {
       margin: EdgeInsets.only(top: marginTop, bottom: 0.0, left: 20.0),
       child: Align(
         alignment: Alignment.centerLeft,
-        child: Text(text, style: Theme.of(context).textTheme.headline5),
+        child: Opacity(
+            opacity: 0.8,
+            child: Text(text, style: Theme.of(context).textTheme.headline5)),
       ));
 }
 
@@ -36,7 +38,10 @@ Container infoText(String text, BuildContext context,
         child: InkWell(
             child: Text(
               text,
-              style: Theme.of(context).textTheme.bodyText1!.apply(),
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText1!
+                  .apply(color: Theme.of(context).colorScheme.tertiary),
             ),
             onTap: () => link != '' ? launchUrl(Uri.parse(link)) : null),
       ));

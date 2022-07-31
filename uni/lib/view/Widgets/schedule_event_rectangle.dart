@@ -21,9 +21,8 @@ class ScheduleEventRectangle extends StatelessWidget {
   Widget createTopRectangle(context) {
     final Text typeWidget = Text(type != null ? ' ($type) ' : '',
         style: Theme.of(context).textTheme.bodyText2);
-    final Text subjectWidget = Text(subject,
-        style: Theme.of(context).textTheme.headline5!.apply(
-            /*color: Theme.of(context).colorScheme.secondary*/));
+    final Text subjectWidget =
+        Text(subject, style: Theme.of(context).textTheme.headline5);
 
     return Row(
         children: (reverseOrder
