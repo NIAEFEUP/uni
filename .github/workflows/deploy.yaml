@@ -9,8 +9,8 @@ jobs:
     name: "Bump pubspec version"
     runs-on: ubuntu-latest
     env:
-      APP_VERSION_PATH: "app_feup/app_version.txt"
-      PUBSPEC_PATH: "app_feup/pubspec.yaml"
+      APP_VERSION_PATH: "uni/app_version.txt"
+      PUBSPEC_PATH: "uni/pubspec.yaml"
     steps:
       - uses: actions/checkout@v2
         with:
@@ -38,7 +38,7 @@ jobs:
     env:
       PROPERTIES_PATH: "android/key.properties"
       JAVA_VERSION: "11.x"
-      FLUTTER_VERSION: "2.0.1"
+      FLUTTER_VERSION: "3.0.5"
     defaults:
       run:
         working-directory: ./app_feup
