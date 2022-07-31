@@ -11,7 +11,6 @@ import 'package:uni/controller/local_storage/app_courses_database.dart';
 import 'package:uni/controller/local_storage/app_exams_database.dart';
 import 'package:uni/controller/local_storage/app_last_user_info_update_database.dart';
 import 'package:uni/controller/local_storage/app_lectures_database.dart';
-import 'package:uni/controller/local_storage/app_locations_database.dart';
 import 'package:uni/controller/local_storage/app_refresh_times_database.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/controller/local_storage/app_user_database.dart';
@@ -469,14 +468,12 @@ ThunkAction<AppState> getUserBusTrips(Completer<Null> action) {
 
 ThunkAction<AppState> getFacultyLocations(Completer<Null> action){
   return (Store<AppState> store) async{
-    final LocationDatabase db = LocationDatabase();
     try{
       store.dispatch(SetLocationsStatusAction(RequestStatus.busy));
 
       final List<LocationGroup> locations =
       await LocationFetcherAsset().getLocations(store);
 
-      db.initLocations(locations);
       store.dispatch(SetLocationsAction(locations));
       store.dispatch(SetLocationsStatusAction(RequestStatus.successful));
 
