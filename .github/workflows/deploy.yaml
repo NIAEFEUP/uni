@@ -41,7 +41,7 @@ jobs:
       FLUTTER_VERSION: "3.0.5"
     defaults:
       run:
-        working-directory: ./app_feup
+        working-directory: ./uni
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-java@v1
@@ -80,7 +80,7 @@ jobs:
         with:
           name: appbundle
           if-no-files-found: error
-          path: app_feup/build/app/outputs/bundle/release/app-release.aab
+          path: uni/build/app/outputs/bundle/release/app-release.aab
 
   deploy_play_store:
     name: "Deploy to Google Play Store"
