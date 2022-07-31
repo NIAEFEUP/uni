@@ -15,7 +15,7 @@ Future<String> readTermsAndConditions() async {
   if (await (Connectivity().checkConnectivity()) != ConnectionState.none) {
     try {
       const String url =
-          'https://raw.githubusercontent.com/NIAEFEUP/project-schrodinger/develop/app_feup/assets/text/TermsAndConditions.md';
+          'https://raw.githubusercontent.com/NIAEFEUP/project-schrodinger/develop/uni/assets/text/TermsAndConditions.md';
       final http.Response response = await http.get(Uri.parse(url));
       if (response.statusCode == 200) {
         return response.body;
