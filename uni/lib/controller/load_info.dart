@@ -5,14 +5,13 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:redux/redux.dart';
 import 'package:tuple/tuple.dart';
+import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/controller/local_storage/image_offline_storage.dart';
 import 'package:uni/controller/parsers/parser_exams.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/redux/action_creators.dart';
 import 'package:uni/redux/actions.dart';
 import 'package:uni/redux/refresh_items_action.dart';
-
-import 'local_storage/app_shared_preferences.dart';
 
 Future loadReloginInfo(Store<AppState> store) async {
   final Tuple2<String, String> userPersistentCredentials =

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uni/view/PagesLayouts/Secondary/widgets/back_button.dart';
-
-import '../../PagesLayouts/General/general.dart';
+import 'package:uni/view/PagesLayouts/General/general.dart';
 
 /// Generic class implementation for the secondary page view.
 abstract class SecondaryPageViewState<T extends StatefulWidget>

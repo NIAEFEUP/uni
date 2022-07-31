@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../utils/constants.dart' as constants;
+import 'package:uni/utils/constants.dart' as constants;
 
 /// Manages the navigation logic
 class NavigationService {

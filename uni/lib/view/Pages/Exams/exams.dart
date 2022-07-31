@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:uni/controller/exam.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/view/PagesLayouts/Secondary/secondary.dart';
@@ -7,7 +8,6 @@ import 'package:uni/view/Pages/Exams/widgets/exam_page_title_filter.dart';
 import 'package:uni/view/Common/row_container.dart';
 import 'package:uni/view/Pages/Exams/widgets/schedule_row.dart';
 import 'package:uni/view/Pages/Exams/widgets/title_card.dart';
-import 'package:uni/controller/exam.dart';
 
 class ExamsPageView extends StatefulWidget {
   const ExamsPageView({super.key});

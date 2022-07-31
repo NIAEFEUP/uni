@@ -1,7 +1,6 @@
 import 'package:collection/collection.dart';
+import 'package:uni/model/entities/meal.dart';
 import 'package:uni/model/utils/day_of_week.dart';
-
-import 'meal.dart';
 
 class Restaurant {
   final int? id;

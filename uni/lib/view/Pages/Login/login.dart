@@ -81,6 +81,10 @@ class LoginPageViewState extends State<LoginPageView> {
 
     return Theme(
         data: applicationLightTheme.copyWith(
+          // The handle color is not applying due to a Flutter bug:
+          // https://github.com/flutter/flutter/issues/74890
+          textSelectionTheme: const TextSelectionThemeData(
+              cursorColor: Colors.white, selectionHandleColor: Colors.white),
           checkboxTheme: CheckboxThemeData(
               checkColor: MaterialStateProperty.all(darkRed),
               fillColor: MaterialStateProperty.all(Colors.white)),

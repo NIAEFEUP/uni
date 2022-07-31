@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:uni/view/PagesLayouts/General/general.dart';
 
 /// TODO: CHANGE THIS DOC

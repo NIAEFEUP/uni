@@ -1,4 +1,4 @@
-import 'app_database.dart';
+import 'package:uni/controller/local_storage/app_database.dart';
 
 /// Manages the app's Last User Info Update database.
 ///

@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:uni/controller/logout.dart';
 import 'package:uni/view/Pages/Login/login.dart';
-
-import '../../model/app_state.dart';
-import '../../redux/action_creators.dart';
+import 'package:uni/model/app_state.dart';
+import 'package:uni/redux/action_creators.dart';
 
 class LogoutRoute {
   LogoutRoute._();

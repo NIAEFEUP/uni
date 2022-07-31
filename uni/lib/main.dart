@@ -8,7 +8,9 @@ import 'package:redux/redux.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/controller/middleware.dart';
+import 'package:uni/controller/on_start_up.dart';
 import 'package:uni/model/app_state.dart';
+import 'package:uni/model/schedule_page_model.dart';
 import 'package:uni/redux/actions.dart';
 import 'package:uni/redux/reducers.dart';
 import 'package:uni/utils/constants.dart' as constants;
@@ -25,9 +27,6 @@ import 'package:uni/view/Common/page_transition.dart';
 import 'package:uni/view/navigation_service.dart';
 import 'package:uni/view/theme.dart';
 import 'package:uni/view/theme_notifier.dart';
-
-import 'controller/on_start_up.dart';
-import 'model/schedule_page_model.dart';
 
 SentryEvent? beforeSend(SentryEvent event) {
   return event.level == SentryLevel.info ? event : null;

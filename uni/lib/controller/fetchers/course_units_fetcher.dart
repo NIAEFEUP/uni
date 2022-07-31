@@ -1,10 +1,9 @@
 import 'dart:convert';
 
 import 'package:uni/controller/fetchers/session_dependant_fetcher.dart';
+import 'package:uni/controller/networking/network_router.dart';
+import 'package:uni/model/entities/course_unit.dart';
 import 'package:uni/model/entities/session.dart';
-
-import '../../model/entities/course_unit.dart';
-import '../networking/network_router.dart';
 
 class CourseUnitsFetcher implements SessionDependantFetcher {
   @override
