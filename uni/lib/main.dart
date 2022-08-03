@@ -17,6 +17,7 @@ import 'package:uni/utils/constants.dart' as constants;
 import 'package:uni/view/Pages/about_page_view.dart';
 import 'package:uni/view/Pages/bug_report_page_view.dart';
 import 'package:uni/view/Pages/bus_stop_next_arrivals_page.dart';
+import 'package:uni/view/Pages/course_units_page_view.dart';
 import 'package:uni/view/Pages/exams_page_view.dart';
 import 'package:uni/view/Pages/home_page_view.dart';
 import 'package:uni/view/Pages/logout_route.dart';
@@ -105,6 +106,9 @@ class MyAppState extends State<MyApp> {
                     return PageTransition.makePageTransition(
                         page: const BusStopNextArrivalsPage(),
                         settings: settings);
+                  case '/${constants.navCourseUnits}':
+                    return PageTransition.makePageTransition(
+                        page: const CourseUnitsPageView(), settings: settings);
                   case '/${constants.navUsefulContacts}':
                     return PageTransition.makePageTransition(
                         page: const UsefulContactsCardView(),
