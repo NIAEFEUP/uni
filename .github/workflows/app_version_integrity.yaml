@@ -5,7 +5,7 @@ jobs:
     name: "Check for app version change"
     runs-on: ubuntu-latest
     env:
-      APP_VERSION_PATH: "app_feup/app_version.txt"
+      APP_VERSION_PATH: "uni/app_version.txt"
     steps:
       - uses: actions/checkout@v2
 
