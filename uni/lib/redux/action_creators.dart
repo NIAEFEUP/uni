@@ -125,12 +125,12 @@ ThunkAction<AppState> getUserInfo(Completer<void> action) {
           ProfileFetcher.getProfile(store.state.content['session']).then((res) {
         userProfile = res;
         store.dispatch(SaveProfileAction(userProfile));
-        store.dispatch(SaveProfileStatusAction(RequestStatus.successful));
       });
       final ucs = CourseUnitsFetcher()
           .getCurrentCourseUnits(store.state.content['session'])
           .then((res) => store.dispatch(SaveUcsAction(res)));
-      await Future.wait([profile, ucs]);
+      await Future.wait([profile, ucs]).then((value) =>
+          store.dispatch(SaveProfileStatusAction(RequestStatus.successful)));
 
       final Tuple2<String, String> userPersistentInfo =
           await AppSharedPreferences.getPersistentUserInfo();
