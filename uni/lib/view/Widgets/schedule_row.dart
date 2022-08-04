@@ -46,10 +46,10 @@ class ScheduleRow extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               ScheduleTimeInterval(
-                                  begin: this.begin, end: this.end)
+                                  begin: begin, end: end)
                             ]),
                         ScheduleEventRectangle(
-                            subject: this.subject, type: this.type),
+                            subject: subject, type: type),
                         IconButton(
                             icon: const Icon(MdiIcons.calendarPlus, size: 30),
                             onPressed: () => Add2Calendar.addEvent2Cal(createExamEvent())),
