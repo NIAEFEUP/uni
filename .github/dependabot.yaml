@@ -3,6 +3,6 @@ version: 2
 enable-beta-ecosystems: true
 updates:
   - package-ecosystem: "pub"
-    directory: "/app_feup"
+    directory: "/uni"
     schedule:
       interval: "weekly"
