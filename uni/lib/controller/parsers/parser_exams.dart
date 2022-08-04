@@ -4,8 +4,6 @@ import 'package:html/dom.dart';
 import 'package:html/parser.dart' show parse;
 import 'package:http/http.dart' as http;
 import 'package:uni/model/entities/exam.dart';
-import 'dart:io';
-import 'package:flutter/services.dart' show rootBundle;
 
 /// Parses information about the user's exams.
 class ParserExams {
@@ -22,9 +20,7 @@ class ParserExams {
 
   /// Extracts a list of exams from an HTTP [response].
   Future<Set<Exam>> parseExams(http.Response response) async {
-    //final document = parse(response.body);
-    final file = await rootBundle.loadString('assets/exam_example.html');
-    final document = parse(file);
+    final document = parse(response.body);
 
     final Set<Exam> examsList = {};
     final List<String> dates = [];
