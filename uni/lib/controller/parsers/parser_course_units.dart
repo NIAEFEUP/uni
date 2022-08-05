@@ -8,6 +8,13 @@ List<CourseUnit> parseCourseUnits(http.Response response) {
   if (table == null) {
     return [];
   }
+  final String? firstSchoolYearData =
+      table.querySelector('tr')?.children[1].text.trim();
+  if (firstSchoolYearData == null) {
+    return [];
+  }
+  final int firstSchoolYear = int.parse(
+      firstSchoolYearData.substring(0, firstSchoolYearData.indexOf('/')));
 
   // Each row contains:
   // ANO PERIODO CODIGO NOME OPCAO/MINOR CREDITOS RESULTADO ESTADO
@@ -21,9 +28,22 @@ List<CourseUnit> parseCourseUnits(http.Response response) {
     final String codeName = row.children[2].children[0].innerHtml;
     final String name = row.children[3].children[0].innerHtml;
     final String ects = row.children[5].innerHtml.replaceAll(',', '.');
-    final String grade = row.children[6].innerHtml;
-    final String result = row.children[7].innerHtml;
+    String grade = '-', result = '-';
+    int yearIncrement = 0;
+    print('pa');
+    for (var i = 0;; i += 2, yearIncrement++) {
+      if (row.children.length <= 6 + i) {
+        break;
+      }
+      grade = row.children[6 + i].innerHtml;
+      if (grade != '') {
+        result = row.children[7 + i].innerHtml;
+        break;
+      }
+    }
     CourseUnit courseUnit = CourseUnit(
+        schoolYear:
+            '${firstSchoolYear + yearIncrement}/${firstSchoolYear + yearIncrement + 1}',
         occurrId: occurId != null ? int.parse(occurId) : 0,
         abbreviation: codeName,
         result: result,

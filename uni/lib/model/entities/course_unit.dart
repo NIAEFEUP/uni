@@ -14,6 +14,7 @@ class CourseUnit {
   String ectsGrade;
   String result;
   num ects;
+  String? schoolYear;
 
   CourseUnit(
       {this.id = 0,
@@ -29,7 +30,8 @@ class CourseUnit {
       this.grade = '',
       this.ectsGrade = '',
       this.result = '',
-      this.ects = 0});
+      this.ects = 0,
+      this.schoolYear});
 
   /// Creates a new instance from a JSON object.
   static CourseUnit fromJson(dynamic data) {

@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:tuple/tuple.dart';
@@ -22,22 +20,25 @@ class CourseUnitsPageView extends StatefulWidget {
 
 class CourseUnitsPageViewState
     extends SecondaryPageViewState<CourseUnitsPageView> {
-  int? selectedYear;
+  String? selectedSchoolYear;
   String? selectedSemester;
 
   @override
   Widget getBody(BuildContext context) {
-    return StoreConnector<AppState,
-            Tuple4<List<CourseUnit>?, RequestStatus?, List<int>, List<String>>>(
+    return StoreConnector<
+            AppState,
+            Tuple4<List<CourseUnit>?, RequestStatus?, List<String>,
+                List<String>>>(
         converter: (store) {
           List<CourseUnit>? courseUnits = store.state.content['allUcs'];
-          List<int> availableYears = [];
+          List<String> availableYears = [];
           List<String> availableSemesters = [];
           if (courseUnits != null && courseUnits.isNotEmpty) {
             availableYears = _getAvailableYears(courseUnits);
             availableYears.sort();
-            if (availableYears.isNotEmpty && selectedYear == null) {
-              selectedYear = availableYears.reduce(max);
+            if (availableYears.isNotEmpty && selectedSchoolYear == null) {
+              selectedSchoolYear = availableYears.reduce((value, element) =>
+                  element.compareTo(value) > 0 ? element : value);
             }
             availableSemesters = _getAvailableSemesters(courseUnits);
             availableSemesters.sort();
@@ -59,11 +60,11 @@ class CourseUnitsPageViewState
   Widget getPageContents(
       List<CourseUnit>? courseUnits,
       RequestStatus? requestStatus,
-      List<int> availableYears,
+      List<String> availableYears,
       List<String> availableSemesters) {
     List<CourseUnit>? filteredCourseUnits = courseUnits
         ?.where((element) =>
-            element.curricularYear == selectedYear &&
+            element.schoolYear == selectedSchoolYear &&
             element.semesterCode == selectedSemester)
         .toList();
     return Column(children: [
@@ -72,16 +73,16 @@ class CourseUnitsPageViewState
         children: [
           const PageTitle(name: constants.navCourseUnits),
           const Spacer(),
-          DropdownButton<int>(
-            value: selectedYear,
+          DropdownButton<String>(
+            value: selectedSchoolYear,
             icon: const Icon(Icons.arrow_drop_down),
-            onChanged: (int? newValue) {
-              setState(() => selectedYear = newValue!);
+            onChanged: (String? newValue) {
+              setState(() => selectedSchoolYear = newValue!);
             },
-            items: availableYears.map<DropdownMenuItem<int>>((int value) {
-              return DropdownMenuItem<int>(
+            items: availableYears.map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
                 value: value,
-                child: Text('$valueº ano'),
+                child: Text(value),
               );
             }).toList(),
           ),
@@ -160,8 +161,12 @@ class CourseUnitsPageViewState
   }
 }
 
-List<int> _getAvailableYears(List<CourseUnit> courseUnits) {
-  return courseUnits.map((c) => c.curricularYear).toSet().toList();
+List<String> _getAvailableYears(List<CourseUnit> courseUnits) {
+  return courseUnits
+      .map((c) => c.schoolYear)
+      .whereType<String>()
+      .toSet()
+      .toList();
 }
 
 List<String> _getAvailableSemesters(List<CourseUnit> courseUnits) {
