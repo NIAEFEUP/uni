@@ -9,11 +9,11 @@ import 'package:uni/model/entities/course.dart';
 /// This database stores information about the user's courses.
 /// See the [Course] class to see what data is stored in this database.
 class AppCoursesDatabase extends AppDatabase {
+  static const String createScript =
+      '''CREATE TABLE courses(id INTEGER, fest_id INTEGER, name TEXT,
+          abbreviation TEXT, currYear TEXT, firstEnrollment INTEGER, state TEXT, faculty TEXT)''';
   AppCoursesDatabase()
-      : super('courses.db', [
-          '''CREATE TABLE courses(id INTEGER, fest_id INTEGER, name TEXT,
-          abbreviation TEXT, currYear TEXT, firstEnrollment INTEGER, state TEXT)'''
-        ]);
+      : super('courses.db', [createScript], onUpgrade: migrate, version: 2);
 
   /// Replaces all of the data in this database with the data from [courses].
   saveNewCourses(List<Course> courses) async {
@@ -83,5 +83,16 @@ class AppCoursesDatabase extends AppDatabase {
         whereArgs: [course.id],
       );
     }
+  }
+
+  /// Migrates [db] from [oldVersion] to [newVersion].
+  ///
+  /// *Note:* This operation only updates the schema of the tables present in
+  /// the database and, as such, all data is lost.
+  static FutureOr<void> migrate(
+      Database db, int oldVersion, int newVersion) async {
+    final batch = db.batch();
+    batch.execute('DROP TABLE IF EXISTS courses');
+    batch.execute(createScript);
   }
 }

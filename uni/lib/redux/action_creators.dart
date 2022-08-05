@@ -4,8 +4,8 @@ import 'package:logger/logger.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:tuple/tuple.dart';
-import 'package:uni/controller/fetchers/course_units_fetcher.dart';
 import 'package:uni/controller/fetchers/courses_fetcher.dart';
+import 'package:uni/controller/fetchers/current_course_units_fetcher.dart';
 import 'package:uni/controller/fetchers/departures_fetcher.dart';
 import 'package:uni/controller/fetchers/exam_fetcher.dart';
 import 'package:uni/controller/fetchers/fees_fetcher.dart';
@@ -35,6 +35,7 @@ import 'package:uni/controller/parsers/parser_print_balance.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/bus_stop.dart';
 import 'package:uni/model/entities/course.dart';
+import 'package:uni/model/entities/course_unit.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/entities/profile.dart';
@@ -42,6 +43,8 @@ import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/entities/trip.dart';
 import 'package:uni/redux/actions.dart';
+
+import '../controller/fetchers/all_course_units_fetcher.dart';
 
 ThunkAction<AppState> reLogin(
     String username, String password, List<String> faculties,
@@ -126,9 +129,9 @@ ThunkAction<AppState> getUserInfo(Completer<void> action) {
         userProfile = res;
         store.dispatch(SaveProfileAction(userProfile));
       });
-      final ucs = CourseUnitsFetcher()
+      final ucs = CurrentCourseUnitsFetcher()
           .getCurrentCourseUnits(store.state.content['session'])
-          .then((res) => store.dispatch(SaveUcsAction(res)));
+          .then((res) => store.dispatch(SaveCurrentUcsAction(res)));
       await Future.wait([profile, ucs]).then((value) =>
           store.dispatch(SaveProfileStatusAction(RequestStatus.successful)));
 
@@ -144,6 +147,26 @@ ThunkAction<AppState> getUserInfo(Completer<void> action) {
     } catch (e) {
       Logger().e('Failed to get User Info');
       store.dispatch(SaveProfileStatusAction(RequestStatus.failed));
+    }
+
+    action.complete();
+  };
+}
+
+ThunkAction<AppState> getCourseUnits(Completer<void> action) {
+  return (Store<AppState> store) async {
+    store.dispatch(SaveAllUcsActionStatus(RequestStatus.busy));
+
+    try {
+      List<Course> courses = store.state.content['profile'].courses;
+      Session session = store.state.content['session'];
+      List<CourseUnit> courseUnits =
+          await AllCourseUnitsFetcher().getAllCourseUnits(courses, session);
+      store.dispatch(SaveAllUcsAction(courseUnits));
+      store.dispatch(SaveAllUcsActionStatus(RequestStatus.successful));
+    } catch (e) {
+      Logger().e('Failed to get all user ucs');
+      store.dispatch(SaveAllUcsActionStatus(RequestStatus.failed));
     }
 
     action.complete();

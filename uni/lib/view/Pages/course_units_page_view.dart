@@ -25,8 +25,8 @@ class CourseUnitsPageViewState
     return Column(children: [
       const PageTitle(name: constants.navCourseUnits),
       StoreConnector<AppState, Tuple2<List<CourseUnit>?, RequestStatus?>>(
-          converter: (store) => Tuple2(store.state.content['currUcs'],
-              store.state.content['profileStatus']),
+          converter: (store) => Tuple2(store.state.content['allUcs'],
+              store.state.content['allUcsStatus']),
           builder: (context, ucsInfo) => RequestDependentWidgetBuilder(
               context: context,
               status: ucsInfo.item2 ?? RequestStatus.none,
@@ -66,13 +66,12 @@ class CourseUnitsPageViewState
       }
     }
 
-    return Column(children: <Widget>[
-      Expanded(
-          child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: 20),
-              child: ListView(
-                children: rows,
-              )))
-    ]);
+    return Expanded(
+        child: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 20),
+            child: ListView(
+              shrinkWrap: true,
+              children: rows,
+            )));
   }
 }

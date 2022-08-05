@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:image/image.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart'
     show DefaultCacheManager;
+import 'package:image/image.dart';
 import 'package:path_provider/path_provider.dart';
 
 /// The offline image storage location on the device.
@@ -44,12 +44,17 @@ Future<File?> retrieveImage(String url, Map<String, String> headers) async {
 
 /// Downloads the image located at [url] and saves it in [filepath]. The image
 /// is accessed with the provided [headers], if they are present.
-Future<File> saveImage(
+Future<File?> saveImage(
     String filepath, String url, Map<String, String> headers) async {
-  final File file = await getImageFromNetwork(url, headers);
-  final Image? image = decodeImage(await file.readAsBytes());
-  if (image != null) {
-    File(filepath).writeAsBytes(encodePng(image));
+  final File? file;
+  try {
+    file = await getImageFromNetwork(url, headers);
+    final Image? image = decodeImage(await file.readAsBytes());
+    if (image != null) {
+      File(filepath).writeAsBytes(encodePng(image));
+    }
+  } catch (e) {
+    return null;
   }
   return file;
 }

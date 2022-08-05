@@ -15,6 +15,7 @@ class Course {
   final String currYear;
   final int firstEnrollment;
   final String state;
+  final String faculty;
 
   Course(
       {required this.id,
@@ -23,7 +24,8 @@ class Course {
       this.abbreviation = 'cs',
       this.currYear = '',
       this.firstEnrollment = 0,
-      this.state = ''});
+      this.state = '',
+      this.faculty = ''});
 
   /// Creates a new instance from a JSON object.
   static Course fromJson(dynamic data) {
@@ -33,7 +35,8 @@ class Course {
         name: data['cur_nome'],
         currYear: data['ano_curricular'],
         firstEnrollment: data['fest_a_lect_1_insc'],
-        abbreviation: 'abbreviation');
+        abbreviation: 'abbreviation',
+        faculty: data['inst_sigla'].toString().toLowerCase());
   }
 
   /// Converts this course to a map.
@@ -45,7 +48,8 @@ class Course {
       'abbreviation': abbreviation,
       'currYear': currYear,
       'firstEnrollment': firstEnrollment,
-      'state': state
+      'state': state,
+      'faculty': faculty
     };
   }
 }
