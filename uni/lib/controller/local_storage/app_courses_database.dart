@@ -58,9 +58,7 @@ class AppCoursesDatabase extends AppDatabase {
 
   /// Deletes all of the data stored in this database.
   Future<void> deleteCourses() async {
-    // Get a reference to the database
     final Database db = await getDatabase();
-
     await db.delete('courses');
   }
 

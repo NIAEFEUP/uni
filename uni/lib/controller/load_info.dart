@@ -113,6 +113,7 @@ Future<void> handleRefresh(store) {
 }
 
 Future<File?> loadProfilePic(Store<AppState> store) {
+  // TODO: Investigate first load fail (#527)
   final String studentNumber = store.state.content['session'].studentNumber;
   final String faculty = store.state.content['session'].faculties[0];
   final String url =

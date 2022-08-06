@@ -83,7 +83,9 @@ class CourseUnitsPageViewState
             items: availableYears.map<DropdownMenuItem<String>>((String value) {
               return DropdownMenuItem<String>(
                 value: value,
-                child: Text(value),
+                child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    child: Text(value)),
               );
             }).toList(),
           ),
@@ -99,7 +101,9 @@ class CourseUnitsPageViewState
                 .map<DropdownMenuItem<String>>((String value) {
               return DropdownMenuItem<String>(
                 value: value,
-                child: Text(value),
+                child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    child: Text(value)),
               );
             }).toList(),
           ),

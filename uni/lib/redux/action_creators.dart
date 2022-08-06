@@ -137,7 +137,7 @@ ThunkAction<AppState> getUserInfo(Completer<void> action) {
           await AppSharedPreferences.getPersistentUserInfo();
       if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {
         final profileDb = AppUserDataDatabase();
-        profileDb.saveUserData(userProfile);
+        profileDb.insertUserData(userProfile);
 
         final AppCoursesDatabase coursesDb = AppCoursesDatabase();
         await coursesDb.saveNewCourses(userProfile.courses);
@@ -191,9 +191,6 @@ ThunkAction<AppState> updateStateBasedOnLocalCourseUnits() {
     final AppCourseUnitsDatabase db = AppCourseUnitsDatabase();
     final List<CourseUnit> courseUnits = await db.courseUnits();
     store.dispatch(SaveAllUcsAction(courseUnits));
-    for (var c in courseUnits) {
-      Logger().w(c.name);
-    }
   };
 }
 

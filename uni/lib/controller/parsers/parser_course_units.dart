@@ -8,11 +8,13 @@ List<CourseUnit> parseCourseUnits(http.Response response) {
   if (table == null) {
     return [];
   }
+
   final String? firstSchoolYearData =
       table.querySelector('tr')?.children[1].text.trim();
   if (firstSchoolYearData == null) {
     return [];
   }
+
   final int firstSchoolYear = int.parse(
       firstSchoolYearData.substring(0, firstSchoolYearData.indexOf('/')));
 
@@ -20,6 +22,7 @@ List<CourseUnit> parseCourseUnits(http.Response response) {
   // ANO PERIODO CODIGO NOME OPCAO/MINOR CREDITOS RESULTADO ESTADO
   final List<CourseUnit> courseUnits = [];
   final rows = table.querySelectorAll('tr.i, tr.p');
+
   for (final row in rows) {
     final String year = row.children[0].innerHtml;
     final String semester = row.children[1].innerHtml;
@@ -40,6 +43,7 @@ List<CourseUnit> parseCourseUnits(http.Response response) {
         break;
       }
     }
+
     CourseUnit courseUnit = CourseUnit(
         schoolYear:
             '${firstSchoolYear + yearIncrement}/${firstSchoolYear + yearIncrement + 1}',
@@ -53,5 +57,6 @@ List<CourseUnit> parseCourseUnits(http.Response response) {
         semesterCode: semester);
     courseUnits.add(courseUnit);
   }
+
   return courseUnits;
 }
