@@ -42,9 +42,12 @@ class CourseUnitsPageViewState
             }
             availableSemesters = _getAvailableSemesters(courseUnits);
             availableSemesters.sort();
-            if (availableSemesters.isNotEmpty && selectedSemester == null) {
-              selectedSemester = availableSemesters.reduce((value, element) =>
-                  element.compareTo(value) > 0 ? element : value);
+            if (availableSemesters.length >= 2 && selectedSemester == null) {
+              DateTime now = DateTime.now();
+              bool secondSemesterPeriod = now.month > 2 && now.month < 9;
+              selectedSemester = secondSemesterPeriod
+                  ? availableSemesters[1]
+                  : availableSemesters[0];
             }
           }
           return Tuple4(
