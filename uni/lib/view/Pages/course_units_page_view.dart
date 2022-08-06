@@ -134,19 +134,13 @@ class CourseUnitsPageViewState
         rows.add(IntrinsicHeight(
             child:
                 Row(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-          Flexible(
-              child: CourseUnitCard(courseUnits[i].name, courseUnits[i].grade,
-                  courseUnits[i].ects)),
+          Flexible(child: CourseUnitCard(courseUnits[i])),
           const SizedBox(width: 10),
-          Flexible(
-              child: CourseUnitCard(courseUnits[i + 1].name,
-                  courseUnits[i + 1].grade, courseUnits[i + 1].ects)),
+          Flexible(child: CourseUnitCard(courseUnits[i + 1])),
         ])));
       } else {
         rows.add(Row(children: [
-          Flexible(
-              child: CourseUnitCard(courseUnits[i].name, courseUnits[i].grade,
-                  courseUnits[i].ects)),
+          Flexible(child: CourseUnitCard(courseUnits[i])),
           const SizedBox(width: 10),
           const Spacer()
         ]));

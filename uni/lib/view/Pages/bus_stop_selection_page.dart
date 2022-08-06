@@ -16,7 +16,8 @@ class BusStopSelectionPage extends StatefulWidget {
 }
 
 /// Manages the 'Bus stops' section of the app.
-class BusStopSelectionPageState extends UnnamedPageViewState {
+class BusStopSelectionPageState
+    extends UnnamedPageViewState<BusStopSelectionPage> {
   final double borderRadius = 15.0;
   final DateTime now = DateTime.now();
 
@@ -51,7 +52,8 @@ class BusStopSelectionPageState extends UnnamedPageViewState {
               Container(
                   padding: const EdgeInsets.all(20.0),
                   child: const Text(
-                      '''Os autocarros favoritos serão apresentados no widget 'Autocarros' dos favoritos. Os restantes serão apresentados apenas na página.''',
+                      '''Os autocarros favoritos serão apresentados no widget 'Autocarros' dos favoritos.'''
+                      '''Os restantes serão apresentados apenas na página.''',
                       textAlign: TextAlign.center)),
               Column(children: rows),
               Container(

@@ -4,6 +4,7 @@ import 'package:logger/logger.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:tuple/tuple.dart';
+import 'package:uni/controller/fetchers/all_course_units_fetcher.dart';
 import 'package:uni/controller/fetchers/courses_fetcher.dart';
 import 'package:uni/controller/fetchers/current_course_units_fetcher.dart';
 import 'package:uni/controller/fetchers/departures_fetcher.dart';
@@ -43,8 +44,6 @@ import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/entities/trip.dart';
 import 'package:uni/redux/actions.dart';
-
-import '../controller/fetchers/all_course_units_fetcher.dart';
 
 ThunkAction<AppState> reLogin(
     String username, String password, List<String> faculties,

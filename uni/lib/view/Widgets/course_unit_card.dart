@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:uni/model/entities/course_unit.dart';
+import 'package:uni/view/Pages/course_unit_detail_page_view.dart';
 import 'package:uni/view/Widgets/generic_card.dart';
 
 class CourseUnitCard extends GenericCard {
   static const maxTitleLength = 60;
-  final String courseName;
-  final String grade;
-  final num ects;
+  final CourseUnit courseUnit;
 
-  CourseUnitCard(this.courseName, this.grade, this.ects, {Key? key})
+  CourseUnitCard(this.courseUnit, {Key? key})
       : super.customStyle(
             key: key,
             margin: const EdgeInsets.only(top: 10),
@@ -21,22 +21,25 @@ class CourseUnitCard extends GenericCard {
         padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
         child: Row(
           children: [
-            Text("${ects.toString().replaceAll('.0', '')} ECTS"),
+            Text("${courseUnit.ects.toString().replaceAll('.0', '')} ECTS"),
             const Spacer(),
-            Text(grade)
+            Text(courseUnit.grade)
           ],
         ));
   }
 
   @override
   String getTitle() {
-    return courseName.length > maxTitleLength
-        ? '${courseName.split(' ').sublist(0, 5).join(' ')}...'
-        : courseName;
+    return courseUnit.name.length > maxTitleLength
+        ? '${courseUnit.name.split(' ').sublist(0, 5).join(' ')}...'
+        : courseUnit.name;
   }
 
   @override
   onClick(BuildContext context) {
-    return;
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => CourseUnitDetailPageView(courseUnit)));
   }
 }
