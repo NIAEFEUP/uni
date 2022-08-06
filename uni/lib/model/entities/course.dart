@@ -14,8 +14,8 @@ class Course {
   final String? abbreviation;
   final String? currYear;
   final int? firstEnrollment;
-  final String? state;
   final String? faculty;
+  String? state;
 
   Course(
       {required this.id,

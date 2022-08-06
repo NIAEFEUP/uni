@@ -49,7 +49,6 @@ Future loadRemoteUserInfoToState(Store<AppState> store) async {
       schedule = Completer(),
       printBalance = Completer(),
       fees = Completer(),
-      coursesStates = Completer(),
       trips = Completer(),
       lastUpdate = Completer(),
       restaurants = Completer();
@@ -57,7 +56,6 @@ Future loadRemoteUserInfoToState(Store<AppState> store) async {
   store.dispatch(getUserInfo(userInfo));
   store.dispatch(getUserPrintBalance(printBalance));
   store.dispatch(getUserFees(fees));
-  store.dispatch(getUserCoursesState(coursesStates));
   store.dispatch(getUserBusTrips(trips));
   store.dispatch(getRestaurantsFromFetcher(restaurants));
 
@@ -66,8 +64,8 @@ Future loadRemoteUserInfoToState(Store<AppState> store) async {
   userInfo.future.then((value) {
     store.dispatch(getUserExams(exams, ParserExams(), userPersistentInfo));
     store.dispatch(getUserSchedule(schedule, userPersistentInfo));
+    store.dispatch(getCourseUnits(ucs));
   });
-  coursesStates.future.then((value) => store.dispatch(getCourseUnits(ucs)));
 
   final allRequests = Future.wait([
     ucs.future,
@@ -75,7 +73,6 @@ Future loadRemoteUserInfoToState(Store<AppState> store) async {
     schedule.future,
     printBalance.future,
     fees.future,
-    coursesStates.future,
     userInfo.future,
     trips.future,
     restaurants.future

@@ -38,7 +38,7 @@ class AppCoursesDatabase extends AppDatabase {
           abbreviation: maps[i]['abbreviation'],
           currYear: maps[i]['currYear'],
           firstEnrollment: maps[i]['firstEnrollment'],
-          state: maps[i]['state'] ?? '');
+          state: maps[i]['state']);
     });
   }
 

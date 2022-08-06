@@ -3,6 +3,7 @@ import 'package:uni/controller/fetchers/courses_fetcher.dart';
 import 'package:uni/controller/fetchers/session_dependant_fetcher.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/parsers/parser_courses.dart';
+import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/session.dart';
 
@@ -33,12 +34,15 @@ class ProfileFetcher implements SessionDependantFetcher {
               .map((c) => c.festId)
               .toList()
               .contains(course.festId)) {
+            Course matchingCourse =
+                profile.courses.where((c) => c.festId == course.festId).first;
+            matchingCourse.state ??= course.state;
             continue;
           }
           profile.courses.add(course);
         }
       } catch (e) {
-        Logger().e('Failed to get user courses via scrapping');
+        Logger().e('Failed to get user courses via scrapping: $e');
       }
       return profile;
     }

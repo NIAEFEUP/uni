@@ -5,7 +5,6 @@ import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:tuple/tuple.dart';
 import 'package:uni/controller/fetchers/all_course_units_fetcher.dart';
-import 'package:uni/controller/fetchers/courses_fetcher.dart';
 import 'package:uni/controller/fetchers/current_course_units_fetcher.dart';
 import 'package:uni/controller/fetchers/departures_fetcher.dart';
 import 'package:uni/controller/fetchers/exam_fetcher.dart';
@@ -29,7 +28,6 @@ import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/controller/local_storage/app_user_database.dart';
 import 'package:uni/controller/networking/network_router.dart'
     show NetworkRouter;
-import 'package:uni/controller/parsers/parser_courses.dart';
 import 'package:uni/controller/parsers/parser_exams.dart';
 import 'package:uni/controller/parsers/parser_fees.dart';
 import 'package:uni/controller/parsers/parser_print_balance.dart';
@@ -389,31 +387,6 @@ ThunkAction<AppState> getUserFees(Completer<void> action) {
     } catch (e) {
       Logger().e('Failed to get Fees info');
       store.dispatch(SetFeesStatusAction(RequestStatus.failed));
-    }
-
-    action.complete();
-  };
-}
-
-ThunkAction<AppState> getUserCoursesState(Completer<void> action) {
-  return (Store<AppState> store) async {
-    store.dispatch(SetCoursesStatesStatusAction(RequestStatus.busy));
-    try {
-      final responses = CoursesFetcher()
-          .getCoursesListResponses(store.state.content['session']);
-      final Map<String, String> coursesStates =
-          parseMultipleCoursesStates(await Future.wait(responses));
-      final Tuple2<String, String> userPersistentInfo =
-          await AppSharedPreferences.getPersistentUserInfo();
-      if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {
-        final AppCoursesDatabase coursesDb = AppCoursesDatabase();
-        coursesDb.saveCoursesStates(coursesStates);
-      }
-      store.dispatch(SetCoursesStatesAction(coursesStates));
-      store.dispatch(SetCoursesStatesStatusAction(RequestStatus.successful));
-    } catch (e) {
-      Logger().e('Failed to get Courses State info');
-      store.dispatch(SetCoursesStatesStatusAction(RequestStatus.failed));
     }
 
     action.complete();
