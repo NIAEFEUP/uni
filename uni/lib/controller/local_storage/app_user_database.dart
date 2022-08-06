@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:logger/logger.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:tuple/tuple.dart';
 import 'package:uni/controller/local_storage/app_database.dart';
@@ -34,7 +33,6 @@ class AppUserDataDatabase extends AppDatabase {
     // Convert the List<Map<String, dynamic> into a Profile.
     String? name, email, printBalance, feesBalance, feesLimit;
     for (Map<String, dynamic> entry in maps) {
-      Logger().i('entry: $entry');
       if (entry['key'] == 'name') name = entry['value'];
       if (entry['key'] == 'email') email = entry['value'];
       if (entry['key'] == 'printBalance') printBalance = entry['value'];

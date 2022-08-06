@@ -138,9 +138,6 @@ ThunkAction<AppState> getUserInfo(Completer<void> action) {
       if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {
         final profileDb = AppUserDataDatabase();
         profileDb.insertUserData(userProfile);
-
-        final AppCoursesDatabase coursesDb = AppCoursesDatabase();
-        await coursesDb.saveNewCourses(userProfile.courses);
       }
     } catch (e) {
       Logger().e('Failed to get User Info');
@@ -151,21 +148,24 @@ ThunkAction<AppState> getUserInfo(Completer<void> action) {
   };
 }
 
-ThunkAction<AppState> getCourseUnits(Completer<void> action) {
+ThunkAction<AppState> getCourseUnitsAndCourseAverages(Completer<void> action) {
   return (Store<AppState> store) async {
     store.dispatch(SaveAllUcsActionStatus(RequestStatus.busy));
 
     try {
       List<Course> courses = store.state.content['profile'].courses;
       Session session = store.state.content['session'];
-      List<CourseUnit> courseUnits =
-          await AllCourseUnitsFetcher().getAllCourseUnits(courses, session);
+      List<CourseUnit> courseUnits = await AllCourseUnitsFetcher()
+          .getAllCourseUnitsAndCourseAverages(courses, session);
       store.dispatch(SaveAllUcsAction(courseUnits));
       store.dispatch(SaveAllUcsActionStatus(RequestStatus.successful));
 
       final Tuple2<String, String> userPersistentInfo =
           await AppSharedPreferences.getPersistentUserInfo();
       if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {
+        final AppCoursesDatabase coursesDb = AppCoursesDatabase();
+        await coursesDb.saveNewCourses(courses);
+
         final courseUnitsDatabase = AppCourseUnitsDatabase();
         await courseUnitsDatabase.saveNewCourseUnits(courseUnits);
       }

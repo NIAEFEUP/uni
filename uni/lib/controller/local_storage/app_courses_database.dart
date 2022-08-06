@@ -10,8 +10,9 @@ import 'package:uni/model/entities/course.dart';
 /// See the [Course] class to see what data is stored in this database.
 class AppCoursesDatabase extends AppDatabase {
   static const String createScript =
-      '''CREATE TABLE courses(id INTEGER, fest_id INTEGER, name TEXT,
-          abbreviation TEXT, currYear TEXT, firstEnrollment INTEGER, state TEXT, faculty TEXT)''';
+      '''CREATE TABLE courses(id INTEGER, fest_id INTEGER, name TEXT,'''
+      '''abbreviation TEXT, currYear TEXT, firstEnrollment INTEGER, state TEXT,'''
+      '''faculty TEXT, currentAverage REAL, finishedEcts REAL)''';
   AppCoursesDatabase()
       : super('courses.db', [createScript], onUpgrade: migrate, version: 2);
 
@@ -39,7 +40,9 @@ class AppCoursesDatabase extends AppDatabase {
           currYear: maps[i]['currYear'],
           firstEnrollment: maps[i]['firstEnrollment'],
           state: maps[i]['state'],
-          faculty: maps[i]['faculty']);
+          faculty: maps[i]['faculty'],
+          finishedEcts: maps[i]['finishedEcts'],
+          currentAverage: maps[i]['currentAverage']);
     });
   }
 

@@ -5,17 +5,17 @@ import 'package:uni/model/entities/course_unit.dart';
 import 'package:uni/model/entities/session.dart';
 
 class AllCourseUnitsFetcher {
-  Future<List<CourseUnit>> getAllCourseUnits(
+  Future<List<CourseUnit>> getAllCourseUnitsAndCourseAverages(
       List<Course> courses, Session session) async {
     List<CourseUnit> allCourseUnits = [];
     for (var course in courses) {
-      allCourseUnits
-          .addAll(await _getAllCourseUnitsFromCourse(course, session));
+      allCourseUnits.addAll(
+          await _getAllCourseUnitsAndCourseAveragesFromCourse(course, session));
     }
     return allCourseUnits;
   }
 
-  Future<List<CourseUnit>> _getAllCourseUnitsFromCourse(
+  Future<List<CourseUnit>> _getAllCourseUnitsAndCourseAveragesFromCourse(
       Course course, Session session) async {
     if (course.faculty == null) {
       return [];
@@ -28,6 +28,6 @@ class AllCourseUnitsFetcher {
           'pv_fest_id': course.festId.toString(),
         },
         session);
-    return parseCourseUnits(response);
+    return parseCourseUnitsAndCourseAverage(response, course);
   }
 }

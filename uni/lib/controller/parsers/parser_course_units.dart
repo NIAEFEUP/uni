@@ -1,12 +1,22 @@
 import 'package:html/parser.dart';
 import 'package:http/http.dart' as http;
+import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/course_unit.dart';
 
-List<CourseUnit> parseCourseUnits(http.Response response) {
+List<CourseUnit> parseCourseUnitsAndCourseAverage(
+    http.Response response, Course course) {
   final document = parse(response.body);
   final table = document.getElementById('tabelapercurso');
   if (table == null) {
     return [];
+  }
+
+  final labels = document.querySelectorAll('.caixa .formulario-legenda');
+  if (labels.length >= 2) {
+    course.currentAverage ??= num.parse(
+        labels[0].nextElementSibling?.innerHtml.replaceFirst(',', '.') ?? '0');
+    course.finishedEcts ??= num.parse(
+        labels[1].nextElementSibling?.innerHtml.replaceFirst(',', '.') ?? '0');
   }
 
   final String? firstSchoolYearData =
@@ -14,7 +24,6 @@ List<CourseUnit> parseCourseUnits(http.Response response) {
   if (firstSchoolYearData == null) {
     return [];
   }
-
   final int firstSchoolYear = int.parse(
       firstSchoolYearData.substring(0, firstSchoolYearData.indexOf('/')));
 

@@ -64,7 +64,7 @@ Future loadRemoteUserInfoToState(Store<AppState> store) async {
   userInfo.future.then((value) {
     store.dispatch(getUserExams(exams, ParserExams(), userPersistentInfo));
     store.dispatch(getUserSchedule(schedule, userPersistentInfo));
-    store.dispatch(getCourseUnits(ucs));
+    store.dispatch(getCourseUnitsAndCourseAverages(ucs));
   });
 
   final allRequests = Future.wait([

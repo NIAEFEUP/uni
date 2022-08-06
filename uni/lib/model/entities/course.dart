@@ -16,6 +16,8 @@ class Course {
   final int? firstEnrollment;
   final String? faculty;
   String? state;
+  num? finishedEcts;
+  num? currentAverage;
 
   Course(
       {required this.id,
@@ -25,7 +27,9 @@ class Course {
       this.currYear,
       this.firstEnrollment,
       this.state,
-      this.faculty});
+      this.faculty,
+      this.finishedEcts,
+      this.currentAverage});
 
   /// Creates a new instance from a JSON object.
   static Course fromJson(dynamic data) {
@@ -49,7 +53,9 @@ class Course {
       'currYear': currYear,
       'firstEnrollment': firstEnrollment,
       'state': state,
-      'faculty': faculty
+      'faculty': faculty,
+      'currentAverage': currentAverage,
+      'finishedEcts': finishedEcts,
     };
   }
 }
