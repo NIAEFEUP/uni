@@ -1,5 +1,8 @@
+import 'package:logger/logger.dart';
+import 'package:uni/controller/fetchers/courses_fetcher.dart';
 import 'package:uni/controller/fetchers/session_dependant_fetcher.dart';
 import 'package:uni/controller/networking/network_router.dart';
+import 'package:uni/controller/parsers/parser_courses.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/session.dart';
 
@@ -19,7 +22,25 @@ class ProfileFetcher implements SessionDependantFetcher {
         url, {'pv_codigo': session.studentNumber}, session);
 
     if (response.statusCode == 200) {
-      return Profile.fromResponse(response);
+      Profile profile = Profile.fromResponse(response);
+      try {
+        final coursesResponses =
+            CoursesFetcher().getCoursesListResponses(session);
+        final courses =
+            parseMultipleCourses(await Future.wait(coursesResponses));
+        for (var course in courses) {
+          if (profile.courses
+              .map((c) => c.festId)
+              .toList()
+              .contains(course.festId)) {
+            continue;
+          }
+          profile.courses.add(course);
+        }
+      } catch (e) {
+        Logger().e('Failed to get user courses via scrapping');
+      }
+      return profile;
     }
     return Profile();
   }

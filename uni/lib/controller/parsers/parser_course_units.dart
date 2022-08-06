@@ -30,13 +30,12 @@ List<CourseUnit> parseCourseUnits(http.Response response) {
     final String ects = row.children[5].innerHtml.replaceAll(',', '.');
     String grade = '-', result = '-';
     int yearIncrement = 0;
-    print('pa');
     for (var i = 0;; i += 2, yearIncrement++) {
       if (row.children.length <= 6 + i) {
         break;
       }
       grade = row.children[6 + i].innerHtml;
-      if (grade != '') {
+      if (grade.replaceAll('&nbsp;', ' ').trim() != '') {
         result = row.children[7 + i].innerHtml;
         break;
       }

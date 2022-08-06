@@ -202,7 +202,10 @@ ThunkAction<AppState> updateStateBasedOnLocalProfile() {
     // Build courses states map
     final Map<String, String> coursesStates = <String, String>{};
     for (Course course in profile.courses) {
-      coursesStates[course.name] = course.state;
+      if (course.name == null || course.state == null) {
+        continue;
+      }
+      coursesStates[course.name!] = course.state!;
     }
 
     store.dispatch(SaveProfileAction(profile));
@@ -400,7 +403,7 @@ ThunkAction<AppState> getUserCoursesState(Completer<void> action) {
       final responses = CoursesFetcher()
           .getCoursesListResponses(store.state.content['session']);
       final Map<String, String> coursesStates =
-          parseMultipleCourses(await Future.wait(responses));
+          parseMultipleCoursesStates(await Future.wait(responses));
       final Tuple2<String, String> userPersistentInfo =
           await AppSharedPreferences.getPersistentUserInfo();
       if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {

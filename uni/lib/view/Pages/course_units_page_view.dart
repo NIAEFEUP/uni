@@ -74,6 +74,7 @@ class CourseUnitsPageViewState
           const PageTitle(name: constants.navCourseUnits),
           const Spacer(),
           DropdownButton<String>(
+            disabledHint: const Text('Ano'),
             value: selectedSchoolYear,
             icon: const Icon(Icons.arrow_drop_down),
             onChanged: (String? newValue) {
@@ -88,6 +89,7 @@ class CourseUnitsPageViewState
           ),
           const SizedBox(width: 10),
           DropdownButton<String>(
+            disabledHint: const Text('Semestre'),
             value: selectedSemester,
             icon: const Icon(Icons.arrow_drop_down),
             onChanged: (String? newValue) {

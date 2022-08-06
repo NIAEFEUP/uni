@@ -9,23 +9,23 @@
 /// - The course `state`
 class Course {
   final int id;
-  final int festId;
-  final String name;
-  final String abbreviation;
-  final String currYear;
-  final int firstEnrollment;
-  final String state;
-  final String faculty;
+  final int? festId;
+  final String? name;
+  final String? abbreviation;
+  final String? currYear;
+  final int? firstEnrollment;
+  final String? state;
+  final String? faculty;
 
   Course(
       {required this.id,
       this.festId = 0,
-      this.name = 'Course',
-      this.abbreviation = 'cs',
-      this.currYear = '',
-      this.firstEnrollment = 0,
-      this.state = '',
-      this.faculty = ''});
+      this.name,
+      this.abbreviation,
+      this.currYear,
+      this.firstEnrollment,
+      this.state,
+      this.faculty});
 
   /// Creates a new instance from a JSON object.
   static Course fromJson(dynamic data) {
