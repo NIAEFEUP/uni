@@ -18,6 +18,7 @@ import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher_html.d
 import 'package:uni/controller/load_info.dart';
 import 'package:uni/controller/load_static/terms_and_conditions.dart';
 import 'package:uni/controller/local_storage/app_bus_stop_database.dart';
+import 'package:uni/controller/local_storage/app_course_units_database.dart';
 import 'package:uni/controller/local_storage/app_courses_database.dart';
 import 'package:uni/controller/local_storage/app_exams_database.dart';
 import 'package:uni/controller/local_storage/app_last_user_info_update_database.dart';
@@ -161,8 +162,15 @@ ThunkAction<AppState> getCourseUnits(Completer<void> action) {
           await AllCourseUnitsFetcher().getAllCourseUnits(courses, session);
       store.dispatch(SaveAllUcsAction(courseUnits));
       store.dispatch(SaveAllUcsActionStatus(RequestStatus.successful));
+
+      final Tuple2<String, String> userPersistentInfo =
+          await AppSharedPreferences.getPersistentUserInfo();
+      if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {
+        final courseUnitsDatabase = AppCourseUnitsDatabase();
+        await courseUnitsDatabase.saveNewCourseUnits(courseUnits);
+      }
     } catch (e) {
-      Logger().e('Failed to get all user ucs');
+      Logger().e('Failed to get all user ucs: $e');
       store.dispatch(SaveAllUcsActionStatus(RequestStatus.failed));
     }
 
@@ -175,6 +183,17 @@ ThunkAction<AppState> updateStateBasedOnLocalUserExams() {
     final AppExamsDatabase db = AppExamsDatabase();
     final List<Exam> exs = await db.exams();
     store.dispatch(SetExamsAction(exs));
+  };
+}
+
+ThunkAction<AppState> updateStateBasedOnLocalCourseUnits() {
+  return (Store<AppState> store) async {
+    final AppCourseUnitsDatabase db = AppCourseUnitsDatabase();
+    final List<CourseUnit> courseUnits = await db.courseUnits();
+    store.dispatch(SaveAllUcsAction(courseUnits));
+    for (var c in courseUnits) {
+      Logger().w(c.name);
+    }
   };
 }
 
@@ -193,23 +212,12 @@ ThunkAction<AppState> updateStateBasedOnLocalProfile() {
 
     final AppCoursesDatabase coursesDb = AppCoursesDatabase();
     final List<Course> courses = await coursesDb.courses();
-
     profile.courses = courses;
-
-    // Build courses states map
-    final Map<String, String> coursesStates = <String, String>{};
-    for (Course course in profile.courses) {
-      if (course.name == null || course.state == null) {
-        continue;
-      }
-      coursesStates[course.name!] = course.state!;
-    }
 
     store.dispatch(SaveProfileAction(profile));
     store.dispatch(SetPrintBalanceAction(profile.printBalance));
     store.dispatch(SetFeesBalanceAction(profile.feesBalance));
     store.dispatch(SetFeesLimitAction(profile.feesLimit));
-    store.dispatch(SetCoursesStatesAction(coursesStates));
   };
 }
 

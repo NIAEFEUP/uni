@@ -98,14 +98,15 @@ void loadLocalUserInfoToState(store) async {
     store.dispatch(updateStateBasedOnLocalUserBusStops());
     store.dispatch(updateStateBasedOnLocalRefreshTimes());
     store.dispatch(updateStateBasedOnLocalTime());
+    store.dispatch(updateStateBasedOnLocalCourseUnits());
     store.dispatch(SaveProfileStatusAction(RequestStatus.successful));
     store.dispatch(SetPrintBalanceStatusAction(RequestStatus.successful));
     store.dispatch(SetFeesStatusAction(RequestStatus.successful));
-    store.dispatch(SetCoursesStatesStatusAction(RequestStatus.successful));
   }
 }
 
 Future<void> handleRefresh(store) {
+  loadLocalUserInfoToState(store);
   final action = RefreshItemsAction();
   store.dispatch(action);
   return action.completer.future;

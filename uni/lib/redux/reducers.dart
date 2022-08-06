@@ -35,8 +35,6 @@ AppState appReducers(AppState state, dynamic action) {
     return setFeesLimit(state, action);
   } else if (action is SetFeesStatusAction) {
     return setFeesStatus(state, action);
-  } else if (action is SetCoursesStatesAction) {
-    return setCoursesState(state, action);
   } else if (action is SetBusTripsAction) {
     return setBusTrips(state, action);
   } else if (action is SetBusStopsAction) {
@@ -49,8 +47,6 @@ AppState appReducers(AppState state, dynamic action) {
     return setCurrentTime(state, action);
   } else if (action is UpdateFavoriteCards) {
     return updateFavoriteCards(state, action);
-  } else if (action is SetCoursesStatesStatusAction) {
-    return setCoursesStateStatus(state, action);
   } else if (action is SetPrintRefreshTimeAction) {
     return setPrintRefreshTime(state, action);
   } else if (action is SetFeesRefreshTimeAction) {
@@ -156,11 +152,6 @@ AppState setFeesStatus(AppState state, SetFeesStatusAction action) {
   return state.cloneAndUpdateValue('feesStatus', action.status);
 }
 
-AppState setCoursesState(AppState state, SetCoursesStatesAction action) {
-  Logger().i('setting courses state: ${action.coursesStates}');
-  return state.cloneAndUpdateValue('coursesStates', action.coursesStates);
-}
-
 AppState setBusStop(AppState state, SetBusStopsAction action) {
   Logger().i('setting bus stops: ${action.busStops}');
   return state.cloneAndUpdateValue('configuredBusStops', action.busStops);
@@ -194,12 +185,6 @@ AppState setInitialStoreState(
 
 AppState updateFavoriteCards(AppState state, UpdateFavoriteCards action) {
   return state.cloneAndUpdateValue('favoriteCards', action.favoriteCards);
-}
-
-AppState setCoursesStateStatus(
-    AppState state, SetCoursesStatesStatusAction action) {
-  Logger().i('setting courses state status: ${action.status}');
-  return state.cloneAndUpdateValue('coursesStatesStatus', action.status);
 }
 
 AppState setPrintRefreshTime(AppState state, SetPrintRefreshTimeAction action) {

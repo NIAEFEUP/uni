@@ -36,7 +36,6 @@ class AppState {
       'profileStatus': RequestStatus.none,
       'printBalanceStatus': RequestStatus.none,
       'feesStatus': RequestStatus.none,
-      'coursesStateStatus': RequestStatus.none,
       'lastUserInfoUpdateTime': null
     };
   }

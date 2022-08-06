@@ -38,7 +38,8 @@ class AppCoursesDatabase extends AppDatabase {
           abbreviation: maps[i]['abbreviation'],
           currYear: maps[i]['currYear'],
           firstEnrollment: maps[i]['firstEnrollment'],
-          state: maps[i]['state']);
+          state: maps[i]['state'],
+          faculty: maps[i]['faculty']);
     });
   }
 
@@ -61,28 +62,6 @@ class AppCoursesDatabase extends AppDatabase {
     final Database db = await getDatabase();
 
     await db.delete('courses');
-  }
-
-  /// Updates the state of all courses present in [states].
-  ///
-  /// *Note:*
-  /// * a key in [states] is a [Course.id].
-  /// * a value in [states] is the new state of the corresponding course.
-  void saveCoursesStates(Map<String, String> states) async {
-    final Database db = await getDatabase();
-
-    // Retrieve stored courses
-    final List<Course> courses = await this.courses();
-
-    // For each course, save its state
-    for (Course course in courses) {
-      await db.update(
-        'courses',
-        {'state': states[course.name]},
-        where: 'id = ?',
-        whereArgs: [course.id],
-      );
-    }
   }
 
   /// Migrates [db] from [oldVersion] to [newVersion].

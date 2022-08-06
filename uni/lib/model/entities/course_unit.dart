@@ -4,33 +4,33 @@ class CourseUnit {
   String code;
   String abbreviation;
   String name;
-  int curricularYear;
+  int? curricularYear;
   int occurrId;
-  String semesterCode;
-  String semesterName;
-  String type;
-  String status;
-  String grade;
-  String ectsGrade;
-  String result;
-  num ects;
+  String? semesterCode;
+  String? semesterName;
+  String? type;
+  String? status;
+  String? grade;
+  String? ectsGrade;
+  String? result;
+  num? ects;
   String? schoolYear;
 
   CourseUnit(
       {this.id = 0,
       this.code = '',
       required this.abbreviation,
-      this.name = '',
-      this.curricularYear = 0,
-      this.occurrId = 0,
-      this.semesterCode = '',
-      this.semesterName = '',
-      this.type = '',
-      this.status = '',
-      this.grade = '',
-      this.ectsGrade = '',
-      this.result = '',
-      this.ects = 0,
+      required this.name,
+      this.curricularYear,
+      required this.occurrId,
+      this.semesterCode,
+      this.semesterName,
+      this.type,
+      this.status,
+      this.grade,
+      this.ectsGrade,
+      this.result,
+      this.ects,
       this.schoolYear});
 
   /// Creates a new instance from a JSON object.
@@ -50,5 +50,25 @@ class CourseUnit {
         ectsGrade: data['resultado_ects'],
         result: data['resultado_insc'],
         ects: data['creditos_ects']);
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'code': code,
+      'abbreviation': abbreviation,
+      'name': name,
+      'curricularYear': curricularYear,
+      'occurrId': occurrId,
+      'semesterCode': semesterCode,
+      'semesterName': semesterName,
+      'type': type,
+      'status': status,
+      'grade': grade,
+      'ectsGrade': ectsGrade,
+      'result': result,
+      'ects': ects,
+      'schoolYear': schoolYear,
+    };
   }
 }

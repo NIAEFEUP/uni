@@ -166,5 +166,9 @@ List<String> _getAvailableYears(List<CourseUnit> courseUnits) {
 }
 
 List<String> _getAvailableSemesters(List<CourseUnit> courseUnits) {
-  return courseUnits.map((c) => c.semesterCode).toSet().toList();
+  return courseUnits
+      .map((c) => c.semesterCode)
+      .whereType<String>()
+      .toSet()
+      .toList();
 }

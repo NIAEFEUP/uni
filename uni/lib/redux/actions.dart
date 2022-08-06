@@ -103,11 +103,6 @@ class SetFeesStatusAction {
   SetFeesStatusAction(this.status);
 }
 
-class SetCoursesStatesAction {
-  Map<String, String> coursesStates;
-  SetCoursesStatesAction(this.coursesStates);
-}
-
 class SetBusTripsAction {
   Map<String, List<Trip>> trips;
   SetBusTripsAction(this.trips);
@@ -136,11 +131,6 @@ class SetCurrentTimeAction {
 class UpdateFavoriteCards {
   List<FavoriteWidgetType> favoriteCards;
   UpdateFavoriteCards(this.favoriteCards);
-}
-
-class SetCoursesStatesStatusAction {
-  RequestStatus status;
-  SetCoursesStatesStatusAction(this.status);
 }
 
 class SetPrintRefreshTimeAction {
