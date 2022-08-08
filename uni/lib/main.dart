@@ -98,7 +98,7 @@ class MyAppState extends State<MyApp> {
                         page: const HomePageView(), settings: settings);
                   case '/${constants.navSchedule}':
                     return PageTransition.makePageTransition(
-                        page: SchedulePage(), settings: settings);
+                        page: const SchedulePage(), settings: settings);
                   case '/${constants.navExams}':
                     return PageTransition.makePageTransition(
                         page: const ExamsPageView(), settings: settings);
