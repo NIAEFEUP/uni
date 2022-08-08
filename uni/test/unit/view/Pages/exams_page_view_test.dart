@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:uni/model/entities/exam.dart';
-import 'package:uni/view/Pages/Exams/exams.dart';
+import 'package:uni/view/Exams/exams.dart';
 
 import '../../../testable_widget.dart';
 

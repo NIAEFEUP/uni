@@ -6,7 +6,7 @@ import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tuple/tuple.dart';
 import 'package:uni/model/entities/exam.dart';
-import 'package:uni/model/home_page_model.dart';
+import 'package:uni/utils/favorite_widget_type.dart';
 
 /// Manages the app's Shared Preferences.
 ///
