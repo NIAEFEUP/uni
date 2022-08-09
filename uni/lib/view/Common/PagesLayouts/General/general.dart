@@ -10,7 +10,7 @@ import 'package:uni/view/Profile/profile.dart';
 import 'package:uni/utils/constants.dart' as constants;
 import 'package:uni/view/Common/PagesLayouts/General/widgets/navigation_drawer.dart';
 
-/// Manages the section inside the user's personal area.
+/// Page with a hamburger menu and the user profile picture
 abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
   final double borderMargin = 18.0;
   static ImageProvider? decorageImage;

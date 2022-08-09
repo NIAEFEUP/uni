@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:uni/model/entities/time_utilities.dart';
 
+/// App default card
 abstract class GenericCard extends StatefulWidget {
   GenericCard({Key? key})
       : editingMode = false,

@@ -3,6 +3,11 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:uni/controller/local_storage/app_last_user_info_update_database.dart';
 import 'package:uni/model/app_state.dart';
 
+/*
+  Wraps content given its fetch data from the redux store, 
+  hydrating the component, displaying an empty message, 
+  a connection error or a loading circular effect as appropriate
+*/
 class RequestDependentWidgetBuilder extends StatelessWidget {
   const RequestDependentWidgetBuilder(
       {Key? key,

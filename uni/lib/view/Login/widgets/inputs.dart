@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uni/view/Login/widgets/faculties_multiselect.dart';
-import 'package:uni/view/Common/terms_and_conditions.dart';
+import 'package:uni/view/About/widgets/terms_and_conditions.dart';
 
 /// Creates the widget for the user to choose their faculty
 Widget createFacultyInput(BuildContext context, List<String> faculties, setFaculties) {

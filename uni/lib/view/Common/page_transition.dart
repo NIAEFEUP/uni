@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// Transition used between pages
 class PageTransition {
   static const int pageTransitionDuration = 200;
 

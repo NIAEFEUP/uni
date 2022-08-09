@@ -77,7 +77,7 @@ class ProfilePageView extends StatefulWidget {
 }
 
 /// Manages the 'Personal user page' section.
-class ProfilePageViewState extends UnnamedPageViewState<ProfilePageView> {
+class ProfilePageViewState extends SecondaryPageViewState<ProfilePageView> {
   @override
   Widget getBody(BuildContext context) {
     return ListView(shrinkWrap: false, children: childrenList(context));

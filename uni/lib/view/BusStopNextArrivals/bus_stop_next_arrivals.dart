@@ -7,7 +7,7 @@ import 'package:uni/model/entities/trip.dart';
 import 'package:uni/view/Common/PagesLayouts/General/general.dart';
 import 'package:uni/view/BusStopSelection/bus_stop_selection.dart';
 import 'package:uni/view/BusStopNextArrivals/widgets/bus_stop_row.dart';
-import 'package:uni/view/Common/last_update_timestamp.dart';
+import 'package:uni/view/BusStopNextArrivals/widgets/last_update_timestamp.dart';
 import 'package:uni/view/Common/page_title.dart';
 
 class BusStopNextArrivalsPage extends StatefulWidget {

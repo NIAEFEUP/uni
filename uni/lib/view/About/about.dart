@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:uni/view/Common/PagesLayouts/General/general.dart';
-import 'package:uni/view/Common/terms_and_conditions.dart';
+import 'package:uni/view/About/widgets/terms_and_conditions.dart';
 
 class AboutPageView extends StatefulWidget {
   const AboutPageView({super.key});

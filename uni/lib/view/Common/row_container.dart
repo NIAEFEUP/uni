@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// App default container
 class RowContainer extends StatelessWidget {
   final Widget child;
   final Color? borderColor;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// Generic implementation of a page title
 class PageTitle extends StatelessWidget {
   final String name;
   final bool center;
