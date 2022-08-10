@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../location.dart';
+import 'package:uni/model/entities/location.dart';
 
 class StoreLocation implements Location{
   @override
@@ -13,9 +13,9 @@ class StoreLocation implements Location{
   @override
   final icon = Icons.store;
 
-  final int locationGroupId;
+  final int? locationGroupId;
 
-  StoreLocation(this.floor,this.name, {this.locationGroupId = null});
+  StoreLocation(this.floor,this.name, {this.locationGroupId});
 
   @override
   String description(){
@@ -23,11 +23,11 @@ class StoreLocation implements Location{
   }
 
   @override
-  Map<String, dynamic> toMap({int groupId = null}){
+  Map<String, dynamic> toMap({int? groupId}){
     return {
-      'floor' : this.floor,
+      'floor' : floor,
       'type' : locationTypeToString(LocationType.store),
-      'name' : this.name
+      'name' : name
     };
   }
 }

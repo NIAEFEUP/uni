@@ -9,6 +9,7 @@ import 'package:uni/controller/fetchers/courses_fetcher.dart';
 import 'package:uni/controller/fetchers/departures_fetcher.dart';
 import 'package:uni/controller/fetchers/exam_fetcher.dart';
 import 'package:uni/controller/fetchers/fees_fetcher.dart';
+import 'package:uni/controller/fetchers/location_fetcher/location_fetcher_asset.dart';
 import 'package:uni/controller/fetchers/print_fetcher.dart';
 import 'package:uni/controller/fetchers/profile_fetcher.dart';
 import 'package:uni/controller/fetchers/restaurant_fetcher/restaurant_fetcher_html.dart';
@@ -26,8 +27,6 @@ import 'package:uni/controller/local_storage/app_refresh_times_database.dart';
 import 'package:uni/controller/local_storage/app_restaurant_database.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/controller/local_storage/app_user_database.dart';
-import 'package:uni/controller/location_fetcher/location_fetcher_asset.dart';
-import 'package:uni/controller/local_storage/app_restaurant_database.dart';
 import 'package:uni/controller/networking/network_router.dart'
     show NetworkRouter;
 import 'package:uni/controller/parsers/parser_courses.dart';
@@ -427,7 +426,7 @@ ThunkAction<AppState> getUserBusTrips(Completer<void> action) {
   };
 }
 
-ThunkAction<AppState> getFacultyLocations(Completer<Null> action){
+ThunkAction<AppState> getFacultyLocations(Completer<void> action){
   return (Store<AppState> store) async{
     try{
       store.dispatch(SetLocationsStatusAction(RequestStatus.busy));

@@ -1,32 +1,33 @@
-import 'package:uni/view/Fonts/location_icons.dart';
+import 'package:flutter/material.dart';
 
 import 'package:uni/model/entities/location.dart';
 
-class Atm implements Location{
+class UnknownLocation implements Location{
   @override
   final int floor;
 
   @override
-  final weight = 2;
+  final weight = 4;
 
   @override
-  final icon = LocationIcons.cashMultiple;
+  final icon = Icons.store;
 
   final int? locationGroupId;
 
-  Atm(this.floor, {this.locationGroupId}) : super();
+  final String type;
+
+  UnknownLocation(this.floor,this.type, {this.locationGroupId});
 
   @override
   String description(){
-    return 'Atm';
+    return type;
   }
 
   @override
   Map<String, dynamic> toMap({int? groupId}){
     return {
       'floor' : floor,
-      'type' : locationTypeToString(LocationType.atm)
+      'type' : type,
     };
   }
-
 }

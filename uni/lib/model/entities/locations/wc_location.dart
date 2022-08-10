@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../location.dart';
+import 'package:uni/model/entities/location.dart';
 
 class WcLocation implements Location{
   @override
@@ -11,9 +11,9 @@ class WcLocation implements Location{
   @override
   final icon = Icons.wc;
 
-  final int locationGroupId;
+  final int? locationGroupId;
 
-  WcLocation(this.floor, {this.locationGroupId = null});
+  WcLocation(this.floor, {this.locationGroupId});
 
   @override
   String description(){
@@ -21,7 +21,7 @@ class WcLocation implements Location{
   }
 
   @override
-  Map<String, dynamic> toMap({int groupId = null}){
+  Map<String, dynamic> toMap({int? groupId}){
     return {
       'floor' : floor,
       'type' : locationTypeToString(LocationType.atm)

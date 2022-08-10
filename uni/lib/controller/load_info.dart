@@ -62,6 +62,7 @@ Future loadRemoteUserInfoToState(Store<AppState> store) async {
   store.dispatch(getFacultyLocations(locations));
   store.dispatch(getRestaurantsFromFetcher(restaurants));
 
+  store.dispatch(getFacultyLocations(locations));
   final Tuple2<String, String> userPersistentInfo =
       await AppSharedPreferences.getPersistentUserInfo();
   userInfo.future.then((value) {

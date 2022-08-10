@@ -1,10 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:latlong2/latlong.dart';
-import '../../model/entities/location.dart';
-import '../../model/entities/location_group.dart';
+import 'package:uni/model/entities/location.dart';
+import 'package:uni/model/entities/location_group.dart';
 
 
 class LocationMarker extends Marker{
@@ -23,32 +22,35 @@ class LocationMarker extends Marker{
           decoration: BoxDecoration(
             color: Theme.of(ctx).backgroundColor,
             border: Border.all(
-              color: Theme.of(ctx).accentColor,
+              color: Theme.of(ctx).colorScheme.secondary,
             ),
-            borderRadius: BorderRadius.all(Radius.circular(20))
+            borderRadius: const BorderRadius.all(Radius.circular(20))
           ),
           child: getIcon(locationGroup.getLocationWithMostWeight(), ctx),
         ),
       );
-  static Widget getIcon(Location location, BuildContext context){
+  static Widget getIcon(Location? location, BuildContext context){
+    if(location == null){
+      return Container();
+    }
     if(location.icon is String){
       return Container(
         padding: const EdgeInsets.all(2.0),
         child: SvgPicture.asset(
           location.icon,
-          color: Theme.of(context).accentColor
+          color: Theme.of(context).colorScheme.secondary
 
         )
       );
     } else if (location.icon is IconData){
       return Icon(
           location.icon,
-          color: Theme.of(context).accentColor,
+          color: Theme.of(context).colorScheme.secondary,
           size: 12);
     } else {
       return Icon(
           Icons.device_unknown,
-          color: Theme.of(context).accentColor,
+          color: Theme.of(context).colorScheme.secondary,
           size: 12);
     }
   }

@@ -3,7 +3,11 @@ import 'package:uni/model/entities/location.dart';
 import 'package:uni/model/entities/location_group.dart';
 
 class LocationMarkerPopup extends StatelessWidget {
-  const LocationMarkerPopup(this.locationGroup, {this.showId = false});
+  const LocationMarkerPopup(this.locationGroup,
+                            {
+                            this.showId = false,
+                            super.key
+                            });
   final LocationGroup locationGroup;
   final bool showId;
 
@@ -15,13 +19,13 @@ class LocationMarkerPopup extends StatelessWidget {
         borderRadius: BorderRadius.circular(15),
       ),
       child: Padding(
-          padding: EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8.0),
           child:
           Wrap(
             direction: Axis.vertical,
             spacing: 8,
             children:
-            (this.showId ?
+            (showId ?
               <Widget>[Text(locationGroup.id.toString())] : <Widget>[]) +
               buildFloors(context),
           )
@@ -53,18 +57,18 @@ class LocationMarkerPopup extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Container(
-          padding: EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 0.0),
+          padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 0.0),
           child:
-            Text('Andar ' + floor.toString(),
-              style: TextStyle(color: Theme.of(context).accentColor))
+            Text('Andar $floor',
+              style: TextStyle(color: Theme.of(context).colorScheme.secondary))
         )
     ],);
     final Widget locationsColumn = Container(
-      padding: EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 0.0),
+      padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 0.0),
       decoration: BoxDecoration(
         border: Border(
             left:
-            BorderSide(color: Theme.of(context).accentColor)
+            BorderSide(color: Theme.of(context).colorScheme.secondary)
         )
       ),
       child:
@@ -85,7 +89,7 @@ class LocationMarkerPopup extends StatelessWidget {
             [Text(
             location.description(),
             textAlign: TextAlign.left,
-            style: TextStyle(color: Theme.of(context).accentColor))],
+            style: TextStyle(color: Theme.of(context).colorScheme.secondary))],
         )).toList();
   }
 }

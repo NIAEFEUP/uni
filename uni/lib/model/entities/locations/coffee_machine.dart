@@ -1,6 +1,6 @@
 import 'package:uni/view/Fonts/location_icons.dart';
 
-import '../location.dart';
+import 'package:uni/model/entities/location.dart';
 
 class CoffeeMachine implements Location{
   @override
@@ -12,9 +12,9 @@ class CoffeeMachine implements Location{
   @override
   final icon = LocationIcons.coffee;
 
-  final int locationGroupId;
+  final int? locationGroupId;
 
-  CoffeeMachine(this.floor, {this.locationGroupId = null});
+  CoffeeMachine(this.floor, {this.locationGroupId});
 
   @override
   String description(){
@@ -22,7 +22,7 @@ class CoffeeMachine implements Location{
   }
 
   @override
-  Map<String, dynamic> toMap({int groupId = null}){
+  Map<String, dynamic> toMap({int? groupId}){
     return {
       'floor' : floor,
       'type' : locationTypeToString(LocationType.coffeeMachine)

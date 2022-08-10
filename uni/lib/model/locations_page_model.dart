@@ -5,32 +5,26 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:uni/view/Pages/locations_page_view.dart';
 import 'package:uni/view/Pages/secondary_page_view.dart';
 
-import 'entities/location_group.dart';
+import 'package:uni/model/entities/location_group.dart';
 
 class LocationsPage extends StatefulWidget {
-  const LocationsPage({Key key}) : super(key: key);
+  const LocationsPage({Key ?key}) : super(key: key);
 
   @override
-  _LocationsPageState createState() => _LocationsPageState();
+  LocationsPageState createState() => LocationsPageState();
 }
 
-class _LocationsPageState extends SecondaryPageViewState
+class LocationsPageState extends SecondaryPageViewState
     with SingleTickerProviderStateMixin {
-  ScrollController scrollViewController;
-
-
-
+  ScrollController? scrollViewController;
 
   @override
   void initState() {
     super.initState();
-
-
   }
 
   @override
   void dispose() {
-
     super.dispose();
   }
 

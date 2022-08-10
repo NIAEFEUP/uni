@@ -19,7 +19,7 @@ class LocationIcons {
   LocationIcons._();
 
   static const _kFontFam = 'LocationIcons';
-  static const String _kFontPkg = null;
+  static const String? _kFontPkg = null;
 
   static const IconData bookOpenBlankVariant =
     IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);

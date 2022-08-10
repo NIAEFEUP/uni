@@ -14,7 +14,7 @@ abstract class LocationFetcher {
     final List<dynamic> groupsMap = json['data'];
     final List<LocationGroup> groups = [];
 
-    groupsMap.forEach((groupMap) {
+    for (Map<String, dynamic> groupMap in groupsMap) {
 
       final int id = groupMap['id'];
       final double lat = groupMap['lat'];
@@ -37,7 +37,7 @@ abstract class LocationFetcher {
               locations: locations,
               isFloorless: isFloorless,
               id: id ));
-    });
+    }
 
     return groups;
   }

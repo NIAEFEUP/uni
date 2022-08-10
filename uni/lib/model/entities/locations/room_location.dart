@@ -1,6 +1,6 @@
 import 'package:uni/view/Fonts/location_icons.dart';
 
-import '../location.dart';
+import 'package:uni/model/entities/location.dart';
 
 class RoomLocation implements Location{
   @override
@@ -13,21 +13,21 @@ class RoomLocation implements Location{
   @override
   final icon = LocationIcons.bookOpenBlankVariant;
 
-  final int locationGroupId;
+  final int? locationGroupId;
 
-  RoomLocation(this.floor,this.roomNumber, {this.locationGroupId = null});
+  RoomLocation(this.floor,this.roomNumber, {this.locationGroupId});
 
   @override
   String description(){
-    return '''${this.roomNumber}''';
+    return roomNumber;
   }
 
   @override
-  Map<String, dynamic> toMap({int groupId = null}){
+  Map<String, dynamic> toMap({int? groupId}){
     return {
-      'floor' : this.floor,
+      'floor' : floor,
       'type' : locationTypeToString(LocationType.room),
-      'first_room' : this.roomNumber
+      'first_room' : roomNumber
     };
   }
 }

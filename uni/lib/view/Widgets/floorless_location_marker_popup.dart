@@ -3,7 +3,11 @@ import 'package:uni/model/entities/location.dart';
 import 'package:uni/model/entities/location_group.dart';
 
 class FloorlessLocationMarkerPopup extends StatelessWidget {
-  const FloorlessLocationMarkerPopup(this.locationGroup, {this.showId = false});
+  const FloorlessLocationMarkerPopup(this.locationGroup,
+                                    {
+                                      this.showId = false,
+                                      super.key
+                                    });
   final LocationGroup locationGroup;
   final bool showId;
   @override
@@ -17,14 +21,14 @@ class FloorlessLocationMarkerPopup extends StatelessWidget {
         borderRadius: BorderRadius.circular(15),
       ),
       child: Padding(
-          padding: EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8.0),
           child:
           Wrap(
             direction: Axis.vertical,
             spacing: 8,
             children:
-            (this.showId ?
-              <Widget>[Text(this.locationGroup.id.toString())] :
+            (showId ?
+              <Widget>[Text(locationGroup.id.toString())] :
               <Widget>[]) + buildLocations(context, locations
             ),
           )
@@ -41,7 +45,7 @@ class FloorlessLocationMarkerPopup extends StatelessWidget {
             [Text(
             location.description(),
             textAlign: TextAlign.left,
-            style: TextStyle(color: Theme.of(context).accentColor))],
+            style: TextStyle(color: Theme.of(context).colorScheme.secondary))],
         )).toList();
   }
 }

@@ -3,11 +3,12 @@ import 'package:uni/model/entities/locations/restaurant_location.dart';
 import 'package:uni/model/entities/locations/room_group_location.dart';
 import 'package:uni/model/entities/locations/special_room_location.dart';
 import 'package:uni/model/entities/locations/store_location.dart';
+import 'package:uni/model/entities/locations/unknown_location.dart';
 import 'package:uni/model/entities/locations/vending_machine.dart';
 import 'package:uni/model/entities/locations/wc_location.dart';
-import 'locations/atm.dart';
-import 'locations/printer.dart';
-import 'locations/room_location.dart';
+import 'package:uni/model/entities/locations/atm.dart';
+import 'package:uni/model/entities/locations/printer.dart';
+import 'package:uni/model/entities/locations/room_location.dart';
 
 enum LocationType{
   vendingMachine,
@@ -52,25 +53,21 @@ String locationTypeToString(LocationType type){
 abstract class Location{
   final int floor;
   final int weight;
-  final icon;
-  Location(this.floor, this.weight , this.icon, {locationGroupId = null});
+  final dynamic icon; // String or IconData
+  Location(this.floor, this.weight , this.icon, {locationGroupId});
 
   String description();
 
-  Map<String, dynamic> toMap({int groupId = null});
+  Map<String, dynamic> toMap({int? groupId});
 
-  /**
-   * Used when retrieving from local database
-   */
+  /// Used when retrieving from local database
   static Location fromMap(Map<String, dynamic> map){
     switch(map['type']){
       case 'COFFEE_MACHINE':
         return CoffeeMachine(map['floor'],
             locationGroupId : map['id_location_group']);
-        break;
       case 'VENDING_MACHINE':
         return VendingMachine(map['floor']);
-        break;
       case 'ROOM':
         return RoomLocation(map['floor'], map['firstRoom']);
       case 'SPECIAL_ROOM':
@@ -88,8 +85,9 @@ abstract class Location{
         return StoreLocation(map['floor'], map['name']);
       case 'WC':
         return WcLocation(map['floor']);
+      default:
+        return UnknownLocation(map['floor'], map['type']);
     }
-    return null;
   }
 
   static Location fromJSON(Map<String, dynamic> json, int floor){
@@ -97,33 +95,26 @@ abstract class Location{
     switch(json['type']){
       case 'COFFEE_MACHINE':
         return CoffeeMachine(floor);
-        break;
       case 'VENDING_MACHINE':
         return VendingMachine(floor);
-        break;
       case 'ROOM':
         return RoomLocation(floor, args['room']);
-        break;
       case 'SPECIAL_ROOM':
         return SpecialRoomLocation(floor, args['room'], args['name']);
-        break;
       case 'ROOMS':
         return RoomGroupLocation(floor, args['firstRoom'], args['lastRoom']);
-        break;
       case 'ATM':
         return Atm(floor);
-        break;
       case 'PRINTER':
         return Printer(floor);
-        break;
       case 'RESTAURANT':
         return RestaurantLocation(floor, args['name']);
-        break;
       case 'STORE':
         return StoreLocation(floor, args['name']);
       case 'WC':
         return WcLocation(floor);
+      default:
+        return UnknownLocation(floor, json['type']);
     }
-    return null;
   }
 }
