@@ -155,7 +155,7 @@ flutter:
           weight: 100
     - family: LocationIcons
       fonts:
-        - asset: fonts/LocationIcons.ttf
+        - asset: assets/fonts/LocationIcons.ttf
 flutter_icons:
   android: true
   ios: true
