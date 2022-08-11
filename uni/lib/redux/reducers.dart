@@ -59,13 +59,13 @@ AppState appReducers(AppState state, dynamic action) {
     return setLastUserInfoUpdateTime(state, action);
   } else if (action is SetExamFilter) {
     return setExamFilter(state, action);
-  } else if (action is SetLocationsAction){
+  } else if (action is SetLocationsAction) {
     return setLocations(state, action);
-  } else if (action is SetLocationsStatusAction){
+  } else if (action is SetLocationsStatusAction) {
     return setLocationsStatus(state, action);
-  } else if (action is SetLocationsAction){
+  } else if (action is SetLocationsAction) {
     return setLocations(state, action);
-  } else if (action is SetLocationsStatusAction){
+  } else if (action is SetLocationsStatusAction) {
     return setLocationsStatus(state, action);
   } else if (action is SetUserFaculties) {
     return setUserFaculties(state, action);
@@ -221,15 +221,16 @@ AppState setExamFilter(AppState state, SetExamFilter action) {
   return state.cloneAndUpdateValue('filteredExams', action.filteredExams);
 }
 
-AppState setLocations(AppState state, SetLocationsAction action){
+AppState setLocations(AppState state, SetLocationsAction action) {
   Logger().i('setting locations: ${action.locationGroups.length}');
   return state.cloneAndUpdateValue('locationGroups', action.locationGroups);
 }
 
-AppState setLocationsStatus(AppState state, SetLocationsStatusAction action){
+AppState setLocationsStatus(AppState state, SetLocationsStatusAction action) {
   Logger().i('setting locations state to ${action.status}');
   return state.cloneAndUpdateValue('locationGroupsStatus', action.status);
 }
+
 AppState setUserFaculties(AppState state, SetUserFaculties action) {
   Logger().i('setting user faculty(ies) ${action.faculties}');
   return state.cloneAndUpdateValue('userFaculties', action.faculties);

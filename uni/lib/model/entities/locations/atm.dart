@@ -2,7 +2,7 @@ import 'package:uni/view/Fonts/location_icons.dart';
 
 import 'package:uni/model/entities/location.dart';
 
-class Atm implements Location{
+class Atm implements Location {
   @override
   final int floor;
 
@@ -17,16 +17,12 @@ class Atm implements Location{
   Atm(this.floor, {this.locationGroupId}) : super();
 
   @override
-  String description(){
+  String description() {
     return 'Atm';
   }
 
   @override
-  Map<String, dynamic> toMap({int? groupId}){
-    return {
-      'floor' : floor,
-      'type' : locationTypeToString(LocationType.atm)
-    };
+  Map<String, dynamic> toMap({int? groupId}) {
+    return {'floor': floor, 'type': locationTypeToString(LocationType.atm)};
   }
-
 }

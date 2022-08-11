@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:uni/model/entities/location.dart';
 
-class WcLocation implements Location{
+class WcLocation implements Location {
   @override
   final int floor;
 
@@ -16,16 +16,12 @@ class WcLocation implements Location{
   WcLocation(this.floor, {this.locationGroupId});
 
   @override
-  String description(){
+  String description() {
     return 'Atm';
   }
 
   @override
-  Map<String, dynamic> toMap({int? groupId}){
-    return {
-      'floor' : floor,
-      'type' : locationTypeToString(LocationType.atm)
-    };
+  Map<String, dynamic> toMap({int? groupId}) {
+    return {'floor': floor, 'type': locationTypeToString(LocationType.atm)};
   }
-
 }

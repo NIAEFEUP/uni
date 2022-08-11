@@ -3,28 +3,28 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_popup/flutter_map_marker_popup.dart';
 import 'package:latlong2/latlong.dart';
 
-
-
 import 'package:uni/view/Widgets/floorless_location_marker_popup.dart';
 import 'package:uni/view/Widgets/location_marker.dart';
 import 'package:uni/view/Widgets/location_marker_popup.dart';
 import 'package:uni/model/entities/location_group.dart';
 
-class LocationsMap extends StatelessWidget{
-
+class LocationsMap extends StatelessWidget {
   final PopupController _popupLayerController = PopupController();
   final List<LocationGroup> locations;
   final LatLng northEastBoundary;
   final LatLng southWestBoundary;
   final LatLng center;
-      LocationsMap({Key? key,
-            required this.northEastBoundary,
-            required this.southWestBoundary,
-            required this.center,
-            required this.locations}) : super(key: key);
+
+  LocationsMap(
+      {Key? key,
+      required this.northEastBoundary,
+      required this.southWestBoundary,
+      required this.center,
+      required this.locations})
+      : super(key: key);
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return FlutterMap(
       options: MapOptions(
         minZoom: 17,
@@ -53,8 +53,8 @@ class LocationsMap extends StatelessWidget{
             popupBuilder: (_, Marker marker) {
               if (marker is LocationMarker) {
                 return marker.locationGroup.isFloorless
-                    ?  FloorlessLocationMarkerPopup(marker.locationGroup)
-                    :  LocationMarkerPopup(marker.locationGroup);
+                    ? FloorlessLocationMarkerPopup(marker.locationGroup)
+                    : LocationMarkerPopup(marker.locationGroup);
               }
               return const Card(child: Text('undefined'));
             },
@@ -64,8 +64,7 @@ class LocationsMap extends StatelessWidget{
     );
   }
 
-
-  List<Marker> _getMarkers(){
+  List<Marker> _getMarkers() {
     return locations.map((location) {
       return LocationMarker(location.latlng, location);
     }).toList();

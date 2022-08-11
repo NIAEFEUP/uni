@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:uni/model/entities/location.dart';
 
-class SpecialRoomLocation implements Location{
+class SpecialRoomLocation implements Location {
   @override
   final int floor;
 
@@ -15,21 +15,22 @@ class SpecialRoomLocation implements Location{
   final icon = Icons.star;
 
   final int? locationGroupId;
+
   SpecialRoomLocation(this.floor, this.roomNumber, this.name,
       {this.locationGroupId});
 
   @override
-  String description(){
+  String description() {
     return '''$roomNumber - $name''';
   }
 
   @override
-  Map<String, dynamic> toMap({int? groupId}){
+  Map<String, dynamic> toMap({int? groupId}) {
     return {
-      'floor' : floor,
-      'type' : locationTypeToString(LocationType.printer),
-      'first_room' : roomNumber,
-      'name' : name
+      'floor': floor,
+      'type': locationTypeToString(LocationType.printer),
+      'first_room': roomNumber,
+      'name': name
     };
   }
 }

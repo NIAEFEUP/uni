@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:uni/model/entities/location.dart';
 
-class RestaurantLocation implements Location{
+class RestaurantLocation implements Location {
   @override
   final int floor;
 
@@ -15,19 +15,19 @@ class RestaurantLocation implements Location{
 
   final int? locationGroupId;
 
-  RestaurantLocation(this.floor,this.name, {this.locationGroupId});
+  RestaurantLocation(this.floor, this.name, {this.locationGroupId});
 
   @override
-  String description(){
+  String description() {
     return name;
   }
 
   @override
-  Map<String, dynamic> toMap({int? groupId}){
+  Map<String, dynamic> toMap({int? groupId}) {
     return {
-      'floor' : floor,
-      'type' : locationTypeToString(LocationType.restaurant),
-      'name' : name
+      'floor': floor,
+      'type': locationTypeToString(LocationType.restaurant),
+      'name': name
     };
   }
 }

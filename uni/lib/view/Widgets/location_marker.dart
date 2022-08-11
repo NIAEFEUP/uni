@@ -6,38 +6,35 @@ import 'package:uni/model/entities/location.dart';
 import 'package:uni/model/entities/location_group.dart';
 import 'package:uni/view/theme_notifier.dart';
 
-
-class LocationMarker extends Marker{
+class LocationMarker extends Marker {
   final LocationGroup locationGroup;
   final LatLng latlng;
 
   LocationMarker(this.latlng, this.locationGroup)
-    : super(
-        anchorPos: AnchorPos.align(AnchorAlign.center),
-        height: 20,
-        width: 20,
-        point: latlng,
-        
-        builder: (BuildContext ctx) => Container(
-
-          decoration: BoxDecoration(
-            color: Theme.of(ctx).backgroundColor,
-            border: Border.all(
-              color: Theme.of(ctx).colorScheme.primary,
-            ),
-            borderRadius: const BorderRadius.all(Radius.circular(20))
+      : super(
+          anchorPos: AnchorPos.align(AnchorAlign.center),
+          height: 20,
+          width: 20,
+          point: latlng,
+          builder: (BuildContext ctx) => Container(
+            decoration: BoxDecoration(
+                color: Theme.of(ctx).backgroundColor,
+                border: Border.all(
+                  color: Theme.of(ctx).colorScheme.primary,
+                ),
+                borderRadius: const BorderRadius.all(Radius.circular(20))),
+            child: getIcon(locationGroup.getLocationWithMostWeight(), ctx),
           ),
-          child: getIcon(locationGroup.getLocationWithMostWeight(), ctx),
-        ),
-      );
-  static Widget getIcon(Location? location, BuildContext context){
-    if(location == null){
+        );
+
+  static Widget getIcon(Location? location, BuildContext context) {
+    if (location == null) {
       return Container();
     }
 
     final themeNotifier = Provider.of<ThemeNotifier>(context);
     final Color color;
-    switch(themeNotifier.getTheme()){
+    switch (themeNotifier.getTheme()) {
       case ThemeMode.light:
         color = Theme.of(context).colorScheme.primary;
         break;
@@ -48,16 +45,10 @@ class LocationMarker extends Marker{
         color = Theme.of(context).colorScheme.primary;
     }
 
-    if (location.icon is IconData){
-      return Icon(
-          location.icon,
-          color: color,
-          size: 12);
+    if (location.icon is IconData) {
+      return Icon(location.icon, color: color, size: 12);
     } else {
-      return Icon(
-          Icons.device_unknown,
-          color: color,
-          size: 12);
+      return Icon(Icons.device_unknown, color: color, size: 12);
     }
   }
 }

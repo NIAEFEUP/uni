@@ -426,23 +426,20 @@ ThunkAction<AppState> getUserBusTrips(Completer<void> action) {
   };
 }
 
-ThunkAction<AppState> getFacultyLocations(Completer<void> action){
-  return (Store<AppState> store) async{
-    try{
+ThunkAction<AppState> getFacultyLocations(Completer<void> action) {
+  return (Store<AppState> store) async {
+    try {
       store.dispatch(SetLocationsStatusAction(RequestStatus.busy));
 
       final List<LocationGroup> locations =
-      await LocationFetcherAsset().getLocations(store);
+          await LocationFetcherAsset().getLocations(store);
 
       store.dispatch(SetLocationsAction(locations));
       store.dispatch(SetLocationsStatusAction(RequestStatus.successful));
-
-
-    } catch(e){
+    } catch (e) {
       Logger().e('Failed to get locations: ${e.toString()}');
       store.dispatch(SetLocationsStatusAction(RequestStatus.failed));
     }
-
 
     action.complete();
   };
