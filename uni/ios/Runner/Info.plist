@@ -4,6 +4,11 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>CFBundleLocalizations</key>
+	<array>
+		<string>pt</string>
+		<string>en</string>
+	</array>
 	<key>CFBundleDisplayName</key>
 	<string>Uni</string>
 	<key>CFBundleExecutable</key>
@@ -48,6 +53,8 @@
 		<string>tel</string>
 		<string>mailto</string>
 	</array>
+	<key>NSCalendarsUsageDescription</key>
+	<string>Exportar exames e eventos para o calendário</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
