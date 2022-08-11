@@ -63,10 +63,6 @@ AppState appReducers(AppState state, dynamic action) {
     return setLocations(state, action);
   } else if (action is SetLocationsStatusAction) {
     return setLocationsStatus(state, action);
-  } else if (action is SetLocationsAction) {
-    return setLocations(state, action);
-  } else if (action is SetLocationsStatusAction) {
-    return setLocationsStatus(state, action);
   } else if (action is SetUserFaculties) {
     return setUserFaculties(state, action);
   } else if (action is SetRestaurantsAction) {
