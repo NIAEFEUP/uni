@@ -51,7 +51,6 @@ Future loadRemoteUserInfoToState(Store<AppState> store) async {
       coursesStates = Completer(),
       trips = Completer(),
       lastUpdate = Completer(),
-      locations = Completer(),
       restaurants = Completer();
 
   store.dispatch(getUserInfo(userInfo));
@@ -59,10 +58,8 @@ Future loadRemoteUserInfoToState(Store<AppState> store) async {
   store.dispatch(getUserFees(fees));
   store.dispatch(getUserCoursesState(coursesStates));
   store.dispatch(getUserBusTrips(trips));
-  store.dispatch(getFacultyLocations(locations));
   store.dispatch(getRestaurantsFromFetcher(restaurants));
 
-  store.dispatch(getFacultyLocations(locations));
   final Tuple2<String, String> userPersistentInfo =
       await AppSharedPreferences.getPersistentUserInfo();
   userInfo.future.then((value) {
@@ -106,6 +103,8 @@ void loadLocalUserInfoToState(store) async {
     store.dispatch(SetFeesStatusAction(RequestStatus.successful));
     store.dispatch(SetCoursesStatesStatusAction(RequestStatus.successful));
   }
+  final Completer locations = Completer();
+  store.dispatch(getFacultyLocations(locations));
 }
 
 Future<void> handleRefresh(store) {

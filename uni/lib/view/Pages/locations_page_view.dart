@@ -13,7 +13,7 @@ import 'package:uni/view/Widgets/location_marker.dart';
 class LocationsPageView extends StatelessWidget {
 
   final List<LocationGroup>? locations;
-  final RequestStatus status;
+  final RequestStatus? status;
   const LocationsPageView({super.key, this.locations, this.status = RequestStatus.none});
 
   @override
@@ -23,6 +23,7 @@ class LocationsPageView extends StatelessWidget {
         children:
         [upperMenuContainer(context),
           Container(
+            padding: const EdgeInsets.fromLTRB(10, 0, 10 ,0),
             height: MediaQuery.of(context).size.height * 0.75,
             alignment: Alignment.center,
             child: //TODO:: add support for multiple faculties
@@ -34,16 +35,20 @@ class LocationsPageView extends StatelessWidget {
     return Container(
       width: MediaQuery.of(context).size.width * 0.95,
       padding: const EdgeInsets.fromLTRB(0, 0, 0, 4.0),
-      child: Text('FEUP',
+      child: Text('Locais: ${getLocation()}',//TODO:: add support for multiple faculties
         textAlign: TextAlign.left,
         style: Theme.of(context).textTheme.headline6?.apply(fontSizeDelta: 7)));
   }
   LocationsMap? getMap(BuildContext context){
-    if(status != RequestStatus.successful) {
+    if(locations == null || status != RequestStatus.successful) {
       return null;
     }
     return FacultyMaps.getFeupMap(locations!);
 
+  }
+
+  String getLocation(){
+    return 'FEUP';
   }
 
   List<Marker> getMarkers(){

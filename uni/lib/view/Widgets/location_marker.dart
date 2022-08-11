@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:provider/provider.dart';
 import 'package:uni/model/entities/location.dart';
 import 'package:uni/model/entities/location_group.dart';
+import 'package:uni/view/theme_notifier.dart';
 
 
 class LocationMarker extends Marker{
@@ -22,7 +23,7 @@ class LocationMarker extends Marker{
           decoration: BoxDecoration(
             color: Theme.of(ctx).backgroundColor,
             border: Border.all(
-              color: Theme.of(ctx).colorScheme.secondary,
+              color: Theme.of(ctx).colorScheme.primary,
             ),
             borderRadius: const BorderRadius.all(Radius.circular(20))
           ),
@@ -33,24 +34,29 @@ class LocationMarker extends Marker{
     if(location == null){
       return Container();
     }
-    if(location.icon is String){
-      return Container(
-        padding: const EdgeInsets.all(2.0),
-        child: SvgPicture.asset(
-          location.icon,
-          color: Theme.of(context).colorScheme.secondary
 
-        )
-      );
-    } else if (location.icon is IconData){
+    final themeNotifier = Provider.of<ThemeNotifier>(context);
+    final Color color;
+    switch(themeNotifier.getTheme()){
+      case ThemeMode.light:
+        color = Theme.of(context).colorScheme.primary;
+        break;
+      case ThemeMode.dark:
+        color = Theme.of(context).colorScheme.onTertiary;
+        break;
+      default:
+        color = Theme.of(context).colorScheme.primary;
+    }
+
+    if (location.icon is IconData){
       return Icon(
           location.icon,
-          color: Theme.of(context).colorScheme.secondary,
+          color: color,
           size: 12);
     } else {
       return Icon(
           Icons.device_unknown,
-          color: Theme.of(context).colorScheme.secondary,
+          color: color,
           size: 12);
     }
   }

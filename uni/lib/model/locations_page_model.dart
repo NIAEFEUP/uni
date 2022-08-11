@@ -30,7 +30,7 @@ class LocationsPageState extends SecondaryPageViewState
 
   @override
   Widget getBody(BuildContext context) {
-    return StoreConnector<AppState, Tuple2<List<LocationGroup>, RequestStatus>>(
+    return StoreConnector<AppState, Tuple2<List<LocationGroup>?, RequestStatus?>>(
       converter: (store) =>  Tuple2(store.state.content['locationGroups'],
           store.state.content['locationGroupsStatus']),
       builder: (context, data) {

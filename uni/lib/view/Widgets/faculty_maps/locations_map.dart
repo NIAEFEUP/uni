@@ -13,7 +13,7 @@ import 'package:uni/model/entities/location_group.dart';
 class LocationsMap extends StatelessWidget{
 
   final PopupController _popupLayerController = PopupController();
-  final List<LocationGroup>? locations;
+  final List<LocationGroup> locations;
   final LatLng northEastBoundary;
   final LatLng southWestBoundary;
   final LatLng center;
@@ -52,12 +52,9 @@ class LocationsMap extends StatelessWidget{
                 duration: Duration(milliseconds: 400)),
             popupBuilder: (_, Marker marker) {
               if (marker is LocationMarker) {
-                if(marker.locationGroup.isFloorless) {
-                  return FloorlessLocationMarkerPopup(marker.locationGroup);
-                }
-                else {
-                  return LocationMarkerPopup(marker.locationGroup);
-                }
+                return marker.locationGroup.isFloorless
+                    ?  FloorlessLocationMarkerPopup(marker.locationGroup)
+                    :  LocationMarkerPopup(marker.locationGroup);
               }
               return const Card(child: Text('undefined'));
             },
@@ -69,7 +66,7 @@ class LocationsMap extends StatelessWidget{
 
 
   List<Marker> _getMarkers(){
-    return locations!.map((location) {
+    return locations.map((location) {
       return LocationMarker(location.latlng, location);
     }).toList();
   }
