@@ -45,14 +45,13 @@ class ScheduleRow extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              ScheduleTimeInterval(
-                                  begin: begin, end: end)
+                              ScheduleTimeInterval(begin: begin, end: end)
                             ]),
-                        ScheduleEventRectangle(
-                            subject: subject, type: type),
+                        ScheduleEventRectangle(subject: subject, type: type),
                         IconButton(
                             icon: const Icon(MdiIcons.calendarPlus, size: 30),
-                            onPressed: () => Add2Calendar.addEvent2Cal(createExamEvent())),
+                            onPressed: () =>
+                                Add2Calendar.addEvent2Cal(createExamEvent())),
                       ],
                     )),
                 Container(
@@ -66,12 +65,16 @@ class ScheduleRow extends StatelessWidget {
   Widget? getScheduleRooms(context) {
     if (rooms[0] == '') return null;
     return Wrap(
-        alignment: WrapAlignment.start,
-        spacing: 13,
-        children: rooms
-            .map((room) =>
-                Text(room.trim(), style: Theme.of(context).textTheme.bodyText2))
-            .toList());
+      alignment: WrapAlignment.start,
+      spacing: 13,
+      children: roomsList(context, rooms)
+    );
+  }
+
+  List<Text> roomsList(BuildContext context, List rooms) {
+    return rooms.map((room) => 
+      Text(room.trim(), style: Theme.of(context).textTheme.bodyText2)
+    ).toList();
   }
 
   Event createExamEvent() {
