@@ -26,32 +26,31 @@ const _textTheme = TextTheme(
 );
 
 ThemeData applicationLightTheme = ThemeData(
-  colorScheme: ColorScheme.fromSeed(
-      seedColor: darkRed,
-      brightness: Brightness.light,
-      background: _grey,
-      primary: darkRed,
-      onPrimary: Colors.white,
-      secondary: darkRed,
-      onSecondary: Colors.white,
-      tertiary: lightRed,
-      onTertiary: Colors.black),
-  brightness: Brightness.light,
-  primaryColor: darkRed,
-  canvasColor: _mildWhite,
-  backgroundColor: _mildWhite,
-  scaffoldBackgroundColor: _mildWhite,
-  hintColor: _lightGrey,
-  dividerColor: _lightGrey,
-  cardColor: Colors.white,
-  indicatorColor: darkRed,
-  primaryTextTheme: Typography().black.copyWith(
-      headline4: const TextStyle(color: _strongGrey),
-      bodyText1: const TextStyle(color: _strongGrey)),
-  toggleableActiveColor: darkRed,
-  iconTheme: const IconThemeData(color: darkRed),
-  textTheme: _textTheme,
-);
+    colorScheme: ColorScheme.fromSeed(
+        seedColor: darkRed,
+        brightness: Brightness.light,
+        background: _grey,
+        primary: darkRed,
+        onPrimary: Colors.white,
+        secondary: darkRed,
+        onSecondary: Colors.white,
+        tertiary: lightRed,
+        onTertiary: Colors.black),
+    brightness: Brightness.light,
+    primaryColor: darkRed,
+    canvasColor: _mildWhite,
+    backgroundColor: _mildWhite,
+    scaffoldBackgroundColor: _mildWhite,
+    hintColor: _lightGrey,
+    dividerColor: _lightGrey,
+    cardColor: Colors.white,
+    indicatorColor: darkRed,
+    primaryTextTheme: Typography().black.copyWith(
+        headline4: const TextStyle(color: _strongGrey),
+        bodyText1: const TextStyle(color: _strongGrey)),
+    toggleableActiveColor: darkRed,
+    iconTheme: const IconThemeData(color: darkRed),
+    textTheme: _textTheme);
 
 ThemeData applicationDarkTheme = ThemeData(
     colorScheme: ColorScheme.fromSeed(
@@ -62,7 +61,7 @@ ThemeData applicationDarkTheme = ThemeData(
         onPrimary: Colors.black,
         secondary: lightRed,
         onSecondary: Colors.black,
-        tertiary: darkRed,
+        tertiary: _mildWhite,
         onTertiary: Colors.white),
     brightness: Brightness.dark,
     primaryColor: _mildWhite,
