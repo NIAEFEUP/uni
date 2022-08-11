@@ -14,14 +14,15 @@ abstract class GenericExpansionCard extends StatefulWidget {
 }
 
 class GenericExpansionCardState extends State<GenericExpansionCard> {
-
   @override
   Widget build(BuildContext context) {
     return Container(
         margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
         child: ExpansionTileCard(
           baseColor: Theme.of(context).backgroundColor,
-          expandedColor: Theme.of(context).hintColor,
+          expandedColor: (Theme.of(context).brightness == Brightness.light)
+              ? const Color.fromARGB(0xf, 0, 0, 0)
+              : const Color.fromARGB(255, 43, 43, 43),
           title: Text(widget.getTitle(),
               style: Theme.of(context)
                   .textTheme
