@@ -19,7 +19,7 @@ class LocationMarkerPopup extends StatelessWidget {
         borderRadius: BorderRadius.circular(15),
       ),
       child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(12.0),
           child: Wrap(
             direction: Axis.vertical,
             spacing: 8,
