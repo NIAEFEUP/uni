@@ -48,14 +48,12 @@ class FloorlessLocationMarkerPopup extends StatelessWidget {
     }
 
     return locations
-        .map((location) => Container(
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(location.description(),
-                      textAlign: TextAlign.left, style: TextStyle(color: color))
-                ],
-              ),
+        .map((location) => Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(location.description(),
+                    textAlign: TextAlign.left, style: TextStyle(color: color))
+              ],
             ))
         .toList();
   }
