@@ -39,7 +39,7 @@ class Course {
         name: data['cur_nome'],
         currYear: data['ano_curricular'],
         firstEnrollment: data['fest_a_lect_1_insc'],
-        abbreviation: 'abbreviation',
+        abbreviation: data['abbreviation'],
         faculty: data['inst_sigla'].toString().toLowerCase());
   }
 
