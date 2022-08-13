@@ -60,36 +60,6 @@ abstract class Location {
 
   Map<String, dynamic> toMap({int? groupId});
 
-  /// Used when retrieving from local database
-  static Location fromMap(Map<String, dynamic> map) {
-    switch (map['type']) {
-      case 'COFFEE_MACHINE':
-        return CoffeeMachine(map['floor'],
-            locationGroupId: map['id_location_group']);
-      case 'VENDING_MACHINE':
-        return VendingMachine(map['floor']);
-      case 'ROOM':
-        return RoomLocation(map['floor'], map['firstRoom']);
-      case 'SPECIAL_ROOM':
-        return SpecialRoomLocation(map['floor'], map['firstRoom'], map['name']);
-      case 'ROOMS':
-        return RoomGroupLocation(
-            map['floor'], map['firstRoom'], map['lastRoom']);
-      case 'ATM':
-        return Atm(map['floor']);
-      case 'PRINTER':
-        return Printer(map['floor']);
-      case 'RESTAURANT':
-        return RestaurantLocation(map['floor'], map['name']);
-      case 'STORE':
-        return StoreLocation(map['floor'], map['name']);
-      case 'WC':
-        return WcLocation(map['floor']);
-      default:
-        return UnknownLocation(map['floor'], map['type']);
-    }
-  }
-
   static Location fromJSON(Map<String, dynamic> json, int floor) {
     final Map<String, dynamic> args = json['args'];
     switch (json['type']) {
