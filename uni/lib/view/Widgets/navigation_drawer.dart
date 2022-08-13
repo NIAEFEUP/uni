@@ -27,6 +27,7 @@ class NavigationDrawerState extends State<NavigationDrawer> {
       constants.navSchedule: _onSelectPage,
       constants.navExams: _onSelectPage,
       constants.navStops: _onSelectPage,
+      constants.navLocations: _onSelectPage,
       constants.navUsefulLinks: _onSelectPage,
       constants.navUsefulContacts: _onSelectPage,
       constants.navAbout: _onSelectPage,

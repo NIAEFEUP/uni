@@ -3,6 +3,7 @@ import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/entities/session.dart';
+import 'package:uni/model/entities/location_group.dart';
 import 'package:uni/model/entities/trip.dart';
 import 'package:uni/utils/constants.dart' as constants;
 
@@ -37,7 +38,8 @@ class AppState {
       'printBalanceStatus': RequestStatus.none,
       'feesStatus': RequestStatus.none,
       'coursesStateStatus': RequestStatus.none,
-      'lastUserInfoUpdateTime': null
+      'lastUserInfoUpdateTime': null,
+      'locationGroups' : <LocationGroup>[],
     };
   }
 

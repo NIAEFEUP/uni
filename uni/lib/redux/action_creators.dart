@@ -9,6 +9,7 @@ import 'package:uni/controller/fetchers/courses_fetcher.dart';
 import 'package:uni/controller/fetchers/departures_fetcher.dart';
 import 'package:uni/controller/fetchers/exam_fetcher.dart';
 import 'package:uni/controller/fetchers/fees_fetcher.dart';
+import 'package:uni/controller/fetchers/location_fetcher/location_fetcher_asset.dart';
 import 'package:uni/controller/fetchers/print_fetcher.dart';
 import 'package:uni/controller/fetchers/profile_fetcher.dart';
 import 'package:uni/controller/fetchers/restaurant_fetcher/restaurant_fetcher_html.dart';
@@ -37,6 +38,7 @@ import 'package:uni/model/entities/bus_stop.dart';
 import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/entities/lecture.dart';
+import 'package:uni/model/entities/location_group.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/entities/session.dart';
@@ -418,6 +420,25 @@ ThunkAction<AppState> getUserBusTrips(Completer<void> action) {
     } catch (e) {
       Logger().e('Failed to get Bus Stop information');
       store.dispatch(SetBusTripsStatusAction(RequestStatus.failed));
+    }
+
+    action.complete();
+  };
+}
+
+ThunkAction<AppState> getFacultyLocations(Completer<void> action) {
+  return (Store<AppState> store) async {
+    try {
+      store.dispatch(SetLocationsStatusAction(RequestStatus.busy));
+
+      final List<LocationGroup> locations =
+          await LocationFetcherAsset().getLocations(store);
+
+      store.dispatch(SetLocationsAction(locations));
+      store.dispatch(SetLocationsStatusAction(RequestStatus.successful));
+    } catch (e) {
+      Logger().e('Failed to get locations: ${e.toString()}');
+      store.dispatch(SetLocationsStatusAction(RequestStatus.failed));
     }
 
     action.complete();
