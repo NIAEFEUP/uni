@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:tuple/tuple.dart';
@@ -11,6 +12,8 @@ import 'package:uni/view/Widgets/request_dependent_widget_builder.dart';
 
 class CourseUnitsPageView extends StatefulWidget {
   const CourseUnitsPageView({Key? key}) : super(key: key);
+
+  static const bothSemestersDropdownOption = '1S+2S';
 
   @override
   State<StatefulWidget> createState() {
@@ -35,14 +38,12 @@ class CourseUnitsPageViewState
           List<String> availableSemesters = [];
           if (courseUnits != null && courseUnits.isNotEmpty) {
             availableYears = _getAvailableYears(courseUnits);
-            availableYears.sort();
             if (availableYears.isNotEmpty && selectedSchoolYear == null) {
               selectedSchoolYear = availableYears.reduce((value, element) =>
                   element.compareTo(value) > 0 ? element : value);
             }
             availableSemesters = _getAvailableSemesters(courseUnits);
-            availableSemesters.sort();
-            if (availableSemesters.length >= 2 && selectedSemester == null) {
+            if (availableSemesters.length >= 3 && selectedSemester == null) {
               DateTime now = DateTime.now();
               bool secondSemesterPeriod = now.month > 2 && now.month < 9;
               selectedSemester = secondSemesterPeriod
@@ -65,11 +66,16 @@ class CourseUnitsPageViewState
       RequestStatus? requestStatus,
       List<String> availableYears,
       List<String> availableSemesters) {
-    List<CourseUnit>? filteredCourseUnits = courseUnits
-        ?.where((element) =>
-            element.schoolYear == selectedSchoolYear &&
-            element.semesterCode == selectedSemester)
-        .toList();
+    List<CourseUnit>? filteredCourseUnits =
+        selectedSemester == CourseUnitsPageView.bothSemestersDropdownOption
+            ? courseUnits
+                ?.where((element) => element.schoolYear == selectedSchoolYear)
+                .toList()
+            : courseUnits
+                ?.where((element) =>
+                    element.schoolYear == selectedSchoolYear &&
+                    element.semesterCode == selectedSemester)
+                .toList();
     return Column(children: [
       Row(
         crossAxisAlignment: CrossAxisAlignment.end,
@@ -169,13 +175,16 @@ List<String> _getAvailableYears(List<CourseUnit> courseUnits) {
       .map((c) => c.schoolYear)
       .whereType<String>()
       .toSet()
-      .toList();
+      .toList()
+      .sorted();
 }
 
 List<String> _getAvailableSemesters(List<CourseUnit> courseUnits) {
   return courseUnits
-      .map((c) => c.semesterCode)
-      .whereType<String>()
-      .toSet()
-      .toList();
+          .map((c) => c.semesterCode)
+          .whereType<String>()
+          .toSet()
+          .toList()
+          .sorted() +
+      [CourseUnitsPageView.bothSemestersDropdownOption];
 }

@@ -106,7 +106,6 @@ void loadLocalUserInfoToState(store) async {
 }
 
 Future<void> handleRefresh(store) {
-  loadLocalUserInfoToState(store);
   final action = RefreshItemsAction();
   store.dispatch(action);
   return action.completer.future;
