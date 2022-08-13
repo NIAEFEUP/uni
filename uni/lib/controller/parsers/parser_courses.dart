@@ -31,7 +31,7 @@ List<Course> _parseCourses(http.Response response) {
         ?.attributes['href'];
     final courseId = getUrlQueryParameters(courseUrl ?? '')['pv_curso_id'];
     final courseState = div.querySelectorAll('.formulario td')[3].text;
-    var courseFestId = div
+    final courseFestId = div
         .querySelector('.estudante-lista-curso-detalhes > a')
         ?.attributes['href']
         ?.replaceFirst(

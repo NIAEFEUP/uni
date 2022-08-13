@@ -11,7 +11,7 @@ class PageTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget title = Text(
+    final Widget title = Text(
       name,
       style: Theme.of(context).textTheme.headline4?.copyWith(
           color: Theme.of(context).primaryTextTheme.headline4?.color),

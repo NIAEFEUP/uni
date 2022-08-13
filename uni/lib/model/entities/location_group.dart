@@ -18,7 +18,7 @@ class LocationGroup {
 
   /// Returns the Location with the most weight
   Location? getLocationWithMostWeight() {
-    List<Location>? allLocations = floors.values.expand((x) => x).toList();
+    final List<Location> allLocations = floors.values.expand((x) => x).toList();
     return allLocations.reduce(
         (current, next) => current.weight > next.weight ? current : next);
   }

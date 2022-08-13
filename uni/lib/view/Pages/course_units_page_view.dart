@@ -33,7 +33,7 @@ class CourseUnitsPageViewState
             Tuple4<List<CourseUnit>?, RequestStatus?, List<String>,
                 List<String>>>(
         converter: (store) {
-          List<CourseUnit>? courseUnits = store.state.content['allUcs'];
+          final List<CourseUnit>? courseUnits = store.state.content['allUcs'];
           List<String> availableYears = [];
           List<String> availableSemesters = [];
           if (courseUnits != null && courseUnits.isNotEmpty) {
@@ -44,8 +44,8 @@ class CourseUnitsPageViewState
             }
             availableSemesters = _getAvailableSemesters(courseUnits);
             if (availableSemesters.length >= 3 && selectedSemester == null) {
-              DateTime now = DateTime.now();
-              bool secondSemesterPeriod = now.month > 2 && now.month < 9;
+              final DateTime now = DateTime.now();
+              final bool secondSemesterPeriod = now.month > 2 && now.month < 9;
               selectedSemester = secondSemesterPeriod
                   ? availableSemesters[1]
                   : availableSemesters[0];

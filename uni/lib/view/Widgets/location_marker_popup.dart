@@ -60,9 +60,10 @@ class LocationMarkerPopup extends StatelessWidget {
         color = Theme.of(context).colorScheme.primary;
     }
 
-    String floorString = 0 <= floor && floor <= 9 //To maintain layout of popup
-        ? ' $floor'
-        : '$floor';
+    final String floorString =
+        0 <= floor && floor <= 9 //To maintain layout of popup
+            ? ' $floor'
+            : '$floor';
 
     final Widget floorCol = Column(
       mainAxisSize: MainAxisSize.min,

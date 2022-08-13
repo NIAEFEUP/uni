@@ -55,7 +55,7 @@ List<CourseUnit> parseCourseUnitsAndCourseAverage(
       }
     }
 
-    CourseUnit courseUnit = CourseUnit(
+    final CourseUnit courseUnit = CourseUnit(
         schoolYear:
             '${firstSchoolYear + yearIncrement}/${firstSchoolYear + yearIncrement + 1}',
         occurrId: occurId != null ? int.parse(occurId) : 0,

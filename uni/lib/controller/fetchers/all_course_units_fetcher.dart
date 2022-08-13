@@ -20,7 +20,7 @@ class AllCourseUnitsFetcher {
     if (course.faculty == null) {
       return [];
     }
-    String url =
+    final String url =
         '${NetworkRouter.getBaseUrl(course.faculty!)}fest_geral.curso_percurso_academico_view';
     final response = await NetworkRouter.getWithCookies(
         url,

@@ -1,20 +1,20 @@
 Map<String, String> getUrlQueryParameters(String url) {
   final Map<String, String> queryParameters = {};
 
-  int lastSlashIndex = url.lastIndexOf('/');
+  final int lastSlashIndex = url.lastIndexOf('/');
   if (lastSlashIndex >= 0) {
     url = url.substring(lastSlashIndex + 1);
   }
 
-  int queryStartIndex = url.lastIndexOf('?');
+  final int queryStartIndex = url.lastIndexOf('?');
   if (queryStartIndex < 0) {
     return {};
   }
   url = url.substring(queryStartIndex + 1);
 
-  List<String> params = url.split('&');
+  final List<String> params = url.split('&');
   for (String param in params) {
-    List<String> keyValue = param.split('=');
+    final List<String> keyValue = param.split('=');
     if (keyValue.length != 2) {
       continue;
     }
