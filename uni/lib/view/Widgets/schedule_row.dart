@@ -29,70 +29,52 @@ class ScheduleRow extends StatelessWidget {
     final roomsKey = '$subject-$rooms-$begin-$end';
     return Center(
         child: Container(
-      padding: const EdgeInsets.only(left: 12.0, bottom: 8.0, right: 12),
-      margin: const EdgeInsets.only(top: 8.0),
-      child: IntrinsicHeight(
-          child: Row(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Container(
-              margin: const EdgeInsets.only(top: 4.0, bottom: 12.0),
-              child: Stack(children: [
-                IconButton(
-                  padding: const EdgeInsets.only(top: 5.0, bottom: 12.0),
-                  alignment: Alignment.topLeft,
-                  icon: const Icon(MdiIcons.calendarPlus, size: 30),
-                  onPressed: () {
-                    Add2Calendar.addEvent2Cal(createExamEvent());
-                  },
-                ),
+            padding: const EdgeInsets.only(left: 12.0, bottom: 8.0, right: 12),
+            margin: const EdgeInsets.only(top: 8.0),
+            child: Column(
+              children: [
                 Container(
-                    margin: const EdgeInsets.only(top: 60.0, bottom: 45.0),
-                    child: Column(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          ScheduleTimeInterval(begin: begin, end: end)
-                        ])),
-              ])),
-          Container(
-              margin: const EdgeInsets.only(top: 60.0, bottom: 45.0),
-              child: ScheduleEventRectangle(subject: subject, type: type)),
-          Container(
-              margin: const EdgeInsets.only(top: 12.0, bottom: 12.0),
-              child: Column(
-                  key: Key(roomsKey),
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: getScheduleRooms(context)))
-        ],
-      )),
-    ));
+                    margin: const EdgeInsets.only(top: 8, bottom: 8),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Column(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              ScheduleTimeInterval(begin: begin, end: end)
+                            ]),
+                        ScheduleEventRectangle(subject: subject, type: type),
+                        IconButton(
+                            icon: const Icon(MdiIcons.calendarPlus, size: 30),
+                            onPressed: () =>
+                                Add2Calendar.addEvent2Cal(createExamEvent())),
+                      ],
+                    )),
+                Container(
+                    key: Key(roomsKey),
+                    alignment: Alignment.topLeft,
+                    child: getScheduleRooms(context))
+              ],
+            )));
   }
 
-  List<Widget> getScheduleRooms(context) {
-    if (this.rooms[0] == '') {
-      return [
-        Text(
-          'sem\nsalas',
-          textAlign: TextAlign.right,
-          style: Theme.of(context).textTheme.bodyText2,
-        )
-      ];
-    }
-    final List<Widget> rooms = [];
-    for (String room in this.rooms) {
-      rooms.add(
-        Text(
-          room,
-          style: Theme.of(context).textTheme.bodyText2,
-        ),
-      );
-    }
+  Widget? getScheduleRooms(context) {
+    if (rooms[0] == '') return null;
+    return Wrap(
+      alignment: WrapAlignment.start,
+      spacing: 13,
+      children: roomsList(context, rooms)
+    );
+  }
 
-    return rooms;
+  List<Text> roomsList(BuildContext context, List rooms) {
+    return rooms.map((room) => 
+      Text(room.trim(), style: Theme.of(context).textTheme.bodyText2)
+    ).toList();
   }
 
   Event createExamEvent() {
