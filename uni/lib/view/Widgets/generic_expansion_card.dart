@@ -17,7 +17,7 @@ class GenericExpansionCardState extends State<GenericExpansionCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+        margin: const EdgeInsets.fromLTRB(20, 10, 20, 0),
         child: ExpansionTileCard(
           expandedTextColor: Theme.of(context).primaryColor,
           expandedColor: (Theme.of(context).brightness == Brightness.light)
