@@ -15,10 +15,9 @@ List<Course> _parseCourses(http.Response response) {
   final document = parse(response.body);
   final List<Course> courses = [];
 
-  String? faculty = response.request?.url.toString();
-  faculty =
-      faculty?.substring(faculty.indexOf('up.pt/')).replaceFirst('up.pt/', '');
-  faculty = faculty?.substring(0, faculty.indexOf('/')).trim();
+  final String stringUrl = response.request?.url.toString() ?? '';
+  final String? faculty =
+      stringUrl.contains('up.pt') ? stringUrl.split('/')[3] : null;
 
   final currentCourses =
       document.querySelectorAll('.estudantes-caixa-lista-cursos > div');
