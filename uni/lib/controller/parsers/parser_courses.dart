@@ -1,16 +1,17 @@
 import 'package:html/parser.dart' show parse;
 import 'package:http/http.dart' as http;
 import 'package:uni/model/entities/course.dart';
+import 'package:uni/utils/url_parser.dart';
 
 List<Course> parseMultipleCourses(List<http.Response> responses) {
   final List<Course> courses = [];
   for (var response in responses) {
-    courses.addAll(parseCourses(response));
+    courses.addAll(_parseCourses(response));
   }
   return courses;
 }
 
-List<Course> parseCourses(http.Response response) {
+List<Course> _parseCourses(http.Response response) {
   final document = parse(response.body);
   final List<Course> courses = [];
 
@@ -28,9 +29,7 @@ List<Course> parseCourses(http.Response response) {
     final courseUrl = div
         .querySelector('.estudante-lista-curso-nome > a')
         ?.attributes['href'];
-    var courseId =
-        courseUrl?.replaceFirst('cur_geral.cur_view?pv_curso_id=', '').trim();
-    courseId = courseId?.substring(0, courseId.indexOf('&'));
+    final courseId = getUrlQueryParameters(courseUrl ?? '')['pv_curso_id'];
     final courseState = div.querySelectorAll('.formulario td')[3].text;
     var courseFestId = div
         .querySelector('.estudante-lista-curso-detalhes > a')
@@ -51,21 +50,15 @@ List<Course> parseCourses(http.Response response) {
   for (int i = 0; i < oldCourses.length; i++) {
     final div = oldCourses[i];
     final courseName = div.children[0].firstChild?.text?.trim();
-    var courseUrl = div.querySelector('a')?.attributes['href'];
-    var courseId = courseUrl
-        ?.substring(courseUrl.indexOf('pv_curso_id='))
-        .replaceFirst('pv_curso_id=', '')
-        .trim();
-    courseId = courseId?.substring(0, courseId.indexOf('&'));
+    final courseUrl = div.querySelector('a')?.attributes['href'];
+    final courseId = getUrlQueryParameters(courseUrl ?? '')['pv_curso_id'];
     var courseFirstEnrollment = div.children[4].text;
     courseFirstEnrollment = courseFirstEnrollment
         .substring(0, courseFirstEnrollment.indexOf('/'))
         .trim();
     final courseState = div.children[5].text;
-    final courseFestId = div.children[6].firstChild?.attributes['href']
-        ?.replaceFirst(
-            'fest_geral.curso_percurso_academico_view?pv_fest_id=', '')
-        .trim();
+    final courseFestId = getUrlQueryParameters(
+        div.children[6].firstChild?.attributes['href'] ?? '')['pv_fest_id'];
     courses.add(Course(
         firstEnrollment: int.parse(courseFirstEnrollment),
         faculty: faculty,

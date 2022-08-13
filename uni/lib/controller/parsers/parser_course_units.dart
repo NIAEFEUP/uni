@@ -2,6 +2,7 @@ import 'package:html/parser.dart';
 import 'package:http/http.dart' as http;
 import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/course_unit.dart';
+import 'package:uni/utils/url_parser.dart';
 
 List<CourseUnit> parseCourseUnitsAndCourseAverage(
     http.Response response, Course course) {
@@ -35,8 +36,9 @@ List<CourseUnit> parseCourseUnitsAndCourseAverage(
   for (final row in rows) {
     final String year = row.children[0].innerHtml;
     final String semester = row.children[1].innerHtml;
-    final String? occurId = row.children[2].firstChild?.attributes['href']
-        ?.replaceFirst('ucurr_geral.ficha_uc_view?pv_ocorrencia_id=', '');
+    final String? occurId = getUrlQueryParameters(
+        row.children[2].firstChild?.attributes['href'] ??
+            '')['pv_ocorrencia_id'];
     final String codeName = row.children[2].children[0].innerHtml;
     final String name = row.children[3].children[0].innerHtml;
     final String ects = row.children[5].innerHtml.replaceAll(',', '.');
