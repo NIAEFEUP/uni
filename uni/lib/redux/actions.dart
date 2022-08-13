@@ -169,11 +169,7 @@ class SetLocationsStatusAction {
   SetLocationsStatusAction(this.status);
 }
 
-
 class SetUserFaculties {
   List<String> faculties;
   SetUserFaculties(this.faculties);
 }
-
-
-
