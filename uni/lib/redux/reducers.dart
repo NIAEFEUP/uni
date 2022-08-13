@@ -59,6 +59,10 @@ AppState appReducers(AppState state, dynamic action) {
     return setLastUserInfoUpdateTime(state, action);
   } else if (action is SetExamFilter) {
     return setExamFilter(state, action);
+  } else if (action is SetLocationsAction) {
+    return setLocations(state, action);
+  } else if (action is SetLocationsStatusAction) {
+    return setLocationsStatus(state, action);
   } else if (action is SetUserFaculties) {
     return setUserFaculties(state, action);
   } else if (action is SetRestaurantsAction) {
@@ -211,6 +215,16 @@ AppState setLastUserInfoUpdateTime(
 AppState setExamFilter(AppState state, SetExamFilter action) {
   Logger().i('setting exam type filter to ${action.filteredExams}');
   return state.cloneAndUpdateValue('filteredExams', action.filteredExams);
+}
+
+AppState setLocations(AppState state, SetLocationsAction action) {
+  Logger().i('setting locations: ${action.locationGroups.length}');
+  return state.cloneAndUpdateValue('locationGroups', action.locationGroups);
+}
+
+AppState setLocationsStatus(AppState state, SetLocationsStatusAction action) {
+  Logger().i('setting locations state to ${action.status}');
+  return state.cloneAndUpdateValue('locationGroupsStatus', action.status);
 }
 
 AppState setUserFaculties(AppState state, SetUserFaculties action) {

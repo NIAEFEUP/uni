@@ -10,6 +10,7 @@ import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/controller/middleware.dart';
 import 'package:uni/controller/on_start_up.dart';
 import 'package:uni/model/app_state.dart';
+import 'package:uni/model/locations_page_model.dart';
 import 'package:uni/model/schedule_page_model.dart';
 import 'package:uni/redux/actions.dart';
 import 'package:uni/redux/reducers.dart';
@@ -109,6 +110,9 @@ class MyAppState extends State<MyApp> {
                   case '/${constants.navCourseUnits}':
                     return PageTransition.makePageTransition(
                         page: const CourseUnitsPageView(), settings: settings);
+                  case '/${constants.navLocations}':
+                    return PageTransition.makePageTransition(
+                        page: const LocationsPage(), settings: settings);
                   case '/${constants.navUsefulContacts}':
                     return PageTransition.makePageTransition(
                         page: const UsefulContactsCardView(),

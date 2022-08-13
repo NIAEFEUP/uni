@@ -75,7 +75,7 @@ Future loadRemoteUserInfoToState(Store<AppState> store) async {
     fees.future,
     userInfo.future,
     trips.future,
-    restaurants.future
+    restaurants.future,
   ]);
   allRequests.then((futures) {
     store.dispatch(setLastUserInfoUpdateTimestamp(lastUpdate));
@@ -103,6 +103,8 @@ void loadLocalUserInfoToState(store) async {
     store.dispatch(SetPrintBalanceStatusAction(RequestStatus.successful));
     store.dispatch(SetFeesStatusAction(RequestStatus.successful));
   }
+  final Completer locations = Completer();
+  store.dispatch(getFacultyLocations(locations));
 }
 
 Future<void> handleRefresh(store) {
