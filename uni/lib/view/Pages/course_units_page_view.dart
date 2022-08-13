@@ -57,16 +57,16 @@ class CourseUnitsPageViewState
               availableYears,
               availableSemesters);
         },
-        builder: (context, ucsInfo) => getPageContents(
+        builder: (context, ucsInfo) => _getPageContents(
             ucsInfo.item1, ucsInfo.item2, ucsInfo.item3, ucsInfo.item4));
   }
 
-  Widget getPageContents(
+  Widget _getPageContents(
       List<CourseUnit>? courseUnits,
       RequestStatus? requestStatus,
       List<String> availableYears,
       List<String> availableSemesters) {
-    List<CourseUnit>? filteredCourseUnits =
+    final List<CourseUnit>? filteredCourseUnits =
         selectedSemester == CourseUnitsPageView.bothSemestersDropdownOption
             ? courseUnits
                 ?.where((element) => element.schoolYear == selectedSchoolYear)
@@ -122,7 +122,7 @@ class CourseUnitsPageViewState
       RequestDependentWidgetBuilder(
           context: context,
           status: requestStatus ?? RequestStatus.none,
-          contentGenerator: generateCourseUnitsCards,
+          contentGenerator: _generateCourseUnitsCards,
           content: filteredCourseUnits ?? [],
           contentChecker: courseUnits?.isNotEmpty ?? false,
           onNullContent: Center(
@@ -133,15 +133,24 @@ class CourseUnitsPageViewState
     ]);
   }
 
-  Widget generateCourseUnitsCards(courseUnits, context) {
+  Widget _generateCourseUnitsCards(courseUnits, context) {
     if ((courseUnits as List<CourseUnit>).isEmpty) {
       return Center(
           heightFactor: 10,
           child: Text('Sem cadeiras no período selecionado',
               style: Theme.of(context).textTheme.headline6));
     }
+    return Expanded(
+        child: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 20),
+            child: ListView(
+              shrinkWrap: true,
+              children: _generateCourseUnitsGridView(courseUnits),
+            )));
+  }
 
-    List<Widget> rows = [];
+  List<Widget> _generateCourseUnitsGridView(List<CourseUnit> courseUnits) {
+    final List<Widget> rows = [];
     for (var i = 0; i < courseUnits.length; i += 2) {
       if (i < courseUnits.length - 1) {
         rows.add(IntrinsicHeight(
@@ -159,32 +168,25 @@ class CourseUnitsPageViewState
         ]));
       }
     }
-
-    return Expanded(
-        child: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 20),
-            child: ListView(
-              shrinkWrap: true,
-              children: rows,
-            )));
+    return rows;
   }
-}
 
-List<String> _getAvailableYears(List<CourseUnit> courseUnits) {
-  return courseUnits
-      .map((c) => c.schoolYear)
-      .whereType<String>()
-      .toSet()
-      .toList()
-      .sorted();
-}
+  List<String> _getAvailableYears(List<CourseUnit> courseUnits) {
+    return courseUnits
+        .map((c) => c.schoolYear)
+        .whereType<String>()
+        .toSet()
+        .toList()
+        .sorted();
+  }
 
-List<String> _getAvailableSemesters(List<CourseUnit> courseUnits) {
-  return courseUnits
-          .map((c) => c.semesterCode)
-          .whereType<String>()
-          .toSet()
-          .toList()
-          .sorted() +
-      [CourseUnitsPageView.bothSemestersDropdownOption];
+  List<String> _getAvailableSemesters(List<CourseUnit> courseUnits) {
+    return courseUnits
+            .map((c) => c.semesterCode)
+            .whereType<String>()
+            .toSet()
+            .toList()
+            .sorted() +
+        [CourseUnitsPageView.bothSemestersDropdownOption];
+  }
 }

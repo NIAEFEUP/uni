@@ -1,3 +1,4 @@
+import 'package:http/http.dart';
 import 'package:logger/logger.dart';
 import 'package:uni/controller/fetchers/courses_fetcher.dart';
 import 'package:uni/controller/fetchers/session_dependant_fetcher.dart';
@@ -23,13 +24,13 @@ class ProfileFetcher implements SessionDependantFetcher {
         url, {'pv_codigo': session.studentNumber}, session);
 
     if (response.statusCode == 200) {
-      Profile profile = Profile.fromResponse(response);
+      final Profile profile = Profile.fromResponse(response);
       try {
-        final coursesResponses =
+        final List<Future<Response>> coursesResponses =
             CoursesFetcher().getCoursesListResponses(session);
-        final courses =
+        final List<Course> courses =
             parseMultipleCourses(await Future.wait(coursesResponses));
-        for (var course in courses) {
+        for (Course course in courses) {
           if (profile.courses
               .map((c) => c.festId)
               .toList()

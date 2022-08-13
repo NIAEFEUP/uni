@@ -7,7 +7,7 @@ import 'package:uni/model/entities/session.dart';
 class AllCourseUnitsFetcher {
   Future<List<CourseUnit>> getAllCourseUnitsAndCourseAverages(
       List<Course> courses, Session session) async {
-    List<CourseUnit> allCourseUnits = [];
+    final List<CourseUnit> allCourseUnits = [];
     for (var course in courses) {
       allCourseUnits.addAll(
           await _getAllCourseUnitsAndCourseAveragesFromCourse(course, session));

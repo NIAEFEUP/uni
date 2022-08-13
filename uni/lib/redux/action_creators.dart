@@ -153,9 +153,9 @@ ThunkAction<AppState> getCourseUnitsAndCourseAverages(Completer<void> action) {
     store.dispatch(SaveAllUcsActionStatus(RequestStatus.busy));
 
     try {
-      List<Course> courses = store.state.content['profile'].courses;
-      Session session = store.state.content['session'];
-      List<CourseUnit> courseUnits = await AllCourseUnitsFetcher()
+      final List<Course> courses = store.state.content['profile'].courses;
+      final Session session = store.state.content['session'];
+      final List<CourseUnit> courseUnits = await AllCourseUnitsFetcher()
           .getAllCourseUnitsAndCourseAverages(courses, session);
       store.dispatch(SaveAllUcsAction(courseUnits));
       store.dispatch(SaveAllUcsActionStatus(RequestStatus.successful));

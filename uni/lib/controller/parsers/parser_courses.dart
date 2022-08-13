@@ -5,8 +5,7 @@ import 'package:uni/model/entities/course.dart';
 List<Course> parseMultipleCourses(List<http.Response> responses) {
   final List<Course> courses = [];
   for (var response in responses) {
-    final c = parseCourses(response);
-    courses.addAll(c);
+    courses.addAll(parseCourses(response));
   }
   return courses;
 }
