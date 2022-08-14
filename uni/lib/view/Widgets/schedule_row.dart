@@ -20,7 +20,7 @@ class ScheduleRow extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _ScheduleRowState(exams.contains(exam), exams,mainPage);
+    return _ScheduleRowState(exams.contains(exam), exams, mainPage);
   }
 }
 
@@ -66,30 +66,16 @@ class _ScheduleRowState extends State<ScheduleRow> {
                                 Add2Calendar.addEvent2Cal(createExamEvent())),
                       ],
                     )),
-                    if(!mainPage)
-                IconButton(
-                  padding: const EdgeInsets.only(top: 5.0, bottom: 12.0),
-                  icon: clicked
-                      ? const Icon(
-                          Icons.remove_red_eye_outlined,
-                          size: 30,
-                        )
-                      : const Icon(
-                          Icons.remove_red_eye,
-                          size: 30,
-                        ),
-                  alignment: Alignment.topLeft,
-                  onPressed: () => setState(() {
-                    clicked = !clicked;
-                    if (clicked) {
-                      hidden.add(widget.exam);
-                    } else {
-                      hidden.remove(widget.exam);
-                    }
-                    Logger().i(hidden.length);
-                    AppSharedPreferences.saveHiddenExams(hidden);
-                  }),
-                ),
+                if (!mainPage)
+                  ElevatedButton(
+                    child: ( clicked? const Text("Show Exam") : const Text("Hide Exam")),
+                    onPressed: () => setState(() {
+                      clicked = !clicked;
+                      clicked? hidden.add(widget.exam) : hidden.remove(widget.exam);
+                      Logger().i(hidden.length);
+                      AppSharedPreferences.saveHiddenExams(hidden);
+                    }),
+                  ),
                 Container(
                     key: Key(roomsKey),
                     alignment: Alignment.topLeft,
