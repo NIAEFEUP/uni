@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uni/model/entities/course.dart';
-import 'package:uni/view/Common/generic_card.dart';
+import 'package:uni/view/common_widgets/generic_card.dart';
 
 /// Manages the courses info (course name, atual year, state and year of
 /// first enrolment) on the user personal page.

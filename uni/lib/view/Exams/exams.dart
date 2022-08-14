@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/exam.dart';
-import 'package:uni/view/Common/PagesLayouts/General/general.dart';
+import 'package:uni/view/common_widgets/PagesLayouts/General/general.dart';
 import 'package:uni/view/Exams/widgets/exam_page_title_filter.dart';
-import 'package:uni/view/Common/row_container.dart';
+import 'package:uni/view/common_widgets/row_container.dart';
 import 'package:uni/view/Exams/widgets/schedule_row.dart';
 import 'package:uni/view/Exams/widgets/title_card.dart';
 

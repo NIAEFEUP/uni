@@ -17,7 +17,7 @@ import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/session.dart';
-import 'package:uni/view/Schedule/schedule.dart';
+import 'package:uni/view/schedule/schedule.dart';
 import 'package:uni/redux/action_creators.dart';
 import 'package:uni/redux/reducers.dart';
 

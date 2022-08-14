@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uni/controller/networking/network_router.dart';
-import 'package:uni/view/Common/row_container.dart';
+import 'package:uni/view/common_widgets/row_container.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ScheduleSlot extends StatelessWidget {

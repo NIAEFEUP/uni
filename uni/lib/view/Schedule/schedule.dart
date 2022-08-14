@@ -4,10 +4,10 @@ import 'package:tuple/tuple.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/utils/constants.dart' as constants;
-import 'package:uni/view/Common/page_title.dart';
-import 'package:uni/view/Common/request_dependent_widget_builder.dart';
+import 'package:uni/view/common_widgets/page_title.dart';
+import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
 import 'package:uni/view/Schedule/widgets/schedule_slot.dart';
-import 'package:uni/view/Common/PagesLayouts/General/general.dart';
+import 'package:uni/view/common_widgets/PagesLayouts/General/general.dart';
 
 class SchedulePage extends StatefulWidget {
   const SchedulePage({Key? key}) : super(key: key);

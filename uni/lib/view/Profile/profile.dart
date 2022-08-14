@@ -8,7 +8,7 @@ import 'package:uni/model/entities/course.dart';
 import 'package:uni/view/Profile/widgets/account_info_card.dart';
 import 'package:uni/view/Profile/widgets/print_info_card.dart';
 import 'package:uni/view/Profile/widgets/course_info_card.dart';
-import 'package:uni/view/Common/PagesLayouts/Secondary/secondary.dart';
+import 'package:uni/view/common_widgets/PagesLayouts/Secondary/secondary.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);

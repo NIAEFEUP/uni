@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uni/model/entities/course_unit.dart';
-import 'package:uni/view/Common/generic_card.dart';
+import 'package:uni/view/common_widgets/generic_card.dart';
 import 'package:uni/view/course_unit_info/course_unit_detail.dart';
 
 class CourseUnitCard extends GenericCard {

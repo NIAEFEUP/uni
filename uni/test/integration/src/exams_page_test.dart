@@ -20,7 +20,7 @@ import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/redux/action_creators.dart';
 import 'package:uni/redux/reducers.dart';
-import 'package:uni/view/Exams/exams.dart';
+import 'package:uni/view/exams/exams.dart';
 
 import '../../testable_redux_widget.dart';
 

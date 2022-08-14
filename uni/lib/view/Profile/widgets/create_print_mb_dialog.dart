@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:uni/controller/fetchers/print_fetcher.dart';
 import 'package:uni/model/app_state.dart';
-import 'package:uni/view/Common/toast_message.dart';
+import 'package:uni/view/common_widgets/toast_message.dart';
 
 Future<void> addMoneyDialog(BuildContext context) async {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();

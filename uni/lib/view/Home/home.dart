@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:uni/view/Common/PagesLayouts/General/general.dart';
+import 'package:uni/view/common_widgets/PagesLayouts/General/general.dart';
 import 'package:uni/view/Home/widgets/main_cards_list.dart';
 
 class HomePageView extends StatefulWidget {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:uni/view/Schedule/widgets/schedule_slot.dart';
+import 'package:uni/view/schedule/widgets/schedule_slot.dart';
 
 import '../../../testable_widget.dart';
 

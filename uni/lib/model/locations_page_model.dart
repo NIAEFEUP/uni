@@ -3,7 +3,7 @@ import 'package:uni/model/app_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:uni/view/locations/locations.dart';
-import 'package:uni/view/Common/PagesLayouts/Secondary/secondary.dart';
+import 'package:uni/view/common_widgets/PagesLayouts/Secondary/secondary.dart';
 
 import 'package:uni/model/entities/location_group.dart';
 

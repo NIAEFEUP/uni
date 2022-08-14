@@ -4,11 +4,11 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:tuple/tuple.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/location_group.dart';
-import 'package:uni/view/Common/page_title.dart';
+import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/locations/widgets/faculty_maps.dart';
 import 'package:uni/view/locations/widgets/location_marker.dart';
 import 'package:uni/view/locations/widgets/locations_map.dart';
-import 'package:uni/view/Common/PagesLayouts/Secondary/secondary.dart';
+import 'package:uni/view/common_widgets/PagesLayouts/Secondary/secondary.dart';
 
 class LocationsPage extends StatefulWidget {
   const LocationsPage({Key? key}) : super(key: key);

@@ -5,13 +5,13 @@ import 'package:uni/model/app_state.dart';
 import 'package:uni/redux/actions.dart';
 import 'package:uni/utils/constants.dart' as constants;
 import 'package:uni/utils/favorite_widget_type.dart';
-import 'package:uni/view/Profile/widgets/account_info_card.dart';
-import 'package:uni/view/Home/widgets/exit_app_dialog.dart';
-import 'package:uni/view/Home/widgets/bus_stop_card.dart';
-import 'package:uni/view/Home/widgets/exam_card.dart';
-import 'package:uni/view/Common/page_title.dart';
-import 'package:uni/view/Profile/widgets/print_info_card.dart';
-import 'package:uni/view/Home/widgets/schedule_card.dart';
+import 'package:uni/view/profile/widgets/account_info_card.dart';
+import 'package:uni/view/home/widgets/exit_app_dialog.dart';
+import 'package:uni/view/home/widgets/bus_stop_card.dart';
+import 'package:uni/view/home/widgets/exam_card.dart';
+import 'package:uni/view/common_widgets/page_title.dart';
+import 'package:uni/view/profile/widgets/print_info_card.dart';
+import 'package:uni/view/home/widgets/schedule_card.dart';
 
 class MainCardsList extends StatelessWidget {
   final Map<FavoriteWidgetType, Function> cardCreators = {
