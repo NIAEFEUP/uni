@@ -57,11 +57,11 @@ class CourseUnitsPageViewState
               availableYears,
               availableSemesters);
         },
-        builder: (context, ucsInfo) => _getPageContents(
+        builder: (context, ucsInfo) => _getPageView(
             ucsInfo.item1, ucsInfo.item2, ucsInfo.item3, ucsInfo.item4));
   }
 
-  Widget _getPageContents(
+  Widget _getPageView(
       List<CourseUnit>? courseUnits,
       RequestStatus? requestStatus,
       List<String> availableYears,
@@ -77,48 +77,7 @@ class CourseUnitsPageViewState
                     element.semesterCode == selectedSemester)
                 .toList();
     return Column(children: [
-      Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          const PageTitle(name: constants.navCourseUnits),
-          const Spacer(),
-          DropdownButton<String>(
-            disabledHint: const Text('Ano'),
-            value: selectedSchoolYear,
-            icon: const Icon(Icons.arrow_drop_down),
-            onChanged: (String? newValue) {
-              setState(() => selectedSchoolYear = newValue!);
-            },
-            items: availableYears.map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 5),
-                    child: Text(value)),
-              );
-            }).toList(),
-          ),
-          const SizedBox(width: 10),
-          DropdownButton<String>(
-            disabledHint: const Text('Semestre'),
-            value: selectedSemester,
-            icon: const Icon(Icons.arrow_drop_down),
-            onChanged: (String? newValue) {
-              setState(() => selectedSemester = newValue!);
-            },
-            items: availableSemesters
-                .map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 5),
-                    child: Text(value)),
-              );
-            }).toList(),
-          ),
-          const SizedBox(width: 20)
-        ],
-      ),
+      _getPageTitleAndFilters(availableYears, availableSemesters),
       RequestDependentWidgetBuilder(
           context: context,
           status: requestStatus ?? RequestStatus.none,
@@ -131,6 +90,51 @@ class CourseUnitsPageViewState
                 style: Theme.of(context).textTheme.headline6),
           ))
     ]);
+  }
+
+  Widget _getPageTitleAndFilters(
+      List<String> availableYears, List<String> availableSemesters) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        const PageTitle(name: constants.navCourseUnits),
+        const Spacer(),
+        DropdownButtonHideUnderline(
+            child: DropdownButton<String>(
+          alignment: AlignmentDirectional.centerEnd,
+          disabledHint: const Text('Semestre'),
+          value: selectedSemester,
+          icon: const Icon(Icons.arrow_drop_down),
+          onChanged: (String? newValue) {
+            setState(() => selectedSemester = newValue!);
+          },
+          items:
+              availableSemesters.map<DropdownMenuItem<String>>((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value),
+            );
+          }).toList(),
+        )),
+        const SizedBox(width: 10),
+        DropdownButtonHideUnderline(
+            child: DropdownButton<String>(
+          disabledHint: const Text('Ano'),
+          value: selectedSchoolYear,
+          icon: const Icon(Icons.arrow_drop_down),
+          onChanged: (String? newValue) {
+            setState(() => selectedSchoolYear = newValue!);
+          },
+          items: availableYears.map<DropdownMenuItem<String>>((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value),
+            );
+          }).toList(),
+        )),
+        const SizedBox(width: 20)
+      ],
+    );
   }
 
   Widget _generateCourseUnitsCards(courseUnits, context) {
