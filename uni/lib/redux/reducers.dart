@@ -19,8 +19,12 @@ AppState appReducers(AppState state, dynamic action) {
     return saveProfile(state, action);
   } else if (action is SaveProfileStatusAction) {
     return saveProfileStatus(state, action);
-  } else if (action is SaveUcsAction) {
+  } else if (action is SaveCurrentUcsAction) {
     return saveCurrUcs(state, action);
+  } else if (action is SaveAllUcsAction) {
+    return saveAllUcs(state, action);
+  } else if (action is SaveAllUcsActionStatus) {
+    return saveAllUcsStatus(state, action);
   } else if (action is SetPrintBalanceAction) {
     return setPrintBalance(state, action);
   } else if (action is SetPrintBalanceStatusAction) {
@@ -31,8 +35,6 @@ AppState appReducers(AppState state, dynamic action) {
     return setFeesLimit(state, action);
   } else if (action is SetFeesStatusAction) {
     return setFeesStatus(state, action);
-  } else if (action is SetCoursesStatesAction) {
-    return setCoursesState(state, action);
   } else if (action is SetBusTripsAction) {
     return setBusTrips(state, action);
   } else if (action is SetBusStopsAction) {
@@ -45,8 +47,6 @@ AppState appReducers(AppState state, dynamic action) {
     return setCurrentTime(state, action);
   } else if (action is UpdateFavoriteCards) {
     return updateFavoriteCards(state, action);
-  } else if (action is SetCoursesStatesStatusAction) {
-    return setCoursesStateStatus(state, action);
   } else if (action is SetPrintRefreshTimeAction) {
     return setPrintRefreshTime(state, action);
   } else if (action is SetFeesRefreshTimeAction) {
@@ -115,8 +115,19 @@ AppState saveProfileStatus(AppState state, SaveProfileStatusAction action) {
   return state.cloneAndUpdateValue('profileStatus', action.status);
 }
 
-AppState saveCurrUcs(AppState state, SaveUcsAction action) {
-  return state.cloneAndUpdateValue('currUcs', action.ucs);
+AppState saveCurrUcs(AppState state, SaveCurrentUcsAction action) {
+  return state.cloneAndUpdateValue('currUcs', action.currUcs);
+}
+
+AppState saveAllUcs(AppState state, SaveAllUcsAction action) {
+  Logger()
+      .i('saving all user ucs: ${action.allUcs.map((e) => e.abbreviation)}');
+  return state.cloneAndUpdateValue('allUcs', action.allUcs);
+}
+
+AppState saveAllUcsStatus(AppState state, SaveAllUcsActionStatus action) {
+  Logger().i('setting all user ucs status: ${action.status}');
+  return state.cloneAndUpdateValue('allUcsStatus', action.status);
 }
 
 AppState setPrintBalance(AppState state, SetPrintBalanceAction action) {
@@ -143,11 +154,6 @@ AppState setFeesLimit(AppState state, SetFeesLimitAction action) {
 AppState setFeesStatus(AppState state, SetFeesStatusAction action) {
   Logger().i('setting fees status: ${action.status}');
   return state.cloneAndUpdateValue('feesStatus', action.status);
-}
-
-AppState setCoursesState(AppState state, SetCoursesStatesAction action) {
-  Logger().i('setting courses state: ${action.coursesStates}');
-  return state.cloneAndUpdateValue('coursesStates', action.coursesStates);
 }
 
 AppState setBusStop(AppState state, SetBusStopsAction action) {
@@ -183,12 +189,6 @@ AppState setInitialStoreState(
 
 AppState updateFavoriteCards(AppState state, UpdateFavoriteCards action) {
   return state.cloneAndUpdateValue('favoriteCards', action.favoriteCards);
-}
-
-AppState setCoursesStateStatus(
-    AppState state, SetCoursesStatesStatusAction action) {
-  Logger().i('setting courses state status: ${action.status}');
-  return state.cloneAndUpdateValue('coursesStatesStatus', action.status);
 }
 
 AppState setPrintRefreshTime(AppState state, SetPrintRefreshTimeAction action) {

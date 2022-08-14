@@ -5,11 +5,9 @@ import 'package:uni/view/Widgets/generic_card.dart';
 /// Manages the courses info (course name, atual year, state and year of
 /// first enrolment) on the user personal page.
 class CourseInfoCard extends GenericCard {
-  CourseInfoCard({Key? key, required this.course, required this.courseState})
-      : super(key: key);
+  CourseInfoCard({Key? key, required this.course}) : super(key: key);
 
   final Course course;
-  final String courseState;
 
   @override
   Widget buildCardContent(BuildContext context) {
@@ -26,7 +24,7 @@ class CourseInfoCard extends GenericCard {
             Container(
               margin:
                   const EdgeInsets.only(top: 20.0, bottom: 8.0, right: 20.0),
-              child: getInfoText(course.currYear, context),
+              child: getInfoText(course.currYear ?? '?', context),
             )
           ]),
           TableRow(children: [
@@ -38,29 +36,69 @@ class CourseInfoCard extends GenericCard {
             Container(
               margin:
                   const EdgeInsets.only(top: 10.0, bottom: 8.0, right: 20.0),
-              child: getInfoText(courseState, context),
+              child: getInfoText(course.state ?? '?', context),
             )
+          ]),
+          TableRow(children: [
+            Container(
+              margin: const EdgeInsets.only(top: 10.0, bottom: 8.0, left: 20.0),
+              child: Text('Ano da primeira inscrição: ',
+                  style: Theme.of(context).textTheme.subtitle2),
+            ),
+            Container(
+                margin:
+                    const EdgeInsets.only(top: 10.0, bottom: 8.0, right: 20.0),
+                child: getInfoText(
+                    course.firstEnrollment != null
+                        ? '${course.firstEnrollment}/${course.firstEnrollment! + 1}'
+                        : '?',
+                    context))
+          ]),
+          TableRow(children: [
+            Container(
+              margin: const EdgeInsets.only(top: 10.0, bottom: 8.0, left: 20.0),
+              child: Text('Faculdade: ',
+                  style: Theme.of(context).textTheme.subtitle2),
+            ),
+            Container(
+                margin:
+                    const EdgeInsets.only(top: 10.0, bottom: 8.0, right: 20.0),
+                child:
+                    getInfoText(course.faculty?.toUpperCase() ?? '?', context))
+          ]),
+          TableRow(children: [
+            Container(
+              margin: const EdgeInsets.only(top: 10.0, bottom: 8.0, left: 20.0),
+              child:
+                  Text('Média: ', style: Theme.of(context).textTheme.subtitle2),
+            ),
+            Container(
+                margin:
+                    const EdgeInsets.only(top: 10.0, bottom: 8.0, right: 20.0),
+                child: getInfoText(
+                    course.currentAverage?.toString() ?? '?', context))
           ]),
           TableRow(children: [
             Container(
               margin:
                   const EdgeInsets.only(top: 10.0, bottom: 20.0, left: 20.0),
-              child: Text('Ano da primeira inscrição: ',
+              child: Text('ECTS realizados: ',
                   style: Theme.of(context).textTheme.subtitle2),
             ),
             Container(
                 margin:
                     const EdgeInsets.only(top: 10.0, bottom: 20.0, right: 20.0),
                 child: getInfoText(
-                    '${course.firstEnrollment}/${course.firstEnrollment + 1}',
+                    course.finishedEcts?.toString().replaceFirst('.0', '') ??
+                        '?',
                     context))
-          ]),
+          ])
         ]);
   }
 
   @override
   String getTitle() {
-    return course.name;
+    return course.name ?? 'Curso sem nome';
   }
 
   @override

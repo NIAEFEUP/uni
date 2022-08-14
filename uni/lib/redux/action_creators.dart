@@ -4,8 +4,8 @@ import 'package:logger/logger.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:tuple/tuple.dart';
-import 'package:uni/controller/fetchers/course_units_fetcher.dart';
-import 'package:uni/controller/fetchers/courses_fetcher.dart';
+import 'package:uni/controller/fetchers/all_course_units_fetcher.dart';
+import 'package:uni/controller/fetchers/current_course_units_fetcher.dart';
 import 'package:uni/controller/fetchers/departures_fetcher.dart';
 import 'package:uni/controller/fetchers/exam_fetcher.dart';
 import 'package:uni/controller/fetchers/fees_fetcher.dart';
@@ -19,6 +19,7 @@ import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher_html.d
 import 'package:uni/controller/load_info.dart';
 import 'package:uni/controller/load_static/terms_and_conditions.dart';
 import 'package:uni/controller/local_storage/app_bus_stop_database.dart';
+import 'package:uni/controller/local_storage/app_course_units_database.dart';
 import 'package:uni/controller/local_storage/app_courses_database.dart';
 import 'package:uni/controller/local_storage/app_exams_database.dart';
 import 'package:uni/controller/local_storage/app_last_user_info_update_database.dart';
@@ -29,13 +30,13 @@ import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/controller/local_storage/app_user_database.dart';
 import 'package:uni/controller/networking/network_router.dart'
     show NetworkRouter;
-import 'package:uni/controller/parsers/parser_courses.dart';
 import 'package:uni/controller/parsers/parser_exams.dart';
 import 'package:uni/controller/parsers/parser_fees.dart';
 import 'package:uni/controller/parsers/parser_print_balance.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/bus_stop.dart';
 import 'package:uni/model/entities/course.dart';
+import 'package:uni/model/entities/course_unit.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/entities/location_group.dart';
@@ -127,25 +128,52 @@ ThunkAction<AppState> getUserInfo(Completer<void> action) {
           ProfileFetcher.getProfile(store.state.content['session']).then((res) {
         userProfile = res;
         store.dispatch(SaveProfileAction(userProfile));
-        store.dispatch(SaveProfileStatusAction(RequestStatus.successful));
       });
-      final ucs = CourseUnitsFetcher()
+      final ucs = CurrentCourseUnitsFetcher()
           .getCurrentCourseUnits(store.state.content['session'])
-          .then((res) => store.dispatch(SaveUcsAction(res)));
-      await Future.wait([profile, ucs]);
+          .then((res) => store.dispatch(SaveCurrentUcsAction(res)));
+      await Future.wait([profile, ucs]).then((value) =>
+          store.dispatch(SaveProfileStatusAction(RequestStatus.successful)));
 
       final Tuple2<String, String> userPersistentInfo =
           await AppSharedPreferences.getPersistentUserInfo();
       if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {
         final profileDb = AppUserDataDatabase();
-        profileDb.saveUserData(userProfile);
-
-        final AppCoursesDatabase coursesDb = AppCoursesDatabase();
-        await coursesDb.saveNewCourses(userProfile.courses);
+        profileDb.insertUserData(userProfile);
       }
     } catch (e) {
       Logger().e('Failed to get User Info');
       store.dispatch(SaveProfileStatusAction(RequestStatus.failed));
+    }
+
+    action.complete();
+  };
+}
+
+ThunkAction<AppState> getCourseUnitsAndCourseAverages(Completer<void> action) {
+  return (Store<AppState> store) async {
+    store.dispatch(SaveAllUcsActionStatus(RequestStatus.busy));
+
+    try {
+      final List<Course> courses = store.state.content['profile'].courses;
+      final Session session = store.state.content['session'];
+      final List<CourseUnit> courseUnits = await AllCourseUnitsFetcher()
+          .getAllCourseUnitsAndCourseAverages(courses, session);
+      store.dispatch(SaveAllUcsAction(courseUnits));
+      store.dispatch(SaveAllUcsActionStatus(RequestStatus.successful));
+
+      final Tuple2<String, String> userPersistentInfo =
+          await AppSharedPreferences.getPersistentUserInfo();
+      if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {
+        final AppCoursesDatabase coursesDb = AppCoursesDatabase();
+        await coursesDb.saveNewCourses(courses);
+
+        final courseUnitsDatabase = AppCourseUnitsDatabase();
+        await courseUnitsDatabase.saveNewCourseUnits(courseUnits);
+      }
+    } catch (e) {
+      Logger().e('Failed to get all user ucs: $e');
+      store.dispatch(SaveAllUcsActionStatus(RequestStatus.failed));
     }
 
     action.complete();
@@ -157,6 +185,14 @@ ThunkAction<AppState> updateStateBasedOnLocalUserExams() {
     final AppExamsDatabase db = AppExamsDatabase();
     final List<Exam> exs = await db.exams();
     store.dispatch(SetExamsAction(exs));
+  };
+}
+
+ThunkAction<AppState> updateStateBasedOnLocalCourseUnits() {
+  return (Store<AppState> store) async {
+    final AppCourseUnitsDatabase db = AppCourseUnitsDatabase();
+    final List<CourseUnit> courseUnits = await db.courseUnits();
+    store.dispatch(SaveAllUcsAction(courseUnits));
   };
 }
 
@@ -175,20 +211,12 @@ ThunkAction<AppState> updateStateBasedOnLocalProfile() {
 
     final AppCoursesDatabase coursesDb = AppCoursesDatabase();
     final List<Course> courses = await coursesDb.courses();
-
     profile.courses = courses;
-
-    // Build courses states map
-    final Map<String, String> coursesStates = <String, String>{};
-    for (Course course in profile.courses) {
-      coursesStates[course.name] = course.state;
-    }
 
     store.dispatch(SaveProfileAction(profile));
     store.dispatch(SetPrintBalanceAction(profile.printBalance));
     store.dispatch(SetFeesBalanceAction(profile.feesBalance));
     store.dispatch(SetFeesLimitAction(profile.feesLimit));
-    store.dispatch(SetCoursesStatesAction(coursesStates));
   };
 }
 
@@ -366,31 +394,6 @@ ThunkAction<AppState> getUserFees(Completer<void> action) {
     } catch (e) {
       Logger().e('Failed to get Fees info');
       store.dispatch(SetFeesStatusAction(RequestStatus.failed));
-    }
-
-    action.complete();
-  };
-}
-
-ThunkAction<AppState> getUserCoursesState(Completer<void> action) {
-  return (Store<AppState> store) async {
-    store.dispatch(SetCoursesStatesStatusAction(RequestStatus.busy));
-    try {
-      final responses = CoursesFetcher()
-          .getCoursesListResponses(store.state.content['session']);
-      final Map<String, String> coursesStates =
-          parseMultipleCourses(await Future.wait(responses));
-      final Tuple2<String, String> userPersistentInfo =
-          await AppSharedPreferences.getPersistentUserInfo();
-      if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {
-        final AppCoursesDatabase coursesDb = AppCoursesDatabase();
-        coursesDb.saveCoursesStates(coursesStates);
-      }
-      store.dispatch(SetCoursesStatesAction(coursesStates));
-      store.dispatch(SetCoursesStatesStatusAction(RequestStatus.successful));
-    } catch (e) {
-      Logger().e('Failed to get Courses State info');
-      store.dispatch(SetCoursesStatesStatusAction(RequestStatus.failed));
     }
 
     action.complete();

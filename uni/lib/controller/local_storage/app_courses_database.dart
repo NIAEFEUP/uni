@@ -9,11 +9,12 @@ import 'package:uni/model/entities/course.dart';
 /// This database stores information about the user's courses.
 /// See the [Course] class to see what data is stored in this database.
 class AppCoursesDatabase extends AppDatabase {
+  static const String createScript =
+      '''CREATE TABLE courses(id INTEGER, fest_id INTEGER, name TEXT,'''
+      '''abbreviation TEXT, currYear TEXT, firstEnrollment INTEGER, state TEXT,'''
+      '''faculty TEXT, currentAverage REAL, finishedEcts REAL)''';
   AppCoursesDatabase()
-      : super('courses.db', [
-          '''CREATE TABLE courses(id INTEGER, fest_id INTEGER, name TEXT,
-          abbreviation TEXT, currYear TEXT, firstEnrollment INTEGER, state TEXT)'''
-        ]);
+      : super('courses.db', [createScript], onUpgrade: migrate, version: 2);
 
   /// Replaces all of the data in this database with the data from [courses].
   saveNewCourses(List<Course> courses) async {
@@ -38,7 +39,10 @@ class AppCoursesDatabase extends AppDatabase {
           abbreviation: maps[i]['abbreviation'],
           currYear: maps[i]['currYear'],
           firstEnrollment: maps[i]['firstEnrollment'],
-          state: maps[i]['state']);
+          state: maps[i]['state'],
+          faculty: maps[i]['faculty'],
+          finishedEcts: maps[i]['finishedEcts'],
+          currentAverage: maps[i]['currentAverage']);
     });
   }
 
@@ -57,31 +61,18 @@ class AppCoursesDatabase extends AppDatabase {
 
   /// Deletes all of the data stored in this database.
   Future<void> deleteCourses() async {
-    // Get a reference to the database
     final Database db = await getDatabase();
-
     await db.delete('courses');
   }
 
-  /// Updates the state of all courses present in [states].
+  /// Migrates [db] from [oldVersion] to [newVersion].
   ///
-  /// *Note:*
-  /// * a key in [states] is a [Course.id].
-  /// * a value in [states] is the new state of the corresponding course.
-  void saveCoursesStates(Map<String, String> states) async {
-    final Database db = await getDatabase();
-
-    // Retrieve stored courses
-    final List<Course> courses = await this.courses();
-
-    // For each course, save its state
-    for (Course course in courses) {
-      await db.update(
-        'courses',
-        {'state': states[course.name]},
-        where: 'id = ?',
-        whereArgs: [course.id],
-      );
-    }
+  /// *Note:* This operation only updates the schema of the tables present in
+  /// the database and, as such, all data is lost.
+  static FutureOr<void> migrate(
+      Database db, int oldVersion, int newVersion) async {
+    final batch = db.batch();
+    batch.execute('DROP TABLE IF EXISTS courses');
+    batch.execute(createScript);
   }
 }

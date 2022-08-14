@@ -10,14 +10,12 @@ class ProfilePage extends StatefulWidget {
   @override
   ProfilePageState createState() => ProfilePageState();
 
-  //Handle arguments from parent
   const ProfilePage({Key? key}) : super(key: key);
 }
 
 class ProfilePageState extends State<ProfilePage> {
   late String name;
   late String email;
-  late Map<String, String> currentState;
   late List<Course> courses;
   Future<File>? profilePicFile;
 
@@ -26,7 +24,6 @@ class ProfilePageState extends State<ProfilePage> {
     super.initState();
     name = '';
     email = '';
-    currentState = {};
     courses = [];
     profilePicFile = null;
   }
@@ -34,8 +31,7 @@ class ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     updateInfo();
-    return ProfilePageView(
-        name: name, email: email, currentState: currentState, courses: courses);
+    return ProfilePageView(name: name, email: email, courses: courses);
   }
 
   void updateInfo() async {
@@ -46,8 +42,6 @@ class ProfilePageState extends State<ProfilePage> {
             StoreProvider.of<AppState>(context).state.content['profile'].name;
         email =
             StoreProvider.of<AppState>(context).state.content['profile'].email;
-        currentState =
-            StoreProvider.of<AppState>(context).state.content['coursesStates'];
         courses = StoreProvider.of<AppState>(context)
             .state
             .content['profile']

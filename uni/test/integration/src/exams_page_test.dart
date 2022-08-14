@@ -32,8 +32,10 @@ void main() {
   group('ExamsPage Integration Tests', () {
     final mockClient = MockClient();
     final mockResponse = MockResponse();
-    final sopeCourseUnit = CourseUnit(abbreviation: 'SOPE');
-    final sdisCourseUnit = CourseUnit(abbreviation: 'SDIS');
+    final sopeCourseUnit = CourseUnit(
+        abbreviation: 'SOPE', occurrId: 0, name: 'Sistemas Operativos');
+    final sdisCourseUnit = CourseUnit(
+        abbreviation: 'SDIS', name: 'Sistemas Distribuídos', occurrId: 0);
     final sopeExam =
         Exam('17:00-19:00', 'SOPE', '', '2099-11-18', 'MT', 'Segunda');
     final sdisExam =
