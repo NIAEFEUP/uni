@@ -41,12 +41,14 @@ class ExamCard extends GenericCard {
   Widget buildCardContent(BuildContext context) {
     return StoreConnector<AppState, Tuple2<List<Exam>, RequestStatus>?>(
       converter: (store) {
+        final List<Exam> hiddenExams = store.state.content['hiddenExams'];
         final Map<String, bool> filteredExams =
             store.state.content['filteredExams'];
         final List<Exam> exams = store.state.content['exams'];
         final List<Exam> filteredExamsList = exams
             .where((exam) =>
-                filteredExams[Exam.getExamTypeLong(exam.examType)] ?? true)
+                (filteredExams[Exam.getExamTypeLong(exam.examType)] ?? true) &&
+                (!hiddenExams.contains(exam)))
             .toList();
         return Tuple2(filteredExamsList, store.state.content['examsStatus']);
       },
@@ -102,7 +104,10 @@ class ExamCard extends GenericCard {
       DateRectangle(date: '${exam.weekDay}, ${exam.day} de ${exam.month}'),
       RowContainer(
         color: getExamCardColor(context, exam),
-        child: ScheduleRow(exam: exam, exams: const [],
+        child: ScheduleRow(
+          exam: exam,
+          exams: const [],
+          mainPage: true,
         ),
       ),
     ]);

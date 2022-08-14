@@ -156,7 +156,6 @@ class AppSharedPreferences {
 
    static saveHiddenExams(List<Exam> newHiddenExams) async {
     final prefs = await SharedPreferences.getInstance();
-    //Logger().i(json.encode(newHiddenExams[0]));
     prefs.setStringList(
         hiddenExams, newHiddenExams.map((exam) => json.encode(exam)).toList());
   }

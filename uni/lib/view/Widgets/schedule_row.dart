@@ -10,23 +10,26 @@ import '../../model/entities/exam.dart';
 class ScheduleRow extends StatefulWidget {
   final Exam exam;
   final List<Exam> exams;
+  final bool mainPage;
 
   const ScheduleRow({
     required this.exam,
     required this.exams,
+    required this.mainPage,
   });
 
   @override
   State<StatefulWidget> createState() {
-    return _ScheduleRowState(exams.contains(exam), exams);
+    return _ScheduleRowState(exams.contains(exam), exams,mainPage);
   }
 }
 
 class _ScheduleRowState extends State<ScheduleRow> {
   bool clicked;
   List<Exam> hidden;
+  final bool mainPage;
 
-  _ScheduleRowState(this.clicked, this.hidden);
+  _ScheduleRowState(this.clicked, this.hidden, this.mainPage);
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +66,7 @@ class _ScheduleRowState extends State<ScheduleRow> {
                                 Add2Calendar.addEvent2Cal(createExamEvent())),
                       ],
                     )),
+                    if(!mainPage)
                 IconButton(
                   padding: const EdgeInsets.only(top: 5.0, bottom: 12.0),
                   icon: clicked

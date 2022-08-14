@@ -133,6 +133,6 @@ class ExamsList extends StatelessWidget {
             color: isHighlighted(exam)
                 ? Theme.of(context).hintColor
                 : Theme.of(context).scaffoldBackgroundColor,
-            child: ScheduleRow(exam: exam, exams: hidden, )));
+            child: ScheduleRow(exam: exam, exams: hidden,mainPage: false, )));
   }
 }
