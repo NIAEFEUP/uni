@@ -20,7 +20,6 @@ class ProfilePage extends StatefulWidget {
 class ProfilePageState extends State<ProfilePage>{
   late String name;
   late String email;
-  late Map<String, String> currentState;
   late List<Course> courses;
   Future<File>? profilePicFile;
 
@@ -29,7 +28,6 @@ class ProfilePageState extends State<ProfilePage>{
     super.initState();
     name = '';
     email = '';
-    currentState = {};
     courses = [];
     profilePicFile = null;
   }
@@ -38,7 +36,7 @@ class ProfilePageState extends State<ProfilePage>{
   Widget build(BuildContext context){
     updateInfo();
     return ProfilePageView(
-        name: name, email: email, currentState: currentState, courses: courses);
+        name: name, email: email, courses: courses);
   }
 
   void updateInfo() async {
@@ -49,8 +47,6 @@ class ProfilePageState extends State<ProfilePage>{
             StoreProvider.of<AppState>(context).state.content['profile'].name;
         email =
             StoreProvider.of<AppState>(context).state.content['profile'].email;
-        currentState =
-            StoreProvider.of<AppState>(context).state.content['coursesStates'];
         courses = StoreProvider.of<AppState>(context)
             .state
             .content['profile']
@@ -63,13 +59,11 @@ class ProfilePageState extends State<ProfilePage>{
 class ProfilePageView extends StatefulWidget {
   final String name;
   final String email;
-  final Map<String, String> currentState;
   final List<Course> courses;
   const ProfilePageView(
       {Key? key,
       required this.name,
       required this.email,
-      required this.currentState,
       required this.courses})
       : super(key: key);
   @override
@@ -95,9 +89,7 @@ class ProfilePageViewState extends SecondaryPageViewState<ProfilePageView> {
     list.add(profileInfo(context));
     list.add(const Padding(padding: EdgeInsets.all(5.0)));
     for (var i = 0; i < widget.courses.length; i++) {
-      list.add(CourseInfoCard(
-          course: widget.courses[i],
-          courseState: widget.currentState[widget.courses[i].name] ?? '?'));
+      list.add(CourseInfoCard(course: widget.courses[i]));
       list.add(const Padding(padding: EdgeInsets.all(5.0)));
     }
     list.add(PrintInfoCard());

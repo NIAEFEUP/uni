@@ -35,7 +35,7 @@ class PrintInfoCard extends GenericCard {
                   child: StoreConnector<AppState, String?>(
                       converter: (store) => store.state.content['printBalance'],
                       builder: (context, printBalance) => Text(
-                          printBalance ?? '',
+                          printBalance ?? '?',
                           textAlign: TextAlign.end,
                           style: Theme.of(context).textTheme.headline6)),
                 ),

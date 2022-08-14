@@ -3,17 +3,25 @@ import 'package:uni/model/entities/time_utilities.dart';
 
 /// App default card
 abstract class GenericCard extends StatefulWidget {
-  GenericCard({Key? key})
-      : editingMode = false,
-        onDelete = (() => null),
-        super(key: key);
-
-  const GenericCard.fromEditingInformation(
-      Key key, this.editingMode, this.onDelete)
-      : super(key: key);
-
+  final EdgeInsetsGeometry margin;
+  final bool smallTitle;
   final bool editingMode;
   final Function()? onDelete;
+
+  GenericCard({Key? key})
+      : this.customStyle(key: key, editingMode: false, onDelete: () => null);
+
+  const GenericCard.fromEditingInformation(Key key, editingMode, onDelete)
+      : this.customStyle(
+            key: key, editingMode: editingMode, onDelete: onDelete);
+
+  const GenericCard.customStyle(
+      {Key? key,
+      required this.editingMode,
+      required this.onDelete,
+      this.margin = const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+      this.smallTitle = false})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -53,8 +61,7 @@ class GenericCardState extends State<GenericCard> {
           }
         },
         child: Card(
-            margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-            color: const Color.fromARGB(0, 0, 0, 0),
+            margin: widget.margin,
             elevation: 0,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(borderRadius)),
@@ -76,6 +83,7 @@ class GenericCardState extends State<GenericCard> {
                           BorderRadius.all(Radius.circular(borderRadius))),
                   width: (double.infinity),
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       Row(
@@ -87,9 +95,11 @@ class GenericCardState extends State<GenericCard> {
                             padding: const EdgeInsets.symmetric(horizontal: 15),
                             margin: const EdgeInsets.only(top: 15, bottom: 10),
                             child: Text(widget.getTitle(),
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headline5!
+                                style: (widget.smallTitle
+                                        ? Theme.of(context).textTheme.headline6!
+                                        : Theme.of(context)
+                                            .textTheme
+                                            .headline5!)
                                     .copyWith(
                                         color: Theme.of(context).primaryColor)),
                           )),

@@ -15,7 +15,7 @@ class ExamPageTitleFilter extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: const [
-          PageTitle(name: 'Exames', center: false),
+          PageTitle(name: 'Exames', center: false, pad: false),
           Material(child: ExamFilterMenu()),
         ],
       ),

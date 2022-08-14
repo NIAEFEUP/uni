@@ -204,7 +204,7 @@ class SchedulePageViewState extends GeneralPageViewState<SchedulePageView>
 
   Widget createScheduleByDay(BuildContext context, int day,
       List<dynamic>? lectures, RequestStatus? scheduleStatus) {
-    List aggLectures = SchedulePageView.groupLecturesByDay(lectures);
+    final List aggLectures = SchedulePageView.groupLecturesByDay(lectures);
     return RequestDependentWidgetBuilder(
       context: context,
       status: scheduleStatus ?? RequestStatus.none,
