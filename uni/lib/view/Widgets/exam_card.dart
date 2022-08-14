@@ -102,14 +102,7 @@ class ExamCard extends GenericCard {
       DateRectangle(date: '${exam.weekDay}, ${exam.day} de ${exam.month}'),
       RowContainer(
         color: getExamCardColor(context, exam),
-        child: ScheduleRow(
-          subject: exam.subject,
-          rooms: exam.rooms,
-          begin: exam.begin,
-          end: exam.end,
-          type: exam.examType,
-          date: exam.date,
-          teacher: '',
+        child: ScheduleRow(exam: exam, exams: const [],
         ),
       ),
     ]);

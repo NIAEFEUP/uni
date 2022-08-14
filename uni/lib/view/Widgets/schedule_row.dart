@@ -1,32 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:uni/view/Widgets/schedule_event_rectangle.dart';
 import 'package:uni/view/Widgets/schedule_time_interval.dart';
 import 'package:add_2_calendar/add_2_calendar.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import '../../controller/local_storage/app_shared_preferences.dart';
+import '../../model/entities/exam.dart';
 
-class ScheduleRow extends StatelessWidget {
-  final String subject;
-  final List<String> rooms;
-  final String begin;
-  final String end;
-  final DateTime date;
-  final String teacher;
-  final String type;
+class ScheduleRow extends StatefulWidget {
+  final Exam exam;
+  final List<Exam> exams;
 
-  const ScheduleRow(
-      {Key? key,
-      required this.subject,
-      required this.rooms,
-      required this.begin,
-      required this.end,
-      required this.date,
-      required this.teacher,
-      required this.type})
-      : super(key: key);
+  const ScheduleRow({
+    required this.exam,
+    required this.exams,
+  });
+
+  @override
+  State<StatefulWidget> createState() {
+    return _ScheduleRowState(exams.contains(exam), exams);
+  }
+}
+
+class _ScheduleRowState extends State<ScheduleRow> {
+  bool clicked;
+  List<Exam> hidden;
+
+  _ScheduleRowState(this.clicked, this.hidden);
 
   @override
   Widget build(BuildContext context) {
-    final roomsKey = '$subject-$rooms-$begin-$end';
+    final roomsKey =
+        '${widget.exam.subject}-${widget.exam.rooms}-${widget.exam.begin}-${widget.exam.end}';
     return Center(
         child: Container(
             padding: const EdgeInsets.only(left: 12.0, bottom: 8.0, right: 12),
@@ -45,15 +50,42 @@ class ScheduleRow extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              ScheduleTimeInterval(begin: begin, end: end)
+                              ScheduleTimeInterval(
+                                  begin: widget.exam.begin,
+                                  end: widget.exam.end)
                             ]),
-                        ScheduleEventRectangle(subject: subject, type: type),
+                        ScheduleEventRectangle(
+                            subject: widget.exam.subject,
+                            type: widget.exam.examType),
                         IconButton(
                             icon: const Icon(MdiIcons.calendarPlus, size: 30),
                             onPressed: () =>
                                 Add2Calendar.addEvent2Cal(createExamEvent())),
                       ],
                     )),
+                IconButton(
+                  padding: const EdgeInsets.only(top: 5.0, bottom: 12.0),
+                  icon: clicked
+                      ? const Icon(
+                          Icons.remove_red_eye_outlined,
+                          size: 30,
+                        )
+                      : const Icon(
+                          Icons.remove_red_eye,
+                          size: 30,
+                        ),
+                  alignment: Alignment.topLeft,
+                  onPressed: () => setState(() {
+                    clicked = !clicked;
+                    if (clicked) {
+                      hidden.add(widget.exam);
+                    } else {
+                      hidden.remove(widget.exam);
+                    }
+                    Logger().i(hidden.length);
+                    AppSharedPreferences.saveHiddenExams(hidden);
+                  }),
+                ),
                 Container(
                     key: Key(roomsKey),
                     alignment: Alignment.topLeft,
@@ -63,32 +95,34 @@ class ScheduleRow extends StatelessWidget {
   }
 
   Widget? getScheduleRooms(context) {
-    if (rooms[0] == '') return null;
+    if (widget.exam.rooms[0] == '') return null;
     return Wrap(
-      alignment: WrapAlignment.start,
-      spacing: 13,
-      children: roomsList(context, rooms)
-    );
+        alignment: WrapAlignment.start,
+        spacing: 13,
+        children: roomsList(context, widget.exam.rooms));
   }
 
   List<Text> roomsList(BuildContext context, List rooms) {
-    return rooms.map((room) => 
-      Text(room.trim(), style: Theme.of(context).textTheme.bodyText2)
-    ).toList();
+    return rooms
+        .map((room) =>
+            Text(room.trim(), style: Theme.of(context).textTheme.bodyText2))
+        .toList();
   }
 
   Event createExamEvent() {
-    final List<String> partsBegin = begin.split(':');
+    final List<String> partsBegin = widget.exam.begin.split(':');
     final int hoursBegin = int.parse(partsBegin[0]);
     final int minutesBegin = int.parse(partsBegin[1]);
-    final List<String> partsEnd = end.split(':');
+    final List<String> partsEnd = widget.exam.end.split(':');
     final int hoursEnd = int.parse(partsEnd[0]);
     final int minutesEnd = int.parse(partsBegin[1]);
     return Event(
-      title: '$type $subject',
-      location: rooms.toString(),
-      startDate: date.add(Duration(hours: hoursBegin, minutes: minutesBegin)),
-      endDate: date.add(Duration(hours: hoursEnd, minutes: minutesEnd)),
+      title: '${widget.exam.examType} ${widget.exam.subject}',
+      location: widget.exam.rooms.toString(),
+      startDate: widget.exam.date
+          .add(Duration(hours: hoursBegin, minutes: minutesBegin)),
+      endDate:
+          widget.exam.date.add(Duration(hours: hoursEnd, minutes: minutesEnd)),
     );
   }
 }

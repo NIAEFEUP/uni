@@ -107,6 +107,35 @@ class Exam {
     };
   }
 
+  Map<String, dynamic> toJson() => {
+    'subject': subject,
+      'begin': begin,
+      'end': end,
+      'beginDateTime': beginDateTime.toString(),
+      'endDateTime': endDateTime.toString(),
+      'rooms': rooms.join(','),
+      'day': day,
+      'examType': examType,
+      'weekDay': weekDay,
+      'month': month,
+      'year': year,
+      'date': date.toString(),
+  };
+
+  Exam.fromJson(Map<String, dynamic> json)
+      : subject = json['subject'],
+        begin = json['begin'],
+        end = json['end'],
+        beginDateTime = json['beginDateTime'],
+        endDateTime = json['endDateTime'],
+        rooms = json['rooms'],
+        day = json['day'],
+        examType = json['examType'],
+        weekDay = json['weekDay'],
+        month = json['month'],
+        year = json['year'],
+        date = json['date'];
+
   /// Returns whether or not this exam has already ended.
   bool hasEnded() {
     final DateTime now = DateTime.now();

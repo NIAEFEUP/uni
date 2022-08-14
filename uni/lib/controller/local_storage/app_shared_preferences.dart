@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:encrypt/encrypt.dart' as encrypt;
 import 'package:flutter/material.dart';
@@ -30,6 +31,7 @@ class AppSharedPreferences {
     FavoriteWidgetType.busStops
   ];
   static const String filteredExamsTypes = 'filtered_exam_types';
+  static const String hiddenExams = 'hidden_exams';
   static final List<String> defaultFilteredExamTypes =
       Exam.getExamTypes().keys.toList();
 
@@ -151,6 +153,22 @@ class AppSharedPreferences {
         .map((i) => FavoriteWidgetType.values[int.parse(i)])
         .toList();
   }
+
+   static saveHiddenExams(List<Exam> newHiddenExams) async {
+    final prefs = await SharedPreferences.getInstance();
+    //Logger().i(json.encode(newHiddenExams[0]));
+    prefs.setStringList(
+        hiddenExams, newHiddenExams.map((exam) => json.encode(exam)).toList());
+  }
+
+   static Future<List<Exam>> getHiddenExams() async {
+    final prefs = await SharedPreferences.getInstance();
+    final List<String>? storedHiddenExam =
+        prefs.getStringList(hiddenExams);
+    if (storedHiddenExam == null) return List<Exam>.empty();
+    return storedHiddenExam
+        .map((i) => Exam.fromJson(jsonDecode(i)))
+        .toList();}
 
   /// Replaces the user's exam filter settings with [newFilteredExamTypes].
   static saveFilteredExams(Map<String, bool> newFilteredExamTypes) async {

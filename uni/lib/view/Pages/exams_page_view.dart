@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:logger/logger.dart';
+import 'package:tuple/tuple.dart';
 import 'package:uni/controller/exam.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/exam.dart';
@@ -22,18 +24,22 @@ class ExamsPageViewState extends SecondaryPageViewState<ExamsPageView> {
 
   @override
   Widget getBody(BuildContext context) {
-    return StoreConnector<AppState, List<dynamic>?>(
+
+    return StoreConnector<AppState,Tuple2<List<dynamic>?,List<dynamic>?>>(
       converter: (store) {
+        final List<Exam> hiddenExams =
+            store.state.content['hiddenExams'];
         final List<Exam> exams = store.state.content['exams'];
         final Map<String, bool> filteredExams =
             store.state.content['filteredExams'] ?? [];
-        return exams
+          
+        return Tuple2<List<dynamic>?,List<dynamic>?>(exams
             .where((exam) =>
-                filteredExams[Exam.getExamTypeLong(exam.examType)] ?? true)
-            .toList();
+                (filteredExams[Exam.getExamTypeLong(exam.examType)] ?? true))
+            .toList(),hiddenExams);
       },
       builder: (context, exams) {
-        return ExamsList(exams: exams as List<Exam>);
+        return ExamsList(exams: exams.item1 as List<Exam>,hidden: exams.item2 as List<Exam>);
       },
     );
   }
@@ -42,8 +48,9 @@ class ExamsPageViewState extends SecondaryPageViewState<ExamsPageView> {
 /// Manages the 'Exams' section in the user's personal area and 'Exams Map'.
 class ExamsList extends StatelessWidget {
   final List<Exam> exams;
+  final List<Exam> hidden;
 
-  const ExamsList({Key? key, required this.exams}) : super(key: key);
+  const ExamsList({Key? key, required this.exams, required this.hidden}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -126,14 +133,6 @@ class ExamsList extends StatelessWidget {
             color: isHighlighted(exam)
                 ? Theme.of(context).hintColor
                 : Theme.of(context).scaffoldBackgroundColor,
-            child: ScheduleRow(
-              subject: exam.subject,
-              rooms: exam.rooms,
-              begin: exam.begin,
-              end: exam.end,
-              type: exam.examType,
-              date: exam.date,
-              teacher: '',
-            )));
+            child: ScheduleRow(exam: exam, exams: hidden, )));
   }
 }

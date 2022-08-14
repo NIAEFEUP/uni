@@ -158,6 +158,11 @@ class SetExamFilter {
   SetExamFilter(this.filteredExams);
 }
 
+class SetExamHidden {
+  List<Exam> hiddenExams;
+  SetExamHidden(this.hiddenExams);
+}
+
 class SetUserFaculties {
   List<String> faculties;
   SetUserFaculties(this.faculties);
