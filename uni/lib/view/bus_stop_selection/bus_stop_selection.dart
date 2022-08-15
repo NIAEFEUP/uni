@@ -3,7 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:uni/controller/local_storage/app_bus_stop_database.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/bus_stop.dart';
-import 'package:uni/view/common_widgets/PagesLayouts/Secondary/secondary.dart';
+import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni/view/bus_stop_selection/widgets/bus_stop_search.dart';
 import 'package:uni/view/bus_stop_selection/widgets/bus_stop_selection_row.dart';
 import 'package:uni/view/common_widgets/page_title.dart';

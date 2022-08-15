@@ -4,7 +4,7 @@ import 'package:tuple/tuple.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/bus_stop.dart';
 import 'package:uni/model/entities/trip.dart';
-import 'package:uni/view/common_widgets/PagesLayouts/General/general.dart';
+import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/bus_stop_selection/bus_stop_selection.dart';
 import 'package:uni/view/bus_stop_next_arrivals/widgets/bus_stop_row.dart';
 import 'package:uni/view/common_widgets/last_update_timestamp.dart';

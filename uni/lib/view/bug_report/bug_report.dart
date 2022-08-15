@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:uni/view/bug_report/widgets/form.dart';
-import 'package:uni/view/common_widgets/PagesLayouts/General/general.dart';
+import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 
 class BugReportPageView extends StatefulWidget {
   const BugReportPageView({Key? key}) : super(key: key);

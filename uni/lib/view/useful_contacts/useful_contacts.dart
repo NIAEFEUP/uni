@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:uni/view/common_widgets/PagesLayouts/General/general.dart';
+import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/useful_contacts/widgets/academic_services_card.dart';
 import 'package:uni/view/useful_contacts/widgets/copy_center_card.dart';
 import 'package:uni/view/useful_contacts/widgets/dona_bia_card.dart';

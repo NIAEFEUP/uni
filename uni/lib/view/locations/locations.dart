@@ -8,7 +8,7 @@ import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/locations/widgets/faculty_maps.dart';
 import 'package:uni/view/locations/widgets/location_marker.dart';
 import 'package:uni/view/locations/widgets/locations_map.dart';
-import 'package:uni/view/common_widgets/PagesLayouts/Secondary/secondary.dart';
+import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
 
 class LocationsPage extends StatefulWidget {
   const LocationsPage({Key? key}) : super(key: key);

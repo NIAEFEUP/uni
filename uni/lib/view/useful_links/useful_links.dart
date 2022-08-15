@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:uni/view/common_widgets/PagesLayouts/General/general.dart';
+import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/useful_links/widgets/other_links_card.dart';
 import 'package:uni/view/useful_links/widgets/sigarra_links_card.dart';
 

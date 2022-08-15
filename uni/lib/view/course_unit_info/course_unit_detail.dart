@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uni/model/entities/course_unit.dart';
-import 'package:uni/view/common_widgets/PagesLayouts/Secondary/secondary.dart';
+import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 
 class CourseUnitDetailPageView extends StatefulWidget {
