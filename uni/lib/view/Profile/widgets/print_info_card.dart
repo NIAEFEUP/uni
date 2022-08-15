@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:uni/model/app_state.dart';
-import 'package:uni/view/Profile/widgets/create_print_mb_dialog.dart';
+import 'package:uni/view/profile/widgets/create_print_mb_dialog.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
 
 class PrintInfoCard extends GenericCard {

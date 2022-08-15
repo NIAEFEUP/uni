@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:uni/view/Exams/widgets/exam_filter_menu.dart';
+import 'package:uni/view/exams/widgets/exam_filter_menu.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 
 class ExamPageTitleFilter extends StatelessWidget {

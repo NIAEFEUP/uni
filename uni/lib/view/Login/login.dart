@@ -6,7 +6,7 @@ import 'package:uni/redux/action_creators.dart';
 import 'package:uni/utils/constants.dart' as constants;
 import 'package:uni/view/common_widgets/toast_message.dart';
 import 'package:uni/view/theme.dart';
-import 'package:uni/view/Login/widgets/inputs.dart';
+import 'package:uni/view/login/widgets/inputs.dart';
 
 class LoginPageView extends StatefulWidget {
   const LoginPageView({super.key});

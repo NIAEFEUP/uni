@@ -6,7 +6,7 @@ import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/utils/constants.dart' as constants;
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
-import 'package:uni/view/Schedule/widgets/schedule_slot.dart';
+import 'package:uni/view/schedule/widgets/schedule_slot.dart';
 import 'package:uni/view/common_widgets/PagesLayouts/General/general.dart';
 
 class SchedulePage extends StatefulWidget {

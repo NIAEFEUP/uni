@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:uni/view/Login/widgets/faculties_selection_form.dart';
+import 'package:uni/view/login/widgets/faculties_selection_form.dart';
 
 class FacultiesMultiselect extends StatelessWidget {
   final List<String> faculties;

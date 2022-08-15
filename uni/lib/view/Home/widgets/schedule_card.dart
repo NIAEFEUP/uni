@@ -7,7 +7,7 @@ import 'package:uni/model/entities/time_utilities.dart';
 import 'package:uni/view/common_widgets/date_rectangle.dart';
 import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
-import 'package:uni/view/Schedule/widgets/schedule_slot.dart';
+import 'package:uni/view/schedule/widgets/schedule_slot.dart';
 import 'package:uni/utils/constants.dart' as constants;
 
 class ScheduleCard extends GenericCard {

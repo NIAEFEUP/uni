@@ -23,7 +23,7 @@ import 'package:uni/view/course_units/course_units.dart';
 import 'package:uni/view/logout_route.dart';
 import 'package:uni/view/splash/splash.dart';
 import 'package:uni/view/useful_contacts/useful_contacts.dart';
-import 'package:uni/view/useful_contacts/useful_links.dart';
+import 'package:uni/view/useful_links/useful_links.dart';
 import 'package:uni/view/schedule/schedule.dart';
 import 'package:uni/view/common_widgets/page_transition.dart';
 import 'package:uni/view/navigation_service.dart';

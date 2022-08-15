@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:uni/view/Exams/widgets/schedule_event_rectangle.dart';
-import 'package:uni/view/Exams/widgets/schedule_time_interval.dart';
+import 'package:uni/view/exams/widgets/schedule_event_rectangle.dart';
+import 'package:uni/view/exams/widgets/schedule_time_interval.dart';
 import 'package:add_2_calendar/add_2_calendar.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
