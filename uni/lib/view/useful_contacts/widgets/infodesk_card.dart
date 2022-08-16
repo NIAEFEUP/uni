@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:uni/view/common_widgets/generic_card.dart';
+import 'package:uni/view/common_widgets/generic_expansion_card.dart';
 import 'package:uni/view/useful_contacts/widgets/text_components.dart';
 
-class InfoDeskCard extends GenericCard {
-  InfoDeskCard({Key? key}) : super(key: key);
+class InfoDeskCard extends GenericExpansionCard {
+  const InfoDeskCard({Key? key}) : super(key: key);
 
   @override
   Widget buildCardContent(BuildContext context) {
@@ -23,7 +23,4 @@ class InfoDeskCard extends GenericCard {
 
   @override
   String getTitle() => 'Infodesk';
-
-  @override
-  onClick(BuildContext context) {}
 }

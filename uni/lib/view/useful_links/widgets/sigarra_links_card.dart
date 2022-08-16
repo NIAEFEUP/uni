@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:uni/view/common_widgets/generic_expansion_card.dart';
 import 'package:uni/view/useful_links/widgets/link_button.dart';
-import 'package:uni/view/common_widgets/generic_card.dart';
 
 /// Manages the 'Current account' section inside the user's page (accessible
 /// through the top-right widget with the user picture)
-class SigarraLinksCard extends GenericCard {
-  SigarraLinksCard({Key? key}) : super(key: key);
-
-  const SigarraLinksCard.fromEditingInformation(
-      Key key, bool editingMode, Function()? onDelete)
-      : super.fromEditingInformation(key, editingMode, onDelete);
+class SigarraLinksCard extends GenericExpansionCard {
+  const SigarraLinksCard({Key? key}) : super(key: key);
 
   @override
   Widget buildCardContent(BuildContext context) {
@@ -40,7 +36,4 @@ class SigarraLinksCard extends GenericCard {
 
   @override
   String getTitle() => 'Links Sigarra';
-
-  @override
-  onClick(BuildContext context) {}
 }

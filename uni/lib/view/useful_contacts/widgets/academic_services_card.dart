@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:uni/view/common_widgets/generic_card.dart';
+import 'package:uni/view/common_widgets/generic_expansion_card.dart';
 import 'package:uni/view/useful_contacts/widgets/text_components.dart';
 
-class AcademicServicesCard extends GenericCard {
-  AcademicServicesCard({Key? key}) : super(key: key);
+class AcademicServicesCard extends GenericExpansionCard {
+  const AcademicServicesCard({Key? key}) : super(key: key);
 
   @override
   Widget buildCardContent(BuildContext context) {
@@ -23,7 +23,4 @@ class AcademicServicesCard extends GenericCard {
 
   @override
   String getTitle() => 'Serviços Académicos';
-
-  @override
-  onClick(BuildContext context) {}
 }

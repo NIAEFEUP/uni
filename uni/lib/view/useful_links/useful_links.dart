@@ -14,6 +14,13 @@ class UsefulLinksCardView extends StatefulWidget {
 class UsefulContactsCardViewState extends GeneralPageViewState {
   @override
   Widget getBody(BuildContext context) {
-    return Column(children: [SigarraLinksCard(), OtherLinksCard()]);
+    return ListView(children: childrenList());
   }
+}
+
+List<Widget> childrenList() {
+  final List<Widget> list = [];
+  list.add(const SigarraLinksCard());
+  list.add(const OtherLinksCard());
+  return list;
 }
