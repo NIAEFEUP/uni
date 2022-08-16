@@ -1,6 +1,6 @@
 import 'package:latlong2/latlong.dart';
 import 'package:uni/model/entities/location_group.dart';
-import 'package:uni/view/locations/widgets/locations_map.dart';
+import 'package:uni/view/locations/widgets/map.dart';
 
 class FacultyMaps {
   static LocationsMap? getFacultyMap(

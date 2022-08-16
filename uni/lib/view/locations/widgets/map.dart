@@ -4,9 +4,9 @@ import 'package:flutter_map_marker_popup/flutter_map_marker_popup.dart';
 import 'package:latlong2/latlong.dart';
 
 import 'package:uni/model/entities/location_group.dart';
-import 'package:uni/view/locations/widgets/floorless_location_marker_popup.dart';
-import 'package:uni/view/locations/widgets/location_marker.dart';
-import 'package:uni/view/locations/widgets/location_marker_popup.dart';
+import 'package:uni/view/locations/widgets/floorless_marker_popup.dart';
+import 'package:uni/view/locations/widgets/marker.dart';
+import 'package:uni/view/locations/widgets/marker_popup.dart';
 
 class LocationsMap extends StatelessWidget {
   final PopupController _popupLayerController = PopupController();
