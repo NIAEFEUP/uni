@@ -20,6 +20,8 @@ class GenericExpansionCardState extends State<GenericExpansionCard> {
         margin: const EdgeInsets.fromLTRB(20, 10, 20, 0),
         child: ExpansionTileCard(
           expandedTextColor: Theme.of(context).primaryColor,
+          heightFactorCurve: Curves.ease,
+          turnsCurve: Curves.easeOutBack,
           expandedColor: (Theme.of(context).brightness == Brightness.light)
               ? const Color.fromARGB(0xf, 0, 0, 0)
               : const Color.fromARGB(255, 43, 43, 43),
