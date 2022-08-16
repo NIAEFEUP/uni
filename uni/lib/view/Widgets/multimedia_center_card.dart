@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:uni/view/Pages/useful_contacts_card_page_view.dart';
-import 'package:uni/view/Widgets/generic_card.dart';
+import 'package:uni/view/Widgets/generic_expansion_card.dart';
 
-class MulimediaCenterCard extends GenericCard {
-  MulimediaCenterCard({Key? key}) : super(key: key);
+class MulimediaCenterCard extends GenericExpansionCard {
+  const MulimediaCenterCard({Key? key}) : super(key: key);
 
   @override
   Widget buildCardContent(BuildContext context) {
@@ -23,7 +23,4 @@ class MulimediaCenterCard extends GenericCard {
 
   @override
   String getTitle() => 'Centro de Multimédia';
-
-  @override
-  onClick(BuildContext context) {}
 }

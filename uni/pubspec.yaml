@@ -62,6 +62,7 @@ dependencies:
   sentry_flutter: ^6.5.1
   email_validator: ^2.0.1
   currency_text_input_formatter: ^2.1.5
+  expansion_tile_card: ^2.0.0
   flutter_cache_manager: ^3.3.0
   collection: ^1.16.0
   flutter_map: ^0.13.0
