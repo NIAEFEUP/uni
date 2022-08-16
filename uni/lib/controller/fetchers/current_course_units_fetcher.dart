@@ -5,7 +5,7 @@ import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/model/entities/course_unit.dart';
 import 'package:uni/model/entities/session.dart';
 
-class CourseUnitsFetcher implements SessionDependantFetcher {
+class CurrentCourseUnitsFetcher implements SessionDependantFetcher {
   @override
   List<String> getEndpoints(Session session) {
     // all faculties list user course units on all faculties

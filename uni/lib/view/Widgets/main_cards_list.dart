@@ -123,7 +123,8 @@ class MainCardsList extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.fromLTRB(20, 20, 20, 5),
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        const PageTitle(name: constants.navPersonalArea, center: false),
+        const PageTitle(
+            name: constants.navPersonalArea, center: false, pad: false),
         GestureDetector(
             onTap: () => StoreProvider.of<AppState>(context)
                 .dispatch(SetHomePageEditingMode(!isEditing(context))),

@@ -20,6 +20,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - A Canteen Page in the personal area
 - Fetching of Terms and Conditions
 - A dialog to create MB references to add money to print balance
+- Course average grade and finished ects on the profile page
+- Course units listing for all years with results
 
 ### Fixed
 
