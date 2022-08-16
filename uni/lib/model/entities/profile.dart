@@ -37,6 +37,9 @@ class Profile {
   /// Returns a list with two tuples: the first tuple contains the user's name
   /// and the other one contains the user's email.
   List<Tuple2<String, String>> keymapValues() {
-    return [Tuple2('name', name), Tuple2('email', email)];
+    return [
+      Tuple2('name', name),
+      Tuple2('email', email),
+    ];
   }
 }

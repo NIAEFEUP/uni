@@ -13,13 +13,11 @@ import 'package:uni/view/Widgets/print_info_card.dart';
 class ProfilePageView extends StatefulWidget {
   final String name;
   final String email;
-  final Map<String, String> currentState;
   final List<Course> courses;
   const ProfilePageView(
       {Key? key,
       required this.name,
       required this.email,
-      required this.currentState,
       required this.courses})
       : super(key: key);
   @override
@@ -45,9 +43,7 @@ class ProfilePageViewState extends UnnamedPageViewState<ProfilePageView> {
     list.add(profileInfo(context));
     list.add(const Padding(padding: EdgeInsets.all(5.0)));
     for (var i = 0; i < widget.courses.length; i++) {
-      list.add(CourseInfoCard(
-          course: widget.courses[i],
-          courseState: widget.currentState[widget.courses[i].name] ?? '?'));
+      list.add(CourseInfoCard(course: widget.courses[i]));
       list.add(const Padding(padding: EdgeInsets.all(5.0)));
     }
     list.add(PrintInfoCard());
