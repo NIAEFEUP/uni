@@ -487,6 +487,7 @@ ThunkAction<AppState> setFilteredExams(
     action.complete();
   };
 }
+
 ThunkAction<AppState> setHiddenExams(
     List<Exam> newHiddenExams, Completer<void> action) {
   return (Store<AppState> store) {

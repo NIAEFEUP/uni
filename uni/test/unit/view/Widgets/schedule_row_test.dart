@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:uni/model/entities/exam.dart';
 import 'package:uni/view/Widgets/schedule_row.dart';
 
 import '../../../testable_widget.dart';
@@ -13,13 +14,10 @@ void main() {
       final rooms = ['B315'];
       final widget = makeTestableWidget(
           child: ScheduleRow(
-        subject: subject,
-        rooms: rooms,
-        begin: begin,
-        end: end,
-        date: DateTime.now(),
-        teacher: '',
-        type: '',
+        exam: Exam('$begin-$end', subject, rooms.toString(),
+            DateTime.now().toString(), 'Recurso', 'Terça-feira'),
+        exams: const [],
+        mainPage: false,
       ));
 
       await tester.pumpWidget(widget);
@@ -35,13 +33,10 @@ void main() {
       final rooms = ['B315', 'B316', 'B330'];
       final widget = makeTestableWidget(
           child: ScheduleRow(
-        subject: subject,
-        rooms: rooms,
-        begin: begin,
-        end: end,
-        date: DateTime.now(),
-        teacher: '',
-        type: '',
+        exam: Exam('$begin-$end', subject, rooms.toString(),
+            DateTime.now().toString(), 'Recurso', 'Terça-feira'),
+        exams: const [],
+        mainPage: false,
       ));
 
       await tester.pumpWidget(widget);

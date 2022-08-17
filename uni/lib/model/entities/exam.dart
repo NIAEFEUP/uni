@@ -108,19 +108,19 @@ class Exam {
   }
 
   Map<String, dynamic> toJson() => {
-    'subject': subject,
-      'begin': begin,
-      'end': end,
-      'beginDateTime': beginDateTime.toString(),
-      'endDateTime': endDateTime.toString(),
-      'rooms': rooms.join(','),
-      'day': day,
-      'examType': examType,
-      'weekDay': weekDay,
-      'month': month,
-      'year': year,
-      'date': date.toString(),
-  };
+        'subject': subject,
+        'begin': begin,
+        'end': end,
+        'beginDateTime': beginDateTime.toString(),
+        'endDateTime': endDateTime.toString(),
+        'rooms': rooms.join(','),
+        'day': day,
+        'examType': examType,
+        'weekDay': weekDay,
+        'month': month,
+        'year': year,
+        'date': date.toString(),
+      };
 
   Exam.fromJson(Map<String, dynamic> json)
       : subject = json['subject'],

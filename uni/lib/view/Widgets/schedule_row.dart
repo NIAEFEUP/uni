@@ -4,8 +4,8 @@ import 'package:uni/view/Widgets/schedule_event_rectangle.dart';
 import 'package:uni/view/Widgets/schedule_time_interval.dart';
 import 'package:add_2_calendar/add_2_calendar.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import '../../controller/local_storage/app_shared_preferences.dart';
-import '../../model/entities/exam.dart';
+import 'package:uni/controller/local_storage/app_shared_preferences.dart';
+import 'package:uni/model/entities/exam.dart';
 
 class ScheduleRow extends StatefulWidget {
   final Exam exam;
@@ -13,13 +13,15 @@ class ScheduleRow extends StatefulWidget {
   final bool mainPage;
 
   const ScheduleRow({
+    Key? key,
     required this.exam,
     required this.exams,
     required this.mainPage,
-  });
+  }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
+    // ignore: no_logic_in_create_state
     return _ScheduleRowState(exams.contains(exam), exams, mainPage);
   }
 }
@@ -60,22 +62,33 @@ class _ScheduleRowState extends State<ScheduleRow> {
                         ScheduleEventRectangle(
                             subject: widget.exam.subject,
                             type: widget.exam.examType),
-                        IconButton(
-                            icon: const Icon(MdiIcons.calendarPlus, size: 30),
-                            onPressed: () =>
-                                Add2Calendar.addEvent2Cal(createExamEvent())),
+                        Column(children: [
+                          IconButton(
+                              icon: const Icon(MdiIcons.calendarPlus, size: 30),
+                              onPressed: () =>
+                                  Add2Calendar.addEvent2Cal(createExamEvent())),
+                          if (!mainPage)
+                            IconButton(
+                                icon: clicked
+                                    ? const Icon(Icons.remove_red_eye_outlined,
+                                        size: 30)
+                                    : const Icon(Icons.remove_red_eye,
+                                        size: 30),
+                                tooltip: clicked
+                                    ? "Mostrar na Área Pessoal"
+                                    : "Ocultar da Área Pessoal",
+                                onPressed: () => setState(() {
+                                      clicked = !clicked;
+                                      clicked
+                                          ? hidden.add(widget.exam)
+                                          : hidden.remove(widget.exam);
+                                      Logger().i(hidden.length);
+                                      AppSharedPreferences.saveHiddenExams(
+                                          hidden);
+                                    })),
+                        ])
                       ],
                     )),
-                if (!mainPage)
-                  ElevatedButton(
-                    child: ( clicked? const Text("Show Exam") : const Text("Hide Exam")),
-                    onPressed: () => setState(() {
-                      clicked = !clicked;
-                      clicked? hidden.add(widget.exam) : hidden.remove(widget.exam);
-                      Logger().i(hidden.length);
-                      AppSharedPreferences.saveHiddenExams(hidden);
-                    }),
-                  ),
                 Container(
                     key: Key(roomsKey),
                     alignment: Alignment.topLeft,

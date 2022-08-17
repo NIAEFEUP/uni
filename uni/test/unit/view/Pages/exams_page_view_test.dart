@@ -13,7 +13,7 @@ void main() {
     const secondExameDate = '2019-09-12';
     testWidgets('When given an empty list', (WidgetTester tester) async {
       final widget =
-          makeTestableWidget(child: const ExamsList(exams: <Exam>[]));
+          makeTestableWidget(child: const ExamsList(exams: <Exam>[], hidden: [],));
       await tester.pumpWidget(widget);
 
       expect(find.byType(Card), findsNothing);
@@ -27,7 +27,7 @@ void main() {
       ];
       final widget = makeTestableWidget(
           child: ExamsList(
-        exams: examList,
+        exams: examList, hidden: const [],
       ));
 
       await tester.pumpWidget(widget);
@@ -46,7 +46,7 @@ void main() {
         firstExam,
         secondExam,
       ];
-      final widget = makeTestableWidget(child: ExamsList(exams: examList));
+      final widget = makeTestableWidget(child: ExamsList(exams: examList, hidden: const [],));
 
       await tester.pumpWidget(widget);
 
@@ -66,7 +66,7 @@ void main() {
         firstExam,
         secondExam,
       ];
-      final widget = makeTestableWidget(child: ExamsList(exams: examList));
+      final widget = makeTestableWidget(child: ExamsList(exams: examList, hidden: const [],));
 
       await tester.pumpWidget(widget);
       expect(find.byKey(Key(firstExam.toString())), findsOneWidget);
@@ -86,7 +86,7 @@ void main() {
       final fourthExam = Exam('13:00-14:00', secondExamSubject,
           'B119, B107, B205', secondExameDate, 'ER', 'Quarta');
       final examList = [firstExam, secondExam, thirdExam, fourthExam];
-      final widget = makeTestableWidget(child: ExamsList(exams: examList));
+      final widget = makeTestableWidget(child: ExamsList(exams: examList, hidden: const [],));
 
       final firstDayKey =
           [firstExam, secondExam].map((ex) => ex.toString()).join();
