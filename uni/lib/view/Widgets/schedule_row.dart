@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:uni/view/Widgets/schedule_event_rectangle.dart';
 import 'package:uni/view/Widgets/schedule_time_interval.dart';
 import 'package:add_2_calendar/add_2_calendar.dart';
@@ -82,7 +81,6 @@ class _ScheduleRowState extends State<ScheduleRow> {
                                       clicked
                                           ? hidden.add(widget.exam)
                                           : hidden.remove(widget.exam);
-                                      Logger().i(hidden.length);
                                       AppSharedPreferences.saveHiddenExams(
                                           hidden);
                                     })),

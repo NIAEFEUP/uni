@@ -162,6 +162,7 @@ class SetExamFilter {
 class SetExamHidden {
   List<Exam> hiddenExams;
   SetExamHidden(this.hiddenExams);
+}
 
 class SetLocationsAction {
   List<LocationGroup> locationGroups;
