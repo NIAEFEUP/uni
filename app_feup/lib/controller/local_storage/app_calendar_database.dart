@@ -21,4 +21,15 @@ class CalendarDatabase extends AppDatabase {
       });
     });
   }
+
+  //Returns a list with all calendar events stored in the database
+  Future<List<CalendarEvent>> calendar() async {
+    final Database db = await this.getDatabase();
+
+    final List<Map<String, dynamic>> maps = await db.query('calendar');
+
+    return List.generate(maps.length, (i) {
+      return CalendarEvent(maps[i]['name'], maps[i]['date']);
+    });
+  }
 }

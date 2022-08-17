@@ -168,6 +168,14 @@ ThunkAction<AppState> updateStateBasedOnLocalUserLectures() {
   };
 }
 
+ThunkAction<AppState> updateStateBasedOnLocalCalendar() {
+  return (Store<AppState> store) async {
+    final CalendarDatabase db = CalendarDatabase();
+    final List<CalendarEvent> calendar = await db.calendar();
+    store.dispatch(SetCalendarAction(calendar));
+  };
+}
+
 ThunkAction<AppState> updateStateBasedOnLocalProfile() {
   return (Store<AppState> store) async {
     final profileDb = AppUserDataDatabase();
