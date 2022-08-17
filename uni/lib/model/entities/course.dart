@@ -9,21 +9,27 @@
 /// - The course `state`
 class Course {
   final int id;
-  final int festId;
-  final String name;
-  final String abbreviation;
-  final String currYear;
-  final int firstEnrollment;
-  final String state;
+  final int? festId;
+  final String? name;
+  final String? abbreviation;
+  final String? currYear;
+  final int? firstEnrollment;
+  final String? faculty;
+  String? state;
+  num? finishedEcts;
+  num? currentAverage;
 
   Course(
       {required this.id,
       this.festId = 0,
-      this.name = 'Course',
-      this.abbreviation = 'cs',
-      this.currYear = '',
-      this.firstEnrollment = 0,
-      this.state = ''});
+      this.name,
+      this.abbreviation,
+      this.currYear,
+      this.firstEnrollment,
+      this.state,
+      this.faculty,
+      this.finishedEcts,
+      this.currentAverage});
 
   /// Creates a new instance from a JSON object.
   static Course fromJson(dynamic data) {
@@ -33,7 +39,8 @@ class Course {
         name: data['cur_nome'],
         currYear: data['ano_curricular'],
         firstEnrollment: data['fest_a_lect_1_insc'],
-        abbreviation: 'abbreviation');
+        abbreviation: data['abbreviation'],
+        faculty: data['inst_sigla'].toString().toLowerCase());
   }
 
   /// Converts this course to a map.
@@ -45,7 +52,10 @@ class Course {
       'abbreviation': abbreviation,
       'currYear': currYear,
       'firstEnrollment': firstEnrollment,
-      'state': state
+      'state': state,
+      'faculty': faculty,
+      'currentAverage': currentAverage,
+      'finishedEcts': finishedEcts,
     };
   }
 }

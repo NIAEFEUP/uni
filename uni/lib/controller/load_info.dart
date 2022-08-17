@@ -44,11 +44,11 @@ Future loadRemoteUserInfoToState(Store<AppState> store) async {
   }
 
   final Completer<void> userInfo = Completer(),
+      ucs = Completer(),
       exams = Completer(),
       schedule = Completer(),
       printBalance = Completer(),
       fees = Completer(),
-      coursesStates = Completer(),
       trips = Completer(),
       lastUpdate = Completer(),
       restaurants = Completer();
@@ -56,7 +56,6 @@ Future loadRemoteUserInfoToState(Store<AppState> store) async {
   store.dispatch(getUserInfo(userInfo));
   store.dispatch(getUserPrintBalance(printBalance));
   store.dispatch(getUserFees(fees));
-  store.dispatch(getUserCoursesState(coursesStates));
   store.dispatch(getUserBusTrips(trips));
   store.dispatch(getRestaurantsFromFetcher(restaurants));
 
@@ -65,17 +64,18 @@ Future loadRemoteUserInfoToState(Store<AppState> store) async {
   userInfo.future.then((value) {
     store.dispatch(getUserExams(exams, ParserExams(), userPersistentInfo));
     store.dispatch(getUserSchedule(schedule, userPersistentInfo));
+    store.dispatch(getCourseUnitsAndCourseAverages(ucs));
   });
 
   final allRequests = Future.wait([
+    ucs.future,
     exams.future,
     schedule.future,
     printBalance.future,
     fees.future,
-    coursesStates.future,
     userInfo.future,
     trips.future,
-    restaurants.future
+    restaurants.future,
   ]);
   allRequests.then((futures) {
     store.dispatch(setLastUserInfoUpdateTimestamp(lastUpdate));
@@ -99,11 +99,13 @@ void loadLocalUserInfoToState(store) async {
     store.dispatch(updateStateBasedOnLocalUserBusStops());
     store.dispatch(updateStateBasedOnLocalRefreshTimes());
     store.dispatch(updateStateBasedOnLocalTime());
+    store.dispatch(updateStateBasedOnLocalCourseUnits());
     store.dispatch(SaveProfileStatusAction(RequestStatus.successful));
     store.dispatch(SetPrintBalanceStatusAction(RequestStatus.successful));
     store.dispatch(SetFeesStatusAction(RequestStatus.successful));
-    store.dispatch(SetCoursesStatesStatusAction(RequestStatus.successful));
   }
+  final Completer locations = Completer();
+  store.dispatch(getFacultyLocations(locations));
 }
 
 Future<void> handleRefresh(store) {
@@ -113,6 +115,7 @@ Future<void> handleRefresh(store) {
 }
 
 Future<File?> loadProfilePic(Store<AppState> store) {
+  // TODO: Investigate first load fail (#527)
   final String studentNumber = store.state.content['session'].studentNumber;
   final String faculty = store.state.content['session'].faculties[0];
   final String url =

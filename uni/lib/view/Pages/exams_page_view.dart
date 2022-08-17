@@ -73,6 +73,15 @@ class ExamsList extends StatelessWidget {
       name: 'Exames',
     ));
 
+    if (exams.isEmpty) {
+      columns.add(Center(
+        heightFactor: 2,
+        child: Text('Não possui exames marcados.',
+            style: Theme.of(context).textTheme.headline6),
+      ));
+      return columns;
+    }
+
     if (exams.length == 1) {
       columns.add(createExamCard(context, [exams[0]]));
       return columns;
