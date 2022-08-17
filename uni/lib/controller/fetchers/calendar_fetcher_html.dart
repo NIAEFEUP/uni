@@ -13,8 +13,7 @@ class CalendarFetcherHtml implements SessionDependantFetcher {
   List<String> getEndpoints(Session session) {
     // TO DO: Implement parsers for all faculties
     // and dispatch for different fetchers
-    final String url = NetworkRouter.getBaseUrl('feup')
-      + 'web_base.gera_pagina?p_pagina=página%20estática%20genérica%20106';
+    final String url = '${NetworkRouter.getBaseUrl('feup')}web_base.gera_pagina?p_pagina=página%20estática%20genérica%20106';
     return [url];
   }
 

@@ -89,7 +89,7 @@ AppState setExams(AppState state, SetExamsAction action) {
 }
 
 AppState setCalendarAction(AppState state, SetCalendarAction action) {
-  Logger().i('setting calendar: ' + action.calendar.length.toString());
+  Logger().i('setting calendar: ${action.calendar.length.toString()}');
   return state.cloneAndUpdateValue('calendar', action.calendar);
 }
 

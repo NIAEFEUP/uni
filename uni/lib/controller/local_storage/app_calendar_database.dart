@@ -13,18 +13,18 @@ class CalendarDatabase extends AppDatabase {
         ]);
 
   void saveCalendar(List<CalendarEvent> calendar) async {
-    final Database db = await this.getDatabase();
+    final Database db = await getDatabase();
     db.transaction((txn) async {
       await txn.delete('CALENDAR');
-      calendar.forEach((event) async {
+      for (var event in calendar) {
         await txn.insert('CALENDAR', event.toMap());
-      });
+      }
     });
   }
 
   //Returns a list with all calendar events stored in the database
   Future<List<CalendarEvent>> calendar() async {
-    final Database db = await this.getDatabase();
+    final Database db = await getDatabase();
 
     final List<Map<String, dynamic>> maps = await db.query('calendar');
 
