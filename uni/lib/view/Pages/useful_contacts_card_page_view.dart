@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:uni/view/Pages/general_page_view.dart';
+import 'package:uni/view/Widgets/infodesk_card.dart';
 import 'package:uni/view/Widgets/academic_services_card.dart';
 import 'package:uni/view/Widgets/copy_center_card.dart';
 import 'package:uni/view/Widgets/dona_bia_card.dart';
-import 'package:uni/view/Widgets/info_desk_card.dart';
 import 'package:uni/view/Widgets/multimedia_center_card.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -63,11 +63,11 @@ class UsefulContactsCardViewState extends GeneralPageViewState {
 
   List<Widget> childrenList() {
     final List<Widget> list = [];
-    list.add(AcademicServicesCard());
-    list.add(InfoDeskCard());
-    list.add(DonaBiaCard());
-    list.add(CopyCenterCard());
-    list.add(MulimediaCenterCard());
+    list.add(const AcademicServicesCard());
+    list.add(const InfoDeskCard());
+    list.add(const DonaBiaCard());
+    list.add(const CopyCenterCard());
+    list.add(const MulimediaCenterCard());
     return list;
   }
 }
