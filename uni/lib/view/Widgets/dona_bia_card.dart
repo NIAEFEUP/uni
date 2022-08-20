@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:uni/view/Pages/useful_contacts_card_page_view.dart';
-import 'package:uni/view/Widgets/generic_card.dart';
+import 'package:uni/view/Widgets/generic_expansion_card.dart';
 
-class DonaBiaCard extends GenericCard {
-  DonaBiaCard({Key? key}) : super(key: key);
+class DonaBiaCard extends GenericExpansionCard {
+  const DonaBiaCard({Key? key}) : super(key: key);
 
   @override
   Widget buildCardContent(BuildContext context) {
@@ -23,7 +23,4 @@ class DonaBiaCard extends GenericCard {
 
   @override
   String getTitle() => 'Papelaria D. Beatriz';
-
-  @override
-  onClick(BuildContext context) {}
 }

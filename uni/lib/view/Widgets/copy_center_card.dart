@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:uni/view/Pages/useful_contacts_card_page_view.dart';
-import 'package:uni/view/Widgets/generic_card.dart';
+import 'package:uni/view/Widgets/generic_expansion_card.dart';
 
-class CopyCenterCard extends GenericCard {
-  CopyCenterCard({Key? key}) : super(key: key);
+class CopyCenterCard extends GenericExpansionCard {
+  const CopyCenterCard({Key? key}) : super(key: key);
 
   @override
   Widget buildCardContent(BuildContext context) {
@@ -24,7 +24,4 @@ class CopyCenterCard extends GenericCard {
 
   @override
   String getTitle() => 'Centro de Cópias';
-
-  @override
-  onClick(BuildContext context) {}
 }
