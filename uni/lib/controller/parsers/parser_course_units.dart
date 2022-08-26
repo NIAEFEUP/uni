@@ -14,9 +14,9 @@ List<CourseUnit> parseCourseUnitsAndCourseAverage(
 
   final labels = document.querySelectorAll('.caixa .formulario-legenda');
   if (labels.length >= 2) {
-    course.currentAverage ??= num.parse(
+    course.currentAverage ??= num.tryParse(
         labels[0].nextElementSibling?.innerHtml.replaceFirst(',', '.') ?? '0');
-    course.finishedEcts ??= num.parse(
+    course.finishedEcts ??= num.tryParse(
         labels[1].nextElementSibling?.innerHtml.replaceFirst(',', '.') ?? '0');
   }
 
@@ -34,6 +34,11 @@ List<CourseUnit> parseCourseUnitsAndCourseAverage(
   final rows = table.querySelectorAll('tr.i, tr.p');
 
   for (final row in rows) {
+    // Skip non regular course units (such as undiscriminated ucs)
+    if (int.parse(row.children[0].attributes['colspan'] ?? '1') > 1) {
+      continue;
+    }
+
     final String year = row.children[0].innerHtml;
     final String semester = row.children[1].innerHtml;
     final String? occurId = getUrlQueryParameters(
