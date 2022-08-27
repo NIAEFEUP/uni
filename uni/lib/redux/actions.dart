@@ -1,4 +1,5 @@
 import 'package:uni/model/app_state.dart';
+import 'package:uni/model/entities/calendar_event.dart';
 import 'package:uni/model/entities/bus_stop.dart';
 import 'package:uni/model/entities/course_unit.dart';
 import 'package:uni/model/entities/exam.dart';
@@ -28,6 +29,16 @@ class SetExamsAction {
 class SetExamsStatusAction {
   RequestStatus status;
   SetExamsStatusAction(this.status);
+}
+
+class SetCalendarAction {
+  List<CalendarEvent> calendar;
+  SetCalendarAction(this.calendar);
+}
+
+class SetCalendarStatusAction {
+  RequestStatus status;
+  SetCalendarStatusAction(this.status);
 }
 
 class SetRestaurantsAction {

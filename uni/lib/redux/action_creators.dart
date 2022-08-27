@@ -4,6 +4,7 @@ import 'package:logger/logger.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:tuple/tuple.dart';
+import 'package:uni/controller/fetchers/calendar_fetcher_html.dart';
 import 'package:uni/controller/fetchers/all_course_units_fetcher.dart';
 import 'package:uni/controller/fetchers/current_course_units_fetcher.dart';
 import 'package:uni/controller/fetchers/departures_fetcher.dart';
@@ -19,6 +20,7 @@ import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher_html.d
 import 'package:uni/controller/load_info.dart';
 import 'package:uni/controller/load_static/terms_and_conditions.dart';
 import 'package:uni/controller/local_storage/app_bus_stop_database.dart';
+import 'package:uni/controller/local_storage/app_calendar_database.dart';
 import 'package:uni/controller/local_storage/app_course_units_database.dart';
 import 'package:uni/controller/local_storage/app_courses_database.dart';
 import 'package:uni/controller/local_storage/app_exams_database.dart';
@@ -34,6 +36,7 @@ import 'package:uni/controller/parsers/parser_exams.dart';
 import 'package:uni/controller/parsers/parser_fees.dart';
 import 'package:uni/controller/parsers/parser_print_balance.dart';
 import 'package:uni/model/app_state.dart';
+import 'package:uni/model/entities/calendar_event.dart';
 import 'package:uni/model/entities/bus_stop.dart';
 import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/course_unit.dart';
@@ -204,6 +207,14 @@ ThunkAction<AppState> updateStateBasedOnLocalUserLectures() {
   };
 }
 
+ThunkAction<AppState> updateStateBasedOnLocalCalendar() {
+  return (Store<AppState> store) async {
+    final CalendarDatabase db = CalendarDatabase();
+    final List<CalendarEvent> calendar = await db.calendar();
+    store.dispatch(SetCalendarAction(calendar));
+  };
+}
+
 ThunkAction<AppState> updateStateBasedOnLocalProfile() {
   return (Store<AppState> store) async {
     final profileDb = AppUserDataDatabase();
@@ -312,6 +323,25 @@ ThunkAction<AppState> getRestaurantsFromFetcher(Completer<void> action) {
     } catch (e) {
       Logger().e('Failed to get Restaurants: ${e.toString()}');
       store.dispatch(SetRestaurantsStatusAction(RequestStatus.failed));
+    }
+    action.complete();
+  };
+}
+
+ThunkAction<AppState> getCalendarFromFetcher(Completer<void> action) {
+  return (Store<AppState> store) async {
+    try {
+      store.dispatch(SetCalendarStatusAction(RequestStatus.busy));
+
+      final List<CalendarEvent> calendar = 
+                      await CalendarFetcherHtml().getCalendar(store);
+      final CalendarDatabase db = CalendarDatabase();
+      db.saveCalendar(calendar);
+      store.dispatch(SetCalendarAction(calendar));
+      store.dispatch(SetCalendarStatusAction(RequestStatus.successful));
+    } catch(e) {
+      Logger().e('Failed to get the Calendar: ${e.toString()}');
+      store.dispatch(SetCalendarStatusAction(RequestStatus.failed));
     }
     action.complete();
   };
