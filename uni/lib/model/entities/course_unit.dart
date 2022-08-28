@@ -34,7 +34,10 @@ class CourseUnit {
       this.schoolYear});
 
   /// Creates a new instance from a JSON object.
-  static CourseUnit fromJson(dynamic data) {
+  static CourseUnit? fromJson(dynamic data) {
+    if (data['ucurr_id'] == null) {
+      return null;
+    }
     return CourseUnit(
         id: data['ucurr_id'],
         code: data['ucurr_codigo'],
