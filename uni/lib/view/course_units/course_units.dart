@@ -44,12 +44,17 @@ class CourseUnitsPageViewState
                   element.compareTo(value) > 0 ? element : value);
             }
             availableSemesters = _getAvailableSemesters(courseUnits);
-            if (availableSemesters.length >= 3 && selectedSemester == null) {
-              final DateTime now = DateTime.now();
-              final bool secondSemesterPeriod = now.month > 2 && now.month < 9;
-              selectedSemester = secondSemesterPeriod
-                  ? availableSemesters[1]
-                  : availableSemesters[0];
+            final currentYear = int.tryParse(selectedSchoolYear?.substring(
+                    0, selectedSchoolYear?.indexOf('/')) ??
+                '');
+            if (selectedSemester == null &&
+                currentYear != null &&
+                availableSemesters.length == 3) {
+              final currentDate = DateTime.now();
+              selectedSemester =
+                  currentDate.year <= currentYear || currentDate.month == 1
+                      ? availableSemesters[0]
+                      : availableSemesters[1];
             }
           }
           return Tuple4(
