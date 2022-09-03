@@ -8,7 +8,7 @@ import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/locations/widgets/faculty_maps.dart';
 import 'package:uni/view/locations/widgets/marker.dart';
 import 'package:uni/view/locations/widgets/map.dart';
-import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
+import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 
 class LocationsPage extends StatefulWidget {
   const LocationsPage({Key? key}) : super(key: key);
@@ -17,7 +17,7 @@ class LocationsPage extends StatefulWidget {
   LocationsPageState createState() => LocationsPageState();
 }
 
-class LocationsPageState extends SecondaryPageViewState
+class LocationsPageState extends GeneralPageViewState
     with SingleTickerProviderStateMixin {
   ScrollController? scrollViewController;
 

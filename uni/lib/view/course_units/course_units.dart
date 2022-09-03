@@ -5,7 +5,7 @@ import 'package:tuple/tuple.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/course_unit.dart';
 import 'package:uni/utils/constants.dart' as constants;
-import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
+import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
 import 'package:uni/view/course_units/widgets/course_unit_card.dart';
@@ -23,7 +23,7 @@ class CourseUnitsPageView extends StatefulWidget {
 }
 
 class CourseUnitsPageViewState
-    extends SecondaryPageViewState<CourseUnitsPageView> {
+    extends GeneralPageViewState<CourseUnitsPageView> {
   String? selectedSchoolYear;
   String? selectedSemester;
 
