@@ -35,7 +35,7 @@ class LocationsMap extends StatelessWidget {
         zoom: 17.5,
         rotation: 0,
         interactiveFlags: InteractiveFlag.all - InteractiveFlag.rotate,
-        onTap: (_) => _popupLayerController.hideAllPopups(),
+        onTap: (tapPosition, latlng) => _popupLayerController.hideAllPopups(),
       ),
       children: <Widget>[
         TileLayerWidget(
