@@ -74,4 +74,8 @@ class CourseUnit {
       'schoolYear': schoolYear,
     };
   }
+
+  bool enrollmentIsValid() {
+    return status == 'V';
+  }
 }

@@ -47,16 +47,16 @@ List<CourseUnit> parseCourseUnitsAndCourseAverage(
     final String codeName = row.children[2].children[0].innerHtml;
     final String name = row.children[3].children[0].innerHtml;
     final String ects = row.children[5].innerHtml.replaceAll(',', '.');
-    String grade = '-', result = '-';
+    String? grade, status;
     int yearIncrement = -1;
     for (var i = 0;; i += 2) {
       if (row.children.length <= 6 + i) {
         break;
       }
       yearIncrement++;
-      grade = row.children[6 + i].innerHtml;
-      if (grade.replaceAll('&nbsp;', ' ').trim() != '') {
-        result = row.children[7 + i].innerHtml;
+      grade = row.children[6 + i].innerHtml.replaceAll('&nbsp;', ' ').trim();
+      status = row.children[7 + i].innerHtml.replaceAll('&nbsp;', ' ').trim();
+      if (status != '') {
         break;
       }
     }
@@ -69,7 +69,7 @@ List<CourseUnit> parseCourseUnitsAndCourseAverage(
             '${firstSchoolYear + yearIncrement}/${firstSchoolYear + yearIncrement + 1}',
         occurrId: occurId != null ? int.parse(occurId) : 0,
         abbreviation: codeName,
-        result: result,
+        status: status,
         grade: grade,
         ects: double.parse(ects),
         name: name,
