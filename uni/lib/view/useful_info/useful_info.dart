@@ -7,6 +7,7 @@ import 'package:uni/view/useful_info/widgets/infodesk_card.dart';
 import 'package:uni/view/useful_info/widgets/multimedia_center_card.dart';
 import 'package:uni/view/useful_info/widgets/other_links_card.dart';
 import 'package:uni/view/useful_info/widgets/sigarra_links_card.dart';
+import 'package:uni/view/common_widgets/page_title.dart';
 
 class UsefulInfoCardView extends StatefulWidget {
   const UsefulInfoCardView({super.key});
@@ -22,8 +23,15 @@ class UsefulInfoCardViewState extends GeneralPageViewState {
     return ListView(children: childrenList());
   }
 
+  Container getPageTitle() {
+    return Container(
+        padding: const EdgeInsets.only(bottom: 12.0),
+        child: const PageTitle(name: 'Informações Úteis'));
+  }
+
   List<Widget> childrenList() {
     final List<Widget> list = [];
+    list.add(getPageTitle());
     list.add(const AcademicServicesCard());
     list.add(const InfoDeskCard());
     list.add(const DonaBiaCard());
