@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:uni/utils/constants.dart' as constants;
 
 class FacultiesSelectionForm extends StatefulWidget {
-  final List<String> faculties;
+  final List<String> selectedFaculties;
   final Function setFaculties;
 
-  const FacultiesSelectionForm(this.faculties, this.setFaculties, {super.key});
+  const FacultiesSelectionForm(this.selectedFaculties, this.setFaculties,
+      {super.key});
 
   @override
   State<StatefulWidget> createState() => _FacultiesSelectionFormState();
@@ -34,7 +35,7 @@ class _FacultiesSelectionFormState extends State<FacultiesSelectionForm> {
               onPrimary: Theme.of(context).primaryColor, primary: Colors.white),
           onPressed: () {
             Navigator.pop(context);
-            widget.setFaculties(widget.faculties);
+            widget.setFaculties(widget.selectedFaculties);
           },
           child: const Text('Confirmar'))
     ];
@@ -48,13 +49,13 @@ class _FacultiesSelectionFormState extends State<FacultiesSelectionForm> {
           title: Text(faculty.toUpperCase(),
               style: const TextStyle(color: Colors.white, fontSize: 20.0)),
           key: Key('FacultyCheck$faculty'),
-          value: widget.faculties.contains(faculty),
+          value: widget.selectedFaculties.contains(faculty),
           onChanged: (value) {
             setState(() {
               if (value != null && value) {
-                widget.faculties.add(faculty);
+                widget.selectedFaculties.add(faculty);
               } else {
-                widget.faculties.remove(faculty);
+                widget.selectedFaculties.remove(faculty);
               }
             });
           });

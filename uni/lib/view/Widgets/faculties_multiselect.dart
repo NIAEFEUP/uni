@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:uni/view/Widgets/faculties_selection_form.dart';
 
 class FacultiesMultiselect extends StatelessWidget {
-  final List<String> faculties;
+  final List<String> selectedFaculties;
   final Function setFaculties;
 
-  const FacultiesMultiselect(this.faculties, this.setFaculties, {super.key});
+  const FacultiesMultiselect(this.selectedFaculties, this.setFaculties,
+      {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,13 +21,13 @@ class FacultiesMultiselect extends StatelessWidget {
               context: context,
               builder: (BuildContext context) {
                 return FacultiesSelectionForm(
-                    List<String>.from(faculties), setFaculties);
+                    List<String>.from(selectedFaculties), setFaculties);
               });
         },
-        child: createButtonContent(context));
+        child: _createButtonContent(context));
   }
 
-  Widget createButtonContent(BuildContext context) {
+  Widget _createButtonContent(BuildContext context) {
     return Container(
         padding: const EdgeInsets.fromLTRB(5, 0, 5, 7),
         decoration: const BoxDecoration(
@@ -35,16 +36,29 @@ class FacultiesMultiselect extends StatelessWidget {
           color: Colors.white,
           width: 1,
         ))),
-        child: Row(children: const [
-          Text(
-            'a(s) tua(s) faculdade(s)',
-            style: TextStyle(color: Colors.white),
+        child: Row(children: [
+          Expanded(
+            child: Text(
+              _facultiesListText(),
+              style: const TextStyle(color: Colors.white),
+            ),
           ),
-          Spacer(),
-          Icon(
+          const Icon(
             Icons.arrow_drop_down,
             color: Colors.white,
           ),
         ]));
+  }
+
+  String _facultiesListText() {
+    if (selectedFaculties.isEmpty) {
+      return 'sem faculdade';
+    }
+    String facultiesText =
+        selectedFaculties.length == 1 ? 'faculdade: ' : 'faculdades: ';
+    for (String faculty in selectedFaculties) {
+      facultiesText += '${faculty.toUpperCase()}, ';
+    }
+    return facultiesText.substring(0, facultiesText.length - 2);
   }
 }
