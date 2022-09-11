@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uni/utils/constants.dart' as constants;
+import 'package:uni/view/Widgets/toast_message.dart';
 
 class FacultiesSelectionForm extends StatefulWidget {
   final List<String> selectedFaculties;
@@ -34,6 +35,11 @@ class _FacultiesSelectionFormState extends State<FacultiesSelectionForm> {
           style: ElevatedButton.styleFrom(
               onPrimary: Theme.of(context).primaryColor, primary: Colors.white),
           onPressed: () {
+            if (widget.selectedFaculties.isEmpty) {
+              ToastMessage.display(
+                  context, 'Seleciona pelo menos uma faculdade');
+              return;
+            }
             Navigator.pop(context);
             widget.setFaculties(widget.selectedFaculties);
           },

@@ -6,7 +6,7 @@ class ToastMessage {
   static display(BuildContext context, String msg) {
     ToastContext().init(context);
     Toast.show(msg,
-        duration: Toast.lengthShort,
+        duration: Toast.lengthLong,
         gravity: Toast.bottom,
         backgroundColor: toastColor,
         backgroundRadius: 16.0);
