@@ -2,8 +2,6 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart'
-    show DefaultCacheManager;
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uni/controller/local_storage/app_bus_stop_database.dart';
@@ -30,8 +28,7 @@ Future logout(BuildContext context) async {
   AppCourseUnitsDatabase().deleteCourseUnits();
 
   final path = (await getApplicationDocumentsDirectory()).path;
-  (File('$path/profile_pic.png')).delete();
+  Directory(path).deleteSync(recursive: true);
   GeneralPageViewState.profileImageProvider = null;
   PaintingBinding.instance.imageCache.clear();
-  DefaultCacheManager().emptyCache();
 }

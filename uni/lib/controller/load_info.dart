@@ -124,5 +124,6 @@ Future<File?> loadProfilePicture(Store<AppState> store) {
       'https://sigarra.up.pt/$faculty/pt/fotografias_service.foto?pct_cod=$studentNumber';
   final Map<String, String> headers = <String, String>{};
   headers['cookie'] = store.state.content['session'].cookies;
-  return loadImageFromCacheOrGetAndCache('profile_pic.png', url, headers);
+  return loadImageFromStorageOrRetrieveNew(
+      'user_profile_picture', url, headers);
 }

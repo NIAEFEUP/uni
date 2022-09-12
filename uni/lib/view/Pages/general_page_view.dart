@@ -34,12 +34,13 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
   ///
   /// If the image is not found / doesn't exist returns a generic placeholder.
   DecorationImage getProfileDecorationImage(File? profilePicture) {
-    final ImageProvider image = profilePicture == null
-        ? const AssetImage('assets/images/profile_placeholder.png')
-        : FileImage(profilePicture) as ImageProvider;
+    final fallbackPicture = profileImageProvider ??
+        const AssetImage('assets/images/profile_placeholder.png');
+    final ImageProvider image =
+        profilePicture == null ? fallbackPicture : FileImage(profilePicture);
 
     final result = DecorationImage(fit: BoxFit.cover, image: image);
-    if (profilePicture != null && profileImageProvider == null) {
+    if (profilePicture != null) {
       profileImageProvider = image;
     }
     return result;

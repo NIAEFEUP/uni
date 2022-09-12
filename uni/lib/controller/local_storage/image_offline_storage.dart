@@ -2,10 +2,9 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart'
-    show DefaultCacheManager;
-import 'package:image/image.dart';
+import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
+import 'package:uni/controller/networking/network_router.dart';
 
 /// The offline image storage location on the device.
 Future<String> get _localPath async {
@@ -15,38 +14,36 @@ Future<String> get _localPath async {
 
 /// Gets cached image named [localFileName].
 /// If not found or too old, downloads it from [url] with [headers].
-Future<File?> loadImageFromCacheOrGetAndCache(
-    String localFileName, String url, Map<String, String> headers) async {
+Future<File?> loadImageFromStorageOrRetrieveNew(
+    String localFileName, String url, Map<String, String> headers,
+    {int staleDays = 7}) async {
   final path = await _localPath;
   final targetPath = '$path/$localFileName';
   final File file = File(targetPath);
 
-  if (file.existsSync()) {
+  if (file.existsSync() &&
+      file
+          .lastModifiedSync()
+          .add(Duration(days: staleDays))
+          .isAfter(DateTime.now())) {
     return file;
   }
 
   final connectivityResult = await Connectivity().checkConnectivity();
   final hasInternetConnection = connectivityResult != ConnectivityResult.none;
-  if (hasInternetConnection && headers.isNotEmpty) {
+  if (hasInternetConnection) {
     return _downloadAndSaveImage(targetPath, url, headers);
   }
   return null;
 }
 
-/// Downloads the image located at [url] and saves it in [filepath], if it is old enough;
+/// Downloads the image located at [url] and saves it in [filePath], if it is old enough;
 /// otherwise, the cached version will be returned.
 Future<File?> _downloadAndSaveImage(
-    String filepath, String url, Map<String, String> headers) async {
-  try {
-    final File file = await DefaultCacheManager()
-        .getSingleFile(url, headers: headers, key: filepath);
-    final Image? image = decodeImage(await file.readAsBytes());
-    if (image != null) {
-      File(filepath).writeAsBytes(encodePng(image));
-      return file;
-    }
-    return null;
-  } catch (e) {
-    return null;
+    String filePath, String url, Map<String, String> headers) async {
+  final response = await http.get(url.toUri(), headers: headers);
+  if (response.statusCode == 200) {
+    return File(filePath).writeAsBytes(response.bodyBytes);
   }
+  return null;
 }
