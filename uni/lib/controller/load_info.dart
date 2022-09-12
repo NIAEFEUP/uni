@@ -2,11 +2,10 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:redux/redux.dart';
 import 'package:tuple/tuple.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
-import 'package:uni/controller/local_storage/image_offline_storage.dart';
+import 'package:uni/controller/local_storage/file_offline_storage.dart';
 import 'package:uni/controller/parsers/parser_exams.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/redux/action_creators.dart';
@@ -124,6 +123,5 @@ Future<File?> loadProfilePicture(Store<AppState> store) {
       'https://sigarra.up.pt/$faculty/pt/fotografias_service.foto?pct_cod=$studentNumber';
   final Map<String, String> headers = <String, String>{};
   headers['cookie'] = store.state.content['session'].cookies;
-  return loadImageFromStorageOrRetrieveNew(
-      'user_profile_picture', url, headers);
+  return loadFileFromStorageOrRetrieveNew('user_profile_picture', url, headers);
 }
