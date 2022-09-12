@@ -37,8 +37,7 @@ Future<File?> loadImageFromStorageOrRetrieveNew(
   return null;
 }
 
-/// Downloads the image located at [url] and saves it in [filePath], if it is old enough;
-/// otherwise, the cached version will be returned.
+/// Downloads the image located at [url] and saves it in [filePath].
 Future<File?> _downloadAndSaveImage(
     String filePath, String url, Map<String, String> headers) async {
   final response = await http.get(url.toUri(), headers: headers);

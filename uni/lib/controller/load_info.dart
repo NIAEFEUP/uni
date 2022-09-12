@@ -30,7 +30,7 @@ Future loadReloginInfo(Store<AppState> store) async {
 
 Future loadUserInfoToState(store) async {
   loadLocalUserInfoToState(store);
-  if (await (Connectivity().checkConnectivity()) != ConnectionState.none) {
+  if (await Connectivity().checkConnectivity() != ConnectivityResult.none) {
     return loadRemoteUserInfoToState(store);
   }
 }
