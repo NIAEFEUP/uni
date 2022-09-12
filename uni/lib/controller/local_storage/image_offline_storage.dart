@@ -21,20 +21,23 @@ Future<File?> loadImageFromStorageOrRetrieveNew(
   final targetPath = '$path/$localFileName';
   final File file = File(targetPath);
 
-  if (file.existsSync() &&
+  final bool fileExists = file.existsSync();
+  final bool fileIsStale = fileExists &&
       file
           .lastModifiedSync()
           .add(Duration(days: staleDays))
-          .isAfter(DateTime.now())) {
+          .isBefore(DateTime.now());
+  if (fileExists && !fileIsStale) {
     return file;
   }
-
-  final connectivityResult = await Connectivity().checkConnectivity();
-  final hasInternetConnection = connectivityResult != ConnectivityResult.none;
-  if (hasInternetConnection) {
-    return _downloadAndSaveImage(targetPath, url, headers);
+  if (await Connectivity().checkConnectivity() != ConnectivityResult.none) {
+    final File? downloadedFile =
+        await _downloadAndSaveImage(targetPath, url, headers);
+    if (downloadedFile != null) {
+      return downloadedFile;
+    }
   }
-  return null;
+  return fileExists ? file : null;
 }
 
 /// Downloads the image located at [url] and saves it in [filePath].
