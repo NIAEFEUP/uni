@@ -25,8 +25,9 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
   }
 
   Future<DecorationImage> buildProfileDecorationImage(context) async {
-    final profilePictureFile =
-        await loadProfilePicture(StoreProvider.of<AppState>(context));
+    final profilePictureFile = await loadProfilePicture(
+        StoreProvider.of<AppState>(context),
+        forceRetrieval: profileImageProvider == null);
     return getProfileDecorationImage(profilePictureFile);
   }
 

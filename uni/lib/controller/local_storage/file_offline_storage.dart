@@ -16,17 +16,18 @@ Future<String> get _localPath async {
 /// If not found or too old, downloads it from [url] with [headers].
 Future<File?> loadFileFromStorageOrRetrieveNew(
     String localFileName, String url, Map<String, String> headers,
-    {int staleDays = 7}) async {
+    {int staleDays = 7, forceRetrieval = false}) async {
   final path = await _localPath;
   final targetPath = '$path/$localFileName';
   final File file = File(targetPath);
 
   final bool fileExists = file.existsSync();
-  final bool fileIsStale = fileExists &&
-      file
-          .lastModifiedSync()
-          .add(Duration(days: staleDays))
-          .isBefore(DateTime.now());
+  final bool fileIsStale = forceRetrieval ||
+      (fileExists &&
+          file
+              .lastModifiedSync()
+              .add(Duration(days: staleDays))
+              .isBefore(DateTime.now()));
   if (fileExists && !fileIsStale) {
     return file;
   }

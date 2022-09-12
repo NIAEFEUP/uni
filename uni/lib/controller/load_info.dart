@@ -116,12 +116,14 @@ Future<void> handleRefresh(store) {
   return action.completer.future;
 }
 
-Future<File?> loadProfilePicture(Store<AppState> store) {
+Future<File?> loadProfilePicture(Store<AppState> store,
+    {forceRetrieval = false}) {
   final String studentNumber = store.state.content['session'].studentNumber;
   final String faculty = store.state.content['session'].faculties[0];
   final String url =
       'https://sigarra.up.pt/$faculty/pt/fotografias_service.foto?pct_cod=$studentNumber';
   final Map<String, String> headers = <String, String>{};
   headers['cookie'] = store.state.content['session'].cookies;
-  return loadFileFromStorageOrRetrieveNew('user_profile_picture', url, headers);
+  return loadFileFromStorageOrRetrieveNew('user_profile_picture', url, headers,
+      forceRetrieval: forceRetrieval);
 }
