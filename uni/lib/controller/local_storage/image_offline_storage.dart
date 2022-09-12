@@ -13,41 +13,33 @@ Future<String> get _localPath async {
   return directory.path;
 }
 
-/// Downloads an image located at the given [url].
-/// The image is accessed with the provided [headers], if they are present.
-Future<File> getImageFromNetwork(
-    String url, Map<String, String> headers) async {
-  return DefaultCacheManager().getSingleFile(url, headers: headers);
-}
-
-/// Downloads and caches the user's profile image located at [url]. The image
-/// is accessed with the provided [headers], if they are present.
-///
-/// If no connectivity is available, the cached version is used instead.
-/// If there is no cached version, returns [null].
-Future<File?> retrieveImage(String url, Map<String, String> headers) async {
+/// Gets cached image named [localFileName].
+/// If not found or too old, downloads it from [url] with [headers].
+Future<File?> loadImageFromCacheOrGetAndCache(
+    String localFileName, String url, Map<String, String> headers) async {
   final path = await _localPath;
-  final connectivityResult = await (Connectivity().checkConnectivity());
-  final hasInternetConnection = connectivityResult != ConnectivityResult.none;
-
-  final targetPath = '$path/profile_pic.png';
+  final targetPath = '$path/$localFileName';
   final File file = File(targetPath);
 
-  if (hasInternetConnection && headers.isNotEmpty) {
-    return _saveImage(targetPath, url, headers);
-  } else if (file.existsSync()) {
+  if (file.existsSync()) {
     return file;
-  } else {
-    return null;
   }
+
+  final connectivityResult = await Connectivity().checkConnectivity();
+  final hasInternetConnection = connectivityResult != ConnectivityResult.none;
+  if (hasInternetConnection && headers.isNotEmpty) {
+    return _downloadAndSaveImage(targetPath, url, headers);
+  }
+  return null;
 }
 
-/// Downloads the image located at [url] and saves it in [filepath]. The image
-/// is accessed with the provided [headers], if they are present.
-Future<File?> _saveImage(
+/// Downloads the image located at [url] and saves it in [filepath], if it is old enough;
+/// otherwise, the cached version will be returned.
+Future<File?> _downloadAndSaveImage(
     String filepath, String url, Map<String, String> headers) async {
   try {
-    final File file = await getImageFromNetwork(url, headers);
+    final File file = await DefaultCacheManager()
+        .getSingleFile(url, headers: headers, key: filepath);
     final Image? image = decodeImage(await file.readAsBytes());
     if (image != null) {
       File(filepath).writeAsBytes(encodePng(image));

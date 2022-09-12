@@ -13,7 +13,7 @@ import 'package:uni/view/Widgets/navigation_drawer.dart';
 /// Manages the section inside the user's personal area.
 abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
   final double borderMargin = 18.0;
-  static ImageProvider? decorageImage;
+  static ImageProvider? profileImageProvider;
 
   @override
   Widget build(BuildContext context) {
@@ -24,26 +24,25 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
     return Container();
   }
 
+  Future<DecorationImage> buildProfileDecorationImage(context) async {
+    final profilePictureFile =
+        await loadProfilePicture(StoreProvider.of<AppState>(context));
+    return getProfileDecorationImage(profilePictureFile);
+  }
+
   /// Returns the current user image.
   ///
   /// If the image is not found / doesn't exist returns a generic placeholder.
-  DecorationImage getDecorageImage(File? profilePicture) {
-    final fallbackPicture = decorageImage ??
-        const AssetImage('assets/images/profile_placeholder.png');
-    final ImageProvider image =
-        profilePicture == null ? fallbackPicture : FileImage(profilePicture);
+  DecorationImage getProfileDecorationImage(File? profilePicture) {
+    final ImageProvider image = profilePicture == null
+        ? const AssetImage('assets/images/profile_placeholder.png')
+        : FileImage(profilePicture) as ImageProvider;
 
     final result = DecorationImage(fit: BoxFit.cover, image: image);
-    if (profilePicture != null) {
-      decorageImage = image;
+    if (profilePicture != null && profileImageProvider == null) {
+      profileImageProvider = image;
     }
     return result;
-  }
-
-  Future<DecorationImage> buildDecorageImage(context) async {
-    final storedFile =
-        await loadProfilePic(StoreProvider.of<AppState>(context));
-    return getDecorageImage(storedFile);
   }
 
   Widget refreshState(BuildContext context, Widget child) {
@@ -114,7 +113,7 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
   // Gets a round shaped button with the photo of the current user.
   Widget getTopRightButton(BuildContext context) {
     return FutureBuilder(
-        future: buildDecorageImage(context),
+        future: buildProfileDecorationImage(context),
         builder: (BuildContext context,
             AsyncSnapshot<DecorationImage> decorationImage) {
           return TextButton(

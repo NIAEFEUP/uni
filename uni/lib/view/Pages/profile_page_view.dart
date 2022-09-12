@@ -55,7 +55,7 @@ class ProfilePageViewState extends UnnamedPageViewState<ProfilePageView> {
   /// Returns a widget with the user's profile info (Picture, name and email).
   Widget profileInfo(BuildContext context) {
     return StoreConnector<AppState, Future<File?>?>(
-      converter: (store) => loadProfilePic(store),
+      converter: (store) => loadProfilePicture(store),
       builder: (context, profilePicFile) => FutureBuilder(
         future: profilePicFile,
         builder: (BuildContext context, AsyncSnapshot<File?> profilePic) =>
@@ -67,7 +67,7 @@ class ProfilePageViewState extends UnnamedPageViewState<ProfilePageView> {
                 height: 150.0,
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    image: getDecorageImage(profilePic.data))),
+                    image: getProfileDecorationImage(profilePic.data))),
             const Padding(padding: EdgeInsets.all(8.0)),
             Text(widget.name,
                 textAlign: TextAlign.center,
