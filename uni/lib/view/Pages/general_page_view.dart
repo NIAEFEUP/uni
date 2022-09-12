@@ -24,10 +24,11 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
     return Container();
   }
 
-  Future<DecorationImage> buildProfileDecorationImage(context) async {
+  Future<DecorationImage> buildProfileDecorationImage(context,
+      {forceRetrieval = false}) async {
     final profilePictureFile = await loadProfilePicture(
         StoreProvider.of<AppState>(context),
-        forceRetrieval: profileImageProvider == null);
+        forceRetrieval: forceRetrieval || profileImageProvider == null);
     return getProfileDecorationImage(profilePictureFile);
   }
 
@@ -50,7 +51,10 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
   Widget refreshState(BuildContext context, Widget child) {
     return StoreConnector<AppState, Future<void> Function()?>(
       converter: (store) {
-        return () => handleRefresh(store);
+        return () async {
+          await buildProfileDecorationImage(context, forceRetrieval: true);
+          return handleRefresh(store);
+        };
       },
       builder: (context, refresh) {
         return RefreshIndicator(
