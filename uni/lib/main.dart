@@ -12,7 +12,6 @@ import 'package:uni/controller/on_start_up.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/locations_page_model.dart';
 import 'package:uni/model/schedule_page_model.dart';
-import 'package:uni/redux/actions.dart';
 import 'package:uni/redux/reducers.dart';
 import 'package:uni/utils/constants.dart' as constants;
 import 'package:uni/view/Pages/about_page_view.dart';
@@ -134,12 +133,5 @@ class MyAppState extends State<MyApp> {
                 return null;
               }),
         ));
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    Timer.periodic(const Duration(seconds: 60),
-        (Timer t) => state.dispatch(SetCurrentTimeAction(DateTime.now())));
   }
 }
