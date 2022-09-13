@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class ScheduleEventRectangle extends StatelessWidget {
+class ExamTitle extends StatelessWidget {
   final String subject;
   final String? type;
   final double borderRadius = 12.0;
   final double sideSizing = 12.0;
   final bool reverseOrder;
 
-  const ScheduleEventRectangle(
+  const ExamTitle(
       {Key? key, required this.subject, this.type, this.reverseOrder = false})
       : super(key: key);
 

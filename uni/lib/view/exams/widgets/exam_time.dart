@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
-class ScheduleTimeInterval extends StatelessWidget {
+class ExamTime extends StatelessWidget {
   final String begin;
   final String end;
-  const ScheduleTimeInterval({Key? key, required this.begin, required this.end})
+
+  const ExamTime({Key? key, required this.begin, required this.end})
       : super(key: key);
 
   @override

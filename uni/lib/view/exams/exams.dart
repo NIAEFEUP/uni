@@ -3,10 +3,10 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
-import 'package:uni/view/exams/widgets/exam_page_title_filter.dart';
+import 'package:uni/view/exams/widgets/exam_page_title.dart';
 import 'package:uni/view/common_widgets/row_container.dart';
-import 'package:uni/view/exams/widgets/schedule_row.dart';
-import 'package:uni/view/exams/widgets/title_card.dart';
+import 'package:uni/view/exams/widgets/exam_row.dart';
+import 'package:uni/view/exams/widgets/day_title.dart';
 
 class ExamsPageView extends StatefulWidget {
   const ExamsPageView({super.key});
@@ -58,9 +58,7 @@ class ExamsList extends StatelessWidget {
   /// Creates a column with all the user's exams.
   List<Widget> createExamsColumn(context, exams) {
     final List<Widget> columns = <Widget>[];
-    columns.add(const ExamPageTitleFilter(
-      name: 'Exames',
-    ));
+    columns.add(const ExamPageTitle());
 
     if (exams.isEmpty) {
       columns.add(Center(
@@ -117,7 +115,7 @@ class ExamsList extends StatelessWidget {
 
   Widget createExamsCards(context, exams) {
     final List<Widget> examCards = <Widget>[];
-    examCards.add(TitleCard(
+    examCards.add(DayTitle(
         day: exams[0].day, weekDay: exams[0].weekDay, month: exams[0].month));
     for (int i = 0; i < exams.length; i++) {
       examCards.add(createExamContext(context, exams[i]));
@@ -134,7 +132,7 @@ class ExamsList extends StatelessWidget {
             color: exam.isHighlighted()
                 ? Theme.of(context).hintColor
                 : Theme.of(context).scaffoldBackgroundColor,
-            child: ScheduleRow(
+            child: ExamRow(
               subject: exam.subject,
               rooms: exam.rooms,
               begin: exam.begin,

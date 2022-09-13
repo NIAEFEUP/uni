@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 
-class TitleCard extends StatelessWidget {
+class DayTitle extends StatelessWidget {
   final String day;
   final String weekDay;
   final String month;
-  final double borderRadius = 8.0;
-  const TitleCard({
+  const DayTitle({
     Key? key,
     required this.day,
     required this.weekDay,
@@ -15,8 +14,7 @@ class TitleCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.fromLTRB(12, 12, 12, 0),
-      padding: const EdgeInsets.only(top: 3, bottom: 3),
+      padding: const EdgeInsets.only(top: 15, bottom: 3),
       alignment: Alignment.center,
       child: Text(
         '$weekDay, $day de $month',

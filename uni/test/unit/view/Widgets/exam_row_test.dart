@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:uni/view/exams/widgets/schedule_row.dart';
+import 'package:uni/view/exams/widgets/exam_row.dart';
 
 import '../../../testable_widget.dart';
 
@@ -12,7 +12,7 @@ void main() {
     testWidgets('When given a single room', (WidgetTester tester) async {
       final rooms = ['B315'];
       final widget = makeTestableWidget(
-          child: ScheduleRow(
+          child: ExamRow(
         subject: subject,
         rooms: rooms,
         begin: begin,
@@ -34,7 +34,7 @@ void main() {
     testWidgets('When given a single room', (WidgetTester tester) async {
       final rooms = ['B315', 'B316', 'B330'];
       final widget = makeTestableWidget(
-          child: ScheduleRow(
+          child: ExamRow(
         subject: subject,
         rooms: rooms,
         begin: begin,

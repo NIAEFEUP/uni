@@ -4,8 +4,8 @@ import 'package:tuple/tuple.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/utils/constants.dart' as constants;
-import 'package:uni/view/exams/widgets/schedule_event_rectangle.dart';
-import 'package:uni/view/exams/widgets/schedule_row.dart';
+import 'package:uni/view/exams/widgets/exam_title.dart';
+import 'package:uni/view/exams/widgets/exam_row.dart';
 import 'package:uni/view/common_widgets/date_rectangle.dart';
 import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
 import 'package:uni/view/common_widgets/row_container.dart';
@@ -101,7 +101,7 @@ class ExamCard extends GenericCard {
       DateRectangle(date: '${exam.weekDay}, ${exam.day} de ${exam.month}'),
       RowContainer(
         color: getExamCardColor(context, exam),
-        child: ScheduleRow(
+        child: ExamRow(
           subject: exam.subject,
           rooms: exam.rooms,
           begin: exam.begin,
@@ -132,7 +132,7 @@ class ExamCard extends GenericCard {
                   exam.day + ' de ' + exam.month,
                   style: Theme.of(context).textTheme.bodyText1,
                 ),
-                ScheduleEventRectangle(
+                ExamTitle(
                     subject: exam.subject,
                     type: exam.examType,
                     reverseOrder: true)

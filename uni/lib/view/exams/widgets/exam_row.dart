@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:uni/view/exams/widgets/schedule_event_rectangle.dart';
-import 'package:uni/view/exams/widgets/schedule_time_interval.dart';
+import 'package:uni/view/exams/widgets/exam_title.dart';
+import 'package:uni/view/exams/widgets/exam_time.dart';
 import 'package:add_2_calendar/add_2_calendar.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-class ScheduleRow extends StatelessWidget {
+class ExamRow extends StatelessWidget {
   final String subject;
   final List<String> rooms;
   final String begin;
@@ -13,7 +13,7 @@ class ScheduleRow extends StatelessWidget {
   final String teacher;
   final String type;
 
-  const ScheduleRow(
+  const ExamRow(
       {Key? key,
       required this.subject,
       required this.rooms,
@@ -45,9 +45,9 @@ class ScheduleRow extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              ScheduleTimeInterval(begin: begin, end: end)
+                              ExamTime(begin: begin, end: end)
                             ]),
-                        ScheduleEventRectangle(subject: subject, type: type),
+                        ExamTitle(subject: subject, type: type),
                         IconButton(
                             icon: const Icon(MdiIcons.calendarPlus, size: 30),
                             onPressed: () =>
@@ -57,12 +57,12 @@ class ScheduleRow extends StatelessWidget {
                 Container(
                     key: Key(roomsKey),
                     alignment: Alignment.topLeft,
-                    child: getScheduleRooms(context))
+                    child: getExamRooms(context))
               ],
             )));
   }
 
-  Widget? getScheduleRooms(context) {
+  Widget? getExamRooms(context) {
     if (rooms[0] == '') return null;
     return Wrap(
       alignment: WrapAlignment.start,
