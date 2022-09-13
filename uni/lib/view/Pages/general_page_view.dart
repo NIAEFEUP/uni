@@ -52,7 +52,7 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
     return StoreConnector<AppState, Future<void> Function()?>(
       converter: (store) {
         return () async {
-          await buildProfileDecorationImage(context, forceRetrieval: true);
+          await loadProfilePicture(store, forceRetrieval: true);
           return handleRefresh(store);
         };
       },
