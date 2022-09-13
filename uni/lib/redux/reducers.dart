@@ -43,8 +43,6 @@ AppState appReducers(AppState state, dynamic action) {
     return setBusStopStatus(state, action);
   } else if (action is SetBusStopTimeStampAction) {
     return setBusStopTimeStamp(state, action);
-  } else if (action is SetCurrentTimeAction) {
-    return setCurrentTime(state, action);
   } else if (action is UpdateFavoriteCards) {
     return updateFavoriteCards(state, action);
   } else if (action is SetPrintRefreshTimeAction) {
@@ -67,9 +65,9 @@ AppState appReducers(AppState state, dynamic action) {
     return setUserFaculties(state, action);
   } else if (action is SetRestaurantsAction) {
     return setRestaurantsAction(state, action);
-  } else if(action is SetCalendarAction){
+  } else if (action is SetCalendarAction) {
     return setCalendarAction(state, action);
-  } else if(action is SetCalendarStatusAction){
+  } else if (action is SetCalendarStatusAction) {
     return setCalendarStatus(state, action);
   }
   return state;
@@ -188,11 +186,6 @@ AppState setBusStopStatus(AppState state, SetBusTripsStatusAction action) {
 AppState setBusStopTimeStamp(AppState state, SetBusStopTimeStampAction action) {
   Logger().i('setting bus stop time stamp: ${action.timeStamp}');
   return state.cloneAndUpdateValue('timeStamp', action.timeStamp);
-}
-
-AppState setCurrentTime(AppState state, SetCurrentTimeAction action) {
-  Logger().i('setting bus stop time stamp: ${action.currentTime}');
-  return state.cloneAndUpdateValue('currentTime', action.currentTime);
 }
 
 AppState setInitialStoreState(
