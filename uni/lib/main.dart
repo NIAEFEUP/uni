@@ -11,7 +11,6 @@ import 'package:uni/controller/middleware.dart';
 import 'package:uni/controller/on_start_up.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/view/locations/locations.dart';
-import 'package:uni/redux/actions.dart';
 import 'package:uni/redux/reducers.dart';
 import 'package:uni/utils/constants.dart' as constants;
 import 'package:uni/view/about/about.dart';
@@ -134,12 +133,5 @@ class MyAppState extends State<MyApp> {
                 return null;
               }),
         ));
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    Timer.periodic(const Duration(seconds: 60),
-        (Timer t) => state.dispatch(SetCurrentTimeAction(DateTime.now())));
   }
 }

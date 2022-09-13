@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:provider/provider.dart';
 import 'package:uni/model/entities/location.dart';
 import 'package:uni/model/entities/location_group.dart';
-import 'package:uni/view/theme_notifier.dart';
+import 'package:uni/view/locations/widgets/faculty_maps.dart';
 
 class LocationMarker extends Marker {
   final LocationGroup locationGroup;
@@ -32,23 +31,11 @@ class LocationMarker extends Marker {
       return Container();
     }
 
-    final themeNotifier = Provider.of<ThemeNotifier>(context);
-    final Color color;
-    switch (themeNotifier.getTheme()) {
-      case ThemeMode.light:
-        color = Theme.of(context).colorScheme.primary;
-        break;
-      case ThemeMode.dark:
-        color = Theme.of(context).colorScheme.onTertiary;
-        break;
-      default:
-        color = Theme.of(context).colorScheme.primary;
-    }
-
+    final Color fontColor = FacultyMaps.getFontColor(context);
     if (location.icon is IconData) {
-      return Icon(location.icon, color: color, size: 12);
+      return Icon(location.icon, color: fontColor, size: 12);
     } else {
-      return Icon(Icons.device_unknown, color: color, size: 12);
+      return Icon(Icons.device_unknown, color: fontColor, size: 12);
     }
   }
 }

@@ -135,11 +135,6 @@ class SetBusStopTimeStampAction {
   SetBusStopTimeStampAction(this.timeStamp);
 }
 
-class SetCurrentTimeAction {
-  DateTime currentTime;
-  SetCurrentTimeAction(this.currentTime);
-}
-
 class UpdateFavoriteCards {
   List<FavoriteWidgetType> favoriteCards;
   UpdateFavoriteCards(this.favoriteCards);

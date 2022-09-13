@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:uni/model/entities/location_group.dart';
 import 'package:uni/view/locations/widgets/map.dart';
@@ -19,5 +20,11 @@ class FacultyMaps {
       center: LatLng(41.17731, -8.59522),
       locations: locations,
     );
+  }
+
+  static getFontColor(BuildContext context){
+    return  Theme.of(context).brightness == Brightness.light
+        ? Theme.of(context).colorScheme.primary
+        : Theme.of(context).colorScheme.onTertiary;
   }
 }
