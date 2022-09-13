@@ -14,7 +14,7 @@ void main() {
       final rooms = ['B315'];
       final Exam exam = Exam('$begin-$end', subject, rooms.join(','), '2002-02-02', 'MT', 'Segunda');
       final widget = makeTestableWidget(
-          child: ScheduleRow(exam: exam, exams: const [], mainPage: true,)
+          child: ScheduleRow(exam: exam, isHidden: false, mainPage: true,)
         
       );
 
@@ -30,7 +30,7 @@ void main() {
     testWidgets('When given a single room', (WidgetTester tester) async {
       final rooms = ['B315', 'B316', 'B330'];
       final widget = makeTestableWidget(
-                    child: ScheduleRow(exam: Exam('$begin-$end', subject, rooms.join(','), '2002-02-02', 'MT', 'Recurso'),exams: const [], mainPage: false,)
+                    child: ScheduleRow(exam: Exam('$begin-$end', subject, rooms.join(','), '2002-02-02', 'MT', 'Recurso'),isHidden: false, mainPage: false,)
 );
 
       await tester.pumpWidget(widget);
