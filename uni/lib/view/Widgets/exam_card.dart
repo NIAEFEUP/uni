@@ -106,7 +106,7 @@ class ExamCard extends GenericCard {
         color: getExamCardColor(context, exam),
         child: ScheduleRow(
           exam: exam,
-          exams: const [],
+          isHidden: false,
           mainPage: true,
         ),
       ),

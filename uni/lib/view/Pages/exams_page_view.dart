@@ -23,14 +23,14 @@ class ExamsPageViewState extends SecondaryPageViewState<ExamsPageView> {
 
   @override
   Widget getBody(BuildContext context) {
-    return StoreConnector<AppState, Tuple2<List<dynamic>?, List<dynamic>?>>(
+    return StoreConnector<AppState, Tuple2<List<Exam>?, List<Exam>?>>(
       converter: (store) {
         final List<Exam> hiddenExams = store.state.content['hiddenExams'];
         final List<Exam> exams = store.state.content['exams'];
         final Map<String, bool> filteredExams =
             store.state.content['filteredExams'] ?? [];
 
-        return Tuple2<List<dynamic>?, List<dynamic>?>(
+        return Tuple2<List<Exam>?, List<Exam>?>(
             exams
                 .where((exam) =>
                     (filteredExams[Exam.getExamTypeLong(exam.examType)] ??
@@ -147,7 +147,7 @@ class ExamsList extends StatelessWidget {
                 : Theme.of(context).scaffoldBackgroundColor,
             child: ScheduleRow(
               exam: exam,
-              exams: hidden,
+              isHidden: hidden.contains(exam),
               mainPage: false,
             )));
   }

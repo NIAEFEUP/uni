@@ -1,37 +1,35 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:uni/view/Widgets/schedule_event_rectangle.dart';
 import 'package:uni/view/Widgets/schedule_time_interval.dart';
 import 'package:add_2_calendar/add_2_calendar.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/model/entities/exam.dart';
+
+import 'package:uni/model/app_state.dart';
+import 'package:uni/redux/action_creators.dart';
 
 class ScheduleRow extends StatefulWidget {
   final Exam exam;
-  final List<Exam> exams;
+  final bool isHidden;
   final bool mainPage;
 
   const ScheduleRow({
     Key? key,
     required this.exam,
-    required this.exams,
+    required this.isHidden,
     required this.mainPage,
   }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    // ignore: no_logic_in_create_state
-    return _ScheduleRowState(exams.contains(exam), exams, mainPage);
+    return _ScheduleRowState();
   }
 }
 
 class _ScheduleRowState extends State<ScheduleRow> {
-  bool clicked;
-  List<Exam> hidden;
-  final bool mainPage;
-
-  _ScheduleRowState(this.clicked, this.hidden, this.mainPage);
-
   @override
   Widget build(BuildContext context) {
     final roomsKey =
@@ -66,23 +64,20 @@ class _ScheduleRowState extends State<ScheduleRow> {
                               icon: const Icon(MdiIcons.calendarPlus, size: 30),
                               onPressed: () =>
                                   Add2Calendar.addEvent2Cal(createExamEvent())),
-                          if (!mainPage)
+                          if (!widget.mainPage)
                             IconButton(
-                                icon: clicked
+                                icon: widget.isHidden
                                     ? const Icon(Icons.remove_red_eye_outlined,
                                         size: 30)
                                     : const Icon(Icons.remove_red_eye,
                                         size: 30),
-                                tooltip: clicked
+                                tooltip: widget.isHidden
                                     ? "Mostrar na Área Pessoal"
                                     : "Ocultar da Área Pessoal",
                                 onPressed: () => setState(() {
-                                      clicked = !clicked;
-                                      clicked
-                                          ? hidden.add(widget.exam)
-                                          : hidden.remove(widget.exam);
-                                      AppSharedPreferences.saveHiddenExams(
-                                          hidden);
+                                      StoreProvider.of<AppState>(context)
+                                          .dispatch(setHiddenExams(
+                                              widget.exam, Completer()));
                                     })),
                         ])
                       ],

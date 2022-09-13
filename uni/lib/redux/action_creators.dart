@@ -513,9 +513,16 @@ ThunkAction<AppState> setFilteredExams(
 }
 
 ThunkAction<AppState> setHiddenExams(
-    List<Exam> newHiddenExams, Completer<void> action) {
+    Exam newHiddenExam, Completer<void> action) {
   return (Store<AppState> store) {
-    AppSharedPreferences.saveHiddenExams(newHiddenExams);
+    final List<Exam> hiddenExams = store.state.content['hiddenExams'];
+    if(hiddenExams.contains(newHiddenExam)){
+      hiddenExams.remove(newHiddenExam);
+    }else{
+      hiddenExams.add(newHiddenExam);
+    }
+    store.dispatch(SetExamHidden(hiddenExams));
+    AppSharedPreferences.saveHiddenExams(hiddenExams);
     action.complete();
   };
 }
