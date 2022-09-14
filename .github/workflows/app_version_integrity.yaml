@@ -1,0 +1,18 @@
+on: pull_request
+
+jobs:
+  app_version_integrity:
+    name: "Check for app version change"
+    runs-on: ubuntu-latest
+    env:
+      APP_VERSION_PATH: "uni/app_version.txt"
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Fetch origin target branch
+        run: |
+          git fetch origin ${{ github.base_ref }}
+
+      - name: Ensure app_version was not changed manually or was created just now
+        run: |
+          (! git cat-file -e FETCH_HEAD:${{ env.APP_VERSION_PATH }} && git cat-file -e HEAD:${{env.APP_VERSION_PATH}}) || git diff --quiet FETCH_HEAD:${{ env.APP_VERSION_PATH }} HEAD:${{ env.APP_VERSION_PATH }} || (echo "App version file was modified manually. Skipping deploy" && exit 1)
