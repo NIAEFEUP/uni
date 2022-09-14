@@ -38,7 +38,7 @@ class LoginPageViewState extends State<LoginPageView> {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   static bool _exitApp = false;
-  bool _keepSignedIn = false;
+  bool _keepSignedIn = true;
   bool _obscurePasswordInput = true;
 
   void _login(BuildContext context) {
