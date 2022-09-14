@@ -8,7 +8,7 @@ import 'package:uni/view/schedule/widgets/schedule_slot.dart';
 import '../../../testable_widget.dart';
 
 void main() {
-  group('ExamsPage', () {
+  group('SchedulePage', () {
     const blocks = 4;
     const subject1 = 'SOPE';
     const startTime1 = '10:00';
@@ -80,6 +80,10 @@ void main() {
       final widget = makeTestableWidget(
           child: SchedulePageView(lectures: [lecture1], scheduleStatus: RequestStatus.successful));
       await tester.pumpWidget(widget);
+      await tester.pumpAndSettle();
+      final SchedulePageViewState myWidgetState = tester.state(find.byType(SchedulePageView));
+      myWidgetState.tabController!.animateTo(0);
+      await tester.pumpAndSettle();
 
       expect(
           find.descendant(
@@ -93,6 +97,10 @@ void main() {
       final widget = makeTestableWidget(
           child: SchedulePageView(lectures: [lecture1, lecture2], scheduleStatus: RequestStatus.successful));
       await tester.pumpWidget(widget);
+      await tester.pumpAndSettle();
+      final SchedulePageViewState myWidgetState = tester.state(find.byType(SchedulePageView));
+      myWidgetState.tabController!.animateTo(0);
+      await tester.pumpAndSettle();
 
       expect(
           find.descendant(
@@ -110,6 +118,10 @@ void main() {
                   lectures: [lecture1, lecture2, lecture3, lecture4, lecture5, lecture6],
                   scheduleStatus: RequestStatus.successful)));
       await tester.pumpWidget(widget);
+      await tester.pumpAndSettle();
+      final SchedulePageViewState myWidgetState = tester.state(find.byType(SchedulePageView));
+      myWidgetState.tabController!.animateTo(0);
+      await tester.pumpAndSettle();
 
       expect(
           find.descendant(
