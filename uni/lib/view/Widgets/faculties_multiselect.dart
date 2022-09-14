@@ -54,8 +54,7 @@ class FacultiesMultiselect extends StatelessWidget {
     if (selectedFaculties.isEmpty) {
       return 'sem faculdade';
     }
-    String facultiesText =
-        selectedFaculties.length == 1 ? 'faculdade: ' : 'faculdades: ';
+    String facultiesText = '';
     for (String faculty in selectedFaculties) {
       facultiesText += '${faculty.toUpperCase()}, ';
     }
