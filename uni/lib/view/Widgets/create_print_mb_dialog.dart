@@ -29,6 +29,12 @@ Future<void> addMoneyDialog(BuildContext context) async {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 5, bottom: 10),
+                      child: Text('Os dados da referência gerada aparecerão no Sigarra, conta corrente. \nPerfil > Conta Corrente',
+                        textAlign: TextAlign.start,
+                        style: Theme.of(context).textTheme.subtitle2)
+                    ),
                     Row(children: [
                       IconButton(
                         icon: const Icon(Icons.indeterminate_check_box),
