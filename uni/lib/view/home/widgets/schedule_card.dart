@@ -14,8 +14,6 @@ import 'package:uni/view/schedule/widgets/schedule_slot.dart';
 import 'package:uni/utils/drawer_items.dart';
 
 
-import '../../utils/constants.dart' as Constants;
-import 'generic_card.dart';
 
 class ScheduleCard extends GenericCard {
   ScheduleCard({Key? key}) : super(key: key);

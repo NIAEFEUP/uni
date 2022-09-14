@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/intl.dart';
+import 'package:uni/model/utils/datetime.dart';
 import 'package:uni/view/schedule/widgets/schedule_slot.dart';
 
 import '../../../testable_widget.dart';
 
 void testScheduleSlot(String subject, DateTime beginTime, DateTime endTime, String rooms,
     String typeClass, String teacher) {
-    final begin = DateFormat('HHhmm').format(beginTime);
-    final end = DateFormat('HHhmm').format(endTime);
+    final begin = readableTime(beginTime);
+    final end = readableTime(endTime);
   final scheduleSlotTimeKey = 'schedule-slot-time-$begin-$end';
   expect(
       find.descendant(

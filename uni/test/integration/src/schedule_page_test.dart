@@ -18,6 +18,7 @@ import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/session.dart';
+import 'package:uni/model/utils/datetime.dart';
 import 'package:uni/view/schedule/schedule.dart';
 import 'package:uni/redux/action_creators.dart';
 import 'package:uni/redux/reducers.dart';
@@ -80,10 +81,10 @@ void main() {
       await tester.pumpWidget(widget);
 
 
-      final begin1 = DateFormat('HHhmm').format(startTime1);
-      final end1 = DateFormat('HHhmm').format(endTime1);
-      final begin2 = DateFormat('HHhmm').format(startTime2);
-      final end2 = DateFormat('HHhmm').format(endTime2);
+      final begin1 = readableTime(startTime1);
+      final end1 = readableTime(endTime1);
+      final begin2 = readableTime(startTime2);
+      final end2 = readableTime(endTime2);
 
       final scheduleSlotTimeKey1 = 'schedule-slot-time-$begin1-$end1';
       final scheduleSlotTimeKey2 = 'schedule-slot-time-$begin2-$end2';
