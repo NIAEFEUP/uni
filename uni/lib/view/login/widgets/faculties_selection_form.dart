@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uni/utils/constants.dart' as constants;
-import 'package:uni/view/Widgets/toast_message.dart';
+import 'package:uni/view/common_widgets/toast_message.dart';
 
 class FacultiesSelectionForm extends StatefulWidget {
   final List<String> selectedFaculties;
