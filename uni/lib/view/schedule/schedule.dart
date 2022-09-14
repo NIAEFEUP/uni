@@ -72,8 +72,7 @@ class SchedulePageView extends StatefulWidget {
 
 class SchedulePageViewState extends GeneralPageViewState<SchedulePageView>
     with TickerProviderStateMixin {
-
-  late TabController tabController;
+   TabController? tabController;
 
   @override
   void initState() {
@@ -83,12 +82,12 @@ class SchedulePageViewState extends GeneralPageViewState<SchedulePageView>
     final offset = (widget.weekDay > 5)
         ? 0
         : (widget.weekDay - 1) % SchedulePageView.daysOfTheWeek.length;
-      tabController.animateTo((tabController.index + offset));
+    tabController?.animateTo((tabController!.index + offset));
   }
 
   @override
   void dispose() {
-    tabController.dispose();
+    tabController?.dispose();
     super.dispose();
   }
 
@@ -115,32 +114,6 @@ class SchedulePageViewState extends GeneralPageViewState<SchedulePageView>
         controller: tabController,
         children:
             createSchedule(context, widget.lectures, widget.scheduleStatus),
-      ))
-    ]);
-  }
-
-  Widget schedulePageView(BuildContext context, List<dynamic>? lectures,
-      RequestStatus? scheduleStatus) {
-    final MediaQueryData queryData = MediaQuery.of(context);
-
-    return Column(children: <Widget>[
-      ListView(
-        scrollDirection: Axis.vertical,
-        shrinkWrap: true,
-        children: <Widget>[
-          const PageTitle(name: constants.navSchedule),
-          TabBar(
-            controller: tabController,
-            isScrollable: true,
-            physics: const BouncingScrollPhysics(),
-            tabs: createTabs(queryData, context),
-          ),
-        ],
-      ),
-      Expanded(
-          child: TabBarView(
-        controller: tabController,
-        children: createSchedule(context, lectures, scheduleStatus),
       ))
     ]);
   }
