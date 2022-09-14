@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:crypto/crypto.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
@@ -12,7 +11,7 @@ import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 ///
 /// If this operation is unsuccessful, an error message is returned.
 Future<String> readTermsAndConditions() async {
-  if (await (Connectivity().checkConnectivity()) != ConnectionState.none) {
+  if (await Connectivity().checkConnectivity() != ConnectivityResult.none) {
     try {
       const String url =
           'https://raw.githubusercontent.com/NIAEFEUP/project-schrodinger/develop/uni/assets/text/TermsAndConditions.md';

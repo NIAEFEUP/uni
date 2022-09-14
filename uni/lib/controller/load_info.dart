@@ -2,11 +2,10 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:redux/redux.dart';
 import 'package:tuple/tuple.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
-import 'package:uni/controller/local_storage/image_offline_storage.dart';
+import 'package:uni/controller/local_storage/file_offline_storage.dart';
 import 'package:uni/controller/parsers/parser_exams.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/redux/action_creators.dart';
@@ -30,7 +29,7 @@ Future loadReloginInfo(Store<AppState> store) async {
 
 Future loadUserInfoToState(store) async {
   loadLocalUserInfoToState(store);
-  if (await (Connectivity().checkConnectivity()) != ConnectionState.none) {
+  if (await Connectivity().checkConnectivity() != ConnectivityResult.none) {
     return loadRemoteUserInfoToState(store);
   }
 }
@@ -117,13 +116,14 @@ Future<void> handleRefresh(store) {
   return action.completer.future;
 }
 
-Future<File?> loadProfilePic(Store<AppState> store) {
-  // TODO: Investigate first load fail (#527)
+Future<File?> loadProfilePicture(Store<AppState> store,
+    {forceRetrieval = false}) {
   final String studentNumber = store.state.content['session'].studentNumber;
   final String faculty = store.state.content['session'].faculties[0];
   final String url =
       'https://sigarra.up.pt/$faculty/pt/fotografias_service.foto?pct_cod=$studentNumber';
   final Map<String, String> headers = <String, String>{};
   headers['cookie'] = store.state.content['session'].cookies;
-  return retrieveImage(url, headers);
+  return loadFileFromStorageOrRetrieveNew('user_profile_picture', url, headers,
+      forceRetrieval: forceRetrieval);
 }
