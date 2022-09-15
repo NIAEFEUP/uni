@@ -21,8 +21,7 @@ var _types = {
   'Normal': 'EN',
   'Recurso': 'ER',
   'Especial de Conclusão': 'EC',
-  'Port.Est.Especiais': 'EE',
-  'Exames ao abrigo de estatutos especiais': 'EAE'
+  'Port.Est.Especiais': 'EE'
 };
 
 /// Manages a generic Exam.
@@ -110,7 +109,7 @@ class Exam {
   /// Returns whether or not this exam has already ended.
   bool hasEnded() {
     final DateTime now = DateTime.now();
-    return now.compareTo(endDateTime) <= 0;
+    return now.compareTo(endDateTime) >= 0;
   }
 
   /// Prints the data in this exam to the [Logger] with an INFO level.
