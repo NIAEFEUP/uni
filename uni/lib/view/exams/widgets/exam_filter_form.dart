@@ -18,10 +18,12 @@ class ExamFilterFormState extends State<ExamFilterForm> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Definições Filtro de Exames'),
+      title: Text('Definições Filtro de Exames',
+          style: Theme.of(context).textTheme.headline5),
       actions: [
         TextButton(
-            child: const Text('Cancelar'),
+            child:
+                Text('Cancelar', style: Theme.of(context).textTheme.bodyText2),
             onPressed: () => Navigator.pop(context)),
         ElevatedButton(
             child: const Text('Confirmar'),

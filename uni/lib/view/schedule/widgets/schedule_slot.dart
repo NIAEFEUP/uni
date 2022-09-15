@@ -96,7 +96,7 @@ class ScheduleSlot extends StatelessWidget {
         Theme.of(context)
             .textTheme
             .headline5!
-            .apply(color: Theme.of(context).colorScheme.secondary),
+            .apply(color: Theme.of(context).colorScheme.tertiary),
         TextAlign.center);
     final typeClassTextField = createTextField(' ($typeClass)',
         Theme.of(context).textTheme.bodyText2, TextAlign.center);

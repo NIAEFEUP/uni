@@ -30,11 +30,11 @@ Future<void> addMoneyDialog(BuildContext context) async {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(top: 5, bottom: 10),
-                      child: Text('Os dados da referência gerada aparecerão no Sigarra, conta corrente. \nPerfil > Conta Corrente',
-                        textAlign: TextAlign.start,
-                        style: Theme.of(context).textTheme.subtitle2)
-                    ),
+                        padding: const EdgeInsets.only(top: 5, bottom: 10),
+                        child: Text(
+                            'Os dados da referência gerada aparecerão no Sigarra, conta corrente. \nPerfil > Conta Corrente',
+                            textAlign: TextAlign.start,
+                            style: Theme.of(context).textTheme.subtitle2)),
                     Row(children: [
                       IconButton(
                         icon: const Icon(Icons.indeterminate_check_box),
@@ -81,14 +81,21 @@ Future<void> addMoneyDialog(BuildContext context) async {
                                   valueTextToNumber(controller.text) + 1));
                         },
                       )
-                    ]),
-                    ElevatedButton(
-                      onPressed: () => generateReference(context, value),
-                      child: const Text('Gerar referência'),
-                    )
+                    ])
                   ],
                 )),
-            title: const Text('Adicionar quota'),
+            title: Text('Adicionar quota',
+                style: Theme.of(context).textTheme.headline5),
+            actions: [
+              TextButton(
+                  child: Text('Cancelar',
+                      style: Theme.of(context).textTheme.bodyText2),
+                  onPressed: () => Navigator.pop(context)),
+              ElevatedButton(
+                onPressed: () => generateReference(context, value),
+                child: const Text('Gerar referência'),
+              )
+            ],
           );
         });
       });
