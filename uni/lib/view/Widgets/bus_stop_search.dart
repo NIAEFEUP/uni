@@ -84,8 +84,8 @@ class BusStopSearch extends SearchDelegate<String> {
             onNonMatch: (m) => ''),
         updateStopCallback);
     return AlertDialog(
-        title:
-            const Text('Seleciona os autocarros dos quais queres informação:'),
+        title: Text('Seleciona os autocarros dos quais queres informação:',
+            style: Theme.of(context).textTheme.headline5),
         content: SizedBox(
           height: 200.0,
           width: 100.0,
@@ -93,7 +93,8 @@ class BusStopSearch extends SearchDelegate<String> {
         ),
         actions: [
           TextButton(
-              child: const Text('Cancelar'),
+              child: Text('Cancelar',
+                  style: Theme.of(context).textTheme.bodyText2),
               onPressed: () => Navigator.pop(context)),
           ElevatedButton(
               child: const Text('Confirmar'),

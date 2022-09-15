@@ -47,8 +47,9 @@ class MainCardsList extends StatelessWidget {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-                title: const Text(
-                    'Escolhe um widget para adicionares à tua área pessoal:'),
+                title: Text(
+                    'Escolhe um widget para adicionares à tua área pessoal:',
+                    style: Theme.of(context).textTheme.headline5),
                 content: SizedBox(
                   height: 200.0,
                   width: 100.0,
@@ -56,12 +57,13 @@ class MainCardsList extends StatelessWidget {
                 ),
                 actions: [
                   TextButton(
-                      child: const Text('Cancelar'),
+                      child: Text('Cancelar',
+                          style: Theme.of(context).textTheme.bodyText2),
                       onPressed: () => Navigator.pop(context))
                 ]);
           }), //Add FAB functionality here
       tooltip: 'Adicionar widget',
-      child: const Icon(Icons.add),
+      child: Icon(Icons.add, color: Theme.of(context).colorScheme.onPrimary),
     );
   }
 
