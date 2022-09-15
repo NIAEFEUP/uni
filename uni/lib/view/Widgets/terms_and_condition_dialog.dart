@@ -37,7 +37,8 @@ class TermsAndConditionDialog {
         barrierDismissible: false,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text('Mudança nos Termos e Condições da uni'),
+            title: Text('Mudança nos Termos e Condições da uni',
+                style: Theme.of(context).textTheme.headline5),
             content: Column(
               children: [
                 Expanded(

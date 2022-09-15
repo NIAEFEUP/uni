@@ -361,7 +361,8 @@ class LoginPageViewState extends State<LoginPageView> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text('Termos e Condições'),
+            title: Text('Termos e Condições',
+                style: Theme.of(context).textTheme.headline5),
             content: const SingleChildScrollView(child: TermsAndConditions()),
             actions: <Widget>[
               SimpleDialogOption(
