@@ -9,7 +9,7 @@ const navLocations = 'Locais';
 const navAbout = 'Sobre';
 const navBugReport = 'Bugs e Sugestões';
 const navLogOut = 'Terminar sessão';
-const navUsefulInfo = 'Informação Útil';
+const navUsefulInfo = 'Úteis';
 const faculties = [
   'faup',
   'fbaup',
@@ -26,4 +26,3 @@ const faculties = [
   'fpceup',
   'icbas'
 ];
-

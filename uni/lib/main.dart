@@ -113,8 +113,7 @@ class MyAppState extends State<MyApp> {
                         page: const LocationsPage(), settings: settings);
                   case '/${constants.navUsefulInfo}':
                     return PageTransition.makePageTransition(
-                        page: const UsefulInfoCardView(),
-                        settings: settings);
+                        page: const UsefulInfoPageView(), settings: settings);
                   case '/${constants.navAbout}':
                     return PageTransition.makePageTransition(
                         page: const AboutPageView(), settings: settings);
