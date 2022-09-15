@@ -21,7 +21,8 @@ var _types = {
   'Normal': 'EN',
   'Recurso': 'ER',
   'Especial de Conclusão': 'EC',
-  'Exames ao abrigo de estatutos especiais - Port.Est.Especiais': 'EE'
+  'Port.Est.Especiais': 'EE',
+  'Exames ao abrigo de estatutos especiais': 'EAE'
 };
 
 /// Manages a generic Exam.

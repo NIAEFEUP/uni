@@ -38,6 +38,7 @@ class ExamFetcher implements SessionDependantFetcher {
         if (!courseExam.examType.contains(
                 '''Exames ao abrigo de estatutos especiais - Port.Est.Especiais''') &&
             courseExam.examType != 'EE' &&
+            courseExam.examType != 'EAE' &&
             courseExam.subject == uc.abbreviation &&
             !courseExam.hasEnded()) {
           exams.add(courseExam);
