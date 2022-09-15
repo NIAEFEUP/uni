@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uni/view/common_widgets/generic_expansion_card.dart';
-import 'package:uni/view/useful_contacts/widgets/text_components.dart';
+import 'package:uni/view/useful_info/widgets/text_components.dart';
 
 class AcademicServicesCard extends GenericExpansionCard {
   const AcademicServicesCard({Key? key}) : super(key: key);

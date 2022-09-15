@@ -21,8 +21,7 @@ import 'package:uni/view/home/home.dart';
 import 'package:uni/view/course_units/course_units.dart';
 import 'package:uni/view/logout_route.dart';
 import 'package:uni/view/splash/splash.dart';
-import 'package:uni/view/useful_contacts/useful_contacts.dart';
-import 'package:uni/view/useful_links/useful_links.dart';
+import 'package:uni/view/useful_info/useful_info.dart';
 import 'package:uni/view/schedule/schedule.dart';
 import 'package:uni/view/common_widgets/page_transition.dart';
 import 'package:uni/view/navigation_service.dart';
@@ -112,13 +111,9 @@ class MyAppState extends State<MyApp> {
                   case '/${constants.navLocations}':
                     return PageTransition.makePageTransition(
                         page: const LocationsPage(), settings: settings);
-                  case '/${constants.navUsefulContacts}':
+                  case '/${constants.navUsefulInfo}':
                     return PageTransition.makePageTransition(
-                        page: const UsefulContactsCardView(),
-                        settings: settings);
-                  case '/${constants.navUsefulLinks}':
-                    return PageTransition.makePageTransition(
-                        page: const UsefulLinksCardView(), settings: settings);
+                        page: const UsefulInfoPageView(), settings: settings);
                   case '/${constants.navAbout}':
                     return PageTransition.makePageTransition(
                         page: const AboutPageView(), settings: settings);
