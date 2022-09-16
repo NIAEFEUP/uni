@@ -110,7 +110,7 @@ class Exam {
   /// Returns whether or not this exam has already ended.
   bool hasEnded() {
     final DateTime now = DateTime.now();
-    return now.compareTo(endDateTime) <= 0;
+    return now.compareTo(endDateTime) >= 0;
   }
 
   /// the type 'MT' ('Mini-testes') or 'EN' ('Normal').
