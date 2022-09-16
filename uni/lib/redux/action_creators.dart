@@ -349,16 +349,10 @@ ThunkAction<AppState> getCalendarFromFetcher(Completer<void> action) {
 
 Future<List<Lecture>> getLecturesFromFetcherOrElse(
         ScheduleFetcher? fetcher, Store<AppState> store) =>
-    (fetcher?.getLectures(
-        store.state.content['session'], store.state.content['profile'])) ??
     getLectures(store);
 
 Future<List<Lecture>> getLectures(Store<AppState> store) {
-  return ScheduleFetcherApi()
-      .getLectures(
-          store.state.content['session'], store.state.content['profile'])
-      .catchError((e) => ScheduleFetcherHtml().getLectures(
-          store.state.content['session'], store.state.content['profile']));
+  return  ScheduleFetcherHtml().getLectures(store.state.content['session'], store.state.content['profile']);
 }
 
 ThunkAction<AppState> setInitialStoreState() {

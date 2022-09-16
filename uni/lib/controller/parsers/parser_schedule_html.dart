@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ffi';
 
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' show parse;
@@ -19,12 +18,13 @@ Future<List<Lecture>> getScheduleFromHtml(http.Response response,
     Session session) async {
 
   String str;
-  //if (!testVariable) {
+  print("dkjdkdk");
+  if (!testVariable) {
     str = await rootBundle.loadString('assets/Teste.html');
-  //} else {
-    //str = response.body;
-    //testVariable = false;
-  //}
+  } else {
+    str = response.body;
+    testVariable = false;
+  }
 
   final document = parse(str);
   var semana = [0, 0, 0, 0, 0, 0];
@@ -70,9 +70,9 @@ Future<List<Lecture>> getScheduleFromHtml(http.Response response,
               day,
               startTime,
               blocks,
-              room! ,
-              teacher!,
-              classNumber!,
+              room ?? '' ,
+              teacher ?? '',
+              classNumber ?? '',
               -1);
           lecturesList.add(lect);
         }
@@ -81,6 +81,7 @@ Future<List<Lecture>> getScheduleFromHtml(http.Response response,
       semana = semana.expand((i) => [(i - 1) < 0 ? 0 : i - 1]).toList();
     }
   });
+
   final overlappingClasses = document.querySelectorAll('.dados > tbody > .d');
   for (final element in overlappingClasses) {
     final String? subject = element.querySelector('acronym > a')?.text;
@@ -121,6 +122,8 @@ Future<List<Lecture>> getScheduleFromHtml(http.Response response,
       lecturesList.add(lect);
     }
   }
+
+  print(lecturesList);
 
   lecturesList.sort((a, b) => a.compare(b));
 
