@@ -333,13 +333,13 @@ ThunkAction<AppState> getCalendarFromFetcher(Completer<void> action) {
     try {
       store.dispatch(SetCalendarStatusAction(RequestStatus.busy));
 
-      final List<CalendarEvent> calendar = 
-                      await CalendarFetcherHtml().getCalendar(store);
+      final List<CalendarEvent> calendar =
+          await CalendarFetcherHtml().getCalendar(store);
       final CalendarDatabase db = CalendarDatabase();
       db.saveCalendar(calendar);
       store.dispatch(SetCalendarAction(calendar));
       store.dispatch(SetCalendarStatusAction(RequestStatus.successful));
-    } catch(e) {
+    } catch (e) {
       Logger().e('Failed to get the Calendar: ${e.toString()}');
       store.dispatch(SetCalendarStatusAction(RequestStatus.failed));
     }
@@ -349,10 +349,16 @@ ThunkAction<AppState> getCalendarFromFetcher(Completer<void> action) {
 
 Future<List<Lecture>> getLecturesFromFetcherOrElse(
         ScheduleFetcher? fetcher, Store<AppState> store) =>
+    (fetcher?.getLectures(
+        store.state.content['session'], store.state.content['profile'])) ??
     getLectures(store);
 
 Future<List<Lecture>> getLectures(Store<AppState> store) {
-  return  ScheduleFetcherHtml().getLectures(store.state.content['session'], store.state.content['profile']);
+  return ScheduleFetcherApi()
+      .getLectures(
+          store.state.content['session'], store.state.content['profile'])
+      .catchError((e) => ScheduleFetcherHtml().getLectures(
+          store.state.content['session'], store.state.content['profile']));
 }
 
 ThunkAction<AppState> setInitialStoreState() {

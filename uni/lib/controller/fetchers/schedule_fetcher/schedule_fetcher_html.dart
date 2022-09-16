@@ -19,27 +19,26 @@ class ScheduleFetcherHtml extends ScheduleFetcher {
   /// Fetches the user's lectures from the schedule's HTML page.
   @override
   Future<List<Lecture>> getLectures(Session session, Profile profile) async {
-     final dates = getDates();
-     final urls = getEndpoints(session);
-     final List<Response> lectureResponses = [];
-     for (final course in profile.courses) {
-       for (final url in urls) {
-         final response = await NetworkRouter.getWithCookies(
-             url,
-             {
-               'pv_fest_id': course.festId.toString(),
-               'pv_ano_lectivo': dates.lectiveYear.toString(),
-               'p_semana_inicio': dates.beginWeek,
-               'p_semana_fim': dates.endWeek
-             },
-             session);
-         lectureResponses.add(response);
-       }
-     }
+    final dates = getDates();
+    final urls = getEndpoints(session);
+    final List<Response> lectureResponses = [];
+    for (final course in profile.courses) {
+      for (final url in urls) {
+        final response = await NetworkRouter.getWithCookies(
+            url,
+            {
+              'pv_fest_id': course.festId.toString(),
+              'pv_ano_lectivo': dates.lectiveYear.toString(),
+              'p_semana_inicio': dates.beginWeek,
+              'p_semana_fim': dates.endWeek
+            },
+            session);
+        lectureResponses.add(response);
+      }
+    }
 
-    final List<Lecture> lectures = await Future.wait(
-            lectureResponses.map((response) => getScheduleFromHtml(response,
-                session)))
+    final List<Lecture> lectures = await Future.wait(lectureResponses
+            .map((response) => getScheduleFromHtml(response, session)))
         .then((schedules) => schedules.expand((schedule) => schedule).toList());
 
     lectures.sort((l1, l2) => l1.compare(l2));

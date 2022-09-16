@@ -6,27 +6,16 @@ import 'package:html/dom.dart';
 import 'package:http/http.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/model/entities/lecture.dart';
-import 'package:flutter/services.dart' show rootBundle;
 
 import 'package:uni/model/entities/session.dart';
 
 /// Extracts the user's lectures from an HTTP [response] and sorts them by date.
 ///
 /// This function parses the schedule's HTML page.
-bool testVariable = false;
 Future<List<Lecture>> getScheduleFromHtml(http.Response response,
     Session session) async {
 
-  String str;
-  print("dkjdkdk");
-  if (!testVariable) {
-    str = await rootBundle.loadString('assets/Teste.html');
-  } else {
-    str = response.body;
-    testVariable = false;
-  }
-
-  final document = parse(str);
+  final document = parse(response.body);
   var semana = [0, 0, 0, 0, 0, 0];
 
   final List<Lecture> lecturesList = [];
@@ -70,7 +59,7 @@ Future<List<Lecture>> getScheduleFromHtml(http.Response response,
               day,
               startTime,
               blocks,
-              room ?? '' ,
+              room ?? '',
               teacher ?? '',
               classNumber ?? '',
               -1);
@@ -81,7 +70,6 @@ Future<List<Lecture>> getScheduleFromHtml(http.Response response,
       semana = semana.expand((i) => [(i - 1) < 0 ? 0 : i - 1]).toList();
     }
   });
-
   final overlappingClasses = document.querySelectorAll('.dados > tbody > .d');
   for (final element in overlappingClasses) {
     final String? subject = element.querySelector('acronym > a')?.text;
@@ -108,8 +96,6 @@ Future<List<Lecture>> getScheduleFromHtml(http.Response response,
       final Response response = await NetworkRouter.getWithCookies(
           link , {}, session);
 
-      testVariable = true;
-
       final classLectures = await getScheduleFromHtml(response, session);
       lecturesList.add(classLectures.where((element) =>
       element.subject == subject
@@ -122,8 +108,6 @@ Future<List<Lecture>> getScheduleFromHtml(http.Response response,
       lecturesList.add(lect);
     }
   }
-
-  print(lecturesList);
 
   lecturesList.sort((a, b) => a.compare(b));
 

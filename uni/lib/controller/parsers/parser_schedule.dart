@@ -3,8 +3,6 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:uni/model/entities/lecture.dart';
 
-import 'package:flutter/services.dart' show rootBundle;
-
 Future<List<Lecture>> parseScheduleMultipleRequests(responses) async {
   List<Lecture> lectures = [];
   for (var response in responses) {
