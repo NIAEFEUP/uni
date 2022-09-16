@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/lecture.dart';
-import 'package:uni/view/Pages/schedule_page_view.dart';
-import 'package:uni/view/Widgets/schedule_slot.dart';
+import 'package:uni/view/schedule/schedule.dart';
+import 'package:uni/view/schedule/widgets/schedule_slot.dart';
 
 import '../../../testable_widget.dart';
 
 void main() {
-  group('ExamsPage', () {
+  group('SchedulePage', () {
     const blocks = 4;
     const subject1 = 'SOPE';
     const startTime1 = '10:00';
@@ -76,24 +76,14 @@ void main() {
 
     testWidgets('When given one lecture on a single day',
         (WidgetTester tester) async {
-      final List<List<Lecture>> aggLectures = [
-        [lecture1],
-        [],
-        [],
-        [],
-        []
-      ];
 
       final widget = makeTestableWidget(
-          child: DefaultTabController(
-              length: daysOfTheWeek.length,
-              child: SchedulePageView(
-                daysOfTheWeek: daysOfTheWeek,
-                aggLectures: aggLectures,
-                scheduleStatus: RequestStatus.successful,
-                tabController: null,
-              )));
+          child: SchedulePageView(lectures: [lecture1], scheduleStatus: RequestStatus.successful));
       await tester.pumpWidget(widget);
+      await tester.pumpAndSettle();
+      final SchedulePageViewState myWidgetState = tester.state(find.byType(SchedulePageView));
+      myWidgetState.tabController!.animateTo(0);
+      await tester.pumpAndSettle();
 
       expect(
           find.descendant(
@@ -103,24 +93,14 @@ void main() {
     });
     testWidgets('When given two lectures on a single day',
         (WidgetTester tester) async {
-      final List<List<Lecture>> aggLectures = [
-        [lecture1, lecture2],
-        [],
-        [],
-        [],
-        []
-      ];
 
       final widget = makeTestableWidget(
-          child: DefaultTabController(
-              length: daysOfTheWeek.length,
-              child: SchedulePageView(
-                daysOfTheWeek: daysOfTheWeek,
-                aggLectures: aggLectures,
-                scheduleStatus: RequestStatus.successful,
-                tabController: null,
-              )));
+          child: SchedulePageView(lectures: [lecture1, lecture2], scheduleStatus: RequestStatus.successful));
       await tester.pumpWidget(widget);
+      await tester.pumpAndSettle();
+      final SchedulePageViewState myWidgetState = tester.state(find.byType(SchedulePageView));
+      myWidgetState.tabController!.animateTo(0);
+      await tester.pumpAndSettle();
 
       expect(
           find.descendant(
@@ -130,24 +110,18 @@ void main() {
     });
     testWidgets('When given lectures on different days',
         (WidgetTester tester) async {
-      final List<List<Lecture>> aggLectures = [
-        [lecture1, lecture2],
-        [lecture3],
-        [lecture4],
-        [lecture5],
-        [lecture6]
-      ];
 
       final widget = makeTestableWidget(
           child: DefaultTabController(
               length: daysOfTheWeek.length,
               child: SchedulePageView(
-                daysOfTheWeek: daysOfTheWeek,
-                aggLectures: aggLectures,
-                scheduleStatus: RequestStatus.successful,
-                tabController: null,
-              )));
+                  lectures: [lecture1, lecture2, lecture3, lecture4, lecture5, lecture6],
+                  scheduleStatus: RequestStatus.successful)));
       await tester.pumpWidget(widget);
+      await tester.pumpAndSettle();
+      final SchedulePageViewState myWidgetState = tester.state(find.byType(SchedulePageView));
+      myWidgetState.tabController!.animateTo(0);
+      await tester.pumpAndSettle();
 
       expect(
           find.descendant(

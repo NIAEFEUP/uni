@@ -12,7 +12,7 @@ import 'package:uni/controller/local_storage/app_last_user_info_update_database.
 import 'package:uni/controller/local_storage/app_lectures_database.dart';
 import 'package:uni/controller/local_storage/app_refresh_times_database.dart';
 import 'package:uni/controller/local_storage/app_user_database.dart';
-import 'package:uni/view/Pages/general_page_view.dart';
+import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 
 Future logout(BuildContext context) async {
   final prefs = await SharedPreferences.getInstance();
