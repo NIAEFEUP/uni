@@ -113,6 +113,12 @@ class Exam {
     return now.compareTo(endDateTime) <= 0;
   }
 
+  /// the type 'MT' ('Mini-testes') or 'EN' ('Normal').
+  bool isHighlighted() {
+    return (examType.contains('''EN''')) ||
+        (examType.contains('''MT'''));
+  }
+
   /// Prints the data in this exam to the [Logger] with an INFO level.
   void printExam() {
     Logger().i(
