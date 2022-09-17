@@ -49,14 +49,13 @@ jobs:
           java-version: ${{env.JAVA_VERSION}}
       - uses: subosito/flutter-action@v1
         with:
-          flutter-version: ${{env.FLUTTER_VERSION}}
+          flutter-version: ${{ env.FLUTTER_VERSION }}
 
       - name: Setup production environment
         run: |
           mkdir -p assets/env
           rm -f -- assets/env/env.json
-          touch assets/env/env.json
-          echo "{{ secrets.PRODUCTION_ENV_JSON }}" >> assets/env/env.json
+          echo "{\"gh_token\": \"${{ secrets.NIAEFEUPBOT_PAT }}\"}" >> assets/env/env.json
 
       - name: Download Android keystore
         run: echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 --decode > /tmp/key.jks
