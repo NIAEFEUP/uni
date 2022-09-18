@@ -6,9 +6,16 @@
 .pub/
 build/
 *.bin
+uni/pubspec.lock
+.flutter-plugins*
 
-app_feup/pubspec.lock
+# IDE files
 .DS_Store
 .atom/
 .vscode/
-.packages
+.idea/
+.gradle/
+
+# Key properties
+uni/android/key.properties
+**.jks
