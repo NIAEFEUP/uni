@@ -1,6 +1,8 @@
 on:
   push:
-    branches: [ master, develop ]
+    branches:
+      - master
+      - develop
 
 jobs:
   bump_version:
