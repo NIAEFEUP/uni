@@ -20,7 +20,7 @@ jobs:
 
       - name: Bump flutter minor version
         if: github.ref == 'refs/heads/master'
-        run: perl -i -pe 's/^(\d+)(\.)(\d+)(\.\d+)(\+)(\d+)$/$1.($2).($3+1).($4).($5).($6+1)/e' ${{ env.APP_VERSION_PATH }}
+        run: perl -i -pe 's/^(\d+)(\.)(\d+)(\.)(\d+)(\+)(\d+)$/$1.($2).($3+1).($4).(0).($6).($7+1)/e' ${{ env.APP_VERSION_PATH }}
 
       - name: Copy app version to pubspec
         run: cat ${{ env.APP_VERSION_PATH }} | perl -i -pe 's/^(version:\s+)(\d+\.\d+\.\d+\+\d+)$/$1.(<STDIN>)/e' ${{ env.PUBSPEC_PATH }}
@@ -31,10 +31,7 @@ jobs:
 
       - name: Propagate master version bump to develop
         if: github.ref == 'refs/heads/master'
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          branch: develop
-          commit_message: "Bump app version [no ci]"
+        run: git push --force-with-lease origin develop
 
   build:
     name: "Build App Bundle"
