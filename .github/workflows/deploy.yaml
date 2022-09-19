@@ -1,8 +1,6 @@
 on:
   push:
-    branches:
-      - master
-      - develop
+    branches: [ master, develop ]
 
 jobs:
   bump_version:
@@ -29,6 +27,13 @@ jobs:
 
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
+          commit_message: "Bump app version [no ci]"
+
+      - name: Propagate master version bump to develop
+        if: github.ref == 'refs/heads/master'
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          branch: develop
           commit_message: "Bump app version [no ci]"
 
   build:
