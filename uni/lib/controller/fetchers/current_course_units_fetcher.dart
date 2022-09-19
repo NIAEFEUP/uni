@@ -23,7 +23,10 @@ class CurrentCourseUnitsFetcher implements SessionDependantFetcher {
       final List<CourseUnit> ucs = <CourseUnit>[];
       for (var course in responseBody) {
         for (var uc in course['inscricoes']) {
-          ucs.add(CourseUnit.fromJson(uc));
+          final CourseUnit? courseUnit = CourseUnit.fromJson(uc);
+          if (courseUnit != null) {
+            ucs.add(courseUnit);
+          }
         }
       }
       return ucs;

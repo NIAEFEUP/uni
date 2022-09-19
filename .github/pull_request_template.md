@@ -6,7 +6,7 @@ Closes #[issue number]
 # Review checklist
 -   [ ] Terms and conditions reflect the current change
 -   [ ] Contains enough appropriate tests
--   [ ] Properly mentions the change in `whatsnew/whatsnew-pt-PT`
+-   [ ] If aimed at production, writes new summary in `whatsnew/whatsnew-pt-PT`
 -   [ ] Properly adds entry in `changelog.md` with the change
 -   [ ] If PR includes UI updates/additions, its description has screenshots
 -   [ ] Behavior is as expected

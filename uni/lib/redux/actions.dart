@@ -9,7 +9,7 @@ import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/entities/trip.dart';
-import 'package:uni/model/home_page_model.dart';
+import 'package:uni/utils/favorite_widget_type.dart';
 
 class SaveLoginDataAction {
   Session session;
@@ -133,11 +133,6 @@ class SetBusTripsStatusAction {
 class SetBusStopTimeStampAction {
   DateTime timeStamp;
   SetBusStopTimeStampAction(this.timeStamp);
-}
-
-class SetCurrentTimeAction {
-  DateTime currentTime;
-  SetCurrentTimeAction(this.currentTime);
 }
 
 class UpdateFavoriteCards {

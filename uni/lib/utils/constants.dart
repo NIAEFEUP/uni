@@ -10,7 +10,7 @@ const navCalendar = 'Calendário';
 const navAbout = 'Sobre';
 const navBugReport = 'Bugs e Sugestões';
 const navLogOut = 'Terminar sessão';
-const navUsefulLinks = 'Links Úteis';
+const navUsefulInfo = 'Úteis';
 const faculties = [
   'faup',
   'fbaup',
@@ -27,4 +27,3 @@ const faculties = [
   'fpceup',
   'icbas'
 ];
-const navUsefulContacts = 'Contactos Úteis';

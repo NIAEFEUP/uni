@@ -73,4 +73,4 @@ ThemeData applicationDarkTheme = ThemeData(
     indicatorColor: Colors.white,
     primaryTextTheme: Typography().white,
     toggleableActiveColor: _mildBlack,
-    textTheme: _textTheme);
+    textTheme: _textTheme.apply(bodyColor: _lightGrey));

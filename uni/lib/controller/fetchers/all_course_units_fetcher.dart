@@ -9,8 +9,9 @@ class AllCourseUnitsFetcher {
       List<Course> courses, Session session) async {
     final List<CourseUnit> allCourseUnits = [];
     for (var course in courses) {
-      allCourseUnits.addAll(
-          await _getAllCourseUnitsAndCourseAveragesFromCourse(course, session));
+      final List<CourseUnit> courseUnits =
+          await _getAllCourseUnitsAndCourseAveragesFromCourse(course, session);
+      allCourseUnits.addAll(courseUnits.where((c) => c.enrollmentIsValid()));
     }
     return allCourseUnits;
   }

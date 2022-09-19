@@ -3,7 +3,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.4.0] - 2022-09-19
 
 ### Added
 
@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - A dialog to create MB references to add money to print balance
 - Course average grade and finished ects on the profile page
 - Course units listing for all years with results
+- Faculty locations
 
 ### Fixed
 
@@ -31,6 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix Lecture data coming from Sigarra's API
 - Fix Bus Stops departures, to obtain new CSRF for the API
 - Fix card title not occupying full width
+- Fix special exams showing
 
 ### Changed
 

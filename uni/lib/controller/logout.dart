@@ -2,8 +2,6 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart'
-    show DefaultCacheManager;
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uni/controller/local_storage/app_bus_stop_database.dart';
@@ -14,7 +12,7 @@ import 'package:uni/controller/local_storage/app_last_user_info_update_database.
 import 'package:uni/controller/local_storage/app_lectures_database.dart';
 import 'package:uni/controller/local_storage/app_refresh_times_database.dart';
 import 'package:uni/controller/local_storage/app_user_database.dart';
-import 'package:uni/view/Pages/general_page_view.dart';
+import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 
 Future logout(BuildContext context) async {
   final prefs = await SharedPreferences.getInstance();
@@ -30,8 +28,7 @@ Future logout(BuildContext context) async {
   AppCourseUnitsDatabase().deleteCourseUnits();
 
   final path = (await getApplicationDocumentsDirectory()).path;
-  (File('$path/profile_pic.png')).delete();
-  GeneralPageViewState.decorageImage = null;
+  Directory(path).deleteSync(recursive: true);
+  GeneralPageViewState.profileImageProvider = null;
   PaintingBinding.instance.imageCache.clear();
-  DefaultCacheManager().emptyCache();
 }

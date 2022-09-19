@@ -14,9 +14,9 @@ List<CourseUnit> parseCourseUnitsAndCourseAverage(
 
   final labels = document.querySelectorAll('.caixa .formulario-legenda');
   if (labels.length >= 2) {
-    course.currentAverage ??= num.parse(
+    course.currentAverage ??= num.tryParse(
         labels[0].nextElementSibling?.innerHtml.replaceFirst(',', '.') ?? '0');
-    course.finishedEcts ??= num.parse(
+    course.finishedEcts ??= num.tryParse(
         labels[1].nextElementSibling?.innerHtml.replaceFirst(',', '.') ?? '0');
   }
 
@@ -34,6 +34,11 @@ List<CourseUnit> parseCourseUnitsAndCourseAverage(
   final rows = table.querySelectorAll('tr.i, tr.p');
 
   for (final row in rows) {
+    // Skip non regular course units (such as undiscriminated ucs)
+    if (int.parse(row.children[0].attributes['colspan'] ?? '1') > 1) {
+      continue;
+    }
+
     final String year = row.children[0].innerHtml;
     final String semester = row.children[1].innerHtml;
     final String? occurId = getUrlQueryParameters(
@@ -42,17 +47,21 @@ List<CourseUnit> parseCourseUnitsAndCourseAverage(
     final String codeName = row.children[2].children[0].innerHtml;
     final String name = row.children[3].children[0].innerHtml;
     final String ects = row.children[5].innerHtml.replaceAll(',', '.');
-    String grade = '-', result = '-';
-    int yearIncrement = 0;
-    for (var i = 0;; i += 2, yearIncrement++) {
+    String? grade, status;
+    int yearIncrement = -1;
+    for (var i = 0;; i += 2) {
       if (row.children.length <= 6 + i) {
         break;
       }
-      grade = row.children[6 + i].innerHtml;
-      if (grade.replaceAll('&nbsp;', ' ').trim() != '') {
-        result = row.children[7 + i].innerHtml;
+      yearIncrement++;
+      grade = row.children[6 + i].innerHtml.replaceAll('&nbsp;', ' ').trim();
+      status = row.children[7 + i].innerHtml.replaceAll('&nbsp;', ' ').trim();
+      if (status != '') {
         break;
       }
+    }
+    if (yearIncrement < 0) {
+      continue;
     }
 
     final CourseUnit courseUnit = CourseUnit(
@@ -60,7 +69,7 @@ List<CourseUnit> parseCourseUnitsAndCourseAverage(
             '${firstSchoolYear + yearIncrement}/${firstSchoolYear + yearIncrement + 1}',
         occurrId: occurId != null ? int.parse(occurId) : 0,
         abbreviation: codeName,
-        result: result,
+        status: status,
         grade: grade,
         ects: double.parse(ects),
         name: name,

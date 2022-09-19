@@ -1,4 +1,4 @@
-import 'package:uni/view/Fonts/location_icons.dart';
+import 'package:uni/view/locations/widgets/icons.dart';
 
 import 'package:uni/model/entities/location.dart';
 
