@@ -10,6 +10,7 @@ Future<List<Lecture>> parseScheduleMultipleRequests(responses) async {
   }
   return lectures;
 }
+
 /// Extracts the user's lectures from an HTTP [response] and sorts them by
 /// date.
 ///
