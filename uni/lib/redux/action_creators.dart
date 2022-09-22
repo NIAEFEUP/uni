@@ -63,6 +63,7 @@ ThunkAction<AppState> reLogin(
         await loadRemoteUserInfoToState(store);
         store.dispatch(SetLoginStatusAction(RequestStatus.successful));
         action?.complete();
+        //TODO: Login to print.up here?
       } else {
         store.dispatch(SetLoginStatusAction(RequestStatus.failed));
         action?.completeError(RequestStatus.failed);
@@ -100,6 +101,9 @@ ThunkAction<AppState> login(
       store.dispatch(SaveLoginDataAction(session));
       if (session.authenticated) {
         store.dispatch(SetLoginStatusAction(RequestStatus.successful));
+
+        //TODO: Login to print.up here?
+
         await loadUserInfoToState(store);
 
         /// Faculties chosen in the dropdown
