@@ -4,6 +4,8 @@ import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/model/entities/session.dart';
 
 class PrintFetcher implements SessionDependantFetcher {
+  static const printURL = 'https://print.up.pt';
+  
   @override
   List<String> getEndpoints(Session session) {
     final url =
@@ -39,4 +41,25 @@ class PrintFetcher implements SessionDependantFetcher {
 
     return response;
   }
+
+  // Print up methods
+
+  //get balance: HTML
+  static Future getHomePage(Session session) async {
+    const url = '$printURL/app?service=page/UserSummary';
+    return await NetworkRouter.getWithCookies(url, {}, session);
+  } 
+  //get recent movements: CVS 
+  static Future getPrintMovements(Session session) async {
+    const url = '$printURL/app?service=direct/1/UserTransactions/accTrans.exportLogs.csv&sp=SCSV&sp=F';
+    // TODO: explore some way to read the downloaded csv file
+  }
+  //get recent movements: HTML
+  static Future getPendingReleases(Session session) async {
+    const url = '$printURL/app?service=direct/1/UserPrintLogs/printLogs.exportPrint.csv&sp=SCSV&sp=F';
+    return await NetworkRouter.getWithCookies(url, {}, session);
+  }
+
+  //post job
+  static Future submitJob() async{}
 }
