@@ -18,6 +18,7 @@ import 'package:uni/view/bug_report/bug_report.dart';
 import 'package:uni/view/bus_stop_next_arrivals/bus_stop_next_arrivals.dart';
 import 'package:uni/view/exams/exams.dart';
 import 'package:uni/view/home/home.dart';
+import 'package:uni/view/calendar/calendar.dart';
 import 'package:uni/view/course_units/course_units.dart';
 import 'package:uni/view/logout_route.dart';
 import 'package:uni/view/splash/splash.dart';
@@ -111,6 +112,9 @@ class MyAppState extends State<MyApp> {
                   case '/${constants.navLocations}':
                     return PageTransition.makePageTransition(
                         page: const LocationsPage(), settings: settings);
+                  case '/${constants.navCalendar}':
+                    return PageTransition.makePageTransition(
+                        page: const CalendarPageView(), settings: settings);
                   case '/${constants.navUsefulInfo}':
                     return PageTransition.makePageTransition(
                         page: const UsefulInfoPageView(), settings: settings);
