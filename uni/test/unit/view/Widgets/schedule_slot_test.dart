@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:intl/intl.dart';
 import 'package:uni/model/utils/datetime.dart';
 import 'package:uni/view/schedule/widgets/schedule_slot.dart';
 
