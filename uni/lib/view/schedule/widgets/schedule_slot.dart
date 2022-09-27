@@ -39,8 +39,10 @@ class ScheduleSlot extends StatelessWidget {
   }
 
   Widget createScheduleSlotRow(context) {
+    final readableBegin = readableTime(begin);
+    final readableEnd = readableTime(end);
     return Container(
-        key: Key('schedule-slot-time-$begin-$end'),
+        key: Key('schedule-slot-time-$readableBegin-$readableEnd'),
         margin: const EdgeInsets.only(top: 3.0, bottom: 3.0),
         child: Row(
           mainAxisSize: MainAxisSize.max,
