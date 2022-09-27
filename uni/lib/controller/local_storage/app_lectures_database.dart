@@ -11,8 +11,6 @@ class AppLecturesDatabase extends AppDatabase {
   static const createScript =
       '''CREATE TABLE lectures(subject TEXT, typeClass TEXT,
           day INTEGER, startTime TEXT, blocks INTEGER, room TEXT, teacher TEXT, classNumber TEXT, occurrId INTEGER)''';
-  static const updateClassNumber =
-      '''ALTER TABLE lectures ADD classNumber TEXT''';
 
   AppLecturesDatabase()
       : super(
@@ -31,13 +29,9 @@ class AppLecturesDatabase extends AppDatabase {
 
   /// Returns a list containing all of the lectures stored in this database.
   Future<List<Lecture>> lectures() async {
-    // Get a reference to the database
     final Database db = await getDatabase();
-
-    // Query the table for All The Dogs.
     final List<Map<String, dynamic>> maps = await db.query('lectures');
 
-    // Convert the List<Map<String, dynamic> into a List<Dog>.
     return List.generate(maps.length, (i) {
       return Lecture.fromHtml(
         maps[i]['subject'],
