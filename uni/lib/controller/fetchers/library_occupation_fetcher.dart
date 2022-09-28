@@ -7,22 +7,20 @@ import 'package:uni/controller/parsers/parser_library_occupation.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/library_occupation.dart';
 
-/// Fetch the school calendar from Google Sheets
-class OccupationFetcherSheets {
-  String? key;
-  Future<LibraryOccupation> getOccupationFromSheets(
+/// Fetch the library occupation from Google Sheets
+class LibraryOccupationFetcherSheets {
+  Future<LibraryOccupation> getLibraryOccupationFromSheets(
       Store<AppState> store) async {
     const sheetId = '1gZRbEX4y8vNW7vrl15FCdAQ3pVNRJw_uRZtVL6ORP0g';
 
     try {
-      loadApiKey();
-      final googleCredentials = key;
-      final gSheets = GSheets(googleCredentials);
+      final String key = await loadApiKey();
+      final gSheets = GSheets(key);
       final ss = await gSheets.spreadsheet(sheetId);
 
       final sheet = ss.worksheetByTitle('MANUAL');
 
-      return getOccupationFromSheet(sheet!);
+      return getLibraryOccupationFromSheet(sheet!);
     } catch (FlutterError) {
       return LibraryOccupation(0, 0);
     }
@@ -34,9 +32,9 @@ class OccupationFetcherSheets {
         .then((jsonStr) => jsonDecode(jsonStr));
   }
 
-  void loadApiKey() async {
+  Future<String> loadApiKey() async {
     final Map<String, dynamic> dataMap =
         await parseJsonFromAssets('assets/env/env.json');
-    key = dataMap['api_key'];
+    return dataMap['api_key'];
   }
 }

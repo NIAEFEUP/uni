@@ -1,7 +1,7 @@
 import 'package:gsheets/gsheets.dart';
 import 'package:uni/model/entities/library_occupation.dart';
 
-Future<LibraryOccupation> getOccupationFromSheet(Worksheet sheet) async {
+Future<LibraryOccupation> getLibraryOccupationFromSheet(Worksheet sheet) async {
   try {
     final occupation = LibraryOccupation(0, 0);
 
