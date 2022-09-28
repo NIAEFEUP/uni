@@ -72,6 +72,7 @@ dependencies:
   latlong2: ^0.8.1
   flutter_map_marker_popup: ^3.2.0
   material_design_icons_flutter: ^5.0.6595
+  gsheets: ^0.4.2
 
 dev_dependencies:
   flutter_test:
