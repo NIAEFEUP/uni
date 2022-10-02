@@ -3,9 +3,8 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:uni/controller/local_storage/app_last_user_info_update_database.dart';
 import 'package:uni/model/app_state.dart';
 
-
-/// Wraps content given its fetch data from the redux store, 
-/// hydrating the component, displaying an empty message, 
+/// Wraps content given its fetch data from the redux store,
+/// hydrating the component, displaying an empty message,
 /// a connection error or a loading circular effect as appropriate
 
 class RequestDependentWidgetBuilder extends StatelessWidget {
@@ -53,13 +52,9 @@ class RequestDependentWidgetBuilder extends StatelessWidget {
             return contentChecker
                 ? contentGenerator(content, context)
                 : Center(
-                    heightFactor: 2,
-                    child: Column(children: [
-                      Text('Erro de comunicação.',
-                          style: Theme.of(context).textTheme.subtitle1),
-                      Text('Por favor verifica a tua ligação à internet.',
-                          style: Theme.of(context).textTheme.subtitle1)
-                    ]));
+                    heightFactor: 3,
+                    child: Text('Aconteceu um erro ao carregar os dados',
+                        style: Theme.of(context).textTheme.subtitle1));
         }
       },
     );
