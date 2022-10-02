@@ -31,7 +31,8 @@ class CourseUnitDetailPageViewState
             const SizedBox(
               height: 20,
             ),
-            Text('Resultado: ${widget.courseUnit.grade}')
+            Text(
+                'Resultado: ${widget.courseUnit.grade == null || widget.courseUnit.grade!.isEmpty ? 'N/A' : widget.courseUnit.grade}')
           ]))
     ]);
   }

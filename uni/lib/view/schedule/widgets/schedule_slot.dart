@@ -104,36 +104,32 @@ class ScheduleSlot extends StatelessWidget {
         rooms, Theme.of(context).textTheme.bodyText2, TextAlign.right);
     return [
       createScheduleSlotTime(context),
-      Column(
+      Expanded(
+          child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               createSubjectButton(context),
               subjectTextField,
               typeClassTextField,
             ],
           ),
-          Row(
-            children: [
-              createScheduleSlotTeacherInfo(context),
-              createScheduleSlotClass(context)
-            ],
-          )
+          Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: createScheduleSlotTeacherClassInfo(context)),
         ],
-      ),
-      createScheduleSlotPrimInfoColumn(roomTextField)
+      )),
+      roomTextField
     ];
   }
 
-  Widget createScheduleSlotTeacherInfo(context) {
+  Widget createScheduleSlotTeacherClassInfo(context) {
     return createTextField(
-        teacher, Theme.of(context).textTheme.bodyText2, TextAlign.center);
-  }
-
-  Widget createScheduleSlotClass(context) {
-    final classText = classNumber != null ? (' | $classNumber') : '';
-    return createTextField(
-        classText, Theme.of(context).textTheme.bodyText2, TextAlign.center);
+        classNumber != null ? '$classNumber | $teacher' : teacher,
+        Theme.of(context).textTheme.bodyText2,
+        TextAlign.center);
   }
 
   Widget createTextField(text, style, alignment) {
@@ -143,9 +139,5 @@ class ScheduleSlot extends StatelessWidget {
         maxLines: 1,
         style: style,
         textAlign: alignment);
-  }
-
-  Widget createScheduleSlotPrimInfoColumn(elements) {
-    return Container(child: elements);
   }
 }

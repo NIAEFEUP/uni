@@ -28,7 +28,10 @@ Future logout(BuildContext context) async {
   AppCourseUnitsDatabase().deleteCourseUnits();
 
   final path = (await getApplicationDocumentsDirectory()).path;
-  Directory(path).deleteSync(recursive: true);
+  final directory = Directory(path);
+  if (directory.existsSync()) {
+    directory.deleteSync(recursive: true);
+  }
   GeneralPageViewState.profileImageProvider = null;
   PaintingBinding.instance.imageCache.clear();
 }
