@@ -20,9 +20,9 @@ import 'action_creators.dart';
 void main() {
   group('Exams Action Creator', () {
     final sopeCourseUnit = CourseUnit(
-        abbreviation: 'SOPE', occurrId: 0, name: 'Sistemas Operativos');
+        abbreviation: 'SOPE', occurrId: 0, name: 'Sistemas Operativos', status: 'V');
     final sdisCourseUnit = CourseUnit(
-        abbreviation: 'SDIS', occurrId: 0, name: 'Sistemas Distribuídos');
+        abbreviation: 'SDIS', occurrId: 0, name: 'Sistemas Distribuídos', status: 'V');
     NetworkRouter.httpClient = MockClient();
     final sopeExam = Exam('09:00-12:00', 'SOPE', 'B119, B107, B205',
         '2800-09-11', 'Recurso - Época Recurso (2ºS)', 'Quarta');
