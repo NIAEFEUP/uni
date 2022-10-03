@@ -35,6 +35,8 @@ class CantinePageView extends StatelessWidget {
         shrinkWrap: true,
         children: <Widget>[
           PageTitle(name: 'Cantinas'),
+          //talvez aqui um container que chama uma função para percorrer as cantinas e para
+          //cada uma mostra a tabbar
           TabBar(
             controller: tabController,
             isScrollable: true,
