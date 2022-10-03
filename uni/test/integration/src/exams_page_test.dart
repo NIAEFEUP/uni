@@ -33,13 +33,17 @@ void main() {
     final mockClient = MockClient();
     final mockResponse = MockResponse();
     final sopeCourseUnit = CourseUnit(
-        abbreviation: 'SOPE', occurrId: 0, name: 'Sistemas Operativos');
+        abbreviation: 'SOPE', occurrId: 0, name: 'Sistemas Operativos', status: 'V');
     final sdisCourseUnit = CourseUnit(
-        abbreviation: 'SDIS', name: 'Sistemas Distribuídos', occurrId: 0);
+        abbreviation: 'SDIS', name: 'Sistemas Distribuídos', occurrId: 0, status: 'V');
+    final mdisCourseUnit = CourseUnit(
+        abbreviation: 'MDIS', name: 'Matemática Discreta', occurrId: 0, status: 'A');
     final sopeExam =
         Exam('17:00-19:00', 'SOPE', '', '2099-11-18', 'MT', 'Segunda');
     final sdisExam =
         Exam('17:00-19:00', 'SDIS', '', '2099-10-21', 'MT', 'Segunda');
+    final mdisExam =
+        Exam('17:00-19:00', 'MDIS', '', '2099-12-09', 'MT', 'Segunda');
 
     final Map<String, bool> filteredExams = {};
     Exam.getExamTypes()
@@ -54,7 +58,7 @@ void main() {
       final store = Store<AppState>(appReducers,
           initialState: AppState({
             'session': Session(authenticated: true),
-            'currUcs': [sopeCourseUnit, sdisCourseUnit],
+            'currUcs': [sopeCourseUnit, sdisCourseUnit, mdisCourseUnit],
             'exams': <Exam>[],
             'profile': profile,
             'filteredExams': filteredExams
@@ -79,6 +83,7 @@ void main() {
 
       expect(find.byKey(Key(sdisExam.toString())), findsNothing);
       expect(find.byKey(Key(sopeExam.toString())), findsNothing);
+      expect(find.byKey(Key(mdisExam.toString())), findsNothing);
 
       actionCreator(store);
 
@@ -87,6 +92,7 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.byKey(Key(sdisExam.toString())), findsOneWidget);
       expect(find.byKey(Key(sopeExam.toString())), findsOneWidget);
+      expect(find.byKey(Key(mdisExam.toString())), findsNothing);
     });
 
     testWidgets('Filtered Exams', (WidgetTester tester) async {
