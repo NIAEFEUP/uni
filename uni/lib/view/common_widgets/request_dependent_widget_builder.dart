@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:uni/controller/local_storage/app_last_user_info_update_database.dart';
 import 'package:uni/model/app_state.dart';
+import 'package:uni/utils/constants.dart' as constants;
 
 /// Wraps content given its fetch data from the redux store,
 /// hydrating the component, displaying an empty message,
@@ -51,12 +53,35 @@ class RequestDependentWidgetBuilder extends StatelessWidget {
           default:
             return contentChecker
                 ? contentGenerator(content, context)
-                : Center(
-                    heightFactor: 3,
-                    child: Text('Aconteceu um erro ao carregar os dados',
-                        style: Theme.of(context).textTheme.subtitle1));
+                : requestFaildMessage();
         }
       },
     );
+  }
+
+  Widget requestFaildMessage() {
+    return FutureBuilder(
+        future: Connectivity().checkConnectivity(),
+        builder: (BuildContext context, AsyncSnapshot connectivitySnapshot) {
+          if (connectivitySnapshot.hasData) {
+            if (connectivitySnapshot.data == ConnectivityResult.none) {
+              return Center(
+                  heightFactor: 3,
+                  child: Text('Sem ligação à internet',
+                      style: Theme.of(context).textTheme.subtitle1));
+            }
+          }
+          return Column(children: [
+            Center(
+                heightFactor: 1.5,
+                child: Text(
+                    'Aconteceu um erro ao carregar os dados',
+                    style: Theme.of(context).textTheme.subtitle1)),
+            TextButton(
+                onPressed: () => Navigator.pushNamed(context, '/${constants.navBugReport}'),
+                child: Text('Reportar erro',
+                  style: Theme.of(context).textTheme.bodyText2))
+          ]);
+        });
   }
 }
