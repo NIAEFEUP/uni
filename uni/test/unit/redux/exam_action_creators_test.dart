@@ -24,10 +24,14 @@ void main() {
     final sdisCourseUnit = CourseUnit(
         abbreviation: 'SDIS', occurrId: 0, name: 'Sistemas Distribuídos');
     NetworkRouter.httpClient = MockClient();
-    final sopeExam = Exam('09:00-12:00', 'SOPE', 'B119, B107, B205',
-        '2800-09-11', 'Recurso - Época Recurso (2ºS)', 'Quarta');
-    final sdisExam = Exam('12:00-15:00', 'SDIS', 'B119, B107, B205',
-        '2800-09-12', 'Recurso - Época Recurso (2ºS)', 'Quarta');
+    final DateTime beginSopeExam = DateTime.parse('2800-09-12 12:00');
+    final DateTime endSopeExam = DateTime.parse('2800-09-12 15:00');
+    final sopeExam = Exam(beginSopeExam, endSopeExam, 'SOPE',
+        'B119, B107, B205', 'Recurso - Época Recurso (2ºS)', 'Quarta');
+    final DateTime beginSdisExam = DateTime.parse('2800-09-12 12:00');
+    final DateTime endSdisExam = DateTime.parse('2800-09-12 15:00');
+    final sdisExam = Exam(beginSdisExam, endSdisExam, 'SDIS',
+        'B119, B107, B205', 'Recurso - Época Recurso (2ºS)', 'Quarta');
     final parserMock = ParserMock();
     const Tuple2<String, String> userPersistentInfo = Tuple2('', '');
     final mockStore = MockStore();
@@ -78,11 +82,13 @@ void main() {
     });
     test('''When given three exams but one is to be parsed out,
                 since it is a Special Season Exam''', () async {
+      final DateTime begin = DateTime.parse('2800-09-12 12:00');
+      final DateTime end = DateTime.parse('2800-09-12 15:00');
       final specialExam = Exam(
-          '12:00-15:00',
+          begin,
+          end,
           'SDIS',
           'B119, B107, B205',
-          '2800-09-12',
           'Exames ao abrigo de estatutos especiais - Port.Est.Especiais',
           'Quarta');
       final Completer<void> completer = Completer();
@@ -118,16 +124,8 @@ void main() {
     test('When Exam is today in one hour', () async {
       final DateTime begin = DateTime.now().add(const Duration(hours: 1));
       final DateTime end = DateTime.now().add(const Duration(hours: 2));
-      final String formattedDate = DateFormat('yyyy-MM-dd').format(begin);
-      final String formattedHourBegin = DateFormat('kk:mm').format(begin);
-      final String formattedHourEnd = DateFormat('kk:mm').format(end);
-      final todayExam = Exam(
-          '$formattedHourBegin-$formattedHourEnd',
-          'SDIS',
-          'B119, B107, B205',
-          formattedDate,
-          'Recurso - Época Recurso (1ºS)',
-          'Quarta');
+      final todayExam = Exam(begin, end, 'SDIS', 'B119, B107, B205',
+          'Recurso - Época Recurso (1ºS)', 'Quarta');
       final Completer<void> completer = Completer();
       final actionCreator =
           getUserExams(completer, parserMock, userPersistentInfo);
@@ -145,16 +143,8 @@ void main() {
     test('When Exam was one hour ago', () async {
       final DateTime end = DateTime.now().subtract(const Duration(hours: 1));
       final DateTime begin = DateTime.now().subtract(const Duration(hours: 2));
-      final String formattedDate = DateFormat('yyyy-MM-dd').format(begin);
-      final String formattedHourBegin = DateFormat('kk:mm').format(begin);
-      final String formattedHourEnd = DateFormat('kk:mm').format(end);
-      final todayExam = Exam(
-          '$formattedHourBegin-$formattedHourEnd',
-          'SDIS',
-          'B119, B107, B205',
-          formattedDate,
-          'Recurso - Época Recurso (1ºS)',
-          'Quarta');
+      final todayExam = Exam(begin, end, 'SDIS', 'B119, B107, B205',
+          'Recurso - Época Recurso (1ºS)', 'Quarta');
       final Completer<void> completer = Completer();
       final actionCreator =
           getUserExams(completer, parserMock, userPersistentInfo);
@@ -170,18 +160,14 @@ void main() {
       expect(actions[2].exams, []);
     });
     test('When Exam is ocurring', () async {
-      final DateTime before = DateTime.now().subtract(const Duration(hours: 1));
-      final DateTime after = DateTime.now().add(const Duration(hours: 1));
-      final String formattedDate = DateFormat('yyyy-MM-dd').format(before);
-      final String formattedHourBefore = DateFormat('kk:mm').format(before);
-      final String formattedHourAfter = DateFormat('kk:mm').format(after);
-      final todayExam = Exam(
-          '$formattedHourBefore-$formattedHourAfter',
-          'SDIS',
-          'B119, B107, B205',
-          formattedDate,
-          'Recurso - Época Recurso (1ºS)',
-          'Quarta');
+      //      final DateTime before = DateTime.now().subtract(const Duration(hours: 1));
+      //      final DateTime after = DateTime.now()(const Duration(hours: 1));
+
+      final DateTime time = DateTime.parse('2800-09-12 23:10');
+      final DateTime before = time.subtract(const Duration(hours: 1));
+      final DateTime after = time.add(const Duration(hours: 1));
+      final todayExam = Exam(before, after, 'SDIS', 'B119, B107, B205',
+          'Recurso - Época Recurso (1ºS)', 'Quarta');
       final Completer<void> completer = Completer();
       final actionCreator =
           getUserExams(completer, parserMock, userPersistentInfo);

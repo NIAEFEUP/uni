@@ -264,6 +264,7 @@ ThunkAction<AppState> getUserExams(Completer<void> action,
               store.state.content['currUcs'])
           .extractExams(store.state.content['session'], parserExams);
 
+      //TODO: date stills exists?
       exams.sort((exam1, exam2) => exam1.date.compareTo(exam2.date));
 
       // Updates local database according to the information fetched -- Exams

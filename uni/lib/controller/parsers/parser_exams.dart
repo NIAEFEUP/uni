@@ -43,21 +43,24 @@ class ParserExams {
         table.querySelectorAll('span.exame-data').forEach((Element date) {
           dates.add(date.text);
         });
-
         table.querySelectorAll('td.l.k').forEach((Element exams) {
           if (exams.querySelector('td.exame') != null) {
             exams.querySelectorAll('td.exame').forEach((Element examsDay) {
               if (examsDay.querySelector('a') != null) {
-                subject = examsDay.querySelector('a')?.text;
+                subject = examsDay.querySelector('a')!.text;
               }
               if (examsDay.querySelector('span.exame-sala') != null) {
-                rooms = examsDay.querySelector('span.exame-sala')?.text;
+                rooms = examsDay.querySelector('span.exame-sala')!.text;
               }
-
               schedule = examsDay.text.substring(examsDay.text.indexOf(':') - 2,
                   examsDay.text.indexOf(':') + 9);
-              final Exam exam = Exam(schedule ?? '', subject ?? '', rooms ?? '',
-                  dates[days], examTypes[tableNum], weekDays[days]);
+              final List<String> splittedSchedule = schedule!.split('-');
+              final DateTime begin =
+                  DateTime.parse('${dates[days]} ${splittedSchedule[0]}');
+              final DateTime end =
+                  DateTime.parse('${dates[days]} ${splittedSchedule[1]}');
+              final Exam exam = Exam(begin, end, subject ?? '', rooms ?? '',
+                  examTypes[tableNum], weekDays[days]);
               examsList.add(exam);
             });
           }

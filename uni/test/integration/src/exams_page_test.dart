@@ -36,10 +36,14 @@ void main() {
         abbreviation: 'SOPE', occurrId: 0, name: 'Sistemas Operativos');
     final sdisCourseUnit = CourseUnit(
         abbreviation: 'SDIS', name: 'Sistemas Distribuídos', occurrId: 0);
+    final DateTime beginSopeExam = DateTime.parse('2099-11-18 17:00');
+    final DateTime endSopeExam = DateTime.parse('2099-11-18 19:00');
     final sopeExam =
-        Exam('17:00-19:00', 'SOPE', '', '2099-11-18', 'MT', 'Segunda');
+        Exam(beginSopeExam, endSopeExam, 'SOPE', '', 'MT', 'Segunda');
+    final DateTime beginSdisExam = DateTime.parse('2099-10-21 17:00');
+    final DateTime endSdisExam = DateTime.parse('2099-10-21 19:00');
     final sdisExam =
-        Exam('17:00-19:00', 'SDIS', '', '2099-10-21', 'MT', 'Segunda');
+        Exam(beginSdisExam, endSdisExam, 'SDIS', '', 'MT', 'Segunda');
 
     final Map<String, bool> filteredExams = {};
     Exam.getExamTypes()

@@ -62,34 +62,19 @@ class Exam {
     date = DateTime(beginDateTime.year, beginDateTime.month, beginDateTime.day);
   }
 
-  Exam(String schedule, this.subject, String rooms, String date, this.examType,
-      this.weekDay) {
-    final scheduling = schedule.split('-');
-    final splitDate = date.split('-');
-    this.date = DateTime.parse(date);
-
-    endDateTime = DateTime(
-        this.date.year,
-        this.date.month,
-        this.date.day,
-        int.parse(scheduling[1].split(':')[0]),
-        int.parse(scheduling[1].split(':')[1]));
-
-    beginDateTime = DateTime(
-        this.date.year,
-        this.date.month,
-        this.date.day,
-        int.parse(scheduling[0].split(':')[0]),
-        int.parse(scheduling[0].split(':')[1]));
-
-    begin = scheduling[0];
-    end = scheduling[1];
+  Exam(DateTime startTime, DateTime endTime, this.subject, String rooms,
+      this.examType, this.weekDay) {
+    begin = startTime.toString();
+    beginDateTime = startTime;
+    endDateTime = endTime;
+    end = endTime.toString();
     this.rooms = rooms.split(',');
-    year = splitDate[0];
-    day = splitDate[2];
+    year = startTime.year.toString();
+    day = startTime.day.toString();
 
-    month = months.keys
-        .firstWhere((k) => months[k] == splitDate[1], orElse: () => '');
+    month = months.keys.firstWhere(
+        (k) => months[k] == startTime.month.toString(),
+        orElse: () => '');
   }
 
   /// Converts this exam to a map.
