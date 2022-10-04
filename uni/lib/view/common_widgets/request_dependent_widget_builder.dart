@@ -72,15 +72,15 @@ class RequestDependentWidgetBuilder extends StatelessWidget {
             }
           }
           return Column(children: [
-            Center(
-                heightFactor: 1.5,
-                child: Text(
-                    'Aconteceu um erro ao carregar os dados',
-                    style: Theme.of(context).textTheme.subtitle1)),
-            TextButton(
-                onPressed: () => Navigator.pushNamed(context, '/${constants.navBugReport}'),
-                child: Text('Reportar erro',
-                  style: Theme.of(context).textTheme.bodyText2))
+            Padding(
+                padding: const EdgeInsets.only(top: 15, bottom: 10),
+                child: Center(
+                    child: Text('Aconteceu um erro ao carregar os dados',
+                        style: Theme.of(context).textTheme.subtitle1))),
+            OutlinedButton(
+                onPressed: () =>
+                    Navigator.pushNamed(context, '/${constants.navBugReport}'),
+                child: const Text('Reportar erro'))
           ]);
         });
   }
