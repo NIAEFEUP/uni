@@ -1,8 +1,6 @@
 on:
   push:
-    branches:
-      - master
-      - develop
+    branches: [ master, develop ]
 
 jobs:
   bump_version:
@@ -22,7 +20,7 @@ jobs:
 
       - name: Bump flutter minor version
         if: github.ref == 'refs/heads/master'
-        run: perl -i -pe 's/^(\d+)(\.)(\d+)(\.\d+)(\+)(\d+)$/$1.($2).($3+1).($4).($5).($6+1)/e' ${{ env.APP_VERSION_PATH }}
+        run: perl -i -pe 's/^(\d+)(\.)(\d+)(\.)(\d+)(\+)(\d+)$/$1.($2).($3+1).($4).(0).($6).($7+1)/e' ${{ env.APP_VERSION_PATH }}
 
       - name: Copy app version to pubspec
         run: cat ${{ env.APP_VERSION_PATH }} | perl -i -pe 's/^(version:\s+)(\d+\.\d+\.\d+\+\d+)$/$1.(<STDIN>)/e' ${{ env.PUBSPEC_PATH }}
@@ -31,6 +29,10 @@ jobs:
         with:
           commit_message: "Bump app version [no ci]"
 
+      - name: Propagate master version bump to develop
+        if: github.ref == 'refs/heads/master'
+        run: git push --force-with-lease origin develop
+
   build:
     name: "Build App Bundle"
     runs-on: ubuntu-latest
@@ -38,7 +40,7 @@ jobs:
     env:
       PROPERTIES_PATH: "android/key.properties"
       JAVA_VERSION: "11.x"
-      FLUTTER_VERSION: "3.0.5"
+      FLUTTER_VERSION: "3.3.2"
     defaults:
       run:
         working-directory: ./uni
@@ -49,14 +51,13 @@ jobs:
           java-version: ${{env.JAVA_VERSION}}
       - uses: subosito/flutter-action@v1
         with:
-          flutter-version: ${{env.FLUTTER_VERSION}}
+          flutter-version: ${{ env.FLUTTER_VERSION }}
 
       - name: Setup production environment
         run: |
           mkdir -p assets/env
           rm -f -- assets/env/env.json
-          touch assets/env/env.json
-          echo "{{ secrets.PRODUCTION_ENV_JSON }}" >> assets/env/env.json
+          echo "{\"gh_token\": \"${{ secrets.NIAEFEUPBOT_PAT }}\"}" >> assets/env/env.json
 
       - name: Download Android keystore
         run: echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 --decode > /tmp/key.jks
