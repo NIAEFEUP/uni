@@ -44,8 +44,8 @@ void main() {
       final DateTime firstExamEnd = DateTime.parse('$firstExamDate 12:00');
       final firstExam = Exam(firstExamBegin, firstExamEnd, firstExamSubject,
           'B119, B107, B205', 'ER', 'Quarta');
-      final DateTime secondExamBegin = DateTime.parse('$secondExamDate 12:00');
-      final DateTime secondExamEnd = DateTime.parse('$secondExamDate 15:00');
+      final DateTime secondExamBegin = DateTime.parse('$firstExamDate 12:00');
+      final DateTime secondExamEnd = DateTime.parse('$firstExamDate 15:00');
       final secondExam = Exam(secondExamBegin, secondExamEnd, secondExamSubject,
           'B119, B107, B205', 'ER', 'Quarta');
       final examList = [

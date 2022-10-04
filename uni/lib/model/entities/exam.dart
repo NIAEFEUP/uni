@@ -71,6 +71,7 @@ class Exam {
     this.rooms = rooms.split(',');
     year = startTime.year.toString();
     day = startTime.day.toString();
+    date = DateTime(startTime.year, startTime.month, startTime.day);
 
     month = months.keys.firstWhere(
         (k) => months[k] == startTime.month.toString(),
