@@ -7,6 +7,7 @@ const navStops = 'Autocarros';
 const navCourseUnits = 'Cadeiras';
 const navLocations = 'Locais';
 const navCalendar = 'Calendário';
+const navLibrary = 'Biblioteca';
 const navAbout = 'Sobre';
 const navBugReport = 'Bugs e Sugestões';
 const navLogOut = 'Terminar sessão';

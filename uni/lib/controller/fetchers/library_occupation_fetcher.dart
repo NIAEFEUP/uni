@@ -14,7 +14,7 @@ class LibraryOccupationFetcherSheets {
     const sheetId = '1gZRbEX4y8vNW7vrl15FCdAQ3pVNRJw_uRZtVL6ORP0g';
 
     try {
-      final String key = await loadApiKey();
+      final Map<String, dynamic> key = await loadApiKey();
       final gSheets = GSheets(key);
       final ss = await gSheets.spreadsheet(sheetId);
 
@@ -32,9 +32,9 @@ class LibraryOccupationFetcherSheets {
         .then((jsonStr) => jsonDecode(jsonStr));
   }
 
-  Future<String> loadApiKey() async {
+  Future<Map<String, dynamic>> loadApiKey() async {
     final Map<String, dynamic> dataMap =
         await parseJsonFromAssets('assets/env/env.json');
-    return dataMap['api_key'];
+    return dataMap['sheets'];
   }
 }

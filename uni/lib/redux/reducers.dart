@@ -97,7 +97,7 @@ AppState setLibraryOccupationAction(
     AppState state, SetLibraryOccupationAction action) {
   Logger().i(
       'setting library occupation: ${action.occupation.getPercentage().toString()}%');
-  return state.cloneAndUpdateValue('occupation', action.occupation);
+  return state.cloneAndUpdateValue('libraryOccupation', action.occupation);
 }
 
 AppState setLibraryOccupationStatus(

@@ -28,6 +28,7 @@ import 'package:uni/view/common_widgets/page_transition.dart';
 import 'package:uni/view/navigation_service.dart';
 import 'package:uni/view/theme.dart';
 import 'package:uni/view/theme_notifier.dart';
+import 'package:uni/view/library/library.dart';
 
 SentryEvent? beforeSend(SentryEvent event) {
   return event.level == SentryLevel.info ? event : null;
@@ -115,6 +116,9 @@ class MyAppState extends State<MyApp> {
                   case '/${constants.navCalendar}':
                     return PageTransition.makePageTransition(
                         page: const CalendarPageView(), settings: settings);
+                  case '/${constants.navLibrary}':
+                    return PageTransition.makePageTransition(
+                        page: const LibraryPageView(), settings: settings);
                   case '/${constants.navUsefulInfo}':
                     return PageTransition.makePageTransition(
                         page: const UsefulInfoPageView(), settings: settings);
