@@ -19,6 +19,7 @@ import 'action_creators.dart';
 
 void main() {
   group('Exams Action Creator', () {
+    final List<String> rooms = ['B119', 'B107', 'B205'];
     final sopeCourseUnit = CourseUnit(
         abbreviation: 'SOPE', occurrId: 0, name: 'Sistemas Operativos');
     final sdisCourseUnit = CourseUnit(
@@ -27,11 +28,11 @@ void main() {
     final DateTime beginSopeExam = DateTime.parse('2800-09-12 12:00');
     final DateTime endSopeExam = DateTime.parse('2800-09-12 15:00');
     final sopeExam = Exam(beginSopeExam, endSopeExam, 'SOPE',
-        'B119, B107, B205', 'Recurso - Época Recurso (2ºS)', 'Quarta');
+        rooms, 'Recurso - Época Recurso (2ºS)', 'Quarta');
     final DateTime beginSdisExam = DateTime.parse('2800-09-12 12:00');
     final DateTime endSdisExam = DateTime.parse('2800-09-12 15:00');
     final sdisExam = Exam(beginSdisExam, endSdisExam, 'SDIS',
-        'B119, B107, B205', 'Recurso - Época Recurso (2ºS)', 'Quarta');
+        rooms, 'Recurso - Época Recurso (2ºS)', 'Quarta');
     final parserMock = ParserMock();
     const Tuple2<String, String> userPersistentInfo = Tuple2('', '');
     final mockStore = MockStore();
@@ -88,7 +89,7 @@ void main() {
           begin,
           end,
           'SDIS',
-          'B119, B107, B205',
+          rooms,
           'Exames ao abrigo de estatutos especiais - Port.Est.Especiais',
           'Quarta');
       final Completer<void> completer = Completer();
@@ -124,7 +125,7 @@ void main() {
     test('When Exam is today in one hour', () async {
       final DateTime begin = DateTime.now().add(const Duration(hours: 1));
       final DateTime end = DateTime.now().add(const Duration(hours: 2));
-      final todayExam = Exam(begin, end, 'SDIS', 'B119, B107, B205',
+      final todayExam = Exam(begin, end, 'SDIS', rooms,
           'Recurso - Época Recurso (1ºS)', 'Quarta');
       final Completer<void> completer = Completer();
       final actionCreator =
@@ -143,7 +144,7 @@ void main() {
     test('When Exam was one hour ago', () async {
       final DateTime end = DateTime.now().subtract(const Duration(hours: 1));
       final DateTime begin = DateTime.now().subtract(const Duration(hours: 2));
-      final todayExam = Exam(begin, end, 'SDIS', 'B119, B107, B205',
+      final todayExam = Exam(begin, end, 'SDIS', rooms,
           'Recurso - Época Recurso (1ºS)', 'Quarta');
       final Completer<void> completer = Completer();
       final actionCreator =
@@ -166,7 +167,7 @@ void main() {
       final DateTime time = DateTime.parse('2800-09-12 23:10');
       final DateTime before = time.subtract(const Duration(hours: 1));
       final DateTime after = time.add(const Duration(hours: 1));
-      final todayExam = Exam(before, after, 'SDIS', 'B119, B107, B205',
+      final todayExam = Exam(before, after, 'SDIS', rooms,
           'Recurso - Época Recurso (1ºS)', 'Quarta');
       final Completer<void> completer = Completer();
       final actionCreator =

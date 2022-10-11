@@ -1,20 +1,20 @@
 import 'package:flutter/foundation.dart';
 import 'package:logger/logger.dart';
 
-var months = {
-  'janeiro': '01',
-  'fevereiro': '02',
-  'março': '03',
-  'abril': '04',
-  'maio': '05',
-  'junho': '06',
-  'julho': '07',
-  'agosto': '08',
-  'setembro': '09',
-  'outubro': '10',
-  'novembro': '11',
-  'dezembro': '12'
-};
+List<String> months = [
+  'janeiro',
+  'fevereiro',
+  'março',
+  'abril',
+  'maio',
+  'junho',
+  'julho',
+  'agosto',
+  'setembro',
+  'outubro',
+  'novembro',
+  'dezembro'
+];
 
 var _types = {
   'Mini-testes': 'MT',
@@ -34,86 +34,68 @@ var _types = {
 /// - The Exam `day`, `weekDay` and `month`
 /// - The Exam `type`
 class Exam {
+  late final DateTime begin;
+  late final DateTime end;
   late final String subject;
-  late final String begin;
-  late final String end;
-  late final DateTime beginDateTime;
-  late final DateTime endDateTime;
   late final List<String> rooms;
-  late final String day;
   late final String examType;
   late final String weekDay;
-  late final String month;
-  late final String year;
-  late final DateTime date;
 
-  Exam.secConstructor(this.subject, this.beginDateTime, this.endDateTime,
-      String rooms, this.examType, this.weekDay) {
-    begin =
-        '${formattedString(beginDateTime.hour)}:${formattedString(beginDateTime.minute)}';
-    end =
-        '${formattedString(endDateTime.hour)}:${formattedString(endDateTime.minute)}';
-    this.rooms = rooms.split(',');
-    day = formattedString(beginDateTime.day);
-    month = months.keys.firstWhere(
-        (k) => months[k] == formattedString(beginDateTime.month),
-        orElse: () => '');
-    year = beginDateTime.year.toString();
-    date = DateTime(beginDateTime.year, beginDateTime.month, beginDateTime.day);
-  }
-
-  Exam(DateTime startTime, DateTime endTime, this.subject, String rooms,
+  Exam.secConstructor(this.subject, this.begin, this.end, String rooms,
       this.examType, this.weekDay) {
-    begin = startTime.toString();
-    beginDateTime = startTime;
-    endDateTime = endTime;
-    end = endTime.toString();
     this.rooms = rooms.split(',');
-    year = startTime.year.toString();
-    day = startTime.day.toString();
-    date = DateTime(startTime.year, startTime.month, startTime.day);
-
-    month = months.keys.firstWhere(
-        (k) => months[k] == startTime.month.toString(),
-        orElse: () => '');
   }
+
+  Exam(this.begin, this.end, this.subject, this.rooms, this.examType,
+      this.weekDay);
 
   /// Converts this exam to a map.
   Map<String, dynamic> toMap() {
     return {
       'subject': subject,
-      'begin': begin,
-      'end': end,
+      'begin': beginTime(),
+      'end': endTime(),
       'rooms': rooms.join(','),
-      'day': day,
+      'day': begin.day,
       'examType': examType,
       'weekDay': weekDay,
-      'month': month,
-      'year': year
+      'month': getMonth(),
+      'year': begin.year.toString()
     };
   }
 
   /// Returns whether or not this exam has already ended.
   bool hasEnded() {
     final DateTime now = DateTime.now();
-    return now.compareTo(endDateTime) >= 0;
+    return now.compareTo(end) >= 0;
+  }
+
+  String getMonth() {
+    return months[begin.month - 1];
+  }
+
+  String beginTime() {
+    return '${formattedString(begin.hour)}:${formattedString(begin.minute)}';
+  }
+
+  String endTime() {
+    return '${formattedString(end.hour)}:${formattedString(end.minute)}';
   }
 
   /// the type 'MT' ('Mini-testes') or 'EN' ('Normal').
   bool isHighlighted() {
-    return (examType.contains('''EN''')) ||
-        (examType.contains('''MT'''));
+    return (examType.contains('''EN''')) || (examType.contains('''MT'''));
   }
 
   /// Prints the data in this exam to the [Logger] with an INFO level.
   void printExam() {
     Logger().i(
-        '''$subject - $year - $month - $day -  $begin-$end - $examType - $rooms - $weekDay''');
+        '''$subject - ${begin.year.toString()} - ${getMonth()} - ${begin.day} -  ${beginTime()}-${endTime()} - $examType - $rooms - $weekDay''');
   }
 
   @override
   String toString() {
-    return '''$subject - $year - $month - $day -  $begin-$end - $examType - $rooms - $weekDay''';
+    return '''$subject - ${begin.year.toString()} - ${getMonth()} - ${begin.day} -  ${beginTime()}-${endTime()} - $examType - $rooms - $weekDay''';
   }
 
   @override
@@ -122,26 +104,24 @@ class Exam {
       other is Exam &&
           runtimeType == other.runtimeType &&
           subject == other.subject &&
+          listEquals(rooms, other.rooms) &&
+          begin.day == other.begin.day &&
           begin == other.begin &&
           end == other.end &&
-          listEquals(rooms, other.rooms) &&
-          day == other.day &&
           examType == other.examType &&
-          weekDay == other.weekDay &&
-          month == other.month &&
-          year == other.year;
+          weekDay == other.weekDay;
 
   @override
   int get hashCode =>
       subject.hashCode ^
-      begin.hashCode ^
-      end.hashCode ^
+      beginTime().hashCode ^
+      endTime().hashCode ^
       rooms.hashCode ^
-      day.hashCode ^
+      begin.day.hashCode ^
       examType.hashCode ^
       weekDay.hashCode ^
-      month.hashCode ^
-      year.hashCode;
+      getMonth().hashCode ^
+      begin.year.toString().hashCode;
 
   static Map<String, String> getExamTypes() {
     return _types;

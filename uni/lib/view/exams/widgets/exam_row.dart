@@ -1,32 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:uni/model/entities/exam.dart';
 import 'package:uni/view/exams/widgets/exam_title.dart';
 import 'package:uni/view/exams/widgets/exam_time.dart';
 import 'package:add_2_calendar/add_2_calendar.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class ExamRow extends StatelessWidget {
-  final String subject;
-  final List<String> rooms;
-  final String begin;
-  final String end;
-  final DateTime date;
+  final Exam exam;
   final String teacher;
-  final String type;
 
-  const ExamRow(
-      {Key? key,
-      required this.subject,
-      required this.rooms,
-      required this.begin,
-      required this.end,
-      required this.date,
-      required this.teacher,
-      required this.type})
-      : super(key: key);
+  const ExamRow({
+    Key? key,
+    required this.exam,
+    required this.teacher,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final roomsKey = '$subject-$rooms-$begin-$end';
+    final roomsKey = '${exam.subject}-${exam.rooms}-${exam.beginTime()} - ${exam.endTime()}';
     return Center(
         child: Container(
             padding: const EdgeInsets.only(left: 12.0, bottom: 8.0, right: 12),
@@ -45,9 +36,9 @@ class ExamRow extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              ExamTime(begin: begin, end: end)
+                              ExamTime(begin: exam.beginTime(), end: exam.endTime())
                             ]),
-                        ExamTitle(subject: subject, type: type),
+                        ExamTitle(subject: exam.subject, type: exam.examType),
                         IconButton(
                             icon: const Icon(MdiIcons.calendarPlus, size: 30),
                             onPressed: () =>
@@ -63,32 +54,26 @@ class ExamRow extends StatelessWidget {
   }
 
   Widget? getExamRooms(context) {
-    if (rooms[0] == '') return null;
+    if (exam.rooms[0] == '') return null;
     return Wrap(
-      alignment: WrapAlignment.start,
-      spacing: 13,
-      children: roomsList(context, rooms)
-    );
+        alignment: WrapAlignment.start,
+        spacing: 13,
+        children: roomsList(context, exam.rooms));
   }
 
   List<Text> roomsList(BuildContext context, List rooms) {
-    return rooms.map((room) => 
-      Text(room.trim(), style: Theme.of(context).textTheme.bodyText2)
-    ).toList();
+    return rooms
+        .map((room) =>
+            Text(room.trim(), style: Theme.of(context).textTheme.bodyText2))
+        .toList();
   }
 
   Event createExamEvent() {
-    final List<String> partsBegin = begin.split(':');
-    final int hoursBegin = int.parse(partsBegin[0]);
-    final int minutesBegin = int.parse(partsBegin[1]);
-    final List<String> partsEnd = end.split(':');
-    final int hoursEnd = int.parse(partsEnd[0]);
-    final int minutesEnd = int.parse(partsBegin[1]);
     return Event(
-      title: '$type $subject',
-      location: rooms.toString(),
-      startDate: date.add(Duration(hours: hoursBegin, minutes: minutesBegin)),
-      endDate: date.add(Duration(hours: hoursEnd, minutes: minutesEnd)),
+      title: '${exam.examType} ${exam.subject}',
+      location: exam.rooms.toString(),
+      startDate: exam.begin,
+      endDate: exam.end,
     );
   }
 }

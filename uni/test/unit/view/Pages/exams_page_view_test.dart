@@ -23,7 +23,7 @@ void main() {
       final DateTime firstExamBegin = DateTime.parse('$firstExamDate 09:00');
       final DateTime firstExamEnd = DateTime.parse('$firstExamDate 12:00');
       final firstExam = Exam(firstExamBegin, firstExamEnd, firstExamSubject,
-          'B119, B107, B205', 'ER', 'Quarta');
+          ['B119', 'B107', 'B205'], 'ER', 'Quarta');
       final examList = [
         firstExam,
       ];
@@ -43,11 +43,11 @@ void main() {
       final DateTime firstExamBegin = DateTime.parse('$firstExamDate 09:00');
       final DateTime firstExamEnd = DateTime.parse('$firstExamDate 12:00');
       final firstExam = Exam(firstExamBegin, firstExamEnd, firstExamSubject,
-          'B119, B107, B205', 'ER', 'Quarta');
+          ['B119', 'B107', 'B205'], 'ER', 'Quarta');
       final DateTime secondExamBegin = DateTime.parse('$firstExamDate 12:00');
       final DateTime secondExamEnd = DateTime.parse('$firstExamDate 15:00');
       final secondExam = Exam(secondExamBegin, secondExamEnd, secondExamSubject,
-          'B119, B107, B205', 'ER', 'Quarta');
+          ['B119', 'B107', 'B205'], 'ER', 'Quarta');
       final examList = [
         firstExam,
         secondExam,
@@ -67,11 +67,11 @@ void main() {
       final DateTime firstExamBegin = DateTime.parse('$firstExamDate 09:00');
       final DateTime firstExamEnd = DateTime.parse('$firstExamDate 12:00');
       final firstExam = Exam(firstExamBegin, firstExamEnd, firstExamSubject,
-          'B119, B107, B205', 'ER', 'Quarta');
+          ['B119', 'B107', 'B205'], 'ER', 'Quarta');
       final DateTime secondExamBegin = DateTime.parse('$secondExamDate 12:00');
       final DateTime secondExamEnd = DateTime.parse('$secondExamDate 15:00');
       final secondExam = Exam(secondExamBegin, secondExamEnd, secondExamSubject,
-          'B119, B107, B205', 'ER', 'Quarta');
+          ['B119', 'B107', 'B205'], 'ER', 'Quarta');
       final List<Exam> examList = [
         firstExam,
         secondExam,
@@ -87,22 +87,23 @@ void main() {
 
     testWidgets('When given four exams from two different dates',
         (WidgetTester tester) async {
+      final List<String> rooms = ['B119', 'B107', 'B205'];
       final DateTime firstExamBegin = DateTime.parse('$firstExamDate 09:00');
       final DateTime firstExamEnd = DateTime.parse('$firstExamDate 12:00');
       final firstExam = Exam(firstExamBegin, firstExamEnd, firstExamSubject,
-          'B119, B107, B205', 'ER', 'Quarta');
+          rooms, 'ER', 'Quarta');
       final DateTime secondExamBegin = DateTime.parse('$firstExamDate 10:00');
       final DateTime secondExamEnd = DateTime.parse('$firstExamDate 12:00');
       final secondExam = Exam(secondExamBegin, secondExamEnd, firstExamSubject,
-          'B119, B107, B205', 'ER', 'Quarta');
+          rooms, 'ER', 'Quarta');
       final DateTime thirdExamBegin = DateTime.parse('$secondExamDate 12:00');
       final DateTime thirdExamEnd = DateTime.parse('$secondExamDate 15:00');
       final thirdExam = Exam(thirdExamBegin, thirdExamEnd, secondExamSubject,
-          'B119, B107, B205', 'ER', 'Quarta');
+          rooms, 'ER', 'Quarta');
       final DateTime fourthExamBegin = DateTime.parse('$secondExamDate 13:00');
       final DateTime fourthExamEnd = DateTime.parse('$secondExamDate 14:00');
       final fourthExam = Exam(fourthExamBegin, fourthExamEnd, secondExamSubject,
-          'B119, B107, B205', 'ER', 'Quarta');
+          rooms, 'ER', 'Quarta');
       final examList = [firstExam, secondExam, thirdExam, fourthExam];
       final widget = makeTestableWidget(child: ExamsList(exams: examList));
 

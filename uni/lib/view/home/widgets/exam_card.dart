@@ -98,16 +98,12 @@ class ExamCard extends GenericCard {
   /// others in the card).
   Widget createRowFromExam(context, Exam exam) {
     return Column(children: [
-      DateRectangle(date: '${exam.weekDay}, ${exam.day} de ${exam.month}'),
+      DateRectangle(
+          date: '${exam.weekDay}, ${exam.begin.day} de ${exam.getMonth()}'),
       RowContainer(
         color: getExamCardColor(context, exam),
         child: ExamRow(
-          subject: exam.subject,
-          rooms: exam.rooms,
-          begin: exam.begin,
-          end: exam.end,
-          type: exam.examType,
-          date: exam.date,
+          exam: exam,
           teacher: '',
         ),
       ),
@@ -129,7 +125,7 @@ class ExamCard extends GenericCard {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Text(
-                  exam.day + ' de ' + exam.month,
+                  exam.begin.day + ' de ' + exam.month,
                   style: Theme.of(context).textTheme.bodyText1,
                 ),
                 ExamTitle(
