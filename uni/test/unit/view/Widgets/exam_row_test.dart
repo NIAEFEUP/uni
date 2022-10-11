@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:intl/intl.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/view/exams/widgets/exam_row.dart';
 
@@ -12,10 +13,8 @@ void main() {
         DateTime.now().year, DateTime.now().month, DateTime.now().day, 10, 0);
     final DateTime end = DateTime(
         DateTime.now().year, DateTime.now().month, DateTime.now().day, 12, 0);
-    final String beginTime =
-        '${formattedString(begin.hour)}:${formattedString(begin.minute)}';
-    final String endTime =
-        '${formattedString(end.hour)}:${formattedString(end.minute)}';
+    final String beginTime = DateFormat('HH:mm').format(begin);
+    final String endTime = DateFormat('HH:mm').format(end);
     testWidgets('When given a single room', (WidgetTester tester) async {
       final rooms = ['B315'];
       final Exam exam =

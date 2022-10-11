@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 
 List<String> months = [
@@ -75,11 +76,11 @@ class Exam {
   }
 
   String beginTime() {
-    return '${formattedString(begin.hour)}:${formattedString(begin.minute)}';
+    return DateFormat('HH:mm').format(begin);
   }
 
   String endTime() {
-    return '${formattedString(end.hour)}:${formattedString(end.minute)}';
+    return DateFormat('HH:mm').format(end);
   }
 
   /// the type 'MT' ('Mini-testes') or 'EN' ('Normal').
@@ -133,10 +134,3 @@ class Exam {
   }
 }
 
-String formattedString(int dateType) {
-  if (dateType > 9) {
-    return dateType.toString();
-  } else {
-    return '0$dateType';
-  }
-}
