@@ -64,7 +64,7 @@ class ExamCard extends GenericCard {
   }
 
   /// Returns a widget with all the exams.
-  Widget generateExams(exams, context) {
+  Widget generateExams(dynamic exams, BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: getExamRows(context, exams),
@@ -73,7 +73,7 @@ class ExamCard extends GenericCard {
 
   /// Returns a list of widgets with the primary and secondary exams to
   /// be displayed in the exam card.
-  List<Widget> getExamRows(context, exams) {
+  List<Widget> getExamRows(BuildContext context, List<Exam> exams) {
     final List<Widget> rows = <Widget>[];
     for (int i = 0; i < 1 && i < exams.length; i++) {
       rows.add(createRowFromExam(context, exams[i]));
@@ -96,7 +96,7 @@ class ExamCard extends GenericCard {
 
   /// Creates a row with the closest exam (which appears separated from the
   /// others in the card).
-  Widget createRowFromExam(context, Exam exam) {
+  Widget createRowFromExam(BuildContext context, Exam exam) {
     return Column(children: [
       DateRectangle(
           date: '${exam.weekDay}, ${exam.begin.day} de ${exam.getMonth()}'),
@@ -112,7 +112,7 @@ class ExamCard extends GenericCard {
 
   /// Creates a row for the exams which will be displayed under the closest
   /// date exam with a separator between them.
-  Widget createSecondaryRowFromExam(context, exam) {
+  Widget createSecondaryRowFromExam(BuildContext context, Exam exam) {
     return Container(
       margin: const EdgeInsets.only(top: 8),
       child: RowContainer(
@@ -125,7 +125,7 @@ class ExamCard extends GenericCard {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Text(
-                  exam.begin.day + ' de ' + exam.month,
+                  '${exam.begin.day} de ${exam.begin.month}',
                   style: Theme.of(context).textTheme.bodyText1,
                 ),
                 ExamTitle(
