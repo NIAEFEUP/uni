@@ -106,7 +106,6 @@ class Exam {
           runtimeType == other.runtimeType &&
           subject == other.subject &&
           listEquals(rooms, other.rooms) &&
-          begin.day == other.begin.day &&
           begin == other.begin &&
           end == other.end &&
           examType == other.examType &&
