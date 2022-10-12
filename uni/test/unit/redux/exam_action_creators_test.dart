@@ -160,12 +160,8 @@ void main() {
       expect(actions[2].exams, []);
     });
     test('When Exam is ocurring', () async {
-      //      final DateTime before = DateTime.now().subtract(const Duration(hours: 1));
-      //      final DateTime after = DateTime.now()(const Duration(hours: 1));
-
-      final DateTime time = DateTime.parse('2800-09-12 23:10');
-      final DateTime before = time.subtract(const Duration(hours: 1));
-      final DateTime after = time.add(const Duration(hours: 1));
+      final DateTime before = DateTime.now().subtract(const Duration(hours: 1));
+      final DateTime after = DateTime.now().subtract(const Duration(hours: 1));
       final todayExam = Exam(before, after, 'SDIS', rooms,
           'Recurso - Época Recurso (1ºS)', 'Quarta');
       final Completer<void> completer = Completer();
