@@ -161,7 +161,7 @@ void main() {
     });
     test('When Exam is ocurring', () async {
       final DateTime before = DateTime.now().subtract(const Duration(hours: 1));
-      final DateTime after = DateTime.now().subtract(const Duration(hours: 1));
+      final DateTime after = DateTime.now().add(const Duration(hours: 1));
       final todayExam = Exam(before, after, 'SDIS', rooms,
           'Recurso - Época Recurso (1ºS)', 'Quarta');
       final Completer<void> completer = Completer();
