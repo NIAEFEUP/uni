@@ -7,7 +7,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:uni/controller/load_info.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/view/profile/profile.dart';
-import 'package:uni/utils/constants.dart' as constants;
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/navigation_drawer.dart';
 import 'package:uni/utils/drawer_items.dart';
 
