@@ -25,11 +25,6 @@ void testScheduleSlot(String subject, String begin, String end, String rooms,
           of: find.byKey(Key(scheduleSlotTimeKey)),
           matching: find.text(' ($typeClass)')),
       findsOneWidget);
-  expect(
-      find.descendant(
-          of: find.byKey(Key(scheduleSlotTimeKey)),
-          matching: find.text(teacher)),
-      findsOneWidget);
   expect(true, true);
 }
 
