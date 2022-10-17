@@ -39,11 +39,11 @@ const Map<String, String> _types = {
 /// Manages a generic Exam.
 ///
 /// The information stored is:
-/// - The Exam `subject`
 /// - The `begin` and `end` times of the Exam
+/// - The Exam `subject`
 /// - A List with the `rooms` in which the Exam takes place
-/// - The Exam `day`, `weekDay` and `month`
 /// - The Exam `type`
+
 class Exam {
   late final DateTime begin;
   late final DateTime end;
@@ -75,8 +75,7 @@ class Exam {
 
   /// Returns whether or not this exam has already ended.
   bool hasEnded() {
-    final DateTime now = DateTime.now();
-    return now.compareTo(end) >= 0;
+    return DateTime.now().compareTo(end) >= 0;
   }
 
   String getMonth() => months[begin.month - 1];
