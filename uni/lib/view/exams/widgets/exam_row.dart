@@ -17,7 +17,7 @@ class ExamRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final roomsKey = '${exam.subject}-${exam.rooms}-${exam.beginTime()} - ${exam.endTime()}';
+    final roomsKey = '${exam.subject}-${exam.rooms}-${exam.beginTime()}-${exam.endTime()}';
     return Center(
         child: Container(
             padding: const EdgeInsets.only(left: 12.0, bottom: 8.0, right: 12),

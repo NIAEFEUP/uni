@@ -27,7 +27,7 @@ void main() {
 
       await tester.pumpWidget(widget);
       final roomsKey =
-          '${exam.subject}-${exam.rooms}-${exam.beginTime()} - ${exam.endTime()}';
+          '$subject-$rooms-$beginTime-$endTime';
 
       expect(
           find.descendant(
@@ -46,10 +46,7 @@ void main() {
       ));
 
       await tester.pumpWidget(widget);
-      //final roomsKey = '$subject-$rooms-$begin-$end';
-      //Tenta tambem mudar o exam.beginTime para a begin.format() ...
-      //para remover todas as instancias de exam da key a baixo
-      final roomsKey = '$subject-$rooms-$beginTime - $endTime';
+      final roomsKey = '$subject-$rooms-$beginTime-$endTime';
 
       expect(
           find.descendant(
