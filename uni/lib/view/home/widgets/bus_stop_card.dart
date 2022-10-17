@@ -4,11 +4,12 @@ import 'package:tuple/tuple.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/bus_stop.dart';
 import 'package:uni/model/entities/trip.dart';
-import 'package:uni/utils/constants.dart' as constants;
 import 'package:uni/view/bus_stop_selection/bus_stop_selection.dart';
 import 'package:uni/view/bus_stop_next_arrivals/widgets/bus_stop_row.dart';
 import 'package:uni/view/common_widgets/last_update_timestamp.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
+import 'package:uni/utils/drawer_items.dart';
+
 
 /// Manages the bus stops card displayed on the user's personal area
 class BusStopCard extends GenericCard {
@@ -21,7 +22,7 @@ class BusStopCard extends GenericCard {
 
   @override
   onClick(BuildContext context) =>
-      Navigator.pushNamed(context, '/${constants.navStops}');
+      Navigator.pushNamed(context, '/${DrawerItem.navStops.title}');
 
   @override
   Widget buildCardContent(BuildContext context) {

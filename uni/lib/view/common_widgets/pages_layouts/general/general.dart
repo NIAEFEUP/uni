@@ -9,6 +9,8 @@ import 'package:uni/model/app_state.dart';
 import 'package:uni/view/profile/profile.dart';
 import 'package:uni/utils/constants.dart' as constants;
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/navigation_drawer.dart';
+import 'package:uni/utils/drawer_items.dart';
+
 
 /// Page with a hamburger menu and the user profile picture
 abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
@@ -100,8 +102,8 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
           child: TextButton(
             onPressed: () {
               final currentRouteName = ModalRoute.of(context)!.settings.name;
-              if (currentRouteName != constants.navPersonalArea) {
-                Navigator.pushNamed(context, '/${constants.navPersonalArea}');
+              if (currentRouteName != DrawerItem.navPersonalArea.title) {
+                Navigator.pushNamed(context, '/${DrawerItem.navPersonalArea.title}');
               }
             },
             child: SvgPicture.asset(
