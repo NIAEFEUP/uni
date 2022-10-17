@@ -66,8 +66,7 @@ class AppExamsDatabase extends AppDatabase {
               ' ' +
               maps[i]['end']),
           maps[i]['rooms'],
-          maps[i]['examType'],
-          maps[i]['weekDay']);
+          maps[i]['examType']);
     });
   }
 

@@ -39,11 +39,11 @@ void main() {
     final DateTime beginSopeExam = DateTime.parse('2099-11-18 17:00');
     final DateTime endSopeExam = DateTime.parse('2099-11-18 19:00');
     final sopeExam =
-        Exam(beginSopeExam, endSopeExam, 'SOPE', [], 'MT', 'Segunda');
+        Exam(beginSopeExam, endSopeExam, 'SOPE', [], 'MT');
     final DateTime beginSdisExam = DateTime.parse('2099-10-21 17:00');
     final DateTime endSdisExam = DateTime.parse('2099-10-21 19:00');
     final sdisExam =
-        Exam(beginSdisExam, endSdisExam, 'SDIS',[], 'MT', 'Segunda');
+        Exam(beginSdisExam, endSdisExam, 'SDIS',[], 'MT');
 
     final Map<String, bool> filteredExams = {};
     Exam.getExamTypes()

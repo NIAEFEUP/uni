@@ -116,7 +116,7 @@ class ExamsList extends StatelessWidget {
   Widget createExamsCards(context,List<Exam> exams) {
     final List<Widget> examCards = <Widget>[];
     examCards.add(DayTitle(
-        day: exams[0].begin.day.toString(), weekDay: exams[0].weekDay, month: exams[0].getMonth()));
+        day: exams[0].begin.day.toString(), weekDay: exams[0].getWeekDay(), month: exams[0].getMonth()));
     for (int i = 0; i < exams.length; i++) {
       examCards.add(createExamContext(context, exams[i]));
     }

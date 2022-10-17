@@ -27,11 +27,11 @@ void main() {
     final DateTime beginSopeExam = DateTime.parse('2800-09-12 12:00');
     final DateTime endSopeExam = DateTime.parse('2800-09-12 15:00');
     final sopeExam = Exam(beginSopeExam, endSopeExam, 'SOPE',
-        rooms, 'Recurso - Época Recurso (2ºS)', 'Quarta');
+        rooms, 'Recurso - Época Recurso (2ºS)');
     final DateTime beginSdisExam = DateTime.parse('2800-09-12 12:00');
     final DateTime endSdisExam = DateTime.parse('2800-09-12 15:00');
     final sdisExam = Exam(beginSdisExam, endSdisExam, 'SDIS',
-        rooms, 'Recurso - Época Recurso (2ºS)', 'Quarta');
+        rooms, 'Recurso - Época Recurso (2ºS)');
     final parserMock = ParserMock();
     const Tuple2<String, String> userPersistentInfo = Tuple2('', '');
     final mockStore = MockStore();
@@ -89,8 +89,7 @@ void main() {
           end,
           'SDIS',
           rooms,
-          'Exames ao abrigo de estatutos especiais - Port.Est.Especiais',
-          'Quarta');
+          'Exames ao abrigo de estatutos especiais - Port.Est.Especiais');
       final Completer<void> completer = Completer();
       final actionCreator =
           getUserExams(completer, parserMock, userPersistentInfo);
@@ -125,7 +124,7 @@ void main() {
       final DateTime begin = DateTime.now().add(const Duration(hours: 1));
       final DateTime end = DateTime.now().add(const Duration(hours: 2));
       final todayExam = Exam(begin, end, 'SDIS', rooms,
-          'Recurso - Época Recurso (1ºS)', 'Quarta');
+          'Recurso - Época Recurso (1ºS)');
       final Completer<void> completer = Completer();
       final actionCreator =
           getUserExams(completer, parserMock, userPersistentInfo);
@@ -144,7 +143,7 @@ void main() {
       final DateTime end = DateTime.now().subtract(const Duration(hours: 1));
       final DateTime begin = DateTime.now().subtract(const Duration(hours: 2));
       final todayExam = Exam(begin, end, 'SDIS', rooms,
-          'Recurso - Época Recurso (1ºS)', 'Quarta');
+          'Recurso - Época Recurso (1ºS)');
       final Completer<void> completer = Completer();
       final actionCreator =
           getUserExams(completer, parserMock, userPersistentInfo);
@@ -163,7 +162,7 @@ void main() {
       final DateTime before = DateTime.now().subtract(const Duration(hours: 1));
       final DateTime after = DateTime.now().add(const Duration(hours: 1));
       final todayExam = Exam(before, after, 'SDIS', rooms,
-          'Recurso - Época Recurso (1ºS)', 'Quarta');
+          'Recurso - Época Recurso (1ºS)');
       final Completer<void> completer = Completer();
       final actionCreator =
           getUserExams(completer, parserMock, userPersistentInfo);

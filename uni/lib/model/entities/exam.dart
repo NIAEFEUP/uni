@@ -2,6 +2,16 @@ import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 
+List<String> weekDays = [
+  'Segunda',
+  'Terça',
+  'Quarta',
+  'Quinta',
+  'Sexta',
+  'Sábado',
+  'Domingo'
+];
+
 List<String> months = [
   'janeiro',
   'fevereiro',
@@ -40,15 +50,13 @@ class Exam {
   late final String subject;
   late final List<String> rooms;
   late final String examType;
-  late final String weekDay;
 
-  Exam.secConstructor(this.subject, this.begin, this.end, String rooms,
-      this.examType, this.weekDay) {
+  Exam.secConstructor(
+      this.subject, this.begin, this.end, String rooms, this.examType) {
     this.rooms = rooms.split(',');
   }
 
-  Exam(this.begin, this.end, this.subject, this.rooms, this.examType,
-      this.weekDay);
+  Exam(this.begin, this.end, this.subject, this.rooms, this.examType);
 
   /// Converts this exam to a map.
   Map<String, dynamic> toMap() {
@@ -59,7 +67,7 @@ class Exam {
       'rooms': rooms.join(','),
       'day': begin.day,
       'examType': examType,
-      'weekDay': weekDay,
+      'weekDay': getWeekDay(),
       'month': getMonth(),
       'year': begin.year.toString()
     };
@@ -73,6 +81,10 @@ class Exam {
 
   String getMonth() {
     return months[begin.month - 1];
+  }
+
+  String getWeekDay() {
+    return weekDays[begin.weekday - 1];
   }
 
   String beginTime() {
@@ -91,12 +103,12 @@ class Exam {
   /// Prints the data in this exam to the [Logger] with an INFO level.
   void printExam() {
     Logger().i(
-        '''$subject - ${begin.year.toString()} - ${getMonth()} - ${begin.day} -  ${beginTime()}-${endTime()} - $examType - $rooms - $weekDay''');
+        '''$subject - ${begin.year.toString()} - ${getMonth()} - ${begin.day} -  ${beginTime()}-${endTime()} - $examType - $rooms - ${getWeekDay()}''');
   }
 
   @override
   String toString() {
-    return '''$subject - ${begin.year.toString()} - ${getMonth()} - ${begin.day} -  ${beginTime()}-${endTime()} - $examType - $rooms - $weekDay''';
+    return '''$subject - ${begin.year.toString()} - ${getMonth()} - ${begin.day} -  ${beginTime()}-${endTime()} - $examType - $rooms - ${getWeekDay()}''';
   }
 
   @override
@@ -109,7 +121,7 @@ class Exam {
           begin == other.begin &&
           end == other.end &&
           examType == other.examType &&
-          weekDay == other.weekDay;
+          getWeekDay() == other.getWeekDay();
 
   @override
   int get hashCode =>
@@ -119,7 +131,7 @@ class Exam {
       rooms.hashCode ^
       begin.day.hashCode ^
       examType.hashCode ^
-      weekDay.hashCode ^
+      getWeekDay().hashCode ^
       getMonth().hashCode ^
       begin.year.toString().hashCode;
 
@@ -132,4 +144,3 @@ class Exam {
     return reversed[abr];
   }
 }
-
