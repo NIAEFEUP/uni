@@ -25,7 +25,6 @@ class ParserExams {
     final Set<Exam> examsList = {};
     final List<String> dates = [];
     final List<String> examTypes = [];
-    final List<String> weekDays = [];
     List<String> rooms = [];
     String? subject, schedule;
     int days = 0;
@@ -38,9 +37,6 @@ class ParserExams {
         .querySelectorAll('div > table > tbody > tr > td')
         .forEach((Element element) {
       element.querySelectorAll('table:not(.mapa)').forEach((Element table) {
-        table.querySelectorAll('th').forEach((Element week) {
-          weekDays.add(week.text.substring(0, week.text.indexOf('2')));
-        });
         table.querySelectorAll('span.exame-data').forEach((Element date) {
           dates.add(date.text);
         });
