@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 
-List<String> weekDays = [
+const List<String> weekDays = [
   'Segunda',
   'Terça',
   'Quarta',
@@ -12,7 +12,7 @@ List<String> weekDays = [
   'Domingo'
 ];
 
-List<String> months = [
+const List<String> months = [
   'janeiro',
   'fevereiro',
   'março',
@@ -27,7 +27,7 @@ List<String> months = [
   'dezembro'
 ];
 
-var _types = {
+const Map<String, String> _types = {
   'Mini-testes': 'MT',
   'Normal': 'EN',
   'Recurso': 'ER',
@@ -79,21 +79,15 @@ class Exam {
     return now.compareTo(end) >= 0;
   }
 
-  String getMonth() {
-    return months[begin.month - 1];
-  }
+  String getMonth() => months[begin.month - 1];
 
-  String getWeekDay() {
-    return weekDays[begin.weekday - 1];
-  }
+  String getWeekDay() => weekDays[begin.weekday - 1];
 
-  String beginTime() {
-    return DateFormat('HH:mm').format(begin);
-  }
+  String beginTime() => formatTime(begin);
 
-  String endTime() {
-    return DateFormat('HH:mm').format(end);
-  }
+  String endTime() => formatTime(end);
+
+  String formatTime(DateTime time) => DateFormat('HH:mm').format(time);
 
   /// the type 'MT' ('Mini-testes') or 'EN' ('Normal').
   bool isHighlighted() {
@@ -102,8 +96,7 @@ class Exam {
 
   /// Prints the data in this exam to the [Logger] with an INFO level.
   void printExam() {
-    Logger().i(
-        '''$subject - ${begin.year.toString()} - ${getMonth()} - ${begin.day} -  ${beginTime()}-${endTime()} - $examType - $rooms - ${getWeekDay()}''');
+    Logger().i(toString());
   }
 
   @override
@@ -120,8 +113,7 @@ class Exam {
           listEquals(rooms, other.rooms) &&
           begin == other.begin &&
           end == other.end &&
-          examType == other.examType &&
-          getWeekDay() == other.getWeekDay();
+          examType == other.examType;
 
   @override
   int get hashCode =>
@@ -135,9 +127,7 @@ class Exam {
       getMonth().hashCode ^
       begin.year.toString().hashCode;
 
-  static Map<String, String> getExamTypes() {
-    return _types;
-  }
+  static Map<String, String> getExamTypes() => _types;
 
   static getExamTypeLong(String abr) {
     final Map<String, String> reversed = _types.map((k, v) => MapEntry(v, k));
