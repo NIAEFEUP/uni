@@ -125,7 +125,7 @@ class ExamCard extends GenericCard {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Text(
-                  '${exam.begin.day} de ${exam.begin.month}',
+                  '${exam.begin.day} de ${exam.getMonth()}',
                   style: Theme.of(context).textTheme.bodyText1,
                 ),
                 ExamTitle(
