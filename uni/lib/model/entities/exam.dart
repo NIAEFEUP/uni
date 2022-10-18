@@ -59,13 +59,13 @@ class Exam {
   Exam(this.begin, this.end, this.subject, this.rooms, this.examType);
 
   /// Converts this exam to a map.
-  Map<String, dynamic> toMap() {
+  Map<String, String> toMap() {
     return {
       'subject': subject,
       'begin': beginTime(),
       'end': endTime(),
       'rooms': rooms.join(','),
-      'day': begin.day,
+      'day': begin.day.toString(),
       'examType': examType,
       'weekDay': getWeekDay(),
       'month': getMonth(),
