@@ -1,12 +1,13 @@
 enum FavoriteWidgetType { 
   exams, 
   schedule, 
-  printBalance(faculties: {"fcup"}), 
+  printBalance, 
   account, 
   busStops;
 
   final Set<String>? faculties;
 
+  // ignore: unused_element
   const FavoriteWidgetType({this.faculties});
 
   bool isVisible(List<String> userFaculties) {
