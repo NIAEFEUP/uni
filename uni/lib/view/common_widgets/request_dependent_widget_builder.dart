@@ -53,13 +53,13 @@ class RequestDependentWidgetBuilder extends StatelessWidget {
           default:
             return contentChecker
                 ? contentGenerator(content, context)
-                : requestFaildMessage();
+                : requestFailedMessage();
         }
       },
     );
   }
 
-  Widget requestFaildMessage() {
+  Widget requestFailedMessage() {
     return FutureBuilder(
         future: Connectivity().checkConnectivity(),
         builder: (BuildContext context, AsyncSnapshot connectivitySnapshot) {
