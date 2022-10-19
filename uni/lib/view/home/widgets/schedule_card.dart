@@ -8,7 +8,8 @@ import 'package:uni/view/common_widgets/date_rectangle.dart';
 import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
 import 'package:uni/view/schedule/widgets/schedule_slot.dart';
-import 'package:uni/utils/constants.dart' as constants;
+import 'package:uni/utils/drawer_items.dart';
+
 
 class ScheduleCard extends GenericCard {
   ScheduleCard({Key? key}) : super(key: key);
@@ -108,5 +109,5 @@ class ScheduleCard extends GenericCard {
 
   @override
   onClick(BuildContext context) =>
-      Navigator.pushNamed(context, '/${constants.navSchedule}');
+      Navigator.pushNamed(context, '/${DrawerItem.navSchedule.title}');
 }

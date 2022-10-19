@@ -3,10 +3,10 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/redux/action_creators.dart';
-import 'package:uni/utils/constants.dart' as constants;
 import 'package:uni/view/common_widgets/toast_message.dart';
 import 'package:uni/view/theme.dart';
 import 'package:uni/view/login/widgets/inputs.dart';
+import 'package:uni/utils/drawer_items.dart';
 
 class LoginPageView extends StatefulWidget {
   const LoginPageView({super.key});
@@ -187,7 +187,7 @@ class LoginPageViewState extends State<LoginPageView> {
                   .content['session']
                   .authenticated) {
             Navigator.pushReplacementNamed(
-                context, '/${constants.navPersonalArea}');
+                context, '/${DrawerItem.navPersonalArea.title}');
           } else if (status == RequestStatus.failed) {
             ToastMessage.display(context, 'O login falhou');
           }
