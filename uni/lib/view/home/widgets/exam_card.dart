@@ -46,7 +46,7 @@ class ExamCard extends GenericCard {
         final List<Exam> exams = store.state.content['exams'];
         final List<Exam> filteredExamsList = exams
             .where((exam) =>
-                filteredExams[Exam.getExamTypeLong(exam.examType)] ?? true)
+                filteredExams[Exam.getExamTypeLong(exam.type)] ?? true)
             .toList();
         return Tuple2(filteredExamsList, store.state.content['examsStatus']);
       },
@@ -131,7 +131,7 @@ class ExamCard extends GenericCard {
                 ),
                 ExamTitle(
                     subject: exam.subject,
-                    type: exam.examType,
+                    type: exam.type,
                     reverseOrder: true)
               ]),
         ),

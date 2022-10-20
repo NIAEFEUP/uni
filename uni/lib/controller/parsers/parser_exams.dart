@@ -11,9 +11,8 @@ class ParserExams {
   ///
   /// If an abbreviature doesn't exist, a '?' is returned.
   String getExamSeasonAbbr(String seasonStr) {
-    final Map<String, String> examTypes = Exam.getExamTypes();
-    for (String type in examTypes.keys) {
-      if (seasonStr.contains(type)) return examTypes[type] ?? '?';
+    for (String type in Exam.types.keys) {
+      if (seasonStr.contains(type)) return Exam.types[type]!;
     }
     return '?';
   }

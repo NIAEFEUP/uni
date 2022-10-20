@@ -46,7 +46,7 @@ void main() {
         Exam(beginSdisExam, endSdisExam, 'SDIS',[], 'MT');
 
     final Map<String, bool> filteredExams = {};
-    Exam.getExamTypes()
+    Exam.types
         .keys
         .toList()
         .forEach((type) => filteredExams[type] = true);
@@ -150,7 +150,7 @@ void main() {
       expect(find.byType(AlertDialog), findsOneWidget);
       //This checks if the ExamDoesNotExist is not displayed
       expect(find.byType(CheckboxListTile),
-          findsNWidgets(Exam.getExamTypes().length));
+          findsNWidgets(Exam.types.length));
 
       final CheckboxListTile mtCheckboxTile = find
           .byKey(const Key('ExamCheck' 'Mini-testes'))
