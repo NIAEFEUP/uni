@@ -3,11 +3,12 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:tuple/tuple.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/lecture.dart';
-import 'package:uni/utils/constants.dart' as constants;
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
 import 'package:uni/view/schedule/widgets/schedule_slot.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
+import 'package:uni/utils/drawer_items.dart';
+
 
 class SchedulePage extends StatefulWidget {
   const SchedulePage({Key? key}) : super(key: key);
@@ -100,7 +101,7 @@ class SchedulePageViewState extends GeneralPageViewState<SchedulePageView>
         scrollDirection: Axis.vertical,
         shrinkWrap: true,
         children: <Widget>[
-          const PageTitle(name: constants.navSchedule),
+          PageTitle(name: DrawerItem.navSchedule.title),
           TabBar(
             controller: tabController,
             isScrollable: true,
