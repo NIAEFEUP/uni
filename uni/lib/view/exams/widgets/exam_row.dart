@@ -38,7 +38,7 @@ class ExamRow extends StatelessWidget {
                             children: [
                               ExamTime(begin: exam.beginTime(), end: exam.endTime())
                             ]),
-                        ExamTitle(subject: exam.subject, type: exam.examType),
+                        ExamTitle(subject: exam.subject, type: exam.type),
                         IconButton(
                             icon: const Icon(MdiIcons.calendarPlus, size: 30),
                             onPressed: () =>
@@ -70,7 +70,7 @@ class ExamRow extends StatelessWidget {
 
   Event createExamEvent() {
     return Event(
-      title: '${exam.examType} ${exam.subject}',
+      title: '${exam.type} ${exam.subject}',
       location: exam.rooms.toString(),
       startDate: exam.begin,
       endDate: exam.end,

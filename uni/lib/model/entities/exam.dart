@@ -27,15 +27,6 @@ const List<String> months = [
   'dezembro'
 ];
 
-const Map<String, String> _types = {
-  'Mini-testes': 'MT',
-  'Normal': 'EN',
-  'Recurso': 'ER',
-  'Especial de Conclusão': 'EC',
-  'Port.Est.Especiais': 'EE',
-  'Exames ao abrigo de estatutos especiais': 'EAE'
-};
-
 /// Manages a generic Exam.
 ///
 /// The information stored is:
@@ -49,14 +40,23 @@ class Exam {
   late final DateTime end;
   late final String subject;
   late final List<String> rooms;
-  late final String examType;
+  late final String type;
+
+  static Map<String, String> types = {
+    'Mini-testes': 'MT',
+    'Normal': 'EN',
+    'Recurso': 'ER',
+    'Especial de Conclusão': 'EC',
+    'Port.Est.Especiais': 'EE',
+    'Exames ao abrigo de estatutos especiais': 'EAE'
+  };
+
+  Exam(this.begin, this.end, this.subject, this.rooms, this.type);
 
   Exam.secConstructor(
-      this.subject, this.begin, this.end, String rooms, this.examType) {
+      this.subject, this.begin, this.end, String rooms, this.type) {
     this.rooms = rooms.split(',');
   }
-
-  Exam(this.begin, this.end, this.subject, this.rooms, this.examType);
 
   /// Converts this exam to a map.
   Map<String, String> toMap() {
@@ -66,7 +66,7 @@ class Exam {
       'end': endTime(),
       'rooms': rooms.join(','),
       'day': begin.day.toString(),
-      'examType': examType,
+      'examType': type,
       'weekDay': getWeekDay(),
       'month': getMonth(),
       'year': begin.year.toString()
@@ -74,10 +74,8 @@ class Exam {
   }
 
   /// Returns whether or not this exam has already ended.
-  bool hasEnded() {
-    return DateTime.now().compareTo(end) >= 0;
-  }
-
+  bool hasEnded() => DateTime.now().compareTo(end) >= 0;
+  
   String getMonth() => months[begin.month - 1];
 
   String getWeekDay() => weekDays[begin.weekday - 1];
@@ -89,8 +87,11 @@ class Exam {
   String formatTime(DateTime time) => DateFormat('HH:mm').format(time);
 
   /// the type 'MT' ('Mini-testes') or 'EN' ('Normal').
-  bool isHighlighted() {
-    return (examType.contains('''EN''')) || (examType.contains('''MT'''));
+  bool isHighlighted() => type == 'MT' || type == 'EN';
+
+  @override
+  String toString() {
+    return '''$subject - ${begin.year.toString()} - ${getMonth()} - ${begin.day} -  ${beginTime()}-${endTime()} - $type - $rooms - ${getWeekDay()}''';
   }
 
   /// Prints the data in this exam to the [Logger] with an INFO level.
@@ -99,37 +100,22 @@ class Exam {
   }
 
   @override
-  String toString() {
-    return '''$subject - ${begin.year.toString()} - ${getMonth()} - ${begin.day} -  ${beginTime()}-${endTime()} - $examType - $rooms - ${getWeekDay()}''';
-  }
-
-  @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is Exam &&
-          runtimeType == other.runtimeType &&
-          subject == other.subject &&
-          listEquals(rooms, other.rooms) &&
-          begin == other.begin &&
-          end == other.end &&
-          examType == other.examType;
+      runtimeType == other.runtimeType &&
+      subject == other.subject &&
+      listEquals(rooms, other.rooms) &&
+      begin == other.begin &&
+      end == other.end &&
+      type == other.type;
 
   @override
   int get hashCode =>
-      subject.hashCode ^
-      beginTime().hashCode ^
-      endTime().hashCode ^
-      rooms.hashCode ^
-      begin.day.hashCode ^
-      examType.hashCode ^
-      getWeekDay().hashCode ^
-      getMonth().hashCode ^
-      begin.year.toString().hashCode;
-
-  static Map<String, String> getExamTypes() => _types;
+      begin.hashCode ^ end.hashCode ^ subject.hashCode ^ rooms.hashCode ^ type.hashCode;
 
   static getExamTypeLong(String abr) {
-    final Map<String, String> reversed = _types.map((k, v) => MapEntry(v, k));
+    final Map<String, String> reversed = types.map((k, v) => MapEntry(v, k));
     return reversed[abr];
   }
 }

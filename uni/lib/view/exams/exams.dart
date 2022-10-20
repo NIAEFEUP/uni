@@ -28,7 +28,7 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
             store.state.content['filteredExams'] ?? [];
         return exams
             .where((exam) =>
-                filteredExams[Exam.getExamTypeLong(exam.examType)] ?? true)
+                filteredExams[Exam.getExamTypeLong(exam.type)] ?? true)
             .toList();
       },
       builder: (context, exams) {
