@@ -4,7 +4,7 @@ import 'package:percent_indicator/percent_indicator.dart';
 import 'package:tuple/tuple.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/library_occupation.dart';
-import 'package:uni/utils/constants.dart';
+import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
 import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
 
@@ -20,7 +20,8 @@ class LibraryOccupationCard extends GenericCard {
   String getTitle() => 'Ocupação da biblioteca';
 
   @override
-  onClick(BuildContext context) => Navigator.pushNamed(context, '/$navLibrary');
+  onClick(BuildContext context) =>
+      Navigator.pushNamed(context, '/${DrawerItem.navLibrary.title}');
 
   @override
   Widget buildCardContent(BuildContext context) {
@@ -44,25 +45,27 @@ class LibraryOccupationCard extends GenericCard {
   }
 
   Widget generateOccupation(occupation, context) {
-    return CircularPercentIndicator(
-      radius: 60.0,
-      lineWidth: 9.0,
-      percent: occupation.getPercentage() / 100,
-      center: Text('${occupation.getPercentage()}%',
-          style: Theme.of(context)
-              .textTheme
-              .headline2
-              ?.copyWith(fontSize: 25, fontWeight: FontWeight.w500)),
-      footer: Column(
-        children: [
-          const Padding(padding: EdgeInsets.fromLTRB(0, 5.0, 0, 0)),
-          Text('${occupation.getOccupation()}/${occupation.getCapacity()}',
-              style: Theme.of(context).textTheme.headline4),
-        ],
-      ),
-      circularStrokeCap: CircularStrokeCap.round,
-      backgroundColor: Theme.of(context).hintColor,
-      progressColor: Theme.of(context).colorScheme.secondary,
-    );
+    return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 3.0),
+        child: CircularPercentIndicator(
+          radius: 60.0,
+          lineWidth: 9.0,
+          percent: occupation.getPercentage() / 100,
+          center: Text('${occupation.getPercentage()}%',
+              style: Theme.of(context)
+                  .textTheme
+                  .headline2
+                  ?.copyWith(fontSize: 25, fontWeight: FontWeight.w500)),
+          footer: Column(
+            children: [
+              const Padding(padding: EdgeInsets.fromLTRB(0, 5.0, 0, 0)),
+              Text('${occupation.getOccupation()}/${occupation.getCapacity()}',
+                  style: Theme.of(context).textTheme.headline5),
+            ],
+          ),
+          circularStrokeCap: CircularStrokeCap.round,
+          backgroundColor: Theme.of(context).hintColor,
+          progressColor: Theme.of(context).colorScheme.secondary,
+        ));
   }
 }

@@ -68,8 +68,8 @@ class LibraryPageViewState extends GeneralPageViewState<LibraryPageView> {
       decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(10.0)),
           color: Theme.of(context).cardColor,
-          boxShadow: [
-            const BoxShadow(
+          boxShadow: const [
+            BoxShadow(
               color: Color.fromARGB(0x1c, 0, 0, 0),
               blurRadius: 7.0,
               offset: Offset(0.0, 1.0),
@@ -78,7 +78,7 @@ class LibraryPageViewState extends GeneralPageViewState<LibraryPageView> {
       child:
           Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
         Text('Piso ${floor.getNumber()}',
-            style: Theme.of(context).textTheme.headline4),
+            style: Theme.of(context).textTheme.headline5),
         Text('${floor.getPercentage()}%',
             style: Theme.of(context).textTheme.headline6),
         Text('${floor.getOccupation()}/${floor.getCapacity()}',

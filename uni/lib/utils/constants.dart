@@ -1,17 +1,5 @@
 library constants;
 
-const navPersonalArea = 'Área Pessoal';
-const navSchedule = 'Horário';
-const navExams = 'Exames';
-const navStops = 'Autocarros';
-const navCourseUnits = 'Cadeiras';
-const navLocations = 'Locais';
-const navCalendar = 'Calendário';
-const navLibrary = 'Biblioteca';
-const navAbout = 'Sobre';
-const navBugReport = 'Bugs e Sugestões';
-const navLogOut = 'Terminar sessão';
-const navUsefulInfo = 'Úteis';
 const faculties = [
   'faup',
   'fbaup',

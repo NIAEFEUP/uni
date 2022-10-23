@@ -3,13 +3,14 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:tuple/tuple.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/exam.dart';
-import 'package:uni/utils/constants.dart' as constants;
 import 'package:uni/view/exams/widgets/exam_title.dart';
 import 'package:uni/view/exams/widgets/exam_row.dart';
 import 'package:uni/view/common_widgets/date_rectangle.dart';
 import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
 import 'package:uni/view/common_widgets/row_container.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
+import 'package:uni/utils/drawer_items.dart';
+
 
 /// Manages the exam card section inside the personal area.
 class ExamCard extends GenericCard {
@@ -24,7 +25,7 @@ class ExamCard extends GenericCard {
 
   @override
   onClick(BuildContext context) =>
-      Navigator.pushNamed(context, '/${constants.navExams}');
+      Navigator.pushNamed(context, '/${DrawerItem.navExams.title}');
 
   static getExamCardColor(BuildContext context, Exam exam) {
     return exam.isHighlighted()
