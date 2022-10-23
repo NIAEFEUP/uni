@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 import 'package:provider/provider.dart';
+import 'package:uni/model/providers/session_provider.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/theme_notifier.dart';
-import 'package:uni/model/entities/session.dart';
-import 'package:uni/model/app_state.dart';
-
 
 class NavigationDrawer extends StatefulWidget {
   final BuildContext parentContext;
@@ -20,12 +17,13 @@ class NavigationDrawer extends StatefulWidget {
 
 class NavigationDrawerState extends State<NavigationDrawer> {
   NavigationDrawerState();
+
   Map<DrawerItem, Function(String)> drawerItems = {};
 
   @override
   void initState() {
     super.initState();
-    
+
     drawerItems = {};
     for (var element in DrawerItem.values) {
       drawerItems[element] = _onSelectPage;
@@ -86,7 +84,7 @@ class NavigationDrawerState extends State<NavigationDrawer> {
   }
 
   Widget createThemeSwitchBtn() {
-    final themeNotifier = Provider.of<ThemeNotifier>(context);
+    final themeNotifier = Provider.of<ThemeNotifier>(context, listen: false);
     Icon getThemeIcon() {
       switch (themeNotifier.getTheme()) {
         case ThemeMode.light:
@@ -124,8 +122,7 @@ class NavigationDrawerState extends State<NavigationDrawer> {
   @override
   Widget build(BuildContext context) {
     final List<Widget> drawerOptions = [];
-    final store = StoreProvider.of<AppState>(context);
-    final userSession = store.state.content["session"] as Session;
+    final userSession = Provider.of<SessionProvider>(context).session;
 
     for (var key in drawerItems.keys) {
       if (key.isVisible(userSession.faculties)) {

@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:tuple/tuple.dart';
-import 'package:uni/model/app_state.dart';
+import 'package:provider/provider.dart';
 import 'package:uni/model/entities/exam.dart';
-import 'package:uni/view/exams/widgets/exam_title.dart';
-import 'package:uni/view/exams/widgets/exam_row.dart';
+import 'package:uni/model/providers/exam_provider.dart';
+import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/common_widgets/date_rectangle.dart';
+import 'package:uni/view/common_widgets/generic_card.dart';
 import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
 import 'package:uni/view/common_widgets/row_container.dart';
-import 'package:uni/view/common_widgets/generic_card.dart';
-import 'package:uni/utils/drawer_items.dart';
-
+import 'package:uni/view/exams/widgets/exam_row.dart';
+import 'package:uni/view/exams/widgets/exam_title.dart';
 
 /// Manages the exam card section inside the personal area.
 class ExamCard extends GenericCard {
@@ -39,29 +37,20 @@ class ExamCard extends GenericCard {
   /// that no exams exist is displayed.
   @override
   Widget buildCardContent(BuildContext context) {
-    return StoreConnector<AppState, Tuple2<List<Exam>, RequestStatus>?>(
-      converter: (store) {
-        final Map<String, bool> filteredExams =
-            store.state.content['filteredExams'];
-        final List<Exam> exams = store.state.content['exams'];
-        final List<Exam> filteredExamsList = exams
-            .where((exam) =>
-                filteredExams[Exam.getExamTypeLong(exam.examType)] ?? true)
-            .toList();
-        return Tuple2(filteredExamsList, store.state.content['examsStatus']);
-      },
-      builder: (context, examsInfo) => RequestDependentWidgetBuilder(
+    return Consumer<ExamProvider>(builder: (context, examProvider, _) {
+      final filteredExams = examProvider.getFilteredExams();
+      return RequestDependentWidgetBuilder(
         context: context,
-        status: examsInfo?.item2 ?? RequestStatus.none,
+        status: examProvider.status,
         contentGenerator: generateExams,
-        content: examsInfo?.item1 ?? RequestStatus.none,
-        contentChecker: examsInfo?.item1.isNotEmpty ?? false,
+        content: filteredExams,
+        contentChecker: filteredExams.isNotEmpty,
         onNullContent: Center(
           child: Text('Não existem exames para apresentar',
               style: Theme.of(context).textTheme.headline6),
         ),
-      ),
-    );
+      );
+    });
   }
 
   /// Returns a widget with all the exams.

@@ -1,15 +1,15 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:uni/model/app_state.dart';
+import 'package:provider/provider.dart';
 import 'package:uni/model/entities/exam.dart';
-import 'package:uni/redux/action_creators.dart';
+import 'package:uni/model/providers/exam_provider.dart';
 
 class ExamFilterForm extends StatefulWidget {
-  final Map<String, bool> filteredExams;
+  final Map<String, bool> filteredExamsTypes;
 
-  const ExamFilterForm(this.filteredExams, {super.key});
+  const ExamFilterForm(this.filteredExamsTypes, {super.key});
+
   @override
   ExamFilterFormState createState() => ExamFilterFormState();
 }
@@ -28,8 +28,8 @@ class ExamFilterFormState extends State<ExamFilterForm> {
         ElevatedButton(
             child: const Text('Confirmar'),
             onPressed: () {
-              StoreProvider.of<AppState>(context).dispatch(
-                  setFilteredExams(widget.filteredExams, Completer()));
+              Provider.of<ExamProvider>(context, listen: false)
+                  .setFilteredExams(widget.filteredExamsTypes, Completer());
 
               Navigator.pop(context);
             })
@@ -37,7 +37,7 @@ class ExamFilterFormState extends State<ExamFilterForm> {
       content: SizedBox(
           height: 300.0,
           width: 200.0,
-          child: getExamCheckboxes(widget.filteredExams, context)),
+          child: getExamCheckboxes(widget.filteredExamsTypes, context)),
     );
   }
 

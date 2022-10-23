@@ -1,16 +1,14 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:tuple/tuple.dart';
+import 'package:provider/provider.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/course_unit.dart';
-import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
+import 'package:uni/model/providers/profile_state_provider.dart';
+import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
+import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
 import 'package:uni/view/course_units/widgets/course_unit_card.dart';
-import 'package:uni/utils/drawer_items.dart';
-
-
 
 class CourseUnitsPageView extends StatefulWidget {
   const CourseUnitsPageView({Key? key}) : super(key: key);
@@ -30,42 +28,37 @@ class CourseUnitsPageViewState
 
   @override
   Widget getBody(BuildContext context) {
-    return StoreConnector<
-            AppState,
-            Tuple4<List<CourseUnit>?, RequestStatus?, List<String>,
-                List<String>>>(
-        converter: (store) {
-          final List<CourseUnit>? courseUnits = store.state.content['allUcs'];
-          List<String> availableYears = [];
-          List<String> availableSemesters = [];
-          if (courseUnits != null && courseUnits.isNotEmpty) {
-            availableYears = _getAvailableYears(courseUnits);
-            if (availableYears.isNotEmpty && selectedSchoolYear == null) {
-              selectedSchoolYear = availableYears.reduce((value, element) =>
-                  element.compareTo(value) > 0 ? element : value);
-            }
-            availableSemesters = _getAvailableSemesters(courseUnits);
-            final currentYear = int.tryParse(selectedSchoolYear?.substring(
-                    0, selectedSchoolYear?.indexOf('/')) ??
-                '');
-            if (selectedSemester == null &&
-                currentYear != null &&
-                availableSemesters.length == 3) {
-              final currentDate = DateTime.now();
-              selectedSemester =
-                  currentDate.year <= currentYear || currentDate.month == 1
-                      ? availableSemesters[0]
-                      : availableSemesters[1];
-            }
-          }
-          return Tuple4(
-              store.state.content['allUcs'],
-              store.state.content['allUcsStatus'],
-              availableYears,
-              availableSemesters);
-        },
-        builder: (context, ucsInfo) => _getPageView(
-            ucsInfo.item1, ucsInfo.item2, ucsInfo.item3, ucsInfo.item4));
+    return Consumer<ProfileStateProvider>(
+        builder: (context, profileProvider, _) {
+      final List<CourseUnit> courseUnits = profileProvider.currUcs;
+      List<String> availableYears = [];
+      List<String> availableSemesters = [];
+      if (courseUnits.isNotEmpty) {
+        availableYears = _getAvailableYears(courseUnits);
+        if (availableYears.isNotEmpty && selectedSchoolYear == null) {
+          selectedSchoolYear = availableYears.reduce((value, element) =>
+              element.compareTo(value) > 0 ? element : value);
+        }
+        availableSemesters = _getAvailableSemesters(courseUnits);
+        final currentYear = int.tryParse(selectedSchoolYear?.substring(
+                0, selectedSchoolYear?.indexOf('/')) ??
+            '');
+        if (selectedSemester == null &&
+            currentYear != null &&
+            availableSemesters.length == 3) {
+          final currentDate = DateTime.now();
+          selectedSemester =
+              currentDate.year <= currentYear || currentDate.month == 1
+                  ? availableSemesters[0]
+                  : availableSemesters[1];
+        }
+
+        return _getPageView(courseUnits, profileProvider.status, availableYears,
+            availableSemesters);
+      } else {
+        return Container();
+      }
+    });
   }
 
   Widget _getPageView(

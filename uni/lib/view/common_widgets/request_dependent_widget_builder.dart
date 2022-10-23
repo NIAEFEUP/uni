@@ -1,8 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:uni/controller/local_storage/app_last_user_info_update_database.dart';
 import 'package:uni/model/app_state.dart';
+import 'package:uni/model/providers/last_user_info_provider.dart';
 import 'package:uni/utils/drawer_items.dart';
 
 /// Wraps content given its fetch data from the redux store,
@@ -31,9 +32,8 @@ class RequestDependentWidgetBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, DateTime?>(
-      converter: (store) => store.state.content['lastUserInfoUpdateTime'],
-      builder: (context, lastUpdateTime) {
+    return Consumer<LastUserInfoProvider>(
+      builder: (context, lastUserInfoProvider, _) {
         switch (status) {
           case RequestStatus.successful:
           case RequestStatus.none:
@@ -41,11 +41,6 @@ class RequestDependentWidgetBuilder extends StatelessWidget {
                 ? contentGenerator(content, context)
                 : onNullContent;
           case RequestStatus.busy:
-            if (lastUpdateTime != null) {
-              return contentChecker
-                  ? contentGenerator(content, context)
-                  : onNullContent;
-            }
             return contentChecker
                 ? contentGenerator(content, context)
                 : const Center(child: CircularProgressIndicator());

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:uni/model/app_state.dart';
+import 'package:provider/provider.dart';
 import 'package:uni/model/entities/exam.dart';
+import 'package:uni/model/providers/exam_provider.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
-import 'package:uni/view/exams/widgets/exam_page_title.dart';
 import 'package:uni/view/common_widgets/row_container.dart';
-import 'package:uni/view/exams/widgets/exam_row.dart';
 import 'package:uni/view/exams/widgets/day_title.dart';
+import 'package:uni/view/exams/widgets/exam_page_title.dart';
+import 'package:uni/view/exams/widgets/exam_row.dart';
 
 class ExamsPageView extends StatefulWidget {
   const ExamsPageView({super.key});
@@ -21,18 +21,9 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
 
   @override
   Widget getBody(BuildContext context) {
-    return StoreConnector<AppState, List<dynamic>?>(
-      converter: (store) {
-        final List<Exam> exams = store.state.content['exams'];
-        final Map<String, bool> filteredExams =
-            store.state.content['filteredExams'] ?? [];
-        return exams
-            .where((exam) =>
-                filteredExams[Exam.getExamTypeLong(exam.examType)] ?? true)
-            .toList();
-      },
-      builder: (context, exams) {
-        return ExamsList(exams: exams as List<Exam>);
+    return Consumer<ExamProvider>(
+      builder: (context, examProvider, _) {
+        return ExamsList(exams: examProvider.getFilteredExams());
       },
     );
   }
@@ -43,6 +34,7 @@ class ExamsList extends StatelessWidget {
   final List<Exam> exams;
 
   const ExamsList({Key? key, required this.exams}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return ListView(

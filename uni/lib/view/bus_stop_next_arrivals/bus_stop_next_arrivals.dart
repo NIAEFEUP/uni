@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:tuple/tuple.dart';
+import 'package:provider/provider.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/bus_stop.dart';
 import 'package:uni/model/entities/trip.dart';
-import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
-import 'package:uni/view/bus_stop_selection/bus_stop_selection.dart';
+import 'package:uni/model/providers/bus_stop_provider.dart';
 import 'package:uni/view/bus_stop_next_arrivals/widgets/bus_stop_row.dart';
+import 'package:uni/view/bus_stop_selection/bus_stop_selection.dart';
 import 'package:uni/view/common_widgets/last_update_timestamp.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
+import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 
 class BusStopNextArrivalsPage extends StatefulWidget {
   const BusStopNextArrivalsPage({Key? key}) : super(key: key);
@@ -22,20 +22,11 @@ class BusStopNextArrivalsPageState
     extends GeneralPageViewState<BusStopNextArrivalsPage> {
   @override
   Widget getBody(BuildContext context) {
-    return StoreConnector<
-            AppState,
-            Tuple3<Map<String, List<Trip>>, Map<String, BusStopData>,
-                RequestStatus>?>(
-        converter: (store) => Tuple3(
-            store.state.content['currentBusTrips'],
-            store.state.content['configuredBusStops'],
-            store.state.content['busStopStatus']),
-        builder: (context, busStops) {
-          return ListView(children: [
-            NextArrivals(busStops?.item1 ?? {}, busStops?.item2 ?? {},
-                busStops?.item3 ?? RequestStatus.none)
-          ]);
-        });
+    return Consumer<BusStopProvider>(
+        builder: (context, busProvider, _) => ListView(children: [
+              NextArrivals(busProvider.currentBusTrips,
+                  busProvider.configuredBusStops, busProvider.status)
+            ]));
   }
 }
 
