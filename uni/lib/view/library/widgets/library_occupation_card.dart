@@ -13,7 +13,7 @@ class LibraryOccupationCard extends GenericCard {
   LibraryOccupationCard({Key? key}) : super(key: key);
 
   const LibraryOccupationCard.fromEditingInformation(
-      Key key, bool editingMode, Function onDelete)
+      Key key, bool editingMode, Function()? onDelete)
       : super.fromEditingInformation(key, editingMode, onDelete);
 
   @override

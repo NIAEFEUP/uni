@@ -3,7 +3,6 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:uni/controller/local_storage/app_last_user_info_update_database.dart';
 import 'package:uni/model/app_state.dart';
-import 'package:uni/utils/constants.dart' as constants;
 import 'package:uni/utils/drawer_items.dart';
 
 /// Wraps content given its fetch data from the redux store,

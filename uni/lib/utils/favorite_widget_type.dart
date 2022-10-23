@@ -1,8 +1,9 @@
-enum FavoriteWidgetType { 
-  exams, 
-  schedule, 
-  printBalance, 
-  account, 
+enum FavoriteWidgetType {
+  exams,
+  schedule,
+  printBalance,
+  account,
+  libraryOccupation,
   busStops;
 
   final Set<String>? faculties;
@@ -13,7 +14,7 @@ enum FavoriteWidgetType {
   bool isVisible(List<String> userFaculties) {
     if (faculties == null) {
       return true;
-    } 
+    }
 
     return userFaculties.any((element) => faculties!.contains(element));
   }

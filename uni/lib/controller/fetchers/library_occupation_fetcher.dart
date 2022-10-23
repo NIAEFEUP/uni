@@ -1,7 +1,3 @@
-import 'dart:convert';
-
-import 'package:flutter/services.dart';
-import 'package:gsheets/gsheets.dart';
 import 'package:http/http.dart';
 import 'package:redux/redux.dart';
 import 'package:uni/controller/fetchers/session_dependant_fetcher.dart';
@@ -17,9 +13,9 @@ class LibraryOccupationFetcherSheets implements SessionDependantFetcher {
   List<String> getEndpoints(Session session) {
     // TO DO: Implement parsers for all faculties
     // and dispatch for different fetchers
-    const String base_url = 'https://docs.google.com/spreadsheets/d/';
-    const String sheet_id = '1gZRbEX4y8vNW7vrl15FCdAQ3pVNRJw_uRZtVL6ORP0g';
-    const String url = '$base_url$sheet_id/gviz/tq?tqx=out:json';
+    const String baseUrl = 'https://docs.google.com/spreadsheets/d/';
+    const String sheetId = '1gZRbEX4y8vNW7vrl15FCdAQ3pVNRJw_uRZtVL6ORP0g';
+    const String url = '$baseUrl$sheetId/gviz/tq?tqx=out:json';
     return [url];
   }
 
