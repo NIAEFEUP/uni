@@ -18,9 +18,9 @@ class OccupationDatabase extends AppDatabase {
     final db = await getDatabase();
     db.transaction((txn) async {
       await txn.delete('FLOOR_OCCUPATION');
-      occupation.getFloors().forEach((floor) async { 
+      for (var floor in occupation.floors) { 
         await txn.insert('FLOOR_OCCUPATION', floor.toMap());
-      });
+      }
     });
   }
 }

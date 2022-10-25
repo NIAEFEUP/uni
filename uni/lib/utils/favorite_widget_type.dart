@@ -3,7 +3,7 @@ enum FavoriteWidgetType {
   schedule,
   printBalance,
   account,
-  libraryOccupation,
+  libraryOccupation(faculties: {"feup"}),
   busStops;
 
   final Set<String>? faculties;

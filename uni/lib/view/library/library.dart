@@ -38,6 +38,17 @@ class LibraryPageViewState extends GeneralPageViewState<LibraryPageView> {
     });
   }
 
+  Widget getFloorRows(LibraryOccupation occupation) {
+    List<Widget> floors = [];
+    for (int i = 1; i < 7; i += 2) {
+      floors.add(
+          createFloorRow(occupation.getFloor(i), occupation.getFloor(i + 1)));
+    }
+    return Column(
+      children: floors,
+    );
+  }
+
   Widget generateOccupationPage(occupation, context) {
     return ListView(
         scrollDirection: Axis.vertical,
@@ -46,9 +57,7 @@ class LibraryPageViewState extends GeneralPageViewState<LibraryPageView> {
           const PageTitle(name: 'Biblioteca'),
           LibraryOccupationCard(),
           const PageTitle(name: 'Pisos'),
-          createFloorRow(occupation.getFloor(1), occupation.getFloor(2)),
-          createFloorRow(occupation.getFloor(3), occupation.getFloor(4)),
-          createFloorRow(occupation.getFloor(5), occupation.getFloor(6))
+          getFloorRows(occupation)
         ]);
   }
 
@@ -77,18 +86,18 @@ class LibraryPageViewState extends GeneralPageViewState<LibraryPageView> {
           ]),
       child:
           Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-        Text('Piso ${floor.getNumber()}',
+        Text('Piso ${floor.number}',
             style: Theme.of(context).textTheme.headline5),
-        Text('${floor.getPercentage()}%',
+        Text('${floor.percentage}%',
             style: Theme.of(context).textTheme.headline6),
-        Text('${floor.getOccupation()}/${floor.getCapacity()}',
+        Text('${floor.occupation}/${floor.capacity}',
             style: Theme.of(context)
                 .textTheme
                 .headline6
                 ?.copyWith(color: Theme.of(context).colorScheme.background)),
         LinearPercentIndicator(
           lineHeight: 7.0,
-          percent: floor.getPercentage() / 100,
+          percent: floor.percentage / 100,
           progressColor: Theme.of(context).colorScheme.secondary,
         )
       ]),

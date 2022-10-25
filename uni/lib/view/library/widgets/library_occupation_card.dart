@@ -50,8 +50,8 @@ class LibraryOccupationCard extends GenericCard {
         child: CircularPercentIndicator(
           radius: 60.0,
           lineWidth: 9.0,
-          percent: occupation.getPercentage() / 100,
-          center: Text('${occupation.getPercentage()}%',
+          percent: occupation.percentage / 100,
+          center: Text('${occupation.percentage}%',
               style: Theme.of(context)
                   .textTheme
                   .headline2
@@ -59,7 +59,7 @@ class LibraryOccupationCard extends GenericCard {
           footer: Column(
             children: [
               const Padding(padding: EdgeInsets.fromLTRB(0, 5.0, 0, 0)),
-              Text('${occupation.getOccupation()}/${occupation.getCapacity()}',
+              Text('${occupation.occupation}/${occupation.capacity}',
                   style: Theme.of(context).textTheme.headline5),
             ],
           ),

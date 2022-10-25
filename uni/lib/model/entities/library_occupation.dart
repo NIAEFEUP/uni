@@ -8,25 +8,13 @@ class LibraryOccupation {
 
   void addFloor(FloorOccupation floor) {
     floors.add(floor);
-    occupation += floor.getOccupation();
-    capacity += floor.getCapacity();
+    occupation += floor.occupation;
+    capacity += floor.capacity;
   }
 
-  int getPercentage() {
+  int get percentage {
     if (capacity == 0) return 0;
     return (occupation * 100 / capacity).round();
-  }
-
-  int getOccupation() {
-    return occupation;
-  }
-
-  int getCapacity() {
-    return capacity;
-  }
-
-  List<FloorOccupation> getFloors() {
-    return floors;
   }
 
   FloorOccupation getFloor(int number) {
@@ -37,29 +25,13 @@ class LibraryOccupation {
 
 /// Occupation values of a single floor
 class FloorOccupation {
-  int number;
-  int occupation;
-  int capacity;
+  final int number;
+  final int occupation;
+  final int capacity;
 
   FloorOccupation(this.number, this.occupation, this.capacity);
 
-  int getNumber() {
-    return number;
-  }
-
-  int getOccupation() {
-    return occupation;
-  }
-
-  int getCapacity() {
-    return capacity;
-  }
-
-  void setCapacity(int occupation) {
-    this.occupation = occupation;
-  }
-
-  int getPercentage() {
+  int get percentage {
     if (capacity == 0) return 0;
     return (occupation * 100 / capacity).round();
   }
