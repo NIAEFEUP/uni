@@ -39,7 +39,7 @@ class LibraryPageViewState extends GeneralPageViewState<LibraryPageView> {
   }
 
   Widget getFloorRows(LibraryOccupation occupation) {
-    List<Widget> floors = [];
+    final List<Widget> floors = [];
     for (int i = 1; i < 7; i += 2) {
       floors.add(
           createFloorRow(occupation.getFloor(i), occupation.getFloor(i + 1)));
