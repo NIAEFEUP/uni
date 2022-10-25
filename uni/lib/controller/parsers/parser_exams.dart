@@ -46,7 +46,8 @@ class ParserExams {
                 subject = examsDay.querySelector('a')!.text;
               }
               if (examsDay.querySelector('span.exame-sala') != null) {
-                rooms = examsDay.querySelector('span.exame-sala')!.text.split(',');
+                rooms =
+                    examsDay.querySelector('span.exame-sala')!.text.split(',');
               }
               schedule = examsDay.text.substring(examsDay.text.indexOf(':') - 2,
                   examsDay.text.indexOf(':') + 9);
@@ -55,8 +56,8 @@ class ParserExams {
                   DateTime.parse('${dates[days]} ${splittedSchedule[0]}');
               final DateTime end =
                   DateTime.parse('${dates[days]} ${splittedSchedule[1]}');
-              final Exam exam = Exam(begin, end, subject ?? '', rooms,
-                  examTypes[tableNum]);
+              final Exam exam =
+                  Exam(begin, end, subject ?? '', rooms, examTypes[tableNum]);
               examsList.add(exam);
             });
           }

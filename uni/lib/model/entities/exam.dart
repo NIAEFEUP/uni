@@ -62,13 +62,13 @@ class Exam {
   Map<String, String> toMap() {
     return {
       'subject': subject,
-      'begin': beginTime(),
-      'end': endTime(),
+      'begin': beginTime,
+      'end': endTime,
       'rooms': rooms.join(','),
       'day': begin.day.toString(),
       'examType': type,
-      'weekDay': getWeekDay(),
-      'month': getMonth(),
+      'weekDay': weekDay,
+      'month': month,
       'year': begin.year.toString()
     };
   }
@@ -76,13 +76,13 @@ class Exam {
   /// Returns whether or not this exam has already ended.
   bool hasEnded() => DateTime.now().compareTo(end) >= 0;
   
-  String getMonth() => months[begin.month - 1];
+  String get month => months[begin.month - 1];
 
-  String getWeekDay() => weekDays[begin.weekday - 1];
+  String get weekDay => weekDays[begin.weekday - 1];
 
-  String beginTime() => formatTime(begin);
+  String get beginTime => formatTime(begin);
 
-  String endTime() => formatTime(end);
+  String get endTime => formatTime(end);
 
   String formatTime(DateTime time) => DateFormat('HH:mm').format(time);
 
@@ -91,7 +91,7 @@ class Exam {
 
   @override
   String toString() {
-    return '''$subject - ${begin.year.toString()} - ${getMonth()} - ${begin.day} -  ${beginTime()}-${endTime()} - $type - $rooms - ${getWeekDay()}''';
+    return '''$subject - ${begin.year.toString()} - $month - ${begin.day} -  $beginTime-$endTime - $type - $rooms - $weekDay''';
   }
 
   /// Prints the data in this exam to the [Logger] with an INFO level.
