@@ -8,6 +8,7 @@ const navCourseUnits = 'Cadeiras';
 const navLocations = 'Locais';
 const navCalendar = 'Calendário';
 const navAbout = 'Sobre';
+const navCantine = "Cantinas";
 const navBugReport = 'Bugs e Sugestões';
 const navLogOut = 'Terminar sessão';
 const navUsefulInfo = 'Úteis';

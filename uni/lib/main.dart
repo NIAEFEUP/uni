@@ -29,6 +29,8 @@ import 'package:uni/view/navigation_service.dart';
 import 'package:uni/view/theme.dart';
 import 'package:uni/view/theme_notifier.dart';
 
+import 'model/cantine_page_model.dart';
+
 SentryEvent? beforeSend(SentryEvent event) {
   return event.level == SentryLevel.info ? event : null;
 }
@@ -126,6 +128,9 @@ class MyAppState extends State<MyApp> {
                         page: const BugReportPageView(),
                         settings: settings,
                         maintainState: false);
+                  case '/${constants.navCantine}':
+                    return PageTransition.makePageTransition(
+                        page: const CantinePage(), settings: settings);
                   case '/${constants.navLogOut}':
                     return LogoutRoute.buildLogoutRoute();
                 }
