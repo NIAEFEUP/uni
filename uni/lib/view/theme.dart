@@ -62,7 +62,7 @@ ThemeData applicationDarkTheme = ThemeData(
         secondary: _lightGrey,
         onSecondary: _darkishBlack,
         tertiary: _lightGrey,
-        onTertiary: _lightGrey),
+        onTertiary: _darkishBlack),
     brightness: Brightness.dark,
     primaryColor: _lightGrey,
     canvasColor: _darkBlack,
