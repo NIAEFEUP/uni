@@ -2,30 +2,36 @@ import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 
-const List<String> weekDays = [
-  'Segunda',
-  'Terça',
-  'Quarta',
-  'Quinta',
-  'Sexta',
-  'Sábado',
-  'Domingo'
-];
+enum WeekDays {
+  monday("Segunda"),
+  tuesday("Terça"),
+  wednesday("Quarta"),
+  thursday("Quinta"),
+  friday("Sexta"),
+  saturday("Sábado"),
+  sunday("Domingo");
 
-const List<String> months = [
-  'janeiro',
-  'fevereiro',
-  'março',
-  'abril',
-  'maio',
-  'junho',
-  'julho',
-  'agosto',
-  'setembro',
-  'outubro',
-  'novembro',
-  'dezembro'
-];
+  final String day;
+  const WeekDays(this.day);
+}
+
+enum Months {
+  january("Janeiro"),
+  february("Fevereiro"),
+  march("Março"),
+  april("Abril"),
+  may("Maio"),
+  june("Junho"),
+  july("Julho"),
+  august("Agosto"),
+  september("Setembro"),
+  october("Outubro"),
+  november("Novembro"),
+  december("Dezembro");
+
+  final String month;
+  const Months(this.month);
+}
 
 /// Manages a generic Exam.
 ///
@@ -75,10 +81,10 @@ class Exam {
 
   /// Returns whether or not this exam has already ended.
   bool hasEnded() => DateTime.now().compareTo(end) >= 0;
-  
-  String get month => months[begin.month - 1];
 
-  String get weekDay => weekDays[begin.weekday - 1];
+    String get weekDay => WeekDays.values[begin.weekday - 1].day;
+
+  String get month => Months.values[begin.month - 1].month;
 
   String get beginTime => formatTime(begin);
 
@@ -103,16 +109,20 @@ class Exam {
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is Exam &&
-      runtimeType == other.runtimeType &&
-      subject == other.subject &&
-      listEquals(rooms, other.rooms) &&
-      begin == other.begin &&
-      end == other.end &&
-      type == other.type;
+          runtimeType == other.runtimeType &&
+          subject == other.subject &&
+          listEquals(rooms, other.rooms) &&
+          begin == other.begin &&
+          end == other.end &&
+          type == other.type;
 
   @override
   int get hashCode =>
-      begin.hashCode ^ end.hashCode ^ subject.hashCode ^ rooms.hashCode ^ type.hashCode;
+      begin.hashCode ^
+      end.hashCode ^
+      subject.hashCode ^
+      rooms.hashCode ^
+      type.hashCode;
 
   static getExamTypeLong(String abr) {
     final Map<String, String> reversed = types.map((k, v) => MapEntry(v, k));
