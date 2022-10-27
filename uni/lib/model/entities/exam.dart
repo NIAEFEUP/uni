@@ -82,7 +82,7 @@ class Exam {
   /// Returns whether or not this exam has already ended.
   bool hasEnded() => DateTime.now().compareTo(end) >= 0;
 
-    String get weekDay => WeekDays.values[begin.weekday - 1].day;
+  String get weekDay => WeekDays.values[begin.weekday - 1].day;
 
   String get month => Months.values[begin.month - 1].month;
 
