@@ -58,7 +58,7 @@ ThemeData applicationDarkTheme = ThemeData(
         brightness: Brightness.dark,
         background: _grey,
         primary: _lightGrey,
-        onPrimary: _lightGrey,
+        onPrimary: _darkishBlack,
         secondary: _lightGrey,
         onSecondary: _darkishBlack,
         tertiary: _lightGrey,
