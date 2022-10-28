@@ -10,24 +10,24 @@ import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/controller/middleware.dart';
 import 'package:uni/controller/on_start_up.dart';
 import 'package:uni/model/app_state.dart';
-import 'package:uni/view/locations/locations.dart';
-import 'package:uni/redux/reducers.dart';
-import 'package:uni/utils/constants.dart' as constants;
 import 'package:uni/view/about/about.dart';
 import 'package:uni/view/bug_report/bug_report.dart';
+import 'package:uni/view/locations/locations.dart';
+import 'package:uni/view/calendar/calendar.dart';
+import 'package:uni/redux/reducers.dart';
 import 'package:uni/view/bus_stop_next_arrivals/bus_stop_next_arrivals.dart';
 import 'package:uni/view/exams/exams.dart';
 import 'package:uni/view/home/home.dart';
-import 'package:uni/view/calendar/calendar.dart';
 import 'package:uni/view/course_units/course_units.dart';
 import 'package:uni/view/logout_route.dart';
 import 'package:uni/view/splash/splash.dart';
-import 'package:uni/view/useful_info/useful_info.dart';
 import 'package:uni/view/schedule/schedule.dart';
 import 'package:uni/view/common_widgets/page_transition.dart';
 import 'package:uni/view/navigation_service.dart';
 import 'package:uni/view/theme.dart';
 import 'package:uni/view/theme_notifier.dart';
+import 'package:uni/utils/drawer_items.dart';
+import 'package:uni/view/useful_info/useful_info.dart';
 
 import 'model/cantine_page_model.dart';
 
@@ -94,47 +94,49 @@ class MyAppState extends State<MyApp> {
               home: const SplashScreen(),
               navigatorKey: NavigationService.navigatorKey,
               onGenerateRoute: (RouteSettings settings) {
-                switch (settings.name) {
-                  case '/${constants.navPersonalArea}':
-                    return PageTransition.makePageTransition(
-                        page: const HomePageView(), settings: settings);
-                  case '/${constants.navSchedule}':
-                    return PageTransition.makePageTransition(
-                        page: const SchedulePage(), settings: settings);
-                  case '/${constants.navExams}':
-                    return PageTransition.makePageTransition(
-                        page: const ExamsPageView(), settings: settings);
-                  case '/${constants.navStops}':
-                    return PageTransition.makePageTransition(
-                        page: const BusStopNextArrivalsPage(),
-                        settings: settings);
-                  case '/${constants.navCourseUnits}':
-                    return PageTransition.makePageTransition(
-                        page: const CourseUnitsPageView(), settings: settings);
-                  case '/${constants.navLocations}':
-                    return PageTransition.makePageTransition(
-                        page: const LocationsPage(), settings: settings);
-                  case '/${constants.navCalendar}':
-                    return PageTransition.makePageTransition(
-                        page: const CalendarPageView(), settings: settings);
-                  case '/${constants.navUsefulInfo}':
-                    return PageTransition.makePageTransition(
-                        page: const UsefulInfoPageView(), settings: settings);
-                  case '/${constants.navAbout}':
-                    return PageTransition.makePageTransition(
-                        page: const AboutPageView(), settings: settings);
-                  case '/${constants.navBugReport}':
-                    return PageTransition.makePageTransition(
-                        page: const BugReportPageView(),
-                        settings: settings,
-                        maintainState: false);
-                  case '/${constants.navCantine}':
-                    return PageTransition.makePageTransition(
-                        page: const CantinePage(), settings: settings);
-                  case '/${constants.navLogOut}':
-                    return LogoutRoute.buildLogoutRoute();
-                }
-                return null;
+                final Map<String, Route<dynamic>> transitions = {
+                  '/${DrawerItem.navPersonalArea.title}':
+                      PageTransition.makePageTransition(
+                          page: const HomePageView(), settings: settings),
+                  '/${DrawerItem.navSchedule.title}':
+                      PageTransition.makePageTransition(
+                          page: const SchedulePage(), settings: settings),
+                  '/${DrawerItem.navExams.title}':
+                      PageTransition.makePageTransition(
+                          page: const ExamsPageView(), settings: settings),
+                  '/${DrawerItem.navStops.title}':
+                      PageTransition.makePageTransition(
+                          page: const BusStopNextArrivalsPage(),
+                          settings: settings),
+                  '/${DrawerItem.navCourseUnits.title}':
+                      PageTransition.makePageTransition(
+                          page: const CourseUnitsPageView(),
+                          settings: settings),
+                  '/${DrawerItem.navLocations.title}':
+                      PageTransition.makePageTransition(
+                          page: const LocationsPage(), settings: settings),
+                  '/${DrawerItem.navCalendar.title}':
+                      PageTransition.makePageTransition(
+                          page: const CalendarPageView(), settings: settings),
+                  '/${DrawerItem.navUsefulInfo.title}':
+                      PageTransition.makePageTransition(
+                          page: const UsefulInfoPageView(), settings: settings),
+                  '/${DrawerItem.navAbout.title}':
+                      PageTransition.makePageTransition(
+                          page: const AboutPageView(), settings: settings),
+                  '/${DrawerItem.navBugReport.title}':
+                      PageTransition.makePageTransition(
+                          page: const BugReportPageView(),
+                          settings: settings,
+                          maintainState: false),
+                  '/${DrawerItem.navCantine.title}':
+                      PageTransition.makePageTransition(
+                          page: const CantinePage(), settings: settings),
+                  '/${DrawerItem.navLogOut.title}':
+                      LogoutRoute.buildLogoutRoute()
+                };
+
+                return transitions[settings.name];
               }),
         ));
   }

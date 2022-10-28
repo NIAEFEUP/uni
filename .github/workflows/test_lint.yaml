@@ -14,7 +14,7 @@ jobs:
           java-version: '11.x'
       - uses: subosito/flutter-action@v1
         with:
-          flutter-version: '3.0.5'
+          flutter-version: '3.3.2'
 
       - name: Cache pub dependencies
         uses: actions/cache@v2
@@ -39,7 +39,7 @@ jobs:
           java-version: '11.x'
       - uses: subosito/flutter-action@v1
         with:
-          flutter-version: '3.0.5'
+          flutter-version: '3.3.2'
 
       - run: flutter pub get
       - run: flutter test --no-sound-null-safety

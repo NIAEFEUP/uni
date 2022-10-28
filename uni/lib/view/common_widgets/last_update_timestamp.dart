@@ -21,7 +21,7 @@ class _LastUpdateTimeStampState extends State<LastUpdateTimeStamp> {
     super.initState();
     Timer.periodic(
         const Duration(seconds: 60),
-        (Timer t) => setState(() {
+        (timer) => setState(() {
               currentTime = DateTime.now();
             }));
   }
