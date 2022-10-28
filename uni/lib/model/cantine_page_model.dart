@@ -1,5 +1,6 @@
 //import 'package:tuple/tuple.dart';
 //import 'package:uni/model/app_state.dart';
+
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:tuple/tuple.dart';
 import 'package:uni/model/entities/meal.dart';
@@ -16,7 +17,6 @@ import 'app_state.dart';
 
 class CantinePage extends StatefulWidget {
   const CantinePage({Key? key}) : super(key: key);
-
   @override
   _CantinePageState createState() => _CantinePageState();
 }
@@ -76,4 +76,22 @@ class _CantinePageState extends SecondaryPageViewState
               cantineStatus: cantineStatus);
         });
   }
+  /*
+  @override
+  Widget getBody(BuildContext context){
+    return StoreConnector<AppState, Tuple2<List<Restaurant>, RequestStatus>>(
+      converter: (store) => Tuple2(store.state.content['cantine']),
+        store.state.content['cantineStatus']),
+      builder: (context, restaurantData) {
+        final restaurants = restaurantData.item1;
+        final cantineStatus = restaurantData.item2;
+        return CantinePageView(
+            tabController: tabController,
+            scrollViewController: scrollViewController,
+            daysOfTheWeek: daysOfTheWeek;
+            aggMeals: _groupMealsByDay(meals);
+            cantineStatus: cantineStatus;
+        )
+      }
+  } */
 }
