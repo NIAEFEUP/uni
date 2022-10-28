@@ -19,9 +19,9 @@ class LibraryPageView extends StatefulWidget {
 class LibraryPageViewState extends GeneralPageViewState<LibraryPageView> {
   @override
   Widget getBody(BuildContext context) {
-    return StoreConnector<AppState, Tuple2<LibraryOccupation, RequestStatus>>(
+    return StoreConnector<AppState, Tuple2<LibraryOccupation?, RequestStatus>>(
         converter: (store) {
-      final LibraryOccupation occupation =
+      final LibraryOccupation? occupation =
           store.state.content['libraryOccupation'];
       return Tuple2(occupation, store.state.content['libraryOccupationStatus']);
     }, builder: (context, occupationInfo) {
@@ -30,11 +30,8 @@ class LibraryPageViewState extends GeneralPageViewState<LibraryPageView> {
           status: occupationInfo.item2,
           contentGenerator: generateOccupationPage,
           content: occupationInfo.item1,
-          contentChecker: occupationInfo.item1.capacity != 0,
-          onNullContent: Center(
-              child: Text('Não existem dados para apresentar',
-                  style: Theme.of(context).textTheme.headline4,
-                  textAlign: TextAlign.center)));
+          contentChecker: occupationInfo.item2 != RequestStatus.busy,
+          onNullContent: const Center(child: CircularProgressIndicator()));
     });
   }
 
@@ -50,15 +47,18 @@ class LibraryPageViewState extends GeneralPageViewState<LibraryPageView> {
   }
 
   Widget generateOccupationPage(occupation, context) {
+    List<Widget> content;
+    content = [
+      const PageTitle(name: 'Biblioteca'),
+      LibraryOccupationCard(),
+    ];
+    if (occupation != null) {
+      content.add(const PageTitle(name: 'Pisos'));
+      content.add(getFloorRows(occupation));
+    }
+
     return ListView(
-        scrollDirection: Axis.vertical,
-        shrinkWrap: true,
-        children: <Widget>[
-          const PageTitle(name: 'Biblioteca'),
-          LibraryOccupationCard(),
-          const PageTitle(name: 'Pisos'),
-          getFloorRows(occupation)
-        ]);
+        scrollDirection: Axis.vertical, shrinkWrap: true, children: content);
   }
 
   Widget createFloorRow(FloorOccupation floor1, FloorOccupation floor2) {

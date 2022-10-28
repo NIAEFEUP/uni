@@ -25,9 +25,9 @@ class LibraryOccupationCard extends GenericCard {
 
   @override
   Widget buildCardContent(BuildContext context) {
-    return StoreConnector<AppState, Tuple2<LibraryOccupation, RequestStatus>>(
+    return StoreConnector<AppState, Tuple2<LibraryOccupation?, RequestStatus>>(
         converter: (store) {
-      final LibraryOccupation occupation =
+      final LibraryOccupation? occupation =
           store.state.content['libraryOccupation'];
       return Tuple2(occupation, store.state.content['libraryOccupationStatus']);
     }, builder: (context, occupationInfo) {
@@ -36,15 +36,18 @@ class LibraryOccupationCard extends GenericCard {
           status: occupationInfo.item2,
           contentGenerator: generateOccupation,
           content: occupationInfo.item1,
-          contentChecker: occupationInfo.item1.capacity != 0,
-          onNullContent: Center(
-              child: Text('Não existem dados para apresentar',
-                  style: Theme.of(context).textTheme.headline4,
-                  textAlign: TextAlign.center)));
+          contentChecker: occupationInfo.item2 != RequestStatus.busy,
+          onNullContent: const CircularProgressIndicator());
     });
   }
 
   Widget generateOccupation(occupation, context) {
+    if (occupation == null) {
+      return Center(
+          child: Text('Não existem dados para apresentar',
+              style: Theme.of(context).textTheme.headline6,
+              textAlign: TextAlign.center));
+    }
     return Padding(
         padding: const EdgeInsets.symmetric(vertical: 3.0),
         child: CircularPercentIndicator(

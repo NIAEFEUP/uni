@@ -1,7 +1,6 @@
 import 'package:uni/model/entities/bus_stop.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/entities/lecture.dart';
-import 'package:uni/model/entities/library_occupation.dart';
 import 'package:uni/model/entities/location_group.dart';
 import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/entities/session.dart';
@@ -40,7 +39,7 @@ class AppState {
       'feesStatus': RequestStatus.none,
       'lastUserInfoUpdateTime': null,
       'locationGroups': <LocationGroup>[],
-      'libraryOccupation': LibraryOccupation(0, 0),
+      'libraryOccupation': null,
       'libraryOccupationStatus': RequestStatus.none
     };
   }
