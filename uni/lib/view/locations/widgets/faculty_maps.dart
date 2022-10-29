@@ -25,6 +25,6 @@ class FacultyMaps {
   static getFontColor(BuildContext context){
     return  Theme.of(context).brightness == Brightness.light
         ? Theme.of(context).colorScheme.primary
-        : Theme.of(context).colorScheme.onTertiary;
+        : Theme.of(context).colorScheme.tertiary;
   }
 }
