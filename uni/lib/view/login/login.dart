@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
@@ -8,7 +7,6 @@ import 'package:uni/view/common_widgets/toast_message.dart';
 import 'package:uni/view/theme.dart';
 import 'package:uni/view/login/widgets/inputs.dart';
 import 'package:uni/utils/drawer_items.dart';
-import 'package:uni/view/useful_info/widgets/link_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class LoginPageView extends StatefulWidget {
