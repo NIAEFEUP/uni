@@ -70,7 +70,7 @@ ThemeData applicationDarkTheme = ThemeData(
     scaffoldBackgroundColor: _darkBlack,
     cardColor: _mildBlack,
     hintColor: _darkishBlack,
-    dividerColor: Colors.green,
+    dividerColor: _strongGrey,
     indicatorColor: _lightGrey,
     primaryTextTheme: Typography().white,
     toggleableActiveColor: _mildBlack,
