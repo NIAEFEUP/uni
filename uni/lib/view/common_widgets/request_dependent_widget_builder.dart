@@ -17,12 +17,14 @@ class RequestDependentWidgetBuilder extends StatelessWidget {
       required this.contentGenerator,
       required this.content,
       required this.contentChecker,
-      required this.onNullContent})
+      required this.onNullContent,
+      this.contentLoadingWidget = const CircularProgressIndicator()})
       : super(key: key);
 
   final BuildContext context;
   final RequestStatus status;
   final Widget Function(dynamic, BuildContext) contentGenerator;
+  final Widget contentLoadingWidget;
   final dynamic content;
   final bool contentChecker;
   final Widget onNullContent;
@@ -48,7 +50,7 @@ class RequestDependentWidgetBuilder extends StatelessWidget {
             }
             return contentChecker
                 ? contentGenerator(content, context)
-                : const Center(child: CircularProgressIndicator());
+                : Center(child: contentLoadingWidget);
           case RequestStatus.failed:
           default:
             return contentChecker
