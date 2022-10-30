@@ -26,6 +26,7 @@ linter:
     # prefer_single_quotes: true  # Uncomment to enable the `prefer_single_quotes` rule
     always_use_package_imports: true
     prefer_final_locals: true
+    prefer_const_constructors: false
 
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options
