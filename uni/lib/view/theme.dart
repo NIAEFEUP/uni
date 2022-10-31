@@ -38,7 +38,7 @@ ThemeData applicationLightTheme = ThemeData(
         onTertiary: Colors.black),
     brightness: Brightness.light,
     primaryColor: darkRed,
-    textSelectionTheme: TextSelectionThemeData(
+    textSelectionTheme: const TextSelectionThemeData(
         selectionHandleColor: Colors.transparent,
     ),
     canvasColor: _mildWhite,
@@ -67,7 +67,7 @@ ThemeData applicationDarkTheme = ThemeData(
         tertiary: _lightGrey,
         onTertiary: _darkishBlack),
     brightness: Brightness.dark,
-    textSelectionTheme: TextSelectionThemeData(
+    textSelectionTheme: const TextSelectionThemeData(
         selectionHandleColor: Colors.transparent,
     ),
     primaryColor: _lightGrey,
