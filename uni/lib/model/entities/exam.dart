@@ -20,9 +20,7 @@ var _types = {
   'Mini-testes': 'MT',
   'Normal': 'EN',
   'Recurso': 'ER',
-  'Especial de Conclusão': 'EC',
-  'Port.Est.Especiais': 'EE',
-  'Exames ao abrigo de estatutos especiais': 'EAE'
+  'Especial de Conclusão': 'EC'
 };
 
 /// Manages a generic Exam.
