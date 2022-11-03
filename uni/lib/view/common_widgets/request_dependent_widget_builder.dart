@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:shimmer/shimmer.dart';
+
 import 'package:uni/controller/local_storage/app_last_user_info_update_database.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/utils/drawer_items.dart';
@@ -10,7 +12,7 @@ import 'package:uni/utils/drawer_items.dart';
 /// a connection error or a loading circular effect as appropriate
 
 class RequestDependentWidgetBuilder extends StatelessWidget {
-  RequestDependentWidgetBuilder(
+  const RequestDependentWidgetBuilder(
       {Key? key,
       required this.context,
       required this.status,
@@ -51,7 +53,10 @@ class RequestDependentWidgetBuilder extends StatelessWidget {
             if (contentLoadingWidget != null){
               return contentChecker
                   ? contentGenerator(content, context)
-                  : Center(child: contentLoadingWidget);              
+                  : Center(child: Shimmer.fromColors(
+                      baseColor: Theme.of(context).highlightColor,
+                      highlightColor: Theme.of(context).colorScheme.onPrimary,
+                      child: contentLoadingWidget!));              
             }
             return contentChecker
                 ? contentGenerator(content, context)

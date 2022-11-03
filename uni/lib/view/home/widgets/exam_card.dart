@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:tuple/tuple.dart';
-import 'package:shimmer/shimmer.dart';
 
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/exam.dart';
@@ -151,10 +150,7 @@ class ExamCard extends GenericCard {
 
 Widget examLoadingShimmerBuilder(BuildContext context){
   return Center(
-        child: Shimmer.fromColors(
-          baseColor: Theme.of(context).highlightColor,
-          highlightColor: Theme.of(context).colorScheme.onPrimary,
-          child: Container(
+        child:  Container(
             padding: const EdgeInsets.only(left: 12.0, bottom: 8.0, right: 12),
             margin: const EdgeInsets.only(top: 8.0),
             child: Column(
@@ -226,5 +222,5 @@ Widget examLoadingShimmerBuilder(BuildContext context){
                 ],
               )
               ],
-            ))));
+            )));
 }
