@@ -10,7 +10,7 @@ import 'package:uni/utils/drawer_items.dart';
 /// a connection error or a loading circular effect as appropriate
 
 class RequestDependentWidgetBuilder extends StatelessWidget {
-  const RequestDependentWidgetBuilder(
+  RequestDependentWidgetBuilder(
       {Key? key,
       required this.context,
       required this.status,
@@ -18,13 +18,13 @@ class RequestDependentWidgetBuilder extends StatelessWidget {
       required this.content,
       required this.contentChecker,
       required this.onNullContent,
-      this.contentLoadingWidget = const CircularProgressIndicator()})
+      this.contentLoadingWidget})
       : super(key: key);
 
   final BuildContext context;
   final RequestStatus status;
   final Widget Function(dynamic, BuildContext) contentGenerator;
-  final Widget contentLoadingWidget;
+  final Widget? contentLoadingWidget;
   final dynamic content;
   final bool contentChecker;
   final Widget onNullContent;
@@ -48,9 +48,14 @@ class RequestDependentWidgetBuilder extends StatelessWidget {
                   ? contentGenerator(content, context)
                   : onNullContent;
             }
+            if (contentLoadingWidget != null){
+              return contentChecker
+                  ? contentGenerator(content, context)
+                  : Center(child: contentLoadingWidget);              
+            }
             return contentChecker
                 ? contentGenerator(content, context)
-                : Center(child: contentLoadingWidget);
+                : const Center(child: CircularProgressIndicator());
           case RequestStatus.failed:
           default:
             return contentChecker
