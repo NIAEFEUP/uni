@@ -78,8 +78,8 @@ class RequestDependentWidgetBuilder extends StatelessWidget {
                     child: Text('Aconteceu um erro ao carregar os dados',
                         style: Theme.of(context).textTheme.subtitle1))),
             OutlinedButton(
-                onPressed: () => Navigator.pushNamed(
-                    context, '/${DrawerItem.navBugReport.title}'),
+                onPressed: () =>
+                    Navigator.pushNamed(context, '/${DrawerItem.navBugReport}'),
                 child: const Text('Reportar erro'))
           ]);
         });
