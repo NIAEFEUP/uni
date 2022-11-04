@@ -224,6 +224,12 @@ AppState setExamFilter(AppState state, SetExamFilter action) {
   return state.cloneAndUpdateValue('filteredExams', action.filteredExams);
 }
 
+
+AppState setExamHidden(AppState state, SetExamHidden action) {
+  Logger().i('setting hidden exams to ${action.hiddenExams}');
+  return state.cloneAndUpdateValue('hiddenExams', action.hiddenExams);
+}
+
 AppState setLocations(AppState state, SetLocationsAction action) {
   Logger().i('setting locations: ${action.locationGroups.length}');
   return state.cloneAndUpdateValue('locationGroups', action.locationGroups);

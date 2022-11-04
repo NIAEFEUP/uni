@@ -542,6 +542,24 @@ ThunkAction<AppState> setFilteredExams(
   };
 }
 
+ThunkAction<AppState> setHiddenExams(
+    Exam newHiddenExam, Completer<void> action) {
+  return (Store<AppState> store) async {
+    final List<String> hiddenExams = store.state.content['hiddenExams'];
+    final String id = newHiddenExam.getId().toString();
+    Logger().i("oi$id");
+
+    if(hiddenExams.contains(id)){
+      hiddenExams.remove(id);
+    }else{
+      hiddenExams.add(id);
+    }
+    store.dispatch(SetExamHidden(hiddenExams));
+    await AppSharedPreferences.saveHiddenExams(hiddenExams);
+    action.complete();
+  };
+}
+
 Future storeRefreshTime(String db, String currentTime) async {
   final AppRefreshTimesDatabase refreshTimesDatabase =
       AppRefreshTimesDatabase();

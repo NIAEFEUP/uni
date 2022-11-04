@@ -1,8 +1,10 @@
 import 'dart:async';
 
+import 'package:flutter/services.dart';
 import 'package:html/dom.dart';
 import 'package:html/parser.dart' show parse;
 import 'package:http/http.dart' as http;
+import 'package:logger/logger.dart';
 import 'package:uni/model/entities/exam.dart';
 
 /// Parses information about the user's exams.
@@ -26,6 +28,8 @@ class ParserExams {
     final List<String> examTypes = [];
     List<String> rooms = [];
     String? subject, schedule;
+    String id = '0';
+
     int days = 0;
     int tableNum = 0;
     document.querySelectorAll('h3').forEach((Element examType) {
@@ -44,6 +48,7 @@ class ParserExams {
             exams.querySelectorAll('td.exame').forEach((Element examsDay) {
               if (examsDay.querySelector('a') != null) {
                 subject = examsDay.querySelector('a')!.text;
+                id = examsDay.querySelector('a')!.attributes['href']!.split('=')[1];
               }
               if (examsDay.querySelector('span.exame-sala') != null) {
                 rooms =
@@ -51,13 +56,14 @@ class ParserExams {
               }
               schedule = examsDay.text.substring(examsDay.text.indexOf(':') - 2,
                   examsDay.text.indexOf(':') + 9);
+
               final List<String> splittedSchedule = schedule!.split('-');
               final DateTime begin =
                   DateTime.parse('${dates[days]} ${splittedSchedule[0]}');
               final DateTime end =
                   DateTime.parse('${dates[days]} ${splittedSchedule[1]}');
               final Exam exam =
-                  Exam(begin, end, subject ?? '', rooms, examTypes[tableNum]);
+                  Exam(id,begin, end, subject ?? '', rooms, examTypes[tableNum]);
               examsList.add(exam);
             });
           }
@@ -68,4 +74,5 @@ class ParserExams {
     });
     return examsList;
   }
+
 }

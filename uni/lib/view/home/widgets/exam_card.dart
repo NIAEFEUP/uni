@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:tuple/tuple.dart';
@@ -27,12 +29,15 @@ class ExamCard extends GenericCard {
   onClick(BuildContext context) =>
       Navigator.pushNamed(context, '/${DrawerItem.navExams.title}');
 
+<<<<<<< Updated upstream:uni/lib/view/home/widgets/exam_card.dart
   static getExamCardColor(BuildContext context, Exam exam) {
     return exam.isHighlighted()
         ? Theme.of(context).backgroundColor
         : Theme.of(context).hintColor;
   }
 
+=======
+>>>>>>> Stashed changes:uni/lib/view/Widgets/exam_card.dart
   /// Returns a widget with all the exams card content.
   ///
   /// If there are no exams, a message telling the user
@@ -41,13 +46,23 @@ class ExamCard extends GenericCard {
   Widget buildCardContent(BuildContext context) {
     return StoreConnector<AppState, Tuple2<List<Exam>, RequestStatus>?>(
       converter: (store) {
+<<<<<<< Updated upstream:uni/lib/view/home/widgets/exam_card.dart
+=======
+        final List<String> hiddenExams = store.state.content['hiddenExams'];
+>>>>>>> Stashed changes:uni/lib/view/Widgets/exam_card.dart
         final Map<String, bool> filteredExams =
             store.state.content['filteredExams'];
         final List<Exam> exams = store.state.content['exams'];
         final List<Exam> filteredExamsList = exams
             .where((exam) =>
+<<<<<<< Updated upstream:uni/lib/view/home/widgets/exam_card.dart
                 filteredExams[Exam.getExamTypeLong(exam.type)] ?? true)
+=======
+                (filteredExams[Exam.getExamTypeLong(exam.examType)] ?? true) &&
+                (!hiddenExams.contains(exam.getId().toString())))
+>>>>>>> Stashed changes:uni/lib/view/Widgets/exam_card.dart
             .toList();
+
         return Tuple2(filteredExamsList, store.state.content['examsStatus']);
       },
       builder: (context, examsInfo) => RequestDependentWidgetBuilder(
@@ -102,8 +117,13 @@ class ExamCard extends GenericCard {
       DateRectangle(
           date: '${exam.weekDay}, ${exam.begin.day} de ${exam.month}'),
       RowContainer(
+<<<<<<< Updated upstream:uni/lib/view/home/widgets/exam_card.dart
         color: getExamCardColor(context, exam),
         child: ExamRow(
+=======
+        color: Theme.of(context).backgroundColor,
+        child: ScheduleRow(
+>>>>>>> Stashed changes:uni/lib/view/Widgets/exam_card.dart
           exam: exam,
           teacher: '',
         ),
@@ -117,7 +137,7 @@ class ExamCard extends GenericCard {
     return Container(
       margin: const EdgeInsets.only(top: 8),
       child: RowContainer(
-        color: getExamCardColor(context, exam),
+        color: Theme.of(context).backgroundColor,
         child: Container(
           padding: const EdgeInsets.all(11),
           child: Row(

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:logger/logger.dart';
+import 'package:tuple/tuple.dart';
+import 'package:uni/controller/exam.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
@@ -30,6 +33,7 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
             .where((exam) =>
                 filteredExams[Exam.getExamTypeLong(exam.type)] ?? true)
             .toList();
+
       },
       builder: (context, exams) {
         return ExamsList(exams: exams as List<Exam>);
@@ -123,7 +127,8 @@ class ExamsList extends StatelessWidget {
     return Column(children: examCards);
   }
 
-  Widget createExamContext(context, exam) {
+  Widget createExamContext(context,Exam exam) {
+    //exam.isHidden = hidden.contains(exam);
     final keyValue = '${exam.toString()}-exam';
     return Container(
         key: Key(keyValue),

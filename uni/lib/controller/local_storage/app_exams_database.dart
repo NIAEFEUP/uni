@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:logger/logger.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:uni/controller/local_storage/app_database.dart';
 import 'package:uni/model/entities/exam.dart';
@@ -29,9 +30,13 @@ class AppExamsDatabase extends AppDatabase {
           rooms TEXT, day TEXT, examType TEXT, weekDay TEXT, month TEXT, year TEXT) ''';
 
   AppExamsDatabase()
-      : super('exams.db', [
-          _createScript,
-        ]);
+      : super(
+            'exams.db',
+            [
+              _createScript
+            ],
+            onUpgrade: migrate,
+            version: 2);
 
   /// Replaces all of the data in this database with [exams].
   saveNewExams(List<Exam> exams) async {
@@ -46,6 +51,7 @@ class AppExamsDatabase extends AppDatabase {
 
     return List.generate(maps.length, (i) {
       return Exam.secConstructor(
+          maps[i]['id'],
           maps[i]['subject'],
           DateTime.parse(maps[i]['year'] +
               '-' +
@@ -71,6 +77,7 @@ class AppExamsDatabase extends AppDatabase {
   /// If a row with the same data is present, it will be replaced.
   Future<void> _insertExams(List<Exam> exams) async {
     for (Exam exam in exams) {
+      //Logger().i("AIIIII$exam.id");
       await insertInDatabase(
         'exams',
         exam.toMap(),
@@ -84,5 +91,17 @@ class AppExamsDatabase extends AppDatabase {
     // Get a reference to the database
     final Database db = await getDatabase();
     await db.delete('exams');
+  }
+
+  static FutureOr<void> migrate(
+      Database db, int oldVersion, int newVersion) async {
+        if (oldVersion < newVersion) {
+    // you can execute drop table and create table
+    db.execute('''ALTER TABLE exams ADD COLUMN id TEXT''');
+    /*
+        final batch = db.batch();
+        batch.execute(_createScript);
+        batch.execute('''ALTER TABLE exams ADD id TEXT''');*/
+        }  
   }
 }

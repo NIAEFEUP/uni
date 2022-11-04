@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
+import 'package:uuid/uuid.dart';
 
 enum WeekDays {
   monday("Segunda"),
@@ -44,9 +45,12 @@ enum Months {
 class Exam {
   late final DateTime begin;
   late final DateTime end;
+  late final String id;
+
   late final String subject;
   late final List<String> rooms;
   late final String type;
+  bool isHidden = false;
 
   static Map<String, String> types = {
     'Mini-testes': 'MT',
@@ -56,10 +60,9 @@ class Exam {
     'Port.Est.Especiais': 'EE',
     'Exames ao abrigo de estatutos especiais': 'EAE'
   };
+  Exam(this.id, this.begin, this.end, this.subject, this.rooms, this.type);
 
-  Exam(this.begin, this.end, this.subject, this.rooms, this.type);
-
-  Exam.secConstructor(
+  Exam.secConstructor(this.id,
       this.subject, this.begin, this.end, String rooms, this.type) {
     this.rooms = rooms.split(',');
   }
@@ -67,6 +70,7 @@ class Exam {
   /// Converts this exam to a map.
   Map<String, String> toMap() {
     return {
+      'id': id,
       'subject': subject,
       'begin': beginTime,
       'end': endTime,
@@ -78,6 +82,7 @@ class Exam {
       'year': begin.year.toString()
     };
   }
+
 
   /// Returns whether or not this exam has already ended.
   bool hasEnded() => DateTime.now().compareTo(end) >= 0;
@@ -127,5 +132,10 @@ class Exam {
   static getExamTypeLong(String abr) {
     final Map<String, String> reversed = types.map((k, v) => MapEntry(v, k));
     return reversed[abr];
+  }
+
+  UuidValue getId() {
+    const uuid = Uuid();
+    return uuid.v1obj(options: toMap());
   }
 }
