@@ -165,7 +165,6 @@ class SetExamFilter {
   SetExamFilter(this.filteredExams);
 }
 
-
 class SetExamHidden {
   List<String> hiddenExams;
   SetExamHidden(this.hiddenExams);

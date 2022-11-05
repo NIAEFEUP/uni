@@ -61,7 +61,8 @@ void main() {
             'currUcs': [sopeCourseUnit, sdisCourseUnit],
             'exams': <Exam>[],
             'profile': profile,
-            'filteredExams': filteredExams
+            'filteredExams': filteredExams,
+            'hiddenExams': <Exam>[], 
           }),
           middleware: [generalMiddleware]);
       NetworkRouter.httpClient = mockClient;
@@ -100,7 +101,8 @@ void main() {
             'currUcs': [sopeCourseUnit, sdisCourseUnit],
             'exams': <Exam>[],
             'profile': profile,
-            'filteredExams': filteredExams
+            'filteredExams': filteredExams,
+            'hiddenExams': <Exam>[],
           }),
           middleware: [generalMiddleware]);
 

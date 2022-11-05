@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
-import 'package:uuid/uuid.dart';
 
 enum WeekDays {
   monday("Segunda"),
