@@ -72,9 +72,9 @@ class _ExamRowState extends State<ExamRow> {
                                 IconButton(
                                     icon: !widget.exam.isHidden
                                         ? const Icon(
-                                            Icons.remove_red_eye_outlined,
+                                            Icons.visibility,
                                             size: 30)
-                                        : const Icon(Icons.remove_red_eye,
+                                        : const Icon(Icons.visibility_off,
                                             size: 30),
                                     tooltip: widget.exam.isHidden
                                         ? "Mostrar na Área Pessoal"
