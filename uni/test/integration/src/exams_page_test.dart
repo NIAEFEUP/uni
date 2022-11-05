@@ -135,14 +135,14 @@ void main() {
       expect(find.byKey(Key(sdisExam.toString())), findsOneWidget);
       expect(find.byKey(Key(sopeExam.toString())), findsOneWidget);
 
-      final filterIcon = find.byIcon(Icons.settings);
+      final filterIcon = find.byIcon(Icons.filter_alt);
       expect(filterIcon, findsOneWidget);
 
       filteredExams['ExamDoesNotExist'] = true;
 
       await tester.pumpAndSettle();
       final IconButton filterButton = find
-          .widgetWithIcon(IconButton, Icons.settings)
+          .widgetWithIcon(IconButton, Icons.filter_alt)
           .evaluate()
           .first
           .widget;
