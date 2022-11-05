@@ -1,10 +1,8 @@
 import 'dart:async';
 
-import 'package:flutter/services.dart';
 import 'package:html/dom.dart';
 import 'package:html/parser.dart' show parse;
 import 'package:http/http.dart' as http;
-import 'package:logger/logger.dart';
 import 'package:uni/model/entities/exam.dart';
 
 /// Parses information about the user's exams.
