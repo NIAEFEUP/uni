@@ -6,6 +6,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
+import 'package:logger/logger.dart';
 import 'package:mockito/mockito.dart';
 import 'package:redux/redux.dart';
 import 'package:tuple/tuple.dart';
@@ -39,11 +40,11 @@ void main() {
     final DateTime beginSopeExam = DateTime.parse('2099-11-18 17:00');
     final DateTime endSopeExam = DateTime.parse('2099-11-18 19:00');
     final sopeExam =
-        Exam('1234',beginSopeExam, endSopeExam, 'SOPE', [], 'MT');
+        Exam('44426',beginSopeExam, endSopeExam, 'SOPE', [], 'MT');
     final DateTime beginSdisExam = DateTime.parse('2099-10-21 17:00');
     final DateTime endSdisExam = DateTime.parse('2099-10-21 19:00');
     final sdisExam =
-        Exam('1233',beginSdisExam, endSdisExam, 'SDIS',[], 'MT');
+        Exam('44425',beginSdisExam, endSdisExam, 'SDIS',[], 'MT');
 
     final Map<String, bool> filteredExams = {};
     Exam.types
@@ -62,7 +63,7 @@ void main() {
             'exams': <Exam>[],
             'profile': profile,
             'filteredExams': filteredExams,
-            'hiddenExams': <Exam>[], 
+            'hiddenExams': <String>[], 
           }),
           middleware: [generalMiddleware]);
       NetworkRouter.httpClient = mockClient;
@@ -102,7 +103,7 @@ void main() {
             'exams': <Exam>[],
             'profile': profile,
             'filteredExams': filteredExams,
-            'hiddenExams': <Exam>[],
+            'hiddenExams': <String>[],
           }),
           middleware: [generalMiddleware]);
 
