@@ -1,23 +1,38 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/view/exams/widgets/exam_title.dart';
 import 'package:uni/view/exams/widgets/exam_time.dart';
 import 'package:add_2_calendar/add_2_calendar.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:uni/model/app_state.dart';
+import 'package:uni/redux/action_creators.dart';
 
-class ExamRow extends StatelessWidget {
+class ExamRow extends StatefulWidget {
   final Exam exam;
   final String teacher;
+  final bool mainPage;
 
   const ExamRow({
     Key? key,
     required this.exam,
     required this.teacher,
+    required this.mainPage,
   }) : super(key: key);
 
   @override
+  State<StatefulWidget> createState() {
+    return _ExamRowState();
+  }
+}
+
+class _ExamRowState extends State<ExamRow> {
+  @override
   Widget build(BuildContext context) {
-    final roomsKey = '${exam.subject}-${exam.rooms}-${exam.beginTime}-${exam.endTime}';
+    final roomsKey =
+        '${widget.exam.subject}-${widget.exam.rooms}-${widget.exam.beginTime}-${widget.exam.endTime}';
     return Center(
         child: Container(
             padding: const EdgeInsets.only(left: 12.0, bottom: 8.0, right: 12),
@@ -36,13 +51,42 @@ class ExamRow extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              ExamTime(begin: exam.beginTime, end: exam.endTime)
+                              ExamTime(
+                                  begin: widget.exam.beginTime,
+                                  end: widget.exam.endTime)
                             ]),
-                        ExamTitle(subject: exam.subject, type: exam.type),
-                        IconButton(
-                            icon: const Icon(MdiIcons.calendarPlus, size: 30),
-                            onPressed: () =>
-                                Add2Calendar.addEvent2Cal(createExamEvent())),
+                        ExamTitle(
+                            subject: widget.exam.subject,
+                            type: widget.exam.type),
+                        Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              IconButton(
+                                  icon: const Icon(MdiIcons.calendarPlus,
+                                      size: 30),
+                                  onPressed: () => Add2Calendar.addEvent2Cal(
+                                      createExamEvent())),
+                              if (!widget.mainPage)
+                                IconButton(
+                                    icon: !widget.exam.isHidden
+                                        ? const Icon(
+                                            Icons.remove_red_eye_outlined,
+                                            size: 30)
+                                        : const Icon(Icons.remove_red_eye,
+                                            size: 30),
+                                    tooltip: widget.exam.isHidden
+                                        ? "Mostrar na Área Pessoal"
+                                        : "Ocultar da Área Pessoal",
+                                    onPressed: () => setState(() {
+                                          widget.exam.isHidden =
+                                              !widget.exam.isHidden;
+                                          StoreProvider.of<AppState>(context)
+                                              .dispatch(setHiddenExams(
+                                                  widget.exam, Completer()));
+                                        })),
+                            ]),
                       ],
                     )),
                 Container(
@@ -54,11 +98,11 @@ class ExamRow extends StatelessWidget {
   }
 
   Widget? getExamRooms(context) {
-    if (exam.rooms[0] == '') return null;
+    if (widget.exam.rooms[0] == '') return null;
     return Wrap(
         alignment: WrapAlignment.start,
         spacing: 13,
-        children: roomsList(context, exam.rooms));
+        children: roomsList(context, widget.exam.rooms));
   }
 
   List<Text> roomsList(BuildContext context, List rooms) {
@@ -70,10 +114,10 @@ class ExamRow extends StatelessWidget {
 
   Event createExamEvent() {
     return Event(
-      title: '${exam.type} ${exam.subject}',
-      location: exam.rooms.toString(),
-      startDate: exam.begin,
-      endDate: exam.end,
+      title: '${widget.exam.type} ${widget.exam.subject}',
+      location: widget.exam.rooms.toString(),
+      startDate: widget.exam.begin,
+      endDate: widget.exam.end,
     );
   }
 }

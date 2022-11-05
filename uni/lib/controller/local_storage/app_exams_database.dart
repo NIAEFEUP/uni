@@ -26,17 +26,11 @@ class AppExamsDatabase extends AppDatabase {
   };
 
   static const _createScript =
-      '''CREATE TABLE exams(subject TEXT, begin TEXT, end TEXT,
+      '''CREATE TABLE exams(id TEXT, subject TEXT, begin TEXT, end TEXT,
           rooms TEXT, day TEXT, examType TEXT, weekDay TEXT, month TEXT, year TEXT) ''';
 
   AppExamsDatabase()
-      : super(
-            'exams.db',
-            [
-              _createScript
-            ],
-            onUpgrade: migrate,
-            version: 2);
+      : super('exams.db', [_createScript], onUpgrade: migrate, version: 2);
 
   /// Replaces all of the data in this database with [exams].
   saveNewExams(List<Exam> exams) async {
@@ -51,7 +45,7 @@ class AppExamsDatabase extends AppDatabase {
 
     return List.generate(maps.length, (i) {
       return Exam.secConstructor(
-          maps[i]['id'],
+          maps[i]['id'] ?? 0,
           maps[i]['subject'],
           DateTime.parse(maps[i]['year'] +
               '-' +
@@ -67,7 +61,7 @@ class AppExamsDatabase extends AppDatabase {
               maps[i]['day'] +
               ' ' +
               maps[i]['end']),
-          maps[i]['rooms'],
+          maps[i]['rooms'] ?? '',
           maps[i]['examType']);
     });
   }
@@ -77,7 +71,7 @@ class AppExamsDatabase extends AppDatabase {
   /// If a row with the same data is present, it will be replaced.
   Future<void> _insertExams(List<Exam> exams) async {
     for (Exam exam in exams) {
-      //Logger().i("AIIIII$exam.id");
+      Logger().i("AIIIII     $exam.");
       await insertInDatabase(
         'exams',
         exam.toMap(),
@@ -94,14 +88,12 @@ class AppExamsDatabase extends AppDatabase {
   }
 
   static FutureOr<void> migrate(
-      Database db, int oldVersion, int newVersion) async {
-        if (oldVersion < newVersion) {
-    // you can execute drop table and create table
-    db.execute('''ALTER TABLE exams ADD COLUMN id TEXT''');
-    /*
-        final batch = db.batch();
-        batch.execute(_createScript);
-        batch.execute('''ALTER TABLE exams ADD id TEXT''');*/
-        }  
+    Database db,
+    int oldVersion,
+    int newVersion,
+  ) async {
+    final batch = db.batch();
+    batch.execute('DROP TABLE IF EXISTS exams');
+    batch.execute(_createScript);
   }
 }

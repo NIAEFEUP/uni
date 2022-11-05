@@ -13,7 +13,6 @@ import 'package:uni/view/common_widgets/row_container.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
 import 'package:uni/utils/drawer_items.dart';
 
-
 /// Manages the exam card section inside the personal area.
 class ExamCard extends GenericCard {
   ExamCard({Key? key}) : super(key: key);
@@ -29,15 +28,12 @@ class ExamCard extends GenericCard {
   onClick(BuildContext context) =>
       Navigator.pushNamed(context, '/${DrawerItem.navExams.title}');
 
-<<<<<<< Updated upstream:uni/lib/view/home/widgets/exam_card.dart
   static getExamCardColor(BuildContext context, Exam exam) {
     return exam.isHighlighted()
         ? Theme.of(context).backgroundColor
         : Theme.of(context).hintColor;
   }
 
-=======
->>>>>>> Stashed changes:uni/lib/view/Widgets/exam_card.dart
   /// Returns a widget with all the exams card content.
   ///
   /// If there are no exams, a message telling the user
@@ -46,21 +42,14 @@ class ExamCard extends GenericCard {
   Widget buildCardContent(BuildContext context) {
     return StoreConnector<AppState, Tuple2<List<Exam>, RequestStatus>?>(
       converter: (store) {
-<<<<<<< Updated upstream:uni/lib/view/home/widgets/exam_card.dart
-=======
-        final List<String> hiddenExams = store.state.content['hiddenExams'];
->>>>>>> Stashed changes:uni/lib/view/Widgets/exam_card.dart
         final Map<String, bool> filteredExams =
             store.state.content['filteredExams'];
         final List<Exam> exams = store.state.content['exams'];
+        final List<String> hiddenExams = store.state.content['hiddenExams'];
         final List<Exam> filteredExamsList = exams
             .where((exam) =>
-<<<<<<< Updated upstream:uni/lib/view/home/widgets/exam_card.dart
-                filteredExams[Exam.getExamTypeLong(exam.type)] ?? true)
-=======
-                (filteredExams[Exam.getExamTypeLong(exam.examType)] ?? true) &&
-                (!hiddenExams.contains(exam.getId().toString())))
->>>>>>> Stashed changes:uni/lib/view/Widgets/exam_card.dart
+                (filteredExams[Exam.getExamTypeLong(exam.type)] ?? true) &&
+                (!hiddenExams.contains(exam.id)))
             .toList();
 
         return Tuple2(filteredExamsList, store.state.content['examsStatus']);
@@ -117,15 +106,11 @@ class ExamCard extends GenericCard {
       DateRectangle(
           date: '${exam.weekDay}, ${exam.begin.day} de ${exam.month}'),
       RowContainer(
-<<<<<<< Updated upstream:uni/lib/view/home/widgets/exam_card.dart
         color: getExamCardColor(context, exam),
         child: ExamRow(
-=======
-        color: Theme.of(context).backgroundColor,
-        child: ScheduleRow(
->>>>>>> Stashed changes:uni/lib/view/Widgets/exam_card.dart
           exam: exam,
           teacher: '',
+          mainPage: true,
         ),
       ),
     ]);
@@ -150,9 +135,7 @@ class ExamCard extends GenericCard {
                   style: Theme.of(context).textTheme.bodyText1,
                 ),
                 ExamTitle(
-                    subject: exam.subject,
-                    type: exam.type,
-                    reverseOrder: true)
+                    subject: exam.subject, type: exam.type, reverseOrder: true)
               ]),
         ),
       ),

@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:logger/logger.dart';
-import 'package:tuple/tuple.dart';
-import 'package:uni/controller/exam.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
@@ -27,13 +24,17 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
     return StoreConnector<AppState, List<dynamic>?>(
       converter: (store) {
         final List<Exam> exams = store.state.content['exams'];
+        final List<String> hiddenExams =
+            store.state.content['hiddenExams'] ?? <String>[];
+        for (var exam in exams) {
+          exam.isHidden = hiddenExams.contains(exam.id);
+        }
         final Map<String, bool> filteredExams =
             store.state.content['filteredExams'] ?? [];
         return exams
             .where((exam) =>
                 filteredExams[Exam.getExamTypeLong(exam.type)] ?? true)
             .toList();
-
       },
       builder: (context, exams) {
         return ExamsList(exams: exams as List<Exam>);
@@ -117,18 +118,19 @@ class ExamsList extends StatelessWidget {
     );
   }
 
-  Widget createExamsCards(context,List<Exam> exams) {
+  Widget createExamsCards(context, List<Exam> exams) {
     final List<Widget> examCards = <Widget>[];
     examCards.add(DayTitle(
-        day: exams[0].begin.day.toString(), weekDay: exams[0].weekDay, month: exams[0].weekDay));
+        day: exams[0].begin.day.toString(),
+        weekDay: exams[0].weekDay,
+        month: exams[0].weekDay));
     for (int i = 0; i < exams.length; i++) {
       examCards.add(createExamContext(context, exams[i]));
     }
     return Column(children: examCards);
   }
 
-  Widget createExamContext(context,Exam exam) {
-    //exam.isHidden = hidden.contains(exam);
+  Widget createExamContext(context, Exam exam) {
     final keyValue = '${exam.toString()}-exam';
     return Container(
         key: Key(keyValue),
@@ -140,6 +142,7 @@ class ExamsList extends StatelessWidget {
             child: ExamRow(
               exam: exam,
               teacher: '',
+              mainPage: false,
             )));
   }
 }

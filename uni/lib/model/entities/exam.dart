@@ -102,7 +102,7 @@ class Exam {
 
   @override
   String toString() {
-    return '''$subject - ${begin.year.toString()} - $month - ${begin.day} -  $beginTime-$endTime - $type - $rooms - $weekDay''';
+    return '''$id - $subject - ${begin.year.toString()} - $month - ${begin.day} -  $beginTime-$endTime - $type - $rooms - $weekDay''';
   }
 
   /// Prints the data in this exam to the [Logger] with an INFO level.
@@ -132,10 +132,5 @@ class Exam {
   static getExamTypeLong(String abr) {
     final Map<String, String> reversed = types.map((k, v) => MapEntry(v, k));
     return reversed[abr];
-  }
-
-  UuidValue getId() {
-    const uuid = Uuid();
-    return uuid.v1obj(options: toMap());
   }
 }
