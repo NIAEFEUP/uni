@@ -1,5 +1,6 @@
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
+import 'package:uni/model/utils/datetime.dart';
 
 /// Stores information about a lecture.
 class Lecture {
@@ -111,7 +112,7 @@ class Lecture {
   /// Prints the data in this lecture to the [Logger] with an INFO level.
   printLecture() {
     Logger().i('$subject $typeClass');
-    Logger().i('${dayName[day]} $startTime $endTime');
+    Logger().i('$day ${readableTime(startTime)} ${readableTime(endTime)}');
     Logger().i('$room  $teacher\n');
   }
 
@@ -122,6 +123,21 @@ class Lecture {
     } else {
       return day.compareTo(other.day);
     }
+  }
+
+  // Compares the endTime of a class with the current time, used in schedule_card
+  // Returns the lecture day for comparison
+  int compareEndTimeWithNow() {
+    final now = DateTime.now();
+
+    if (day > now.weekday - 1 ||
+       (day == now.weekday - 1 &&
+       (endTime.hour > now.hour &&
+       (endTime.minute > now.minute)))) {
+        return day;
+    }
+
+    return -2;
   }
 
   @override

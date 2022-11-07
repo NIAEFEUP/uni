@@ -1,3 +1,4 @@
+import 'package:logger/logger.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -60,23 +61,23 @@ class ScheduleCard extends GenericCard {
     }
     final List<Widget> rows = <Widget>[];
 
-    final now = DateTime.now();
     var added = 0;  // Lectures added to widget
-    var lastDayAdded = 0;  // Day of last added lecture
+    var lastDayAdded = -1;  // Day of last added lecture
     
-    for (int i = 0; added < 2 && i < lectures.length; i++) {
-      if (now.hour < lectures[i].endTime.hour
-          || (now.hour == lectures[i].endTime.hour
-          && now.minute < lectures[i].endTime.minute)) {
-        if (now.weekday - 1 != lectures[i].day
-            && lastDayAdded < lectures[i].day) {
-          rows.add(DateRectangle(date: Lecture.dayName[lectures[i].day % 7]));
-        }
+    for (int i = 0; i < lectures.length && added < 2; i++) {
+      final int currLectureDay = lectures[i].compareEndTimeWithNow();
 
+      if (currLectureDay == lastDayAdded) {
         rows.add(createRowFromLecture(context, lectures[i]));
-        lastDayAdded = lectures[i].day;
+        added++;
+
+      } else if (currLectureDay > lastDayAdded) {
+        rows.add(DateRectangle(date: Lecture.dayName[currLectureDay % 7]));
+        rows.add(createRowFromLecture(context, lectures[i]));
+        lastDayAdded = currLectureDay;
         added++;
       }
+      
     }
 
     if (rows.isEmpty) {
