@@ -158,7 +158,7 @@ class AppSharedPreferences {
   static saveHiddenExams(List<String> newHiddenExams) async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setStringList(
-        hiddenExams, newHiddenExams.map((examId) => examId).toList());
+        hiddenExams, newHiddenExams);
   }
 
   static Future<List<String>> getHiddenExams() async {
