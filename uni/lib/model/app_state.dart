@@ -17,7 +17,7 @@ class AppState {
     return {
       'schedule': <Lecture>[],
       'exams': <Exam>[],
-      'hiddenExams': <Exam>[],
+      'hiddenExams': <String>[],
       'restaurants': <Restaurant>[],
       'filteredExam': <String, bool>{},
       'scheduleStatus': RequestStatus.none,
