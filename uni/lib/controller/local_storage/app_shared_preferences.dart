@@ -164,7 +164,7 @@ class AppSharedPreferences {
   static Future<List<String>> getHiddenExams() async {
     final prefs = await SharedPreferences.getInstance();
     final List<String> storedHiddenExam = prefs.getStringList(hiddenExams) ?? [];
-    return storedHiddenExam.map((i) => i).toList();
+    return storedHiddenExam;
   }
   /// Replaces the user's exam filter settings with [newFilteredExamTypes].
   static saveFilteredExams(Map<String, bool> newFilteredExamTypes) async {
