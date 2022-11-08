@@ -65,7 +65,7 @@ class ScheduleCardShimmer extends StatelessWidget{
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         Container(height: 15, width: 80, color: Colors.black,), //Day of the week
-        SizedBox(height: 10,),
+        const SizedBox(height: 10,),
         _getSingleScheduleWidget(context),
         _getSingleScheduleWidget(context),
       ],
