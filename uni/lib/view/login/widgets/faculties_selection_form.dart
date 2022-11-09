@@ -36,7 +36,7 @@ class _FacultiesSelectionFormState extends State<FacultiesSelectionForm> {
               foregroundColor: Theme.of(context).primaryColor, backgroundColor: Colors.white),
           onPressed: () {
             if (widget.selectedFaculties.isEmpty) {
-              ToastMessage.errorMessage(
+              ToastMessage.error(
                   context, 'Seleciona pelo menos uma faculdade');
               return;
             }

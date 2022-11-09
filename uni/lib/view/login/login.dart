@@ -140,7 +140,7 @@ class LoginPageViewState extends State<LoginPageView> {
     if (_exitApp) {
       return Future.value(true);
     }
-    ToastMessage.errorMessage(context, 'Pressione novamente para sair');
+    ToastMessage.error(context, 'Pressione novamente para sair');
     exitAppWaiter();
     return Future.value(false);
   }
@@ -208,7 +208,7 @@ class LoginPageViewState extends State<LoginPageView> {
             Navigator.pushReplacementNamed(
                 context, '/${DrawerItem.navPersonalArea.title}');
           } else if (status == RequestStatus.failed) {
-            ToastMessage.errorMessage(context, 'O login falhou');
+            ToastMessage.error(context, 'O login falhou');
           }
         },
         builder: (context, status) {

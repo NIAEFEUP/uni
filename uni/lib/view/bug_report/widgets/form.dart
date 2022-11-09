@@ -260,9 +260,9 @@ class BugReportFormState extends State<BugReportForm> {
     if (mounted) {
       FocusScope.of(context).requestFocus(FocusNode());
       if (state) {
-        ToastMessage.successMessage(context, toastMsg);
+        ToastMessage.success(context, toastMsg);
       } else {
-        ToastMessage.errorMessage(context, toastMsg);
+        ToastMessage.error(context, toastMsg);
       }
       setState(() {
         _isButtonTapped = false;
