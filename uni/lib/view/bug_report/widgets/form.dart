@@ -239,6 +239,7 @@ class BugReportFormState extends State<BugReportForm> {
         : bugDescriptions[_selectedBug]!.item2;
 
     String toastMsg;
+    bool state;
     try {
       final sentryId = await submitSentryEvent(bugLabel);
       final gitHubRequestStatus = await submitGitHubIssue(sentryId, bugLabel);
@@ -247,16 +248,23 @@ class BugReportFormState extends State<BugReportForm> {
       }
       Logger().i('Successfully submitted bug report.');
       toastMsg = 'Enviado com sucesso';
+      state = true;
     } catch (e) {
       Logger().e('Error while posting bug report:$e');
       toastMsg = 'Ocorreu um erro no envio';
+      state = false;
     }
 
     clearForm();
 
     if (mounted) {
       FocusScope.of(context).requestFocus(FocusNode());
-      ToastMessage.display(context, toastMsg);
+      if(state){
+        ToastMessage.success(context, toastMsg);
+      }
+      else {
+        ToastMessage.error(context, toastMsg);
+      }
       setState(() {
         _isButtonTapped = false;
       });
