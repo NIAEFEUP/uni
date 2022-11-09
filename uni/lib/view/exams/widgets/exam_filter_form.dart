@@ -44,11 +44,11 @@ class ExamFilterFormState extends State<ExamFilterForm> {
   Widget getExamCheckboxes(
       Map<String, bool> filteredExams, BuildContext context) {
     filteredExams
-        .removeWhere((key, value) => !Exam.getExamTypes().containsKey(key));
+        .removeWhere((key, value) => !Exam.types.containsKey(key));
     return ListView(
         children: List.generate(filteredExams.length, (i) {
       final String key = filteredExams.keys.elementAt(i);
-      if (!Exam.getExamTypes().containsKey(key)) return const Text("");
+      if (!Exam.types.containsKey(key)) return const Text("");
       return CheckboxListTile(
           contentPadding: const EdgeInsets.all(0),
           title: Text(
