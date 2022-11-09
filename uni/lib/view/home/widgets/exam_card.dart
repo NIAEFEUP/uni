@@ -65,7 +65,7 @@ class ExamCard extends GenericCard {
   }
 
   /// Returns a widget with all the exams.
-  Widget generateExams(dynamic exams, BuildContext context) {
+  Widget generateExams(exams, BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: getExamRows(context, exams),
