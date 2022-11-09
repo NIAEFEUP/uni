@@ -3,12 +3,12 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:tuple/tuple.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/lecture.dart';
+import 'package:uni/model/entities/time_utilities.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
 import 'package:uni/view/schedule/widgets/schedule_slot.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/utils/drawer_items.dart';
-
 
 class SchedulePage extends StatefulWidget {
   const SchedulePage({Key? key}) : super(key: key);
@@ -46,13 +46,7 @@ class SchedulePageView extends StatefulWidget {
 
   final int weekDay = DateTime.now().weekday;
 
-  static final List<String> daysOfTheWeek = [
-    'Segunda-feira',
-    'Terça-feira',
-    'Quarta-feira',
-    'Quinta-feira',
-    'Sexta-feira'
-  ];
+  static final List<String> daysOfTheWeek = TimeString.weekdays.sublist(0, 5);
 
   static List<List<Lecture>> groupLecturesByDay(schedule) {
     final aggLectures = <List<Lecture>>[];
@@ -73,7 +67,7 @@ class SchedulePageView extends StatefulWidget {
 
 class SchedulePageViewState extends GeneralPageViewState<SchedulePageView>
     with TickerProviderStateMixin {
-   TabController? tabController;
+  TabController? tabController;
 
   @override
   void initState() {
