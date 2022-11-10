@@ -31,7 +31,7 @@ class AppSharedPreferences {
   ];
   static const String filteredExamsTypes = 'filtered_exam_types';
   static final List<String> defaultFilteredExamTypes =
-      Exam.types.keys.toList();
+      Exam.types.keys.toList().sublist(0, 4);
 
   /// Saves the user's student number, password and faculties.
   static Future savePersistentUserInfo(user, pass, faculties) async {
