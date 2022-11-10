@@ -44,19 +44,16 @@ class PrintFetcher implements SessionDependantFetcher {
 
   // Print up methods
 
-  //get balance: HTML
+  //get balance from home page: HTML
   static Future getHomePage(Session session) async {
     const url = '$printURL/app?service=page/UserSummary';
     return await NetworkRouter.getWithCookies(url, {}, session);
   } 
-  //get recent movements: CVS 
-  static Future getPrintMovements(Session session) async {
-    const url = '$printURL/app?service=direct/1/UserTransactions/accTrans.exportLogs.csv&sp=SCSV&sp=F';
-    // TODO: explore some way to read the downloaded csv file
-  }
-  //get recent movements: HTML
+
+  //get pending releases: HTML
   static Future getPendingReleases(Session session) async {
-    const url = '$printURL/app?service=direct/1/UserPrintLogs/printLogs.exportPrint.csv&sp=SCSV&sp=F';
+    const url = '$printURL/app?service=page/UserReleaseJobs';
+    
     return await NetworkRouter.getWithCookies(url, {}, session);
   }
 

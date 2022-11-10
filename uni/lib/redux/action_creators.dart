@@ -34,7 +34,7 @@ import 'package:uni/controller/networking/network_router.dart'
     show NetworkRouter;
 import 'package:uni/controller/parsers/parser_exams.dart';
 import 'package:uni/controller/parsers/parser_fees.dart';
-import 'package:uni/controller/parsers/parser_print_balance.dart';
+import 'package:uni/controller/parsers/parser_print.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/calendar_event.dart';
 import 'package:uni/model/entities/bus_stop.dart';
