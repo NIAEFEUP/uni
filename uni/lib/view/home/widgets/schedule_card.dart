@@ -61,23 +61,22 @@ class ScheduleCard extends GenericCard {
     }
     final List<Widget> rows = <Widget>[];
 
+    final now = DateTime.now();
     var added = 0;  // Lectures added to widget
-    var lastDayAdded = -1;  // Day of last added lecture
+    var currDay = now.weekday - 1; // Today's day in lecture's day format
     
     for (int i = 0; i < lectures.length && added < 2; i++) {
-      final int currLectureDay = lectures[i].compareEndTimeWithNow();
+      if (lectures[i].isAfter()) {
+        final int day = lectures[i].day;
 
-      if (currLectureDay == lastDayAdded) {
-        rows.add(createRowFromLecture(context, lectures[i]));
-        added++;
+        if (currDay != day) {
+          rows.add(DateRectangle(date: Lecture.dayName[day % 7]));
+        }
 
-      } else if (currLectureDay > lastDayAdded) {
-        rows.add(DateRectangle(date: Lecture.dayName[currLectureDay % 7]));
         rows.add(createRowFromLecture(context, lectures[i]));
-        lastDayAdded = currLectureDay;
+        currDay = day;
         added++;
-      }
-      
+      }       
     }
 
     if (rows.isEmpty) {

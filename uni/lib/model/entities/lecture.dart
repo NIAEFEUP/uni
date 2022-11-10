@@ -127,17 +127,18 @@ class Lecture {
 
   // Compares the endTime of a class with the current time, used in schedule_card
   // Returns the lecture day for comparison
-  int compareEndTimeWithNow() {
+  bool isAfter() {
     final now = DateTime.now();
 
     if (day > now.weekday - 1 ||
        (day == now.weekday - 1 &&
-       (endTime.hour > now.hour &&
+       (endTime.hour > now.hour ||
+       (endTime.hour == now.hour) &&
        (endTime.minute > now.minute)))) {
-        return day;
+        return true;
     }
 
-    return -2;
+    return false;
   }
 
   @override
