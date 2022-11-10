@@ -16,18 +16,18 @@ enum WeekDays {
 }
 
 enum Months {
-  january("Janeiro"),
-  february("Fevereiro"),
-  march("Março"),
-  april("Abril"),
-  may("Maio"),
-  june("Junho"),
-  july("Julho"),
-  august("Agosto"),
-  september("Setembro"),
-  october("Outubro"),
-  november("Novembro"),
-  december("Dezembro");
+  january("janeiro"),
+  february("fevereiro"),
+  march("março"),
+  april("abril"),
+  may("maio"),
+  june("junho"),
+  july("julho"),
+  august("agosto"),
+  september("setembro"),
+  october("outubro"),
+  november("novembro"),
+  december("dezembro");
 
   final String month;
   const Months(this.month);
