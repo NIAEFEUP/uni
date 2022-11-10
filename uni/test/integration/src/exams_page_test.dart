@@ -49,6 +49,7 @@ void main() {
     Exam.types
         .keys
         .toList()
+        .sublist(0, 4)
         .forEach((type) => filteredExams[type] = true);
 
     final profile = Profile();
@@ -150,7 +151,7 @@ void main() {
       expect(find.byType(AlertDialog), findsOneWidget);
       //This checks if the ExamDoesNotExist is not displayed
       expect(find.byType(CheckboxListTile),
-          findsNWidgets(Exam.types.length));
+          findsNWidgets(4));
 
       final CheckboxListTile mtCheckboxTile = find
           .byKey(const Key('ExamCheck' 'Mini-testes'))
