@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 /// Provides feedback about an operation in a small popup
 ///
 /// usage example: ToastMessage.display(context, toastMsg);
-class MToast extends StatelessWidget {
+class MessageToast extends StatelessWidget {
   final String message;
   final Color? color;
   final IconData? icon;
@@ -13,7 +13,7 @@ class MToast extends StatelessWidget {
   final AlignmentGeometry? alignment;
   final dynamic elevation;
 
-  const MToast(
+  const MessageToast(
       {Key? key,
       required this.message,
       this.color = Colors.white,
@@ -41,12 +41,10 @@ class MToast extends StatelessWidget {
           children: [
             Container(
                 margin: const EdgeInsets.all(10.0),
-                child: icon != null
-                    ? Icon(
+                child: Icon(
                         icon,
                         color: iconColor,
-                      )
-                    : const SizedBox.shrink()),
+                      )),
             Expanded(
               child: Text(
                 message,
@@ -88,7 +86,7 @@ class ToastMessage {
   static error(BuildContext context, String msg) =>
       _displayDialog(
         context,
-        MToast(
+        MessageToast(
             message: msg,
             color: toastErrorColor,
             icon: CupertinoIcons.clear_circled_solid,
@@ -97,7 +95,7 @@ class ToastMessage {
   static success(BuildContext context, String msg) =>
       _displayDialog(
         context,
-        MToast(
+        MessageToast(
             message: msg,
             color: toastSuccessColor,
             icon: CupertinoIcons.check_mark_circled_solid,
@@ -107,7 +105,7 @@ class ToastMessage {
   static warning(BuildContext context, String msg) =>
       _displayDialog(
         context,
-        MToast(
+        MessageToast(
             message: msg,
             color: toastWarningColor,
             icon: CupertinoIcons.exclamationmark_circle_fill,
@@ -116,7 +114,7 @@ class ToastMessage {
   static info(BuildContext context, String msg) =>
       _displayDialog(
         context,
-        MToast(
+        MessageToast(
             message: msg,
             color: toastInfoColor,
             icon: CupertinoIcons.info_circle_fill,
