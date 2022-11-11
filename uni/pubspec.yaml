@@ -50,7 +50,6 @@ dependencies:
   cached_network_image: ^3.0.0-nullsafety
   flutter_svg: ^1.1.0
   synchronized: ^3.0.0
-  toast: ^0.3.0
   image: ^3.0.0-nullsafety.0
   connectivity_plus: ^2.3.3
   logger: ^1.1.0
