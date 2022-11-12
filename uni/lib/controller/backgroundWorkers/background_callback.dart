@@ -1,0 +1,45 @@
+
+import 'package:logger/logger.dart';
+import 'package:tuple/tuple.dart';
+import 'package:uni/controller/backgroundWorkers/notifications.dart';
+import 'package:workmanager/workmanager.dart';
+
+/// This map contains the functions that a certain task type will run. 
+/// the bool is all functions that are ran by backgroundfetch in iOS 
+/// (they must not take any arguments, not checked)
+const taskMap = {'notification-worker': Tuple2(NotificationManager.tryRunAll, true)};
+
+@pragma('vm:entry-point')
+// This function is android only and only executes when the app is complety terminated
+void workerStartCallback() async {
+  Workmanager().executeTask((taskName, inputData) async {
+    try{
+      Logger().d("""[$taskName]: Start executing job...""");
+
+      //iOSBackgroundTask is a special task, that iOS runs whenever it deems necessary 
+      //and will run all tasks with the flag true
+      //NOTE: keep the total execution time under 30s to avoid being punished by the iOS scheduler.
+      if(taskName == Workmanager.iOSBackgroundTask){
+        taskMap.forEach((key, value) async { 
+          if(value.item2) {
+            Logger().d("""[$key]: Start executing job...""");
+            await value.item1();
+          }
+        });
+        return true;
+      }
+      //try to keep the usage of this function BELOW +-30 seconds 
+      //to not be punished by the scheduler in future runs.
+      await taskMap[taskName]!.item1();
+
+    } catch(err){
+      Logger().e(err.toString());
+      return false;
+    }
+    return true;
+  });
+
+
+}
+
+

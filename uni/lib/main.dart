@@ -1,11 +1,14 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:provider/provider.dart';
 import 'package:redux/redux.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:uni/controller/backgroundWorkers/background_callback.dart';
+import 'package:uni/controller/backgroundWorkers/notifications.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/controller/middleware.dart';
 import 'package:uni/controller/on_start_up.dart';
@@ -28,6 +31,7 @@ import 'package:uni/view/theme.dart';
 import 'package:uni/view/theme_notifier.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/useful_info/useful_info.dart';
+import 'package:workmanager/workmanager.dart';
 
 
 SentryEvent? beforeSend(SentryEvent event) {
@@ -43,6 +47,13 @@ Future<void> main() async {
 
   OnStartUp.onStart(state);
   WidgetsFlutterBinding.ensureInitialized();
+
+  await Workmanager().initialize(workerStartCallback, 
+    isInDebugMode: !kReleaseMode // run workmanager in debug mode when app is in debug mode
+  );
+
+  NotificationManager.buildNotificationWorker();
+
   final savedTheme = await AppSharedPreferences.getThemeMode();
   await SentryFlutter.init((options) {
     options.dsn =
