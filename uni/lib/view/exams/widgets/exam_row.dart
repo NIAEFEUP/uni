@@ -28,6 +28,7 @@ class ExamRow extends StatefulWidget {
   }
 }
 
+
 class _ExamRowState extends State<ExamRow> {
   @override
   Widget build(BuildContext context) {
@@ -101,6 +102,7 @@ class _ExamRowState extends State<ExamRow> {
         alignment: WrapAlignment.start,
         spacing: 13,
         children: roomsList(context, widget.exam.rooms));
+
   }
 
   List<Text> roomsList(BuildContext context, List rooms) {

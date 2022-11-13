@@ -127,7 +127,9 @@ class ExamCard extends GenericCard {
                   style: Theme.of(context).textTheme.bodyText1,
                 ),
                 ExamTitle(
-                    subject: exam.subject, type: exam.type, reverseOrder: true)
+                    subject: exam.subject,
+                    type: exam.type,
+                    reverseOrder: true)
               ]),
         ),
       ),

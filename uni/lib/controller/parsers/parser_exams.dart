@@ -27,7 +27,6 @@ class ParserExams {
     List<String> rooms = [];
     String? subject, schedule;
     String id = '0';
-
     int days = 0;
     int tableNum = 0;
     document.querySelectorAll('h3').forEach((Element examType) {
@@ -47,6 +46,7 @@ class ParserExams {
               if (examsDay.querySelector('a') != null) {
                 subject = examsDay.querySelector('a')!.text;
                 id = Uri.parse(examsDay.querySelector('a')!.attributes['href']!).queryParameters['p_exa_id']!;
+
               }
               if (examsDay.querySelector('span.exame-sala') != null) {
                 rooms =
@@ -54,7 +54,6 @@ class ParserExams {
               }
               schedule = examsDay.text.substring(examsDay.text.indexOf(':') - 2,
                   examsDay.text.indexOf(':') + 9);
-
               final List<String> splittedSchedule = schedule!.split('-');
               final DateTime begin =
                   DateTime.parse('${dates[days]} ${splittedSchedule[0]}');
@@ -62,6 +61,7 @@ class ParserExams {
                   DateTime.parse('${dates[days]} ${splittedSchedule[1]}');
               final Exam exam =
                   Exam(id,begin, end, subject ?? '', rooms, examTypes[tableNum]);
+
               examsList.add(exam);
             });
           }

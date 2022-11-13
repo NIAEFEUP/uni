@@ -16,18 +16,18 @@ enum WeekDays {
 }
 
 enum Months {
-  january("Janeiro"),
-  february("Fevereiro"),
-  march("Março"),
-  april("Abril"),
-  may("Maio"),
-  june("Junho"),
-  july("Julho"),
-  august("Agosto"),
-  september("Setembro"),
-  october("Outubro"),
-  november("Novembro"),
-  december("Dezembro");
+  january("janeiro"),
+  february("fevereiro"),
+  march("março"),
+  april("abril"),
+  may("maio"),
+  june("junho"),
+  july("julho"),
+  august("agosto"),
+  september("setembro"),
+  october("outubro"),
+  november("novembro"),
+  december("dezembro");
 
   final String month;
   const Months(this.month);
@@ -45,7 +45,6 @@ class Exam {
   late final DateTime begin;
   late final DateTime end;
   late final String id;
-
   late final String subject;
   late final List<String> rooms;
   late final String type;
@@ -59,10 +58,12 @@ class Exam {
     'Port.Est.Especiais': 'EE',
     'Exames ao abrigo de estatutos especiais': 'EAE'
   };
+
   Exam(this.id, this.begin, this.end, this.subject, this.rooms, this.type);
 
   Exam.secConstructor(
       this.id, this.subject, this.begin, this.end, String rooms, this.type) {
+
     this.rooms = rooms.split(',');
   }
 
@@ -96,11 +97,13 @@ class Exam {
   String formatTime(DateTime time) => DateFormat('HH:mm').format(time);
 
   /// the type 'MT' ('Mini-testes') or 'EN' ('Normal').
+
   bool isHighlighted() => isHidden;
 
   @override
   String toString() {
     return '''$id - $subject - ${begin.year.toString()} - $month - ${begin.day} -  $beginTime-$endTime - $type - $rooms - $weekDay''';
+
   }
 
   /// Prints the data in this exam to the [Logger] with an INFO level.
