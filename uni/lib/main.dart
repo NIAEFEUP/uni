@@ -26,6 +26,7 @@ import 'package:uni/view/common_widgets/page_transition.dart';
 import 'package:uni/view/navigation_service.dart';
 import 'package:uni/view/theme.dart';
 import 'package:uni/view/theme_notifier.dart';
+import 'package:uni/view/library/library.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/useful_info/useful_info.dart';
 
@@ -127,6 +128,11 @@ class MyAppState extends State<MyApp> {
                   '/${DrawerItem.navCalendar.title}' :
                   PageTransition.makePageTransition(
                           page: const CalendarPageView(), 
+                          settings: settings),
+
+                  '/${DrawerItem.navLibrary.title}' :
+                  PageTransition.makePageTransition(
+                          page: const LibraryPageView(), 
                           settings: settings),
 
                   '/${DrawerItem.navUsefulInfo.title}' :
