@@ -76,7 +76,7 @@ class _ExamRowState extends State<ExamRow> {
                                           widget.exam.isHidden =
                                               !widget.exam.isHidden;
                                           StoreProvider.of<AppState>(context)
-                                              .dispatch(setHiddenExams(
+                                              .dispatch(toggleHiddenExam(
                                                   widget.exam.id, Completer()));
                                         })),
                               IconButton(

@@ -542,7 +542,7 @@ ThunkAction<AppState> setFilteredExams(
   };
 }
 
-ThunkAction<AppState> setHiddenExams(
+ThunkAction<AppState> toggleHiddenExam(
     String newExamId, Completer<void> action) {
   return (Store<AppState> store) async {
     final List<String> hiddenExams =
