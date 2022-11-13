@@ -46,7 +46,7 @@ class ParserExams {
             exams.querySelectorAll('td.exame').forEach((Element examsDay) {
               if (examsDay.querySelector('a') != null) {
                 subject = examsDay.querySelector('a')!.text;
-                id = examsDay.querySelector('a')!.attributes['href']!.split('=')[1];
+                id = Uri.parse(examsDay.querySelector('a')!.attributes['href']!).queryParameters['p_exa_id']!;
               }
               if (examsDay.querySelector('span.exame-sala') != null) {
                 rooms =

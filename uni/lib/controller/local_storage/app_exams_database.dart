@@ -1,6 +1,4 @@
 import 'dart:async';
-
-import 'package:logger/logger.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:uni/controller/local_storage/app_database.dart';
 import 'package:uni/model/entities/exam.dart';
@@ -71,7 +69,6 @@ class AppExamsDatabase extends AppDatabase {
   /// If a row with the same data is present, it will be replaced.
   Future<void> _insertExams(List<Exam> exams) async {
     for (Exam exam in exams) {
-      Logger().i("AIIIII     $exam.");
       await insertInDatabase(
         'exams',
         exam.toMap(),

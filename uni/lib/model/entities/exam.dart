@@ -33,7 +33,6 @@ enum Months {
   const Months(this.month);
 }
 
-
 /// Manages a generic Exam.
 ///
 /// The information stored is:
@@ -62,8 +61,8 @@ class Exam {
   };
   Exam(this.id, this.begin, this.end, this.subject, this.rooms, this.type);
 
-  Exam.secConstructor(this.id,
-      this.subject, this.begin, this.end, String rooms, this.type) {
+  Exam.secConstructor(
+      this.id, this.subject, this.begin, this.end, String rooms, this.type) {
     this.rooms = rooms.split(',');
   }
 
@@ -83,7 +82,6 @@ class Exam {
     };
   }
 
-
   /// Returns whether or not this exam has already ended.
   bool hasEnded() => DateTime.now().compareTo(end) >= 0;
 
@@ -98,7 +96,7 @@ class Exam {
   String formatTime(DateTime time) => DateFormat('HH:mm').format(time);
 
   /// the type 'MT' ('Mini-testes') or 'EN' ('Normal').
-  bool isHighlighted() => type == 'MT' || type == 'EN';
+  bool isHighlighted() => isHidden;
 
   @override
   String toString() {
@@ -117,12 +115,14 @@ class Exam {
           runtimeType == other.runtimeType &&
           subject == other.subject &&
           listEquals(rooms, other.rooms) &&
+          id == other.id &&
           begin == other.begin &&
           end == other.end &&
           type == other.type;
 
   @override
   int get hashCode =>
+      id.hashCode ^
       begin.hashCode ^
       end.hashCode ^
       subject.hashCode ^

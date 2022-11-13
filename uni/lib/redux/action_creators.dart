@@ -543,13 +543,11 @@ ThunkAction<AppState> setFilteredExams(
 }
 
 ThunkAction<AppState> setHiddenExams(
-    Exam newHiddenExam, Completer<void> action) {
+    String newExamId, Completer<void> action) {
   return (Store<AppState> store) async {
     final List<String> hiddenExams =
         await AppSharedPreferences.getHiddenExams();
-
-    final String id = newHiddenExam.id;
-    hiddenExams.contains(id) ? hiddenExams.remove(id) : hiddenExams.add(id);
+    hiddenExams.contains(newExamId) ? hiddenExams.remove(newExamId) : hiddenExams.add(newExamId);
     store.dispatch(SetExamHidden(hiddenExams));
     await AppSharedPreferences.saveHiddenExams(hiddenExams);
     action.complete();

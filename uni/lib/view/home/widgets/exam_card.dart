@@ -26,11 +26,6 @@ class ExamCard extends GenericCard {
   onClick(BuildContext context) =>
       Navigator.pushNamed(context, '/${DrawerItem.navExams.title}');
 
-  static getExamCardColor(BuildContext context, Exam exam) {
-    return exam.isHighlighted()
-        ? Theme.of(context).backgroundColor
-        : Theme.of(context).hintColor;
-  }
 
   /// Returns a widget with all the exams card content.
   ///
@@ -104,7 +99,6 @@ class ExamCard extends GenericCard {
       DateRectangle(
           date: '${exam.weekDay}, ${exam.begin.day} de ${exam.month}'),
       RowContainer(
-        color: getExamCardColor(context, exam),
         child: ExamRow(
           exam: exam,
           teacher: '',

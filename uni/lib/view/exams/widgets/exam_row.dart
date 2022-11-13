@@ -63,17 +63,10 @@ class _ExamRowState extends State<ExamRow> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
-                              IconButton(
-                                  icon: const Icon(MdiIcons.calendarPlus,
-                                      size: 30),
-                                  onPressed: () => Add2Calendar.addEvent2Cal(
-                                      createExamEvent())),
                               if (!widget.mainPage)
                                 IconButton(
                                     icon: !widget.exam.isHidden
-                                        ? const Icon(
-                                            Icons.visibility,
-                                            size: 30)
+                                        ? const Icon(Icons.visibility, size: 30)
                                         : const Icon(Icons.visibility_off,
                                             size: 30),
                                     tooltip: widget.exam.isHidden
@@ -84,8 +77,13 @@ class _ExamRowState extends State<ExamRow> {
                                               !widget.exam.isHidden;
                                           StoreProvider.of<AppState>(context)
                                               .dispatch(setHiddenExams(
-                                                  widget.exam, Completer()));
+                                                  widget.exam.id, Completer()));
                                         })),
+                              IconButton(
+                                  icon: const Icon(MdiIcons.calendarPlus,
+                                      size: 30),
+                                  onPressed: () => Add2Calendar.addEvent2Cal(
+                                      createExamEvent())),
                             ]),
                       ],
                     )),
