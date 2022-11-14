@@ -40,7 +40,9 @@ class AppState {
       'lastUserInfoUpdateTime': null,
       'locationGroups': <LocationGroup>[],
       'libraryOccupation': null,
-      'libraryOccupationStatus': RequestStatus.none
+      'libraryOccupationStatus': RequestStatus.none,
+      'libraryReservations': null,
+      'libraryReservationsStatus': RequestStatus.none
     };
   }
 

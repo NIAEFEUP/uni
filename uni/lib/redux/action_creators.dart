@@ -11,6 +11,7 @@ import 'package:uni/controller/fetchers/departures_fetcher.dart';
 import 'package:uni/controller/fetchers/exam_fetcher.dart';
 import 'package:uni/controller/fetchers/fees_fetcher.dart';
 import 'package:uni/controller/fetchers/library_occupation_fetcher.dart';
+import 'package:uni/controller/fetchers/library_reservation_fetcher.dart';
 import 'package:uni/controller/fetchers/location_fetcher/location_fetcher_asset.dart';
 import 'package:uni/controller/fetchers/print_fetcher.dart';
 import 'package:uni/controller/fetchers/profile_fetcher.dart';
@@ -28,6 +29,7 @@ import 'package:uni/controller/local_storage/app_exams_database.dart';
 import 'package:uni/controller/local_storage/app_last_user_info_update_database.dart';
 import 'package:uni/controller/local_storage/app_lectures_database.dart';
 import 'package:uni/controller/local_storage/app_library_occupation_database.dart';
+import 'package:uni/controller/local_storage/app_library_reservation.dart';
 import 'package:uni/controller/local_storage/app_refresh_times_database.dart';
 import 'package:uni/controller/local_storage/app_restaurant_database.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
@@ -45,6 +47,7 @@ import 'package:uni/model/entities/course_unit.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/entities/library_occupation.dart';
+import 'package:uni/model/entities/library_reservation.dart';
 import 'package:uni/model/entities/location_group.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/restaurant.dart';
@@ -346,6 +349,27 @@ ThunkAction<AppState> getLibraryOccupationFromFetcher(Completer<void> action) {
     } catch(e){
       Logger().e('Failed to get Occupation: ${e.toString()}');
       store.dispatch(SetLibraryOccupationStatusAction(RequestStatus.failed));
+    }
+    action.complete();
+  };
+}
+
+ThunkAction<AppState> getLibraryReservationsFromFetcher(Completer<void> action){
+  return (Store<AppState> store) async{
+    try{
+      store.dispatch(SetLibraryReservationsStatusAction(RequestStatus.busy));
+
+      final List<LibraryReservation> reservations =
+                      await LibraryReservationsFetcherHtml().getReservations(store);
+      // Updates local database according to information fetched -- Reservations
+      final LibraryReservationDatabase db = LibraryReservationDatabase();
+      db.saveReservations(reservations);
+      store.dispatch(SetLibraryReservationsAction(reservations));
+      store.dispatch(SetLibraryReservationsStatusAction(RequestStatus.successful));
+
+    } catch(e){
+      Logger().e('Failed to get Reservations: ${e.toString()}');
+      store.dispatch(SetLibraryReservationsStatusAction(RequestStatus.failed));
     }
     action.complete();
   };

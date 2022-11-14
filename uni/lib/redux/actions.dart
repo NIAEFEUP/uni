@@ -5,6 +5,7 @@ import 'package:uni/model/entities/course_unit.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/entities/library_occupation.dart';
+import 'package:uni/model/entities/library_reservation.dart';
 import 'package:uni/model/entities/location_group.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/restaurant.dart';
@@ -50,6 +51,16 @@ class SetLibraryOccupationAction {
 class SetLibraryOccupationStatusAction {
   RequestStatus status;
   SetLibraryOccupationStatusAction(this.status);
+}
+
+class SetLibraryReservationsAction {
+  List<LibraryReservation> reservations;
+  SetLibraryReservationsAction(this.reservations);
+}
+
+class SetLibraryReservationsStatusAction {
+  RequestStatus status;
+  SetLibraryReservationsStatusAction(this.status);
 }
 
 class SetRestaurantsAction {

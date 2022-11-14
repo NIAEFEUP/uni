@@ -73,6 +73,10 @@ AppState appReducers(AppState state, dynamic action) {
     return setLibraryOccupationAction(state, action);
   } else if (action is SetLibraryOccupationStatusAction) {
     return setLibraryOccupationStatus(state, action);
+  } else if(action is SetLibraryReservationsAction){
+    return setLibraryReservationsAction(state, action);
+  } else if(action is SetLibraryReservationsStatusAction){
+    return setLibraryReservationsStatusAction(state, action);
   }
 
   return state;
@@ -104,6 +108,16 @@ AppState setLibraryOccupationStatus(
     AppState state, SetLibraryOccupationStatusAction action) {
   Logger().i('setting library occupation status: ${action.status}%');
   return state.cloneAndUpdateValue('libraryOccupationStatus', action.status);
+}
+
+AppState setLibraryReservationsAction(AppState state, SetLibraryReservationsAction action) {
+  Logger().i('setting library reservations: ${action.reservations.length}');
+  return state.cloneAndUpdateValue('reservations', action.reservations);
+}
+
+AppState setLibraryReservationsStatusAction(AppState state, SetLibraryReservationsStatusAction action) {
+  Logger().i('setting library reservations status: ${action.status}%');
+  return state.cloneAndUpdateValue('reservationsStatus', action.status);
 }
 
 AppState setCalendarAction(AppState state, SetCalendarAction action) {
