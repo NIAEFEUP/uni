@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 
@@ -63,7 +62,6 @@ class Exam {
 
   Exam.secConstructor(
       this.id, this.subject, this.begin, this.end, String rooms, this.type) {
-
     this.rooms = rooms.split(',');
   }
 
@@ -96,14 +94,12 @@ class Exam {
 
   String formatTime(DateTime time) => DateFormat('HH:mm').format(time);
 
-  /// the type 'MT' ('Mini-testes') or 'EN' ('Normal').
-
+  /// Exam card background turns grey if exam is hidden
   bool isHighlighted() => isHidden;
 
   @override
   String toString() {
     return '''$id - $subject - ${begin.year.toString()} - $month - ${begin.day} -  $beginTime-$endTime - $type - $rooms - $weekDay''';
-
   }
 
   /// Prints the data in this exam to the [Logger] with an INFO level.
@@ -113,24 +109,10 @@ class Exam {
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is Exam &&
-          runtimeType == other.runtimeType &&
-          subject == other.subject &&
-          listEquals(rooms, other.rooms) &&
-          id == other.id &&
-          begin == other.begin &&
-          end == other.end &&
-          type == other.type;
+      identical(this, other) || other is Exam && id == other.id;
 
   @override
-  int get hashCode =>
-      id.hashCode ^
-      begin.hashCode ^
-      end.hashCode ^
-      subject.hashCode ^
-      rooms.hashCode ^
-      type.hashCode;
+  int get hashCode => id.hashCode;
 
   static getExamTypeLong(String abr) {
     final Map<String, String> reversed = types.map((k, v) => MapEntry(v, k));
