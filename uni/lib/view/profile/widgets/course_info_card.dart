@@ -12,7 +12,6 @@ class CourseInfoCard extends GenericCard {
   @override
   Widget buildCardContent(BuildContext context) {
     return Table(
-        columnWidths: const {1: FractionColumnWidth(.4)},
         defaultVerticalAlignment: TableCellVerticalAlignment.middle,
         children: [
           TableRow(children: [
@@ -24,7 +23,7 @@ class CourseInfoCard extends GenericCard {
             Container(
               margin:
                   const EdgeInsets.only(top: 20.0, bottom: 8.0, right: 20.0),
-              child: getInfoText(course.currYear ?? '?', context),
+              child: getInfoText(course.currYear ?? 'Indisponível', context),
             )
           ]),
           TableRow(children: [
@@ -36,7 +35,7 @@ class CourseInfoCard extends GenericCard {
             Container(
               margin:
                   const EdgeInsets.only(top: 10.0, bottom: 8.0, right: 20.0),
-              child: getInfoText(course.state ?? '?', context),
+              child: getInfoText(course.state ?? 'Indisponível', context),
             )
           ]),
           TableRow(children: [
@@ -63,8 +62,8 @@ class CourseInfoCard extends GenericCard {
             Container(
                 margin:
                     const EdgeInsets.only(top: 10.0, bottom: 8.0, right: 20.0),
-                child:
-                    getInfoText(course.faculty?.toUpperCase() ?? '?', context))
+                child: getInfoText(
+                    course.faculty?.toUpperCase() ?? 'Indisponível', context))
           ]),
           TableRow(children: [
             Container(
@@ -76,13 +75,14 @@ class CourseInfoCard extends GenericCard {
                 margin:
                     const EdgeInsets.only(top: 10.0, bottom: 8.0, right: 20.0),
                 child: getInfoText(
-                    course.currentAverage?.toString() ?? '?', context))
+                    course.currentAverage?.toString() ?? 'Indisponível',
+                    context))
           ]),
           TableRow(children: [
             Container(
               margin:
                   const EdgeInsets.only(top: 10.0, bottom: 20.0, left: 20.0),
-              child: Text('ECTS realizados: ',
+              child: Text('ECTs realizados: ',
                   style: Theme.of(context).textTheme.subtitle2),
             ),
             Container(

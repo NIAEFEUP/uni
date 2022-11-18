@@ -41,13 +41,9 @@ class AppExamsDatabase extends AppDatabase {
 
   /// Returns a list containing all of the exams stored in this database.
   Future<List<Exam>> exams() async {
-    // Get a reference to the database
     final Database db = await getDatabase();
-
-    // Query the table for All The Dogs.
     final List<Map<String, dynamic>> maps = await db.query('exams');
 
-    // Convert the List<Map<String, dynamic> into a List<Dog>.
     return List.generate(maps.length, (i) {
       return Exam.secConstructor(
           maps[i]['subject'],
@@ -66,8 +62,7 @@ class AppExamsDatabase extends AppDatabase {
               ' ' +
               maps[i]['end']),
           maps[i]['rooms'],
-          maps[i]['examType'],
-          maps[i]['weekDay']);
+          maps[i]['examType']);
     });
   }
 

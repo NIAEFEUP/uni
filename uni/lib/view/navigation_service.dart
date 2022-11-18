@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:uni/utils/constants.dart' as constants;
+import 'package:uni/utils/drawer_items.dart';
+
 
 /// Manages the navigation logic
 class NavigationService {
@@ -7,6 +8,6 @@ class NavigationService {
       GlobalKey<NavigatorState>();
   static logout() {
     navigatorKey.currentState!
-        .pushNamedAndRemoveUntil('/${constants.navLogOut}', (_) => false);
+        .pushNamedAndRemoveUntil('/${DrawerItem.navLogOut.title}', (_) => false);
   }
 }

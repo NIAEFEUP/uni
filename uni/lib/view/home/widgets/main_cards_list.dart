@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/model/app_state.dart';
+import 'package:uni/model/entities/session.dart';
 import 'package:uni/redux/actions.dart';
-import 'package:uni/utils/constants.dart' as constants;
 import 'package:uni/utils/favorite_widget_type.dart';
 import 'package:uni/view/profile/widgets/account_info_card.dart';
 import 'package:uni/view/home/widgets/exit_app_dialog.dart';
@@ -12,6 +12,8 @@ import 'package:uni/view/home/widgets/exam_card.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/profile/widgets/print_info_card.dart';
 import 'package:uni/view/home/widgets/schedule_card.dart';
+import 'package:uni/utils/drawer_items.dart';
+
 
 class MainCardsList extends StatelessWidget {
   final Map<FavoriteWidgetType, Function> cardCreators = {
@@ -68,9 +70,15 @@ class MainCardsList extends StatelessWidget {
   }
 
   List<Widget> getCardAdders(BuildContext context) {
+    final store = StoreProvider.of<AppState>(context);
+    final userSession = store.state.content["session"] as Session;
+
     final List<Widget> result = [];
     cardCreators.forEach((FavoriteWidgetType key, Function v) {
-      if (!StoreProvider.of<AppState>(context)
+      if (!key.isVisible(userSession.faculties)) {
+        return;
+      }
+      if (!store
           .state
           .content['favoriteCards']
           .contains(key)) {
@@ -125,8 +133,8 @@ class MainCardsList extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.fromLTRB(20, 20, 20, 5),
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        const PageTitle(
-            name: constants.navPersonalArea, center: false, pad: false),
+        PageTitle(
+            name: DrawerItem.navPersonalArea.title, center: false, pad: false),
         GestureDetector(
             onTap: () => StoreProvider.of<AppState>(context)
                 .dispatch(SetHomePageEditingMode(!isEditing(context))),
@@ -140,13 +148,22 @@ class MainCardsList extends StatelessWidget {
       List<FavoriteWidgetType> cards, BuildContext context) {
     final List<Widget> result = <Widget>[];
     for (int i = 0; i < cards.length; i++) {
-      result.add(createFavoriteWidgetFromType(cards[i], i, context));
+      final card = createFavoriteWidgetFromType(cards[i], i, context);
+      if (card != null) {
+        result.add(card);
+      }
     }
     return result;
   }
 
-  Widget createFavoriteWidgetFromType(
+  Widget? createFavoriteWidgetFromType(
       FavoriteWidgetType type, int i, BuildContext context) {
+    final store = StoreProvider.of<AppState>(context);
+    final userSession = store.state.content["session"] as Session;
+    if (!type.isVisible(userSession.faculties)) {
+      return null;
+    }
+
     return cardCreators[type]!(Key(i.toString()), isEditing(context),
         () => removeFromFavorites(i, context));
   }

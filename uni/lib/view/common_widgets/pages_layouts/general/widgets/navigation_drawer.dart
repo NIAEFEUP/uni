@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:provider/provider.dart';
-import 'package:uni/utils/constants.dart' as constants;
+import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/theme_notifier.dart';
+import 'package:uni/model/entities/session.dart';
+import 'package:uni/model/app_state.dart';
+
 
 class NavigationDrawer extends StatefulWidget {
   final BuildContext parentContext;
@@ -16,29 +20,22 @@ class NavigationDrawer extends StatefulWidget {
 
 class NavigationDrawerState extends State<NavigationDrawer> {
   NavigationDrawerState();
-  Map drawerItems = {};
+  Map<DrawerItem, Function(String)> drawerItems = {};
 
   @override
   void initState() {
     super.initState();
-
-    drawerItems = {
-      constants.navPersonalArea: _onSelectPage,
-      constants.navSchedule: _onSelectPage,
-      constants.navExams: _onSelectPage,
-      constants.navCourseUnits: _onSelectPage,
-      constants.navStops: _onSelectPage,
-      constants.navLocations: _onSelectPage,
-      constants.navUsefulInfo: _onSelectPage,
-      constants.navAbout: _onSelectPage,
-      constants.navBugReport: _onSelectPage,
-    };
+    
+    drawerItems = {};
+    for (var element in DrawerItem.values) {
+      drawerItems[element] = _onSelectPage;
+    }
   }
 
   // Callback Functions
   getCurrentRoute() =>
       ModalRoute.of(widget.parentContext)!.settings.name == null
-          ? drawerItems.keys.toList()[0]
+          ? drawerItems.keys.toList()[0].title
           : ModalRoute.of(widget.parentContext)!.settings.name!.substring(1);
 
   _onSelectPage(String key) {
@@ -70,15 +67,16 @@ class NavigationDrawerState extends State<NavigationDrawer> {
   }
 
   Widget createLogoutBtn() {
+    final String logOutText = DrawerItem.navLogOut.title;
     return TextButton(
-      onPressed: () => _onLogOut(constants.navLogOut),
+      onPressed: () => _onLogOut(logOutText),
       style: TextButton.styleFrom(
         elevation: 0,
         padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 5.0),
       ),
       child: Container(
         padding: const EdgeInsets.all(15.0),
-        child: Text(constants.navLogOut,
+        child: Text(logOutText,
             style: Theme.of(context)
                 .textTheme
                 .headline6!
@@ -104,13 +102,13 @@ class NavigationDrawerState extends State<NavigationDrawer> {
         icon: getThemeIcon(), onPressed: themeNotifier.setNextTheme);
   }
 
-  Widget createDrawerNavigationOption(String d) {
+  Widget createDrawerNavigationOption(DrawerItem d) {
     return Container(
-        decoration: _getSelectionDecoration(d),
+        decoration: _getSelectionDecoration(d.title),
         child: ListTile(
           title: Container(
             padding: const EdgeInsets.only(bottom: 3.0, left: 20.0),
-            child: Text(d,
+            child: Text(d.title,
                 style: TextStyle(
                     fontSize: 18.0,
                     color: Theme.of(context).primaryColor,
@@ -118,17 +116,21 @@ class NavigationDrawerState extends State<NavigationDrawer> {
           ),
           dense: true,
           contentPadding: const EdgeInsets.all(0.0),
-          selected: d == getCurrentRoute(),
-          onTap: () => drawerItems[d](d),
+          selected: d.title == getCurrentRoute(),
+          onTap: () => drawerItems[d]!(d.title),
         ));
   }
 
   @override
   Widget build(BuildContext context) {
     final List<Widget> drawerOptions = [];
+    final store = StoreProvider.of<AppState>(context);
+    final userSession = store.state.content["session"] as Session;
 
     for (var key in drawerItems.keys) {
-      drawerOptions.add(createDrawerNavigationOption(key));
+      if (key.isVisible(userSession.faculties)) {
+        drawerOptions.add(createDrawerNavigationOption(key));
+      }
     }
 
     return Drawer(

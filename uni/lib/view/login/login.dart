@@ -3,10 +3,11 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/redux/action_creators.dart';
-import 'package:uni/utils/constants.dart' as constants;
 import 'package:uni/view/common_widgets/toast_message.dart';
 import 'package:uni/view/theme.dart';
 import 'package:uni/view/login/widgets/inputs.dart';
+import 'package:uni/utils/drawer_items.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class LoginPageView extends StatefulWidget {
   const LoginPageView({super.key});
@@ -112,6 +113,9 @@ class LoginPageViewState extends State<LoginPageView> {
         Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)));
     widgets.add(getLoginForm(queryData, context));
     widgets.add(
+        Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)));
+    widgets.add(createForgetPasswordLink(context));
+    widgets.add(
         Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 15)));
     widgets.add(createLogInButton(queryData, context, _login));
     widgets.add(
@@ -170,9 +174,24 @@ class LoginPageViewState extends State<LoginPageView> {
           Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)),
           createPasswordInput(context, passwordController, passwordFocus, _obscurePasswordInput, _toggleObscurePasswordInput, () => _login(context)),
           Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)),
+
           createSaveDataCheckBox(_keepSignedIn, _setKeepSignedIn),
         ]),
       ),
+    );
+  }
+
+  ///Creates the widget for when the user forgets the password
+  Widget createForgetPasswordLink(BuildContext context){
+    return InkWell(
+      child: Center(
+        child:Text("Esqueceu a palavra-passe?",
+          style: Theme.of(context)
+            .textTheme
+            .bodyText1!
+            .copyWith(decoration: TextDecoration.underline, color: Colors.white))
+      ),
+        onTap: () => launchUrl(Uri.parse("https://self-id.up.pt/reset"))
     );
   }
 
@@ -187,7 +206,7 @@ class LoginPageViewState extends State<LoginPageView> {
                   .content['session']
                   .authenticated) {
             Navigator.pushReplacementNamed(
-                context, '/${constants.navPersonalArea}');
+                context, '/${DrawerItem.navPersonalArea.title}');
           } else if (status == RequestStatus.failed) {
             ToastMessage.display(context, 'O login falhou');
           }
