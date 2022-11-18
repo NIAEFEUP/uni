@@ -29,6 +29,7 @@ import 'package:uni/view/theme_notifier.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/useful_info/useful_info.dart';
 
+import 'model/cantine_page_model.dart';
 
 SentryEvent? beforeSend(SentryEvent event) {
   return event.level == SentryLevel.info ? event : null;
@@ -94,59 +95,45 @@ class MyAppState extends State<MyApp> {
               navigatorKey: NavigationService.navigatorKey,
               onGenerateRoute: (RouteSettings settings) {
                 final Map<String, Route<dynamic>> transitions = {
-                  '/${DrawerItem.navPersonalArea.title}' : 
-                  PageTransition.makePageTransition(
-                          page: const HomePageView(), 
-                          settings: settings),
-
-                  '/${DrawerItem .navSchedule.title}' :
-                  PageTransition.makePageTransition(
-                          page: const SchedulePage(), 
-                          settings: settings),
-
-                  '/${DrawerItem.navExams.title}' :
-                  PageTransition.makePageTransition(
-                          page: const ExamsPageView(), 
-                          settings: settings),
-
-                  '/${DrawerItem.navStops.title}' :
-                  PageTransition.makePageTransition(
+                  '/${DrawerItem.navPersonalArea.title}':
+                      PageTransition.makePageTransition(
+                          page: const HomePageView(), settings: settings),
+                  '/${DrawerItem.navSchedule.title}':
+                      PageTransition.makePageTransition(
+                          page: const SchedulePage(), settings: settings),
+                  '/${DrawerItem.navExams.title}':
+                      PageTransition.makePageTransition(
+                          page: const ExamsPageView(), settings: settings),
+                  '/${DrawerItem.navStops.title}':
+                      PageTransition.makePageTransition(
                           page: const BusStopNextArrivalsPage(),
                           settings: settings),
-
-                  '/${DrawerItem.navCourseUnits.title}' :
-                  PageTransition.makePageTransition(
-                          page: const CourseUnitsPageView(), 
+                  '/${DrawerItem.navCourseUnits.title}':
+                      PageTransition.makePageTransition(
+                          page: const CourseUnitsPageView(),
                           settings: settings),
-
-                  '/${DrawerItem.navLocations.title}' :
-                  PageTransition.makePageTransition(
-                          page: const LocationsPage(), 
-                          settings: settings),
-
-                  '/${DrawerItem.navCalendar.title}' :
-                  PageTransition.makePageTransition(
-                          page: const CalendarPageView(), 
-                          settings: settings),
-
-                  '/${DrawerItem.navUsefulInfo.title}' :
-                  PageTransition.makePageTransition(
-                          page: const UsefulInfoPageView(), 
-                          settings: settings),
-
-                  '/${DrawerItem.navAbout.title}' :
-                  PageTransition.makePageTransition(
-                          page: const AboutPageView(), 
-                          settings: settings),
-
-                  '/${DrawerItem.navBugReport.title}' :
-                  PageTransition.makePageTransition(
-                          page: const BugReportPageView(), 
+                  '/${DrawerItem.navLocations.title}':
+                      PageTransition.makePageTransition(
+                          page: const LocationsPage(), settings: settings),
+                  '/${DrawerItem.navCalendar.title}':
+                      PageTransition.makePageTransition(
+                          page: const CalendarPageView(), settings: settings),
+                  '/${DrawerItem.navUsefulInfo.title}':
+                      PageTransition.makePageTransition(
+                          page: const UsefulInfoPageView(), settings: settings),
+                  '/${DrawerItem.navAbout.title}':
+                      PageTransition.makePageTransition(
+                          page: const AboutPageView(), settings: settings),
+                  '/${DrawerItem.navBugReport.title}':
+                      PageTransition.makePageTransition(
+                          page: const BugReportPageView(),
                           settings: settings,
                           maintainState: false),
-
-                  '/${DrawerItem.navLogOut.title}' :
-                  LogoutRoute.buildLogoutRoute()
+                  '/${DrawerItem.navCantine.title}':
+                      PageTransition.makePageTransition(
+                          page: const CantinePage(), settings: settings),
+                  '/${DrawerItem.navLogOut.title}':
+                      LogoutRoute.buildLogoutRoute()
                 };
 
                 return transitions[settings.name];

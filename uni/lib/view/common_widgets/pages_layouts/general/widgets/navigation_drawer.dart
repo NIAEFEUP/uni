@@ -6,7 +6,6 @@ import 'package:uni/view/theme_notifier.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/app_state.dart';
 
-
 class NavigationDrawer extends StatefulWidget {
   final BuildContext parentContext;
 
@@ -25,6 +24,7 @@ class NavigationDrawerState extends State<NavigationDrawer> {
   @override
   void initState() {
     super.initState();
+
     drawerItems = {};
     for (var element in DrawerItem.values) {
       drawerItems[element] = _onSelectPage;

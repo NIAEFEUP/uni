@@ -9,8 +9,8 @@ enum DrawerItem {
   navUsefulInfo('Úteis', faculties: {'feup'}),
   navAbout('Sobre'),
   navBugReport('Bugs e Sugestões'),
-  navLogOut('Terminar sessão'),
-  navCantine('Restaurantes');
+  navCantine('Cantinas'),
+  navLogOut('Terminar sessão');
 
   final String title;
   final Set<String>? faculties;
@@ -20,7 +20,7 @@ enum DrawerItem {
   bool isVisible(List<String> userFaculties) {
     if (faculties == null) {
       return true;
-    } 
+    }
 
     return userFaculties.any((element) => faculties!.contains(element));
   }
