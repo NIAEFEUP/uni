@@ -42,9 +42,9 @@ class MessageToast extends StatelessWidget {
             Container(
                 margin: const EdgeInsets.all(10.0),
                 child: Icon(
-                        icon,
-                        color: iconColor,
-                      )),
+                  icon,
+                  color: iconColor,
+                )),
             Expanded(
               child: Text(
                 message,
@@ -83,40 +83,35 @@ class ToastMessage {
         });
   }
 
-  static error(BuildContext context, String msg) =>
-      _displayDialog(
-        context,
-        MessageToast(
-            message: msg,
-            color: toastErrorColor,
-            icon: CupertinoIcons.clear_circled_solid,
-            iconColor: toastErrorIconColor));
+  static error(BuildContext context, String msg) => _displayDialog(
+      context,
+      MessageToast(
+          message: msg,
+          color: toastErrorColor,
+          icon: CupertinoIcons.clear_circled_solid,
+          iconColor: toastErrorIconColor));
 
-  static success(BuildContext context, String msg) =>
-      _displayDialog(
-        context,
-        MessageToast(
-            message: msg,
-            color: toastSuccessColor,
-            icon: CupertinoIcons.check_mark_circled_solid,
-            iconColor: toastSuccessIconColor));
+  static success(BuildContext context, String msg) => _displayDialog(
+      context,
+      MessageToast(
+          message: msg,
+          color: toastSuccessColor,
+          icon: CupertinoIcons.check_mark_circled_solid,
+          iconColor: toastSuccessIconColor));
 
+  static warning(BuildContext context, String msg) => _displayDialog(
+      context,
+      MessageToast(
+          message: msg,
+          color: toastWarningColor,
+          icon: CupertinoIcons.exclamationmark_circle_fill,
+          iconColor: toastWarningIconColor));
 
-  static warning(BuildContext context, String msg) =>
-      _displayDialog(
-        context,
-        MessageToast(
-            message: msg,
-            color: toastWarningColor,
-            icon: CupertinoIcons.exclamationmark_circle_fill,
-            iconColor: toastWarningIconColor));
-
-  static info(BuildContext context, String msg) =>
-      _displayDialog(
-        context,
-        MessageToast(
-            message: msg,
-            color: toastInfoColor,
-            icon: CupertinoIcons.info_circle_fill,
-            iconColor: toastInfoIconColor));
+  static info(BuildContext context, String msg) => _displayDialog(
+      context,
+      MessageToast(
+          message: msg,
+          color: toastInfoColor,
+          icon: CupertinoIcons.info_circle_fill,
+          iconColor: toastInfoIconColor));
 }
