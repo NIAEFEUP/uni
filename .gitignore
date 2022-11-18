@@ -6,7 +6,8 @@
 .pub/
 build/
 *.bin
-app_feup/pubspec.lock
+uni/pubspec.lock
+.flutter-plugins*
 
 # IDE files
 .DS_Store
@@ -16,5 +17,5 @@ app_feup/pubspec.lock
 .gradle/
 
 # Key properties
-app_feup/android/key.properties
+uni/android/key.properties
 **.jks
