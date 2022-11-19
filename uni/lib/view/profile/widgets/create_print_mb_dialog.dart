@@ -110,7 +110,7 @@ String numberToValueText(double number) =>
 
 generateReference(context, amount) async {
   if (amount < 1) {
-    return ToastMessage.display(context, 'Valor mínimo: 1,00 €');
+    return ToastMessage.warning(context, 'Valor mínimo: 1,00 €');
   }
 
   final session = StoreProvider.of<AppState>(context).state.content['session'];
@@ -119,8 +119,8 @@ generateReference(context, amount) async {
 
   if (response.statusCode == 200) {
     Navigator.of(context).pop(false);
-    ToastMessage.display(context, 'Referência criada com sucesso!');
+    ToastMessage.success(context, 'Referência criada com sucesso!');
   } else {
-    ToastMessage.display(context, 'Algum erro!');
+    ToastMessage.error(context, 'Algum erro!');
   }
 }
