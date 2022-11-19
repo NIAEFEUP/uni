@@ -57,6 +57,8 @@ class Exam {
     'Exames ao abrigo de estatutos especiais': 'EAE'
   };
 
+  static List<String> displayedTypes = types.keys.toList().sublist(0, 4);
+
   Exam(this.begin, this.end, this.subject, this.rooms, this.type);
 
   Exam.secConstructor(

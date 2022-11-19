@@ -46,11 +46,9 @@ void main() {
         Exam(beginSdisExam, endSdisExam, 'SDIS',[], 'MT');
 
     final Map<String, bool> filteredExams = {};
-    Exam.types
-        .keys
-        .toList()
-        .sublist(0, 4)
-        .forEach((type) => filteredExams[type] = true);
+    for(String type in Exam.displayedTypes) {
+      filteredExams[type] = true;
+    }
 
     final profile = Profile();
     profile.courses = [Course(id: 7474)];
