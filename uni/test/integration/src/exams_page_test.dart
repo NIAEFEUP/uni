@@ -38,15 +38,19 @@ void main() {
         abbreviation: 'SDIS', name: 'Sistemas Distribuídos', occurrId: 0, status: 'V');
     final mdisCourseUnit = CourseUnit(
         abbreviation: 'MDIS', name: 'Matemática Discreta', occurrId: 0, status: 'A');
-    final sopeExam =
-        Exam('17:00-19:00', 'SOPE', '', '2099-11-18', 'MT', 'Segunda');
-    final sdisExam =
-        Exam('17:00-19:00', 'SDIS', '', '2099-10-21', 'MT', 'Segunda');
-    final mdisExam =
-        Exam('17:00-19:00', 'MDIS', '', '2099-12-09', 'MT', 'Segunda');
+
+    final DateTime beginSopeExam = DateTime.parse('2099-11-18 17:00');
+    final DateTime endSopeExam = DateTime.parse('2099-11-18 19:00');
+    final sopeExam = Exam(beginSopeExam, endSopeExam, 'SOPE', [], 'MT');
+    final DateTime beginSdisExam = DateTime.parse('2099-10-21 17:00');
+    final DateTime endSdisExam = DateTime.parse('2099-10-21 19:00');
+    final sdisExam = Exam(beginSdisExam, endSdisExam, 'SDIS',[], 'MT');
+    final DateTime beginMdisExam = DateTime.parse('2099-10-22 17:00');
+    final DateTime endMdisExam = DateTime.parse('2099-10-22 19:00');
+    final mdisExam = Exam(beginMdisExam, endMdisExam, 'MDIS',[], 'MT');
 
     final Map<String, bool> filteredExams = {};
-    Exam.getExamTypes()
+    Exam.types
         .keys
         .toList()
         .forEach((type) => filteredExams[type] = true);
@@ -152,7 +156,7 @@ void main() {
       expect(find.byType(AlertDialog), findsOneWidget);
       //This checks if the ExamDoesNotExist is not displayed
       expect(find.byType(CheckboxListTile),
-          findsNWidgets(Exam.getExamTypes().length));
+          findsNWidgets(Exam.types.length));
 
       final CheckboxListTile mtCheckboxTile = find
           .byKey(const Key('ExamCheck' 'Mini-testes'))
