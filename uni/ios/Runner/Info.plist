@@ -40,6 +40,10 @@
 	<true/>
 	<key>NSCalendarsUsageDescription</key>
 	<string>Exportar exames e eventos para o calendário</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
