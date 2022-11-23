@@ -79,7 +79,9 @@ class RequestDependentWidgetBuilder extends StatelessWidget {
                         style: Theme.of(context).textTheme.subtitle1))),
             OutlinedButton(
                 onPressed: () =>
-                    Navigator.pushNamed(context, '/${DrawerItem.navBugReport}'),
+
+                    Navigator.pushNamed(context, '/${DrawerItem.navBugReport.title}'),
+
                 child: const Text('Reportar erro'))
           ]);
         });
