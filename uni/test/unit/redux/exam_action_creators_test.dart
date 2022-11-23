@@ -26,11 +26,11 @@ void main() {
     NetworkRouter.httpClient = MockClient();
     final DateTime beginSopeExam = DateTime.parse('2800-09-12 12:00');
     final DateTime endSopeExam = DateTime.parse('2800-09-12 15:00');
-    final sopeExam = Exam(beginSopeExam, endSopeExam, 'SOPE',
+    final sopeExam = Exam('1229',beginSopeExam, endSopeExam, 'SOPE',
         rooms, 'Recurso - Época Recurso (2ºS)');
     final DateTime beginSdisExam = DateTime.parse('2800-09-12 12:00');
     final DateTime endSdisExam = DateTime.parse('2800-09-12 15:00');
-    final sdisExam = Exam(beginSdisExam, endSdisExam, 'SDIS',
+    final sdisExam = Exam('1230',beginSdisExam, endSdisExam, 'SDIS',
         rooms, 'Recurso - Época Recurso (2ºS)');
     final parserMock = ParserMock();
     const Tuple2<String, String> userPersistentInfo = Tuple2('', '');
@@ -84,7 +84,7 @@ void main() {
                 since it is a Special Season Exam''', () async {
       final DateTime begin = DateTime.parse('2800-09-12 12:00');
       final DateTime end = DateTime.parse('2800-09-12 15:00');
-      final specialExam = Exam(
+      final specialExam = Exam('1231',
           begin,
           end,
           'SDIS',
@@ -123,7 +123,7 @@ void main() {
     test('When Exam is today in one hour', () async {
       final DateTime begin = DateTime.now().add(const Duration(hours: 1));
       final DateTime end = DateTime.now().add(const Duration(hours: 2));
-      final todayExam = Exam(begin, end, 'SDIS', rooms,
+      final todayExam = Exam('1232',begin, end, 'SDIS', rooms,
           'Recurso - Época Recurso (1ºS)');
       final Completer<void> completer = Completer();
       final actionCreator =
@@ -142,7 +142,7 @@ void main() {
     test('When Exam was one hour ago', () async {
       final DateTime end = DateTime.now().subtract(const Duration(hours: 1));
       final DateTime begin = DateTime.now().subtract(const Duration(hours: 2));
-      final todayExam = Exam(begin, end, 'SDIS', rooms,
+      final todayExam = Exam('1233',begin, end, 'SDIS', rooms,
           'Recurso - Época Recurso (1ºS)');
       final Completer<void> completer = Completer();
       final actionCreator =
@@ -161,7 +161,7 @@ void main() {
     test('When Exam is ocurring', () async {
       final DateTime before = DateTime.now().subtract(const Duration(hours: 1));
       final DateTime after = DateTime.now().add(const Duration(hours: 1));
-      final todayExam = Exam(before, after, 'SDIS', rooms,
+      final todayExam = Exam('1234',before, after, 'SDIS', rooms,
           'Recurso - Época Recurso (1ºS)');
       final Completer<void> completer = Completer();
       final actionCreator =

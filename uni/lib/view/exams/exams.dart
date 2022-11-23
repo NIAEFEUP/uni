@@ -24,6 +24,11 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
     return StoreConnector<AppState, List<dynamic>?>(
       converter: (store) {
         final List<Exam> exams = store.state.content['exams'];
+        final List<String> hiddenExams =
+            store.state.content['hiddenExams'] ?? <String>[];
+        for (var exam in exams) {
+          exam.isHidden = hiddenExams.contains(exam.id);
+        }
         final Map<String, bool> filteredExams =
             store.state.content['filteredExams'] ?? [];
         return exams
@@ -125,7 +130,7 @@ class ExamsList extends StatelessWidget {
     return Column(children: examCards);
   }
 
-  Widget createExamContext(context, exam) {
+  Widget createExamContext(context, Exam exam) {
     final keyValue = '${exam.toString()}-exam';
     return Container(
         key: Key(keyValue),
@@ -137,6 +142,7 @@ class ExamsList extends StatelessWidget {
             child: ExamRow(
               exam: exam,
               teacher: '',
+              mainPage: false,
             )));
   }
 }

@@ -11,7 +11,6 @@ import 'package:uni/view/common_widgets/row_container.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
 import 'package:uni/utils/drawer_items.dart';
 
-
 /// Manages the exam card section inside the personal area.
 class ExamCard extends GenericCard {
   ExamCard({Key? key}) : super(key: key);
@@ -27,11 +26,6 @@ class ExamCard extends GenericCard {
   onClick(BuildContext context) =>
       Navigator.pushNamed(context, '/${DrawerItem.navExams.title}');
 
-  static getExamCardColor(BuildContext context, Exam exam) {
-    return exam.isHighlighted()
-        ? Theme.of(context).backgroundColor
-        : Theme.of(context).hintColor;
-  }
 
   /// Returns a widget with all the exams card content.
   ///
@@ -44,10 +38,13 @@ class ExamCard extends GenericCard {
         final Map<String, bool> filteredExams =
             store.state.content['filteredExams'];
         final List<Exam> exams = store.state.content['exams'];
+        final List<String> hiddenExams = store.state.content['hiddenExams'];
         final List<Exam> filteredExamsList = exams
             .where((exam) =>
-                filteredExams[Exam.getExamTypeLong(exam.type)] ?? true)
+                (filteredExams[Exam.getExamTypeLong(exam.type)] ?? true) &&
+                (!hiddenExams.contains(exam.id)))
             .toList();
+
         return Tuple2(filteredExamsList, store.state.content['examsStatus']);
       },
       builder: (context, examsInfo) => RequestDependentWidgetBuilder(
@@ -65,7 +62,7 @@ class ExamCard extends GenericCard {
   }
 
   /// Returns a widget with all the exams.
-  Widget generateExams(exams, context) {
+  Widget generateExams(dynamic exams, BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: getExamRows(context, exams),
@@ -102,10 +99,10 @@ class ExamCard extends GenericCard {
       DateRectangle(
           date: '${exam.weekDay}, ${exam.begin.day} de ${exam.month}'),
       RowContainer(
-        color: getExamCardColor(context, exam),
         child: ExamRow(
           exam: exam,
           teacher: '',
+          mainPage: true,
         ),
       ),
     ]);
@@ -117,7 +114,7 @@ class ExamCard extends GenericCard {
     return Container(
       margin: const EdgeInsets.only(top: 8),
       child: RowContainer(
-        color: getExamCardColor(context, exam),
+        color: Theme.of(context).backgroundColor,
         child: Container(
           padding: const EdgeInsets.all(11),
           child: Row(
