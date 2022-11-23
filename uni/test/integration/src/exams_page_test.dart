@@ -36,13 +36,17 @@ void main() {
         abbreviation: 'SOPE', occurrId: 0, name: 'Sistemas Operativos');
     final sdisCourseUnit = CourseUnit(
         abbreviation: 'SDIS', name: 'Sistemas Distribuídos', occurrId: 0);
+    final DateTime beginSopeExam = DateTime.parse('2099-11-18 17:00');
+    final DateTime endSopeExam = DateTime.parse('2099-11-18 19:00');
     final sopeExam =
-        Exam('17:00-19:00', 'SOPE', '', '2099-11-18', 'MT', 'Segunda');
+        Exam('44426',beginSopeExam, endSopeExam, 'SOPE', [], 'MT');
+    final DateTime beginSdisExam = DateTime.parse('2099-10-21 17:00');
+    final DateTime endSdisExam = DateTime.parse('2099-10-21 19:00');
     final sdisExam =
-        Exam('17:00-19:00', 'SDIS', '', '2099-10-21', 'MT', 'Segunda');
+        Exam('44425',beginSdisExam, endSdisExam, 'SDIS',[], 'MT');
 
     final Map<String, bool> filteredExams = {};
-    Exam.getExamTypes()
+    Exam.types
         .keys
         .toList()
         .forEach((type) => filteredExams[type] = true);
@@ -57,7 +61,8 @@ void main() {
             'currUcs': [sopeCourseUnit, sdisCourseUnit],
             'exams': <Exam>[],
             'profile': profile,
-            'filteredExams': filteredExams
+            'filteredExams': filteredExams,
+            'hiddenExams': <String>[], 
           }),
           middleware: [generalMiddleware]);
       NetworkRouter.httpClient = mockClient;
@@ -96,7 +101,8 @@ void main() {
             'currUcs': [sopeCourseUnit, sdisCourseUnit],
             'exams': <Exam>[],
             'profile': profile,
-            'filteredExams': filteredExams
+            'filteredExams': filteredExams,
+            'hiddenExams': <String>[],
           }),
           middleware: [generalMiddleware]);
 
@@ -146,7 +152,7 @@ void main() {
       expect(find.byType(AlertDialog), findsOneWidget);
       //This checks if the ExamDoesNotExist is not displayed
       expect(find.byType(CheckboxListTile),
-          findsNWidgets(Exam.getExamTypes().length));
+          findsNWidgets(Exam.types.length));
 
       final CheckboxListTile mtCheckboxTile = find
           .byKey(const Key('ExamCheck' 'Mini-testes'))

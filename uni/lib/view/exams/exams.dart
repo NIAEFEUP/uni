@@ -24,11 +24,16 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
     return StoreConnector<AppState, List<dynamic>?>(
       converter: (store) {
         final List<Exam> exams = store.state.content['exams'];
+        final List<String> hiddenExams =
+            store.state.content['hiddenExams'] ?? <String>[];
+        for (var exam in exams) {
+          exam.isHidden = hiddenExams.contains(exam.id);
+        }
         final Map<String, bool> filteredExams =
             store.state.content['filteredExams'] ?? [];
         return exams
             .where((exam) =>
-                filteredExams[Exam.getExamTypeLong(exam.examType)] ?? true)
+                filteredExams[Exam.getExamTypeLong(exam.type)] ?? true)
             .toList();
       },
       builder: (context, exams) {
@@ -56,7 +61,7 @@ class ExamsList extends StatelessWidget {
   }
 
   /// Creates a column with all the user's exams.
-  List<Widget> createExamsColumn(context, exams) {
+  List<Widget> createExamsColumn(context, List<Exam> exams) {
     final List<Widget> columns = <Widget>[];
     columns.add(const ExamPageTitle());
 
@@ -78,8 +83,8 @@ class ExamsList extends StatelessWidget {
 
     for (int i = 0; i < exams.length; i++) {
       if (i + 1 >= exams.length) {
-        if (exams[i].day == exams[i - 1].day &&
-            exams[i].month == exams[i - 1].month) {
+        if (exams[i].begin.day == exams[i - 1].begin.day &&
+            exams[i].begin.month == exams[i - 1].begin.month) {
           currentDayExams.add(exams[i]);
         } else {
           if (currentDayExams.isNotEmpty) {
@@ -91,8 +96,8 @@ class ExamsList extends StatelessWidget {
         columns.add(createExamCard(context, currentDayExams));
         break;
       }
-      if (exams[i].day == exams[i + 1].day &&
-          exams[i].month == exams[i + 1].month) {
+      if (exams[i].begin.day == exams[i + 1].begin.day &&
+          exams[i].begin.month == exams[i + 1].begin.month) {
         currentDayExams.add(exams[i]);
       } else {
         currentDayExams.add(exams[i]);
@@ -113,17 +118,19 @@ class ExamsList extends StatelessWidget {
     );
   }
 
-  Widget createExamsCards(context, exams) {
+  Widget createExamsCards(context, List<Exam> exams) {
     final List<Widget> examCards = <Widget>[];
     examCards.add(DayTitle(
-        day: exams[0].day, weekDay: exams[0].weekDay, month: exams[0].month));
+        day: exams[0].begin.day.toString(),
+        weekDay: exams[0].weekDay,
+        month: exams[0].month));
     for (int i = 0; i < exams.length; i++) {
       examCards.add(createExamContext(context, exams[i]));
     }
     return Column(children: examCards);
   }
 
-  Widget createExamContext(context, exam) {
+  Widget createExamContext(context, Exam exam) {
     final keyValue = '${exam.toString()}-exam';
     return Container(
         key: Key(keyValue),
@@ -133,13 +140,9 @@ class ExamsList extends StatelessWidget {
                 ? Theme.of(context).hintColor
                 : Theme.of(context).scaffoldBackgroundColor,
             child: ExamRow(
-              subject: exam.subject,
-              rooms: exam.rooms,
-              begin: exam.begin,
-              end: exam.end,
-              type: exam.examType,
-              date: exam.date,
+              exam: exam,
               teacher: '',
+              mainPage: false,
             )));
   }
 }
