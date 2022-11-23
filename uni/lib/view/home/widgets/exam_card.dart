@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:tuple/tuple.dart';
+
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/view/exams/widgets/exam_title.dart';
@@ -10,6 +11,7 @@ import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
 import 'package:uni/view/common_widgets/row_container.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
 import 'package:uni/utils/drawer_items.dart';
+import 'package:uni/view/home/widgets/exam_card_shimmer.dart';
 
 /// Manages the exam card section inside the personal area.
 class ExamCard extends GenericCard {
@@ -57,6 +59,7 @@ class ExamCard extends GenericCard {
           child: Text('Não existem exames para apresentar',
               style: Theme.of(context).textTheme.headline6),
         ),
+        contentLoadingWidget: const ExamCardShimmer().build(context),
       ),
     );
   }
@@ -136,3 +139,5 @@ class ExamCard extends GenericCard {
     );
   }
 }
+
+
