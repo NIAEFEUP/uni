@@ -54,19 +54,21 @@ class NotificationManager{
   }
 
   static void buildNotificationWorker() async {
+    //FIXME: using initial delay to make login sequence more consistent
+    //can be fixed by only using buildNotificationWorker when user is logged in
     if(Platform.isAndroid){
       Workmanager().cancelByUniqueName("notification-manager"); //stop task if it's already running
       Workmanager().registerPeriodicTask("notification-manager", "notification-worker", 
         constraints: Constraints(networkType: NetworkType.connected),
         frequency: const Duration(minutes: 15),
-        //FIXME: using initial delay to make login sequence more consistent
-        //can be fixed by only using buildNotificationWorker when user is logged in
         initialDelay: const Duration(seconds: 30),
       );
 
     } else if (Platform.isIOS){
-      //TODO: run at least once in iOS and let background fetch do the rest after?
-      //need a macbook and a iphone to test this smh
+      Workmanager().registerOneOffTask("notification-manager", "notification-worker", 
+        constraints: Constraints(networkType: NetworkType.connected),
+        initialDelay: const Duration(seconds: 30),
+      );
     } else{
       throw PlatformException(code: "WorkerManager is only supported in iOS and android...");
     }
