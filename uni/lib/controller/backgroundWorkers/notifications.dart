@@ -57,15 +57,15 @@ class NotificationManager{
     //FIXME: using initial delay to make login sequence more consistent
     //can be fixed by only using buildNotificationWorker when user is logged in
     if(Platform.isAndroid){
-      Workmanager().cancelByUniqueName("notification-manager"); //stop task if it's already running
-      Workmanager().registerPeriodicTask("notification-manager", "notification-worker", 
+      Workmanager().cancelByUniqueName("pt.up.fe.ni.uni.notificationworker"); //stop task if it's already running
+      Workmanager().registerPeriodicTask("pt.up.fe.ni.uni.notificationworker", "pt.up.fe.ni.uni.notificationworker", 
         constraints: Constraints(networkType: NetworkType.connected),
         frequency: const Duration(minutes: 15),
         initialDelay: const Duration(seconds: 30),
       );
 
     } else if (Platform.isIOS){
-      Workmanager().registerOneOffTask("notification-manager", "notification-worker", 
+      Workmanager().registerOneOffTask("pt.up.fe.ni.uni.notificationworker", "pt.up.fe.ni.uni.notificationworker", 
         constraints: Constraints(networkType: NetworkType.connected),
         initialDelay: const Duration(seconds: 30),
       );

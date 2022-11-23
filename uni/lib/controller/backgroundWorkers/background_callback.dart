@@ -7,7 +7,7 @@ import 'package:workmanager/workmanager.dart';
 /// This map contains the functions that a certain task type will run. 
 /// the bool is all functions that are ran by backgroundfetch in iOS 
 /// (they must not take any arguments, not checked)
-const taskMap = {'notification-worker': Tuple2(NotificationManager.tryRunAll, true)};
+const taskMap = {'pt.up.fe.ni.uni.notificationworker': Tuple2(NotificationManager.tryRunAll, true)};
 
 @pragma('vm:entry-point')
 // This function is android only and only executes when the app is complety terminated
