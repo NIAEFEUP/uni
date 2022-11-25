@@ -13,6 +13,13 @@ import 'package:uni/controller/local_storage/app_lectures_database.dart';
 import 'package:uni/controller/local_storage/app_refresh_times_database.dart';
 import 'package:uni/controller/local_storage/app_user_database.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
+import 'package:http/http.dart' as http;
+
+Future killAuthentication() async {
+  final response = await http
+      .get(Uri.parse(' https://sigarra.up.pt/feup/pt/vld_validacao.sair'));
+  return response;
+}
 
 Future logout(BuildContext context) async {
   final prefs = await SharedPreferences.getInstance();
@@ -34,4 +41,5 @@ Future logout(BuildContext context) async {
   }
   GeneralPageViewState.profileImageProvider = null;
   PaintingBinding.instance.imageCache.clear();
+  killAuthentication();
 }
