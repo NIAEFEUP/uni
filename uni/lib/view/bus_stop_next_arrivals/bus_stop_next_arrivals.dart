@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:uni/model/app_state.dart';
+import 'package:uni/model/request_status.dart';
 import 'package:uni/model/entities/bus_stop.dart';
 import 'package:uni/model/entities/trip.dart';
 import 'package:uni/model/providers/bus_stop_provider.dart';
@@ -52,7 +52,7 @@ class NextArrivalsState extends State<NextArrivals>
   @override
   void initState() {
     super.initState();
-    tabController = TabController(vsync: this, length: widget.busConfig.length);
+    tabController = TabController(vsync: this, length: widget.trips.length);
   }
 
   @override

@@ -4,7 +4,7 @@ import 'dart:collection';
 import 'package:logger/logger.dart';
 import 'package:uni/controller/fetchers/calendar_fetcher_html.dart';
 import 'package:uni/controller/local_storage/app_calendar_database.dart';
-import 'package:uni/model/app_state.dart';
+import 'package:uni/model/request_status.dart';
 import 'package:uni/model/entities/calendar_event.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';

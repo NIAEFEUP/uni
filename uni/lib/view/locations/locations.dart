@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:provider/provider.dart';
-import 'package:uni/model/app_state.dart';
+import 'package:uni/model/request_status.dart';
 import 'package:uni/model/entities/location_group.dart';
 import 'package:uni/model/providers/faculty_locations_provider.dart';
 import 'package:uni/view/common_widgets/page_title.dart';

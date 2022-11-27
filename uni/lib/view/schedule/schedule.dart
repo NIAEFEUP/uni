@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:uni/model/app_state.dart';
+import 'package:uni/model/request_status.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/providers/lecture_provider.dart';
 import 'package:uni/utils/drawer_items.dart';

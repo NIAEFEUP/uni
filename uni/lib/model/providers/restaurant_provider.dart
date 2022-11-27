@@ -8,7 +8,7 @@ import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
 
-import 'package:uni/model/app_state.dart';
+import 'package:uni/model/request_status.dart';
 
 class RestaurantProvider extends StateProviderNotifier {
   List<Restaurant> _restaurants = [];

@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-import 'package:uni/model/app_state.dart';
+import 'package:uni/model/request_status.dart';
 
 abstract class StateProviderNotifier extends ChangeNotifier {
   RequestStatus _status = RequestStatus.none;

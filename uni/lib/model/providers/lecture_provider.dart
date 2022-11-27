@@ -7,7 +7,7 @@ import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher.dart';
 import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher_api.dart';
 import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher_html.dart';
 import 'package:uni/controller/local_storage/app_lectures_database.dart';
-import 'package:uni/model/app_state.dart';
+import 'package:uni/model/request_status.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/session.dart';

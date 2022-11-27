@@ -2,11 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 import 'package:uni/controller/load_static/terms_and_conditions.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
-import 'package:uni/model/providers/session_provider.dart';
 import 'package:uni/model/providers/state_providers.dart';
 import 'package:uni/view/home/home.dart';
 import 'package:uni/view/login/login.dart';
@@ -122,9 +120,8 @@ class SplashScreenState extends State<SplashScreen> {
     switch (state) {
       case TermsAndConditionsState.accepted:
         if (mounted) {
-          final session = Provider.of<SessionProvider>(context, listen: false).session;
-          final List<String> faculties = session.faculties;
-          Provider.of<SessionProvider>(context, listen: false)
+          final List<String> faculties = await AppSharedPreferences.getUserFaculties();
+          stateProviders.sessionProvider
               .reLogin(userName, password, faculties, stateProviders);
         }
         return MaterialPageRoute(builder: (context) => const HomePageView());

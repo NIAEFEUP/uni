@@ -4,7 +4,7 @@ import 'dart:collection';
 import 'package:logger/logger.dart';
 import 'package:uni/controller/fetchers/departures_fetcher.dart';
 import 'package:uni/controller/local_storage/app_bus_stop_database.dart';
-import 'package:uni/model/app_state.dart';
+import 'package:uni/model/request_status.dart';
 import 'package:uni/model/entities/bus_stop.dart';
 import 'package:uni/model/entities/trip.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
@@ -53,13 +53,13 @@ class BusStopProvider extends StateProviderNotifier {
       Completer<void> action, String stopCode, BusStopData stopData) async {
     updateStatus(RequestStatus.busy);
 
-    if (configuredBusStops.containsKey(stopCode)) {
-      (configuredBusStops[stopCode]!.configuredBuses).clear();
-      configuredBusStops[stopCode]!
+    if (_configuredBusStops.containsKey(stopCode)) {
+      (_configuredBusStops[stopCode]!.configuredBuses).clear();
+      _configuredBusStops[stopCode]!
           .configuredBuses
           .addAll(stopData.configuredBuses);
     } else {
-      configuredBusStops[stopCode] = stopData;
+      _configuredBusStops[stopCode] = stopData;
     }
     notifyListeners();
 

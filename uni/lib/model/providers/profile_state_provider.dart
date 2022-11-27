@@ -14,7 +14,7 @@ import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/controller/local_storage/app_user_database.dart';
 import 'package:uni/controller/parsers/parser_fees.dart';
 import 'package:uni/controller/parsers/parser_print_balance.dart';
-import 'package:uni/model/app_state.dart';
+import 'package:uni/model/request_status.dart';
 import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/course_unit.dart';
 import 'package:uni/model/entities/profile.dart';
@@ -76,6 +76,15 @@ class ProfileStateProvider extends StateProviderNotifier {
         profileDb.saveUserFees(Tuple2<String, String>(feesBalance, feesLimit));
       }
 
+      final Profile newProfile = Profile(
+          name: _profile.name,
+          email: _profile.email,
+          courses: _profile.courses,
+          printBalance: _profile.printBalance,
+          feesBalance: feesBalance,
+          feesLimit: feesLimit);
+
+      _profile = newProfile;
       _feesRefreshTime = currentTime;
       notifyListeners();
     } catch (e) {
@@ -130,8 +139,14 @@ class ProfileStateProvider extends StateProviderNotifier {
     final Map<String, String> refreshTimes =
         await refreshTimesDb.refreshTimes();
 
-    _printRefreshTime = DateTime.parse(refreshTimes['print']!);
-    _feesRefreshTime = DateTime.parse(refreshTimes['fees']!);
+    final printRefreshTime = refreshTimes['print'];
+    final feesRefreshTime = refreshTimes['fees'];
+    if (printRefreshTime != null) {
+      _printRefreshTime = DateTime.parse(printRefreshTime);
+    }
+    if (feesRefreshTime != null) {
+      _feesRefreshTime = DateTime.parse(feesRefreshTime);
+    }
   }
 
   getUserInfo(Completer<void> action, Session session) async {

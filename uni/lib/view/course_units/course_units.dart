@@ -1,7 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:uni/model/app_state.dart';
+import 'package:uni/model/request_status.dart';
 import 'package:uni/model/entities/course_unit.dart';
 import 'package:uni/model/providers/profile_state_provider.dart';
 import 'package:uni/utils/drawer_items.dart';

@@ -5,7 +5,7 @@ import 'package:uni/controller/load_info.dart';
 import 'package:uni/controller/load_static/terms_and_conditions.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/controller/networking/network_router.dart';
-import 'package:uni/model/app_state.dart';
+import 'package:uni/model/request_status.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/model/providers/state_providers.dart';
@@ -73,8 +73,7 @@ class SessionProvider extends StateProviderNotifier {
         updateStatus(RequestStatus.successful);
         action?.complete();
       } else {
-        updateStatus(RequestStatus.failed);
-        action?.completeError(RequestStatus.failed);
+        failRelogin(action);
       }
     } catch (e) {
       _session = Session(
@@ -85,10 +84,14 @@ class SessionProvider extends StateProviderNotifier {
           cookies: '',
           persistentSession: true);
 
-      action?.completeError(RequestStatus.failed);
-
-      notifyListeners();
-      updateStatus(RequestStatus.failed);
+      failRelogin(action);
     }
+  }
+
+  void failRelogin(Completer? action) {
+    notifyListeners();
+    updateStatus(RequestStatus.failed);
+    action?.completeError(RequestStatus.failed);
+    NetworkRouter.onReloginFail();
   }
 }

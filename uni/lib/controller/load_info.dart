@@ -50,9 +50,6 @@ Future loadRemoteUserInfoToState(StateProviders stateProviders) async {
       calendar = Completer();
 
   stateProviders.profileStateProvider.getUserInfo(userInfo, session);
-  stateProviders.profileStateProvider
-      .getUserPrintBalance(printBalance, session);
-  stateProviders.profileStateProvider.getUserFees(fees, session);
   stateProviders.busStopProvider.getUserBusTrips(trips);
   stateProviders.restaurantProvider
       .getRestaurantsFromFetcher(restaurants, session);
@@ -69,6 +66,9 @@ Future loadRemoteUserInfoToState(StateProviders stateProviders) async {
         .getUserLectures(schedule, userPersistentInfo, session, profile);
     stateProviders.profileStateProvider
         .getCourseUnitsAndCourseAverages(session, ucs);
+    stateProviders.profileStateProvider
+        .getUserPrintBalance(printBalance, session);
+    stateProviders.profileStateProvider.getUserFees(fees, session);
   });
 
   final allRequests = Future.wait([
