@@ -89,6 +89,7 @@ void loadLocalUserInfoToState(store) async {
   store.dispatch(
       UpdateFavoriteCards(await AppSharedPreferences.getFavoriteCards()));
   store.dispatch(SetExamFilter(await AppSharedPreferences.getFilteredExams()));
+  store.dispatch(SetExamHidden(await AppSharedPreferences.getHiddenExams()));
   store.dispatch(
       SetUserFaculties(await AppSharedPreferences.getUserFaculties()));
   final Tuple2<String, String> userPersistentInfo =

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:tuple/tuple.dart';
+
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/entities/time_utilities.dart';
@@ -8,7 +9,9 @@ import 'package:uni/view/common_widgets/date_rectangle.dart';
 import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
 import 'package:uni/view/schedule/widgets/schedule_slot.dart';
+import 'package:uni/view/home/widgets/schedule_card_shimmer.dart';
 import 'package:uni/utils/drawer_items.dart';
+
 
 
 class ScheduleCard extends GenericCard {
@@ -30,14 +33,16 @@ class ScheduleCard extends GenericCard {
         builder: (context, lecturesInfo) {
           return RequestDependentWidgetBuilder(
               context: context,
-              status: lecturesInfo.item2,
+              status: lecturesInfo.item2,              
               contentGenerator: generateSchedule,
               content: lecturesInfo.item1,
               contentChecker: lecturesInfo.item1.isNotEmpty,
               onNullContent: Center(
                   child: Text('Não existem aulas para apresentar',
                       style: Theme.of(context).textTheme.headline6,
-                      textAlign: TextAlign.center)));
+                      textAlign: TextAlign.center)),
+              contentLoadingWidget: const ScheduleCardShimmer().build(context),
+              );
         });
   }
 
@@ -111,3 +116,5 @@ class ScheduleCard extends GenericCard {
   onClick(BuildContext context) =>
       Navigator.pushNamed(context, '/${DrawerItem.navSchedule.title}');
 }
+
+
