@@ -1,5 +1,7 @@
 import 'dart:io';
+import 'dart:isolate';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:logger/logger.dart';
 import 'package:tuple/tuple.dart';
@@ -42,6 +44,8 @@ abstract class Notification{
 
 class NotificationManager{
 
+  static const Duration startDelay = Duration(seconds: 15);
+
 
 
   static Future<void> tryRunAll() async{
@@ -65,23 +69,27 @@ class NotificationManager{
 
   }
 
+  //Isolates require a object as a variable on the entry function, I don't use it so it is dynamic in this case
+  static void _isolateEntryFunc(dynamic message) async{
+
+    sleep(startDelay);
+    await NotificationManager.tryRunAll();
+  }
+
   static void buildNotificationWorker() async {
     //FIXME: using initial delay to make login sequence more consistent
     //can be fixed by only using buildNotificationWorker when user is logged in
     if(Platform.isAndroid){
-      Workmanager().cancelByUniqueName("notification-worker");
       Workmanager().cancelByUniqueName("pt.up.fe.ni.uni.notificationworker"); //stop task if it's already running
       Workmanager().registerPeriodicTask("pt.up.fe.ni.uni.notificationworker", "pt.up.fe.ni.uni.notificationworker", 
         constraints: Constraints(networkType: NetworkType.connected),
         frequency: const Duration(minutes: 15),
-        initialDelay: const Duration(seconds: 30),
+        initialDelay: startDelay,
       );
 
-    } else if (Platform.isIOS){
-      Workmanager().registerOneOffTask("pt.up.fe.ni.uni.notificationworker", "pt.up.fe.ni.uni.notificationworker", 
-        constraints: Constraints(networkType: NetworkType.connected),
-        initialDelay: const Duration(seconds: 30),
-      );
+    } else if (Platform.isIOS || kIsWeb){ 
+      //This is to guarentee that the notification will be run at least the app starts.
+      await Isolate.spawn(_isolateEntryFunc, null);
     } else{
       throw PlatformException(code: "WorkerManager is only supported in iOS and android...");
     }
