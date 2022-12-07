@@ -5,24 +5,26 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:tuple/tuple.dart';
 import 'package:uni/model/entities/meal.dart';
 import 'package:flutter/material.dart';
+import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 //import 'package:flutter_redux/flutter_redux.dart';
 
 import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
 
 import 'package:uni/model/entities/restaurant.dart';
+import 'package:uni/view/restaurant/cantine_page_view.dart';
 
-import '../view/cantine_page_view.dart';
 import 'app_state.dart';
 //import 'package:uni/view/Widgets/page_title.dart';
 
-class CantinePage extends StatefulWidget {
-  const CantinePage({Key? key}) : super(key: key);
+class CantinePageView extends StatefulWidget {
+  const CantinePageView({Key? key}) : super(key: key);
   @override
   _CantinePageState createState() => _CantinePageState();
 }
 
-class _CantinePageState extends SecondaryPageViewState
-    with SingleTickerProviderStateMixin {
+class _CantinePageState extends GeneralPageViewState<CantinePageView>
+  with SingleTickerProviderStateMixin
+     {
   final int weekDay = DateTime.now().weekday;
 
   late TabController tabController;
@@ -35,8 +37,6 @@ class _CantinePageState extends SecondaryPageViewState
     "Quinta-feira",
     "Sexta-feira"
   ];
-
-  //POR ENQUANTO IGNORAR A FUNCAO GROUP BY PORQUE NAO DEVE SER NECESSARIO
 
   @override
   void initState() {
@@ -68,12 +68,7 @@ class _CantinePageState extends SecondaryPageViewState
 
           final cantineStatus = restaurantData.item2;
 
-          return CantinePageView(
-              tabController: tabController,
-              scrollViewController: scrollViewController,
-              daysOfTheWeek: daysOfTheWeek,
-              aggRestaurant: restaurants, // _groupMealsByDay(meals),
-              cantineStatus: cantineStatus);
+          return CantinePageView();
         });
   }
   /*

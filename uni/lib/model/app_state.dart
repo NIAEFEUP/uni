@@ -1,3 +1,4 @@
+import 'package:logger/logger.dart';
 import 'package:uni/model/entities/bus_stop.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/entities/lecture.dart';

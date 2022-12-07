@@ -312,14 +312,14 @@ ThunkAction<AppState> getRestaurantsFromFetcher(Completer<void> action) {
   return (Store<AppState> store) async {
     try {
       store.dispatch(SetRestaurantsStatusAction(RequestStatus.busy));
-
       final List<Restaurant> restaurants = await RestaurantFetcherHtml()
           .getRestaurants(store.state.content['session']);
       // Updates local database according to information fetched -- Restaurants
       final RestaurantDatabase db = RestaurantDatabase();
       db.saveRestaurants(restaurants);
-      store.dispatch(SetRestaurantsAction(restaurants));
+
       store.dispatch(SetRestaurantsStatusAction(RequestStatus.successful));
+      store.dispatch(SetRestaurantsAction(restaurants));
     } catch (e) {
       Logger().e('Failed to get Restaurants: ${e.toString()}');
       store.dispatch(SetRestaurantsStatusAction(RequestStatus.failed));

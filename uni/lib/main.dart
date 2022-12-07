@@ -20,6 +20,7 @@ import 'package:uni/view/exams/exams.dart';
 import 'package:uni/view/home/home.dart';
 import 'package:uni/view/course_units/course_units.dart';
 import 'package:uni/view/logout_route.dart';
+import 'package:uni/view/restaurant/cantine_page_view.dart';
 import 'package:uni/view/splash/splash.dart';
 import 'package:uni/view/schedule/schedule.dart';
 import 'package:uni/view/common_widgets/page_transition.dart';
@@ -28,8 +29,6 @@ import 'package:uni/view/theme.dart';
 import 'package:uni/view/theme_notifier.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/useful_info/useful_info.dart';
-
-import 'model/cantine_page_model.dart';
 
 SentryEvent? beforeSend(SentryEvent event) {
   return event.level == SentryLevel.info ? event : null;
@@ -131,7 +130,7 @@ class MyAppState extends State<MyApp> {
                           maintainState: false),
                   '/${DrawerItem.navCantine.title}':
                       PageTransition.makePageTransition(
-                          page: const CantinePage(), settings: settings),
+                          page: const CantinePageView(), settings: settings),
                   '/${DrawerItem.navLogOut.title}':
                       LogoutRoute.buildLogoutRoute()
                 };

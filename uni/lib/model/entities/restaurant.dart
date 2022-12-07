@@ -8,6 +8,10 @@ class Restaurant {
   final String reference; // Used only in html parser
   final Map<DayOfWeek, List<Meal>> meals;
 
+  get isNotEmpty {
+    return meals.isNotEmpty;
+  }
+
   Restaurant(this.id, this.name, this.reference, {required List<Meal> meals})
       : meals = groupBy(meals, (meal) => meal.dayOfWeek);
 
@@ -16,7 +20,11 @@ class Restaurant {
   }
 
   List<Meal> getMealsOfDay(DayOfWeek dayOfWeek) {
-    return meals[dayOfWeek]!;
+    final List<Meal>? meal = meals[dayOfWeek];
+    if(meal == null){
+      return [];
+    }
+    return meal;
   }
 
   Map<String, dynamic> toMap() {

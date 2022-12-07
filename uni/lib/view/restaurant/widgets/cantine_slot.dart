@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import 'common_widgets/row_container.dart';
+import 'package:uni/view/common_widgets/row_container.dart';
 
 class CantineSlot extends StatelessWidget {
   final String type;
@@ -26,52 +25,51 @@ class CantineSlot extends StatelessWidget {
   Widget createCantineSlotRow(context) {
     return Container(
         key: Key('cantine-slot-type-$type'),
-        margin: const EdgeInsets.only(top: 3.0, bottom: 3.0),
         child: Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
+
           children: createCantineSlotPrimInfo(context),
         ));
   }
 
   Widget createCantineSlotType(context) {
-    return Column(
-      key: Key('cantine-slot-type-$type'),
-      children: <Widget>[createCantineType(type, context)],
-    );
+    return
+      Text('C',
+        style: TextStyle(
+          color: Colors.red,
+          fontSize: 20,
+
+        ),
+      );
+      //createCantineType(type, context);
   }
 
   Widget createCantineType(String type, context) => createTextField(
       type,
-      Theme.of(context).textTheme.headline4?.apply(fontSizeDelta: -4),
-      TextAlign.center);
+      Theme.of(context).textTheme.bodyMedium,
+      TextAlign.left);
 
   List<Widget> createCantineSlotPrimInfo(context) {
-    final nameTextField = createTextField(
-        name,
-        Theme.of(context).textTheme.headline3?.apply(fontSizeDelta: 5),
-        TextAlign.center);
-
     return [
-      createCantineSlotType(context),
-      Column(
-        children: <Widget>[
-          Row(
-            children: <Widget>[
-              nameTextField,
-            ],
-          ),
-        ],
-      ),
+      Container(
+          margin: EdgeInsets.fromLTRB(0, 0, 8.0, 0),
+          child: SizedBox(
+        width: 20,
+      child: createCantineSlotType(context),
+      )),Flexible(
+        child: createTextField(
+            name ,
+            Theme.of(context).textTheme.bodyMedium,
+            TextAlign.center)
+      )
     ];
   }
 
   Widget createTextField(text, style, alignment) {
-    return Text(
+    return Container(
+        child: Text(
       text,
-      overflow: TextOverflow.ellipsis,
+      textAlign: TextAlign.left,
       style: style,
-    );
+    ));
   }
 }
