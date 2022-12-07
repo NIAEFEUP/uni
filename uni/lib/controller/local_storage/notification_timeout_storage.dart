@@ -31,12 +31,10 @@ class NotificationTimeoutStorage{
   }
 
   DateTime getLastTimeNotificationExecuted(String uniqueID){
-    /*
     if(!_fileContent.containsKey(uniqueID)){
       return DateTime.fromMicrosecondsSinceEpoch(0); //get 1970 to always trigger notification
     }
-    return DateTime.parse(_fileContent[uniqueID]);*/
-    return DateTime.fromMillisecondsSinceEpoch(0);
+    return DateTime.parse(_fileContent[uniqueID]);
   }
 
   void addLastTimeNotificationExecuted(String uniqueID, DateTime lastRan) async{
