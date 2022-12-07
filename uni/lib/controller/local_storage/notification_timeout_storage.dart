@@ -21,24 +21,30 @@ class NotificationTimeoutStorage{
   }
 
   Map<String,dynamic> _readContentsFile(File file){
-    return jsonDecode(file.readAsStringSync());
+    try{
+      return jsonDecode(file.readAsStringSync());
+
+    } on FormatException catch(_){
+      return <String,dynamic>{};
+    }
 
   }
 
   DateTime getLastTimeNotificationExecuted(String uniqueID){
+    /*
     if(!_fileContent.containsKey(uniqueID)){
       return DateTime.fromMicrosecondsSinceEpoch(0); //get 1970 to always trigger notification
     }
-    return DateTime.parse(_fileContent[uniqueID]);
+    return DateTime.parse(_fileContent[uniqueID]);*/
+    return DateTime.fromMillisecondsSinceEpoch(0);
   }
 
   void addLastTimeNotificationExecuted(String uniqueID, DateTime lastRan) async{
     _fileContent.putIfAbsent(uniqueID, () => lastRan.toString());
-    Logger().d(jsonEncode(_fileContent));
-    _writeToFile(await _getTimeoutFile());
+    await _writeToFile(await _getTimeoutFile());
   }
 
-  void _writeToFile(File file) async{
+  Future<void> _writeToFile(File file) async{
     await file.writeAsString(jsonEncode(_fileContent));
 
   }

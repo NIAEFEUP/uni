@@ -52,7 +52,7 @@ Future<void> main() async {
     isInDebugMode: !kReleaseMode // run workmanager in debug mode when app is in debug mode
   );
 
-  NotificationManager.buildNotificationWorker();
+  NotificationManager.initializeNotifications();
 
   final savedTheme = await AppSharedPreferences.getThemeMode();
   await SentryFlutter.init((options) {
