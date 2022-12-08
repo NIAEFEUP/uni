@@ -20,9 +20,9 @@ void main() {
   group('Exams Action Creator', () {
     final List<String> rooms = ['B119', 'B107', 'B205'];
     final sopeCourseUnit = CourseUnit(
-        abbreviation: 'SOPE', occurrId: 0, name: 'Sistemas Operativos');
+        abbreviation: 'SOPE', occurrId: 0, name: 'Sistemas Operativos', status: 'V');
     final sdisCourseUnit = CourseUnit(
-        abbreviation: 'SDIS', occurrId: 0, name: 'Sistemas Distribuídos');
+        abbreviation: 'SDIS', occurrId: 0, name: 'Sistemas Distribuídos', status: 'V');
     NetworkRouter.httpClient = MockClient();
     final DateTime beginSopeExam = DateTime.parse('2800-09-12 12:00');
     final DateTime endSopeExam = DateTime.parse('2800-09-12 15:00');
