@@ -1,6 +1,6 @@
 import 'package:uni/model/entities/library_reservation.dart';
 
-import 'app_database.dart';
+import 'package:uni/controller/local_storage/app_database.dart';
 
 class LibraryReservationDatabase extends AppDatabase {
   LibraryReservationDatabase()

@@ -9,6 +9,8 @@ import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
 import 'package:uni/view/library/widgets/library_occupation_card.dart';
 
+import 'package:uni/view/library/widgets/library_reservations_card.dart';
+
 class LibraryPageView extends StatefulWidget {
   const LibraryPageView({Key? key}) : super(key: key);
 
@@ -51,6 +53,7 @@ class LibraryPageViewState extends GeneralPageViewState<LibraryPageView> {
     content = [
       const PageTitle(name: 'Biblioteca'),
       LibraryOccupationCard(),
+      LibraryReservationsCard(),
     ];
     if (occupation != null) {
       content.add(const PageTitle(name: 'Pisos'));
