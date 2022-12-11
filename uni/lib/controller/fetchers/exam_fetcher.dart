@@ -35,11 +35,12 @@ class ExamFetcher implements SessionDependantFetcher {
     final Set<Exam> exams = {};
     for (Exam courseExam in courseExams) {
       for (CourseUnit uc in userUcs) {
-        if (!courseExam.examType.contains(
+        if (!courseExam.type.contains(
                 '''Exames ao abrigo de estatutos especiais - Port.Est.Especiais''') &&
-            courseExam.examType != 'EE' &&
-            courseExam.examType != 'EAE' &&
+            courseExam.type != 'EE' &&
+            courseExam.type != 'EAE' &&
             courseExam.subject == uc.abbreviation &&
+            uc.enrollmentIsValid() &&
             !courseExam.hasEnded()) {
           exams.add(courseExam);
           break;

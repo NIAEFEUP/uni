@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:shimmer/shimmer.dart';
+
 import 'package:uni/controller/local_storage/app_last_user_info_update_database.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/utils/drawer_items.dart';
@@ -17,12 +19,14 @@ class RequestDependentWidgetBuilder extends StatelessWidget {
       required this.contentGenerator,
       required this.content,
       required this.contentChecker,
-      required this.onNullContent})
+      required this.onNullContent,
+      this.contentLoadingWidget})
       : super(key: key);
 
   final BuildContext context;
   final RequestStatus status;
   final Widget Function(dynamic, BuildContext) contentGenerator;
+  final Widget? contentLoadingWidget;
   final dynamic content;
   final bool contentChecker;
   final Widget onNullContent;
@@ -45,6 +49,14 @@ class RequestDependentWidgetBuilder extends StatelessWidget {
               return contentChecker
                   ? contentGenerator(content, context)
                   : onNullContent;
+            }
+            if (contentLoadingWidget != null){
+              return contentChecker
+                  ? contentGenerator(content, context)
+                  : Center(child: Shimmer.fromColors(
+                      baseColor: Theme.of(context).highlightColor,
+                      highlightColor: Theme.of(context).colorScheme.onPrimary,
+                      child: contentLoadingWidget!));              
             }
             return contentChecker
                 ? contentGenerator(content, context)
@@ -79,7 +91,9 @@ class RequestDependentWidgetBuilder extends StatelessWidget {
                         style: Theme.of(context).textTheme.subtitle1))),
             OutlinedButton(
                 onPressed: () =>
-                    Navigator.pushNamed(context, '/${DrawerItem.navBugReport}'),
+
+                    Navigator.pushNamed(context, '/${DrawerItem.navBugReport.title}'),
+
                 child: const Text('Reportar erro'))
           ]);
         });
