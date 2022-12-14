@@ -267,7 +267,7 @@ class BugReportFormState extends State<BugReportForm> {
     }
   }
 
-  Future submitGitHubIssue(SentryId sentryEvent, String bugLabel) async {
+  Future<int> submitGitHubIssue(SentryId sentryEvent, String bugLabel) async {
     final List<String> faculties = await AppSharedPreferences.getUserFaculties();
     final String description =
         '${descriptionController.text}\nFurther information on: $_sentryLink$sentryEvent';
@@ -276,7 +276,9 @@ class BugReportFormState extends State<BugReportForm> {
       'body': description,
       'labels': ['In-app bug report', bugLabel],
     };
-    [for (String faculty in faculties){data['labels'].add(faculty)}];
+    for (String faculty in faculties){
+      data['labels'].add(faculty);
+    }
     return http
         .post(Uri.parse(_gitHubPostUrl),
             headers: {
