@@ -8,6 +8,7 @@ import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/controller/on_start_up.dart';
 import 'package:uni/model/providers/bus_stop_provider.dart';
 import 'package:uni/model/providers/calendar_provider.dart';
+import 'package:uni/model/providers/course_units_info_provider.dart';
 import 'package:uni/model/providers/exam_provider.dart';
 import 'package:uni/model/providers/faculty_locations_provider.dart';
 import 'package:uni/model/providers/favorite_cards_provider.dart';
@@ -48,6 +49,7 @@ Future<void> main() async {
       BusStopProvider(),
       RestaurantProvider(),
       ProfileStateProvider(),
+      CourseUnitsInfoProvider(),
       SessionProvider(),
       CalendarProvider(),
       FacultyLocationsProvider(),
@@ -104,6 +106,8 @@ class MyAppState extends State<MyApp> {
             create: (context) => stateProviders.restaurantProvider),
         ChangeNotifierProvider(
             create: (context) => stateProviders.profileStateProvider),
+        ChangeNotifierProvider(
+            create: (context) => stateProviders.courseUnitsInfoProvider),
         ChangeNotifierProvider(
             create: (context) => stateProviders.sessionProvider),
         ChangeNotifierProvider(

@@ -3,7 +3,8 @@ import 'dart:collection';
 
 import 'package:logger/logger.dart';
 import 'package:tuple/tuple.dart';
-import 'package:uni/controller/fetchers/current_course_units_fetcher.dart';
+import 'package:uni/controller/fetchers/course_units_fetcher/all_course_units_fetcher.dart';
+import 'package:uni/controller/fetchers/course_units_fetcher/current_course_units_fetcher.dart';
 import 'package:uni/controller/fetchers/fees_fetcher.dart';
 import 'package:uni/controller/fetchers/print_fetcher.dart';
 import 'package:uni/controller/fetchers/profile_fetcher.dart';
@@ -14,15 +15,12 @@ import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/controller/local_storage/app_user_database.dart';
 import 'package:uni/controller/parsers/parser_fees.dart';
 import 'package:uni/controller/parsers/parser_print_balance.dart';
-import 'package:uni/model/request_status.dart';
 import 'package:uni/model/entities/course.dart';
-import 'package:uni/model/entities/course_unit.dart';
+import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
-
-// ignore: always_use_package_imports
-import '../../controller/fetchers/all_course_units_fetcher.dart';
+import 'package:uni/model/request_status.dart';
 
 class ProfileStateProvider extends StateProviderNotifier {
   List<CourseUnit> _currUcs = [];

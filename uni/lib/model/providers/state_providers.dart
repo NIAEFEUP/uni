@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/providers/bus_stop_provider.dart';
 import 'package:uni/model/providers/calendar_provider.dart';
+import 'package:uni/model/providers/course_units_info_provider.dart';
 import 'package:uni/model/providers/exam_provider.dart';
 import 'package:uni/model/providers/faculty_locations_provider.dart';
 import 'package:uni/model/providers/favorite_cards_provider.dart';
@@ -19,6 +20,7 @@ class StateProviders {
   final BusStopProvider busStopProvider;
   final RestaurantProvider restaurantProvider;
   final ProfileStateProvider profileStateProvider;
+  final CourseUnitsInfoProvider courseUnitsInfoProvider;
   final SessionProvider sessionProvider;
   final CalendarProvider calendarProvider;
   final FacultyLocationsProvider facultyLocationsProvider;
@@ -33,6 +35,7 @@ class StateProviders {
       this.busStopProvider,
       this.restaurantProvider,
       this.profileStateProvider,
+      this.courseUnitsInfoProvider,
       this.sessionProvider,
       this.calendarProvider,
       this.facultyLocationsProvider,
@@ -51,6 +54,8 @@ class StateProviders {
         Provider.of<RestaurantProvider>(context, listen: false);
     final profileStateProvider =
         Provider.of<ProfileStateProvider>(context, listen: false);
+    final courseUnitsInfoProvider =
+        Provider.of<CourseUnitsInfoProvider>(context, listen: false);
     final sessionProvider =
         Provider.of<SessionProvider>(context, listen: false);
     final calendarProvider =
@@ -72,6 +77,7 @@ class StateProviders {
         busStopProvider,
         restaurantProvider,
         profileStateProvider,
+        courseUnitsInfoProvider,
         sessionProvider,
         calendarProvider,
         facultyLocationsProvider,

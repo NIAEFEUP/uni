@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:uni/model/entities/course_unit.dart';
-import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
+import 'package:provider/provider.dart';
+import 'package:uni/model/entities/course_units/course_unit.dart';
+import 'package:uni/model/entities/course_units/course_unit_class.dart';
+import 'package:uni/model/entities/course_units/course_unit_sheet.dart';
+import 'package:uni/model/providers/course_units_info_provider.dart';
+import 'package:uni/model/providers/session_provider.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
+import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
+import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
+import 'package:uni/view/course_unit_info/widgets/course_unit_sheet.dart';
 
 class CourseUnitDetailPageView extends StatefulWidget {
   final CourseUnit courseUnit;
@@ -17,23 +24,72 @@ class CourseUnitDetailPageView extends StatefulWidget {
 class CourseUnitDetailPageViewState
     extends SecondaryPageViewState<CourseUnitDetailPageView> {
   @override
+  void initState() {
+    super.initState();
+
+    // TODO: Handle this loading in a page generic way (#659)
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final courseUnitsProvider =
+          Provider.of<CourseUnitsInfoProvider>(context, listen: false);
+      final session = context.read<SessionProvider>().session;
+
+      final CourseUnitSheet? courseUnitSheet =
+          courseUnitsProvider.courseUnitsSheets[widget.courseUnit];
+      if (courseUnitSheet == null) {
+        courseUnitsProvider.getCourseUnitSheet(widget.courseUnit, session);
+      }
+
+      final List<CourseUnitClass>? courseUnitClasses =
+          courseUnitsProvider.courseUnitsClasses[widget.courseUnit];
+      if (courseUnitClasses == null) {
+        courseUnitsProvider.getCourseUnitClasses(widget.courseUnit, session);
+      }
+    });
+  }
+
+  @override
   Widget getBody(BuildContext context) {
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      PageTitle(
-        center: false,
-        name: widget.courseUnit.name,
-      ),
-      Container(
-          padding: const EdgeInsets.all(20),
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text('Ano letivo: ${widget.courseUnit.schoolYear}'),
-            const SizedBox(
-              height: 20,
+    return DefaultTabController(
+        length: 2,
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          PageTitle(
+            center: false,
+            name: widget.courseUnit.name,
+          ),
+          const TabBar(
+            tabs: [Tab(text: "Ficha"), Tab(text: "Turmas")],
+          ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 30, left: 20, right: 20),
+              child: TabBarView(
+                children: [
+                  _courseUnitSheetView(context),
+                  _courseUnitClassesView(context),
+                ],
+              ),
             ),
-            Text(
-                'Resultado: ${widget.courseUnit.grade == null || widget.courseUnit.grade!.isEmpty ? 'N/A' : widget.courseUnit.grade}')
-          ]))
-    ]);
+          )
+        ]));
+  }
+
+  Widget _courseUnitSheetView(BuildContext context) {
+    return Consumer<CourseUnitsInfoProvider>(
+        builder: (context, courseUnitsInfoProvider, _) {
+      return RequestDependentWidgetBuilder(
+          context: context,
+          status: courseUnitsInfoProvider.status,
+          contentGenerator: (content, context) =>
+              CourseUnitSheetView(widget.courseUnit.name, content),
+          content: courseUnitsInfoProvider.courseUnitsSheets[widget.courseUnit],
+          contentChecker:
+              courseUnitsInfoProvider.courseUnitsSheets[widget.courseUnit] !=
+                  null,
+          onNullContent: const Text("Não foi possível obter a ficha da UC"));
+    });
+  }
+
+  Widget _courseUnitClassesView(BuildContext context) {
+    return Text("Turmas");
   }
 }
