@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:uni/model/entities/course_units/course_unit_sheet.dart';
-
-import 'course_unit_sheet_card.dart';
+import 'package:uni/view/course_unit_info/widgets/course_unit_sheet_card.dart';
 
 class CourseUnitSheetView extends StatelessWidget {
   final CourseUnitSheet courseUnitSheet;
@@ -12,50 +12,24 @@ class CourseUnitSheetView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Align(
-        alignment: Alignment.centerLeft,
+    final List<CourseUnitSheetCard> cards = [];
+    for (var section in courseUnitSheet.sections.entries) {
+      cards.add(CourseUnitSheetCard(
+          section.key,
+          HtmlWidget(
+            section.value,
+            renderMode: RenderMode.column,
+            onTapUrl: (url) {
+              print('tapped $url');
+              return false;
+            },
+          )));
+    }
+
+    return Expanded(
         child: Container(
             padding: const EdgeInsets.only(left: 10, right: 10),
-            child: Column(children: [
-              _courseObjectiveWidget(),
-              _courseProgramWidget(),
-              //_courseEvaluationWidget(iconColor),
-              //_courseTeachersWidget(iconColor)
-            ])) //ListView(children: sections)),
-        );
-  }
-
-  Widget _courseObjectiveWidget() {
-    return CourseUnitSheetCard(
-        'Objetivos', Text(courseUnitSheet.sections['goals']!));
-  }
-
-  Widget _courseProgramWidget() {
-    return CourseUnitSheetCard(
-      'Programa',
-      Align(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            courseUnitSheet.sections['program']!,
-            key: Key('$courseUnitName - Programa Text'),
-            style: const TextStyle(fontWeight: FontWeight.w400),
-          )),
-    );
-  }
-
-  Widget _sectionTitle(String title) {
-    return Container(
-        padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
-        child: Align(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            title,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
-                color: Color.fromRGBO(50, 50, 50, 100),
-                fontSize: 16,
-                fontWeight: FontWeight.w500),
-          ),
-        ));
+            child: ListView(children: cards) //ListView(children: sections)),
+            ));
   }
 }
