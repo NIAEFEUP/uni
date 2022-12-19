@@ -13,7 +13,7 @@ class CourseUnitSheetCard extends GenericExpansionCard {
 
   @override
   Widget buildCardContent(BuildContext context) {
-    return content;
+    return Container(padding: const EdgeInsets.only(top: 10), child: content);
   }
 
   @override
