@@ -2,8 +2,8 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/controller/local_storage/app_last_user_info_update_database.dart';
-import 'package:uni/model/request_status.dart';
 import 'package:uni/model/providers/last_user_info_provider.dart';
+import 'package:uni/model/request_status.dart';
 import 'package:uni/utils/drawer_items.dart';
 
 /// Wraps content given its fetch data from the redux store,
@@ -18,7 +18,7 @@ class RequestDependentWidgetBuilder extends StatelessWidget {
       required this.contentGenerator,
       required this.content,
       required this.contentChecker,
-      required this.onNullContent})
+      this.onNullContent})
       : super(key: key);
 
   final BuildContext context;
@@ -26,7 +26,7 @@ class RequestDependentWidgetBuilder extends StatelessWidget {
   final Widget Function(dynamic, BuildContext) contentGenerator;
   final dynamic content;
   final bool contentChecker;
-  final Widget onNullContent;
+  final Widget? onNullContent;
   static final AppLastUserInfoUpdateDatabase lastUpdateDatabase =
       AppLastUserInfoUpdateDatabase();
 
@@ -39,7 +39,7 @@ class RequestDependentWidgetBuilder extends StatelessWidget {
           case RequestStatus.none:
             return contentChecker
                 ? contentGenerator(content, context)
-                : onNullContent;
+                : onNullContent ?? Container();
           case RequestStatus.busy:
             return contentChecker
                 ? contentGenerator(content, context)

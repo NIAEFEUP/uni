@@ -61,7 +61,7 @@ class CourseUnitDetailPageViewState
           ),
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.only(top: 30, left: 20, right: 20),
+              padding: const EdgeInsets.only(top: 20),
               child: TabBarView(
                 children: [
                   _courseUnitSheetView(context),
@@ -84,8 +84,7 @@ class CourseUnitDetailPageViewState
           content: courseUnitsInfoProvider.courseUnitsSheets[widget.courseUnit],
           contentChecker:
               courseUnitsInfoProvider.courseUnitsSheets[widget.courseUnit] !=
-                  null,
-          onNullContent: const Text("Não foi possível obter a ficha da UC"));
+                  null);
     });
   }
 
