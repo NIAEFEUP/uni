@@ -1,8 +1,8 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 import 'package:provider/provider.dart';
-import 'package:uni/controller/networking/network_router.dart';
+import 'package:uni/controller/load_info.dart';
 import 'package:uni/model/entities/course_units/course_unit_class.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/session_provider.dart';
@@ -36,11 +36,9 @@ class CourseUnitsClassesView extends StatelessWidget {
           )));
     }
 
-    return Expanded(
-        child: Container(
-            padding: const EdgeInsets.only(left: 10, right: 10),
-            child: ListView(children: cards) //ListView(children: sections)),
-            ));
+    return Container(
+        padding: const EdgeInsets.only(left: 10, right: 10),
+        child: ListView(children: cards));
   }
 
   CourseUnitInfoCard _buildCard(String sectionTitle, Widget sectionContent) {
@@ -51,10 +49,10 @@ class CourseUnitsClassesView extends StatelessWidget {
   }
 
   Widget _buildStudentWidget(CourseUnitStudent student, Session session) {
-    final Future<Response> response =
-        NetworkRouter.getWithCookies(student.photo.toString(), {}, session);
+    final Future<File?> userImage =
+        loadUserProfilePicture("up${student.number}", session);
     return FutureBuilder(
-      builder: (BuildContext context, AsyncSnapshot<Response> snapshot) {
+      builder: (BuildContext context, AsyncSnapshot<File?> snapshot) {
         return Container(
             padding: const EdgeInsets.only(bottom: 10),
             child: Row(
@@ -66,8 +64,9 @@ class CourseUnitsClassesView extends StatelessWidget {
                         shape: BoxShape.circle,
                         image: DecorationImage(
                             fit: BoxFit.fill,
-                            image: snapshot.hasData
-                                ? Image.memory(snapshot.data!.bodyBytes).image
+                            image: snapshot.hasData &&
+                                    snapshot.data!.lengthSync() > 0
+                                ? FileImage(snapshot.data!) as ImageProvider
                                 : const AssetImage(
                                     'assets/images/profile_placeholder.png')))),
                 Expanded(
@@ -92,7 +91,7 @@ class CourseUnitsClassesView extends StatelessWidget {
               ],
             ));
       },
-      future: response,
+      future: userImage,
     );
   }
 }

@@ -104,8 +104,7 @@ void loadLocalUserInfoToState(StateProviders stateProviders) async {
     stateProviders.examProvider.updateStateBasedOnLocalUserExams();
     stateProviders.lectureProvider.updateStateBasedOnLocalUserLectures();
     stateProviders.busStopProvider.updateStateBasedOnLocalUserBusStops();
-    stateProviders.profileStateProvider
-        .updateStateBasedOnLocalProfile();
+    stateProviders.profileStateProvider.updateStateBasedOnLocalProfile();
     stateProviders.profileStateProvider.updateStateBasedOnLocalRefreshTimes();
     stateProviders.lastUserInfoProvider.updateStateBasedOnLocalTime();
     stateProviders.calendarProvider.updateStateBasedOnLocalCalendar();
@@ -121,11 +120,19 @@ Future<void> handleRefresh(StateProviders stateProviders) async {
 
 Future<File?> loadProfilePicture(Session session, {forceRetrieval = false}) {
   final String studentNumber = session.studentNumber;
-  final String faculty = session.faculties[0];
+  return loadUserProfilePicture(studentNumber, session,
+      forceRetrieval: forceRetrieval);
+}
+
+Future<File?> loadUserProfilePicture(String studentNumber, Session session,
+    {forceRetrieval = false}) {
+  final String studentNumberDigits =
+      studentNumber.replaceAll(RegExp(r'\D'), '');
   final String url =
-      'https://sigarra.up.pt/$faculty/pt/fotografias_service.foto?pct_cod=$studentNumber';
+      'https://sigarra.up.pt/${session.faculties[0]}/pt/fotografias_service.foto?pct_cod=$studentNumberDigits';
   final Map<String, String> headers = <String, String>{};
   headers['cookie'] = session.cookies;
-  return loadFileFromStorageOrRetrieveNew('user_profile_picture', url, headers,
+  return loadFileFromStorageOrRetrieveNew(
+      '${studentNumber}_profile_picture', url, headers,
       forceRetrieval: forceRetrieval);
 }

@@ -24,11 +24,9 @@ class CourseUnitSheetView extends StatelessWidget {
       cards.add(_buildCard(section.key, section.value, baseUrl));
     }
 
-    return Expanded(
-        child: Container(
-            padding: const EdgeInsets.only(left: 10, right: 10),
-            child: ListView(children: cards) //ListView(children: sections)),
-            ));
+    return Container(
+        padding: const EdgeInsets.only(left: 10, right: 10),
+        child: ListView(children: cards));
   }
 
   CourseUnitInfoCard _buildCard(
