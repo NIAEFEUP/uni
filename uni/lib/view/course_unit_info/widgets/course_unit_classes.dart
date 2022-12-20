@@ -63,7 +63,7 @@ class CourseUnitsClassesView extends StatelessWidget {
                     decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         image: DecorationImage(
-                            fit: BoxFit.fill,
+                            fit: BoxFit.cover,
                             image: snapshot.hasData &&
                                     snapshot.data!.lengthSync() > 0
                                 ? FileImage(snapshot.data!) as ImageProvider
