@@ -7,21 +7,19 @@ import 'package:provider/provider.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/model/entities/course_units/course_unit_sheet.dart';
 import 'package:uni/model/providers/session_provider.dart';
-import 'package:uni/view/course_unit_info/widgets/course_unit_sheet_card.dart';
+import 'package:uni/view/course_unit_info/widgets/course_unit_info_card.dart';
 
 class CourseUnitSheetView extends StatelessWidget {
   final CourseUnitSheet courseUnitSheet;
-  final String courseUnitName;
 
-  const CourseUnitSheetView(this.courseUnitName, this.courseUnitSheet,
-      {super.key});
+  const CourseUnitSheetView(this.courseUnitSheet, {super.key});
 
   @override
   Widget build(BuildContext context) {
     final session = context.read<SessionProvider>().session;
     final baseUrl = Uri.parse(NetworkRouter.getBaseUrl(session.faculties[0]));
 
-    final List<CourseUnitSheetCard> cards = [];
+    final List<CourseUnitInfoCard> cards = [];
     for (var section in courseUnitSheet.sections.entries) {
       cards.add(_buildCard(section.key, section.value, baseUrl));
     }
@@ -33,9 +31,9 @@ class CourseUnitSheetView extends StatelessWidget {
             ));
   }
 
-  CourseUnitSheetCard _buildCard(
+  CourseUnitInfoCard _buildCard(
       String sectionTitle, String sectionContent, Uri baseUrl) {
-    return CourseUnitSheetCard(
+    return CourseUnitInfoCard(
         sectionTitle,
         HtmlWidget(
           sectionContent,

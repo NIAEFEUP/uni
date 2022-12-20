@@ -8,6 +8,7 @@ import 'package:uni/model/providers/session_provider.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
+import 'package:uni/view/course_unit_info/widgets/course_unit_classes.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_sheet.dart';
 
 class CourseUnitDetailPageView extends StatefulWidget {
@@ -79,8 +80,7 @@ class CourseUnitDetailPageViewState
       return RequestDependentWidgetBuilder(
           context: context,
           status: courseUnitsInfoProvider.status,
-          contentGenerator: (content, context) =>
-              CourseUnitSheetView(widget.courseUnit.name, content),
+          contentGenerator: (content, context) => CourseUnitSheetView(content),
           content: courseUnitsInfoProvider.courseUnitsSheets[widget.courseUnit],
           contentChecker:
               courseUnitsInfoProvider.courseUnitsSheets[widget.courseUnit] !=
@@ -89,6 +89,18 @@ class CourseUnitDetailPageViewState
   }
 
   Widget _courseUnitClassesView(BuildContext context) {
-    return Text("Turmas");
+    return Consumer<CourseUnitsInfoProvider>(
+        builder: (context, courseUnitsInfoProvider, _) {
+      return RequestDependentWidgetBuilder(
+          context: context,
+          status: courseUnitsInfoProvider.status,
+          contentGenerator: (content, context) =>
+              CourseUnitsClassesView(content),
+          content:
+              courseUnitsInfoProvider.courseUnitsClasses[widget.courseUnit],
+          contentChecker:
+              courseUnitsInfoProvider.courseUnitsClasses[widget.courseUnit] !=
+                  null);
+    });
   }
 }
