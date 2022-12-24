@@ -2,6 +2,7 @@ import 'package:uni/model/entities/bus_stop.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/entities/location_group.dart';
+import 'package:uni/model/entities/reference.dart';
 import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/entities/trip.dart';
@@ -38,6 +39,8 @@ class AppState {
       'profileStatus': RequestStatus.none,
       'printBalanceStatus': RequestStatus.none,
       'feesStatus': RequestStatus.none,
+      'references': <Reference>[],
+      'referencesStatus': RequestStatus.none,
       'lastUserInfoUpdateTime': null,
       'locationGroups': <LocationGroup>[],
     };

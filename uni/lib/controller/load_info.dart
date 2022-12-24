@@ -51,7 +51,8 @@ Future loadRemoteUserInfoToState(Store<AppState> store) async {
       trips = Completer(),
       lastUpdate = Completer(),
       restaurants = Completer(),
-      calendar = Completer();
+      calendar = Completer(),
+      references = Completer();
 
   store.dispatch(getUserInfo(userInfo));
   store.dispatch(getUserPrintBalance(printBalance));
@@ -59,6 +60,7 @@ Future loadRemoteUserInfoToState(Store<AppState> store) async {
   store.dispatch(getUserBusTrips(trips));
   store.dispatch(getRestaurantsFromFetcher(restaurants));
   store.dispatch(getCalendarFromFetcher(calendar));
+  store.dispatch(getUserReferences(references));
 
   final Tuple2<String, String> userPersistentInfo =
       await AppSharedPreferences.getPersistentUserInfo();
@@ -77,7 +79,8 @@ Future loadRemoteUserInfoToState(Store<AppState> store) async {
     userInfo.future,
     trips.future,
     restaurants.future,
-    calendar.future
+    calendar.future,
+    references.future
   ]);
   allRequests.then((futures) {
     store.dispatch(setLastUserInfoUpdateTimestamp(lastUpdate));
@@ -102,6 +105,7 @@ void loadLocalUserInfoToState(store) async {
     store.dispatch(updateStateBasedOnLocalTime());
     store.dispatch(updateStateBasedOnLocalCalendar());
     store.dispatch(updateStateBasedOnLocalCourseUnits());
+    store.dispatch(updateStateBasedOnLocalUserReferences());
     store.dispatch(SaveProfileStatusAction(RequestStatus.successful));
     store.dispatch(SetPrintBalanceStatusAction(RequestStatus.successful));
     store.dispatch(SetFeesStatusAction(RequestStatus.successful));
