@@ -35,6 +35,10 @@ AppState appReducers(AppState state, dynamic action) {
     return setFeesLimit(state, action);
   } else if (action is SetFeesStatusAction) {
     return setFeesStatus(state, action);
+  } else if (action is SetReferencesAction) {
+    return setReferences(state, action);
+  } else if (action is SetReferencesStatusAction) {
+    return setReferencesStatus(state, action);
   } else if (action is SetBusTripsAction) {
     return setBusTrips(state, action);
   } else if (action is SetBusStopsAction) {
@@ -49,6 +53,8 @@ AppState appReducers(AppState state, dynamic action) {
     return setPrintRefreshTime(state, action);
   } else if (action is SetFeesRefreshTimeAction) {
     return setFeesRefreshTime(state, action);
+  } else if (action is SetReferencesRefreshTimeAction) {
+    return setReferencesRefreshTime(state, action);
   } else if (action is SetInitialStoreStateAction) {
     return setInitialStoreState(state, action);
   } else if (action is SetHomePageEditingMode) {
@@ -178,6 +184,17 @@ AppState setFeesStatus(AppState state, SetFeesStatusAction action) {
   return state.cloneAndUpdateValue('feesStatus', action.status);
 }
 
+AppState setReferencesStatus(AppState state, SetReferencesStatusAction action) {
+  Logger().i('setting references status: ${action.status}');
+  return state.cloneAndUpdateValue('referencesStatus', action.status);
+}
+
+AppState setReferences(AppState state, SetReferencesAction action) {
+  Logger().i('setting references: '
+      '${action.references.map((e) => e.description)}');
+  return state.cloneAndUpdateValue('references', action.references);
+}
+
 AppState setBusStop(AppState state, SetBusStopsAction action) {
   Logger().i('setting bus stops: ${action.busStops}');
   return state.cloneAndUpdateValue('configuredBusStops', action.busStops);
@@ -216,6 +233,12 @@ AppState setPrintRefreshTime(AppState state, SetPrintRefreshTimeAction action) {
 AppState setFeesRefreshTime(AppState state, SetFeesRefreshTimeAction action) {
   Logger().i('setting fees refresh time ${action.time}');
   return state.cloneAndUpdateValue('feesRefreshTime', action.time);
+}
+
+AppState setReferencesRefreshTime(AppState state,
+    SetReferencesRefreshTimeAction action) {
+  Logger().i('setting references refresh time ${action.time}');
+  return state.cloneAndUpdateValue('referencesRefreshTime', action.time);
 }
 
 AppState setHomePageEditingMode(AppState state, SetHomePageEditingMode action) {

@@ -13,6 +13,7 @@ import 'package:uni/controller/fetchers/fees_fetcher.dart';
 import 'package:uni/controller/fetchers/location_fetcher/location_fetcher_asset.dart';
 import 'package:uni/controller/fetchers/print_fetcher.dart';
 import 'package:uni/controller/fetchers/profile_fetcher.dart';
+import 'package:uni/controller/fetchers/reference_fetcher.dart';
 import 'package:uni/controller/fetchers/restaurant_fetcher/restaurant_fetcher_html.dart';
 import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher.dart';
 import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher_api.dart';
@@ -26,6 +27,7 @@ import 'package:uni/controller/local_storage/app_courses_database.dart';
 import 'package:uni/controller/local_storage/app_exams_database.dart';
 import 'package:uni/controller/local_storage/app_last_user_info_update_database.dart';
 import 'package:uni/controller/local_storage/app_lectures_database.dart';
+import 'package:uni/controller/local_storage/app_references_database.dart';
 import 'package:uni/controller/local_storage/app_refresh_times_database.dart';
 import 'package:uni/controller/local_storage/app_restaurant_database.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
@@ -35,6 +37,7 @@ import 'package:uni/controller/networking/network_router.dart'
 import 'package:uni/controller/parsers/parser_exams.dart';
 import 'package:uni/controller/parsers/parser_fees.dart';
 import 'package:uni/controller/parsers/parser_print_balance.dart';
+import 'package:uni/controller/parsers/parser_references.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/calendar_event.dart';
 import 'package:uni/model/entities/bus_stop.dart';
@@ -44,6 +47,7 @@ import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/entities/location_group.dart';
 import 'package:uni/model/entities/profile.dart';
+import 'package:uni/model/entities/reference.dart';
 import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/entities/trip.dart';
@@ -260,6 +264,15 @@ ThunkAction<AppState> updateRestaurantsBasedOnLocalData() {
   };
 }
 
+ThunkAction<AppState> updateStateBasedOnLocalUserReferences() {
+  return (Store<AppState> store) async {
+    final AppReferencesDatabase referencesDb = AppReferencesDatabase();
+    final List<Reference> references = await referencesDb.references();
+
+    store.dispatch(SetReferencesAction(references));
+  };
+}
+
 ThunkAction<AppState> getUserExams(Completer<void> action,
     ParserExams parserExams, Tuple2<String, String> userPersistentInfo) {
   return (Store<AppState> store) async {
@@ -400,6 +413,37 @@ ThunkAction<AppState> getUserPrintBalance(Completer<void> action) {
       Logger().e('Failed to get Print Balance');
       store.dispatch(SetPrintBalanceStatusAction(RequestStatus.failed));
     }
+    action.complete();
+  };
+}
+
+ThunkAction<AppState> getUserReferences(Completer<void> action) {
+  return (Store<AppState> store) async {
+    store.dispatch(SetReferencesStatusAction(RequestStatus.busy));
+    try {
+      final response = await ReferenceFetcher()
+          .getUserReferenceResponse(store.state.content['session']);
+      final List<Reference> references = await parseReferences(response);
+
+      final String currentTime = DateTime.now().toString();
+      final Tuple2<String, String> userPersistentInfo =
+          await AppSharedPreferences.getPersistentUserInfo();
+      if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {
+        await storeRefreshTime('references', currentTime);
+
+        // Store references in the database
+        final referencesDb = AppReferencesDatabase();
+        referencesDb.saveNewReferences(references);
+      }
+
+      store.dispatch(SetReferencesAction(references));
+      store.dispatch(SetReferencesStatusAction(RequestStatus.successful));
+      store.dispatch(SetReferencesRefreshTimeAction(currentTime));
+    } catch (e) {
+      Logger().e('Failed to get References info');
+      store.dispatch(SetReferencesStatusAction(RequestStatus.failed));
+    }
+
     action.complete();
   };
 }

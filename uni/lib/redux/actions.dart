@@ -6,6 +6,7 @@ import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/entities/location_group.dart';
 import 'package:uni/model/entities/profile.dart';
+import 'package:uni/model/entities/reference.dart';
 import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/entities/trip.dart';
@@ -115,6 +116,16 @@ class SetFeesStatusAction {
   SetFeesStatusAction(this.status);
 }
 
+class SetReferencesStatusAction {
+  RequestStatus status;
+  SetReferencesStatusAction(this.status);
+}
+
+class SetReferencesAction {
+  List<Reference> references;
+  SetReferencesAction(this.references);
+}
+
 class SetBusTripsAction {
   Map<String, List<Trip>> trips;
   SetBusTripsAction(this.trips);
@@ -148,6 +159,11 @@ class SetPrintRefreshTimeAction {
 class SetFeesRefreshTimeAction {
   String? time;
   SetFeesRefreshTimeAction(this.time);
+}
+
+class SetReferencesRefreshTimeAction {
+  String? time;
+  SetReferencesRefreshTimeAction(this.time);
 }
 
 class SetHomePageEditingMode {
