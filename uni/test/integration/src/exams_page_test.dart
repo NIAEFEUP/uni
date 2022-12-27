@@ -33,16 +33,24 @@ void main() {
     final mockClient = MockClient();
     final mockResponse = MockResponse();
     final sopeCourseUnit = CourseUnit(
-        abbreviation: 'SOPE', occurrId: 0, name: 'Sistemas Operativos');
+        abbreviation: 'SOPE', occurrId: 0, name: 'Sistemas Operativos', status: 'V');
     final sdisCourseUnit = CourseUnit(
-        abbreviation: 'SDIS', name: 'Sistemas Distribuídos', occurrId: 0);
-    final sopeExam =
-        Exam('17:00-19:00', 'SOPE', '', '2099-11-18', 'MT', 'Segunda');
-    final sdisExam =
-        Exam('17:00-19:00', 'SDIS', '', '2099-10-21', 'MT', 'Segunda');
+        abbreviation: 'SDIS', name: 'Sistemas Distribuídos', occurrId: 0, status: 'V');
+    final mdisCourseUnit = CourseUnit(
+        abbreviation: 'MDIS', name: 'Matemática Discreta', occurrId: 0, status: 'A');
+
+    final DateTime beginSopeExam = DateTime.parse('2099-11-18 17:00');
+    final DateTime endSopeExam = DateTime.parse('2099-11-18 19:00');
+    final sopeExam = Exam('44426', beginSopeExam, endSopeExam, 'SOPE', [], 'MT');
+    final DateTime beginSdisExam = DateTime.parse('2099-10-21 17:00');
+    final DateTime endSdisExam = DateTime.parse('2099-10-21 19:00');
+    final sdisExam = Exam('44425', beginSdisExam, endSdisExam, 'SDIS',[], 'MT');
+    final DateTime beginMdisExam = DateTime.parse('2099-10-22 17:00');
+    final DateTime endMdisExam = DateTime.parse('2099-10-22 19:00');
+    final mdisExam = Exam('44429', beginMdisExam, endMdisExam, 'MDIS',[], 'MT');
 
     final Map<String, bool> filteredExams = {};
-    Exam.getExamTypes()
+    Exam.types
         .keys
         .toList()
         .forEach((type) => filteredExams[type] = true);
@@ -54,10 +62,11 @@ void main() {
       final store = Store<AppState>(appReducers,
           initialState: AppState({
             'session': Session(authenticated: true),
-            'currUcs': [sopeCourseUnit, sdisCourseUnit],
+            'currUcs': [sopeCourseUnit, sdisCourseUnit, mdisCourseUnit],
             'exams': <Exam>[],
             'profile': profile,
-            'filteredExams': filteredExams
+            'filteredExams': filteredExams,
+            'hiddenExams': <String>[], 
           }),
           middleware: [generalMiddleware]);
       NetworkRouter.httpClient = mockClient;
@@ -79,6 +88,7 @@ void main() {
 
       expect(find.byKey(Key(sdisExam.toString())), findsNothing);
       expect(find.byKey(Key(sopeExam.toString())), findsNothing);
+      expect(find.byKey(Key(mdisExam.toString())), findsNothing);
 
       actionCreator(store);
 
@@ -87,6 +97,7 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.byKey(Key(sdisExam.toString())), findsOneWidget);
       expect(find.byKey(Key(sopeExam.toString())), findsOneWidget);
+      expect(find.byKey(Key(mdisExam.toString())), findsNothing);
     });
 
     testWidgets('Filtered Exams', (WidgetTester tester) async {
@@ -96,7 +107,8 @@ void main() {
             'currUcs': [sopeCourseUnit, sdisCourseUnit],
             'exams': <Exam>[],
             'profile': profile,
-            'filteredExams': filteredExams
+            'filteredExams': filteredExams,
+            'hiddenExams': <String>[],
           }),
           middleware: [generalMiddleware]);
 
@@ -129,14 +141,14 @@ void main() {
       expect(find.byKey(Key(sdisExam.toString())), findsOneWidget);
       expect(find.byKey(Key(sopeExam.toString())), findsOneWidget);
 
-      final filterIcon = find.byIcon(Icons.settings);
+      final filterIcon = find.byIcon(Icons.filter_alt);
       expect(filterIcon, findsOneWidget);
 
       filteredExams['ExamDoesNotExist'] = true;
 
       await tester.pumpAndSettle();
       final IconButton filterButton = find
-          .widgetWithIcon(IconButton, Icons.settings)
+          .widgetWithIcon(IconButton, Icons.filter_alt)
           .evaluate()
           .first
           .widget;
@@ -146,7 +158,7 @@ void main() {
       expect(find.byType(AlertDialog), findsOneWidget);
       //This checks if the ExamDoesNotExist is not displayed
       expect(find.byType(CheckboxListTile),
-          findsNWidgets(Exam.getExamTypes().length));
+          findsNWidgets(Exam.types.length));
 
       final CheckboxListTile mtCheckboxTile = find
           .byKey(const Key('ExamCheck' 'Mini-testes'))
