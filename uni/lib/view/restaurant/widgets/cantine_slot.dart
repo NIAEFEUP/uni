@@ -61,7 +61,6 @@ class CantineSlot extends StatelessWidget {
       return
         Text(type,
           style: const TextStyle(
-            color: Colors.red,
             fontSize: 20
           ),
         );

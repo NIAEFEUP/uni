@@ -1,6 +1,3 @@
-//import 'package:tuple/tuple.dart';
-//import 'package:uni/model/app_state.dart';
-
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:tuple/tuple.dart';
 import 'package:uni/model/app_state.dart';
@@ -157,7 +154,7 @@ class _CantinePageState extends GeneralPageViewState<CantinePageView>
           margin:
           const EdgeInsets.only(top: 20, bottom: 7),
           padding: const EdgeInsets.only(
-              left: 44.0, right: 44.0), //medidas fixas ver se não dá problemas
+              left: 44.0, right: 44.0),
           key: Key('cantine-page-day-column-$day'),
           child: Column(
             mainAxisSize: MainAxisSize.min,
