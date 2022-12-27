@@ -67,7 +67,6 @@ class CantineSlot extends StatelessWidget {
         );
     }
 
-      //createCantineType(type, context);
   }
 
   Widget createCantineType(String type, context) => createTextField(

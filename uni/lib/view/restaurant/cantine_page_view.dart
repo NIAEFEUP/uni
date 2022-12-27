@@ -24,12 +24,7 @@ class CantinePageView extends StatefulWidget {
 
 class _CantinePageState extends GeneralPageViewState<CantinePageView>
     with SingleTickerProviderStateMixin {
-  /*"Segunda-feira",
-  "Terça-feira",
-  "Quarta-feira",
-  "Quinta-feira",
-  "Sexta-feira",
-  "Sábado",*/
+
   final List<DayOfWeek> daysOfTheWeek = [
     DayOfWeek.monday,
     DayOfWeek.tuesday,
@@ -123,7 +118,7 @@ class _CantinePageState extends GeneralPageViewState<CantinePageView>
     for (var i = 0; i < daysOfTheWeek.length; i++) {
       tabs.add(Container(
         color: Theme.of(context).backgroundColor,
-        child: Tab(key: Key('cantine-page-tab-$i'), text: daysOfTheWeek[i].toString()),
+        child: Tab(key: Key('cantine-page-tab-$i'), text: toString(daysOfTheWeek[i])),
       ));
     }
 
