@@ -1,12 +1,12 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:uni/view/common_widgets/row_container.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class CantineSlot extends StatelessWidget {
   final String type;
   final String name;
 
-  CantineSlot({
+  const CantineSlot({
     Key? key,
     required this.type,
     required this.name,
@@ -32,14 +32,41 @@ class CantineSlot extends StatelessWidget {
   }
 
   Widget createCantineSlotType(context) {
-    return
-      Text('C',
-        style: TextStyle(
-          color: Colors.red,
-          fontSize: 20,
 
-        ),
+    if(type == "Carne" || type == "Prato de Carne") {
+      return SvgPicture.asset(
+        color: Theme.of(context).primaryColor,
+        'assets/icons-cantine/chicken.svg',
+        height: 20,
       );
+    } else if (type == "Peixe" || type == "Prato de Peixe") {
+      return SvgPicture.asset(
+        color: Theme.of(context).primaryColor,
+        'assets/icons-cantine/fish.svg',
+        height: 20,
+      );
+    } else if (type == "Vegetariano" || type == "Prato Vegetariano") {
+      return SvgPicture.asset(
+        color: Theme.of(context).primaryColor,
+        'assets/icons-cantine/salad.svg',
+        height: 20,
+      );
+    } else if (type == "Dieta") {
+      return SvgPicture.asset(
+        color: Theme.of(context).primaryColor,
+        'assets/icons-cantine/diet.svg',
+        height: 20,
+      );
+    } else {
+      return
+        Text(type,
+          style: const TextStyle(
+            color: Colors.red,
+            fontSize: 20
+          ),
+        );
+    }
+
       //createCantineType(type, context);
   }
 
@@ -51,7 +78,7 @@ class CantineSlot extends StatelessWidget {
   List<Widget> createCantineSlotPrimInfo(context) {
     return [
       Container(
-          margin: EdgeInsets.fromLTRB(0, 0, 8.0, 0),
+          margin: const EdgeInsets.fromLTRB(0, 0, 8.0, 0),
           child: SizedBox(
         width: 20,
       child: createCantineSlotType(context),
@@ -65,11 +92,10 @@ class CantineSlot extends StatelessWidget {
   }
 
   Widget createTextField(text, style, alignment) {
-    return Container(
-        child: Text(
+    return Text(
       text,
       textAlign: TextAlign.left,
       style: style,
-    ));
+    );
   }
 }
