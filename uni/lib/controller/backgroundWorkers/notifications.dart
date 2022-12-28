@@ -119,7 +119,6 @@ class NotificationManager{
         }
 
       } on PlatformException catch (_){
-        Logger().d("Running an android version below 13... or permission got denied.");
       }
     
     }

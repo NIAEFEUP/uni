@@ -41,8 +41,14 @@ class TuitionNotitification extends Notification{
     const AndroidNotificationDetails androidNotificationDetails = AndroidNotificationDetails(
       "propinas-notificacao", "propinas-notificacao", 
       importance: Importance.high);
+
+    const DarwinNotificationDetails darwinNotificationDetails = DarwinNotificationDetails(
+      presentAlert: true,
+      presentBadge: true,
+      interruptionLevel: InterruptionLevel.active
+      );
     
-    const NotificationDetails notificationDetails = NotificationDetails(android: androidNotificationDetails);
+    const NotificationDetails notificationDetails = NotificationDetails(android: androidNotificationDetails, iOS: darwinNotificationDetails, macOS: darwinNotificationDetails);
 
     localNotificationsPlugin.show(2, content.item1, content.item2, notificationDetails);
   }
