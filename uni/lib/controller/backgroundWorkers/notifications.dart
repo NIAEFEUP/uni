@@ -11,7 +11,6 @@ import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/controller/local_storage/notification_timeout_storage.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/model/entities/session.dart';
-import 'package:uni/redux/actions.dart';
 import 'package:workmanager/workmanager.dart';
 
 ///
@@ -40,7 +39,7 @@ abstract class Notification{
   void displayNotification(Tuple2<String, String> content, FlutterLocalNotificationsPlugin localNotificationsPlugin);
 
   Future<void> displayNotificationIfPossible(Session session, FlutterLocalNotificationsPlugin localNotificationsPlugin) async{
-    bool test = await checkConditionToDisplay(session);
+    final bool test = await checkConditionToDisplay(session);
     Logger().d(test);
     if(test){
       displayNotification(await buildNotificationContent(session), localNotificationsPlugin);
@@ -128,8 +127,6 @@ class NotificationManager{
   }
 
   static void _buildNotificationWorker() async {
-    //FIXME: using initial delay to make login sequence more consistent
-    //can be fixed by only using buildNotificationWorker when user is logged in
     if(Platform.isAndroid){
       Workmanager().cancelByUniqueName("pt.up.fe.ni.uni.notificationworker"); //stop task if it's already running
       Workmanager().registerPeriodicTask("pt.up.fe.ni.uni.notificationworker", "pt.up.fe.ni.uni.notificationworker", 

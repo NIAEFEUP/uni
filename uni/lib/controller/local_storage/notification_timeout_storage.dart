@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:logger/logger.dart';
 import 'package:path_provider/path_provider.dart';
 
 class NotificationTimeoutStorage{
@@ -31,6 +30,7 @@ class NotificationTimeoutStorage{
   }
 
   DateTime getLastTimeNotificationExecuted(String uniqueID){
+    return  DateTime.fromMicrosecondsSinceEpoch(0);
     if(!_fileContent.containsKey(uniqueID)){
       return DateTime.fromMicrosecondsSinceEpoch(0); //get 1970 to always trigger notification
     }

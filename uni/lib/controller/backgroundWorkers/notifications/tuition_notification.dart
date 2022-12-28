@@ -1,11 +1,10 @@
 
 
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:logger/logger.dart';
 import 'package:tuple/tuple.dart';
-import 'package:flutter_local_notifications/src/flutter_local_notifications_plugin.dart';
 import 'package:uni/controller/backgroundWorkers/notifications.dart';
 import 'package:uni/controller/fetchers/fees_fetcher.dart';
+import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/controller/parsers/parser_fees.dart';
 import 'package:uni/model/entities/session.dart';
 
@@ -27,6 +26,7 @@ class TuitionNotitification extends Notification{
 
   @override
   Future<bool> checkConditionToDisplay(Session session) async {
+    if(await AppSharedPreferences.getTuitionNotificationToggle() == false) return false;
     final FeesFetcher feesFetcher = FeesFetcher();
     final String nextDueDate = await parseFeesNextLimit(await feesFetcher.getUserFeesResponse(session));
     _dueDate = DateTime.parse(nextDueDate);
