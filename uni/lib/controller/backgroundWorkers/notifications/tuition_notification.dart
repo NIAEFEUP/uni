@@ -18,7 +18,7 @@ class TuitionNotitification extends Notification{
   Future<Tuple2<String, String>> buildNotificationContent(Session session) async {
     if(_dueDate.isBefore(DateTime.now())){
       final int days = DateTime.now().difference(_dueDate).inDays;
-      return Tuple2("⚠️ Ainda não pagaste as propinas ⚠️", "Já passaram $days dias desde do dia limite");
+      return Tuple2("⚠️ Ainda não pagaste as propinas ⚠️", "Já passaram $days dias desde o dia limite");
     }
     final int days = _dueDate.difference(DateTime.now()).inDays;
     return Tuple2("O prazo limite para as propinas está a acabar", "Faltam $days dias para o prazo acabar");

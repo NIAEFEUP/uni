@@ -90,7 +90,8 @@ class NotificationManager{
   }
 
   static void _initFlutterNotificationsPlugin() async{
-    const AndroidInitializationSettings initializationSettingsAndroid = AndroidInitializationSettings('@mipmap/ic_launcher');
+    
+    const AndroidInitializationSettings initializationSettingsAndroid = AndroidInitializationSettings('ic_notification');
 
     //request for notifications immediatly on iOS
     const DarwinInitializationSettings darwinInitializationSettings = DarwinInitializationSettings(
@@ -107,7 +108,7 @@ class NotificationManager{
 
     await _localNotificationsPlugin.initialize(initializationSettings);
 
-    //specific to android 13+, 12 or lower is requested when the first notification channel opens
+    //specific to android 13+, 12 or lower permission is requested when the first notification channel opens
     if(Platform.isAndroid){
       final AndroidFlutterLocalNotificationsPlugin androidPlugin = _localNotificationsPlugin.resolvePlatformSpecificImplementation()!;
       try{
@@ -118,7 +119,7 @@ class NotificationManager{
         }
 
       } on PlatformException catch (_){
-        Logger().d("Running an android version below 13...");
+        Logger().d("Running an android version below 13... or permission got denied.");
       }
     
     }
