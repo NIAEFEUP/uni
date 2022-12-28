@@ -63,6 +63,8 @@ AppState appReducers(AppState state, dynamic action) {
     return setLastUserInfoUpdateTime(state, action);
   } else if (action is SetExamFilter) {
     return setExamFilter(state, action);
+  } else if (action is SetExamHidden) {
+    return setExamHidden(state, action);
   } else if (action is SetLocationsAction) {
     return setLocations(state, action);
   } else if (action is SetLocationsStatusAction) {
@@ -245,6 +247,11 @@ AppState setLastUserInfoUpdateTime(
 AppState setExamFilter(AppState state, SetExamFilter action) {
   Logger().i('setting exam type filter to ${action.filteredExams}');
   return state.cloneAndUpdateValue('filteredExams', action.filteredExams);
+}
+
+AppState setExamHidden(AppState state, SetExamHidden action) {
+  Logger().i('setting hidden exams to ${action.hiddenExams}');
+  return state.cloneAndUpdateValue('hiddenExams', action.hiddenExams);
 }
 
 AppState setLocations(AppState state, SetLocationsAction action) {

@@ -346,13 +346,13 @@ ThunkAction<AppState> getCalendarFromFetcher(Completer<void> action) {
     try {
       store.dispatch(SetCalendarStatusAction(RequestStatus.busy));
 
-      final List<CalendarEvent> calendar = 
-                      await CalendarFetcherHtml().getCalendar(store);
+      final List<CalendarEvent> calendar =
+          await CalendarFetcherHtml().getCalendar(store);
       final CalendarDatabase db = CalendarDatabase();
       db.saveCalendar(calendar);
       store.dispatch(SetCalendarAction(calendar));
       store.dispatch(SetCalendarStatusAction(RequestStatus.successful));
-    } catch(e) {
+    } catch (e) {
       Logger().e('Failed to get the Calendar: ${e.toString()}');
       store.dispatch(SetCalendarStatusAction(RequestStatus.failed));
     }
@@ -582,6 +582,18 @@ ThunkAction<AppState> setFilteredExams(
     store.dispatch(SetExamFilter(filteredExams));
     AppSharedPreferences.saveFilteredExams(filteredExams);
 
+    action.complete();
+  };
+}
+
+ThunkAction<AppState> toggleHiddenExam(
+    String newExamId, Completer<void> action) {
+  return (Store<AppState> store) async {
+    final List<String> hiddenExams =
+        await AppSharedPreferences.getHiddenExams();
+    hiddenExams.contains(newExamId) ? hiddenExams.remove(newExamId) : hiddenExams.add(newExamId);
+    store.dispatch(SetExamHidden(hiddenExams));
+    await AppSharedPreferences.saveHiddenExams(hiddenExams);
     action.complete();
   };
 }
