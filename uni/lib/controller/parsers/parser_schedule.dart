@@ -1,6 +1,9 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:logger/logger.dart';
+import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher.dart';
 import 'package:uni/model/entities/lecture.dart';
 
 Future<List<Lecture>> parseScheduleMultipleRequests(responses) async {
@@ -20,6 +23,8 @@ Future<List<Lecture>> parseSchedule(http.Response response) async {
 
   final json = jsonDecode(response.body);
 
+  
+
   final schedule = json['horario'];
 
   for (var lecture in schedule) {
@@ -34,12 +39,16 @@ Future<List<Lecture>> parseSchedule(http.Response response) async {
     final String classNumber = lecture['turma_sigla'];
     final int occurrId = lecture['ocorrencia_id'];
 
-    lectures.add(Lecture.fromApi(subject, typeClass, day, secBegin, blocks,
+    DateTime monday = DateTime.now();
+    monday = DateUtils.dateOnly(monday);
+    monday.subtract(Duration(days: monday.weekday - 1));
+    
+    lectures.add(Lecture.fromApi(subject, typeClass, monday.add(Duration(days:day, seconds: secBegin)), blocks,
         room, teacher, classNumber, occurrId));
+
   }
 
   final lecturesList = lectures.toList();
-
   lecturesList.sort((a, b) => a.compare(b));
 
   if (lecturesList.isEmpty) {

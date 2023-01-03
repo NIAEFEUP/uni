@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:intl/intl.dart';
 import 'package:tuple/tuple.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/lecture.dart';
@@ -60,7 +61,7 @@ class SchedulePageView extends StatefulWidget {
     for (int i = 0; i < daysOfTheWeek.length; i++) {
       final List<Lecture> lectures = <Lecture>[];
       for (int j = 0; j < schedule.length; j++) {
-        if (schedule[j].day == i) lectures.add(schedule[j]);
+        if (schedule[j].startTime.weekday-1 == i) lectures.add(schedule[j]);
       }
       aggLectures.add(lectures);
     }
@@ -152,8 +153,8 @@ class SchedulePageViewState extends GeneralPageViewState<SchedulePageView>
         subject: lecture.subject,
         typeClass: lecture.typeClass,
         rooms: lecture.room,
-        begin: lecture.startTime,
-        end: lecture.endTime,
+        begin: DateFormat("HH:mm").format(lecture.startTime),
+        end: DateFormat("HH:mm").format(lecture.endTime),
         occurrId: lecture.occurrId,
         teacher: lecture.teacher,
         classNumber: lecture.classNumber,

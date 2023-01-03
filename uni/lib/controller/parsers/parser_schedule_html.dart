@@ -13,6 +13,11 @@ Future<List<Lecture>> getScheduleFromHtml(http.Response response) async {
   var semana = [0, 0, 0, 0, 0, 0];
 
   final List<Lecture> lecturesList = [];
+
+  DateTime monday = DateTime.now();
+  monday.subtract(Duration(days: monday.weekday - 1, hours: monday.hour, seconds: monday.second));
+
+
   document.querySelectorAll('.horario > tbody > tr').forEach((Element element) {
     if (element.getElementsByClassName('horas').isNotEmpty) {
       var day = 0;
@@ -50,7 +55,7 @@ Future<List<Lecture>> getScheduleFromHtml(http.Response response) async {
           final Lecture lect = Lecture.fromHtml(
               subject,
               typeClass,
-              day,
+              monday.add(Duration(days: day)),
               startTime,
               blocks,
               room ?? '',

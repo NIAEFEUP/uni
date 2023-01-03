@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:intl/intl.dart';
 import 'package:tuple/tuple.dart';
 
 import 'package:uni/model/app_state.dart';
@@ -57,9 +58,9 @@ class ScheduleCard extends GenericCard {
     if (lectures.length >= 2) {
       // In order to display lectures of the next week
       final Lecture lecturefirstCycle = Lecture.cloneHtml(lectures[0]);
-      lecturefirstCycle.day += 7;
+      lecturefirstCycle.startTime.add(const Duration(days: 7));
       final Lecture lecturesecondCycle = Lecture.cloneHtml(lectures[1]);
-      lecturesecondCycle.day += 7;
+      lecturesecondCycle.startTime.add(const Duration(days: 7));
       lectures.add(lecturefirstCycle);
       lectures.add(lecturesecondCycle);
     }
@@ -68,27 +69,22 @@ class ScheduleCard extends GenericCard {
     final now = DateTime.now();
     var added = 0; // Lectures added to widget
     var lastDayAdded = 0; // Day of last added lecture
-    final stringTimeNow = (now.weekday - 1).toString().padLeft(2, '0') +
-        now.toTimeHourMinString(); // String with current time within the week
 
     for (int i = 0; added < 2 && i < lectures.length; i++) {
-      final stringEndTimeLecture = lectures[i].day.toString().padLeft(2, '0') +
-          lectures[i].endTime; // String with end time of lecture
-
-      if (stringTimeNow.compareTo(stringEndTimeLecture) < 0) {
-        if (now.weekday - 1 != lectures[i].day &&
-            lastDayAdded < lectures[i].day) {
-          rows.add(DateRectangle(date: Lecture.dayName[lectures[i].day % 7]));
+      if (now.compareTo(lectures[i].endTime) < 0) {
+        if (now.weekday != lectures[i].startTime.weekday &&
+            lastDayAdded < lectures[i].startTime.weekday) {
+          rows.add(DateRectangle(date: Lecture.dayName[lectures[i].startTime.weekday % 7]));
         }
 
         rows.add(createRowFromLecture(context, lectures[i]));
-        lastDayAdded = lectures[i].day;
+        lastDayAdded = lectures[i].startTime.weekday;
         added++;
       }
     }
 
     if (rows.isEmpty) {
-      rows.add(DateRectangle(date: Lecture.dayName[lectures[0].day % 7]));
+      rows.add(DateRectangle(date: Lecture.dayName[lectures[0].startTime.weekday % 7]));
       rows.add(createRowFromLecture(context, lectures[0]));
     }
     return rows;
@@ -100,8 +96,8 @@ class ScheduleCard extends GenericCard {
         child: ScheduleSlot(
           subject: lecture.subject,
           rooms: lecture.room,
-          begin: lecture.startTime,
-          end: lecture.endTime,
+          begin: DateFormat("HH:mm").format(lecture.startTime),
+          end: DateFormat("HH:mm").format(lecture.endTime),
           teacher: lecture.teacher,
           typeClass: lecture.typeClass,
           classNumber: lecture.classNumber,
