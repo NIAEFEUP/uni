@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart';
+import 'package:logger/logger.dart';
 import 'package:tuple/tuple.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/lecture.dart';
@@ -55,13 +56,14 @@ class SchedulePageView extends StatefulWidget {
     'Sexta-feira'
   ];
 
-  static List<List<Lecture>> groupLecturesByDay(schedule) {
-    final aggLectures = <List<Lecture>>[];
+  static List<Set<Lecture>> groupLecturesByDay(schedule) {
+    final aggLectures = <Set<Lecture>>[];
 
     for (int i = 0; i < daysOfTheWeek.length; i++) {
-      final List<Lecture> lectures = <Lecture>[];
+      final Set<Lecture> lectures = {};
       for (int j = 0; j < schedule.length; j++) {
         if (schedule[j].startTime.weekday-1 == i) lectures.add(schedule[j]);
+
       }
       aggLectures.add(lectures);
     }
@@ -147,6 +149,7 @@ class SchedulePageViewState extends GeneralPageViewState<SchedulePageView>
   /// Returns a list of widgets for the rows with a singular class info.
   List<Widget> createScheduleRows(lectures, BuildContext context) {
     final List<Widget> scheduleContent = <Widget>[];
+    lectures = lectures.toList();
     for (int i = 0; i < lectures.length; i++) {
       final Lecture lecture = lectures[i];
       scheduleContent.add(ScheduleSlot(

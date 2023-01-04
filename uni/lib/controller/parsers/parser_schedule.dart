@@ -23,7 +23,6 @@ Future<List<Lecture>> parseSchedule(http.Response response) async {
 
   final json = jsonDecode(response.body);
 
-  
 
   final schedule = json['horario'];
 
@@ -41,10 +40,17 @@ Future<List<Lecture>> parseSchedule(http.Response response) async {
 
     DateTime monday = DateTime.now();
     monday = DateUtils.dateOnly(monday);
-    monday.subtract(Duration(days: monday.weekday - 1));
+    //get closest monday
+    if(monday.weekday >=1 && monday.weekday <= 5){
+      monday = monday.subtract(Duration(days:monday.weekday-1));
+    } else {
+      monday = monday.add(Duration(days: DateTime.daysPerWeek - monday.weekday + 1));
+    }
     
-    lectures.add(Lecture.fromApi(subject, typeClass, monday.add(Duration(days:day, seconds: secBegin)), blocks,
-        room, teacher, classNumber, occurrId));
+    final Lecture lec = Lecture.fromApi(subject, typeClass, monday.add(Duration(days:day, seconds: secBegin)), blocks,
+        room, teacher, classNumber, occurrId);
+    
+    lectures.add(lec);
 
   }
 

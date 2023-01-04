@@ -117,10 +117,12 @@ class Lecture {
 
   /// Prints the data in this lecture to the [Logger] with an INFO level.
   printLecture() {
-    Logger().i('$subject $typeClass');
-    //iso8601 states that weekdays start from 1
-    Logger().i('${dayName[startTime.weekday-1]} $startTime $endTime $blocks blocos');
-    Logger().i('$room  $teacher\n');
+    Logger().i(toString());
+  }
+
+  @override
+  String toString() {
+    return "$subject $typeClass\n$startTime $endTime $blocks blocos\n $room  $teacher\n";
   }
 
   /// Compares the date and time of two lectures.
@@ -142,6 +144,5 @@ class Lecture {
       room == other.room &&
       teacher == other.teacher &&
       blocks == other.blocks &&
-      occurrId == other.occurrId &&
-      startTime == other.startTime;
+      occurrId == other.occurrId;
 }

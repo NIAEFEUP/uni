@@ -19,7 +19,7 @@ class AppLecturesDatabase extends AppDatabase {
               createScript,
             ],
             onUpgrade: migrate,
-            version: 5);
+            version: 6);
 
   /// Replaces all of the data in this database with [lecs].
   saveNewLectures(List<Lecture> lecs) async {

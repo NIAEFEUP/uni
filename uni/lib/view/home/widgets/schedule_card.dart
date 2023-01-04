@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart';
+import 'package:logger/logger.dart';
 import 'package:tuple/tuple.dart';
 
 import 'package:uni/model/app_state.dart';
@@ -55,30 +56,22 @@ class ScheduleCard extends GenericCard {
   }
 
   List<Widget> getScheduleRows(context, List<Lecture> lectures) {
-    if (lectures.length >= 2) {
-      // In order to display lectures of the next week
-      final Lecture lecturefirstCycle = Lecture.cloneHtml(lectures[0]);
-      lecturefirstCycle.startTime.add(const Duration(days: 7));
-      final Lecture lecturesecondCycle = Lecture.cloneHtml(lectures[1]);
-      lecturesecondCycle.startTime.add(const Duration(days: 7));
-      lectures.add(lecturefirstCycle);
-      lectures.add(lecturesecondCycle);
-    }
     final List<Widget> rows = <Widget>[];
 
     final now = DateTime.now();
     var added = 0; // Lectures added to widget
-    var lastDayAdded = 0; // Day of last added lecture
+    DateTime lastDayAdded = DateTime.now(); // Day of last added lecture
 
     for (int i = 0; added < 2 && i < lectures.length; i++) {
+      Logger().d(lectures);
       if (now.compareTo(lectures[i].endTime) < 0) {
-        if (now.weekday != lectures[i].startTime.weekday &&
-            lastDayAdded < lectures[i].startTime.weekday) {
-          rows.add(DateRectangle(date: Lecture.dayName[lectures[i].startTime.weekday % 7]));
+        if (lastDayAdded.weekday != lectures[i].startTime.weekday &&
+            lastDayAdded.compareTo(lectures[i].startTime) <= 0) {
+          rows.add(DateRectangle(date: Lecture.dayName[(lectures[i].startTime.weekday-1) % 7]));
         }
 
         rows.add(createRowFromLecture(context, lectures[i]));
-        lastDayAdded = lectures[i].startTime.weekday;
+        lastDayAdded = lectures[i].startTime;
         added++;
       }
     }

@@ -15,8 +15,13 @@ Future<List<Lecture>> getScheduleFromHtml(http.Response response) async {
   final List<Lecture> lecturesList = [];
 
   DateTime monday = DateTime.now();
-  monday.subtract(Duration(days: monday.weekday - 1, hours: monday.hour, seconds: monday.second));
-
+  monday = monday.subtract(Duration(hours: monday.hour, minutes: monday.minute, seconds: monday.second));
+  //get closest monday
+  if(monday.weekday >=1 && monday.weekday <= 5){
+    monday = monday.subtract(Duration(days:monday.weekday-1));
+  } else {
+    monday = monday.add(Duration(days: DateTime.daysPerWeek - monday.weekday + 1));
+  }
 
   document.querySelectorAll('.horario > tbody > tr').forEach((Element element) {
     if (element.getElementsByClassName('horas').isNotEmpty) {
