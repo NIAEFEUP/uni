@@ -63,7 +63,6 @@ class ScheduleCard extends GenericCard {
     DateTime lastDayAdded = DateTime.now(); // Day of last added lecture
 
     for (int i = 0; added < 2 && i < lectures.length; i++) {
-      Logger().d(lectures);
       if (now.compareTo(lectures[i].endTime) < 0) {
         if (lastDayAdded.weekday != lectures[i].startTime.weekday &&
             lastDayAdded.compareTo(lectures[i].startTime) <= 0) {
