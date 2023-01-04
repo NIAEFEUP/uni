@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:html/dom.dart';
 import 'package:html/parser.dart' show parse;
 import 'package:http/http.dart' as http;
+import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/exam.dart';
 
 /// Parses information about the user's exams.
@@ -18,7 +19,7 @@ class ParserExams {
   }
 
   /// Extracts a list of exams from an HTTP [response].
-  Future<Set<Exam>> parseExams(http.Response response) async {
+  Future<Set<Exam>> parseExams(http.Response response, Course course) async {
     final document = parse(response.body);
 
     final Set<Exam> examsList = {};
@@ -60,7 +61,7 @@ class ParserExams {
               final DateTime end =
                   DateTime.parse('${dates[days]} ${splittedSchedule[1]}');
               final Exam exam =
-                  Exam(id,begin, end, subject ?? '', rooms, examTypes[tableNum]);
+                  Exam(id,begin, end, subject ?? '', rooms, examTypes[tableNum],course.faculty!);
 
               examsList.add(exam);
             });
