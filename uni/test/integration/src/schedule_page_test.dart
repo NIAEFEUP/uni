@@ -41,15 +41,15 @@ void main() {
     final mockResponse = MockResponse();
     final badMockResponse = MockResponse();
     const subject1 = 'ASSO';
-    const startTime1 = '11h00';
-    const endTime1 = '13h00';
+    const startTime1 = '11:00';
+    const endTime1 = '13:00';
     const room1 = 'EaD';
     const typeClass1 = 'TP';
     const teacher1 = 'DRP';
 
     const subject2 = 'IOPE';
-    const startTime2 = '14h00';
-    const endTime2 = '16h00';
+    const startTime2 = '14:00';
+    const endTime2 = '16:00';
     const room2 = 'EaD';
     const typeClass2 = 'TE';
     const teacher2 = 'MTD';

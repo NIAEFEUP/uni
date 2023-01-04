@@ -15,7 +15,7 @@ void main() {
     const room1 = 'B315';
     const typeClass1 = 'T';
     const teacher1 = 'JAS';
-    const day1 = 0;
+    final day1 = DateTime(2022, 12, 12);
     const classNumber = 'MIEIC03';
     const occurrId1 = 484378;
     final lecture1 = Lecture.fromHtml(subject1, typeClass1, day1, startTime1,
@@ -25,7 +25,7 @@ void main() {
     const room2 = 'B315';
     const typeClass2 = 'T';
     const teacher2 = 'PMMS';
-    const day2 = 0;
+    final day2 = DateTime(2022, 12, 12);
     const occurrId2 = 484381;
     final lecture2 = Lecture.fromHtml(subject2, typeClass2, day2, startTime2,
         blocks, room2, teacher2, classNumber, occurrId2);
@@ -34,7 +34,7 @@ void main() {
     const room3 = 'B315';
     const typeClass3 = 'T';
     const teacher3 = 'PMMS';
-    const day3 = 1;
+    final day3 = DateTime(2022, 12, 13);
     const occurrId3 = 484362;
     final lecture3 = Lecture.fromHtml(subject3, typeClass3, day3, startTime3,
         blocks, room3, teacher3, classNumber, occurrId3);
@@ -43,7 +43,7 @@ void main() {
     const room4 = 'B315';
     const typeClass4 = 'T';
     const teacher4 = 'JAS';
-    const day4 = 2;
+    final day4 = DateTime(2022, 12, 14);
     const occurrId4 = 484422;
     final lecture4 = Lecture.fromHtml(subject4, typeClass4, day4, startTime4,
         blocks, room4, teacher4, classNumber, occurrId4);
@@ -52,7 +52,7 @@ void main() {
     const room5 = 'B315';
     const typeClass5 = 'T';
     const teacher5 = 'SSN';
-    const day5 = 3;
+    final day5 = DateTime(2022,12,15);
     const occurrId5 = 47775;
     final lecture5 = Lecture.fromHtml(subject5, typeClass5, day5, startTime5,
         blocks, room5, teacher5, classNumber, occurrId5);
@@ -61,7 +61,7 @@ void main() {
     const room6 = 'B315';
     const typeClass6 = 'T';
     const teacher6 = 'PMMS';
-    const day6 = 4;
+    final day6 = DateTime(2022,12,16);
     const occurrId6 = 12345;
     final lecture6 = Lecture.fromHtml(subject6, typeClass6, day6, startTime6,
         blocks, room6, teacher6, classNumber, occurrId6);

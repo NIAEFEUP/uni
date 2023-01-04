@@ -32,17 +32,17 @@ void main() {
     const room1 = 'B315';
     const typeClass1 = 'T';
     const teacher1 = 'JAS';
-    const day1 = 0;
+    final day1 =  DateTime(2022,12,12);
     const classNumber = 'MIEIC03';
     const occurrId1 = 484378;
     final lecture1 = Lecture.fromHtml(subject1, typeClass1, day1, startTime1,
         blocks, room1, teacher1, classNumber, occurrId1);
     const subject2 = 'SDIS';
-    const startTime2 = '13:00';
     const room2 = 'B315';
     const typeClass2 = 'T';
+    const startTime2 = '15:00';
     const teacher2 = 'PMMS';
-    const day2 = 0;
+    final day2 = DateTime(2022, 12, 12);
     const occurrId2 = 484381;
     final lecture2 = Lecture.fromHtml(subject2, typeClass2, day2, startTime2,
         blocks, room2, teacher2, classNumber, occurrId2);
