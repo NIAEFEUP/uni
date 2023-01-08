@@ -7,7 +7,6 @@ import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/entities/trip.dart';
 import 'package:uni/utils/drawer_items.dart';
 
-
 enum RequestStatus { none, busy, failed, successful }
 
 class AppState {
@@ -20,6 +19,7 @@ class AppState {
       'hiddenExams': <String>[],
       'restaurants': <Restaurant>[],
       'filteredExam': <String, bool>{},
+      'filteredLocations': <String, bool>{'LLLL': true},
       'scheduleStatus': RequestStatus.none,
       'loginStatus': RequestStatus.none,
       'examsStatus': RequestStatus.none,

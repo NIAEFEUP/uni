@@ -1,3 +1,5 @@
+//import 'dart:js_util';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -6,9 +8,13 @@ import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/location_group.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/locations/widgets/faculty_maps.dart';
+import 'package:uni/view/locations/widgets/locations_filter_form.dart';
 import 'package:uni/view/locations/widgets/marker.dart';
 import 'package:uni/view/locations/widgets/map.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
+
+import '../../model/entities/location.dart';
+import '../../model/entities/locations/location_filter.dart';
 
 class LocationsPage extends StatefulWidget {
   const LocationsPage({Key? key}) : super(key: key);
@@ -20,6 +26,24 @@ class LocationsPage extends StatefulWidget {
 class LocationsPageState extends GeneralPageViewState
     with SingleTickerProviderStateMixin {
   ScrollController? scrollViewController;
+
+  showAlertDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return StoreConnector<AppState, Map<String, bool>?>(
+            converter: (store) => store.state.content['filteredLocations'],
+            builder: (context, filteredLocations) {
+              return getAlertDialog(filteredLocations ?? {}, context);
+            });
+      },
+    );
+  }
+
+  Widget getAlertDialog(
+      Map<String, bool> filteredLocations, BuildContext context) {
+    return LocationsFilterForm(Map<String, bool>.from(filteredLocations));
+  }
 
   @override
   void initState() {
@@ -38,12 +62,36 @@ class LocationsPageState extends GeneralPageViewState
       converter: (store) => Tuple2(store.state.content['locationGroups'],
           store.state.content['locationGroupsStatus']),
       builder: (context, data) {
-        return LocationsPageView(locations: data.item1, status: data.item2);
+        return ListView(
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+              child: DropdownButton<LocationType>(
+                hint: const Text('Filter locations'),
+                items: LocationType.values
+                    .map((e) => DropdownMenuItem<LocationType>(
+                        value: e, child: Text(e.name)))
+                    .toList(),
+                onChanged: (value) {
+                  setState(() {
+                    LocationFilter.addFilter(value);
+                  });
+                },
+              ),
+            ),
+            IconButton(
+              icon: const Icon(Icons.filter_alt),
+              onPressed: () {
+                showAlertDialog(context);
+              },
+            ),
+            LocationsPageView(locations: data.item1, status: data.item2),
+          ],
+        );
       },
     );
   }
 }
-
 
 class LocationsPageView extends StatelessWidget {
   final List<LocationGroup>? locations;
@@ -71,14 +119,15 @@ class LocationsPageView extends StatelessWidget {
         width: MediaQuery.of(context).size.width * 0.95,
         padding: const EdgeInsets.fromLTRB(0, 0, 0, 4.0),
         child: PageTitle(name: 'Locais: ${getLocation()}'));
-    //TODO:: add support for multiple faculties
+    //TODO:: add support for multiple faculties0
   }
 
   LocationsMap? getMap(BuildContext context) {
     if (locations == null || status != RequestStatus.successful) {
       return null;
     }
-    return FacultyMaps.getFeupMap(locations!);
+    return FacultyMaps.getFeupMap(
+        LocationFilter.getFilteredLocations(locations)!);
   }
 
   String getLocation() {
@@ -86,7 +135,7 @@ class LocationsPageView extends StatelessWidget {
   }
 
   List<Marker> getMarkers() {
-    return locations!.map((location) {
+    return LocationFilter.getFilteredLocations(locations)!.map((location) {
       return LocationMarker(location.latlng, location);
     }).toList();
   }
