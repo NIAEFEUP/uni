@@ -22,7 +22,7 @@ import 'coffee_machine.dart';
 //
 
 class LocationFilter {
-  static List<Object> selectedLocation = [];
+  static List<Object> selectedLocation = LocationType.values;
 
   static List<LocationGroup>? getFilteredLocations(
       final List<LocationGroup>? filteredData1) {
@@ -37,10 +37,46 @@ class LocationFilter {
     }
     filteredData.removeWhere((element) => element.floors.isEmpty);
 
-    print(filteredData1);
-    print(filteredData);
-
     return filteredData;
+  }
+
+  // TODO: PK O SWITCH ?? n dá para tirar ?
+  static removeFilter(LocationType? type) {
+    switch (type) {
+      case LocationType.vendingMachine:
+        LocationFilter.selectedLocation.remove(VendingMachine);
+        break;
+      case LocationType.coffeeMachine:
+        LocationFilter.selectedLocation.remove(CoffeeMachine);
+        break;
+      case LocationType.rooms:
+        LocationFilter.selectedLocation.remove(RoomGroupLocation);
+        break;
+      case LocationType.room:
+        LocationFilter.selectedLocation.remove(RoomLocation);
+        break;
+      case LocationType.atm:
+        LocationFilter.selectedLocation.remove(Atm);
+        break;
+      case LocationType.printer:
+        LocationFilter.selectedLocation.remove(Printer);
+        break;
+      case LocationType.restaurant:
+        LocationFilter.selectedLocation.remove(RestaurantLocation);
+        break;
+      case LocationType.specialRoom:
+        LocationFilter.selectedLocation.remove(SpecialRoomLocation);
+        break;
+      case LocationType.store:
+        LocationFilter.selectedLocation.remove(StoreLocation);
+        break;
+      case LocationType.wc:
+        LocationFilter.selectedLocation.remove(WcLocation);
+        break;
+      default:
+        LocationFilter.selectedLocation.remove(UnknownLocation);
+        break;
+    }
   }
 
   static addFilter(LocationType? type) {

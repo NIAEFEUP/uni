@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/exam.dart';
+import 'package:uni/model/entities/location.dart';
 import 'package:uni/redux/action_creators.dart';
+
+import '../../../model/entities/locations/location_filter.dart';
 
 class LocationsFilterForm extends StatefulWidget {
   final Map<String, bool> filteredLocations;
@@ -28,8 +31,8 @@ class LocationsFilterFormState extends State<LocationsFilterForm> {
         ElevatedButton(
             child: const Text('Confirmar'),
             onPressed: () {
-              // StoreProvider.of<AppState>(context).dispatch(
-              //     setFilteredExams(widget.filteredLocations, Completer()));
+              StoreProvider.of<AppState>(context).dispatch(
+                  setFilteredExams(widget.filteredLocations, Completer()));
 
               Navigator.pop(context);
             })
@@ -43,15 +46,10 @@ class LocationsFilterFormState extends State<LocationsFilterForm> {
 
   Widget getLocationsCheckboxes(
       Map<String, bool> filteredLocations, BuildContext context) {
-    print(filteredLocations);
-    print('kdkd');
     // filteredLocations.removeWhere((key, value) => !Exam.types.containsKey(key));
-    print(filteredLocations);
-    print('kdkd');
     return ListView(
         children: List.generate(filteredLocations.length, (i) {
       final String key = filteredLocations.keys.elementAt(i);
-      print(key);
       // if (!Exam.types.containsKey(key)) return const Text("");
       return CheckboxListTile(
           contentPadding: const EdgeInsets.all(0),
@@ -65,7 +63,15 @@ class LocationsFilterFormState extends State<LocationsFilterForm> {
           value: filteredLocations[key],
           onChanged: (value) {
             setState(() {
-              filteredLocations[key] = value!;
+              print(key);
+              final locationType = LocationType.values
+                  .firstWhere((element) => element.name == key);
+              if (value!) {
+                LocationFilter.addFilter(locationType);
+              } else {
+                LocationFilter.removeFilter(locationType);
+              }
+              filteredLocations[key] = value;
             });
           });
     }));
