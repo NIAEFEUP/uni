@@ -14,44 +14,52 @@ class CantineSlot extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RowContainer(
+    return Container(
         child: Container(
       padding: const EdgeInsets.only(
           top: 10.0, bottom: 10.0, left: 22.0, right: 22.0),
-      child: createCantineSlotRow(context),
+      child: Container(
+          key: Key('cantine-slot-type-$type'),
+          child: Row(
+
+            children: [
+              Container(
+                  margin: const EdgeInsets.fromLTRB(0, 0, 8.0, 0),
+                  child: SizedBox(
+                    width: 20,
+                    child: createCantineSlotType(context),
+                  )),Flexible(
+                  child: Text(
+                    name,
+                    style: Theme.of(context).textTheme.bodyMedium,
+                    textAlign: TextAlign.left,
+                  )
+              )
+            ],
+          )),
     ));
   }
 
-  Widget createCantineSlotRow(context) {
-    return Container(
-        key: Key('cantine-slot-type-$type'),
-        child: Row(
-
-          children: createCantineSlotPrimInfo(context),
-        ));
-  }
-
   Widget createCantineSlotType(context) {
-
-    if(type == "Carne" || type == "Prato de Carne") {
+    if(type.contains("Carne")) {
       return SvgPicture.asset(
         color: Theme.of(context).primaryColor,
         'assets/icons-cantine/chicken.svg',
         height: 20,
       );
-    } else if (type == "Peixe" || type == "Prato de Peixe") {
+    } if (type.contains("Peixe")) {
       return SvgPicture.asset(
         color: Theme.of(context).primaryColor,
         'assets/icons-cantine/fish.svg',
         height: 20,
       );
-    } else if (type == "Vegetariano" || type == "Prato Vegetariano") {
+    } if (type.contains("Vegetariano")) {
       return SvgPicture.asset(
         color: Theme.of(context).primaryColor,
         'assets/icons-cantine/salad.svg',
         height: 20,
       );
-    } else if (type == "Dieta") {
+    } if (type.contains("Dieta")) {
       return SvgPicture.asset(
         color: Theme.of(context).primaryColor,
         'assets/icons-cantine/diet.svg',
@@ -66,34 +74,5 @@ class CantineSlot extends StatelessWidget {
         );
     }
 
-  }
-
-  Widget createCantineType(String type, context) => createTextField(
-      type,
-      Theme.of(context).textTheme.bodyMedium,
-      TextAlign.left);
-
-  List<Widget> createCantineSlotPrimInfo(context) {
-    return [
-      Container(
-          margin: const EdgeInsets.fromLTRB(0, 0, 8.0, 0),
-          child: SizedBox(
-        width: 20,
-      child: createCantineSlotType(context),
-      )),Flexible(
-        child: createTextField(
-            name ,
-            Theme.of(context).textTheme.bodyMedium,
-            TextAlign.center)
-      )
-    ];
-  }
-
-  Widget createTextField(text, style, alignment) {
-    return Text(
-      text,
-      textAlign: TextAlign.left,
-      style: style,
-    );
   }
 }

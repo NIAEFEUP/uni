@@ -130,9 +130,10 @@ class _CantinePageState extends GeneralPageViewState<CantinePageView>
         const SizedBox(height: 18,),
         Card(
           elevation: 2,
+            margin: const EdgeInsets.only(left: 14, right: 14),
             child: Padding(padding: const EdgeInsets.all(14), child: Column(
         children: [
-          Text(restaurant.name, style: Theme.of(context).textTheme.headline6,),
+          Text(restaurant.name, style: Theme.of(context).textTheme.headline5,),
           createCantineByDay(context, restaurant, dayOfWeek),
         ],
       )
@@ -153,14 +154,12 @@ class _CantinePageState extends GeneralPageViewState<CantinePageView>
       return Container(
           margin:
           const EdgeInsets.only(top: 20, bottom: 7),
-          padding: const EdgeInsets.only(
-              left: 44.0, right: 44.0),
+
           key: Key('cantine-page-day-column-$day'),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children:
-            const [Text("Não há informação disponível sobre refeições"),],
-
+            const [Center (child: Text("Não há informação disponível sobre refeições")),],
 
           )
       );
