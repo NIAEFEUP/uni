@@ -15,8 +15,7 @@ class CantinePageView extends StatefulWidget {
   const CantinePageView({Key? key}) : super(key: key);
 
   @override
-  // ignore: library_private_types_in_public_api
-  _CantinePageState createState() => _CantinePageState();
+  State<StatefulWidget> createState() => _CantinePageState();
 }
 
 class _CantinePageState extends GeneralPageViewState<CantinePageView>
