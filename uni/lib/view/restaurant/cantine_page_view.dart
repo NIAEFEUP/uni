@@ -15,8 +15,7 @@ class CantinePageView extends StatefulWidget {
   const CantinePageView({Key? key}) : super(key: key);
 
   @override
-  // ignore: library_private_types_in_public_api
-  _CantinePageState createState() => _CantinePageState();
+  State<StatefulWidget> createState() => _CantinePageState();
 }
 
 class _CantinePageState extends GeneralPageViewState<CantinePageView>
@@ -79,15 +78,14 @@ class _CantinePageState extends GeneralPageViewState<CantinePageView>
       RequestDependentWidgetBuilder(
           context: context,
           status: status,
-          contentGenerator: createTabViewBuilder(),
+          contentGenerator: createTabViewBuilder,
           content: restaurants,
           contentChecker: restaurants.isNotEmpty,
           onNullContent: const Center(child: Text('Não há refeições disponíveis.')))
     ]);
   }
 
-  Widget Function(dynamic restaurants, BuildContext) createTabViewBuilder() {
-    Widget createTabView(dynamic restaurants, BuildContext context) {
+  Widget createTabViewBuilder(dynamic restaurants, BuildContext context) {
       final List<Widget> dayContents =  daysOfTheWeek.map((dayOfWeek) {
         List<Widget> cantinesWidgets = [];
         if (restaurants is List<Restaurant>) {
@@ -98,15 +96,11 @@ class _CantinePageState extends GeneralPageViewState<CantinePageView>
         return ListView( children: cantinesWidgets,);
       }).toList();
 
-
       return Expanded(
           child: TabBarView(
         controller: tabController,
         children: dayContents,
       ));
-    }
-
-    return createTabView;
   }
 
   List<Widget> createTabs(BuildContext context) {
