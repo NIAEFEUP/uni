@@ -50,10 +50,9 @@ void main() {
     final mdisExam = Exam('44429', beginMdisExam, endMdisExam, 'MDIS',[], 'MT');
 
     final Map<String, bool> filteredExams = {};
-    Exam.types
-        .keys
-        .toList()
-        .forEach((type) => filteredExams[type] = true);
+    for(String type in Exam.displayedTypes) {
+      filteredExams[type] = true;
+    }
 
     final profile = Profile();
     profile.courses = [Course(id: 7474)];
@@ -158,7 +157,7 @@ void main() {
       expect(find.byType(AlertDialog), findsOneWidget);
       //This checks if the ExamDoesNotExist is not displayed
       expect(find.byType(CheckboxListTile),
-          findsNWidgets(Exam.types.length));
+          findsNWidgets(4));
 
       final CheckboxListTile mtCheckboxTile = find
           .byKey(const Key('ExamCheck' 'Mini-testes'))
