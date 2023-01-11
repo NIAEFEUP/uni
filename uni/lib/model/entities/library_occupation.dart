@@ -1,10 +1,12 @@
 /// Overall occupation of the library
 class LibraryOccupation {
-  int occupation = 0;
-  int capacity = 0;
-  List<FloorOccupation> floors = [];
+  late int occupation;
+  late int capacity;
+  late List<FloorOccupation> floors;
 
-  LibraryOccupation(this.occupation, this.capacity);
+  LibraryOccupation(this.occupation, this.capacity) {
+    floors = [];
+  }
 
   void addFloor(FloorOccupation floor) {
     floors.add(floor);

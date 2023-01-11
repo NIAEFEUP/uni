@@ -218,6 +218,14 @@ ThunkAction<AppState> updateStateBasedOnLocalCalendar() {
   };
 }
 
+ThunkAction<AppState> updateStateBasedOnLocalLibraryOccupation() {
+  return (Store<AppState> store) async {
+    final LibraryOccupationDatabase db = LibraryOccupationDatabase();
+    final LibraryOccupation occupation = await db.occupation();
+    store.dispatch(SetLibraryOccupationAction(occupation));
+  };
+}
+
 ThunkAction<AppState> updateStateBasedOnLocalProfile() {
   return (Store<AppState> store) async {
     final profileDb = AppUserDataDatabase();
@@ -338,7 +346,7 @@ ThunkAction<AppState> getLibraryOccupationFromFetcher(Completer<void> action) {
 
       final LibraryOccupation occupation = 
         await LibraryOccupationFetcherSheets().getLibraryOccupationFromSheets(store);
-      final OccupationDatabase db = OccupationDatabase();
+      final LibraryOccupationDatabase db = LibraryOccupationDatabase();
       db.saveOccupation(occupation);
       store.dispatch(SetLibraryOccupationAction(occupation));
       store.dispatch(SetLibraryOccupationStatusAction(RequestStatus.successful));
