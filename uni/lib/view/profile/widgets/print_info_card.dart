@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:uni/model/providers/profile_state_provider.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
 import 'package:uni/view/profile/widgets/create_print_mb_dialog.dart';
+import 'package:uni/view/profile/widgets/login_print_service_dialog.dart';
 
 class PrintInfoCard extends GenericCard {
   PrintInfoCard({Key? key}) : super(key: key);
@@ -16,6 +17,7 @@ class PrintInfoCard extends GenericCard {
     return Consumer<ProfileStateProvider>(
       builder: (context, profileStateProvider, _) {
         final profile = profileStateProvider.profile;
+        return notLoggedInContent(context);
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
@@ -60,6 +62,34 @@ class PrintInfoCard extends GenericCard {
       onPressed: () => addMoneyDialog(context),
       child: const Center(child: Icon(Icons.add)),
     );
+  }
+
+  Widget notLoggedInContent(BuildContext context) {
+    return Container(
+      alignment: Alignment.center, 
+      child: Padding(
+        padding: const EdgeInsets.all(20.0), 
+        child: Column(children: [
+          const Image(image: AssetImage('assets/images/papercut.png'), height: 50),
+          Text('PaperCut', style: Theme.of(context).textTheme.headline5),
+          const SizedBox(height: 20),
+          Text('Serviço de impressão e cópias ainda sem sessão iniciada', 
+            style: Theme.of(context).textTheme.subtitle2, textAlign: TextAlign.center),
+          const SizedBox(height: 20),
+          OutlinedButton(
+            onPressed: () => loginDialog(context),
+            child: const Text('Iniciar sessão'),
+          )
+        ],))
+    );
+  }
+
+  void loginDialog(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return const LoginPrintService();
+        });
   }
 
   @override
