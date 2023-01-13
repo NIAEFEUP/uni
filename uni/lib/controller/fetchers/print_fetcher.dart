@@ -1,21 +1,15 @@
 import 'package:http/http.dart' as http;
-import 'package:uni/controller/fetchers/session_dependant_fetcher.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/model/entities/session.dart';
 
-class PrintFetcher implements SessionDependantFetcher {
-  @override
-  List<String> getEndpoints(Session session) {
-    final url =
-        '${NetworkRouter.getBaseUrl('feup')}imp4_impressoes.atribs'; // endpoint only available for feup
-    return [url];
-  }
+class PrintFetcher {
 
-  getUserPrintsResponse(Session session) {
-    final String url = getEndpoints(session)[0];
-    final Map<String, String> query = {'p_codigo': session.studentNumber};
-    return NetworkRouter.getWithCookies(url, query, session);
-  }
+  static const printURL = 'https://print.up.pt';
+
+  static Future getBalance(Session session){
+    const String url = '$printURL/app?service=page/UserSummary';
+    return NetworkRouter.getWithCookies(url, {}, session);
+  } 
 
   static Future generatePrintMoneyReference(
       double amount, Session session) async {

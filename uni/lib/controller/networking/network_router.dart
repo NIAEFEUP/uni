@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 import 'package:synchronized/synchronized.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
+import 'package:uni/controller/networking/print_service.dart';
 import 'package:uni/model/entities/session.dart';
 
 extension UriString on String {
@@ -174,5 +175,12 @@ class NetworkRouter {
   /// Returns the base url from the user's previous session.
   static List<String> getBaseUrlsFromSession(Session session) {
     return NetworkRouter.getBaseUrls(session.faculties);
+  }
+
+  /// Encode a map to a url query string.
+  static String urlEncodeMap(Map<String, String> map) {
+    return map.entries
+      .map((e) => '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
+      .join('&');
   }
 }

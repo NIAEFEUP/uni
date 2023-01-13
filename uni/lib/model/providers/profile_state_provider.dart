@@ -13,7 +13,7 @@ import 'package:uni/controller/local_storage/app_refresh_times_database.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/controller/local_storage/app_user_database.dart';
 import 'package:uni/controller/parsers/parser_fees.dart';
-import 'package:uni/controller/parsers/parser_print_balance.dart';
+import 'package:uni/controller/parsers/parser_print.dart';
 import 'package:uni/model/request_status.dart';
 import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/course_unit.dart';
@@ -102,7 +102,7 @@ class ProfileStateProvider extends StateProviderNotifier {
 
   getUserPrintBalance(Completer<void> action, Session session) async {
     try {
-      final response = await PrintFetcher().getUserPrintsResponse(session);
+      final response = await PrintFetcher.getBalance(session);
       final String printBalance = await getPrintsBalance(response);
 
       final DateTime currentTime = DateTime.now();
