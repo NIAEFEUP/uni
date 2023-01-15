@@ -5,9 +5,6 @@ import 'package:uni/view/schedule/widgets/schedule_slot.dart';
 
 import '../../../test_widget.dart';
 
-void testScheduleSlot(String subject, String begin, String end, String rooms,
-    String typeClass, String teacher) {}
-
 void main() {
   group('Schedule Slot', () {
     const subject = 'SOPE';
@@ -31,31 +28,30 @@ void main() {
 
       await tester.pumpWidget(testWidget(widget));
 
-      const scheduleSlotTimeKey = 'schedule-slot-time-$begin-$end';
-
-      expect(
-          find.descendant(
-              of: find.byKey(const Key(scheduleSlotTimeKey)),
-              matching: find.text(begin)),
-          findsOneWidget);
-
-      expect(
-          find.descendant(
-              of: find.byKey(const Key(scheduleSlotTimeKey)),
-              matching: find.text(end)),
-          findsOneWidget);
-
-      expect(
-          find.descendant(
-              of: find.byKey(const Key(scheduleSlotTimeKey)),
-              matching: find.text(subject)),
-          findsOneWidget);
-
-      expect(
-          find.descendant(
-              of: find.byKey(const Key(scheduleSlotTimeKey)),
-              matching: find.text(' ($typeClass)')),
-          findsOneWidget);
+      testScheduleSlot(subject, begin, end, rooms, typeClass, teacher);
     });
   });
+}
+
+void testScheduleSlot(String subject, String begin, String end, String rooms,
+    String typeClass, String teacher) {
+  final scheduleSlotTimeKey = 'schedule-slot-time-$begin-$end';
+  expect(
+      find.descendant(
+          of: find.byKey(Key(scheduleSlotTimeKey)), matching: find.text(begin)),
+      findsOneWidget);
+  expect(
+      find.descendant(
+          of: find.byKey(Key(scheduleSlotTimeKey)), matching: find.text(end)),
+      findsOneWidget);
+  expect(
+      find.descendant(
+          of: find.byKey(Key(scheduleSlotTimeKey)),
+          matching: find.text(subject)),
+      findsOneWidget);
+  expect(
+      find.descendant(
+          of: find.byKey(Key(scheduleSlotTimeKey)),
+          matching: find.text(' ($typeClass)')),
+      findsOneWidget);
 }
