@@ -3,13 +3,12 @@ import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/model/entities/session.dart';
 
 class PrintFetcher {
-
   static const printURL = 'https://print.up.pt';
 
-  static Future getBalance(Session session){
+  static Future getBalance(Session session) {
     const String url = '$printURL/app?service=page/UserSummary';
     return NetworkRouter.getWithCookies(url, {}, session);
-  } 
+  }
 
   static Future generatePrintMoneyReference(
       double amount, Session session) async {
@@ -32,5 +31,11 @@ class PrintFetcher {
     final response = await http.post(url.toUri(), headers: headers, body: data);
 
     return response;
+  }
+
+  //get pending jobs: HTML
+  static Future getPendingJobs(Session session) async {
+    const String url = '$printURL/app?service=page/UserReleaseJobs';
+    return await NetworkRouter.getWithCookies(url, {}, session);
   }
 }
