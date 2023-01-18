@@ -60,6 +60,8 @@ class Exam {
   };
 
   Exam(this.id, this.begin, this.end, this.subject, this.rooms, this.type, this.faculty);
+  static List<String> displayedTypes = types.keys.toList().sublist(0, 4);
+
 
   Exam.secConstructor(
       this.id, this.subject, this.begin, this.end, String rooms, this.type,this.faculty) {
