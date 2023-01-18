@@ -10,6 +10,7 @@ import 'package:uni/model/utils/day_of_week.dart';
 import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
 import 'package:uni/view/restaurant/widgets/cantine_slot.dart';
+import 'package:uni/view/theme.dart';
 
 class CantinePageView extends StatefulWidget {
   const CantinePageView({Key? key}) : super(key: key);
@@ -119,7 +120,6 @@ class _CantinePageState extends GeneralPageViewState<CantinePageView>
   Widget createCantine(context, Restaurant restaurant, DayOfWeek dayOfWeek) {
       return Column(
           mainAxisSize: MainAxisSize.min,
-
           children: [
         const SizedBox(height: 18,),
         Card(
@@ -128,6 +128,7 @@ class _CantinePageState extends GeneralPageViewState<CantinePageView>
             child: Padding(padding: const EdgeInsets.all(14), child: Column(
         children: [
           Text(restaurant.name, style: Theme.of(context).textTheme.headline5,),
+          const Divider(color: darkRed),
           createCantineByDay(context, restaurant, dayOfWeek),
         ],
       )

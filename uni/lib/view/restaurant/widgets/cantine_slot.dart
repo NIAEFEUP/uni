@@ -40,29 +40,37 @@ class CantineSlot extends StatelessWidget {
 
   Widget createCantineSlotType(context) {
     if(type.contains("Carne")) {
-      return SvgPicture.asset(
+      return Tooltip(
+          message: 'Prato de carne',
+          child: SvgPicture.asset(
         color: Theme.of(context).primaryColor,
         'assets/icons-cantines/chicken.svg',
         height: 20,
-      );
+      ));
     } if (type.contains("Peixe")) {
-      return SvgPicture.asset(
+      return Tooltip(
+          message: 'Prato de peixe',
+          child: SvgPicture.asset(
         color: Theme.of(context).primaryColor,
         'assets/icons-cantines/fish.svg',
         height: 20,
-      );
+      ));
     } if (type.contains("Vegetariano")) {
-      return SvgPicture.asset(
+      return Tooltip(
+        message: 'Prato Vegetariano',
+        child: SvgPicture.asset(
         color: Theme.of(context).primaryColor,
         'assets/icons-cantines/salad.svg',
         height: 20,
-      );
+      ));
     } if (type.contains("Dieta")) {
-      return SvgPicture.asset(
+      return Tooltip(
+          message: 'Prato de Dieta',
+          child: SvgPicture.asset(
         color: Theme.of(context).primaryColor,
         'assets/icons-cantines/diet.svg',
         height: 20,
-      );
+      ));
     } else {
       return
         Text(type,
