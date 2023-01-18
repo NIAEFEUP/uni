@@ -71,8 +71,8 @@ class Exam {
     return {
       'id': id,
       'subject': subject,
-      'begin': begin.toIso8601String(),
-      'end': end.toIso8601String(),
+      'begin': DateFormat("yyyy-MM-dd HH:mm:ss").format(begin),
+      'end': DateFormat("yyyy-MM-dd HH:mm:ss").format(end),
       'rooms': rooms.join(','),
       'examType': type,
       'faculty':faculty
