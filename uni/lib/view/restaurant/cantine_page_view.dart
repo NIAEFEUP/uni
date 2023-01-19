@@ -125,10 +125,11 @@ class _CantinePageState extends GeneralPageViewState<CantinePageView>
         Card(
           elevation: 2,
             margin: const EdgeInsets.only(left: 18, right: 18),
-            child: Padding(padding: const EdgeInsets.all(14), child: Column(
+            child: Padding(padding: const EdgeInsets.all(12), child: Column(
         children: [
           Text(restaurant.name, style: Theme.of(context).textTheme.headline5,),
-          const Divider(color: darkRed),
+          const Padding(padding: EdgeInsets.all(4)),
+          const Divider(color: darkRed, thickness: 0.7, indent: 25, endIndent: 25),
           createCantineByDay(context, restaurant, dayOfWeek),
         ],
       )
@@ -148,7 +149,7 @@ class _CantinePageState extends GeneralPageViewState<CantinePageView>
     if (meals.isEmpty) {
       return Container(
           margin:
-          const EdgeInsets.only(top: 20, bottom: 7),
+          const EdgeInsets.only(top: 10, bottom: 7),
 
           key: Key('cantine-page-day-column-$day'),
           child: Column(
@@ -163,7 +164,7 @@ class _CantinePageState extends GeneralPageViewState<CantinePageView>
     else {
       return Container(
         margin:
-          const EdgeInsets.only(top: 20, bottom: 7),
+          const EdgeInsets.only(top: 10, bottom: 7),
         key: Key('cantine-page-day-column-$day'),
         child: Column(
           mainAxisSize: MainAxisSize.min,
