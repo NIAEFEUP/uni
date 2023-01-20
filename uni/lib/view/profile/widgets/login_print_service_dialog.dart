@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:uni/model/providers/session_provider.dart';
+import 'package:uni/view/common_widgets/toast_message.dart';
 
 class LoginPrintService extends StatefulWidget {
-  const LoginPrintService({super.key});
+  const LoginPrintService({Key? key}) : super(key: key);
 
   @override
   State<LoginPrintService> createState() => _LoginPrintService();
@@ -21,6 +24,12 @@ class _LoginPrintService extends State<LoginPrintService> {
 
   @override
   Widget build(BuildContext context) {
+    final String studentNumber =
+        Provider.of<SessionProvider>(context, listen: false)
+            .session
+            .studentNumber;
+    final String email = 'up$studentNumber@up.pt';
+
     return AlertDialog(
       title: Text('PaperCut: Iniciar Sessão',
           style: Theme.of(context).textTheme.headline5),
@@ -28,7 +37,7 @@ class _LoginPrintService extends State<LoginPrintService> {
         child: ListBody(
           children: <Widget>[
             TextFormField(
-                initialValue: 'up20210884@up.pt',
+                initialValue: email,
                 enabled: false,
                 decoration: InputDecoration(
                   labelText: 'Email institucional',
@@ -72,11 +81,25 @@ class _LoginPrintService extends State<LoginPrintService> {
         ),
         ElevatedButton(
           child: const Text('Iniciar Sessão'),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
+          onPressed: () => loginIntoPrintService(context),
         ),
       ],
     );
+  }
+
+  void loginIntoPrintService(BuildContext context) async {
+    final bool response =
+        await Provider.of<SessionProvider>(context, listen: false)
+            .loginIntoPrintService(passwordController.text);
+
+    if (!mounted) return;
+
+    if (response) {
+      Navigator.of(context).pop(false);
+      passwordController.clear();
+      ToastMessage.display(context, 'Sessão iniciada com sucesso!');
+    } else {
+      ToastMessage.display(context, 'Credenciais inválidas');
+    }
   }
 }

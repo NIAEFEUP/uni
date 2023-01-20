@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/providers/profile_state_provider.dart';
+import 'package:uni/model/providers/session_provider.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
 import 'package:uni/view/profile/widgets/create_print_mb_dialog.dart';
 import 'package:uni/view/profile/widgets/login_print_service_dialog.dart';
@@ -14,10 +15,14 @@ class PrintInfoCard extends GenericCard {
 
   @override
   Widget buildCardContent(BuildContext context) {
-    return Consumer<ProfileStateProvider>(
-      builder: (context, profileStateProvider, _) {
+    return Consumer2<ProfileStateProvider, SessionProvider>(
+      builder: (context, profileStateProvider, sessionProvider, _) {
         final profile = profileStateProvider.profile;
-        return notLoggedInContent(context);
+
+        if (!sessionProvider.isLoggedInPrintService) {
+          return notLoggedInContent(context);
+        }
+
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
@@ -66,22 +71,26 @@ class PrintInfoCard extends GenericCard {
 
   Widget notLoggedInContent(BuildContext context) {
     return Container(
-      alignment: Alignment.center, 
-      child: Padding(
-        padding: const EdgeInsets.all(20.0), 
-        child: Column(children: [
-          const Image(image: AssetImage('assets/images/papercut.png'), height: 50),
-          Text('PaperCut', style: Theme.of(context).textTheme.headline5),
-          const SizedBox(height: 20),
-          Text('Serviço de impressão e cópias ainda sem sessão iniciada', 
-            style: Theme.of(context).textTheme.subtitle2, textAlign: TextAlign.center),
-          const SizedBox(height: 20),
-          OutlinedButton(
-            onPressed: () => loginDialog(context),
-            child: const Text('Iniciar sessão'),
-          )
-        ],))
-    );
+        alignment: Alignment.center,
+        child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              children: [
+                const Image(
+                    image: AssetImage('assets/images/papercut.png'),
+                    height: 50),
+                Text('PaperCut', style: Theme.of(context).textTheme.headline5),
+                const SizedBox(height: 20),
+                Text('Serviço de impressão e cópias ainda sem sessão iniciada',
+                    style: Theme.of(context).textTheme.subtitle2,
+                    textAlign: TextAlign.center),
+                const SizedBox(height: 20),
+                OutlinedButton(
+                  onPressed: () => loginDialog(context),
+                  child: const Text('Iniciar sessão'),
+                )
+              ],
+            )));
   }
 
   void loginDialog(BuildContext context) {
