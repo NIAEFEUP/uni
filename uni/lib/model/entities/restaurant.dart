@@ -20,11 +20,7 @@ class Restaurant {
   }
 
   List<Meal> getMealsOfDay(DayOfWeek dayOfWeek) {
-    final List<Meal>? meal = meals[dayOfWeek];
-    if(meal == null){
-      return [];
-    }
-    return meal;
+    return meals[dayOfWeek] ?? [];
   }
 
   Map<String, dynamic> toMap() {
