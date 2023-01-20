@@ -124,11 +124,10 @@ class _CantinePageState extends GeneralPageViewState<CantinePageView>
         const SizedBox(height: 18,),
         Card(
           elevation: 2,
-            margin: const EdgeInsets.only(left: 18, right: 18),
-            child: Padding(padding: const EdgeInsets.all(12), child: Column(
+            margin: const EdgeInsets.only(left: 14, right: 14),
+            child: Padding(padding: const EdgeInsets.all(8), child: Column(
         children: [
           Text(restaurant.name, style: Theme.of(context).textTheme.headline5,),
-          const Padding(padding: EdgeInsets.all(4)),
           const Divider(color: darkRed, thickness: 0.7, indent: 25, endIndent: 25),
           createCantineByDay(context, restaurant, dayOfWeek),
         ],
