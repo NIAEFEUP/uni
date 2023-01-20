@@ -5,11 +5,11 @@ enum DrawerItem {
   navCourseUnits('Cadeiras'),
   navStops('Autocarros'),
   navLocations('Locais', faculties: {'feup'}),
+  navCantine('Restaurantes'),
   navCalendar('Calendário'),
   navUsefulInfo('Úteis', faculties: {'feup'}),
   navAbout('Sobre'),
   navBugReport('Bugs e Sugestões'),
-  navCantine('Cantinas'),
   navLogOut('Terminar sessão');
 
   final String title;

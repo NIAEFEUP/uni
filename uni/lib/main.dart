@@ -114,6 +114,9 @@ class MyAppState extends State<MyApp> {
                   '/${DrawerItem.navLocations.title}':
                       PageTransition.makePageTransition(
                           page: const LocationsPage(), settings: settings),
+                  '/${DrawerItem.navCantine.title}':
+                      PageTransition.makePageTransition(
+                          page: const CantinePageView(), settings: settings),
                   '/${DrawerItem.navCalendar.title}':
                       PageTransition.makePageTransition(
                           page: const CalendarPageView(), settings: settings),
@@ -128,9 +131,6 @@ class MyAppState extends State<MyApp> {
                           page: const BugReportPageView(),
                           settings: settings,
                           maintainState: false),
-                  '/${DrawerItem.navCantine.title}':
-                      PageTransition.makePageTransition(
-                          page: const CantinePageView(), settings: settings),
                   '/${DrawerItem.navLogOut.title}':
                       LogoutRoute.buildLogoutRoute()
                 };
