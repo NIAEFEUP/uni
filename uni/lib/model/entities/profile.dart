@@ -8,7 +8,6 @@ class Profile {
   final String name;
   final String email;
   late List<Course> courses;
-  final String printBalance;
   final String feesBalance;
   final String feesLimit;
 
@@ -16,7 +15,6 @@ class Profile {
       {this.name = '',
       this.email = '',
       courses,
-      this.printBalance = '',
       this.feesBalance = '',
       this.feesLimit = ''})
       : courses = courses ?? [];

@@ -5,7 +5,6 @@ import 'package:logger/logger.dart';
 import 'package:tuple/tuple.dart';
 import 'package:uni/controller/fetchers/current_course_units_fetcher.dart';
 import 'package:uni/controller/fetchers/fees_fetcher.dart';
-import 'package:uni/controller/fetchers/print_fetcher.dart';
 import 'package:uni/controller/fetchers/profile_fetcher.dart';
 import 'package:uni/controller/local_storage/app_course_units_database.dart';
 import 'package:uni/controller/local_storage/app_courses_database.dart';
@@ -13,7 +12,6 @@ import 'package:uni/controller/local_storage/app_refresh_times_database.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/controller/local_storage/app_user_database.dart';
 import 'package:uni/controller/parsers/parser_fees.dart';
-import 'package:uni/controller/parsers/parser_print.dart';
 import 'package:uni/model/request_status.dart';
 import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/course_unit.dart';
@@ -28,14 +26,11 @@ class ProfileStateProvider extends StateProviderNotifier {
   List<CourseUnit> _currUcs = [];
   Profile _profile = Profile();
   DateTime? _feesRefreshTime;
-  DateTime? _printRefreshTime;
 
   UnmodifiableListView<CourseUnit> get currUcs =>
       UnmodifiableListView(_currUcs);
 
   String get feesRefreshTime => _feesRefreshTime.toString();
-
-  String get printRefreshTime => _printRefreshTime.toString();
 
   Profile get profile => _profile;
 
@@ -80,7 +75,6 @@ class ProfileStateProvider extends StateProviderNotifier {
           name: _profile.name,
           email: _profile.email,
           courses: _profile.courses,
-          printBalance: _profile.printBalance,
           feesBalance: feesBalance,
           feesLimit: feesLimit);
 
@@ -100,50 +94,12 @@ class ProfileStateProvider extends StateProviderNotifier {
     refreshTimesDatabase.saveRefreshTime(db, currentTime);
   }
 
-  getUserPrintBalance(Completer<void> action, Session session) async {
-    try {
-      final response = await PrintFetcher.getBalance(session);
-      final String printBalance = await getPrintsBalance(response);
-
-      final DateTime currentTime = DateTime.now();
-      final Tuple2<String, String> userPersistentInfo =
-          await AppSharedPreferences.getPersistentUserInfo();
-      if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {
-        await storeRefreshTime('print', currentTime.toString());
-
-        // Store fees info
-        final profileDb = AppUserDataDatabase();
-        profileDb.saveUserPrintBalance(printBalance);
-      }
-
-      final Profile newProfile = Profile(
-          name: _profile.name,
-          email: _profile.email,
-          courses: _profile.courses,
-          printBalance: printBalance,
-          feesBalance: _profile.feesBalance,
-          feesLimit: _profile.feesLimit);
-
-      _profile = newProfile;
-      _printRefreshTime = currentTime;
-      notifyListeners();
-    } catch (e) {
-      Logger().e('Failed to get Print Balance');
-    }
-
-    action.complete();
-  }
-
   updateStateBasedOnLocalRefreshTimes() async {
     final AppRefreshTimesDatabase refreshTimesDb = AppRefreshTimesDatabase();
     final Map<String, String> refreshTimes =
         await refreshTimesDb.refreshTimes();
 
-    final printRefreshTime = refreshTimes['print'];
     final feesRefreshTime = refreshTimes['fees'];
-    if (printRefreshTime != null) {
-      _printRefreshTime = DateTime.parse(printRefreshTime);
-    }
     if (feesRefreshTime != null) {
       _feesRefreshTime = DateTime.parse(feesRefreshTime);
     }

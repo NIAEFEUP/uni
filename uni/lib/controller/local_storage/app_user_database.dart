@@ -31,11 +31,10 @@ class AppUserDataDatabase extends AppDatabase {
     final List<Map<String, dynamic>> maps = await db.query('userdata');
 
     // Convert the List<Map<String, dynamic> into a Profile.
-    String? name, email, printBalance, feesBalance, feesLimit;
+    String? name, email, feesBalance, feesLimit;
     for (Map<String, dynamic> entry in maps) {
       if (entry['key'] == 'name') name = entry['value'];
       if (entry['key'] == 'email') email = entry['value'];
-      if (entry['key'] == 'printBalance') printBalance = entry['value'];
       if (entry['key'] == 'feesBalance') feesBalance = entry['value'];
       if (entry['key'] == 'feesLimit') feesLimit = entry['value'];
     }
@@ -44,7 +43,6 @@ class AppUserDataDatabase extends AppDatabase {
         name: name ?? '?',
         email: email ?? '?',
         courses: <Course>[],
-        printBalance: printBalance ?? '?',
         feesBalance: feesBalance ?? '?',
         feesLimit: feesLimit ?? '?');
   }

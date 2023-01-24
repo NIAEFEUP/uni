@@ -66,9 +66,8 @@ Future loadRemoteUserInfoToState(StateProviders stateProviders) async {
         .getUserLectures(schedule, userPersistentInfo, session, profile);
     stateProviders.profileStateProvider
         .getCourseUnitsAndCourseAverages(session, ucs);
-    stateProviders.profileStateProvider
-        .getUserPrintBalance(printBalance, session);
     stateProviders.profileStateProvider.getUserFees(fees, session);
+    stateProviders.printProvider.getUserPrintBalance(printBalance, session);
   });
 
   final allRequests = Future.wait([
@@ -104,8 +103,7 @@ void loadLocalUserInfoToState(StateProviders stateProviders) async {
     stateProviders.examProvider.updateStateBasedOnLocalUserExams();
     stateProviders.lectureProvider.updateStateBasedOnLocalUserLectures();
     stateProviders.busStopProvider.updateStateBasedOnLocalUserBusStops();
-    stateProviders.profileStateProvider
-        .updateStateBasedOnLocalProfile();
+    stateProviders.profileStateProvider.updateStateBasedOnLocalProfile();
     stateProviders.profileStateProvider.updateStateBasedOnLocalRefreshTimes();
     stateProviders.lastUserInfoProvider.updateStateBasedOnLocalTime();
     stateProviders.calendarProvider.updateStateBasedOnLocalCalendar();

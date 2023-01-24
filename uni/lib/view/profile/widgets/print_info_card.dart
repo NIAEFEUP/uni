@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/providers/print_provider.dart';
-import 'package:uni/model/providers/profile_state_provider.dart';
 import 'package:uni/model/providers/session_provider.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
 import 'package:uni/view/profile/widgets/create_print_mb_dialog.dart';
@@ -19,12 +18,9 @@ class PrintInfoCard extends GenericCard {
 
   @override
   Widget buildCardContent(BuildContext context) {
-    return Consumer3<ProfileStateProvider, SessionProvider, PrintProvider>(
-      builder:
-          (context, profileStateProvider, sessionProvider, printProvider, _) {
-        printProvider.getUserJobs(Completer(), sessionProvider.session);
-
-        final profile = profileStateProvider.profile;
+    return Consumer2<SessionProvider, PrintProvider>(
+      builder: (context, sessionProvider, printProvider, _) {
+        printProvider.getUserJobs(Completer<void>(), sessionProvider.session);
 
         if (!sessionProvider.isLoggedInPrintService) {
           return notLoggedInContent(context);
@@ -49,7 +45,7 @@ class PrintInfoCard extends GenericCard {
                     ),
                     Container(
                         margin: const EdgeInsets.only(right: 15.0),
-                        child: Text(profile.printBalance,
+                        child: Text("${printProvider.printBalance} €",
                             textAlign: TextAlign.end,
                             style: Theme.of(context).textTheme.headline6)),
                     Container(
@@ -58,7 +54,7 @@ class PrintInfoCard extends GenericCard {
                         child: addMoneyButton(context))
                   ])
                 ]),
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
             Align(
                 alignment: Alignment.centerLeft,
                 child: Container(
@@ -78,8 +74,8 @@ class PrintInfoCard extends GenericCard {
                     : const Padding(
                         padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
                         child: Text('Nenhum trabalho em espera'))),
-            showLastRefreshedTime(
-                profileStateProvider.printRefreshTime, context),
+            //showLastRefreshedTime(
+            //    printProvider.printRefreshTime, context),
           ],
         );
       },
