@@ -8,6 +8,7 @@ import 'package:uni/model/providers/session_provider.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
 import 'package:uni/view/profile/widgets/create_print_mb_dialog.dart';
 import 'package:uni/view/profile/widgets/login_print_service_dialog.dart';
+import 'package:uni/view/profile/widgets/print_job_row.dart';
 
 class PrintInfoCard extends GenericCard {
   PrintInfoCard({Key? key}) : super(key: key);
@@ -57,8 +58,28 @@ class PrintInfoCard extends GenericCard {
                         child: addMoneyButton(context))
                   ])
                 ]),
+            const SizedBox(height: 20),
+            Align(
+                alignment: Alignment.centerLeft,
+                child: Container(
+                    margin: const EdgeInsets.only(left: 20.0),
+                    child: Text('Trabalhos em espera',
+                        style: Theme.of(context).textTheme.subtitle2,
+                        textAlign: TextAlign.right))),
+            Padding(
+                padding: const EdgeInsets.only(
+                    top: 15.0, bottom: 10.0, left: 20.0, right: 10),
+                child: printProvider.jobs.isNotEmpty
+                    ? Column(
+                        children: printProvider.jobs
+                            .map((job) => PrintJobRow(job: job))
+                            .toList(),
+                      )
+                    : const Padding(
+                        padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
+                        child: Text('Nenhum trabalho em espera'))),
             showLastRefreshedTime(
-                profileStateProvider.printRefreshTime, context)
+                profileStateProvider.printRefreshTime, context),
           ],
         );
       },
