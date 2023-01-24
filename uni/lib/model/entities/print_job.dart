@@ -23,10 +23,14 @@ class PrintJob {
     final bool colors = splitedPrinter[2] == 'C';
     final String size = splitedPrinter[3];
 
+    //24/jan/2023 11:56:46 -> 24/Jan/2023 11:56:46
+    final String month = datetime.substring(3, 4);
+    datetime = datetime.replaceRange(3, 4, month.toUpperCase());
+
     return PrintJob(
       filename,
-      DateFormat('MMM dd, yyyy h:mm:ss a')
-          .parse(datetime), //datetime example: "Nov 8, 2022 3:17:39 PM"
+      DateFormat('dd/MMM/yyyy HH:mm:ss')
+          .parse(datetime), //datetime example: "24/Jan/2023 11:56:46"
       double.parse(cost.replaceAll(',', '.')),
       int.parse(pages),
       size,

@@ -16,14 +16,18 @@ Future<List<PrintJob>> getPendingReleases(http.Response response) async {
   final document = parse(response.body);
 
   final List rows = document.querySelectorAll('#jobs-table > tbody > tr');
+  rows.removeAt(0);
+
   final List<PrintJob> jobs = rows.map((row) {
     final String filename =
-            row.querySelector('.documentColumnValue > span')?.text,
-        datetime = row.querySelector('.dateColumnValue')?.text,
-        cost = row.querySelector('.costColumnValue > div')?.text,
-        pages = row.querySelector('.pagesColumnValue > div')?.text,
-        printer = row.querySelector('.printerColumnValue > span')?.text,
-        cancelUrl = row.querySelector('.actionColumnValue > a')?.href;
+            row.querySelector('.documentColumnValue > span')?.text ?? '',
+        datetime = row.querySelector('.dateColumnValue > span')?.text ?? '',
+        cost = row.querySelector('.costColumnValue > div')?.text ?? '',
+        pages = row.querySelector('.pagesColumnValue > div')?.text ?? '',
+        printer = row.querySelector('.printerColumnValue > span')?.text ?? '',
+        cancelUrl =
+            row.querySelector('.actionColumnValue > a')?.attributes['href'] ??
+                '';
 
     return PrintJob.fromParser(
         filename, datetime, cost, pages, printer, cancelUrl);

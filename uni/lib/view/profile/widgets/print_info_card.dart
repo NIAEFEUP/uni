@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:uni/model/providers/print_provider.dart';
 import 'package:uni/model/providers/profile_state_provider.dart';
 import 'package:uni/model/providers/session_provider.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
@@ -15,8 +18,11 @@ class PrintInfoCard extends GenericCard {
 
   @override
   Widget buildCardContent(BuildContext context) {
-    return Consumer2<ProfileStateProvider, SessionProvider>(
-      builder: (context, profileStateProvider, sessionProvider, _) {
+    return Consumer3<ProfileStateProvider, SessionProvider, PrintProvider>(
+      builder:
+          (context, profileStateProvider, sessionProvider, printProvider, _) {
+        printProvider.getUserJobs(Completer(), sessionProvider.session);
+
         final profile = profileStateProvider.profile;
 
         if (!sessionProvider.isLoggedInPrintService) {

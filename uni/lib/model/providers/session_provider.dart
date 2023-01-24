@@ -106,7 +106,7 @@ class SessionProvider extends StateProviderNotifier {
     try {
       final String newCookie =
           await PrintService.getCookie(_session.studentNumber, password);
-      _session.cookies += newCookie;
+      _session.cookies += "; $newCookie";
       _authenticatedInPrintService = true;
       notifyListeners();
       return true;
@@ -123,6 +123,7 @@ class SessionProvider extends StateProviderNotifier {
       final http.Response response =
           await NetworkRouter.getWithCookies(url, {}, session);
 
+      // TODO: CHANGE THIS, ITS ALLWAYS 200
       if (response.statusCode == 200) {
         _authenticatedInPrintService = true;
         notifyListeners();

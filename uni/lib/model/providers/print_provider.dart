@@ -46,7 +46,7 @@ class PrintProvider extends StateProviderNotifier {
       _refreshTime = currentTime;
       notifyListeners();
     } catch (e) {
-      Logger().e('Failed to get Print Jobs');
+      Logger().e('Failed to get Print Jobs: $e');
     }
 
     action.complete();

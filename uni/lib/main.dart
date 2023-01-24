@@ -14,6 +14,7 @@ import 'package:uni/model/providers/favorite_cards_provider.dart';
 import 'package:uni/model/providers/home_page_editing_mode_provider.dart';
 import 'package:uni/model/providers/last_user_info_provider.dart';
 import 'package:uni/model/providers/lecture_provider.dart';
+import 'package:uni/model/providers/print_provider.dart';
 import 'package:uni/model/providers/profile_state_provider.dart';
 import 'package:uni/model/providers/restaurant_provider.dart';
 import 'package:uni/model/providers/session_provider.dart';
@@ -54,7 +55,8 @@ Future<void> main() async {
       LastUserInfoProvider(),
       UserFacultiesProvider(),
       FavoriteCardsProvider(),
-      HomePageEditingMode());
+      HomePageEditingMode(),
+      PrintProvider());
 
   OnStartUp.onStart(stateProviders.sessionProvider);
   WidgetsFlutterBinding.ensureInitialized();
@@ -118,6 +120,8 @@ class MyAppState extends State<MyApp> {
             create: (context) => stateProviders.favoriteCardsProvider),
         ChangeNotifierProvider(
             create: (context) => stateProviders.homePageEditingMode),
+        ChangeNotifierProvider(
+            create: (context) => stateProviders.printProvider),
       ],
       child: Consumer<ThemeNotifier>(
         builder: (context, themeNotifier, _) => MaterialApp(

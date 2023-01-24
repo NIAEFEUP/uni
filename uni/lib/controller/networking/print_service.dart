@@ -45,6 +45,6 @@ class PrintService {
     cookie = cookie.split(';')[0];
     if (cookie == '') throw Exception('No cookie found!');
 
-    return 'JSESSIONID=$cookie;';
+    return 'JSESSIONID=$cookie';
   }
 }
