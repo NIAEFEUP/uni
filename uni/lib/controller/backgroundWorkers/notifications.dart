@@ -19,7 +19,7 @@ import 'package:workmanager/workmanager.dart';
 /// (due to background worker limitations).
 /// 
 Map<Type, Notification Function()> notificationMap = {
-  TuitionNotitification:() => TuitionNotitification()
+  TuitionNotification:() => TuitionNotification()
 };
 
 
@@ -55,7 +55,7 @@ class NotificationManager{
 
 
 
-  static Future<void> tryRunAll() async{
+  static Future<void> updateAndTriggerNotifications() async{
     //first we get the .json file that contains the last time that the notification have ran
     _initFlutterNotificationsPlugin();
     final notificationStorage = await NotificationTimeoutStorage.create();
@@ -79,7 +79,7 @@ class NotificationManager{
   static void _isolateEntryFunc(dynamic message) async{
 
     sleep(startDelay);
-    await NotificationManager.tryRunAll();
+    await NotificationManager.updateAndTriggerNotifications();
   }
 
   static void initializeNotifications() async{

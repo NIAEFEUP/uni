@@ -8,10 +8,10 @@ import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/controller/parsers/parser_fees.dart';
 import 'package:uni/model/entities/session.dart';
 
-class TuitionNotitification extends Notification{
+class TuitionNotification extends Notification{
   late DateTime _dueDate;
 
-  TuitionNotitification() : super("tuition-notification", const Duration(hours: 12));
+  TuitionNotification() : super("tuition-notification", const Duration(hours: 12));
 
   @override
   Future<Tuple2<String, String>> buildNotificationContent(Session session) async {
