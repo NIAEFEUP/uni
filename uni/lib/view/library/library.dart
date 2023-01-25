@@ -40,7 +40,7 @@ class LibraryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (occupation == null) {
+    if (occupation == null || occupation?.capacity == 0) {
       return ListView(scrollDirection: Axis.vertical, children: [
         Center(
             heightFactor: 2,
