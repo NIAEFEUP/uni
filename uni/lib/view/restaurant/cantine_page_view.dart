@@ -60,9 +60,6 @@ class _CantinePageState extends GeneralPageViewState<CantinePageView>
   }
 
   Widget _getPageView(List<Restaurant> restaurants, RequestStatus? status) {
-    if (status == null) {
-      return const Text("Estado do request inválido");
-    }
     return Column(children: [
       ListView(scrollDirection: Axis.vertical, shrinkWrap: true, children: [
         Container(
@@ -78,7 +75,7 @@ class _CantinePageState extends GeneralPageViewState<CantinePageView>
       ]),
       RequestDependentWidgetBuilder(
           context: context,
-          status: status,
+          status: status ?? RequestStatus.none,
           contentGenerator: createTabViewBuilder,
           content: restaurants,
           contentChecker: restaurants.isNotEmpty,

@@ -39,7 +39,9 @@ class CantineSlot extends StatelessWidget {
   }
 
   Widget createCantineSlotType(context) {
-    if(type.contains("Carne")) {
+    final mealsType = type.toLowerCase();
+
+    if(mealsType.contains("carne")) {
       return Tooltip(
           message: 'Prato de carne',
           child: SvgPicture.asset(
@@ -47,7 +49,7 @@ class CantineSlot extends StatelessWidget {
         'assets/icons-cantines/chicken.svg',
         height: 20,
       ));
-    } if (type.contains("Peixe")) {
+    } if (mealsType.contains("peixe")) {
       return Tooltip(
           message: 'Prato de peixe',
           child: SvgPicture.asset(
@@ -55,7 +57,7 @@ class CantineSlot extends StatelessWidget {
         'assets/icons-cantines/fish.svg',
         height: 20,
       ));
-    } if (type.contains("Vegetariano")) {
+    } if (mealsType.contains("vegetariano")) {
       return Tooltip(
         message: 'Prato Vegetariano',
         child: SvgPicture.asset(
@@ -63,7 +65,7 @@ class CantineSlot extends StatelessWidget {
         'assets/icons-cantines/salad.svg',
         height: 20,
       ));
-    } if (type.contains("Dieta")) {
+    } if (mealsType.contains("dieta")) {
       return Tooltip(
           message: 'Prato de Dieta',
           child: SvgPicture.asset(
