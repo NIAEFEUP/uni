@@ -411,22 +411,23 @@ ThunkAction<AppState> getUserPrintBalance(Completer<void> action) {
 
 ThunkAction<AppState> getUserReferences(Completer<void> action) {
   return (Store<AppState> store) async {
+    final Tuple2<String, String> userPersistentInfo =
+        await AppSharedPreferences.getPersistentUserInfo();
+    if (userPersistentInfo.item1 == '' || userPersistentInfo.item2 == '') {
+      return;
+    }
+
     store.dispatch(SetReferencesStatusAction(RequestStatus.busy));
     try {
       final response = await ReferenceFetcher()
           .getUserReferenceResponse(store.state.content['session']);
       final List<Reference> references = await parseReferences(response);
-
       final String currentTime = DateTime.now().toString();
-      final Tuple2<String, String> userPersistentInfo =
-          await AppSharedPreferences.getPersistentUserInfo();
-      if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {
-        await storeRefreshTime('references', currentTime);
+      await storeRefreshTime('references', currentTime);
 
-        // Store references in the database
-        final referencesDb = AppReferencesDatabase();
-        referencesDb.saveNewReferences(references);
-      }
+      // Store references in the database
+      final referencesDb = AppReferencesDatabase();
+      referencesDb.saveNewReferences(references);
 
       store.dispatch(SetReferencesAction(references));
       store.dispatch(SetReferencesStatusAction(RequestStatus.successful));
