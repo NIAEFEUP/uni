@@ -8,7 +8,6 @@ import 'package:provider/provider.dart';
 import 'package:redux/redux.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:uni/controller/backgroundWorkers/background_callback.dart';
-import 'package:uni/controller/backgroundWorkers/notifications.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/controller/middleware.dart';
 import 'package:uni/controller/on_start_up.dart';
@@ -52,7 +51,6 @@ Future<void> main() async {
     isInDebugMode: !kReleaseMode // run workmanager in debug mode when app is in debug mode
   );
 
-  NotificationManager.initializeNotifications();
 
   final savedTheme = await AppSharedPreferences.getThemeMode();
   await SentryFlutter.init((options) {

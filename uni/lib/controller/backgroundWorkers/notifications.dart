@@ -1,10 +1,8 @@
 import 'dart:io';
-import 'dart:isolate';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:logger/logger.dart';
 import 'package:tuple/tuple.dart';
 import 'package:uni/controller/backgroundWorkers/notifications/tuition_notification.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
@@ -40,7 +38,6 @@ abstract class Notification{
 
   Future<void> displayNotificationIfPossible(Session session, FlutterLocalNotificationsPlugin localNotificationsPlugin) async{
     final bool test = await checkConditionToDisplay(session);
-    Logger().d(test);
     if(test){
       displayNotification(await buildNotificationContent(session), localNotificationsPlugin);
     }
@@ -49,10 +46,10 @@ abstract class Notification{
 
 class NotificationManager{
 
-  static const Duration startDelay = Duration(seconds: 15);
 
   static final FlutterLocalNotificationsPlugin _localNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
+  static bool _initialized = false;
 
 
   static Future<void> updateAndTriggerNotifications() async{
@@ -75,17 +72,12 @@ class NotificationManager{
     }
   }
 
-  //Isolates require a object as a variable on the entry function, I don't use it so it is dynamic in this case
-  static void _isolateEntryFunc(dynamic message) async{
-
-    sleep(startDelay);
-    await NotificationManager.updateAndTriggerNotifications();
-  }
-
   static void initializeNotifications() async{
+    //guarentees that the execution is only done once in the lifetime of the app. 
+    if(_initialized) return;
     _initFlutterNotificationsPlugin();
     _buildNotificationWorker();
-  
+    _initialized = true;
   }
 
   static void _initFlutterNotificationsPlugin() async{
@@ -132,12 +124,13 @@ class NotificationManager{
       Workmanager().registerPeriodicTask("pt.up.fe.ni.uni.notificationworker", "pt.up.fe.ni.uni.notificationworker", 
         constraints: Constraints(networkType: NetworkType.connected),
         frequency: const Duration(minutes: 15),
-        initialDelay: startDelay,
       );
 
     } else if (Platform.isIOS || kIsWeb){ 
       //This is to guarentee that the notification will be run at least the app starts.
-      await Isolate.spawn(_isolateEntryFunc, null);
+      //NOTE (luisd): This is not an isolate because we can't register plugins in a isolate, in the current version of flutter
+      //  so we just do it after login
+      await updateAndTriggerNotifications();
     } else{
       throw PlatformException(code: "WorkerManager is only supported in iOS and android...");
     }

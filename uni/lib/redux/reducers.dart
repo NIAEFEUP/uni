@@ -1,4 +1,5 @@
 import 'package:logger/logger.dart';
+import 'package:uni/controller/backgroundWorkers/notifications.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/redux/actions.dart';
 
@@ -82,6 +83,9 @@ AppState login(AppState state, SaveLoginDataAction action) {
 
 AppState setLoginStatus(AppState state, SetLoginStatusAction action) {
   Logger().i('setting login status: ${action.status}');
+  if (action.status == RequestStatus.successful){
+    NotificationManager.initializeNotifications();
+  }
   return state.cloneAndUpdateValue('loginStatus', action.status);
 }
 
