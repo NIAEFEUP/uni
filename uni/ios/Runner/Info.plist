@@ -40,6 +40,11 @@
 	<true/>
 	<key>NSCalendarsUsageDescription</key>
 	<string>Exportar exames e eventos para o calendário</string>
+	<key>UIApplicationSceneManifest</key>
+    <dict>
+        <key>UISceneConfigurations</key>
+        <dict/>
+    </dict>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
