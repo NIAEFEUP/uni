@@ -135,7 +135,7 @@ class Lecture {
   /// Prints the data in this lecture to the [Logger] with an INFO level.
   printLecture() {
     Logger().i('$subject $typeClass');
-    Logger().i('${TimeString.weekdays[day]} $startTime $endTime $blocks blocos');
+    Logger().i('${TimeString.getWeekdaysStrings()[day]} $startTime $endTime $blocks blocos');
     Logger().i('$room  $teacher\n');
   }
 

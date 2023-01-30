@@ -46,7 +46,8 @@ class SchedulePageView extends StatefulWidget {
 
   final int weekDay = DateTime.now().weekday;
 
-  static final List<String> daysOfTheWeek = TimeString.weekdays.sublist(0, 5);
+  static final List<String> daysOfTheWeek =
+      TimeString.getWeekdaysStrings(includeWeekend: false);
 
   static List<List<Lecture>> groupLecturesByDay(schedule) {
     final aggLectures = <List<Lecture>>[];
