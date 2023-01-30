@@ -15,7 +15,8 @@ class LibraryOccupationFetcherSheets implements SessionDependantFetcher {
     // and dispatch for different fetchers
     const String baseUrl = 'https://docs.google.com/spreadsheets/d/';
     const String sheetId = '1gZRbEX4y8vNW7vrl15FCdAQ3pVNRJw_uRZtVL6ORP0g';
-    const String url = '$baseUrl$sheetId/gviz/tq?tqx=out:json';
+    const String url =
+        '$baseUrl$sheetId/gviz/tq?tqx=out:json&sheet=MANUAL&range=C2:E7&tq=SELECT+C,E';
     return [url];
   }
 
