@@ -6,7 +6,6 @@ import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/library_occupation.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
-import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
 import 'package:uni/view/library/widgets/library_occupation_card.dart';
 
 import 'package:uni/view/library/widgets/library_reservations_card.dart';
@@ -27,51 +26,63 @@ class LibraryPageViewState extends GeneralPageViewState<LibraryPageView> {
           store.state.content['libraryOccupation'];
       return Tuple2(occupation, store.state.content['libraryOccupationStatus']);
     }, builder: (context, occupationInfo) {
-      return RequestDependentWidgetBuilder(
-          context: context,
-          status: occupationInfo.item2,
-          contentGenerator: generateOccupationPage,
-          content: occupationInfo.item1,
-          contentChecker: occupationInfo.item2 != RequestStatus.busy,
-          onNullContent: const Center(child: CircularProgressIndicator()));
+      if (occupationInfo.item2 == RequestStatus.busy) {
+        return const Center(child: CircularProgressIndicator());
+      } else {
+        return LibraryPage(occupationInfo.item1);
+      }
     });
   }
+}
 
-  Widget getFloorRows(LibraryOccupation occupation) {
+class LibraryPage extends StatelessWidget {
+  final LibraryOccupation? occupation;
+
+  const LibraryPage(this.occupation, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    if (occupation == null || occupation?.capacity == 0) {
+      return ListView(scrollDirection: Axis.vertical, children: [
+        Center(
+            heightFactor: 2,
+            child: Text('Não existem dados para apresentar',
+                style: Theme.of(context).textTheme.headline6,
+                textAlign: TextAlign.center))
+      ]);
+    }
+    return ListView(
+        scrollDirection: Axis.vertical,
+        shrinkWrap: true,
+        children: [
+          const PageTitle(name: 'Biblioteca'),
+          LibraryOccupationCard(),
+          if (occupation != null) const PageTitle(name: 'Pisos'),
+          if (occupation != null) getFloorRows(context, occupation!),
+          LibraryReservationsCard(),
+        ]);
+  }
+
+  Widget getFloorRows(BuildContext context, LibraryOccupation occupation) {
     final List<Widget> floors = [];
-    for (int i = 1; i < 7; i += 2) {
-      floors.add(
-          createFloorRow(occupation.getFloor(i), occupation.getFloor(i + 1)));
+    for (int i = 1; i < occupation.floors.length; i += 2) {
+      floors.add(createFloorRow(
+          context, occupation.getFloor(i), occupation.getFloor(i + 1)));
     }
     return Column(
       children: floors,
     );
   }
 
-  Widget generateOccupationPage(occupation, context) {
-    List<Widget> content;
-    content = [
-      const PageTitle(name: 'Biblioteca'),
-      LibraryOccupationCard(),
-      LibraryReservationsCard(),
-    ];
-    if (occupation != null) {
-      content.add(const PageTitle(name: 'Pisos'));
-      content.add(getFloorRows(occupation));
-    }
-
-    return ListView(
-        scrollDirection: Axis.vertical, shrinkWrap: true, children: content);
-  }
-
-  Widget createFloorRow(FloorOccupation floor1, FloorOccupation floor2) {
+  Widget createFloorRow(
+      BuildContext context, FloorOccupation floor1, FloorOccupation floor2) {
     return Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-      createFloorCard(floor1),
-      createFloorCard(floor2),
+      createFloorCard(context, floor1),
+      createFloorCard(context, floor2),
     ]);
   }
 
-  Widget createFloorCard(FloorOccupation floor) {
+  Widget createFloorCard(BuildContext context, FloorOccupation floor) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
       height: 150.0,
@@ -102,6 +113,7 @@ class LibraryPageViewState extends GeneralPageViewState<LibraryPageView> {
           lineHeight: 7.0,
           percent: floor.percentage / 100,
           progressColor: Theme.of(context).colorScheme.secondary,
+          backgroundColor: Theme.of(context).dividerColor,
         )
       ]),
     );

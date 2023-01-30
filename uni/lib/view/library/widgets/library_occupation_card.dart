@@ -17,7 +17,7 @@ class LibraryOccupationCard extends GenericCard {
       : super.fromEditingInformation(key, editingMode, onDelete);
 
   @override
-  String getTitle() => 'Ocupação da biblioteca';
+  String getTitle() => 'Ocupação da Biblioteca';
 
   @override
   onClick(BuildContext context) =>
@@ -42,23 +42,23 @@ class LibraryOccupationCard extends GenericCard {
   }
 
   Widget generateOccupation(occupation, context) {
-    if (occupation == null) {
+    if (occupation == null || occupation.capacity == 0) {
       return Center(
           child: Text('Não existem dados para apresentar',
               style: Theme.of(context).textTheme.headline6,
               textAlign: TextAlign.center));
     }
     return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 3.0),
+        padding: const EdgeInsets.symmetric(vertical: 6.0),
         child: CircularPercentIndicator(
           radius: 60.0,
-          lineWidth: 9.0,
+          lineWidth: 8.0,
           percent: occupation.percentage / 100,
           center: Text('${occupation.percentage}%',
               style: Theme.of(context)
                   .textTheme
                   .headline2
-                  ?.copyWith(fontSize: 25, fontWeight: FontWeight.w500)),
+                  ?.copyWith(fontSize: 23, fontWeight: FontWeight.w500)),
           footer: Column(
             children: [
               const Padding(padding: EdgeInsets.fromLTRB(0, 5.0, 0, 0)),
@@ -66,7 +66,7 @@ class LibraryOccupationCard extends GenericCard {
                   style: Theme.of(context).textTheme.headline5),
             ],
           ),
-          circularStrokeCap: CircularStrokeCap.round,
+          circularStrokeCap: CircularStrokeCap.square,
           backgroundColor: Theme.of(context).hintColor,
           progressColor: Theme.of(context).colorScheme.secondary,
         ));
