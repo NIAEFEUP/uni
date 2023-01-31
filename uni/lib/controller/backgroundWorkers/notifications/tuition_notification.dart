@@ -15,7 +15,8 @@ class TuitionNotification extends Notification{
 
   @override
   Future<Tuple2<String, String>> buildNotificationContent(Session session) async {
-    if(_dueDate.isBefore(DateTime.now())){
+    //We must add one day because the time limit is actually at 23:59 and not at 00:00 of the same day
+    if(_dueDate.add(const Duration(days: 1)).isBefore(DateTime.now())){
       final int days = DateTime.now().difference(_dueDate).inDays;
       return Tuple2("⚠️ Ainda não pagaste as propinas ⚠️", "Já passaram $days dias desde o dia limite");
     }

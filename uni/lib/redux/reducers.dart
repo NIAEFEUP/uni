@@ -84,7 +84,7 @@ AppState login(AppState state, SaveLoginDataAction action) {
 AppState setLoginStatus(AppState state, SetLoginStatusAction action) {
   Logger().i('setting login status: ${action.status}');
   if (action.status == RequestStatus.successful){
-    Future.delayed(const Duration(seconds: 10), ()=>{
+    Future.delayed(const Duration(seconds: 20), ()=>{
       NotificationManager.initializeNotifications()
     });
   }

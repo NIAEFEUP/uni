@@ -123,7 +123,7 @@ class NotificationManager{
       Workmanager().cancelByUniqueName("pt.up.fe.ni.uni.notificationworker"); //stop task if it's already running
       Workmanager().registerPeriodicTask("pt.up.fe.ni.uni.notificationworker", "pt.up.fe.ni.uni.notificationworker", 
         constraints: Constraints(networkType: NetworkType.connected),
-        frequency: const Duration(minutes: 15),
+        frequency: const Duration(hours: 1),
       );
 
     } else if (Platform.isIOS || kIsWeb){ 
