@@ -40,47 +40,22 @@ class CantineSlot extends StatelessWidget {
 
   Widget createCantineSlotType(context) {
     final mealsType = type.toLowerCase();
+    String icon;
 
-    if(mealsType.contains("carne")) {
-      return Tooltip(
-          message: 'Prato de carne',
-          child: SvgPicture.asset(
-        color: Theme.of(context).primaryColor,
-        'assets/icons-cantines/chicken.svg',
-        height: 20,
-      ));
-    } if (mealsType.contains("peixe")) {
-      return Tooltip(
-          message: 'Prato de peixe',
-          child: SvgPicture.asset(
-        color: Theme.of(context).primaryColor,
-        'assets/icons-cantines/fish.svg',
-        height: 20,
-      ));
-    } if (mealsType.contains("vegetariano")) {
-      return Tooltip(
-        message: 'Prato Vegetariano',
+    if(mealsType.contains("carne")) {icon = 'assets/icons-cantines/chicken.svg';}
+    else if(mealsType.contains("peixe")) {icon = 'assets/icons-cantines/fish.svg';}
+    else if(mealsType.contains("vegetariano")) {icon = 'assets/icons-cantines/salad.svg';}
+    else if(mealsType.contains("dieta")) {icon = 'assets/icons-cantines/diet.svg';}
+    else {icon = '';}
+
+    return Tooltip(
+      message: type,
         child: SvgPicture.asset(
-        color: Theme.of(context).primaryColor,
-        'assets/icons-cantines/salad.svg',
-        height: 20,
-      ));
-    } if (mealsType.contains("dieta")) {
-      return Tooltip(
-          message: 'Prato de Dieta',
-          child: SvgPicture.asset(
-        color: Theme.of(context).primaryColor,
-        'assets/icons-cantines/diet.svg',
-        height: 20,
-      ));
-    } else {
-      return
-        Text(type,
-          style: const TextStyle(
-            fontSize: 20
-          ),
-        );
-    }
+      color: Theme.of(context).primaryColor,
+      icon,
+      height: 20,
+    ));
 
   }
+
 }
