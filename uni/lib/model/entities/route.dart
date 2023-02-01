@@ -12,14 +12,14 @@ class RoutePattern{
   Map<String, dynamic> toMap() => {
     'patternId': patternId,
     'direction': direction,
-    'stops': stops.toList() //to later make it work with encodeJson()
+    'stops': stops.map((e) => e.code).toList() //to later make it work with encodeJson()
   };
 
-  static RoutePattern fromMap(Map<String, dynamic> map) => 
+  static RoutePattern fromMap(Map<String, dynamic> map, Map<String, Stop> stops) => 
     RoutePattern(
       map['patternId'], 
       map['direction'], 
-      LinkedHashSet.from(map['stops'])
+      LinkedHashSet.from((map['stops'] as List<String>).map((e) => stops[e]!).toList())
     );
 }
 
@@ -54,8 +54,7 @@ class Route{
       map['name'],
       TransportationType.values.byName(map['transportationType']),
       longName: map["longName"] ?? '',
-      routePatterns: (map['routePatterns'] as List<Map<String,dynamic>>).map((e) => RoutePattern.fromMap(e)).toList()
-      
+      routePatterns: (map['routePatterns'] as List<Map<String,dynamic>>).map((e) => RoutePattern.fromMap(e, stops)).toList()
     );
 
 

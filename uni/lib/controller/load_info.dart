@@ -47,13 +47,15 @@ Future loadRemoteUserInfoToState(StateProviders stateProviders) async {
       trips = Completer(),
       lastUpdate = Completer(),
       restaurants = Completer(),
-      calendar = Completer();
+      calendar = Completer(),
+      publicTransport = Completer();
 
   stateProviders.profileStateProvider.getUserInfo(userInfo, session);
   stateProviders.busStopProvider.getUserBusTrips(trips);
   stateProviders.restaurantProvider
       .getRestaurantsFromFetcher(restaurants, session);
   stateProviders.calendarProvider.getCalendarFromFetcher(session, calendar);
+  stateProviders.publicTransportationProvider.getPublicTransportsFromFetcher(publicTransport);
 
   final Tuple2<String, String> userPersistentInfo =
       await AppSharedPreferences.getPersistentUserInfo();
@@ -80,7 +82,8 @@ Future loadRemoteUserInfoToState(StateProviders stateProviders) async {
     userInfo.future,
     trips.future,
     restaurants.future,
-    calendar.future
+    calendar.future,
+    publicTransport.future
   ]);
   allRequests.then((futures) {
     stateProviders.lastUserInfoProvider

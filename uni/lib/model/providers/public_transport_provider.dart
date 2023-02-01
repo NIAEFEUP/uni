@@ -35,6 +35,7 @@ class PublicTransportationProvider extends StateProviderNotifier{
       
     }
     catch (e, stack){
+      Logger().e("",e,stack);
       updateStatus(RequestStatus.failed);
       action.completeError(e, stack);
     }
