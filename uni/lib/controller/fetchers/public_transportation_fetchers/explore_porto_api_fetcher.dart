@@ -63,7 +63,7 @@ class ExplorePortoAPIFetcher extends PublicTransportationFetcher{
       final List<RoutePattern> patterns = patternsList.map((e) {
         final LinkedHashSet<Stop> stops = LinkedHashSet.identity();
         for (dynamic stop in e['stops']){
-          Stop s = stopMap[stop['gtfsId']]!;
+          final Stop s = stopMap[stop['gtfsId']]!;
           stops.add(s);
         }
         return RoutePattern(e["code"], e['directionId'], stops);

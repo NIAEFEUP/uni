@@ -9,6 +9,7 @@ import 'package:uni/model/providers/home_page_editing_mode_provider.dart';
 import 'package:uni/model/providers/last_user_info_provider.dart';
 import 'package:uni/model/providers/lecture_provider.dart';
 import 'package:uni/model/providers/profile_state_provider.dart';
+import 'package:uni/model/providers/public_transport_provider.dart';
 import 'package:uni/model/providers/restaurant_provider.dart';
 import 'package:uni/model/providers/session_provider.dart';
 import 'package:uni/model/providers/user_faculties_provider.dart';
@@ -26,6 +27,7 @@ class StateProviders {
   final UserFacultiesProvider userFacultiesProvider;
   final FavoriteCardsProvider favoriteCardsProvider;
   final HomePageEditingMode homePageEditingMode;
+  final PublicTransportationProvider publicTransportationProvider;
 
   StateProviders(
       this.lectureProvider,
@@ -39,7 +41,8 @@ class StateProviders {
       this.lastUserInfoProvider,
       this.userFacultiesProvider,
       this.favoriteCardsProvider,
-      this.homePageEditingMode);
+      this.homePageEditingMode,
+      this.publicTransportationProvider);
 
   static StateProviders fromContext(BuildContext context) {
     final lectureProvider =
@@ -65,6 +68,9 @@ class StateProviders {
         Provider.of<FavoriteCardsProvider>(context, listen: false);
     final homePageEditingMode =
         Provider.of<HomePageEditingMode>(context, listen: false);
+    final publicTransportationProvider = 
+        Provider.of<PublicTransportationProvider>(context, listen: false);
+
 
     return StateProviders(
         lectureProvider,
@@ -78,6 +84,7 @@ class StateProviders {
         lastUserInfoProvider,
         userFacultiesProvider,
         favoriteCardsProvider,
-        homePageEditingMode);
+        homePageEditingMode,
+        publicTransportationProvider);
   }
 }
