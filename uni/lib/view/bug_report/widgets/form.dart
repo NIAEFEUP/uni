@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:tuple/tuple.dart';
+import 'package:uni/model/entities/bug_report.dart';
 import 'package:uni/view/bug_report/widgets/text_field.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/toast_message.dart';
@@ -54,14 +55,12 @@ class BugReportFormState extends State<BugReportForm> {
     if (ghToken == '') loadGHKey();
     loadBugClassList();
   }
-
   void loadBugClassList() {
     bugList = [];
 
     bugDescriptions.forEach((int key, Tuple2<String, String> tup) =>
         {bugList.add(DropdownMenuItem(value: key, child: Text(tup.item1)))});
   }
-
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -234,16 +233,17 @@ class BugReportFormState extends State<BugReportForm> {
     setState(() {
       _isButtonTapped = true;
     });
-
-    final String bugLabel = bugDescriptions[_selectedBug] == null
-        ? 'Unidentified bug'
-        : bugDescriptions[_selectedBug]!.item2;
-
+    final bugReport = BugReport(
+        titleController.text,
+        descriptionController.text,
+        emailController.text,
+        bugDescriptions[_selectedBug]
+    ).toMap();
     String toastMsg;
     bool status;
     try {
-      final sentryId = await submitSentryEvent(bugLabel);
-      final gitHubRequestStatus = await submitGitHubIssue(sentryId, bugLabel);
+      final sentryId = await submitSentryEvent(bugReport);
+      final gitHubRequestStatus = await submitGitHubIssue(sentryId, bugReport);
       if (gitHubRequestStatus < 200 || gitHubRequestStatus > 400) {
         throw Exception('Network error');
       }
@@ -266,17 +266,15 @@ class BugReportFormState extends State<BugReportForm> {
       });
     }
   }
-
-  Future<int> submitGitHubIssue(SentryId sentryEvent, String bugLabel) async {
-    final List<String> faculties = await AppSharedPreferences.getUserFaculties();
+  Future<int> submitGitHubIssue(SentryId sentryEvent, Map<String,dynamic> bugReport) async {
     final String description =
-        '${descriptionController.text}\nFurther information on: $_sentryLink$sentryEvent';
+        '${bugReport['bugLabel']}\nFurther information on: $_sentryLink$sentryEvent';
     final Map data = {
-      'title': titleController.text,
+      'title': bugReport['title'],
       'body': description,
-      'labels': ['In-app bug report', bugLabel],
+      'labels': ['In-app bug report', bugReport['bugLabel']],
     };
-    for (String faculty in faculties){
+    for (String faculty in bugReport['faculties']){
       data['labels'].add(faculty);
     }
     return http
@@ -291,12 +289,12 @@ class BugReportFormState extends State<BugReportForm> {
     });
   }
 
-  Future<SentryId> submitSentryEvent(String bugLabel) async {
-    final String description = emailController.text == ''
-        ? descriptionController.text
-        : '${descriptionController.text}\nContact: ${emailController.text}';
+  Future<SentryId> submitSentryEvent(Map<String,dynamic> bugReport) async {
+    final String description = bugReport['email'] == ''
+        ? '${bugReport['text']} from ${bugReport['faculty']}'
+        : '${bugReport['text']} from ${bugReport['faculty']}\nContact: ${bugReport['email']}';
     return Sentry.captureMessage(
-        '$bugLabel: ${titleController.text}\n$description');
+        '${bugReport['bugLabel']}: ${bugReport['text']}\n$description');
   }
 
   void clearForm() {
