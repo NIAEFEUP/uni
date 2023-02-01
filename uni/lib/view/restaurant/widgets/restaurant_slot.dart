@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class CantineSlot extends StatelessWidget {
+class RestaurantSlot extends StatelessWidget {
   final String type;
   final String name;
 
-  const CantineSlot({
+  const RestaurantSlot({
     Key? key,
     required this.type,
     required this.name,
@@ -15,7 +15,7 @@ class CantineSlot extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(
-      top: 10.0, bottom: 10.0, left: 22.0, right: 22.0),
+      top: 10.0, bottom: 10.0, left: 10, right: 22.0),
       child: Container(
       key: Key('cantine-slot-type-$type'),
       child: Row(
@@ -40,12 +40,12 @@ class CantineSlot extends StatelessWidget {
 
   Widget createCantineSlotType(context) {
     final mealsType = type.toLowerCase();
-    String icon;
 
-    if(mealsType.contains("carne")) {icon = 'assets/icons-cantines/chicken.svg';}
-    else if(mealsType.contains("peixe")) {icon = 'assets/icons-cantines/fish.svg';}
-    else if(mealsType.contains("vegetariano")) {icon = 'assets/icons-cantines/salad.svg';}
-    else if(mealsType.contains("dieta")) {icon = 'assets/icons-cantines/diet.svg';}
+    String icon;
+    if (mealsType.contains("carne")) {icon = 'assets/icons-cantines/chicken.svg';}
+    else if (mealsType.contains("peixe")) {icon = 'assets/icons-cantines/fish.svg';}
+    else if (mealsType.contains("vegetariano")) {icon = 'assets/icons-cantines/salad.svg';}
+    else if (mealsType.contains("dieta")) {icon = 'assets/icons-cantines/diet.svg';}
     else {icon = '';}
 
     return Tooltip(

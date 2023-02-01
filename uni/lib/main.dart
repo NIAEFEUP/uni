@@ -20,7 +20,7 @@ import 'package:uni/view/exams/exams.dart';
 import 'package:uni/view/home/home.dart';
 import 'package:uni/view/course_units/course_units.dart';
 import 'package:uni/view/logout_route.dart';
-import 'package:uni/view/restaurant/cantine_page_view.dart';
+import 'package:uni/view/restaurant/restaurant_page_view.dart';
 import 'package:uni/view/splash/splash.dart';
 import 'package:uni/view/schedule/schedule.dart';
 import 'package:uni/view/common_widgets/page_transition.dart';
@@ -116,7 +116,7 @@ class MyAppState extends State<MyApp> {
                           page: const LocationsPage(), settings: settings),
                   '/${DrawerItem.navCantine.title}':
                       PageTransition.makePageTransition(
-                          page: const CantinePageView(), settings: settings),
+                          page: const RestaurantPageView(), settings: settings),
                   '/${DrawerItem.navCalendar.title}':
                       PageTransition.makePageTransition(
                           page: const CalendarPageView(), settings: settings),
