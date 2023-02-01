@@ -233,11 +233,13 @@ class BugReportFormState extends State<BugReportForm> {
     setState(() {
       _isButtonTapped = true;
     });
+    final faculty = await AppSharedPreferences.getUserFaculties();
     final bugReport = BugReport(
         titleController.text,
         descriptionController.text,
         emailController.text,
-        bugDescriptions[_selectedBug]
+        bugDescriptions[_selectedBug],
+        faculty
     ).toMap();
     String toastMsg;
     bool status;
