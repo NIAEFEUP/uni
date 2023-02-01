@@ -9,17 +9,17 @@ import 'package:uni/model/utils/day_of_week.dart';
 
 import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
-import 'package:uni/view/restaurant/widgets/cantine_slot.dart';
-import 'package:uni/view/theme.dart';
+import 'package:uni/view/restaurant/widgets/restaurant_page_card.dart';
+import 'package:uni/view/restaurant/widgets/restaurant_slot.dart';
 
-class CantinePageView extends StatefulWidget {
-  const CantinePageView({Key? key}) : super(key: key);
+class RestaurantPageView extends StatefulWidget {
+  const RestaurantPageView({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _CantinePageState();
 }
 
-class _CantinePageState extends GeneralPageViewState<CantinePageView>
+class _CantinePageState extends GeneralPageViewState<RestaurantPageView>
     with SingleTickerProviderStateMixin {
 
   final List<DayOfWeek> daysOfTheWeek = [
@@ -73,6 +73,7 @@ class _CantinePageState extends GeneralPageViewState<CantinePageView>
           tabs: createTabs(context),
         ),
       ]),
+      const SizedBox(height: 10),
       RequestDependentWidgetBuilder(
           context: context,
           status: status ?? RequestStatus.none,
@@ -88,7 +89,7 @@ class _CantinePageState extends GeneralPageViewState<CantinePageView>
         List<Widget> cantinesWidgets = [];
         if (restaurants is List<Restaurant>) {
           cantinesWidgets = restaurants
-              .map((restaurant) => createCantine(context, restaurant, dayOfWeek))
+              .map((restaurant) => createRestaurant(context, restaurant, dayOfWeek))
               .toList();
         }
         return ListView( children: cantinesWidgets,);
@@ -114,58 +115,38 @@ class _CantinePageState extends GeneralPageViewState<CantinePageView>
     return tabs;
   }
 
-  Widget createCantine(context, Restaurant restaurant, DayOfWeek dayOfWeek) {
-      return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-        const SizedBox(height: 18,),
-        Card(
-          elevation: 2,
-            margin: const EdgeInsets.only(left: 14, right: 14),
-            child: Padding(padding: const EdgeInsets.all(8), child: Column(
-        children: [
-          Text(restaurant.name, style: Theme.of(context).textTheme.headline5,),
-          const Divider(color: darkRed, thickness: 0.7, indent: 25, endIndent: 25),
-          createCantineByDay(context, restaurant, dayOfWeek),
-        ],
-      )
-      ))]
-      );
+  Widget createRestaurant(context, Restaurant restaurant, DayOfWeek dayOfWeek) {
+    return RestaurantPageCard(restaurant.name, createRestaurantByDay(context, restaurant, dayOfWeek));
   }
 
-  List<Widget> createCantineRows(List<Meal> meals, BuildContext context) {
+  List<Widget> createRestaurantRows(List<Meal> meals, BuildContext context) {
     return meals
-        .map((meal) => CantineSlot(type: meal.type, name: meal.name))
+        .map((meal) => RestaurantSlot(type: meal.type, name: meal.name))
         .toList();
   }
 
-  Widget createCantineByDay(
+  Widget createRestaurantByDay(
       BuildContext context, Restaurant restaurant, DayOfWeek day) {
     final List<Meal> meals = restaurant.getMealsOfDay(day);
     if (meals.isEmpty) {
       return Container(
           margin:
-          const EdgeInsets.only(top: 10, bottom: 7),
-
+          const EdgeInsets.only(top: 10, bottom: 5),
           key: Key('cantine-page-day-column-$day'),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children:
             const [Center (child: Text("Não há informação disponível sobre refeições")),],
-
           )
       );
-    }
-
-    else {
+    } else {
       return Container(
         margin:
-          const EdgeInsets.only(top: 10, bottom: 7),
+          const EdgeInsets.only(top: 5, bottom: 5),
         key: Key('cantine-page-day-column-$day'),
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          children: createCantineRows(meals, context),
-
+          children: createRestaurantRows(meals, context),
         )
     );
     }
