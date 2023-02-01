@@ -5,7 +5,9 @@
 enum TransportationType{
   train,
   bus,
-  subway
+  subway,
+  tram,
+  funicular
 }
 
 class Stop{

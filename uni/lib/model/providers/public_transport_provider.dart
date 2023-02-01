@@ -29,7 +29,6 @@ class PublicTransportationProvider extends StateProviderNotifier{
         _stops.addAll(await fetcher.fetchStops());
         _routes.addAll(await fetcher.fetchRoutes(_stops));
       }
-      Logger().d(_stops);
       updateStatus(RequestStatus.successful);
       action.complete();
       

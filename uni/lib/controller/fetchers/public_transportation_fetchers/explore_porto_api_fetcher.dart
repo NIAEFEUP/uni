@@ -20,6 +20,10 @@ class ExplorePortoAPIFetcher extends PublicTransportationFetcher{
         return TransportationType.bus;
       case "SUBWAY":
         return TransportationType.subway;
+      case "TRAM":
+        return TransportationType.tram;
+      case "FUNICULAR":
+        return TransportationType.funicular;
       default:
         throw ArgumentError("vehicleMode: $vehicleMode is not a supported type..");
     }
@@ -30,20 +34,22 @@ class ExplorePortoAPIFetcher extends PublicTransportationFetcher{
     final Map<String, Stop> map = {};
     final response = await http.post(_endpoint,
       headers:  {"Content-Type": "application/json"}, 
-      body: "{\"query\":\"{\\n\\tstops{gtfsId, name, code, vehicleMode, lat, lon}\\n}\",\"operationName\":\"\"}");
+      body: "{\"query\":\"{stops{gtfsId, name, code, vehicleMode, lat, lon}\\n}\"}");
     if(response.statusCode != 200){
       return Future.error(HttpException("Explore.porto API returned status ${response.statusCode} while fetching stops..."));
     }
     final List<dynamic> responseStops = jsonDecode(response.body)['data']['stops'];
-    responseStops.map((entry) => () {
+    for (dynamic entry in responseStops){
       final TransportationType transportType = convertVehicleMode(entry['vehicleMode']);
       //when the stop is of a subway they have no code so we have to deal with it differently
-      if(transportType == TransportationType.subway){
-        return Stop(entry['gtfsId'], entry['name'], transportType, entry['latitude'], entry['longitude']);
+      if(transportType == TransportationType.subway || transportType == TransportationType.funicular){
+        map.putIfAbsent(entry['gtfsId'], () => 
+          Stop(entry['gtfsId'], entry['name'], transportType, entry['lat'], entry['lon']));
+      } else{
+        map.putIfAbsent(entry['gtfsId'], () => 
+          Stop(entry['gtfsId'], entry['code'], transportType, entry['lat'], entry['lon'], longName: entry['name']));
       }
-      return Stop(entry['gtfsId'], entry['code'], transportType, entry['latitude'], entry['longitude'], longName: entry['name']);
-
-    });
+    }
     return map;
   }
 
@@ -52,13 +58,13 @@ class ExplorePortoAPIFetcher extends PublicTransportationFetcher{
     final Set<Route> routes = {};
     final response = await http.post(_endpoint, 
     headers: {"Content-Type": "application/json"}, 
-    body: "{\"query\":\"{routes {gtfsId, longName, shortName, mode, patterns{code,stops{gtfsId},directionId}}}\\n\\n\"}");
+    body: "{\"query\":\"{routes {gtfsId, longName, shortName, mode, patterns{code,stops{gtfsId},directionId}}}\"}");
     if(response.statusCode != 200){
       return Future.error(HttpException("Explore.porto API returned status ${response.statusCode} while fetching routes..."));
     }
     final List<dynamic> responseRoutes = jsonDecode(response.body)['data']['routes'];
-    responseRoutes.map((entry) => (){
-      final TransportationType transportType = convertVehicleMode(entry['vehicleMode']);
+    for (dynamic entry in responseRoutes){
+      final TransportationType transportType = convertVehicleMode(entry['mode']);
       final List<dynamic> patternsList = entry["patterns"];
       final List<RoutePattern> patterns = patternsList.map((e) {
         final LinkedHashSet<Stop> stops = LinkedHashSet.identity();
@@ -76,7 +82,7 @@ class ExplorePortoAPIFetcher extends PublicTransportationFetcher{
         routePatterns: patterns
         );
       routes.add(route);
-    });
+    }
     return routes;
   }
 

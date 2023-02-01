@@ -25,10 +25,9 @@ class AppPublicTransportDatabase extends AppDatabase{
 
       final Map<String,Stop> stops = {};
 
-      query.map((e) => {
-        stops.putIfAbsent(e['code'], () => Stop.fromMap(e))
-      });
-
+      for(Map<String,dynamic> e in query){
+        stops.putIfAbsent(e['code'], () => Stop.fromMap(e));
+      }
       return stops;
     }
 
@@ -38,9 +37,9 @@ class AppPublicTransportDatabase extends AppDatabase{
 
       final Set<Route> routes = {};
 
-      query.map((e) => (){
+      for(Map<String,dynamic> e in query){
         routes.add(Route.fromMap(e, stops));
-      });
+      }
       return routes;
     }
 
@@ -49,7 +48,8 @@ class AppPublicTransportDatabase extends AppDatabase{
 
   static FutureOr<void> migrate(Database db, int oldVersion, int newVersion)async {
     final Batch batch = db.batch();
-
+    batch.delete("Stops");
+    batch.delete("Routes");
     await batch.commit();
   }
 
