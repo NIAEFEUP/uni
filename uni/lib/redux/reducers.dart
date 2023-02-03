@@ -67,6 +67,8 @@ AppState appReducers(AppState state, dynamic action) {
     return setUserFaculties(state, action);
   } else if (action is SetRestaurantsAction) {
     return setRestaurantsAction(state, action);
+  } else if (action is SetRestaurantsStatusAction) {
+    return setRestaurantsStatusAction(state, action);
   } else if (action is SetCalendarAction) {
     return setCalendarAction(state, action);
   } else if (action is SetCalendarStatusAction) {
@@ -103,6 +105,12 @@ AppState setCalendarStatus(AppState state, SetCalendarStatusAction action) {
 AppState setRestaurantsAction(AppState state, SetRestaurantsAction action) {
   Logger().i('setting restaurants: ${action.restaurants.length}');
   return state.cloneAndUpdateValue('restaurants', action.restaurants);
+}
+
+AppState setRestaurantsStatusAction(
+    AppState state, SetRestaurantsStatusAction action) {
+  Logger().i('setting restaurants status: ${action.status}');
+  return state.cloneAndUpdateValue('restaurantsStatus', action.status);
 }
 
 AppState setExamsStatus(AppState state, SetExamsStatusAction action) {
