@@ -23,7 +23,7 @@ void main() {
       final DateTime firstExamBegin = DateTime.parse('$firstExamDate 09:00');
       final DateTime firstExamEnd = DateTime.parse('$firstExamDate 12:00');
       final firstExam = Exam('1230',firstExamBegin, firstExamEnd, firstExamSubject,
-          ['B119', 'B107', 'B205'], 'ER');
+          ['B119', 'B107', 'B205'], 'ER','feup');
       final examList = [
         firstExam,
       ];
@@ -43,11 +43,11 @@ void main() {
       final DateTime firstExamBegin = DateTime.parse('$firstExamDate 09:00');
       final DateTime firstExamEnd = DateTime.parse('$firstExamDate 12:00');
       final firstExam = Exam('1231',firstExamBegin, firstExamEnd, firstExamSubject,
-          ['B119', 'B107', 'B205'], 'ER');
+          ['B119', 'B107', 'B205'], 'ER', 'feup');
       final DateTime secondExamBegin = DateTime.parse('$firstExamDate 12:00');
       final DateTime secondExamEnd = DateTime.parse('$firstExamDate 15:00');
       final secondExam = Exam('1232',secondExamBegin, secondExamEnd, secondExamSubject,
-          ['B119', 'B107', 'B205'], 'ER');
+          ['B119', 'B107', 'B205'], 'ER', 'feup');
       final examList = [
         firstExam,
         secondExam,
@@ -67,11 +67,11 @@ void main() {
       final DateTime firstExamBegin = DateTime.parse('$firstExamDate 09:00');
       final DateTime firstExamEnd = DateTime.parse('$firstExamDate 12:00');
       final firstExam = Exam('1233',firstExamBegin, firstExamEnd, firstExamSubject,
-          ['B119', 'B107', 'B205'], 'ER');
+          ['B119', 'B107', 'B205'], 'ER','feup');
       final DateTime secondExamBegin = DateTime.parse('$secondExamDate 12:00');
       final DateTime secondExamEnd = DateTime.parse('$secondExamDate 15:00');
       final secondExam = Exam('1234',secondExamBegin, secondExamEnd, secondExamSubject,
-          ['B119', 'B107', 'B205'], 'ER');
+          ['B119', 'B107', 'B205'], 'ER','feup');
       final List<Exam> examList = [
         firstExam,
         secondExam,
@@ -91,19 +91,19 @@ void main() {
       final DateTime firstExamBegin = DateTime.parse('$firstExamDate 09:00');
       final DateTime firstExamEnd = DateTime.parse('$firstExamDate 12:00');
       final firstExam = Exam('1235',firstExamBegin, firstExamEnd, firstExamSubject,
-          rooms, 'ER');
+          rooms, 'ER', 'feup');
       final DateTime secondExamBegin = DateTime.parse('$firstExamDate 10:00');
       final DateTime secondExamEnd = DateTime.parse('$firstExamDate 12:00');
       final secondExam = Exam('1236',secondExamBegin, secondExamEnd, firstExamSubject,
-          rooms, 'ER');
+          rooms, 'ER', 'feup');
       final DateTime thirdExamBegin = DateTime.parse('$secondExamDate 12:00');
       final DateTime thirdExamEnd = DateTime.parse('$secondExamDate 15:00');
       final thirdExam = Exam('1237',thirdExamBegin, thirdExamEnd, secondExamSubject,
-          rooms, 'ER');
+          rooms, 'ER', 'feup');
       final DateTime fourthExamBegin = DateTime.parse('$secondExamDate 13:00');
       final DateTime fourthExamEnd = DateTime.parse('$secondExamDate 14:00');
       final fourthExam = Exam('1238',fourthExamBegin, fourthExamEnd, secondExamSubject,
-          rooms, 'ER');
+          rooms, 'ER', 'feup');
       final examList = [firstExam, secondExam, thirdExam, fourthExam];
       final widget = makeTestableWidget(child: ExamsList(exams: examList));
 

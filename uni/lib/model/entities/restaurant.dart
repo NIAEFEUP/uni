@@ -15,8 +15,8 @@ class Restaurant {
   Restaurant(this.id, this.name, this.reference, {required List<Meal> meals})
       : meals = groupBy(meals, (meal) => meal.dayOfWeek);
 
-  static Restaurant fromMap(Map<String, dynamic> map) {
-    return Restaurant(map['id'], map['name'], map['ref'], meals: map['meals']);
+  static Restaurant fromMap(Map<String, dynamic> map, List<Meal> meals) {
+    return Restaurant(map['id'], map['name'], map['ref'], meals: meals);
   }
 
   List<Meal> getMealsOfDay(DayOfWeek dayOfWeek) {

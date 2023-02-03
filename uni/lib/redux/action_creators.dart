@@ -245,10 +245,18 @@ ThunkAction<AppState> updateStateBasedOnLocalRefreshTimes() {
   return (Store<AppState> store) async {
     final AppRefreshTimesDatabase refreshTimesDb = AppRefreshTimesDatabase();
     final Map<String, String> refreshTimes =
-        await refreshTimesDb.refreshTimes();
+    await refreshTimesDb.refreshTimes();
 
     store.dispatch(SetPrintRefreshTimeAction(refreshTimes['print']));
     store.dispatch(SetFeesRefreshTimeAction(refreshTimes['fees']));
+  };
+}
+
+ThunkAction<AppState> updateRestaurantsBasedOnLocalData() {
+  return (Store<AppState> store) async {
+    final RestaurantDatabase restaurantDb = RestaurantDatabase();
+    final List<Restaurant> restaurants = await restaurantDb.getRestaurants();
+    store.dispatch(SetRestaurantsAction(restaurants));
   };
 }
 
