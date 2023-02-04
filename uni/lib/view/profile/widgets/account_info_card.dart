@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:uni/model/app_state.dart';
+import 'package:uni/model/entities/reference.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
+import 'package:uni/view/profile/widgets/reference_card.dart';
 
 /// Manages the 'Current account' section inside the user's page (accessible
 /// through the top-right widget with the user picture)
@@ -52,6 +54,29 @@ class AccountInfoCard extends GenericCard {
               )
             ]),
           ]),
+      Container(
+        padding: const EdgeInsets.all(10),
+        child: Row(
+          children: <Widget>[
+            Text('Referências',
+                style: Theme.of(context).textTheme.headline6
+                    ?.apply(color: Theme.of(context).colorScheme.secondary)),
+          ]
+        )
+      ),
+      StoreConnector<AppState, List<Reference>>(
+          converter: (store) => store.state.content['references'],
+          builder: (context, references) {
+            return Column(
+              children: (references.map((reference) {
+                return ReferenceCard(reference: reference);
+              })).toList()
+            );
+          }
+      ),
+      const SizedBox(
+        height: 10
+      ),
       StoreConnector<AppState, String?>(
           converter: (store) => store.state.content['feesRefreshTime'],
           builder: (context, feesRefreshTime) =>
