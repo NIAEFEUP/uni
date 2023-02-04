@@ -5,6 +5,7 @@ enum DrawerItem {
   navCourseUnits('Cadeiras'),
   navStops('Autocarros'),
   navLocations('Locais', faculties: {'feup'}),
+  navCantine('Restaurantes'),
   navCalendar('Calendário'),
   navUsefulInfo('Úteis', faculties: {'feup'}),
   navAbout('Sobre'),
@@ -19,7 +20,7 @@ enum DrawerItem {
   bool isVisible(List<String> userFaculties) {
     if (faculties == null) {
       return true;
-    } 
+    }
 
     return userFaculties.any((element) => faculties!.contains(element));
   }

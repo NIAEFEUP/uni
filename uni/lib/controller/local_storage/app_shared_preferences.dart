@@ -32,8 +32,7 @@ class AppSharedPreferences {
   ];
   static const String hiddenExams = 'hidden_exams';
   static const String filteredExamsTypes = 'filtered_exam_types';
-  static final List<String> defaultFilteredExamTypes =
-      Exam.types.keys.toList();
+  static final List<String> defaultFilteredExamTypes = Exam.displayedTypes;
 
   /// Saves the user's student number, password and faculties.
   static Future savePersistentUserInfo(user, pass, faculties) async {

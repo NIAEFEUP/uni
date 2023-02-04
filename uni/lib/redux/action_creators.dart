@@ -249,7 +249,7 @@ ThunkAction<AppState> updateStateBasedOnLocalRefreshTimes() {
   return (Store<AppState> store) async {
     final AppRefreshTimesDatabase refreshTimesDb = AppRefreshTimesDatabase();
     final Map<String, String> refreshTimes =
-        await refreshTimesDb.refreshTimes();
+    await refreshTimesDb.refreshTimes();
 
     store.dispatch(SetPrintRefreshTimeAction(refreshTimes['print']));
     store.dispatch(SetFeesRefreshTimeAction(refreshTimes['fees']));
@@ -262,6 +262,14 @@ ThunkAction<AppState> updateStateBasedOnLocalUserReferences() {
     final List<Reference> references = await referencesDb.references();
 
     store.dispatch(SetReferencesAction(references));
+  };
+}
+
+ThunkAction<AppState> updateRestaurantsBasedOnLocalData() {
+  return (Store<AppState> store) async {
+    final RestaurantDatabase restaurantDb = RestaurantDatabase();
+    final List<Restaurant> restaurants = await restaurantDb.getRestaurants();
+    store.dispatch(SetRestaurantsAction(restaurants));
   };
 }
 
@@ -325,14 +333,14 @@ ThunkAction<AppState> getRestaurantsFromFetcher(Completer<void> action) {
   return (Store<AppState> store) async {
     try {
       store.dispatch(SetRestaurantsStatusAction(RequestStatus.busy));
-
       final List<Restaurant> restaurants = await RestaurantFetcherHtml()
           .getRestaurants(store.state.content['session']);
       // Updates local database according to information fetched -- Restaurants
       final RestaurantDatabase db = RestaurantDatabase();
       db.saveRestaurants(restaurants);
-      store.dispatch(SetRestaurantsAction(restaurants));
+
       store.dispatch(SetRestaurantsStatusAction(RequestStatus.successful));
+      store.dispatch(SetRestaurantsAction(restaurants));
     } catch (e) {
       Logger().e('Failed to get Restaurants: ${e.toString()}');
       store.dispatch(SetRestaurantsStatusAction(RequestStatus.failed));
