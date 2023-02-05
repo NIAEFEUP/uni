@@ -105,6 +105,7 @@ void loadLocalUserInfoToState(store) async {
     store.dispatch(updateStateBasedOnLocalRefreshTimes());
     store.dispatch(updateStateBasedOnLocalTime());
     store.dispatch(updateStateBasedOnLocalCalendar());
+    store.dispatch(updateRestaurantsBasedOnLocalData());
     store.dispatch(updateStateBasedOnLocalCourseUnits());
     store.dispatch(SaveProfileStatusAction(RequestStatus.successful));
     store.dispatch(SetPrintBalanceStatusAction(RequestStatus.successful));
