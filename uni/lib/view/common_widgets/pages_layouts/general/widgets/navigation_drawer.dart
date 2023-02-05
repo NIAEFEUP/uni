@@ -6,19 +6,19 @@ import 'package:uni/view/theme_notifier.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/app_state.dart';
 
-class NavigationDrawer extends StatefulWidget {
+class AppNavigationDrawer extends StatefulWidget {
   final BuildContext parentContext;
 
-  const NavigationDrawer({super.key, required this.parentContext});
+  const AppNavigationDrawer({super.key, required this.parentContext});
 
   @override
   State<StatefulWidget> createState() {
-    return NavigationDrawerState();
+    return AppNavigationDrawerState();
   }
 }
 
-class NavigationDrawerState extends State<NavigationDrawer> {
-  NavigationDrawerState();
+class AppNavigationDrawerState extends State<AppNavigationDrawer> {
+  AppNavigationDrawerState();
   Map<DrawerItem, Function(String)> drawerItems = {};
 
   @override
