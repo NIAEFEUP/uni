@@ -420,7 +420,7 @@ ThunkAction<AppState> getUserPrintBalance(Completer<void> action) {
 ThunkAction<AppState> getUserReferences(Completer<void> action) {
   return (Store<AppState> store) async {
     final Tuple2<String, String> userPersistentInfo =
-    await AppSharedPreferences.getPersistentUserInfo();
+        await AppSharedPreferences.getPersistentUserInfo();
     if (userPersistentInfo.item1 == '' || userPersistentInfo.item2 == '') {
       return;
     }
