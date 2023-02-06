@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:html/dom.dart';
 import 'package:html/parser.dart' show parse;
 import 'package:http/http.dart' as http;
+import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/exam.dart';
 
 /// Parses information about the user's exams.
@@ -18,7 +19,7 @@ class ParserExams {
   }
 
   /// Extracts a list of exams from an HTTP [response].
-  Future<Set<Exam>> parseExams(http.Response response) async {
+  Future<Set<Exam>> parseExams(http.Response response, Course course) async {
     final document = parse(response.body);
 
     final Set<Exam> examsList = {};
@@ -26,6 +27,7 @@ class ParserExams {
     final List<String> examTypes = [];
     List<String> rooms = [];
     String? subject, schedule;
+    String id = '0';
     int days = 0;
     int tableNum = 0;
     document.querySelectorAll('h3').forEach((Element examType) {
@@ -44,6 +46,8 @@ class ParserExams {
             exams.querySelectorAll('td.exame').forEach((Element examsDay) {
               if (examsDay.querySelector('a') != null) {
                 subject = examsDay.querySelector('a')!.text;
+                id = Uri.parse(examsDay.querySelector('a')!.attributes['href']!).queryParameters['p_exa_id']!;
+
               }
               if (examsDay.querySelector('span.exame-sala') != null) {
                 rooms =
@@ -57,7 +61,8 @@ class ParserExams {
               final DateTime end =
                   DateTime.parse('${dates[days]} ${splittedSchedule[1]}');
               final Exam exam =
-                  Exam(begin, end, subject ?? '', rooms, examTypes[tableNum]);
+                  Exam(id,begin, end, subject ?? '', rooms, examTypes[tableNum],course.faculty!);
+
               examsList.add(exam);
             });
           }
@@ -68,4 +73,5 @@ class ParserExams {
     });
     return examsList;
   }
+
 }

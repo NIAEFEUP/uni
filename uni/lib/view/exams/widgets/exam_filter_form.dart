@@ -35,7 +35,7 @@ class ExamFilterFormState extends State<ExamFilterForm> {
             })
       ],
       content: SizedBox(
-          height: 300.0,
+          height: 230.0,
           width: 200.0,
           child: getExamCheckboxes(widget.filteredExams, context)),
     );
