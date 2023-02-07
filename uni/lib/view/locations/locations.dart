@@ -58,25 +58,19 @@ class LocationsPageState extends GeneralPageViewState
   @override
   Widget getBody(BuildContext context) {
     return StoreConnector<AppState,
-        Tuple2<List<LocationGroup>?, RequestStatus?>>(
-      converter: (store) => Tuple2(store.state.content['locationGroups'],
-          store.state.content['locationGroupsStatus']),
+        Tuple2<List<LocationGroup>, RequestStatus?>>(
+      converter: (store) {
+        final locations = store.state.content['locationGroups'];
+        final Map<String, bool> filteredLocations =
+            store.state.content['filteredLocations'] ?? [];
+
+        final filtered =
+            LocationFilter.getFilteredLocations(filteredLocations, locations)!;
+        return Tuple2(filtered, store.state.content['locationGroupsStatus']);
+      },
       builder: (context, data) {
         return ListView(
           children: <Widget>[
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-              child: DropdownButton<LocationType>(
-                hint: const Text('Filter locations'),
-                items: LocationType.values
-                    .map((e) => DropdownMenuItem<LocationType>(
-                        value: e, child: Text(e.name)))
-                    .toList(),
-                onChanged: (value) {
-                  setState(() {});
-                },
-              ),
-            ),
             IconButton(
               icon: const Icon(Icons.filter_alt),
               onPressed: () {
@@ -92,11 +86,11 @@ class LocationsPageState extends GeneralPageViewState
 }
 
 class LocationsPageView extends StatelessWidget {
-  final List<LocationGroup>? locations;
+  final List<LocationGroup> locations;
   final RequestStatus? status;
 
   const LocationsPageView(
-      {super.key, this.locations, this.status = RequestStatus.none});
+      {super.key, required this.locations, this.status = RequestStatus.none});
 
   @override
   Widget build(BuildContext context) {
@@ -125,8 +119,7 @@ class LocationsPageView extends StatelessWidget {
       return null;
     }
 
-    return FacultyMaps.getFeupMap(
-        LocationFilter.getFilteredLocations(context, locations)!);
+    return FacultyMaps.getFeupMap(locations);
   }
 
   String getLocation() {
@@ -134,8 +127,7 @@ class LocationsPageView extends StatelessWidget {
   }
 
   List<Marker> getMarkers(BuildContext context) {
-    return LocationFilter.getFilteredLocations(context, locations)!
-        .map((location) {
+    return locations.map((location) {
       return LocationMarker(location.latlng, location);
     }).toList();
   }

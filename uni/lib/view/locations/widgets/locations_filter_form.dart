@@ -50,8 +50,7 @@ class LocationsFilterFormState extends State<LocationsFilterForm> {
     return ListView(
         children: List.generate(filteredLocations.length, (i) {
       final String key = filteredLocations.keys.elementAt(i);
-      print(key);
-      print("ooeoeoeoe");
+
       // if (!Exam.types.containsKey(key)) return const Text("");
       return CheckboxListTile(
           contentPadding: const EdgeInsets.all(0),
@@ -65,14 +64,8 @@ class LocationsFilterFormState extends State<LocationsFilterForm> {
           value: filteredLocations[key],
           onChanged: (value) {
             setState(() {
-              print(key);
-              final locationType = LocationType.values
-                  .firstWhere((element) => element.name == key);
-              // if (value!) {
-              //   LocationFilter.addFilter(locationType);
-              // } else {
-              //   LocationFilter.removeFilter(locationType);
-              // }
+              print(value);
+
               filteredLocations[key] = value!;
             });
           });

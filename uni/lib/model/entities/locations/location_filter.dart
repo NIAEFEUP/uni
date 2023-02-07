@@ -1,6 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:redux/redux.dart';
 import 'package:uni/model/entities/location.dart';
 import 'package:uni/model/entities/locations/printer.dart';
 import 'package:uni/model/entities/locations/restaurant_location.dart';
@@ -26,25 +23,52 @@ import 'coffee_machine.dart';
 
 class LocationFilter {
   static List<LocationGroup>? getFilteredLocations(
-      BuildContext context, final List<LocationGroup>? filteredData1) {
+      Map<String, bool> filteredLocations,
+      final List<LocationGroup>? filteredData1) {
     final filteredData = filteredData1!.toList();
-    final store = Provider.of<Store>(context);
-    final List<Object> selectedLocation =
-        store.state.content['filteredLocations'];
-    print(selectedLocation);
-    print(filteredData1);
+
+    final List<dynamic> selectedLocation = filteredLocations.entries
+        .where((entry) => entry.value)
+        .map((entry) => stringToLocationClass(entry.key))
+        .toList();
+
     for (var locationGroup in filteredData) {
       locationGroup.floors.forEach((key, value) {
         value.removeWhere((element) =>
             !selectedLocation.contains(element.runtimeType) &&
-            selectedLocation.isEmpty);
+            selectedLocation.isNotEmpty);
       });
       locationGroup.floors.removeWhere((key, value) => value.isEmpty);
     }
     filteredData.removeWhere((element) => element.floors.isEmpty);
 
-    print(filteredData);
-
     return filteredData;
+  }
+
+  static stringToLocationClass(String loc) {
+    switch (loc) {
+      case 'COFFEE_MACHINE':
+        return CoffeeMachine;
+      case 'VENDING_MACHINE':
+        return VendingMachine;
+      case 'ROOM':
+        return RoomLocation;
+      case 'SPECIAL_ROOM':
+        return SpecialRoomLocation;
+      case 'ROOMS':
+        return RoomGroupLocation;
+      case 'ATM':
+        return Atm;
+      case 'PRINTER':
+        return Printer;
+      case 'RESTAURANT':
+        return RestaurantLocation;
+      case 'STORE':
+        return StoreLocation;
+      case 'WC':
+        return WcLocation;
+      default:
+        return UnknownLocation;
+    }
   }
 }
