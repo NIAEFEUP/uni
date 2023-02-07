@@ -13,7 +13,6 @@ import 'package:uni/view/locations/widgets/marker.dart';
 import 'package:uni/view/locations/widgets/map.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 
-import '../../model/entities/location.dart';
 import '../../model/entities/locations/location_filter.dart';
 
 class LocationsPage extends StatefulWidget {
@@ -34,6 +33,8 @@ class LocationsPageState extends GeneralPageViewState
         return StoreConnector<AppState, Map<String, bool>?>(
             converter: (store) => store.state.content['filteredLocations'],
             builder: (context, filteredLocations) {
+              print("AKEKEKAK");
+              print(filteredLocations); // está {}
               return getAlertDialog(filteredLocations ?? {}, context);
             });
       },

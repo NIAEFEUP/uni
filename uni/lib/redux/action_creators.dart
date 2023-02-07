@@ -543,11 +543,11 @@ ThunkAction<AppState> setFilteredExams(
 }
 
 ThunkAction<AppState> setFilteredLocations(
-    Map<String, bool> newFilteredExams, Completer<void> action) {
+    Map<String, bool> newFilteredLocations, Completer<void> action) {
   return (Store<AppState> store) {
     Map<String, bool> filteredLocations =
         store.state.content['filteredLocations'];
-    filteredLocations = Map<String, bool>.from(newFilteredExams);
+    filteredLocations = Map<String, bool>.from(newFilteredLocations);
     store.dispatch(SetExamFilter(filteredLocations));
     AppSharedPreferences.saveFilteredLocations(filteredLocations);
 

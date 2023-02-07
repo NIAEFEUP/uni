@@ -19,7 +19,7 @@ class AppState {
       'hiddenExams': <String>[],
       'restaurants': <Restaurant>[],
       'filteredExam': <String, bool>{},
-      'filteredLocations': <String, bool>{'ROOM': true},
+      'filteredLocations': <String, bool>{},
       'scheduleStatus': RequestStatus.none,
       'loginStatus': RequestStatus.none,
       'examsStatus': RequestStatus.none,

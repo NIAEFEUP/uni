@@ -31,9 +31,11 @@ class AppSharedPreferences {
   ];
   static const String hiddenExams = 'hidden_exams';
   static const String filteredExamsTypes = 'filtered_exam_types';
-  static const String filteredLocationsTypes = 'filtered_exam_types';
+  static const String filteredLocationsTypes = 'filtered_location_types';
 
+  // TODO
   static final List<String> defaultFilteredExamTypes = Exam.types.keys.toList();
+  static final List<String> defaultFilteredLocationTypes = ['ROOM'];
 
   /// Saves the user's student number, password and faculties.
   static Future savePersistentUserInfo(user, pass, faculties) async {
@@ -197,6 +199,22 @@ class AppSharedPreferences {
       return Map.fromIterable(defaultFilteredExamTypes, value: (type) => true);
     }
     return Map.fromIterable(defaultFilteredExamTypes,
+        value: (type) => storedFilteredExamTypes.contains(type));
+  }
+
+  /// Returns the user's locations filter settings.
+  static Future<Map<String, bool>> getFilteredLocations() async {
+    final prefs = await SharedPreferences.getInstance();
+    final List<String>? storedFilteredExamTypes =
+        prefs.getStringList(filteredLocationsTypes);
+
+    if (storedFilteredExamTypes == null) {
+      print(Map.fromIterable(defaultFilteredLocationTypes,
+          value: (type) => true));
+      return Map.fromIterable(defaultFilteredLocationTypes,
+          value: (type) => true);
+    }
+    return Map.fromIterable(defaultFilteredLocationTypes,
         value: (type) => storedFilteredExamTypes.contains(type));
   }
 
