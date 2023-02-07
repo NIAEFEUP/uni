@@ -249,7 +249,7 @@ ThunkAction<AppState> updateStateBasedOnLocalRefreshTimes() {
   return (Store<AppState> store) async {
     final AppRefreshTimesDatabase refreshTimesDb = AppRefreshTimesDatabase();
     final Map<String, String> refreshTimes =
-        await refreshTimesDb.refreshTimes();
+    await refreshTimesDb.refreshTimes();
 
     store.dispatch(SetPrintRefreshTimeAction(refreshTimes['print']));
     store.dispatch(SetFeesRefreshTimeAction(refreshTimes['fees']));
@@ -262,6 +262,14 @@ ThunkAction<AppState> updateStateBasedOnLocalUserReferences() {
     final List<Reference> references = await referencesDb.references();
 
     store.dispatch(SetReferencesAction(references));
+  };
+}
+
+ThunkAction<AppState> updateRestaurantsBasedOnLocalData() {
+  return (Store<AppState> store) async {
+    final RestaurantDatabase restaurantDb = RestaurantDatabase();
+    final List<Restaurant> restaurants = await restaurantDb.getRestaurants();
+    store.dispatch(SetRestaurantsAction(restaurants));
   };
 }
 
@@ -325,14 +333,14 @@ ThunkAction<AppState> getRestaurantsFromFetcher(Completer<void> action) {
   return (Store<AppState> store) async {
     try {
       store.dispatch(SetRestaurantsStatusAction(RequestStatus.busy));
-
       final List<Restaurant> restaurants = await RestaurantFetcherHtml()
           .getRestaurants(store.state.content['session']);
       // Updates local database according to information fetched -- Restaurants
       final RestaurantDatabase db = RestaurantDatabase();
       db.saveRestaurants(restaurants);
-      store.dispatch(SetRestaurantsAction(restaurants));
+
       store.dispatch(SetRestaurantsStatusAction(RequestStatus.successful));
+      store.dispatch(SetRestaurantsAction(restaurants));
     } catch (e) {
       Logger().e('Failed to get Restaurants: ${e.toString()}');
       store.dispatch(SetRestaurantsStatusAction(RequestStatus.failed));
@@ -346,13 +354,13 @@ ThunkAction<AppState> getCalendarFromFetcher(Completer<void> action) {
     try {
       store.dispatch(SetCalendarStatusAction(RequestStatus.busy));
 
-      final List<CalendarEvent> calendar = 
-                      await CalendarFetcherHtml().getCalendar(store);
+      final List<CalendarEvent> calendar =
+          await CalendarFetcherHtml().getCalendar(store);
       final CalendarDatabase db = CalendarDatabase();
       db.saveCalendar(calendar);
       store.dispatch(SetCalendarAction(calendar));
       store.dispatch(SetCalendarStatusAction(RequestStatus.successful));
-    } catch(e) {
+    } catch (e) {
       Logger().e('Failed to get the Calendar: ${e.toString()}');
       store.dispatch(SetCalendarStatusAction(RequestStatus.failed));
     }
@@ -412,7 +420,7 @@ ThunkAction<AppState> getUserPrintBalance(Completer<void> action) {
 ThunkAction<AppState> getUserReferences(Completer<void> action) {
   return (Store<AppState> store) async {
     final Tuple2<String, String> userPersistentInfo =
-    await AppSharedPreferences.getPersistentUserInfo();
+        await AppSharedPreferences.getPersistentUserInfo();
     if (userPersistentInfo.item1 == '' || userPersistentInfo.item2 == '') {
       return;
     }
@@ -583,6 +591,18 @@ ThunkAction<AppState> setFilteredExams(
     store.dispatch(SetExamFilter(filteredExams));
     AppSharedPreferences.saveFilteredExams(filteredExams);
 
+    action.complete();
+  };
+}
+
+ThunkAction<AppState> toggleHiddenExam(
+    String newExamId, Completer<void> action) {
+  return (Store<AppState> store) async {
+    final List<String> hiddenExams =
+        await AppSharedPreferences.getHiddenExams();
+    hiddenExams.contains(newExamId) ? hiddenExams.remove(newExamId) : hiddenExams.add(newExamId);
+    store.dispatch(SetExamHidden(hiddenExams));
+    await AppSharedPreferences.saveHiddenExams(hiddenExams);
     action.complete();
   };
 }

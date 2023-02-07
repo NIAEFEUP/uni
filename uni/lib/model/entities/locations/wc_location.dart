@@ -17,7 +17,7 @@ class WcLocation implements Location {
 
   @override
   String description() {
-    return 'Atm';
+    return 'Casa de banho';
   }
 
   @override

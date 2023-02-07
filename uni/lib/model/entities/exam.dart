@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 
@@ -44,9 +43,12 @@ enum Months {
 class Exam {
   late final DateTime begin;
   late final DateTime end;
+  late final String id;
   late final String subject;
   late final List<String> rooms;
   late final String type;
+  late final String faculty;
+  bool isHidden = false;
 
   static Map<String, String> types = {
     'Mini-testes': 'MT',
@@ -57,25 +59,25 @@ class Exam {
     'Exames ao abrigo de estatutos especiais': 'EAE'
   };
 
-  Exam(this.begin, this.end, this.subject, this.rooms, this.type);
+  Exam(this.id, this.begin, this.end, this.subject, this.rooms, this.type, this.faculty);
+  static List<String> displayedTypes = types.keys.toList().sublist(0, 4);
+
 
   Exam.secConstructor(
-      this.subject, this.begin, this.end, String rooms, this.type) {
+      this.id, this.subject, this.begin, this.end, String rooms, this.type,this.faculty) {
     this.rooms = rooms.split(',');
   }
 
   /// Converts this exam to a map.
   Map<String, String> toMap() {
     return {
+      'id': id,
       'subject': subject,
-      'begin': beginTime,
-      'end': endTime,
+      'begin': DateFormat("yyyy-MM-dd HH:mm:ss").format(begin),
+      'end': DateFormat("yyyy-MM-dd HH:mm:ss").format(end),
       'rooms': rooms.join(','),
-      'day': begin.day.toString(),
       'examType': type,
-      'weekDay': weekDay,
-      'month': month,
-      'year': begin.year.toString()
+      'faculty':faculty
     };
   }
 
@@ -92,12 +94,12 @@ class Exam {
 
   String formatTime(DateTime time) => DateFormat('HH:mm').format(time);
 
-  /// the type 'MT' ('Mini-testes') or 'EN' ('Normal').
-  bool isHighlighted() => type == 'MT' || type == 'EN';
+  /// Exam card background turns grey if exam is hidden
+  bool isHighlighted() => isHidden;
 
   @override
   String toString() {
-    return '''$subject - ${begin.year.toString()} - $month - ${begin.day} -  $beginTime-$endTime - $type - $rooms - $weekDay''';
+    return '''$id - $subject - ${begin.year.toString()} - $month - ${begin.day} -  $beginTime-$endTime - $type - $rooms - $weekDay''';
   }
 
   /// Prints the data in this exam to the [Logger] with an INFO level.
@@ -107,22 +109,10 @@ class Exam {
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is Exam &&
-          runtimeType == other.runtimeType &&
-          subject == other.subject &&
-          listEquals(rooms, other.rooms) &&
-          begin == other.begin &&
-          end == other.end &&
-          type == other.type;
+      identical(this, other) || other is Exam && id == other.id;
 
   @override
-  int get hashCode =>
-      begin.hashCode ^
-      end.hashCode ^
-      subject.hashCode ^
-      rooms.hashCode ^
-      type.hashCode;
+  int get hashCode => id.hashCode;
 
   static getExamTypeLong(String abr) {
     final Map<String, String> reversed = types.map((k, v) => MapEntry(v, k));
