@@ -32,7 +32,7 @@ class LocationsFilterFormState extends State<LocationsFilterForm> {
             child: const Text('Confirmar'),
             onPressed: () {
               StoreProvider.of<AppState>(context).dispatch(
-                  setFilteredExams(widget.filteredLocations, Completer()));
+                  setFilteredLocations(widget.filteredLocations, Completer()));
 
               Navigator.pop(context);
             })
@@ -50,6 +50,8 @@ class LocationsFilterFormState extends State<LocationsFilterForm> {
     return ListView(
         children: List.generate(filteredLocations.length, (i) {
       final String key = filteredLocations.keys.elementAt(i);
+      print(key);
+      print("ooeoeoeoe");
       // if (!Exam.types.containsKey(key)) return const Text("");
       return CheckboxListTile(
           contentPadding: const EdgeInsets.all(0),
@@ -66,12 +68,12 @@ class LocationsFilterFormState extends State<LocationsFilterForm> {
               print(key);
               final locationType = LocationType.values
                   .firstWhere((element) => element.name == key);
-              if (value!) {
-                LocationFilter.addFilter(locationType);
-              } else {
-                LocationFilter.removeFilter(locationType);
-              }
-              filteredLocations[key] = value;
+              // if (value!) {
+              //   LocationFilter.addFilter(locationType);
+              // } else {
+              //   LocationFilter.removeFilter(locationType);
+              // }
+              filteredLocations[key] = value!;
             });
           });
     }));

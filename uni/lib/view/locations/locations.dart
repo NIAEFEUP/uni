@@ -73,9 +73,7 @@ class LocationsPageState extends GeneralPageViewState
                         value: e, child: Text(e.name)))
                     .toList(),
                 onChanged: (value) {
-                  setState(() {
-                    LocationFilter.addFilter(value);
-                  });
+                  setState(() {});
                 },
               ),
             ),
@@ -126,16 +124,18 @@ class LocationsPageView extends StatelessWidget {
     if (locations == null || status != RequestStatus.successful) {
       return null;
     }
+
     return FacultyMaps.getFeupMap(
-        LocationFilter.getFilteredLocations(locations)!);
+        LocationFilter.getFilteredLocations(context, locations)!);
   }
 
   String getLocation() {
     return 'FEUP';
   }
 
-  List<Marker> getMarkers() {
-    return LocationFilter.getFilteredLocations(locations)!.map((location) {
+  List<Marker> getMarkers(BuildContext context) {
+    return LocationFilter.getFilteredLocations(context, locations)!
+        .map((location) {
       return LocationMarker(location.latlng, location);
     }).toList();
   }

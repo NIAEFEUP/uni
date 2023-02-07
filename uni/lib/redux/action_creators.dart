@@ -542,12 +542,27 @@ ThunkAction<AppState> setFilteredExams(
   };
 }
 
+ThunkAction<AppState> setFilteredLocations(
+    Map<String, bool> newFilteredExams, Completer<void> action) {
+  return (Store<AppState> store) {
+    Map<String, bool> filteredLocations =
+        store.state.content['filteredLocations'];
+    filteredLocations = Map<String, bool>.from(newFilteredExams);
+    store.dispatch(SetExamFilter(filteredLocations));
+    AppSharedPreferences.saveFilteredLocations(filteredLocations);
+
+    action.complete();
+  };
+}
+
 ThunkAction<AppState> toggleHiddenExam(
     String newExamId, Completer<void> action) {
   return (Store<AppState> store) async {
     final List<String> hiddenExams =
         await AppSharedPreferences.getHiddenExams();
-    hiddenExams.contains(newExamId) ? hiddenExams.remove(newExamId) : hiddenExams.add(newExamId);
+    hiddenExams.contains(newExamId)
+        ? hiddenExams.remove(newExamId)
+        : hiddenExams.add(newExamId);
     store.dispatch(SetExamHidden(hiddenExams));
     await AppSharedPreferences.saveHiddenExams(hiddenExams);
     action.complete();

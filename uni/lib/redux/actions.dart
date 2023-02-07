@@ -175,6 +175,11 @@ class SetLocationsAction {
   SetLocationsAction(this.locationGroups);
 }
 
+class SetLocationFilter {
+  Map<String, bool> filteredLocations;
+  SetLocationFilter(this.filteredLocations);
+}
+
 class SetLocationsStatusAction {
   RequestStatus status;
   SetLocationsStatusAction(this.status);

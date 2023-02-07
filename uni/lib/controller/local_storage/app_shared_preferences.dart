@@ -8,7 +8,6 @@ import 'package:tuple/tuple.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/utils/favorite_widget_type.dart';
 
-
 /// Manages the app's Shared Preferences.
 ///
 /// This database stores the user's student number, password and favorite
@@ -32,8 +31,9 @@ class AppSharedPreferences {
   ];
   static const String hiddenExams = 'hidden_exams';
   static const String filteredExamsTypes = 'filtered_exam_types';
-  static final List<String> defaultFilteredExamTypes =
-      Exam.types.keys.toList();
+  static const String filteredLocationsTypes = 'filtered_exam_types';
+
+  static final List<String> defaultFilteredExamTypes = Exam.types.keys.toList();
 
   /// Saves the user's student number, password and faculties.
   static Future savePersistentUserInfo(user, pass, faculties) async {
@@ -154,18 +154,18 @@ class AppSharedPreferences {
         .toList();
   }
 
-
   static saveHiddenExams(List<String> newHiddenExams) async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.setStringList(
-        hiddenExams, newHiddenExams);
+    prefs.setStringList(hiddenExams, newHiddenExams);
   }
 
   static Future<List<String>> getHiddenExams() async {
     final prefs = await SharedPreferences.getInstance();
-    final List<String> storedHiddenExam = prefs.getStringList(hiddenExams) ?? [];
+    final List<String> storedHiddenExam =
+        prefs.getStringList(hiddenExams) ?? [];
     return storedHiddenExam;
   }
+
   /// Replaces the user's exam filter settings with [newFilteredExamTypes].
   static saveFilteredExams(Map<String, bool> newFilteredExamTypes) async {
     final prefs = await SharedPreferences.getInstance();
@@ -174,6 +174,17 @@ class AppSharedPreferences {
         .where((type) => newFilteredExamTypes[type] == true)
         .toList();
     prefs.setStringList(filteredExamsTypes, newTypes);
+  }
+
+  // TODO: this is a bit repetitive
+  static saveFilteredLocations(
+      Map<String, bool> newFilteredLocationsTypes) async {
+    final prefs = await SharedPreferences.getInstance();
+
+    final List<String> newTypes = newFilteredLocationsTypes.keys
+        .where((type) => newFilteredLocationsTypes[type] == true)
+        .toList();
+    prefs.setStringList(filteredLocationsTypes, newTypes);
   }
 
   /// Returns the user's exam filter settings.
