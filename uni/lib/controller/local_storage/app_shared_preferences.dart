@@ -35,7 +35,7 @@ class AppSharedPreferences {
 
   // TODO
   static final List<String> defaultFilteredExamTypes = Exam.types.keys.toList();
-  static final List<String> defaultFilteredLocationTypes = ['ROOM'];
+  static final List<String> defaultFilteredLocationTypes = ['ROOM', 'ROOMS'];
 
   /// Saves the user's student number, password and faculties.
   static Future savePersistentUserInfo(user, pass, faculties) async {
@@ -186,6 +186,7 @@ class AppSharedPreferences {
     final List<String> newTypes = newFilteredLocationsTypes.keys
         .where((type) => newFilteredLocationsTypes[type] == true)
         .toList();
+
     prefs.setStringList(filteredLocationsTypes, newTypes);
   }
 
@@ -205,17 +206,19 @@ class AppSharedPreferences {
   /// Returns the user's locations filter settings.
   static Future<Map<String, bool>> getFilteredLocations() async {
     final prefs = await SharedPreferences.getInstance();
-    final List<String>? storedFilteredExamTypes =
+    final List<String>? storedFilteredLocationTypes =
         prefs.getStringList(filteredLocationsTypes);
 
-    if (storedFilteredExamTypes == null) {
+    if (storedFilteredLocationTypes == null) {
+      print("HERE1");
       print(Map.fromIterable(defaultFilteredLocationTypes,
           value: (type) => true));
+
       return Map.fromIterable(defaultFilteredLocationTypes,
           value: (type) => true);
     }
     return Map.fromIterable(defaultFilteredLocationTypes,
-        value: (type) => storedFilteredExamTypes.contains(type));
+        value: (type) => storedFilteredLocationTypes.contains(type));
   }
 
   /// Encrypts [plainText] and returns its base64 representation.

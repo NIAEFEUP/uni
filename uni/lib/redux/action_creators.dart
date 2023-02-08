@@ -548,7 +548,7 @@ ThunkAction<AppState> setFilteredLocations(
     Map<String, bool> filteredLocations =
         store.state.content['filteredLocations'];
     filteredLocations = Map<String, bool>.from(newFilteredLocations);
-    store.dispatch(SetExamFilter(filteredLocations));
+    store.dispatch(SetLocationFilter(filteredLocations));
     AppSharedPreferences.saveFilteredLocations(filteredLocations);
 
     action.complete();

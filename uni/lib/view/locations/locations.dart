@@ -1,5 +1,5 @@
 //import 'dart:js_util';
-
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -63,7 +63,7 @@ class LocationsPageState extends GeneralPageViewState
       converter: (store) {
         final locations = store.state.content['locationGroups'];
         final Map<String, bool> filteredLocations =
-            store.state.content['filteredLocations'] ?? [];
+            store.state.content['filteredLocations'] ?? <String, bool>{};
 
         final filtered =
             LocationFilter.getFilteredLocations(filteredLocations, locations)!;

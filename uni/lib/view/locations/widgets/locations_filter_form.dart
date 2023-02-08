@@ -31,6 +31,8 @@ class LocationsFilterFormState extends State<LocationsFilterForm> {
         ElevatedButton(
             child: const Text('Confirmar'),
             onPressed: () {
+              print("ESTOU AQUI");
+              print(widget.filteredLocations);
               StoreProvider.of<AppState>(context).dispatch(
                   setFilteredLocations(widget.filteredLocations, Completer()));
 

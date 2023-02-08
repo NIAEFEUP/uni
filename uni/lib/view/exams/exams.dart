@@ -30,7 +30,7 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
           exam.isHidden = hiddenExams.contains(exam.id);
         }
         final Map<String, bool> filteredExams =
-            store.state.content['filteredExams'] ?? [];
+            store.state.content['filteredExams'] ?? <String, bool>{};
         return exams
             .where((exam) =>
                 filteredExams[Exam.getExamTypeLong(exam.type)] ?? true)
