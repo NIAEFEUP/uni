@@ -18,7 +18,7 @@ void main() {
     testWidgets('When given a single room', (WidgetTester tester) async {
       final rooms = ['B315'];
       final Exam exam =
-          Exam('1230', begin, end, subject, rooms, '');
+          Exam('1230', begin, end, subject, rooms, '', 'feup');
       final widget = makeTestableWidget(
           child: ExamRow(
         exam: exam,
@@ -39,7 +39,7 @@ void main() {
     testWidgets('When given multiple rooms', (WidgetTester tester) async {
       final rooms = ['B315', 'B316', 'B317'];
       final Exam exam =
-          Exam('1230',begin, end, subject, rooms, '');
+          Exam('1230',begin, end, subject, rooms, '', 'feup');
       final widget = makeTestableWidget(
           child: ExamRow(
         exam: exam,

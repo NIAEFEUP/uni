@@ -70,7 +70,7 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
   Widget getScaffold(BuildContext context, Widget body) {
     return Scaffold(
       appBar: buildAppBar(context),
-      drawer: NavigationDrawer(parentContext: context),
+      drawer: AppNavigationDrawer(parentContext: context),
       body: refreshState(context, body),
     );
   }

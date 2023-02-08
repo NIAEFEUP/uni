@@ -78,7 +78,7 @@ class ScheduleCard extends GenericCard {
       if (stringTimeNow.compareTo(stringEndTimeLecture) < 0) {
         if (now.weekday - 1 != lectures[i].day &&
             lastDayAdded < lectures[i].day) {
-          rows.add(DateRectangle(date: Lecture.dayName[lectures[i].day % 7]));
+          rows.add(DateRectangle(date: TimeString.getWeekdaysStrings()[lectures[i].day % 7]));
         }
 
         rows.add(createRowFromLecture(context, lectures[i]));
@@ -88,7 +88,7 @@ class ScheduleCard extends GenericCard {
     }
 
     if (rows.isEmpty) {
-      rows.add(DateRectangle(date: Lecture.dayName[lectures[0].day % 7]));
+      rows.add(DateRectangle(date: TimeString.getWeekdaysStrings()[lectures[0].day % 7]));
       rows.add(createRowFromLecture(context, lectures[0]));
     }
     return rows;
