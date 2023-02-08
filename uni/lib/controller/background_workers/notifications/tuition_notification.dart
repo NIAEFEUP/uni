@@ -2,7 +2,7 @@
 
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:tuple/tuple.dart';
-import 'package:uni/controller/backgroundWorkers/notifications.dart';
+import 'package:uni/controller/background_workers/notifications.dart';
 import 'package:uni/controller/fetchers/fees_fetcher.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/controller/parsers/parser_fees.dart';

@@ -1,10 +1,12 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:logger/logger.dart';
 import 'package:tuple/tuple.dart';
-import 'package:uni/controller/backgroundWorkers/notifications/tuition_notification.dart';
+import 'package:uni/controller/background_workers/notifications/tuition_notification.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/controller/local_storage/notification_timeout_storage.dart';
 import 'package:uni/controller/networking/network_router.dart';
@@ -17,7 +19,7 @@ import 'package:workmanager/workmanager.dart';
 /// (due to background worker limitations).
 /// 
 Map<Type, Notification Function()> notificationMap = {
-  TuitionNotification:() => TuitionNotification()
+  TuitionNotification:() => TuitionNotification(),
 };
 
 
@@ -51,6 +53,8 @@ class NotificationManager{
 
   static bool _initialized = false;
 
+  static const Duration _notificationWorkerPeriod = Duration(hours: 1);
+
 
   static Future<void> updateAndTriggerNotifications() async{
     //first we get the .json file that contains the last time that the notification have ran
@@ -58,9 +62,8 @@ class NotificationManager{
     final notificationStorage = await NotificationTimeoutStorage.create();
     final userInfo = await AppSharedPreferences.getPersistentUserInfo();
     final faculties = await AppSharedPreferences.getUserFaculties();
-    
-    final Session session =  await NetworkRouter.login(userInfo.item1, userInfo.item2, faculties, false);
 
+    final Session session =  await NetworkRouter.login(userInfo.item1, userInfo.item2, faculties, false);
 
     for(Notification Function() value in notificationMap.values){
         final Notification notification = value();
@@ -123,14 +126,20 @@ class NotificationManager{
       Workmanager().cancelByUniqueName("pt.up.fe.ni.uni.notificationworker"); //stop task if it's already running
       Workmanager().registerPeriodicTask("pt.up.fe.ni.uni.notificationworker", "pt.up.fe.ni.uni.notificationworker", 
         constraints: Constraints(networkType: NetworkType.connected),
-        frequency: const Duration(hours: 1),
+        frequency: _notificationWorkerPeriod,
       );
 
     } else if (Platform.isIOS || kIsWeb){ 
       //This is to guarentee that the notification will be run at least the app starts.
       //NOTE (luisd): This is not an isolate because we can't register plugins in a isolate, in the current version of flutter
       //  so we just do it after login
+      Logger().d("Running notification worker on main isolate...");
       await updateAndTriggerNotifications();
+      Timer.periodic(_notificationWorkerPeriod
+      , (timer) { 
+        Logger().d("Running notification worker on periodic timer...");
+        updateAndTriggerNotifications();
+      });
     } else{
       throw PlatformException(code: "WorkerManager is only supported in iOS and android...");
     }

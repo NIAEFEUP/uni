@@ -1,5 +1,5 @@
 import 'package:logger/logger.dart';
-import 'package:uni/controller/backgroundWorkers/notifications.dart';
+import 'package:uni/controller/background_workers/notifications.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/redux/actions.dart';
 

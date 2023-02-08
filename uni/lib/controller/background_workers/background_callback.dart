@@ -1,7 +1,7 @@
 
 import 'package:logger/logger.dart';
 import 'package:tuple/tuple.dart';
-import 'package:uni/controller/backgroundWorkers/notifications.dart';
+import 'package:uni/controller/background_workers/notifications.dart';
 import 'package:workmanager/workmanager.dart';
 
 /// This map contains the functions that a certain task type will run. 
