@@ -38,11 +38,9 @@ class LocationsMap extends StatelessWidget {
         onTap: (tapPosition, latlng) => _popupLayerController.hideAllPopups(),
       ),
       children: <Widget>[
-        TileLayerWidget(
-          options: TileLayerOptions(
-            urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-            subdomains: <String>['a', 'b', 'c'],
-          ),
+        TileLayer(
+          urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+          subdomains: const <String>['a', 'b', 'c'],
         ),
         PopupMarkerLayerWidget(
           options: PopupMarkerLayerOptions(
