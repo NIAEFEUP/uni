@@ -4,7 +4,7 @@ import 'package:uni/controller/parsers/parser_exams.dart';
 import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/course_unit.dart';
 import 'package:uni/model/entities/exam.dart';
-import 'package:uni/model/entities/session.dart';
+import 'package:uni/model/entities/session/sigarra_session.dart';
 
 class ExamFetcher implements SessionDependantFetcher {
   List<Course> courses;

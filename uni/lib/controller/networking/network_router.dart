@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 import 'package:synchronized/synchronized.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
-import 'package:uni/model/entities/session.dart';
+import 'package:uni/model/entities/session/sigarra_session.dart';
 
 extension UriString on String {
   /// Converts a [String] to an [Uri].
@@ -45,7 +45,6 @@ class NetworkRouter {
           faculties: faculties,
           studentNumber: '',
           cookies: '',
-          type: '',
           persistentSession: false);
     }
   }
@@ -81,7 +80,6 @@ class NetworkRouter {
     if (response.statusCode == 200 && responseBody['authenticated']) {
       session.authenticated = true;
       session.studentNumber = responseBody['codigo'];
-      session.type = responseBody['tipo'];
       session.cookies = NetworkRouter.extractCookies(response.headers);
       Logger().i('Re-login successful');
       return true;

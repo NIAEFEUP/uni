@@ -6,7 +6,7 @@ import 'package:tuple/tuple.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/controller/local_storage/file_offline_storage.dart';
 import 'package:uni/controller/parsers/parser_exams.dart';
-import 'package:uni/model/entities/session.dart';
+import 'package:uni/model/entities/session/sigarra_session.dart';
 import 'package:uni/model/providers/state_providers.dart';
 
 Future loadReloginInfo(StateProviders stateProviders) async {

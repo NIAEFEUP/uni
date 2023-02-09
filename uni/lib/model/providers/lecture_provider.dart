@@ -10,7 +10,7 @@ import 'package:uni/controller/local_storage/app_lectures_database.dart';
 import 'package:uni/model/request_status.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/entities/profile.dart';
-import 'package:uni/model/entities/session.dart';
+import 'package:uni/model/entities/session/sigarra_session.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
 
 class LectureProvider extends StateProviderNotifier {

@@ -18,7 +18,7 @@ import 'package:uni/model/request_status.dart';
 import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/course_unit.dart';
 import 'package:uni/model/entities/profile.dart';
-import 'package:uni/model/entities/session.dart';
+import 'package:uni/model/entities/session/sigarra_session.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
 
 // ignore: always_use_package_imports

@@ -54,7 +54,12 @@ class LoginPageViewState extends State<LoginPageView> {
       sessionProvider.login(completer, user, pass, faculties, stateProviders,
           _keepSignedIn, usernameController, passwordController);
       completer.future
-          .whenComplete(() => handleLogin(sessionProvider.status, context));
+          .whenComplete(() => {
+            handleLogin(sessionProvider.status, context),
+            if(sessionProvider.status == RequestStatus.successful){
+              stateProviders.printProvider.loginIntoPrintService(user, pass, _keepSignedIn)
+            }
+          });
     }
   }
 

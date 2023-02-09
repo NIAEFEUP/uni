@@ -8,6 +8,7 @@ import 'package:uni/model/providers/favorite_cards_provider.dart';
 import 'package:uni/model/providers/home_page_editing_mode_provider.dart';
 import 'package:uni/model/providers/last_user_info_provider.dart';
 import 'package:uni/model/providers/lecture_provider.dart';
+import 'package:uni/model/providers/print_provider.dart';
 import 'package:uni/model/providers/profile_state_provider.dart';
 import 'package:uni/model/providers/restaurant_provider.dart';
 import 'package:uni/model/providers/session_provider.dart';
@@ -19,6 +20,7 @@ class StateProviders {
   final BusStopProvider busStopProvider;
   final RestaurantProvider restaurantProvider;
   final ProfileStateProvider profileStateProvider;
+  final PrintProvider printProvider;
   final SessionProvider sessionProvider;
   final CalendarProvider calendarProvider;
   final FacultyLocationsProvider facultyLocationsProvider;
@@ -33,6 +35,7 @@ class StateProviders {
       this.busStopProvider,
       this.restaurantProvider,
       this.profileStateProvider,
+      this.printProvider,
       this.sessionProvider,
       this.calendarProvider,
       this.facultyLocationsProvider,
@@ -51,6 +54,7 @@ class StateProviders {
         Provider.of<RestaurantProvider>(context, listen: false);
     final profileStateProvider =
         Provider.of<ProfileStateProvider>(context, listen: false);
+    final printProvider = Provider.of<PrintProvider>(context, listen: false);
     final sessionProvider =
         Provider.of<SessionProvider>(context, listen: false);
     final calendarProvider =
@@ -72,6 +76,7 @@ class StateProviders {
         busStopProvider,
         restaurantProvider,
         profileStateProvider,
+        printProvider,
         sessionProvider,
         calendarProvider,
         facultyLocationsProvider,

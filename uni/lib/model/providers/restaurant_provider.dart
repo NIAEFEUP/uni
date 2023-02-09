@@ -5,7 +5,7 @@ import 'package:logger/logger.dart';
 import 'package:uni/controller/fetchers/restaurant_fetcher/restaurant_fetcher_html.dart';
 import 'package:uni/controller/local_storage/app_restaurant_database.dart';
 import 'package:uni/model/entities/restaurant.dart';
-import 'package:uni/model/entities/session.dart';
+import 'package:uni/model/entities/session/sigarra_session.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
 
 import 'package:uni/model/request_status.dart';

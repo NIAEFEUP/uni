@@ -1,6 +1,6 @@
 import 'package:http/http.dart' as http;
 import 'package:uni/controller/networking/network_router.dart';
-import 'package:uni/model/entities/session.dart';
+import 'package:uni/model/entities/session/sigarra_session.dart';
 
 class PrintFetcher {
 

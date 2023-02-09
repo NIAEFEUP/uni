@@ -4,7 +4,7 @@ import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/parsers/parser_schedule_html.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/entities/profile.dart';
-import 'package:uni/model/entities/session.dart';
+import 'package:uni/model/entities/session/sigarra_session.dart';
 
 /// Class for fetching the user's lectures from the schedule's HTML page.
 class ScheduleFetcherHtml extends ScheduleFetcher {

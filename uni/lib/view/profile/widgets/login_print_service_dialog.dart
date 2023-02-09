@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:uni/model/providers/print_provider.dart';
 import 'package:uni/model/providers/session_provider.dart';
 import 'package:uni/view/common_widgets/toast_message.dart';
 
@@ -12,6 +13,8 @@ class LoginPrintService extends StatefulWidget {
 
 class _LoginPrintService extends State<LoginPrintService> {
   static final FocusNode passwordFocus = FocusNode();
+  static final TextEditingController emailController =
+      TextEditingController();
   static final TextEditingController passwordController =
       TextEditingController();
   bool _obscurePasswordInput = true;
@@ -38,6 +41,7 @@ class _LoginPrintService extends State<LoginPrintService> {
           children: <Widget>[
             TextFormField(
                 initialValue: email,
+                controller: emailController,
                 enabled: false,
                 decoration: InputDecoration(
                   labelText: 'Email institucional',
@@ -89,8 +93,8 @@ class _LoginPrintService extends State<LoginPrintService> {
 
   void loginIntoPrintService(BuildContext context) async {
     final bool response =
-        await Provider.of<SessionProvider>(context, listen: false)
-            .loginIntoPrintService(passwordController.text);
+        await Provider.of<PrintProvider>(context, listen: false)
+            .loginIntoPrintService(emailController.text, passwordController.text, false);
 
     if (!mounted) return;
 

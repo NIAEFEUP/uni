@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:uni/model/providers/print_provider.dart';
 import 'package:uni/model/providers/profile_state_provider.dart';
-import 'package:uni/model/providers/session_provider.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
 import 'package:uni/view/profile/widgets/create_print_mb_dialog.dart';
 import 'package:uni/view/profile/widgets/login_print_service_dialog.dart';
@@ -15,11 +15,11 @@ class PrintInfoCard extends GenericCard {
 
   @override
   Widget buildCardContent(BuildContext context) {
-    return Consumer2<ProfileStateProvider, SessionProvider>(
-      builder: (context, profileStateProvider, sessionProvider, _) {
+    return Consumer2<ProfileStateProvider, PrintProvider>(
+      builder: (context, profileStateProvider, printProvider, _) {
         final profile = profileStateProvider.profile;
 
-        if (!sessionProvider.isLoggedInPrintService) {
+        if (!printProvider.isAutenhicated){
           return notLoggedInContent(context);
         }
 

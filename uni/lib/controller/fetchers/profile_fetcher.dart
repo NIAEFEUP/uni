@@ -6,7 +6,7 @@ import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/parsers/parser_courses.dart';
 import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/profile.dart';
-import 'package:uni/model/entities/session.dart';
+import 'package:uni/model/entities/session/sigarra_session.dart';
 
 class ProfileFetcher implements SessionDependantFetcher {
   @override

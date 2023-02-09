@@ -11,7 +11,7 @@ import 'package:uni/model/request_status.dart';
 import 'package:uni/model/entities/course_unit.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/entities/profile.dart';
-import 'package:uni/model/entities/session.dart';
+import 'package:uni/model/entities/session/sigarra_session.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
 
 class ExamProvider extends StateProviderNotifier {

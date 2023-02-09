@@ -1,26 +1,20 @@
 import 'dart:convert';
 
 import 'package:uni/controller/networking/network_router.dart';
+import 'package:uni/model/entities/session/session.dart';
 
 /// Stores information about a user session.
-class Session {
-  /// Whether or not the user is authenticated.
-  bool authenticated;
-  bool persistentSession;
+class Session extends AbstractSession{
   List<String> faculties;
-  String type;
-  String cookies;
   String studentNumber;
-  Future<bool>?
-      loginRequest; // TODO: accessed directly in Network Router; change the logic
+  Future<bool>? loginRequest; // TODO: accessed directly in Network Router; change the logic
 
   Session(
-      {this.authenticated = false,
+      {super.authenticated = false,
       this.studentNumber = '',
-      this.type = '',
-      this.cookies = '',
+      super.cookies = '',
       this.faculties = const [''],
-      this.persistentSession = false});
+      super.persistentSession = false});
 
   /// Creates a new instance from an HTTP response
   /// to login in one of the faculties.
@@ -31,14 +25,12 @@ class Session {
           authenticated: true,
           faculties: faculties,
           studentNumber: responseBody['codigo'],
-          type: responseBody['tipo'],
           cookies: NetworkRouter.extractCookies(response.headers),
           persistentSession: false);
     } else {
       return Session(
           authenticated: false,
           faculties: faculties,
-          type: '',
           cookies: '',
           studentNumber: '',
           persistentSession: false);
