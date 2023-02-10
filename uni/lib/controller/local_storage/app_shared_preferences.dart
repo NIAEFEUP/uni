@@ -209,13 +209,7 @@ class AppSharedPreferences {
     final List<String>? storedFilteredLocationTypes =
         prefs.getStringList(filteredLocationsTypes);
 
-    print("HERE1");
-    print(storedFilteredLocationTypes);
-
     if (storedFilteredLocationTypes == null) {
-      print(Map.fromIterable(defaultFilteredLocationTypes,
-          value: (type) => true));
-
       return Map.fromIterable(defaultFilteredLocationTypes,
           value: (type) => true);
     }

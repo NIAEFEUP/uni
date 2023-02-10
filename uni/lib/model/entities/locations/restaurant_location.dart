@@ -6,6 +6,9 @@ class RestaurantLocation implements Location {
   final int floor;
 
   @override
+  bool seen = true;
+
+  @override
   final int weight = 4;
 
   final String name;
@@ -29,5 +32,10 @@ class RestaurantLocation implements Location {
       'type': locationTypeToString(LocationType.restaurant),
       'name': name
     };
+  }
+
+  @override
+  Location clone() {
+    return RestaurantLocation(floor, name);
   }
 }

@@ -6,6 +6,9 @@ class WcLocation implements Location {
   final int floor;
 
   @override
+  bool seen = true;
+
+  @override
   final weight = 1;
 
   @override
@@ -23,5 +26,10 @@ class WcLocation implements Location {
   @override
   Map<String, dynamic> toMap({int? groupId}) {
     return {'floor': floor, 'type': locationTypeToString(LocationType.atm)};
+  }
+
+  @override
+  Location clone() {
+    return WcLocation(floor);
   }
 }

@@ -53,12 +53,15 @@ String locationTypeToString(LocationType type) {
 abstract class Location {
   final int floor;
   final int weight;
+  bool seen = true;
   final dynamic icon; // String or IconData
   Location(this.floor, this.weight, this.icon, {locationGroupId});
 
   String description();
 
   Map<String, dynamic> toMap({int? groupId});
+
+  Location clone();
 
   static Location fromJSON(Map<String, dynamic> json, int floor) {
     final Map<String, dynamic> args = json['args'];

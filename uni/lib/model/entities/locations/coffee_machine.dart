@@ -7,6 +7,9 @@ class CoffeeMachine implements Location {
   final int floor;
 
   @override
+  bool seen = true;
+
+  @override
   final weight = 3;
 
   @override
@@ -27,5 +30,10 @@ class CoffeeMachine implements Location {
       'floor': floor,
       'type': locationTypeToString(LocationType.coffeeMachine)
     };
+  }
+
+  @override
+  Location clone() {
+    return CoffeeMachine(floor);
   }
 }

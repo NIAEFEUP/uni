@@ -7,6 +7,9 @@ class RoomLocation implements Location {
   final int floor;
 
   @override
+  bool seen = true;
+
+  @override
   final weight = 0;
 
   final String roomNumber;
@@ -29,5 +32,10 @@ class RoomLocation implements Location {
       'type': locationTypeToString(LocationType.room),
       'first_room': roomNumber
     };
+  }
+
+  @override
+  Location clone() {
+    return RoomLocation(floor, roomNumber);
   }
 }

@@ -19,7 +19,6 @@ class AppState {
       'hiddenExams': <String>[],
       'restaurants': <Restaurant>[],
       'filteredExam': <String, bool>{},
-      'filteredLocation': <String, bool>{}, // TODO: ALTERAR
       'scheduleStatus': RequestStatus.none,
       'loginStatus': RequestStatus.none,
       'examsStatus': RequestStatus.none,

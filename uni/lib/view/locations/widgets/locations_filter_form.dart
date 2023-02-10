@@ -3,11 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:uni/model/app_state.dart';
-import 'package:uni/model/entities/exam.dart';
-import 'package:uni/model/entities/location.dart';
 import 'package:uni/redux/action_creators.dart';
-
-import '../../../model/entities/locations/location_filter.dart';
 
 class LocationsFilterForm extends StatefulWidget {
   final Map<String, bool> filteredLocations;
@@ -31,8 +27,6 @@ class LocationsFilterFormState extends State<LocationsFilterForm> {
         ElevatedButton(
             child: const Text('Confirmar'),
             onPressed: () {
-              print("ESTOU AQUI");
-              print(widget.filteredLocations);
               StoreProvider.of<AppState>(context).dispatch(
                   setFilteredLocations(widget.filteredLocations, Completer()));
 

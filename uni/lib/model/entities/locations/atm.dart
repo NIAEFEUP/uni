@@ -7,6 +7,9 @@ class Atm implements Location {
   final int floor;
 
   @override
+  bool seen = true;
+
+  @override
   final weight = 2;
 
   @override
@@ -24,5 +27,10 @@ class Atm implements Location {
   @override
   Map<String, dynamic> toMap({int? groupId}) {
     return {'floor': floor, 'type': locationTypeToString(LocationType.atm)};
+  }
+
+  @override
+  Location clone() {
+    return Atm(floor);
   }
 }

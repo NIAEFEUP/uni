@@ -7,6 +7,9 @@ class Printer implements Location {
   final int floor;
 
   @override
+  bool seen = true;
+
+  @override
   final weight = 1;
 
   @override
@@ -24,5 +27,10 @@ class Printer implements Location {
   @override
   Map<String, dynamic> toMap({int? groupId}) {
     return {'floor': floor, 'type': locationTypeToString(LocationType.printer)};
+  }
+
+  @override
+  Location clone() {
+    return Printer(floor);
   }
 }

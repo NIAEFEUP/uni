@@ -7,6 +7,9 @@ class UnknownLocation implements Location {
   final int floor;
 
   @override
+  bool seen = true;
+
+  @override
   final weight = 4;
 
   @override
@@ -29,5 +32,10 @@ class UnknownLocation implements Location {
       'floor': floor,
       'type': type,
     };
+  }
+
+  @override
+  Location clone() {
+    return UnknownLocation(floor, type);
   }
 }

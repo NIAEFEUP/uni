@@ -7,6 +7,9 @@ class RoomGroupLocation implements Location {
   final int floor;
 
   @override
+  bool seen = true;
+
+  @override
   final weight = 0;
 
   final String firstRoomNumber;
@@ -32,5 +35,10 @@ class RoomGroupLocation implements Location {
       'first_room': firstRoomNumber,
       'last_room': secondRoomNumber,
     };
+  }
+
+  @override
+  Location clone() {
+    return RoomGroupLocation(floor, firstRoomNumber, secondRoomNumber);
   }
 }

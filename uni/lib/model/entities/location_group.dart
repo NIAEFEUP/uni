@@ -16,6 +16,8 @@ class LocationGroup {
             ? groupBy(locations, (location) => location.floor)
             : Map.identity();
 
+  LocationGroup.fromFloors(this.latlng, this.floors, this.isFloorless, this.id);
+
   /// Returns the Location with the most weight
   Location? getLocationWithMostWeight() {
     final List<Location> allLocations = floors.values.expand((x) => x).toList();
@@ -31,4 +33,24 @@ class LocationGroup {
       'is_floorless': isFloorless ? 1 : 0,
     };
   }
+
+  LocationGroup clone() {
+    return LocationGroup.fromFloors(latlng, Map.from(floors), isFloorless, id);
+  }
+
+  /**
+  Map<String, dynamic> toJson() => {
+        'latlng': latlng,
+        'floors': floors,
+        'isFloorless': isFloorless,
+        'id': id
+      };
+
+  static LocationGroup fromJson(Map<String, dynamic> json) =>
+      LocationGroup.fromFloors(
+          json['latlng'] as LatLng,
+          json['floors'] as Map<int, List<Location>>,
+          json['isFloorless'] as bool,
+          json['id'] as int);
+      **/
 }

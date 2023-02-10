@@ -1,9 +1,11 @@
 //import 'dart:js_util';
+import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:tuple/tuple.dart';
+import 'package:uni/controller/fetchers/location_fetcher/location_fetcher_asset.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/location_group.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
@@ -33,8 +35,6 @@ class LocationsPageState extends GeneralPageViewState
         return StoreConnector<AppState, Map<String, bool>?>(
             converter: (store) => store.state.content['filteredLocations'],
             builder: (context, filteredLocations) {
-              print("AKEKEKAK");
-              print(filteredLocations); // está {}
               return getAlertDialog(filteredLocations ?? {}, context);
             });
       },
@@ -61,9 +61,19 @@ class LocationsPageState extends GeneralPageViewState
     return StoreConnector<AppState,
         Tuple2<List<LocationGroup>, RequestStatus?>>(
       converter: (store) {
-        final locations = store.state.content['locationGroups'];
+        final locations = store.state.content[
+            'locationGroups']; // VAI DAR PROBLEMAS POR PASSAR POR REFERENCIA
+        print(locations);
+
+        print("ACUNA BATATA");
         final Map<String, bool> filteredLocations =
             store.state.content['filteredLocations'] ?? <String, bool>{};
+
+        // final String json =
+        //     jsonEncode(locations.map((p) => p.toJson()).toList());
+        // final List<LocationGroup> clonedList = (jsonDecode(json) as List)
+        //     .map((p) => LocationGroup.fromJson(p))
+        //     .toList();
 
         final filtered =
             LocationFilter.getFilteredLocations(filteredLocations, locations)!;

@@ -7,6 +7,9 @@ class VendingMachine implements Location {
   final int floor;
 
   @override
+  bool seen = true;
+
+  @override
   final weight = 2;
 
   @override
@@ -27,5 +30,10 @@ class VendingMachine implements Location {
       'floor': floor,
       'type': locationTypeToString(LocationType.vendingMachine)
     };
+  }
+
+  @override
+  Location clone() {
+    return VendingMachine(floor);
   }
 }
