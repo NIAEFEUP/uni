@@ -18,6 +18,7 @@ class _LoginPrintService extends State<LoginPrintService> {
   static final TextEditingController passwordController =
       TextEditingController();
   bool _obscurePasswordInput = true;
+  bool _keepSignedIn = true;
 
   _toggleObscurePasswordInput() {
     setState(() {
@@ -32,15 +33,16 @@ class _LoginPrintService extends State<LoginPrintService> {
             .session
             .studentNumber;
     final String email = 'up$studentNumber@up.pt';
+    emailController.text = email;
 
     return AlertDialog(
       title: Text('PaperCut: Iniciar Sessão',
           style: Theme.of(context).textTheme.headline5),
       content: SingleChildScrollView(
-        child: ListBody(
+        child: Wrap(
+          runSpacing: 10,
           children: <Widget>[
             TextFormField(
-                initialValue: email,
                 controller: emailController,
                 enabled: false,
                 decoration: InputDecoration(
@@ -70,7 +72,17 @@ class _LoginPrintService extends State<LoginPrintService> {
                     )),
                 validator: (String? value) => value != null && value.isEmpty
                     ? 'Preenche este campo'
-                    : null)
+                    : null),
+            CheckboxListTile(
+              value: _keepSignedIn,
+              onChanged: (bool? value) {
+                setState(() {
+                  _keepSignedIn = value!;
+                });
+              },
+              title: const Text('Manter sessão iniciada'),
+              contentPadding: EdgeInsets.zero,
+            ), //margin top 10
           ],
         ),
       ),
