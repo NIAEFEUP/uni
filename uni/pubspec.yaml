@@ -70,6 +70,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   latlong2: ^0.8.1
   flutter_map_marker_popup: ^3.2.0
+  percent_indicator: ^4.2.2
   shimmer: ^2.0.0
   material_design_icons_flutter: ^6.0.7096
 

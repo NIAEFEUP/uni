@@ -7,6 +7,7 @@ enum DrawerItem {
   navLocations('Locais', faculties: {'feup'}),
   navCantine('Restaurantes'),
   navCalendar('Calendário'),
+  navLibrary('Biblioteca', faculties: {'feup'}),
   navUsefulInfo('Úteis', faculties: {'feup'}),
   navAbout('Sobre'),
   navBugReport('Bugs e Sugestões'),
