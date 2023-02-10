@@ -34,8 +34,8 @@ class AppSharedPreferences {
   static const String filteredLocationsTypes = 'filtered_location_types';
 
   // TODO
-  static final List<String> defaultFilteredExamTypes = Exam.types.keys.toList();
   static final List<String> defaultFilteredLocationTypes = ['ROOM', 'ROOMS'];
+  static final List<String> defaultFilteredExamTypes = Exam.displayedTypes;
 
   /// Saves the user's student number, password and faculties.
   static Future savePersistentUserInfo(user, pass, faculties) async {
@@ -209,8 +209,10 @@ class AppSharedPreferences {
     final List<String>? storedFilteredLocationTypes =
         prefs.getStringList(filteredLocationsTypes);
 
+    print("HERE1");
+    print(storedFilteredLocationTypes);
+
     if (storedFilteredLocationTypes == null) {
-      print("HERE1");
       print(Map.fromIterable(defaultFilteredLocationTypes,
           value: (type) => true));
 

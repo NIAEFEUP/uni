@@ -59,6 +59,8 @@ AppState appReducers(AppState state, dynamic action) {
     return setExamFilter(state, action);
   } else if (action is SetExamHidden) {
     return setExamHidden(state, action);
+  } else if (action is SetLocationFilter) {
+    return setLocationFilter(state, action);
   } else if (action is SetLocationsAction) {
     return setLocations(state, action);
   } else if (action is SetLocationsStatusAction) {
@@ -67,6 +69,8 @@ AppState appReducers(AppState state, dynamic action) {
     return setUserFaculties(state, action);
   } else if (action is SetRestaurantsAction) {
     return setRestaurantsAction(state, action);
+  } else if (action is SetRestaurantsStatusAction) {
+    return setRestaurantsStatusAction(state, action);
   } else if (action is SetCalendarAction) {
     return setCalendarAction(state, action);
   } else if (action is SetCalendarStatusAction) {
@@ -103,6 +107,12 @@ AppState setCalendarStatus(AppState state, SetCalendarStatusAction action) {
 AppState setRestaurantsAction(AppState state, SetRestaurantsAction action) {
   Logger().i('setting restaurants: ${action.restaurants.length}');
   return state.cloneAndUpdateValue('restaurants', action.restaurants);
+}
+
+AppState setRestaurantsStatusAction(
+    AppState state, SetRestaurantsStatusAction action) {
+  Logger().i('setting restaurants status: ${action.status}');
+  return state.cloneAndUpdateValue('restaurantsStatus', action.status);
 }
 
 AppState setExamsStatus(AppState state, SetExamsStatusAction action) {
@@ -234,6 +244,12 @@ AppState setExamHidden(AppState state, SetExamHidden action) {
 AppState setLocations(AppState state, SetLocationsAction action) {
   Logger().i('setting locations: ${action.locationGroups.length}');
   return state.cloneAndUpdateValue('locationGroups', action.locationGroups);
+}
+
+AppState setLocationFilter(AppState state, SetLocationFilter action) {
+  Logger().i('setting location type filter to ${action.filteredLocations}');
+  return state.cloneAndUpdateValue(
+      'filteredLocations', action.filteredLocations);
 }
 
 AppState setLocationsStatus(AppState state, SetLocationsStatusAction action) {
