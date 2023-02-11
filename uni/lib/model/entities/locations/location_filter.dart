@@ -16,13 +16,13 @@ import 'coffee_machine.dart';
 class LocationFilter {
   static List<LocationGroup>? getFilteredLocations(
       Map<String, bool> filteredLocations,
-      final List<LocationGroup>? filteredData1) {
+      final List<LocationGroup>? filteredData) {
     final List<dynamic> selectedLocation = filteredLocations.entries
         .where((entry) => entry.value)
         .map((entry) => stringToLocationClass(entry.key))
         .toList();
 
-    for (var locationGroup in filteredData1!) {
+    for (var locationGroup in filteredData!) {
       locationGroup.floors.forEach((key, value) {
         for (var element in value) {
           if (!selectedLocation.contains(element.runtimeType) &&
@@ -35,7 +35,7 @@ class LocationFilter {
       });
     }
 
-    return filteredData1;
+    return filteredData;
   }
 
   static stringToLocationClass(String loc) {

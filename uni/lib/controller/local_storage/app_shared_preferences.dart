@@ -6,6 +6,7 @@ import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tuple/tuple.dart';
 import 'package:uni/model/entities/exam.dart';
+import 'package:uni/model/entities/location.dart';
 import 'package:uni/utils/favorite_widget_type.dart';
 
 /// Manages the app's Shared Preferences.
@@ -33,8 +34,11 @@ class AppSharedPreferences {
   static const String filteredExamsTypes = 'filtered_exam_types';
   static const String filteredLocationsTypes = 'filtered_location_types';
 
-  // TODO
-  static final List<String> defaultFilteredLocationTypes = ['ROOM', 'ROOMS'];
+  static final List<String> defaultFilteredLocationTypes =
+      LocationType.values.fold(<String>[], (previousValue, element) {
+    previousValue.add(locationTypeToString(element));
+    return previousValue;
+  });
   static final List<String> defaultFilteredExamTypes = Exam.displayedTypes;
 
   /// Saves the user's student number, password and faculties.

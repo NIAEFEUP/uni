@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:uni/model/app_state.dart';
+import 'package:uni/model/entities/location.dart';
 import 'package:uni/redux/action_creators.dart';
 
 class LocationsFilterForm extends StatefulWidget {
@@ -49,7 +50,7 @@ class LocationsFilterFormState extends State<LocationsFilterForm> {
       return CheckboxListTile(
           contentPadding: const EdgeInsets.all(0),
           title: Text(
-            key,
+            stringTypeToReadableString(key),
             overflow: TextOverflow.ellipsis,
             softWrap: false,
             maxLines: 2,
