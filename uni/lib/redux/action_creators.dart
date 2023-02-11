@@ -10,6 +10,7 @@ import 'package:uni/controller/fetchers/current_course_units_fetcher.dart';
 import 'package:uni/controller/fetchers/departures_fetcher.dart';
 import 'package:uni/controller/fetchers/exam_fetcher.dart';
 import 'package:uni/controller/fetchers/fees_fetcher.dart';
+import 'package:uni/controller/fetchers/library_occupation_fetcher.dart';
 import 'package:uni/controller/fetchers/location_fetcher/location_fetcher_asset.dart';
 import 'package:uni/controller/fetchers/print_fetcher.dart';
 import 'package:uni/controller/fetchers/profile_fetcher.dart';
@@ -26,6 +27,7 @@ import 'package:uni/controller/local_storage/app_courses_database.dart';
 import 'package:uni/controller/local_storage/app_exams_database.dart';
 import 'package:uni/controller/local_storage/app_last_user_info_update_database.dart';
 import 'package:uni/controller/local_storage/app_lectures_database.dart';
+import 'package:uni/controller/local_storage/app_library_occupation_database.dart';
 import 'package:uni/controller/local_storage/app_refresh_times_database.dart';
 import 'package:uni/controller/local_storage/app_restaurant_database.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
@@ -42,6 +44,7 @@ import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/course_unit.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/entities/lecture.dart';
+import 'package:uni/model/entities/library_occupation.dart';
 import 'package:uni/model/entities/location_group.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/restaurant.dart';
@@ -215,6 +218,14 @@ ThunkAction<AppState> updateStateBasedOnLocalCalendar() {
   };
 }
 
+ThunkAction<AppState> updateStateBasedOnLocalLibraryOccupation() {
+  return (Store<AppState> store) async {
+    final LibraryOccupationDatabase db = LibraryOccupationDatabase();
+    final LibraryOccupation occupation = await db.occupation();
+    store.dispatch(SetLibraryOccupationAction(occupation));
+  };
+}
+
 ThunkAction<AppState> updateStateBasedOnLocalProfile() {
   return (Store<AppState> store) async {
     final profileDb = AppUserDataDatabase();
@@ -331,6 +342,26 @@ ThunkAction<AppState> getRestaurantsFromFetcher(Completer<void> action) {
     } catch (e) {
       Logger().e('Failed to get Restaurants: ${e.toString()}');
       store.dispatch(SetRestaurantsStatusAction(RequestStatus.failed));
+    }
+    action.complete();
+  };
+}
+
+ThunkAction<AppState> getLibraryOccupationFromFetcher(Completer<void> action) {
+  return (Store<AppState> store) async {
+    try {
+      store.dispatch(SetLibraryOccupationStatusAction(RequestStatus.busy));
+
+      final LibraryOccupation occupation = 
+        await LibraryOccupationFetcherSheets().getLibraryOccupationFromSheets(store);
+      final LibraryOccupationDatabase db = LibraryOccupationDatabase();
+      db.saveOccupation(occupation);
+      store.dispatch(SetLibraryOccupationAction(occupation));
+      store.dispatch(SetLibraryOccupationStatusAction(RequestStatus.successful));
+
+    } catch(e){
+      Logger().e('Failed to get Occupation: ${e.toString()}');
+      store.dispatch(SetLibraryOccupationStatusAction(RequestStatus.failed));
     }
     action.complete();
   };
