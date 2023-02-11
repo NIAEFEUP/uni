@@ -37,20 +37,4 @@ class LocationGroup {
   LocationGroup clone() {
     return LocationGroup.fromFloors(latlng, Map.from(floors), isFloorless, id);
   }
-
-  /**
-  Map<String, dynamic> toJson() => {
-        'latlng': latlng,
-        'floors': floors,
-        'isFloorless': isFloorless,
-        'id': id
-      };
-
-  static LocationGroup fromJson(Map<String, dynamic> json) =>
-      LocationGroup.fromFloors(
-          json['latlng'] as LatLng,
-          json['floors'] as Map<int, List<Location>>,
-          json['isFloorless'] as bool,
-          json['id'] as int);
-      **/
 }

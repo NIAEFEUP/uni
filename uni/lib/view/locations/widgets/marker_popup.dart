@@ -36,11 +36,9 @@ class LocationMarkerPopup extends StatelessWidget {
         locationGroup.floors.entries.toList();
     entries.sort((current, next) => -current.key.compareTo(next.key));
 
-    return entries.where((entry) {
-      final int floor = entry.key;
-      final List<Location> locations = entry.value;
-      return !locations.every((element) => !element.seen);
-    }).map((entry) {
+    return entries
+        .where((entry) => !entry.value.every((element) => !element.seen))
+        .map((entry) {
       final int floor = entry.key;
       final List<Location> locations = entry.value;
 
