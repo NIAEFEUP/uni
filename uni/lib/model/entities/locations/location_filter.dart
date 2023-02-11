@@ -1,4 +1,3 @@
-import 'package:uni/model/entities/location.dart';
 import 'package:uni/model/entities/locations/printer.dart';
 import 'package:uni/model/entities/locations/restaurant_location.dart';
 import 'package:uni/model/entities/locations/room_group_location.dart';
@@ -9,9 +8,9 @@ import 'package:uni/model/entities/locations/unknown_location.dart';
 import 'package:uni/model/entities/locations/vending_machine.dart';
 import 'package:uni/model/entities/locations/wc_location.dart';
 
-import '../location_group.dart';
-import 'atm.dart';
-import 'coffee_machine.dart';
+import 'package:uni/model/entities/location_group.dart';
+import 'package:uni/model/entities/locations/atm.dart';
+import 'package:uni/model/entities/locations/coffee_machine.dart';
 
 class LocationFilter {
   static List<LocationGroup>? getFilteredLocations(

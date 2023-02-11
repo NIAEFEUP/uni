@@ -8,7 +8,7 @@ import 'package:uni/view/locations/widgets/floorless_marker_popup.dart';
 import 'package:uni/view/locations/widgets/marker.dart';
 import 'package:uni/view/locations/widgets/marker_popup.dart';
 
-import '../../../model/entities/location.dart';
+import 'package:uni/model/entities/location.dart';
 
 class LocationsMap extends StatelessWidget {
   final PopupController _popupLayerController = PopupController();
