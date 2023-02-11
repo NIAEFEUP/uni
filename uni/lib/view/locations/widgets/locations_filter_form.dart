@@ -42,12 +42,10 @@ class LocationsFilterFormState extends State<LocationsFilterForm> {
 
   Widget getLocationsCheckboxes(
       Map<String, bool> filteredLocations, BuildContext context) {
-    // filteredLocations.removeWhere((key, value) => !Exam.types.containsKey(key));
     return ListView(
         children: List.generate(filteredLocations.length, (i) {
       final String key = filteredLocations.keys.elementAt(i);
 
-      // if (!Exam.types.containsKey(key)) return const Text("");
       return CheckboxListTile(
           contentPadding: const EdgeInsets.all(0),
           title: Text(
@@ -60,8 +58,6 @@ class LocationsFilterFormState extends State<LocationsFilterForm> {
           value: filteredLocations[key],
           onChanged: (value) {
             setState(() {
-              print(value);
-
               filteredLocations[key] = value!;
             });
           });

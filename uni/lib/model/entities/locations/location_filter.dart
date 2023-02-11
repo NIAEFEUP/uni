@@ -13,30 +13,17 @@ import '../location_group.dart';
 import 'atm.dart';
 import 'coffee_machine.dart';
 
-//
-// NOTA : SECALHAR ISTO É UM CONTROLADOR
-//
-//
-// Neste momento deve haver um problema com o guardar na cache
-// ... provavelmente n usar o removewhere
-//
-
 class LocationFilter {
   static List<LocationGroup>? getFilteredLocations(
       Map<String, bool> filteredLocations,
       final List<LocationGroup>? filteredData1) {
-    final List<LocationGroup> filteredData = [];
-
     final List<dynamic> selectedLocation = filteredLocations.entries
         .where((entry) => entry.value)
         .map((entry) => stringToLocationClass(entry.key))
         .toList();
 
-    // TODO A BOOLEAN TO INDICATE TRUE / FALSE
     for (var locationGroup in filteredData1!) {
-      final locationClone = locationGroup.clone();
-      filteredData.add(locationClone);
-      locationClone.floors.forEach((key, value) {
+      locationGroup.floors.forEach((key, value) {
         for (var element in value) {
           if (!selectedLocation.contains(element.runtimeType) &&
               selectedLocation.isNotEmpty) {
@@ -46,11 +33,9 @@ class LocationFilter {
           }
         }
       });
-      // locationClone.floors.removeWhere((key, value) => value.isEmpty);
     }
-    //filteredData.removeWhere((element) => element.floors.isEmpty);
 
-    return filteredData;
+    return filteredData1;
   }
 
   static stringToLocationClass(String loc) {
