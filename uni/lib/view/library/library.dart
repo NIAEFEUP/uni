@@ -7,7 +7,8 @@ import 'package:uni/view/library/widgets/library_occupation_tab.dart';
 import 'package:uni/view/library/widgets/library_reservations_tab.dart';
 
 class LibraryPage extends StatefulWidget {
-  const LibraryPage({Key? key}) : super(key: key);
+  final bool startOnOccupation;
+  const LibraryPage({this.startOnOccupation = false, Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => LibraryPageViewState();
@@ -25,13 +26,15 @@ class LibraryPageViewState extends GeneralPageViewState<LibraryPage> {
       length: tabs.length,
       child: Builder(builder: (BuildContext context) {
         final TabController? tabController = DefaultTabController.of(context);
-        tabController!.index = 0;
+        if (widget.startOnOccupation) {
+          tabController!.index = 1;
+        }
         return Column(children: <Widget>[
           ListView(
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
             children: <Widget>[
-              PageTitle(name: DrawerItem.navLibrary.title),
+              PageTitle(name: DrawerItem.navLibraryOccupation.title),
               TabBar(
                 controller: tabController,
                 physics: const BouncingScrollPhysics(),

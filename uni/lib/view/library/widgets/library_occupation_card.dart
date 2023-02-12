@@ -21,7 +21,7 @@ class LibraryOccupationCard extends GenericCard {
 
   @override
   onClick(BuildContext context) =>
-      Navigator.pushNamed(context, '/${DrawerItem.navLibrary.title}');
+      Navigator.pushNamed(context, '/${DrawerItem.navLibraryOccupation.title}');
 
   @override
   Widget buildCardContent(BuildContext context) {

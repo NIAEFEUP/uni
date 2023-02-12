@@ -15,8 +15,8 @@ class LibraryReservationsCard extends GenericCard {
       : super.fromEditingInformation(key, editingMode, onDelete);
 
   @override
-  onClick(BuildContext context) =>
-      Navigator.pushNamed(context, '/${DrawerItem.navLibrary.title}');
+  onClick(BuildContext context) => Navigator.pushNamed(
+      context, '/${DrawerItem.navLibraryReservations.title}');
 
   @override
   String getTitle() => 'Gabinetes Reservados';

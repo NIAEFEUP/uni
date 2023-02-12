@@ -121,9 +121,15 @@ class MyAppState extends State<MyApp> {
                   '/${DrawerItem.navCalendar.title}':
                       PageTransition.makePageTransition(
                           page: const CalendarPageView(), settings: settings),
-                  '/${DrawerItem.navLibrary.title}':
+                  '/${DrawerItem.navLibraryOccupation.title}':
                       PageTransition.makePageTransition(
                           page: const LibraryPage(), settings: settings),
+                  '/${DrawerItem.navLibraryReservations.title}':
+                      PageTransition.makePageTransition(
+                          page: const LibraryPage(
+                            startOnOccupation: true,
+                          ),
+                          settings: settings),
                   '/${DrawerItem.navUsefulInfo.title}':
                       PageTransition.makePageTransition(
                           page: const UsefulInfoPageView(), settings: settings),
