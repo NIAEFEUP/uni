@@ -112,17 +112,18 @@ class MyAppState extends State<MyApp> {
                       PageTransition.makePageTransition(
                           page: const CourseUnitsPageView(),
                           settings: settings),
-<<<<<<< HEAD
                   '/${DrawerItem.navLocations.title}':
                       PageTransition.makePageTransition(
                           page: const LocationsPage(), settings: settings),
+                  '/${DrawerItem.navCantine.title}':
+                      PageTransition.makePageTransition(
+                          page: const RestaurantPageView(), settings: settings),
                   '/${DrawerItem.navCalendar.title}':
                       PageTransition.makePageTransition(
                           page: const CalendarPageView(), settings: settings),
                   '/${DrawerItem.navLibrary.title}':
                       PageTransition.makePageTransition(
-                          page: const LibraryPage(),
-                          settings: settings),
+                          page: const LibraryPage(), settings: settings),
                   '/${DrawerItem.navUsefulInfo.title}':
                       PageTransition.makePageTransition(
                           page: const UsefulInfoPageView(), settings: settings),
@@ -132,40 +133,6 @@ class MyAppState extends State<MyApp> {
                   '/${DrawerItem.navBugReport.title}':
                       PageTransition.makePageTransition(
                           page: const BugReportPageView(),
-=======
-                  '/${DrawerItem.navLocations.title}' :
-                  PageTransition.makePageTransition(
-                          page: const LocationsPage(), 
-                          settings: settings),
-
-                  '/${DrawerItem.navCantine.title}':
-                      PageTransition.makePageTransition(
-                          page: const RestaurantPageView(), settings: settings),
-
-                  '/${DrawerItem.navCalendar.title}' :
-                  PageTransition.makePageTransition(
-                          page: const CalendarPageView(), 
-                          settings: settings),
-
-                  '/${DrawerItem.navLibrary.title}' :
-                  PageTransition.makePageTransition(
-                          page: const LibraryPageView(), 
-                          settings: settings),
-
-                  '/${DrawerItem.navUsefulInfo.title}' :
-                  PageTransition.makePageTransition(
-                          page: const UsefulInfoPageView(), 
-                          settings: settings),
-
-                  '/${DrawerItem.navAbout.title}' :
-                  PageTransition.makePageTransition(
-                          page: const AboutPageView(), 
-                          settings: settings),
-
-                  '/${DrawerItem.navBugReport.title}' :
-                  PageTransition.makePageTransition(
-                          page: const BugReportPageView(), 
->>>>>>> e60eea61f3d8eedc7d841ed946464df56acf7714
                           settings: settings,
                           maintainState: false),
                   '/${DrawerItem.navLogOut.title}':
