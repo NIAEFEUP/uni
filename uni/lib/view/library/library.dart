@@ -40,15 +40,6 @@ class LibraryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (occupation == null || occupation?.capacity == 0) {
-      return ListView(scrollDirection: Axis.vertical, children: [
-        Center(
-            heightFactor: 2,
-            child: Text('Não existem dados para apresentar',
-                style: Theme.of(context).textTheme.headline6,
-                textAlign: TextAlign.center))
-      ]);
-    }
     return ListView(
         scrollDirection: Axis.vertical,
         shrinkWrap: true,
