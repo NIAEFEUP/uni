@@ -1,27 +1,34 @@
-# Project-Schrödinger
+<div align="center">
 
-## Overall structure
+<img src="./readme-src/logo_dark.svg" width="80">
+<br>
+<img src="./readme-src/by_niaefeup.svg" height="30">
 
-For this project, we are going to be separating the code into Model, View and Controller.
-By making sure view-only components are clear from the rest of the code, we can assure safe reuse of widgets as well as separated testing and development.
-The state of app pages is stored in the model package, as well as the actions (methods that allow us to update the state), which then use controller's methods.
+<br>
+<br>
 
-![MVC Scheme](readme-src/MVC.png "MVC Scheme")
+[![Build badge](https://img.shields.io/github/actions/workflow/status/NIAEFEUP/project-schrodinger/test_lint.yaml?style=for-the-badge)](https://github.com/NIAEFEUP/project-schrodinger/actions)
+[![Deploy badge](https://img.shields.io/github/actions/workflow/status/NIAEFEUP/project-schrodinger/deploy.yaml?label=Deploy&style=for-the-badge)](https://github.com/NIAEFEUP/project-schrodinger/actions)
+[![License badge](https://img.shields.io/github/license/NIAEFEUP/project-schrodinger?style=for-the-badge)](https://github.com/NIAEFEUP/project-schrodinger/blob/master/LICENSE)
 
-## View
+<a href='https://play.google.com/store/apps/details?id=pt.up.fe.ni.uni&hl=pt_PT&gl=US&pli=1&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img style="width: 135px;" alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/></a>
 
-The View part of the app is made of Widgets (stateful or stateless). They each should deal with their own responsibility (display and/or gather information) and any changes to the overall app should be passed up to their parents (using callbacks) until they reach the current page's widget, where the information will be handled.
-**Note:** if a widget's responsibility includes handling information (for example, a date-picking widget that transforms the user input into a date format), it should be done within the widget itself (may or may not use methods in the controller package depending on the complexity of the code)
+<a href="https://apps.apple.com/pt/app/uni/id1585951339?itsct=apps_box_badge&amp;itscg=30200"><img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83&amp;releaseDate=1633219200" alt="Download on the App Store" style="border-radius: 13px; width: 120px;"></a>
 
+</div>
 
-## Controller
+## Overview
 
-In the controller folder we should only have libraries, classes and methods that process information - Dart only.
-The networking side of the app will be in here, as well as the parsers.
-Subfolders are crucial to keep the code organized.
+**uni** is a project developed by [NIAEFEUP](https://ni.fe.up.pt/) to help students of the [University of Porto](https://up.pt) to manage their academic life, including useful features such as upcoming classes and exams. It is a mobile app that is available for both Android and iOS, and is developed using the [Flutter](https://flutter.dev/) framework.
 
-## Model
-As mentioned before, the Model is responsible for holding the overall state of the app and its pages. For that, we have a model class for each page where the state and actions are located. The state consists of the actual variables that dictate how the application is at a given moment. The actions are methods that allow us to alter and update the state. By passing the actions as arguments to the view widget of a page, we allow its children widgets to update the state.
+Some of the features are only available to students of [FEUP](https://fe.up.pt). The reliability of the information provided by the app is not guaranteed, and the app is not affiliated with the University of Porto or any of its faculties.
 
-## Guide and examples
-For help with getting started, there are some code examples in the guide_and_examples folder. There you can find stateful widgets, futures and more explained through comments. Any doubt, please contact the project manager.
+## Licensing
+
+This application is licensed under the [GNU General Public License v3.0](./LICENSE), which means you can modify and distribute this application as you wish, as long as you refer to the original source.
+
+## Contributing
+
+Contributions are welcome, and can be made by opening a pull request. Please note, however, that a university's account is required to access most of the app's features.
+
+For further information about the project structure, please refer to [the app's README file](./uni/README.md).
