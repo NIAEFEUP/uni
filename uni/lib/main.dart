@@ -20,6 +20,7 @@ import 'package:uni/view/exams/exams.dart';
 import 'package:uni/view/home/home.dart';
 import 'package:uni/view/course_units/course_units.dart';
 import 'package:uni/view/logout_route.dart';
+import 'package:uni/view/restaurant/restaurant_page_view.dart';
 import 'package:uni/view/splash/splash.dart';
 import 'package:uni/view/schedule/schedule.dart';
 import 'package:uni/view/common_widgets/page_transition.dart';
@@ -111,6 +112,7 @@ class MyAppState extends State<MyApp> {
                       PageTransition.makePageTransition(
                           page: const CourseUnitsPageView(),
                           settings: settings),
+<<<<<<< HEAD
                   '/${DrawerItem.navLocations.title}':
                       PageTransition.makePageTransition(
                           page: const LocationsPage(), settings: settings),
@@ -130,6 +132,40 @@ class MyAppState extends State<MyApp> {
                   '/${DrawerItem.navBugReport.title}':
                       PageTransition.makePageTransition(
                           page: const BugReportPageView(),
+=======
+                  '/${DrawerItem.navLocations.title}' :
+                  PageTransition.makePageTransition(
+                          page: const LocationsPage(), 
+                          settings: settings),
+
+                  '/${DrawerItem.navCantine.title}':
+                      PageTransition.makePageTransition(
+                          page: const RestaurantPageView(), settings: settings),
+
+                  '/${DrawerItem.navCalendar.title}' :
+                  PageTransition.makePageTransition(
+                          page: const CalendarPageView(), 
+                          settings: settings),
+
+                  '/${DrawerItem.navLibrary.title}' :
+                  PageTransition.makePageTransition(
+                          page: const LibraryPageView(), 
+                          settings: settings),
+
+                  '/${DrawerItem.navUsefulInfo.title}' :
+                  PageTransition.makePageTransition(
+                          page: const UsefulInfoPageView(), 
+                          settings: settings),
+
+                  '/${DrawerItem.navAbout.title}' :
+                  PageTransition.makePageTransition(
+                          page: const AboutPageView(), 
+                          settings: settings),
+
+                  '/${DrawerItem.navBugReport.title}' :
+                  PageTransition.makePageTransition(
+                          page: const BugReportPageView(), 
+>>>>>>> e60eea61f3d8eedc7d841ed946464df56acf7714
                           settings: settings,
                           maintainState: false),
                   '/${DrawerItem.navLogOut.title}':
