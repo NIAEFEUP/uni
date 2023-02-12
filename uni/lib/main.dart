@@ -29,6 +29,7 @@ import 'package:uni/view/common_widgets/page_transition.dart';
 import 'package:uni/view/navigation_service.dart';
 import 'package:uni/view/theme.dart';
 import 'package:uni/view/theme_notifier.dart';
+import 'package:uni/view/library/library.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/useful_info/useful_info.dart';
 import 'package:workmanager/workmanager.dart';
@@ -120,24 +121,38 @@ class MyAppState extends State<MyApp> {
                       PageTransition.makePageTransition(
                           page: const CourseUnitsPageView(),
                           settings: settings),
-                  '/${DrawerItem.navLocations.title}':
-                      PageTransition.makePageTransition(
-                          page: const LocationsPage(), settings: settings),
+                  '/${DrawerItem.navLocations.title}' :
+                  PageTransition.makePageTransition(
+                          page: const LocationsPage(), 
+                          settings: settings),
+
                   '/${DrawerItem.navCantine.title}':
                       PageTransition.makePageTransition(
                           page: const RestaurantPageView(), settings: settings),
-                  '/${DrawerItem.navCalendar.title}':
-                      PageTransition.makePageTransition(
-                          page: const CalendarPageView(), settings: settings),
-                  '/${DrawerItem.navUsefulInfo.title}':
-                      PageTransition.makePageTransition(
-                          page: const UsefulInfoPageView(), settings: settings),
-                  '/${DrawerItem.navAbout.title}':
-                      PageTransition.makePageTransition(
-                          page: const AboutPageView(), settings: settings),
-                  '/${DrawerItem.navBugReport.title}':
-                      PageTransition.makePageTransition(
-                          page: const BugReportPageView(),
+
+                  '/${DrawerItem.navCalendar.title}' :
+                  PageTransition.makePageTransition(
+                          page: const CalendarPageView(), 
+                          settings: settings),
+
+                  '/${DrawerItem.navLibrary.title}' :
+                  PageTransition.makePageTransition(
+                          page: const LibraryPageView(), 
+                          settings: settings),
+
+                  '/${DrawerItem.navUsefulInfo.title}' :
+                  PageTransition.makePageTransition(
+                          page: const UsefulInfoPageView(), 
+                          settings: settings),
+
+                  '/${DrawerItem.navAbout.title}' :
+                  PageTransition.makePageTransition(
+                          page: const AboutPageView(), 
+                          settings: settings),
+
+                  '/${DrawerItem.navBugReport.title}' :
+                  PageTransition.makePageTransition(
+                          page: const BugReportPageView(), 
                           settings: settings,
                           maintainState: false),
                   '/${DrawerItem.navLogOut.title}':
