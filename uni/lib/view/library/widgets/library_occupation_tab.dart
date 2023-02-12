@@ -1,13 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:tuple/tuple.dart';
+import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/library_occupation.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/library/widgets/library_occupation_card.dart';
 
-class LibraryOccupationTab extends StatelessWidget {
+class LibraryOccupationTab extends StatefulWidget {
+  const LibraryOccupationTab({Key? key}) : super(key: key);
+
+  @override
+  LibraryOccupationTabState createState() => LibraryOccupationTabState();
+}
+
+class LibraryOccupationTabState extends State<LibraryOccupationTab> {
+  @override
+  Widget build(BuildContext context) {
+    return StoreConnector<AppState, Tuple2<LibraryOccupation?, RequestStatus>>(
+        converter: (store) {
+      final LibraryOccupation? occupation =
+          store.state.content['libraryOccupation'];
+      return Tuple2(occupation, store.state.content['libraryOccupationStatus']);
+    }, builder: (context, occupationInfo) {
+      if (occupationInfo.item2 == RequestStatus.busy) {
+        return const Center(child: CircularProgressIndicator());
+      } else {
+        return LibraryOccupationTabView(occupationInfo.item1);
+      }
+    });
+  }
+}
+
+class LibraryOccupationTabView extends StatelessWidget {
   final LibraryOccupation? occupation;
 
-  const LibraryOccupationTab(this.occupation, {super.key});
+  const LibraryOccupationTabView(this.occupation, {super.key});
 
   @override
   Widget build(BuildContext context) {

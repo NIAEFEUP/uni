@@ -6,7 +6,6 @@ import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/library_reservation.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
-import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
 
 class LibraryReservationsCard extends GenericCard {
   LibraryReservationsCard({Key? key}) : super(key: key);
@@ -17,7 +16,7 @@ class LibraryReservationsCard extends GenericCard {
 
   @override
   onClick(BuildContext context) =>
-      Navigator.pushNamed(context, '/${DrawerItem.navLibrary.title}', arguments: 1);
+      Navigator.pushNamed(context, '/${DrawerItem.navLibrary.title}');
 
   @override
   String getTitle() => 'Gabinetes Reservados';
@@ -25,28 +24,36 @@ class LibraryReservationsCard extends GenericCard {
   @override
   Widget buildCardContent(BuildContext context) {
     return StoreConnector<AppState,
-            Tuple2<List<LibraryReservation>, RequestStatus>>(
+            Tuple2<List<LibraryReservation>?, RequestStatus?>>(
         converter: (store) => Tuple2(store.state.content['reservations'],
             store.state.content['reservationsStatus']),
-        builder: (context, room) {
-          return RequestDependentWidgetBuilder(
-              context: context,
-              status: room.item2,
-              contentGenerator: generateRoom,
-              content: room.item1,
-              contentChecker: room.item2 == RequestStatus.successful &&
-                  room.item1.isNotEmpty,
-              onNullContent: Center(
-                  child: Text('Não há salas reservadas!',
-                      style: Theme.of(context).textTheme.headline6,
-                      textAlign: TextAlign.center)));
+        builder: (context, roomsInfo) {
+          if (roomsInfo.item2 == null || roomsInfo.item2 == RequestStatus.busy) {
+            return const Center(child: CircularProgressIndicator());
+          } else {
+            return RoomsList(roomsInfo.item1);
+          }
         });
   }
+}
 
-  Widget generateRoom(reservations, context) {
+class RoomsList extends StatelessWidget {
+  final List<LibraryReservation>? reservations;
+
+  const RoomsList(this.reservations, {super.key});
+
+  @override
+  Widget build(context) {
+    if (reservations == null || reservations!.isEmpty) {
+      return Center(
+          child: Text('Não tens salas reservadas!',
+              style: Theme.of(context).textTheme.headline6,
+              textAlign: TextAlign.center));
+    }
+
     final List<Widget> rooms = [];
 
-    for (LibraryReservation reservation in reservations) {
+    for (LibraryReservation reservation in reservations!) {
       final String hoursStart =
           DateFormat('HH:mm').format(reservation.startDate);
       final String hoursEnd = DateFormat('HH:mm')
