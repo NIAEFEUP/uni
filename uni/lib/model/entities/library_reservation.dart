@@ -1,9 +1,9 @@
 
 /// Private room reservation from the library
 class LibraryReservation {
-  String room;
-  DateTime startDate;
-  Duration duration;
+  final String room;
+  final DateTime startDate;
+  final Duration duration;
 
   LibraryReservation(this.room, this.startDate, this.duration);
 

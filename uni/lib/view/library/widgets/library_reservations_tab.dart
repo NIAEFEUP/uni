@@ -36,7 +36,7 @@ class LibraryReservationsList extends StatelessWidget {
       return ListView(scrollDirection: Axis.vertical, children: [
         Center(
             heightFactor: 2,
-            child: Text('Não existem dados para apresentar',
+            child: Text('Não há salas reservadas',
                 style: Theme.of(context).textTheme.headline6,
                 textAlign: TextAlign.center))
       ]);
