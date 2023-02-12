@@ -5,7 +5,7 @@ enum DrawerItem {
   navCourseUnits('Cadeiras'),
   navStops('Autocarros'),
   navLocations('Locais', faculties: {'feup'}),
-  navCantine('Restaurantes'),
+  navRestaurants('Restaurantes'),
   navCalendar('Calendário'),
   navLibraryOccupation('Biblioteca', faculties: {'feup'}),
   navLibraryReservations('Reservas', faculties: {'feup'}),
@@ -20,6 +20,10 @@ enum DrawerItem {
   const DrawerItem(this.title, {this.faculties});
 
   bool isVisible(List<String> userFaculties) {
+    if (this == DrawerItem.navLogOut) {
+      return false;
+    }
+
     if (faculties == null) {
       return true;
     }
