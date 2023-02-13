@@ -31,7 +31,7 @@ jobs:
 
       - name: Propagate master version bump to develop
         if: github.ref == 'refs/heads/master'
-        run: git push --force-with-lease origin develop
+        run: git push --force-with-lease origin HEAD:develop
 
   build:
     name: "Build App Bundle"
