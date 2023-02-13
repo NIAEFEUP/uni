@@ -116,6 +116,7 @@ void loadLocalUserInfoToState(StateProviders stateProviders) async {
   }
   final Completer locations = Completer();
   stateProviders.facultyLocationsProvider.getFacultyLocations(locations);
+  stateProviders.publicTransportationProvider.getPublicTransportsFromLocalStorage();
 }
 
 Future<void> handleRefresh(StateProviders stateProviders) async {

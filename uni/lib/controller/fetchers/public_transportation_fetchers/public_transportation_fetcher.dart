@@ -7,6 +7,7 @@ abstract class PublicTransportationFetcher{
 
   Future<Map<String, Stop>> fetchStops();
 
-  Future<Set<Route>> fetchRoutes(Map<String,Stop> stopMap);
+  Future<Map<String,Route>> fetchRoutes(Map<String,Stop> stopMap);
+
 
 }

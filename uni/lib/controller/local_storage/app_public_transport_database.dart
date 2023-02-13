@@ -19,38 +19,64 @@ class AppPublicTransportDatabase extends AppDatabase{
     version: 1);
 
 
-    Future<Map<String, Stop>> stops() async{
-      final Database db = await getDatabase();
-      final List<Map<String, dynamic>> query = await db.query("Stops");
+  Future<Map<String, Stop>> stops() async{
+    final Database db = await getDatabase();
+    final List<Map<String, dynamic>> query = await db.query("Stops");
 
-      final Map<String,Stop> stops = {};
+    final Map<String,Stop> stops = {};
 
-      for(Map<String,dynamic> e in query){
-        stops.putIfAbsent(e['code'], () => Stop.fromMap(e));
-      }
-      return stops;
+    for(Map<String,dynamic> e in query){
+      stops.putIfAbsent(e['code'], () => Stop.fromMap(e));
     }
+    return stops;
+  }
 
-    Future<Set<Route>> routes(Map<String, Stop> stops) async{
-      final Database db = await getDatabase();
-      final List<Map<String, dynamic>> query = await db.query("Routes");
+  Future<Map<String,Route>> routes(Map<String, Stop> stops) async{
+    final Database db = await getDatabase();
+    final List<Map<String, dynamic>> query = await db.query("Routes");
 
-      final Set<Route> routes = {};
+    final Map<String,Route> routes = {};
 
-      for(Map<String,dynamic> e in query){
-        routes.add(Route.fromMap(e, stops));
-      }
-      return routes;
+    for(Map<String,dynamic> e in query){
+      final Route route = Route.fromMap(e, stops);
+      routes.putIfAbsent(route.code, () => route);
     }
+    return routes;
+  }
 
-  
 
 
-  static FutureOr<void> migrate(Database db, int oldVersion, int newVersion)async {
+  Future<void> insertStops(Map<String,Stop> stops) async{
+    final Database db = await getDatabase();
     final Batch batch = db.batch();
-    batch.delete("Stops");
-    batch.delete("Routes");
+    for (var element in stops.values) {
+      batch.insert("Stops", 
+        element.toMap(), 
+        conflictAlgorithm: ConflictAlgorithm.replace);
+    }
+
     await batch.commit();
   }
+
+  Future<void> insertRoutes(Map<String,Route> routes) async{
+    final Database db = await getDatabase();
+    final Batch batch = db.batch();
+    for (var element in routes.values) {
+      batch.insert("Stops", 
+        element.toMap(), 
+        conflictAlgorithm: ConflictAlgorithm.replace);
+    }
+    await batch.commit();
+  }
+
+
+
+
+static FutureOr<void> migrate(Database db, int oldVersion, int newVersion)async {
+  final Batch batch = db.batch();
+  batch.delete("Stops");
+  batch.delete("Routes");
+  await batch.commit();
+}
 
 }

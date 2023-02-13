@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
+import 'package:logger/logger.dart';
 
 import 'package:uni/controller/fetchers/public_transportation_fetchers/public_transportation_fetcher.dart';
 import 'package:uni/model/entities/stop.dart';
@@ -54,8 +55,8 @@ class ExplorePortoAPIFetcher extends PublicTransportationFetcher{
   }
 
   @override
-  Future<Set<Route>> fetchRoutes(Map<String, Stop> stopMap) async {
-    final Set<Route> routes = {};
+  Future<Map<String,Route>> fetchRoutes(Map<String, Stop> stopMap) async {
+    final Map<String,Route> routes = {};
     final response = await http.post(_endpoint, 
     headers: {"Content-Type": "application/json"}, 
     body: "{\"query\":\"{routes {gtfsId, longName, shortName, mode, patterns{code,stops{gtfsId},directionId}}}\"}");
@@ -69,7 +70,11 @@ class ExplorePortoAPIFetcher extends PublicTransportationFetcher{
       final List<RoutePattern> patterns = patternsList.map((e) {
         final LinkedHashSet<Stop> stops = LinkedHashSet.identity();
         for (dynamic stop in e['stops']){
-          final Stop s = stopMap[stop['gtfsId']]!;
+          final Stop? s = stopMap[stop['gtfsId']];
+          if(s == null){
+            Logger().e("Couldn't find ${stop['gtfsId']}");
+            continue;
+          }
           stops.add(s);
         }
         return RoutePattern(e["code"], e['directionId'], stops);
@@ -81,7 +86,7 @@ class ExplorePortoAPIFetcher extends PublicTransportationFetcher{
         longName: entry['longName'],
         routePatterns: patterns
         );
-      routes.add(route);
+      routes.putIfAbsent(entry['gtfsId'], () => route);
     }
     return routes;
   }

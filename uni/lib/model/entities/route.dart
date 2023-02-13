@@ -7,12 +7,21 @@ class RoutePattern{
   final int direction; //-1 for no direction (like a circular route); 0 for forward and 1 for backwards direction
   final LinkedHashSet<Stop> stops;
 
-  RoutePattern(this.patternId, this.direction, this.stops);
+  final Map<String,dynamic> additionalInformation;
+
+  RoutePattern(
+    this.patternId, 
+    this.direction, 
+    this.stops, 
+    {
+      this.additionalInformation = const {},
+  });
 
   Map<String, dynamic> toMap() => {
     'patternId': patternId,
     'direction': direction,
-    'stops': stops.map((e) => e.code).toList() //to later make it work with encodeJson()
+    'stops': stops.map((e) => e.code).toList(), //to later make it work with encodeJson()
+    'additionalInformation': additionalInformation
   };
 
   static RoutePattern fromMap(Map<String, dynamic> map, Map<String, Stop> stops) => 
