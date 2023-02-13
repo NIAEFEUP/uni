@@ -5,7 +5,7 @@ import 'package:uni/model/entities/location_group.dart';
 import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/entities/trip.dart';
-import 'package:uni/utils/constants.dart' as constants;
+import 'package:uni/utils/drawer_items.dart';
 
 enum RequestStatus { none, busy, failed, successful }
 
@@ -16,12 +16,13 @@ class AppState {
     return {
       'schedule': <Lecture>[],
       'exams': <Exam>[],
+      'hiddenExams': <String>[],
       'restaurants': <Restaurant>[],
       'filteredExam': <String, bool>{},
       'scheduleStatus': RequestStatus.none,
       'loginStatus': RequestStatus.none,
       'examsStatus': RequestStatus.none,
-      'selected_page': constants.navPersonalArea,
+      'selected_page': DrawerItem.navPersonalArea.title,
       'session': Session(
           authenticated: false,
           type: '',
@@ -39,6 +40,8 @@ class AppState {
       'feesStatus': RequestStatus.none,
       'lastUserInfoUpdateTime': null,
       'locationGroups': <LocationGroup>[],
+      'libraryOccupation': null,
+      'libraryOccupationStatus': RequestStatus.none
     };
   }
 

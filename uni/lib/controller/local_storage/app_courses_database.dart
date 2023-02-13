@@ -24,16 +24,13 @@ class AppCoursesDatabase extends AppDatabase {
 
   /// Returns a list containing all of the courses stored in this database.
   Future<List<Course>> courses() async {
-    // Get a reference to the database
     final Database db = await getDatabase();
-
-    // Query the table for All The Courses.
     final List<Map<String, dynamic>> maps = await db.query('courses');
 
     // Convert the List<Map<String, dynamic> into a List<Course>.
     return List.generate(maps.length, (i) {
       return Course(
-          id: maps[i]['id'],
+          id: maps[i]['id'] ?? 0,
           festId: maps[i]['fest_id'],
           name: maps[i]['name'],
           abbreviation: maps[i]['abbreviation'],

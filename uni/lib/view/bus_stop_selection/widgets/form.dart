@@ -36,9 +36,12 @@ class BusesFormState extends State<BusesForm> {
       busesToAdd.fillRange(0, buses.length, false);
     });
     if (!mounted) return;
-    final BusStopData currentConfig = StoreProvider.of<AppState>(context)
+    final BusStopData? currentConfig = StoreProvider.of<AppState>(context)
         .state
         .content['configuredBusStops'][widget.stopCode];
+    if (currentConfig == null) {
+      return;
+    }
     for (int i = 0; i < buses.length; i++) {
       if (currentConfig.configuredBuses.contains(buses[i].busCode)) {
         busesToAdd[i] = true;

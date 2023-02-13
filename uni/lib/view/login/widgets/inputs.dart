@@ -3,12 +3,17 @@ import 'package:uni/view/login/widgets/faculties_multiselect.dart';
 import 'package:uni/view/about/widgets/terms_and_conditions.dart';
 
 /// Creates the widget for the user to choose their faculty
-Widget createFacultyInput(BuildContext context, List<String> faculties, setFaculties) {
+Widget createFacultyInput(
+    BuildContext context, List<String> faculties, setFaculties) {
   return FacultiesMultiselect(faculties, setFaculties);
 }
 
 /// Creates the widget for the username input.
-Widget createUsernameInput(BuildContext context, TextEditingController usernameController, FocusNode usernameFocus, FocusNode passwordFocus) {
+Widget createUsernameInput(
+    BuildContext context,
+    TextEditingController usernameController,
+    FocusNode usernameFocus,
+    FocusNode passwordFocus) {
   return TextFormField(
     style: const TextStyle(color: Colors.white, fontSize: 20),
     enableSuggestions: false,
@@ -23,12 +28,17 @@ Widget createUsernameInput(BuildContext context, TextEditingController usernameC
     textInputAction: TextInputAction.next,
     textAlign: TextAlign.left,
     decoration: textFieldDecoration('número de estudante'),
-    validator: (String? value) =>
-        value!.isEmpty ? 'Preenche este campo' : null,
+    validator: (String? value) => value!.isEmpty ? 'Preenche este campo' : null,
   );
 }
 
-Widget createPasswordInput(BuildContext context, TextEditingController passwordController, FocusNode passwordFocus, bool obscurePasswordInput, Function toggleObscurePasswordInput, Function login) {
+Widget createPasswordInput(
+    BuildContext context,
+    TextEditingController passwordController,
+    FocusNode passwordFocus,
+    bool obscurePasswordInput,
+    Function toggleObscurePasswordInput,
+    Function login) {
   return TextFormField(
       style: const TextStyle(color: Colors.white, fontSize: 20),
       enableSuggestions: false,
@@ -42,9 +52,9 @@ Widget createPasswordInput(BuildContext context, TextEditingController passwordC
       },
       textInputAction: TextInputAction.done,
       obscureText: obscurePasswordInput,
-      enableInteractiveSelection: !obscurePasswordInput,
       textAlign: TextAlign.left,
-      decoration: passwordFieldDecoration('palavra-passe', obscurePasswordInput, toggleObscurePasswordInput),
+      decoration: passwordFieldDecoration(
+          'palavra-passe', obscurePasswordInput, toggleObscurePasswordInput),
       validator: (String? value) =>
           value != null && value.isEmpty ? 'Preenche este campo' : null);
 }
@@ -75,7 +85,7 @@ Widget createLogInButton(queryData, BuildContext context, login) {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(25),
           ),
-          primary: Colors.white,
+          backgroundColor: Colors.white,
         ),
         onPressed: () {
           if (!FocusScope.of(context).hasPrimaryFocus) {
@@ -109,7 +119,8 @@ InputDecoration textFieldDecoration(String placeholder) {
 }
 
 /// Decoration for the password field.
-InputDecoration passwordFieldDecoration(String placeholder, bool obscurePasswordInput, toggleObscurePasswordInput) {
+InputDecoration passwordFieldDecoration(
+    String placeholder, bool obscurePasswordInput, toggleObscurePasswordInput) {
   final genericDecoration = textFieldDecoration(placeholder);
   return InputDecoration(
       hintStyle: genericDecoration.hintStyle,
@@ -126,6 +137,7 @@ InputDecoration passwordFieldDecoration(String placeholder, bool obscurePassword
         color: Colors.white,
       ));
 }
+
 /// Displays terms and conditions if the user is
 /// logging in for the first time.
 createSafeLoginButton(BuildContext context) {

@@ -4,6 +4,7 @@ import 'package:uni/model/entities/bus_stop.dart';
 import 'package:uni/model/entities/course_unit.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/entities/lecture.dart';
+import 'package:uni/model/entities/library_occupation.dart';
 import 'package:uni/model/entities/location_group.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/restaurant.dart';
@@ -39,6 +40,16 @@ class SetCalendarAction {
 class SetCalendarStatusAction {
   RequestStatus status;
   SetCalendarStatusAction(this.status);
+}
+
+class SetLibraryOccupationAction {
+  LibraryOccupation occupation;
+  SetLibraryOccupationAction(this.occupation);
+}
+
+class SetLibraryOccupationStatusAction {
+  RequestStatus status;
+  SetLibraryOccupationStatusAction(this.status);
 }
 
 class SetRestaurantsAction {
@@ -163,6 +174,11 @@ class SetLastUserInfoUpdateTime {
 class SetExamFilter {
   Map<String, bool> filteredExams;
   SetExamFilter(this.filteredExams);
+}
+
+class SetExamHidden {
+  List<String> hiddenExams;
+  SetExamHidden(this.hiddenExams);
 }
 
 class SetLocationsAction {

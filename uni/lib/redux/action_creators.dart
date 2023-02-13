@@ -10,6 +10,7 @@ import 'package:uni/controller/fetchers/current_course_units_fetcher.dart';
 import 'package:uni/controller/fetchers/departures_fetcher.dart';
 import 'package:uni/controller/fetchers/exam_fetcher.dart';
 import 'package:uni/controller/fetchers/fees_fetcher.dart';
+import 'package:uni/controller/fetchers/library_occupation_fetcher.dart';
 import 'package:uni/controller/fetchers/location_fetcher/location_fetcher_asset.dart';
 import 'package:uni/controller/fetchers/print_fetcher.dart';
 import 'package:uni/controller/fetchers/profile_fetcher.dart';
@@ -26,6 +27,7 @@ import 'package:uni/controller/local_storage/app_courses_database.dart';
 import 'package:uni/controller/local_storage/app_exams_database.dart';
 import 'package:uni/controller/local_storage/app_last_user_info_update_database.dart';
 import 'package:uni/controller/local_storage/app_lectures_database.dart';
+import 'package:uni/controller/local_storage/app_library_occupation_database.dart';
 import 'package:uni/controller/local_storage/app_refresh_times_database.dart';
 import 'package:uni/controller/local_storage/app_restaurant_database.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
@@ -42,6 +44,7 @@ import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/course_unit.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/entities/lecture.dart';
+import 'package:uni/model/entities/library_occupation.dart';
 import 'package:uni/model/entities/location_group.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/restaurant.dart';
@@ -215,6 +218,14 @@ ThunkAction<AppState> updateStateBasedOnLocalCalendar() {
   };
 }
 
+ThunkAction<AppState> updateStateBasedOnLocalLibraryOccupation() {
+  return (Store<AppState> store) async {
+    final LibraryOccupationDatabase db = LibraryOccupationDatabase();
+    final LibraryOccupation occupation = await db.occupation();
+    store.dispatch(SetLibraryOccupationAction(occupation));
+  };
+}
+
 ThunkAction<AppState> updateStateBasedOnLocalProfile() {
   return (Store<AppState> store) async {
     final profileDb = AppUserDataDatabase();
@@ -245,10 +256,18 @@ ThunkAction<AppState> updateStateBasedOnLocalRefreshTimes() {
   return (Store<AppState> store) async {
     final AppRefreshTimesDatabase refreshTimesDb = AppRefreshTimesDatabase();
     final Map<String, String> refreshTimes =
-        await refreshTimesDb.refreshTimes();
+    await refreshTimesDb.refreshTimes();
 
     store.dispatch(SetPrintRefreshTimeAction(refreshTimes['print']));
     store.dispatch(SetFeesRefreshTimeAction(refreshTimes['fees']));
+  };
+}
+
+ThunkAction<AppState> updateRestaurantsBasedOnLocalData() {
+  return (Store<AppState> store) async {
+    final RestaurantDatabase restaurantDb = RestaurantDatabase();
+    final List<Restaurant> restaurants = await restaurantDb.getRestaurants();
+    store.dispatch(SetRestaurantsAction(restaurants));
   };
 }
 
@@ -264,7 +283,7 @@ ThunkAction<AppState> getUserExams(Completer<void> action,
               store.state.content['currUcs'])
           .extractExams(store.state.content['session'], parserExams);
 
-      exams.sort((exam1, exam2) => exam1.date.compareTo(exam2.date));
+      exams.sort((exam1, exam2) => exam1.begin.compareTo(exam2.begin));
 
       // Updates local database according to the information fetched -- Exams
       if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {
@@ -312,17 +331,37 @@ ThunkAction<AppState> getRestaurantsFromFetcher(Completer<void> action) {
   return (Store<AppState> store) async {
     try {
       store.dispatch(SetRestaurantsStatusAction(RequestStatus.busy));
-
       final List<Restaurant> restaurants = await RestaurantFetcherHtml()
           .getRestaurants(store.state.content['session']);
       // Updates local database according to information fetched -- Restaurants
       final RestaurantDatabase db = RestaurantDatabase();
       db.saveRestaurants(restaurants);
-      store.dispatch(SetRestaurantsAction(restaurants));
+
       store.dispatch(SetRestaurantsStatusAction(RequestStatus.successful));
+      store.dispatch(SetRestaurantsAction(restaurants));
     } catch (e) {
       Logger().e('Failed to get Restaurants: ${e.toString()}');
       store.dispatch(SetRestaurantsStatusAction(RequestStatus.failed));
+    }
+    action.complete();
+  };
+}
+
+ThunkAction<AppState> getLibraryOccupationFromFetcher(Completer<void> action) {
+  return (Store<AppState> store) async {
+    try {
+      store.dispatch(SetLibraryOccupationStatusAction(RequestStatus.busy));
+
+      final LibraryOccupation occupation = 
+        await LibraryOccupationFetcherSheets().getLibraryOccupationFromSheets(store);
+      final LibraryOccupationDatabase db = LibraryOccupationDatabase();
+      db.saveOccupation(occupation);
+      store.dispatch(SetLibraryOccupationAction(occupation));
+      store.dispatch(SetLibraryOccupationStatusAction(RequestStatus.successful));
+
+    } catch(e){
+      Logger().e('Failed to get Occupation: ${e.toString()}');
+      store.dispatch(SetLibraryOccupationStatusAction(RequestStatus.failed));
     }
     action.complete();
   };
@@ -333,13 +372,13 @@ ThunkAction<AppState> getCalendarFromFetcher(Completer<void> action) {
     try {
       store.dispatch(SetCalendarStatusAction(RequestStatus.busy));
 
-      final List<CalendarEvent> calendar = 
-                      await CalendarFetcherHtml().getCalendar(store);
+      final List<CalendarEvent> calendar =
+          await CalendarFetcherHtml().getCalendar(store);
       final CalendarDatabase db = CalendarDatabase();
       db.saveCalendar(calendar);
       store.dispatch(SetCalendarAction(calendar));
       store.dispatch(SetCalendarStatusAction(RequestStatus.successful));
-    } catch(e) {
+    } catch (e) {
       Logger().e('Failed to get the Calendar: ${e.toString()}');
       store.dispatch(SetCalendarStatusAction(RequestStatus.failed));
     }
@@ -538,6 +577,18 @@ ThunkAction<AppState> setFilteredExams(
     store.dispatch(SetExamFilter(filteredExams));
     AppSharedPreferences.saveFilteredExams(filteredExams);
 
+    action.complete();
+  };
+}
+
+ThunkAction<AppState> toggleHiddenExam(
+    String newExamId, Completer<void> action) {
+  return (Store<AppState> store) async {
+    final List<String> hiddenExams =
+        await AppSharedPreferences.getHiddenExams();
+    hiddenExams.contains(newExamId) ? hiddenExams.remove(newExamId) : hiddenExams.add(newExamId);
+    store.dispatch(SetExamHidden(hiddenExams));
+    await AppSharedPreferences.saveHiddenExams(hiddenExams);
     action.complete();
   };
 }
