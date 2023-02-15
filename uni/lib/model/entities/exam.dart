@@ -47,6 +47,7 @@ class Exam {
   late final String subject;
   late final List<String> rooms;
   late final String type;
+  late final String faculty;
   bool isHidden = false;
 
   static Map<String, String> types = {
@@ -58,10 +59,12 @@ class Exam {
     'Exames ao abrigo de estatutos especiais': 'EAE'
   };
 
-  Exam(this.id, this.begin, this.end, this.subject, this.rooms, this.type);
+  Exam(this.id, this.begin, this.end, this.subject, this.rooms, this.type, this.faculty);
+  static List<String> displayedTypes = types.keys.toList().sublist(0, 4);
+
 
   Exam.secConstructor(
-      this.id, this.subject, this.begin, this.end, String rooms, this.type) {
+      this.id, this.subject, this.begin, this.end, String rooms, this.type,this.faculty) {
     this.rooms = rooms.split(',');
   }
 
@@ -70,14 +73,11 @@ class Exam {
     return {
       'id': id,
       'subject': subject,
-      'begin': beginTime,
-      'end': endTime,
+      'begin': DateFormat("yyyy-MM-dd HH:mm:ss").format(begin),
+      'end': DateFormat("yyyy-MM-dd HH:mm:ss").format(end),
       'rooms': rooms.join(','),
-      'day': begin.day.toString(),
       'examType': type,
-      'weekDay': weekDay,
-      'month': month,
-      'year': begin.year.toString()
+      'faculty':faculty
     };
   }
 

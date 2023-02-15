@@ -25,10 +25,10 @@ class AppExamsDatabase extends AppDatabase {
 
   static const _createScript =
       '''CREATE TABLE exams(id TEXT, subject TEXT, begin TEXT, end TEXT,
-          rooms TEXT, day TEXT, examType TEXT, weekDay TEXT, month TEXT, year TEXT) ''';
+          rooms TEXT, examType TEXT, faculty TEXT, PRIMARY KEY (id,faculty)) ''';
 
   AppExamsDatabase()
-      : super('exams.db', [_createScript], onUpgrade: migrate, version: 2);
+      : super('exams.db', [_createScript], onUpgrade: migrate, version: 3);
 
   /// Replaces all of the data in this database with [exams].
   saveNewExams(List<Exam> exams) async {
@@ -45,22 +45,11 @@ class AppExamsDatabase extends AppDatabase {
       return Exam.secConstructor(
           maps[i]['id'] ?? 0,
           maps[i]['subject'],
-          DateTime.parse(maps[i]['year'] +
-              '-' +
-              months[maps[i]['month']] +
-              '-' +
-              maps[i]['day'] +
-              ' ' +
-              maps[i]['begin']),
-          DateTime.parse(maps[i]['year'] +
-              '-' +
-              months[maps[i]['month']] +
-              '-' +
-              maps[i]['day'] +
-              ' ' +
-              maps[i]['end']),
+          DateTime.parse(maps[i]['begin']),
+          DateTime.parse(maps[i]['end']),
           maps[i]['rooms'],
-          maps[i]['examType']);
+          maps[i]['examType'],
+          maps[i]['faculty']);
     });
   }
 

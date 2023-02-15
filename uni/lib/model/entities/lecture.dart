@@ -1,16 +1,8 @@
 import 'package:logger/logger.dart';
+import 'package:uni/model/entities/time_utilities.dart';
 
 /// Stores information about a lecture.
 class Lecture {
-  static var dayName = [
-    'Segunda-feira',
-    'Terça-feira',
-    'Quarta-feira',
-    'Quinta-feira',
-    'Sexta-feira',
-    'Sábado',
-    'Domingo'
-  ];
   String subject;
   String typeClass;
   String room;
@@ -123,6 +115,9 @@ class Lecture {
   @override
   String toString() {
     return "$subject $typeClass\n$startTime $endTime $blocks blocos\n $room  $teacher\n";
+    Logger().i('$subject $typeClass');
+    Logger().i('${TimeString.getWeekdaysStrings()[day]} $startTime $endTime $blocks blocos');
+    Logger().i('$room  $teacher\n');
   }
 
   /// Compares the date and time of two lectures.
