@@ -57,6 +57,8 @@ AppState appReducers(AppState state, dynamic action) {
     return setLastUserInfoUpdateTime(state, action);
   } else if (action is SetExamFilter) {
     return setExamFilter(state, action);
+  } else if (action is SetExamHidden) {
+    return setExamHidden(state, action);
   } else if (action is SetLocationsAction) {
     return setLocations(state, action);
   } else if (action is SetLocationsStatusAction) {
@@ -65,11 +67,18 @@ AppState appReducers(AppState state, dynamic action) {
     return setUserFaculties(state, action);
   } else if (action is SetRestaurantsAction) {
     return setRestaurantsAction(state, action);
+  } else if (action is SetRestaurantsStatusAction) {
+    return setRestaurantsStatusAction(state, action);
   } else if (action is SetCalendarAction) {
     return setCalendarAction(state, action);
   } else if (action is SetCalendarStatusAction) {
     return setCalendarStatus(state, action);
+  } else if (action is SetLibraryOccupationAction) {
+    return setLibraryOccupationAction(state, action);
+  } else if (action is SetLibraryOccupationStatusAction) {
+    return setLibraryOccupationStatus(state, action);
   }
+
   return state;
 }
 
@@ -88,6 +97,19 @@ AppState setExams(AppState state, SetExamsAction action) {
   return state.cloneAndUpdateValue('exams', action.exams);
 }
 
+AppState setLibraryOccupationAction(
+    AppState state, SetLibraryOccupationAction action) {
+  Logger().i(
+      'setting library occupation: ${action.occupation.percentage.toString()}%');
+  return state.cloneAndUpdateValue('libraryOccupation', action.occupation);
+}
+
+AppState setLibraryOccupationStatus(
+    AppState state, SetLibraryOccupationStatusAction action) {
+  Logger().i('setting library occupation status: ${action.status}%');
+  return state.cloneAndUpdateValue('libraryOccupationStatus', action.status);
+}
+
 AppState setCalendarAction(AppState state, SetCalendarAction action) {
   Logger().i('setting calendar: ${action.calendar.length.toString()}');
   return state.cloneAndUpdateValue('calendar', action.calendar);
@@ -101,6 +123,12 @@ AppState setCalendarStatus(AppState state, SetCalendarStatusAction action) {
 AppState setRestaurantsAction(AppState state, SetRestaurantsAction action) {
   Logger().i('setting restaurants: ${action.restaurants.length}');
   return state.cloneAndUpdateValue('restaurants', action.restaurants);
+}
+
+AppState setRestaurantsStatusAction(
+    AppState state, SetRestaurantsStatusAction action) {
+  Logger().i('setting restaurants status: ${action.status}');
+  return state.cloneAndUpdateValue('restaurantsStatus', action.status);
 }
 
 AppState setExamsStatus(AppState state, SetExamsStatusAction action) {
@@ -222,6 +250,11 @@ AppState setLastUserInfoUpdateTime(
 AppState setExamFilter(AppState state, SetExamFilter action) {
   Logger().i('setting exam type filter to ${action.filteredExams}');
   return state.cloneAndUpdateValue('filteredExams', action.filteredExams);
+}
+
+AppState setExamHidden(AppState state, SetExamHidden action) {
+  Logger().i('setting hidden exams to ${action.hiddenExams}');
+  return state.cloneAndUpdateValue('hiddenExams', action.hiddenExams);
 }
 
 AppState setLocations(AppState state, SetLocationsAction action) {
