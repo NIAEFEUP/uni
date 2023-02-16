@@ -1,6 +1,4 @@
 import 'dart:async';
-
-import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' show parse;
 import 'package:html/dom.dart';
