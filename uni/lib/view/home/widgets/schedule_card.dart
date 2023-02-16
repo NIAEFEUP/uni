@@ -5,6 +5,7 @@ import 'package:tuple/tuple.dart';
 
 import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/lecture.dart';
+import 'package:uni/model/entities/time_utilities.dart';
 import 'package:uni/view/common_widgets/date_rectangle.dart';
 import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
@@ -64,7 +65,7 @@ class ScheduleCard extends GenericCard {
       if (now.compareTo(lectures[i].endTime) < 0) {
         if (lastDayAdded.weekday != lectures[i].startTime.weekday &&
             lastDayAdded.compareTo(lectures[i].startTime) <= 0) {
-          rows.add(DateRectangle(date: Lecture.dayName[(lectures[i].startTime.weekday-1) % 7]));
+          rows.add(DateRectangle(date: TimeString.getWeekdaysStrings()[(lectures[i].startTime.weekday-1) % 7]));
         }
 
         rows.add(createRowFromLecture(context, lectures[i]));
@@ -74,7 +75,7 @@ class ScheduleCard extends GenericCard {
     }
 
     if (rows.isEmpty) {
-      rows.add(DateRectangle(date: Lecture.dayName[lectures[0].startTime.weekday % 7]));
+      rows.add(DateRectangle(date: TimeString.getWeekdaysStrings()[lectures[0].startTime.weekday % 7]));
       rows.add(createRowFromLecture(context, lectures[0]));
     }
     return rows;

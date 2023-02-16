@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' show parse;
 import 'package:html/dom.dart';
@@ -9,9 +10,24 @@ import 'package:uni/model/entities/lecture.dart';
 
 import 'package:uni/model/entities/session.dart';
 
+
+DateTime getClosestMonday(){
+  DateTime monday = DateTime.now();
+  monday = monday.subtract(Duration(hours: monday.hour, minutes: monday.minute, seconds: monday.second));
+  //get closest monday
+  if(monday.weekday >=1 && monday.weekday <= 5){
+    monday = monday.subtract(Duration(days:monday.weekday-1));
+  } else {
+    monday = monday.add(Duration(days: DateTime.daysPerWeek - monday.weekday + 1));
+  }
+  return monday;
+}
+
 Future<List<Lecture>> getOverlappedClasses(
     Session session, Document document) async {
   final List<Lecture> lecturesList = [];
+
+  final DateTime monday = getClosestMonday();
 
   final overlappingClasses = document.querySelectorAll('.dados > tbody > .d');
   for (final element in overlappingClasses) {
@@ -34,7 +50,12 @@ Future<List<Lecture>> getOverlappedClasses(
     final String? classNumber =
         element.querySelector('td[headers=t6] > a')?.text;
 
+
     try {
+      final DateTime fullStartTime = monday.add(Duration(
+        days: day,
+        hours: int.parse(startTime!.substring(0, 2)),
+        minutes: int.parse(startTime.substring(3, 5))));
       final String? link =
           element.querySelector('td[headers=t6] > a')?.attributes['href'];
 
@@ -45,14 +66,14 @@ Future<List<Lecture>> getOverlappedClasses(
           await NetworkRouter.getWithCookies(link, {}, session);
 
       final classLectures = await getScheduleFromHtml(response, session);
+
       lecturesList.add(classLectures
           .where((element) =>
               element.subject == subject &&
-              startTime?.replaceFirst(':', 'h') == element.startTime &&
-              element.day == day)
+              element.startTime == fullStartTime)
           .first);
     } catch (e) {
-      final Lecture lect = Lecture.fromHtml(subject!, typeClass!, day,
+      final Lecture lect = Lecture.fromHtml(subject!, typeClass!, monday.add(Duration(days: day)),
           startTime!, 0, room!, teacher!, classNumber!, -1);
       lecturesList.add(lect);
     }
@@ -71,14 +92,7 @@ Future<List<Lecture>> getScheduleFromHtml(
 
   final List<Lecture> lecturesList = [];
 
-  DateTime monday = DateTime.now();
-  monday = monday.subtract(Duration(hours: monday.hour, minutes: monday.minute, seconds: monday.second));
-  //get closest monday
-  if(monday.weekday >=1 && monday.weekday <= 5){
-    monday = monday.subtract(Duration(days:monday.weekday-1));
-  } else {
-    monday = monday.add(Duration(days: DateTime.daysPerWeek - monday.weekday + 1));
-  }
+  final DateTime monday = getClosestMonday();
 
   document.querySelectorAll('.horario > tbody > tr').forEach((Element element) {
     if (element.getElementsByClassName('horas').isNotEmpty) {
