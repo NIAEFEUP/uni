@@ -23,8 +23,9 @@ class MainCardsList extends StatelessWidget {
         ExamCard.fromEditingInformation(k, em, od),
     FavoriteWidgetType.account: (k, em, od) =>
         AccountInfoCard.fromEditingInformation(k, em, od),
-    FavoriteWidgetType.printBalance: (k, em, od) =>
+   /* FavoriteWidgetType.printBalance: (k, em, od) =>
         PrintInfoCard.fromEditingInformation(k, em, od),
+    */
     FavoriteWidgetType.busStops: (k, em, od) =>
         BusStopCard.fromEditingInformation(k, em, od),
     FavoriteWidgetType.libraryOccupation: (k, em, od) =>

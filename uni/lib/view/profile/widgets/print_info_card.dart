@@ -4,7 +4,9 @@ import 'package:uni/model/app_state.dart';
 import 'package:uni/view/profile/widgets/create_print_mb_dialog.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
 
+/*
 class PrintInfoCard extends GenericCard {
+
   PrintInfoCard({Key? key}) : super(key: key);
 
   const PrintInfoCard.fromEditingInformation(
@@ -69,3 +71,4 @@ class PrintInfoCard extends GenericCard {
   @override
   onClick(BuildContext context) {}
 }
+ */

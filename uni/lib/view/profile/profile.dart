@@ -92,7 +92,9 @@ class ProfilePageViewState extends SecondaryPageViewState<ProfilePageView> {
       list.add(CourseInfoCard(course: widget.courses[i]));
       list.add(const Padding(padding: EdgeInsets.all(5.0)));
     }
+    /*
     list.add(PrintInfoCard());
+     */
     list.add(const Padding(padding: EdgeInsets.all(5.0)));
     list.add(AccountInfoCard());
     return list;
