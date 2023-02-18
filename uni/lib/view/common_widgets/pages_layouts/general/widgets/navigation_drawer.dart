@@ -132,21 +132,30 @@ class AppNavigationDrawerState extends State<AppNavigationDrawer> {
       }
     }
 
-    return Drawer(
-        child: Column(
+    return NavigationDrawer(
       children: <Widget>[
-        Expanded(
-            child: Container(
+        Container(
           padding: const EdgeInsets.only(top: 55.0),
-          child: ListView(
+          child: Column(
             children: drawerOptions,
           ),
-        )),
-        Row(children: <Widget>[
-          Expanded(child: createLogoutBtn()),
-          createThemeSwitchBtn()
-        ])
+        ),
+        // Logout Button and Theme Switcher positioned at the bottom of the drawer
+        Container(
+          height: 100.0,
+          child: Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              child: Row(
+                children: <Widget>[
+                  Expanded(child: createLogoutBtn()),
+                  createThemeSwitchBtn(),
+                ],
+              ),
+            ),
+          ),
+        ),
       ],
-    ));
+    );
   }
 }
