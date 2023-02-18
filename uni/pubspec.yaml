@@ -73,7 +73,6 @@ dependencies:
   percent_indicator: ^4.2.2
   shimmer: ^2.0.0
   material_design_icons_flutter: ^6.0.7096
-
 dev_dependencies:
   flutter_test:
     sdk: flutter

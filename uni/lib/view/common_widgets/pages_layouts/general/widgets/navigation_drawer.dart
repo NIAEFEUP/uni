@@ -78,7 +78,7 @@ class AppNavigationDrawerState extends State<AppNavigationDrawer> {
         child: Text(logOutText,
             style: Theme.of(context)
                 .textTheme
-                .headline6!
+                .titleLarge!
                 .copyWith(color: Theme.of(context).primaryColor)),
       ),
     );
@@ -132,30 +132,25 @@ class AppNavigationDrawerState extends State<AppNavigationDrawer> {
       }
     }
 
-    return NavigationDrawer(
-      children: <Widget>[
-        Container(
-          padding: const EdgeInsets.only(top: 55.0),
-          child: Column(
-            children: drawerOptions,
-          ),
+    return NavigationDrawer(children: <Widget>[
+      Container(
+        padding: const EdgeInsets.only(top: 55.0),
+        child: Column(
+          children: drawerOptions,
         ),
-        // Logout Button and Theme Switcher positioned at the bottom of the drawer
-        Container(
-          height: 100.0,
-          child: Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              child: Row(
-                children: <Widget>[
-                  Expanded(child: createLogoutBtn()),
-                  createThemeSwitchBtn(),
-                ],
-              ),
-            ),
+      ),
+      const Padding(
+        padding: EdgeInsets.fromLTRB(18, 16, 18, 10),
+        child: Divider(),
+      ),
+      Row(
+        children: <Widget>[
+          Expanded(
+            child: createLogoutBtn(),
           ),
-        ),
-      ],
-    );
+          createThemeSwitchBtn()
+        ],
+      )
+    ]);
   }
 }
