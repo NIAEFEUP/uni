@@ -58,7 +58,7 @@ class ScheduleSlot extends StatelessWidget {
   }
 
   Widget createScheduleTime(String time, context) => createTextField(
-      time, Theme.of(context).textTheme.bodyText2, TextAlign.center);
+      time, Theme.of(context).textTheme.bodyMedium, TextAlign.center);
 
   String toUcLink(int occurrId) {
     const String faculty = 'feup'; //should not be hardcoded
@@ -95,13 +95,13 @@ class ScheduleSlot extends StatelessWidget {
         subject,
         Theme.of(context)
             .textTheme
-            .headline5!
+            .headlineSmall!
             .apply(color: Theme.of(context).colorScheme.tertiary),
         TextAlign.center);
     final typeClassTextField = createTextField(' ($typeClass)',
-        Theme.of(context).textTheme.bodyText2, TextAlign.center);
+        Theme.of(context).textTheme.bodyMedium, TextAlign.center);
     final roomTextField = createTextField(
-        rooms, Theme.of(context).textTheme.bodyText2, TextAlign.right);
+        rooms, Theme.of(context).textTheme.bodyMedium, TextAlign.right);
     return [
       createScheduleSlotTime(context),
       Expanded(
@@ -128,7 +128,7 @@ class ScheduleSlot extends StatelessWidget {
   Widget createScheduleSlotTeacherClassInfo(context) {
     return createTextField(
         classNumber != null ? '$classNumber | $teacher' : teacher,
-        Theme.of(context).textTheme.bodyText2,
+        Theme.of(context).textTheme.bodyMedium,
         TextAlign.center);
   }
 

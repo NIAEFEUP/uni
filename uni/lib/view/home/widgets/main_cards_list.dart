@@ -14,7 +14,6 @@ import 'package:uni/view/profile/widgets/print_info_card.dart';
 import 'package:uni/view/home/widgets/schedule_card.dart';
 import 'package:uni/utils/drawer_items.dart';
 
-
 class MainCardsList extends StatelessWidget {
   final Map<FavoriteWidgetType, Function> cardCreators = {
     FavoriteWidgetType.schedule: (k, em, od) =>
@@ -51,7 +50,7 @@ class MainCardsList extends StatelessWidget {
             return AlertDialog(
                 title: Text(
                     'Escolhe um widget para adicionares à tua área pessoal:',
-                    style: Theme.of(context).textTheme.headline5),
+                    style: Theme.of(context).textTheme.headlineSmall),
                 content: SizedBox(
                   height: 200.0,
                   width: 100.0,
@@ -60,7 +59,7 @@ class MainCardsList extends StatelessWidget {
                 actions: [
                   TextButton(
                       child: Text('Cancelar',
-                          style: Theme.of(context).textTheme.bodyText2),
+                          style: Theme.of(context).textTheme.bodyMedium),
                       onPressed: () => Navigator.pop(context))
                 ]);
           }), //Add FAB functionality here
@@ -78,10 +77,7 @@ class MainCardsList extends StatelessWidget {
       if (!key.isVisible(userSession.faculties)) {
         return;
       }
-      if (!store
-          .state
-          .content['favoriteCards']
-          .contains(key)) {
+      if (!store.state.content['favoriteCards'].contains(key)) {
         result.add(Container(
           decoration: const BoxDecoration(),
           child: ListTile(
@@ -139,7 +135,7 @@ class MainCardsList extends StatelessWidget {
             onTap: () => StoreProvider.of<AppState>(context)
                 .dispatch(SetHomePageEditingMode(!isEditing(context))),
             child: Text(isEditing(context) ? 'Concluir Edição' : 'Editar',
-                style: Theme.of(context).textTheme.caption))
+                style: Theme.of(context).textTheme.bodySmall))
       ]),
     );
   }

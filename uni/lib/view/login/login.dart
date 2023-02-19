@@ -74,7 +74,7 @@ class LoginPageViewState extends State<LoginPageView> {
       _obscurePasswordInput = !_obscurePasswordInput;
     });
   }
-      
+
   @override
   Widget build(BuildContext context) {
     final MediaQueryData queryData = MediaQuery.of(context);
@@ -170,11 +170,17 @@ class LoginPageViewState extends State<LoginPageView> {
         child: Column(children: [
           createFacultyInput(context, faculties, setFaculties),
           Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)),
-          createUsernameInput(context, usernameController, usernameFocus, passwordFocus), 
+          createUsernameInput(
+              context, usernameController, usernameFocus, passwordFocus),
           Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)),
-          createPasswordInput(context, passwordController, passwordFocus, _obscurePasswordInput, _toggleObscurePasswordInput, () => _login(context)),
+          createPasswordInput(
+              context,
+              passwordController,
+              passwordFocus,
+              _obscurePasswordInput,
+              _toggleObscurePasswordInput,
+              () => _login(context)),
           Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)),
-
           createSaveDataCheckBox(_keepSignedIn, _setKeepSignedIn),
         ]),
       ),
@@ -182,17 +188,14 @@ class LoginPageViewState extends State<LoginPageView> {
   }
 
   ///Creates the widget for when the user forgets the password
-  Widget createForgetPasswordLink(BuildContext context){
+  Widget createForgetPasswordLink(BuildContext context) {
     return InkWell(
-      child: Center(
-        child:Text("Esqueceu a palavra-passe?",
-          style: Theme.of(context)
-            .textTheme
-            .bodyText1!
-            .copyWith(decoration: TextDecoration.underline, color: Colors.white))
-      ),
-        onTap: () => launchUrl(Uri.parse("https://self-id.up.pt/reset"))
-    );
+        child: Center(
+            child: Text("Esqueceu a palavra-passe?",
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                    decoration: TextDecoration.underline,
+                    color: Colors.white))),
+        onTap: () => launchUrl(Uri.parse("https://self-id.up.pt/reset")));
   }
 
   /// Creates a widget for the user login depending on the status of his login.

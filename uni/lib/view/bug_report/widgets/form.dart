@@ -139,7 +139,7 @@ class BugReportFormState extends State<BugReportForm> {
         child: Text(
             '''Encontraste algum bug na aplicação?\nTens alguma '''
             '''sugestão para a app?\nConta-nos para que possamos melhorar!''',
-            style: Theme.of(context).textTheme.bodyText2,
+            style: Theme.of(context).textTheme.bodyMedium,
             textAlign: TextAlign.center),
       ),
     );
@@ -155,7 +155,7 @@ class BugReportFormState extends State<BugReportForm> {
         children: <Widget>[
           Text(
             'Tipo de ocorrência',
-            style: Theme.of(context).textTheme.bodyText2,
+            style: Theme.of(context).textTheme.bodyMedium,
             textAlign: TextAlign.left,
           ),
           Row(children: <Widget>[
@@ -191,7 +191,7 @@ class BugReportFormState extends State<BugReportForm> {
         child: CheckboxListTile(
           title: Text(
               '''Consinto que esta informação seja revista pelo NIAEFEUP, podendo ser eliminada a meu pedido.''',
-              style: Theme.of(context).textTheme.bodyText2,
+              style: Theme.of(context).textTheme.bodyMedium,
               textAlign: TextAlign.left),
           value: _isConsentGiven,
           onChanged: (bool? newValue) {
@@ -259,7 +259,9 @@ class BugReportFormState extends State<BugReportForm> {
 
     if (mounted) {
       FocusScope.of(context).requestFocus(FocusNode());
-      status ? ToastMessage.success(context, toastMsg) : ToastMessage.error(context, toastMsg);
+      status
+          ? ToastMessage.success(context, toastMsg)
+          : ToastMessage.error(context, toastMsg);
       setState(() {
         _isButtonTapped = false;
       });
