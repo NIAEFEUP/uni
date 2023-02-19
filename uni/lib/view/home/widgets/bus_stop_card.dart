@@ -10,7 +10,6 @@ import 'package:uni/view/common_widgets/last_update_timestamp.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
 import 'package:uni/utils/drawer_items.dart';
 
-
 /// Manages the bus stops card displayed on the user's personal area
 class BusStopCard extends GenericCard {
   const BusStopCard.fromEditingInformation(
@@ -57,7 +56,7 @@ class BusStopCard extends GenericCard {
                   Text('Configura os teus autocarros',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.subtitle2!.apply()),
+                      style: Theme.of(context).textTheme.titleSmall!.apply()),
                   IconButton(
                     icon: const Icon(Icons.settings),
                     onPressed: () => Navigator.push(
@@ -85,7 +84,7 @@ class BusStopCard extends GenericCard {
           Container(
               padding: const EdgeInsets.all(8.0),
               child: Text('Não foi possível obter informação',
-                  style: Theme.of(context).textTheme.subtitle1))
+                  style: Theme.of(context).textTheme.titleMedium))
         ]);
     }
   }
@@ -96,7 +95,7 @@ class BusStopCard extends GenericCard {
       children: <Widget>[
         const Icon(Icons.directions_bus), // color lightgrey
         Text('STCP - Próximas Viagens',
-            style: Theme.of(context).textTheme.subtitle1),
+            style: Theme.of(context).textTheme.titleMedium),
       ],
     );
   }

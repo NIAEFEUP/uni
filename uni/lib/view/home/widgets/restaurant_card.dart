@@ -36,7 +36,7 @@ class RestaurantCard extends GenericCard {
               contentChecker: canteen?.item1.isNotEmpty ?? false,
               onNullContent: Center(
                   child: Text('Não existem cantinas para apresentar',
-                      style: Theme.of(context).textTheme.headline4,
+                      style: Theme.of(context).textTheme.headlineMedium,
                       textAlign: TextAlign.center)));
         });
   }

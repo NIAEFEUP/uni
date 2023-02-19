@@ -28,7 +28,7 @@ class PrintInfoCard extends GenericCard {
                   margin: const EdgeInsets.only(
                       top: 20.0, bottom: 20.0, left: 20.0),
                   child: Text('Valor disponível: ',
-                      style: Theme.of(context).textTheme.subtitle2),
+                      style: Theme.of(context).textTheme.titleSmall),
                 ),
                 Container(
                   margin: const EdgeInsets.only(right: 15.0),
@@ -37,7 +37,7 @@ class PrintInfoCard extends GenericCard {
                       builder: (context, printBalance) => Text(
                           printBalance ?? '?',
                           textAlign: TextAlign.end,
-                          style: Theme.of(context).textTheme.headline6)),
+                          style: Theme.of(context).textTheme.titleLarge)),
                 ),
                 Container(
                     margin: const EdgeInsets.only(right: 5.0),

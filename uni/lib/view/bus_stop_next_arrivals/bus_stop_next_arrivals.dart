@@ -100,7 +100,7 @@ class NextArrivalsState extends State<NextArrivals>
       result.addAll(getContent(context));
     } else {
       result.add(Text('Não existe nenhuma paragem configurada',
-          style: Theme.of(context).textTheme.headline6));
+          style: Theme.of(context).textTheme.titleLarge));
     }
 
     return result;
@@ -135,7 +135,7 @@ class NextArrivalsState extends State<NextArrivals>
         child: Text('Não foi possível obter informação',
             maxLines: 2,
             overflow: TextOverflow.fade,
-            style: Theme.of(context).textTheme.subtitle1)));
+            style: Theme.of(context).textTheme.titleMedium)));
 
     return result;
   }

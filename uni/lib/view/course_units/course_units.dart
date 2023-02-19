@@ -10,8 +10,6 @@ import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
 import 'package:uni/view/course_units/widgets/course_unit_card.dart';
 import 'package:uni/utils/drawer_items.dart';
 
-
-
 class CourseUnitsPageView extends StatefulWidget {
   const CourseUnitsPageView({Key? key}) : super(key: key);
 
@@ -94,7 +92,7 @@ class CourseUnitsPageViewState
           onNullContent: Center(
             heightFactor: 10,
             child: Text('Não existem cadeiras para apresentar',
-                style: Theme.of(context).textTheme.headline6),
+                style: Theme.of(context).textTheme.titleLarge),
           ))
     ]);
   }
@@ -149,7 +147,7 @@ class CourseUnitsPageViewState
       return Center(
           heightFactor: 10,
           child: Text('Sem cadeiras no período selecionado',
-              style: Theme.of(context).textTheme.headline6));
+              style: Theme.of(context).textTheme.titleLarge));
     }
     return Expanded(
         child: Container(
