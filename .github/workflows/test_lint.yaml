@@ -8,7 +8,7 @@ jobs:
       run:
         working-directory: ./uni
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: actions/setup-java@v1
         with:
           java-version: '11.x'
@@ -33,7 +33,7 @@ jobs:
       run:
         working-directory: ./uni
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: actions/setup-java@v1
         with:
           java-version: '11.x'

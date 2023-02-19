@@ -67,7 +67,7 @@ class LibraryOccupationCard extends GenericCard {
             ],
           ),
           circularStrokeCap: CircularStrokeCap.square,
-          backgroundColor: Theme.of(context).hintColor,
+          backgroundColor: Theme.of(context).dividerColor,
           progressColor: Theme.of(context).colorScheme.secondary,
         ));
   }
