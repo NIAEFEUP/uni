@@ -3,11 +3,11 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:uni/model/app_state.dart';
 import 'package:uni/redux/action_creators.dart';
+import 'package:uni/view/common_widgets/url_launcher.dart';
 import 'package:uni/view/common_widgets/toast_message.dart';
 import 'package:uni/view/theme.dart';
 import 'package:uni/view/login/widgets/inputs.dart';
 import 'package:uni/utils/drawer_items.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class LoginPageView extends StatefulWidget {
   const LoginPageView({super.key});
@@ -191,7 +191,7 @@ class LoginPageViewState extends State<LoginPageView> {
             .bodyText1!
             .copyWith(decoration: TextDecoration.underline, color: Colors.white))
       ),
-        onTap: () => launchUrl(Uri.parse("https://self-id.up.pt/reset"))
+        onTap: () => launchUrlWithToast(context,"https://self-id.up.pt/reset")
     );
   }
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:uni/controller/networking/network_router.dart';
+import 'package:uni/view/common_widgets/url_launcher.dart';
 import 'package:uni/view/common_widgets/row_container.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class ScheduleSlot extends StatelessWidget {
   final String subject;
@@ -66,9 +66,9 @@ class ScheduleSlot extends StatelessWidget {
         'UCURR_GERAL.FICHA_UC_VIEW?pv_ocorrencia_id=$occurrId';
   }
 
-  _launchURL() async {
+  _launchURL(context) async {
     final String url = toUcLink(occurrId);
-    await launchUrl(Uri.parse(url));
+    await launchUrlWithToast(context, url);
   }
 
   Widget createSubjectButton(BuildContext context) {
@@ -84,7 +84,7 @@ class ScheduleSlot extends StatelessWidget {
           color: Colors.grey,
           alignment: Alignment.centerRight,
           tooltip: 'Abrir página da UC no browser',
-          onPressed: _launchURL,
+          onPressed: () => _launchURL(context),
         ),
       ],
     );
