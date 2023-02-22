@@ -12,6 +12,8 @@ import 'package:uni/model/entities/route.dart';
 
 class ExplorePortoAPIFetcher extends PublicTransportationFetcher{
 
+  ExplorePortoAPIFetcher() : super("explorePorto");
+
   static final Uri _endpoint = Uri.https("otp.services.porto.digital", "/otp/routers/default/index/graphql");
 
 
@@ -45,10 +47,10 @@ class ExplorePortoAPIFetcher extends PublicTransportationFetcher{
       //when the stop is of a subway they have no code so we have to deal with it differently
       if(transportType == TransportationType.subway || transportType == TransportationType.funicular){
         map.putIfAbsent(entry['gtfsId'], () => 
-          Stop(entry['gtfsId'], entry['name'], transportType, entry['lat'], entry['lon']));
+          Stop(entry['gtfsId'], entry['name'], transportType, entry['lat'], entry['lon'], providerName));
       } else{
         map.putIfAbsent(entry['gtfsId'], () => 
-          Stop(entry['gtfsId'], entry['code'], transportType, entry['lat'], entry['lon'], longName: entry['name']));
+          Stop(entry['gtfsId'], entry['code'], transportType, entry['lat'], entry['lon'], providerName, longName: entry['name']));
       }
     }
     return map;
@@ -68,27 +70,35 @@ class ExplorePortoAPIFetcher extends PublicTransportationFetcher{
       final TransportationType transportType = convertVehicleMode(entry['mode']);
       final List<dynamic> patternsList = entry["patterns"];
       final List<RoutePattern> patterns = patternsList.map((e) {
-        final LinkedHashSet<Stop> stops = LinkedHashSet.identity();
+        final LinkedHashMap<Stop, List<DateTime>> stops = LinkedHashMap.identity();
         for (dynamic stop in e['stops']){
           final Stop? s = stopMap[stop['gtfsId']];
           if(s == null){
-            Logger().e("Couldn't find ${stop['gtfsId']}");
+            Logger().e("Couldn't find stop ${stop['gtfsId']} on route ${entry['gtfsId']}...");
             continue;
           }
-          stops.add(s);
+          stops.putIfAbsent(s, () => List.empty());
         }
-        return RoutePattern(e["code"], e['directionId'], stops);
+        return RoutePattern(e["code"], e['directionId'], stops, providerName);
       }).toList();
       final Route route = Route(
         entry['gtfsId'], 
         entry['shortName'], 
         transportType, 
+        providerName,
         longName: entry['longName'],
         routePatterns: patterns
         );
       routes.putIfAbsent(entry['gtfsId'], () => route);
     }
     return routes;
+  }
+  
+  @override
+  Future<void> fetchRoutePatternTimetable(RoutePattern routePattern) {
+    // TODO: implement fetchRoutePatternTimetable
+
+    throw UnimplementedError();
   }
 
 

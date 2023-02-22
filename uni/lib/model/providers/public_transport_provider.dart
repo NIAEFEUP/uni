@@ -28,8 +28,15 @@ class PublicTransportationProvider extends StateProviderNotifier{
     final AppPublicTransportDatabase appPublicTransportDatabase = AppPublicTransportDatabase();
     try{
       for(PublicTransportationFetcher fetcher in fetchers){
-        _stops.addAll(await fetcher.fetchStops());
-        _routes.addAll(await fetcher.fetchRoutes(_stops));
+        final stops = await fetcher.fetchStops();
+        //Map.addAll() doesn't work in the first time for some reason, so we do it manually :) 
+        for(MapEntry<String, Stop> stop in stops.entries){
+          _stops[stop.key] = stop.value;
+        }
+        final routes = await fetcher.fetchRoutes(_stops);
+        for(MapEntry<String, Route> route in routes.entries){
+          _routes[route.key] = route.value;
+        }
       }
       updateStatus(RequestStatus.successful);
       appPublicTransportDatabase.insertStops(_stops);

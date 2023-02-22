@@ -15,6 +15,7 @@ class Stop{
   final String code;
   final String name;
   final String longName;
+  final String providerName;
   final TransportationType transportationType;
   final double latitude;
   final double longitude;
@@ -25,6 +26,7 @@ class Stop{
     this.transportationType, 
     this.latitude, 
     this.longitude,
+    this.providerName,
     {
       this.longName = '',
     }
@@ -38,6 +40,7 @@ class Stop{
       'transportationType':transportationType.name,
       'latitude':latitude,
       'longitude':longitude,
+      'providerName':providerName
     };
   }
 
@@ -48,6 +51,7 @@ class Stop{
       TransportationType.values.byName(map['transportationType']),
       map['latitude'],
       map['longitude'],
+      map['providerName'],
       longName: map['longName'],
     );
 

@@ -11,9 +11,9 @@ class AppPublicTransportDatabase extends AppDatabase{
   AppPublicTransportDatabase() : super(
     "public-transport.db", 
     [
-      "CREATE TABLE Stops (code TEXT PRIMARY KEY, name TEXT NOT NULL, longName TEXT, transportationType TEXT NOT NULL, latitude NOT NULL, longitude NOT NULL);",
+      "CREATE TABLE Stops (code TEXT PRIMARY KEY, name TEXT NOT NULL, longName TEXT, transportationType TEXT NOT NULL, latitude REAL NOT NULL, longitude REAL NOT NULL, providerName TEXT NOT NULL);",
       //routePatterns is stored as a json to simplify the database
-      "CREATE TABLE Routes (code TEXT PRIMARY KEY, name TEXT NOT NULL, longName TEXT, transportationType TEXT NOT NULL, routePatterns TEXT NOT NULL);"
+      "CREATE TABLE Routes (code TEXT PRIMARY KEY, name TEXT NOT NULL, longName TEXT, transportationType TEXT NOT NULL, routePatterns TEXT NOT NULL, provierName TEXT NOT NULL);"
     ],
     onUpgrade: migrate, 
     version: 1);

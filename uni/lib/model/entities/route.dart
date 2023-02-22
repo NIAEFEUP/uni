@@ -1,18 +1,21 @@
 import 'dart:collection';
+import 'dart:convert';
 
 import 'package:uni/model/entities/stop.dart';
 
 class RoutePattern{
   final String patternId;
   final int direction; //-1 for no direction (like a circular route); 0 for forward and 1 for backwards direction
-  final LinkedHashSet<Stop> stops;
-
+  final String providerName;
+  //TODO (luisd): remove datetimes that already passed 
+  final LinkedHashMap<Stop, List<DateTime>> stops;
   final Map<String,dynamic> additionalInformation;
 
   RoutePattern(
     this.patternId, 
     this.direction, 
-    this.stops, 
+    this.stops,
+    this.providerName, 
     {
       this.additionalInformation = const {},
   });
@@ -20,15 +23,21 @@ class RoutePattern{
   Map<String, dynamic> toMap() => {
     'patternId': patternId,
     'direction': direction,
-    'stops': stops.map((e) => e.code).toList(), //to later make it work with encodeJson()
+    'stops': stops.map((key, value) {
+      //convert every datetime to string
+      return MapEntry(key, value.map((e) => e.toIso8601String()).toList());
+    }), //to later make it work with encodeJson()
     'additionalInformation': additionalInformation
   };
 
-  static RoutePattern fromMap(Map<String, dynamic> map, Map<String, Stop> stops) => 
+  static RoutePattern fromMap(Map<String, dynamic> map, Map<String, Stop> stops, String providerName) => 
     RoutePattern(
       map['patternId'], 
       map['direction'], 
-      LinkedHashSet.from((map['stops'] as List<String>).map((e) => stops[e]!).toList())
+      LinkedHashMap.from((map['stops'] as Map<String,List<String>>).map((key, value){
+        return MapEntry(key, value.map(((e) => DateTime.parse(e))).toList());
+      })),
+      providerName
     );
 }
 
@@ -36,6 +45,7 @@ class Route{
   final String code;
   final String name;
   final String longName;
+  final String providerName;
   final TransportationType transportationType;
   final List<RoutePattern> routePatterns;
 
@@ -43,6 +53,7 @@ class Route{
     this.code, 
     this.name, 
     this.transportationType,
+    this.providerName,
     {
       this.longName = '',
       this.routePatterns = const []
@@ -53,8 +64,9 @@ class Route{
     'code':code,
     'name':name,
     'longName':longName,
-    'transportationType':transportationType,
-    'routePatterns': routePatterns.map((e) => e.toMap()).toList()
+    'providerName':providerName,
+    'transportationType':transportationType.name,
+    'routePatterns': jsonEncode(routePatterns.map((e) => e.toMap()).toList())
   };
   
   static Route fromMap(Map<String, dynamic> map, Map<String, Stop> stops) =>
@@ -62,8 +74,10 @@ class Route{
       map['code'],
       map['name'],
       TransportationType.values.byName(map['transportationType']),
+      map['providerName'],
       longName: map["longName"] ?? '',
-      routePatterns: (map['routePatterns'] as List<Map<String,dynamic>>).map((e) => RoutePattern.fromMap(e, stops)).toList()
+      routePatterns: (map['routePatterns'] as List<Map<String,dynamic>>).map(
+        (e) => RoutePattern.fromMap(e, stops, map['providerName'])).toList()
     );
 
 
