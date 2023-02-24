@@ -1,6 +1,5 @@
 import 'dart:collection';
 import 'dart:convert';
-
 import 'package:uni/model/entities/stop.dart';
 
 class RoutePattern{
@@ -8,14 +7,17 @@ class RoutePattern{
   final int direction; //-1 for no direction (like a circular route); 0 for forward and 1 for backwards direction
   final String providerName;
   //TODO (luisd): remove datetimes that already passed 
-  final LinkedHashMap<Stop, List<DateTime>> stops;
+  final LinkedHashSet<Stop> stops;
+  //this is pratically an implementation of an ArrayListMultiMap in java
+  final Map<DateTime, Set<List<int>>> timetable;
   final Map<String,dynamic> additionalInformation;
 
   RoutePattern(
     this.patternId, 
     this.direction, 
     this.stops,
-    this.providerName, 
+    this.providerName,
+    this.timetable, 
     {
       this.additionalInformation = const {},
   });
@@ -23,10 +25,8 @@ class RoutePattern{
   Map<String, dynamic> toMap() => {
     'patternId': patternId,
     'direction': direction,
-    'stops': stops.map((key, value) {
-      //convert every datetime to string
-      return MapEntry(key, value.map((e) => e.toIso8601String()).toList());
-    }), //to later make it work with encodeJson()
+    'stops': stops.map((e) => e.code).toList(), //to later make it work with encodeJson()
+    'timetable': jsonEncode(timetable.map((key, value) => MapEntry<DateTime, List<List<int>>>(key, value.toList()))),
     'additionalInformation': additionalInformation
   };
 
@@ -34,10 +34,9 @@ class RoutePattern{
     RoutePattern(
       map['patternId'], 
       map['direction'], 
-      LinkedHashMap.from((map['stops'] as Map<String,List<String>>).map((key, value){
-        return MapEntry(key, value.map(((e) => DateTime.parse(e))).toList());
-      })),
-      providerName
+      LinkedHashSet.from((map['stops'] as List<dynamic>).map((e) => stops[e])),
+      providerName,
+      Map.from((map['timeTable'] as Map<String, List<List<int>>>).map((key, value) => MapEntry(key, value.toSet())))
     );
 }
 

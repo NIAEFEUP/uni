@@ -7,6 +7,7 @@ import 'package:logger/logger.dart';
 import 'package:uni/controller/fetchers/public_transportation_fetchers/explore_porto_api_fetcher.dart';
 import 'package:uni/controller/fetchers/public_transportation_fetchers/public_transportation_fetcher.dart';
 import 'package:uni/controller/local_storage/app_public_transport_database.dart';
+import 'package:uni/model/entities/favorite_trip.dart';
 import 'package:uni/model/entities/route.dart';
 import 'package:uni/model/entities/stop.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
@@ -16,8 +17,11 @@ class PublicTransportationProvider extends StateProviderNotifier{
   Map<String, Stop> _stops = {};
   Map<String, Route> _routes = {};
 
+  List<FavoriteTrip> _favoriteTrips = [];
+
   static List<PublicTransportationFetcher> fetchers = [ExplorePortoAPIFetcher()];
 
+  UnmodifiableListView<FavoriteTrip> getFavoriteTrips() => UnmodifiableListView(_favoriteTrips);
 
   UnmodifiableMapView<String, Stop> getStops() => UnmodifiableMapView(_stops);
 
@@ -57,6 +61,7 @@ class PublicTransportationProvider extends StateProviderNotifier{
     final AppPublicTransportDatabase appPublicTransportDatabase = AppPublicTransportDatabase();
     _stops = await appPublicTransportDatabase.stops();
     _routes = await appPublicTransportDatabase.routes(_stops);
+    _favoriteTrips = await appPublicTransportDatabase.favoriteTrips(_stops, _routes);
     notifyListeners();
     
   }
