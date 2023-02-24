@@ -39,8 +39,7 @@ class NetworkRouter {
       Logger().i('Login successful');
       return session;
     } else {
-      Logger().e(response.statusCode);
-      Logger().e('Login failed 2');
+      Logger().e('Login failed');
       return Session(
           authenticated: false,
           faculties: faculties,

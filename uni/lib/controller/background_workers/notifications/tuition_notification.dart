@@ -26,15 +26,12 @@ class TuitionNotification extends Notification{
   }
 
   @override
-  Future<bool> checkConditionToDisplay(Session session) async {
+  Future<bool> shouldDisplay(Session session) async {
     if(await AppSharedPreferences.getTuitionNotificationToggle() == false) return false;
     final FeesFetcher feesFetcher = FeesFetcher();
     final String nextDueDate = await parseFeesNextLimit(await feesFetcher.getUserFeesResponse(session));
     _dueDate = DateTime.parse(nextDueDate);
-    if(DateTime.now().difference(_dueDate).inDays >= -3){
-      return true;
-    }
-    return false;
+    return DateTime.now().difference(_dueDate).inDays >= -3;
   }
 
   @override

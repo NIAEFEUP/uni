@@ -34,13 +34,12 @@ abstract class Notification{
 
   Future<Tuple2<String, String>> buildNotificationContent(Session session);
 
-  Future<bool> checkConditionToDisplay(Session session);
+  Future<bool> shouldDisplay(Session session);
 
   void displayNotification(Tuple2<String, String> content, FlutterLocalNotificationsPlugin localNotificationsPlugin);
 
   Future<void> displayNotificationIfPossible(Session session, FlutterLocalNotificationsPlugin localNotificationsPlugin) async{
-    final bool test = await checkConditionToDisplay(session);
-    if(test){
+    if(await shouldDisplay(session)){
       displayNotification(await buildNotificationContent(session), localNotificationsPlugin);
     }
   }
@@ -48,12 +47,18 @@ abstract class Notification{
 
 class NotificationManager{
 
+  static final NotificationManager _notificationManager = NotificationManager._internal();
 
   static final FlutterLocalNotificationsPlugin _localNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
   static bool _initialized = false;
 
   static const Duration _notificationWorkerPeriod = Duration(hours: 1);
+
+
+  factory NotificationManager(){
+    return _notificationManager;
+  }
 
 
   static Future<void> updateAndTriggerNotifications() async{
@@ -75,12 +80,12 @@ class NotificationManager{
     }
   }
 
-  static void initializeNotifications() async{
+  void initializeNotifications() async{
     //guarentees that the execution is only done once in the lifetime of the app. 
     if(_initialized) return;
+    _initialized = true;
     _initFlutterNotificationsPlugin();
     _buildNotificationWorker();
-    _initialized = true;
   }
 
   static void _initFlutterNotificationsPlugin() async{
@@ -116,10 +121,9 @@ class NotificationManager{
       }
     
     }
-
-
-
   }
+
+  NotificationManager._internal();
 
   static void _buildNotificationWorker() async {
     if(Platform.isAndroid){
