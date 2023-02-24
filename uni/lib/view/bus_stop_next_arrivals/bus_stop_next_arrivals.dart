@@ -5,6 +5,7 @@ import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/bus_stop.dart';
 import 'package:uni/model/entities/trip.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
+import 'package:uni/view/common_widgets/random_image.dart';
 import 'package:uni/view/bus_stop_selection/bus_stop_selection.dart';
 import 'package:uni/view/bus_stop_next_arrivals/widgets/bus_stop_row.dart';
 import 'package:uni/view/common_widgets/last_update_timestamp.dart';
@@ -93,14 +94,30 @@ class NextArrivalsState extends State<NextArrivals>
   /// Returns a list of widgets for a successfull request
   List<Widget> requestSuccessful(context) {
     final List<Widget> result = <Widget>[];
+    final List<Image> images = [Image.asset('assets/images/bus.png'), Image.asset('assets/images/flat_bus.png')];
 
     result.addAll(getHeader(context));
 
     if (widget.busConfig.isNotEmpty) {
       result.addAll(getContent(context));
     } else {
-      result.add(Text('Não existe nenhuma paragem configurada',
-          style: Theme.of(context).textTheme.headline6));
+      result.add(
+        RandomImageWidget(images: images, width: 250, height: 250)
+      );
+      result.add(
+        TextButton(
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
+          ),
+            onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const BusStopSelectionPage())),
+          child: const Text('Adiciona as tuas paragens', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Color.fromARGB(255, 0x75, 0x17, 0x1e))),
+        ),);
+      result.add(
+        const Text('\nNão percas nenhum autocarro', style: TextStyle(fontSize: 15)
+        ),);
     }
 
     return result;

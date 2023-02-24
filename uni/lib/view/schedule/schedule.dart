@@ -5,6 +5,7 @@ import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/entities/time_utilities.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
+import 'package:uni/view/common_widgets/random_image.dart';
 import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
 import 'package:uni/view/schedule/widgets/schedule_slot.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
@@ -174,6 +175,8 @@ class SchedulePageViewState extends GeneralPageViewState<SchedulePageView>
   Widget createScheduleByDay(BuildContext context, int day,
       List<dynamic>? lectures, RequestStatus? scheduleStatus) {
     final List aggLectures = SchedulePageView.groupLecturesByDay(lectures);
+    final List<Image> images = [Image.asset('assets/images/school.png'), Image.asset('assets/images/teacher.png')];
+
     return RequestDependentWidgetBuilder(
       context: context,
       status: scheduleStatus ?? RequestStatus.none,
@@ -181,8 +184,13 @@ class SchedulePageViewState extends GeneralPageViewState<SchedulePageView>
       content: aggLectures[day],
       contentChecker: aggLectures[day].isNotEmpty,
       onNullContent: Center(
-          child: Text(
-              'Não possui aulas à ${SchedulePageView.daysOfTheWeek[day]}.')),
-    );
+          child: Column(
+              children: <Widget> [
+                RandomImageWidget(images: images, width: 250, height: 250),
+                Text('Não possui aulas à ${SchedulePageView.daysOfTheWeek[day]}.', style: const TextStyle(
+                  fontSize: 15,),)
+              ])
+      ));
   }
 }
+
