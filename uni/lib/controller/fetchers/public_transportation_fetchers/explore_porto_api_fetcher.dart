@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 
 import 'package:uni/controller/fetchers/public_transportation_fetchers/public_transportation_fetcher.dart';
@@ -70,16 +71,16 @@ class ExplorePortoAPIFetcher extends PublicTransportationFetcher{
       final TransportationType transportType = convertVehicleMode(entry['mode']);
       final List<dynamic> patternsList = entry["patterns"];
       final List<RoutePattern> patterns = patternsList.map((e) {
-        final LinkedHashMap<Stop, List<DateTime>> stops = LinkedHashMap.identity();
+        final LinkedHashSet<Stop> stops = LinkedHashSet.identity();
         for (dynamic stop in e['stops']){
           final Stop? s = stopMap[stop['gtfsId']];
           if(s == null){
             Logger().e("Couldn't find stop ${stop['gtfsId']} on route ${entry['gtfsId']}...");
             continue;
           }
-          stops.putIfAbsent(s, () => List.empty());
+          stops.add(s);
         }
-        return RoutePattern(e["code"], e['directionId'], stops, providerName);
+        return RoutePattern(e["code"], e['directionId'], stops, providerName, {});
       }).toList();
       final Route route = Route(
         entry['gtfsId'], 
@@ -95,10 +96,32 @@ class ExplorePortoAPIFetcher extends PublicTransportationFetcher{
   }
   
   @override
-  Future<void> fetchRoutePatternTimetable(RoutePattern routePattern) {
-    // TODO: implement fetchRoutePatternTimetable
+  Future<void> fetchRoutePatternTimetable(RoutePattern routePattern) async {
+    final response = await http.post(_endpoint, 
+      headers: {"Content-Type":"application/json"},
+      body: '{"query":"{pattern(id: "${routePattern.patternId}"){trips{activeDates,stoptimes{scheduledArrival,serviceDay}}}}"}'
+    );
+    if(response.statusCode != 200){
+      return Future.error(HttpException("Explore.porto API returned status ${response.statusCode} while fetching timetable..."));
+    }
+    final List<dynamic> trips = jsonDecode(response.body)["data"]["pattern"];
 
-    throw UnimplementedError();
+    //format using in date
+    final DateFormat dateFormat = DateFormat("yMMd");
+
+    for(dynamic trip in trips){
+      final List<int> stoptimes = (trip["stoptimes"] as List<Map<String,int>>).map((e) => e["scheduledArrival"]!).toList();
+      final List<DateTime> serviceDates = (trip["activeDates"] as List<String>).map((e) => dateFormat.parse(e)).toList(); 
+
+      for(DateTime serviceDate in serviceDates){
+        if(routePattern.timetable.containsKey(serviceDate)){
+          routePattern.timetable[serviceDate]!.add(stoptimes);
+        } else{
+          routePattern.timetable[serviceDate] = {stoptimes};
+        }
+      }
+    }
+
   }
 
 

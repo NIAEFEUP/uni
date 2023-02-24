@@ -4,6 +4,7 @@ enum DrawerItem {
   navExams('Exames'),
   navCourseUnits('Cadeiras'),
   navStops('Autocarros'),
+  navPublicTransport('Transportes Públicos'),
   navLocations('Locais', faculties: {'feup'}),
   navCalendar('Calendário'),
   navUsefulInfo('Úteis', faculties: {'feup'}),

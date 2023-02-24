@@ -32,6 +32,7 @@ import 'package:uni/view/home/home.dart';
 import 'package:uni/view/locations/locations.dart';
 import 'package:uni/view/logout_route.dart';
 import 'package:uni/view/navigation_service.dart';
+import 'package:uni/view/public_transportation/public_transportion_page.dart';
 import 'package:uni/view/schedule/schedule.dart';
 import 'package:uni/view/splash/splash.dart';
 import 'package:uni/view/theme.dart';
@@ -146,6 +147,10 @@ class MyAppState extends State<MyApp> {
                     PageTransition.makePageTransition(
                         page: const BusStopNextArrivalsPage(),
                         settings: settings),
+                '/${DrawerItem.navPublicTransport.title}':
+                    PageTransition.makePageTransition(
+                      page: const PublicTransportationPage(), 
+                      settings: settings),
                 '/${DrawerItem.navCourseUnits.title}':
                     PageTransition.makePageTransition(
                         page: const CourseUnitsPageView(), settings: settings),
