@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/view/exams/widgets/exam_title.dart';

@@ -36,7 +36,7 @@ class _LastUpdateTimeStampState extends State<LastUpdateTimeStamp> {
     return Consumer<LastUserInfoProvider>(
       builder: (context, lastUserInfoProvider, _) => Container(
           padding: const EdgeInsets.only(top: 8.0, bottom: 10.0),
-          child: _getContent(context, lastUserInfoProvider.currentTime)),
+          child: _getContent(context, lastUserInfoProvider.lastUpdateTime!)),
     );
   }
 

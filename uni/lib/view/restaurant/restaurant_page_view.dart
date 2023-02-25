@@ -1,5 +1,4 @@
 import 'package:provider/provider.dart';
-import 'package:tuple/tuple.dart';
 import 'package:uni/model/entities/meal.dart';
 import 'package:flutter/material.dart';
 import 'package:uni/model/providers/restaurant_provider.dart';

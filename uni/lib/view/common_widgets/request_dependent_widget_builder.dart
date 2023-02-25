@@ -45,7 +45,7 @@ class RequestDependentWidgetBuilder extends StatelessWidget {
                 ? contentGenerator(content, context)
                 : onNullContent;
           case RequestStatus.busy:
-            if (lastUserInfoProvider.currentTime != null) {
+            if (lastUserInfoProvider.lastUpdateTime != null) {
               // TODO:: CHECK condition
               return contentChecker
                   ? contentGenerator(content, context)

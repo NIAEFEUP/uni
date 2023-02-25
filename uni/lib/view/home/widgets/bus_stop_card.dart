@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/request_status.dart';
 import 'package:uni/model/entities/bus_stop.dart';
-import 'package:uni/model/entities/trip.dart';
 import 'package:uni/model/providers/bus_stop_provider.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/bus_stop_next_arrivals/widgets/bus_stop_row.dart';
