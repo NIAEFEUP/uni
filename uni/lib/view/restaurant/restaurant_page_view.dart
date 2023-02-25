@@ -42,8 +42,7 @@ class _CantinePageState extends GeneralPageViewState<RestaurantPageView>
     final int weekDay = DateTime.now().weekday;
     super.initState();
     tabController = TabController(vsync: this, length: daysOfTheWeek.length);
-    final offset = (weekDay > 5) ? 0 : (weekDay - 1) % daysOfTheWeek.length;
-    tabController.animateTo((tabController.index + offset));
+    tabController.animateTo((tabController.index + (weekDay-1)));
     scrollViewController = ScrollController();
   }
 
