@@ -11,14 +11,10 @@ import 'package:uni/model/providers/state_provider_notifier.dart';
 
 class BusStopProvider extends StateProviderNotifier {
   Map<String, BusStopData> _configuredBusStops = Map.identity();
-  //Map<String, List<Trip>> _currentBusTrips = Map.identity();
   DateTime _timeStamp = DateTime.now();
 
   UnmodifiableMapView<String, BusStopData> get configuredBusStops =>
       UnmodifiableMapView(_configuredBusStops);
-
-/*  UnmodifiableMapView<String, List<Trip>> get currentBusTrips =>
-      UnmodifiableMapView(_currentBusTrips);*/
 
   DateTime get timeStamp => _timeStamp;
 
@@ -26,20 +22,13 @@ class BusStopProvider extends StateProviderNotifier {
     updateStatus(RequestStatus.busy);
 
     try {
-      //final Map<String, List<Trip>> trips = <String, List<Trip>>{};
-
       for (String stopCode in configuredBusStops.keys) {
         final List<Trip> stopTrips =
             await DeparturesFetcher.getNextArrivalsStop(
                 stopCode, configuredBusStops[stopCode]!);
-        //trips[stopCode] = stopTrips;
         _configuredBusStops[stopCode]?.trips = stopTrips;
       }
-
-      final DateTime time = DateTime.now();
-
-      //_currentBusTrips = trips;
-      _timeStamp = time;
+      _timeStamp = DateTime.now();
       updateStatus(RequestStatus.successful);
     } catch (e) {
       Logger().e('Failed to get Bus Stop information');

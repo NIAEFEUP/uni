@@ -162,8 +162,7 @@ class NextArrivalsState extends State<NextArrivals> {
         constraints: const BoxConstraints(maxHeight: 150.0),
         child: Material(
           child: TabBar(
-/*            controller: tabController,
-            isScrollable: true,*/
+            isScrollable: true,
             tabs: createTabs(queryData),
           ),
         ),
@@ -184,7 +183,7 @@ class NextArrivalsState extends State<NextArrivals> {
     widget.buses.forEach((stopCode, stopData) {
       tabs.add(SizedBox(
         width: queryData.size.width /
-            ((widget.buses.length < 3 ? widget.buses.length : 3) + 1),
+            ((widget.buses.length < 3 ? widget.buses.length : 4) + 1),
         child: Tab(text: stopCode),
       ));
     });
