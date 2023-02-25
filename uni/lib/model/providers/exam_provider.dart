@@ -16,9 +16,13 @@ import 'package:uni/model/providers/state_provider_notifier.dart';
 
 class ExamProvider extends StateProviderNotifier {
   List<Exam> _exams = [];
+  List<String> _hiddenExams = [];
   Map<String, bool> _filteredExamsTypes = {};
 
   UnmodifiableListView<Exam> get exams => UnmodifiableListView(_exams);
+
+  UnmodifiableListView<String> get hiddenExams =>
+      UnmodifiableListView(_hiddenExams);
 
   UnmodifiableMapView<String, bool> get filteredExamsTypes =>
       UnmodifiableMapView(_filteredExamsTypes);
@@ -83,5 +87,24 @@ class ExamProvider extends StateProviderNotifier {
         .where((exam) =>
             filteredExamsTypes[Exam.getExamTypeLong(exam.type)] ?? true)
         .toList();
+  }
+
+  setHiddenExams(List<String> newHiddenExams, Completer<void> action) async {
+    _hiddenExams = List<String>.from(newHiddenExams);
+    AppSharedPreferences.saveHiddenExams(hiddenExams);
+    action.complete();
+    notifyListeners();
+  }
+
+  toggleHiddenExam(String newExamId, Completer<void> action) async {
+    // TODO:: make this refresh the state 
+    final List<String> hiddenExams =
+        await AppSharedPreferences.getHiddenExams();
+    hiddenExams.contains(newExamId)
+        ? hiddenExams.remove(newExamId)
+        : hiddenExams.add(newExamId);
+    AppSharedPreferences.saveHiddenExams(hiddenExams);
+    action.complete();
+    notifyListeners();
   }
 }

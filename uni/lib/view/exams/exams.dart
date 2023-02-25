@@ -23,6 +23,11 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
   Widget getBody(BuildContext context) {
     return Consumer<ExamProvider>(
       builder: (context, examProvider, _) {
+        final filteredExams = examProvider.getFilteredExams();
+        final hiddenExams = examProvider.hiddenExams;
+        for (var exam in filteredExams) {
+          exam.isHidden = hiddenExams.contains(exam.id);
+        }
         return ExamsList(exams: examProvider.getFilteredExams());
       },
     );
@@ -125,10 +130,6 @@ class ExamsList extends StatelessWidget {
             color: exam.isHighlighted()
                 ? Theme.of(context).hintColor
                 : Theme.of(context).scaffoldBackgroundColor,
-            child: ExamRow(
-              exam: exam,
-              teacher: '',
-              mainPage: false
-            )));
+            child: ExamRow(exam: exam, teacher: '', mainPage: false)));
   }
 }

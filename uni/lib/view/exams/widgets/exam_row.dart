@@ -1,5 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:uni/model/entities/exam.dart';
+import 'package:uni/model/providers/exam_provider.dart';
 import 'package:uni/view/exams/widgets/exam_title.dart';
 import 'package:uni/view/exams/widgets/exam_time.dart';
 import 'package:add_2_calendar/add_2_calendar.dart';
@@ -22,7 +26,6 @@ class ExamRow extends StatefulWidget {
     return _ExamRowState();
   }
 }
-
 
 class _ExamRowState extends State<ExamRow> {
   @override
@@ -71,10 +74,10 @@ class _ExamRowState extends State<ExamRow> {
                                     onPressed: () => setState(() {
                                           widget.exam.isHidden =
                                               !widget.exam.isHidden;
-                                          // TODO::
-                                          // StoreProvider.of<AppState>(context)
-                                          //     .dispatch(toggleHiddenExam(
-                                          //         widget.exam.id, Completer()));
+                                          Provider.of<ExamProvider>(context,
+                                                  listen: false)
+                                              .toggleHiddenExam(
+                                                  widget.exam.id, Completer());
                                         })),
                               IconButton(
                                   icon: const Icon(MdiIcons.calendarPlus,
@@ -98,7 +101,6 @@ class _ExamRowState extends State<ExamRow> {
         alignment: WrapAlignment.start,
         spacing: 13,
         children: roomsList(context, widget.exam.rooms));
-
   }
 
   List<Text> roomsList(BuildContext context, List rooms) {

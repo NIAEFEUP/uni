@@ -97,9 +97,8 @@ void loadLocalUserInfoToState(StateProviders stateProviders) async {
       .setFavoriteCards(await AppSharedPreferences.getFavoriteCards());
   stateProviders.examProvider.setFilteredExams(
       await AppSharedPreferences.getFilteredExams(), Completer());
-  // TODO::
-  // stateProviders.examProvider.setHiddenExams(
-  //     await AppSharedPreferences.getHiddenExams(), Completer());
+  stateProviders.examProvider.setHiddenExams(
+      await AppSharedPreferences.getHiddenExams(), Completer());
   stateProviders.userFacultiesProvider
       .setUserFaculties(await AppSharedPreferences.getUserFaculties());
   final Tuple2<String, String> userPersistentInfo =

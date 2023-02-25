@@ -26,7 +26,6 @@ class ExamCard extends GenericCard {
   onClick(BuildContext context) =>
       Navigator.pushNamed(context, '/${DrawerItem.navExams.title}');
 
-
   /// Returns a widget with all the exams card content.
   ///
   /// If there are no exams, a message telling the user
@@ -35,12 +34,16 @@ class ExamCard extends GenericCard {
   Widget buildCardContent(BuildContext context) {
     return Consumer<ExamProvider>(builder: (context, examProvider, _) {
       final filteredExams = examProvider.getFilteredExams();
+      final hiddenExams = examProvider.hiddenExams;
+      final List<Exam> exams = filteredExams
+          .where((exam) => (!hiddenExams.contains(exam.id)))
+          .toList();
       return RequestDependentWidgetBuilder(
         context: context,
         status: examProvider.status,
         contentGenerator: generateExams,
-        content: filteredExams,
-        contentChecker: filteredExams.isNotEmpty,
+        content: exams,
+        contentChecker: exams.isNotEmpty,
         onNullContent: Center(
           child: Text('Não existem exames para apresentar',
               style: Theme.of(context).textTheme.headline6),
@@ -116,9 +119,7 @@ class ExamCard extends GenericCard {
                   style: Theme.of(context).textTheme.bodyText1,
                 ),
                 ExamTitle(
-                    subject: exam.subject,
-                    type: exam.type,
-                    reverseOrder: true)
+                    subject: exam.subject, type: exam.type, reverseOrder: true)
               ]),
         ),
       ),
