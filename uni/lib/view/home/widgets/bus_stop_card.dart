@@ -26,7 +26,7 @@ class BusStopCard extends GenericCard {
   Widget buildCardContent(BuildContext context) {
     return Consumer<BusStopProvider>(
       builder: (context, busProvider, _) {
-        return getCardContent(context, busProvider.configuredBusStops, busProvider.configuredBusStops);
+        return getCardContent(context, busProvider.configuredBusStops, busProvider.status);
       },
     );
   }
@@ -94,8 +94,8 @@ Widget getCardTitle(context) {
 }
 
 /// Returns a widget for all the bus stops info
-Widget getBusStopsInfo(context, stopData) {
-  if (stopData.length >= 1) {
+Widget getBusStopsInfo(context, Map<String, BusStopData> stopData) {
+  if (stopData.isNotEmpty) {
     return Container(
         padding: const EdgeInsets.all(4.0),
         child: Column(
@@ -110,13 +110,13 @@ Widget getBusStopsInfo(context, stopData) {
 }
 
 /// Returns a list of widgets for each bus stop info that exists
-List<Widget> getEachBusStopInfo(context, stopData) {
+List<Widget> getEachBusStopInfo(context, Map<String, BusStopData> stopData) {
   final List<Widget> rows = <Widget>[];
 
   rows.add(const LastUpdateTimeStamp());
 
   stopData.forEach((stopCode, stopInfo) {
-    if (stopInfo.trips.length > 0 && stopInfo.favorited) {
+    if (stopInfo.trips.isNotEmpty && stopInfo.favorited) {
       rows.add(Container(
           padding: const EdgeInsets.only(top: 12.0),
           child: BusStopRow(
