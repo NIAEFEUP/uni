@@ -40,7 +40,6 @@ class BusStopProvider extends StateProviderNotifier {
       _currentBusTrips = trips;
       _timeStamp = time;
       updateStatus(RequestStatus.successful);
-      notifyListeners();
     } catch (e) {
       Logger().e('Failed to get Bus Stop information');
       updateStatus(RequestStatus.failed);
@@ -61,7 +60,6 @@ class BusStopProvider extends StateProviderNotifier {
     } else {
       _configuredBusStops[stopCode] = stopData;
     }
-    notifyListeners();
 
     getUserBusTrips(action);
 

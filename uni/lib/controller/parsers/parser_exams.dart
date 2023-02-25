@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:html/dom.dart';
 import 'package:html/parser.dart' show parse;
 import 'package:http/http.dart' as http;
+import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/exam.dart';
 
 /// Parses information about the user's exams.
@@ -11,22 +12,22 @@ class ParserExams {
   ///
   /// If an abbreviature doesn't exist, a '?' is returned.
   String getExamSeasonAbbr(String seasonStr) {
-    final Map<String, String> examTypes = Exam.getExamTypes();
-    for (String type in examTypes.keys) {
-      if (seasonStr.contains(type)) return examTypes[type] ?? '?';
+    for (String type in Exam.types.keys) {
+      if (seasonStr.contains(type)) return Exam.types[type]!;
     }
     return '?';
   }
 
   /// Extracts a list of exams from an HTTP [response].
-  Future<Set<Exam>> parseExams(http.Response response) async {
+  Future<Set<Exam>> parseExams(http.Response response, Course course) async {
     final document = parse(response.body);
 
     final Set<Exam> examsList = {};
     final List<String> dates = [];
     final List<String> examTypes = [];
-    final List<String> weekDays = [];
-    String? subject, schedule, rooms;
+    List<String> rooms = [];
+    String? subject, schedule;
+    String id = '0';
     int days = 0;
     int tableNum = 0;
     document.querySelectorAll('h3').forEach((Element examType) {
@@ -37,27 +38,31 @@ class ParserExams {
         .querySelectorAll('div > table > tbody > tr > td')
         .forEach((Element element) {
       element.querySelectorAll('table:not(.mapa)').forEach((Element table) {
-        table.querySelectorAll('th').forEach((Element week) {
-          weekDays.add(week.text.substring(0, week.text.indexOf('2')));
-        });
         table.querySelectorAll('span.exame-data').forEach((Element date) {
           dates.add(date.text);
         });
-
         table.querySelectorAll('td.l.k').forEach((Element exams) {
           if (exams.querySelector('td.exame') != null) {
             exams.querySelectorAll('td.exame').forEach((Element examsDay) {
               if (examsDay.querySelector('a') != null) {
-                subject = examsDay.querySelector('a')?.text;
+                subject = examsDay.querySelector('a')!.text;
+                id = Uri.parse(examsDay.querySelector('a')!.attributes['href']!).queryParameters['p_exa_id']!;
+
               }
               if (examsDay.querySelector('span.exame-sala') != null) {
-                rooms = examsDay.querySelector('span.exame-sala')?.text;
+                rooms =
+                    examsDay.querySelector('span.exame-sala')!.text.split(',');
               }
-
               schedule = examsDay.text.substring(examsDay.text.indexOf(':') - 2,
                   examsDay.text.indexOf(':') + 9);
-              final Exam exam = Exam(schedule ?? '', subject ?? '', rooms ?? '',
-                  dates[days], examTypes[tableNum], weekDays[days]);
+              final List<String> splittedSchedule = schedule!.split('-');
+              final DateTime begin =
+                  DateTime.parse('${dates[days]} ${splittedSchedule[0]}');
+              final DateTime end =
+                  DateTime.parse('${dates[days]} ${splittedSchedule[1]}');
+              final Exam exam =
+                  Exam(id,begin, end, subject ?? '', rooms, examTypes[tableNum],course.faculty!);
+
               examsList.add(exam);
             });
           }
@@ -68,4 +73,5 @@ class ParserExams {
     });
     return examsList;
   }
+
 }

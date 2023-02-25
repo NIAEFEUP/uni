@@ -31,6 +31,8 @@ import 'package:uni/view/home/home.dart';
 import 'package:uni/view/locations/locations.dart';
 import 'package:uni/view/logout_route.dart';
 import 'package:uni/view/navigation_service.dart';
+import 'package:uni/view/library/library.dart';
+import 'package:uni/view/restaurant/restaurant_page_view.dart';
 import 'package:uni/view/schedule/schedule.dart';
 import 'package:uni/view/splash/splash.dart';
 import 'package:uni/view/theme.dart';
@@ -148,9 +150,15 @@ class MyAppState extends State<MyApp> {
                 '/${DrawerItem.navLocations.title}':
                     PageTransition.makePageTransition(
                         page: const LocationsPage(), settings: settings),
+                '/${DrawerItem.navRestaurants.title}':
+                    PageTransition.makePageTransition(
+                        page: const RestaurantPageView(), settings: settings),
                 '/${DrawerItem.navCalendar.title}':
                     PageTransition.makePageTransition(
                         page: const CalendarPageView(), settings: settings),
+                '/${DrawerItem.navLibrary.title}':
+                    PageTransition.makePageTransition(
+                        page: const LibraryPageView(), settings: settings),
                 '/${DrawerItem.navUsefulInfo.title}':
                     PageTransition.makePageTransition(
                         page: const UsefulInfoPageView(), settings: settings),

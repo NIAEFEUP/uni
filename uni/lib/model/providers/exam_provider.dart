@@ -38,7 +38,7 @@ class ExamProvider extends StateProviderNotifier {
       final List<Exam> exams = await ExamFetcher(profile.courses, userUcs)
           .extractExams(session, parserExams);
 
-      exams.sort((exam1, exam2) => exam1.date.compareTo(exam2.date));
+      exams.sort((exam1, exam2) => exam1.begin.day.compareTo(exam2.begin.day));
 
       // Updates local database according to the information fetched -- Exams
       if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {
@@ -81,7 +81,7 @@ class ExamProvider extends StateProviderNotifier {
   List<Exam> getFilteredExams() {
     return exams
         .where((exam) =>
-            filteredExamsTypes[Exam.getExamTypeLong(exam.examType)] ?? true)
+            filteredExamsTypes[Exam.getExamTypeLong(exam.type)] ?? true)
         .toList();
   }
 }

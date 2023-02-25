@@ -47,6 +47,8 @@ Future loadRemoteUserInfoToState(StateProviders stateProviders) async {
       trips = Completer(),
       lastUpdate = Completer(),
       restaurants = Completer(),
+      // TODO::
+      // libraryOccupation = Completer(),
       calendar = Completer();
 
   stateProviders.profileStateProvider.getUserInfo(userInfo, session);
@@ -54,6 +56,7 @@ Future loadRemoteUserInfoToState(StateProviders stateProviders) async {
   stateProviders.restaurantProvider
       .getRestaurantsFromFetcher(restaurants, session);
   stateProviders.calendarProvider.getCalendarFromFetcher(session, calendar);
+  // TODO:: Provider library occupation
 
   final Tuple2<String, String> userPersistentInfo =
       await AppSharedPreferences.getPersistentUserInfo();
@@ -80,6 +83,7 @@ Future loadRemoteUserInfoToState(StateProviders stateProviders) async {
     userInfo.future,
     trips.future,
     restaurants.future,
+    // libraryOccupation.future,
     calendar.future
   ]);
   allRequests.then((futures) {
@@ -94,6 +98,9 @@ void loadLocalUserInfoToState(StateProviders stateProviders) async {
       .setFavoriteCards(await AppSharedPreferences.getFavoriteCards());
   stateProviders.examProvider.setFilteredExams(
       await AppSharedPreferences.getFilteredExams(), Completer());
+  // TODO::
+  // stateProviders.examProvider.setHiddenExams(
+  //     await AppSharedPreferences.getHiddenExams(), Completer());
   stateProviders.userFacultiesProvider
       .setUserFaculties(await AppSharedPreferences.getUserFaculties());
   final Tuple2<String, String> userPersistentInfo =
@@ -107,6 +114,7 @@ void loadLocalUserInfoToState(StateProviders stateProviders) async {
     stateProviders.profileStateProvider
         .updateStateBasedOnLocalProfile();
     stateProviders.profileStateProvider.updateStateBasedOnLocalRefreshTimes();
+    stateProviders.restaurantProvider.updateStateBasedOnLocalRestaurants();
     stateProviders.lastUserInfoProvider.updateStateBasedOnLocalTime();
     stateProviders.calendarProvider.updateStateBasedOnLocalCalendar();
     stateProviders.profileStateProvider.updateStateBasedOnLocalCourseUnits();

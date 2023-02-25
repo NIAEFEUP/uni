@@ -16,7 +16,7 @@ class RestaurantProvider extends StateProviderNotifier {
   UnmodifiableListView<Restaurant> get restaurants =>
       UnmodifiableListView(_restaurants);
 
-  getRestaurantsFromFetcher(Completer<void> action, Session session) async {
+  void getRestaurantsFromFetcher(Completer<void> action, Session session) async {
     try {
       updateStatus(RequestStatus.busy);
 
@@ -34,4 +34,12 @@ class RestaurantProvider extends StateProviderNotifier {
     }
     action.complete();
   }
+
+  void updateStateBasedOnLocalRestaurants() async{
+    final RestaurantDatabase restaurantDb = RestaurantDatabase();
+    final List<Restaurant> restaurants = await restaurantDb.getRestaurants();
+    _restaurants = restaurants;
+    notifyListeners();
+  }
+
 }

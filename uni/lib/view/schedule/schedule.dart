@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/request_status.dart';
 import 'package:uni/model/entities/lecture.dart';
+import 'package:uni/model/entities/time_utilities.dart';
 import 'package:uni/model/providers/lecture_provider.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
@@ -41,13 +42,8 @@ class SchedulePageView extends StatefulWidget {
 
   final int weekDay = DateTime.now().weekday;
 
-  static final List<String> daysOfTheWeek = [
-    'Segunda-feira',
-    'Terça-feira',
-    'Quarta-feira',
-    'Quinta-feira',
-    'Sexta-feira'
-  ];
+  static final List<String> daysOfTheWeek =
+      TimeString.getWeekdaysStrings(includeWeekend: false);
 
   static List<List<Lecture>> groupLecturesByDay(schedule) {
     final aggLectures = <List<Lecture>>[];

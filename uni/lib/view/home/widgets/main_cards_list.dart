@@ -4,15 +4,17 @@ import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/model/providers/favorite_cards_provider.dart';
 import 'package:uni/model/providers/home_page_editing_mode_provider.dart';
 import 'package:uni/model/providers/session_provider.dart';
-import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/utils/favorite_widget_type.dart';
-import 'package:uni/view/common_widgets/page_title.dart';
+import 'package:uni/view/library/widgets/library_occupation_card.dart';
+import 'package:uni/view/profile/widgets/account_info_card.dart';
+import 'package:uni/view/home/widgets/exit_app_dialog.dart';
 import 'package:uni/view/home/widgets/bus_stop_card.dart';
 import 'package:uni/view/home/widgets/exam_card.dart';
-import 'package:uni/view/home/widgets/exit_app_dialog.dart';
-import 'package:uni/view/home/widgets/schedule_card.dart';
-import 'package:uni/view/profile/widgets/account_info_card.dart';
+import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/profile/widgets/print_info_card.dart';
+import 'package:uni/view/home/widgets/schedule_card.dart';
+import 'package:uni/utils/drawer_items.dart';
+
 
 class MainCardsList extends StatelessWidget {
   final Map<FavoriteWidgetType, Function> cardCreators = {
@@ -25,7 +27,9 @@ class MainCardsList extends StatelessWidget {
     FavoriteWidgetType.printBalance: (k, em, od) =>
         PrintInfoCard.fromEditingInformation(k, em, od),
     FavoriteWidgetType.busStops: (k, em, od) =>
-        BusStopCard.fromEditingInformation(k, em, od)
+        BusStopCard.fromEditingInformation(k, em, od),
+    FavoriteWidgetType.libraryOccupation: (k, em, od) =>
+        LibraryOccupationCard.fromEditingInformation(k, em, od)
   };
 
   MainCardsList({super.key});
