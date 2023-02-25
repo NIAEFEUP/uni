@@ -14,6 +14,7 @@ import 'package:uni/model/providers/favorite_cards_provider.dart';
 import 'package:uni/model/providers/home_page_editing_mode_provider.dart';
 import 'package:uni/model/providers/last_user_info_provider.dart';
 import 'package:uni/model/providers/lecture_provider.dart';
+import 'package:uni/model/providers/library_occupation_provider.dart';
 import 'package:uni/model/providers/profile_state_provider.dart';
 import 'package:uni/model/providers/restaurant_provider.dart';
 import 'package:uni/model/providers/session_provider.dart';
@@ -52,6 +53,7 @@ Future<void> main() async {
       ProfileStateProvider(),
       SessionProvider(),
       CalendarProvider(),
+      LibraryOccupationProvider(),
       FacultyLocationsProvider(),
       LastUserInfoProvider(),
       UserFacultiesProvider(),
@@ -110,6 +112,8 @@ class MyAppState extends State<MyApp> {
             create: (context) => stateProviders.sessionProvider),
         ChangeNotifierProvider(
             create: (context) => stateProviders.calendarProvider),
+        ChangeNotifierProvider(
+            create: (context) => stateProviders.libraryOccupationProvider),
         ChangeNotifierProvider(
             create: (context) => stateProviders.facultyLocationsProvider),
         ChangeNotifierProvider(

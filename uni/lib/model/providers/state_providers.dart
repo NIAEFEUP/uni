@@ -8,6 +8,7 @@ import 'package:uni/model/providers/favorite_cards_provider.dart';
 import 'package:uni/model/providers/home_page_editing_mode_provider.dart';
 import 'package:uni/model/providers/last_user_info_provider.dart';
 import 'package:uni/model/providers/lecture_provider.dart';
+import 'package:uni/model/providers/library_occupation_provider.dart';
 import 'package:uni/model/providers/profile_state_provider.dart';
 import 'package:uni/model/providers/restaurant_provider.dart';
 import 'package:uni/model/providers/session_provider.dart';
@@ -21,6 +22,7 @@ class StateProviders {
   final ProfileStateProvider profileStateProvider;
   final SessionProvider sessionProvider;
   final CalendarProvider calendarProvider;
+  final LibraryOccupationProvider libraryOccupationProvider;
   final FacultyLocationsProvider facultyLocationsProvider;
   final LastUserInfoProvider lastUserInfoProvider;
   final UserFacultiesProvider userFacultiesProvider;
@@ -35,6 +37,7 @@ class StateProviders {
       this.profileStateProvider,
       this.sessionProvider,
       this.calendarProvider,
+      this.libraryOccupationProvider,
       this.facultyLocationsProvider,
       this.lastUserInfoProvider,
       this.userFacultiesProvider,
@@ -55,6 +58,8 @@ class StateProviders {
         Provider.of<SessionProvider>(context, listen: false);
     final calendarProvider =
         Provider.of<CalendarProvider>(context, listen: false);
+    final libraryOccupationProvider =
+        Provider.of<LibraryOccupationProvider>(context, listen: false);
     final facultyLocationsProvider =
         Provider.of<FacultyLocationsProvider>(context, listen: false);
     final lastUserInfoProvider =
@@ -74,6 +79,7 @@ class StateProviders {
         profileStateProvider,
         sessionProvider,
         calendarProvider,
+        libraryOccupationProvider,
         facultyLocationsProvider,
         lastUserInfoProvider,
         userFacultiesProvider,

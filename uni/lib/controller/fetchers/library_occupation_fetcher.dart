@@ -9,7 +9,7 @@ import 'package:uni/model/entities/session.dart';
 class LibraryOccupationFetcherSheets implements SessionDependantFetcher {
   @override
   List<String> getEndpoints(Session session) {
-    // TO DO: Implement parsers for all faculties
+    // TODO:: Implement parsers for all faculties
     // and dispatch for different fetchers
     const String baseUrl = 'https://docs.google.com/spreadsheets/d/';
     const String sheetId = '1gZRbEX4y8vNW7vrl15FCdAQ3pVNRJw_uRZtVL6ORP0g';
@@ -19,15 +19,12 @@ class LibraryOccupationFetcherSheets implements SessionDependantFetcher {
   }
 
   Future<LibraryOccupation> getLibraryOccupationFromSheets(
-      dynamic store) async {
-    // TODO::
-    // final Session session = store.state.content['session'];
-    // final String url = getEndpoints(session)[0];
-    // final Future<Response> response =
-    //     NetworkRouter.getWithCookies(url, {}, session);
-    // final LibraryOccupation occupation = await response
-    //     .then((response) => parseLibraryOccupationFromSheets(response));
-    // return occupation;
-    return LibraryOccupation(0, 0);
+      Session session) async {
+    final String url = getEndpoints(session)[0];
+    final Future<Response> response =
+        NetworkRouter.getWithCookies(url, {}, session);
+    final LibraryOccupation occupation = await response
+        .then((response) => parseLibraryOccupationFromSheets(response));
+    return occupation;
   }
 }
