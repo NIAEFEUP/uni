@@ -79,6 +79,7 @@ dev_dependencies:
     sdk: flutter
   test: any
   mockito: ^5.2.0
+  flutter_launcher_icons: ^0.12.0
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -160,8 +161,10 @@ flutter:
       fonts:
         - asset: assets/fonts/LocationIcons.ttf
 flutter_icons:
-  android: true
+  android: "ic_launcher"
   ios: true
   image_path: "assets/icon/icon.png"
+  adaptive_icon_background: "#75171E"
+  adaptive_icon_foreground: "assets/icon/android_icon_foreground.png"
 
 
