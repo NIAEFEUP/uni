@@ -3,6 +3,7 @@ enum FavoriteWidgetType {
   schedule,
   printBalance,
   account,
+  restaurant,
   libraryOccupation(faculties: {"feup"}),
   busStops;
 
