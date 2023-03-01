@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:uni/controller/parsers/parser_schedule_html.dart';
 import 'package:uni/model/entities/lecture.dart';
+import 'package:uni/model/entities/time_utilities.dart';
 
 Future<List<Lecture>> parseScheduleMultipleRequests(responses) async {
   List<Lecture> lectures = [];
@@ -36,14 +38,7 @@ Future<List<Lecture>> parseSchedule(http.Response response) async {
     final String classNumber = lecture['turma_sigla'];
     final int occurrId = lecture['ocorrencia_id'];
 
-    DateTime monday = DateTime.now();
-    monday = DateUtils.dateOnly(monday);
-    //get closest monday
-    if(monday.weekday >=1 && monday.weekday <= 5){
-      monday = monday.subtract(Duration(days:monday.weekday-1));
-    } else {
-      monday = monday.add(Duration(days: DateTime.daysPerWeek - monday.weekday + 1));
-    }
+    final DateTime monday = ClosestMonday.getClosestMonday(DateTime.now());
     
     final Lecture lec = Lecture.fromApi(subject, typeClass, monday.add(Duration(days:day, seconds: secBegin)), blocks,
         room, teacher, classNumber, occurrId);

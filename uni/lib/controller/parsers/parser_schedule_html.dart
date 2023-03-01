@@ -7,25 +7,15 @@ import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/model/entities/lecture.dart';
 
 import 'package:uni/model/entities/session.dart';
+import 'package:uni/model/entities/time_utilities.dart';
 
 
-DateTime getClosestMonday(){
-  DateTime monday = DateTime.now();
-  monday = monday.subtract(Duration(hours: monday.hour, minutes: monday.minute, seconds: monday.second));
-  //get closest monday
-  if(monday.weekday >=1 && monday.weekday <= 5){
-    monday = monday.subtract(Duration(days:monday.weekday-1));
-  } else {
-    monday = monday.add(Duration(days: DateTime.daysPerWeek - monday.weekday + 1));
-  }
-  return monday;
-}
 
 Future<List<Lecture>> getOverlappedClasses(
     Session session, Document document) async {
   final List<Lecture> lecturesList = [];
 
-  final DateTime monday = getClosestMonday();
+  final DateTime monday = ClosestMonday.getClosestMonday(DateTime.now());
 
   final overlappingClasses = document.querySelectorAll('.dados > tbody > .d');
   for (final element in overlappingClasses) {
@@ -90,7 +80,7 @@ Future<List<Lecture>> getScheduleFromHtml(
 
   final List<Lecture> lecturesList = [];
 
-  final DateTime monday = getClosestMonday();
+  final DateTime monday = ClosestMonday.getClosestMonday(DateTime.now());
 
   document.querySelectorAll('.horario > tbody > tr').forEach((Element element) {
     if (element.getElementsByClassName('horas').isNotEmpty) {
