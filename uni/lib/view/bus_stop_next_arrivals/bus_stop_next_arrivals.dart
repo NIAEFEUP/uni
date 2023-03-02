@@ -94,7 +94,7 @@ class NextArrivalsState extends State<NextArrivals>
   /// Returns a list of widgets for a successfull request
   List<Widget> requestSuccessful(context) {
     final List<Widget> result = <Widget>[];
-    final List<Image> images = [Image.asset('assets/images/bus.png'), Image.asset('assets/images/flat_bus.png')];
+    final List<String> images = ['assets/images/bus.png', 'assets/images/flat_bus.png'];
 
     result.addAll(getHeader(context));
 
@@ -102,7 +102,11 @@ class NextArrivalsState extends State<NextArrivals>
       result.addAll(getContent(context));
     } else {
       result.add(
-        RandomImageWidget(images: images, width: 250, height: 250)
+        RotatingImage(
+            imagePaths: images,
+            width: 250,
+            height: 250,
+        ),
       );
       result.add(
         TextButton(

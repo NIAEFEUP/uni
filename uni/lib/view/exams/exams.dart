@@ -64,7 +64,7 @@ class ExamsList extends StatelessWidget {
   /// Creates a column with all the user's exams.
   List<Widget> createExamsColumn(context, List<Exam> exams) {
     final List<Widget> columns = <Widget>[];
-    final List<Image> images = [Image.asset('assets/images/vacation.png'), Image.asset('assets/images/swim_guy.png')];
+    final List<String> images = ['assets/images/vacation.png', 'assets/images/swim_guy.png'];
 
     columns.add(const ExamPageTitle());
 
@@ -73,7 +73,11 @@ class ExamsList extends StatelessWidget {
           heightFactor: 1.2,
           child: Column(
               children: <Widget> [
-                  RandomImageWidget(images: images, width: 250, height: 250),
+                RotatingImage(
+                    imagePaths: images,
+                    width: 250,
+                    height: 250,
+                ),
                   const Text('Não tens exames marcados',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Color.fromARGB(255, 0x75, 0x17, 0x1e)),
                 ),

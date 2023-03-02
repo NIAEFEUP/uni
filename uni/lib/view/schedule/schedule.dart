@@ -175,18 +175,22 @@ class SchedulePageViewState extends GeneralPageViewState<SchedulePageView>
   Widget createScheduleByDay(BuildContext context, int day,
       List<dynamic>? lectures, RequestStatus? scheduleStatus) {
     final List aggLectures = SchedulePageView.groupLecturesByDay(lectures);
-    final List<Image> images = [Image.asset('assets/images/school.png'), Image.asset('assets/images/teacher.png')];
+    final List<String> images = ['assets/images/school.png', 'assets/images/teacher.png'];
 
     return RequestDependentWidgetBuilder(
       context: context,
       status: scheduleStatus ?? RequestStatus.none,
       contentGenerator: dayColumnBuilder(day),
       content: aggLectures[day],
-      contentChecker: aggLectures[day].isNotEmpty,
+      contentChecker: aggLectures[day].isEmpty,
       onNullContent: Center(
           child: Column(
               children: <Widget> [
-                RandomImageWidget(images: images, width: 250, height: 250),
+               RotatingImage(
+                  imagePaths: images,
+                  width: 250,
+                  height: 250,
+                ),
                 Text('Não possui aulas à ${SchedulePageView.daysOfTheWeek[day]}.', style: const TextStyle(
                   fontSize: 15,),)
               ])

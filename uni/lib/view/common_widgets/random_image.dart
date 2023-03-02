@@ -1,39 +1,32 @@
-import 'dart:math';
+import 'dart:async';
 import 'package:flutter/material.dart';
 
-class RandomImageWidget extends StatefulWidget {
-  final List<Image> images;
+class RotatingImage extends StatefulWidget {
+  final List<String> imagePaths;
   final double width;
   final double height;
 
-  const RandomImageWidget({required this.images, required this.width, required this.height, Key? key}) : super(key: key);
+  const RotatingImage({required this.imagePaths, required this.width, required this.height, Key? key}) : super(key: key);
 
   @override
-  State<RandomImageWidget> createState() => _RandomImageWidgetState();
+  State<RotatingImage> createState() => _RotatingImageState();
 }
 
-class _RandomImageWidgetState extends State<RandomImageWidget> {
-  late final List<ImageProvider<Object>> _imageProviders;
-  late final Random _random;
+class _RotatingImageState extends State<RotatingImage> {
+  int _index = 0;
 
   @override
   void initState() {
     super.initState();
-    _random = Random();
-    _imageProviders = widget.images.map((image) => image.image).toList();
-  }
-
-  ImageProvider<Object> _getRandomImageProvider() {
-    final index = _random.nextInt(_imageProviders.length);
-    return _imageProviders[index];
+    Timer.periodic(const Duration(minutes: 1), (timer) {
+      setState(() {
+        _index = (_index + 1) % widget.imagePaths.length;
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Image(
-      image: _getRandomImageProvider(),
-      width: widget.width,
-      height: widget.height,
-    );
+    return Image.asset(widget.imagePaths[_index], height: widget.height, width: widget.width,);
   }
 }
