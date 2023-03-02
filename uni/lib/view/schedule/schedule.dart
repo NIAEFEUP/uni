@@ -182,7 +182,7 @@ class SchedulePageViewState extends GeneralPageViewState<SchedulePageView>
       status: scheduleStatus ?? RequestStatus.none,
       contentGenerator: dayColumnBuilder(day),
       content: aggLectures[day],
-      contentChecker: aggLectures[day].isEmpty,
+      contentChecker: aggLectures[day].isNotEmpty,
       onNullContent: Center(
           child: Column(
               children: <Widget> [
