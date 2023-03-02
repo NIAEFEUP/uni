@@ -15,7 +15,6 @@ import 'package:uni/view/profile/widgets/print_info_card.dart';
 import 'package:uni/view/home/widgets/schedule_card.dart';
 import 'package:uni/utils/drawer_items.dart';
 
-
 class MainCardsList extends StatelessWidget {
   final Map<FavoriteWidgetType, Function> cardCreators = {
     FavoriteWidgetType.schedule: (k, em, od) =>
@@ -36,14 +35,16 @@ class MainCardsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: BackButtonExitWrapper(
-        context: context,
-        child: createScrollableCardView(context),
-      ),
-      floatingActionButton:
-          isEditing(context) ? createActionButton(context) : null,
-    );
+    return Consumer<HomePageEditingMode>(
+        builder: (context, homePageEditingModeProvider, child) => Scaffold(
+              body: BackButtonExitWrapper(
+                context: context,
+                child: createScrollableCardView(context),
+              ),
+              floatingActionButton: homePageEditingModeProvider.state
+                  ? createActionButton(context)
+                  : null,
+            ));
   }
 
   Widget createActionButton(BuildContext context) {
@@ -107,10 +108,10 @@ class MainCardsList extends StatelessWidget {
   }
 
   Widget createScrollableCardView(BuildContext context) {
-    return Consumer<FavoriteCardsProvider>(
-      builder: (context, favoriteCardsProvider, _) => SizedBox(
+    return Consumer2<FavoriteCardsProvider, HomePageEditingMode>(
+      builder: (context, favoriteCardsProvider, editingMode, _) => SizedBox(
           height: MediaQuery.of(context).size.height,
-          child: isEditing(context)
+          child: editingMode.state
               ? ReorderableListView(
                   onReorder: (oldi, newi) => reorderCard(
                       oldi, newi, favoriteCardsProvider.favoriteCards, context),

@@ -9,4 +9,9 @@ class HomePageEditingMode extends StateProviderNotifier {
     _state = state;
     notifyListeners();
   }
+
+  toogle() {
+    _state = !_state;
+    notifyListeners();
+  }
 }

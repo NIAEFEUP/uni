@@ -6,8 +6,7 @@ import 'package:uni/utils/favorite_widget_type.dart';
 class FavoriteCardsProvider extends StateProviderNotifier {
   List<FavoriteWidgetType> _favoriteCards = [];
 
-  UnmodifiableListView<FavoriteWidgetType> get favoriteCards =>
-      UnmodifiableListView(_favoriteCards);
+  List<FavoriteWidgetType> get favoriteCards => _favoriteCards.toList();
 
   setFavoriteCards(List<FavoriteWidgetType> favoriteCards) {
     _favoriteCards = favoriteCards;
