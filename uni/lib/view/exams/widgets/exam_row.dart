@@ -30,6 +30,7 @@ class ExamRow extends StatefulWidget {
 class _ExamRowState extends State<ExamRow> {
   @override
   Widget build(BuildContext context) {
+    final isHidden = Provider.of<ExamProvider>(context).hiddenExams.contains(widget.exam.id);
     final roomsKey =
         '${widget.exam.subject}-${widget.exam.rooms}-${widget.exam.beginTime}-${widget.exam.endTime}';
     return Center(
@@ -64,16 +65,14 @@ class _ExamRowState extends State<ExamRow> {
                             children: <Widget>[
                               if (!widget.mainPage)
                                 IconButton(
-                                    icon: !widget.exam.isHidden
+                                    icon: !isHidden
                                         ? const Icon(Icons.visibility, size: 30)
                                         : const Icon(Icons.visibility_off,
                                             size: 30),
-                                    tooltip: widget.exam.isHidden
+                                    tooltip: isHidden
                                         ? "Mostrar na Área Pessoal"
                                         : "Ocultar da Área Pessoal",
                                     onPressed: () => setState(() {
-                                          widget.exam.isHidden =
-                                              !widget.exam.isHidden;
                                           Provider.of<ExamProvider>(context,
                                                   listen: false)
                                               .toggleHiddenExam(

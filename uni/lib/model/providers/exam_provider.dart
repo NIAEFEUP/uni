@@ -97,14 +97,11 @@ class ExamProvider extends StateProviderNotifier {
   }
 
   toggleHiddenExam(String newExamId, Completer<void> action) async {
-    // TODO:: make this refresh the state 
-    final List<String> hiddenExams =
-        await AppSharedPreferences.getHiddenExams();
-    hiddenExams.contains(newExamId)
-        ? hiddenExams.remove(newExamId)
-        : hiddenExams.add(newExamId);
+    _hiddenExams.contains(newExamId)
+        ? _hiddenExams.remove(newExamId)
+        : _hiddenExams.add(newExamId);
+    notifyListeners();
     AppSharedPreferences.saveHiddenExams(hiddenExams);
     action.complete();
-    notifyListeners();
   }
 }

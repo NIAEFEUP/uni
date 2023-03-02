@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/utils/favorite_widget_type.dart';
 
