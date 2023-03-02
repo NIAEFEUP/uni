@@ -12,7 +12,6 @@ import 'package:uni/view/home/widgets/exit_app_dialog.dart';
 import 'package:uni/view/home/widgets/bus_stop_card.dart';
 import 'package:uni/view/home/widgets/exam_card.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
-import 'package:uni/view/profile/widgets/print_info_card.dart';
 import 'package:uni/view/home/widgets/schedule_card.dart';
 import 'package:uni/utils/drawer_items.dart';
 
@@ -27,8 +26,11 @@ class MainCardsList extends StatelessWidget {
         ExamCard.fromEditingInformation(k, em, od),
     FavoriteWidgetType.account: (k, em, od) =>
         AccountInfoCard.fromEditingInformation(k, em, od),
-    FavoriteWidgetType.printBalance: (k, em, od) =>
-        PrintInfoCard.fromEditingInformation(k, em, od),
+
+    // TODO: Bring print card back when it is ready
+    /*FavoriteWidgetType.printBalance: (k, em, od) =>
+        PrintInfoCard.fromEditingInformation(k, em, od),*/
+
     FavoriteWidgetType.busStops: (k, em, od) =>
         BusStopCard.fromEditingInformation(k, em, od),
     FavoriteWidgetType.libraryOccupation: (k, em, od) =>
@@ -157,6 +159,7 @@ class MainCardsList extends StatelessWidget {
         Provider.of<SessionProvider>(context, listen: false).session;
     return cardTypes
         .where((type) => type.isVisible(userSession.faculties))
+        .where((type) => cardCreators.containsKey(type))
         .map((type) {
       final i = cardTypes.indexOf(type);
       return cardCreators[type]!(Key(i.toString()), editingModeProvider.state,

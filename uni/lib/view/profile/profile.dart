@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/controller/load_info.dart';
@@ -9,7 +10,6 @@ import 'package:uni/model/providers/session_provider.dart';
 import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni/view/profile/widgets/account_info_card.dart';
 import 'package:uni/view/profile/widgets/course_info_card.dart';
-import 'package:uni/view/profile/widgets/print_info_card.dart';
 
 class ProfilePageView extends StatefulWidget {
   const ProfilePageView({Key? key}) : super(key: key);
@@ -38,18 +38,19 @@ class ProfilePageViewState extends SecondaryPageViewState<ProfilePageView> {
 
   /// Returns a list with all the children widgets of this page.
   List<Widget> childrenList(BuildContext context, Profile profile) {
-    final List<Widget> list = [];
-    list.add(const Padding(padding: EdgeInsets.all(5.0)));
-    list.add(profileInfo(context, profile));
-    list.add(const Padding(padding: EdgeInsets.all(5.0)));
-    for (var i = 0; i < profile.courses.length; i++) {
-      list.add(CourseInfoCard(course: profile.courses[i]));
-      list.add(const Padding(padding: EdgeInsets.all(5.0)));
-    }
-    list.add(PrintInfoCard());
-    list.add(const Padding(padding: EdgeInsets.all(5.0)));
-    list.add(AccountInfoCard());
-    return list;
+    final List<Widget> courseWidgets = profile.courses.map((e) => [
+          CourseInfoCard(course: e),
+          const Padding(padding: EdgeInsets.all(5.0))
+        ]).flattened.toList();
+
+    return [
+      const Padding(padding: EdgeInsets.all(5.0)),
+      profileInfo(context, profile),
+      const Padding(padding: EdgeInsets.all(5.0)),
+      // PrintInfoCard() // TODO: Bring this back when print info is ready again
+      ...courseWidgets,
+      AccountInfoCard(),
+    ];
   }
 
   /// Returns a widget with the user's profile info (Picture, name and email).
