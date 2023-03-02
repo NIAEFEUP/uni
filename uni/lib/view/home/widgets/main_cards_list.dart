@@ -48,7 +48,7 @@ class MainCardsList extends StatelessWidget {
                 context: context,
                 child: SizedBox(
                     height: MediaQuery.of(context).size.height,
-                    child: editingModeProvider.state
+                    child: editingModeProvider.isEditing
                         ? ReorderableListView(
                             onReorder: (oldIndex, newIndex) => reorderCard(
                                 oldIndex,
@@ -71,7 +71,7 @@ class MainCardsList extends StatelessWidget {
                             ],
                           )),
               ),
-              floatingActionButton: editingModeProvider.state
+              floatingActionButton: editingModeProvider.isEditing
                   ? createActionButton(context)
                   : null,
             ));
@@ -145,9 +145,9 @@ class MainCardsList extends StatelessWidget {
         GestureDetector(
             onTap: () =>
                 Provider.of<HomePageEditingModeProvider>(context, listen: false)
-                    .setHomePageEditingMode(!editingModeProvider.state),
+                    .setHomePageEditingMode(!editingModeProvider.isEditing),
             child: Text(
-                editingModeProvider.state ? 'Concluir Edição' : 'Editar',
+                editingModeProvider.isEditing ? 'Concluir Edição' : 'Editar',
                 style: Theme.of(context).textTheme.caption))
       ]),
     );
@@ -162,7 +162,7 @@ class MainCardsList extends StatelessWidget {
         .where((type) => cardCreators.containsKey(type))
         .map((type) {
       final i = cardTypes.indexOf(type);
-      return cardCreators[type]!(Key(i.toString()), editingModeProvider.state,
+      return cardCreators[type]!(Key(i.toString()), editingModeProvider.isEditing,
           () => removeCardIndexFromFavorites(i, context));
     }).toList();
   }
