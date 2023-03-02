@@ -27,7 +27,7 @@ class StateProviders {
   final LastUserInfoProvider lastUserInfoProvider;
   final UserFacultiesProvider userFacultiesProvider;
   final FavoriteCardsProvider favoriteCardsProvider;
-  final HomePageEditingMode homePageEditingMode;
+  final HomePageEditingModeProvider homePageEditingMode;
 
   StateProviders(
       this.lectureProvider,
@@ -69,7 +69,7 @@ class StateProviders {
     final favoriteCardsProvider =
         Provider.of<FavoriteCardsProvider>(context, listen: false);
     final homePageEditingMode =
-        Provider.of<HomePageEditingMode>(context, listen: false);
+        Provider.of<HomePageEditingModeProvider>(context, listen: false);
 
     return StateProviders(
         lectureProvider,

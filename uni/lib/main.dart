@@ -58,7 +58,7 @@ Future<void> main() async {
       LastUserInfoProvider(),
       UserFacultiesProvider(),
       FavoriteCardsProvider(),
-      HomePageEditingMode());
+      HomePageEditingModeProvider());
 
   OnStartUp.onStart(stateProviders.sessionProvider);
   WidgetsFlutterBinding.ensureInitialized();
