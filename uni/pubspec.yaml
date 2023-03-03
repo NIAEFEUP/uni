@@ -36,13 +36,10 @@ dependencies:
   flutter:
     sdk: flutter
   html: ^0.15.0
-  redux: ^5.0.0
-  flutter_redux: ^0.10.0
-  redux_thunk: ^0.4.0
   http: ^0.13.0
   tuple: ^2.0.0
   shared_preferences: ^2.0.3
-  provider: ^6.0.3
+  provider: ^6.0.4
   encrypt: ^5.0.0-beta.1
   path_provider: ^2.0.0
   sqflite: ^2.0.3

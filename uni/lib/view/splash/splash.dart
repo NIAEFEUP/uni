@@ -1,17 +1,15 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tuple/tuple.dart';
 import 'package:uni/controller/load_static/terms_and_conditions.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
-import 'package:uni/model/app_state.dart';
-import 'package:uni/redux/action_creators.dart';
-import 'package:uni/view/login/login.dart';
-import 'package:uni/view/splash/widgets/terms_and_condition_dialog.dart';
+import 'package:uni/model/providers/state_providers.dart';
 import 'package:uni/view/home/home.dart';
+import 'package:uni/view/login/login.dart';
 import 'package:uni/view/logout_route.dart';
+import 'package:uni/view/splash/widgets/terms_and_condition_dialog.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -23,11 +21,13 @@ class SplashScreen extends StatefulWidget {
 /// Manages the splash screen displayed after a successful login.
 class SplashScreenState extends State<SplashScreen> {
   late MediaQueryData queryData;
+  late StateProviders stateProviders;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     startTimeAndChangeRoute();
+    stateProviders = StateProviders.fromContext(context);
   }
 
   @override
@@ -98,7 +98,8 @@ class SplashScreenState extends State<SplashScreen> {
     final String userName = userPersistentInfo.item1;
     final String password = userPersistentInfo.item2;
     if (userName != '' && password != '') {
-      nextRoute = await getTermsAndConditions(userName, password);
+      nextRoute =
+          await getTermsAndConditions(userName, password, stateProviders);
     } else {
       await acceptTermsAndConditions();
       nextRoute =
@@ -111,7 +112,7 @@ class SplashScreenState extends State<SplashScreen> {
   }
 
   Future<MaterialPageRoute> getTermsAndConditions(
-      String userName, String password) async {
+      String userName, String password, StateProviders stateProviders) async {
     final completer = Completer<TermsAndConditionsState>();
     await TermsAndConditionDialog.build(context, completer, userName, password);
     final state = await completer.future;
@@ -119,12 +120,9 @@ class SplashScreenState extends State<SplashScreen> {
     switch (state) {
       case TermsAndConditionsState.accepted:
         if (mounted) {
-          final List<String> faculties = StoreProvider.of<AppState>(context)
-              .state
-              .content['session']
-              .faculties;
-          StoreProvider.of<AppState>(context)
-              .dispatch(reLogin(userName, password, faculties));
+          final List<String> faculties = await AppSharedPreferences.getUserFaculties();
+          stateProviders.sessionProvider
+              .reLogin(userName, password, faculties, stateProviders);
         }
         return MaterialPageRoute(builder: (context) => const HomePageView());
 
