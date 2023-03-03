@@ -28,7 +28,7 @@ class AppExamsDatabase extends AppDatabase {
           rooms TEXT, examType TEXT, faculty TEXT, PRIMARY KEY (id,faculty)) ''';
 
   AppExamsDatabase()
-      : super('exams.db', [_createScript], onUpgrade: migrate, version: 3);
+      : super('exams.db', [_createScript], onUpgrade: migrate, version: 4);
 
   /// Replaces all of the data in this database with [exams].
   saveNewExams(List<Exam> exams) async {
@@ -43,7 +43,7 @@ class AppExamsDatabase extends AppDatabase {
 
     return List.generate(maps.length, (i) {
       return Exam.secConstructor(
-          maps[i]['id'] ?? 0,
+          maps[i]['id'] ?? '',
           maps[i]['subject'],
           DateTime.parse(maps[i]['begin']),
           DateTime.parse(maps[i]['end']),
@@ -81,5 +81,6 @@ class AppExamsDatabase extends AppDatabase {
     final batch = db.batch();
     batch.execute('DROP TABLE IF EXISTS exams');
     batch.execute(_createScript);
+    await batch.commit();
   }
 }

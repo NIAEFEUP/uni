@@ -5,6 +5,7 @@ import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/redux/actions.dart';
 import 'package:uni/utils/favorite_widget_type.dart';
+import 'package:uni/view/library/widgets/library_occupation_card.dart';
 import 'package:uni/view/profile/widgets/account_info_card.dart';
 import 'package:uni/view/home/widgets/exit_app_dialog.dart';
 import 'package:uni/view/home/widgets/bus_stop_card.dart';
@@ -25,7 +26,9 @@ class MainCardsList extends StatelessWidget {
     FavoriteWidgetType.printBalance: (k, em, od) =>
         PrintInfoCard.fromEditingInformation(k, em, od),
     FavoriteWidgetType.busStops: (k, em, od) =>
-        BusStopCard.fromEditingInformation(k, em, od)
+        BusStopCard.fromEditingInformation(k, em, od),
+    FavoriteWidgetType.libraryOccupation: (k, em, od) =>
+        LibraryOccupationCard.fromEditingInformation(k, em, od)
   };
 
   MainCardsList({super.key});
