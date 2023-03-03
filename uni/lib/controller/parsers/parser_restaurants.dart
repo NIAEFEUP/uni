@@ -96,7 +96,7 @@ Future<List<Restaurant>> getRestaurantsFromGSheets(
   // Ignore the end of the response: );
   // Check the structure by accessing the link: https://docs.google.com/spreadsheets/d/1TJauM0HwIf2RauQU2GmhdZZ1ZicFLMHuBkxWwVOw3Q4/gviz/tq?tqx=out:json&sheet=Cantina%20de%20Engenharia&range=A:D
   final jsonString = response.body.substring(
-      response.body.indexOf('(') + 1, response.body.lastIndexOf(';') - 1);
+      response.body.indexOf('(') + 1, response.body.lastIndexOf(')'));
   final parsedJson = jsonDecode(jsonString);
 
   final List<Meal> lunchMealsList = [];

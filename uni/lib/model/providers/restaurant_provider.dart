@@ -9,7 +9,7 @@ import 'package:uni/model/providers/state_provider_notifier.dart';
 
 import 'package:uni/model/request_status.dart';
 
-import 'package:uni/controller/fetchers/restaurant_fetcher/restaurant_fetcher.dart';
+import 'package:uni/controller/fetchers/restaurant_fetcher.dart';
 
 class RestaurantProvider extends StateProviderNotifier {
   List<Restaurant> _restaurants = [];
