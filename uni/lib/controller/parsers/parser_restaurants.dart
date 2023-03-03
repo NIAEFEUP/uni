@@ -9,6 +9,11 @@ import 'package:uni/model/entities/meal.dart';
 import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/utils/day_of_week.dart';
 
+final DateTime lastSunday =
+    DateTime.now().subtract(Duration(days: DateTime.now().weekday));
+final DateTime nextSunday = DateTime.now()
+    .add(Duration(days: DateTime.sunday - DateTime.now().weekday));
+
 /// Reads restaurants's menu from /feup/pt/CANTINA.EMENTASHOW
 Future<List<Restaurant>> getRestaurantsFromHtml(Response response) async {
   final document = parse(response.body);
@@ -68,9 +73,11 @@ Future<List<Restaurant>> getRestaurantsFromHtml(Response response) async {
                 dayOfWeek = d;
               }
             } else {
-              type = document.querySelector('#$header')?.text;
-              final Meal meal = Meal(type ?? '', value, dayOfWeek!, date!);
-              meals.add(meal);
+              if (date!.isAfter(lastSunday) && date.isBefore(nextSunday)) {
+                type = document.querySelector('#$header')?.text;
+                final Meal meal = Meal(type ?? '', value, dayOfWeek!, date);
+                meals.add(meal);
+              }
             }
           }
         });
@@ -96,10 +103,6 @@ Future<List<Restaurant>> getRestaurantsFromGSheets(
   final List<Meal> dinerMealsList = [];
 
   final DateFormat format = DateFormat('d/M/y');
-  final DateTime lastSunday =
-      DateTime.now().subtract(Duration(days: DateTime.now().weekday));
-  final DateTime nextSunday = DateTime.now()
-      .add(Duration(days: DateTime.sunday - DateTime.now().weekday));
   for (var row in parsedJson['table']['rows']) {
     final cell = row['c'];
     final DateTime date = format.parse(cell[0]['f']);
