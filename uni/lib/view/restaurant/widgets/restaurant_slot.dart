@@ -25,7 +25,7 @@ class RestaurantSlot extends StatelessWidget {
               margin: const EdgeInsets.fromLTRB(0, 0, 8.0, 0),
               child: SizedBox(
                 width: 20,
-                child: createCantineSlotType(context),
+                child: createCanteenSlotType(context),
               )),Flexible(
               child: Text(
                 name,
@@ -38,7 +38,7 @@ class RestaurantSlot extends StatelessWidget {
     );
   }
 
-  Widget createCantineSlotType(context) {
+  Widget createCanteenSlotType(context) {
     final mealsType = type.toLowerCase();
 
     String icon;
