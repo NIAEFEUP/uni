@@ -14,27 +14,26 @@ class RestaurantSlot extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(
-      top: 10.0, bottom: 10.0, left: 10, right: 22.0),
+      padding:
+          const EdgeInsets.only(top: 10.0, bottom: 10.0, left: 10, right: 22.0),
       child: Container(
-      key: Key('cantine-slot-type-$type'),
-      child: Row(
-
-        children: [
-          Container(
-              margin: const EdgeInsets.fromLTRB(0, 0, 8.0, 0),
-              child: SizedBox(
-                width: 20,
-                child: createCantineSlotType(context),
-              )),Flexible(
-              child: Text(
+          key: Key('cantine-slot-type-$type'),
+          child: Row(
+            children: [
+              Container(
+                  margin: const EdgeInsets.fromLTRB(0, 0, 8.0, 0),
+                  child: SizedBox(
+                    width: 20,
+                    child: createCantineSlotType(context),
+                  )),
+              Flexible(
+                  child: Text(
                 name,
                 style: Theme.of(context).textTheme.bodyMedium,
                 textAlign: TextAlign.left,
-              )
-          )
-        ],
-      )),
+              ))
+            ],
+          )),
     );
   }
 
@@ -42,20 +41,25 @@ class RestaurantSlot extends StatelessWidget {
     final mealsType = type.toLowerCase();
 
     String icon;
-    if (mealsType.contains("carne")) {icon = 'assets/icons-cantines/chicken.svg';}
-    else if (mealsType.contains("peixe")) {icon = 'assets/icons-cantines/fish.svg';}
-    else if (mealsType.contains("vegetariano")) {icon = 'assets/icons-cantines/salad.svg';}
-    else if (mealsType.contains("dieta")) {icon = 'assets/icons-cantines/diet.svg';}
-    else {icon = '';}
+    if (mealsType.contains("carne")) {
+      icon = 'assets/icons-cantines/chicken.svg';
+    } else if (mealsType.contains("peixe")) {
+      icon = 'assets/icons-cantines/fish.svg';
+    } else if (mealsType.contains("vegetariano")) {
+      icon = 'assets/icons-cantines/salad.svg';
+    } else if (mealsType.contains("dieta")) {
+      icon = 'assets/icons-cantines/diet.svg';
+    } else {
+      icon = '';
+    }
 
     return Tooltip(
-      message: type,
+        message: type,
         child: SvgPicture.asset(
-      color: Theme.of(context).primaryColor,
-      icon,
-      height: 20,
-    ));
-
+          colorFilter:
+              ColorFilter.mode(Theme.of(context).primaryColor, BlendMode.srcIn),
+          icon,
+          height: 20,
+        ));
   }
-
 }

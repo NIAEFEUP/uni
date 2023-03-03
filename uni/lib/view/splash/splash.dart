@@ -75,17 +75,17 @@ class SplashScreenState extends State<SplashScreen> {
         ),
         child: SizedBox(
             width: 150.0,
-            child: SvgPicture.asset(
-              'assets/images/logo_dark.svg',
-              color: Theme.of(context).primaryColor,
-            )));
+            child: SvgPicture.asset('assets/images/logo_dark.svg',
+                colorFilter: ColorFilter.mode(
+                    Theme.of(context).primaryColor, BlendMode.srcIn))));
   }
 
   /// Creates the app main logo
   Widget createNILogo() {
     return SvgPicture.asset(
       'assets/images/by_niaefeup.svg',
-      color: Theme.of(context).primaryColor,
+      colorFilter:
+          ColorFilter.mode(Theme.of(context).primaryColor, BlendMode.srcIn),
       width: queryData.size.width * 0.45,
     );
   }

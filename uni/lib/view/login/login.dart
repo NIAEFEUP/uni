@@ -157,7 +157,8 @@ class LoginPageViewState extends State<LoginPageView> {
               width: 100.0,
               child: SvgPicture.asset(
                 'assets/images/logo_dark.svg',
-                color: Colors.white,
+                colorFilter:
+                    const ColorFilter.mode(Colors.white, BlendMode.srcIn),
               )),
         ]));
   }

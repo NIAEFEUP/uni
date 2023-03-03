@@ -256,7 +256,7 @@ ThunkAction<AppState> updateStateBasedOnLocalRefreshTimes() {
   return (Store<AppState> store) async {
     final AppRefreshTimesDatabase refreshTimesDb = AppRefreshTimesDatabase();
     final Map<String, String> refreshTimes =
-    await refreshTimesDb.refreshTimes();
+        await refreshTimesDb.refreshTimes();
 
     store.dispatch(SetPrintRefreshTimeAction(refreshTimes['print']));
     store.dispatch(SetFeesRefreshTimeAction(refreshTimes['fees']));
@@ -352,14 +352,15 @@ ThunkAction<AppState> getLibraryOccupationFromFetcher(Completer<void> action) {
     try {
       store.dispatch(SetLibraryOccupationStatusAction(RequestStatus.busy));
 
-      final LibraryOccupation occupation = 
-        await LibraryOccupationFetcherSheets().getLibraryOccupationFromSheets(store);
+      final LibraryOccupation occupation =
+          await LibraryOccupationFetcherSheets()
+              .getLibraryOccupationFromSheets(store);
       final LibraryOccupationDatabase db = LibraryOccupationDatabase();
       db.saveOccupation(occupation);
       store.dispatch(SetLibraryOccupationAction(occupation));
-      store.dispatch(SetLibraryOccupationStatusAction(RequestStatus.successful));
-
-    } catch(e){
+      store
+          .dispatch(SetLibraryOccupationStatusAction(RequestStatus.successful));
+    } catch (e) {
       Logger().e('Failed to get Occupation: ${e.toString()}');
       store.dispatch(SetLibraryOccupationStatusAction(RequestStatus.failed));
     }
@@ -586,7 +587,9 @@ ThunkAction<AppState> toggleHiddenExam(
   return (Store<AppState> store) async {
     final List<String> hiddenExams =
         await AppSharedPreferences.getHiddenExams();
-    hiddenExams.contains(newExamId) ? hiddenExams.remove(newExamId) : hiddenExams.add(newExamId);
+    hiddenExams.contains(newExamId)
+        ? hiddenExams.remove(newExamId)
+        : hiddenExams.add(newExamId);
     store.dispatch(SetExamHidden(hiddenExams));
     await AppSharedPreferences.saveHiddenExams(hiddenExams);
     action.complete();

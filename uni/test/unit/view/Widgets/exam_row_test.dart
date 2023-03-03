@@ -17,8 +17,7 @@ void main() {
     final String endTime = DateFormat('HH:mm').format(end);
     testWidgets('When given a single room', (WidgetTester tester) async {
       final rooms = ['B315'];
-      final Exam exam =
-          Exam('1230', begin, end, subject, rooms, '', 'feup');
+      final Exam exam = Exam('1230', begin, end, subject, rooms, '', 'feup');
       final widget = makeTestableWidget(
           child: ExamRow(
         exam: exam,
@@ -27,8 +26,7 @@ void main() {
       ));
 
       await tester.pumpWidget(widget);
-      final roomsKey =
-          '$subject-$rooms-$beginTime-$endTime';
+      final roomsKey = '$subject-$rooms-$beginTime-$endTime';
 
       expect(
           find.descendant(
@@ -38,8 +36,7 @@ void main() {
 
     testWidgets('When given multiple rooms', (WidgetTester tester) async {
       final rooms = ['B315', 'B316', 'B317'];
-      final Exam exam =
-          Exam('1230',begin, end, subject, rooms, '', 'feup');
+      final Exam exam = Exam('1230', begin, end, subject, rooms, '', 'feup');
       final widget = makeTestableWidget(
           child: ExamRow(
         exam: exam,

@@ -178,13 +178,13 @@ class NetworkRouter {
 
   /// Makes an HTTP request to terminate the session in Sigarra.
   static Future killAuthentication(List<String> faculties) async {
-    final url =
-    '${NetworkRouter.getBaseUrl(faculties[0])}vld_validacao.sair';
-    final response = await http.
-      get(url.toUri()).timeout(const Duration(seconds: loginRequestTimeout));
+    final url = '${NetworkRouter.getBaseUrl(faculties[0])}vld_validacao.sair';
+    final response = await http
+        .get(url.toUri())
+        .timeout(const Duration(seconds: loginRequestTimeout));
     if (response.statusCode == 200) {
       Logger().i("Logout Successful");
-    }else{
+    } else {
       Logger().i("Logout Failed");
     }
     return response;

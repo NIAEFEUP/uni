@@ -10,7 +10,6 @@ import 'package:uni/view/profile/profile.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/navigation_drawer.dart';
 import 'package:uni/utils/drawer_items.dart';
 
-
 /// Page with a hamburger menu and the user profile picture
 abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
   final double borderMargin = 18.0;
@@ -102,11 +101,13 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
             onPressed: () {
               final currentRouteName = ModalRoute.of(context)!.settings.name;
               if (currentRouteName != DrawerItem.navPersonalArea.title) {
-                Navigator.pushNamed(context, '/${DrawerItem.navPersonalArea.title}');
+                Navigator.pushNamed(
+                    context, '/${DrawerItem.navPersonalArea.title}');
               }
             },
             child: SvgPicture.asset(
-              color: Theme.of(context).primaryColor,
+              colorFilter: ColorFilter.mode(
+                  Theme.of(context).primaryColor, BlendMode.srcIn),
               'assets/images/logo_dark.svg',
               height: queryData.size.height / 25,
             ),

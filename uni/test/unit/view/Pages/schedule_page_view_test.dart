@@ -76,12 +76,13 @@ void main() {
 
     testWidgets('When given one lecture on a single day',
         (WidgetTester tester) async {
-
       final widget = makeTestableWidget(
-          child: SchedulePageView(lectures: [lecture1], scheduleStatus: RequestStatus.successful));
+          child: SchedulePageView(
+              lectures: [lecture1], scheduleStatus: RequestStatus.successful));
       await tester.pumpWidget(widget);
       await tester.pumpAndSettle();
-      final SchedulePageViewState myWidgetState = tester.state(find.byType(SchedulePageView));
+      final SchedulePageViewState myWidgetState =
+          tester.state(find.byType(SchedulePageView));
       myWidgetState.tabController!.animateTo(0);
       await tester.pumpAndSettle();
 
@@ -93,12 +94,14 @@ void main() {
     });
     testWidgets('When given two lectures on a single day',
         (WidgetTester tester) async {
-
       final widget = makeTestableWidget(
-          child: SchedulePageView(lectures: [lecture1, lecture2], scheduleStatus: RequestStatus.successful));
+          child: SchedulePageView(
+              lectures: [lecture1, lecture2],
+              scheduleStatus: RequestStatus.successful));
       await tester.pumpWidget(widget);
       await tester.pumpAndSettle();
-      final SchedulePageViewState myWidgetState = tester.state(find.byType(SchedulePageView));
+      final SchedulePageViewState myWidgetState =
+          tester.state(find.byType(SchedulePageView));
       myWidgetState.tabController!.animateTo(0);
       await tester.pumpAndSettle();
 
@@ -110,16 +113,21 @@ void main() {
     });
     testWidgets('When given lectures on different days',
         (WidgetTester tester) async {
-
       final widget = makeTestableWidget(
           child: DefaultTabController(
               length: daysOfTheWeek.length,
-              child: SchedulePageView(
-                  lectures: [lecture1, lecture2, lecture3, lecture4, lecture5, lecture6],
-                  scheduleStatus: RequestStatus.successful)));
+              child: SchedulePageView(lectures: [
+                lecture1,
+                lecture2,
+                lecture3,
+                lecture4,
+                lecture5,
+                lecture6
+              ], scheduleStatus: RequestStatus.successful)));
       await tester.pumpWidget(widget);
       await tester.pumpAndSettle();
-      final SchedulePageViewState myWidgetState = tester.state(find.byType(SchedulePageView));
+      final SchedulePageViewState myWidgetState =
+          tester.state(find.byType(SchedulePageView));
       myWidgetState.tabController!.animateTo(0);
       await tester.pumpAndSettle();
 

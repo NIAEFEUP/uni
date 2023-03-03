@@ -16,4 +16,4 @@ class MockResponse extends Mock implements http.Response {}
 
 class MockScheduleFetcher extends Mock implements ScheduleFetcher {}
 
-class MockCourse extends Mock implements Course{}
+class MockCourse extends Mock implements Course {}

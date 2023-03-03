@@ -27,11 +27,6 @@ class LocationsPageState extends GeneralPageViewState
   }
 
   @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Widget getBody(BuildContext context) {
     return StoreConnector<AppState,
         Tuple2<List<LocationGroup>?, RequestStatus?>>(
@@ -43,7 +38,6 @@ class LocationsPageState extends GeneralPageViewState
     );
   }
 }
-
 
 class LocationsPageView extends StatelessWidget {
   final List<LocationGroup>? locations;

@@ -13,18 +13,18 @@ class CalendarFetcherHtml implements SessionDependantFetcher {
   List<String> getEndpoints(Session session) {
     // TO DO: Implement parsers for all faculties
     // and dispatch for different fetchers
-    final String url = '${NetworkRouter.getBaseUrl('feup')}web_base.gera_pagina?p_pagina=página%20estática%20genérica%20106';
+    final String url =
+        '${NetworkRouter.getBaseUrl('feup')}web_base.gera_pagina?p_pagina=página%20estática%20genérica%20106';
     return [url];
   }
 
   Future<List<CalendarEvent>> getCalendar(Store<AppState> store) async {
     final Session session = store.state.content['session'];
     final String url = getEndpoints(session)[0];
-    final Future<Response> response = NetworkRouter.getWithCookies(
-      url, {}, session);
-    final List<CalendarEvent> calendar = 
-     await response.then((response) => getCalendarFromHtml(response));
+    final Future<Response> response =
+        NetworkRouter.getWithCookies(url, {}, session);
+    final List<CalendarEvent> calendar =
+        await response.then((response) => getCalendarFromHtml(response));
     return calendar;
   }
-
 }

@@ -51,17 +51,16 @@ class RestaurantDatabase extends AppDatabase {
     return restaurants;
   }
 
-  Future<List<Restaurant>> getRestaurants() async{
+  Future<List<Restaurant>> getRestaurants() async {
     final Database db = await getDatabase();
     final List<Restaurant> restaurants = [];
-    await db.transaction((txn) async  {
+    await db.transaction((txn) async {
       final List<Map<String, dynamic>> restaurantsFromDB =
-        await txn.query('RESTAURANTS');
+          await txn.query('RESTAURANTS');
       for (Map<String, dynamic> restaurantMap in restaurantsFromDB) {
         final int id = restaurantMap['id'];
         final List<Meal> meals = await getRestaurantMeals(txn, id);
-        final Restaurant restaurant = Restaurant.fromMap(
-            restaurantMap, meals);
+        final Restaurant restaurant = Restaurant.fromMap(restaurantMap, meals);
         restaurants.add(restaurant);
       }
     });
@@ -98,7 +97,7 @@ class RestaurantDatabase extends AppDatabase {
   /// Insert restaurant and meals in database
   Future<void> insertRestaurant(Transaction txn, Restaurant restaurant) async {
     final int id = await txn.insert('RESTAURANTS', restaurant.toMap());
-    restaurant.meals.forEach((dayOfWeak, meals) async{
+    restaurant.meals.forEach((dayOfWeak, meals) async {
       for (var meal in meals) {
         await txn.insert('MEALS', meal.toMap(id));
       }

@@ -21,7 +21,6 @@ class RestaurantPageView extends StatefulWidget {
 
 class _CantinePageState extends GeneralPageViewState<RestaurantPageView>
     with SingleTickerProviderStateMixin {
-
   final List<DayOfWeek> daysOfTheWeek = [
     DayOfWeek.monday,
     DayOfWeek.tuesday,
@@ -56,7 +55,6 @@ class _CantinePageState extends GeneralPageViewState<RestaurantPageView>
         },
         builder: (context, restaurantsInfo) =>
             _getPageView(restaurantsInfo.item1, restaurantsInfo.item2));
-
   }
 
   Widget _getPageView(List<Restaurant> restaurants, RequestStatus? status) {
@@ -80,26 +78,30 @@ class _CantinePageState extends GeneralPageViewState<RestaurantPageView>
           contentGenerator: createTabViewBuilder,
           content: restaurants,
           contentChecker: restaurants.isNotEmpty,
-          onNullContent: const Center(child: Text('Não há refeições disponíveis.')))
+          onNullContent:
+              const Center(child: Text('Não há refeições disponíveis.')))
     ]);
   }
 
   Widget createTabViewBuilder(dynamic restaurants, BuildContext context) {
-      final List<Widget> dayContents =  daysOfTheWeek.map((dayOfWeek) {
-        List<Widget> cantinesWidgets = [];
-        if (restaurants is List<Restaurant>) {
-          cantinesWidgets = restaurants
-              .map((restaurant) => createRestaurant(context, restaurant, dayOfWeek))
-              .toList();
-        }
-        return ListView( children: cantinesWidgets,);
-      }).toList();
+    final List<Widget> dayContents = daysOfTheWeek.map((dayOfWeek) {
+      List<Widget> cantinesWidgets = [];
+      if (restaurants is List<Restaurant>) {
+        cantinesWidgets = restaurants
+            .map((restaurant) =>
+                createRestaurant(context, restaurant, dayOfWeek))
+            .toList();
+      }
+      return ListView(
+        children: cantinesWidgets,
+      );
+    }).toList();
 
-      return Expanded(
-          child: TabBarView(
-        controller: tabController,
-        children: dayContents,
-      ));
+    return Expanded(
+        child: TabBarView(
+      controller: tabController,
+      children: dayContents,
+    ));
   }
 
   List<Widget> createTabs(BuildContext context) {
@@ -107,8 +109,9 @@ class _CantinePageState extends GeneralPageViewState<RestaurantPageView>
 
     for (var i = 0; i < daysOfTheWeek.length; i++) {
       tabs.add(Container(
-        color: Theme.of(context).backgroundColor,
-        child: Tab(key: Key('cantine-page-tab-$i'), text: toString(daysOfTheWeek[i])),
+        color: Theme.of(context).colorScheme.background,
+        child: Tab(
+            key: Key('cantine-page-tab-$i'), text: toString(daysOfTheWeek[i])),
       ));
     }
 
@@ -116,7 +119,8 @@ class _CantinePageState extends GeneralPageViewState<RestaurantPageView>
   }
 
   Widget createRestaurant(context, Restaurant restaurant, DayOfWeek dayOfWeek) {
-    return RestaurantPageCard(restaurant.name, createRestaurantByDay(context, restaurant, dayOfWeek));
+    return RestaurantPageCard(
+        restaurant.name, createRestaurantByDay(context, restaurant, dayOfWeek));
   }
 
   List<Widget> createRestaurantRows(List<Meal> meals, BuildContext context) {
@@ -130,25 +134,23 @@ class _CantinePageState extends GeneralPageViewState<RestaurantPageView>
     final List<Meal> meals = restaurant.getMealsOfDay(day);
     if (meals.isEmpty) {
       return Container(
-          margin:
-          const EdgeInsets.only(top: 10, bottom: 5),
+          margin: const EdgeInsets.only(top: 10, bottom: 5),
           key: Key('cantine-page-day-column-$day'),
           child: Column(
             mainAxisSize: MainAxisSize.min,
-            children:
-            const [Center (child: Text("Não há informação disponível sobre refeições")),],
-          )
-      );
+            children: const [
+              Center(
+                  child: Text("Não há informação disponível sobre refeições")),
+            ],
+          ));
     } else {
       return Container(
-        margin:
-          const EdgeInsets.only(top: 5, bottom: 5),
-        key: Key('cantine-page-day-column-$day'),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: createRestaurantRows(meals, context),
-        )
-    );
+          margin: const EdgeInsets.only(top: 5, bottom: 5),
+          key: Key('cantine-page-day-column-$day'),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: createRestaurantRows(meals, context),
+          ));
     }
   }
 }

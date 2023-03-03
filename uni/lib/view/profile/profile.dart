@@ -17,7 +17,7 @@ class ProfilePage extends StatefulWidget {
   ProfilePageState createState() => ProfilePageState();
 }
 
-class ProfilePageState extends State<ProfilePage>{
+class ProfilePageState extends State<ProfilePage> {
   late String name;
   late String email;
   late List<Course> courses;
@@ -32,11 +32,10 @@ class ProfilePageState extends State<ProfilePage>{
     profilePicFile = null;
   }
 
-  @override 
-  Widget build(BuildContext context){
+  @override
+  Widget build(BuildContext context) {
     updateInfo();
-    return ProfilePageView(
-        name: name, email: email, courses: courses);
+    return ProfilePageView(name: name, email: email, courses: courses);
   }
 
   void updateInfo() async {

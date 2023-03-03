@@ -61,6 +61,7 @@ class BugReportFormState extends State<BugReportForm> {
     bugDescriptions.forEach((int key, Tuple2<String, String> tup) =>
         {bugList.add(DropdownMenuItem(value: key, child: Text(tup.item1)))});
   }
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -233,14 +234,15 @@ class BugReportFormState extends State<BugReportForm> {
     setState(() {
       _isButtonTapped = true;
     });
-    final List<String> faculties = await AppSharedPreferences.getUserFaculties();
+    final List<String> faculties =
+        await AppSharedPreferences.getUserFaculties();
     final bugReport = BugReport(
-        titleController.text,
-        descriptionController.text,
-        emailController.text,
-        bugDescriptions[_selectedBug],
-        faculties
-    ).toMap();
+            titleController.text,
+            descriptionController.text,
+            emailController.text,
+            bugDescriptions[_selectedBug],
+            faculties)
+        .toMap();
     String toastMsg;
     bool status;
     try {
@@ -270,7 +272,9 @@ class BugReportFormState extends State<BugReportForm> {
       });
     }
   }
-  Future<int> submitGitHubIssue(SentryId sentryEvent, Map<String,dynamic> bugReport) async {
+
+  Future<int> submitGitHubIssue(
+      SentryId sentryEvent, Map<String, dynamic> bugReport) async {
     final String description =
         '${bugReport['bugLabel']}\nFurther information on: $_sentryLink$sentryEvent';
     final Map data = {
@@ -278,7 +282,7 @@ class BugReportFormState extends State<BugReportForm> {
       'body': description,
       'labels': ['In-app bug report', bugReport['bugLabel']],
     };
-    for (String faculty in bugReport['faculties']){
+    for (String faculty in bugReport['faculties']) {
       data['labels'].add(faculty);
     }
     return http
@@ -293,7 +297,7 @@ class BugReportFormState extends State<BugReportForm> {
     });
   }
 
-  Future<SentryId> submitSentryEvent(Map<String,dynamic> bugReport) async {
+  Future<SentryId> submitSentryEvent(Map<String, dynamic> bugReport) async {
     final String description = bugReport['email'] == ''
         ? '${bugReport['text']} from ${bugReport['faculty']}'
         : '${bugReport['text']} from ${bugReport['faculty']}\nContact: ${bugReport['email']}';
