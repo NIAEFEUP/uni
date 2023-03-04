@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:tuple/tuple.dart';
-import 'package:uni/model/app_state.dart';
+import 'package:provider/provider.dart';
+import 'package:uni/model/request_status.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/entities/time_utilities.dart';
+import 'package:uni/model/providers/lecture_provider.dart';
+import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
+import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
 import 'package:uni/view/schedule/widgets/schedule_slot.dart';
-import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
-import 'package:uni/utils/drawer_items.dart';
 
 class SchedulePage extends StatefulWidget {
   const SchedulePage({Key? key}) : super(key: key);
@@ -20,15 +20,11 @@ class SchedulePage extends StatefulWidget {
 class SchedulePageState extends State<SchedulePage> {
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, Tuple2<List<Lecture>, RequestStatus>?>(
-      converter: (store) => Tuple2(store.state.content['schedule'],
-          store.state.content['scheduleStatus']),
-      builder: (context, lectureData) {
-        final lectures = lectureData?.item1;
-        final scheduleStatus = lectureData?.item2;
+    return Consumer<LectureProvider>(
+      builder: (context, lectureProvider, _) {
         return SchedulePageView(
-          lectures: lectures,
-          scheduleStatus: scheduleStatus,
+          lectures: lectureProvider.lectures,
+          scheduleStatus: lectureProvider.status,
         );
       },
     );

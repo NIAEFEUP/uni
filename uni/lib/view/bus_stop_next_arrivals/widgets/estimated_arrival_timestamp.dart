@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:uni/model/app_state.dart';
+import 'package:provider/provider.dart';
+import 'package:uni/model/providers/bus_stop_provider.dart';
 
 /// Manages the section with the estimated time for the bus arrival
 class EstimatedArrivalTimeStamp extends StatelessWidget {
@@ -13,11 +13,9 @@ class EstimatedArrivalTimeStamp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, DateTime?>(
-      converter: (store) => store.state.content['timeStamp'],
-      builder: (context, timeStamp) {
-        return getContent(context, timeStamp ?? DateTime.now());
-      },
+    return Consumer<BusStopProvider>(
+      builder: (context, busProvider, _) =>
+          getContent(context, busProvider.timeStamp),
     );
   }
 
