@@ -40,12 +40,12 @@ class SplashScreenState extends State<SplashScreen> {
           Container(
             decoration: const BoxDecoration(),
           ),
+          Center(
+            child: createTitle(),
+          ),
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              Padding(
-                  padding: EdgeInsets.only(bottom: queryData.size.height / 4)),
-              createTitle(),
               const Spacer(),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -58,7 +58,7 @@ class SplashScreenState extends State<SplashScreen> {
                 ],
               ),
               Padding(
-                  padding: EdgeInsets.only(bottom: queryData.size.height / 6))
+                  padding: EdgeInsets.only(bottom: queryData.size.height / 10))
             ],
           )
         ],
