@@ -67,7 +67,7 @@ class SplashScreenState extends State<SplashScreen> {
                           ),
                           Padding(
                               padding: EdgeInsets.only(
-                                  bottom: queryData.size.height / 12))
+                                  bottom: queryData.size.height / 15))
                         ],
                       )
                     ],
