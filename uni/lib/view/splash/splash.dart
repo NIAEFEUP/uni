@@ -34,44 +34,45 @@ class SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     queryData = MediaQuery.of(context);
-    final systemTheme = MediaQuery.platformBrightnessOf(context) == Brightness.dark
-        ? applicationDarkTheme
-        : applicationLightTheme;
+    final systemTheme =
+        MediaQuery.platformBrightnessOf(context) == Brightness.dark
+            ? applicationDarkTheme
+            : applicationLightTheme;
     return Theme(
         data: systemTheme,
         child: Builder(
             builder: (context) => Scaffold(
-              body: Stack(
-                fit: StackFit.expand,
-                children: <Widget>[
-                  Container(
-                    decoration: const BoxDecoration(),
-                  ),
-                  Center(
-                    child: createTitle(context),
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                  body: Stack(
+                    fit: StackFit.expand,
                     children: <Widget>[
-                      const Spacer(),
+                      Container(
+                        decoration: const BoxDecoration(),
+                      ),
+                      Center(
+                        child: createTitle(context),
+                      ),
                       Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
-                          const CircularProgressIndicator(),
+                          const Spacer(),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              const CircularProgressIndicator(),
+                              Padding(
+                                  padding: EdgeInsets.only(
+                                      bottom: queryData.size.height / 16)),
+                              createNILogo(context),
+                            ],
+                          ),
                           Padding(
                               padding: EdgeInsets.only(
-                                  bottom: queryData.size.height / 16)),
-                          createNILogo(context),
+                                  bottom: queryData.size.height / 12))
                         ],
-                      ),
-                      Padding(
-                          padding: EdgeInsets.only(
-                              bottom: queryData.size.height / 10))
+                      )
                     ],
-                  )
-                ],
-              ),
-            )));
+                  ),
+                )));
   }
 
   /// Creates the app Title container with the app's logo.
@@ -102,12 +103,12 @@ class SplashScreenState extends State<SplashScreen> {
   void startTimeAndChangeRoute() async {
     MaterialPageRoute<dynamic> nextRoute;
     final Tuple2<String, String> userPersistentInfo =
-    await AppSharedPreferences.getPersistentUserInfo();
+        await AppSharedPreferences.getPersistentUserInfo();
     final String userName = userPersistentInfo.item1;
     final String password = userPersistentInfo.item2;
     if (userName != '' && password != '') {
       nextRoute =
-      await getTermsAndConditions(userName, password, stateProviders);
+          await getTermsAndConditions(userName, password, stateProviders);
     } else {
       await acceptTermsAndConditions();
       nextRoute =
@@ -129,7 +130,7 @@ class SplashScreenState extends State<SplashScreen> {
       case TermsAndConditionsState.accepted:
         if (mounted) {
           final List<String> faculties =
-          await AppSharedPreferences.getUserFaculties();
+              await AppSharedPreferences.getUserFaculties();
           stateProviders.sessionProvider
               .reLogin(userName, password, faculties, stateProviders);
         }
