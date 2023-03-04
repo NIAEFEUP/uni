@@ -10,6 +10,7 @@ import 'package:uni/view/home/home.dart';
 import 'package:uni/view/login/login.dart';
 import 'package:uni/view/logout_route.dart';
 import 'package:uni/view/splash/widgets/terms_and_condition_dialog.dart';
+import 'package:uni/view/theme.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -18,7 +19,7 @@ class SplashScreen extends StatefulWidget {
   SplashScreenState createState() => SplashScreenState();
 }
 
-/// Manages the splash screen displayed after a successful login.
+/// Manages the splash screen displayed after the app is launched.
 class SplashScreenState extends State<SplashScreen> {
   late MediaQueryData queryData;
   late StateProviders stateProviders;
@@ -26,48 +27,55 @@ class SplashScreenState extends State<SplashScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    startTimeAndChangeRoute();
     stateProviders = StateProviders.fromContext(context);
+    startTimeAndChangeRoute();
   }
 
   @override
   Widget build(BuildContext context) {
     queryData = MediaQuery.of(context);
-    return Scaffold(
-      body: Stack(
-        fit: StackFit.expand,
-        children: <Widget>[
-          Container(
-            decoration: const BoxDecoration(),
-          ),
-          Center(
-            child: createTitle(),
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              const Spacer(),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+    final systemTheme = MediaQuery.platformBrightnessOf(context) == Brightness.dark
+        ? applicationDarkTheme
+        : applicationLightTheme;
+    return Theme(
+        data: systemTheme,
+        child: Builder(
+            builder: (context) => Scaffold(
+              body: Stack(
+                fit: StackFit.expand,
                 children: <Widget>[
-                  const CircularProgressIndicator(),
-                  Padding(
-                      padding:
-                          EdgeInsets.only(bottom: queryData.size.height / 16)),
-                  createNILogo(),
+                  Container(
+                    decoration: const BoxDecoration(),
+                  ),
+                  Center(
+                    child: createTitle(context),
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      const Spacer(),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          const CircularProgressIndicator(),
+                          Padding(
+                              padding: EdgeInsets.only(
+                                  bottom: queryData.size.height / 16)),
+                          createNILogo(context),
+                        ],
+                      ),
+                      Padding(
+                          padding: EdgeInsets.only(
+                              bottom: queryData.size.height / 10))
+                    ],
+                  )
                 ],
               ),
-              Padding(
-                  padding: EdgeInsets.only(bottom: queryData.size.height / 10))
-            ],
-          )
-        ],
-      ),
-    );
+            )));
   }
 
   /// Creates the app Title container with the app's logo.
-  Widget createTitle() {
+  Widget createTitle(BuildContext context) {
     return ConstrainedBox(
         constraints: BoxConstraints(
           minWidth: queryData.size.width / 8,
@@ -82,7 +90,7 @@ class SplashScreenState extends State<SplashScreen> {
   }
 
   /// Creates the app main logo
-  Widget createNILogo() {
+  Widget createNILogo(BuildContext context) {
     return SvgPicture.asset(
       'assets/images/by_niaefeup.svg',
       color: Theme.of(context).primaryColor,
@@ -94,12 +102,12 @@ class SplashScreenState extends State<SplashScreen> {
   void startTimeAndChangeRoute() async {
     MaterialPageRoute<dynamic> nextRoute;
     final Tuple2<String, String> userPersistentInfo =
-        await AppSharedPreferences.getPersistentUserInfo();
+    await AppSharedPreferences.getPersistentUserInfo();
     final String userName = userPersistentInfo.item1;
     final String password = userPersistentInfo.item2;
     if (userName != '' && password != '') {
       nextRoute =
-          await getTermsAndConditions(userName, password, stateProviders);
+      await getTermsAndConditions(userName, password, stateProviders);
     } else {
       await acceptTermsAndConditions();
       nextRoute =
@@ -120,7 +128,8 @@ class SplashScreenState extends State<SplashScreen> {
     switch (state) {
       case TermsAndConditionsState.accepted:
         if (mounted) {
-          final List<String> faculties = await AppSharedPreferences.getUserFaculties();
+          final List<String> faculties =
+          await AppSharedPreferences.getUserFaculties();
           stateProviders.sessionProvider
               .reLogin(userName, password, faculties, stateProviders);
         }
