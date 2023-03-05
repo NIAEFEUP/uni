@@ -4,7 +4,7 @@
         <!-- Show a splash screen on the activity. Automatically removed when
              Flutter draws its first frame -->
         <item name="android:windowSplashScreenBackground">@color/splashScreenBackground</item>
-        <item name="android:windowSplashScreenAnimatedIcon">@drawable/logo_dark</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/logo</item>
         <item name="android:windowSplashScreenBrandingImage">@drawable/by_niaefeup</item>
     </style>
 </resources>
