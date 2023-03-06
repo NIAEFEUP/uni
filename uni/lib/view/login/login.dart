@@ -195,17 +195,14 @@ class LoginPageViewState extends State<LoginPageView> {
   }
 
   ///Creates the widget for when the user forgets the password
-  Widget createForgetPasswordLink(BuildContext context){
+  Widget createForgetPasswordLink(BuildContext context) {
     return InkWell(
-      child: Center(
-        child:Text("Esqueceu a palavra-passe?",
-          style: Theme.of(context)
-            .textTheme
-            .bodyText1!
-            .copyWith(decoration: TextDecoration.underline, color: Colors.white))
-      ),
-        onTap: () => launchUrl(Uri.parse("https://self-id.up.pt/reset"))
-    );
+        child: Center(
+            child: Text("Esqueceu a palavra-passe?",
+                style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                    decoration: TextDecoration.underline,
+                    color: Colors.white))),
+        onTap: () => launchUrl(Uri.parse("https://self-id.up.pt/reset")));
   }
 
   /// Creates a widget for the user login depending on the status of his login.
