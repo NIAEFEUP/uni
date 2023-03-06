@@ -2,7 +2,6 @@
 
 import 'dart:async';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:intl/intl.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tuple/tuple.dart';
 import 'package:uni/controller/networking/network_router.dart';
@@ -24,14 +23,19 @@ void main() {
     final mockResponse = MockResponse();
 
     final sopeCourseUnit = CourseUnit(
-        abbreviation: 'SOPE', occurrId: 0, name: 'Sistemas Operativos');
+        abbreviation: 'SOPE', occurrId: 0, name: 'Sistemas Operativos', status: 'V');
     final sdisCourseUnit = CourseUnit(
-        abbreviation: 'SDIS', occurrId: 0, name: 'Sistemas Distribuídos');
+        abbreviation: 'SDIS', occurrId: 0, name: 'Sistemas Distribuídos', status: 'V');
 
-    final sopeExam = Exam('09:00-12:00', 'SOPE', 'B119, B107, B205',
-        '2800-09-11', 'Recurso - Época Recurso (2ºS)', 'Quarta');
-    final sdisExam = Exam('12:00-15:00', 'SDIS', 'B119, B107, B205',
-        '2800-09-12', 'Recurso - Época Recurso (2ºS)', 'Quarta');
+    final List<String> rooms = ['B119', 'B107', 'B205'];
+    final DateTime beginSopeExam = DateTime.parse('2800-09-12 12:00');
+    final DateTime endSopeExam = DateTime.parse('2800-09-12 15:00');
+    final sopeExam = Exam('1229', beginSopeExam, endSopeExam, 'SOPE',
+        rooms, 'Recurso - Época Recurso (2ºS)', 'feup');
+    final DateTime beginSdisExam = DateTime.parse('2800-09-12 12:00');
+    final DateTime endSdisExam = DateTime.parse('2800-09-12 15:00');
+    final sdisExam = Exam('1230', beginSdisExam, endSdisExam, 'SDIS',
+        rooms, 'Recurso - Época Recurso (2ºS)', 'feup');
 
     const Tuple2<String, String> userPersistentInfo = Tuple2('', '');
 
@@ -53,7 +57,7 @@ void main() {
     });
 
     test('When given one exam', () async {
-      when(parserExams.parseExams(any)).thenAnswer((_) async => {sopeExam});
+      when(parserExams.parseExams(any, any)).thenAnswer((_) async => {sopeExam});
 
       final action = Completer();
 
@@ -65,11 +69,12 @@ void main() {
       await action.future;
 
       expect(provider.exams.isNotEmpty, true);
+      expect(provider.exams, [sopeExam]);
       expect(provider.status, RequestStatus.successful);
     });
 
     test('When given two exams', () async {
-      when(parserExams.parseExams(any))
+      when(parserExams.parseExams(any, any))
           .thenAnswer((_) async => {sopeExam, sdisExam});
 
       final Completer<void> action = Completer();
@@ -87,17 +92,18 @@ void main() {
 
     test('''When given three exams but one is to be parsed out,
                  since it is a Special Season Exam''', () async {
-      final specialExam = Exam(
-          '12:00-15:00',
+      final DateTime begin = DateTime.parse('2800-09-12 12:00');
+      final DateTime end = DateTime.parse('2800-09-12 15:00');
+      final specialExam = Exam('1231',
+          begin,
+          end,
           'SDIS',
-          'B119, B107, B205',
-          '2800-09-12',
-          'Exames ao abrigo de estatutos especiais - Port.Est.Especiais',
-          'Quarta');
+          rooms,
+          'Exames ao abrigo de estatutos especiais - Port.Est.Especiais', 'feup');
 
       final Completer<void> action = Completer();
 
-      when(parserExams.parseExams(any))
+      when(parserExams.parseExams(any, any))
           .thenAnswer((_) async => {sopeExam, sdisExam, specialExam});
 
       provider.getUserExams(
@@ -113,7 +119,7 @@ void main() {
 
     test('When an error occurs while trying to obtain the exams', () async {
       final Completer<void> action = Completer();
-      when(parserExams.parseExams(any))
+      when(parserExams.parseExams(any, any))
           .thenAnswer((_) async => throw Exception('RIP'));
 
       provider.getUserExams(
@@ -129,18 +135,10 @@ void main() {
     test('When Exam is today in one hour', () async {
       final DateTime begin = DateTime.now().add(const Duration(hours: 1));
       final DateTime end = DateTime.now().add(const Duration(hours: 2));
-      final String formattedDate = DateFormat('yyyy-MM-dd').format(begin);
-      final String formattedHourBegin = DateFormat('kk:mm').format(begin);
-      final String formattedHourEnd = DateFormat('kk:mm').format(end);
-      final todayExam = Exam(
-          '$formattedHourBegin-$formattedHourEnd',
-          'SDIS',
-          'B119, B107, B205',
-          formattedDate,
-          'Recurso - Época Recurso (1ºS)',
-          'Quarta');
+      final todayExam = Exam('1232',begin, end, 'SDIS', rooms,
+          'Recurso - Época Recurso (1ºS)', 'feup');
 
-      when(parserExams.parseExams(any)).thenAnswer((_) async => {todayExam});
+      when(parserExams.parseExams(any, any)).thenAnswer((_) async => {todayExam});
 
       final Completer<void> action = Completer();
 
@@ -157,18 +155,10 @@ void main() {
     test('When Exam was one hour ago', () async {
       final DateTime end = DateTime.now().subtract(const Duration(hours: 1));
       final DateTime begin = DateTime.now().subtract(const Duration(hours: 2));
-      final String formattedDate = DateFormat('yyyy-MM-dd').format(begin);
-      final String formattedHourBegin = DateFormat('kk:mm').format(begin);
-      final String formattedHourEnd = DateFormat('kk:mm').format(end);
-      final todayExam = Exam(
-          '$formattedHourBegin-$formattedHourEnd',
-          'SDIS',
-          'B119, B107, B205',
-          formattedDate,
-          'Recurso - Época Recurso (1ºS)',
-          'Quarta');
+      final todayExam = Exam('1233',begin, end, 'SDIS', rooms,
+          'Recurso - Época Recurso (1ºS)', 'feup');
 
-      when(parserExams.parseExams(any)).thenAnswer((_) async => {todayExam});
+      when(parserExams.parseExams(any, any)).thenAnswer((_) async => {todayExam});
 
       final Completer<void> action = Completer();
 
@@ -185,18 +175,10 @@ void main() {
     test('When Exam is ocurring', () async {
       final DateTime before = DateTime.now().subtract(const Duration(hours: 1));
       final DateTime after = DateTime.now().add(const Duration(hours: 1));
-      final String formattedDate = DateFormat('yyyy-MM-dd').format(before);
-      final String formattedHourBefore = DateFormat('kk:mm').format(before);
-      final String formattedHourAfter = DateFormat('kk:mm').format(after);
-      final todayExam = Exam(
-          '$formattedHourBefore-$formattedHourAfter',
-          'SDIS',
-          'B119, B107, B205',
-          formattedDate,
-          'Recurso - Época Recurso (1ºS)',
-          'Quarta');
+      final todayExam = Exam('1234',before, after, 'SDIS', rooms,
+          'Recurso - Época Recurso (1ºS)','feup');
 
-      when(parserExams.parseExams(any)).thenAnswer((_) async => {todayExam});
+      when(parserExams.parseExams(any, any)).thenAnswer((_) async => {todayExam});
 
       final Completer<void> action = Completer();
 

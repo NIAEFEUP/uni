@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:intl/intl.dart';
+import 'package:uni/model/entities/exam.dart';
 import 'package:uni/view/exams/widgets/exam_row.dart';
 
 import '../../../test_widget.dart';
@@ -7,23 +9,20 @@ import '../../../test_widget.dart';
 void main() {
   group('Exam Row', () {
     const subject = 'SOPE';
-    const begin = '10:00';
-    const end = '12:00';
+    final DateTime begin = DateTime(
+        DateTime.now().year, DateTime.now().month, DateTime.now().day, 10, 0);
+    final DateTime end = DateTime(
+        DateTime.now().year, DateTime.now().month, DateTime.now().day, 12, 0);
+    final String beginTime = DateFormat('HH:mm').format(begin);
+    final String endTime = DateFormat('HH:mm').format(end);
 
     testWidgets('When given a single room', (WidgetTester tester) async {
       final rooms = ['B315'];
-      final widget = ExamRow(
-        subject: subject,
-        rooms: rooms,
-        begin: begin,
-        end: end,
-        date: DateTime.now(),
-        teacher: '',
-        type: '',
-      );
+      final Exam exam = Exam('1230', begin, end, subject, rooms, '', 'feup');
+      final widget = ExamRow(exam: exam, teacher: '', mainPage: true);
 
       await tester.pumpWidget(testWidget(widget));
-      final roomsKey = '$subject-$rooms-$begin-$end';
+      final roomsKey = '$subject-$rooms-$beginTime-$endTime';
 
       expect(
           find.descendant(
@@ -33,18 +32,11 @@ void main() {
 
     testWidgets('When given a single room', (WidgetTester tester) async {
       final rooms = ['B315', 'B316', 'B330'];
-      final widget = ExamRow(
-        subject: subject,
-        rooms: rooms,
-        begin: begin,
-        end: end,
-        date: DateTime.now(),
-        teacher: '',
-        type: '',
-      );
+      final Exam exam = Exam('1230',begin, end, subject, rooms, '', 'feup');
+      final widget = ExamRow(exam: exam, teacher: '', mainPage: true);
 
       await tester.pumpWidget(testWidget(widget));
-      final roomsKey = '$subject-$rooms-$begin-$end';
+      final roomsKey = '$subject-$rooms-$beginTime-$endTime';
 
       expect(
           find.descendant(

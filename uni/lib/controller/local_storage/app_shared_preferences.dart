@@ -2,11 +2,11 @@ import 'dart:async';
 
 import 'package:encrypt/encrypt.dart' as encrypt;
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tuple/tuple.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/utils/favorite_widget_type.dart';
+
 
 /// Manages the app's Shared Preferences.
 ///
@@ -29,16 +29,16 @@ class AppSharedPreferences {
     FavoriteWidgetType.exams,
     FavoriteWidgetType.busStops
   ];
+  static const String hiddenExams = 'hidden_exams';
   static const String filteredExamsTypes = 'filtered_exam_types';
-  static final List<String> defaultFilteredExamTypes =
-      Exam.getExamTypes().keys.toList();
+  static final List<String> defaultFilteredExamTypes = Exam.displayedTypes;
 
   /// Saves the user's student number, password and faculties.
   static Future savePersistentUserInfo(user, pass, faculties) async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.setString(userNumber, user);
-    prefs.setString(userPw, encode(pass));
-    prefs.setStringList(
+    await prefs.setString(userNumber, user);
+    await prefs.setString(userPw, encode(pass));
+    await prefs.setStringList(
         userFaculties, faculties); // Could be multiple faculties
   }
 
@@ -128,8 +128,6 @@ class AppSharedPreferences {
 
     if (pass != '') {
       pass = decode(pass);
-    } else {
-      Logger().w('User password does not exist in shared preferences.');
     }
 
     return pass;
@@ -152,6 +150,18 @@ class AppSharedPreferences {
         .toList();
   }
 
+
+  static saveHiddenExams(List<String> newHiddenExams) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setStringList(
+        hiddenExams, newHiddenExams);
+  }
+
+  static Future<List<String>> getHiddenExams() async {
+    final prefs = await SharedPreferences.getInstance();
+    final List<String> storedHiddenExam = prefs.getStringList(hiddenExams) ?? [];
+    return storedHiddenExam;
+  }
   /// Replaces the user's exam filter settings with [newFilteredExamTypes].
   static saveFilteredExams(Map<String, bool> newFilteredExamTypes) async {
     final prefs = await SharedPreferences.getInstance();

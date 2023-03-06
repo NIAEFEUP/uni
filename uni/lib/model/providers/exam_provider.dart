@@ -16,9 +16,15 @@ import 'package:uni/model/providers/state_provider_notifier.dart';
 
 class ExamProvider extends StateProviderNotifier {
   List<Exam> _exams = [];
+  List<String> _hiddenExams = [];
   Map<String, bool> _filteredExamsTypes = {};
 
+
+
   UnmodifiableListView<Exam> get exams => UnmodifiableListView(_exams);
+
+  UnmodifiableListView<String> get hiddenExams =>
+      UnmodifiableListView(_hiddenExams);
 
   UnmodifiableMapView<String, bool> get filteredExamsTypes =>
       UnmodifiableMapView(_filteredExamsTypes);
@@ -38,7 +44,7 @@ class ExamProvider extends StateProviderNotifier {
       final List<Exam> exams = await ExamFetcher(profile.courses, userUcs)
           .extractExams(session, parserExams);
 
-      exams.sort((exam1, exam2) => exam1.date.compareTo(exam2.date));
+      exams.sort((exam1, exam2) => exam1.begin.day.compareTo(exam2.begin.day));
 
       // Updates local database according to the information fetched -- Exams
       if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {
@@ -50,6 +56,7 @@ class ExamProvider extends StateProviderNotifier {
       updateStatus(RequestStatus.successful);
       notifyListeners();
     } catch (e) {
+      Logger().e(e);
       Logger().e('Failed to get Exams');
       updateStatus(RequestStatus.failed);
     }
@@ -81,7 +88,27 @@ class ExamProvider extends StateProviderNotifier {
   List<Exam> getFilteredExams() {
     return exams
         .where((exam) =>
-            filteredExamsTypes[Exam.getExamTypeLong(exam.examType)] ?? true)
+            filteredExamsTypes[Exam.getExamTypeLong(exam.type)] ?? true)
         .toList();
+  }
+
+  setHiddenExams(List<String> newHiddenExams, Completer<void> action) async {
+    _hiddenExams = List<String>.from(newHiddenExams);
+    AppSharedPreferences.saveHiddenExams(hiddenExams);
+    action.complete();
+    notifyListeners();
+  }
+
+  toggleHiddenExam(String newExamId, Completer<void> action) async {
+    _hiddenExams.contains(newExamId)
+        ? _hiddenExams.remove(newExamId)
+        : _hiddenExams.add(newExamId);
+    notifyListeners();
+    AppSharedPreferences.saveHiddenExams(hiddenExams);
+    action.complete();
+  }
+
+  setExams(List<Exam> newExams) {
+    _exams = newExams;
   }
 }
