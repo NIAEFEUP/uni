@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:uni/model/entities/exam.dart';
+import 'package:uni/model/providers/exam_provider.dart';
 import 'package:uni/view/exams/widgets/exam_row.dart';
 
 import '../../../test_widget.dart';
@@ -21,7 +23,12 @@ void main() {
       final Exam exam = Exam('1230', begin, end, subject, rooms, '', 'feup');
       final widget = ExamRow(exam: exam, teacher: '', mainPage: true);
 
-      await tester.pumpWidget(testWidget(widget));
+      final fatherWidget = ChangeNotifierProvider<ExamProvider>(
+          child: widget,
+          create: (_) => ExamProvider(),
+      );
+
+      await tester.pumpWidget(testWidget(fatherWidget));
       final roomsKey = '$subject-$rooms-$beginTime-$endTime';
 
       expect(
@@ -30,12 +37,16 @@ void main() {
           findsOneWidget);
     });
 
-    testWidgets('When given a single room', (WidgetTester tester) async {
+    testWidgets('When multiple rooms', (WidgetTester tester) async {
       final rooms = ['B315', 'B316', 'B330'];
       final Exam exam = Exam('1230',begin, end, subject, rooms, '', 'feup');
       final widget = ExamRow(exam: exam, teacher: '', mainPage: true);
 
-      await tester.pumpWidget(testWidget(widget));
+      final fatherWidget = ChangeNotifierProvider<ExamProvider>(
+          child: widget,
+          create: (_) => ExamProvider(),
+      );
+      await tester.pumpWidget(testWidget(fatherWidget));
       final roomsKey = '$subject-$rooms-$beginTime-$endTime';
 
       expect(
