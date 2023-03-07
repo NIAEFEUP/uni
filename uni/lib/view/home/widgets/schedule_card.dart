@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:tuple/tuple.dart';
-
-import 'package:uni/model/app_state.dart';
+import 'package:provider/provider.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/entities/time_utilities.dart';
+import 'package:uni/model/providers/lecture_provider.dart';
 import 'package:uni/view/common_widgets/date_rectangle.dart';
 import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
@@ -25,33 +23,31 @@ class ScheduleCard extends GenericCard {
 
   @override
   Widget buildCardContent(BuildContext context) {
-    return StoreConnector<AppState, Tuple2<List<Lecture>, RequestStatus>>(
-        converter: (store) => Tuple2(store.state.content['schedule'],
-            store.state.content['scheduleStatus']),
-        builder: (context, lecturesInfo) {
-          return RequestDependentWidgetBuilder(
-            context: context,
-            status: lecturesInfo.item2,
-            contentGenerator: generateSchedule,
-            content: lecturesInfo.item1,
-            contentChecker: lecturesInfo.item1.isNotEmpty,
-            onNullContent: Center(
-                child: Text('Não existem aulas para apresentar',
-                    style: Theme.of(context).textTheme.titleLarge,
-                    textAlign: TextAlign.center)),
-            contentLoadingWidget: const ScheduleCardShimmer().build(context),
-          );
-        });
+    return Consumer<LectureProvider>(
+      builder: (context, lectureProvider, _) => RequestDependentWidgetBuilder(
+          context: context,
+          status: lectureProvider.status,
+          contentGenerator: generateSchedule,
+          content: lectureProvider.lectures,
+          contentChecker: lectureProvider.lectures.isNotEmpty,
+          onNullContent: Center(
+              child: Text('Não existem aulas para apresentar',
+                  style: Theme.of(context).textTheme.titleLarge,
+                  textAlign: TextAlign.center)),
+        contentLoadingWidget: const ScheduleCardShimmer().build(context))
+    );
+
   }
 
-  Widget generateSchedule(lectures, context) {
+  Widget generateSchedule(lectures, BuildContext context) {
+    final lectureList = List<Lecture>.of(lectures);
     return Column(
       mainAxisSize: MainAxisSize.min,
-      children: getScheduleRows(context, lectures),
+      children: getScheduleRows(context, lectureList),
     );
   }
 
-  List<Widget> getScheduleRows(context, List<Lecture> lectures) {
+  List<Widget> getScheduleRows(BuildContext context, List<Lecture> lectures) {
     if (lectures.length >= 2) {
       // In order to display lectures of the next week
       final Lecture lecturefirstCycle = Lecture.cloneHtml(lectures[0]);

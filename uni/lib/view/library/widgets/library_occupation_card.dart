@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-import 'package:tuple/tuple.dart';
-import 'package:uni/model/app_state.dart';
-import 'package:uni/model/entities/library_occupation.dart';
+import 'package:provider/provider.dart';
+import 'package:uni/model/providers/library_occupation_provider.dart';
+import 'package:uni/model/request_status.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
 import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
@@ -25,20 +24,16 @@ class LibraryOccupationCard extends GenericCard {
 
   @override
   Widget buildCardContent(BuildContext context) {
-    return StoreConnector<AppState, Tuple2<LibraryOccupation?, RequestStatus>>(
-        converter: (store) {
-      final LibraryOccupation? occupation =
-          store.state.content['libraryOccupation'];
-      return Tuple2(occupation, store.state.content['libraryOccupationStatus']);
-    }, builder: (context, occupationInfo) {
-      return RequestDependentWidgetBuilder(
-          context: context,
-          status: occupationInfo.item2,
-          contentGenerator: generateOccupation,
-          content: occupationInfo.item1,
-          contentChecker: occupationInfo.item2 != RequestStatus.busy,
-          onNullContent: const CircularProgressIndicator());
-    });
+    return Consumer<LibraryOccupationProvider>(
+        builder: (context, libraryOccupationProvider, _) =>
+            RequestDependentWidgetBuilder(
+                context: context,
+                status: libraryOccupationProvider.status,
+                contentGenerator: generateOccupation,
+                content: libraryOccupationProvider.occupation,
+                contentChecker:
+                    libraryOccupationProvider.status != RequestStatus.busy,
+                onNullContent: const CircularProgressIndicator()));
   }
 
   Widget generateOccupation(occupation, context) {

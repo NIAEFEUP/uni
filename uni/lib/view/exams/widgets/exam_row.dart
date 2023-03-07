@@ -1,14 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
+import 'package:provider/provider.dart';
 import 'package:uni/model/entities/exam.dart';
+import 'package:uni/model/providers/exam_provider.dart';
 import 'package:uni/view/exams/widgets/exam_title.dart';
 import 'package:uni/view/exams/widgets/exam_time.dart';
 import 'package:add_2_calendar/add_2_calendar.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:uni/model/app_state.dart';
-import 'package:uni/redux/action_creators.dart';
 
 class ExamRow extends StatefulWidget {
   final Exam exam;
@@ -31,6 +30,7 @@ class ExamRow extends StatefulWidget {
 class _ExamRowState extends State<ExamRow> {
   @override
   Widget build(BuildContext context) {
+    final isHidden = Provider.of<ExamProvider>(context).hiddenExams.contains(widget.exam.id);
     final roomsKey =
         '${widget.exam.subject}-${widget.exam.rooms}-${widget.exam.beginTime}-${widget.exam.endTime}';
     return Center(
@@ -65,19 +65,18 @@ class _ExamRowState extends State<ExamRow> {
                             children: <Widget>[
                               if (!widget.mainPage)
                                 IconButton(
-                                    icon: !widget.exam.isHidden
+                                    icon: !isHidden
                                         ? const Icon(Icons.visibility, size: 30)
                                         : const Icon(Icons.visibility_off,
                                             size: 30),
-                                    tooltip: widget.exam.isHidden
+                                    tooltip: isHidden
                                         ? "Mostrar na Área Pessoal"
                                         : "Ocultar da Área Pessoal",
                                     onPressed: () => setState(() {
-                                          widget.exam.isHidden =
-                                              !widget.exam.isHidden;
-                                          StoreProvider.of<AppState>(context)
-                                              .dispatch(toggleHiddenExam(
-                                                  widget.exam.id, Completer()));
+                                          Provider.of<ExamProvider>(context,
+                                                  listen: false)
+                                              .toggleHiddenExam(
+                                                  widget.exam.id, Completer());
                                         })),
                               IconButton(
                                   icon: const Icon(MdiIcons.calendarPlus,

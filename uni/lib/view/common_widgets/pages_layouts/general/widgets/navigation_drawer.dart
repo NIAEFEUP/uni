@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 import 'package:provider/provider.dart';
+import 'package:uni/model/providers/session_provider.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/theme_notifier.dart';
-import 'package:uni/model/entities/session.dart';
-import 'package:uni/model/app_state.dart';
 
 class AppNavigationDrawer extends StatefulWidget {
   final BuildContext parentContext;
@@ -19,6 +17,7 @@ class AppNavigationDrawer extends StatefulWidget {
 
 class AppNavigationDrawerState extends State<AppNavigationDrawer> {
   AppNavigationDrawerState();
+
   Map<DrawerItem, Function(String)> drawerItems = {};
 
   @override
@@ -85,9 +84,8 @@ class AppNavigationDrawerState extends State<AppNavigationDrawer> {
   }
 
   Widget createThemeSwitchBtn() {
-    final themeNotifier = Provider.of<ThemeNotifier>(context);
-    Icon getThemeIcon() {
-      switch (themeNotifier.getTheme()) {
+    Icon getThemeIcon(ThemeMode theme) {
+      switch (theme) {
         case ThemeMode.light:
           return const Icon(Icons.wb_sunny);
         case ThemeMode.dark:
@@ -97,8 +95,13 @@ class AppNavigationDrawerState extends State<AppNavigationDrawer> {
       }
     }
 
-    return IconButton(
-        icon: getThemeIcon(), onPressed: themeNotifier.setNextTheme);
+    return Consumer<ThemeNotifier>(
+      builder: (context, themeNotifier, _) {
+        return IconButton(
+            icon: getThemeIcon(themeNotifier.getTheme()),
+            onPressed: themeNotifier.setNextTheme);
+      },
+    );
   }
 
   Widget createDrawerNavigationOption(DrawerItem d) {
@@ -123,8 +126,7 @@ class AppNavigationDrawerState extends State<AppNavigationDrawer> {
   @override
   Widget build(BuildContext context) {
     final List<Widget> drawerOptions = [];
-    final store = StoreProvider.of<AppState>(context);
-    final userSession = store.state.content["session"] as Session;
+    final userSession = Provider.of<SessionProvider>(context).session;
 
     for (var key in drawerItems.keys) {
       if (key.isVisible(userSession.faculties)) {

@@ -1,13 +1,16 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:uni/model/app_state.dart';
-import 'package:uni/redux/action_creators.dart';
+import 'package:provider/provider.dart';
+import 'package:uni/model/request_status.dart';
+import 'package:uni/model/providers/session_provider.dart';
+import 'package:uni/model/providers/state_providers.dart';
 import 'package:uni/view/common_widgets/toast_message.dart';
-import 'package:uni/view/theme.dart';
 import 'package:uni/view/login/widgets/inputs.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:uni/view/theme.dart';
 
 class LoginPageView extends StatefulWidget {
   const LoginPageView({super.key});
@@ -42,13 +45,17 @@ class LoginPageViewState extends State<LoginPageView> {
   bool _obscurePasswordInput = true;
 
   void _login(BuildContext context) {
-    final store = StoreProvider.of<AppState>(context);
-    if (store.state.content['loginStatus'] != RequestStatus.busy &&
+    final stateProviders = StateProviders.fromContext(context);
+    final sessionProvider = stateProviders.sessionProvider;
+    if (sessionProvider.status != RequestStatus.busy &&
         _formKey.currentState!.validate()) {
       final user = usernameController.text.trim();
       final pass = passwordController.text.trim();
-      store.dispatch(login(user, pass, faculties, _keepSignedIn,
-          usernameController, passwordController));
+      final completer = Completer();
+      sessionProvider.login(completer, user, pass, faculties, stateProviders,
+          _keepSignedIn, usernameController, passwordController);
+      completer.future
+          .whenComplete(() => handleLogin(sessionProvider.status, context));
     }
   }
 
@@ -201,31 +208,30 @@ class LoginPageViewState extends State<LoginPageView> {
 
   /// Creates a widget for the user login depending on the status of his login.
   Widget createStatusWidget(BuildContext context) {
-    return StoreConnector<AppState, RequestStatus?>(
-        converter: (store) => store.state.content['loginStatus'],
-        onWillChange: (oldStatus, status) {
-          if (status == RequestStatus.successful &&
-              StoreProvider.of<AppState>(context)
-                  .state
-                  .content['session']
-                  .authenticated) {
-            Navigator.pushReplacementNamed(
-                context, '/${DrawerItem.navPersonalArea.title}');
-          } else if (status == RequestStatus.failed) {
-            ToastMessage.error(context, 'O login falhou');
-          }
-        },
-        builder: (context, status) {
-          switch (status) {
-            case RequestStatus.busy:
-              return const SizedBox(
-                height: 60.0,
-                child: Center(
-                    child: CircularProgressIndicator(color: Colors.white)),
-              );
-            default:
-              return Container();
-          }
-        });
+    return Consumer<SessionProvider>(
+      builder: (context, sessionProvider, _) {
+        switch (sessionProvider.status) {
+          case RequestStatus.busy:
+            return const SizedBox(
+              height: 60.0,
+              child:
+                  Center(child: CircularProgressIndicator(color: Colors.white)),
+            );
+          default:
+            return Container();
+        }
+      },
+    );
+  }
+
+  void handleLogin(RequestStatus? status, BuildContext context) {
+    final session =
+        Provider.of<SessionProvider>(context, listen: false).session;
+    if (status == RequestStatus.successful && session.authenticated) {
+      Navigator.pushReplacementNamed(
+          context, '/${DrawerItem.navPersonalArea.title}');
+    } else if (status == RequestStatus.failed) {
+      ToastMessage.error(context, 'O login falhou');
+    }
   }
 }

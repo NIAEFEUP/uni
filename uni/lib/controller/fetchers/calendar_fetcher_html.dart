@@ -2,8 +2,6 @@ import 'package:http/http.dart';
 import 'package:uni/controller/fetchers/session_dependant_fetcher.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/parsers/parser_calendar.dart';
-import 'package:uni/model/app_state.dart';
-import 'package:redux/redux.dart';
 import 'package:uni/model/entities/calendar_event.dart';
 import 'package:uni/model/entities/session.dart';
 
@@ -18,8 +16,7 @@ class CalendarFetcherHtml implements SessionDependantFetcher {
     return [url];
   }
 
-  Future<List<CalendarEvent>> getCalendar(Store<AppState> store) async {
-    final Session session = store.state.content['session'];
+  Future<List<CalendarEvent>> getCalendar(Session session) async {
     final String url = getEndpoints(session)[0];
     final Future<Response> response =
         NetworkRouter.getWithCookies(url, {}, session);

@@ -1,8 +1,8 @@
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:tuple/tuple.dart';
-import 'package:uni/model/app_state.dart';
+import 'package:provider/provider.dart';
 import 'package:uni/model/entities/meal.dart';
 import 'package:flutter/material.dart';
+import 'package:uni/model/providers/restaurant_provider.dart';
+import 'package:uni/model/request_status.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/model/utils/day_of_week.dart';
@@ -48,16 +48,13 @@ class _CantinePageState extends GeneralPageViewState<RestaurantPageView>
 
   @override
   Widget getBody(BuildContext context) {
-    return StoreConnector<AppState, Tuple2<List<Restaurant>, RequestStatus?>>(
-        converter: (store) {
-          return Tuple2(store.state.content['restaurants'],
-              store.state.content['restaurantsStatus']);
-        },
-        builder: (context, restaurantsInfo) =>
-            _getPageView(restaurantsInfo.item1, restaurantsInfo.item2));
+    return Consumer<RestaurantProvider>(
+        builder: (context, restaurantProvider, _) =>
+            _getPageView(restaurantProvider.restaurants, restaurantProvider.status));
+
   }
 
-  Widget _getPageView(List<Restaurant> restaurants, RequestStatus? status) {
+   Widget _getPageView(List<Restaurant> restaurants, RequestStatus? status) {
     return Column(children: [
       ListView(scrollDirection: Axis.vertical, shrinkWrap: true, children: [
         Container(

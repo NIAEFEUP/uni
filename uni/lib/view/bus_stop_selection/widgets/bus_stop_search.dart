@@ -2,12 +2,11 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
+import 'package:provider/provider.dart';
 import 'package:uni/controller/fetchers/departures_fetcher.dart';
 import 'package:uni/controller/local_storage/app_bus_stop_database.dart';
-import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/bus_stop.dart';
-import 'package:uni/redux/action_creators.dart';
+import 'package:uni/model/providers/bus_stop_provider.dart';
 import 'package:uni/view/bus_stop_selection/widgets/form.dart';
 
 /// Manages the section of the app displayed when the
@@ -100,8 +99,8 @@ class BusStopSearch extends SearchDelegate<String> {
               child: const Text('Confirmar'),
               onPressed: () async {
                 if (stopData!.configuredBuses.isNotEmpty) {
-                  StoreProvider.of<AppState>(context).dispatch(
-                      addUserBusStop(Completer(), stopCode!, stopData!));
+                  Provider.of<BusStopProvider>(context, listen: false)
+                      .addUserBusStop(Completer(), stopCode!, stopData!);
                   Navigator.pop(context);
                 }
               })

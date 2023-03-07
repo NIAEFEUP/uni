@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:tuple/tuple.dart';
-import 'package:uni/model/app_state.dart';
+import 'package:provider/provider.dart';
+import 'package:uni/model/request_status.dart';
 import 'package:uni/model/entities/bus_stop.dart';
-import 'package:uni/model/entities/trip.dart';
-import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
-import 'package:uni/view/bus_stop_selection/bus_stop_selection.dart';
+import 'package:uni/model/providers/bus_stop_provider.dart';
 import 'package:uni/view/bus_stop_next_arrivals/widgets/bus_stop_row.dart';
+import 'package:uni/view/bus_stop_selection/bus_stop_selection.dart';
 import 'package:uni/view/common_widgets/last_update_timestamp.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
+import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 
 class BusStopNextArrivalsPage extends StatefulWidget {
   const BusStopNextArrivalsPage({Key? key}) : super(key: key);
@@ -22,29 +21,20 @@ class BusStopNextArrivalsPageState
     extends GeneralPageViewState<BusStopNextArrivalsPage> {
   @override
   Widget getBody(BuildContext context) {
-    return StoreConnector<
-            AppState,
-            Tuple3<Map<String, List<Trip>>, Map<String, BusStopData>,
-                RequestStatus>?>(
-        converter: (store) => Tuple3(
-            store.state.content['currentBusTrips'],
-            store.state.content['configuredBusStops'],
-            store.state.content['busStopStatus']),
-        builder: (context, busStops) {
-          return ListView(children: [
-            NextArrivals(busStops?.item1 ?? {}, busStops?.item2 ?? {},
-                busStops?.item3 ?? RequestStatus.none)
-          ]);
-        });
+    return Consumer<BusStopProvider>(
+        builder: (context, busProvider, _) => ListView(children: [
+              NextArrivals(
+                  busProvider.configuredBusStops, busProvider.status)
+            ]));
   }
 }
 
 class NextArrivals extends StatefulWidget {
-  final Map<String, List<Trip>> trips;
-  final Map<String, BusStopData> busConfig;
+  //final Map<String, List<Trip>> trips;
+  final Map<String, BusStopData> buses;
   final RequestStatus busStopStatus;
 
-  const NextArrivals(this.trips, this.busConfig, this.busStopStatus,
+  const NextArrivals(this.buses, this.busStopStatus,
       {super.key});
 
   @override
@@ -52,42 +42,37 @@ class NextArrivals extends StatefulWidget {
 }
 
 /// Manages the 'Bus arrivals' section inside the user's personal area
-class NextArrivalsState extends State<NextArrivals>
-    with SingleTickerProviderStateMixin {
-  late final TabController tabController;
-
-  NextArrivalsState();
-
-  @override
-  void initState() {
-    super.initState();
-    tabController = TabController(vsync: this, length: widget.busConfig.length);
-  }
-
-  @override
-  void dispose() {
-    tabController.dispose();
-    super.dispose();
-  }
-
+class NextArrivalsState extends State<NextArrivals> {
   @override
   Widget build(BuildContext context) {
+    Widget contentBuilder() {
     switch (widget.busStopStatus) {
       case RequestStatus.successful:
         return SizedBox(
-            height: MediaQuery.of(context).size.height,
+            height: MediaQuery
+                .of(context)
+                .size
+                .height,
             child: Column(children: requestSuccessful(context)));
       case RequestStatus.busy:
         return SizedBox(
-            height: MediaQuery.of(context).size.height,
+            height: MediaQuery
+                .of(context)
+                .size
+                .height,
             child: Column(children: requestBusy(context)));
       case RequestStatus.failed:
         return SizedBox(
-            height: MediaQuery.of(context).size.height,
+            height: MediaQuery
+                .of(context)
+                .size
+                .height,
             child: Column(children: requestFailed(context)));
       default:
         return Container();
     }
+  }
+    return DefaultTabController(length: widget.buses.length, child: contentBuilder());
   }
 
   /// Returns a list of widgets for a successfull request
@@ -96,7 +81,7 @@ class NextArrivalsState extends State<NextArrivals>
 
     result.addAll(getHeader(context));
 
-    if (widget.busConfig.isNotEmpty) {
+    if (widget.buses.isNotEmpty) {
       result.addAll(getContent(context));
     } else {
       result.add(Text('Não existe nenhuma paragem configurada',
@@ -176,7 +161,6 @@ class NextArrivalsState extends State<NextArrivals>
         constraints: const BoxConstraints(maxHeight: 150.0),
         child: Material(
           child: TabBar(
-            controller: tabController,
             isScrollable: true,
             tabs: createTabs(queryData),
           ),
@@ -186,7 +170,6 @@ class NextArrivalsState extends State<NextArrivals>
         child: Container(
           padding: const EdgeInsets.only(bottom: 92.0),
           child: TabBarView(
-            controller: tabController,
             children: getEachBusStopInfo(context),
           ),
         ),
@@ -196,10 +179,10 @@ class NextArrivalsState extends State<NextArrivals>
 
   List<Widget> createTabs(queryData) {
     final List<Widget> tabs = <Widget>[];
-    widget.busConfig.forEach((stopCode, stopData) {
+    widget.buses.forEach((stopCode, stopData) {
       tabs.add(SizedBox(
         width: queryData.size.width /
-            ((widget.busConfig.length < 3 ? widget.busConfig.length : 3) + 1),
+            ((widget.buses.length < 3 ? widget.buses.length : 3) + 1),
         child: Tab(text: stopCode),
       ));
     });
@@ -210,14 +193,14 @@ class NextArrivalsState extends State<NextArrivals>
   List<Widget> getEachBusStopInfo(context) {
     final List<Widget> rows = <Widget>[];
 
-    widget.busConfig.forEach((stopCode, stopData) {
+    widget.buses.forEach((stopCode, stopData) {
       rows.add(ListView(children: <Widget>[
         Container(
             padding: const EdgeInsets.only(
                 top: 8.0, bottom: 8.0, left: 22.0, right: 22.0),
             child: BusStopRow(
               stopCode: stopCode,
-              trips: widget.trips[stopCode] ?? [],
+              trips: widget.buses[stopCode]?.trips ?? [],
               stopCodeShow: false,
             ))
       ]));
