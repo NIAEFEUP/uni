@@ -42,28 +42,13 @@ class RestaurantSlot extends StatelessWidget {
     final mealsType = type.toLowerCase();
 
     String icon;
-    switch (mealsType){
-      case "sopa":
-        icon = 'assets/icons-cantines/soup.svg';
-        break;
-      case "carne":
-        icon = 'assets/icons-cantines/chicken.svg';
-        break;
-      case "peixe":
-        icon = 'assets/icons-cantines/fish.svg';
-        break;
-      case "vegetariano":
-        icon = 'assets/icons-cantines/vegetarian.svg';
-        break;
-      case "dieta":
-        icon = 'assets/icons-cantines/diet.svg';
-        break;
-      case "salada":
-        icon = 'assets/icons-cantines/salad.svg';
-        break;
-      default:
-        icon = '';
-    }
+    if (mealsType.contains("sopa")) {icon = 'assets/meal-icons/soup.svg';}
+    else if (mealsType.contains("carne")) {icon = 'assets/meal-icons/chicken.svg';}
+    else if (mealsType.contains("peixe")) {icon = 'assets/meal-icons/fish.svg';}
+    else if (mealsType.contains("dieta")) {icon = 'assets/meal-icons/diet.svg';}
+    else if (mealsType.contains("vegetariano")) {icon = 'assets/meal-icons/vegetarian.svg';}
+    else if (mealsType.contains("salada")) {icon = 'assets/meal-icons/salad.svg';}
+    else {icon = '';}
 
     return Tooltip(
       message: type,
