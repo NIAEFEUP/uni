@@ -73,6 +73,7 @@ void main() {
 
       expect(find.byKey(Key(sdisExam.toString())), findsNothing);
       expect(find.byKey(Key(sopeExam.toString())), findsNothing);
+      expect(find.byKey(Key(mdisExam.toString())), findsNothing);
 
       final Completer<void> completer = Completer();
       examProvider.getUserExams(
@@ -88,6 +89,7 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.byKey(Key(sdisExam.toString())), findsOneWidget);
       expect(find.byKey(Key(sopeExam.toString())), findsOneWidget);
+      expect(find.byKey(Key(mdisExam.toString())), findsNothing);
     });
 
     testWidgets('Filtered Exams', (WidgetTester tester) async {
@@ -132,12 +134,9 @@ void main() {
       filteredExams['ExamDoesNotExist'] = true;
       examProvider.setFilteredExams(filteredExams, settingFilteredExams);
 
-
       await settingFilteredExams.future;
 
       await tester.pumpAndSettle();
-
-
 
       final filterButton = find.widgetWithIcon(IconButton, Icons.filter_alt);
       expect(filterButton, findsOneWidget);
@@ -145,13 +144,7 @@ void main() {
       await tester.tap(filterButton);
       await tester.pumpAndSettle();
 
-      //TODO: FIX THS ERROR. I think the AlterDialog is not consuming the same provider as the ExamsPageView
-      //expect(find.byType(AlertDialog), findsOneWidget);
-      //This checks if the ExamDoesNotExist is not displayed
-      //expect(find.byType(CheckboxListTile),
-      //    findsNWidgets(Exam.getExamTypes().length));
-
-      return;
+      expect(find.byType(AlertDialog), findsOneWidget);
 
       final CheckboxListTile mtCheckboxTile = find
           .byKey(const Key('ExamCheck' 'Mini-testes'))
@@ -162,18 +155,13 @@ void main() {
       expect(find.byWidget(mtCheckboxTile), findsOneWidget);
       expect(mtCheckboxTile.value, true);
       await tester.tap(find.byWidget(mtCheckboxTile));
-      await completer.future;
-
       await tester.pumpAndSettle();
 
-      final ElevatedButton okButton = find
-          .widgetWithText(ElevatedButton, 'Confirmar')
-          .evaluate()
-          .first
-          .widget;
-      expect(find.byWidget(okButton), findsOneWidget);
+      final okButton = find.widgetWithText(ElevatedButton, 'Confirmar');
+      expect(okButton, findsOneWidget);
 
-      okButton.onPressed();
+      await tester.tap(okButton);
+   
       await tester.pumpAndSettle();
 
       expect(find.byKey(Key(sdisExam.toString())), findsNothing);

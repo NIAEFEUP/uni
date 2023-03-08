@@ -61,7 +61,7 @@ class ParserExams {
               final DateTime end =
                   DateTime.parse('${dates[days]} ${splittedSchedule[1]}');
               final Exam exam =
-                  Exam(id,begin, end, subject ?? '', rooms, examTypes[tableNum],course.faculty ?? ''); //TODO: CHECK THIS
+                  Exam(id,begin, end, subject ?? '', rooms, examTypes[tableNum],course.faculty ?? '');
 
               examsList.add(exam);
             });

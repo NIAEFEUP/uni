@@ -11,22 +11,22 @@ class ExamFilterMenu extends StatefulWidget {
 }
 
 class ExamFilterMenuState extends State<ExamFilterMenu> {
-  showAlertDialog(BuildContext context) {
-    showDialog(
-        context: context,
-        builder: (BuildContext context){
-          final filteredExamsTypes = Provider.of<ExamProvider>(context, listen:false).filteredExamsTypes;
-          return ExamFilterForm(Map<String, bool>.from(filteredExamsTypes));
-        }
-    );
-  }
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(context) {
     return IconButton(
       icon: const Icon(Icons.filter_alt),
       onPressed: () {
-        showAlertDialog(context);
+        showDialog(
+            context: context,
+            builder: (_) {
+              final examProvider =
+                  Provider.of<ExamProvider>(context, listen: false);
+              final filteredExamsTypes = examProvider.filteredExamsTypes;
+              return ChangeNotifierProvider.value(
+                  value: examProvider,
+                  child: ExamFilterForm(
+                      Map<String, bool>.from(filteredExamsTypes)));
+            });
       },
     );
   }

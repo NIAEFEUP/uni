@@ -56,7 +56,6 @@ class ExamProvider extends StateProviderNotifier {
       updateStatus(RequestStatus.successful);
       notifyListeners();
     } catch (e) {
-      Logger().e(e);
       Logger().e('Failed to get Exams');
       updateStatus(RequestStatus.failed);
     }
