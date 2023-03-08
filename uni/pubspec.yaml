@@ -45,7 +45,7 @@ dependencies:
   sqflite: ^2.0.3
   path: ^1.8.0
   cached_network_image: ^3.0.0-nullsafety
-  flutter_svg: ^1.1.0
+  flutter_svg: ^2.0.2
   synchronized: ^3.0.0
   image: ^4.0.13
   connectivity_plus: ^3.0.2
