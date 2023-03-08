@@ -10,6 +10,7 @@ import 'package:uni/model/providers/session_provider.dart';
 import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni/view/profile/widgets/account_info_card.dart';
 import 'package:uni/view/profile/widgets/course_info_card.dart';
+import 'package:uni/view/profile/widgets/print_info_card.dart';
 
 class ProfilePageView extends StatefulWidget {
   const ProfilePageView({Key? key}) : super(key: key);
@@ -48,6 +49,7 @@ class ProfilePageViewState extends SecondaryPageViewState<ProfilePageView> {
       profileInfo(context, profile),
       const Padding(padding: EdgeInsets.all(5.0)),
       // PrintInfoCard() // TODO: Bring this back when print info is ready again
+      PrintInfoCard(), // TODO: Remove this
       ...courseWidgets,
       AccountInfoCard(),
     ];
