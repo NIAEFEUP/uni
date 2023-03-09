@@ -26,7 +26,7 @@ void main() {
         occurrId: occurrId,
       );
 
-      await tester.pumpWidget(testWidget(widget));
+      await tester.pumpWidget(testableWidget(widget));
 
       testScheduleSlot(subject, begin, end, rooms, typeClass, teacher);
     });

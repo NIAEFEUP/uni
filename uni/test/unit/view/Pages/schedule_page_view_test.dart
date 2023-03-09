@@ -35,18 +35,17 @@ void main() {
       'Sexta-feira'
     ];
 
-    Widget testWidgetWithProviders(Widget child) {
-      return MultiProvider(providers: [
-        ChangeNotifierProvider(create: (_) => LastUserInfoProvider())
-      ], child: testWidget(child));
-    }
+    final providers = [
+      ChangeNotifierProvider<LastUserInfoProvider>(
+          create: (_) => LastUserInfoProvider()),
+    ];
 
     testWidgets('When given one lecture on a single day',
         (WidgetTester tester) async {
       final widget = SchedulePageView(
           lectures: [lecture1], scheduleStatus: RequestStatus.successful);
 
-      await tester.pumpWidget(testWidgetWithProviders(widget));
+      await tester.pumpWidget(testableWidget(widget, providers: providers));
       await tester.pumpAndSettle();
       final SchedulePageViewState myWidgetState =
           tester.state(find.byType(SchedulePageView));
@@ -65,7 +64,7 @@ void main() {
       final widget = SchedulePageView(
           lectures: [lecture1, lecture2],
           scheduleStatus: RequestStatus.successful);
-      await tester.pumpWidget(testWidgetWithProviders(widget));
+      await tester.pumpWidget(testableWidget(widget, providers: providers));
       await tester.pumpAndSettle();
       final SchedulePageViewState myWidgetState =
           tester.state(find.byType(SchedulePageView));
@@ -91,7 +90,9 @@ void main() {
             lecture6
           ], scheduleStatus: RequestStatus.successful));
 
-      await tester.pumpWidget(testWidgetWithProviders(widget));
+
+
+      await tester.pumpWidget(testableWidget(widget, providers: providers));
       await tester.pumpAndSettle();
       final SchedulePageViewState myWidgetState =
           tester.state(find.byType(SchedulePageView));

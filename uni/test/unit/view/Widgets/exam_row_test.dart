@@ -23,12 +23,10 @@ void main() {
       final Exam exam = Exam('1230', begin, end, subject, rooms, '', 'feup');
       final widget = ExamRow(exam: exam, teacher: '', mainPage: true);
 
-      final fatherWidget = ChangeNotifierProvider<ExamProvider>(
-          child: widget,
-          create: (_) => ExamProvider(),
-      );
-
-      await tester.pumpWidget(testWidget(fatherWidget));
+      final providers = [
+        ChangeNotifierProvider<ExamProvider>(create: (_) => ExamProvider())
+      ];
+      await tester.pumpWidget(testableWidget(widget, providers: providers));
       final roomsKey = '$subject-$rooms-$beginTime-$endTime';
 
       expect(
@@ -42,11 +40,11 @@ void main() {
       final Exam exam = Exam('1230',begin, end, subject, rooms, '', 'feup');
       final widget = ExamRow(exam: exam, teacher: '', mainPage: true);
 
-      final fatherWidget = ChangeNotifierProvider<ExamProvider>(
-          child: widget,
-          create: (_) => ExamProvider(),
-      );
-      await tester.pumpWidget(testWidget(fatherWidget));
+      final providers = [
+        ChangeNotifierProvider<ExamProvider>(create: (_) => ExamProvider())
+      ];
+
+      await tester.pumpWidget(testableWidget(widget, providers: providers));
       final roomsKey = '$subject-$rooms-$beginTime-$endTime';
 
       expect(

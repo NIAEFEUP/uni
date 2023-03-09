@@ -49,12 +49,14 @@ void main() {
 
         final scheduleProvider = LectureProvider();
 
-       final widget = MultiProvider(providers: [
-          ChangeNotifierProvider(create: (_) => scheduleProvider),
-          ChangeNotifierProvider(create: (_) => LastUserInfoProvider())
-        ], child: const SchedulePage());
+       const widget = SchedulePage();
+
+      final providers = [
+        ChangeNotifierProvider(create: (_) => scheduleProvider),
+        ChangeNotifierProvider(create: (_) => LastUserInfoProvider()),
+      ];     
   
-       await tester.pumpWidget(testWidget(widget));
+       await tester.pumpWidget(testableWidget(widget, providers: providers));
   
        const scheduleSlotTimeKey1 = 'schedule-slot-time-11h00-13h00';
        const scheduleSlotTimeKey2 = 'schedule-slot-time-14h00-16h00';

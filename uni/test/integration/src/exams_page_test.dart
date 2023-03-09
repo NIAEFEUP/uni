@@ -65,11 +65,10 @@ void main() {
 
       const widget = ExamsPageView();
 
-      final fatherWidget = MultiProvider(providers: [
+      final providers = [
         ChangeNotifierProvider(create: (_) => examProvider),
-      ], child: widget);
-
-      await tester.pumpWidget(testWidget(fatherWidget));
+      ];
+      await tester.pumpWidget(testableWidget(widget, providers: providers));
 
       expect(find.byKey(Key(sdisExam.toString())), findsNothing);
       expect(find.byKey(Key(sopeExam.toString())), findsNothing);
@@ -105,11 +104,11 @@ void main() {
 
       const widget = ExamsPageView();
 
-      final fatherWidget = MultiProvider(providers: [
+      final providers = [
         ChangeNotifierProvider(create: (_) => examProvider),
-      ], child: widget);
+      ];
 
-      await tester.pumpWidget(testWidget(fatherWidget));
+      await tester.pumpWidget(testableWidget(widget, providers: providers));
 
       expect(find.byKey(Key(sdisExam.toString())), findsNothing);
       expect(find.byKey(Key(sopeExam.toString())), findsNothing);

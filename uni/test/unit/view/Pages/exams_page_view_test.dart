@@ -23,11 +23,12 @@ void main() {
       const widget = ExamsPageView();
       final examProvider = ExamProvider();
       examProvider.setExams([]);
-      final fatherWidget = MultiProvider(providers: [
-        ChangeNotifierProvider(create: (_) => examProvider),
-      ], child: testWidget(widget));
 
-      await tester.pumpWidget(fatherWidget);
+      final providers = [
+        ChangeNotifierProvider(create: (_) => examProvider)
+      ];     
+
+      await tester.pumpWidget(testableWidget(widget, providers: providers));
 
       expect(find.byType(Card), findsNothing);
     });
@@ -42,11 +43,12 @@ void main() {
 
       final examProvider = ExamProvider();
       examProvider.setExams([firstExam]);
-      final fatherWidget = MultiProvider(providers: [
-        ChangeNotifierProvider(create: (_) => examProvider),
-      ], child: testWidget(widget));
 
-      await tester.pumpWidget(testWidget(fatherWidget));
+      final providers = [
+        ChangeNotifierProvider(create: (_) => examProvider)
+      ];     
+
+      await tester.pumpWidget(testableWidget(widget, providers: providers));
 
       expect(find.byKey(Key(firstExam.toString())), findsOneWidget);
       expect(find.byKey(Key('${firstExam.toString()}-exam')), findsOneWidget);
@@ -72,11 +74,12 @@ void main() {
 
       final examProvider = ExamProvider();
       examProvider.setExams(examList);
-      final fatherWidget = MultiProvider(providers: [
-        ChangeNotifierProvider(create: (_) => examProvider),
-      ], child: testWidget(widget));
 
-      await tester.pumpWidget(testWidget(fatherWidget));
+      final providers = [
+        ChangeNotifierProvider(create: (_) => examProvider)
+      ];     
+
+      await tester.pumpWidget(testableWidget(widget, providers: providers));
 
       expect(find.byKey(Key(examList.map((ex) => ex.toString()).join())),
           findsOneWidget);
@@ -103,11 +106,12 @@ void main() {
 
       final examProvider = ExamProvider();
       examProvider.setExams(examList);
-      final fatherWidget = MultiProvider(providers: [
-        ChangeNotifierProvider(create: (_) => examProvider),
-      ], child: testWidget(widget));
 
-      await tester.pumpWidget(testWidget(fatherWidget));
+      final providers = [
+        ChangeNotifierProvider(create: (_) => examProvider)
+      ];     
+
+      await tester.pumpWidget(testableWidget(widget, providers: providers));
       expect(find.byKey(Key(firstExam.toString())), findsOneWidget);
       expect(find.byKey(Key(secondExam.toString())), findsOneWidget);
       expect(find.byKey(Key('${firstExam.toString()}-exam')), findsOneWidget);
@@ -139,16 +143,17 @@ void main() {
 
       final examProvider = ExamProvider();
       examProvider.setExams(examList);
-      final fatherWidget = MultiProvider(providers: [
-        ChangeNotifierProvider(create: (_) => examProvider),
-      ], child: testWidget(widget));
 
       final firstDayKey =
           [firstExam, secondExam].map((ex) => ex.toString()).join();
       final secondDayKey =
           [thirdExam, fourthExam].map((ex) => ex.toString()).join();
 
-      await tester.pumpWidget(testWidget(fatherWidget));
+      final providers = [
+        ChangeNotifierProvider(create: (_) => examProvider)
+      ];     
+
+      await tester.pumpWidget(testableWidget(widget, providers: providers));
       expect(find.byKey(Key(firstDayKey)), findsOneWidget);
       expect(find.byKey(Key(secondDayKey)), findsOneWidget);
       expect(find.byKey(Key('${firstExam.toString()}-exam')), findsOneWidget);
