@@ -42,7 +42,7 @@ class ExamProvider extends StateProviderNotifier {
       final List<Exam> exams = await ExamFetcher(profile.courses, userUcs)
           .extractExams(session, parserExams);
 
-      exams.sort((exam1, exam2) => exam1.begin.day.compareTo(exam2.begin.day));
+      exams.sort((exam1, exam2) => exam1.begin.compareTo(exam2.begin));
 
       // Updates local database according to the information fetched -- Exams
       if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {
