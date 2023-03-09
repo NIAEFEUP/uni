@@ -11,6 +11,7 @@ import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/controller/local_storage/notification_timeout_storage.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/model/entities/session.dart';
+import 'package:uni/view/common_widgets/toast_message.dart';
 import 'package:workmanager/workmanager.dart';
 
 ///
@@ -113,8 +114,7 @@ class NotificationManager{
       try{
         final bool? permissionGranted = await androidPlugin.requestPermission();
         if(permissionGranted != true){
-          //FIXME: handle this better
-          throw Exception("Permission not granted for android...");
+          return;
         }
 
       } on PlatformException catch (_){

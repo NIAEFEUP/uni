@@ -47,6 +47,20 @@ class AccountInfoCard extends GenericCard {
                           top: 8.0, bottom: 20.0, right: 30.0),
                       child: getInfoText(profile.feesLimit, context))
                 ]),
+                TableRow(children: [
+                  Container(
+                    margin:
+                        const EdgeInsets.only(top: 8.0, bottom: 20.0, left: 20.0),
+                    child: Text("Notificar próxima data limite: ",
+                      style: Theme.of(context).textTheme.subtitle2)
+                  ),
+                  Container(
+                    margin:
+                        const EdgeInsets.only(top: 8.0, bottom: 20.0, left: 20.0),
+                    child: 
+                      const TuitionNotificationSwitch()
+                  )
+                ])
               ]),
           showLastRefreshedTime(profileStateProvider.feesRefreshTime, context)
         ]);
