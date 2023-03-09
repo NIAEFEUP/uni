@@ -46,13 +46,3 @@ String toString(DayOfWeek day) {
       return 'Domingo';
   }
 }
-
-DayOfWeek? dayOfWeekFromString(String dayOfWeek) {
-  dayOfWeek = dayOfWeek.replaceAll(' ', '').toLowerCase();
-  for (var day in DayOfWeek.values) {
-    if (dayOfWeek == day.name) {
-      return day;
-    }
-  }
-  return null;
-}
