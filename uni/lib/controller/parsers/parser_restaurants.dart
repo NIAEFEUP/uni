@@ -88,7 +88,7 @@ List<Restaurant> getRestaurantsFromGSheets(
   final parsedJson = jsonDecode(jsonString);
 
   final List<Meal> lunchMealsList = [];
-  final List<Meal> dinerMealsList = [];
+  final List<Meal> dinnerMealsList = [];
 
   final DateFormat format = DateFormat('d/M/y');
   for (var row in parsedJson['table']['rows']) {
@@ -100,11 +100,11 @@ List<Restaurant> getRestaurantsFromGSheets(
         format.parse(cell[0]['f']));
     cell[1]['v'] == 'Almoço'
         ? lunchMealsList.add(newMeal)
-        : dinerMealsList.add(newMeal);
+        : dinnerMealsList.add(newMeal);
   }
 
   return [
     Restaurant(null, '$restaurantName - Almoço', '', meals: lunchMealsList),
-    Restaurant(null, '$restaurantName - Jantar', '', meals: dinerMealsList)
+    Restaurant(null, '$restaurantName - Jantar', '', meals: dinnerMealsList)
   ];
 }
