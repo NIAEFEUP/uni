@@ -59,8 +59,7 @@ class RestaurantFetcher {
   }
 
   Future<List<Restaurant>> getRestaurants(Session session) async {
-    final List<Restaurant> restaurants = [];
-    restaurants.addAll(await fetchSigarraRestaurants(session));
+    final List<Restaurant> restaurants = await fetchSigarraRestaurants(session);
 
     // Check for restaurants without associated meals and attempt to parse them from GSheets
     final List<Restaurant> restaurantsWithoutMeals =

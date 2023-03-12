@@ -27,7 +27,7 @@ class RestaurantProvider extends StateProviderNotifier {
       // Updates local database according to information fetched -- Restaurants
       final RestaurantDatabase db = RestaurantDatabase();
       db.saveRestaurants(restaurants);
-      _restaurants = hideMeals(restaurants);
+      _restaurants = filterPastMeals(restaurants);
       notifyListeners();
       updateStatus(RequestStatus.successful);
     } catch (e) {

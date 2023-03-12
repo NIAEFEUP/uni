@@ -65,7 +65,7 @@ class RestaurantDatabase extends AppDatabase {
       }
     });
 
-    return hideMeals(restaurants);
+    return filterPastMeals(restaurants);
   }
 
   Future<List<Meal>> getRestaurantMeals(Transaction txn, int restaurantId,
@@ -111,7 +111,7 @@ class RestaurantDatabase extends AppDatabase {
   }
 }
 
-List<Restaurant> hideMeals(List<Restaurant> restaurants) {
+List<Restaurant> filterPastMeals(List<Restaurant> restaurants) {
   final List<Restaurant> restaurantsCopy = List.from(restaurants);
   // Hide past and next weeks' meals
   // (To replicate sigarra's behaviour for the GSheets meals)
