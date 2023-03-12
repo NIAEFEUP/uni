@@ -28,7 +28,7 @@ class RestaurantFetcher {
   List<Tuple2<String, String>> buildGSheetsEndpoints(List<String> sheets) {
     return sheets
         .map((sheet) => Tuple2(
-            "$spreadSheetUrl$jsonEndpoint&sheet=${Uri.encodeComponent(sheet)}&range=${Uri.encodeComponent(range)}",
+            Uri.encodeFull("$spreadSheetUrl$jsonEndpoint&sheet=$sheet&range=$range"),
             sheet))
         .toList();
   }
