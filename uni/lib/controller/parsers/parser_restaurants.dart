@@ -77,34 +77,33 @@ List<Restaurant> getRestaurantsFromHtml(Response response) {
   return restaurants;
 }
 
-List<Restaurant> getRestaurantsFromGSheets(
-    Response response, String restaurantName) {
-  // Ignore beginning of response: /*O_o*/\ngoogle.visualization.Query.setResponse(
-  // Ignore the end of the response: );
+Restaurant getRestaurantFromGSheets(Response response, String restaurantName,
+    {bool isDinner = false}) {
+  // Ignore beginning of response: "/*O_o*/\ngoogle.visualization.Query.setResponse("
+  // Ignore the end of the response: ");"
   // Check the structure by accessing the link:
   // https://docs.google.com/spreadsheets/d/1TJauM0HwIf2RauQU2GmhdZZ1ZicFLMHuBkxWwVOw3Q4/gviz/tq?tqx=out:json&sheet=Cantina%20de%20Engenharia&range=A:D
   final jsonString = response.body.substring(
       response.body.indexOf('(') + 1, response.body.lastIndexOf(')'));
   final parsedJson = jsonDecode(jsonString);
 
-  final List<Meal> lunchMealsList = [];
-  final List<Meal> dinnerMealsList = [];
+  final List<Meal> mealsList = [];
 
   final DateFormat format = DateFormat('d/M/y');
   for (var row in parsedJson['table']['rows']) {
-    final cell = row['c'];
-    final Meal newMeal = Meal(
-        cell[2]['v'],
-        cell[3]['v'],
-        DayOfWeek.values[format.parse(cell[0]['f']).weekday - 1],
-        format.parse(cell[0]['f']));
-    cell[1]['v'] == 'Almoço'
-        ? lunchMealsList.add(newMeal)
-        : dinnerMealsList.add(newMeal);
+    final cellList = row['c'];
+    if ((cellList[1]['v'] == 'Almoço' && isDinner) ||
+        (cellList[1]['v'] != 'Almoço' && !isDinner)) {
+      continue;
+    }
+
+    final Meal meal = Meal(
+        cellList[2]['v'],
+        cellList[3]['v'],
+        DayOfWeek.values[format.parse(cellList[0]['f']).weekday - 1],
+        format.parse(cellList[0]['f']));
+    mealsList.add(meal);
   }
 
-  return [
-    Restaurant(null, '$restaurantName - Almoço', '', meals: lunchMealsList),
-    Restaurant(null, '$restaurantName - Jantar', '', meals: dinnerMealsList)
-  ];
+  return Restaurant(null, restaurantName, '', meals: mealsList);
 }

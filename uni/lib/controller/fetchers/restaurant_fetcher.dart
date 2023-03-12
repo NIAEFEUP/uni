@@ -1,5 +1,4 @@
 import 'package:http/http.dart';
-import 'package:tuple/tuple.dart';
 import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/entities/session.dart';
 
@@ -8,33 +7,45 @@ import 'package:uni/controller/parsers/parser_restaurants.dart';
 
 /// Class for fetching the menu
 class RestaurantFetcher {
-  String spreadSheetUrl = 'https://docs.google.com/spreadsheets/d/'
+  final String spreadSheetUrl = 'https://docs.google.com/spreadsheets/d/'
       '1TJauM0HwIf2RauQU2GmhdZZ1ZicFLMHuBkxWwVOw3Q4';
-  String jsonEndpoint = '/gviz/tq?tqx=out:json';
+  final String jsonEndpoint = '/gviz/tq?tqx=out:json';
 
-  // Range containing the meals table
   // Format: Date(dd/mm/yyyy), Meal("Almoço", "Jantar), Dish("Sopa", "Carne",
   //         "Peixe", "Dieta", "Vegetariano", "Salada"), Description(String)
-  String range = "A:D";
+  final String sheetsColumnRange = "A:D";
 
   // List the Restaurant sheet names in the Google Sheets Document
-  List<String> sheets = ['Cantina'];
+  final List<String> restaurantSheets = ['Cantina'];
 
-  List<String> sigarraMenuEndpoints = [
+  // Generate the Gsheets endpoints list based on a list of sheets
+  String buildGSheetsEndpoint(String sheet) {
+    return Uri.encodeFull(
+        "$spreadSheetUrl$jsonEndpoint&sheet=$sheet&range=$sheetsColumnRange");
+  }
+
+  String getRestaurantGSheetName(Restaurant restaurant) {
+    return restaurantSheets.firstWhere(
+        (sheetName) =>
+            restaurant.name.toLowerCase().contains(sheetName.toLowerCase()),
+        orElse: () => '');
+  }
+
+  Future<Restaurant> fetchGSheetsRestaurant(
+      String url, String restaurantName, session,
+      {isDinner = false}) async {
+    return getRestaurantFromGSheets(
+        await NetworkRouter.getWithCookies(url, {}, session), restaurantName,
+        isDinner: isDinner);
+  }
+
+  final List<String> sigarraMenuEndpoints = [
     '${NetworkRouter.getBaseUrl('feup')}CANTINA.EMENTASHOW'
   ];
 
-  // Generate the Gsheets endpoints list based on a list of sheets
-  List<Tuple2<String, String>> buildGSheetsEndpoints(List<String> sheets) {
-    return sheets
-        .map((sheet) => Tuple2(
-            Uri.encodeFull("$spreadSheetUrl$jsonEndpoint&sheet=$sheet&range=$range"),
-            sheet))
-        .toList();
-  }
-
-  Future<List<Restaurant>> getRestaurants(Session session) async {
+  Future<List<Restaurant>> fetchSigarraRestaurants(Session session) async {
     final List<Restaurant> restaurants = [];
+
     final Iterable<Future<Response>> responses = sigarraMenuEndpoints
         .map((url) => NetworkRouter.getWithCookies(url, {}, session));
 
@@ -44,45 +55,32 @@ class RestaurantFetcher {
       }
     });
 
+    return restaurants;
+  }
+
+  Future<List<Restaurant>> getRestaurants(Session session) async {
+    final List<Restaurant> restaurants = [];
+    restaurants.addAll(await fetchSigarraRestaurants(session));
+
     // Check for restaurants without associated meals and attempt to parse them from GSheets
     final List<Restaurant> restaurantsWithoutMeals =
         restaurants.where((restaurant) => restaurant.meals.isEmpty).toList();
 
-    final List<String> sheetsOfRestaurantsWithFallbackEndpoints = sheets
-        .where((sheetName) => restaurantsWithoutMeals
-            .where((restaurant) =>
-                restaurant.name.toLowerCase().contains(sheetName.toLowerCase()))
-            .isNotEmpty)
-        .toList();
-
-    // Item order is kept both by List.map and Future.wait, so restaurant names can be retrieved using indexes
-    final List<Tuple2<String, String>> fallbackGSheetsEndpoints =
-        buildGSheetsEndpoints(sheetsOfRestaurantsWithFallbackEndpoints);
-
-    final Iterable<Future<Response>> gSheetsResponses =
-        fallbackGSheetsEndpoints.map((endpointAndName) =>
-            NetworkRouter.getWithCookies(endpointAndName.item1, {}, session));
-
-    final List<Restaurant> gSheetsRestaurants = [];
-    await Future.wait(gSheetsResponses).then((value) {
-      for (var i = 0; i < value.length; i++) {
-        gSheetsRestaurants.addAll(getRestaurantsFromGSheets(
-            value[i], fallbackGSheetsEndpoints[i].item2));
+    for (var restaurant in restaurantsWithoutMeals) {
+      final sheetName = getRestaurantGSheetName(restaurant);
+      if (sheetName.isEmpty) {
+        continue;
       }
-    });
 
-    // Removes only restaurants that were successfully fetched from GSheets
-    for (var gSheetRestaurant in gSheetsRestaurants) {
-      restaurants.removeWhere((restaurant) {
-        final bool nameMatches = restaurant.name
-            .toLowerCase()
-            .contains(gSheetRestaurant.name.toLowerCase());
+      final Restaurant gSheetsRestaurant = await fetchGSheetsRestaurant(
+          buildGSheetsEndpoint(sheetName), restaurant.name, session,
+          isDinner: restaurant.name.toLowerCase().contains('jantar'));
 
-        return nameMatches && restaurant.meals.isEmpty;
-      });
+      restaurants.removeWhere(
+          (restaurant) => restaurant.name == gSheetsRestaurant.name);
+
+      restaurants.insert(0, gSheetsRestaurant);
     }
-
-    restaurants.insertAll(0, gSheetsRestaurants);
 
     return restaurants;
   }
