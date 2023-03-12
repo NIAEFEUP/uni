@@ -11,53 +11,57 @@ class RestaurantSlot extends StatelessWidget {
     required this.name,
   }) : super(key: key);
 
+  static const mealTypeIcons = {
+    'sopa': 'assets/meal-icons/soup.svg',
+    'carne': 'assets/meal-icons/chicken.svg',
+    'peixe': 'assets/meal-icons/fish.svg',
+    'dieta': 'assets/meal-icons/diet.svg',
+    'vegetariano': 'assets/meal-icons/vegetarian.svg',
+    'salada': 'assets/meal-icons/salad.svg',
+  };
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(
-      top: 10.0, bottom: 10.0, left: 10, right: 22.0),
+      padding:
+          const EdgeInsets.only(top: 10.0, bottom: 10.0, left: 10, right: 22.0),
       child: Container(
-      key: Key('cantine-slot-type-$type'),
-      child: Row(
-
-        children: [
-          Container(
-              margin: const EdgeInsets.fromLTRB(0, 0, 8.0, 0),
-              child: SizedBox(
-                width: 20,
-                child: createCanteenSlotType(context),
-              )),Flexible(
-              child: Text(
+          key: Key('cantine-slot-type-$type'),
+          child: Row(
+            children: [
+              Container(
+                  margin: const EdgeInsets.fromLTRB(0, 0, 8.0, 0),
+                  child: SizedBox(
+                    width: 20,
+                    child: createCanteenSlotType(context),
+                  )),
+              Flexible(
+                  child: Text(
                 name,
                 style: Theme.of(context).textTheme.bodyMedium,
                 textAlign: TextAlign.left,
-              )
-          )
-        ],
-      )),
+              ))
+            ],
+          )),
     );
   }
 
   Widget createCanteenSlotType(context) {
     final mealsType = type.toLowerCase();
 
-    String icon;
-    if (mealsType.contains("sopa")) {icon = 'assets/meal-icons/soup.svg';}
-    else if (mealsType.contains("carne")) {icon = 'assets/meal-icons/chicken.svg';}
-    else if (mealsType.contains("peixe")) {icon = 'assets/meal-icons/fish.svg';}
-    else if (mealsType.contains("dieta")) {icon = 'assets/meal-icons/diet.svg';}
-    else if (mealsType.contains("vegetariano")) {icon = 'assets/meal-icons/vegetarian.svg';}
-    else if (mealsType.contains("salada")) {icon = 'assets/meal-icons/salad.svg';}
-    else {icon = '';}
+    final icon = mealTypeIcons.entries
+        .firstWhere((element) => mealsType.contains(element.key),
+            orElse: () => const MapEntry('', ''))
+        .value;
 
     return Tooltip(
-      message: type,
-        child: SvgPicture.asset(
-      color: Theme.of(context).primaryColor,
-      icon,
-      height: 20,
-    ));
-
+        message: type,
+        child: icon != ''
+            ? SvgPicture.asset(
+                icon,
+                color: Theme.of(context).primaryColor,
+                height: 20,
+              )
+            : null);
   }
-
 }
