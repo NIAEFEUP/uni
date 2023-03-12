@@ -10,6 +10,7 @@ import 'package:uni/model/request_status.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/model/providers/state_providers.dart';
+import 'package:uni/view/navigation_service.dart';
 
 class SessionProvider extends StateProviderNotifier {
   Session _session = Session();
@@ -70,8 +71,7 @@ class SessionProvider extends StateProviderNotifier {
     try {
       loadLocalUserInfoToState(stateProviders);
       updateStatus(RequestStatus.busy);
-      _session =
-          await NetworkRouter.login(username, password, faculties, true);
+      _session = await NetworkRouter.login(username, password, faculties, true);
       notifyListeners();
 
       if (session.authenticated) {
@@ -101,6 +101,6 @@ class SessionProvider extends StateProviderNotifier {
     notifyListeners();
     updateStatus(RequestStatus.failed);
     action?.completeError(RequestStatus.failed);
-    NetworkRouter.onReloginFail();
+    session.persistentSession ? null : NavigationService.logout();
   }
 }

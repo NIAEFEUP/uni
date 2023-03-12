@@ -7,7 +7,6 @@ import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:uni/controller/background_workers/background_callback.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
-import 'package:uni/controller/on_start_up.dart';
 import 'package:uni/model/providers/bus_stop_provider.dart';
 import 'package:uni/model/providers/calendar_provider.dart';
 import 'package:uni/model/providers/exam_provider.dart';
@@ -63,7 +62,6 @@ Future<void> main() async {
       FavoriteCardsProvider(),
       HomePageEditingModeProvider());
 
-  OnStartUp.onStart(stateProviders.sessionProvider);
   WidgetsFlutterBinding.ensureInitialized();
 
   await Workmanager().initialize(workerStartCallback, 

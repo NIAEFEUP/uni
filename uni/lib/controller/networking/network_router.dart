@@ -7,6 +7,7 @@ import 'package:logger/logger.dart';
 import 'package:synchronized/synchronized.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/model/entities/session.dart';
+import 'package:uni/view/navigation_service.dart';
 
 extension UriString on String {
   /// Converts a [String] to an [Uri].
@@ -20,8 +21,6 @@ class NetworkRouter {
   static const int loginRequestTimeout = 20;
 
   static Lock loginLock = Lock();
-
-  static Function onReloginFail = () {};
 
   /// Creates an authenticated [Session] on the given [faculty] with the
   /// given username [user] and password [pass].
@@ -139,7 +138,7 @@ class NetworkRouter {
         headers['cookie'] = session.cookies;
         return http.get(url.toUri(), headers: headers);
       } else {
-        onReloginFail();
+        NavigationService.logout();
         Logger().e('Login failed');
         return Future.error('Login failed');
       }
