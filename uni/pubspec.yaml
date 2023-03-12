@@ -106,7 +106,7 @@ flutter:
     - assets/env/
     - assets/text/
     - assets/text/locations/
-    - assets/icons-cantines/
+    - assets/meal-icons/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

@@ -16,22 +16,11 @@ class RestaurantPageView extends StatefulWidget {
   const RestaurantPageView({Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _CantinePageState();
+  State<StatefulWidget> createState() => _CanteenPageState();
 }
 
-class _CantinePageState extends GeneralPageViewState<RestaurantPageView>
+class _CanteenPageState extends GeneralPageViewState<RestaurantPageView>
     with SingleTickerProviderStateMixin {
-
-  final List<DayOfWeek> daysOfTheWeek = [
-    DayOfWeek.monday,
-    DayOfWeek.tuesday,
-    DayOfWeek.wednesday,
-    DayOfWeek.thursday,
-    DayOfWeek.friday,
-    DayOfWeek.saturday,
-    DayOfWeek.sunday
-  ];
-
   late List<Restaurant> aggRestaurant;
   late TabController tabController;
   late ScrollController scrollViewController;
@@ -41,8 +30,8 @@ class _CantinePageState extends GeneralPageViewState<RestaurantPageView>
     super.initState();
     final int weekDay = DateTime.now().weekday;
     super.initState();
-    tabController = TabController(vsync: this, length: daysOfTheWeek.length);
-    final offset = (weekDay > 5) ? 0 : (weekDay - 1) % daysOfTheWeek.length;
+    tabController = TabController(vsync: this, length: DayOfWeek.values.length);
+    final offset = (weekDay > 5) ? 0 : (weekDay - 1) % DayOfWeek.values.length;
     tabController.animateTo((tabController.index + offset));
     scrollViewController = ScrollController();
   }
@@ -81,7 +70,7 @@ class _CantinePageState extends GeneralPageViewState<RestaurantPageView>
   }
 
   Widget createTabViewBuilder(dynamic restaurants, BuildContext context) {
-      final List<Widget> dayContents =  daysOfTheWeek.map((dayOfWeek) {
+      final List<Widget> dayContents =  DayOfWeek.values.map((dayOfWeek) {
         List<Widget> cantinesWidgets = [];
         if (restaurants is List<Restaurant>) {
           cantinesWidgets = restaurants
@@ -101,10 +90,10 @@ class _CantinePageState extends GeneralPageViewState<RestaurantPageView>
   List<Widget> createTabs(BuildContext context) {
     final List<Widget> tabs = <Widget>[];
 
-    for (var i = 0; i < daysOfTheWeek.length; i++) {
+    for (var i = 0; i < DayOfWeek.values.length; i++) {
       tabs.add(Container(
         color: Theme.of(context).backgroundColor,
-        child: Tab(key: Key('cantine-page-tab-$i'), text: toString(daysOfTheWeek[i])),
+        child: Tab(key: Key('cantine-page-tab-$i'), text: toString(DayOfWeek.values[i])),
       ));
     }
 
