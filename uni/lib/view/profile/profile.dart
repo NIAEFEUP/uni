@@ -1,15 +1,11 @@
-import 'dart:io';
-
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:uni/controller/load_info.dart';
-import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/providers/profile_state_provider.dart';
-import 'package:uni/model/providers/session_provider.dart';
 import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni/view/profile/widgets/account_info_card.dart';
 import 'package:uni/view/profile/widgets/course_info_card.dart';
+import 'package:uni/view/profile/widgets/profile_overview.dart';
 
 class ProfilePageView extends StatefulWidget {
   const ProfilePageView({Key? key}) : super(key: key);
@@ -34,7 +30,7 @@ class ProfilePageViewState extends SecondaryPageViewState<ProfilePageView> {
           shrinkWrap: false,
           children: [
             const Padding(padding: EdgeInsets.all(5.0)),
-            ProfileInfo(
+            ProfileOverview(
                 profile: profile,
                 getProfileDecorationImage: getProfileDecorationImage
             ),
@@ -51,50 +47,5 @@ class ProfilePageViewState extends SecondaryPageViewState<ProfilePageView> {
   @override
   Widget getTopRightButton(BuildContext context) {
     return Container();
-  }
-}
-
-class ProfileInfo extends StatelessWidget {
-  final Profile profile;
-  final DecorationImage Function(File?) getProfileDecorationImage;
-
-  const ProfileInfo({Key? key, required this.profile,
-      required this.getProfileDecorationImage}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Consumer<SessionProvider>(
-      builder: (context, sessionProvider, _) {
-        return FutureBuilder(
-          future: loadProfilePicture(sessionProvider.session),
-          builder: (BuildContext context, AsyncSnapshot<File?> profilePic) =>
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                      width: 150.0,
-                      height: 150.0,
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: getProfileDecorationImage(profilePic.data)
-                      )
-                  ),
-                  const Padding(padding: EdgeInsets.all(8.0)),
-                  Text(profile.name,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                          fontSize: 20.0, fontWeight: FontWeight.w400)
-                  ),
-                  const Padding(padding: EdgeInsets.all(5.0)),
-                  Text(profile.email,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                          fontSize: 18.0, fontWeight: FontWeight.w300)
-                  ),
-                ],
-              ),
-        );
-      },
-    );
   }
 }
