@@ -41,7 +41,14 @@ class PrintInfoCard extends GenericCard {
                     Container(
                         margin: const EdgeInsets.only(right: 5.0),
                         height: 30,
-                        child: const AddMoneyButton())
+                        child: ElevatedButton(
+                          style: OutlinedButton.styleFrom(
+                            padding: EdgeInsets.zero,
+                          ),
+                          onPressed: () => addMoneyDialog(context),
+                          child: const Center(child: Icon(Icons.add)),
+                        )
+                    ),
                   ])
                 ]),
             showLastRefreshedTime(
@@ -57,19 +64,4 @@ class PrintInfoCard extends GenericCard {
 
   @override
   onClick(BuildContext context) {}
-}
-
-class AddMoneyButton extends StatelessWidget {
-  const AddMoneyButton({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      style: OutlinedButton.styleFrom(
-        padding: EdgeInsets.zero,
-      ),
-      onPressed: () => addMoneyDialog(context),
-      child: const Center(child: Icon(Icons.add)),
-    );
-  }
 }
