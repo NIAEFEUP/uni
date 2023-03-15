@@ -1,32 +1,25 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 
-class TuitionNotificationSwitch extends StatefulWidget{
+class TuitionNotificationSwitch extends StatefulWidget {
   const TuitionNotificationSwitch({super.key});
-
-
 
   @override
   State<StatefulWidget> createState() => _TuitionNotificationSwitchState();
 }
 
-class _TuitionNotificationSwitchState extends State<TuitionNotificationSwitch>{
-
+class _TuitionNotificationSwitchState extends State<TuitionNotificationSwitch> {
   bool tuitionNotificationToggle = true;
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     getTuitionNotificationToggle();
   }
 
-  getTuitionNotificationToggle() async{
-    final bool tempToggle = await AppSharedPreferences.getTuitionNotificationToggle();
-    setState(() {
-      tuitionNotificationToggle = tempToggle;
-    });
+  getTuitionNotificationToggle() async {
+    AppSharedPreferences.getTuitionNotificationToggle()
+        .then((value) => setState(() => tuitionNotificationToggle = value));
   }
 
   saveTuitionNotificationToggle(bool value) async {
@@ -36,14 +29,12 @@ class _TuitionNotificationSwitchState extends State<TuitionNotificationSwitch>{
     });
   }
 
-
-
   @override
   Widget build(BuildContext context) {
-    return Switch.adaptive(value: tuitionNotificationToggle, onChanged: (value) {
-        saveTuitionNotificationToggle(value);
-    });
-
+    return Switch.adaptive(
+        value: tuitionNotificationToggle,
+        onChanged: (value) {
+          saveTuitionNotificationToggle(value);
+        });
   }
-
 }
