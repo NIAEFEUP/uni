@@ -87,8 +87,8 @@ class ScheduleCard extends GenericCard {
         child: ScheduleSlot(
           subject: lecture.subject,
           rooms: lecture.room,
-          begin: DateFormat("HH:mm").format(lecture.startTime),
-          end: DateFormat("HH:mm").format(lecture.endTime),
+          begin: lecture.startTime,
+          end: lecture.endTime,
           teacher: lecture.teacher,
           typeClass: lecture.typeClass,
           classNumber: lecture.classNumber,
