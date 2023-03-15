@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:tuple/tuple.dart';
-import 'package:uni/model/app_state.dart';
+import 'package:provider/provider.dart';
 import 'package:uni/model/entities/library_reservation.dart';
+import 'package:uni/model/providers/library_reservations_provider.dart';
+import 'package:uni/model/request_status.dart';
 import 'package:uni/view/library/widgets/reservation_row.dart';
 
 class LibraryReservationsTab extends StatelessWidget {
@@ -10,18 +10,15 @@ class LibraryReservationsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState,
-        Tuple2<List<LibraryReservation>?, RequestStatus>>(converter: (store) {
-      final List<LibraryReservation>? reservations =
-          store.state.content['reservations'];
-      return Tuple2(reservations, store.state.content['reservationsStatus']);
-    }, builder: (context, reservationsInfo) {
-      if (reservationsInfo.item2 == RequestStatus.busy) {
+    return Consumer<LibraryReservationsProvider> (
+      builder: (context, reservationsProvider, _) {
+      if (reservationsProvider.reservations == null
+          || reservationsProvider.status == RequestStatus.busy) {
         return const Center(child: CircularProgressIndicator());
       } else {
-        return LibraryReservationsList(reservationsInfo.item1);
+        return LibraryReservationsList(reservationsProvider.reservations);
       }
-    });
+      });
   }
 }
 

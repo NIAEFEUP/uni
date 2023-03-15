@@ -1,12 +1,11 @@
 import 'dart:convert';
+
 import 'package:latlong2/latlong.dart';
-import 'package:uni/model/app_state.dart';
-import 'package:redux/redux.dart';
 import 'package:uni/model/entities/location.dart';
 import 'package:uni/model/entities/location_group.dart';
 
 abstract class LocationFetcher {
-  Future<List<LocationGroup>> getLocations(Store<AppState> store);
+  Future<List<LocationGroup>> getLocations();
 
   Future<List<LocationGroup>> getFromJSON(String jsonStr) async {
     final Map<String, dynamic> json = jsonDecode(jsonStr);

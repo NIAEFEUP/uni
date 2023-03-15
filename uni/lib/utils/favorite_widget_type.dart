@@ -9,7 +9,6 @@ enum FavoriteWidgetType {
 
   final Set<String>? faculties;
 
-  // ignore: unused_element
   const FavoriteWidgetType({this.faculties});
 
   bool isVisible(List<String> userFaculties) {

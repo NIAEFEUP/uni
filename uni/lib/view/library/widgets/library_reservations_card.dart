@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:tuple/tuple.dart';
-import 'package:uni/model/app_state.dart';
+import 'package:provider/provider.dart';
 import 'package:uni/model/entities/library_reservation.dart';
+import 'package:uni/model/providers/library_reservations_provider.dart';
+import 'package:uni/model/request_status.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
 import 'package:uni/view/library/widgets/reservation_row.dart';
@@ -23,18 +23,15 @@ class LibraryReservationsCard extends GenericCard {
 
   @override
   Widget buildCardContent(BuildContext context) {
-    return StoreConnector<AppState,
-            Tuple2<List<LibraryReservation>?, RequestStatus?>>(
-        converter: (store) => Tuple2(store.state.content['reservations'],
-            store.state.content['reservationsStatus']),
-        builder: (context, roomsInfo) {
-          if (roomsInfo.item2 == null ||
-              roomsInfo.item2 == RequestStatus.busy) {
-            return const Center(child: CircularProgressIndicator());
-          } else {
-            return RoomsList(roomsInfo.item1);
-          }
-        });
+    return Consumer<LibraryReservationsProvider> (
+      builder: (context, reservationsProvider, _) {
+      if (reservationsProvider.reservations == null
+          || reservationsProvider.status == RequestStatus.busy) {
+        return const Center(child: CircularProgressIndicator());
+      } else {
+        return RoomsList(reservationsProvider.reservations);
+      }
+      });
   }
 }
 

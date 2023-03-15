@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:uni/model/app_state.dart';
-import 'package:uni/model/entities/calendar_event.dart';
-import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
-
+import 'package:provider/provider.dart';
 import 'package:timelines/timelines.dart';
-
+import 'package:uni/model/entities/calendar_event.dart';
+import 'package:uni/model/providers/calendar_provider.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
+import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 
 class CalendarPageView extends StatefulWidget {
   const CalendarPageView({Key? key}) : super(key: key);
@@ -18,11 +16,10 @@ class CalendarPageView extends StatefulWidget {
 class CalendarPageViewState extends GeneralPageViewState<CalendarPageView> {
   @override
   Widget getBody(BuildContext context) {
-    return StoreConnector<AppState, List<CalendarEvent>>(
-        converter: (store) {
-          return store.state.content['calendar'];
-        },
-        builder: (context, calendar) => getCalendarPage(context, calendar));
+    return Consumer<CalendarProvider>(
+      builder: (context, calendarProvider, _) =>
+          getCalendarPage(context, calendarProvider.calendar),
+    );
   }
 
   Widget getCalendarPage(BuildContext context, List<CalendarEvent> calendar) {
