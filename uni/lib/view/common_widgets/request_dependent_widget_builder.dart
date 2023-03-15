@@ -1,10 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 import 'package:uni/controller/local_storage/app_last_user_info_update_database.dart';
-import 'package:uni/model/app_state.dart';
+import 'package:uni/model/request_status.dart';
+import 'package:uni/model/providers/last_user_info_provider.dart';
 import 'package:uni/utils/drawer_items.dart';
 
 /// Wraps content given its fetch data from the redux store,
@@ -35,9 +36,8 @@ class RequestDependentWidgetBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, DateTime?>(
-      converter: (store) => store.state.content['lastUserInfoUpdateTime'],
-      builder: (context, lastUpdateTime) {
+    return Consumer<LastUserInfoProvider>(
+      builder: (context, lastUserInfoProvider, _) {
         switch (status) {
           case RequestStatus.successful:
           case RequestStatus.none:
@@ -45,7 +45,7 @@ class RequestDependentWidgetBuilder extends StatelessWidget {
                 ? contentGenerator(content, context)
                 : onNullContent;
           case RequestStatus.busy:
-            if (lastUpdateTime != null) {
+            if (lastUserInfoProvider.lastUpdateTime != null) {
               return contentChecker
                   ? contentGenerator(content, context)
                   : onNullContent;
@@ -56,7 +56,7 @@ class RequestDependentWidgetBuilder extends StatelessWidget {
                   : Center(child: Shimmer.fromColors(
                       baseColor: Theme.of(context).highlightColor,
                       highlightColor: Theme.of(context).colorScheme.onPrimary,
-                      child: contentLoadingWidget!));              
+                      child: contentLoadingWidget!));
             }
             return contentChecker
                 ? contentGenerator(content, context)
@@ -91,7 +91,6 @@ class RequestDependentWidgetBuilder extends StatelessWidget {
                         style: Theme.of(context).textTheme.subtitle1))),
             OutlinedButton(
                 onPressed: () =>
-
                     Navigator.pushNamed(context, '/${DrawerItem.navBugReport.title}'),
 
                 child: const Text('Reportar erro'))

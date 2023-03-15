@@ -27,7 +27,8 @@ class ExamFetcher implements SessionDependantFetcher {
       for (final url in urls) {
         final Set<Exam> currentCourseExams = await parserExams.parseExams(
             await NetworkRouter.getWithCookies(
-                url, {'p_curso_id': course.id.toString()}, session), course);
+                url, {'p_curso_id': course.id.toString()}, session),
+            course);
         courseExams = Set.from(courseExams)..addAll(currentCourseExams);
       }
     }

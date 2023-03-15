@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:uni/model/app_state.dart';
+import 'package:provider/provider.dart';
+import 'package:uni/model/providers/last_user_info_provider.dart';
 
 class LastUpdateTimeStamp extends StatefulWidget {
   const LastUpdateTimeStamp({super.key});
@@ -21,20 +21,22 @@ class _LastUpdateTimeStampState extends State<LastUpdateTimeStamp> {
     super.initState();
     Timer.periodic(
         const Duration(seconds: 60),
-        (timer) => setState(() {
-              currentTime = DateTime.now();
-            }));
+        (timer) => {
+              if (mounted)
+                {
+                  setState(() {
+                    currentTime = DateTime.now();
+                  })
+                }
+            });
   }
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, DateTime?>(
-      converter: (store) => store.state.content['timeStamp'],
-      builder: (context, timeStamp) {
-        return Container(
-            padding: const EdgeInsets.only(top: 8.0, bottom: 10.0),
-            child: _getContent(context, timeStamp ?? DateTime.now()));
-      },
+    return Consumer<LastUserInfoProvider>(
+      builder: (context, lastUserInfoProvider, _) => Container(
+          padding: const EdgeInsets.only(top: 8.0, bottom: 10.0),
+          child: _getContent(context, lastUserInfoProvider.lastUpdateTime!)),
     );
   }
 

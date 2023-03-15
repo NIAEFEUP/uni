@@ -1,16 +1,15 @@
-import 'package:redux/redux.dart';
 import 'package:uni/controller/networking/network_router.dart';
-import 'package:uni/model/app_state.dart';
+import 'package:uni/model/providers/session_provider.dart';
 import 'package:uni/view/navigation_service.dart';
 
 class OnStartUp {
-  static onStart(Store<AppState> store) {
-    setHandleReloginFail(store);
+  static onStart(SessionProvider sessionProvider) {
+    setHandleReloginFail(sessionProvider);
   }
 
-  static setHandleReloginFail(Store<AppState> store) {
+  static setHandleReloginFail(SessionProvider sessionProvider) {
     NetworkRouter.onReloginFail = () {
-      if (!store.state.content['session'].persistentSession) {
+      if (!sessionProvider.session.persistentSession) {
         return NavigationService.logout();
       }
       return Future.value();

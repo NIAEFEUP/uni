@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:tuple/tuple.dart';
-import 'package:uni/model/app_state.dart';
-import 'package:uni/view/home/widgets/restaurant_row.dart';
-import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
-import 'package:uni/view/common_widgets/row_container.dart';
+import 'package:provider/provider.dart';
+import 'package:uni/model/providers/restaurant_provider.dart';
 import 'package:uni/view/common_widgets/date_rectangle.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
+import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
+import 'package:uni/view/common_widgets/row_container.dart';
+import 'package:uni/view/home/widgets/restaurant_row.dart';
 
 class RestaurantCard extends GenericCard {
   RestaurantCard({Key? key}) : super(key: key);
@@ -23,22 +22,18 @@ class RestaurantCard extends GenericCard {
 
   @override
   Widget buildCardContent(BuildContext context) {
-    return StoreConnector<AppState, Tuple2<String, RequestStatus>?>(
-        converter: (store) => const Tuple2(
-            '', // TODO: Issue #390
-            RequestStatus.none),
-        builder: (context, canteen) {
-          return RequestDependentWidgetBuilder(
-              context: context,
-              status: canteen?.item2 ?? RequestStatus.none,
-              contentGenerator: generateRestaurant,
-              content: canteen?.item1 ?? false,
-              contentChecker: canteen?.item1.isNotEmpty ?? false,
-              onNullContent: Center(
-                  child: Text('Não existem cantinas para apresentar',
-                      style: Theme.of(context).textTheme.headline4,
-                      textAlign: TextAlign.center)));
-        });
+    return Consumer<RestaurantProvider>(
+        builder: (context, restaurantProvider, _) =>
+            RequestDependentWidgetBuilder(
+                context: context,
+                status: restaurantProvider.status,
+                contentGenerator: generateRestaurant,
+                content: restaurantProvider.restaurants,
+                contentChecker: restaurantProvider.restaurants.isNotEmpty,
+                onNullContent: Center(
+                    child: Text('Não existem cantinas para apresentar',
+                        style: Theme.of(context).textTheme.headline4,
+                        textAlign: TextAlign.center))));
   }
 
   Widget generateRestaurant(canteens, context) {
@@ -62,7 +57,8 @@ class RestaurantCard extends GenericCard {
             color: const Color.fromARGB(0, 0, 0, 0),
             child: RestaurantRow(
               local: canteen,
-              meatMenu: '', // TODO: Issue #390
+              meatMenu: '',
+              // TODO: Issue #390
               fishMenu: '',
               vegetarianMenu: '',
               dietMenu: '',
