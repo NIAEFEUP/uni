@@ -16,16 +16,16 @@ class LibraryReservationsTab extends StatelessWidget {
           reservationsProvider.status == RequestStatus.busy) {
         return const Center(child: CircularProgressIndicator());
       } else {
-        return LibraryReservationsList(reservationsProvider.reservations);
+        return LibraryReservationsTabView(reservationsProvider.reservations);
       }
     });
   }
 }
 
-class LibraryReservationsList extends StatelessWidget {
+class LibraryReservationsTabView extends StatelessWidget {
   final List<LibraryReservation>? reservations;
 
-  const LibraryReservationsList(this.reservations, {super.key});
+  const LibraryReservationsTabView(this.reservations, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -42,11 +42,18 @@ class LibraryReservationsList extends StatelessWidget {
         scrollDirection: Axis.vertical,
         shrinkWrap: true,
         children: [
-          getReservationList(context),
+          LibraryReservationsList(reservations),
         ]);
   }
+}
 
-  Widget getReservationList(BuildContext context) {
+class LibraryReservationsList extends StatelessWidget {
+  final List<LibraryReservation>? reservations;
+
+  const LibraryReservationsList(this.reservations, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
     final List<Widget> rooms = [];
 
     for (int i = 0; i < reservations!.length && i < 2; i++) {

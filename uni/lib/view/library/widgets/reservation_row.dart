@@ -55,11 +55,16 @@ class ReservationRow extends StatelessWidget {
               )
             ],
           ),
-          getRemoveButton(context)
+          const ReservationRemoveButton()
         ]);
   }
+}
 
-  Widget getRemoveButton(BuildContext context) {
+class ReservationRemoveButton extends StatelessWidget {
+  const ReservationRemoveButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
     return IconButton(
       constraints: const BoxConstraints(
           minHeight: kMinInteractiveDimension / 3,

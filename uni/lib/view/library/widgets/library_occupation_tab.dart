@@ -17,15 +17,15 @@ class LibraryOccupationTab extends StatefulWidget {
 class LibraryOccupationTabState extends State<LibraryOccupationTab> {
   @override
   Widget build(BuildContext context) {
-    return Consumer<LibraryOccupationProvider> (
-      builder: (context, occupationProvider, _) {
+    return Consumer<LibraryOccupationProvider>(
+        builder: (context, occupationProvider, _) {
       if (occupationProvider.status == RequestStatus.busy) {
         return const Center(child: CircularProgressIndicator());
       } else {
         return LibraryOccupationTabView(occupationProvider.occupation);
       }
-      });
-    }
+    });
+  }
 }
 
 class LibraryOccupationTabView extends StatelessWidget {
@@ -50,30 +50,40 @@ class LibraryOccupationTabView extends StatelessWidget {
         children: [
           LibraryOccupationCard(),
           if (occupation != null) const PageTitle(name: 'Pisos'),
-          if (occupation != null) getFloorRows(context, occupation!),
+          if (occupation != null) FloorRows(occupation!),
         ]);
   }
+}
 
-  Widget getFloorRows(BuildContext context, LibraryOccupation occupation) {
+class FloorRows extends StatelessWidget {
+  final LibraryOccupation occupation;
+
+  const FloorRows(this.occupation, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
     final List<Widget> floors = [];
     for (int i = 1; i < occupation.floors.length; i += 2) {
-      floors.add(createFloorRow(
-          context, occupation.getFloor(i), occupation.getFloor(i + 1)));
+      floors.add(Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            FloorCard(occupation.getFloor(i)),
+            FloorCard(occupation.getFloor(i + 1))
+          ]));
     }
     return Column(
       children: floors,
     );
   }
+}
 
-  Widget createFloorRow(
-      BuildContext context, FloorOccupation floor1, FloorOccupation floor2) {
-    return Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-      createFloorCard(context, floor1),
-      createFloorCard(context, floor2),
-    ]);
-  }
+class FloorCard extends StatelessWidget {
+  final FloorOccupation floor;
 
-  Widget createFloorCard(BuildContext context, FloorOccupation floor) {
+  const FloorCard(this.floor, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
       height: 150.0,
