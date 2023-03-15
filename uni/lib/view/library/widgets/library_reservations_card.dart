@@ -44,7 +44,7 @@ class RoomsList extends StatelessWidget {
   Widget build(context) {
     if (reservations == null || reservations!.isEmpty) {
       return Center(
-          child: Text('Não há salas reservadas!',
+          child: Text('Não tens salas reservadas!',
               style: Theme.of(context).textTheme.headline6,
               textAlign: TextAlign.center));
     }

@@ -91,6 +91,9 @@ Future<void> main() async {
                           stateProviders.libraryOccupationProvider),
                   ChangeNotifierProvider(
                       create: (context) =>
+                          stateProviders.libraryReservationsProvider),
+                  ChangeNotifierProvider(
+                      create: (context) =>
                           stateProviders.facultyLocationsProvider),
                   ChangeNotifierProvider(
                       create: (context) => stateProviders.lastUserInfoProvider),

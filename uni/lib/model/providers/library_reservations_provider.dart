@@ -1,11 +1,8 @@
 import 'dart:async';
 
 import 'package:logger/logger.dart';
-import 'package:uni/controller/fetchers/library_occupation_fetcher.dart';
 import 'package:uni/controller/fetchers/library_reservation_fetcher.dart';
 import 'package:uni/controller/local_storage/app_library_reservation.dart';
-import 'package:uni/controller/local_storage/app_library_reservation.dart';
-import 'package:uni/model/entities/library_occupation.dart';
 import 'package:uni/model/entities/library_reservation.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';

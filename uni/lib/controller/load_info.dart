@@ -59,7 +59,7 @@ Future loadRemoteUserInfoToState(StateProviders stateProviders) async {
   stateProviders.libraryOccupationProvider
       .getLibraryOccupation(session, libraryOccupation);
   stateProviders.libraryReservationsProvider
-      .getLibraryReservations(session, libraryOccupation);
+      .getLibraryReservations(session, libraryReservations);
 
   final Tuple2<String, String> userPersistentInfo =
       await AppSharedPreferences.getPersistentUserInfo();

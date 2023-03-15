@@ -10,15 +10,15 @@ class LibraryReservationsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<LibraryReservationsProvider> (
-      builder: (context, reservationsProvider, _) {
-      if (reservationsProvider.reservations == null
-          || reservationsProvider.status == RequestStatus.busy) {
+    return Consumer<LibraryReservationsProvider>(
+        builder: (context, reservationsProvider, _) {
+      if (reservationsProvider.reservations == null ||
+          reservationsProvider.status == RequestStatus.busy) {
         return const Center(child: CircularProgressIndicator());
       } else {
         return LibraryReservationsList(reservationsProvider.reservations);
       }
-      });
+    });
   }
 }
 
@@ -33,7 +33,7 @@ class LibraryReservationsList extends StatelessWidget {
       return ListView(scrollDirection: Axis.vertical, children: [
         Center(
             heightFactor: 2,
-            child: Text('Não há salas reservadas',
+            child: Text('Não tens salas reservadas',
                 style: Theme.of(context).textTheme.headline6,
                 textAlign: TextAlign.center))
       ]);
