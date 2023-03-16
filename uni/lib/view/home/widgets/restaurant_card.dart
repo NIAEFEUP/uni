@@ -4,11 +4,11 @@ import 'package:uni/model/providers/restaurant_provider.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
 import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
 import 'package:uni/view/common_widgets/row_container.dart';
-import 'package:uni/view/home/widgets/restaurant_row.dart';
 import 'package:uni/model/entities/meal.dart';
 import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/utils/day_of_week.dart';
 import 'package:uni/utils/drawer_items.dart';
+import 'package:uni/view/restaurant/widgets/restaurant_slot.dart';
 
 
 final List<DayOfWeek> daysOfTheWeek = [
@@ -84,19 +84,33 @@ class RestaurantCard extends GenericCard {
     return Column(children: [
       Center(
           child: Container(
-              padding: const EdgeInsets.all(12.0), child: Text(restaurant.name))),
+              padding: const EdgeInsets.all(15.0), child: Text(restaurant.name)),),
+      if(meals.isNotEmpty)
       Card(
         elevation: 1,
         child: RowContainer(
             color: const Color.fromARGB(0, 0, 0, 0),
-            child: RestaurantRow(
-              local: restaurant.name,
-              meatMenu: meals.isNotEmpty ? meals[0].name : 'Prato não disponível',
-              fishMenu: meals.length > 1 ? meals[1].name : 'Prato não disponível',
-              vegetarianMenu: meals.length > 2 ? meals[2].name : 'Prato não disponível',
-              dietMenu: meals.length > 3 ? meals[3].name : 'Prato não disponível',
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: createRestaurantRows(meals, context),
             )),
-      ),
+      )
+      else
+      Card(
+        elevation: 1,
+        child: RowContainer(
+            color: const Color.fromARGB(0, 0, 0, 0),
+            child: Container(
+              padding: const EdgeInsets.all(12.0),
+              child: const Text('Refeições não disponíveis'))
+            ))
     ]);
   }
+
+  List<Widget> createRestaurantRows(List<Meal> meals, BuildContext context) {
+    return meals
+        .map((meal) => RestaurantSlot(type: meal.type, name: meal.name))
+        .toList();
+  }
+
 }
