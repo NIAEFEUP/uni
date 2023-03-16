@@ -76,5 +76,6 @@ class AppLecturesDatabase extends AppDatabase {
     final batch = db.batch();
     batch.execute('DROP TABLE IF EXISTS lectures');
     batch.execute(createScript);
+    await batch.commit();
   }
 }
