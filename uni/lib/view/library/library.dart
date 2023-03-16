@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
-import 'package:tuple/tuple.dart';
-import 'package:uni/model/app_state.dart';
+import 'package:provider/provider.dart';
 import 'package:uni/model/entities/library_occupation.dart';
+import 'package:uni/model/providers/library_occupation_provider.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/library/widgets/library_occupation_card.dart';
@@ -18,18 +17,24 @@ class LibraryPageView extends StatefulWidget {
 class LibraryPageViewState extends GeneralPageViewState<LibraryPageView> {
   @override
   Widget getBody(BuildContext context) {
-    return StoreConnector<AppState, Tuple2<LibraryOccupation?, RequestStatus>>(
-        converter: (store) {
-      final LibraryOccupation? occupation =
-          store.state.content['libraryOccupation'];
-      return Tuple2(occupation, store.state.content['libraryOccupationStatus']);
-    }, builder: (context, occupationInfo) {
-      if (occupationInfo.item2 == RequestStatus.busy) {
-        return const Center(child: CircularProgressIndicator());
-      } else {
-        return LibraryPage(occupationInfo.item1);
-      }
-    });
+    return Consumer<LibraryOccupationProvider>(
+        builder: (context, libraryOccupationProvider, _) =>
+            LibraryPage(libraryOccupationProvider.occupation));
+
+/*
+     return StoreConnector<AppState, Tuple2<LibraryOccupation?, RequestStatus>>(
+         converter: (store) {
+       final LibraryOccupation? occupation =
+           store.state.content['libraryOccupation'];
+       return Tuple2(occupation, store.state.content['libraryOccupationStatus']);
+     }, builder: (context, occupationInfo) {
+       if (occupationInfo.item2 == RequestStatus.busy) {
+         return const Center(child: CircularProgressIndicator());
+       } else {
+         return LibraryPage(occupationInfo.item1);
+       }
+     });
+     */
   }
 }
 
