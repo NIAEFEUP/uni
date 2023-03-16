@@ -58,7 +58,7 @@ class RestaurantCard extends GenericCard {
     final List<Restaurant> restaurants = data;
     return ListView.builder(
       shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       itemCount: restaurants.length,
       itemBuilder: (BuildContext context, int index) {
         return Column(

@@ -12,7 +12,7 @@ class RestaurantPageCard extends StatefulWidget {
   final Restaurant restaurant;
   final Widget meals;
 
-  RestaurantPageCard(this.restaurant, this.meals, {Key ? key})
+  const RestaurantPageCard(this.restaurant, this.meals, {Key ? key})
       : super(key: key);
 
   @override
@@ -31,8 +31,8 @@ class RestaurantPageCardState extends State<RestaurantPageCard> {
           borderRadius: BorderRadius.circular(10.0),
         ),
         child: Container(
-          decoration: BoxDecoration(
-            boxShadow: const [
+          decoration: const BoxDecoration(
+            boxShadow: [
               BoxShadow(
                 color: Color.fromARGB(0x1c, 0, 0, 0),
                 blurRadius: 7.0,
@@ -48,7 +48,7 @@ class RestaurantPageCardState extends State<RestaurantPageCard> {
             child: Container(
               decoration: BoxDecoration(
                 color: Theme.of(context).cardColor,
-                borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                borderRadius: const BorderRadius.all(Radius.circular(10.0)),
               ),
               width: double.infinity,
               child: Column(
@@ -80,7 +80,7 @@ class RestaurantPageCardState extends State<RestaurantPageCard> {
                           })),],
                   ),
                   Container(
-                    padding: EdgeInsets.only(
+                    padding: const EdgeInsets.only(
                       left: 12.0,
                       right: 12.0,
                       bottom: 12.0,
