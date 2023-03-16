@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:collection';
 
+import 'package:uni/controller/background_workers/notifications.dart';
 import 'package:uni/controller/load_info.dart';
 import 'package:uni/controller/load_static/terms_and_conditions.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
@@ -40,6 +41,9 @@ class SessionProvider extends StateProviderNotifier {
           await AppSharedPreferences.savePersistentUserInfo(
               username, password, faculties);
         }
+        Future.delayed(const Duration(seconds: 20), ()=>{
+          NotificationManager().initializeNotifications()
+        });
 
         loadLocalUserInfoToState(stateProviders, skipDatabaseLookup: true);
         await loadRemoteUserInfoToState(stateProviders);
@@ -72,6 +76,9 @@ class SessionProvider extends StateProviderNotifier {
 
       if (session.authenticated) {
         await loadRemoteUserInfoToState(stateProviders);
+        Future.delayed(const Duration(seconds: 20), ()=>{
+          NotificationManager().initializeNotifications()
+        });
         updateStatus(RequestStatus.successful);
         action?.complete();
       } else {
