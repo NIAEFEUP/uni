@@ -2,28 +2,31 @@ import 'dart:async';
 import 'dart:collection';
 
 import 'package:logger/logger.dart';
+import 'package:uni/controller/fetchers/restaurant_fetcher.dart';
 import 'package:uni/controller/local_storage/app_restaurant_database.dart';
+import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
 
 import 'package:uni/model/request_status.dart';
 
-import 'package:uni/controller/fetchers/restaurant_fetcher.dart';
-
 class RestaurantProvider extends StateProviderNotifier {
   List<Restaurant> _restaurants = [];
+  List<String> _favoriteRestaurants = [];
 
   UnmodifiableListView<Restaurant> get restaurants =>
       UnmodifiableListView(_restaurants);
 
-  void getRestaurantsFromFetcher(
-      Completer<void> action, Session session) async {
+  UnmodifiableListView<String> get favoriteRestaurants =>
+      UnmodifiableListView(_favoriteRestaurants);
+
+  void getRestaurantsFromFetcher(Completer<void> action, Session session) async {
     try {
       updateStatus(RequestStatus.busy);
 
       final List<Restaurant> restaurants =
-          await RestaurantFetcher().getRestaurants(session);
+      await RestaurantFetcher().getRestaurants(session);
       // Updates local database according to information fetched -- Restaurants
       final RestaurantDatabase db = RestaurantDatabase();
       db.saveRestaurants(restaurants);
@@ -37,10 +40,28 @@ class RestaurantProvider extends StateProviderNotifier {
     action.complete();
   }
 
-  void updateStateBasedOnLocalRestaurants() async {
+  setFavoriteRestaurants(List<String> newFavoriteRestaurants, Completer<void> action) async {
+    _favoriteRestaurants = List<String>.from(newFavoriteRestaurants);
+    AppSharedPreferences.saveFavoriteRestaurants(favoriteRestaurants);
+    action.complete();
+    notifyListeners();
+  }
+
+  toggleFavoriteRestaurant(String restaurantName, Completer<void> action) async {
+    _favoriteRestaurants.contains(restaurantName)
+        ? _favoriteRestaurants.remove(restaurantName)
+        : _favoriteRestaurants.add(restaurantName);
+    notifyListeners();
+    AppSharedPreferences.saveFavoriteRestaurants(favoriteRestaurants);
+    action.complete();
+  }
+
+  void updateStateBasedOnLocalRestaurants() async{
     final RestaurantDatabase restaurantDb = RestaurantDatabase();
     final List<Restaurant> restaurants = await restaurantDb.getRestaurants();
     _restaurants = restaurants;
     notifyListeners();
   }
+
 }
+

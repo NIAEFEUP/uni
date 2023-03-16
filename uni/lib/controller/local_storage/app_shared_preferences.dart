@@ -30,6 +30,7 @@ class AppSharedPreferences {
     FavoriteWidgetType.busStops
   ];
   static const String hiddenExams = 'hidden_exams';
+  static const String favoriteRestaurants = 'favorite_restaurants';
   static const String filteredExamsTypes = 'filtered_exam_types';
   static final List<String> defaultFilteredExamTypes = Exam.displayedTypes;
 
@@ -150,6 +151,16 @@ class AppSharedPreferences {
         .toList();
   }
 
+  static saveFavoriteRestaurants(List<String> newFavoriteRestaurants) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setStringList(favoriteRestaurants, newFavoriteRestaurants);
+  }
+
+  static Future<List<String>> getFavoriteRestaurants() async {
+    final prefs = await SharedPreferences.getInstance();
+    final List<String> storedFavoriteRestaurants = prefs.getStringList(favoriteRestaurants) ?? [];
+    return storedFavoriteRestaurants;
+  }
 
   static saveHiddenExams(List<String> newHiddenExams) async {
     final prefs = await SharedPreferences.getInstance();
@@ -176,7 +187,7 @@ class AppSharedPreferences {
   static Future<Map<String, bool>> getFilteredExams() async {
     final prefs = await SharedPreferences.getInstance();
     final List<String>? storedFilteredExamTypes =
-        prefs.getStringList(filteredExamsTypes);
+    prefs.getStringList(filteredExamsTypes);
 
     if (storedFilteredExamTypes == null) {
       return Map.fromIterable(defaultFilteredExamTypes, value: (type) => true);
@@ -203,3 +214,4 @@ class AppSharedPreferences {
     return encrypt.Encrypter(encrypt.AES(key));
   }
 }
+

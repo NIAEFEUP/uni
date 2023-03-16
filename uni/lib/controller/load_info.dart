@@ -12,7 +12,7 @@ import 'package:uni/model/providers/state_providers.dart';
 
 Future loadReloginInfo(StateProviders stateProviders) async {
   final Tuple2<String, String> userPersistentCredentials =
-      await AppSharedPreferences.getPersistentUserInfo();
+  await AppSharedPreferences.getPersistentUserInfo();
   final String userName = userPersistentCredentials.item1;
   final String password = userPersistentCredentials.item2;
   final List<String> faculties = await AppSharedPreferences.getUserFaculties();
@@ -59,7 +59,7 @@ Future loadRemoteUserInfoToState(StateProviders stateProviders) async {
       .getLibraryOccupation(session, libraryOccupation);
 
   final Tuple2<String, String> userPersistentInfo =
-      await AppSharedPreferences.getPersistentUserInfo();
+  await AppSharedPreferences.getPersistentUserInfo();
 
   userInfo.future.then((value) {
     final profile = stateProviders.profileStateProvider.profile;
@@ -97,11 +97,13 @@ Future loadRemoteUserInfoToState(StateProviders stateProviders) async {
 void loadLocalUserInfoToState(StateProviders stateProviders,
     {skipDatabaseLookup = false}) async {
   final Tuple2<String, String> userPersistentInfo =
-      await AppSharedPreferences.getPersistentUserInfo();
+  await AppSharedPreferences.getPersistentUserInfo();
 
   Logger().i('Setting up user preferences');
   stateProviders.favoriteCardsProvider
       .setFavoriteCards(await AppSharedPreferences.getFavoriteCards());
+  stateProviders.restaurantProvider
+      .setFavoriteRestaurants(await AppSharedPreferences.getFavoriteRestaurants(), Completer());
   stateProviders.examProvider.setFilteredExams(
       await AppSharedPreferences.getFilteredExams(), Completer());
   stateProviders.examProvider

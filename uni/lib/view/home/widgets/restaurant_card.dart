@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/providers/restaurant_provider.dart';
-import 'package:uni/view/common_widgets/date_rectangle.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
 import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
 import 'package:uni/view/common_widgets/row_container.dart';
@@ -40,34 +39,42 @@ class RestaurantCard extends GenericCard {
 
   @override
   Widget buildCardContent(BuildContext context) {
-    return Consumer<RestaurantProvider>(
-        builder: (context, restaurantProvider, _) =>
-            RequestDependentWidgetBuilder(
-                context: context,
-                status: restaurantProvider.status,
-                contentGenerator: generateRestaurant,
-                content: restaurantProvider.restaurants[2],
-                contentChecker: restaurantProvider.restaurants.isNotEmpty,
-                onNullContent: Center(
-                    child: Text('Não existem cantinas para apresentar',
-                        style: Theme.of(context).textTheme.headline4,
-                        textAlign: TextAlign.center))));
-
+    return Consumer<RestaurantProvider>(builder: (context, restaurantProvider, _) {
+      final List<Restaurant> favoriteRestaurants = restaurantProvider.restaurants.where((restaurant) => restaurantProvider.favoriteRestaurants.contains(restaurant.name)).toList();
+      return RequestDependentWidgetBuilder(
+          context: context,
+          status: restaurantProvider.status,
+          contentGenerator: generateRestaurant,
+          content: favoriteRestaurants,
+          contentChecker: favoriteRestaurants.isNotEmpty,
+          onNullContent: Center(
+              child: Text('Não existem cantinas para apresentar',
+                  style: Theme.of(context).textTheme.headline4,
+                  textAlign: TextAlign.center)));});
   }
 
 
-  Widget generateRestaurant(canteens, context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [createRowFromRestaurant(context, canteens, daysOfTheWeek[offset])],
+  Widget generateRestaurant(dynamic data, BuildContext context) {
+    final List<Restaurant> restaurants = data;
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      itemCount: restaurants.length,
+      itemBuilder: (BuildContext context, int index) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            createRowFromRestaurant(context, restaurants[index], daysOfTheWeek[offset])
+          ],
+        );
+      },
     );
   }
+
 
   Widget createRowFromRestaurant(context, Restaurant restaurant, DayOfWeek day) {
     final List<Meal> meals = restaurant.getMealsOfDay(day);
     return Column(children: [
-      DateRectangle(date: toString(day)),
-      // cantine.nextSchoolDay
       Center(
           child: Container(
               padding: const EdgeInsets.all(12.0), child: Text(restaurant.name))),
