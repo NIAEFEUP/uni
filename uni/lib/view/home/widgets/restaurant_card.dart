@@ -8,6 +8,7 @@ import 'package:uni/view/home/widgets/restaurant_row.dart';
 import 'package:uni/model/entities/meal.dart';
 import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/utils/day_of_week.dart';
+import 'package:uni/utils/drawer_items.dart';
 
 
 final List<DayOfWeek> daysOfTheWeek = [
@@ -47,11 +48,17 @@ class RestaurantCard extends GenericCard {
           contentGenerator: generateRestaurant,
           content: favoriteRestaurants,
           contentChecker: favoriteRestaurants.isNotEmpty,
-          onNullContent: Center(
-              child: Text('Não existem cantinas para apresentar',
-                  style: Theme.of(context).textTheme.headline4,
-                  textAlign: TextAlign.center)));});
-  }
+          onNullContent: Column(children: [
+                            Padding(
+                                padding: const EdgeInsets.only(top: 15, bottom: 10),
+                                child: Center(
+                                  child: Text('Sem restaurantes favoritos',
+                                  style: Theme.of(context).textTheme.subtitle1))),
+                                  OutlinedButton(
+                                    onPressed: () => Navigator.pushNamed(context, '/${DrawerItem.navRestaurants.title}'),
+                                    child: const Text('Adicionar'))
+      ]));
+  });}
 
 
   Widget generateRestaurant(dynamic data, BuildContext context) {
