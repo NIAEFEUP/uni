@@ -6,7 +6,7 @@ import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/common_widgets/random_image.dart';
 import 'package:uni/view/bus_stop_selection/bus_stop_selection.dart';
 import 'package:uni/model/providers/bus_stop_provider.dart';
-import 'package:uni/view/bus_stop_next_arrivals/widgets/x.dart';
+import 'package:uni/view/bus_stop_next_arrivals/widgets/bus_stop_row.dart';
 import 'package:uni/view/common_widgets/last_update_timestamp.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 
