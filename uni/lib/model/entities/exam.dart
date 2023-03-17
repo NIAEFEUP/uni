@@ -48,7 +48,6 @@ class Exam {
   late final List<String> rooms;
   late final String type;
   late final String faculty;
-  bool isHidden = false;
 
   static Map<String, String> types = {
     'Mini-testes': 'MT',
@@ -93,9 +92,6 @@ class Exam {
   String get endTime => formatTime(end);
 
   String formatTime(DateTime time) => DateFormat('HH:mm').format(time);
-
-  /// Exam card background turns grey if exam is hidden
-  bool isHighlighted() => isHidden;
 
   @override
   String toString() {

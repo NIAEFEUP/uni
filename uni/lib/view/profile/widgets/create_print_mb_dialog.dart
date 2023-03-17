@@ -1,8 +1,8 @@
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
+import 'package:provider/provider.dart';
 import 'package:uni/controller/fetchers/print_fetcher.dart';
-import 'package:uni/model/app_state.dart';
+import 'package:uni/model/providers/session_provider.dart';
 import 'package:uni/view/common_widgets/toast_message.dart';
 
 Future<void> addMoneyDialog(BuildContext context) async {
@@ -103,17 +103,20 @@ Future<void> addMoneyDialog(BuildContext context) async {
 
 final CurrencyTextInputFormatter formatter =
     CurrencyTextInputFormatter(locale: 'pt-PT', decimalDigits: 2, symbol: '€ ');
+
 double valueTextToNumber(String value) =>
     double.parse(value.substring(0, value.length - 2).replaceAll(',', '.'));
+
 String numberToValueText(double number) =>
     formatter.format(number.toStringAsFixed(2));
 
-generateReference(context, amount) async {
+void generateReference(context, amount) async {
   if (amount < 1) {
-    return ToastMessage.warning(context, 'Valor mínimo: 1,00 €');
+    ToastMessage.warning(context, 'Valor mínimo: 1,00 €');
+    return;
   }
 
-  final session = StoreProvider.of<AppState>(context).state.content['session'];
+  final session = Provider.of<SessionProvider>(context, listen: false).session;
   final response =
       await PrintFetcher.generatePrintMoneyReference(amount, session);
 

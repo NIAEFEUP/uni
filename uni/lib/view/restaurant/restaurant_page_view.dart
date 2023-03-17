@@ -1,8 +1,8 @@
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:tuple/tuple.dart';
-import 'package:uni/model/app_state.dart';
+import 'package:provider/provider.dart';
 import 'package:uni/model/entities/meal.dart';
 import 'package:flutter/material.dart';
+import 'package:uni/model/providers/restaurant_provider.dart';
+import 'package:uni/model/request_status.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/model/utils/day_of_week.dart';
@@ -16,22 +16,11 @@ class RestaurantPageView extends StatefulWidget {
   const RestaurantPageView({Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _CantinePageState();
+  State<StatefulWidget> createState() => _CanteenPageState();
 }
 
-class _CantinePageState extends GeneralPageViewState<RestaurantPageView>
+class _CanteenPageState extends GeneralPageViewState<RestaurantPageView>
     with SingleTickerProviderStateMixin {
-
-  final List<DayOfWeek> daysOfTheWeek = [
-    DayOfWeek.monday,
-    DayOfWeek.tuesday,
-    DayOfWeek.wednesday,
-    DayOfWeek.thursday,
-    DayOfWeek.friday,
-    DayOfWeek.saturday,
-    DayOfWeek.sunday
-  ];
-
   late List<Restaurant> aggRestaurant;
   late TabController tabController;
   late ScrollController scrollViewController;
@@ -41,25 +30,21 @@ class _CantinePageState extends GeneralPageViewState<RestaurantPageView>
     super.initState();
     final int weekDay = DateTime.now().weekday;
     super.initState();
-    tabController = TabController(vsync: this, length: daysOfTheWeek.length);
-    final offset = (weekDay > 5) ? 0 : (weekDay - 1) % daysOfTheWeek.length;
+    tabController = TabController(vsync: this, length: DayOfWeek.values.length);
+    final offset = (weekDay > 5) ? 0 : (weekDay - 1) % DayOfWeek.values.length;
     tabController.animateTo((tabController.index + offset));
     scrollViewController = ScrollController();
   }
 
   @override
   Widget getBody(BuildContext context) {
-    return StoreConnector<AppState, Tuple2<List<Restaurant>, RequestStatus?>>(
-        converter: (store) {
-          return Tuple2(store.state.content['restaurants'],
-              store.state.content['restaurantsStatus']);
-        },
-        builder: (context, restaurantsInfo) =>
-            _getPageView(restaurantsInfo.item1, restaurantsInfo.item2));
+    return Consumer<RestaurantProvider>(
+        builder: (context, restaurantProvider, _) =>
+            _getPageView(restaurantProvider.restaurants, restaurantProvider.status));
 
   }
 
-  Widget _getPageView(List<Restaurant> restaurants, RequestStatus? status) {
+   Widget _getPageView(List<Restaurant> restaurants, RequestStatus? status) {
     return Column(children: [
       ListView(scrollDirection: Axis.vertical, shrinkWrap: true, children: [
         Container(
@@ -85,7 +70,7 @@ class _CantinePageState extends GeneralPageViewState<RestaurantPageView>
   }
 
   Widget createTabViewBuilder(dynamic restaurants, BuildContext context) {
-      final List<Widget> dayContents =  daysOfTheWeek.map((dayOfWeek) {
+      final List<Widget> dayContents =  DayOfWeek.values.map((dayOfWeek) {
         List<Widget> cantinesWidgets = [];
         if (restaurants is List<Restaurant>) {
           cantinesWidgets = restaurants
@@ -105,10 +90,10 @@ class _CantinePageState extends GeneralPageViewState<RestaurantPageView>
   List<Widget> createTabs(BuildContext context) {
     final List<Widget> tabs = <Widget>[];
 
-    for (var i = 0; i < daysOfTheWeek.length; i++) {
+    for (var i = 0; i < DayOfWeek.values.length; i++) {
       tabs.add(Container(
         color: Theme.of(context).backgroundColor,
-        child: Tab(key: Key('cantine-page-tab-$i'), text: toString(daysOfTheWeek[i])),
+        child: Tab(key: Key('cantine-page-tab-$i'), text: toString(DayOfWeek.values[i])),
       ));
     }
 
