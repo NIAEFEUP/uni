@@ -18,6 +18,7 @@ class AppSharedPreferences {
   static const String userFaculties = 'user_faculties';
   static const String termsAndConditions = 'terms_and_conditions';
   static const String areTermsAndConditionsAcceptedKey = 'is_t&c_accepted';
+  static const String tuitionNotificationsToggleKey = "tuition_notification_toogle";
   static const String themeMode = 'theme_mode';
   static const int keyLength = 32;
   static const int ivLength = 16;
@@ -213,5 +214,16 @@ class AppSharedPreferences {
     final key = encrypt.Key.fromLength(keyLength);
     return encrypt.Encrypter(encrypt.AES(key));
   }
+
+  static Future<bool> getTuitionNotificationToggle() async{
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(tuitionNotificationsToggleKey) ?? true;
+  }
+
+  static setTuitionNotificationToggle(bool value) async{
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setBool(tuitionNotificationsToggleKey, value);
+  }
+
 }
 
