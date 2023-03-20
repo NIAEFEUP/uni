@@ -57,7 +57,7 @@ List<Restaurant> getRestaurantsFromHtml(Response response) {
               final DayOfWeek? d = parseDayOfWeek(value);
               if (d == null) {
                 //It's a date
-                date = format.parse(value);
+                date = format.parseUtc(value);
               } else {
                 dayOfWeek = d;
               }
@@ -100,8 +100,8 @@ Restaurant getRestaurantFromGSheets(Response response, String restaurantName,
     final Meal meal = Meal(
         cellList[2]['v'],
         cellList[3]['v'],
-        DayOfWeek.values[format.parse(cellList[0]['f']).weekday - 1],
-        format.parse(cellList[0]['f']));
+        DayOfWeek.values[format.parseUtc(cellList[0]['f']).weekday - 1],
+        format.parseUtc(cellList[0]['f']));
     mealsList.add(meal);
   }
 
