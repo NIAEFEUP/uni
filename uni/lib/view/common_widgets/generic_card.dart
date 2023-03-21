@@ -4,6 +4,7 @@ import 'package:uni/model/entities/time_utilities.dart';
 /// App default card
 abstract class GenericCard extends StatefulWidget {
   final EdgeInsetsGeometry margin;
+  final Widget cardAction;
   final bool smallTitle;
   final bool editingMode;
   final Function()? onDelete;
@@ -18,6 +19,7 @@ abstract class GenericCard extends StatefulWidget {
   const GenericCard.customStyle(
       {Key? key,
       required this.editingMode,
+        this.cardAction = const SizedBox.shrink(),
       required this.onDelete,
       this.margin = const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
       this.smallTitle = false})
@@ -100,18 +102,20 @@ class GenericCardState extends State<GenericCard> {
                         children: [
                           Flexible(
                               child: Container(
-                            alignment: Alignment.centerLeft,
-                            padding: const EdgeInsets.symmetric(horizontal: 15),
-                            margin: const EdgeInsets.only(top: 15, bottom: 10),
-                            child: Text(widget.getTitle(),
-                                style: (widget.smallTitle
-                                        ? Theme.of(context).textTheme.headline6!
-                                        : Theme.of(context)
-                                            .textTheme
-                                            .headline5!)
-                                    .copyWith(
-                                        color: Theme.of(context).primaryColor)),
-                          )),
+                                alignment: Alignment.centerLeft,
+                                padding: const EdgeInsets.symmetric(horizontal: 15),
+                                margin: const EdgeInsets.only(top: 15, bottom: 10),
+                                child: Text(widget.getTitle(),
+                                    style: (widget.smallTitle
+                                            ? Theme.of(context).textTheme.headline6!
+                                            : Theme.of(context)
+                                                .textTheme
+                                                .headline5!)
+                                        .copyWith(
+                                            color: Theme.of(context).primaryColor)),
+                              )
+                          ),
+                          widget.cardAction,
                           if (widget.editingMode)
                             Container(
                               alignment: Alignment.center,
@@ -136,16 +140,18 @@ class GenericCardState extends State<GenericCard> {
             )));
   }
 
+
+
   Widget getDeleteIcon(context) {
     return Flexible(
         child: Container(
-      alignment: Alignment.centerRight,
-      height: 32,
-      child: IconButton(
-        iconSize: 22,
-        icon: const Icon(Icons.delete),
-        tooltip: 'Remover',
-        onPressed: widget.onDelete,
+          alignment: Alignment.centerRight,
+          height: 32,
+          child: IconButton(
+              iconSize: 22,
+              icon: const Icon(Icons.delete),
+              tooltip: 'Remover',
+              onPressed: widget.onDelete,
       ),
     ));
   }
