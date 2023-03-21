@@ -87,7 +87,7 @@ class RestaurantDatabase extends AppDatabase {
       final String type = map['type'];
       final String name = map['name'];
       final DateFormat format = DateFormat('d-M-y');
-      final DateTime date = format.parse(map['date']);
+      final DateTime date = format.parseUtc(map['date']);
       return Meal(type, name, day!, date);
     }).toList();
 
@@ -115,15 +115,9 @@ List<Restaurant> filterPastMeals(List<Restaurant> restaurants) {
   final List<Restaurant> restaurantsCopy = List.from(restaurants);
   // Hide past and next weeks' meals
   // (To replicate sigarra's behaviour for the GSheets meals)
-  final DateTime now = DateTime.now();
-  // Sunday 23:59
-  final DateTime nextSunday = now.add(Duration(
-      days: DateTime.sunday - now.weekday,
-      hours: 23 - now.hour,
-      minutes: 59 - now.minute));
-  // Yesterday 23:59
-  final DateTime today =
-  now.subtract(Duration(hours: now.hour, minutes: now.minute + 1));
+  final DateTime now = DateTime.now().toUtc();
+  final DateTime today = DateTime.utc(now.year, now.month, now.day);
+  final DateTime nextSunday = today.add(Duration(days: DateTime.sunday - now.weekday));
 
   for (var restaurant in restaurantsCopy) {
     for (var meals in restaurant.meals.values) {
