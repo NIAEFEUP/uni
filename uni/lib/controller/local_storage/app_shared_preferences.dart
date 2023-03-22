@@ -215,7 +215,7 @@ class AppSharedPreferences {
 
     if (storedFilteredLocationTypes == null) {
       return Map.fromIterable(defaultFilteredLocationTypes,
-          value: (type) => true);
+          value: (type) => false);
     }
     return Map.fromIterable(defaultFilteredLocationTypes,
         value: (type) => storedFilteredLocationTypes.contains(type));

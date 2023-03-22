@@ -53,19 +53,19 @@ String locationTypeToString(LocationType type) {
 String stringTypeToReadableString(String loc) {
   switch (loc) {
     case 'COFFEE_MACHINE':
-      return 'Máquina de Café';
+      return 'Máquinas de Café';
     case 'VENDING_MACHINE':
-      return 'Máquina de Venda';
+      return 'Máquinas de Venda';
     case 'ROOM':
-      return 'Sala';
-    case 'SPECIAL_ROOM':
-      return 'Sala Especial';
+      return 'Salas';
     case 'ROOMS':
       return 'Agregado de Salas';
+    case 'SPECIAL_ROOM':
+      return 'Salas Especiais';
     case 'ATM':
-      return 'Atm';
+      return 'Atms';
     case 'PRINTER':
-      return 'Impressora';
+      return 'Impressoras';
     case 'RESTAURANT':
       return 'Restaurante';
     case 'STORE':
