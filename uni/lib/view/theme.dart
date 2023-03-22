@@ -96,11 +96,8 @@ ThemeData applicationDarkTheme = ThemeData(
     iconTheme: const IconThemeData(color: _lightGrey),
     textTheme: _textTheme.apply(bodyColor: _lightGrey),
     switchTheme: SwitchThemeData(
-      thumbColor: MaterialStateProperty.resolveWith<Color?>(
-         (Set<MaterialState> states) => states.contains(MaterialState.selected) ? _mildBlack : null,
-      ),
       trackColor: MaterialStateProperty.resolveWith<Color?>(
-         (Set<MaterialState> states) => states.contains(MaterialState.selected) ? _mildBlack : null,
+         (Set<MaterialState> states) => states.contains(MaterialState.selected) ? _lightGrey : null,
       ),
     ),
     radioTheme: RadioThemeData(
