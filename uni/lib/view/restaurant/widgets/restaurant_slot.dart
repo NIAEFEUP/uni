@@ -11,6 +11,15 @@ class RestaurantSlot extends StatelessWidget {
     required this.name,
   }) : super(key: key);
 
+  static const mealTypeIcons = {
+    'sopa': 'assets/meal-icons/soup.svg',
+    'carne': 'assets/meal-icons/chicken.svg',
+    'peixe': 'assets/meal-icons/fish.svg',
+    'dieta': 'assets/meal-icons/diet.svg',
+    'vegetariano': 'assets/meal-icons/vegetarian.svg',
+    'salada': 'assets/meal-icons/salad.svg',
+  };
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -24,7 +33,7 @@ class RestaurantSlot extends StatelessWidget {
                   margin: const EdgeInsets.fromLTRB(0, 0, 8.0, 0),
                   child: SizedBox(
                     width: 20,
-                    child: createCantineSlotType(context),
+                    child: createCanteenSlotType(context),
                   )),
               Flexible(
                   child: Text(
@@ -37,29 +46,22 @@ class RestaurantSlot extends StatelessWidget {
     );
   }
 
-  Widget createCantineSlotType(context) {
+  Widget createCanteenSlotType(context) {
     final mealsType = type.toLowerCase();
 
-    String icon;
-    if (mealsType.contains("carne")) {
-      icon = 'assets/icons-cantines/chicken.svg';
-    } else if (mealsType.contains("peixe")) {
-      icon = 'assets/icons-cantines/fish.svg';
-    } else if (mealsType.contains("vegetariano")) {
-      icon = 'assets/icons-cantines/salad.svg';
-    } else if (mealsType.contains("dieta")) {
-      icon = 'assets/icons-cantines/diet.svg';
-    } else {
-      icon = '';
-    }
+    final icon = mealTypeIcons.entries
+        .firstWhere((element) => mealsType.contains(element.key),
+            orElse: () => const MapEntry('', ''))
+        .value;
 
     return Tooltip(
         message: type,
-        child: SvgPicture.asset(
-          colorFilter:
-              ColorFilter.mode(Theme.of(context).primaryColor, BlendMode.srcIn),
-          icon,
-          height: 20,
-        ));
+        child: icon != ''
+            ? SvgPicture.asset(
+                icon,
+                color: Theme.of(context).primaryColor,
+                height: 20,
+              )
+            : null);
   }
 }

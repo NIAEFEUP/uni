@@ -110,9 +110,10 @@ double valueTextToNumber(String value) =>
 String numberToValueText(double number) =>
     formatter.format(number.toStringAsFixed(2));
 
-generateReference(context, amount) async {
+void generateReference(context, amount) async {
   if (amount < 1) {
-    return ToastMessage.warning(context, 'Valor mínimo: 1,00 €');
+    ToastMessage.warning(context, 'Valor mínimo: 1,00 €');
+    return;
   }
 
   final session = Provider.of<SessionProvider>(context, listen: false).session;

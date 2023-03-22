@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/providers/profile_state_provider.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
+import 'package:uni/view/profile/widgets/tuition_notification_switch.dart';
 
 /// Manages the 'Current account' section inside the user's page (accessible
 /// through the top-right widget with the user picture)
@@ -46,6 +47,20 @@ class AccountInfoCard extends GenericCard {
                           top: 8.0, bottom: 20.0, right: 30.0),
                       child: getInfoText(profile.feesLimit, context))
                 ]),
+                TableRow(children: [
+                  Container(
+                    margin:
+                        const EdgeInsets.only(top: 8.0, bottom: 20.0, left: 20.0),
+                    child: Text("Notificar próxima data limite: ",
+                      style: Theme.of(context).textTheme.subtitle2)
+                  ),
+                  Container(
+                    margin:
+                        const EdgeInsets.only(top: 8.0, bottom: 20.0, left: 20.0),
+                    child: 
+                      const TuitionNotificationSwitch()
+                  )
+                ])
               ]),
           showLastRefreshedTime(profileStateProvider.feesRefreshTime, context)
         ]);

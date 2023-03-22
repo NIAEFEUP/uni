@@ -65,7 +65,7 @@ class RestaurantDatabase extends AppDatabase {
       }
     });
 
-    return restaurants;
+    return filterPastMeals(restaurants);
   }
 
   Future<List<Meal>> getRestaurantMeals(Transaction txn, int restaurantId,
@@ -87,7 +87,7 @@ class RestaurantDatabase extends AppDatabase {
       final String type = map['type'];
       final String name = map['name'];
       final DateFormat format = DateFormat('d-M-y');
-      final DateTime date = format.parse(map['date']);
+      final DateTime date = format.parseUtc(map['date']);
       return Meal(type, name, day!, date);
     }).toList();
 
@@ -109,4 +109,22 @@ class RestaurantDatabase extends AppDatabase {
     await txn.delete('meals');
     await txn.delete('restaurants');
   }
+}
+
+List<Restaurant> filterPastMeals(List<Restaurant> restaurants) {
+  final List<Restaurant> restaurantsCopy = List.from(restaurants);
+  // Hide past and next weeks' meals
+  // (To replicate sigarra's behaviour for the GSheets meals)
+  final DateTime now = DateTime.now().toUtc();
+  final DateTime today = DateTime.utc(now.year, now.month, now.day);
+  final DateTime nextSunday = today.add(Duration(days: DateTime.sunday - now.weekday));
+
+  for (var restaurant in restaurantsCopy) {
+    for (var meals in restaurant.meals.values) {
+      meals.removeWhere(
+              (meal) => meal.date.isBefore(today) || meal.date.isAfter(nextSunday));
+    }
+  }
+
+  return restaurantsCopy;
 }
