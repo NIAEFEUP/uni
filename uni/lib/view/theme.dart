@@ -54,16 +54,7 @@ ThemeData applicationLightTheme = ThemeData(
     iconTheme: const IconThemeData(color: darkRed),
     textTheme: _textTheme,
     switchTheme: SwitchThemeData(
-      thumbColor: MaterialStateProperty.resolveWith<Color?>(
-          (Set<MaterialState> states) {
-        if (states.contains(MaterialState.disabled)) {
-          return null;
-        }
-        if (states.contains(MaterialState.selected)) {
-          return darkRed;
-        }
-        return null;
-      }),
+      thumbColor: (states) => states.contains(MaterialState.selected) ? darkRed : null,
       trackColor: MaterialStateProperty.resolveWith<Color?>(
           (Set<MaterialState> states) {
         if (states.contains(MaterialState.disabled)) {
