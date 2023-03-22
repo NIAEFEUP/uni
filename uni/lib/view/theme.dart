@@ -5,7 +5,6 @@ const Color lightRed = Color.fromARGB(255, 180, 30, 30);
 
 const Color _mildWhite = Color.fromARGB(255, 0xfa, 0xfa, 0xfa);
 const Color _lightGrey = Color.fromARGB(255, 215, 215, 215);
-//const Color _grey = Color.fromARGB(255, 0x7f, 0x7f, 0x7f);
 const Color _strongGrey = Color.fromARGB(255, 90, 90, 90);
 const Color _mildBlack = Color.fromARGB(255, 43, 43, 43);
 const Color _darkishBlack = Color.fromARGB(255, 43, 43, 43);
@@ -42,7 +41,6 @@ ThemeData applicationLightTheme = ThemeData(
       selectionHandleColor: Colors.transparent,
     ),
     canvasColor: _mildWhite,
-    // backgroundColor: _mildWhite,
     scaffoldBackgroundColor: _mildWhite,
     cardColor: Colors.white,
     hintColor: _lightGrey,
@@ -54,41 +52,22 @@ ThemeData applicationLightTheme = ThemeData(
     iconTheme: const IconThemeData(color: darkRed),
     textTheme: _textTheme,
     switchTheme: SwitchThemeData(
-      thumbColor: (states) => states.contains(MaterialState.selected) ? darkRed : null,
+      thumbColor: MaterialStateProperty.resolveWith<Color?>(
+         (Set<MaterialState> states) => states.contains(MaterialState.selected) ? darkRed : null,
+      ),
       trackColor: MaterialStateProperty.resolveWith<Color?>(
-          (Set<MaterialState> states) {
-        if (states.contains(MaterialState.disabled)) {
-          return null;
-        }
-        if (states.contains(MaterialState.selected)) {
-          return darkRed;
-        }
-        return null;
-      }),
+         (Set<MaterialState> states) => states.contains(MaterialState.selected) ? darkRed : null,
+      ),
     ),
     radioTheme: RadioThemeData(
       fillColor: MaterialStateProperty.resolveWith<Color?>(
-          (Set<MaterialState> states) {
-        if (states.contains(MaterialState.disabled)) {
-          return null;
-        }
-        if (states.contains(MaterialState.selected)) {
-          return darkRed;
-        }
-        return null;
-      }),
+         (Set<MaterialState> states) => states.contains(MaterialState.selected) ? darkRed : null,
+      ),
     ),
     checkboxTheme: CheckboxThemeData(
       fillColor: MaterialStateProperty.resolveWith<Color?>(
-          (Set<MaterialState> states) {
-        if (states.contains(MaterialState.disabled)) {
-          return null;
-        }
-        if (states.contains(MaterialState.selected)) {
-          return darkRed;
-        }
-        return null;
-      }),
+         (Set<MaterialState> states) => states.contains(MaterialState.selected) ? darkRed : null,
+      ),
     ));
 
 ThemeData applicationDarkTheme = ThemeData(
@@ -108,7 +87,6 @@ ThemeData applicationDarkTheme = ThemeData(
     ),
     primaryColor: _lightGrey,
     canvasColor: _darkBlack,
-    //backgroundColor: _darkBlack,
     scaffoldBackgroundColor: _darkBlack,
     cardColor: _mildBlack,
     hintColor: _darkishBlack,
@@ -119,47 +97,19 @@ ThemeData applicationDarkTheme = ThemeData(
     textTheme: _textTheme.apply(bodyColor: _lightGrey),
     switchTheme: SwitchThemeData(
       thumbColor: MaterialStateProperty.resolveWith<Color?>(
-          (Set<MaterialState> states) {
-        if (states.contains(MaterialState.disabled)) {
-          return null;
-        }
-        if (states.contains(MaterialState.selected)) {
-          return _mildBlack;
-        }
-        return null;
-      }),
+         (Set<MaterialState> states) => states.contains(MaterialState.selected) ? _mildBlack : null,
+      ),
       trackColor: MaterialStateProperty.resolveWith<Color?>(
-          (Set<MaterialState> states) {
-        if (states.contains(MaterialState.disabled)) {
-          return null;
-        }
-        if (states.contains(MaterialState.selected)) {
-          return _mildBlack;
-        }
-        return null;
-      }),
+         (Set<MaterialState> states) => states.contains(MaterialState.selected) ? _mildBlack : null,
+      ),
     ),
     radioTheme: RadioThemeData(
       fillColor: MaterialStateProperty.resolveWith<Color?>(
-          (Set<MaterialState> states) {
-        if (states.contains(MaterialState.disabled)) {
-          return null;
-        }
-        if (states.contains(MaterialState.selected)) {
-          return _mildBlack;
-        }
-        return null;
-      }),
+         (Set<MaterialState> states) => states.contains(MaterialState.selected) ? _mildBlack : null,
+      ),
     ),
     checkboxTheme: CheckboxThemeData(
       fillColor: MaterialStateProperty.resolveWith<Color?>(
-          (Set<MaterialState> states) {
-        if (states.contains(MaterialState.disabled)) {
-          return null;
-        }
-        if (states.contains(MaterialState.selected)) {
-          return _mildBlack;
-        }
-        return null;
-      }),
+         (Set<MaterialState> states) => states.contains(MaterialState.selected) ? _mildBlack : null,
+      ),
     ));
