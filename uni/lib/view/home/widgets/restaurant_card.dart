@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/providers/restaurant_provider.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
