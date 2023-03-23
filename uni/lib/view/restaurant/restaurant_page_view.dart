@@ -77,7 +77,7 @@ class _CantinePageState extends GeneralPageViewState<RestaurantPageView>
             .map((restaurant) => createRestaurant(context, restaurant, dayOfWeek))
             .toList();
       }
-      return ListView( children: cantinesWidgets,);
+      return ListView(children: cantinesWidgets);
     }).toList();
 
     return Expanded(

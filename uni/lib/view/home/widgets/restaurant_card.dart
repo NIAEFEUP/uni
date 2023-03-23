@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/providers/restaurant_provider.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
@@ -10,19 +11,8 @@ import 'package:uni/model/utils/day_of_week.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/restaurant/widgets/restaurant_slot.dart';
 
-
-final List<DayOfWeek> daysOfTheWeek = [
-  DayOfWeek.monday,
-  DayOfWeek.tuesday,
-  DayOfWeek.wednesday,
-  DayOfWeek.thursday,
-  DayOfWeek.friday,
-  DayOfWeek.saturday,
-  DayOfWeek.sunday
-];
-
 final int weekDay = DateTime.now().weekday;
-final offset = (weekDay > 5) ? 0 : (weekDay - 1) % daysOfTheWeek.length;
+final offset = (weekDay > 5) ? 0 : (weekDay - 1) % DayOfWeek.values.length;
 
 class RestaurantCard extends GenericCard {
   RestaurantCard({Key? key}) : super(key: key);
@@ -31,9 +21,8 @@ class RestaurantCard extends GenericCard {
       Key key, bool editingMode, Function()? onDelete)
       : super.fromEditingInformation(key, editingMode, onDelete);
 
-
   @override
-  String getTitle() => 'Cantinas';
+  String getTitle() => 'Restaurantes';
 
   @override
   onClick(BuildContext context) => null;
@@ -71,7 +60,7 @@ class RestaurantCard extends GenericCard {
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            createRowFromRestaurant(context, restaurants[index], daysOfTheWeek[offset])
+            createRowFromRestaurant(context, restaurants[index], DayOfWeek.values[offset])
           ],
         );
       },
@@ -102,7 +91,10 @@ class RestaurantCard extends GenericCard {
             color: const Color.fromARGB(0, 0, 0, 0),
             child: Container(
               padding: const EdgeInsets.all(12.0),
-              child: const Text('Refeições não disponíveis'))
+              child: const SizedBox(
+                width: 400,
+                child: Text("Não há refeições disponíveis", textAlign: TextAlign.center),
+              ))
             ))
     ]);
   }
