@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:uni/model/entities/reference.dart';
 import 'package:uni/model/providers/profile_state_provider.dart';
+import 'package:uni/model/providers/reference_provider.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
+import 'package:uni/view/profile/widgets/reference_card.dart';
 import 'package:uni/view/profile/widgets/tuition_notification_switch.dart';
 
 /// Manages the 'Current account' section inside the user's page (accessible
@@ -15,9 +18,26 @@ class AccountInfoCard extends GenericCard {
 
   @override
   Widget buildCardContent(BuildContext context) {
-    return Consumer<ProfileStateProvider>(
-      builder: (context, profileStateProvider, _) {
+    return Consumer2<ProfileStateProvider, ReferenceProvider>(
+      builder: (context, profileStateProvider, referenceProvider, _) {
         final profile = profileStateProvider.profile;
+        final List<Reference> references = referenceProvider.references;
+        final Widget referenceCards;
+
+        if (references.isEmpty) {
+          referenceCards = Text(
+            "Não existem referências a pagar",
+            style: Theme.of(context).textTheme.subtitle2,
+            textScaleFactor: 0.9,
+          );
+        } else {
+          referenceCards = Column(
+              children: (references.map((reference) {
+                return ReferenceCard(reference: reference);
+              })).toList()
+          );
+        }
+
         return Column(children: [
           Table(
               columnWidths: const {1: FractionColumnWidth(.4)},
@@ -62,6 +82,20 @@ class AccountInfoCard extends GenericCard {
                   )
                 ])
               ]),
+          Container(
+              padding: const EdgeInsets.all(10),
+              child: Row(
+                  children: <Widget>[
+                    Text('Referências',
+                        style: Theme.of(context).textTheme.headline6
+                            ?.apply(color: Theme.of(context).colorScheme.secondary)),
+                  ]
+              )
+          ),
+          referenceCards,
+          const SizedBox(
+              height: 10
+          ),
           showLastRefreshedTime(profileStateProvider.feesRefreshTime, context)
         ]);
       },

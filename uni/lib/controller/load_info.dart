@@ -48,7 +48,8 @@ Future loadRemoteUserInfoToState(StateProviders stateProviders) async {
       lastUpdate = Completer(),
       restaurants = Completer(),
       libraryOccupation = Completer(),
-      calendar = Completer();
+      calendar = Completer(),
+      references = Completer();
 
   stateProviders.profileStateProvider.getUserInfo(userInfo, session);
   stateProviders.busStopProvider.getUserBusTrips(trips);
@@ -73,6 +74,7 @@ Future loadRemoteUserInfoToState(StateProviders stateProviders) async {
     stateProviders.profileStateProvider
         .getUserPrintBalance(printBalance, session);
     stateProviders.profileStateProvider.getUserFees(fees, session);
+    stateProviders.referenceProvider.getUserReferences(references, userPersistentInfo, session);
   });
 
   final allRequests = Future.wait([
@@ -85,7 +87,8 @@ Future loadRemoteUserInfoToState(StateProviders stateProviders) async {
     trips.future,
     restaurants.future,
     libraryOccupation.future,
-    calendar.future
+    calendar.future,
+    references.future,
   ]);
   allRequests.then((futures) {
     stateProviders.lastUserInfoProvider
@@ -124,6 +127,7 @@ void loadLocalUserInfoToState(StateProviders stateProviders,
     stateProviders.lastUserInfoProvider.updateStateBasedOnLocalTime();
     stateProviders.calendarProvider.updateStateBasedOnLocalCalendar();
     stateProviders.profileStateProvider.updateStateBasedOnLocalCourseUnits();
+    stateProviders.referenceProvider.updateStateBasedOnLocalUserReferences();
   }
 
   stateProviders.facultyLocationsProvider.getFacultyLocations(Completer());

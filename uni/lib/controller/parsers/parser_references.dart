@@ -9,21 +9,25 @@ Future<List<Reference>> parseReferences(http.Response response) async {
   final document = parse(response.body);
 
   final List<Reference> references = [];
-  document
-      .querySelectorAll('div#tab0 > table.dadossz > tbody > tr')
-      .sublist(1)
-      .forEach((Element tr) {
-    final List<Element> info = tr.querySelectorAll('td');
-    final String description = info[0].text;
-    final DateTime limitDate = DateTime.parse(info[2].text);
-    final int entity = int.parse(info[3].text);
-    final int reference = int.parse(info[4].text);
-    final String formattedAmount = info[5].text
-        .replaceFirst(',', '.')
-        .replaceFirst('€', '');
-    final double amount = double.parse(formattedAmount);
-    references.add(Reference(description, limitDate, entity, reference, amount));
-  });
+
+  final List<Element> rows = document
+      .querySelectorAll('div#tab0 > table.dadossz > tbody > tr');
+
+  if (rows.length > 1) {
+    rows.sublist(1)
+        .forEach((Element tr) {
+      final List<Element> info = tr.querySelectorAll('td');
+      final String description = info[0].text;
+      final DateTime limitDate = DateTime.parse(info[2].text);
+      final int entity = int.parse(info[3].text);
+      final int reference = int.parse(info[4].text);
+      final String formattedAmount = info[5].text
+          .replaceFirst(',', '.')
+          .replaceFirst('€', '');
+      final double amount = double.parse(formattedAmount);
+      references.add(Reference(description, limitDate, entity, reference, amount));
+    });
+  }
 
   return references;
 }
