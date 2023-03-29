@@ -29,7 +29,9 @@ abstract class GenericCard extends StatefulWidget {
   }
 
   Widget buildCardContent(BuildContext context);
+
   String getTitle();
+
   dynamic onClick(BuildContext context);
 
   Text getInfoText(String text, BuildContext context) {
@@ -38,12 +40,19 @@ abstract class GenericCard extends StatefulWidget {
         style: Theme.of(context).textTheme.headline6!);
   }
 
-  showLastRefreshedTime(time, context) {
-    if (time == null) return const Text('N/A');
-    final t = DateTime.parse(time);
+  showLastRefreshedTime(String? time, context) {
+    if (time == null) {
+      return const Text('N/A');
+    }
+
+    final parsedTime = DateTime.tryParse(time);
+    if (parsedTime == null) {
+      return const Text('N/A');
+    }
+
     return Container(
         alignment: Alignment.center,
-        child: Text('última atualização às ${t.toTimeHourMinString()}',
+        child: Text('última atualização às ${parsedTime.toTimeHourMinString()}',
             style: Theme.of(context).textTheme.caption));
   }
 }

@@ -3,6 +3,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.0] - 2023-02-13
+
+### Added
+
+- Forgot password link in login page
+- Faculty restaurants page
+- Library occupancy page
+- Shimmer effect on loading screens
+- School calendar page
+- Possibility to hide exams
+
 ## [1.4.0] - 2022-09-19
 
 ### Added
@@ -17,7 +28,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Calendar button to add an event to the calendar with the details of a exam
 - Drag icon appears on widgets during editing mode
 - Application dark theme
-- A Canteen Page in the personal area
 - Fetching of Terms and Conditions
 - A dialog to create MB references to add money to print balance
 - Course average grade and finished ects on the profile page

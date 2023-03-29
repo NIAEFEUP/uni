@@ -1,10 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:uni/model/app_state.dart';
+import 'package:provider/provider.dart';
 import 'package:uni/model/entities/location.dart';
-import 'package:uni/redux/action_creators.dart';
+import 'package:uni/model/providers/faculty_locations_provider.dart';
+
+import '../../../model/providers/exam_provider.dart';
 
 class LocationsFilterForm extends StatefulWidget {
   final Map<String, bool> filteredLocations;
@@ -28,8 +29,8 @@ class LocationsFilterFormState extends State<LocationsFilterForm> {
         ElevatedButton(
             child: const Text('Confirmar'),
             onPressed: () {
-              StoreProvider.of<AppState>(context).dispatch(
-                  setFilteredLocations(widget.filteredLocations, Completer()));
+              Provider.of<FacultyLocationsProvider>(context, listen: false)
+                  .setFilteredLocations(widget.filteredLocations, Completer());
 
               Navigator.pop(context);
             })

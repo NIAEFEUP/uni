@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:uni/model/app_state.dart';
+import 'package:provider/provider.dart';
+import 'package:uni/model/providers/exam_provider.dart';
 import 'package:uni/view/exams/widgets/exam_filter_form.dart';
 
 // ignore: must_be_immutable
@@ -14,19 +14,19 @@ class ExamFilterMenu extends StatefulWidget {
 class ExamFilterMenuState extends State<ExamFilterMenu> {
   showAlertDialog(BuildContext context) {
     showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return StoreConnector<AppState, Map<String, bool>?>(
-            converter: (store) => store.state.content['filteredExams'],
-            builder: (context, filteredExams) {
-              return getAlertDialog(filteredExams ?? {}, context);
-            });
-      },
-    );
+        context: context,
+        builder: (BuildContext context) {
+          return Consumer<ExamProvider>(
+            builder: (context, examProvider, _) {
+              return getAlertDialog(examProvider.filteredExamsTypes, context);
+            },
+          );
+        });
   }
 
-  Widget getAlertDialog(Map<String, bool> filteredExams, BuildContext context) {
-    return ExamFilterForm(Map<String, bool>.from(filteredExams));
+  Widget getAlertDialog(
+      Map<String, bool> filteredExamsTypes, BuildContext context) {
+    return ExamFilterForm(Map<String, bool>.from(filteredExamsTypes));
   }
 
   @override

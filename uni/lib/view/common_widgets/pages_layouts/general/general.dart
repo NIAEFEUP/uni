@@ -2,14 +2,14 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 import 'package:uni/controller/load_info.dart';
-import 'package:uni/model/app_state.dart';
-import 'package:uni/view/profile/profile.dart';
-import 'package:uni/view/common_widgets/pages_layouts/general/widgets/navigation_drawer.dart';
+import 'package:uni/model/providers/session_provider.dart';
+import 'package:uni/model/providers/state_providers.dart';
 import 'package:uni/utils/drawer_items.dart';
-
+import 'package:uni/view/common_widgets/pages_layouts/general/widgets/navigation_drawer.dart';
+import 'package:uni/view/profile/profile.dart';
 
 /// Page with a hamburger menu and the user profile picture
 abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
@@ -28,7 +28,7 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
   Future<DecorationImage> buildProfileDecorationImage(context,
       {forceRetrieval = false}) async {
     final profilePictureFile = await loadProfilePicture(
-        StoreProvider.of<AppState>(context),
+        Provider.of<SessionProvider>(context, listen: false).session,
         forceRetrieval: forceRetrieval || profileImageProvider == null);
     return getProfileDecorationImage(profilePictureFile);
   }
@@ -50,21 +50,21 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
   }
 
   Widget refreshState(BuildContext context, Widget child) {
-    return StoreConnector<AppState, Future<void> Function()?>(
-      converter: (store) {
-        return () async {
-          await loadProfilePicture(store, forceRetrieval: true);
-          return handleRefresh(store);
-        };
-      },
-      builder: (context, refresh) {
-        return RefreshIndicator(
-          key: GlobalKey<RefreshIndicatorState>(),
-          onRefresh: refresh ?? () async => {},
-          child: child,
-        );
-      },
+    return RefreshIndicator(
+      key: GlobalKey<RefreshIndicatorState>(),
+      onRefresh: refreshCallback(context),
+      child: child,
     );
+  }
+
+  Future<void> Function() refreshCallback(BuildContext context) {
+    return () async {
+      final stateProviders = StateProviders.fromContext(context);
+      await loadProfilePicture(
+          Provider.of<SessionProvider>(context, listen: false).session,
+          forceRetrieval: true);
+      return handleRefresh(stateProviders);
+    };
   }
 
   Widget getScaffold(BuildContext context, Widget body) {
@@ -102,7 +102,8 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
             onPressed: () {
               final currentRouteName = ModalRoute.of(context)!.settings.name;
               if (currentRouteName != DrawerItem.navPersonalArea.title) {
-                Navigator.pushNamed(context, '/${DrawerItem.navPersonalArea.title}');
+                Navigator.pushNamed(
+                    context, '/${DrawerItem.navPersonalArea.title}');
               }
             },
             child: SvgPicture.asset(
@@ -126,7 +127,7 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
           return TextButton(
             onPressed: () => {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (__) => const ProfilePage()))
+                  MaterialPageRoute(builder: (__) => const ProfilePageView()))
             },
             child: Container(
                 width: 40.0,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:uni/model/app_state.dart';
+import 'package:provider/provider.dart';
+import 'package:uni/model/providers/exam_provider.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/exams/widgets/exam_page_title.dart';
@@ -21,43 +21,17 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
 
   @override
   Widget getBody(BuildContext context) {
-    return StoreConnector<AppState, List<dynamic>?>(
-      converter: (store) {
-        final List<Exam> exams = store.state.content['exams'];
-        final List<String> hiddenExams =
-            store.state.content['hiddenExams'] ?? <String>[];
-        for (var exam in exams) {
-          exam.isHidden = hiddenExams.contains(exam.id);
-        }
-        final Map<String, bool> filteredExams =
-            store.state.content['filteredExams'] ?? <String, bool>{};
-        return exams
-            .where((exam) =>
-                filteredExams[Exam.getExamTypeLong(exam.type)] ?? true)
-            .toList();
-      },
-      builder: (context, exams) {
-        return ExamsList(exams: exams as List<Exam>);
-      },
-    );
-  }
-}
-
-/// Manages the 'Exams' section in the user's personal area and 'Exams Map'.
-class ExamsList extends StatelessWidget {
-  final List<Exam> exams;
-
-  const ExamsList({Key? key, required this.exams}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return ListView(
-      children: <Widget>[
-        Column(
-          mainAxisSize: MainAxisSize.max,
-          children: createExamsColumn(context, exams),
-        )
-      ],
-    );
+    return Consumer<ExamProvider>(builder: (context, examProvider, _) {
+      return ListView(
+        children: <Widget>[
+          Column(
+            mainAxisSize: MainAxisSize.max,
+            children:
+                createExamsColumn(context, examProvider.getFilteredExams()),
+          )
+        ],
+      );
+    });
   }
 
   /// Creates a column with all the user's exams.
@@ -132,17 +106,15 @@ class ExamsList extends StatelessWidget {
 
   Widget createExamContext(context, Exam exam) {
     final keyValue = '${exam.toString()}-exam';
+    final isHidden =
+        Provider.of<ExamProvider>(context).hiddenExams.contains(exam.id);
     return Container(
         key: Key(keyValue),
         margin: const EdgeInsets.fromLTRB(12, 4, 12, 0),
         child: RowContainer(
-            color: exam.isHighlighted()
+            color: isHidden
                 ? Theme.of(context).hintColor
                 : Theme.of(context).scaffoldBackgroundColor,
-            child: ExamRow(
-              exam: exam,
-              teacher: '',
-              mainPage: false,
-            )));
+            child: ExamRow(exam: exam, teacher: '', mainPage: false)));
   }
 }

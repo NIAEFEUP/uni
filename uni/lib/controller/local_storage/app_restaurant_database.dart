@@ -51,22 +51,21 @@ class RestaurantDatabase extends AppDatabase {
     return restaurants;
   }
 
-  Future<List<Restaurant>> getRestaurants() async{
+  Future<List<Restaurant>> getRestaurants() async {
     final Database db = await getDatabase();
     final List<Restaurant> restaurants = [];
-    await db.transaction((txn) async  {
+    await db.transaction((txn) async {
       final List<Map<String, dynamic>> restaurantsFromDB =
-        await txn.query('RESTAURANTS');
+          await txn.query('RESTAURANTS');
       for (Map<String, dynamic> restaurantMap in restaurantsFromDB) {
         final int id = restaurantMap['id'];
         final List<Meal> meals = await getRestaurantMeals(txn, id);
-        final Restaurant restaurant = Restaurant.fromMap(
-            restaurantMap, meals);
+        final Restaurant restaurant = Restaurant.fromMap(restaurantMap, meals);
         restaurants.add(restaurant);
       }
     });
 
-    return restaurants;
+    return filterPastMeals(restaurants);
   }
 
   Future<List<Meal>> getRestaurantMeals(Transaction txn, int restaurantId,
@@ -88,7 +87,7 @@ class RestaurantDatabase extends AppDatabase {
       final String type = map['type'];
       final String name = map['name'];
       final DateFormat format = DateFormat('d-M-y');
-      final DateTime date = format.parse(map['date']);
+      final DateTime date = format.parseUtc(map['date']);
       return Meal(type, name, day!, date);
     }).toList();
 
@@ -98,7 +97,7 @@ class RestaurantDatabase extends AppDatabase {
   /// Insert restaurant and meals in database
   Future<void> insertRestaurant(Transaction txn, Restaurant restaurant) async {
     final int id = await txn.insert('RESTAURANTS', restaurant.toMap());
-    restaurant.meals.forEach((dayOfWeak, meals) async{
+    restaurant.meals.forEach((dayOfWeak, meals) async {
       for (var meal in meals) {
         await txn.insert('MEALS', meal.toMap(id));
       }
@@ -110,4 +109,22 @@ class RestaurantDatabase extends AppDatabase {
     await txn.delete('meals');
     await txn.delete('restaurants');
   }
+}
+
+List<Restaurant> filterPastMeals(List<Restaurant> restaurants) {
+  final List<Restaurant> restaurantsCopy = List.from(restaurants);
+  // Hide past and next weeks' meals
+  // (To replicate sigarra's behaviour for the GSheets meals)
+  final DateTime now = DateTime.now().toUtc();
+  final DateTime today = DateTime.utc(now.year, now.month, now.day);
+  final DateTime nextSunday = today.add(Duration(days: DateTime.sunday - now.weekday));
+
+  for (var restaurant in restaurantsCopy) {
+    for (var meals in restaurant.meals.values) {
+      meals.removeWhere(
+              (meal) => meal.date.isBefore(today) || meal.date.isAfter(nextSunday));
+    }
+  }
+
+  return restaurantsCopy;
 }

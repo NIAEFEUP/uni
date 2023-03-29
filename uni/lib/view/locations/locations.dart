@@ -1,16 +1,19 @@
 //import 'dart:js_util';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:tuple/tuple.dart';
-import 'package:uni/model/app_state.dart';
+import 'package:provider/provider.dart';
+import 'package:uni/model/request_status.dart';
 import 'package:uni/model/entities/location_group.dart';
+import 'package:uni/model/providers/faculty_locations_provider.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/locations/widgets/faculty_maps.dart';
 import 'package:uni/view/locations/widgets/locations_filter_form.dart';
 import 'package:uni/view/locations/widgets/marker.dart';
 import 'package:uni/view/locations/widgets/map.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
+import 'package:uni/view/locations/widgets/faculty_maps.dart';
+import 'package:uni/view/locations/widgets/map.dart';
+import 'package:uni/view/locations/widgets/marker.dart';
 
 import 'package:uni/model/entities/locations/location_filter.dart';
 
@@ -29,11 +32,15 @@ class LocationsPageState extends GeneralPageViewState
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return StoreConnector<AppState, Map<String, bool>?>(
+        return Consumer<FacultyLocationsProvider>(
+            builder: (context, locationsProvider, _) {
+          /*(
             converter: (store) => store.state.content['filteredLocations'],
             builder: (context, filteredLocations) {
               return getAlertDialog(filteredLocations ?? {}, context);
-            });
+            }*/
+          return getAlertDialog(locationsProvider.filteredLocTypes, context);
+        });
       },
     );
   }
@@ -55,6 +62,7 @@ class LocationsPageState extends GeneralPageViewState
 
   @override
   Widget getBody(BuildContext context) {
+    /*
     return StoreConnector<AppState,
         Tuple2<List<LocationGroup>, RequestStatus?>>(
       converter: (store) {
@@ -80,6 +88,30 @@ class LocationsPageState extends GeneralPageViewState
               )
             ]),
             LocationsPageView(locations: data.item1, status: data.item2),
+          ],
+        );
+=======
+          */
+    return Consumer<FacultyLocationsProvider>(
+      builder: (context, locationsProvider, _) {
+        final locs = locationsProvider.locations;
+        final filteredLocs = locationsProvider.filteredLocTypes;
+        final filtered =
+            LocationFilter.getFilteredLocations(filteredLocs, locs);
+
+        return ListView(
+          children: <Widget>[
+            Row(children: [
+              LocationsPageView.upperMenuContainer('FEUP', context),
+              IconButton(
+                icon: const Icon(Icons.filter_alt),
+                onPressed: () {
+                  showAlertDialog(context);
+                },
+              )
+            ]),
+            LocationsPageView(
+                locations: filtered!, status: locationsProvider.status),
           ],
         );
       },

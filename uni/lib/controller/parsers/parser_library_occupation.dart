@@ -18,11 +18,15 @@ Future<LibraryOccupation> parseLibraryOccupationFromSheets(
     int floor, max;
     try {
       floor = jsonDecoded["table"]["rows"][i]["c"][0]["v"].toInt();
-      max = jsonDecoded["table"]["rows"][i]["c"][1]["v"].toInt();
-      occupation.addFloor(FloorOccupation(i + 1, floor, max));
     } catch (e) {
-      occupation.addFloor(FloorOccupation(i + 1, 0, 0));
+      floor = 0;
     }
+    try {
+      max = jsonDecoded["table"]["rows"][i]["c"][1]["v"].toInt();
+    } catch (e) {
+      max = 0;
+    }
+    occupation.addFloor(FloorOccupation(i + 1, floor, max));
   }
 
   return occupation;

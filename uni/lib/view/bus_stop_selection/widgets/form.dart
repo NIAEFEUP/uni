@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
+import 'package:provider/provider.dart';
 import 'package:uni/controller/fetchers/departures_fetcher.dart';
-import 'package:uni/model/app_state.dart';
 import 'package:uni/model/entities/bus.dart';
 import 'package:uni/model/entities/bus_stop.dart';
+import 'package:uni/model/providers/bus_stop_provider.dart';
 
 class BusesForm extends StatefulWidget {
   final String stopCode;
@@ -36,9 +36,9 @@ class BusesFormState extends State<BusesForm> {
       busesToAdd.fillRange(0, buses.length, false);
     });
     if (!mounted) return;
-    final BusStopData? currentConfig = StoreProvider.of<AppState>(context)
-        .state
-        .content['configuredBusStops'][widget.stopCode];
+    final BusStopData? currentConfig =
+        Provider.of<BusStopProvider>(context, listen: false)
+            .configuredBusStops[widget.stopCode];
     if (currentConfig == null) {
       return;
     }
@@ -68,9 +68,9 @@ class BusesFormState extends State<BusesForm> {
   }
 
   void updateBusStop() {
-    final BusStopData? currentConfig = StoreProvider.of<AppState>(context)
-        .state
-        .content['configuredBusStops'][widget.stopCode];
+    final BusStopData? currentConfig =
+        Provider.of<BusStopProvider>(context, listen: false)
+            .configuredBusStops[widget.stopCode];
     final Set<String> newBuses = {};
     for (int i = 0; i < buses.length; i++) {
       if (busesToAdd[i]) {
