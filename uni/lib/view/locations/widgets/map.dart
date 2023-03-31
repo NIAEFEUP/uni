@@ -3,6 +3,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_popup/flutter_map_marker_popup.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:uni/model/entities/locations/location_filter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:uni/model/entities/location_group.dart';
@@ -93,7 +94,8 @@ class LocationsMap extends StatelessWidget {
           element.floors.entries.toList();
 
       return entries
-          .where((entry) => !entry.value.every((element) => !element.seen))
+          .where((entry) => !entry.value
+              .every((element) => !LocationFilter.seenList[element]!))
           .isNotEmpty;
     }).map((location) {
       return LocationMarker(location.latlng, location);

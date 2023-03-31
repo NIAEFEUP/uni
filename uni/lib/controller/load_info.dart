@@ -116,9 +116,6 @@ void loadLocalUserInfoToState(StateProviders stateProviders,
     Logger().i('Fetching local info from database');
     stateProviders.examProvider.updateStateBasedOnLocalUserExams();
     stateProviders.lectureProvider.updateStateBasedOnLocalUserLectures();
-    stateProviders.examProvider
-        .updateStateBasedOnLocalUserExams(); // TODO ... n está repetido
-    stateProviders.lectureProvider.updateStateBasedOnLocalUserLectures();
     stateProviders.busStopProvider.updateStateBasedOnLocalUserBusStops();
     stateProviders.profileStateProvider.updateStateBasedOnLocalProfile();
     stateProviders.profileStateProvider.updateStateBasedOnLocalRefreshTimes();

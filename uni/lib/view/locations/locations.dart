@@ -11,9 +11,6 @@ import 'package:uni/view/locations/widgets/locations_filter_form.dart';
 import 'package:uni/view/locations/widgets/marker.dart';
 import 'package:uni/view/locations/widgets/map.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
-import 'package:uni/view/locations/widgets/faculty_maps.dart';
-import 'package:uni/view/locations/widgets/map.dart';
-import 'package:uni/view/locations/widgets/marker.dart';
 
 import 'package:uni/model/entities/locations/location_filter.dart';
 
@@ -34,11 +31,6 @@ class LocationsPageState extends GeneralPageViewState
       builder: (BuildContext context) {
         return Consumer<FacultyLocationsProvider>(
             builder: (context, locationsProvider, _) {
-          /*(
-            converter: (store) => store.state.content['filteredLocations'],
-            builder: (context, filteredLocations) {
-              return getAlertDialog(filteredLocations ?? {}, context);
-            }*/
           return getAlertDialog(locationsProvider.filteredLocTypes, context);
         });
       },
@@ -62,36 +54,6 @@ class LocationsPageState extends GeneralPageViewState
 
   @override
   Widget getBody(BuildContext context) {
-    /*
-    return StoreConnector<AppState,
-        Tuple2<List<LocationGroup>, RequestStatus?>>(
-      converter: (store) {
-        final locations = store.state.content['locationGroups'];
-
-        final Map<String, bool> filteredLocations =
-            store.state.content['filteredLocations'] ?? <String, bool>{};
-
-        final filtered =
-            LocationFilter.getFilteredLocations(filteredLocations, locations)!;
-        return Tuple2(filtered, store.state.content['locationGroupsStatus']);
-      },
-      builder: (context, data) {
-        return ListView(
-          children: <Widget>[
-            Row(children: [
-              LocationsPageView.upperMenuContainer('FEUP', context),
-              IconButton(
-                icon: const Icon(Icons.filter_alt),
-                onPressed: () {
-                  showAlertDialog(context);
-                },
-              )
-            ]),
-            LocationsPageView(locations: data.item1, status: data.item2),
-          ],
-        );
-=======
-          */
     return Consumer<FacultyLocationsProvider>(
       builder: (context, locationsProvider, _) {
         final locs = locationsProvider.locations;
@@ -143,7 +105,10 @@ class LocationsPageView extends StatelessWidget {
     return Container(
         width: MediaQuery.of(context).size.width * 0.85,
         padding: const EdgeInsets.fromLTRB(0, 0, 0, 4.0),
-        child: PageTitle(name: 'Locais: $faculty'));
+        child: PageTitle(
+          name: 'Locais: $faculty',
+          center: false,
+        ));
     //TODO:: add support for multiple faculties0
   }
 

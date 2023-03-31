@@ -77,7 +77,8 @@ class ExamProvider extends StateProviderNotifier {
   setFilteredExams(
       Map<String, bool> newFilteredExams, Completer<void> action) async {
     _filteredExamsTypes = Map<String, bool>.from(newFilteredExams);
-    AppSharedPreferences.saveFilteredExams(filteredExamsTypes);
+    AppSharedPreferences.saveFilter(
+        filteredExamsTypes, AppSharedPreferences.filteredExamsTypes);
     action.complete();
     notifyListeners();
   }

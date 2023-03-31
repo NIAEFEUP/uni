@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:uni/model/entities/location.dart';
 import 'package:uni/model/entities/location_group.dart';
+import 'package:uni/model/entities/locations/location_filter.dart';
 import 'package:uni/view/locations/widgets/faculty_maps.dart';
 
 class LocationMarkerPopup extends StatelessWidget {
@@ -37,7 +38,8 @@ class LocationMarkerPopup extends StatelessWidget {
     entries.sort((current, next) => -current.key.compareTo(next.key));
 
     return entries
-        .where((entry) => !entry.value.every((element) => !element.seen))
+        .where((entry) =>
+            !entry.value.every((element) => !LocationFilter.seenList[element]!))
         .map((entry) {
       final int floor = entry.key;
       final List<Location> locations = entry.value;
@@ -79,7 +81,7 @@ class LocationMarkerPopup extends StatelessWidget {
   List<Widget> buildLocations(
       BuildContext context, List<Location> locations, Color color) {
     return locations.map((location) {
-      if (!location.seen) {
+      if (!LocationFilter.seenList[location]!) {
         return Container();
       }
       return Row(

@@ -5,8 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:uni/model/entities/location.dart';
 import 'package:uni/model/providers/faculty_locations_provider.dart';
 
-import '../../../model/providers/exam_provider.dart';
-
 class LocationsFilterForm extends StatefulWidget {
   final Map<String, bool> filteredLocations;
 
@@ -19,7 +17,7 @@ class LocationsFilterFormState extends State<LocationsFilterForm> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('Definições Filtro de Locais',
+      title: Text('Filtro de Locais',
           style: Theme.of(context).textTheme.headline5),
       actions: [
         TextButton(

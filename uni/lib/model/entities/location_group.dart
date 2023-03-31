@@ -2,6 +2,8 @@ import 'package:collection/collection.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:uni/model/entities/location.dart';
 
+import 'package:uni/model/entities/locations/location_filter.dart';
+
 /// Store information about a location marker.
 /// What's located in each floor, like vending machines, rooms, etc...
 class LocationGroup {
@@ -21,8 +23,10 @@ class LocationGroup {
   /// Returns the Location with the most weight
   Location? getLocationWithMostWeight() {
     final List<Location> allLocations = floors.values.expand((x) => x).toList();
-    return allLocations.where((element) => element.seen).reduce(
-        (current, next) => current.weight > next.weight ? current : next);
+    return allLocations
+        .where((element) => LocationFilter.seenList[element]!)
+        .reduce(
+            (current, next) => current.weight > next.weight ? current : next);
   }
 
   Map<String, dynamic> toMap() {

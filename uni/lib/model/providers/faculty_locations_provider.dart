@@ -39,7 +39,8 @@ class FacultyLocationsProvider extends StateProviderNotifier {
   setFilteredLocations(
       Map<String, bool> newFilteredLocs, Completer<void> action) async {
     _filteredLocTypes = Map<String, bool>.from(newFilteredLocs);
-    AppSharedPreferences.saveFilteredLocations(_filteredLocTypes);
+    AppSharedPreferences.saveFilter(
+        _filteredLocTypes, AppSharedPreferences.filteredLocationsTypes);
     action.complete();
     notifyListeners();
   }

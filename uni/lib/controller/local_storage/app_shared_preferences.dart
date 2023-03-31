@@ -18,7 +18,8 @@ class AppSharedPreferences {
   static const String userFaculties = 'user_faculties';
   static const String termsAndConditions = 'terms_and_conditions';
   static const String areTermsAndConditionsAcceptedKey = 'is_t&c_accepted';
-  static const String tuitionNotificationsToggleKey = "tuition_notification_toogle";
+  static const String tuitionNotificationsToggleKey =
+      "tuition_notification_toogle";
   static const String themeMode = 'theme_mode';
   static const int keyLength = 32;
   static const int ivLength = 16;
@@ -170,53 +171,40 @@ class AppSharedPreferences {
     return storedHiddenExam;
   }
 
-  /// Replaces the user's exam filter settings with [newFilteredExamTypes].
-  static saveFilteredExams(Map<String, bool> newFilteredExamTypes) async {
+  /// Replaces the user's filtered Types filter settings with [newFilteredTypes].
+  static saveFilter(
+      Map<String, bool> newFilteredTypes, String filteredTypes) async {
     final prefs = await SharedPreferences.getInstance();
 
-    final List<String> newTypes = newFilteredExamTypes.keys
-        .where((type) => newFilteredExamTypes[type] == true)
+    final List<String> newTypes = newFilteredTypes.keys
+        .where((type) => newFilteredTypes[type] == true)
         .toList();
-    prefs.setStringList(filteredExamsTypes, newTypes);
+    prefs.setStringList(filteredTypes, newTypes);
   }
 
-  // TODO: this is a bit repetitive
-  static saveFilteredLocations(
-      Map<String, bool> newFilteredLocationsTypes) async {
+  static Future<Map<String, bool>> getFilter(
+      String filteredTypes, List<String> defaultFilteredTypes,
+      {bool defaultActivate = true}) async {
     final prefs = await SharedPreferences.getInstance();
+    final List<String>? storedFilteredExamTypes =
+        prefs.getStringList(filteredTypes);
 
-    final List<String> newTypes = newFilteredLocationsTypes.keys
-        .where((type) => newFilteredLocationsTypes[type] == true)
-        .toList();
-
-    prefs.setStringList(filteredLocationsTypes, newTypes);
+    if (storedFilteredExamTypes == null) {
+      return Map.fromIterable(defaultFilteredTypes, value: (type) => true);
+    }
+    return Map.fromIterable(defaultFilteredTypes,
+        value: (type) => storedFilteredExamTypes.contains(type));
   }
 
   /// Returns the user's exam filter settings.
   static Future<Map<String, bool>> getFilteredExams() async {
-    final prefs = await SharedPreferences.getInstance();
-    final List<String>? storedFilteredExamTypes =
-        prefs.getStringList(filteredExamsTypes);
-
-    if (storedFilteredExamTypes == null) {
-      return Map.fromIterable(defaultFilteredExamTypes, value: (type) => true);
-    }
-    return Map.fromIterable(defaultFilteredExamTypes,
-        value: (type) => storedFilteredExamTypes.contains(type));
+    return getFilter(filteredExamsTypes, defaultFilteredExamTypes);
   }
 
   /// Returns the user's locations filter settings.
   static Future<Map<String, bool>> getFilteredLocations() async {
-    final prefs = await SharedPreferences.getInstance();
-    final List<String>? storedFilteredLocationTypes =
-        prefs.getStringList(filteredLocationsTypes);
-
-    if (storedFilteredLocationTypes == null) {
-      return Map.fromIterable(defaultFilteredLocationTypes,
-          value: (type) => false);
-    }
-    return Map.fromIterable(defaultFilteredLocationTypes,
-        value: (type) => storedFilteredLocationTypes.contains(type));
+    return getFilter(filteredLocationsTypes, defaultFilteredLocationTypes,
+        defaultActivate: false);
   }
 
   /// Encrypts [plainText] and returns its base64 representation.
@@ -237,14 +225,13 @@ class AppSharedPreferences {
     return encrypt.Encrypter(encrypt.AES(key));
   }
 
-  static Future<bool> getTuitionNotificationToggle() async{
+  static Future<bool> getTuitionNotificationToggle() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getBool(tuitionNotificationsToggleKey) ?? true;
   }
 
-  static setTuitionNotificationToggle(bool value) async{
+  static setTuitionNotificationToggle(bool value) async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setBool(tuitionNotificationsToggleKey, value);
   }
-
 }

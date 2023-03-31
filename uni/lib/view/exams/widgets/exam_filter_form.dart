@@ -18,7 +18,7 @@ class ExamFilterFormState extends State<ExamFilterForm> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('Definições Filtro de Exames',
+      title: Text('Filtro de Exames',
           style: Theme.of(context).textTheme.headline5),
       actions: [
         TextButton(
@@ -43,8 +43,7 @@ class ExamFilterFormState extends State<ExamFilterForm> {
 
   Widget getExamCheckboxes(
       Map<String, bool> filteredExams, BuildContext context) {
-    filteredExams
-        .removeWhere((key, value) => !Exam.types.containsKey(key));
+    filteredExams.removeWhere((key, value) => !Exam.types.containsKey(key));
     return ListView(
         children: List.generate(filteredExams.length, (i) {
       final String key = filteredExams.keys.elementAt(i);

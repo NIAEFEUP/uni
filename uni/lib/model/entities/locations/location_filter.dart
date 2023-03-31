@@ -1,3 +1,4 @@
+import 'package:uni/model/entities/location.dart';
 import 'package:uni/model/entities/locations/printer.dart';
 import 'package:uni/model/entities/locations/restaurant_location.dart';
 import 'package:uni/model/entities/locations/room_group_location.dart';
@@ -13,6 +14,8 @@ import 'package:uni/model/entities/locations/atm.dart';
 import 'package:uni/model/entities/locations/coffee_machine.dart';
 
 class LocationFilter {
+  static Map<Location, bool> seenList = {};
+
   static List<LocationGroup>? getFilteredLocations(
       Map<String, bool> filteredLocations,
       final List<LocationGroup>? filteredData) {
@@ -26,9 +29,9 @@ class LocationFilter {
         for (var element in value) {
           if (!selectedLocation.contains(element.runtimeType) &&
               selectedLocation.isNotEmpty) {
-            element.seen = false;
+            seenList.addEntries({element: false}.entries);
           } else {
-            element.seen = true;
+            seenList.addEntries({element: true}.entries);
           }
         }
       });

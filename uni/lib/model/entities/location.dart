@@ -80,7 +80,6 @@ String stringTypeToReadableString(String loc) {
 abstract class Location {
   final int floor;
   final int weight;
-  bool seen = true;
   final dynamic icon; // String or IconData
   Location(this.floor, this.weight, this.icon, {locationGroupId});
 
