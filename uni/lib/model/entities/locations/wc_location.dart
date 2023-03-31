@@ -6,9 +6,6 @@ class WcLocation implements Location {
   final int floor;
 
   @override
-  bool seen = true;
-
-  @override
   final weight = 1;
 
   @override

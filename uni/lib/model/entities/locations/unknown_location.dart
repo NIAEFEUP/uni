@@ -7,9 +7,6 @@ class UnknownLocation implements Location {
   final int floor;
 
   @override
-  bool seen = true;
-
-  @override
   final weight = 4;
 
   @override

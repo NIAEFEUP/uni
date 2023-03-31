@@ -7,9 +7,6 @@ class CoffeeMachine implements Location {
   final int floor;
 
   @override
-  bool seen = true;
-
-  @override
   final weight = 3;
 
   @override

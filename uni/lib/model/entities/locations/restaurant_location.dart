@@ -6,9 +6,6 @@ class RestaurantLocation implements Location {
   final int floor;
 
   @override
-  bool seen = true;
-
-  @override
   final int weight = 4;
 
   final String name;

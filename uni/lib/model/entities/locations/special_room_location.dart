@@ -7,9 +7,6 @@ class SpecialRoomLocation implements Location {
   final int floor;
 
   @override
-  bool seen = true;
-
-  @override
   final weight = 1;
 
   final String roomNumber;

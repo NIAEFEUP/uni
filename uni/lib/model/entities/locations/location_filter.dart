@@ -19,20 +19,26 @@ class LocationFilter {
   static List<LocationGroup>? getFilteredLocations(
       Map<String, bool> filteredLocations,
       final List<LocationGroup>? filteredData) {
-    final List<dynamic> selectedLocation = filteredLocations.entries
-        .where((entry) => entry.value)
-        .map((entry) => stringToLocationClass(entry.key))
-        .toList();
+    bool addRoom = false;
+    final List<dynamic> selectedLocation =
+        filteredLocations.entries.where((entry) => entry.value).map((entry) {
+      if (entry.key == 'ROOMS') {
+        addRoom = true;
+      }
+      return stringToLocationClass(entry.key);
+    }).toList();
+
+    if (addRoom) {
+      selectedLocation.add(RoomLocation);
+    }
 
     for (var locationGroup in filteredData!) {
       locationGroup.floors.forEach((key, value) {
         for (var element in value) {
-          if (!selectedLocation.contains(element.runtimeType) &&
-              selectedLocation.isNotEmpty) {
-            seenList.addEntries({element: false}.entries);
-          } else {
-            seenList.addEntries({element: true}.entries);
-          }
+          seenList.addEntries({
+            element: (selectedLocation.contains(element.runtimeType)) ||
+                selectedLocation.isEmpty
+          }.entries);
         }
       });
     }

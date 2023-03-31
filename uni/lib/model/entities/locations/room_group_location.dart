@@ -7,9 +7,6 @@ class RoomGroupLocation implements Location {
   final int floor;
 
   @override
-  bool seen = true;
-
-  @override
   final weight = 0;
 
   final String firstRoomNumber;

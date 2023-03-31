@@ -7,9 +7,6 @@ class Atm implements Location {
   final int floor;
 
   @override
-  bool seen = true;
-
-  @override
   final weight = 2;
 
   @override

@@ -37,7 +37,9 @@ class AppSharedPreferences {
 
   static final List<String> defaultFilteredLocationTypes =
       LocationType.values.fold(<String>[], (previousValue, element) {
-    previousValue.add(locationTypeToString(element));
+    if (element != LocationType.room) {
+      previousValue.add(locationTypeToString(element));
+    }
     return previousValue;
   });
   static final List<String> defaultFilteredExamTypes = Exam.displayedTypes;

@@ -7,7 +7,7 @@ import 'package:uni/model/request_status.dart';
 import 'package:uni/model/entities/location_group.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
 
-import '../../controller/local_storage/app_shared_preferences.dart';
+import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 
 class FacultyLocationsProvider extends StateProviderNotifier {
   List<LocationGroup> _locations = [];
