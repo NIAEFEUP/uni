@@ -13,7 +13,6 @@ class ReferenceCard extends GenericExpansionCard {
   Widget buildCardContent(BuildContext context) {
     return Column(
       children: <Widget>[
-        InfoText(text: "Data limite: ${_getLimitDate()}"),
         InfoCopyRow(infoName: 'Entidade', info: reference.entity.toString()),
         InfoCopyRow(infoName: 'Referência', info: reference.reference.toString()),
         InfoCopyRow(infoName: 'Montante', info: _getAmount()),
@@ -29,9 +28,6 @@ class ReferenceCard extends GenericExpansionCard {
       .textTheme
       .bodyText1
       ?.apply(color: Theme.of(context).primaryColor);
-
-  String _getLimitDate()
-      => DateFormat("dd-MM-yyyy").format(reference.limitDate);
 
   String _getAmount()
       => NumberFormat.simpleCurrency(locale: 'eu').format(reference.amount);
