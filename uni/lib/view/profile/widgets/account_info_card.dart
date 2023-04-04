@@ -32,7 +32,7 @@ class AccountInfoCard extends GenericCard {
           );
         } else {
           referenceCards = Column(
-              children: (references.map((reference) {
+              children: (references.sublist(0, 2).map((reference) {
                 return ReferenceCard(reference: reference);
               })).toList()
           );
