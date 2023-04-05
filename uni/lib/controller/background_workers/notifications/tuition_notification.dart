@@ -22,6 +22,10 @@ class TuitionNotification extends Notification {
           "Já passaram $days dias desde o dia limite");
     }
     final int days = _dueDate.difference(DateTime.now()).inDays;
+    if (days == 0) {
+      return const Tuple2("O prazo limite para as propinas está a acabar",
+          "Hoje acaba o prazo para pagamento das propinas!");
+    }
     return Tuple2("O prazo limite para as propinas está a acabar",
         "Faltam $days dias para o prazo acabar");
   }
