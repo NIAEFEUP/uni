@@ -73,8 +73,6 @@ class NotificationManager {
       final Notification notification = value();
       final DateTime lastRan = notificationStorage
           .getLastTimeNotificationExecuted(notification.uniqueID);
-      Logger().i(lastRan);
-      Logger().i(notification.timeout);
       if (lastRan.add(notification.timeout).isBefore(DateTime.now())) {
         await notification.displayNotificationIfPossible(
             session, _localNotificationsPlugin);
