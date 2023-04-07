@@ -18,6 +18,10 @@ class TuitionNotification extends Notification {
     //We must add one day because the time limit is actually at 23:59 and not at 00:00 of the same day
     if (_dueDate.add(const Duration(days: 1)).isBefore(DateTime.now())) {
       final int days = DateTime.now().difference(_dueDate).inDays;
+      if (days == 1) {
+        return const Tuple2("⚠️ Ainda não pagaste as propinas ⚠️",
+            "Já passou 1 dia desde o dia limite");
+      }
       return Tuple2("⚠️ Ainda não pagaste as propinas ⚠️",
           "Já passaram $days dias desde o dia limite");
     }
@@ -25,6 +29,9 @@ class TuitionNotification extends Notification {
     if (days == 0) {
       return const Tuple2("O prazo limite para as propinas está a acabar",
           "Hoje acaba o prazo para pagamento das propinas!");
+    } else if (days == 1) {
+      return const Tuple2("O prazo limite para as propinas está a acabar",
+          "Falta 1 dia para o prazo acabar");
     }
     return Tuple2("O prazo limite para as propinas está a acabar",
         "Faltam $days dias para o prazo acabar");
