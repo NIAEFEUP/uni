@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:uni/controller/background_workers/background_callback.dart';
@@ -70,6 +71,7 @@ Future<void> main() async {
     isInDebugMode: !kReleaseMode // run workmanager in debug mode when app is in debug mode
   );
 
+  await dotenv.load(fileName: "assets/env/.env");
 
   final savedTheme = await AppSharedPreferences.getThemeMode();
   await SentryFlutter.init((options) {
