@@ -38,17 +38,24 @@ class PrintInfoCard extends GenericCard {
                       margin: const EdgeInsets.only(
                           top: 20.0, bottom: 20.0, left: 20.0),
                       child: Text('Valor disponível: ',
-                          style: Theme.of(context).textTheme.subtitle2),
+                          style: Theme.of(context).textTheme.titleSmall),
                     ),
                     Container(
                         margin: const EdgeInsets.only(right: 15.0),
                         child: Text(profile.printBalance,
                             textAlign: TextAlign.end,
-                            style: Theme.of(context).textTheme.headline6)),
+                            style: Theme.of(context).textTheme.titleLarge)),
                     Container(
                         margin: const EdgeInsets.only(right: 5.0),
                         height: 30,
-                        child: addMoneyButton(context))
+                        child: ElevatedButton(
+                          style: OutlinedButton.styleFrom(
+                            padding: EdgeInsets.zero,
+                          ),
+                          onPressed: () => addMoneyDialog(context),
+                          child: const Center(child: Icon(Icons.add)),
+                        )
+                    ),
                   ])
                 ]),
             showLastRefreshedTime(
@@ -79,10 +86,10 @@ class PrintInfoCard extends GenericCard {
                 const Image(
                     image: AssetImage('assets/images/papercut.png'),
                     height: 50),
-                Text('PaperCut', style: Theme.of(context).textTheme.headline5),
+                Text('PaperCut', style: Theme.of(context).textTheme.headlineSmall),
                 const SizedBox(height: 20),
                 Text('Serviço de impressão e cópias ainda sem sessão iniciada',
-                    style: Theme.of(context).textTheme.subtitle2,
+                    style: Theme.of(context).textTheme.titleSmall,
                     textAlign: TextAlign.center),
                 const SizedBox(height: 20),
                 OutlinedButton(

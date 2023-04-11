@@ -37,8 +37,8 @@ class ScheduleFetcherHtml extends ScheduleFetcher {
       }
     }
 
-    final List<Lecture> lectures = await Future.wait(
-            lectureResponses.map((response) => getScheduleFromHtml(response)))
+    final List<Lecture> lectures = await Future.wait(lectureResponses
+            .map((response) => getScheduleFromHtml(response, session)))
         .then((schedules) => schedules.expand((schedule) => schedule).toList());
 
     lectures.sort((l1, l2) => l1.compare(l2));

@@ -1,0 +1,63 @@
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:tuple/tuple.dart';
+import 'package:uni/controller/background_workers/notifications.dart';
+import 'package:uni/controller/fetchers/fees_fetcher.dart';
+import 'package:uni/controller/local_storage/app_shared_preferences.dart';
+import 'package:uni/controller/parsers/parser_fees.dart';
+import 'package:uni/model/entities/session/sigarra_session.dart';
+
+class TuitionNotification extends Notification {
+  late DateTime _dueDate;
+
+  TuitionNotification()
+      : super("tuition-notification", const Duration(hours: 12));
+
+  @override
+  Future<Tuple2<String, String>> buildNotificationContent(
+      Session session) async {
+    //We must add one day because the time limit is actually at 23:59 and not at 00:00 of the same day
+    if (_dueDate.add(const Duration(days: 1)).isBefore(DateTime.now())) {
+      final int days = DateTime.now().difference(_dueDate).inDays;
+      return Tuple2("⚠️ Ainda não pagaste as propinas ⚠️",
+          "Já passaram $days dias desde o dia limite");
+    }
+    final int days = _dueDate.difference(DateTime.now()).inDays;
+    return Tuple2("O prazo limite para as propinas está a acabar",
+        "Faltam $days dias para o prazo acabar");
+  }
+
+  @override
+  Future<bool> shouldDisplay(Session session) async {
+    final bool notificationsAreDisabled =
+        !(await AppSharedPreferences.getTuitionNotificationToggle());
+    if (notificationsAreDisabled) return false;
+    final FeesFetcher feesFetcher = FeesFetcher();
+    final String nextDueDate = await parseFeesNextLimit(
+        await feesFetcher.getUserFeesResponse(session));
+    _dueDate = DateTime.parse(nextDueDate);
+    return DateTime.now().difference(_dueDate).inDays >= -3;
+  }
+
+  @override
+  void displayNotification(Tuple2<String, String> content,
+      FlutterLocalNotificationsPlugin localNotificationsPlugin) {
+    const AndroidNotificationDetails androidNotificationDetails =
+        AndroidNotificationDetails(
+            "propinas-notificacao", "propinas-notificacao",
+            importance: Importance.high);
+
+    const DarwinNotificationDetails darwinNotificationDetails =
+        DarwinNotificationDetails(
+            presentAlert: true,
+            presentBadge: true,
+            interruptionLevel: InterruptionLevel.active);
+
+    const NotificationDetails notificationDetails = NotificationDetails(
+        android: androidNotificationDetails,
+        iOS: darwinNotificationDetails,
+        macOS: darwinNotificationDetails);
+
+    localNotificationsPlugin.show(
+        2, content.item1, content.item2, notificationDetails);
+  }
+}

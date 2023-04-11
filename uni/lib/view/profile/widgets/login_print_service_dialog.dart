@@ -37,7 +37,7 @@ class _LoginPrintService extends State<LoginPrintService> {
 
     return AlertDialog(
       title: Text('PaperCut: Iniciar Sessão',
-          style: Theme.of(context).textTheme.headline5),
+          style: Theme.of(context).textTheme.headlineSmall),
       content: SingleChildScrollView(
         child: Wrap(
           runSpacing: 10,
@@ -47,7 +47,7 @@ class _LoginPrintService extends State<LoginPrintService> {
                 enabled: false,
                 decoration: InputDecoration(
                   labelText: 'Email institucional',
-                  labelStyle: Theme.of(context).textTheme.subtitle1,
+                  labelStyle: Theme.of(context).textTheme.titleMedium,
                 )),
             TextFormField(
                 enableSuggestions: false,
@@ -61,7 +61,7 @@ class _LoginPrintService extends State<LoginPrintService> {
                 obscureText: _obscurePasswordInput,
                 decoration: InputDecoration(
                     labelText: 'Palavra-passe',
-                    labelStyle: Theme.of(context).textTheme.subtitle1,
+                    labelStyle: Theme.of(context).textTheme.titleMedium,
                     suffixIcon: IconButton(
                       icon: Icon(
                         _obscurePasswordInput
@@ -113,9 +113,9 @@ class _LoginPrintService extends State<LoginPrintService> {
     if (response) {
       Navigator.of(context).pop(false);
       passwordController.clear();
-      ToastMessage.display(context, 'Sessão iniciada com sucesso!');
+      ToastMessage.success(context, 'Sessão iniciada com sucesso!');
     } else {
-      ToastMessage.display(context, 'Credenciais inválidas');
+      ToastMessage.error(context, 'Credenciais inválidas');
     }
   }
 }

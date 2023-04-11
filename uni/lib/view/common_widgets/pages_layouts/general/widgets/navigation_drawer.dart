@@ -84,9 +84,8 @@ class AppNavigationDrawerState extends State<AppNavigationDrawer> {
   }
 
   Widget createThemeSwitchBtn() {
-    final themeNotifier = Provider.of<ThemeNotifier>(context, listen: false);
-    Icon getThemeIcon() {
-      switch (themeNotifier.getTheme()) {
+    Icon getThemeIcon(ThemeMode theme) {
+      switch (theme) {
         case ThemeMode.light:
           return const Icon(Icons.wb_sunny);
         case ThemeMode.dark:
@@ -96,8 +95,13 @@ class AppNavigationDrawerState extends State<AppNavigationDrawer> {
       }
     }
 
-    return IconButton(
-        icon: getThemeIcon(), onPressed: themeNotifier.setNextTheme);
+    return Consumer<ThemeNotifier>(
+      builder: (context, themeNotifier, _) {
+        return IconButton(
+            icon: getThemeIcon(themeNotifier.getTheme()),
+            onPressed: themeNotifier.setNextTheme);
+      },
+    );
   }
 
   Widget createDrawerNavigationOption(DrawerItem d) {

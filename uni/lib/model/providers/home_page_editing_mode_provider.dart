@@ -1,12 +1,17 @@
 import 'package:uni/model/providers/state_provider_notifier.dart';
 
-class HomePageEditingMode extends StateProviderNotifier {
-  bool _state = false;
+class HomePageEditingModeProvider extends StateProviderNotifier {
+  bool _isEditing = false;
 
-  bool get state => _state;
+  bool get isEditing => _isEditing;
 
   setHomePageEditingMode(bool state) {
-    _state = state;
+    _isEditing = state;
+    notifyListeners();
+  }
+
+  toggle() {
+    _isEditing = !_isEditing;
     notifyListeners();
   }
 }
