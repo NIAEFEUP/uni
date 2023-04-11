@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:collection';
 
 import 'package:logger/logger.dart';
-import 'package:uni/controller/fetchers/restaurant_fetcher/restaurant_fetcher_html.dart';
 import 'package:uni/controller/local_storage/app_restaurant_database.dart';
 import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/entities/session.dart';
@@ -10,22 +9,25 @@ import 'package:uni/model/providers/state_provider_notifier.dart';
 
 import 'package:uni/model/request_status.dart';
 
+import 'package:uni/controller/fetchers/restaurant_fetcher.dart';
+
 class RestaurantProvider extends StateProviderNotifier {
   List<Restaurant> _restaurants = [];
 
   UnmodifiableListView<Restaurant> get restaurants =>
       UnmodifiableListView(_restaurants);
 
-  void getRestaurantsFromFetcher(Completer<void> action, Session session) async {
+  void getRestaurantsFromFetcher(
+      Completer<void> action, Session session) async {
     try {
       updateStatus(RequestStatus.busy);
 
       final List<Restaurant> restaurants =
-          await RestaurantFetcherHtml().getRestaurants(session);
+          await RestaurantFetcher().getRestaurants(session);
       // Updates local database according to information fetched -- Restaurants
       final RestaurantDatabase db = RestaurantDatabase();
       db.saveRestaurants(restaurants);
-      _restaurants = restaurants;
+      _restaurants = filterPastMeals(restaurants);
       notifyListeners();
       updateStatus(RequestStatus.successful);
     } catch (e) {
@@ -35,11 +37,10 @@ class RestaurantProvider extends StateProviderNotifier {
     action.complete();
   }
 
-  void updateStateBasedOnLocalRestaurants() async{
+  void updateStateBasedOnLocalRestaurants() async {
     final RestaurantDatabase restaurantDb = RestaurantDatabase();
     final List<Restaurant> restaurants = await restaurantDb.getRestaurants();
     _restaurants = restaurants;
     notifyListeners();
   }
-
 }

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:html/dom.dart';
 import 'package:html/parser.dart';
 import 'package:http/http.dart';
@@ -8,12 +10,13 @@ import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/utils/day_of_week.dart';
 
 /// Reads restaurants's menu from /feup/pt/CANTINA.EMENTASHOW
-Future<List<Restaurant>> getRestaurantsFromHtml(Response response) async {
+List<Restaurant> getRestaurantsFromHtml(Response response) {
   final document = parse(response.body);
 
   //Get restaurant reference number and name
   final List<Element> restaurantsHtml =
       document.querySelectorAll('#conteudoinner ul li > a');
+
   final List<Tuple2<String, String>> restaurantsTuple =
       restaurantsHtml.map((restaurantHtml) {
     final String name = restaurantHtml.text;
@@ -24,11 +27,12 @@ Future<List<Restaurant>> getRestaurantsFromHtml(Response response) async {
   //Get restaurant meals and create the Restaurant class
   final List<Restaurant> restaurants = restaurantsTuple.map((restaurantTuple) {
     final List<Meal> meals = [];
-    final DateFormat format = DateFormat('d-M-y');
+
     final Element? referenceA =
         document.querySelector('a[name="${restaurantTuple.item1}"]');
     Element? next = referenceA?.nextElementSibling;
 
+    final DateFormat format = DateFormat('d-M-y');
     while (next != null && next.attributes['name'] == null) {
       next = next.nextElementSibling;
       if (next!.classes.contains('dados')) {
@@ -53,7 +57,7 @@ Future<List<Restaurant>> getRestaurantsFromHtml(Response response) async {
               final DayOfWeek? d = parseDayOfWeek(value);
               if (d == null) {
                 //It's a date
-                date = format.parse(value);
+                date = format.parseUtc(value);
               } else {
                 dayOfWeek = d;
               }
@@ -71,4 +75,35 @@ Future<List<Restaurant>> getRestaurantsFromHtml(Response response) async {
         meals: meals);
   }).toList();
   return restaurants;
+}
+
+Restaurant getRestaurantFromGSheets(Response response, String restaurantName,
+    {bool isDinner = false}) {
+  // Ignore beginning of response: "/*O_o*/\ngoogle.visualization.Query.setResponse("
+  // Ignore the end of the response: ");"
+  // Check the structure by accessing the link:
+  // https://docs.google.com/spreadsheets/d/1TJauM0HwIf2RauQU2GmhdZZ1ZicFLMHuBkxWwVOw3Q4/gviz/tq?tqx=out:json&sheet=Cantina%20de%20Engenharia&range=A:D
+  final jsonString = response.body.substring(
+      response.body.indexOf('(') + 1, response.body.lastIndexOf(')'));
+  final parsedJson = jsonDecode(jsonString);
+
+  final List<Meal> mealsList = [];
+
+  final DateFormat format = DateFormat('d/M/y');
+  for (var row in parsedJson['table']['rows']) {
+    final cellList = row['c'];
+    if ((cellList[1]['v'] == 'Almoço' && isDinner) ||
+        (cellList[1]['v'] != 'Almoço' && !isDinner)) {
+      continue;
+    }
+
+    final Meal meal = Meal(
+        cellList[2]['v'],
+        cellList[3]['v'],
+        DayOfWeek.values[format.parseUtc(cellList[0]['f']).weekday - 1],
+        format.parseUtc(cellList[0]['f']));
+    mealsList.add(meal);
+  }
+
+  return Restaurant(null, restaurantName, '', meals: mealsList);
 }
