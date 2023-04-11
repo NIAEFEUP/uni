@@ -26,15 +26,11 @@ extension TimeString on DateTime {
 }
 
 extension ClosestMonday on DateTime{
-  static DateTime getClosestMonday(DateTime dateTime){
-    DateTime monday = dateTime;
-    monday = DateUtils.dateOnly(monday);
-    //get closest monday
-    if(monday.weekday >=1 && monday.weekday <= 5){
-      monday = monday.subtract(Duration(days:monday.weekday-1));
-    } else {
-      monday = monday.add(Duration(days: DateTime.daysPerWeek - monday.weekday + 1));
-    }
-    return monday;
+  DateTime getClosestMonday(){
+    final DateTime day = DateUtils.dateOnly(this);
+    if(day.weekday >=1 && day.weekday <= 5){
+      return day.subtract(Duration(days: day.weekday-1));
+    } 
+    return day.add(Duration(days: DateTime.daysPerWeek - day.weekday+1));
   }
 }

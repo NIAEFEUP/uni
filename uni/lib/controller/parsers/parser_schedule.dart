@@ -36,7 +36,7 @@ Future<List<Lecture>> parseSchedule(http.Response response) async {
     final String classNumber = lecture['turma_sigla'];
     final int occurrId = lecture['ocorrencia_id'];
 
-    final DateTime monday = ClosestMonday.getClosestMonday(DateTime.now());
+    final DateTime monday = DateTime.now().getClosestMonday();
     
     final Lecture lec = Lecture.fromApi(subject, typeClass, monday.add(Duration(days:day, seconds: secBegin)), blocks,
         room, teacher, classNumber, occurrId);

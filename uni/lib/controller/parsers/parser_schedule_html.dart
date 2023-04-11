@@ -15,7 +15,7 @@ Future<List<Lecture>> getOverlappedClasses(
     Session session, Document document) async {
   final List<Lecture> lecturesList = [];
 
-  final DateTime monday = ClosestMonday.getClosestMonday(DateTime.now());
+  final DateTime monday = DateTime.now().getClosestMonday();
 
   final overlappingClasses = document.querySelectorAll('.dados > tbody > .d');
   for (final element in overlappingClasses) {
@@ -80,7 +80,8 @@ Future<List<Lecture>> getScheduleFromHtml(
 
   final List<Lecture> lecturesList = [];
 
-  final DateTime monday = ClosestMonday.getClosestMonday(DateTime.now());
+  final DateTime monday = DateTime.now().getClosestMonday();
+
 
   document.querySelectorAll('.horario > tbody > tr').forEach((Element element) {
     if (element.getElementsByClassName('horas').isNotEmpty) {
