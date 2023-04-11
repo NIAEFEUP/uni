@@ -12,9 +12,15 @@ class ReferenceSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Text(reference.description, style: Theme.of(context).textTheme.headline6
-            ?.copyWith(fontSize: 15, color: Theme.of(context).colorScheme.tertiary),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 5.0),
+          child: Text(
+              reference.description,
+              style: Theme.of(context).textTheme.headline6
+                  ?.copyWith(fontSize: 15, color:
+                      Theme.of(context).colorScheme.tertiary),
             textAlign: TextAlign.center),
+        ),
         InfoCopyRow(infoName: 'Entidade', info: reference.entity.toString()),
         InfoCopyRow(infoName: 'Referência', info: reference.reference.toString()),
         InfoCopyRow(infoName: 'Montante', info: reference.amount.toString(),
