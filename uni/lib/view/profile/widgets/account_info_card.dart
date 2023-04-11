@@ -4,7 +4,7 @@ import 'package:uni/model/entities/reference.dart';
 import 'package:uni/model/providers/profile_state_provider.dart';
 import 'package:uni/model/providers/reference_provider.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
-import 'package:uni/view/profile/widgets/reference_card.dart';
+import 'package:uni/view/profile/widgets/reference_section.dart';
 import 'package:uni/view/profile/widgets/tuition_notification_switch.dart';
 
 /// Manages the 'Current account' section inside the user's page (accessible
@@ -32,9 +32,15 @@ class AccountInfoCard extends GenericCard {
           );
         } else {
           referenceCards = Column(
-              children: (references.sublist(0, 2).map((reference) {
-                return ReferenceCard(reference: reference);
-              })).toList()
+              children: [
+                ReferenceSection(reference: references[0]),
+                const Divider(
+                  thickness: 1,
+                  indent: 30,
+                  endIndent: 30,
+                ),
+                ReferenceSection(reference: references[1]),
+              ]
           );
         }
 
@@ -86,7 +92,7 @@ class AccountInfoCard extends GenericCard {
               padding: const EdgeInsets.all(10),
               child: Row(
                   children: <Widget>[
-                    Text('Referências',
+                    Text('Referências pendentes',
                         style: Theme.of(context).textTheme.headline6
                             ?.apply(color: Theme.of(context).colorScheme.secondary)),
                   ]
