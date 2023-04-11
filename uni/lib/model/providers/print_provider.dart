@@ -9,10 +9,10 @@ class PrintProvider extends StateProviderNotifier {
 
   bool get isAutenhicated => _session.authenticated;
 
-  Future<bool> loginIntoPrintService(String studentNumber, String password, bool keepSignedIn) async {
+  Future<bool> loginIntoPrintService(String email, String password, bool keepSignedIn) async {
     try {
       final String newCookie =
-          await PrintService.getCookie(studentNumber, password);
+          await PrintService.getCookie(email, password);
 
       _session = PrintServiceSession(
           authenticated: true,

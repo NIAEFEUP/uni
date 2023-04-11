@@ -56,6 +56,7 @@ class _LoginPrintService extends State<LoginPrintService> {
                 focusNode: passwordFocus,
                 onFieldSubmitted: (term) {
                   passwordFocus.unfocus();
+                  loginIntoPrintService(context);
                 },
                 textInputAction: TextInputAction.done,
                 obscureText: _obscurePasswordInput,
