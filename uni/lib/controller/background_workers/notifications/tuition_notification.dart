@@ -5,6 +5,7 @@ import 'package:uni/controller/fetchers/fees_fetcher.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/controller/parsers/parser_fees.dart';
 import 'package:uni/model/entities/session.dart';
+import 'package:uni/utils/duration_string_formatter.dart';
 
 class TuitionNotification extends Notification {
   late DateTime _dueDate;
@@ -17,24 +18,25 @@ class TuitionNotification extends Notification {
       Session session) async {
     //We must add one day because the time limit is actually at 23:59 and not at 00:00 of the same day
     if (_dueDate.add(const Duration(days: 1)).isBefore(DateTime.now())) {
-      final int days = DateTime.now().difference(_dueDate).inDays;
-      if (days == 1) {
+      final Duration duration = DateTime.now().difference(_dueDate);
+      if (duration.inDays == 0) {
         return const Tuple2("⚠️ Ainda não pagaste as propinas ⚠️",
-            "Já passou 1 dia desde o dia limite");
+            "O prazo para pagar as propinas acabou ontem");
       }
-      return Tuple2("⚠️ Ainda não pagaste as propinas ⚠️",
-          "Já passaram $days dias desde o dia limite");
+      return Tuple2(
+          "⚠️ Ainda não pagaste as propinas ⚠️",
+          duration.toFormattedString("Já passou {} desde a data limite",
+              "Já passaram {} desde a data limite"));
     }
-    final int days = _dueDate.difference(DateTime.now()).inDays;
-    if (days == 0) {
+    final Duration duration = _dueDate.difference(DateTime.now());
+    if (duration.inDays == 0) {
       return const Tuple2("O prazo limite para as propinas está a acabar",
           "Hoje acaba o prazo para pagamento das propinas!");
-    } else if (days == 1) {
-      return const Tuple2("O prazo limite para as propinas está a acabar",
-          "Falta 1 dia para o prazo acabar");
     }
-    return Tuple2("O prazo limite para as propinas está a acabar",
-        "Faltam $days dias para o prazo acabar");
+    return Tuple2(
+        "O prazo limite para as propinas está a acabar",
+        duration.toFormattedString(
+            "Falta {} para a data limite", "Faltam {} para a data limite"));
   }
 
   @override
