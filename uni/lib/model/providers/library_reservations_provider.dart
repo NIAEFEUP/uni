@@ -11,7 +11,7 @@ import 'package:uni/model/request_status.dart';
 class LibraryReservationsProvider extends StateProviderNotifier {
   List<LibraryReservation>? _reservations;
 
-  List<LibraryReservation>? get reservations => _reservations;
+  List<LibraryReservation> get reservations => _reservations ?? [];
 
   void getLibraryReservations(
     Session session,
@@ -23,11 +23,10 @@ class LibraryReservationsProvider extends StateProviderNotifier {
       final List<LibraryReservation> reservations =
           await LibraryReservationsFetcherHtml().getReservations(session);
 
-      notifyListeners();
-
       final LibraryReservationDatabase db = LibraryReservationDatabase();
       db.saveReservations(reservations);
 
+      notifyListeners();
       _reservations = reservations;
       updateStatus(RequestStatus.successful);
     } catch (e) {
