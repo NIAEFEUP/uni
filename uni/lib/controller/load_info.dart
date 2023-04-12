@@ -128,6 +128,10 @@ void loadLocalUserInfoToState(StateProviders stateProviders,
     stateProviders.lastUserInfoProvider.updateStateBasedOnLocalTime();
     stateProviders.calendarProvider.updateStateBasedOnLocalCalendar();
     stateProviders.profileStateProvider.updateStateBasedOnLocalCourseUnits();
+    stateProviders.libraryOccupationProvider
+        .updateStateBasedOnLocalOccupation();
+    stateProviders.libraryReservationsProvider
+        .updateStateBasedOnLocalReservations();
   }
 
   stateProviders.facultyLocationsProvider.getFacultyLocations(Completer());

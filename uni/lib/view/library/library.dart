@@ -7,26 +7,30 @@ import 'package:uni/view/library/widgets/library_occupation_tab.dart';
 import 'package:uni/view/library/widgets/library_reservations_tab.dart';
 
 class LibraryPage extends StatefulWidget {
-  final bool startOnOccupation;
-  const LibraryPage({this.startOnOccupation = false, Key? key}) : super(key: key);
+  final bool startOnOccupationTab;
+  const LibraryPage({this.startOnOccupationTab = false, Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => LibraryPageViewState();
 }
 
 class LibraryPageViewState extends GeneralPageViewState<LibraryPage> {
-  @override
-  Widget getBody(BuildContext context) {
-    const List<Tab> tabs = <Tab>[
+  late final List<Tab> tabs;
+
+  LibraryPageViewState() {
+    tabs = const <Tab>[
       Tab(text: 'Ocupação'),
       Tab(text: 'Gabinetes'),
     ];
+  }
 
+  @override
+  Widget getBody(BuildContext context) {
     return DefaultTabController(
       length: tabs.length,
       child: Builder(builder: (BuildContext context) {
         final TabController? tabController = DefaultTabController.of(context);
-        if (widget.startOnOccupation) {
+        if (widget.startOnOccupationTab) {
           tabController!.index = 1;
         }
         return Column(children: <Widget>[

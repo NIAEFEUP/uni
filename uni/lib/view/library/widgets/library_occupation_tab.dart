@@ -49,8 +49,10 @@ class LibraryOccupationTabView extends StatelessWidget {
         shrinkWrap: true,
         children: [
           LibraryOccupationCard(),
-          if (occupation != null) const PageTitle(name: 'Pisos'),
-          if (occupation != null) FloorRows(occupation!),
+          if (occupation != null) ...[
+            const PageTitle(name: 'Pisos'),
+            FloorRows(occupation!),
+          ]
         ]);
   }
 }
@@ -62,17 +64,14 @@ class FloorRows extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<Widget> floors = [];
-    for (int i = 1; i < occupation.floors.length; i += 2) {
-      floors.add(Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            FloorCard(occupation.getFloor(i)),
-            FloorCard(occupation.getFloor(i + 1))
-          ]));
-    }
-    return Column(
-      children: floors,
+    return GridView.count(
+      crossAxisCount: 2,
+      shrinkWrap: true,
+      padding: const EdgeInsets.symmetric(horizontal: 25),
+      crossAxisSpacing: 25,
+      mainAxisSpacing: 5,
+      physics: const NeverScrollableScrollPhysics(),
+      children: occupation.floors.map((floor) => FloorCard(floor)).toList(),
     );
   }
 }

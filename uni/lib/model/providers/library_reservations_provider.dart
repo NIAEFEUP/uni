@@ -21,14 +21,14 @@ class LibraryReservationsProvider extends StateProviderNotifier {
       updateStatus(RequestStatus.busy);
 
       final List<LibraryReservation> reservations =
-          await LibraryReservationsFetcherHtml()
-              .getReservations(session);
+          await LibraryReservationsFetcherHtml().getReservations(session);
+
+      notifyListeners();
 
       final LibraryReservationDatabase db = LibraryReservationDatabase();
       db.saveReservations(reservations);
 
       _reservations = reservations;
-      notifyListeners();
       updateStatus(RequestStatus.successful);
     } catch (e) {
       Logger().e('Failed to get Reservations: ${e.toString()}');

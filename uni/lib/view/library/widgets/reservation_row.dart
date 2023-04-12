@@ -5,7 +5,7 @@ import 'package:uni/model/entities/library_reservation.dart';
 import 'package:uni/model/entities/time_utilities.dart';
 
 class ReservationRow extends StatelessWidget {
-  final LibraryReservation? reservation;
+  final LibraryReservation reservation;
   late final String hoursStart;
   late final String hoursEnd;
   late final String weekDay;
@@ -13,14 +13,14 @@ class ReservationRow extends StatelessWidget {
   late final String month;
 
   ReservationRow(this.reservation, {super.key}) {
-    hoursStart = DateFormat('HH:mm').format(reservation!.startDate);
+    hoursStart = DateFormat('HH:mm').format(reservation.startDate);
     hoursEnd = DateFormat('HH:mm')
-        .format(reservation!.startDate.add(reservation!.duration));
+        .format(reservation.startDate.add(reservation.duration));
     weekDay = TimeString.getWeekdaysStrings(
-        startMonday: false)[reservation!.startDate.weekday];
-    day = DateFormat('dd').format(reservation!.startDate);
+        startMonday: false)[reservation.startDate.weekday];
+    day = DateFormat('dd').format(reservation.startDate);
     initializeDateFormatting();
-    month = DateFormat('MMMM', 'pt').format(reservation!.startDate);
+    month = DateFormat('MMMM', 'pt').format(reservation.startDate);
   }
 
   @override
@@ -42,7 +42,7 @@ class ReservationRow extends StatelessWidget {
           ]),
           Column(
             children: [
-              Text(reservation!.room,
+              Text(reservation.room,
                   //textAlign: TextAlign.center,
                   style: Theme.of(context)
                       .textTheme

@@ -42,13 +42,13 @@ class LibraryReservationsTabView extends StatelessWidget {
         scrollDirection: Axis.vertical,
         shrinkWrap: true,
         children: [
-          LibraryReservationsList(reservations),
+          LibraryReservationsList(reservations!),
         ]);
   }
 }
 
 class LibraryReservationsList extends StatelessWidget {
-  final List<LibraryReservation>? reservations;
+  final List<LibraryReservation> reservations;
 
   const LibraryReservationsList(this.reservations, {super.key});
 
@@ -56,7 +56,7 @@ class LibraryReservationsList extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<Widget> rooms = [];
 
-    for (int i = 0; i < reservations!.length && i < 2; i++) {
+    for (int i = 0; i < reservations.length && i < 2; i++) {
       rooms.add(Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
@@ -64,7 +64,7 @@ class LibraryReservationsList extends StatelessWidget {
                   bottom: BorderSide(
                       color: Theme.of(context).dividerColor, width: 1))),
           margin: const EdgeInsets.all(8),
-          child: ReservationRow(reservations![i])));
+          child: ReservationRow(reservations[i])));
     }
 
     return Column(children: rooms);
