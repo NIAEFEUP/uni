@@ -52,10 +52,10 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
                     width: 250,
                     height: 250,
                 ),
-                  const Text('Não tens exames marcados',
+                  const Text('Parece que estás de férias!',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Color.fromARGB(255, 0x75, 0x17, 0x1e)),
                 ),
-                const Text('\nParece que estás de férias!',
+                const Text('\nNão tens exames marcados',
                   style: TextStyle(fontSize: 15),
                 ),
               ])

@@ -94,19 +94,18 @@ class NextArrivalsState extends State<NextArrivals> {
         ),
       );
       result.add(
-        TextButton(
-          style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
-          ),
-            onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const BusStopSelectionPage())),
-          child: const Text('Adiciona as tuas paragens', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Color.fromARGB(255, 0x75, 0x17, 0x1e))),
-        ),);
+        const Text('Não percas nenhum autocarro', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17, color: Color.fromARGB(255, 0x75, 0x17, 0x1e))),
+        );
       result.add(
-        const Text('\nNão percas nenhum autocarro', style: TextStyle(fontSize: 15)
-        ),);
+          Container(
+              padding: EdgeInsets.only(top: 15),
+              child: ElevatedButton(
+                  onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const BusStopSelectionPage())),
+                      child: const Text('Adicionar'),
+          )
+        ));
     }
 
     return result;
