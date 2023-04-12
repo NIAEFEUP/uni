@@ -12,8 +12,7 @@ class LibraryReservationsTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<LibraryReservationsProvider>(
         builder: (context, reservationsProvider, _) {
-      if (reservationsProvider.reservations == null ||
-          reservationsProvider.status == RequestStatus.busy) {
+      if (reservationsProvider.status == RequestStatus.busy) {
         return const Center(child: CircularProgressIndicator());
       } else {
         return LibraryReservationsTabView(reservationsProvider.reservations);
