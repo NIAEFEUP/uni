@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 
 class ExamTime extends StatelessWidget {
   final String begin;
-  final String end;
 
-  const ExamTime({Key? key, required this.begin, required this.end})
+  const ExamTime({Key? key, required this.begin})
       : super(key: key);
 
   @override
@@ -14,7 +13,6 @@ class ExamTime extends StatelessWidget {
       mainAxisSize: MainAxisSize.max,
       children: <Widget>[
         Text(begin, style: Theme.of(context).textTheme.bodyText2),
-        Text(end, style: Theme.of(context).textTheme.bodyText2),
       ],
     );
   }

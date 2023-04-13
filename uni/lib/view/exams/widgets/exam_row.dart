@@ -30,7 +30,8 @@ class ExamRow extends StatefulWidget {
 class _ExamRowState extends State<ExamRow> {
   @override
   Widget build(BuildContext context) {
-    final isHidden = Provider.of<ExamProvider>(context).hiddenExams.contains(widget.exam.id);
+    final isHidden =
+        Provider.of<ExamProvider>(context).hiddenExams.contains(widget.exam.id);
     final roomsKey =
         '${widget.exam.subject}-${widget.exam.rooms}-${widget.exam.beginTime}-${widget.exam.endTime}';
     return Center(
@@ -52,8 +53,8 @@ class _ExamRowState extends State<ExamRow> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               ExamTime(
-                                  begin: widget.exam.beginTime,
-                                  end: widget.exam.endTime)
+                                begin: widget.exam.beginTime,
+                              )
                             ]),
                         ExamTitle(
                             subject: widget.exam.subject,
