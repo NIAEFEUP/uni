@@ -116,7 +116,7 @@ class MainCardsList extends StatelessWidget {
               decoration: const BoxDecoration(),
               child: ListTile(
                 title: Text(
-                  e.value(Key(e.key.index.toString()), false, null).getTitle(),
+                  e.value(Key(e.key.index.toString()), false, null).getTitle(context),
                   textAlign: TextAlign.center,
                 ),
                 onTap: () {

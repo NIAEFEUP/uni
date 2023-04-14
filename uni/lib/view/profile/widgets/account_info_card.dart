@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:uni/model/providers/profile_state_provider.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
 import 'package:uni/view/profile/widgets/tuition_notification_switch.dart';
+import 'package:uni/generated/l10n.dart';
 
 /// Manages the 'Current account' section inside the user's page (accessible
 /// through the top-right widget with the user picture)
@@ -69,7 +70,7 @@ class AccountInfoCard extends GenericCard {
   }
 
   @override
-  String getTitle() => 'Conta Corrente';
+  String getTitle(context) => S.of(context).account_card_title;
 
   @override
   onClick(BuildContext context) {}

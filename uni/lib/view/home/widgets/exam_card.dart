@@ -7,6 +7,7 @@ import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
 import 'package:uni/view/common_widgets/row_container.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
 import 'package:uni/utils/drawer_items.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/view/home/widgets/exam_card_shimmer.dart';
 import 'package:uni/view/exams/widgets/exam_row.dart';
 import 'package:uni/view/exams/widgets/exam_title.dart';
@@ -20,7 +21,7 @@ class ExamCard extends GenericCard {
       : super.fromEditingInformation(key, editingMode, onDelete);
 
   @override
-  String getTitle() => 'Exames';
+  String getTitle(BuildContext context) => S.of(context).exam_card_title;
 
   @override
   onClick(BuildContext context) =>

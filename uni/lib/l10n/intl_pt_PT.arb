@@ -1,0 +1,13 @@
+{
+  "@@locale": "pt-PT",
+  "account_card_title": "Conta Corrente",
+  "@account_card_title": {},
+  "bus_card_title": "Autocarros",
+  "@bus_card_title": {},
+  "exam_card_title": "Exames",
+  "@exam_card_title": {},
+  "no_exams": "Não possui exames marcados",
+  "@no_exams": {},
+  "schedule_card_title": "Horário",
+  "@schedule_card_title": {}
+}

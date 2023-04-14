@@ -16,7 +16,7 @@ class LibraryOccupationCard extends GenericCard {
       : super.fromEditingInformation(key, editingMode, onDelete);
 
   @override
-  String getTitle() => 'Ocupação da Biblioteca';
+  String getTitle(context) => 'Ocupação da Biblioteca';
 
   @override
   onClick(BuildContext context) =>

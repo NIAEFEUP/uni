@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/entities/time_utilities.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/providers/lecture_provider.dart';
 import 'package:uni/view/common_widgets/date_rectangle.dart';
 import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
@@ -105,7 +106,7 @@ class ScheduleCard extends GenericCard {
   }
 
   @override
-  String getTitle() => 'Horário';
+  String getTitle(context) => S.of(context).schedule_card_title;
 
   @override
   onClick(BuildContext context) =>

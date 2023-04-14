@@ -60,7 +60,7 @@ class PrintInfoCard extends GenericCard {
   }
 
   @override
-  String getTitle() => 'Impressões';
+  String getTitle(context) => 'Impressões';
 
   @override
   onClick(BuildContext context) {}

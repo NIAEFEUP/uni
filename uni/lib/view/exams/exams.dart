@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/providers/exam_provider.dart';
 import 'package:uni/model/entities/exam.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/exams/widgets/exam_page_title.dart';
 import 'package:uni/view/common_widgets/row_container.dart';
@@ -42,7 +43,7 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
     if (exams.isEmpty) {
       columns.add(Center(
         heightFactor: 2,
-        child: Text('Não possui exames marcados.',
+        child: Text(S.of(context).no_exams,
             style: Theme.of(context).textTheme.headline6),
       ));
       return columns;

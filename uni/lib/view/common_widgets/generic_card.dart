@@ -30,7 +30,7 @@ abstract class GenericCard extends StatefulWidget {
 
   Widget buildCardContent(BuildContext context);
 
-  String getTitle();
+  String getTitle(BuildContext context);
 
   dynamic onClick(BuildContext context);
 
@@ -103,7 +103,7 @@ class GenericCardState extends State<GenericCard> {
                             alignment: Alignment.centerLeft,
                             padding: const EdgeInsets.symmetric(horizontal: 15),
                             margin: const EdgeInsets.only(top: 15, bottom: 10),
-                            child: Text(widget.getTitle(),
+                            child: Text(widget.getTitle(context),
                                 style: (widget.smallTitle
                                         ? Theme.of(context).textTheme.headline6!
                                         : Theme.of(context)

@@ -13,7 +13,7 @@ class RestaurantPageCard extends GenericCard {
   }
 
   @override
-  String getTitle() {
+  String getTitle(context) {
     return restaurantName;
   }
 

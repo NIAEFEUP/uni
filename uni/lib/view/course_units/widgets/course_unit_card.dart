@@ -29,7 +29,7 @@ class CourseUnitCard extends GenericCard {
   }
 
   @override
-  String getTitle() {
+  String getTitle(context) {
     return courseUnit.name.length > maxTitleLength
         ? '${courseUnit.name.split(' ').sublist(0, 5).join(' ')}...'
         : courseUnit.name;

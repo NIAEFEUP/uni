@@ -97,7 +97,7 @@ class CourseInfoCard extends GenericCard {
   }
 
   @override
-  String getTitle() {
+  String getTitle(context) {
     return course.name ?? 'Curso sem nome';
   }
 

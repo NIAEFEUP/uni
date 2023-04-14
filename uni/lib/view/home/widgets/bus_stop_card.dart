@@ -4,6 +4,7 @@ import 'package:uni/model/request_status.dart';
 import 'package:uni/model/entities/bus_stop.dart';
 import 'package:uni/model/providers/bus_stop_provider.dart';
 import 'package:uni/utils/drawer_items.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/view/bus_stop_next_arrivals/widgets/bus_stop_row.dart';
 import 'package:uni/view/bus_stop_selection/bus_stop_selection.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
@@ -16,7 +17,7 @@ class BusStopCard extends GenericCard {
       : super.fromEditingInformation(key, editingMode, onDelete);
 
   @override
-  String getTitle() => 'Autocarros';
+  String getTitle(BuildContext context) => S.of(context).bus_card_title;
 
   @override
   onClick(BuildContext context) =>

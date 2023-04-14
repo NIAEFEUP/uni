@@ -1,0 +1,13 @@
+{
+  "@@locale": "en",
+  "account_card_title": "Checking account",
+  "@account_card_title": {},
+  "bus_card_title": "Buses",
+  "@bus_card_title": {},
+  "exam_card_title": "Exams",
+  "@exam_card_title": {},
+  "no_exams": "You do not have appointed exams\n",
+  "@no_exams": {},
+  "schedule_card_title": "Schedule",
+  "@schedule_card_title": {}
+}
