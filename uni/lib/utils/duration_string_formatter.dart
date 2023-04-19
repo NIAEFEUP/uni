@@ -35,7 +35,7 @@ extension DurationStringFormatter on Duration{
       return singularPhrase.replaceAll(formattingRegExp, "${(inDays / 7).floor()} semana");
     }
     if((inDays / 7).floor() > 1){
-      return pluralPhrase.replaceAll(formattingRegExp, "${(inDays / 7).floor()} dias");
+      return pluralPhrase.replaceAll(formattingRegExp, "${(inDays / 7).floor()} semanas");
     } 
     if((inDays / 30).floor() == 1){
       return singularPhrase.replaceAll(formattingRegExp, "${(inDays / 30).floor()} mês");
