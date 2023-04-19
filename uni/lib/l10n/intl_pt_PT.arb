@@ -32,7 +32,7 @@
       "time": {}
     }
   },
-  "last_timestamp": "{time, plural, one{{time} minuto} other{{time} minutos}}",
+  "last_timestamp": "{time, plural, one{Atualizado há {time} minuto} other{Atualizado há {time} minutos}}",
   "@last_timestamp": {
     "placeholders": {
       "time": {}

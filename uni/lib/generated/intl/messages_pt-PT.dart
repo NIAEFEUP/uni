@@ -23,7 +23,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m0(time) => "última atualização às ${time}";
 
   static String m1(time) =>
-      "${Intl.plural(time, one: '${time} minuto', other: '${time} minutos')}";
+      "${Intl.plural(time, one: 'Atualizado há ${time} minuto', other: 'Atualizado há ${time} minutos')}";
 
   static String m2(title) => "${Intl.select(title, {
             'horario': 'Horário',
