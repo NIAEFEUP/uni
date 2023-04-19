@@ -22,16 +22,18 @@ class AccountInfoCard extends GenericCard {
       builder: (context, profileStateProvider, referenceProvider, _) {
         final profile = profileStateProvider.profile;
         final List<Reference> references = referenceProvider.references;
-        final Widget referenceCards;
+        final Widget referenceWidgets;
 
         if (references.isEmpty) {
-          referenceCards = Text(
+          referenceWidgets = Text(
             "Não existem referências a pagar",
             style: Theme.of(context).textTheme.subtitle2,
             textScaleFactor: 0.9,
           );
+        } else if (references.length == 1) {
+          referenceWidgets = ReferenceSection(reference: references[0]);
         } else {
-          referenceCards = Column(
+          referenceWidgets = Column(
               children: [
                 ReferenceSection(reference: references[0]),
                 const Divider(
@@ -98,7 +100,7 @@ class AccountInfoCard extends GenericCard {
                   ]
               )
           ),
-          referenceCards,
+          referenceWidgets,
           const SizedBox(
               height: 10
           ),

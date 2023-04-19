@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:uni/model/entities/reference.dart';
 
+
 class ReferenceSection extends StatelessWidget {
   final Reference reference;
 
@@ -12,15 +13,7 @@ class ReferenceSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 5.0),
-          child: Text(
-              reference.description,
-              style: Theme.of(context).textTheme.headline6
-                  ?.copyWith(fontSize: 15, color:
-                      Theme.of(context).colorScheme.tertiary),
-            textAlign: TextAlign.center),
-        ),
+        TitleText(title: reference.description),
         InfoCopyRow(infoName: 'Entidade', info: reference.entity.toString()),
         InfoCopyRow(infoName: 'Referência', info: reference.reference.toString()),
         InfoCopyRow(infoName: 'Montante', info: reference.amount.toString(),
@@ -32,22 +25,38 @@ class ReferenceSection extends StatelessWidget {
 
 class InfoText extends StatelessWidget {
   final String text;
-  final bool lighted;
+  final Color? color;
 
-  const InfoText({Key? key, required this.text, this.lighted = false})
+  const InfoText({Key? key, required this.text, this.color})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    return Text(
+      text,
+      textScaleFactor: 0.9,
+      style: Theme.of(context).textTheme.subtitle2?.copyWith(
+        color: color
+      ),
+    );
+  }
+}
+
+class TitleText extends StatelessWidget {
+  final String title;
+
+  const TitleText({Key? key, required this.title}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(left: 20.0, top: 2.0, bottom: 2.0),
+      padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 20.0),
       alignment: Alignment.centerLeft,
       child: Text(
-        text,
-        textScaleFactor: 0.9,
-        style: Theme.of(context).textTheme.subtitle2?.copyWith(
-          color: lighted ? const Color(0xff505050) : Colors.black
-        )
+        title,
+        style: Theme.of(context).textTheme.subtitle2,
+        overflow: TextOverflow.fade,
+        softWrap: false,
       ),
     );
   }
@@ -63,22 +72,22 @@ class InfoCopyRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      child: Padding(
-        padding: const EdgeInsets.only(right: 20.0, top: 2.0, bottom: 2.0),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            InfoText(text: infoName, lighted: true),
-            const Spacer(),
-            InfoText(text: "${isMoney ? _getMoneyAmount() : info}  "),
-            InkWell(
-              splashColor: Theme.of(context).highlightColor,
-              child: const Icon(Icons.content_copy, size: 16),
-              onTap: () => Clipboard.setData(ClipboardData(text: info)),
-            ),
-          ],
-        ),
+    final Color helperTextColor = Theme.of(context).brightness == Brightness.light
+        ? const Color(0xff505050) : const Color(0xffafafaf);
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 20.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          InfoText(text: infoName, color: helperTextColor),
+          const Spacer(),
+          InfoText(text: "${isMoney ? _getMoneyAmount() : info}  "),
+          InkWell(
+            splashColor: Theme.of(context).highlightColor,
+            child: const Icon(Icons.content_copy, size: 16),
+            onTap: () => Clipboard.setData(ClipboardData(text: info)),
+          ),
+        ],
       ),
     );
   }
