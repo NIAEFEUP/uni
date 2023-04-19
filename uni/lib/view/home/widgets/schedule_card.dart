@@ -53,17 +53,17 @@ class ScheduleCard extends GenericCard {
 
     final now = DateTime.now();
     var added = 0; // Lectures added to widget
-    DateTime lastDayAdded = DateTime.now(); // Day of last added lecture
+    DateTime lastAddedLectureDate = DateTime.now(); // Day of last added lecture
 
     for (int i = 0; added < 2 && i < lectures.length; i++) {
       if (now.compareTo(lectures[i].endTime) < 0) {
-        if (lastDayAdded.weekday != lectures[i].startTime.weekday &&
-            lastDayAdded.compareTo(lectures[i].startTime) <= 0) {
+        if (lastAddedLectureDate.weekday != lectures[i].startTime.weekday &&
+            lastAddedLectureDate.compareTo(lectures[i].startTime) <= 0) {
           rows.add(DateRectangle(date: TimeString.getWeekdaysStrings()[(lectures[i].startTime.weekday-1) % 7]));
         }
 
         rows.add(createRowFromLecture(context, lectures[i]));
-        lastDayAdded = lectures[i].startTime;
+        lastAddedLectureDate = lectures[i].startTime;
         added++;
       }
     }
