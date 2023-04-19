@@ -1,35 +1,39 @@
+import 'dart:io';
+
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 
 enum WeekDays {
-  monday("Segunda"),
-  tuesday("Terça"),
-  wednesday("Quarta"),
-  thursday("Quinta"),
-  friday("Sexta"),
-  saturday("Sábado"),
-  sunday("Domingo");
+  monday("Segunda", "Monday"),
+  tuesday("Terça", "Tuesday"),
+  wednesday("Quarta", "Wednesday"),
+  thursday("Quinta", "Thursday"),
+  friday("Sexta", "Friday"),
+  saturday("Sábado", "Saturday"),
+  sunday("Domingo", "Sunday");
 
-  final String day;
-  const WeekDays(this.day);
+  final String dayPT;
+  final String dayEN;
+  const WeekDays(this.dayPT, this.dayEN);
 }
 
 enum Months {
-  january("janeiro"),
-  february("fevereiro"),
-  march("março"),
-  april("abril"),
-  may("maio"),
-  june("junho"),
-  july("julho"),
-  august("agosto"),
-  september("setembro"),
-  october("outubro"),
-  november("novembro"),
-  december("dezembro");
+  january("janeiro", "January"),
+  february("fevereiro", "February"),
+  march("março", "March"),
+  april("abril", "April"),
+  may("maio", "May"),
+  june("junho", "June"),
+  july("julho", "July"),
+  august("agosto", "August"),
+  september("setembro", "September"),
+  october("outubro", "October"),
+  november("novembro", "November"),
+  december("dezembro", "December");
 
-  final String month;
-  const Months(this.month);
+  final String monthPT;
+  final String monthEN;
+  const Months(this.monthPT, this.monthEN);
 }
 
 /// Manages a generic Exam.
@@ -83,9 +87,15 @@ class Exam {
   /// Returns whether or not this exam has already ended.
   bool hasEnded() => DateTime.now().compareTo(end) >= 0;
 
-  String get weekDay => WeekDays.values[begin.weekday - 1].day;
+  String get weekDay{
+    if(Platform.localeName == 'pt_PT') return WeekDays.values[begin.weekday - 1].dayPT;
+    return WeekDays.values[begin.weekday - 1].dayEN;
+  }
 
-  String get month => Months.values[begin.month - 1].month;
+  String get month{
+    if(Platform.localeName == 'pt_PT') return Months.values[begin.month - 1].monthPT;
+    return Months.values[begin.weekday - 1].monthEN;
+  }
 
   String get beginTime => formatTime(begin);
 

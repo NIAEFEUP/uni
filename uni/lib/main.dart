@@ -12,7 +12,7 @@ import 'package:uni/model/providers/bus_stop_provider.dart';
 import 'package:uni/model/providers/calendar_provider.dart';
 import 'package:uni/model/providers/exam_provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'generated/l10n.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/providers/faculty_locations_provider.dart';
 import 'package:uni/model/providers/favorite_cards_provider.dart';
 import 'package:uni/model/providers/home_page_editing_mode_provider.dart';
@@ -144,7 +144,7 @@ class MyAppState extends State<MyApp> {
           darkTheme: applicationDarkTheme,
           themeMode: themeNotifier.getTheme(),
           home: const SplashScreen(),
-          localizationsDelegates: [
+          localizationsDelegates: const [
             S.delegate,
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,

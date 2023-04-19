@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:uni/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/providers/last_user_info_provider.dart';
@@ -52,7 +53,7 @@ class _LastUpdateTimeStampState extends State<LastUpdateTimeStamp> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-              'Atualizado há $elapsedTimeMinutes minuto${elapsedTimeMinutes != 1 ? 's' : ''}',
+              S.of(context).last_timestamp(elapsedTimeMinutes),
               style: Theme.of(context).textTheme.subtitle2)
         ]);
   }

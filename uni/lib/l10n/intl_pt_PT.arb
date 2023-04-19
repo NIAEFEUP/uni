@@ -2,12 +2,58 @@
   "@@locale": "pt-PT",
   "account_card_title": "Conta Corrente",
   "@account_card_title": {},
+  "add_widget": "Adicionar widget",
+  "@add_widget": {},
+  "all_widgets_added": "Todos os widgets disponíveis já foram adicionados à tua área pessoal!",
+  "@all_widgets_added": {},
+  "balance": "Saldo:",
+  "@balance": {},
   "bus_card_title": "Autocarros",
   "@bus_card_title": {},
+  "bus_error": "Não foi possível obter informação",
+  "@bus_error": {},
+  "buses_personalize": "Configura aqui os teus autocarros",
+  "@buses_personalize": {},
+  "cancel": "Cancelar\n",
+  "@cancel": {},
+  "edit_off": "Editar\n",
+  "@edit_off": {},
+  "edit_on": "Concluir edição",
+  "@edit_on": {},
   "exam_card_title": "Exames",
   "@exam_card_title": {},
+  "fee_date": "Data limite próxima prestação:",
+  "@fee_date": {},
+  "fee_notification": "Notificar próxima data limite:",
+  "@fee_notification": {},
+  "last_refresh_time": "última atualização às {time}",
+  "@last_refresh_time": {
+    "placeholders": {
+      "time": {}
+    }
+  },
+  "last_timestamp": "{time, plural, one{{time} minuto} other{{time} minutos}}",
+  "@last_timestamp": {
+    "placeholders": {
+      "time": {}
+    }
+  },
+  "logout": "Terminar sessão",
+  "@logout": {},
+  "nav_title": "{title, select, horario{Horário} exames{Exames} area{Área Pessoal} cadeiras{Cadeiras} autocarros{Autocarros} locais{Locais} restaurantes{Restaurantes} calendario{Calendário} biblioteca{Biblioteca} uteis{Úteis} sobre{Sobre} bugs{Bugs e Sugestões} other{Outros}}",
+  "@nav_title": {},
+  "no_data": "Não há dados a mostrar neste momento",
+  "@no_data": {},
   "no_exams": "Não possui exames marcados",
   "@no_exams": {},
+  "no_selected_exams": "Não existem exames para apresentar",
+  "@no_selected_exams": {},
+  "restaurant_card_title": "Restaurantes",
+  "@restaurant_card_title": {},
   "schedule_card_title": "Horário",
-  "@schedule_card_title": {}
+  "@schedule_card_title": {},
+  "stcp_stops": "STCP - Próximas Viagens",
+  "@stcp_stops": {},
+  "widget_prompt": "Escolhe um widget para adicionares à tua área pessoal:",
+  "@widget_prompt": {}
 }

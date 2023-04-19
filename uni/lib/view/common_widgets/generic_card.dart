@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uni/model/entities/time_utilities.dart';
+import 'package:uni/generated/l10n.dart';
 
 /// App default card
 abstract class GenericCard extends StatefulWidget {
@@ -52,7 +53,7 @@ abstract class GenericCard extends StatefulWidget {
 
     return Container(
         alignment: Alignment.center,
-        child: Text('última atualização às ${parsedTime.toTimeHourMinString()}',
+        child: Text(S.of(context).last_refresh_time(parsedTime.toTimeHourMinString()),
             style: Theme.of(context).textTheme.caption));
   }
 }

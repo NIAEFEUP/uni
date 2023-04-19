@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/model/providers/favorite_cards_provider.dart';
 import 'package:uni/model/providers/home_page_editing_mode_provider.dart';
@@ -13,7 +14,6 @@ import 'package:uni/view/home/widgets/bus_stop_card.dart';
 import 'package:uni/view/home/widgets/exam_card.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/home/widgets/schedule_card.dart';
-import 'package:uni/utils/drawer_items.dart';
 
 typedef CardCreator = GenericCard Function(
     Key key, bool isEditingMode, dynamic Function()? onDelete);
@@ -84,7 +84,7 @@ class MainCardsList extends StatelessWidget {
           builder: (BuildContext context) {
             return AlertDialog(
                 title: Text(
-                    'Escolhe um widget para adicionares à tua área pessoal:',
+                    S.of(context).widget_prompt,
                     style: Theme.of(context).textTheme.headline5),
                 content: SizedBox(
                   height: 200.0,
@@ -93,12 +93,12 @@ class MainCardsList extends StatelessWidget {
                 ),
                 actions: [
                   TextButton(
-                      child: Text('Cancelar',
+                      child: Text(S.of(context).cancel,
                           style: Theme.of(context).textTheme.bodyText2),
                       onPressed: () => Navigator.pop(context))
                 ]);
           }), //Add FAB functionality here
-      tooltip: 'Adicionar widget',
+      tooltip: S.of(context).add_widget,
       child: Icon(Icons.add, color: Theme.of(context).colorScheme.onPrimary),
     );
   }
@@ -129,8 +129,7 @@ class MainCardsList extends StatelessWidget {
 
     return possibleCardAdditions.isEmpty
         ? [
-            const Text(
-                '''Todos os widgets disponíveis já foram adicionados à tua área pessoal!''')
+            Text(S.of(context).all_widgets_added)
           ]
         : possibleCardAdditions;
   }
@@ -141,13 +140,13 @@ class MainCardsList extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(20, 20, 20, 5),
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         PageTitle(
-            name: DrawerItem.navPersonalArea.title, center: false, pad: false),
+            name: S.of(context).nav_title('area'), center: false, pad: false),
         GestureDetector(
             onTap: () =>
                 Provider.of<HomePageEditingModeProvider>(context, listen: false)
                     .setHomePageEditingMode(!editingModeProvider.isEditing),
             child: Text(
-                editingModeProvider.isEditing ? 'Concluir Edição' : 'Editar',
+                editingModeProvider.isEditing ? S.of(context).edit_on : S.of(context).edit_off,
                 style: Theme.of(context).textTheme.caption))
       ]),
     );

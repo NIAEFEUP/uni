@@ -2,12 +2,58 @@
   "@@locale": "en",
   "account_card_title": "Checking account",
   "@account_card_title": {},
+  "add_widget": "Add widget",
+  "@add_widget": {},
+  "all_widgets_added": "All available widgets have already been added to your personal area!",
+  "@all_widgets_added": {},
+  "balance": "Balance:",
+  "@balance": {},
   "bus_card_title": "Buses",
   "@bus_card_title": {},
+  "bus_error": "Unable to get information",
+  "@bus_error": {},
+  "buses_personalize": "Personalize your buses here",
+  "@buses_personalize": {},
+  "cancel": "Cancel",
+  "@cancel": {},
+  "edit_off": "Edit",
+  "@edit_off": {},
+  "edit_on": "Finish editing",
+  "@edit_on": {},
   "exam_card_title": "Exams",
   "@exam_card_title": {},
-  "no_exams": "You do not have appointed exams\n",
+  "fee_date": "Deadline for next fee:",
+  "@fee_date": {},
+  "fee_notification": "Notify next deadline:",
+  "@fee_notification": {},
+  "last_refresh_time": "last refresh at {time}",
+  "@last_refresh_time": {
+    "placeholders": {
+      "time": {}
+    }
+  },
+  "last_timestamp": "{time, plural, one{Refreshed {time} minute ago} other{Refreshed {time} minutes ago}}",
+  "@last_timestamp": {
+    "placeholders": {
+      "time": {}
+    }
+  },
+  "logout": "Log out",
+  "@logout": {},
+  "nav_title": "{title, select, horario{Schedule} exames{Exams} area{Personal Area} cadeiras{Course Units} autocarros{Buses} locais{Places} restaurantes{Restaurants} calendario{Calendar} biblioteca{Library} uteis{Utils} sobre{About} bugs{Bugs and Suggestions} other{Other}}",
+  "@nav_title": {},
+  "no_data": "There is no data to show at this time",
+  "@no_data": {},
+  "no_exams": "You have no exams scheduled\n",
   "@no_exams": {},
+  "no_selected_exams": "There are no exams to present",
+  "@no_selected_exams": {},
+  "restaurant_card_title": "Restaurants",
+  "@restaurant_card_title": {},
   "schedule_card_title": "Schedule",
-  "@schedule_card_title": {}
+  "@schedule_card_title": {},
+  "stcp_stops": "STCP - Upcoming Trips",
+  "@stcp_stops": {},
+  "widget_prompt": "Choose a widget to add to your personal area:",
+  "@widget_prompt": {}
 }

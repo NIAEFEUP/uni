@@ -48,7 +48,7 @@ Widget getCardContent(BuildContext context, Map<String, BusStopData> stopData, b
           child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Text('Configura os teus autocarros',
+                Text(S.of(context).buses_personalize,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.subtitle2!.apply()),
@@ -77,7 +77,7 @@ Widget getCardContent(BuildContext context, Map<String, BusStopData> stopData, b
         getCardTitle(context),
         Container(
             padding: const EdgeInsets.all(8.0),
-            child: Text('Não foi possível obter informação',
+            child: Text(S.of(context).bus_error,
                 style: Theme.of(context).textTheme.subtitle1))
       ]);
   }
@@ -88,7 +88,7 @@ Widget getCardTitle(context) {
   return Row(
     children: <Widget>[
       const Icon(Icons.directions_bus), // color lightgrey
-      Text('STCP - Próximas Viagens',
+      Text(S.of(context).stcp_stops,
           style: Theme.of(context).textTheme.subtitle1),
     ],
   );
@@ -103,8 +103,8 @@ Widget getBusStopsInfo(context, Map<String, BusStopData> stopData) {
           children: getEachBusStopInfo(context, stopData),
         ));
   } else {
-    return const Center(
-      child: Text('Não há dados a mostrar neste momento',
+    return Center(
+      child: Text(S.of(context).no_data,
           maxLines: 2, overflow: TextOverflow.fade),
     );
   }

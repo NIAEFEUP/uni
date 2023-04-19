@@ -60,11 +60,91 @@ class S {
     );
   }
 
+  /// `Add widget`
+  String get add_widget {
+    return Intl.message(
+      'Add widget',
+      name: 'add_widget',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `All available widgets have already been added to your personal area!`
+  String get all_widgets_added {
+    return Intl.message(
+      'All available widgets have already been added to your personal area!',
+      name: 'all_widgets_added',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Balance:`
+  String get balance {
+    return Intl.message(
+      'Balance:',
+      name: 'balance',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Buses`
   String get bus_card_title {
     return Intl.message(
       'Buses',
       name: 'bus_card_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unable to get information`
+  String get bus_error {
+    return Intl.message(
+      'Unable to get information',
+      name: 'bus_error',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Personalize your buses here`
+  String get buses_personalize {
+    return Intl.message(
+      'Personalize your buses here',
+      name: 'buses_personalize',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancel`
+  String get cancel {
+    return Intl.message(
+      'Cancel',
+      name: 'cancel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit`
+  String get edit_off {
+    return Intl.message(
+      'Edit',
+      name: 'edit_off',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Finish editing`
+  String get edit_on {
+    return Intl.message(
+      'Finish editing',
+      name: 'edit_on',
       desc: '',
       args: [],
     );
@@ -80,11 +160,118 @@ class S {
     );
   }
 
-  /// `You do not have appointed exams\n`
+  /// `Deadline for next fee:`
+  String get fee_date {
+    return Intl.message(
+      'Deadline for next fee:',
+      name: 'fee_date',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Notify next deadline:`
+  String get fee_notification {
+    return Intl.message(
+      'Notify next deadline:',
+      name: 'fee_notification',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `last refresh at {time}`
+  String last_refresh_time(Object time) {
+    return Intl.message(
+      'last refresh at $time',
+      name: 'last_refresh_time',
+      desc: '',
+      args: [time],
+    );
+  }
+
+  /// `{time, plural, one{Refreshed {time} minute ago} other{Refreshed {time} minutes ago}}`
+  String last_timestamp(num time) {
+    return Intl.plural(
+      time,
+      one: 'Refreshed $time minute ago',
+      other: 'Refreshed $time minutes ago',
+      name: 'last_timestamp',
+      desc: '',
+      args: [time],
+    );
+  }
+
+  /// `Log out`
+  String get logout {
+    return Intl.message(
+      'Log out',
+      name: 'logout',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{title, select, horario{Schedule} exames{Exams} area{Personal Area} cadeiras{Course Units} autocarros{Buses} locais{Places} restaurantes{Restaurants} calendario{Calendar} biblioteca{Library} uteis{Utils} sobre{About} bugs{Bugs and Suggestions} other{Other}}`
+  String nav_title(Object title) {
+    return Intl.select(
+      title,
+      {
+        'horario': 'Schedule',
+        'exames': 'Exams',
+        'area': 'Personal Area',
+        'cadeiras': 'Course Units',
+        'autocarros': 'Buses',
+        'locais': 'Places',
+        'restaurantes': 'Restaurants',
+        'calendario': 'Calendar',
+        'biblioteca': 'Library',
+        'uteis': 'Utils',
+        'sobre': 'About',
+        'bugs': 'Bugs and Suggestions',
+        'other': 'Other',
+      },
+      name: 'nav_title',
+      desc: '',
+      args: [title],
+    );
+  }
+
+  /// `There is no data to show at this time`
+  String get no_data {
+    return Intl.message(
+      'There is no data to show at this time',
+      name: 'no_data',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You have no exams scheduled\n`
   String get no_exams {
     return Intl.message(
-      'You do not have appointed exams\n',
+      'You have no exams scheduled\n',
       name: 'no_exams',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `There are no exams to present`
+  String get no_selected_exams {
+    return Intl.message(
+      'There are no exams to present',
+      name: 'no_selected_exams',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Restaurants`
+  String get restaurant_card_title {
+    return Intl.message(
+      'Restaurants',
+      name: 'restaurant_card_title',
       desc: '',
       args: [],
     );
@@ -95,6 +282,26 @@ class S {
     return Intl.message(
       'Schedule',
       name: 'schedule_card_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `STCP - Upcoming Trips`
+  String get stcp_stops {
+    return Intl.message(
+      'STCP - Upcoming Trips',
+      name: 'stcp_stops',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Choose a widget to add to your personal area:`
+  String get widget_prompt {
+    return Intl.message(
+      'Choose a widget to add to your personal area:',
+      name: 'widget_prompt',
       desc: '',
       args: [],
     );

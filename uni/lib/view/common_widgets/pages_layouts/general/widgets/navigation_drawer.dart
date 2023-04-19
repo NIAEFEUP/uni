@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:uni/model/providers/session_provider.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/theme_notifier.dart';
+import 'package:uni/generated/l10n.dart';
 
 class AppNavigationDrawer extends StatefulWidget {
   final BuildContext parentContext;
@@ -65,7 +66,7 @@ class AppNavigationDrawerState extends State<AppNavigationDrawer> {
   }
 
   Widget createLogoutBtn() {
-    final String logOutText = DrawerItem.navLogOut.title;
+    final String logOutText = S.of(context).logout;
     return TextButton(
       onPressed: () => _onLogOut(logOutText),
       style: TextButton.styleFrom(
@@ -110,8 +111,8 @@ class AppNavigationDrawerState extends State<AppNavigationDrawer> {
         child: ListTile(
           title: Container(
             padding: const EdgeInsets.only(bottom: 3.0, left: 20.0),
-            child: Text(d.title,
-                style: TextStyle(
+            child: Text(S.of(context).nav_title(d.title),
+                    style: TextStyle(
                     fontSize: 18.0,
                     color: Theme.of(context).primaryColor,
                     fontWeight: FontWeight.normal)),

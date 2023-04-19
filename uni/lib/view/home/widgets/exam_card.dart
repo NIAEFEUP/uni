@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/entities/exam.dart';
@@ -46,7 +48,7 @@ class ExamCard extends GenericCard {
         content: exams,
         contentChecker: exams.isNotEmpty,
         onNullContent: Center(
-          child: Text('Não existem exames para apresentar',
+          child: Text(S.of(context).no_selected_exams,
               style: Theme.of(context).textTheme.headline6),
         ),
         contentLoadingWidget: const ExamCardShimmer().build(context),
@@ -89,8 +91,12 @@ class ExamCard extends GenericCard {
   /// others in the card).
   Widget createRowFromExam(BuildContext context, Exam exam) {
     return Column(children: [
-      DateRectangle(
-          date: '${exam.weekDay}, ${exam.begin.day} de ${exam.month}'),
+      if (Platform.localeName == 'pt_PT') ...[
+        DateRectangle(
+          date: '${exam.weekDay}, ${exam.begin.day} de ${exam.month}')]
+      else ...[
+        DateRectangle(
+          date: '${exam.weekDay}, ${exam.begin.day} ${exam.month}')],
       RowContainer(
         child: ExamRow(
           exam: exam,
