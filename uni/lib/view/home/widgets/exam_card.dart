@@ -23,7 +23,7 @@ class ExamCard extends GenericCard {
       : super.fromEditingInformation(key, editingMode, onDelete);
 
   @override
-  String getTitle(BuildContext context) => S.of(context).exam_card_title;
+  String getTitle(BuildContext context) => S.of(context).nav_title(DrawerItem.navExams.title);
 
   @override
   onClick(BuildContext context) =>

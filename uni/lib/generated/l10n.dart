@@ -1,7 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'intl/messages_all.dart';
+import 'package:uni/generated/intl/messages_all.dart';
 
 // **************************************************************************
 // Generator: Flutter Intl IDE plugin
@@ -60,6 +60,16 @@ class S {
     );
   }
 
+  /// `Add`
+  String get add {
+    return Intl.message(
+      'Add',
+      name: 'add',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Add widget`
   String get add_widget {
     return Intl.message(
@@ -90,16 +100,6 @@ class S {
     );
   }
 
-  /// `Buses`
-  String get bus_card_title {
-    return Intl.message(
-      'Buses',
-      name: 'bus_card_title',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Unable to get information`
   String get bus_error {
     return Intl.message(
@@ -120,11 +120,61 @@ class S {
     );
   }
 
+  /// `Favorite buses will be displayed in the favorites 'Bus' widget. The remaining ones will only be displayed on the page.`
+  String get buses_text {
+    return Intl.message(
+      'Favorite buses will be displayed in the favorites \'Bus\' widget. The remaining ones will only be displayed on the page.',
+      name: 'buses_text',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select the buses you want information about:`
+  String get bus_information {
+    return Intl.message(
+      'Select the buses you want information about:',
+      name: 'bus_information',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Cancel`
   String get cancel {
     return Intl.message(
       'Cancel',
       name: 'cancel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Done`
+  String get conclude {
+    return Intl.message(
+      'Done',
+      name: 'conclude',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Configured Buses`
+  String get configured_buses {
+    return Intl.message(
+      'Configured Buses',
+      name: 'configured_buses',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm`
+  String get confirm {
+    return Intl.message(
+      'Confirm',
+      name: 'confirm',
       desc: '',
       args: [],
     );
@@ -150,11 +200,11 @@ class S {
     );
   }
 
-  /// `Exams`
-  String get exam_card_title {
+  /// `Exam Filter Settings`
+  String get exams_filter {
     return Intl.message(
-      'Exams',
-      name: 'exam_card_title',
+      'Exam Filter Settings',
+      name: 'exams_filter',
       desc: '',
       args: [],
     );
@@ -190,10 +240,11 @@ class S {
     );
   }
 
-  /// `{time, plural, one{Refreshed {time} minute ago} other{Refreshed {time} minutes ago}}`
+  /// `{time, plural, zero{Refreshed {time} minutes ago} one{Refreshed {time} minute ago} other{Refreshed {time} minutes ago}}`
   String last_timestamp(num time) {
     return Intl.plural(
       time,
+      zero: 'Refreshed $time minutes ago',
       one: 'Refreshed $time minute ago',
       other: 'Refreshed $time minutes ago',
       name: 'last_timestamp',
@@ -237,6 +288,16 @@ class S {
     );
   }
 
+  /// `No course units in the selected period`
+  String get no_course_units {
+    return Intl.message(
+      'No course units in the selected period',
+      name: 'no_course_units',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `There is no data to show at this time`
   String get no_data {
     return Intl.message(
@@ -257,6 +318,26 @@ class S {
     );
   }
 
+  /// `No match`
+  String get no_results {
+    return Intl.message(
+      'No match',
+      name: 'no_results',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `There are no course units to display`
+  String get no_selected_courses {
+    return Intl.message(
+      'There are no course units to display',
+      name: 'no_selected_courses',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `There are no exams to present`
   String get no_selected_exams {
     return Intl.message(
@@ -267,21 +348,11 @@ class S {
     );
   }
 
-  /// `Restaurants`
-  String get restaurant_card_title {
+  /// `Semester`
+  String get semester {
     return Intl.message(
-      'Restaurants',
-      name: 'restaurant_card_title',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Schedule`
-  String get schedule_card_title {
-    return Intl.message(
-      'Schedule',
-      name: 'schedule_card_title',
+      'Semester',
+      name: 'semester',
       desc: '',
       args: [],
     );
@@ -302,6 +373,16 @@ class S {
     return Intl.message(
       'Choose a widget to add to your personal area:',
       name: 'widget_prompt',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Year`
+  String get year {
+    return Intl.message(
+      'Year',
+      name: 'year',
       desc: '',
       args: [],
     );

@@ -4,6 +4,7 @@ import 'package:uni/model/request_status.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/entities/time_utilities.dart';
 import 'package:uni/model/providers/lecture_provider.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
@@ -92,7 +93,7 @@ class SchedulePageViewState extends GeneralPageViewState<SchedulePageView>
         scrollDirection: Axis.vertical,
         shrinkWrap: true,
         children: <Widget>[
-          PageTitle(name: DrawerItem.navSchedule.title),
+          PageTitle(name: S.of(context).nav_title(DrawerItem.navSchedule.title)),
           TabBar(
             controller: tabController,
             isScrollable: true,

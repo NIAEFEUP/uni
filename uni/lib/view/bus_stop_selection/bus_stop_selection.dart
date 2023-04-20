@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/controller/local_storage/app_bus_stop_database.dart';
 import 'package:uni/model/entities/bus_stop.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/providers/bus_stop_provider.dart';
 import 'package:uni/view/bus_stop_selection/widgets/bus_stop_search.dart';
 import 'package:uni/view/bus_stop_selection/widgets/bus_stop_selection_row.dart';
@@ -45,12 +46,10 @@ class BusStopSelectionPageState
             bottom: 20,
           ),
           children: <Widget>[
-            const PageTitle(name: 'Autocarros Configurados'),
+            PageTitle(name: S.of(context).configured_buses),
             Container(
                 padding: const EdgeInsets.all(20.0),
-                child: const Text(
-                    '''Os autocarros favoritos serão apresentados no widget 'Autocarros' dos favoritos.'''
-                    '''Os restantes serão apresentados apenas na página.''',
+                child: Text( S.of(context).buses_text,
                     textAlign: TextAlign.center)),
             Column(children: rows),
             Container(
@@ -62,11 +61,11 @@ class BusStopSelectionPageState
                       ElevatedButton(
                         onPressed: () => showSearch(
                             context: context, delegate: BusStopSearch()),
-                        child: const Text('Adicionar'),
+                        child: Text(S.of(context).add),
                       ),
                       ElevatedButton(
                         onPressed: () => Navigator.pop(context),
-                        child: const Text('Concluído'),
+                        child: Text(S.of(context).conclude),
                       ),
                     ]))
           ]);

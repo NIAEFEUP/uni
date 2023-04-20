@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:uni/controller/fetchers/departures_fetcher.dart';
 import 'package:uni/controller/local_storage/app_bus_stop_database.dart';
 import 'package:uni/model/entities/bus_stop.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/providers/bus_stop_provider.dart';
 import 'package:uni/view/bus_stop_selection/widgets/form.dart';
 
@@ -83,7 +84,7 @@ class BusStopSearch extends SearchDelegate<String> {
             onNonMatch: (m) => ''),
         updateStopCallback);
     return AlertDialog(
-        title: Text('Seleciona os autocarros dos quais queres informação:',
+        title: Text(S.of(context).bus_information,
             style: Theme.of(context).textTheme.headline5),
         content: SizedBox(
           height: 200.0,
@@ -92,11 +93,11 @@ class BusStopSearch extends SearchDelegate<String> {
         ),
         actions: [
           TextButton(
-              child: Text('Cancelar',
+              child: Text(S.of(context).cancel,
                   style: Theme.of(context).textTheme.bodyText2),
               onPressed: () => Navigator.pop(context)),
           ElevatedButton(
-              child: const Text('Confirmar'),
+              child: Text(S.of(context).confirm),
               onPressed: () async {
                 if (stopData!.configuredBuses.isNotEmpty) {
                   Provider.of<BusStopProvider>(context, listen: false)
@@ -125,8 +126,8 @@ class BusStopSearch extends SearchDelegate<String> {
             return Container(
                 margin: const EdgeInsets.all(8.0),
                 height: 24.0,
-                child: const Center(
-                  child: Text('Sem resultados.'),
+                child: Center(
+                  child: Text(S.of(context).no_results),
                 ));
           } else {
             suggestionsList = snapshot.data!;

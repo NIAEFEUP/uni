@@ -23,7 +23,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m0(time) => "última atualização às ${time}";
 
   static String m1(time) =>
-      "${Intl.plural(time, one: 'Atualizado há ${time} minuto', other: 'Atualizado há ${time} minutos')}";
+      "${Intl.plural(time, zero: 'Atualizado há ${time} minutos', one: 'Atualizado há ${time} minuto', other: 'Atualizado há ${time} minutos')}";
 
   static String m2(title) => "${Intl.select(title, {
             'horario': 'Horário',
@@ -45,19 +45,28 @@ class MessageLookup extends MessageLookupByLibrary {
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "account_card_title":
             MessageLookupByLibrary.simpleMessage("Conta Corrente"),
+        "add": MessageLookupByLibrary.simpleMessage("Adicionar"),
         "add_widget": MessageLookupByLibrary.simpleMessage("Adicionar widget"),
         "all_widgets_added": MessageLookupByLibrary.simpleMessage(
             "Todos os widgets disponíveis já foram adicionados à tua área pessoal!"),
         "balance": MessageLookupByLibrary.simpleMessage("Saldo:"),
-        "bus_card_title": MessageLookupByLibrary.simpleMessage("Autocarros"),
         "bus_error": MessageLookupByLibrary.simpleMessage(
             "Não foi possível obter informação"),
+        "bus_information": MessageLookupByLibrary.simpleMessage(
+            "Seleciona os autocarros dos quais queres informação:"),
         "buses_personalize": MessageLookupByLibrary.simpleMessage(
             "Configura aqui os teus autocarros"),
+        "buses_text": MessageLookupByLibrary.simpleMessage(
+            "Os autocarros favoritos serão apresentados no widget \'Autocarros\' dos favoritos. Os restantes serão apresentados apenas na página."),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancelar\n"),
+        "conclude": MessageLookupByLibrary.simpleMessage("Concluído"),
+        "configured_buses":
+            MessageLookupByLibrary.simpleMessage("Autocarros Configurados"),
+        "confirm": MessageLookupByLibrary.simpleMessage("Confirmar"),
         "edit_off": MessageLookupByLibrary.simpleMessage("Editar\n"),
         "edit_on": MessageLookupByLibrary.simpleMessage("Concluir edição"),
-        "exam_card_title": MessageLookupByLibrary.simpleMessage("Exames"),
+        "exams_filter":
+            MessageLookupByLibrary.simpleMessage("Definições Filtro de Exames"),
         "fee_date": MessageLookupByLibrary.simpleMessage(
             "Data limite próxima prestação:"),
         "fee_notification": MessageLookupByLibrary.simpleMessage(
@@ -66,18 +75,22 @@ class MessageLookup extends MessageLookupByLibrary {
         "last_timestamp": m1,
         "logout": MessageLookupByLibrary.simpleMessage("Terminar sessão"),
         "nav_title": m2,
+        "no_course_units": MessageLookupByLibrary.simpleMessage(
+            "Sem cadeiras no período selecionado"),
         "no_data": MessageLookupByLibrary.simpleMessage(
             "Não há dados a mostrar neste momento"),
         "no_exams":
             MessageLookupByLibrary.simpleMessage("Não possui exames marcados"),
+        "no_results": MessageLookupByLibrary.simpleMessage("Sem resultados"),
+        "no_selected_courses": MessageLookupByLibrary.simpleMessage(
+            "Não existem cadeiras para apresentar"),
         "no_selected_exams": MessageLookupByLibrary.simpleMessage(
             "Não existem exames para apresentar"),
-        "restaurant_card_title":
-            MessageLookupByLibrary.simpleMessage("Restaurantes"),
-        "schedule_card_title": MessageLookupByLibrary.simpleMessage("Horário"),
+        "semester": MessageLookupByLibrary.simpleMessage("Semestre"),
         "stcp_stops":
             MessageLookupByLibrary.simpleMessage("STCP - Próximas Viagens"),
         "widget_prompt": MessageLookupByLibrary.simpleMessage(
-            "Escolhe um widget para adicionares à tua área pessoal:")
+            "Escolhe um widget para adicionares à tua área pessoal:"),
+        "year": MessageLookupByLibrary.simpleMessage("Ano")
       };
 }

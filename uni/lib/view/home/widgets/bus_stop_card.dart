@@ -17,7 +17,7 @@ class BusStopCard extends GenericCard {
       : super.fromEditingInformation(key, editingMode, onDelete);
 
   @override
-  String getTitle(BuildContext context) => S.of(context).bus_card_title;
+  String getTitle(BuildContext context) => S.of(context).nav_title(DrawerItem.navStops.title);
 
   @override
   onClick(BuildContext context) =>

@@ -106,7 +106,7 @@ class ScheduleCard extends GenericCard {
   }
 
   @override
-  String getTitle(context) => S.of(context).schedule_card_title;
+  String getTitle(context) => S.of(context).nav_title(DrawerItem.navSchedule.title);
 
   @override
   onClick(BuildContext context) =>
