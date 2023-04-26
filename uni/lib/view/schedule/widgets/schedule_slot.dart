@@ -31,20 +31,16 @@ class ScheduleSlot extends StatelessWidget {
         child: Container(
       padding: const EdgeInsets.only(
           top: 10.0, bottom: 10.0, left: 22.0, right: 22.0),
-      child: createScheduleSlotRow(context),
+      child: Container(
+          key: Key('schedule-slot-time-$begin-$end'),
+          margin: const EdgeInsets.only(top: 3.0, bottom: 3.0),
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: createScheduleSlotPrimInfo(context),
+          )),
     ));
-  }
-
-  Widget createScheduleSlotRow(context) {
-    return Container(
-        key: Key('schedule-slot-time-$begin-$end'),
-        margin: const EdgeInsets.only(top: 3.0, bottom: 3.0),
-        child: Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: createScheduleSlotPrimInfo(context),
-        ));
   }
 
   List<Widget> createScheduleSlotPrimInfo(context) {
@@ -92,7 +88,7 @@ class ScheduleSlot extends StatelessWidget {
 
 class SubjectButtonWidget extends StatelessWidget {
   final int occurrId;
-
+0
   const SubjectButtonWidget({super.key, required this.occurrId});
 
   String toUcLink(int occurrId) {
@@ -171,7 +167,6 @@ class ScheduleTimeTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO... VAMOS AO EXTREMO DE CRIAR UM WIDGET PARA TUDO ?
     return TextFieldWidget(
       text: time,
       style: Theme.of(context).textTheme.bodyText2,
