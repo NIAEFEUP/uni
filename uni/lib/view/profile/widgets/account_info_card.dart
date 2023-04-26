@@ -22,29 +22,6 @@ class AccountInfoCard extends GenericCard {
       builder: (context, profileStateProvider, referenceProvider, _) {
         final profile = profileStateProvider.profile;
         final List<Reference> references = referenceProvider.references;
-        final Widget referenceWidgets;
-
-        if (references.isEmpty) {
-          referenceWidgets = Text(
-            "Não existem referências a pagar",
-            style: Theme.of(context).textTheme.subtitle2,
-            textScaleFactor: 0.9,
-          );
-        } else if (references.length == 1) {
-          referenceWidgets = ReferenceSection(reference: references[0]);
-        } else {
-          referenceWidgets = Column(
-              children: [
-                ReferenceSection(reference: references[0]),
-                const Divider(
-                  thickness: 1,
-                  indent: 30,
-                  endIndent: 30,
-                ),
-                ReferenceSection(reference: references[1]),
-              ]
-          );
-        }
 
         return Column(children: [
           Table(
@@ -100,7 +77,7 @@ class AccountInfoCard extends GenericCard {
                   ]
               )
           ),
-          referenceWidgets,
+          ReferenceWidgets(references: references),
           const SizedBox(
               height: 10
           ),
@@ -115,4 +92,35 @@ class AccountInfoCard extends GenericCard {
 
   @override
   onClick(BuildContext context) {}
+}
+
+class ReferenceWidgets extends StatelessWidget {
+  final List<Reference> references;
+
+  const ReferenceWidgets({Key? key, required this.references}): super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    if (references.isEmpty) {
+      return Text(
+        "Não existem referências a pagar",
+        style: Theme.of(context).textTheme.subtitle2,
+        textScaleFactor: 0.9,
+      );
+    }
+    if (references.length == 1) {
+      return ReferenceSection(reference: references[0]);
+    }
+    return Column(
+        children: [
+          ReferenceSection(reference: references[0]),
+          const Divider(
+            thickness: 1,
+            indent: 30,
+            endIndent: 30,
+          ),
+          ReferenceSection(reference: references[1]),
+        ]
+    );
+  }
 }
