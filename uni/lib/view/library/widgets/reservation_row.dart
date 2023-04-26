@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:uni/controller/fetchers/library_reservation_fetcher.dart';
 import 'package:uni/model/entities/library_reservation.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/entities/time_utilities.dart';
-import 'package:uni/model/providers/library_reservations_provider.dart';
 import 'package:uni/model/providers/session_provider.dart';
 import 'package:uni/model/providers/state_providers.dart';
 import 'package:uni/view/common_widgets/toast_message.dart';
@@ -99,7 +96,7 @@ class ReservationRemoveButton extends StatelessWidget {
                           onPressed: () => Navigator.of(toastContext).pop(),
                           child: const Text('Voltar')),
                       ElevatedButton(
-                          child: const Text('Cancelar'),
+                          child: const Text('Confirmar'),
                           onPressed: () async {
                             cancelReservation(context, reservation.id);
                           })
