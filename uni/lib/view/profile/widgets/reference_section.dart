@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:uni/model/entities/reference.dart';
+import 'package:uni/view/common_widgets/toast_message.dart';
 
 
 class ReferenceSection extends StatelessWidget {
@@ -85,7 +86,10 @@ class InfoCopyRow extends StatelessWidget {
           InkWell(
             splashColor: Theme.of(context).highlightColor,
             child: const Icon(Icons.content_copy, size: 16),
-            onTap: () => Clipboard.setData(ClipboardData(text: info)),
+            onTap: () {
+              Clipboard.setData(ClipboardData(text: info));
+              ToastMessage.success(context, "Texto copiado!");
+            },
           ),
         ],
       ),
