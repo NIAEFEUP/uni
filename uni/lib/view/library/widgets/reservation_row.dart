@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:uni/controller/fetchers/library_reservation_fetcher.dart';
 import 'package:uni/model/entities/library_reservation.dart';
+import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/entities/time_utilities.dart';
+import 'package:uni/model/providers/library_reservations_provider.dart';
+import 'package:uni/model/providers/session_provider.dart';
+import 'package:uni/model/providers/state_providers.dart';
+import 'package:uni/view/common_widgets/toast_message.dart';
 
 class ReservationRow extends StatelessWidget {
   final LibraryReservation reservation;
@@ -55,26 +63,67 @@ class ReservationRow extends StatelessWidget {
               )
             ],
           ),
-          const ReservationRemoveButton()
+          ReservationRemoveButton(reservation)
         ]);
   }
 }
 
 class ReservationRemoveButton extends StatelessWidget {
-  const ReservationRemoveButton({super.key});
+  final LibraryReservation reservation;
+
+  const ReservationRemoveButton(this.reservation, {super.key});
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      constraints: const BoxConstraints(
-          minHeight: kMinInteractiveDimension / 3,
-          minWidth: kMinInteractiveDimension / 3),
-      icon: const Icon(Icons.close),
-      iconSize: 24,
-      color: Colors.grey,
-      alignment: Alignment.centerRight,
-      tooltip: 'Cancelar reserva',
-      onPressed: () => {},
-    );
+        constraints: const BoxConstraints(
+            minHeight: kMinInteractiveDimension / 3,
+            minWidth: kMinInteractiveDimension / 3),
+        icon: const Icon(Icons.close),
+        iconSize: 24,
+        color: Colors.grey,
+        alignment: Alignment.centerRight,
+        tooltip: 'Cancelar reserva',
+        onPressed: () {
+          showDialog(
+              context: context,
+              builder: (BuildContext toastContext) {
+                return AlertDialog(
+                  content: Text(
+                    'Queres cancelar este pedido?',
+                    style: Theme.of(context).textTheme.subtitle1,
+                  ),
+                  actions: <Widget>[
+                    Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                      TextButton(
+                          onPressed: () => Navigator.of(toastContext).pop(),
+                          child: const Text('Voltar')),
+                      ElevatedButton(
+                          child: const Text('Cancelar'),
+                          onPressed: () async {
+                            cancelReservation(context, reservation.id);
+                          })
+                    ])
+                  ],
+                );
+              });
+        });
+  }
+
+  cancelReservation(context, String id) async {
+    final Session session =
+        Provider.of<SessionProvider>(context, listen: false).session;
+
+    final stateProviders = StateProviders.fromContext(context);
+    final bool result = await stateProviders.libraryReservationsProvider
+        .cancelReservation(session, id);
+
+    if (result) {
+      Navigator.of(context).pop(false);
+      return ToastMessage.success(context, 'A reserva foi cancelada!');
+    } else {
+      return ToastMessage.error(
+          context, 'Ocorreu um erro ao cancelar a reserva!');
+    }
   }
 }

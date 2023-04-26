@@ -36,6 +36,7 @@ class LibraryReservationDatabase extends AppDatabase {
     for (int i = 0; i < items.length; i++) {
       final int minutes = items[i]['duration'];
       reservations.add(LibraryReservation(
+          items[i]['id'],
           items[i]['room'],
           DateTime.parse(items[i]['startDate']),
           Duration(hours: minutes ~/ 60, minutes: minutes % 60)));
