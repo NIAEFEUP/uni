@@ -25,8 +25,7 @@ class LibraryReservationsCard extends GenericCard {
   Widget buildCardContent(BuildContext context) {
     return Consumer<LibraryReservationsProvider> (
       builder: (context, reservationsProvider, _) {
-      if (reservationsProvider.reservations == null
-          || reservationsProvider.status == RequestStatus.busy) {
+      if (reservationsProvider.status == RequestStatus.busy) {
         return const Center(child: CircularProgressIndicator());
       } else {
         return RoomsList(reservationsProvider.reservations);
