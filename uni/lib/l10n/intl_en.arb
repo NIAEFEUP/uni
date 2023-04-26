@@ -36,6 +36,10 @@
   "@fee_date": {},
   "fee_notification": "Notify next deadline:",
   "@fee_notification": {},
+  "floor": "Floor",
+  "@floor": {},
+  "floors": "Floors",
+  "@floors": {},
   "last_refresh_time": "last refresh at {time}",
   "@last_refresh_time": {
     "placeholders": {
@@ -48,8 +52,14 @@
       "time": {}
     }
   },
+  "library": "Library",
+  "@library": {},
+  "library_occupation": "Library Occupation",
+  "@library_occupation": {},
   "logout": "Log out",
   "@logout": {},
+  "menus": "Menus",
+  "@menus": {},
   "nav_title": "{title, select, horario{Schedule} exames{Exams} area{Personal Area} cadeiras{Course Units} autocarros{Buses} locais{Places} restaurantes{Restaurants} calendario{Calendar} biblioteca{Library} uteis{Utils} sobre{About} bugs{Bugs and Suggestions} other{Other}}",
   "@nav_title": {},
   "no_course_units": "No course units in the selected period",
@@ -58,6 +68,10 @@
   "@no_data": {},
   "no_exams": "You have no exams scheduled\n",
   "@no_exams": {},
+  "no_menu_info": "There is no information available about meals",
+  "@no_menu_info": {},
+  "no_menus": "There are no meals available",
+  "@no_menus": {},
   "no_results": "No match",
   "@no_results": {},
   "no_selected_courses": "There are no course units to display",

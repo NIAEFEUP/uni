@@ -6,6 +6,7 @@ import 'package:uni/model/request_status.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
 import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
+import 'package:uni/generated/l10n.dart';
 
 /// Manages the library card section inside the personal area.
 class LibraryOccupationCard extends GenericCard {
@@ -16,7 +17,7 @@ class LibraryOccupationCard extends GenericCard {
       : super.fromEditingInformation(key, editingMode, onDelete);
 
   @override
-  String getTitle(context) => 'Ocupação da Biblioteca';
+  String getTitle(context) => S.of(context).library_occupation;
 
   @override
   onClick(BuildContext context) =>

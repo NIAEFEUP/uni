@@ -71,9 +71,15 @@ class MessageLookup extends MessageLookupByLibrary {
             "Data limite próxima prestação:"),
         "fee_notification": MessageLookupByLibrary.simpleMessage(
             "Notificar próxima data limite:"),
+        "floor": MessageLookupByLibrary.simpleMessage("Piso"),
+        "floors": MessageLookupByLibrary.simpleMessage("Pisos"),
         "last_refresh_time": m0,
         "last_timestamp": m1,
+        "library": MessageLookupByLibrary.simpleMessage("Biblioteca"),
+        "library_occupation":
+            MessageLookupByLibrary.simpleMessage("Ocupação da Biblioteca"),
         "logout": MessageLookupByLibrary.simpleMessage("Terminar sessão"),
+        "menus": MessageLookupByLibrary.simpleMessage("Ementas"),
         "nav_title": m2,
         "no_course_units": MessageLookupByLibrary.simpleMessage(
             "Sem cadeiras no período selecionado"),
@@ -81,6 +87,10 @@ class MessageLookup extends MessageLookupByLibrary {
             "Não há dados a mostrar neste momento"),
         "no_exams":
             MessageLookupByLibrary.simpleMessage("Não possui exames marcados"),
+        "no_menu_info": MessageLookupByLibrary.simpleMessage(
+            "Não há informação disponível sobre refeições"),
+        "no_menus": MessageLookupByLibrary.simpleMessage(
+            "Não há refeições disponíveis"),
         "no_results": MessageLookupByLibrary.simpleMessage("Sem resultados"),
         "no_selected_courses": MessageLookupByLibrary.simpleMessage(
             "Não existem cadeiras para apresentar"),

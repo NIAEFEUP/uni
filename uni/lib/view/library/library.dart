@@ -5,6 +5,8 @@ import 'package:uni/model/entities/library_occupation.dart';
 import 'package:uni/model/providers/library_occupation_provider.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
+import 'package:uni/generated/l10n.dart';
+import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/library/widgets/library_occupation_card.dart';
 
 class LibraryPageView extends StatefulWidget {
@@ -49,9 +51,9 @@ class LibraryPage extends StatelessWidget {
         scrollDirection: Axis.vertical,
         shrinkWrap: true,
         children: [
-          const PageTitle(name: 'Biblioteca'),
+          PageTitle(name: S.of(context).nav_title(DrawerItem.navLibrary.title)),
           LibraryOccupationCard(),
-          if (occupation != null) const PageTitle(name: 'Pisos'),
+          if (occupation != null) PageTitle(name: S.of(context).floors),
           if (occupation != null) getFloorRows(context, occupation!),
         ]);
   }
@@ -93,7 +95,7 @@ class LibraryPage extends StatelessWidget {
           ]),
       child:
           Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-        Text('Piso ${floor.number}',
+        Text('${S.of(context).floor} ${floor.number}',
             style: Theme.of(context).textTheme.headline5),
         Text('${floor.percentage}%',
             style: Theme.of(context).textTheme.headline6),

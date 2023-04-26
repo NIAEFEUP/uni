@@ -230,6 +230,26 @@ class S {
     );
   }
 
+  /// `Floor`
+  String get floor {
+    return Intl.message(
+      'Floor',
+      name: 'floor',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Floors`
+  String get floors {
+    return Intl.message(
+      'Floors',
+      name: 'floors',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `last refresh at {time}`
   String last_refresh_time(Object time) {
     return Intl.message(
@@ -253,11 +273,41 @@ class S {
     );
   }
 
+  /// `Library`
+  String get library {
+    return Intl.message(
+      'Library',
+      name: 'library',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Library Occupation`
+  String get library_occupation {
+    return Intl.message(
+      'Library Occupation',
+      name: 'library_occupation',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Log out`
   String get logout {
     return Intl.message(
       'Log out',
       name: 'logout',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Menus`
+  String get menus {
+    return Intl.message(
+      'Menus',
+      name: 'menus',
       desc: '',
       args: [],
     );
@@ -313,6 +363,26 @@ class S {
     return Intl.message(
       'You have no exams scheduled\n',
       name: 'no_exams',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `There is no information available about meals`
+  String get no_menu_info {
+    return Intl.message(
+      'There is no information available about meals',
+      name: 'no_menu_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `There are no meals available`
+  String get no_menus {
+    return Intl.message(
+      'There are no meals available',
+      name: 'no_menus',
       desc: '',
       args: [],
     );

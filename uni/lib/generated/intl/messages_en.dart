@@ -71,9 +71,15 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Deadline for next fee:"),
         "fee_notification":
             MessageLookupByLibrary.simpleMessage("Notify next deadline:"),
+        "floor": MessageLookupByLibrary.simpleMessage("Floor"),
+        "floors": MessageLookupByLibrary.simpleMessage("Floors"),
         "last_refresh_time": m0,
         "last_timestamp": m1,
+        "library": MessageLookupByLibrary.simpleMessage("Library"),
+        "library_occupation":
+            MessageLookupByLibrary.simpleMessage("Library Occupation"),
         "logout": MessageLookupByLibrary.simpleMessage("Log out"),
+        "menus": MessageLookupByLibrary.simpleMessage("Menus"),
         "nav_title": m2,
         "no_course_units": MessageLookupByLibrary.simpleMessage(
             "No course units in the selected period"),
@@ -81,6 +87,10 @@ class MessageLookup extends MessageLookupByLibrary {
             "There is no data to show at this time"),
         "no_exams": MessageLookupByLibrary.simpleMessage(
             "You have no exams scheduled\n"),
+        "no_menu_info": MessageLookupByLibrary.simpleMessage(
+            "There is no information available about meals"),
+        "no_menus": MessageLookupByLibrary.simpleMessage(
+            "There are no meals available"),
         "no_results": MessageLookupByLibrary.simpleMessage("No match"),
         "no_selected_courses": MessageLookupByLibrary.simpleMessage(
             "There are no course units to display"),

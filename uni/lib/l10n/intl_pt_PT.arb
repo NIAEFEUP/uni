@@ -36,6 +36,10 @@
   "@fee_date": {},
   "fee_notification": "Notificar próxima data limite:",
   "@fee_notification": {},
+  "floor": "Piso",
+  "@floor": {},
+  "floors": "Pisos",
+  "@floors": {},
   "last_refresh_time": "última atualização às {time}",
   "@last_refresh_time": {
     "placeholders": {
@@ -48,8 +52,14 @@
       "time": {}
     }
   },
+  "library": "Biblioteca",
+  "@library": {},
+  "library_occupation": "Ocupação da Biblioteca",
+  "@library_occupation": {},
   "logout": "Terminar sessão",
   "@logout": {},
+  "menus": "Ementas",
+  "@menus": {},
   "nav_title": "{title, select, horario{Horário} exames{Exames} area{Área Pessoal} cadeiras{Cadeiras} autocarros{Autocarros} locais{Locais} restaurantes{Restaurantes} calendario{Calendário} biblioteca{Biblioteca} uteis{Úteis} sobre{Sobre} bugs{Bugs e Sugestões} other{Outros}}",
   "@nav_title": {},
   "no_course_units": "Sem cadeiras no período selecionado",
@@ -58,6 +68,10 @@
   "@no_data": {},
   "no_exams": "Não possui exames marcados",
   "@no_exams": {},
+  "no_menu_info": "Não há informação disponível sobre refeições",
+  "@no_menu_info": {},
+  "no_menus": "Não há refeições disponíveis",
+  "@no_menus": {},
   "no_results": "Sem resultados",
   "@no_results": {},
   "no_selected_courses": "Não existem cadeiras para apresentar",

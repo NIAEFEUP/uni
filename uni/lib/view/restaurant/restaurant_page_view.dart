@@ -1,11 +1,13 @@
 import 'package:provider/provider.dart';
 import 'package:uni/model/entities/meal.dart';
 import 'package:flutter/material.dart';
+import 'package:uni/model/entities/time_utilities.dart';
 import 'package:uni/model/providers/restaurant_provider.dart';
 import 'package:uni/model/request_status.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/model/utils/day_of_week.dart';
+import 'package:uni/generated/l10n.dart';
 
 import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
@@ -49,7 +51,7 @@ class _CanteenPageState extends GeneralPageViewState<RestaurantPageView>
         Container(
           padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
           alignment: Alignment.center,
-          child: const PageTitle(name: 'Ementas', center: false, pad: false),
+          child: PageTitle(name: S.of(context).menus , center: false, pad: false),
         ),
         TabBar(
           controller: tabController,
@@ -64,7 +66,7 @@ class _CanteenPageState extends GeneralPageViewState<RestaurantPageView>
           contentGenerator: createTabViewBuilder,
           content: restaurants,
           contentChecker: restaurants.isNotEmpty,
-          onNullContent: const Center(child: Text('Não há refeições disponíveis.')))
+          onNullContent: Center(child: Text(S.of(context).no_menus)))
     ]);
   }
 
@@ -87,12 +89,14 @@ class _CanteenPageState extends GeneralPageViewState<RestaurantPageView>
   }
 
   List<Widget> createTabs(BuildContext context) {
+    final List<String> daysOfTheWeek =
+      TimeString.getWeekdaysStrings(includeWeekend: true);
     final List<Widget> tabs = <Widget>[];
 
     for (var i = 0; i < DayOfWeek.values.length; i++) {
       tabs.add(Container(
         color: Theme.of(context).backgroundColor,
-        child: Tab(key: Key('cantine-page-tab-$i'), text: toString(DayOfWeek.values[i])),
+        child: Tab(key: Key('cantine-page-tab-$i'), text: daysOfTheWeek[i]),
       ));
     }
 
@@ -119,8 +123,7 @@ class _CanteenPageState extends GeneralPageViewState<RestaurantPageView>
           key: Key('cantine-page-day-column-$day'),
           child: Column(
             mainAxisSize: MainAxisSize.min,
-            children:
-            const [Center (child: Text("Não há informação disponível sobre refeições")),],
+            children: [Center (child: Text(S.of(context).no_menu_info)),],
           )
       );
     } else {
