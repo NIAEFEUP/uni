@@ -15,10 +15,12 @@ class ReferenceSection extends StatelessWidget {
     return Column(
       children: <Widget>[
         TitleText(title: reference.description),
-        InfoCopyRow(infoName: 'Entidade', info: reference.entity.toString()),
-        InfoCopyRow(infoName: 'Referência', info: reference.reference.toString()),
+        InfoCopyRow(infoName: 'Entidade', info: reference.entity.toString(),
+            copyMessage: 'Entidade copiada!'),
+        InfoCopyRow(infoName: 'Referência', info: reference.reference.toString(),
+            copyMessage: 'Referência copiada!'),
         InfoCopyRow(infoName: 'Montante', info: reference.amount.toString(),
-            isMoney: true),
+            copyMessage: 'Montante copiado!', isMoney: true),
       ]
     );
   }
@@ -66,10 +68,11 @@ class TitleText extends StatelessWidget {
 class InfoCopyRow extends StatelessWidget {
   final String infoName;
   final String info;
+  final String copyMessage;
   final bool isMoney;
 
   const InfoCopyRow({Key? key, required this.infoName, required this.info,
-      this.isMoney = false}) : super(key: key);
+      required this.copyMessage, this.isMoney = false}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +91,7 @@ class InfoCopyRow extends StatelessWidget {
             child: const Icon(Icons.content_copy, size: 16),
             onTap: () {
               Clipboard.setData(ClipboardData(text: info));
-              ToastMessage.success(context, "Texto copiado!");
+              ToastMessage.success(context, copyMessage);
             },
           ),
         ],
