@@ -10,7 +10,6 @@ import 'package:uni/view/schedule/widgets/schedule_slot.dart';
 import 'package:uni/view/home/widgets/schedule_card_shimmer.dart';
 import 'package:uni/utils/drawer_items.dart';
 
-
 class ScheduleCard extends GenericCard {
   ScheduleCard({Key? key}) : super(key: key);
 
@@ -33,7 +32,7 @@ class ScheduleCard extends GenericCard {
           contentChecker: lectureProvider.lectures.isNotEmpty,
           onNullContent: Center(
               child: Text('Não existem aulas para apresentar',
-                  style: Theme.of(context).textTheme.headline6,
+                  style: Theme.of(context).textTheme.titleLarge,
                   textAlign: TextAlign.center)),
         contentLoadingWidget: const ScheduleCardShimmer().build(context))
     );
@@ -73,7 +72,8 @@ class ScheduleCard extends GenericCard {
       if (stringTimeNow.compareTo(stringEndTimeLecture) < 0) {
         if (now.weekday - 1 != lectures[i].day &&
             lastDayAdded < lectures[i].day) {
-          rows.add(DateRectangle(date: TimeString.getWeekdaysStrings()[lectures[i].day % 7]));
+          rows.add(DateRectangle(
+              date: TimeString.getWeekdaysStrings()[lectures[i].day % 7]));
         }
 
         rows.add(createRowFromLecture(context, lectures[i]));
@@ -83,7 +83,8 @@ class ScheduleCard extends GenericCard {
     }
 
     if (rows.isEmpty) {
-      rows.add(DateRectangle(date: TimeString.getWeekdaysStrings()[lectures[0].day % 7]));
+      rows.add(DateRectangle(
+          date: TimeString.getWeekdaysStrings()[lectures[0].day % 7]));
       rows.add(createRowFromLecture(context, lectures[0]));
     }
     return rows;

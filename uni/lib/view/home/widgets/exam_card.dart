@@ -46,7 +46,7 @@ class ExamCard extends GenericCard {
         contentChecker: exams.isNotEmpty,
         onNullContent: Center(
           child: Text('Não existem exames para apresentar',
-              style: Theme.of(context).textTheme.headline6),
+              style: Theme.of(context).textTheme.titleLarge),
         ),
         contentLoadingWidget: const ExamCardShimmer().build(context),
       );
@@ -106,7 +106,7 @@ class ExamCard extends GenericCard {
     return Container(
       margin: const EdgeInsets.only(top: 8),
       child: RowContainer(
-        color: Theme.of(context).backgroundColor,
+        color: Theme.of(context).colorScheme.background,
         child: Container(
           padding: const EdgeInsets.all(11),
           child: Row(
@@ -116,7 +116,7 @@ class ExamCard extends GenericCard {
               children: <Widget>[
                 Text(
                   '${exam.begin.day} de ${exam.month}',
-                  style: Theme.of(context).textTheme.bodyText1,
+                  style: Theme.of(context).textTheme.bodyLarge,
                 ),
                 ExamTitle(
                     subject: exam.subject, type: exam.type, reverseOrder: true)

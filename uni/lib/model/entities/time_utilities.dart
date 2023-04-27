@@ -3,7 +3,8 @@ extension TimeString on DateTime {
     return '${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}';
   }
 
-  static List<String> getWeekdaysStrings({bool startMonday = true, bool includeWeekend = true}) {
+  static List<String> getWeekdaysStrings(
+      {bool startMonday = true, bool includeWeekend = true}) {
     final List<String> weekdays = [
       'Segunda-Feira',
       'Terça-Feira',

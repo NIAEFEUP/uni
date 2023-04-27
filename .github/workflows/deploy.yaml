@@ -40,7 +40,7 @@ jobs:
     env:
       PROPERTIES_PATH: "android/key.properties"
       JAVA_VERSION: "11.x"
-      FLUTTER_VERSION: "3.3.2"
+      FLUTTER_VERSION: "3.7.2"
     defaults:
       run:
         working-directory: ./uni
