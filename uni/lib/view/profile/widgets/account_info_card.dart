@@ -72,7 +72,7 @@ class AccountInfoCard extends GenericCard {
               child: Row(
                   children: <Widget>[
                     Text('Referências pendentes',
-                        style: Theme.of(context).textTheme.headline6
+                        style: Theme.of(context).textTheme.titleLarge
                             ?.apply(color: Theme.of(context).colorScheme.secondary)),
                   ]
               )
@@ -104,7 +104,7 @@ class ReferenceWidgets extends StatelessWidget {
     if (references.isEmpty) {
       return Text(
         "Não existem referências a pagar",
-        style: Theme.of(context).textTheme.subtitle2,
+        style: Theme.of(context).textTheme.headlineSmall,
         textScaleFactor: 0.9,
       );
     }

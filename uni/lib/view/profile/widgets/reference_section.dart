@@ -38,7 +38,7 @@ class InfoText extends StatelessWidget {
     return Text(
       text,
       textScaleFactor: 0.9,
-      style: Theme.of(context).textTheme.subtitle2?.copyWith(
+      style: Theme.of(context).textTheme.titleSmall?.copyWith(
         color: color
       ),
     );
@@ -57,7 +57,7 @@ class TitleText extends StatelessWidget {
       alignment: Alignment.centerLeft,
       child: Text(
         title,
-        style: Theme.of(context).textTheme.subtitle2,
+        style: Theme.of(context).textTheme.titleSmall,
         overflow: TextOverflow.fade,
         softWrap: false,
       ),
