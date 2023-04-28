@@ -65,5 +65,6 @@ class AppReferencesDatabase extends AppDatabase {
     final batch = db.batch();
     batch.execute('DROP TABLE IF EXISTS refs');
     batch.execute(createScript);
+    batch.commit();
   }
 }
