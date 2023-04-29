@@ -40,7 +40,7 @@ class LibraryOccupationCard extends GenericCard {
     if (occupation == null || occupation.capacity == 0) {
       return Center(
           child: Text('Não existem dados para apresentar',
-              style: Theme.of(context).textTheme.headline6,
+              style: Theme.of(context).textTheme.titleLarge,
               textAlign: TextAlign.center));
     }
     return Padding(
@@ -52,13 +52,13 @@ class LibraryOccupationCard extends GenericCard {
           center: Text('${occupation.percentage}%',
               style: Theme.of(context)
                   .textTheme
-                  .headline2
+                  .displayMedium
                   ?.copyWith(fontSize: 23, fontWeight: FontWeight.w500)),
           footer: Column(
             children: [
               const Padding(padding: EdgeInsets.fromLTRB(0, 5.0, 0, 0)),
               Text('${occupation.occupation}/${occupation.capacity}',
-                  style: Theme.of(context).textTheme.headline5),
+                  style: Theme.of(context).textTheme.headlineSmall),
             ],
           ),
           circularStrokeCap: CircularStrokeCap.square,

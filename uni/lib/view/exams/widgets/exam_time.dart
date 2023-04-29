@@ -12,7 +12,7 @@ class ExamTime extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       mainAxisSize: MainAxisSize.max,
       children: <Widget>[
-        Text(begin, style: Theme.of(context).textTheme.bodyText2),
+        Text(begin, style: Theme.of(context).textTheme.bodyMedium),
       ],
     );
   }

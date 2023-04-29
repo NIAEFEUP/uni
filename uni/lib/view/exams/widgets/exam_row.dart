@@ -106,7 +106,7 @@ class _ExamRowState extends State<ExamRow> {
   List<Text> roomsList(BuildContext context, List rooms) {
     return rooms
         .map((room) =>
-            Text(room.trim(), style: Theme.of(context).textTheme.bodyText2))
+            Text(room.trim(), style: Theme.of(context).textTheme.bodyMedium))
         .toList();
   }
 

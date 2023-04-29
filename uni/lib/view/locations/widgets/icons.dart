@@ -11,7 +11,7 @@
 ///      fonts:
 ///       - asset: fonts/LocationIcons.ttf
 ///
-/// 
+///
 ///
 import 'package:flutter/widgets.dart';
 
@@ -22,13 +22,13 @@ class LocationIcons {
   static const String? _kFontPkg = null;
 
   static const IconData bookOpenBlankVariant =
-    IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+      IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData bottleSodaClassic =
-    IconData(0xe801, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+      IconData(0xe801, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData cashMultiple =
-    IconData(0xe802, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+      IconData(0xe802, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData coffee =
-    IconData(0xe803, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+      IconData(0xe803, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData printer =
-    IconData(0xe804, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+      IconData(0xe804, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }
