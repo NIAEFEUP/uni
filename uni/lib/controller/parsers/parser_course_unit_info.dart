@@ -27,7 +27,7 @@ List<CourseUnitClass> parseCourseUnitClasses(
 
   for (final title in titles) {
     final table = title.nextElementSibling;
-    final className = title.innerHtml.substring(
+    final String className = title.innerHtml.substring(
         title.innerHtml.indexOf(' ') + 1, title.innerHtml.indexOf('&'));
 
     final studentRows = table?.querySelectorAll('tr').sublist(1);
@@ -36,13 +36,14 @@ List<CourseUnitClass> parseCourseUnitClasses(
     if (studentRows != null) {
       for (final row in studentRows) {
         final columns = row.querySelectorAll('td.k.t');
-        final studentName = columns[0].children[0].innerHtml;
-        final studentNumber = int.tryParse(columns[1].innerHtml.trim()) ?? 0;
-        final studentMail = columns[2].innerHtml;
+        final String studentName = columns[0].children[0].innerHtml;
+        final int studentNumber =
+            int.tryParse(columns[1].innerHtml.trim()) ?? 0;
+        final String studentMail = columns[2].innerHtml;
 
-        final studentPhoto = Uri.parse(
+        final Uri studentPhoto = Uri.parse(
             "${baseUrl}fotografias_service.foto?pct_cod=$studentNumber");
-        final studentProfile = Uri.parse(
+        final Uri studentProfile = Uri.parse(
             "${baseUrl}fest_geral.cursos_list?pv_num_unico=$studentNumber");
         students.add(CourseUnitStudent(studentName, studentNumber, studentMail,
             studentPhoto, studentProfile));

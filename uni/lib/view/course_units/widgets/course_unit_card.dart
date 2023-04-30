@@ -11,7 +11,7 @@ class CourseUnitCard extends GenericCard {
       : super.customStyle(
             key: key,
             margin: const EdgeInsets.only(top: 10),
-            smallTitle: true,
+            hasSmallTitle: true,
             onDelete: () => null,
             editingMode: false);
 

@@ -40,13 +40,13 @@ class CourseUnitsPageViewState
             (value, element) => element.compareTo(value) > 0 ? element : value);
       }
 
-      final currentYear = int.tryParse(
+      final int? currentYear = int.tryParse(
           selectedSchoolYear?.substring(0, selectedSchoolYear?.indexOf('/')) ??
               '');
       if (selectedSemester == null &&
           currentYear != null &&
           availableSemesters.length == 3) {
-        final currentDate = DateTime.now();
+        final DateTime currentDate = DateTime.now();
         selectedSemester =
             currentDate.year <= currentYear || currentDate.month == 1
                 ? availableSemesters[0]
