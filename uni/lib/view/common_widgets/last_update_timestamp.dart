@@ -21,9 +21,14 @@ class _LastUpdateTimeStampState extends State<LastUpdateTimeStamp> {
     super.initState();
     Timer.periodic(
         const Duration(seconds: 60),
-        (timer) => setState(() {
-              currentTime = DateTime.now();
-            }));
+        (timer) => {
+              if (mounted)
+                {
+                  setState(() {
+                    currentTime = DateTime.now();
+                  })
+                }
+            });
   }
 
   @override
@@ -31,7 +36,7 @@ class _LastUpdateTimeStampState extends State<LastUpdateTimeStamp> {
     return Consumer<LastUserInfoProvider>(
       builder: (context, lastUserInfoProvider, _) => Container(
           padding: const EdgeInsets.only(top: 8.0, bottom: 10.0),
-          child: _getContent(context, lastUserInfoProvider.currentTime)),
+          child: _getContent(context, lastUserInfoProvider.lastUpdateTime!)),
     );
   }
 
@@ -48,7 +53,7 @@ class _LastUpdateTimeStampState extends State<LastUpdateTimeStamp> {
         children: [
           Text(
               'Atualizado há $elapsedTimeMinutes minuto${elapsedTimeMinutes != 1 ? 's' : ''}',
-              style: Theme.of(context).textTheme.subtitle2)
+              style: Theme.of(context).textTheme.titleSmall)
         ]);
   }
 }

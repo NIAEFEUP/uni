@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:encrypt/encrypt.dart' as encrypt;
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tuple/tuple.dart';
 import 'package:uni/model/entities/exam.dart';
@@ -18,6 +17,7 @@ class AppSharedPreferences {
   static const String userFaculties = 'user_faculties';
   static const String termsAndConditions = 'terms_and_conditions';
   static const String areTermsAndConditionsAcceptedKey = 'is_t&c_accepted';
+  static const String tuitionNotificationsToggleKey = "tuition_notification_toogle";
   static const String themeMode = 'theme_mode';
   static const int keyLength = 32;
   static const int ivLength = 16;
@@ -29,16 +29,16 @@ class AppSharedPreferences {
     FavoriteWidgetType.exams,
     FavoriteWidgetType.busStops
   ];
+  static const String hiddenExams = 'hidden_exams';
   static const String filteredExamsTypes = 'filtered_exam_types';
-  static final List<String> defaultFilteredExamTypes =
-      Exam.getExamTypes().keys.toList();
+  static final List<String> defaultFilteredExamTypes = Exam.displayedTypes;
 
   /// Saves the user's student number, password and faculties.
   static Future savePersistentUserInfo(user, pass, faculties) async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.setString(userNumber, user);
-    prefs.setString(userPw, encode(pass));
-    prefs.setStringList(
+    await prefs.setString(userNumber, user);
+    await prefs.setString(userPw, encode(pass));
+    await prefs.setStringList(
         userFaculties, faculties); // Could be multiple faculties
   }
 
@@ -128,8 +128,6 @@ class AppSharedPreferences {
 
     if (pass != '') {
       pass = decode(pass);
-    } else {
-      Logger().w('User password does not exist in shared preferences.');
     }
 
     return pass;
@@ -150,6 +148,18 @@ class AppSharedPreferences {
     return storedFavorites
         .map((i) => FavoriteWidgetType.values[int.parse(i)])
         .toList();
+  }
+
+  static saveHiddenExams(List<String> newHiddenExams) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setStringList(hiddenExams, newHiddenExams);
+  }
+
+  static Future<List<String>> getHiddenExams() async {
+    final prefs = await SharedPreferences.getInstance();
+    final List<String> storedHiddenExam =
+        prefs.getStringList(hiddenExams) ?? [];
+    return storedHiddenExam;
   }
 
   /// Replaces the user's exam filter settings with [newFilteredExamTypes].
@@ -192,4 +202,15 @@ class AppSharedPreferences {
     final key = encrypt.Key.fromLength(keyLength);
     return encrypt.Encrypter(encrypt.AES(key));
   }
+
+  static Future<bool> getTuitionNotificationToggle() async{
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(tuitionNotificationsToggleKey) ?? true;
+  }
+
+  static setTuitionNotificationToggle(bool value) async{
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setBool(tuitionNotificationsToggleKey, value);
+  }
+
 }

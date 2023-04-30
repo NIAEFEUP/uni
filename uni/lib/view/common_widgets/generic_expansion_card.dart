@@ -25,12 +25,10 @@ abstract class GenericExpansionCard extends StatelessWidget {
               ? const Color.fromARGB(0xf, 0, 0, 0)
               : const Color.fromARGB(255, 43, 43, 43),
           title: Text(getTitle(),
-              style: smallTitle
-                  ? Theme.of(context).textTheme.headline6
-                  : Theme.of(context)
-                      .textTheme
-                      .headline5
-                      ?.apply(color: Theme.of(context).primaryColor)),
+              style: Theme.of(context)
+                  .textTheme
+                  .headlineSmall
+                  ?.apply(color: Theme.of(context).primaryColor)),
           elevation: 0,
           children: <Widget>[
             Container(

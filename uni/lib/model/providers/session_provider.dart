@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:collection';
 
+import 'package:uni/controller/background_workers/notifications.dart';
 import 'package:uni/controller/load_info.dart';
 import 'package:uni/controller/load_static/terms_and_conditions.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
@@ -31,23 +32,27 @@ class SessionProvider extends StateProviderNotifier {
     try {
       updateStatus(RequestStatus.busy);
 
+      _faculties = faculties;
       _session = await NetworkRouter.login(
           username, password, faculties, persistentSession);
-      notifyListeners();
-      if (_session.authenticated) {
-        updateStatus(RequestStatus.successful);
-        await loadUserInfoToState(stateProviders);
 
-        /// Faculties chosen in the dropdown
-        _faculties = faculties;
-        notifyListeners();
+      if (_session.authenticated) {
         if (persistentSession) {
-          AppSharedPreferences.savePersistentUserInfo(
+          await AppSharedPreferences.savePersistentUserInfo(
               username, password, faculties);
         }
+        Future.delayed(const Duration(seconds: 20), ()=>{
+          NotificationManager().initializeNotifications()
+        });
+
+        loadLocalUserInfoToState(stateProviders, skipDatabaseLookup: true);
+        await loadRemoteUserInfoToState(stateProviders);
+
         usernameController.clear();
         passwordController.clear();
         await acceptTermsAndConditions();
+
+        updateStatus(RequestStatus.successful);
       } else {
         updateStatus(RequestStatus.failed);
       }
@@ -55,6 +60,7 @@ class SessionProvider extends StateProviderNotifier {
       updateStatus(RequestStatus.failed);
     }
 
+    notifyListeners();
     action.complete();
   }
 
@@ -70,6 +76,9 @@ class SessionProvider extends StateProviderNotifier {
 
       if (session.authenticated) {
         await loadRemoteUserInfoToState(stateProviders);
+        Future.delayed(const Duration(seconds: 20), ()=>{
+          NotificationManager().initializeNotifications()
+        });
         updateStatus(RequestStatus.successful);
         action?.complete();
       } else {

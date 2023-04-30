@@ -78,6 +78,8 @@ class CourseUnitDetailPageViewState
     return Consumer<CourseUnitsInfoProvider>(
         builder: (context, courseUnitsInfoProvider, _) {
       return RequestDependentWidgetBuilder(
+          onNullContent: const Center(),
+          dismissNullWhileLoading: true,
           context: context,
           status: courseUnitsInfoProvider.status,
           contentGenerator: (content, context) => CourseUnitSheetView(content),
@@ -92,6 +94,8 @@ class CourseUnitDetailPageViewState
     return Consumer<CourseUnitsInfoProvider>(
         builder: (context, courseUnitsInfoProvider, _) {
       return RequestDependentWidgetBuilder(
+          onNullContent: const Center(),
+          dismissNullWhileLoading: true,
           context: context,
           status: courseUnitsInfoProvider.status,
           contentGenerator: (content, context) =>

@@ -34,7 +34,7 @@ Future<void> addMoneyDialog(BuildContext context) async {
                         child: Text(
                             'Os dados da referência gerada aparecerão no Sigarra, conta corrente. \nPerfil > Conta Corrente',
                             textAlign: TextAlign.start,
-                            style: Theme.of(context).textTheme.subtitle2)),
+                            style: Theme.of(context).textTheme.titleSmall)),
                     Row(children: [
                       IconButton(
                         icon: const Icon(Icons.indeterminate_check_box),
@@ -85,11 +85,11 @@ Future<void> addMoneyDialog(BuildContext context) async {
                   ],
                 )),
             title: Text('Adicionar quota',
-                style: Theme.of(context).textTheme.headline5),
+                style: Theme.of(context).textTheme.headlineSmall),
             actions: [
               TextButton(
                   child: Text('Cancelar',
-                      style: Theme.of(context).textTheme.bodyText2),
+                      style: Theme.of(context).textTheme.bodyMedium),
                   onPressed: () => Navigator.pop(context)),
               ElevatedButton(
                 onPressed: () => generateReference(context, value),
@@ -110,9 +110,10 @@ double valueTextToNumber(String value) =>
 String numberToValueText(double number) =>
     formatter.format(number.toStringAsFixed(2));
 
-generateReference(context, amount) async {
+void generateReference(context, amount) async {
   if (amount < 1) {
-    return ToastMessage.display(context, 'Valor mínimo: 1,00 €');
+    ToastMessage.warning(context, 'Valor mínimo: 1,00 €');
+    return;
   }
 
   final session = Provider.of<SessionProvider>(context, listen: false).session;
@@ -121,8 +122,8 @@ generateReference(context, amount) async {
 
   if (response.statusCode == 200) {
     Navigator.of(context).pop(false);
-    ToastMessage.display(context, 'Referência criada com sucesso!');
+    ToastMessage.success(context, 'Referência criada com sucesso!');
   } else {
-    ToastMessage.display(context, 'Algum erro!');
+    ToastMessage.error(context, 'Algum erro!');
   }
 }

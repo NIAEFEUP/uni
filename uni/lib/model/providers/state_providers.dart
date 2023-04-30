@@ -9,6 +9,7 @@ import 'package:uni/model/providers/favorite_cards_provider.dart';
 import 'package:uni/model/providers/home_page_editing_mode_provider.dart';
 import 'package:uni/model/providers/last_user_info_provider.dart';
 import 'package:uni/model/providers/lecture_provider.dart';
+import 'package:uni/model/providers/library_occupation_provider.dart';
 import 'package:uni/model/providers/profile_state_provider.dart';
 import 'package:uni/model/providers/restaurant_provider.dart';
 import 'package:uni/model/providers/session_provider.dart';
@@ -23,11 +24,12 @@ class StateProviders {
   final CourseUnitsInfoProvider courseUnitsInfoProvider;
   final SessionProvider sessionProvider;
   final CalendarProvider calendarProvider;
+  final LibraryOccupationProvider libraryOccupationProvider;
   final FacultyLocationsProvider facultyLocationsProvider;
   final LastUserInfoProvider lastUserInfoProvider;
   final UserFacultiesProvider userFacultiesProvider;
   final FavoriteCardsProvider favoriteCardsProvider;
-  final HomePageEditingMode homePageEditingMode;
+  final HomePageEditingModeProvider homePageEditingMode;
 
   StateProviders(
       this.lectureProvider,
@@ -38,6 +40,7 @@ class StateProviders {
       this.courseUnitsInfoProvider,
       this.sessionProvider,
       this.calendarProvider,
+      this.libraryOccupationProvider,
       this.facultyLocationsProvider,
       this.lastUserInfoProvider,
       this.userFacultiesProvider,
@@ -60,6 +63,8 @@ class StateProviders {
         Provider.of<SessionProvider>(context, listen: false);
     final calendarProvider =
         Provider.of<CalendarProvider>(context, listen: false);
+    final libraryOccupationProvider =
+        Provider.of<LibraryOccupationProvider>(context, listen: false);
     final facultyLocationsProvider =
         Provider.of<FacultyLocationsProvider>(context, listen: false);
     final lastUserInfoProvider =
@@ -69,7 +74,7 @@ class StateProviders {
     final favoriteCardsProvider =
         Provider.of<FavoriteCardsProvider>(context, listen: false);
     final homePageEditingMode =
-        Provider.of<HomePageEditingMode>(context, listen: false);
+        Provider.of<HomePageEditingModeProvider>(context, listen: false);
 
     return StateProviders(
         lectureProvider,
@@ -80,6 +85,7 @@ class StateProviders {
         courseUnitsInfoProvider,
         sessionProvider,
         calendarProvider,
+        libraryOccupationProvider,
         facultyLocationsProvider,
         lastUserInfoProvider,
         userFacultiesProvider,

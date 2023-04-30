@@ -70,7 +70,7 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
   Widget getScaffold(BuildContext context, Widget body) {
     return Scaffold(
       appBar: buildAppBar(context),
-      drawer: NavigationDrawer(parentContext: context),
+      drawer: AppNavigationDrawer(parentContext: context),
       body: refreshState(context, body),
     );
   }
@@ -107,7 +107,8 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
               }
             },
             child: SvgPicture.asset(
-              color: Theme.of(context).primaryColor,
+              colorFilter: ColorFilter.mode(
+                  Theme.of(context).primaryColor, BlendMode.srcIn),
               'assets/images/logo_dark.svg',
               height: queryData.size.height / 25,
             ),

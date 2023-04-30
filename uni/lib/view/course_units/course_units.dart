@@ -31,39 +31,36 @@ class CourseUnitsPageViewState
     return Consumer<ProfileStateProvider>(
         builder: (context, profileProvider, _) {
       final List<CourseUnit> courseUnits = profileProvider.currUcs;
-      List<String> availableYears = [];
-      List<String> availableSemesters = [];
-      if (courseUnits.isNotEmpty) {
-        availableYears = _getAvailableYears(courseUnits);
-        if (availableYears.isNotEmpty && selectedSchoolYear == null) {
-          selectedSchoolYear = availableYears.reduce((value, element) =>
-              element.compareTo(value) > 0 ? element : value);
-        }
-        availableSemesters = _getAvailableSemesters(courseUnits);
-        final currentYear = int.tryParse(selectedSchoolYear?.substring(
-                0, selectedSchoolYear?.indexOf('/')) ??
-            '');
-        if (selectedSemester == null &&
-            currentYear != null &&
-            availableSemesters.length == 3) {
-          final currentDate = DateTime.now();
-          selectedSemester =
-              currentDate.year <= currentYear || currentDate.month == 1
-                  ? availableSemesters[0]
-                  : availableSemesters[1];
-        }
+      final List<String> availableYears = _getAvailableYears(courseUnits);
+      final List<String> availableSemesters =
+          _getAvailableSemesters(courseUnits);
 
-        return _getPageView(courseUnits, profileProvider.status, availableYears,
-            availableSemesters);
-      } else {
-        return Container();
+      if (availableYears.isNotEmpty && selectedSchoolYear == null) {
+        selectedSchoolYear = availableYears.reduce(
+            (value, element) => element.compareTo(value) > 0 ? element : value);
       }
+
+      final currentYear = int.tryParse(
+          selectedSchoolYear?.substring(0, selectedSchoolYear?.indexOf('/')) ??
+              '');
+      if (selectedSemester == null &&
+          currentYear != null &&
+          availableSemesters.length == 3) {
+        final currentDate = DateTime.now();
+        selectedSemester =
+            currentDate.year <= currentYear || currentDate.month == 1
+                ? availableSemesters[0]
+                : availableSemesters[1];
+      }
+
+      return _getPageView(courseUnits, profileProvider.status, availableYears,
+          availableSemesters);
     });
   }
 
   Widget _getPageView(
       List<CourseUnit>? courseUnits,
-      RequestStatus? requestStatus,
+      RequestStatus requestStatus,
       List<String> availableYears,
       List<String> availableSemesters) {
     final List<CourseUnit>? filteredCourseUnits =
@@ -80,14 +77,14 @@ class CourseUnitsPageViewState
       _getPageTitleAndFilters(availableYears, availableSemesters),
       RequestDependentWidgetBuilder(
           context: context,
-          status: requestStatus ?? RequestStatus.none,
+          status: requestStatus,
           contentGenerator: _generateCourseUnitsCards,
           content: filteredCourseUnits ?? [],
-          contentChecker: courseUnits?.isNotEmpty ?? false,
+          contentChecker: filteredCourseUnits?.isNotEmpty ?? false,
           onNullContent: Center(
             heightFactor: 10,
             child: Text('Não existem cadeiras para apresentar',
-                style: Theme.of(context).textTheme.headline6),
+                style: Theme.of(context).textTheme.titleLarge),
           ))
     ]);
   }
@@ -142,7 +139,7 @@ class CourseUnitsPageViewState
       return Center(
           heightFactor: 10,
           child: Text('Sem cadeiras no período selecionado',
-              style: Theme.of(context).textTheme.headline6));
+              style: Theme.of(context).textTheme.titleLarge));
     }
     return Expanded(
         child: Container(

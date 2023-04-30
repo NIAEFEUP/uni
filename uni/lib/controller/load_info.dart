@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:logger/logger.dart';
 import 'package:tuple/tuple.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/controller/local_storage/file_offline_storage.dart';
@@ -25,14 +26,13 @@ Future loadReloginInfo(StateProviders stateProviders) async {
   return Future.error('No credentials stored');
 }
 
-Future loadUserInfoToState(StateProviders stateProviders) async {
-  loadLocalUserInfoToState(stateProviders);
-  if (await Connectivity().checkConnectivity() != ConnectivityResult.none) {
-    return loadRemoteUserInfoToState(stateProviders);
-  }
-}
-
 Future loadRemoteUserInfoToState(StateProviders stateProviders) async {
+  if (await Connectivity().checkConnectivity() == ConnectivityResult.none) {
+    return;
+  }
+
+  Logger().i('Loading remote info');
+
   final session = stateProviders.sessionProvider.session;
   if (!session.authenticated && session.persistentSession) {
     await loadReloginInfo(stateProviders);
@@ -47,6 +47,7 @@ Future loadRemoteUserInfoToState(StateProviders stateProviders) async {
       trips = Completer(),
       lastUpdate = Completer(),
       restaurants = Completer(),
+      libraryOccupation = Completer(),
       calendar = Completer();
 
   stateProviders.profileStateProvider.getUserInfo(userInfo, session);
@@ -54,9 +55,12 @@ Future loadRemoteUserInfoToState(StateProviders stateProviders) async {
   stateProviders.restaurantProvider
       .getRestaurantsFromFetcher(restaurants, session);
   stateProviders.calendarProvider.getCalendarFromFetcher(session, calendar);
+  stateProviders.libraryOccupationProvider
+      .getLibraryOccupation(session, libraryOccupation);
 
   final Tuple2<String, String> userPersistentInfo =
       await AppSharedPreferences.getPersistentUserInfo();
+
   userInfo.future.then((value) {
     final profile = stateProviders.profileStateProvider.profile;
     final currUcs = stateProviders.profileStateProvider.currUcs;
@@ -80,6 +84,7 @@ Future loadRemoteUserInfoToState(StateProviders stateProviders) async {
     userInfo.future,
     trips.future,
     restaurants.future,
+    libraryOccupation.future,
     calendar.future
   ]);
   allRequests.then((futures) {
@@ -89,16 +94,26 @@ Future loadRemoteUserInfoToState(StateProviders stateProviders) async {
   return lastUpdate.future;
 }
 
-void loadLocalUserInfoToState(StateProviders stateProviders) async {
+void loadLocalUserInfoToState(StateProviders stateProviders,
+    {skipDatabaseLookup = false}) async {
+  final Tuple2<String, String> userPersistentInfo =
+      await AppSharedPreferences.getPersistentUserInfo();
+
+  Logger().i('Setting up user preferences');
   stateProviders.favoriteCardsProvider
       .setFavoriteCards(await AppSharedPreferences.getFavoriteCards());
   stateProviders.examProvider.setFilteredExams(
       await AppSharedPreferences.getFilteredExams(), Completer());
+  stateProviders.examProvider
+      .setHiddenExams(await AppSharedPreferences.getHiddenExams(), Completer());
   stateProviders.userFacultiesProvider
       .setUserFaculties(await AppSharedPreferences.getUserFaculties());
-  final Tuple2<String, String> userPersistentInfo =
-      await AppSharedPreferences.getPersistentUserInfo();
-  if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {
+
+  if (userPersistentInfo.item1 != '' &&
+      userPersistentInfo.item2 != '' &&
+      !skipDatabaseLookup) {
+    await stateProviders.lastUserInfoProvider.updateStateBasedOnLocalTime();
+    Logger().i('Fetching local info from database');
     stateProviders.examProvider.updateStateBasedOnLocalUserExams();
     stateProviders.lectureProvider.updateStateBasedOnLocalUserLectures();
     stateProviders.examProvider.updateStateBasedOnLocalUserExams();
@@ -106,16 +121,16 @@ void loadLocalUserInfoToState(StateProviders stateProviders) async {
     stateProviders.busStopProvider.updateStateBasedOnLocalUserBusStops();
     stateProviders.profileStateProvider.updateStateBasedOnLocalProfile();
     stateProviders.profileStateProvider.updateStateBasedOnLocalRefreshTimes();
-    stateProviders.lastUserInfoProvider.updateStateBasedOnLocalTime();
+    stateProviders.restaurantProvider.updateStateBasedOnLocalRestaurants();
     stateProviders.calendarProvider.updateStateBasedOnLocalCalendar();
     stateProviders.profileStateProvider.updateStateBasedOnLocalCourseUnits();
   }
-  final Completer locations = Completer();
-  stateProviders.facultyLocationsProvider.getFacultyLocations(locations);
+
+  stateProviders.facultyLocationsProvider.getFacultyLocations(Completer());
 }
 
 Future<void> handleRefresh(StateProviders stateProviders) async {
-  await loadUserInfoToState(stateProviders);
+  await loadRemoteUserInfoToState(stateProviders);
 }
 
 Future<File?> loadProfilePicture(Session session, {forceRetrieval = false}) {

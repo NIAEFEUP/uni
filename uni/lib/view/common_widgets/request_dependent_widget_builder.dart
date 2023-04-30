@@ -1,6 +1,8 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
+
 import 'package:uni/controller/local_storage/app_last_user_info_update_database.dart';
 import 'package:uni/model/providers/last_user_info_provider.dart';
 import 'package:uni/model/request_status.dart';
@@ -18,43 +20,45 @@ class RequestDependentWidgetBuilder extends StatelessWidget {
       required this.contentGenerator,
       required this.content,
       required this.contentChecker,
-      this.onNullContent})
+      required this.onNullContent,
+      this.shimmerLoadingWidget,
+      this.dismissNullWhileLoading = false})
       : super(key: key);
 
   final BuildContext context;
   final RequestStatus status;
   final Widget Function(dynamic, BuildContext) contentGenerator;
+  final Widget? shimmerLoadingWidget;
   final dynamic content;
   final bool contentChecker;
-  final Widget? onNullContent;
+  final Widget onNullContent;
+  final bool dismissNullWhileLoading;
   static final AppLastUserInfoUpdateDatabase lastUpdateDatabase =
       AppLastUserInfoUpdateDatabase();
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<LastUserInfoProvider>(
-      builder: (context, lastUserInfoProvider, _) {
-        switch (status) {
-          case RequestStatus.successful:
-          case RequestStatus.none:
-            return contentChecker
-                ? contentGenerator(content, context)
-                : onNullContent ?? Container();
-          case RequestStatus.busy:
-            return contentChecker
-                ? contentGenerator(content, context)
-                : const Center(child: CircularProgressIndicator());
-          case RequestStatus.failed:
-          default:
-            return contentChecker
-                ? contentGenerator(content, context)
-                : requestFailedMessage();
-        }
-      },
-    );
+    if (contentChecker) {
+      return contentGenerator(content, context);
+    }
+
+    switch (status) {
+      case RequestStatus.none:
+      case RequestStatus.successful:
+        return onNullContent;
+      case RequestStatus.busy:
+        return dismissNullWhileLoading ||
+                Provider.of<LastUserInfoProvider>(context, listen: false)
+                        .lastUpdateTime ==
+                    null
+            ? _contentLoadingWidget()
+            : onNullContent;
+      case RequestStatus.failed:
+        return _requestFailedMessage();
+    }
   }
 
-  Widget requestFailedMessage() {
+  Widget _requestFailedMessage() {
     return FutureBuilder(
         future: Connectivity().checkConnectivity(),
         builder: (BuildContext context, AsyncSnapshot connectivitySnapshot) {
@@ -63,7 +67,7 @@ class RequestDependentWidgetBuilder extends StatelessWidget {
               return Center(
                   heightFactor: 3,
                   child: Text('Sem ligação à internet',
-                      style: Theme.of(context).textTheme.subtitle1));
+                      style: Theme.of(context).textTheme.titleMedium));
             }
           }
           return Column(children: [
@@ -71,12 +75,22 @@ class RequestDependentWidgetBuilder extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 15, bottom: 10),
                 child: Center(
                     child: Text('Aconteceu um erro ao carregar os dados',
-                        style: Theme.of(context).textTheme.subtitle1))),
+                        style: Theme.of(context).textTheme.titleMedium))),
             OutlinedButton(
-                onPressed: () =>
-                    Navigator.pushNamed(context, '/${DrawerItem.navBugReport}'),
+                onPressed: () => Navigator.pushNamed(
+                    context, '/${DrawerItem.navBugReport.title}'),
                 child: const Text('Reportar erro'))
           ]);
         });
+  }
+
+  Widget _contentLoadingWidget() {
+    return shimmerLoadingWidget == null
+        ? const Center(child: CircularProgressIndicator())
+        : Center(
+            child: Shimmer.fromColors(
+                baseColor: Theme.of(context).highlightColor,
+                highlightColor: Theme.of(context).colorScheme.onPrimary,
+                child: shimmerLoadingWidget!));
   }
 }

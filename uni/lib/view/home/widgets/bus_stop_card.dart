@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/request_status.dart';
 import 'package:uni/model/entities/bus_stop.dart';
-import 'package:uni/model/entities/trip.dart';
 import 'package:uni/model/providers/bus_stop_provider.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/bus_stop_next_arrivals/widgets/bus_stop_row.dart';
@@ -27,22 +26,20 @@ class BusStopCard extends GenericCard {
   Widget buildCardContent(BuildContext context) {
     return Consumer<BusStopProvider>(
       builder: (context, busProvider, _) {
-        return getCardContent(context, busProvider.currentBusTrips,
-            busProvider.configuredBusStops, busProvider.configuredBusStops);
+        return getCardContent(context, busProvider.configuredBusStops, busProvider.status);
       },
     );
   }
 }
 
 /// Returns a widget with the bus stop card final content
-Widget getCardContent(BuildContext context, Map<String, List<Trip>> trips,
-    Map<String, BusStopData> stopConfig, busStopStatus) {
+Widget getCardContent(BuildContext context, Map<String, BusStopData> stopData, busStopStatus) {
   switch (busStopStatus) {
     case RequestStatus.successful:
-      if (trips.isNotEmpty) {
+      if (stopData.isNotEmpty) {
         return Column(children: <Widget>[
           getCardTitle(context),
-          getBusStopsInfo(context, trips, stopConfig)
+          getBusStopsInfo(context, stopData)
         ]);
       } else {
         return Container(
@@ -53,7 +50,7 @@ Widget getCardContent(BuildContext context, Map<String, List<Trip>> trips,
                 Text('Configura os teus autocarros',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.subtitle2!.apply()),
+                    style: Theme.of(context).textTheme.titleSmall!.apply()),
                 IconButton(
                   icon: const Icon(Icons.settings),
                   onPressed: () => Navigator.push(
@@ -80,7 +77,7 @@ Widget getCardContent(BuildContext context, Map<String, List<Trip>> trips,
         Container(
             padding: const EdgeInsets.all(8.0),
             child: Text('Não foi possível obter informação',
-                style: Theme.of(context).textTheme.subtitle1))
+                style: Theme.of(context).textTheme.titleMedium))
       ]);
   }
 }
@@ -91,18 +88,18 @@ Widget getCardTitle(context) {
     children: <Widget>[
       const Icon(Icons.directions_bus), // color lightgrey
       Text('STCP - Próximas Viagens',
-          style: Theme.of(context).textTheme.subtitle1),
+          style: Theme.of(context).textTheme.titleMedium),
     ],
   );
 }
 
 /// Returns a widget for all the bus stops info
-Widget getBusStopsInfo(context, trips, stopConfig) {
-  if (trips.length >= 1) {
+Widget getBusStopsInfo(context, Map<String, BusStopData> stopData) {
+  if (stopData.isNotEmpty) {
     return Container(
         padding: const EdgeInsets.all(4.0),
         child: Column(
-          children: getEachBusStopInfo(context, trips, stopConfig),
+          children: getEachBusStopInfo(context, stopData),
         ));
   } else {
     return const Center(
@@ -113,18 +110,18 @@ Widget getBusStopsInfo(context, trips, stopConfig) {
 }
 
 /// Returns a list of widgets for each bus stop info that exists
-List<Widget> getEachBusStopInfo(context, trips, stopConfig) {
+List<Widget> getEachBusStopInfo(context, Map<String, BusStopData> stopData) {
   final List<Widget> rows = <Widget>[];
 
   rows.add(const LastUpdateTimeStamp());
 
-  trips.forEach((stopCode, tripList) {
-    if (tripList.length > 0 && stopConfig[stopCode].favorited) {
+  stopData.forEach((stopCode, stopInfo) {
+    if (stopInfo.trips.isNotEmpty && stopInfo.favorited) {
       rows.add(Container(
           padding: const EdgeInsets.only(top: 12.0),
           child: BusStopRow(
             stopCode: stopCode,
-            trips: tripList,
+            trips: stopInfo.trips,
             singleTrip: true,
           )));
     }
