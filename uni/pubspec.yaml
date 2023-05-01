@@ -68,7 +68,7 @@ dependencies:
   latlong2: ^0.8.1
   flutter_map_marker_popup: ^4.0.1
   workmanager: ^0.5.1
-  flutter_local_notifications: ^12.0.4
+  flutter_local_notifications: ^14.0.0+1
   percent_indicator: ^4.2.2
   shimmer: ^2.0.0
   material_design_icons_flutter: ^6.0.7096
