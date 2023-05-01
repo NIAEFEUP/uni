@@ -10,7 +10,7 @@ import 'package:sqflite/sqflite.dart';
 class AppLecturesDatabase extends AppDatabase {
   static const createScript =
       '''CREATE TABLE lectures(subject TEXT, typeClass TEXT,
-          day INTEGER, startTime TEXT, blocks INTEGER, room TEXT, teacher TEXT, classNumber TEXT, occurrId INTEGER)''';
+          startDateTime TEXT, blocks INTEGER, room TEXT, teacher TEXT, classNumber TEXT, occurrId INTEGER)''';
 
   AppLecturesDatabase()
       : super(
@@ -19,7 +19,7 @@ class AppLecturesDatabase extends AppDatabase {
               createScript,
             ],
             onUpgrade: migrate,
-            version: 5);
+            version: 6);
 
   /// Replaces all of the data in this database with [lecs].
   saveNewLectures(List<Lecture> lecs) async {
@@ -33,11 +33,10 @@ class AppLecturesDatabase extends AppDatabase {
     final List<Map<String, dynamic>> maps = await db.query('lectures');
 
     return List.generate(maps.length, (i) {
-      return Lecture.fromHtml(
+      return Lecture.fromApi(
         maps[i]['subject'],
         maps[i]['typeClass'],
-        maps[i]['day'],
-        maps[i]['startTime'],
+        maps[i]['startDateTime'],
         maps[i]['blocks'],
         maps[i]['room'],
         maps[i]['teacher'],
@@ -77,5 +76,6 @@ class AppLecturesDatabase extends AppDatabase {
     final batch = db.batch();
     batch.execute('DROP TABLE IF EXISTS lectures');
     batch.execute(createScript);
+    await batch.commit();
   }
 }
