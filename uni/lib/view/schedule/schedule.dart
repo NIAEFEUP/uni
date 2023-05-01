@@ -45,13 +45,14 @@ class SchedulePageView extends StatefulWidget {
   static final List<String> daysOfTheWeek =
       TimeString.getWeekdaysStrings(includeWeekend: false);
 
-  static List<List<Lecture>> groupLecturesByDay(schedule) {
-    final aggLectures = <List<Lecture>>[];
+  static List<Set<Lecture>> groupLecturesByDay(schedule) {
+    final aggLectures = <Set<Lecture>>[];
 
     for (int i = 0; i < daysOfTheWeek.length; i++) {
-      final List<Lecture> lectures = <Lecture>[];
+      final Set<Lecture> lectures = {};
       for (int j = 0; j < schedule.length; j++) {
-        if (schedule[j].day == i) lectures.add(schedule[j]);
+        if (schedule[j].startTime.weekday-1 == i) lectures.add(schedule[j]);
+
       }
       aggLectures.add(lectures);
     }
@@ -137,6 +138,7 @@ class SchedulePageViewState extends GeneralPageViewState<SchedulePageView>
   /// Returns a list of widgets for the rows with a singular class info.
   List<Widget> createScheduleRows(lectures, BuildContext context) {
     final List<Widget> scheduleContent = <Widget>[];
+    lectures = lectures.toList();
     for (int i = 0; i < lectures.length; i++) {
       final Lecture lecture = lectures[i];
       scheduleContent.add(ScheduleSlot(
