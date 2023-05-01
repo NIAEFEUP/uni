@@ -10,7 +10,6 @@ import 'package:uni/view/schedule/widgets/schedule_slot.dart';
 import 'package:uni/view/home/widgets/schedule_card_shimmer.dart';
 import 'package:uni/utils/drawer_items.dart';
 
-
 class ScheduleCard extends GenericCard {
   ScheduleCard({Key? key}) : super(key: key);
 
@@ -33,7 +32,7 @@ class ScheduleCard extends GenericCard {
           contentChecker: lectureProvider.lectures.isNotEmpty,
           onNullContent: Center(
               child: Text('Não existem aulas para apresentar',
-                  style: Theme.of(context).textTheme.headline6,
+                  style: Theme.of(context).textTheme.titleLarge,
                   textAlign: TextAlign.center)),
         contentLoadingWidget: const ScheduleCardShimmer().build(context))
     );

@@ -58,12 +58,12 @@ class Exam {
     'Exames ao abrigo de estatutos especiais': 'EAE'
   };
 
-  Exam(this.id, this.begin, this.end, this.subject, this.rooms, this.type, this.faculty);
+  Exam(this.id, this.begin, this.end, this.subject, this.rooms, this.type,
+      this.faculty);
   static List<String> displayedTypes = types.keys.toList().sublist(0, 4);
 
-
-  Exam.secConstructor(
-      this.id, this.subject, this.begin, this.end, String rooms, this.type,this.faculty) {
+  Exam.secConstructor(this.id, this.subject, this.begin, this.end, String rooms,
+      this.type, this.faculty) {
     this.rooms = rooms.split(',');
   }
 
@@ -76,7 +76,7 @@ class Exam {
       'end': DateFormat("yyyy-MM-dd HH:mm:ss").format(end),
       'rooms': rooms.join(','),
       'examType': type,
-      'faculty':faculty
+      'faculty': faculty
     };
   }
 

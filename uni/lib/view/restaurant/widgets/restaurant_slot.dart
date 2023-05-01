@@ -59,7 +59,8 @@ class RestaurantSlot extends StatelessWidget {
         child: icon != ''
             ? SvgPicture.asset(
                 icon,
-                color: Theme.of(context).primaryColor,
+                colorFilter: ColorFilter.mode(
+                  Theme.of(context).primaryColor, BlendMode.srcIn),
                 height: 20,
               )
             : null);
