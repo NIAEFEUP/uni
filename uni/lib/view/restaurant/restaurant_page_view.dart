@@ -16,10 +16,10 @@ class RestaurantPageView extends StatefulWidget {
   const RestaurantPageView({Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _CantinePageState();
+  State<StatefulWidget> createState() => _RestaurantPageViewState();
 }
 
-class _CantinePageState extends GeneralPageViewState<RestaurantPageView>
+class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
     with SingleTickerProviderStateMixin {
 
   late List<Restaurant> aggRestaurant;
@@ -50,7 +50,7 @@ class _CantinePageState extends GeneralPageViewState<RestaurantPageView>
         Container(
           padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
           alignment: Alignment.center,
-          child: const PageTitle(name: 'Ementas', center: false, pad: false),
+          child: const PageTitle(name: 'Restaurantes', center: false, pad: false),
         ),
         TabBar(
           controller: tabController,
@@ -71,13 +71,13 @@ class _CantinePageState extends GeneralPageViewState<RestaurantPageView>
 
   Widget createTabViewBuilder(dynamic restaurants, BuildContext context) {
     final List<Widget> dayContents =  DayOfWeek.values.map((dayOfWeek) {
-      List<Widget> cantinesWidgets = [];
+      List<Widget> restaurantsWidgets = [];
       if (restaurants is List<Restaurant>) {
-        cantinesWidgets = restaurants
+        restaurantsWidgets = restaurants
             .map((restaurant) => createRestaurant(context, restaurant, dayOfWeek))
             .toList();
       }
-      return ListView(children: cantinesWidgets);
+      return ListView(children: restaurantsWidgets);
     }).toList();
 
     return Expanded(

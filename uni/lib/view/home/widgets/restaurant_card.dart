@@ -33,7 +33,7 @@ class RestaurantCard extends GenericCard {
       return RequestDependentWidgetBuilder(
           context: context,
           status: restaurantProvider.status,
-          contentGenerator: generateRestaurant,
+          contentGenerator: generateRestaurants,
           content: favoriteRestaurants,
           contentChecker: favoriteRestaurants.isNotEmpty,
           onNullContent: Column(children: [
@@ -49,7 +49,7 @@ class RestaurantCard extends GenericCard {
   });}
 
 
-  Widget generateRestaurant(dynamic data, BuildContext context) {
+  Widget generateRestaurants(dynamic data, BuildContext context) {
     final List<Restaurant> restaurants = data;
     return ListView.builder(
       shrinkWrap: true,
