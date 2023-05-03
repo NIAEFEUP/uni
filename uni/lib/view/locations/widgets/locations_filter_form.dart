@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:uni/model/entities/location.dart';
 import 'package:uni/model/providers/faculty_locations_provider.dart';
 
 class LocationsFilterForm extends StatefulWidget {
