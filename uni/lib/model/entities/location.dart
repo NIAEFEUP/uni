@@ -62,7 +62,7 @@ abstract class Location {
 
   Location clone();
 
-  static Location fromJSON(Map<String, dynamic> json, int floor) {
+  factory Location.fromJSON(Map<String, dynamic> json, int floor) {
     final Map<String, dynamic> args = json['args'];
     switch (json['type']) {
       case 'COFFEE_MACHINE':

@@ -18,11 +18,11 @@ class LocationsFilterFormState extends State<LocationsFilterForm> {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text('Filtro de Locais',
-          style: Theme.of(context).textTheme.headline5),
+          style: Theme.of(context).textTheme.headlineSmall),
       actions: [
         TextButton(
             child:
-                Text('Cancelar', style: Theme.of(context).textTheme.bodyText2),
+                Text('Cancelar', style: Theme.of(context).textTheme.bodyMedium),
             onPressed: () => Navigator.pop(context)),
         ElevatedButton(
             child: const Text('Confirmar'),
