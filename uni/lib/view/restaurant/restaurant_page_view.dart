@@ -15,10 +15,10 @@ class RestaurantPageView extends StatefulWidget {
   const RestaurantPageView({Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _CanteenPageState();
+  State<StatefulWidget> createState() => _RestaurantPageState();
 }
 
-class _CanteenPageState extends GeneralPageViewState<RestaurantPageView>
+class _RestaurantPageState extends GeneralPageViewState<RestaurantPageView>
     with SingleTickerProviderStateMixin {
   late List<Restaurant> aggRestaurant;
   late TabController tabController;
@@ -67,16 +67,16 @@ class _CanteenPageState extends GeneralPageViewState<RestaurantPageView>
 
   Widget createTabViewBuilder(dynamic restaurants, BuildContext context) {
       final List<Widget> dayContents =  DayOfWeek.values.map((dayOfWeek) {
-        List<Widget> canteensWidgets = [];
+        List<Widget> restaurantsWidgets = [];
         if (restaurants is List<Restaurant>) {
-          canteensWidgets = restaurants
+          restaurantsWidgets = restaurants
               .map((restaurant) => RestaurantPageCard(
                   restaurant.name,
                   RestaurantDay(restaurant: restaurant, day: dayOfWeek)
               ))
               .toList();
         }
-        return ListView(children: canteensWidgets);
+        return ListView(children: restaurantsWidgets);
       }).toList();
 
       return Expanded(
@@ -113,7 +113,7 @@ class RestaurantDay extends StatelessWidget {
     if (meals.isEmpty) {
       return Container(
           margin: const EdgeInsets.only(top: 10, bottom: 5),
-          key: Key('cantine-page-day-column-$day'),
+          key: Key('restaurant-page-day-column-$day'),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: const [
@@ -124,7 +124,7 @@ class RestaurantDay extends StatelessWidget {
     } else {
       return Container(
           margin: const EdgeInsets.only(top: 5, bottom: 5),
-          key: Key('cantine-page-day-column-$day'),
+          key: Key('restaurant-page-day-column-$day'),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: meals

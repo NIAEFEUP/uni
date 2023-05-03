@@ -24,7 +24,7 @@ class RestaurantSlot extends StatelessWidget {
                   margin: const EdgeInsets.fromLTRB(0, 0, 8.0, 0),
                   child: SizedBox(
                     width: 20,
-                    child: CanteenSlotType(type: type),
+                    child: RestaurantSlotType(type: type),
                   )),
               Flexible(
                   child: Text(
@@ -38,7 +38,7 @@ class RestaurantSlot extends StatelessWidget {
   }
 }
 
-class CanteenSlotType extends StatelessWidget {
+class RestaurantSlotType extends StatelessWidget {
   final String type;
 
   static const mealTypeIcons = {
@@ -50,7 +50,7 @@ class CanteenSlotType extends StatelessWidget {
     'salada': 'assets/meal-icons/salad.svg',
   };
 
-  const CanteenSlotType({Key? key, required this.type}): super(key: key);
+  const RestaurantSlotType({Key? key, required this.type}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
