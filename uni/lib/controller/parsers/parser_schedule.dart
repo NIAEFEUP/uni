@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:uni/model/entities/lecture.dart';
+import 'package:uni/model/entities/time_utilities.dart';
 
 Future<List<Lecture>> parseScheduleMultipleRequests(responses) async {
   List<Lecture> lectures = [];
@@ -20,6 +21,7 @@ Future<List<Lecture>> parseSchedule(http.Response response) async {
 
   final json = jsonDecode(response.body);
 
+
   final schedule = json['horario'];
 
   for (var lecture in schedule) {
@@ -34,12 +36,16 @@ Future<List<Lecture>> parseSchedule(http.Response response) async {
     final String classNumber = lecture['turma_sigla'];
     final int occurrId = lecture['ocorrencia_id'];
 
-    lectures.add(Lecture.fromApi(subject, typeClass, day, secBegin, blocks,
-        room, teacher, classNumber, occurrId));
+    final DateTime monday = DateTime.now().getClosestMonday();
+    
+    final Lecture lec = Lecture.fromApi(subject, typeClass, monday.add(Duration(days:day, seconds: secBegin)), blocks,
+        room, teacher, classNumber, occurrId);
+    
+    lectures.add(lec);
+
   }
 
   final lecturesList = lectures.toList();
-
   lecturesList.sort((a, b) => a.compare(b));
 
   if (lecturesList.isEmpty) {

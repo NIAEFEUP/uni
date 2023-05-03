@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/view/common_widgets/row_container.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -6,8 +7,8 @@ import 'package:url_launcher/url_launcher.dart';
 class ScheduleSlot extends StatelessWidget {
   final String subject;
   final String rooms;
-  final String begin;
-  final String end;
+  final DateTime begin;
+  final DateTime end;
   final String teacher;
   final String typeClass;
   final String? classNumber;
@@ -48,19 +49,21 @@ class ScheduleSlot extends StatelessWidget {
         text: subject,
         style: Theme.of(context)
             .textTheme
-            .headline5!
+            .headlineSmall!
             .apply(color: Theme.of(context).colorScheme.tertiary),
         alignment: TextAlign.center);
     final typeClassTextField = TextFieldWidget(
         text: ' ($typeClass)',
-        style: Theme.of(context).textTheme.bodyText2,
+        style: Theme.of(context).textTheme.bodyMedium,
         alignment: TextAlign.center);
     final roomTextField = TextFieldWidget(
         text: rooms,
-        style: Theme.of(context).textTheme.bodyText2,
+        style: Theme.of(context).textTheme.bodyMedium,
         alignment: TextAlign.right);
     return [
-      ScheduleTimeWidget(begin: begin, end: end),
+      ScheduleTimeWidget(
+          begin: DateFormat("HH:mm").format(begin),
+          end: DateFormat("HH:mm").format(end)),
       Expanded(
           child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -88,7 +91,7 @@ class ScheduleSlot extends StatelessWidget {
 
 class SubjectButtonWidget extends StatelessWidget {
   final int occurrId;
-0
+
   const SubjectButtonWidget({super.key, required this.occurrId});
 
   String toUcLink(int occurrId) {
@@ -134,7 +137,7 @@ class ScheduleTeacherClassInfoWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFieldWidget(
       text: classNumber != null ? '$classNumber | $teacher' : teacher,
-      style: Theme.of(context).textTheme.bodyText2,
+      style: Theme.of(context).textTheme.bodyMedium,
       alignment: TextAlign.center,
     );
   }
@@ -169,7 +172,7 @@ class ScheduleTimeTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFieldWidget(
       text: time,
-      style: Theme.of(context).textTheme.bodyText2,
+      style: Theme.of(context).textTheme.bodyMedium,
       alignment: TextAlign.center,
     );
   }

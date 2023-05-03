@@ -50,7 +50,7 @@ Widget getCardContent(BuildContext context, Map<String, BusStopData> stopData, b
                 Text('Configura os teus autocarros',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.subtitle2!.apply()),
+                    style: Theme.of(context).textTheme.titleSmall!.apply()),
                 IconButton(
                   icon: const Icon(Icons.settings),
                   onPressed: () => Navigator.push(
@@ -77,7 +77,7 @@ Widget getCardContent(BuildContext context, Map<String, BusStopData> stopData, b
         Container(
             padding: const EdgeInsets.all(8.0),
             child: Text('Não foi possível obter informação',
-                style: Theme.of(context).textTheme.subtitle1))
+                style: Theme.of(context).textTheme.titleMedium))
       ]);
   }
 }
@@ -88,7 +88,7 @@ Widget getCardTitle(context) {
     children: <Widget>[
       const Icon(Icons.directions_bus), // color lightgrey
       Text('STCP - Próximas Viagens',
-          style: Theme.of(context).textTheme.subtitle1),
+          style: Theme.of(context).textTheme.titleMedium),
     ],
   );
 }
