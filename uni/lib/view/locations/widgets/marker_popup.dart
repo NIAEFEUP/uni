@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:uni/model/entities/location.dart';
 import 'package:uni/model/entities/location_group.dart';
-import 'package:uni/model/entities/locations/location_filter.dart';
+import '../location_filter.dart';
 import 'package:uni/view/locations/widgets/faculty_maps.dart';
 
 class LocationMarkerPopup extends StatelessWidget {

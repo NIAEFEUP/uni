@@ -2,7 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:uni/model/entities/location.dart';
 
-import 'package:uni/model/entities/locations/location_filter.dart';
+import '../../view/locations/location_filter.dart';
 
 /// Store information about a location marker.
 /// What's located in each floor, like vending machines, rooms, etc...

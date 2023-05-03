@@ -12,7 +12,7 @@ import 'package:uni/view/locations/widgets/marker.dart';
 import 'package:uni/view/locations/widgets/map.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 
-import 'package:uni/model/entities/locations/location_filter.dart';
+import 'package:uni/view/locations/location_filter.dart';
 
 class LocationsPage extends StatefulWidget {
   const LocationsPage({Key? key}) : super(key: key);
@@ -65,6 +65,7 @@ class LocationsPageState extends GeneralPageViewState
           children: <Widget>[
             Row(children: [
               LocationsPageView.upperMenuContainer('FEUP', context),
+              //TODO:: add support for multiple faculties
               IconButton(
                 icon: const Icon(Icons.filter_alt),
                 onPressed: () {
@@ -109,7 +110,7 @@ class LocationsPageView extends StatelessWidget {
           name: 'Locais: $faculty',
           center: false,
         ));
-    //TODO:: add support for multiple faculties0
+    //TODO:: add support for multiple faculties
   }
 
   LocationsMap? getMap(BuildContext context) {

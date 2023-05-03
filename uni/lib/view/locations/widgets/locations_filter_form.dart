@@ -40,6 +40,33 @@ class LocationsFilterFormState extends State<LocationsFilterForm> {
     );
   }
 
+  String stringTypeToReadableString(String loc) {
+    switch (loc) {
+      case 'COFFEE_MACHINE':
+        return 'Máquinas de Café';
+      case 'VENDING_MACHINE':
+        return 'Máquinas de Venda';
+      case 'ROOM':
+        return 'Salas';
+      case 'ROOMS':
+        return 'Agregado de Salas';
+      case 'SPECIAL_ROOM':
+        return 'Salas Especiais';
+      case 'ATM':
+        return 'Atms';
+      case 'PRINTER':
+        return 'Impressoras';
+      case 'RESTAURANT':
+        return 'Restaurante';
+      case 'STORE':
+        return 'Loja';
+      case 'WC':
+        return 'Wc';
+      default:
+        return 'Outros';
+    }
+  }
+
   Widget getLocationsCheckboxes(
       Map<String, bool> filteredLocations, BuildContext context) {
     return ListView(

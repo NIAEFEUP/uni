@@ -3,7 +3,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_popup/flutter_map_marker_popup.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:uni/model/entities/locations/location_filter.dart';
+import '../location_filter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:uni/model/entities/location_group.dart';

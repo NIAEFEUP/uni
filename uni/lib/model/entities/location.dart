@@ -50,33 +50,6 @@ String locationTypeToString(LocationType type) {
   }
 }
 
-String stringTypeToReadableString(String loc) {
-  switch (loc) {
-    case 'COFFEE_MACHINE':
-      return 'Máquinas de Café';
-    case 'VENDING_MACHINE':
-      return 'Máquinas de Venda';
-    case 'ROOM':
-      return 'Salas';
-    case 'ROOMS':
-      return 'Agregado de Salas';
-    case 'SPECIAL_ROOM':
-      return 'Salas Especiais';
-    case 'ATM':
-      return 'Atms';
-    case 'PRINTER':
-      return 'Impressoras';
-    case 'RESTAURANT':
-      return 'Restaurante';
-    case 'STORE':
-      return 'Loja';
-    case 'WC':
-      return 'Wc';
-    default:
-      return 'Outros';
-  }
-}
-
 abstract class Location {
   final int floor;
   final int weight;
