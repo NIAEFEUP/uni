@@ -61,6 +61,7 @@ class BugReportFormState extends State<BugReportForm> {
     bugDescriptions.forEach((int key, Tuple2<String, String> tup) =>
         {bugList.add(DropdownMenuItem(value: key, child: Text(tup.item1)))});
   }
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -139,7 +140,7 @@ class BugReportFormState extends State<BugReportForm> {
         child: Text(
             '''Encontraste algum bug na aplicação?\nTens alguma '''
             '''sugestão para a app?\nConta-nos para que possamos melhorar!''',
-            style: Theme.of(context).textTheme.bodyText2,
+            style: Theme.of(context).textTheme.bodyMedium,
             textAlign: TextAlign.center),
       ),
     );
@@ -155,7 +156,7 @@ class BugReportFormState extends State<BugReportForm> {
         children: <Widget>[
           Text(
             'Tipo de ocorrência',
-            style: Theme.of(context).textTheme.bodyText2,
+            style: Theme.of(context).textTheme.bodyMedium,
             textAlign: TextAlign.left,
           ),
           Row(children: <Widget>[
@@ -191,7 +192,7 @@ class BugReportFormState extends State<BugReportForm> {
         child: CheckboxListTile(
           title: Text(
               '''Consinto que esta informação seja revista pelo NIAEFEUP, podendo ser eliminada a meu pedido.''',
-              style: Theme.of(context).textTheme.bodyText2,
+              style: Theme.of(context).textTheme.bodyMedium,
               textAlign: TextAlign.left),
           value: _isConsentGiven,
           onChanged: (bool? newValue) {
@@ -233,14 +234,15 @@ class BugReportFormState extends State<BugReportForm> {
     setState(() {
       _isButtonTapped = true;
     });
-    final List<String> faculties = await AppSharedPreferences.getUserFaculties();
+    final List<String> faculties =
+        await AppSharedPreferences.getUserFaculties();
     final bugReport = BugReport(
-        titleController.text,
-        descriptionController.text,
-        emailController.text,
-        bugDescriptions[_selectedBug],
-        faculties
-    ).toMap();
+            titleController.text,
+            descriptionController.text,
+            emailController.text,
+            bugDescriptions[_selectedBug],
+            faculties)
+        .toMap();
     String toastMsg;
     bool status;
     try {
@@ -262,13 +264,17 @@ class BugReportFormState extends State<BugReportForm> {
 
     if (mounted) {
       FocusScope.of(context).requestFocus(FocusNode());
-      status ? ToastMessage.success(context, toastMsg) : ToastMessage.error(context, toastMsg);
+      status
+          ? ToastMessage.success(context, toastMsg)
+          : ToastMessage.error(context, toastMsg);
       setState(() {
         _isButtonTapped = false;
       });
     }
   }
-  Future<int> submitGitHubIssue(SentryId sentryEvent, Map<String,dynamic> bugReport) async {
+
+  Future<int> submitGitHubIssue(
+      SentryId sentryEvent, Map<String, dynamic> bugReport) async {
     final String description =
         '${bugReport['bugLabel']}\nFurther information on: $_sentryLink$sentryEvent';
     final Map data = {
@@ -276,7 +282,7 @@ class BugReportFormState extends State<BugReportForm> {
       'body': description,
       'labels': ['In-app bug report', bugReport['bugLabel']],
     };
-    for (String faculty in bugReport['faculties']){
+    for (String faculty in bugReport['faculties']) {
       data['labels'].add(faculty);
     }
     return http
@@ -291,7 +297,7 @@ class BugReportFormState extends State<BugReportForm> {
     });
   }
 
-  Future<SentryId> submitSentryEvent(Map<String,dynamic> bugReport) async {
+  Future<SentryId> submitSentryEvent(Map<String, dynamic> bugReport) async {
     final String description = bugReport['email'] == ''
         ? '${bugReport['text']} from ${bugReport['faculty']}'
         : '${bugReport['text']} from ${bugReport['faculty']}\nContact: ${bugReport['email']}';

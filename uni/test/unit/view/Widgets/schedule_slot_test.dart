@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:intl/intl.dart';
 
 import 'package:uni/view/schedule/widgets/schedule_slot.dart';
 
@@ -8,15 +9,17 @@ import '../../../test_widget.dart';
 void main() {
   group('Schedule Slot', () {
     const subject = 'SOPE';
-    const begin = '10:00';
-    const end = '12:00';
+    final DateTime begin = DateTime(2021, 06, 01, 10, 00);
+    final beginText = DateFormat("HH:mm").format(begin);
+    final DateTime end = DateTime(2021, 06, 01, 12, 00);
+    final endText = DateFormat("HH:mm").format(end);
     const rooms = 'B315';
     const typeClass = 'T';
     const teacher = 'JAS';
     const occurrId = 12345;
 
     testWidgets('When given a single room', (WidgetTester tester) async {
-      const widget = ScheduleSlot(
+      final widget = ScheduleSlot(
         subject: subject,
         typeClass: typeClass,
         rooms: rooms,
@@ -28,7 +31,7 @@ void main() {
 
       await tester.pumpWidget(testableWidget(widget));
 
-      testScheduleSlot(subject, begin, end, rooms, typeClass, teacher);
+      testScheduleSlot(subject, beginText, endText, rooms, typeClass, teacher);
     });
   });
 }

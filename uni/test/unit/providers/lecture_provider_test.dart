@@ -24,11 +24,12 @@ void main() {
     final profile = Profile();
     profile.courses = [Course(id: 7474)];
     final session = Session(authenticated: true);
+    final day = DateTime(2021, 06, 01);
 
     final lecture1 = Lecture.fromHtml(
-        'SOPE', 'T', 0, '10:00', 4, 'B315', 'JAS', 'MIEIC03', 484378);
+        'SOPE', 'T', day, '10:00', 4, 'B315', 'JAS', 'MIEIC03', 484378);
     final lecture2 = Lecture.fromHtml(
-        'SDIS', 'T', 0, '13:00', 4, 'B315', 'PMMS', 'MIEIC03', 484381);
+        'SDIS', 'T', day, '13:00', 4, 'B315', 'PMMS', 'MIEIC03', 484381);
 
     NetworkRouter.httpClient = mockClient;
     when(mockClient.get(any, headers: anyNamed('headers')))

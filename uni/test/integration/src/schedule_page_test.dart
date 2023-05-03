@@ -58,8 +58,8 @@ void main() {
   
        await tester.pumpWidget(testableWidget(widget, providers: providers));
   
-       const scheduleSlotTimeKey1 = 'schedule-slot-time-11h00-13h00';
-       const scheduleSlotTimeKey2 = 'schedule-slot-time-14h00-16h00';
+       const scheduleSlotTimeKey1 = 'schedule-slot-time-11:00-13:00';
+       const scheduleSlotTimeKey2 = 'schedule-slot-time-14:00-16:00';
   
        expect(find.byKey(const Key(scheduleSlotTimeKey1)), findsNothing);
        expect(find.byKey(const Key(scheduleSlotTimeKey2)), findsNothing);
@@ -75,14 +75,14 @@ void main() {
        await tester.tap(find.byKey(const Key('schedule-page-tab-0')));
        await tester.pumpAndSettle();
   
-        testScheduleSlot('ASSO', '11h00', '13h00', 'EaD', 'TP', 'DRP');
+        testScheduleSlot('ASSO', '11:00', '13:00', 'EaD', 'TP', 'DRP');
   
        await tester.tap(find.byKey(const Key('schedule-page-tab-2')));
        await tester.pumpAndSettle();
        await tester.tap(find.byKey(const Key('schedule-page-tab-3')));
        await tester.pumpAndSettle();
   
-        testScheduleSlot('IOPE', '14h00', '16h00', 'EaD', 'TE', 'MTD');
+        testScheduleSlot('IOPE', '14:00', '16:00', 'EaD', 'TE', 'MTD');
 
      }
   

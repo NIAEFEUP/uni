@@ -50,7 +50,7 @@ void main() {
   
 
     final profile = Profile();
-    profile.courses = [Course(id: 7474)];
+    profile.courses = [Course(id: 7474, faculty: 'feup')];
 
     testWidgets('Exams', (WidgetTester tester) async {
       NetworkRouter.httpClient = mockClient;
@@ -70,9 +70,9 @@ void main() {
       ];
       await tester.pumpWidget(testableWidget(widget, providers: providers));
 
-      expect(find.byKey(Key(sdisExam.toString())), findsNothing);
-      expect(find.byKey(Key(sopeExam.toString())), findsNothing);
-      expect(find.byKey(Key(mdisExam.toString())), findsNothing);
+      expect(find.byKey(Key('$sdisExam-exam')), findsNothing);
+      expect(find.byKey(Key('$sopeExam-exam')), findsNothing);
+      expect(find.byKey(Key('$mdisExam-exam')), findsNothing);
 
       final Completer<void> completer = Completer();
       examProvider.getUserExams(
@@ -86,9 +86,9 @@ void main() {
       await completer.future;
 
       await tester.pumpAndSettle();
-      expect(find.byKey(Key(sdisExam.toString())), findsOneWidget);
-      expect(find.byKey(Key(sopeExam.toString())), findsOneWidget);
-      expect(find.byKey(Key(mdisExam.toString())), findsNothing);
+      expect(find.byKey(Key('$sdisExam-exam')), findsOneWidget);
+      expect(find.byKey(Key('$sopeExam-exam')), findsOneWidget);
+      expect(find.byKey(Key('$mdisExam-exam')), findsNothing);
     });
 
     testWidgets('Filtered Exams', (WidgetTester tester) async {
@@ -110,8 +110,8 @@ void main() {
 
       await tester.pumpWidget(testableWidget(widget, providers: providers));
 
-      expect(find.byKey(Key(sdisExam.toString())), findsNothing);
-      expect(find.byKey(Key(sopeExam.toString())), findsNothing);
+      expect(find.byKey(Key('$sdisExam-exam')), findsNothing);
+      expect(find.byKey(Key('$sopeExam-exam')), findsNothing);
 
       final Completer<void> completer = Completer();
       examProvider.getUserExams(
@@ -125,8 +125,8 @@ void main() {
       await completer.future;
 
       await tester.pumpAndSettle();
-      expect(find.byKey(Key(sdisExam.toString())), findsOneWidget);
-      expect(find.byKey(Key(sopeExam.toString())), findsOneWidget);
+      expect(find.byKey(Key('$sdisExam-exam')), findsOneWidget);
+      expect(find.byKey(Key('$sopeExam-exam')), findsOneWidget);
       expect(find.byIcon(Icons.filter_alt), findsOneWidget);
       
       final Completer<void> settingFilteredExams = Completer();
@@ -163,8 +163,8 @@ void main() {
    
       await tester.pumpAndSettle();
 
-      expect(find.byKey(Key(sdisExam.toString())), findsNothing);
-      expect(find.byKey(Key(sopeExam.toString())), findsNothing);
+      expect(find.byKey(Key('$sdisExam-exam')), findsNothing);
+      expect(find.byKey(Key('$sopeExam-exam')), findsNothing);
     });
   });
 }
