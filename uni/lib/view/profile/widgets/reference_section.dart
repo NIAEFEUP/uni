@@ -76,14 +76,12 @@ class InfoCopyRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Color helperTextColor = Theme.of(context).brightness == Brightness.light
-        ? const Color(0xff505050) : const Color(0xffafafaf);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 20.0),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          InfoText(text: infoName, color: helperTextColor),
+          InfoText(text: infoName),
           const Spacer(),
           InfoText(text: "${isMoney ? _getMoneyAmount() : info}  "),
           InkWell(
