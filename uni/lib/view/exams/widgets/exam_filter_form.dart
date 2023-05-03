@@ -23,7 +23,7 @@ class ExamFilterFormState extends State<ExamFilterForm> {
       actions: [
         TextButton(
             child:
-                Text('Cancelar', style: Theme.of(context).textTheme.bodyText2),
+                Text('Cancelar', style: Theme.of(context).textTheme.bodyMedium),
             onPressed: () => Navigator.pop(context)),
         ElevatedButton(
             child: const Text('Confirmar'),

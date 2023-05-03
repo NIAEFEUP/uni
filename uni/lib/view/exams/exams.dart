@@ -43,7 +43,7 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
       columns.add(Center(
         heightFactor: 2,
         child: Text('Não possui exames marcados.',
-            style: Theme.of(context).textTheme.headline6),
+            style: Theme.of(context).textTheme.titleLarge),
       ));
       return columns;
     }

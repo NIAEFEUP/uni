@@ -94,13 +94,13 @@ class LibraryPage extends StatelessWidget {
       child:
           Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
         Text('Piso ${floor.number}',
-            style: Theme.of(context).textTheme.headline5),
+            style: Theme.of(context).textTheme.headlineSmall),
         Text('${floor.percentage}%',
-            style: Theme.of(context).textTheme.headline6),
+            style: Theme.of(context).textTheme.titleLarge),
         Text('${floor.occupation}/${floor.capacity}',
             style: Theme.of(context)
                 .textTheme
-                .headline6
+                .titleLarge
                 ?.copyWith(color: Theme.of(context).colorScheme.background)),
         LinearPercentIndicator(
           lineHeight: 7.0,

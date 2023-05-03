@@ -3,7 +3,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_popup/flutter_map_marker_popup.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import '../location_filter.dart';
+import 'package:uni/view/locations/location_filter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:uni/model/entities/location_group.dart';
@@ -62,12 +62,10 @@ class LocationsMap extends StatelessWidget {
           )
         ],
         children: <Widget>[
-          TileLayerWidget(
-            options: TileLayerOptions(
-              urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-              subdomains: <String>['a', 'b', 'c'],
-              tileProvider: CachedTileProvider(),
-            ),
+          TileLayer(
+            urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+            subdomains: const <String>['a', 'b', 'c'],
+            tileProvider: CachedTileProvider(),
           ),
           PopupMarkerLayerWidget(
             options: PopupMarkerLayerOptions(
@@ -107,7 +105,7 @@ class CachedTileProvider extends TileProvider {
   CachedTileProvider();
 
   @override
-  ImageProvider getImage(Coords<num> coords, TileLayerOptions options) {
+  ImageProvider getImage(Coords<num> coords, TileLayer options) {
     return CachedNetworkImageProvider(
       getTileUrl(coords, options),
     );
