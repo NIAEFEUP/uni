@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/view/common_widgets/row_container.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -6,8 +7,8 @@ import 'package:url_launcher/url_launcher.dart';
 class ScheduleSlot extends StatelessWidget {
   final String subject;
   final String rooms;
-  final String begin;
-  final String end;
+  final DateTime begin;
+  final DateTime end;
   final String teacher;
   final String typeClass;
   final String? classNumber;
@@ -51,8 +52,8 @@ class ScheduleSlot extends StatelessWidget {
     return Column(
       key: Key('schedule-slot-time-$begin-$end'),
       children: <Widget>[
-        createScheduleTime(begin, context),
-        createScheduleTime(end, context)
+        createScheduleTime(DateFormat("HH:mm").format(begin), context),
+        createScheduleTime(DateFormat("HH:mm").format(end), context)
       ],
     );
   }
