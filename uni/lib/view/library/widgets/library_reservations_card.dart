@@ -35,13 +35,13 @@ class LibraryReservationsCard extends GenericCard {
 }
 
 class RoomsList extends StatelessWidget {
-  final List<LibraryReservation>? reservations;
+  final List<LibraryReservation> reservations;
 
   const RoomsList(this.reservations, {super.key});
 
   @override
   Widget build(context) {
-    if (reservations == null || reservations!.isEmpty) {
+    if (reservations.isEmpty) {
       return Center(
           child: Text('Não tens salas reservadas!',
               style: Theme.of(context).textTheme.headline6,
@@ -49,7 +49,7 @@ class RoomsList extends StatelessWidget {
     }
     final List<Widget> rooms = [];
 
-    for (int i = 0; i < reservations!.length && i < 2; i++) {
+    for (int i = 0; i < reservations.length && i < 2; i++) {
       rooms.add(Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
@@ -57,7 +57,7 @@ class RoomsList extends StatelessWidget {
                   Border.all(color: Theme.of(context).dividerColor, width: 0.5),
               borderRadius: const BorderRadius.all(Radius.circular(7))),
           margin: const EdgeInsets.all(8),
-          child: ReservationRow(reservations![i])));
+          child: ReservationRow(reservations[i])));
     }
 
     return Column(children: rooms);
