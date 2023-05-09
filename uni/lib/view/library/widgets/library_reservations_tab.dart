@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/entities/library_reservation.dart';
+import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/library_reservations_provider.dart';
+import 'package:uni/model/providers/session_provider.dart';
+import 'package:uni/model/providers/state_providers.dart';
 import 'package:uni/model/request_status.dart';
 import 'package:uni/view/library/widgets/reservation_row.dart';
 
@@ -136,11 +139,11 @@ class ReservationPickerState extends State<ReservationPicker> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             TextButton(
-              onPressed: () => makeReservation(context),
+              onPressed: () => Navigator.of(context).pop(),
               child: const Text('Cancelar'),
             ),
             TextButton(
-              onPressed: () => Navigator.of(context).pop(),
+              onPressed: () => makeReservation(context),
               child: const Text('Confirmar'),
             ),
           ],
@@ -183,8 +186,26 @@ class ReservationPickerState extends State<ReservationPicker> {
             }));
   }
 
-  void makeReservation(BuildContext context) {
+  void makeReservation(BuildContext context) async {
     Navigator.of(context).pop();
-    // create toast message
+    if (date != null && time != null && duration != null) {
+      final Session session =
+          Provider.of<SessionProvider>(context, listen: false).session;
+
+      final stateProviders = StateProviders.fromContext(context);
+
+      final int durationMinutes = duration!.inMinutes.remainder(60);
+      final bool result = await stateProviders.libraryReservationsProvider
+          .makeReservation(
+              session,
+              DateFormat('yyyy-MM-dd').format(date!),
+              time!.hour.toString() +
+                  ((time!.minute > 0 && time!.minute <= 30)
+                      ? ',5'
+                      : (time!.hour + 1).toString()),
+              ((durationMinutes > 0 && durationMinutes <= 30)
+                  ? '${duration!.inHours},5'
+                  : (duration!.inHours + 1).toString()));
+    }
   }
 }

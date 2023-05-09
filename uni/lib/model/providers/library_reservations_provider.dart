@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:html/parser.dart';
 import 'package:http/http.dart';
 import 'package:logger/logger.dart';
 import 'package:uni/controller/fetchers/library_reservation_fetcher.dart';
@@ -61,6 +62,45 @@ class LibraryReservationsProvider extends StateProviderNotifier {
       _reservations!
           .remove(_reservations!.firstWhere((element) => element.id == id));
       notifyListeners();
+      return true;
+    }
+    return false;
+  }
+
+  Future<bool> makeReservation(
+      Session session, String date, String hour, String duration) async {
+    final url =
+        '${NetworkRouter.getBaseUrl('feup')}res_recursos_geral.pedidos_valida';
+
+    final Map<String, dynamic> body = {
+      'p_motivo': '',
+      'p_obs': '',
+      'pct_grupo_id': '7',
+      'p_quantidade': '1',
+      'p_data_inicio': date,
+      'p_hora_inicio': hour,
+      'p_duracao': duration,
+      'p_beneficiario': session.studentNumber,
+      'p_automatica': 'S'
+    };
+
+    final Map<String, String> headers = <String, String>{};
+    headers['cookie'] = session.cookies;
+    headers['content-type'] = 'application/x-www-form-urlencoded';
+
+    final response = await post(url.toUri(), headers: headers, body: body);
+    final document = parse(response.body);
+    final String redirect = document.querySelector('a')!.attributes['href']!;
+    final sessionId =
+        Uri.dataFromString(redirect).queryParameters['pct_session_id'];
+
+    body['pct_session_id'] = sessionId;
+    body['pi_confirmacao'] = '1';
+
+    final reserveResponse =
+        await post(url.toUri(), headers: headers, body: body);
+    if (reserveResponse.statusCode == 200) {
+      //_reservations.add(LibraryReservation(_id, room, startDate, duration))
       return true;
     }
     return false;
