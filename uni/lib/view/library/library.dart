@@ -8,7 +8,8 @@ import 'package:uni/view/library/widgets/library_reservations_tab.dart';
 
 class LibraryPage extends StatefulWidget {
   final bool startOnOccupationTab;
-  const LibraryPage({this.startOnOccupationTab = false, Key? key}) : super(key: key);
+  const LibraryPage({this.startOnOccupationTab = false, Key? key})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() => LibraryPageViewState();
@@ -30,7 +31,7 @@ class LibraryPageViewState extends GeneralPageViewState<LibraryPage> {
       length: tabs.length,
       child: Builder(builder: (BuildContext context) {
         final TabController? tabController = DefaultTabController.of(context);
-        if (widget.startOnOccupationTab) {
+        if (widget.startOnOccupationTab || true) {
           tabController!.index = 1;
         }
         return Column(children: <Widget>[
