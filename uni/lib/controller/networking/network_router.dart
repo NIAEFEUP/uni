@@ -29,6 +29,7 @@ class NetworkRouter {
       bool persistentSession) async {
     final String url =
         '${NetworkRouter.getBaseUrls(faculties)[0]}mob_val_geral.autentica';
+        //https://sigarra.up.pt/feup/pt/vld_validacao.validacao
     final http.Response response = await http.post(url.toUri(), body: {
       'pv_login': user,
       'pv_password': pass
@@ -40,6 +41,7 @@ class NetworkRouter {
       return session;
     } else {
       Logger().e('Login failed: ${response.body}');
+
       return Session(
           authenticated: false,
           faculties: faculties,
@@ -89,6 +91,20 @@ class NetworkRouter {
       Logger().e('Re-login failed');
       return false;
     }
+  }
+
+  /// Returns the response body of the login in Sigarra
+  /// given username [user] and password [pass].
+  static Future<String> loginInSigarra(String user, String pass, List<String> faculties) async {
+    final String url =
+        '${NetworkRouter.getBaseUrls(faculties)[0]}/pt/vld_validacao.validacao';
+    
+    final response = await http.post(url.toUri(), body: {
+      'p_user': user,
+      'p_pass': pass
+    }).timeout(const Duration(seconds: loginRequestTimeout));
+
+    return response.body;
   }
 
   /// Extracts the cookies present in [headers].

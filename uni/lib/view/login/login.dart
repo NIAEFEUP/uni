@@ -231,7 +231,10 @@ class LoginPageViewState extends State<LoginPageView> {
       Navigator.pushReplacementNamed(
           context, '/${DrawerItem.navPersonalArea.title}');
     } else if (status == RequestStatus.failed) {
-      ToastMessage.error(context, 'O login falhou');
+      final errorMessage =
+          Provider.of<SessionProvider>(context, listen: false).errorMessage;
+
+      ToastMessage.error(context, (errorMessage ?? 'Erro no login'));
     }
   }
 }

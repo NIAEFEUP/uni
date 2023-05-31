@@ -6,6 +6,7 @@ import 'package:uni/controller/load_info.dart';
 import 'package:uni/controller/load_static/terms_and_conditions.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/controller/networking/network_router.dart';
+import 'package:uni/controller/parsers/parser_session.dart';
 import 'package:uni/model/request_status.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
@@ -14,6 +15,7 @@ import 'package:uni/model/providers/state_providers.dart';
 class SessionProvider extends StateProviderNotifier {
   Session _session = Session();
   List<String> _faculties = [];
+  String? errorMessage;
 
   Session get session => _session;
 
@@ -52,11 +54,21 @@ class SessionProvider extends StateProviderNotifier {
         passwordController.clear();
         await acceptTermsAndConditions();
 
+        errorMessage = null;
         updateStatus(RequestStatus.successful);
       } else {
+        errorMessage = 'Credenciais inválidas';
+
+        //Check if password expired
+        final String responseHtml = await NetworkRouter.loginInSigarra(username, password, faculties);
+        if(isPasswordExpired(responseHtml)){
+          errorMessage = 'A palavra-passe expirou';
+        }
         updateStatus(RequestStatus.failed);
       }
     } catch (e) {
+      // No internet connection or server down
+      errorMessage = "Verifica a tua ligação à internet";
       updateStatus(RequestStatus.failed);
     }
 
