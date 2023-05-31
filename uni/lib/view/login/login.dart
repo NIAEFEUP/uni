@@ -234,7 +234,55 @@ class LoginPageViewState extends State<LoginPageView> {
       final errorMessage =
           Provider.of<SessionProvider>(context, listen: false).errorMessage;
 
-      ToastMessage.error(context, (errorMessage ?? 'Erro no login'));
+      if (errorMessage == "A palavra-passe expirou") {
+        updatePasswordDialog();
+      } else {
+        ToastMessage.error(context, (errorMessage ?? 'Erro no login'));
+      }
     }
+  }
+
+  void updatePasswordDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("A tua palavra-passe expirou"),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                  'Por razões de segurança, as palavras-passes têm de ser alteradas periodicamente.',
+                  textAlign: TextAlign.start,
+                  style: Theme.of(context).textTheme.titleSmall),
+              const SizedBox(height: 20),
+              const Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Deseja alterar a palavra-passe?',
+                    textAlign: TextAlign.start,
+                  )),
+            ],
+          ),
+          actions: [
+            TextButton(
+              child: const Text("Cancelar"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            ElevatedButton(
+              child: const Text("Alterar"),
+              onPressed: () async {
+                const url = "https://self-id.up.pt/password";
+                if (await canLaunchUrl(Uri.parse(url))) {
+                  await launchUrl(Uri.parse(url));
+                }
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }

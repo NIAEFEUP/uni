@@ -29,7 +29,6 @@ class NetworkRouter {
       bool persistentSession) async {
     final String url =
         '${NetworkRouter.getBaseUrls(faculties)[0]}mob_val_geral.autentica';
-        //https://sigarra.up.pt/feup/pt/vld_validacao.validacao
     final http.Response response = await http.post(url.toUri(), body: {
       'pv_login': user,
       'pv_password': pass
@@ -97,7 +96,7 @@ class NetworkRouter {
   /// given username [user] and password [pass].
   static Future<String> loginInSigarra(String user, String pass, List<String> faculties) async {
     final String url =
-        '${NetworkRouter.getBaseUrls(faculties)[0]}/pt/vld_validacao.validacao';
+        '${NetworkRouter.getBaseUrls(faculties)[0]}vld_validacao.validacao';
     
     final response = await http.post(url.toUri(), body: {
       'p_user': user,

@@ -62,7 +62,7 @@ class SessionProvider extends StateProviderNotifier {
         //Check if password expired
         final String responseHtml = await NetworkRouter.loginInSigarra(username, password, faculties);
         if(isPasswordExpired(responseHtml)){
-          errorMessage = 'A palavra-passe expirou';
+          errorMessage = "A palavra-passe expirou";
         }
         updateStatus(RequestStatus.failed);
       }
