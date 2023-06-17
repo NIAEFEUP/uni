@@ -10,7 +10,7 @@ abstract class GenericExpansionCard extends StatefulWidget {
     return GenericExpansionCardState();
   }
 
-  String getTitle();
+  String getTitle(context);
   Widget buildCardContent(BuildContext context);
 }
 
@@ -26,7 +26,7 @@ class GenericExpansionCardState extends State<GenericExpansionCard> {
           expandedColor: (Theme.of(context).brightness == Brightness.light)
               ? const Color.fromARGB(0xf, 0, 0, 0)
               : const Color.fromARGB(255, 43, 43, 43),
-          title: Text(widget.getTitle(),
+          title: Text(widget.getTitle(context),
               style: Theme.of(context)
                   .textTheme
                   .headline5

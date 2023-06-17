@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:uni/view/common_widgets/generic_expansion_card.dart';
 import 'package:uni/view/useful_info/widgets/text_components.dart';
+import 'package:uni/generated/l10n.dart';
+import 'package:uni/utils/drawer_items.dart';
 
 class AcademicServicesCard extends GenericExpansionCard {
   const AcademicServicesCard({Key? key}) : super(key: key);
@@ -9,12 +11,12 @@ class AcademicServicesCard extends GenericExpansionCard {
   Widget buildCardContent(BuildContext context) {
     return Column(
       children: <Container>[
-        h1('Horário', context, initial: true),
-        h2('Atendimento presencial', context),
+        h1(S.of(context).nav_title(DrawerItem.navSchedule.title), context, initial: true),
+        h2(S.of(context).personal_assistance, context),
         infoText('11:00h - 16:00h', context),
-        h2('Atendimento telefónico', context),
+        h2(S.of(context).tele_assistance, context),
         infoText('9:30h - 12:00h | 14:00h - 16:00h', context),
-        h1('Telefone', context),
+        h1(S.of(context).telephone, context),
         infoText('+351 225 081 977', context,
             link: 'tel:225 081 977', last: true),
       ],
@@ -22,5 +24,5 @@ class AcademicServicesCard extends GenericExpansionCard {
   }
 
   @override
-  String getTitle() => 'Serviços Académicos';
+  String getTitle(context) => S.of(context).academic_services;
 }

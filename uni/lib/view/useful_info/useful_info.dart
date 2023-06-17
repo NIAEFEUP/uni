@@ -8,6 +8,8 @@ import 'package:uni/view/useful_info/widgets/multimedia_center_card.dart';
 import 'package:uni/view/useful_info/widgets/other_links_card.dart';
 import 'package:uni/view/useful_info/widgets/sigarra_links_card.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
+import 'package:uni/generated/l10n.dart';
+import 'package:uni/utils/drawer_items.dart';
 
 class UsefulInfoPageView extends StatefulWidget {
   const UsefulInfoPageView({super.key});
@@ -35,6 +37,6 @@ class UsefulInfoPageViewState extends GeneralPageViewState {
   Container _getPageTitle() {
     return Container(
         padding: const EdgeInsets.only(bottom: 6.0),
-        child: const PageTitle(name: 'Úteis'));
+        child: PageTitle(name: S.of(context).nav_title(DrawerItem.navUsefulInfo.title)));
   }
 }

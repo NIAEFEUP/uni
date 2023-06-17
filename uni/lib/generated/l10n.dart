@@ -50,6 +50,16 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
+  /// `Academic services`
+  String get academic_services {
+    return Intl.message(
+      'Academic services',
+      name: 'academic_services',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Checking account`
   String get account_card_title {
     return Intl.message(
@@ -150,6 +160,16 @@ class S {
     );
   }
 
+  /// `Class Registration`
+  String get class_registration {
+    return Intl.message(
+      'Class Registration',
+      name: 'class_registration',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Done`
   String get conclude {
     return Intl.message(
@@ -175,6 +195,46 @@ class S {
     return Intl.message(
       'Confirm',
       name: 'confirm',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Copy center`
+  String get copy_center {
+    return Intl.message(
+      'Copy center',
+      name: 'copy_center',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Floor -1 of building B | AEFEUP building`
+  String get copy_center_building {
+    return Intl.message(
+      'Floor -1 of building B | AEFEUP building',
+      name: 'copy_center_building',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `D. Beatriz's stationery store`
+  String get dona_bia {
+    return Intl.message(
+      'D. Beatriz\'s stationery store',
+      name: 'dona_bia',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Floor -1 of building B (B-142)`
+  String get dona_bia_building {
+    return Intl.message(
+      'Floor -1 of building B (B-142)',
+      name: 'dona_bia_building',
       desc: '',
       args: [],
     );
@@ -250,6 +310,26 @@ class S {
     );
   }
 
+  /// `General Registration`
+  String get geral_registration {
+    return Intl.message(
+      'General Registration',
+      name: 'geral_registration',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enrollment for Improvement`
+  String get improvement_registration {
+    return Intl.message(
+      'Enrollment for Improvement',
+      name: 'improvement_registration',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `last refresh at {time}`
   String last_refresh_time(Object time) {
     return Intl.message(
@@ -270,16 +350,6 @@ class S {
       name: 'last_timestamp',
       desc: '',
       args: [time],
-    );
-  }
-
-  /// `Library`
-  String get library {
-    return Intl.message(
-      'Library',
-      name: 'library',
-      desc: '',
-      args: [],
     );
   }
 
@@ -313,7 +383,17 @@ class S {
     );
   }
 
-  /// `{title, select, horario{Schedule} exames{Exams} area{Personal Area} cadeiras{Course Units} autocarros{Buses} locais{Places} restaurantes{Restaurants} calendario{Calendar} biblioteca{Library} uteis{Utils} sobre{About} bugs{Bugs and Suggestions} other{Other}}`
+  /// `Multimedia center`
+  String get multimedia_center {
+    return Intl.message(
+      'Multimedia center',
+      name: 'multimedia_center',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{title, select, horario{Schedule} exames{Exams} area{Personal Area} cadeiras{Course Units} autocarros{Buses} locais{Places} restaurantes{Restaurants} calendario{Calendar} biblioteca{Library} uteis{Utils} sobre{About} bugs{Bugs/ Suggestions} other{Other}}`
   String nav_title(Object title) {
     return Intl.select(
       title,
@@ -329,12 +409,22 @@ class S {
         'biblioteca': 'Library',
         'uteis': 'Utils',
         'sobre': 'About',
-        'bugs': 'Bugs and Suggestions',
+        'bugs': 'Bugs/ Suggestions',
         'other': 'Other',
       },
       name: 'nav_title',
       desc: '',
       args: [title],
+    );
+  }
+
+  /// `News`
+  String get news {
+    return Intl.message(
+      'News',
+      name: 'news',
+      desc: '',
+      args: [],
     );
   }
 
@@ -418,6 +508,56 @@ class S {
     );
   }
 
+  /// `Other links`
+  String get other_links {
+    return Intl.message(
+      'Other links',
+      name: 'other_links',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Face-to-face assistance`
+  String get personal_assistance {
+    return Intl.message(
+      'Face-to-face assistance',
+      name: 'personal_assistance',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Print`
+  String get print {
+    return Intl.message(
+      'Print',
+      name: 'print',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Room`
+  String get room {
+    return Intl.message(
+      'Room',
+      name: 'room',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `School Calendar`
+  String get school_calendar {
+    return Intl.message(
+      'School Calendar',
+      name: 'school_calendar',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Semester`
   String get semester {
     return Intl.message(
@@ -433,6 +573,36 @@ class S {
     return Intl.message(
       'STCP - Upcoming Trips',
       name: 'stcp_stops',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Telephone assistance`
+  String get tele_assistance {
+    return Intl.message(
+      'Telephone assistance',
+      name: 'tele_assistance',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Face-to-face and telephone assistance`
+  String get tele_personal_assistance {
+    return Intl.message(
+      'Face-to-face and telephone assistance',
+      name: 'tele_personal_assistance',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Telephone`
+  String get telephone {
+    return Intl.message(
+      'Telephone',
+      name: 'telephone',
       desc: '',
       args: [],
     );

@@ -37,12 +37,14 @@ class MessageLookup extends MessageLookupByLibrary {
             'biblioteca': 'Library',
             'uteis': 'Utils',
             'sobre': 'About',
-            'bugs': 'Bugs and Suggestions',
+            'bugs': 'Bugs/ Suggestions',
             'other': 'Other',
           })}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "academic_services":
+            MessageLookupByLibrary.simpleMessage("Academic services"),
         "account_card_title":
             MessageLookupByLibrary.simpleMessage("Checking account"),
         "add": MessageLookupByLibrary.simpleMessage("Add"),
@@ -59,10 +61,19 @@ class MessageLookup extends MessageLookupByLibrary {
         "buses_text": MessageLookupByLibrary.simpleMessage(
             "Favorite buses will be displayed in the favorites \'Bus\' widget. The remaining ones will only be displayed on the page."),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
+        "class_registration":
+            MessageLookupByLibrary.simpleMessage("Class Registration"),
         "conclude": MessageLookupByLibrary.simpleMessage("Done"),
         "configured_buses":
             MessageLookupByLibrary.simpleMessage("Configured Buses"),
         "confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
+        "copy_center": MessageLookupByLibrary.simpleMessage("Copy center"),
+        "copy_center_building": MessageLookupByLibrary.simpleMessage(
+            "Floor -1 of building B | AEFEUP building"),
+        "dona_bia": MessageLookupByLibrary.simpleMessage(
+            "D. Beatriz\'s stationery store"),
+        "dona_bia_building": MessageLookupByLibrary.simpleMessage(
+            "Floor -1 of building B (B-142)"),
         "edit_off": MessageLookupByLibrary.simpleMessage("Edit"),
         "edit_on": MessageLookupByLibrary.simpleMessage("Finish editing"),
         "exams_filter":
@@ -73,14 +84,20 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Notify next deadline:"),
         "floor": MessageLookupByLibrary.simpleMessage("Floor"),
         "floors": MessageLookupByLibrary.simpleMessage("Floors"),
+        "geral_registration":
+            MessageLookupByLibrary.simpleMessage("General Registration"),
+        "improvement_registration":
+            MessageLookupByLibrary.simpleMessage("Enrollment for Improvement"),
         "last_refresh_time": m0,
         "last_timestamp": m1,
-        "library": MessageLookupByLibrary.simpleMessage("Library"),
         "library_occupation":
             MessageLookupByLibrary.simpleMessage("Library Occupation"),
         "logout": MessageLookupByLibrary.simpleMessage("Log out"),
         "menus": MessageLookupByLibrary.simpleMessage("Menus"),
+        "multimedia_center":
+            MessageLookupByLibrary.simpleMessage("Multimedia center"),
         "nav_title": m2,
+        "news": MessageLookupByLibrary.simpleMessage("News"),
         "no_course_units": MessageLookupByLibrary.simpleMessage(
             "No course units in the selected period"),
         "no_data": MessageLookupByLibrary.simpleMessage(
@@ -96,9 +113,21 @@ class MessageLookup extends MessageLookupByLibrary {
             "There are no course units to display"),
         "no_selected_exams": MessageLookupByLibrary.simpleMessage(
             "There are no exams to present"),
+        "other_links": MessageLookupByLibrary.simpleMessage("Other links"),
+        "personal_assistance":
+            MessageLookupByLibrary.simpleMessage("Face-to-face assistance"),
+        "print": MessageLookupByLibrary.simpleMessage("Print"),
+        "room": MessageLookupByLibrary.simpleMessage("Room"),
+        "school_calendar":
+            MessageLookupByLibrary.simpleMessage("School Calendar"),
         "semester": MessageLookupByLibrary.simpleMessage("Semester"),
         "stcp_stops":
             MessageLookupByLibrary.simpleMessage("STCP - Upcoming Trips"),
+        "tele_assistance":
+            MessageLookupByLibrary.simpleMessage("Telephone assistance"),
+        "tele_personal_assistance": MessageLookupByLibrary.simpleMessage(
+            "Face-to-face and telephone assistance"),
+        "telephone": MessageLookupByLibrary.simpleMessage("Telephone"),
         "widget_prompt": MessageLookupByLibrary.simpleMessage(
             "Choose a widget to add to your personal area:"),
         "year": MessageLookupByLibrary.simpleMessage("Year")
