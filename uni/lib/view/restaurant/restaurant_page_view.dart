@@ -1,9 +1,9 @@
 import 'package:provider/provider.dart';
 import 'package:uni/model/entities/meal.dart';
 import 'package:flutter/material.dart';
-import 'package:uni/model/entities/time_utilities.dart';
 import 'package:uni/model/providers/restaurant_provider.dart';
 import 'package:uni/model/request_status.dart';
+import 'package:uni/model/entities/time_utilities.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/model/utils/day_of_week.dart';
@@ -89,14 +89,13 @@ class _CanteenPageState extends GeneralPageViewState<RestaurantPageView>
   }
 
   List<Widget> createTabs(BuildContext context) {
-    final List<String> daysOfTheWeek =
-      TimeString.getWeekdaysStrings(includeWeekend: true);
+    final List<String> daysOfTheWeek = TimeString.getWeekdaysStrings(includeWeekend: true);
     final List<Widget> tabs = <Widget>[];
 
     for (var i = 0; i < DayOfWeek.values.length; i++) {
       tabs.add(Container(
         color: Theme.of(context).backgroundColor,
-        child: Tab(key: Key('cantine-page-tab-$i'), text: toString(DayOfWeek.values[i])),
+        child: Tab(key: Key('cantine-page-tab-$i'), text: daysOfTheWeek[i]),
       ));
     }
 
