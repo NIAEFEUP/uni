@@ -54,7 +54,7 @@ class _LastUpdateTimeStampState extends State<LastUpdateTimeStamp> {
         children: [
           Text(
               S.of(context).last_timestamp(elapsedTimeMinutes),
-              style: Theme.of(context).textTheme.subtitle2)
+              style: Theme.of(context).textTheme.titleSmall)
         ]);
   }
 }

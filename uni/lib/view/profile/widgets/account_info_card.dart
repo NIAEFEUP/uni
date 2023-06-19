@@ -29,7 +29,7 @@ class AccountInfoCard extends GenericCard {
                     margin: const EdgeInsets.only(
                         top: 20.0, bottom: 8.0, left: 20.0),
                     child: Text(S.of(context).balance,
-                        style: Theme.of(context).textTheme.subtitle2),
+                        style: Theme.of(context).textTheme.titleSmall),
                   ),
                   Container(
                       margin: const EdgeInsets.only(
@@ -41,7 +41,7 @@ class AccountInfoCard extends GenericCard {
                     margin: const EdgeInsets.only(
                         top: 8.0, bottom: 20.0, left: 20.0),
                     child: Text(S.of(context).fee_date,
-                        style: Theme.of(context).textTheme.subtitle2),
+                        style: Theme.of(context).textTheme.titleSmall),
                   ),
                   Container(
                       margin: const EdgeInsets.only(
@@ -53,7 +53,7 @@ class AccountInfoCard extends GenericCard {
                     margin:
                         const EdgeInsets.only(top: 8.0, bottom: 20.0, left: 20.0),
                     child: Text(S.of(context).fee_notification,
-                      style: Theme.of(context).textTheme.subtitle2)
+                      style: Theme.of(context).textTheme.titleSmall)
                   ),
                   Container(
                     margin:

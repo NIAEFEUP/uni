@@ -88,7 +88,7 @@ class CourseUnitsPageViewState
           onNullContent: Center(
             heightFactor: 10,
             child: Text(S.of(context).no_selected_courses,
-                style: Theme.of(context).textTheme.headline6),
+                style: Theme.of(context).textTheme.titleLarge),
           ))
     ]);
   }
@@ -143,7 +143,7 @@ class CourseUnitsPageViewState
       return Center(
           heightFactor: 10,
           child: Text(S.of(context).no_course_units,
-              style: Theme.of(context).textTheme.headline6));
+              style: Theme.of(context).textTheme.titleLarge));
     }
     return Expanded(
         child: Container(

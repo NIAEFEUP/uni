@@ -96,7 +96,7 @@ class _CanteenPageState extends GeneralPageViewState<RestaurantPageView>
     for (var i = 0; i < DayOfWeek.values.length; i++) {
       tabs.add(Container(
         color: Theme.of(context).backgroundColor,
-        child: Tab(key: Key('cantine-page-tab-$i'), text: daysOfTheWeek[i]),
+        child: Tab(key: Key('cantine-page-tab-$i'), text: toString(DayOfWeek.values[i])),
       ));
     }
 
@@ -104,7 +104,8 @@ class _CanteenPageState extends GeneralPageViewState<RestaurantPageView>
   }
 
   Widget createRestaurant(context, Restaurant restaurant, DayOfWeek dayOfWeek) {
-    return RestaurantPageCard(restaurant.name, createRestaurantByDay(context, restaurant, dayOfWeek));
+    return RestaurantPageCard(
+        restaurant.name, createRestaurantByDay(context, restaurant, dayOfWeek));
   }
 
   List<Widget> createRestaurantRows(List<Meal> meals, BuildContext context) {
@@ -118,8 +119,7 @@ class _CanteenPageState extends GeneralPageViewState<RestaurantPageView>
     final List<Meal> meals = restaurant.getMealsOfDay(day);
     if (meals.isEmpty) {
       return Container(
-          margin:
-          const EdgeInsets.only(top: 10, bottom: 5),
+          margin: const EdgeInsets.only(top: 10, bottom: 5),
           key: Key('cantine-page-day-column-$day'),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -128,14 +128,12 @@ class _CanteenPageState extends GeneralPageViewState<RestaurantPageView>
       );
     } else {
       return Container(
-        margin:
-          const EdgeInsets.only(top: 5, bottom: 5),
-        key: Key('cantine-page-day-column-$day'),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: createRestaurantRows(meals, context),
-        )
-    );
+          margin: const EdgeInsets.only(top: 5, bottom: 5),
+          key: Key('cantine-page-day-column-$day'),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: createRestaurantRows(meals, context),
+          ));
     }
   }
 }

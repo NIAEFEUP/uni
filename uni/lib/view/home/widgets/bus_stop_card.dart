@@ -51,7 +51,7 @@ Widget getCardContent(BuildContext context, Map<String, BusStopData> stopData, b
                 Text(S.of(context).buses_personalize,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.subtitle2!.apply()),
+                    style: Theme.of(context).textTheme.titleSmall!.apply()),
                 IconButton(
                   icon: const Icon(Icons.settings),
                   onPressed: () => Navigator.push(
@@ -78,7 +78,7 @@ Widget getCardContent(BuildContext context, Map<String, BusStopData> stopData, b
         Container(
             padding: const EdgeInsets.all(8.0),
             child: Text(S.of(context).bus_error,
-                style: Theme.of(context).textTheme.subtitle1))
+                style: Theme.of(context).textTheme.titleMedium))
       ]);
   }
 }
@@ -89,7 +89,7 @@ Widget getCardTitle(context) {
     children: <Widget>[
       const Icon(Icons.directions_bus), // color lightgrey
       Text(S.of(context).stcp_stops,
-          style: Theme.of(context).textTheme.subtitle1),
+          style: Theme.of(context).textTheme.titleMedium),
     ],
   );
 }

@@ -19,7 +19,8 @@ class AboutPageViewState extends GeneralPageViewState {
       children: <Widget>[
         SvgPicture.asset(
           'assets/images/ni_logo.svg',
-          color: Theme.of(context).primaryColor,
+          colorFilter:
+              ColorFilter.mode(Theme.of(context).primaryColor, BlendMode.srcIn),
           width: queryData.size.height / 7,
           height: queryData.size.height / 7,
         ),

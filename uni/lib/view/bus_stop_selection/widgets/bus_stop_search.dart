@@ -85,7 +85,7 @@ class BusStopSearch extends SearchDelegate<String> {
         updateStopCallback);
     return AlertDialog(
         title: Text(S.of(context).bus_information,
-            style: Theme.of(context).textTheme.headline5),
+            style: Theme.of(context).textTheme.headlineSmall),
         content: SizedBox(
           height: 200.0,
           width: 100.0,
@@ -94,7 +94,7 @@ class BusStopSearch extends SearchDelegate<String> {
         actions: [
           TextButton(
               child: Text(S.of(context).cancel,
-                  style: Theme.of(context).textTheme.bodyText2),
+                  style: Theme.of(context).textTheme.bodyMedium),
               onPressed: () => Navigator.pop(context)),
           ElevatedButton(
               child: Text(S.of(context).confirm),

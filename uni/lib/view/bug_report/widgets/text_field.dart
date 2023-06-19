@@ -35,7 +35,7 @@ class FormTextField extends StatelessWidget {
         children: <Widget>[
           Text(
             description,
-            style: Theme.of(context).textTheme.bodyText2,
+            style: Theme.of(context).textTheme.bodyMedium,
             textAlign: TextAlign.left,
           ),
           Row(children: <Widget>[
@@ -52,9 +52,9 @@ class FormTextField extends StatelessWidget {
               decoration: InputDecoration(
                 focusedBorder: const UnderlineInputBorder(),
                 hintText: hintText,
-                hintStyle: Theme.of(context).textTheme.bodyText2,
+                hintStyle: Theme.of(context).textTheme.bodyMedium,
                 labelText: labelText,
-                labelStyle: Theme.of(context).textTheme.bodyText2,
+                labelStyle: Theme.of(context).textTheme.bodyMedium,
               ),
               controller: controller,
               validator: (value) {

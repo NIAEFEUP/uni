@@ -52,13 +52,13 @@ class CalendarPageViewState extends GeneralPageViewState<CalendarPageView> {
           child: Text(calendar[index].name,
               style: Theme.of(context)
                   .textTheme
-                  .headline6
+                  .titleLarge
                   ?.copyWith(fontWeight: FontWeight.w500)),
         ),
         oppositeContentsBuilder: (context, index) => Padding(
           padding: const EdgeInsets.all(24.0),
           child: Text(calendar[index].date,
-              style: Theme.of(context).textTheme.subtitle1?.copyWith(
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
                     fontStyle: FontStyle.italic,
                   )),
         ),

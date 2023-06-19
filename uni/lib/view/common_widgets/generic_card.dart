@@ -38,7 +38,7 @@ abstract class GenericCard extends StatefulWidget {
   Text getInfoText(String text, BuildContext context) {
     return Text(text,
         textAlign: TextAlign.end,
-        style: Theme.of(context).textTheme.headline6!);
+        style: Theme.of(context).textTheme.titleLarge!);
   }
 
   showLastRefreshedTime(String? time, context) {
@@ -54,7 +54,7 @@ abstract class GenericCard extends StatefulWidget {
     return Container(
         alignment: Alignment.center,
         child: Text(S.of(context).last_refresh_time(parsedTime.toTimeHourMinString()),
-            style: Theme.of(context).textTheme.caption));
+            style: Theme.of(context).textTheme.bodySmall));
   }
 }
 
@@ -106,10 +106,12 @@ class GenericCardState extends State<GenericCard> {
                             margin: const EdgeInsets.only(top: 15, bottom: 10),
                             child: Text(widget.getTitle(context),
                                 style: (widget.smallTitle
-                                        ? Theme.of(context).textTheme.headline6!
+                                        ? Theme.of(context)
+                                            .textTheme
+                                            .titleLarge!
                                         : Theme.of(context)
                                             .textTheme
-                                            .headline5!)
+                                            .headlineSmall!)
                                     .copyWith(
                                         color: Theme.of(context).primaryColor)),
                           )),

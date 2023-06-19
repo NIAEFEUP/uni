@@ -27,11 +27,6 @@ class LocationsPageState extends GeneralPageViewState
   }
 
   @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Widget getBody(BuildContext context) {
     return Consumer<FacultyLocationsProvider>(
       builder: (context, locationsProvider, _) {

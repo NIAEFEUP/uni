@@ -44,7 +44,7 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
       columns.add(Center(
         heightFactor: 2,
         child: Text(S.of(context).no_exams,
-            style: Theme.of(context).textTheme.headline6),
+            style: Theme.of(context).textTheme.titleLarge),
       ));
       return columns;
     }
