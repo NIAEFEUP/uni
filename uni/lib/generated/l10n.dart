@@ -110,6 +110,26 @@ class S {
     );
   }
 
+  /// `Did you find any bugs in the application?\nDo you have any suggestions for the app?\nTell us so we can improve!`
+  String get bs_description {
+    return Intl.message(
+      'Did you find any bugs in the application?\\nDo you have any suggestions for the app?\\nTell us so we can improve!',
+      name: 'bs_description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Bug found, how to reproduce it, etc.`
+  String get bug_description {
+    return Intl.message(
+      'Bug found, how to reproduce it, etc.',
+      name: 'bug_description',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Unable to get information`
   String get bus_error {
     return Intl.message(
@@ -200,6 +220,26 @@ class S {
     );
   }
 
+  /// `I consent to this information being reviewed by NIAEFEUP and may be deleted at my request.`
+  String get consent {
+    return Intl.message(
+      'I consent to this information being reviewed by NIAEFEUP and may be deleted at my request.',
+      name: 'consent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Contact (optional)`
+  String get contact {
+    return Intl.message(
+      'Contact (optional)',
+      name: 'contact',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Copy center`
   String get copy_center {
     return Intl.message(
@@ -215,6 +255,26 @@ class S {
     return Intl.message(
       'Floor -1 of building B | AEFEUP building',
       name: 'copy_center_building',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Description`
+  String get description {
+    return Intl.message(
+      'Description',
+      name: 'description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Email where you want to be contacted`
+  String get desired_email {
+    return Intl.message(
+      'Email where you want to be contacted',
+      name: 'desired_email',
       desc: '',
       args: [],
     );
@@ -255,6 +315,16 @@ class S {
     return Intl.message(
       'Finish editing',
       name: 'edit_on',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please fill in this field`
+  String get empty_text {
+    return Intl.message(
+      'Please fill in this field',
+      name: 'empty_text',
       desc: '',
       args: [],
     );
@@ -363,6 +433,16 @@ class S {
     );
   }
 
+  /// `Loading Terms and Conditions...`
+  String get loading_terms {
+    return Intl.message(
+      'Loading Terms and Conditions...',
+      name: 'loading_terms',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Log out`
   String get logout {
     return Intl.message(
@@ -423,6 +503,16 @@ class S {
     return Intl.message(
       'News',
       name: 'news',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No configured stops`
+  String get no_bus_stops {
+    return Intl.message(
+      'No configured stops',
+      name: 'no_bus_stops',
       desc: '',
       args: [],
     );
@@ -508,6 +598,16 @@ class S {
     );
   }
 
+  /// `Type of occurrence`
+  String get occurrence_type {
+    return Intl.message(
+      'Type of occurrence',
+      name: 'occurrence_type',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Other links`
   String get other_links {
     return Intl.message(
@@ -533,6 +633,16 @@ class S {
     return Intl.message(
       'Print',
       name: 'print',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Brief identification of the problem`
+  String get problem_id {
+    return Intl.message(
+      'Brief identification of the problem',
+      name: 'problem_id',
       desc: '',
       args: [],
     );
@@ -568,11 +678,41 @@ class S {
     );
   }
 
+  /// `Send`
+  String get send {
+    return Intl.message(
+      'Send',
+      name: 'send',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `An error occurred in sending`
+  String get sent_error {
+    return Intl.message(
+      'An error occurred in sending',
+      name: 'sent_error',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `STCP - Upcoming Trips`
   String get stcp_stops {
     return Intl.message(
       'STCP - Upcoming Trips',
       name: 'stcp_stops',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sent with success`
+  String get success {
+    return Intl.message(
+      'Sent with success',
+      name: 'success',
       desc: '',
       args: [],
     );
@@ -603,6 +743,26 @@ class S {
     return Intl.message(
       'Telephone',
       name: 'telephone',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Title`
+  String get title {
+    return Intl.message(
+      'Title',
+      name: 'title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter a valid email`
+  String get valid_email {
+    return Intl.message(
+      'Please enter a valid email',
+      name: 'valid_email',
       desc: '',
       args: [],
     );

@@ -94,7 +94,7 @@ class _CanteenPageState extends GeneralPageViewState<RestaurantPageView>
 
     for (var i = 0; i < DayOfWeek.values.length; i++) {
       tabs.add(Container(
-        color: Theme.of(context).backgroundColor,
+        color: Theme.of(context).colorScheme.background,
         child: Tab(key: Key('cantine-page-tab-$i'), text: daysOfTheWeek[i]),
       ));
     }

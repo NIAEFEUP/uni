@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,8 @@ import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:tuple/tuple.dart';
+import 'package:uni/utils/drawer_items.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/bug_report.dart';
 import 'package:uni/view/bug_report/widgets/text_field.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
@@ -58,8 +61,11 @@ class BugReportFormState extends State<BugReportForm> {
   void loadBugClassList() {
     bugList = [];
 
-    bugDescriptions.forEach((int key, Tuple2<String, String> tup) =>
-        {bugList.add(DropdownMenuItem(value: key, child: Text(tup.item1)))});
+
+    bugDescriptions.forEach((int key, Tuple2<String, String> tup){
+      if(Platform.localeName == 'pt_PT') {bugList.add(DropdownMenuItem(value: key, child: Text(tup.item1)));}
+      else {bugList.add(DropdownMenuItem(value: key, child: Text(tup.item2)));}
+    });
   }
 
   @override
@@ -79,8 +85,8 @@ class BugReportFormState extends State<BugReportForm> {
       Icons.title,
       minLines: 1,
       maxLines: 2,
-      description: 'Título',
-      labelText: 'Breve identificação do problema',
+      description: S.of(context).title,
+      labelText: S.of(context).problem_id,
       bottomMargin: 30.0,
     ));
 
@@ -89,8 +95,8 @@ class BugReportFormState extends State<BugReportForm> {
       Icons.description,
       minLines: 1,
       maxLines: 30,
-      description: 'Descrição',
-      labelText: 'Bug encontrado, como o reproduzir, etc',
+      description: S.of(context).description,
+      labelText: S.of(context).bug_description,
       bottomMargin: 30.0,
     ));
 
@@ -99,14 +105,14 @@ class BugReportFormState extends State<BugReportForm> {
       Icons.mail,
       minLines: 1,
       maxLines: 2,
-      description: 'Contacto (opcional)',
-      labelText: 'Email em que desejas ser contactado',
+      description: S.of(context).contact,
+      labelText: S.of(context).desired_email,
       bottomMargin: 30.0,
       isOptional: true,
       formatValidator: (value) {
         return EmailValidator.validate(value)
             ? null
-            : 'Por favor insere um email válido';
+            : S.of(context).valid_email;
       },
     ));
 
@@ -123,10 +129,10 @@ class BugReportFormState extends State<BugReportForm> {
         margin: const EdgeInsets.symmetric(vertical: 10.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: const <Widget>[
-            Icon(Icons.bug_report, size: 40.0),
-            PageTitle(name: 'Bugs e Sugestões', center: false),
-            Icon(Icons.bug_report, size: 40.0),
+          children: <Widget>[
+            const Icon(Icons.bug_report, size: 40.0),
+            PageTitle(name: S.of(context).nav_title(DrawerItem.navBugReport.title), center: false),
+            const Icon(Icons.bug_report, size: 40.0),
           ],
         ));
   }
@@ -138,8 +144,7 @@ class BugReportFormState extends State<BugReportForm> {
       padding: const EdgeInsets.only(bottom: 20),
       child: Center(
         child: Text(
-            '''Encontraste algum bug na aplicação?\nTens alguma '''
-            '''sugestão para a app?\nConta-nos para que possamos melhorar!''',
+            S.of(context).bs_description,
             style: Theme.of(context).textTheme.bodyMedium,
             textAlign: TextAlign.center),
       ),
@@ -155,7 +160,7 @@ class BugReportFormState extends State<BugReportForm> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            'Tipo de ocorrência',
+            S.of(context).occurrence_type,
             style: Theme.of(context).textTheme.bodyMedium,
             textAlign: TextAlign.left,
           ),
@@ -167,7 +172,7 @@ class BugReportFormState extends State<BugReportForm> {
                 )),
             Expanded(
                 child: DropdownButton(
-              hint: const Text('Tipo de ocorrência'),
+              hint: Text(S.of(context).occurrence_type),
               items: bugList,
               value: _selectedBug,
               onChanged: (value) {
@@ -191,7 +196,7 @@ class BugReportFormState extends State<BugReportForm> {
         contentPadding: const EdgeInsets.all(0),
         child: CheckboxListTile(
           title: Text(
-              '''Consinto que esta informação seja revista pelo NIAEFEUP, podendo ser eliminada a meu pedido.''',
+              S.of(context).consent,
               style: Theme.of(context).textTheme.bodyMedium,
               textAlign: TextAlign.left),
           value: _isConsentGiven,
@@ -218,9 +223,9 @@ class BugReportFormState extends State<BugReportForm> {
                 submitBugReport();
               }
             },
-      child: const Text(
-        'Enviar',
-        style: TextStyle(/*color: Colors.white*/ fontSize: 20.0),
+      child: Text(
+          S.of(context).send,
+        style: const TextStyle(/*color: Colors.white*/ fontSize: 20.0),
       ),
     );
   }
@@ -252,11 +257,13 @@ class BugReportFormState extends State<BugReportForm> {
         throw Exception('Network error');
       }
       Logger().i('Successfully submitted bug report.');
-      toastMsg = 'Enviado com sucesso';
+      // ignore: use_build_context_synchronously
+      toastMsg = S.of(context).success;
       status = true;
     } catch (e) {
       Logger().e('Error while posting bug report:$e');
-      toastMsg = 'Ocorreu um erro no envio';
+      // ignore: use_build_context_synchronously
+      toastMsg = S.of(context).sent_error;
       status = false;
     }
 

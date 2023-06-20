@@ -52,6 +52,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "all_widgets_added": MessageLookupByLibrary.simpleMessage(
             "All available widgets have already been added to your personal area!"),
         "balance": MessageLookupByLibrary.simpleMessage("Balance:"),
+        "bs_description": MessageLookupByLibrary.simpleMessage(
+            "Did you find any bugs in the application?\\nDo you have any suggestions for the app?\\nTell us so we can improve!"),
+        "bug_description": MessageLookupByLibrary.simpleMessage(
+            "Bug found, how to reproduce it, etc."),
         "bus_error":
             MessageLookupByLibrary.simpleMessage("Unable to get information"),
         "bus_information": MessageLookupByLibrary.simpleMessage(
@@ -67,15 +71,23 @@ class MessageLookup extends MessageLookupByLibrary {
         "configured_buses":
             MessageLookupByLibrary.simpleMessage("Configured Buses"),
         "confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
+        "consent": MessageLookupByLibrary.simpleMessage(
+            "I consent to this information being reviewed by NIAEFEUP and may be deleted at my request."),
+        "contact": MessageLookupByLibrary.simpleMessage("Contact (optional)"),
         "copy_center": MessageLookupByLibrary.simpleMessage("Copy center"),
         "copy_center_building": MessageLookupByLibrary.simpleMessage(
             "Floor -1 of building B | AEFEUP building"),
+        "description": MessageLookupByLibrary.simpleMessage("Description"),
+        "desired_email": MessageLookupByLibrary.simpleMessage(
+            "Email where you want to be contacted"),
         "dona_bia": MessageLookupByLibrary.simpleMessage(
             "D. Beatriz\'s stationery store"),
         "dona_bia_building": MessageLookupByLibrary.simpleMessage(
             "Floor -1 of building B (B-142)"),
         "edit_off": MessageLookupByLibrary.simpleMessage("Edit"),
         "edit_on": MessageLookupByLibrary.simpleMessage("Finish editing"),
+        "empty_text":
+            MessageLookupByLibrary.simpleMessage("Please fill in this field"),
         "exams_filter":
             MessageLookupByLibrary.simpleMessage("Exam Filter Settings"),
         "fee_date":
@@ -92,12 +104,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "last_timestamp": m1,
         "library_occupation":
             MessageLookupByLibrary.simpleMessage("Library Occupation"),
+        "loading_terms": MessageLookupByLibrary.simpleMessage(
+            "Loading Terms and Conditions..."),
         "logout": MessageLookupByLibrary.simpleMessage("Log out"),
         "menus": MessageLookupByLibrary.simpleMessage("Menus"),
         "multimedia_center":
             MessageLookupByLibrary.simpleMessage("Multimedia center"),
         "nav_title": m2,
         "news": MessageLookupByLibrary.simpleMessage("News"),
+        "no_bus_stops":
+            MessageLookupByLibrary.simpleMessage("No configured stops"),
         "no_course_units": MessageLookupByLibrary.simpleMessage(
             "No course units in the selected period"),
         "no_data": MessageLookupByLibrary.simpleMessage(
@@ -113,21 +129,32 @@ class MessageLookup extends MessageLookupByLibrary {
             "There are no course units to display"),
         "no_selected_exams": MessageLookupByLibrary.simpleMessage(
             "There are no exams to present"),
+        "occurrence_type":
+            MessageLookupByLibrary.simpleMessage("Type of occurrence"),
         "other_links": MessageLookupByLibrary.simpleMessage("Other links"),
         "personal_assistance":
             MessageLookupByLibrary.simpleMessage("Face-to-face assistance"),
         "print": MessageLookupByLibrary.simpleMessage("Print"),
+        "problem_id": MessageLookupByLibrary.simpleMessage(
+            "Brief identification of the problem"),
         "room": MessageLookupByLibrary.simpleMessage("Room"),
         "school_calendar":
             MessageLookupByLibrary.simpleMessage("School Calendar"),
         "semester": MessageLookupByLibrary.simpleMessage("Semester"),
+        "send": MessageLookupByLibrary.simpleMessage("Send"),
+        "sent_error": MessageLookupByLibrary.simpleMessage(
+            "An error occurred in sending"),
         "stcp_stops":
             MessageLookupByLibrary.simpleMessage("STCP - Upcoming Trips"),
+        "success": MessageLookupByLibrary.simpleMessage("Sent with success"),
         "tele_assistance":
             MessageLookupByLibrary.simpleMessage("Telephone assistance"),
         "tele_personal_assistance": MessageLookupByLibrary.simpleMessage(
             "Face-to-face and telephone assistance"),
         "telephone": MessageLookupByLibrary.simpleMessage("Telephone"),
+        "title": MessageLookupByLibrary.simpleMessage("Title"),
+        "valid_email":
+            MessageLookupByLibrary.simpleMessage("Please enter a valid email"),
         "widget_prompt": MessageLookupByLibrary.simpleMessage(
             "Choose a widget to add to your personal area:"),
         "year": MessageLookupByLibrary.simpleMessage("Year")

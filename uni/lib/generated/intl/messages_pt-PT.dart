@@ -52,6 +52,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "all_widgets_added": MessageLookupByLibrary.simpleMessage(
             "Todos os widgets disponíveis já foram adicionados à tua área pessoal!"),
         "balance": MessageLookupByLibrary.simpleMessage("Saldo:"),
+        "bs_description": MessageLookupByLibrary.simpleMessage(
+            "Encontraste algum bug na aplicação?\\nTens alguma sugestão para a app?\\nConta-nos para que possamos melhorar!"),
+        "bug_description": MessageLookupByLibrary.simpleMessage(
+            "Bug encontrado, como o reproduzir, etc"),
         "bus_error": MessageLookupByLibrary.simpleMessage(
             "Não foi possível obter informação"),
         "bus_information": MessageLookupByLibrary.simpleMessage(
@@ -67,15 +71,23 @@ class MessageLookup extends MessageLookupByLibrary {
         "configured_buses":
             MessageLookupByLibrary.simpleMessage("Autocarros Configurados"),
         "confirm": MessageLookupByLibrary.simpleMessage("Confirmar"),
+        "consent": MessageLookupByLibrary.simpleMessage(
+            "Consinto que esta informação seja revista pelo NIAEFEUP, podendo ser eliminada a meu pedido."),
+        "contact": MessageLookupByLibrary.simpleMessage("Contacto (opcional)"),
         "copy_center": MessageLookupByLibrary.simpleMessage("Centro de cópias"),
         "copy_center_building": MessageLookupByLibrary.simpleMessage(
             "Piso -1 do edifício B | Edifício da AEFEUP"),
+        "description": MessageLookupByLibrary.simpleMessage("Descrição"),
+        "desired_email": MessageLookupByLibrary.simpleMessage(
+            "Email em que desejas ser contactado"),
         "dona_bia":
             MessageLookupByLibrary.simpleMessage("Papelaria D. Beatriz"),
         "dona_bia_building": MessageLookupByLibrary.simpleMessage(
             "Piso -1 do edifício B (B-142)"),
         "edit_off": MessageLookupByLibrary.simpleMessage("Editar\n"),
         "edit_on": MessageLookupByLibrary.simpleMessage("Concluir edição"),
+        "empty_text": MessageLookupByLibrary.simpleMessage(
+            "Por favor preenche este campo"),
         "exams_filter":
             MessageLookupByLibrary.simpleMessage("Definições Filtro de Exames"),
         "fee_date": MessageLookupByLibrary.simpleMessage(
@@ -92,12 +104,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "last_timestamp": m1,
         "library_occupation":
             MessageLookupByLibrary.simpleMessage("Ocupação da Biblioteca"),
+        "loading_terms": MessageLookupByLibrary.simpleMessage(
+            "Carregando os Termos e Condições..."),
         "logout": MessageLookupByLibrary.simpleMessage("Terminar sessão"),
         "menus": MessageLookupByLibrary.simpleMessage("Ementas"),
         "multimedia_center":
             MessageLookupByLibrary.simpleMessage("Centro de multimédia"),
         "nav_title": m2,
         "news": MessageLookupByLibrary.simpleMessage("Notícias"),
+        "no_bus_stops": MessageLookupByLibrary.simpleMessage(
+            "Não existe nenhuma paragem configurada"),
         "no_course_units": MessageLookupByLibrary.simpleMessage(
             "Sem cadeiras no período selecionado"),
         "no_data": MessageLookupByLibrary.simpleMessage(
@@ -113,21 +129,32 @@ class MessageLookup extends MessageLookupByLibrary {
             "Não existem cadeiras para apresentar"),
         "no_selected_exams": MessageLookupByLibrary.simpleMessage(
             "Não existem exames para apresentar"),
+        "occurrence_type":
+            MessageLookupByLibrary.simpleMessage("Tipo de ocorrência"),
         "other_links": MessageLookupByLibrary.simpleMessage("Outros links"),
         "personal_assistance":
             MessageLookupByLibrary.simpleMessage("Atendimento presencial"),
         "print": MessageLookupByLibrary.simpleMessage("Impressão"),
+        "problem_id": MessageLookupByLibrary.simpleMessage(
+            "Breve identificação do problema"),
         "room": MessageLookupByLibrary.simpleMessage("Sala"),
         "school_calendar":
             MessageLookupByLibrary.simpleMessage("Calendário Escolar"),
         "semester": MessageLookupByLibrary.simpleMessage("Semestre"),
+        "send": MessageLookupByLibrary.simpleMessage("Enviar"),
+        "sent_error":
+            MessageLookupByLibrary.simpleMessage("Ocorreu um erro no envio"),
         "stcp_stops":
             MessageLookupByLibrary.simpleMessage("STCP - Próximas Viagens"),
+        "success": MessageLookupByLibrary.simpleMessage("Enviado com sucesso"),
         "tele_assistance":
             MessageLookupByLibrary.simpleMessage("Atendimento telefónico"),
         "tele_personal_assistance": MessageLookupByLibrary.simpleMessage(
             "Atendimento presencial e telefónico"),
         "telephone": MessageLookupByLibrary.simpleMessage("Telefone"),
+        "title": MessageLookupByLibrary.simpleMessage("Título"),
+        "valid_email": MessageLookupByLibrary.simpleMessage(
+            "Por favor insere um email válido"),
         "widget_prompt": MessageLookupByLibrary.simpleMessage(
             "Escolhe um widget para adicionares à tua área pessoal:"),
         "year": MessageLookupByLibrary.simpleMessage("Ano")

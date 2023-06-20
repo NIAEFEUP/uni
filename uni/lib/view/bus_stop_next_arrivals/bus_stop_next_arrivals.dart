@@ -86,7 +86,7 @@ class NextArrivalsState extends State<NextArrivals> {
     if (widget.buses.isNotEmpty) {
       result.addAll(getContent(context));
     } else {
-      result.add(Text('Não existe nenhuma paragem configurada',
+      result.add(Text(S.of(context).no_bus_stops,
           style: Theme.of(context).textTheme.titleLarge));
     }
 

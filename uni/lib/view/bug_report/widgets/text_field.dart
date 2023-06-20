@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uni/generated/l10n.dart';
 
 class FormTextField extends StatelessWidget {
   final TextEditingController controller;
@@ -19,7 +20,7 @@ class FormTextField extends StatelessWidget {
       this.maxLines = 1,
       this.labelText = '',
       this.hintText = '',
-      this.emptyText = 'Por favor preenche este campo',
+      this.emptyText = '',
       this.bottomMargin = 0,
       this.isOptional = false,
       this.formatValidator,
@@ -59,7 +60,7 @@ class FormTextField extends StatelessWidget {
               controller: controller,
               validator: (value) {
                 if (value!.isEmpty) {
-                  return isOptional ? null : emptyText;
+                  return isOptional ? null : S.of(context).empty_text;
                 }
                 return formatValidator != null ? formatValidator!(value) : null;
               },
