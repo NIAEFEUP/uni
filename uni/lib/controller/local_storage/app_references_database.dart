@@ -6,7 +6,7 @@ import 'package:uni/model/entities/reference.dart';
 
 /// Manages the app's References database.
 ///
-/// This database stores information about the user's courses.
+/// This database stores information about the user's references.
 /// See the [Reference] class to see what data is stored in this database.
 class AppReferencesDatabase extends AppDatabase {
   static const String createScript =
