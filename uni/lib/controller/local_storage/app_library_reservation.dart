@@ -10,8 +10,7 @@ class LibraryReservationDatabase extends AppDatabase {
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         room TEXT,
         startDate TEXT,
-        duration_hours INT,
-        duration_minutes INT
+        duration INT
       )
       '''
         ]);
