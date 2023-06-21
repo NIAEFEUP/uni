@@ -9,6 +9,7 @@ import 'package:uni/model/providers/home_page_editing_mode_provider.dart';
 import 'package:uni/model/providers/last_user_info_provider.dart';
 import 'package:uni/model/providers/lecture_provider.dart';
 import 'package:uni/model/providers/library_occupation_provider.dart';
+import 'package:uni/model/providers/library_reservations_provider.dart';
 import 'package:uni/model/providers/profile_state_provider.dart';
 import 'package:uni/model/providers/restaurant_provider.dart';
 import 'package:uni/model/providers/session_provider.dart';
@@ -23,6 +24,7 @@ class StateProviders {
   final SessionProvider sessionProvider;
   final CalendarProvider calendarProvider;
   final LibraryOccupationProvider libraryOccupationProvider;
+  final LibraryReservationsProvider libraryReservationsProvider;
   final FacultyLocationsProvider facultyLocationsProvider;
   final LastUserInfoProvider lastUserInfoProvider;
   final UserFacultiesProvider userFacultiesProvider;
@@ -38,6 +40,7 @@ class StateProviders {
       this.sessionProvider,
       this.calendarProvider,
       this.libraryOccupationProvider,
+      this.libraryReservationsProvider,
       this.facultyLocationsProvider,
       this.lastUserInfoProvider,
       this.userFacultiesProvider,
@@ -60,6 +63,8 @@ class StateProviders {
         Provider.of<CalendarProvider>(context, listen: false);
     final libraryOccupationProvider =
         Provider.of<LibraryOccupationProvider>(context, listen: false);
+    final libraryReservationsProvider =
+        Provider.of<LibraryReservationsProvider>(context, listen: false);
     final facultyLocationsProvider =
         Provider.of<FacultyLocationsProvider>(context, listen: false);
     final lastUserInfoProvider =
@@ -80,6 +85,7 @@ class StateProviders {
         sessionProvider,
         calendarProvider,
         libraryOccupationProvider,
+        libraryReservationsProvider,
         facultyLocationsProvider,
         lastUserInfoProvider,
         userFacultiesProvider,

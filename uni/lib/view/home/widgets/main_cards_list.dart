@@ -7,6 +7,7 @@ import 'package:uni/model/providers/session_provider.dart';
 import 'package:uni/utils/favorite_widget_type.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
 import 'package:uni/view/library/widgets/library_occupation_card.dart';
+import 'package:uni/view/library/widgets/library_reservations_card.dart';
 import 'package:uni/view/profile/widgets/account_info_card.dart';
 import 'package:uni/view/home/widgets/exit_app_dialog.dart';
 import 'package:uni/view/home/widgets/bus_stop_card.dart';
@@ -34,7 +35,9 @@ class MainCardsList extends StatelessWidget {
     FavoriteWidgetType.busStops: (k, em, od) =>
         BusStopCard.fromEditingInformation(k, em, od),
     FavoriteWidgetType.libraryOccupation: (k, em, od) =>
-        LibraryOccupationCard.fromEditingInformation(k, em, od)
+        LibraryOccupationCard.fromEditingInformation(k, em, od),
+    FavoriteWidgetType.libraryReservations: (k, em, od) =>
+        LibraryReservationsCard.fromEditingInformation(k, em, od)
   };
 
   MainCardsList({super.key});

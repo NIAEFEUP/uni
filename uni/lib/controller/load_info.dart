@@ -48,6 +48,7 @@ Future loadRemoteUserInfoToState(StateProviders stateProviders) async {
       lastUpdate = Completer(),
       restaurants = Completer(),
       libraryOccupation = Completer(),
+      libraryReservations = Completer(),
       calendar = Completer();
 
   stateProviders.profileStateProvider.getUserInfo(userInfo, session);
@@ -57,6 +58,8 @@ Future loadRemoteUserInfoToState(StateProviders stateProviders) async {
   stateProviders.calendarProvider.getCalendarFromFetcher(session, calendar);
   stateProviders.libraryOccupationProvider
       .getLibraryOccupation(session, libraryOccupation);
+  stateProviders.libraryReservationsProvider
+      .getLibraryReservations(session, libraryReservations);
 
   final Tuple2<String, String> userPersistentInfo =
       await AppSharedPreferences.getPersistentUserInfo();
@@ -85,6 +88,7 @@ Future loadRemoteUserInfoToState(StateProviders stateProviders) async {
     trips.future,
     restaurants.future,
     libraryOccupation.future,
+    libraryReservations.future,
     calendar.future
   ]);
   allRequests.then((futures) {
@@ -124,6 +128,10 @@ void loadLocalUserInfoToState(StateProviders stateProviders,
     stateProviders.lastUserInfoProvider.updateStateBasedOnLocalTime();
     stateProviders.calendarProvider.updateStateBasedOnLocalCalendar();
     stateProviders.profileStateProvider.updateStateBasedOnLocalCourseUnits();
+    stateProviders.libraryOccupationProvider
+        .updateStateBasedOnLocalOccupation();
+    stateProviders.libraryReservationsProvider
+        .updateStateBasedOnLocalReservations();
   }
 
   stateProviders.facultyLocationsProvider.getFacultyLocations(Completer());

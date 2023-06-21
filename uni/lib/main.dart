@@ -15,6 +15,7 @@ import 'package:uni/model/providers/home_page_editing_mode_provider.dart';
 import 'package:uni/model/providers/last_user_info_provider.dart';
 import 'package:uni/model/providers/lecture_provider.dart';
 import 'package:uni/model/providers/library_occupation_provider.dart';
+import 'package:uni/model/providers/library_reservations_provider.dart';
 import 'package:uni/model/providers/profile_state_provider.dart';
 import 'package:uni/model/providers/restaurant_provider.dart';
 import 'package:uni/model/providers/session_provider.dart';
@@ -54,6 +55,7 @@ Future<void> main() async {
       SessionProvider(),
       CalendarProvider(),
       LibraryOccupationProvider(),
+      LibraryReservationsProvider(),
       FacultyLocationsProvider(),
       LastUserInfoProvider(),
       UserFacultiesProvider(),
@@ -87,6 +89,9 @@ Future<void> main() async {
                   ChangeNotifierProvider(
                       create: (context) =>
                           stateProviders.libraryOccupationProvider),
+                  ChangeNotifierProvider(
+                      create: (context) =>
+                          stateProviders.libraryReservationsProvider),
                   ChangeNotifierProvider(
                       create: (context) =>
                           stateProviders.facultyLocationsProvider),
@@ -161,9 +166,15 @@ class MyAppState extends State<MyApp> {
               '/${DrawerItem.navCalendar.title}':
                   PageTransition.makePageTransition(
                       page: const CalendarPageView(), settings: settings),
-              '/${DrawerItem.navLibrary.title}':
+              '/${DrawerItem.navLibraryOccupation.title}':
                   PageTransition.makePageTransition(
-                      page: const LibraryPageView(), settings: settings),
+                      page: const LibraryPage(), settings: settings),
+              '/${DrawerItem.navLibraryReservations.title}':
+                  PageTransition.makePageTransition(
+                      page: const LibraryPage(
+                        startOnOccupationTab: true,
+                      ),
+                      settings: settings),
               '/${DrawerItem.navUsefulInfo.title}':
                   PageTransition.makePageTransition(
                       page: const UsefulInfoPageView(), settings: settings),
