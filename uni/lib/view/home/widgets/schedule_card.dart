@@ -32,7 +32,7 @@ class ScheduleCard extends GenericCard {
           content: lectureProvider.lectures,
           contentChecker: lectureProvider.lectures.isNotEmpty,
           onNullContent: Center(
-              child: Text('Não existem aulas para apresentar',
+              child: Text(S.of(context).no_classes,
                   style: Theme.of(context).textTheme.titleLarge,
                   textAlign: TextAlign.center)),
         contentLoadingWidget: const ScheduleCardShimmer().build(context))

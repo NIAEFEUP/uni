@@ -1,7 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:uni/generated/intl/messages_all.dart';
+import 'intl/messages_all.dart';
 
 // **************************************************************************
 // Generator: Flutter Intl IDE plugin
@@ -100,6 +100,16 @@ class S {
     );
   }
 
+  /// `Average: `
+  String get average {
+    return Intl.message(
+      'Average: ',
+      name: 'average',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Balance:`
   String get balance {
     return Intl.message(
@@ -190,6 +200,16 @@ class S {
     );
   }
 
+  /// `College: `
+  String get college {
+    return Intl.message(
+      'College: ',
+      name: 'college',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Done`
   String get conclude {
     return Intl.message(
@@ -260,6 +280,26 @@ class S {
     );
   }
 
+  /// `Current state: `
+  String get current_state {
+    return Intl.message(
+      'Current state: ',
+      name: 'current_state',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Current academic year: `
+  String get current_year {
+    return Intl.message(
+      'Current academic year: ',
+      name: 'current_year',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Description`
   String get description {
     return Intl.message(
@@ -295,6 +335,16 @@ class S {
     return Intl.message(
       'Floor -1 of building B (B-142)',
       name: 'dona_bia_building',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `ECTs performed: `
+  String get ects {
+    return Intl.message(
+      'ECTs performed: ',
+      name: 'ects',
       desc: '',
       args: [],
     );
@@ -355,6 +405,16 @@ class S {
     return Intl.message(
       'Notify next deadline:',
       name: 'fee_notification',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Year of first registration: `
+  String get first_year_registration {
+    return Intl.message(
+      'Year of first registration: ',
+      name: 'first_year_registration',
       desc: '',
       args: [],
     );
@@ -518,6 +578,26 @@ class S {
     );
   }
 
+  /// `No classes to present`
+  String get no_classes {
+    return Intl.message(
+      'No classes to present',
+      name: 'no_classes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You don't have classes on`
+  String get no_classes_on {
+    return Intl.message(
+      'You don\'t have classes on',
+      name: 'no_classes_on',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `No course units in the selected period`
   String get no_course_units {
     return Intl.message(
@@ -563,6 +643,16 @@ class S {
     return Intl.message(
       'There are no meals available',
       name: 'no_menus',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unnamed course`
+  String get no_name_course {
+    return Intl.message(
+      'Unnamed course',
+      name: 'no_name_course',
       desc: '',
       args: [],
     );
@@ -753,6 +843,16 @@ class S {
     return Intl.message(
       'Title',
       name: 'title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unavailable`
+  String get unavailable {
+    return Intl.message(
+      'Unavailable',
+      name: 'unavailable',
       desc: '',
       args: [],
     );

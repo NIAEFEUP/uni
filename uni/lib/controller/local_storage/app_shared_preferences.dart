@@ -19,6 +19,7 @@ class AppSharedPreferences {
   static const String areTermsAndConditionsAcceptedKey = 'is_t&c_accepted';
   static const String tuitionNotificationsToggleKey = "tuition_notification_toogle";
   static const String themeMode = 'theme_mode';
+  static const String locale = 'app_locale';
   static const int keyLength = 32;
   static const int ivLength = 16;
   static final iv = encrypt.IV.fromLength(ivLength);
@@ -85,6 +86,17 @@ class AppSharedPreferences {
     final prefs = await SharedPreferences.getInstance();
     final themeIndex = (await getThemeMode()).index;
     return prefs.setInt(themeMode, (themeIndex + 1) % 3);
+  }
+
+  static setLocale(Locale app_locale) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString(locale, app_locale.toString());
+  }
+
+  static Future<Locale> getLocale() async {
+    final prefs = await SharedPreferences.getInstance();
+    final test = prefs.getString(locale) ?? 'en_US';
+    return Locale.fromSubtags(languageCode: test.substring(0,3), countryCode: test.substring(0,3));
   }
 
   /// Deletes the user's student number and password.

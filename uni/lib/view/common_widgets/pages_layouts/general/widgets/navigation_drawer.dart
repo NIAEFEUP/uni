@@ -4,6 +4,7 @@ import 'package:uni/model/providers/session_provider.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/theme_notifier.dart';
 import 'package:uni/generated/l10n.dart';
+import 'package:uni/main.dart';
 
 class AppNavigationDrawer extends StatefulWidget {
   final BuildContext parentContext;
@@ -84,6 +85,37 @@ class AppNavigationDrawerState extends State<AppNavigationDrawer> {
     );
   }
 
+  Widget createLocaleBtn() {
+    String getLocaleText(String locale) {
+      switch (locale) {
+        case 'pt_PT':
+          return 'PT';
+        default:
+          return 'EN';
+      }
+    }
+
+    return Consumer<ThemeNotifier>(
+      builder: (context, themeNotifier, _) {
+        return TextButton(
+          onPressed: () => themeNotifier.setNextLocale(),
+          style: TextButton.styleFrom(
+            elevation: 0,
+            padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 5.0),
+          ),
+          child: Container(
+            padding: const EdgeInsets.all(15.0),
+            child: Text(getLocaleText(themeNotifier.getLocale().toString()),
+                style: Theme.of(context)
+                    .textTheme
+                    .titleLarge!
+                    .copyWith(color: Theme.of(context).primaryColor)),
+          ),
+        );
+      },
+    );
+  }
+
   Widget createThemeSwitchBtn() {
     Icon getThemeIcon(ThemeMode theme) {
       switch (theme) {
@@ -146,7 +178,14 @@ class AppNavigationDrawerState extends State<AppNavigationDrawer> {
           ),
         )),
         Row(children: <Widget>[
-          Expanded(child: createLogoutBtn()),
+          Expanded(child: Align(
+            alignment: Alignment.center,
+            child: createLogoutBtn(),
+          )),
+          Align(
+            alignment: Alignment.centerRight,
+            child: createLocaleBtn(),
+          ),
           createThemeSwitchBtn()
         ])
       ],

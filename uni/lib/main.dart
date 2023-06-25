@@ -74,6 +74,7 @@ Future<void> main() async {
 
 
   final savedTheme = await AppSharedPreferences.getThemeMode();
+  final savedLocale = await AppSharedPreferences.getLocale();
   await SentryFlutter.init((options) {
     options.dsn =
         'https://a2661645df1c4992b24161010c5e0ecb@o553498.ingest.sentry.io/5680848';
@@ -113,7 +114,7 @@ Future<void> main() async {
                       create: (context) => stateProviders.homePageEditingMode),
                 ],
                 child: ChangeNotifierProvider<ThemeNotifier>(
-                  create: (_) => ThemeNotifier(savedTheme),
+                  create: (_) => ThemeNotifier(savedTheme, savedLocale),
                   child: const MyApp(),
                 )))
           });
@@ -143,6 +144,7 @@ class MyAppState extends State<MyApp> {
           theme: applicationLightTheme,
           darkTheme: applicationDarkTheme,
           themeMode: themeNotifier.getTheme(),
+          locale: themeNotifier.getLocale(),
           home: const SplashScreen(),
           localizationsDelegates: const [
             S.delegate,

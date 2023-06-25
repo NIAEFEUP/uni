@@ -51,6 +51,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "add_widget": MessageLookupByLibrary.simpleMessage("Adicionar widget"),
         "all_widgets_added": MessageLookupByLibrary.simpleMessage(
             "Todos os widgets disponíveis já foram adicionados à tua área pessoal!"),
+        "average": MessageLookupByLibrary.simpleMessage("Média: "),
         "balance": MessageLookupByLibrary.simpleMessage("Saldo:"),
         "bs_description": MessageLookupByLibrary.simpleMessage(
             "Encontraste algum bug na aplicação?\\nTens alguma sugestão para a app?\\nConta-nos para que possamos melhorar!"),
@@ -67,6 +68,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "cancel": MessageLookupByLibrary.simpleMessage("Cancelar\n"),
         "class_registration":
             MessageLookupByLibrary.simpleMessage("Inscrição de Turmas"),
+        "college": MessageLookupByLibrary.simpleMessage("Faculdade: "),
         "conclude": MessageLookupByLibrary.simpleMessage("Concluído"),
         "configured_buses":
             MessageLookupByLibrary.simpleMessage("Autocarros Configurados"),
@@ -77,6 +79,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "copy_center": MessageLookupByLibrary.simpleMessage("Centro de cópias"),
         "copy_center_building": MessageLookupByLibrary.simpleMessage(
             "Piso -1 do edifício B | Edifício da AEFEUP"),
+        "current_state": MessageLookupByLibrary.simpleMessage("Estado atual: "),
+        "current_year":
+            MessageLookupByLibrary.simpleMessage("Ano curricular atual: "),
         "description": MessageLookupByLibrary.simpleMessage("Descrição"),
         "desired_email": MessageLookupByLibrary.simpleMessage(
             "Email em que desejas ser contactado"),
@@ -84,6 +89,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Papelaria D. Beatriz"),
         "dona_bia_building": MessageLookupByLibrary.simpleMessage(
             "Piso -1 do edifício B (B-142)"),
+        "ects": MessageLookupByLibrary.simpleMessage("ECTs realizados: "),
         "edit_off": MessageLookupByLibrary.simpleMessage("Editar\n"),
         "edit_on": MessageLookupByLibrary.simpleMessage("Concluir edição"),
         "empty_text": MessageLookupByLibrary.simpleMessage(
@@ -94,6 +100,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Data limite próxima prestação:"),
         "fee_notification": MessageLookupByLibrary.simpleMessage(
             "Notificar próxima data limite:"),
+        "first_year_registration":
+            MessageLookupByLibrary.simpleMessage("Ano da primeira inscrição: "),
         "floor": MessageLookupByLibrary.simpleMessage("Piso"),
         "floors": MessageLookupByLibrary.simpleMessage("Pisos"),
         "geral_registration":
@@ -114,6 +122,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "news": MessageLookupByLibrary.simpleMessage("Notícias"),
         "no_bus_stops": MessageLookupByLibrary.simpleMessage(
             "Não existe nenhuma paragem configurada"),
+        "no_classes": MessageLookupByLibrary.simpleMessage(
+            "Não existem aulas para apresentar"),
+        "no_classes_on":
+            MessageLookupByLibrary.simpleMessage("Não possui aulas à"),
         "no_course_units": MessageLookupByLibrary.simpleMessage(
             "Sem cadeiras no período selecionado"),
         "no_data": MessageLookupByLibrary.simpleMessage(
@@ -124,6 +136,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Não há informação disponível sobre refeições"),
         "no_menus": MessageLookupByLibrary.simpleMessage(
             "Não há refeições disponíveis"),
+        "no_name_course":
+            MessageLookupByLibrary.simpleMessage("Curso sem nome"),
         "no_results": MessageLookupByLibrary.simpleMessage("Sem resultados"),
         "no_selected_courses": MessageLookupByLibrary.simpleMessage(
             "Não existem cadeiras para apresentar"),
@@ -153,6 +167,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Atendimento presencial e telefónico"),
         "telephone": MessageLookupByLibrary.simpleMessage("Telefone"),
         "title": MessageLookupByLibrary.simpleMessage("Título"),
+        "unavailable": MessageLookupByLibrary.simpleMessage("Indisponível"),
         "valid_email": MessageLookupByLibrary.simpleMessage(
             "Por favor insere um email válido"),
         "widget_prompt": MessageLookupByLibrary.simpleMessage(

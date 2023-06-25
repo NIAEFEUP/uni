@@ -181,7 +181,7 @@ class SchedulePageViewState extends GeneralPageViewState<SchedulePageView>
       contentChecker: aggLectures[day].isNotEmpty,
       onNullContent: Center(
           child: Text(
-              'Não possui aulas à ${SchedulePageView.daysOfTheWeek[day]}.')),
+              '${S.of(context).no_classes_on} ${SchedulePageView.daysOfTheWeek[day]}.')),
     );
   }
 }
