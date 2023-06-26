@@ -134,7 +134,7 @@ class NextArrivalsState extends State<NextArrivals> {
         child: Text('Não foi possível obter informação',
             maxLines: 2,
             overflow: TextOverflow.fade,
-            style: Theme.of(context).textTheme.subtitle1)));
+            style: Theme.of(context).textTheme.titleMedium)));
 
     return result;
   }
