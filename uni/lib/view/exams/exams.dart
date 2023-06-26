@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:uni/model/providers/exam_provider.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
-import 'package:uni/view/common_widgets/random_image.dart';
 import 'package:uni/view/exams/widgets/exam_page_title.dart';
 import 'package:uni/view/common_widgets/row_container.dart';
 import 'package:uni/view/exams/widgets/exam_row.dart';
@@ -38,7 +37,6 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
   /// Creates a column with all the user's exams.
   List<Widget> createExamsColumn(context, List<Exam> exams) {
     final List<Widget> columns = <Widget>[];
-    final List<String> images = ['assets/images/vacation.png', 'assets/images/swim_guy.png'];
 
     columns.add(const ExamPageTitle());
 
@@ -47,11 +45,7 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
           heightFactor: 1.2,
           child: Column(
               children: <Widget> [
-                RotatingImage(
-                    imagePaths: images,
-                    width: 250,
-                    height: 250,
-                ),
+                Image.asset('assets/images/vacation.png', height: 300, width: 300,),
                   const Text('Parece que estás de férias!',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Color.fromARGB(255, 0x75, 0x17, 0x1e)),
                 ),

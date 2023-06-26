@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:uni/model/request_status.dart';
 import 'package:uni/model/entities/bus_stop.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
-import 'package:uni/view/common_widgets/random_image.dart';
 import 'package:uni/view/bus_stop_selection/bus_stop_selection.dart';
 import 'package:uni/model/providers/bus_stop_provider.dart';
 import 'package:uni/view/bus_stop_next_arrivals/widgets/bus_stop_row.dart';
@@ -79,7 +78,6 @@ class NextArrivalsState extends State<NextArrivals> {
   /// Returns a list of widgets for a successfull request
   List<Widget> requestSuccessful(context) {
     final List<Widget> result = <Widget>[];
-    final List<String> images = ['assets/images/bus.png', 'assets/images/flat_bus.png'];
 
     result.addAll(getHeader(context));
 
@@ -87,11 +85,7 @@ class NextArrivalsState extends State<NextArrivals> {
       result.addAll(getContent(context));
     } else {
       result.add(
-        RotatingImage(
-            imagePaths: images,
-            width: 250,
-            height: 250,
-        ),
+        Image.asset('assets/images/bus.png', height: 300, width: 300,),
       );
       result.add(
         const Text('Não percas nenhum autocarro', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17, color: Color.fromARGB(255, 0x75, 0x17, 0x1e))),
