@@ -29,7 +29,7 @@ class GenericExpansionCardState extends State<GenericExpansionCard> {
           title: Text(widget.getTitle(),
               style: Theme.of(context)
                   .textTheme
-                  .headlineSmall
+                  .headline5
                   ?.apply(color: Theme.of(context).primaryColor)),
           elevation: 0,
           children: <Widget>[

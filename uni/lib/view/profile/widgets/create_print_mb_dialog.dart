@@ -34,7 +34,7 @@ Future<void> addMoneyDialog(BuildContext context) async {
                         child: Text(
                             'Os dados da referência gerada aparecerão no Sigarra, conta corrente. \nPerfil > Conta Corrente',
                             textAlign: TextAlign.start,
-                            style: Theme.of(context).textTheme.titleSmall)),
+                            style: Theme.of(context).textTheme.subtitle2)),
                     Row(children: [
                       IconButton(
                         icon: const Icon(Icons.indeterminate_check_box),
@@ -85,11 +85,11 @@ Future<void> addMoneyDialog(BuildContext context) async {
                   ],
                 )),
             title: Text('Adicionar quota',
-                style: Theme.of(context).textTheme.headlineSmall),
+                style: Theme.of(context).textTheme.headline5),
             actions: [
               TextButton(
                   child: Text('Cancelar',
-                      style: Theme.of(context).textTheme.bodyMedium),
+                      style: Theme.of(context).textTheme.bodyText2),
                   onPressed: () => Navigator.pop(context)),
               ElevatedButton(
                 onPressed: () => generateReference(context, value),

@@ -5,9 +5,7 @@ class RestaurantPageCard extends GenericCard {
   final String restaurantName;
   final Widget meals;
 
-  RestaurantPageCard(this.restaurantName, this.meals, {super.key})
-      : super.customStyle(
-            editingMode: false, onDelete: () => null, smallTitle: true);
+  RestaurantPageCard(this.restaurantName, this.meals, {super.key}) : super.customStyle(editingMode: false, onDelete: () => null, smallTitle: true);
 
   @override
   Widget buildCardContent(BuildContext context) {

@@ -9,8 +9,7 @@ Container h1(String text, BuildContext context, {bool initial = false}) {
         alignment: Alignment.centerLeft,
         child: Opacity(
             opacity: 0.8,
-            child:
-                Text(text, style: Theme.of(context).textTheme.headlineSmall)),
+            child: Text(text, style: Theme.of(context).textTheme.headline5)),
       ));
 }
 
@@ -19,7 +18,7 @@ Container h2(String text, BuildContext context) {
       margin: const EdgeInsets.only(top: 13.0, bottom: 0.0, left: 20.0),
       child: Align(
         alignment: Alignment.centerLeft,
-        child: Text(text, style: Theme.of(context).textTheme.titleSmall),
+        child: Text(text, style: Theme.of(context).textTheme.subtitle2),
       ));
 }
 
@@ -35,7 +34,7 @@ Container infoText(String text, BuildContext context,
               text,
               style: Theme.of(context)
                   .textTheme
-                  .bodyLarge!
+                  .bodyText1!
                   .apply(color: Theme.of(context).colorScheme.tertiary),
             ),
             onTap: () => link != '' ? launchUrl(Uri.parse(link)) : null),

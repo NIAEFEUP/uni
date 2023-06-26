@@ -85,7 +85,7 @@ class MainCardsList extends StatelessWidget {
             return AlertDialog(
                 title: Text(
                     'Escolhe um widget para adicionares à tua área pessoal:',
-                    style: Theme.of(context).textTheme.headlineSmall),
+                    style: Theme.of(context).textTheme.headline5),
                 content: SizedBox(
                   height: 200.0,
                   width: 100.0,
@@ -94,7 +94,7 @@ class MainCardsList extends StatelessWidget {
                 actions: [
                   TextButton(
                       child: Text('Cancelar',
-                          style: Theme.of(context).textTheme.bodyMedium),
+                          style: Theme.of(context).textTheme.bodyText2),
                       onPressed: () => Navigator.pop(context))
                 ]);
           }), //Add FAB functionality here
@@ -148,7 +148,7 @@ class MainCardsList extends StatelessWidget {
                     .setHomePageEditingMode(!editingModeProvider.isEditing),
             child: Text(
                 editingModeProvider.isEditing ? 'Concluir Edição' : 'Editar',
-                style: Theme.of(context).textTheme.bodySmall))
+                style: Theme.of(context).textTheme.caption))
       ]),
     );
   }

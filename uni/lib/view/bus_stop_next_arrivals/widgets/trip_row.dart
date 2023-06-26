@@ -21,14 +21,14 @@ class TripRow extends StatelessWidget {
             Text(trip.line,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.titleMedium),
+                style: Theme.of(context).textTheme.subtitle1),
             Text(trip.destination,
-                style: Theme.of(context).textTheme.titleMedium),
+                style: Theme.of(context).textTheme.subtitle1),
           ],
         ),
         Column(crossAxisAlignment: CrossAxisAlignment.end, children: <Widget>[
           Text('${trip.timeRemaining}\'',
-              style: Theme.of(context).textTheme.titleMedium),
+              style: Theme.of(context).textTheme.subtitle1),
           EstimatedArrivalTimeStamp(
               timeRemaining: trip.timeRemaining.toString()),
         ])

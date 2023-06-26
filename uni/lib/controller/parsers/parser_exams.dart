@@ -46,8 +46,8 @@ class ParserExams {
             exams.querySelectorAll('td.exame').forEach((Element examsDay) {
               if (examsDay.querySelector('a') != null) {
                 subject = examsDay.querySelector('a')!.text;
-                id = Uri.parse(examsDay.querySelector('a')!.attributes['href']!)
-                    .queryParameters['p_exa_id']!;
+                id = Uri.parse(examsDay.querySelector('a')!.attributes['href']!).queryParameters['p_exa_id']!;
+
               }
               if (examsDay.querySelector('span.exame-sala') != null) {
                 rooms =
@@ -60,8 +60,8 @@ class ParserExams {
                   DateTime.parse('${dates[days]} ${splittedSchedule[0]}');
               final DateTime end =
                   DateTime.parse('${dates[days]} ${splittedSchedule[1]}');
-              final Exam exam = Exam(id, begin, end, subject ?? '', rooms,
-                  examTypes[tableNum], course.faculty!);
+              final Exam exam =
+                  Exam(id,begin, end, subject ?? '', rooms, examTypes[tableNum],course.faculty!);
 
               examsList.add(exam);
             });
@@ -73,4 +73,5 @@ class ParserExams {
     });
     return examsList;
   }
+
 }

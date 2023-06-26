@@ -18,7 +18,7 @@ class DayTitle extends StatelessWidget {
       alignment: Alignment.center,
       child: Text(
         '$weekDay, $day de $month',
-        style: Theme.of(context).textTheme.titleLarge,
+        style: Theme.of(context).textTheme.headline6,
       ),
     );
   }

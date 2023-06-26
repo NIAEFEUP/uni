@@ -50,15 +50,13 @@ class RequestDependentWidgetBuilder extends StatelessWidget {
                   ? contentGenerator(content, context)
                   : onNullContent;
             }
-            if (contentLoadingWidget != null) {
+            if (contentLoadingWidget != null){
               return contentChecker
                   ? contentGenerator(content, context)
-                  : Center(
-                      child: Shimmer.fromColors(
-                          baseColor: Theme.of(context).highlightColor,
-                          highlightColor:
-                              Theme.of(context).colorScheme.onPrimary,
-                          child: contentLoadingWidget!));
+                  : Center(child: Shimmer.fromColors(
+                      baseColor: Theme.of(context).highlightColor,
+                      highlightColor: Theme.of(context).colorScheme.onPrimary,
+                      child: contentLoadingWidget!));
             }
             return contentChecker
                 ? contentGenerator(content, context)
@@ -82,7 +80,7 @@ class RequestDependentWidgetBuilder extends StatelessWidget {
               return Center(
                   heightFactor: 3,
                   child: Text('Sem ligação à internet',
-                      style: Theme.of(context).textTheme.titleMedium));
+                      style: Theme.of(context).textTheme.subtitle1));
             }
           }
           return Column(children: [
@@ -90,7 +88,7 @@ class RequestDependentWidgetBuilder extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 15, bottom: 10),
                 child: Center(
                     child: Text('Aconteceu um erro ao carregar os dados',
-                        style: Theme.of(context).textTheme.titleMedium))),
+                        style: Theme.of(context).textTheme.subtitle1))),
             OutlinedButton(
                 onPressed: () =>
                     Navigator.pushNamed(context, '/${DrawerItem.navBugReport.title}'),

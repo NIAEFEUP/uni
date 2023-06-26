@@ -38,7 +38,7 @@ class TermsAndConditionDialog {
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text('Mudança nos Termos e Condições da uni',
-                style: Theme.of(context).textTheme.headlineSmall),
+                style: Theme.of(context).textTheme.headline5),
             content: Column(
               children: [
                 Expanded(
@@ -91,6 +91,6 @@ class TermsAndConditionDialog {
   }
 
   static TextStyle getTextMethod(BuildContext context) {
-    return Theme.of(context).textTheme.titleLarge!;
+    return Theme.of(context).textTheme.headline6!;
   }
 }

@@ -76,7 +76,7 @@ class AppBusStopDatabase extends AppDatabase {
   Future<void> _insertBusStops(Map<String, BusStopData> stops) async {
     stops.forEach((stopCode, stopData) async {
       await insertInDatabase('favoritestops',
-          {'stopCode': stopCode, 'favorited': stopData.favorited ? '1' : '0'});
+          {'stopCode': stopCode, 'favorited': stopData.favorited.toString()});
       for (var busCode in stopData.configuredBuses) {
         await insertInDatabase(
           'busstops',

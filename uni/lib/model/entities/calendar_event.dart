@@ -8,6 +8,9 @@ class CalendarEvent {
 
   /// Converts the event into a map
   Map<String, dynamic> toMap() {
-    return {'name': name, 'date': date};
+    return {
+      'name': name,
+      'date': date
+    };
   }
 }

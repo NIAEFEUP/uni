@@ -59,10 +59,12 @@ class LocationsMap extends StatelessWidget {
           )
         ],
         children: <Widget>[
-          TileLayer(
-            urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-            subdomains: const <String>['a', 'b', 'c'],
-            tileProvider: CachedTileProvider(),
+          TileLayerWidget(
+            options: TileLayerOptions(
+              urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+              subdomains: <String>['a', 'b', 'c'],
+              tileProvider: CachedTileProvider(),
+            ),
           ),
           PopupMarkerLayerWidget(
             options: PopupMarkerLayerOptions(
@@ -94,7 +96,7 @@ class CachedTileProvider extends TileProvider {
   CachedTileProvider();
 
   @override
-  ImageProvider getImage(Coords<num> coords, TileLayer options) {
+  ImageProvider getImage(Coords<num> coords, TileLayerOptions options) {
     return CachedNetworkImageProvider(
       getTileUrl(coords, options),
     );

@@ -17,7 +17,7 @@ class BackButtonExitWrapper extends StatelessWidget {
         context: context,
         builder: (context) => AlertDialog(
               title: Text('Tens a certeza de que pretendes sair?',
-                  style: Theme.of(context).textTheme.headlineSmall),
+                  style: Theme.of(context).textTheme.headline5),
               actions: <Widget>[
                 ElevatedButton(
                   onPressed: () => Navigator.of(context).pop(false),

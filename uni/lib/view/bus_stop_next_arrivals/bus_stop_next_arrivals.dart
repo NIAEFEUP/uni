@@ -92,7 +92,7 @@ class NextArrivalsState extends State<NextArrivals> {
         );
       result.add(
           Container(
-              padding: EdgeInsets.only(top: 15),
+              padding: const EdgeInsets.only(top: 15),
               child: ElevatedButton(
                   onPressed: () => Navigator.push(
                       context,
@@ -134,7 +134,7 @@ class NextArrivalsState extends State<NextArrivals> {
         child: Text('Não foi possível obter informação',
             maxLines: 2,
             overflow: TextOverflow.fade,
-            style: Theme.of(context).textTheme.titleMedium)));
+            style: Theme.of(context).textTheme.subtitle1)));
 
     return result;
   }

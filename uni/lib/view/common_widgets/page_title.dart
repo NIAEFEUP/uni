@@ -14,8 +14,8 @@ class PageTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     final Widget title = Text(
       name,
-      style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-          color: Theme.of(context).primaryTextTheme.headlineMedium?.color),
+      style: Theme.of(context).textTheme.headline4?.copyWith(
+          color: Theme.of(context).primaryTextTheme.headline4?.color),
     );
     return Container(
       padding: pad ? const EdgeInsets.fromLTRB(20, 20, 20, 10) : null,

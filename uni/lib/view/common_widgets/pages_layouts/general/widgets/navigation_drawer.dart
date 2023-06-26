@@ -77,7 +77,7 @@ class AppNavigationDrawerState extends State<AppNavigationDrawer> {
         child: Text(logOutText,
             style: Theme.of(context)
                 .textTheme
-                .titleLarge!
+                .headline6!
                 .copyWith(color: Theme.of(context).primaryColor)),
       ),
     );

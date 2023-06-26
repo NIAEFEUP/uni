@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' show parse;
 import 'package:html/dom.dart';
@@ -7,15 +8,10 @@ import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/model/entities/lecture.dart';
 
 import 'package:uni/model/entities/session.dart';
-import 'package:uni/model/entities/time_utilities.dart';
-
-
 
 Future<List<Lecture>> getOverlappedClasses(
     Session session, Document document) async {
   final List<Lecture> lecturesList = [];
-
-  final DateTime monday = DateTime.now().getClosestMonday();
 
   final overlappingClasses = document.querySelectorAll('.dados > tbody > .d');
   for (final element in overlappingClasses) {
@@ -38,12 +34,7 @@ Future<List<Lecture>> getOverlappedClasses(
     final String? classNumber =
         element.querySelector('td[headers=t6] > a')?.text;
 
-
     try {
-      final DateTime fullStartTime = monday.add(Duration(
-        days: day,
-        hours: int.parse(startTime!.substring(0, 2)),
-        minutes: int.parse(startTime.substring(3, 5))));
       final String? link =
           element.querySelector('td[headers=t6] > a')?.attributes['href'];
 
@@ -54,14 +45,14 @@ Future<List<Lecture>> getOverlappedClasses(
           await NetworkRouter.getWithCookies(link, {}, session);
 
       final classLectures = await getScheduleFromHtml(response, session);
-
       lecturesList.add(classLectures
           .where((element) =>
               element.subject == subject &&
-              element.startTime == fullStartTime)
+              startTime?.replaceFirst(':', 'h') == element.startTime &&
+              element.day == day)
           .first);
     } catch (e) {
-      final Lecture lect = Lecture.fromHtml(subject!, typeClass!, monday.add(Duration(days: day)),
+      final Lecture lect = Lecture.fromHtml(subject!, typeClass!, day,
           startTime!, 0, room!, teacher!, classNumber!, -1);
       lecturesList.add(lect);
     }
@@ -79,10 +70,6 @@ Future<List<Lecture>> getScheduleFromHtml(
   var semana = [0, 0, 0, 0, 0, 0];
 
   final List<Lecture> lecturesList = [];
-
-  final DateTime monday = DateTime.now().getClosestMonday();
-
-
   document.querySelectorAll('.horario > tbody > tr').forEach((Element element) {
     if (element.getElementsByClassName('horas').isNotEmpty) {
       var day = 0;
@@ -120,7 +107,7 @@ Future<List<Lecture>> getScheduleFromHtml(
           final Lecture lect = Lecture.fromHtml(
               subject,
               typeClass,
-              monday.add(Duration(days: day)),
+              day,
               startTime,
               blocks,
               room ?? '',

@@ -107,8 +107,7 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
               }
             },
             child: SvgPicture.asset(
-              colorFilter: ColorFilter.mode(
-                  Theme.of(context).primaryColor, BlendMode.srcIn),
+              color: Theme.of(context).primaryColor,
               'assets/images/logo_dark.svg',
               height: queryData.size.height / 25,
             ),

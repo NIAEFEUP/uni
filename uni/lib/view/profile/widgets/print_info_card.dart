@@ -31,13 +31,13 @@ class PrintInfoCard extends GenericCard {
                       margin: const EdgeInsets.only(
                           top: 20.0, bottom: 20.0, left: 20.0),
                       child: Text('Valor disponível: ',
-                          style: Theme.of(context).textTheme.titleSmall),
+                          style: Theme.of(context).textTheme.subtitle2),
                     ),
                     Container(
                         margin: const EdgeInsets.only(right: 15.0),
                         child: Text(profile.printBalance,
                             textAlign: TextAlign.end,
-                            style: Theme.of(context).textTheme.titleLarge)),
+                            style: Theme.of(context).textTheme.headline6)),
                     Container(
                         margin: const EdgeInsets.only(right: 5.0),
                         height: 30,

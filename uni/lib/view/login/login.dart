@@ -164,8 +164,7 @@ class LoginPageViewState extends State<LoginPageView> {
               width: 100.0,
               child: SvgPicture.asset(
                 'assets/images/logo_dark.svg',
-                colorFilter:
-                    const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                color: Colors.white,
               )),
         ]));
   }
@@ -200,7 +199,7 @@ class LoginPageViewState extends State<LoginPageView> {
     return InkWell(
         child: Center(
             child: Text("Esqueceu a palavra-passe?",
-                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                style: Theme.of(context).textTheme.bodyText1!.copyWith(
                     decoration: TextDecoration.underline,
                     color: Colors.white))),
         onTap: () => launchUrl(Uri.parse("https://self-id.up.pt/reset")));

@@ -7,6 +7,7 @@ import 'package:tuple/tuple.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/utils/favorite_widget_type.dart';
 
+
 /// Manages the app's Shared Preferences.
 ///
 /// This database stores the user's student number, password and favorite
@@ -150,18 +151,18 @@ class AppSharedPreferences {
         .toList();
   }
 
+
   static saveHiddenExams(List<String> newHiddenExams) async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.setStringList(hiddenExams, newHiddenExams);
+    prefs.setStringList(
+        hiddenExams, newHiddenExams);
   }
 
   static Future<List<String>> getHiddenExams() async {
     final prefs = await SharedPreferences.getInstance();
-    final List<String> storedHiddenExam =
-        prefs.getStringList(hiddenExams) ?? [];
+    final List<String> storedHiddenExam = prefs.getStringList(hiddenExams) ?? [];
     return storedHiddenExam;
   }
-
   /// Replaces the user's exam filter settings with [newFilteredExamTypes].
   static saveFilteredExams(Map<String, bool> newFilteredExamTypes) async {
     final prefs = await SharedPreferences.getInstance();

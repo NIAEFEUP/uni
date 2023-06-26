@@ -10,6 +10,7 @@ import 'package:uni/view/schedule/widgets/schedule_slot.dart';
 import 'package:uni/view/home/widgets/schedule_card_shimmer.dart';
 import 'package:uni/utils/drawer_items.dart';
 
+
 class ScheduleCard extends GenericCard {
   ScheduleCard({Key? key}) : super(key: key);
 
@@ -32,7 +33,7 @@ class ScheduleCard extends GenericCard {
           contentChecker: lectureProvider.lectures.isNotEmpty,
           onNullContent: Center(
               child: Text('Não existem aulas para apresentar',
-                  style: Theme.of(context).textTheme.titleLarge,
+                  style: Theme.of(context).textTheme.headline6,
                   textAlign: TextAlign.center)),
         contentLoadingWidget: const ScheduleCardShimmer().build(context))
     );
@@ -48,27 +49,41 @@ class ScheduleCard extends GenericCard {
   }
 
   List<Widget> getScheduleRows(BuildContext context, List<Lecture> lectures) {
+    if (lectures.length >= 2) {
+      // In order to display lectures of the next week
+      final Lecture lecturefirstCycle = Lecture.cloneHtml(lectures[0]);
+      lecturefirstCycle.day += 7;
+      final Lecture lecturesecondCycle = Lecture.cloneHtml(lectures[1]);
+      lecturesecondCycle.day += 7;
+      lectures.add(lecturefirstCycle);
+      lectures.add(lecturesecondCycle);
+    }
     final List<Widget> rows = <Widget>[];
 
     final now = DateTime.now();
     var added = 0; // Lectures added to widget
-    DateTime lastAddedLectureDate = DateTime.now(); // Day of last added lecture
+    var lastDayAdded = 0; // Day of last added lecture
+    final stringTimeNow = (now.weekday - 1).toString().padLeft(2, '0') +
+        now.toTimeHourMinString(); // String with current time within the week
 
     for (int i = 0; added < 2 && i < lectures.length; i++) {
-      if (now.compareTo(lectures[i].endTime) < 0) {
-        if (lastAddedLectureDate.weekday != lectures[i].startTime.weekday &&
-            lastAddedLectureDate.compareTo(lectures[i].startTime) <= 0) {
-          rows.add(DateRectangle(date: TimeString.getWeekdaysStrings()[(lectures[i].startTime.weekday-1) % 7]));
+      final stringEndTimeLecture = lectures[i].day.toString().padLeft(2, '0') +
+          lectures[i].endTime; // String with end time of lecture
+
+      if (stringTimeNow.compareTo(stringEndTimeLecture) < 0) {
+        if (now.weekday - 1 != lectures[i].day &&
+            lastDayAdded < lectures[i].day) {
+          rows.add(DateRectangle(date: TimeString.getWeekdaysStrings()[lectures[i].day % 7]));
         }
 
         rows.add(createRowFromLecture(context, lectures[i]));
-        lastAddedLectureDate = lectures[i].startTime;
+        lastDayAdded = lectures[i].day;
         added++;
       }
     }
 
     if (rows.isEmpty) {
-      rows.add(DateRectangle(date: TimeString.getWeekdaysStrings()[lectures[0].startTime.weekday % 7]));
+      rows.add(DateRectangle(date: TimeString.getWeekdaysStrings()[lectures[0].day % 7]));
       rows.add(createRowFromLecture(context, lectures[0]));
     }
     return rows;

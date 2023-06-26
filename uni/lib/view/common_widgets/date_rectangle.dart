@@ -15,7 +15,7 @@ class DateRectangle extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 10),
       alignment: Alignment.center,
       width: double.infinity,
-      child: Text(date, style: Theme.of(context).textTheme.titleSmall),
+      child: Text(date, style: Theme.of(context).textTheme.subtitle2),
     );
   }
 }
