@@ -20,9 +20,12 @@ class ExamTitle extends StatelessWidget {
 
   Widget createTopRectangle(context) {
     final Text typeWidget = Text(type != null ? ' ($type) ' : '',
-        style: Theme.of(context).textTheme.bodyText2);
-    final Text subjectWidget =
-        Text(subject, style: Theme.of(context).textTheme.headline5?.apply(color: Theme.of(context).colorScheme.tertiary));
+        style: Theme.of(context).textTheme.bodyMedium);
+    final Text subjectWidget = Text(subject,
+        style: Theme.of(context)
+            .textTheme
+            .headlineSmall
+            ?.apply(color: Theme.of(context).colorScheme.tertiary));
 
     return Row(
         children: (reverseOrder

@@ -53,7 +53,7 @@ class _LastUpdateTimeStampState extends State<LastUpdateTimeStamp> {
         children: [
           Text(
               'Atualizado há $elapsedTimeMinutes minuto${elapsedTimeMinutes != 1 ? 's' : ''}',
-              style: Theme.of(context).textTheme.subtitle2)
+              style: Theme.of(context).textTheme.titleSmall)
         ]);
   }
 }

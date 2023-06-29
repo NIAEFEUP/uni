@@ -75,9 +75,9 @@ class ToastMessage {
         barrierDismissible: false,
         barrierColor: Colors.white.withOpacity(0),
         context: context,
-        builder: (_) {
+        builder: (toastContext) {
           Future.delayed(const Duration(milliseconds: 2000), () {
-            Navigator.of(context).pop();
+            Navigator.of(toastContext).pop();
           });
           return mToast;
         });

@@ -87,7 +87,7 @@ class CourseUnitsPageViewState
           onNullContent: Center(
             heightFactor: 10,
             child: Text('Não existem cadeiras para apresentar',
-                style: Theme.of(context).textTheme.headline6),
+                style: Theme.of(context).textTheme.titleLarge),
           ))
     ]);
   }
@@ -142,7 +142,7 @@ class CourseUnitsPageViewState
       return Center(
           heightFactor: 10,
           child: Text('Sem cadeiras no período selecionado',
-              style: Theme.of(context).textTheme.headline6));
+              style: Theme.of(context).textTheme.titleLarge));
     }
     return Expanded(
         child: Container(

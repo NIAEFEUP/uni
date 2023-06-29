@@ -17,7 +17,7 @@ class LocationMarker extends Marker {
           point: latlng,
           builder: (BuildContext ctx) => Container(
             decoration: BoxDecoration(
-                color: Theme.of(ctx).backgroundColor,
+                color: Theme.of(ctx).colorScheme.background,
                 border: Border.all(
                   color: Theme.of(ctx).colorScheme.primary,
                 ),
