@@ -7,6 +7,7 @@ import 'package:uni/controller/load_static/terms_and_conditions.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/parsers/parser_session.dart';
+import 'package:uni/model/entities/login_exceptions.dart';
 import 'package:uni/model/request_status.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
@@ -15,7 +16,6 @@ import 'package:uni/model/providers/state_providers.dart';
 class SessionProvider extends StateProviderNotifier {
   Session _session = Session();
   List<String> _faculties = [];
-  String? errorMessage;
 
   Session get session => _session;
 
@@ -43,9 +43,8 @@ class SessionProvider extends StateProviderNotifier {
           await AppSharedPreferences.savePersistentUserInfo(
               username, password, faculties);
         }
-        Future.delayed(const Duration(seconds: 20), ()=>{
-          NotificationManager().initializeNotifications()
-        });
+        Future.delayed(const Duration(seconds: 20),
+            () => {NotificationManager().initializeNotifications()});
 
         loadLocalUserInfoToState(stateProviders, skipDatabaseLookup: true);
         await loadRemoteUserInfoToState(stateProviders);
@@ -54,21 +53,20 @@ class SessionProvider extends StateProviderNotifier {
         passwordController.clear();
         await acceptTermsAndConditions();
 
-        errorMessage = null;
         updateStatus(RequestStatus.successful);
       } else {
-        errorMessage = 'Credenciais inválidas';
-
-        //Check if password expired
-        final String responseHtml = await NetworkRouter.loginInSigarra(username, password, faculties);
-        if(isPasswordExpired(responseHtml)){
-          errorMessage = "A palavra-passe expirou";
+        final String responseHtml =
+            await NetworkRouter.loginInSigarra(username, password, faculties);
+        if (isPasswordExpired(responseHtml)) {
+          action.completeError(ExpiredCredentialsException());
+        }else{
+          action.completeError(WrongCredentialsException());
         }
         updateStatus(RequestStatus.failed);
       }
     } catch (e) {
       // No internet connection or server down
-      errorMessage = "Verifica a tua ligação à internet";
+      action.completeError(InternetStatusException());
       updateStatus(RequestStatus.failed);
     }
 
@@ -82,15 +80,13 @@ class SessionProvider extends StateProviderNotifier {
     try {
       loadLocalUserInfoToState(stateProviders);
       updateStatus(RequestStatus.busy);
-      _session =
-          await NetworkRouter.login(username, password, faculties, true);
+      _session = await NetworkRouter.login(username, password, faculties, true);
       notifyListeners();
 
       if (session.authenticated) {
         await loadRemoteUserInfoToState(stateProviders);
-        Future.delayed(const Duration(seconds: 20), ()=>{
-          NotificationManager().initializeNotifications()
-        });
+        Future.delayed(const Duration(seconds: 20),
+            () => {NotificationManager().initializeNotifications()});
         updateStatus(RequestStatus.successful);
         action?.complete();
       } else {
