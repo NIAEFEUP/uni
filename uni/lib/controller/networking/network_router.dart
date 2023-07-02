@@ -2,11 +2,14 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 import 'package:synchronized/synchronized.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/model/entities/session.dart';
+import 'package:html/parser.dart' show parse;
+import 'package:uni/utils/constants.dart';
 
 extension UriString on String {
   /// Converts a [String] to an [Uri].
@@ -23,18 +26,47 @@ class NetworkRouter {
 
   static Function onReloginFail = () {};
 
+  static Future<List<String>> getStudentFaculties(Session session) async {
+    // maybe add this function to a fetcher ... parser ...
+    final List<String> registerFaculties = [];
+
+    final http.Response response = await NetworkRouter.getWithCookies(
+        'https://sigarra.up.pt/up/pt/vld_entidades_geral.entidade_pagina',
+        {'pct_id': '1923456'},
+        session);
+
+    final document = parse(response.body);
+    final list = document.querySelectorAll("#conteudoinner>ul a");
+
+    // user is only present in one faculty
+    if (list.isEmpty) {
+      list.add(document.querySelector("a")!); // the redirection link
+    }
+
+    for (final el in list) {
+      final uri = el.attributes['href']!.toUri();
+      registerFaculties.add(uri.pathSegments[0]);
+    }
+
+    return registerFaculties;
+  }
+
   /// Creates an authenticated [Session] on the given [faculty] with the
   /// given username [user] and password [pass].
   static Future<Session> login(String user, String pass, List<String> faculties,
       bool persistentSession) async {
+    // final String url =
+    //     '${NetworkRouter.getBaseUrls(faculties)[0]}mob_val_geral.autentica';
+    //    final String url = '${NetworkRouter.getBaseUrl('up')}WEB_PAGE.INICIAL';
     final String url =
         '${NetworkRouter.getBaseUrls(faculties)[0]}mob_val_geral.autentica';
+
     final http.Response response = await http.post(url.toUri(), body: {
       'pv_login': user,
       'pv_password': pass
     }).timeout(const Duration(seconds: loginRequestTimeout));
     if (response.statusCode == 200) {
-      final Session session = Session.fromLogin(response, faculties);
+      final Session session = await Session.fromLogin(response, faculties);
       session.persistentSession = persistentSession;
       Logger().i('Login successful');
       return session;

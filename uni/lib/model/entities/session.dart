@@ -24,16 +24,22 @@ class Session {
 
   /// Creates a new instance from an HTTP response
   /// to login in one of the faculties.
-  static Session fromLogin(dynamic response, List<String> faculties) {
+  static Future<Session> fromLogin(
+      dynamic response, List<String> faculties) async {
     final responseBody = json.decode(response.body);
+    print(responseBody);
     if (responseBody['authenticated']) {
-      return Session(
+      final Session session = Session(
           authenticated: true,
           faculties: faculties,
           studentNumber: responseBody['codigo'],
           type: responseBody['tipo'],
           cookies: NetworkRouter.extractCookies(response.headers),
           persistentSession: false);
+      final List<String> fetchedFaculties =
+          await NetworkRouter.getStudentFaculties(session);
+      session.faculties = fetchedFaculties;
+      return session;
     } else {
       return Session(
           authenticated: false,

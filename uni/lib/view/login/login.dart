@@ -176,7 +176,7 @@ class LoginPageViewState extends State<LoginPageView> {
       key: _formKey,
       child: SingleChildScrollView(
         child: Column(children: [
-          createFacultyInput(context, faculties, setFaculties),
+          //createFacultyInput(context, faculties, setFaculties),
           Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)),
           createUsernameInput(
               context, usernameController, usernameFocus, passwordFocus),
