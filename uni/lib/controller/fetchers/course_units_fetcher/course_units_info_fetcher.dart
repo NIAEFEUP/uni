@@ -24,6 +24,8 @@ class CourseUnitsInfoFetcher implements SessionDependantFetcher {
 
   Future<List<CourseUnitClass>> fetchCourseUnitClasses(
       Session session, int occurrId) async {
+    List<CourseUnitClass> courseUnitClasses = [];
+
     for (String endpoint in getEndpoints(session)) {
       // Crawl classes from all courses that the course unit is offered in
       final String courseChoiceUrl =
@@ -49,13 +51,13 @@ class CourseUnitsInfoFetcher implements SessionDependantFetcher {
         try {
           final Response response =
               await NetworkRouter.getWithCookies(url, {}, session);
-          return parseCourseUnitClasses(response, endpoint);
+          courseUnitClasses += parseCourseUnitClasses(response, endpoint);
         } catch (_) {
           continue;
         }
       }
     }
 
-    return [];
+    return courseUnitClasses;
   }
 }
