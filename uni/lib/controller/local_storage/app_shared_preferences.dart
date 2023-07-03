@@ -17,7 +17,8 @@ class AppSharedPreferences {
   static const String userFaculties = 'user_faculties';
   static const String termsAndConditions = 'terms_and_conditions';
   static const String areTermsAndConditionsAcceptedKey = 'is_t&c_accepted';
-  static const String tuitionNotificationsToggleKey = "tuition_notification_toogle";
+  static const String tuitionNotificationsToggleKey =
+      "tuition_notification_toogle";
   static const String themeMode = 'theme_mode';
   static const String locale = 'app_locale';
   static const int keyLength = 32;
@@ -88,15 +89,15 @@ class AppSharedPreferences {
     return prefs.setInt(themeMode, (themeIndex + 1) % 3);
   }
 
-  static setLocale(Locale app_locale) async {
+  static setLocale(Locale appLocale) async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.setString(locale, app_locale.toString());
+    prefs.setString(locale, appLocale.languageCode);
   }
 
   static Future<Locale> getLocale() async {
     final prefs = await SharedPreferences.getInstance();
-    final test = prefs.getString(locale) ?? 'en_US';
-    return Locale.fromSubtags(languageCode: test.substring(0,3), countryCode: test.substring(0,3));
+    final appLocale = prefs.getString(locale) ?? 'en';
+    return Locale(appLocale);
   }
 
   /// Deletes the user's student number and password.
@@ -215,14 +216,13 @@ class AppSharedPreferences {
     return encrypt.Encrypter(encrypt.AES(key));
   }
 
-  static Future<bool> getTuitionNotificationToggle() async{
+  static Future<bool> getTuitionNotificationToggle() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getBool(tuitionNotificationsToggleKey) ?? true;
   }
 
-  static setTuitionNotificationToggle(bool value) async{
+  static setTuitionNotificationToggle(bool value) async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setBool(tuitionNotificationsToggleKey, value);
   }
-
 }
