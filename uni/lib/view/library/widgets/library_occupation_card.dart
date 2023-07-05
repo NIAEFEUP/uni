@@ -40,7 +40,7 @@ class LibraryOccupationCard extends GenericCard {
   Widget generateOccupation(occupation, context) {
     if (occupation == null || occupation.capacity == 0) {
       return Center(
-          child: Text('Não existem dados para apresentar',
+          child: Text(S.of(context).no_data,
               style: Theme.of(context).textTheme.titleLarge,
               textAlign: TextAlign.center));
     }

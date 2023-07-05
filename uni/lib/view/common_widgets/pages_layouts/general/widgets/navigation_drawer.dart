@@ -3,8 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:uni/model/providers/session_provider.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/theme_notifier.dart';
+import 'package:uni/view/locale_notifier.dart';
 import 'package:uni/generated/l10n.dart';
-import 'package:uni/main.dart';
 
 class AppNavigationDrawer extends StatefulWidget {
   final BuildContext parentContext;
@@ -67,7 +67,7 @@ class AppNavigationDrawerState extends State<AppNavigationDrawer> {
   }
 
   Widget createLogoutBtn() {
-    final String logOutText = S.of(context).logout;
+    const String logOutText = "Terminar sessão";
     return TextButton(
       onPressed: () => _onLogOut(logOutText),
       style: TextButton.styleFrom(
@@ -76,7 +76,7 @@ class AppNavigationDrawerState extends State<AppNavigationDrawer> {
       ),
       child: Container(
         padding: const EdgeInsets.all(15.0),
-        child: Text(logOutText,
+        child: Text(S.of(context).logout,
             style: Theme.of(context)
                 .textTheme
                 .titleLarge!
@@ -86,26 +86,24 @@ class AppNavigationDrawerState extends State<AppNavigationDrawer> {
   }
 
   Widget createLocaleBtn() {
-    String getLocaleText(String locale) {
-      switch (locale) {
-        case 'pt_PT':
-          return 'PT';
-        default:
-          return 'EN';
-      }
+    String getLocaleText(Locale locale) {
+      final String appLocale;
+      locale == const Locale('pt') ? appLocale = 'PT' : appLocale = 'EN';
+      return appLocale;
     }
 
-    return Consumer<ThemeNotifier>(
-      builder: (context, themeNotifier, _) {
+    return Consumer<LocaleNotifier>(
+      builder: (context, localeNotifier, _) {
+
         return TextButton(
-          onPressed: () => themeNotifier.setNextLocale(),
+          onPressed: () => localeNotifier.setNextLocale(),
           style: TextButton.styleFrom(
             elevation: 0,
             padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 5.0),
           ),
           child: Container(
             padding: const EdgeInsets.all(15.0),
-            child: Text(getLocaleText(themeNotifier.getLocale().toString()),
+            child: Text(getLocaleText(localeNotifier.getLocale()),
                 style: Theme.of(context)
                     .textTheme
                     .titleLarge!

@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 
 extension TimeString on DateTime {
@@ -28,8 +27,6 @@ extension TimeString on DateTime {
       'Sunday'
     ];
 
-    final String locale = Platform.localeName;
-
     if (!startMonday) {
       weekdaysPT.removeAt(6);
       weekdaysEN.removeAt(6);
@@ -37,7 +34,7 @@ extension TimeString on DateTime {
       weekdaysEN.insert(0, 'Sunday');
     }
 
-    if(locale == 'pt_PT') return includeWeekend ? weekdaysPT : weekdaysPT.sublist(0, 5);
+    // TODO migration i18n
     return includeWeekend ? weekdaysEN : weekdaysEN.sublist(0, 5);
 
 

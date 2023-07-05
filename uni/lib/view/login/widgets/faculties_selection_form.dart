@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:uni/utils/constants.dart' as constants;
 import 'package:uni/view/common_widgets/toast_message.dart';
+import 'package:uni/generated/l10n.dart';
 
 class FacultiesSelectionForm extends StatefulWidget {
   final List<String> selectedFaculties;
@@ -18,7 +19,7 @@ class _FacultiesSelectionFormState extends State<FacultiesSelectionForm> {
   Widget build(BuildContext context) {
     return AlertDialog(
         backgroundColor: const Color.fromARGB(255, 0x75, 0x17, 0x1e),
-        title: const Text('seleciona a(s) tua(s) faculdade(s)'),
+        title: Text(S.of(context).college_select),
         titleTextStyle: const TextStyle(
             color: Color.fromARGB(255, 0xfa, 0xfa, 0xfa), fontSize: 18),
         content: SizedBox(
@@ -30,7 +31,7 @@ class _FacultiesSelectionFormState extends State<FacultiesSelectionForm> {
     return [
       TextButton(
           onPressed: () => Navigator.pop(context),
-          child: const Text('Cancelar', style: TextStyle(color: Colors.white))),
+          child: Text(S.of(context).cancel, style: const TextStyle(color: Colors.white))),
       ElevatedButton(
           style: ElevatedButton.styleFrom(
               foregroundColor: Theme.of(context).primaryColor,
@@ -38,13 +39,13 @@ class _FacultiesSelectionFormState extends State<FacultiesSelectionForm> {
           onPressed: () {
             if (widget.selectedFaculties.isEmpty) {
               ToastMessage.warning(
-                  context, 'Seleciona pelo menos uma faculdade');
+                  context, S.of(context).at_least_one_college);
               return;
             }
             Navigator.pop(context);
             widget.setFaculties(widget.selectedFaculties);
           },
-          child: const Text('Confirmar'))
+          child: Text(S.of(context).confirm))
     ];
   }
 

@@ -1,7 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'intl/messages_all.dart';
+import 'package:uni/generated/intl/messages_all.dart';
 
 // **************************************************************************
 // Generator: Flutter Intl IDE plugin
@@ -90,11 +90,31 @@ class S {
     );
   }
 
+  /// `By entering you confirm that you agree with these Terms and Conditions`
+  String get agree_terms {
+    return Intl.message(
+      'By entering you confirm that you agree with these Terms and Conditions',
+      name: 'agree_terms',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `All available widgets have already been added to your personal area!`
   String get all_widgets_added {
     return Intl.message(
       'All available widgets have already been added to your personal area!',
       name: 'all_widgets_added',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select at least one college`
+  String get at_least_one_college {
+    return Intl.message(
+      'Select at least one college',
+      name: 'at_least_one_college',
       desc: '',
       args: [],
     );
@@ -205,6 +225,16 @@ class S {
     return Intl.message(
       'College: ',
       name: 'college',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `select your college(s)`
+  String get college_select {
+    return Intl.message(
+      'select your college(s)',
+      name: 'college_select',
       desc: '',
       args: [],
     );
@@ -390,6 +420,16 @@ class S {
     );
   }
 
+  /// `Login failed`
+  String get failed_login {
+    return Intl.message(
+      'Login failed',
+      name: 'failed_login',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Deadline for next fee:`
   String get fee_date {
     return Intl.message(
@@ -440,6 +480,16 @@ class S {
     );
   }
 
+  /// `Forgot password?`
+  String get forgot_password {
+    return Intl.message(
+      'Forgot password?',
+      name: 'forgot_password',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `General Registration`
   String get geral_registration {
     return Intl.message(
@@ -455,6 +505,16 @@ class S {
     return Intl.message(
       'Enrollment for Improvement',
       name: 'improvement_registration',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Stay signed in`
+  String get keep_login {
+    return Intl.message(
+      'Stay signed in',
+      name: 'keep_login',
       desc: '',
       args: [],
     );
@@ -498,6 +558,16 @@ class S {
     return Intl.message(
       'Loading Terms and Conditions...',
       name: 'loading_terms',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Login`
+  String get login {
+    return Intl.message(
+      'Login',
+      name: 'login',
       desc: '',
       args: [],
     );
@@ -593,6 +663,16 @@ class S {
     return Intl.message(
       'You don\'t have classes on',
       name: 'no_classes_on',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `no college`
+  String get no_college {
+    return Intl.message(
+      'no college',
+      name: 'no_college',
       desc: '',
       args: [],
     );
@@ -708,11 +788,31 @@ class S {
     );
   }
 
+  /// `password`
+  String get password {
+    return Intl.message(
+      'password',
+      name: 'password',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Face-to-face assistance`
   String get personal_assistance {
     return Intl.message(
       'Face-to-face assistance',
       name: 'personal_assistance',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Press again to exit`
+  String get press_again {
+    return Intl.message(
+      'Press again to exit',
+      name: 'press_again',
       desc: '',
       args: [],
     );
@@ -798,6 +898,16 @@ class S {
     );
   }
 
+  /// `student number`
+  String get student_number {
+    return Intl.message(
+      'student number',
+      name: 'student_number',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Sent with success`
   String get success {
     return Intl.message(
@@ -833,6 +943,16 @@ class S {
     return Intl.message(
       'Telephone',
       name: 'telephone',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Terms and Conditions`
+  String get terms {
+    return Intl.message(
+      'Terms and Conditions',
+      name: 'terms',
       desc: '',
       args: [],
     );

@@ -33,6 +33,7 @@ import 'package:uni/view/common_widgets/page_transition.dart';
 import 'package:uni/view/course_units/course_units.dart';
 import 'package:uni/view/exams/exams.dart';
 import 'package:uni/view/home/home.dart';
+import 'package:uni/view/locale_notifier.dart';
 import 'package:uni/view/locations/locations.dart';
 import 'package:uni/view/logout_route.dart';
 import 'package:uni/view/navigation_service.dart';
@@ -113,9 +114,12 @@ Future<void> main() async {
                   ChangeNotifierProvider(
                       create: (context) => stateProviders.homePageEditingMode),
                 ],
-                child: ChangeNotifierProvider<ThemeNotifier>(
-                  create: (_) => ThemeNotifier(savedTheme, savedLocale),
-                  child: const MyApp(),
+                child: ChangeNotifierProvider<LocaleNotifier>(
+                  create: (_) => LocaleNotifier(savedLocale),
+                  child: ChangeNotifierProvider<ThemeNotifier>(
+                    create: (_) => ThemeNotifier(savedTheme),
+                    child: const MyApp(),
+                  ),
                 )))
           });
 }
@@ -138,13 +142,13 @@ class MyAppState extends State<MyApp> {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);
-    return Consumer<ThemeNotifier>(
-      builder: (context, themeNotifier, _) => MaterialApp(
+    return Consumer2<ThemeNotifier, LocaleNotifier>(
+      builder: (context, themeNotifier, localeNotifier, _) => MaterialApp(
           title: 'uni',
           theme: applicationLightTheme,
           darkTheme: applicationDarkTheme,
           themeMode: themeNotifier.getTheme(),
-          locale: themeNotifier.getLocale(),
+          locale: localeNotifier.getLocale(),
           home: const SplashScreen(),
           localizationsDelegates: const [
             S.delegate,

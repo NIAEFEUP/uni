@@ -89,9 +89,9 @@ class AppSharedPreferences {
     return prefs.setInt(themeMode, (themeIndex + 1) % 3);
   }
 
-  static setLocale(Locale appLocale) async {
+  static setLocale(String appLocale) async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.setString(locale, appLocale.languageCode);
+    prefs.setString(locale, appLocale);
   }
 
   static Future<Locale> getLocale() async {

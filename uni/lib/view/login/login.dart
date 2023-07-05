@@ -9,6 +9,7 @@ import 'package:uni/model/providers/state_providers.dart';
 import 'package:uni/view/common_widgets/toast_message.dart';
 import 'package:uni/view/login/widgets/inputs.dart';
 import 'package:uni/utils/drawer_items.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:uni/view/theme.dart';
 
@@ -147,7 +148,7 @@ class LoginPageViewState extends State<LoginPageView> {
     if (_exitApp) {
       return Future.value(true);
     }
-    ToastMessage.info(context, 'Pressione novamente para sair');
+    ToastMessage.info(context, S.of(context).press_again);
     exitAppWaiter();
     return Future.value(false);
   }
@@ -189,7 +190,7 @@ class LoginPageViewState extends State<LoginPageView> {
               _toggleObscurePasswordInput,
               () => _login(context)),
           Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)),
-          createSaveDataCheckBox(_keepSignedIn, _setKeepSignedIn),
+          createSaveDataCheckBox(context, _keepSignedIn, _setKeepSignedIn),
         ]),
       ),
     );
@@ -199,7 +200,7 @@ class LoginPageViewState extends State<LoginPageView> {
   Widget createForgetPasswordLink(BuildContext context) {
     return InkWell(
         child: Center(
-            child: Text("Esqueceu a palavra-passe?",
+            child: Text(S.of(context).forgot_password,
                 style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                     decoration: TextDecoration.underline,
                     color: Colors.white))),
@@ -231,7 +232,7 @@ class LoginPageViewState extends State<LoginPageView> {
       Navigator.pushReplacementNamed(
           context, '/${DrawerItem.navPersonalArea.title}');
     } else if (status == RequestStatus.failed) {
-      ToastMessage.error(context, 'O login falhou');
+      ToastMessage.error(context, S.of(context).failed_login);
     }
   }
 }

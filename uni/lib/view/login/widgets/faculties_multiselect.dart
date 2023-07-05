@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uni/view/login/widgets/faculties_selection_form.dart';
+import 'package:uni/generated/l10n.dart';
 
 class FacultiesMultiselect extends StatelessWidget {
   final List<String> selectedFaculties;
@@ -39,7 +40,7 @@ class FacultiesMultiselect extends StatelessWidget {
         child: Row(children: [
           Expanded(
             child: Text(
-              _facultiesListText(),
+              _facultiesListText(context),
               style: const TextStyle(color: Colors.white),
             ),
           ),
@@ -50,9 +51,9 @@ class FacultiesMultiselect extends StatelessWidget {
         ]));
   }
 
-  String _facultiesListText() {
+  String _facultiesListText(BuildContext context) {
     if (selectedFaculties.isEmpty) {
-      return 'sem faculdade';
+      return S.of(context).no_college;
     }
     String facultiesText = '';
     for (String faculty in selectedFaculties) {

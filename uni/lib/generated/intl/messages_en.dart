@@ -49,8 +49,12 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Checking account"),
         "add": MessageLookupByLibrary.simpleMessage("Add"),
         "add_widget": MessageLookupByLibrary.simpleMessage("Add widget"),
+        "agree_terms": MessageLookupByLibrary.simpleMessage(
+            "By entering you confirm that you agree with these Terms and Conditions"),
         "all_widgets_added": MessageLookupByLibrary.simpleMessage(
             "All available widgets have already been added to your personal area!"),
+        "at_least_one_college":
+            MessageLookupByLibrary.simpleMessage("Select at least one college"),
         "average": MessageLookupByLibrary.simpleMessage("Average: "),
         "balance": MessageLookupByLibrary.simpleMessage("Balance:"),
         "bs_description": MessageLookupByLibrary.simpleMessage(
@@ -69,6 +73,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "class_registration":
             MessageLookupByLibrary.simpleMessage("Class Registration"),
         "college": MessageLookupByLibrary.simpleMessage("College: "),
+        "college_select":
+            MessageLookupByLibrary.simpleMessage("select your college(s)"),
         "conclude": MessageLookupByLibrary.simpleMessage("Done"),
         "configured_buses":
             MessageLookupByLibrary.simpleMessage("Configured Buses"),
@@ -97,6 +103,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Please fill in this field"),
         "exams_filter":
             MessageLookupByLibrary.simpleMessage("Exam Filter Settings"),
+        "failed_login": MessageLookupByLibrary.simpleMessage("Login failed"),
         "fee_date":
             MessageLookupByLibrary.simpleMessage("Deadline for next fee:"),
         "fee_notification":
@@ -105,16 +112,20 @@ class MessageLookup extends MessageLookupByLibrary {
             "Year of first registration: "),
         "floor": MessageLookupByLibrary.simpleMessage("Floor"),
         "floors": MessageLookupByLibrary.simpleMessage("Floors"),
+        "forgot_password":
+            MessageLookupByLibrary.simpleMessage("Forgot password?"),
         "geral_registration":
             MessageLookupByLibrary.simpleMessage("General Registration"),
         "improvement_registration":
             MessageLookupByLibrary.simpleMessage("Enrollment for Improvement"),
+        "keep_login": MessageLookupByLibrary.simpleMessage("Stay signed in"),
         "last_refresh_time": m0,
         "last_timestamp": m1,
         "library_occupation":
             MessageLookupByLibrary.simpleMessage("Library Occupation"),
         "loading_terms": MessageLookupByLibrary.simpleMessage(
             "Loading Terms and Conditions..."),
+        "login": MessageLookupByLibrary.simpleMessage("Login"),
         "logout": MessageLookupByLibrary.simpleMessage("Log out"),
         "menus": MessageLookupByLibrary.simpleMessage("Menus"),
         "multimedia_center":
@@ -127,6 +138,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("No classes to present"),
         "no_classes_on":
             MessageLookupByLibrary.simpleMessage("You don\'t have classes on"),
+        "no_college": MessageLookupByLibrary.simpleMessage("no college"),
         "no_course_units": MessageLookupByLibrary.simpleMessage(
             "No course units in the selected period"),
         "no_data": MessageLookupByLibrary.simpleMessage(
@@ -147,8 +159,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "occurrence_type":
             MessageLookupByLibrary.simpleMessage("Type of occurrence"),
         "other_links": MessageLookupByLibrary.simpleMessage("Other links"),
+        "password": MessageLookupByLibrary.simpleMessage("password"),
         "personal_assistance":
             MessageLookupByLibrary.simpleMessage("Face-to-face assistance"),
+        "press_again":
+            MessageLookupByLibrary.simpleMessage("Press again to exit"),
         "print": MessageLookupByLibrary.simpleMessage("Print"),
         "problem_id": MessageLookupByLibrary.simpleMessage(
             "Brief identification of the problem"),
@@ -161,12 +176,15 @@ class MessageLookup extends MessageLookupByLibrary {
             "An error occurred in sending"),
         "stcp_stops":
             MessageLookupByLibrary.simpleMessage("STCP - Upcoming Trips"),
+        "student_number":
+            MessageLookupByLibrary.simpleMessage("student number"),
         "success": MessageLookupByLibrary.simpleMessage("Sent with success"),
         "tele_assistance":
             MessageLookupByLibrary.simpleMessage("Telephone assistance"),
         "tele_personal_assistance": MessageLookupByLibrary.simpleMessage(
             "Face-to-face and telephone assistance"),
         "telephone": MessageLookupByLibrary.simpleMessage("Telephone"),
+        "terms": MessageLookupByLibrary.simpleMessage("Terms and Conditions"),
         "title": MessageLookupByLibrary.simpleMessage("Title"),
         "unavailable": MessageLookupByLibrary.simpleMessage("Unavailable"),
         "valid_email":

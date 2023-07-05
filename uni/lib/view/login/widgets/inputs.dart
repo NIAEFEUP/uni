@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:uni/view/login/widgets/faculties_multiselect.dart';
 import 'package:uni/view/about/widgets/terms_and_conditions.dart';
+import 'package:uni/generated/l10n.dart';
 
 /// Creates the widget for the user to choose their faculty
 Widget createFacultyInput(
@@ -27,8 +28,8 @@ Widget createUsernameInput(
     },
     textInputAction: TextInputAction.next,
     textAlign: TextAlign.left,
-    decoration: textFieldDecoration('número de estudante'),
-    validator: (String? value) => value!.isEmpty ? 'Preenche este campo' : null,
+    decoration: textFieldDecoration(S.of(context).student_number),
+    validator: (String? value) => value!.isEmpty ? S.of(context).empty_text : null,
   );
 }
 
@@ -54,20 +55,20 @@ Widget createPasswordInput(
       obscureText: obscurePasswordInput,
       textAlign: TextAlign.left,
       decoration: passwordFieldDecoration(
-          'palavra-passe', obscurePasswordInput, toggleObscurePasswordInput),
+          S.of(context).password, obscurePasswordInput, toggleObscurePasswordInput),
       validator: (String? value) =>
-          value != null && value.isEmpty ? 'Preenche este campo' : null);
+          value != null && value.isEmpty ? S.of(context).empty_text : null);
 }
 
 /// Creates the widget for the user to keep signed in (save his data).
-Widget createSaveDataCheckBox(bool keepSignedIn, setKeepSignedIn) {
+Widget createSaveDataCheckBox(BuildContext context, bool keepSignedIn, setKeepSignedIn) {
   return CheckboxListTile(
     value: keepSignedIn,
     onChanged: setKeepSignedIn,
-    title: const Text(
-      'Manter sessão iniciada',
+    title: Text(
+      S.of(context).keep_login,
       textAlign: TextAlign.center,
-      style: TextStyle(
+      style: const TextStyle(
           color: Colors.white, fontSize: 17.0, fontWeight: FontWeight.w300),
     ),
   );
@@ -93,7 +94,7 @@ Widget createLogInButton(queryData, BuildContext context, login) {
           }
           login(context);
         },
-        child: Text('Entrar',
+        child: Text(S.of(context).login,
             style: TextStyle(
                 color: Theme.of(context).primaryColor,
                 fontWeight: FontWeight.w400,
@@ -149,10 +150,10 @@ createSafeLoginButton(BuildContext context) {
       highlightColor: Colors.transparent,
       child: Container(
           padding: const EdgeInsets.all(8),
-          child: const Text(
-            '''Ao entrares confirmas que concordas com estes Termos e Condições''',
+          child: Text(
+            S.of(context).agree_terms,
             textAlign: TextAlign.center,
-            style: TextStyle(
+            style: const TextStyle(
                 decoration: TextDecoration.underline,
                 color: Colors.white,
                 fontSize: 17.0,
@@ -166,7 +167,7 @@ Future<void> _showLoginDetails(BuildContext context) async {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Termos e Condições'),
+          title: Text(S.of(context).terms),
           content: const SingleChildScrollView(child: TermsAndConditions()),
           actions: <Widget>[
             SimpleDialogOption(
