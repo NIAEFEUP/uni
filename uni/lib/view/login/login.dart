@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
+import 'package:uni/model/entities/login_exceptions.dart';
 import 'package:uni/model/request_status.dart';
 import 'package:uni/model/providers/session_provider.dart';
 import 'package:uni/model/providers/state_providers.dart';
@@ -53,10 +54,21 @@ class LoginPageViewState extends State<LoginPageView> {
       final user = usernameController.text.trim();
       final pass = passwordController.text.trim();
       final completer = Completer();
+
       sessionProvider.login(completer, user, pass, faculties, stateProviders,
           _keepSignedIn, usernameController, passwordController);
-      completer.future
-          .whenComplete(() => handleLogin(sessionProvider.status, context));
+
+      completer.future.then((_) {
+        handleLogin(sessionProvider.status, context);
+      }).catchError((error) {
+        if (error is ExpiredCredentialsException) {
+          updatePasswordDialog();
+        } else if (error is InternetStatusException) {
+          ToastMessage.warning(context, error.message);
+        } else {
+          ToastMessage.error(context, error.message ?? 'Erro no login');
+        }
+      });
     }
   }
 
@@ -234,5 +246,49 @@ class LoginPageViewState extends State<LoginPageView> {
     } else if (status == RequestStatus.failed) {
       ToastMessage.error(context, S.of(context).failed_login);
     }
+  }
+
+  void updatePasswordDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("A tua palavra-passe expirou"),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                  'Por razões de segurança, as palavras-passe têm de ser alteradas periodicamente.',
+                  textAlign: TextAlign.start,
+                  style: Theme.of(context).textTheme.titleSmall),
+              const SizedBox(height: 20),
+              const Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Deseja alterar a palavra-passe?',
+                    textAlign: TextAlign.start,
+                  )),
+            ],
+          ),
+          actions: [
+            TextButton(
+              child: const Text("Cancelar"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            ElevatedButton(
+              child: const Text("Alterar"),
+              onPressed: () async {
+                const url = "https://self-id.up.pt/password";
+                if (await canLaunchUrl(Uri.parse(url))) {
+                  await launchUrl(Uri.parse(url));
+                }
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }
