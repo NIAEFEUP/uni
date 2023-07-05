@@ -315,10 +315,4 @@ class BugReportFormState extends State<BugReportForm> {
       _isConsentGiven = false;
     });
   }
-
-  Future<Map<String, dynamic>> parseJsonFromAssets(String assetsPath) async {
-    return rootBundle
-        .loadString(assetsPath)
-        .then((jsonStr) => jsonDecode(jsonStr));
-  }
 }
