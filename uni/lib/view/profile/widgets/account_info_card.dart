@@ -102,10 +102,13 @@ class ReferenceWidgets extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (references.isEmpty) {
-      return Text(
-        "Não existem referências a pagar",
-        style: Theme.of(context).textTheme.headlineSmall,
-        textScaleFactor: 0.9,
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        child: Text(
+          "Não existem referências a pagar",
+          style: Theme.of(context).textTheme.titleSmall,
+          textScaleFactor: 0.96,
+        ),
       );
     }
     if (references.length == 1) {
