@@ -37,7 +37,7 @@ class MessageLookup extends MessageLookupByLibrary {
             'biblioteca': 'Library',
             'uteis': 'Utils',
             'sobre': 'About',
-            'bugs': 'Bugs/ Suggestions',
+            'bugs': 'Bugs and Suggestions',
             'other': 'Other',
           })}";
 

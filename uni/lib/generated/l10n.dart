@@ -603,7 +603,7 @@ class S {
     );
   }
 
-  /// `{title, select, horario{Schedule} exames{Exams} area{Personal Area} cadeiras{Course Units} autocarros{Buses} locais{Places} restaurantes{Restaurants} calendario{Calendar} biblioteca{Library} uteis{Utils} sobre{About} bugs{Bugs/ Suggestions} other{Other}}`
+  /// `{title, select, horario{Schedule} exames{Exams} area{Personal Area} cadeiras{Course Units} autocarros{Buses} locais{Places} restaurantes{Restaurants} calendario{Calendar} biblioteca{Library} uteis{Utils} sobre{About} bugs{Bugs and Suggestions} other{Other}}`
   String nav_title(Object title) {
     return Intl.select(
       title,
@@ -619,7 +619,7 @@ class S {
         'biblioteca': 'Library',
         'uteis': 'Utils',
         'sobre': 'About',
-        'bugs': 'Bugs/ Suggestions',
+        'bugs': 'Bugs and Suggestions',
         'other': 'Other',
       },
       name: 'nav_title',

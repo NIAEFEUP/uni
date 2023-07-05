@@ -86,11 +86,6 @@ class AppNavigationDrawerState extends State<AppNavigationDrawer> {
   }
 
   Widget createLocaleBtn() {
-    String getLocaleText(Locale locale) {
-      final String appLocale;
-      locale == const Locale('pt') ? appLocale = 'PT' : appLocale = 'EN';
-      return appLocale;
-    }
 
     return Consumer<LocaleNotifier>(
       builder: (context, localeNotifier, _) {
@@ -103,7 +98,7 @@ class AppNavigationDrawerState extends State<AppNavigationDrawer> {
           ),
           child: Container(
             padding: const EdgeInsets.all(15.0),
-            child: Text(getLocaleText(localeNotifier.getLocale()),
+            child: Text(localeNotifier.getLocale().languageCode.toUpperCase(),
                 style: Theme.of(context)
                     .textTheme
                     .titleLarge!

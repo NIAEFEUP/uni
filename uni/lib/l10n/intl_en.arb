@@ -118,7 +118,7 @@
   "@menus": {},
   "multimedia_center": "Multimedia center",
   "@multimedia_center": {},
-  "nav_title": "{title, select, horario{Schedule} exames{Exams} area{Personal Area} cadeiras{Course Units} autocarros{Buses} locais{Places} restaurantes{Restaurants} calendario{Calendar} biblioteca{Library} uteis{Utils} sobre{About} bugs{Bugs/ Suggestions} other{Other}}",
+  "nav_title": "{title, select, horario{Schedule} exames{Exams} area{Personal Area} cadeiras{Course Units} autocarros{Buses} locais{Places} restaurantes{Restaurants} calendario{Calendar} biblioteca{Library} uteis{Utils} sobre{About} bugs{Bugs and Suggestions} other{Other}}",
   "@nav_title": {},
   "news": "News",
   "@news": {},

@@ -3,7 +3,6 @@ import 'package:uni/model/entities/meal.dart';
 import 'package:flutter/material.dart';
 import 'package:uni/model/providers/restaurant_provider.dart';
 import 'package:uni/model/request_status.dart';
-import 'package:uni/model/entities/time_utilities.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/model/utils/day_of_week.dart';
@@ -11,6 +10,7 @@ import 'package:uni/generated/l10n.dart';
 
 import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
+import 'package:uni/view/locale_notifier.dart';
 import 'package:uni/view/restaurant/widgets/restaurant_page_card.dart';
 import 'package:uni/view/restaurant/widgets/restaurant_slot.dart';
 
@@ -89,7 +89,7 @@ class _CanteenPageState extends GeneralPageViewState<RestaurantPageView>
   }
 
   List<Widget> createTabs(BuildContext context) {
-    final List<String> daysOfTheWeek = TimeString.getWeekdaysStrings(includeWeekend: true);
+    final List<String> daysOfTheWeek = Provider.of<LocaleNotifier>(context).getWeekdaysWithLocale();
     final List<Widget> tabs = <Widget>[];
 
     for (var i = 0; i < DayOfWeek.values.length; i++) {
