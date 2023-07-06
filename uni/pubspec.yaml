@@ -167,8 +167,4 @@ flutter_icons:
   image_path: "assets/icon/icon.png"
   adaptive_icon_background: "#75171E"
   adaptive_icon_foreground: "assets/icon/android_icon_foreground.png"
-flutter_intl:
-  enabled: true
-  localizely:
-    project_id: 788a209d-5f55-4f7d-ad09-6033b2b65fc1
 
