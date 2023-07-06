@@ -94,9 +94,9 @@ class CachedTileProvider extends TileProvider {
   CachedTileProvider();
 
   @override
-  ImageProvider getImage(Coords<num> coords, TileLayer options) {
+  ImageProvider getImage(TileCoordinates coordinates, TileLayer options) {
     return CachedNetworkImageProvider(
-      getTileUrl(coords, options),
+      getTileUrl(coordinates, options),
     );
   }
 }
