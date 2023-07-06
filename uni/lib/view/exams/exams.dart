@@ -106,10 +106,9 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
   }
 
   Widget createExamContext(context, Exam exam) {
-    final keyValue = '${exam.toString()}-exam';
     final isHidden = Provider.of<ExamProvider>(context).hiddenExams.contains(exam.id);
     return Container(
-        key: Key(keyValue),
+        key: Key('$exam-exam'),
         margin: const EdgeInsets.fromLTRB(12, 4, 12, 0),
         child: RowContainer(
             color: isHidden

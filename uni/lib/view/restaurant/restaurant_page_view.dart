@@ -18,10 +18,10 @@ class RestaurantPageView extends StatefulWidget {
   const RestaurantPageView({Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _CanteenPageState();
+  State<StatefulWidget> createState() => _RestaurantPageState();
 }
 
-class _CanteenPageState extends GeneralPageViewState<RestaurantPageView>
+class _RestaurantPageState extends GeneralPageViewState<RestaurantPageView>
     with SingleTickerProviderStateMixin {
   late List<Restaurant> aggRestaurant;
   late TabController tabController;
@@ -72,17 +72,20 @@ class _CanteenPageState extends GeneralPageViewState<RestaurantPageView>
 
   Widget createTabViewBuilder(dynamic restaurants, BuildContext context) {
       final List<Widget> dayContents =  DayOfWeek.values.map((dayOfWeek) {
-        List<Widget> cantinesWidgets = [];
+        List<Widget> restaurantsWidgets = [];
         if (restaurants is List<Restaurant>) {
-          cantinesWidgets = restaurants
-              .map((restaurant) => createRestaurant(context, restaurant, dayOfWeek))
+          restaurantsWidgets = restaurants
+              .map((restaurant) => RestaurantPageCard(
+                  restaurant.name,
+                  RestaurantDay(restaurant: restaurant, day: dayOfWeek)
+              ))
               .toList();
         }
-        return ListView( children: cantinesWidgets,);
+        return ListView(children: restaurantsWidgets);
       }).toList();
 
       return Expanded(
-          child: TabBarView(
+        child: TabBarView(
         controller: tabController,
         children: dayContents,
       ));
@@ -101,25 +104,22 @@ class _CanteenPageState extends GeneralPageViewState<RestaurantPageView>
 
     return tabs;
   }
+}
 
-  Widget createRestaurant(context, Restaurant restaurant, DayOfWeek dayOfWeek) {
-    return RestaurantPageCard(
-        restaurant.name, createRestaurantByDay(context, restaurant, dayOfWeek));
-  }
+class RestaurantDay extends StatelessWidget {
+  final Restaurant restaurant;
+  final DayOfWeek day;
 
-  List<Widget> createRestaurantRows(List<Meal> meals, BuildContext context) {
-    return meals
-        .map((meal) => RestaurantSlot(type: meal.type, name: meal.name))
-        .toList();
-  }
+  const RestaurantDay({Key? key, required this.restaurant, required this.day})
+      : super(key: key);
 
-  Widget createRestaurantByDay(
-      BuildContext context, Restaurant restaurant, DayOfWeek day) {
+  @override
+  Widget build(BuildContext context) {
     final List<Meal> meals = restaurant.getMealsOfDay(day);
     if (meals.isEmpty) {
       return Container(
           margin: const EdgeInsets.only(top: 10, bottom: 5),
-          key: Key('cantine-page-day-column-$day'),
+          key: Key('restaurant-page-day-column-$day'),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [Center (child: Text(S.of(context).no_menu_info)),],
@@ -128,10 +128,12 @@ class _CanteenPageState extends GeneralPageViewState<RestaurantPageView>
     } else {
       return Container(
           margin: const EdgeInsets.only(top: 5, bottom: 5),
-          key: Key('cantine-page-day-column-$day'),
+          key: Key('restaurant-page-day-column-$day'),
           child: Column(
             mainAxisSize: MainAxisSize.min,
-            children: createRestaurantRows(meals, context),
+            children: meals
+                .map((meal) => RestaurantSlot(type: meal.type, name: meal.name))
+                .toList(),
           ));
     }
   }
