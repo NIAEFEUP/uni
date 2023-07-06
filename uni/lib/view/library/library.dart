@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
-import 'package:provider/provider.dart';
 import 'package:uni/model/entities/library_occupation.dart';
 import 'package:uni/model/providers/library_occupation_provider.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
+import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/library/widgets/library_occupation_card.dart';
 
 class LibraryPageView extends StatefulWidget {
@@ -17,7 +17,7 @@ class LibraryPageView extends StatefulWidget {
 class LibraryPageViewState extends GeneralPageViewState<LibraryPageView> {
   @override
   Widget getBody(BuildContext context) {
-    return Consumer<LibraryOccupationProvider>(
+    return LazyConsumer<LibraryOccupationProvider>(
         builder: (context, libraryOccupationProvider, _) =>
             LibraryPage(libraryOccupationProvider.occupation));
 

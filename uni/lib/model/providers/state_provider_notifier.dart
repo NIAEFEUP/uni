@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:uni/model/request_status.dart';
 
@@ -12,15 +13,21 @@ abstract class StateProviderNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  /*void ensureInitialized() {
-    if (!_initialized) {
-      _initialized = true;
-      loadFromStorage();
+  void ensureInitialized() async {
+    if (_initialized) {
+      return;
+    }
+
+    _initialized = true;
+    loadFromStorage();
+    if (await Connectivity().checkConnectivity() != ConnectivityResult.none) {
       loadFromRemote();
     }
+
+    notifyListeners();
   }
 
-  void loadFromStorage();
+  void loadFromStorage() async {}
 
-  void loadFromRemote();*/
+  void loadFromRemote() async {}
 }

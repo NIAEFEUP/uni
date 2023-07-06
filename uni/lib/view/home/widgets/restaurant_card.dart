@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:uni/model/providers/restaurant_provider.dart';
 import 'package:uni/view/common_widgets/date_rectangle.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
 import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
 import 'package:uni/view/common_widgets/row_container.dart';
 import 'package:uni/view/home/widgets/restaurant_row.dart';
+import 'package:uni/view/lazy_consumer.dart';
 
 class RestaurantCard extends GenericCard {
   RestaurantCard({Key? key}) : super(key: key);
@@ -22,7 +22,7 @@ class RestaurantCard extends GenericCard {
 
   @override
   Widget buildCardContent(BuildContext context) {
-    return Consumer<RestaurantProvider>(
+    return LazyConsumer<RestaurantProvider>(
         builder: (context, restaurantProvider, _) =>
             RequestDependentWidgetBuilder(
                 context: context,

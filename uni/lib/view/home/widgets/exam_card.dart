@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/providers/exam_provider.dart';
+import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/common_widgets/date_rectangle.dart';
+import 'package:uni/view/common_widgets/generic_card.dart';
 import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
 import 'package:uni/view/common_widgets/row_container.dart';
-import 'package:uni/view/common_widgets/generic_card.dart';
-import 'package:uni/utils/drawer_items.dart';
-import 'package:uni/view/home/widgets/exam_card_shimmer.dart';
 import 'package:uni/view/exams/widgets/exam_row.dart';
 import 'package:uni/view/exams/widgets/exam_title.dart';
+import 'package:uni/view/home/widgets/exam_card_shimmer.dart';
+import 'package:uni/view/lazy_consumer.dart';
 
 /// Manages the exam card section inside the personal area.
 class ExamCard extends GenericCard {
@@ -32,7 +32,7 @@ class ExamCard extends GenericCard {
   /// that no exams exist is displayed.
   @override
   Widget buildCardContent(BuildContext context) {
-    return Consumer<ExamProvider>(builder: (context, examProvider, _) {
+    return LazyConsumer<ExamProvider>(builder: (context, examProvider, _) {
       final filteredExams = examProvider.getFilteredExams();
       final hiddenExams = examProvider.hiddenExams;
       final List<Exam> exams = filteredExams

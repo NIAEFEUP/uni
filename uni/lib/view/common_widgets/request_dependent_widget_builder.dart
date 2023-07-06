@@ -1,12 +1,11 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
-
 import 'package:uni/controller/local_storage/app_last_user_info_update_database.dart';
-import 'package:uni/model/request_status.dart';
 import 'package:uni/model/providers/last_user_info_provider.dart';
+import 'package:uni/model/request_status.dart';
 import 'package:uni/utils/drawer_items.dart';
+import 'package:uni/view/lazy_consumer.dart';
 
 /// Wraps content given its fetch data from the redux store,
 /// hydrating the component, displaying an empty message,
@@ -36,7 +35,7 @@ class RequestDependentWidgetBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<LastUserInfoProvider>(
+    return LazyConsumer<LastUserInfoProvider>(
       builder: (context, lastUserInfoProvider, _) {
         switch (status) {
           case RequestStatus.successful:
@@ -92,9 +91,8 @@ class RequestDependentWidgetBuilder extends StatelessWidget {
                     child: Text('Aconteceu um erro ao carregar os dados',
                         style: Theme.of(context).textTheme.titleMedium))),
             OutlinedButton(
-                onPressed: () =>
-                    Navigator.pushNamed(context, '/${DrawerItem.navBugReport.title}'),
-
+                onPressed: () => Navigator.pushNamed(
+                    context, '/${DrawerItem.navBugReport.title}'),
                 child: const Text('Reportar erro'))
           ]);
         });

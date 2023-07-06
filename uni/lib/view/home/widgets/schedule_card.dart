@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/entities/time_utilities.dart';
 import 'package:uni/model/providers/lecture_provider.dart';
-import 'package:uni/view/common_widgets/date_rectangle.dart';
-import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
-import 'package:uni/view/common_widgets/generic_card.dart';
-import 'package:uni/view/schedule/widgets/schedule_slot.dart';
-import 'package:uni/view/home/widgets/schedule_card_shimmer.dart';
 import 'package:uni/utils/drawer_items.dart';
+import 'package:uni/view/common_widgets/date_rectangle.dart';
+import 'package:uni/view/common_widgets/generic_card.dart';
+import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
+import 'package:uni/view/home/widgets/schedule_card_shimmer.dart';
+import 'package:uni/view/lazy_consumer.dart';
+import 'package:uni/view/schedule/widgets/schedule_slot.dart';
 
 class ScheduleCard extends GenericCard {
   ScheduleCard({Key? key}) : super(key: key);
@@ -23,20 +23,18 @@ class ScheduleCard extends GenericCard {
 
   @override
   Widget buildCardContent(BuildContext context) {
-    return Consumer<LectureProvider>(
-      builder: (context, lectureProvider, _) => RequestDependentWidgetBuilder(
-          context: context,
-          status: lectureProvider.status,
-          contentGenerator: generateSchedule,
-          content: lectureProvider.lectures,
-          contentChecker: lectureProvider.lectures.isNotEmpty,
-          onNullContent: Center(
-              child: Text('Não existem aulas para apresentar',
-                  style: Theme.of(context).textTheme.titleLarge,
-                  textAlign: TextAlign.center)),
-        contentLoadingWidget: const ScheduleCardShimmer().build(context))
-    );
-
+    return LazyConsumer<LectureProvider>(
+        builder: (context, lectureProvider, _) => RequestDependentWidgetBuilder(
+            context: context,
+            status: lectureProvider.status,
+            contentGenerator: generateSchedule,
+            content: lectureProvider.lectures,
+            contentChecker: lectureProvider.lectures.isNotEmpty,
+            onNullContent: Center(
+                child: Text('Não existem aulas para apresentar',
+                    style: Theme.of(context).textTheme.titleLarge,
+                    textAlign: TextAlign.center)),
+            contentLoadingWidget: const ScheduleCardShimmer().build(context)));
   }
 
   Widget generateSchedule(lectures, BuildContext context) {
@@ -58,7 +56,9 @@ class ScheduleCard extends GenericCard {
       if (now.compareTo(lectures[i].endTime) < 0) {
         if (lastAddedLectureDate.weekday != lectures[i].startTime.weekday &&
             lastAddedLectureDate.compareTo(lectures[i].startTime) <= 0) {
-          rows.add(DateRectangle(date: TimeString.getWeekdaysStrings()[(lectures[i].startTime.weekday-1) % 7]));
+          rows.add(DateRectangle(
+              date: TimeString.getWeekdaysStrings()[
+                  (lectures[i].startTime.weekday - 1) % 7]));
         }
 
         rows.add(createRowFromLecture(context, lectures[i]));
@@ -68,7 +68,9 @@ class ScheduleCard extends GenericCard {
     }
 
     if (rows.isEmpty) {
-      rows.add(DateRectangle(date: TimeString.getWeekdaysStrings()[lectures[0].startTime.weekday % 7]));
+      rows.add(DateRectangle(
+          date: TimeString.getWeekdaysStrings()[
+              lectures[0].startTime.weekday % 7]));
       rows.add(createRowFromLecture(context, lectures[0]));
     }
     return rows;

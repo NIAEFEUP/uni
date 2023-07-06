@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:uni/model/providers/last_user_info_provider.dart';
+import 'package:uni/view/lazy_consumer.dart';
 
 class LastUpdateTimeStamp extends StatefulWidget {
   const LastUpdateTimeStamp({super.key});
@@ -33,7 +33,7 @@ class _LastUpdateTimeStampState extends State<LastUpdateTimeStamp> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<LastUserInfoProvider>(
+    return LazyConsumer<LastUserInfoProvider>(
       builder: (context, lastUserInfoProvider, _) => Container(
           padding: const EdgeInsets.only(top: 8.0, bottom: 10.0),
           child: _getContent(context, lastUserInfoProvider.lastUpdateTime!)),

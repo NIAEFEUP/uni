@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:provider/provider.dart';
-import 'package:uni/model/request_status.dart';
 import 'package:uni/model/entities/location_group.dart';
 import 'package:uni/model/providers/faculty_locations_provider.dart';
+import 'package:uni/model/request_status.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
+import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locations/widgets/faculty_maps.dart';
 import 'package:uni/view/locations/widgets/map.dart';
 import 'package:uni/view/locations/widgets/marker.dart';
@@ -28,7 +28,7 @@ class LocationsPageState extends GeneralPageViewState
 
   @override
   Widget getBody(BuildContext context) {
-    return Consumer<FacultyLocationsProvider>(
+    return LazyConsumer<FacultyLocationsProvider>(
       builder: (context, locationsProvider, _) {
         return LocationsPageView(
             locations: locationsProvider.locations,

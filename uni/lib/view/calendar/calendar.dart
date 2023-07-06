@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:timelines/timelines.dart';
 import 'package:uni/model/entities/calendar_event.dart';
 import 'package:uni/model/providers/calendar_provider.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
+import 'package:uni/view/lazy_consumer.dart';
 
 class CalendarPageView extends StatefulWidget {
   const CalendarPageView({Key? key}) : super(key: key);
@@ -16,7 +16,7 @@ class CalendarPageView extends StatefulWidget {
 class CalendarPageViewState extends GeneralPageViewState<CalendarPageView> {
   @override
   Widget getBody(BuildContext context) {
-    return Consumer<CalendarProvider>(
+    return LazyConsumer<CalendarProvider>(
       builder: (context, calendarProvider, _) =>
           getCalendarPage(context, calendarProvider.calendar),
     );

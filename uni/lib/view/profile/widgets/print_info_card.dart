@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:uni/model/providers/profile_state_provider.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
+import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/profile/widgets/create_print_mb_dialog.dart';
 
 class PrintInfoCard extends GenericCard {
@@ -13,7 +13,7 @@ class PrintInfoCard extends GenericCard {
 
   @override
   Widget buildCardContent(BuildContext context) {
-    return Consumer<ProfileStateProvider>(
+    return LazyConsumer<ProfileStateProvider>(
       builder: (context, profileStateProvider, _) {
         final profile = profileStateProvider.profile;
         return Column(
@@ -47,8 +47,7 @@ class PrintInfoCard extends GenericCard {
                           ),
                           onPressed: () => addMoneyDialog(context),
                           child: const Center(child: Icon(Icons.add)),
-                        )
-                    ),
+                        )),
                   ])
                 ]),
             showLastRefreshedTime(

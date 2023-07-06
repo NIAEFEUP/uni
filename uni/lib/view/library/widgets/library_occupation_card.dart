@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-import 'package:provider/provider.dart';
 import 'package:uni/model/providers/library_occupation_provider.dart';
 import 'package:uni/model/request_status.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
 import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
+import 'package:uni/view/lazy_consumer.dart';
 
 /// Manages the library card section inside the personal area.
 class LibraryOccupationCard extends GenericCard {
@@ -24,7 +24,7 @@ class LibraryOccupationCard extends GenericCard {
 
   @override
   Widget buildCardContent(BuildContext context) {
-    return Consumer<LibraryOccupationProvider>(
+    return LazyConsumer<LibraryOccupationProvider>(
         builder: (context, libraryOccupationProvider, _) =>
             RequestDependentWidgetBuilder(
                 context: context,

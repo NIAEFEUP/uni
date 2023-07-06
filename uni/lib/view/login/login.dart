@@ -4,14 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/entities/login_exceptions.dart';
-import 'package:uni/model/request_status.dart';
 import 'package:uni/model/providers/session_provider.dart';
 import 'package:uni/model/providers/state_providers.dart';
+import 'package:uni/model/request_status.dart';
+import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/common_widgets/toast_message.dart';
 import 'package:uni/view/login/widgets/inputs.dart';
-import 'package:uni/utils/drawer_items.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:uni/view/theme.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import '../lazy_consumer.dart';
 
 class LoginPageView extends StatefulWidget {
   const LoginPageView({super.key});
@@ -220,7 +222,7 @@ class LoginPageViewState extends State<LoginPageView> {
 
   /// Creates a widget for the user login depending on the status of his login.
   Widget createStatusWidget(BuildContext context) {
-    return Consumer<SessionProvider>(
+    return LazyConsumer<SessionProvider>(
       builder: (context, sessionProvider, _) {
         switch (sessionProvider.status) {
           case RequestStatus.busy:
