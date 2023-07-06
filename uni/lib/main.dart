@@ -21,7 +21,6 @@ import 'package:uni/model/providers/profile_state_provider.dart';
 import 'package:uni/model/providers/restaurant_provider.dart';
 import 'package:uni/model/providers/session_provider.dart';
 import 'package:uni/model/providers/state_providers.dart';
-import 'package:uni/model/providers/user_faculties_provider.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/about/about.dart';
 import 'package:uni/view/bug_report/bug_report.dart';
@@ -59,7 +58,6 @@ Future<void> main() async {
       LibraryOccupationProvider(),
       FacultyLocationsProvider(),
       LastUserInfoProvider(),
-      UserFacultiesProvider(),
       FavoriteCardsProvider(),
       HomePageEditingModeProvider());
 
@@ -101,9 +99,6 @@ Future<void> main() async {
                           stateProviders.facultyLocationsProvider),
                   ChangeNotifierProvider(
                       create: (context) => stateProviders.lastUserInfoProvider),
-                  ChangeNotifierProvider(
-                      create: (context) =>
-                          stateProviders.userFacultiesProvider),
                   ChangeNotifierProvider(
                       create: (context) =>
                           stateProviders.favoriteCardsProvider),

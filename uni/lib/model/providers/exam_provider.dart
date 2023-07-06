@@ -29,7 +29,7 @@ class ExamProvider extends StateProviderNotifier {
   UnmodifiableMapView<String, bool> get filteredExamsTypes =>
       UnmodifiableMapView(_filteredExamsTypes);
 
-  void getUserExams(
+  Future<void> getUserExams(
     Completer<void> action,
     ParserExams parserExams,
     Tuple2<String, String> userPersistentInfo,

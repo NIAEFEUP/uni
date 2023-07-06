@@ -106,8 +106,6 @@ void loadLocalUserInfoToState(StateProviders stateProviders,
       await AppSharedPreferences.getFilteredExams(), Completer());
   stateProviders.examProvider
       .setHiddenExams(await AppSharedPreferences.getHiddenExams(), Completer());
-  stateProviders.userFacultiesProvider
-      .setUserFaculties(await AppSharedPreferences.getUserFaculties());
 
   if (userPersistentInfo.item1 != '' &&
       userPersistentInfo.item2 != '' &&
