@@ -40,6 +40,7 @@ class NetworkRouter {
       return session;
     } else {
       Logger().e('Login failed: ${response.body}');
+
       return Session(
           authenticated: false,
           faculties: faculties,
@@ -89,6 +90,20 @@ class NetworkRouter {
       Logger().e('Re-login failed');
       return false;
     }
+  }
+
+  /// Returns the response body of the login in Sigarra
+  /// given username [user] and password [pass].
+  static Future<String> loginInSigarra(String user, String pass, List<String> faculties) async {
+    final String url =
+        '${NetworkRouter.getBaseUrls(faculties)[0]}vld_validacao.validacao';
+    
+    final response = await http.post(url.toUri(), body: {
+      'p_user': user,
+      'p_pass': pass
+    }).timeout(const Duration(seconds: loginRequestTimeout));
+
+    return response.body;
   }
 
   /// Extracts the cookies present in [headers].
