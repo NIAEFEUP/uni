@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:provider/provider.dart';
 import 'package:uni/model/entities/library_occupation.dart';
 import 'package:uni/model/providers/library_occupation_provider.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
@@ -20,6 +21,12 @@ class LibraryPageViewState extends GeneralPageViewState<LibraryPageView> {
     return LazyConsumer<LibraryOccupationProvider>(
         builder: (context, libraryOccupationProvider) =>
             LibraryPage(libraryOccupationProvider.occupation));
+  }
+
+  @override
+  Future<void> handleRefresh(BuildContext context) {
+    return Provider.of<LibraryOccupationProvider>(context, listen: false)
+        .forceRefresh(context);
   }
 }
 

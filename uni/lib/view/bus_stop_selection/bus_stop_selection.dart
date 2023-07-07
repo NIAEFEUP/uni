@@ -72,4 +72,7 @@ class BusStopSelectionPageState
           ]);
     });
   }
+
+  @override
+  Future<void> handleRefresh(BuildContext context) async {}
 }

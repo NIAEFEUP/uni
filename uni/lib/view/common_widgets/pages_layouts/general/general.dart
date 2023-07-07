@@ -6,7 +6,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/controller/load_info.dart';
 import 'package:uni/model/providers/session_provider.dart';
-import 'package:uni/model/providers/state_providers.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/navigation_drawer.dart';
 import 'package:uni/view/profile/profile.dart';
@@ -15,6 +14,8 @@ import 'package:uni/view/profile/profile.dart';
 abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
   final double borderMargin = 18.0;
   static ImageProvider? profileImageProvider;
+
+  Future<void> handleRefresh(BuildContext context);
 
   @override
   Widget build(BuildContext context) {
@@ -52,19 +53,12 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
   Widget refreshState(BuildContext context, Widget child) {
     return RefreshIndicator(
       key: GlobalKey<RefreshIndicatorState>(),
-      onRefresh: refreshCallback(context),
+      onRefresh: () => loadProfilePicture(
+              Provider.of<SessionProvider>(context, listen: false).session,
+              forceRetrieval: true)
+          .then((value) => handleRefresh(context)),
       child: child,
     );
-  }
-
-  Future<void> Function() refreshCallback(BuildContext context) {
-    return () async {
-      final stateProviders = StateProviders.fromContext(context);
-      await loadProfilePicture(
-          Provider.of<SessionProvider>(context, listen: false).session,
-          forceRetrieval: true);
-      return handleRefresh(stateProviders);
-    };
   }
 
   Widget getScaffold(BuildContext context, Widget body) {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:uni/model/entities/bus_stop.dart';
 import 'package:uni/model/providers/bus_stop_provider.dart';
 import 'package:uni/model/request_status.dart';
@@ -25,6 +26,12 @@ class BusStopNextArrivalsPageState
         builder: (context, busProvider) => ListView(children: [
               NextArrivals(busProvider.configuredBusStops, busProvider.status)
             ]));
+  }
+
+  @override
+  Future<void> handleRefresh(BuildContext context) async {
+    return Provider.of<BusStopProvider>(context, listen: false)
+        .forceRefresh(context);
   }
 }
 

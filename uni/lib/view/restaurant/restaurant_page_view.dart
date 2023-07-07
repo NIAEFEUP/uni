@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:uni/model/entities/meal.dart';
 import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/providers/restaurant_provider.dart';
@@ -94,6 +95,12 @@ class _RestaurantPageState extends GeneralPageViewState<RestaurantPageView>
     }
 
     return tabs;
+  }
+
+  @override
+  Future<void> handleRefresh(BuildContext context) {
+    return Provider.of<RestaurantProvider>(context, listen: false)
+        .forceRefresh(context);
   }
 }
 

@@ -117,4 +117,10 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
                 : Theme.of(context).scaffoldBackgroundColor,
             child: ExamRow(exam: exam, teacher: '', mainPage: false)));
   }
+
+  @override
+  Future<void> handleRefresh(BuildContext context) async {
+    return Provider.of<ExamProvider>(context, listen: false)
+        .forceRefresh(context);
+  }
 }

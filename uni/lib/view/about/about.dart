@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/about/widgets/terms_and_conditions.dart';
+import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 
 class AboutPageView extends StatefulWidget {
   const AboutPageView({super.key});
@@ -38,4 +38,7 @@ class AboutPageViewState extends GeneralPageViewState {
       ],
     );
   }
+
+  @override
+  Future<void> handleRefresh(BuildContext context) async {}
 }

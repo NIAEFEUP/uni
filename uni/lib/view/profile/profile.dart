@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:uni/model/providers/profile_provider.dart';
 import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni/view/lazy_consumer.dart';
@@ -46,5 +47,11 @@ class ProfilePageViewState extends SecondaryPageViewState<ProfilePageView> {
   @override
   Widget getTopRightButton(BuildContext context) {
     return Container();
+  }
+
+  @override
+  Future<void> handleRefresh(BuildContext context) async {
+    return Provider.of<ProfileProvider>(context, listen: false)
+        .forceRefresh(context);
   }
 }

@@ -13,8 +13,6 @@ import 'package:uni/view/login/widgets/inputs.dart';
 import 'package:uni/view/theme.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../lazy_consumer.dart';
-
 class LoginPageView extends StatefulWidget {
   const LoginPageView({super.key});
 

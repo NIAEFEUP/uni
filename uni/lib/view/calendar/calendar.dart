@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:timelines/timelines.dart';
 import 'package:uni/model/entities/calendar_event.dart';
 import 'package:uni/model/providers/calendar_provider.dart';
@@ -67,5 +68,11 @@ class CalendarPageViewState extends GeneralPageViewState<CalendarPageView> {
         itemCount: calendar.length,
       ),
     );
+  }
+
+  @override
+  Future<void> handleRefresh(BuildContext context) {
+    return Provider.of<CalendarProvider>(context, listen: false)
+        .forceRefresh(context);
   }
 }

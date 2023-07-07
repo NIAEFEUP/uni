@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:uni/model/entities/course_unit.dart';
 import 'package:uni/model/providers/profile_provider.dart';
 import 'package:uni/model/request_status.dart';
@@ -190,5 +191,11 @@ class CourseUnitsPageViewState
             .toList()
             .sorted() +
         [CourseUnitsPageView.bothSemestersDropdownOption];
+  }
+
+  @override
+  Future<void> handleRefresh(BuildContext context) {
+    return Provider.of<ProfileProvider>(context, listen: false)
+        .forceRefresh(context);
   }
 }

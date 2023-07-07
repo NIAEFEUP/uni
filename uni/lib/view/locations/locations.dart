@@ -35,6 +35,9 @@ class LocationsPageState extends GeneralPageViewState
       },
     );
   }
+
+  @override
+  Future<void> handleRefresh(BuildContext context) async {}
 }
 
 class LocationsPageView extends StatelessWidget {
@@ -78,7 +81,7 @@ class LocationsPageView extends StatelessWidget {
   }
 
   List<Marker> getMarkers() {
-    return locations!.map((location) {
+    return locations.map((location) {
       return LocationMarker(location.latlng, location);
     }).toList();
   }

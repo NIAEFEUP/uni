@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/entities/time_utilities.dart';
 import 'package:uni/model/providers/lecture_provider.dart';
@@ -174,5 +175,11 @@ class SchedulePageViewState extends GeneralPageViewState<SchedulePageView>
           child: Text(
               'Não possui aulas à ${SchedulePageView.daysOfTheWeek[day]}.')),
     );
+  }
+
+  @override
+  Future<void> handleRefresh(BuildContext context) {
+    return Provider.of<LectureProvider>(context, listen: false)
+        .forceRefresh(context);
   }
 }
