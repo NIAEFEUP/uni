@@ -115,6 +115,7 @@ class RestaurantDay extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: const [
+              SizedBox(height: 10),
               Center(
                   child: Text("Não há informação disponível sobre refeições")),
             ],

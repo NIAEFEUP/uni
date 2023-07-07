@@ -7,7 +7,6 @@ import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locations/widgets/faculty_maps.dart';
-import 'package:uni/view/locations/widgets/map.dart';
 import 'package:uni/view/locations/widgets/marker.dart';
 
 class LocationsPage extends StatefulWidget {
@@ -39,11 +38,11 @@ class LocationsPageState extends GeneralPageViewState
 }
 
 class LocationsPageView extends StatelessWidget {
-  final List<LocationGroup>? locations;
-  final RequestStatus? status;
+  final List<LocationGroup> locations;
+  final RequestStatus status;
 
   const LocationsPageView(
-      {super.key, this.locations, this.status = RequestStatus.none});
+      {super.key, required this.locations, this.status = RequestStatus.none});
 
   @override
   Widget build(BuildContext context) {
@@ -67,11 +66,11 @@ class LocationsPageView extends StatelessWidget {
     //TODO:: add support for multiple faculties
   }
 
-  LocationsMap? getMap(BuildContext context) {
-    if (locations == null || status != RequestStatus.successful) {
-      return null;
+  Widget getMap(BuildContext context) {
+    if (status != RequestStatus.successful) {
+      return const Center(child: CircularProgressIndicator());
     }
-    return FacultyMaps.getFeupMap(locations!);
+    return FacultyMaps.getFeupMap(locations);
   }
 
   String getLocation() {

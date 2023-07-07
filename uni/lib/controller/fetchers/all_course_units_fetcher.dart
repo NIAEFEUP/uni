@@ -10,14 +10,11 @@ class AllCourseUnitsFetcher {
       List<Course> courses, Session session) async {
     final List<CourseUnit> allCourseUnits = [];
     for (var course in courses) {
-      print("course: ${course.name}");
       try {
         final List<CourseUnit> courseUnits =
             await _getAllCourseUnitsAndCourseAveragesFromCourse(
                 course, session);
-        print("courseUnits: ${courseUnits.length}");
         allCourseUnits.addAll(courseUnits.where((c) => c.enrollmentIsValid()));
-        print("allCourseUnits: ${allCourseUnits.length}");
       } catch (e) {
         Logger().e('Failed to fetch course units for ${course.name}', e);
       }

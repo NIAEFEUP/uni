@@ -1,11 +1,8 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:uni/controller/local_storage/app_last_user_info_update_database.dart';
-import 'package:uni/model/providers/last_user_info_provider.dart';
 import 'package:uni/model/request_status.dart';
 import 'package:uni/utils/drawer_items.dart';
-import 'package:uni/view/lazy_consumer.dart';
 
 /// Wraps content given its fetch data from the redux store,
 /// hydrating the component, displaying an empty message,
@@ -30,46 +27,29 @@ class RequestDependentWidgetBuilder extends StatelessWidget {
   final dynamic content;
   final bool contentChecker;
   final Widget onNullContent;
-  static final AppLastUserInfoUpdateDatabase lastUpdateDatabase =
-      AppLastUserInfoUpdateDatabase();
 
   @override
   Widget build(BuildContext context) {
-    return LazyConsumer<LastUserInfoProvider>(
-      builder: (context, lastUserInfoProvider) {
-        switch (status) {
-          case RequestStatus.successful:
-          case RequestStatus.none:
-            return contentChecker
-                ? contentGenerator(content, context)
-                : onNullContent;
-          case RequestStatus.busy:
-            if (lastUserInfoProvider.lastUpdateTime != null) {
-              return contentChecker
-                  ? contentGenerator(content, context)
-                  : onNullContent;
-            }
-            if (contentLoadingWidget != null) {
-              return contentChecker
-                  ? contentGenerator(content, context)
-                  : Center(
-                      child: Shimmer.fromColors(
-                          baseColor: Theme.of(context).highlightColor,
-                          highlightColor:
-                              Theme.of(context).colorScheme.onPrimary,
-                          child: contentLoadingWidget!));
-            }
-            return contentChecker
-                ? contentGenerator(content, context)
-                : const Center(child: CircularProgressIndicator());
-          case RequestStatus.failed:
-          default:
-            return contentChecker
-                ? contentGenerator(content, context)
-                : requestFailedMessage();
-        }
-      },
-    );
+    if (status == RequestStatus.busy && !contentChecker) {
+      return loadingWidget();
+    } else if (status == RequestStatus.failed) {
+      return requestFailedMessage();
+    }
+
+    return contentChecker ? contentGenerator(content, context) : onNullContent;
+  }
+
+  Widget loadingWidget() {
+    return contentLoadingWidget == null
+        ? const Center(
+            child: Padding(
+                padding: EdgeInsets.symmetric(vertical: 20),
+                child: CircularProgressIndicator()))
+        : Center(
+            child: Shimmer.fromColors(
+                baseColor: Theme.of(context).highlightColor,
+                highlightColor: Theme.of(context).colorScheme.onPrimary,
+                child: contentLoadingWidget!));
   }
 
   Widget requestFailedMessage() {
