@@ -39,11 +39,9 @@ class ExamCard extends GenericCard {
           .where((exam) => (!hiddenExams.contains(exam.id)))
           .toList();
       return RequestDependentWidgetBuilder(
-        context: context,
         status: examProvider.status,
-        contentGenerator: generateExams,
-        content: exams,
-        contentChecker: exams.isNotEmpty,
+        builder: () => generateExams(exams, context),
+        hasContentPredicate: exams.isNotEmpty,
         onNullContent: Center(
           child: Text('Não existem exames para apresentar',
               style: Theme.of(context).textTheme.titleLarge),

@@ -7,39 +7,38 @@ import 'package:uni/utils/drawer_items.dart';
 /// Wraps content given its fetch data from the redux store,
 /// hydrating the component, displaying an empty message,
 /// a connection error or a loading circular effect as appropriate
-
 class RequestDependentWidgetBuilder extends StatelessWidget {
   const RequestDependentWidgetBuilder(
       {Key? key,
-      required this.context,
       required this.status,
-      required this.contentGenerator,
-      required this.content,
-      required this.contentChecker,
+      required this.builder,
+      required this.hasContentPredicate,
       required this.onNullContent,
       this.contentLoadingWidget})
       : super(key: key);
 
-  final BuildContext context;
   final RequestStatus status;
-  final Widget Function(dynamic, BuildContext) contentGenerator;
+  final Widget Function() builder;
   final Widget? contentLoadingWidget;
-  final dynamic content;
-  final bool contentChecker;
+  final bool hasContentPredicate;
   final Widget onNullContent;
 
   @override
   Widget build(BuildContext context) {
-    if (status == RequestStatus.busy && !contentChecker) {
-      return loadingWidget();
+    if (status == RequestStatus.busy && !hasContentPredicate) {
+      return loadingWidget(context);
     } else if (status == RequestStatus.failed) {
       return requestFailedMessage();
     }
 
-    return contentChecker ? contentGenerator(content, context) : onNullContent;
+    return hasContentPredicate
+        ? builder()
+        : Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: onNullContent);
   }
 
-  Widget loadingWidget() {
+  Widget loadingWidget(BuildContext context) {
     return contentLoadingWidget == null
         ? const Center(
             child: Padding(

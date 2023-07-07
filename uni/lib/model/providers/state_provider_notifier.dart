@@ -8,8 +8,11 @@ import 'package:uni/model/request_status.dart';
 abstract class StateProviderNotifier extends ChangeNotifier {
   RequestStatus _status = RequestStatus.none;
   bool _initialized = false;
+  DateTime? _lastUpdateTime;
 
   RequestStatus get status => _status;
+
+  DateTime? get lastUpdateTime => _lastUpdateTime;
 
   void updateStatus(RequestStatus status) {
     _status = status;

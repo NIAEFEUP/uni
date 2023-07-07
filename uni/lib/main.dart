@@ -13,7 +13,6 @@ import 'package:uni/model/providers/calendar_provider.dart';
 import 'package:uni/model/providers/exam_provider.dart';
 import 'package:uni/model/providers/faculty_locations_provider.dart';
 import 'package:uni/model/providers/home_page_provider.dart';
-import 'package:uni/model/providers/last_user_info_provider.dart';
 import 'package:uni/model/providers/lecture_provider.dart';
 import 'package:uni/model/providers/library_occupation_provider.dart';
 import 'package:uni/model/providers/profile_provider.dart';
@@ -56,7 +55,6 @@ Future<void> main() async {
       CalendarProvider(),
       LibraryOccupationProvider(),
       FacultyLocationsProvider(),
-      LastUserInfoProvider(),
       HomePageProvider());
 
   OnStartUp.onStart(stateProviders.sessionProvider);
@@ -95,8 +93,6 @@ Future<void> main() async {
                   ChangeNotifierProvider(
                       create: (context) =>
                           stateProviders.facultyLocationsProvider),
-                  ChangeNotifierProvider(
-                      create: (context) => stateProviders.lastUserInfoProvider),
                   ChangeNotifierProvider(
                       create: (context) => stateProviders.homePageProvider),
                 ],

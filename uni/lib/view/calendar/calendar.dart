@@ -4,6 +4,7 @@ import 'package:uni/model/entities/calendar_event.dart';
 import 'package:uni/model/providers/calendar_provider.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
+import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
 import 'package:uni/view/lazy_consumer.dart';
 
 class CalendarPageView extends StatefulWidget {
@@ -17,17 +18,18 @@ class CalendarPageViewState extends GeneralPageViewState<CalendarPageView> {
   @override
   Widget getBody(BuildContext context) {
     return LazyConsumer<CalendarProvider>(
-      builder: (context, calendarProvider) =>
-          getCalendarPage(context, calendarProvider.calendar),
-    );
+        builder: (context, calendarProvider) => ListView(children: [
+              _getPageTitle(),
+              RequestDependentWidgetBuilder(
+                  status: calendarProvider.status,
+                  builder: () =>
+                      getTimeline(context, calendarProvider.calendar),
+                  hasContentPredicate: calendarProvider.calendar.isNotEmpty,
+                  onNullContent: const Center(
+                      child: Text('Nenhum evento encontrado',
+                          style: TextStyle(fontSize: 18.0))))
+            ]));
   }
-
-  Widget getCalendarPage(BuildContext context, List<CalendarEvent> calendar) {
-    return ListView(
-        children: [_getPageTitle(), getTimeline(context, calendar)]);
-  }
-
-  // TODO
 
   Widget _getPageTitle() {
     return Container(

@@ -27,11 +27,10 @@ class LibraryOccupationCard extends GenericCard {
     return LazyConsumer<LibraryOccupationProvider>(
         builder: (context, libraryOccupationProvider) =>
             RequestDependentWidgetBuilder(
-                context: context,
                 status: libraryOccupationProvider.status,
-                contentGenerator: generateOccupation,
-                content: libraryOccupationProvider.occupation,
-                contentChecker:
+                builder: () => generateOccupation(
+                    libraryOccupationProvider.occupation, context),
+                hasContentPredicate:
                     libraryOccupationProvider.status != RequestStatus.busy,
                 onNullContent: const CircularProgressIndicator()));
   }

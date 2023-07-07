@@ -78,11 +78,10 @@ class CourseUnitsPageViewState
     return Column(children: [
       _getPageTitleAndFilters(availableYears, availableSemesters),
       RequestDependentWidgetBuilder(
-          context: context,
           status: requestStatus ?? RequestStatus.none,
-          contentGenerator: _generateCourseUnitsCards,
-          content: filteredCourseUnits ?? [],
-          contentChecker: courseUnits?.isNotEmpty ?? false,
+          builder: () =>
+              _generateCourseUnitsCards(filteredCourseUnits, context),
+          hasContentPredicate: courseUnits?.isNotEmpty ?? false,
           onNullContent: Center(
             heightFactor: 10,
             child: Text('Não existem cadeiras para apresentar',

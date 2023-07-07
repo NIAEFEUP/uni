@@ -154,29 +154,22 @@ class SchedulePageViewState extends GeneralPageViewState<SchedulePageView>
     return scheduleContent;
   }
 
-  Widget Function(dynamic daycontent, BuildContext context) dayColumnBuilder(
-      int day) {
-    Widget createDayColumn(dayContent, BuildContext context) {
-      return Container(
-          key: Key('schedule-page-day-column-$day'),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: createScheduleRows(dayContent, context),
-          ));
-    }
-
-    return createDayColumn;
+  Widget dayColumnBuilder(int day, dayContent, BuildContext context) {
+    return Container(
+        key: Key('schedule-page-day-column-$day'),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: createScheduleRows(dayContent, context),
+        ));
   }
 
   Widget createScheduleByDay(BuildContext context, int day,
       List<dynamic>? lectures, RequestStatus? scheduleStatus) {
     final List aggLectures = SchedulePageView.groupLecturesByDay(lectures);
     return RequestDependentWidgetBuilder(
-      context: context,
       status: scheduleStatus ?? RequestStatus.none,
-      contentGenerator: dayColumnBuilder(day),
-      content: aggLectures[day],
-      contentChecker: aggLectures[day].isNotEmpty,
+      builder: () => dayColumnBuilder(day, aggLectures[day], context),
+      hasContentPredicate: aggLectures[day].isNotEmpty,
       onNullContent: Center(
           child: Text(
               'Não possui aulas à ${SchedulePageView.daysOfTheWeek[day]}.')),
