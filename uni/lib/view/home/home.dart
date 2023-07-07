@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
+import 'package:provider/provider.dart';
+import 'package:uni/model/providers/bus_stop_provider.dart';
+import 'package:uni/model/providers/exam_provider.dart';
+import 'package:uni/model/providers/lecture_provider.dart';
+import 'package:uni/model/providers/library_occupation_provider.dart';
+import 'package:uni/model/providers/state_provider_notifier.dart';
+import 'package:uni/utils/favorite_widget_type.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/home/widgets/main_cards_list.dart';
+
+import '../../model/providers/home_page_provider.dart';
+import '../../model/providers/profile_provider.dart';
 
 class HomePageView extends StatefulWidget {
   const HomePageView({super.key});
@@ -19,6 +28,40 @@ class HomePageViewState extends GeneralPageViewState {
 
   @override
   Future<void> handleRefresh(BuildContext context) async {
-    Logger().e('TODO: Iterate over cards and refresh them.');
+    final homePageProvider =
+        Provider.of<HomePageProvider>(context, listen: false);
+
+    final providersToUpdate = <StateProviderNotifier>{};
+
+    for (final cardType in homePageProvider.favoriteCards) {
+      switch (cardType) {
+        case FavoriteWidgetType.account:
+          providersToUpdate
+              .add(Provider.of<ProfileProvider>(context, listen: false));
+          break;
+        case FavoriteWidgetType.exams:
+          providersToUpdate
+              .add(Provider.of<ExamProvider>(context, listen: false));
+          break;
+        case FavoriteWidgetType.schedule:
+          providersToUpdate
+              .add(Provider.of<LectureProvider>(context, listen: false));
+          break;
+        case FavoriteWidgetType.printBalance:
+          providersToUpdate
+              .add(Provider.of<ProfileProvider>(context, listen: false));
+          break;
+        case FavoriteWidgetType.libraryOccupation:
+          providersToUpdate.add(
+              Provider.of<LibraryOccupationProvider>(context, listen: false));
+          break;
+        case FavoriteWidgetType.busStops:
+          providersToUpdate
+              .add(Provider.of<BusStopProvider>(context, listen: false));
+          break;
+      }
+    }
+
+    Future.wait(providersToUpdate.map((e) => e.forceRefresh(context)));
   }
 }

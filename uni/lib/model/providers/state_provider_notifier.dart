@@ -59,6 +59,9 @@ abstract class StateProviderNotifier extends ChangeNotifier {
         userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '';
     if (sessionIsPersistent) {
       await loadFromStorage();
+      if (await Connectivity().checkConnectivity() == ConnectivityResult.none) {
+        updateStatus(RequestStatus.none);
+      }
     }
 
     _loadFromRemote(session, profile);
