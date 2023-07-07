@@ -115,7 +115,7 @@ Widget getBusStopsInfo(context, Map<String, BusStopData> stopData) {
 List<Widget> getEachBusStopInfo(context, Map<String, BusStopData> stopData) {
   final List<Widget> rows = <Widget>[];
 
-  rows.add(const LastUpdateTimeStamp());
+  rows.add(const LastUpdateTimeStamp<BusStopProvider>());
 
   stopData.forEach((stopCode, stopInfo) {
     if (stopInfo.trips.isNotEmpty && stopInfo.favorited) {

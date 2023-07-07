@@ -49,7 +49,7 @@ class BusStopSelectionPageState
             Container(
                 padding: const EdgeInsets.all(20.0),
                 child: const Text(
-                    '''Os autocarros favoritos serão apresentados no widget 'Autocarros' dos favoritos.'''
+                    '''Os autocarros favoritos serão apresentados no widget 'Autocarros' dos favoritos. '''
                     '''Os restantes serão apresentados apenas na página.''',
                     textAlign: TextAlign.center)),
             Column(children: rows),

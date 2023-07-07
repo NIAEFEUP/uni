@@ -126,7 +126,7 @@ class NextArrivalsState extends State<NextArrivals> {
             children: <Widget>[
               Container(
                 padding: const EdgeInsets.only(left: 10.0),
-                child: const LastUpdateTimeStamp(),
+                child: const LastUpdateTimeStamp<BusStopProvider>(),
               ),
               IconButton(
                   icon: const Icon(Icons.edit),

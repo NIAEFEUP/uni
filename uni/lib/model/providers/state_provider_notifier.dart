@@ -26,6 +26,9 @@ abstract class StateProviderNotifier extends ChangeNotifier {
 
     _initialized = true;
 
+    _lastUpdateTime = await AppSharedPreferences.getLastDataClassUpdateTime(
+        runtimeType.toString());
+
     updateStatus(RequestStatus.busy);
 
     final userPersistentInfo =
@@ -38,6 +41,9 @@ abstract class StateProviderNotifier extends ChangeNotifier {
 
     if (await Connectivity().checkConnectivity() != ConnectivityResult.none) {
       await loadFromRemote(session, profile);
+      _lastUpdateTime = DateTime.now();
+      await AppSharedPreferences.setLastDataClassUpdateTime(
+          runtimeType.toString(), _lastUpdateTime!);
     }
 
     notifyListeners();
