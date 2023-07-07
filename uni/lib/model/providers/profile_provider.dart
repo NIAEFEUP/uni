@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:collection';
 
 import 'package:logger/logger.dart';
 import 'package:tuple/tuple.dart';
@@ -15,7 +14,6 @@ import 'package:uni/controller/local_storage/app_user_database.dart';
 import 'package:uni/controller/parsers/parser_fees.dart';
 import 'package:uni/controller/parsers/parser_print_balance.dart';
 import 'package:uni/model/entities/course.dart';
-import 'package:uni/model/entities/course_unit.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
@@ -24,14 +22,10 @@ import 'package:uni/model/request_status.dart';
 // ignore: always_use_package_imports
 import '../../controller/fetchers/all_course_units_fetcher.dart';
 
-class ProfileStateProvider extends StateProviderNotifier {
-  List<CourseUnit> _currUcs = [];
+class ProfileProvider extends StateProviderNotifier {
   Profile _profile = Profile();
   DateTime? _feesRefreshTime;
   DateTime? _printRefreshTime;
-
-  UnmodifiableListView<CourseUnit> get currUcs =>
-      UnmodifiableListView(_currUcs);
 
   String get feesRefreshTime => _feesRefreshTime.toString();
 
@@ -44,6 +38,20 @@ class ProfileStateProvider extends StateProviderNotifier {
     loadCourses();
     loadBalanceRefreshTimes();
     loadCourseUnits();
+  }
+
+  @override
+  Future<void> loadFromRemote(Session session, Profile profile) async {
+    final Completer<void> userFeesAction = Completer<void>();
+    fetchUserFees(userFeesAction, session);
+
+    final Completer<void> printBalanceAction = Completer<void>();
+    fetchUserPrintBalance(printBalanceAction, session);
+
+    final Completer<void> courseUnitsAction = Completer<void>();
+    fetchCourseUnitsAndCourseAverages(session, courseUnitsAction);
+
+    await Future.wait([userFeesAction.future, printBalanceAction.future]);
   }
 
   void loadCourses() async {
@@ -73,7 +81,7 @@ class ProfileStateProvider extends StateProviderNotifier {
 
   void loadCourseUnits() async {
     final AppCourseUnitsDatabase db = AppCourseUnitsDatabase();
-    _currUcs = await db.courseUnits();
+    profile.currentCourseUnits = await db.courseUnits();
   }
 
   fetchUserFees(Completer<void> action, Session session) async {
@@ -118,7 +126,7 @@ class ProfileStateProvider extends StateProviderNotifier {
     refreshTimesDatabase.saveRefreshTime(db, currentTime);
   }
 
-  getUserPrintBalance(Completer<void> action, Session session) async {
+  fetchUserPrintBalance(Completer<void> action, Session session) async {
     try {
       final response = await PrintFetcher().getUserPrintsResponse(session);
       final String printBalance = await getPrintsBalance(response);
@@ -152,7 +160,7 @@ class ProfileStateProvider extends StateProviderNotifier {
     action.complete();
   }
 
-  getUserInfo(Completer<void> action, Session session) async {
+  fetchUserInfo(Completer<void> action, Session session) async {
     try {
       updateStatus(RequestStatus.busy);
 
@@ -162,7 +170,7 @@ class ProfileStateProvider extends StateProviderNotifier {
 
       final ucs = CurrentCourseUnitsFetcher()
           .getCurrentCourseUnits(session)
-          .then((res) => _currUcs = res);
+          .then((res) => _profile.currentCourseUnits = res);
       await Future.wait([profile, ucs]);
       notifyListeners();
       updateStatus(RequestStatus.successful);
@@ -181,12 +189,12 @@ class ProfileStateProvider extends StateProviderNotifier {
     action.complete();
   }
 
-  getCourseUnitsAndCourseAverages(
+  fetchCourseUnitsAndCourseAverages(
       Session session, Completer<void> action) async {
     updateStatus(RequestStatus.busy);
     try {
       final List<Course> courses = profile.courses;
-      _currUcs = await AllCourseUnitsFetcher()
+      _profile.currentCourseUnits = await AllCourseUnitsFetcher()
           .getAllCourseUnitsAndCourseAverages(courses, session);
       updateStatus(RequestStatus.successful);
       notifyListeners();
@@ -198,7 +206,8 @@ class ProfileStateProvider extends StateProviderNotifier {
         await coursesDb.saveNewCourses(courses);
 
         final courseUnitsDatabase = AppCourseUnitsDatabase();
-        await courseUnitsDatabase.saveNewCourseUnits(currUcs);
+        await courseUnitsDatabase
+            .saveNewCourseUnits(_profile.currentCourseUnits);
       }
     } catch (e) {
       Logger().e('Failed to get all user ucs: $e');

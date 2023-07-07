@@ -17,7 +17,7 @@ import 'package:uni/model/providers/home_page_editing_mode_provider.dart';
 import 'package:uni/model/providers/last_user_info_provider.dart';
 import 'package:uni/model/providers/lecture_provider.dart';
 import 'package:uni/model/providers/library_occupation_provider.dart';
-import 'package:uni/model/providers/profile_state_provider.dart';
+import 'package:uni/model/providers/profile_provider.dart';
 import 'package:uni/model/providers/restaurant_provider.dart';
 import 'package:uni/model/providers/session_provider.dart';
 import 'package:uni/model/providers/state_providers.dart';
@@ -30,10 +30,10 @@ import 'package:uni/view/common_widgets/page_transition.dart';
 import 'package:uni/view/course_units/course_units.dart';
 import 'package:uni/view/exams/exams.dart';
 import 'package:uni/view/home/home.dart';
+import 'package:uni/view/library/library.dart';
 import 'package:uni/view/locations/locations.dart';
 import 'package:uni/view/logout_route.dart';
 import 'package:uni/view/navigation_service.dart';
-import 'package:uni/view/library/library.dart';
 import 'package:uni/view/restaurant/restaurant_page_view.dart';
 import 'package:uni/view/schedule/schedule.dart';
 import 'package:uni/view/splash/splash.dart';
@@ -52,7 +52,7 @@ Future<void> main() async {
       ExamProvider(),
       BusStopProvider(),
       RestaurantProvider(),
-      ProfileStateProvider(),
+      ProfileProvider(),
       SessionProvider(),
       CalendarProvider(),
       LibraryOccupationProvider(),
@@ -64,10 +64,10 @@ Future<void> main() async {
   OnStartUp.onStart(stateProviders.sessionProvider);
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Workmanager().initialize(workerStartCallback, 
-    isInDebugMode: !kReleaseMode // run workmanager in debug mode when app is in debug mode
-  );
-
+  await Workmanager().initialize(workerStartCallback,
+      isInDebugMode:
+          !kReleaseMode // run workmanager in debug mode when app is in debug mode
+      );
 
   final savedTheme = await AppSharedPreferences.getThemeMode();
   await SentryFlutter.init((options) {

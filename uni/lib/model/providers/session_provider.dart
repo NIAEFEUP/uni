@@ -8,6 +8,7 @@ import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/parsers/parser_session.dart';
 import 'package:uni/model/entities/login_exceptions.dart';
+import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/model/providers/state_providers.dart';
@@ -24,6 +25,9 @@ class SessionProvider extends StateProviderNotifier {
 
   @override
   void loadFromStorage() {}
+
+  @override
+  Future<void> loadFromRemote(Session session, Profile profile) async {}
 
   login(
       Completer<void> action,
@@ -50,7 +54,7 @@ class SessionProvider extends StateProviderNotifier {
             () => {NotificationManager().initializeNotifications()});
 
         //loadLocalUserInfoToState(stateProviders, skipDatabaseLookup: true);
-        await loadRemoteUserInfoToState(stateProviders);
+        await loadUserProfileInfoFromRemote(stateProviders);
 
         usernameController.clear();
         passwordController.clear();
@@ -87,7 +91,7 @@ class SessionProvider extends StateProviderNotifier {
       //notifyListeners();
 
       if (session.authenticated) {
-        await loadRemoteUserInfoToState(stateProviders);
+        await loadUserProfileInfoFromRemote(stateProviders);
         Future.delayed(const Duration(seconds: 20),
             () => {NotificationManager().initializeNotifications()});
         updateStatus(RequestStatus.successful);

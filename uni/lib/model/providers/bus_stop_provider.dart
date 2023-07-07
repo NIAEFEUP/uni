@@ -5,6 +5,8 @@ import 'package:logger/logger.dart';
 import 'package:uni/controller/fetchers/departures_fetcher.dart';
 import 'package:uni/controller/local_storage/app_bus_stop_database.dart';
 import 'package:uni/model/entities/bus_stop.dart';
+import 'package:uni/model/entities/profile.dart';
+import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/entities/trip.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/model/request_status.dart';
@@ -25,6 +27,11 @@ class BusStopProvider extends StateProviderNotifier {
 
     _configuredBusStops = stops;
     notifyListeners();
+    getUserBusTrips(Completer());
+  }
+
+  @override
+  void loadFromRemote(Session session, Profile profile) {
     getUserBusTrips(Completer());
   }
 

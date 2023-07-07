@@ -1,6 +1,7 @@
 // @dart=2.10
 
 import 'dart:async';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tuple/tuple.dart';
@@ -10,7 +11,6 @@ import 'package:uni/model/entities/course_unit.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/session.dart';
-
 import 'package:uni/model/providers/exam_provider.dart';
 import 'package:uni/model/request_status.dart';
 
@@ -23,19 +23,25 @@ void main() {
     final mockResponse = MockResponse();
 
     final sopeCourseUnit = CourseUnit(
-        abbreviation: 'SOPE', occurrId: 0, name: 'Sistemas Operativos', status: 'V');
+        abbreviation: 'SOPE',
+        occurrId: 0,
+        name: 'Sistemas Operativos',
+        status: 'V');
     final sdisCourseUnit = CourseUnit(
-        abbreviation: 'SDIS', occurrId: 0, name: 'Sistemas Distribuídos', status: 'V');
+        abbreviation: 'SDIS',
+        occurrId: 0,
+        name: 'Sistemas Distribuídos',
+        status: 'V');
 
     final List<String> rooms = ['B119', 'B107', 'B205'];
     final DateTime beginSopeExam = DateTime.parse('2800-09-12 12:00');
     final DateTime endSopeExam = DateTime.parse('2800-09-12 15:00');
-    final sopeExam = Exam('1229', beginSopeExam, endSopeExam, 'SOPE',
-        rooms, 'Recurso - Época Recurso (2ºS)', 'feup');
+    final sopeExam = Exam('1229', beginSopeExam, endSopeExam, 'SOPE', rooms,
+        'Recurso - Época Recurso (2ºS)', 'feup');
     final DateTime beginSdisExam = DateTime.parse('2800-09-12 12:00');
     final DateTime endSdisExam = DateTime.parse('2800-09-12 15:00');
-    final sdisExam = Exam('1230', beginSdisExam, endSdisExam, 'SDIS',
-        rooms, 'Recurso - Época Recurso (2ºS)', 'feup');
+    final sdisExam = Exam('1230', beginSdisExam, endSdisExam, 'SDIS', rooms,
+        'Recurso - Época Recurso (2ºS)', 'feup');
 
     const Tuple2<String, String> userPersistentInfo = Tuple2('', '');
 
@@ -57,11 +63,12 @@ void main() {
     });
 
     test('When given one exam', () async {
-      when(parserExams.parseExams(any, any)).thenAnswer((_) async => {sopeExam});
+      when(parserExams.parseExams(any, any))
+          .thenAnswer((_) async => {sopeExam});
 
       final action = Completer();
 
-      provider.getUserExams(
+      provider.fetchUserExams(
           action, parserExams, userPersistentInfo, profile, session, userUcs);
 
       expect(provider.status, RequestStatus.busy);
@@ -79,7 +86,7 @@ void main() {
 
       final Completer<void> action = Completer();
 
-      provider.getUserExams(
+      provider.fetchUserExams(
           action, parserExams, userPersistentInfo, profile, session, userUcs);
 
       expect(provider.status, RequestStatus.busy);
@@ -94,19 +101,21 @@ void main() {
                  since it is a Special Season Exam''', () async {
       final DateTime begin = DateTime.parse('2800-09-12 12:00');
       final DateTime end = DateTime.parse('2800-09-12 15:00');
-      final specialExam = Exam('1231',
+      final specialExam = Exam(
+          '1231',
           begin,
           end,
           'SDIS',
           rooms,
-          'Exames ao abrigo de estatutos especiais - Port.Est.Especiais', 'feup');
+          'Exames ao abrigo de estatutos especiais - Port.Est.Especiais',
+          'feup');
 
       final Completer<void> action = Completer();
 
       when(parserExams.parseExams(any, any))
           .thenAnswer((_) async => {sopeExam, sdisExam, specialExam});
 
-      provider.getUserExams(
+      provider.fetchUserExams(
           action, parserExams, userPersistentInfo, profile, session, userUcs);
 
       expect(provider.status, RequestStatus.busy);
@@ -122,7 +131,7 @@ void main() {
       when(parserExams.parseExams(any, any))
           .thenAnswer((_) async => throw Exception('RIP'));
 
-      provider.getUserExams(
+      provider.fetchUserExams(
           action, parserExams, userPersistentInfo, profile, session, userUcs);
 
       expect(provider.status, RequestStatus.busy);
@@ -135,14 +144,15 @@ void main() {
     test('When Exam is today in one hour', () async {
       final DateTime begin = DateTime.now().add(const Duration(hours: 1));
       final DateTime end = DateTime.now().add(const Duration(hours: 2));
-      final todayExam = Exam('1232',begin, end, 'SDIS', rooms,
+      final todayExam = Exam('1232', begin, end, 'SDIS', rooms,
           'Recurso - Época Recurso (1ºS)', 'feup');
 
-      when(parserExams.parseExams(any, any)).thenAnswer((_) async => {todayExam});
+      when(parserExams.parseExams(any, any))
+          .thenAnswer((_) async => {todayExam});
 
       final Completer<void> action = Completer();
 
-      provider.getUserExams(
+      provider.fetchUserExams(
           action, parserExams, userPersistentInfo, profile, session, userUcs);
       expect(provider.status, RequestStatus.busy);
 
@@ -155,14 +165,15 @@ void main() {
     test('When Exam was one hour ago', () async {
       final DateTime end = DateTime.now().subtract(const Duration(hours: 1));
       final DateTime begin = DateTime.now().subtract(const Duration(hours: 2));
-      final todayExam = Exam('1233',begin, end, 'SDIS', rooms,
+      final todayExam = Exam('1233', begin, end, 'SDIS', rooms,
           'Recurso - Época Recurso (1ºS)', 'feup');
 
-      when(parserExams.parseExams(any, any)).thenAnswer((_) async => {todayExam});
+      when(parserExams.parseExams(any, any))
+          .thenAnswer((_) async => {todayExam});
 
       final Completer<void> action = Completer();
 
-      provider.getUserExams(
+      provider.fetchUserExams(
           action, parserExams, userPersistentInfo, profile, session, userUcs);
       expect(provider.status, RequestStatus.busy);
 
@@ -175,14 +186,15 @@ void main() {
     test('When Exam is ocurring', () async {
       final DateTime before = DateTime.now().subtract(const Duration(hours: 1));
       final DateTime after = DateTime.now().add(const Duration(hours: 1));
-      final todayExam = Exam('1234',before, after, 'SDIS', rooms,
-          'Recurso - Época Recurso (1ºS)','feup');
+      final todayExam = Exam('1234', before, after, 'SDIS', rooms,
+          'Recurso - Época Recurso (1ºS)', 'feup');
 
-      when(parserExams.parseExams(any, any)).thenAnswer((_) async => {todayExam});
+      when(parserExams.parseExams(any, any))
+          .thenAnswer((_) async => {todayExam});
 
       final Completer<void> action = Completer();
 
-      provider.getUserExams(
+      provider.fetchUserExams(
           action, parserExams, userPersistentInfo, profile, session, userUcs);
       expect(provider.status, RequestStatus.busy);
 

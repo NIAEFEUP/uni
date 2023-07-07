@@ -1,6 +1,8 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
+import 'package:uni/model/entities/profile.dart';
+import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/request_status.dart';
 
 abstract class StateProviderNotifier extends ChangeNotifier {
@@ -14,7 +16,7 @@ abstract class StateProviderNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  void ensureInitialized() async {
+  void ensureInitialized(Session session, Profile profile) async {
     if (_initialized) {
       return;
     }
@@ -30,7 +32,7 @@ abstract class StateProviderNotifier extends ChangeNotifier {
     }
 
     if (await Connectivity().checkConnectivity() != ConnectivityResult.none) {
-      loadFromRemote();
+      loadFromRemote(session, profile);
     }
 
     notifyListeners();
@@ -38,5 +40,5 @@ abstract class StateProviderNotifier extends ChangeNotifier {
 
   void loadFromStorage();
 
-  void loadFromRemote() {}
+  void loadFromRemote(Session session, Profile profile);
 }

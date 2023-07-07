@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:uni/controller/local_storage/app_last_user_info_update_database.dart';
+import 'package:uni/model/entities/profile.dart';
+import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
 
 class LastUserInfoProvider extends StateProviderNotifier {
@@ -22,4 +24,7 @@ class LastUserInfoProvider extends StateProviderNotifier {
     _lastUpdateTime = await db.getLastUserInfoUpdateTime();
     notifyListeners();
   }
+
+  @override
+  Future<void> loadFromRemote(Session session, Profile profile) async {}
 }

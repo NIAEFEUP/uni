@@ -2,6 +2,7 @@
 
 import 'dart:async';
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
@@ -29,25 +30,33 @@ void main() {
     final mockClient = MockClient();
     final mockResponse = MockResponse();
     final sopeCourseUnit = CourseUnit(
-        abbreviation: 'SOPE', occurrId: 0, name: 'Sistemas Operativos', status: 'V');
+        abbreviation: 'SOPE',
+        occurrId: 0,
+        name: 'Sistemas Operativos',
+        status: 'V');
     final sdisCourseUnit = CourseUnit(
-        abbreviation: 'SDIS', name: 'Sistemas Distribuídos', occurrId: 0, status: 'V');
+        abbreviation: 'SDIS',
+        name: 'Sistemas Distribuídos',
+        occurrId: 0,
+        status: 'V');
 
     final DateTime beginSopeExam = DateTime.parse('2099-11-18 17:00');
     final DateTime endSopeExam = DateTime.parse('2099-11-18 19:00');
-    final sopeExam = Exam('44426', beginSopeExam, endSopeExam, 'SOPE', [], 'MT', 'feup');
+    final sopeExam =
+        Exam('44426', beginSopeExam, endSopeExam, 'SOPE', [], 'MT', 'feup');
     final DateTime beginSdisExam = DateTime.parse('2099-10-21 17:00');
     final DateTime endSdisExam = DateTime.parse('2099-10-21 19:00');
-    final sdisExam = Exam('44425', beginSdisExam, endSdisExam, 'SDIS',[], 'MT', 'feup');
+    final sdisExam =
+        Exam('44425', beginSdisExam, endSdisExam, 'SDIS', [], 'MT', 'feup');
     final DateTime beginMdisExam = DateTime.parse('2099-10-22 17:00');
     final DateTime endMdisExam = DateTime.parse('2099-10-22 19:00');
-    final mdisExam = Exam('44429', beginMdisExam, endMdisExam, 'MDIS',[], 'MT', 'feup');
-  
+    final mdisExam =
+        Exam('44429', beginMdisExam, endMdisExam, 'MDIS', [], 'MT', 'feup');
+
     final Map<String, bool> filteredExams = {};
-    for(String type in Exam.displayedTypes) {
+    for (String type in Exam.displayedTypes) {
       filteredExams[type] = true;
     }
-  
 
     final profile = Profile();
     profile.courses = [Course(id: 7474, faculty: 'feup')];
@@ -75,7 +84,7 @@ void main() {
       expect(find.byKey(Key('$mdisExam-exam')), findsNothing);
 
       final Completer<void> completer = Completer();
-      examProvider.getUserExams(
+      examProvider.fetchUserExams(
           completer,
           ParserExams(),
           const Tuple2('', ''),
@@ -114,7 +123,7 @@ void main() {
       expect(find.byKey(Key('$sopeExam-exam')), findsNothing);
 
       final Completer<void> completer = Completer();
-      examProvider.getUserExams(
+      examProvider.fetchUserExams(
           completer,
           ParserExams(),
           const Tuple2('', ''),
@@ -128,7 +137,7 @@ void main() {
       expect(find.byKey(Key('$sdisExam-exam')), findsOneWidget);
       expect(find.byKey(Key('$sopeExam-exam')), findsOneWidget);
       expect(find.byIcon(Icons.filter_alt), findsOneWidget);
-      
+
       final Completer<void> settingFilteredExams = Completer();
       filteredExams['ExamDoesNotExist'] = true;
       examProvider.setFilteredExams(filteredExams, settingFilteredExams);
@@ -160,7 +169,7 @@ void main() {
       expect(okButton, findsOneWidget);
 
       await tester.tap(okButton);
-   
+
       await tester.pumpAndSettle();
 
       expect(find.byKey(Key('$sdisExam-exam')), findsNothing);

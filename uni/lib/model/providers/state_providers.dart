@@ -9,7 +9,7 @@ import 'package:uni/model/providers/home_page_editing_mode_provider.dart';
 import 'package:uni/model/providers/last_user_info_provider.dart';
 import 'package:uni/model/providers/lecture_provider.dart';
 import 'package:uni/model/providers/library_occupation_provider.dart';
-import 'package:uni/model/providers/profile_state_provider.dart';
+import 'package:uni/model/providers/profile_provider.dart';
 import 'package:uni/model/providers/restaurant_provider.dart';
 import 'package:uni/model/providers/session_provider.dart';
 
@@ -18,7 +18,7 @@ class StateProviders {
   final ExamProvider examProvider;
   final BusStopProvider busStopProvider;
   final RestaurantProvider restaurantProvider;
-  final ProfileStateProvider profileStateProvider;
+  final ProfileProvider profileStateProvider;
   final SessionProvider sessionProvider;
   final CalendarProvider calendarProvider;
   final LibraryOccupationProvider libraryOccupationProvider;
@@ -50,7 +50,7 @@ class StateProviders {
     final restaurantProvider =
         Provider.of<RestaurantProvider>(context, listen: false);
     final profileStateProvider =
-        Provider.of<ProfileStateProvider>(context, listen: false);
+        Provider.of<ProfileProvider>(context, listen: false);
     final sessionProvider =
         Provider.of<SessionProvider>(context, listen: false);
     final calendarProvider =

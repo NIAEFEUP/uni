@@ -2,15 +2,17 @@ import 'dart:convert';
 
 import 'package:tuple/tuple.dart';
 import 'package:uni/model/entities/course.dart';
+import 'package:uni/model/entities/course_unit.dart';
 
 /// Stores information about the user's profile.
 class Profile {
   final String name;
   final String email;
-  late List<Course> courses;
   final String printBalance;
   final String feesBalance;
   final String feesLimit;
+  late List<Course> courses;
+  late List<CourseUnit> currentCourseUnits;
 
   Profile(
       {this.name = '',
@@ -19,7 +21,8 @@ class Profile {
       this.printBalance = '',
       this.feesBalance = '',
       this.feesLimit = ''})
-      : courses = courses ?? [];
+      : courses = courses ?? [],
+        currentCourseUnits = [];
 
   /// Creates a new instance from a JSON object.
   static Profile fromResponse(dynamic response) {

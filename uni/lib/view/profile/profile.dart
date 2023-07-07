@@ -1,6 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:uni/model/providers/profile_state_provider.dart';
+import 'package:uni/model/providers/profile_provider.dart';
 import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/profile/widgets/account_info_card.dart';
@@ -18,7 +18,7 @@ class ProfilePageView extends StatefulWidget {
 class ProfilePageViewState extends SecondaryPageViewState<ProfilePageView> {
   @override
   Widget getBody(BuildContext context) {
-    return LazyConsumer<ProfileStateProvider>(
+    return LazyConsumer<ProfileProvider>(
       builder: (context, profileStateProvider, _) {
         final profile = profileStateProvider.profile;
         final List<Widget> courseWidgets = profile.courses

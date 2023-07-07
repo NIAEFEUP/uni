@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:uni/model/providers/profile_state_provider.dart';
+import 'package:uni/model/providers/profile_provider.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/profile/widgets/tuition_notification_switch.dart';
@@ -15,7 +15,7 @@ class AccountInfoCard extends GenericCard {
 
   @override
   Widget buildCardContent(BuildContext context) {
-    return LazyConsumer<ProfileStateProvider>(
+    return LazyConsumer<ProfileProvider>(
       builder: (context, profileStateProvider, _) {
         final profile = profileStateProvider.profile;
         return Column(children: [

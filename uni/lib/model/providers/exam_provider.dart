@@ -39,7 +39,19 @@ class ExamProvider extends StateProviderNotifier {
     notifyListeners();
   }
 
-  Future<void> getUserExams(
+  @override
+  void loadFromRemote(Session session, Profile profile) async {
+    final Completer<void> action = Completer<void>();
+    final ParserExams parserExams = ParserExams();
+    final Tuple2<String, String> userPersistentInfo =
+        await AppSharedPreferences.getPersistentUserInfo();
+
+    fetchUserExams(action, parserExams, userPersistentInfo, profile, session,
+        profile.currentCourseUnits);
+    await action.future;
+  }
+
+  Future<void> fetchUserExams(
     Completer<void> action,
     ParserExams parserExams,
     Tuple2<String, String> userPersistentInfo,
