@@ -1,10 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:uni/controller/load_info.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/providers/session_provider.dart';
-import 'package:uni/view/lazy_consumer.dart';
 
 class ProfileOverview extends StatelessWidget {
   final Profile profile;
@@ -18,8 +18,8 @@ class ProfileOverview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LazyConsumer<SessionProvider>(
-      builder: (context, sessionProvider) {
+    return Consumer<SessionProvider>(
+      builder: (context, sessionProvider, _) {
         return FutureBuilder(
           future: loadProfilePicture(sessionProvider.session),
           builder: (BuildContext context, AsyncSnapshot<File?> profilePic) =>

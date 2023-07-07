@@ -20,11 +20,10 @@ class LectureProvider extends StateProviderNotifier {
   UnmodifiableListView<Lecture> get lectures => UnmodifiableListView(_lectures);
 
   @override
-  void loadFromStorage() async {
+  Future<void> loadFromStorage() async {
     final AppLecturesDatabase db = AppLecturesDatabase();
     final List<Lecture> lectures = await db.lectures();
     _lectures = lectures;
-    notifyListeners();
   }
 
   @override

@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:collection';
 
 import 'package:uni/controller/background_workers/notifications.dart';
-import 'package:uni/controller/load_info.dart';
 import 'package:uni/controller/load_static/terms_and_conditions.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/controller/networking/network_router.dart';
@@ -24,13 +23,12 @@ class SessionProvider extends StateProviderNotifier {
       UnmodifiableListView(_faculties);
 
   @override
-  void loadFromStorage() {}
+  Future<void> loadFromStorage() async {}
 
   @override
   Future<void> loadFromRemote(Session session, Profile profile) async {}
 
-  login(
-      Completer<void> action,
+  login(Completer<void> action,
       String username,
       String password,
       List<String> faculties,
@@ -51,10 +49,10 @@ class SessionProvider extends StateProviderNotifier {
               username, password, faculties);
         }
         Future.delayed(const Duration(seconds: 20),
-            () => {NotificationManager().initializeNotifications()});
+                () => {NotificationManager().initializeNotifications()});
 
         //loadLocalUserInfoToState(stateProviders, skipDatabaseLookup: true);
-        await loadUserProfileInfoFromRemote(stateProviders);
+        //await loadUserProfileInfoFromRemote(stateProviders);
 
         usernameController.clear();
         passwordController.clear();
@@ -63,7 +61,7 @@ class SessionProvider extends StateProviderNotifier {
         updateStatus(RequestStatus.successful);
       } else {
         final String responseHtml =
-            await NetworkRouter.loginInSigarra(username, password, faculties);
+        await NetworkRouter.loginInSigarra(username, password, faculties);
         if (isPasswordExpired(responseHtml)) {
           action.completeError(ExpiredCredentialsException());
         } else {
@@ -91,9 +89,9 @@ class SessionProvider extends StateProviderNotifier {
       //notifyListeners();
 
       if (session.authenticated) {
-        await loadUserProfileInfoFromRemote(stateProviders);
+        //await loadUserProfileInfoFromRemote(stateProviders);
         Future.delayed(const Duration(seconds: 20),
-            () => {NotificationManager().initializeNotifications()});
+                () => {NotificationManager().initializeNotifications()});
         updateStatus(RequestStatus.successful);
         action?.complete();
       } else {

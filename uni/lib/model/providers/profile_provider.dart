@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:logger/logger.dart';
 import 'package:tuple/tuple.dart';
+import 'package:uni/controller/fetchers/all_course_units_fetcher.dart';
 import 'package:uni/controller/fetchers/current_course_units_fetcher.dart';
 import 'package:uni/controller/fetchers/fees_fetcher.dart';
 import 'package:uni/controller/fetchers/print_fetcher.dart';
@@ -14,13 +15,11 @@ import 'package:uni/controller/local_storage/app_user_database.dart';
 import 'package:uni/controller/parsers/parser_fees.dart';
 import 'package:uni/controller/parsers/parser_print_balance.dart';
 import 'package:uni/model/entities/course.dart';
+import 'package:uni/model/entities/course_unit.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/model/request_status.dart';
-
-// ignore: always_use_package_imports
-import '../../controller/fetchers/all_course_units_fetcher.dart';
 
 class ProfileProvider extends StateProviderNotifier {
   Profile _profile = Profile();
@@ -34,14 +33,17 @@ class ProfileProvider extends StateProviderNotifier {
   Profile get profile => _profile;
 
   @override
-  void loadFromStorage() async {
-    loadCourses();
-    loadBalanceRefreshTimes();
-    loadCourseUnits();
+  Future<void> loadFromStorage() async {
+    await Future.wait(
+        [loadCourses(), loadBalanceRefreshTimes(), loadCourseUnits()]);
   }
 
   @override
   Future<void> loadFromRemote(Session session, Profile profile) async {
+    final userInfoAction = Completer<void>();
+    fetchUserInfo(userInfoAction, session);
+    await userInfoAction.future;
+
     final Completer<void> userFeesAction = Completer<void>();
     fetchUserFees(userFeesAction, session);
 
@@ -51,10 +53,14 @@ class ProfileProvider extends StateProviderNotifier {
     final Completer<void> courseUnitsAction = Completer<void>();
     fetchCourseUnitsAndCourseAverages(session, courseUnitsAction);
 
-    await Future.wait([userFeesAction.future, printBalanceAction.future]);
+    await Future.wait([
+      userFeesAction.future,
+      printBalanceAction.future,
+      courseUnitsAction.future
+    ]);
   }
 
-  void loadCourses() async {
+  Future<void> loadCourses() async {
     final profileDb = AppUserDataDatabase();
     _profile = await profileDb.getUserData();
 
@@ -64,10 +70,10 @@ class ProfileProvider extends StateProviderNotifier {
     _profile.courses = courses;
   }
 
-  void loadBalanceRefreshTimes() async {
+  Future<void> loadBalanceRefreshTimes() async {
     final AppRefreshTimesDatabase refreshTimesDb = AppRefreshTimesDatabase();
     final Map<String, String> refreshTimes =
-    await refreshTimesDb.refreshTimes();
+        await refreshTimesDb.refreshTimes();
 
     final printRefreshTime = refreshTimes['print'];
     final feesRefreshTime = refreshTimes['fees'];
@@ -79,9 +85,9 @@ class ProfileProvider extends StateProviderNotifier {
     }
   }
 
-  void loadCourseUnits() async {
+  Future<void> loadCourseUnits() async {
     final AppCourseUnitsDatabase db = AppCourseUnitsDatabase();
-    profile.currentCourseUnits = await db.courseUnits();
+    profile.courseUnits = await db.courseUnits();
   }
 
   fetchUserFees(Completer<void> action, Session session) async {
@@ -93,7 +99,7 @@ class ProfileProvider extends StateProviderNotifier {
 
       final DateTime currentTime = DateTime.now();
       final Tuple2<String, String> userPersistentInfo =
-      await AppSharedPreferences.getPersistentUserInfo();
+          await AppSharedPreferences.getPersistentUserInfo();
       if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {
         await storeRefreshTime('fees', currentTime.toString());
 
@@ -122,7 +128,7 @@ class ProfileProvider extends StateProviderNotifier {
 
   Future storeRefreshTime(String db, String currentTime) async {
     final AppRefreshTimesDatabase refreshTimesDatabase =
-    AppRefreshTimesDatabase();
+        AppRefreshTimesDatabase();
     refreshTimesDatabase.saveRefreshTime(db, currentTime);
   }
 
@@ -133,7 +139,7 @@ class ProfileProvider extends StateProviderNotifier {
 
       final DateTime currentTime = DateTime.now();
       final Tuple2<String, String> userPersistentInfo =
-      await AppSharedPreferences.getPersistentUserInfo();
+          await AppSharedPreferences.getPersistentUserInfo();
       if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {
         await storeRefreshTime('print', currentTime.toString());
 
@@ -161,25 +167,20 @@ class ProfileProvider extends StateProviderNotifier {
   }
 
   fetchUserInfo(Completer<void> action, Session session) async {
-    print("fetched user info");
     try {
       updateStatus(RequestStatus.busy);
 
-      final profile = ProfileFetcher.getProfile(session).then((res) {
-        _profile = res;
-      });
+      final profile = await ProfileFetcher.getProfile(session);
+      final currentCourseUnits =
+          await CurrentCourseUnitsFetcher().getCurrentCourseUnits(session);
 
-      print("profile courses: ${_profile.courses}");
+      _profile = profile;
+      _profile.courseUnits = currentCourseUnits;
 
-      final ucs = CurrentCourseUnitsFetcher()
-          .getCurrentCourseUnits(session)
-          .then((res) => _profile.currentCourseUnits = res);
-      await Future.wait([profile, ucs]);
-      notifyListeners();
       updateStatus(RequestStatus.successful);
 
       final Tuple2<String, String> userPersistentInfo =
-      await AppSharedPreferences.getPersistentUserInfo();
+          await AppSharedPreferences.getPersistentUserInfo();
       if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {
         final profileDb = AppUserDataDatabase();
         profileDb.insertUserData(_profile);
@@ -192,28 +193,24 @@ class ProfileProvider extends StateProviderNotifier {
     action.complete();
   }
 
-  fetchCourseUnitsAndCourseAverages(Session session,
-      Completer<void> action) async {
+  fetchCourseUnitsAndCourseAverages(
+      Session session, Completer<void> action) async {
     updateStatus(RequestStatus.busy);
     try {
       final List<Course> courses = profile.courses;
-      _profile.currentCourseUnits = await AllCourseUnitsFetcher()
-          .getAllCourseUnitsAndCourseAverages(courses, session);
-      updateStatus(RequestStatus.successful);
-      notifyListeners();
+      final List<CourseUnit> allCourseUnits = await AllCourseUnitsFetcher()
+          .getAllCourseUnitsAndCourseAverages(profile.courses, session);
 
-      print("ola");
-      print(_profile.currentCourseUnits);
+      _profile.courseUnits = allCourseUnits;
 
       final Tuple2<String, String> userPersistentInfo =
-      await AppSharedPreferences.getPersistentUserInfo();
+          await AppSharedPreferences.getPersistentUserInfo();
       if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {
         final AppCoursesDatabase coursesDb = AppCoursesDatabase();
         await coursesDb.saveNewCourses(courses);
 
         final courseUnitsDatabase = AppCourseUnitsDatabase();
-        await courseUnitsDatabase
-            .saveNewCourseUnits(_profile.currentCourseUnits);
+        await courseUnitsDatabase.saveNewCourseUnits(_profile.courseUnits);
       }
     } catch (e) {
       Logger().e('Failed to get all user ucs: $e');

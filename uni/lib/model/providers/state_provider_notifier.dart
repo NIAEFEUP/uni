@@ -16,7 +16,7 @@ abstract class StateProviderNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  void ensureInitialized(Session session, Profile profile) async {
+  Future<void> ensureInitialized(Session session, Profile profile) async {
     if (_initialized) {
       return;
     }
@@ -30,17 +30,17 @@ abstract class StateProviderNotifier extends ChangeNotifier {
     final sessionIsPersistent =
         userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '';
     if (sessionIsPersistent) {
-      loadFromStorage();
+      await loadFromStorage();
     }
 
     if (await Connectivity().checkConnectivity() != ConnectivityResult.none) {
-      loadFromRemote(session, profile);
+      await loadFromRemote(session, profile);
     }
 
     notifyListeners();
   }
 
-  void loadFromStorage();
+  Future<void> loadFromStorage();
 
-  void loadFromRemote(Session session, Profile profile);
+  Future<void> loadFromRemote(Session session, Profile profile);
 }

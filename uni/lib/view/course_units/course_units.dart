@@ -29,8 +29,7 @@ class CourseUnitsPageViewState
   @override
   Widget getBody(BuildContext context) {
     return LazyConsumer<ProfileProvider>(builder: (context, profileProvider) {
-      final List<CourseUnit> courseUnits =
-          profileProvider.profile.currentCourseUnits;
+      final List<CourseUnit> courseUnits = profileProvider.profile.courseUnits;
       List<String> availableYears = [];
       List<String> availableSemesters = [];
       if (courseUnits.isNotEmpty) {
@@ -56,7 +55,7 @@ class CourseUnitsPageViewState
         return _getPageView(courseUnits, profileProvider.status, availableYears,
             availableSemesters);
       } else {
-        return Container();
+        return _getPageView([], profileProvider.status, [], []);
       }
     });
   }

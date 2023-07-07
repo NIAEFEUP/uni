@@ -41,9 +41,8 @@ class CalendarProvider extends StateProviderNotifier {
   }
 
   @override
-  void loadFromStorage() async {
+  Future<void> loadFromStorage() async {
     final CalendarDatabase db = CalendarDatabase();
     _calendar = await db.calendar();
-    notifyListeners();
   }
 }

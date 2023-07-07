@@ -11,18 +11,17 @@ class Profile {
   final String printBalance;
   final String feesBalance;
   final String feesLimit;
-  late List<Course> courses;
-  late List<CourseUnit> currentCourseUnits;
+  List<Course> courses;
+  List<CourseUnit> courseUnits;
 
-  Profile(
-      {this.name = '',
-      this.email = '',
-      courses,
-      this.printBalance = '',
-      this.feesBalance = '',
-      this.feesLimit = ''})
+  Profile({this.name = '',
+    this.email = '',
+    courses,
+    this.printBalance = '',
+    this.feesBalance = '',
+    this.feesLimit = ''})
       : courses = courses ?? [],
-        currentCourseUnits = [];
+        courseUnits = [];
 
   /// Creates a new instance from a JSON object.
   static Profile fromResponse(dynamic response) {

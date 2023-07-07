@@ -15,12 +15,10 @@ class LibraryOccupationProvider extends StateProviderNotifier {
   LibraryOccupation? get occupation => _occupation;
 
   @override
-  void loadFromStorage() async {
+  Future<void> loadFromStorage() async {
     final LibraryOccupationDatabase db = LibraryOccupationDatabase();
     final LibraryOccupation occupation = await db.occupation();
-
     _occupation = occupation;
-    notifyListeners();
   }
 
   @override

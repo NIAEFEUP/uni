@@ -21,18 +21,17 @@ class BusStopProvider extends StateProviderNotifier {
   DateTime get timeStamp => _timeStamp;
 
   @override
-  void loadFromStorage() async {
+  Future<void> loadFromStorage() async {
     final AppBusStopDatabase busStopsDb = AppBusStopDatabase();
     final Map<String, BusStopData> stops = await busStopsDb.busStops();
-
     _configuredBusStops = stops;
-    notifyListeners();
-    getUserBusTrips(Completer());
   }
 
   @override
-  void loadFromRemote(Session session, Profile profile) {
-    getUserBusTrips(Completer());
+  Future<void> loadFromRemote(Session session, Profile profile) async {
+    final action = Completer<void>();
+    getUserBusTrips(action);
+    await action.future;
   }
 
   getUserBusTrips(Completer<void> action) async {

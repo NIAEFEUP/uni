@@ -19,7 +19,7 @@ class LastUserInfoProvider extends StateProviderNotifier {
   }
 
   @override
-  void loadFromStorage() async {
+  Future<void> loadFromStorage() async {
     final AppLastUserInfoUpdateDatabase db = AppLastUserInfoUpdateDatabase();
     _lastUpdateTime = await db.getLastUserInfoUpdateTime();
     notifyListeners();

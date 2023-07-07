@@ -14,7 +14,7 @@ class FacultyLocationsProvider extends StateProviderNotifier {
       UnmodifiableListView(_locations);
 
   @override
-  void loadFromStorage() async {
+  Future<void> loadFromStorage() async {
     _locations = await LocationFetcherAsset().getLocations();
   }
 

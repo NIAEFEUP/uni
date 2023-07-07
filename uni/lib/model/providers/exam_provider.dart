@@ -28,26 +28,25 @@ class ExamProvider extends StateProviderNotifier {
       UnmodifiableMapView(_filteredExamsTypes);
 
   @override
-  void loadFromStorage() async {
+  Future<void> loadFromStorage() async {
     setFilteredExams(
         await AppSharedPreferences.getFilteredExams(), Completer());
     setHiddenExams(await AppSharedPreferences.getHiddenExams(), Completer());
 
     final AppExamsDatabase db = AppExamsDatabase();
-    final List<Exam> exs = await db.exams();
-    _exams = exs;
-    notifyListeners();
+    final List<Exam> exams = await db.exams();
+    _exams = exams;
   }
 
   @override
-  void loadFromRemote(Session session, Profile profile) async {
+  Future<void> loadFromRemote(Session session, Profile profile) async {
     final Completer<void> action = Completer<void>();
     final ParserExams parserExams = ParserExams();
     final Tuple2<String, String> userPersistentInfo =
         await AppSharedPreferences.getPersistentUserInfo();
 
     fetchUserExams(action, parserExams, userPersistentInfo, profile, session,
-        profile.currentCourseUnits);
+        profile.courseUnits);
     await action.future;
   }
 
