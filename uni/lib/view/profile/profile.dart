@@ -19,7 +19,7 @@ class ProfilePageViewState extends SecondaryPageViewState<ProfilePageView> {
   @override
   Widget getBody(BuildContext context) {
     return LazyConsumer<ProfileProvider>(
-      builder: (context, profileStateProvider, _) {
+      builder: (context, profileStateProvider) {
         final profile = profileStateProvider.profile;
         final List<Widget> courseWidgets = profile.courses
             .map((e) => [

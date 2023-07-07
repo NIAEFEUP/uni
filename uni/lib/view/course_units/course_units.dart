@@ -28,8 +28,7 @@ class CourseUnitsPageViewState
 
   @override
   Widget getBody(BuildContext context) {
-    return LazyConsumer<ProfileProvider>(
-        builder: (context, profileProvider, _) {
+    return LazyConsumer<ProfileProvider>(builder: (context, profileProvider) {
       final List<CourseUnit> courseUnits =
           profileProvider.profile.currentCourseUnits;
       List<String> availableYears = [];

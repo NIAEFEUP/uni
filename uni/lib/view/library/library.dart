@@ -18,23 +18,8 @@ class LibraryPageViewState extends GeneralPageViewState<LibraryPageView> {
   @override
   Widget getBody(BuildContext context) {
     return LazyConsumer<LibraryOccupationProvider>(
-        builder: (context, libraryOccupationProvider, _) =>
+        builder: (context, libraryOccupationProvider) =>
             LibraryPage(libraryOccupationProvider.occupation));
-
-/*
-     return StoreConnector<AppState, Tuple2<LibraryOccupation?, RequestStatus>>(
-         converter: (store) {
-       final LibraryOccupation? occupation =
-           store.state.content['libraryOccupation'];
-       return Tuple2(occupation, store.state.content['libraryOccupationStatus']);
-     }, builder: (context, occupationInfo) {
-       if (occupationInfo.item2 == RequestStatus.busy) {
-         return const Center(child: CircularProgressIndicator());
-       } else {
-         return LibraryPage(occupationInfo.item1);
-       }
-     });
-     */
   }
 }
 

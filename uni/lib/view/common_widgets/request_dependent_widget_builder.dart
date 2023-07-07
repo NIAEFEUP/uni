@@ -36,7 +36,7 @@ class RequestDependentWidgetBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LazyConsumer<LastUserInfoProvider>(
-      builder: (context, lastUserInfoProvider, _) {
+      builder: (context, lastUserInfoProvider) {
         switch (status) {
           case RequestStatus.successful:
           case RequestStatus.none:

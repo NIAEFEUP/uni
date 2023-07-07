@@ -17,7 +17,7 @@ class CalendarPageViewState extends GeneralPageViewState<CalendarPageView> {
   @override
   Widget getBody(BuildContext context) {
     return LazyConsumer<CalendarProvider>(
-      builder: (context, calendarProvider, _) =>
+      builder: (context, calendarProvider) =>
           getCalendarPage(context, calendarProvider.calendar),
     );
   }

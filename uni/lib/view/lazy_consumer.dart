@@ -5,7 +5,7 @@ import 'package:uni/model/providers/session_provider.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
 
 class LazyConsumer<T extends StateProviderNotifier> extends StatelessWidget {
-  final Widget Function(BuildContext, T, Widget?) builder;
+  final Widget Function(BuildContext, T) builder;
 
   const LazyConsumer({
     Key? key,
@@ -23,8 +23,8 @@ class LazyConsumer<T extends StateProviderNotifier> extends StatelessWidget {
           .ensureInitialized(session, profile);
     });
 
-    return Consumer<T>(
-      builder: builder,
-    );
+    return Consumer<T>(builder: (context, provider, _) {
+      return builder(context, provider);
+    });
   }
 }

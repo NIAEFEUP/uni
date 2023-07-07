@@ -25,7 +25,7 @@ class LibraryOccupationCard extends GenericCard {
   @override
   Widget buildCardContent(BuildContext context) {
     return LazyConsumer<LibraryOccupationProvider>(
-        builder: (context, libraryOccupationProvider, _) =>
+        builder: (context, libraryOccupationProvider) =>
             RequestDependentWidgetBuilder(
                 context: context,
                 status: libraryOccupationProvider.status,

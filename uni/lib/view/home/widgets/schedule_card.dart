@@ -24,7 +24,7 @@ class ScheduleCard extends GenericCard {
   @override
   Widget buildCardContent(BuildContext context) {
     return LazyConsumer<LectureProvider>(
-        builder: (context, lectureProvider, _) => RequestDependentWidgetBuilder(
+        builder: (context, lectureProvider) => RequestDependentWidgetBuilder(
             context: context,
             status: lectureProvider.status,
             contentGenerator: generateSchedule,

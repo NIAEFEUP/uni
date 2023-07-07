@@ -22,7 +22,7 @@ class BusStopNextArrivalsPageState
   @override
   Widget getBody(BuildContext context) {
     return LazyConsumer<BusStopProvider>(
-        builder: (context, busProvider, _) => ListView(children: [
+        builder: (context, busProvider) => ListView(children: [
               NextArrivals(busProvider.configuredBusStops, busProvider.status)
             ]));
   }

@@ -4,8 +4,7 @@ import 'package:uni/model/providers/bus_stop_provider.dart';
 import 'package:uni/model/providers/calendar_provider.dart';
 import 'package:uni/model/providers/exam_provider.dart';
 import 'package:uni/model/providers/faculty_locations_provider.dart';
-import 'package:uni/model/providers/favorite_cards_provider.dart';
-import 'package:uni/model/providers/home_page_editing_mode_provider.dart';
+import 'package:uni/model/providers/home_page_provider.dart';
 import 'package:uni/model/providers/last_user_info_provider.dart';
 import 'package:uni/model/providers/lecture_provider.dart';
 import 'package:uni/model/providers/library_occupation_provider.dart';
@@ -24,8 +23,7 @@ class StateProviders {
   final LibraryOccupationProvider libraryOccupationProvider;
   final FacultyLocationsProvider facultyLocationsProvider;
   final LastUserInfoProvider lastUserInfoProvider;
-  final FavoriteCardsProvider favoriteCardsProvider;
-  final HomePageEditingModeProvider homePageEditingMode;
+  final HomePageProvider homePageProvider;
 
   StateProviders(
       this.lectureProvider,
@@ -38,8 +36,7 @@ class StateProviders {
       this.libraryOccupationProvider,
       this.facultyLocationsProvider,
       this.lastUserInfoProvider,
-      this.favoriteCardsProvider,
-      this.homePageEditingMode);
+      this.homePageProvider);
 
   static StateProviders fromContext(BuildContext context) {
     final lectureProvider =
@@ -61,10 +58,8 @@ class StateProviders {
         Provider.of<FacultyLocationsProvider>(context, listen: false);
     final lastUserInfoProvider =
         Provider.of<LastUserInfoProvider>(context, listen: false);
-    final favoriteCardsProvider =
-        Provider.of<FavoriteCardsProvider>(context, listen: false);
-    final homePageEditingMode =
-        Provider.of<HomePageEditingModeProvider>(context, listen: false);
+    final homePageProvider =
+        Provider.of<HomePageProvider>(context, listen: false);
 
     return StateProviders(
         lectureProvider,
@@ -77,7 +72,6 @@ class StateProviders {
         libraryOccupationProvider,
         facultyLocationsProvider,
         lastUserInfoProvider,
-        favoriteCardsProvider,
-        homePageEditingMode);
+        homePageProvider);
   }
 }

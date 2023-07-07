@@ -36,7 +36,7 @@ class BusStopSelectionPageState
   @override
   Widget getBody(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    return LazyConsumer<BusStopProvider>(builder: (context, busProvider, _) {
+    return LazyConsumer<BusStopProvider>(builder: (context, busProvider) {
       final List<Widget> rows = [];
       busProvider.configuredBusStops.forEach((stopCode, stopData) =>
           rows.add(BusStopSelectionRow(stopCode, stopData)));

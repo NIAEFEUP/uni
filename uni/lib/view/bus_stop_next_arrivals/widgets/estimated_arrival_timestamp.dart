@@ -14,7 +14,7 @@ class EstimatedArrivalTimeStamp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LazyConsumer<BusStopProvider>(
-      builder: (context, busProvider, _) =>
+      builder: (context, busProvider) =>
           getContent(context, busProvider.timeStamp),
     );
   }

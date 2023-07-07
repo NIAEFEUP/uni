@@ -29,7 +29,7 @@ class LocationsPageState extends GeneralPageViewState
   @override
   Widget getBody(BuildContext context) {
     return LazyConsumer<FacultyLocationsProvider>(
-      builder: (context, locationsProvider, _) {
+      builder: (context, locationsProvider) {
         return LocationsPageView(
             locations: locationsProvider.locations,
             status: locationsProvider.status);

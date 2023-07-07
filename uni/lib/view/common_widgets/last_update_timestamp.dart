@@ -34,7 +34,7 @@ class _LastUpdateTimeStampState extends State<LastUpdateTimeStamp> {
   @override
   Widget build(BuildContext context) {
     return LazyConsumer<LastUserInfoProvider>(
-      builder: (context, lastUserInfoProvider, _) => Container(
+      builder: (context, lastUserInfoProvider) => Container(
           padding: const EdgeInsets.only(top: 8.0, bottom: 10.0),
           child: _getContent(context, lastUserInfoProvider.lastUpdateTime!)),
     );

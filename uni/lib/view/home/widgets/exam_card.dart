@@ -32,7 +32,7 @@ class ExamCard extends GenericCard {
   /// that no exams exist is displayed.
   @override
   Widget buildCardContent(BuildContext context) {
-    return LazyConsumer<ExamProvider>(builder: (context, examProvider, _) {
+    return LazyConsumer<ExamProvider>(builder: (context, examProvider) {
       final filteredExams = examProvider.getFilteredExams();
       final hiddenExams = examProvider.hiddenExams;
       final List<Exam> exams = filteredExams

@@ -23,17 +23,16 @@ class RestaurantCard extends GenericCard {
   @override
   Widget buildCardContent(BuildContext context) {
     return LazyConsumer<RestaurantProvider>(
-        builder: (context, restaurantProvider, _) =>
-            RequestDependentWidgetBuilder(
-                context: context,
-                status: restaurantProvider.status,
-                contentGenerator: generateRestaurant,
-                content: restaurantProvider.restaurants,
-                contentChecker: restaurantProvider.restaurants.isNotEmpty,
-                onNullContent: Center(
-                    child: Text('Não existem cantinas para apresentar',
-                        style: Theme.of(context).textTheme.headlineMedium,
-                        textAlign: TextAlign.center))));
+        builder: (context, restaurantProvider) => RequestDependentWidgetBuilder(
+            context: context,
+            status: restaurantProvider.status,
+            contentGenerator: generateRestaurant,
+            content: restaurantProvider.restaurants,
+            contentChecker: restaurantProvider.restaurants.isNotEmpty,
+            onNullContent: Center(
+                child: Text('Não existem cantinas para apresentar',
+                    style: Theme.of(context).textTheme.headlineMedium,
+                    textAlign: TextAlign.center))));
   }
 
   Widget generateRestaurant(canteens, context) {

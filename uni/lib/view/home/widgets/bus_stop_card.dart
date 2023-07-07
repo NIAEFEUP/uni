@@ -25,7 +25,7 @@ class BusStopCard extends GenericCard {
   @override
   Widget buildCardContent(BuildContext context) {
     return LazyConsumer<BusStopProvider>(
-      builder: (context, busProvider, _) {
+      builder: (context, busProvider) {
         return getCardContent(
             context, busProvider.configuredBusStops, busProvider.status);
       },

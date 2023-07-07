@@ -19,7 +19,7 @@ class ProfileOverview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LazyConsumer<SessionProvider>(
-      builder: (context, sessionProvider, _) {
+      builder: (context, sessionProvider) {
         return FutureBuilder(
           future: loadProfilePicture(sessionProvider.session),
           builder: (BuildContext context, AsyncSnapshot<File?> profilePic) =>

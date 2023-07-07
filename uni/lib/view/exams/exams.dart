@@ -22,7 +22,7 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
 
   @override
   Widget getBody(BuildContext context) {
-    return LazyConsumer<ExamProvider>(builder: (context, examProvider, _) {
+    return LazyConsumer<ExamProvider>(builder: (context, examProvider) {
       return ListView(
         children: <Widget>[
           Column(

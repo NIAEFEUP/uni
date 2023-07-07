@@ -21,7 +21,7 @@ class SchedulePageState extends State<SchedulePage> {
   @override
   Widget build(BuildContext context) {
     return LazyConsumer<LectureProvider>(
-      builder: (context, lectureProvider, _) {
+      builder: (context, lectureProvider) {
         return SchedulePageView(
           lectures: lectureProvider.lectures,
           scheduleStatus: lectureProvider.status,

@@ -223,7 +223,7 @@ class LoginPageViewState extends State<LoginPageView> {
   /// Creates a widget for the user login depending on the status of his login.
   Widget createStatusWidget(BuildContext context) {
     return LazyConsumer<SessionProvider>(
-      builder: (context, sessionProvider, _) {
+      builder: (context, sessionProvider) {
         switch (sessionProvider.status) {
           case RequestStatus.busy:
             return const SizedBox(

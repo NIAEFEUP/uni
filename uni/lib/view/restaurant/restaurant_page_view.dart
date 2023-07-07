@@ -36,7 +36,7 @@ class _RestaurantPageState extends GeneralPageViewState<RestaurantPageView>
   @override
   Widget getBody(BuildContext context) {
     return LazyConsumer<RestaurantProvider>(
-        builder: (context, restaurantProvider, _) {
+        builder: (context, restaurantProvider) {
       return Column(children: [
         ListView(scrollDirection: Axis.vertical, shrinkWrap: true, children: [
           Container(

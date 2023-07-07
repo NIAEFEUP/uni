@@ -23,6 +23,8 @@ abstract class StateProviderNotifier extends ChangeNotifier {
 
     _initialized = true;
 
+    updateStatus(RequestStatus.busy);
+
     final userPersistentInfo =
         await AppSharedPreferences.getPersistentUserInfo();
     final sessionIsPersistent =
