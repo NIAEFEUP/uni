@@ -14,7 +14,6 @@ import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/session.dart';
-import 'package:uni/model/providers/last_user_info_provider.dart';
 import 'package:uni/model/providers/lecture_provider.dart';
 import 'package:uni/view/schedule/schedule.dart';
 
@@ -54,7 +53,6 @@ void main() {
 
       final providers = [
         ChangeNotifierProvider(create: (_) => scheduleProvider),
-        ChangeNotifierProvider(create: (_) => LastUserInfoProvider()),
       ];
 
       await tester.pumpWidget(testableWidget(widget, providers: providers));
