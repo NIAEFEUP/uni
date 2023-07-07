@@ -27,6 +27,18 @@ class ExamProvider extends StateProviderNotifier {
   UnmodifiableMapView<String, bool> get filteredExamsTypes =>
       UnmodifiableMapView(_filteredExamsTypes);
 
+  @override
+  void loadFromStorage() async {
+    setFilteredExams(
+        await AppSharedPreferences.getFilteredExams(), Completer());
+    setHiddenExams(await AppSharedPreferences.getHiddenExams(), Completer());
+
+    final AppExamsDatabase db = AppExamsDatabase();
+    final List<Exam> exs = await db.exams();
+    _exams = exs;
+    notifyListeners();
+  }
+
   Future<void> getUserExams(
     Completer<void> action,
     ParserExams parserExams,
@@ -59,13 +71,6 @@ class ExamProvider extends StateProviderNotifier {
     }
 
     action.complete();
-  }
-
-  updateStateBasedOnLocalUserExams() async {
-    final AppExamsDatabase db = AppExamsDatabase();
-    final List<Exam> exs = await db.exams();
-    _exams = exs;
-    notifyListeners();
   }
 
   updateFilteredExams() async {

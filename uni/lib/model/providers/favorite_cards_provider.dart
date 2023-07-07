@@ -11,7 +11,7 @@ class FavoriteCardsProvider extends StateProviderNotifier {
   }
 
   @override
-  loadFromRemote() async {
+  loadFromStorage() async {
     setFavoriteCards(await AppSharedPreferences.getFavoriteCards());
   }
 

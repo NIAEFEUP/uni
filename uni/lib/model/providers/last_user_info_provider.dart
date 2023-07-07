@@ -16,7 +16,8 @@ class LastUserInfoProvider extends StateProviderNotifier {
     action.complete();
   }
 
-  updateStateBasedOnLocalTime() async {
+  @override
+  void loadFromStorage() async {
     final AppLastUserInfoUpdateDatabase db = AppLastUserInfoUpdateDatabase();
     _lastUpdateTime = await db.getLastUserInfoUpdateTime();
     notifyListeners();

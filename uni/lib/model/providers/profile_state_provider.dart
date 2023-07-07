@@ -14,12 +14,12 @@ import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/controller/local_storage/app_user_database.dart';
 import 'package:uni/controller/parsers/parser_fees.dart';
 import 'package:uni/controller/parsers/parser_print_balance.dart';
-import 'package:uni/model/request_status.dart';
 import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/course_unit.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
+import 'package:uni/model/request_status.dart';
 
 // ignore: always_use_package_imports
 import '../../controller/fetchers/all_course_units_fetcher.dart';
@@ -39,26 +39,44 @@ class ProfileStateProvider extends StateProviderNotifier {
 
   Profile get profile => _profile;
 
-  updateStateBasedOnLocalProfile() async {
+  @override
+  void loadFromStorage() async {
+    loadCourses();
+    loadBalanceRefreshTimes();
+    loadCourseUnits();
+  }
+
+  void loadCourses() async {
     final profileDb = AppUserDataDatabase();
-    final Profile profile = await profileDb.getUserData();
+    _profile = await profileDb.getUserData();
 
     final AppCoursesDatabase coursesDb = AppCoursesDatabase();
     final List<Course> courses = await coursesDb.courses();
 
-    profile.courses = courses;
-
-    // Build courses states map
-    final Map<String, String> coursesStates = <String, String>{};
-    for (Course course in profile.courses) {
-      coursesStates[course.name!] = course.state!;
-    }
-
-    _profile = profile;
-    notifyListeners();
+    _profile.courses = courses;
   }
 
-  getUserFees(Completer<void> action, Session session) async {
+  void loadBalanceRefreshTimes() async {
+    final AppRefreshTimesDatabase refreshTimesDb = AppRefreshTimesDatabase();
+    final Map<String, String> refreshTimes =
+        await refreshTimesDb.refreshTimes();
+
+    final printRefreshTime = refreshTimes['print'];
+    final feesRefreshTime = refreshTimes['fees'];
+    if (printRefreshTime != null) {
+      _printRefreshTime = DateTime.parse(printRefreshTime);
+    }
+    if (feesRefreshTime != null) {
+      _feesRefreshTime = DateTime.parse(feesRefreshTime);
+    }
+  }
+
+  void loadCourseUnits() async {
+    final AppCourseUnitsDatabase db = AppCourseUnitsDatabase();
+    _currUcs = await db.courseUnits();
+  }
+
+  fetchUserFees(Completer<void> action, Session session) async {
     try {
       final response = await FeesFetcher().getUserFeesResponse(session);
 
@@ -134,21 +152,6 @@ class ProfileStateProvider extends StateProviderNotifier {
     action.complete();
   }
 
-  updateStateBasedOnLocalRefreshTimes() async {
-    final AppRefreshTimesDatabase refreshTimesDb = AppRefreshTimesDatabase();
-    final Map<String, String> refreshTimes =
-        await refreshTimesDb.refreshTimes();
-
-    final printRefreshTime = refreshTimes['print'];
-    final feesRefreshTime = refreshTimes['fees'];
-    if (printRefreshTime != null) {
-      _printRefreshTime = DateTime.parse(printRefreshTime);
-    }
-    if (feesRefreshTime != null) {
-      _feesRefreshTime = DateTime.parse(feesRefreshTime);
-    }
-  }
-
   getUserInfo(Completer<void> action, Session session) async {
     try {
       updateStatus(RequestStatus.busy);
@@ -203,11 +206,5 @@ class ProfileStateProvider extends StateProviderNotifier {
     }
 
     action.complete();
-  }
-
-  updateStateBasedOnLocalCourseUnits() async {
-    final AppCourseUnitsDatabase db = AppCourseUnitsDatabase();
-    _currUcs = await db.courseUnits();
-    notifyListeners();
   }
 }

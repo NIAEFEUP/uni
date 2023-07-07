@@ -13,6 +13,15 @@ class LibraryOccupationProvider extends StateProviderNotifier {
 
   LibraryOccupation? get occupation => _occupation;
 
+  @override
+  void loadFromStorage() async {
+    final LibraryOccupationDatabase db = LibraryOccupationDatabase();
+    final LibraryOccupation occupation = await db.occupation();
+
+    _occupation = occupation;
+    notifyListeners();
+  }
+
   void getLibraryOccupation(
     Session session,
     Completer<void> action,
@@ -35,13 +44,5 @@ class LibraryOccupationProvider extends StateProviderNotifier {
       updateStatus(RequestStatus.failed);
     }
     action.complete();
-  }
-
-  Future<void> updateStateBasedOnLocalOccupation() async {
-    final LibraryOccupationDatabase db = LibraryOccupationDatabase();
-    final LibraryOccupation occupation = await db.occupation();
-
-    _occupation = occupation;
-    notifyListeners();
   }
 }

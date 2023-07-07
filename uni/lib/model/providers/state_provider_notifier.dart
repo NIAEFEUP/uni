@@ -1,5 +1,6 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/model/request_status.dart';
 
 abstract class StateProviderNotifier extends ChangeNotifier {
@@ -19,7 +20,15 @@ abstract class StateProviderNotifier extends ChangeNotifier {
     }
 
     _initialized = true;
-    loadFromStorage();
+
+    final userPersistentInfo =
+        await AppSharedPreferences.getPersistentUserInfo();
+    final sessionIsPersistent =
+        userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '';
+    if (sessionIsPersistent) {
+      loadFromStorage();
+    }
+
     if (await Connectivity().checkConnectivity() != ConnectivityResult.none) {
       loadFromRemote();
     }
@@ -27,7 +36,7 @@ abstract class StateProviderNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  void loadFromStorage() async {}
+  void loadFromStorage();
 
-  void loadFromRemote() async {}
+  void loadFromRemote() {}
 }

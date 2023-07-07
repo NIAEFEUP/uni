@@ -4,10 +4,10 @@ import 'dart:collection';
 import 'package:logger/logger.dart';
 import 'package:uni/controller/fetchers/departures_fetcher.dart';
 import 'package:uni/controller/local_storage/app_bus_stop_database.dart';
-import 'package:uni/model/request_status.dart';
 import 'package:uni/model/entities/bus_stop.dart';
 import 'package:uni/model/entities/trip.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
+import 'package:uni/model/request_status.dart';
 
 class BusStopProvider extends StateProviderNotifier {
   Map<String, BusStopData> _configuredBusStops = Map.identity();
@@ -17,6 +17,16 @@ class BusStopProvider extends StateProviderNotifier {
       UnmodifiableMapView(_configuredBusStops);
 
   DateTime get timeStamp => _timeStamp;
+
+  @override
+  void loadFromStorage() async {
+    final AppBusStopDatabase busStopsDb = AppBusStopDatabase();
+    final Map<String, BusStopData> stops = await busStopsDb.busStops();
+
+    _configuredBusStops = stops;
+    notifyListeners();
+    getUserBusTrips(Completer());
+  }
 
   getUserBusTrips(Completer<void> action) async {
     updateStatus(RequestStatus.busy);
@@ -78,14 +88,5 @@ class BusStopProvider extends StateProviderNotifier {
 
     final AppBusStopDatabase db = AppBusStopDatabase();
     db.updateFavoriteBusStop(stopCode);
-  }
-
-  updateStateBasedOnLocalUserBusStops() async {
-    final AppBusStopDatabase busStopsDb = AppBusStopDatabase();
-    final Map<String, BusStopData> stops = await busStopsDb.busStops();
-
-    _configuredBusStops = stops;
-    notifyListeners();
-    getUserBusTrips(Completer());
   }
 }

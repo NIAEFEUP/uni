@@ -5,6 +5,9 @@ class HomePageEditingModeProvider extends StateProviderNotifier {
 
   bool get isEditing => _isEditing;
 
+  @override
+  void loadFromStorage() {}
+
   setHomePageEditingMode(bool state) {
     _isEditing = state;
     notifyListeners();

@@ -8,10 +8,10 @@ import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/parsers/parser_session.dart';
 import 'package:uni/model/entities/login_exceptions.dart';
-import 'package:uni/model/request_status.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/model/providers/state_providers.dart';
+import 'package:uni/model/request_status.dart';
 
 class SessionProvider extends StateProviderNotifier {
   Session _session = Session();
@@ -21,6 +21,9 @@ class SessionProvider extends StateProviderNotifier {
 
   UnmodifiableListView<String> get faculties =>
       UnmodifiableListView(_faculties);
+
+  @override
+  void loadFromStorage() {}
 
   login(
       Completer<void> action,
@@ -46,7 +49,7 @@ class SessionProvider extends StateProviderNotifier {
         Future.delayed(const Duration(seconds: 20),
             () => {NotificationManager().initializeNotifications()});
 
-        loadLocalUserInfoToState(stateProviders, skipDatabaseLookup: true);
+        //loadLocalUserInfoToState(stateProviders, skipDatabaseLookup: true);
         await loadRemoteUserInfoToState(stateProviders);
 
         usernameController.clear();
@@ -59,7 +62,7 @@ class SessionProvider extends StateProviderNotifier {
             await NetworkRouter.loginInSigarra(username, password, faculties);
         if (isPasswordExpired(responseHtml)) {
           action.completeError(ExpiredCredentialsException());
-        }else{
+        } else {
           action.completeError(WrongCredentialsException());
         }
         updateStatus(RequestStatus.failed);
@@ -78,10 +81,10 @@ class SessionProvider extends StateProviderNotifier {
       StateProviders stateProviders,
       {Completer? action}) async {
     try {
-      loadLocalUserInfoToState(stateProviders);
+      //loadLocalUserInfoToState(stateProviders);
       updateStatus(RequestStatus.busy);
       _session = await NetworkRouter.login(username, password, faculties, true);
-      notifyListeners();
+      //notifyListeners();
 
       if (session.authenticated) {
         await loadRemoteUserInfoToState(stateProviders);

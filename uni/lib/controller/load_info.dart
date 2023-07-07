@@ -72,7 +72,7 @@ Future loadRemoteUserInfoToState(StateProviders stateProviders) async {
         .getCourseUnitsAndCourseAverages(session, ucs);
     stateProviders.profileStateProvider
         .getUserPrintBalance(printBalance, session);
-    stateProviders.profileStateProvider.getUserFees(fees, session);
+    stateProviders.profileStateProvider.fetchUserFees(fees, session);
   });
 
   final allRequests = Future.wait([
@@ -92,37 +92,6 @@ Future loadRemoteUserInfoToState(StateProviders stateProviders) async {
         .setLastUserInfoUpdateTimestamp(lastUpdate);
   });
   return lastUpdate.future;
-}
-
-void loadLocalUserInfoToState(StateProviders stateProviders,
-    {skipDatabaseLookup = false}) async {
-  final Tuple2<String, String> userPersistentInfo =
-      await AppSharedPreferences.getPersistentUserInfo();
-
-  //Logger().i('Setting up user preferences');
-  stateProviders.examProvider.setFilteredExams(
-      await AppSharedPreferences.getFilteredExams(), Completer());
-  stateProviders.examProvider
-      .setHiddenExams(await AppSharedPreferences.getHiddenExams(), Completer());
-
-  if (userPersistentInfo.item1 != '' &&
-      userPersistentInfo.item2 != '' &&
-      !skipDatabaseLookup) {
-    Logger().i('Fetching local info from database');
-    stateProviders.examProvider.updateStateBasedOnLocalUserExams();
-    stateProviders.lectureProvider.updateStateBasedOnLocalUserLectures();
-    stateProviders.examProvider.updateStateBasedOnLocalUserExams();
-    stateProviders.lectureProvider.updateStateBasedOnLocalUserLectures();
-    stateProviders.busStopProvider.updateStateBasedOnLocalUserBusStops();
-    stateProviders.profileStateProvider.updateStateBasedOnLocalProfile();
-    stateProviders.profileStateProvider.updateStateBasedOnLocalRefreshTimes();
-    stateProviders.restaurantProvider.updateStateBasedOnLocalRestaurants();
-    stateProviders.lastUserInfoProvider.updateStateBasedOnLocalTime();
-    stateProviders.calendarProvider.updateStateBasedOnLocalCalendar();
-    stateProviders.profileStateProvider.updateStateBasedOnLocalCourseUnits();
-  }
-
-  stateProviders.facultyLocationsProvider.getFacultyLocations(Completer());
 }
 
 Future<void> handleRefresh(StateProviders stateProviders) async {
