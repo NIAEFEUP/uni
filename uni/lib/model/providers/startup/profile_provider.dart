@@ -64,6 +64,10 @@ class ProfileProvider extends StateProviderNotifier {
       printBalanceAction.future,
       courseUnitsAction.future
     ]);
+
+    if (status != RequestStatus.failed) {
+      updateStatus(RequestStatus.successful);
+    }
   }
 
   Future<void> loadProfile() async {
@@ -80,7 +84,7 @@ class ProfileProvider extends StateProviderNotifier {
   Future<void> loadBalanceRefreshTimes() async {
     final AppRefreshTimesDatabase refreshTimesDb = AppRefreshTimesDatabase();
     final Map<String, String> refreshTimes =
-        await refreshTimesDb.refreshTimes();
+    await refreshTimesDb.refreshTimes();
 
     final printRefreshTime = refreshTimes['print'];
     final feesRefreshTime = refreshTimes['fees'];
@@ -106,7 +110,7 @@ class ProfileProvider extends StateProviderNotifier {
 
       final DateTime currentTime = DateTime.now();
       final Tuple2<String, String> userPersistentInfo =
-          await AppSharedPreferences.getPersistentUserInfo();
+      await AppSharedPreferences.getPersistentUserInfo();
       if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {
         await storeRefreshTime('fees', currentTime.toString());
 
@@ -128,6 +132,7 @@ class ProfileProvider extends StateProviderNotifier {
       notifyListeners();
     } catch (e) {
       Logger().e('Failed to get Fees info');
+      updateStatus(RequestStatus.failed);
     }
 
     action.complete();
@@ -135,7 +140,7 @@ class ProfileProvider extends StateProviderNotifier {
 
   Future storeRefreshTime(String db, String currentTime) async {
     final AppRefreshTimesDatabase refreshTimesDatabase =
-        AppRefreshTimesDatabase();
+    AppRefreshTimesDatabase();
     refreshTimesDatabase.saveRefreshTime(db, currentTime);
   }
 
@@ -146,7 +151,7 @@ class ProfileProvider extends StateProviderNotifier {
 
       final DateTime currentTime = DateTime.now();
       final Tuple2<String, String> userPersistentInfo =
-          await AppSharedPreferences.getPersistentUserInfo();
+      await AppSharedPreferences.getPersistentUserInfo();
       if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {
         await storeRefreshTime('print', currentTime.toString());
 
@@ -168,6 +173,7 @@ class ProfileProvider extends StateProviderNotifier {
       notifyListeners();
     } catch (e) {
       Logger().e('Failed to get Print Balance');
+      updateStatus(RequestStatus.failed);
     }
 
     action.complete();
@@ -179,7 +185,7 @@ class ProfileProvider extends StateProviderNotifier {
 
       final profile = await ProfileFetcher.getProfile(session);
       final currentCourseUnits =
-          await CurrentCourseUnitsFetcher().getCurrentCourseUnits(session);
+      await CurrentCourseUnitsFetcher().getCurrentCourseUnits(session);
 
       _profile = profile;
       _profile.courseUnits = currentCourseUnits;
@@ -187,7 +193,7 @@ class ProfileProvider extends StateProviderNotifier {
       updateStatus(RequestStatus.successful);
 
       final Tuple2<String, String> userPersistentInfo =
-          await AppSharedPreferences.getPersistentUserInfo();
+      await AppSharedPreferences.getPersistentUserInfo();
       if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {
         final profileDb = AppUserDataDatabase();
         profileDb.insertUserData(_profile);
@@ -200,8 +206,8 @@ class ProfileProvider extends StateProviderNotifier {
     action.complete();
   }
 
-  fetchCourseUnitsAndCourseAverages(
-      Session session, Completer<void> action) async {
+  fetchCourseUnitsAndCourseAverages(Session session,
+      Completer<void> action) async {
     updateStatus(RequestStatus.busy);
     try {
       final List<Course> courses = profile.courses;
@@ -211,7 +217,7 @@ class ProfileProvider extends StateProviderNotifier {
       _profile.courseUnits = allCourseUnits;
 
       final Tuple2<String, String> userPersistentInfo =
-          await AppSharedPreferences.getPersistentUserInfo();
+      await AppSharedPreferences.getPersistentUserInfo();
       if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {
         final AppCoursesDatabase coursesDb = AppCoursesDatabase();
         await coursesDb.saveNewCourses(courses);

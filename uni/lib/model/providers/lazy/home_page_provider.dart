@@ -2,6 +2,7 @@ import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
+import 'package:uni/model/request_status.dart';
 import 'package:uni/utils/favorite_widget_type.dart';
 
 class HomePageProvider extends StateProviderNotifier {
@@ -20,7 +21,9 @@ class HomePageProvider extends StateProviderNotifier {
   }
 
   @override
-  Future<void> loadFromRemote(Session session, Profile profile) async {}
+  Future<void> loadFromRemote(Session session, Profile profile) async {
+    updateStatus(RequestStatus.successful);
+  }
 
   setHomePageEditingMode(bool state) {
     _isEditing = state;

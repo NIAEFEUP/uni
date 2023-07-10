@@ -24,5 +24,7 @@ class FacultyLocationsProvider extends StateProviderNotifier {
   }
 
   @override
-  Future<void> loadFromRemote(Session session, Profile profile) async {}
+  Future<void> loadFromRemote(Session session, Profile profile) async {
+    updateStatus(RequestStatus.successful);
+  }
 }

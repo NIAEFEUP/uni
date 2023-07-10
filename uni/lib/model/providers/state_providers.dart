@@ -7,6 +7,7 @@ import 'package:uni/model/providers/lazy/faculty_locations_provider.dart';
 import 'package:uni/model/providers/lazy/home_page_provider.dart';
 import 'package:uni/model/providers/lazy/lecture_provider.dart';
 import 'package:uni/model/providers/lazy/library_occupation_provider.dart';
+import 'package:uni/model/providers/lazy/reference_provider.dart';
 import 'package:uni/model/providers/lazy/restaurant_provider.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
@@ -22,6 +23,7 @@ class StateProviders {
   final LibraryOccupationProvider libraryOccupationProvider;
   final FacultyLocationsProvider facultyLocationsProvider;
   final HomePageProvider homePageProvider;
+  final ReferenceProvider referenceProvider;
 
   StateProviders(
       this.lectureProvider,
@@ -33,7 +35,8 @@ class StateProviders {
       this.calendarProvider,
       this.libraryOccupationProvider,
       this.facultyLocationsProvider,
-      this.homePageProvider);
+      this.homePageProvider,
+      this.referenceProvider);
 
   static StateProviders fromContext(BuildContext context) {
     final lectureProvider =
@@ -55,6 +58,8 @@ class StateProviders {
         Provider.of<FacultyLocationsProvider>(context, listen: false);
     final homePageProvider =
         Provider.of<HomePageProvider>(context, listen: false);
+    final referenceProvider =
+        Provider.of<ReferenceProvider>(context, listen: false);
 
     return StateProviders(
         lectureProvider,
@@ -66,6 +71,7 @@ class StateProviders {
         calendarProvider,
         libraryOccupationProvider,
         facultyLocationsProvider,
-        homePageProvider);
+        homePageProvider,
+        referenceProvider);
   }
 }

@@ -63,6 +63,9 @@ abstract class StateProviderNotifier extends ChangeNotifier {
           Logger().i("Loaded $runtimeType info from remote");
         } else if (_status == RequestStatus.failed) {
           Logger().e("Failed to load $runtimeType info from remote");
+        } else {
+          Logger().w(
+              "$runtimeType remote load method did not update request status");
         }
       } else {
         Logger().i("No internet connection; skipping $runtimeType remote load");

@@ -32,7 +32,9 @@ class SessionProvider extends StateProviderNotifier {
   Future<void> loadFromStorage() async {}
 
   @override
-  Future<void> loadFromRemote(Session session, Profile profile) async {}
+  Future<void> loadFromRemote(Session session, Profile profile) async {
+    updateStatus(RequestStatus.successful);
+  }
 
   login(Completer<void> action, String username, String password,
       List<String> faculties, persistentSession) async {
