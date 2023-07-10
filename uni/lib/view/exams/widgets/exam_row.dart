@@ -80,8 +80,7 @@ class _ExamRowState extends State<ExamRow> {
                                                   widget.exam.id, Completer());
                                         })),
                               IconButton(
-                                  icon: const Icon(MdiIcons.calendarPlus,
-                                      size: 30),
+                                  icon: Icon(MdiIcons.calendarPlus, size: 30),
                                   onPressed: () => Add2Calendar.addEvent2Cal(
                                       createExamEvent())),
                             ]),

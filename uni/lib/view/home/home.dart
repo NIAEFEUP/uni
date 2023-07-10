@@ -5,6 +5,7 @@ import 'package:uni/model/providers/lazy/exam_provider.dart';
 import 'package:uni/model/providers/lazy/home_page_provider.dart';
 import 'package:uni/model/providers/lazy/lecture_provider.dart';
 import 'package:uni/model/providers/lazy/library_occupation_provider.dart';
+import 'package:uni/model/providers/lazy/reference_provider.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/utils/favorite_widget_type.dart';
@@ -37,6 +38,8 @@ class HomePageViewState extends GeneralPageViewState {
         case FavoriteWidgetType.account:
           providersToUpdate
               .add(Provider.of<ProfileProvider>(context, listen: false));
+          providersToUpdate
+              .add(Provider.of<ReferenceProvider>(context, listen: false));
           break;
         case FavoriteWidgetType.exams:
           providersToUpdate
