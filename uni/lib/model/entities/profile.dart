@@ -10,7 +10,7 @@ class Profile {
   late List<Course> courses;
   final String printBalance;
   final String feesBalance;
-  final String feesLimit;
+  final DateTime? feesLimit;
 
   Profile(
       {this.name = '',
@@ -18,7 +18,7 @@ class Profile {
       courses,
       this.printBalance = '',
       this.feesBalance = '',
-      this.feesLimit = ''})
+      this.feesLimit})
       : courses = courses ?? [];
 
   /// Creates a new instance from a JSON object.
