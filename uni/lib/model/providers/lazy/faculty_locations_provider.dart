@@ -10,7 +10,8 @@ import 'package:uni/model/request_status.dart';
 class FacultyLocationsProvider extends StateProviderNotifier {
   List<LocationGroup> _locations = [];
 
-  FacultyLocationsProvider() : super(dependsOnSession: false);
+  FacultyLocationsProvider()
+      : super(dependsOnSession: false, cacheDuration: const Duration(days: 30));
 
   UnmodifiableListView<LocationGroup> get locations =>
       UnmodifiableListView(_locations);

@@ -15,7 +15,7 @@ class BusStopProvider extends StateProviderNotifier {
   Map<String, BusStopData> _configuredBusStops = Map.identity();
   DateTime _timeStamp = DateTime.now();
 
-  BusStopProvider() : super(dependsOnSession: false);
+  BusStopProvider() : super(dependsOnSession: false, cacheDuration: null);
 
   UnmodifiableMapView<String, BusStopData> get configuredBusStops =>
       UnmodifiableMapView(_configuredBusStops);

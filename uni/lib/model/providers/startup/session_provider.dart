@@ -17,7 +17,11 @@ class SessionProvider extends StateProviderNotifier {
   Session _session = Session();
   List<String> _faculties = [];
 
-  SessionProvider() : super(dependsOnSession: false);
+  SessionProvider()
+      : super(
+            dependsOnSession: false,
+            cacheDuration: null,
+            initialStatus: RequestStatus.none);
 
   Session get session => _session;
 

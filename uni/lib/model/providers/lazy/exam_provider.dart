@@ -19,7 +19,8 @@ class ExamProvider extends StateProviderNotifier {
   List<String> _hiddenExams = [];
   Map<String, bool> _filteredExamsTypes = {};
 
-  ExamProvider() : super(dependsOnSession: true);
+  ExamProvider()
+      : super(dependsOnSession: true, cacheDuration: const Duration(days: 1));
 
   UnmodifiableListView<Exam> get exams => UnmodifiableListView(_exams);
 

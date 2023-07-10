@@ -8,7 +8,7 @@ class HomePageProvider extends StateProviderNotifier {
   List<FavoriteWidgetType> _favoriteCards = [];
   bool _isEditing = false;
 
-  HomePageProvider() : super(dependsOnSession: false);
+  HomePageProvider() : super(dependsOnSession: false, cacheDuration: null);
 
   List<FavoriteWidgetType> get favoriteCards => _favoriteCards.toList();
 

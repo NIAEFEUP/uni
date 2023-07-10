@@ -28,7 +28,8 @@ class ProfileProvider extends StateProviderNotifier {
   DateTime? _feesRefreshTime;
   DateTime? _printRefreshTime;
 
-  ProfileProvider() : super(dependsOnSession: true);
+  ProfileProvider()
+      : super(dependsOnSession: true, cacheDuration: const Duration(days: 1));
 
   String get feesRefreshTime => _feesRefreshTime.toString();
 
