@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:logger/logger.dart';
 import 'package:tuple/tuple.dart';
@@ -20,6 +21,8 @@ import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/model/request_status.dart';
+
+import '../../../controller/local_storage/file_offline_storage.dart';
 
 class ProfileProvider extends StateProviderNotifier {
   Profile _profile = Profile();
@@ -77,7 +80,7 @@ class ProfileProvider extends StateProviderNotifier {
   Future<void> loadBalanceRefreshTimes() async {
     final AppRefreshTimesDatabase refreshTimesDb = AppRefreshTimesDatabase();
     final Map<String, String> refreshTimes =
-    await refreshTimesDb.refreshTimes();
+        await refreshTimesDb.refreshTimes();
 
     final printRefreshTime = refreshTimes['print'];
     final feesRefreshTime = refreshTimes['fees'];
@@ -103,7 +106,7 @@ class ProfileProvider extends StateProviderNotifier {
 
       final DateTime currentTime = DateTime.now();
       final Tuple2<String, String> userPersistentInfo =
-      await AppSharedPreferences.getPersistentUserInfo();
+          await AppSharedPreferences.getPersistentUserInfo();
       if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {
         await storeRefreshTime('fees', currentTime.toString());
 
@@ -132,7 +135,7 @@ class ProfileProvider extends StateProviderNotifier {
 
   Future storeRefreshTime(String db, String currentTime) async {
     final AppRefreshTimesDatabase refreshTimesDatabase =
-    AppRefreshTimesDatabase();
+        AppRefreshTimesDatabase();
     refreshTimesDatabase.saveRefreshTime(db, currentTime);
   }
 
@@ -143,7 +146,7 @@ class ProfileProvider extends StateProviderNotifier {
 
       final DateTime currentTime = DateTime.now();
       final Tuple2<String, String> userPersistentInfo =
-      await AppSharedPreferences.getPersistentUserInfo();
+          await AppSharedPreferences.getPersistentUserInfo();
       if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {
         await storeRefreshTime('print', currentTime.toString());
 
@@ -176,7 +179,7 @@ class ProfileProvider extends StateProviderNotifier {
 
       final profile = await ProfileFetcher.getProfile(session);
       final currentCourseUnits =
-      await CurrentCourseUnitsFetcher().getCurrentCourseUnits(session);
+          await CurrentCourseUnitsFetcher().getCurrentCourseUnits(session);
 
       _profile = profile;
       _profile.courseUnits = currentCourseUnits;
@@ -184,7 +187,7 @@ class ProfileProvider extends StateProviderNotifier {
       updateStatus(RequestStatus.successful);
 
       final Tuple2<String, String> userPersistentInfo =
-      await AppSharedPreferences.getPersistentUserInfo();
+          await AppSharedPreferences.getPersistentUserInfo();
       if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {
         final profileDb = AppUserDataDatabase();
         profileDb.insertUserData(_profile);
@@ -197,8 +200,8 @@ class ProfileProvider extends StateProviderNotifier {
     action.complete();
   }
 
-  fetchCourseUnitsAndCourseAverages(Session session,
-      Completer<void> action) async {
+  fetchCourseUnitsAndCourseAverages(
+      Session session, Completer<void> action) async {
     updateStatus(RequestStatus.busy);
     try {
       final List<Course> courses = profile.courses;
@@ -208,7 +211,7 @@ class ProfileProvider extends StateProviderNotifier {
       _profile.courseUnits = allCourseUnits;
 
       final Tuple2<String, String> userPersistentInfo =
-      await AppSharedPreferences.getPersistentUserInfo();
+          await AppSharedPreferences.getPersistentUserInfo();
       if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {
         final AppCoursesDatabase coursesDb = AppCoursesDatabase();
         await coursesDb.saveNewCourses(courses);
@@ -222,5 +225,18 @@ class ProfileProvider extends StateProviderNotifier {
     }
 
     action.complete();
+  }
+
+  static Future<File?> fetchOrGetCachedProfilePicture(Session session,
+      {forceRetrieval = false}) {
+    final String studentNumber = session.studentNumber;
+    final String faculty = session.faculties[0];
+    final String url =
+        'https://sigarra.up.pt/$faculty/pt/fotografias_service.foto?pct_cod=$studentNumber';
+    final Map<String, String> headers = <String, String>{};
+    headers['cookie'] = session.cookies;
+    return loadFileFromStorageOrRetrieveNew(
+        'user_profile_picture', url, headers,
+        forceRetrieval: forceRetrieval);
   }
 }

@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-import 'package:uni/controller/load_info.dart';
+import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/navigation_drawer.dart';
@@ -28,9 +28,10 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
 
   Future<DecorationImage> buildProfileDecorationImage(context,
       {forceRetrieval = false}) async {
-    final profilePictureFile = await loadProfilePicture(
-        Provider.of<SessionProvider>(context, listen: false).session,
-        forceRetrieval: forceRetrieval || profileImageProvider == null);
+    final profilePictureFile =
+        await ProfileProvider.fetchOrGetCachedProfilePicture(
+            Provider.of<SessionProvider>(context, listen: false).session,
+            forceRetrieval: forceRetrieval || profileImageProvider == null);
     return getProfileDecorationImage(profilePictureFile);
   }
 
@@ -53,7 +54,7 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
   Widget refreshState(BuildContext context, Widget child) {
     return RefreshIndicator(
       key: GlobalKey<RefreshIndicatorState>(),
-      onRefresh: () => loadProfilePicture(
+      onRefresh: () => ProfileProvider.fetchOrGetCachedProfilePicture(
               Provider.of<SessionProvider>(context, listen: false).session,
               forceRetrieval: true)
           .then((value) => handleRefresh(context)),
