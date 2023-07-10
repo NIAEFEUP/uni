@@ -70,7 +70,7 @@ dependencies:
   workmanager: ^0.5.1
   flutter_local_notifications: ^14.0.0+2
   percent_indicator: ^4.2.2
-  shimmer: ^2.0.0
+  shimmer: ^3.0.0
   material_design_icons_flutter: ^6.0.7096
   flutter_dotenv: ^5.0.2
 
