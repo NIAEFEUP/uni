@@ -18,6 +18,7 @@ import 'package:uni/model/providers/last_user_info_provider.dart';
 import 'package:uni/model/providers/lecture_provider.dart';
 import 'package:uni/model/providers/library_occupation_provider.dart';
 import 'package:uni/model/providers/profile_state_provider.dart';
+import 'package:uni/model/providers/reference_provider.dart';
 import 'package:uni/model/providers/restaurant_provider.dart';
 import 'package:uni/model/providers/session_provider.dart';
 import 'package:uni/model/providers/state_providers.dart';
@@ -61,7 +62,8 @@ Future<void> main() async {
       LastUserInfoProvider(),
       UserFacultiesProvider(),
       FavoriteCardsProvider(),
-      HomePageEditingModeProvider());
+      HomePageEditingModeProvider(),
+      ReferenceProvider());
 
   OnStartUp.onStart(stateProviders.sessionProvider);
   WidgetsFlutterBinding.ensureInitialized();
@@ -109,6 +111,8 @@ Future<void> main() async {
                           stateProviders.favoriteCardsProvider),
                   ChangeNotifierProvider(
                       create: (context) => stateProviders.homePageEditingMode),
+                  ChangeNotifierProvider(
+                      create: (context) => stateProviders.referenceProvider),
                 ],
                 child: ChangeNotifierProvider<ThemeNotifier>(
                   create: (_) => ThemeNotifier(savedTheme),
