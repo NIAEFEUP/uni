@@ -11,6 +11,7 @@ import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/model/request_status.dart';
+import 'package:uni/view/navigation_service.dart';
 
 class SessionProvider extends StateProviderNotifier {
   Session _session = Session();
@@ -47,7 +48,6 @@ class SessionProvider extends StateProviderNotifier {
             () => {NotificationManager().initializeNotifications()});
 
         await acceptTermsAndConditions();
-
         updateStatus(RequestStatus.successful);
       } else {
         final String responseHtml =
@@ -81,7 +81,7 @@ class SessionProvider extends StateProviderNotifier {
         updateStatus(RequestStatus.successful);
         action?.complete();
       } else {
-        failReLogin(action);
+        handleFailedReLogin(action);
       }
     } catch (e) {
       _session = Session(
@@ -92,14 +92,14 @@ class SessionProvider extends StateProviderNotifier {
           cookies: '',
           persistentSession: true);
 
-      failReLogin(action);
+      handleFailedReLogin(action);
     }
   }
 
-  void failReLogin(Completer? action) {
-    notifyListeners();
-    updateStatus(RequestStatus.failed);
+  handleFailedReLogin(Completer? action) {
     action?.completeError(RequestStatus.failed);
-    NetworkRouter.onReloginFail();
+    if (!session.persistentSession) {
+      return NavigationService.logout();
+    }
   }
 }
