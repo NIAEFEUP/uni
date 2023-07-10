@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:uni/controller/background_workers/background_callback.dart';
@@ -68,10 +70,16 @@ Future<void> main() async {
   OnStartUp.onStart(stateProviders.sessionProvider);
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Workmanager().initialize(workerStartCallback, 
-    isInDebugMode: !kReleaseMode // run workmanager in debug mode when app is in debug mode
-  );
+  await Workmanager().initialize(workerStartCallback,
+      isInDebugMode:
+          !kReleaseMode // run workmanager in debug mode when app is in debug mode
+      );
 
+  await dotenv
+      .load(fileName: "assets/env/.env", isOptional: true)
+      .onError((error, stackTrace) {
+    Logger().e("Error loading .env file: $error", error, stackTrace);
+  });
 
   final savedTheme = await AppSharedPreferences.getThemeMode();
   await SentryFlutter.init((options) {
