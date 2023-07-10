@@ -48,7 +48,7 @@ dependencies:
   flutter_svg: ^2.0.0+1
   synchronized: ^3.0.0
   image: ^4.0.13
-  connectivity_plus: ^3.0.3
+  connectivity_plus: ^4.0.1
   logger: ^1.1.0
   url_launcher: ^6.0.2
   flutter_markdown: ^0.6.0
