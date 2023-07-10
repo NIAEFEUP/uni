@@ -47,6 +47,9 @@ class TuitionNotification extends Notification {
     final FeesFetcher feesFetcher = FeesFetcher();
     final String nextDueDate = await parseFeesNextLimit(
         await feesFetcher.getUserFeesResponse(session));
+    if(nextDueDate == "Sem data"){
+      return false;
+    }
     _dueDate = DateTime.parse(nextDueDate);
     return DateTime.now().difference(_dueDate).inDays >= -3;
   }
