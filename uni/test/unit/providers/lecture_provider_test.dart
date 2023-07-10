@@ -39,7 +39,7 @@ void main() {
     LectureProvider provider;
     setUp(() {
       provider = LectureProvider();
-      expect(provider.status, RequestStatus.none);
+      expect(provider.status, RequestStatus.busy);
     });
 
     test('When given a single schedule', () async {

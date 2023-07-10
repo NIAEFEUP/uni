@@ -59,7 +59,7 @@ void main() {
 
     setUp(() {
       provider = ExamProvider();
-      expect(provider.status, RequestStatus.none);
+      expect(provider.status, RequestStatus.busy);
     });
 
     test('When given one exam', () async {

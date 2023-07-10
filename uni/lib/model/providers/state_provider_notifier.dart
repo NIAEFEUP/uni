@@ -11,7 +11,7 @@ import 'package:uni/model/request_status.dart';
 
 abstract class StateProviderNotifier extends ChangeNotifier {
   static final Lock _lock = Lock();
-  RequestStatus _status = RequestStatus.none;
+  RequestStatus _status = RequestStatus.busy;
   bool _initialized = false;
   DateTime? _lastUpdateTime;
   bool dependsOnSession;
@@ -22,23 +22,36 @@ abstract class StateProviderNotifier extends ChangeNotifier {
 
   StateProviderNotifier({required this.dependsOnSession});
 
+  Future<void> _loadFromStorage() async {
+    _lastUpdateTime = await AppSharedPreferences.getLastDataClassUpdateTime(
+        runtimeType.toString());
+
+    final userPersistentInfo =
+        await AppSharedPreferences.getPersistentUserInfo();
+    final sessionIsPersistent =
+        userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '';
+    if (sessionIsPersistent) {
+      await loadFromStorage();
+    }
+  }
+
   Future<void> _loadFromRemote(Session session, Profile profile) async {
-    if (await Connectivity().checkConnectivity() == ConnectivityResult.none) {
-      return;
+    final bool hasConnectivity =
+        await Connectivity().checkConnectivity() != ConnectivityResult.none;
+    if (hasConnectivity) {
+      updateStatus(RequestStatus.busy);
+      await loadFromRemote(session, profile);
     }
 
-    updateStatus(RequestStatus.busy);
-
-    await loadFromRemote(session, profile);
-
-    if (_status == RequestStatus.busy) {
+    if (!hasConnectivity || _status == RequestStatus.busy) {
       // No online activity from provider
       updateStatus(RequestStatus.successful);
+    } else {
+      _lastUpdateTime = DateTime.now();
+      await AppSharedPreferences.setLastDataClassUpdateTime(
+          runtimeType.toString(), _lastUpdateTime!);
+      notifyListeners();
     }
-
-    _lastUpdateTime = DateTime.now();
-    await AppSharedPreferences.setLastDataClassUpdateTime(
-        runtimeType.toString(), _lastUpdateTime!);
   }
 
   void updateStatus(RequestStatus status) {
@@ -63,27 +76,9 @@ abstract class StateProviderNotifier extends ChangeNotifier {
 
       _initialized = true;
 
-      _lastUpdateTime = await AppSharedPreferences.getLastDataClassUpdateTime(
-          runtimeType.toString());
-
-      updateStatus(RequestStatus.busy);
-
-      final userPersistentInfo =
-          await AppSharedPreferences.getPersistentUserInfo();
-      final sessionIsPersistent =
-          userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '';
-      if (sessionIsPersistent) {
-        await loadFromStorage();
-        if (await Connectivity().checkConnectivity() ==
-            ConnectivityResult.none) {
-          updateStatus(RequestStatus.none);
-        }
-      }
-
+      await _loadFromStorage();
       await _loadFromRemote(session, profile);
     });
-
-    notifyListeners();
   }
 
   Future<void> loadFromStorage();

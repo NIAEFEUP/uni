@@ -33,6 +33,7 @@ class CourseUnitsPageViewState
       final List<CourseUnit> courseUnits = profileProvider.profile.courseUnits;
       List<String> availableYears = [];
       List<String> availableSemesters = [];
+
       if (courseUnits.isNotEmpty) {
         availableYears = _getAvailableYears(courseUnits);
         if (availableYears.isNotEmpty && selectedSchoolYear == null) {
@@ -52,12 +53,10 @@ class CourseUnitsPageViewState
                   ? availableSemesters[0]
                   : availableSemesters[1];
         }
-
-        return _getPageView(courseUnits, profileProvider.status, availableYears,
-            availableSemesters);
-      } else {
-        return _getPageView([], profileProvider.status, [], []);
       }
+
+      return _getPageView(courseUnits, profileProvider.status, availableYears,
+          availableSemesters);
     });
   }
 
