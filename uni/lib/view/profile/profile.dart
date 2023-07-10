@@ -1,7 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:uni/model/providers/profile_provider.dart';
+import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/profile/widgets/account_info_card.dart';

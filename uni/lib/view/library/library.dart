@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/entities/library_occupation.dart';
-import 'package:uni/model/providers/library_occupation_provider.dart';
+import 'package:uni/model/providers/lazy/library_occupation_provider.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/lazy_consumer.dart';

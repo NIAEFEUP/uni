@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/entities/time_utilities.dart';
-import 'package:uni/model/providers/lecture_provider.dart';
+import 'package:uni/model/providers/lazy/lecture_provider.dart';
 import 'package:uni/model/request_status.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/common_widgets/page_title.dart';

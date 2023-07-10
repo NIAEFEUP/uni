@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-import 'package:uni/model/providers/library_occupation_provider.dart';
+import 'package:uni/model/providers/lazy/library_occupation_provider.dart';
 import 'package:uni/model/request_status.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';

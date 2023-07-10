@@ -1,5 +1,5 @@
 import 'package:uni/controller/networking/network_router.dart';
-import 'package:uni/model/providers/session_provider.dart';
+import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/view/navigation_service.dart';
 
 class OnStartUp {

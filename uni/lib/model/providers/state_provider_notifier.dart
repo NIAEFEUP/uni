@@ -1,29 +1,44 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:synchronized/synchronized.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/session.dart';
-import 'package:uni/model/providers/profile_provider.dart';
-import 'package:uni/model/providers/session_provider.dart';
+import 'package:uni/model/providers/startup/profile_provider.dart';
+import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/model/request_status.dart';
 
 abstract class StateProviderNotifier extends ChangeNotifier {
+  static final Lock _lock = Lock();
   RequestStatus _status = RequestStatus.none;
   bool _initialized = false;
   DateTime? _lastUpdateTime;
+  bool dependsOnSession;
 
   RequestStatus get status => _status;
 
   DateTime? get lastUpdateTime => _lastUpdateTime;
 
+  StateProviderNotifier({required this.dependsOnSession});
+
   Future<void> _loadFromRemote(Session session, Profile profile) async {
-    if (await Connectivity().checkConnectivity() != ConnectivityResult.none) {
-      await loadFromRemote(session, profile);
-      _lastUpdateTime = DateTime.now();
-      await AppSharedPreferences.setLastDataClassUpdateTime(
-          runtimeType.toString(), _lastUpdateTime!);
+    if (await Connectivity().checkConnectivity() == ConnectivityResult.none) {
+      return;
     }
+
+    updateStatus(RequestStatus.busy);
+
+    await loadFromRemote(session, profile);
+
+    if (_status == RequestStatus.busy) {
+      // No online activity from provider
+      updateStatus(RequestStatus.successful);
+    }
+
+    _lastUpdateTime = DateTime.now();
+    await AppSharedPreferences.setLastDataClassUpdateTime(
+        runtimeType.toString(), _lastUpdateTime!);
   }
 
   void updateStatus(RequestStatus status) {
@@ -37,34 +52,36 @@ abstract class StateProviderNotifier extends ChangeNotifier {
     final profile =
         Provider.of<ProfileProvider>(context, listen: false).profile;
 
-    updateStatus(RequestStatus.busy);
     _loadFromRemote(session, profile);
   }
 
   Future<void> ensureInitialized(Session session, Profile profile) async {
-    if (_initialized) {
-      return;
-    }
-
-    _initialized = true;
-
-    _lastUpdateTime = await AppSharedPreferences.getLastDataClassUpdateTime(
-        runtimeType.toString());
-
-    updateStatus(RequestStatus.busy);
-
-    final userPersistentInfo =
-        await AppSharedPreferences.getPersistentUserInfo();
-    final sessionIsPersistent =
-        userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '';
-    if (sessionIsPersistent) {
-      await loadFromStorage();
-      if (await Connectivity().checkConnectivity() == ConnectivityResult.none) {
-        updateStatus(RequestStatus.none);
+    await _lock.synchronized(() async {
+      if (_initialized) {
+        return;
       }
-    }
 
-    _loadFromRemote(session, profile);
+      _initialized = true;
+
+      _lastUpdateTime = await AppSharedPreferences.getLastDataClassUpdateTime(
+          runtimeType.toString());
+
+      updateStatus(RequestStatus.busy);
+
+      final userPersistentInfo =
+          await AppSharedPreferences.getPersistentUserInfo();
+      final sessionIsPersistent =
+          userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '';
+      if (sessionIsPersistent) {
+        await loadFromStorage();
+        if (await Connectivity().checkConnectivity() ==
+            ConnectivityResult.none) {
+          updateStatus(RequestStatus.none);
+        }
+      }
+
+      await _loadFromRemote(session, profile);
+    });
 
     notifyListeners();
   }

@@ -1,15 +1,15 @@
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
-import 'package:uni/model/providers/bus_stop_provider.dart';
-import 'package:uni/model/providers/calendar_provider.dart';
-import 'package:uni/model/providers/exam_provider.dart';
-import 'package:uni/model/providers/faculty_locations_provider.dart';
-import 'package:uni/model/providers/home_page_provider.dart';
-import 'package:uni/model/providers/lecture_provider.dart';
-import 'package:uni/model/providers/library_occupation_provider.dart';
-import 'package:uni/model/providers/profile_provider.dart';
-import 'package:uni/model/providers/restaurant_provider.dart';
-import 'package:uni/model/providers/session_provider.dart';
+import 'package:uni/model/providers/lazy/bus_stop_provider.dart';
+import 'package:uni/model/providers/lazy/calendar_provider.dart';
+import 'package:uni/model/providers/lazy/exam_provider.dart';
+import 'package:uni/model/providers/lazy/faculty_locations_provider.dart';
+import 'package:uni/model/providers/lazy/home_page_provider.dart';
+import 'package:uni/model/providers/lazy/lecture_provider.dart';
+import 'package:uni/model/providers/lazy/library_occupation_provider.dart';
+import 'package:uni/model/providers/lazy/restaurant_provider.dart';
+import 'package:uni/model/providers/startup/profile_provider.dart';
+import 'package:uni/model/providers/startup/session_provider.dart';
 
 class StateProviders {
   final LectureProvider lectureProvider;

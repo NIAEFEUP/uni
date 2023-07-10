@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:uni/model/providers/bus_stop_provider.dart';
+import 'package:uni/model/providers/lazy/bus_stop_provider.dart';
 import 'package:uni/view/lazy_consumer.dart';
 
 /// Manages the section with the estimated time for the bus arrival

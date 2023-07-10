@@ -14,7 +14,7 @@ import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/session.dart';
-import 'package:uni/model/providers/lecture_provider.dart';
+import 'package:uni/model/providers/lazy/lecture_provider.dart';
 import 'package:uni/view/schedule/schedule.dart';
 
 import '../../test_widget.dart';

@@ -17,6 +17,8 @@ import 'package:uni/model/request_status.dart';
 class LectureProvider extends StateProviderNotifier {
   List<Lecture> _lectures = [];
 
+  LectureProvider() : super(dependsOnSession: true);
+
   UnmodifiableListView<Lecture> get lectures => UnmodifiableListView(_lectures);
 
   @override

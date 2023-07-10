@@ -16,7 +16,7 @@ import 'package:uni/model/entities/course_unit.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/session.dart';
-import 'package:uni/model/providers/exam_provider.dart';
+import 'package:uni/model/providers/lazy/exam_provider.dart';
 import 'package:uni/view/exams/exams.dart';
 
 import '../../test_widget.dart';

@@ -12,6 +12,8 @@ import 'package:uni/model/request_status.dart';
 class LibraryOccupationProvider extends StateProviderNotifier {
   LibraryOccupation? _occupation;
 
+  LibraryOccupationProvider() : super(dependsOnSession: true);
+
   LibraryOccupation? get occupation => _occupation;
 
   @override

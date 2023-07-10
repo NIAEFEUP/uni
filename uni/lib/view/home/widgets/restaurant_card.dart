@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:uni/model/providers/restaurant_provider.dart';
+import 'package:uni/model/providers/lazy/restaurant_provider.dart';
 import 'package:uni/view/common_widgets/date_rectangle.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
 import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';

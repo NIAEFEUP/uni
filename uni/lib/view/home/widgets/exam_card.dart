@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uni/model/entities/exam.dart';
-import 'package:uni/model/providers/exam_provider.dart';
+import 'package:uni/model/providers/lazy/exam_provider.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/common_widgets/date_rectangle.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';

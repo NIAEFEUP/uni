@@ -132,7 +132,7 @@ class SplashScreenState extends State<SplashScreen> {
           final List<String> faculties =
               await AppSharedPreferences.getUserFaculties();
           await stateProviders.sessionProvider
-              .reLogin(userName, password, faculties, stateProviders);
+              .reLogin(userName, password, faculties);
         }
         return MaterialPageRoute(builder: (context) => const HomePageView());
 

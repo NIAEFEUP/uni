@@ -1,14 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
-import 'package:uni/model/providers/profile_provider.dart';
-import 'package:uni/model/providers/session_provider.dart';
+import 'package:uni/model/providers/startup/profile_provider.dart';
+import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
 
 /// Wrapper around Consumer that ensures that the provider is initialized,
 /// meaning that it has loaded its data from storage and/or remote.
 /// The provider will not reload its data if it has already been loaded before.
-/// There should be a SessionProvider and a ProfileProvider above this widget in
-/// the widget tree to initialize the provider data the first time.
+/// If the provider depends on the session, it will ensure that SessionProvider
+/// and ProfileProvider are initialized before initializing itself.
 class LazyConsumer<T extends StateProviderNotifier> extends StatelessWidget {
   final Widget Function(BuildContext, T) builder;
 
@@ -23,12 +23,19 @@ class LazyConsumer<T extends StateProviderNotifier> extends StatelessWidget {
       final sessionProvider = Provider.of<SessionProvider>(context);
       final profileProvider = Provider.of<ProfileProvider>(context);
 
-      WidgetsBinding.instance.addPostFrameCallback((_) {
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
         final session = sessionProvider.session;
         final profile = profileProvider.profile;
-        profileProvider.ensureInitialized(session, profile).then((value) =>
-            Provider.of<T>(context, listen: false)
-                .ensureInitialized(session, profile));
+        final provider = Provider.of<T>(context, listen: false);
+
+        if (provider.dependsOnSession) {
+          sessionProvider.ensureInitialized(session, profile).then((_) =>
+              profileProvider
+                  .ensureInitialized(session, profile)
+                  .then((_) => provider.ensureInitialized(session, profile)));
+        } else {
+          provider.ensureInitialized(session, profile);
+        }
       });
     } catch (_) {
       // The provider won't be initialized

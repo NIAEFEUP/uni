@@ -13,6 +13,8 @@ import 'package:uni/model/request_status.dart';
 class RestaurantProvider extends StateProviderNotifier {
   List<Restaurant> _restaurants = [];
 
+  RestaurantProvider() : super(dependsOnSession: false);
+
   UnmodifiableListView<Restaurant> get restaurants =>
       UnmodifiableListView(_restaurants);
 

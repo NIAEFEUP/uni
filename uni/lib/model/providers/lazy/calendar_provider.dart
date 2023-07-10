@@ -13,6 +13,8 @@ import 'package:uni/model/request_status.dart';
 class CalendarProvider extends StateProviderNotifier {
   List<CalendarEvent> _calendar = [];
 
+  CalendarProvider() : super(dependsOnSession: true);
+
   UnmodifiableListView<CalendarEvent> get calendar =>
       UnmodifiableListView(_calendar);
 

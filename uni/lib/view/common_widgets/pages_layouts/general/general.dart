@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/controller/load_info.dart';
-import 'package:uni/model/providers/session_provider.dart';
+import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/navigation_drawer.dart';
 import 'package:uni/view/profile/profile.dart';

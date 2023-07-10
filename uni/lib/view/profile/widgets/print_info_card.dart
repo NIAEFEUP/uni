@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:uni/model/providers/profile_provider.dart';
+import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/profile/widgets/create_print_mb_dialog.dart';

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/entities/meal.dart';
 import 'package:uni/model/entities/restaurant.dart';
-import 'package:uni/model/providers/restaurant_provider.dart';
+import 'package:uni/model/providers/lazy/restaurant_provider.dart';
 import 'package:uni/model/utils/day_of_week.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';

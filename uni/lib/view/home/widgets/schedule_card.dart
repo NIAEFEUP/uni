@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/entities/time_utilities.dart';
-import 'package:uni/model/providers/lecture_provider.dart';
+import 'package:uni/model/providers/lazy/lecture_provider.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/common_widgets/date_rectangle.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';

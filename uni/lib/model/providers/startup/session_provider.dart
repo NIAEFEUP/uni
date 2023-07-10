@@ -10,12 +10,13 @@ import 'package:uni/model/entities/login_exceptions.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
-import 'package:uni/model/providers/state_providers.dart';
 import 'package:uni/model/request_status.dart';
 
 class SessionProvider extends StateProviderNotifier {
   Session _session = Session();
   List<String> _faculties = [];
+
+  SessionProvider() : super(dependsOnSession: false);
 
   Session get session => _session;
 
@@ -28,14 +29,8 @@ class SessionProvider extends StateProviderNotifier {
   @override
   Future<void> loadFromRemote(Session session, Profile profile) async {}
 
-  login(Completer<void> action,
-      String username,
-      String password,
-      List<String> faculties,
-      StateProviders stateProviders,
-      persistentSession,
-      usernameController,
-      passwordController) async {
+  login(Completer<void> action, String username, String password,
+      List<String> faculties, persistentSession) async {
     try {
       updateStatus(RequestStatus.busy);
 
@@ -49,19 +44,14 @@ class SessionProvider extends StateProviderNotifier {
               username, password, faculties);
         }
         Future.delayed(const Duration(seconds: 20),
-                () => {NotificationManager().initializeNotifications()});
+            () => {NotificationManager().initializeNotifications()});
 
-        //loadLocalUserInfoToState(stateProviders, skipDatabaseLookup: true);
-        //await loadUserProfileInfoFromRemote(stateProviders);
-
-        usernameController.clear();
-        passwordController.clear();
         await acceptTermsAndConditions();
 
         updateStatus(RequestStatus.successful);
       } else {
         final String responseHtml =
-        await NetworkRouter.loginInSigarra(username, password, faculties);
+            await NetworkRouter.loginInSigarra(username, password, faculties);
         if (isPasswordExpired(responseHtml)) {
           action.completeError(ExpiredCredentialsException());
         } else {
@@ -80,22 +70,18 @@ class SessionProvider extends StateProviderNotifier {
   }
 
   reLogin(String username, String password, List<String> faculties,
-      StateProviders stateProviders,
       {Completer? action}) async {
     try {
-      //loadLocalUserInfoToState(stateProviders);
       updateStatus(RequestStatus.busy);
       _session = await NetworkRouter.login(username, password, faculties, true);
-      //notifyListeners();
 
       if (session.authenticated) {
-        //await loadUserProfileInfoFromRemote(stateProviders);
         Future.delayed(const Duration(seconds: 20),
-                () => {NotificationManager().initializeNotifications()});
+            () => {NotificationManager().initializeNotifications()});
         updateStatus(RequestStatus.successful);
         action?.complete();
       } else {
-        failRelogin(action);
+        failReLogin(action);
       }
     } catch (e) {
       _session = Session(
@@ -106,11 +92,11 @@ class SessionProvider extends StateProviderNotifier {
           cookies: '',
           persistentSession: true);
 
-      failRelogin(action);
+      failReLogin(action);
     }
   }
 
-  void failRelogin(Completer? action) {
+  void failReLogin(Completer? action) {
     notifyListeners();
     updateStatus(RequestStatus.failed);
     action?.completeError(RequestStatus.failed);

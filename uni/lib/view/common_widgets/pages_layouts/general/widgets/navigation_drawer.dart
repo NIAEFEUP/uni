@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:uni/model/providers/session_provider.dart';
+import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/theme_notifier.dart';
 

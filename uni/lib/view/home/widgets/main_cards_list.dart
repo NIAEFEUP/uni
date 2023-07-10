@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
-import 'package:uni/model/providers/home_page_provider.dart';
-import 'package:uni/model/providers/session_provider.dart';
+import 'package:uni/model/providers/lazy/home_page_provider.dart';
+import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/utils/favorite_widget_type.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';

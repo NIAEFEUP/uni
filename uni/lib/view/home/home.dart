@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:uni/model/providers/bus_stop_provider.dart';
-import 'package:uni/model/providers/exam_provider.dart';
-import 'package:uni/model/providers/lecture_provider.dart';
-import 'package:uni/model/providers/library_occupation_provider.dart';
+import 'package:uni/model/providers/lazy/bus_stop_provider.dart';
+import 'package:uni/model/providers/lazy/exam_provider.dart';
+import 'package:uni/model/providers/lazy/home_page_provider.dart';
+import 'package:uni/model/providers/lazy/lecture_provider.dart';
+import 'package:uni/model/providers/lazy/library_occupation_provider.dart';
+import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/utils/favorite_widget_type.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/home/widgets/main_cards_list.dart';
-
-import '../../model/providers/home_page_provider.dart';
-import '../../model/providers/profile_provider.dart';
 
 class HomePageView extends StatefulWidget {
   const HomePageView({super.key});
