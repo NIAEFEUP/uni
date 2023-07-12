@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/entities/reference.dart';
 import 'package:uni/model/providers/profile_state_provider.dart';
@@ -50,37 +51,34 @@ class AccountInfoCard extends GenericCard {
                   Container(
                       margin: const EdgeInsets.only(
                           top: 8.0, bottom: 20.0, right: 30.0),
-                      child: getInfoText(profile.feesLimit, context))
+                      child: getInfoText(
+                          profile.feesLimit != null
+                              ? DateFormat('yyyy-MM-dd')
+                                  .format(profile.feesLimit!)
+                              : 'Sem data',
+                          context))
                 ]),
                 TableRow(children: [
                   Container(
-                    margin:
-                        const EdgeInsets.only(top: 8.0, bottom: 20.0, left: 20.0),
-                    child: Text("Notificar próxima data limite: ",
-                      style: Theme.of(context).textTheme.titleSmall)
-                  ),
+                      margin: const EdgeInsets.only(
+                          top: 8.0, bottom: 20.0, left: 20.0),
+                      child: Text("Notificar próxima data limite: ",
+                          style: Theme.of(context).textTheme.titleSmall)),
                   Container(
-                    margin:
-                        const EdgeInsets.only(top: 8.0, bottom: 20.0, left: 20.0),
-                    child: 
-                      const TuitionNotificationSwitch()
-                  )
+                      margin: const EdgeInsets.only(
+                          top: 8.0, bottom: 20.0, left: 20.0),
+                      child: const TuitionNotificationSwitch())
                 ])
               ]),
           Container(
               padding: const EdgeInsets.all(10),
-              child: Row(
-                  children: <Widget>[
-                    Text('Referências pendentes',
-                        style: Theme.of(context).textTheme.titleLarge
-                            ?.apply(color: Theme.of(context).colorScheme.secondary)),
-                  ]
-              )
-          ),
+              child: Row(children: <Widget>[
+                Text('Referências pendentes',
+                    style: Theme.of(context).textTheme.titleLarge?.apply(
+                        color: Theme.of(context).colorScheme.secondary)),
+              ])),
           ReferenceWidgets(references: references),
-          const SizedBox(
-              height: 10
-          ),
+          const SizedBox(height: 10),
           showLastRefreshedTime(profileStateProvider.feesRefreshTime, context)
         ]);
       },
@@ -97,7 +95,8 @@ class AccountInfoCard extends GenericCard {
 class ReferenceWidgets extends StatelessWidget {
   final List<Reference> references;
 
-  const ReferenceWidgets({Key? key, required this.references}): super(key: key);
+  const ReferenceWidgets({Key? key, required this.references})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -114,16 +113,14 @@ class ReferenceWidgets extends StatelessWidget {
     if (references.length == 1) {
       return ReferenceSection(reference: references[0]);
     }
-    return Column(
-        children: [
-          ReferenceSection(reference: references[0]),
-          const Divider(
-            thickness: 1,
-            indent: 30,
-            endIndent: 30,
-          ),
-          ReferenceSection(reference: references[1]),
-        ]
-    );
+    return Column(children: [
+      ReferenceSection(reference: references[0]),
+      const Divider(
+        thickness: 1,
+        indent: 30,
+        endIndent: 30,
+      ),
+      ReferenceSection(reference: references[1]),
+    ]);
   }
 }
