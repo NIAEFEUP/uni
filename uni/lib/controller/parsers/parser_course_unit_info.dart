@@ -19,8 +19,8 @@ Future<CourseUnitSheet> parseCourseUnitSheet(http.Response response) async {
   return CourseUnitSheet(sections);
 }
 
-List<CourseUnitClass> parseCourseUnitClasses(
-    http.Response response, String baseUrl) {
+List<CourseUnitClass> parseCourseUnitClasses(http.Response response,
+    String baseUrl) {
   final List<CourseUnitClass> classes = [];
   final document = parse(response.body);
   final titles = document.querySelectorAll('#conteudoinner h3').sublist(1);
@@ -30,25 +30,29 @@ List<CourseUnitClass> parseCourseUnitClasses(
     final String className = title.innerHtml.substring(
         title.innerHtml.indexOf(' ') + 1, title.innerHtml.indexOf('&'));
 
-    final studentRows = table?.querySelectorAll('tr').sublist(1);
+    final rows = table?.querySelectorAll('tr');
+    if (rows == null || rows.length < 2) {
+      continue;
+    }
+
+    final studentRows = rows.sublist(1);
     final List<CourseUnitStudent> students = [];
 
-    if (studentRows != null) {
-      for (final row in studentRows) {
-        final columns = row.querySelectorAll('td.k.t');
-        final String studentName = columns[0].children[0].innerHtml;
-        final int studentNumber =
-            int.tryParse(columns[1].innerHtml.trim()) ?? 0;
-        final String studentMail = columns[2].innerHtml;
+    for (final row in studentRows) {
+      final columns = row.querySelectorAll('td.k.t');
+      final String studentName = columns[0].children[0].innerHtml;
+      final int studentNumber =
+          int.tryParse(columns[1].innerHtml.trim()) ?? 0;
+      final String studentMail = columns[2].innerHtml;
 
-        final Uri studentPhoto = Uri.parse(
-            "${baseUrl}fotografias_service.foto?pct_cod=$studentNumber");
-        final Uri studentProfile = Uri.parse(
-            "${baseUrl}fest_geral.cursos_list?pv_num_unico=$studentNumber");
-        students.add(CourseUnitStudent(studentName, studentNumber, studentMail,
-            studentPhoto, studentProfile));
-      }
+      final Uri studentPhoto = Uri.parse(
+          "${baseUrl}fotografias_service.foto?pct_cod=$studentNumber");
+      final Uri studentProfile = Uri.parse(
+          "${baseUrl}fest_geral.cursos_list?pv_num_unico=$studentNumber");
+      students.add(CourseUnitStudent(studentName, studentNumber, studentMail,
+          studentPhoto, studentProfile));
     }
+
     classes.add(CourseUnitClass(className, students));
   }
 
