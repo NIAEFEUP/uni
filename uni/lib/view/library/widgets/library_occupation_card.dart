@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:provider/provider.dart';
 import 'package:uni/model/providers/lazy/library_occupation_provider.dart';
 import 'package:uni/model/request_status.dart';
 import 'package:uni/utils/drawer_items.dart';
@@ -21,6 +22,12 @@ class LibraryOccupationCard extends GenericCard {
   @override
   onClick(BuildContext context) =>
       Navigator.pushNamed(context, '/${DrawerItem.navLibrary.title}');
+
+  @override
+  void onRefresh(BuildContext context) {
+    Provider.of<LibraryOccupationProvider>(context, listen: false)
+        .forceRefresh(context);
+  }
 
   @override
   Widget buildCardContent(BuildContext context) {

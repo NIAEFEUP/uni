@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:uni/model/entities/bus_stop.dart';
 import 'package:uni/model/providers/lazy/bus_stop_provider.dart';
 import 'package:uni/model/request_status.dart';
@@ -30,6 +31,11 @@ class BusStopCard extends GenericCard {
             context, busProvider.configuredBusStops, busProvider.status);
       },
     );
+  }
+
+  @override
+  void onRefresh(BuildContext context) {
+    Provider.of<BusStopProvider>(context, listen: false).forceRefresh(context);
   }
 }
 

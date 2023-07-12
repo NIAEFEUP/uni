@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
 import 'package:uni/view/lazy_consumer.dart';
@@ -63,4 +64,9 @@ class PrintInfoCard extends GenericCard {
 
   @override
   onClick(BuildContext context) {}
+
+  @override
+  void onRefresh(BuildContext context) {
+    Provider.of<ProfileProvider>(context, listen: false).forceRefresh(context);
+  }
 }

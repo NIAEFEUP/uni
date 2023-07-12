@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/entities/time_utilities.dart';
 import 'package:uni/model/providers/lazy/lecture_provider.dart';
@@ -20,6 +21,11 @@ class ScheduleCard extends GenericCard {
   final double borderRadius = 12.0;
   final double leftPadding = 12.0;
   final List<Lecture> lectures = <Lecture>[];
+
+  @override
+  void onRefresh(BuildContext context) {
+    Provider.of<LectureProvider>(context, listen: false).forceRefresh(context);
+  }
 
   @override
   Widget buildCardContent(BuildContext context) {

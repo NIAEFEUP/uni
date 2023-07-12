@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:uni/model/providers/lazy/restaurant_provider.dart';
 import 'package:uni/view/common_widgets/date_rectangle.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
@@ -18,7 +19,13 @@ class RestaurantCard extends GenericCard {
   String getTitle() => 'Cantinas';
 
   @override
-  onClick(BuildContext context) => null;
+  onClick(BuildContext context) {}
+
+  @override
+  void onRefresh(BuildContext context) {
+    Provider.of<RestaurantProvider>(context, listen: false)
+        .forceRefresh(context);
+  }
 
   @override
   Widget buildCardContent(BuildContext context) {

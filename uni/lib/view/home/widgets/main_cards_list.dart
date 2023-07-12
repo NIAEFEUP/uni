@@ -19,7 +19,7 @@ typedef CardCreator = GenericCard Function(
     Key key, bool isEditingMode, dynamic Function()? onDelete);
 
 class MainCardsList extends StatelessWidget {
-  final Map<FavoriteWidgetType, CardCreator> cardCreators = {
+  static Map<FavoriteWidgetType, CardCreator> cardCreators = {
     FavoriteWidgetType.schedule: (k, em, od) =>
         ScheduleCard.fromEditingInformation(k, em, od),
     FavoriteWidgetType.exams: (k, em, od) =>
@@ -37,7 +37,7 @@ class MainCardsList extends StatelessWidget {
         LibraryOccupationCard.fromEditingInformation(k, em, od)
   };
 
-  MainCardsList({super.key});
+  const MainCardsList({super.key});
 
   @override
   Widget build(BuildContext context) {

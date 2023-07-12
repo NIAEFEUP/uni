@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/providers/lazy/exam_provider.dart';
 import 'package:uni/utils/drawer_items.dart';
@@ -25,6 +26,11 @@ class ExamCard extends GenericCard {
   @override
   onClick(BuildContext context) =>
       Navigator.pushNamed(context, '/${DrawerItem.navExams.title}');
+
+  @override
+  void onRefresh(BuildContext context) {
+    Provider.of<ExamProvider>(context, listen: false).forceRefresh(context);
+  }
 
   /// Returns a widget with all the exams card content.
   ///

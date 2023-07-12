@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:uni/model/entities/reference.dart';
 import 'package:uni/model/providers/lazy/reference_provider.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
@@ -15,6 +16,13 @@ class AccountInfoCard extends GenericCard {
   const AccountInfoCard.fromEditingInformation(
       Key key, bool editingMode, Function()? onDelete)
       : super.fromEditingInformation(key, editingMode, onDelete);
+
+  @override
+  void onRefresh(BuildContext context) {
+    Provider.of<ProfileProvider>(context, listen: false).forceRefresh(context);
+    Provider.of<ReferenceProvider>(context, listen: false)
+        .forceRefresh(context);
+  }
 
   @override
   Widget buildCardContent(BuildContext context) {
