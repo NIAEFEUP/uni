@@ -66,7 +66,9 @@ class LocationsMap extends StatelessWidget {
           ),
           PopupMarkerLayerWidget(
             options: PopupMarkerLayerOptions(
-              markers: _getMarkers(),
+              markers: locations.map((location) {
+                return LocationMarker(location.latlng, location);
+              }).toList(),
               popupController: _popupLayerController,
               popupAnimation: const PopupAnimation.fade(
                   duration: Duration(milliseconds: 400)),
@@ -81,12 +83,6 @@ class LocationsMap extends StatelessWidget {
             ),
           ),
         ]);
-  }
-
-  List<Marker> _getMarkers() {
-    return locations.map((location) {
-      return LocationMarker(location.latlng, location);
-    }).toList();
   }
 }
 
