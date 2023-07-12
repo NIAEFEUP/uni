@@ -31,13 +31,14 @@ class AppUserDataDatabase extends AppDatabase {
     final List<Map<String, dynamic>> maps = await db.query('userdata');
 
     // Convert the List<Map<String, dynamic> into a Profile.
-    String? name, email, printBalance, feesBalance, feesLimit;
+    String? name, email, printBalance, feesBalance;
+    DateTime? feesLimit;
     for (Map<String, dynamic> entry in maps) {
       if (entry['key'] == 'name') name = entry['value'];
       if (entry['key'] == 'email') email = entry['value'];
       if (entry['key'] == 'printBalance') printBalance = entry['value'];
       if (entry['key'] == 'feesBalance') feesBalance = entry['value'];
-      if (entry['key'] == 'feesLimit') feesLimit = entry['value'];
+      if (entry['key'] == 'feesLimit') feesLimit = DateTime.tryParse(entry['value']);
     }
 
     return Profile(
@@ -46,7 +47,7 @@ class AppUserDataDatabase extends AppDatabase {
         courses: <Course>[],
         printBalance: printBalance ?? '?',
         feesBalance: feesBalance ?? '?',
-        feesLimit: feesLimit ?? '?');
+        feesLimit: feesLimit);
   }
 
   /// Deletes all of the data stored in this database.
@@ -65,13 +66,12 @@ class AppUserDataDatabase extends AppDatabase {
 
   /// Saves the user's balance and payment due date to the database.
   ///
-  /// *Note:*
-  /// * the first value in [feesInfo] is the user's balance.
-  /// * the second value in [feesInfo] is the user's payment due date.
-  void saveUserFees(Tuple2<String, String> feesInfo) async {
+  void saveUserFees(String feesBalance, DateTime? feesLimit) async {
     await insertInDatabase(
-        'userdata', {'key': 'feesBalance', 'value': feesInfo.item1});
-    await insertInDatabase(
-        'userdata', {'key': 'feesLimit', 'value': feesInfo.item2});
+        'userdata', {'key': 'feesBalance', 'value': feesBalance});
+    await insertInDatabase('userdata', {
+      'key': 'feesLimit',
+      'value': feesLimit != null ? feesLimit.toIso8601String() : ''
+    });
   }
 }

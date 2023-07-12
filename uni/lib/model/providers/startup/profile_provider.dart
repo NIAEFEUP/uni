@@ -106,7 +106,7 @@ class ProfileProvider extends StateProviderNotifier {
       final response = await FeesFetcher().getUserFeesResponse(session);
 
       final String feesBalance = await parseFeesBalance(response);
-      final String feesLimit = await parseFeesNextLimit(response);
+      final DateTime? feesLimit = await parseFeesNextLimit(response);
 
       final DateTime currentTime = DateTime.now();
       final Tuple2<String, String> userPersistentInfo =
@@ -116,7 +116,7 @@ class ProfileProvider extends StateProviderNotifier {
 
         // Store fees info
         final profileDb = AppUserDataDatabase();
-        profileDb.saveUserFees(Tuple2<String, String>(feesBalance, feesLimit));
+        profileDb.saveUserFees(feesBalance, feesLimit);
       }
 
       final Profile newProfile = Profile(

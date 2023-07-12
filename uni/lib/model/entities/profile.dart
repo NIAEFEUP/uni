@@ -10,16 +10,17 @@ class Profile {
   final String email;
   final String printBalance;
   final String feesBalance;
-  final String feesLimit;
+  final DateTime? feesLimit;
   List<Course> courses;
   List<CourseUnit> courseUnits;
 
-  Profile({this.name = '',
-    this.email = '',
-    courses,
-    this.printBalance = '',
-    this.feesBalance = '',
-    this.feesLimit = ''})
+  Profile(
+      {this.name = '',
+      this.email = '',
+      courses,
+      this.printBalance = '',
+      this.feesBalance = '',
+      this.feesLimit})
       : courses = courses ?? [],
         courseUnits = [];
 

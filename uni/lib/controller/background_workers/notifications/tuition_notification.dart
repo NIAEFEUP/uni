@@ -45,9 +45,12 @@ class TuitionNotification extends Notification {
         !(await AppSharedPreferences.getTuitionNotificationToggle());
     if (notificationsAreDisabled) return false;
     final FeesFetcher feesFetcher = FeesFetcher();
-    final String nextDueDate = await parseFeesNextLimit(
+    final DateTime? dueDate = await parseFeesNextLimit(
         await feesFetcher.getUserFeesResponse(session));
-    _dueDate = DateTime.parse(nextDueDate);
+
+    if(dueDate == null) return false;
+
+    _dueDate = dueDate;
     return DateTime.now().difference(_dueDate).inDays >= -3;
   }
 
