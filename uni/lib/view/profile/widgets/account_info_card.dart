@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:uni/model/entities/reference.dart';
 import 'package:uni/model/providers/profile_state_provider.dart';
+import 'package:uni/model/providers/reference_provider.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
+import 'package:uni/view/profile/widgets/reference_section.dart';
 import 'package:uni/view/profile/widgets/tuition_notification_switch.dart';
 
 /// Manages the 'Current account' section inside the user's page (accessible
@@ -15,9 +18,11 @@ class AccountInfoCard extends GenericCard {
 
   @override
   Widget buildCardContent(BuildContext context) {
-    return Consumer<ProfileStateProvider>(
-      builder: (context, profileStateProvider, _) {
+    return Consumer2<ProfileStateProvider, ReferenceProvider>(
+      builder: (context, profileStateProvider, referenceProvider, _) {
         final profile = profileStateProvider.profile;
+        final List<Reference> references = referenceProvider.references;
+
         return Column(children: [
           Table(
               columnWidths: const {1: FractionColumnWidth(.4)},
@@ -62,6 +67,20 @@ class AccountInfoCard extends GenericCard {
                   )
                 ])
               ]),
+          Container(
+              padding: const EdgeInsets.all(10),
+              child: Row(
+                  children: <Widget>[
+                    Text('Referências pendentes',
+                        style: Theme.of(context).textTheme.titleLarge
+                            ?.apply(color: Theme.of(context).colorScheme.secondary)),
+                  ]
+              )
+          ),
+          ReferenceWidgets(references: references),
+          const SizedBox(
+              height: 10
+          ),
           showLastRefreshedTime(profileStateProvider.feesRefreshTime, context)
         ]);
       },
@@ -73,4 +92,38 @@ class AccountInfoCard extends GenericCard {
 
   @override
   onClick(BuildContext context) {}
+}
+
+class ReferenceWidgets extends StatelessWidget {
+  final List<Reference> references;
+
+  const ReferenceWidgets({Key? key, required this.references}): super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    if (references.isEmpty) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        child: Text(
+          "Não existem referências a pagar",
+          style: Theme.of(context).textTheme.titleSmall,
+          textScaleFactor: 0.96,
+        ),
+      );
+    }
+    if (references.length == 1) {
+      return ReferenceSection(reference: references[0]);
+    }
+    return Column(
+        children: [
+          ReferenceSection(reference: references[0]),
+          const Divider(
+            thickness: 1,
+            indent: 30,
+            endIndent: 30,
+          ),
+          ReferenceSection(reference: references[1]),
+        ]
+    );
+  }
 }

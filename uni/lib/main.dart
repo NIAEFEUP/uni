@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:uni/controller/background_workers/background_callback.dart';
@@ -19,6 +21,7 @@ import 'package:uni/model/providers/last_user_info_provider.dart';
 import 'package:uni/model/providers/lecture_provider.dart';
 import 'package:uni/model/providers/library_occupation_provider.dart';
 import 'package:uni/model/providers/profile_state_provider.dart';
+import 'package:uni/model/providers/reference_provider.dart';
 import 'package:uni/model/providers/restaurant_provider.dart';
 import 'package:uni/model/providers/session_provider.dart';
 import 'package:uni/model/providers/state_providers.dart';
@@ -32,10 +35,10 @@ import 'package:uni/view/common_widgets/page_transition.dart';
 import 'package:uni/view/course_units/course_units.dart';
 import 'package:uni/view/exams/exams.dart';
 import 'package:uni/view/home/home.dart';
+import 'package:uni/view/library/library.dart';
 import 'package:uni/view/locations/locations.dart';
 import 'package:uni/view/logout_route.dart';
 import 'package:uni/view/navigation_service.dart';
-import 'package:uni/view/library/library.dart';
 import 'package:uni/view/restaurant/restaurant_page_view.dart';
 import 'package:uni/view/schedule/schedule.dart';
 import 'package:uni/view/splash/splash.dart';
@@ -63,7 +66,8 @@ Future<void> main() async {
       LastUserInfoProvider(),
       UserFacultiesProvider(),
       FavoriteCardsProvider(),
-      HomePageEditingModeProvider());
+      HomePageEditingModeProvider(),
+      ReferenceProvider());
 
   OnStartUp.onStart(stateProviders.sessionProvider);
   WidgetsFlutterBinding.ensureInitialized();
@@ -72,6 +76,12 @@ Future<void> main() async {
       isInDebugMode:
           !kReleaseMode // run workmanager in debug mode when app is in debug mode
       );
+
+  await dotenv
+      .load(fileName: "assets/env/.env", isOptional: true)
+      .onError((error, stackTrace) {
+    Logger().e("Error loading .env file: $error", error, stackTrace);
+  });
 
   final savedTheme = await AppSharedPreferences.getThemeMode();
   await SentryFlutter.init((options) {
@@ -114,6 +124,8 @@ Future<void> main() async {
                           stateProviders.favoriteCardsProvider),
                   ChangeNotifierProvider(
                       create: (context) => stateProviders.homePageEditingMode),
+                  ChangeNotifierProvider(
+                      create: (context) => stateProviders.referenceProvider),
                 ],
                 child: ChangeNotifierProvider<ThemeNotifier>(
                   create: (_) => ThemeNotifier(savedTheme),

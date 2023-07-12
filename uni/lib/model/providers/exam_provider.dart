@@ -19,6 +19,8 @@ class ExamProvider extends StateProviderNotifier {
   List<String> _hiddenExams = [];
   Map<String, bool> _filteredExamsTypes = {};
 
+
+
   UnmodifiableListView<Exam> get exams => UnmodifiableListView(_exams);
 
   UnmodifiableListView<String> get hiddenExams =>
@@ -103,5 +105,9 @@ class ExamProvider extends StateProviderNotifier {
     notifyListeners();
     AppSharedPreferences.saveHiddenExams(hiddenExams);
     action.complete();
+  }
+
+  setExams(List<Exam> newExams) {
+    _exams = newExams;
   }
 }

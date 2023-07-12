@@ -10,7 +10,13 @@ abstract class GenericExpansionCard extends StatelessWidget {
       {Key? key, this.smallTitle = false, this.cardMargin})
       : super(key: key);
 
+  TextStyle? getTitleStyle(BuildContext context) => Theme.of(context)
+      .textTheme
+      .headlineSmall
+      ?.apply(color: Theme.of(context).primaryColor);
+
   String getTitle();
+
   Widget buildCardContent(BuildContext context);
 
   @override
