@@ -68,7 +68,7 @@ abstract class StateProviderNotifier extends ChangeNotifier {
               "$runtimeType remote load method did not update request status");
         }
       } else {
-        Logger().i("No internet connection; skipping $runtimeType remote load");
+        Logger().w("No internet connection; skipping $runtimeType remote load");
       }
     } else {
       Logger().i(
@@ -92,12 +92,22 @@ abstract class StateProviderNotifier extends ChangeNotifier {
   }
 
   Future<void> forceRefresh(BuildContext context) async {
-    final session =
-        Provider.of<SessionProvider>(context, listen: false).session;
-    final profile =
-        Provider.of<ProfileProvider>(context, listen: false).profile;
+    await _lock.synchronized(() async {
+      if (_lastUpdateTime != null &&
+          DateTime.now().difference(_lastUpdateTime!) <
+              const Duration(minutes: 1)) {
+        Logger().w(
+            "Last update for $runtimeType was less than a minute ago; skipping refresh");
+        return;
+      }
 
-    _loadFromRemote(session, profile, force: true);
+      final session =
+          Provider.of<SessionProvider>(context, listen: false).session;
+      final profile =
+          Provider.of<ProfileProvider>(context, listen: false).profile;
+
+      _loadFromRemote(session, profile, force: true);
+    });
   }
 
   Future<void> ensureInitialized(Session session, Profile profile) async {
