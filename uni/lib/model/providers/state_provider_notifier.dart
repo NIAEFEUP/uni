@@ -32,18 +32,8 @@ abstract class StateProviderNotifier extends ChangeNotifier {
     _lastUpdateTime = await AppSharedPreferences.getLastDataClassUpdateTime(
         runtimeType.toString());
 
-    final userPersistentInfo =
-        await AppSharedPreferences.getPersistentUserInfo();
-    final sessionIsPersistent =
-        userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '';
-
-    if (sessionIsPersistent) {
-      await loadFromStorage();
-      Logger().i("Loaded $runtimeType info from storage");
-    } else {
-      Logger().i(
-          "Session is not persistent; skipping $runtimeType load from storage");
-    }
+    await loadFromStorage();
+    Logger().i("Loaded $runtimeType info from storage");
   }
 
   Future<void> _loadFromRemote(Session session, Profile profile,
