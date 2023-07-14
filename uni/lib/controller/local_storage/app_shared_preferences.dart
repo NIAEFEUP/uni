@@ -12,12 +12,14 @@ import 'package:uni/utils/favorite_widget_type.dart';
 /// This database stores the user's student number, password and favorite
 /// widgets.
 class AppSharedPreferences {
+  static const lastUpdateTimeKeySuffix = "_last_update_time";
   static const String userNumber = 'user_number';
   static const String userPw = 'user_password';
   static const String userFaculties = 'user_faculties';
   static const String termsAndConditions = 'terms_and_conditions';
   static const String areTermsAndConditionsAcceptedKey = 'is_t&c_accepted';
-  static const String tuitionNotificationsToggleKey = "tuition_notification_toogle";
+  static const String tuitionNotificationsToggleKey =
+      "tuition_notification_toogle";
   static const String themeMode = 'theme_mode';
   static const int keyLength = 32;
   static const int ivLength = 16;
@@ -32,6 +34,20 @@ class AppSharedPreferences {
   static const String hiddenExams = 'hidden_exams';
   static const String filteredExamsTypes = 'filtered_exam_types';
   static final List<String> defaultFilteredExamTypes = Exam.displayedTypes;
+
+  /// Returns the last time the data with given key was updated.
+  static Future<DateTime?> getLastDataClassUpdateTime(String dataKey) async {
+    final prefs = await SharedPreferences.getInstance();
+    final lastUpdateTime = prefs.getString(dataKey + lastUpdateTimeKeySuffix);
+    return lastUpdateTime != null ? DateTime.parse(lastUpdateTime) : null;
+  }
+
+  /// Sets the last time the data with given key was updated.
+  static Future<void> setLastDataClassUpdateTime(
+      String dataKey, DateTime dateTime) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString(dataKey + lastUpdateTimeKeySuffix, dateTime.toString());
+  }
 
   /// Saves the user's student number, password and faculties.
   static Future savePersistentUserInfo(user, pass, faculties) async {
@@ -203,14 +219,13 @@ class AppSharedPreferences {
     return encrypt.Encrypter(encrypt.AES(key));
   }
 
-  static Future<bool> getTuitionNotificationToggle() async{
+  static Future<bool> getTuitionNotificationToggle() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getBool(tuitionNotificationsToggleKey) ?? true;
   }
 
-  static setTuitionNotificationToggle(bool value) async{
+  static setTuitionNotificationToggle(bool value) async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setBool(tuitionNotificationsToggleKey, value);
   }
-
 }

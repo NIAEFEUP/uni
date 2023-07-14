@@ -1,14 +1,15 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:uni/model/request_status.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
-import 'package:uni/model/providers/profile_state_provider.dart';
+import 'package:uni/model/providers/startup/profile_provider.dart';
+import 'package:uni/model/request_status.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
 import 'package:uni/view/course_units/widgets/course_unit_card.dart';
+import 'package:uni/view/lazy_consumer.dart';
 
 class CourseUnitsPageView extends StatefulWidget {
   const CourseUnitsPageView({Key? key}) : super(key: key);
@@ -28,29 +29,30 @@ class CourseUnitsPageViewState
 
   @override
   Widget getBody(BuildContext context) {
-    return Consumer<ProfileStateProvider>(
-        builder: (context, profileProvider, _) {
-      final List<CourseUnit> courseUnits = profileProvider.currUcs;
-      final List<String> availableYears = _getAvailableYears(courseUnits);
-      final List<String> availableSemesters =
-          _getAvailableSemesters(courseUnits);
+    return LazyConsumer<ProfileProvider>(builder: (context, profileProvider) {
+      final List<CourseUnit> courseUnits = profileProvider.profile.courseUnits;
+      List<String> availableYears = [];
+      List<String> availableSemesters = [];
 
-      if (availableYears.isNotEmpty && selectedSchoolYear == null) {
-        selectedSchoolYear = availableYears.reduce(
-            (value, element) => element.compareTo(value) > 0 ? element : value);
-      }
-
-      final int? currentYear = int.tryParse(
-          selectedSchoolYear?.substring(0, selectedSchoolYear?.indexOf('/')) ??
-              '');
-      if (selectedSemester == null &&
-          currentYear != null &&
-          availableSemesters.length == 3) {
-        final DateTime currentDate = DateTime.now();
-        selectedSemester =
-            currentDate.year <= currentYear || currentDate.month == 1
-                ? availableSemesters[0]
-                : availableSemesters[1];
+      if (courseUnits.isNotEmpty) {
+        availableYears = _getAvailableYears(courseUnits);
+        if (availableYears.isNotEmpty && selectedSchoolYear == null) {
+          selectedSchoolYear = availableYears.reduce((value, element) =>
+              element.compareTo(value) > 0 ? element : value);
+        }
+        availableSemesters = _getAvailableSemesters(courseUnits);
+        final currentYear = int.tryParse(selectedSchoolYear?.substring(
+                0, selectedSchoolYear?.indexOf('/')) ??
+            '');
+        if (selectedSemester == null &&
+            currentYear != null &&
+            availableSemesters.length == 3) {
+          final currentDate = DateTime.now();
+          selectedSemester =
+              currentDate.year <= currentYear || currentDate.month == 1
+                  ? availableSemesters[0]
+                  : availableSemesters[1];
+        }
       }
 
       return _getPageView(courseUnits, profileProvider.status, availableYears,
@@ -76,11 +78,10 @@ class CourseUnitsPageViewState
     return Column(children: [
       _getPageTitleAndFilters(availableYears, availableSemesters),
       RequestDependentWidgetBuilder(
-          context: context,
-          status: requestStatus,
-          contentGenerator: _generateCourseUnitsCards,
-          content: filteredCourseUnits ?? [],
-          contentChecker: filteredCourseUnits?.isNotEmpty ?? false,
+          status: requestStatus ?? RequestStatus.none,
+          builder: () =>
+              _generateCourseUnitsCards(filteredCourseUnits, context),
+          hasContentPredicate: courseUnits?.isNotEmpty ?? false,
           onNullContent: Center(
             heightFactor: 10,
             child: Text('Não existem cadeiras para apresentar',
@@ -189,5 +190,11 @@ class CourseUnitsPageViewState
             .toList()
             .sorted() +
         [CourseUnitsPageView.bothSemestersDropdownOption];
+  }
+
+  @override
+  Future<void> onRefresh(BuildContext context) {
+    return Provider.of<ProfileProvider>(context, listen: false)
+        .forceRefresh(context);
   }
 }

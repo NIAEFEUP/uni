@@ -1,6 +1,7 @@
 // @dart=2.10
 
 import 'dart:async';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tuple/tuple.dart';
@@ -9,8 +10,7 @@ import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/session.dart';
-
-import 'package:uni/model/providers/lecture_provider.dart';
+import 'package:uni/model/providers/lazy/lecture_provider.dart';
 import 'package:uni/model/request_status.dart';
 
 import 'mocks.dart';
@@ -39,7 +39,7 @@ void main() {
     LectureProvider provider;
     setUp(() {
       provider = LectureProvider();
-      expect(provider.status, RequestStatus.none);
+      expect(provider.status, RequestStatus.busy);
     });
 
     test('When given a single schedule', () async {
@@ -48,7 +48,7 @@ void main() {
       when(fetcherMock.getLectures(any, any))
           .thenAnswer((_) async => [lecture1, lecture2]);
 
-      provider.getUserLectures(action, userPersistentInfo, session, profile,
+      provider.fetchUserLectures(action, userPersistentInfo, session, profile,
           fetcher: fetcherMock);
       expect(provider.status, RequestStatus.busy);
 
@@ -64,7 +64,7 @@ void main() {
       when(fetcherMock.getLectures(any, any))
           .thenAnswer((_) async => throw Exception('💥'));
 
-      provider.getUserLectures(action, userPersistentInfo, session, profile);
+      provider.fetchUserLectures(action, userPersistentInfo, session, profile);
       expect(provider.status, RequestStatus.busy);
 
       await action.future;

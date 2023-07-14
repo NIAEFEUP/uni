@@ -9,23 +9,19 @@ import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:uni/controller/background_workers/background_callback.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
-import 'package:uni/controller/on_start_up.dart';
-import 'package:uni/model/providers/bus_stop_provider.dart';
-import 'package:uni/model/providers/calendar_provider.dart';
-import 'package:uni/model/providers/course_units_info_provider.dart';
-import 'package:uni/model/providers/exam_provider.dart';
-import 'package:uni/model/providers/faculty_locations_provider.dart';
-import 'package:uni/model/providers/favorite_cards_provider.dart';
-import 'package:uni/model/providers/home_page_editing_mode_provider.dart';
-import 'package:uni/model/providers/last_user_info_provider.dart';
-import 'package:uni/model/providers/lecture_provider.dart';
-import 'package:uni/model/providers/library_occupation_provider.dart';
-import 'package:uni/model/providers/profile_state_provider.dart';
-import 'package:uni/model/providers/reference_provider.dart';
-import 'package:uni/model/providers/restaurant_provider.dart';
-import 'package:uni/model/providers/session_provider.dart';
+import 'package:uni/model/providers/lazy/bus_stop_provider.dart';
+import 'package:uni/model/providers/lazy/calendar_provider.dart';
+import 'package:uni/model/providers/lazy/course_units_info_provider.dart';
+import 'package:uni/model/providers/lazy/exam_provider.dart';
+import 'package:uni/model/providers/lazy/faculty_locations_provider.dart';
+import 'package:uni/model/providers/lazy/home_page_provider.dart';
+import 'package:uni/model/providers/lazy/lecture_provider.dart';
+import 'package:uni/model/providers/lazy/library_occupation_provider.dart';
+import 'package:uni/model/providers/lazy/reference_provider.dart';
+import 'package:uni/model/providers/lazy/restaurant_provider.dart';
+import 'package:uni/model/providers/startup/profile_provider.dart';
+import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/model/providers/state_providers.dart';
-import 'package:uni/model/providers/user_faculties_provider.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/about/about.dart';
 import 'package:uni/view/bug_report/bug_report.dart';
@@ -57,19 +53,15 @@ Future<void> main() async {
       ExamProvider(),
       BusStopProvider(),
       RestaurantProvider(),
-      ProfileStateProvider(),
+      ProfileProvider(),
       CourseUnitsInfoProvider(),
       SessionProvider(),
       CalendarProvider(),
       LibraryOccupationProvider(),
       FacultyLocationsProvider(),
-      LastUserInfoProvider(),
-      UserFacultiesProvider(),
-      FavoriteCardsProvider(),
-      HomePageEditingModeProvider(),
+      HomePageProvider(),
       ReferenceProvider());
 
-  OnStartUp.onStart(stateProviders.sessionProvider);
   WidgetsFlutterBinding.ensureInitialized();
 
   await Workmanager().initialize(workerStartCallback,
@@ -100,7 +92,7 @@ Future<void> main() async {
                   ChangeNotifierProvider(
                       create: (context) => stateProviders.restaurantProvider),
                   ChangeNotifierProvider(
-                      create: (context) => stateProviders.profileStateProvider),
+                      create: (context) => stateProviders.profileProvider),
                   ChangeNotifierProvider(
                       create: (context) =>
                           stateProviders.courseUnitsInfoProvider),
@@ -115,15 +107,7 @@ Future<void> main() async {
                       create: (context) =>
                           stateProviders.facultyLocationsProvider),
                   ChangeNotifierProvider(
-                      create: (context) => stateProviders.lastUserInfoProvider),
-                  ChangeNotifierProvider(
-                      create: (context) =>
-                          stateProviders.userFacultiesProvider),
-                  ChangeNotifierProvider(
-                      create: (context) =>
-                          stateProviders.favoriteCardsProvider),
-                  ChangeNotifierProvider(
-                      create: (context) => stateProviders.homePageEditingMode),
+                      create: (context) => stateProviders.homePageProvider),
                   ChangeNotifierProvider(
                       create: (context) => stateProviders.referenceProvider),
                 ],

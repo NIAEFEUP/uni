@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:collection';
+import 'dart:io';
 
 import 'package:logger/logger.dart';
 import 'package:tuple/tuple.dart';
@@ -13,6 +13,7 @@ import 'package:uni/controller/local_storage/app_courses_database.dart';
 import 'package:uni/controller/local_storage/app_refresh_times_database.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/controller/local_storage/app_user_database.dart';
+import 'package:uni/controller/local_storage/file_offline_storage.dart';
 import 'package:uni/controller/parsers/parser_fees.dart';
 import 'package:uni/controller/parsers/parser_print_balance.dart';
 import 'package:uni/model/entities/course.dart';
@@ -22,14 +23,13 @@ import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/model/request_status.dart';
 
-class ProfileStateProvider extends StateProviderNotifier {
-  List<CourseUnit> _currUcs = [];
+class ProfileProvider extends StateProviderNotifier {
   Profile _profile = Profile();
   DateTime? _feesRefreshTime;
   DateTime? _printRefreshTime;
 
-  UnmodifiableListView<CourseUnit> get currUcs =>
-      UnmodifiableListView(_currUcs);
+  ProfileProvider()
+      : super(dependsOnSession: true, cacheDuration: const Duration(days: 1));
 
   String get feesRefreshTime => _feesRefreshTime.toString();
 
@@ -37,26 +37,71 @@ class ProfileStateProvider extends StateProviderNotifier {
 
   Profile get profile => _profile;
 
-  updateStateBasedOnLocalProfile() async {
-    final profileDb = AppUserDataDatabase();
-    final Profile profile = await profileDb.getUserData();
-
-    final AppCoursesDatabase coursesDb = AppCoursesDatabase();
-    final List<Course> courses = await coursesDb.courses();
-
-    profile.courses = courses;
-
-    // Build courses states map
-    final Map<String, String> coursesStates = <String, String>{};
-    for (Course course in profile.courses) {
-      coursesStates[course.name!] = course.state!;
-    }
-
-    _profile = profile;
-    notifyListeners();
+  @override
+  Future<void> loadFromStorage() async {
+    await loadProfile();
+    await Future.wait(
+        [loadCourses(), loadBalanceRefreshTimes(), loadCourseUnits()]);
   }
 
-  getUserFees(Completer<void> action, Session session) async {
+  @override
+  Future<void> loadFromRemote(Session session, Profile profile) async {
+    final userInfoAction = Completer<void>();
+    fetchUserInfo(userInfoAction, session);
+    await userInfoAction.future;
+
+    final Completer<void> userFeesAction = Completer<void>();
+    fetchUserFees(userFeesAction, session);
+
+    final Completer<void> printBalanceAction = Completer<void>();
+    fetchUserPrintBalance(printBalanceAction, session);
+
+    final Completer<void> courseUnitsAction = Completer<void>();
+    fetchCourseUnitsAndCourseAverages(session, courseUnitsAction);
+
+    await Future.wait([
+      userFeesAction.future,
+      printBalanceAction.future,
+      courseUnitsAction.future
+    ]);
+
+    if (status != RequestStatus.failed) {
+      updateStatus(RequestStatus.successful);
+    }
+  }
+
+  Future<void> loadProfile() async {
+    final profileDb = AppUserDataDatabase();
+    _profile = await profileDb.getUserData();
+  }
+
+  Future<void> loadCourses() async {
+    final AppCoursesDatabase coursesDb = AppCoursesDatabase();
+    final List<Course> courses = await coursesDb.courses();
+    _profile.courses = courses;
+  }
+
+  Future<void> loadBalanceRefreshTimes() async {
+    final AppRefreshTimesDatabase refreshTimesDb = AppRefreshTimesDatabase();
+    final Map<String, String> refreshTimes =
+        await refreshTimesDb.refreshTimes();
+
+    final printRefreshTime = refreshTimes['print'];
+    final feesRefreshTime = refreshTimes['fees'];
+    if (printRefreshTime != null) {
+      _printRefreshTime = DateTime.parse(printRefreshTime);
+    }
+    if (feesRefreshTime != null) {
+      _feesRefreshTime = DateTime.parse(feesRefreshTime);
+    }
+  }
+
+  Future<void> loadCourseUnits() async {
+    final AppCourseUnitsDatabase db = AppCourseUnitsDatabase();
+    profile.courseUnits = await db.courseUnits();
+  }
+
+  fetchUserFees(Completer<void> action, Session session) async {
     try {
       final response = await FeesFetcher().getUserFeesResponse(session);
 
@@ -87,6 +132,7 @@ class ProfileStateProvider extends StateProviderNotifier {
       notifyListeners();
     } catch (e) {
       Logger().e('Failed to get Fees info');
+      updateStatus(RequestStatus.failed);
     }
 
     action.complete();
@@ -98,7 +144,7 @@ class ProfileStateProvider extends StateProviderNotifier {
     refreshTimesDatabase.saveRefreshTime(db, currentTime);
   }
 
-  getUserPrintBalance(Completer<void> action, Session session) async {
+  fetchUserPrintBalance(Completer<void> action, Session session) async {
     try {
       final response = await PrintFetcher().getUserPrintsResponse(session);
       final String printBalance = await getPrintsBalance(response);
@@ -127,39 +173,23 @@ class ProfileStateProvider extends StateProviderNotifier {
       notifyListeners();
     } catch (e) {
       Logger().e('Failed to get Print Balance');
+      updateStatus(RequestStatus.failed);
     }
 
     action.complete();
   }
 
-  updateStateBasedOnLocalRefreshTimes() async {
-    final AppRefreshTimesDatabase refreshTimesDb = AppRefreshTimesDatabase();
-    final Map<String, String> refreshTimes =
-        await refreshTimesDb.refreshTimes();
-
-    final printRefreshTime = refreshTimes['print'];
-    final feesRefreshTime = refreshTimes['fees'];
-    if (printRefreshTime != null) {
-      _printRefreshTime = DateTime.parse(printRefreshTime);
-    }
-    if (feesRefreshTime != null) {
-      _feesRefreshTime = DateTime.parse(feesRefreshTime);
-    }
-  }
-
-  getUserInfo(Completer<void> action, Session session) async {
+  fetchUserInfo(Completer<void> action, Session session) async {
     try {
       updateStatus(RequestStatus.busy);
 
-      final profile = ProfileFetcher.getProfile(session).then((res) {
-        _profile = res;
-      });
+      final profile = await ProfileFetcher.getProfile(session);
+      final currentCourseUnits =
+          await CurrentCourseUnitsFetcher().getCurrentCourseUnits(session);
 
-      final ucs = CurrentCourseUnitsFetcher()
-          .getCurrentCourseUnits(session)
-          .then((res) => _currUcs = res);
-      await Future.wait([profile, ucs]);
-      notifyListeners();
+      _profile = profile;
+      _profile.courseUnits = currentCourseUnits;
+
       updateStatus(RequestStatus.successful);
 
       final Tuple2<String, String> userPersistentInfo =
@@ -176,15 +206,15 @@ class ProfileStateProvider extends StateProviderNotifier {
     action.complete();
   }
 
-  getCourseUnitsAndCourseAverages(
+  fetchCourseUnitsAndCourseAverages(
       Session session, Completer<void> action) async {
     updateStatus(RequestStatus.busy);
     try {
       final List<Course> courses = profile.courses;
-      _currUcs = await AllCourseUnitsFetcher()
-          .getAllCourseUnitsAndCourseAverages(courses, session);
-      updateStatus(RequestStatus.successful);
-      notifyListeners();
+      final List<CourseUnit> allCourseUnits = await AllCourseUnitsFetcher()
+          .getAllCourseUnitsAndCourseAverages(profile.courses, session);
+
+      _profile.courseUnits = allCourseUnits;
 
       final Tuple2<String, String> userPersistentInfo =
           await AppSharedPreferences.getPersistentUserInfo();
@@ -193,7 +223,7 @@ class ProfileStateProvider extends StateProviderNotifier {
         await coursesDb.saveNewCourses(courses);
 
         final courseUnitsDatabase = AppCourseUnitsDatabase();
-        await courseUnitsDatabase.saveNewCourseUnits(currUcs);
+        await courseUnitsDatabase.saveNewCourseUnits(_profile.courseUnits);
       }
     } catch (e) {
       Logger().e('Failed to get all user ucs: $e');
@@ -203,9 +233,17 @@ class ProfileStateProvider extends StateProviderNotifier {
     action.complete();
   }
 
-  updateStateBasedOnLocalCourseUnits() async {
-    final AppCourseUnitsDatabase db = AppCourseUnitsDatabase();
-    _currUcs = await db.courseUnits();
-    notifyListeners();
+  static Future<File?> fetchOrGetCachedProfilePicture(
+      String? studentNumber, Session session,
+      {forceRetrieval = false}) {
+    studentNumber ??= session.studentNumber;
+    final String faculty = session.faculties[0];
+    final String url =
+        'https://sigarra.up.pt/$faculty/pt/fotografias_service.foto?pct_cod=$studentNumber';
+    final Map<String, String> headers = <String, String>{};
+    headers['cookie'] = session.cookies;
+    return loadFileFromStorageOrRetrieveNew(
+        'user_profile_picture', url, headers,
+        forceRetrieval: forceRetrieval);
   }
 }

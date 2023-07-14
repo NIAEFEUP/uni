@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/entities/exam.dart';
-import 'package:uni/model/providers/exam_provider.dart';
+import 'package:uni/model/providers/lazy/exam_provider.dart';
 import 'package:uni/view/exams/widgets/exam_row.dart';
 
 import '../../../test_widget.dart';
@@ -37,7 +37,7 @@ void main() {
 
     testWidgets('When multiple rooms', (WidgetTester tester) async {
       final rooms = ['B315', 'B316', 'B330'];
-      final Exam exam = Exam('1230',begin, end, subject, rooms, '', 'feup');
+      final Exam exam = Exam('1230', begin, end, subject, rooms, '', 'feup');
       final widget = ExamRow(exam: exam, teacher: '', mainPage: true);
 
       final providers = [

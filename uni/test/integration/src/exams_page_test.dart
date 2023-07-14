@@ -16,7 +16,7 @@ import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/session.dart';
-import 'package:uni/model/providers/exam_provider.dart';
+import 'package:uni/model/providers/lazy/exam_provider.dart';
 import 'package:uni/view/exams/exams.dart';
 
 import '../../test_widget.dart';
@@ -84,7 +84,7 @@ void main() {
       expect(find.byKey(Key('$mdisExam-exam')), findsNothing);
 
       final Completer<void> completer = Completer();
-      examProvider.getUserExams(
+      examProvider.fetchUserExams(
           completer,
           ParserExams(),
           const Tuple2('', ''),
@@ -123,7 +123,7 @@ void main() {
       expect(find.byKey(Key('$sopeExam-exam')), findsNothing);
 
       final Completer<void> completer = Completer();
-      examProvider.getUserExams(
+      examProvider.fetchUserExams(
           completer,
           ParserExams(),
           const Tuple2('', ''),

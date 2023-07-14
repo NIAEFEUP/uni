@@ -1,12 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-
 import 'package:uni/model/entities/course_units/course_unit_class.dart';
 import 'package:uni/model/entities/session.dart';
+import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import 'package:uni/controller/load_info.dart';
 
 class CourseUnitStudentRow extends StatelessWidget {
   const CourseUnitStudentRow(this.student, this.session, {super.key});
@@ -17,7 +15,8 @@ class CourseUnitStudentRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Future<File?> userImage =
-        loadUserProfilePicture("up${student.number}", session);
+        ProfileProvider.fetchOrGetCachedProfilePicture(
+            "up${student.number}", session);
     return FutureBuilder(
       builder: (BuildContext context, AsyncSnapshot<File?> snapshot) {
         return Container(

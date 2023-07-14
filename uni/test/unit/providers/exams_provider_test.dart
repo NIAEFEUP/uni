@@ -11,7 +11,7 @@ import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/session.dart';
-import 'package:uni/model/providers/exam_provider.dart';
+import 'package:uni/model/providers/lazy/exam_provider.dart';
 import 'package:uni/model/request_status.dart';
 
 import 'mocks.dart';
@@ -59,7 +59,7 @@ void main() {
 
     setUp(() {
       provider = ExamProvider();
-      expect(provider.status, RequestStatus.none);
+      expect(provider.status, RequestStatus.busy);
     });
 
     test('When given one exam', () async {
@@ -68,7 +68,7 @@ void main() {
 
       final action = Completer();
 
-      provider.getUserExams(
+      provider.fetchUserExams(
           action, parserExams, userPersistentInfo, profile, session, userUcs);
 
       expect(provider.status, RequestStatus.busy);
@@ -86,7 +86,7 @@ void main() {
 
       final Completer<void> action = Completer();
 
-      provider.getUserExams(
+      provider.fetchUserExams(
           action, parserExams, userPersistentInfo, profile, session, userUcs);
 
       expect(provider.status, RequestStatus.busy);
@@ -115,7 +115,7 @@ void main() {
       when(parserExams.parseExams(any, any))
           .thenAnswer((_) async => {sopeExam, sdisExam, specialExam});
 
-      provider.getUserExams(
+      provider.fetchUserExams(
           action, parserExams, userPersistentInfo, profile, session, userUcs);
 
       expect(provider.status, RequestStatus.busy);
@@ -131,7 +131,7 @@ void main() {
       when(parserExams.parseExams(any, any))
           .thenAnswer((_) async => throw Exception('RIP'));
 
-      provider.getUserExams(
+      provider.fetchUserExams(
           action, parserExams, userPersistentInfo, profile, session, userUcs);
 
       expect(provider.status, RequestStatus.busy);
@@ -152,7 +152,7 @@ void main() {
 
       final Completer<void> action = Completer();
 
-      provider.getUserExams(
+      provider.fetchUserExams(
           action, parserExams, userPersistentInfo, profile, session, userUcs);
       expect(provider.status, RequestStatus.busy);
 
@@ -173,7 +173,7 @@ void main() {
 
       final Completer<void> action = Completer();
 
-      provider.getUserExams(
+      provider.fetchUserExams(
           action, parserExams, userPersistentInfo, profile, session, userUcs);
       expect(provider.status, RequestStatus.busy);
 
@@ -194,7 +194,7 @@ void main() {
 
       final Completer<void> action = Completer();
 
-      provider.getUserExams(
+      provider.fetchUserExams(
           action, parserExams, userPersistentInfo, profile, session, userUcs);
       expect(provider.status, RequestStatus.busy);
 

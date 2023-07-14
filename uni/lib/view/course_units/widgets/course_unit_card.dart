@@ -42,4 +42,7 @@ class CourseUnitCard extends GenericCard {
         MaterialPageRoute(
             builder: (context) => CourseUnitDetailPageView(courseUnit)));
   }
+
+  @override
+  void onRefresh(BuildContext context) {}
 }

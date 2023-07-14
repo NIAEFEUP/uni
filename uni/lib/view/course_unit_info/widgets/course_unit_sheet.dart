@@ -6,7 +6,7 @@ import 'package:html/dom.dart' as dom;
 import 'package:provider/provider.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/model/entities/course_units/course_unit_sheet.dart';
-import 'package:uni/model/providers/session_provider.dart';
+import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_info_card.dart';
 
 class CourseUnitSheetView extends StatelessWidget {

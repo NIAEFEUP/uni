@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/entities/course_units/course_unit_class.dart';
 import 'package:uni/model/entities/session.dart';
-import 'package:uni/model/providers/session_provider.dart';
+import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_info_card.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_student_row.dart';
 
-class CourseUnitsClassesView extends StatelessWidget {
+class CourseUnitClassesView extends StatelessWidget {
   final List<CourseUnitClass> classes;
-  const CourseUnitsClassesView(this.classes, {super.key});
+
+  const CourseUnitClassesView(this.classes, {super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -32,7 +32,9 @@ abstract class GenericCard extends StatefulWidget {
 
   String getTitle();
 
-  dynamic onClick(BuildContext context);
+  void onClick(BuildContext context);
+
+  void onRefresh(BuildContext context);
 
   Text getInfoText(String text, BuildContext context) {
     return Text(text,

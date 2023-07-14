@@ -21,4 +21,7 @@ class RestaurantPageCard extends GenericCard {
 
   @override
   onClick(BuildContext context) {}
+
+  @override
+  void onRefresh(BuildContext context) {}
 }

@@ -1,64 +1,57 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
-
-import 'package:uni/controller/local_storage/app_last_user_info_update_database.dart';
-import 'package:uni/model/providers/last_user_info_provider.dart';
 import 'package:uni/model/request_status.dart';
 import 'package:uni/utils/drawer_items.dart';
 
 /// Wraps content given its fetch data from the redux store,
 /// hydrating the component, displaying an empty message,
 /// a connection error or a loading circular effect as appropriate
-
 class RequestDependentWidgetBuilder extends StatelessWidget {
   const RequestDependentWidgetBuilder(
       {Key? key,
-      required this.context,
       required this.status,
-      required this.contentGenerator,
-      required this.content,
-      required this.contentChecker,
+      required this.builder,
+      required this.hasContentPredicate,
       required this.onNullContent,
-      this.shimmerLoadingWidget,
-      this.dismissNullWhileLoading = false})
+      this.contentLoadingWidget})
       : super(key: key);
 
-  final BuildContext context;
   final RequestStatus status;
-  final Widget Function(dynamic, BuildContext) contentGenerator;
-  final Widget? shimmerLoadingWidget;
-  final dynamic content;
-  final bool contentChecker;
+  final Widget Function() builder;
+  final Widget? contentLoadingWidget;
+  final bool hasContentPredicate;
   final Widget onNullContent;
-  final bool dismissNullWhileLoading;
-  static final AppLastUserInfoUpdateDatabase lastUpdateDatabase =
-      AppLastUserInfoUpdateDatabase();
 
   @override
   Widget build(BuildContext context) {
-    if (contentChecker) {
-      return contentGenerator(content, context);
+    if (status == RequestStatus.busy && !hasContentPredicate) {
+      return loadingWidget(context);
+    } else if (status == RequestStatus.failed) {
+      return requestFailedMessage();
     }
 
-    switch (status) {
-      case RequestStatus.none:
-      case RequestStatus.successful:
-        return onNullContent;
-      case RequestStatus.busy:
-        return dismissNullWhileLoading ||
-                Provider.of<LastUserInfoProvider>(context, listen: false)
-                        .lastUpdateTime ==
-                    null
-            ? _contentLoadingWidget()
-            : onNullContent;
-      case RequestStatus.failed:
-        return _requestFailedMessage();
-    }
+    return hasContentPredicate
+        ? builder()
+        : Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: onNullContent);
   }
 
-  Widget _requestFailedMessage() {
+  Widget loadingWidget(BuildContext context) {
+    return contentLoadingWidget == null
+        ? const Center(
+            child: Padding(
+                padding: EdgeInsets.symmetric(vertical: 20),
+                child: CircularProgressIndicator()))
+        : Center(
+            child: Shimmer.fromColors(
+                baseColor: Theme.of(context).highlightColor,
+                highlightColor: Theme.of(context).colorScheme.onPrimary,
+                child: contentLoadingWidget!));
+  }
+
+  Widget requestFailedMessage() {
     return FutureBuilder(
         future: Connectivity().checkConnectivity(),
         builder: (BuildContext context, AsyncSnapshot connectivitySnapshot) {
@@ -82,15 +75,5 @@ class RequestDependentWidgetBuilder extends StatelessWidget {
                 child: const Text('Reportar erro'))
           ]);
         });
-  }
-
-  Widget _contentLoadingWidget() {
-    return shimmerLoadingWidget == null
-        ? const Center(child: CircularProgressIndicator())
-        : Center(
-            child: Shimmer.fromColors(
-                baseColor: Theme.of(context).highlightColor,
-                highlightColor: Theme.of(context).colorScheme.onPrimary,
-                child: shimmerLoadingWidget!));
   }
 }
