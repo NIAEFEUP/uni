@@ -1,3 +1,8 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'reference.g.dart';
+
+@JsonSerializable()
 class Reference {
   final String description;
   final DateTime limitDate;
@@ -8,14 +13,6 @@ class Reference {
   Reference(this.description, this.limitDate,
       this.entity, this.reference, this.amount);
 
-  /// Converts this reference to a map.
-  Map<String, dynamic> toMap() {
-    return {
-      'description': description,
-      'limitDate': limitDate.toString(),
-      'entity': entity,
-      'reference': reference,
-      'amount': amount,
-    };
-  }
+  factory Reference.fromJson(Map<String,dynamic> json) => _$ReferenceFromJson(json);
+  Map<String, dynamic> toJson() => _$ReferenceToJson(this);
 }

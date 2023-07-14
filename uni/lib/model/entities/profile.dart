@@ -1,9 +1,13 @@
 import 'dart:convert';
 
+import 'package:json_annotation/json_annotation.dart';
 import 'package:tuple/tuple.dart';
 import 'package:uni/model/entities/course.dart';
 
+part 'profile.g.dart';
+
 /// Stores information about the user's profile.
+@JsonSerializable()
 class Profile {
   final String name;
   final String email;
@@ -21,18 +25,8 @@ class Profile {
       this.feesLimit})
       : courses = courses ?? [];
 
-  /// Creates a new instance from a JSON object.
-  static Profile fromResponse(dynamic response) {
-    final responseBody = json.decode(response.body);
-    final List<Course> courses = <Course>[];
-    for (var c in responseBody['cursos']) {
-      courses.add(Course.fromJson(c));
-    }
-    return Profile(
-        name: responseBody['nome'],
-        email: responseBody['email'],
-        courses: courses);
-  }
+  factory Profile.fromJson(Map<String,dynamic> json) => _$ProfileFromJson(json);
+  Map<String, dynamic> toJson() => _$ProfileToJson(this);
 
   /// Returns a list with two tuples: the first tuple contains the user's name
   /// and the other one contains the user's email.

@@ -1,3 +1,7 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'course.g.dart';
+
 /// Stores information about a course.
 ///
 /// The information stored is:
@@ -7,6 +11,7 @@
 /// - The course current `year`
 /// - The date of the `firstEnrollment`
 /// - The course `state`
+@JsonSerializable()
 class Course {
   final int id;
   final int? festId;
@@ -31,31 +36,6 @@ class Course {
       this.finishedEcts,
       this.currentAverage});
 
-  /// Creates a new instance from a JSON object.
-  static Course fromJson(dynamic data) {
-    return Course(
-        id: data['cur_id'],
-        festId: data['fest_id'],
-        name: data['cur_nome'],
-        currYear: data['ano_curricular'],
-        firstEnrollment: data['fest_a_lect_1_insc'],
-        abbreviation: data['abbreviation'],
-        faculty: data['inst_sigla'].toString().toLowerCase());
-  }
-
-  /// Converts this course to a map.
-  Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'fest_id': festId,
-      'name': name,
-      'abbreviation': abbreviation,
-      'currYear': currYear,
-      'firstEnrollment': firstEnrollment,
-      'state': state,
-      'faculty': faculty,
-      'currentAverage': currentAverage,
-      'finishedEcts': finishedEcts,
-    };
-  }
+  factory Course.fromJson(Map<String,dynamic> json) => _$CourseFromJson(json);
+  Map<String, dynamic> toJson() => _$CourseToJson(this);
 }

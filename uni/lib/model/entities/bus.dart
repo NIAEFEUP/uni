@@ -1,7 +1,12 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'bus.g.dart';
+
 /// Stores information about a bus.
 ///
 /// Stores the bus code (`busCode`), the `destination` of the bus
 /// and its `direction`.
+@JsonSerializable()
 class Bus {
   String busCode;
   String destination;
@@ -12,15 +17,6 @@ class Bus {
       required this.destination,
       this.direction = false});
 
-  /// Converts a [Bus] instance to a map.
-  ///
-  /// The map contents are the `busCode`,
-  /// the bus `destination` and its `direction`.
-  Map<String, dynamic> toMap() {
-    return {
-      'busCode': busCode,
-      'destination': destination,
-      'direction': direction
-    };
-  }
+  factory Bus.fromJson(Map<String,dynamic> json) => _$BusFromJson(json);
+  Map<String, dynamic> toJson() => _$BusToJson(this);
 }

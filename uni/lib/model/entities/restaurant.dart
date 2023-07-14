@@ -1,7 +1,11 @@
 import 'package:collection/collection.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:uni/model/entities/meal.dart';
 import 'package:uni/model/utils/day_of_week.dart';
 
+part 'restaurant.g.dart';
+
+@JsonSerializable()
 class Restaurant {
   final int? id;
   final String name;
@@ -15,15 +19,10 @@ class Restaurant {
   Restaurant(this.id, this.name, this.reference, {required List<Meal> meals})
       : meals = groupBy(meals, (meal) => meal.dayOfWeek);
 
-  static Restaurant fromMap(Map<String, dynamic> map, List<Meal> meals) {
-    return Restaurant(map['id'], map['name'], map['ref'], meals: meals);
-  }
+  factory Restaurant.fromJson(Map<String,dynamic> json) => _$RestaurantFromJson(json);
+  Map<String, dynamic> toJson() => _$RestaurantToJson(this);
 
   List<Meal> getMealsOfDay(DayOfWeek dayOfWeek) {
     return meals[dayOfWeek] ?? [];
-  }
-
-  Map<String, dynamic> toMap() {
-    return {'id': id, 'name': name, 'ref': reference};
   }
 }

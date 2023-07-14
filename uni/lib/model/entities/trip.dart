@@ -1,6 +1,10 @@
+import 'package:json_annotation/json_annotation.dart';
 import 'package:logger/logger.dart';
 
+part 'trip.g.dart';
+
 /// Stores information about a bus trip.
+@JsonSerializable()
 class Trip {
   final String line;
   final String destination;
@@ -11,14 +15,8 @@ class Trip {
       required this.destination,
       required this.timeRemaining});
 
-  /// Converts this trip to a map.
-  Map<String, dynamic> toMap() {
-    return {
-      'line': line,
-      'destination': destination,
-      'timeRemaining': timeRemaining
-    };
-  }
+  factory Trip.fromJson(Map<String,dynamic> json) => _$TripFromJson(json);
+  Map<String, dynamic> toJson() => _$TripToJson(this);
 
   /// Prints the data in this trip to the [Logger] with an INFO level.
   void printTrip() {

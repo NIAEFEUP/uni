@@ -1,6 +1,10 @@
+import 'package:json_annotation/json_annotation.dart';
 import 'package:logger/logger.dart';
 
+part 'lecture.g.dart';
+
 /// Stores information about a lecture.
+@JsonSerializable()
 class Lecture {
   String subject;
   String typeClass;
@@ -92,19 +96,8 @@ class Lecture {
     return Lecture.clone(lec);
   }
 
-  /// Converts this lecture to a map.
-  Map<String, dynamic> toMap() {
-    return {
-      'subject': subject,
-      'typeClass': typeClass,
-      'startDateTime': startTime.toIso8601String(),
-      'blocks': blocks,
-      'room': room,
-      'teacher': teacher,
-      'classNumber': classNumber,
-      'occurrId': occurrId
-    };
-  }
+  factory Lecture.fromJson(Map<String,dynamic> json) => _$LectureFromJson(json);
+  Map<String, dynamic> toJson() => _$LectureToJson(this);
 
   /// Prints the data in this lecture to the [Logger] with an INFO level.
   printLecture() {

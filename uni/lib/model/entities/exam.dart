@@ -1,5 +1,8 @@
 import 'package:intl/intl.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:logger/logger.dart';
+
+part 'exam.g.dart';
 
 enum WeekDays {
   monday("Segunda"),
@@ -40,6 +43,7 @@ enum Months {
 /// - A List with the `rooms` in which the Exam takes place
 /// - The Exam `type`
 
+@JsonSerializable()
 class Exam {
   late final DateTime begin;
   late final DateTime end;
@@ -67,18 +71,8 @@ class Exam {
     this.rooms = rooms.split(',');
   }
 
-  /// Converts this exam to a map.
-  Map<String, String> toMap() {
-    return {
-      'id': id,
-      'subject': subject,
-      'begin': DateFormat("yyyy-MM-dd HH:mm:ss").format(begin),
-      'end': DateFormat("yyyy-MM-dd HH:mm:ss").format(end),
-      'rooms': rooms.join(','),
-      'examType': type,
-      'faculty': faculty
-    };
-  }
+  factory Exam.fromJson(Map<String,dynamic> json) => _$ExamFromJson(json);
+  Map<String, dynamic> toJson() => _$ExamToJson(this);
 
   /// Returns whether or not this exam has already ended.
   bool hasEnded() => DateTime.now().compareTo(end) >= 0;
