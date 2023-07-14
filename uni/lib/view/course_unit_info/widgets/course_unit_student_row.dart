@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:uni/model/entities/course_units/course_unit_class.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class CourseUnitStudentRow extends StatelessWidget {
   const CourseUnitStudentRow(this.student, this.session, {super.key});
@@ -35,24 +34,20 @@ class CourseUnitStudentRow extends StatelessWidget {
                                 : const AssetImage(
                                     'assets/images/profile_placeholder.png')))),
                 Expanded(
-                    child: InkWell(
-                        onTap: () => launchUrl(student.profile),
-                        child: Container(
-                            padding: const EdgeInsets.only(left: 10),
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(student.name,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyLarge),
-                                  Opacity(
-                                      opacity: 0.8,
-                                      child: Text(
-                                        "up${student.number}",
-                                      ))
-                                ]))))
+                    child: Container(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(student.name,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: Theme.of(context).textTheme.bodyLarge),
+                              Opacity(
+                                  opacity: 0.8,
+                                  child: Text(
+                                    "up${student.number}",
+                                  ))
+                            ])))
               ],
             ));
       },
