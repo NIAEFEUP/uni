@@ -234,16 +234,17 @@ class ProfileProvider extends StateProviderNotifier {
   }
 
   static Future<File?> fetchOrGetCachedProfilePicture(
-      String? studentNumber, Session session,
+      int? studentNumber, Session session,
       {forceRetrieval = false}) {
-    studentNumber ??= session.studentNumber;
+    studentNumber ??= int.parse(session.studentNumber.replaceAll("up", ""));
+
     final String faculty = session.faculties[0];
     final String url =
         'https://sigarra.up.pt/$faculty/pt/fotografias_service.foto?pct_cod=$studentNumber';
     final Map<String, String> headers = <String, String>{};
     headers['cookie'] = session.cookies;
     return loadFileFromStorageOrRetrieveNew(
-        'user_profile_picture', url, headers,
+        '${studentNumber}_profile_picture', url, headers,
         forceRetrieval: forceRetrieval);
   }
 }

@@ -15,8 +15,7 @@ class CourseUnitStudentRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Future<File?> userImage =
-        ProfileProvider.fetchOrGetCachedProfilePicture(
-            "up${student.number}", session);
+        ProfileProvider.fetchOrGetCachedProfilePicture(student.number, session);
     return FutureBuilder(
       builder: (BuildContext context, AsyncSnapshot<File?> snapshot) {
         return Container(
