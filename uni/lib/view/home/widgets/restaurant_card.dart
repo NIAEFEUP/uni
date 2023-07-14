@@ -24,7 +24,7 @@ class RestaurantCard extends GenericCard {
   String getTitle() => 'Restaurantes';
 
   @override
-  onClick(BuildContext context) => null;
+  onClick(BuildContext context) => Navigator.pushNamed(context, '/${DrawerItem.navRestaurants.title}');
 
   @override
   Widget buildCardContent(BuildContext context) {
@@ -72,11 +72,12 @@ class RestaurantCard extends GenericCard {
     return Column(children: [
       Center(
           child: Container(
-              padding: const EdgeInsets.all(15.0), child: Text(restaurant.name)),),
+              padding: const EdgeInsets.all(15.0), child: Text(restaurant.name, style: TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.bold))),),
       if(meals.isNotEmpty)
       Card(
-        elevation: 1,
+        elevation: 0,
         child: RowContainer(
+            borderColor: Colors.transparent,
             color: const Color.fromARGB(0, 0, 0, 0),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -85,16 +86,16 @@ class RestaurantCard extends GenericCard {
       )
       else
       Card(
-        elevation: 1,
+        elevation: 0,
         child: RowContainer(
-            color: const Color.fromARGB(0, 0, 0, 0),
-            child: Container(
-              padding: const EdgeInsets.all(12.0),
-              child: const SizedBox(
-                width: 400,
-                child: Text("Não há refeições disponíveis", textAlign: TextAlign.center),
-              ))
+          borderColor: Colors.transparent,
+          color: const Color.fromARGB(0, 0, 0, 0),
+          child: Container(
+            padding: const EdgeInsets.all(12.0),
+            width: 400,
+            child: const Text("Não há refeições disponíveis", textAlign: TextAlign.center),
             ))
+          )
     ]);
   }
 
