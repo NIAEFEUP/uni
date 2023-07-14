@@ -20,7 +20,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # To change it manually, override the value in app_version.txt.
 # The app version code is automatically also bumped by CI.
 # Do not change it manually.
-version: 1.5.32+150
+version: 1.5.34+152
 
 environment:
   sdk: ">=2.17.1 <3.0.0"
@@ -43,8 +43,7 @@ dependencies:
   encrypt: ^5.0.0-beta.1
   path_provider: ^2.0.0
   sqflite: ^2.0.3
-  path: ^1.8.0 
-  cached_network_image: ^3.0.0-nullsafety
+  path: ^1.8.0
   flutter_svg: ^2.0.0+1
   synchronized: ^3.0.0
   image: ^4.0.13
@@ -62,14 +61,14 @@ dependencies:
   collection: ^1.16.0
   timelines: ^0.1.0
   flutter_map: ^4.0.0
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
+  cached_network_image: ^3.2.3
   cupertino_icons: ^1.0.2
   latlong2: ^0.8.1
   flutter_map_marker_popup: ^4.0.1
   workmanager: ^0.5.1
   flutter_local_notifications: ^15.1.0+1
   percent_indicator: ^4.2.2
+  flutter_widget_from_html_core: ^0.10.3
   shimmer: ^3.0.0
   material_design_icons_flutter: ^7.0.7296
   flutter_dotenv: ^5.0.2

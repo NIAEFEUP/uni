@@ -4,7 +4,7 @@ import 'package:uni/model/entities/time_utilities.dart';
 /// App default card
 abstract class GenericCard extends StatefulWidget {
   final EdgeInsetsGeometry margin;
-  final bool smallTitle;
+  final bool hasSmallTitle;
   final bool editingMode;
   final Function()? onDelete;
 
@@ -20,7 +20,7 @@ abstract class GenericCard extends StatefulWidget {
       required this.editingMode,
       required this.onDelete,
       this.margin = const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-      this.smallTitle = false})
+      this.hasSmallTitle = false})
       : super(key: key);
 
   @override
@@ -32,7 +32,9 @@ abstract class GenericCard extends StatefulWidget {
 
   String getTitle();
 
-  dynamic onClick(BuildContext context);
+  void onClick(BuildContext context);
+
+  void onRefresh(BuildContext context);
 
   Text getInfoText(String text, BuildContext context) {
     return Text(text,
@@ -104,7 +106,7 @@ class GenericCardState extends State<GenericCard> {
                             padding: const EdgeInsets.symmetric(horizontal: 15),
                             margin: const EdgeInsets.only(top: 15, bottom: 10),
                             child: Text(widget.getTitle(),
-                                style: (widget.smallTitle
+                                style: (widget.hasSmallTitle
                                         ? Theme.of(context)
                                             .textTheme
                                             .titleLarge!

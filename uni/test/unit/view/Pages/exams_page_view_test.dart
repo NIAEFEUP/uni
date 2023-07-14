@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
-
 import 'package:uni/model/entities/exam.dart';
-import 'package:uni/model/providers/exam_provider.dart';
+import 'package:uni/model/providers/lazy/exam_provider.dart';
 import 'package:uni/view/exams/exams.dart';
 
 import '../../../test_widget.dart';
@@ -17,16 +16,13 @@ void main() {
     const firstExamDate = '2019-09-11';
     const secondExamSubject = 'SDIS';
     const secondExamDate = '2019-09-12';
-    
-    testWidgets('When given an empty list', (WidgetTester tester) async {
 
+    testWidgets('When given an empty list', (WidgetTester tester) async {
       const widget = ExamsPageView();
       final examProvider = ExamProvider();
       examProvider.setExams([]);
 
-      final providers = [
-        ChangeNotifierProvider(create: (_) => examProvider)
-      ];     
+      final providers = [ChangeNotifierProvider(create: (_) => examProvider)];
 
       await tester.pumpWidget(testableWidget(widget, providers: providers));
 
@@ -34,19 +30,17 @@ void main() {
     });
 
     testWidgets('When given a single exam', (WidgetTester tester) async {
-    final DateTime firstExamBegin = DateTime.parse('$firstExamDate 09:00');
+      final DateTime firstExamBegin = DateTime.parse('$firstExamDate 09:00');
       final DateTime firstExamEnd = DateTime.parse('$firstExamDate 12:00');
-      final firstExam = Exam('1230',firstExamBegin, firstExamEnd, firstExamSubject,
-           ['B119', 'B107', 'B205'], 'ER','feup');
+      final firstExam = Exam('1230', firstExamBegin, firstExamEnd,
+          firstExamSubject, ['B119', 'B107', 'B205'], 'ER', 'feup');
 
       const widget = ExamsPageView();
 
       final examProvider = ExamProvider();
       examProvider.setExams([firstExam]);
 
-      final providers = [
-        ChangeNotifierProvider(create: (_) => examProvider)
-      ];     
+      final providers = [ChangeNotifierProvider(create: (_) => examProvider)];
 
       await tester.pumpWidget(testableWidget(widget, providers: providers));
 
@@ -58,12 +52,12 @@ void main() {
         (WidgetTester tester) async {
       final DateTime firstExamBegin = DateTime.parse('$firstExamDate 09:00');
       final DateTime firstExamEnd = DateTime.parse('$firstExamDate 12:00');
-      final firstExam = Exam('1231',firstExamBegin, firstExamEnd, firstExamSubject,
-          ['B119', 'B107', 'B205'], 'ER', 'feup');
+      final firstExam = Exam('1231', firstExamBegin, firstExamEnd,
+          firstExamSubject, ['B119', 'B107', 'B205'], 'ER', 'feup');
       final DateTime secondExamBegin = DateTime.parse('$firstExamDate 12:00');
       final DateTime secondExamEnd = DateTime.parse('$firstExamDate 15:00');
-      final secondExam = Exam('1232',secondExamBegin, secondExamEnd, secondExamSubject,
-          ['B119', 'B107', 'B205'], 'ER', 'feup');
+      final secondExam = Exam('1232', secondExamBegin, secondExamEnd,
+          secondExamSubject, ['B119', 'B107', 'B205'], 'ER', 'feup');
 
       final examList = [
         firstExam,
@@ -75,9 +69,7 @@ void main() {
       final examProvider = ExamProvider();
       examProvider.setExams(examList);
 
-      final providers = [
-        ChangeNotifierProvider(create: (_) => examProvider)
-      ];     
+      final providers = [ChangeNotifierProvider(create: (_) => examProvider)];
 
       await tester.pumpWidget(testableWidget(widget, providers: providers));
 
@@ -91,12 +83,12 @@ void main() {
         (WidgetTester tester) async {
       final DateTime firstExamBegin = DateTime.parse('$firstExamDate 09:00');
       final DateTime firstExamEnd = DateTime.parse('$firstExamDate 12:00');
-      final firstExam = Exam('1233',firstExamBegin, firstExamEnd, firstExamSubject,
-          ['B119', 'B107', 'B205'], 'ER','feup');
+      final firstExam = Exam('1233', firstExamBegin, firstExamEnd,
+          firstExamSubject, ['B119', 'B107', 'B205'], 'ER', 'feup');
       final DateTime secondExamBegin = DateTime.parse('$secondExamDate 12:00');
       final DateTime secondExamEnd = DateTime.parse('$secondExamDate 15:00');
-      final secondExam = Exam('1234',secondExamBegin, secondExamEnd, secondExamSubject,
-           ['B119', 'B107', 'B205'], 'ER','feup');
+      final secondExam = Exam('1234', secondExamBegin, secondExamEnd,
+          secondExamSubject, ['B119', 'B107', 'B205'], 'ER', 'feup');
       final examList = [
         firstExam,
         secondExam,
@@ -107,9 +99,7 @@ void main() {
       final examProvider = ExamProvider();
       examProvider.setExams(examList);
 
-      final providers = [
-        ChangeNotifierProvider(create: (_) => examProvider)
-      ];     
+      final providers = [ChangeNotifierProvider(create: (_) => examProvider)];
 
       await tester.pumpWidget(testableWidget(widget, providers: providers));
       expect(find.byKey(Key(firstExam.toString())), findsOneWidget);
@@ -123,20 +113,20 @@ void main() {
       final List<String> rooms = ['B119', 'B107', 'B205'];
       final DateTime firstExamBegin = DateTime.parse('$firstExamDate 09:00');
       final DateTime firstExamEnd = DateTime.parse('$firstExamDate 12:00');
-      final firstExam = Exam('1235',firstExamBegin, firstExamEnd, firstExamSubject,
-          rooms, 'ER', 'feup');
+      final firstExam = Exam('1235', firstExamBegin, firstExamEnd,
+          firstExamSubject, rooms, 'ER', 'feup');
       final DateTime secondExamBegin = DateTime.parse('$firstExamDate 10:00');
       final DateTime secondExamEnd = DateTime.parse('$firstExamDate 12:00');
-      final secondExam = Exam('1236',secondExamBegin, secondExamEnd, firstExamSubject,
-          rooms, 'ER', 'feup');
+      final secondExam = Exam('1236', secondExamBegin, secondExamEnd,
+          firstExamSubject, rooms, 'ER', 'feup');
       final DateTime thirdExamBegin = DateTime.parse('$secondExamDate 12:00');
       final DateTime thirdExamEnd = DateTime.parse('$secondExamDate 15:00');
-      final thirdExam = Exam('1237',thirdExamBegin, thirdExamEnd, secondExamSubject,
-          rooms, 'ER', 'feup');
+      final thirdExam = Exam('1237', thirdExamBegin, thirdExamEnd,
+          secondExamSubject, rooms, 'ER', 'feup');
       final DateTime fourthExamBegin = DateTime.parse('$secondExamDate 13:00');
       final DateTime fourthExamEnd = DateTime.parse('$secondExamDate 14:00');
-      final fourthExam = Exam('1238',fourthExamBegin, fourthExamEnd, secondExamSubject,
-         rooms, 'ER', 'feup');
+      final fourthExam = Exam('1238', fourthExamBegin, fourthExamEnd,
+          secondExamSubject, rooms, 'ER', 'feup');
       final examList = [firstExam, secondExam, thirdExam, fourthExam];
 
       const widget = ExamsPageView();
@@ -149,9 +139,7 @@ void main() {
       final secondDayKey =
           [thirdExam, fourthExam].map((ex) => ex.toString()).join();
 
-      final providers = [
-        ChangeNotifierProvider(create: (_) => examProvider)
-      ];     
+      final providers = [ChangeNotifierProvider(create: (_) => examProvider)];
 
       await tester.pumpWidget(testableWidget(widget, providers: providers));
       expect(find.byKey(Key(firstDayKey)), findsOneWidget);

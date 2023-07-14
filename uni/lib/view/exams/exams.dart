@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:uni/model/providers/exam_provider.dart';
 import 'package:uni/model/entities/exam.dart';
+import 'package:uni/model/providers/lazy/exam_provider.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
-import 'package:uni/view/exams/widgets/exam_page_title.dart';
 import 'package:uni/view/common_widgets/row_container.dart';
-import 'package:uni/view/exams/widgets/exam_row.dart';
 import 'package:uni/view/exams/widgets/day_title.dart';
+import 'package:uni/view/exams/widgets/exam_page_title.dart';
+import 'package:uni/view/exams/widgets/exam_row.dart';
+import 'package:uni/view/lazy_consumer.dart';
 
 class ExamsPageView extends StatefulWidget {
   const ExamsPageView({super.key});
@@ -21,17 +22,17 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
 
   @override
   Widget getBody(BuildContext context) {
-    return Consumer<ExamProvider>(
-        builder: (context, examProvider, _) {
-          return ListView(
-            children: <Widget>[
-              Column(
-                mainAxisSize: MainAxisSize.max,
-                children: createExamsColumn(context, examProvider.getFilteredExams()),
-              )
-            ],
-          );
-        });
+    return LazyConsumer<ExamProvider>(builder: (context, examProvider) {
+      return ListView(
+        children: <Widget>[
+          Column(
+            mainAxisSize: MainAxisSize.max,
+            children:
+                createExamsColumn(context, examProvider.getFilteredExams()),
+          )
+        ],
+      );
+    });
   }
 
   /// Creates a column with all the user's exams.
@@ -105,7 +106,8 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
   }
 
   Widget createExamContext(context, Exam exam) {
-    final isHidden = Provider.of<ExamProvider>(context).hiddenExams.contains(exam.id);
+    final isHidden =
+        Provider.of<ExamProvider>(context).hiddenExams.contains(exam.id);
     return Container(
         key: Key('$exam-exam'),
         margin: const EdgeInsets.fromLTRB(12, 4, 12, 0),
@@ -114,5 +116,11 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
                 ? Theme.of(context).hintColor
                 : Theme.of(context).scaffoldBackgroundColor,
             child: ExamRow(exam: exam, teacher: '', mainPage: false)));
+  }
+
+  @override
+  Future<void> onRefresh(BuildContext context) async {
+    return Provider.of<ExamProvider>(context, listen: false)
+        .forceRefresh(context);
   }
 }

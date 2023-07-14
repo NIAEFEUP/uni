@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:tuple/tuple.dart';
 import 'package:uni/model/entities/course.dart';
+import 'package:uni/model/entities/course_units/course_unit.dart';
 
 part 'profile.g.dart';
 
@@ -11,10 +12,11 @@ part 'profile.g.dart';
 class Profile {
   final String name;
   final String email;
-  late List<Course> courses;
   final String printBalance;
   final String feesBalance;
   final DateTime? feesLimit;
+  List<Course> courses;
+  List<CourseUnit> courseUnits;
 
   Profile(
       {this.name = '',
@@ -23,7 +25,8 @@ class Profile {
       this.printBalance = '',
       this.feesBalance = '',
       this.feesLimit})
-      : courses = courses ?? [];
+      : courses = courses ?? [],
+        courseUnits = [];
 
   factory Profile.fromJson(Map<String,dynamic> json) => _$ProfileFromJson(json);
   Map<String, dynamic> toJson() => _$ProfileToJson(this);

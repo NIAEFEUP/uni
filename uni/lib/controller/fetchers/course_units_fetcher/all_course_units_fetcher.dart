@@ -2,14 +2,14 @@ import 'package:logger/logger.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/parsers/parser_course_units.dart';
 import 'package:uni/model/entities/course.dart';
-import 'package:uni/model/entities/course_unit.dart';
+import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/entities/session.dart';
 
 class AllCourseUnitsFetcher {
   Future<List<CourseUnit>> getAllCourseUnitsAndCourseAverages(
       List<Course> courses, Session session) async {
     final List<CourseUnit> allCourseUnits = [];
-    for (var course in courses) {
+    for (Course course in courses) {
       try {
         final List<CourseUnit> courseUnits =
             await _getAllCourseUnitsAndCourseAveragesFromCourse(
