@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:uni/controller/fetchers/departures_fetcher.dart';
 import 'package:uni/model/entities/bus.dart';
 import 'package:uni/model/entities/bus_stop.dart';
-import 'package:uni/model/providers/bus_stop_provider.dart';
+import 'package:uni/model/providers/lazy/bus_stop_provider.dart';
 
 class BusesForm extends StatefulWidget {
   final String stopCode;

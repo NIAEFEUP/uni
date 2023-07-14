@@ -1,34 +1,28 @@
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
-import 'package:uni/model/providers/bus_stop_provider.dart';
-import 'package:uni/model/providers/calendar_provider.dart';
-import 'package:uni/model/providers/exam_provider.dart';
-import 'package:uni/model/providers/faculty_locations_provider.dart';
-import 'package:uni/model/providers/favorite_cards_provider.dart';
-import 'package:uni/model/providers/home_page_editing_mode_provider.dart';
-import 'package:uni/model/providers/last_user_info_provider.dart';
-import 'package:uni/model/providers/lecture_provider.dart';
-import 'package:uni/model/providers/library_occupation_provider.dart';
-import 'package:uni/model/providers/profile_state_provider.dart';
-import 'package:uni/model/providers/reference_provider.dart';
-import 'package:uni/model/providers/restaurant_provider.dart';
-import 'package:uni/model/providers/session_provider.dart';
-import 'package:uni/model/providers/user_faculties_provider.dart';
+import 'package:uni/model/providers/lazy/bus_stop_provider.dart';
+import 'package:uni/model/providers/lazy/calendar_provider.dart';
+import 'package:uni/model/providers/lazy/exam_provider.dart';
+import 'package:uni/model/providers/lazy/faculty_locations_provider.dart';
+import 'package:uni/model/providers/lazy/home_page_provider.dart';
+import 'package:uni/model/providers/lazy/lecture_provider.dart';
+import 'package:uni/model/providers/lazy/library_occupation_provider.dart';
+import 'package:uni/model/providers/lazy/reference_provider.dart';
+import 'package:uni/model/providers/lazy/restaurant_provider.dart';
+import 'package:uni/model/providers/startup/profile_provider.dart';
+import 'package:uni/model/providers/startup/session_provider.dart';
 
 class StateProviders {
   final LectureProvider lectureProvider;
   final ExamProvider examProvider;
   final BusStopProvider busStopProvider;
   final RestaurantProvider restaurantProvider;
-  final ProfileStateProvider profileStateProvider;
+  final ProfileProvider profileStateProvider;
   final SessionProvider sessionProvider;
   final CalendarProvider calendarProvider;
   final LibraryOccupationProvider libraryOccupationProvider;
   final FacultyLocationsProvider facultyLocationsProvider;
-  final LastUserInfoProvider lastUserInfoProvider;
-  final UserFacultiesProvider userFacultiesProvider;
-  final FavoriteCardsProvider favoriteCardsProvider;
-  final HomePageEditingModeProvider homePageEditingMode;
+  final HomePageProvider homePageProvider;
   final ReferenceProvider referenceProvider;
 
   StateProviders(
@@ -41,10 +35,7 @@ class StateProviders {
       this.calendarProvider,
       this.libraryOccupationProvider,
       this.facultyLocationsProvider,
-      this.lastUserInfoProvider,
-      this.userFacultiesProvider,
-      this.favoriteCardsProvider,
-      this.homePageEditingMode,
+      this.homePageProvider,
       this.referenceProvider);
 
   static StateProviders fromContext(BuildContext context) {
@@ -56,7 +47,7 @@ class StateProviders {
     final restaurantProvider =
         Provider.of<RestaurantProvider>(context, listen: false);
     final profileStateProvider =
-        Provider.of<ProfileStateProvider>(context, listen: false);
+        Provider.of<ProfileProvider>(context, listen: false);
     final sessionProvider =
         Provider.of<SessionProvider>(context, listen: false);
     final calendarProvider =
@@ -65,14 +56,8 @@ class StateProviders {
         Provider.of<LibraryOccupationProvider>(context, listen: false);
     final facultyLocationsProvider =
         Provider.of<FacultyLocationsProvider>(context, listen: false);
-    final lastUserInfoProvider =
-        Provider.of<LastUserInfoProvider>(context, listen: false);
-    final userFacultiesProvider =
-        Provider.of<UserFacultiesProvider>(context, listen: false);
-    final favoriteCardsProvider =
-        Provider.of<FavoriteCardsProvider>(context, listen: false);
-    final homePageEditingMode =
-        Provider.of<HomePageEditingModeProvider>(context, listen: false);
+    final homePageProvider =
+        Provider.of<HomePageProvider>(context, listen: false);
     final referenceProvider =
         Provider.of<ReferenceProvider>(context, listen: false);
 
@@ -86,10 +71,7 @@ class StateProviders {
         calendarProvider,
         libraryOccupationProvider,
         facultyLocationsProvider,
-        lastUserInfoProvider,
-        userFacultiesProvider,
-        favoriteCardsProvider,
-        homePageEditingMode,
+        homePageProvider,
         referenceProvider);
   }
 }

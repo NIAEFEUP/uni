@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:uni/controller/fetchers/departures_fetcher.dart';
 import 'package:uni/controller/local_storage/app_bus_stop_database.dart';
 import 'package:uni/model/entities/bus_stop.dart';
-import 'package:uni/model/providers/bus_stop_provider.dart';
+import 'package:uni/model/providers/lazy/bus_stop_provider.dart';
 import 'package:uni/view/bus_stop_selection/widgets/form.dart';
 
 /// Manages the section of the app displayed when the
