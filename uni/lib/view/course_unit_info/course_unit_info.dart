@@ -27,21 +27,19 @@ class CourseUnitDetailPageViewState
     extends SecondaryPageViewState<CourseUnitDetailPageView> {
   Future<void> loadInfo(bool force) async {
     final courseUnitsProvider =
-    Provider.of<CourseUnitsInfoProvider>(context, listen: false);
-    final session = context
-        .read<SessionProvider>()
-        .session;
+        Provider.of<CourseUnitsInfoProvider>(context, listen: false);
+    final session = context.read<SessionProvider>().session;
 
     final CourseUnitSheet? courseUnitSheet =
-    courseUnitsProvider.courseUnitsSheets[widget.courseUnit];
+        courseUnitsProvider.courseUnitsSheets[widget.courseUnit];
     if (courseUnitSheet == null || force) {
-      courseUnitsProvider.getCourseUnitSheet(widget.courseUnit, session);
+      courseUnitsProvider.fetchCourseUnitSheet(widget.courseUnit, session);
     }
 
     final List<CourseUnitClass>? courseUnitClasses =
-    courseUnitsProvider.courseUnitsClasses[widget.courseUnit];
+        courseUnitsProvider.courseUnitsClasses[widget.courseUnit];
     if (courseUnitClasses == null || force) {
-      courseUnitsProvider.getCourseUnitClasses(widget.courseUnit, session);
+      courseUnitsProvider.fetchCourseUnitClasses(widget.courseUnit, session);
     }
   }
 
@@ -84,32 +82,28 @@ class CourseUnitDetailPageViewState
   Widget _courseUnitSheetView(BuildContext context) {
     return LazyConsumer<CourseUnitsInfoProvider>(
         builder: (context, courseUnitsInfoProvider) {
-          return RequestDependentWidgetBuilder(
-              onNullContent: const Center(),
-              status: courseUnitsInfoProvider.status,
-              builder: () =>
-                  CourseUnitSheetView(
-                      courseUnitsInfoProvider.courseUnitsSheets[widget
-                          .courseUnit]!),
-              hasContentPredicate:
+      return RequestDependentWidgetBuilder(
+          onNullContent: const Center(),
+          status: courseUnitsInfoProvider.status,
+          builder: () => CourseUnitSheetView(
+              courseUnitsInfoProvider.courseUnitsSheets[widget.courseUnit]!),
+          hasContentPredicate:
               courseUnitsInfoProvider.courseUnitsSheets[widget.courseUnit] !=
                   null);
-        });
+    });
   }
 
   Widget _courseUnitClassesView(BuildContext context) {
     return LazyConsumer<CourseUnitsInfoProvider>(
         builder: (context, courseUnitsInfoProvider) {
-          return RequestDependentWidgetBuilder(
-              onNullContent: const Center(),
-              status: courseUnitsInfoProvider.status,
-              builder: () =>
-                  CourseUnitClassesView(
-                      courseUnitsInfoProvider.courseUnitsClasses[widget
-                          .courseUnit]!),
-              hasContentPredicate:
+      return RequestDependentWidgetBuilder(
+          onNullContent: const Center(),
+          status: courseUnitsInfoProvider.status,
+          builder: () => CourseUnitClassesView(
+              courseUnitsInfoProvider.courseUnitsClasses[widget.courseUnit]!),
+          hasContentPredicate:
               courseUnitsInfoProvider.courseUnitsClasses[widget.courseUnit] !=
                   null);
-        });
+    });
   }
 }

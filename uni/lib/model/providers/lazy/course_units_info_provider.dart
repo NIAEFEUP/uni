@@ -15,7 +15,7 @@ class CourseUnitsInfoProvider extends StateProviderNotifier {
   final Map<CourseUnit, List<CourseUnitClass>> _courseUnitsClasses = {};
 
   CourseUnitsInfoProvider()
-      : super(dependsOnSession: true, cacheDuration: null);
+      : super(dependsOnSession: true, cacheDuration: null, initialize: false);
 
   UnmodifiableMapView<CourseUnit, CourseUnitSheet> get courseUnitsSheets =>
       UnmodifiableMapView(_courseUnitsSheets);
@@ -23,7 +23,7 @@ class CourseUnitsInfoProvider extends StateProviderNotifier {
   UnmodifiableMapView<CourseUnit, List<CourseUnitClass>>
       get courseUnitsClasses => UnmodifiableMapView(_courseUnitsClasses);
 
-  getCourseUnitSheet(CourseUnit courseUnit, Session session) async {
+  fetchCourseUnitSheet(CourseUnit courseUnit, Session session) async {
     updateStatus(RequestStatus.busy);
     try {
       _courseUnitsSheets[courseUnit] = await CourseUnitsInfoFetcher()
@@ -36,7 +36,7 @@ class CourseUnitsInfoProvider extends StateProviderNotifier {
     updateStatus(RequestStatus.successful);
   }
 
-  getCourseUnitClasses(CourseUnit courseUnit, Session session) async {
+  fetchCourseUnitClasses(CourseUnit courseUnit, Session session) async {
     updateStatus(RequestStatus.busy);
     try {
       _courseUnitsClasses[courseUnit] = await CourseUnitsInfoFetcher()
