@@ -78,7 +78,7 @@ class CourseUnitsPageViewState
     return Column(children: [
       _getPageTitleAndFilters(availableYears, availableSemesters),
       RequestDependentWidgetBuilder(
-          status: requestStatus ?? RequestStatus.none,
+          status: requestStatus,
           builder: () =>
               _generateCourseUnitsCards(filteredCourseUnits, context),
           hasContentPredicate: courseUnits?.isNotEmpty ?? false,
