@@ -40,5 +40,5 @@ class AboutPageViewState extends GeneralPageViewState {
   }
 
   @override
-  Future<void> handleRefresh(BuildContext context) async {}
+  Future<void> onRefresh(BuildContext context) async {}
 }

@@ -55,14 +55,18 @@ class RequestDependentWidgetBuilder extends StatelessWidget {
     return FutureBuilder(
         future: Connectivity().checkConnectivity(),
         builder: (BuildContext context, AsyncSnapshot connectivitySnapshot) {
-          if (connectivitySnapshot.hasData) {
-            if (connectivitySnapshot.data == ConnectivityResult.none) {
-              return Center(
-                  heightFactor: 3,
-                  child: Text('Sem ligação à internet',
-                      style: Theme.of(context).textTheme.titleMedium));
-            }
+          if (!connectivitySnapshot.hasData) {
+            return const Center(
+                heightFactor: 3, child: CircularProgressIndicator());
           }
+
+          if (connectivitySnapshot.data == ConnectivityResult.none) {
+            return Center(
+                heightFactor: 3,
+                child: Text('Sem ligação à internet',
+                    style: Theme.of(context).textTheme.titleMedium));
+          }
+
           return Column(children: [
             Padding(
                 padding: const EdgeInsets.only(top: 15, bottom: 10),

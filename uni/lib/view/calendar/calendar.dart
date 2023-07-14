@@ -71,7 +71,7 @@ class CalendarPageViewState extends GeneralPageViewState<CalendarPageView> {
   }
 
   @override
-  Future<void> handleRefresh(BuildContext context) {
+  Future<void> onRefresh(BuildContext context) {
     return Provider.of<CalendarProvider>(context, listen: false)
         .forceRefresh(context);
   }

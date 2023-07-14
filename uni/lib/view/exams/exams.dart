@@ -119,7 +119,7 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
   }
 
   @override
-  Future<void> handleRefresh(BuildContext context) async {
+  Future<void> onRefresh(BuildContext context) async {
     return Provider.of<ExamProvider>(context, listen: false)
         .forceRefresh(context);
   }

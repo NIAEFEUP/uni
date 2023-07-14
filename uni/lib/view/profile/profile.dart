@@ -50,7 +50,7 @@ class ProfilePageViewState extends SecondaryPageViewState<ProfilePageView> {
   }
 
   @override
-  Future<void> handleRefresh(BuildContext context) async {
+  Future<void> onRefresh(BuildContext context) async {
     return Provider.of<ProfileProvider>(context, listen: false)
         .forceRefresh(context);
   }

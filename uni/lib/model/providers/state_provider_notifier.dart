@@ -13,7 +13,7 @@ import 'package:uni/model/request_status.dart';
 abstract class StateProviderNotifier extends ChangeNotifier {
   static final Lock _lock = Lock();
   RequestStatus _status;
-  bool _initialized = false;
+  bool _initialized;
   DateTime? _lastUpdateTime;
   bool dependsOnSession;
   Duration? cacheDuration;
@@ -25,8 +25,10 @@ abstract class StateProviderNotifier extends ChangeNotifier {
   StateProviderNotifier(
       {required this.dependsOnSession,
       required this.cacheDuration,
-      RequestStatus? initialStatus})
-      : _status = initialStatus ?? RequestStatus.busy;
+      RequestStatus initialStatus = RequestStatus.busy,
+      bool initialize = true})
+      : _status = initialStatus,
+        _initialized = !initialize;
 
   Future<void> _loadFromStorage() async {
     _lastUpdateTime = await AppSharedPreferences.getLastDataClassUpdateTime(

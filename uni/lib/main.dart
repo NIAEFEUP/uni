@@ -11,6 +11,7 @@ import 'package:uni/controller/background_workers/background_callback.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/model/providers/lazy/bus_stop_provider.dart';
 import 'package:uni/model/providers/lazy/calendar_provider.dart';
+import 'package:uni/model/providers/lazy/course_units_info_provider.dart';
 import 'package:uni/model/providers/lazy/exam_provider.dart';
 import 'package:uni/model/providers/lazy/faculty_locations_provider.dart';
 import 'package:uni/model/providers/lazy/home_page_provider.dart';
@@ -53,6 +54,7 @@ Future<void> main() async {
       BusStopProvider(),
       RestaurantProvider(),
       ProfileProvider(),
+      CourseUnitsInfoProvider(),
       SessionProvider(),
       CalendarProvider(),
       LibraryOccupationProvider(),
@@ -90,7 +92,10 @@ Future<void> main() async {
                   ChangeNotifierProvider(
                       create: (context) => stateProviders.restaurantProvider),
                   ChangeNotifierProvider(
-                      create: (context) => stateProviders.profileStateProvider),
+                      create: (context) => stateProviders.profileProvider),
+                  ChangeNotifierProvider(
+                      create: (context) =>
+                          stateProviders.courseUnitsInfoProvider),
                   ChangeNotifierProvider(
                       create: (context) => stateProviders.sessionProvider),
                   ChangeNotifierProvider(
@@ -131,6 +136,7 @@ class MyAppState extends State<MyApp> {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);
+
     return Consumer<ThemeNotifier>(
       builder: (context, themeNotifier, _) => MaterialApp(
           title: 'uni',
@@ -182,7 +188,6 @@ class MyAppState extends State<MyApp> {
                       maintainState: false),
               '/${DrawerItem.navLogOut.title}': LogoutRoute.buildLogoutRoute()
             };
-
             return transitions[settings.name];
           }),
     );

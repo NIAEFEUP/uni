@@ -178,7 +178,7 @@ class SchedulePageViewState extends GeneralPageViewState<SchedulePageView>
   }
 
   @override
-  Future<void> handleRefresh(BuildContext context) {
+  Future<void> onRefresh(BuildContext context) {
     return Provider.of<LectureProvider>(context, listen: false)
         .forceRefresh(context);
   }

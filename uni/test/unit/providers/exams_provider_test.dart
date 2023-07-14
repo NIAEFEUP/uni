@@ -7,7 +7,7 @@ import 'package:mockito/mockito.dart';
 import 'package:tuple/tuple.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/model/entities/course.dart';
-import 'package:uni/model/entities/course_unit.dart';
+import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/session.dart';

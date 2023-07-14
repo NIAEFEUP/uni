@@ -29,7 +29,7 @@ class BusStopNextArrivalsPageState
   }
 
   @override
-  Future<void> handleRefresh(BuildContext context) async {
+  Future<void> onRefresh(BuildContext context) async {
     return Provider.of<BusStopProvider>(context, listen: false)
         .forceRefresh(context);
   }

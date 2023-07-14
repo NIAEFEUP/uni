@@ -22,7 +22,7 @@ class ProfileOverview extends StatelessWidget {
       builder: (context, sessionProvider, _) {
         return FutureBuilder(
           future: ProfileProvider.fetchOrGetCachedProfilePicture(
-              sessionProvider.session),
+              null, sessionProvider.session),
           builder: (BuildContext context, AsyncSnapshot<File?> profilePic) =>
               Column(
             mainAxisAlignment: MainAxisAlignment.center,

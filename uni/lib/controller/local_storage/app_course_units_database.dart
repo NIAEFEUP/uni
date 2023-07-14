@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:sqflite/sqflite.dart';
 import 'package:uni/controller/local_storage/app_database.dart';
-import 'package:uni/model/entities/course_unit.dart';
+import 'package:uni/model/entities/course_units/course_unit.dart';
 
 class AppCourseUnitsDatabase extends AppDatabase {
   static const String createScript =

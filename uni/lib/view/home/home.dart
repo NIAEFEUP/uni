@@ -19,7 +19,7 @@ class HomePageViewState extends GeneralPageViewState {
   }
 
   @override
-  Future<void> handleRefresh(BuildContext context) async {
+  Future<void> onRefresh(BuildContext context) async {
     final favoriteCardTypes = context.read<HomePageProvider>().favoriteCards;
     final cards = favoriteCardTypes
         .map((e) =>

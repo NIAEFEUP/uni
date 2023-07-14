@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/providers/lazy/bus_stop_provider.dart';
 import 'package:uni/model/providers/lazy/calendar_provider.dart';
+import 'package:uni/model/providers/lazy/course_units_info_provider.dart';
 import 'package:uni/model/providers/lazy/exam_provider.dart';
 import 'package:uni/model/providers/lazy/faculty_locations_provider.dart';
 import 'package:uni/model/providers/lazy/home_page_provider.dart';
@@ -17,7 +18,8 @@ class StateProviders {
   final ExamProvider examProvider;
   final BusStopProvider busStopProvider;
   final RestaurantProvider restaurantProvider;
-  final ProfileProvider profileStateProvider;
+  final CourseUnitsInfoProvider courseUnitsInfoProvider;
+  final ProfileProvider profileProvider;
   final SessionProvider sessionProvider;
   final CalendarProvider calendarProvider;
   final LibraryOccupationProvider libraryOccupationProvider;
@@ -30,7 +32,8 @@ class StateProviders {
       this.examProvider,
       this.busStopProvider,
       this.restaurantProvider,
-      this.profileStateProvider,
+      this.profileProvider,
+      this.courseUnitsInfoProvider,
       this.sessionProvider,
       this.calendarProvider,
       this.libraryOccupationProvider,
@@ -46,7 +49,9 @@ class StateProviders {
         Provider.of<BusStopProvider>(context, listen: false);
     final restaurantProvider =
         Provider.of<RestaurantProvider>(context, listen: false);
-    final profileStateProvider =
+    final courseUnitsInfoProvider =
+        Provider.of<CourseUnitsInfoProvider>(context, listen: false);
+    final profileProvider =
         Provider.of<ProfileProvider>(context, listen: false);
     final sessionProvider =
         Provider.of<SessionProvider>(context, listen: false);
@@ -66,7 +71,8 @@ class StateProviders {
         examProvider,
         busStopProvider,
         restaurantProvider,
-        profileStateProvider,
+        profileProvider,
+        courseUnitsInfoProvider,
         sessionProvider,
         calendarProvider,
         libraryOccupationProvider,

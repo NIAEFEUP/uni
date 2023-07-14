@@ -98,7 +98,7 @@ class _RestaurantPageState extends GeneralPageViewState<RestaurantPageView>
   }
 
   @override
-  Future<void> handleRefresh(BuildContext context) {
+  Future<void> onRefresh(BuildContext context) {
     return Provider.of<RestaurantProvider>(context, listen: false)
         .forceRefresh(context);
   }

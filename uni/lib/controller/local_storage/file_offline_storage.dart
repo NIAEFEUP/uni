@@ -8,7 +8,7 @@ import 'package:uni/controller/networking/network_router.dart';
 
 /// The offline image storage location on the device.
 Future<String> get _localPath async {
-  final directory = await getApplicationDocumentsDirectory();
+  final directory = await getTemporaryDirectory();
   return directory.path;
 }
 

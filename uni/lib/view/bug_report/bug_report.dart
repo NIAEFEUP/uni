@@ -20,5 +20,5 @@ class BugReportPageViewState extends GeneralPageViewState<BugReportPageView> {
   }
 
   @override
-  Future<void> handleRefresh(BuildContext context) async {}
+  Future<void> onRefresh(BuildContext context) async {}
 }

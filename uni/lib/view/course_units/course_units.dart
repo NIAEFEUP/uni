@@ -1,7 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:uni/model/entities/course_unit.dart';
+import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/model/request_status.dart';
 import 'package:uni/utils/drawer_items.dart';
@@ -62,7 +62,7 @@ class CourseUnitsPageViewState
 
   Widget _getPageView(
       List<CourseUnit>? courseUnits,
-      RequestStatus? requestStatus,
+      RequestStatus requestStatus,
       List<String> availableYears,
       List<String> availableSemesters) {
     final List<CourseUnit>? filteredCourseUnits =
@@ -78,7 +78,7 @@ class CourseUnitsPageViewState
     return Column(children: [
       _getPageTitleAndFilters(availableYears, availableSemesters),
       RequestDependentWidgetBuilder(
-          status: requestStatus ?? RequestStatus.none,
+          status: requestStatus,
           builder: () =>
               _generateCourseUnitsCards(filteredCourseUnits, context),
           hasContentPredicate: courseUnits?.isNotEmpty ?? false,
@@ -193,7 +193,7 @@ class CourseUnitsPageViewState
   }
 
   @override
-  Future<void> handleRefresh(BuildContext context) {
+  Future<void> onRefresh(BuildContext context) {
     return Provider.of<ProfileProvider>(context, listen: false)
         .forceRefresh(context);
   }

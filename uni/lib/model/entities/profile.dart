@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:tuple/tuple.dart';
 import 'package:uni/model/entities/course.dart';
-import 'package:uni/model/entities/course_unit.dart';
+import 'package:uni/model/entities/course_units/course_unit.dart';
 
 /// Stores information about the user's profile.
 class Profile {

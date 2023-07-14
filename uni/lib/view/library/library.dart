@@ -24,7 +24,7 @@ class LibraryPageViewState extends GeneralPageViewState<LibraryPageView> {
   }
 
   @override
-  Future<void> handleRefresh(BuildContext context) {
+  Future<void> onRefresh(BuildContext context) {
     return Provider.of<LibraryOccupationProvider>(context, listen: false)
         .forceRefresh(context);
   }
