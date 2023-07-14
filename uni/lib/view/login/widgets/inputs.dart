@@ -52,7 +52,6 @@ Widget createPasswordInput(
       },
       textInputAction: TextInputAction.done,
       obscureText: obscurePasswordInput,
-      enableInteractiveSelection: !obscurePasswordInput,
       textAlign: TextAlign.left,
       decoration: passwordFieldDecoration(
           'palavra-passe', obscurePasswordInput, toggleObscurePasswordInput),

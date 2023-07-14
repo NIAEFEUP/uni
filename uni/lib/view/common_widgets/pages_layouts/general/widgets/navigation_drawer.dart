@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:uni/model/providers/session_provider.dart';
+import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/theme_notifier.dart';
 
-class NavigationDrawer extends StatefulWidget {
+class AppNavigationDrawer extends StatefulWidget {
   final BuildContext parentContext;
 
-  const NavigationDrawer({super.key, required this.parentContext});
+  const AppNavigationDrawer({super.key, required this.parentContext});
 
   @override
   State<StatefulWidget> createState() {
-    return NavigationDrawerState();
+    return AppNavigationDrawerState();
   }
 }
 
-class NavigationDrawerState extends State<NavigationDrawer> {
-  NavigationDrawerState();
+class AppNavigationDrawerState extends State<AppNavigationDrawer> {
+  AppNavigationDrawerState();
 
   Map<DrawerItem, Function(String)> drawerItems = {};
 
@@ -77,16 +77,15 @@ class NavigationDrawerState extends State<NavigationDrawer> {
         child: Text(logOutText,
             style: Theme.of(context)
                 .textTheme
-                .headline6!
+                .titleLarge!
                 .copyWith(color: Theme.of(context).primaryColor)),
       ),
     );
   }
 
   Widget createThemeSwitchBtn() {
-    final themeNotifier = Provider.of<ThemeNotifier>(context, listen: false);
-    Icon getThemeIcon() {
-      switch (themeNotifier.getTheme()) {
+    Icon getThemeIcon(ThemeMode theme) {
+      switch (theme) {
         case ThemeMode.light:
           return const Icon(Icons.wb_sunny);
         case ThemeMode.dark:
@@ -96,8 +95,13 @@ class NavigationDrawerState extends State<NavigationDrawer> {
       }
     }
 
-    return IconButton(
-        icon: getThemeIcon(), onPressed: themeNotifier.setNextTheme);
+    return Consumer<ThemeNotifier>(
+      builder: (context, themeNotifier, _) {
+        return IconButton(
+            icon: getThemeIcon(themeNotifier.getTheme()),
+            onPressed: themeNotifier.setNextTheme);
+      },
+    );
   }
 
   Widget createDrawerNavigationOption(DrawerItem d) {

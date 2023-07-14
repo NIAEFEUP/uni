@@ -10,6 +10,7 @@ import 'package:uni/view/home/home.dart';
 import 'package:uni/view/login/login.dart';
 import 'package:uni/view/logout_route.dart';
 import 'package:uni/view/splash/widgets/terms_and_condition_dialog.dart';
+import 'package:uni/view/theme.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -18,7 +19,7 @@ class SplashScreen extends StatefulWidget {
   SplashScreenState createState() => SplashScreenState();
 }
 
-/// Manages the splash screen displayed after a successful login.
+/// Manages the splash screen displayed after the app is launched.
 class SplashScreenState extends State<SplashScreen> {
   late MediaQueryData queryData;
   late StateProviders stateProviders;
@@ -26,48 +27,56 @@ class SplashScreenState extends State<SplashScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    startTimeAndChangeRoute();
     stateProviders = StateProviders.fromContext(context);
+    startTimeAndChangeRoute();
   }
 
   @override
   Widget build(BuildContext context) {
     queryData = MediaQuery.of(context);
-    return Scaffold(
-      body: Stack(
-        fit: StackFit.expand,
-        children: <Widget>[
-          Container(
-            decoration: const BoxDecoration(),
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                  padding: EdgeInsets.only(bottom: queryData.size.height / 4)),
-              createTitle(),
-              const Spacer(),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  const CircularProgressIndicator(),
-                  Padding(
-                      padding:
-                          EdgeInsets.only(bottom: queryData.size.height / 16)),
-                  createNILogo(),
-                ],
-              ),
-              Padding(
-                  padding: EdgeInsets.only(bottom: queryData.size.height / 6))
-            ],
-          )
-        ],
-      ),
-    );
+    final systemTheme =
+        MediaQuery.platformBrightnessOf(context) == Brightness.dark
+            ? applicationDarkTheme
+            : applicationLightTheme;
+    return Theme(
+        data: systemTheme,
+        child: Builder(
+            builder: (context) => Scaffold(
+                  body: Stack(
+                    fit: StackFit.expand,
+                    children: <Widget>[
+                      Container(
+                        decoration: const BoxDecoration(),
+                      ),
+                      Center(
+                        child: createTitle(context),
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          const Spacer(),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              const CircularProgressIndicator(),
+                              Padding(
+                                  padding: EdgeInsets.only(
+                                      bottom: queryData.size.height / 16)),
+                              createNILogo(context),
+                            ],
+                          ),
+                          Padding(
+                              padding: EdgeInsets.only(
+                                  bottom: queryData.size.height / 15))
+                        ],
+                      )
+                    ],
+                  ),
+                )));
   }
 
   /// Creates the app Title container with the app's logo.
-  Widget createTitle() {
+  Widget createTitle(BuildContext context) {
     return ConstrainedBox(
         constraints: BoxConstraints(
           minWidth: queryData.size.width / 8,
@@ -75,17 +84,17 @@ class SplashScreenState extends State<SplashScreen> {
         ),
         child: SizedBox(
             width: 150.0,
-            child: SvgPicture.asset(
-              'assets/images/logo_dark.svg',
-              color: Theme.of(context).primaryColor,
-            )));
+            child: SvgPicture.asset('assets/images/logo_dark.svg',
+                colorFilter: ColorFilter.mode(
+                    Theme.of(context).primaryColor, BlendMode.srcIn))));
   }
 
   /// Creates the app main logo
-  Widget createNILogo() {
+  Widget createNILogo(BuildContext context) {
     return SvgPicture.asset(
       'assets/images/by_niaefeup.svg',
-      color: Theme.of(context).primaryColor,
+      colorFilter:
+          ColorFilter.mode(Theme.of(context).primaryColor, BlendMode.srcIn),
       width: queryData.size.width * 0.45,
     );
   }
@@ -120,9 +129,10 @@ class SplashScreenState extends State<SplashScreen> {
     switch (state) {
       case TermsAndConditionsState.accepted:
         if (mounted) {
-          final List<String> faculties = await AppSharedPreferences.getUserFaculties();
-          stateProviders.sessionProvider
-              .reLogin(userName, password, faculties, stateProviders);
+          final List<String> faculties =
+              await AppSharedPreferences.getUserFaculties();
+          await stateProviders.sessionProvider
+              .reLogin(userName, password, faculties);
         }
         return MaterialPageRoute(builder: (context) => const HomePageView());
 

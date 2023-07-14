@@ -2,7 +2,7 @@
 
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
-import 'package:uni/model/providers/public_transport_provider.dart';
+import 'package:uni/model/providers/lazy/public_transport_provider.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 
 class PublicTransportationPage extends StatefulWidget{
@@ -21,6 +21,11 @@ class PublicTransportationPageState extends GeneralPageViewState<PublicTransport
         return const PublicTransportViewer();
       }),
     );
+  }
+  
+  @override
+  Future<void> handleRefresh(BuildContext context) async {
+    await Provider.of<PublicTransportationProvider>(context, listen: false).forceRefresh(context);
   }
 }
 

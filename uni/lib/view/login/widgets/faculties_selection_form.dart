@@ -33,10 +33,11 @@ class _FacultiesSelectionFormState extends State<FacultiesSelectionForm> {
           child: const Text('Cancelar', style: TextStyle(color: Colors.white))),
       ElevatedButton(
           style: ElevatedButton.styleFrom(
-              foregroundColor: Theme.of(context).primaryColor, backgroundColor: Colors.white),
+              foregroundColor: Theme.of(context).primaryColor,
+              backgroundColor: Colors.white),
           onPressed: () {
             if (widget.selectedFaculties.isEmpty) {
-              ToastMessage.display(
+              ToastMessage.warning(
                   context, 'Seleciona pelo menos uma faculdade');
               return;
             }

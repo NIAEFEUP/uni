@@ -22,7 +22,7 @@ class LinkButton extends StatelessWidget {
                   child: Text(title,
                       style: Theme.of(context)
                           .textTheme
-                          .headline5!
+                          .headlineSmall!
                           .copyWith(decoration: TextDecoration.underline)),
                   onTap: () => launchUrl(Uri.parse(link)),
                 ))

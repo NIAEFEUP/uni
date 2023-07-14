@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/about/widgets/terms_and_conditions.dart';
+import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 
 class AboutPageView extends StatefulWidget {
   const AboutPageView({super.key});
@@ -19,7 +19,8 @@ class AboutPageViewState extends GeneralPageViewState {
       children: <Widget>[
         SvgPicture.asset(
           'assets/images/ni_logo.svg',
-          color: Theme.of(context).primaryColor,
+          colorFilter:
+              ColorFilter.mode(Theme.of(context).primaryColor, BlendMode.srcIn),
           width: queryData.size.height / 7,
           height: queryData.size.height / 7,
         ),
@@ -37,4 +38,7 @@ class AboutPageViewState extends GeneralPageViewState {
       ],
     );
   }
+
+  @override
+  Future<void> handleRefresh(BuildContext context) async {}
 }

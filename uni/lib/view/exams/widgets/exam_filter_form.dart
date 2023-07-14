@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/entities/exam.dart';
-import 'package:uni/model/providers/exam_provider.dart';
+import 'package:uni/model/providers/lazy/exam_provider.dart';
 
 class ExamFilterForm extends StatefulWidget {
   final Map<String, bool> filteredExamsTypes;
@@ -19,11 +19,11 @@ class ExamFilterFormState extends State<ExamFilterForm> {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text('Definições Filtro de Exames',
-          style: Theme.of(context).textTheme.headline5),
+          style: Theme.of(context).textTheme.headlineSmall),
       actions: [
         TextButton(
             child:
-                Text('Cancelar', style: Theme.of(context).textTheme.bodyText2),
+                Text('Cancelar', style: Theme.of(context).textTheme.bodyMedium),
             onPressed: () => Navigator.pop(context)),
         ElevatedButton(
             child: const Text('Confirmar'),
@@ -35,7 +35,7 @@ class ExamFilterFormState extends State<ExamFilterForm> {
             })
       ],
       content: SizedBox(
-          height: 300.0,
+          height: 230.0,
           width: 200.0,
           child: getExamCheckboxes(widget.filteredExamsTypes, context)),
     );
@@ -43,12 +43,11 @@ class ExamFilterFormState extends State<ExamFilterForm> {
 
   Widget getExamCheckboxes(
       Map<String, bool> filteredExams, BuildContext context) {
-    filteredExams
-        .removeWhere((key, value) => !Exam.getExamTypes().containsKey(key));
+    filteredExams.removeWhere((key, value) => !Exam.types.containsKey(key));
     return ListView(
         children: List.generate(filteredExams.length, (i) {
       final String key = filteredExams.keys.elementAt(i);
-      if (!Exam.getExamTypes().containsKey(key)) return const Text("");
+      if (!Exam.types.containsKey(key)) return const Text("");
       return CheckboxListTile(
           contentPadding: const EdgeInsets.all(0),
           title: Text(

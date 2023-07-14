@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/view/common_widgets/row_container.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -6,8 +7,8 @@ import 'package:url_launcher/url_launcher.dart';
 class ScheduleSlot extends StatelessWidget {
   final String subject;
   final String rooms;
-  final String begin;
-  final String end;
+  final DateTime begin;
+  final DateTime end;
   final String teacher;
   final String typeClass;
   final String? classNumber;
@@ -37,7 +38,7 @@ class ScheduleSlot extends StatelessWidget {
 
   Widget createScheduleSlotRow(context) {
     return Container(
-        key: Key('schedule-slot-time-$begin-$end'),
+        key: Key('schedule-slot-time-${DateFormat("HH:mm").format(begin)}-${DateFormat("HH:mm").format(end)}'),
         margin: const EdgeInsets.only(top: 3.0, bottom: 3.0),
         child: Row(
           mainAxisSize: MainAxisSize.max,
@@ -49,16 +50,16 @@ class ScheduleSlot extends StatelessWidget {
 
   Widget createScheduleSlotTime(context) {
     return Column(
-      key: Key('schedule-slot-time-$begin-$end'),
+      key: Key('schedule-slot-time-${DateFormat("HH:mm").format(begin)}-${DateFormat("HH:mm").format(end)}'),
       children: <Widget>[
-        createScheduleTime(begin, context),
-        createScheduleTime(end, context)
+        createScheduleTime(DateFormat("HH:mm").format(begin), context),
+        createScheduleTime(DateFormat("HH:mm").format(end), context)
       ],
     );
   }
 
   Widget createScheduleTime(String time, context) => createTextField(
-      time, Theme.of(context).textTheme.bodyText2, TextAlign.center);
+      time, Theme.of(context).textTheme.bodyMedium, TextAlign.center);
 
   String toUcLink(int occurrId) {
     const String faculty = 'feup'; //should not be hardcoded
@@ -95,13 +96,13 @@ class ScheduleSlot extends StatelessWidget {
         subject,
         Theme.of(context)
             .textTheme
-            .headline5!
+            .headlineSmall!
             .apply(color: Theme.of(context).colorScheme.tertiary),
         TextAlign.center);
     final typeClassTextField = createTextField(' ($typeClass)',
-        Theme.of(context).textTheme.bodyText2, TextAlign.center);
+        Theme.of(context).textTheme.bodyMedium, TextAlign.center);
     final roomTextField = createTextField(
-        rooms, Theme.of(context).textTheme.bodyText2, TextAlign.right);
+        rooms, Theme.of(context).textTheme.bodyMedium, TextAlign.right);
     return [
       createScheduleSlotTime(context),
       Expanded(
@@ -128,7 +129,7 @@ class ScheduleSlot extends StatelessWidget {
   Widget createScheduleSlotTeacherClassInfo(context) {
     return createTextField(
         classNumber != null ? '$classNumber | $teacher' : teacher,
-        Theme.of(context).textTheme.bodyText2,
+        Theme.of(context).textTheme.bodyMedium,
         TextAlign.center);
   }
 

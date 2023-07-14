@@ -2,14 +2,16 @@ import 'dart:convert';
 
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show rootBundle;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:tuple/tuple.dart';
+import 'package:uni/model/entities/bug_report.dart';
 import 'package:uni/view/bug_report/widgets/text_field.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/toast_message.dart';
+import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 
 class BugReportForm extends StatefulWidget {
   const BugReportForm({super.key});
@@ -44,16 +46,13 @@ class BugReportFormState extends State<BugReportForm> {
   static final TextEditingController descriptionController =
       TextEditingController();
   static final TextEditingController emailController = TextEditingController();
-  String ghToken = '';
 
   bool _isButtonTapped = false;
   bool _isConsentGiven = false;
 
   BugReportFormState() {
-    if (ghToken == '') loadGHKey();
     loadBugClassList();
   }
-
   void loadBugClassList() {
     bugList = [];
 
@@ -139,7 +138,7 @@ class BugReportFormState extends State<BugReportForm> {
         child: Text(
             '''Encontraste algum bug na aplicação?\nTens alguma '''
             '''sugestão para a app?\nConta-nos para que possamos melhorar!''',
-            style: Theme.of(context).textTheme.bodyText2,
+            style: Theme.of(context).textTheme.bodyMedium,
             textAlign: TextAlign.center),
       ),
     );
@@ -155,7 +154,7 @@ class BugReportFormState extends State<BugReportForm> {
         children: <Widget>[
           Text(
             'Tipo de ocorrência',
-            style: Theme.of(context).textTheme.bodyText2,
+            style: Theme.of(context).textTheme.bodyMedium,
             textAlign: TextAlign.left,
           ),
           Row(children: <Widget>[
@@ -191,7 +190,7 @@ class BugReportFormState extends State<BugReportForm> {
         child: CheckboxListTile(
           title: Text(
               '''Consinto que esta informação seja revista pelo NIAEFEUP, podendo ser eliminada a meu pedido.''',
-              style: Theme.of(context).textTheme.bodyText2,
+              style: Theme.of(context).textTheme.bodyMedium,
               textAlign: TextAlign.left),
           value: _isConsentGiven,
           onChanged: (bool? newValue) {
@@ -233,49 +232,62 @@ class BugReportFormState extends State<BugReportForm> {
     setState(() {
       _isButtonTapped = true;
     });
-
-    final String bugLabel = bugDescriptions[_selectedBug] == null
-        ? 'Unidentified bug'
-        : bugDescriptions[_selectedBug]!.item2;
-
+    final List<String> faculties =
+        await AppSharedPreferences.getUserFaculties();
+    final bugReport = BugReport(
+            titleController.text,
+            descriptionController.text,
+            emailController.text,
+            bugDescriptions[_selectedBug],
+            faculties)
+        .toMap();
     String toastMsg;
+    bool status;
     try {
-      final sentryId = await submitSentryEvent(bugLabel);
-      final gitHubRequestStatus = await submitGitHubIssue(sentryId, bugLabel);
+      final sentryId = await submitSentryEvent(bugReport);
+      final gitHubRequestStatus = await submitGitHubIssue(sentryId, bugReport);
       if (gitHubRequestStatus < 200 || gitHubRequestStatus > 400) {
         throw Exception('Network error');
       }
       Logger().i('Successfully submitted bug report.');
       toastMsg = 'Enviado com sucesso';
+      status = true;
     } catch (e) {
       Logger().e('Error while posting bug report:$e');
       toastMsg = 'Ocorreu um erro no envio';
+      status = false;
     }
 
     clearForm();
 
     if (mounted) {
       FocusScope.of(context).requestFocus(FocusNode());
-      ToastMessage.display(context, toastMsg);
+      status
+          ? ToastMessage.success(context, toastMsg)
+          : ToastMessage.error(context, toastMsg);
       setState(() {
         _isButtonTapped = false;
       });
     }
   }
 
-  Future<int> submitGitHubIssue(SentryId sentryEvent, String bugLabel) async {
+  Future<int> submitGitHubIssue(
+      SentryId sentryEvent, Map<String, dynamic> bugReport) async {
     final String description =
-        '${descriptionController.text}\nFurther information on: $_sentryLink$sentryEvent';
+        '${bugReport['bugLabel']}\nFurther information on: $_sentryLink$sentryEvent';
     final Map data = {
-      'title': titleController.text,
+      'title': bugReport['title'],
       'body': description,
-      'labels': ['In-app bug report', bugLabel],
+      'labels': ['In-app bug report', bugReport['bugLabel']],
     };
+    for (String faculty in bugReport['faculties']) {
+      data['labels'].add(faculty);
+    }
     return http
         .post(Uri.parse(_gitHubPostUrl),
             headers: {
               'Content-Type': 'application/json',
-              'Authorization': 'token $ghToken'
+              'Authorization': 'token ${dotenv.env["GH_TOKEN"]}}'
             },
             body: json.encode(data))
         .then((http.Response response) {
@@ -283,12 +295,12 @@ class BugReportFormState extends State<BugReportForm> {
     });
   }
 
-  Future<SentryId> submitSentryEvent(String bugLabel) async {
-    final String description = emailController.text == ''
-        ? descriptionController.text
-        : '${descriptionController.text}\nContact: ${emailController.text}';
+  Future<SentryId> submitSentryEvent(Map<String, dynamic> bugReport) async {
+    final String description = bugReport['email'] == ''
+        ? '${bugReport['text']} from ${bugReport['faculty']}'
+        : '${bugReport['text']} from ${bugReport['faculty']}\nContact: ${bugReport['email']}';
     return Sentry.captureMessage(
-        '$bugLabel: ${titleController.text}\n$description');
+        '${bugReport['bugLabel']}: ${bugReport['text']}\n$description');
   }
 
   void clearForm() {
@@ -301,17 +313,5 @@ class BugReportFormState extends State<BugReportForm> {
       _selectedBug = 0;
       _isConsentGiven = false;
     });
-  }
-
-  Future<Map<String, dynamic>> parseJsonFromAssets(String assetsPath) async {
-    return rootBundle
-        .loadString(assetsPath)
-        .then((jsonStr) => jsonDecode(jsonStr));
-  }
-
-  void loadGHKey() async {
-    final Map<String, dynamic> dataMap =
-        await parseJsonFromAssets('assets/env/env.json');
-    ghToken = dataMap['gh_token'];
   }
 }

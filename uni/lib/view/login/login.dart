@@ -3,13 +3,15 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
-import 'package:uni/model/request_status.dart';
-import 'package:uni/model/providers/session_provider.dart';
+import 'package:uni/model/entities/login_exceptions.dart';
+import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/model/providers/state_providers.dart';
+import 'package:uni/model/request_status.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/common_widgets/toast_message.dart';
 import 'package:uni/view/login/widgets/inputs.dart';
 import 'package:uni/view/theme.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class LoginPageView extends StatefulWidget {
   const LoginPageView({super.key});
@@ -51,10 +53,20 @@ class LoginPageViewState extends State<LoginPageView> {
       final user = usernameController.text.trim();
       final pass = passwordController.text.trim();
       final completer = Completer();
-      sessionProvider.login(completer, user, pass, faculties, stateProviders,
-          _keepSignedIn, usernameController, passwordController);
-      completer.future
-          .whenComplete(() => handleLogin(sessionProvider.status, context));
+
+      sessionProvider.login(completer, user, pass, faculties, _keepSignedIn);
+
+      completer.future.then((_) {
+        handleLogin(sessionProvider.status, context);
+      }).catchError((error) {
+        if (error is ExpiredCredentialsException) {
+          updatePasswordDialog();
+        } else if (error is InternetStatusException) {
+          ToastMessage.warning(context, error.message);
+        } else {
+          ToastMessage.error(context, error.message ?? 'Erro no login');
+        }
+      });
     }
   }
 
@@ -119,6 +131,9 @@ class LoginPageViewState extends State<LoginPageView> {
         Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)));
     widgets.add(getLoginForm(queryData, context));
     widgets.add(
+        Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)));
+    widgets.add(createForgetPasswordLink(context));
+    widgets.add(
         Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 15)));
     widgets.add(createLogInButton(queryData, context, _login));
     widgets.add(
@@ -143,7 +158,7 @@ class LoginPageViewState extends State<LoginPageView> {
     if (_exitApp) {
       return Future.value(true);
     }
-    ToastMessage.display(context, 'Pressione novamente para sair');
+    ToastMessage.info(context, 'Pressione novamente para sair');
     exitAppWaiter();
     return Future.value(false);
   }
@@ -160,7 +175,8 @@ class LoginPageViewState extends State<LoginPageView> {
               width: 100.0,
               child: SvgPicture.asset(
                 'assets/images/logo_dark.svg',
-                color: Colors.white,
+                colorFilter:
+                    const ColorFilter.mode(Colors.white, BlendMode.srcIn),
               )),
         ]));
   }
@@ -190,6 +206,17 @@ class LoginPageViewState extends State<LoginPageView> {
     );
   }
 
+  ///Creates the widget for when the user forgets the password
+  Widget createForgetPasswordLink(BuildContext context) {
+    return InkWell(
+        child: Center(
+            child: Text("Esqueceu a palavra-passe?",
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                    decoration: TextDecoration.underline,
+                    color: Colors.white))),
+        onTap: () => launchUrl(Uri.parse("https://self-id.up.pt/reset")));
+  }
+
   /// Creates a widget for the user login depending on the status of his login.
   Widget createStatusWidget(BuildContext context) {
     return Consumer<SessionProvider>(
@@ -214,8 +241,50 @@ class LoginPageViewState extends State<LoginPageView> {
     if (status == RequestStatus.successful && session.authenticated) {
       Navigator.pushReplacementNamed(
           context, '/${DrawerItem.navPersonalArea.title}');
-    } else if (status == RequestStatus.failed) {
-      ToastMessage.display(context, 'O login falhou');
     }
+  }
+
+  void updatePasswordDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("A tua palavra-passe expirou"),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                  'Por razões de segurança, as palavras-passe têm de ser alteradas periodicamente.',
+                  textAlign: TextAlign.start,
+                  style: Theme.of(context).textTheme.titleSmall),
+              const SizedBox(height: 20),
+              const Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Deseja alterar a palavra-passe?',
+                    textAlign: TextAlign.start,
+                  )),
+            ],
+          ),
+          actions: [
+            TextButton(
+              child: const Text("Cancelar"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            ElevatedButton(
+              child: const Text("Alterar"),
+              onPressed: () async {
+                const url = "https://self-id.up.pt/password";
+                if (await canLaunchUrl(Uri.parse(url))) {
+                  await launchUrl(Uri.parse(url));
+                }
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }

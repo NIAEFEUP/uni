@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:uni/model/entities/course_unit.dart';
-import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
+import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
 
 class CourseUnitDetailPageView extends StatefulWidget {
   final CourseUnit courseUnit;
@@ -36,4 +36,7 @@ class CourseUnitDetailPageViewState
           ]))
     ]);
   }
+
+  @override
+  Future<void> handleRefresh(BuildContext context) async {}
 }
