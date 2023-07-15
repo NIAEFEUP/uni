@@ -7,6 +7,7 @@ import 'package:logger/logger.dart';
 import 'package:synchronized/synchronized.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/model/entities/session.dart';
+import 'package:uni/view/navigation_service.dart';
 
 extension UriString on String {
   /// Converts a [String] to an [Uri].
@@ -16,12 +17,8 @@ extension UriString on String {
 /// Manages the networking of the app.
 class NetworkRouter {
   static http.Client? httpClient;
-
   static const int loginRequestTimeout = 20;
-
   static Lock loginLock = Lock();
-
-  static Function onReloginFail = () {};
 
   /// Creates an authenticated [Session] on the given [faculty] with the
   /// given username [user] and password [pass].
@@ -40,6 +37,7 @@ class NetworkRouter {
       return session;
     } else {
       Logger().e('Login failed: ${response.body}');
+
       return Session(
           authenticated: false,
           faculties: faculties,
@@ -51,7 +49,7 @@ class NetworkRouter {
   }
 
   /// Determines if a re-login with the [session] is possible.
-  static Future<bool> relogin(Session session) {
+  static Future<bool> reLogin(Session session) {
     return loginLock.synchronized(() async {
       if (!session.persistentSession) {
         return false;
@@ -89,6 +87,21 @@ class NetworkRouter {
       Logger().e('Re-login failed');
       return false;
     }
+  }
+
+  /// Returns the response body of the login in Sigarra
+  /// given username [user] and password [pass].
+  static Future<String> loginInSigarra(
+      String user, String pass, List<String> faculties) async {
+    final String url =
+        '${NetworkRouter.getBaseUrls(faculties)[0]}vld_validacao.validacao';
+
+    final response = await http.post(url.toUri(), body: {
+      'p_user': user,
+      'p_pass': pass
+    }).timeout(const Duration(seconds: loginRequestTimeout));
+
+    return response.body;
   }
 
   /// Extracts the cookies present in [headers].
@@ -134,12 +147,12 @@ class NetworkRouter {
       return response;
     } else if (response.statusCode == 403 && !(await userLoggedIn(session))) {
       // HTTP403 - Forbidden
-      final bool reLoginSuccessful = await relogin(session);
+      final bool reLoginSuccessful = await reLogin(session);
       if (reLoginSuccessful) {
         headers['cookie'] = session.cookies;
         return http.get(url.toUri(), headers: headers);
       } else {
-        onReloginFail();
+        NavigationService.logout();
         Logger().e('Login failed');
         return Future.error('Login failed');
       }

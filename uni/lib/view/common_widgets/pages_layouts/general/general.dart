@@ -4,9 +4,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-import 'package:uni/controller/load_info.dart';
-import 'package:uni/model/providers/session_provider.dart';
-import 'package:uni/model/providers/state_providers.dart';
+import 'package:uni/model/providers/startup/profile_provider.dart';
+import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/navigation_drawer.dart';
 import 'package:uni/view/profile/profile.dart';
@@ -16,8 +15,13 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
   final double borderMargin = 18.0;
   static ImageProvider? profileImageProvider;
 
+  Future<void> onRefresh(BuildContext context);
+
+  Future<void> onLoad(BuildContext context) async {}
+
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) => onLoad(context));
     return getScaffold(context, getBody(context));
   }
 
@@ -27,9 +31,10 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
 
   Future<DecorationImage> buildProfileDecorationImage(context,
       {forceRetrieval = false}) async {
-    final profilePictureFile = await loadProfilePicture(
-        Provider.of<SessionProvider>(context, listen: false).session,
-        forceRetrieval: forceRetrieval || profileImageProvider == null);
+    final profilePictureFile =
+        await ProfileProvider.fetchOrGetCachedProfilePicture(
+            null, Provider.of<SessionProvider>(context, listen: false).session,
+            forceRetrieval: forceRetrieval || profileImageProvider == null);
     return getProfileDecorationImage(profilePictureFile);
   }
 
@@ -52,19 +57,12 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
   Widget refreshState(BuildContext context, Widget child) {
     return RefreshIndicator(
       key: GlobalKey<RefreshIndicatorState>(),
-      onRefresh: refreshCallback(context),
+      onRefresh: () => ProfileProvider.fetchOrGetCachedProfilePicture(null,
+              Provider.of<SessionProvider>(context, listen: false).session,
+              forceRetrieval: true)
+          .then((value) => onRefresh(context)),
       child: child,
     );
-  }
-
-  Future<void> Function() refreshCallback(BuildContext context) {
-    return () async {
-      final stateProviders = StateProviders.fromContext(context);
-      await loadProfilePicture(
-          Provider.of<SessionProvider>(context, listen: false).session,
-          forceRetrieval: true);
-      return handleRefresh(stateProviders);
-    };
   }
 
   Widget getScaffold(BuildContext context, Widget body) {
