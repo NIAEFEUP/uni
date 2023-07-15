@@ -38,7 +38,7 @@ class ScheduleSlot extends StatelessWidget {
 
   Widget createScheduleSlotRow(context) {
     return Container(
-        key: Key('schedule-slot-time-$begin-$end'),
+        key: Key('schedule-slot-time-${DateFormat("HH:mm").format(begin)}-${DateFormat("HH:mm").format(end)}'),
         margin: const EdgeInsets.only(top: 3.0, bottom: 3.0),
         child: Row(
           mainAxisSize: MainAxisSize.max,
@@ -50,7 +50,7 @@ class ScheduleSlot extends StatelessWidget {
 
   Widget createScheduleSlotTime(context) {
     return Column(
-      key: Key('schedule-slot-time-$begin-$end'),
+      key: Key('schedule-slot-time-${DateFormat("HH:mm").format(begin)}-${DateFormat("HH:mm").format(end)}'),
       children: <Widget>[
         createScheduleTime(DateFormat("HH:mm").format(begin), context),
         createScheduleTime(DateFormat("HH:mm").format(end), context)
