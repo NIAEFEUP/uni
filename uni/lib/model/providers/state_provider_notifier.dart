@@ -37,6 +37,7 @@ abstract class StateProviderNotifier extends ChangeNotifier {
         runtimeType.toString());
 
     await loadFromStorage();
+    notifyListeners();
     Logger().i("Loaded $runtimeType info from storage");
   }
 
