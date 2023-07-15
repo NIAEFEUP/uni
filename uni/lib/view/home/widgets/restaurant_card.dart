@@ -72,6 +72,7 @@ class RestaurantCard extends GenericCard {
     return Column(children: [
       Center(
           child: Container(
+              alignment: Alignment.centerLeft,
               padding: const EdgeInsets.all(15.0), child: Text(restaurant.name, style: TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.bold))),),
       if(meals.isNotEmpty)
       Card(
