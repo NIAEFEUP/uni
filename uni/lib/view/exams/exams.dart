@@ -6,6 +6,7 @@ import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/exams/widgets/exam_page_title.dart';
 import 'package:uni/view/common_widgets/row_container.dart';
 import 'package:uni/view/exams/widgets/exam_row.dart';
+import 'package:uni/view/common_widgets/expanded_image_label.dart';
 import 'package:uni/view/exams/widgets/day_title.dart';
 
 class ExamsPageView extends StatefulWidget {
@@ -43,17 +44,14 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
     if (exams.isEmpty) {
       columns.add(Center(
           heightFactor: 1.2,
-          child: Column(
-              children: <Widget> [
-                Image.asset('assets/images/vacation.png', height: 300, width: 300,),
-                  const Text('Parece que estás de férias!',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Color.fromARGB(255, 0x75, 0x17, 0x1e)),
-                ),
-                const Text('\nNão tens exames marcados',
-                  style: TextStyle(fontSize: 15),
-                ),
-              ])
-      ));
+          child: ImageLabel(imagePath: 'assets/images/vacation.png',
+            label: 'Parece que estás de férias!',
+            labelTextStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Theme.of(context).colorScheme.primary),
+            sublabel: 'Não tens exames marcados',
+            sublabelTextStyle: const TextStyle(fontSize: 15),
+          )
+        )
+      );
       return columns;
     }
 

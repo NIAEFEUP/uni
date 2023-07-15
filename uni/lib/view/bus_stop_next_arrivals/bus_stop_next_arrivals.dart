@@ -5,6 +5,7 @@ import 'package:uni/model/entities/bus_stop.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/bus_stop_selection/bus_stop_selection.dart';
 import 'package:uni/model/providers/bus_stop_provider.dart';
+import 'package:uni/view/common_widgets/expanded_image_label.dart';
 import 'package:uni/view/bus_stop_next_arrivals/widgets/bus_stop_row.dart';
 import 'package:uni/view/common_widgets/last_update_timestamp.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
@@ -85,21 +86,18 @@ class NextArrivalsState extends State<NextArrivals> {
       result.addAll(getContent(context));
     } else {
       result.add(
-        Image.asset('assets/images/bus.png', height: 300, width: 300,),
+        ImageLabel(imagePath: 'assets/images/bus.png', label: 'Não percas nenhum autocarro', labelTextStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 17, color: Theme.of(context).colorScheme.primary))
       );
       result.add(
-        const Text('Não percas nenhum autocarro', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17, color: Color.fromARGB(255, 0x75, 0x17, 0x1e))),
-        );
-      result.add(
-          Container(
-              padding: const EdgeInsets.only(top: 15),
-              child: ElevatedButton(
+          Column(
+            children: [
+              ElevatedButton(
                   onPressed: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const BusStopSelectionPage())),
-                      child: const Text('Adicionar'),
-          )
-        ));
+                  context,
+                  MaterialPageRoute(builder: (context) => const BusStopSelectionPage())),
+                  child: const Text('Adicionar'),
+              ),
+          ]));
     }
 
     return result;
@@ -134,7 +132,7 @@ class NextArrivalsState extends State<NextArrivals> {
         child: Text('Não foi possível obter informação',
             maxLines: 2,
             overflow: TextOverflow.fade,
-            style: Theme.of(context).textTheme.subtitle1)));
+            style: Theme.of(context).textTheme.titleMedium)));
 
     return result;
   }

@@ -6,6 +6,7 @@ import 'package:uni/model/entities/time_utilities.dart';
 import 'package:uni/model/providers/lecture_provider.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
+import 'package:uni/view/common_widgets/expanded_image_label.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
 import 'package:uni/view/schedule/widgets/schedule_slot.dart';
@@ -178,13 +179,10 @@ class SchedulePageViewState extends GeneralPageViewState<SchedulePageView>
       content: aggLectures[day],
       contentChecker: aggLectures[day].isNotEmpty,
       onNullContent: Center(
-          child: Column(
-              children: <Widget> [
-               Image.asset('assets/images/school.png', height: 300, width: 300,),
-                Text('Não possui aulas à ${SchedulePageView.daysOfTheWeek[day]}.', style: const TextStyle(
-                  fontSize: 15,),)
-              ])
-      ));
+          child: ImageLabel(imagePath: 'assets/images/schedule.png', label: 'Não possui aulas à ${SchedulePageView.daysOfTheWeek[day]}.', labelTextStyle: const TextStyle(fontSize: 15),
+          )
+      )
+    );
   }
 }
 
