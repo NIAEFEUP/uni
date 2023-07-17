@@ -18,9 +18,7 @@ class AboutPageViewState extends GeneralPageViewState {
     return ListView(
       children: <Widget>[
         SvgPicture.asset(
-          'assets/images/ni_logo.svg',
-          colorFilter:
-              ColorFilter.mode(Theme.of(context).primaryColor, BlendMode.srcIn),
+          'assets/images/logo_ni.svg',
           width: queryData.size.height / 7,
           height: queryData.size.height / 7,
         ),
