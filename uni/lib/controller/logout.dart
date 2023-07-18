@@ -29,7 +29,7 @@ Future logout(BuildContext context) async {
   AppLastUserInfoUpdateDatabase().deleteLastUpdate();
   AppBusStopDatabase().deleteBusStops();
   AppCourseUnitsDatabase().deleteCourseUnits();
-  NetworkRouter.killAuthentication(faculties);
+  NetworkRouter.killSigarraAuthentication(faculties);
 
   final path = (await getApplicationDocumentsDirectory()).path;
   final directory = Directory(path);

@@ -21,7 +21,7 @@ class ProfileFetcher implements SessionDependantFetcher {
     final url =
         '${NetworkRouter.getBaseUrlsFromSession(session)[0]}mob_fest_geral.perfil?';
     final response = await NetworkRouter.getWithCookies(
-        url, {'pv_codigo': session.studentNumber}, session);
+        url, {'pv_codigo': session.username}, session);
 
     if (response.statusCode == 200) {
       final Profile profile = Profile.fromResponse(response);

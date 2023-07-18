@@ -65,7 +65,7 @@ void main() {
 
       final Completer<void> completer = Completer();
       scheduleProvider.fetchUserLectures(completer, const Tuple2('', ''),
-          Session(authenticated: true), profile);
+          Session(username: '', cookies: '', faculties: []), profile);
       await completer.future;
 
       await tester.tap(find.byKey(const Key('schedule-page-tab-2')));
