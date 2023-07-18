@@ -47,7 +47,7 @@ void main() {
 
     final profile = Profile();
     profile.courses = [Course(id: 7474)];
-    final session = Session(username: '', cookies: '', faculties: []);
+    final session = Session(username: '', cookies: '', faculties: ['feup']);
     final userUcs = [sopeCourseUnit, sdisCourseUnit];
 
     NetworkRouter.httpClient = mockClient;

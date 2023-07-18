@@ -66,6 +66,8 @@ class NetworkRouter {
     final List<String> faculties = session.faculties;
     final bool persistentSession = session.persistentSession;
 
+    Logger().i('Re-logging in user $username');
+
     return await login(username, password, faculties, persistentSession);
   }
 
@@ -130,17 +132,29 @@ class NetworkRouter {
     }
 
     final forbidden = response.statusCode == 403;
-    if (forbidden && !(await userLoggedIn(session))) {
-      final Session? newSession = await reLoginFromSession(session);
+    if (forbidden) {
+      final userIsLoggedIn = await userLoggedIn(session);
+      if (!userIsLoggedIn) {
+        final Session? newSession = await reLoginFromSession(session);
 
-      if (newSession == null) {
-        NavigationService.logout();
-        return Future.error('Login failed');
+        if (newSession == null) {
+          NavigationService.logout();
+          return Future.error('Login failed');
+        }
+
+        session.cookies = newSession.cookies;
+        headers['cookie'] = session.cookies;
+        return http.get(url.toUri(), headers: headers);
+      } else {
+        // If the user is logged in but still got a 403, they are forbidden to access the resource
+        // or the login was invalid at the time of the request, but other thread re-authenticated.
+        // Since we do not know which one is the case, we try again.
+        headers['cookie'] = session.cookies;
+        final response = await http.get(url.toUri(), headers: headers);
+        return response.statusCode == 200
+            ? Future.value(response)
+            : Future.error('HTTP Error: ${response.statusCode}');
       }
-
-      session.cookies = newSession.cookies;
-      headers['cookie'] = session.cookies;
-      return http.get(url.toUri(), headers: headers);
     }
 
     return Future.error('HTTP Error: ${response.statusCode}');

@@ -14,7 +14,9 @@ class Session {
       {required this.username,
       required this.cookies,
       required this.faculties,
-      this.persistentSession = false});
+      this.persistentSession = false}) {
+    assert(faculties.isNotEmpty);
+  }
 
   /// Creates a new Session instance from an HTTP response.
   /// Returns null if the authentication failed.
