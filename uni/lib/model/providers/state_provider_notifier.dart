@@ -64,7 +64,8 @@ abstract class StateProviderNotifier extends ChangeNotifier {
       }
     } else {
       Logger().i(
-          "Last info for $runtimeType is within cache period ($cacheDuration); skipping remote load");
+          "Last info for $runtimeType is within cache period (last updated on $_lastUpdateTime); "
+          "skipping remote load");
     }
 
     if (!shouldReload || !hasConnectivity || _status == RequestStatus.busy) {

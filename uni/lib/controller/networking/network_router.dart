@@ -149,14 +149,16 @@ class NetworkRouter {
   /// Check if the user is still logged in,
   /// performing a health check on the user's personal page.
   static Future<bool> userLoggedIn(Session session) async {
-    final url =
-        '${getBaseUrl(session.faculties[0])}fest_geral.cursos_list?pv_num_unico=${session.username}';
-    final Map<String, String> headers = <String, String>{};
-    headers['cookie'] = session.cookies;
-    final http.Response response = await (httpClient != null
-        ? httpClient!.get(url.toUri(), headers: headers)
-        : http.get(url.toUri(), headers: headers));
-    return response.statusCode == 200;
+    return loginLock.synchronized(() async {
+      final url =
+          '${getBaseUrl(session.faculties[0])}fest_geral.cursos_list?pv_num_unico=${session.username}';
+      final Map<String, String> headers = <String, String>{};
+      headers['cookie'] = session.cookies;
+      final http.Response response = await (httpClient != null
+          ? httpClient!.get(url.toUri(), headers: headers)
+          : http.get(url.toUri(), headers: headers));
+      return response.statusCode == 200;
+    });
   }
 
   /// Returns the base url of the user's faculties.
@@ -176,18 +178,19 @@ class NetworkRouter {
 
   /// Makes an HTTP request to terminate the session in Sigarra.
   static Future killSigarraAuthentication(List<String> faculties) async {
-    final url = '${NetworkRouter.getBaseUrl(faculties[0])}vld_validacao.sair';
+    return loginLock.synchronized(() async {
+      final url = '${NetworkRouter.getBaseUrl(faculties[0])}vld_validacao.sair';
+      final response = await http
+          .get(url.toUri())
+          .timeout(const Duration(seconds: loginRequestTimeout));
 
-    final response = await http
-        .get(url.toUri())
-        .timeout(const Duration(seconds: loginRequestTimeout));
+      if (response.statusCode == 200) {
+        Logger().i("Logout Successful");
+      } else {
+        Logger().i("Logout Failed");
+      }
 
-    if (response.statusCode == 200) {
-      Logger().i("Logout Successful");
-    } else {
-      Logger().i("Logout Failed");
-    }
-
-    return response;
+      return response;
+    });
   }
 }
