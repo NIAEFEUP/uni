@@ -29,7 +29,8 @@ class LibraryOccupation {
     return floors[number - 1];
   }
 
-  factory LibraryOccupation.fromJson(Map<String,dynamic> json) => _$LibraryOccupationFromJson(json);
+  factory LibraryOccupation.fromJson(Map<String, dynamic> json) =>
+      _$LibraryOccupationFromJson(json);
   Map<String, dynamic> toJson() => _$LibraryOccupationToJson(this);
 }
 
@@ -47,6 +48,7 @@ class FloorOccupation {
     return (occupation * 100 / capacity).round();
   }
 
-  factory FloorOccupation.fromJson(Map<String,dynamic> json) => _$FloorOccupationFromJson(json);
+  factory FloorOccupation.fromJson(Map<String, dynamic> json) =>
+      _$FloorOccupationFromJson(json);
   Map<String, dynamic> toJson() => _$FloorOccupationToJson(this);
 }

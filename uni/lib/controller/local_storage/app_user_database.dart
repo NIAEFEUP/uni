@@ -38,7 +38,8 @@ class AppUserDataDatabase extends AppDatabase {
       if (entry['key'] == 'email') email = entry['value'];
       if (entry['key'] == 'printBalance') printBalance = entry['value'];
       if (entry['key'] == 'feesBalance') feesBalance = entry['value'];
-      if (entry['key'] == 'feesLimit') feesLimit = DateTime.tryParse(entry['value']);
+      if (entry['key'] == 'feesLimit')
+        feesLimit = DateTime.tryParse(entry['value']);
     }
 
     return Profile(

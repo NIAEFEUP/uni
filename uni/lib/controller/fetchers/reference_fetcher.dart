@@ -4,11 +4,11 @@ import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/model/entities/session.dart';
 
 class ReferenceFetcher implements SessionDependantFetcher {
-
   @override
   List<String> getEndpoints(Session session) {
-    final List<String> baseUrls = NetworkRouter.getBaseUrlsFromSession(session)
-        + [NetworkRouter.getBaseUrl('sasup')];
+    final List<String> baseUrls =
+        NetworkRouter.getBaseUrlsFromSession(session) +
+            [NetworkRouter.getBaseUrl('sasup')];
     final List<String> urls = baseUrls
         .map((url) => '${url}gpag_ccorrente_geral.conta_corrente_view')
         .toList();

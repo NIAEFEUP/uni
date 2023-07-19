@@ -50,7 +50,7 @@ class RestaurantSlotType extends StatelessWidget {
     'salada': 'assets/meal-icons/salad.svg',
   };
 
-  const RestaurantSlotType({Key? key, required this.type}): super(key: key);
+  const RestaurantSlotType({Key? key, required this.type}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -59,11 +59,11 @@ class RestaurantSlotType extends StatelessWidget {
         message: type,
         child: icon != ''
             ? SvgPicture.asset(
-          icon,
-          colorFilter: ColorFilter.mode(
-              Theme.of(context).primaryColor, BlendMode.srcIn),
-          height: 20,
-        )
+                icon,
+                colorFilter: ColorFilter.mode(
+                    Theme.of(context).primaryColor, BlendMode.srcIn),
+                height: 20,
+              )
             : null);
   }
 

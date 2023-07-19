@@ -53,7 +53,7 @@ class AppLecturesDatabase extends AppDatabase {
     for (Lecture lec in lecs) {
       await insertInDatabase(
         'lectures',
-        lec.toMap(),
+        lec.toJson(),
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
     }

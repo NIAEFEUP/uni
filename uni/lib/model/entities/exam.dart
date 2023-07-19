@@ -71,7 +71,7 @@ class Exam {
     this.rooms = rooms.split(',');
   }
 
-  factory Exam.fromJson(Map<String,dynamic> json) => _$ExamFromJson(json);
+  factory Exam.fromJson(Map<String, dynamic> json) => _$ExamFromJson(json);
   Map<String, dynamic> toJson() => _$ExamToJson(this);
 
   /// Returns whether or not this exam has already ended.

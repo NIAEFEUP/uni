@@ -25,16 +25,17 @@ class LocationMarkerPopup extends StatelessWidget {
             children: (showId
                     ? <Widget>[Text(locationGroup.id.toString())]
                     : <Widget>[]) +
-                getEntries().map((entry) =>
-                    Floor(floor: entry.key, locations: entry.value)
-                ).toList(),
+                getEntries()
+                    .map((entry) =>
+                        Floor(floor: entry.key, locations: entry.value))
+                    .toList(),
           )),
     );
   }
 
   List<MapEntry<int, List<Location>>> getEntries() {
     final List<MapEntry<int, List<Location>>> entries =
-    locationGroup.floors.entries.toList();
+        locationGroup.floors.entries.toList();
     entries.sort((current, next) => -current.key.compareTo(next.key));
     return entries;
   }
@@ -52,9 +53,9 @@ class Floor extends StatelessWidget {
     final Color fontColor = FacultyMap.getFontColor(context);
 
     final String floorString =
-    0 <= floor && floor <= 9 //To maintain layout of popup
-        ? ' $floor'
-        : '$floor';
+        0 <= floor && floor <= 9 //To maintain layout of popup
+            ? ' $floor'
+            : '$floor';
 
     final Widget floorCol = Column(
       mainAxisSize: MainAxisSize.min,
@@ -62,13 +63,13 @@ class Floor extends StatelessWidget {
         Container(
             padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 0.0),
             child:
-            Text('Andar $floorString', style: TextStyle(color: fontColor)))
+                Text('Andar $floorString', style: TextStyle(color: fontColor)))
       ],
     );
     final Widget locationsColumn = Container(
         padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 0.0),
         decoration:
-        BoxDecoration(border: Border(left: BorderSide(color: fontColor))),
+            BoxDecoration(border: Border(left: BorderSide(color: fontColor))),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -84,10 +85,10 @@ class Floor extends StatelessWidget {
 class LocationRow extends StatelessWidget {
   final Location location;
   final Color color;
-  
+
   const LocationRow({Key? key, required this.location, required this.color})
       : super(key: key);
-  
+
   @override
   Widget build(BuildContext context) {
     return Row(

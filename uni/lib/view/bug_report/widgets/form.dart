@@ -241,7 +241,7 @@ class BugReportFormState extends State<BugReportForm> {
             emailController.text,
             bugDescriptions[_selectedBug],
             faculties)
-        .toMap();
+        .toJson();
     String toastMsg;
     bool status;
     try {

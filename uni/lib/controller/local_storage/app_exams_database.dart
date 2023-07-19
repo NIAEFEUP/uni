@@ -60,7 +60,7 @@ class AppExamsDatabase extends AppDatabase {
     for (Exam exam in exams) {
       await insertInDatabase(
         'exams',
-        exam.toMap(),
+        exam.toJson(),
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
     }

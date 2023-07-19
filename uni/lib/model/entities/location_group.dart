@@ -27,6 +27,7 @@ class LocationGroup {
         (current, next) => current.weight > next.weight ? current : next);
   }
 
-  factory LocationGroup.fromJson(Map<String,dynamic> json) => _$LocationGroupFromJson(json);
+  factory LocationGroup.fromJson(Map<String, dynamic> json) =>
+      _$LocationGroupFromJson(json);
   Map<String, dynamic> toJson() => _$LocationGroupToJson(this);
 }

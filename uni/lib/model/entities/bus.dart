@@ -17,6 +17,6 @@ class Bus {
       required this.destination,
       this.direction = false});
 
-  factory Bus.fromJson(Map<String,dynamic> json) => _$BusFromJson(json);
+  factory Bus.fromJson(Map<String, dynamic> json) => _$BusFromJson(json);
   Map<String, dynamic> toJson() => _$BusToJson(this);
 }

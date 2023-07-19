@@ -48,7 +48,7 @@ class TuitionNotification extends Notification {
     final DateTime? dueDate = await parseFeesNextLimit(
         await feesFetcher.getUserFeesResponse(session));
 
-    if(dueDate == null) return false;
+    if (dueDate == null) return false;
 
     _dueDate = dueDate;
     return DateTime.now().difference(_dueDate).inDays >= -3;

@@ -50,7 +50,7 @@ class AppCoursesDatabase extends AppDatabase {
     for (Course course in courses) {
       await insertInDatabase(
         'courses',
-        course.toMap(),
+        course.toJson(),
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
     }

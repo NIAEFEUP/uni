@@ -6,20 +6,18 @@ part of 'restaurant.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Restaurant _$RestaurantFromJson(Map<String, dynamic> json) => Restaurant(
+Restaurant _$RestaurantFromJson(Map<String, dynamic> json, meals) => Restaurant(
       json['id'] as int?,
       json['name'] as String,
-      json['reference'] as String,
-      meals: (json['meals'] as List<dynamic>)
-          .map((e) => Meal.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      json['ref'] as String,
+      meals: meals,
     );
 
 Map<String, dynamic> _$RestaurantToJson(Restaurant instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
-      'reference': instance.reference,
+      'ref': instance.reference,
       'meals':
           instance.meals.map((k, e) => MapEntry(_$DayOfWeekEnumMap[k]!, e)),
     };

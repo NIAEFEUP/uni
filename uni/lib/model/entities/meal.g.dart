@@ -13,11 +13,13 @@ Meal _$MealFromJson(Map<String, dynamic> json) => Meal(
       DateTime.parse(json['date'] as String),
     );
 
-Map<String, dynamic> _$MealToJson(Meal instance) => <String, dynamic>{
+Map<String, dynamic> _$MealToJson(Meal instance, restaurantId) =>
+    <String, dynamic>{
       'type': instance.type,
       'name': instance.name,
       'dayOfWeek': _$DayOfWeekEnumMap[instance.dayOfWeek]!,
       'date': instance.date.toIso8601String(),
+      'id_restaurant': restaurantId,
     };
 
 const _$DayOfWeekEnumMap = {

@@ -60,7 +60,7 @@ class RestaurantDatabase extends AppDatabase {
       for (Map<String, dynamic> restaurantMap in restaurantsFromDB) {
         final int id = restaurantMap['id'];
         final List<Meal> meals = await getRestaurantMeals(txn, id);
-        final Restaurant restaurant = Restaurant.fromMap(restaurantMap, meals);
+        final Restaurant restaurant = Restaurant.fromJson(restaurantMap, meals);
         restaurants.add(restaurant);
       }
     });
@@ -96,10 +96,10 @@ class RestaurantDatabase extends AppDatabase {
 
   /// Insert restaurant and meals in database
   Future<void> insertRestaurant(Transaction txn, Restaurant restaurant) async {
-    final int id = await txn.insert('RESTAURANTS', restaurant.toMap());
+    final int id = await txn.insert('RESTAURANTS', restaurant.toJson());
     restaurant.meals.forEach((dayOfWeak, meals) async {
       for (var meal in meals) {
-        await txn.insert('MEALS', meal.toMap(id));
+        await txn.insert('MEALS', meal.toJson(id));
       }
     });
   }
@@ -117,12 +117,13 @@ List<Restaurant> filterPastMeals(List<Restaurant> restaurants) {
   // (To replicate sigarra's behaviour for the GSheets meals)
   final DateTime now = DateTime.now().toUtc();
   final DateTime today = DateTime.utc(now.year, now.month, now.day);
-  final DateTime nextSunday = today.add(Duration(days: DateTime.sunday - now.weekday));
+  final DateTime nextSunday =
+      today.add(Duration(days: DateTime.sunday - now.weekday));
 
   for (var restaurant in restaurantsCopy) {
     for (var meals in restaurant.meals.values) {
       meals.removeWhere(
-              (meal) => meal.date.isBefore(today) || meal.date.isAfter(nextSunday));
+          (meal) => meal.date.isBefore(today) || meal.date.isAfter(nextSunday));
     }
   }
 
