@@ -21,13 +21,12 @@ class BusStopSelectionRowState extends State<BusStopSelectionRow> {
 
   Future deleteStop(BuildContext context) async {
     Provider.of<BusStopProvider>(context, listen: false)
-        .removeUserBusStop(Completer(), widget.stopCode);
+        .removeUserBusStop(widget.stopCode);
   }
 
   Future toggleFavorite(BuildContext context) async {
     Provider.of<BusStopProvider>(context, listen: false)
-        .toggleFavoriteUserBusStop(
-            Completer(), widget.stopCode, widget.stopData);
+        .toggleFavoriteUserBusStop(widget.stopCode, widget.stopData);
   }
 
   @override
