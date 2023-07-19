@@ -19,9 +19,9 @@ class SessionProvider extends StateProviderNotifier {
 
   SessionProvider()
       : super(
-      dependsOnSession: false,
-      cacheDuration: null,
-      initialStatus: RequestStatus.none);
+            dependsOnSession: false,
+            cacheDuration: null,
+            initialStatus: RequestStatus.none);
 
   Session get session => _session;
 
@@ -57,7 +57,7 @@ class SessionProvider extends StateProviderNotifier {
       }
 
       Future.delayed(const Duration(seconds: 20),
-              () => {NotificationManager().initializeNotifications()});
+          () => {NotificationManager().initializeNotifications()});
 
       await acceptTermsAndConditions();
       updateStatus(RequestStatus.successful);
@@ -65,7 +65,7 @@ class SessionProvider extends StateProviderNotifier {
     }
 
     final String responseHtml =
-    await NetworkRouter.loginInSigarra(username, password, faculties);
+        await NetworkRouter.loginInSigarra(username, password, faculties);
 
     updateStatus(RequestStatus.failed);
 
@@ -76,19 +76,16 @@ class SessionProvider extends StateProviderNotifier {
     }
   }
 
-  reLogin(String username, String password, List<String> faculties,
-      {Completer? action}) async {
+  reLogin(String username, String password, List<String> faculties) async {
     try {
-      updateStatus(RequestStatus.busy);
       _session = await NetworkRouter.login(username, password, faculties, true);
 
       if (session.authenticated) {
         Future.delayed(const Duration(seconds: 20),
-                () => {NotificationManager().initializeNotifications()});
+            () => {NotificationManager().initializeNotifications()});
         updateStatus(RequestStatus.successful);
-        action?.complete();
       } else {
-        handleFailedReLogin(action);
+        handleFailedReLogin();
       }
     } catch (e) {
       _session = Session(
@@ -99,12 +96,11 @@ class SessionProvider extends StateProviderNotifier {
           cookies: '',
           persistentSession: true);
 
-      handleFailedReLogin(action);
+      handleFailedReLogin();
     }
   }
 
-  handleFailedReLogin(Completer? action) {
-    action?.completeError(RequestStatus.failed);
+  handleFailedReLogin() {
     if (!session.persistentSession) {
       return NavigationService.logout();
     }
