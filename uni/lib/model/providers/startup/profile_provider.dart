@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:logger/logger.dart';
 import 'package:tuple/tuple.dart';
 import 'package:uni/controller/fetchers/course_units_fetcher/all_course_units_fetcher.dart';
 import 'package:uni/controller/fetchers/course_units_fetcher/current_course_units_fetcher.dart';
@@ -46,23 +45,12 @@ class ProfileProvider extends StateProviderNotifier {
 
   @override
   Future<void> loadFromRemote(Session session, Profile profile) async {
-    final userInfoAction = Completer<void>();
-    fetchUserInfo(userInfoAction, session);
-    await userInfoAction.future;
-
-    final Completer<void> userFeesAction = Completer<void>();
-    fetchUserFees(userFeesAction, session);
-
-    final Completer<void> printBalanceAction = Completer<void>();
-    fetchUserPrintBalance(printBalanceAction, session);
-
-    final Completer<void> courseUnitsAction = Completer<void>();
-    fetchCourseUnitsAndCourseAverages(session, courseUnitsAction);
+    await fetchUserInfo(session);
 
     await Future.wait([
-      userFeesAction.future,
-      printBalanceAction.future,
-      courseUnitsAction.future
+      fetchUserFees(session),
+      fetchUserPrintBalance(session),
+      fetchCourseUnitsAndCourseAverages(session)
     ]);
 
     if (status != RequestStatus.failed) {
@@ -101,7 +89,7 @@ class ProfileProvider extends StateProviderNotifier {
     profile.courseUnits = await db.courseUnits();
   }
 
-  fetchUserFees(Completer<void> action, Session session) async {
+  Future<void> fetchUserFees(Session session) async {
     try {
       final response = await FeesFetcher().getUserFeesResponse(session);
 
@@ -113,8 +101,6 @@ class ProfileProvider extends StateProviderNotifier {
           await AppSharedPreferences.getPersistentUserInfo();
       if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {
         await storeRefreshTime('fees', currentTime.toString());
-
-        // Store fees info
         final profileDb = AppUserDataDatabase();
         profileDb.saveUserFees(feesBalance, feesLimit);
       }
@@ -129,13 +115,9 @@ class ProfileProvider extends StateProviderNotifier {
 
       _profile = newProfile;
       _feesRefreshTime = currentTime;
-      notifyListeners();
     } catch (e) {
-      Logger().e('Failed to get Fees info');
       updateStatus(RequestStatus.failed);
     }
-
-    action.complete();
   }
 
   Future storeRefreshTime(String db, String currentTime) async {
@@ -144,7 +126,7 @@ class ProfileProvider extends StateProviderNotifier {
     refreshTimesDatabase.saveRefreshTime(db, currentTime);
   }
 
-  fetchUserPrintBalance(Completer<void> action, Session session) async {
+  Future<void> fetchUserPrintBalance(Session session) async {
     try {
       final response = await PrintFetcher().getUserPrintsResponse(session);
       final String printBalance = await getPrintsBalance(response);
@@ -154,8 +136,6 @@ class ProfileProvider extends StateProviderNotifier {
           await AppSharedPreferences.getPersistentUserInfo();
       if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {
         await storeRefreshTime('print', currentTime.toString());
-
-        // Store fees info
         final profileDb = AppUserDataDatabase();
         profileDb.saveUserPrintBalance(printBalance);
       }
@@ -170,19 +150,13 @@ class ProfileProvider extends StateProviderNotifier {
 
       _profile = newProfile;
       _printRefreshTime = currentTime;
-      notifyListeners();
     } catch (e) {
-      Logger().e('Failed to get Print Balance');
       updateStatus(RequestStatus.failed);
     }
-
-    action.complete();
   }
 
-  fetchUserInfo(Completer<void> action, Session session) async {
+  Future<void> fetchUserInfo(Session session) async {
     try {
-      updateStatus(RequestStatus.busy);
-
       final profile = await ProfileFetcher.getProfile(session);
       final currentCourseUnits =
           await CurrentCourseUnitsFetcher().getCurrentCourseUnits(session);
@@ -199,16 +173,11 @@ class ProfileProvider extends StateProviderNotifier {
         profileDb.insertUserData(_profile);
       }
     } catch (e) {
-      Logger().e('Failed to get User Info');
       updateStatus(RequestStatus.failed);
     }
-
-    action.complete();
   }
 
-  fetchCourseUnitsAndCourseAverages(
-      Session session, Completer<void> action) async {
-    updateStatus(RequestStatus.busy);
+  Future<void> fetchCourseUnitsAndCourseAverages(Session session) async {
     try {
       final List<Course> courses = profile.courses;
       final List<CourseUnit> allCourseUnits = await AllCourseUnitsFetcher()
@@ -226,11 +195,8 @@ class ProfileProvider extends StateProviderNotifier {
         await courseUnitsDatabase.saveNewCourseUnits(_profile.courseUnits);
       }
     } catch (e) {
-      Logger().e('Failed to get all user ucs: $e');
       updateStatus(RequestStatus.failed);
     }
-
-    action.complete();
   }
 
   static Future<File?> fetchOrGetCachedProfilePicture(
