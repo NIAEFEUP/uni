@@ -3,7 +3,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:uni/model/entities/location.dart';
 import 'package:uni/model/entities/location_group.dart';
-import 'package:uni/view/locations/widgets/faculty_maps.dart';
+import 'package:uni/view/locations/widgets/faculty_map.dart';
 
 class LocationMarker extends Marker {
   final LocationGroup locationGroup;
@@ -22,18 +22,27 @@ class LocationMarker extends Marker {
                   color: Theme.of(ctx).colorScheme.primary,
                 ),
                 borderRadius: const BorderRadius.all(Radius.circular(20))),
-            child: getIcon(locationGroup.getLocationWithMostWeight(), ctx),
+            child: MarkerIcon(
+                location: locationGroup.getLocationWithMostWeight()
+            ),
           ),
         );
+}
 
-  static Widget getIcon(Location? location, BuildContext context) {
+class MarkerIcon extends StatelessWidget {
+  final Location? location;
+
+  const MarkerIcon({Key? key, this.location}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     if (location == null) {
       return Container();
     }
 
-    final Color fontColor = FacultyMaps.getFontColor(context);
-    if (location.icon is IconData) {
-      return Icon(location.icon, color: fontColor, size: 12);
+    final Color fontColor = FacultyMap.getFontColor(context);
+    if (location?.icon is IconData) {
+      return Icon(location?.icon, color: fontColor, size: 12);
     } else {
       return Icon(Icons.device_unknown, color: fontColor, size: 12);
     }

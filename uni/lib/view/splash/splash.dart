@@ -131,8 +131,8 @@ class SplashScreenState extends State<SplashScreen> {
         if (mounted) {
           final List<String> faculties =
               await AppSharedPreferences.getUserFaculties();
-          stateProviders.sessionProvider
-              .reLogin(userName, password, faculties, stateProviders);
+          await stateProviders.sessionProvider
+              .reLogin(userName, password, faculties);
         }
         return MaterialPageRoute(builder: (context) => const HomePageView());
 

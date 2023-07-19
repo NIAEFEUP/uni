@@ -66,7 +66,9 @@ class LocationsMap extends StatelessWidget {
           ),
           PopupMarkerLayerWidget(
             options: PopupMarkerLayerOptions(
-              markers: _getMarkers(),
+              markers: locations.map((location) {
+                return LocationMarker(location.latlng, location);
+              }).toList(),
               popupController: _popupLayerController,
               popupAnimation: const PopupAnimation.fade(
                   duration: Duration(milliseconds: 400)),
@@ -82,21 +84,15 @@ class LocationsMap extends StatelessWidget {
           ),
         ]);
   }
-
-  List<Marker> _getMarkers() {
-    return locations.map((location) {
-      return LocationMarker(location.latlng, location);
-    }).toList();
-  }
 }
 
 class CachedTileProvider extends TileProvider {
   CachedTileProvider();
 
   @override
-  ImageProvider getImage(Coords<num> coords, TileLayer options) {
+  ImageProvider getImage(TileCoordinates coordinates, TileLayer options) {
     return CachedNetworkImageProvider(
-      getTileUrl(coords, options),
+      getTileUrl(coordinates, options),
     );
   }
 }

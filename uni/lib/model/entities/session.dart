@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:uni/controller/networking/network_router.dart';
+import 'package:uni/controller/parsers/parser_faculties.dart';
 
 /// Stores information about a user session.
 class Session {
@@ -27,7 +28,7 @@ class Session {
   static Future<Session> fromLogin(
       dynamic response, List<String> faculties) async {
     final responseBody = json.decode(response.body);
-    print(responseBody);
+
     if (responseBody['authenticated']) {
       final Session session = Session(
           authenticated: true,
@@ -36,9 +37,8 @@ class Session {
           type: responseBody['tipo'],
           cookies: NetworkRouter.extractCookies(response.headers),
           persistentSession: false);
-      final List<String> fetchedFaculties =
-          await NetworkRouter.getStudentFaculties(session);
-      session.faculties = fetchedFaculties;
+      session.faculties = await getStudentFaculties(session);
+      ;
       return session;
     } else {
       return Session(

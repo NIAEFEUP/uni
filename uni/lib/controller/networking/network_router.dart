@@ -2,14 +2,12 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 import 'package:synchronized/synchronized.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/model/entities/session.dart';
-import 'package:html/parser.dart' show parse;
-import 'package:uni/utils/constants.dart';
+import 'package:uni/view/navigation_service.dart';
 
 extension UriString on String {
   /// Converts a [String] to an [Uri].
@@ -19,52 +17,21 @@ extension UriString on String {
 /// Manages the networking of the app.
 class NetworkRouter {
   static http.Client? httpClient;
-
   static const int loginRequestTimeout = 20;
-
   static Lock loginLock = Lock();
-
-  static Function onReloginFail = () {};
-
-  static Future<List<String>> getStudentFaculties(Session session) async {
-    // maybe add this function to a fetcher ... parser ...
-    final List<String> registerFaculties = [];
-
-    final http.Response response = await NetworkRouter.getWithCookies(
-        'https://sigarra.up.pt/up/pt/vld_entidades_geral.entidade_pagina',
-        {'pct_id': '1923456'},
-        session);
-
-    final document = parse(response.body);
-    final list = document.querySelectorAll("#conteudoinner>ul a");
-
-    // user is only present in one faculty
-    if (list.isEmpty) {
-      list.add(document.querySelector("a")!); // the redirection link
-    }
-
-    for (final el in list) {
-      final uri = el.attributes['href']!.toUri();
-      registerFaculties.add(uri.pathSegments[0]);
-    }
-
-    return registerFaculties;
-  }
 
   /// Creates an authenticated [Session] on the given [faculty] with the
   /// given username [user] and password [pass].
   static Future<Session> login(String user, String pass, List<String> faculties,
       bool persistentSession) async {
-    // final String url =
-    //     '${NetworkRouter.getBaseUrls(faculties)[0]}mob_val_geral.autentica';
-    //    final String url = '${NetworkRouter.getBaseUrl('up')}WEB_PAGE.INICIAL';
     final String url =
-        '${NetworkRouter.getBaseUrls(faculties)[0]}mob_val_geral.autentica';
+        '${NetworkRouter.getBaseUrl('feup')}mob_val_geral.autentica';
 
     final http.Response response = await http.post(url.toUri(), body: {
       'pv_login': user,
       'pv_password': pass
     }).timeout(const Duration(seconds: loginRequestTimeout));
+
     if (response.statusCode == 200) {
       final Session session = await Session.fromLogin(response, faculties);
       session.persistentSession = persistentSession;
@@ -83,7 +50,7 @@ class NetworkRouter {
   }
 
   /// Determines if a re-login with the [session] is possible.
-  static Future<bool> relogin(Session session) {
+  static Future<bool> reLogin(Session session) {
     return loginLock.synchronized(() async {
       if (!session.persistentSession) {
         return false;
@@ -121,6 +88,21 @@ class NetworkRouter {
       Logger().e('Re-login failed');
       return false;
     }
+  }
+
+  /// Returns the response body of the login in Sigarra
+  /// given username [user] and password [pass].
+  static Future<String> loginInSigarra(
+      String user, String pass, List<String> faculties) async {
+    final String url =
+        '${NetworkRouter.getBaseUrls(faculties)[0]}vld_validacao.validacao';
+
+    final response = await http.post(url.toUri(), body: {
+      'p_user': user,
+      'p_pass': pass
+    }).timeout(const Duration(seconds: loginRequestTimeout));
+
+    return response.body;
   }
 
   /// Extracts the cookies present in [headers].
@@ -166,12 +148,12 @@ class NetworkRouter {
       return response;
     } else if (response.statusCode == 403 && !(await userLoggedIn(session))) {
       // HTTP403 - Forbidden
-      final bool reLoginSuccessful = await relogin(session);
+      final bool reLoginSuccessful = await reLogin(session);
       if (reLoginSuccessful) {
         headers['cookie'] = session.cookies;
         return http.get(url.toUri(), headers: headers);
       } else {
-        onReloginFail();
+        NavigationService.logout();
         Logger().e('Login failed');
         return Future.error('Login failed');
       }
