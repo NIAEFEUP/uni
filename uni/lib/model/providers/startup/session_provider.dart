@@ -19,9 +19,9 @@ class SessionProvider extends StateProviderNotifier {
 
   SessionProvider()
       : super(
-            dependsOnSession: false,
-            cacheDuration: null,
-            initialStatus: RequestStatus.none);
+      dependsOnSession: false,
+      cacheDuration: null,
+      initialStatus: RequestStatus.none);
 
   Session get session => _session;
 
@@ -36,43 +36,44 @@ class SessionProvider extends StateProviderNotifier {
     updateStatus(RequestStatus.successful);
   }
 
-  login(Completer<void> action, String username, String password,
-      List<String> faculties, persistentSession) async {
-    try {
-      updateStatus(RequestStatus.busy);
+  Future<void> login(String username, String password, List<String> faculties,
+      persistentSession) async {
+    _faculties = faculties;
 
-      _faculties = faculties;
+    updateStatus(RequestStatus.busy);
+
+    try {
       _session = await NetworkRouter.login(
           username, password, faculties, persistentSession);
-
-      if (_session.authenticated) {
-        if (persistentSession) {
-          await AppSharedPreferences.savePersistentUserInfo(
-              username, password, faculties);
-        }
-        Future.delayed(const Duration(seconds: 20),
-            () => {NotificationManager().initializeNotifications()});
-
-        await acceptTermsAndConditions();
-        updateStatus(RequestStatus.successful);
-      } else {
-        final String responseHtml =
-            await NetworkRouter.loginInSigarra(username, password, faculties);
-        if (isPasswordExpired(responseHtml)) {
-          action.completeError(ExpiredCredentialsException());
-        } else {
-          action.completeError(WrongCredentialsException());
-        }
-        updateStatus(RequestStatus.failed);
-      }
     } catch (e) {
-      // No internet connection or server down
-      action.completeError(InternetStatusException());
       updateStatus(RequestStatus.failed);
+      throw InternetStatusException();
     }
 
-    notifyListeners();
-    action.complete();
+    if (_session.authenticated) {
+      if (persistentSession) {
+        await AppSharedPreferences.savePersistentUserInfo(
+            username, password, faculties);
+      }
+
+      Future.delayed(const Duration(seconds: 20),
+              () => {NotificationManager().initializeNotifications()});
+
+      await acceptTermsAndConditions();
+      updateStatus(RequestStatus.successful);
+      return;
+    }
+
+    final String responseHtml =
+    await NetworkRouter.loginInSigarra(username, password, faculties);
+
+    updateStatus(RequestStatus.failed);
+
+    if (isPasswordExpired(responseHtml)) {
+      throw ExpiredCredentialsException();
+    } else {
+      throw WrongCredentialsException();
+    }
   }
 
   reLogin(String username, String password, List<String> faculties,
@@ -83,7 +84,7 @@ class SessionProvider extends StateProviderNotifier {
 
       if (session.authenticated) {
         Future.delayed(const Duration(seconds: 20),
-            () => {NotificationManager().initializeNotifications()});
+                () => {NotificationManager().initializeNotifications()});
         updateStatus(RequestStatus.successful);
         action?.complete();
       } else {

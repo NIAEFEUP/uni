@@ -45,28 +45,30 @@ class LoginPageViewState extends State<LoginPageView> {
   bool _keepSignedIn = true;
   bool _obscurePasswordInput = true;
 
-  void _login(BuildContext context) {
+  void _login(BuildContext context) async {
     final stateProviders = StateProviders.fromContext(context);
     final sessionProvider = stateProviders.sessionProvider;
     if (sessionProvider.status != RequestStatus.busy &&
         _formKey.currentState!.validate()) {
       final user = usernameController.text.trim();
       final pass = passwordController.text.trim();
-      final completer = Completer();
 
-      sessionProvider.login(completer, user, pass, faculties, _keepSignedIn);
-
-      completer.future.then((_) {
-        handleLogin(sessionProvider.status, context);
-      }).catchError((error) {
+      try {
+        await sessionProvider.login(user, pass, faculties, _keepSignedIn);
+        if (context.mounted) {
+          handleLogin(sessionProvider.status, context);
+        }
+      } catch (error) {
         if (error is ExpiredCredentialsException) {
           updatePasswordDialog();
         } else if (error is InternetStatusException) {
           ToastMessage.warning(context, error.message);
+        } else if (error is WrongCredentialsException) {
+          ToastMessage.error(context, error.message);
         } else {
-          ToastMessage.error(context, error.message ?? 'Erro no login');
+          ToastMessage.error(context, 'Erro no login');
         }
-      });
+      }
     }
   }
 
