@@ -1,6 +1,5 @@
 // @dart=2.10
 
-import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -83,16 +82,12 @@ void main() {
       expect(find.byKey(Key('$sopeExam-exam')), findsNothing);
       expect(find.byKey(Key('$mdisExam-exam')), findsNothing);
 
-      final Completer<void> completer = Completer();
-      examProvider.fetchUserExams(
-          completer,
+      await examProvider.fetchUserExams(
           ParserExams(),
           const Tuple2('', ''),
           profile,
           Session(authenticated: true),
           [sopeCourseUnit, sdisCourseUnit]);
-
-      await completer.future;
 
       await tester.pumpAndSettle();
       expect(find.byKey(Key('$sdisExam-exam')), findsOneWidget);
@@ -122,27 +117,21 @@ void main() {
       expect(find.byKey(Key('$sdisExam-exam')), findsNothing);
       expect(find.byKey(Key('$sopeExam-exam')), findsNothing);
 
-      final Completer<void> completer = Completer();
-      examProvider.fetchUserExams(
-          completer,
+      await examProvider.fetchUserExams(
           ParserExams(),
           const Tuple2('', ''),
           profile,
           Session(authenticated: true),
           [sopeCourseUnit, sdisCourseUnit]);
 
-      await completer.future;
-
       await tester.pumpAndSettle();
       expect(find.byKey(Key('$sdisExam-exam')), findsOneWidget);
       expect(find.byKey(Key('$sopeExam-exam')), findsOneWidget);
       expect(find.byIcon(Icons.filter_alt), findsOneWidget);
 
-      final Completer<void> settingFilteredExams = Completer();
       filteredExams['ExamDoesNotExist'] = true;
-      examProvider.setFilteredExams(filteredExams, settingFilteredExams);
 
-      await settingFilteredExams.future;
+      await examProvider.setFilteredExams(filteredExams);
 
       await tester.pumpAndSettle();
 
