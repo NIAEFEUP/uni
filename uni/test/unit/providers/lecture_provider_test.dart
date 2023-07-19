@@ -1,7 +1,5 @@
 // @dart=2.10
 
-import 'dart:async';
-
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tuple/tuple.dart';
@@ -43,31 +41,21 @@ void main() {
     });
 
     test('When given a single schedule', () async {
-      final Completer<void> action = Completer();
-
       when(fetcherMock.getLectures(any, any))
           .thenAnswer((_) async => [lecture1, lecture2]);
 
-      provider.fetchUserLectures(action, userPersistentInfo, session, profile,
+      await provider.fetchUserLectures(userPersistentInfo, session, profile,
           fetcher: fetcherMock);
-      expect(provider.status, RequestStatus.busy);
-
-      await action.future;
 
       expect(provider.lectures, [lecture1, lecture2]);
       expect(provider.status, RequestStatus.successful);
     });
 
     test('When an error occurs while trying to obtain the schedule', () async {
-      final Completer<void> action = Completer();
-
       when(fetcherMock.getLectures(any, any))
           .thenAnswer((_) async => throw Exception('💥'));
 
-      provider.fetchUserLectures(action, userPersistentInfo, session, profile);
-      expect(provider.status, RequestStatus.busy);
-
-      await action.future;
+      await provider.fetchUserLectures(userPersistentInfo, session, profile);
 
       expect(provider.status, RequestStatus.failed);
     });
