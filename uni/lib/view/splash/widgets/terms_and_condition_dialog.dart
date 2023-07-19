@@ -11,20 +11,19 @@ enum TermsAndConditionsState { accepted, rejected }
 class TermsAndConditionDialog {
   TermsAndConditionDialog._();
 
-  static Future<bool> build(
-      BuildContext context,
-      Completer<TermsAndConditionsState> routeCompleter,
-      String userName,
-      String password) async {
-    final acceptance = await updateTermsAndConditionsAcceptancePreference();
-    if (acceptance) {
+  static Future<TermsAndConditionsState> buildIfTermsChanged(
+      BuildContext context, String userName, String password) async {
+    final termsAreAccepted =
+        await updateTermsAndConditionsAcceptancePreference();
+
+    if (!termsAreAccepted) {
+      final routeCompleter = Completer<TermsAndConditionsState>();
       SchedulerBinding.instance.addPostFrameCallback((timestamp) =>
           _buildShowDialog(context, routeCompleter, userName, password));
-    } else {
-      routeCompleter.complete(TermsAndConditionsState.accepted);
+      return routeCompleter.future;
     }
 
-    return acceptance;
+    return TermsAndConditionsState.accepted;
   }
 
   static Future<void> _buildShowDialog(
@@ -41,24 +40,16 @@ class TermsAndConditionDialog {
                 style: Theme.of(context).textTheme.headlineSmall),
             content: Column(
               children: [
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: ListBody(
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.only(bottom: 10),
-                          child: const Text(
-                              '''Os Termos e Condições da aplicação mudaram desde a última vez que a abriste:'''),
-                        ),
-                        const TermsAndConditions()
-                      ],
-                    ),
-                  ),
+                const Expanded(
+                  child: SingleChildScrollView(child: TermsAndConditions()),
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                const SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    TextButton(
+                    ElevatedButton(
                         onPressed: () async {
                           Navigator.of(context).pop();
                           routeCompleter
@@ -66,11 +57,13 @@ class TermsAndConditionDialog {
                           await AppSharedPreferences
                               .setTermsAndConditionsAcceptance(true);
                         },
-                        child: Text(
-                          'Aceito os novos Termos e Condições',
-                          style: getTextMethod(context),
+                        child: const Text(
+                          'Aceito',
                         )),
-                    TextButton(
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    ElevatedButton(
                         onPressed: () async {
                           Navigator.of(context).pop();
                           routeCompleter
@@ -78,9 +71,8 @@ class TermsAndConditionDialog {
                           await AppSharedPreferences
                               .setTermsAndConditionsAcceptance(false);
                         },
-                        child: Text(
-                          'Rejeito os novos Termos e Condições',
-                          style: getTextMethod(context),
+                        child: const Text(
+                          'Rejeito',
                         )),
                   ],
                 )
@@ -88,9 +80,5 @@ class TermsAndConditionDialog {
             ),
           );
         });
-  }
-
-  static TextStyle getTextMethod(BuildContext context) {
-    return Theme.of(context).textTheme.titleLarge!;
   }
 }

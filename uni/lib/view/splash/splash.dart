@@ -28,7 +28,7 @@ class SplashScreenState extends State<SplashScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     stateProviders = StateProviders.fromContext(context);
-    startTimeAndChangeRoute();
+    changeRouteAccordingToLoginAndTerms();
   }
 
   @override
@@ -38,6 +38,7 @@ class SplashScreenState extends State<SplashScreen> {
         MediaQuery.platformBrightnessOf(context) == Brightness.dark
             ? applicationDarkTheme
             : applicationLightTheme;
+
     return Theme(
         data: systemTheme,
         child: Builder(
@@ -100,33 +101,33 @@ class SplashScreenState extends State<SplashScreen> {
   }
 
   // Redirects the user to the proper page depending on his login input.
-  void startTimeAndChangeRoute() async {
-    MaterialPageRoute<dynamic> nextRoute;
+  void changeRouteAccordingToLoginAndTerms() async {
     final Tuple2<String, String> userPersistentInfo =
         await AppSharedPreferences.getPersistentUserInfo();
     final String userName = userPersistentInfo.item1;
     final String password = userPersistentInfo.item2;
+
+    MaterialPageRoute<dynamic> nextRoute;
     if (userName != '' && password != '') {
       nextRoute =
-          await getTermsAndConditions(userName, password, stateProviders);
+          await termsAndConditionsRoute(userName, password, stateProviders);
     } else {
       await acceptTermsAndConditions();
       nextRoute =
           MaterialPageRoute(builder: (context) => const LoginPageView());
     }
-    if (!mounted) {
-      return;
+
+    if (mounted) {
+      Navigator.pushReplacement(context, nextRoute);
     }
-    Navigator.pushReplacement(context, nextRoute);
   }
 
-  Future<MaterialPageRoute> getTermsAndConditions(
+  Future<MaterialPageRoute> termsAndConditionsRoute(
       String userName, String password, StateProviders stateProviders) async {
-    final completer = Completer<TermsAndConditionsState>();
-    await TermsAndConditionDialog.build(context, completer, userName, password);
-    final state = await completer.future;
+    final termsAcceptance = await TermsAndConditionDialog.buildIfTermsChanged(
+        context, userName, password);
 
-    switch (state) {
+    switch (termsAcceptance) {
       case TermsAndConditionsState.accepted:
         if (mounted) {
           final List<String> faculties =
