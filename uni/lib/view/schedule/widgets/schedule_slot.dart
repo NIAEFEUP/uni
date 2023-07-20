@@ -32,47 +32,82 @@ class ScheduleSlot extends StatelessWidget {
         child: Container(
       padding: const EdgeInsets.only(
           top: 10.0, bottom: 10.0, left: 22.0, right: 22.0),
-      child: createScheduleSlotRow(context),
+      child: Container(
+          key: Key(
+              'schedule-slot-time-${DateFormat("HH:mm").format(begin)}-${DateFormat("HH:mm").format(end)}'),
+          margin: const EdgeInsets.only(top: 3.0, bottom: 3.0),
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: createScheduleSlotPrimInfo(context),
+          )),
     ));
   }
 
-  Widget createScheduleSlotRow(context) {
-    return Container(
-        key: Key('schedule-slot-time-${DateFormat("HH:mm").format(begin)}-${DateFormat("HH:mm").format(end)}'),
-        margin: const EdgeInsets.only(top: 3.0, bottom: 3.0),
-        child: Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: createScheduleSlotPrimInfo(context),
-        ));
+  List<Widget> createScheduleSlotPrimInfo(context) {
+    final subjectTextField = TextFieldWidget(
+        text: subject,
+        style: Theme.of(context)
+            .textTheme
+            .headlineSmall!
+            .apply(color: Theme.of(context).colorScheme.tertiary),
+        alignment: TextAlign.center);
+    final typeClassTextField = TextFieldWidget(
+        text: ' ($typeClass)',
+        style: Theme.of(context).textTheme.bodyMedium,
+        alignment: TextAlign.center);
+    final roomTextField = TextFieldWidget(
+        text: rooms,
+        style: Theme.of(context).textTheme.bodyMedium,
+        alignment: TextAlign.right);
+    return [
+      ScheduleTimeWidget(
+          begin: DateFormat("HH:mm").format(begin),
+          end: DateFormat("HH:mm").format(end)),
+      Expanded(
+          child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              SubjectButtonWidget(
+                occurrId: occurrId,
+              ),
+              subjectTextField,
+              typeClassTextField,
+            ],
+          ),
+          Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: ScheduleTeacherClassInfoWidget(
+                  classNumber: classNumber, teacher: teacher)),
+        ],
+      )),
+      roomTextField
+    ];
   }
+}
 
-  Widget createScheduleSlotTime(context) {
-    return Column(
-      key: Key('schedule-slot-time-${DateFormat("HH:mm").format(begin)}-${DateFormat("HH:mm").format(end)}'),
-      children: <Widget>[
-        createScheduleTime(DateFormat("HH:mm").format(begin), context),
-        createScheduleTime(DateFormat("HH:mm").format(end), context)
-      ],
-    );
-  }
+class SubjectButtonWidget extends StatelessWidget {
+  final int occurrId;
 
-  Widget createScheduleTime(String time, context) => createTextField(
-      time, Theme.of(context).textTheme.bodyMedium, TextAlign.center);
+  const SubjectButtonWidget({super.key, required this.occurrId});
 
   String toUcLink(int occurrId) {
-    const String faculty = 'feup'; //should not be hardcoded
+    const String faculty = 'feup'; // should not be hardcoded
     return '${NetworkRouter.getBaseUrl(faculty)}'
         'UCURR_GERAL.FICHA_UC_VIEW?pv_ocorrencia_id=$occurrId';
   }
 
-  _launchURL() async {
+  Future<void> _launchURL() async {
     final String url = toUcLink(occurrId);
     await launchUrl(Uri.parse(url));
   }
 
-  Widget createSubjectButton(BuildContext context) {
+  @override
+  Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
@@ -90,55 +125,81 @@ class ScheduleSlot extends StatelessWidget {
       ],
     );
   }
+}
 
-  List<Widget> createScheduleSlotPrimInfo(context) {
-    final subjectTextField = createTextField(
-        subject,
-        Theme.of(context)
-            .textTheme
-            .headlineSmall!
-            .apply(color: Theme.of(context).colorScheme.tertiary),
-        TextAlign.center);
-    final typeClassTextField = createTextField(' ($typeClass)',
-        Theme.of(context).textTheme.bodyMedium, TextAlign.center);
-    final roomTextField = createTextField(
-        rooms, Theme.of(context).textTheme.bodyMedium, TextAlign.right);
-    return [
-      createScheduleSlotTime(context),
-      Expanded(
-          child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              createSubjectButton(context),
-              subjectTextField,
-              typeClassTextField,
-            ],
-          ),
-          Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: createScheduleSlotTeacherClassInfo(context)),
-        ],
-      )),
-      roomTextField
-    ];
+class ScheduleTeacherClassInfoWidget extends StatelessWidget {
+  final String? classNumber;
+  final String teacher;
+
+  const ScheduleTeacherClassInfoWidget(
+      {super.key, required this.teacher, this.classNumber});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFieldWidget(
+      text: classNumber != null ? '$classNumber | $teacher' : teacher,
+      style: Theme.of(context).textTheme.bodyMedium,
+      alignment: TextAlign.center,
+    );
   }
+}
 
-  Widget createScheduleSlotTeacherClassInfo(context) {
-    return createTextField(
-        classNumber != null ? '$classNumber | $teacher' : teacher,
-        Theme.of(context).textTheme.bodyMedium,
-        TextAlign.center);
+class ScheduleTimeWidget extends StatelessWidget {
+  final String begin;
+  final String end;
+
+  const ScheduleTimeWidget({super.key, required this.begin, required this.end});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      key: Key('schedule-slot-time-$begin-$end'),
+      children: <Widget>[
+        ScheduleTimeTextField(time: begin, context: context),
+        ScheduleTimeTextField(time: end, context: context),
+      ],
+    );
   }
+}
 
-  Widget createTextField(text, style, alignment) {
-    return Text(text,
-        overflow: TextOverflow.fade,
-        softWrap: false,
-        maxLines: 1,
-        style: style,
-        textAlign: alignment);
+class ScheduleTimeTextField extends StatelessWidget {
+  final String time;
+  final BuildContext context;
+
+  const ScheduleTimeTextField(
+      {super.key, required this.time, required this.context});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFieldWidget(
+      text: time,
+      style: Theme.of(context).textTheme.bodyMedium,
+      alignment: TextAlign.center,
+    );
+  }
+}
+
+class TextFieldWidget extends StatelessWidget {
+  final String text;
+  final TextStyle? style;
+  final TextAlign alignment;
+
+  const TextFieldWidget({
+    super.key,
+    required this.text,
+    required this.style,
+    required this.alignment,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      text,
+      overflow: TextOverflow.fade,
+      softWrap: false,
+      maxLines: 1,
+      style: style,
+      textAlign: alignment,
+    );
   }
 }
