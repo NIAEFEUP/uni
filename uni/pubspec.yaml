@@ -64,7 +64,7 @@ dependencies:
   cached_network_image: ^3.2.3
   cupertino_icons: ^1.0.2
   latlong2: ^0.8.1
-  flutter_map_marker_popup: ^4.0.1
+  flutter_map_marker_popup: ^5.0.0
   workmanager: ^0.5.1
   flutter_local_notifications: ^15.1.0+1
   percent_indicator: ^4.2.2
