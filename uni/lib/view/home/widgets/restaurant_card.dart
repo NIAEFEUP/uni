@@ -73,7 +73,7 @@ class RestaurantCard extends GenericCard {
       Center(
           child: Container(
               alignment: Alignment.centerLeft,
-              padding: const EdgeInsets.all(15.0), child: Text(restaurant.name, style: TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.bold))),),
+              padding: const EdgeInsets.fromLTRB(12, 20, 12, 5), child: Text(restaurant.name, style: TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.bold))),),
       if(meals.isNotEmpty)
       Card(
         elevation: 0,
@@ -92,9 +92,9 @@ class RestaurantCard extends GenericCard {
           borderColor: Colors.transparent,
           color: const Color.fromARGB(0, 0, 0, 0),
           child: Container(
-            padding: const EdgeInsets.all(12.0),
+            padding: const EdgeInsets.fromLTRB(9, 0, 0, 0),
             width: 400,
-            child: const Text("Não há refeições disponíveis", textAlign: TextAlign.center),
+            child: const Text("Não há refeições disponíveis"),
             ))
           )
     ]);

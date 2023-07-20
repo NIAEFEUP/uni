@@ -24,7 +24,7 @@ class RestaurantSlot extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding:
-          const EdgeInsets.only(top: 10.0, bottom: 10.0, left: 10, right: 22.0),
+          const EdgeInsets.fromLTRB(9, 3.5, 0, 3.5),
       child: Container(
           key: Key('cantine-slot-type-$type'),
           child: Row(
