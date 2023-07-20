@@ -13,7 +13,8 @@ import 'package:uni/model/request_status.dart';
 abstract class StateProviderNotifier extends ChangeNotifier {
   static final Lock _lock = Lock();
   RequestStatus _status;
-  bool _initialized;
+  bool _initializedFromStorage;
+  bool _initializedFromRemote;
   DateTime? _lastUpdateTime;
   bool dependsOnSession;
   Duration? cacheDuration;
@@ -28,13 +29,15 @@ abstract class StateProviderNotifier extends ChangeNotifier {
       RequestStatus initialStatus = RequestStatus.busy,
       bool initialize = true})
       : _status = initialStatus,
-        _initialized = !initialize;
+        _initializedFromStorage = !initialize,
+        _initializedFromRemote = !initialize;
 
   Future<void> _loadFromStorage() async {
     _lastUpdateTime = await AppSharedPreferences.getLastDataClassUpdateTime(
         runtimeType.toString());
 
     await loadFromStorage();
+    notifyListeners();
     Logger().i("Loaded $runtimeType info from storage");
   }
 
@@ -102,16 +105,39 @@ abstract class StateProviderNotifier extends ChangeNotifier {
     });
   }
 
-  Future<void> ensureInitialized(Session session, Profile profile) async {
+  Future<void> ensureInitialized(BuildContext context) async {
+    await ensureInitializedFromStorage();
+
+    if (context.mounted) {
+      await ensureInitializedFromRemote(context);
+    }
+  }
+
+  Future<void> ensureInitializedFromRemote(BuildContext context) async {
     await _lock.synchronized(() async {
-      if (_initialized) {
+      if (_initializedFromRemote) {
         return;
       }
 
-      _initialized = true;
+      _initializedFromRemote = true;
 
-      await _loadFromStorage();
+      final session =
+          Provider.of<SessionProvider>(context, listen: false).session;
+      final profile =
+          Provider.of<ProfileProvider>(context, listen: false).profile;
+
       await _loadFromRemote(session, profile);
+    });
+  }
+
+  Future<void> ensureInitializedFromStorage() async {
+    await _lock.synchronized(() async {
+      if (_initializedFromStorage) {
+        return;
+      }
+
+      _initializedFromStorage = true;
+      await _loadFromStorage();
     });
   }
 

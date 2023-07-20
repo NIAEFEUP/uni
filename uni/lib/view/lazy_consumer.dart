@@ -19,28 +19,34 @@ class LazyConsumer<T extends StateProviderNotifier> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    try {
-      final sessionProvider = Provider.of<SessionProvider>(context);
-      final profileProvider = Provider.of<ProfileProvider>(context);
-
-      WidgetsBinding.instance.addPostFrameCallback((_) async {
-        final session = sessionProvider.session;
-        final profile = profileProvider.profile;
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      try {
+        // Load data stored in the database immediately
         final provider = Provider.of<T>(context, listen: false);
+        await provider.ensureInitializedFromStorage();
 
+        // If the provider fetchers depend on the session, make sure that
+        // SessionProvider and ProfileProvider are initialized
         if (provider.dependsOnSession) {
-          sessionProvider.ensureInitialized(session, profile).then((_) =>
-              profileProvider
-                  .ensureInitialized(session, profile)
-                  .then((_) => provider.ensureInitialized(session, profile)));
-        } else {
-          provider.ensureInitialized(session, profile);
+          if (context.mounted) {
+            await Provider.of<SessionProvider>(context, listen: false)
+                .ensureInitialized(context);
+          }
+          if (context.mounted) {
+            await Provider.of<ProfileProvider>(context, listen: false)
+                .ensureInitialized(context);
+          }
         }
-      });
-    } catch (_) {
-      // The provider won't be initialized
-      // Should only happen in tests
-    }
+
+        // Finally, complete provider initialization
+        if (context.mounted) {
+          await provider.ensureInitializedFromRemote(context);
+        }
+      } catch (_) {
+        // The provider won't be initialized
+        // Should only happen in tests
+      }
+    });
 
     return Consumer<T>(builder: (context, provider, _) {
       return builder(context, provider);
