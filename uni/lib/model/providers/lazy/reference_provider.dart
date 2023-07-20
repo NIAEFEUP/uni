@@ -33,11 +33,11 @@ class ReferenceProvider extends StateProviderNotifier {
     await fetchUserReferences(referencesAction, session);
   }
 
-  Future<void> fetchUserReferences(Completer<void> action,
-      Session session) async {
+  Future<void> fetchUserReferences(
+      Completer<void> action, Session session) async {
     try {
       final response =
-      await ReferenceFetcher().getUserReferenceResponse(session);
+          await ReferenceFetcher().getUserReferenceResponse(session);
       final List<Reference> references = await parseReferences(response);
 
       updateStatus(RequestStatus.successful);

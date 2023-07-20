@@ -4,7 +4,6 @@ import 'package:intl/intl.dart';
 import 'package:uni/model/entities/reference.dart';
 import 'package:uni/view/common_widgets/toast_message.dart';
 
-
 class ReferenceSection extends StatelessWidget {
   final Reference reference;
 
@@ -12,17 +11,22 @@ class ReferenceSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        TitleText(title: reference.description),
-        InfoCopyRow(infoName: 'Entidade', info: reference.entity.toString(),
-            copyMessage: 'Entidade copiada!'),
-        InfoCopyRow(infoName: 'Referência', info: reference.reference.toString(),
-            copyMessage: 'Referência copiada!'),
-        InfoCopyRow(infoName: 'Montante', info: reference.amount.toString(),
-            copyMessage: 'Montante copiado!', isMoney: true),
-      ]
-    );
+    return Column(children: <Widget>[
+      TitleText(title: reference.description),
+      InfoCopyRow(
+          infoName: 'Entidade',
+          info: reference.entity.toString(),
+          copyMessage: 'Entidade copiada!'),
+      InfoCopyRow(
+          infoName: 'Referência',
+          info: reference.reference.toString(),
+          copyMessage: 'Referência copiada!'),
+      InfoCopyRow(
+          infoName: 'Montante',
+          info: reference.amount.toString(),
+          copyMessage: 'Montante copiado!',
+          isMoney: true),
+    ]);
   }
 }
 
@@ -30,17 +34,14 @@ class InfoText extends StatelessWidget {
   final String text;
   final Color? color;
 
-  const InfoText({Key? key, required this.text, this.color})
-      : super(key: key);
+  const InfoText({Key? key, required this.text, this.color}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Text(
       text,
       textScaleFactor: 0.9,
-      style: Theme.of(context).textTheme.titleSmall?.copyWith(
-        color: color
-      ),
+      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: color),
     );
   }
 }
@@ -71,8 +72,13 @@ class InfoCopyRow extends StatelessWidget {
   final String copyMessage;
   final bool isMoney;
 
-  const InfoCopyRow({Key? key, required this.infoName, required this.info,
-      required this.copyMessage, this.isMoney = false}) : super(key: key);
+  const InfoCopyRow(
+      {Key? key,
+      required this.infoName,
+      required this.info,
+      required this.copyMessage,
+      this.isMoney = false})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -97,6 +103,6 @@ class InfoCopyRow extends StatelessWidget {
     );
   }
 
-  String _getMoneyAmount()
-      => NumberFormat.simpleCurrency(locale: 'eu').format(double.parse(info));
+  String _getMoneyAmount() =>
+      NumberFormat.simpleCurrency(locale: 'eu').format(double.parse(info));
 }

@@ -9,8 +9,6 @@ import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/entities/time_utilities.dart';
 
-
-
 Future<List<Lecture>> getOverlappedClasses(
     Session session, Document document) async {
   final List<Lecture> lecturesList = [];
@@ -38,12 +36,11 @@ Future<List<Lecture>> getOverlappedClasses(
     final String? classNumber =
         element.querySelector('td[headers=t6] > a')?.text;
 
-
     try {
       final DateTime fullStartTime = monday.add(Duration(
-        days: day,
-        hours: int.parse(startTime!.substring(0, 2)),
-        minutes: int.parse(startTime.substring(3, 5))));
+          days: day,
+          hours: int.parse(startTime!.substring(0, 2)),
+          minutes: int.parse(startTime.substring(3, 5))));
       final String? link =
           element.querySelector('td[headers=t6] > a')?.attributes['href'];
 
@@ -57,12 +54,19 @@ Future<List<Lecture>> getOverlappedClasses(
 
       lecturesList.add(classLectures
           .where((element) =>
-              element.subject == subject &&
-              element.startTime == fullStartTime)
+              element.subject == subject && element.startTime == fullStartTime)
           .first);
     } catch (e) {
-      final Lecture lect = Lecture.fromHtml(subject!, typeClass!, monday.add(Duration(days: day)),
-          startTime!, 0, room!, teacher!, classNumber!, -1);
+      final Lecture lect = Lecture.fromHtml(
+          subject!,
+          typeClass!,
+          monday.add(Duration(days: day)),
+          startTime!,
+          0,
+          room!,
+          teacher!,
+          classNumber!,
+          -1);
       lecturesList.add(lect);
     }
   }
@@ -81,7 +85,6 @@ Future<List<Lecture>> getScheduleFromHtml(
   final List<Lecture> lecturesList = [];
 
   final DateTime monday = DateTime.now().getClosestMonday();
-
 
   document.querySelectorAll('.horario > tbody > tr').forEach((Element element) {
     if (element.getElementsByClassName('horas').isNotEmpty) {
