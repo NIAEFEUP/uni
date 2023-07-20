@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:uni/model/request_status.dart';
 import 'package:uni/model/entities/bus_stop.dart';
-import 'package:uni/model/providers/bus_stop_provider.dart';
+import 'package:uni/model/providers/lazy/bus_stop_provider.dart';
+import 'package:uni/model/request_status.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/bus_stop_next_arrivals/widgets/bus_stop_row.dart';
 import 'package:uni/view/bus_stop_selection/bus_stop_selection.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
 import 'package:uni/view/common_widgets/last_update_timestamp.dart';
+import 'package:uni/view/lazy_consumer.dart';
 
 /// Manages the bus stops card displayed on the user's personal area
 class BusStopCard extends GenericCard {
@@ -24,16 +25,23 @@ class BusStopCard extends GenericCard {
 
   @override
   Widget buildCardContent(BuildContext context) {
-    return Consumer<BusStopProvider>(
-      builder: (context, busProvider, _) {
-        return getCardContent(context, busProvider.configuredBusStops, busProvider.status);
+    return LazyConsumer<BusStopProvider>(
+      builder: (context, busProvider) {
+        return getCardContent(
+            context, busProvider.configuredBusStops, busProvider.status);
       },
     );
+  }
+
+  @override
+  void onRefresh(BuildContext context) {
+    Provider.of<BusStopProvider>(context, listen: false).forceRefresh(context);
   }
 }
 
 /// Returns a widget with the bus stop card final content
-Widget getCardContent(BuildContext context, Map<String, BusStopData> stopData, busStopStatus) {
+Widget getCardContent(
+    BuildContext context, Map<String, BusStopData> stopData, busStopStatus) {
   switch (busStopStatus) {
     case RequestStatus.successful:
       if (stopData.isNotEmpty) {
@@ -113,7 +121,7 @@ Widget getBusStopsInfo(context, Map<String, BusStopData> stopData) {
 List<Widget> getEachBusStopInfo(context, Map<String, BusStopData> stopData) {
   final List<Widget> rows = <Widget>[];
 
-  rows.add(const LastUpdateTimeStamp());
+  rows.add(const LastUpdateTimeStamp<BusStopProvider>());
 
   stopData.forEach((stopCode, stopInfo) {
     if (stopInfo.trips.isNotEmpty && stopInfo.favorited) {

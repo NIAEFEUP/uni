@@ -33,7 +33,8 @@ class ScheduleSlot extends StatelessWidget {
       padding: const EdgeInsets.only(
           top: 10.0, bottom: 10.0, left: 22.0, right: 22.0),
       child: Container(
-          key: Key('schedule-slot-time-$begin-$end'),
+          key: Key(
+              'schedule-slot-time-${DateFormat("HH:mm").format(begin)}-${DateFormat("HH:mm").format(end)}'),
           margin: const EdgeInsets.only(top: 3.0, bottom: 3.0),
           child: Row(
             mainAxisSize: MainAxisSize.max,

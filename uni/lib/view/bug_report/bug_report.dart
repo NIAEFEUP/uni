@@ -18,4 +18,7 @@ class BugReportPageViewState extends GeneralPageViewState<BugReportPageView> {
         margin: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 20.0),
         child: const BugReportForm());
   }
+
+  @override
+  Future<void> onRefresh(BuildContext context) async {}
 }

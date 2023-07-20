@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:uni/model/entities/course_unit.dart';
+import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
 import 'package:uni/view/course_unit_info/course_unit_info.dart';
 
@@ -11,7 +11,7 @@ class CourseUnitCard extends GenericCard {
       : super.customStyle(
             key: key,
             margin: const EdgeInsets.only(top: 10),
-            smallTitle: true,
+            hasSmallTitle: true,
             onDelete: () => null,
             editingMode: false);
 
@@ -42,4 +42,7 @@ class CourseUnitCard extends GenericCard {
         MaterialPageRoute(
             builder: (context) => CourseUnitDetailPageView(courseUnit)));
   }
+
+  @override
+  void onRefresh(BuildContext context) {}
 }

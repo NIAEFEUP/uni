@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:uni/model/providers/restaurant_provider.dart';
+import 'package:uni/model/providers/lazy/restaurant_provider.dart';
 import 'package:uni/view/common_widgets/date_rectangle.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
 import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
 import 'package:uni/view/common_widgets/row_container.dart';
 import 'package:uni/view/home/widgets/restaurant_row.dart';
+import 'package:uni/view/lazy_consumer.dart';
 
 class RestaurantCard extends GenericCard {
   RestaurantCard({Key? key}) : super(key: key);
@@ -18,22 +19,26 @@ class RestaurantCard extends GenericCard {
   String getTitle() => 'Cantinas';
 
   @override
-  onClick(BuildContext context) => null;
+  onClick(BuildContext context) {}
+
+  @override
+  void onRefresh(BuildContext context) {
+    Provider.of<RestaurantProvider>(context, listen: false)
+        .forceRefresh(context);
+  }
 
   @override
   Widget buildCardContent(BuildContext context) {
-    return Consumer<RestaurantProvider>(
-        builder: (context, restaurantProvider, _) =>
-            RequestDependentWidgetBuilder(
-                context: context,
-                status: restaurantProvider.status,
-                contentGenerator: generateRestaurant,
-                content: restaurantProvider.restaurants,
-                contentChecker: restaurantProvider.restaurants.isNotEmpty,
-                onNullContent: Center(
-                    child: Text('Não existem cantinas para apresentar',
-                        style: Theme.of(context).textTheme.headlineMedium,
-                        textAlign: TextAlign.center))));
+    return LazyConsumer<RestaurantProvider>(
+        builder: (context, restaurantProvider) => RequestDependentWidgetBuilder(
+            status: restaurantProvider.status,
+            builder: () =>
+                generateRestaurant(restaurantProvider.restaurants, context),
+            hasContentPredicate: restaurantProvider.restaurants.isNotEmpty,
+            onNullContent: Center(
+                child: Text('Não existem cantinas para apresentar',
+                    style: Theme.of(context).textTheme.headlineMedium,
+                    textAlign: TextAlign.center))));
   }
 
   Widget generateRestaurant(canteens, context) {
