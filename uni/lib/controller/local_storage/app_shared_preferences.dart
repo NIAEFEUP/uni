@@ -7,18 +7,19 @@ import 'package:tuple/tuple.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/utils/favorite_widget_type.dart';
 
-
 /// Manages the app's Shared Preferences.
 ///
 /// This database stores the user's student number, password and favorite
 /// widgets.
 class AppSharedPreferences {
+  static const lastUpdateTimeKeySuffix = "_last_update_time";
   static const String userNumber = 'user_number';
   static const String userPw = 'user_password';
   static const String userFaculties = 'user_faculties';
   static const String termsAndConditions = 'terms_and_conditions';
   static const String areTermsAndConditionsAcceptedKey = 'is_t&c_accepted';
-  static const String tuitionNotificationsToggleKey = "tuition_notification_toogle";
+  static const String tuitionNotificationsToggleKey =
+      "tuition_notification_toogle";
   static const String themeMode = 'theme_mode';
   static const int keyLength = 32;
   static const int ivLength = 16;
@@ -34,6 +35,20 @@ class AppSharedPreferences {
   static const String favoriteRestaurants = 'favorite_restaurants';
   static const String filteredExamsTypes = 'filtered_exam_types';
   static final List<String> defaultFilteredExamTypes = Exam.displayedTypes;
+
+  /// Returns the last time the data with given key was updated.
+  static Future<DateTime?> getLastDataClassUpdateTime(String dataKey) async {
+    final prefs = await SharedPreferences.getInstance();
+    final lastUpdateTime = prefs.getString(dataKey + lastUpdateTimeKeySuffix);
+    return lastUpdateTime != null ? DateTime.parse(lastUpdateTime) : null;
+  }
+
+  /// Sets the last time the data with given key was updated.
+  static Future<void> setLastDataClassUpdateTime(
+      String dataKey, DateTime dateTime) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString(dataKey + lastUpdateTimeKeySuffix, dateTime.toString());
+  }
 
   /// Saves the user's student number, password and faculties.
   static Future savePersistentUserInfo(user, pass, faculties) async {
@@ -165,15 +180,16 @@ class AppSharedPreferences {
 
   static saveHiddenExams(List<String> newHiddenExams) async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.setStringList(
-        hiddenExams, newHiddenExams);
+    prefs.setStringList(hiddenExams, newHiddenExams);
   }
 
   static Future<List<String>> getHiddenExams() async {
     final prefs = await SharedPreferences.getInstance();
-    final List<String> storedHiddenExam = prefs.getStringList(hiddenExams) ?? [];
+    final List<String> storedHiddenExam =
+        prefs.getStringList(hiddenExams) ?? [];
     return storedHiddenExam;
   }
+
   /// Replaces the user's exam filter settings with [newFilteredExamTypes].
   static saveFilteredExams(Map<String, bool> newFilteredExamTypes) async {
     final prefs = await SharedPreferences.getInstance();
@@ -215,15 +231,14 @@ class AppSharedPreferences {
     return encrypt.Encrypter(encrypt.AES(key));
   }
 
-  static Future<bool> getTuitionNotificationToggle() async{
+  static Future<bool> getTuitionNotificationToggle() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getBool(tuitionNotificationsToggleKey) ?? true;
   }
 
-  static setTuitionNotificationToggle(bool value) async{
+  static setTuitionNotificationToggle(bool value) async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setBool(tuitionNotificationsToggleKey, value);
   }
-
 }
 

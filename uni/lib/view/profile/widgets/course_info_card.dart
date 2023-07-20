@@ -18,11 +18,14 @@ class CourseInfoCard extends GenericCard {
             Container(
               margin: const EdgeInsets.only(top: 20.0, bottom: 8.0, left: 20.0),
               child: Text('Ano curricular atual: ',
-                  style: Theme.of(context).textTheme.subtitle2),
+                  style: Theme
+                      .of(context)
+                      .textTheme
+                      .titleSmall),
             ),
             Container(
               margin:
-                  const EdgeInsets.only(top: 20.0, bottom: 8.0, right: 20.0),
+              const EdgeInsets.only(top: 20.0, bottom: 8.0, right: 20.0),
               child: getInfoText(course.currYear ?? 'Indisponível', context),
             )
           ]),
@@ -30,11 +33,14 @@ class CourseInfoCard extends GenericCard {
             Container(
               margin: const EdgeInsets.only(top: 10.0, bottom: 8.0, left: 20.0),
               child: Text('Estado atual: ',
-                  style: Theme.of(context).textTheme.subtitle2),
+                  style: Theme
+                      .of(context)
+                      .textTheme
+                      .titleSmall),
             ),
             Container(
               margin:
-                  const EdgeInsets.only(top: 10.0, bottom: 8.0, right: 20.0),
+              const EdgeInsets.only(top: 10.0, bottom: 8.0, right: 20.0),
               child: getInfoText(course.state ?? 'Indisponível', context),
             )
           ]),
@@ -42,14 +48,18 @@ class CourseInfoCard extends GenericCard {
             Container(
               margin: const EdgeInsets.only(top: 10.0, bottom: 8.0, left: 20.0),
               child: Text('Ano da primeira inscrição: ',
-                  style: Theme.of(context).textTheme.subtitle2),
+                  style: Theme
+                      .of(context)
+                      .textTheme
+                      .titleSmall),
             ),
             Container(
                 margin:
-                    const EdgeInsets.only(top: 10.0, bottom: 8.0, right: 20.0),
+                const EdgeInsets.only(top: 10.0, bottom: 8.0, right: 20.0),
                 child: getInfoText(
                     course.firstEnrollment != null
-                        ? '${course.firstEnrollment}/${course.firstEnrollment! + 1}'
+                        ? '${course.firstEnrollment}/${course.firstEnrollment! +
+                        1}'
                         : '?',
                     context))
           ]),
@@ -57,23 +67,29 @@ class CourseInfoCard extends GenericCard {
             Container(
               margin: const EdgeInsets.only(top: 10.0, bottom: 8.0, left: 20.0),
               child: Text('Faculdade: ',
-                  style: Theme.of(context).textTheme.subtitle2),
+                  style: Theme
+                      .of(context)
+                      .textTheme
+                      .titleSmall),
             ),
             Container(
                 margin:
-                    const EdgeInsets.only(top: 10.0, bottom: 8.0, right: 20.0),
+                const EdgeInsets.only(top: 10.0, bottom: 8.0, right: 20.0),
                 child: getInfoText(
                     course.faculty?.toUpperCase() ?? 'Indisponível', context))
           ]),
           TableRow(children: [
             Container(
               margin: const EdgeInsets.only(top: 10.0, bottom: 8.0, left: 20.0),
-              child:
-                  Text('Média: ', style: Theme.of(context).textTheme.subtitle2),
+              child: Text('Média: ',
+                  style: Theme
+                      .of(context)
+                      .textTheme
+                      .titleSmall),
             ),
             Container(
                 margin:
-                    const EdgeInsets.only(top: 10.0, bottom: 8.0, right: 20.0),
+                const EdgeInsets.only(top: 10.0, bottom: 8.0, right: 20.0),
                 child: getInfoText(
                     course.currentAverage?.toString() ?? 'Indisponível',
                     context))
@@ -81,13 +97,16 @@ class CourseInfoCard extends GenericCard {
           TableRow(children: [
             Container(
               margin:
-                  const EdgeInsets.only(top: 10.0, bottom: 20.0, left: 20.0),
+              const EdgeInsets.only(top: 10.0, bottom: 20.0, left: 20.0),
               child: Text('ECTs realizados: ',
-                  style: Theme.of(context).textTheme.subtitle2),
+                  style: Theme
+                      .of(context)
+                      .textTheme
+                      .titleSmall),
             ),
             Container(
                 margin:
-                    const EdgeInsets.only(top: 10.0, bottom: 20.0, right: 20.0),
+                const EdgeInsets.only(top: 10.0, bottom: 20.0, right: 20.0),
                 child: getInfoText(
                     course.finishedEcts?.toString().replaceFirst('.0', '') ??
                         '?',
@@ -103,4 +122,7 @@ class CourseInfoCard extends GenericCard {
 
   @override
   onClick(BuildContext context) {}
+
+  @override
+  void onRefresh(BuildContext context) {}
 }

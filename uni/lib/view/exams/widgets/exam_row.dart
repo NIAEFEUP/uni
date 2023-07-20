@@ -1,13 +1,13 @@
 import 'dart:async';
 
+import 'package:add_2_calendar/add_2_calendar.dart';
 import 'package:flutter/material.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/entities/exam.dart';
-import 'package:uni/model/providers/exam_provider.dart';
-import 'package:uni/view/exams/widgets/exam_title.dart';
+import 'package:uni/model/providers/lazy/exam_provider.dart';
 import 'package:uni/view/exams/widgets/exam_time.dart';
-import 'package:add_2_calendar/add_2_calendar.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:uni/view/exams/widgets/exam_title.dart';
 
 class ExamRow extends StatefulWidget {
   final Exam exam;
@@ -30,7 +30,8 @@ class ExamRow extends StatefulWidget {
 class _ExamRowState extends State<ExamRow> {
   @override
   Widget build(BuildContext context) {
-    final isHidden = Provider.of<ExamProvider>(context).hiddenExams.contains(widget.exam.id);
+    final isHidden =
+        Provider.of<ExamProvider>(context).hiddenExams.contains(widget.exam.id);
     final roomsKey =
         '${widget.exam.subject}-${widget.exam.rooms}-${widget.exam.beginTime}-${widget.exam.endTime}';
     return Center(
@@ -52,8 +53,8 @@ class _ExamRowState extends State<ExamRow> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               ExamTime(
-                                  begin: widget.exam.beginTime,
-                                  end: widget.exam.endTime)
+                                begin: widget.exam.beginTime,
+                              )
                             ]),
                         ExamTitle(
                             subject: widget.exam.subject,
@@ -79,8 +80,7 @@ class _ExamRowState extends State<ExamRow> {
                                                   widget.exam.id, Completer());
                                         })),
                               IconButton(
-                                  icon: const Icon(MdiIcons.calendarPlus,
-                                      size: 30),
+                                  icon: Icon(MdiIcons.calendarPlus, size: 30),
                                   onPressed: () => Add2Calendar.addEvent2Cal(
                                       createExamEvent())),
                             ]),
@@ -105,7 +105,7 @@ class _ExamRowState extends State<ExamRow> {
   List<Text> roomsList(BuildContext context, List rooms) {
     return rooms
         .map((room) =>
-            Text(room.trim(), style: Theme.of(context).textTheme.bodyText2))
+            Text(room.trim(), style: Theme.of(context).textTheme.bodyMedium))
         .toList();
   }
 

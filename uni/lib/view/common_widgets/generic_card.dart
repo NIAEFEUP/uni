@@ -5,7 +5,7 @@ import 'package:uni/model/entities/time_utilities.dart';
 abstract class GenericCard extends StatefulWidget {
   final EdgeInsetsGeometry margin;
   final Widget cardAction;
-  final bool smallTitle;
+  final bool hasSmallTitle;
   final bool editingMode;
   final Function()? onDelete;
 
@@ -22,7 +22,7 @@ abstract class GenericCard extends StatefulWidget {
         this.cardAction = const SizedBox.shrink(),
       required this.onDelete,
       this.margin = const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-      this.smallTitle = false})
+      this.hasSmallTitle = false})
       : super(key: key);
 
   @override
@@ -34,12 +34,14 @@ abstract class GenericCard extends StatefulWidget {
 
   String getTitle();
 
-  dynamic onClick(BuildContext context);
+  void onClick(BuildContext context);
+
+  void onRefresh(BuildContext context);
 
   Text getInfoText(String text, BuildContext context) {
     return Text(text,
         textAlign: TextAlign.end,
-        style: Theme.of(context).textTheme.headline6!);
+        style: Theme.of(context).textTheme.titleLarge!);
   }
 
   showLastRefreshedTime(String? time, context) {
@@ -55,7 +57,7 @@ abstract class GenericCard extends StatefulWidget {
     return Container(
         alignment: Alignment.center,
         child: Text('última atualização às ${parsedTime.toTimeHourMinString()}',
-            style: Theme.of(context).textTheme.caption));
+            style: Theme.of(context).textTheme.bodySmall));
   }
 }
 
@@ -106,11 +108,11 @@ class GenericCardState extends State<GenericCard> {
                                 padding: const EdgeInsets.symmetric(horizontal: 15),
                                 margin: const EdgeInsets.only(top: 15, bottom: 10),
                                 child: Text(widget.getTitle(),
-                                    style: (widget.smallTitle
-                                            ? Theme.of(context).textTheme.headline6!
+                                    style: (widget.hasSmallTitle
+                                            ? Theme.of(context).textTheme.titleLarge!
                                             : Theme.of(context)
                                                 .textTheme
-                                                .headline5!)
+                                                .headlineSmall!)
                                         .copyWith(
                                             color: Theme.of(context).primaryColor)),
                               )

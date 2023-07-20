@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:uni/controller/fetchers/departures_fetcher.dart';
 import 'package:uni/controller/local_storage/app_bus_stop_database.dart';
 import 'package:uni/model/entities/bus_stop.dart';
-import 'package:uni/model/providers/bus_stop_provider.dart';
+import 'package:uni/model/providers/lazy/bus_stop_provider.dart';
 import 'package:uni/view/bus_stop_selection/widgets/form.dart';
 
 /// Manages the section of the app displayed when the
@@ -84,7 +84,7 @@ class BusStopSearch extends SearchDelegate<String> {
         updateStopCallback);
     return AlertDialog(
         title: Text('Seleciona os autocarros dos quais queres informação:',
-            style: Theme.of(context).textTheme.headline5),
+            style: Theme.of(context).textTheme.headlineSmall),
         content: SizedBox(
           height: 200.0,
           width: 100.0,
@@ -93,7 +93,7 @@ class BusStopSearch extends SearchDelegate<String> {
         actions: [
           TextButton(
               child: Text('Cancelar',
-                  style: Theme.of(context).textTheme.bodyText2),
+                  style: Theme.of(context).textTheme.bodyMedium),
               onPressed: () => Navigator.pop(context)),
           ElevatedButton(
               child: const Text('Confirmar'),

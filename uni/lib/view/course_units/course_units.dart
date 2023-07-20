@@ -1,14 +1,15 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:uni/model/entities/course_units/course_unit.dart';
+import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/model/request_status.dart';
-import 'package:uni/model/entities/course_unit.dart';
-import 'package:uni/model/providers/profile_state_provider.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
 import 'package:uni/view/course_units/widgets/course_unit_card.dart';
+import 'package:uni/view/lazy_consumer.dart';
 
 class CourseUnitsPageView extends StatefulWidget {
   const CourseUnitsPageView({Key? key}) : super(key: key);
@@ -28,11 +29,11 @@ class CourseUnitsPageViewState
 
   @override
   Widget getBody(BuildContext context) {
-    return Consumer<ProfileStateProvider>(
-        builder: (context, profileProvider, _) {
-      final List<CourseUnit> courseUnits = profileProvider.currUcs;
+    return LazyConsumer<ProfileProvider>(builder: (context, profileProvider) {
+      final List<CourseUnit> courseUnits = profileProvider.profile.courseUnits;
       List<String> availableYears = [];
       List<String> availableSemesters = [];
+
       if (courseUnits.isNotEmpty) {
         availableYears = _getAvailableYears(courseUnits);
         if (availableYears.isNotEmpty && selectedSchoolYear == null) {
@@ -52,18 +53,16 @@ class CourseUnitsPageViewState
                   ? availableSemesters[0]
                   : availableSemesters[1];
         }
-
-        return _getPageView(courseUnits, profileProvider.status, availableYears,
-            availableSemesters);
-      } else {
-        return Container();
       }
+
+      return _getPageView(courseUnits, profileProvider.status, availableYears,
+          availableSemesters);
     });
   }
 
   Widget _getPageView(
       List<CourseUnit>? courseUnits,
-      RequestStatus? requestStatus,
+      RequestStatus requestStatus,
       List<String> availableYears,
       List<String> availableSemesters) {
     final List<CourseUnit>? filteredCourseUnits =
@@ -79,15 +78,14 @@ class CourseUnitsPageViewState
     return Column(children: [
       _getPageTitleAndFilters(availableYears, availableSemesters),
       RequestDependentWidgetBuilder(
-          context: context,
-          status: requestStatus ?? RequestStatus.none,
-          contentGenerator: _generateCourseUnitsCards,
-          content: filteredCourseUnits ?? [],
-          contentChecker: courseUnits?.isNotEmpty ?? false,
+          status: requestStatus,
+          builder: () =>
+              _generateCourseUnitsCards(filteredCourseUnits, context),
+          hasContentPredicate: courseUnits?.isNotEmpty ?? false,
           onNullContent: Center(
             heightFactor: 10,
             child: Text('Não existem cadeiras para apresentar',
-                style: Theme.of(context).textTheme.headline6),
+                style: Theme.of(context).textTheme.titleLarge),
           ))
     ]);
   }
@@ -142,7 +140,7 @@ class CourseUnitsPageViewState
       return Center(
           heightFactor: 10,
           child: Text('Sem cadeiras no período selecionado',
-              style: Theme.of(context).textTheme.headline6));
+              style: Theme.of(context).textTheme.titleLarge));
     }
     return Expanded(
         child: Container(
@@ -192,5 +190,11 @@ class CourseUnitsPageViewState
             .toList()
             .sorted() +
         [CourseUnitsPageView.bothSemestersDropdownOption];
+  }
+
+  @override
+  Future<void> onRefresh(BuildContext context) {
+    return Provider.of<ProfileProvider>(context, listen: false)
+        .forceRefresh(context);
   }
 }

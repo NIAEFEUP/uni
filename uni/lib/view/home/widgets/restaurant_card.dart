@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:uni/model/providers/restaurant_provider.dart';
+import 'package:uni/model/providers/lazy/restaurant_provider.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
 import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
 import 'package:uni/view/common_widgets/row_container.dart';
@@ -9,6 +9,7 @@ import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/utils/day_of_week.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/restaurant/widgets/restaurant_slot.dart';
+import 'package:uni/view/lazy_consumer.dart';
 
 final int weekDay = DateTime.now().weekday;
 final offset = (weekDay > 5) ? 0 : (weekDay - 1) % DayOfWeek.values.length;
@@ -27,26 +28,33 @@ class RestaurantCard extends GenericCard {
   onClick(BuildContext context) => Navigator.pushNamed(context, '/${DrawerItem.navRestaurants.title}');
 
   @override
+  void onRefresh(BuildContext context) {
+    Provider.of<RestaurantProvider>(context, listen: false)
+        .forceRefresh(context);
+  }
+
+  @override
   Widget buildCardContent(BuildContext context) {
-    return Consumer<RestaurantProvider>(builder: (context, restaurantProvider, _) {
-      final List<Restaurant> favoriteRestaurants = restaurantProvider.restaurants.where((restaurant) => restaurantProvider.favoriteRestaurants.contains(restaurant.name)).toList();
-      return RequestDependentWidgetBuilder(
-          context: context,
-          status: restaurantProvider.status,
-          contentGenerator: generateRestaurants,
-          content: favoriteRestaurants,
-          contentChecker: favoriteRestaurants.isNotEmpty,
-          onNullContent: Column(children: [
-                            Padding(
-                                padding: const EdgeInsets.only(top: 15, bottom: 10),
-                                child: Center(
-                                  child: Text('Sem restaurantes favoritos',
-                                  style: Theme.of(context).textTheme.subtitle1))),
-                                  OutlinedButton(
+    return LazyConsumer<RestaurantProvider>(
+        builder: (context, restaurantProvider) {
+          final List<Restaurant> favoriteRestaurants = restaurantProvider.restaurants.where((restaurant) => restaurantProvider.favoriteRestaurants.contains(restaurant.name)).toList();
+          return RequestDependentWidgetBuilder(
+            status: restaurantProvider.status,
+            builder: () =>
+                generateRestaurants(favoriteRestaurants, context),
+            hasContentPredicate: favoriteRestaurants.isNotEmpty,
+              onNullContent: Column(children: [
+                                Padding(
+                                    padding: const EdgeInsets.only(top: 15, bottom: 10),
+                                    child: Center(
+                                        child: Text('Sem restaurantes favoritos',
+                                            style: Theme.of(context).textTheme.titleMedium))),
+                                OutlinedButton(
                                     onPressed: () => Navigator.pushNamed(context, '/${DrawerItem.navRestaurants.title}'),
                                     child: const Text('Adicionar'))
-      ]));
-  });}
+              ]));
+        });
+  }
 
 
   Widget generateRestaurants(dynamic data, BuildContext context) {

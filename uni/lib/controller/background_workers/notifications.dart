@@ -76,14 +76,14 @@ class NotificationManager {
       if (lastRan.add(notification.timeout).isBefore(DateTime.now())) {
         await notification.displayNotificationIfPossible(
             session, _localNotificationsPlugin);
-        notificationStorage.addLastTimeNotificationExecuted(
+        await notificationStorage.addLastTimeNotificationExecuted(
             notification.uniqueID, DateTime.now());
       }
     }
   }
 
   void initializeNotifications() async {
-    //guarentees that the execution is only done once in the lifetime of the app.
+    // guarantees that the execution is only done once in the lifetime of the app.
     if (_initialized) return;
     _initialized = true;
     _initFlutterNotificationsPlugin();

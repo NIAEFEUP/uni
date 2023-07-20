@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/entities/exam.dart';
-import 'package:uni/model/providers/exam_provider.dart';
+import 'package:uni/model/providers/lazy/exam_provider.dart';
 
 class ExamFilterForm extends StatefulWidget {
   final Map<String, bool> filteredExamsTypes;
@@ -19,11 +19,11 @@ class ExamFilterFormState extends State<ExamFilterForm> {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text('Definições Filtro de Exames',
-          style: Theme.of(context).textTheme.headline5),
+          style: Theme.of(context).textTheme.headlineSmall),
       actions: [
         TextButton(
             child:
-                Text('Cancelar', style: Theme.of(context).textTheme.bodyText2),
+                Text('Cancelar', style: Theme.of(context).textTheme.bodyMedium),
             onPressed: () => Navigator.pop(context)),
         ElevatedButton(
             child: const Text('Confirmar'),
@@ -43,8 +43,7 @@ class ExamFilterFormState extends State<ExamFilterForm> {
 
   Widget getExamCheckboxes(
       Map<String, bool> filteredExams, BuildContext context) {
-    filteredExams
-        .removeWhere((key, value) => !Exam.types.containsKey(key));
+    filteredExams.removeWhere((key, value) => !Exam.types.containsKey(key));
     return ListView(
         children: List.generate(filteredExams.length, (i) {
       final String key = filteredExams.keys.elementAt(i);

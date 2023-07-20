@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:uni/model/entities/location.dart';
 import 'package:uni/model/entities/location_group.dart';
-import 'package:uni/view/locations/widgets/faculty_maps.dart';
+import 'package:uni/view/locations/widgets/faculty_map.dart';
 
 class FloorlessLocationMarkerPopup extends StatelessWidget {
   const FloorlessLocationMarkerPopup(this.locationGroup,
@@ -15,7 +15,7 @@ class FloorlessLocationMarkerPopup extends StatelessWidget {
     final List<Location> locations =
         locationGroup.floors.values.expand((x) => x).toList();
     return Card(
-      color: Theme.of(context).backgroundColor.withOpacity(0.8),
+      color: Theme.of(context).colorScheme.background.withOpacity(0.8),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),
       ),
@@ -26,8 +26,9 @@ class FloorlessLocationMarkerPopup extends StatelessWidget {
             spacing: 8,
             children: (showId
                     ? <Widget>[Text(locationGroup.id.toString())]
-                    : <Widget>[]) +
-                buildLocations(context, locations),
+                    : <Widget>[])
+                + locations.map((location) => LocationRow(location: location))
+                    .toList(),
           )),
     );
   }
@@ -35,13 +36,31 @@ class FloorlessLocationMarkerPopup extends StatelessWidget {
   List<Widget> buildLocations(BuildContext context, List<Location> locations) {
     return locations
         .map((location) => Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(location.description(),
-                    textAlign: TextAlign.left,
-                    style: TextStyle(color: FacultyMaps.getFontColor(context)))
-              ],
-            ))
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(location.description(),
+                  textAlign: TextAlign.left,
+                  style: TextStyle(color: FacultyMap.getFontColor(context)))
+            ],
+        ))
         .toList();
+  }
+}
+
+class LocationRow extends StatelessWidget {
+  final Location location;
+
+  const LocationRow({Key? key, required this.location}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(location.description(),
+            textAlign: TextAlign.left,
+            style: TextStyle(color: FacultyMap.getFontColor(context)))
+      ],
+    );
   }
 }

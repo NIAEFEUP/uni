@@ -84,17 +84,17 @@ class SplashScreenState extends State<SplashScreen> {
         ),
         child: SizedBox(
             width: 150.0,
-            child: SvgPicture.asset(
-              'assets/images/logo_dark.svg',
-              color: Theme.of(context).primaryColor,
-            )));
+            child: SvgPicture.asset('assets/images/logo_dark.svg',
+                colorFilter: ColorFilter.mode(
+                    Theme.of(context).primaryColor, BlendMode.srcIn))));
   }
 
   /// Creates the app main logo
   Widget createNILogo(BuildContext context) {
     return SvgPicture.asset(
       'assets/images/by_niaefeup.svg',
-      color: Theme.of(context).primaryColor,
+      colorFilter:
+          ColorFilter.mode(Theme.of(context).primaryColor, BlendMode.srcIn),
       width: queryData.size.width * 0.45,
     );
   }
@@ -131,8 +131,8 @@ class SplashScreenState extends State<SplashScreen> {
         if (mounted) {
           final List<String> faculties =
               await AppSharedPreferences.getUserFaculties();
-          stateProviders.sessionProvider
-              .reLogin(userName, password, faculties, stateProviders);
+          await stateProviders.sessionProvider
+              .reLogin(userName, password, faculties);
         }
         return MaterialPageRoute(builder: (context) => const HomePageView());
 

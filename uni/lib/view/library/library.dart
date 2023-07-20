@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/entities/library_occupation.dart';
-import 'package:uni/model/providers/library_occupation_provider.dart';
+import 'package:uni/model/providers/lazy/library_occupation_provider.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
+import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/library/widgets/library_occupation_card.dart';
 
 class LibraryPageView extends StatefulWidget {
@@ -17,24 +18,15 @@ class LibraryPageView extends StatefulWidget {
 class LibraryPageViewState extends GeneralPageViewState<LibraryPageView> {
   @override
   Widget getBody(BuildContext context) {
-    return Consumer<LibraryOccupationProvider>(
-        builder: (context, libraryOccupationProvider, _) =>
+    return LazyConsumer<LibraryOccupationProvider>(
+        builder: (context, libraryOccupationProvider) =>
             LibraryPage(libraryOccupationProvider.occupation));
+  }
 
-/*
-     return StoreConnector<AppState, Tuple2<LibraryOccupation?, RequestStatus>>(
-         converter: (store) {
-       final LibraryOccupation? occupation =
-           store.state.content['libraryOccupation'];
-       return Tuple2(occupation, store.state.content['libraryOccupationStatus']);
-     }, builder: (context, occupationInfo) {
-       if (occupationInfo.item2 == RequestStatus.busy) {
-         return const Center(child: CircularProgressIndicator());
-       } else {
-         return LibraryPage(occupationInfo.item1);
-       }
-     });
-     */
+  @override
+  Future<void> onRefresh(BuildContext context) {
+    return Provider.of<LibraryOccupationProvider>(context, listen: false)
+        .forceRefresh(context);
   }
 }
 
@@ -94,13 +86,13 @@ class LibraryPage extends StatelessWidget {
       child:
           Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
         Text('Piso ${floor.number}',
-            style: Theme.of(context).textTheme.headline5),
+            style: Theme.of(context).textTheme.headlineSmall),
         Text('${floor.percentage}%',
-            style: Theme.of(context).textTheme.headline6),
+            style: Theme.of(context).textTheme.titleLarge),
         Text('${floor.occupation}/${floor.capacity}',
             style: Theme.of(context)
                 .textTheme
-                .headline6
+                .titleLarge
                 ?.copyWith(color: Theme.of(context).colorScheme.background)),
         LinearPercentIndicator(
           lineHeight: 7.0,

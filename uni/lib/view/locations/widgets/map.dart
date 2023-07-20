@@ -59,16 +59,16 @@ class LocationsMap extends StatelessWidget {
           )
         ],
         children: <Widget>[
-          TileLayerWidget(
-            options: TileLayerOptions(
-              urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-              subdomains: <String>['a', 'b', 'c'],
-              tileProvider: CachedTileProvider(),
-            ),
+          TileLayer(
+            urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+            subdomains: const <String>['a', 'b', 'c'],
+            tileProvider: CachedTileProvider(),
           ),
           PopupMarkerLayerWidget(
             options: PopupMarkerLayerOptions(
-              markers: _getMarkers(),
+              markers: locations.map((location) {
+                return LocationMarker(location.latlng, location);
+              }).toList(),
               popupController: _popupLayerController,
               popupAnimation: const PopupAnimation.fade(
                   duration: Duration(milliseconds: 400)),
@@ -84,21 +84,15 @@ class LocationsMap extends StatelessWidget {
           ),
         ]);
   }
-
-  List<Marker> _getMarkers() {
-    return locations.map((location) {
-      return LocationMarker(location.latlng, location);
-    }).toList();
-  }
 }
 
 class CachedTileProvider extends TileProvider {
   CachedTileProvider();
 
   @override
-  ImageProvider getImage(Coords<num> coords, TileLayerOptions options) {
+  ImageProvider getImage(TileCoordinates coordinates, TileLayer options) {
     return CachedNetworkImageProvider(
-      getTileUrl(coords, options),
+      getTileUrl(coordinates, options),
     );
   }
 }

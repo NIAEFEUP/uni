@@ -11,15 +11,6 @@ class RestaurantSlot extends StatelessWidget {
     required this.name,
   }) : super(key: key);
 
-  static const mealTypeIcons = {
-    'sopa': 'assets/meal-icons/soup.svg',
-    'carne': 'assets/meal-icons/chicken.svg',
-    'peixe': 'assets/meal-icons/fish.svg',
-    'dieta': 'assets/meal-icons/diet.svg',
-    'vegetariano': 'assets/meal-icons/vegetarian.svg',
-    'salada': 'assets/meal-icons/salad.svg',
-  };
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -33,7 +24,7 @@ class RestaurantSlot extends StatelessWidget {
                   margin: const EdgeInsets.fromLTRB(0, 0, 8.0, 0),
                   child: SizedBox(
                     width: 20,
-                    child: createCanteenSlotType(context),
+                    child: RestaurantSlotType(type: type),
                   )),
               Flexible(
                   child: Text(
@@ -45,23 +36,39 @@ class RestaurantSlot extends StatelessWidget {
           )),
     );
   }
+}
 
-  Widget createCanteenSlotType(context) {
-    final mealsType = type.toLowerCase();
+class RestaurantSlotType extends StatelessWidget {
+  final String type;
 
-    final icon = mealTypeIcons.entries
-        .firstWhere((element) => mealsType.contains(element.key),
-            orElse: () => const MapEntry('', ''))
-        .value;
+  static const mealTypeIcons = {
+    'sopa': 'assets/meal-icons/soup.svg',
+    'carne': 'assets/meal-icons/chicken.svg',
+    'peixe': 'assets/meal-icons/fish.svg',
+    'dieta': 'assets/meal-icons/diet.svg',
+    'vegetariano': 'assets/meal-icons/vegetarian.svg',
+    'salada': 'assets/meal-icons/salad.svg',
+  };
 
+  const RestaurantSlotType({Key? key, required this.type}): super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final String icon = getIcon();
     return Tooltip(
         message: type,
         child: icon != ''
             ? SvgPicture.asset(
-                icon,
-                color: Theme.of(context).primaryColor,
-                height: 20,
-              )
+          icon,
+          colorFilter: ColorFilter.mode(
+              Theme.of(context).primaryColor, BlendMode.srcIn),
+          height: 20,
+        )
             : null);
   }
+
+  String getIcon() => mealTypeIcons.entries
+      .firstWhere((element) => type.toLowerCase().contains(element.key),
+          orElse: () => const MapEntry('', ''))
+      .value;
 }

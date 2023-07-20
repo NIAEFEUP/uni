@@ -2,7 +2,7 @@ import 'package:currency_text_input_formatter/currency_text_input_formatter.dart
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/controller/fetchers/print_fetcher.dart';
-import 'package:uni/model/providers/session_provider.dart';
+import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/view/common_widgets/toast_message.dart';
 
 Future<void> addMoneyDialog(BuildContext context) async {
@@ -34,7 +34,7 @@ Future<void> addMoneyDialog(BuildContext context) async {
                         child: Text(
                             'Os dados da referência gerada aparecerão no Sigarra, conta corrente. \nPerfil > Conta Corrente',
                             textAlign: TextAlign.start,
-                            style: Theme.of(context).textTheme.subtitle2)),
+                            style: Theme.of(context).textTheme.titleSmall)),
                     Row(children: [
                       IconButton(
                         icon: const Icon(Icons.indeterminate_check_box),
@@ -85,11 +85,11 @@ Future<void> addMoneyDialog(BuildContext context) async {
                   ],
                 )),
             title: Text('Adicionar quota',
-                style: Theme.of(context).textTheme.headline5),
+                style: Theme.of(context).textTheme.headlineSmall),
             actions: [
               TextButton(
                   child: Text('Cancelar',
-                      style: Theme.of(context).textTheme.bodyText2),
+                      style: Theme.of(context).textTheme.bodyMedium),
                   onPressed: () => Navigator.pop(context)),
               ElevatedButton(
                 onPressed: () => generateReference(context, value),
