@@ -9,6 +9,7 @@ import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
 import 'package:uni/view/lazy_consumer.dart';
+import 'package:uni/view/common_widgets/expanded_image_label.dart';
 import 'package:uni/view/schedule/widgets/schedule_slot.dart';
 
 class SchedulePage extends StatefulWidget {
@@ -44,7 +45,7 @@ class SchedulePageView extends StatefulWidget {
   final int weekDay = DateTime.now().weekday;
 
   static final List<String> daysOfTheWeek =
-      TimeString.getWeekdaysStrings(includeWeekend: false);
+  TimeString.getWeekdaysStrings(includeWeekend: false);
 
   static List<Set<Lecture>> groupLecturesByDay(schedule) {
     final aggLectures = <Set<Lecture>>[];
@@ -104,10 +105,10 @@ class SchedulePageViewState extends GeneralPageViewState<SchedulePageView>
       ),
       Expanded(
           child: TabBarView(
-        controller: tabController,
-        children:
+            controller: tabController,
+            children:
             createSchedule(context, widget.lectures, widget.scheduleStatus),
-      ))
+          ))
     ]);
   }
 
@@ -171,9 +172,10 @@ class SchedulePageViewState extends GeneralPageViewState<SchedulePageView>
       status: scheduleStatus ?? RequestStatus.none,
       builder: () => dayColumnBuilder(day, aggLectures[day], context),
       hasContentPredicate: aggLectures[day].isNotEmpty,
-      onNullContent: Center(
-          child: Text(
-              'Não possui aulas à ${SchedulePageView.daysOfTheWeek[day]}.')),
+        onNullContent: Center(
+            child: ImageLabel(imagePath: 'assets/images/schedule.png', label: 'Não possui aulas à ${SchedulePageView.daysOfTheWeek[day]}.', labelTextStyle: const TextStyle(fontSize: 15),
+            )
+        )
     );
   }
 
@@ -183,3 +185,6 @@ class SchedulePageViewState extends GeneralPageViewState<SchedulePageView>
         .forceRefresh(context);
   }
 }
+
+
+
