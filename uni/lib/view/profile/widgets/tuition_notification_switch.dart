@@ -17,13 +17,13 @@ class _TuitionNotificationSwitchState extends State<TuitionNotificationSwitch> {
     getTuitionNotificationToggle();
   }
 
-  getTuitionNotificationToggle() async {
+  Future<void> getTuitionNotificationToggle() async {
     await AppSharedPreferences.getTuitionNotificationToggle()
         .then((value) => setState(() => tuitionNotificationToggle = value));
   }
 
-  saveTuitionNotificationToggle(bool value) async {
-    await AppSharedPreferences.setTuitionNotificationToggle(value);
+  Future<void> saveTuitionNotificationToggle({required bool value}) async {
+    await AppSharedPreferences.setTuitionNotificationToggle(value: value);
     setState(() {
       tuitionNotificationToggle = value;
     });
@@ -33,7 +33,7 @@ class _TuitionNotificationSwitchState extends State<TuitionNotificationSwitch> {
   Widget build(BuildContext context) {
     return Switch.adaptive(
       value: tuitionNotificationToggle,
-      onChanged: saveTuitionNotificationToggle,
+      onChanged: (value) => saveTuitionNotificationToggle(value: value),
     );
   }
 }

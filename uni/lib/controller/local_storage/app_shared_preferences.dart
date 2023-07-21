@@ -53,7 +53,11 @@ class AppSharedPreferences {
   }
 
   /// Saves the user's student number, password and faculties.
-  static Future savePersistentUserInfo(user, pass, faculties) async {
+  static Future<void> savePersistentUserInfo(
+    String user,
+    String pass,
+    List<String> faculties,
+  ) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(userNumber, user);
     await prefs.setString(userPw, encode(pass));
@@ -64,7 +68,9 @@ class AppSharedPreferences {
   }
 
   /// Sets whether or not the Terms and Conditions have been accepted.
-  static Future<void> setTermsAndConditionsAcceptance(bool areAccepted) async {
+  static Future<void> setTermsAndConditionsAcceptance({
+    required bool areAccepted,
+  }) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(areTermsAndConditionsAcceptedKey, areAccepted);
   }
@@ -155,7 +161,9 @@ class AppSharedPreferences {
   }
 
   /// Replaces the user's favorite widgets with [newFavorites].
-  static saveFavoriteCards(List<FavoriteWidgetType> newFavorites) async {
+  static Future<void> saveFavoriteCards(
+    List<FavoriteWidgetType> newFavorites,
+  ) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setStringList(
       favoriteCards,
@@ -173,7 +181,7 @@ class AppSharedPreferences {
         .toList();
   }
 
-  static saveHiddenExams(List<String> newHiddenExams) async {
+  static Future<void> saveHiddenExams(List<String> newHiddenExams) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setStringList(hiddenExams, newHiddenExams);
   }
@@ -185,11 +193,12 @@ class AppSharedPreferences {
   }
 
   /// Replaces the user's exam filter settings with [newFilteredExamTypes].
-  static saveFilteredExams(Map<String, bool> newFilteredExamTypes) async {
+  static Future<void> saveFilteredExams(
+      Map<String, bool> newFilteredExamTypes) async {
     final prefs = await SharedPreferences.getInstance();
 
     final newTypes = newFilteredExamTypes.keys
-        .where((type) => newFilteredExamTypes[type] == true)
+        .where((type) => newFilteredExamTypes[type] ?? false)
         .toList();
     await prefs.setStringList(filteredExamsTypes, newTypes);
   }
@@ -231,7 +240,9 @@ class AppSharedPreferences {
     return prefs.getBool(tuitionNotificationsToggleKey) ?? true;
   }
 
-  static setTuitionNotificationToggle(bool value) async {
+  static Future<void> setTuitionNotificationToggle({
+    required bool value,
+  }) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(tuitionNotificationsToggleKey, value);
   }

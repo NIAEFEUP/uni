@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:html';
 
 import 'package:html/parser.dart';
 import 'package:http/http.dart' as http;
@@ -92,14 +91,16 @@ class DeparturesFetcher {
   }
 
   /// Extracts the time remaining for a bus to reach a stop.
-  static int _getBusTimeRemaining(List<Element> rawBusInformation) {
+  static int _getBusTimeRemaining(List<dynamic> rawBusInformation) {
     if (rawBusInformation[1].text?.trim() == 'a passar') {
       return 0;
     } else {
       final regex = RegExp('([0-9]+)');
 
       return int.parse(
-        regex.stringMatch(rawBusInformation[2].text ?? '').toString(),
+        regex
+            .stringMatch(rawBusInformation[2].text as String? ?? '')
+            .toString(),
       );
     }
   }

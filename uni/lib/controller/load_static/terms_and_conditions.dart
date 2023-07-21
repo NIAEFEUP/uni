@@ -47,7 +47,9 @@ Future<bool> updateTermsAndConditionsAcceptancePreference() async {
   }
 
   if (currentHash != hash) {
-    await AppSharedPreferences.setTermsAndConditionsAcceptance(false);
+    await AppSharedPreferences.setTermsAndConditionsAcceptance(
+      areAccepted: false,
+    );
     await AppSharedPreferences.setTermsAndConditionHash(currentHash);
   }
 
@@ -59,5 +61,5 @@ Future<void> acceptTermsAndConditions() async {
   final termsAndConditions = await readTermsAndConditions();
   final currentHash = md5.convert(utf8.encode(termsAndConditions)).toString();
   await AppSharedPreferences.setTermsAndConditionHash(currentHash);
-  await AppSharedPreferences.setTermsAndConditionsAcceptance(true);
+  await AppSharedPreferences.setTermsAndConditionsAcceptance(areAccepted: true);
 }

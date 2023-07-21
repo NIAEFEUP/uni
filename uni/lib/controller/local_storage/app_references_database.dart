@@ -65,8 +65,7 @@ class AppReferencesDatabase extends AppDatabase {
     int oldVersion,
     int newVersion,
   ) async {
-    final batch = db.batch();
-    batch
+    final batch = db.batch()
       ..execute('DROP TABLE IF EXISTS refs')
       ..execute(createScript);
     await batch.commit();

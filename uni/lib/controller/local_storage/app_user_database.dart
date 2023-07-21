@@ -13,7 +13,6 @@ class AppUserDataDatabase extends AppDatabase {
 
   /// Adds [profile] to this database.
   Future<void> insertUserData(Profile profile) async {
-    // TODO: Change profile keymap logic to avoid conflicts with print balance (#526)
     for (final keymap in profile.keymapValues()) {
       await insertInDatabase(
         'userdata',
@@ -31,15 +30,21 @@ class AppUserDataDatabase extends AppDatabase {
     final List<Map<String, dynamic>> maps = await db.query('userdata');
 
     // Convert the List<Map<String, dynamic> into a Profile.
-    String? name, email, printBalance, feesBalance;
+    String? name;
+    String? email;
+    String? printBalance;
+    String? feesBalance;
     DateTime? feesLimit;
     for (final entry in maps) {
-      if (entry['key'] == 'name') name = entry['value'];
-      if (entry['key'] == 'email') email = entry['value'];
-      if (entry['key'] == 'printBalance') printBalance = entry['value'];
-      if (entry['key'] == 'feesBalance') feesBalance = entry['value'];
-      if (entry['key'] == 'feesLimit')
-        feesLimit = DateTime.tryParse(entry['value']);
+      if (entry['key'] == 'name') name = entry['value'] as String;
+      if (entry['key'] == 'email') email = entry['value'] as String;
+      if (entry['key'] == 'printBalance') {
+        printBalance = entry['value'] as String;
+      }
+      if (entry['key'] == 'feesBalance') feesBalance = entry['value'] as String;
+      if (entry['key'] == 'feesLimit') {
+        feesLimit = DateTime.tryParse(entry['value'] as String);
+      }
     }
 
     return Profile(

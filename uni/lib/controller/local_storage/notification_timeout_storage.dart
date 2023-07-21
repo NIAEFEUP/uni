@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:path_provider/path_provider.dart';
 
 class NotificationTimeoutStorage {
@@ -19,7 +20,7 @@ class NotificationTimeoutStorage {
 
   Map<String, dynamic> _readContentsFile(File file) {
     try {
-      return jsonDecode(file.readAsStringSync());
+      return jsonDecode(file.readAsStringSync()) as Map<String, dynamic>;
     } on FormatException catch (_) {
       return <String, dynamic>{};
     }
@@ -28,9 +29,10 @@ class NotificationTimeoutStorage {
   DateTime getLastTimeNotificationExecuted(String uniqueID) {
     if (!_fileContent.containsKey(uniqueID)) {
       return DateTime.fromMicrosecondsSinceEpoch(
-          0); //get 1970 to always trigger notification
+        0,
+      ); //get 1970 to always trigger notification
     }
-    return DateTime.parse(_fileContent[uniqueID]);
+    return DateTime.parse(_fileContent[uniqueID] as String);
   }
 
   Future<void> addLastTimeNotificationExecuted(
@@ -46,8 +48,7 @@ class NotificationTimeoutStorage {
   Future<File> _getTimeoutFile() async {
     final applicationDirectory =
         (await getApplicationDocumentsDirectory()).path;
-    if (!(await File('$applicationDirectory/notificationTimeout.json')
-        .exists())) {
+    if (!File('$applicationDirectory/notificationTimeout.json').existsSync()) {
       //empty json
       await File('$applicationDirectory/notificationTimeout.json')
           .writeAsString('{}');

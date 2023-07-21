@@ -22,10 +22,10 @@ class AppLecturesDatabase extends AppDatabase {
 CREATE TABLE lectures(subject TEXT, typeClass TEXT,
           startDateTime TEXT, blocks INTEGER, room TEXT, teacher TEXT, classNumber TEXT, occurrId INTEGER)''';
 
-  /// Replaces all of the data in this database with [lecs].
-  saveNewLectures(List<Lecture> lecs) async {
+  /// Replaces all of the data in this database with [lectures].
+  Future<void> saveNewLectures(List<Lecture> lectures) async {
     await deleteLectures();
-    await _insertLectures(lecs);
+    await _insertLectures(lectures);
   }
 
   /// Returns a list containing all of the lectures stored in this database.
@@ -35,14 +35,14 @@ CREATE TABLE lectures(subject TEXT, typeClass TEXT,
 
     return List.generate(maps.length, (i) {
       return Lecture.fromApi(
-        maps[i]['subject'],
-        maps[i]['typeClass'],
-        maps[i]['startDateTime'],
-        maps[i]['blocks'],
-        maps[i]['room'],
-        maps[i]['teacher'],
-        maps[i]['classNumber'],
-        maps[i]['occurrId'],
+        maps[i]['subject'] as String,
+        maps[i]['typeClass'] as String,
+        maps[i]['startDateTime'] as DateTime,
+        maps[i]['blocks'] as int,
+        maps[i]['room'] as String,
+        maps[i]['teacher'] as String,
+        maps[i]['classNumber'] as String,
+        maps[i]['occurrId'] as int,
       );
     });
   }
@@ -77,9 +77,9 @@ CREATE TABLE lectures(subject TEXT, typeClass TEXT,
     int oldVersion,
     int newVersion,
   ) async {
-    final batch = db.batch();
-    batch.execute('DROP TABLE IF EXISTS lectures');
-    batch.execute(createScript);
+    final batch = db.batch()
+      ..execute('DROP TABLE IF EXISTS lectures')
+      ..execute(createScript);
     await batch.commit();
   }
 }

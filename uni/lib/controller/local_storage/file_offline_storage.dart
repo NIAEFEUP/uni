@@ -19,7 +19,7 @@ Future<File?> loadFileFromStorageOrRetrieveNew(
   String url,
   Map<String, String> headers, {
   int staleDays = 7,
-  forceRetrieval = false,
+  bool forceRetrieval = false,
 }) async {
   final path = await _localPath;
   final targetPath = '$path/$localFileName';

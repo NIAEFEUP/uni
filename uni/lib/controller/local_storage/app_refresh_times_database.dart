@@ -25,8 +25,12 @@ class AppRefreshTimesDatabase extends AppDatabase {
 
     final refreshTimes = <String, String>{};
     for (final entry in maps) {
-      if (entry['event'] == 'print') refreshTimes['print'] = entry['time'];
-      if (entry['event'] == 'fees') refreshTimes['fees'] = entry['time'];
+      if (entry['event'] == 'print') {
+        refreshTimes['print'] = entry['time'] as String;
+      }
+      if (entry['event'] == 'fees') {
+        refreshTimes['fees'] = entry['time'] as String;
+      }
     }
 
     return refreshTimes;
@@ -44,15 +48,12 @@ class AppRefreshTimesDatabase extends AppDatabase {
   Future<void> saveRefreshTime(String event, String time) async {
     final db = await getDatabase();
 
-    final List<Map> maps =
+    final maps =
         await db.query('refreshtimes', where: 'event = ?', whereArgs: [event]);
 
-    // New element
     if (maps.isEmpty) {
       await insertInDatabase('refreshtimes', {'event': event, 'time': time});
-    }
-    // Update element
-    else {
+    } else {
       await db.update(
         'refreshtimes',
         {'time': time},

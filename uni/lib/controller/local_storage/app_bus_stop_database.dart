@@ -33,19 +33,21 @@ class AppBusStopDatabase extends AppDatabase {
         await db.query('favoritestops');
 
     final favorites = <String, bool>{};
-    for (final e in favoritesQueryResult) {
-      favorites[e['stopCode']] = e['favorited'] == '1';
+    for (final station in favoritesQueryResult) {
+      favorites[station['stopCode'] as String] = station['favorited'] == '1';
     }
 
     final stops = <String, BusStopData>{};
-    groupBy(buses, (stop) => (stop! as dynamic)['stopCode']).forEach(
-      (stopCode, busCodeList) => stops[stopCode] = BusStopData(
+    groupBy(buses, (stop) => (stop! as Map<String, dynamic>)['stopCode'])
+        .forEach(
+      (stopCode, busCodeList) => stops[stopCode as String] = BusStopData(
         configuredBuses: Set<String>.from(
           busCodeList.map((busEntry) => busEntry['busCode']),
         ),
         favorited: favorites[stopCode]!,
       ),
     );
+
     return stops;
   }
 
@@ -77,7 +79,7 @@ class AppBusStopDatabase extends AppDatabase {
   ///
   /// If a row with the same data is present, it will be replaced.
   Future<void> _insertBusStops(Map<String, BusStopData> stops) async {
-    stops.forEach((stopCode, stopData) async {
+    stops.forEach((String stopCode, BusStopData stopData) async {
       await insertInDatabase(
         'favoritestops',
         {'stopCode': stopCode, 'favorited': stopData.favorited ? '1' : '0'},
@@ -97,7 +99,6 @@ class AppBusStopDatabase extends AppDatabase {
 
   /// Deletes all of the bus stops from this database.
   Future<void> deleteBusStops() async {
-    // Get a reference to the database
     final db = await getDatabase();
     await db.delete('busstops');
   }

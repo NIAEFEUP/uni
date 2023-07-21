@@ -129,7 +129,8 @@ class NotificationManager {
     // the first notification channel opens
     if (Platform.isAndroid) {
       final androidPlugin =
-          _localNotificationsPlugin.resolvePlatformSpecificImplementation()!;
+          _localNotificationsPlugin.resolvePlatformSpecificImplementation()!
+              as AndroidFlutterLocalNotificationsPlugin;
       try {
         final permissionGranted = await androidPlugin.requestPermission();
         if (permissionGranted != true) {

@@ -34,9 +34,9 @@ CREATE TABLE FLOOR_OCCUPATION(
     for (var i = 0; i < maps.length; i++) {
       occupation.addFloor(
         FloorOccupation(
-          maps[i]['number'],
-          maps[i]['occupation'],
-          maps[i]['capacity'],
+          maps[i]['number'] as int,
+          maps[i]['occupation'] as int,
+          maps[i]['capacity'] as int,
         ),
       );
     }

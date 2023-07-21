@@ -12,12 +12,12 @@ class AppCoursesDatabase extends AppDatabase {
   AppCoursesDatabase()
       : super('courses.db', [createScript], onUpgrade: migrate, version: 2);
   static const String createScript =
-      '''CREATE TABLE courses(id INTEGER, fest_id INTEGER, name TEXT,'''
-      '''abbreviation TEXT, currYear TEXT, firstEnrollment INTEGER, state TEXT,'''
+      '''CREATE TABLE courses(id INTEGER, fest_id INTEGER, name TEXT, '''
+      '''abbreviation TEXT, currYear TEXT, firstEnrollment INTEGER, state TEXT, '''
       '''faculty TEXT, currentAverage REAL, finishedEcts REAL)''';
 
   /// Replaces all of the data in this database with the data from [courses].
-  saveNewCourses(List<Course> courses) async {
+  Future<void> saveNewCourses(List<Course> courses) async {
     await deleteCourses();
     await _insertCourses(courses);
   }
@@ -30,16 +30,16 @@ class AppCoursesDatabase extends AppDatabase {
     // Convert the List<Map<String, dynamic> into a List<Course>.
     return List.generate(maps.length, (i) {
       return Course(
-        id: maps[i]['id'] ?? 0,
-        festId: maps[i]['fest_id'],
-        name: maps[i]['name'],
-        abbreviation: maps[i]['abbreviation'],
-        currYear: maps[i]['currYear'],
-        firstEnrollment: maps[i]['firstEnrollment'],
-        state: maps[i]['state'],
-        faculty: maps[i]['faculty'],
-        finishedEcts: maps[i]['finishedEcts'],
-        currentAverage: maps[i]['currentAverage'],
+        id: maps[i]['id'] as int? ?? 0,
+        festId: maps[i]['fest_id'] as int? ?? 0,
+        name: maps[i]['name'] as String?,
+        abbreviation: maps[i]['abbreviation'] as String?,
+        currYear: maps[i]['currYear'] as String?,
+        firstEnrollment: maps[i]['firstEnrollment'] as int? ?? 0,
+        state: maps[i]['state'] as String?,
+        faculty: maps[i]['faculty'] as String?,
+        finishedEcts: maps[i]['finishedEcts'] as double? ?? 0,
+        currentAverage: maps[i]['currentAverage'] as double? ?? 0,
       );
     });
   }
@@ -72,9 +72,9 @@ class AppCoursesDatabase extends AppDatabase {
     int oldVersion,
     int newVersion,
   ) async {
-    final batch = db.batch();
-    batch.execute('DROP TABLE IF EXISTS courses');
-    batch.execute(createScript);
+    final batch = db.batch()
+      ..execute('DROP TABLE IF EXISTS courses')
+      ..execute(createScript);
     await batch.commit();
   }
 }

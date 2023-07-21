@@ -70,7 +70,7 @@ class TermsAndConditionDialog {
                       Navigator.of(context).pop();
                       routeCompleter.complete(TermsAndConditionsState.accepted);
                       await AppSharedPreferences
-                          .setTermsAndConditionsAcceptance(true);
+                          .setTermsAndConditionsAcceptance(areAccepted: true);
                     },
                     child: Text(
                       'Aceito os novos Termos e Condições',
@@ -82,7 +82,7 @@ class TermsAndConditionDialog {
                       Navigator.of(context).pop();
                       routeCompleter.complete(TermsAndConditionsState.rejected);
                       await AppSharedPreferences
-                          .setTermsAndConditionsAcceptance(false);
+                          .setTermsAndConditionsAcceptance(areAccepted: false);
                     },
                     child: Text(
                       'Rejeito os novos Termos e Condições',

@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:sqflite/sqflite.dart';
 import 'package:uni/controller/local_storage/app_database.dart';
 import 'package:uni/model/entities/exam.dart';
@@ -30,7 +31,7 @@ CREATE TABLE exams(id TEXT, subject TEXT, begin TEXT, end TEXT,
           rooms TEXT, examType TEXT, faculty TEXT, PRIMARY KEY (id,faculty)) ''';
 
   /// Replaces all of the data in this database with [exams].
-  saveNewExams(List<Exam> exams) async {
+  Future<void> saveNewExams(List<Exam> exams) async {
     await deleteExams();
     await _insertExams(exams);
   }
@@ -42,13 +43,13 @@ CREATE TABLE exams(id TEXT, subject TEXT, begin TEXT, end TEXT,
 
     return List.generate(maps.length, (i) {
       return Exam.secConstructor(
-        maps[i]['id'] ?? '',
-        maps[i]['subject'],
-        DateTime.parse(maps[i]['begin']),
-        DateTime.parse(maps[i]['end']),
-        maps[i]['rooms'],
-        maps[i]['examType'],
-        maps[i]['faculty'],
+        maps[i]['id'] as String,
+        maps[i]['subject'] as String,
+        DateTime.parse(maps[i]['begin'] as String),
+        DateTime.parse(maps[i]['end'] as String),
+        maps[i]['rooms'] as String,
+        maps[i]['examType'] as String,
+        maps[i]['faculty'] as String,
       );
     });
   }
@@ -78,9 +79,9 @@ CREATE TABLE exams(id TEXT, subject TEXT, begin TEXT, end TEXT,
     int oldVersion,
     int newVersion,
   ) async {
-    final batch = db.batch();
-    batch.execute('DROP TABLE IF EXISTS exams');
-    batch.execute(_createScript);
+    final batch = db.batch()
+      ..execute('DROP TABLE IF EXISTS exams')
+      ..execute(_createScript);
     await batch.commit();
   }
 }
