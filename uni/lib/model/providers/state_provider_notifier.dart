@@ -75,9 +75,11 @@ abstract class StateProviderNotifier extends ChangeNotifier {
       // No online activity from provider
       updateStatus(RequestStatus.successful);
     } else {
-      _lastUpdateTime = DateTime.now();
-      await AppSharedPreferences.setLastDataClassUpdateTime(
-          runtimeType.toString(), _lastUpdateTime!);
+      if (_status == RequestStatus.successful) {
+        _lastUpdateTime = DateTime.now();
+        await AppSharedPreferences.setLastDataClassUpdateTime(
+            runtimeType.toString(), _lastUpdateTime!);
+      }
       notifyListeners();
     }
   }
