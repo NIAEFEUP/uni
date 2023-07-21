@@ -16,8 +16,7 @@ List<Course> _parseCourses(http.Response response) {
   final courses = <Course>[];
 
   final stringUrl = response.request?.url.toString() ?? '';
-  final faculty =
-      stringUrl.contains('up.pt') ? stringUrl.split('/')[3] : null;
+  final faculty = stringUrl.contains('up.pt') ? stringUrl.split('/')[3] : null;
 
   final currentCourses =
       document.querySelectorAll('.estudantes-caixa-lista-cursos > div');
@@ -34,14 +33,19 @@ List<Course> _parseCourses(http.Response response) {
         .querySelector('.estudante-lista-curso-detalhes > a')
         ?.attributes['href']
         ?.replaceFirst(
-            'fest_geral.curso_percurso_academico_view?pv_fest_id=', '',)
+          'fest_geral.curso_percurso_academico_view?pv_fest_id=',
+          '',
+        )
         .trim();
-    courses.add(Course(
+    courses.add(
+      Course(
         faculty: faculty,
         id: int.parse(courseId ?? '0'),
         state: courseState,
         name: courseName ?? '',
-        festId: int.parse(courseFestId ?? '0'),),);
+        festId: int.parse(courseFestId ?? '0'),
+      ),
+    );
   }
 
   final oldCourses =
@@ -57,14 +61,18 @@ List<Course> _parseCourses(http.Response response) {
         .trim();
     final courseState = div.children[5].text;
     final courseFestId = getUrlQueryParameters(
-        div.children[6].firstChild?.attributes['href'] ?? '',)['pv_fest_id'];
-    courses.add(Course(
+      div.children[6].firstChild?.attributes['href'] ?? '',
+    )['pv_fest_id'];
+    courses.add(
+      Course(
         firstEnrollment: int.parse(courseFirstEnrollment),
         faculty: faculty,
         id: int.parse(courseId ?? '0'),
         state: courseState,
         name: courseName ?? '',
-        festId: int.parse(courseFestId ?? '0'),),);
+        festId: int.parse(courseFestId ?? '0'),
+      ),
+    );
   }
 
   return courses;

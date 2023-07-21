@@ -2,11 +2,11 @@ import 'package:logger/logger.dart';
 
 /// Stores information about a bus trip.
 class Trip {
-
-  Trip(
-      {required this.line,
-      required this.destination,
-      required this.timeRemaining,});
+  Trip({
+    required this.line,
+    required this.destination,
+    required this.timeRemaining,
+  });
   final String line;
   final String destination;
   final int timeRemaining;

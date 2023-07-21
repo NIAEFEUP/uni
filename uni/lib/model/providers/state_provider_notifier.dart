@@ -11,13 +11,12 @@ import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/model/request_status.dart';
 
 abstract class StateProviderNotifier extends ChangeNotifier {
-
-  StateProviderNotifier(
-      {required this.dependsOnSession,
-      required this.cacheDuration,
-      RequestStatus initialStatus = RequestStatus.busy,
-      bool initialize = true,})
-      : _status = initialStatus,
+  StateProviderNotifier({
+    required this.dependsOnSession,
+    required this.cacheDuration,
+    RequestStatus initialStatus = RequestStatus.busy,
+    bool initialize = true,
+  })  : _status = initialStatus,
         _initializedFromStorage = !initialize,
         _initializedFromRemote = !initialize;
   static final Lock _lock = Lock();
@@ -34,15 +33,19 @@ abstract class StateProviderNotifier extends ChangeNotifier {
 
   Future<void> _loadFromStorage() async {
     _lastUpdateTime = await AppSharedPreferences.getLastDataClassUpdateTime(
-        runtimeType.toString(),);
+      runtimeType.toString(),
+    );
 
     await loadFromStorage();
     notifyListeners();
     Logger().i('Loaded $runtimeType info from storage');
   }
 
-  Future<void> _loadFromRemote(Session session, Profile profile,
-      {bool force = false,}) async {
+  Future<void> _loadFromRemote(
+    Session session,
+    Profile profile, {
+    bool force = false,
+  }) async {
     final hasConnectivity =
         await Connectivity().checkConnectivity() != ConnectivityResult.none;
     final shouldReload = force ||
@@ -60,14 +63,16 @@ abstract class StateProviderNotifier extends ChangeNotifier {
           Logger().e('Failed to load $runtimeType info from remote');
         } else {
           Logger().w(
-              '$runtimeType remote load method did not update request status',);
+            '$runtimeType remote load method did not update request status',
+          );
         }
       } else {
         Logger().w('No internet connection; skipping $runtimeType remote load');
       }
     } else {
       Logger().i(
-          'Last info for $runtimeType is within cache period ($cacheDuration); skipping remote load',);
+        'Last info for $runtimeType is within cache period ($cacheDuration); skipping remote load',
+      );
     }
 
     if (!shouldReload || !hasConnectivity || _status == RequestStatus.busy) {
@@ -76,7 +81,9 @@ abstract class StateProviderNotifier extends ChangeNotifier {
     } else {
       _lastUpdateTime = DateTime.now();
       await AppSharedPreferences.setLastDataClassUpdateTime(
-          runtimeType.toString(), _lastUpdateTime!,);
+        runtimeType.toString(),
+        _lastUpdateTime!,
+      );
       notifyListeners();
     }
   }
@@ -92,7 +99,8 @@ abstract class StateProviderNotifier extends ChangeNotifier {
           DateTime.now().difference(_lastUpdateTime!) <
               const Duration(minutes: 1)) {
         Logger().w(
-            'Last update for $runtimeType was less than a minute ago; skipping refresh',);
+          'Last update for $runtimeType was less than a minute ago; skipping refresh',
+        );
         return;
       }
 

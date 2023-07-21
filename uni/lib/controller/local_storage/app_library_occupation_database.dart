@@ -32,8 +32,13 @@ CREATE TABLE FLOOR_OCCUPATION(
     final occupation = LibraryOccupation(0, 0);
 
     for (var i = 0; i < maps.length; i++) {
-      occupation.addFloor(FloorOccupation(
-          maps[i]['number'], maps[i]['occupation'], maps[i]['capacity'],),);
+      occupation.addFloor(
+        FloorOccupation(
+          maps[i]['number'],
+          maps[i]['occupation'],
+          maps[i]['capacity'],
+        ),
+      );
     }
 
     return occupation;

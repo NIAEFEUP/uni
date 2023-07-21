@@ -8,18 +8,18 @@
 /// - The date of the `firstEnrollment`
 /// - The course `state`
 class Course {
-
-  Course(
-      {required this.id,
-      this.festId = 0,
-      this.name,
-      this.abbreviation,
-      this.currYear,
-      this.firstEnrollment,
-      this.state,
-      this.faculty,
-      this.finishedEcts,
-      this.currentAverage,});
+  Course({
+    required this.id,
+    this.festId = 0,
+    this.name,
+    this.abbreviation,
+    this.currYear,
+    this.firstEnrollment,
+    this.state,
+    this.faculty,
+    this.finishedEcts,
+    this.currentAverage,
+  });
   final int id;
   final int? festId;
   final String? name;
@@ -34,13 +34,14 @@ class Course {
   /// Creates a new instance from a JSON object.
   static Course fromJson(dynamic data) {
     return Course(
-        id: data['cur_id'],
-        festId: data['fest_id'],
-        name: data['cur_nome'],
-        currYear: data['ano_curricular'],
-        firstEnrollment: data['fest_a_lect_1_insc'],
-        abbreviation: data['abbreviation'],
-        faculty: data['inst_sigla'].toString().toLowerCase(),);
+      id: data['cur_id'],
+      festId: data['fest_id'],
+      name: data['cur_nome'],
+      currYear: data['ano_curricular'],
+      firstEnrollment: data['fest_a_lect_1_insc'],
+      abbreviation: data['abbreviation'],
+      faculty: data['inst_sigla'].toString().toLowerCase(),
+    );
   }
 
   /// Converts this course to a map.

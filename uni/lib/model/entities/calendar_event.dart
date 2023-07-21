@@ -1,6 +1,5 @@
 /// An event in the school calendar
 class CalendarEvent {
-
   /// Creates an instance of the class [CalendarEvent]
   CalendarEvent(this.name, this.date);
   String name;

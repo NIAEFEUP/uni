@@ -6,15 +6,14 @@ import 'package:uni/model/entities/course_units/course_unit.dart';
 
 /// Stores information about the user's profile.
 class Profile {
-
-  Profile(
-      {this.name = '',
-      this.email = '',
-      courses,
-      this.printBalance = '',
-      this.feesBalance = '',
-      this.feesLimit,})
-      : courses = courses ?? [],
+  Profile({
+    this.name = '',
+    this.email = '',
+    courses,
+    this.printBalance = '',
+    this.feesBalance = '',
+    this.feesLimit,
+  })  : courses = courses ?? [],
         courseUnits = [];
   final String name;
   final String email;
@@ -32,9 +31,10 @@ class Profile {
       courses.add(Course.fromJson(c));
     }
     return Profile(
-        name: responseBody['nome'],
-        email: responseBody['email'],
-        courses: courses,);
+      name: responseBody['nome'],
+      email: responseBody['email'],
+      courses: courses,
+    );
   }
 
   /// Returns a list with two tuples: the first tuple contains the user's name

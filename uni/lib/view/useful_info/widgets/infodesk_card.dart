@@ -15,8 +15,12 @@ class InfoDeskCard extends GenericExpansionCard {
         h1('Telefone', context),
         infoText('+351 225 081 400', context, link: 'tel:225 081 400'),
         h1('Email', context),
-        infoText('infodesk@fe.up.pt', context,
-            last: true, link: 'mailto:infodesk@fe.up.pt',)
+        infoText(
+          'infodesk@fe.up.pt',
+          context,
+          last: true,
+          link: 'mailto:infodesk@fe.up.pt',
+        )
       ],
     );
   }

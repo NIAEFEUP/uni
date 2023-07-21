@@ -2,7 +2,6 @@ import 'package:uni/model/entities/location.dart';
 import 'package:uni/view/locations/widgets/icons.dart';
 
 class VendingMachine implements Location {
-
   VendingMachine(this.floor, {this.locationGroupId});
   @override
   final int floor;

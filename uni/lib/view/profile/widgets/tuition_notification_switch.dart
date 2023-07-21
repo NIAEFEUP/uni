@@ -32,7 +32,8 @@ class _TuitionNotificationSwitchState extends State<TuitionNotificationSwitch> {
   @override
   Widget build(BuildContext context) {
     return Switch.adaptive(
-        value: tuitionNotificationToggle,
-        onChanged: saveTuitionNotificationToggle,);
+      value: tuitionNotificationToggle,
+      onChanged: saveTuitionNotificationToggle,
+    );
   }
 }

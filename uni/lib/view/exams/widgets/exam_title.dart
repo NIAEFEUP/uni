@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 
 class ExamTitle extends StatelessWidget {
-
-  const ExamTitle(
-      {super.key, required this.subject, this.type, this.reverseOrder = false,});
+  const ExamTitle({
+    super.key,
+    required this.subject,
+    this.type,
+    this.reverseOrder = false,
+  });
   final String subject;
   final String? type;
   final double borderRadius = 12;
@@ -18,17 +21,22 @@ class ExamTitle extends StatelessWidget {
   }
 
   Widget createTopRectangle(context) {
-    final typeWidget = Text(type != null ? ' ($type) ' : '',
-        style: Theme.of(context).textTheme.bodyMedium,);
-    final subjectWidget = Text(subject,
-        style: Theme.of(context)
-            .textTheme
-            .headlineSmall
-            ?.apply(color: Theme.of(context).colorScheme.tertiary),);
+    final typeWidget = Text(
+      type != null ? ' ($type) ' : '',
+      style: Theme.of(context).textTheme.bodyMedium,
+    );
+    final subjectWidget = Text(
+      subject,
+      style: Theme.of(context)
+          .textTheme
+          .headlineSmall
+          ?.apply(color: Theme.of(context).colorScheme.tertiary),
+    );
 
     return Row(
-        children: reverseOrder
-            ? [typeWidget, subjectWidget]
-            : [subjectWidget, typeWidget],);
+      children: reverseOrder
+          ? [typeWidget, subjectWidget]
+          : [subjectWidget, typeWidget],
+    );
   }
 }

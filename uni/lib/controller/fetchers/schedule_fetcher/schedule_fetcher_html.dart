@@ -25,21 +25,23 @@ class ScheduleFetcherHtml extends ScheduleFetcher {
     for (final course in profile.courses) {
       for (final url in urls) {
         final response = await NetworkRouter.getWithCookies(
-            url,
-            {
-              'pv_fest_id': course.festId.toString(),
-              'pv_ano_lectivo': dates.lectiveYear.toString(),
-              'p_semana_inicio': dates.beginWeek,
-              'p_semana_fim': dates.endWeek
-            },
-            session,);
+          url,
+          {
+            'pv_fest_id': course.festId.toString(),
+            'pv_ano_lectivo': dates.lectiveYear.toString(),
+            'p_semana_inicio': dates.beginWeek,
+            'p_semana_fim': dates.endWeek
+          },
+          session,
+        );
         lectureResponses.add(response);
       }
     }
 
-    final lectures = await Future.wait(lectureResponses
-            .map((response) => getScheduleFromHtml(response, session)),)
-        .then((schedules) => schedules.expand((schedule) => schedule).toList());
+    final lectures = await Future.wait(
+      lectureResponses
+          .map((response) => getScheduleFromHtml(response, session)),
+    ).then((schedules) => schedules.expand((schedule) => schedule).toList());
 
     lectures.sort((l1, l2) => l1.compare(l2));
     return lectures;

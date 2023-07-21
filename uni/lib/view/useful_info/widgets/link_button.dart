@@ -13,20 +13,26 @@ class LinkButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Table(
-        defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-        children: [
-          TableRow(children: [
+      defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+      children: [
+        TableRow(
+          children: [
             Container(
-                margin: const EdgeInsets.only(bottom: 14, left: 20),
-                child: InkWell(
-                  child: Text(title,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineSmall!
-                          .copyWith(decoration: TextDecoration.underline),),
-                  onTap: () => launchUrl(Uri.parse(link)),
-                ),)
-          ],),
-        ],);
+              margin: const EdgeInsets.only(bottom: 14, left: 20),
+              child: InkWell(
+                child: Text(
+                  title,
+                  style: Theme.of(context)
+                      .textTheme
+                      .headlineSmall!
+                      .copyWith(decoration: TextDecoration.underline),
+                ),
+                onTap: () => launchUrl(Uri.parse(link)),
+              ),
+            )
+          ],
+        ),
+      ],
+    );
   }
 }

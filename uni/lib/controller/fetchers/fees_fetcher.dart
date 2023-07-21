@@ -8,8 +8,8 @@ class FeesFetcher implements SessionDependantFetcher {
   List<String> getEndpoints(Session session) {
     // TO DO: Check balance on all faculties and discard if user is not enrolled
     // Some shared courses (such as L.EIC) do not put fees on both faculties
-    final url =
-        '${NetworkRouter.getBaseUrlsFromSession(session)[0]}gpag_ccorrente_geral.conta_corrente_view';
+    final url = '${NetworkRouter.getBaseUrlsFromSession(session)[0]}'
+        'gpag_ccorrente_geral.conta_corrente_view';
     return [url];
   }
 

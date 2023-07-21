@@ -6,7 +6,6 @@ import 'package:uni/model/entities/location_group.dart';
 import 'package:uni/view/locations/widgets/faculty_map.dart';
 
 class LocationMarker extends Marker {
-
   LocationMarker(this.latlng, this.locationGroup)
       : super(
           anchorPos: AnchorPos.align(AnchorAlign.center),
@@ -15,13 +14,14 @@ class LocationMarker extends Marker {
           point: latlng,
           builder: (BuildContext ctx) => Container(
             decoration: BoxDecoration(
-                color: Theme.of(ctx).colorScheme.background,
-                border: Border.all(
-                  color: Theme.of(ctx).colorScheme.primary,
-                ),
-                borderRadius: const BorderRadius.all(Radius.circular(20)),),
+              color: Theme.of(ctx).colorScheme.background,
+              border: Border.all(
+                color: Theme.of(ctx).colorScheme.primary,
+              ),
+              borderRadius: const BorderRadius.all(Radius.circular(20)),
+            ),
             child: MarkerIcon(
-                location: locationGroup.getLocationWithMostWeight(),
+              location: locationGroup.getLocationWithMostWeight(),
             ),
           ),
         );
@@ -30,7 +30,6 @@ class LocationMarker extends Marker {
 }
 
 class MarkerIcon extends StatelessWidget {
-
   const MarkerIcon({super.key, this.location});
   final Location? location;
 

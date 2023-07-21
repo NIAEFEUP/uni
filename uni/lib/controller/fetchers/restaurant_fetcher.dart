@@ -19,22 +19,29 @@ class RestaurantFetcher {
   // Generate the Gsheets endpoints list based on a list of sheets
   String buildGSheetsEndpoint(String sheet) {
     return Uri.encodeFull(
-        "$spreadSheetUrl$jsonEndpoint&sheet=$sheet&range=$sheetsColumnRange",);
+      '$spreadSheetUrl$jsonEndpoint&sheet=$sheet&range=$sheetsColumnRange',
+    );
   }
 
   String getRestaurantGSheetName(Restaurant restaurant) {
     return restaurantSheets.firstWhere(
-        (sheetName) =>
-            restaurant.name.toLowerCase().contains(sheetName.toLowerCase()),
-        orElse: () => '',);
+      (sheetName) =>
+          restaurant.name.toLowerCase().contains(sheetName.toLowerCase()),
+      orElse: () => '',
+    );
   }
 
   Future<Restaurant> fetchGSheetsRestaurant(
-      String url, String restaurantName, session,
-      {isDinner = false,}) async {
+    String url,
+    String restaurantName,
+    Session session, {
+    bool isDinner = false,
+  }) async {
     return getRestaurantFromGSheets(
-        await NetworkRouter.getWithCookies(url, {}, session), restaurantName,
-        isDinner: isDinner,);
+      await NetworkRouter.getWithCookies(url, {}, session),
+      restaurantName,
+      isDinner: isDinner,
+    );
   }
 
   final List<String> sigarraMenuEndpoints = [
@@ -59,7 +66,8 @@ class RestaurantFetcher {
   Future<List<Restaurant>> getRestaurants(Session session) async {
     final restaurants = await fetchSigarraRestaurants(session);
 
-    // Check for restaurants without associated meals and attempt to parse them from GSheets
+    // Check for restaurants without associated meals and attempt to parse them
+    // from GSheets
     final restaurantsWithoutMeals =
         restaurants.where((restaurant) => restaurant.meals.isEmpty).toList();
 
@@ -70,13 +78,17 @@ class RestaurantFetcher {
       }
 
       final gSheetsRestaurant = await fetchGSheetsRestaurant(
-          buildGSheetsEndpoint(sheetName), restaurant.name, session,
-          isDinner: restaurant.name.toLowerCase().contains('jantar'),);
+        buildGSheetsEndpoint(sheetName),
+        restaurant.name,
+        session,
+        isDinner: restaurant.name.toLowerCase().contains('jantar'),
+      );
 
-      restaurants.removeWhere(
-          (restaurant) => restaurant.name == gSheetsRestaurant.name,);
-
-      restaurants.insert(0, gSheetsRestaurant);
+      restaurants
+        ..removeWhere(
+          (restaurant) => restaurant.name == gSheetsRestaurant.name,
+        )
+        ..insert(0, gSheetsRestaurant);
     }
 
     return restaurants;

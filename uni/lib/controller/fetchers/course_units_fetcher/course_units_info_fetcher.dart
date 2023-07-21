@@ -13,33 +13,42 @@ class CourseUnitsInfoFetcher implements SessionDependantFetcher {
   }
 
   Future<CourseUnitSheet> fetchCourseUnitSheet(
-      Session session, int occurrId,) async {
+    Session session,
+    int occurrId,
+  ) async {
     // if course unit is not from the main faculty, Sigarra redirects
     final url = '${getEndpoints(session)[0]}ucurr_geral.ficha_uc_view';
     final response = await NetworkRouter.getWithCookies(
-        url, {'pv_ocorrencia_id': occurrId.toString()}, session,);
+      url,
+      {'pv_ocorrencia_id': occurrId.toString()},
+      session,
+    );
     return parseCourseUnitSheet(response);
   }
 
   Future<List<CourseUnitClass>> fetchCourseUnitClasses(
-      Session session, int occurrId,) async {
+    Session session,
+    int occurrId,
+  ) async {
     var courseUnitClasses = <CourseUnitClass>[];
 
     for (final endpoint in getEndpoints(session)) {
       // Crawl classes from all courses that the course unit is offered in
-      final courseChoiceUrl =
-          '${endpoint}it_listagem.lista_cursos_disciplina?pv_ocorrencia_id=$occurrId';
+      final courseChoiceUrl = '$endpoint'
+          'it_listagem.lista_cursos_disciplina?pv_ocorrencia_id=$occurrId';
       final courseChoiceResponse =
           await NetworkRouter.getWithCookies(courseChoiceUrl, {}, session);
       final courseChoiceDocument = parse(courseChoiceResponse.body);
       final urls = courseChoiceDocument
           .querySelectorAll('a')
-          .where((element) =>
-              element.attributes['href'] != null &&
-              element.attributes['href']!
-                  .contains('it_listagem.lista_turma_disciplina'),)
+          .where(
+            (element) =>
+                element.attributes['href'] != null &&
+                element.attributes['href']!
+                    .contains('it_listagem.lista_turma_disciplina'),
+          )
           .map((e) {
-        String? url = e.attributes['href']!;
+        var url = e.attributes['href']!;
         if (!url.contains('sigarra.up.pt')) {
           url = endpoint + url;
         }
@@ -48,8 +57,7 @@ class CourseUnitsInfoFetcher implements SessionDependantFetcher {
 
       for (final url in urls) {
         try {
-          final response =
-              await NetworkRouter.getWithCookies(url, {}, session);
+          final response = await NetworkRouter.getWithCookies(url, {}, session);
           courseUnitClasses += parseCourseUnitClasses(response, endpoint);
         } catch (_) {
           continue;

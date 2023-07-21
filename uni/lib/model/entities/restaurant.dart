@@ -3,7 +3,6 @@ import 'package:uni/model/entities/meal.dart';
 import 'package:uni/model/utils/day_of_week.dart';
 
 class Restaurant {
-
   Restaurant(this.id, this.name, this.reference, {required List<Meal> meals})
       : meals = groupBy(meals, (meal) => meal.dayOfWeek);
   final int? id;

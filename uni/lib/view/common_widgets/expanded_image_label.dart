@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 
 class ImageLabel extends StatelessWidget {
-
-  const ImageLabel({super.key, required this.imagePath, required this.label, this.labelTextStyle, this.sublabel = '', this.sublabelTextStyle});
+  const ImageLabel(
+      {super.key,
+      required this.imagePath,
+      required this.label,
+      this.labelTextStyle,
+      this.sublabel = '',
+      this.sublabelTextStyle});
   final String imagePath;
   final String label;
   final TextStyle? labelTextStyle;
@@ -23,12 +28,11 @@ class ImageLabel extends StatelessWidget {
           label,
           style: labelTextStyle,
         ),
-        if(sublabel.isNotEmpty)
-          const SizedBox(height: 20),
-          Text(
-            sublabel,
-            style: sublabelTextStyle,
-          ),
+        if (sublabel.isNotEmpty) const SizedBox(height: 20),
+        Text(
+          sublabel,
+          style: sublabelTextStyle,
+        ),
       ],
     );
   }

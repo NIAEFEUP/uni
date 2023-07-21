@@ -8,12 +8,12 @@ class ThemeNotifier with ChangeNotifier {
 
   ThemeMode getTheme() => _themeMode;
 
-  setNextTheme() {
+  void setNextTheme() {
     final nextThemeMode = (_themeMode.index + 1) % 3;
     setTheme(ThemeMode.values[nextThemeMode]);
   }
 
-  setTheme(ThemeMode themeMode) {
+  void setTheme(ThemeMode themeMode) {
     _themeMode = themeMode;
     AppSharedPreferences.setThemeMode(themeMode);
     notifyListeners();

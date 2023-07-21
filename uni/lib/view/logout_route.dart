@@ -6,9 +6,11 @@ class LogoutRoute {
   LogoutRoute._();
 
   static MaterialPageRoute buildLogoutRoute() {
-    return MaterialPageRoute(builder: (context) {
-      logout(context);
-      return const LoginPageView();
-    },);
+    return MaterialPageRoute(
+      builder: (context) {
+        logout(context);
+        return const LoginPageView();
+      },
+    );
   }
 }

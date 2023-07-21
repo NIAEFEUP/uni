@@ -29,8 +29,9 @@ class LocationsPageState extends GeneralPageViewState
     return LazyConsumer<FacultyLocationsProvider>(
       builder: (context, locationsProvider) {
         return LocationsPageView(
-            locations: locationsProvider.locations,
-            status: locationsProvider.status,);
+          locations: locationsProvider.locations,
+          status: locationsProvider.status,
+        );
       },
     );
   }
@@ -40,20 +41,24 @@ class LocationsPageState extends GeneralPageViewState
 }
 
 class LocationsPageView extends StatelessWidget {
-
-  const LocationsPageView(
-      {super.key, required this.locations, required this.status,});
+  const LocationsPageView({
+    super.key,
+    required this.locations,
+    required this.status,
+  });
   final List<LocationGroup> locations;
   final RequestStatus status;
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      Container(
+    return Column(
+      children: [
+        Container(
           width: MediaQuery.of(context).size.width * 0.95,
           padding: const EdgeInsets.fromLTRB(0, 0, 0, 4),
-          child: PageTitle(name: 'Locais: ${getLocation()}'),),
-      Container(
+          child: PageTitle(name: 'Locais: ${getLocation()}'),
+        ),
+        Container(
           padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
           height: MediaQuery.of(context).size.height * 0.75,
           alignment: Alignment.center,
@@ -65,8 +70,9 @@ class LocationsPageView extends StatelessWidget {
                 const Center(child: Text('Não existem locais disponíveis')),
           ),
           // TODO: add support for multiple faculties
-          )
-    ],);
+        )
+      ],
+    );
   }
 
   String getLocation() {

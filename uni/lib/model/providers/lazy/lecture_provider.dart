@@ -15,7 +15,6 @@ import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/model/request_status.dart';
 
 class LectureProvider extends StateProviderNotifier {
-
   LectureProvider()
       : super(dependsOnSession: true, cacheDuration: const Duration(hours: 6));
   List<Lecture> _lectures = [];
@@ -39,11 +38,12 @@ class LectureProvider extends StateProviderNotifier {
   }
 
   Future<void> fetchUserLectures(
-      Completer<void> action,
-      Tuple2<String, String> userPersistentInfo,
-      Session session,
-      Profile profile,
-      {ScheduleFetcher? fetcher,}) async {
+    Completer<void> action,
+    Tuple2<String, String> userPersistentInfo,
+    Session session,
+    Profile profile, {
+    ScheduleFetcher? fetcher,
+  }) async {
     try {
       updateStatus(RequestStatus.busy);
 
@@ -67,7 +67,10 @@ class LectureProvider extends StateProviderNotifier {
   }
 
   Future<List<Lecture>> getLecturesFromFetcherOrElse(
-          ScheduleFetcher? fetcher, Session session, Profile profile,) =>
+    ScheduleFetcher? fetcher,
+    Session session,
+    Profile profile,
+  ) =>
       (fetcher?.getLectures(session, profile)) ?? getLectures(session, profile);
 
   Future<List<Lecture>> getLectures(Session session, Profile profile) {

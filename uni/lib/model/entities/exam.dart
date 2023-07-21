@@ -41,12 +41,25 @@ enum Months {
 /// - The Exam `type`
 
 class Exam {
+  Exam(
+    this.id,
+    this.begin,
+    this.end,
+    this.subject,
+    this.rooms,
+    this.type,
+    this.faculty,
+  );
 
-  Exam(this.id, this.begin, this.end, this.subject, this.rooms, this.type,
-      this.faculty,);
-
-  Exam.secConstructor(this.id, this.subject, this.begin, this.end, String rooms,
-      this.type, this.faculty,) {
+  Exam.secConstructor(
+    this.id,
+    this.subject,
+    this.begin,
+    this.end,
+    String rooms,
+    this.type,
+    this.faculty,
+  ) {
     this.rooms = rooms.split(',');
   }
   late final DateTime begin;

@@ -8,6 +8,8 @@ class NavigationService {
 
   static logout() {
     navigatorKey.currentState?.pushNamedAndRemoveUntil(
-        '/${DrawerItem.navLogOut.title}', (_) => false,);
+      '/${DrawerItem.navLogOut.title}',
+      (_) => false,
+    );
   }
 }

@@ -8,10 +8,10 @@ import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/entities/time_utilities.dart';
 
-
-
 Future<List<Lecture>> getOverlappedClasses(
-    Session session, Document document,) async {
+  Session session,
+  Document document,
+) async {
   final lecturesList = <Lecture>[];
 
   final monday = DateTime.now().getClosestMonday();
@@ -34,34 +34,47 @@ Future<List<Lecture>> getOverlappedClasses(
     final startTime = element.querySelector('td[headers=t3]')?.text;
     final room = element.querySelector('td[headers=t4] > a')?.text;
     final teacher = element.querySelector('td[headers=t5] > a')?.text;
-    final classNumber =
-        element.querySelector('td[headers=t6] > a')?.text;
-
+    final classNumber = element.querySelector('td[headers=t6] > a')?.text;
 
     try {
-      final fullStartTime = monday.add(Duration(
-        days: day,
-        hours: int.parse(startTime!.substring(0, 2)),
-        minutes: int.parse(startTime.substring(3, 5)),),);
+      final fullStartTime = monday.add(
+        Duration(
+          days: day,
+          hours: int.parse(startTime!.substring(0, 2)),
+          minutes: int.parse(startTime.substring(3, 5)),
+        ),
+      );
       final link =
           element.querySelector('td[headers=t6] > a')?.attributes['href'];
 
       if (link == null) {
         throw Exception();
       }
-      final response =
-          await NetworkRouter.getWithCookies(link, {}, session);
+      final response = await NetworkRouter.getWithCookies(link, {}, session);
 
       final classLectures = await getScheduleFromHtml(response, session);
 
-      lecturesList.add(classLectures
-          .where((element) =>
-              element.subject == subject &&
-              element.startTime == fullStartTime,)
-          .first,);
+      lecturesList.add(
+        classLectures
+            .where(
+              (element) =>
+                  element.subject == subject &&
+                  element.startTime == fullStartTime,
+            )
+            .first,
+      );
     } catch (e) {
-      final lect = Lecture.fromHtml(subject!, typeClass!, monday.add(Duration(days: day)),
-          startTime!, 0, room!, teacher!, classNumber!, -1,);
+      final lect = Lecture.fromHtml(
+        subject!,
+        typeClass!,
+        monday.add(Duration(days: day)),
+        startTime!,
+        0,
+        room!,
+        teacher!,
+        classNumber!,
+        -1,
+      );
       lecturesList.add(lect);
     }
   }
@@ -73,14 +86,15 @@ Future<List<Lecture>> getOverlappedClasses(
 ///
 /// This function parses the schedule's HTML page.
 Future<List<Lecture>> getScheduleFromHtml(
-    http.Response response, Session session,) async {
+  http.Response response,
+  Session session,
+) async {
   final document = parse(response.body);
   var semana = [0, 0, 0, 0, 0, 0];
 
   final lecturesList = <Lecture>[];
 
   final monday = DateTime.now().getClosestMonday();
-
 
   document.querySelectorAll('.horario > tbody > tr').forEach((Element element) {
     if (element.getElementsByClassName('horas').isNotEmpty) {
@@ -95,8 +109,7 @@ Future<List<Lecture>> getScheduleFromHtml(
         }
         final clsName = children[i].className;
         if (clsName == 'TE' || clsName == 'TP' || clsName == 'PL') {
-          final subject =
-              children[i].querySelector('b > acronym > a')?.text;
+          final subject = children[i].querySelector('b > acronym > a')?.text;
           if (subject == null) return;
           String? classNumber;
 
@@ -105,8 +118,7 @@ Future<List<Lecture>> getScheduleFromHtml(
             if (classNumber == null) return;
           }
 
-          final rowSmall =
-              children[i].querySelector('table > tbody > tr');
+          final rowSmall = children[i].querySelector('table > tbody > tr');
           final room = rowSmall?.querySelector('td > a')?.text;
           final teacher = rowSmall?.querySelector('td.textod a')?.text;
 
@@ -117,15 +129,16 @@ Future<List<Lecture>> getScheduleFromHtml(
           semana[day] += blocks;
 
           final lect = Lecture.fromHtml(
-              subject,
-              typeClass,
-              monday.add(Duration(days: day)),
-              startTime,
-              blocks,
-              room ?? '',
-              teacher ?? '',
-              classNumber ?? '',
-              -1,);
+            subject,
+            typeClass,
+            monday.add(Duration(days: day)),
+            startTime,
+            blocks,
+            room ?? '',
+            teacher ?? '',
+            classNumber ?? '',
+            -1,
+          );
           lecturesList.add(lect);
         }
         day++;

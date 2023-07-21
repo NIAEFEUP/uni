@@ -9,8 +9,8 @@ import 'package:synchronized/synchronized.dart';
 ///
 /// This class is the foundation for all other database managers.
 class AppDatabase {
-
   AppDatabase(this.name, this.commands, {this.onUpgrade, this.version = 1});
+
   /// An instance of this database.
   Database? _db;
 
@@ -19,6 +19,7 @@ class AppDatabase {
 
   /// A list of commands to be executed on database creation.
   List<String> commands;
+
   // A lock that synchronizes all database insertions.
   static Lock lock = Lock();
 
@@ -35,13 +36,21 @@ class AppDatabase {
   }
 
   /// Inserts [values] into the corresponding [table] in this database.
-  insertInDatabase(String table, Map<String, dynamic> values,
-      {String? nullColumnHack, ConflictAlgorithm? conflictAlgorithm,}) async {
+  Future<void> insertInDatabase(
+    String table,
+    Map<String, dynamic> values, {
+    String? nullColumnHack,
+    ConflictAlgorithm? conflictAlgorithm,
+  }) async {
     await lock.synchronized(() async {
       final db = await getDatabase();
 
-      await db.insert(table, values,
-          nullColumnHack: nullColumnHack, conflictAlgorithm: conflictAlgorithm,);
+      await db.insert(
+        table,
+        values,
+        nullColumnHack: nullColumnHack,
+        conflictAlgorithm: conflictAlgorithm,
+      );
     });
   }
 
@@ -52,8 +61,12 @@ class AppDatabase {
     final path = join(directory, name);
 
     // Open or create the database at the given path
-    final appDatabase = await openDatabase(path,
-        version: version, onCreate: _createDatabase, onUpgrade: onUpgrade,);
+    final appDatabase = await openDatabase(
+      path,
+      version: version,
+      onCreate: _createDatabase,
+      onUpgrade: onUpgrade,
+    );
     return appDatabase;
   }
 
@@ -65,7 +78,7 @@ class AppDatabase {
   }
 
   /// Removes the database called [name].
-  static removeDatabase(String name) async {
+  static Future<void> removeDatabase(String name) async {
     final directory = await getApplicationDocumentsDirectory();
     final path = directory.path + name;
 

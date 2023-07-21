@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/intl.dart';
-
 import 'package:uni/view/schedule/widgets/schedule_slot.dart';
 
 import '../../../test_widget.dart';
@@ -36,25 +35,41 @@ void main() {
   });
 }
 
-void testScheduleSlot(String subject, String begin, String end, String rooms,
-    String typeClass, String teacher,) {
+void testScheduleSlot(
+  String subject,
+  String begin,
+  String end,
+  String rooms,
+  String typeClass,
+  String teacher,
+) {
   final scheduleSlotTimeKey = 'schedule-slot-time-$begin-$end';
   expect(
-      find.descendant(
-          of: find.byKey(Key(scheduleSlotTimeKey)), matching: find.text(begin),),
-      findsOneWidget,);
+    find.descendant(
+      of: find.byKey(Key(scheduleSlotTimeKey)),
+      matching: find.text(begin),
+    ),
+    findsOneWidget,
+  );
   expect(
-      find.descendant(
-          of: find.byKey(Key(scheduleSlotTimeKey)), matching: find.text(end),),
-      findsOneWidget,);
+    find.descendant(
+      of: find.byKey(Key(scheduleSlotTimeKey)),
+      matching: find.text(end),
+    ),
+    findsOneWidget,
+  );
   expect(
-      find.descendant(
-          of: find.byKey(Key(scheduleSlotTimeKey)),
-          matching: find.text(subject),),
-      findsOneWidget,);
+    find.descendant(
+      of: find.byKey(Key(scheduleSlotTimeKey)),
+      matching: find.text(subject),
+    ),
+    findsOneWidget,
+  );
   expect(
-      find.descendant(
-          of: find.byKey(Key(scheduleSlotTimeKey)),
-          matching: find.text(' ($typeClass)'),),
-      findsOneWidget,);
+    find.descendant(
+      of: find.byKey(Key(scheduleSlotTimeKey)),
+      matching: find.text(' ($typeClass)'),
+    ),
+    findsOneWidget,
+  );
 }

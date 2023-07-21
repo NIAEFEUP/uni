@@ -16,7 +16,9 @@ class AppUserDataDatabase extends AppDatabase {
     // TODO: Change profile keymap logic to avoid conflicts with print balance (#526)
     for (final keymap in profile.keymapValues()) {
       await insertInDatabase(
-          'userdata', {'key': keymap.item1, 'value': keymap.item2},);
+        'userdata',
+        {'key': keymap.item1, 'value': keymap.item2},
+      );
     }
   }
 
@@ -36,16 +38,18 @@ class AppUserDataDatabase extends AppDatabase {
       if (entry['key'] == 'email') email = entry['value'];
       if (entry['key'] == 'printBalance') printBalance = entry['value'];
       if (entry['key'] == 'feesBalance') feesBalance = entry['value'];
-      if (entry['key'] == 'feesLimit') feesLimit = DateTime.tryParse(entry['value']);
+      if (entry['key'] == 'feesLimit')
+        feesLimit = DateTime.tryParse(entry['value']);
     }
 
     return Profile(
-        name: name ?? '?',
-        email: email ?? '?',
-        courses: <Course>[],
-        printBalance: printBalance ?? '?',
-        feesBalance: feesBalance ?? '?',
-        feesLimit: feesLimit,);
+      name: name ?? '?',
+      email: email ?? '?',
+      courses: <Course>[],
+      printBalance: printBalance ?? '?',
+      feesBalance: feesBalance ?? '?',
+      feesLimit: feesLimit,
+    );
   }
 
   /// Deletes all of the data stored in this database.
@@ -59,14 +63,18 @@ class AppUserDataDatabase extends AppDatabase {
   /// Saves the user's print balance to the database.
   Future<void> saveUserPrintBalance(String userBalance) async {
     await insertInDatabase(
-        'userdata', {'key': 'printBalance', 'value': userBalance},);
+      'userdata',
+      {'key': 'printBalance', 'value': userBalance},
+    );
   }
 
   /// Saves the user's balance and payment due date to the database.
   ///
   Future<void> saveUserFees(String feesBalance, DateTime? feesLimit) async {
     await insertInDatabase(
-        'userdata', {'key': 'feesBalance', 'value': feesBalance},);
+      'userdata',
+      {'key': 'feesBalance', 'value': feesBalance},
+    );
     await insertInDatabase('userdata', {
       'key': 'feesLimit',
       'value': feesLimit != null ? feesLimit.toIso8601String() : ''

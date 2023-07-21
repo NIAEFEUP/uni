@@ -12,7 +12,6 @@ import 'package:uni/view/bus_stop_selection/widgets/form.dart';
 /// Manages the section of the app displayed when the
 /// user searches for a bus stop
 class BusStopSearch extends SearchDelegate<String> {
-
   BusStopSearch() {
     getDatabase();
   }
@@ -29,10 +28,11 @@ class BusStopSearch extends SearchDelegate<String> {
   List<Widget> buildActions(BuildContext context) {
     return [
       IconButton(
-          icon: const Icon(Icons.clear),
-          onPressed: () {
-            query = '';
-          },)
+        icon: const Icon(Icons.clear),
+        onPressed: () {
+          query = '';
+        },
+      )
     ];
   }
 
@@ -41,10 +41,11 @@ class BusStopSearch extends SearchDelegate<String> {
     //Back arrow to go back to menu
 
     return IconButton(
-        icon: const Icon(Icons.arrow_back),
-        onPressed: () {
-          Navigator.pop(context);
-        },);
+      icon: const Icon(Icons.arrow_back),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
   }
 
   @override
@@ -62,49 +63,61 @@ class BusStopSearch extends SearchDelegate<String> {
     if (suggestionsList.isEmpty) return ListView();
     return ListView.builder(
       itemBuilder: (context, index) => ListTile(
-          onTap: () {
-            Navigator.pop(context);
-            showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return busListing(context, suggestionsList[index]);
-                },);
-          },
-          leading: const Icon(Icons.directions_bus),
-          title: Text(suggestionsList[index]),),
+        onTap: () {
+          Navigator.pop(context);
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return busListing(context, suggestionsList[index]);
+            },
+          );
+        },
+        leading: const Icon(Icons.directions_bus),
+        title: Text(suggestionsList[index]),
+      ),
       itemCount: min(suggestionsList.length, 9),
     );
   }
 
   Widget busListing(BuildContext context, String suggestion) {
     final busesForm = BusesForm(
-        suggestion.splitMapJoin(RegExp(r'\[[A-Z0-9_]+\]'),
-            onMatch: (m) => m.group(0)!.substring(1, m.group(0)!.length - 1),
-            onNonMatch: (m) => '',),
-        updateStopCallback,);
+      suggestion.splitMapJoin(
+        RegExp(r'\[[A-Z0-9_]+\]'),
+        onMatch: (m) => m.group(0)!.substring(1, m.group(0)!.length - 1),
+        onNonMatch: (m) => '',
+      ),
+      updateStopCallback,
+    );
     return AlertDialog(
-        title: Text('Seleciona os autocarros dos quais queres informação:',
-            style: Theme.of(context).textTheme.headlineSmall,),
-        content: SizedBox(
-          height: 200,
-          width: 100,
-          child: busesForm,
+      title: Text(
+        'Seleciona os autocarros dos quais queres informação:',
+        style: Theme.of(context).textTheme.headlineSmall,
+      ),
+      content: SizedBox(
+        height: 200,
+        width: 100,
+        child: busesForm,
+      ),
+      actions: [
+        TextButton(
+          child: Text(
+            'Cancelar',
+            style: Theme.of(context).textTheme.bodyMedium,
+          ),
+          onPressed: () => Navigator.pop(context),
         ),
-        actions: [
-          TextButton(
-              child: Text('Cancelar',
-                  style: Theme.of(context).textTheme.bodyMedium,),
-              onPressed: () => Navigator.pop(context),),
-          ElevatedButton(
-              child: const Text('Confirmar'),
-              onPressed: () async {
-                if (stopData!.configuredBuses.isNotEmpty) {
-                  Provider.of<BusStopProvider>(context, listen: false)
-                      .addUserBusStop(Completer(), stopCode!, stopData!);
-                  Navigator.pop(context);
-                }
-              },)
-        ],);
+        ElevatedButton(
+          child: const Text('Confirmar'),
+          onPressed: () async {
+            if (stopData!.configuredBuses.isNotEmpty) {
+              Provider.of<BusStopProvider>(context, listen: false)
+                  .addUserBusStop(Completer(), stopCode!, stopData!);
+              Navigator.pop(context);
+            }
+          },
+        )
+      ],
+    );
   }
 
   /// Returns a widget for the suggestions list displayed to the user.
@@ -123,11 +136,12 @@ class BusStopSearch extends SearchDelegate<String> {
             !snapshot.hasError) {
           if (snapshot.data!.isEmpty) {
             return Container(
-                margin: const EdgeInsets.all(8),
-                height: 24,
-                child: const Center(
-                  child: Text('Sem resultados.'),
-                ),);
+              margin: const EdgeInsets.all(8),
+              height: 24,
+              child: const Center(
+                child: Text('Sem resultados.'),
+              ),
+            );
           } else {
             suggestionsList = snapshot.data!;
           }

@@ -10,7 +10,6 @@ import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/model/request_status.dart';
 
 class LibraryOccupationProvider extends StateProviderNotifier {
-
   LibraryOccupationProvider()
       : super(dependsOnSession: true, cacheDuration: const Duration(hours: 1));
   LibraryOccupation? _occupation;
@@ -38,9 +37,8 @@ class LibraryOccupationProvider extends StateProviderNotifier {
     try {
       updateStatus(RequestStatus.busy);
 
-      final occupation =
-          await LibraryOccupationFetcherSheets()
-              .getLibraryOccupationFromSheets(session);
+      final occupation = await LibraryOccupationFetcherSheets()
+          .getLibraryOccupationFromSheets(session);
 
       final db = LibraryOccupationDatabase();
       await db.saveOccupation(occupation);

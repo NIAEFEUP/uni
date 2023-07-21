@@ -5,37 +5,38 @@ class ScheduleCardShimmer extends StatelessWidget {
 
   Widget _getSingleScheduleWidget(BuildContext context) {
     return Center(
-        child: Container(
-      padding: const EdgeInsets.only(left: 12, bottom: 8, right: 12),
-      margin: const EdgeInsets.only(top: 8),
       child: Container(
+        padding: const EdgeInsets.only(left: 12, bottom: 8, right: 12),
+        margin: const EdgeInsets.only(top: 8),
+        child: Container(
           margin: const EdgeInsets.only(top: 8, bottom: 8),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        //timestamp section
-                        Container(
-                          height: 15,
-                          width: 40,
-                          color: Colors.black,
-                        ),
-                        const SizedBox(
-                          height: 2.5,
-                        ),
-                        Container(
-                          height: 15,
-                          width: 40,
-                          color: Colors.black,
-                        ),
-                      ],
-                    )
-                  ],),
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      //timestamp section
+                      Container(
+                        height: 15,
+                        width: 40,
+                        color: Colors.black,
+                      ),
+                      const SizedBox(
+                        height: 2.5,
+                      ),
+                      Container(
+                        height: 15,
+                        width: 40,
+                        color: Colors.black,
+                      ),
+                    ],
+                  )
+                ],
+              ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -60,8 +61,10 @@ class ScheduleCardShimmer extends StatelessWidget {
                 color: Colors.black,
               ), //Room section
             ],
-          ),),
-    ),);
+          ),
+        ),
+      ),
+    );
   }
 
   @override

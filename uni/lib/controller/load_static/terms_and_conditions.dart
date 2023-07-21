@@ -20,13 +20,13 @@ Future<String> readTermsAndConditions() async {
         return response.body;
       }
     } catch (e) {
-      Logger().e('Failed to fetch Terms and Conditions: ${e.toString()}');
+      Logger().e('Failed to fetch Terms and Conditions: $e');
     }
   }
   try {
     return await rootBundle.loadString('assets/text/TermsAndConditions.md');
   } catch (e) {
-    Logger().e('Failed to read Terms and Conditions: ${e.toString()}');
+    Logger().e('Failed to read Terms and Conditions: $e');
     return 'Não foi possível carregar os Termos e Condições. '
         'Por favor tente mais tarde.';
   }

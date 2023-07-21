@@ -25,16 +25,20 @@ class AboutPageViewState extends GeneralPageViewState {
           height: queryData.size.height / 7,
         ),
         Center(
-            child: Padding(
-          padding: EdgeInsets.only(
+          child: Padding(
+            padding: EdgeInsets.only(
               left: queryData.size.width / 12,
               right: queryData.size.width / 12,
               top: queryData.size.width / 12,
-              bottom: queryData.size.width / 12,),
-          child: Column(children: const <Widget>[
-            TermsAndConditions(),
-          ],),
-        ),)
+              bottom: queryData.size.width / 12,
+            ),
+            child: Column(
+              children: const <Widget>[
+                TermsAndConditions(),
+              ],
+            ),
+          ),
+        )
       ],
     );
   }

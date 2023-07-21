@@ -8,7 +8,6 @@ import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/model/request_status.dart';
 
 class FacultyLocationsProvider extends StateProviderNotifier {
-
   FacultyLocationsProvider()
       : super(dependsOnSession: false, cacheDuration: const Duration(days: 30));
   List<LocationGroup> _locations = [];

@@ -23,25 +23,41 @@ void main() {
     final mockResponse = MockResponse();
 
     final sopeCourseUnit = CourseUnit(
-        abbreviation: 'SOPE',
-        occurrId: 0,
-        name: 'Sistemas Operativos',
-        status: 'V',);
+      abbreviation: 'SOPE',
+      occurrId: 0,
+      name: 'Sistemas Operativos',
+      status: 'V',
+    );
     final sdisCourseUnit = CourseUnit(
-        abbreviation: 'SDIS',
-        occurrId: 0,
-        name: 'Sistemas Distribuídos',
-        status: 'V',);
+      abbreviation: 'SDIS',
+      occurrId: 0,
+      name: 'Sistemas Distribuídos',
+      status: 'V',
+    );
 
     final rooms = <String>['B119', 'B107', 'B205'];
     final beginSopeExam = DateTime.parse('2800-09-12 12:00');
     final endSopeExam = DateTime.parse('2800-09-12 15:00');
-    final sopeExam = Exam('1229', beginSopeExam, endSopeExam, 'SOPE', rooms,
-        'Recurso - Época Recurso (2ºS)', 'feup',);
+    final sopeExam = Exam(
+      '1229',
+      beginSopeExam,
+      endSopeExam,
+      'SOPE',
+      rooms,
+      'Recurso - Época Recurso (2ºS)',
+      'feup',
+    );
     final beginSdisExam = DateTime.parse('2800-09-12 12:00');
     final endSdisExam = DateTime.parse('2800-09-12 15:00');
-    final sdisExam = Exam('1230', beginSdisExam, endSdisExam, 'SDIS', rooms,
-        'Recurso - Época Recurso (2ºS)', 'feup',);
+    final sdisExam = Exam(
+      '1230',
+      beginSdisExam,
+      endSdisExam,
+      'SDIS',
+      rooms,
+      'Recurso - Época Recurso (2ºS)',
+      'feup',
+    );
 
     const userPersistentInfo = Tuple2<String, String>('', '');
 
@@ -69,7 +85,13 @@ void main() {
       final action = Completer();
 
       await provider.fetchUserExams(
-          action, parserExams, userPersistentInfo, profile, session, userUcs,);
+        action,
+        parserExams,
+        userPersistentInfo,
+        profile,
+        session,
+        userUcs,
+      );
 
       expect(provider.status, RequestStatus.busy);
 
@@ -87,7 +109,13 @@ void main() {
       final action = Completer<void>();
 
       await provider.fetchUserExams(
-          action, parserExams, userPersistentInfo, profile, session, userUcs,);
+        action,
+        parserExams,
+        userPersistentInfo,
+        profile,
+        session,
+        userUcs,
+      );
 
       expect(provider.status, RequestStatus.busy);
 
@@ -103,13 +131,14 @@ When given three exams but one is to be parsed out,
       final begin = DateTime.parse('2800-09-12 12:00');
       final end = DateTime.parse('2800-09-12 15:00');
       final specialExam = Exam(
-          '1231',
-          begin,
-          end,
-          'SDIS',
-          rooms,
-          'Exames ao abrigo de estatutos especiais - Port.Est.Especiais',
-          'feup',);
+        '1231',
+        begin,
+        end,
+        'SDIS',
+        rooms,
+        'Exames ao abrigo de estatutos especiais - Port.Est.Especiais',
+        'feup',
+      );
 
       final action = Completer<void>();
 
@@ -117,7 +146,13 @@ When given three exams but one is to be parsed out,
           .thenAnswer((_) async => {sopeExam, sdisExam, specialExam});
 
       await provider.fetchUserExams(
-          action, parserExams, userPersistentInfo, profile, session, userUcs,);
+        action,
+        parserExams,
+        userPersistentInfo,
+        profile,
+        session,
+        userUcs,
+      );
 
       expect(provider.status, RequestStatus.busy);
 
@@ -133,7 +168,13 @@ When given three exams but one is to be parsed out,
           .thenAnswer((_) async => throw Exception('RIP'));
 
       await provider.fetchUserExams(
-          action, parserExams, userPersistentInfo, profile, session, userUcs,);
+        action,
+        parserExams,
+        userPersistentInfo,
+        profile,
+        session,
+        userUcs,
+      );
 
       expect(provider.status, RequestStatus.busy);
 
@@ -145,8 +186,15 @@ When given three exams but one is to be parsed out,
     test('When Exam is today in one hour', () async {
       final begin = DateTime.now().add(const Duration(hours: 1));
       final end = DateTime.now().add(const Duration(hours: 2));
-      final todayExam = Exam('1232', begin, end, 'SDIS', rooms,
-          'Recurso - Época Recurso (1ºS)', 'feup',);
+      final todayExam = Exam(
+        '1232',
+        begin,
+        end,
+        'SDIS',
+        rooms,
+        'Recurso - Época Recurso (1ºS)',
+        'feup',
+      );
 
       when(parserExams.parseExams(any, any))
           .thenAnswer((_) async => {todayExam});
@@ -154,7 +202,13 @@ When given three exams but one is to be parsed out,
       final action = Completer<void>();
 
       await provider.fetchUserExams(
-          action, parserExams, userPersistentInfo, profile, session, userUcs,);
+        action,
+        parserExams,
+        userPersistentInfo,
+        profile,
+        session,
+        userUcs,
+      );
       expect(provider.status, RequestStatus.busy);
 
       await action.future;
@@ -166,8 +220,15 @@ When given three exams but one is to be parsed out,
     test('When Exam was one hour ago', () async {
       final end = DateTime.now().subtract(const Duration(hours: 1));
       final begin = DateTime.now().subtract(const Duration(hours: 2));
-      final todayExam = Exam('1233', begin, end, 'SDIS', rooms,
-          'Recurso - Época Recurso (1ºS)', 'feup',);
+      final todayExam = Exam(
+        '1233',
+        begin,
+        end,
+        'SDIS',
+        rooms,
+        'Recurso - Época Recurso (1ºS)',
+        'feup',
+      );
 
       when(parserExams.parseExams(any, any))
           .thenAnswer((_) async => {todayExam});
@@ -175,7 +236,13 @@ When given three exams but one is to be parsed out,
       final action = Completer<void>();
 
       await provider.fetchUserExams(
-          action, parserExams, userPersistentInfo, profile, session, userUcs,);
+        action,
+        parserExams,
+        userPersistentInfo,
+        profile,
+        session,
+        userUcs,
+      );
       expect(provider.status, RequestStatus.busy);
 
       await action.future;
@@ -187,8 +254,15 @@ When given three exams but one is to be parsed out,
     test('When Exam is ocurring', () async {
       final before = DateTime.now().subtract(const Duration(hours: 1));
       final after = DateTime.now().add(const Duration(hours: 1));
-      final todayExam = Exam('1234', before, after, 'SDIS', rooms,
-          'Recurso - Época Recurso (1ºS)', 'feup',);
+      final todayExam = Exam(
+        '1234',
+        before,
+        after,
+        'SDIS',
+        rooms,
+        'Recurso - Época Recurso (1ºS)',
+        'feup',
+      );
 
       when(parserExams.parseExams(any, any))
           .thenAnswer((_) async => {todayExam});
@@ -196,7 +270,13 @@ When given three exams but one is to be parsed out,
       final action = Completer<void>();
 
       await provider.fetchUserExams(
-          action, parserExams, userPersistentInfo, profile, session, userUcs,);
+        action,
+        parserExams,
+        userPersistentInfo,
+        profile,
+        session,
+        userUcs,
+      );
       expect(provider.status, RequestStatus.busy);
 
       await action.future;

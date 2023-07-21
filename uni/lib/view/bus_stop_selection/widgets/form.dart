@@ -6,7 +6,6 @@ import 'package:uni/model/entities/bus_stop.dart';
 import 'package:uni/model/providers/lazy/bus_stop_provider.dart';
 
 class BusesForm extends StatefulWidget {
-
   const BusesForm(this.stopCode, this.updateStopCallback, {super.key});
   final String stopCode;
   final Function updateStopCallback;
@@ -28,16 +27,14 @@ class BusesFormState extends State<BusesForm> {
   }
 
   Future<void> getStopBuses() async {
-    final buses =
-        await DeparturesFetcher.getBusesStoppingAt(widget.stopCode);
+    final buses = await DeparturesFetcher.getBusesStoppingAt(widget.stopCode);
     setState(() {
       this.buses = buses;
       busesToAdd.fillRange(0, buses.length, false);
     });
     if (!mounted) return;
-    final currentConfig =
-        Provider.of<BusStopProvider>(context, listen: false)
-            .configuredBusStops[widget.stopCode];
+    final currentConfig = Provider.of<BusStopProvider>(context, listen: false)
+        .configuredBusStops[widget.stopCode];
     if (currentConfig == null) {
       return;
     }
@@ -52,24 +49,28 @@ class BusesFormState extends State<BusesForm> {
   Widget build(BuildContext context) {
     updateBusStop();
     return ListView(
-        children: List.generate(buses.length, (i) {
-      return CheckboxListTile(
+      children: List.generate(buses.length, (i) {
+        return CheckboxListTile(
           contentPadding: const EdgeInsets.all(0),
-          title: Text('[${buses[i].busCode}] ${buses[i].destination}',
-              overflow: TextOverflow.fade, softWrap: false,),
+          title: Text(
+            '[${buses[i].busCode}] ${buses[i].destination}',
+            overflow: TextOverflow.fade,
+            softWrap: false,
+          ),
           value: busesToAdd[i],
           onChanged: (value) {
             setState(() {
               busesToAdd[i] = value!;
             });
-          },);
-    }),);
+          },
+        );
+      }),
+    );
   }
 
   void updateBusStop() {
-    final currentConfig =
-        Provider.of<BusStopProvider>(context, listen: false)
-            .configuredBusStops[widget.stopCode];
+    final currentConfig = Provider.of<BusStopProvider>(context, listen: false)
+        .configuredBusStops[widget.stopCode];
     final newBuses = <String>{};
     for (var i = 0; i < buses.length; i++) {
       if (busesToAdd[i]) {
@@ -77,9 +78,11 @@ class BusesFormState extends State<BusesForm> {
       }
     }
     widget.updateStopCallback(
-        widget.stopCode,
-        BusStopData(
-            configuredBuses: newBuses,
-            favorited: currentConfig == null ? true : currentConfig.favorited,),);
+      widget.stopCode,
+      BusStopData(
+        configuredBuses: newBuses,
+        favorited: currentConfig == null ? true : currentConfig.favorited,
+      ),
+    );
   }
 }

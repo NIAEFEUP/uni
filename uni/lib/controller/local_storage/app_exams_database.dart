@@ -8,7 +8,6 @@ import 'package:uni/model/entities/exam.dart';
 /// This database stores information about the user's exams.
 /// See the [Exam] class to see what data is stored in this database.
 class AppExamsDatabase extends AppDatabase {
-
   AppExamsDatabase()
       : super('exams.db', [_createScript], onUpgrade: migrate, version: 4);
   Map<String, String> months = {
@@ -26,8 +25,7 @@ class AppExamsDatabase extends AppDatabase {
     'Dezembro': '12'
   };
 
-  static const _createScript =
-      '''
+  static const _createScript = '''
 CREATE TABLE exams(id TEXT, subject TEXT, begin TEXT, end TEXT,
           rooms TEXT, examType TEXT, faculty TEXT, PRIMARY KEY (id,faculty)) ''';
 
@@ -44,13 +42,14 @@ CREATE TABLE exams(id TEXT, subject TEXT, begin TEXT, end TEXT,
 
     return List.generate(maps.length, (i) {
       return Exam.secConstructor(
-          maps[i]['id'] ?? '',
-          maps[i]['subject'],
-          DateTime.parse(maps[i]['begin']),
-          DateTime.parse(maps[i]['end']),
-          maps[i]['rooms'],
-          maps[i]['examType'],
-          maps[i]['faculty'],);
+        maps[i]['id'] ?? '',
+        maps[i]['subject'],
+        DateTime.parse(maps[i]['begin']),
+        DateTime.parse(maps[i]['end']),
+        maps[i]['rooms'],
+        maps[i]['examType'],
+        maps[i]['faculty'],
+      );
     });
   }
 

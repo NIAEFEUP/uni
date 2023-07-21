@@ -7,11 +7,11 @@ import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 
 class ProfileOverview extends StatelessWidget {
-
-  const ProfileOverview(
-      {super.key,
-      required this.profile,
-      required this.getProfileDecorationImage,});
+  const ProfileOverview({
+    super.key,
+    required this.profile,
+    required this.getProfileDecorationImage,
+  });
   final Profile profile;
   final DecorationImage Function(File?) getProfileDecorationImage;
 
@@ -21,27 +21,39 @@ class ProfileOverview extends StatelessWidget {
       builder: (context, sessionProvider, _) {
         return FutureBuilder(
           future: ProfileProvider.fetchOrGetCachedProfilePicture(
-              null, sessionProvider.session,),
+            null,
+            sessionProvider.session,
+          ),
           builder: (BuildContext context, AsyncSnapshot<File?> profilePic) =>
               Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Container(
-                  width: 150,
-                  height: 150,
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: getProfileDecorationImage(profilePic.data),),),
+                width: 150,
+                height: 150,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: getProfileDecorationImage(profilePic.data),
+                ),
+              ),
               const Padding(padding: EdgeInsets.all(8)),
-              Text(profile.name,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                      fontSize: 20, fontWeight: FontWeight.w400,),),
+              Text(
+                profile.name,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
               const Padding(padding: EdgeInsets.all(5)),
-              Text(profile.email,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.w300,),),
+              Text(
+                profile.email,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w300,
+                ),
+              ),
             ],
           ),
         );

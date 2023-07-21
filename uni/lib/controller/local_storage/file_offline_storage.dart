@@ -15,8 +15,12 @@ Future<String> get _localPath async {
 /// Gets cached image named [localFileName].
 /// If not found or too old, downloads it from [url] with [headers].
 Future<File?> loadFileFromStorageOrRetrieveNew(
-    String localFileName, String url, Map<String, String> headers,
-    {int staleDays = 7, forceRetrieval = false,}) async {
+  String localFileName,
+  String url,
+  Map<String, String> headers, {
+  int staleDays = 7,
+  forceRetrieval = false,
+}) async {
   final path = await _localPath;
   final targetPath = '$path/$localFileName';
   final file = File(targetPath);
@@ -32,8 +36,7 @@ Future<File?> loadFileFromStorageOrRetrieveNew(
     return file;
   }
   if (await Connectivity().checkConnectivity() != ConnectivityResult.none) {
-    final downloadedFile =
-        await _downloadAndSaveFile(targetPath, url, headers);
+    final downloadedFile = await _downloadAndSaveFile(targetPath, url, headers);
     if (downloadedFile != null) {
       return downloadedFile;
     }
@@ -43,7 +46,10 @@ Future<File?> loadFileFromStorageOrRetrieveNew(
 
 /// Downloads the image located at [url] and saves it in [filePath].
 Future<File?> _downloadAndSaveFile(
-    String filePath, String url, Map<String, String> headers,) async {
+  String filePath,
+  String url,
+  Map<String, String> headers,
+) async {
   final response = await http.get(url.toUri(), headers: headers);
   if (response.statusCode == 200) {
     return File(filePath).writeAsBytes(response.bodyBytes);

@@ -36,30 +36,38 @@ class _RestaurantPageState extends GeneralPageViewState<RestaurantPageView>
   @override
   Widget getBody(BuildContext context) {
     return LazyConsumer<RestaurantProvider>(
-        builder: (context, restaurantProvider) {
-      return Column(children: [
-        ListView(shrinkWrap: true, children: [
-          Container(
-            padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
-            alignment: Alignment.center,
-            child: const PageTitle(name: 'Ementas', center: false, pad: false),
-          ),
-          TabBar(
-            controller: tabController,
-            isScrollable: true,
-            tabs: createTabs(context),
-          ),
-        ],),
-        const SizedBox(height: 10),
-        RequestDependentWidgetBuilder(
-            status: restaurantProvider.status,
-            builder: () =>
-                createTabViewBuilder(restaurantProvider.restaurants, context),
-            hasContentPredicate: restaurantProvider.restaurants.isNotEmpty,
-            onNullContent:
-                const Center(child: Text('Não há refeições disponíveis.')),)
-      ],);
-    },);
+      builder: (context, restaurantProvider) {
+        return Column(
+          children: [
+            ListView(
+              shrinkWrap: true,
+              children: [
+                Container(
+                  padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
+                  alignment: Alignment.center,
+                  child: const PageTitle(
+                      name: 'Ementas', center: false, pad: false),
+                ),
+                TabBar(
+                  controller: tabController,
+                  isScrollable: true,
+                  tabs: createTabs(context),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            RequestDependentWidgetBuilder(
+              status: restaurantProvider.status,
+              builder: () =>
+                  createTabViewBuilder(restaurantProvider.restaurants, context),
+              hasContentPredicate: restaurantProvider.restaurants.isNotEmpty,
+              onNullContent:
+                  const Center(child: Text('Não há refeições disponíveis.')),
+            )
+          ],
+        );
+      },
+    );
   }
 
   Widget createTabViewBuilder(dynamic restaurants, BuildContext context) {
@@ -67,30 +75,38 @@ class _RestaurantPageState extends GeneralPageViewState<RestaurantPageView>
       var restaurantsWidgets = <Widget>[];
       if (restaurants is List<Restaurant>) {
         restaurantsWidgets = restaurants
-            .map((restaurant) => RestaurantPageCard(restaurant.name,
-                RestaurantDay(restaurant: restaurant, day: dayOfWeek),),)
+            .map(
+              (restaurant) => RestaurantPageCard(
+                restaurant.name,
+                RestaurantDay(restaurant: restaurant, day: dayOfWeek),
+              ),
+            )
             .toList();
       }
       return ListView(children: restaurantsWidgets);
     }).toList();
 
     return Expanded(
-        child: TabBarView(
-      controller: tabController,
-      children: dayContents,
-    ),);
+      child: TabBarView(
+        controller: tabController,
+        children: dayContents,
+      ),
+    );
   }
 
   List<Widget> createTabs(BuildContext context) {
     final tabs = <Widget>[];
 
     for (var i = 0; i < DayOfWeek.values.length; i++) {
-      tabs.add(Container(
-        color: Theme.of(context).colorScheme.background,
-        child: Tab(
+      tabs.add(
+        Container(
+          color: Theme.of(context).colorScheme.background,
+          child: Tab(
             key: Key('cantine-page-tab-$i'),
-            text: toString(DayOfWeek.values[i]),),
-      ),);
+            text: toString(DayOfWeek.values[i]),
+          ),
+        ),
+      );
     }
 
     return tabs;
@@ -104,7 +120,6 @@ class _RestaurantPageState extends GeneralPageViewState<RestaurantPageView>
 }
 
 class RestaurantDay extends StatelessWidget {
-
   const RestaurantDay({super.key, required this.restaurant, required this.day});
   final Restaurant restaurant;
   final DayOfWeek day;
@@ -114,26 +129,29 @@ class RestaurantDay extends StatelessWidget {
     final meals = restaurant.getMealsOfDay(day);
     if (meals.isEmpty) {
       return Container(
-          margin: const EdgeInsets.only(top: 10, bottom: 5),
-          key: Key('restaurant-page-day-column-$day'),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: const [
-              SizedBox(height: 10),
-              Center(
-                  child: Text('Não há informação disponível sobre refeições'),),
-            ],
-          ),);
+        margin: const EdgeInsets.only(top: 10, bottom: 5),
+        key: Key('restaurant-page-day-column-$day'),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: const [
+            SizedBox(height: 10),
+            Center(
+              child: Text('Não há informação disponível sobre refeições'),
+            ),
+          ],
+        ),
+      );
     } else {
       return Container(
-          margin: const EdgeInsets.only(top: 5, bottom: 5),
-          key: Key('restaurant-page-day-column-$day'),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: meals
-                .map((meal) => RestaurantSlot(type: meal.type, name: meal.name))
-                .toList(),
-          ),);
+        margin: const EdgeInsets.only(top: 5, bottom: 5),
+        key: Key('restaurant-page-day-column-$day'),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: meals
+              .map((meal) => RestaurantSlot(type: meal.type, name: meal.name))
+              .toList(),
+        ),
+      );
     }
   }
 }

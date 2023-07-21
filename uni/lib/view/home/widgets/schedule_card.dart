@@ -15,8 +15,10 @@ class ScheduleCard extends GenericCard {
   ScheduleCard({super.key});
 
   ScheduleCard.fromEditingInformation(
-      super.key, bool super.editingMode, Function()? super.onDelete,)
-      : super.fromEditingInformation();
+    super.key,
+    bool super.editingMode,
+    Function()? super.onDelete,
+  ) : super.fromEditingInformation();
 
   final double borderRadius = 12;
   final double leftPadding = 12;
@@ -30,15 +32,20 @@ class ScheduleCard extends GenericCard {
   @override
   Widget buildCardContent(BuildContext context) {
     return LazyConsumer<LectureProvider>(
-        builder: (context, lectureProvider) => RequestDependentWidgetBuilder(
-            status: lectureProvider.status,
-            builder: () => generateSchedule(lectureProvider.lectures, context),
-            hasContentPredicate: lectureProvider.lectures.isNotEmpty,
-            onNullContent: Center(
-                child: Text('Não existem aulas para apresentar',
-                    style: Theme.of(context).textTheme.titleLarge,
-                    textAlign: TextAlign.center,),),
-            contentLoadingWidget: const ScheduleCardShimmer().build(context),),);
+      builder: (context, lectureProvider) => RequestDependentWidgetBuilder(
+        status: lectureProvider.status,
+        builder: () => generateSchedule(lectureProvider.lectures, context),
+        hasContentPredicate: lectureProvider.lectures.isNotEmpty,
+        onNullContent: Center(
+          child: Text(
+            'Não existem aulas para apresentar',
+            style: Theme.of(context).textTheme.titleLarge,
+            textAlign: TextAlign.center,
+          ),
+        ),
+        contentLoadingWidget: const ScheduleCardShimmer().build(context),
+      ),
+    );
   }
 
   Widget generateSchedule(lectures, BuildContext context) {
@@ -60,9 +67,12 @@ class ScheduleCard extends GenericCard {
       if (now.compareTo(lectures[i].endTime) < 0) {
         if (lastAddedLectureDate.weekday != lectures[i].startTime.weekday &&
             lastAddedLectureDate.compareTo(lectures[i].startTime) <= 0) {
-          rows.add(DateRectangle(
+          rows.add(
+            DateRectangle(
               date: TimeString.getWeekdaysStrings()[
-                  (lectures[i].startTime.weekday - 1) % 7],),);
+                  (lectures[i].startTime.weekday - 1) % 7],
+            ),
+          );
         }
 
         rows.add(createRowFromLecture(context, lectures[i]));
@@ -72,9 +82,12 @@ class ScheduleCard extends GenericCard {
     }
 
     if (rows.isEmpty) {
-      rows.add(DateRectangle(
+      rows.add(
+        DateRectangle(
           date: TimeString.getWeekdaysStrings()[
-              lectures[0].startTime.weekday % 7],),);
+              lectures[0].startTime.weekday % 7],
+        ),
+      );
       rows.add(createRowFromLecture(context, lectures[0]));
     }
     return rows;
@@ -82,17 +95,18 @@ class ScheduleCard extends GenericCard {
 
   Widget createRowFromLecture(context, Lecture lecture) {
     return Container(
-        margin: const EdgeInsets.only(bottom: 10),
-        child: ScheduleSlot(
-          subject: lecture.subject,
-          rooms: lecture.room,
-          begin: lecture.startTime,
-          end: lecture.endTime,
-          teacher: lecture.teacher,
-          typeClass: lecture.typeClass,
-          classNumber: lecture.classNumber,
-          occurrId: lecture.occurrId,
-        ),);
+      margin: const EdgeInsets.only(bottom: 10),
+      child: ScheduleSlot(
+        subject: lecture.subject,
+        rooms: lecture.room,
+        begin: lecture.startTime,
+        end: lecture.endTime,
+        teacher: lecture.teacher,
+        typeClass: lecture.typeClass,
+        classNumber: lecture.classNumber,
+        occurrId: lecture.occurrId,
+      ),
+    );
   }
 
   @override

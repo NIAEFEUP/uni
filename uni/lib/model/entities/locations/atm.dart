@@ -2,7 +2,6 @@ import 'package:uni/model/entities/location.dart';
 import 'package:uni/view/locations/widgets/icons.dart';
 
 class Atm implements Location {
-
   Atm(this.floor, {this.locationGroupId}) : super();
   @override
   final int floor;

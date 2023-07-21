@@ -2,67 +2,73 @@ import 'package:logger/logger.dart';
 
 /// Stores information about a lecture.
 class Lecture {
-
   /// Creates an instance of the class [Lecture].
   Lecture(
-      this.subject,
-      this.typeClass,
-      this.startTime,
-      this.endTime,
-      this.blocks,
-      this.room,
-      this.teacher,
-      this.classNumber,
-      this.occurrId,);
+    this.subject,
+    this.typeClass,
+    this.startTime,
+    this.endTime,
+    this.blocks,
+    this.room,
+    this.teacher,
+    this.classNumber,
+    this.occurrId,
+  );
 
   factory Lecture.fromApi(
-      String subject,
-      String typeClass,
-      DateTime startTime,
-      int blocks,
-      String room,
-      String teacher,
-      String classNumber,
-      int occurrId,) {
-    final endTime = startTime.add(Duration(seconds:60 * 30 * blocks));
+    String subject,
+    String typeClass,
+    DateTime startTime,
+    int blocks,
+    String room,
+    String teacher,
+    String classNumber,
+    int occurrId,
+  ) {
+    final endTime = startTime.add(Duration(seconds: 60 * 30 * blocks));
     final lecture = Lecture(
-        subject,
-        typeClass,
-        startTime,
-        endTime,
-        blocks,
-        room,
-        teacher,
-        classNumber,
-        occurrId,);
+      subject,
+      typeClass,
+      startTime,
+      endTime,
+      blocks,
+      room,
+      teacher,
+      classNumber,
+      occurrId,
+    );
     return lecture;
   }
 
   factory Lecture.fromHtml(
-      String subject,
-      String typeClass,
-      DateTime day,
-      String startTime,
-      int blocks,
-      String room,
-      String teacher,
-      String classNumber,
-      int occurrId,) {
+    String subject,
+    String typeClass,
+    DateTime day,
+    String startTime,
+    int blocks,
+    String room,
+    String teacher,
+    String classNumber,
+    int occurrId,
+  ) {
     final startTimeHours = int.parse(startTime.substring(0, 2));
     final startTimeMinutes = int.parse(startTime.substring(3, 5));
     final endTimeHours =
         (startTimeMinutes + (blocks * 30)) ~/ 60 + startTimeHours;
     final endTimeMinutes = (startTimeMinutes + (blocks * 30)) % 60;
     return Lecture(
-        subject,
-        typeClass,
-        day.add(Duration(hours: startTimeHours, minutes: startTimeMinutes)),
-        day.add(Duration(hours: startTimeMinutes+endTimeHours, minutes: startTimeMinutes+endTimeMinutes)),
-        blocks,
-        room,
-        teacher,
-        classNumber,
-        occurrId,);
+      subject,
+      typeClass,
+      day.add(Duration(hours: startTimeHours, minutes: startTimeMinutes)),
+      day.add(Duration(
+          hours: startTimeMinutes + endTimeHours,
+          minutes: startTimeMinutes + endTimeMinutes)),
+      blocks,
+      room,
+      teacher,
+      classNumber,
+      occurrId,
+    );
   }
   String subject;
   String typeClass;
@@ -77,14 +83,15 @@ class Lecture {
   /// Clones a lecture from the api.
   static Lecture clone(Lecture lec) {
     return Lecture.fromApi(
-        lec.subject,
-        lec.typeClass,
-        lec.startTime,
-        lec.blocks,
-        lec.room,
-        lec.teacher,
-        lec.classNumber,
-        lec.occurrId,);
+      lec.subject,
+      lec.typeClass,
+      lec.startTime,
+      lec.blocks,
+      lec.room,
+      lec.teacher,
+      lec.classNumber,
+      lec.occurrId,
+    );
   }
 
   /// Clones a lecture from the html.
@@ -122,8 +129,17 @@ class Lecture {
   }
 
   @override
-  int get hashCode => Object.hash(subject, startTime, endTime, typeClass, room,
-      teacher, startTime, blocks, occurrId,);
+  int get hashCode => Object.hash(
+        subject,
+        startTime,
+        endTime,
+        typeClass,
+        room,
+        teacher,
+        startTime,
+        blocks,
+        occurrId,
+      );
 
   @override
   bool operator ==(Object other) =>

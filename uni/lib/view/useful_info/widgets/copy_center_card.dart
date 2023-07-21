@@ -18,8 +18,12 @@ class CopyCenterCard extends GenericExpansionCard {
         h2('AEFEUP ', context),
         infoText('+351 220 994 132', context, link: 'tel:220 994 132'),
         h1('Email', context),
-        infoText('editorial@aefeup.pt', context,
-            link: 'mailto:editorial@aefeup.pt', last: true,)
+        infoText(
+          'editorial@aefeup.pt',
+          context,
+          link: 'mailto:editorial@aefeup.pt',
+          last: true,
+        )
       ],
     );
   }

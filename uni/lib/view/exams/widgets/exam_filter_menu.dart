@@ -17,16 +17,19 @@ class ExamFilterMenuState extends State<ExamFilterMenu> {
       icon: const Icon(Icons.filter_alt),
       onPressed: () {
         showDialog(
-            context: context,
-            builder: (_) {
-              final examProvider =
-                  Provider.of<ExamProvider>(context, listen: false);
-              final filteredExamsTypes = examProvider.filteredExamsTypes;
-              return ChangeNotifierProvider.value(
-                  value: examProvider,
-                  child: ExamFilterForm(
-                      Map<String, bool>.from(filteredExamsTypes),),);
-            },);
+          context: context,
+          builder: (_) {
+            final examProvider =
+                Provider.of<ExamProvider>(context, listen: false);
+            final filteredExamsTypes = examProvider.filteredExamsTypes;
+            return ChangeNotifierProvider.value(
+              value: examProvider,
+              child: ExamFilterForm(
+                Map<String, bool>.from(filteredExamsTypes),
+              ),
+            );
+          },
+        );
       },
     );
   }

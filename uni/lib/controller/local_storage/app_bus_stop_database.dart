@@ -39,10 +39,13 @@ class AppBusStopDatabase extends AppDatabase {
 
     final stops = <String, BusStopData>{};
     groupBy(buses, (stop) => (stop! as dynamic)['stopCode']).forEach(
-        (stopCode, busCodeList) => stops[stopCode] = BusStopData(
-            configuredBuses: Set<String>.from(
-                busCodeList.map((busEntry) => busEntry['busCode']),),
-            favorited: favorites[stopCode]!,),);
+      (stopCode, busCodeList) => stops[stopCode] = BusStopData(
+        configuredBuses: Set<String>.from(
+          busCodeList.map((busEntry) => busEntry['busCode']),
+        ),
+        favorited: favorites[stopCode]!,
+      ),
+    );
     return stops;
   }
 
@@ -75,8 +78,10 @@ class AppBusStopDatabase extends AppDatabase {
   /// If a row with the same data is present, it will be replaced.
   Future<void> _insertBusStops(Map<String, BusStopData> stops) async {
     stops.forEach((stopCode, stopData) async {
-      await insertInDatabase('favoritestops',
-          {'stopCode': stopCode, 'favorited': stopData.favorited ? '1' : '0'},);
+      await insertInDatabase(
+        'favoritestops',
+        {'stopCode': stopCode, 'favorited': stopData.favorited ? '1' : '0'},
+      );
       for (final busCode in stopData.configuredBuses) {
         await insertInDatabase(
           'busstops',

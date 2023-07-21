@@ -22,14 +22,18 @@ class NetworkRouter {
 
   /// Creates an authenticated [Session] on the given [faculty] with the
   /// given username [user] and password [pass].
-  static Future<Session> login(String user, String pass, List<String> faculties,
-      bool persistentSession,) async {
+  static Future<Session> login(
+    String user,
+    String pass,
+    List<String> faculties,
+    bool persistentSession,
+  ) async {
     final url =
         '${NetworkRouter.getBaseUrls(faculties)[0]}mob_val_geral.autentica';
-    final response = await http.post(url.toUri(), body: {
-      'pv_login': user,
-      'pv_password': pass
-    },).timeout(const Duration(seconds: loginRequestTimeout));
+    final response = await http.post(
+      url.toUri(),
+      body: {'pv_login': user, 'pv_password': pass},
+    ).timeout(const Duration(seconds: loginRequestTimeout));
     if (response.statusCode == 200) {
       final session = Session.fromLogin(response, faculties);
       session.persistentSession = persistentSession;
@@ -39,7 +43,8 @@ class NetworkRouter {
       Logger().e('Login failed: ${response.body}');
 
       return Session(
-          faculties: faculties,);
+        faculties: faculties,
+      );
     }
   }
 
@@ -66,10 +71,13 @@ class NetworkRouter {
     Logger().i('Trying to login...');
     final url =
         '${NetworkRouter.getBaseUrls(session.faculties)[0]}mob_val_geral.autentica';
-    final response = await http.post(url.toUri(), body: {
-      'pv_login': session.studentNumber,
-      'pv_password': await AppSharedPreferences.getUserPassword(),
-    },).timeout(const Duration(seconds: loginRequestTimeout));
+    final response = await http.post(
+      url.toUri(),
+      body: {
+        'pv_login': session.studentNumber,
+        'pv_password': await AppSharedPreferences.getUserPassword(),
+      },
+    ).timeout(const Duration(seconds: loginRequestTimeout));
     final responseBody = json.decode(response.body);
     if (response.statusCode == 200 && responseBody['authenticated']) {
       session.authenticated = true;
@@ -87,14 +95,17 @@ class NetworkRouter {
   /// Returns the response body of the login in Sigarra
   /// given username [user] and password [pass].
   static Future<String> loginInSigarra(
-      String user, String pass, List<String> faculties,) async {
+    String user,
+    String pass,
+    List<String> faculties,
+  ) async {
     final url =
         '${NetworkRouter.getBaseUrls(faculties)[0]}vld_validacao.validacao';
 
-    final response = await http.post(url.toUri(), body: {
-      'p_user': user,
-      'p_pass': pass
-    },).timeout(const Duration(seconds: loginRequestTimeout));
+    final response = await http.post(
+      url.toUri(),
+      body: {'p_user': user, 'p_pass': pass},
+    ).timeout(const Duration(seconds: loginRequestTimeout));
 
     return response.body;
   }
@@ -115,7 +126,10 @@ class NetworkRouter {
   /// Makes an authenticated GET request with the given [session] to the
   /// resource located at [url] with the given [query] parameters.
   static Future<http.Response> getWithCookies(
-      String baseUrl, Map<String, String> query, Session session,) async {
+    String baseUrl,
+    Map<String, String> query,
+    Session session,
+  ) async {
     final loginSuccessful = await session.loginRequest;
     if (loginSuccessful != null && !loginSuccessful) {
       return Future.error('Login failed');

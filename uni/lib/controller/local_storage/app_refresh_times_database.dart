@@ -8,8 +8,10 @@ import 'package:uni/controller/local_storage/app_database.dart';
 /// for the last time.
 class AppRefreshTimesDatabase extends AppDatabase {
   AppRefreshTimesDatabase()
-      : super('refreshtimes.db',
-            ['CREATE TABLE refreshtimes(event TEXT, time TEXT)'],);
+      : super(
+          'refreshtimes.db',
+          ['CREATE TABLE refreshtimes(event TEXT, time TEXT)'],
+        );
 
   /// Returns a map containing all the data stored in this database.
   ///

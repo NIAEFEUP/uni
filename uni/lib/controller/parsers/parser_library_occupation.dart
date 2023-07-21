@@ -4,7 +4,8 @@ import 'package:http/http.dart';
 import 'package:uni/model/entities/library_occupation.dart';
 
 Future<LibraryOccupation> parseLibraryOccupationFromSheets(
-    Response response,) async {
+  Response response,
+) async {
   final json = response.body.split('\n')[1]; // ignore first line
   const toSkip =
       'google.visualization.Query.setResponse('; // this content should be ignored

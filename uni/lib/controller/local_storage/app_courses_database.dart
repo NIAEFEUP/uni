@@ -30,16 +30,17 @@ class AppCoursesDatabase extends AppDatabase {
     // Convert the List<Map<String, dynamic> into a List<Course>.
     return List.generate(maps.length, (i) {
       return Course(
-          id: maps[i]['id'] ?? 0,
-          festId: maps[i]['fest_id'],
-          name: maps[i]['name'],
-          abbreviation: maps[i]['abbreviation'],
-          currYear: maps[i]['currYear'],
-          firstEnrollment: maps[i]['firstEnrollment'],
-          state: maps[i]['state'],
-          faculty: maps[i]['faculty'],
-          finishedEcts: maps[i]['finishedEcts'],
-          currentAverage: maps[i]['currentAverage'],);
+        id: maps[i]['id'] ?? 0,
+        festId: maps[i]['fest_id'],
+        name: maps[i]['name'],
+        abbreviation: maps[i]['abbreviation'],
+        currYear: maps[i]['currYear'],
+        firstEnrollment: maps[i]['firstEnrollment'],
+        state: maps[i]['state'],
+        faculty: maps[i]['faculty'],
+        finishedEcts: maps[i]['finishedEcts'],
+        currentAverage: maps[i]['currentAverage'],
+      );
     });
   }
 
@@ -67,7 +68,10 @@ class AppCoursesDatabase extends AppDatabase {
   /// *Note:* This operation only updates the schema of the tables present in
   /// the database and, as such, all data is lost.
   static FutureOr<void> migrate(
-      Database db, int oldVersion, int newVersion,) async {
+    Database db,
+    int oldVersion,
+    int newVersion,
+  ) async {
     final batch = db.batch();
     batch.execute('DROP TABLE IF EXISTS courses');
     batch.execute(createScript);

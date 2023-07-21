@@ -1,4 +1,3 @@
-
 const faculties = [
   'faup',
   'fbaup',

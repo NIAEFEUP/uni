@@ -1,7 +1,11 @@
 class Reference {
-
-  Reference(this.description, this.limitDate,
-      this.entity, this.reference, this.amount,);
+  Reference(
+    this.description,
+    this.limitDate,
+    this.entity,
+    this.reference,
+    this.amount,
+  );
   final String description;
   final DateTime limitDate;
   final int entity;

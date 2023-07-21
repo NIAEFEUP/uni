@@ -6,7 +6,6 @@ import 'package:uni/view/course_unit_info/widgets/course_unit_info_card.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_student_row.dart';
 
 class CourseUnitClassesView extends StatelessWidget {
-
   const CourseUnitClassesView(this.classes, {super.key});
   final List<CourseUnitClass> classes;
 
@@ -16,13 +15,17 @@ class CourseUnitClassesView extends StatelessWidget {
     final cards = <CourseUnitInfoCard>[];
     for (final courseUnitClass in classes) {
       final isMyClass = courseUnitClass.students
-          .where((student) =>
-              student.number ==
-              (int.tryParse(
-                      session.studentNumber.replaceAll(RegExp(r'\D'), ''),) ??
-                  0),)
+          .where(
+            (student) =>
+                student.number ==
+                (int.tryParse(
+                      session.studentNumber.replaceAll(RegExp(r'\D'), ''),
+                    ) ??
+                    0),
+          )
           .isNotEmpty;
-      cards.add(CourseUnitInfoCard(
+      cards.add(
+        CourseUnitInfoCard(
           isMyClass
               ? '${courseUnitClass.className} *'
               : courseUnitClass.className,
@@ -30,11 +33,14 @@ class CourseUnitClassesView extends StatelessWidget {
             children: courseUnitClass.students
                 .map((student) => CourseUnitStudentRow(student, session))
                 .toList(),
-          ),),);
+          ),
+        ),
+      );
     }
 
     return Container(
-        padding: const EdgeInsets.only(left: 10, right: 10),
-        child: ListView(children: cards),);
+      padding: const EdgeInsets.only(left: 10, right: 10),
+      child: ListView(children: cards),
+    );
   }
 }

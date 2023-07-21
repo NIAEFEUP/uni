@@ -23,23 +23,28 @@ class ProfilePageViewState extends SecondaryPageViewState<ProfilePageView> {
       builder: (context, profileStateProvider) {
         final profile = profileStateProvider.profile;
         final courseWidgets = profile.courses
-            .map((e) => [
-                  CourseInfoCard(course: e),
-                  const Padding(padding: EdgeInsets.all(5))
-                ],)
+            .map(
+              (e) => [
+                CourseInfoCard(course: e),
+                const Padding(padding: EdgeInsets.all(5))
+              ],
+            )
             .flattened
             .toList();
 
-        return ListView(children: [
-          const Padding(padding: EdgeInsets.all(5)),
-          ProfileOverview(
+        return ListView(
+          children: [
+            const Padding(padding: EdgeInsets.all(5)),
+            ProfileOverview(
               profile: profile,
-              getProfileDecorationImage: getProfileDecorationImage,),
-          const Padding(padding: EdgeInsets.all(5)),
-          // PrintInfoCard() // TODO: Bring this back when print info is ready again
-          ...courseWidgets,
-          AccountInfoCard(),
-        ],);
+              getProfileDecorationImage: getProfileDecorationImage,
+            ),
+            const Padding(padding: EdgeInsets.all(5)),
+            // PrintInfoCard() // TODO: Bring this back when print info is ready again
+            ...courseWidgets,
+            AccountInfoCard(),
+          ],
+        );
       },
     );
   }

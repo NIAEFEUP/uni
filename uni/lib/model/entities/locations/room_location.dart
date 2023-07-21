@@ -2,7 +2,6 @@ import 'package:uni/model/entities/location.dart';
 import 'package:uni/view/locations/widgets/icons.dart';
 
 class RoomLocation implements Location {
-
   RoomLocation(this.floor, this.roomNumber, {this.locationGroupId});
   @override
   final int floor;

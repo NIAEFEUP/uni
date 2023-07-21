@@ -5,10 +5,12 @@ import 'package:uni/model/entities/location.dart';
 /// Store information about a location marker.
 /// What's located in each floor, like vending machines, rooms, etc...
 class LocationGroup {
-
-  LocationGroup(this.latlng,
-      {List<Location>? locations, this.isFloorless = false, this.id,})
-      : floors = locations != null
+  LocationGroup(
+    this.latlng, {
+    List<Location>? locations,
+    this.isFloorless = false,
+    this.id,
+  }) : floors = locations != null
             ? groupBy(locations, (location) => location.floor)
             : Map.identity();
   final Map<int, List<Location>> floors;
@@ -20,7 +22,8 @@ class LocationGroup {
   Location? getLocationWithMostWeight() {
     final allLocations = floors.values.expand((x) => x).toList();
     return allLocations.reduce(
-        (current, next) => current.weight > next.weight ? current : next,);
+      (current, next) => current.weight > next.weight ? current : next,
+    );
   }
 
   Map<String, dynamic> toMap() {

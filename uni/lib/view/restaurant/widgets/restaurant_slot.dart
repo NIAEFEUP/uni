@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class RestaurantSlot extends StatelessWidget {
-
   const RestaurantSlot({
     super.key,
     required this.type,
@@ -14,32 +13,33 @@ class RestaurantSlot extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding:
-          const EdgeInsets.only(top: 10, bottom: 10, left: 10, right: 22),
+      padding: const EdgeInsets.only(top: 10, bottom: 10, left: 10, right: 22),
       child: Container(
-          key: Key('cantine-slot-type-$type'),
-          child: Row(
-            children: [
-              Container(
-                  margin: const EdgeInsets.fromLTRB(0, 0, 8, 0),
-                  child: SizedBox(
-                    width: 20,
-                    child: RestaurantSlotType(type: type),
-                  ),),
-              Flexible(
-                  child: Text(
+        key: Key('cantine-slot-type-$type'),
+        child: Row(
+          children: [
+            Container(
+              margin: const EdgeInsets.fromLTRB(0, 0, 8, 0),
+              child: SizedBox(
+                width: 20,
+                child: RestaurantSlotType(type: type),
+              ),
+            ),
+            Flexible(
+              child: Text(
                 name,
                 style: Theme.of(context).textTheme.bodyMedium,
                 textAlign: TextAlign.left,
-              ),)
-            ],
-          ),),
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 }
 
 class RestaurantSlotType extends StatelessWidget {
-
   const RestaurantSlotType({super.key, required this.type});
   final String type;
 
@@ -56,19 +56,24 @@ class RestaurantSlotType extends StatelessWidget {
   Widget build(BuildContext context) {
     final icon = getIcon();
     return Tooltip(
-        message: type,
-        child: icon != ''
-            ? SvgPicture.asset(
-          icon,
-          colorFilter: ColorFilter.mode(
-              Theme.of(context).primaryColor, BlendMode.srcIn,),
-          height: 20,
-        )
-            : null,);
+      message: type,
+      child: icon != ''
+          ? SvgPicture.asset(
+              icon,
+              colorFilter: ColorFilter.mode(
+                Theme.of(context).primaryColor,
+                BlendMode.srcIn,
+              ),
+              height: 20,
+            )
+          : null,
+    );
   }
 
   String getIcon() => mealTypeIcons.entries
-      .firstWhere((element) => type.toLowerCase().contains(element.key),
-          orElse: () => const MapEntry('', ''),)
+      .firstWhere(
+        (element) => type.toLowerCase().contains(element.key),
+        orElse: () => const MapEntry('', ''),
+      )
       .value;
 }

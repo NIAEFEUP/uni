@@ -19,23 +19,30 @@ class CalendarPageViewState extends GeneralPageViewState<CalendarPageView> {
   @override
   Widget getBody(BuildContext context) {
     return LazyConsumer<CalendarProvider>(
-        builder: (context, calendarProvider) => ListView(children: [
-              _getPageTitle(),
-              RequestDependentWidgetBuilder(
-                  status: calendarProvider.status,
-                  builder: () =>
-                      getTimeline(context, calendarProvider.calendar),
-                  hasContentPredicate: calendarProvider.calendar.isNotEmpty,
-                  onNullContent: const Center(
-                      child: Text('Nenhum evento encontrado',
-                          style: TextStyle(fontSize: 18),),),)
-            ],),);
+      builder: (context, calendarProvider) => ListView(
+        children: [
+          _getPageTitle(),
+          RequestDependentWidgetBuilder(
+            status: calendarProvider.status,
+            builder: () => getTimeline(context, calendarProvider.calendar),
+            hasContentPredicate: calendarProvider.calendar.isNotEmpty,
+            onNullContent: const Center(
+              child: Text(
+                'Nenhum evento encontrado',
+                style: TextStyle(fontSize: 18),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
   }
 
   Widget _getPageTitle() {
     return Container(
-        padding: const EdgeInsets.only(bottom: 6),
-        child: const PageTitle(name: 'Calendário Escolar'),);
+      padding: const EdgeInsets.only(bottom: 6),
+      child: const PageTitle(name: 'Calendário Escolar'),
+    );
   }
 
   Widget getTimeline(BuildContext context, List<CalendarEvent> calendar) {
@@ -52,18 +59,22 @@ class CalendarPageViewState extends GeneralPageViewState<CalendarPageView> {
         contentsAlign: ContentsAlign.alternating,
         contentsBuilder: (context, index) => Padding(
           padding: const EdgeInsets.all(24),
-          child: Text(calendar[index].name,
-              style: Theme.of(context)
-                  .textTheme
-                  .titleLarge
-                  ?.copyWith(fontWeight: FontWeight.w500),),
+          child: Text(
+            calendar[index].name,
+            style: Theme.of(context)
+                .textTheme
+                .titleLarge
+                ?.copyWith(fontWeight: FontWeight.w500),
+          ),
         ),
         oppositeContentsBuilder: (context, index) => Padding(
           padding: const EdgeInsets.all(24),
-          child: Text(calendar[index].date,
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontStyle: FontStyle.italic,
-                  ),),
+          child: Text(
+            calendar[index].date,
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  fontStyle: FontStyle.italic,
+                ),
+          ),
         ),
         itemCount: calendar.length,
       ),

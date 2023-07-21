@@ -13,10 +13,10 @@ abstract class LocationFetcher {
     final groups = <LocationGroup>[];
 
     for (final Map<String, dynamic> groupMap in groupsMap) {
-      final int id = groupMap['id'];
-      final double lat = groupMap['lat'];
-      final double lng = groupMap['lng'];
-      final bool isFloorless = groupMap['isFloorless'];
+      final id = groupMap['id'] as int;
+      final lat = groupMap['lat'] as double;
+      final lng = groupMap['lng'] as double;
+      final isFloorless = groupMap['isFloorless'] as bool;
 
       final Map<String, dynamic> locationsMap = groupMap['locations'];
 
@@ -27,8 +27,14 @@ abstract class LocationFetcher {
           locations.add(Location.fromJSON(locationJson, floor));
         });
       });
-      groups.add(LocationGroup(LatLng(lat, lng),
-          locations: locations, isFloorless: isFloorless, id: id,),);
+      groups.add(
+        LocationGroup(
+          LatLng(lat, lng),
+          locations: locations,
+          isFloorless: isFloorless,
+          id: id,
+        ),
+      );
     }
 
     return groups;

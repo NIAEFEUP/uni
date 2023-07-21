@@ -38,53 +38,65 @@ class SplashScreenState extends State<SplashScreen> {
             ? applicationDarkTheme
             : applicationLightTheme;
     return Theme(
-        data: systemTheme,
-        child: Builder(
-            builder: (context) => Scaffold(
-                  body: Stack(
-                    fit: StackFit.expand,
+      data: systemTheme,
+      child: Builder(
+        builder: (context) => Scaffold(
+          body: Stack(
+            fit: StackFit.expand,
+            children: <Widget>[
+              Container(
+                decoration: const BoxDecoration(),
+              ),
+              Center(
+                child: createTitle(context),
+              ),
+              Column(
+                children: <Widget>[
+                  const Spacer(),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Container(
-                        decoration: const BoxDecoration(),
+                      const CircularProgressIndicator(),
+                      Padding(
+                        padding: EdgeInsets.only(
+                          bottom: queryData.size.height / 16,
+                        ),
                       ),
-                      Center(
-                        child: createTitle(context),
-                      ),
-                      Column(
-                        children: <Widget>[
-                          const Spacer(),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              const CircularProgressIndicator(),
-                              Padding(
-                                  padding: EdgeInsets.only(
-                                      bottom: queryData.size.height / 16,),),
-                              createNILogo(context),
-                            ],
-                          ),
-                          Padding(
-                              padding: EdgeInsets.only(
-                                  bottom: queryData.size.height / 15,),)
-                        ],
-                      )
+                      createNILogo(context),
                     ],
                   ),
-                ),),);
+                  Padding(
+                    padding: EdgeInsets.only(
+                      bottom: queryData.size.height / 15,
+                    ),
+                  )
+                ],
+              )
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   /// Creates the app Title container with the app's logo.
   Widget createTitle(BuildContext context) {
     return ConstrainedBox(
-        constraints: BoxConstraints(
-          minWidth: queryData.size.width / 8,
-          minHeight: queryData.size.height / 6,
+      constraints: BoxConstraints(
+        minWidth: queryData.size.width / 8,
+        minHeight: queryData.size.height / 6,
+      ),
+      child: SizedBox(
+        width: 150,
+        child: SvgPicture.asset(
+          'assets/images/logo_dark.svg',
+          colorFilter: ColorFilter.mode(
+            Theme.of(context).primaryColor,
+            BlendMode.srcIn,
+          ),
         ),
-        child: SizedBox(
-            width: 150,
-            child: SvgPicture.asset('assets/images/logo_dark.svg',
-                colorFilter: ColorFilter.mode(
-                    Theme.of(context).primaryColor, BlendMode.srcIn,),),),);
+      ),
+    );
   }
 
   /// Creates the app main logo
@@ -119,7 +131,10 @@ class SplashScreenState extends State<SplashScreen> {
   }
 
   Future<MaterialPageRoute> getTermsAndConditions(
-      String userName, String password, StateProviders stateProviders,) async {
+    String userName,
+    String password,
+    StateProviders stateProviders,
+  ) async {
     final completer = Completer<TermsAndConditionsState>();
     await TermsAndConditionDialog.build(context, completer, userName, password);
     final state = await completer.future;
@@ -127,8 +142,7 @@ class SplashScreenState extends State<SplashScreen> {
     switch (state) {
       case TermsAndConditionsState.accepted:
         if (mounted) {
-          final faculties =
-              await AppSharedPreferences.getUserFaculties();
+          final faculties = await AppSharedPreferences.getUserFaculties();
           await stateProviders.sessionProvider
               .reLogin(userName, password, faculties);
         }

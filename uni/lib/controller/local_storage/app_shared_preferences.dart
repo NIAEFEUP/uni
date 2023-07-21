@@ -44,9 +44,12 @@ class AppSharedPreferences {
 
   /// Sets the last time the data with given key was updated.
   static Future<void> setLastDataClassUpdateTime(
-      String dataKey, DateTime dateTime,) async {
+    String dataKey,
+    DateTime dateTime,
+  ) async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(dataKey + lastUpdateTimeKeySuffix, dateTime.toString());
+    await prefs.setString(
+        dataKey + lastUpdateTimeKeySuffix, dateTime.toString());
   }
 
   /// Saves the user's student number, password and faculties.
@@ -55,7 +58,9 @@ class AppSharedPreferences {
     await prefs.setString(userNumber, user);
     await prefs.setString(userPw, encode(pass));
     await prefs.setStringList(
-        userFaculties, faculties,); // Could be multiple faculties
+      userFaculties,
+      faculties,
+    ); // Could be multiple faculties
   }
 
   /// Sets whether or not the Terms and Conditions have been accepted.
@@ -153,7 +158,9 @@ class AppSharedPreferences {
   static saveFavoriteCards(List<FavoriteWidgetType> newFavorites) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setStringList(
-        favoriteCards, newFavorites.map((a) => a.index.toString()).toList(),);
+      favoriteCards,
+      newFavorites.map((a) => a.index.toString()).toList(),
+    );
   }
 
   /// Returns a list containing the user's favorite widgets.
@@ -173,8 +180,7 @@ class AppSharedPreferences {
 
   static Future<List<String>> getHiddenExams() async {
     final prefs = await SharedPreferences.getInstance();
-    final storedHiddenExam =
-        prefs.getStringList(hiddenExams) ?? [];
+    final storedHiddenExam = prefs.getStringList(hiddenExams) ?? [];
     return storedHiddenExam;
   }
 
@@ -191,14 +197,15 @@ class AppSharedPreferences {
   /// Returns the user's exam filter settings.
   static Future<Map<String, bool>> getFilteredExams() async {
     final prefs = await SharedPreferences.getInstance();
-    final storedFilteredExamTypes =
-        prefs.getStringList(filteredExamsTypes);
+    final storedFilteredExamTypes = prefs.getStringList(filteredExamsTypes);
 
     if (storedFilteredExamTypes == null) {
       return Map.fromIterable(defaultFilteredExamTypes, value: (type) => true);
     }
-    return Map.fromIterable(defaultFilteredExamTypes,
-        value: storedFilteredExamTypes.contains,);
+    return Map.fromIterable(
+      defaultFilteredExamTypes,
+      value: storedFilteredExamTypes.contains,
+    );
   }
 
   /// Encrypts [plainText] and returns its base64 representation.

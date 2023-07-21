@@ -15,7 +15,6 @@ import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/model/request_status.dart';
 
 class ExamProvider extends StateProviderNotifier {
-
   ExamProvider()
       : super(dependsOnSession: true, cacheDuration: const Duration(days: 1));
   List<Exam> _exams = [];
@@ -32,9 +31,12 @@ class ExamProvider extends StateProviderNotifier {
 
   @override
   Future<void> loadFromStorage() async {
-    setFilteredExams(
-        await AppSharedPreferences.getFilteredExams(), Completer(),);
-    setHiddenExams(await AppSharedPreferences.getHiddenExams(), Completer());
+    await setFilteredExams(
+      await AppSharedPreferences.getFilteredExams(),
+      Completer(),
+    );
+    await setHiddenExams(
+        await AppSharedPreferences.getHiddenExams(), Completer());
 
     final db = AppExamsDatabase();
     final exams = await db.exams();
@@ -48,8 +50,14 @@ class ExamProvider extends StateProviderNotifier {
     final userPersistentInfo =
         await AppSharedPreferences.getPersistentUserInfo();
 
-    await fetchUserExams(action, parserExams, userPersistentInfo, profile, session,
-        profile.courseUnits,);
+    await fetchUserExams(
+      action,
+      parserExams,
+      userPersistentInfo,
+      profile,
+      session,
+      profile.courseUnits,
+    );
     await action.future;
   }
 
@@ -72,8 +80,7 @@ class ExamProvider extends StateProviderNotifier {
 
       // Updates local database according to the information fetched -- Exams
       if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {
-        final db = AppExamsDatabase();
-        db.saveNewExams(exams);
+        AppExamsDatabase().saveNewExams(exams);
       }
 
       _exams = exams;
@@ -87,14 +94,16 @@ class ExamProvider extends StateProviderNotifier {
     action.complete();
   }
 
-  updateFilteredExams() async {
+  Future<void> updateFilteredExams() async {
     final exams = await AppSharedPreferences.getFilteredExams();
     _filteredExamsTypes = exams;
     notifyListeners();
   }
 
-  setFilteredExams(
-      Map<String, bool> newFilteredExams, Completer<void> action,) async {
+  Future<void> setFilteredExams(
+    Map<String, bool> newFilteredExams,
+    Completer<void> action,
+  ) async {
     _filteredExamsTypes = Map<String, bool>.from(newFilteredExams);
     AppSharedPreferences.saveFilteredExams(filteredExamsTypes);
     action.complete();
@@ -103,19 +112,24 @@ class ExamProvider extends StateProviderNotifier {
 
   List<Exam> getFilteredExams() {
     return exams
-        .where((exam) =>
-            filteredExamsTypes[Exam.getExamTypeLong(exam.type)] ?? true,)
+        .where(
+          (exam) => filteredExamsTypes[Exam.getExamTypeLong(exam.type)] ?? true,
+        )
         .toList();
   }
 
-  setHiddenExams(List<String> newHiddenExams, Completer<void> action) async {
+  Future<void> setHiddenExams(
+    List<String> newHiddenExams,
+    Completer<void> action,
+  ) async {
     _hiddenExams = List<String>.from(newHiddenExams);
     AppSharedPreferences.saveHiddenExams(hiddenExams);
     action.complete();
     notifyListeners();
   }
 
-  toggleHiddenExam(String newExamId, Completer<void> action) async {
+  Future<void> toggleHiddenExam(
+      String newExamId, Completer<void> action) async {
     _hiddenExams.contains(newExamId)
         ? _hiddenExams.remove(newExamId)
         : _hiddenExams.add(newExamId);
@@ -124,7 +138,8 @@ class ExamProvider extends StateProviderNotifier {
     action.complete();
   }
 
-  setExams(List<Exam> newExams) {
+  set exams(List<Exam> newExams) {
     _exams = newExams;
+    notifyListeners();
   }
 }

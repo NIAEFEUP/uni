@@ -11,7 +11,6 @@ import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/model/request_status.dart';
 
 class CourseUnitsInfoProvider extends StateProviderNotifier {
-
   CourseUnitsInfoProvider()
       : super(dependsOnSession: true, cacheDuration: null, initialize: false);
   final Map<CourseUnit, CourseUnitSheet> _courseUnitsSheets = {};
@@ -23,7 +22,8 @@ class CourseUnitsInfoProvider extends StateProviderNotifier {
   UnmodifiableMapView<CourseUnit, List<CourseUnitClass>>
       get courseUnitsClasses => UnmodifiableMapView(_courseUnitsClasses);
 
-  Future<void> fetchCourseUnitSheet(CourseUnit courseUnit, Session session) async {
+  Future<void> fetchCourseUnitSheet(
+      CourseUnit courseUnit, Session session) async {
     updateStatus(RequestStatus.busy);
     try {
       _courseUnitsSheets[courseUnit] = await CourseUnitsInfoFetcher()
@@ -36,7 +36,8 @@ class CourseUnitsInfoProvider extends StateProviderNotifier {
     updateStatus(RequestStatus.successful);
   }
 
-  Future<void> fetchCourseUnitClasses(CourseUnit courseUnit, Session session) async {
+  Future<void> fetchCourseUnitClasses(
+      CourseUnit courseUnit, Session session) async {
     updateStatus(RequestStatus.busy);
     try {
       _courseUnitsClasses[courseUnit] = await CourseUnitsInfoFetcher()

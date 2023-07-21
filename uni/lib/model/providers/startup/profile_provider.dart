@@ -21,7 +21,6 @@ import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/model/request_status.dart';
 
 class ProfileProvider extends StateProviderNotifier {
-
   ProfileProvider()
       : super(dependsOnSession: true, cacheDuration: const Duration(days: 1));
   Profile _profile = Profile();
@@ -38,7 +37,8 @@ class ProfileProvider extends StateProviderNotifier {
   Future<void> loadFromStorage() async {
     await loadProfile();
     await Future.wait(
-        [loadCourses(), loadBalanceRefreshTimes(), loadCourseUnits()],);
+      [loadCourses(), loadBalanceRefreshTimes(), loadCourseUnits()],
+    );
   }
 
   @override
@@ -80,8 +80,7 @@ class ProfileProvider extends StateProviderNotifier {
 
   Future<void> loadBalanceRefreshTimes() async {
     final refreshTimesDb = AppRefreshTimesDatabase();
-    final refreshTimes =
-        await refreshTimesDb.refreshTimes();
+    final refreshTimes = await refreshTimesDb.refreshTimes();
 
     final printRefreshTime = refreshTimes['print'];
     final feesRefreshTime = refreshTimes['fees'];
@@ -117,12 +116,13 @@ class ProfileProvider extends StateProviderNotifier {
       }
 
       final newProfile = Profile(
-          name: _profile.name,
-          email: _profile.email,
-          courses: _profile.courses,
-          printBalance: _profile.printBalance,
-          feesBalance: feesBalance,
-          feesLimit: feesLimit,);
+        name: _profile.name,
+        email: _profile.email,
+        courses: _profile.courses,
+        printBalance: _profile.printBalance,
+        feesBalance: feesBalance,
+        feesLimit: feesLimit,
+      );
 
       _profile = newProfile;
       _feesRefreshTime = currentTime;
@@ -136,8 +136,7 @@ class ProfileProvider extends StateProviderNotifier {
   }
 
   Future storeRefreshTime(String db, String currentTime) async {
-    final refreshTimesDatabase =
-        AppRefreshTimesDatabase();
+    final refreshTimesDatabase = AppRefreshTimesDatabase();
     await refreshTimesDatabase.saveRefreshTime(db, currentTime);
   }
 
@@ -158,12 +157,13 @@ class ProfileProvider extends StateProviderNotifier {
       }
 
       final newProfile = Profile(
-          name: _profile.name,
-          email: _profile.email,
-          courses: _profile.courses,
-          printBalance: printBalance,
-          feesBalance: _profile.feesBalance,
-          feesLimit: _profile.feesLimit,);
+        name: _profile.name,
+        email: _profile.email,
+        courses: _profile.courses,
+        printBalance: printBalance,
+        feesBalance: _profile.feesBalance,
+        feesLimit: _profile.feesLimit,
+      );
 
       _profile = newProfile;
       _printRefreshTime = currentTime;
@@ -204,7 +204,9 @@ class ProfileProvider extends StateProviderNotifier {
   }
 
   fetchCourseUnitsAndCourseAverages(
-      Session session, Completer<void> action,) async {
+    Session session,
+    Completer<void> action,
+  ) async {
     updateStatus(RequestStatus.busy);
     try {
       final courses = profile.courses;
@@ -231,8 +233,10 @@ class ProfileProvider extends StateProviderNotifier {
   }
 
   static Future<File?> fetchOrGetCachedProfilePicture(
-      int? studentNumber, Session session,
-      {forceRetrieval = false,}) {
+    int? studentNumber,
+    Session session, {
+    forceRetrieval = false,
+  }) {
     studentNumber ??= int.parse(session.studentNumber.replaceAll('up', ''));
 
     final faculty = session.faculties[0];
@@ -241,7 +245,10 @@ class ProfileProvider extends StateProviderNotifier {
     final headers = <String, String>{};
     headers['cookie'] = session.cookies;
     return loadFileFromStorageOrRetrieveNew(
-        '${studentNumber}_profile_picture', url, headers,
-        forceRetrieval: forceRetrieval,);
+      '${studentNumber}_profile_picture',
+      url,
+      headers,
+      forceRetrieval: forceRetrieval,
+    );
   }
 }

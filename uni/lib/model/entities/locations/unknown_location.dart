@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:uni/model/entities/location.dart';
 
 class UnknownLocation implements Location {
-
   UnknownLocation(this.floor, this.type, {this.locationGroupId});
   @override
   final int floor;

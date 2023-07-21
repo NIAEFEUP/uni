@@ -5,7 +5,6 @@ import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/theme_notifier.dart';
 
 class AppNavigationDrawer extends StatefulWidget {
-
   const AppNavigationDrawer({super.key, required this.parentContext});
   final BuildContext parentContext;
 
@@ -57,8 +56,11 @@ class AppNavigationDrawerState extends State<AppNavigationDrawer> {
     return (name == getCurrentRoute())
         ? BoxDecoration(
             border: Border(
-                left: BorderSide(
-                    color: Theme.of(context).primaryColor, width: 3,),),
+              left: BorderSide(
+                color: Theme.of(context).primaryColor,
+                width: 3,
+              ),
+            ),
             color: Theme.of(context).dividerColor,
           )
         : null;
@@ -74,11 +76,13 @@ class AppNavigationDrawerState extends State<AppNavigationDrawer> {
       ),
       child: Container(
         padding: const EdgeInsets.all(15),
-        child: Text(logOutText,
-            style: Theme.of(context)
-                .textTheme
-                .titleLarge!
-                .copyWith(color: Theme.of(context).primaryColor),),
+        child: Text(
+          logOutText,
+          style: Theme.of(context)
+              .textTheme
+              .titleLarge!
+              .copyWith(color: Theme.of(context).primaryColor),
+        ),
       ),
     );
   }
@@ -98,29 +102,34 @@ class AppNavigationDrawerState extends State<AppNavigationDrawer> {
     return Consumer<ThemeNotifier>(
       builder: (context, themeNotifier, _) {
         return IconButton(
-            icon: getThemeIcon(themeNotifier.getTheme()),
-            onPressed: themeNotifier.setNextTheme,);
+          icon: getThemeIcon(themeNotifier.getTheme()),
+          onPressed: themeNotifier.setNextTheme,
+        );
       },
     );
   }
 
   Widget createDrawerNavigationOption(DrawerItem d) {
     return Container(
-        decoration: _getSelectionDecoration(d.title),
-        child: ListTile(
-          title: Container(
-            padding: const EdgeInsets.only(bottom: 3, left: 20),
-            child: Text(d.title,
-                style: TextStyle(
-                    fontSize: 18,
-                    color: Theme.of(context).primaryColor,
-                    fontWeight: FontWeight.normal,),),
+      decoration: _getSelectionDecoration(d.title),
+      child: ListTile(
+        title: Container(
+          padding: const EdgeInsets.only(bottom: 3, left: 20),
+          child: Text(
+            d.title,
+            style: TextStyle(
+              fontSize: 18,
+              color: Theme.of(context).primaryColor,
+              fontWeight: FontWeight.normal,
+            ),
           ),
-          dense: true,
-          contentPadding: const EdgeInsets.all(0),
-          selected: d.title == getCurrentRoute(),
-          onTap: () => drawerItems[d]!(d.title),
-        ),);
+        ),
+        dense: true,
+        contentPadding: const EdgeInsets.all(0),
+        selected: d.title == getCurrentRoute(),
+        onTap: () => drawerItems[d]!(d.title),
+      ),
+    );
   }
 
   @override
@@ -135,20 +144,24 @@ class AppNavigationDrawerState extends State<AppNavigationDrawer> {
     }
 
     return Drawer(
-        child: Column(
-      children: <Widget>[
-        Expanded(
+      child: Column(
+        children: <Widget>[
+          Expanded(
             child: Container(
-          padding: const EdgeInsets.only(top: 55),
-          child: ListView(
-            children: drawerOptions,
+              padding: const EdgeInsets.only(top: 55),
+              child: ListView(
+                children: drawerOptions,
+              ),
+            ),
           ),
-        ),),
-        Row(children: <Widget>[
-          Expanded(child: createLogoutBtn()),
-          createThemeSwitchBtn()
-        ],)
-      ],
-    ),);
+          Row(
+            children: <Widget>[
+              Expanded(child: createLogoutBtn()),
+              createThemeSwitchBtn()
+            ],
+          )
+        ],
+      ),
+    );
   }
 }

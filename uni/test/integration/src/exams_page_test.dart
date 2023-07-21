@@ -30,15 +30,17 @@ void main() {
     final mockClient = MockClient();
     final mockResponse = MockResponse();
     final sopeCourseUnit = CourseUnit(
-        abbreviation: 'SOPE',
-        occurrId: 0,
-        name: 'Sistemas Operativos',
-        status: 'V',);
+      abbreviation: 'SOPE',
+      occurrId: 0,
+      name: 'Sistemas Operativos',
+      status: 'V',
+    );
     final sdisCourseUnit = CourseUnit(
-        abbreviation: 'SDIS',
-        name: 'Sistemas Distribuídos',
-        occurrId: 0,
-        status: 'V',);
+      abbreviation: 'SDIS',
+      name: 'Sistemas Distribuídos',
+      occurrId: 0,
+      status: 'V',
+    );
 
     final beginSopeExam = DateTime.parse('2099-11-18 17:00');
     final endSopeExam = DateTime.parse('2099-11-18 19:00');
@@ -85,12 +87,13 @@ void main() {
 
       final completer = Completer<void>();
       await examProvider.fetchUserExams(
-          completer,
-          ParserExams(),
-          const Tuple2('', ''),
-          profile,
-          Session(authenticated: true),
-          [sopeCourseUnit, sdisCourseUnit],);
+        completer,
+        ParserExams(),
+        const Tuple2('', ''),
+        profile,
+        Session(authenticated: true),
+        [sopeCourseUnit, sdisCourseUnit],
+      );
 
       await completer.future;
 
@@ -124,12 +127,13 @@ void main() {
 
       final completer = Completer<void>();
       await examProvider.fetchUserExams(
-          completer,
-          ParserExams(),
-          const Tuple2('', ''),
-          profile,
-          Session(authenticated: true),
-          [sopeCourseUnit, sdisCourseUnit],);
+        completer,
+        ParserExams(),
+        const Tuple2('', ''),
+        profile,
+        Session(authenticated: true),
+        [sopeCourseUnit, sdisCourseUnit],
+      );
 
       await completer.future;
 

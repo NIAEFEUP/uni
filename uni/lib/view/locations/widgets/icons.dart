@@ -25,10 +25,7 @@ class LocationIcons {
       IconData(0xe800, fontFamily: _kFontFam);
   static const IconData bottleSodaClassic =
       IconData(0xe801, fontFamily: _kFontFam);
-  static const IconData cashMultiple =
-      IconData(0xe802, fontFamily: _kFontFam);
-  static const IconData coffee =
-      IconData(0xe803, fontFamily: _kFontFam);
-  static const IconData printer =
-      IconData(0xe804, fontFamily: _kFontFam);
+  static const IconData cashMultiple = IconData(0xe802, fontFamily: _kFontFam);
+  static const IconData coffee = IconData(0xe803, fontFamily: _kFontFam);
+  static const IconData printer = IconData(0xe804, fontFamily: _kFontFam);
 }

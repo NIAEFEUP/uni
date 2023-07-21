@@ -11,7 +11,6 @@ import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/model/request_status.dart';
 
 class RestaurantProvider extends StateProviderNotifier {
-
   RestaurantProvider()
       : super(dependsOnSession: false, cacheDuration: const Duration(days: 1));
   List<Restaurant> _restaurants = [];
@@ -34,12 +33,13 @@ class RestaurantProvider extends StateProviderNotifier {
   }
 
   Future<void> getRestaurantsFromFetcher(
-      Completer<void> action, Session session,) async {
+    Completer<void> action,
+    Session session,
+  ) async {
     try {
       updateStatus(RequestStatus.busy);
 
-      final restaurants =
-          await RestaurantFetcher().getRestaurants(session);
+      final restaurants = await RestaurantFetcher().getRestaurants(session);
       // Updates local database according to information fetched -- Restaurants
       final db = RestaurantDatabase();
       await db.saveRestaurants(restaurants);

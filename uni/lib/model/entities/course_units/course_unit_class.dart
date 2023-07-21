@@ -5,9 +5,13 @@ class CourseUnitClass {
 }
 
 class CourseUnitStudent {
-
   CourseUnitStudent(
-      this.name, this.number, this.mail, this.photo, this.profile,);
+    this.name,
+    this.number,
+    this.mail,
+    this.photo,
+    this.profile,
+  );
   String name;
   int number;
   String mail;

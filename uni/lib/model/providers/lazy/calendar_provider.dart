@@ -11,7 +11,6 @@ import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/model/request_status.dart';
 
 class CalendarProvider extends StateProviderNotifier {
-
   CalendarProvider()
       : super(dependsOnSession: true, cacheDuration: const Duration(days: 30));
   List<CalendarEvent> _calendar = [];

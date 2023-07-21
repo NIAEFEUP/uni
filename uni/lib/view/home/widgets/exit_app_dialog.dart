@@ -14,22 +14,25 @@ class BackButtonExitWrapper extends StatelessWidget {
 
   Future backButton() {
     return showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-              title: Text('Tens a certeza de que pretendes sair?',
-                  style: Theme.of(context).textTheme.headlineSmall,),
-              actions: <Widget>[
-                ElevatedButton(
-                  onPressed: () => Navigator.of(context).pop(false),
-                  child: const Text('Não'),
-                ),
-                ElevatedButton(
-                  onPressed: () => SystemChannels.platform
-                      .invokeMethod('SystemNavigator.pop'),
-                  child: const Text('Sim'),
-                )
-              ],
-            ),);
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(
+          'Tens a certeza de que pretendes sair?',
+          style: Theme.of(context).textTheme.headlineSmall,
+        ),
+        actions: <Widget>[
+          ElevatedButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text('Não'),
+          ),
+          ElevatedButton(
+            onPressed: () =>
+                SystemChannels.platform.invokeMethod('SystemNavigator.pop'),
+            child: const Text('Sim'),
+          )
+        ],
+      ),
+    );
   }
 
   @override

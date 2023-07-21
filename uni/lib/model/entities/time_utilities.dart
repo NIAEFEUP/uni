@@ -5,8 +5,10 @@ extension TimeString on DateTime {
     return '${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}';
   }
 
-  static List<String> getWeekdaysStrings(
-      {bool startMonday = true, bool includeWeekend = true,}) {
+  static List<String> getWeekdaysStrings({
+    bool startMonday = true,
+    bool includeWeekend = true,
+  }) {
     final weekdays = <String>[
       'Segunda-Feira',
       'Terça-Feira',
@@ -26,12 +28,12 @@ extension TimeString on DateTime {
   }
 }
 
-extension ClosestMonday on DateTime{
-  DateTime getClosestMonday(){
+extension ClosestMonday on DateTime {
+  DateTime getClosestMonday() {
     final day = DateUtils.dateOnly(this);
-    if(day.weekday >=1 && day.weekday <= 5){
-      return day.subtract(Duration(days: day.weekday-1));
-    } 
-    return day.add(Duration(days: DateTime.daysPerWeek - day.weekday+1));
+    if (day.weekday >= 1 && day.weekday <= 5) {
+      return day.subtract(Duration(days: day.weekday - 1));
+    }
+    return day.add(Duration(days: DateTime.daysPerWeek - day.weekday + 1));
   }
 }

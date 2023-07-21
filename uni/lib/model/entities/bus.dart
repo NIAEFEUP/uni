@@ -3,11 +3,11 @@
 /// Stores the bus code (`busCode`), the `destination` of the bus
 /// and its `direction`.
 class Bus {
-
-  Bus(
-      {required this.busCode,
-      required this.destination,
-      this.direction = false,});
+  Bus({
+    required this.busCode,
+    required this.destination,
+    this.direction = false,
+  });
   String busCode;
   String destination;
   bool direction;

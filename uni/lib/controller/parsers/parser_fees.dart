@@ -7,8 +7,7 @@ import 'package:http/http.dart' as http;
 Future<String> parseFeesBalance(http.Response response) async {
   final document = parse(response.body);
 
-  final balanceString =
-      document.querySelector('span#span_saldo_total')?.text;
+  final balanceString = document.querySelector('span#span_saldo_total')?.text;
 
   final balance = '$balanceString €';
 
@@ -28,7 +27,7 @@ Future<DateTime?> parseFeesNextLimit(http.Response response) async {
   }
   final limit = lines[1].querySelectorAll('.data')[1].text;
 
-  //it's completly fine to throw an exeception if it fails, in this case, 
+  //it's completly fine to throw an exeception if it fails, in this case,
   //since probably sigarra is returning something we don't except
-  return DateTime.parse(limit); 
+  return DateTime.parse(limit);
 }

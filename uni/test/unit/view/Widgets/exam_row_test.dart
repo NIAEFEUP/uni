@@ -12,9 +12,17 @@ void main() {
   group('Exam Row', () {
     const subject = 'SOPE';
     final begin = DateTime(
-        DateTime.now().year, DateTime.now().month, DateTime.now().day, 10,);
+      DateTime.now().year,
+      DateTime.now().month,
+      DateTime.now().day,
+      10,
+    );
     final end = DateTime(
-        DateTime.now().year, DateTime.now().month, DateTime.now().day, 12,);
+      DateTime.now().year,
+      DateTime.now().month,
+      DateTime.now().day,
+      12,
+    );
     final beginTime = DateFormat('HH:mm').format(begin);
     final endTime = DateFormat('HH:mm').format(end);
 
@@ -30,9 +38,12 @@ void main() {
       final roomsKey = '$subject-$rooms-$beginTime-$endTime';
 
       expect(
-          find.descendant(
-              of: find.byKey(Key(roomsKey)), matching: find.byType(Text),),
-          findsOneWidget,);
+        find.descendant(
+          of: find.byKey(Key(roomsKey)),
+          matching: find.byType(Text),
+        ),
+        findsOneWidget,
+      );
     });
 
     testWidgets('When multiple rooms', (WidgetTester tester) async {
@@ -48,9 +59,12 @@ void main() {
       final roomsKey = '$subject-$rooms-$beginTime-$endTime';
 
       expect(
-          find.descendant(
-              of: find.byKey(Key(roomsKey)), matching: find.byType(Text),),
-          findsNWidgets(3),);
+        find.descendant(
+          of: find.byKey(Key(roomsKey)),
+          matching: find.byType(Text),
+        ),
+        findsNWidgets(3),
+      );
     });
   });
 }

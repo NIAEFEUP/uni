@@ -10,7 +10,6 @@ import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_info_card.dart';
 
 class CourseUnitSheetView extends StatelessWidget {
-
   const CourseUnitSheetView(this.courseUnitSheet, {super.key});
   final CourseUnitSheet courseUnitSheet;
 
@@ -25,53 +24,65 @@ class CourseUnitSheetView extends StatelessWidget {
     }
 
     return Container(
-        padding: const EdgeInsets.only(left: 10, right: 10),
-        child: ListView(children: cards),);
+      padding: const EdgeInsets.only(left: 10, right: 10),
+      child: ListView(children: cards),
+    );
   }
 
   CourseUnitInfoCard _buildCard(
-      String sectionTitle, String sectionContent, Uri baseUrl,) {
+    String sectionTitle,
+    String sectionContent,
+    Uri baseUrl,
+  ) {
     return CourseUnitInfoCard(
-        sectionTitle,
-        HtmlWidget(
-          sectionContent,
-          baseUrl: baseUrl,
-          customWidgetBuilder: (element) {
-            if (element.className == 'informa' ||
-                element.className == 'limpar') {
-              return Container();
+      sectionTitle,
+      HtmlWidget(
+        sectionContent,
+        baseUrl: baseUrl,
+        customWidgetBuilder: (element) {
+          if (element.className == 'informa' || element.className == 'limpar') {
+            return Container();
+          }
+          if (element.localName == 'table') {
+            try {
+              element = _preprocessTable(element);
+              final tBody = element.children
+                  .firstWhere((element) => element.localName == 'tbody');
+              final rows = tBody.children;
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: Table(
+                  border: TableBorder.all(),
+                  children: rows
+                      .map(
+                        (e) => TableRow(
+                          children: e.children
+                              .sublist(0, min(4, e.children.length))
+                              .map(
+                                (e) => TableCell(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8),
+                                    child: HtmlWidget(
+                                      e.outerHtml,
+                                      baseUrl: baseUrl,
+                                    ),
+                                  ),
+                                ),
+                              )
+                              .toList(),
+                        ),
+                      )
+                      .toList(),
+                ),
+              );
+            } catch (e) {
+              return null;
             }
-            if (element.localName == 'table') {
-              try {
-                element = _preprocessTable(element);
-                final tBody = element.children
-                    .firstWhere((element) => element.localName == 'tbody');
-                final rows = tBody.children;
-                return Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: Table(
-                      border: TableBorder.all(),
-                      children: rows
-                          .map((e) => TableRow(
-                              children: e.children
-                                  .sublist(0, min(4, e.children.length))
-                                  .map((e) => TableCell(
-                                      child: Padding(
-                                          padding: const EdgeInsets.all(8),
-                                          child: HtmlWidget(
-                                            e.outerHtml,
-                                            baseUrl: baseUrl,
-                                          ),),),)
-                                  .toList(),),)
-                          .toList(),
-                    ),);
-              } catch (e) {
-                return null;
-              }
-            }
-            return null;
-          },
-        ),);
+          }
+          return null;
+        },
+      ),
+    );
   }
 
   dom.Element _preprocessTable(dom.Element tableElement) {

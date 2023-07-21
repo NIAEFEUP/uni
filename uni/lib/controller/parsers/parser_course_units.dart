@@ -5,7 +5,9 @@ import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/utils/url_parser.dart';
 
 List<CourseUnit> parseCourseUnitsAndCourseAverage(
-    http.Response response, Course course,) {
+  http.Response response,
+  Course course,
+) {
   final document = parse(response.body);
   final table = document.getElementById('tabelapercurso');
   if (table == null) {
@@ -15,9 +17,11 @@ List<CourseUnit> parseCourseUnitsAndCourseAverage(
   final labels = document.querySelectorAll('.caixa .formulario-legenda');
   if (labels.length >= 2) {
     course.currentAverage ??= num.tryParse(
-        labels[0].nextElementSibling?.innerHtml.replaceFirst(',', '.') ?? '0',);
+      labels[0].nextElementSibling?.innerHtml.replaceFirst(',', '.') ?? '0',
+    );
     course.finishedEcts ??= num.tryParse(
-        labels[1].nextElementSibling?.innerHtml.replaceFirst(',', '.') ?? '0',);
+      labels[1].nextElementSibling?.innerHtml.replaceFirst(',', '.') ?? '0',
+    );
   }
 
   final firstSchoolYearData =
@@ -26,7 +30,8 @@ List<CourseUnit> parseCourseUnitsAndCourseAverage(
     return [];
   }
   final firstSchoolYear = int.parse(
-      firstSchoolYearData.substring(0, firstSchoolYearData.indexOf('/')),);
+    firstSchoolYearData.substring(0, firstSchoolYearData.indexOf('/')),
+  );
 
   // Each row contains:
   // ANO PERIODO CODIGO NOME OPCAO/MINOR CREDITOS RESULTADO ESTADO
@@ -42,8 +47,8 @@ List<CourseUnit> parseCourseUnitsAndCourseAverage(
     final year = row.children[0].innerHtml;
     final semester = row.children[1].innerHtml;
     final occurId = getUrlQueryParameters(
-        row.children[2].firstChild?.attributes['href'] ??
-            '',)['pv_ocorrencia_id'];
+      row.children[2].firstChild?.attributes['href'] ?? '',
+    )['pv_ocorrencia_id'];
     final codeName = row.children[2].children[0].innerHtml;
     final name = row.children[3].children[0].innerHtml;
     final ects = row.children[5].innerHtml.replaceAll(',', '.');
@@ -65,16 +70,17 @@ List<CourseUnit> parseCourseUnitsAndCourseAverage(
     }
 
     final courseUnit = CourseUnit(
-        schoolYear:
-            '${firstSchoolYear + yearIncrement}/${firstSchoolYear + yearIncrement + 1}',
-        occurrId: occurId != null ? int.parse(occurId) : 0,
-        abbreviation: codeName,
-        status: status,
-        grade: grade,
-        ects: double.parse(ects),
-        name: name,
-        curricularYear: int.parse(year),
-        semesterCode: semester,);
+      schoolYear:
+          '${firstSchoolYear + yearIncrement}/${firstSchoolYear + yearIncrement + 1}',
+      occurrId: occurId != null ? int.parse(occurId) : 0,
+      abbreviation: codeName,
+      status: status,
+      grade: grade,
+      ects: double.parse(ects),
+      name: name,
+      curricularYear: int.parse(year),
+      semesterCode: semester,
+    );
     courseUnits.add(courseUnit);
   }
 

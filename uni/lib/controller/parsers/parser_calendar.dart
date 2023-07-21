@@ -8,7 +8,11 @@ Future<List<CalendarEvent>> getCalendarFromHtml(Response response) async {
   final calendarHtml = document.querySelectorAll('tr');
 
   return calendarHtml
-      .map((event) => CalendarEvent(
-          event.children[0].innerHtml, event.children[1].innerHtml,),)
+      .map(
+        (event) => CalendarEvent(
+          event.children[0].innerHtml,
+          event.children[1].innerHtml,
+        ),
+      )
       .toList();
 }

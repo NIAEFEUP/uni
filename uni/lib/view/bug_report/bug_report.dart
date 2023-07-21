@@ -15,8 +15,9 @@ class BugReportPageViewState extends GeneralPageViewState<BugReportPageView> {
   @override
   Widget getBody(BuildContext context) {
     return Container(
-        margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-        child: const BugReportForm(),);
+      margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+      child: const BugReportForm(),
+    );
   }
 
   @override

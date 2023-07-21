@@ -14,20 +14,20 @@ import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 
 class StateProviders {
-
   StateProviders(
-      this.lectureProvider,
-      this.examProvider,
-      this.busStopProvider,
-      this.restaurantProvider,
-      this.profileProvider,
-      this.courseUnitsInfoProvider,
-      this.sessionProvider,
-      this.calendarProvider,
-      this.libraryOccupationProvider,
-      this.facultyLocationsProvider,
-      this.homePageProvider,
-      this.referenceProvider,);
+    this.lectureProvider,
+    this.examProvider,
+    this.busStopProvider,
+    this.restaurantProvider,
+    this.profileProvider,
+    this.courseUnitsInfoProvider,
+    this.sessionProvider,
+    this.calendarProvider,
+    this.libraryOccupationProvider,
+    this.facultyLocationsProvider,
+    this.homePageProvider,
+    this.referenceProvider,
+  );
   final LectureProvider lectureProvider;
   final ExamProvider examProvider;
   final BusStopProvider busStopProvider;
@@ -67,17 +67,18 @@ class StateProviders {
         Provider.of<ReferenceProvider>(context, listen: false);
 
     return StateProviders(
-        lectureProvider,
-        examProvider,
-        busStopProvider,
-        restaurantProvider,
-        profileProvider,
-        courseUnitsInfoProvider,
-        sessionProvider,
-        calendarProvider,
-        libraryOccupationProvider,
-        facultyLocationsProvider,
-        homePageProvider,
-        referenceProvider,);
+      lectureProvider,
+      examProvider,
+      busStopProvider,
+      restaurantProvider,
+      profileProvider,
+      courseUnitsInfoProvider,
+      sessionProvider,
+      calendarProvider,
+      libraryOccupationProvider,
+      facultyLocationsProvider,
+      homePageProvider,
+      referenceProvider,
+    );
   }
 }

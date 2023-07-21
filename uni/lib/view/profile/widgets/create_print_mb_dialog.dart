@@ -7,15 +7,15 @@ import 'package:uni/view/common_widgets/toast_message.dart';
 
 Future<void> addMoneyDialog(BuildContext context) async {
   final formKey = GlobalKey<FormState>();
-  final controller =
-      TextEditingController(text: '1,00 €');
+  final controller = TextEditingController(text: '1,00 €');
 
   return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        var value = 1;
+    context: context,
+    builder: (BuildContext context) {
+      var value = 1;
 
-        return StatefulBuilder(builder: (context, setState) {
+      return StatefulBuilder(
+        builder: (context, setState) {
           void onValueChange() {
             final inputValue = valueTextToNumber(controller.text);
             setState(() => value = inputValue);
@@ -25,17 +25,20 @@ Future<void> addMoneyDialog(BuildContext context) async {
 
           return AlertDialog(
             content: Form(
-                key: formKey,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Padding(
-                        padding: const EdgeInsets.only(top: 5, bottom: 10),
-                        child: Text(
-                            'Os dados da referência gerada aparecerão no Sigarra, conta corrente. \nPerfil > Conta Corrente',
-                            textAlign: TextAlign.start,
-                            style: Theme.of(context).textTheme.titleSmall,),),
-                    Row(children: [
+              key: formKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 5, bottom: 10),
+                    child: Text(
+                      'Os dados da referência gerada aparecerão no Sigarra, conta corrente. \nPerfil > Conta Corrente',
+                      textAlign: TextAlign.start,
+                      style: Theme.of(context).textTheme.titleSmall,
+                    ),
+                  ),
+                  Row(
+                    children: [
                       IconButton(
                         icon: const Icon(Icons.indeterminate_check_box),
                         tooltip: 'Decrementar 1,00€',
@@ -45,13 +48,16 @@ Future<void> addMoneyDialog(BuildContext context) async {
                           if (decreasedValue < 1) return;
 
                           controller.value = TextEditingValue(
-                              text: numberToValueText(decreasedValue),);
+                            text: numberToValueText(decreasedValue),
+                          );
                         },
                       ),
                       Expanded(
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 5, vertical: 10,),
+                            horizontal: 5,
+                            vertical: 10,
+                          ),
                           child: TextFormField(
                             controller: controller,
                             inputFormatters: [formatter],
@@ -59,14 +65,16 @@ Future<void> addMoneyDialog(BuildContext context) async {
                             textAlign: TextAlign.center,
                             onTap: () {
                               controller.value = const TextEditingValue(
-                                  selection:
-                                      TextSelection.collapsed(offset: 0),);
+                                selection: TextSelection.collapsed(offset: 0),
+                              );
                             },
                             onChanged: (string) {
                               controller.value = TextEditingValue(
-                                  text: string,
-                                  selection: TextSelection.collapsed(
-                                      offset: string.length,),);
+                                text: string,
+                                selection: TextSelection.collapsed(
+                                  offset: string.length,
+                                ),
+                              );
                             },
                           ),
                         ),
@@ -76,28 +84,39 @@ Future<void> addMoneyDialog(BuildContext context) async {
                         tooltip: 'Incrementar 1,00€',
                         onPressed: () {
                           controller.value = TextEditingValue(
-                              text: numberToValueText(
-                                  valueTextToNumber(controller.text) + 1,),);
+                            text: numberToValueText(
+                              valueTextToNumber(controller.text) + 1,
+                            ),
+                          );
                         },
                       )
-                    ],)
-                  ],
-                ),),
-            title: Text('Adicionar quota',
-                style: Theme.of(context).textTheme.headlineSmall,),
+                    ],
+                  )
+                ],
+              ),
+            ),
+            title: Text(
+              'Adicionar quota',
+              style: Theme.of(context).textTheme.headlineSmall,
+            ),
             actions: [
               TextButton(
-                  child: Text('Cancelar',
-                      style: Theme.of(context).textTheme.bodyMedium,),
-                  onPressed: () => Navigator.pop(context),),
+                child: Text(
+                  'Cancelar',
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+                onPressed: () => Navigator.pop(context),
+              ),
               ElevatedButton(
                 onPressed: () => generateReference(context, value),
                 child: const Text('Gerar referência'),
               )
             ],
           );
-        },);
-      },);
+        },
+      );
+    },
+  );
 }
 
 final CurrencyTextInputFormatter formatter =

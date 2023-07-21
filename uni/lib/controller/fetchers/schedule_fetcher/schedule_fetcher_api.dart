@@ -23,13 +23,14 @@ class ScheduleFetcherApi extends ScheduleFetcher {
     final responses = [];
     for (final url in urls) {
       final response = await NetworkRouter.getWithCookies(
-          url,
-          {
-            'pv_codigo': session.studentNumber,
-            'pv_semana_ini': dates.beginWeek,
-            'pv_semana_fim': dates.endWeek
-          },
-          session,);
+        url,
+        {
+          'pv_codigo': session.studentNumber,
+          'pv_semana_ini': dates.beginWeek,
+          'pv_semana_fim': dates.endWeek
+        },
+        session,
+      );
       responses.add(response);
     }
     return await parseScheduleMultipleRequests(responses);

@@ -13,8 +13,10 @@ class LibraryOccupationCard extends GenericCard {
   LibraryOccupationCard({super.key});
 
   const LibraryOccupationCard.fromEditingInformation(
-      super.key, bool super.editingMode, Function()? super.onDelete,)
-      : super.fromEditingInformation();
+    super.key,
+    bool super.editingMode,
+    Function()? super.onDelete,
+  ) : super.fromEditingInformation();
 
   @override
   String getTitle() => 'Ocupação da Biblioteca';
@@ -32,44 +34,56 @@ class LibraryOccupationCard extends GenericCard {
   @override
   Widget buildCardContent(BuildContext context) {
     return LazyConsumer<LibraryOccupationProvider>(
-        builder: (context, libraryOccupationProvider) =>
-            RequestDependentWidgetBuilder(
-                status: libraryOccupationProvider.status,
-                builder: () => generateOccupation(
-                    libraryOccupationProvider.occupation, context,),
-                hasContentPredicate:
-                    libraryOccupationProvider.status != RequestStatus.busy,
-                onNullContent: const CircularProgressIndicator(),),);
+      builder: (context, libraryOccupationProvider) =>
+          RequestDependentWidgetBuilder(
+        status: libraryOccupationProvider.status,
+        builder: () => generateOccupation(
+          libraryOccupationProvider.occupation,
+          context,
+        ),
+        hasContentPredicate:
+            libraryOccupationProvider.status != RequestStatus.busy,
+        onNullContent: const CircularProgressIndicator(),
+      ),
+    );
   }
 
   Widget generateOccupation(occupation, context) {
     if (occupation == null || occupation.capacity == 0) {
       return Center(
-          child: Text('Não existem dados para apresentar',
-              style: Theme.of(context).textTheme.titleLarge,
-              textAlign: TextAlign.center,),);
+        child: Text(
+          'Não existem dados para apresentar',
+          style: Theme.of(context).textTheme.titleLarge,
+          textAlign: TextAlign.center,
+        ),
+      );
     }
     return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 6),
-        child: CircularPercentIndicator(
-          radius: 60,
-          lineWidth: 8,
-          percent: occupation.percentage / 100,
-          center: Text('${occupation.percentage}%',
-              style: Theme.of(context)
-                  .textTheme
-                  .displayMedium
-                  ?.copyWith(fontSize: 23, fontWeight: FontWeight.w500),),
-          footer: Column(
-            children: [
-              const Padding(padding: EdgeInsets.fromLTRB(0, 5, 0, 0)),
-              Text('${occupation.occupation}/${occupation.capacity}',
-                  style: Theme.of(context).textTheme.headlineSmall,),
-            ],
-          ),
-          circularStrokeCap: CircularStrokeCap.square,
-          backgroundColor: Theme.of(context).dividerColor,
-          progressColor: Theme.of(context).colorScheme.secondary,
-        ),);
+      padding: const EdgeInsets.symmetric(vertical: 6),
+      child: CircularPercentIndicator(
+        radius: 60,
+        lineWidth: 8,
+        percent: occupation.percentage / 100,
+        center: Text(
+          '${occupation.percentage}%',
+          style: Theme.of(context)
+              .textTheme
+              .displayMedium
+              ?.copyWith(fontSize: 23, fontWeight: FontWeight.w500),
+        ),
+        footer: Column(
+          children: [
+            const Padding(padding: EdgeInsets.fromLTRB(0, 5, 0, 0)),
+            Text(
+              '${occupation.occupation}/${occupation.capacity}',
+              style: Theme.of(context).textTheme.headlineSmall,
+            ),
+          ],
+        ),
+        circularStrokeCap: CircularStrokeCap.square,
+        backgroundColor: Theme.of(context).dividerColor,
+        progressColor: Theme.of(context).colorScheme.secondary,
+      ),
+    );
   }
 }

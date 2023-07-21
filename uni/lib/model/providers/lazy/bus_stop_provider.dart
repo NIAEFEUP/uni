@@ -11,7 +11,6 @@ import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/model/request_status.dart';
 
 class BusStopProvider extends StateProviderNotifier {
-
   BusStopProvider() : super(dependsOnSession: false, cacheDuration: null);
   Map<String, BusStopData> _configuredBusStops = Map.identity();
   DateTime _timeStamp = DateTime.now();
@@ -40,9 +39,10 @@ class BusStopProvider extends StateProviderNotifier {
 
     try {
       for (final stopCode in configuredBusStops.keys) {
-        final stopTrips =
-            await DeparturesFetcher.getNextArrivalsStop(
-                stopCode, configuredBusStops[stopCode]!,);
+        final stopTrips = await DeparturesFetcher.getNextArrivalsStop(
+          stopCode,
+          configuredBusStops[stopCode]!,
+        );
         _configuredBusStops[stopCode]?.trips = stopTrips;
       }
       _timeStamp = DateTime.now();
@@ -56,7 +56,10 @@ class BusStopProvider extends StateProviderNotifier {
   }
 
   addUserBusStop(
-      Completer<void> action, String stopCode, BusStopData stopData,) async {
+    Completer<void> action,
+    String stopCode,
+    BusStopData stopData,
+  ) async {
     updateStatus(RequestStatus.busy);
 
     if (_configuredBusStops.containsKey(stopCode)) {
@@ -86,7 +89,10 @@ class BusStopProvider extends StateProviderNotifier {
   }
 
   toggleFavoriteUserBusStop(
-      Completer<void> action, String stopCode, BusStopData stopData,) async {
+    Completer<void> action,
+    String stopCode,
+    BusStopData stopData,
+  ) async {
     _configuredBusStops[stopCode]!.favorited =
         !_configuredBusStops[stopCode]!.favorited;
     notifyListeners();

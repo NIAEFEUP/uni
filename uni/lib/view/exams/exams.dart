@@ -23,16 +23,18 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
 
   @override
   Widget getBody(BuildContext context) {
-    return LazyConsumer<ExamProvider>(builder: (context, examProvider) {
-      return ListView(
-        children: <Widget>[
-          Column(
-            children:
-            createExamsColumn(context, examProvider.getFilteredExams()),
-          )
-        ],
-      );
-    },);
+    return LazyConsumer<ExamProvider>(
+      builder: (context, examProvider) {
+        return ListView(
+          children: <Widget>[
+            Column(
+              children:
+                  createExamsColumn(context, examProvider.getFilteredExams()),
+            )
+          ],
+        );
+      },
+    );
   }
 
   /// Creates a column with all the user's exams.
@@ -42,15 +44,20 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
     columns.add(const ExamPageTitle());
 
     if (exams.isEmpty) {
-      columns.add(Center(
+      columns.add(
+        Center(
           heightFactor: 1.2,
-          child: ImageLabel(imagePath: 'assets/images/vacation.png',
+          child: ImageLabel(
+            imagePath: 'assets/images/vacation.png',
             label: 'Parece que estás de férias!',
-            labelTextStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Theme.of(context).colorScheme.primary),
+            labelTextStyle: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+                color: Theme.of(context).colorScheme.primary),
             sublabel: 'Não tens exames marcados',
             sublabelTextStyle: const TextStyle(fontSize: 15),
           ),
-      ),
+        ),
       );
       return columns;
     }
@@ -101,10 +108,13 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
 
   Widget createExamsCards(context, List<Exam> exams) {
     final examCards = <Widget>[];
-    examCards.add(DayTitle(
+    examCards.add(
+      DayTitle(
         day: exams[0].begin.day.toString(),
         weekDay: exams[0].weekDay,
-        month: exams[0].month,),);
+        month: exams[0].month,
+      ),
+    );
     for (var i = 0; i < exams.length; i++) {
       examCards.add(createExamContext(context, exams[i]));
     }
@@ -113,15 +123,17 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
 
   Widget createExamContext(context, Exam exam) {
     final isHidden =
-    Provider.of<ExamProvider>(context).hiddenExams.contains(exam.id);
+        Provider.of<ExamProvider>(context).hiddenExams.contains(exam.id);
     return Container(
-        key: Key('$exam-exam'),
-        margin: const EdgeInsets.fromLTRB(12, 4, 12, 0),
-        child: RowContainer(
-            color: isHidden
-                ? Theme.of(context).hintColor
-                : Theme.of(context).scaffoldBackgroundColor,
-            child: ExamRow(exam: exam, teacher: '', mainPage: false),),);
+      key: Key('$exam-exam'),
+      margin: const EdgeInsets.fromLTRB(12, 4, 12, 0),
+      child: RowContainer(
+        color: isHidden
+            ? Theme.of(context).hintColor
+            : Theme.of(context).scaffoldBackgroundColor,
+        child: ExamRow(exam: exam, teacher: '', mainPage: false),
+      ),
+    );
   }
 
   @override

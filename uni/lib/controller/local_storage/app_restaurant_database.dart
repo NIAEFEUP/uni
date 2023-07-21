@@ -8,16 +8,22 @@ import 'package:uni/model/utils/day_of_week.dart';
 class RestaurantDatabase extends AppDatabase {
   RestaurantDatabase()
       : super('restaurant.db', [
-          'CREATE TABLE RESTAURANTS(id INTEGER PRIMARY KEY, ref TEXT , name TEXT)',
           '''
-CREATE TABLE MEALS(
+          CREATE TABLE RESTAURANTS(
+          id INTEGER PRIMARY KEY,
+          ref TEXT,
+          name TEXT)
+          ''',
+          '''
+          CREATE TABLE MEALS(
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           day TEXT,
           type TEXT,
           date TEXT,
           name TEXT,
           id_restaurant INTEGER,
-          FOREIGN KEY (id_restaurant) REFERENCES RESTAURANTS(id))'''
+          FOREIGN KEY (id_restaurant) REFERENCES RESTAURANTS(id))
+          '''
         ]);
 
   /// Deletes all data, and saves the new restaurants
@@ -40,13 +46,19 @@ CREATE TABLE MEALS(
       final List<Map<String, dynamic>> restaurantMaps =
           await db.query('restaurants');
 
-      restaurants = await Future.wait(restaurantMaps.map((map) async {
-        final int restaurantId = map['id'];
-        final meals =
-            await getRestaurantMeals(txn, restaurantId, day: day);
+      restaurants = await Future.wait(
+        restaurantMaps.map((map) async {
+          final restaurantId = map['id'] as int;
+          final meals = await getRestaurantMeals(txn, restaurantId, day: day);
 
-        return Restaurant(restaurantId, map['name'], map['ref'], meals: meals);
-      }).toList(),);
+          return Restaurant(
+            restaurantId,
+            map['name'] as String,
+            map['ref'] as String,
+            meals: meals,
+          );
+        }).toList(),
+      );
     });
 
     return restaurants;
@@ -59,7 +71,7 @@ CREATE TABLE MEALS(
       final List<Map<String, dynamic>> restaurantsFromDB =
           await txn.query('RESTAURANTS');
       for (final restaurantMap in restaurantsFromDB) {
-        final int id = restaurantMap['id'];
+        final id = restaurantMap['id'] as int;
         final meals = await getRestaurantMeals(txn, id);
         final restaurant = Restaurant.fromMap(restaurantMap, meals);
         restaurants.add(restaurant);
@@ -69,8 +81,11 @@ CREATE TABLE MEALS(
     return filterPastMeals(restaurants);
   }
 
-  Future<List<Meal>> getRestaurantMeals(Transaction txn, int restaurantId,
-      {DayOfWeek? day,}) async {
+  Future<List<Meal>> getRestaurantMeals(
+    Transaction txn,
+    int restaurantId, {
+    DayOfWeek? day,
+  }) async {
     final whereArgs = <dynamic>[restaurantId];
     var whereQuery = 'id_restaurant = ? ';
     if (day != null) {
@@ -84,11 +99,11 @@ CREATE TABLE MEALS(
 
     //Retrieve data from query
     final meals = mealsMaps.map((map) {
-      final day = parseDayOfWeek(map['day']);
-      final String type = map['type'];
-      final String name = map['name'];
+      final day = parseDayOfWeek(map['day'] as String);
+      final type = map['type'] as String;
+      final name = map['name'] as String;
       final format = DateFormat('d-M-y');
-      final date = format.parseUtc(map['date']);
+      final date = format.parseUtc(map['date'] as String);
       return Meal(type, name, day!, date);
     }).toList();
 
@@ -123,7 +138,8 @@ List<Restaurant> filterPastMeals(List<Restaurant> restaurants) {
   for (final restaurant in restaurantsCopy) {
     for (final meals in restaurant.meals.values) {
       meals.removeWhere(
-              (meal) => meal.date.isBefore(today) || meal.date.isAfter(nextSunday),);
+        (meal) => meal.date.isBefore(today) || meal.date.isAfter(nextSunday),
+      );
     }
   }
 

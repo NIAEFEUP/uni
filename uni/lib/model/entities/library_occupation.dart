@@ -1,6 +1,5 @@
 /// Overall occupation of the library
 class LibraryOccupation {
-
   LibraryOccupation(this.occupation, this.capacity) {
     floors = [];
   }
@@ -27,7 +26,6 @@ class LibraryOccupation {
 
 /// Occupation values of a single floor
 class FloorOccupation {
-
   FloorOccupation(this.number, this.occupation, this.capacity);
   final int number;
   final int occupation;

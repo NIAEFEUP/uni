@@ -15,8 +15,12 @@ class DonaBiaCard extends GenericExpansionCard {
         h1('Telefone', context),
         infoText('+351 225 081 416', context, link: 'tel:225 081 416'),
         h1('Email', context),
-        infoText('papelaria.fe.up@gmail.com', context,
-            last: true, link: 'mailto:papelaria.fe.up@gmail.com',)
+        infoText(
+          'papelaria.fe.up@gmail.com',
+          context,
+          last: true,
+          link: 'mailto:papelaria.fe.up@gmail.com',
+        )
       ],
     );
   }

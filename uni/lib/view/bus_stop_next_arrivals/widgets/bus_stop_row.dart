@@ -3,7 +3,6 @@ import 'package:uni/model/entities/trip.dart';
 import 'package:uni/view/bus_stop_next_arrivals/widgets/trip_row.dart';
 
 class BusStopRow extends StatelessWidget {
-
   const BusStopRow({
     super.key,
     required this.stopCode,
@@ -47,12 +46,15 @@ class BusStopRow extends StatelessWidget {
 
   Widget noTripsContainer(context) {
     return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 20),
-        child: Text('Não há viagens planeadas de momento.',
-            maxLines: 3,
-            textAlign: TextAlign.center,
-            overflow: TextOverflow.ellipsis,
-            style: Theme.of(context).textTheme.titleMedium,),);
+      padding: const EdgeInsets.symmetric(vertical: 20),
+      child: Text(
+        'Não há viagens planeadas de momento.',
+        maxLines: 3,
+        textAlign: TextAlign.center,
+        overflow: TextOverflow.ellipsis,
+        style: Theme.of(context).textTheme.titleMedium,
+      ),
+    );
   }
 
   Widget stopCodeRotatedContainer(context) {
@@ -69,21 +71,30 @@ class BusStopRow extends StatelessWidget {
     final tripRows = <Widget>[];
 
     if (singleTrip) {
-      tripRows.add(Container(
-          padding: const EdgeInsets.all(12), child: TripRow(trip: trips[0]),),);
+      tripRows.add(
+        Container(
+          padding: const EdgeInsets.all(12),
+          child: TripRow(trip: trips[0]),
+        ),
+      );
     } else {
       for (var i = 0; i < trips.length; i++) {
 /*         Color color = Theme.of(context).accentColor;
         if (i == trips.length - 1) color = Colors.transparent; */
 
-        tripRows.add(Container(
+        tripRows.add(
+          Container(
             padding: const EdgeInsets.all(12),
             decoration: const BoxDecoration(
-                border: Border(
-                    bottom: BorderSide(
-              width: 0.1, /* color: color */
-            ),),),
-            child: TripRow(trip: trips[i]),),);
+              border: Border(
+                bottom: BorderSide(
+                  width: 0.1, /* color: color */
+                ),
+              ),
+            ),
+            child: TripRow(trip: trips[i]),
+          ),
+        );
       }
     }
 

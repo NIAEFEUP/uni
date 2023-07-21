@@ -13,11 +13,9 @@ List<Restaurant> getRestaurantsFromHtml(Response response) {
   final document = parse(response.body);
 
   //Get restaurant reference number and name
-  final restaurantsHtml =
-      document.querySelectorAll('#conteudoinner ul li > a');
+  final restaurantsHtml = document.querySelectorAll('#conteudoinner ul li > a');
 
-  final restaurantsTuple =
-      restaurantsHtml.map((restaurantHtml) {
+  final restaurantsTuple = restaurantsHtml.map((restaurantHtml) {
     final name = restaurantHtml.text;
     final ref = restaurantHtml.attributes['href']?.replaceAll('#', '');
     return Tuple2(ref ?? '', name);
@@ -70,20 +68,29 @@ List<Restaurant> getRestaurantsFromHtml(Response response) {
         break;
       }
     }
-    return Restaurant(null, restaurantTuple.item2, restaurantTuple.item1,
-        meals: meals,);
+    return Restaurant(
+      null,
+      restaurantTuple.item2,
+      restaurantTuple.item1,
+      meals: meals,
+    );
   }).toList();
   return restaurants;
 }
 
-Restaurant getRestaurantFromGSheets(Response response, String restaurantName,
-    {bool isDinner = false,}) {
+Restaurant getRestaurantFromGSheets(
+  Response response,
+  String restaurantName, {
+  bool isDinner = false,
+}) {
   // Ignore beginning of response: "/*O_o*/\ngoogle.visualization.Query.setResponse("
   // Ignore the end of the response: ");"
   // Check the structure by accessing the link:
   // https://docs.google.com/spreadsheets/d/1TJauM0HwIf2RauQU2GmhdZZ1ZicFLMHuBkxWwVOw3Q4/gviz/tq?tqx=out:json&sheet=Cantina%20de%20Engenharia&range=A:D
   final jsonString = response.body.substring(
-      response.body.indexOf('(') + 1, response.body.lastIndexOf(')'),);
+    response.body.indexOf('(') + 1,
+    response.body.lastIndexOf(')'),
+  );
   final parsedJson = jsonDecode(jsonString);
 
   final mealsList = <Meal>[];
@@ -97,10 +104,11 @@ Restaurant getRestaurantFromGSheets(Response response, String restaurantName,
     }
 
     final meal = Meal(
-        cellList[2]['v'],
-        cellList[3]['v'],
-        DayOfWeek.values[format.parseUtc(cellList[0]['f']).weekday - 1],
-        format.parseUtc(cellList[0]['f']),);
+      cellList[2]['v'],
+      cellList[3]['v'],
+      DayOfWeek.values[format.parseUtc(cellList[0]['f']).weekday - 1],
+      format.parseUtc(cellList[0]['f']),
+    );
     mealsList.add(meal);
   }
 

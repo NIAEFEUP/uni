@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 ///
 /// Example: The rectangular section with the text "last update at [time]".
 class DateRectangle extends StatelessWidget {
-
   const DateRectangle({super.key, required this.date});
   final String date;
 

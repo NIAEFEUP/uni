@@ -20,15 +20,21 @@ class ExamFetcher implements SessionDependantFetcher {
   }
 
   Future<List<Exam>> extractExams(
-      Session session, ParserExams parserExams,) async {
+    Session session,
+    ParserExams parserExams,
+  ) async {
     var courseExams = <Exam>{};
     final urls = getEndpoints(session);
     for (final course in courses) {
       for (final url in urls) {
         final currentCourseExams = await parserExams.parseExams(
-            await NetworkRouter.getWithCookies(
-                url, {'p_curso_id': course.id.toString()}, session,),
-            course,);
+          await NetworkRouter.getWithCookies(
+            url,
+            {'p_curso_id': course.id.toString()},
+            session,
+          ),
+          course,
+        );
         courseExams = Set.from(courseExams)..addAll(currentCourseExams);
       }
     }
@@ -37,7 +43,8 @@ class ExamFetcher implements SessionDependantFetcher {
     for (final courseExam in courseExams) {
       for (final uc in userUcs) {
         if (!courseExam.type.contains(
-                '''Exames ao abrigo de estatutos especiais - Port.Est.Especiais''',) &&
+              '''Exames ao abrigo de estatutos especiais - Port.Est.Especiais''',
+            ) &&
             courseExam.type != 'EE' &&
             courseExam.type != 'EAE' &&
             courseExam.subject == uc.abbreviation &&

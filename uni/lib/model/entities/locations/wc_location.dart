@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:uni/model/entities/location.dart';
 
 class WcLocation implements Location {
-
   WcLocation(this.floor, {this.locationGroupId});
   @override
   final int floor;

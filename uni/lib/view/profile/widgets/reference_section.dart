@@ -4,9 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:uni/model/entities/reference.dart';
 import 'package:uni/view/common_widgets/toast_message.dart';
 
-
 class ReferenceSection extends StatelessWidget {
-
   const ReferenceSection({super.key, required this.reference});
   final Reference reference;
 
@@ -15,19 +13,28 @@ class ReferenceSection extends StatelessWidget {
     return Column(
       children: <Widget>[
         TitleText(title: reference.description),
-        InfoCopyRow(infoName: 'Entidade', info: reference.entity.toString(),
-            copyMessage: 'Entidade copiada!',),
-        InfoCopyRow(infoName: 'Referência', info: reference.reference.toString(),
-            copyMessage: 'Referência copiada!',),
-        InfoCopyRow(infoName: 'Montante', info: reference.amount.toString(),
-            copyMessage: 'Montante copiado!', isMoney: true,),
+        InfoCopyRow(
+          infoName: 'Entidade',
+          info: reference.entity.toString(),
+          copyMessage: 'Entidade copiada!',
+        ),
+        InfoCopyRow(
+          infoName: 'Referência',
+          info: reference.reference.toString(),
+          copyMessage: 'Referência copiada!',
+        ),
+        InfoCopyRow(
+          infoName: 'Montante',
+          info: reference.amount.toString(),
+          copyMessage: 'Montante copiado!',
+          isMoney: true,
+        ),
       ],
     );
   }
 }
 
 class InfoText extends StatelessWidget {
-
   const InfoText({super.key, required this.text, this.color});
   final String text;
   final Color? color;
@@ -38,14 +45,13 @@ class InfoText extends StatelessWidget {
       text,
       textScaleFactor: 0.9,
       style: Theme.of(context).textTheme.titleSmall?.copyWith(
-        color: color,
-      ),
+            color: color,
+          ),
     );
   }
 }
 
 class TitleText extends StatelessWidget {
-
   const TitleText({super.key, required this.title});
   final String title;
 
@@ -65,9 +71,13 @@ class TitleText extends StatelessWidget {
 }
 
 class InfoCopyRow extends StatelessWidget {
-
-  const InfoCopyRow({super.key, required this.infoName, required this.info,
-      required this.copyMessage, this.isMoney = false,});
+  const InfoCopyRow({
+    super.key,
+    required this.infoName,
+    required this.info,
+    required this.copyMessage,
+    this.isMoney = false,
+  });
   final String infoName;
   final String info;
   final String copyMessage;
@@ -95,6 +105,6 @@ class InfoCopyRow extends StatelessWidget {
     );
   }
 
-  String _getMoneyAmount()
-      => NumberFormat.simpleCurrency(locale: 'eu').format(double.parse(info));
+  String _getMoneyAmount() =>
+      NumberFormat.simpleCurrency(locale: 'eu').format(double.parse(info));
 }

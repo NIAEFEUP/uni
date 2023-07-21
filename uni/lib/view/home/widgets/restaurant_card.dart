@@ -12,8 +12,10 @@ class RestaurantCard extends GenericCard {
   RestaurantCard({super.key});
 
   const RestaurantCard.fromEditingInformation(
-      super.key, bool super.editingMode, Function()? super.onDelete,)
-      : super.fromEditingInformation();
+    super.key,
+    bool super.editingMode,
+    Function()? super.onDelete,
+  ) : super.fromEditingInformation();
 
   @override
   String getTitle() => 'Cantinas';
@@ -30,15 +32,20 @@ class RestaurantCard extends GenericCard {
   @override
   Widget buildCardContent(BuildContext context) {
     return LazyConsumer<RestaurantProvider>(
-        builder: (context, restaurantProvider) => RequestDependentWidgetBuilder(
-            status: restaurantProvider.status,
-            builder: () =>
-                generateRestaurant(restaurantProvider.restaurants, context),
-            hasContentPredicate: restaurantProvider.restaurants.isNotEmpty,
-            onNullContent: Center(
-                child: Text('Não existem cantinas para apresentar',
-                    style: Theme.of(context).textTheme.headlineMedium,
-                    textAlign: TextAlign.center,),),),);
+      builder: (context, restaurantProvider) => RequestDependentWidgetBuilder(
+        status: restaurantProvider.status,
+        builder: () =>
+            generateRestaurant(restaurantProvider.restaurants, context),
+        hasContentPredicate: restaurantProvider.restaurants.isNotEmpty,
+        onNullContent: Center(
+          child: Text(
+            'Não existem cantinas para apresentar',
+            style: Theme.of(context).textTheme.headlineMedium,
+            textAlign: TextAlign.center,
+          ),
+        ),
+      ),
+    );
   }
 
   Widget generateRestaurant(canteens, context) {
@@ -50,15 +57,19 @@ class RestaurantCard extends GenericCard {
 
   Widget createRowFromRestaurant(context, String canteen) {
     // TODO: Issue #390
-    return Column(children: [
-      const DateRectangle(date: ''), // TODO: Issue #390
-      // cantine.nextSchoolDay
-      Center(
+    return Column(
+      children: [
+        const DateRectangle(date: ''), // TODO: Issue #390
+        // cantine.nextSchoolDay
+        Center(
           child: Container(
-              padding: const EdgeInsets.all(12), child: Text(canteen),),),
-      Card(
-        elevation: 1,
-        child: RowContainer(
+            padding: const EdgeInsets.all(12),
+            child: Text(canteen),
+          ),
+        ),
+        Card(
+          elevation: 1,
+          child: RowContainer(
             color: const Color.fromARGB(0, 0, 0, 0),
             child: RestaurantRow(
               local: canteen,
@@ -67,8 +78,10 @@ class RestaurantCard extends GenericCard {
               fishMenu: '',
               vegetarianMenu: '',
               dietMenu: '',
-            ),),
-      ),
-    ],);
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }

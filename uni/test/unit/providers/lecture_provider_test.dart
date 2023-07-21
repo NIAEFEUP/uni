@@ -27,9 +27,27 @@ void main() {
     final day = DateTime(2021, 06);
 
     final lecture1 = Lecture.fromHtml(
-        'SOPE', 'T', day, '10:00', 4, 'B315', 'JAS', 'MIEIC03', 484378,);
+      'SOPE',
+      'T',
+      day,
+      '10:00',
+      4,
+      'B315',
+      'JAS',
+      'MIEIC03',
+      484378,
+    );
     final lecture2 = Lecture.fromHtml(
-        'SDIS', 'T', day, '13:00', 4, 'B315', 'PMMS', 'MIEIC03', 484381,);
+      'SDIS',
+      'T',
+      day,
+      '13:00',
+      4,
+      'B315',
+      'PMMS',
+      'MIEIC03',
+      484381,
+    );
 
     NetworkRouter.httpClient = mockClient;
     when(mockClient.get(any, headers: anyNamed('headers')))
@@ -48,8 +66,13 @@ void main() {
       when(fetcherMock.getLectures(any, any))
           .thenAnswer((_) async => [lecture1, lecture2]);
 
-      await provider.fetchUserLectures(action, userPersistentInfo, session, profile,
-          fetcher: fetcherMock,);
+      await provider.fetchUserLectures(
+        action,
+        userPersistentInfo,
+        session,
+        profile,
+        fetcher: fetcherMock,
+      );
       expect(provider.status, RequestStatus.busy);
 
       await action.future;
@@ -64,7 +87,8 @@ void main() {
       when(fetcherMock.getLectures(any, any))
           .thenAnswer((_) async => throw Exception('💥'));
 
-      await provider.fetchUserLectures(action, userPersistentInfo, session, profile);
+      await provider.fetchUserLectures(
+          action, userPersistentInfo, session, profile);
       expect(provider.status, RequestStatus.busy);
 
       await action.future;

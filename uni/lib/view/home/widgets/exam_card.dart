@@ -17,8 +17,10 @@ class ExamCard extends GenericCard {
   ExamCard({super.key});
 
   const ExamCard.fromEditingInformation(
-      super.key, bool super.editingMode, Function()? super.onDelete,)
-      : super.fromEditingInformation();
+    super.key,
+    bool super.editingMode,
+    Function()? super.onDelete,
+  ) : super.fromEditingInformation();
 
   @override
   String getTitle() => 'Exames';
@@ -38,23 +40,27 @@ class ExamCard extends GenericCard {
   /// that no exams exist is displayed.
   @override
   Widget buildCardContent(BuildContext context) {
-    return LazyConsumer<ExamProvider>(builder: (context, examProvider) {
-      final filteredExams = examProvider.getFilteredExams();
-      final hiddenExams = examProvider.hiddenExams;
-      final exams = filteredExams
-          .where((exam) => !hiddenExams.contains(exam.id))
-          .toList();
-      return RequestDependentWidgetBuilder(
-        status: examProvider.status,
-        builder: () => generateExams(exams, context),
-        hasContentPredicate: exams.isNotEmpty,
-        onNullContent: Center(
-          child: Text('Não existem exames para apresentar',
-              style: Theme.of(context).textTheme.titleLarge,),
-        ),
-        contentLoadingWidget: const ExamCardShimmer().build(context),
-      );
-    },);
+    return LazyConsumer<ExamProvider>(
+      builder: (context, examProvider) {
+        final filteredExams = examProvider.getFilteredExams();
+        final hiddenExams = examProvider.hiddenExams;
+        final exams = filteredExams
+            .where((exam) => !hiddenExams.contains(exam.id))
+            .toList();
+        return RequestDependentWidgetBuilder(
+          status: examProvider.status,
+          builder: () => generateExams(exams, context),
+          hasContentPredicate: exams.isNotEmpty,
+          onNullContent: Center(
+            child: Text(
+              'Não existem exames para apresentar',
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+          ),
+          contentLoadingWidget: const ExamCardShimmer().build(context),
+        );
+      },
+    );
   }
 
   /// Returns a widget with all the exams.
@@ -73,14 +79,20 @@ class ExamCard extends GenericCard {
       rows.add(createRowFromExam(context, exams[i]));
     }
     if (exams.length > 1) {
-      rows.add(Container(
-        margin:
-            const EdgeInsets.only(right: 80, left: 80, top: 15, bottom: 7),
-        decoration: BoxDecoration(
+      rows.add(
+        Container(
+          margin:
+              const EdgeInsets.only(right: 80, left: 80, top: 15, bottom: 7),
+          decoration: BoxDecoration(
             border: Border(
-                bottom: BorderSide(
-                    width: 1.5, color: Theme.of(context).dividerColor,),),),
-      ),);
+              bottom: BorderSide(
+                width: 1.5,
+                color: Theme.of(context).dividerColor,
+              ),
+            ),
+          ),
+        ),
+      );
     }
     for (var i = 1; i < 4 && i < exams.length; i++) {
       rows.add(createSecondaryRowFromExam(context, exams[i]));
@@ -91,17 +103,20 @@ class ExamCard extends GenericCard {
   /// Creates a row with the closest exam (which appears separated from the
   /// others in the card).
   Widget createRowFromExam(BuildContext context, Exam exam) {
-    return Column(children: [
-      DateRectangle(
-          date: '${exam.weekDay}, ${exam.begin.day} de ${exam.month}',),
-      RowContainer(
-        child: ExamRow(
-          exam: exam,
-          teacher: '',
-          mainPage: true,
+    return Column(
+      children: [
+        DateRectangle(
+          date: '${exam.weekDay}, ${exam.begin.day} de ${exam.month}',
         ),
-      ),
-    ],);
+        RowContainer(
+          child: ExamRow(
+            exam: exam,
+            teacher: '',
+            mainPage: true,
+          ),
+        ),
+      ],
+    );
   }
 
   /// Creates a row for the exams which will be displayed under the closest
@@ -114,15 +129,19 @@ class ExamCard extends GenericCard {
         child: Container(
           padding: const EdgeInsets.all(11),
           child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(
-                  '${exam.begin.day} de ${exam.month}',
-                  style: Theme.of(context).textTheme.bodyLarge,
-                ),
-                ExamTitle(
-                    subject: exam.subject, type: exam.type, reverseOrder: true,)
-              ],),
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text(
+                '${exam.begin.day} de ${exam.month}',
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
+              ExamTitle(
+                subject: exam.subject,
+                type: exam.type,
+                reverseOrder: true,
+              )
+            ],
+          ),
         ),
       ),
     );

@@ -5,16 +5,16 @@ import 'package:flutter/material.dart';
 ///
 /// usage example: ToastMessage.display(context, toastMsg);
 class MessageToast extends StatelessWidget {
-
-  const MessageToast(
-      {super.key,
-      required this.message,
-      this.color = Colors.white,
-      required this.icon,
-      this.iconColor = Colors.black,
-      this.textColor = Colors.black,
-      this.alignment = Alignment.bottomCenter,
-      this.elevation = 0.0,});
+  const MessageToast({
+    super.key,
+    required this.message,
+    this.color = Colors.white,
+    required this.icon,
+    this.iconColor = Colors.black,
+    this.textColor = Colors.black,
+    this.alignment = Alignment.bottomCenter,
+    this.elevation = 0.0,
+  });
   final String message;
   final Color? color;
   final IconData? icon;
@@ -32,18 +32,20 @@ class MessageToast extends StatelessWidget {
         alignment: alignment,
         backgroundColor: color,
         shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(10)),),
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+        ),
         elevation: elevation,
         child: Row(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-                margin: const EdgeInsets.all(10),
-                child: Icon(
-                  icon,
-                  color: iconColor,
-                ),),
+              margin: const EdgeInsets.all(10),
+              child: Icon(
+                icon,
+                color: iconColor,
+              ),
+            ),
             Expanded(
               child: Text(
                 message,
@@ -71,46 +73,55 @@ class ToastMessage {
 
   static Future _displayDialog(BuildContext context, Widget mToast) {
     return showDialog(
-        barrierDismissible: false,
-        barrierColor: Colors.white.withOpacity(0),
-        context: context,
-        builder: (toastContext) {
-          Future.delayed(const Duration(milliseconds: 2000), () {
-            Navigator.of(toastContext).pop();
-          });
-          return mToast;
-        },);
+      barrierDismissible: false,
+      barrierColor: Colors.white.withOpacity(0),
+      context: context,
+      builder: (toastContext) {
+        Future.delayed(const Duration(milliseconds: 2000), () {
+          Navigator.of(toastContext).pop();
+        });
+        return mToast;
+      },
+    );
   }
 
   static Future error(BuildContext context, String msg) => _displayDialog(
-      context,
-      MessageToast(
+        context,
+        MessageToast(
           message: msg,
           color: toastErrorColor,
           icon: CupertinoIcons.clear_circled_solid,
-          iconColor: toastErrorIconColor,),);
+          iconColor: toastErrorIconColor,
+        ),
+      );
 
   static Future success(BuildContext context, String msg) => _displayDialog(
-      context,
-      MessageToast(
+        context,
+        MessageToast(
           message: msg,
           color: toastSuccessColor,
           icon: CupertinoIcons.check_mark_circled_solid,
-          iconColor: toastSuccessIconColor,),);
+          iconColor: toastSuccessIconColor,
+        ),
+      );
 
   static Future warning(BuildContext context, String msg) => _displayDialog(
-      context,
-      MessageToast(
+        context,
+        MessageToast(
           message: msg,
           color: toastWarningColor,
           icon: CupertinoIcons.exclamationmark_circle_fill,
-          iconColor: toastWarningIconColor,),);
+          iconColor: toastWarningIconColor,
+        ),
+      );
 
   static Future info(BuildContext context, String msg) => _displayDialog(
-      context,
-      MessageToast(
+        context,
+        MessageToast(
           message: msg,
           color: toastInfoColor,
           icon: CupertinoIcons.info_circle_fill,
-          iconColor: toastInfoIconColor,),);
+          iconColor: toastInfoIconColor,
+        ),
+      );
 }

@@ -28,7 +28,6 @@ abstract class ScheduleFetcher extends SessionDependantFetcher {
 
 /// Stores the start and end dates of the week and the current lective year.
 class Dates {
-
   Dates(this.beginWeek, this.endWeek, this.lectiveYear);
   final String beginWeek;
   final String endWeek;

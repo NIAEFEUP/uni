@@ -19,8 +19,10 @@ Future<CourseUnitSheet> parseCourseUnitSheet(http.Response response) async {
   return CourseUnitSheet(sections);
 }
 
-List<CourseUnitClass> parseCourseUnitClasses(http.Response response,
-    String baseUrl,) {
+List<CourseUnitClass> parseCourseUnitClasses(
+  http.Response response,
+  String baseUrl,
+) {
   final classes = <CourseUnitClass>[];
   final document = parse(response.body);
   final titles = document.querySelectorAll('#conteudoinner h3').sublist(1);
@@ -28,7 +30,9 @@ List<CourseUnitClass> parseCourseUnitClasses(http.Response response,
   for (final title in titles) {
     final table = title.nextElementSibling;
     final className = title.innerHtml.substring(
-        title.innerHtml.indexOf(' ') + 1, title.innerHtml.indexOf('&'),);
+      title.innerHtml.indexOf(' ') + 1,
+      title.innerHtml.indexOf('&'),
+    );
 
     final rows = table?.querySelectorAll('tr');
     if (rows == null || rows.length < 2) {
@@ -41,16 +45,24 @@ List<CourseUnitClass> parseCourseUnitClasses(http.Response response,
     for (final row in studentRows) {
       final columns = row.querySelectorAll('td.k.t');
       final studentName = columns[0].children[0].innerHtml;
-      final studentNumber =
-          int.tryParse(columns[1].innerHtml.trim()) ?? 0;
+      final studentNumber = int.tryParse(columns[1].innerHtml.trim()) ?? 0;
       final studentMail = columns[2].innerHtml;
 
       final studentPhoto = Uri.parse(
-          '${baseUrl}fotografias_service.foto?pct_cod=$studentNumber',);
+        '${baseUrl}fotografias_service.foto?pct_cod=$studentNumber',
+      );
       final studentProfile = Uri.parse(
-          '${baseUrl}fest_geral.cursos_list?pv_num_unico=$studentNumber',);
-      students.add(CourseUnitStudent(studentName, studentNumber, studentMail,
-          studentPhoto, studentProfile,),);
+        '${baseUrl}fest_geral.cursos_list?pv_num_unico=$studentNumber',
+      );
+      students.add(
+        CourseUnitStudent(
+          studentName,
+          studentNumber,
+          studentMail,
+          studentPhoto,
+          studentProfile,
+        ),
+      );
     }
 
     classes.add(CourseUnitClass(className, students));

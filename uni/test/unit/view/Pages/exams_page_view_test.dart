@@ -32,8 +32,15 @@ void main() {
     testWidgets('When given a single exam', (WidgetTester tester) async {
       final firstExamBegin = DateTime.parse('$firstExamDate 09:00');
       final firstExamEnd = DateTime.parse('$firstExamDate 12:00');
-      final firstExam = Exam('1230', firstExamBegin, firstExamEnd,
-          firstExamSubject, ['B119', 'B107', 'B205'], 'ER', 'feup',);
+      final firstExam = Exam(
+        '1230',
+        firstExamBegin,
+        firstExamEnd,
+        firstExamSubject,
+        ['B119', 'B107', 'B205'],
+        'ER',
+        'feup',
+      );
 
       const widget = ExamsPageView();
 
@@ -52,12 +59,26 @@ void main() {
         (WidgetTester tester) async {
       final firstExamBegin = DateTime.parse('$firstExamDate 09:00');
       final firstExamEnd = DateTime.parse('$firstExamDate 12:00');
-      final firstExam = Exam('1231', firstExamBegin, firstExamEnd,
-          firstExamSubject, ['B119', 'B107', 'B205'], 'ER', 'feup',);
+      final firstExam = Exam(
+        '1231',
+        firstExamBegin,
+        firstExamEnd,
+        firstExamSubject,
+        ['B119', 'B107', 'B205'],
+        'ER',
+        'feup',
+      );
       final secondExamBegin = DateTime.parse('$firstExamDate 12:00');
       final secondExamEnd = DateTime.parse('$firstExamDate 15:00');
-      final secondExam = Exam('1232', secondExamBegin, secondExamEnd,
-          secondExamSubject, ['B119', 'B107', 'B205'], 'ER', 'feup',);
+      final secondExam = Exam(
+        '1232',
+        secondExamBegin,
+        secondExamEnd,
+        secondExamSubject,
+        ['B119', 'B107', 'B205'],
+        'ER',
+        'feup',
+      );
 
       final examList = [
         firstExam,
@@ -73,8 +94,10 @@ void main() {
 
       await tester.pumpWidget(testableWidget(widget, providers: providers));
 
-      expect(find.byKey(Key(examList.map((ex) => ex.toString()).join())),
-          findsOneWidget,);
+      expect(
+        find.byKey(Key(examList.map((ex) => ex.toString()).join())),
+        findsOneWidget,
+      );
       expect(find.byKey(Key('${firstExam.toString()}-exam')), findsOneWidget);
       expect(find.byKey(Key('${secondExam.toString()}-exam')), findsOneWidget);
     });
@@ -83,12 +106,26 @@ void main() {
         (WidgetTester tester) async {
       final firstExamBegin = DateTime.parse('$firstExamDate 09:00');
       final firstExamEnd = DateTime.parse('$firstExamDate 12:00');
-      final firstExam = Exam('1233', firstExamBegin, firstExamEnd,
-          firstExamSubject, ['B119', 'B107', 'B205'], 'ER', 'feup',);
+      final firstExam = Exam(
+        '1233',
+        firstExamBegin,
+        firstExamEnd,
+        firstExamSubject,
+        ['B119', 'B107', 'B205'],
+        'ER',
+        'feup',
+      );
       final secondExamBegin = DateTime.parse('$secondExamDate 12:00');
       final secondExamEnd = DateTime.parse('$secondExamDate 15:00');
-      final secondExam = Exam('1234', secondExamBegin, secondExamEnd,
-          secondExamSubject, ['B119', 'B107', 'B205'], 'ER', 'feup',);
+      final secondExam = Exam(
+        '1234',
+        secondExamBegin,
+        secondExamEnd,
+        secondExamSubject,
+        ['B119', 'B107', 'B205'],
+        'ER',
+        'feup',
+      );
       final examList = [
         firstExam,
         secondExam,
@@ -113,20 +150,48 @@ void main() {
       final rooms = <String>['B119', 'B107', 'B205'];
       final firstExamBegin = DateTime.parse('$firstExamDate 09:00');
       final firstExamEnd = DateTime.parse('$firstExamDate 12:00');
-      final firstExam = Exam('1235', firstExamBegin, firstExamEnd,
-          firstExamSubject, rooms, 'ER', 'feup',);
+      final firstExam = Exam(
+        '1235',
+        firstExamBegin,
+        firstExamEnd,
+        firstExamSubject,
+        rooms,
+        'ER',
+        'feup',
+      );
       final secondExamBegin = DateTime.parse('$firstExamDate 10:00');
       final secondExamEnd = DateTime.parse('$firstExamDate 12:00');
-      final secondExam = Exam('1236', secondExamBegin, secondExamEnd,
-          firstExamSubject, rooms, 'ER', 'feup',);
+      final secondExam = Exam(
+        '1236',
+        secondExamBegin,
+        secondExamEnd,
+        firstExamSubject,
+        rooms,
+        'ER',
+        'feup',
+      );
       final thirdExamBegin = DateTime.parse('$secondExamDate 12:00');
       final thirdExamEnd = DateTime.parse('$secondExamDate 15:00');
-      final thirdExam = Exam('1237', thirdExamBegin, thirdExamEnd,
-          secondExamSubject, rooms, 'ER', 'feup',);
+      final thirdExam = Exam(
+        '1237',
+        thirdExamBegin,
+        thirdExamEnd,
+        secondExamSubject,
+        rooms,
+        'ER',
+        'feup',
+      );
       final fourthExamBegin = DateTime.parse('$secondExamDate 13:00');
       final fourthExamEnd = DateTime.parse('$secondExamDate 14:00');
-      final fourthExam = Exam('1238', fourthExamBegin, fourthExamEnd,
-          secondExamSubject, rooms, 'ER', 'feup',);
+      final fourthExam = Exam(
+        '1238',
+        fourthExamBegin,
+        fourthExamEnd,
+        secondExamSubject,
+        rooms,
+        'ER',
+        'feup',
+      );
       final examList = [firstExam, secondExam, thirdExam, fourthExam];
 
       const widget = ExamsPageView();
@@ -144,10 +209,10 @@ void main() {
       await tester.pumpWidget(testableWidget(widget, providers: providers));
       expect(find.byKey(Key(firstDayKey)), findsOneWidget);
       expect(find.byKey(Key(secondDayKey)), findsOneWidget);
-      expect(find.byKey(Key('${firstExam.toString()}-exam')), findsOneWidget);
-      expect(find.byKey(Key('${secondExam.toString()}-exam')), findsOneWidget);
-      expect(find.byKey(Key('${thirdExam.toString()}-exam')), findsOneWidget);
-      expect(find.byKey(Key('${fourthExam.toString()}-exam')), findsOneWidget);
+      expect(find.byKey(Key('$firstExam-exam')), findsOneWidget);
+      expect(find.byKey(Key('$secondExam-exam')), findsOneWidget);
+      expect(find.byKey(Key('$thirdExam-exam')), findsOneWidget);
+      expect(find.byKey(Key('$fourthExam-exam')), findsOneWidget);
     });
   });
 }

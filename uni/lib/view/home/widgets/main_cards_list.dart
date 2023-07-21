@@ -16,10 +16,12 @@ import 'package:uni/view/library/widgets/library_occupation_card.dart';
 import 'package:uni/view/profile/widgets/account_info_card.dart';
 
 typedef CardCreator = GenericCard Function(
-    Key key, bool isEditingMode, dynamic Function()? onDelete,);
+  Key key,
+  bool isEditingMode,
+  dynamic Function()? onDelete,
+);
 
 class MainCardsList extends StatelessWidget {
-
   const MainCardsList({super.key});
   static Map<FavoriteWidgetType, CardCreator> cardCreators = {
     FavoriteWidgetType.schedule: ScheduleCard.fromEditingInformation,
@@ -31,67 +33,78 @@ class MainCardsList extends StatelessWidget {
         PrintInfoCard.fromEditingInformation(k, em, od),*/
 
     FavoriteWidgetType.busStops: BusStopCard.fromEditingInformation,
-    FavoriteWidgetType.libraryOccupation: LibraryOccupationCard.fromEditingInformation
+    FavoriteWidgetType.libraryOccupation:
+        LibraryOccupationCard.fromEditingInformation
   };
 
   @override
   Widget build(BuildContext context) {
     return LazyConsumer<HomePageProvider>(
-        builder: (context, homePageProvider) => Scaffold(
-              body: BackButtonExitWrapper(
-                context: context,
-                child: SizedBox(
-                    height: MediaQuery.of(context).size.height,
-                    child: homePageProvider.isEditing
-                        ? ReorderableListView(
-                            onReorder: (oldIndex, newIndex) => reorderCard(
-                                oldIndex,
-                                newIndex,
-                                homePageProvider.favoriteCards,
-                                context,),
-                            header: createTopBar(context, homePageProvider),
-                            children: favoriteCardsFromTypes(
-                                homePageProvider.favoriteCards,
-                                context,
-                                homePageProvider,),
-                          )
-                        : ListView(
-                            children: <Widget>[
-                              createTopBar(context, homePageProvider),
-                              ...favoriteCardsFromTypes(
-                                  homePageProvider.favoriteCards,
-                                  context,
-                                  homePageProvider,)
-                            ],
-                          ),),
-              ),
-              floatingActionButton: homePageProvider.isEditing
-                  ? createActionButton(context)
-                  : null,
-            ),);
+      builder: (context, homePageProvider) => Scaffold(
+        body: BackButtonExitWrapper(
+          context: context,
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height,
+            child: homePageProvider.isEditing
+                ? ReorderableListView(
+                    onReorder: (oldIndex, newIndex) => reorderCard(
+                      oldIndex,
+                      newIndex,
+                      homePageProvider.favoriteCards,
+                      context,
+                    ),
+                    header: createTopBar(context, homePageProvider),
+                    children: favoriteCardsFromTypes(
+                      homePageProvider.favoriteCards,
+                      context,
+                      homePageProvider,
+                    ),
+                  )
+                : ListView(
+                    children: <Widget>[
+                      createTopBar(context, homePageProvider),
+                      ...favoriteCardsFromTypes(
+                        homePageProvider.favoriteCards,
+                        context,
+                        homePageProvider,
+                      )
+                    ],
+                  ),
+          ),
+        ),
+        floatingActionButton:
+            homePageProvider.isEditing ? createActionButton(context) : null,
+      ),
+    );
   }
 
   Widget createActionButton(BuildContext context) {
     return FloatingActionButton(
       onPressed: () => showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-                title: Text(
-                    'Escolhe um widget para adicionares à tua área pessoal:',
-                    style: Theme.of(context).textTheme.headlineSmall,),
-                content: SizedBox(
-                  height: 200,
-                  width: 100,
-                  child: ListView(children: getCardAdders(context)),
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(
+              'Escolhe um widget para adicionares à tua área pessoal:',
+              style: Theme.of(context).textTheme.headlineSmall,
+            ),
+            content: SizedBox(
+              height: 200,
+              width: 100,
+              child: ListView(children: getCardAdders(context)),
+            ),
+            actions: [
+              TextButton(
+                child: Text(
+                  'Cancelar',
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
-                actions: [
-                  TextButton(
-                      child: Text('Cancelar',
-                          style: Theme.of(context).textTheme.bodyMedium,),
-                      onPressed: () => Navigator.pop(context),)
-                ],);
-          },), //Add FAB functionality here
+                onPressed: () => Navigator.pop(context),
+              )
+            ],
+          );
+        },
+      ), //Add FAB functionality here
       tooltip: 'Adicionar widget',
       child: Icon(Icons.add, color: Theme.of(context).colorScheme.onPrimary),
     );
@@ -105,48 +118,64 @@ class MainCardsList extends StatelessWidget {
     final possibleCardAdditions = cardCreators.entries
         .where((e) => e.key.isVisible(userSession.faculties))
         .where((e) => !favorites.contains(e.key))
-        .map((e) => Container(
-              decoration: const BoxDecoration(),
-              child: ListTile(
-                title: Text(
-                  e.value(Key(e.key.index.toString()), false, null).getTitle(),
-                  textAlign: TextAlign.center,
-                ),
-                onTap: () {
-                  addCardToFavorites(e.key, context);
-                  Navigator.pop(context);
-                },
+        .map(
+          (e) => Container(
+            decoration: const BoxDecoration(),
+            child: ListTile(
+              title: Text(
+                e.value(Key(e.key.index.toString()), false, null).getTitle(),
+                textAlign: TextAlign.center,
               ),
-            ),)
+              onTap: () {
+                addCardToFavorites(e.key, context);
+                Navigator.pop(context);
+              },
+            ),
+          ),
+        )
         .toList();
 
     return possibleCardAdditions.isEmpty
         ? [
             const Text(
-                '''Todos os widgets disponíveis já foram adicionados à tua área pessoal!''',)
+              '''Todos os widgets disponíveis já foram adicionados à tua área pessoal!''',
+            )
           ]
         : possibleCardAdditions;
   }
 
   Widget createTopBar(
-      BuildContext context, HomePageProvider editingModeProvider,) {
+    BuildContext context,
+    HomePageProvider editingModeProvider,
+  ) {
     return Container(
       padding: const EdgeInsets.fromLTRB(20, 20, 20, 5),
-      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        PageTitle(
-            name: DrawerItem.navPersonalArea.title, center: false, pad: false,),
-        GestureDetector(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          PageTitle(
+            name: DrawerItem.navPersonalArea.title,
+            center: false,
+            pad: false,
+          ),
+          GestureDetector(
             onTap: () => Provider.of<HomePageProvider>(context, listen: false)
                 .setHomePageEditingMode(!editingModeProvider.isEditing),
             child: Text(
-                editingModeProvider.isEditing ? 'Concluir Edição' : 'Editar',
-                style: Theme.of(context).textTheme.bodySmall,),)
-      ],),
+              editingModeProvider.isEditing ? 'Concluir Edição' : 'Editar',
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
+          )
+        ],
+      ),
     );
   }
 
-  List<Widget> favoriteCardsFromTypes(List<FavoriteWidgetType> cardTypes,
-      BuildContext context, HomePageProvider editingModeProvider,) {
+  List<Widget> favoriteCardsFromTypes(
+    List<FavoriteWidgetType> cardTypes,
+    BuildContext context,
+    HomePageProvider editingModeProvider,
+  ) {
     final userSession =
         Provider.of<SessionProvider>(context, listen: false).session;
     return cardTypes
@@ -155,14 +184,19 @@ class MainCardsList extends StatelessWidget {
         .map((type) {
       final i = cardTypes.indexOf(type);
       return cardCreators[type]!(
-          Key(i.toString()),
-          editingModeProvider.isEditing,
-          () => removeCardIndexFromFavorites(i, context),);
+        Key(i.toString()),
+        editingModeProvider.isEditing,
+        () => removeCardIndexFromFavorites(i, context),
+      );
     }).toList();
   }
 
-  void reorderCard(int oldIndex, int newIndex,
-      List<FavoriteWidgetType> favorites, BuildContext context,) {
+  void reorderCard(
+    int oldIndex,
+    int newIndex,
+    List<FavoriteWidgetType> favorites,
+    BuildContext context,
+  ) {
     final tmp = favorites[oldIndex];
     favorites.removeAt(oldIndex);
     favorites.insert(oldIndex < newIndex ? newIndex - 1 : newIndex, tmp);
@@ -186,7 +220,9 @@ class MainCardsList extends StatelessWidget {
   }
 
   void saveFavoriteCards(
-      BuildContext context, List<FavoriteWidgetType> favorites,) {
+    BuildContext context,
+    List<FavoriteWidgetType> favorites,
+  ) {
     Provider.of<HomePageProvider>(context, listen: false)
         .setFavoriteCards(favorites);
     AppSharedPreferences.saveFavoriteCards(favorites);

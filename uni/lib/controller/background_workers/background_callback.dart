@@ -12,15 +12,17 @@ const taskMap = {
 };
 
 @pragma('vm:entry-point')
-// This function is android only and only executes when the app is complety terminated
+// This function is android only and only executes
+// when the app is completely terminated
 Future<void> workerStartCallback() async {
   Workmanager().executeTask((taskName, inputData) async {
     try {
       Logger().d('''[$taskName]: Start executing job...''');
 
-      //iOSBackgroundTask is a special task, that iOS runs whenever it deems necessary
-      //and will run all tasks with the flag true
-      //NOTE: keep the total execution time under 30s to avoid being punished by the iOS scheduler.
+      // iOSBackgroundTask is a special task, that iOS runs whenever
+      // it deems necessary and will run all tasks with the flag true
+      // NOTE: keep the total execution time under 30s to avoid being punished
+      // by the iOS scheduler.
       if (taskName == Workmanager.iOSBackgroundTask) {
         taskMap.forEach((key, value) async {
           if (value.item2) {

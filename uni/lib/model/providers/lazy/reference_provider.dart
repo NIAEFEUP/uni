@@ -12,7 +12,6 @@ import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/model/request_status.dart';
 
 class ReferenceProvider extends StateProviderNotifier {
-
   ReferenceProvider()
       : super(dependsOnSession: true, cacheDuration: const Duration(hours: 1));
   List<Reference> _references = [];
@@ -33,11 +32,13 @@ class ReferenceProvider extends StateProviderNotifier {
     await fetchUserReferences(referencesAction, session);
   }
 
-  Future<void> fetchUserReferences(Completer<void> action,
-      Session session,) async {
+  Future<void> fetchUserReferences(
+    Completer<void> action,
+    Session session,
+  ) async {
     try {
       final response =
-      await ReferenceFetcher().getUserReferenceResponse(session);
+          await ReferenceFetcher().getUserReferenceResponse(session);
       final references = await parseReferences(response);
 
       updateStatus(RequestStatus.successful);

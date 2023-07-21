@@ -17,14 +17,16 @@ class PrintFetcher implements SessionDependantFetcher {
     return NetworkRouter.getWithCookies(url, query, session);
   }
 
-  static Future generatePrintMoneyReference(
-      double amount, Session session,) async {
+  static Future<http.Response> generatePrintMoneyReference(
+    double amount,
+    Session session,
+  ) async {
     if (amount < 1.0) return Future.error('Amount less than 1,00€');
 
     final url =
         '${NetworkRouter.getBaseUrlsFromSession(session)[0]}gpag_ccorrentes_geral.gerar_mb';
 
-    final Map data = {
+    final data = {
       'p_tipo_id': '3',
       'pct_codigo': session.studentNumber,
       'p_valor': '1',

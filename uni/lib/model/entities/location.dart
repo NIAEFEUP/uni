@@ -50,7 +50,8 @@ String locationTypeToString(LocationType type) {
   }
 }
 
-abstract class Location { // String or IconData
+abstract class Location {
+  // String or IconData
   Location(this.floor, this.weight, this.icon);
   final int floor;
   final int weight;

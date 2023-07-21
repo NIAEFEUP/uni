@@ -9,12 +9,11 @@ import 'package:uni/model/entities/reference.dart';
 /// This database stores information about the user's references.
 /// See the [Reference] class to see what data is stored in this database.
 class AppReferencesDatabase extends AppDatabase {
-
-  AppReferencesDatabase() :
-        super('refs.db', [createScript], onUpgrade: migrate, version: 2);
+  AppReferencesDatabase()
+      : super('refs.db', [createScript], onUpgrade: migrate, version: 2);
   static const String createScript =
-  '''CREATE TABLE refs(description TEXT, entity INTEGER, '''
-  '''reference INTEGER, amount REAL, limitDate TEXT)''';
+      '''CREATE TABLE refs(description TEXT, entity INTEGER, '''
+      '''reference INTEGER, amount REAL, limitDate TEXT)''';
 
   /// Replaces all of the data in this database with the data from [references].
   Future<void> saveNewReferences(List<Reference> references) async {
@@ -29,11 +28,12 @@ class AppReferencesDatabase extends AppDatabase {
 
     return List.generate(maps.length, (i) {
       return Reference(
-          maps[i]['description'],
-          DateTime.parse(maps[i]['limitDate']),
-          maps[i]['entity'],
-          maps[i]['reference'],
-          maps[i]['amount'],);
+        maps[i]['description'] as String,
+        DateTime.parse(maps[i]['limitDate'] as String),
+        maps[i]['entity'] as int,
+        maps[i]['reference'] as int,
+        maps[i]['amount'] as double,
+      );
     });
   }
 
@@ -61,10 +61,14 @@ class AppReferencesDatabase extends AppDatabase {
   /// *Note:* This operation only updates the schema of the tables present in
   /// the database and, as such, all data is lost.
   static FutureOr<void> migrate(
-      Database db, int oldVersion, int newVersion,) async {
+    Database db,
+    int oldVersion,
+    int newVersion,
+  ) async {
     final batch = db.batch();
-    batch.execute('DROP TABLE IF EXISTS refs');
-    batch.execute(createScript);
+    batch
+      ..execute('DROP TABLE IF EXISTS refs')
+      ..execute(createScript);
     await batch.commit();
   }
 }

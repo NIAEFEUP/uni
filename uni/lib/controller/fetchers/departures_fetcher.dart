@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:html';
 
 import 'package:html/parser.dart';
 import 'package:http/http.dart' as http;
@@ -8,8 +9,8 @@ import 'package:uni/model/entities/bus_stop.dart';
 import 'package:uni/model/entities/trip.dart';
 
 class DeparturesFetcher {
-
   DeparturesFetcher(this._stopCode, this._stopData);
+
   final String _stopCode;
   final BusStopData _stopData;
 
@@ -32,7 +33,9 @@ class DeparturesFetcher {
         .firstWhere((element) => element.contains(')'));
 
     final csrfToken = callParam.substring(
-        callParam.indexOf("'") + 1, callParam.lastIndexOf("'"),);
+      callParam.indexOf("'") + 1,
+      callParam.lastIndexOf("'"),
+    );
 
     return csrfToken;
   }
@@ -75,12 +78,13 @@ class DeparturesFetcher {
           .replaceAll('-', '')
           .substring(busLine!.length + 1);
 
-      final busTimeRemaining = getBusTimeRemaining(rawBusInformation);
+      final busTimeRemaining = _getBusTimeRemaining(rawBusInformation);
 
       final newTrip = Trip(
-          line: busLine,
-          destination: busDestination,
-          timeRemaining: busTimeRemaining,);
+        line: busLine,
+        destination: busDestination,
+        timeRemaining: busTimeRemaining,
+      );
 
       tripList.add(newTrip);
     }
@@ -88,13 +92,15 @@ class DeparturesFetcher {
   }
 
   /// Extracts the time remaining for a bus to reach a stop.
-  static int getBusTimeRemaining(rawBusInformation) {
-    if (rawBusInformation[1].text.trim() == 'a passar') {
+  static int _getBusTimeRemaining(List<Element> rawBusInformation) {
+    if (rawBusInformation[1].text?.trim() == 'a passar') {
       return 0;
     } else {
       final regex = RegExp('([0-9]+)');
 
-      return int.parse(regex.stringMatch(rawBusInformation[2].text).toString());
+      return int.parse(
+        regex.stringMatch(rawBusInformation[2].text ?? '').toString(),
+      );
     }
   }
 
@@ -102,7 +108,7 @@ class DeparturesFetcher {
   static Future<List<String>> getStopsByName(String stopCode) async {
     final stopsList = <String>[];
 
-    //Search by approximate name
+    // Search by approximate name
     final url =
         'https://www.stcp.pt/pt/itinerarium/callservice.php?action=srchstoplines&stopname=$stopCode';
     final response = await http.post(url.toUri());
@@ -117,7 +123,9 @@ class DeparturesFetcher {
 
   /// Retrieves real-time information about the user's selected bus lines.
   static Future<List<Trip>> getNextArrivalsStop(
-      String stopCode, BusStopData stopData,) {
+    String stopCode,
+    BusStopData stopData,
+  ) {
     return DeparturesFetcher(stopCode, stopData).getDepartures();
   }
 
@@ -135,9 +143,10 @@ class DeparturesFetcher {
       final lines = busKey['lines'];
       for (final bus in lines) {
         final newBus = Bus(
-            busCode: bus['code'],
-            destination: bus['description'],
-            direction: bus['dir'] == 0 ? false : true,);
+          busCode: bus['code'] as String,
+          destination: bus['description'] as String,
+          direction: bus['dir'] != 0,
+        );
         buses.add(newBus);
       }
     }

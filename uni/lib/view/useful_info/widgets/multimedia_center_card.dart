@@ -15,8 +15,12 @@ class MultimediaCenterCard extends GenericExpansionCard {
         h1('Telefone', context),
         infoText('+351 225 081 466', context, link: 'tel:225 081 466'),
         h1('Email', context),
-        infoText('imprimir@fe.up.pt', context,
-            last: true, link: 'mailto:imprimir@fe.up.pt',)
+        infoText(
+          'imprimir@fe.up.pt',
+          context,
+          last: true,
+          link: 'mailto:imprimir@fe.up.pt',
+        )
       ],
     );
   }
