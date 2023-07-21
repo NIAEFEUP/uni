@@ -144,7 +144,7 @@ void main() {
 
       final settingFilteredExams = Completer<void>();
       filteredExams['ExamDoesNotExist'] = true;
-      examProvider.setFilteredExams(filteredExams, settingFilteredExams);
+      await examProvider.setFilteredExams(filteredExams, settingFilteredExams);
 
       await settingFilteredExams.future;
 

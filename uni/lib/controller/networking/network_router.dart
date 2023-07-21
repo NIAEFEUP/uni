@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 import 'package:logger/logger.dart';
 import 'package:synchronized/synchronized.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
@@ -25,9 +26,9 @@ class NetworkRouter {
   static Future<Session> login(
     String user,
     String pass,
-    List<String> faculties,
-    bool persistentSession,
-  ) async {
+    List<String> faculties, {
+    required bool persistentSession,
+  }) async {
     final url =
         '${NetworkRouter.getBaseUrls(faculties)[0]}mob_val_geral.autentica';
     final response = await http.post(
@@ -35,8 +36,8 @@ class NetworkRouter {
       body: {'pv_login': user, 'pv_password': pass},
     ).timeout(const Duration(seconds: loginRequestTimeout));
     if (response.statusCode == 200) {
-      final session = Session.fromLogin(response, faculties);
-      session.persistentSession = persistentSession;
+      final session = Session.fromLogin(response, faculties)
+        ..persistentSession = persistentSession;
       Logger().i('Login successful');
       return session;
     } else {
@@ -78,12 +79,13 @@ class NetworkRouter {
         'pv_password': await AppSharedPreferences.getUserPassword(),
       },
     ).timeout(const Duration(seconds: loginRequestTimeout));
-    final responseBody = json.decode(response.body);
-    if (response.statusCode == 200 && responseBody['authenticated']) {
-      session.authenticated = true;
-      session.studentNumber = responseBody['codigo'];
-      session.type = responseBody['tipo'];
-      session.cookies = NetworkRouter.extractCookies(response.headers);
+    final responseBody = json.decode(response.body) as Map<String, dynamic>;
+    if (response.statusCode == 200 && responseBody['authenticated'] as bool) {
+      session
+        ..authenticated = true
+        ..studentNumber = responseBody['codigo'] as String
+        ..type = responseBody['tipo'] as String
+        ..cookies = NetworkRouter.extractCookies(response.headers);
       Logger().i('Re-login successful');
       return true;
     } else {
@@ -111,13 +113,13 @@ class NetworkRouter {
   }
 
   /// Extracts the cookies present in [headers].
-  static String extractCookies(dynamic headers) {
+  static String extractCookies(Map<String, String> headers) {
     final cookieList = <String>[];
-    final String cookies = headers['set-cookie'];
+    final cookies = headers['set-cookie'];
     if (cookies != '') {
-      final rawCookies = cookies.split(',');
-      for (final c in rawCookies) {
-        cookieList.add(Cookie.fromSetCookieValue(c).toString());
+      final rawCookies = cookies?.split(',');
+      for (final c in rawCookies ?? []) {
+        cookieList.add(Cookie.fromSetCookieValue(c as String).toString());
       }
     }
     return cookieList.join(';');
@@ -135,10 +137,7 @@ class NetworkRouter {
       return Future.error('Login failed');
     }
 
-    if (!baseUrl.contains('?')) {
-      baseUrl += '?';
-    }
-    var url = baseUrl;
+    var url = !baseUrl.contains('?') ? '$baseUrl?' : baseUrl;
     query.forEach((key, value) {
       url += '$key=$value&';
     });
@@ -199,7 +198,7 @@ class NetworkRouter {
   }
 
   /// Makes an HTTP request to terminate the session in Sigarra.
-  static Future killAuthentication(List<String> faculties) async {
+  static Future<Response> killAuthentication(List<String> faculties) async {
     final url = '${NetworkRouter.getBaseUrl(faculties[0])}vld_validacao.sair';
     final response = await http
         .get(url.toUri())

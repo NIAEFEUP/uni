@@ -31,14 +31,14 @@ class CourseUnitDetailPageViewState
         courseUnitsProvider.courseUnitsSheets[widget.courseUnit];
     if (courseUnitSheet == null || force) {
       await courseUnitsProvider.fetchCourseUnitSheet(
-          widget.courseUnit, session);
+          widget.courseUnit, session,);
     }
 
     final courseUnitClasses =
         courseUnitsProvider.courseUnitsClasses[widget.courseUnit];
     if (courseUnitClasses == null || force) {
       await courseUnitsProvider.fetchCourseUnitClasses(
-          widget.courseUnit, session);
+          widget.courseUnit, session,);
     }
   }
 

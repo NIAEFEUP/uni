@@ -26,7 +26,7 @@ Future logout(BuildContext context) async {
   await AppCoursesDatabase().deleteCourses();
   await AppRefreshTimesDatabase().deleteRefreshTimes();
   await AppUserDataDatabase().deleteUserData();
-  AppLastUserInfoUpdateDatabase().deleteLastUpdate();
+  await AppLastUserInfoUpdateDatabase().deleteLastUpdate();
   await AppBusStopDatabase().deleteBusStops();
   await AppCourseUnitsDatabase().deleteCourseUnits();
   await NetworkRouter.killAuthentication(faculties);

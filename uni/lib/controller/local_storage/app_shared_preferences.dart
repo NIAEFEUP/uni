@@ -49,7 +49,7 @@ class AppSharedPreferences {
   ) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(
-        dataKey + lastUpdateTimeKeySuffix, dateTime.toString());
+        dataKey + lastUpdateTimeKeySuffix, dateTime.toString(),);
   }
 
   /// Saves the user's student number, password and faculties.
@@ -194,7 +194,7 @@ class AppSharedPreferences {
 
   /// Replaces the user's exam filter settings with [newFilteredExamTypes].
   static Future<void> saveFilteredExams(
-      Map<String, bool> newFilteredExamTypes) async {
+      Map<String, bool> newFilteredExamTypes,) async {
     final prefs = await SharedPreferences.getInstance();
 
     final newTypes = newFilteredExamTypes.keys

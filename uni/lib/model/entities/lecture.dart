@@ -62,7 +62,7 @@ class Lecture {
       day.add(Duration(hours: startTimeHours, minutes: startTimeMinutes)),
       day.add(Duration(
           hours: startTimeMinutes + endTimeHours,
-          minutes: startTimeMinutes + endTimeMinutes)),
+          minutes: startTimeMinutes + endTimeMinutes,),),
       blocks,
       room,
       teacher,

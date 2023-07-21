@@ -53,7 +53,7 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
             labelTextStyle: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
-                color: Theme.of(context).colorScheme.primary),
+                color: Theme.of(context).colorScheme.primary,),
             sublabel: 'Não tens exames marcados',
             sublabelTextStyle: const TextStyle(fontSize: 15),
           ),

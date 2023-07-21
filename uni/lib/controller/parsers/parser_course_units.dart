@@ -52,7 +52,8 @@ List<CourseUnit> parseCourseUnitsAndCourseAverage(
     final codeName = row.children[2].children[0].innerHtml;
     final name = row.children[3].children[0].innerHtml;
     final ects = row.children[5].innerHtml.replaceAll(',', '.');
-    String? grade, status;
+    String? grade;
+    String? status;
     var yearIncrement = -1;
     for (var i = 0;; i += 2) {
       if (row.children.length <= 6 + i) {

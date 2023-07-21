@@ -147,8 +147,9 @@ Future<List<Lecture>> getScheduleFromHtml(
     }
   });
 
-  lecturesList.addAll(await getOverlappedClasses(session, document));
-  lecturesList.sort((a, b) => a.compare(b));
+  lecturesList
+    ..addAll(await getOverlappedClasses(session, document))
+    ..sort((a, b) => a.compare(b));
 
   return lecturesList;
 }

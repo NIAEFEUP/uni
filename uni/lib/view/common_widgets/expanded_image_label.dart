@@ -7,7 +7,7 @@ class ImageLabel extends StatelessWidget {
       required this.label,
       this.labelTextStyle,
       this.sublabel = '',
-      this.sublabelTextStyle});
+      this.sublabelTextStyle,});
   final String imagePath;
   final String label;
   final TextStyle? labelTextStyle;

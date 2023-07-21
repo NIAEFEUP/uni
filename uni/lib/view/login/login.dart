@@ -179,7 +179,7 @@ class LoginPageViewState extends State<LoginPageView> {
   }
 
   /// Creates the title for the login menu.
-  Widget createTitle(queryData, context) {
+  Widget createTitle(MediaQueryData queryData, BuildContext context) {
     return ConstrainedBox(
       constraints: BoxConstraints(
         minWidth: queryData.size.width / 8,
@@ -209,7 +209,8 @@ class LoginPageViewState extends State<LoginPageView> {
           children: [
             createFacultyInput(context, faculties, setFaculties),
             Padding(
-                padding: EdgeInsets.only(bottom: queryData.size.height / 35)),
+              padding: EdgeInsets.only(bottom: queryData.size.height / 35),
+            ),
             createUsernameInput(
               context,
               usernameController,
@@ -217,7 +218,8 @@ class LoginPageViewState extends State<LoginPageView> {
               passwordFocus,
             ),
             Padding(
-                padding: EdgeInsets.only(bottom: queryData.size.height / 35)),
+              padding: EdgeInsets.only(bottom: queryData.size.height / 35),
+            ),
             createPasswordInput(
               context,
               passwordController,
@@ -227,7 +229,8 @@ class LoginPageViewState extends State<LoginPageView> {
               () => _login(context),
             ),
             Padding(
-                padding: EdgeInsets.only(bottom: queryData.size.height / 35)),
+              padding: EdgeInsets.only(bottom: queryData.size.height / 35),
+            ),
             createSaveDataCheckBox(_keepSignedIn, _setKeepSignedIn),
           ],
         ),
@@ -255,16 +258,14 @@ class LoginPageViewState extends State<LoginPageView> {
   Widget createStatusWidget(BuildContext context) {
     return Consumer<SessionProvider>(
       builder: (context, sessionProvider, _) {
-        switch (sessionProvider.status) {
-          case RequestStatus.busy:
-            return const SizedBox(
-              height: 60,
-              child:
-                  Center(child: CircularProgressIndicator(color: Colors.white)),
-            );
-          default:
-            return Container();
+        if (sessionProvider.status == RequestStatus.busy) {
+          return const SizedBox(
+            height: 60,
+            child:
+                Center(child: CircularProgressIndicator(color: Colors.white)),
+          );
         }
+        return Container();
       },
     );
   }

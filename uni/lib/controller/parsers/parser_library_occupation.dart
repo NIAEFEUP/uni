@@ -7,8 +7,7 @@ Future<LibraryOccupation> parseLibraryOccupationFromSheets(
   Response response,
 ) async {
   final json = response.body.split('\n')[1]; // ignore first line
-  const toSkip =
-      'google.visualization.Query.setResponse('; // this content should be ignored
+  const toSkip = 'google.visualization.Query.setResponse('; // should be ignored
   const numFloors = 6;
   final occupation = LibraryOccupation(0, 0);
 
@@ -16,7 +15,8 @@ Future<LibraryOccupation> parseLibraryOccupationFromSheets(
       jsonDecode(json.substring(toSkip.length, json.length - 2));
 
   for (var i = 0; i < numFloors; i++) {
-    int floor, max;
+    int floor;
+    int max;
     try {
       floor = jsonDecoded['table']['rows'][i]['c'][0]['v'].toInt();
     } catch (e) {

@@ -46,7 +46,7 @@ class _RestaurantPageState extends GeneralPageViewState<RestaurantPageView>
                   padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
                   alignment: Alignment.center,
                   child: const PageTitle(
-                      name: 'Ementas', center: false, pad: false),
+                      name: 'Ementas', center: false, pad: false,),
                 ),
                 TabBar(
                   controller: tabController,

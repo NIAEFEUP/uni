@@ -36,7 +36,7 @@ class ExamProvider extends StateProviderNotifier {
       Completer(),
     );
     await setHiddenExams(
-        await AppSharedPreferences.getHiddenExams(), Completer());
+        await AppSharedPreferences.getHiddenExams(), Completer(),);
 
     final db = AppExamsDatabase();
     final exams = await db.exams();
@@ -80,7 +80,7 @@ class ExamProvider extends StateProviderNotifier {
 
       // Updates local database according to the information fetched -- Exams
       if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {
-        AppExamsDatabase().saveNewExams(exams);
+        await AppExamsDatabase().saveNewExams(exams);
       }
 
       _exams = exams;
@@ -105,7 +105,7 @@ class ExamProvider extends StateProviderNotifier {
     Completer<void> action,
   ) async {
     _filteredExamsTypes = Map<String, bool>.from(newFilteredExams);
-    AppSharedPreferences.saveFilteredExams(filteredExamsTypes);
+    await AppSharedPreferences.saveFilteredExams(filteredExamsTypes);
     action.complete();
     notifyListeners();
   }
@@ -123,18 +123,18 @@ class ExamProvider extends StateProviderNotifier {
     Completer<void> action,
   ) async {
     _hiddenExams = List<String>.from(newHiddenExams);
-    AppSharedPreferences.saveHiddenExams(hiddenExams);
+    await AppSharedPreferences.saveHiddenExams(hiddenExams);
     action.complete();
     notifyListeners();
   }
 
   Future<void> toggleHiddenExam(
-      String newExamId, Completer<void> action) async {
+      String newExamId, Completer<void> action,) async {
     _hiddenExams.contains(newExamId)
         ? _hiddenExams.remove(newExamId)
         : _hiddenExams.add(newExamId);
     notifyListeners();
-    AppSharedPreferences.saveHiddenExams(hiddenExams);
+    await AppSharedPreferences.saveHiddenExams(hiddenExams);
     action.complete();
   }
 

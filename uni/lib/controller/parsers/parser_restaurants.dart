@@ -104,8 +104,8 @@ Restaurant getRestaurantFromGSheets(
     }
 
     final meal = Meal(
-      cellList[2]['v'],
-      cellList[3]['v'],
+      cellList[2]['v'] as String,
+      cellList[3]['v'] as String,
       DayOfWeek.values[format.parseUtc(cellList[0]['f']).weekday - 1],
       format.parseUtc(cellList[0]['f']),
     );

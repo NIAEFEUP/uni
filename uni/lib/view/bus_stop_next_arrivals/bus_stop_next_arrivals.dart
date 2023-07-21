@@ -98,7 +98,7 @@ class NextArrivalsState extends State<NextArrivals> {
             labelTextStyle: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 17,
-                color: Theme.of(context).colorScheme.primary)),
+                color: Theme.of(context).colorScheme.primary,),),
       );
       result.add(
         Column(
@@ -107,7 +107,7 @@ class NextArrivalsState extends State<NextArrivals> {
               onPressed: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const BusStopSelectionPage()),
+                    builder: (context) => const BusStopSelectionPage(),),
               ),
               child: const Text('Adicionar'),
             ),

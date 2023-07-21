@@ -53,7 +53,7 @@ class LectureProvider extends StateProviderNotifier {
       // Updates local database according to the information fetched -- Lectures
       if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {
         final db = AppLecturesDatabase();
-        db.saveNewLectures(lectures);
+        await db.saveNewLectures(lectures);
       }
 
       _lectures = lectures;

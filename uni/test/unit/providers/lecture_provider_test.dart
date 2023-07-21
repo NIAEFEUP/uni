@@ -88,7 +88,7 @@ void main() {
           .thenAnswer((_) async => throw Exception('💥'));
 
       await provider.fetchUserLectures(
-          action, userPersistentInfo, session, profile);
+          action, userPersistentInfo, session, profile,);
       expect(provider.status, RequestStatus.busy);
 
       await action.future;
