@@ -1,3 +1,4 @@
+import 'package:http/http.dart';
 import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/parsers/parser_schedule.dart';
@@ -20,7 +21,7 @@ class ScheduleFetcherApi extends ScheduleFetcher {
   Future<List<Lecture>> getLectures(Session session, Profile profile) async {
     final dates = getDates();
     final urls = getEndpoints(session);
-    final responses = [];
+    final responses = <Response>[];
     for (final url in urls) {
       final response = await NetworkRouter.getWithCookies(
         url,
@@ -33,6 +34,6 @@ class ScheduleFetcherApi extends ScheduleFetcher {
       );
       responses.add(response);
     }
-    return await parseScheduleMultipleRequests(responses);
+    return parseScheduleMultipleRequests(responses);
   }
 }

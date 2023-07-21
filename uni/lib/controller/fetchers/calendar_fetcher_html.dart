@@ -8,7 +8,7 @@ import 'package:uni/model/entities/session.dart';
 class CalendarFetcherHtml implements SessionDependantFetcher {
   @override
   List<String> getEndpoints(Session session) {
-    // TO DO: Implement parsers for all faculties
+    // TODO: Implement parsers for all faculties
     // and dispatch for different fetchers
     final url = '${NetworkRouter.getBaseUrl('feup')}'
         'web_base.gera_pagina?p_pagina=página%20estática%20genérica%20106';

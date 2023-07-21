@@ -113,10 +113,11 @@ class DeparturesFetcher {
     final url =
         'https://www.stcp.pt/pt/itinerarium/callservice.php?action=srchstoplines&stopname=$stopCode';
     final response = await http.post(url.toUri());
-    final List json = jsonDecode(response.body);
+    final json = jsonDecode(response.body) as List<dynamic>;
     for (final busKey in json) {
-      final String stop = busKey['name'] + ' [' + busKey['code'] + ']';
-      stopsList.add(stop);
+      final bus = busKey as Map<String, dynamic>;
+      final stopDescription = '${bus['name']} [${bus['code']}]';
+      stopsList.add(stopDescription);
     }
 
     return stopsList;
@@ -136,13 +137,14 @@ class DeparturesFetcher {
         'https://www.stcp.pt/pt/itinerarium/callservice.php?action=srchstoplines&stopcode=$stop';
     final response = await http.post(url.toUri());
 
-    final List json = jsonDecode(response.body);
+    final json = jsonDecode(response.body) as List<dynamic>;
 
     final buses = <Bus>[];
 
-    for (final busKey in json) {
-      final lines = busKey['lines'];
-      for (final bus in lines) {
+    for (final data in json) {
+      final lines = (data as Map<String, dynamic>)['lines'] as List<dynamic>;
+      for (final busInfo in lines) {
+        final bus = busInfo as Map<String, dynamic>;
         final newBus = Bus(
           busCode: bus['code'] as String,
           destination: bus['description'] as String,

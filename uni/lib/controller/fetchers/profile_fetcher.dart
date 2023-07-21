@@ -37,9 +37,10 @@ class ProfileFetcher implements SessionDependantFetcher {
               .map((c) => c.festId)
               .toList()
               .contains(course.festId)) {
-            final matchingCourse =
-                profile.courses.where((c) => c.festId == course.festId).first;
-            matchingCourse.state ??= course.state;
+            profile.courses
+                .where((c) => c.festId == course.festId)
+                .first
+                .state ??= course.state;
             continue;
           }
           profile.courses.add(course);
