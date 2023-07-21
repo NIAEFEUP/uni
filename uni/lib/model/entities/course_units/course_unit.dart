@@ -17,6 +17,7 @@ class CourseUnit {
     this.ects,
     this.schoolYear,
   });
+
   int id;
   String code;
   String abbreviation;
@@ -34,25 +35,25 @@ class CourseUnit {
   String? schoolYear;
 
   /// Creates a new instance from a JSON object.
-  static CourseUnit? fromJson(dynamic data) {
+  static CourseUnit? fromJson(Map<String, dynamic> data) {
     if (data['ucurr_id'] == null) {
       return null;
     }
     return CourseUnit(
-      id: data['ucurr_id'],
-      code: data['ucurr_codigo'],
-      abbreviation: data['ucurr_sigla'],
-      name: data['ucurr_nome'],
-      curricularYear: data['ano'],
-      occurrId: data['ocorr_id'],
-      semesterCode: data['per_codigo'],
-      semesterName: data['per_nome'],
-      type: data['tipo'],
-      status: data['estado'],
-      grade: data['resultado_melhor'],
-      ectsGrade: data['resultado_ects'],
-      result: data['resultado_insc'],
-      ects: data['creditos_ects'],
+      id: data['ucurr_id'] as int,
+      code: data['ucurr_codigo'] as String,
+      abbreviation: data['ucurr_sigla'] as String,
+      name: data['ucurr_nome'] as String,
+      curricularYear: data['ano'] as int,
+      occurrId: data['ocorr_id'] as int,
+      semesterCode: data['per_codigo'] as String?,
+      semesterName: data['per_nome'] as String?,
+      type: data['tipo'] as String?,
+      status: data['estado'] as String?,
+      grade: data['resultado_melhor'] as String?,
+      ectsGrade: data['resultado_ects'] as String?,
+      result: data['resultado_insc'] as String?,
+      ects: data['creditos_ects'] as double?,
     );
   }
 

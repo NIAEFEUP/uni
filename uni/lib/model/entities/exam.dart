@@ -10,8 +10,9 @@ enum WeekDays {
   saturday('Sábado'),
   sunday('Domingo');
 
-  final String day;
   const WeekDays(this.day);
+
+  final String day;
 }
 
 enum Months {
@@ -29,6 +30,7 @@ enum Months {
   december('dezembro');
 
   final String month;
+
   const Months(this.month);
 }
 
@@ -62,6 +64,7 @@ class Exam {
   ) {
     this.rooms = rooms.split(',');
   }
+
   late final DateTime begin;
   late final DateTime end;
   late final String id;
@@ -108,7 +111,7 @@ class Exam {
 
   @override
   String toString() {
-    return '''$id - $subject - ${begin.year.toString()} - $month - ${begin.day} -  $beginTime-$endTime - $type - $rooms - $weekDay''';
+    return '''$id - $subject - ${begin.year} - $month - ${begin.day} -  $beginTime-$endTime - $type - $rooms - $weekDay''';
   }
 
   /// Prints the data in this exam to the [Logger] with an INFO level.

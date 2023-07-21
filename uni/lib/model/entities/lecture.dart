@@ -60,9 +60,12 @@ class Lecture {
       subject,
       typeClass,
       day.add(Duration(hours: startTimeHours, minutes: startTimeMinutes)),
-      day.add(Duration(
+      day.add(
+        Duration(
           hours: startTimeMinutes + endTimeHours,
-          minutes: startTimeMinutes + endTimeMinutes,),),
+          minutes: startTimeMinutes + endTimeMinutes,
+        ),
+      ),
       blocks,
       room,
       teacher,
@@ -70,6 +73,7 @@ class Lecture {
       occurrId,
     );
   }
+
   String subject;
   String typeClass;
   String room;
@@ -114,7 +118,7 @@ class Lecture {
   }
 
   /// Prints the data in this lecture to the [Logger] with an INFO level.
-  printLecture() {
+  void printLecture() {
     Logger().i(toString());
   }
 

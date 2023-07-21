@@ -45,14 +45,13 @@ String locationTypeToString(LocationType type) {
       return 'STORE';
     case LocationType.wc:
       return 'WC';
-    default:
-      return 'LOCATION';
   }
 }
 
 abstract class Location {
   // String or IconData
   Location(this.floor, this.weight, this.icon);
+
   final int floor;
   final int weight;
   final dynamic icon;
