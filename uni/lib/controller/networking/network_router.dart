@@ -17,8 +17,8 @@ extension UriString on String {
 /// Manages the networking of the app.
 class NetworkRouter {
   static http.Client? httpClient;
-  static const int loginRequestTimeout = 20;
-  static Lock loginLock = Lock();
+  static const int _requestTimeout = 5;
+  static final Lock _loginLock = Lock();
 
   /// Creates an authenticated [Session] on the given [faculty] with the
   /// given username [user] and password [pass].
@@ -29,7 +29,7 @@ class NetworkRouter {
     final http.Response response = await http.post(url.toUri(), body: {
       'pv_login': user,
       'pv_password': pass
-    }).timeout(const Duration(seconds: loginRequestTimeout));
+    }).timeout(const Duration(seconds: _requestTimeout));
     if (response.statusCode == 200) {
       final Session session = Session.fromLogin(response, faculties);
       session.persistentSession = persistentSession;
@@ -50,7 +50,7 @@ class NetworkRouter {
 
   /// Determines if a re-login with the [session] is possible.
   static Future<bool> reLogin(Session session) {
-    return loginLock.synchronized(() async {
+    return _loginLock.synchronized(() async {
       if (!session.persistentSession) {
         return false;
       }
@@ -74,7 +74,7 @@ class NetworkRouter {
     final http.Response response = await http.post(url.toUri(), body: {
       'pv_login': session.studentNumber,
       'pv_password': await AppSharedPreferences.getUserPassword(),
-    }).timeout(const Duration(seconds: loginRequestTimeout));
+    }).timeout(const Duration(seconds: _requestTimeout));
     final responseBody = json.decode(response.body);
     if (response.statusCode == 200 && responseBody['authenticated']) {
       session.authenticated = true;
@@ -99,7 +99,7 @@ class NetworkRouter {
     final response = await http.post(url.toUri(), body: {
       'p_user': user,
       'p_pass': pass
-    }).timeout(const Duration(seconds: loginRequestTimeout));
+    }).timeout(const Duration(seconds: _requestTimeout));
 
     return response.body;
   }
@@ -141,8 +141,12 @@ class NetworkRouter {
     headers['cookie'] = session.cookies;
 
     final http.Response response = await (httpClient != null
-        ? httpClient!.get(url.toUri(), headers: headers)
-        : http.get(url.toUri(), headers: headers));
+        ? httpClient!
+            .get(url.toUri(), headers: headers)
+            .timeout(const Duration(seconds: _requestTimeout))
+        : http
+            .get(url.toUri(), headers: headers)
+            .timeout(const Duration(seconds: _requestTimeout)));
     if (response.statusCode == 200) {
       return response;
     } else if (response.statusCode == 403 && !(await userLoggedIn(session))) {
@@ -150,14 +154,15 @@ class NetworkRouter {
       final bool reLoginSuccessful = await reLogin(session);
       if (reLoginSuccessful) {
         headers['cookie'] = session.cookies;
-        return http.get(url.toUri(), headers: headers);
+        return http.get(url.toUri(), headers: headers).timeout(const Duration(seconds: _requestTimeout));
       } else {
         NavigationService.logout();
         Logger().e('Login failed');
         return Future.error('Login failed');
       }
     } else {
-      return Future.error('HTTP Error ${response.statusCode}');
+      Logger().e('Connection error ${response.statusCode}');
+      return Future.error('Connection error ${response.statusCode}');
     }
   }
 
@@ -194,7 +199,7 @@ class NetworkRouter {
     final url = '${NetworkRouter.getBaseUrl(faculties[0])}vld_validacao.sair';
     final response = await http
         .get(url.toUri())
-        .timeout(const Duration(seconds: loginRequestTimeout));
+        .timeout(const Duration(seconds: _requestTimeout));
     if (response.statusCode == 200) {
       Logger().i("Logout Successful");
     } else {
