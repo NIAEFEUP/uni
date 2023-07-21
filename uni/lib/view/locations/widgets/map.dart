@@ -64,22 +64,24 @@ class LocationsMap extends StatelessWidget {
             subdomains: const <String>['a', 'b', 'c'],
             tileProvider: CachedTileProvider(),
           ),
-          PopupMarkerLayerWidget(
+          PopupMarkerLayer(
             options: PopupMarkerLayerOptions(
               markers: locations.map((location) {
                 return LocationMarker(location.latlng, location);
               }).toList(),
               popupController: _popupLayerController,
-              popupAnimation: const PopupAnimation.fade(
-                  duration: Duration(milliseconds: 400)),
-              popupBuilder: (_, Marker marker) {
-                if (marker is LocationMarker) {
-                  return marker.locationGroup.isFloorless
-                      ? FloorlessLocationMarkerPopup(marker.locationGroup)
-                      : LocationMarkerPopup(marker.locationGroup);
-                }
-                return const Card(child: Text('undefined'));
-              },
+              popupDisplayOptions: PopupDisplayOptions(
+                animation: const PopupAnimation.fade(
+                    duration: Duration(milliseconds: 400)),
+                builder: (_, Marker marker) {
+                  if (marker is LocationMarker) {
+                    return marker.locationGroup.isFloorless
+                        ? FloorlessLocationMarkerPopup(marker.locationGroup)
+                        : LocationMarkerPopup(marker.locationGroup);
+                  }
+                  return const Card(child: Text('undefined'));
+                },
+              ),
             ),
           ),
         ]);
