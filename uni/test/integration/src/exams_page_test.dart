@@ -89,7 +89,7 @@ void main() {
           ParserExams(),
           const Tuple2('', ''),
           profile,
-          Session(authenticated: true),
+          Session(username: '', cookies: '', faculties: ['feup']),
           [sopeCourseUnit, sdisCourseUnit]);
 
       await completer.future;
@@ -128,7 +128,7 @@ void main() {
           ParserExams(),
           const Tuple2('', ''),
           profile,
-          Session(authenticated: true),
+          Session(username: '', cookies: '', faculties: ['feup']),
           [sopeCourseUnit, sdisCourseUnit]);
 
       await completer.future;

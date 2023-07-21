@@ -25,7 +25,7 @@ class ScheduleFetcherApi extends ScheduleFetcher {
       final response = await NetworkRouter.getWithCookies(
           url,
           {
-            'pv_codigo': session.studentNumber,
+            'pv_codigo': session.username,
             'pv_semana_ini': dates.beginWeek,
             'pv_semana_fim': dates.endWeek
           },
