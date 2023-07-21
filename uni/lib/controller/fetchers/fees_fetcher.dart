@@ -14,8 +14,8 @@ class FeesFetcher implements SessionDependantFetcher {
   }
 
   Future<Response> getUserFeesResponse(Session session) {
-    final String url = getEndpoints(session)[0];
-    final Map<String, String> query = {'pct_cod': session.studentNumber};
+    final url = getEndpoints(session)[0];
+    final query = <String, String>{'pct_cod': session.studentNumber};
     return NetworkRouter.getWithCookies(url, query, session);
   }
 }

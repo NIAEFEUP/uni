@@ -1,8 +1,9 @@
+import 'package:uni/model/entities/location.dart';
 import 'package:uni/view/locations/widgets/icons.dart';
 
-import 'package:uni/model/entities/location.dart';
-
 class RoomLocation implements Location {
+
+  RoomLocation(this.floor, this.roomNumber, {this.locationGroupId});
   @override
   final int floor;
 
@@ -14,8 +15,6 @@ class RoomLocation implements Location {
   final icon = LocationIcons.bookOpenBlankVariant;
 
   final int? locationGroupId;
-
-  RoomLocation(this.floor, this.roomNumber, {this.locationGroupId});
 
   @override
   String description() {

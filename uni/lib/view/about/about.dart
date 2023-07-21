@@ -14,7 +14,7 @@ class AboutPageView extends StatefulWidget {
 class AboutPageViewState extends GeneralPageViewState {
   @override
   Widget getBody(BuildContext context) {
-    final MediaQueryData queryData = MediaQuery.of(context);
+    final queryData = MediaQuery.of(context);
     return ListView(
       children: <Widget>[
         SvgPicture.asset(
@@ -30,11 +30,11 @@ class AboutPageViewState extends GeneralPageViewState {
               left: queryData.size.width / 12,
               right: queryData.size.width / 12,
               top: queryData.size.width / 12,
-              bottom: queryData.size.width / 12),
+              bottom: queryData.size.width / 12,),
           child: Column(children: const <Widget>[
             TermsAndConditions(),
-          ]),
-        ))
+          ],),
+        ),)
       ],
     );
   }

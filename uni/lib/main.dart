@@ -60,19 +60,19 @@ Future<void> main() async {
       LibraryOccupationProvider(),
       FacultyLocationsProvider(),
       HomePageProvider(),
-      ReferenceProvider());
+      ReferenceProvider(),);
 
   WidgetsFlutterBinding.ensureInitialized();
 
   await Workmanager().initialize(workerStartCallback,
       isInDebugMode:
-          !kReleaseMode // run workmanager in debug mode when app is in debug mode
+          !kReleaseMode, // run workmanager in debug mode when app is in debug mode
       );
 
   await dotenv
-      .load(fileName: "assets/env/.env", isOptional: true)
+      .load(fileName: 'assets/env/.env', isOptional: true)
       .onError((error, stackTrace) {
-    Logger().e("Error loading .env file: $error", error, stackTrace);
+    Logger().e('Error loading .env file: $error', error, stackTrace);
   });
 
   final savedTheme = await AppSharedPreferences.getThemeMode();
@@ -84,38 +84,38 @@ Future<void> main() async {
             runApp(MultiProvider(
                 providers: [
                   ChangeNotifierProvider(
-                      create: (context) => stateProviders.lectureProvider),
+                      create: (context) => stateProviders.lectureProvider,),
                   ChangeNotifierProvider(
-                      create: (context) => stateProviders.examProvider),
+                      create: (context) => stateProviders.examProvider,),
                   ChangeNotifierProvider(
-                      create: (context) => stateProviders.busStopProvider),
+                      create: (context) => stateProviders.busStopProvider,),
                   ChangeNotifierProvider(
-                      create: (context) => stateProviders.restaurantProvider),
+                      create: (context) => stateProviders.restaurantProvider,),
                   ChangeNotifierProvider(
-                      create: (context) => stateProviders.profileProvider),
-                  ChangeNotifierProvider(
-                      create: (context) =>
-                          stateProviders.courseUnitsInfoProvider),
-                  ChangeNotifierProvider(
-                      create: (context) => stateProviders.sessionProvider),
-                  ChangeNotifierProvider(
-                      create: (context) => stateProviders.calendarProvider),
+                      create: (context) => stateProviders.profileProvider,),
                   ChangeNotifierProvider(
                       create: (context) =>
-                          stateProviders.libraryOccupationProvider),
+                          stateProviders.courseUnitsInfoProvider,),
+                  ChangeNotifierProvider(
+                      create: (context) => stateProviders.sessionProvider,),
+                  ChangeNotifierProvider(
+                      create: (context) => stateProviders.calendarProvider,),
                   ChangeNotifierProvider(
                       create: (context) =>
-                          stateProviders.facultyLocationsProvider),
+                          stateProviders.libraryOccupationProvider,),
                   ChangeNotifierProvider(
-                      create: (context) => stateProviders.homePageProvider),
+                      create: (context) =>
+                          stateProviders.facultyLocationsProvider,),
                   ChangeNotifierProvider(
-                      create: (context) => stateProviders.referenceProvider),
+                      create: (context) => stateProviders.homePageProvider,),
+                  ChangeNotifierProvider(
+                      create: (context) => stateProviders.referenceProvider,),
                 ],
                 child: ChangeNotifierProvider<ThemeNotifier>(
                   create: (_) => ThemeNotifier(savedTheme),
                   child: const MyApp(),
-                )))
-          });
+                ),),)
+          },);
 }
 
 /// Manages the state of the app
@@ -146,50 +146,50 @@ class MyAppState extends State<MyApp> {
           home: const SplashScreen(),
           navigatorKey: NavigationService.navigatorKey,
           onGenerateRoute: (RouteSettings settings) {
-            final Map<String, Route<dynamic>> transitions = {
+            final transitions = <String, Route<dynamic>>{
               '/${DrawerItem.navPersonalArea.title}':
                   PageTransition.makePageTransition(
-                      page: const HomePageView(), settings: settings),
+                      page: const HomePageView(), settings: settings,),
               '/${DrawerItem.navSchedule.title}':
                   PageTransition.makePageTransition(
-                      page: const SchedulePage(), settings: settings),
+                      page: const SchedulePage(), settings: settings,),
               '/${DrawerItem.navExams.title}':
                   PageTransition.makePageTransition(
-                      page: const ExamsPageView(), settings: settings),
+                      page: const ExamsPageView(), settings: settings,),
               '/${DrawerItem.navStops.title}':
                   PageTransition.makePageTransition(
                       page: const BusStopNextArrivalsPage(),
-                      settings: settings),
+                      settings: settings,),
               '/${DrawerItem.navCourseUnits.title}':
                   PageTransition.makePageTransition(
-                      page: const CourseUnitsPageView(), settings: settings),
+                      page: const CourseUnitsPageView(), settings: settings,),
               '/${DrawerItem.navLocations.title}':
                   PageTransition.makePageTransition(
-                      page: const LocationsPage(), settings: settings),
+                      page: const LocationsPage(), settings: settings,),
               '/${DrawerItem.navRestaurants.title}':
                   PageTransition.makePageTransition(
-                      page: const RestaurantPageView(), settings: settings),
+                      page: const RestaurantPageView(), settings: settings,),
               '/${DrawerItem.navCalendar.title}':
                   PageTransition.makePageTransition(
-                      page: const CalendarPageView(), settings: settings),
+                      page: const CalendarPageView(), settings: settings,),
               '/${DrawerItem.navLibrary.title}':
                   PageTransition.makePageTransition(
-                      page: const LibraryPageView(), settings: settings),
+                      page: const LibraryPageView(), settings: settings,),
               '/${DrawerItem.navUsefulInfo.title}':
                   PageTransition.makePageTransition(
-                      page: const UsefulInfoPageView(), settings: settings),
+                      page: const UsefulInfoPageView(), settings: settings,),
               '/${DrawerItem.navAbout.title}':
                   PageTransition.makePageTransition(
-                      page: const AboutPageView(), settings: settings),
+                      page: const AboutPageView(), settings: settings,),
               '/${DrawerItem.navBugReport.title}':
                   PageTransition.makePageTransition(
                       page: const BugReportPageView(),
                       settings: settings,
-                      maintainState: false),
+                      maintainState: false,),
               '/${DrawerItem.navLogOut.title}': LogoutRoute.buildLogoutRoute()
             };
             return transitions[settings.name];
-          }),
+          },),
     );
   }
 }

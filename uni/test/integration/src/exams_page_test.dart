@@ -33,28 +33,28 @@ void main() {
         abbreviation: 'SOPE',
         occurrId: 0,
         name: 'Sistemas Operativos',
-        status: 'V');
+        status: 'V',);
     final sdisCourseUnit = CourseUnit(
         abbreviation: 'SDIS',
         name: 'Sistemas Distribuídos',
         occurrId: 0,
-        status: 'V');
+        status: 'V',);
 
-    final DateTime beginSopeExam = DateTime.parse('2099-11-18 17:00');
-    final DateTime endSopeExam = DateTime.parse('2099-11-18 19:00');
+    final beginSopeExam = DateTime.parse('2099-11-18 17:00');
+    final endSopeExam = DateTime.parse('2099-11-18 19:00');
     final sopeExam =
         Exam('44426', beginSopeExam, endSopeExam, 'SOPE', [], 'MT', 'feup');
-    final DateTime beginSdisExam = DateTime.parse('2099-10-21 17:00');
-    final DateTime endSdisExam = DateTime.parse('2099-10-21 19:00');
+    final beginSdisExam = DateTime.parse('2099-10-21 17:00');
+    final endSdisExam = DateTime.parse('2099-10-21 19:00');
     final sdisExam =
         Exam('44425', beginSdisExam, endSdisExam, 'SDIS', [], 'MT', 'feup');
-    final DateTime beginMdisExam = DateTime.parse('2099-10-22 17:00');
-    final DateTime endMdisExam = DateTime.parse('2099-10-22 19:00');
+    final beginMdisExam = DateTime.parse('2099-10-22 17:00');
+    final endMdisExam = DateTime.parse('2099-10-22 19:00');
     final mdisExam =
         Exam('44429', beginMdisExam, endMdisExam, 'MDIS', [], 'MT', 'feup');
 
-    final Map<String, bool> filteredExams = {};
-    for (String type in Exam.displayedTypes) {
+    final filteredExams = <String, bool>{};
+    for (final type in Exam.displayedTypes) {
       filteredExams[type] = true;
     }
 
@@ -83,14 +83,14 @@ void main() {
       expect(find.byKey(Key('$sopeExam-exam')), findsNothing);
       expect(find.byKey(Key('$mdisExam-exam')), findsNothing);
 
-      final Completer<void> completer = Completer();
-      examProvider.fetchUserExams(
+      final completer = Completer<void>();
+      await examProvider.fetchUserExams(
           completer,
           ParserExams(),
           const Tuple2('', ''),
           profile,
           Session(authenticated: true),
-          [sopeCourseUnit, sdisCourseUnit]);
+          [sopeCourseUnit, sdisCourseUnit],);
 
       await completer.future;
 
@@ -122,14 +122,14 @@ void main() {
       expect(find.byKey(Key('$sdisExam-exam')), findsNothing);
       expect(find.byKey(Key('$sopeExam-exam')), findsNothing);
 
-      final Completer<void> completer = Completer();
-      examProvider.fetchUserExams(
+      final completer = Completer<void>();
+      await examProvider.fetchUserExams(
           completer,
           ParserExams(),
           const Tuple2('', ''),
           profile,
           Session(authenticated: true),
-          [sopeCourseUnit, sdisCourseUnit]);
+          [sopeCourseUnit, sdisCourseUnit],);
 
       await completer.future;
 
@@ -138,7 +138,7 @@ void main() {
       expect(find.byKey(Key('$sopeExam-exam')), findsOneWidget);
       expect(find.byIcon(Icons.filter_alt), findsOneWidget);
 
-      final Completer<void> settingFilteredExams = Completer();
+      final settingFilteredExams = Completer<void>();
       filteredExams['ExamDoesNotExist'] = true;
       examProvider.setFilteredExams(filteredExams, settingFilteredExams);
 

@@ -5,7 +5,7 @@ import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 abstract class SecondaryPageViewState<T extends StatefulWidget>
     extends GeneralPageViewState<T> {
   @override
-  getScaffold(BuildContext context, Widget body) {
+  Scaffold getScaffold(BuildContext context, Widget body) {
     return Scaffold(
       appBar: buildAppBar(context),
       body: refreshState(context, body),

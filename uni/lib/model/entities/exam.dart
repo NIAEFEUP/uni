@@ -2,31 +2,31 @@ import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 
 enum WeekDays {
-  monday("Segunda"),
-  tuesday("Terça"),
-  wednesday("Quarta"),
-  thursday("Quinta"),
-  friday("Sexta"),
-  saturday("Sábado"),
-  sunday("Domingo");
+  monday('Segunda'),
+  tuesday('Terça'),
+  wednesday('Quarta'),
+  thursday('Quinta'),
+  friday('Sexta'),
+  saturday('Sábado'),
+  sunday('Domingo');
 
   final String day;
   const WeekDays(this.day);
 }
 
 enum Months {
-  january("janeiro"),
-  february("fevereiro"),
-  march("março"),
-  april("abril"),
-  may("maio"),
-  june("junho"),
-  july("julho"),
-  august("agosto"),
-  september("setembro"),
-  october("outubro"),
-  november("novembro"),
-  december("dezembro");
+  january('janeiro'),
+  february('fevereiro'),
+  march('março'),
+  april('abril'),
+  may('maio'),
+  june('junho'),
+  july('julho'),
+  august('agosto'),
+  september('setembro'),
+  october('outubro'),
+  november('novembro'),
+  december('dezembro');
 
   final String month;
   const Months(this.month);
@@ -41,6 +41,14 @@ enum Months {
 /// - The Exam `type`
 
 class Exam {
+
+  Exam(this.id, this.begin, this.end, this.subject, this.rooms, this.type,
+      this.faculty,);
+
+  Exam.secConstructor(this.id, this.subject, this.begin, this.end, String rooms,
+      this.type, this.faculty,) {
+    this.rooms = rooms.split(',');
+  }
   late final DateTime begin;
   late final DateTime end;
   late final String id;
@@ -57,23 +65,15 @@ class Exam {
     'Port.Est.Especiais': 'EE',
     'Exames ao abrigo de estatutos especiais': 'EAE'
   };
-
-  Exam(this.id, this.begin, this.end, this.subject, this.rooms, this.type,
-      this.faculty);
   static List<String> displayedTypes = types.keys.toList().sublist(0, 4);
-
-  Exam.secConstructor(this.id, this.subject, this.begin, this.end, String rooms,
-      this.type, this.faculty) {
-    this.rooms = rooms.split(',');
-  }
 
   /// Converts this exam to a map.
   Map<String, String> toMap() {
     return {
       'id': id,
       'subject': subject,
-      'begin': DateFormat("yyyy-MM-dd HH:mm:ss").format(begin),
-      'end': DateFormat("yyyy-MM-dd HH:mm:ss").format(end),
+      'begin': DateFormat('yyyy-MM-dd HH:mm:ss').format(begin),
+      'end': DateFormat('yyyy-MM-dd HH:mm:ss').format(end),
       'rooms': rooms.join(','),
       'examType': type,
       'faculty': faculty
@@ -110,8 +110,8 @@ class Exam {
   @override
   int get hashCode => id.hashCode;
 
-  static getExamTypeLong(String abr) {
-    final Map<String, String> reversed = types.map((k, v) => MapEntry(v, k));
+  static String? getExamTypeLong(String abr) {
+    final reversed = types.map((k, v) => MapEntry(v, k));
     return reversed[abr];
   }
 }

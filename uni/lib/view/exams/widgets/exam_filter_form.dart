@@ -6,9 +6,9 @@ import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/providers/lazy/exam_provider.dart';
 
 class ExamFilterForm extends StatefulWidget {
-  final Map<String, bool> filteredExamsTypes;
 
   const ExamFilterForm(this.filteredExamsTypes, {super.key});
+  final Map<String, bool> filteredExamsTypes;
 
   @override
   ExamFilterFormState createState() => ExamFilterFormState();
@@ -19,12 +19,12 @@ class ExamFilterFormState extends State<ExamFilterForm> {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text('Definições Filtro de Exames',
-          style: Theme.of(context).textTheme.headlineSmall),
+          style: Theme.of(context).textTheme.headlineSmall,),
       actions: [
         TextButton(
             child:
                 Text('Cancelar', style: Theme.of(context).textTheme.bodyMedium),
-            onPressed: () => Navigator.pop(context)),
+            onPressed: () => Navigator.pop(context),),
         ElevatedButton(
             child: const Text('Confirmar'),
             onPressed: () {
@@ -32,22 +32,22 @@ class ExamFilterFormState extends State<ExamFilterForm> {
                   .setFilteredExams(widget.filteredExamsTypes, Completer());
 
               Navigator.pop(context);
-            })
+            },)
       ],
       content: SizedBox(
-          height: 230.0,
-          width: 200.0,
-          child: getExamCheckboxes(widget.filteredExamsTypes, context)),
+          height: 230,
+          width: 200,
+          child: getExamCheckboxes(widget.filteredExamsTypes, context),),
     );
   }
 
   Widget getExamCheckboxes(
-      Map<String, bool> filteredExams, BuildContext context) {
+      Map<String, bool> filteredExams, BuildContext context,) {
     filteredExams.removeWhere((key, value) => !Exam.types.containsKey(key));
     return ListView(
         children: List.generate(filteredExams.length, (i) {
-      final String key = filteredExams.keys.elementAt(i);
-      if (!Exam.types.containsKey(key)) return const Text("");
+      final key = filteredExams.keys.elementAt(i);
+      if (!Exam.types.containsKey(key)) return const Text('');
       return CheckboxListTile(
           contentPadding: const EdgeInsets.all(0),
           title: Text(
@@ -62,7 +62,7 @@ class ExamFilterFormState extends State<ExamFilterForm> {
             setState(() {
               filteredExams[key] = value!;
             });
-          });
-    }));
+          },);
+    }),);
   }
 }

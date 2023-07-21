@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class LinkButton extends StatelessWidget {
-  final String title;
-  final String link;
   const LinkButton({
-    Key? key,
+    super.key,
     required this.title,
     required this.link,
-  }) : super(key: key);
+  });
+  final String title;
+  final String link;
 
   @override
   Widget build(BuildContext context) {
@@ -17,16 +17,16 @@ class LinkButton extends StatelessWidget {
         children: [
           TableRow(children: [
             Container(
-                margin: const EdgeInsets.only(top: 0, bottom: 14.0, left: 20.0),
+                margin: const EdgeInsets.only(bottom: 14, left: 20),
                 child: InkWell(
                   child: Text(title,
                       style: Theme.of(context)
                           .textTheme
                           .headlineSmall!
-                          .copyWith(decoration: TextDecoration.underline)),
+                          .copyWith(decoration: TextDecoration.underline),),
                   onTap: () => launchUrl(Uri.parse(link)),
-                ))
-          ]),
-        ]);
+                ),)
+          ],),
+        ],);
   }
 }

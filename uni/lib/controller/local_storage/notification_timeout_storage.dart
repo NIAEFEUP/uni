@@ -4,9 +4,9 @@ import 'package:path_provider/path_provider.dart';
 
 class NotificationTimeoutStorage{
 
-  late Map<String, dynamic> _fileContent;
-
   NotificationTimeoutStorage._create();
+
+  late Map<String, dynamic> _fileContent;
 
   Future<void> _asyncInit() async{
     _fileContent = _readContentsFile(await _getTimeoutFile());
@@ -49,11 +49,11 @@ class NotificationTimeoutStorage{
 
   Future<File> _getTimeoutFile() async{
     final applicationDirectory = (await getApplicationDocumentsDirectory()).path;
-    if(! (await File("$applicationDirectory/notificationTimeout.json").exists())){
+    if(! (await File('$applicationDirectory/notificationTimeout.json').exists())){
         //empty json
-        await File("$applicationDirectory/notificationTimeout.json").writeAsString("{}");
+        await File('$applicationDirectory/notificationTimeout.json').writeAsString('{}');
     }
-    return File("$applicationDirectory/notificationTimeout.json");
+    return File('$applicationDirectory/notificationTimeout.json');
   }
 
 

@@ -18,7 +18,7 @@ class BusStopSelectionPage extends StatefulWidget {
 /// Manages the 'Bus stops' section of the app.
 class BusStopSelectionPageState
     extends SecondaryPageViewState<BusStopSelectionPage> {
-  final double borderRadius = 15.0;
+  final double borderRadius = 15;
   final DateTime now = DateTime.now();
 
   final db = AppBusStopDatabase();
@@ -26,7 +26,7 @@ class BusStopSelectionPageState
   final List<String> suggestionsList = [];
 
   List<Widget> getStopsTextList() {
-    final List<Widget> stops = [];
+    final stops = <Widget>[];
     configuredStops.forEach((stopCode, stopData) {
       stops.add(Text(stopCode));
     });
@@ -37,9 +37,9 @@ class BusStopSelectionPageState
   Widget getBody(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     return LazyConsumer<BusStopProvider>(builder: (context, busProvider) {
-      final List<Widget> rows = [];
+      final rows = <Widget>[];
       busProvider.configuredBusStops.forEach((stopCode, stopData) =>
-          rows.add(BusStopSelectionRow(stopCode, stopData)));
+          rows.add(BusStopSelectionRow(stopCode, stopData)),);
       return ListView(
           padding: const EdgeInsets.only(
             bottom: 20,
@@ -47,11 +47,11 @@ class BusStopSelectionPageState
           children: <Widget>[
             const PageTitle(name: 'Autocarros Configurados'),
             Container(
-                padding: const EdgeInsets.all(20.0),
+                padding: const EdgeInsets.all(20),
                 child: const Text(
                     '''Os autocarros favoritos serão apresentados no widget 'Autocarros' dos favoritos. '''
                     '''Os restantes serão apresentados apenas na página.''',
-                    textAlign: TextAlign.center)),
+                    textAlign: TextAlign.center,),),
             Column(children: rows),
             Container(
                 padding:
@@ -61,16 +61,16 @@ class BusStopSelectionPageState
                     children: [
                       ElevatedButton(
                         onPressed: () => showSearch(
-                            context: context, delegate: BusStopSearch()),
+                            context: context, delegate: BusStopSearch(),),
                         child: const Text('Adicionar'),
                       ),
                       ElevatedButton(
                         onPressed: () => Navigator.pop(context),
                         child: const Text('Concluído'),
                       ),
-                    ]))
-          ]);
-    });
+                    ],),)
+          ],);
+    },);
   }
 
   @override

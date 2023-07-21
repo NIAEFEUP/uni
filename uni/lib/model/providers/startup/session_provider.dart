@@ -14,14 +14,14 @@ import 'package:uni/model/request_status.dart';
 import 'package:uni/view/navigation_service.dart';
 
 class SessionProvider extends StateProviderNotifier {
-  Session _session = Session();
-  List<String> _faculties = [];
 
   SessionProvider()
       : super(
             dependsOnSession: false,
             cacheDuration: null,
-            initialStatus: RequestStatus.none);
+            initialStatus: RequestStatus.none,);
+  Session _session = Session();
+  List<String> _faculties = [];
 
   Session get session => _session;
 
@@ -37,26 +37,26 @@ class SessionProvider extends StateProviderNotifier {
   }
 
   login(Completer<void> action, String username, String password,
-      List<String> faculties, persistentSession) async {
+      List<String> faculties, persistentSession,) async {
     try {
       updateStatus(RequestStatus.busy);
 
       _faculties = faculties;
       _session = await NetworkRouter.login(
-          username, password, faculties, persistentSession);
+          username, password, faculties, persistentSession,);
 
       if (_session.authenticated) {
         if (persistentSession) {
           await AppSharedPreferences.savePersistentUserInfo(
-              username, password, faculties);
+              username, password, faculties,);
         }
         Future.delayed(const Duration(seconds: 20),
-            () => {NotificationManager().initializeNotifications()});
+            () => {NotificationManager().initializeNotifications()},);
 
         await acceptTermsAndConditions();
         updateStatus(RequestStatus.successful);
       } else {
-        final String responseHtml =
+        final responseHtml =
             await NetworkRouter.loginInSigarra(username, password, faculties);
         if (isPasswordExpired(responseHtml)) {
           action.completeError(ExpiredCredentialsException());
@@ -76,14 +76,14 @@ class SessionProvider extends StateProviderNotifier {
   }
 
   reLogin(String username, String password, List<String> faculties,
-      {Completer? action}) async {
+      {Completer? action,}) async {
     try {
       updateStatus(RequestStatus.busy);
       _session = await NetworkRouter.login(username, password, faculties, true);
 
       if (session.authenticated) {
         Future.delayed(const Duration(seconds: 20),
-            () => {NotificationManager().initializeNotifications()});
+            () => {NotificationManager().initializeNotifications()},);
         updateStatus(RequestStatus.successful);
         action?.complete();
       } else {
@@ -92,17 +92,14 @@ class SessionProvider extends StateProviderNotifier {
     } catch (e) {
       _session = Session(
           studentNumber: username,
-          authenticated: false,
           faculties: faculties,
-          type: '',
-          cookies: '',
-          persistentSession: true);
+          persistentSession: true,);
 
       handleFailedReLogin(action);
     }
   }
 
-  handleFailedReLogin(Completer? action) {
+  dynamic handleFailedReLogin(Completer? action) {
     action?.completeError(RequestStatus.failed);
     if (!session.persistentSession) {
       return NavigationService.logout();

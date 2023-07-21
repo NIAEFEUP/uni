@@ -95,17 +95,17 @@ class LoginPageViewState extends State<LoginPageView> {
 
   @override
   Widget build(BuildContext context) {
-    final MediaQueryData queryData = MediaQuery.of(context);
+    final queryData = MediaQuery.of(context);
 
     return Theme(
         data: applicationLightTheme.copyWith(
           // The handle color is not applying due to a Flutter bug:
           // https://github.com/flutter/flutter/issues/74890
           textSelectionTheme: const TextSelectionThemeData(
-              cursorColor: Colors.white, selectionHandleColor: Colors.white),
+              cursorColor: Colors.white, selectionHandleColor: Colors.white,),
           checkboxTheme: CheckboxThemeData(
               checkColor: MaterialStateProperty.all(darkRed),
-              fillColor: MaterialStateProperty.all(Colors.white)),
+              fillColor: MaterialStateProperty.all(Colors.white),),
         ),
         child: Builder(
             builder: (themeContext) => Scaffold(
@@ -114,33 +114,33 @@ class LoginPageViewState extends State<LoginPageView> {
                     child: Padding(
                         padding: EdgeInsets.only(
                             left: queryData.size.width / 8,
-                            right: queryData.size.width / 8),
+                            right: queryData.size.width / 8,),
                         child: ListView(
                           children: getWidgets(themeContext, queryData),
-                        )),
-                    onWillPop: () => onWillPop(themeContext)))));
+                        ),),
+                    onWillPop: () => onWillPop(themeContext),),),),);
   }
 
   List<Widget> getWidgets(BuildContext context, MediaQueryData queryData) {
-    final List<Widget> widgets = [];
+    final widgets = <Widget>[];
 
     widgets.add(
-        Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 20)));
+        Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 20)),);
     widgets.add(createTitle(queryData, context));
     widgets.add(
-        Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)));
+        Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)),);
     widgets.add(getLoginForm(queryData, context));
     widgets.add(
-        Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)));
+        Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)),);
     widgets.add(createForgetPasswordLink(context));
     widgets.add(
-        Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 15)));
+        Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 15)),);
     widgets.add(createLogInButton(queryData, context, _login));
     widgets.add(
-        Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)));
+        Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)),);
     widgets.add(createStatusWidget(context));
     widgets.add(
-        Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)));
+        Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)),);
     widgets.add(createSafeLoginButton(context));
     return widgets;
   }
@@ -172,13 +172,13 @@ class LoginPageViewState extends State<LoginPageView> {
         ),
         child: Column(children: [
           SizedBox(
-              width: 100.0,
+              width: 100,
               child: SvgPicture.asset(
                 'assets/images/logo_dark.svg',
                 colorFilter:
                     const ColorFilter.mode(Colors.white, BlendMode.srcIn),
-              )),
-        ]));
+              ),),
+        ],),);
   }
 
   /// Creates the widgets for the user input fields.
@@ -190,7 +190,7 @@ class LoginPageViewState extends State<LoginPageView> {
           createFacultyInput(context, faculties, setFaculties),
           Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)),
           createUsernameInput(
-              context, usernameController, usernameFocus, passwordFocus),
+              context, usernameController, usernameFocus, passwordFocus,),
           Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)),
           createPasswordInput(
               context,
@@ -198,10 +198,10 @@ class LoginPageViewState extends State<LoginPageView> {
               passwordFocus,
               _obscurePasswordInput,
               _toggleObscurePasswordInput,
-              () => _login(context)),
+              () => _login(context),),
           Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)),
           createSaveDataCheckBox(_keepSignedIn, _setKeepSignedIn),
-        ]),
+        ],),
       ),
     );
   }
@@ -210,11 +210,11 @@ class LoginPageViewState extends State<LoginPageView> {
   Widget createForgetPasswordLink(BuildContext context) {
     return InkWell(
         child: Center(
-            child: Text("Esqueceu a palavra-passe?",
+            child: Text('Esqueceu a palavra-passe?',
                 style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                     decoration: TextDecoration.underline,
-                    color: Colors.white))),
-        onTap: () => launchUrl(Uri.parse("https://self-id.up.pt/reset")));
+                    color: Colors.white,),),),
+        onTap: () => launchUrl(Uri.parse('https://self-id.up.pt/reset')),);
   }
 
   /// Creates a widget for the user login depending on the status of his login.
@@ -224,7 +224,7 @@ class LoginPageViewState extends State<LoginPageView> {
         switch (sessionProvider.status) {
           case RequestStatus.busy:
             return const SizedBox(
-              height: 60.0,
+              height: 60,
               child:
                   Center(child: CircularProgressIndicator(color: Colors.white)),
             );
@@ -240,7 +240,7 @@ class LoginPageViewState extends State<LoginPageView> {
         Provider.of<SessionProvider>(context, listen: false).session;
     if (status == RequestStatus.successful && session.authenticated) {
       Navigator.pushReplacementNamed(
-          context, '/${DrawerItem.navPersonalArea.title}');
+          context, '/${DrawerItem.navPersonalArea.title}',);
     }
   }
 
@@ -249,34 +249,34 @@ class LoginPageViewState extends State<LoginPageView> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text("A tua palavra-passe expirou"),
+          title: const Text('A tua palavra-passe expirou'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
                   'Por razões de segurança, as palavras-passe têm de ser alteradas periodicamente.',
                   textAlign: TextAlign.start,
-                  style: Theme.of(context).textTheme.titleSmall),
+                  style: Theme.of(context).textTheme.titleSmall,),
               const SizedBox(height: 20),
               const Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
                     'Deseja alterar a palavra-passe?',
                     textAlign: TextAlign.start,
-                  )),
+                  ),),
             ],
           ),
           actions: [
             TextButton(
-              child: const Text("Cancelar"),
+              child: const Text('Cancelar'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             ElevatedButton(
-              child: const Text("Alterar"),
+              child: const Text('Alterar'),
               onPressed: () async {
-                const url = "https://self-id.up.pt/password";
+                const url = 'https://self-id.up.pt/password';
                 if (await canLaunchUrl(Uri.parse(url))) {
                   await launchUrl(Uri.parse(url));
                 }

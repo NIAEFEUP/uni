@@ -6,11 +6,11 @@ import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/profile/widgets/create_print_mb_dialog.dart';
 
 class PrintInfoCard extends GenericCard {
-  PrintInfoCard({Key? key}) : super(key: key);
+  PrintInfoCard({super.key});
 
   const PrintInfoCard.fromEditingInformation(
-      Key key, bool editingMode, Function()? onDelete)
-      : super.fromEditingInformation(key, editingMode, onDelete);
+      super.key, bool super.editingMode, Function()? super.onDelete,)
+      : super.fromEditingInformation();
 
   @override
   Widget buildCardContent(BuildContext context) {
@@ -30,17 +30,17 @@ class PrintInfoCard extends GenericCard {
                   TableRow(children: [
                     Container(
                       margin: const EdgeInsets.only(
-                          top: 20.0, bottom: 20.0, left: 20.0),
+                          top: 20, bottom: 20, left: 20,),
                       child: Text('Valor disponível: ',
-                          style: Theme.of(context).textTheme.titleSmall),
+                          style: Theme.of(context).textTheme.titleSmall,),
                     ),
                     Container(
-                        margin: const EdgeInsets.only(right: 15.0),
+                        margin: const EdgeInsets.only(right: 15),
                         child: Text(profile.printBalance,
                             textAlign: TextAlign.end,
-                            style: Theme.of(context).textTheme.titleLarge)),
+                            style: Theme.of(context).textTheme.titleLarge,),),
                     Container(
-                        margin: const EdgeInsets.only(right: 5.0),
+                        margin: const EdgeInsets.only(right: 5),
                         height: 30,
                         child: ElevatedButton(
                           style: OutlinedButton.styleFrom(
@@ -48,11 +48,11 @@ class PrintInfoCard extends GenericCard {
                           ),
                           onPressed: () => addMoneyDialog(context),
                           child: const Center(child: Icon(Icons.add)),
-                        )),
-                  ])
-                ]),
+                        ),),
+                  ],)
+                ],),
             showLastRefreshedTime(
-                profileStateProvider.printRefreshTime, context)
+                profileStateProvider.printRefreshTime, context,)
           ],
         );
       },

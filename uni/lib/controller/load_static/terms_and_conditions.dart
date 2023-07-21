@@ -13,9 +13,9 @@ import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 Future<String> readTermsAndConditions() async {
   if (await Connectivity().checkConnectivity() != ConnectivityResult.none) {
     try {
-      const String url =
+      const url =
           'https://raw.githubusercontent.com/NIAEFEUP/project-schrodinger/develop/uni/assets/text/TermsAndConditions.md';
-      final http.Response response = await http.get(Uri.parse(url));
+      final response = await http.get(Uri.parse(url));
       if (response.statusCode == 200) {
         return response.body;
       }

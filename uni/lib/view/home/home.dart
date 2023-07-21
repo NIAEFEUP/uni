@@ -23,7 +23,7 @@ class HomePageViewState extends GeneralPageViewState {
     final favoriteCardTypes = context.read<HomePageProvider>().favoriteCards;
     final cards = favoriteCardTypes
         .map((e) =>
-            MainCardsList.cardCreators[e]!(const Key(""), false, () => null))
+            MainCardsList.cardCreators[e]!(const Key(''), false, () => null),)
         .toList();
 
     for (final card in cards) {

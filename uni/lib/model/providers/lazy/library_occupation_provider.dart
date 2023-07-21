@@ -10,40 +10,40 @@ import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/model/request_status.dart';
 
 class LibraryOccupationProvider extends StateProviderNotifier {
-  LibraryOccupation? _occupation;
 
   LibraryOccupationProvider()
       : super(dependsOnSession: true, cacheDuration: const Duration(hours: 1));
+  LibraryOccupation? _occupation;
 
   LibraryOccupation? get occupation => _occupation;
 
   @override
   Future<void> loadFromStorage() async {
-    final LibraryOccupationDatabase db = LibraryOccupationDatabase();
-    final LibraryOccupation occupation = await db.occupation();
+    final db = LibraryOccupationDatabase();
+    final occupation = await db.occupation();
     _occupation = occupation;
   }
 
   @override
   Future<void> loadFromRemote(Session session, Profile profile) async {
-    final Completer<void> action = Completer<void>();
-    getLibraryOccupation(session, action);
+    final action = Completer<void>();
+    await getLibraryOccupation(session, action);
     await action.future;
   }
 
-  void getLibraryOccupation(
+  Future<void> getLibraryOccupation(
     Session session,
     Completer<void> action,
   ) async {
     try {
       updateStatus(RequestStatus.busy);
 
-      final LibraryOccupation occupation =
+      final occupation =
           await LibraryOccupationFetcherSheets()
               .getLibraryOccupationFromSheets(session);
 
-      final LibraryOccupationDatabase db = LibraryOccupationDatabase();
-      db.saveOccupation(occupation);
+      final db = LibraryOccupationDatabase();
+      await db.saveOccupation(occupation);
 
       _occupation = occupation;
       notifyListeners();

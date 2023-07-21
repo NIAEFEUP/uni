@@ -5,13 +5,13 @@ import 'package:uni/controller/load_static/terms_and_conditions.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class TermsAndConditions extends StatelessWidget {
-  static String termsAndConditionsSaved = 'Carregando os Termos e Condições...';
 
-  const TermsAndConditions({Key? key}) : super(key: key);
+  const TermsAndConditions({super.key});
+  static String termsAndConditionsSaved = 'Carregando os Termos e Condições...';
 
   @override
   Widget build(BuildContext context) {
-    final Future<String> termsAndConditionsFuture = readTermsAndConditions();
+    final termsAndConditionsFuture = readTermsAndConditions();
     return FutureBuilder(
         future: termsAndConditionsFuture,
         builder:
@@ -30,6 +30,6 @@ class TermsAndConditions extends StatelessWidget {
               }
             },
           );
-        });
+        },);
   }
 }

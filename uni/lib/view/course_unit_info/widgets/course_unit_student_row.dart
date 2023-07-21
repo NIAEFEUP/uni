@@ -13,7 +13,7 @@ class CourseUnitStudentRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Future<File?> userImage =
+    final userImage =
         ProfileProvider.fetchOrGetCachedProfilePicture(student.number, session);
     return FutureBuilder(
       builder: (BuildContext context, AsyncSnapshot<File?> snapshot) {
@@ -32,7 +32,7 @@ class CourseUnitStudentRow extends StatelessWidget {
                                     snapshot.data!.lengthSync() > 0
                                 ? FileImage(snapshot.data!) as ImageProvider
                                 : const AssetImage(
-                                    'assets/images/profile_placeholder.png')))),
+                                    'assets/images/profile_placeholder.png',),),),),
                 Expanded(
                     child: Container(
                         padding: const EdgeInsets.only(left: 10),
@@ -41,15 +41,15 @@ class CourseUnitStudentRow extends StatelessWidget {
                             children: [
                               Text(student.name,
                                   overflow: TextOverflow.ellipsis,
-                                  style: Theme.of(context).textTheme.bodyLarge),
+                                  style: Theme.of(context).textTheme.bodyLarge,),
                               Opacity(
                                   opacity: 0.8,
                                   child: Text(
-                                    "up${student.number}",
-                                  ))
-                            ])))
+                                    'up${student.number}',
+                                  ),)
+                            ],),),)
               ],
-            ));
+            ),);
       },
       future: userImage,
     );

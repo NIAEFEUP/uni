@@ -5,7 +5,7 @@ import 'package:uni/view/locations/widgets/faculty_map.dart';
 
 class LocationMarkerPopup extends StatelessWidget {
   const LocationMarkerPopup(this.locationGroup,
-      {this.showId = false, super.key});
+      {this.showId = false, super.key,});
 
   final LocationGroup locationGroup;
   final bool showId;
@@ -18,7 +18,7 @@ class LocationMarkerPopup extends StatelessWidget {
         borderRadius: BorderRadius.circular(15),
       ),
       child: Padding(
-          padding: const EdgeInsets.all(12.0),
+          padding: const EdgeInsets.all(12),
           child: Wrap(
             direction: Axis.vertical,
             spacing: 8,
@@ -26,14 +26,14 @@ class LocationMarkerPopup extends StatelessWidget {
                     ? <Widget>[Text(locationGroup.id.toString())]
                     : <Widget>[]) +
                 getEntries().map((entry) =>
-                    Floor(floor: entry.key, locations: entry.value)
+                    Floor(floor: entry.key, locations: entry.value),
                 ).toList(),
-          )),
+          ),),
     );
   }
 
   List<MapEntry<int, List<Location>>> getEntries() {
-    final List<MapEntry<int, List<Location>>> entries =
+    final entries =
     locationGroup.floors.entries.toList();
     entries.sort((current, next) => -current.key.compareTo(next.key));
     return entries;
@@ -41,17 +41,16 @@ class LocationMarkerPopup extends StatelessWidget {
 }
 
 class Floor extends StatelessWidget {
+
+  const Floor({super.key, required this.locations, required this.floor});
   final List<Location> locations;
   final int floor;
 
-  const Floor({Key? key, required this.locations, required this.floor})
-      : super(key: key);
-
   @override
   Widget build(BuildContext context) {
-    final Color fontColor = FacultyMap.getFontColor(context);
+    final fontColor = FacultyMap.getFontColor(context);
 
-    final String floorString =
+    final floorString =
     0 <= floor && floor <= 9 //To maintain layout of popup
         ? ' $floor'
         : '$floor';
@@ -60,13 +59,13 @@ class Floor extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Container(
-            padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 0.0),
+            padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
             child:
-            Text('Andar $floorString', style: TextStyle(color: fontColor)))
+            Text('Andar $floorString', style: TextStyle(color: fontColor)),)
       ],
     );
     final Widget locationsColumn = Container(
-        padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 0.0),
+        padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
         decoration:
         BoxDecoration(border: Border(left: BorderSide(color: fontColor))),
         child: Column(
@@ -74,19 +73,18 @@ class Floor extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: locations
               .map((location) =>
-                  LocationRow(location: location, color: fontColor))
+                  LocationRow(location: location, color: fontColor),)
               .toList(),
-        ));
+        ),);
     return Row(children: [floorCol, locationsColumn]);
   }
 }
 
 class LocationRow extends StatelessWidget {
+  
+  const LocationRow({super.key, required this.location, required this.color});
   final Location location;
   final Color color;
-  
-  const LocationRow({Key? key, required this.location, required this.color})
-      : super(key: key);
   
   @override
   Widget build(BuildContext context) {
@@ -94,7 +92,7 @@ class LocationRow extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(location.description(),
-            textAlign: TextAlign.left, style: TextStyle(color: color))
+            textAlign: TextAlign.left, style: TextStyle(color: color),)
       ],
     );
   }

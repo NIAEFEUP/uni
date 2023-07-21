@@ -11,14 +11,14 @@ class PrintFetcher implements SessionDependantFetcher {
     return [url];
   }
 
-  getUserPrintsResponse(Session session) {
-    final String url = getEndpoints(session)[0];
-    final Map<String, String> query = {'p_codigo': session.studentNumber};
+  Future<http.Response> getUserPrintsResponse(Session session) {
+    final url = getEndpoints(session)[0];
+    final query = <String, String>{'p_codigo': session.studentNumber};
     return NetworkRouter.getWithCookies(url, query, session);
   }
 
   static Future generatePrintMoneyReference(
-      double amount, Session session) async {
+      double amount, Session session,) async {
     if (amount < 1.0) return Future.error('Amount less than 1,00€');
 
     final url =
@@ -31,7 +31,7 @@ class PrintFetcher implements SessionDependantFetcher {
       'p_valor_livre': amount.toStringAsFixed(2).trim().replaceAll('.', ',')
     };
 
-    final Map<String, String> headers = <String, String>{};
+    final headers = <String, String>{};
     headers['cookie'] = session.cookies;
     headers['content-type'] = 'application/x-www-form-urlencoded';
 

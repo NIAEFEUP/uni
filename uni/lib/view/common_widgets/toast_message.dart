@@ -1,10 +1,20 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 /// Provides feedback about an operation in a small popup
 ///
 /// usage example: ToastMessage.display(context, toastMsg);
 class MessageToast extends StatelessWidget {
+
+  const MessageToast(
+      {super.key,
+      required this.message,
+      this.color = Colors.white,
+      required this.icon,
+      this.iconColor = Colors.black,
+      this.textColor = Colors.black,
+      this.alignment = Alignment.bottomCenter,
+      this.elevation = 0.0,});
   final String message;
   final Color? color;
   final IconData? icon;
@@ -12,17 +22,6 @@ class MessageToast extends StatelessWidget {
   final Color? textColor;
   final AlignmentGeometry? alignment;
   final dynamic elevation;
-
-  const MessageToast(
-      {Key? key,
-      required this.message,
-      this.color = Colors.white,
-      required this.icon,
-      this.iconColor = Colors.black,
-      this.textColor = Colors.black,
-      this.alignment = Alignment.bottomCenter,
-      this.elevation = 0.0})
-      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -33,18 +32,18 @@ class MessageToast extends StatelessWidget {
         alignment: alignment,
         backgroundColor: color,
         shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(10.0))),
+            borderRadius: BorderRadius.all(Radius.circular(10)),),
         elevation: elevation,
         child: Row(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-                margin: const EdgeInsets.all(10.0),
+                margin: const EdgeInsets.all(10),
                 child: Icon(
                   icon,
                   color: iconColor,
-                )),
+                ),),
             Expanded(
               child: Text(
                 message,
@@ -80,38 +79,38 @@ class ToastMessage {
             Navigator.of(toastContext).pop();
           });
           return mToast;
-        });
+        },);
   }
 
-  static error(BuildContext context, String msg) => _displayDialog(
+  static Future error(BuildContext context, String msg) => _displayDialog(
       context,
       MessageToast(
           message: msg,
           color: toastErrorColor,
           icon: CupertinoIcons.clear_circled_solid,
-          iconColor: toastErrorIconColor));
+          iconColor: toastErrorIconColor,),);
 
-  static success(BuildContext context, String msg) => _displayDialog(
+  static Future success(BuildContext context, String msg) => _displayDialog(
       context,
       MessageToast(
           message: msg,
           color: toastSuccessColor,
           icon: CupertinoIcons.check_mark_circled_solid,
-          iconColor: toastSuccessIconColor));
+          iconColor: toastSuccessIconColor,),);
 
-  static warning(BuildContext context, String msg) => _displayDialog(
+  static Future warning(BuildContext context, String msg) => _displayDialog(
       context,
       MessageToast(
           message: msg,
           color: toastWarningColor,
           icon: CupertinoIcons.exclamationmark_circle_fill,
-          iconColor: toastWarningIconColor));
+          iconColor: toastWarningIconColor,),);
 
-  static info(BuildContext context, String msg) => _displayDialog(
+  static Future info(BuildContext context, String msg) => _displayDialog(
       context,
       MessageToast(
           message: msg,
           color: toastInfoColor,
           icon: CupertinoIcons.info_circle_fill,
-          iconColor: toastInfoIconColor));
+          iconColor: toastInfoIconColor,),);
 }

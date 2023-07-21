@@ -9,13 +9,12 @@ import 'package:uni/utils/drawer_items.dart';
 /// a connection error or a loading circular effect as appropriate
 class RequestDependentWidgetBuilder extends StatelessWidget {
   const RequestDependentWidgetBuilder(
-      {Key? key,
+      {super.key,
       required this.status,
       required this.builder,
       required this.hasContentPredicate,
       required this.onNullContent,
-      this.contentLoadingWidget})
-      : super(key: key);
+      this.contentLoadingWidget,});
 
   final RequestStatus status;
   final Widget Function() builder;
@@ -35,7 +34,7 @@ class RequestDependentWidgetBuilder extends StatelessWidget {
         ? builder()
         : Padding(
             padding: const EdgeInsets.symmetric(vertical: 10),
-            child: onNullContent);
+            child: onNullContent,);
   }
 
   Widget loadingWidget(BuildContext context) {
@@ -43,12 +42,12 @@ class RequestDependentWidgetBuilder extends StatelessWidget {
         ? const Center(
             child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 20),
-                child: CircularProgressIndicator()))
+                child: CircularProgressIndicator(),),)
         : Center(
             child: Shimmer.fromColors(
                 baseColor: Theme.of(context).highlightColor,
                 highlightColor: Theme.of(context).colorScheme.onPrimary,
-                child: contentLoadingWidget!));
+                child: contentLoadingWidget!,),);
   }
 
   Widget requestFailedMessage() {
@@ -57,14 +56,14 @@ class RequestDependentWidgetBuilder extends StatelessWidget {
         builder: (BuildContext context, AsyncSnapshot connectivitySnapshot) {
           if (!connectivitySnapshot.hasData) {
             return const Center(
-                heightFactor: 3, child: CircularProgressIndicator());
+                heightFactor: 3, child: CircularProgressIndicator(),);
           }
 
           if (connectivitySnapshot.data == ConnectivityResult.none) {
             return Center(
                 heightFactor: 3,
                 child: Text('Sem ligação à internet',
-                    style: Theme.of(context).textTheme.titleMedium));
+                    style: Theme.of(context).textTheme.titleMedium,),);
           }
 
           return Column(children: [
@@ -72,12 +71,12 @@ class RequestDependentWidgetBuilder extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 15, bottom: 10),
                 child: Center(
                     child: Text('Aconteceu um erro ao carregar os dados',
-                        style: Theme.of(context).textTheme.titleMedium))),
+                        style: Theme.of(context).textTheme.titleMedium,),),),
             OutlinedButton(
                 onPressed: () => Navigator.pushNamed(
-                    context, '/${DrawerItem.navBugReport.title}'),
-                child: const Text('Reportar erro'))
-          ]);
-        });
+                    context, '/${DrawerItem.navBugReport.title}',),
+                child: const Text('Reportar erro'),)
+          ],);
+        },);
   }
 }

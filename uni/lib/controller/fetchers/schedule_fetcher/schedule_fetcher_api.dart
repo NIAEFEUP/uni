@@ -21,7 +21,7 @@ class ScheduleFetcherApi extends ScheduleFetcher {
     final dates = getDates();
     final urls = getEndpoints(session);
     final responses = [];
-    for (var url in urls) {
+    for (final url in urls) {
       final response = await NetworkRouter.getWithCookies(
           url,
           {
@@ -29,7 +29,7 @@ class ScheduleFetcherApi extends ScheduleFetcher {
             'pv_semana_ini': dates.beginWeek,
             'pv_semana_fim': dates.endWeek
           },
-          session);
+          session,);
       responses.add(response);
     }
     return await parseScheduleMultipleRequests(responses);

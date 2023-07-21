@@ -5,11 +5,10 @@ import 'package:uni/view/locations/widgets/map.dart';
 
 
 class FacultyMap extends StatelessWidget {
+
+  const FacultyMap({super.key, required this.faculty, required this.locations});
   final String faculty;
   final List<LocationGroup> locations;
-
-  const FacultyMap({Key? key, required this.faculty, required this.locations})
-      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

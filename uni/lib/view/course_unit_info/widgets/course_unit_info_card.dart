@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:uni/view/common_widgets/generic_expansion_card.dart';
 
 class CourseUnitInfoCard extends GenericExpansionCard {
-  final String sectionTitle;
-  final Widget content;
 
   const CourseUnitInfoCard(this.sectionTitle, this.content, {key})
       : super(
             key: key,
             cardMargin: const EdgeInsets.only(bottom: 10),
-            smallTitle: true);
+            smallTitle: true,);
+  final String sectionTitle;
+  final Widget content;
 
   @override
   Widget buildCardContent(BuildContext context) {

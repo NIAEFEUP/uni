@@ -12,11 +12,11 @@ import 'package:uni/view/profile/widgets/tuition_notification_switch.dart';
 /// Manages the 'Current account' section inside the user's page (accessible
 /// through the top-right widget with the user picture)
 class AccountInfoCard extends GenericCard {
-  AccountInfoCard({Key? key}) : super(key: key);
+  AccountInfoCard({super.key});
 
-  const AccountInfoCard.fromEditingInformation(Key key, bool editingMode,
-      Function()? onDelete)
-      : super.fromEditingInformation(key, editingMode, onDelete);
+  const AccountInfoCard.fromEditingInformation(super.key, bool super.editingMode,
+      Function()? super.onDelete,)
+      : super.fromEditingInformation();
 
   @override
   void onRefresh(BuildContext context) {
@@ -43,53 +43,53 @@ class AccountInfoCard extends GenericCard {
                         TableRow(children: [
                           Container(
                             margin: const EdgeInsets.only(
-                                top: 20.0, bottom: 8.0, left: 20.0),
+                                top: 20, bottom: 8, left: 20,),
                             child: Text('Saldo: ',
                                 style: Theme
                                     .of(context)
                                     .textTheme
-                                    .titleSmall),
+                                    .titleSmall,),
                           ),
                           Container(
                               margin: const EdgeInsets.only(
-                                  top: 20.0, bottom: 8.0, right: 30.0),
-                              child: getInfoText(profile.feesBalance, context))
-                        ]),
+                                  top: 20, bottom: 8, right: 30,),
+                              child: getInfoText(profile.feesBalance, context),)
+                        ],),
                         TableRow(children: [
                           Container(
                             margin: const EdgeInsets.only(
-                                top: 8.0, bottom: 20.0, left: 20.0),
+                                top: 8, bottom: 20, left: 20,),
                             child: Text('Data limite próxima prestação: ',
                                 style: Theme
                                     .of(context)
                                     .textTheme
-                                    .titleSmall),
+                                    .titleSmall,),
                           ),
                           Container(
                               margin: const EdgeInsets.only(
-                                  top: 8.0, bottom: 20.0, right: 30.0),
+                                  top: 8, bottom: 20, right: 30,),
                               child: getInfoText(
                                   profile.feesLimit != null
                                       ? DateFormat('yyyy-MM-dd')
                                       .format(profile.feesLimit!)
                                       : 'Sem data',
-                                  context))
-                        ]),
+                                  context,),)
+                        ],),
                         TableRow(children: [
                           Container(
                               margin: const EdgeInsets.only(
-                                  top: 8.0, bottom: 20.0, left: 20.0),
-                              child: Text("Notificar próxima data limite: ",
+                                  top: 8, bottom: 20, left: 20,),
+                              child: Text('Notificar próxima data limite: ',
                                   style: Theme
                                       .of(context)
                                       .textTheme
-                                      .titleSmall)),
+                                      .titleSmall,),),
                           Container(
                               margin: const EdgeInsets.only(
-                                  top: 8.0, bottom: 20.0, left: 20.0),
-                              child: const TuitionNotificationSwitch())
-                        ])
-                      ]),
+                                  top: 8, bottom: 20, left: 20,),
+                              child: const TuitionNotificationSwitch(),)
+                        ],)
+                      ],),
                   Container(
                       padding: const EdgeInsets.all(10),
                       child: Row(children: <Widget>[
@@ -102,15 +102,15 @@ class AccountInfoCard extends GenericCard {
                                 color: Theme
                                     .of(context)
                                     .colorScheme
-                                    .secondary)),
-                      ])),
+                                    .secondary,),),
+                      ],),),
                   ReferenceList(references: references),
                   const SizedBox(height: 10),
                   showLastRefreshedTime(
-                      profileStateProvider.feesRefreshTime, context)
-                ]);
-              });
-        });
+                      profileStateProvider.feesRefreshTime, context,)
+                ],);
+              },);
+        },);
   }
 
   @override
@@ -121,9 +121,9 @@ class AccountInfoCard extends GenericCard {
 }
 
 class ReferenceList extends StatelessWidget {
-  final List<Reference> references;
 
-  const ReferenceList({Key? key, required this.references}) : super(key: key);
+  const ReferenceList({super.key, required this.references});
+  final List<Reference> references;
 
   @override
   Widget build(BuildContext context) {
@@ -131,7 +131,7 @@ class ReferenceList extends StatelessWidget {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 10),
         child: Text(
-          "Não existem referências a pagar",
+          'Não existem referências a pagar',
           style: Theme
               .of(context)
               .textTheme
@@ -151,6 +151,6 @@ class ReferenceList extends StatelessWidget {
         endIndent: 30,
       ),
       ReferenceSection(reference: references[1]),
-    ]);
+    ],);
   }
 }

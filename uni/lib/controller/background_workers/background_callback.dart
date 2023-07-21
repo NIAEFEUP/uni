@@ -7,16 +7,16 @@ import 'package:workmanager/workmanager.dart';
 /// the bool is all functions that are ran by backgroundfetch in iOS
 /// (they must not take any arguments, not checked)
 const taskMap = {
-  "pt.up.fe.ni.uni.notificationworker":
+  'pt.up.fe.ni.uni.notificationworker':
       Tuple2(NotificationManager.updateAndTriggerNotifications, true)
 };
 
 @pragma('vm:entry-point')
 // This function is android only and only executes when the app is complety terminated
-void workerStartCallback() async {
+Future<void> workerStartCallback() async {
   Workmanager().executeTask((taskName, inputData) async {
     try {
-      Logger().d("""[$taskName]: Start executing job...""");
+      Logger().d('''[$taskName]: Start executing job...''');
 
       //iOSBackgroundTask is a special task, that iOS runs whenever it deems necessary
       //and will run all tasks with the flag true
@@ -24,7 +24,7 @@ void workerStartCallback() async {
       if (taskName == Workmanager.iOSBackgroundTask) {
         taskMap.forEach((key, value) async {
           if (value.item2) {
-            Logger().d("""[$key]: Start executing job...""");
+            Logger().d('''[$key]: Start executing job...''');
             await value.item1();
           }
         });
@@ -34,7 +34,7 @@ void workerStartCallback() async {
       //to not be punished by the scheduler in future runs.
       await taskMap[taskName]!.item1();
     } catch (err, stackstrace) {
-      Logger().e("Error while running $taskName job:", err, stackstrace);
+      Logger().e('Error while running $taskName job:', err, stackstrace);
       return false;
     }
     return true;

@@ -11,30 +11,29 @@ const Color _darkishBlack = Color.fromARGB(255, 43, 43, 43);
 const Color _darkBlack = Color.fromARGB(255, 27, 27, 27);
 
 const _textTheme = TextTheme(
-  displayLarge: TextStyle(fontSize: 40.0, fontWeight: FontWeight.w400),
-  displayMedium: TextStyle(fontSize: 32.0, fontWeight: FontWeight.w400),
-  displaySmall: TextStyle(fontSize: 28.0, fontWeight: FontWeight.w400),
-  headlineMedium: TextStyle(fontSize: 24.0, fontWeight: FontWeight.w300),
-  headlineSmall: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400),
-  titleLarge: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300),
-  titleMedium: TextStyle(fontSize: 17.0, fontWeight: FontWeight.w300),
-  titleSmall: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w300),
-  bodyLarge: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w400),
-  bodyMedium: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w400),
-  bodySmall: TextStyle(fontSize: 13.0, fontWeight: FontWeight.w400),
+  displayLarge: TextStyle(fontSize: 40, fontWeight: FontWeight.w400),
+  displayMedium: TextStyle(fontSize: 32, fontWeight: FontWeight.w400),
+  displaySmall: TextStyle(fontSize: 28, fontWeight: FontWeight.w400),
+  headlineMedium: TextStyle(fontSize: 24, fontWeight: FontWeight.w300),
+  headlineSmall: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
+  titleLarge: TextStyle(fontSize: 18, fontWeight: FontWeight.w300),
+  titleMedium: TextStyle(fontSize: 17, fontWeight: FontWeight.w300),
+  titleSmall: TextStyle(fontSize: 16, fontWeight: FontWeight.w300),
+  bodyLarge: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+  bodyMedium: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+  bodySmall: TextStyle(fontSize: 13, fontWeight: FontWeight.w400),
 );
 
 ThemeData applicationLightTheme = ThemeData(
     colorScheme: ColorScheme.fromSeed(
         seedColor: darkRed,
-        brightness: Brightness.light,
         background: _mildWhite,
         primary: darkRed,
         onPrimary: Colors.white,
         secondary: darkRed,
         onSecondary: Colors.white,
         tertiary: lightRed,
-        onTertiary: Colors.black),
+        onTertiary: Colors.black,),
     brightness: Brightness.light,
     primaryColor: darkRed,
     textSelectionTheme: const TextSelectionThemeData(
@@ -48,7 +47,7 @@ ThemeData applicationLightTheme = ThemeData(
     indicatorColor: darkRed,
     primaryTextTheme: Typography().black.copyWith(
         headlineMedium: const TextStyle(color: _strongGrey),
-        bodyLarge: const TextStyle(color: _strongGrey)),
+        bodyLarge: const TextStyle(color: _strongGrey),),
     iconTheme: const IconThemeData(color: darkRed),
     textTheme: _textTheme,
     switchTheme: SwitchThemeData(
@@ -68,7 +67,7 @@ ThemeData applicationLightTheme = ThemeData(
       fillColor: MaterialStateProperty.resolveWith<Color?>(
          (Set<MaterialState> states) => states.contains(MaterialState.selected) ? darkRed : null,
       ),
-    ));
+    ),);
 
 ThemeData applicationDarkTheme = ThemeData(
     colorScheme: ColorScheme.fromSeed(
@@ -80,7 +79,7 @@ ThemeData applicationDarkTheme = ThemeData(
         secondary: _lightGrey,
         onSecondary: _darkishBlack,
         tertiary: _lightGrey,
-        onTertiary: _darkishBlack),
+        onTertiary: _darkishBlack,),
     brightness: Brightness.dark,
     textSelectionTheme: const TextSelectionThemeData(
       selectionHandleColor: Colors.transparent,
@@ -109,4 +108,4 @@ ThemeData applicationDarkTheme = ThemeData(
       fillColor: MaterialStateProperty.resolveWith<Color?>(
          (Set<MaterialState> states) => states.contains(MaterialState.selected) ? _mildBlack : null,
       ),
-    ));
+    ),);

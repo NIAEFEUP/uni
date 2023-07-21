@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:uni/model/entities/location.dart';
 
 class RestaurantLocation implements Location {
+
+  RestaurantLocation(this.floor, this.name, {this.locationGroupId});
   @override
   final int floor;
 
@@ -14,8 +16,6 @@ class RestaurantLocation implements Location {
   final icon = Icons.restaurant;
 
   final int? locationGroupId;
-
-  RestaurantLocation(this.floor, this.name, {this.locationGroupId});
 
   @override
   String description() {

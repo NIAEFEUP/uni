@@ -12,7 +12,7 @@ import 'package:uni/view/profile/profile.dart';
 
 /// Page with a hamburger menu and the user profile picture
 abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
-  final double borderMargin = 18.0;
+  final double borderMargin = 18;
   static ImageProvider? profileImageProvider;
 
   Future<void> onRefresh(BuildContext context);
@@ -30,11 +30,11 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
   }
 
   Future<DecorationImage> buildProfileDecorationImage(context,
-      {forceRetrieval = false}) async {
+      {forceRetrieval = false,}) async {
     final profilePictureFile =
         await ProfileProvider.fetchOrGetCachedProfilePicture(
             null, Provider.of<SessionProvider>(context, listen: false).session,
-            forceRetrieval: forceRetrieval || profileImageProvider == null);
+            forceRetrieval: forceRetrieval || profileImageProvider == null,);
     return getProfileDecorationImage(profilePictureFile);
   }
 
@@ -44,7 +44,7 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
   DecorationImage getProfileDecorationImage(File? profilePicture) {
     final fallbackPicture = profileImageProvider ??
         const AssetImage('assets/images/profile_placeholder.png');
-    final ImageProvider image =
+    final image =
         profilePicture == null ? fallbackPicture : FileImage(profilePicture);
 
     final result = DecorationImage(fit: BoxFit.cover, image: image);
@@ -59,7 +59,7 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
       key: GlobalKey<RefreshIndicatorState>(),
       onRefresh: () => ProfileProvider.fetchOrGetCachedProfilePicture(null,
               Provider.of<SessionProvider>(context, listen: false).session,
-              forceRetrieval: true)
+              forceRetrieval: true,)
           .then((value) => onRefresh(context)),
       child: child,
     );
@@ -78,7 +78,7 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
   /// This method returns an instance of `AppBar` containing the app's logo,
   /// an option button and a button with the user's picture.
   AppBar buildAppBar(BuildContext context) {
-    final MediaQueryData queryData = MediaQuery.of(context);
+    final queryData = MediaQuery.of(context);
 
     return AppBar(
       bottom: PreferredSize(
@@ -92,7 +92,7 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
       elevation: 0,
       iconTheme: Theme.of(context).iconTheme,
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      titleSpacing: 0.0,
+      titleSpacing: 0,
       title: ButtonTheme(
           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
           shape: const RoundedRectangleBorder(),
@@ -101,16 +101,16 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
               final currentRouteName = ModalRoute.of(context)!.settings.name;
               if (currentRouteName != DrawerItem.navPersonalArea.title) {
                 Navigator.pushNamed(
-                    context, '/${DrawerItem.navPersonalArea.title}');
+                    context, '/${DrawerItem.navPersonalArea.title}',);
               }
             },
             child: SvgPicture.asset(
               colorFilter: ColorFilter.mode(
-                  Theme.of(context).primaryColor, BlendMode.srcIn),
+                  Theme.of(context).primaryColor, BlendMode.srcIn,),
               'assets/images/logo_dark.svg',
               height: queryData.size.height / 25,
             ),
-          )),
+          ),),
       actions: <Widget>[
         getTopRightButton(context),
       ],
@@ -122,18 +122,18 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
     return FutureBuilder(
         future: buildProfileDecorationImage(context),
         builder: (BuildContext context,
-            AsyncSnapshot<DecorationImage> decorationImage) {
+            AsyncSnapshot<DecorationImage> decorationImage,) {
           return TextButton(
             onPressed: () => {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (__) => const ProfilePageView()))
+                  MaterialPageRoute(builder: (__) => const ProfilePageView()),)
             },
             child: Container(
-                width: 40.0,
-                height: 40.0,
+                width: 40,
+                height: 40,
                 decoration: BoxDecoration(
-                    shape: BoxShape.circle, image: decorationImage.data)),
+                    shape: BoxShape.circle, image: decorationImage.data,),),
           );
-        });
+        },);
   }
 }

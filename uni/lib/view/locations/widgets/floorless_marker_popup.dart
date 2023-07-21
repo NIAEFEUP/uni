@@ -5,14 +5,14 @@ import 'package:uni/view/locations/widgets/faculty_map.dart';
 
 class FloorlessLocationMarkerPopup extends StatelessWidget {
   const FloorlessLocationMarkerPopup(this.locationGroup,
-      {this.showId = false, super.key});
+      {this.showId = false, super.key,});
 
   final LocationGroup locationGroup;
   final bool showId;
 
   @override
   Widget build(BuildContext context) {
-    final List<Location> locations =
+    final locations =
         locationGroup.floors.values.expand((x) => x).toList();
     return Card(
       color: Theme.of(context).colorScheme.background.withOpacity(0.8),
@@ -20,7 +20,7 @@ class FloorlessLocationMarkerPopup extends StatelessWidget {
         borderRadius: BorderRadius.circular(15),
       ),
       child: Padding(
-          padding: const EdgeInsets.all(12.0),
+          padding: const EdgeInsets.all(12),
           child: Wrap(
             direction: Axis.vertical,
             spacing: 8,
@@ -29,7 +29,7 @@ class FloorlessLocationMarkerPopup extends StatelessWidget {
                     : <Widget>[])
                 + locations.map((location) => LocationRow(location: location))
                     .toList(),
-          )),
+          ),),
     );
   }
 
@@ -40,17 +40,17 @@ class FloorlessLocationMarkerPopup extends StatelessWidget {
             children: [
               Text(location.description(),
                   textAlign: TextAlign.left,
-                  style: TextStyle(color: FacultyMap.getFontColor(context)))
+                  style: TextStyle(color: FacultyMap.getFontColor(context)),)
             ],
-        ))
+        ),)
         .toList();
   }
 }
 
 class LocationRow extends StatelessWidget {
-  final Location location;
 
-  const LocationRow({Key? key, required this.location}) : super(key: key);
+  const LocationRow({super.key, required this.location});
+  final Location location;
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +59,7 @@ class LocationRow extends StatelessWidget {
       children: [
         Text(location.description(),
             textAlign: TextAlign.left,
-            style: TextStyle(color: FacultyMap.getFontColor(context)))
+            style: TextStyle(color: FacultyMap.getFontColor(context)),)
       ],
     );
   }

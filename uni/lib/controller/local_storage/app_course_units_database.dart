@@ -5,12 +5,12 @@ import 'package:uni/controller/local_storage/app_database.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
 
 class AppCourseUnitsDatabase extends AppDatabase {
+  AppCourseUnitsDatabase() : super('course_units.db', [createScript]);
   static const String createScript =
       '''CREATE TABLE course_units(id INTEGER, code TEXT, abbreviation TEXT,'''
       '''name TEXT, curricularYear INTEGER, occurrId INTEGER, semesterCode TEXT,'''
       '''semesterName TEXT, type TEXT, status TEXT, grade TEXT, ectsGrade TEXT,'''
       '''result TEXT, ects REAL, schoolYear TEXT)''';
-  AppCourseUnitsDatabase() : super('course_units.db', [createScript]);
 
   saveNewCourseUnits(List<CourseUnit> courseUnits) async {
     await deleteCourseUnits();
@@ -18,7 +18,7 @@ class AppCourseUnitsDatabase extends AppDatabase {
   }
 
   Future<List<CourseUnit>> courseUnits() async {
-    final Database db = await getDatabase();
+    final db = await getDatabase();
     final List<Map<String, dynamic>> maps = await db.query('course_units');
 
     return List.generate(maps.length, (i) {
@@ -43,7 +43,7 @@ class AppCourseUnitsDatabase extends AppDatabase {
   }
 
   Future<void> _insertCourseUnits(List<CourseUnit> courseUnits) async {
-    for (CourseUnit courseUnit in courseUnits) {
+    for (final courseUnit in courseUnits) {
       await insertInDatabase(
         'course_units',
         courseUnit.toMap(),
@@ -53,7 +53,7 @@ class AppCourseUnitsDatabase extends AppDatabase {
   }
 
   Future<void> deleteCourseUnits() async {
-    final Database db = await getDatabase();
+    final db = await getDatabase();
     await db.delete('course_units');
   }
 }

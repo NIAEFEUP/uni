@@ -10,9 +10,9 @@ abstract class LocationFetcher {
   Future<List<LocationGroup>> getFromJSON(String jsonStr) async {
     final Map<String, dynamic> json = jsonDecode(jsonStr);
     final List<dynamic> groupsMap = json['data'];
-    final List<LocationGroup> groups = [];
+    final groups = <LocationGroup>[];
 
-    for (Map<String, dynamic> groupMap in groupsMap) {
+    for (final Map<String, dynamic> groupMap in groupsMap) {
       final int id = groupMap['id'];
       final double lat = groupMap['lat'];
       final double lng = groupMap['lng'];
@@ -20,15 +20,15 @@ abstract class LocationFetcher {
 
       final Map<String, dynamic> locationsMap = groupMap['locations'];
 
-      final List<Location> locations = [];
+      final locations = <Location>[];
       locationsMap.forEach((key, value) {
-        final int floor = int.parse(key);
+        final floor = int.parse(key);
         value.forEach((locationJson) {
           locations.add(Location.fromJSON(locationJson, floor));
         });
       });
       groups.add(LocationGroup(LatLng(lat, lng),
-          locations: locations, isFloorless: isFloorless, id: id));
+          locations: locations, isFloorless: isFloorless, id: id,),);
     }
 
     return groups;

@@ -30,10 +30,10 @@ void main() {
     });
 
     testWidgets('When given a single exam', (WidgetTester tester) async {
-      final DateTime firstExamBegin = DateTime.parse('$firstExamDate 09:00');
-      final DateTime firstExamEnd = DateTime.parse('$firstExamDate 12:00');
+      final firstExamBegin = DateTime.parse('$firstExamDate 09:00');
+      final firstExamEnd = DateTime.parse('$firstExamDate 12:00');
       final firstExam = Exam('1230', firstExamBegin, firstExamEnd,
-          firstExamSubject, ['B119', 'B107', 'B205'], 'ER', 'feup');
+          firstExamSubject, ['B119', 'B107', 'B205'], 'ER', 'feup',);
 
       const widget = ExamsPageView();
 
@@ -50,14 +50,14 @@ void main() {
 
     testWidgets('When given two exams from the same date',
         (WidgetTester tester) async {
-      final DateTime firstExamBegin = DateTime.parse('$firstExamDate 09:00');
-      final DateTime firstExamEnd = DateTime.parse('$firstExamDate 12:00');
+      final firstExamBegin = DateTime.parse('$firstExamDate 09:00');
+      final firstExamEnd = DateTime.parse('$firstExamDate 12:00');
       final firstExam = Exam('1231', firstExamBegin, firstExamEnd,
-          firstExamSubject, ['B119', 'B107', 'B205'], 'ER', 'feup');
-      final DateTime secondExamBegin = DateTime.parse('$firstExamDate 12:00');
-      final DateTime secondExamEnd = DateTime.parse('$firstExamDate 15:00');
+          firstExamSubject, ['B119', 'B107', 'B205'], 'ER', 'feup',);
+      final secondExamBegin = DateTime.parse('$firstExamDate 12:00');
+      final secondExamEnd = DateTime.parse('$firstExamDate 15:00');
       final secondExam = Exam('1232', secondExamBegin, secondExamEnd,
-          secondExamSubject, ['B119', 'B107', 'B205'], 'ER', 'feup');
+          secondExamSubject, ['B119', 'B107', 'B205'], 'ER', 'feup',);
 
       final examList = [
         firstExam,
@@ -74,21 +74,21 @@ void main() {
       await tester.pumpWidget(testableWidget(widget, providers: providers));
 
       expect(find.byKey(Key(examList.map((ex) => ex.toString()).join())),
-          findsOneWidget);
+          findsOneWidget,);
       expect(find.byKey(Key('${firstExam.toString()}-exam')), findsOneWidget);
       expect(find.byKey(Key('${secondExam.toString()}-exam')), findsOneWidget);
     });
 
     testWidgets('When given two exams from different dates',
         (WidgetTester tester) async {
-      final DateTime firstExamBegin = DateTime.parse('$firstExamDate 09:00');
-      final DateTime firstExamEnd = DateTime.parse('$firstExamDate 12:00');
+      final firstExamBegin = DateTime.parse('$firstExamDate 09:00');
+      final firstExamEnd = DateTime.parse('$firstExamDate 12:00');
       final firstExam = Exam('1233', firstExamBegin, firstExamEnd,
-          firstExamSubject, ['B119', 'B107', 'B205'], 'ER', 'feup');
-      final DateTime secondExamBegin = DateTime.parse('$secondExamDate 12:00');
-      final DateTime secondExamEnd = DateTime.parse('$secondExamDate 15:00');
+          firstExamSubject, ['B119', 'B107', 'B205'], 'ER', 'feup',);
+      final secondExamBegin = DateTime.parse('$secondExamDate 12:00');
+      final secondExamEnd = DateTime.parse('$secondExamDate 15:00');
       final secondExam = Exam('1234', secondExamBegin, secondExamEnd,
-          secondExamSubject, ['B119', 'B107', 'B205'], 'ER', 'feup');
+          secondExamSubject, ['B119', 'B107', 'B205'], 'ER', 'feup',);
       final examList = [
         firstExam,
         secondExam,
@@ -110,23 +110,23 @@ void main() {
 
     testWidgets('When given four exams from two different dates',
         (WidgetTester tester) async {
-      final List<String> rooms = ['B119', 'B107', 'B205'];
-      final DateTime firstExamBegin = DateTime.parse('$firstExamDate 09:00');
-      final DateTime firstExamEnd = DateTime.parse('$firstExamDate 12:00');
+      final rooms = <String>['B119', 'B107', 'B205'];
+      final firstExamBegin = DateTime.parse('$firstExamDate 09:00');
+      final firstExamEnd = DateTime.parse('$firstExamDate 12:00');
       final firstExam = Exam('1235', firstExamBegin, firstExamEnd,
-          firstExamSubject, rooms, 'ER', 'feup');
-      final DateTime secondExamBegin = DateTime.parse('$firstExamDate 10:00');
-      final DateTime secondExamEnd = DateTime.parse('$firstExamDate 12:00');
+          firstExamSubject, rooms, 'ER', 'feup',);
+      final secondExamBegin = DateTime.parse('$firstExamDate 10:00');
+      final secondExamEnd = DateTime.parse('$firstExamDate 12:00');
       final secondExam = Exam('1236', secondExamBegin, secondExamEnd,
-          firstExamSubject, rooms, 'ER', 'feup');
-      final DateTime thirdExamBegin = DateTime.parse('$secondExamDate 12:00');
-      final DateTime thirdExamEnd = DateTime.parse('$secondExamDate 15:00');
+          firstExamSubject, rooms, 'ER', 'feup',);
+      final thirdExamBegin = DateTime.parse('$secondExamDate 12:00');
+      final thirdExamEnd = DateTime.parse('$secondExamDate 15:00');
       final thirdExam = Exam('1237', thirdExamBegin, thirdExamEnd,
-          secondExamSubject, rooms, 'ER', 'feup');
-      final DateTime fourthExamBegin = DateTime.parse('$secondExamDate 13:00');
-      final DateTime fourthExamEnd = DateTime.parse('$secondExamDate 14:00');
+          secondExamSubject, rooms, 'ER', 'feup',);
+      final fourthExamBegin = DateTime.parse('$secondExamDate 13:00');
+      final fourthExamEnd = DateTime.parse('$secondExamDate 14:00');
       final fourthExam = Exam('1238', fourthExamBegin, fourthExamEnd,
-          secondExamSubject, rooms, 'ER', 'feup');
+          secondExamSubject, rooms, 'ER', 'feup',);
       final examList = [firstExam, secondExam, thirdExam, fourthExam];
 
       const widget = ExamsPageView();

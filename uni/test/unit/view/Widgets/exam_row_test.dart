@@ -11,16 +11,16 @@ import '../../../test_widget.dart';
 void main() {
   group('Exam Row', () {
     const subject = 'SOPE';
-    final DateTime begin = DateTime(
-        DateTime.now().year, DateTime.now().month, DateTime.now().day, 10, 0);
-    final DateTime end = DateTime(
-        DateTime.now().year, DateTime.now().month, DateTime.now().day, 12, 0);
-    final String beginTime = DateFormat('HH:mm').format(begin);
-    final String endTime = DateFormat('HH:mm').format(end);
+    final begin = DateTime(
+        DateTime.now().year, DateTime.now().month, DateTime.now().day, 10,);
+    final end = DateTime(
+        DateTime.now().year, DateTime.now().month, DateTime.now().day, 12,);
+    final beginTime = DateFormat('HH:mm').format(begin);
+    final endTime = DateFormat('HH:mm').format(end);
 
     testWidgets('When given a single room', (WidgetTester tester) async {
       final rooms = ['B315'];
-      final Exam exam = Exam('1230', begin, end, subject, rooms, '', 'feup');
+      final exam = Exam('1230', begin, end, subject, rooms, '', 'feup');
       final widget = ExamRow(exam: exam, teacher: '', mainPage: true);
 
       final providers = [
@@ -31,13 +31,13 @@ void main() {
 
       expect(
           find.descendant(
-              of: find.byKey(Key(roomsKey)), matching: find.byType(Text)),
-          findsOneWidget);
+              of: find.byKey(Key(roomsKey)), matching: find.byType(Text),),
+          findsOneWidget,);
     });
 
     testWidgets('When multiple rooms', (WidgetTester tester) async {
       final rooms = ['B315', 'B316', 'B330'];
-      final Exam exam = Exam('1230', begin, end, subject, rooms, '', 'feup');
+      final exam = Exam('1230', begin, end, subject, rooms, '', 'feup');
       final widget = ExamRow(exam: exam, teacher: '', mainPage: true);
 
       final providers = [
@@ -49,8 +49,8 @@ void main() {
 
       expect(
           find.descendant(
-              of: find.byKey(Key(roomsKey)), matching: find.byType(Text)),
-          findsNWidgets(3));
+              of: find.byKey(Key(roomsKey)), matching: find.byType(Text),),
+          findsNWidgets(3),);
     });
   });
 }

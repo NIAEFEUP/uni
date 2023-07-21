@@ -3,7 +3,7 @@ import 'package:uni/view/common_widgets/generic_expansion_card.dart';
 import 'package:uni/view/useful_info/widgets/text_components.dart';
 
 class CopyCenterCard extends GenericExpansionCard {
-  const CopyCenterCard({Key? key}) : super(key: key);
+  const CopyCenterCard({super.key});
 
   @override
   Widget buildCardContent(BuildContext context) {
@@ -19,7 +19,7 @@ class CopyCenterCard extends GenericExpansionCard {
         infoText('+351 220 994 132', context, link: 'tel:220 994 132'),
         h1('Email', context),
         infoText('editorial@aefeup.pt', context,
-            link: 'mailto:editorial@aefeup.pt', last: true)
+            link: 'mailto:editorial@aefeup.pt', last: true,)
       ],
     );
   }

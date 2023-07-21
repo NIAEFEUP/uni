@@ -15,11 +15,11 @@ class TermsAndConditionDialog {
       BuildContext context,
       Completer<TermsAndConditionsState> routeCompleter,
       String userName,
-      String password) async {
+      String password,) async {
     final acceptance = await updateTermsAndConditionsAcceptancePreference();
     if (acceptance) {
       SchedulerBinding.instance.addPostFrameCallback((timestamp) =>
-          _buildShowDialog(context, routeCompleter, userName, password));
+          _buildShowDialog(context, routeCompleter, userName, password),);
     } else {
       routeCompleter.complete(TermsAndConditionsState.accepted);
     }
@@ -31,14 +31,14 @@ class TermsAndConditionDialog {
       BuildContext context,
       Completer<TermsAndConditionsState> routeCompleter,
       String userName,
-      String password) {
+      String password,) {
     return showDialog(
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text('Mudança nos Termos e Condições da uni',
-                style: Theme.of(context).textTheme.headlineSmall),
+                style: Theme.of(context).textTheme.headlineSmall,),
             content: Column(
               children: [
                 Expanded(
@@ -48,7 +48,7 @@ class TermsAndConditionDialog {
                         Container(
                           margin: const EdgeInsets.only(bottom: 10),
                           child: const Text(
-                              '''Os Termos e Condições da aplicação mudaram desde a última vez que a abriste:'''),
+                              '''Os Termos e Condições da aplicação mudaram desde a última vez que a abriste:''',),
                         ),
                         const TermsAndConditions()
                       ],
@@ -69,7 +69,7 @@ class TermsAndConditionDialog {
                         child: Text(
                           'Aceito os novos Termos e Condições',
                           style: getTextMethod(context),
-                        )),
+                        ),),
                     TextButton(
                         onPressed: () async {
                           Navigator.of(context).pop();
@@ -81,13 +81,13 @@ class TermsAndConditionDialog {
                         child: Text(
                           'Rejeito os novos Termos e Condições',
                           style: getTextMethod(context),
-                        )),
+                        ),),
                   ],
                 )
               ],
             ),
           );
-        });
+        },);
   }
 
   static TextStyle getTextMethod(BuildContext context) {

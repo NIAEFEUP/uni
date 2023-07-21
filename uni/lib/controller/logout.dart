@@ -11,25 +11,25 @@ import 'package:uni/controller/local_storage/app_exams_database.dart';
 import 'package:uni/controller/local_storage/app_last_user_info_update_database.dart';
 import 'package:uni/controller/local_storage/app_lectures_database.dart';
 import 'package:uni/controller/local_storage/app_refresh_times_database.dart';
-import 'package:uni/controller/local_storage/app_user_database.dart';
-import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
-import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
+import 'package:uni/controller/local_storage/app_user_database.dart';
+import 'package:uni/controller/networking/network_router.dart';
+import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 
 Future logout(BuildContext context) async {
   final prefs = await SharedPreferences.getInstance();
   final faculties = await AppSharedPreferences.getUserFaculties();
   await prefs.clear();
 
-  AppLecturesDatabase().deleteLectures();
-  AppExamsDatabase().deleteExams();
-  AppCoursesDatabase().deleteCourses();
-  AppRefreshTimesDatabase().deleteRefreshTimes();
-  AppUserDataDatabase().deleteUserData();
+  await AppLecturesDatabase().deleteLectures();
+  await AppExamsDatabase().deleteExams();
+  await AppCoursesDatabase().deleteCourses();
+  await AppRefreshTimesDatabase().deleteRefreshTimes();
+  await AppUserDataDatabase().deleteUserData();
   AppLastUserInfoUpdateDatabase().deleteLastUpdate();
-  AppBusStopDatabase().deleteBusStops();
-  AppCourseUnitsDatabase().deleteCourseUnits();
-  NetworkRouter.killAuthentication(faculties);
+  await AppBusStopDatabase().deleteBusStops();
+  await AppCourseUnitsDatabase().deleteCourseUnits();
+  await NetworkRouter.killAuthentication(faculties);
 
   final path = (await getApplicationDocumentsDirectory()).path;
   final directory = Directory(path);

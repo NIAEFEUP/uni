@@ -6,6 +6,16 @@ import 'package:uni/model/entities/course_units/course_unit.dart';
 
 /// Stores information about the user's profile.
 class Profile {
+
+  Profile(
+      {this.name = '',
+      this.email = '',
+      courses,
+      this.printBalance = '',
+      this.feesBalance = '',
+      this.feesLimit,})
+      : courses = courses ?? [],
+        courseUnits = [];
   final String name;
   final String email;
   final String printBalance;
@@ -14,27 +24,17 @@ class Profile {
   List<Course> courses;
   List<CourseUnit> courseUnits;
 
-  Profile(
-      {this.name = '',
-      this.email = '',
-      courses,
-      this.printBalance = '',
-      this.feesBalance = '',
-      this.feesLimit})
-      : courses = courses ?? [],
-        courseUnits = [];
-
   /// Creates a new instance from a JSON object.
   static Profile fromResponse(dynamic response) {
     final responseBody = json.decode(response.body);
-    final List<Course> courses = <Course>[];
-    for (var c in responseBody['cursos']) {
+    final courses = <Course>[];
+    for (final c in responseBody['cursos']) {
       courses.add(Course.fromJson(c));
     }
     return Profile(
         name: responseBody['nome'],
         email: responseBody['email'],
-        courses: courses);
+        courses: courses,);
   }
 
   /// Returns a list with two tuples: the first tuple contains the user's name

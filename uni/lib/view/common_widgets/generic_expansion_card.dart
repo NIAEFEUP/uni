@@ -3,12 +3,11 @@ import 'package:flutter/material.dart';
 
 /// Card with an expandable child
 abstract class GenericExpansionCard extends StatelessWidget {
-  final bool smallTitle;
-  final EdgeInsetsGeometry? cardMargin;
 
   const GenericExpansionCard(
-      {Key? key, this.smallTitle = false, this.cardMargin})
-      : super(key: key);
+      {super.key, this.smallTitle = false, this.cardMargin,});
+  final bool smallTitle;
+  final EdgeInsetsGeometry? cardMargin;
 
   TextStyle? getTitleStyle(BuildContext context) =>
       Theme
@@ -17,7 +16,7 @@ abstract class GenericExpansionCard extends StatelessWidget {
           .headlineSmall
           ?.apply(color: Theme
           .of(context)
-          .primaryColor);
+          .primaryColor,);
 
   String getTitle();
 
@@ -45,7 +44,7 @@ abstract class GenericExpansionCard extends StatelessWidget {
                   .headlineSmall
                   ?.apply(color: Theme
                   .of(context)
-                  .primaryColor)),
+                  .primaryColor,),),
           elevation: 0,
           children: <Widget>[
             Container(
@@ -53,6 +52,6 @@ abstract class GenericExpansionCard extends StatelessWidget {
               child: buildCardContent(context),
             )
           ],
-        ));
+        ),);
   }
 }

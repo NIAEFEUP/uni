@@ -1,20 +1,5 @@
 /// Stores information about a course unit.
 class CourseUnit {
-  int id;
-  String code;
-  String abbreviation;
-  String name;
-  int? curricularYear;
-  int occurrId;
-  String? semesterCode;
-  String? semesterName;
-  String? type;
-  String? status;
-  String? grade;
-  String? ectsGrade;
-  String? result;
-  num? ects;
-  String? schoolYear;
 
   CourseUnit(
       {this.id = 0,
@@ -31,7 +16,22 @@ class CourseUnit {
       this.ectsGrade,
       this.result,
       this.ects,
-      this.schoolYear});
+      this.schoolYear,});
+  int id;
+  String code;
+  String abbreviation;
+  String name;
+  int? curricularYear;
+  int occurrId;
+  String? semesterCode;
+  String? semesterName;
+  String? type;
+  String? status;
+  String? grade;
+  String? ectsGrade;
+  String? result;
+  num? ects;
+  String? schoolYear;
 
   /// Creates a new instance from a JSON object.
   static CourseUnit? fromJson(dynamic data) {
@@ -52,7 +52,7 @@ class CourseUnit {
         grade: data['resultado_melhor'],
         ectsGrade: data['resultado_ects'],
         result: data['resultado_insc'],
-        ects: data['creditos_ects']);
+        ects: data['creditos_ects'],);
   }
 
   Map<String, dynamic> toMap() {

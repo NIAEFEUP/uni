@@ -3,7 +3,7 @@ import 'package:uni/view/common_widgets/generic_expansion_card.dart';
 import 'package:uni/view/useful_info/widgets/text_components.dart';
 
 class DonaBiaCard extends GenericExpansionCard {
-  const DonaBiaCard({Key? key}) : super(key: key);
+  const DonaBiaCard({super.key});
 
   @override
   Widget buildCardContent(BuildContext context) {
@@ -16,7 +16,7 @@ class DonaBiaCard extends GenericExpansionCard {
         infoText('+351 225 081 416', context, link: 'tel:225 081 416'),
         h1('Email', context),
         infoText('papelaria.fe.up@gmail.com', context,
-            last: true, link: 'mailto:papelaria.fe.up@gmail.com')
+            last: true, link: 'mailto:papelaria.fe.up@gmail.com',)
       ],
     );
   }

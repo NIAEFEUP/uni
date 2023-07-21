@@ -18,19 +18,19 @@ void main() {
     final day4 = DateTime(2021, 06, 11);
 
     final lecture1 = Lecture.fromHtml(
-        'SOPE', 'T', day0, '10:00', blocks, 'B315', 'JAS', classNumber, 484378);
+        'SOPE', 'T', day0, '10:00', blocks, 'B315', 'JAS', classNumber, 484378,);
     final lecture2 = Lecture.fromHtml('SDIS', 'T', day0, '13:00', blocks,
-        'B315', 'PMMS', classNumber, 484381);
+        'B315', 'PMMS', classNumber, 484381,);
     final lecture3 = Lecture.fromHtml('AMAT', 'T', day1, '12:00', blocks,
-        'B315', 'PMMS', classNumber, 484362);
+        'B315', 'PMMS', classNumber, 484362,);
     final lecture4 = Lecture.fromHtml(
-        'PROG', 'T', day2, '10:00', blocks, 'B315', 'JAS', classNumber, 484422);
+        'PROG', 'T', day2, '10:00', blocks, 'B315', 'JAS', classNumber, 484422,);
     final lecture5 = Lecture.fromHtml(
-        'PPIN', 'T', day3, '14:00', blocks, 'B315', 'SSN', classNumber, 47775);
+        'PPIN', 'T', day3, '14:00', blocks, 'B315', 'SSN', classNumber, 47775,);
     final lecture6 = Lecture.fromHtml(
-        'SDIS', 'T', day4, '15:00', blocks, 'B315', 'PMMS', classNumber, 12345);
+        'SDIS', 'T', day4, '15:00', blocks, 'B315', 'PMMS', classNumber, 12345,);
 
-    final List<String> daysOfTheWeek = [
+    final daysOfTheWeek = <String>[
       'Segunda-feira',
       'Terça-feira',
       'Quarta-feira',
@@ -41,11 +41,11 @@ void main() {
     testWidgets('When given one lecture on a single day',
         (WidgetTester tester) async {
       final widget = SchedulePageView(
-          lectures: [lecture1], scheduleStatus: RequestStatus.successful);
+          lectures: [lecture1], scheduleStatus: RequestStatus.successful,);
 
       await tester.pumpWidget(testableWidget(widget, providers: []));
       await tester.pumpAndSettle();
-      final SchedulePageViewState myWidgetState =
+      final myWidgetState =
           tester.state(find.byType(SchedulePageView));
       myWidgetState.tabController!.animateTo(0);
       await tester.pumpAndSettle();
@@ -53,18 +53,18 @@ void main() {
       expect(
           find.descendant(
               of: find.byKey(const Key('schedule-page-day-column-0')),
-              matching: find.byType(ScheduleSlot)),
-          findsOneWidget);
+              matching: find.byType(ScheduleSlot),),
+          findsOneWidget,);
     });
 
     testWidgets('When given two lectures on a single day',
         (WidgetTester tester) async {
       final widget = SchedulePageView(
           lectures: [lecture1, lecture2],
-          scheduleStatus: RequestStatus.successful);
+          scheduleStatus: RequestStatus.successful,);
       await tester.pumpWidget(testableWidget(widget, providers: []));
       await tester.pumpAndSettle();
-      final SchedulePageViewState myWidgetState =
+      final myWidgetState =
           tester.state(find.byType(SchedulePageView));
       myWidgetState.tabController!.animateTo(0);
       await tester.pumpAndSettle();
@@ -72,8 +72,8 @@ void main() {
       expect(
           find.descendant(
               of: find.byKey(const Key('schedule-page-day-column-0')),
-              matching: find.byType(ScheduleSlot)),
-          findsNWidgets(2));
+              matching: find.byType(ScheduleSlot),),
+          findsNWidgets(2),);
     });
     testWidgets('When given lectures on different days',
         (WidgetTester tester) async {
@@ -86,11 +86,11 @@ void main() {
             lecture4,
             lecture5,
             lecture6
-          ], scheduleStatus: RequestStatus.successful));
+          ], scheduleStatus: RequestStatus.successful,),);
 
       await tester.pumpWidget(testableWidget(widget, providers: []));
       await tester.pumpAndSettle();
-      final SchedulePageViewState myWidgetState =
+      final myWidgetState =
           tester.state(find.byType(SchedulePageView));
       myWidgetState.tabController!.animateTo(0);
       await tester.pumpAndSettle();
@@ -98,8 +98,8 @@ void main() {
       expect(
           find.descendant(
               of: find.byKey(const Key('schedule-page-day-column-0')),
-              matching: find.byType(ScheduleSlot)),
-          findsNWidgets(2));
+              matching: find.byType(ScheduleSlot),),
+          findsNWidgets(2),);
 
       await tester.tap(find.byKey(const Key('schedule-page-tab-1')));
       await tester.pumpAndSettle();
@@ -107,8 +107,8 @@ void main() {
       expect(
           find.descendant(
               of: find.byKey(const Key('schedule-page-day-column-1')),
-              matching: find.byType(ScheduleSlot)),
-          findsOneWidget);
+              matching: find.byType(ScheduleSlot),),
+          findsOneWidget,);
 
       await tester.tap(find.byKey(const Key('schedule-page-tab-2')));
       await tester.pumpAndSettle();
@@ -116,8 +116,8 @@ void main() {
       expect(
           find.descendant(
               of: find.byKey(const Key('schedule-page-day-column-2')),
-              matching: find.byType(ScheduleSlot)),
-          findsOneWidget);
+              matching: find.byType(ScheduleSlot),),
+          findsOneWidget,);
 
       await tester.tap(find.byKey(const Key('schedule-page-tab-3')));
       await tester.pumpAndSettle();
@@ -125,8 +125,8 @@ void main() {
       expect(
           find.descendant(
               of: find.byKey(const Key('schedule-page-day-column-3')),
-              matching: find.byType(ScheduleSlot)),
-          findsOneWidget);
+              matching: find.byType(ScheduleSlot),),
+          findsOneWidget,);
 
       await tester.tap(find.byKey(const Key('schedule-page-tab-4')));
       await tester.pumpAndSettle();
@@ -134,8 +134,8 @@ void main() {
       expect(
           find.descendant(
               of: find.byKey(const Key('schedule-page-day-column-4')),
-              matching: find.byType(ScheduleSlot)),
-          findsOneWidget);
+              matching: find.byType(ScheduleSlot),),
+          findsOneWidget,);
     });
   });
 }

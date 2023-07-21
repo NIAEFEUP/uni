@@ -1,28 +1,23 @@
 import 'package:flutter/material.dart';
 
 class ScheduleCardShimmer extends StatelessWidget {
-  const ScheduleCardShimmer({Key? key}) : super(key: key);
+  const ScheduleCardShimmer({super.key});
 
   Widget _getSingleScheduleWidget(BuildContext context) {
     return Center(
         child: Container(
-      padding: const EdgeInsets.only(left: 12.0, bottom: 8.0, right: 12),
-      margin: const EdgeInsets.only(top: 8.0),
+      padding: const EdgeInsets.only(left: 12, bottom: 8, right: 12),
+      margin: const EdgeInsets.only(top: 8),
       child: Container(
           margin: const EdgeInsets.only(top: 8, bottom: 8),
           child: Row(
-            mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Column(
-                  mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
                         //timestamp section
                         Container(
@@ -40,11 +35,9 @@ class ScheduleCardShimmer extends StatelessWidget {
                         ),
                       ],
                     )
-                  ]),
+                  ],),
               Column(
-                mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Container(
                     height: 25,
@@ -67,16 +60,14 @@ class ScheduleCardShimmer extends StatelessWidget {
                 color: Colors.black,
               ), //Room section
             ],
-          )),
-    ));
+          ),),
+    ),);
   }
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         Container(
           height: 15,

@@ -12,18 +12,18 @@ import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/model/request_status.dart';
 
 class ReferenceProvider extends StateProviderNotifier {
-  List<Reference> _references = [];
 
   ReferenceProvider()
       : super(dependsOnSession: true, cacheDuration: const Duration(hours: 1));
+  List<Reference> _references = [];
 
   UnmodifiableListView<Reference> get references =>
       UnmodifiableListView(_references);
 
   @override
   Future<void> loadFromStorage() async {
-    final AppReferencesDatabase referencesDb = AppReferencesDatabase();
-    final List<Reference> references = await referencesDb.references();
+    final referencesDb = AppReferencesDatabase();
+    final references = await referencesDb.references();
     _references = references;
   }
 
@@ -34,16 +34,16 @@ class ReferenceProvider extends StateProviderNotifier {
   }
 
   Future<void> fetchUserReferences(Completer<void> action,
-      Session session) async {
+      Session session,) async {
     try {
       final response =
       await ReferenceFetcher().getUserReferenceResponse(session);
-      final List<Reference> references = await parseReferences(response);
+      final references = await parseReferences(response);
 
       updateStatus(RequestStatus.successful);
 
       final referencesDb = AppReferencesDatabase();
-      referencesDb.saveNewReferences(references);
+      await referencesDb.saveNewReferences(references);
 
       _references = references;
     } catch (e) {

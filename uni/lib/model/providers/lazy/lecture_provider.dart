@@ -15,17 +15,17 @@ import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/model/request_status.dart';
 
 class LectureProvider extends StateProviderNotifier {
-  List<Lecture> _lectures = [];
 
   LectureProvider()
       : super(dependsOnSession: true, cacheDuration: const Duration(hours: 6));
+  List<Lecture> _lectures = [];
 
   UnmodifiableListView<Lecture> get lectures => UnmodifiableListView(_lectures);
 
   @override
   Future<void> loadFromStorage() async {
-    final AppLecturesDatabase db = AppLecturesDatabase();
-    final List<Lecture> lectures = await db.lectures();
+    final db = AppLecturesDatabase();
+    final lectures = await db.lectures();
     _lectures = lectures;
   }
 
@@ -33,26 +33,26 @@ class LectureProvider extends StateProviderNotifier {
   Future<void> loadFromRemote(Session session, Profile profile) async {
     final userPersistentInfo =
         await AppSharedPreferences.getPersistentUserInfo();
-    final Completer<void> action = Completer<void>();
-    fetchUserLectures(action, userPersistentInfo, session, profile);
+    final action = Completer<void>();
+    await fetchUserLectures(action, userPersistentInfo, session, profile);
     await action.future;
   }
 
-  void fetchUserLectures(
+  Future<void> fetchUserLectures(
       Completer<void> action,
       Tuple2<String, String> userPersistentInfo,
       Session session,
       Profile profile,
-      {ScheduleFetcher? fetcher}) async {
+      {ScheduleFetcher? fetcher,}) async {
     try {
       updateStatus(RequestStatus.busy);
 
-      final List<Lecture> lectures =
+      final lectures =
           await getLecturesFromFetcherOrElse(fetcher, session, profile);
 
       // Updates local database according to the information fetched -- Lectures
       if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {
-        final AppLecturesDatabase db = AppLecturesDatabase();
+        final db = AppLecturesDatabase();
         db.saveNewLectures(lectures);
       }
 
@@ -67,7 +67,7 @@ class LectureProvider extends StateProviderNotifier {
   }
 
   Future<List<Lecture>> getLecturesFromFetcherOrElse(
-          ScheduleFetcher? fetcher, Session session, Profile profile) =>
+          ScheduleFetcher? fetcher, Session session, Profile profile,) =>
       (fetcher?.getLectures(session, profile)) ?? getLectures(session, profile);
 
   Future<List<Lecture>> getLectures(Session session, Profile profile) {

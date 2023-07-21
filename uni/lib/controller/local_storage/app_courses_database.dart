@@ -9,12 +9,12 @@ import 'package:uni/model/entities/course.dart';
 /// This database stores information about the user's courses.
 /// See the [Course] class to see what data is stored in this database.
 class AppCoursesDatabase extends AppDatabase {
+  AppCoursesDatabase()
+      : super('courses.db', [createScript], onUpgrade: migrate, version: 2);
   static const String createScript =
       '''CREATE TABLE courses(id INTEGER, fest_id INTEGER, name TEXT,'''
       '''abbreviation TEXT, currYear TEXT, firstEnrollment INTEGER, state TEXT,'''
       '''faculty TEXT, currentAverage REAL, finishedEcts REAL)''';
-  AppCoursesDatabase()
-      : super('courses.db', [createScript], onUpgrade: migrate, version: 2);
 
   /// Replaces all of the data in this database with the data from [courses].
   saveNewCourses(List<Course> courses) async {
@@ -24,7 +24,7 @@ class AppCoursesDatabase extends AppDatabase {
 
   /// Returns a list containing all of the courses stored in this database.
   Future<List<Course>> courses() async {
-    final Database db = await getDatabase();
+    final db = await getDatabase();
     final List<Map<String, dynamic>> maps = await db.query('courses');
 
     // Convert the List<Map<String, dynamic> into a List<Course>.
@@ -39,7 +39,7 @@ class AppCoursesDatabase extends AppDatabase {
           state: maps[i]['state'],
           faculty: maps[i]['faculty'],
           finishedEcts: maps[i]['finishedEcts'],
-          currentAverage: maps[i]['currentAverage']);
+          currentAverage: maps[i]['currentAverage'],);
     });
   }
 
@@ -47,7 +47,7 @@ class AppCoursesDatabase extends AppDatabase {
   ///
   /// If a row with the same data is present, it will be replaced.
   Future<void> _insertCourses(List<Course> courses) async {
-    for (Course course in courses) {
+    for (final course in courses) {
       await insertInDatabase(
         'courses',
         course.toMap(),
@@ -58,7 +58,7 @@ class AppCoursesDatabase extends AppDatabase {
 
   /// Deletes all of the data stored in this database.
   Future<void> deleteCourses() async {
-    final Database db = await getDatabase();
+    final db = await getDatabase();
     await db.delete('courses');
   }
 
@@ -67,7 +67,7 @@ class AppCoursesDatabase extends AppDatabase {
   /// *Note:* This operation only updates the schema of the tables present in
   /// the database and, as such, all data is lost.
   static FutureOr<void> migrate(
-      Database db, int oldVersion, int newVersion) async {
+      Database db, int oldVersion, int newVersion,) async {
     final batch = db.batch();
     batch.execute('DROP TABLE IF EXISTS courses');
     batch.execute(createScript);

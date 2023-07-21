@@ -3,16 +3,16 @@ import 'package:provider/provider.dart';
 import 'package:uni/model/entities/bus_stop.dart';
 import 'package:uni/model/providers/lazy/bus_stop_provider.dart';
 import 'package:uni/model/request_status.dart';
-import 'package:uni/view/common_widgets/expanded_image_label.dart';
 import 'package:uni/view/bus_stop_next_arrivals/widgets/bus_stop_row.dart';
 import 'package:uni/view/bus_stop_selection/bus_stop_selection.dart';
+import 'package:uni/view/common_widgets/expanded_image_label.dart';
 import 'package:uni/view/common_widgets/last_update_timestamp.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/lazy_consumer.dart';
 
 class BusStopNextArrivalsPage extends StatefulWidget {
-  const BusStopNextArrivalsPage({Key? key}) : super(key: key);
+  const BusStopNextArrivalsPage({super.key});
 
   @override
   State<StatefulWidget> createState() => BusStopNextArrivalsPageState();
@@ -26,7 +26,7 @@ class BusStopNextArrivalsPageState
     return LazyConsumer<BusStopProvider>(
         builder: (context, busProvider) => ListView(children: [
           NextArrivals(busProvider.configuredBusStops, busProvider.status)
-        ]));
+        ],),);
   }
 
   @override
@@ -37,11 +37,11 @@ class BusStopNextArrivalsPageState
 }
 
 class NextArrivals extends StatefulWidget {
+
+  const NextArrivals(this.buses, this.busStopStatus, {super.key});
   //final Map<String, List<Trip>> trips;
   final Map<String, BusStopData> buses;
   final RequestStatus busStopStatus;
-
-  const NextArrivals(this.buses, this.busStopStatus, {super.key});
 
   @override
   NextArrivalsState createState() => NextArrivalsState();
@@ -56,28 +56,28 @@ class NextArrivalsState extends State<NextArrivals> {
         case RequestStatus.successful:
           return SizedBox(
               height: MediaQuery.of(context).size.height,
-              child: Column(children: requestSuccessful(context)));
+              child: Column(children: requestSuccessful(context)),);
         case RequestStatus.busy:
           return SizedBox(
               height: MediaQuery.of(context).size.height,
-              child: Column(children: requestBusy(context)));
+              child: Column(children: requestBusy(context)),);
         case RequestStatus.failed:
           return SizedBox(
               height: MediaQuery.of(context).size.height,
-              child: Column(children: requestFailed(context)));
+              child: Column(children: requestFailed(context)),);
         default:
           return Container();
       }
     }
 
     return DefaultTabController(
-        length: widget.buses.length, child: contentBuilder());
+        length: widget.buses.length, child: contentBuilder(),);
   }
 
   /// Returns a list of widgets for a successfull request
 
   List<Widget> requestSuccessful(context) {
-    final List<Widget> result = <Widget>[];
+    final result = <Widget>[];
 
     result.addAll(getHeader(context));
 
@@ -85,7 +85,7 @@ class NextArrivalsState extends State<NextArrivals> {
       result.addAll(getContent(context));
     } else {
       result.add(
-          ImageLabel(imagePath: 'assets/images/bus.png', label: 'Não percas nenhum autocarro', labelTextStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 17, color: Theme.of(context).colorScheme.primary))
+          ImageLabel(imagePath: 'assets/images/bus.png', label: 'Não percas nenhum autocarro', labelTextStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 17, color: Theme.of(context).colorScheme.primary)),
       );
       result.add(
           Column(
@@ -93,10 +93,10 @@ class NextArrivalsState extends State<NextArrivals> {
                 ElevatedButton(
                   onPressed: () => Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const BusStopSelectionPage())),
+                      MaterialPageRoute(builder: (context) => const BusStopSelectionPage()),),
                   child: const Text('Adicionar'),
                 ),
-              ]));
+              ],),);
     }
 
     return result;
@@ -105,33 +105,33 @@ class NextArrivalsState extends State<NextArrivals> {
   /// TODO: Is this ok?
   /// Returns a list of widgets for a busy request
   List<Widget> requestBusy(BuildContext context) {
-    final List<Widget> result = <Widget>[];
+    final result = <Widget>[];
 
     result.add(getPageTitle());
     result.add(Container(
-        padding: const EdgeInsets.all(22.0),
-        child: const Center(child: CircularProgressIndicator())));
+        padding: const EdgeInsets.all(22),
+        child: const Center(child: CircularProgressIndicator()),),);
 
     return result;
   }
 
   Container getPageTitle() {
     return Container(
-        padding: const EdgeInsets.only(bottom: 12.0),
-        child: const PageTitle(name: 'Autocarros'));
+        padding: const EdgeInsets.only(bottom: 12),
+        child: const PageTitle(name: 'Autocarros'),);
   }
 
   /// Returns a list of widgets for a failed request
   List<Widget> requestFailed(BuildContext context) {
-    final List<Widget> result = <Widget>[];
+    final result = <Widget>[];
 
     result.addAll(getHeader(context));
     result.add(Container(
-        padding: const EdgeInsets.only(bottom: 12.0),
+        padding: const EdgeInsets.only(bottom: 12),
         child: Text('Não foi possível obter informação',
             maxLines: 2,
             overflow: TextOverflow.fade,
-            style: Theme.of(context).textTheme.titleMedium)));
+            style: Theme.of(context).textTheme.titleMedium,),),);
 
     return result;
   }
@@ -140,12 +140,12 @@ class NextArrivalsState extends State<NextArrivals> {
     return [
       getPageTitle(),
       Container(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8),
         child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Container(
-                padding: const EdgeInsets.only(left: 10.0),
+                padding: const EdgeInsets.only(left: 10),
                 child: const LastUpdateTimeStamp<BusStopProvider>(),
               ),
               IconButton(
@@ -153,23 +153,23 @@ class NextArrivalsState extends State<NextArrivals> {
                   onPressed: () => Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const BusStopSelectionPage())))
-            ]),
+                          builder: (context) => const BusStopSelectionPage(),),),)
+            ],),
       )
     ];
   }
 
   List<Widget> getContent(BuildContext context) {
-    final MediaQueryData queryData = MediaQuery.of(context);
+    final queryData = MediaQuery.of(context);
 
     return [
       Container(
         decoration: const BoxDecoration(
           border: Border(
-            bottom: BorderSide(width: 1.0),
+            bottom: BorderSide(),
           ),
         ),
-        constraints: const BoxConstraints(maxHeight: 150.0),
+        constraints: const BoxConstraints(maxHeight: 150),
         child: Material(
           child: TabBar(
             isScrollable: true,
@@ -179,7 +179,7 @@ class NextArrivalsState extends State<NextArrivals> {
       ),
       Expanded(
         child: Container(
-          padding: const EdgeInsets.only(bottom: 92.0),
+          padding: const EdgeInsets.only(bottom: 92),
           child: TabBarView(
             children: getEachBusStopInfo(context),
           ),
@@ -189,32 +189,32 @@ class NextArrivalsState extends State<NextArrivals> {
   }
 
   List<Widget> createTabs(queryData) {
-    final List<Widget> tabs = <Widget>[];
+    final tabs = <Widget>[];
     widget.buses.forEach((stopCode, stopData) {
       tabs.add(SizedBox(
         width: queryData.size.width /
             ((widget.buses.length < 3 ? widget.buses.length : 3) + 1),
         child: Tab(text: stopCode),
-      ));
+      ),);
     });
     return tabs;
   }
 
   /// Returns a list of widgets, for each bus stop configured by the user
   List<Widget> getEachBusStopInfo(context) {
-    final List<Widget> rows = <Widget>[];
+    final rows = <Widget>[];
 
     widget.buses.forEach((stopCode, stopData) {
       rows.add(ListView(children: <Widget>[
         Container(
             padding: const EdgeInsets.only(
-                top: 8.0, bottom: 8.0, left: 22.0, right: 22.0),
+                top: 8, bottom: 8, left: 22, right: 22,),
             child: BusStopRow(
               stopCode: stopCode,
               trips: widget.buses[stopCode]?.trips ?? [],
               stopCodeShow: false,
-            ))
-      ]));
+            ),)
+      ],),);
     });
 
     return rows;

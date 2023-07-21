@@ -6,7 +6,7 @@ class ThemeNotifier with ChangeNotifier {
 
   ThemeMode _themeMode;
 
-  getTheme() => _themeMode;
+  ThemeMode getTheme() => _themeMode;
 
   setNextTheme() {
     final nextThemeMode = (_themeMode.index + 1) % 3;

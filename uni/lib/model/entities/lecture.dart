@@ -2,15 +2,6 @@ import 'package:logger/logger.dart';
 
 /// Stores information about a lecture.
 class Lecture {
-  String subject;
-  String typeClass;
-  String room;
-  String teacher;
-  String classNumber;
-  DateTime startTime;
-  DateTime endTime;
-  int blocks;
-  int occurrId;
 
   /// Creates an instance of the class [Lecture].
   Lecture(
@@ -22,7 +13,7 @@ class Lecture {
       this.room,
       this.teacher,
       this.classNumber,
-      this.occurrId);
+      this.occurrId,);
 
   factory Lecture.fromApi(
       String subject,
@@ -32,7 +23,7 @@ class Lecture {
       String room,
       String teacher,
       String classNumber,
-      int occurrId) {
+      int occurrId,) {
     final endTime = startTime.add(Duration(seconds:60 * 30 * blocks));
     final lecture = Lecture(
         subject,
@@ -43,7 +34,7 @@ class Lecture {
         room,
         teacher,
         classNumber,
-        occurrId);
+        occurrId,);
     return lecture;
   }
 
@@ -56,7 +47,7 @@ class Lecture {
       String room,
       String teacher,
       String classNumber,
-      int occurrId) {
+      int occurrId,) {
     final startTimeHours = int.parse(startTime.substring(0, 2));
     final startTimeMinutes = int.parse(startTime.substring(3, 5));
     final endTimeHours =
@@ -71,8 +62,17 @@ class Lecture {
         room,
         teacher,
         classNumber,
-        occurrId);
+        occurrId,);
   }
+  String subject;
+  String typeClass;
+  String room;
+  String teacher;
+  String classNumber;
+  DateTime startTime;
+  DateTime endTime;
+  int blocks;
+  int occurrId;
 
   /// Clones a lecture from the api.
   static Lecture clone(Lecture lec) {
@@ -84,7 +84,7 @@ class Lecture {
         lec.room,
         lec.teacher,
         lec.classNumber,
-        lec.occurrId);
+        lec.occurrId,);
   }
 
   /// Clones a lecture from the html.
@@ -113,7 +113,7 @@ class Lecture {
 
   @override
   String toString() {
-    return "$subject $typeClass\n$startTime $endTime $blocks blocos\n $room  $teacher\n";
+    return '$subject $typeClass\n$startTime $endTime $blocks blocos\n $room  $teacher\n';
   }
 
   /// Compares the date and time of two lectures.
@@ -123,10 +123,10 @@ class Lecture {
 
   @override
   int get hashCode => Object.hash(subject, startTime, endTime, typeClass, room,
-      teacher, startTime, blocks, occurrId);
+      teacher, startTime, blocks, occurrId,);
 
   @override
-  bool operator ==(other) =>
+  bool operator ==(Object other) =>
       other is Lecture &&
       subject == other.subject &&
       startTime == other.startTime &&

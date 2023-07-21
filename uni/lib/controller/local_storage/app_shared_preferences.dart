@@ -12,14 +12,14 @@ import 'package:uni/utils/favorite_widget_type.dart';
 /// This database stores the user's student number, password and favorite
 /// widgets.
 class AppSharedPreferences {
-  static const lastUpdateTimeKeySuffix = "_last_update_time";
+  static const lastUpdateTimeKeySuffix = '_last_update_time';
   static const String userNumber = 'user_number';
   static const String userPw = 'user_password';
   static const String userFaculties = 'user_faculties';
   static const String termsAndConditions = 'terms_and_conditions';
   static const String areTermsAndConditionsAcceptedKey = 'is_t&c_accepted';
   static const String tuitionNotificationsToggleKey =
-      "tuition_notification_toogle";
+      'tuition_notification_toogle';
   static const String themeMode = 'theme_mode';
   static const int keyLength = 32;
   static const int ivLength = 16;
@@ -44,9 +44,9 @@ class AppSharedPreferences {
 
   /// Sets the last time the data with given key was updated.
   static Future<void> setLastDataClassUpdateTime(
-      String dataKey, DateTime dateTime) async {
+      String dataKey, DateTime dateTime,) async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.setString(dataKey + lastUpdateTimeKeySuffix, dateTime.toString());
+    await prefs.setString(dataKey + lastUpdateTimeKeySuffix, dateTime.toString());
   }
 
   /// Saves the user's student number, password and faculties.
@@ -55,13 +55,13 @@ class AppSharedPreferences {
     await prefs.setString(userNumber, user);
     await prefs.setString(userPw, encode(pass));
     await prefs.setStringList(
-        userFaculties, faculties); // Could be multiple faculties
+        userFaculties, faculties,); // Could be multiple faculties
   }
 
   /// Sets whether or not the Terms and Conditions have been accepted.
   static Future<void> setTermsAndConditionsAcceptance(bool areAccepted) async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.setBool(areTermsAndConditionsAcceptedKey, areAccepted);
+    await prefs.setBool(areTermsAndConditionsAcceptedKey, areAccepted);
   }
 
   /// Returns whether or not the Terms and Conditions have been accepted.
@@ -106,8 +106,8 @@ class AppSharedPreferences {
   /// Deletes the user's student number and password.
   static Future removePersistentUserInfo() async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.remove(userNumber);
-    prefs.remove(userPw);
+    await prefs.remove(userNumber);
+    await prefs.remove(userPw);
   }
 
   /// Returns a tuple containing the user's student number and password.
@@ -117,15 +117,15 @@ class AppSharedPreferences {
   /// * the second element in the tuple is the user's password, in plain text
   /// format.
   static Future<Tuple2<String, String>> getPersistentUserInfo() async {
-    final String userNum = await getUserNumber();
-    final String userPass = await getUserPassword();
+    final userNum = await getUserNumber();
+    final userPass = await getUserPassword();
     return Tuple2(userNum, userPass);
   }
 
   /// Returns the user's faculties
   static Future<List<String>> getUserFaculties() async {
     final prefs = await SharedPreferences.getInstance();
-    final List<String>? storedFaculties = prefs.getStringList(userFaculties);
+    final storedFaculties = prefs.getStringList(userFaculties);
     return storedFaculties ??
         ['feup']; // TODO: Store dropdown choices in the db for later storage;
   }
@@ -140,7 +140,7 @@ class AppSharedPreferences {
   /// Returns the user's password, in plain text format.
   static Future<String> getUserPassword() async {
     final prefs = await SharedPreferences.getInstance();
-    String pass = prefs.getString(userPw) ?? '';
+    var pass = prefs.getString(userPw) ?? '';
 
     if (pass != '') {
       pass = decode(pass);
@@ -152,14 +152,14 @@ class AppSharedPreferences {
   /// Replaces the user's favorite widgets with [newFavorites].
   static saveFavoriteCards(List<FavoriteWidgetType> newFavorites) async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.setStringList(
-        favoriteCards, newFavorites.map((a) => a.index.toString()).toList());
+    await prefs.setStringList(
+        favoriteCards, newFavorites.map((a) => a.index.toString()).toList(),);
   }
 
   /// Returns a list containing the user's favorite widgets.
   static Future<List<FavoriteWidgetType>> getFavoriteCards() async {
     final prefs = await SharedPreferences.getInstance();
-    final List<String>? storedFavorites = prefs.getStringList(favoriteCards);
+    final storedFavorites = prefs.getStringList(favoriteCards);
     if (storedFavorites == null) return defaultFavoriteCards;
     return storedFavorites
         .map((i) => FavoriteWidgetType.values[int.parse(i)])
@@ -168,12 +168,12 @@ class AppSharedPreferences {
 
   static saveHiddenExams(List<String> newHiddenExams) async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.setStringList(hiddenExams, newHiddenExams);
+    await prefs.setStringList(hiddenExams, newHiddenExams);
   }
 
   static Future<List<String>> getHiddenExams() async {
     final prefs = await SharedPreferences.getInstance();
-    final List<String> storedHiddenExam =
+    final storedHiddenExam =
         prefs.getStringList(hiddenExams) ?? [];
     return storedHiddenExam;
   }
@@ -182,23 +182,23 @@ class AppSharedPreferences {
   static saveFilteredExams(Map<String, bool> newFilteredExamTypes) async {
     final prefs = await SharedPreferences.getInstance();
 
-    final List<String> newTypes = newFilteredExamTypes.keys
+    final newTypes = newFilteredExamTypes.keys
         .where((type) => newFilteredExamTypes[type] == true)
         .toList();
-    prefs.setStringList(filteredExamsTypes, newTypes);
+    await prefs.setStringList(filteredExamsTypes, newTypes);
   }
 
   /// Returns the user's exam filter settings.
   static Future<Map<String, bool>> getFilteredExams() async {
     final prefs = await SharedPreferences.getInstance();
-    final List<String>? storedFilteredExamTypes =
+    final storedFilteredExamTypes =
         prefs.getStringList(filteredExamsTypes);
 
     if (storedFilteredExamTypes == null) {
       return Map.fromIterable(defaultFilteredExamTypes, value: (type) => true);
     }
     return Map.fromIterable(defaultFilteredExamTypes,
-        value: (type) => storedFilteredExamTypes.contains(type));
+        value: storedFilteredExamTypes.contains,);
   }
 
   /// Encrypts [plainText] and returns its base64 representation.
@@ -226,6 +226,6 @@ class AppSharedPreferences {
 
   static setTuitionNotificationToggle(bool value) async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.setBool(tuitionNotificationsToggleKey, value);
+    await prefs.setBool(tuitionNotificationsToggleKey, value);
   }
 }

@@ -6,9 +6,9 @@ import 'package:uni/view/common_widgets/toast_message.dart';
 
 
 class ReferenceSection extends StatelessWidget {
-  final Reference reference;
 
-  const ReferenceSection({Key? key, required this.reference}) : super(key: key);
+  const ReferenceSection({super.key, required this.reference});
+  final Reference reference;
 
   @override
   Widget build(BuildContext context) {
@@ -16,22 +16,21 @@ class ReferenceSection extends StatelessWidget {
       children: <Widget>[
         TitleText(title: reference.description),
         InfoCopyRow(infoName: 'Entidade', info: reference.entity.toString(),
-            copyMessage: 'Entidade copiada!'),
+            copyMessage: 'Entidade copiada!',),
         InfoCopyRow(infoName: 'Referência', info: reference.reference.toString(),
-            copyMessage: 'Referência copiada!'),
+            copyMessage: 'Referência copiada!',),
         InfoCopyRow(infoName: 'Montante', info: reference.amount.toString(),
-            copyMessage: 'Montante copiado!', isMoney: true),
-      ]
+            copyMessage: 'Montante copiado!', isMoney: true,),
+      ],
     );
   }
 }
 
 class InfoText extends StatelessWidget {
+
+  const InfoText({super.key, required this.text, this.color});
   final String text;
   final Color? color;
-
-  const InfoText({Key? key, required this.text, this.color})
-      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -39,21 +38,21 @@ class InfoText extends StatelessWidget {
       text,
       textScaleFactor: 0.9,
       style: Theme.of(context).textTheme.titleSmall?.copyWith(
-        color: color
+        color: color,
       ),
     );
   }
 }
 
 class TitleText extends StatelessWidget {
-  final String title;
 
-  const TitleText({Key? key, required this.title}) : super(key: key);
+  const TitleText({super.key, required this.title});
+  final String title;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 20.0),
+      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 20),
       alignment: Alignment.centerLeft,
       child: Text(
         title,
@@ -66,24 +65,23 @@ class TitleText extends StatelessWidget {
 }
 
 class InfoCopyRow extends StatelessWidget {
+
+  const InfoCopyRow({super.key, required this.infoName, required this.info,
+      required this.copyMessage, this.isMoney = false,});
   final String infoName;
   final String info;
   final String copyMessage;
   final bool isMoney;
 
-  const InfoCopyRow({Key? key, required this.infoName, required this.info,
-      required this.copyMessage, this.isMoney = false}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 20.0),
+      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 20),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           InfoText(text: infoName),
           const Spacer(),
-          InfoText(text: "${isMoney ? _getMoneyAmount() : info}  "),
+          InfoText(text: '${isMoney ? _getMoneyAmount() : info}  '),
           InkWell(
             splashColor: Theme.of(context).highlightColor,
             child: const Icon(Icons.content_copy, size: 16),

@@ -12,7 +12,7 @@ class ExamFilterMenu extends StatefulWidget {
 
 class ExamFilterMenuState extends State<ExamFilterMenu> {
   @override
-  Widget build(context) {
+  Widget build(BuildContext context) {
     return IconButton(
       icon: const Icon(Icons.filter_alt),
       onPressed: () {
@@ -25,8 +25,8 @@ class ExamFilterMenuState extends State<ExamFilterMenu> {
               return ChangeNotifierProvider.value(
                   value: examProvider,
                   child: ExamFilterForm(
-                      Map<String, bool>.from(filteredExamsTypes)));
-            });
+                      Map<String, bool>.from(filteredExamsTypes),),);
+            },);
       },
     );
   }

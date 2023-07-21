@@ -10,12 +10,12 @@ import 'package:uni/model/providers/state_provider_notifier.dart';
 /// If the provider depends on the session, it will ensure that SessionProvider
 /// and ProfileProvider are initialized before initializing itself.
 class LazyConsumer<T extends StateProviderNotifier> extends StatelessWidget {
-  final Widget Function(BuildContext, T) builder;
 
   const LazyConsumer({
-    Key? key,
+    super.key,
     required this.builder,
-  }) : super(key: key);
+  });
+  final Widget Function(BuildContext, T) builder;
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +50,6 @@ class LazyConsumer<T extends StateProviderNotifier> extends StatelessWidget {
 
     return Consumer<T>(builder: (context, provider, _) {
       return builder(context, provider);
-    });
+    },);
   }
 }

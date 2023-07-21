@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:uni/view/login/widgets/faculties_multiselect.dart';
 import 'package:uni/view/about/widgets/terms_and_conditions.dart';
+import 'package:uni/view/login/widgets/faculties_multiselect.dart';
 
 /// Creates the widget for the user to choose their faculty
 Widget createFacultyInput(
-    BuildContext context, List<String> faculties, setFaculties) {
+    BuildContext context, List<String> faculties, setFaculties,) {
   return FacultiesMultiselect(faculties, setFaculties);
 }
 
@@ -13,12 +13,11 @@ Widget createUsernameInput(
     BuildContext context,
     TextEditingController usernameController,
     FocusNode usernameFocus,
-    FocusNode passwordFocus) {
+    FocusNode passwordFocus,) {
   return TextFormField(
     style: const TextStyle(color: Colors.white, fontSize: 20),
     enableSuggestions: false,
     autocorrect: false,
-    autofocus: false,
     controller: usernameController,
     focusNode: usernameFocus,
     onFieldSubmitted: (term) {
@@ -38,12 +37,11 @@ Widget createPasswordInput(
     FocusNode passwordFocus,
     bool obscurePasswordInput,
     Function toggleObscurePasswordInput,
-    Function login) {
+    Function login,) {
   return TextFormField(
       style: const TextStyle(color: Colors.white, fontSize: 20),
       enableSuggestions: false,
       autocorrect: false,
-      autofocus: false,
       controller: passwordController,
       focusNode: passwordFocus,
       onFieldSubmitted: (term) {
@@ -54,9 +52,9 @@ Widget createPasswordInput(
       obscureText: obscurePasswordInput,
       textAlign: TextAlign.left,
       decoration: passwordFieldDecoration(
-          'palavra-passe', obscurePasswordInput, toggleObscurePasswordInput),
+          'palavra-passe', obscurePasswordInput, toggleObscurePasswordInput,),
       validator: (String? value) =>
-          value != null && value.isEmpty ? 'Preenche este campo' : null);
+          value != null && value.isEmpty ? 'Preenche este campo' : null,);
 }
 
 /// Creates the widget for the user to keep signed in (save his data).
@@ -68,7 +66,7 @@ Widget createSaveDataCheckBox(bool keepSignedIn, setKeepSignedIn) {
       'Manter sessão iniciada',
       textAlign: TextAlign.center,
       style: TextStyle(
-          color: Colors.white, fontSize: 17.0, fontWeight: FontWeight.w300),
+          color: Colors.white, fontSize: 17, fontWeight: FontWeight.w300,),
     ),
   );
 }
@@ -77,7 +75,7 @@ Widget createSaveDataCheckBox(bool keepSignedIn, setKeepSignedIn) {
 Widget createLogInButton(queryData, BuildContext context, login) {
   return Padding(
     padding: EdgeInsets.only(
-        left: queryData.size.width / 7, right: queryData.size.width / 7),
+        left: queryData.size.width / 7, right: queryData.size.width / 7,),
     child: SizedBox(
       height: queryData.size.height / 16,
       child: ElevatedButton(
@@ -97,8 +95,8 @@ Widget createLogInButton(queryData, BuildContext context, login) {
             style: TextStyle(
                 color: Theme.of(context).primaryColor,
                 fontWeight: FontWeight.w400,
-                fontSize: 20),
-            textAlign: TextAlign.center),
+                fontSize: 20,),
+            textAlign: TextAlign.center,),
       ),
     ),
   );
@@ -112,15 +110,15 @@ InputDecoration textFieldDecoration(String placeholder) {
         color: Colors.white70,
       ),
       hintText: placeholder,
-      contentPadding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+      contentPadding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
       border: const UnderlineInputBorder(),
       focusedBorder: const UnderlineInputBorder(
-          borderSide: BorderSide(color: Colors.white, width: 3)));
+          borderSide: BorderSide(color: Colors.white, width: 3),),);
 }
 
 /// Decoration for the password field.
 InputDecoration passwordFieldDecoration(
-    String placeholder, bool obscurePasswordInput, toggleObscurePasswordInput) {
+    String placeholder, bool obscurePasswordInput, toggleObscurePasswordInput,) {
   final genericDecoration = textFieldDecoration(placeholder);
   return InputDecoration(
       hintStyle: genericDecoration.hintStyle,
@@ -135,12 +133,12 @@ InputDecoration passwordFieldDecoration(
         ),
         onPressed: toggleObscurePasswordInput,
         color: Colors.white,
-      ));
+      ),);
 }
 
 /// Displays terms and conditions if the user is
 /// logging in for the first time.
-createSafeLoginButton(BuildContext context) {
+InkResponse createSafeLoginButton(BuildContext context) {
   return InkResponse(
       onTap: () {
         _showLoginDetails(context);
@@ -155,14 +153,14 @@ createSafeLoginButton(BuildContext context) {
             style: TextStyle(
                 decoration: TextDecoration.underline,
                 color: Colors.white,
-                fontSize: 17.0,
-                fontWeight: FontWeight.w300),
-          )));
+                fontSize: 17,
+                fontWeight: FontWeight.w300,),
+          ),),);
 }
 
 /// Displays 'Terms and conditions' section.
 Future<void> _showLoginDetails(BuildContext context) async {
-  showDialog(
+  await showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
@@ -175,5 +173,5 @@ Future<void> _showLoginDetails(BuildContext context) async {
             )
           ],
         );
-      });
+      },);
 }

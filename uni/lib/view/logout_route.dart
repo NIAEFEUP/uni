@@ -9,6 +9,6 @@ class LogoutRoute {
     return MaterialPageRoute(builder: (context) {
       logout(context);
       return const LoginPageView();
-    });
+    },);
   }
 }

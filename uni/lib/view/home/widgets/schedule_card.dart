@@ -12,14 +12,14 @@ import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/schedule/widgets/schedule_slot.dart';
 
 class ScheduleCard extends GenericCard {
-  ScheduleCard({Key? key}) : super(key: key);
+  ScheduleCard({super.key});
 
   ScheduleCard.fromEditingInformation(
-      Key key, bool editingMode, Function()? onDelete)
-      : super.fromEditingInformation(key, editingMode, onDelete);
+      super.key, bool super.editingMode, Function()? super.onDelete,)
+      : super.fromEditingInformation();
 
-  final double borderRadius = 12.0;
-  final double leftPadding = 12.0;
+  final double borderRadius = 12;
+  final double leftPadding = 12;
   final List<Lecture> lectures = <Lecture>[];
 
   @override
@@ -37,8 +37,8 @@ class ScheduleCard extends GenericCard {
             onNullContent: Center(
                 child: Text('Não existem aulas para apresentar',
                     style: Theme.of(context).textTheme.titleLarge,
-                    textAlign: TextAlign.center)),
-            contentLoadingWidget: const ScheduleCardShimmer().build(context)));
+                    textAlign: TextAlign.center,),),
+            contentLoadingWidget: const ScheduleCardShimmer().build(context),),);
   }
 
   Widget generateSchedule(lectures, BuildContext context) {
@@ -50,19 +50,19 @@ class ScheduleCard extends GenericCard {
   }
 
   List<Widget> getScheduleRows(BuildContext context, List<Lecture> lectures) {
-    final List<Widget> rows = <Widget>[];
+    final rows = <Widget>[];
 
     final now = DateTime.now();
     var added = 0; // Lectures added to widget
-    DateTime lastAddedLectureDate = DateTime.now(); // Day of last added lecture
+    var lastAddedLectureDate = DateTime.now(); // Day of last added lecture
 
-    for (int i = 0; added < 2 && i < lectures.length; i++) {
+    for (var i = 0; added < 2 && i < lectures.length; i++) {
       if (now.compareTo(lectures[i].endTime) < 0) {
         if (lastAddedLectureDate.weekday != lectures[i].startTime.weekday &&
             lastAddedLectureDate.compareTo(lectures[i].startTime) <= 0) {
           rows.add(DateRectangle(
               date: TimeString.getWeekdaysStrings()[
-                  (lectures[i].startTime.weekday - 1) % 7]));
+                  (lectures[i].startTime.weekday - 1) % 7],),);
         }
 
         rows.add(createRowFromLecture(context, lectures[i]));
@@ -74,7 +74,7 @@ class ScheduleCard extends GenericCard {
     if (rows.isEmpty) {
       rows.add(DateRectangle(
           date: TimeString.getWeekdaysStrings()[
-              lectures[0].startTime.weekday % 7]));
+              lectures[0].startTime.weekday % 7],),);
       rows.add(createRowFromLecture(context, lectures[0]));
     }
     return rows;
@@ -92,13 +92,13 @@ class ScheduleCard extends GenericCard {
           typeClass: lecture.typeClass,
           classNumber: lecture.classNumber,
           occurrId: lecture.occurrId,
-        ));
+        ),);
   }
 
   @override
   String getTitle() => 'Horário';
 
   @override
-  onClick(BuildContext context) =>
+  Future<Object?> onClick(BuildContext context) =>
       Navigator.pushNamed(context, '/${DrawerItem.navSchedule.title}');
 }

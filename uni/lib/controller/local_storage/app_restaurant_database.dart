@@ -9,7 +9,8 @@ class RestaurantDatabase extends AppDatabase {
   RestaurantDatabase()
       : super('restaurant.db', [
           'CREATE TABLE RESTAURANTS(id INTEGER PRIMARY KEY, ref TEXT , name TEXT)',
-          '''CREATE TABLE MEALS(
+          '''
+CREATE TABLE MEALS(
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           day TEXT,
           type TEXT,
@@ -20,20 +21,20 @@ class RestaurantDatabase extends AppDatabase {
         ]);
 
   /// Deletes all data, and saves the new restaurants
-  void saveRestaurants(List<Restaurant> restaurants) async {
-    final Database db = await getDatabase();
-    db.transaction((transaction) async {
+  Future<void> saveRestaurants(List<Restaurant> restaurants) async {
+    final db = await getDatabase();
+    await db.transaction((transaction) async {
       await deleteAll(transaction);
-      for (var restaurant in restaurants) {
-        insertRestaurant(transaction, restaurant);
+      for (final restaurant in restaurants) {
+        await insertRestaurant(transaction, restaurant);
       }
     });
   }
 
   /// Get all restaurants and meals, if day is null, all meals are returned
   Future<List<Restaurant>> restaurants({DayOfWeek? day}) async {
-    final Database db = await getDatabase();
-    List<Restaurant> restaurants = [];
+    final db = await getDatabase();
+    var restaurants = <Restaurant>[];
 
     await db.transaction((txn) async {
       final List<Map<String, dynamic>> restaurantMaps =
@@ -41,26 +42,26 @@ class RestaurantDatabase extends AppDatabase {
 
       restaurants = await Future.wait(restaurantMaps.map((map) async {
         final int restaurantId = map['id'];
-        final List<Meal> meals =
+        final meals =
             await getRestaurantMeals(txn, restaurantId, day: day);
 
         return Restaurant(restaurantId, map['name'], map['ref'], meals: meals);
-      }).toList());
+      }).toList(),);
     });
 
     return restaurants;
   }
 
   Future<List<Restaurant>> getRestaurants() async {
-    final Database db = await getDatabase();
-    final List<Restaurant> restaurants = [];
+    final db = await getDatabase();
+    final restaurants = <Restaurant>[];
     await db.transaction((txn) async {
       final List<Map<String, dynamic>> restaurantsFromDB =
           await txn.query('RESTAURANTS');
-      for (Map<String, dynamic> restaurantMap in restaurantsFromDB) {
+      for (final restaurantMap in restaurantsFromDB) {
         final int id = restaurantMap['id'];
-        final List<Meal> meals = await getRestaurantMeals(txn, id);
-        final Restaurant restaurant = Restaurant.fromMap(restaurantMap, meals);
+        final meals = await getRestaurantMeals(txn, id);
+        final restaurant = Restaurant.fromMap(restaurantMap, meals);
         restaurants.add(restaurant);
       }
     });
@@ -69,9 +70,9 @@ class RestaurantDatabase extends AppDatabase {
   }
 
   Future<List<Meal>> getRestaurantMeals(Transaction txn, int restaurantId,
-      {DayOfWeek? day}) async {
-    final List<dynamic> whereArgs = [restaurantId];
-    String whereQuery = 'id_restaurant = ? ';
+      {DayOfWeek? day,}) async {
+    final whereArgs = <dynamic>[restaurantId];
+    var whereQuery = 'id_restaurant = ? ';
     if (day != null) {
       whereQuery += ' and day = ?';
       whereArgs.add(toString(day));
@@ -82,12 +83,12 @@ class RestaurantDatabase extends AppDatabase {
         await txn.query('meals', where: whereQuery, whereArgs: whereArgs);
 
     //Retrieve data from query
-    final List<Meal> meals = mealsMaps.map((map) {
-      final DayOfWeek? day = parseDayOfWeek(map['day']);
+    final meals = mealsMaps.map((map) {
+      final day = parseDayOfWeek(map['day']);
       final String type = map['type'];
       final String name = map['name'];
-      final DateFormat format = DateFormat('d-M-y');
-      final DateTime date = format.parseUtc(map['date']);
+      final format = DateFormat('d-M-y');
+      final date = format.parseUtc(map['date']);
       return Meal(type, name, day!, date);
     }).toList();
 
@@ -96,9 +97,9 @@ class RestaurantDatabase extends AppDatabase {
 
   /// Insert restaurant and meals in database
   Future<void> insertRestaurant(Transaction txn, Restaurant restaurant) async {
-    final int id = await txn.insert('RESTAURANTS', restaurant.toMap());
+    final id = await txn.insert('RESTAURANTS', restaurant.toMap());
     restaurant.meals.forEach((dayOfWeak, meals) async {
-      for (var meal in meals) {
+      for (final meal in meals) {
         await txn.insert('MEALS', meal.toMap(id));
       }
     });
@@ -112,17 +113,17 @@ class RestaurantDatabase extends AppDatabase {
 }
 
 List<Restaurant> filterPastMeals(List<Restaurant> restaurants) {
-  final List<Restaurant> restaurantsCopy = List.from(restaurants);
+  final restaurantsCopy = List<Restaurant>.from(restaurants);
   // Hide past and next weeks' meals
   // (To replicate sigarra's behaviour for the GSheets meals)
-  final DateTime now = DateTime.now().toUtc();
-  final DateTime today = DateTime.utc(now.year, now.month, now.day);
-  final DateTime nextSunday = today.add(Duration(days: DateTime.sunday - now.weekday));
+  final now = DateTime.now().toUtc();
+  final today = DateTime.utc(now.year, now.month, now.day);
+  final nextSunday = today.add(Duration(days: DateTime.sunday - now.weekday));
 
-  for (var restaurant in restaurantsCopy) {
-    for (var meals in restaurant.meals.values) {
+  for (final restaurant in restaurantsCopy) {
+    for (final meals in restaurant.meals.values) {
       meals.removeWhere(
-              (meal) => meal.date.isBefore(today) || meal.date.isAfter(nextSunday));
+              (meal) => meal.date.isBefore(today) || meal.date.isAfter(nextSunday),);
     }
   }
 

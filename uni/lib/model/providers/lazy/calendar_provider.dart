@@ -11,17 +11,17 @@ import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/model/request_status.dart';
 
 class CalendarProvider extends StateProviderNotifier {
-  List<CalendarEvent> _calendar = [];
 
   CalendarProvider()
       : super(dependsOnSession: true, cacheDuration: const Duration(days: 30));
+  List<CalendarEvent> _calendar = [];
 
   UnmodifiableListView<CalendarEvent> get calendar =>
       UnmodifiableListView(_calendar);
 
   @override
   Future<void> loadFromRemote(Session session, Profile profile) async {
-    final Completer<void> action = Completer<void>();
+    final action = Completer<void>();
     getCalendarFromFetcher(session, action);
     await action.future;
   }
@@ -33,8 +33,8 @@ class CalendarProvider extends StateProviderNotifier {
       _calendar = await CalendarFetcherHtml().getCalendar(session);
       notifyListeners();
 
-      final CalendarDatabase db = CalendarDatabase();
-      db.saveCalendar(calendar);
+      final db = CalendarDatabase();
+      await db.saveCalendar(calendar);
       updateStatus(RequestStatus.successful);
     } catch (e) {
       Logger().e('Failed to get the Calendar: ${e.toString()}');
@@ -45,7 +45,7 @@ class CalendarProvider extends StateProviderNotifier {
 
   @override
   Future<void> loadFromStorage() async {
-    final CalendarDatabase db = CalendarDatabase();
+    final db = CalendarDatabase();
     _calendar = await db.calendar();
   }
 }

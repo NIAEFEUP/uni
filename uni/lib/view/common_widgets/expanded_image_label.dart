@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 
 class ImageLabel extends StatelessWidget {
+
+  const ImageLabel({super.key, required this.imagePath, required this.label, this.labelTextStyle, this.sublabel = '', this.sublabelTextStyle});
   final String imagePath;
   final String label;
   final TextStyle? labelTextStyle;
   final String sublabel;
   final TextStyle? sublabelTextStyle;
 
-  const ImageLabel({Key? key, required this.imagePath, required this.label, this.labelTextStyle, this.sublabel = '', this.sublabelTextStyle}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Image.asset(
           imagePath,

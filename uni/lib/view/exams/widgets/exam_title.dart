@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 
 class ExamTitle extends StatelessWidget {
-  final String subject;
-  final String? type;
-  final double borderRadius = 12.0;
-  final double sideSizing = 12.0;
-  final bool reverseOrder;
 
   const ExamTitle(
-      {Key? key, required this.subject, this.type, this.reverseOrder = false})
-      : super(key: key);
+      {super.key, required this.subject, this.type, this.reverseOrder = false,});
+  final String subject;
+  final String? type;
+  final double borderRadius = 12;
+  final double sideSizing = 12;
+  final bool reverseOrder;
 
   @override
   Widget build(BuildContext context) {
@@ -19,17 +18,17 @@ class ExamTitle extends StatelessWidget {
   }
 
   Widget createTopRectangle(context) {
-    final Text typeWidget = Text(type != null ? ' ($type) ' : '',
-        style: Theme.of(context).textTheme.bodyMedium);
-    final Text subjectWidget = Text(subject,
+    final typeWidget = Text(type != null ? ' ($type) ' : '',
+        style: Theme.of(context).textTheme.bodyMedium,);
+    final subjectWidget = Text(subject,
         style: Theme.of(context)
             .textTheme
             .headlineSmall
-            ?.apply(color: Theme.of(context).colorScheme.tertiary));
+            ?.apply(color: Theme.of(context).colorScheme.tertiary),);
 
     return Row(
-        children: (reverseOrder
+        children: reverseOrder
             ? [typeWidget, subjectWidget]
-            : [subjectWidget, typeWidget]));
+            : [subjectWidget, typeWidget],);
   }
 }

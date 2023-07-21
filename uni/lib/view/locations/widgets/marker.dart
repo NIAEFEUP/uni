@@ -6,8 +6,6 @@ import 'package:uni/model/entities/location_group.dart';
 import 'package:uni/view/locations/widgets/faculty_map.dart';
 
 class LocationMarker extends Marker {
-  final LocationGroup locationGroup;
-  final LatLng latlng;
 
   LocationMarker(this.latlng, this.locationGroup)
       : super(
@@ -21,18 +19,20 @@ class LocationMarker extends Marker {
                 border: Border.all(
                   color: Theme.of(ctx).colorScheme.primary,
                 ),
-                borderRadius: const BorderRadius.all(Radius.circular(20))),
+                borderRadius: const BorderRadius.all(Radius.circular(20)),),
             child: MarkerIcon(
-                location: locationGroup.getLocationWithMostWeight()
+                location: locationGroup.getLocationWithMostWeight(),
             ),
           ),
         );
+  final LocationGroup locationGroup;
+  final LatLng latlng;
 }
 
 class MarkerIcon extends StatelessWidget {
-  final Location? location;
 
-  const MarkerIcon({Key? key, this.location}) : super(key: key);
+  const MarkerIcon({super.key, this.location});
+  final Location? location;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +40,7 @@ class MarkerIcon extends StatelessWidget {
       return Container();
     }
 
-    final Color fontColor = FacultyMap.getFontColor(context);
+    final fontColor = FacultyMap.getFontColor(context);
     if (location?.icon is IconData) {
       return Icon(location?.icon, color: fontColor, size: 12);
     } else {

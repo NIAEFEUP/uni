@@ -20,16 +20,16 @@ void main() {
     final fetcherMock = ScheduleFetcherMock();
     final mockClient = MockClient();
     final mockResponse = MockResponse();
-    const Tuple2<String, String> userPersistentInfo = Tuple2('', '');
+    const userPersistentInfo = Tuple2<String, String>('', '');
     final profile = Profile();
     profile.courses = [Course(id: 7474)];
     final session = Session(authenticated: true);
-    final day = DateTime(2021, 06, 01);
+    final day = DateTime(2021, 06);
 
     final lecture1 = Lecture.fromHtml(
-        'SOPE', 'T', day, '10:00', 4, 'B315', 'JAS', 'MIEIC03', 484378);
+        'SOPE', 'T', day, '10:00', 4, 'B315', 'JAS', 'MIEIC03', 484378,);
     final lecture2 = Lecture.fromHtml(
-        'SDIS', 'T', day, '13:00', 4, 'B315', 'PMMS', 'MIEIC03', 484381);
+        'SDIS', 'T', day, '13:00', 4, 'B315', 'PMMS', 'MIEIC03', 484381,);
 
     NetworkRouter.httpClient = mockClient;
     when(mockClient.get(any, headers: anyNamed('headers')))
@@ -43,13 +43,13 @@ void main() {
     });
 
     test('When given a single schedule', () async {
-      final Completer<void> action = Completer();
+      final action = Completer<void>();
 
       when(fetcherMock.getLectures(any, any))
           .thenAnswer((_) async => [lecture1, lecture2]);
 
-      provider.fetchUserLectures(action, userPersistentInfo, session, profile,
-          fetcher: fetcherMock);
+      await provider.fetchUserLectures(action, userPersistentInfo, session, profile,
+          fetcher: fetcherMock,);
       expect(provider.status, RequestStatus.busy);
 
       await action.future;
@@ -59,12 +59,12 @@ void main() {
     });
 
     test('When an error occurs while trying to obtain the schedule', () async {
-      final Completer<void> action = Completer();
+      final action = Completer<void>();
 
       when(fetcherMock.getLectures(any, any))
           .thenAnswer((_) async => throw Exception('💥'));
 
-      provider.fetchUserLectures(action, userPersistentInfo, session, profile);
+      await provider.fetchUserLectures(action, userPersistentInfo, session, profile);
       expect(provider.status, RequestStatus.busy);
 
       await action.future;

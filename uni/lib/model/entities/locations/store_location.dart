@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:uni/model/entities/location.dart';
 
 class StoreLocation implements Location {
+
+  StoreLocation(this.floor, this.name, {this.locationGroupId});
   @override
   final int floor;
 
@@ -14,8 +16,6 @@ class StoreLocation implements Location {
   final icon = Icons.store;
 
   final int? locationGroupId;
-
-  StoreLocation(this.floor, this.name, {this.locationGroupId});
 
   @override
   String description() {

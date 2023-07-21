@@ -13,14 +13,14 @@ import 'package:uni/view/lazy_consumer.dart';
 /// Manages the bus stops card displayed on the user's personal area
 class BusStopCard extends GenericCard {
   const BusStopCard.fromEditingInformation(
-      Key key, bool editingMode, Function()? onDelete)
-      : super.fromEditingInformation(key, editingMode, onDelete);
+      super.key, bool super.editingMode, Function()? super.onDelete,)
+      : super.fromEditingInformation();
 
   @override
   String getTitle() => 'Autocarros';
 
   @override
-  onClick(BuildContext context) =>
+  Future<Object?> onClick(BuildContext context) =>
       Navigator.pushNamed(context, '/${DrawerItem.navStops.title}');
 
   @override
@@ -28,7 +28,7 @@ class BusStopCard extends GenericCard {
     return LazyConsumer<BusStopProvider>(
       builder: (context, busProvider) {
         return getCardContent(
-            context, busProvider.configuredBusStops, busProvider.status);
+            context, busProvider.configuredBusStops, busProvider.status,);
       },
     );
   }
@@ -41,32 +41,32 @@ class BusStopCard extends GenericCard {
 
 /// Returns a widget with the bus stop card final content
 Widget getCardContent(
-    BuildContext context, Map<String, BusStopData> stopData, busStopStatus) {
+    BuildContext context, Map<String, BusStopData> stopData, busStopStatus,) {
   switch (busStopStatus) {
     case RequestStatus.successful:
       if (stopData.isNotEmpty) {
         return Column(children: <Widget>[
           getCardTitle(context),
           getBusStopsInfo(context, stopData)
-        ]);
+        ],);
       } else {
         return Container(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8),
           child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text('Configura os teus autocarros',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.titleSmall!.apply()),
+                    style: Theme.of(context).textTheme.titleSmall!.apply(),),
                 IconButton(
                   icon: const Icon(Icons.settings),
                   onPressed: () => Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const BusStopSelectionPage())),
+                          builder: (context) => const BusStopSelectionPage(),),),
                 )
-              ]),
+              ],),
         );
       }
     case RequestStatus.busy:
@@ -74,8 +74,8 @@ Widget getCardContent(
         children: <Widget>[
           getCardTitle(context),
           Container(
-              padding: const EdgeInsets.all(22.0),
-              child: const Center(child: CircularProgressIndicator()))
+              padding: const EdgeInsets.all(22),
+              child: const Center(child: CircularProgressIndicator()),)
         ],
       );
     case RequestStatus.failed:
@@ -83,10 +83,10 @@ Widget getCardContent(
       return Column(children: <Widget>[
         getCardTitle(context),
         Container(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8),
             child: Text('Não foi possível obter informação',
-                style: Theme.of(context).textTheme.titleMedium))
-      ]);
+                style: Theme.of(context).textTheme.titleMedium,),)
+      ],);
   }
 }
 
@@ -96,7 +96,7 @@ Widget getCardTitle(context) {
     children: <Widget>[
       const Icon(Icons.directions_bus), // color lightgrey
       Text('STCP - Próximas Viagens',
-          style: Theme.of(context).textTheme.titleMedium),
+          style: Theme.of(context).textTheme.titleMedium,),
     ],
   );
 }
@@ -105,33 +105,33 @@ Widget getCardTitle(context) {
 Widget getBusStopsInfo(context, Map<String, BusStopData> stopData) {
   if (stopData.isNotEmpty) {
     return Container(
-        padding: const EdgeInsets.all(4.0),
+        padding: const EdgeInsets.all(4),
         child: Column(
           children: getEachBusStopInfo(context, stopData),
-        ));
+        ),);
   } else {
     return const Center(
       child: Text('Não há dados a mostrar neste momento',
-          maxLines: 2, overflow: TextOverflow.fade),
+          maxLines: 2, overflow: TextOverflow.fade,),
     );
   }
 }
 
 /// Returns a list of widgets for each bus stop info that exists
 List<Widget> getEachBusStopInfo(context, Map<String, BusStopData> stopData) {
-  final List<Widget> rows = <Widget>[];
+  final rows = <Widget>[];
 
   rows.add(const LastUpdateTimeStamp<BusStopProvider>());
 
   stopData.forEach((stopCode, stopInfo) {
     if (stopInfo.trips.isNotEmpty && stopInfo.favorited) {
       rows.add(Container(
-          padding: const EdgeInsets.only(top: 12.0),
+          padding: const EdgeInsets.only(top: 12),
           child: BusStopRow(
             stopCode: stopCode,
             trips: stopInfo.trips,
             singleTrip: true,
-          )));
+          ),),);
     }
   });
 

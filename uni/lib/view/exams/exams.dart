@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/providers/lazy/exam_provider.dart';
+import 'package:uni/view/common_widgets/expanded_image_label.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/common_widgets/row_container.dart';
 import 'package:uni/view/exams/widgets/day_title.dart';
-import 'package:uni/view/common_widgets/expanded_image_label.dart';
 import 'package:uni/view/exams/widgets/exam_page_title.dart';
 import 'package:uni/view/exams/widgets/exam_row.dart';
 import 'package:uni/view/lazy_consumer.dart';
@@ -19,7 +19,7 @@ class ExamsPageView extends StatefulWidget {
 
 /// Tracks the state of `ExamsLists`.
 class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
-  final double borderRadius = 10.0;
+  final double borderRadius = 10;
 
   @override
   Widget getBody(BuildContext context) {
@@ -27,18 +27,17 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
       return ListView(
         children: <Widget>[
           Column(
-            mainAxisSize: MainAxisSize.max,
             children:
             createExamsColumn(context, examProvider.getFilteredExams()),
           )
         ],
       );
-    });
+    },);
   }
 
   /// Creates a column with all the user's exams.
   List<Widget> createExamsColumn(context, List<Exam> exams) {
-    final List<Widget> columns = <Widget>[];
+    final columns = <Widget>[];
 
     columns.add(const ExamPageTitle());
 
@@ -50,8 +49,8 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
             labelTextStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Theme.of(context).colorScheme.primary),
             sublabel: 'Não tens exames marcados',
             sublabelTextStyle: const TextStyle(fontSize: 15),
-          )
-      )
+          ),
+      ),
       );
       return columns;
     }
@@ -61,9 +60,9 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
       return columns;
     }
 
-    final List<Exam> currentDayExams = <Exam>[];
+    final currentDayExams = <Exam>[];
 
-    for (int i = 0; i < exams.length; i++) {
+    for (var i = 0; i < exams.length; i++) {
       if (i + 1 >= exams.length) {
         if (exams[i].begin.day == exams[i - 1].begin.day &&
             exams[i].begin.month == exams[i - 1].begin.month) {
@@ -101,12 +100,12 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
   }
 
   Widget createExamsCards(context, List<Exam> exams) {
-    final List<Widget> examCards = <Widget>[];
+    final examCards = <Widget>[];
     examCards.add(DayTitle(
         day: exams[0].begin.day.toString(),
         weekDay: exams[0].weekDay,
-        month: exams[0].month));
-    for (int i = 0; i < exams.length; i++) {
+        month: exams[0].month,),);
+    for (var i = 0; i < exams.length; i++) {
       examCards.add(createExamContext(context, exams[i]));
     }
     return Column(children: examCards);
@@ -122,7 +121,7 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
             color: isHidden
                 ? Theme.of(context).hintColor
                 : Theme.of(context).scaffoldBackgroundColor,
-            child: ExamRow(exam: exam, teacher: '', mainPage: false)));
+            child: ExamRow(exam: exam, teacher: '', mainPage: false),),);
   }
 
   @override

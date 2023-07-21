@@ -21,7 +21,7 @@ class ScheduleFetcherHtml extends ScheduleFetcher {
   Future<List<Lecture>> getLectures(Session session, Profile profile) async {
     final dates = getDates();
     final urls = getEndpoints(session);
-    final List<Response> lectureResponses = [];
+    final lectureResponses = <Response>[];
     for (final course in profile.courses) {
       for (final url in urls) {
         final response = await NetworkRouter.getWithCookies(
@@ -32,13 +32,13 @@ class ScheduleFetcherHtml extends ScheduleFetcher {
               'p_semana_inicio': dates.beginWeek,
               'p_semana_fim': dates.endWeek
             },
-            session);
+            session,);
         lectureResponses.add(response);
       }
     }
 
-    final List<Lecture> lectures = await Future.wait(lectureResponses
-            .map((response) => getScheduleFromHtml(response, session)))
+    final lectures = await Future.wait(lectureResponses
+            .map((response) => getScheduleFromHtml(response, session)),)
         .then((schedules) => schedules.expand((schedule) => schedule).toList());
 
     lectures.sort((l1, l2) => l1.compare(l2));

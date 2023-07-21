@@ -4,16 +4,15 @@ import 'package:uni/view/common_widgets/generic_card.dart';
 import 'package:uni/view/course_unit_info/course_unit_info.dart';
 
 class CourseUnitCard extends GenericCard {
-  static const maxTitleLength = 60;
-  final CourseUnit courseUnit;
 
-  CourseUnitCard(this.courseUnit, {Key? key})
+  CourseUnitCard(this.courseUnit, {super.key})
       : super.customStyle(
-            key: key,
             margin: const EdgeInsets.only(top: 10),
             hasSmallTitle: true,
             onDelete: () => null,
-            editingMode: false);
+            editingMode: false,);
+  static const maxTitleLength = 60;
+  final CourseUnit courseUnit;
 
   @override
   Widget buildCardContent(BuildContext context) {
@@ -25,7 +24,7 @@ class CourseUnitCard extends GenericCard {
             const Spacer(),
             Text(courseUnit.grade ?? '-')
           ],
-        ));
+        ),);
   }
 
   @override
@@ -40,7 +39,7 @@ class CourseUnitCard extends GenericCard {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => CourseUnitDetailPageView(courseUnit)));
+            builder: (context) => CourseUnitDetailPageView(courseUnit),),);
   }
 
   @override

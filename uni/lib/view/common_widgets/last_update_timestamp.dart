@@ -30,34 +30,32 @@ class _LastUpdateTimeStampState<T extends StateProviderNotifier>
                     currentTime = DateTime.now();
                   })
                 }
-            });
+            },);
   }
 
   @override
   Widget build(BuildContext context) {
     return LazyConsumer<T>(
         builder: (context, provider) => Container(
-              padding: const EdgeInsets.only(top: 8.0, bottom: 10.0),
+              padding: const EdgeInsets.only(top: 8, bottom: 10),
               child: provider.lastUpdateTime != null
                   ? _getContent(context, provider.lastUpdateTime!)
                   : null,
-            ));
+            ),);
   }
 
   Widget _getContent(BuildContext context, DateTime lastUpdateTime) {
-    final Duration elapsedTime = currentTime.difference(lastUpdateTime);
-    int elapsedTimeMinutes = elapsedTime.inMinutes;
+    final elapsedTime = currentTime.difference(lastUpdateTime);
+    var elapsedTimeMinutes = elapsedTime.inMinutes;
     if (elapsedTimeMinutes < 0) {
       elapsedTimeMinutes = 0;
     }
 
     return Row(
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
               'Atualizado há $elapsedTimeMinutes minuto${elapsedTimeMinutes != 1 ? 's' : ''}',
-              style: Theme.of(context).textTheme.titleSmall)
-        ]);
+              style: Theme.of(context).textTheme.titleSmall,)
+        ],);
   }
 }

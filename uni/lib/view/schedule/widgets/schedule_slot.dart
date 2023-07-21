@@ -5,6 +5,18 @@ import 'package:uni/view/common_widgets/row_container.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ScheduleSlot extends StatelessWidget {
+
+  const ScheduleSlot({
+    super.key,
+    required this.subject,
+    required this.typeClass,
+    required this.rooms,
+    required this.begin,
+    required this.end,
+    required this.occurrId,
+    required this.teacher,
+    this.classNumber,
+  });
   final String subject;
   final String rooms;
   final DateTime begin;
@@ -14,35 +26,21 @@ class ScheduleSlot extends StatelessWidget {
   final String? classNumber;
   final int occurrId;
 
-  const ScheduleSlot({
-    Key? key,
-    required this.subject,
-    required this.typeClass,
-    required this.rooms,
-    required this.begin,
-    required this.end,
-    required this.occurrId,
-    required this.teacher,
-    this.classNumber,
-  }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return RowContainer(
         child: Container(
       padding: const EdgeInsets.only(
-          top: 10.0, bottom: 10.0, left: 22.0, right: 22.0),
+          top: 10, bottom: 10, left: 22, right: 22,),
       child: Container(
           key: Key(
-              'schedule-slot-time-${DateFormat("HH:mm").format(begin)}-${DateFormat("HH:mm").format(end)}'),
-          margin: const EdgeInsets.only(top: 3.0, bottom: 3.0),
+              'schedule-slot-time-${DateFormat("HH:mm").format(begin)}-${DateFormat("HH:mm").format(end)}',),
+          margin: const EdgeInsets.only(top: 3, bottom: 3),
           child: Row(
-            mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: createScheduleSlotPrimInfo(context),
-          )),
-    ));
+          ),),
+    ),);
   }
 
   List<Widget> createScheduleSlotPrimInfo(context) {
@@ -52,19 +50,19 @@ class ScheduleSlot extends StatelessWidget {
             .textTheme
             .headlineSmall!
             .apply(color: Theme.of(context).colorScheme.tertiary),
-        alignment: TextAlign.center);
+        alignment: TextAlign.center,);
     final typeClassTextField = TextFieldWidget(
         text: ' ($typeClass)',
         style: Theme.of(context).textTheme.bodyMedium,
-        alignment: TextAlign.center);
+        alignment: TextAlign.center,);
     final roomTextField = TextFieldWidget(
         text: rooms,
         style: Theme.of(context).textTheme.bodyMedium,
-        alignment: TextAlign.right);
+        alignment: TextAlign.right,);
     return [
       ScheduleTimeWidget(
-          begin: DateFormat("HH:mm").format(begin),
-          end: DateFormat("HH:mm").format(end)),
+          begin: DateFormat('HH:mm').format(begin),
+          end: DateFormat('HH:mm').format(end),),
       Expanded(
           child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -82,27 +80,27 @@ class ScheduleSlot extends StatelessWidget {
           Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: ScheduleTeacherClassInfoWidget(
-                  classNumber: classNumber, teacher: teacher)),
+                  classNumber: classNumber, teacher: teacher,),),
         ],
-      )),
+      ),),
       roomTextField
     ];
   }
 }
 
 class SubjectButtonWidget extends StatelessWidget {
-  final int occurrId;
 
   const SubjectButtonWidget({super.key, required this.occurrId});
+  final int occurrId;
 
   String toUcLink(int occurrId) {
-    const String faculty = 'feup'; // should not be hardcoded
+    const faculty = 'feup'; // should not be hardcoded
     return '${NetworkRouter.getBaseUrl(faculty)}'
         'UCURR_GERAL.FICHA_UC_VIEW?pv_ocorrencia_id=$occurrId';
   }
 
   Future<void> _launchURL() async {
-    final String url = toUcLink(occurrId);
+    final url = toUcLink(occurrId);
     await launchUrl(Uri.parse(url));
   }
 
@@ -114,7 +112,7 @@ class SubjectButtonWidget extends StatelessWidget {
         IconButton(
           constraints: const BoxConstraints(
               minHeight: kMinInteractiveDimension / 3,
-              minWidth: kMinInteractiveDimension / 3),
+              minWidth: kMinInteractiveDimension / 3,),
           icon: const Icon(Icons.open_in_browser),
           iconSize: 18,
           color: Colors.grey,
@@ -128,11 +126,11 @@ class SubjectButtonWidget extends StatelessWidget {
 }
 
 class ScheduleTeacherClassInfoWidget extends StatelessWidget {
-  final String? classNumber;
-  final String teacher;
 
   const ScheduleTeacherClassInfoWidget(
-      {super.key, required this.teacher, this.classNumber});
+      {super.key, required this.teacher, this.classNumber,});
+  final String? classNumber;
+  final String teacher;
 
   @override
   Widget build(BuildContext context) {
@@ -145,10 +143,10 @@ class ScheduleTeacherClassInfoWidget extends StatelessWidget {
 }
 
 class ScheduleTimeWidget extends StatelessWidget {
-  final String begin;
-  final String end;
 
   const ScheduleTimeWidget({super.key, required this.begin, required this.end});
+  final String begin;
+  final String end;
 
   @override
   Widget build(BuildContext context) {
@@ -163,11 +161,11 @@ class ScheduleTimeWidget extends StatelessWidget {
 }
 
 class ScheduleTimeTextField extends StatelessWidget {
-  final String time;
-  final BuildContext context;
 
   const ScheduleTimeTextField(
-      {super.key, required this.time, required this.context});
+      {super.key, required this.time, required this.context,});
+  final String time;
+  final BuildContext context;
 
   @override
   Widget build(BuildContext context) {
@@ -180,9 +178,6 @@ class ScheduleTimeTextField extends StatelessWidget {
 }
 
 class TextFieldWidget extends StatelessWidget {
-  final String text;
-  final TextStyle? style;
-  final TextAlign alignment;
 
   const TextFieldWidget({
     super.key,
@@ -190,6 +185,9 @@ class TextFieldWidget extends StatelessWidget {
     required this.style,
     required this.alignment,
   });
+  final String text;
+  final TextStyle? style;
+  final TextAlign alignment;
 
   @override
   Widget build(BuildContext context) {

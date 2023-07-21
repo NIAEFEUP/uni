@@ -1,8 +1,9 @@
+import 'package:uni/model/entities/location.dart';
 import 'package:uni/view/locations/widgets/icons.dart';
 
-import 'package:uni/model/entities/location.dart';
-
 class Printer implements Location {
+
+  Printer(this.floor, {this.locationGroupId});
   @override
   final int floor;
 
@@ -13,8 +14,6 @@ class Printer implements Location {
   final icon = LocationIcons.printer;
 
   final int? locationGroupId;
-
-  Printer(this.floor, {this.locationGroupId});
 
   @override
   String description() {

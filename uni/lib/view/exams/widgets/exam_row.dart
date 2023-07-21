@@ -10,16 +10,16 @@ import 'package:uni/view/exams/widgets/exam_time.dart';
 import 'package:uni/view/exams/widgets/exam_title.dart';
 
 class ExamRow extends StatefulWidget {
-  final Exam exam;
-  final String teacher;
-  final bool mainPage;
 
   const ExamRow({
-    Key? key,
+    super.key,
     required this.exam,
     required this.teacher,
     required this.mainPage,
-  }) : super(key: key);
+  });
+  final Exam exam;
+  final String teacher;
+  final bool mainPage;
 
   @override
   State<StatefulWidget> createState() {
@@ -36,76 +36,69 @@ class _ExamRowState extends State<ExamRow> {
         '${widget.exam.subject}-${widget.exam.rooms}-${widget.exam.beginTime}-${widget.exam.endTime}';
     return Center(
         child: Container(
-            padding: const EdgeInsets.only(left: 12.0, bottom: 8.0, right: 12),
-            margin: const EdgeInsets.only(top: 8.0),
+            padding: const EdgeInsets.only(left: 12, bottom: 8, right: 12),
+            margin: const EdgeInsets.only(top: 8),
             child: Column(
               children: [
                 Container(
                     margin: const EdgeInsets.only(top: 8, bottom: 8),
                     child: Row(
-                      mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Column(
-                            mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               ExamTime(
                                 begin: widget.exam.beginTime,
                               )
-                            ]),
+                            ],),
                         ExamTitle(
                             subject: widget.exam.subject,
-                            type: widget.exam.type),
+                            type: widget.exam.type,),
                         Row(
-                            mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
                               if (!widget.mainPage)
                                 IconButton(
                                     icon: !isHidden
                                         ? const Icon(Icons.visibility, size: 30)
                                         : const Icon(Icons.visibility_off,
-                                            size: 30),
+                                            size: 30,),
                                     tooltip: isHidden
-                                        ? "Mostrar na Área Pessoal"
-                                        : "Ocultar da Área Pessoal",
+                                        ? 'Mostrar na Área Pessoal'
+                                        : 'Ocultar da Área Pessoal',
                                     onPressed: () => setState(() {
                                           Provider.of<ExamProvider>(context,
-                                                  listen: false)
+                                                  listen: false,)
                                               .toggleHiddenExam(
-                                                  widget.exam.id, Completer());
-                                        })),
+                                                  widget.exam.id, Completer(),);
+                                        }),),
                               IconButton(
                                   icon: Icon(MdiIcons.calendarPlus, size: 30),
                                   onPressed: () => Add2Calendar.addEvent2Cal(
-                                      createExamEvent())),
-                            ]),
+                                      createExamEvent(),),),
+                            ],),
                       ],
-                    )),
+                    ),),
                 Container(
                     key: Key(roomsKey),
                     alignment: Alignment.topLeft,
-                    child: getExamRooms(context))
+                    child: getExamRooms(context),)
               ],
-            )));
+            ),),);
   }
 
   Widget? getExamRooms(context) {
     if (widget.exam.rooms[0] == '') return null;
     return Wrap(
-        alignment: WrapAlignment.start,
         spacing: 13,
-        children: roomsList(context, widget.exam.rooms));
+        children: roomsList(context, widget.exam.rooms),);
   }
 
   List<Text> roomsList(BuildContext context, List rooms) {
     return rooms
         .map((room) =>
-            Text(room.trim(), style: Theme.of(context).textTheme.bodyMedium))
+            Text(room.trim(), style: Theme.of(context).textTheme.bodyMedium),)
         .toList();
   }
 

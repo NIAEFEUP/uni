@@ -1,5 +1,5 @@
 class CourseUnitSheet {
-  Map<String, String> sections;
 
   CourseUnitSheet(this.sections);
+  Map<String, String> sections;
 }

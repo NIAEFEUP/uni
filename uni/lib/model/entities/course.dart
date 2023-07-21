@@ -8,16 +8,6 @@
 /// - The date of the `firstEnrollment`
 /// - The course `state`
 class Course {
-  final int id;
-  final int? festId;
-  final String? name;
-  final String? abbreviation;
-  final String? currYear;
-  final int? firstEnrollment;
-  final String? faculty;
-  String? state;
-  num? finishedEcts;
-  num? currentAverage;
 
   Course(
       {required this.id,
@@ -29,7 +19,17 @@ class Course {
       this.state,
       this.faculty,
       this.finishedEcts,
-      this.currentAverage});
+      this.currentAverage,});
+  final int id;
+  final int? festId;
+  final String? name;
+  final String? abbreviation;
+  final String? currYear;
+  final int? firstEnrollment;
+  final String? faculty;
+  String? state;
+  num? finishedEcts;
+  num? currentAverage;
 
   /// Creates a new instance from a JSON object.
   static Course fromJson(dynamic data) {
@@ -40,7 +40,7 @@ class Course {
         currYear: data['ano_curricular'],
         firstEnrollment: data['fest_a_lect_1_insc'],
         abbreviation: data['abbreviation'],
-        faculty: data['inst_sigla'].toString().toLowerCase());
+        faculty: data['inst_sigla'].toString().toLowerCase(),);
   }
 
   /// Converts this course to a map.

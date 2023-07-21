@@ -24,6 +24,10 @@ class BugReportForm extends StatefulWidget {
 
 /// Manages the 'Bugs and Suggestions' section of the app
 class BugReportFormState extends State<BugReportForm> {
+
+  BugReportFormState() {
+    loadBugClassList();
+  }
   final String _gitHubPostUrl =
       'https://api.github.com/repos/NIAEFEUP/project-schrodinger/issues';
   final String _sentryLink =
@@ -36,7 +40,7 @@ class BugReportFormState extends State<BugReportForm> {
     1: const Tuple2<String, String>('Erro', 'Error'),
     2: const Tuple2<String, String>('Sugestão de funcionalidade', 'Suggestion'),
     3: const Tuple2<String, String>(
-        'Comportamento inesperado', 'Unexpected behaviour'),
+        'Comportamento inesperado', 'Unexpected behaviour',),
     4: const Tuple2<String, String>('Outro', 'Other'),
   };
   List<DropdownMenuItem<int>> bugList = [];
@@ -50,25 +54,21 @@ class BugReportFormState extends State<BugReportForm> {
   bool _isButtonTapped = false;
   bool _isConsentGiven = false;
 
-  BugReportFormState() {
-    loadBugClassList();
-  }
-
   void loadBugClassList() {
     bugList = [];
 
     bugDescriptions.forEach((int key, Tuple2<String, String> tup) =>
-        {bugList.add(DropdownMenuItem(value: key, child: Text(tup.item1)))});
+        {bugList.add(DropdownMenuItem(value: key, child: Text(tup.item1)))},);
   }
 
   @override
   Widget build(BuildContext context) {
     return Form(
-        key: _formKey, child: ListView(children: getFormWidget(context)));
+        key: _formKey, child: ListView(children: getFormWidget(context)),);
   }
 
   List<Widget> getFormWidget(BuildContext context) {
-    final List<Widget> formWidget = [];
+    final formWidget = <Widget>[];
 
     formWidget.add(bugReportTitle(context));
     formWidget.add(bugReportIntro(context));
@@ -76,38 +76,35 @@ class BugReportFormState extends State<BugReportForm> {
     formWidget.add(FormTextField(
       titleController,
       Icons.title,
-      minLines: 1,
       maxLines: 2,
       description: 'Título',
       labelText: 'Breve identificação do problema',
-      bottomMargin: 30.0,
-    ));
+      bottomMargin: 30,
+    ),);
 
     formWidget.add(FormTextField(
       descriptionController,
       Icons.description,
-      minLines: 1,
       maxLines: 30,
       description: 'Descrição',
       labelText: 'Bug encontrado, como o reproduzir, etc',
-      bottomMargin: 30.0,
-    ));
+      bottomMargin: 30,
+    ),);
 
     formWidget.add(FormTextField(
       emailController,
       Icons.mail,
-      minLines: 1,
       maxLines: 2,
       description: 'Contacto (opcional)',
       labelText: 'Email em que desejas ser contactado',
-      bottomMargin: 30.0,
+      bottomMargin: 30,
       isOptional: true,
       formatValidator: (value) {
         return EmailValidator.validate(value)
             ? null
             : 'Por favor insere um email válido';
       },
-    ));
+    ),);
 
     formWidget.add(consentBox(context));
 
@@ -119,15 +116,15 @@ class BugReportFormState extends State<BugReportForm> {
   /// Returns a widget for the title of the bug report form
   Widget bugReportTitle(BuildContext context) {
     return Container(
-        margin: const EdgeInsets.symmetric(vertical: 10.0),
+        margin: const EdgeInsets.symmetric(vertical: 10),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: const <Widget>[
-            Icon(Icons.bug_report, size: 40.0),
+            Icon(Icons.bug_report, size: 40),
             PageTitle(name: 'Bugs e Sugestões', center: false),
-            Icon(Icons.bug_report, size: 40.0),
+            Icon(Icons.bug_report, size: 40),
           ],
-        ));
+        ),);
   }
 
   /// Returns a widget for the overview text of the bug report form
@@ -140,7 +137,7 @@ class BugReportFormState extends State<BugReportForm> {
             '''Encontraste algum bug na aplicação?\nTens alguma '''
             '''sugestão para a app?\nConta-nos para que possamos melhorar!''',
             style: Theme.of(context).textTheme.bodyMedium,
-            textAlign: TextAlign.center),
+            textAlign: TextAlign.center,),
       ),
     );
   }
@@ -163,7 +160,7 @@ class BugReportFormState extends State<BugReportForm> {
                 margin: const EdgeInsets.only(right: 15),
                 child: const Icon(
                   Icons.bug_report,
-                )),
+                ),),
             Expanded(
                 child: DropdownButton(
               hint: const Text('Tipo de ocorrência'),
@@ -175,8 +172,8 @@ class BugReportFormState extends State<BugReportForm> {
                 });
               },
               isExpanded: true,
-            ))
-          ])
+            ),)
+          ],)
         ],
       ),
     );
@@ -185,14 +182,14 @@ class BugReportFormState extends State<BugReportForm> {
   Widget consentBox(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(),
-      margin: const EdgeInsets.only(bottom: 20, top: 0),
+      margin: const EdgeInsets.only(bottom: 20),
       child: ListTileTheme(
         contentPadding: const EdgeInsets.all(0),
         child: CheckboxListTile(
           title: Text(
               '''Consinto que esta informação seja revista pelo NIAEFEUP, podendo ser eliminada a meu pedido.''',
               style: Theme.of(context).textTheme.bodyMedium,
-              textAlign: TextAlign.left),
+              textAlign: TextAlign.left,),
           value: _isConsentGiven,
           onChanged: (bool? newValue) {
             setState(() {
@@ -219,7 +216,7 @@ class BugReportFormState extends State<BugReportForm> {
             },
       child: const Text(
         'Enviar',
-        style: TextStyle(/*color: Colors.white*/ fontSize: 20.0),
+        style: TextStyle(/*color: Colors.white*/ fontSize: 20),
       ),
     );
   }
@@ -229,18 +226,18 @@ class BugReportFormState extends State<BugReportForm> {
   /// If successful, an issue based on the bug
   /// report is created in the project repository.
   /// If unsuccessful, the user receives an error message.
-  void submitBugReport() async {
+  Future<void> submitBugReport() async {
     setState(() {
       _isButtonTapped = true;
     });
-    final List<String> faculties =
+    final faculties =
         await AppSharedPreferences.getUserFaculties();
     final bugReport = BugReport(
             titleController.text,
             descriptionController.text,
             emailController.text,
             bugDescriptions[_selectedBug],
-            faculties)
+            faculties,)
         .toMap();
     String toastMsg;
     bool status;
@@ -263,7 +260,7 @@ class BugReportFormState extends State<BugReportForm> {
 
     if (mounted) {
       FocusScope.of(context).requestFocus(FocusNode());
-      status
+      await status
           ? ToastMessage.success(context, toastMsg)
           : ToastMessage.error(context, toastMsg);
       setState(() {
@@ -273,15 +270,15 @@ class BugReportFormState extends State<BugReportForm> {
   }
 
   Future<int> submitGitHubIssue(
-      SentryId sentryEvent, Map<String, dynamic> bugReport) async {
-    final String description =
+      SentryId sentryEvent, Map<String, dynamic> bugReport,) async {
+    final description =
         '${bugReport['bugLabel']}\nFurther information on: $_sentryLink$sentryEvent';
     final Map data = {
       'title': bugReport['title'],
       'body': description,
       'labels': ['In-app bug report', bugReport['bugLabel']],
     };
-    for (String faculty in bugReport['faculties']) {
+    for (final String faculty in bugReport['faculties']) {
       data['labels'].add(faculty);
     }
     return http
@@ -290,18 +287,18 @@ class BugReportFormState extends State<BugReportForm> {
               'Content-Type': 'application/json',
               'Authorization': 'token ${dotenv.env["GH_TOKEN"]}}'
             },
-            body: json.encode(data))
+            body: json.encode(data),)
         .then((http.Response response) {
       return response.statusCode;
     });
   }
 
   Future<SentryId> submitSentryEvent(Map<String, dynamic> bugReport) async {
-    final String description = bugReport['email'] == ''
+    final description = bugReport['email'] == ''
         ? '${bugReport['text']} from ${bugReport['faculty']}'
         : '${bugReport['text']} from ${bugReport['faculty']}\nContact: ${bugReport['email']}';
     return Sentry.captureMessage(
-        '${bugReport['bugLabel']}: ${bugReport['text']}\n$description');
+        '${bugReport['bugLabel']}: ${bugReport['text']}\n$description',);
   }
 
   void clearForm() {

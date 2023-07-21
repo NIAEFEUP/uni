@@ -14,18 +14,6 @@ import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 
 class StateProviders {
-  final LectureProvider lectureProvider;
-  final ExamProvider examProvider;
-  final BusStopProvider busStopProvider;
-  final RestaurantProvider restaurantProvider;
-  final CourseUnitsInfoProvider courseUnitsInfoProvider;
-  final ProfileProvider profileProvider;
-  final SessionProvider sessionProvider;
-  final CalendarProvider calendarProvider;
-  final LibraryOccupationProvider libraryOccupationProvider;
-  final FacultyLocationsProvider facultyLocationsProvider;
-  final HomePageProvider homePageProvider;
-  final ReferenceProvider referenceProvider;
 
   StateProviders(
       this.lectureProvider,
@@ -39,7 +27,19 @@ class StateProviders {
       this.libraryOccupationProvider,
       this.facultyLocationsProvider,
       this.homePageProvider,
-      this.referenceProvider);
+      this.referenceProvider,);
+  final LectureProvider lectureProvider;
+  final ExamProvider examProvider;
+  final BusStopProvider busStopProvider;
+  final RestaurantProvider restaurantProvider;
+  final CourseUnitsInfoProvider courseUnitsInfoProvider;
+  final ProfileProvider profileProvider;
+  final SessionProvider sessionProvider;
+  final CalendarProvider calendarProvider;
+  final LibraryOccupationProvider libraryOccupationProvider;
+  final FacultyLocationsProvider facultyLocationsProvider;
+  final HomePageProvider homePageProvider;
+  final ReferenceProvider referenceProvider;
 
   static StateProviders fromContext(BuildContext context) {
     final lectureProvider =
@@ -78,6 +78,6 @@ class StateProviders {
         libraryOccupationProvider,
         facultyLocationsProvider,
         homePageProvider,
-        referenceProvider);
+        referenceProvider,);
   }
 }

@@ -1,14 +1,14 @@
+import 'package:uni/model/entities/locations/atm.dart';
 import 'package:uni/model/entities/locations/coffee_machine.dart';
+import 'package:uni/model/entities/locations/printer.dart';
 import 'package:uni/model/entities/locations/restaurant_location.dart';
 import 'package:uni/model/entities/locations/room_group_location.dart';
+import 'package:uni/model/entities/locations/room_location.dart';
 import 'package:uni/model/entities/locations/special_room_location.dart';
 import 'package:uni/model/entities/locations/store_location.dart';
 import 'package:uni/model/entities/locations/unknown_location.dart';
 import 'package:uni/model/entities/locations/vending_machine.dart';
 import 'package:uni/model/entities/locations/wc_location.dart';
-import 'package:uni/model/entities/locations/atm.dart';
-import 'package:uni/model/entities/locations/printer.dart';
-import 'package:uni/model/entities/locations/room_location.dart';
 
 enum LocationType {
   vendingMachine,
@@ -50,11 +50,11 @@ String locationTypeToString(LocationType type) {
   }
 }
 
-abstract class Location {
+abstract class Location { // String or IconData
+  Location(this.floor, this.weight, this.icon);
   final int floor;
   final int weight;
-  final dynamic icon; // String or IconData
-  Location(this.floor, this.weight, this.icon, {locationGroupId});
+  final dynamic icon;
 
   String description();
 

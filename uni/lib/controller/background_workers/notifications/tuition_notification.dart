@@ -8,45 +8,45 @@ import 'package:uni/model/entities/session.dart';
 import 'package:uni/utils/duration_string_formatter.dart';
 
 class TuitionNotification extends Notification {
-  late DateTime _dueDate;
 
   TuitionNotification()
-      : super("tuition-notification", const Duration(hours: 12));
+      : super('tuition-notification', const Duration(hours: 12));
+  late DateTime _dueDate;
 
   @override
   Future<Tuple2<String, String>> buildNotificationContent(
-      Session session) async {
+      Session session,) async {
     //We must add one day because the time limit is actually at 23:59 and not at 00:00 of the same day
     if (_dueDate.add(const Duration(days: 1)).isBefore(DateTime.now())) {
-      final Duration duration = DateTime.now().difference(_dueDate);
+      final duration = DateTime.now().difference(_dueDate);
       if (duration.inDays == 0) {
-        return const Tuple2("⚠️ Ainda não pagaste as propinas ⚠️",
-            "O prazo para pagar as propinas acabou ontem");
+        return const Tuple2('⚠️ Ainda não pagaste as propinas ⚠️',
+            'O prazo para pagar as propinas acabou ontem',);
       }
       return Tuple2(
-          "⚠️ Ainda não pagaste as propinas ⚠️",
-          duration.toFormattedString("Já passou {} desde a data limite",
-              "Já passaram {} desde a data limite"));
+          '⚠️ Ainda não pagaste as propinas ⚠️',
+          duration.toFormattedString('Já passou {} desde a data limite',
+              'Já passaram {} desde a data limite',),);
     }
-    final Duration duration = _dueDate.difference(DateTime.now());
+    final duration = _dueDate.difference(DateTime.now());
     if (duration.inDays == 0) {
-      return const Tuple2("O prazo limite para as propinas está a acabar",
-          "Hoje acaba o prazo para pagamento das propinas!");
+      return const Tuple2('O prazo limite para as propinas está a acabar',
+          'Hoje acaba o prazo para pagamento das propinas!',);
     }
     return Tuple2(
-        "O prazo limite para as propinas está a acabar",
+        'O prazo limite para as propinas está a acabar',
         duration.toFormattedString(
-            "Falta {} para a data limite", "Faltam {} para a data limite"));
+            'Falta {} para a data limite', 'Faltam {} para a data limite',),);
   }
 
   @override
   Future<bool> shouldDisplay(Session session) async {
-    final bool notificationsAreDisabled =
+    final notificationsAreDisabled =
         !(await AppSharedPreferences.getTuitionNotificationToggle());
     if (notificationsAreDisabled) return false;
-    final FeesFetcher feesFetcher = FeesFetcher();
-    final DateTime? dueDate = await parseFeesNextLimit(
-        await feesFetcher.getUserFeesResponse(session));
+    final feesFetcher = FeesFetcher();
+    final dueDate = await parseFeesNextLimit(
+        await feesFetcher.getUserFeesResponse(session),);
 
     if(dueDate == null) return false;
 
@@ -56,24 +56,24 @@ class TuitionNotification extends Notification {
 
   @override
   void displayNotification(Tuple2<String, String> content,
-      FlutterLocalNotificationsPlugin localNotificationsPlugin) {
-    const AndroidNotificationDetails androidNotificationDetails =
+      FlutterLocalNotificationsPlugin localNotificationsPlugin,) {
+    const androidNotificationDetails =
         AndroidNotificationDetails(
-            "propinas-notificacao", "propinas-notificacao",
-            importance: Importance.high);
+            'propinas-notificacao', 'propinas-notificacao',
+            importance: Importance.high,);
 
-    const DarwinNotificationDetails darwinNotificationDetails =
+    const darwinNotificationDetails =
         DarwinNotificationDetails(
             presentAlert: true,
             presentBadge: true,
-            interruptionLevel: InterruptionLevel.active);
+            interruptionLevel: InterruptionLevel.active,);
 
-    const NotificationDetails notificationDetails = NotificationDetails(
+    const notificationDetails = NotificationDetails(
         android: androidNotificationDetails,
         iOS: darwinNotificationDetails,
-        macOS: darwinNotificationDetails);
+        macOS: darwinNotificationDetails,);
 
     localNotificationsPlugin.show(
-        2, content.item1, content.item2, notificationDetails);
+        2, content.item1, content.item2, notificationDetails,);
   }
 }

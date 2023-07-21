@@ -12,7 +12,7 @@ import 'package:uni/view/course_units/widgets/course_unit_card.dart';
 import 'package:uni/view/lazy_consumer.dart';
 
 class CourseUnitsPageView extends StatefulWidget {
-  const CourseUnitsPageView({Key? key}) : super(key: key);
+  const CourseUnitsPageView({super.key});
 
   static const bothSemestersDropdownOption = '1S+2S';
 
@@ -30,20 +30,20 @@ class CourseUnitsPageViewState
   @override
   Widget getBody(BuildContext context) {
     return LazyConsumer<ProfileProvider>(builder: (context, profileProvider) {
-      final List<CourseUnit> courseUnits = profileProvider.profile.courseUnits;
-      List<String> availableYears = [];
-      List<String> availableSemesters = [];
+      final courseUnits = profileProvider.profile.courseUnits;
+      var availableYears = <String>[];
+      var availableSemesters = <String>[];
 
       if (courseUnits.isNotEmpty) {
         availableYears = _getAvailableYears(courseUnits);
         if (availableYears.isNotEmpty && selectedSchoolYear == null) {
           selectedSchoolYear = availableYears.reduce((value, element) =>
-              element.compareTo(value) > 0 ? element : value);
+              element.compareTo(value) > 0 ? element : value,);
         }
         availableSemesters = _getAvailableSemesters(courseUnits);
         final currentYear = int.tryParse(selectedSchoolYear?.substring(
-                0, selectedSchoolYear?.indexOf('/')) ??
-            '');
+                0, selectedSchoolYear?.indexOf('/'),) ??
+            '',);
         if (selectedSemester == null &&
             currentYear != null &&
             availableSemesters.length == 3) {
@@ -56,16 +56,16 @@ class CourseUnitsPageViewState
       }
 
       return _getPageView(courseUnits, profileProvider.status, availableYears,
-          availableSemesters);
-    });
+          availableSemesters,);
+    },);
   }
 
   Widget _getPageView(
       List<CourseUnit>? courseUnits,
       RequestStatus requestStatus,
       List<String> availableYears,
-      List<String> availableSemesters) {
-    final List<CourseUnit>? filteredCourseUnits =
+      List<String> availableSemesters,) {
+    final filteredCourseUnits =
         selectedSemester == CourseUnitsPageView.bothSemestersDropdownOption
             ? courseUnits
                 ?.where((element) => element.schoolYear == selectedSchoolYear)
@@ -73,7 +73,7 @@ class CourseUnitsPageViewState
             : courseUnits
                 ?.where((element) =>
                     element.schoolYear == selectedSchoolYear &&
-                    element.semesterCode == selectedSemester)
+                    element.semesterCode == selectedSemester,)
                 .toList();
     return Column(children: [
       _getPageTitleAndFilters(availableYears, availableSemesters),
@@ -85,13 +85,13 @@ class CourseUnitsPageViewState
           onNullContent: Center(
             heightFactor: 10,
             child: Text('Não existem cadeiras para apresentar',
-                style: Theme.of(context).textTheme.titleLarge),
-          ))
-    ]);
+                style: Theme.of(context).textTheme.titleLarge,),
+          ),)
+    ],);
   }
 
   Widget _getPageTitleAndFilters(
-      List<String> availableYears, List<String> availableSemesters) {
+      List<String> availableYears, List<String> availableSemesters,) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
@@ -113,7 +113,7 @@ class CourseUnitsPageViewState
               child: Text(value),
             );
           }).toList(),
-        )),
+        ),),
         const SizedBox(width: 10),
         DropdownButtonHideUnderline(
             child: DropdownButton<String>(
@@ -129,7 +129,7 @@ class CourseUnitsPageViewState
               child: Text(value),
             );
           }).toList(),
-        )),
+        ),),
         const SizedBox(width: 20)
       ],
     );
@@ -140,7 +140,7 @@ class CourseUnitsPageViewState
       return Center(
           heightFactor: 10,
           child: Text('Sem cadeiras no período selecionado',
-              style: Theme.of(context).textTheme.titleLarge));
+              style: Theme.of(context).textTheme.titleLarge,),);
     }
     return Expanded(
         child: Container(
@@ -148,11 +148,11 @@ class CourseUnitsPageViewState
             child: ListView(
               shrinkWrap: true,
               children: _generateCourseUnitsGridView(courseUnits),
-            )));
+            ),),);
   }
 
   List<Widget> _generateCourseUnitsGridView(List<CourseUnit> courseUnits) {
-    final List<Widget> rows = [];
+    final rows = <Widget>[];
     for (var i = 0; i < courseUnits.length; i += 2) {
       if (i < courseUnits.length - 1) {
         rows.add(IntrinsicHeight(
@@ -161,13 +161,13 @@ class CourseUnitsPageViewState
           Flexible(child: CourseUnitCard(courseUnits[i])),
           const SizedBox(width: 10),
           Flexible(child: CourseUnitCard(courseUnits[i + 1])),
-        ])));
+        ],),),);
       } else {
         rows.add(Row(children: [
           Flexible(child: CourseUnitCard(courseUnits[i])),
           const SizedBox(width: 10),
           const Spacer()
-        ]));
+        ],),);
       }
     }
     return rows;

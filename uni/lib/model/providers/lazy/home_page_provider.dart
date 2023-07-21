@@ -6,10 +6,10 @@ import 'package:uni/model/request_status.dart';
 import 'package:uni/utils/favorite_widget_type.dart';
 
 class HomePageProvider extends StateProviderNotifier {
-  List<FavoriteWidgetType> _favoriteCards = [];
-  bool _isEditing = false;
 
   HomePageProvider() : super(dependsOnSession: false, cacheDuration: null);
+  List<FavoriteWidgetType> _favoriteCards = [];
+  bool _isEditing = false;
 
   List<FavoriteWidgetType> get favoriteCards => _favoriteCards.toList();
 

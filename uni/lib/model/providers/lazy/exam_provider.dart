@@ -15,12 +15,12 @@ import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/model/request_status.dart';
 
 class ExamProvider extends StateProviderNotifier {
-  List<Exam> _exams = [];
-  List<String> _hiddenExams = [];
-  Map<String, bool> _filteredExamsTypes = {};
 
   ExamProvider()
       : super(dependsOnSession: true, cacheDuration: const Duration(days: 1));
+  List<Exam> _exams = [];
+  List<String> _hiddenExams = [];
+  Map<String, bool> _filteredExamsTypes = {};
 
   UnmodifiableListView<Exam> get exams => UnmodifiableListView(_exams);
 
@@ -33,23 +33,23 @@ class ExamProvider extends StateProviderNotifier {
   @override
   Future<void> loadFromStorage() async {
     setFilteredExams(
-        await AppSharedPreferences.getFilteredExams(), Completer());
+        await AppSharedPreferences.getFilteredExams(), Completer(),);
     setHiddenExams(await AppSharedPreferences.getHiddenExams(), Completer());
 
-    final AppExamsDatabase db = AppExamsDatabase();
-    final List<Exam> exams = await db.exams();
+    final db = AppExamsDatabase();
+    final exams = await db.exams();
     _exams = exams;
   }
 
   @override
   Future<void> loadFromRemote(Session session, Profile profile) async {
-    final Completer<void> action = Completer<void>();
-    final ParserExams parserExams = ParserExams();
-    final Tuple2<String, String> userPersistentInfo =
+    final action = Completer<void>();
+    final parserExams = ParserExams();
+    final userPersistentInfo =
         await AppSharedPreferences.getPersistentUserInfo();
 
-    fetchUserExams(action, parserExams, userPersistentInfo, profile, session,
-        profile.courseUnits);
+    await fetchUserExams(action, parserExams, userPersistentInfo, profile, session,
+        profile.courseUnits,);
     await action.future;
   }
 
@@ -65,14 +65,14 @@ class ExamProvider extends StateProviderNotifier {
       //need to get student course here
       updateStatus(RequestStatus.busy);
 
-      final List<Exam> exams = await ExamFetcher(profile.courses, userUcs)
+      final exams = await ExamFetcher(profile.courses, userUcs)
           .extractExams(session, parserExams);
 
       exams.sort((exam1, exam2) => exam1.begin.compareTo(exam2.begin));
 
       // Updates local database according to the information fetched -- Exams
       if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {
-        final AppExamsDatabase db = AppExamsDatabase();
+        final db = AppExamsDatabase();
         db.saveNewExams(exams);
       }
 
@@ -94,7 +94,7 @@ class ExamProvider extends StateProviderNotifier {
   }
 
   setFilteredExams(
-      Map<String, bool> newFilteredExams, Completer<void> action) async {
+      Map<String, bool> newFilteredExams, Completer<void> action,) async {
     _filteredExamsTypes = Map<String, bool>.from(newFilteredExams);
     AppSharedPreferences.saveFilteredExams(filteredExamsTypes);
     action.complete();
@@ -104,7 +104,7 @@ class ExamProvider extends StateProviderNotifier {
   List<Exam> getFilteredExams() {
     return exams
         .where((exam) =>
-            filteredExamsTypes[Exam.getExamTypeLong(exam.type)] ?? true)
+            filteredExamsTypes[Exam.getExamTypeLong(exam.type)] ?? true,)
         .toList();
   }
 

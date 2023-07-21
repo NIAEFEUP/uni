@@ -3,25 +3,24 @@ import 'package:uni/model/entities/time_utilities.dart';
 
 /// App default card
 abstract class GenericCard extends StatefulWidget {
-  final EdgeInsetsGeometry margin;
-  final bool hasSmallTitle;
-  final bool editingMode;
-  final Function()? onDelete;
 
   GenericCard({Key? key})
       : this.customStyle(key: key, editingMode: false, onDelete: () => null);
 
   const GenericCard.fromEditingInformation(Key key, editingMode, onDelete)
       : this.customStyle(
-            key: key, editingMode: editingMode, onDelete: onDelete);
+            key: key, editingMode: editingMode, onDelete: onDelete,);
 
   const GenericCard.customStyle(
-      {Key? key,
+      {super.key,
       required this.editingMode,
       required this.onDelete,
       this.margin = const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-      this.hasSmallTitle = false})
-      : super(key: key);
+      this.hasSmallTitle = false,});
+  final EdgeInsetsGeometry margin;
+  final bool hasSmallTitle;
+  final bool editingMode;
+  final Function()? onDelete;
 
   @override
   State<StatefulWidget> createState() {
@@ -39,10 +38,10 @@ abstract class GenericCard extends StatefulWidget {
   Text getInfoText(String text, BuildContext context) {
     return Text(text,
         textAlign: TextAlign.end,
-        style: Theme.of(context).textTheme.titleLarge!);
+        style: Theme.of(context).textTheme.titleLarge!,);
   }
 
-  showLastRefreshedTime(String? time, context) {
+  StatelessWidget showLastRefreshedTime(String? time, context) {
     if (time == null) {
       return const Text('N/A');
     }
@@ -55,13 +54,13 @@ abstract class GenericCard extends StatefulWidget {
     return Container(
         alignment: Alignment.center,
         child: Text('última atualização às ${parsedTime.toTimeHourMinString()}',
-            style: Theme.of(context).textTheme.bodySmall));
+            style: Theme.of(context).textTheme.bodySmall,),);
   }
 }
 
 class GenericCardState extends State<GenericCard> {
-  final double borderRadius = 10.0;
-  final double padding = 12.0;
+  final double borderRadius = 10;
+  final double padding = 12;
 
   @override
   Widget build(BuildContext context) {
@@ -75,24 +74,24 @@ class GenericCardState extends State<GenericCard> {
             margin: widget.margin,
             elevation: 0,
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(borderRadius)),
+                borderRadius: BorderRadius.circular(borderRadius),),
             child: Container(
               decoration: BoxDecoration(boxShadow: const [
                 BoxShadow(
                     color: Color.fromARGB(0x1c, 0, 0, 0),
-                    blurRadius: 7.0,
-                    offset: Offset(0.0, 1.0))
-              ], borderRadius: BorderRadius.all(Radius.circular(borderRadius))),
+                    blurRadius: 7,
+                    offset: Offset(0, 1),)
+              ], borderRadius: BorderRadius.all(Radius.circular(borderRadius)),),
               child: ConstrainedBox(
                 constraints: const BoxConstraints(
-                  minHeight: 60.0,
+                  minHeight: 60,
                 ),
                 child: Container(
                   decoration: BoxDecoration(
                       color: Theme.of(context).cardColor,
                       borderRadius:
-                          BorderRadius.all(Radius.circular(borderRadius))),
-                  width: (double.infinity),
+                          BorderRadius.all(Radius.circular(borderRadius)),),
+                  width: double.infinity,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     mainAxisSize: MainAxisSize.min,
@@ -114,8 +113,8 @@ class GenericCardState extends State<GenericCard> {
                                             .textTheme
                                             .headlineSmall!)
                                     .copyWith(
-                                        color: Theme.of(context).primaryColor)),
-                          )),
+                                        color: Theme.of(context).primaryColor,),),
+                          ),),
                           if (widget.editingMode)
                             Container(
                               alignment: Alignment.center,
@@ -137,7 +136,7 @@ class GenericCardState extends State<GenericCard> {
                   ),
                 ),
               ),
-            )));
+            ),),);
   }
 
   Widget getDeleteIcon(context) {
@@ -151,11 +150,11 @@ class GenericCardState extends State<GenericCard> {
         tooltip: 'Remover',
         onPressed: widget.onDelete,
       ),
-    ));
+    ),);
   }
 
   Widget getMoveIcon(context) {
     return Icon(Icons.drag_handle_rounded,
-        color: Colors.grey.shade500, size: 22.0);
+        color: Colors.grey.shade500, size: 22,);
   }
 }

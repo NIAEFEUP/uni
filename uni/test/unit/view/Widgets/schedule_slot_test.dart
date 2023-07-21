@@ -9,10 +9,10 @@ import '../../../test_widget.dart';
 void main() {
   group('Schedule Slot', () {
     const subject = 'SOPE';
-    final DateTime begin = DateTime(2021, 06, 01, 10, 00);
-    final beginText = DateFormat("HH:mm").format(begin);
-    final DateTime end = DateTime(2021, 06, 01, 12, 00);
-    final endText = DateFormat("HH:mm").format(end);
+    final begin = DateTime(2021, 06, 01, 10);
+    final beginText = DateFormat('HH:mm').format(begin);
+    final end = DateTime(2021, 06, 01, 12);
+    final endText = DateFormat('HH:mm').format(end);
     const rooms = 'B315';
     const typeClass = 'T';
     const teacher = 'JAS';
@@ -37,24 +37,24 @@ void main() {
 }
 
 void testScheduleSlot(String subject, String begin, String end, String rooms,
-    String typeClass, String teacher) {
+    String typeClass, String teacher,) {
   final scheduleSlotTimeKey = 'schedule-slot-time-$begin-$end';
   expect(
       find.descendant(
-          of: find.byKey(Key(scheduleSlotTimeKey)), matching: find.text(begin)),
-      findsOneWidget);
+          of: find.byKey(Key(scheduleSlotTimeKey)), matching: find.text(begin),),
+      findsOneWidget,);
   expect(
       find.descendant(
-          of: find.byKey(Key(scheduleSlotTimeKey)), matching: find.text(end)),
-      findsOneWidget);
-  expect(
-      find.descendant(
-          of: find.byKey(Key(scheduleSlotTimeKey)),
-          matching: find.text(subject)),
-      findsOneWidget);
+          of: find.byKey(Key(scheduleSlotTimeKey)), matching: find.text(end),),
+      findsOneWidget,);
   expect(
       find.descendant(
           of: find.byKey(Key(scheduleSlotTimeKey)),
-          matching: find.text(' ($typeClass)')),
-      findsOneWidget);
+          matching: find.text(subject),),
+      findsOneWidget,);
+  expect(
+      find.descendant(
+          of: find.byKey(Key(scheduleSlotTimeKey)),
+          matching: find.text(' ($typeClass)'),),
+      findsOneWidget,);
 }

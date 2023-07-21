@@ -9,11 +9,11 @@ import 'package:uni/view/home/widgets/restaurant_row.dart';
 import 'package:uni/view/lazy_consumer.dart';
 
 class RestaurantCard extends GenericCard {
-  RestaurantCard({Key? key}) : super(key: key);
+  RestaurantCard({super.key});
 
   const RestaurantCard.fromEditingInformation(
-      Key key, bool editingMode, Function()? onDelete)
-      : super.fromEditingInformation(key, editingMode, onDelete);
+      super.key, bool super.editingMode, Function()? super.onDelete,)
+      : super.fromEditingInformation();
 
   @override
   String getTitle() => 'Cantinas';
@@ -38,7 +38,7 @@ class RestaurantCard extends GenericCard {
             onNullContent: Center(
                 child: Text('Não existem cantinas para apresentar',
                     style: Theme.of(context).textTheme.headlineMedium,
-                    textAlign: TextAlign.center))));
+                    textAlign: TextAlign.center,),),),);
   }
 
   Widget generateRestaurant(canteens, context) {
@@ -55,7 +55,7 @@ class RestaurantCard extends GenericCard {
       // cantine.nextSchoolDay
       Center(
           child: Container(
-              padding: const EdgeInsets.all(12.0), child: Text(canteen))),
+              padding: const EdgeInsets.all(12), child: Text(canteen),),),
       Card(
         elevation: 1,
         child: RowContainer(
@@ -67,8 +67,8 @@ class RestaurantCard extends GenericCard {
               fishMenu: '',
               vegetarianMenu: '',
               dietMenu: '',
-            )),
+            ),),
       ),
-    ]);
+    ],);
   }
 }

@@ -1,17 +1,6 @@
 import 'package:flutter/material.dart';
 
 class FormTextField extends StatelessWidget {
-  final TextEditingController controller;
-  final IconData icon;
-  final String description;
-  final String labelText;
-  final String hintText;
-  final String emptyText;
-  final int minLines;
-  final int maxLines;
-  final double bottomMargin;
-  final bool isOptional;
-  final Function? formatValidator;
 
   const FormTextField(this.controller, this.icon,
       {this.description = '',
@@ -23,8 +12,18 @@ class FormTextField extends StatelessWidget {
       this.bottomMargin = 0,
       this.isOptional = false,
       this.formatValidator,
-      Key? key})
-      : super(key: key);
+      super.key,});
+  final TextEditingController controller;
+  final IconData icon;
+  final String description;
+  final String labelText;
+  final String hintText;
+  final String emptyText;
+  final int minLines;
+  final int maxLines;
+  final double bottomMargin;
+  final bool isOptional;
+  final Function? formatValidator;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +42,7 @@ class FormTextField extends StatelessWidget {
                 margin: const EdgeInsets.only(right: 15),
                 child: Icon(
                   icon,
-                )),
+                ),),
             Expanded(
                 child: TextFormField(
               // margins
@@ -63,8 +62,8 @@ class FormTextField extends StatelessWidget {
                 }
                 return formatValidator != null ? formatValidator!(value) : null;
               },
-            ))
-          ])
+            ),)
+          ],)
         ],
       ),
     );

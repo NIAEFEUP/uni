@@ -9,7 +9,7 @@ import 'package:uni/view/profile/widgets/course_info_card.dart';
 import 'package:uni/view/profile/widgets/profile_overview.dart';
 
 class ProfilePageView extends StatefulWidget {
-  const ProfilePageView({Key? key}) : super(key: key);
+  const ProfilePageView({super.key});
 
   @override
   State<StatefulWidget> createState() => ProfilePageViewState();
@@ -22,24 +22,24 @@ class ProfilePageViewState extends SecondaryPageViewState<ProfilePageView> {
     return LazyConsumer<ProfileProvider>(
       builder: (context, profileStateProvider) {
         final profile = profileStateProvider.profile;
-        final List<Widget> courseWidgets = profile.courses
+        final courseWidgets = profile.courses
             .map((e) => [
                   CourseInfoCard(course: e),
-                  const Padding(padding: EdgeInsets.all(5.0))
-                ])
+                  const Padding(padding: EdgeInsets.all(5))
+                ],)
             .flattened
             .toList();
 
-        return ListView(shrinkWrap: false, children: [
-          const Padding(padding: EdgeInsets.all(5.0)),
+        return ListView(children: [
+          const Padding(padding: EdgeInsets.all(5)),
           ProfileOverview(
               profile: profile,
-              getProfileDecorationImage: getProfileDecorationImage),
-          const Padding(padding: EdgeInsets.all(5.0)),
+              getProfileDecorationImage: getProfileDecorationImage,),
+          const Padding(padding: EdgeInsets.all(5)),
           // PrintInfoCard() // TODO: Bring this back when print info is ready again
           ...courseWidgets,
           AccountInfoCard(),
-        ]);
+        ],);
       },
     );
   }

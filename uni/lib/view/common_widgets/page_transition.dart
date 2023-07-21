@@ -7,10 +7,10 @@ class PageTransition {
   static Route makePageTransition(
       {required Widget page,
       bool maintainState = true,
-      required RouteSettings settings}) {
+      required RouteSettings settings,}) {
     return PageRouteBuilder(
         pageBuilder: (BuildContext context, Animation<double> animation,
-            Animation<double> secondaryAnimation) {
+            Animation<double> secondaryAnimation,) {
           return page;
         },
         transitionDuration:
@@ -18,8 +18,8 @@ class PageTransition {
         settings: settings,
         maintainState: maintainState,
         transitionsBuilder: (BuildContext context, Animation<double> animation,
-            Animation<double> secondaryAnimation, Widget child) {
+            Animation<double> secondaryAnimation, Widget child,) {
           return FadeTransition(opacity: animation, child: child);
-        });
+        },);
   }
 }
