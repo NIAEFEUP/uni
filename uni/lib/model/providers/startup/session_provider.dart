@@ -97,8 +97,12 @@ class SessionProvider extends StateProviderNotifier {
   }) async {
     try {
       updateStatus(RequestStatus.busy);
-      _session = await NetworkRouter.login(username, password, faculties,
-          persistentSession: true);
+      _session = await NetworkRouter.login(
+        username,
+        password,
+        faculties,
+        persistentSession: true,
+      );
 
       if (session.authenticated) {
         Future.delayed(

@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/entities/lecture.dart';
@@ -15,10 +17,10 @@ class ScheduleCard extends GenericCard {
   ScheduleCard({super.key});
 
   ScheduleCard.fromEditingInformation(
-    super.key,
-    bool super.editingMode,
-    Function()? super.onDelete,
-  ) : super.fromEditingInformation();
+    super.key, {
+    required super.editingMode,
+    super.onDelete,
+  }) : super.fromEditingInformation();
 
   final double borderRadius = 12;
   final double leftPadding = 12;
@@ -48,7 +50,10 @@ class ScheduleCard extends GenericCard {
     );
   }
 
-  Widget generateSchedule(lectures, BuildContext context) {
+  Widget generateSchedule(
+    UnmodifiableListView<Lecture> lectures,
+    BuildContext context,
+  ) {
     final lectureList = List<Lecture>.of(lectures);
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -82,18 +87,19 @@ class ScheduleCard extends GenericCard {
     }
 
     if (rows.isEmpty) {
-      rows.add(
-        DateRectangle(
-          date: TimeString.getWeekdaysStrings()[
-              lectures[0].startTime.weekday % 7],
-        ),
-      );
-      rows.add(createRowFromLecture(context, lectures[0]));
+      rows
+        ..add(
+          DateRectangle(
+            date: TimeString.getWeekdaysStrings()[
+                lectures[0].startTime.weekday % 7],
+          ),
+        )
+        ..add(createRowFromLecture(context, lectures[0]));
     }
     return rows;
   }
 
-  Widget createRowFromLecture(context, Lecture lecture) {
+  Widget createRowFromLecture(BuildContext context, Lecture lecture) {
     return Container(
       margin: const EdgeInsets.only(bottom: 10),
       child: ScheduleSlot(

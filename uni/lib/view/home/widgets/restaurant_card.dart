@@ -1,5 +1,8 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/providers/lazy/restaurant_provider.dart';
 import 'package:uni/view/common_widgets/date_rectangle.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
@@ -12,16 +15,16 @@ class RestaurantCard extends GenericCard {
   RestaurantCard({super.key});
 
   const RestaurantCard.fromEditingInformation(
-    super.key,
-    bool super.editingMode,
-    Function()? super.onDelete,
-  ) : super.fromEditingInformation();
+    super.key, {
+    required super.editingMode,
+    super.onDelete,
+  }) : super.fromEditingInformation();
 
   @override
   String getTitle() => 'Cantinas';
 
   @override
-  onClick(BuildContext context) {}
+  void onClick(BuildContext context) {}
 
   @override
   void onRefresh(BuildContext context) {
@@ -48,7 +51,10 @@ class RestaurantCard extends GenericCard {
     );
   }
 
-  Widget generateRestaurant(canteens, context) {
+  Widget generateRestaurant(
+    UnmodifiableListView<Restaurant> canteens,
+    BuildContext context,
+  ) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [createRowFromRestaurant(context, canteens)],

@@ -8,7 +8,7 @@ class CourseUnitCard extends GenericCard {
       : super.customStyle(
           margin: const EdgeInsets.only(top: 10),
           hasSmallTitle: true,
-          onDelete: () => null,
+          onDelete: () {},
           editingMode: false,
         );
   static const maxTitleLength = 60;

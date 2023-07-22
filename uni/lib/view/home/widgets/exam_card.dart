@@ -17,10 +17,10 @@ class ExamCard extends GenericCard {
   ExamCard({super.key});
 
   const ExamCard.fromEditingInformation(
-    super.key,
-    bool super.editingMode,
-    Function()? super.onDelete,
-  ) : super.fromEditingInformation();
+    super.key, {
+    required super.editingMode,
+    super.onDelete,
+  }) : super.fromEditingInformation();
 
   @override
   String getTitle() => 'Exames';
@@ -64,7 +64,7 @@ class ExamCard extends GenericCard {
   }
 
   /// Returns a widget with all the exams.
-  Widget generateExams(dynamic exams, BuildContext context) {
+  Widget generateExams(List<Exam> exams, BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: getExamRows(context, exams),

@@ -131,7 +131,6 @@ class NextArrivalsState extends State<NextArrivals> {
         child: const Center(child: CircularProgressIndicator()),
       ),
     ];
-    ;
   }
 
   Container getPageTitle() {

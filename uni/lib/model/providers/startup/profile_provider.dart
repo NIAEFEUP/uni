@@ -44,17 +44,17 @@ class ProfileProvider extends StateProviderNotifier {
   @override
   Future<void> loadFromRemote(Session session, Profile profile) async {
     final userInfoAction = Completer<void>();
-    fetchUserInfo(userInfoAction, session);
+    await fetchUserInfo(userInfoAction, session);
     await userInfoAction.future;
 
     final userFeesAction = Completer<void>();
-    fetchUserFees(userFeesAction, session);
+    await fetchUserFees(userFeesAction, session);
 
     final printBalanceAction = Completer<void>();
-    fetchUserPrintBalance(printBalanceAction, session);
+    await fetchUserPrintBalance(printBalanceAction, session);
 
     final courseUnitsAction = Completer<void>();
-    fetchCourseUnitsAndCourseAverages(session, courseUnitsAction);
+    await fetchCourseUnitsAndCourseAverages(session, courseUnitsAction);
 
     await Future.wait([
       userFeesAction.future,
@@ -141,7 +141,9 @@ class ProfileProvider extends StateProviderNotifier {
   }
 
   Future<void> fetchUserPrintBalance(
-      Completer<void> action, Session session) async {
+    Completer<void> action,
+    Session session,
+  ) async {
     try {
       final response = await PrintFetcher().getUserPrintsResponse(session);
       final printBalance = await getPrintsBalance(response);

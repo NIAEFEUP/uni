@@ -4,26 +4,29 @@ import 'package:uni/model/entities/time_utilities.dart';
 /// App default card
 abstract class GenericCard extends StatefulWidget {
   GenericCard({Key? key})
-      : this.customStyle(key: key, editingMode: false, onDelete: () => null);
+      : this.customStyle(key: key, editingMode: false, onDelete: () {});
 
-  const GenericCard.fromEditingInformation(Key key, editingMode, onDelete)
-      : this.customStyle(
+  const GenericCard.fromEditingInformation(
+    Key key, {
+    required bool editingMode,
+    void Function()? onDelete,
+  }) : this.customStyle(
           key: key,
           editingMode: editingMode,
           onDelete: onDelete,
         );
 
   const GenericCard.customStyle({
-    super.key,
     required this.editingMode,
     required this.onDelete,
+    super.key,
     this.margin = const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
     this.hasSmallTitle = false,
   });
   final EdgeInsetsGeometry margin;
   final bool hasSmallTitle;
   final bool editingMode;
-  final Function()? onDelete;
+  final void Function()? onDelete;
 
   @override
   State<StatefulWidget> createState() {
@@ -46,7 +49,7 @@ abstract class GenericCard extends StatefulWidget {
     );
   }
 
-  StatelessWidget showLastRefreshedTime(String? time, context) {
+  StatelessWidget showLastRefreshedTime(String? time, BuildContext context) {
     if (time == null) {
       return const Text('N/A');
     }
@@ -84,7 +87,7 @@ class GenericCardState extends State<GenericCard> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(borderRadius),
         ),
-        child: Container(
+        child: DecoratedBox(
           decoration: BoxDecoration(
             boxShadow: const [
               BoxShadow(
@@ -156,7 +159,7 @@ class GenericCardState extends State<GenericCard> {
     );
   }
 
-  Widget getDeleteIcon(context) {
+  Widget getDeleteIcon(BuildContext context) {
     return Flexible(
       child: Container(
         alignment: Alignment.centerRight,
@@ -171,7 +174,7 @@ class GenericCardState extends State<GenericCard> {
     );
   }
 
-  Widget getMoveIcon(context) {
+  Widget getMoveIcon(BuildContext context) {
     return Icon(
       Icons.drag_handle_rounded,
       color: Colors.grey.shade500,

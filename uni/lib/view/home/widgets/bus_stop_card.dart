@@ -13,10 +13,10 @@ import 'package:uni/view/lazy_consumer.dart';
 /// Manages the bus stops card displayed on the user's personal area
 class BusStopCard extends GenericCard {
   const BusStopCard.fromEditingInformation(
-    super.key,
-    bool super.editingMode,
-    Function()? super.onDelete,
-  ) : super.fromEditingInformation();
+    super.key, {
+    required super.editingMode,
+    super.onDelete,
+  }) : super.fromEditingInformation();
 
   @override
   String getTitle() => 'Autocarros';
@@ -48,7 +48,7 @@ class BusStopCard extends GenericCard {
 Widget getCardContent(
   BuildContext context,
   Map<String, BusStopData> stopData,
-  busStopStatus,
+  RequestStatus busStopStatus,
 ) {
   switch (busStopStatus) {
     case RequestStatus.successful:
@@ -75,7 +75,7 @@ Widget getCardContent(
                 icon: const Icon(Icons.settings),
                 onPressed: () => Navigator.push(
                   context,
-                  MaterialPageRoute(
+                  MaterialPageRoute<BusStopSelectionPage>(
                     builder: (context) => const BusStopSelectionPage(),
                   ),
                 ),
@@ -95,7 +95,7 @@ Widget getCardContent(
         ],
       );
     case RequestStatus.failed:
-    default:
+    case RequestStatus.none:
       return Column(
         children: <Widget>[
           getCardTitle(context),
@@ -112,7 +112,7 @@ Widget getCardContent(
 }
 
 /// Returns a widget for the title of the bus stops card
-Widget getCardTitle(context) {
+Widget getCardTitle(BuildContext context) {
   return Row(
     children: <Widget>[
       const Icon(Icons.directions_bus), // color lightgrey
@@ -125,7 +125,8 @@ Widget getCardTitle(context) {
 }
 
 /// Returns a widget for all the bus stops info
-Widget getBusStopsInfo(context, Map<String, BusStopData> stopData) {
+Widget getBusStopsInfo(
+    BuildContext context, Map<String, BusStopData> stopData) {
   if (stopData.isNotEmpty) {
     return Container(
       padding: const EdgeInsets.all(4),
@@ -145,10 +146,9 @@ Widget getBusStopsInfo(context, Map<String, BusStopData> stopData) {
 }
 
 /// Returns a list of widgets for each bus stop info that exists
-List<Widget> getEachBusStopInfo(context, Map<String, BusStopData> stopData) {
-  final rows = <Widget>[];
-
-  rows.add(const LastUpdateTimeStamp<BusStopProvider>());
+List<Widget> getEachBusStopInfo(
+    BuildContext context, Map<String, BusStopData> stopData) {
+  final rows = <Widget>[const LastUpdateTimeStamp<BusStopProvider>()];
 
   stopData.forEach((stopCode, stopInfo) {
     if (stopInfo.trips.isNotEmpty && stopInfo.favorited) {

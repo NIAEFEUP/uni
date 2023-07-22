@@ -16,10 +16,10 @@ import 'package:uni/view/library/widgets/library_occupation_card.dart';
 import 'package:uni/view/profile/widgets/account_info_card.dart';
 
 typedef CardCreator = GenericCard Function(
-  Key key,
-  bool isEditingMode,
-  dynamic Function()? onDelete,
-);
+  Key key, {
+  required bool editingMode,
+  void Function()? onDelete,
+});
 
 class MainCardsList extends StatelessWidget {
   const MainCardsList({super.key});
@@ -119,7 +119,7 @@ class MainCardsList extends StatelessWidget {
         .where((e) => e.key.isVisible(userSession.faculties))
         .where((e) => !favorites.contains(e.key))
         .map(
-          (e) => Container(
+          (e) => DecoratedBox(
             decoration: const BoxDecoration(),
             child: ListTile(
               title: Text(
@@ -198,8 +198,9 @@ class MainCardsList extends StatelessWidget {
     BuildContext context,
   ) {
     final tmp = favorites[oldIndex];
-    favorites.removeAt(oldIndex);
-    favorites.insert(oldIndex < newIndex ? newIndex - 1 : newIndex, tmp);
+    favorites
+      ..removeAt(oldIndex)
+      ..insert(oldIndex < newIndex ? newIndex - 1 : newIndex, tmp);
     saveFavoriteCards(context, favorites);
   }
 
