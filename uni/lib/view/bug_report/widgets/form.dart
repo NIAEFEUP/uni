@@ -73,12 +73,10 @@ class BugReportFormState extends State<BugReportForm> {
   }
 
   List<Widget> getFormWidget(BuildContext context) {
-    final formWidget = <Widget>[];
-
-    formWidget.add(bugReportTitle(context));
-    formWidget.add(bugReportIntro(context));
-    formWidget.add(dropdownBugSelectWidget(context));
-    formWidget.add(
+    return [
+      bugReportTitle(context),
+      bugReportIntro(context),
+      dropdownBugSelectWidget(context),
       FormTextField(
         titleController,
         Icons.title,
@@ -87,9 +85,15 @@ class BugReportFormState extends State<BugReportForm> {
         labelText: 'Breve identificação do problema',
         bottomMargin: 30,
       ),
-    );
-
-    formWidget.add(
+      dropdownBugSelectWidget(context),
+      FormTextField(
+        titleController,
+        Icons.title,
+        maxLines: 2,
+        description: 'Título',
+        labelText: 'Breve identificação do problema',
+        bottomMargin: 30,
+      ),
       FormTextField(
         descriptionController,
         Icons.description,
@@ -98,9 +102,6 @@ class BugReportFormState extends State<BugReportForm> {
         labelText: 'Bug encontrado, como o reproduzir, etc',
         bottomMargin: 30,
       ),
-    );
-
-    formWidget.add(
       FormTextField(
         emailController,
         Icons.mail,
@@ -109,19 +110,15 @@ class BugReportFormState extends State<BugReportForm> {
         labelText: 'Email em que desejas ser contactado',
         bottomMargin: 30,
         isOptional: true,
-        formatValidator: (value) {
-          return EmailValidator.validate(value)
+        formatValidator: (String? value) {
+          return EmailValidator.validate(value ?? '')
               ? null
               : 'Por favor insere um email válido';
         },
       ),
-    );
-
-    formWidget.add(consentBox(context));
-
-    formWidget.add(submitButton(context));
-
-    return formWidget;
+      consentBox(context),
+      submitButton(context)
+    ];
   }
 
   /// Returns a widget for the title of the bug report form
@@ -183,7 +180,7 @@ class BugReportFormState extends State<BugReportForm> {
                   value: _selectedBug,
                   onChanged: (value) {
                     setState(() {
-                      _selectedBug = value as int;
+                      _selectedBug = value! as int;
                     });
                   },
                   isExpanded: true,
@@ -198,10 +195,10 @@ class BugReportFormState extends State<BugReportForm> {
 
   Widget consentBox(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(),
+      padding: EdgeInsets.zero,
       margin: const EdgeInsets.only(bottom: 20),
       child: ListTileTheme(
-        contentPadding: const EdgeInsets.all(0),
+        contentPadding: EdgeInsets.zero,
         child: CheckboxListTile(
           title: Text(
             '''Consinto que esta informação seja revista pelo NIAEFEUP, podendo ser eliminada a meu pedido.''',
@@ -277,9 +274,9 @@ class BugReportFormState extends State<BugReportForm> {
 
     if (mounted) {
       FocusScope.of(context).requestFocus(FocusNode());
-      await status
-          ? ToastMessage.success(context, toastMsg)
-          : ToastMessage.error(context, toastMsg);
+      status
+          ? await ToastMessage.success(context, toastMsg)
+          : await ToastMessage.error(context, toastMsg);
       setState(() {
         _isButtonTapped = false;
       });
@@ -290,15 +287,15 @@ class BugReportFormState extends State<BugReportForm> {
     SentryId sentryEvent,
     Map<String, dynamic> bugReport,
   ) async {
-    final description =
-        '${bugReport['bugLabel']}\nFurther information on: $_sentryLink$sentryEvent';
-    final Map data = {
+    final description = '${bugReport['bugLabel']}\nFurther information on: '
+        '$_sentryLink$sentryEvent';
+    final data = {
       'title': bugReport['title'],
       'body': description,
       'labels': ['In-app bug report', bugReport['bugLabel']],
     };
-    for (final String faculty in bugReport['faculties']) {
-      data['labels'].add(faculty);
+    for (final faculty in bugReport['faculties'] as Iterable) {
+      (data['labels'] as List).add(faculty);
     }
     return http
         .post(
@@ -317,7 +314,8 @@ class BugReportFormState extends State<BugReportForm> {
   Future<SentryId> submitSentryEvent(Map<String, dynamic> bugReport) async {
     final description = bugReport['email'] == ''
         ? '${bugReport['text']} from ${bugReport['faculty']}'
-        : '${bugReport['text']} from ${bugReport['faculty']}\nContact: ${bugReport['email']}';
+        : '${bugReport['text']} from ${bugReport['faculty']}\nContact: '
+            '${bugReport['email']}';
     return Sentry.captureMessage(
       '${bugReport['bugLabel']}: ${bugReport['text']}\n$description',
     );

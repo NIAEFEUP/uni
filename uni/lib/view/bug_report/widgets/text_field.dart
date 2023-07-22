@@ -25,7 +25,7 @@ class FormTextField extends StatelessWidget {
   final int maxLines;
   final double bottomMargin;
   final bool isOptional;
-  final Function? formatValidator;
+  final String? Function(String?)? formatValidator;
 
   @override
   Widget build(BuildContext context) {
@@ -60,13 +60,11 @@ class FormTextField extends StatelessWidget {
                     labelStyle: Theme.of(context).textTheme.bodyMedium,
                   ),
                   controller: controller,
-                  validator: (value) {
-                    if (value!.isEmpty) {
+                  validator: (String? value) {
+                    if (value == null || value.isEmpty) {
                       return isOptional ? null : emptyText;
                     }
-                    return formatValidator != null
-                        ? formatValidator!(value)
-                        : null;
+                    return formatValidator?.call(value);
                   },
                 ),
               )

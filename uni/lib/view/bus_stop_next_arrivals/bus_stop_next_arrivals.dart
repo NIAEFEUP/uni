@@ -70,7 +70,7 @@ class NextArrivalsState extends State<NextArrivals> {
             height: MediaQuery.of(context).size.height,
             child: Column(children: requestFailed(context)),
           );
-        default:
+        case RequestStatus.none:
           return Container();
       }
     }
@@ -83,37 +83,39 @@ class NextArrivalsState extends State<NextArrivals> {
 
   /// Returns a list of widgets for a successfull request
 
-  List<Widget> requestSuccessful(context) {
-    final result = <Widget>[];
-
-    result.addAll(getHeader(context));
+  List<Widget> requestSuccessful(BuildContext context) {
+    final result = <Widget>[...getHeader(context)];
 
     if (widget.buses.isNotEmpty) {
       result.addAll(getContent(context));
     } else {
-      result.add(
-        ImageLabel(
+      result
+        ..add(
+          ImageLabel(
             imagePath: 'assets/images/bus.png',
             label: 'Não percas nenhum autocarro',
             labelTextStyle: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 17,
-                color: Theme.of(context).colorScheme.primary,),),
-      );
-      result.add(
-        Column(
-          children: [
-            ElevatedButton(
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const BusStopSelectionPage(),),
-              ),
-              child: const Text('Adicionar'),
+              fontWeight: FontWeight.bold,
+              fontSize: 17,
+              color: Theme.of(context).colorScheme.primary,
             ),
-          ],
-        ),
-      );
+          ),
+        )
+        ..add(
+          Column(
+            children: [
+              ElevatedButton(
+                onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute<BusStopNextArrivalsPage>(
+                    builder: (context) => const BusStopSelectionPage(),
+                  ),
+                ),
+                child: const Text('Adicionar'),
+              ),
+            ],
+          ),
+        );
     }
 
     return result;
@@ -122,17 +124,14 @@ class NextArrivalsState extends State<NextArrivals> {
   /// TODO: Is this ok?
   /// Returns a list of widgets for a busy request
   List<Widget> requestBusy(BuildContext context) {
-    final result = <Widget>[];
-
-    result.add(getPageTitle());
-    result.add(
+    return [
+      getPageTitle(),
       Container(
         padding: const EdgeInsets.all(22),
         child: const Center(child: CircularProgressIndicator()),
       ),
-    );
-
-    return result;
+    ];
+    ;
   }
 
   Container getPageTitle() {
@@ -144,10 +143,8 @@ class NextArrivalsState extends State<NextArrivals> {
 
   /// Returns a list of widgets for a failed request
   List<Widget> requestFailed(BuildContext context) {
-    final result = <Widget>[];
-
-    result.addAll(getHeader(context));
-    result.add(
+    return [
+      ...getHeader(context),
       Container(
         padding: const EdgeInsets.only(bottom: 12),
         child: Text(
@@ -157,12 +154,10 @@ class NextArrivalsState extends State<NextArrivals> {
           style: Theme.of(context).textTheme.titleMedium,
         ),
       ),
-    );
-
-    return result;
+    ];
   }
 
-  List<Widget> getHeader(context) {
+  List<Widget> getHeader(BuildContext context) {
     return [
       getPageTitle(),
       Container(
@@ -178,7 +173,7 @@ class NextArrivalsState extends State<NextArrivals> {
               icon: const Icon(Icons.edit),
               onPressed: () => Navigator.push(
                 context,
-                MaterialPageRoute(
+                MaterialPageRoute<BusStopSelectionPage>(
                   builder: (context) => const BusStopSelectionPage(),
                 ),
               ),
@@ -218,7 +213,7 @@ class NextArrivalsState extends State<NextArrivals> {
     ];
   }
 
-  List<Widget> createTabs(queryData) {
+  List<Widget> createTabs(MediaQueryData queryData) {
     final tabs = <Widget>[];
     widget.buses.forEach((stopCode, stopData) {
       tabs.add(
@@ -233,7 +228,7 @@ class NextArrivalsState extends State<NextArrivals> {
   }
 
   /// Returns a list of widgets, for each bus stop configured by the user
-  List<Widget> getEachBusStopInfo(context) {
+  List<Widget> getEachBusStopInfo(BuildContext context) {
     final rows = <Widget>[];
 
     widget.buses.forEach((stopCode, stopData) {

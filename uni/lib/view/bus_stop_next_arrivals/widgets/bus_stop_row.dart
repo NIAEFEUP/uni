@@ -4,9 +4,9 @@ import 'package:uni/view/bus_stop_next_arrivals/widgets/trip_row.dart';
 
 class BusStopRow extends StatelessWidget {
   const BusStopRow({
-    super.key,
     required this.stopCode,
     required this.trips,
+    super.key,
     this.singleTrip = false,
     this.stopCodeShow = true,
   });
@@ -26,7 +26,7 @@ class BusStopRow extends StatelessWidget {
     );
   }
 
-  List<Widget> getTrips(context) {
+  List<Widget> getTrips(BuildContext context) {
     final row = <Widget>[];
 
     if (stopCodeShow) {
@@ -44,7 +44,7 @@ class BusStopRow extends StatelessWidget {
     return row;
   }
 
-  Widget noTripsContainer(context) {
+  Widget noTripsContainer(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 20),
       child: Text(
@@ -57,7 +57,7 @@ class BusStopRow extends StatelessWidget {
     );
   }
 
-  Widget stopCodeRotatedContainer(context) {
+  Widget stopCodeRotatedContainer(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(left: 4),
       child: RotatedBox(
