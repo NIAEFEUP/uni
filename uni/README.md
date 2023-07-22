@@ -16,6 +16,15 @@ The token is read from the file assets/env/env.json, which you may need to creat
 }
 ```
 
+### Automated formatting
+
+In order to contribute, you must format you files using `dart format` manually or formatting on save using your IDE automatically, or you can install the git pre-commit hook doing the following command at the root of the directory that automatically formats staged files:
+
+``` bash
+  chmod +x pre-commit-hook.sh && ./pre-commit-hook.sh
+```
+
+
 ## Project structure
 
 ### Overview
