@@ -18,7 +18,7 @@ class ReferenceFetcher implements SessionDependantFetcher {
   Future<Response> getUserReferenceResponse(Session session) {
     final List<String> urls = getEndpoints(session);
     final String url = urls[0];
-    final Map<String, String> query = {'pct_cod': session.studentNumber};
+    final Map<String, String> query = {'pct_cod': session.username};
     return NetworkRouter.getWithCookies(url, query, session);
   }
 }
