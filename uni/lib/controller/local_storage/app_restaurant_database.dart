@@ -117,12 +117,13 @@ List<Restaurant> filterPastMeals(List<Restaurant> restaurants) {
   // (To replicate sigarra's behaviour for the GSheets meals)
   final DateTime now = DateTime.now().toUtc();
   final DateTime today = DateTime.utc(now.year, now.month, now.day);
-  final DateTime nextSunday = today.add(Duration(days: DateTime.sunday - now.weekday));
+  final DateTime nextSunday =
+      today.add(Duration(days: DateTime.sunday - now.weekday));
 
   for (var restaurant in restaurantsCopy) {
     for (var meals in restaurant.meals.values) {
       meals.removeWhere(
-              (meal) => meal.date.isBefore(today) || meal.date.isAfter(nextSunday));
+          (meal) => meal.date.isBefore(today) || meal.date.isAfter(nextSunday));
     }
   }
 

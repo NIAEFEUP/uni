@@ -7,7 +7,14 @@ class ImageLabel extends StatelessWidget {
   final String sublabel;
   final TextStyle? sublabelTextStyle;
 
-  const ImageLabel({Key? key, required this.imagePath, required this.label, this.labelTextStyle, this.sublabel = '', this.sublabelTextStyle}) : super(key: key);
+  const ImageLabel(
+      {Key? key,
+      required this.imagePath,
+      required this.label,
+      this.labelTextStyle,
+      this.sublabel = '',
+      this.sublabelTextStyle})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,12 +31,11 @@ class ImageLabel extends StatelessWidget {
           label,
           style: labelTextStyle,
         ),
-        if(sublabel.isNotEmpty)
-          const SizedBox(height: 20),
-          Text(
-            sublabel,
-            style: sublabelTextStyle,
-          ),
+        if (sublabel.isNotEmpty) const SizedBox(height: 20),
+        Text(
+          sublabel,
+          style: sublabelTextStyle,
+        ),
       ],
     );
   }

@@ -46,10 +46,11 @@ jobs:
         working-directory: ./uni
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-java@v1
+      - uses: actions/setup-java@v3
         with:
           java-version: ${{env.JAVA_VERSION}}
-      - uses: subosito/flutter-action@v1
+          distribution: 'zulu'
+      - uses: subosito/flutter-action@v2
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
 
@@ -77,7 +78,7 @@ jobs:
           flutter build appbundle
 
       - name: Upload App Bundle
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: appbundle
           if-no-files-found: error
@@ -90,7 +91,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Get App Bundle
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: appbundle
 

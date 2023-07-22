@@ -29,7 +29,7 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
           Column(
             mainAxisSize: MainAxisSize.max,
             children:
-            createExamsColumn(context, examProvider.getFilteredExams()),
+                createExamsColumn(context, examProvider.getFilteredExams()),
           )
         ],
       );
@@ -45,14 +45,16 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
     if (exams.isEmpty) {
       columns.add(Center(
           heightFactor: 1.2,
-          child: ImageLabel(imagePath: 'assets/images/vacation.png',
+          child: ImageLabel(
+            imagePath: 'assets/images/vacation.png',
             label: 'Parece que estás de férias!',
-            labelTextStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Theme.of(context).colorScheme.primary),
+            labelTextStyle: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+                color: Theme.of(context).colorScheme.primary),
             sublabel: 'Não tens exames marcados',
             sublabelTextStyle: const TextStyle(fontSize: 15),
-          )
-      )
-      );
+          )));
       return columns;
     }
 
@@ -114,7 +116,7 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
 
   Widget createExamContext(context, Exam exam) {
     final isHidden =
-    Provider.of<ExamProvider>(context).hiddenExams.contains(exam.id);
+        Provider.of<ExamProvider>(context).hiddenExams.contains(exam.id);
     return Container(
         key: Key('$exam-exam'),
         margin: const EdgeInsets.fromLTRB(12, 4, 12, 0),
