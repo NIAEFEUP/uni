@@ -52,7 +52,7 @@ abstract class StateProviderNotifier extends ChangeNotifier {
       Logger().i(
           "Last info for $runtimeType is within cache period (last updated on $_lastUpdateTime); "
           "skipping remote load");
-      _status = RequestStatus.successful;
+      updateStatus(RequestStatus.successful);
       return;
     }
 
@@ -61,7 +61,7 @@ abstract class StateProviderNotifier extends ChangeNotifier {
 
     if (!hasConnectivity) {
       Logger().w("No internet connection; skipping $runtimeType remote load");
-      _status = RequestStatus.successful;
+      updateStatus(RequestStatus.successful);
       return;
     }
 
