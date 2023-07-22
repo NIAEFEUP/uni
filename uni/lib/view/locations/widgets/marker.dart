@@ -22,9 +22,8 @@ class LocationMarker extends Marker {
                   color: Theme.of(ctx).colorScheme.primary,
                 ),
                 borderRadius: const BorderRadius.all(Radius.circular(20))),
-            child: MarkerIcon(
-                location: locationGroup.getLocationWithMostWeight()
-            ),
+            child:
+                MarkerIcon(location: locationGroup.getLocationWithMostWeight()),
           ),
         );
 }

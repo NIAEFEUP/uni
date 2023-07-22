@@ -3,7 +3,6 @@ import 'package:latlong2/latlong.dart';
 import 'package:uni/model/entities/location_group.dart';
 import 'package:uni/view/locations/widgets/map.dart';
 
-
 class FacultyMap extends StatelessWidget {
   final String faculty;
   final List<LocationGroup> locations;
@@ -22,7 +21,7 @@ class FacultyMap extends StatelessWidget {
           locations: locations,
         );
       default:
-        return Container();  // Should not happen
+        return Container(); // Should not happen
     }
   }
 
@@ -32,4 +31,3 @@ class FacultyMap extends StatelessWidget {
         : Theme.of(context).colorScheme.tertiary;
   }
 }
-

@@ -19,8 +19,7 @@ class CourseUnitClassesView extends StatelessWidget {
       final bool isMyClass = courseUnitClass.students
           .where((student) =>
               student.number ==
-              (int.tryParse(
-                      session.studentNumber.replaceAll(RegExp(r"\D"), "")) ??
+              (int.tryParse(session.username.replaceAll(RegExp(r"\D"), "")) ??
                   0))
           .isNotEmpty;
       cards.add(CourseUnitInfoCard(

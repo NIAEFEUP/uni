@@ -45,7 +45,7 @@ class SchedulePageView extends StatefulWidget {
   final int weekDay = DateTime.now().weekday;
 
   static final List<String> daysOfTheWeek =
-  TimeString.getWeekdaysStrings(includeWeekend: false);
+      TimeString.getWeekdaysStrings(includeWeekend: false);
 
   static List<Set<Lecture>> groupLecturesByDay(schedule) {
     final aggLectures = <Set<Lecture>>[];
@@ -105,10 +105,10 @@ class SchedulePageViewState extends GeneralPageViewState<SchedulePageView>
       ),
       Expanded(
           child: TabBarView(
-            controller: tabController,
-            children:
+        controller: tabController,
+        children:
             createSchedule(context, widget.lectures, widget.scheduleStatus),
-          ))
+      ))
     ]);
   }
 
@@ -169,14 +169,15 @@ class SchedulePageViewState extends GeneralPageViewState<SchedulePageView>
       List<dynamic>? lectures, RequestStatus? scheduleStatus) {
     final List aggLectures = SchedulePageView.groupLecturesByDay(lectures);
     return RequestDependentWidgetBuilder(
-      status: scheduleStatus ?? RequestStatus.none,
-      builder: () => dayColumnBuilder(day, aggLectures[day], context),
-      hasContentPredicate: aggLectures[day].isNotEmpty,
+        status: scheduleStatus ?? RequestStatus.none,
+        builder: () => dayColumnBuilder(day, aggLectures[day], context),
+        hasContentPredicate: aggLectures[day].isNotEmpty,
         onNullContent: Center(
-            child: ImageLabel(imagePath: 'assets/images/schedule.png', label: 'Não possui aulas à ${SchedulePageView.daysOfTheWeek[day]}.', labelTextStyle: const TextStyle(fontSize: 15),
-            )
-        )
-    );
+            child: ImageLabel(
+          imagePath: 'assets/images/schedule.png',
+          label: 'Não possui aulas à ${SchedulePageView.daysOfTheWeek[day]}.',
+          labelTextStyle: const TextStyle(fontSize: 15),
+        )));
   }
 
   @override
@@ -185,6 +186,3 @@ class SchedulePageViewState extends GeneralPageViewState<SchedulePageView>
         .forceRefresh(context);
   }
 }
-
-
-

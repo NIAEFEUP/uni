@@ -13,7 +13,7 @@ class PrintFetcher implements SessionDependantFetcher {
 
   getUserPrintsResponse(Session session) {
     final String url = getEndpoints(session)[0];
-    final Map<String, String> query = {'p_codigo': session.studentNumber};
+    final Map<String, String> query = {'p_codigo': session.username};
     return NetworkRouter.getWithCookies(url, query, session);
   }
 
@@ -26,7 +26,7 @@ class PrintFetcher implements SessionDependantFetcher {
 
     final Map data = {
       'p_tipo_id': '3',
-      'pct_codigo': session.studentNumber,
+      'pct_codigo': session.username,
       'p_valor': '1',
       'p_valor_livre': amount.toStringAsFixed(2).trim().replaceAll('.', ',')
     };

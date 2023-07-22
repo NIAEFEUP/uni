@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 class ExamTime extends StatelessWidget {
   final String begin;
 
-  const ExamTime({Key? key, required this.begin})
-      : super(key: key);
+  const ExamTime({Key? key, required this.begin}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

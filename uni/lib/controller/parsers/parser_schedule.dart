@@ -21,7 +21,6 @@ Future<List<Lecture>> parseSchedule(http.Response response) async {
 
   final json = jsonDecode(response.body);
 
-
   final schedule = json['horario'];
 
   for (var lecture in schedule) {
@@ -37,12 +36,18 @@ Future<List<Lecture>> parseSchedule(http.Response response) async {
     final int occurrId = lecture['ocorrencia_id'];
 
     final DateTime monday = DateTime.now().getClosestMonday();
-    
-    final Lecture lec = Lecture.fromApi(subject, typeClass, monday.add(Duration(days:day, seconds: secBegin)), blocks,
-        room, teacher, classNumber, occurrId);
-    
-    lectures.add(lec);
 
+    final Lecture lec = Lecture.fromApi(
+        subject,
+        typeClass,
+        monday.add(Duration(days: day, seconds: secBegin)),
+        blocks,
+        room,
+        teacher,
+        classNumber,
+        occurrId);
+
+    lectures.add(lec);
   }
 
   final lecturesList = lectures.toList();
