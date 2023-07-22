@@ -26,8 +26,9 @@ class FloorlessLocationMarkerPopup extends StatelessWidget {
             spacing: 8,
             children: (showId
                     ? <Widget>[Text(locationGroup.id.toString())]
-                    : <Widget>[])
-                + locations.map((location) => LocationRow(location: location))
+                    : <Widget>[]) +
+                locations
+                    .map((location) => LocationRow(location: location))
                     .toList(),
           )),
     );
@@ -36,13 +37,13 @@ class FloorlessLocationMarkerPopup extends StatelessWidget {
   List<Widget> buildLocations(BuildContext context, List<Location> locations) {
     return locations
         .map((location) => Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(location.description(),
-                  textAlign: TextAlign.left,
-                  style: TextStyle(color: FacultyMap.getFontColor(context)))
-            ],
-        ))
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(location.description(),
+                    textAlign: TextAlign.left,
+                    style: TextStyle(color: FacultyMap.getFontColor(context)))
+              ],
+            ))
         .toList();
   }
 }

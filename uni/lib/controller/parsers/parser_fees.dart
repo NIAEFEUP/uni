@@ -27,7 +27,7 @@ Future<DateTime?> parseFeesNextLimit(http.Response response) async {
   }
   final String limit = lines[1].querySelectorAll('.data')[1].text;
 
-  //it's completly fine to throw an exeception if it fails, in this case, 
+  //it's completly fine to throw an exeception if it fails, in this case,
   //since probably sigarra is returning something we don't except
-  return DateTime.parse(limit); 
+  return DateTime.parse(limit);
 }

@@ -54,7 +54,8 @@ class LoginPageViewState extends State<LoginPageView> {
       final pass = passwordController.text.trim();
 
       try {
-        await sessionProvider.login(user, pass, faculties, _keepSignedIn);
+        await sessionProvider.postAuthentication(
+            user, pass, faculties, _keepSignedIn);
         if (context.mounted) {
           handleLogin(sessionProvider.status, context);
         }
@@ -118,33 +119,34 @@ class LoginPageViewState extends State<LoginPageView> {
                             left: queryData.size.width / 8,
                             right: queryData.size.width / 8),
                         child: ListView(
-                          children: getWidgets(themeContext, queryData),
+                          children: [
+                            Padding(
+                                padding: EdgeInsets.only(
+                                    bottom: queryData.size.height / 20)),
+                            createTitle(queryData, context),
+                            Padding(
+                                padding: EdgeInsets.only(
+                                    bottom: queryData.size.height / 35)),
+                            getLoginForm(queryData, context),
+                            Padding(
+                                padding: EdgeInsets.only(
+                                    bottom: queryData.size.height / 35)),
+                            createForgetPasswordLink(context),
+                            Padding(
+                                padding: EdgeInsets.only(
+                                    bottom: queryData.size.height / 15)),
+                            createLogInButton(queryData, context, _login),
+                            Padding(
+                                padding: EdgeInsets.only(
+                                    bottom: queryData.size.height / 35)),
+                            createStatusWidget(context),
+                            Padding(
+                                padding: EdgeInsets.only(
+                                    bottom: queryData.size.height / 35)),
+                            createSafeLoginButton(context),
+                          ],
                         )),
                     onWillPop: () => onWillPop(themeContext)))));
-  }
-
-  List<Widget> getWidgets(BuildContext context, MediaQueryData queryData) {
-    final List<Widget> widgets = [];
-
-    widgets.add(
-        Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 20)));
-    widgets.add(createTitle(queryData, context));
-    widgets.add(
-        Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)));
-    widgets.add(getLoginForm(queryData, context));
-    widgets.add(
-        Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)));
-    widgets.add(createForgetPasswordLink(context));
-    widgets.add(
-        Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 15)));
-    widgets.add(createLogInButton(queryData, context, _login));
-    widgets.add(
-        Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)));
-    widgets.add(createStatusWidget(context));
-    widgets.add(
-        Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)));
-    widgets.add(createSafeLoginButton(context));
-    return widgets;
   }
 
   /// Delay time before the user leaves the app
@@ -238,9 +240,7 @@ class LoginPageViewState extends State<LoginPageView> {
   }
 
   void handleLogin(RequestStatus? status, BuildContext context) {
-    final session =
-        Provider.of<SessionProvider>(context, listen: false).session;
-    if (status == RequestStatus.successful && session.authenticated) {
+    if (status == RequestStatus.successful) {
       Navigator.pushReplacementNamed(
           context, '/${DrawerItem.navPersonalArea.title}');
     }

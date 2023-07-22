@@ -33,7 +33,7 @@ class RestaurantProvider extends StateProviderNotifier {
   Future<void> fetchRestaurants(Session session) async {
     try {
       final List<Restaurant> restaurants =
-      await RestaurantFetcher().getRestaurants(session);
+          await RestaurantFetcher().getRestaurants(session);
 
       final RestaurantDatabase db = RestaurantDatabase();
       db.saveRestaurants(restaurants);

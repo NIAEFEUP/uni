@@ -86,7 +86,7 @@ void main() {
           ParserExams(),
           const Tuple2('', ''),
           profile,
-          Session(authenticated: true),
+          Session(username: '', cookies: '', faculties: ['feup']),
           [sopeCourseUnit, sdisCourseUnit]);
 
       await tester.pumpAndSettle();
@@ -121,7 +121,7 @@ void main() {
           ParserExams(),
           const Tuple2('', ''),
           profile,
-          Session(authenticated: true),
+          Session(username: '', cookies: '', faculties: ['feup']),
           [sopeCourseUnit, sdisCourseUnit]);
 
       await tester.pumpAndSettle();

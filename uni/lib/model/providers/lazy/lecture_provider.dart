@@ -39,7 +39,7 @@ class LectureProvider extends StateProviderNotifier {
       {ScheduleFetcher? fetcher}) async {
     try {
       final List<Lecture> lectures =
-      await getLecturesFromFetcherOrElse(fetcher, session, profile);
+          await getLecturesFromFetcherOrElse(fetcher, session, profile);
 
       if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {
         final AppLecturesDatabase db = AppLecturesDatabase();
@@ -53,8 +53,8 @@ class LectureProvider extends StateProviderNotifier {
     }
   }
 
-  Future<List<Lecture>> getLecturesFromFetcherOrElse(ScheduleFetcher? fetcher,
-      Session session, Profile profile) =>
+  Future<List<Lecture>> getLecturesFromFetcherOrElse(
+          ScheduleFetcher? fetcher, Session session, Profile profile) =>
       (fetcher?.getLectures(session, profile)) ?? getLectures(session, profile);
 
   Future<List<Lecture>> getLectures(Session session, Profile profile) {

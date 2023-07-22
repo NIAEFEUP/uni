@@ -63,7 +63,7 @@ void main() {
       expect(find.byKey(const Key(scheduleSlotTimeKey2)), findsNothing);
 
       await scheduleProvider.fetchUserLectures(const Tuple2('', ''),
-          Session(authenticated: true), profile);
+          Session(username: '', cookies: '', faculties: ['feup']), profile);
 
       await tester.tap(find.byKey(const Key('schedule-page-tab-2')));
       await tester.pumpAndSettle();
@@ -89,11 +89,11 @@ void main() {
       when(mockResponse.body).thenReturn(mockJson);
       when(mockResponse.statusCode).thenReturn(200);
       when(mockClient.get(argThat(UriMatcher(contains(htmlFetcherIdentifier))),
-          headers: anyNamed('headers')))
+              headers: anyNamed('headers')))
           .thenAnswer((_) async => badMockResponse);
 
       when(mockClient.get(argThat(UriMatcher(contains(jsonFetcherIdentifier))),
-          headers: anyNamed('headers')))
+              headers: anyNamed('headers')))
           .thenAnswer((_) async => mockResponse);
 
       await testSchedule(tester);
@@ -105,11 +105,11 @@ void main() {
       when(mockResponse.body).thenReturn(mockHtml);
       when(mockResponse.statusCode).thenReturn(200);
       when(mockClient.get(argThat(UriMatcher(contains(htmlFetcherIdentifier))),
-          headers: anyNamed('headers')))
+              headers: anyNamed('headers')))
           .thenAnswer((_) async => mockResponse);
 
       when(mockClient.get(argThat(UriMatcher(contains(jsonFetcherIdentifier))),
-          headers: anyNamed('headers')))
+              headers: anyNamed('headers')))
           .thenAnswer((_) async => badMockResponse);
 
       await testSchedule(tester);
