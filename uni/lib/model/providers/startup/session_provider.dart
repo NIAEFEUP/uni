@@ -36,13 +36,13 @@ class SessionProvider extends StateProviderNotifier {
     updateStatus(RequestStatus.successful);
   }
 
-  login(
+  Future<void> login(
     Completer<void> action,
     String username,
     String password,
-    List<String> faculties,
-    persistentSession,
-  ) async {
+    List<String> faculties, {
+    required bool persistentSession,
+  }) async {
     try {
       updateStatus(RequestStatus.busy);
 
@@ -51,7 +51,7 @@ class SessionProvider extends StateProviderNotifier {
         username,
         password,
         faculties,
-        persistentSession,
+        persistentSession: persistentSession,
       );
 
       if (_session.authenticated) {
@@ -89,7 +89,7 @@ class SessionProvider extends StateProviderNotifier {
     action.complete();
   }
 
-  reLogin(
+  Future<void> reLogin(
     String username,
     String password,
     List<String> faculties, {
@@ -97,7 +97,8 @@ class SessionProvider extends StateProviderNotifier {
   }) async {
     try {
       updateStatus(RequestStatus.busy);
-      _session = await NetworkRouter.login(username, password, faculties, true);
+      _session = await NetworkRouter.login(username, password, faculties,
+          persistentSession: true);
 
       if (session.authenticated) {
         Future.delayed(

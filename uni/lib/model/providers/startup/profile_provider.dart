@@ -97,7 +97,7 @@ class ProfileProvider extends StateProviderNotifier {
     profile.courseUnits = await db.courseUnits();
   }
 
-  fetchUserFees(Completer<void> action, Session session) async {
+  Future<void> fetchUserFees(Completer<void> action, Session session) async {
     try {
       final response = await FeesFetcher().getUserFeesResponse(session);
 
@@ -135,12 +135,13 @@ class ProfileProvider extends StateProviderNotifier {
     action.complete();
   }
 
-  Future storeRefreshTime(String db, String currentTime) async {
+  Future<void> storeRefreshTime(String db, String currentTime) async {
     final refreshTimesDatabase = AppRefreshTimesDatabase();
     await refreshTimesDatabase.saveRefreshTime(db, currentTime);
   }
 
-  fetchUserPrintBalance(Completer<void> action, Session session) async {
+  Future<void> fetchUserPrintBalance(
+      Completer<void> action, Session session) async {
     try {
       final response = await PrintFetcher().getUserPrintsResponse(session);
       final printBalance = await getPrintsBalance(response);
@@ -176,7 +177,7 @@ class ProfileProvider extends StateProviderNotifier {
     action.complete();
   }
 
-  fetchUserInfo(Completer<void> action, Session session) async {
+  Future<void> fetchUserInfo(Completer<void> action, Session session) async {
     try {
       updateStatus(RequestStatus.busy);
 
@@ -203,7 +204,7 @@ class ProfileProvider extends StateProviderNotifier {
     action.complete();
   }
 
-  fetchCourseUnitsAndCourseAverages(
+  Future<void> fetchCourseUnitsAndCourseAverages(
     Session session,
     Completer<void> action,
   ) async {
@@ -235,7 +236,7 @@ class ProfileProvider extends StateProviderNotifier {
   static Future<File?> fetchOrGetCachedProfilePicture(
     int? studentNumber,
     Session session, {
-    forceRetrieval = false,
+    bool forceRetrieval = false,
   }) {
     studentNumber ??= int.parse(session.studentNumber.replaceAll('up', ''));
 

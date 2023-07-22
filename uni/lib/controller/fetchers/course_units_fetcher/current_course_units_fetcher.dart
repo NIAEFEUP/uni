@@ -30,8 +30,8 @@ class CurrentCourseUnitsFetcher implements SessionDependantFetcher {
     final ucs = <CourseUnit>[];
 
     for (final course in responseBody) {
-      final enrollments =
-          (course as Map<String, dynamic>)['inscricoes'] as List;
+      final enrollments = (course as Map<String, dynamic>)['inscricoes']
+          as List<Map<String, dynamic>>;
       for (final uc in enrollments) {
         final courseUnit = CourseUnit.fromJson(uc);
         if (courseUnit != null) {

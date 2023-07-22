@@ -79,7 +79,7 @@ class NotificationManager {
       userInfo.item1,
       userInfo.item2,
       faculties,
-      false,
+      persistentSession: false,
     );
 
     for (final value in notificationMap.values) {

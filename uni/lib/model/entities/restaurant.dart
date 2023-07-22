@@ -5,6 +5,15 @@ import 'package:uni/model/utils/day_of_week.dart';
 class Restaurant {
   Restaurant(this.id, this.name, this.reference, {required List<Meal> meals})
       : meals = groupBy(meals, (meal) => meal.dayOfWeek);
+
+  factory Restaurant.fromMap(Map<String, dynamic> map, List<Meal> meals) {
+    return Restaurant(
+      map['id'] as int?,
+      map['name'] as String,
+      map['ref'] as String,
+      meals: meals,
+    );
+  }
   final int? id;
   final String name;
   final String reference; // Used only in html parser
@@ -12,10 +21,6 @@ class Restaurant {
 
   bool get isNotEmpty {
     return meals.isNotEmpty;
-  }
-
-  static Restaurant fromMap(Map<String, dynamic> map, List<Meal> meals) {
-    return Restaurant(map['id'], map['name'], map['ref'], meals: meals);
   }
 
   List<Meal> getMealsOfDay(DayOfWeek dayOfWeek) {
