@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/entities/bus_stop.dart';
-import 'package:uni/model/providers/bus_stop_provider.dart';
+import 'package:uni/model/providers/lazy/bus_stop_provider.dart';
 import 'package:uni/view/common_widgets/row_container.dart';
 
 class BusStopSelectionRow extends StatefulWidget {

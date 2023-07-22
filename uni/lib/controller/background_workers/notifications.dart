@@ -60,14 +60,19 @@ class NotificationManager {
   }
 
   static Future<void> updateAndTriggerNotifications() async {
-    //first we get the .json file that contains the last time that the notification have ran
-    _initFlutterNotificationsPlugin();
-    final notificationStorage = await NotificationTimeoutStorage.create();
     final userInfo = await AppSharedPreferences.getPersistentUserInfo();
     final faculties = await AppSharedPreferences.getUserFaculties();
 
-    final Session session = await NetworkRouter.login(
+    final Session? session = await NetworkRouter.login(
         userInfo.item1, userInfo.item2, faculties, false);
+
+    if (session == null) {
+      return;
+    }
+
+    // Get the .json file that contains the last time that the notification has ran
+    _initFlutterNotificationsPlugin();
+    final notificationStorage = await NotificationTimeoutStorage.create();
 
     for (Notification Function() value in notificationMap.values) {
       final Notification notification = value();
@@ -83,7 +88,7 @@ class NotificationManager {
   }
 
   void initializeNotifications() async {
-    //guarentees that the execution is only done once in the lifetime of the app.
+    // guarantees that the execution is only done once in the lifetime of the app.
     if (_initialized) return;
     _initialized = true;
     _initFlutterNotificationsPlugin();

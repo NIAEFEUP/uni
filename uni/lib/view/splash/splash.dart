@@ -121,9 +121,9 @@ class SplashScreenState extends State<SplashScreen> {
   }
 
   Future<MaterialPageRoute> getTermsAndConditions(
-      String userName, String password, StateProviders stateProviders) async {
+      String username, String password, StateProviders stateProviders) async {
     final completer = Completer<TermsAndConditionsState>();
-    await TermsAndConditionDialog.build(context, completer, userName, password);
+    await TermsAndConditionDialog.build(context, completer, username, password);
     final state = await completer.future;
 
     switch (state) {
@@ -132,7 +132,7 @@ class SplashScreenState extends State<SplashScreen> {
           final List<String> faculties =
               await AppSharedPreferences.getUserFaculties();
           stateProviders.sessionProvider
-              .reLogin(userName, password, faculties, stateProviders);
+              .restoreSession(username, password, faculties);
         }
         return MaterialPageRoute(builder: (context) => const HomePageView());
 

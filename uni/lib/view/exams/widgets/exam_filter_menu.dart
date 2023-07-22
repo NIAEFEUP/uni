@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:uni/model/providers/exam_provider.dart';
+import 'package:uni/model/providers/lazy/exam_provider.dart';
 import 'package:uni/view/exams/widgets/exam_filter_form.dart';
 
 class ExamFilterMenu extends StatefulWidget {

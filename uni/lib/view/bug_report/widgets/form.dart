@@ -7,11 +7,11 @@ import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:tuple/tuple.dart';
+import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/model/entities/bug_report.dart';
 import 'package:uni/view/bug_report/widgets/text_field.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/toast_message.dart';
-import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 
 class BugReportForm extends StatefulWidget {
   const BugReportForm({super.key});
@@ -53,6 +53,7 @@ class BugReportFormState extends State<BugReportForm> {
   BugReportFormState() {
     loadBugClassList();
   }
+
   void loadBugClassList() {
     bugList = [];
 

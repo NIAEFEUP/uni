@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:uni/model/providers/bus_stop_provider.dart';
+import 'package:uni/model/providers/lazy/bus_stop_provider.dart';
+import 'package:uni/view/lazy_consumer.dart';
 
 /// Manages the section with the estimated time for the bus arrival
 class EstimatedArrivalTimeStamp extends StatelessWidget {
@@ -13,8 +13,8 @@ class EstimatedArrivalTimeStamp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<BusStopProvider>(
-      builder: (context, busProvider, _) =>
+    return LazyConsumer<BusStopProvider>(
+      builder: (context, busProvider) =>
           getContent(context, busProvider.timeStamp),
     );
   }

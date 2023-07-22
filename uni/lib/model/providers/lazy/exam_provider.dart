@@ -7,19 +7,20 @@ import 'package:uni/controller/fetchers/exam_fetcher.dart';
 import 'package:uni/controller/local_storage/app_exams_database.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/controller/parsers/parser_exams.dart';
-import 'package:uni/model/request_status.dart';
-import 'package:uni/model/entities/course_unit.dart';
+import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
+import 'package:uni/model/request_status.dart';
 
 class ExamProvider extends StateProviderNotifier {
   List<Exam> _exams = [];
   List<String> _hiddenExams = [];
   Map<String, bool> _filteredExamsTypes = {};
 
-
+  ExamProvider()
+      : super(dependsOnSession: true, cacheDuration: const Duration(days: 1));
 
   UnmodifiableListView<Exam> get exams => UnmodifiableListView(_exams);
 
@@ -29,7 +30,30 @@ class ExamProvider extends StateProviderNotifier {
   UnmodifiableMapView<String, bool> get filteredExamsTypes =>
       UnmodifiableMapView(_filteredExamsTypes);
 
-  void getUserExams(
+  @override
+  Future<void> loadFromStorage() async {
+    setFilteredExams(
+        await AppSharedPreferences.getFilteredExams(), Completer());
+    setHiddenExams(await AppSharedPreferences.getHiddenExams(), Completer());
+
+    final AppExamsDatabase db = AppExamsDatabase();
+    final List<Exam> exams = await db.exams();
+    _exams = exams;
+  }
+
+  @override
+  Future<void> loadFromRemote(Session session, Profile profile) async {
+    final Completer<void> action = Completer<void>();
+    final ParserExams parserExams = ParserExams();
+    final Tuple2<String, String> userPersistentInfo =
+        await AppSharedPreferences.getPersistentUserInfo();
+
+    fetchUserExams(action, parserExams, userPersistentInfo, profile, session,
+        profile.courseUnits);
+    await action.future;
+  }
+
+  Future<void> fetchUserExams(
     Completer<void> action,
     ParserExams parserExams,
     Tuple2<String, String> userPersistentInfo,
@@ -61,13 +85,6 @@ class ExamProvider extends StateProviderNotifier {
     }
 
     action.complete();
-  }
-
-  updateStateBasedOnLocalUserExams() async {
-    final AppExamsDatabase db = AppExamsDatabase();
-    final List<Exam> exs = await db.exams();
-    _exams = exs;
-    notifyListeners();
   }
 
   updateFilteredExams() async {

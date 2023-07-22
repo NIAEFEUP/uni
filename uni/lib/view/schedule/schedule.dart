@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:uni/model/request_status.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/entities/time_utilities.dart';
-import 'package:uni/model/providers/lecture_provider.dart';
+import 'package:uni/model/providers/lazy/lecture_provider.dart';
+import 'package:uni/model/request_status.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
+import 'package:uni/view/lazy_consumer.dart';
+import 'package:uni/view/common_widgets/expanded_image_label.dart';
 import 'package:uni/view/schedule/widgets/schedule_slot.dart';
 
 class SchedulePage extends StatefulWidget {
@@ -20,8 +22,8 @@ class SchedulePage extends StatefulWidget {
 class SchedulePageState extends State<SchedulePage> {
   @override
   Widget build(BuildContext context) {
-    return Consumer<LectureProvider>(
-      builder: (context, lectureProvider, _) {
+    return LazyConsumer<LectureProvider>(
+      builder: (context, lectureProvider) {
         return SchedulePageView(
           lectures: lectureProvider.lectures,
           scheduleStatus: lectureProvider.status,
@@ -51,8 +53,7 @@ class SchedulePageView extends StatefulWidget {
     for (int i = 0; i < daysOfTheWeek.length; i++) {
       final Set<Lecture> lectures = {};
       for (int j = 0; j < schedule.length; j++) {
-        if (schedule[j].startTime.weekday-1 == i) lectures.add(schedule[j]);
-
+        if (schedule[j].startTime.weekday - 1 == i) lectures.add(schedule[j]);
       }
       aggLectures.add(lectures);
     }
@@ -155,32 +156,33 @@ class SchedulePageViewState extends GeneralPageViewState<SchedulePageView>
     return scheduleContent;
   }
 
-  Widget Function(dynamic daycontent, BuildContext context) dayColumnBuilder(
-      int day) {
-    Widget createDayColumn(dayContent, BuildContext context) {
-      return Container(
-          key: Key('schedule-page-day-column-$day'),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: createScheduleRows(dayContent, context),
-          ));
-    }
-
-    return createDayColumn;
+  Widget dayColumnBuilder(int day, dayContent, BuildContext context) {
+    return Container(
+        key: Key('schedule-page-day-column-$day'),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: createScheduleRows(dayContent, context),
+        ));
   }
 
   Widget createScheduleByDay(BuildContext context, int day,
       List<dynamic>? lectures, RequestStatus? scheduleStatus) {
     final List aggLectures = SchedulePageView.groupLecturesByDay(lectures);
     return RequestDependentWidgetBuilder(
-      context: context,
-      status: scheduleStatus ?? RequestStatus.none,
-      contentGenerator: dayColumnBuilder(day),
-      content: aggLectures[day],
-      contentChecker: aggLectures[day].isNotEmpty,
-      onNullContent: Center(
-          child: Text(
-              'Não possui aulas à ${SchedulePageView.daysOfTheWeek[day]}.')),
-    );
+        status: scheduleStatus ?? RequestStatus.none,
+        builder: () => dayColumnBuilder(day, aggLectures[day], context),
+        hasContentPredicate: aggLectures[day].isNotEmpty,
+        onNullContent: Center(
+            child: ImageLabel(
+          imagePath: 'assets/images/schedule.png',
+          label: 'Não possui aulas à ${SchedulePageView.daysOfTheWeek[day]}.',
+          labelTextStyle: const TextStyle(fontSize: 15),
+        )));
+  }
+
+  @override
+  Future<void> onRefresh(BuildContext context) {
+    return Provider.of<LectureProvider>(context, listen: false)
+        .forceRefresh(context);
   }
 }

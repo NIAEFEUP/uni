@@ -6,5 +6,8 @@ class BusStopData {
   bool favorited;
   List<Trip> trips;
 
-  BusStopData({required this.configuredBuses, this.favorited = false, this.trips = const []});
+  BusStopData(
+      {required this.configuredBuses,
+      this.favorited = false,
+      this.trips = const []});
 }

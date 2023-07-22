@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:uni/model/entities/location.dart';
 import 'package:uni/model/entities/location_group.dart';
-import 'package:uni/view/locations/widgets/faculty_maps.dart';
+import 'package:uni/view/locations/widgets/faculty_map.dart';
 
 class LocationMarkerPopup extends StatelessWidget {
   const LocationMarkerPopup(this.locationGroup,
@@ -25,28 +25,32 @@ class LocationMarkerPopup extends StatelessWidget {
             children: (showId
                     ? <Widget>[Text(locationGroup.id.toString())]
                     : <Widget>[]) +
-                buildFloors(context),
+                getEntries()
+                    .map((entry) =>
+                        Floor(floor: entry.key, locations: entry.value))
+                    .toList(),
           )),
     );
   }
 
-  List<Widget> buildFloors(BuildContext context) {
-    //Sort by floor
+  List<MapEntry<int, List<Location>>> getEntries() {
     final List<MapEntry<int, List<Location>>> entries =
         locationGroup.floors.entries.toList();
     entries.sort((current, next) => -current.key.compareTo(next.key));
-
-    return entries.map((entry) {
-      final int floor = entry.key;
-      final List<Location> locations = entry.value;
-
-      return Row(children: buildFloor(context, floor, locations));
-    }).toList();
+    return entries;
   }
+}
 
-  List<Widget> buildFloor(
-      BuildContext context, floor, List<Location> locations) {
-    final Color fontColor = FacultyMaps.getFontColor(context);
+class Floor extends StatelessWidget {
+  final List<Location> locations;
+  final int floor;
+
+  const Floor({Key? key, required this.locations, required this.floor})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final Color fontColor = FacultyMap.getFontColor(context);
 
     final String floorString =
         0 <= floor && floor <= 9 //To maintain layout of popup
@@ -69,21 +73,30 @@ class LocationMarkerPopup extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: buildLocations(context, locations, fontColor),
+          children: locations
+              .map((location) =>
+                  LocationRow(location: location, color: fontColor))
+              .toList(),
         ));
-    return [floorCol, locationsColumn];
+    return Row(children: [floorCol, locationsColumn]);
   }
+}
 
-  List<Widget> buildLocations(
-      BuildContext context, List<Location> locations, Color color) {
-    return locations
-        .map((location) => Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(location.description(),
-                    textAlign: TextAlign.left, style: TextStyle(color: color))
-              ],
-            ))
-        .toList();
+class LocationRow extends StatelessWidget {
+  final Location location;
+  final Color color;
+
+  const LocationRow({Key? key, required this.location, required this.color})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(location.description(),
+            textAlign: TextAlign.left, style: TextStyle(color: color))
+      ],
+    );
   }
 }

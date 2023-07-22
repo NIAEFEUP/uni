@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/entities/login_exceptions.dart';
-import 'package:uni/model/request_status.dart';
-import 'package:uni/model/providers/session_provider.dart';
+import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/model/providers/state_providers.dart';
+import 'package:uni/model/request_status.dart';
+import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/common_widgets/toast_message.dart';
 import 'package:uni/view/login/widgets/inputs.dart';
-import 'package:uni/utils/drawer_items.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:uni/view/theme.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class LoginPageView extends StatefulWidget {
   const LoginPageView({super.key});
@@ -54,8 +54,8 @@ class LoginPageViewState extends State<LoginPageView> {
       final pass = passwordController.text.trim();
       final completer = Completer();
 
-      sessionProvider.login(completer, user, pass, faculties, stateProviders,
-          _keepSignedIn, usernameController, passwordController);
+      sessionProvider.postAuthentication(
+          completer, user, pass, faculties, _keepSignedIn);
 
       completer.future.then((_) {
         handleLogin(sessionProvider.status, context);
@@ -117,33 +117,34 @@ class LoginPageViewState extends State<LoginPageView> {
                             left: queryData.size.width / 8,
                             right: queryData.size.width / 8),
                         child: ListView(
-                          children: getWidgets(themeContext, queryData),
+                          children: [
+                            Padding(
+                                padding: EdgeInsets.only(
+                                    bottom: queryData.size.height / 20)),
+                            createTitle(queryData, context),
+                            Padding(
+                                padding: EdgeInsets.only(
+                                    bottom: queryData.size.height / 35)),
+                            getLoginForm(queryData, context),
+                            Padding(
+                                padding: EdgeInsets.only(
+                                    bottom: queryData.size.height / 35)),
+                            createForgetPasswordLink(context),
+                            Padding(
+                                padding: EdgeInsets.only(
+                                    bottom: queryData.size.height / 15)),
+                            createLogInButton(queryData, context, _login),
+                            Padding(
+                                padding: EdgeInsets.only(
+                                    bottom: queryData.size.height / 35)),
+                            createStatusWidget(context),
+                            Padding(
+                                padding: EdgeInsets.only(
+                                    bottom: queryData.size.height / 35)),
+                            createSafeLoginButton(context),
+                          ],
                         )),
                     onWillPop: () => onWillPop(themeContext)))));
-  }
-
-  List<Widget> getWidgets(BuildContext context, MediaQueryData queryData) {
-    final List<Widget> widgets = [];
-
-    widgets.add(
-        Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 20)));
-    widgets.add(createTitle(queryData, context));
-    widgets.add(
-        Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)));
-    widgets.add(getLoginForm(queryData, context));
-    widgets.add(
-        Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)));
-    widgets.add(createForgetPasswordLink(context));
-    widgets.add(
-        Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 15)));
-    widgets.add(createLogInButton(queryData, context, _login));
-    widgets.add(
-        Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)));
-    widgets.add(createStatusWidget(context));
-    widgets.add(
-        Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)));
-    widgets.add(createSafeLoginButton(context));
-    return widgets;
   }
 
   /// Delay time before the user leaves the app
@@ -237,9 +238,7 @@ class LoginPageViewState extends State<LoginPageView> {
   }
 
   void handleLogin(RequestStatus? status, BuildContext context) {
-    final session =
-        Provider.of<SessionProvider>(context, listen: false).session;
-    if (status == RequestStatus.successful && session.authenticated) {
+    if (status == RequestStatus.successful) {
       Navigator.pushReplacementNamed(
           context, '/${DrawerItem.navPersonalArea.title}');
     }

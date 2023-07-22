@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/entities/reference.dart';
-import 'package:uni/model/providers/profile_state_provider.dart';
-import 'package:uni/model/providers/reference_provider.dart';
+import 'package:uni/model/providers/lazy/reference_provider.dart';
+import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
+import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/profile/widgets/reference_section.dart';
 import 'package:uni/view/profile/widgets/tuition_notification_switch.dart';
 
@@ -17,9 +19,18 @@ class AccountInfoCard extends GenericCard {
       : super.fromEditingInformation(key, editingMode, onDelete);
 
   @override
+  void onRefresh(BuildContext context) {
+    Provider.of<ProfileProvider>(context, listen: false).forceRefresh(context);
+    Provider.of<ReferenceProvider>(context, listen: false)
+        .forceRefresh(context);
+  }
+
+  @override
   Widget buildCardContent(BuildContext context) {
-    return Consumer2<ProfileStateProvider, ReferenceProvider>(
-      builder: (context, profileStateProvider, referenceProvider, _) {
+    return LazyConsumer<ProfileProvider>(
+        builder: (context, profileStateProvider) {
+      return LazyConsumer<ReferenceProvider>(
+          builder: (context, referenceProvider) {
         final profile = profileStateProvider.profile;
         final List<Reference> references = referenceProvider.references;
 
@@ -50,41 +61,38 @@ class AccountInfoCard extends GenericCard {
                   Container(
                       margin: const EdgeInsets.only(
                           top: 8.0, bottom: 20.0, right: 30.0),
-                      child: getInfoText(profile.feesLimit, context))
+                      child: getInfoText(
+                          profile.feesLimit != null
+                              ? DateFormat('yyyy-MM-dd')
+                                  .format(profile.feesLimit!)
+                              : 'Sem data',
+                          context))
                 ]),
                 TableRow(children: [
                   Container(
-                    margin:
-                        const EdgeInsets.only(top: 8.0, bottom: 20.0, left: 20.0),
-                    child: Text("Notificar próxima data limite: ",
-                      style: Theme.of(context).textTheme.titleSmall)
-                  ),
+                      margin: const EdgeInsets.only(
+                          top: 8.0, bottom: 20.0, left: 20.0),
+                      child: Text("Notificar próxima data limite: ",
+                          style: Theme.of(context).textTheme.titleSmall)),
                   Container(
-                    margin:
-                        const EdgeInsets.only(top: 8.0, bottom: 20.0, left: 20.0),
-                    child: 
-                      const TuitionNotificationSwitch()
-                  )
+                      margin: const EdgeInsets.only(
+                          top: 8.0, bottom: 20.0, left: 20.0),
+                      child: const TuitionNotificationSwitch())
                 ])
               ]),
           Container(
               padding: const EdgeInsets.all(10),
-              child: Row(
-                  children: <Widget>[
-                    Text('Referências pendentes',
-                        style: Theme.of(context).textTheme.titleLarge
-                            ?.apply(color: Theme.of(context).colorScheme.secondary)),
-                  ]
-              )
-          ),
-          ReferenceWidgets(references: references),
-          const SizedBox(
-              height: 10
-          ),
+              child: Row(children: <Widget>[
+                Text('Referências pendentes',
+                    style: Theme.of(context).textTheme.titleLarge?.apply(
+                        color: Theme.of(context).colorScheme.secondary)),
+              ])),
+          ReferenceList(references: references),
+          const SizedBox(height: 10),
           showLastRefreshedTime(profileStateProvider.feesRefreshTime, context)
         ]);
-      },
-    );
+      });
+    });
   }
 
   @override
@@ -94,10 +102,10 @@ class AccountInfoCard extends GenericCard {
   onClick(BuildContext context) {}
 }
 
-class ReferenceWidgets extends StatelessWidget {
+class ReferenceList extends StatelessWidget {
   final List<Reference> references;
 
-  const ReferenceWidgets({Key? key, required this.references}): super(key: key);
+  const ReferenceList({Key? key, required this.references}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -114,16 +122,14 @@ class ReferenceWidgets extends StatelessWidget {
     if (references.length == 1) {
       return ReferenceSection(reference: references[0]);
     }
-    return Column(
-        children: [
-          ReferenceSection(reference: references[0]),
-          const Divider(
-            thickness: 1,
-            indent: 30,
-            endIndent: 30,
-          ),
-          ReferenceSection(reference: references[1]),
-        ]
-    );
+    return Column(children: [
+      ReferenceSection(reference: references[0]),
+      const Divider(
+        thickness: 1,
+        indent: 30,
+        endIndent: 30,
+      ),
+      ReferenceSection(reference: references[1]),
+    ]);
   }
 }

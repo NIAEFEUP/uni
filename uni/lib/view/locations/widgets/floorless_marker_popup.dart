@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:uni/model/entities/location.dart';
 import 'package:uni/model/entities/location_group.dart';
-import 'package:uni/view/locations/widgets/faculty_maps.dart';
+import 'package:uni/view/locations/widgets/faculty_map.dart';
 
 class FloorlessLocationMarkerPopup extends StatelessWidget {
   const FloorlessLocationMarkerPopup(this.locationGroup,
@@ -27,7 +27,9 @@ class FloorlessLocationMarkerPopup extends StatelessWidget {
             children: (showId
                     ? <Widget>[Text(locationGroup.id.toString())]
                     : <Widget>[]) +
-                buildLocations(context, locations),
+                locations
+                    .map((location) => LocationRow(location: location))
+                    .toList(),
           )),
     );
   }
@@ -39,9 +41,27 @@ class FloorlessLocationMarkerPopup extends StatelessWidget {
               children: [
                 Text(location.description(),
                     textAlign: TextAlign.left,
-                    style: TextStyle(color: FacultyMaps.getFontColor(context)))
+                    style: TextStyle(color: FacultyMap.getFontColor(context)))
               ],
             ))
         .toList();
+  }
+}
+
+class LocationRow extends StatelessWidget {
+  final Location location;
+
+  const LocationRow({Key? key, required this.location}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(location.description(),
+            textAlign: TextAlign.left,
+            style: TextStyle(color: FacultyMap.getFontColor(context)))
+      ],
+    );
   }
 }

@@ -2,7 +2,7 @@ import 'package:currency_text_input_formatter/currency_text_input_formatter.dart
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/controller/fetchers/print_fetcher.dart';
-import 'package:uni/model/providers/session_provider.dart';
+import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/view/common_widgets/toast_message.dart';
 
 Future<void> addMoneyDialog(BuildContext context) async {
