@@ -3,7 +3,7 @@
 tee .git/hooks/pre-commit << EOF
 #!/bin/sh
 
-FILES="\$(git diff --name-only --cached | grep .*\.dart )"
+FILES="\$(git diff --name-only --cached | grep .*\.dart | grep -v .*\.g\.dart)"
 
 
 
