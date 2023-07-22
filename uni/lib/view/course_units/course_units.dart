@@ -73,7 +73,7 @@ class CourseUnitsPageViewState
   }
 
   Widget _getPageView(
-    List<CourseUnit>? courseUnits,
+    List<CourseUnit> courseUnits,
     RequestStatus requestStatus,
     List<String> availableYears,
     List<String> availableSemesters,
@@ -81,10 +81,10 @@ class CourseUnitsPageViewState
     final filteredCourseUnits =
         selectedSemester == CourseUnitsPageView.bothSemestersDropdownOption
             ? courseUnits
-                ?.where((element) => element.schoolYear == selectedSchoolYear)
+                .where((element) => element.schoolYear == selectedSchoolYear)
                 .toList()
             : courseUnits
-                ?.where(
+                .where(
                   (element) =>
                       element.schoolYear == selectedSchoolYear &&
                       element.semesterCode == selectedSemester,
@@ -97,7 +97,7 @@ class CourseUnitsPageViewState
           status: requestStatus,
           builder: () =>
               _generateCourseUnitsCards(filteredCourseUnits, context),
-          hasContentPredicate: courseUnits?.isNotEmpty ?? false,
+          hasContentPredicate: courseUnits.isNotEmpty,
           onNullContent: Center(
             heightFactor: 10,
             child: Text(
@@ -159,8 +159,11 @@ class CourseUnitsPageViewState
     );
   }
 
-  Widget _generateCourseUnitsCards(courseUnits, context) {
-    if ((courseUnits as List<CourseUnit>).isEmpty) {
+  Widget _generateCourseUnitsCards(
+    List<CourseUnit> courseUnits,
+    BuildContext context,
+  ) {
+    if (courseUnits.isEmpty) {
       return Center(
         heightFactor: 10,
         child: Text(

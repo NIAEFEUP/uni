@@ -11,10 +11,10 @@ import 'package:uni/view/exams/widgets/exam_title.dart';
 
 class ExamRow extends StatefulWidget {
   const ExamRow({
-    super.key,
     required this.exam,
     required this.teacher,
     required this.mainPage,
+    super.key,
   });
   final Exam exam;
   final String teacher;
@@ -32,7 +32,8 @@ class _ExamRowState extends State<ExamRow> {
     final isHidden =
         Provider.of<ExamProvider>(context).hiddenExams.contains(widget.exam.id);
     final roomsKey =
-        '${widget.exam.subject}-${widget.exam.rooms}-${widget.exam.beginTime}-${widget.exam.endTime}';
+        '${widget.exam.subject}-${widget.exam.rooms}-${widget.exam.beginTime}-'
+        '${widget.exam.endTime}';
     return Center(
       child: Container(
         padding: const EdgeInsets.only(left: 12, bottom: 8, right: 12),
@@ -102,7 +103,7 @@ class _ExamRowState extends State<ExamRow> {
     );
   }
 
-  Widget? getExamRooms(context) {
+  Widget? getExamRooms(BuildContext context) {
     if (widget.exam.rooms[0] == '') return null;
     return Wrap(
       spacing: 13,
@@ -110,7 +111,7 @@ class _ExamRowState extends State<ExamRow> {
     );
   }
 
-  List<Text> roomsList(BuildContext context, List rooms) {
+  List<Text> roomsList(BuildContext context, List<String> rooms) {
     return rooms
         .map(
           (room) =>

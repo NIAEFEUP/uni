@@ -41,7 +41,7 @@ class SchedulePageView extends StatefulWidget {
     super.key,
   });
 
-  final List<dynamic>? lectures;
+  final List<Lecture> lectures;
   final RequestStatus? scheduleStatus;
 
   final int weekDay = DateTime.now().weekday;
@@ -49,7 +49,7 @@ class SchedulePageView extends StatefulWidget {
   static final List<String> daysOfTheWeek =
       TimeString.getWeekdaysStrings(includeWeekend: false);
 
-  static List<Set<Lecture>> groupLecturesByDay(schedule) {
+  static List<Set<Lecture>> groupLecturesByDay(List<Lecture> schedule) {
     final aggLectures = <Set<Lecture>>[];
 
     for (var i = 0; i < daysOfTheWeek.length; i++) {
@@ -119,7 +119,7 @@ class SchedulePageViewState extends GeneralPageViewState<SchedulePageView>
   }
 
   /// Returns a list of widgets empty with tabs for each day of the week.
-  List<Widget> createTabs(queryData, BuildContext context) {
+  List<Widget> createTabs(MediaQueryData queryData, BuildContext context) {
     final tabs = <Widget>[];
     for (var i = 0; i < SchedulePageView.daysOfTheWeek.length; i++) {
       tabs.add(
@@ -136,8 +136,8 @@ class SchedulePageViewState extends GeneralPageViewState<SchedulePageView>
   }
 
   List<Widget> createSchedule(
-    context,
-    List<dynamic>? lectures,
+    BuildContext context,
+    List<Lecture> lectures,
     RequestStatus? scheduleStatus,
   ) {
     final tabBarViewContent = <Widget>[];
@@ -149,11 +149,11 @@ class SchedulePageViewState extends GeneralPageViewState<SchedulePageView>
   }
 
   /// Returns a list of widgets for the rows with a singular class info.
-  List<Widget> createScheduleRows(lectures, BuildContext context) {
+  List<Widget> createScheduleRows(Set<Lecture> lectures, BuildContext context) {
     final scheduleContent = <Widget>[];
-    lectures = lectures.toList();
-    for (var i = 0; i < lectures.length; i++) {
-      final Lecture lecture = lectures[i];
+    final lectureList = lectures.toList();
+    for (var i = 0; i < lectureList.length; i++) {
+      final lecture = lectureList[i];
       scheduleContent.add(
         ScheduleSlot(
           subject: lecture.subject,
@@ -170,7 +170,8 @@ class SchedulePageViewState extends GeneralPageViewState<SchedulePageView>
     return scheduleContent;
   }
 
-  Widget dayColumnBuilder(int day, dayContent, BuildContext context) {
+  Widget dayColumnBuilder(
+      int day, Set<Lecture> dayContent, BuildContext context) {
     return Container(
       key: Key('schedule-page-day-column-$day'),
       child: Column(
@@ -183,10 +184,10 @@ class SchedulePageViewState extends GeneralPageViewState<SchedulePageView>
   Widget createScheduleByDay(
     BuildContext context,
     int day,
-    List<dynamic>? lectures,
+    List<Lecture> lectures,
     RequestStatus? scheduleStatus,
   ) {
-    final List aggLectures = SchedulePageView.groupLecturesByDay(lectures);
+    final aggLectures = SchedulePageView.groupLecturesByDay(lectures);
     return RequestDependentWidgetBuilder(
       status: scheduleStatus ?? RequestStatus.none,
       builder: () => dayColumnBuilder(day, aggLectures[day], context),

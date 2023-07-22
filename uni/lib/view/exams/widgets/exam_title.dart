@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 
 class ExamTitle extends StatelessWidget {
   const ExamTitle({
-    super.key,
     required this.subject,
     this.type,
     this.reverseOrder = false,
+    super.key,
   });
+  static const double borderRadius = 12;
+  static const double sideSizing = 12;
   final String subject;
   final String? type;
-  final double borderRadius = 12;
-  final double sideSizing = 12;
   final bool reverseOrder;
 
   @override
@@ -20,7 +20,7 @@ class ExamTitle extends StatelessWidget {
     );
   }
 
-  Widget createTopRectangle(context) {
+  Widget createTopRectangle(BuildContext context) {
     final typeWidget = Text(
       type != null ? ' ($type) ' : '',
       style: Theme.of(context).textTheme.bodyMedium,

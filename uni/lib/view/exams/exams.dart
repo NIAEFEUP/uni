@@ -38,10 +38,8 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
   }
 
   /// Creates a column with all the user's exams.
-  List<Widget> createExamsColumn(context, List<Exam> exams) {
-    final columns = <Widget>[];
-
-    columns.add(const ExamPageTitle());
+  List<Widget> createExamsColumn(BuildContext context, List<Exam> exams) {
+    final columns = <Widget>[const ExamPageTitle()];
 
     if (exams.isEmpty) {
       columns.add(
@@ -51,9 +49,10 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
             imagePath: 'assets/images/vacation.png',
             label: 'Parece que estás de férias!',
             labelTextStyle: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-                color: Theme.of(context).colorScheme.primary,),
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+              color: Theme.of(context).colorScheme.primary,
+            ),
             sublabel: 'Não tens exames marcados',
             sublabelTextStyle: const TextStyle(fontSize: 15),
           ),
@@ -78,8 +77,9 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
           if (currentDayExams.isNotEmpty) {
             columns.add(createExamCard(context, currentDayExams));
           }
-          currentDayExams.clear();
-          currentDayExams.add(exams[i]);
+          currentDayExams
+            ..clear()
+            ..add(exams[i]);
         }
         columns.add(createExamCard(context, currentDayExams));
         break;
@@ -96,7 +96,7 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
     return columns;
   }
 
-  Widget createExamCard(context, exams) {
+  Widget createExamCard(BuildContext context, List<Exam> exams) {
     final keyValue = exams.map((exam) => exam.toString()).join();
     return Container(
       key: Key(keyValue),
@@ -106,22 +106,21 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
     );
   }
 
-  Widget createExamsCards(context, List<Exam> exams) {
-    final examCards = <Widget>[];
-    examCards.add(
+  Widget createExamsCards(BuildContext context, List<Exam> exams) {
+    final examCards = <Widget>[
       DayTitle(
         day: exams[0].begin.day.toString(),
         weekDay: exams[0].weekDay,
         month: exams[0].month,
       ),
-    );
+    ];
     for (var i = 0; i < exams.length; i++) {
       examCards.add(createExamContext(context, exams[i]));
     }
     return Column(children: examCards);
   }
 
-  Widget createExamContext(context, Exam exam) {
+  Widget createExamContext(BuildContext context, Exam exam) {
     final isHidden =
         Provider.of<ExamProvider>(context).hiddenExams.contains(exam.id);
     return Container(
