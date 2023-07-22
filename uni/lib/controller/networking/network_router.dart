@@ -17,7 +17,7 @@ extension UriString on String {
 /// Manages the networking of the app.
 class NetworkRouter {
   static http.Client? httpClient;
-  static const int _requestTimeout = 5;
+  static const int _requestTimeout = 10;
   static final Lock _loginLock = Lock();
 
   /// Creates an authenticated [Session] on the given [faculty] with the
@@ -120,7 +120,8 @@ class NetworkRouter {
   /// Makes an authenticated GET request with the given [session] to the
   /// resource located at [url] with the given [query] parameters.
   static Future<http.Response> getWithCookies(
-      String baseUrl, Map<String, String> query, Session session) async {
+      String baseUrl, Map<String, String> query, Session session,
+      {int timeout = _requestTimeout}) async {
     final loginSuccessful = await session.loginRequest;
     if (loginSuccessful != null && !loginSuccessful) {
       return Future.error('Login failed');
@@ -140,13 +141,14 @@ class NetworkRouter {
     final Map<String, String> headers = <String, String>{};
     headers['cookie'] = session.cookies;
 
+    final timeoutDuration = Duration(seconds: timeout);
     final http.Response response = await (httpClient != null
         ? httpClient!
             .get(url.toUri(), headers: headers)
-            .timeout(const Duration(seconds: _requestTimeout))
+            .timeout(timeoutDuration)
         : http
             .get(url.toUri(), headers: headers)
-            .timeout(const Duration(seconds: _requestTimeout)));
+            .timeout(timeoutDuration));
     if (response.statusCode == 200) {
       return response;
     } else if (response.statusCode == 403 && !(await userLoggedIn(session))) {
@@ -154,7 +156,9 @@ class NetworkRouter {
       final bool reLoginSuccessful = await reLogin(session);
       if (reLoginSuccessful) {
         headers['cookie'] = session.cookies;
-        return http.get(url.toUri(), headers: headers).timeout(const Duration(seconds: _requestTimeout));
+        return http
+            .get(url.toUri(), headers: headers)
+            .timeout(timeoutDuration);
       } else {
         NavigationService.logout();
         Logger().e('Login failed');
