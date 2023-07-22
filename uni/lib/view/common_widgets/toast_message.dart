@@ -21,7 +21,7 @@ class MessageToast extends StatelessWidget {
   final Color? iconColor;
   final Color? textColor;
   final AlignmentGeometry? alignment;
-  final dynamic elevation;
+  final double elevation;
 
   @override
   Widget build(BuildContext context) {
@@ -62,16 +62,16 @@ class MessageToast extends StatelessWidget {
 }
 
 class ToastMessage {
-  static const Color toastErrorIconColor = Color.fromARGB(255, 241, 77, 98),
-      toastErrorColor = Color.fromARGB(255, 252, 237, 238),
-      toastSuccessIconColor = Color.fromARGB(255, 53, 210, 157),
-      toastSuccessColor = Color.fromARGB(255, 234, 250, 246),
-      toastWarningIconColor = Color.fromARGB(255, 244, 200, 98),
-      toastWarningColor = Color.fromARGB(255, 252, 244, 222),
-      toastInfoIconColor = Color.fromARGB(255, 40, 131, 229),
-      toastInfoColor = Color.fromARGB(255, 211, 229, 249);
+  static const Color toastErrorIconColor = Color.fromARGB(255, 241, 77, 98);
+  static const Color toastErrorColor = Color.fromARGB(255, 252, 237, 238);
+  static const Color toastSuccessIconColor = Color.fromARGB(255, 53, 210, 157);
+  static const Color toastSuccessColor = Color.fromARGB(255, 234, 250, 246);
+  static const Color toastWarningIconColor = Color.fromARGB(255, 244, 200, 98);
+  static const Color toastWarningColor = Color.fromARGB(255, 252, 244, 222);
+  static const Color toastInfoIconColor = Color.fromARGB(255, 40, 131, 229);
+  static const Color toastInfoColor = Color.fromARGB(255, 211, 229, 249);
 
-  static Future _displayDialog(BuildContext context, Widget mToast) {
+  static Future<void> _displayDialog(BuildContext context, Widget mToast) {
     return showDialog(
       barrierDismissible: false,
       barrierColor: Colors.white.withOpacity(0),
@@ -85,7 +85,7 @@ class ToastMessage {
     );
   }
 
-  static Future error(BuildContext context, String msg) => _displayDialog(
+  static Future<void> error(BuildContext context, String msg) => _displayDialog(
         context,
         MessageToast(
           message: msg,
@@ -95,7 +95,8 @@ class ToastMessage {
         ),
       );
 
-  static Future success(BuildContext context, String msg) => _displayDialog(
+  static Future<void> success(BuildContext context, String msg) =>
+      _displayDialog(
         context,
         MessageToast(
           message: msg,
@@ -105,7 +106,8 @@ class ToastMessage {
         ),
       );
 
-  static Future warning(BuildContext context, String msg) => _displayDialog(
+  static Future<void> warning(BuildContext context, String msg) =>
+      _displayDialog(
         context,
         MessageToast(
           message: msg,
@@ -115,7 +117,7 @@ class ToastMessage {
         ),
       );
 
-  static Future info(BuildContext context, String msg) => _displayDialog(
+  static Future<void> info(BuildContext context, String msg) => _displayDialog(
         context,
         MessageToast(
           message: msg,

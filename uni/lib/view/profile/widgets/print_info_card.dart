@@ -9,10 +9,10 @@ class PrintInfoCard extends GenericCard {
   PrintInfoCard({super.key});
 
   const PrintInfoCard.fromEditingInformation(
-    super.key,
-    bool super.editingMode,
-    Function()? super.onDelete,
-  ) : super.fromEditingInformation();
+    super.key, {
+    required super.editingMode,
+    super.onDelete,
+  }) : super.fromEditingInformation();
 
   @override
   Widget buildCardContent(BuildContext context) {
@@ -79,7 +79,7 @@ class PrintInfoCard extends GenericCard {
   String getTitle() => 'Impressões';
 
   @override
-  onClick(BuildContext context) {}
+  void onClick(BuildContext context) {}
 
   @override
   void onRefresh(BuildContext context) {

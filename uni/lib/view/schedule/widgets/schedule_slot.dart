@@ -6,7 +6,6 @@ import 'package:url_launcher/url_launcher.dart';
 
 class ScheduleSlot extends StatelessWidget {
   const ScheduleSlot({
-    super.key,
     required this.subject,
     required this.typeClass,
     required this.rooms,
@@ -15,6 +14,7 @@ class ScheduleSlot extends StatelessWidget {
     required this.occurrId,
     required this.teacher,
     this.classNumber,
+    super.key,
   });
   final String subject;
   final String rooms;
@@ -37,7 +37,8 @@ class ScheduleSlot extends StatelessWidget {
         ),
         child: Container(
           key: Key(
-            'schedule-slot-time-${DateFormat("HH:mm").format(begin)}-${DateFormat("HH:mm").format(end)}',
+            'schedule-slot-time-${DateFormat("HH:mm").format(begin)}-'
+            '${DateFormat("HH:mm").format(end)}',
           ),
           margin: const EdgeInsets.only(top: 3, bottom: 3),
           child: Row(
@@ -49,7 +50,7 @@ class ScheduleSlot extends StatelessWidget {
     );
   }
 
-  List<Widget> createScheduleSlotPrimInfo(context) {
+  List<Widget> createScheduleSlotPrimInfo(BuildContext context) {
     final subjectTextField = TextFieldWidget(
       text: subject,
       style: Theme.of(context)
@@ -103,7 +104,7 @@ class ScheduleSlot extends StatelessWidget {
 }
 
 class SubjectButtonWidget extends StatelessWidget {
-  const SubjectButtonWidget({super.key, required this.occurrId});
+  const SubjectButtonWidget({required this.occurrId, super.key});
   final int occurrId;
 
   String toUcLink(int occurrId) {
@@ -141,9 +142,9 @@ class SubjectButtonWidget extends StatelessWidget {
 
 class ScheduleTeacherClassInfoWidget extends StatelessWidget {
   const ScheduleTeacherClassInfoWidget({
-    super.key,
     required this.teacher,
     this.classNumber,
+    super.key,
   });
   final String? classNumber;
   final String teacher;
@@ -159,7 +160,7 @@ class ScheduleTeacherClassInfoWidget extends StatelessWidget {
 }
 
 class ScheduleTimeWidget extends StatelessWidget {
-  const ScheduleTimeWidget({super.key, required this.begin, required this.end});
+  const ScheduleTimeWidget({required this.begin, required this.end, super.key});
   final String begin;
   final String end;
 
@@ -177,9 +178,9 @@ class ScheduleTimeWidget extends StatelessWidget {
 
 class ScheduleTimeTextField extends StatelessWidget {
   const ScheduleTimeTextField({
-    super.key,
     required this.time,
     required this.context,
+    super.key,
   });
   final String time;
   final BuildContext context;
@@ -196,10 +197,10 @@ class ScheduleTimeTextField extends StatelessWidget {
 
 class TextFieldWidget extends StatelessWidget {
   const TextFieldWidget({
-    super.key,
     required this.text,
     required this.style,
     required this.alignment,
+    super.key,
   });
   final String text;
   final TextStyle? style;

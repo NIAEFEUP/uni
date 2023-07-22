@@ -15,10 +15,10 @@ class AccountInfoCard extends GenericCard {
   AccountInfoCard({super.key});
 
   const AccountInfoCard.fromEditingInformation(
-    super.key,
-    bool super.editingMode,
-    Function()? super.onDelete,
-  ) : super.fromEditingInformation();
+    super.key, {
+    required super.editingMode,
+    super.onDelete,
+  }) : super.fromEditingInformation();
 
   @override
   void onRefresh(BuildContext context) {

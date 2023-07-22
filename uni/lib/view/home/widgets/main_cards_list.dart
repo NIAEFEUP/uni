@@ -80,7 +80,7 @@ class MainCardsList extends StatelessWidget {
 
   Widget createActionButton(BuildContext context) {
     return FloatingActionButton(
-      onPressed: () => showDialog(
+      onPressed: () => showDialog<void>(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
@@ -123,7 +123,9 @@ class MainCardsList extends StatelessWidget {
             decoration: const BoxDecoration(),
             child: ListTile(
               title: Text(
-                e.value(Key(e.key.index.toString()), false, null).getTitle(),
+                e
+                    .value(Key(e.key.index.toString()), editingMode: false)
+                    .getTitle(),
                 textAlign: TextAlign.center,
               ),
               onTap: () {
@@ -185,8 +187,8 @@ class MainCardsList extends StatelessWidget {
       final i = cardTypes.indexOf(type);
       return cardCreators[type]!(
         Key(i.toString()),
-        editingModeProvider.isEditing,
-        () => removeCardIndexFromFavorites(i, context),
+        editingMode: editingModeProvider.isEditing,
+        onDelete: () => removeCardIndexFromFavorites(i, context),
       );
     }).toList();
   }
@@ -205,9 +207,9 @@ class MainCardsList extends StatelessWidget {
   }
 
   void removeCardIndexFromFavorites(int i, BuildContext context) {
-    final favorites =
-        Provider.of<HomePageProvider>(context, listen: false).favoriteCards;
-    favorites.removeAt(i);
+    final favorites = Provider.of<HomePageProvider>(context, listen: false)
+        .favoriteCards
+      ..removeAt(i);
     saveFavoriteCards(context, favorites);
   }
 

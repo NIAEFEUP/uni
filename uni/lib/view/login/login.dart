@@ -54,17 +54,25 @@ class LoginPageViewState extends State<LoginPageView> {
       final pass = passwordController.text.trim();
       final completer = Completer();
 
-      sessionProvider.login(completer, user, pass, faculties, _keepSignedIn);
+      sessionProvider.login(
+        completer,
+        user,
+        pass,
+        faculties,
+        persistentSession: _keepSignedIn,
+      );
 
       completer.future.then((_) {
         handleLogin(sessionProvider.status, context);
-      }).catchError((error) {
+      }).catchError((Object error) {
         if (error is ExpiredCredentialsException) {
           updatePasswordDialog();
         } else if (error is InternetStatusException) {
           ToastMessage.warning(context, error.message);
+        } else if (error is WrongCredentialsException) {
+          ToastMessage.error(context, error.message);
         } else {
-          ToastMessage.error(context, error.message ?? 'Erro no login');
+          ToastMessage.error(context, 'Erro no login');
         }
       });
     }
@@ -72,7 +80,7 @@ class LoginPageViewState extends State<LoginPageView> {
 
   /// Updates the list of faculties
   /// based on the options the user selected (used as a callback)
-  void setFaculties(faculties) {
+  void setFaculties(List<String> faculties) {
     setState(() {
       this.faculties = faculties;
     });
@@ -80,7 +88,8 @@ class LoginPageViewState extends State<LoginPageView> {
 
   /// Tracks if the user wants to keep signed in (has a
   /// checkmark on the button).
-  void _setKeepSignedIn(value) {
+  void _setKeepSignedIn(bool? value) {
+    if (value == null) return;
     setState(() {
       _keepSignedIn = value;
     });
@@ -131,39 +140,26 @@ class LoginPageViewState extends State<LoginPageView> {
   }
 
   List<Widget> getWidgets(BuildContext context, MediaQueryData queryData) {
-    final widgets = <Widget>[];
-
-    widgets.add(
+    return [
       Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 20)),
-    );
-    widgets.add(createTitle(queryData, context));
-    widgets.add(
+      createTitle(queryData, context),
       Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)),
-    );
-    widgets.add(getLoginForm(queryData, context));
-    widgets.add(
+      getLoginForm(queryData, context),
       Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)),
-    );
-    widgets.add(createForgetPasswordLink(context));
-    widgets.add(
+      createForgetPasswordLink(context),
       Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 15)),
-    );
-    widgets.add(createLogInButton(queryData, context, _login));
-    widgets.add(
+      createLogInButton(queryData, context, _login),
       Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)),
-    );
-    widgets.add(createStatusWidget(context));
-    widgets.add(
+      createStatusWidget(context),
       Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)),
-    );
-    widgets.add(createSafeLoginButton(context));
-    return widgets;
+      createSafeLoginButton(context)
+    ];
   }
 
   /// Delay time before the user leaves the app
   Future<void> exitAppWaiter() async {
     _exitApp = true;
-    await Future.delayed(const Duration(seconds: 2));
+    await Future<void>.delayed(const Duration(seconds: 2));
     _exitApp = false;
   }
 
@@ -224,14 +220,17 @@ class LoginPageViewState extends State<LoginPageView> {
               context,
               passwordController,
               passwordFocus,
-              _obscurePasswordInput,
               _toggleObscurePasswordInput,
               () => _login(context),
+              obscurePasswordInput: _obscurePasswordInput,
             ),
             Padding(
               padding: EdgeInsets.only(bottom: queryData.size.height / 35),
             ),
-            createSaveDataCheckBox(_keepSignedIn, _setKeepSignedIn),
+            createSaveDataCheckBox(
+              _setKeepSignedIn,
+              keepSignedIn: _keepSignedIn,
+            ),
           ],
         ),
       ),
@@ -282,7 +281,7 @@ class LoginPageViewState extends State<LoginPageView> {
   }
 
   void updatePasswordDialog() {
-    showDialog(
+    showDialog<void>(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(

@@ -12,7 +12,7 @@ class LocationMarker extends Marker {
           height: 20,
           width: 20,
           point: latlng,
-          builder: (BuildContext ctx) => Container(
+          builder: (BuildContext ctx) => DecoratedBox(
             decoration: BoxDecoration(
               color: Theme.of(ctx).colorScheme.background,
               border: Border.all(
@@ -41,7 +41,7 @@ class MarkerIcon extends StatelessWidget {
 
     final fontColor = FacultyMap.getFontColor(context);
     if (location?.icon is IconData) {
-      return Icon(location?.icon, color: fontColor, size: 12);
+      return Icon(location?.icon as IconData, color: fontColor, size: 12);
     } else {
       return Icon(Icons.device_unknown, color: fontColor, size: 12);
     }

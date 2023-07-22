@@ -30,8 +30,8 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
   }
 
   Future<DecorationImage> buildProfileDecorationImage(
-    context, {
-    forceRetrieval = false,
+    BuildContext context, {
+    bool forceRetrieval = false,
   }) async {
     final profilePictureFile =
         await ProfileProvider.fetchOrGetCachedProfilePicture(
@@ -139,7 +139,8 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
           onPressed: () => {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (__) => const ProfilePageView()),
+              MaterialPageRoute<ProfilePageView>(
+                  builder: (__) => const ProfilePageView()),
             )
           },
           child: Container(

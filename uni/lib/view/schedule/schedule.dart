@@ -36,9 +36,9 @@ class SchedulePageState extends State<SchedulePage> {
 /// Manages the 'schedule' sections of the app
 class SchedulePageView extends StatefulWidget {
   SchedulePageView({
-    super.key,
     required this.lectures,
     required this.scheduleStatus,
+    super.key,
   });
 
   final List<dynamic>? lectures;

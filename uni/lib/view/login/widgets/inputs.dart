@@ -6,7 +6,7 @@ import 'package:uni/view/login/widgets/faculties_multiselect.dart';
 Widget createFacultyInput(
   BuildContext context,
   List<String> faculties,
-  setFaculties,
+  Function setFaculties,
 ) {
   return FacultiesMultiselect(faculties, setFaculties);
 }
@@ -39,10 +39,10 @@ Widget createPasswordInput(
   BuildContext context,
   TextEditingController passwordController,
   FocusNode passwordFocus,
-  bool obscurePasswordInput,
-  Function toggleObscurePasswordInput,
-  Function login,
-) {
+  void Function() toggleObscurePasswordInput,
+  void Function() login, {
+  required bool obscurePasswordInput,
+}) {
   return TextFormField(
     style: const TextStyle(color: Colors.white, fontSize: 20),
     enableSuggestions: false,
@@ -58,8 +58,8 @@ Widget createPasswordInput(
     textAlign: TextAlign.left,
     decoration: passwordFieldDecoration(
       'palavra-passe',
-      obscurePasswordInput,
       toggleObscurePasswordInput,
+      obscurePasswordInput: obscurePasswordInput,
     ),
     validator: (String? value) =>
         value != null && value.isEmpty ? 'Preenche este campo' : null,
@@ -67,7 +67,10 @@ Widget createPasswordInput(
 }
 
 /// Creates the widget for the user to keep signed in (save his data).
-Widget createSaveDataCheckBox(bool keepSignedIn, setKeepSignedIn) {
+Widget createSaveDataCheckBox(
+  void Function(bool?)? setKeepSignedIn, {
+  required bool keepSignedIn,
+}) {
   return CheckboxListTile(
     value: keepSignedIn,
     onChanged: setKeepSignedIn,
@@ -84,7 +87,11 @@ Widget createSaveDataCheckBox(bool keepSignedIn, setKeepSignedIn) {
 }
 
 /// Creates the widget for the user to confirm the inputted login info
-Widget createLogInButton(queryData, BuildContext context, login) {
+Widget createLogInButton(
+  MediaQueryData queryData,
+  BuildContext context,
+  void Function(BuildContext) login,
+) {
   return Padding(
     padding: EdgeInsets.only(
       left: queryData.size.width / 7,
@@ -138,9 +145,9 @@ InputDecoration textFieldDecoration(String placeholder) {
 /// Decoration for the password field.
 InputDecoration passwordFieldDecoration(
   String placeholder,
-  bool obscurePasswordInput,
-  toggleObscurePasswordInput,
-) {
+  void Function() toggleObscurePasswordInput, {
+  required bool obscurePasswordInput,
+}) {
   final genericDecoration = textFieldDecoration(placeholder);
   return InputDecoration(
     hintStyle: genericDecoration.hintStyle,
@@ -186,7 +193,7 @@ InkResponse createSafeLoginButton(BuildContext context) {
 
 /// Displays 'Terms and conditions' section.
 Future<void> _showLoginDetails(BuildContext context) async {
-  await showDialog(
+  await showDialog<void>(
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(

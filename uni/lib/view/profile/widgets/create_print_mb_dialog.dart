@@ -12,12 +12,13 @@ Future<void> addMoneyDialog(BuildContext context) async {
   return showDialog(
     context: context,
     builder: (BuildContext context) {
-      var value = 1;
+      var value = 1.0;
 
       return StatefulBuilder(
         builder: (context, setState) {
           void onValueChange() {
             final inputValue = valueTextToNumber(controller.text);
+            //FIXME (luisd): this doesn't make a lot of sense but it's the equivalent of the non type safe version
             setState(() => value = inputValue);
           }
 
@@ -32,7 +33,8 @@ Future<void> addMoneyDialog(BuildContext context) async {
                   Padding(
                     padding: const EdgeInsets.only(top: 5, bottom: 10),
                     child: Text(
-                      'Os dados da referência gerada aparecerão no Sigarra, conta corrente. \nPerfil > Conta Corrente',
+                      'Os dados da referência gerada aparecerão no Sigarra, '
+                      'conta corrente. \n''Perfil > Conta Corrente',
                       textAlign: TextAlign.start,
                       style: Theme.of(context).textTheme.titleSmall,
                     ),
@@ -128,7 +130,7 @@ double valueTextToNumber(String value) =>
 String numberToValueText(double number) =>
     formatter.format(number.toStringAsFixed(2));
 
-Future<void> generateReference(context, amount) async {
+Future<void> generateReference(BuildContext context, double amount) async {
   if (amount < 1) {
     await ToastMessage.warning(context, 'Valor mínimo: 1,00 €');
     return;
@@ -138,7 +140,8 @@ Future<void> generateReference(context, amount) async {
   final response =
       await PrintFetcher.generatePrintMoneyReference(amount, session);
 
-  if (response.statusCode == 200) {
+
+  if (response.statusCode == 200 && context.mounted) {
     Navigator.of(context).pop(false);
     await ToastMessage.success(context, 'Referência criada com sucesso!');
   } else {

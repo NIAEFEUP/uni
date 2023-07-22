@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:provider/provider.dart';
+import 'package:uni/model/entities/library_occupation.dart';
 import 'package:uni/model/providers/lazy/library_occupation_provider.dart';
 import 'package:uni/model/request_status.dart';
 import 'package:uni/utils/drawer_items.dart';
@@ -13,10 +14,10 @@ class LibraryOccupationCard extends GenericCard {
   LibraryOccupationCard({super.key});
 
   const LibraryOccupationCard.fromEditingInformation(
-    super.key,
-    bool super.editingMode,
-    Function()? super.onDelete,
-  ) : super.fromEditingInformation();
+    super.key, {
+    required super.editingMode,
+    super.onDelete,
+  }) : super.fromEditingInformation();
 
   @override
   String getTitle() => 'Ocupação da Biblioteca';
@@ -48,7 +49,10 @@ class LibraryOccupationCard extends GenericCard {
     );
   }
 
-  Widget generateOccupation(occupation, context) {
+  Widget generateOccupation(
+    LibraryOccupation? occupation,
+    BuildContext context,
+  ) {
     if (occupation == null || occupation.capacity == 0) {
       return Center(
         child: Text(

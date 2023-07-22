@@ -57,7 +57,7 @@ class RestaurantCard extends GenericCard {
   ) {
     return Column(
       mainAxisSize: MainAxisSize.min,
-      children: [createRowFromRestaurant(context, canteens)],
+      children: [createRowFromRestaurant(context, canteens.toString())],
     );
   }
 
