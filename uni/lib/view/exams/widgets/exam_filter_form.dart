@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/entities/exam.dart';
@@ -29,8 +27,7 @@ class ExamFilterFormState extends State<ExamFilterForm> {
             child: const Text('Confirmar'),
             onPressed: () {
               Provider.of<ExamProvider>(context, listen: false)
-                  .setFilteredExams(widget.filteredExamsTypes, Completer());
-
+                  .setFilteredExams(widget.filteredExamsTypes);
               Navigator.pop(context);
             })
       ],

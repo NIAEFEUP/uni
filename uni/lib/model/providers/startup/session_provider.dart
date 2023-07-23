@@ -44,45 +44,45 @@ class SessionProvider extends StateProviderNotifier {
         persistentSession: true);
   }
 
-  Future<void> postAuthentication(Completer<void> action, String username,
-      String password, List<String> faculties, persistentSession) async {
+  Future<void> postAuthentication(String username, String password,
+      List<String> faculties, persistentSession) async {
+    _faculties = faculties;
+
+    updateStatus(RequestStatus.busy);
+
+    Session? session;
     try {
-      updateStatus(RequestStatus.busy);
-      _faculties = faculties;
-
-      final session = await NetworkRouter.login(
+      session = await NetworkRouter.login(
           username, password, faculties, persistentSession);
-
-      if (session == null) {
-        final String responseHtml =
-            await NetworkRouter.loginInSigarra(username, password, faculties);
-        if (isPasswordExpired(responseHtml)) {
-          action.completeError(ExpiredCredentialsException());
-        } else {
-          action.completeError(WrongCredentialsException());
-        }
-        updateStatus(RequestStatus.failed);
-        action.complete();
-        return;
-      }
-
-      _session = session;
-
-      if (persistentSession) {
-        await AppSharedPreferences.savePersistentUserInfo(
-            username, password, faculties);
-      }
-
-      Future.delayed(const Duration(seconds: 20),
-          () => {NotificationManager().initializeNotifications()});
-
-      await acceptTermsAndConditions();
-      updateStatus(RequestStatus.successful);
-      action.complete();
     } catch (e) {
-      // No internet connection or server down
-      action.completeError(InternetStatusException());
       updateStatus(RequestStatus.failed);
+      throw InternetStatusException();
     }
+
+    if (session == null) {
+      final String responseHtml =
+          await NetworkRouter.loginInSigarra(username, password, faculties);
+
+      updateStatus(RequestStatus.failed);
+
+      if (isPasswordExpired(responseHtml)) {
+        throw ExpiredCredentialsException();
+      } else {
+        throw WrongCredentialsException();
+      }
+    }
+
+    _session = session;
+
+    if (persistentSession) {
+      await AppSharedPreferences.savePersistentUserInfo(
+          username, password, faculties);
+    }
+
+    Future.delayed(const Duration(seconds: 20),
+        () => {NotificationManager().initializeNotifications()});
+
+    await acceptTermsAndConditions();
+    updateStatus(RequestStatus.successful);
   }
 }

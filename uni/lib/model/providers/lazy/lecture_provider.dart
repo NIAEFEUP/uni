@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:collection';
 
-import 'package:logger/logger.dart';
 import 'package:tuple/tuple.dart';
 import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher.dart';
 import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher_api.dart';
@@ -31,39 +30,27 @@ class LectureProvider extends StateProviderNotifier {
 
   @override
   Future<void> loadFromRemote(Session session, Profile profile) async {
-    final userPersistentInfo =
-        await AppSharedPreferences.getPersistentUserInfo();
-    final Completer<void> action = Completer<void>();
-    fetchUserLectures(action, userPersistentInfo, session, profile);
-    await action.future;
+    await fetchUserLectures(
+        await AppSharedPreferences.getPersistentUserInfo(), session, profile);
   }
 
-  void fetchUserLectures(
-      Completer<void> action,
-      Tuple2<String, String> userPersistentInfo,
-      Session session,
-      Profile profile,
+  Future<void> fetchUserLectures(Tuple2<String, String> userPersistentInfo,
+      Session session, Profile profile,
       {ScheduleFetcher? fetcher}) async {
     try {
-      updateStatus(RequestStatus.busy);
-
       final List<Lecture> lectures =
           await getLecturesFromFetcherOrElse(fetcher, session, profile);
 
-      // Updates local database according to the information fetched -- Lectures
       if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {
         final AppLecturesDatabase db = AppLecturesDatabase();
         db.saveNewLectures(lectures);
       }
 
       _lectures = lectures;
-      notifyListeners();
       updateStatus(RequestStatus.successful);
     } catch (e) {
-      Logger().e('Failed to get Schedule: ${e.toString()}');
       updateStatus(RequestStatus.failed);
     }
-    action.complete();
   }
 
   Future<List<Lecture>> getLecturesFromFetcherOrElse(
