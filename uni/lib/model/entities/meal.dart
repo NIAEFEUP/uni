@@ -12,5 +12,15 @@ class Meal {
   Meal(this.type, this.name, this.dayOfWeek, this.date);
 
   factory Meal.fromJson(Map<String, dynamic> json) => _$MealFromJson(json);
-  Map<String, dynamic> toJson(restaurantId) => _$MealToJson(this, restaurantId);
+  Map<String, dynamic> toJson() => _$MealToJson(this);
+
+  Map<String, dynamic> toMap(restaurantId) {
+    final map = toJson();
+    map.addEntries(
+      {
+        'id_restaurant': restaurantId,
+      } as Iterable<MapEntry<String, dynamic>>,
+    );
+    return map;
+  }
 }

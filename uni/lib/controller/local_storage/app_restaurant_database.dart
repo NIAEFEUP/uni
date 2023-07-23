@@ -60,7 +60,7 @@ class RestaurantDatabase extends AppDatabase {
       for (Map<String, dynamic> restaurantMap in restaurantsFromDB) {
         final int id = restaurantMap['id'];
         final List<Meal> meals = await getRestaurantMeals(txn, id);
-        final Restaurant restaurant = Restaurant.fromJson(restaurantMap, meals);
+        final Restaurant restaurant = Restaurant.fromMap(restaurantMap, meals);
         restaurants.add(restaurant);
       }
     });
@@ -99,7 +99,7 @@ class RestaurantDatabase extends AppDatabase {
     final int id = await txn.insert('RESTAURANTS', restaurant.toJson());
     restaurant.meals.forEach((dayOfWeak, meals) async {
       for (var meal in meals) {
-        await txn.insert('MEALS', meal.toJson(id));
+        await txn.insert('MEALS', meal.toMap(id));
       }
     });
   }
