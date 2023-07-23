@@ -23,7 +23,7 @@ void main() {
     const Tuple2<String, String> userPersistentInfo = Tuple2('', '');
     final profile = Profile();
     profile.courses = [Course(id: 7474)];
-    final session = Session(authenticated: true);
+    final session = Session(username: '', cookies: '', faculties: ['feup']);
     final day = DateTime(2021, 06, 01);
 
     final lecture1 = Lecture.fromHtml(

@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:uni/model/entities/bus_stop.dart';
 import 'package:uni/model/providers/lazy/bus_stop_provider.dart';
 import 'package:uni/model/request_status.dart';
+import 'package:uni/view/common_widgets/expanded_image_label.dart';
 import 'package:uni/view/bus_stop_next_arrivals/widgets/bus_stop_row.dart';
 import 'package:uni/view/bus_stop_selection/bus_stop_selection.dart';
 import 'package:uni/view/common_widgets/last_update_timestamp.dart';
@@ -74,6 +75,7 @@ class NextArrivalsState extends State<NextArrivals> {
   }
 
   /// Returns a list of widgets for a successfull request
+
   List<Widget> requestSuccessful(context) {
     final List<Widget> result = <Widget>[];
 
@@ -82,8 +84,22 @@ class NextArrivalsState extends State<NextArrivals> {
     if (widget.buses.isNotEmpty) {
       result.addAll(getContent(context));
     } else {
-      result.add(Text('Não existe nenhuma paragem configurada',
-          style: Theme.of(context).textTheme.titleLarge));
+      result.add(ImageLabel(
+          imagePath: 'assets/images/bus.png',
+          label: 'Não percas nenhum autocarro',
+          labelTextStyle: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 17,
+              color: Theme.of(context).colorScheme.primary)));
+      result.add(Column(children: [
+        ElevatedButton(
+          onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const BusStopSelectionPage())),
+          child: const Text('Adicionar'),
+        ),
+      ]));
     }
 
     return result;

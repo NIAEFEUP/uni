@@ -14,6 +14,7 @@ class BusStopData {
       {required this.configuredBuses,
       this.favorited = false,
       this.trips = const []});
+
   factory BusStopData.fromJson(Map<String, dynamic> json) =>
       _$BusStopDataFromJson(json);
   Map<String, dynamic> toJson() => _$BusStopDataToJson(this);
