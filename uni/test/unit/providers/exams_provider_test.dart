@@ -1,7 +1,5 @@
 // @dart=2.10
 
-import 'dart:async';
-
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tuple/tuple.dart';
@@ -66,14 +64,8 @@ void main() {
       when(parserExams.parseExams(any, any))
           .thenAnswer((_) async => {sopeExam});
 
-      final action = Completer();
-
-      provider.fetchUserExams(
-          action, parserExams, userPersistentInfo, profile, session, userUcs);
-
-      expect(provider.status, RequestStatus.busy);
-
-      await action.future;
+      await provider.fetchUserExams(
+          parserExams, userPersistentInfo, profile, session, userUcs);
 
       expect(provider.exams.isNotEmpty, true);
       expect(provider.exams, [sopeExam]);
@@ -84,14 +76,8 @@ void main() {
       when(parserExams.parseExams(any, any))
           .thenAnswer((_) async => {sopeExam, sdisExam});
 
-      final Completer<void> action = Completer();
-
-      provider.fetchUserExams(
-          action, parserExams, userPersistentInfo, profile, session, userUcs);
-
-      expect(provider.status, RequestStatus.busy);
-
-      await action.future;
+      await provider.fetchUserExams(
+          parserExams, userPersistentInfo, profile, session, userUcs);
 
       expect(provider.status, RequestStatus.successful);
       expect(provider.exams, [sopeExam, sdisExam]);
@@ -110,33 +96,22 @@ void main() {
           'Exames ao abrigo de estatutos especiais - Port.Est.Especiais',
           'feup');
 
-      final Completer<void> action = Completer();
-
       when(parserExams.parseExams(any, any))
           .thenAnswer((_) async => {sopeExam, sdisExam, specialExam});
 
-      provider.fetchUserExams(
-          action, parserExams, userPersistentInfo, profile, session, userUcs);
-
-      expect(provider.status, RequestStatus.busy);
-
-      await action.future;
+      await provider.fetchUserExams(
+          parserExams, userPersistentInfo, profile, session, userUcs);
 
       expect(provider.status, RequestStatus.successful);
       expect(provider.exams, [sopeExam, sdisExam]);
     });
 
     test('When an error occurs while trying to obtain the exams', () async {
-      final Completer<void> action = Completer();
       when(parserExams.parseExams(any, any))
           .thenAnswer((_) async => throw Exception('RIP'));
 
-      provider.fetchUserExams(
-          action, parserExams, userPersistentInfo, profile, session, userUcs);
-
-      expect(provider.status, RequestStatus.busy);
-
-      await action.future;
+      await provider.fetchUserExams(
+          parserExams, userPersistentInfo, profile, session, userUcs);
 
       expect(provider.status, RequestStatus.failed);
     });
@@ -150,13 +125,8 @@ void main() {
       when(parserExams.parseExams(any, any))
           .thenAnswer((_) async => {todayExam});
 
-      final Completer<void> action = Completer();
-
-      provider.fetchUserExams(
-          action, parserExams, userPersistentInfo, profile, session, userUcs);
-      expect(provider.status, RequestStatus.busy);
-
-      await action.future;
+      await provider.fetchUserExams(
+          parserExams, userPersistentInfo, profile, session, userUcs);
 
       expect(provider.status, RequestStatus.successful);
       expect(provider.exams, [todayExam]);
@@ -171,13 +141,8 @@ void main() {
       when(parserExams.parseExams(any, any))
           .thenAnswer((_) async => {todayExam});
 
-      final Completer<void> action = Completer();
-
-      provider.fetchUserExams(
-          action, parserExams, userPersistentInfo, profile, session, userUcs);
-      expect(provider.status, RequestStatus.busy);
-
-      await action.future;
+      await provider.fetchUserExams(
+          parserExams, userPersistentInfo, profile, session, userUcs);
 
       expect(provider.status, RequestStatus.successful);
       expect(provider.exams, []);
@@ -192,13 +157,8 @@ void main() {
       when(parserExams.parseExams(any, any))
           .thenAnswer((_) async => {todayExam});
 
-      final Completer<void> action = Completer();
-
-      provider.fetchUserExams(
-          action, parserExams, userPersistentInfo, profile, session, userUcs);
-      expect(provider.status, RequestStatus.busy);
-
-      await action.future;
+      await provider.fetchUserExams(
+          parserExams, userPersistentInfo, profile, session, userUcs);
 
       expect(provider.status, RequestStatus.successful);
       expect(provider.exams, [todayExam]);
