@@ -14,8 +14,7 @@ class RestaurantSlot extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding:
-          const EdgeInsets.fromLTRB(9, 3.5, 0, 3.5),
+      padding: const EdgeInsets.fromLTRB(9, 3.5, 0, 3.5),
       child: Container(
           key: Key('cantine-slot-type-$type'),
           child: Row(

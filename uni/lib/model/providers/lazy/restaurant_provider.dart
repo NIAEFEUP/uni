@@ -39,7 +39,7 @@ class RestaurantProvider extends StateProviderNotifier {
   Future<void> fetchRestaurants(Session session) async {
     try {
       final List<Restaurant> restaurants =
-      await RestaurantFetcher().getRestaurants(session);
+          await RestaurantFetcher().getRestaurants(session);
       final RestaurantDatabase db = RestaurantDatabase();
       db.saveRestaurants(restaurants);
 
@@ -51,14 +51,16 @@ class RestaurantProvider extends StateProviderNotifier {
     }
   }
 
-  setFavoriteRestaurants(List<String> newFavoriteRestaurants, Completer<void> action) async {
+  setFavoriteRestaurants(
+      List<String> newFavoriteRestaurants, Completer<void> action) async {
     _favoriteRestaurants = List<String>.from(newFavoriteRestaurants);
     AppSharedPreferences.saveFavoriteRestaurants(favoriteRestaurants);
     action.complete();
     notifyListeners();
   }
 
-  toggleFavoriteRestaurant(String restaurantName, Completer<void> action) async {
+  toggleFavoriteRestaurant(
+      String restaurantName, Completer<void> action) async {
     _favoriteRestaurants.contains(restaurantName)
         ? _favoriteRestaurants.remove(restaurantName)
         : _favoriteRestaurants.add(restaurantName);
@@ -67,11 +69,10 @@ class RestaurantProvider extends StateProviderNotifier {
     action.complete();
   }
 
-  void updateStateBasedOnLocalRestaurants() async{
+  void updateStateBasedOnLocalRestaurants() async {
     final RestaurantDatabase restaurantDb = RestaurantDatabase();
     final List<Restaurant> restaurants = await restaurantDb.getRestaurants();
     _restaurants = restaurants;
     notifyListeners();
   }
 }
-

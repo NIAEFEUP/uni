@@ -7,13 +7,16 @@ import 'package:uni/model/entities/restaurant.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/providers/lazy/restaurant_provider.dart';
 
-
 class RestaurantPageCard extends GenericCard {
   final Restaurant restaurant;
   final Widget meals;
 
   RestaurantPageCard(this.restaurant, this.meals, {super.key})
-      : super.customStyle(editingMode: false, onDelete: () => null, hasSmallTitle: true, cardAction: CardFavoriteButton(restaurant));
+      : super.customStyle(
+            editingMode: false,
+            onDelete: () => null,
+            hasSmallTitle: true,
+            cardAction: CardFavoriteButton(restaurant));
 
   @override
   Widget buildCardContent(BuildContext context) {
@@ -40,14 +43,13 @@ class CardFavoriteButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<RestaurantProvider>(
-        builder: (context, restaurantProvider, _){
-          final isFavorite = restaurantProvider.favoriteRestaurants.contains(restaurant.name);
-          return IconButton(
-              icon: isFavorite ? Icon(MdiIcons.heart) : Icon(MdiIcons.heartOutline),
-              onPressed: ()  => restaurantProvider.toggleFavoriteRestaurant(restaurant.name, Completer())
-          );
-        }
-    );
+        builder: (context, restaurantProvider, _) {
+      final isFavorite =
+          restaurantProvider.favoriteRestaurants.contains(restaurant.name);
+      return IconButton(
+          icon: isFavorite ? Icon(MdiIcons.heart) : Icon(MdiIcons.heartOutline),
+          onPressed: () => restaurantProvider.toggleFavoriteRestaurant(
+              restaurant.name, Completer()));
+    });
   }
 }
-

@@ -11,7 +11,6 @@ import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/restaurant/widgets/restaurant_slot.dart';
 import 'package:uni/view/lazy_consumer.dart';
 
-
 class RestaurantCard extends GenericCard {
   RestaurantCard({Key? key}) : super(key: key);
 
@@ -23,7 +22,8 @@ class RestaurantCard extends GenericCard {
   String getTitle() => 'Restaurantes';
 
   @override
-  onClick(BuildContext context) => Navigator.pushNamed(context, '/${DrawerItem.navRestaurants.title}');
+  onClick(BuildContext context) =>
+      Navigator.pushNamed(context, '/${DrawerItem.navRestaurants.title}');
 
   @override
   void onRefresh(BuildContext context) {
@@ -35,25 +35,28 @@ class RestaurantCard extends GenericCard {
   Widget buildCardContent(BuildContext context) {
     return LazyConsumer<RestaurantProvider>(
         builder: (context, restaurantProvider) {
-          final List<Restaurant> favoriteRestaurants = restaurantProvider.restaurants.where((restaurant) => restaurantProvider.favoriteRestaurants.contains(restaurant.name)).toList();
-          return RequestDependentWidgetBuilder(
-            status: restaurantProvider.status,
-            builder: () =>
-                generateRestaurants(favoriteRestaurants, context),
-            hasContentPredicate: favoriteRestaurants.isNotEmpty,
-              onNullContent: Column(children: [
-                                Padding(
-                                    padding: const EdgeInsets.only(top: 15, bottom: 10),
-                                    child: Center(
-                                        child: Text('Sem restaurantes favoritos',
-                                            style: Theme.of(context).textTheme.titleMedium))),
-                                OutlinedButton(
-                                    onPressed: () => Navigator.pushNamed(context, '/${DrawerItem.navRestaurants.title}'),
-                                    child: const Text('Adicionar'))
-              ]));
-        });
+      final List<Restaurant> favoriteRestaurants = restaurantProvider
+          .restaurants
+          .where((restaurant) =>
+              restaurantProvider.favoriteRestaurants.contains(restaurant.name))
+          .toList();
+      return RequestDependentWidgetBuilder(
+          status: restaurantProvider.status,
+          builder: () => generateRestaurants(favoriteRestaurants, context),
+          hasContentPredicate: favoriteRestaurants.isNotEmpty,
+          onNullContent: Column(children: [
+            Padding(
+                padding: const EdgeInsets.only(top: 15, bottom: 10),
+                child: Center(
+                    child: Text('Sem restaurantes favoritos',
+                        style: Theme.of(context).textTheme.titleMedium))),
+            OutlinedButton(
+                onPressed: () => Navigator.pushNamed(
+                    context, '/${DrawerItem.navRestaurants.title}'),
+                child: const Text('Adicionar'))
+          ]));
+    });
   }
-
 
   Widget generateRestaurants(dynamic data, BuildContext context) {
     final int weekDay = DateTime.now().weekday;
@@ -67,44 +70,49 @@ class RestaurantCard extends GenericCard {
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            createRowFromRestaurant(context, restaurants[index], DayOfWeek.values[offset])
+            createRowFromRestaurant(
+                context, restaurants[index], DayOfWeek.values[offset])
           ],
         );
       },
     );
   }
 
-
-  Widget createRowFromRestaurant(context, Restaurant restaurant, DayOfWeek day) {
+  Widget createRowFromRestaurant(
+      context, Restaurant restaurant, DayOfWeek day) {
     final List<Meal> meals = restaurant.getMealsOfDay(day);
     return Column(children: [
       Center(
-          child: Container(
-              alignment: Alignment.centerLeft,
-              padding: const EdgeInsets.fromLTRB(12, 20, 12, 5), child: Text(restaurant.name, style: TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.bold))),),
-      if(meals.isNotEmpty)
-      Card(
-        elevation: 0,
-        child: RowContainer(
-            borderColor: Colors.transparent,
-            color: const Color.fromARGB(0, 0, 0, 0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: createRestaurantRows(meals, context),
-            )),
-      )
+        child: Container(
+            alignment: Alignment.centerLeft,
+            padding: const EdgeInsets.fromLTRB(12, 20, 12, 5),
+            child: Text(restaurant.name,
+                style: TextStyle(
+                    color: Theme.of(context).primaryColor,
+                    fontWeight: FontWeight.bold))),
+      ),
+      if (meals.isNotEmpty)
+        Card(
+          elevation: 0,
+          child: RowContainer(
+              borderColor: Colors.transparent,
+              color: const Color.fromARGB(0, 0, 0, 0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: createRestaurantRows(meals, context),
+              )),
+        )
       else
-      Card(
-        elevation: 0,
-        child: RowContainer(
-          borderColor: Colors.transparent,
-          color: const Color.fromARGB(0, 0, 0, 0),
-          child: Container(
-            padding: const EdgeInsets.fromLTRB(9, 0, 0, 0),
-            width: 400,
-            child: const Text("Não há refeições disponíveis"),
-            ))
-          )
+        Card(
+            elevation: 0,
+            child: RowContainer(
+                borderColor: Colors.transparent,
+                color: const Color.fromARGB(0, 0, 0, 0),
+                child: Container(
+                  padding: const EdgeInsets.fromLTRB(9, 0, 0, 0),
+                  width: 400,
+                  child: const Text("Não há refeições disponíveis"),
+                )))
     ]);
   }
 
@@ -113,5 +121,4 @@ class RestaurantCard extends GenericCard {
         .map((meal) => RestaurantSlot(type: meal.type, name: meal.name))
         .toList();
   }
-
 }

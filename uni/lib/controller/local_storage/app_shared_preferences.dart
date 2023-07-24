@@ -174,7 +174,8 @@ class AppSharedPreferences {
 
   static Future<List<String>> getFavoriteRestaurants() async {
     final prefs = await SharedPreferences.getInstance();
-    final List<String> storedFavoriteRestaurants = prefs.getStringList(favoriteRestaurants) ?? [];
+    final List<String> storedFavoriteRestaurants =
+        prefs.getStringList(favoriteRestaurants) ?? [];
     return storedFavoriteRestaurants;
   }
 
@@ -204,7 +205,7 @@ class AppSharedPreferences {
   static Future<Map<String, bool>> getFilteredExams() async {
     final prefs = await SharedPreferences.getInstance();
     final List<String>? storedFilteredExamTypes =
-    prefs.getStringList(filteredExamsTypes);
+        prefs.getStringList(filteredExamsTypes);
 
     if (storedFilteredExamTypes == null) {
       return Map.fromIterable(defaultFilteredExamTypes, value: (type) => true);
@@ -241,4 +242,3 @@ class AppSharedPreferences {
     prefs.setBool(tuitionNotificationsToggleKey, value);
   }
 }
-
