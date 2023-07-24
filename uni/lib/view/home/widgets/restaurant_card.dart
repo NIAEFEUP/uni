@@ -11,8 +11,6 @@ import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/restaurant/widgets/restaurant_slot.dart';
 import 'package:uni/view/lazy_consumer.dart';
 
-final int weekDay = DateTime.now().weekday;
-final offset = (weekDay > 5) ? 0 : (weekDay - 1) % DayOfWeek.values.length;
 
 class RestaurantCard extends GenericCard {
   RestaurantCard({Key? key}) : super(key: key);
@@ -58,6 +56,8 @@ class RestaurantCard extends GenericCard {
 
 
   Widget generateRestaurants(dynamic data, BuildContext context) {
+    final int weekDay = DateTime.now().weekday;
+    final offset = (weekDay - 1) % 7;
     final List<Restaurant> restaurants = data;
     return ListView.builder(
       shrinkWrap: true,

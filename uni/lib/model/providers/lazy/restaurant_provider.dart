@@ -29,6 +29,7 @@ class RestaurantProvider extends StateProviderNotifier {
     final RestaurantDatabase restaurantDb = RestaurantDatabase();
     final List<Restaurant> restaurants = await restaurantDb.getRestaurants();
     _restaurants = restaurants;
+    _favoriteRestaurants = await AppSharedPreferences.getFavoriteRestaurants();
   }
 
   @override
