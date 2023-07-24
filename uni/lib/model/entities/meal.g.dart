@@ -10,14 +10,14 @@ Meal _$MealFromJson(Map<String, dynamic> json) => Meal(
       json['type'] as String,
       json['name'] as String,
       $enumDecode(_$DayOfWeekEnumMap, json['dayOfWeek']),
-      DateTime.parse(json['date'] as String),
+      const DateTimeConverter().fromJson(json['date'] as String),
     );
 
 Map<String, dynamic> _$MealToJson(Meal instance) => <String, dynamic>{
       'type': instance.type,
       'name': instance.name,
       'dayOfWeek': _$DayOfWeekEnumMap[instance.dayOfWeek]!,
-      'date': instance.date.toIso8601String(),
+      'date': const DateTimeConverter().toJson(instance.date),
     };
 
 const _$DayOfWeekEnumMap = {

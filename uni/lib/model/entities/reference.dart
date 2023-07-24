@@ -2,6 +2,21 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'reference.g.dart';
 
+class DateTimeConverter extends JsonConverter<DateTime, String> {
+  const DateTimeConverter();
+
+  @override
+  DateTime fromJson(String json) {
+    return DateTime.parse(json);
+  }
+
+  @override
+  String toJson(DateTime object) {
+    return object.toString();
+  }
+}
+
+@DateTimeConverter()
 @JsonSerializable()
 class Reference {
   final String description;

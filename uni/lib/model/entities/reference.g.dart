@@ -8,7 +8,7 @@ part of 'reference.dart';
 
 Reference _$ReferenceFromJson(Map<String, dynamic> json) => Reference(
       json['description'] as String,
-      DateTime.parse(json['limitDate'] as String),
+      const DateTimeConverter().fromJson(json['limitDate'] as String),
       json['entity'] as int,
       json['reference'] as int,
       (json['amount'] as num).toDouble(),
@@ -16,7 +16,7 @@ Reference _$ReferenceFromJson(Map<String, dynamic> json) => Reference(
 
 Map<String, dynamic> _$ReferenceToJson(Reference instance) => <String, dynamic>{
       'description': instance.description,
-      'limitDate': instance.limitDate.toIso8601String(),
+      'limitDate': const DateTimeConverter().toJson(instance.limitDate),
       'entity': instance.entity,
       'reference': instance.reference,
       'amount': instance.amount,

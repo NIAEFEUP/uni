@@ -8,8 +8,8 @@ part of 'exam.dart';
 
 Exam _$ExamFromJson(Map<String, dynamic> json) => Exam(
       json['id'] as String,
-      DateTime.parse(json['begin'] as String),
-      DateTime.parse(json['end'] as String),
+      const DateTimeConverter().fromJson(json['begin'] as String),
+      const DateTimeConverter().fromJson(json['end'] as String),
       json['subject'] as String,
       (json['rooms'] as List<dynamic>).map((e) => e as String).toList(),
       json['type'] as String,
@@ -17,8 +17,8 @@ Exam _$ExamFromJson(Map<String, dynamic> json) => Exam(
     );
 
 Map<String, dynamic> _$ExamToJson(Exam instance) => <String, dynamic>{
-      'begin': instance.begin.toIso8601String(),
-      'end': instance.end.toIso8601String(),
+      'begin': const DateTimeConverter().toJson(instance.begin),
+      'end': const DateTimeConverter().toJson(instance.end),
       'id': instance.id,
       'subject': instance.subject,
       'rooms': instance.rooms,

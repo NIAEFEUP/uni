@@ -3,7 +3,22 @@ import 'package:logger/logger.dart';
 
 part 'lecture.g.dart';
 
+class DateTimeConverter extends JsonConverter<DateTime, String> {
+  const DateTimeConverter();
+
+  @override
+  DateTime fromJson(String json) {
+    return DateTime.parse(json);
+  }
+
+  @override
+  String toJson(DateTime object) {
+    return object.toIso8601String();
+  }
+}
+
 /// Stores information about a lecture.
+@DateTimeConverter()
 @JsonSerializable()
 class Lecture {
   String subject;

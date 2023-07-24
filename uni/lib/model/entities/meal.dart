@@ -1,8 +1,26 @@
+import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:uni/model/utils/day_of_week.dart';
 
 part 'meal.g.dart';
 
+class DateTimeConverter extends JsonConverter<DateTime, String> {
+  const DateTimeConverter();
+
+  @override
+  DateTime fromJson(String json) {
+    final DateFormat format = DateFormat('d-M-y');
+    return format.parse(json);
+  }
+
+  @override
+  String toJson(DateTime object) {
+    final DateFormat format = DateFormat('d-M-y');
+    return format.format(object);
+  }
+}
+
+@DateTimeConverter()
 @JsonSerializable()
 class Meal {
   final String type;

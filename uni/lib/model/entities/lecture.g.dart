@@ -9,8 +9,8 @@ part of 'lecture.dart';
 Lecture _$LectureFromJson(Map<String, dynamic> json) => Lecture(
       json['subject'] as String,
       json['typeClass'] as String,
-      DateTime.parse(json['startTime'] as String),
-      DateTime.parse(json['endTime'] as String),
+      const DateTimeConverter().fromJson(json['startTime'] as String),
+      const DateTimeConverter().fromJson(json['endTime'] as String),
       json['blocks'] as int,
       json['room'] as String,
       json['teacher'] as String,
@@ -24,8 +24,8 @@ Map<String, dynamic> _$LectureToJson(Lecture instance) => <String, dynamic>{
       'room': instance.room,
       'teacher': instance.teacher,
       'classNumber': instance.classNumber,
-      'startTime': instance.startTime.toIso8601String(),
-      'endTime': instance.endTime.toIso8601String(),
+      'startTime': const DateTimeConverter().toJson(instance.startTime),
+      'endTime': const DateTimeConverter().toJson(instance.endTime),
       'blocks': instance.blocks,
       'occurrId': instance.occurrId,
     };
