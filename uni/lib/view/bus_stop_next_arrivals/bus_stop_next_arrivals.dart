@@ -25,8 +25,8 @@ class BusStopNextArrivalsPageState
   Widget getBody(BuildContext context) {
     return LazyConsumer<BusStopProvider>(
         builder: (context, busProvider) => ListView(children: [
-          NextArrivals(busProvider.configuredBusStops, busProvider.status)
-        ]));
+              NextArrivals(busProvider.configuredBusStops, busProvider.status)
+            ]));
   }
 
   @override
@@ -84,19 +84,22 @@ class NextArrivalsState extends State<NextArrivals> {
     if (widget.buses.isNotEmpty) {
       result.addAll(getContent(context));
     } else {
-      result.add(
-          ImageLabel(imagePath: 'assets/images/bus.png', label: 'Não percas nenhum autocarro', labelTextStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 17, color: Theme.of(context).colorScheme.primary))
-      );
-      result.add(
-          Column(
-              children: [
-                ElevatedButton(
-                  onPressed: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const BusStopSelectionPage())),
-                  child: const Text('Adicionar'),
-                ),
-              ]));
+      result.add(ImageLabel(
+          imagePath: 'assets/images/bus.png',
+          label: 'Não percas nenhum autocarro',
+          labelTextStyle: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 17,
+              color: Theme.of(context).colorScheme.primary)));
+      result.add(Column(children: [
+        ElevatedButton(
+          onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const BusStopSelectionPage())),
+          child: const Text('Adicionar'),
+        ),
+      ]));
     }
 
     return result;

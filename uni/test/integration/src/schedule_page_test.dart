@@ -1,6 +1,5 @@
 // @dart=2.10
 
-import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -63,10 +62,8 @@ void main() {
       expect(find.byKey(const Key(scheduleSlotTimeKey1)), findsNothing);
       expect(find.byKey(const Key(scheduleSlotTimeKey2)), findsNothing);
 
-      final Completer<void> completer = Completer();
-      scheduleProvider.fetchUserLectures(completer, const Tuple2('', ''),
-          Session(authenticated: true), profile);
-      await completer.future;
+      await scheduleProvider.fetchUserLectures(const Tuple2('', ''),
+          Session(username: '', cookies: '', faculties: ['feup']), profile);
 
       await tester.tap(find.byKey(const Key('schedule-page-tab-2')));
       await tester.pumpAndSettle();

@@ -19,8 +19,8 @@ Future<CourseUnitSheet> parseCourseUnitSheet(http.Response response) async {
   return CourseUnitSheet(sections);
 }
 
-List<CourseUnitClass> parseCourseUnitClasses(http.Response response,
-    String baseUrl) {
+List<CourseUnitClass> parseCourseUnitClasses(
+    http.Response response, String baseUrl) {
   final List<CourseUnitClass> classes = [];
   final document = parse(response.body);
   final titles = document.querySelectorAll('#conteudoinner h3').sublist(1);
@@ -41,8 +41,7 @@ List<CourseUnitClass> parseCourseUnitClasses(http.Response response,
     for (final row in studentRows) {
       final columns = row.querySelectorAll('td.k.t');
       final String studentName = columns[0].children[0].innerHtml;
-      final int studentNumber =
-          int.tryParse(columns[1].innerHtml.trim()) ?? 0;
+      final int studentNumber = int.tryParse(columns[1].innerHtml.trim()) ?? 0;
       final String studentMail = columns[2].innerHtml;
 
       final Uri studentPhoto = Uri.parse(

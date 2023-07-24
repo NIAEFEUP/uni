@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:collection';
 
-import 'package:logger/logger.dart';
 import 'package:tuple/tuple.dart';
 import 'package:uni/controller/fetchers/exam_fetcher.dart';
 import 'package:uni/controller/local_storage/app_exams_database.dart';
@@ -32,9 +31,8 @@ class ExamProvider extends StateProviderNotifier {
 
   @override
   Future<void> loadFromStorage() async {
-    setFilteredExams(
-        await AppSharedPreferences.getFilteredExams(), Completer());
-    setHiddenExams(await AppSharedPreferences.getHiddenExams(), Completer());
+    await setFilteredExams(await AppSharedPreferences.getFilteredExams());
+    await setHiddenExams(await AppSharedPreferences.getHiddenExams());
 
     final AppExamsDatabase db = AppExamsDatabase();
     final List<Exam> exams = await db.exams();
@@ -43,18 +41,15 @@ class ExamProvider extends StateProviderNotifier {
 
   @override
   Future<void> loadFromRemote(Session session, Profile profile) async {
-    final Completer<void> action = Completer<void>();
-    final ParserExams parserExams = ParserExams();
-    final Tuple2<String, String> userPersistentInfo =
-        await AppSharedPreferences.getPersistentUserInfo();
-
-    fetchUserExams(action, parserExams, userPersistentInfo, profile, session,
+    await fetchUserExams(
+        ParserExams(),
+        await AppSharedPreferences.getPersistentUserInfo(),
+        profile,
+        session,
         profile.courseUnits);
-    await action.future;
   }
 
   Future<void> fetchUserExams(
-    Completer<void> action,
     ParserExams parserExams,
     Tuple2<String, String> userPersistentInfo,
     Profile profile,
@@ -62,15 +57,11 @@ class ExamProvider extends StateProviderNotifier {
     List<CourseUnit> userUcs,
   ) async {
     try {
-      //need to get student course here
-      updateStatus(RequestStatus.busy);
-
       final List<Exam> exams = await ExamFetcher(profile.courses, userUcs)
           .extractExams(session, parserExams);
 
       exams.sort((exam1, exam2) => exam1.begin.compareTo(exam2.begin));
 
-      // Updates local database according to the information fetched -- Exams
       if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {
         final AppExamsDatabase db = AppExamsDatabase();
         db.saveNewExams(exams);
@@ -78,13 +69,9 @@ class ExamProvider extends StateProviderNotifier {
 
       _exams = exams;
       updateStatus(RequestStatus.successful);
-      notifyListeners();
     } catch (e) {
-      Logger().e('Failed to get Exams');
       updateStatus(RequestStatus.failed);
     }
-
-    action.complete();
   }
 
   updateFilteredExams() async {
@@ -93,11 +80,9 @@ class ExamProvider extends StateProviderNotifier {
     notifyListeners();
   }
 
-  setFilteredExams(
-      Map<String, bool> newFilteredExams, Completer<void> action) async {
-    _filteredExamsTypes = Map<String, bool>.from(newFilteredExams);
+  Future<void> setFilteredExams(Map<String, bool> newFilteredExams) async {
     AppSharedPreferences.saveFilteredExams(filteredExamsTypes);
-    action.complete();
+    _filteredExamsTypes = Map<String, bool>.from(newFilteredExams);
     notifyListeners();
   }
 
@@ -108,23 +93,22 @@ class ExamProvider extends StateProviderNotifier {
         .toList();
   }
 
-  setHiddenExams(List<String> newHiddenExams, Completer<void> action) async {
+  setHiddenExams(List<String> newHiddenExams) async {
     _hiddenExams = List<String>.from(newHiddenExams);
-    AppSharedPreferences.saveHiddenExams(hiddenExams);
-    action.complete();
+    await AppSharedPreferences.saveHiddenExams(hiddenExams);
     notifyListeners();
   }
 
-  toggleHiddenExam(String newExamId, Completer<void> action) async {
+  Future<void> toggleHiddenExam(String newExamId) async {
     _hiddenExams.contains(newExamId)
         ? _hiddenExams.remove(newExamId)
         : _hiddenExams.add(newExamId);
+    await AppSharedPreferences.saveHiddenExams(hiddenExams);
     notifyListeners();
-    AppSharedPreferences.saveHiddenExams(hiddenExams);
-    action.complete();
   }
 
   setExams(List<Exam> newExams) {
     _exams = newExams;
+    notifyListeners();
   }
 }

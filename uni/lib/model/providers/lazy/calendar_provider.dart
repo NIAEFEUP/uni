@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:collection';
 
-import 'package:logger/logger.dart';
 import 'package:uni/controller/fetchers/calendar_fetcher_html.dart';
 import 'package:uni/controller/local_storage/app_calendar_database.dart';
 import 'package:uni/model/entities/calendar_event.dart';
@@ -21,26 +20,20 @@ class CalendarProvider extends StateProviderNotifier {
 
   @override
   Future<void> loadFromRemote(Session session, Profile profile) async {
-    final Completer<void> action = Completer<void>();
-    getCalendarFromFetcher(session, action);
-    await action.future;
+    await fetchCalendar(session);
   }
 
-  getCalendarFromFetcher(Session session, Completer<void> action) async {
+  Future<void> fetchCalendar(Session session) async {
     try {
-      updateStatus(RequestStatus.busy);
-
       _calendar = await CalendarFetcherHtml().getCalendar(session);
-      notifyListeners();
 
       final CalendarDatabase db = CalendarDatabase();
       db.saveCalendar(calendar);
+
       updateStatus(RequestStatus.successful);
     } catch (e) {
-      Logger().e('Failed to get the Calendar: ${e.toString()}');
       updateStatus(RequestStatus.failed);
     }
-    action.complete();
   }
 
   @override

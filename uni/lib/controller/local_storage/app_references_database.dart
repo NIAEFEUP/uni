@@ -10,11 +10,11 @@ import 'package:uni/model/entities/reference.dart';
 /// See the [Reference] class to see what data is stored in this database.
 class AppReferencesDatabase extends AppDatabase {
   static const String createScript =
-  '''CREATE TABLE refs(description TEXT, entity INTEGER, '''
-  '''reference INTEGER, amount REAL, limitDate TEXT)''';
+      '''CREATE TABLE refs(description TEXT, entity INTEGER, '''
+      '''reference INTEGER, amount REAL, limitDate TEXT)''';
 
-  AppReferencesDatabase() :
-        super('refs.db', [createScript], onUpgrade: migrate, version: 2);
+  AppReferencesDatabase()
+      : super('refs.db', [createScript], onUpgrade: migrate, version: 2);
 
   /// Replaces all of the data in this database with the data from [references].
   Future<void> saveNewReferences(List<Reference> references) async {
@@ -48,11 +48,8 @@ class AppReferencesDatabase extends AppDatabase {
   /// If a row with the same data is present, it will be replaced.
   Future<void> insertReferences(List<Reference> references) async {
     for (Reference reference in references) {
-      await insertInDatabase(
-        'refs',
-        reference.toMap(),
-        conflictAlgorithm: ConflictAlgorithm.replace
-      );
+      await insertInDatabase('refs', reference.toMap(),
+          conflictAlgorithm: ConflictAlgorithm.replace);
     }
   }
 

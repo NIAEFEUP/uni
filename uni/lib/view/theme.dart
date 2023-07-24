@@ -53,20 +53,24 @@ ThemeData applicationLightTheme = ThemeData(
     textTheme: _textTheme,
     switchTheme: SwitchThemeData(
       thumbColor: MaterialStateProperty.resolveWith<Color?>(
-         (Set<MaterialState> states) => states.contains(MaterialState.selected) ? darkRed : null,
+        (Set<MaterialState> states) =>
+            states.contains(MaterialState.selected) ? darkRed : null,
       ),
       trackColor: MaterialStateProperty.resolveWith<Color?>(
-         (Set<MaterialState> states) => states.contains(MaterialState.selected) ? darkRed : null,
+        (Set<MaterialState> states) =>
+            states.contains(MaterialState.selected) ? darkRed : null,
       ),
     ),
     radioTheme: RadioThemeData(
       fillColor: MaterialStateProperty.resolveWith<Color?>(
-         (Set<MaterialState> states) => states.contains(MaterialState.selected) ? darkRed : null,
+        (Set<MaterialState> states) =>
+            states.contains(MaterialState.selected) ? darkRed : null,
       ),
     ),
     checkboxTheme: CheckboxThemeData(
       fillColor: MaterialStateProperty.resolveWith<Color?>(
-         (Set<MaterialState> states) => states.contains(MaterialState.selected) ? darkRed : null,
+        (Set<MaterialState> states) =>
+            states.contains(MaterialState.selected) ? darkRed : null,
       ),
     ));
 
@@ -97,16 +101,19 @@ ThemeData applicationDarkTheme = ThemeData(
     textTheme: _textTheme.apply(bodyColor: _lightGrey),
     switchTheme: SwitchThemeData(
       trackColor: MaterialStateProperty.resolveWith<Color?>(
-         (Set<MaterialState> states) => states.contains(MaterialState.selected) ? _lightGrey : null,
+        (Set<MaterialState> states) =>
+            states.contains(MaterialState.selected) ? _lightGrey : null,
       ),
     ),
     radioTheme: RadioThemeData(
       fillColor: MaterialStateProperty.resolveWith<Color?>(
-         (Set<MaterialState> states) => states.contains(MaterialState.selected) ? _mildBlack : null,
+        (Set<MaterialState> states) =>
+            states.contains(MaterialState.selected) ? _mildBlack : null,
       ),
     ),
     checkboxTheme: CheckboxThemeData(
       fillColor: MaterialStateProperty.resolveWith<Color?>(
-         (Set<MaterialState> states) => states.contains(MaterialState.selected) ? _mildBlack : null,
+        (Set<MaterialState> states) =>
+            states.contains(MaterialState.selected) ? _mildBlack : null,
       ),
     ));
