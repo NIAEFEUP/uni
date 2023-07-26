@@ -7,9 +7,9 @@
 <br>
 <br>
 
-[![Build badge](https://img.shields.io/github/actions/workflow/status/NIAEFEUP/project-schrodinger/test_lint.yaml?style=for-the-badge)](https://github.com/NIAEFEUP/project-schrodinger/actions)
-[![Deploy badge](https://img.shields.io/github/actions/workflow/status/NIAEFEUP/project-schrodinger/deploy.yaml?label=Deploy&style=for-the-badge)](https://github.com/NIAEFEUP/project-schrodinger/actions)
-[![License badge](https://img.shields.io/github/license/NIAEFEUP/project-schrodinger?style=for-the-badge)](https://github.com/NIAEFEUP/project-schrodinger/blob/master/LICENSE)
+[![Build badge](https://img.shields.io/github/actions/workflow/status/NIAEFEUP/uni/format_lint_test.yaml?style=for-the-badge)](https://github.com/NIAEFEUP/uni/actions)
+[![Deploy badge](https://img.shields.io/github/actions/workflow/status/NIAEFEUP/uni/deploy.yaml?label=Deploy&style=for-the-badge)](https://github.com/NIAEFEUP/uni/actions)
+[![License badge](https://img.shields.io/github/license/NIAEFEUP/uni?style=for-the-badge)](https://github.com/NIAEFEUP/uni/blob/develop/LICENSE)
 
 <a href='https://play.google.com/store/apps/details?id=pt.up.fe.ni.uni&hl=pt_PT&gl=US&pli=1&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img style="width: 135px;" alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/></a>
 

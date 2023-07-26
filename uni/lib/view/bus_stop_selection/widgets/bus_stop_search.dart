@@ -100,7 +100,7 @@ class BusStopSearch extends SearchDelegate<String> {
               onPressed: () async {
                 if (stopData!.configuredBuses.isNotEmpty) {
                   Provider.of<BusStopProvider>(context, listen: false)
-                      .addUserBusStop(Completer(), stopCode!, stopData!);
+                      .addUserBusStop(stopCode!, stopData!);
                   Navigator.pop(context);
                 }
               })

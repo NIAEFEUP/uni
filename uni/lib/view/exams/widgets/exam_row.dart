@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:add_2_calendar/add_2_calendar.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -76,8 +74,7 @@ class _ExamRowState extends State<ExamRow> {
                                     onPressed: () => setState(() {
                                           Provider.of<ExamProvider>(context,
                                                   listen: false)
-                                              .toggleHiddenExam(
-                                                  widget.exam.id, Completer());
+                                              .toggleHiddenExam(widget.exam.id);
                                         })),
                               IconButton(
                                   icon: Icon(MdiIcons.calendarPlus, size: 30),

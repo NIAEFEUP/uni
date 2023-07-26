@@ -31,14 +31,10 @@ class BusStopProvider extends StateProviderNotifier {
 
   @override
   Future<void> loadFromRemote(Session session, Profile profile) async {
-    final action = Completer<void>();
-    getUserBusTrips(action);
-    await action.future;
+    await fetchUserBusTrips();
   }
 
-  getUserBusTrips(Completer<void> action) async {
-    updateStatus(RequestStatus.busy);
-
+  Future<void> fetchUserBusTrips() async {
     try {
       for (String stopCode in configuredBusStops.keys) {
         final List<Trip> stopTrips =
@@ -52,12 +48,9 @@ class BusStopProvider extends StateProviderNotifier {
       Logger().e('Failed to get Bus Stop information');
       updateStatus(RequestStatus.failed);
     }
-
-    action.complete();
   }
 
-  addUserBusStop(
-      Completer<void> action, String stopCode, BusStopData stopData) async {
+  Future<void> addUserBusStop(String stopCode, BusStopData stopData) async {
     updateStatus(RequestStatus.busy);
 
     if (_configuredBusStops.containsKey(stopCode)) {
@@ -69,30 +62,30 @@ class BusStopProvider extends StateProviderNotifier {
       _configuredBusStops[stopCode] = stopData;
     }
 
-    getUserBusTrips(action);
+    await fetchUserBusTrips();
 
     final AppBusStopDatabase db = AppBusStopDatabase();
     db.setBusStops(configuredBusStops);
   }
 
-  removeUserBusStop(Completer<void> action, String stopCode) async {
+  Future<void> removeUserBusStop(String stopCode) async {
     updateStatus(RequestStatus.busy);
     _configuredBusStops.remove(stopCode);
     notifyListeners();
 
-    getUserBusTrips(action);
+    await fetchUserBusTrips();
 
     final AppBusStopDatabase db = AppBusStopDatabase();
     db.setBusStops(_configuredBusStops);
   }
 
-  toggleFavoriteUserBusStop(
-      Completer<void> action, String stopCode, BusStopData stopData) async {
+  Future<void> toggleFavoriteUserBusStop(
+      String stopCode, BusStopData stopData) async {
     _configuredBusStops[stopCode]!.favorited =
         !_configuredBusStops[stopCode]!.favorited;
     notifyListeners();
 
-    getUserBusTrips(action);
+    await fetchUserBusTrips();
 
     final AppBusStopDatabase db = AppBusStopDatabase();
     db.updateFavoriteBusStop(stopCode);

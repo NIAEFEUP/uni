@@ -21,24 +21,24 @@ class NetworkRouter {
   static http.Client? httpClient;
 
   /// The timeout for Sigarra login requests.
-  static const int loginRequestTimeout = 20;
+  static const Duration _requestTimeout = Duration(seconds: 10);
 
   /// The mutual exclusion primitive for login requests.
-  static Lock loginLock = Lock();
+  static final Lock _loginLock = Lock();
 
   /// Performs a login using the Sigarra API,
   /// returning an authenticated [Session] on the given [faculties] with the
   /// given username [username] and password [password] if successful.
   static Future<Session?> login(String username, String password,
       List<String> faculties, bool persistentSession) async {
-    return loginLock.synchronized(() async {
+    return _loginLock.synchronized(() async {
       final String url =
           '${NetworkRouter.getBaseUrls(faculties)[0]}mob_val_geral.autentica';
 
       final http.Response response = await http.post(url.toUri(), body: {
         'pv_login': username,
         'pv_password': password
-      }).timeout(const Duration(seconds: loginRequestTimeout));
+      }).timeout(_requestTimeout);
 
       if (response.statusCode != 200) {
         Logger().e("Login failed with status code ${response.statusCode}");
@@ -75,14 +75,12 @@ class NetworkRouter {
   /// given username [user] and password [pass].
   static Future<String> loginInSigarra(
       String user, String pass, List<String> faculties) async {
-    return loginLock.synchronized(() async {
+    return _loginLock.synchronized(() async {
       final String url =
           '${NetworkRouter.getBaseUrls(faculties)[0]}vld_validacao.validacao';
 
-      final response = await http.post(url.toUri(), body: {
-        'p_user': user,
-        'p_pass': pass
-      }).timeout(const Duration(seconds: loginRequestTimeout));
+      final response = await http.post(url.toUri(),
+          body: {'p_user': user, 'p_pass': pass}).timeout(_requestTimeout);
 
       return response.body;
     });
@@ -108,7 +106,8 @@ class NetworkRouter {
   /// If the request fails with a 403 status code, the user is re-authenticated
   /// and the session is updated.
   static Future<http.Response> getWithCookies(
-      String baseUrl, Map<String, String> query, Session session) async {
+      String baseUrl, Map<String, String> query, Session session,
+      {Duration timeout = _requestTimeout}) async {
     if (!baseUrl.contains('?')) {
       baseUrl += '?';
     }
@@ -124,8 +123,9 @@ class NetworkRouter {
     headers['cookie'] = session.cookies;
 
     final http.Response response = await (httpClient != null
-        ? httpClient!.get(url.toUri(), headers: headers)
-        : http.get(url.toUri(), headers: headers));
+            ? httpClient!.get(url.toUri(), headers: headers).timeout(timeout)
+            : http.get(url.toUri(), headers: headers))
+        .timeout(timeout);
 
     if (response.statusCode == 200) {
       return response;
@@ -144,13 +144,14 @@ class NetworkRouter {
 
         session.cookies = newSession.cookies;
         headers['cookie'] = session.cookies;
-        return http.get(url.toUri(), headers: headers);
+        return http.get(url.toUri(), headers: headers).timeout(timeout);
       } else {
         // If the user is logged in but still got a 403, they are forbidden to access the resource
         // or the login was invalid at the time of the request, but other thread re-authenticated.
         // Since we do not know which one is the case, we try again.
         headers['cookie'] = session.cookies;
-        final response = await http.get(url.toUri(), headers: headers);
+        final response =
+            await http.get(url.toUri(), headers: headers).timeout(timeout);
         return response.statusCode == 200
             ? Future.value(response)
             : Future.error('HTTP Error: ${response.statusCode}');
@@ -163,7 +164,7 @@ class NetworkRouter {
   /// Check if the user is still logged in,
   /// performing a health check on the user's personal page.
   static Future<bool> userLoggedIn(Session session) async {
-    return loginLock.synchronized(() async {
+    return _loginLock.synchronized(() async {
       final url =
           '${getBaseUrl(session.faculties[0])}fest_geral.cursos_list?pv_num_unico=${session.username}';
       final Map<String, String> headers = <String, String>{};
@@ -192,11 +193,9 @@ class NetworkRouter {
 
   /// Makes an HTTP request to terminate the session in Sigarra.
   static Future killSigarraAuthentication(List<String> faculties) async {
-    return loginLock.synchronized(() async {
+    return _loginLock.synchronized(() async {
       final url = '${NetworkRouter.getBaseUrl(faculties[0])}vld_validacao.sair';
-      final response = await http
-          .get(url.toUri())
-          .timeout(const Duration(seconds: loginRequestTimeout));
+      final response = await http.get(url.toUri()).timeout(_requestTimeout);
 
       if (response.statusCode == 200) {
         Logger().i("Logout Successful");
