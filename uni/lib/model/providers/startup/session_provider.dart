@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:collection';
 
 import 'package:uni/controller/background_workers/notifications.dart';
 import 'package:uni/controller/load_static/terms_and_conditions.dart';
@@ -14,7 +13,6 @@ import 'package:uni/model/request_status.dart';
 
 class SessionProvider extends StateProviderNotifier {
   late Session _session;
-  late List<String> _faculties;
 
   SessionProvider()
       : super(
@@ -23,9 +21,6 @@ class SessionProvider extends StateProviderNotifier {
             initialStatus: RequestStatus.none);
 
   Session get session => _session;
-
-  UnmodifiableListView<String> get faculties =>
-      UnmodifiableListView<String>(_faculties);
 
   @override
   Future<void> loadFromStorage() async {}
@@ -46,8 +41,6 @@ class SessionProvider extends StateProviderNotifier {
 
   Future<void> postAuthentication(String username, String password,
       List<String> faculties, persistentSession) async {
-    _faculties = faculties;
-
     updateStatus(RequestStatus.busy);
 
     Session? session;
