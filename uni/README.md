@@ -24,6 +24,11 @@ In order to contribute, you must format your changed files using `dart format` m
   chmod +x pre-commit-hook.sh && ./pre-commit-hook.sh
 ```
 
+In order to remove it, is it as simple as running the following command, from the **root directory of the repository**:
+
+```bash
+ rm .git/hooks/pre-commit
+```
 
 ## Project structure
 
