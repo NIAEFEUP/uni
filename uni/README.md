@@ -16,6 +16,20 @@ The token is read from the file assets/env/env.json, which you may need to creat
 }
 ```
 
+### Automated formatting
+
+In order to contribute, you must format your changed files using `dart format` manually or enabing _formatting on save_ using your IDE ([VSCode or IntelliJ](https://docs.flutter.dev/tools/formatting)). Alternatively, you can install the git pre-commit hook that formats your changed files when you commit, doing the following command at the **root directory of the repository**:
+
+``` bash
+  chmod +x pre-commit-hook.sh && ./pre-commit-hook.sh
+```
+
+In order to remove it, is it as simple as running the following command, from the **root directory of the repository**:
+
+```bash
+ rm .git/hooks/pre-commit
+```
+
 ## Project structure
 
 ### Overview

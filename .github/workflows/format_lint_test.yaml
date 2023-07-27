@@ -17,7 +17,7 @@ jobs:
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
 
-      - run: dart format . --set-exit-if-changed
+      - run: dart format $(find . -type f -name "*.dart" -a -not -name "*.g.dart") --set-exit-if-changed
 
   lint:
     name: 'Lint'
