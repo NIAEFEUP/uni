@@ -5,6 +5,7 @@ tee .git/hooks/pre-commit << EOF
 
 FILES="\$(git diff --name-only --cached | grep .*\.dart | grep -v .*\.g\.dart)"
 
+[ -z "\$FILES" ] && exit 0
 
 
 echo "\$FILES" | xargs dart format 
