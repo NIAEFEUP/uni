@@ -39,6 +39,7 @@ class LibraryOccupationProvider extends StateProviderNotifier {
 
       final occupation = await LibraryOccupationFetcherSheets()
           .getLibraryOccupationFromSheets(session);
+      Logger().d('${occupation.occupation}/${occupation.capacity}');
 
       final db = LibraryOccupationDatabase();
       await db.saveOccupation(occupation);
