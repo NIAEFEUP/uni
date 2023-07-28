@@ -111,14 +111,9 @@ class MainCardsList extends StatelessWidget {
   }
 
   List<Widget> getCardAdders(BuildContext context) {
-<<<<<<< HEAD
-    final userSession = Provider.of<SessionProvider>(context, listen: false);
-    final favorites =
-=======
     final session =
         Provider.of<SessionProvider>(context, listen: false).session;
-    final List<FavoriteWidgetType> favorites =
->>>>>>> origin
+    final favorites =
         Provider.of<HomePageProvider>(context, listen: false).favoriteCards;
 
     final possibleCardAdditions = cardCreators.entries
