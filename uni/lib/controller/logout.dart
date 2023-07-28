@@ -10,7 +10,6 @@ import 'package:uni/controller/local_storage/app_courses_database.dart';
 import 'package:uni/controller/local_storage/app_exams_database.dart';
 import 'package:uni/controller/local_storage/app_last_user_info_update_database.dart';
 import 'package:uni/controller/local_storage/app_lectures_database.dart';
-import 'package:uni/controller/local_storage/app_refresh_times_database.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/controller/local_storage/app_user_database.dart';
 import 'package:uni/controller/networking/network_router.dart';
@@ -20,12 +19,12 @@ Future<void> logout(BuildContext context) async {
   final prefs = await SharedPreferences.getInstance();
   final faculties = await AppSharedPreferences.getUserFaculties();
   await prefs.clear();
+
   unawaited(
     Future.wait([
       AppLecturesDatabase().deleteLectures(),
       AppExamsDatabase().deleteExams(),
       AppCoursesDatabase().deleteCourses(),
-      AppRefreshTimesDatabase().deleteRefreshTimes(),
       AppUserDataDatabase().deleteUserData(),
       AppLastUserInfoUpdateDatabase().deleteLastUpdate(),
       AppBusStopDatabase().deleteBusStops(),

@@ -66,7 +66,7 @@ class PrintInfoCard extends GenericCard {
               ],
             ),
             showLastRefreshedTime(
-              profileStateProvider.printRefreshTime,
+              profileStateProvider.lastUpdateTime?.toIso8601String(),
               context,
             )
           ],

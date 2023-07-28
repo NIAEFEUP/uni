@@ -27,6 +27,7 @@ class CurrentCourseUnitsFetcher implements SessionDependantFetcher {
     }
 
     final responseBody = json.decode(response.body) as List<dynamic>;
+
     final ucs = <CourseUnit>[];
 
     for (final course in responseBody) {

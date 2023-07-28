@@ -135,7 +135,7 @@ class AccountInfoCard extends GenericCard {
                 ReferenceList(references: references),
                 const SizedBox(height: 10),
                 showLastRefreshedTime(
-                  profileStateProvider.feesRefreshTime,
+                  profileStateProvider.lastUpdateTime?.toIso8601String(),
                   context,
                 )
               ],
@@ -155,6 +155,7 @@ class AccountInfoCard extends GenericCard {
 
 class ReferenceList extends StatelessWidget {
   const ReferenceList({required this.references, super.key});
+
   final List<Reference> references;
 
   @override
