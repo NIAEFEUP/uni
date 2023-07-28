@@ -158,7 +158,8 @@ abstract class StateProviderNotifier extends ChangeNotifier {
   /// This will run once when the provider is first initialized.
   /// If the data is not available from the remote server
   /// or the data is filled into the provider on demand,
-  /// this method should simply set the request status to [RequestStatus.successful];
+  /// this method should simply set the
+  /// request status to [RequestStatus.successful];
   /// otherwise, it should set the status accordingly.
   Future<void> loadFromRemote(Session session, Profile profile);
 }

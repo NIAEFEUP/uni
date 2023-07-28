@@ -135,7 +135,9 @@ class AccountInfoCard extends GenericCard {
                 ReferenceList(references: references),
                 const SizedBox(height: 10),
                 showLastRefreshedTime(
-                    profileStateProvider.feesRefreshTime, context)
+                  profileStateProvider.feesRefreshTime,
+                  context,
+                )
               ],
             );
           },
