@@ -20,7 +20,7 @@ class CoursesFetcher implements SessionDependantFetcher {
         .map(
           (url) => NetworkRouter.getWithCookies(
             url,
-            {'pv_num_unico': session.studentNumber},
+            {'pv_num_unico': session.username},
             session,
           ),
         )

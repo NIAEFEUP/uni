@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:logger/logger.dart';
 import 'package:uni/controller/fetchers/library_occupation_fetcher.dart';
 import 'package:uni/controller/local_storage/app_library_occupation_database.dart';
 import 'package:uni/model/entities/library_occupation.dart';
@@ -25,32 +24,20 @@ class LibraryOccupationProvider extends StateProviderNotifier {
 
   @override
   Future<void> loadFromRemote(Session session, Profile profile) async {
-    final action = Completer<void>();
-    await getLibraryOccupation(session, action);
-    await action.future;
+    await fetchLibraryOccupation(session);
   }
 
-  Future<void> getLibraryOccupation(
-    Session session,
-    Completer<void> action,
-  ) async {
+  Future<void> fetchLibraryOccupation(Session session) async {
     try {
-      updateStatus(RequestStatus.busy);
-
-      final occupation = await LibraryOccupationFetcherSheets()
+      _occupation = await LibraryOccupationFetcherSheets()
           .getLibraryOccupationFromSheets(session);
-      Logger().d('${occupation.occupation}/${occupation.capacity}');
 
       final db = LibraryOccupationDatabase();
-      await db.saveOccupation(occupation);
+      unawaited(db.saveOccupation(_occupation!));
 
-      _occupation = occupation;
-      notifyListeners();
       updateStatus(RequestStatus.successful);
     } catch (e) {
-      Logger().e('Failed to get Occupation: $e');
       updateStatus(RequestStatus.failed);
     }
-    action.complete();
   }
 }

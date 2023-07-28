@@ -68,10 +68,6 @@ class NotificationManager {
   static const Duration _notificationWorkerPeriod = Duration(hours: 1);
 
   static Future<void> updateAndTriggerNotifications() async {
-    // first we get the .json file that contains the last time that
-    // the notification have ran
-    await _initFlutterNotificationsPlugin();
-    final notificationStorage = await NotificationTimeoutStorage.create();
     final userInfo = await AppSharedPreferences.getPersistentUserInfo();
     final faculties = await AppSharedPreferences.getUserFaculties();
 
@@ -81,6 +77,15 @@ class NotificationManager {
       faculties,
       persistentSession: false,
     );
+
+    if (session == null) {
+      return;
+    }
+
+    // Get the .json file that contains the last time that the
+    // notification has ran
+    await _initFlutterNotificationsPlugin();
+    final notificationStorage = await NotificationTimeoutStorage.create();
 
     for (final value in notificationMap.values) {
       final notification = value();

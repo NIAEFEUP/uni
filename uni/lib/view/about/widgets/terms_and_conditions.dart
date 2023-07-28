@@ -10,7 +10,7 @@ class TermsAndConditions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final termsAndConditionsFuture = readTermsAndConditions();
+    final termsAndConditionsFuture = fetchTermsAndConditions();
     return FutureBuilder(
       future: termsAndConditionsFuture,
       builder:

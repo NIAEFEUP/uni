@@ -111,12 +111,18 @@ class MainCardsList extends StatelessWidget {
   }
 
   List<Widget> getCardAdders(BuildContext context) {
+<<<<<<< HEAD
     final userSession = Provider.of<SessionProvider>(context, listen: false);
     final favorites =
+=======
+    final session =
+        Provider.of<SessionProvider>(context, listen: false).session;
+    final List<FavoriteWidgetType> favorites =
+>>>>>>> origin
         Provider.of<HomePageProvider>(context, listen: false).favoriteCards;
 
     final possibleCardAdditions = cardCreators.entries
-        .where((e) => e.key.isVisible(userSession.faculties))
+        .where((e) => e.key.isVisible(session.faculties))
         .where((e) => !favorites.contains(e.key))
         .map(
           (e) => DecoratedBox(

@@ -17,26 +17,18 @@ class AboutPageViewState extends GeneralPageViewState {
     final queryData = MediaQuery.of(context);
     return ListView(
       children: <Widget>[
-        SvgPicture.asset(
-          'assets/images/ni_logo.svg',
-          colorFilter:
-              ColorFilter.mode(Theme.of(context).primaryColor, BlendMode.srcIn),
-          width: queryData.size.height / 7,
-          height: queryData.size.height / 7,
+        Padding(
+          padding: EdgeInsets.only(top: queryData.size.width / 12),
+          child: SvgPicture.asset(
+            'assets/images/logo_ni.svg',
+            width: queryData.size.height / 7,
+            height: queryData.size.height / 7,
+          ),
         ),
         Center(
           child: Padding(
-            padding: EdgeInsets.only(
-              left: queryData.size.width / 12,
-              right: queryData.size.width / 12,
-              top: queryData.size.width / 12,
-              bottom: queryData.size.width / 12,
-            ),
-            child: Column(
-              children: const <Widget>[
-                TermsAndConditions(),
-              ],
-            ),
+            padding: EdgeInsets.all(queryData.size.width / 12),
+            child: const TermsAndConditions(),
           ),
         )
       ],

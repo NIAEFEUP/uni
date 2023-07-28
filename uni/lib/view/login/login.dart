@@ -45,36 +45,35 @@ class LoginPageViewState extends State<LoginPageView> {
   bool _keepSignedIn = true;
   bool _obscurePasswordInput = true;
 
-  void _login(BuildContext context) {
+  Future<void> _login(BuildContext context) async {
     final stateProviders = StateProviders.fromContext(context);
     final sessionProvider = stateProviders.sessionProvider;
     if (sessionProvider.status != RequestStatus.busy &&
         _formKey.currentState!.validate()) {
       final user = usernameController.text.trim();
       final pass = passwordController.text.trim();
-      final completer = Completer<void>();
 
-      sessionProvider.login(
-        completer,
-        user,
-        pass,
-        faculties,
-        persistentSession: _keepSignedIn,
-      );
-
-      completer.future.then((_) {
-        handleLogin(sessionProvider.status, context);
-      }).catchError((Object error) {
+      try {
+        await sessionProvider.postAuthentication(
+          user,
+          pass,
+          faculties,
+          persistentSession: _keepSignedIn,
+        );
+        if (context.mounted) {
+          handleLogin(sessionProvider.status, context);
+        }
+      } catch (error) {
         if (error is ExpiredCredentialsException) {
           updatePasswordDialog();
         } else if (error is InternetStatusException) {
-          ToastMessage.warning(context, error.message);
+          unawaited(ToastMessage.warning(context, error.message));
         } else if (error is WrongCredentialsException) {
-          ToastMessage.error(context, error.message);
+          unawaited(ToastMessage.error(context, error.message));
         } else {
-          ToastMessage.error(context, 'Erro no login');
+          unawaited(ToastMessage.error(context, 'Erro no login'));
         }
-      });
+      }
     }
   }
 
@@ -114,10 +113,6 @@ class LoginPageViewState extends State<LoginPageView> {
           cursorColor: Colors.white,
           selectionHandleColor: Colors.white,
         ),
-        checkboxTheme: CheckboxThemeData(
-          checkColor: MaterialStateProperty.all(darkRed),
-          fillColor: MaterialStateProperty.all(Colors.white),
-        ),
       ),
       child: Builder(
         builder: (themeContext) => Scaffold(
@@ -129,7 +124,44 @@ class LoginPageViewState extends State<LoginPageView> {
                 right: queryData.size.width / 8,
               ),
               child: ListView(
-                children: getWidgets(themeContext, queryData),
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(
+                      bottom: queryData.size.height / 20,
+                    ),
+                  ),
+                  createTitle(queryData, context),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      bottom: queryData.size.height / 35,
+                    ),
+                  ),
+                  getLoginForm(queryData, context),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      bottom: queryData.size.height / 35,
+                    ),
+                  ),
+                  createForgetPasswordLink(context),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      bottom: queryData.size.height / 15,
+                    ),
+                  ),
+                  createLogInButton(queryData, context, _login),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      bottom: queryData.size.height / 35,
+                    ),
+                  ),
+                  createStatusWidget(context),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      bottom: queryData.size.height / 35,
+                    ),
+                  ),
+                  createSafeLoginButton(context),
+                ],
               ),
             ),
             onWillPop: () => onWillPop(themeContext),
@@ -137,23 +169,6 @@ class LoginPageViewState extends State<LoginPageView> {
         ),
       ),
     );
-  }
-
-  List<Widget> getWidgets(BuildContext context, MediaQueryData queryData) {
-    return [
-      Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 20)),
-      createTitle(queryData, context),
-      Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)),
-      getLoginForm(queryData, context),
-      Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)),
-      createForgetPasswordLink(context),
-      Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 15)),
-      createLogInButton(queryData, context, _login),
-      Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)),
-      createStatusWidget(context),
-      Padding(padding: EdgeInsets.only(bottom: queryData.size.height / 35)),
-      createSafeLoginButton(context)
-    ];
   }
 
   /// Delay time before the user leaves the app
@@ -270,9 +285,7 @@ class LoginPageViewState extends State<LoginPageView> {
   }
 
   void handleLogin(RequestStatus? status, BuildContext context) {
-    final session =
-        Provider.of<SessionProvider>(context, listen: false).session;
-    if (status == RequestStatus.successful && session.authenticated) {
+    if (status == RequestStatus.successful) {
       Navigator.pushReplacementNamed(
         context,
         '/${DrawerItem.navPersonalArea.title}',

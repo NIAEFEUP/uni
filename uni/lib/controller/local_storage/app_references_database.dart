@@ -56,9 +56,6 @@ class AppReferencesDatabase extends AppDatabase {
     }
   }
 
-  /// Migrates [db] from [oldVersion] to [newVersion].
-  ///
-  /// *Note:* This operation only updates the schema of the tables present in
   /// the database and, as such, all data is lost.
   static FutureOr<void> migrate(
     Database db,

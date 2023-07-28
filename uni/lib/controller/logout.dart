@@ -20,16 +20,19 @@ Future<void> logout(BuildContext context) async {
   final prefs = await SharedPreferences.getInstance();
   final faculties = await AppSharedPreferences.getUserFaculties();
   await prefs.clear();
-
-  await AppLecturesDatabase().deleteLectures();
-  await AppExamsDatabase().deleteExams();
-  await AppCoursesDatabase().deleteCourses();
-  await AppRefreshTimesDatabase().deleteRefreshTimes();
-  await AppUserDataDatabase().deleteUserData();
-  await AppLastUserInfoUpdateDatabase().deleteLastUpdate();
-  await AppBusStopDatabase().deleteBusStops();
-  await AppCourseUnitsDatabase().deleteCourseUnits();
-  await NetworkRouter.killAuthentication(faculties);
+  unawaited(
+    Future.wait([
+      AppLecturesDatabase().deleteLectures(),
+      AppExamsDatabase().deleteExams(),
+      AppCoursesDatabase().deleteCourses(),
+      AppRefreshTimesDatabase().deleteRefreshTimes(),
+      AppUserDataDatabase().deleteUserData(),
+      AppLastUserInfoUpdateDatabase().deleteLastUpdate(),
+      AppBusStopDatabase().deleteBusStops(),
+      AppCourseUnitsDatabase().deleteCourseUnits(),
+      NetworkRouter.killSigarraAuthentication(faculties),
+    ]),
+  );
 
   final path = (await getApplicationDocumentsDirectory()).path;
   final directory = Directory(path);

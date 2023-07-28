@@ -18,7 +18,7 @@ class CurrentCourseUnitsFetcher implements SessionDependantFetcher {
     final url = getEndpoints(session)[0];
     final response = await NetworkRouter.getWithCookies(
       url,
-      {'pv_codigo': session.studentNumber},
+      {'pv_codigo': session.username},
       session,
     );
 

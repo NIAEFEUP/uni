@@ -27,7 +27,7 @@ class SplashScreenState extends State<SplashScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     stateProviders = StateProviders.fromContext(context);
-    startTimeAndChangeRoute();
+    changeRouteAccordingToLoginAndTerms();
   }
 
   @override
@@ -37,6 +37,7 @@ class SplashScreenState extends State<SplashScreen> {
         MediaQuery.platformBrightnessOf(context) == Brightness.dark
             ? applicationDarkTheme
             : applicationLightTheme;
+
     return Theme(
       data: systemTheme,
       child: Builder(
@@ -110,41 +111,44 @@ class SplashScreenState extends State<SplashScreen> {
   }
 
   // Redirects the user to the proper page depending on his login input.
-  Future<void> startTimeAndChangeRoute() async {
-    MaterialPageRoute<dynamic> nextRoute;
+  Future<void> changeRouteAccordingToLoginAndTerms() async {
     final userPersistentInfo =
         await AppSharedPreferences.getPersistentUserInfo();
     final userName = userPersistentInfo.item1;
     final password = userPersistentInfo.item2;
+
+    MaterialPageRoute<dynamic> nextRoute;
     if (userName != '' && password != '') {
       nextRoute =
-          await getTermsAndConditions(userName, password, stateProviders);
+          await termsAndConditionsRoute(userName, password, stateProviders);
     } else {
       await acceptTermsAndConditions();
       nextRoute =
           MaterialPageRoute(builder: (context) => const LoginPageView());
     }
-    if (!mounted) {
-      return;
+
+    if (mounted) {
+      unawaited(Navigator.pushReplacement(context, nextRoute));
     }
-    await Navigator.pushReplacement(context, nextRoute);
   }
 
-  Future<MaterialPageRoute<Widget>> getTermsAndConditions(
+  Future<MaterialPageRoute<Widget>> termsAndConditionsRoute(
     String userName,
     String password,
     StateProviders stateProviders,
   ) async {
-    final completer = Completer<TermsAndConditionsState>();
-    await TermsAndConditionDialog.build(context, completer, userName, password);
-    final state = await completer.future;
+    final termsAcceptance = await TermsAndConditionDialog.buildIfTermsChanged(
+      context,
+      userName,
+      password,
+    );
 
-    switch (state) {
+    switch (termsAcceptance) {
       case TermsAndConditionsState.accepted:
         if (mounted) {
           final faculties = await AppSharedPreferences.getUserFaculties();
-          await stateProviders.sessionProvider
-              .reLogin(userName, password, faculties);
+          stateProviders.sessionProvider
+              .restoreSession(userName, password, faculties);
         }
         return MaterialPageRoute(builder: (context) => const HomePageView());
 

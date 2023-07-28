@@ -1,46 +1,39 @@
 import 'dart:convert';
 
-import 'package:http/http.dart';
+import 'package:http/http.dart' as http;
 import 'package:uni/controller/networking/network_router.dart';
 
 /// Stores information about a user session.
 class Session {
-  // TODO(bdmendes): accessed directly in Network Router; change the logic
-
   Session({
-    this.authenticated = false,
-    this.studentNumber = '',
-    this.type = '',
-    this.cookies = '',
-    this.faculties = const [''],
+    required this.username,
+    required this.cookies,
+    required this.faculties,
     this.persistentSession = false,
-  });
+  }) : assert(faculties.isNotEmpty, 'session must have faculties');
 
-  /// Creates a new instance from an HTTP response
-  /// to login in one of the faculties.
-  factory Session.fromLogin(Response response, List<String> faculties) {
-    final responseBody = json.decode(response.body) as Map<String, dynamic>;
-    if (responseBody['authenticated'] as bool) {
-      return Session(
-        authenticated: true,
-        faculties: faculties,
-        studentNumber: responseBody['codigo'] as String,
-        type: responseBody['tipo'] as String,
-        cookies: NetworkRouter.extractCookies(response.headers),
-      );
-    } else {
-      return Session(
-        faculties: faculties,
-      );
-    }
-  }
-
-  /// Whether or not the user is authenticated.
-  bool authenticated;
-  bool persistentSession;
-  List<String> faculties;
-  String type;
+  String username;
   String cookies;
-  String studentNumber;
-  Future<bool>? loginRequest;
+  List<String> faculties;
+  bool persistentSession;
+
+  /// Creates a new Session instance from an HTTP response.
+  /// Returns null if the authentication failed.
+  static Session? fromLogin(
+    http.Response response,
+    List<String> faculties, {
+    required bool persistentSession,
+  }) {
+    final responseBody = json.decode(response.body) as Map<String, dynamic>;
+
+    if (!(responseBody['authenticated'] as bool)) {
+      return null;
+    }
+
+    return Session(
+      faculties: faculties,
+      username: responseBody['codigo'] as String,
+      cookies: NetworkRouter.extractCookies(response.headers),
+    );
+  }
 }

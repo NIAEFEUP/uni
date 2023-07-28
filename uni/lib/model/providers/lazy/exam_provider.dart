@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:collection';
 
-import 'package:logger/logger.dart';
 import 'package:tuple/tuple.dart';
 import 'package:uni/controller/fetchers/exam_fetcher.dart';
 import 'package:uni/controller/local_storage/app_exams_database.dart';
@@ -31,12 +30,8 @@ class ExamProvider extends StateProviderNotifier {
 
   @override
   Future<void> loadFromStorage() async {
-    await setFilteredExams(
-      await AppSharedPreferences.getFilteredExams(),
-      Completer(),
-    );
-    await setHiddenExams(
-        await AppSharedPreferences.getHiddenExams(), Completer(),);
+    await setFilteredExams(await AppSharedPreferences.getFilteredExams());
+    await setHiddenExams(await AppSharedPreferences.getHiddenExams());
 
     final db = AppExamsDatabase();
     final exams = await db.exams();
@@ -45,24 +40,16 @@ class ExamProvider extends StateProviderNotifier {
 
   @override
   Future<void> loadFromRemote(Session session, Profile profile) async {
-    final action = Completer<void>();
-    final parserExams = ParserExams();
-    final userPersistentInfo =
-        await AppSharedPreferences.getPersistentUserInfo();
-
     await fetchUserExams(
-      action,
-      parserExams,
-      userPersistentInfo,
+      ParserExams(),
+      await AppSharedPreferences.getPersistentUserInfo(),
       profile,
       session,
       profile.courseUnits,
     );
-    await action.future;
   }
 
   Future<void> fetchUserExams(
-    Completer<void> action,
     ParserExams parserExams,
     Tuple2<String, String> userPersistentInfo,
     Profile profile,
@@ -70,28 +57,20 @@ class ExamProvider extends StateProviderNotifier {
     List<CourseUnit> userUcs,
   ) async {
     try {
-      //need to get student course here
-      updateStatus(RequestStatus.busy);
-
       final exams = await ExamFetcher(profile.courses, userUcs)
           .extractExams(session, parserExams);
 
       exams.sort((exam1, exam2) => exam1.begin.compareTo(exam2.begin));
 
-      // Updates local database according to the information fetched -- Exams
       if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {
         await AppExamsDatabase().saveNewExams(exams);
       }
 
       _exams = exams;
       updateStatus(RequestStatus.successful);
-      notifyListeners();
     } catch (e) {
-      Logger().e('Failed to get Exams');
       updateStatus(RequestStatus.failed);
     }
-
-    action.complete();
   }
 
   Future<void> updateFilteredExams() async {
@@ -100,13 +79,9 @@ class ExamProvider extends StateProviderNotifier {
     notifyListeners();
   }
 
-  Future<void> setFilteredExams(
-    Map<String, bool> newFilteredExams,
-    Completer<void> action,
-  ) async {
+  Future<void> setFilteredExams(Map<String, bool> newFilteredExams) async {
+    unawaited(AppSharedPreferences.saveFilteredExams(filteredExamsTypes));
     _filteredExamsTypes = Map<String, bool>.from(newFilteredExams);
-    await AppSharedPreferences.saveFilteredExams(filteredExamsTypes);
-    action.complete();
     notifyListeners();
   }
 
@@ -118,24 +93,18 @@ class ExamProvider extends StateProviderNotifier {
         .toList();
   }
 
-  Future<void> setHiddenExams(
-    List<String> newHiddenExams,
-    Completer<void> action,
-  ) async {
+  Future<void> setHiddenExams(List<String> newHiddenExams) async {
     _hiddenExams = List<String>.from(newHiddenExams);
     await AppSharedPreferences.saveHiddenExams(hiddenExams);
-    action.complete();
     notifyListeners();
   }
 
-  Future<void> toggleHiddenExam(
-      String newExamId, Completer<void> action,) async {
+  Future<void> toggleHiddenExam(String newExamId) async {
     _hiddenExams.contains(newExamId)
         ? _hiddenExams.remove(newExamId)
         : _hiddenExams.add(newExamId);
-    notifyListeners();
     await AppSharedPreferences.saveHiddenExams(hiddenExams);
-    action.complete();
+    notifyListeners();
   }
 
   set exams(List<Exam> newExams) {

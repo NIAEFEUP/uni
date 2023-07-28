@@ -13,7 +13,7 @@ class PrintFetcher implements SessionDependantFetcher {
 
   Future<http.Response> getUserPrintsResponse(Session session) {
     final url = getEndpoints(session)[0];
-    final query = <String, String>{'p_codigo': session.studentNumber};
+    final query = {'p_codigo': session.username};
     return NetworkRouter.getWithCookies(url, query, session);
   }
 
@@ -28,7 +28,7 @@ class PrintFetcher implements SessionDependantFetcher {
 
     final data = {
       'p_tipo_id': '3',
-      'pct_codigo': session.studentNumber,
+      'pct_codigo': session.username,
       'p_valor': '1',
       'p_valor_livre': amount.toStringAsFixed(2).trim().replaceAll('.', ',')
     };

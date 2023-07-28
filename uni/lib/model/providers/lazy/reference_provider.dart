@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:collection';
 
-import 'package:logger/logger.dart';
 import 'package:uni/controller/fetchers/reference_fetcher.dart';
 import 'package:uni/controller/local_storage/app_references_database.dart';
 import 'package:uni/controller/parsers/parser_references.dart';
@@ -28,30 +27,22 @@ class ReferenceProvider extends StateProviderNotifier {
 
   @override
   Future<void> loadFromRemote(Session session, Profile profile) async {
-    final referencesAction = Completer<void>();
-    await fetchUserReferences(referencesAction, session);
+    await fetchUserReferences(session);
   }
 
-  Future<void> fetchUserReferences(
-    Completer<void> action,
-    Session session,
-  ) async {
+  Future<void> fetchUserReferences(Session session) async {
     try {
       final response =
           await ReferenceFetcher().getUserReferenceResponse(session);
-      final references = await parseReferences(response);
+
+      _references = await parseReferences(response);
 
       updateStatus(RequestStatus.successful);
 
       final referencesDb = AppReferencesDatabase();
-      await referencesDb.saveNewReferences(references);
-
-      _references = references;
+      unawaited(referencesDb.saveNewReferences(references));
     } catch (e) {
-      Logger().e('Failed to get References info');
       updateStatus(RequestStatus.failed);
     }
-
-    action.complete();
   }
 }

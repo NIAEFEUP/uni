@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:collection';
 
-import 'package:logger/logger.dart';
 import 'package:uni/controller/fetchers/restaurant_fetcher.dart';
 import 'package:uni/controller/local_storage/app_restaurant_database.dart';
 import 'package:uni/model/entities/profile.dart';
@@ -27,29 +26,21 @@ class RestaurantProvider extends StateProviderNotifier {
 
   @override
   Future<void> loadFromRemote(Session session, Profile profile) async {
-    final action = Completer<void>();
-    await getRestaurantsFromFetcher(action, session);
-    await action.future;
+    await fetchRestaurants(session);
   }
 
-  Future<void> getRestaurantsFromFetcher(
-    Completer<void> action,
-    Session session,
-  ) async {
+  Future<void> fetchRestaurants(Session session) async {
     try {
-      updateStatus(RequestStatus.busy);
-
       final restaurants = await RestaurantFetcher().getRestaurants(session);
-      // Updates local database according to information fetched -- Restaurants
+
       final db = RestaurantDatabase();
-      await db.saveRestaurants(restaurants);
+      unawaited(db.saveRestaurants(restaurants));
+
       _restaurants = filterPastMeals(restaurants);
-      notifyListeners();
+
       updateStatus(RequestStatus.successful);
     } catch (e) {
-      Logger().e('Failed to get Restaurants: $e');
       updateStatus(RequestStatus.failed);
     }
-    action.complete();
   }
 }

@@ -19,7 +19,7 @@ class CourseUnitClassesView extends StatelessWidget {
             (student) =>
                 student.number ==
                 (int.tryParse(
-                      session.studentNumber.replaceAll(RegExp(r'\D'), ''),
+                      session.username.replaceAll(RegExp(r'\D'), ''),
                     ) ??
                     0),
           )

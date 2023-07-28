@@ -29,14 +29,10 @@ class BusStopProvider extends StateProviderNotifier {
 
   @override
   Future<void> loadFromRemote(Session session, Profile profile) async {
-    final action = Completer<void>();
-    await getUserBusTrips(action);
-    await action.future;
+    await fetchUserBusTrips();
   }
 
-  Future<void> getUserBusTrips(Completer<void> action) async {
-    updateStatus(RequestStatus.busy);
-
+  Future<void> fetchUserBusTrips() async {
     try {
       for (final stopCode in configuredBusStops.keys) {
         final stopTrips = await DeparturesFetcher.getNextArrivalsStop(
@@ -51,48 +47,30 @@ class BusStopProvider extends StateProviderNotifier {
       Logger().e('Failed to get Bus Stop information');
       updateStatus(RequestStatus.failed);
     }
-
-    action.complete();
   }
 
-  Future<void> addUserBusStop(
-    Completer<void> action,
-    String stopCode,
-    BusStopData stopData,
-  ) async {
+  Future<void> addUserBusStop(String stopCode, BusStopData stopData) async {
     updateStatus(RequestStatus.busy);
-
-    if (_configuredBusStops.containsKey(stopCode)) {
-      (_configuredBusStops[stopCode]!.configuredBuses).clear();
-      _configuredBusStops[stopCode]!
-          .configuredBuses
-          .addAll(stopData.configuredBuses);
-    } else {
-      _configuredBusStops[stopCode] = stopData;
-    }
-
-    await getUserBusTrips(action);
+    await fetchUserBusTrips();
 
     final db = AppBusStopDatabase();
     await db.setBusStops(configuredBusStops);
   }
 
   Future<void> removeUserBusStop(
-    Completer<void> action,
     String stopCode,
   ) async {
     updateStatus(RequestStatus.busy);
     _configuredBusStops.remove(stopCode);
     notifyListeners();
 
-    await getUserBusTrips(action);
+    await fetchUserBusTrips();
 
     final db = AppBusStopDatabase();
     await db.setBusStops(_configuredBusStops);
   }
 
   Future<void> toggleFavoriteUserBusStop(
-    Completer<void> action,
     String stopCode,
     BusStopData stopData,
   ) async {
@@ -100,7 +78,7 @@ class BusStopProvider extends StateProviderNotifier {
         !_configuredBusStops[stopCode]!.favorited;
     notifyListeners();
 
-    await getUserBusTrips(action);
+    await fetchUserBusTrips();
 
     final db = AppBusStopDatabase();
     await db.updateFavoriteBusStop(stopCode);
