@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:http/http.dart';
 import 'package:tuple/tuple.dart';
 import 'package:uni/model/entities/course.dart';
@@ -18,15 +19,16 @@ class Profile {
 
   /// Creates a new instance from a JSON object.
   factory Profile.fromResponse(Response response) {
-    final responseBody = json.decode(response.body) as Map<String, dynamic>;
+    var responseBody = json.decode(response.body);
+    responseBody = responseBody as Map<String, dynamic>;
     final courses = <Course>[];
-    for (final c in responseBody['cursos'] as Iterable<Map<String, dynamic>>) {
-      courses.add(Course.fromJson(c));
+    for (final c in responseBody['cursos'] as List<dynamic>) {
+      courses.add(Course.fromJson(c as Map<String, dynamic>));
     }
 
     return Profile(
-      name: responseBody['nome'] as String,
-      email: responseBody['email'] as String,
+      name: responseBody['nome'] as String? ?? '',
+      email: responseBody['email'] as String? ?? '',
       courses: courses,
     );
   }

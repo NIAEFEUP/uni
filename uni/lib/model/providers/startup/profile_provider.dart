@@ -72,14 +72,14 @@ class ProfileProvider extends StateProviderNotifier {
       final feesLimit = parseFeesNextLimit(response);
 
       final userPersistentInfo =
-      await AppSharedPreferences.getPersistentUserInfo();
+          await AppSharedPreferences.getPersistentUserInfo();
 
       if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {
         final profileDb = AppUserDataDatabase();
         await profileDb.saveUserFees(feesBalance, feesLimit);
       }
 
-      final newProfile = Profile(
+      _profile = Profile(
         name: _profile.name,
         email: _profile.email,
         courses: _profile.courses,
@@ -87,8 +87,6 @@ class ProfileProvider extends StateProviderNotifier {
         feesBalance: feesBalance,
         feesLimit: feesLimit,
       );
-
-      _profile = newProfile;
     } catch (e) {
       updateStatus(RequestStatus.failed);
     }
@@ -100,7 +98,7 @@ class ProfileProvider extends StateProviderNotifier {
       final printBalance = await getPrintsBalance(response);
 
       final userPersistentInfo =
-      await AppSharedPreferences.getPersistentUserInfo();
+          await AppSharedPreferences.getPersistentUserInfo();
       if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {
         final profileDb = AppUserDataDatabase();
         await profileDb.saveUserPrintBalance(printBalance);
@@ -125,15 +123,15 @@ class ProfileProvider extends StateProviderNotifier {
     try {
       final profile = await ProfileFetcher.fetchProfile(session);
       final currentCourseUnits =
-      await CurrentCourseUnitsFetcher().getCurrentCourseUnits(session);
+          await CurrentCourseUnitsFetcher().getCurrentCourseUnits(session);
 
-      _profile = profile;
+      _profile = profile ?? Profile();
       _profile.courseUnits = currentCourseUnits;
 
       updateStatus(RequestStatus.successful);
 
       final userPersistentInfo =
-      await AppSharedPreferences.getPersistentUserInfo();
+          await AppSharedPreferences.getPersistentUserInfo();
       if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {
         final profileDb = AppUserDataDatabase();
         await profileDb.insertUserData(_profile);
@@ -152,7 +150,7 @@ class ProfileProvider extends StateProviderNotifier {
       _profile.courseUnits = allCourseUnits;
 
       final userPersistentInfo =
-      await AppSharedPreferences.getPersistentUserInfo();
+          await AppSharedPreferences.getPersistentUserInfo();
       if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {
         final coursesDb = AppCoursesDatabase();
         await coursesDb.saveNewCourses(courses);
@@ -165,7 +163,8 @@ class ProfileProvider extends StateProviderNotifier {
     }
   }
 
-  static Future<File?> fetchOrGetCachedProfilePicture(Session session, {
+  static Future<File?> fetchOrGetCachedProfilePicture(
+    Session session, {
     bool forceRetrieval = false,
     int? studentNumber,
   }) {

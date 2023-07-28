@@ -25,11 +25,11 @@ class Course {
   Course.fromJson(Map<String, dynamic> data)
       : id = data['cur_id'] as int,
         festId = data['fest_id'] as int,
-        name = data['cur_nome'] as String,
-        currYear = data['ano_curricular'] as String,
+        name = data['cur_nome'] as String?,
+        currYear = data['ano_curricular'] as String?,
         firstEnrollment = data['fest_a_lect_1_insc'] as int,
-        abbreviation = data['abbreviation'] as String,
-        faculty = data['inst_sigla'].toString().toLowerCase();
+        abbreviation = data['abbreviation'] as String?,
+        faculty = data['inst_sigla']?.toString().toLowerCase();
 
   final int id;
   final int? festId;

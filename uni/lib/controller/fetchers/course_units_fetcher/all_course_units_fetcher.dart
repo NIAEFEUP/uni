@@ -11,6 +11,7 @@ class AllCourseUnitsFetcher {
     Session session,
   ) async {
     final allCourseUnits = <CourseUnit>[];
+
     for (final course in courses) {
       try {
         final courseUnits = await _getAllCourseUnitsAndCourseAveragesFromCourse(
@@ -22,6 +23,7 @@ class AllCourseUnitsFetcher {
         Logger().e('Failed to fetch course units for ${course.name}', e);
       }
     }
+
     return allCourseUnits;
   }
 

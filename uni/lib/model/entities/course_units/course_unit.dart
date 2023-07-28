@@ -53,7 +53,7 @@ class CourseUnit {
       grade: data['resultado_melhor'] as String?,
       ectsGrade: data['resultado_ects'] as String?,
       result: data['resultado_insc'] as String?,
-      ects: data['creditos_ects'] as double?,
+      ects: data['creditos_ects'] as num?,
     );
   }
 

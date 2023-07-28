@@ -16,7 +16,7 @@ class ProfileFetcher implements SessionDependantFetcher {
   }
 
   /// Returns the user's [Profile].
-  static Future<Profile> fetchProfile(Session session) async {
+  static Future<Profile?> fetchProfile(Session session) async {
     final url = '${NetworkRouter.getBaseUrlsFromSession(session)[0]}'
         'mob_fest_geral.perfil?';
     final response = await NetworkRouter.getWithCookies(
@@ -25,31 +25,32 @@ class ProfileFetcher implements SessionDependantFetcher {
       session,
     );
 
-    if (response.statusCode == 200) {
-      final profile = Profile.fromResponse(response);
-      try {
-        final coursesResponses =
-            CoursesFetcher().getCoursesListResponses(session);
-        final courses =
-            parseMultipleCourses(await Future.wait(coursesResponses));
-        for (final course in courses) {
-          if (profile.courses
-              .map((c) => c.festId)
-              .toList()
-              .contains(course.festId)) {
-            profile.courses
-                .where((c) => c.festId == course.festId)
-                .first
-                .state ??= course.state;
-            continue;
-          }
-          profile.courses.add(course);
-        }
-      } catch (e) {
-        Logger().e('Failed to get user courses via scrapping: $e');
-      }
-      return profile;
+    if (response.statusCode != 200) {
+      return null;
     }
-    return Profile();
+
+    final profile = Profile.fromResponse(response);
+    try {
+      final coursesResponses = await Future.wait(
+        CoursesFetcher().getCoursesListResponses(session),
+      );
+      final courses = parseMultipleCourses(coursesResponses);
+      for (final course in courses) {
+        if (profile.courses
+            .map((c) => c.festId)
+            .toList()
+            .contains(course.festId)) {
+          profile.courses
+              .where((c) => c.festId == course.festId)
+              .first
+              .state ??= course.state;
+          continue;
+        }
+        profile.courses.add(course);
+      }
+    } catch (e) {
+      Logger().e('Failed to get user courses via scrapping: $e');
+    }
+    return profile;
   }
 }

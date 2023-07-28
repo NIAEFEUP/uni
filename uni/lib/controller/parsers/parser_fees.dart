@@ -4,9 +4,7 @@ import 'package:http/http.dart' as http;
 /// Extracts the balance of the user's account from an HTTP [response].
 String parseFeesBalance(http.Response response) {
   final document = parse(response.body);
-  final balanceString = document
-      .querySelector('span#span_saldo_total')
-      ?.text;
+  final balanceString = document.querySelector('span#span_saldo_total')?.text;
   return '$balanceString €';
 }
 
