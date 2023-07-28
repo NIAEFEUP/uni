@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 /// Display the current date.
 ///
-/// Example: The rectangular section with the text "last update at [time]".
+/// Example: The rectangular section with the text "last update at [date]".
 class DateRectangle extends StatelessWidget {
-  const DateRectangle({super.key, required this.date});
+  const DateRectangle({required this.date, super.key});
   final String date;
 
   @override

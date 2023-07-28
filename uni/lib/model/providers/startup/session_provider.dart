@@ -93,7 +93,7 @@ class SessionProvider extends StateProviderNotifier {
     String username,
     String password,
     List<String> faculties, {
-    Completer? action,
+    Completer<void>? action,
   }) async {
     try {
       updateStatus(RequestStatus.busy);
@@ -125,7 +125,7 @@ class SessionProvider extends StateProviderNotifier {
     }
   }
 
-  dynamic handleFailedReLogin(Completer? action) {
+  dynamic handleFailedReLogin(Completer<void>? action) {
     action?.completeError(RequestStatus.failed);
     if (!session.persistentSession) {
       return NavigationService.logout();

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 /// App default container
 class RowContainer extends StatelessWidget {
   const RowContainer({
-    super.key,
     required this.child,
+    super.key,
     this.borderColor,
     this.color,
   });
@@ -14,7 +14,7 @@ class RowContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return DecoratedBox(
       decoration: BoxDecoration(
         border: Border.all(
           color: borderColor ?? Theme.of(context).dividerColor,

@@ -46,7 +46,10 @@ class _RestaurantPageState extends GeneralPageViewState<RestaurantPageView>
                   padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
                   alignment: Alignment.center,
                   child: const PageTitle(
-                      name: 'Ementas', center: false, pad: false,),
+                    name: 'Ementas',
+                    center: false,
+                    pad: false,
+                  ),
                 ),
                 TabBar(
                   controller: tabController,
@@ -99,7 +102,7 @@ class _RestaurantPageState extends GeneralPageViewState<RestaurantPageView>
 
     for (var i = 0; i < DayOfWeek.values.length; i++) {
       tabs.add(
-        Container(
+        ColoredBox(
           color: Theme.of(context).colorScheme.background,
           child: Tab(
             key: Key('cantine-page-tab-$i'),
@@ -120,7 +123,7 @@ class _RestaurantPageState extends GeneralPageViewState<RestaurantPageView>
 }
 
 class RestaurantDay extends StatelessWidget {
-  const RestaurantDay({super.key, required this.restaurant, required this.day});
+  const RestaurantDay({required this.restaurant, required this.day, super.key});
   final Restaurant restaurant;
   final DayOfWeek day;
 

@@ -40,7 +40,8 @@ class ProfilePageViewState extends SecondaryPageViewState<ProfilePageView> {
               getProfileDecorationImage: getProfileDecorationImage,
             ),
             const Padding(padding: EdgeInsets.all(5)),
-            // PrintInfoCard() // TODO: Bring this back when print info is ready again
+            // TODO(bdmendes): Bring this back when print info is ready again
+            // PrintInfoCard()
             ...courseWidgets,
             AccountInfoCard(),
           ],

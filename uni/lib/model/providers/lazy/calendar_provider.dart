@@ -21,11 +21,14 @@ class CalendarProvider extends StateProviderNotifier {
   @override
   Future<void> loadFromRemote(Session session, Profile profile) async {
     final action = Completer<void>();
-    getCalendarFromFetcher(session, action);
+    await getCalendarFromFetcher(session, action);
     await action.future;
   }
 
-  getCalendarFromFetcher(Session session, Completer<void> action) async {
+  Future<void> getCalendarFromFetcher(
+    Session session,
+    Completer<void> action,
+  ) async {
     try {
       updateStatus(RequestStatus.busy);
 
@@ -36,7 +39,7 @@ class CalendarProvider extends StateProviderNotifier {
       await db.saveCalendar(calendar);
       updateStatus(RequestStatus.successful);
     } catch (e) {
-      Logger().e('Failed to get the Calendar: ${e.toString()}');
+      Logger().e('Failed to get the Calendar: $e');
       updateStatus(RequestStatus.failed);
     }
     action.complete();

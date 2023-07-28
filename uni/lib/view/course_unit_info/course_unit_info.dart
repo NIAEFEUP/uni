@@ -22,7 +22,7 @@ class CourseUnitDetailPageView extends StatefulWidget {
 
 class CourseUnitDetailPageViewState
     extends SecondaryPageViewState<CourseUnitDetailPageView> {
-  Future<void> loadInfo(bool force) async {
+  Future<void> loadInfo({required bool force}) async {
     final courseUnitsProvider =
         Provider.of<CourseUnitsInfoProvider>(context, listen: false);
     final session = context.read<SessionProvider>().session;
@@ -31,25 +31,29 @@ class CourseUnitDetailPageViewState
         courseUnitsProvider.courseUnitsSheets[widget.courseUnit];
     if (courseUnitSheet == null || force) {
       await courseUnitsProvider.fetchCourseUnitSheet(
-          widget.courseUnit, session,);
+        widget.courseUnit,
+        session,
+      );
     }
 
     final courseUnitClasses =
         courseUnitsProvider.courseUnitsClasses[widget.courseUnit];
     if (courseUnitClasses == null || force) {
       await courseUnitsProvider.fetchCourseUnitClasses(
-          widget.courseUnit, session,);
+        widget.courseUnit,
+        session,
+      );
     }
   }
 
   @override
   Future<void> onRefresh(BuildContext context) async {
-    await loadInfo(true);
+    await loadInfo(force: true);
   }
 
   @override
   Future<void> onLoad(BuildContext context) async {
-    await loadInfo(false);
+    await loadInfo(force: false);
   }
 
   @override

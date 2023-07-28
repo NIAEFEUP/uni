@@ -30,11 +30,11 @@ class BusStopProvider extends StateProviderNotifier {
   @override
   Future<void> loadFromRemote(Session session, Profile profile) async {
     final action = Completer<void>();
-    getUserBusTrips(action);
+    await getUserBusTrips(action);
     await action.future;
   }
 
-  getUserBusTrips(Completer<void> action) async {
+  Future<void> getUserBusTrips(Completer<void> action) async {
     updateStatus(RequestStatus.busy);
 
     try {
@@ -55,7 +55,7 @@ class BusStopProvider extends StateProviderNotifier {
     action.complete();
   }
 
-  addUserBusStop(
+  Future<void> addUserBusStop(
     Completer<void> action,
     String stopCode,
     BusStopData stopData,
@@ -71,24 +71,27 @@ class BusStopProvider extends StateProviderNotifier {
       _configuredBusStops[stopCode] = stopData;
     }
 
-    getUserBusTrips(action);
+    await getUserBusTrips(action);
 
     final db = AppBusStopDatabase();
     await db.setBusStops(configuredBusStops);
   }
 
-  removeUserBusStop(Completer<void> action, String stopCode) async {
+  Future<void> removeUserBusStop(
+    Completer<void> action,
+    String stopCode,
+  ) async {
     updateStatus(RequestStatus.busy);
     _configuredBusStops.remove(stopCode);
     notifyListeners();
 
-    getUserBusTrips(action);
+    await getUserBusTrips(action);
 
     final db = AppBusStopDatabase();
     await db.setBusStops(_configuredBusStops);
   }
 
-  toggleFavoriteUserBusStop(
+  Future<void> toggleFavoriteUserBusStop(
     Completer<void> action,
     String stopCode,
     BusStopData stopData,
@@ -97,7 +100,7 @@ class BusStopProvider extends StateProviderNotifier {
         !_configuredBusStops[stopCode]!.favorited;
     notifyListeners();
 
-    getUserBusTrips(action);
+    await getUserBusTrips(action);
 
     final db = AppBusStopDatabase();
     await db.updateFavoriteBusStop(stopCode);

@@ -5,7 +5,7 @@ class RestaurantPageCard extends GenericCard {
   RestaurantPageCard(this.restaurantName, this.meals, {super.key})
       : super.customStyle(
           editingMode: false,
-          onDelete: () => null,
+          onDelete: () {},
           hasSmallTitle: true,
         );
   final String restaurantName;
@@ -22,7 +22,7 @@ class RestaurantPageCard extends GenericCard {
   }
 
   @override
-  onClick(BuildContext context) {}
+  void onClick(BuildContext context) {}
 
   @override
   void onRefresh(BuildContext context) {}

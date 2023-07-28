@@ -6,8 +6,8 @@ import 'package:uni/model/entities/session.dart';
 class PrintFetcher implements SessionDependantFetcher {
   @override
   List<String> getEndpoints(Session session) {
-    final url =
-        '${NetworkRouter.getBaseUrl('feup')}imp4_impressoes.atribs'; // endpoint only available for feup
+    final url = '${NetworkRouter.getBaseUrl('feup')}imp4_impressoes.atribs';
+    // endpoint only available for feup
     return [url];
   }
 
@@ -23,8 +23,8 @@ class PrintFetcher implements SessionDependantFetcher {
   ) async {
     if (amount < 1.0) return Future.error('Amount less than 1,00€');
 
-    final url =
-        '${NetworkRouter.getBaseUrlsFromSession(session)[0]}gpag_ccorrentes_geral.gerar_mb';
+    final url = '${NetworkRouter.getBaseUrlsFromSession(session)[0]}'
+        'gpag_ccorrentes_geral.gerar_mb';
 
     final data = {
       'p_tipo_id': '3',

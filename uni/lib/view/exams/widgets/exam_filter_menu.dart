@@ -16,7 +16,7 @@ class ExamFilterMenuState extends State<ExamFilterMenu> {
     return IconButton(
       icon: const Icon(Icons.filter_alt),
       onPressed: () {
-        showDialog(
+        showDialog<void>(
           context: context,
           builder: (_) {
             final examProvider =

@@ -60,7 +60,7 @@ class LectureProvider extends StateProviderNotifier {
       notifyListeners();
       updateStatus(RequestStatus.successful);
     } catch (e) {
-      Logger().e('Failed to get Schedule: ${e.toString()}');
+      Logger().e('Failed to get Schedule: $e');
       updateStatus(RequestStatus.failed);
     }
     action.complete();

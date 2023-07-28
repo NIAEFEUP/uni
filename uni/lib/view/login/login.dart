@@ -52,7 +52,7 @@ class LoginPageViewState extends State<LoginPageView> {
         _formKey.currentState!.validate()) {
       final user = usernameController.text.trim();
       final pass = passwordController.text.trim();
-      final completer = Completer();
+      final completer = Completer<void>();
 
       sessionProvider.login(
         completer,
@@ -290,7 +290,8 @@ class LoginPageViewState extends State<LoginPageView> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'Por razões de segurança, as palavras-passe têm de ser alteradas periodicamente.',
+                'Por razões de segurança, as palavras-passe têm de ser '
+                'alteradas periodicamente.',
                 textAlign: TextAlign.start,
                 style: Theme.of(context).textTheme.titleSmall,
               ),

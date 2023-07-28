@@ -5,7 +5,7 @@ import 'package:uni/view/login/login.dart';
 class LogoutRoute {
   LogoutRoute._();
 
-  static MaterialPageRoute buildLogoutRoute() {
+  static MaterialPageRoute<Widget> buildLogoutRoute() {
     return MaterialPageRoute(
       builder: (context) {
         logout(context);

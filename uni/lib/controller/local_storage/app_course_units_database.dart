@@ -7,7 +7,7 @@ import 'package:uni/model/entities/course_units/course_unit.dart';
 class AppCourseUnitsDatabase extends AppDatabase {
   AppCourseUnitsDatabase() : super('course_units.db', [createScript]);
   static const String createScript =
-      '''CREATE TABLE course_units(id INTEGER, code TEXT, abbreviation TEXT ,'''
+      '''CREATE TABLE course_units(id INTEGER, code TEXT, abbreviation TEXT , '''
       '''name TEXT, curricularYear INTEGER, occurrId INTEGER, semesterCode TEXT, '''
       '''semesterName TEXT, type TEXT, status TEXT, grade TEXT, ectsGrade TEXT, '''
       '''result TEXT, ects REAL, schoolYear TEXT)''';

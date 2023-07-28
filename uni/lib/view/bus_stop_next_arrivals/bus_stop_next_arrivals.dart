@@ -121,8 +121,8 @@ class NextArrivalsState extends State<NextArrivals> {
     return result;
   }
 
-  /// TODO: Is this ok?
   /// Returns a list of widgets for a busy request
+  // TODO(bdmendes): Is this ok?
   List<Widget> requestBusy(BuildContext context) {
     return [
       getPageTitle(),

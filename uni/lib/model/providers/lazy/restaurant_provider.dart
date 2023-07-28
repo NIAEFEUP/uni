@@ -47,7 +47,7 @@ class RestaurantProvider extends StateProviderNotifier {
       notifyListeners();
       updateStatus(RequestStatus.successful);
     } catch (e) {
-      Logger().e('Failed to get Restaurants: ${e.toString()}');
+      Logger().e('Failed to get Restaurants: $e');
       updateStatus(RequestStatus.failed);
     }
     action.complete();

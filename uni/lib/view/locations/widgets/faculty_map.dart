@@ -4,7 +4,7 @@ import 'package:uni/model/entities/location_group.dart';
 import 'package:uni/view/locations/widgets/map.dart';
 
 class FacultyMap extends StatelessWidget {
-  const FacultyMap({super.key, required this.faculty, required this.locations});
+  const FacultyMap({required this.faculty, required this.locations, super.key});
   final String faculty;
   final List<LocationGroup> locations;
 

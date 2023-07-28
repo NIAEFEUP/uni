@@ -74,18 +74,8 @@ class Lecture {
     );
   }
 
-  String subject;
-  String typeClass;
-  String room;
-  String teacher;
-  String classNumber;
-  DateTime startTime;
-  DateTime endTime;
-  int blocks;
-  int occurrId;
-
   /// Clones a lecture from the api.
-  static Lecture clone(Lecture lec) {
+  factory Lecture.clone(Lecture lec) {
     return Lecture.fromApi(
       lec.subject,
       lec.typeClass,
@@ -99,9 +89,19 @@ class Lecture {
   }
 
   /// Clones a lecture from the html.
-  static Lecture cloneHtml(Lecture lec) {
+  factory Lecture.cloneHtml(Lecture lec) {
     return Lecture.clone(lec);
   }
+
+  String subject;
+  String typeClass;
+  String room;
+  String teacher;
+  String classNumber;
+  DateTime startTime;
+  DateTime endTime;
+  int blocks;
+  int occurrId;
 
   /// Converts this lecture to a map.
   Map<String, dynamic> toMap() {
@@ -124,7 +124,8 @@ class Lecture {
 
   @override
   String toString() {
-    return '$subject $typeClass\n$startTime $endTime $blocks blocos\n $room  $teacher\n';
+    return '$subject $typeClass\n$startTime $endTime $blocks blocos\n $room  '
+        '$teacher\n';
   }
 
   /// Compares the date and time of two lectures.

@@ -36,10 +36,10 @@ class CourseUnitCard extends GenericCard {
   }
 
   @override
-  onClick(BuildContext context) {
+  void onClick(BuildContext context) {
     Navigator.push(
       context,
-      MaterialPageRoute(
+      MaterialPageRoute<CourseUnitDetailPageView>(
         builder: (context) => CourseUnitDetailPageView(courseUnit),
       ),
     );

@@ -55,7 +55,7 @@ class ExamFilterFormState extends State<ExamFilterForm> {
         final key = filteredExams.keys.elementAt(i);
         if (!Exam.types.containsKey(key)) return const Text('');
         return CheckboxListTile(
-          contentPadding: const EdgeInsets.all(0),
+          contentPadding: EdgeInsets.zero,
           title: Text(
             key,
             overflow: TextOverflow.ellipsis,

@@ -61,11 +61,10 @@ class RestaurantCard extends GenericCard {
     );
   }
 
-  Widget createRowFromRestaurant(context, String canteen) {
-    // TODO: Issue #390
+  Widget createRowFromRestaurant(BuildContext context, String canteen) {
     return Column(
       children: [
-        const DateRectangle(date: ''), // TODO: Issue #390
+        const DateRectangle(date: ''),
         // cantine.nextSchoolDay
         Center(
           child: Container(
@@ -80,7 +79,6 @@ class RestaurantCard extends GenericCard {
             child: RestaurantRow(
               local: canteen,
               meatMenu: '',
-              // TODO: Issue #390
               fishMenu: '',
               vegetarianMenu: '',
               dietMenu: '',

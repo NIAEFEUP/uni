@@ -26,7 +26,8 @@ class ParserExams {
     final dates = <String>[];
     final examTypes = <String>[];
     var rooms = <String>[];
-    String? subject, schedule;
+    String? subject;
+    String? schedule;
     var id = '0';
     var days = 0;
     var tableNum = 0;

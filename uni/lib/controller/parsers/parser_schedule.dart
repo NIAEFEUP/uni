@@ -22,7 +22,7 @@ Future<List<Lecture>> parseScheduleMultipleRequests(
 Future<List<Lecture>> parseSchedule(http.Response response) async {
   final lectures = <Lecture>{};
 
-  final json = jsonDecode(response.body);
+  final json = jsonDecode(response.body) as Map<String, dynamic>;
 
   final schedule = json['horario'];
 

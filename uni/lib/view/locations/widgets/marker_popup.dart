@@ -39,14 +39,13 @@ class LocationMarkerPopup extends StatelessWidget {
   }
 
   List<MapEntry<int, List<Location>>> getEntries() {
-    final entries = locationGroup.floors.entries.toList();
-    entries.sort((current, next) => -current.key.compareTo(next.key));
-    return entries;
+    return locationGroup.floors.entries.toList()
+      ..sort((current, next) => -current.key.compareTo(next.key));
   }
 }
 
 class Floor extends StatelessWidget {
-  const Floor({super.key, required this.locations, required this.floor});
+  const Floor({required this.locations, required this.floor, super.key});
   final List<Location> locations;
   final int floor;
 
@@ -86,7 +85,7 @@ class Floor extends StatelessWidget {
 }
 
 class LocationRow extends StatelessWidget {
-  const LocationRow({super.key, required this.location, required this.color});
+  const LocationRow({required this.location, required this.color, super.key});
   final Location location;
   final Color color;
 

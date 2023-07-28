@@ -61,8 +61,7 @@ void main() {
 
     const userPersistentInfo = Tuple2<String, String>('', '');
 
-    final profile = Profile();
-    profile.courses = [Course(id: 7474)];
+    final profile = Profile()..courses = [Course(id: 7474)];
     final session = Session(authenticated: true);
     final userUcs = [sopeCourseUnit, sdisCourseUnit];
 
@@ -82,7 +81,7 @@ void main() {
       when(parserExams.parseExams(any, any))
           .thenAnswer((_) async => {sopeExam});
 
-      final action = Completer();
+      final action = Completer<void>();
 
       await provider.fetchUserExams(
         action,
@@ -248,7 +247,7 @@ When given three exams but one is to be parsed out,
       await action.future;
 
       expect(provider.status, RequestStatus.successful);
-      expect(provider.exams, []);
+      expect(provider.exams, <Exam>[]);
     });
 
     test('When Exam is ocurring', () async {

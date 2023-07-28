@@ -45,7 +45,7 @@ abstract class GenericCard extends StatefulWidget {
     return Text(
       text,
       textAlign: TextAlign.end,
-      style: Theme.of(context).textTheme.titleLarge!,
+      style: Theme.of(context).textTheme.titleLarge,
     );
   }
 

@@ -5,7 +5,7 @@ import 'package:uni/model/entities/reference.dart';
 import 'package:uni/view/common_widgets/toast_message.dart';
 
 class ReferenceSection extends StatelessWidget {
-  const ReferenceSection({super.key, required this.reference});
+  const ReferenceSection({required this.reference, super.key});
   final Reference reference;
 
   @override
@@ -35,7 +35,7 @@ class ReferenceSection extends StatelessWidget {
 }
 
 class InfoText extends StatelessWidget {
-  const InfoText({super.key, required this.text, this.color});
+  const InfoText({required this.text, this.color, super.key});
   final String text;
   final Color? color;
 
@@ -52,7 +52,7 @@ class InfoText extends StatelessWidget {
 }
 
 class TitleText extends StatelessWidget {
-  const TitleText({super.key, required this.title});
+  const TitleText({required this.title, super.key});
   final String title;
 
   @override
@@ -72,10 +72,10 @@ class TitleText extends StatelessWidget {
 
 class InfoCopyRow extends StatelessWidget {
   const InfoCopyRow({
-    super.key,
     required this.infoName,
     required this.info,
     required this.copyMessage,
+    super.key,
     this.isMoney = false,
   });
   final String infoName;

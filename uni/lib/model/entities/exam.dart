@@ -29,9 +29,9 @@ enum Months {
   november('novembro'),
   december('dezembro');
 
-  final String month;
-
   const Months(this.month);
+
+  final String month;
 }
 
 /// Manages a generic Exam.
@@ -41,7 +41,6 @@ enum Months {
 /// - The Exam `subject`
 /// - A List with the `rooms` in which the Exam takes place
 /// - The Exam `type`
-
 class Exam {
   Exam(
     this.id,

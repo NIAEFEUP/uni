@@ -35,7 +35,6 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
   }) async {
     final profilePictureFile =
         await ProfileProvider.fetchOrGetCachedProfilePicture(
-      null,
       Provider.of<SessionProvider>(context, listen: false).session,
       forceRetrieval: forceRetrieval || profileImageProvider == null,
     );
@@ -62,7 +61,6 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
     return RefreshIndicator(
       key: GlobalKey<RefreshIndicatorState>(),
       onRefresh: () => ProfileProvider.fetchOrGetCachedProfilePicture(
-        null,
         Provider.of<SessionProvider>(context, listen: false).session,
         forceRetrieval: true,
       ).then((value) => onRefresh(context)),

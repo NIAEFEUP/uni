@@ -236,9 +236,9 @@ class ProfileProvider extends StateProviderNotifier {
   }
 
   static Future<File?> fetchOrGetCachedProfilePicture(
-    int? studentNumber,
     Session session, {
     bool forceRetrieval = false,
+    int? studentNumber,
   }) {
     studentNumber ??= int.parse(session.studentNumber.replaceAll('up', ''));
 

@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 class PageTransition {
   static const int pageTransitionDuration = 200;
 
-  static Route makePageTransition({
+  static Route<Widget> makePageTransition({
     required Widget page,
-    bool maintainState = true,
     required RouteSettings settings,
+    bool maintainState = true,
   }) {
     return PageRouteBuilder(
       pageBuilder: (

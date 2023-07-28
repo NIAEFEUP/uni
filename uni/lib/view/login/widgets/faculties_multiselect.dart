@@ -8,7 +8,7 @@ class FacultiesMultiselect extends StatelessWidget {
     super.key,
   });
   final List<String> selectedFaculties;
-  final Function setFaculties;
+  final void Function(List<String>) setFaculties;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class FacultiesMultiselect extends StatelessWidget {
         ),
       ),
       onPressed: () {
-        showDialog(
+        showDialog<void>(
           context: context,
           builder: (BuildContext context) {
             return FacultiesSelectionForm(
@@ -68,10 +68,10 @@ class FacultiesMultiselect extends StatelessWidget {
     if (selectedFaculties.isEmpty) {
       return 'sem faculdade';
     }
-    var facultiesText = '';
+    final buffer = StringBuffer();
     for (final faculty in selectedFaculties) {
-      facultiesText += '${faculty.toUpperCase()}, ';
+      buffer.write('${faculty.toUpperCase()}, ');
     }
-    return facultiesText.substring(0, facultiesText.length - 2);
+    return buffer.toString().substring(0, buffer.length - 2);
   }
 }

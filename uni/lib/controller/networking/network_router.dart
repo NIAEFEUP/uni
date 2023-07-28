@@ -21,7 +21,7 @@ class NetworkRouter {
   static const int loginRequestTimeout = 20;
   static Lock loginLock = Lock();
 
-  /// Creates an authenticated [Session] on the given [faculty] with the
+  /// Creates an authenticated [Session] on the given [faculties] with the
   /// given username [user] and password [pass].
   static Future<Session> login(
     String user,
@@ -70,8 +70,8 @@ class NetworkRouter {
   /// Re-authenticates the user [session].
   static Future<bool> loginFromSession(Session session) async {
     Logger().i('Trying to login...');
-    final url =
-        '${NetworkRouter.getBaseUrls(session.faculties)[0]}mob_val_geral.autentica';
+    final url = '${NetworkRouter.getBaseUrls(session.faculties)[0]}'
+        'mob_val_geral.autentica';
     final response = await http.post(
       url.toUri(),
       body: {
@@ -126,7 +126,7 @@ class NetworkRouter {
   }
 
   /// Makes an authenticated GET request with the given [session] to the
-  /// resource located at [url] with the given [query] parameters.
+  /// resource located at [baseUrl] with the given [query] parameters.
   static Future<http.Response> getWithCookies(
     String baseUrl,
     Map<String, String> query,
@@ -172,8 +172,8 @@ class NetworkRouter {
   /// Check if the user is still logged in,
   /// performing a health check on the user's personal page.
   static Future<bool> userLoggedIn(Session session) async {
-    final url =
-        '${getBaseUrl(session.faculties[0])}fest_geral.cursos_list?pv_num_unico=${session.studentNumber}';
+    final url = '${getBaseUrl(session.faculties[0])}'
+        'fest_geral.cursos_list?pv_num_unico=${session.studentNumber}';
     final headers = <String, String>{};
     headers['cookie'] = session.cookies;
     final response = await (httpClient != null

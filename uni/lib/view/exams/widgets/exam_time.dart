@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ExamTime extends StatelessWidget {
-  const ExamTime({super.key, required this.begin});
+  const ExamTime({required this.begin, super.key});
   final String begin;
 
   @override

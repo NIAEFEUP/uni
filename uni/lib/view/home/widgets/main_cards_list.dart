@@ -28,7 +28,7 @@ class MainCardsList extends StatelessWidget {
     FavoriteWidgetType.exams: ExamCard.fromEditingInformation,
     FavoriteWidgetType.account: AccountInfoCard.fromEditingInformation,
 
-    // TODO: Bring print card back when it is ready
+    // TODO(bdmendes): Bring print card back when it is ready
     /*FavoriteWidgetType.printBalance: (k, em, od) =>
         PrintInfoCard.fromEditingInformation(k, em, od),*/
 
@@ -162,7 +162,9 @@ class MainCardsList extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () => Provider.of<HomePageProvider>(context, listen: false)
-                .setHomePageEditingMode(!editingModeProvider.isEditing),
+                .setHomePageEditingMode(
+              editingMode: !editingModeProvider.isEditing,
+            ),
             child: Text(
               editingModeProvider.isEditing ? 'Concluir Edição' : 'Editar',
               style: Theme.of(context).textTheme.bodySmall,

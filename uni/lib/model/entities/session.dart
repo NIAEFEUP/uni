@@ -5,7 +5,7 @@ import 'package:uni/controller/networking/network_router.dart';
 
 /// Stores information about a user session.
 class Session {
-  // TODO: accessed directly in Network Router; change the logic
+  // TODO(bdmendes): accessed directly in Network Router; change the logic
 
   Session({
     this.authenticated = false,

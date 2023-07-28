@@ -8,9 +8,9 @@ import 'package:uni/model/providers/startup/session_provider.dart';
 
 class ProfileOverview extends StatelessWidget {
   const ProfileOverview({
-    super.key,
     required this.profile,
     required this.getProfileDecorationImage,
+    super.key,
   });
   final Profile profile;
   final DecorationImage Function(File?) getProfileDecorationImage;
@@ -21,7 +21,6 @@ class ProfileOverview extends StatelessWidget {
       builder: (context, sessionProvider, _) {
         return FutureBuilder(
           future: ProfileProvider.fetchOrGetCachedProfilePicture(
-            null,
             sessionProvider.session,
           ),
           builder: (BuildContext context, AsyncSnapshot<File?> profilePic) =>

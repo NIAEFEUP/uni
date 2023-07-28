@@ -1,18 +1,19 @@
 Map<String, String> getUrlQueryParameters(String url) {
   final queryParameters = <String, String>{};
+  var queryString = '';
 
   final lastSlashIndex = url.lastIndexOf('/');
   if (lastSlashIndex >= 0) {
-    url = url.substring(lastSlashIndex + 1);
+    queryString = url.substring(lastSlashIndex + 1);
   }
 
-  final queryStartIndex = url.lastIndexOf('?');
+  final queryStartIndex = queryString.lastIndexOf('?');
   if (queryStartIndex < 0) {
     return {};
   }
-  url = url.substring(queryStartIndex + 1);
+  queryString = queryString.substring(queryStartIndex + 1);
 
-  final params = url.split('&');
+  final params = queryString.split('&');
   for (final param in params) {
     final keyValue = param.split('=');
     if (keyValue.length != 2) {

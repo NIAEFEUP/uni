@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
-import 'package:logger/logger.dart';
 import 'package:uni/model/entities/library_occupation.dart';
 
 // ignore_for_file: avoid_dynamic_calls

@@ -1,11 +1,16 @@
 extension DurationStringFormatter on Duration {
   static final formattingRegExp = RegExp('{}');
 
-  String toFormattedString(String singularPhrase, String pluralPhrase,
-      {String term = '{}',}) {
+  String toFormattedString(
+    String singularPhrase,
+    String pluralPhrase, {
+    String term = '{}',
+  }) {
     if (!singularPhrase.contains(term) || !pluralPhrase.contains(term)) {
       throw ArgumentError(
-          "singularPhrase or plurarPhrase don't have a string that can be formatted...",);
+        "singularPhrase or plurarPhrase don't have a string "
+        'that can be formatted...',
+      );
     }
     if (inSeconds == 1) {
       return singularPhrase.replaceAll(formattingRegExp, '$inSeconds segundo');
@@ -33,17 +38,25 @@ extension DurationStringFormatter on Duration {
     }
     if ((inDays / 7).floor() == 1) {
       return singularPhrase.replaceAll(
-          formattingRegExp, '${(inDays / 7).floor()} semana',);
+        formattingRegExp,
+        '${(inDays / 7).floor()} semana',
+      );
     }
     if ((inDays / 7).floor() > 1) {
       return pluralPhrase.replaceAll(
-          formattingRegExp, '${(inDays / 7).floor()} semanas',);
+        formattingRegExp,
+        '${(inDays / 7).floor()} semanas',
+      );
     }
     if ((inDays / 30).floor() == 1) {
       return singularPhrase.replaceAll(
-          formattingRegExp, '${(inDays / 30).floor()} mês',);
+        formattingRegExp,
+        '${(inDays / 30).floor()} mês',
+      );
     }
     return pluralPhrase.replaceAll(
-        formattingRegExp, '${(inDays / 30).floor()} meses',);
+      formattingRegExp,
+      '${(inDays / 30).floor()} meses',
+    );
   }
 }

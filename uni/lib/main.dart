@@ -67,8 +67,8 @@ Future<void> main() async {
 
   await Workmanager().initialize(
     workerStartCallback,
-    isInDebugMode:
-        !kReleaseMode, // run workmanager in debug mode when app is in debug mode
+    isInDebugMode: !kReleaseMode,
+    // run workmanager in debug mode when app is in debug mode
   );
 
   await dotenv

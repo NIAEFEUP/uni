@@ -18,7 +18,8 @@ Future<void> addMoneyDialog(BuildContext context) async {
         builder: (context, setState) {
           void onValueChange() {
             final inputValue = valueTextToNumber(controller.text);
-            //FIXME (luisd): this doesn't make a lot of sense but it's the equivalent of the non type safe version
+            //FIXME (luisd): this doesn't make a lot of sense but it's the 
+            // equivalent of the non type safe version
             setState(() => value = inputValue);
           }
 

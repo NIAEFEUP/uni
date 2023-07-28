@@ -49,7 +49,9 @@ class AppSharedPreferences {
   ) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(
-        dataKey + lastUpdateTimeKeySuffix, dateTime.toString(),);
+      dataKey + lastUpdateTimeKeySuffix,
+      dateTime.toString(),
+    );
   }
 
   /// Saves the user's student number, password and faculties.
@@ -115,7 +117,7 @@ class AppSharedPreferences {
   }
 
   /// Deletes the user's student number and password.
-  static Future removePersistentUserInfo() async {
+  static Future<void> removePersistentUserInfo() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove(userNumber);
     await prefs.remove(userPw);
@@ -137,8 +139,8 @@ class AppSharedPreferences {
   static Future<List<String>> getUserFaculties() async {
     final prefs = await SharedPreferences.getInstance();
     final storedFaculties = prefs.getStringList(userFaculties);
-    return storedFaculties ??
-        ['feup']; // TODO: Store dropdown choices in the db for later storage;
+    return storedFaculties ?? ['feup'];
+    // TODO(bdmendes): Store dropdown choices in the db for later storage;
   }
 
   /// Returns the user's student number.
@@ -194,7 +196,8 @@ class AppSharedPreferences {
 
   /// Replaces the user's exam filter settings with [newFilteredExamTypes].
   static Future<void> saveFilteredExams(
-      Map<String, bool> newFilteredExamTypes,) async {
+    Map<String, bool> newFilteredExamTypes,
+  ) async {
     final prefs = await SharedPreferences.getInstance();
 
     final newTypes = newFilteredExamTypes.keys
@@ -229,7 +232,8 @@ class AppSharedPreferences {
     return encrypter.decrypt64(base64Text, iv: iv);
   }
 
-  /// Creates an [Encrypter] for encrypting and decrypting the user's password.
+  /// Creates an [encrypt.Encrypter] for encrypting and decrypting the user's
+  /// password.
   static encrypt.Encrypter _createEncrypter() {
     final key = encrypt.Key.fromLength(keyLength);
     return encrypt.Encrypter(encrypt.AES(key));

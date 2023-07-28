@@ -65,7 +65,7 @@ class BusStopSearch extends SearchDelegate<String> {
       itemBuilder: (context, index) => ListTile(
         onTap: () {
           Navigator.pop(context);
-          showDialog(
+          showDialog<void>(
             context: context,
             builder: (BuildContext context) {
               return busListing(context, suggestionsList[index]);
@@ -110,9 +110,11 @@ class BusStopSearch extends SearchDelegate<String> {
           child: const Text('Confirmar'),
           onPressed: () async {
             if (stopData!.configuredBuses.isNotEmpty) {
-              Provider.of<BusStopProvider>(context, listen: false)
+              await Provider.of<BusStopProvider>(context, listen: false)
                   .addUserBusStop(Completer(), stopCode!, stopData!);
-              Navigator.pop(context);
+              if (context.mounted) {
+                Navigator.pop(context);
+              }
             }
           },
         )

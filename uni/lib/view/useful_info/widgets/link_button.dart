@@ -3,9 +3,9 @@ import 'package:url_launcher/url_launcher.dart';
 
 class LinkButton extends StatelessWidget {
   const LinkButton({
-    super.key,
     required this.title,
     required this.link,
+    super.key,
   });
   final String title;
   final String link;

@@ -1,12 +1,12 @@
 /// Stores information about a course unit.
 class CourseUnit {
   CourseUnit({
-    this.id = 0,
-    this.code = '',
     required this.abbreviation,
     required this.name,
-    this.curricularYear,
     required this.occurrId,
+    this.id = 0,
+    this.code = '',
+    this.curricularYear,
     this.semesterCode,
     this.semesterName,
     this.type,

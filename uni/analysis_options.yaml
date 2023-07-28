@@ -11,3 +11,6 @@ analyzer:
 linter:
   rules:
     public_member_api_docs: false
+    avoid_equals_and_hash_code_on_mutable_classes: false
+    sort_pub_dependencies: false
+

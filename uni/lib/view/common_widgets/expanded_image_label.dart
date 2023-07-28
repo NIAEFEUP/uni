@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
 class ImageLabel extends StatelessWidget {
-  const ImageLabel(
-      {super.key,
-      required this.imagePath,
-      required this.label,
-      this.labelTextStyle,
-      this.sublabel = '',
-      this.sublabelTextStyle,});
+  const ImageLabel({
+    required this.imagePath,
+    required this.label,
+    super.key,
+    this.labelTextStyle,
+    this.sublabel = '',
+    this.sublabelTextStyle,
+  });
   final String imagePath;
   final String label;
   final TextStyle? labelTextStyle;

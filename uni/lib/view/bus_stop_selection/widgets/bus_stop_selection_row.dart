@@ -18,13 +18,13 @@ class BusStopSelectionRow extends StatefulWidget {
 class BusStopSelectionRowState extends State<BusStopSelectionRow> {
   BusStopSelectionRowState();
 
-  Future deleteStop(BuildContext context) async {
-    Provider.of<BusStopProvider>(context, listen: false)
+  Future<void> deleteStop(BuildContext context) async {
+    await Provider.of<BusStopProvider>(context, listen: false)
         .removeUserBusStop(Completer(), widget.stopCode);
   }
 
-  Future toggleFavorite(BuildContext context) async {
-    Provider.of<BusStopProvider>(context, listen: false)
+  Future<void> toggleFavorite(BuildContext context) async {
+    await Provider.of<BusStopProvider>(context, listen: false)
         .toggleFavoriteUserBusStop(
       Completer(),
       widget.stopCode,

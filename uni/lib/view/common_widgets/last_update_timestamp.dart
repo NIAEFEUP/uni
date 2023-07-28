@@ -56,7 +56,8 @@ class _LastUpdateTimeStampState<T extends StateProviderNotifier>
     return Row(
       children: [
         Text(
-          'Atualizado há $elapsedTimeMinutes minuto${elapsedTimeMinutes != 1 ? 's' : ''}',
+          'Atualizado há $elapsedTimeMinutes '
+          'minuto${elapsedTimeMinutes != 1 ? 's' : ''}',
           style: Theme.of(context).textTheme.titleSmall,
         )
       ],

@@ -42,9 +42,9 @@ class LocationsPageState extends GeneralPageViewState
 
 class LocationsPageView extends StatelessWidget {
   const LocationsPageView({
-    super.key,
     required this.locations,
     required this.status,
+    super.key,
   });
   final List<LocationGroup> locations;
   final RequestStatus status;
@@ -69,7 +69,7 @@ class LocationsPageView extends StatelessWidget {
             onNullContent:
                 const Center(child: Text('Não existem locais disponíveis')),
           ),
-          // TODO: add support for multiple faculties
+          // TODO(bdmendes): add support for multiple faculties
         )
       ],
     );

@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 class DayTitle extends StatelessWidget {
   const DayTitle({
-    super.key,
     required this.day,
     required this.weekDay,
     required this.month,
+    super.key,
   });
   final String day;
   final String weekDay;

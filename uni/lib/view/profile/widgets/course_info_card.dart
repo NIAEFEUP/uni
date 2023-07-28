@@ -5,7 +5,7 @@ import 'package:uni/view/common_widgets/generic_card.dart';
 /// Manages the courses info (course name, atual year, state and year of
 /// first enrolment) on the user personal page.
 class CourseInfoCard extends GenericCard {
-  CourseInfoCard({super.key, required this.course});
+  CourseInfoCard({required this.course, super.key});
 
   final Course course;
 
@@ -128,7 +128,7 @@ class CourseInfoCard extends GenericCard {
   }
 
   @override
-  onClick(BuildContext context) {}
+  void onClick(BuildContext context) {}
 
   @override
   void onRefresh(BuildContext context) {}

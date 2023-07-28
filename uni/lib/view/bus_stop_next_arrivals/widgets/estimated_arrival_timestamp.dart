@@ -5,8 +5,8 @@ import 'package:uni/view/lazy_consumer.dart';
 /// Manages the section with the estimated time for the bus arrival
 class EstimatedArrivalTimeStamp extends StatelessWidget {
   const EstimatedArrivalTimeStamp({
-    super.key,
     required this.timeRemaining,
+    super.key,
   });
   final String timeRemaining;
 

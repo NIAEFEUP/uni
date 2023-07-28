@@ -8,7 +8,7 @@ class Meal {
   final DayOfWeek dayOfWeek;
   final DateTime date;
 
-  Map<String, dynamic> toMap(restaurantId) {
+  Map<String, dynamic> toMap(int restaurantId) {
     final format = DateFormat('d-M-y');
     return {
       'id': null,

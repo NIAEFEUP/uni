@@ -8,7 +8,7 @@ import 'package:uni/model/providers/lazy/bus_stop_provider.dart';
 class BusesForm extends StatefulWidget {
   const BusesForm(this.stopCode, this.updateStopCallback, {super.key});
   final String stopCode;
-  final Function updateStopCallback;
+  final void Function(String, BusStopData) updateStopCallback;
 
   @override
   State<StatefulWidget> createState() {
@@ -51,7 +51,7 @@ class BusesFormState extends State<BusesForm> {
     return ListView(
       children: List.generate(buses.length, (i) {
         return CheckboxListTile(
-          contentPadding: const EdgeInsets.all(0),
+          contentPadding: EdgeInsets.zero,
           title: Text(
             '[${buses[i].busCode}] ${buses[i].destination}',
             overflow: TextOverflow.fade,
@@ -81,7 +81,7 @@ class BusesFormState extends State<BusesForm> {
       widget.stopCode,
       BusStopData(
         configuredBuses: newBuses,
-        favorited: currentConfig == null ? true : currentConfig.favorited,
+        favorited: currentConfig == null || currentConfig.favorited,
       ),
     );
   }

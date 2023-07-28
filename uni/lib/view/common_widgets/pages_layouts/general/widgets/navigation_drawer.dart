@@ -5,7 +5,7 @@ import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/theme_notifier.dart';
 
 class AppNavigationDrawer extends StatefulWidget {
-  const AppNavigationDrawer({super.key, required this.parentContext});
+  const AppNavigationDrawer({required this.parentContext, super.key});
   final BuildContext parentContext;
 
   @override
@@ -17,7 +17,7 @@ class AppNavigationDrawer extends StatefulWidget {
 class AppNavigationDrawerState extends State<AppNavigationDrawer> {
   AppNavigationDrawerState();
 
-  Map<DrawerItem, Function(String)> drawerItems = {};
+  Map<DrawerItem, void Function(String)> drawerItems = {};
 
   @override
   void initState() {
@@ -35,7 +35,7 @@ class AppNavigationDrawerState extends State<AppNavigationDrawer> {
           ? drawerItems.keys.toList()[0].title
           : ModalRoute.of(widget.parentContext)!.settings.name!.substring(1);
 
-  _onSelectPage(String key) {
+  void _onSelectPage(String key) {
     final prev = getCurrentRoute();
 
     Navigator.of(context).pop();
@@ -45,7 +45,7 @@ class AppNavigationDrawerState extends State<AppNavigationDrawer> {
     }
   }
 
-  _onLogOut(String key) {
+  void _onLogOut(String key) {
     Navigator.of(context)
         .pushNamedAndRemoveUntil('/$key', (Route<dynamic> route) => false);
   }
@@ -94,7 +94,7 @@ class AppNavigationDrawerState extends State<AppNavigationDrawer> {
           return const Icon(Icons.wb_sunny);
         case ThemeMode.dark:
           return const Icon(Icons.nightlight_round);
-        default:
+        case ThemeMode.system:
           return const Icon(Icons.brightness_6);
       }
     }
@@ -110,8 +110,8 @@ class AppNavigationDrawerState extends State<AppNavigationDrawer> {
   }
 
   Widget createDrawerNavigationOption(DrawerItem d) {
-    return Container(
-      decoration: _getSelectionDecoration(d.title),
+    return DecoratedBox(
+      decoration: _getSelectionDecoration(d.title) ?? const BoxDecoration(),
       child: ListTile(
         title: Container(
           padding: const EdgeInsets.only(bottom: 3, left: 20),
@@ -125,7 +125,7 @@ class AppNavigationDrawerState extends State<AppNavigationDrawer> {
           ),
         ),
         dense: true,
-        contentPadding: const EdgeInsets.all(0),
+        contentPadding: EdgeInsets.zero,
         selected: d.title == getCurrentRoute(),
         onTap: () => drawerItems[d]!(d.title),
       ),

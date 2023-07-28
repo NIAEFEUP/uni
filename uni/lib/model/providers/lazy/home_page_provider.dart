@@ -24,17 +24,17 @@ class HomePageProvider extends StateProviderNotifier {
     updateStatus(RequestStatus.successful);
   }
 
-  setHomePageEditingMode(bool state) {
-    _isEditing = state;
+  void setHomePageEditingMode({required bool editingMode}) {
+    _isEditing = editingMode;
     notifyListeners();
   }
 
-  toggleHomePageEditingMode() {
+  void toggleHomePageEditingMode() {
     _isEditing = !_isEditing;
     notifyListeners();
   }
 
-  setFavoriteCards(List<FavoriteWidgetType> favoriteCards) {
+  void setFavoriteCards(List<FavoriteWidgetType> favoriteCards) {
     _favoriteCards = favoriteCards;
     notifyListeners();
   }

@@ -11,11 +11,11 @@ import 'package:url_launcher/url_launcher.dart';
 
 class LocationsMap extends StatelessWidget {
   LocationsMap({
-    super.key,
     required this.northEastBoundary,
     required this.southWestBoundary,
     required this.center,
     required this.locations,
+    super.key,
   });
   final PopupController _popupLayerController = PopupController();
   final List<LocationGroup> locations;

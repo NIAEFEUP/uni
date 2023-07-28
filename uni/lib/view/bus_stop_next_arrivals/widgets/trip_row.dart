@@ -4,8 +4,8 @@ import 'package:uni/view/bus_stop_next_arrivals/widgets/estimated_arrival_timest
 
 class TripRow extends StatelessWidget {
   const TripRow({
-    super.key,
     required this.trip,
+    super.key,
   });
   final Trip trip;
 

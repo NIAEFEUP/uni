@@ -126,7 +126,7 @@ class CourseUnitsPageViewState
             value: selectedSemester,
             icon: const Icon(Icons.arrow_drop_down),
             onChanged: (String? newValue) {
-              setState(() => selectedSemester = newValue!);
+              setState(() => selectedSemester = newValue);
             },
             items: availableSemesters
                 .map<DropdownMenuItem<String>>((String value) {
@@ -144,7 +144,7 @@ class CourseUnitsPageViewState
             value: selectedSchoolYear,
             icon: const Icon(Icons.arrow_drop_down),
             onChanged: (String? newValue) {
-              setState(() => selectedSchoolYear = newValue!);
+              setState(() => selectedSchoolYear = newValue);
             },
             items: availableYears.map<DropdownMenuItem<String>>((String value) {
               return DropdownMenuItem<String>(

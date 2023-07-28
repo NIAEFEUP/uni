@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 extension TimeString on DateTime {
   String toTimeHourMinString() {
-    return '${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}';
+    return '${hour.toString().padLeft(2, '0')}:'
+        '${minute.toString().padLeft(2, '0')}';
   }
 
   static List<String> getWeekdaysStrings({
@@ -20,8 +21,9 @@ extension TimeString on DateTime {
     ];
 
     if (!startMonday) {
-      weekdays.removeAt(6);
-      weekdays.insert(0, 'Domingo');
+      weekdays
+        ..removeAt(6)
+        ..insert(0, 'Domingo');
     }
 
     return includeWeekend ? weekdays : weekdays.sublist(0, 5);

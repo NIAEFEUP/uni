@@ -21,8 +21,7 @@ void main() {
     final mockClient = MockClient();
     final mockResponse = MockResponse();
     const userPersistentInfo = Tuple2<String, String>('', '');
-    final profile = Profile();
-    profile.courses = [Course(id: 7474)];
+    final profile = Profile()..courses = [Course(id: 7474)];
     final session = Session(authenticated: true);
     final day = DateTime(2021, 06);
 
@@ -88,7 +87,11 @@ void main() {
           .thenAnswer((_) async => throw Exception('💥'));
 
       await provider.fetchUserLectures(
-          action, userPersistentInfo, session, profile,);
+        action,
+        userPersistentInfo,
+        session,
+        profile,
+      );
       expect(provider.status, RequestStatus.busy);
 
       await action.future;

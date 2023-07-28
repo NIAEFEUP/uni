@@ -150,11 +150,11 @@ class AccountInfoCard extends GenericCard {
   String getTitle() => 'Conta Corrente';
 
   @override
-  onClick(BuildContext context) {}
+  void onClick(BuildContext context) {}
 }
 
 class ReferenceList extends StatelessWidget {
-  const ReferenceList({super.key, required this.references});
+  const ReferenceList({required this.references, super.key});
   final List<Reference> references;
 
   @override

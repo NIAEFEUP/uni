@@ -130,7 +130,7 @@ class SplashScreenState extends State<SplashScreen> {
     await Navigator.pushReplacement(context, nextRoute);
   }
 
-  Future<MaterialPageRoute> getTermsAndConditions(
+  Future<MaterialPageRoute<Widget>> getTermsAndConditions(
     String userName,
     String password,
     StateProviders stateProviders,

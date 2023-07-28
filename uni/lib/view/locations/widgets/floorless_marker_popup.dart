@@ -56,7 +56,7 @@ class FloorlessLocationMarkerPopup extends StatelessWidget {
 }
 
 class LocationRow extends StatelessWidget {
-  const LocationRow({super.key, required this.location});
+  const LocationRow({required this.location, super.key});
   final Location location;
 
   @override

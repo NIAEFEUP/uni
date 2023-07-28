@@ -48,7 +48,7 @@ class LibraryOccupationProvider extends StateProviderNotifier {
       notifyListeners();
       updateStatus(RequestStatus.successful);
     } catch (e) {
-      Logger().e('Failed to get Occupation: ${e.toString()}');
+      Logger().e('Failed to get Occupation: $e');
       updateStatus(RequestStatus.failed);
     }
     action.complete();

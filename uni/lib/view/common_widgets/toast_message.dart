@@ -6,10 +6,10 @@ import 'package:flutter/material.dart';
 /// usage example: ToastMessage.display(context, toastMsg);
 class MessageToast extends StatelessWidget {
   const MessageToast({
-    super.key,
     required this.message,
-    this.color = Colors.white,
     required this.icon,
+    super.key,
+    this.color = Colors.white,
     this.iconColor = Colors.black,
     this.textColor = Colors.black,
     this.alignment = Alignment.bottomCenter,

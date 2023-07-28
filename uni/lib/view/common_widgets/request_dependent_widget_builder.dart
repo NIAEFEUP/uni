@@ -9,11 +9,11 @@ import 'package:uni/utils/drawer_items.dart';
 /// a connection error or a loading circular effect as appropriate
 class RequestDependentWidgetBuilder extends StatelessWidget {
   const RequestDependentWidgetBuilder({
-    super.key,
     required this.status,
     required this.builder,
     required this.hasContentPredicate,
     required this.onNullContent,
+    super.key,
     this.contentLoadingWidget,
   });
 
@@ -59,7 +59,10 @@ class RequestDependentWidgetBuilder extends StatelessWidget {
   Widget requestFailedMessage() {
     return FutureBuilder(
       future: Connectivity().checkConnectivity(),
-      builder: (BuildContext context, AsyncSnapshot connectivitySnapshot) {
+      builder: (
+        BuildContext context,
+        AsyncSnapshot<ConnectivityResult> connectivitySnapshot,
+      ) {
         if (!connectivitySnapshot.hasData) {
           return const Center(
             heightFactor: 3,

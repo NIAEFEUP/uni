@@ -3,9 +3,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class RestaurantSlot extends StatelessWidget {
   const RestaurantSlot({
-    super.key,
     required this.type,
     required this.name,
+    super.key,
   });
   final String type;
   final String name;
@@ -40,7 +40,7 @@ class RestaurantSlot extends StatelessWidget {
 }
 
 class RestaurantSlotType extends StatelessWidget {
-  const RestaurantSlotType({super.key, required this.type});
+  const RestaurantSlotType({required this.type, super.key});
   final String type;
 
   static const mealTypeIcons = {

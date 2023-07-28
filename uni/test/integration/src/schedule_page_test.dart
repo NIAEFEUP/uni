@@ -25,10 +25,10 @@ class MockClient extends Mock implements http.Client {}
 class MockResponse extends Mock implements http.Response {}
 
 class UriMatcher extends CustomMatcher {
-  UriMatcher(matcher) : super('Uri that has', 'string', matcher);
+  UriMatcher(Matcher matcher) : super('Uri that has', 'string', matcher);
 
   @override
-  Object featureValueOf(actual) => (actual as Uri).toString();
+  Object featureValueOf(dynamic actual) => (actual as Uri).toString();
 }
 
 void main() {
@@ -40,9 +40,8 @@ void main() {
     const htmlFetcherIdentifier = 'hor_geral.estudantes_view';
     const jsonFetcherIdentifier = 'mob_hor_geral.estudante';
 
-    Future testSchedule(WidgetTester tester) async {
-      final profile = Profile();
-      profile.courses = [Course(id: 7474)];
+    Future<void> testSchedule(WidgetTester tester) async {
+      final profile = Profile()..courses = [Course(id: 7474)];
 
       NetworkRouter.httpClient = mockClient;
       when(badMockResponse.statusCode).thenReturn(500);

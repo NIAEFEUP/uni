@@ -11,8 +11,8 @@ import 'package:uni/model/providers/state_provider_notifier.dart';
 /// and ProfileProvider are initialized before initializing itself.
 class LazyConsumer<T extends StateProviderNotifier> extends StatelessWidget {
   const LazyConsumer({
-    super.key,
     required this.builder,
+    super.key,
   });
   final Widget Function(BuildContext, T) builder;
 

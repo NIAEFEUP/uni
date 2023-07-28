@@ -9,7 +9,7 @@ class FacultiesSelectionForm extends StatefulWidget {
     super.key,
   });
   final List<String> selectedFaculties;
-  final Function setFaculties;
+  final void Function(List<String>) setFaculties;
 
   @override
   State<StatefulWidget> createState() => _FacultiesSelectionFormState();

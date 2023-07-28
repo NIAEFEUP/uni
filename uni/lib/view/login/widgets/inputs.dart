@@ -6,7 +6,7 @@ import 'package:uni/view/login/widgets/faculties_multiselect.dart';
 Widget createFacultyInput(
   BuildContext context,
   List<String> faculties,
-  Function setFaculties,
+  void Function(List<String>) setFaculties,
 ) {
   return FacultiesMultiselect(faculties, setFaculties);
 }

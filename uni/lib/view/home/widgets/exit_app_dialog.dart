@@ -4,16 +4,16 @@ import 'package:flutter/services.dart';
 /// Manages the app section displayed when the user presses the back button
 class BackButtonExitWrapper extends StatelessWidget {
   const BackButtonExitWrapper({
-    super.key,
     required this.context,
     required this.child,
+    super.key,
   });
 
   final BuildContext context;
   final Widget child;
 
-  Future backButton() {
-    return showDialog(
+  Future<void> backButton() {
+    return showDialog<void>(
       context: context,
       builder: (context) => AlertDialog(
         title: Text(

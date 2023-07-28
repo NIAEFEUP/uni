@@ -28,20 +28,8 @@ class StateProviders {
     this.homePageProvider,
     this.referenceProvider,
   );
-  final LectureProvider lectureProvider;
-  final ExamProvider examProvider;
-  final BusStopProvider busStopProvider;
-  final RestaurantProvider restaurantProvider;
-  final CourseUnitsInfoProvider courseUnitsInfoProvider;
-  final ProfileProvider profileProvider;
-  final SessionProvider sessionProvider;
-  final CalendarProvider calendarProvider;
-  final LibraryOccupationProvider libraryOccupationProvider;
-  final FacultyLocationsProvider facultyLocationsProvider;
-  final HomePageProvider homePageProvider;
-  final ReferenceProvider referenceProvider;
 
-  static StateProviders fromContext(BuildContext context) {
+  factory StateProviders.fromContext(BuildContext context) {
     final lectureProvider =
         Provider.of<LectureProvider>(context, listen: false);
     final examProvider = Provider.of<ExamProvider>(context, listen: false);
@@ -81,4 +69,17 @@ class StateProviders {
       referenceProvider,
     );
   }
+
+  final LectureProvider lectureProvider;
+  final ExamProvider examProvider;
+  final BusStopProvider busStopProvider;
+  final RestaurantProvider restaurantProvider;
+  final CourseUnitsInfoProvider courseUnitsInfoProvider;
+  final ProfileProvider profileProvider;
+  final SessionProvider sessionProvider;
+  final CalendarProvider calendarProvider;
+  final LibraryOccupationProvider libraryOccupationProvider;
+  final FacultyLocationsProvider facultyLocationsProvider;
+  final HomePageProvider homePageProvider;
+  final ReferenceProvider referenceProvider;
 }

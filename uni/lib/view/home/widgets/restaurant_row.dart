@@ -3,12 +3,12 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 class RestaurantRow extends StatelessWidget {
   const RestaurantRow({
-    super.key,
     required this.local,
     required this.meatMenu,
     required this.fishMenu,
     required this.vegetarianMenu,
     required this.dietMenu,
+    super.key,
     this.iconSize = 20.0,
   });
   final String local;

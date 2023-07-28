@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 /// Generic implementation of a page title
 class PageTitle extends StatelessWidget {
   const PageTitle({
-    super.key,
     required this.name,
+    super.key,
     this.center = true,
     this.pad = true,
   });

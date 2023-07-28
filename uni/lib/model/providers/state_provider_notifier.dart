@@ -71,7 +71,8 @@ abstract class StateProviderNotifier extends ChangeNotifier {
       }
     } else {
       Logger().i(
-        'Last info for $runtimeType is within cache period ($cacheDuration); skipping remote load',
+        'Last info for $runtimeType is within cache period ($cacheDuration); '
+        'skipping remote load',
       );
     }
 
@@ -99,7 +100,8 @@ abstract class StateProviderNotifier extends ChangeNotifier {
           DateTime.now().difference(_lastUpdateTime!) <
               const Duration(minutes: 1)) {
         Logger().w(
-          'Last update for $runtimeType was less than a minute ago; skipping refresh',
+          'Last update for $runtimeType was less than a minute ago; '
+          'skipping refresh',
         );
         return;
       }
