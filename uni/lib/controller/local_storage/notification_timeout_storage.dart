@@ -36,7 +36,9 @@ class NotificationTimeoutStorage {
   }
 
   Future<void> addLastTimeNotificationExecuted(
-      String uniqueID, DateTime lastRan,) async {
+    String uniqueID,
+    DateTime lastRan,
+  ) async {
     _fileContent[uniqueID] = lastRan.toIso8601String();
     await _writeToFile(await _getTimeoutFile());
   }

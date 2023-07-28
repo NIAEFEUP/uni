@@ -18,7 +18,7 @@ Future<void> addMoneyDialog(BuildContext context) async {
         builder: (context, setState) {
           void onValueChange() {
             final inputValue = valueTextToNumber(controller.text);
-            //FIXME (luisd): this doesn't make a lot of sense but it's the 
+            //FIXME (luisd): this doesn't make a lot of sense but it's the
             // equivalent of the non type safe version
             setState(() => value = inputValue);
           }
@@ -35,7 +35,8 @@ Future<void> addMoneyDialog(BuildContext context) async {
                     padding: const EdgeInsets.only(top: 5, bottom: 10),
                     child: Text(
                       'Os dados da referência gerada aparecerão no Sigarra, '
-                      'conta corrente. \n''Perfil > Conta Corrente',
+                      'conta corrente. \n'
+                      'Perfil > Conta Corrente',
                       textAlign: TextAlign.start,
                       style: Theme.of(context).textTheme.titleSmall,
                     ),
@@ -140,7 +141,6 @@ Future<void> generateReference(BuildContext context, double amount) async {
   final session = Provider.of<SessionProvider>(context, listen: false).session;
   final response =
       await PrintFetcher.generatePrintMoneyReference(amount, session);
-
 
   if (response.statusCode == 200 && context.mounted) {
     Navigator.of(context).pop(false);

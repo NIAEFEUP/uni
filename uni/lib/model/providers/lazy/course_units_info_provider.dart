@@ -23,7 +23,9 @@ class CourseUnitsInfoProvider extends StateProviderNotifier {
       get courseUnitsClasses => UnmodifiableMapView(_courseUnitsClasses);
 
   Future<void> fetchCourseUnitSheet(
-      CourseUnit courseUnit, Session session,) async {
+    CourseUnit courseUnit,
+    Session session,
+  ) async {
     updateStatus(RequestStatus.busy);
     try {
       _courseUnitsSheets[courseUnit] = await CourseUnitsInfoFetcher()
@@ -37,7 +39,9 @@ class CourseUnitsInfoProvider extends StateProviderNotifier {
   }
 
   Future<void> fetchCourseUnitClasses(
-      CourseUnit courseUnit, Session session,) async {
+    CourseUnit courseUnit,
+    Session session,
+  ) async {
     updateStatus(RequestStatus.busy);
     try {
       _courseUnitsClasses[courseUnit] = await CourseUnitsInfoFetcher()
