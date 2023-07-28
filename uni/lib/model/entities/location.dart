@@ -60,8 +60,9 @@ abstract class Location {
 
   Map<String, dynamic> toMap({int? groupId});
 
+  // ignore_for_file: argument_type_not_assignable
   static Location fromJSON(Map<String, dynamic> json, int floor) {
-    final Map<String, dynamic> args = json['args'];
+    final args = json['args'] as Map<String, dynamic>;
     switch (json['type']) {
       case 'COFFEE_MACHINE':
         return CoffeeMachine(floor);

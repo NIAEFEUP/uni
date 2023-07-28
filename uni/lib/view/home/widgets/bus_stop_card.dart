@@ -126,7 +126,9 @@ Widget getCardTitle(BuildContext context) {
 
 /// Returns a widget for all the bus stops info
 Widget getBusStopsInfo(
-    BuildContext context, Map<String, BusStopData> stopData) {
+  BuildContext context,
+  Map<String, BusStopData> stopData,
+) {
   if (stopData.isNotEmpty) {
     return Container(
       padding: const EdgeInsets.all(4),
@@ -147,7 +149,9 @@ Widget getBusStopsInfo(
 
 /// Returns a list of widgets for each bus stop info that exists
 List<Widget> getEachBusStopInfo(
-    BuildContext context, Map<String, BusStopData> stopData) {
+  BuildContext context,
+  Map<String, BusStopData> stopData,
+) {
   final rows = <Widget>[const LastUpdateTimeStamp<BusStopProvider>()];
 
   stopData.forEach((stopCode, stopInfo) {

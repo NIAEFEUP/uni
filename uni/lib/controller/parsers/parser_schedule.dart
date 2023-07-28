@@ -6,7 +6,8 @@ import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/entities/time_utilities.dart';
 
 Future<List<Lecture>> parseScheduleMultipleRequests(
-    List<Response> responses,) async {
+  List<Response> responses,
+) async {
   var lectures = <Lecture>[];
   for (final response in responses) {
     lectures += await parseSchedule(response);
@@ -25,15 +26,15 @@ Future<List<Lecture>> parseSchedule(http.Response response) async {
 
   final schedule = json['horario'];
 
-  for (final lecture in schedule) {
-    final int day = (lecture['dia'] - 2) %
+  for (final lecture in schedule as List<Map<String, dynamic>>) {
+    final day = ((lecture['dia'] as int) - 2) %
         7; // Api: monday = 2, Lecture.dart class: monday = 0
     final secBegin = lecture['hora_inicio'] as int;
     final subject = lecture['ucurr_sigla'] as String;
     final typeClass = lecture['tipo'] as String;
     final blocks = ((lecture['aula_duracao'] as double) * 2).round();
     final room =
-    (lecture['sala_sigla'] as String).replaceAll(RegExp(r'\+'), '\n');
+        (lecture['sala_sigla'] as String).replaceAll(RegExp(r'\+'), '\n');
     final teacher = lecture['doc_sigla'] as String;
     final classNumber = lecture['turma_sigla'] as String;
     final occurrId = lecture['ocorrencia_id'] as int;
@@ -54,8 +55,7 @@ Future<List<Lecture>> parseSchedule(http.Response response) async {
     lectures.add(lec);
   }
 
-  final lecturesList = lectures.toList()
-    ..sort((a, b) => a.compare(b));
+  final lecturesList = lectures.toList()..sort((a, b) => a.compare(b));
 
   if (lecturesList.isEmpty) {
     return Future.error(Exception('Found empty schedule'));

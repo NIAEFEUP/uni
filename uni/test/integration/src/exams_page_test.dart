@@ -60,8 +60,7 @@ void main() {
       filteredExams[type] = true;
     }
 
-    final profile = Profile();
-    profile.courses = [Course(id: 7474, faculty: 'feup')];
+    final profile = Profile()..courses = [Course(id: 7474, faculty: 'feup')];
 
     testWidgets('Exams', (WidgetTester tester) async {
       NetworkRouter.httpClient = mockClient;
@@ -158,11 +157,11 @@ void main() {
 
       expect(find.byType(AlertDialog), findsOneWidget);
 
-      final CheckboxListTile mtCheckboxTile = find
+      final mtCheckboxTile = find
           .byKey(const Key('ExamCheck' 'Mini-testes'))
           .evaluate()
           .first
-          .widget;
+          .widget as CheckboxListTile;
 
       expect(find.byWidget(mtCheckboxTile), findsOneWidget);
       expect(mtCheckboxTile.value, true);

@@ -101,7 +101,8 @@ void main() {
 
       await tester.pumpWidget(testableWidget(widget, providers: []));
       await tester.pumpAndSettle();
-      final myWidgetState = tester.state(find.byType(SchedulePageView));
+      final myWidgetState =
+          tester.state(find.byType(SchedulePageView)) as SchedulePageViewState;
       myWidgetState.tabController!.animateTo(0);
       await tester.pumpAndSettle();
 
@@ -122,7 +123,8 @@ void main() {
       );
       await tester.pumpWidget(testableWidget(widget, providers: []));
       await tester.pumpAndSettle();
-      final myWidgetState = tester.state(find.byType(SchedulePageView));
+      final myWidgetState =
+          tester.state(find.byType(SchedulePageView)) as SchedulePageViewState;
       myWidgetState.tabController!.animateTo(0);
       await tester.pumpAndSettle();
 
@@ -153,7 +155,8 @@ void main() {
 
       await tester.pumpWidget(testableWidget(widget, providers: []));
       await tester.pumpAndSettle();
-      final myWidgetState = tester.state(find.byType(SchedulePageView));
+      final myWidgetState =
+          tester.state(find.byType(SchedulePageView)) as SchedulePageViewState;
       myWidgetState.tabController!.animateTo(0);
       await tester.pumpAndSettle();
 

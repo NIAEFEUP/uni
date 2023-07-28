@@ -171,7 +171,10 @@ class SchedulePageViewState extends GeneralPageViewState<SchedulePageView>
   }
 
   Widget dayColumnBuilder(
-      int day, Set<Lecture> dayContent, BuildContext context) {
+    int day,
+    Set<Lecture> dayContent,
+    BuildContext context,
+  ) {
     return Container(
       key: Key('schedule-page-day-column-$day'),
       child: Column(

@@ -140,7 +140,8 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
             Navigator.push(
               context,
               MaterialPageRoute<ProfilePageView>(
-                  builder: (__) => const ProfilePageView()),
+                builder: (__) => const ProfilePageView(),
+              ),
             )
           },
           child: Container(

@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:uni/model/entities/library_occupation.dart';
 
+// ignore_for_file: avoid_dynamic_calls
+
 Future<LibraryOccupation> parseLibraryOccupationFromSheets(
   Response response,
 ) async {
@@ -18,12 +20,12 @@ Future<LibraryOccupation> parseLibraryOccupationFromSheets(
     int floor;
     int max;
     try {
-      floor = jsonDecoded['table']['rows'][i]['c'][0]['v'].toInt();
+      floor = jsonDecoded['table']['rows'][i]['c'][0]['v'] as int;
     } catch (e) {
       floor = 0;
     }
     try {
-      max = jsonDecoded['table']['rows'][i]['c'][1]['v'].toInt();
+      max = jsonDecoded['table']['rows'][i]['c'][1]['v'] as int;
     } catch (e) {
       max = 0;
     }

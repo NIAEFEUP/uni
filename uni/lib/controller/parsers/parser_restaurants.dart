@@ -8,6 +8,8 @@ import 'package:uni/model/entities/meal.dart';
 import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/utils/day_of_week.dart';
 
+// ignore_for_file: avoid_dynamic_calls
+
 /// Reads restaurants's menu from /feup/pt/CANTINA.EMENTASHOW
 List<Restaurant> getRestaurantsFromHtml(Response response) {
   final document = parse(response.body);
@@ -96,7 +98,7 @@ Restaurant getRestaurantFromGSheets(
   final mealsList = <Meal>[];
 
   final format = DateFormat('d/M/y');
-  for (final row in parsedJson['table']['rows']) {
+  for (final row in parsedJson['table']['rows'] as List<dynamic>) {
     final cellList = row['c'];
     if ((cellList[1]['v'] == 'Almoço' && isDinner) ||
         (cellList[1]['v'] != 'Almoço' && !isDinner)) {
@@ -106,8 +108,8 @@ Restaurant getRestaurantFromGSheets(
     final meal = Meal(
       cellList[2]['v'] as String,
       cellList[3]['v'] as String,
-      DayOfWeek.values[format.parseUtc(cellList[0]['f']).weekday - 1],
-      format.parseUtc(cellList[0]['f']),
+      DayOfWeek.values[format.parseUtc(cellList[0]['f'] as String).weekday - 1],
+      format.parseUtc(cellList[0]['f'] as String),
     );
     mealsList.add(meal);
   }
