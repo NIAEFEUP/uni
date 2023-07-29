@@ -162,8 +162,9 @@ class NetworkRouter {
           NavigationService.logout();
           return Future.error('Login failed');
         }
-
-        session.cookies = newSession.cookies;
+        session
+          ..username = newSession.username
+          ..cookies = newSession.cookies;
         headers['cookie'] = session.cookies;
         return http.get(url.toUri(), headers: headers).timeout(timeout);
       } else {
