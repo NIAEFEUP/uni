@@ -14,6 +14,7 @@ import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/lazy/lecture_provider.dart';
+import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/view/schedule/schedule.dart';
 
 import '../../test_widget.dart';
@@ -22,6 +23,8 @@ import '../../unit/view/Widgets/schedule_slot_test.dart';
 class MockClient extends Mock implements http.Client {}
 
 class MockResponse extends Mock implements http.Response {}
+
+class MockSessionProvider extends Mock implements SessionProvider {}
 
 class UriMatcher extends CustomMatcher {
   UriMatcher(Matcher matcher) : super('Uri that has', 'string', matcher);
@@ -46,11 +49,17 @@ void main() {
       when(badMockResponse.statusCode).thenReturn(500);
 
       final scheduleProvider = LectureProvider();
+      final sessionProvider = MockSessionProvider();
+
+      when(sessionProvider.session).thenReturn(
+        Session(username: 'up1234', cookies: 'cookie', faculties: ['feup']),
+      );
 
       const widget = SchedulePage();
 
       final providers = [
         ChangeNotifierProvider(create: (_) => scheduleProvider),
+        ChangeNotifierProvider<SessionProvider>(create: (_) => sessionProvider),
       ];
 
       await tester.pumpWidget(testableWidget(widget, providers: providers));

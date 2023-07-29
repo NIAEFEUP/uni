@@ -24,15 +24,18 @@ Future<List<Lecture>> parseSchedule(http.Response response) async {
 
   final json = jsonDecode(response.body) as Map<String, dynamic>;
 
-  final schedule = json['horario'];
-
-  for (final lecture in schedule as List<Map<String, dynamic>>) {
+  final schedule = json['horario'] as List<dynamic>;
+  for (var lecture in schedule) {
+    lecture = lecture as Map<String, dynamic>;
     final day = ((lecture['dia'] as int) - 2) %
         7; // Api: monday = 2, Lecture.dart class: monday = 0
     final secBegin = lecture['hora_inicio'] as int;
     final subject = lecture['ucurr_sigla'] as String;
     final typeClass = lecture['tipo'] as String;
-    final blocks = ((lecture['aula_duracao'] as double) * 2).round();
+    // TODO(luisd): this was marked as a double on the develop branch but the
+    //  tests' example api returns an integer. At the moment there are no
+    //  classes so I can't test this.
+    final blocks = (lecture['aula_duracao'] as int) * 2;
     final room =
         (lecture['sala_sigla'] as String).replaceAll(RegExp(r'\+'), '\n');
     final teacher = lecture['doc_sigla'] as String;
