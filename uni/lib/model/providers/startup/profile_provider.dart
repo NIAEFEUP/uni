@@ -79,14 +79,9 @@ class ProfileProvider extends StateProviderNotifier {
         await profileDb.saveUserFees(feesBalance, feesLimit);
       }
 
-      _profile = Profile(
-        name: _profile.name,
-        email: _profile.email,
-        courses: _profile.courses,
-        printBalance: _profile.printBalance,
-        feesBalance: feesBalance,
-        feesLimit: feesLimit,
-      );
+      _profile
+        ..feesBalance = feesBalance
+        ..feesLimit = feesLimit;
     } catch (e) {
       updateStatus(RequestStatus.failed);
     }
@@ -104,16 +99,7 @@ class ProfileProvider extends StateProviderNotifier {
         await profileDb.saveUserPrintBalance(printBalance);
       }
 
-      final newProfile = Profile(
-        name: _profile.name,
-        email: _profile.email,
-        courses: _profile.courses,
-        printBalance: printBalance,
-        feesBalance: _profile.feesBalance,
-        feesLimit: _profile.feesLimit,
-      );
-
-      _profile = newProfile;
+      _profile.printBalance = printBalance;
     } catch (e) {
       updateStatus(RequestStatus.failed);
     }
@@ -133,6 +119,7 @@ class ProfileProvider extends StateProviderNotifier {
       final userPersistentInfo =
           await AppSharedPreferences.getPersistentUserInfo();
       if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {
+        // Course units are saved later, so we don't it here
         final profileDb = AppUserDataDatabase();
         await profileDb.insertUserData(_profile);
       }
@@ -147,7 +134,12 @@ class ProfileProvider extends StateProviderNotifier {
       final allCourseUnits = await AllCourseUnitsFetcher()
           .getAllCourseUnitsAndCourseAverages(profile.courses, session);
 
-      _profile.courseUnits = allCourseUnits;
+      if (allCourseUnits != null) {
+        _profile.courseUnits = allCourseUnits;
+      } else {
+        // Current course units should already have been fetched,
+        // so this is not a fatal error
+      }
 
       final userPersistentInfo =
           await AppSharedPreferences.getPersistentUserInfo();

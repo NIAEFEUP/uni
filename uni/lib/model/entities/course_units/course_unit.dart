@@ -32,13 +32,14 @@ class CourseUnit {
   String? ectsGrade;
   String? result;
   num? ects;
-  String? schoolYear;
+  String? schoolYear; // e.g. 2020/2021
 
   /// Creates a new instance from a JSON object.
   static CourseUnit? fromJson(Map<String, dynamic> data) {
     if (data['ucurr_id'] == null) {
       return null;
     }
+
     return CourseUnit(
       id: data['ucurr_id'] as int,
       code: data['ucurr_codigo'] as String,
@@ -54,6 +55,9 @@ class CourseUnit {
       ectsGrade: data['resultado_ects'] as String?,
       result: data['resultado_insc'] as String?,
       ects: data['creditos_ects'] as num?,
+      schoolYear: data['a_lectivo'] == null
+          ? null
+          : toSchoolYear(data['a_lectivo'] as int),
     );
   }
 
@@ -79,5 +83,9 @@ class CourseUnit {
 
   bool enrollmentIsValid() {
     return status == 'V';
+  }
+
+  static String toSchoolYear(int year) {
+    return '$year/${year + 1}';
   }
 }

@@ -35,9 +35,9 @@ class Profile {
 
   final String name;
   final String email;
-  final String printBalance;
-  final String feesBalance;
-  final DateTime? feesLimit;
+  String printBalance;
+  String feesBalance;
+  DateTime? feesLimit;
   List<Course> courses;
   List<CourseUnit> courseUnits;
 

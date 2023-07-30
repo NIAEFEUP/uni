@@ -6,7 +6,7 @@ import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/entities/session.dart';
 
 class AllCourseUnitsFetcher {
-  Future<List<CourseUnit>> getAllCourseUnitsAndCourseAverages(
+  Future<List<CourseUnit>?> getAllCourseUnitsAndCourseAverages(
     List<Course> courses,
     Session session,
   ) async {
@@ -21,6 +21,7 @@ class AllCourseUnitsFetcher {
         allCourseUnits.addAll(courseUnits.where((c) => c.enrollmentIsValid()));
       } catch (e) {
         Logger().e('Failed to fetch course units for ${course.name}', e);
+        return null;
       }
     }
 
@@ -31,9 +32,6 @@ class AllCourseUnitsFetcher {
     Course course,
     Session session,
   ) async {
-    if (course.faculty == null) {
-      return [];
-    }
     final url = '${NetworkRouter.getBaseUrl(course.faculty!)}'
         'fest_geral.curso_percurso_academico_view';
     final response = await NetworkRouter.getWithCookies(

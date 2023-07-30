@@ -47,8 +47,8 @@ List<CourseUnit> parseCourseUnitsAndCourseAverage(
     final year = row.children[0].innerHtml;
     final semester = row.children[1].innerHtml;
     final occurId = getUrlQueryParameters(
-      row.children[2].firstChild?.attributes['href'] ?? '',
-    )['pv_ocorrencia_id'];
+      row.children[2].firstChild!.attributes['href']!,
+    )['pv_ocorrencia_id']!;
     final codeName = row.children[2].children[0].innerHtml;
     final name = row.children[3].children[0].innerHtml;
     final ects = row.children[5].innerHtml.replaceAll(',', '.');
@@ -73,7 +73,7 @@ List<CourseUnit> parseCourseUnitsAndCourseAverage(
     final courseUnit = CourseUnit(
       schoolYear:
           '${firstSchoolYear + yearIncrement}/${firstSchoolYear + yearIncrement + 1}',
-      occurrId: occurId != null ? int.parse(occurId) : 0,
+      occurrId: int.parse(occurId),
       abbreviation: codeName,
       status: status,
       grade: grade,
