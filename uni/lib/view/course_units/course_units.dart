@@ -43,22 +43,11 @@ class CourseUnitsPageViewState
                   element.compareTo(value) > 0 ? element : value,
             );
           }
+
           availableSemesters = _getAvailableSemesters(courseUnits);
-          final currentYear = int.tryParse(
-            selectedSchoolYear?.substring(
-                  0,
-                  selectedSchoolYear?.indexOf('/'),
-                ) ??
-                '',
-          );
-          if (selectedSemester == null &&
-              currentYear != null &&
-              availableSemesters.length == 3) {
-            final currentDate = DateTime.now();
-            selectedSemester =
-                currentDate.year <= currentYear || currentDate.month == 1
-                    ? availableSemesters[0]
-                    : availableSemesters[1];
+
+          if (availableSemesters.length == 3 && selectedSemester == null) {
+            selectedSemester = availableSemesters[2];
           }
         }
 
