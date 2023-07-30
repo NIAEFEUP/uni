@@ -16,7 +16,7 @@ DateTime? parseFeesNextLimit(http.Response response) {
   final lines = document.querySelectorAll('#tab0 .tabela tr');
 
   try {
-    final limit = lines[1].querySelectorAll('.data')[0].text;
+    final limit = lines[1].querySelectorAll('.data')[1].text;
     return DateTime.parse(limit);
   } catch (_) {
     return null;
