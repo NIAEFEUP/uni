@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
@@ -41,9 +42,8 @@ class LazyConsumer<T extends StateProviderNotifier> extends StatelessWidget {
         if (context.mounted) {
           await provider.ensureInitializedFromRemote(context);
         }
-      } catch (_) {
-        // The provider won't be initialized
-        // Should only happen in tests
+      } catch (e) {
+        Logger().e('Failed to initialize provider: ', e);
       }
     });
 

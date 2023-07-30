@@ -90,7 +90,12 @@ class CourseUnitDetailPageViewState
     return LazyConsumer<CourseUnitsInfoProvider>(
       builder: (context, courseUnitsInfoProvider) {
         return RequestDependentWidgetBuilder(
-          onNullContent: const Center(),
+          onNullContent: const Center(
+            child: Text(
+              'Não existem informações para apresentar',
+              textAlign: TextAlign.center,
+            ),
+          ),
           status: courseUnitsInfoProvider.status,
           builder: () => CourseUnitSheetView(
             courseUnitsInfoProvider.courseUnitsSheets[widget.courseUnit]!,
@@ -107,7 +112,12 @@ class CourseUnitDetailPageViewState
     return LazyConsumer<CourseUnitsInfoProvider>(
       builder: (context, courseUnitsInfoProvider) {
         return RequestDependentWidgetBuilder(
-          onNullContent: const Center(),
+          onNullContent: const Center(
+            child: Text(
+              'Não existem turmas para apresentar',
+              textAlign: TextAlign.center,
+            ),
+          ),
           status: courseUnitsInfoProvider.status,
           builder: () => CourseUnitClassesView(
             courseUnitsInfoProvider.courseUnitsClasses[widget.courseUnit]!,
