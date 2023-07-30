@@ -13,16 +13,12 @@ String parseFeesBalance(http.Response response) {
 /// If there are no due payments, `Sem data` is returned.
 DateTime? parseFeesNextLimit(http.Response response) {
   final document = parse(response.body);
-
   final lines = document.querySelectorAll('#tab0 .tabela tr');
 
-  if (lines.length < 2) {
+  try {
+    final limit = lines[1].querySelectorAll('.data')[0].text;
+    return DateTime.parse(limit);
+  } catch (_) {
     return null;
   }
-
-  final limit = lines[1].querySelectorAll('.data')[1].text;
-
-  // It's completely fine to throw an exception if it fails, in this case,
-  // since probably Sigarra is returning something we don't except
-  return DateTime.parse(limit);
 }
