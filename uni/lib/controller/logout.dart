@@ -13,9 +13,12 @@ import 'package:uni/controller/local_storage/app_lectures_database.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/controller/local_storage/app_user_database.dart';
 import 'package:uni/controller/networking/network_router.dart';
+import 'package:uni/model/providers/state_providers.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 
 Future<void> logout(BuildContext context) async {
+  StateProviders.fromContext(context).markAsNotInitialized();
+
   final prefs = await SharedPreferences.getInstance();
   final faculties = await AppSharedPreferences.getUserFaculties();
   await prefs.clear();

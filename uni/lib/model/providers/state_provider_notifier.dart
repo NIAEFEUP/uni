@@ -16,10 +16,13 @@ abstract class StateProviderNotifier extends ChangeNotifier {
     required this.cacheDuration,
     RequestStatus initialStatus = RequestStatus.busy,
     bool initialize = true,
-  })  : _status = initialStatus,
+  })  : _initialStatus = initialStatus,
+        _status = initialStatus,
         _initializedFromStorage = !initialize,
         _initializedFromRemote = !initialize;
-  static final Lock _lock = Lock();
+
+  final Lock _lock = Lock();
+  final RequestStatus _initialStatus;
   RequestStatus _status;
   bool _initializedFromStorage;
   bool _initializedFromRemote;
@@ -30,6 +33,13 @@ abstract class StateProviderNotifier extends ChangeNotifier {
   RequestStatus get status => _status;
 
   DateTime? get lastUpdateTime => _lastUpdateTime;
+
+  void markAsNotInitialized() {
+    _initializedFromStorage = false;
+    _initializedFromRemote = false;
+    _status = _initialStatus;
+    _lastUpdateTime = null;
+  }
 
   Future<void> _loadFromStorage() async {
     _lastUpdateTime = await AppSharedPreferences.getLastDataClassUpdateTime(

@@ -82,4 +82,19 @@ class StateProviders {
   final FacultyLocationsProvider facultyLocationsProvider;
   final HomePageProvider homePageProvider;
   final ReferenceProvider referenceProvider;
+
+  void markAsNotInitialized() {
+    lectureProvider.markAsNotInitialized();
+    examProvider.markAsNotInitialized();
+    busStopProvider.markAsNotInitialized();
+    restaurantProvider.markAsNotInitialized();
+    courseUnitsInfoProvider.markAsNotInitialized();
+    profileProvider.markAsNotInitialized();
+    sessionProvider.markAsNotInitialized();
+    calendarProvider.markAsNotInitialized();
+    libraryOccupationProvider.markAsNotInitialized();
+    facultyLocationsProvider.markAsNotInitialized();
+    homePageProvider.markAsNotInitialized();
+    referenceProvider.markAsNotInitialized();
+  }
 }
