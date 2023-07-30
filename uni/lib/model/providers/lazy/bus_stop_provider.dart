@@ -50,9 +50,6 @@ class BusStopProvider extends StateProviderNotifier {
   }
 
   Future<void> addUserBusStop(String stopCode, BusStopData stopData) async {
-    updateStatus(RequestStatus.busy);
-    await fetchUserBusTrips();
-
     if (_configuredBusStops.containsKey(stopCode)) {
       (_configuredBusStops[stopCode]!.configuredBuses).clear();
       _configuredBusStops[stopCode]!
@@ -61,6 +58,9 @@ class BusStopProvider extends StateProviderNotifier {
     } else {
       _configuredBusStops[stopCode] = stopData;
     }
+
+    updateStatus(RequestStatus.busy);
+    await fetchUserBusTrips();
 
     final db = AppBusStopDatabase();
     await db.setBusStops(configuredBusStops);
