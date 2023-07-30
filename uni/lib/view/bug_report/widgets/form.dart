@@ -27,6 +27,7 @@ class BugReportFormState extends State<BugReportForm> {
   BugReportFormState() {
     loadBugClassList();
   }
+
   final String _gitHubPostUrl =
       'https://api.github.com/repos/NIAEFEUP/project-schrodinger/issues';
   final String _sentryLink =
@@ -76,15 +77,6 @@ class BugReportFormState extends State<BugReportForm> {
     return [
       bugReportTitle(context),
       bugReportIntro(context),
-      dropdownBugSelectWidget(context),
-      FormTextField(
-        titleController,
-        Icons.title,
-        maxLines: 2,
-        description: 'Título',
-        labelText: 'Breve identificação do problema',
-        bottomMargin: 30,
-      ),
       dropdownBugSelectWidget(context),
       FormTextField(
         titleController,
