@@ -1,6 +1,6 @@
 Map<String, String> getUrlQueryParameters(String url) {
   final queryParameters = <String, String>{};
-  var queryString = '';
+  var queryString = url;
 
   final lastSlashIndex = url.lastIndexOf('/');
   if (lastSlashIndex >= 0) {
@@ -21,5 +21,6 @@ Map<String, String> getUrlQueryParameters(String url) {
     }
     queryParameters[keyValue[0].trim()] = keyValue[1].trim();
   }
+
   return queryParameters;
 }
