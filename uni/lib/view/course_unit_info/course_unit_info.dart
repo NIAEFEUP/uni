@@ -102,7 +102,9 @@ class CourseUnitDetailPageViewState
           ),
           hasContentPredicate:
               courseUnitsInfoProvider.courseUnitsSheets[widget.courseUnit] !=
-                  null,
+                      null &&
+                  courseUnitsInfoProvider.courseUnitsSheets[widget.courseUnit]!
+                      .sections.isNotEmpty,
         );
       },
     );
@@ -124,7 +126,9 @@ class CourseUnitDetailPageViewState
           ),
           hasContentPredicate:
               courseUnitsInfoProvider.courseUnitsClasses[widget.courseUnit] !=
-                  null,
+                      null &&
+                  courseUnitsInfoProvider
+                      .courseUnitsClasses[widget.courseUnit]!.isNotEmpty,
         );
       },
     );
