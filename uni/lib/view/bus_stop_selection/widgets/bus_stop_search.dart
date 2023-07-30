@@ -15,6 +15,7 @@ class BusStopSearch extends SearchDelegate<String> {
   BusStopSearch() {
     getDatabase();
   }
+
   List<String> suggestionsList = [];
   late final AppBusStopDatabase db;
   String? stopCode;

@@ -53,6 +53,15 @@ class BusStopProvider extends StateProviderNotifier {
     updateStatus(RequestStatus.busy);
     await fetchUserBusTrips();
 
+    if (_configuredBusStops.containsKey(stopCode)) {
+      (_configuredBusStops[stopCode]!.configuredBuses).clear();
+      _configuredBusStops[stopCode]!
+          .configuredBuses
+          .addAll(stopData.configuredBuses);
+    } else {
+      _configuredBusStops[stopCode] = stopData;
+    }
+
     final db = AppBusStopDatabase();
     await db.setBusStops(configuredBusStops);
   }
