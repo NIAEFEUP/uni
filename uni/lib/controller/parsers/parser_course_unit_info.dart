@@ -9,8 +9,13 @@ Future<CourseUnitSheet> parseCourseUnitSheet(http.Response response) async {
   final sections = <String, String>{};
 
   for (final title in titles) {
+    if (title.text.trim().isEmpty) {
+      continue;
+    }
+
     try {
-      sections[title.text] = _htmlAfterElement(response.body, title.outerHtml);
+      sections[title.text.trim()] =
+          _htmlAfterElement(response.body, title.outerHtml);
     } catch (_) {
       continue;
     }
