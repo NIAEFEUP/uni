@@ -14,29 +14,31 @@ import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 Future<String> fetchTermsAndConditions() async {
   if (await Connectivity().checkConnectivity() != ConnectivityResult.none) {
     try {
-      const String url = 'https://raw.githubusercontent.com/NIAEFEUP/'
-          'uni/develop/uni/assets/text/TermsAndConditions.md';
-      final http.Response response = await http.get(Uri.parse(url));
+      const url =
+          'https://raw.githubusercontent.com/NIAEFEUP/project-schrodinger/develop/uni/assets/text/TermsAndConditions.md';
+      final response = await http.get(Uri.parse(url));
       if (response.statusCode == 200) {
         return response.body;
       }
     } catch (e) {
-      Logger().e('Failed to fetch Terms and Conditions: ${e.toString()}');
+      Logger().e('Failed to fetch Terms and Conditions: $e');
     }
   }
 
   try {
     return await rootBundle.loadString('assets/text/TermsAndConditions.md');
   } catch (e) {
-    Logger().e('Failed to read Terms and Conditions: ${e.toString()}');
+    Logger().e('Failed to read Terms and Conditions: $e');
     return 'Não foi possível carregar os Termos e Condições. '
         'Por favor tente mais tarde.';
   }
 }
 
 /// Checks if the current Terms and Conditions have been accepted by the user,
-/// by fetching the current terms, hashing them and comparing with the stored hash.
-/// Sets the acceptance to false if the terms have changed, or true if they haven't.
+/// by fetching the current terms, hashing them and comparing
+/// with the stored hash.
+/// Sets the acceptance to false if the terms have changed,
+/// or true if they haven't.
 /// Returns the updated value.
 Future<bool> updateTermsAndConditionsAcceptancePreference() async {
   final hash = await AppSharedPreferences.getTermsAndConditionHash();
@@ -44,18 +46,22 @@ Future<bool> updateTermsAndConditionsAcceptancePreference() async {
   final currentHash = md5.convert(utf8.encode(termsAndConditions)).toString();
 
   if (hash == null) {
-    await AppSharedPreferences.setTermsAndConditionsAcceptance(true);
+    await AppSharedPreferences.setTermsAndConditionsAcceptance(
+      areAccepted: true,
+    );
     await AppSharedPreferences.setTermsAndConditionHash(currentHash);
     return true;
   }
 
   if (currentHash != hash) {
-    await AppSharedPreferences.setTermsAndConditionsAcceptance(false);
+    await AppSharedPreferences.setTermsAndConditionsAcceptance(
+      areAccepted: false,
+    );
     await AppSharedPreferences.setTermsAndConditionHash(currentHash);
     return false;
   }
 
-  await AppSharedPreferences.setTermsAndConditionsAcceptance(true);
+  await AppSharedPreferences.setTermsAndConditionsAcceptance(areAccepted: true);
   return true;
 }
 
@@ -64,5 +70,5 @@ Future<void> acceptTermsAndConditions() async {
   final termsAndConditions = await fetchTermsAndConditions();
   final currentHash = md5.convert(utf8.encode(termsAndConditions)).toString();
   await AppSharedPreferences.setTermsAndConditionHash(currentHash);
-  await AppSharedPreferences.setTermsAndConditionsAcceptance(true);
+  await AppSharedPreferences.setTermsAndConditionsAcceptance(areAccepted: true);
 }

@@ -10,18 +10,17 @@ import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/model/request_status.dart';
 
 class RestaurantProvider extends StateProviderNotifier {
-  List<Restaurant> _restaurants = [];
-
   RestaurantProvider()
       : super(dependsOnSession: false, cacheDuration: const Duration(days: 1));
+  List<Restaurant> _restaurants = [];
 
   UnmodifiableListView<Restaurant> get restaurants =>
       UnmodifiableListView(_restaurants);
 
   @override
   Future<void> loadFromStorage() async {
-    final RestaurantDatabase restaurantDb = RestaurantDatabase();
-    final List<Restaurant> restaurants = await restaurantDb.getRestaurants();
+    final restaurantDb = RestaurantDatabase();
+    final restaurants = await restaurantDb.getRestaurants();
     _restaurants = restaurants;
   }
 
@@ -32,11 +31,10 @@ class RestaurantProvider extends StateProviderNotifier {
 
   Future<void> fetchRestaurants(Session session) async {
     try {
-      final List<Restaurant> restaurants =
-          await RestaurantFetcher().getRestaurants(session);
+      final restaurants = await RestaurantFetcher().getRestaurants(session);
 
-      final RestaurantDatabase db = RestaurantDatabase();
-      db.saveRestaurants(restaurants);
+      final db = RestaurantDatabase();
+      unawaited(db.saveRestaurants(restaurants));
 
       _restaurants = filterPastMeals(restaurants);
 
