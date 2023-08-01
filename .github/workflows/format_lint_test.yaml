@@ -63,11 +63,10 @@ jobs:
           flutter-version: ${{ env.FLUTTER_VERSION }}
 
       - name: Test with coverage
-        run: flutter test --coverage --coverage=./coverage
+        run: flutter test --coverage
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: true
-          files: ./coverage/lcov.info
