@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:uni/utils/navbar_items.dart';
 
 class AppBottomNavbar extends StatefulWidget {
-  const AppBottomNavbar({ required this.parentContext, super.key });
+  const AppBottomNavbar({required this.parentContext, super.key});
 
   final BuildContext parentContext;
 
