@@ -117,9 +117,9 @@ class BugReportFormState extends State<BugReportForm> {
   Widget bugReportTitle(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
-      child: Row(
+      child: const Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: const <Widget>[
+        children: <Widget>[
           Icon(Icons.bug_report, size: 40),
           PageTitle(name: 'Bugs e Sugestões', center: false),
           Icon(Icons.bug_report, size: 40),
@@ -172,7 +172,7 @@ class BugReportFormState extends State<BugReportForm> {
                   value: _selectedBug,
                   onChanged: (value) {
                     setState(() {
-                      _selectedBug = value! as int;
+                      _selectedBug = value!;
                     });
                   },
                   isExpanded: true,
