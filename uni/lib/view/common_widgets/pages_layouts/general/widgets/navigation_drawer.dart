@@ -3,6 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/utils/drawer_items.dart';
+import 'package:uni/view/common_widgets/pages_layouts/general/widgets/drawer_navigation_option.dart';
+import 'package:uni/view/common_widgets/pages_layouts/general/widgets/logout_button.dart';
+import 'package:uni/view/common_widgets/pages_layouts/general/widgets/theme_switch_button.dart';
 
 class AppNavigationDrawer extends StatefulWidget {
   const AppNavigationDrawer({required this.parentContext, super.key});
@@ -85,9 +88,13 @@ class AppNavigationDrawerState extends State<AppNavigationDrawer> {
     final drawerOptions = <Widget>[];
     final userSession = context.read<SessionProvider>().state!;
 
-    for (final key in drawerItems.keys) {
-      if (key.isVisible(userSession.faculties)) {
-        drawerOptions.add(createDrawerNavigationOption(key));
+    for (final item in DrawerItem.values) {
+      if (item.isVisible(userSession.faculties)) {
+        drawerOptions.add(
+          DrawerNavigationOption(
+            item: item,
+          ),
+        );
       }
     }
 
@@ -101,6 +108,12 @@ class AppNavigationDrawerState extends State<AppNavigationDrawer> {
                 children: drawerOptions,
               ),
             ),
+          ),
+          const Row(
+            children: <Widget>[
+              Expanded(child: LogoutButton()),
+              ThemeSwitchButton(),
+            ],
           ),
         ],
       ),
