@@ -61,7 +61,7 @@ class BugReportFormState extends State<BugReportForm> {
 
     bugDescriptions.forEach(
       (int key, Tuple2<String, String> tup) =>
-          {bugList.add(DropdownMenuItem(value: key, child: Text(tup.item1)))},
+          bugList.add(DropdownMenuItem(value: key, child: Text(tup.item1))),
     );
   }
 
