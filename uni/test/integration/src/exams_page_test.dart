@@ -1,10 +1,9 @@
-// @dart=2.10
-
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
@@ -20,10 +19,7 @@ import 'package:uni/view/exams/exams.dart';
 
 import '../../test_widget.dart';
 
-class MockClient extends Mock implements http.Client {}
-
-class MockResponse extends Mock implements http.Response {}
-
+@GenerateNiceMocks([MockSpec<http.Client>(), MockSpec<http.Response>()])
 void main() {
   group('ExamsPage Integration Tests', () {
     final mockClient = MockClient();
