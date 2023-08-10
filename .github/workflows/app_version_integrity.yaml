@@ -2,7 +2,7 @@ on: pull_request
 
 jobs:
   app_version_integrity:
-    name: "Check for app version change"
+    name: "Version integrity"
     runs-on: ubuntu-latest
     env:
       APP_VERSION_PATH: "uni/app_version.txt"

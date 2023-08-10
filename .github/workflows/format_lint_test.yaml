@@ -1,4 +1,7 @@
-on: pull_request
+on:
+  pull_request:
+  push:
+    branches: [master, develop]
 
 env:
   FLUTTER_VERSION: 3.7.2
