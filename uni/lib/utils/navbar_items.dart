@@ -20,11 +20,6 @@ enum NavbarItem {
     'Faculdade',
     Icons.domain_outlined,
     ['Restaurantes', 'Calendário', 'Biblioteca', 'Úteis'],
-  ),
-  navCurrentAccount(
-    'Conta Corrente',
-    Icons.account_balance_wallet_outlined,
-    [],
   );
 
   const NavbarItem(this.label, this.icon, this.routes);
