@@ -9,17 +9,17 @@ enum NavbarItem {
   navStudentArea(
     'Área do Estudante',
     Icons.school_outlined,
-    ['Horário', 'Exames', 'Cadeiras', 'Calendário'],
+    ['Horário', 'Exames', 'Cadeiras'],
   ),
   navMap(
     'Mapa e Transportes',
     Icons.map_outlined,
     ['Autocarros', 'Locais'],
   ),
-  navUsefulInfo(
-    'Úteis',
+  navFaculty(
+    'Faculdade',
     Icons.domain_outlined,
-    ['Restaurantes', 'Biblioteca', 'Úteis'],
+    ['Restaurantes', 'Calendário', 'Biblioteca', 'Úteis'],
   ),
   navCurrentAccount(
     'Conta Corrente',
