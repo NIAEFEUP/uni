@@ -51,22 +51,13 @@ class RestaurantProvider extends StateProviderNotifier {
     }
   }
 
-  setFavoriteRestaurants(
-      List<String> newFavoriteRestaurants, Completer<void> action) async {
-    _favoriteRestaurants = List<String>.from(newFavoriteRestaurants);
-    AppSharedPreferences.saveFavoriteRestaurants(favoriteRestaurants);
-    action.complete();
-    notifyListeners();
-  }
-
   toggleFavoriteRestaurant(
-      String restaurantName, Completer<void> action) async {
+      String restaurantName) async {
     _favoriteRestaurants.contains(restaurantName)
         ? _favoriteRestaurants.remove(restaurantName)
         : _favoriteRestaurants.add(restaurantName);
     notifyListeners();
     AppSharedPreferences.saveFavoriteRestaurants(favoriteRestaurants);
-    action.complete();
   }
 
   void updateStateBasedOnLocalRestaurants() async {

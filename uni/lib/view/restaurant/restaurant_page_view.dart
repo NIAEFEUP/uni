@@ -89,7 +89,7 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
       tabs.add(Container(
         color: Theme.of(context).colorScheme.background,
         child: Tab(
-            key: Key('cantine-page-tab-$i'),
+            key: Key('restaurant-page-tab-$i'),
             text: toString(DayOfWeek.values[i])),
       ));
     }
@@ -113,7 +113,7 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
     if (meals.isEmpty) {
       return Container(
           margin: const EdgeInsets.only(top: 10, bottom: 5),
-          key: Key('cantine-page-day-column-$day'),
+          key: Key('restaurant-page-day-column-$day'),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: const [
@@ -124,7 +124,7 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
     } else {
       return Container(
           margin: const EdgeInsets.only(top: 5, bottom: 5),
-          key: Key('cantine-page-day-column-$day'),
+          key: Key('restaurant-page-day-column-$day'),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: createRestaurantRows(meals, context),
