@@ -12,7 +12,7 @@ import 'package:uni/view/restaurant/widgets/restaurant_page_card.dart';
 import 'package:uni/view/restaurant/widgets/restaurant_slot.dart';
 
 class RestaurantPageView extends StatefulWidget {
-  const RestaurantPageView({Key? key}) : super(key: key);
+  const RestaurantPageView({super.key});
 
   @override
   State<StatefulWidget> createState() => _RestaurantPageViewState();
@@ -27,78 +27,99 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
   @override
   void initState() {
     super.initState();
-    final int weekDay = DateTime.now().weekday;
+    final weekDay = DateTime.now().weekday;
     super.initState();
     tabController = TabController(vsync: this, length: DayOfWeek.values.length);
-    tabController.animateTo((tabController.index + (weekDay - 1)));
+    tabController.animateTo(tabController.index + (weekDay - 1));
     scrollViewController = ScrollController();
   }
 
   @override
   Widget getBody(BuildContext context) {
     return LazyConsumer<RestaurantProvider>(
-        builder: (context, restaurantProvider) {
-      return Column(children: [
-        ListView(scrollDirection: Axis.vertical, shrinkWrap: true, children: [
-          Container(
-            padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
-            alignment: Alignment.center,
-            child: const PageTitle(
-                name: 'Restaurantes', center: false, pad: false),
-          ),
-          TabBar(
-            controller: tabController,
-            isScrollable: true,
-            tabs: createTabs(context),
-          ),
-        ]),
-        const SizedBox(height: 10),
-        RequestDependentWidgetBuilder(
-            status: restaurantProvider.status,
-            builder: () =>
-                createTabViewBuilder(restaurantProvider.restaurants, context),
-            hasContentPredicate: restaurantProvider.restaurants.isNotEmpty,
-            onNullContent:
-                const Center(child: Text('Não há refeições disponíveis.')))
-      ]);
-    });
+      builder: (context, restaurantProvider) {
+        return Column(
+          children: [
+            ListView(
+              shrinkWrap: true,
+              children: [
+                Container(
+                  padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
+                  alignment: Alignment.center,
+                  child: const PageTitle(
+                    name: 'Restaurantes',
+                    center: false,
+                    pad: false,
+                  ),
+                ),
+                TabBar(
+                  controller: tabController,
+                  isScrollable: true,
+                  tabs: createTabs(context),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            RequestDependentWidgetBuilder(
+              status: restaurantProvider.status,
+              builder: () =>
+                  createTabViewBuilder(restaurantProvider.restaurants, context),
+              hasContentPredicate: restaurantProvider.restaurants.isNotEmpty,
+              onNullContent:
+                  const Center(child: Text('Não há refeições disponíveis.')),
+            )
+          ],
+        );
+      },
+    );
   }
 
   Widget createTabViewBuilder(dynamic restaurants, BuildContext context) {
     final List<Widget> dayContents = DayOfWeek.values.map((dayOfWeek) {
-      List<Widget> restaurantsWidgets = [];
+      var restaurantsWidgets = <Widget>[];
       if (restaurants is List<Restaurant>) {
         restaurantsWidgets = restaurants
-            .map((restaurant) =>
-                createRestaurant(context, restaurant, dayOfWeek))
+            .map(
+              (restaurant) => createRestaurant(context, restaurant, dayOfWeek),
+            )
             .toList();
       }
       return ListView(children: restaurantsWidgets);
     }).toList();
 
     return Expanded(
-        child: TabBarView(
-      controller: tabController,
-      children: dayContents,
-    ));
+      child: TabBarView(
+        controller: tabController,
+        children: dayContents,
+      ),
+    );
   }
 
   List<Widget> createTabs(BuildContext context) {
-    final List<Widget> tabs = <Widget>[];
+    final tabs = <Widget>[];
     for (var i = 0; i < DayOfWeek.values.length; i++) {
-      tabs.add(Container(
-        color: Theme.of(context).colorScheme.background,
-        child: Tab(
+      tabs.add(
+        ColoredBox(
+          color: Theme.of(context).colorScheme.background,
+          child: Tab(
             key: Key('restaurant-page-tab-$i'),
-            text: toString(DayOfWeek.values[i])),
-      ));
+            text: toString(DayOfWeek.values[i]),
+          ),
+        ),
+      );
     }
     return tabs;
   }
 
-  Widget createRestaurant(context, Restaurant restaurant, DayOfWeek dayOfWeek) {
+  Widget createRestaurant(
+    BuildContext context,
+    Restaurant restaurant,
+    DayOfWeek dayOfWeek,
+  ) {
     return RestaurantPageCard(
-        restaurant, createRestaurantByDay(context, restaurant, dayOfWeek));
+      restaurant,
+      createRestaurantByDay(context, restaurant, dayOfWeek),
+    );
   }
 
   List<Widget> createRestaurantRows(List<Meal> meals, BuildContext context) {
@@ -108,27 +129,33 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
   }
 
   Widget createRestaurantByDay(
-      BuildContext context, Restaurant restaurant, DayOfWeek day) {
-    final List<Meal> meals = restaurant.getMealsOfDay(day);
+    BuildContext context,
+    Restaurant restaurant,
+    DayOfWeek day,
+  ) {
+    final meals = restaurant.getMealsOfDay(day);
     if (meals.isEmpty) {
       return Container(
-          margin: const EdgeInsets.only(top: 10, bottom: 5),
-          key: Key('restaurant-page-day-column-$day'),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: const [
-              Center(
-                  child: Text("Não há informação disponível sobre refeições")),
-            ],
-          ));
+        margin: const EdgeInsets.only(top: 10, bottom: 5),
+        key: Key('restaurant-page-day-column-$day'),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: const [
+            Center(
+              child: Text('Não há informação disponível sobre refeições'),
+            ),
+          ],
+        ),
+      );
     } else {
       return Container(
-          margin: const EdgeInsets.only(top: 5, bottom: 5),
-          key: Key('restaurant-page-day-column-$day'),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: createRestaurantRows(meals, context),
-          ));
+        margin: const EdgeInsets.only(top: 5, bottom: 5),
+        key: Key('restaurant-page-day-column-$day'),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: createRestaurantRows(meals, context),
+        ),
+      );
     }
   }
 

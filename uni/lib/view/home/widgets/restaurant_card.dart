@@ -1,28 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:uni/model/entities/meal.dart';
+import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/providers/lazy/restaurant_provider.dart';
+import 'package:uni/model/utils/day_of_week.dart';
+import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
 import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
 import 'package:uni/view/common_widgets/row_container.dart';
-import 'package:uni/model/entities/meal.dart';
-import 'package:uni/model/entities/restaurant.dart';
-import 'package:uni/model/utils/day_of_week.dart';
-import 'package:uni/utils/drawer_items.dart';
-import 'package:uni/view/restaurant/widgets/restaurant_slot.dart';
 import 'package:uni/view/lazy_consumer.dart';
+import 'package:uni/view/restaurant/widgets/restaurant_slot.dart';
 
 class RestaurantCard extends GenericCard {
-  RestaurantCard({Key? key}) : super(key: key);
+  RestaurantCard({super.key});
 
   const RestaurantCard.fromEditingInformation(
-      Key key, bool editingMode, Function()? onDelete)
-      : super.fromEditingInformation(key, editingMode, onDelete);
+    super.key, {
+    required super.editingMode,
+    super.onDelete,
+  }) : super.fromEditingInformation();
 
   @override
   String getTitle() => 'Restaurantes';
 
   @override
-  onClick(BuildContext context) =>
+  Future<Object?> onClick(BuildContext context) =>
       Navigator.pushNamed(context, '/${DrawerItem.navRestaurants.title}');
 
   @override
@@ -34,34 +36,46 @@ class RestaurantCard extends GenericCard {
   @override
   Widget buildCardContent(BuildContext context) {
     return LazyConsumer<RestaurantProvider>(
-        builder: (context, restaurantProvider) {
-      final List<Restaurant> favoriteRestaurants = restaurantProvider
-          .restaurants
-          .where((restaurant) =>
-              restaurantProvider.favoriteRestaurants.contains(restaurant.name))
-          .toList();
-      return RequestDependentWidgetBuilder(
+      builder: (context, restaurantProvider) {
+        final favoriteRestaurants = restaurantProvider.restaurants
+            .where(
+              (restaurant) => restaurantProvider.favoriteRestaurants
+                  .contains(restaurant.name),
+            )
+            .toList();
+        return RequestDependentWidgetBuilder(
           status: restaurantProvider.status,
           builder: () => generateRestaurants(favoriteRestaurants, context),
           hasContentPredicate: favoriteRestaurants.isNotEmpty,
-          onNullContent: Column(children: [
-            Padding(
+          onNullContent: Column(
+            children: [
+              Padding(
                 padding: const EdgeInsets.only(top: 15, bottom: 10),
                 child: Center(
-                    child: Text('Sem restaurantes favoritos',
-                        style: Theme.of(context).textTheme.titleMedium))),
-            OutlinedButton(
+                  child: Text(
+                    'Sem restaurantes favoritos',
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                ),
+              ),
+              OutlinedButton(
                 onPressed: () => Navigator.pushNamed(
-                    context, '/${DrawerItem.navRestaurants.title}'),
-                child: const Text('Adicionar'))
-          ]));
-    });
+                  context,
+                  '/${DrawerItem.navRestaurants.title}',
+                ),
+                child: const Text('Adicionar'),
+              )
+            ],
+          ),
+        );
+      },
+    );
   }
 
-  Widget generateRestaurants(dynamic data, BuildContext context) {
-    final int weekDay = DateTime.now().weekday;
+  Widget generateRestaurants(List<Restaurant> data, BuildContext context) {
+    final weekDay = DateTime.now().weekday;
     final offset = (weekDay - 1) % 7;
-    final List<Restaurant> restaurants = data;
+    final restaurants = data;
     return ListView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
@@ -71,7 +85,10 @@ class RestaurantCard extends GenericCard {
           mainAxisSize: MainAxisSize.min,
           children: [
             createRowFromRestaurant(
-                context, restaurants[index], DayOfWeek.values[offset])
+              context,
+              restaurants[index],
+              DayOfWeek.values[offset],
+            )
           ],
         );
       },
@@ -79,46 +96,58 @@ class RestaurantCard extends GenericCard {
   }
 
   Widget createRowFromRestaurant(
-      context, Restaurant restaurant, DayOfWeek day) {
-    final List<Meal> meals = restaurant.getMealsOfDay(day);
-    return Column(children: [
-      Center(
-        child: Container(
+    BuildContext context,
+    Restaurant restaurant,
+    DayOfWeek day,
+  ) {
+    final meals = restaurant.getMealsOfDay(day);
+    return Column(
+      children: [
+        Center(
+          child: Container(
             alignment: Alignment.centerLeft,
             padding: const EdgeInsets.fromLTRB(12, 20, 12, 5),
-            child: Text(restaurant.name,
-                style: TextStyle(
-                    color: Theme.of(context).primaryColor,
-                    fontWeight: FontWeight.bold))),
-      ),
-      if (meals.isNotEmpty)
-        Card(
-          elevation: 0,
-          child: RowContainer(
+            child: Text(
+              restaurant.name,
+              style: TextStyle(
+                color: Theme.of(context).primaryColor,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ),
+        if (meals.isNotEmpty)
+          Card(
+            elevation: 0,
+            child: RowContainer(
               borderColor: Colors.transparent,
               color: const Color.fromARGB(0, 0, 0, 0),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: createRestaurantRows(meals, context),
-              )),
-        )
-      else
-        Card(
+              ),
+            ),
+          )
+        else
+          Card(
             elevation: 0,
             child: RowContainer(
-                borderColor: Colors.transparent,
-                color: const Color.fromARGB(0, 0, 0, 0),
-                child: Container(
-                  padding: const EdgeInsets.fromLTRB(9, 0, 0, 0),
-                  width: 400,
-                  child: const Text("Não há refeições disponíveis"),
-                )))
-    ]);
+              borderColor: Colors.transparent,
+              color: const Color.fromARGB(0, 0, 0, 0),
+              child: Container(
+                padding: const EdgeInsets.fromLTRB(9, 0, 0, 0),
+                width: 400,
+                child: const Text('Não há refeições disponíveis'),
+              ),
+            ),
+          )
+      ],
+    );
   }
+}
 
-  List<Widget> createRestaurantRows(List<Meal> meals, BuildContext context) {
-    return meals
-        .map((meal) => RestaurantSlot(type: meal.type, name: meal.name))
-        .toList();
-  }
+List<Widget> createRestaurantRows(List<Meal> meals, BuildContext context) {
+  return meals
+      .map((meal) => RestaurantSlot(type: meal.type, name: meal.name))
+      .toList();
 }

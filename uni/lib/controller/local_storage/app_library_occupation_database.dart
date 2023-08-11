@@ -1,11 +1,11 @@
-import 'package:sqflite/sqflite.dart';
 import 'package:uni/controller/local_storage/app_database.dart';
 import 'package:uni/model/entities/library_occupation.dart';
 
 class LibraryOccupationDatabase extends AppDatabase {
   LibraryOccupationDatabase()
       : super('occupation.db', [
-          '''CREATE TABLE FLOOR_OCCUPATION(
+          '''
+CREATE TABLE FLOOR_OCCUPATION(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         number INT,
         occupation INT,
@@ -14,26 +14,31 @@ class LibraryOccupationDatabase extends AppDatabase {
       '''
         ]);
 
-  void saveOccupation(LibraryOccupation occupation) async {
+  Future<void> saveOccupation(LibraryOccupation occupation) async {
     final db = await getDatabase();
-    db.transaction((txn) async {
+    await db.transaction((txn) async {
       await txn.delete('FLOOR_OCCUPATION');
-      for (var floor in occupation.floors) {
+      for (final floor in occupation.floors) {
         await txn.insert('FLOOR_OCCUPATION', floor.toMap());
       }
     });
   }
 
   Future<LibraryOccupation> occupation() async {
-    final Database db = await getDatabase();
+    final db = await getDatabase();
 
     final List<Map<String, dynamic>> maps = await db.query('floor_occupation');
 
-    final LibraryOccupation occupation = LibraryOccupation(0, 0);
+    final occupation = LibraryOccupation(0, 0);
 
-    for (int i = 0; i < maps.length; i++) {
-      occupation.addFloor(FloorOccupation(
-          maps[i]['number'], maps[i]['occupation'], maps[i]['capacity']));
+    for (var i = 0; i < maps.length; i++) {
+      occupation.addFloor(
+        FloorOccupation(
+          maps[i]['number'] as int,
+          maps[i]['occupation'] as int,
+          maps[i]['capacity'] as int,
+        ),
+      );
     }
 
     return occupation;

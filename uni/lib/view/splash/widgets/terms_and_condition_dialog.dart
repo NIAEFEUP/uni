@@ -12,14 +12,19 @@ class TermsAndConditionDialog {
   TermsAndConditionDialog._();
 
   static Future<TermsAndConditionsState> buildIfTermsChanged(
-      BuildContext context, String userName, String password) async {
+    BuildContext context,
+    String userName,
+    String password,
+  ) async {
     final termsAreAccepted =
         await updateTermsAndConditionsAcceptancePreference();
 
     if (!termsAreAccepted) {
       final routeCompleter = Completer<TermsAndConditionsState>();
-      SchedulerBinding.instance.addPostFrameCallback((timestamp) =>
-          _buildShowDialog(context, routeCompleter, userName, password));
+      SchedulerBinding.instance.addPostFrameCallback(
+        (timestamp) =>
+            _buildShowDialog(context, routeCompleter, userName, password),
+      );
       return routeCompleter.future;
     }
 
@@ -27,58 +32,62 @@ class TermsAndConditionDialog {
   }
 
   static Future<void> _buildShowDialog(
-      BuildContext context,
-      Completer<TermsAndConditionsState> routeCompleter,
-      String userName,
-      String password) {
+    BuildContext context,
+    Completer<TermsAndConditionsState> routeCompleter,
+    String userName,
+    String password,
+  ) {
     return showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Mudança nos Termos e Condições da uni',
-                style: Theme.of(context).textTheme.headlineSmall),
-            content: Column(
-              children: [
-                const Expanded(
-                  child: SingleChildScrollView(child: TermsAndConditions()),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ElevatedButton(
-                        onPressed: () async {
-                          Navigator.of(context).pop();
-                          routeCompleter
-                              .complete(TermsAndConditionsState.accepted);
-                          await AppSharedPreferences
-                              .setTermsAndConditionsAcceptance(true);
-                        },
-                        child: const Text(
-                          'Aceito',
-                        )),
-                    const SizedBox(
-                      width: 10,
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            'Mudança nos Termos e Condições da uni',
+            style: Theme.of(context).textTheme.headlineSmall,
+          ),
+          content: Column(
+            children: [
+              const Expanded(
+                child: SingleChildScrollView(child: TermsAndConditions()),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    onPressed: () async {
+                      Navigator.of(context).pop();
+                      routeCompleter.complete(TermsAndConditionsState.accepted);
+                      await AppSharedPreferences
+                          .setTermsAndConditionsAcceptance(areAccepted: true);
+                    },
+                    child: const Text(
+                      'Aceito',
                     ),
-                    ElevatedButton(
-                        onPressed: () async {
-                          Navigator.of(context).pop();
-                          routeCompleter
-                              .complete(TermsAndConditionsState.rejected);
-                          await AppSharedPreferences
-                              .setTermsAndConditionsAcceptance(false);
-                        },
-                        child: const Text(
-                          'Rejeito',
-                        )),
-                  ],
-                )
-              ],
-            ),
-          );
-        });
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  ElevatedButton(
+                    onPressed: () async {
+                      Navigator.of(context).pop();
+                      routeCompleter.complete(TermsAndConditionsState.rejected);
+                      await AppSharedPreferences
+                          .setTermsAndConditionsAcceptance(areAccepted: false);
+                    },
+                    child: const Text(
+                      'Rejeito',
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
+        );
+      },
+    );
   }
 }

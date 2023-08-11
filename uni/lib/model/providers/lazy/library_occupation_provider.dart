@@ -9,17 +9,16 @@ import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/model/request_status.dart';
 
 class LibraryOccupationProvider extends StateProviderNotifier {
-  LibraryOccupation? _occupation;
-
   LibraryOccupationProvider()
       : super(dependsOnSession: true, cacheDuration: const Duration(hours: 1));
+  LibraryOccupation? _occupation;
 
   LibraryOccupation? get occupation => _occupation;
 
   @override
   Future<void> loadFromStorage() async {
-    final LibraryOccupationDatabase db = LibraryOccupationDatabase();
-    final LibraryOccupation occupation = await db.occupation();
+    final db = LibraryOccupationDatabase();
+    final occupation = await db.occupation();
     _occupation = occupation;
   }
 
@@ -33,8 +32,8 @@ class LibraryOccupationProvider extends StateProviderNotifier {
       _occupation = await LibraryOccupationFetcherSheets()
           .getLibraryOccupationFromSheets(session);
 
-      final LibraryOccupationDatabase db = LibraryOccupationDatabase();
-      db.saveOccupation(_occupation!);
+      final db = LibraryOccupationDatabase();
+      unawaited(db.saveOccupation(_occupation!));
 
       updateStatus(RequestStatus.successful);
     } catch (e) {

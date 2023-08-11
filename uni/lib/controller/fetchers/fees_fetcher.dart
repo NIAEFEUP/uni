@@ -8,14 +8,14 @@ class FeesFetcher implements SessionDependantFetcher {
   List<String> getEndpoints(Session session) {
     // TO DO: Check balance on all faculties and discard if user is not enrolled
     // Some shared courses (such as L.EIC) do not put fees on both faculties
-    final url =
-        '${NetworkRouter.getBaseUrlsFromSession(session)[0]}gpag_ccorrente_geral.conta_corrente_view';
+    final url = '${NetworkRouter.getBaseUrlsFromSession(session)[0]}'
+        'gpag_ccorrente_geral.conta_corrente_view';
     return [url];
   }
 
   Future<Response> getUserFeesResponse(Session session) {
-    final String url = getEndpoints(session)[0];
-    final Map<String, String> query = {'pct_cod': session.username};
+    final url = getEndpoints(session)[0];
+    final query = {'pct_cod': session.username};
     return NetworkRouter.getWithCookies(url, query, session);
   }
 }

@@ -7,8 +7,11 @@
 <br>
 <br>
 
-[![Build badge](https://img.shields.io/github/actions/workflow/status/NIAEFEUP/uni/format_lint_test.yaml?style=for-the-badge)](https://github.com/NIAEFEUP/uni/actions)
-[![Deploy badge](https://img.shields.io/github/actions/workflow/status/NIAEFEUP/uni/deploy.yaml?label=Deploy&style=for-the-badge)](https://github.com/NIAEFEUP/uni/actions)
+[![Build badge](https://img.shields.io/github/actions/workflow/status/NIAEFEUP/uni/format_lint_test.yaml?style=for-the-badge&branch=develop)](https://github.com/NIAEFEUP/uni/actions)
+[![Deploy badge](https://img.shields.io/github/actions/workflow/status/NIAEFEUP/uni/deploy.yaml?label=Deploy&style=for-the-badge&branch=develop)](https://github.com/NIAEFEUP/uni/actions)
+[![Codecov branch](https://img.shields.io/codecov/c/github/NIAEFEUP/uni/develop?style=for-the-badge)](https://app.codecov.io/gh/NIAEFEUP/uni/)
+
+[![style: very good analysis](https://img.shields.io/badge/style-very_good_analysis-B22C89.svg?style=for-the-badge)](https://pub.dev/packages/very_good_analysis)
 [![License badge](https://img.shields.io/github/license/NIAEFEUP/uni?style=for-the-badge)](https://github.com/NIAEFEUP/uni/blob/develop/LICENSE)
 
 <a href='https://play.google.com/store/apps/details?id=pt.up.fe.ni.uni&hl=pt_PT&gl=US&pli=1&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img style="width: 135px;" alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/></a>

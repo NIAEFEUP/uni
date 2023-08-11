@@ -11,18 +11,17 @@ import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/model/request_status.dart';
 
 class ReferenceProvider extends StateProviderNotifier {
-  List<Reference> _references = [];
-
   ReferenceProvider()
       : super(dependsOnSession: true, cacheDuration: const Duration(hours: 1));
+  List<Reference> _references = [];
 
   UnmodifiableListView<Reference> get references =>
       UnmodifiableListView(_references);
 
   @override
   Future<void> loadFromStorage() async {
-    final AppReferencesDatabase referencesDb = AppReferencesDatabase();
-    final List<Reference> references = await referencesDb.references();
+    final referencesDb = AppReferencesDatabase();
+    final references = await referencesDb.references();
     _references = references;
   }
 
@@ -41,7 +40,7 @@ class ReferenceProvider extends StateProviderNotifier {
       updateStatus(RequestStatus.successful);
 
       final referencesDb = AppReferencesDatabase();
-      referencesDb.saveNewReferences(references);
+      unawaited(referencesDb.saveNewReferences(references));
     } catch (e) {
       updateStatus(RequestStatus.failed);
     }

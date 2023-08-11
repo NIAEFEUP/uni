@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:uni/view/exams/widgets/exam_filter_menu.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
+import 'package:uni/view/exams/widgets/exam_filter_menu.dart';
 
 class ExamPageTitle extends StatelessWidget {
-  const ExamPageTitle({Key? key}) : super(key: key);
+  const ExamPageTitle({super.key});
 
   @override
   Widget build(BuildContext context) {

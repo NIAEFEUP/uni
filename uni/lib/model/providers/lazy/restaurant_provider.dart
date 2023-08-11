@@ -11,11 +11,11 @@ import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/model/request_status.dart';
 
 class RestaurantProvider extends StateProviderNotifier {
-  List<Restaurant> _restaurants = [];
-  List<String> _favoriteRestaurants = [];
-
   RestaurantProvider()
       : super(dependsOnSession: false, cacheDuration: const Duration(days: 1));
+
+  List<Restaurant> _restaurants = [];
+  List<String> _favoriteRestaurants = [];
 
   UnmodifiableListView<Restaurant> get restaurants =>
       UnmodifiableListView(_restaurants);
@@ -25,8 +25,8 @@ class RestaurantProvider extends StateProviderNotifier {
 
   @override
   Future<void> loadFromStorage() async {
-    final RestaurantDatabase restaurantDb = RestaurantDatabase();
-    final List<Restaurant> restaurants = await restaurantDb.getRestaurants();
+    final restaurantDb = RestaurantDatabase();
+    final restaurants = await restaurantDb.getRestaurants();
     _restaurants = restaurants;
     _favoriteRestaurants = await AppSharedPreferences.getFavoriteRestaurants();
   }
@@ -38,10 +38,10 @@ class RestaurantProvider extends StateProviderNotifier {
 
   Future<void> fetchRestaurants(Session session) async {
     try {
-      final List<Restaurant> restaurants =
-          await RestaurantFetcher().getRestaurants(session);
-      final RestaurantDatabase db = RestaurantDatabase();
-      db.saveRestaurants(restaurants);
+      final restaurants = await RestaurantFetcher().getRestaurants(session);
+
+      final db = RestaurantDatabase();
+      unawaited(db.saveRestaurants(restaurants));
 
       _restaurants = filterPastMeals(restaurants);
 
@@ -51,18 +51,19 @@ class RestaurantProvider extends StateProviderNotifier {
     }
   }
 
-  toggleFavoriteRestaurant(
-      String restaurantName) async {
+  Future<void> toggleFavoriteRestaurant(
+    String restaurantName,
+  ) async {
     _favoriteRestaurants.contains(restaurantName)
         ? _favoriteRestaurants.remove(restaurantName)
         : _favoriteRestaurants.add(restaurantName);
     notifyListeners();
-    AppSharedPreferences.saveFavoriteRestaurants(favoriteRestaurants);
+    await AppSharedPreferences.saveFavoriteRestaurants(favoriteRestaurants);
   }
 
-  void updateStateBasedOnLocalRestaurants() async {
-    final RestaurantDatabase restaurantDb = RestaurantDatabase();
-    final List<Restaurant> restaurants = await restaurantDb.getRestaurants();
+  Future<void> updateStateBasedOnLocalRestaurants() async {
+    final restaurantDb = RestaurantDatabase();
+    final restaurants = await restaurantDb.getRestaurants();
     _restaurants = restaurants;
     notifyListeners();
   }
