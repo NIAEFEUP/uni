@@ -3,9 +3,10 @@ import 'package:provider/provider.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/utils/drawer_items.dart';
-import 'package:uni/view/common_widgets/pages_layouts/general/widgets/drawer_navigation_option.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/logout_button.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/theme_switch_button.dart';
+
+import 'drawer_navigation_option.dart';
 
 class AppNavigationDrawer extends StatefulWidget {
   const AppNavigationDrawer({required this.parentContext, super.key});
@@ -88,16 +89,6 @@ class AppNavigationDrawerState extends State<AppNavigationDrawer> {
     final drawerOptions = <Widget>[];
     final userSession = context.read<SessionProvider>().state!;
 
-    for (final item in DrawerItem.values) {
-      if (item.isVisible(userSession.faculties)) {
-        drawerOptions.add(
-          DrawerNavigationOption(
-            item: item,
-          ),
-        );
-      }
-    }
-
     return Drawer(
       child: Column(
         children: <Widget>[
@@ -105,7 +96,10 @@ class AppNavigationDrawerState extends State<AppNavigationDrawer> {
             child: Container(
               padding: const EdgeInsets.only(top: 55),
               child: ListView(
-                children: drawerOptions,
+                children: DrawerItem.values
+                    .where((item) => item.isVisible(userSession.faculties))
+                    .map((item) => DrawerNavigationOption(item: item))
+                    .toList(),
               ),
             ),
           ),
