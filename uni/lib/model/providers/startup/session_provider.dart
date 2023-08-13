@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:collection';
 
 import 'package:uni/controller/background_workers/notifications.dart';
 import 'package:uni/controller/load_static/terms_and_conditions.dart';
@@ -13,19 +12,16 @@ import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/model/request_status.dart';
 
 class SessionProvider extends StateProviderNotifier {
-  late Session _session;
-  late List<String> _faculties;
-
   SessionProvider()
       : super(
-            dependsOnSession: false,
-            cacheDuration: null,
-            initialStatus: RequestStatus.none);
+          dependsOnSession: false,
+          cacheDuration: null,
+          initialStatus: RequestStatus.none,
+        );
+
+  late Session _session;
 
   Session get session => _session;
-
-  UnmodifiableListView<String> get faculties =>
-      UnmodifiableListView<String>(_faculties);
 
   @override
   Future<void> loadFromStorage() async {}
@@ -36,53 +32,68 @@ class SessionProvider extends StateProviderNotifier {
   }
 
   void restoreSession(
-      String username, String password, List<String> faculties) {
+    String username,
+    String password,
+    List<String> faculties,
+  ) {
     _session = Session(
-        faculties: faculties,
-        username: username,
-        cookies: "",
-        persistentSession: true);
+      faculties: faculties,
+      username: username,
+      cookies: '',
+      persistentSession: true,
+    );
   }
 
-  Future<void> postAuthentication(Completer<void> action, String username,
-      String password, List<String> faculties, persistentSession) async {
+  Future<void> postAuthentication(
+    String username,
+    String password,
+    List<String> faculties, {
+    required bool persistentSession,
+  }) async {
+    updateStatus(RequestStatus.busy);
+
+    Session? session;
     try {
-      updateStatus(RequestStatus.busy);
-      _faculties = faculties;
-
-      final session = await NetworkRouter.login(
-          username, password, faculties, persistentSession);
-
-      if (session == null) {
-        final String responseHtml =
-            await NetworkRouter.loginInSigarra(username, password, faculties);
-        if (isPasswordExpired(responseHtml)) {
-          action.completeError(ExpiredCredentialsException());
-        } else {
-          action.completeError(WrongCredentialsException());
-        }
-        updateStatus(RequestStatus.failed);
-        action.complete();
-        return;
-      }
-
-      _session = session;
-
-      if (persistentSession) {
-        await AppSharedPreferences.savePersistentUserInfo(
-            username, password, faculties);
-      }
-
-      Future.delayed(const Duration(seconds: 20),
-          () => {NotificationManager().initializeNotifications()});
-
-      await acceptTermsAndConditions();
-      updateStatus(RequestStatus.successful);
-      action.complete();
+      session = await NetworkRouter.login(
+        username,
+        password,
+        faculties,
+        persistentSession: persistentSession,
+      );
     } catch (e) {
-      // No internet connection or server down
-      action.completeError(InternetStatusException());
       updateStatus(RequestStatus.failed);
+      throw InternetStatusException();
     }
+
+    if (session == null) {
+      final responseHtml =
+          await NetworkRouter.loginInSigarra(username, password, faculties);
+
+      updateStatus(RequestStatus.failed);
+
+      if (isPasswordExpired(responseHtml)) {
+        throw ExpiredCredentialsException();
+      } else {
+        throw WrongCredentialsException();
+      }
+    }
+
+    _session = session;
+
+    if (persistentSession) {
+      await AppSharedPreferences.savePersistentUserInfo(
+        username,
+        password,
+        faculties,
+      );
+    }
+
+    Future.delayed(
+      const Duration(seconds: 20),
+      () => {NotificationManager().initializeNotifications()},
+    );
+
+    await acceptTermsAndConditions();
+    updateStatus(RequestStatus.successful);
   }
 }

@@ -1,11 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:path_provider/path_provider.dart';
 
 class NotificationTimeoutStorage {
-  late Map<String, dynamic> _fileContent;
-
   NotificationTimeoutStorage._create();
+
+  late Map<String, dynamic> _fileContent;
 
   Future<void> _asyncInit() async {
     _fileContent = _readContentsFile(await _getTimeoutFile());
@@ -19,7 +20,7 @@ class NotificationTimeoutStorage {
 
   Map<String, dynamic> _readContentsFile(File file) {
     try {
-      return jsonDecode(file.readAsStringSync());
+      return jsonDecode(file.readAsStringSync()) as Map<String, dynamic>;
     } on FormatException catch (_) {
       return <String, dynamic>{};
     }
@@ -28,13 +29,16 @@ class NotificationTimeoutStorage {
   DateTime getLastTimeNotificationExecuted(String uniqueID) {
     if (!_fileContent.containsKey(uniqueID)) {
       return DateTime.fromMicrosecondsSinceEpoch(
-          0); //get 1970 to always trigger notification
+        0,
+      ); //get 1970 to always trigger notification
     }
-    return DateTime.parse(_fileContent[uniqueID]);
+    return DateTime.parse(_fileContent[uniqueID] as String);
   }
 
   Future<void> addLastTimeNotificationExecuted(
-      String uniqueID, DateTime lastRan) async {
+    String uniqueID,
+    DateTime lastRan,
+  ) async {
     _fileContent[uniqueID] = lastRan.toIso8601String();
     await _writeToFile(await _getTimeoutFile());
   }
@@ -46,12 +50,11 @@ class NotificationTimeoutStorage {
   Future<File> _getTimeoutFile() async {
     final applicationDirectory =
         (await getApplicationDocumentsDirectory()).path;
-    if (!(await File("$applicationDirectory/notificationTimeout.json")
-        .exists())) {
+    if (!File('$applicationDirectory/notificationTimeout.json').existsSync()) {
       //empty json
-      await File("$applicationDirectory/notificationTimeout.json")
-          .writeAsString("{}");
+      await File('$applicationDirectory/notificationTimeout.json')
+          .writeAsString('{}');
     }
-    return File("$applicationDirectory/notificationTimeout.json");
+    return File('$applicationDirectory/notificationTimeout.json');
   }
 }

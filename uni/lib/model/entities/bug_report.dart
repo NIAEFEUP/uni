@@ -28,6 +28,8 @@ class TupleConverter
 @TupleConverter()
 @JsonSerializable()
 class BugReport {
+  BugReport(this.title, this.text, this.email, this.bugLabel, this.faculties);
+
   final String title;
   final String text;
   final String email;

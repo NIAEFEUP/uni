@@ -1,6 +1,5 @@
 // @dart=2.10
 
-import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -30,36 +29,37 @@ void main() {
     final mockClient = MockClient();
     final mockResponse = MockResponse();
     final sopeCourseUnit = CourseUnit(
-        abbreviation: 'SOPE',
-        occurrId: 0,
-        name: 'Sistemas Operativos',
-        status: 'V');
+      abbreviation: 'SOPE',
+      occurrId: 0,
+      name: 'Sistemas Operativos',
+      status: 'V',
+    );
     final sdisCourseUnit = CourseUnit(
-        abbreviation: 'SDIS',
-        name: 'Sistemas Distribuídos',
-        occurrId: 0,
-        status: 'V');
+      abbreviation: 'SDIS',
+      name: 'Sistemas Distribuídos',
+      occurrId: 0,
+      status: 'V',
+    );
 
-    final DateTime beginSopeExam = DateTime.parse('2099-11-18 17:00');
-    final DateTime endSopeExam = DateTime.parse('2099-11-18 19:00');
+    final beginSopeExam = DateTime.parse('2099-11-18 17:00');
+    final endSopeExam = DateTime.parse('2099-11-18 19:00');
     final sopeExam =
         Exam('44426', beginSopeExam, endSopeExam, 'SOPE', [], 'MT', 'feup');
-    final DateTime beginSdisExam = DateTime.parse('2099-10-21 17:00');
-    final DateTime endSdisExam = DateTime.parse('2099-10-21 19:00');
+    final beginSdisExam = DateTime.parse('2099-10-21 17:00');
+    final endSdisExam = DateTime.parse('2099-10-21 19:00');
     final sdisExam =
         Exam('44425', beginSdisExam, endSdisExam, 'SDIS', [], 'MT', 'feup');
-    final DateTime beginMdisExam = DateTime.parse('2099-10-22 17:00');
-    final DateTime endMdisExam = DateTime.parse('2099-10-22 19:00');
+    final beginMdisExam = DateTime.parse('2099-10-22 17:00');
+    final endMdisExam = DateTime.parse('2099-10-22 19:00');
     final mdisExam =
         Exam('44429', beginMdisExam, endMdisExam, 'MDIS', [], 'MT', 'feup');
 
-    final Map<String, bool> filteredExams = {};
-    for (String type in Exam.displayedTypes) {
+    final filteredExams = <String, bool>{};
+    for (final type in Exam.displayedTypes) {
       filteredExams[type] = true;
     }
 
-    final profile = Profile();
-    profile.courses = [Course(id: 7474, faculty: 'feup')];
+    final profile = Profile()..courses = [Course(id: 7474, faculty: 'feup')];
 
     testWidgets('Exams', (WidgetTester tester) async {
       NetworkRouter.httpClient = mockClient;
@@ -83,16 +83,13 @@ void main() {
       expect(find.byKey(Key('$sopeExam-exam')), findsNothing);
       expect(find.byKey(Key('$mdisExam-exam')), findsNothing);
 
-      final Completer<void> completer = Completer();
-      examProvider.fetchUserExams(
-          completer,
-          ParserExams(),
-          const Tuple2('', ''),
-          profile,
-          Session(username: '', cookies: '', faculties: ['feup']),
-          [sopeCourseUnit, sdisCourseUnit]);
-
-      await completer.future;
+      await examProvider.fetchUserExams(
+        ParserExams(),
+        const Tuple2('', ''),
+        profile,
+        Session(username: '', cookies: '', faculties: ['feup']),
+        [sopeCourseUnit, sdisCourseUnit],
+      );
 
       await tester.pumpAndSettle();
       expect(find.byKey(Key('$sdisExam-exam')), findsOneWidget);
@@ -122,27 +119,22 @@ void main() {
       expect(find.byKey(Key('$sdisExam-exam')), findsNothing);
       expect(find.byKey(Key('$sopeExam-exam')), findsNothing);
 
-      final Completer<void> completer = Completer();
-      examProvider.fetchUserExams(
-          completer,
-          ParserExams(),
-          const Tuple2('', ''),
-          profile,
-          Session(username: '', cookies: '', faculties: ['feup']),
-          [sopeCourseUnit, sdisCourseUnit]);
-
-      await completer.future;
+      await examProvider.fetchUserExams(
+        ParserExams(),
+        const Tuple2('', ''),
+        profile,
+        Session(username: '', cookies: '', faculties: ['feup']),
+        [sopeCourseUnit, sdisCourseUnit],
+      );
 
       await tester.pumpAndSettle();
       expect(find.byKey(Key('$sdisExam-exam')), findsOneWidget);
       expect(find.byKey(Key('$sopeExam-exam')), findsOneWidget);
       expect(find.byIcon(Icons.filter_alt), findsOneWidget);
 
-      final Completer<void> settingFilteredExams = Completer();
       filteredExams['ExamDoesNotExist'] = true;
-      examProvider.setFilteredExams(filteredExams, settingFilteredExams);
 
-      await settingFilteredExams.future;
+      await examProvider.setFilteredExams(filteredExams);
 
       await tester.pumpAndSettle();
 
@@ -154,11 +146,11 @@ void main() {
 
       expect(find.byType(AlertDialog), findsOneWidget);
 
-      final CheckboxListTile mtCheckboxTile = find
+      final mtCheckboxTile = find
           .byKey(const Key('ExamCheck' 'Mini-testes'))
           .evaluate()
           .first
-          .widget;
+          .widget as CheckboxListTile;
 
       expect(find.byWidget(mtCheckboxTile), findsOneWidget);
       expect(mtCheckboxTile.value, true);

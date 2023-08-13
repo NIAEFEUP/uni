@@ -3,11 +3,11 @@ class ExpiredCredentialsException implements Exception {
 }
 
 class InternetStatusException implements Exception {
-  String message = 'Verifica a tua ligação à internet';
   InternetStatusException();
+  String message = 'Verifica a tua ligação à internet';
 }
 
 class WrongCredentialsException implements Exception {
-  String message = 'Credenciais inválidas';
   WrongCredentialsException();
+  String message = 'Credenciais inválidas';
 }

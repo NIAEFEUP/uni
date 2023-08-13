@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:sqflite/sqflite.dart';
 import 'package:uni/controller/local_storage/app_database.dart';
 import 'package:uni/model/entities/exam.dart';
@@ -8,7 +9,9 @@ import 'package:uni/model/entities/exam.dart';
 /// This database stores information about the user's exams.
 /// See the [Exam] class to see what data is stored in this database.
 class AppExamsDatabase extends AppDatabase {
-  var months = {
+  AppExamsDatabase()
+      : super('exams.db', [_createScript], onUpgrade: migrate, version: 4);
+  Map<String, String> months = {
     'Janeiro': '01',
     'Fevereiro': '02',
     'Março': '03',
@@ -23,33 +26,31 @@ class AppExamsDatabase extends AppDatabase {
     'Dezembro': '12'
   };
 
-  static const _createScript =
-      '''CREATE TABLE exams(id TEXT, subject TEXT, begin TEXT, end TEXT,
+  static const _createScript = '''
+CREATE TABLE exams(id TEXT, subject TEXT, begin TEXT, end TEXT,
           rooms TEXT, examType TEXT, faculty TEXT, PRIMARY KEY (id,faculty)) ''';
 
-  AppExamsDatabase()
-      : super('exams.db', [_createScript], onUpgrade: migrate, version: 4);
-
   /// Replaces all of the data in this database with [exams].
-  saveNewExams(List<Exam> exams) async {
+  Future<void> saveNewExams(List<Exam> exams) async {
     await deleteExams();
     await _insertExams(exams);
   }
 
   /// Returns a list containing all of the exams stored in this database.
   Future<List<Exam>> exams() async {
-    final Database db = await getDatabase();
+    final db = await getDatabase();
     final List<Map<String, dynamic>> maps = await db.query('exams');
 
     return List.generate(maps.length, (i) {
       return Exam.secConstructor(
-          maps[i]['id'] ?? '',
-          maps[i]['subject'],
-          DateTime.parse(maps[i]['begin']),
-          DateTime.parse(maps[i]['end']),
-          maps[i]['rooms'],
-          maps[i]['examType'],
-          maps[i]['faculty']);
+        maps[i]['id'] as String,
+        maps[i]['subject'] as String,
+        DateTime.parse(maps[i]['begin'] as String),
+        DateTime.parse(maps[i]['end'] as String),
+        maps[i]['rooms'] as String,
+        maps[i]['examType'] as String,
+        maps[i]['faculty'] as String,
+      );
     });
   }
 
@@ -57,7 +58,7 @@ class AppExamsDatabase extends AppDatabase {
   ///
   /// If a row with the same data is present, it will be replaced.
   Future<void> _insertExams(List<Exam> exams) async {
-    for (Exam exam in exams) {
+    for (final exam in exams) {
       await insertInDatabase(
         'exams',
         exam.toJson(),
@@ -69,7 +70,7 @@ class AppExamsDatabase extends AppDatabase {
   /// Deletes all of the data stored in this database.
   Future<void> deleteExams() async {
     // Get a reference to the database
-    final Database db = await getDatabase();
+    final db = await getDatabase();
     await db.delete('exams');
   }
 
@@ -78,9 +79,9 @@ class AppExamsDatabase extends AppDatabase {
     int oldVersion,
     int newVersion,
   ) async {
-    final batch = db.batch();
-    batch.execute('DROP TABLE IF EXISTS exams');
-    batch.execute(_createScript);
+    final batch = db.batch()
+      ..execute('DROP TABLE IF EXISTS exams')
+      ..execute(_createScript);
     await batch.commit();
   }
 }

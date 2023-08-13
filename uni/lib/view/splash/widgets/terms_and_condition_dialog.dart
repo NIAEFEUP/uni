@@ -11,86 +11,83 @@ enum TermsAndConditionsState { accepted, rejected }
 class TermsAndConditionDialog {
   TermsAndConditionDialog._();
 
-  static Future<bool> build(
-      BuildContext context,
-      Completer<TermsAndConditionsState> routeCompleter,
-      String userName,
-      String password) async {
-    final acceptance = await updateTermsAndConditionsAcceptancePreference();
-    if (acceptance) {
-      SchedulerBinding.instance.addPostFrameCallback((timestamp) =>
-          _buildShowDialog(context, routeCompleter, userName, password));
-    } else {
-      routeCompleter.complete(TermsAndConditionsState.accepted);
+  static Future<TermsAndConditionsState> buildIfTermsChanged(
+    BuildContext context,
+    String userName,
+    String password,
+  ) async {
+    final termsAreAccepted =
+        await updateTermsAndConditionsAcceptancePreference();
+
+    if (!termsAreAccepted) {
+      final routeCompleter = Completer<TermsAndConditionsState>();
+      SchedulerBinding.instance.addPostFrameCallback(
+        (timestamp) =>
+            _buildShowDialog(context, routeCompleter, userName, password),
+      );
+      return routeCompleter.future;
     }
 
-    return acceptance;
+    return TermsAndConditionsState.accepted;
   }
 
   static Future<void> _buildShowDialog(
-      BuildContext context,
-      Completer<TermsAndConditionsState> routeCompleter,
-      String userName,
-      String password) {
+    BuildContext context,
+    Completer<TermsAndConditionsState> routeCompleter,
+    String userName,
+    String password,
+  ) {
     return showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Mudança nos Termos e Condições da uni',
-                style: Theme.of(context).textTheme.headlineSmall),
-            content: Column(
-              children: [
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: ListBody(
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.only(bottom: 10),
-                          child: const Text(
-                              '''Os Termos e Condições da aplicação mudaram desde a última vez que a abriste:'''),
-                        ),
-                        const TermsAndConditions()
-                      ],
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            'Mudança nos Termos e Condições da uni',
+            style: Theme.of(context).textTheme.headlineSmall,
+          ),
+          content: Column(
+            children: [
+              const Expanded(
+                child: SingleChildScrollView(child: TermsAndConditions()),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    onPressed: () async {
+                      Navigator.of(context).pop();
+                      routeCompleter.complete(TermsAndConditionsState.accepted);
+                      await AppSharedPreferences
+                          .setTermsAndConditionsAcceptance(areAccepted: true);
+                    },
+                    child: const Text(
+                      'Aceito',
                     ),
                   ),
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    TextButton(
-                        onPressed: () async {
-                          Navigator.of(context).pop();
-                          routeCompleter
-                              .complete(TermsAndConditionsState.accepted);
-                          await AppSharedPreferences
-                              .setTermsAndConditionsAcceptance(true);
-                        },
-                        child: Text(
-                          'Aceito os novos Termos e Condições',
-                          style: getTextMethod(context),
-                        )),
-                    TextButton(
-                        onPressed: () async {
-                          Navigator.of(context).pop();
-                          routeCompleter
-                              .complete(TermsAndConditionsState.rejected);
-                          await AppSharedPreferences
-                              .setTermsAndConditionsAcceptance(false);
-                        },
-                        child: Text(
-                          'Rejeito os novos Termos e Condições',
-                          style: getTextMethod(context),
-                        )),
-                  ],
-                )
-              ],
-            ),
-          );
-        });
-  }
-
-  static TextStyle getTextMethod(BuildContext context) {
-    return Theme.of(context).textTheme.titleLarge!;
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  ElevatedButton(
+                    onPressed: () async {
+                      Navigator.of(context).pop();
+                      routeCompleter.complete(TermsAndConditionsState.rejected);
+                      await AppSharedPreferences
+                          .setTermsAndConditionsAcceptance(areAccepted: false);
+                    },
+                    child: const Text(
+                      'Rejeito',
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
+        );
+      },
+    );
   }
 }

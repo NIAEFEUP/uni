@@ -14,34 +14,22 @@ import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 
 class StateProviders {
-  final LectureProvider lectureProvider;
-  final ExamProvider examProvider;
-  final BusStopProvider busStopProvider;
-  final RestaurantProvider restaurantProvider;
-  final CourseUnitsInfoProvider courseUnitsInfoProvider;
-  final ProfileProvider profileProvider;
-  final SessionProvider sessionProvider;
-  final CalendarProvider calendarProvider;
-  final LibraryOccupationProvider libraryOccupationProvider;
-  final FacultyLocationsProvider facultyLocationsProvider;
-  final HomePageProvider homePageProvider;
-  final ReferenceProvider referenceProvider;
-
   StateProviders(
-      this.lectureProvider,
-      this.examProvider,
-      this.busStopProvider,
-      this.restaurantProvider,
-      this.profileProvider,
-      this.courseUnitsInfoProvider,
-      this.sessionProvider,
-      this.calendarProvider,
-      this.libraryOccupationProvider,
-      this.facultyLocationsProvider,
-      this.homePageProvider,
-      this.referenceProvider);
+    this.lectureProvider,
+    this.examProvider,
+    this.busStopProvider,
+    this.restaurantProvider,
+    this.profileProvider,
+    this.courseUnitsInfoProvider,
+    this.sessionProvider,
+    this.calendarProvider,
+    this.libraryOccupationProvider,
+    this.facultyLocationsProvider,
+    this.homePageProvider,
+    this.referenceProvider,
+  );
 
-  static StateProviders fromContext(BuildContext context) {
+  factory StateProviders.fromContext(BuildContext context) {
     final lectureProvider =
         Provider.of<LectureProvider>(context, listen: false);
     final examProvider = Provider.of<ExamProvider>(context, listen: false);
@@ -67,17 +55,46 @@ class StateProviders {
         Provider.of<ReferenceProvider>(context, listen: false);
 
     return StateProviders(
-        lectureProvider,
-        examProvider,
-        busStopProvider,
-        restaurantProvider,
-        profileProvider,
-        courseUnitsInfoProvider,
-        sessionProvider,
-        calendarProvider,
-        libraryOccupationProvider,
-        facultyLocationsProvider,
-        homePageProvider,
-        referenceProvider);
+      lectureProvider,
+      examProvider,
+      busStopProvider,
+      restaurantProvider,
+      profileProvider,
+      courseUnitsInfoProvider,
+      sessionProvider,
+      calendarProvider,
+      libraryOccupationProvider,
+      facultyLocationsProvider,
+      homePageProvider,
+      referenceProvider,
+    );
+  }
+
+  final LectureProvider lectureProvider;
+  final ExamProvider examProvider;
+  final BusStopProvider busStopProvider;
+  final RestaurantProvider restaurantProvider;
+  final CourseUnitsInfoProvider courseUnitsInfoProvider;
+  final ProfileProvider profileProvider;
+  final SessionProvider sessionProvider;
+  final CalendarProvider calendarProvider;
+  final LibraryOccupationProvider libraryOccupationProvider;
+  final FacultyLocationsProvider facultyLocationsProvider;
+  final HomePageProvider homePageProvider;
+  final ReferenceProvider referenceProvider;
+
+  void markAsNotInitialized() {
+    lectureProvider.markAsNotInitialized();
+    examProvider.markAsNotInitialized();
+    busStopProvider.markAsNotInitialized();
+    restaurantProvider.markAsNotInitialized();
+    courseUnitsInfoProvider.markAsNotInitialized();
+    profileProvider.markAsNotInitialized();
+    sessionProvider.markAsNotInitialized();
+    calendarProvider.markAsNotInitialized();
+    libraryOccupationProvider.markAsNotInitialized();
+    facultyLocationsProvider.markAsNotInitialized();
+    homePageProvider.markAsNotInitialized();
+    referenceProvider.markAsNotInitialized();
   }
 }

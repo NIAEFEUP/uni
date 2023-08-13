@@ -1,41 +1,45 @@
 import 'dart:convert';
 
+import 'package:http/http.dart';
 import 'package:tuple/tuple.dart';
 import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
 
 /// Stores information about the user's profile.
 class Profile {
-  final String name;
-  final String email;
-  final String printBalance;
-  final String feesBalance;
-  final DateTime? feesLimit;
-  List<Course> courses;
-  List<CourseUnit> courseUnits;
-
-  Profile(
-      {this.name = '',
-      this.email = '',
-      courses,
-      this.printBalance = '',
-      this.feesBalance = '',
-      this.feesLimit})
-      : courses = courses ?? [],
+  Profile({
+    this.name = '',
+    this.email = '',
+    List<Course>? courses,
+    this.printBalance = '',
+    this.feesBalance = '',
+    this.feesLimit,
+  })  : courses = courses ?? [],
         courseUnits = [];
 
   /// Creates a new instance from a JSON object.
-  static Profile fromResponse(dynamic response) {
-    final responseBody = json.decode(response.body);
-    final List<Course> courses = <Course>[];
-    for (var c in responseBody['cursos']) {
-      courses.add(Course.fromJson(c));
+  factory Profile.fromResponse(Response response) {
+    var responseBody = json.decode(response.body);
+    responseBody = responseBody as Map<String, dynamic>;
+    final courses = <Course>[];
+    for (final c in responseBody['cursos'] as List<dynamic>) {
+      courses.add(Course.fromJson(c as Map<String, dynamic>));
     }
+
     return Profile(
-        name: responseBody['nome'],
-        email: responseBody['email'],
-        courses: courses);
+      name: responseBody['nome'] as String? ?? '',
+      email: responseBody['email'] as String? ?? '',
+      courses: courses,
+    );
   }
+
+  final String name;
+  final String email;
+  String printBalance;
+  String feesBalance;
+  DateTime? feesLimit;
+  List<Course> courses;
+  List<CourseUnit> courseUnits;
 
   /// Returns a list with two tuples: the first tuple contains the user's name
   /// and the other one contains the user's email.

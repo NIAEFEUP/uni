@@ -15,7 +15,7 @@ class Restaurant {
   final String reference; // Used only in html parser
   late final Map<DayOfWeek, List<Meal>> meals;
 
-  get isNotEmpty {
+  bool get isNotEmpty {
     return meals.isNotEmpty;
   }
 

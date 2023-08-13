@@ -1,7 +1,5 @@
 // @dart=2.10
 
-import 'dart:async';
-
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tuple/tuple.dart';
@@ -20,16 +18,33 @@ void main() {
     final fetcherMock = ScheduleFetcherMock();
     final mockClient = MockClient();
     final mockResponse = MockResponse();
-    const Tuple2<String, String> userPersistentInfo = Tuple2('', '');
-    final profile = Profile();
-    profile.courses = [Course(id: 7474)];
+    const userPersistentInfo = Tuple2('', '');
+    final profile = Profile()..courses = [Course(id: 7474)];
     final session = Session(username: '', cookies: '', faculties: ['feup']);
-    final day = DateTime(2021, 06, 01);
+    final day = DateTime(2021, 06);
 
     final lecture1 = Lecture.fromHtml(
-        'SOPE', 'T', day, '10:00', 4, 'B315', 'JAS', 'MIEIC03', 484378);
+      'SOPE',
+      'T',
+      day,
+      '10:00',
+      4,
+      'B315',
+      'JAS',
+      'MIEIC03',
+      484378,
+    );
     final lecture2 = Lecture.fromHtml(
-        'SDIS', 'T', day, '13:00', 4, 'B315', 'PMMS', 'MIEIC03', 484381);
+      'SDIS',
+      'T',
+      day,
+      '13:00',
+      4,
+      'B315',
+      'PMMS',
+      'MIEIC03',
+      484381,
+    );
 
     NetworkRouter.httpClient = mockClient;
     when(mockClient.get(any, headers: anyNamed('headers')))
@@ -43,31 +58,25 @@ void main() {
     });
 
     test('When given a single schedule', () async {
-      final Completer<void> action = Completer();
-
       when(fetcherMock.getLectures(any, any))
           .thenAnswer((_) async => [lecture1, lecture2]);
 
-      provider.fetchUserLectures(action, userPersistentInfo, session, profile,
-          fetcher: fetcherMock);
-      expect(provider.status, RequestStatus.busy);
-
-      await action.future;
+      await provider.fetchUserLectures(
+        userPersistentInfo,
+        session,
+        profile,
+        fetcher: fetcherMock,
+      );
 
       expect(provider.lectures, [lecture1, lecture2]);
       expect(provider.status, RequestStatus.successful);
     });
 
     test('When an error occurs while trying to obtain the schedule', () async {
-      final Completer<void> action = Completer();
-
       when(fetcherMock.getLectures(any, any))
           .thenAnswer((_) async => throw Exception('💥'));
 
-      provider.fetchUserLectures(action, userPersistentInfo, session, profile);
-      expect(provider.status, RequestStatus.busy);
-
-      await action.future;
+      await provider.fetchUserLectures(userPersistentInfo, session, profile);
 
       expect(provider.status, RequestStatus.failed);
     });

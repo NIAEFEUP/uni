@@ -1,6 +1,5 @@
 // @dart=2.10
 
-import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -15,6 +14,7 @@ import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/lazy/lecture_provider.dart';
+import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/view/schedule/schedule.dart';
 
 import '../../test_widget.dart';
@@ -24,11 +24,13 @@ class MockClient extends Mock implements http.Client {}
 
 class MockResponse extends Mock implements http.Response {}
 
+class MockSessionProvider extends Mock implements SessionProvider {}
+
 class UriMatcher extends CustomMatcher {
-  UriMatcher(matcher) : super('Uri that has', 'string', matcher);
+  UriMatcher(Matcher matcher) : super('Uri that has', 'string', matcher);
 
   @override
-  Object featureValueOf(actual) => (actual as Uri).toString();
+  Object featureValueOf(dynamic actual) => (actual as Uri).toString();
 }
 
 void main() {
@@ -40,19 +42,24 @@ void main() {
     const htmlFetcherIdentifier = 'hor_geral.estudantes_view';
     const jsonFetcherIdentifier = 'mob_hor_geral.estudante';
 
-    Future testSchedule(WidgetTester tester) async {
-      final profile = Profile();
-      profile.courses = [Course(id: 7474)];
+    Future<void> testSchedule(WidgetTester tester) async {
+      final profile = Profile()..courses = [Course(id: 7474)];
 
       NetworkRouter.httpClient = mockClient;
       when(badMockResponse.statusCode).thenReturn(500);
 
       final scheduleProvider = LectureProvider();
+      final sessionProvider = MockSessionProvider();
+
+      when(sessionProvider.session).thenReturn(
+        Session(username: 'up1234', cookies: 'cookie', faculties: ['feup']),
+      );
 
       const widget = SchedulePage();
 
       final providers = [
         ChangeNotifierProvider(create: (_) => scheduleProvider),
+        ChangeNotifierProvider<SessionProvider>(create: (_) => sessionProvider),
       ];
 
       await tester.pumpWidget(testableWidget(widget, providers: providers));
@@ -63,10 +70,11 @@ void main() {
       expect(find.byKey(const Key(scheduleSlotTimeKey1)), findsNothing);
       expect(find.byKey(const Key(scheduleSlotTimeKey2)), findsNothing);
 
-      final Completer<void> completer = Completer();
-      scheduleProvider.fetchUserLectures(completer, const Tuple2('', ''),
-          Session(username: '', cookies: '', faculties: ['feup']), profile);
-      await completer.future;
+      await scheduleProvider.fetchUserLectures(
+        const Tuple2('', ''),
+        Session(username: '', cookies: '', faculties: ['feup']),
+        profile,
+      );
 
       await tester.tap(find.byKey(const Key('schedule-page-tab-2')));
       await tester.pumpAndSettle();
@@ -91,13 +99,19 @@ void main() {
           .readAsStringSync(encoding: const Latin1Codec());
       when(mockResponse.body).thenReturn(mockJson);
       when(mockResponse.statusCode).thenReturn(200);
-      when(mockClient.get(argThat(UriMatcher(contains(htmlFetcherIdentifier))),
-              headers: anyNamed('headers')))
-          .thenAnswer((_) async => badMockResponse);
+      when(
+        mockClient.get(
+          argThat(UriMatcher(contains(htmlFetcherIdentifier))),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => badMockResponse);
 
-      when(mockClient.get(argThat(UriMatcher(contains(jsonFetcherIdentifier))),
-              headers: anyNamed('headers')))
-          .thenAnswer((_) async => mockResponse);
+      when(
+        mockClient.get(
+          argThat(UriMatcher(contains(jsonFetcherIdentifier))),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => mockResponse);
 
       await testSchedule(tester);
     });
@@ -107,13 +121,19 @@ void main() {
           .readAsStringSync(encoding: const Latin1Codec());
       when(mockResponse.body).thenReturn(mockHtml);
       when(mockResponse.statusCode).thenReturn(200);
-      when(mockClient.get(argThat(UriMatcher(contains(htmlFetcherIdentifier))),
-              headers: anyNamed('headers')))
-          .thenAnswer((_) async => mockResponse);
+      when(
+        mockClient.get(
+          argThat(UriMatcher(contains(htmlFetcherIdentifier))),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => mockResponse);
 
-      when(mockClient.get(argThat(UriMatcher(contains(jsonFetcherIdentifier))),
-              headers: anyNamed('headers')))
-          .thenAnswer((_) async => badMockResponse);
+      when(
+        mockClient.get(
+          argThat(UriMatcher(contains(jsonFetcherIdentifier))),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => badMockResponse);
 
       await testSchedule(tester);
     });

@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:http/http.dart';
 import 'package:uni/controller/fetchers/session_dependant_fetcher.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
@@ -10,8 +9,8 @@ class CurrentCourseUnitsFetcher implements SessionDependantFetcher {
   @override
   List<String> getEndpoints(Session session) {
     // all faculties list user course units on all faculties
-    final String url =
-        '${NetworkRouter.getBaseUrlsFromSession(session)[0]}mob_fest_geral.ucurr_inscricoes_corrente';
+    final url = '${NetworkRouter.getBaseUrlsFromSession(session)[0]}'
+        'mob_fest_geral.ucurr_inscricoes_corrente';
     return [url];
   }
 
@@ -28,8 +27,8 @@ class CurrentCourseUnitsFetcher implements SessionDependantFetcher {
           ucs.add(courseUnit);
         }
       }
-      return ucs;
     }
-    return <CourseUnit>[];
+
+    return ucs;
   }
 }

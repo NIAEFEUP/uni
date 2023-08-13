@@ -6,8 +6,10 @@ class NavigationService {
   static final GlobalKey<NavigatorState> navigatorKey =
       GlobalKey<NavigatorState>();
 
-  static logout() {
+  static void logout() {
     navigatorKey.currentState?.pushNamedAndRemoveUntil(
-        '/${DrawerItem.navLogOut.title}', (_) => false);
+      '/${DrawerItem.navLogOut.title}',
+      (_) => false,
+    );
   }
 }

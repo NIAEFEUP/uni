@@ -23,11 +23,11 @@ class DateTimeConverter extends JsonConverter<DateTime, String> {
 @DateTimeConverter()
 @JsonSerializable()
 class Meal {
+  Meal(this.type, this.name, this.dayOfWeek, this.date);
   final String type;
   final String name;
   final DayOfWeek dayOfWeek;
   final DateTime date;
-  Meal(this.type, this.name, this.dayOfWeek, this.date);
 
   factory Meal.fromJson(Map<String, dynamic> json) => _$MealFromJson(json);
   Map<String, dynamic> toJson() => _$MealToJson(this);

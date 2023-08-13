@@ -5,34 +5,36 @@ import 'package:logger/logger.dart';
 part 'exam.g.dart';
 
 enum WeekDays {
-  monday("Segunda"),
-  tuesday("Terça"),
-  wednesday("Quarta"),
-  thursday("Quinta"),
-  friday("Sexta"),
-  saturday("Sábado"),
-  sunday("Domingo");
+  monday('Segunda'),
+  tuesday('Terça'),
+  wednesday('Quarta'),
+  thursday('Quinta'),
+  friday('Sexta'),
+  saturday('Sábado'),
+  sunday('Domingo');
+
+  const WeekDays(this.day);
 
   final String day;
-  const WeekDays(this.day);
 }
 
 enum Months {
-  january("janeiro"),
-  february("fevereiro"),
-  march("março"),
-  april("abril"),
-  may("maio"),
-  june("junho"),
-  july("julho"),
-  august("agosto"),
-  september("setembro"),
-  october("outubro"),
-  november("novembro"),
-  december("dezembro");
+  january('janeiro'),
+  february('fevereiro'),
+  march('março'),
+  april('abril'),
+  may('maio'),
+  june('junho'),
+  july('julho'),
+  august('agosto'),
+  september('setembro'),
+  october('outubro'),
+  november('novembro'),
+  december('dezembro');
+
+  const Months(this.month);
 
   final String month;
-  const Months(this.month);
 }
 
 class DateTimeConverter extends JsonConverter<DateTime, String> {
@@ -62,6 +64,28 @@ class DateTimeConverter extends JsonConverter<DateTime, String> {
 @DateTimeConverter()
 @JsonSerializable()
 class Exam {
+  Exam(
+    this.id,
+    this.begin,
+    this.end,
+    this.subject,
+    this.rooms,
+    this.type,
+    this.faculty,
+  );
+
+  Exam.secConstructor(
+    this.id,
+    this.subject,
+    this.begin,
+    this.end,
+    String rooms,
+    this.type,
+    this.faculty,
+  ) {
+    this.rooms = rooms.split(',');
+  }
+
   late final DateTime begin;
   late final DateTime end;
   late final String id;
@@ -78,9 +102,6 @@ class Exam {
     'Port.Est.Especiais': 'EE',
     'Exames ao abrigo de estatutos especiais': 'EAE'
   };
-
-  Exam(this.id, this.begin, this.end, this.subject, this.rooms, this.type,
-      this.faculty);
   static List<String> displayedTypes = types.keys.toList().sublist(0, 4);
 
   Exam.secConstructor(this.id, this.subject, this.begin, this.end, String rooms,
@@ -106,7 +127,7 @@ class Exam {
 
   @override
   String toString() {
-    return '''$id - $subject - ${begin.year.toString()} - $month - ${begin.day} -  $beginTime-$endTime - $type - $rooms - $weekDay''';
+    return '''$id - $subject - ${begin.year} - $month - ${begin.day} -  $beginTime-$endTime - $type - $rooms - $weekDay''';
   }
 
   /// Prints the data in this exam to the [Logger] with an INFO level.
@@ -121,8 +142,8 @@ class Exam {
   @override
   int get hashCode => id.hashCode;
 
-  static getExamTypeLong(String abr) {
-    final Map<String, String> reversed = types.map((k, v) => MapEntry(v, k));
+  static String? getExamTypeLong(String abr) {
+    final reversed = types.map((k, v) => MapEntry(v, k));
     return reversed[abr];
   }
 }

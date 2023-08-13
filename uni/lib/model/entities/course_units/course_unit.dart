@@ -33,24 +33,7 @@ class CourseUnit {
   String? result;
   @JsonKey(name: 'creditos_ects')
   num? ects;
-  String? schoolYear;
-
-  CourseUnit(
-      {this.id = 0,
-      this.code = '',
-      required this.abbreviation,
-      required this.name,
-      this.curricularYear,
-      required this.occurrId,
-      this.semesterCode,
-      this.semesterName,
-      this.type,
-      this.status,
-      this.grade,
-      this.ectsGrade,
-      this.result,
-      this.ects,
-      this.schoolYear});
+  String? schoolYear; // e.g. 2020/2021
 
   factory CourseUnit.fromJson(Map<String, dynamic> json) =>
       _$CourseUnitFromJson(json);
@@ -58,5 +41,9 @@ class CourseUnit {
 
   bool enrollmentIsValid() {
     return status == 'V';
+  }
+
+  static String toSchoolYear(int year) {
+    return '$year/${year + 1}';
   }
 }

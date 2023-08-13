@@ -19,6 +19,13 @@ class DateTimeConverter extends JsonConverter<DateTime, String> {
 @DateTimeConverter()
 @JsonSerializable()
 class Reference {
+  Reference(
+    this.description,
+    this.limitDate,
+    this.entity,
+    this.reference,
+    this.amount,
+  );
   final String description;
   final DateTime limitDate;
   final int entity;

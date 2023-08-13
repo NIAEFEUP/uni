@@ -6,6 +6,11 @@ part 'trip.g.dart';
 /// Stores information about a bus trip.
 @JsonSerializable()
 class Trip {
+  Trip({
+    required this.line,
+    required this.destination,
+    required this.timeRemaining,
+  });
   final String line;
   final String destination;
   final int timeRemaining;
@@ -25,6 +30,6 @@ class Trip {
 
   /// Compares the remaining time of two trips.
   int compare(Trip other) {
-    return (timeRemaining.compareTo(other.timeRemaining));
+    return timeRemaining.compareTo(other.timeRemaining);
   }
 }

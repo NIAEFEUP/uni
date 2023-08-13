@@ -5,13 +5,12 @@ part 'library_occupation.g.dart';
 /// Overall occupation of the library
 @JsonSerializable()
 class LibraryOccupation {
-  late int occupation;
-  late int capacity;
-  late List<FloorOccupation> floors;
-
   LibraryOccupation(this.occupation, this.capacity) {
     floors = [];
   }
+  late int occupation;
+  late int capacity;
+  late List<FloorOccupation> floors;
 
   void addFloor(FloorOccupation floor) {
     floors.add(floor);
@@ -37,11 +36,10 @@ class LibraryOccupation {
 /// Occupation values of a single floor
 @JsonSerializable()
 class FloorOccupation {
+  FloorOccupation(this.number, this.occupation, this.capacity);
   final int number;
   final int occupation;
   final int capacity;
-
-  FloorOccupation(this.number, this.occupation, this.capacity);
 
   int get percentage {
     if (capacity == 0) return 0;

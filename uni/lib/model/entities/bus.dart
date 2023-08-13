@@ -8,6 +8,11 @@ part 'bus.g.dart';
 /// and its `direction`.
 @JsonSerializable()
 class Bus {
+  Bus({
+    required this.busCode,
+    required this.destination,
+    this.direction = false,
+  });
   String busCode;
   String destination;
   bool direction;

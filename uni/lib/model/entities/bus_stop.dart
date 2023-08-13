@@ -6,6 +6,11 @@ part 'bus_stop.g.dart';
 /// Stores information about a bus stop.
 @JsonSerializable()
 class BusStopData {
+  BusStopData({
+    required this.configuredBuses,
+    this.favorited = false,
+    this.trips = const [],
+  });
   final Set<String> configuredBuses;
   bool favorited;
   List<Trip> trips;
