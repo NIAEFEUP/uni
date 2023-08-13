@@ -98,7 +98,10 @@ class ReservationRemoveButton extends StatelessWidget {
                       ElevatedButton(
                           child: const Text('Confirmar'),
                           onPressed: () async {
-                            cancelReservation(context, reservation.id);
+                            ToastMessage.info(
+                                context, 'A cancelar reserva...');
+                            Navigator.of(toastContext).pop();
+                            cancelReservation(toastContext, reservation.id);
                           })
                     ])
                   ],
@@ -110,17 +113,14 @@ class ReservationRemoveButton extends StatelessWidget {
   cancelReservation(context, String id) async {
     final Session session =
         Provider.of<SessionProvider>(context, listen: false).session;
-
     final stateProviders = StateProviders.fromContext(context);
     final bool result = await stateProviders.libraryReservationsProvider
         .cancelReservation(session, id);
 
     if (result) {
-      Navigator.of(context).pop(false);
-      return ToastMessage.success(context, 'A reserva foi cancelada!');
+      ToastMessage.success(context, 'A reserva foi cancelada!');
     } else {
-      return ToastMessage.error(
-          context, 'Ocorreu um erro ao cancelar a reserva!');
+      ToastMessage.error(context, 'Ocorreu um erro ao cancelar a reserva!');
     }
   }
 }

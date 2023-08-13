@@ -6,6 +6,7 @@ import 'package:logger/logger.dart';
 import 'package:uni/controller/fetchers/library_reservation_fetcher.dart';
 import 'package:uni/controller/local_storage/app_library_reservation.dart';
 import 'package:uni/controller/networking/network_router.dart';
+import 'package:uni/controller/parsers/parser_library_reservation.dart';
 import 'package:uni/model/entities/library_reservation.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
@@ -100,7 +101,10 @@ class LibraryReservationsProvider extends StateProviderNotifier {
     final reserveResponse =
         await post(url.toUri(), headers: headers, body: body);
     if (reserveResponse.statusCode == 200) {
-      //_reservations.add(LibraryReservation(_id, room, startDate, duration))
+      final LibraryReservation reservation =
+          getReservationFromRequest(reserveResponse);
+      _reservations!.add(reservation);
+      notifyListeners();
       return true;
     }
     return false;

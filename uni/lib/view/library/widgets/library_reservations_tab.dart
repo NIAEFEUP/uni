@@ -8,6 +8,7 @@ import 'package:uni/model/providers/library_reservations_provider.dart';
 import 'package:uni/model/providers/session_provider.dart';
 import 'package:uni/model/providers/state_providers.dart';
 import 'package:uni/model/request_status.dart';
+import 'package:uni/view/common_widgets/toast_message.dart';
 import 'package:uni/view/library/widgets/reservation_row.dart';
 
 class LibraryReservationsTab extends StatelessWidget {
@@ -48,6 +49,7 @@ class LibraryReservationsTabView extends StatelessWidget {
         shrinkWrap: true,
         children: [
           LibraryReservationsList(reservations!),
+          const CreateReservationButton(),
         ]);
   }
 }
@@ -61,7 +63,7 @@ class LibraryReservationsList extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<Widget> rooms = [];
 
-    for (int i = 0; i < reservations.length && i < 2; i++) {
+    for (int i = 0; i < reservations.length; i++) {
       rooms.add(Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
@@ -88,7 +90,7 @@ class CreateReservationButton extends StatelessWidget {
         showDialog(
             context: context,
             builder: (BuildContext toastContext) {
-              return const ReservationPicker();
+              return ReservationPicker(context: toastContext);
             });
       },
     );
@@ -96,7 +98,8 @@ class CreateReservationButton extends StatelessWidget {
 }
 
 class ReservationPicker extends StatefulWidget {
-  const ReservationPicker({super.key});
+  final BuildContext context;
+  const ReservationPicker({super.key, required this.context});
 
   @override
   State<StatefulWidget> createState() => ReservationPickerState();
@@ -143,7 +146,10 @@ class ReservationPickerState extends State<ReservationPicker> {
               child: const Text('Cancelar'),
             ),
             TextButton(
-              onPressed: () => makeReservation(context),
+              onPressed: () => {
+                //Navigator.of(context).pop(),
+                makeReservation(context),
+              },
               child: const Text('Confirmar'),
             ),
           ],
@@ -186,7 +192,7 @@ class ReservationPickerState extends State<ReservationPicker> {
             }));
   }
 
-  void makeReservation(BuildContext context) async {
+  void makeReservation(context) async {
     Navigator.of(context).pop();
     if (date != null && time != null && duration != null) {
       final Session session =
@@ -200,12 +206,16 @@ class ReservationPickerState extends State<ReservationPicker> {
               session,
               DateFormat('yyyy-MM-dd').format(date!),
               time!.hour.toString() +
-                  ((time!.minute > 0 && time!.minute <= 30)
-                      ? ',5'
-                      : (time!.hour + 1).toString()),
+                  ((time!.minute > 0 && time!.minute <= 30) ? '' : ',5'),
               ((durationMinutes > 0 && durationMinutes <= 30)
                   ? '${duration!.inHours},5'
                   : (duration!.inHours + 1).toString()));
+
+      if (result) {
+        ToastMessage.success(context, 'Reserva efetuada com sucesso');
+      } else {
+        ToastMessage.error(context, 'Erro ao efetuar reserva');
+      }
     }
   }
 }

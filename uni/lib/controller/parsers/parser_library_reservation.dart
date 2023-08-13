@@ -3,19 +3,18 @@ import 'package:html/dom.dart';
 import 'package:html/parser.dart';
 import 'package:uni/model/entities/library_reservation.dart';
 
-Future<List<LibraryReservation>> getReservationsFromHtml(Response response) async {
+Future<List<LibraryReservation>> getReservationsFromHtml(
+    Response response) async {
   final document = parse(response.body);
 
   final List<Element> reservationHtml =
-    document.getElementsByClassName('d interior');
+      document.getElementsByClassName('d interior');
 
-
-  final List<Element> idHtml = 
-    document.querySelectorAll('tbody > tr')
-    .where((element) => (
-      element.children.length == 12
-       && element.children[11].firstChild!.text == 'Reservado'
-      )).toList();
+  final List<Element> idHtml = document
+      .querySelectorAll('tbody > tr')
+      .where((element) => (element.children.length == 12 &&
+          element.children[11].firstChild!.text == 'Reservado'))
+      .toList();
 
   final List<LibraryReservation> result = [];
   for (int i = 0; i < reservationHtml.length && i < idHtml.length; i++) {
@@ -25,12 +24,33 @@ Future<List<LibraryReservation>> getReservationsFromHtml(Response response) asyn
     final String? idRef = idHtml[i].children[11].firstChild!.attributes['href'];
     final String id = idRef!.split('=')[1];
     final DateTime startDate = DateTime.parse('$date $hour');
-    final String? durationHtml = reservationHtml[i].children[4].firstChild!.text;
+    final String? durationHtml =
+        reservationHtml[i].children[4].firstChild!.text;
     final Duration duration = Duration(
-      hours: int.parse(durationHtml!.substring(0,2)),
-      minutes: int.parse(durationHtml.substring(3,5))
-      );
+        hours: int.parse(durationHtml!.substring(0, 2)),
+        minutes: int.parse(durationHtml.substring(3, 5)));
     result.add(LibraryReservation(id, room!, startDate, duration));
   }
   return result;
+}
+
+/// Get room info from the response of a placed reservation request
+LibraryReservation getReservationFromRequest(
+    Response response) {
+  final document = parse(response.body);
+
+  final String id = document.querySelector('tbody tr')!.children[1].text;
+
+  final List<Element> reservationHtml =
+      document.querySelector('tbody .d')!.children;
+
+  final String room = reservationHtml[5].firstChild!.text!;
+  final String date = reservationHtml[0].text;
+  final String hour = reservationHtml[2].text;
+  final DateTime startDate = DateTime.parse('$date $hour');
+  final String durationHtml = reservationHtml[4].text;
+  final Duration duration = Duration(
+      hours: int.parse(durationHtml.substring(0, 2)),
+      minutes: int.parse(durationHtml.substring(3, 5)));
+  return LibraryReservation(id, room, startDate, duration);
 }
