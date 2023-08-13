@@ -4,24 +4,19 @@ import 'package:tuple/tuple.dart';
 
 part 'bug_report.g.dart';
 
-class TupleConverter
-    extends JsonConverter<Tuple2<String, String>?, Map<String, dynamic>?> {
+class TupleConverter extends JsonConverter<Tuple2<String, String>?, String?> {
   const TupleConverter();
 
   @override
-  Tuple2<String, String>? fromJson(Map<String, dynamic>? json) {
-    if (json == null) return null;
-    return Tuple2<String, String>(
-        json['item1'] as String, json['item2'] as String);
+  Tuple2<String, String>? fromJson(String? bugLabel) {
+    if (bugLabel == null) return null;
+    return Tuple2<String, String>('', bugLabel);
   }
 
   @override
-  Map<String, dynamic>? toJson(Tuple2<String, String>? object) {
+  String? toJson(Tuple2<String, String>? object) {
     if (object == null) return null;
-    return {
-      'item1': object.item1,
-      'item2': object.item2,
-    };
+    return object.item2;
   }
 }
 

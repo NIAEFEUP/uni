@@ -10,8 +10,7 @@ BugReport _$BugReportFromJson(Map<String, dynamic> json) => BugReport(
       json['title'] as String,
       json['text'] as String,
       json['email'] as String,
-      const TupleConverter()
-          .fromJson(json['bugLabel'] as Map<String, dynamic>?),
+      const TupleConverter().fromJson(json['bugLabel'] as String?),
       (json['faculties'] as List<dynamic>).map((e) => e as String).toList(),
     );
 
