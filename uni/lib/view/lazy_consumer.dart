@@ -43,7 +43,7 @@ class LazyConsumer<T extends StateProviderNotifier> extends StatelessWidget {
           await provider.ensureInitializedFromRemote(context);
         }
       } catch (e) {
-        Logger().e('Failed to initialize provider: ', e);
+        Logger().e('Failed to initialize $T: $e');
       }
     });
 
