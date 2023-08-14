@@ -17,6 +17,7 @@ class LazyConsumer<T extends StateProviderNotifier> extends StatelessWidget {
     required this.builder,
     super.key,
   });
+
   final Widget Function(BuildContext, T) builder;
 
   @override
@@ -30,8 +31,8 @@ class LazyConsumer<T extends StateProviderNotifier> extends StatelessWidget {
         final sessionFuture = provider.dependsOnSession
             ? Provider.of<SessionProvider>(context, listen: false)
                 .ensureInitialized(context)
-                .then((_) {
-                Provider.of<ProfileProvider>(context, listen: false)
+                .then((_) async {
+                await Provider.of<ProfileProvider>(context, listen: false)
                     .ensureInitialized(context);
               })
             : Future(() {});
