@@ -30,7 +30,7 @@ class BugReport {
   final String email;
   final Tuple2<String, String>? bugLabel;
   final List<String> faculties;
-  BugReport(this.title, this.text, this.email, this.bugLabel, this.faculties);
+
   factory BugReport.fromJson(Map<String, dynamic> json) =>
       _$BugReportFromJson(json);
   Map<String, dynamic> toJson() => _$BugReportToJson(this);

@@ -104,11 +104,6 @@ class Exam {
   };
   static List<String> displayedTypes = types.keys.toList().sublist(0, 4);
 
-  Exam.secConstructor(this.id, this.subject, this.begin, this.end, String rooms,
-      this.type, this.faculty) {
-    this.rooms = rooms.split(',');
-  }
-
   factory Exam.fromJson(Map<String, dynamic> json) => _$ExamFromJson(json);
   Map<String, dynamic> toJson() => _$ExamToJson(this);
 

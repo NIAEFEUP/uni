@@ -32,9 +32,6 @@ class Reference {
   final int reference;
   final double amount;
 
-  Reference(this.description, this.limitDate, this.entity, this.reference,
-      this.amount);
-
   factory Reference.fromJson(Map<String, dynamic> json) =>
       _$ReferenceFromJson(json);
   Map<String, dynamic> toJson() => _$ReferenceToJson(this);

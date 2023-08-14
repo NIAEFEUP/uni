@@ -15,15 +15,27 @@ class CurrentCourseUnitsFetcher implements SessionDependantFetcher {
   }
 
   Future<List<CourseUnit>> getCurrentCourseUnits(Session session) async {
-    final String url = getEndpoints(session)[0];
-    final Response response = await NetworkRouter.getWithCookies(
-        url, {'pv_codigo': session.username}, session);
-    if (response.statusCode == 200) {
-      final responseBody = json.decode(response.body);
-      final List<CourseUnit> ucs = <CourseUnit>[];
-      for (var course in responseBody) {
-        for (var uc in course['inscricoes']) {
-          final CourseUnit courseUnit = CourseUnit.fromJson(uc);
+    final url = getEndpoints(session)[0];
+    final response = await NetworkRouter.getWithCookies(
+      url,
+      {'pv_codigo': session.username},
+      session,
+    );
+
+    if (response.statusCode != 200) {
+      return <CourseUnit>[];
+    }
+
+    final responseBody = json.decode(response.body) as List<dynamic>;
+
+    final ucs = <CourseUnit>[];
+
+    for (final course in responseBody) {
+      final enrollments =
+          (course as Map<String, dynamic>)['inscricoes'] as List<dynamic>;
+      for (final uc in enrollments) {
+        final courseUnit = CourseUnit.fromJson(uc as Map<String, dynamic>);
+        if (courseUnit != null) {
           ucs.add(courseUnit);
         }
       }

@@ -5,6 +5,24 @@ part 'course_unit.g.dart';
 /// Stores information about a course unit.
 @JsonSerializable()
 class CourseUnit {
+  CourseUnit({
+    required this.abbreviation,
+    required this.name,
+    required this.occurrId,
+    this.id = 0,
+    this.code = '',
+    this.curricularYear,
+    this.semesterCode,
+    this.semesterName,
+    this.type,
+    this.status,
+    this.grade,
+    this.ectsGrade,
+    this.result,
+    this.ects,
+    this.schoolYear,
+  });
+
   @JsonKey(name: 'ucurr_id')
   int id;
   @JsonKey(name: 'ucurr_codigo')
