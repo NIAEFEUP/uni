@@ -15,7 +15,9 @@ class ExplorePortoAPIFetcher extends PublicTransportationFetcher {
   ExplorePortoAPIFetcher() : super('explorePorto');
 
   static final Uri _endpoint = Uri.https(
-      'otp.services.porto.digital', '/otp/routers/default/index/graphql');
+    'otp.services.porto.digital',
+    '/otp/routers/default/index/graphql',
+  );
 
   static TransportationType convertVehicleMode(String vehicleMode) {
     switch (vehicleMode) {
@@ -71,13 +73,14 @@ class ExplorePortoAPIFetcher extends PublicTransportationFetcher {
         map.putIfAbsent(
           entry['gtfsId'] as String,
           () => Stop(
-              entry['gtfsId'] as String,
-              entry['code'] as String,
-              transportType,
-              entry['lat'] as double,
-              entry['lon'] as double,
-              providerName,
-              longName: entry['name'] as String),
+            entry['gtfsId'] as String,
+            entry['code'] as String,
+            transportType,
+            entry['lat'] as double,
+            entry['lon'] as double,
+            providerName,
+            longName: entry['name'] as String,
+          ),
         );
       }
     }

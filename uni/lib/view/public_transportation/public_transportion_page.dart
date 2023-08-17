@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/providers/lazy/public_transport_provider.dart';
+import 'package:uni/view/common_widgets/expandable_card.dart';
 import 'package:uni/view/common_widgets/last_update_timestamp.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
@@ -43,18 +44,25 @@ class PublicTransportationPageState
               padding: EdgeInsets.symmetric(horizontal: 15),
               child: Divider(),
             ),
-            buildCards(context, publicTransportationProvider)
+            _buildCards(context, publicTransportationProvider)
           ],
         );
       },
     );
   }
 
-  Widget buildCards(
+  Widget _buildCards(
     BuildContext context,
     PublicTransportationProvider provider,
   ) {
-    return Container();
+    return const ExpandableCard(
+      margin: EdgeInsets.all(10),
+      content: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [Text('text')],
+      ),
+      expandedContent: Text('Expanded'),
+    );
   }
 
   @override

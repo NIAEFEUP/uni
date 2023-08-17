@@ -21,7 +21,8 @@ class RoutePattern {
         map['patternId'] as String,
         map['direction'] as int,
         LinkedHashSet.from(
-            (map['stops'] as List<dynamic>).map((e) => stops[e])),
+          (map['stops'] as List<dynamic>).map((e) => stops[e]),
+        ),
         providerName,
         Map.from(
           (map['timeTable'] as Map<String, List<List<int>>>)
@@ -46,8 +47,10 @@ class RoutePattern {
         //to later make it work with encodeJson()
         'stops': stops.map((e) => e.code).toList(),
         'timetable': jsonEncode(
-          timetable.map((key, value) =>
-              MapEntry<DateTime, List<List<int>>>(key, value.toList())),
+          timetable.map(
+            (key, value) =>
+                MapEntry<DateTime, List<List<int>>>(key, value.toList()),
+          ),
         ),
         'additionalInformation': additionalInformation
       };

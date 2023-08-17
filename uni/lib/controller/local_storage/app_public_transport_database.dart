@@ -55,7 +55,9 @@ class AppPublicTransportDatabase extends AppDatabase {
   }
 
   Future<List<FavoriteTrip>> favoriteTrips(
-      Map<String, Stop> stops, Map<String, Route> routes) async {
+    Map<String, Stop> stops,
+    Map<String, Route> routes,
+  ) async {
     final db = await getDatabase();
     final List<Map<String, dynamic>> query = await db.query('FavoriteTrips');
 
@@ -105,7 +107,10 @@ class AppPublicTransportDatabase extends AppDatabase {
   }
 
   static FutureOr<void> migrate(
-      Database db, int oldVersion, int newVersion) async {
+    Database db,
+    int oldVersion,
+    int newVersion,
+  ) async {
     final batch = db.batch()
       ..delete('Stops')
       ..delete('Routes')
