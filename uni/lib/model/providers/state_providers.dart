@@ -71,7 +71,7 @@ class StateProviders {
         facultyLocationsProvider,
         homePageProvider,
         referenceProvider,
-        publicTransportationProvider);
+        publicTransportationProvider,);
   }
 
   final LectureProvider lectureProvider;

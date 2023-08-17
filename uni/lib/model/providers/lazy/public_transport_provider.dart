@@ -16,14 +16,14 @@ import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/model/request_status.dart';
 
 class PublicTransportationProvider extends StateProviderNotifier{
+
+  PublicTransportationProvider() : super(dependsOnSession: false, cacheDuration: const Duration(days: 1));
   Map<String, Stop> _stops = {};
   Map<String, Route> _routes = {};
 
   List<FavoriteTrip> _favoriteTrips = [];
 
   static List<PublicTransportationFetcher> fetchers = [ExplorePortoAPIFetcher()];
-
-  PublicTransportationProvider() : super(dependsOnSession: false, cacheDuration: const Duration(days: 1));
 
   UnmodifiableListView<FavoriteTrip> getFavoriteTrips() => UnmodifiableListView(_favoriteTrips);
 
@@ -33,26 +33,26 @@ class PublicTransportationProvider extends StateProviderNotifier{
 
   @override
   Future<void> loadFromRemote(Session session, Profile profile) async {
-    final AppPublicTransportDatabase appPublicTransportDatabase = AppPublicTransportDatabase();
+    final appPublicTransportDatabase = AppPublicTransportDatabase();
     try{
-      for(PublicTransportationFetcher fetcher in fetchers){
+      for(final fetcher in fetchers){
         final stops = await fetcher.fetchStops();
         //Map.addAll() doesn't work in the first time for some reason, so we do it manually :) 
-        for(MapEntry<String, Stop> stop in stops.entries){
+        for(final stop in stops.entries){
           _stops[stop.key] = stop.value;
         }
         final routes = await fetcher.fetchRoutes(_stops);
-        for(MapEntry<String, Route> route in routes.entries){
+        for(final route in routes.entries){
           _routes[route.key] = route.value;
         }
       }
       updateStatus(RequestStatus.successful);
-      appPublicTransportDatabase.insertStops(_stops);
-      appPublicTransportDatabase.insertRoutes(_routes);
+      await appPublicTransportDatabase.insertStops(_stops);
+      await appPublicTransportDatabase.insertRoutes(_routes);
       
     }
     catch (e, stack){
-      Logger().e("",e,stack);
+      Logger().e('',e,stack);
       updateStatus(RequestStatus.failed);
     }
 
@@ -60,7 +60,7 @@ class PublicTransportationProvider extends StateProviderNotifier{
 
   @override
   Future<void> loadFromStorage() async {
-    final AppPublicTransportDatabase appPublicTransportDatabase = AppPublicTransportDatabase();
+    final appPublicTransportDatabase = AppPublicTransportDatabase();
     _stops = await appPublicTransportDatabase.stops();
     _routes = await appPublicTransportDatabase.routes(_stops);
     _favoriteTrips = await appPublicTransportDatabase.favoriteTrips(_stops, _routes);

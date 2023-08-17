@@ -12,14 +12,6 @@ enum TransportationType{
 
 class Stop{
 
-  final String code;
-  final String name;
-  final String longName;
-  final String providerName;
-  final TransportationType transportationType;
-  final double latitude;
-  final double longitude;
-
   Stop(
     this.code,
     this.name, 
@@ -31,6 +23,25 @@ class Stop{
       this.longName = '',
     }
   );
+
+  factory Stop.fromMap(Map<String, dynamic> map) =>
+    Stop(
+      map['code'] as String,
+      map['name'] as String,
+      TransportationType.values.byName(map['transportationType'] as String),
+      map['latitude'] as double,
+      map['longitude'] as double,
+      map['providerName'] as String,
+      longName: map['longName'] as String,
+    );
+
+  final String code;
+  final String name;
+  final String longName;
+  final String providerName;
+  final TransportationType transportationType;
+  final double latitude;
+  final double longitude;
 
   Map<String, dynamic> toMap(){
     return {
@@ -44,16 +55,7 @@ class Stop{
     };
   }
 
-  static Stop fromMap(Map<String, dynamic> map) =>
-    Stop(
-      map['code'],
-      map['name'],
-      TransportationType.values.byName(map['transportationType']),
-      map['latitude'],
-      map['longitude'],
-      map['providerName'],
-      longName: map['longName'],
-    );
+
 
   @override
   bool operator ==(Object other) =>

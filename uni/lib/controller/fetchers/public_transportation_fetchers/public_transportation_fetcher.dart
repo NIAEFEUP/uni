@@ -5,9 +5,9 @@ import 'package:uni/model/entities/stop.dart';
 
 abstract class PublicTransportationFetcher{
 
-  final String providerName;
-
   PublicTransportationFetcher(this.providerName);
+
+  final String providerName;
 
 
   Future<Map<String, Stop>> fetchStops();
