@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 enum ArrowPosition { left, right, bottom, bottomRight, bottomLeft }
@@ -27,7 +29,6 @@ class ExpandableCard extends StatefulWidget {
 
 class ExpandableCardState extends State<ExpandableCard>
     with TickerProviderStateMixin {
-  bool _expanded = false;
   late final AnimationController _animationController = AnimationController(
     vsync: this,
     duration: widget.animationDuration,
@@ -76,6 +77,7 @@ class ExpandableCardState extends State<ExpandableCard>
   }
 
   List<Widget> _buildCardContent() {
+    // TODO(luisd): refactor this to make logic smaller
     switch (widget.arrowPosition) {
       case ArrowPosition.left:
         return [
@@ -158,20 +160,24 @@ class ExpandableCardState extends State<ExpandableCard>
     }
   }
 
-  Widget _arrowIcon() => IconButton(
-        padding: EdgeInsets.zero,
-        onPressed: () {
-          setState(() {
+  Widget _arrowIcon() => AnimatedBuilder(
+        animation: _animationController,
+        builder: (context, child) => Transform.rotate(
+          angle: -_animationController.value * pi,
+          child: child,
+        ),
+        child: IconButton(
+          padding: EdgeInsets.zero,
+          onPressed: () {
             if (_animationController.isCompleted) {
               _animationController.reverse();
             } else {
               _animationController.forward();
             }
-            _expanded = !_expanded;
-          });
-        },
-        icon: Icon(
-          _expanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+          },
+          icon: const Icon(
+            Icons.keyboard_arrow_down,
+          ),
         ),
       );
 }
