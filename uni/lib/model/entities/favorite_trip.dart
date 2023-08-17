@@ -8,13 +8,17 @@ class TripSegment {
     this.possibleRoutes,
   );
 
-  factory TripSegment.fromJson(Map<String, dynamic> map,
-          Map<String, Stop> stops, Map<String, Route> routes,) =>
+  factory TripSegment.fromJson(
+    Map<String, dynamic> map,
+    Map<String, Stop> stops,
+    Map<String, Route> routes,
+  ) =>
       TripSegment(
         stops[map['initialStop']!]!,
         stops[map['finalStop']!]!,
         List.from(
-            (map['possibleRoutes']! as List<String>).map((e) => routes[e]!),),
+          (map['possibleRoutes']! as List<String>).map((e) => routes[e]!),
+        ),
       );
 
   final Stop initialStop;

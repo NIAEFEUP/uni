@@ -1,5 +1,3 @@
-
-
 import 'dart:async';
 
 import 'package:collection/collection.dart';
@@ -15,47 +13,48 @@ import 'package:uni/model/entities/stop.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/model/request_status.dart';
 
-class PublicTransportationProvider extends StateProviderNotifier{
-
-  PublicTransportationProvider() : super(dependsOnSession: false, cacheDuration: const Duration(days: 1));
+class PublicTransportationProvider extends StateProviderNotifier {
+  PublicTransportationProvider()
+      : super(dependsOnSession: false, cacheDuration: const Duration(days: 1));
   Map<String, Stop> _stops = {};
   Map<String, Route> _routes = {};
 
   List<FavoriteTrip> _favoriteTrips = [];
 
-  static List<PublicTransportationFetcher> fetchers = [ExplorePortoAPIFetcher()];
+  static List<PublicTransportationFetcher> fetchers = [
+    ExplorePortoAPIFetcher()
+  ];
 
-  UnmodifiableListView<FavoriteTrip> getFavoriteTrips() => UnmodifiableListView(_favoriteTrips);
+  UnmodifiableListView<FavoriteTrip> getFavoriteTrips() =>
+      UnmodifiableListView(_favoriteTrips);
 
   UnmodifiableMapView<String, Stop> getStops() => UnmodifiableMapView(_stops);
 
-  UnmodifiableMapView<String, Route> getRoutes() => UnmodifiableMapView(_routes);
+  UnmodifiableMapView<String, Route> getRoutes() =>
+      UnmodifiableMapView(_routes);
 
   @override
   Future<void> loadFromRemote(Session session, Profile profile) async {
     final appPublicTransportDatabase = AppPublicTransportDatabase();
-    try{
-      for(final fetcher in fetchers){
+    try {
+      for (final fetcher in fetchers) {
         final stops = await fetcher.fetchStops();
-        //Map.addAll() doesn't work in the first time for some reason, so we do it manually :) 
-        for(final stop in stops.entries){
+        //Map.addAll() doesn't work in the first time for some reason, so we do it manually :)
+        for (final stop in stops.entries) {
           _stops[stop.key] = stop.value;
         }
         final routes = await fetcher.fetchRoutes(_stops);
-        for(final route in routes.entries){
+        for (final route in routes.entries) {
           _routes[route.key] = route.value;
         }
       }
       updateStatus(RequestStatus.successful);
       await appPublicTransportDatabase.insertStops(_stops);
       await appPublicTransportDatabase.insertRoutes(_routes);
-      
-    }
-    catch (e, stack){
-      Logger().e('',e,stack);
+    } catch (e, stack) {
+      Logger().e('', e, stack);
       updateStatus(RequestStatus.failed);
     }
-
   }
 
   @override
@@ -63,7 +62,7 @@ class PublicTransportationProvider extends StateProviderNotifier{
     final appPublicTransportDatabase = AppPublicTransportDatabase();
     _stops = await appPublicTransportDatabase.stops();
     _routes = await appPublicTransportDatabase.routes(_stops);
-    _favoriteTrips = await appPublicTransportDatabase.favoriteTrips(_stops, _routes);
+    _favoriteTrips =
+        await appPublicTransportDatabase.favoriteTrips(_stops, _routes);
   }
-
 }

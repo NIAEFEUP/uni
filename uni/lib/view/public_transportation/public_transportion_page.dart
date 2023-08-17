@@ -24,22 +24,25 @@ class PublicTransportationPageState
             const PageTitle(name: 'Transportes Públicos'),
             const Padding(padding: EdgeInsets.symmetric(vertical: 5)),
             Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const LastUpdateTimeStamp<PublicTransportationProvider>(),
-                    IconButton(
-                        onPressed: () {
-                          //TODO: make public transport add page
-                        },
-                        icon: const Icon(Icons.add),)
-                  ],
-                ),),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const LastUpdateTimeStamp<PublicTransportationProvider>(),
+                  IconButton(
+                    onPressed: () {
+                      //TODO: make public transport add page
+                    },
+                    icon: const Icon(Icons.add),
+                  )
+                ],
+              ),
+            ),
             //don't know if i'll remove it
             const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15),
-                child: Divider(),),
+              padding: EdgeInsets.symmetric(horizontal: 15),
+              child: Divider(),
+            ),
             buildCards(context, publicTransportationProvider)
           ],
         );
@@ -48,11 +51,12 @@ class PublicTransportationPageState
   }
 
   Widget buildCards(
-      BuildContext context, PublicTransportationProvider provider,) {
+    BuildContext context,
+    PublicTransportationProvider provider,
+  ) {
     return Container();
   }
 
-  
   @override
   Future<void> onRefresh(BuildContext context) async {
     await Provider.of<PublicTransportationProvider>(context, listen: false)

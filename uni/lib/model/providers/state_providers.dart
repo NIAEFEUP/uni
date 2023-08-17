@@ -59,19 +59,20 @@ class StateProviders {
         Provider.of<BusStopProvider>(context, listen: false);
 
     return StateProviders(
-        lectureProvider,
-        examProvider,
-        busStopProvider,
-        restaurantProvider,
-        profileProvider,
-        courseUnitsInfoProvider,
-        sessionProvider,
-        calendarProvider,
-        libraryOccupationProvider,
-        facultyLocationsProvider,
-        homePageProvider,
-        referenceProvider,
-        publicTransportationProvider,);
+      lectureProvider,
+      examProvider,
+      busStopProvider,
+      restaurantProvider,
+      profileProvider,
+      courseUnitsInfoProvider,
+      sessionProvider,
+      calendarProvider,
+      libraryOccupationProvider,
+      facultyLocationsProvider,
+      homePageProvider,
+      referenceProvider,
+      publicTransportationProvider,
+    );
   }
 
   final LectureProvider lectureProvider;
