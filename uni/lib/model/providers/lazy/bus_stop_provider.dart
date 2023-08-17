@@ -7,15 +7,13 @@ import 'package:uni/controller/local_storage/app_bus_stop_database.dart';
 import 'package:uni/model/entities/bus_stop.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/session.dart';
-import 'package:uni/model/entities/trip.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/model/request_status.dart';
 
 class BusStopProvider extends StateProviderNotifier {
+  BusStopProvider() : super(dependsOnSession: false, cacheDuration: null);
   Map<String, BusStopData> _configuredBusStops = Map.identity();
   DateTime _timeStamp = DateTime.now();
-
-  BusStopProvider() : super(dependsOnSession: false, cacheDuration: null);
 
   UnmodifiableMapView<String, BusStopData> get configuredBusStops =>
       UnmodifiableMapView(_configuredBusStops);
@@ -24,26 +22,23 @@ class BusStopProvider extends StateProviderNotifier {
 
   @override
   Future<void> loadFromStorage() async {
-    final AppBusStopDatabase busStopsDb = AppBusStopDatabase();
-    final Map<String, BusStopData> stops = await busStopsDb.busStops();
+    final busStopsDb = AppBusStopDatabase();
+    final stops = await busStopsDb.busStops();
     _configuredBusStops = stops;
   }
 
   @override
   Future<void> loadFromRemote(Session session, Profile profile) async {
-    final action = Completer<void>();
-    getUserBusTrips(action);
-    await action.future;
+    await fetchUserBusTrips();
   }
 
-  getUserBusTrips(Completer<void> action) async {
-    updateStatus(RequestStatus.busy);
-
+  Future<void> fetchUserBusTrips() async {
     try {
-      for (String stopCode in configuredBusStops.keys) {
-        final List<Trip> stopTrips =
-            await DeparturesFetcher.getNextArrivalsStop(
-                stopCode, configuredBusStops[stopCode]!);
+      for (final stopCode in configuredBusStops.keys) {
+        final stopTrips = await DeparturesFetcher.getNextArrivalsStop(
+          stopCode,
+          configuredBusStops[stopCode]!,
+        );
         _configuredBusStops[stopCode]?.trips = stopTrips;
       }
       _timeStamp = DateTime.now();
@@ -52,14 +47,9 @@ class BusStopProvider extends StateProviderNotifier {
       Logger().e('Failed to get Bus Stop information');
       updateStatus(RequestStatus.failed);
     }
-
-    action.complete();
   }
 
-  addUserBusStop(
-      Completer<void> action, String stopCode, BusStopData stopData) async {
-    updateStatus(RequestStatus.busy);
-
+  Future<void> addUserBusStop(String stopCode, BusStopData stopData) async {
     if (_configuredBusStops.containsKey(stopCode)) {
       (_configuredBusStops[stopCode]!.configuredBuses).clear();
       _configuredBusStops[stopCode]!
@@ -69,32 +59,37 @@ class BusStopProvider extends StateProviderNotifier {
       _configuredBusStops[stopCode] = stopData;
     }
 
-    getUserBusTrips(action);
+    updateStatus(RequestStatus.busy);
+    await fetchUserBusTrips();
 
-    final AppBusStopDatabase db = AppBusStopDatabase();
-    db.setBusStops(configuredBusStops);
+    final db = AppBusStopDatabase();
+    await db.setBusStops(configuredBusStops);
   }
 
-  removeUserBusStop(Completer<void> action, String stopCode) async {
+  Future<void> removeUserBusStop(
+    String stopCode,
+  ) async {
     updateStatus(RequestStatus.busy);
     _configuredBusStops.remove(stopCode);
     notifyListeners();
 
-    getUserBusTrips(action);
+    await fetchUserBusTrips();
 
-    final AppBusStopDatabase db = AppBusStopDatabase();
-    db.setBusStops(_configuredBusStops);
+    final db = AppBusStopDatabase();
+    await db.setBusStops(_configuredBusStops);
   }
 
-  toggleFavoriteUserBusStop(
-      Completer<void> action, String stopCode, BusStopData stopData) async {
+  Future<void> toggleFavoriteUserBusStop(
+    String stopCode,
+    BusStopData stopData,
+  ) async {
     _configuredBusStops[stopCode]!.favorited =
         !_configuredBusStops[stopCode]!.favorited;
     notifyListeners();
 
-    getUserBusTrips(action);
+    await fetchUserBusTrips();
 
-    final AppBusStopDatabase db = AppBusStopDatabase();
-    db.updateFavoriteBusStop(stopCode);
+    final db = AppBusStopDatabase();
+    await db.updateFavoriteBusStop(stopCode);
   }
 }

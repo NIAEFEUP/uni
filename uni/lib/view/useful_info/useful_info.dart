@@ -20,24 +20,27 @@ class UsefulInfoPageView extends StatefulWidget {
 class UsefulInfoPageViewState extends GeneralPageViewState {
   @override
   Widget getBody(BuildContext context) {
-    return ListView(children: [
-      _getPageTitle(),
-      const AcademicServicesCard(),
-      const InfoDeskCard(),
-      const DonaBiaCard(),
-      const CopyCenterCard(),
-      const MultimediaCenterCard(),
-      const SigarraLinksCard(),
-      const OtherLinksCard()
-    ]);
+    return ListView(
+      children: [
+        _getPageTitle(),
+        const AcademicServicesCard(),
+        const InfoDeskCard(),
+        const DonaBiaCard(),
+        const CopyCenterCard(),
+        const MultimediaCenterCard(),
+        const SigarraLinksCard(),
+        const OtherLinksCard()
+      ],
+    );
   }
 
   Container _getPageTitle() {
     return Container(
-        padding: const EdgeInsets.only(bottom: 6.0),
-        child: const PageTitle(name: 'Úteis'));
+      padding: const EdgeInsets.only(bottom: 6),
+      child: const PageTitle(name: 'Úteis'),
+    );
   }
 
   @override
-  Future<void> handleRefresh(BuildContext context) async {}
+  Future<void> onRefresh(BuildContext context) async {}
 }

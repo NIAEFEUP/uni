@@ -1,8 +1,8 @@
+import 'package:uni/model/entities/location.dart';
 import 'package:uni/view/locations/widgets/icons.dart';
 
-import 'package:uni/model/entities/location.dart';
-
 class VendingMachine implements Location {
+  VendingMachine(this.floor, {this.locationGroupId});
   @override
   final int floor;
 
@@ -13,8 +13,6 @@ class VendingMachine implements Location {
   final icon = LocationIcons.bottleSodaClassic;
 
   final int? locationGroupId;
-
-  VendingMachine(this.floor, {this.locationGroupId});
 
   @override
   String description() {

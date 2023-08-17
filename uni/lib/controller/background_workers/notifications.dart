@@ -14,37 +14,49 @@ import 'package:uni/model/entities/session.dart';
 import 'package:workmanager/workmanager.dart';
 
 ///
-/// Stores all notifications that will be checked and displayed in the background.
+/// Stores notifications that will be checked and displayed in the background.
 /// Add your custom notification here, because it will NOT be added at runtime.
 /// (due to background worker limitations).
 ///
 Map<Type, Notification Function()> notificationMap = {
-  TuitionNotification: () => TuitionNotification(),
+  TuitionNotification: TuitionNotification.new,
 };
 
 abstract class Notification {
+  Notification(this.uniqueID, this.timeout);
+
   String uniqueID;
   Duration timeout;
-
-  Notification(this.uniqueID, this.timeout);
 
   Future<Tuple2<String, String>> buildNotificationContent(Session session);
 
   Future<bool> shouldDisplay(Session session);
 
-  void displayNotification(Tuple2<String, String> content,
-      FlutterLocalNotificationsPlugin localNotificationsPlugin);
+  void displayNotification(
+    Tuple2<String, String> content,
+    FlutterLocalNotificationsPlugin localNotificationsPlugin,
+  );
 
-  Future<void> displayNotificationIfPossible(Session session,
-      FlutterLocalNotificationsPlugin localNotificationsPlugin) async {
+  Future<void> displayNotificationIfPossible(
+    Session session,
+    FlutterLocalNotificationsPlugin localNotificationsPlugin,
+  ) async {
     if (await shouldDisplay(session)) {
       displayNotification(
-          await buildNotificationContent(session), localNotificationsPlugin);
+        await buildNotificationContent(session),
+        localNotificationsPlugin,
+      );
     }
   }
 }
 
 class NotificationManager {
+  factory NotificationManager() {
+    return _notificationManager;
+  }
+
+  NotificationManager._internal();
+
   static final NotificationManager _notificationManager =
       NotificationManager._internal();
 
@@ -55,66 +67,77 @@ class NotificationManager {
 
   static const Duration _notificationWorkerPeriod = Duration(hours: 1);
 
-  factory NotificationManager() {
-    return _notificationManager;
-  }
-
   static Future<void> updateAndTriggerNotifications() async {
-    //first we get the .json file that contains the last time that the notification have ran
-    _initFlutterNotificationsPlugin();
-    final notificationStorage = await NotificationTimeoutStorage.create();
     final userInfo = await AppSharedPreferences.getPersistentUserInfo();
     final faculties = await AppSharedPreferences.getUserFaculties();
 
-    final Session session = await NetworkRouter.login(
-        userInfo.item1, userInfo.item2, faculties, false);
+    final session = await NetworkRouter.login(
+      userInfo.item1,
+      userInfo.item2,
+      faculties,
+      persistentSession: false,
+    );
 
-    for (Notification Function() value in notificationMap.values) {
-      final Notification notification = value();
-      final DateTime lastRan = notificationStorage
+    if (session == null) {
+      return;
+    }
+
+    // Get the .json file that contains the last time that the
+    // notification has ran
+    await _initFlutterNotificationsPlugin();
+    final notificationStorage = await NotificationTimeoutStorage.create();
+
+    for (final value in notificationMap.values) {
+      final notification = value();
+      final lastRan = notificationStorage
           .getLastTimeNotificationExecuted(notification.uniqueID);
       if (lastRan.add(notification.timeout).isBefore(DateTime.now())) {
         await notification.displayNotificationIfPossible(
-            session, _localNotificationsPlugin);
+          session,
+          _localNotificationsPlugin,
+        );
         await notificationStorage.addLastTimeNotificationExecuted(
-            notification.uniqueID, DateTime.now());
+          notification.uniqueID,
+          DateTime.now(),
+        );
       }
     }
   }
 
-  void initializeNotifications() async {
-    // guarantees that the execution is only done once in the lifetime of the app.
+  Future<void> initializeNotifications() async {
+    // guarantees that the execution is only done
+    // once in the lifetime of the app.
     if (_initialized) return;
     _initialized = true;
-    _initFlutterNotificationsPlugin();
-    _buildNotificationWorker();
+    await _initFlutterNotificationsPlugin();
+    await _buildNotificationWorker();
   }
 
-  static void _initFlutterNotificationsPlugin() async {
-    const AndroidInitializationSettings initializationSettingsAndroid =
+  static Future<void> _initFlutterNotificationsPlugin() async {
+    const initializationSettingsAndroid =
         AndroidInitializationSettings('ic_notification');
 
     //request for notifications immediatly on iOS
-    const DarwinInitializationSettings darwinInitializationSettings =
-        DarwinInitializationSettings(
-            requestAlertPermission: true,
-            requestBadgePermission: true,
-            requestCriticalPermission: true);
+    const darwinInitializationSettings = DarwinInitializationSettings(
+      requestCriticalPermission: true,
+    );
 
-    const InitializationSettings initializationSettings =
-        InitializationSettings(
-            android: initializationSettingsAndroid,
-            iOS: darwinInitializationSettings,
-            macOS: darwinInitializationSettings);
+    const initializationSettings = InitializationSettings(
+      android: initializationSettingsAndroid,
+      iOS: darwinInitializationSettings,
+      macOS: darwinInitializationSettings,
+    );
 
     await _localNotificationsPlugin.initialize(initializationSettings);
 
-    //specific to android 13+, 12 or lower permission is requested when the first notification channel opens
+    // specific to android 13+, 12 or lower permission is requested when
+    // the first notification channel opens
     if (Platform.isAndroid) {
-      final AndroidFlutterLocalNotificationsPlugin androidPlugin =
-          _localNotificationsPlugin.resolvePlatformSpecificImplementation()!;
+      final androidPlugin =
+          _localNotificationsPlugin.resolvePlatformSpecificImplementation<
+              AndroidFlutterLocalNotificationsPlugin>()!;
       try {
-        final bool? permissionGranted = await androidPlugin.requestPermission();
+        final permissionGranted = await androidPlugin.requestPermission();
         if (permissionGranted != true) {
           return;
         }
@@ -122,31 +145,33 @@ class NotificationManager {
     }
   }
 
-  NotificationManager._internal();
-
-  static void _buildNotificationWorker() async {
+  static Future<void> _buildNotificationWorker() async {
     if (Platform.isAndroid) {
-      Workmanager().cancelByUniqueName(
-          "pt.up.fe.ni.uni.notificationworker"); //stop task if it's already running
-      Workmanager().registerPeriodicTask(
-        "pt.up.fe.ni.uni.notificationworker",
-        "pt.up.fe.ni.uni.notificationworker",
+      await Workmanager().cancelByUniqueName(
+        'pt.up.fe.ni.uni.notificationworker',
+      ); //stop task if it's already running
+      await Workmanager().registerPeriodicTask(
+        'pt.up.fe.ni.uni.notificationworker',
+        'pt.up.fe.ni.uni.notificationworker',
         constraints: Constraints(networkType: NetworkType.connected),
         frequency: _notificationWorkerPeriod,
       );
     } else if (Platform.isIOS || kIsWeb) {
-      //This is to guarentee that the notification will be run at least the app starts.
-      //NOTE (luisd): This is not an isolate because we can't register plugins in a isolate, in the current version of flutter
-      //  so we just do it after login
-      Logger().d("Running notification worker on main isolate...");
+      // This is to guarantee that the notification
+      // will be run at least once the app starts.
+      // NOTE (luisd): This is not an isolate because we can't register plugins
+      // in a isolate, in the current version of flutter
+      // so we just do it after login
+      Logger().d('Running notification worker on main isolate...');
       await updateAndTriggerNotifications();
       Timer.periodic(_notificationWorkerPeriod, (timer) {
-        Logger().d("Running notification worker on periodic timer...");
+        Logger().d('Running notification worker on periodic timer...');
         updateAndTriggerNotifications();
       });
     } else {
       throw PlatformException(
-          code: "WorkerManager is only supported in iOS and android...");
+        code: 'WorkerManager is only supported in iOS and android...',
+      );
     }
   }
 }

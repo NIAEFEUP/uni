@@ -8,6 +8,29 @@
 /// - The date of the `firstEnrollment`
 /// - The course `state`
 class Course {
+  Course({
+    required this.id,
+    this.festId = 0,
+    this.name,
+    this.abbreviation,
+    this.currYear,
+    this.firstEnrollment,
+    this.state,
+    this.faculty,
+    this.finishedEcts,
+    this.currentAverage,
+  });
+
+  /// Creates a new instance from a JSON object.
+  Course.fromJson(Map<String, dynamic> data)
+      : id = data['cur_id'] as int,
+        festId = data['fest_id'] as int,
+        name = data['cur_nome'] as String?,
+        currYear = data['ano_curricular'] as String?,
+        firstEnrollment = data['fest_a_lect_1_insc'] as int,
+        abbreviation = data['abbreviation'] as String?,
+        faculty = data['inst_sigla']?.toString().toLowerCase();
+
   final int id;
   final int? festId;
   final String? name;
@@ -18,30 +41,6 @@ class Course {
   String? state;
   num? finishedEcts;
   num? currentAverage;
-
-  Course(
-      {required this.id,
-      this.festId = 0,
-      this.name,
-      this.abbreviation,
-      this.currYear,
-      this.firstEnrollment,
-      this.state,
-      this.faculty,
-      this.finishedEcts,
-      this.currentAverage});
-
-  /// Creates a new instance from a JSON object.
-  static Course fromJson(dynamic data) {
-    return Course(
-        id: data['cur_id'],
-        festId: data['fest_id'],
-        name: data['cur_nome'],
-        currYear: data['ano_curricular'],
-        firstEnrollment: data['fest_a_lect_1_insc'],
-        abbreviation: data['abbreviation'],
-        faculty: data['inst_sigla'].toString().toLowerCase());
-  }
 
   /// Converts this course to a map.
   Map<String, dynamic> toMap() {

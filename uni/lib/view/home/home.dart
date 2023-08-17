@@ -19,11 +19,13 @@ class HomePageViewState extends GeneralPageViewState {
   }
 
   @override
-  Future<void> handleRefresh(BuildContext context) async {
+  Future<void> onRefresh(BuildContext context) async {
     final favoriteCardTypes = context.read<HomePageProvider>().favoriteCards;
     final cards = favoriteCardTypes
-        .map((e) =>
-            MainCardsList.cardCreators[e]!(const Key(""), false, () => null))
+        .map(
+          (e) =>
+              MainCardsList.cardCreators[e]!(const Key(''), editingMode: false),
+        )
         .toList();
 
     for (final card in cards) {

@@ -14,10 +14,9 @@ enum DrawerItem {
   navBugReport('Bugs e Sugestões'),
   navLogOut('Terminar sessão');
 
+  const DrawerItem(this.title, {this.faculties});
   final String title;
   final Set<String>? faculties;
-
-  const DrawerItem(this.title, {this.faculties});
 
   bool isVisible(List<String> userFaculties) {
     if (this == DrawerItem.navLogOut) {

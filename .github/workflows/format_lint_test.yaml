@@ -1,0 +1,75 @@
+on:
+  pull_request:
+  push:
+    branches: [master, develop]
+
+env:
+  FLUTTER_VERSION: 3.7.2
+  JAVA_VERSION: 11.x
+
+jobs:
+  format:
+    name: "Format"
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./uni
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+
+      - run: dart format $(find . -type f -name "*.dart" -a -not -name "*.g.dart") --set-exit-if-changed
+
+  lint:
+    name: "Lint"
+    runs-on: ubuntu-latest
+    needs: format
+    defaults:
+      run:
+        working-directory: ./uni
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: "zulu"
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+
+      - name: Cache pub dependencies
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.FLUTTER_HOME }}/.pub-cache
+          key: ${{ runner.os }}-pub-${{ github.ref }}-${{ hashFiles('**/pubspec.lock') }}
+          restore-keys: ${{ runner.os }}-pub-${{ github.ref }}-
+
+      - run: flutter analyze .
+
+  test:
+    name: "Test"
+    runs-on: ubuntu-latest
+    needs: lint
+    defaults:
+      run:
+        working-directory: ./uni
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: "zulu"
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+
+      - name: Test with coverage
+        run: flutter test --coverage
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: true
