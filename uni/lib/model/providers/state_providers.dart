@@ -8,6 +8,7 @@ import 'package:uni/model/providers/lazy/faculty_locations_provider.dart';
 import 'package:uni/model/providers/lazy/home_page_provider.dart';
 import 'package:uni/model/providers/lazy/lecture_provider.dart';
 import 'package:uni/model/providers/lazy/library_occupation_provider.dart';
+import 'package:uni/model/providers/lazy/public_transport_provider.dart';
 import 'package:uni/model/providers/lazy/reference_provider.dart';
 import 'package:uni/model/providers/lazy/restaurant_provider.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
@@ -27,14 +28,13 @@ class StateProviders {
     this.facultyLocationsProvider,
     this.homePageProvider,
     this.referenceProvider,
+    this.publicTransportationProvider,
   );
 
   factory StateProviders.fromContext(BuildContext context) {
     final lectureProvider =
         Provider.of<LectureProvider>(context, listen: false);
     final examProvider = Provider.of<ExamProvider>(context, listen: false);
-    final busStopProvider =
-        Provider.of<BusStopProvider>(context, listen: false);
     final restaurantProvider =
         Provider.of<RestaurantProvider>(context, listen: false);
     final courseUnitsInfoProvider =
@@ -53,6 +53,10 @@ class StateProviders {
         Provider.of<HomePageProvider>(context, listen: false);
     final referenceProvider =
         Provider.of<ReferenceProvider>(context, listen: false);
+    final publicTransportationProvider =
+        Provider.of<PublicTransportationProvider>(context, listen: false);
+    final busStopProvider =
+        Provider.of<BusStopProvider>(context, listen: false);
 
     return StateProviders(
       lectureProvider,
@@ -67,6 +71,7 @@ class StateProviders {
       facultyLocationsProvider,
       homePageProvider,
       referenceProvider,
+      publicTransportationProvider,
     );
   }
 
@@ -82,6 +87,7 @@ class StateProviders {
   final FacultyLocationsProvider facultyLocationsProvider;
   final HomePageProvider homePageProvider;
   final ReferenceProvider referenceProvider;
+  final PublicTransportationProvider publicTransportationProvider;
 
   void markAsNotInitialized() {
     lectureProvider.markAsNotInitialized();
@@ -96,5 +102,6 @@ class StateProviders {
     facultyLocationsProvider.markAsNotInitialized();
     homePageProvider.markAsNotInitialized();
     referenceProvider.markAsNotInitialized();
+    publicTransportationProvider.markAsNotInitialized();
   }
 }

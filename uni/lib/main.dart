@@ -17,6 +17,7 @@ import 'package:uni/model/providers/lazy/faculty_locations_provider.dart';
 import 'package:uni/model/providers/lazy/home_page_provider.dart';
 import 'package:uni/model/providers/lazy/lecture_provider.dart';
 import 'package:uni/model/providers/lazy/library_occupation_provider.dart';
+import 'package:uni/model/providers/lazy/public_transport_provider.dart';
 import 'package:uni/model/providers/lazy/reference_provider.dart';
 import 'package:uni/model/providers/lazy/restaurant_provider.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
@@ -35,6 +36,7 @@ import 'package:uni/view/library/library.dart';
 import 'package:uni/view/locations/locations.dart';
 import 'package:uni/view/logout_route.dart';
 import 'package:uni/view/navigation_service.dart';
+import 'package:uni/view/public_transportation/public_transportion_page.dart';
 import 'package:uni/view/restaurant/restaurant_page_view.dart';
 import 'package:uni/view/schedule/schedule.dart';
 import 'package:uni/view/splash/splash.dart';
@@ -61,6 +63,7 @@ Future<void> main() async {
     FacultyLocationsProvider(),
     HomePageProvider(),
     ReferenceProvider(),
+    PublicTransportationProvider(),
   );
 
   WidgetsFlutterBinding.ensureInitialized();
@@ -123,6 +126,9 @@ Future<void> main() async {
             ChangeNotifierProvider(
               create: (context) => stateProviders.referenceProvider,
             ),
+            ChangeNotifierProvider(
+              create: (context) => stateProviders.publicTransportationProvider,
+            ),
           ],
           child: ChangeNotifierProvider<ThemeNotifier>(
             create: (_) => ThemeNotifier(savedTheme),
@@ -179,6 +185,11 @@ class MyAppState extends State<MyApp> {
             ),
             '/${DrawerItem.navStops.title}': PageTransition.makePageTransition(
               page: const BusStopNextArrivalsPage(),
+              settings: settings,
+            ),
+            '/${DrawerItem.navPublicTransport.title}':
+                PageTransition.makePageTransition(
+              page: const PublicTransportationPage(),
               settings: settings,
             ),
             '/${DrawerItem.navCourseUnits.title}':

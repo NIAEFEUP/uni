@@ -9,8 +9,8 @@ class SigarraLinksCard extends GenericExpansionCard {
 
   @override
   Widget buildCardContent(BuildContext context) {
-    return Column(
-      children: const [
+    return const Column(
+      children: [
         LinkButton(
           title: 'Notícias',
           link: 'https://sigarra.up.pt/feup/pt/noticias_geral.lista_noticias',

@@ -51,7 +51,7 @@ class BusStopProvider extends StateProviderNotifier {
 
   Future<void> addUserBusStop(String stopCode, BusStopData stopData) async {
     if (_configuredBusStops.containsKey(stopCode)) {
-      (_configuredBusStops[stopCode]!.configuredBuses).clear();
+      _configuredBusStops[stopCode]!.configuredBuses.clear();
       _configuredBusStops[stopCode]!
           .configuredBuses
           .addAll(stopData.configuredBuses);

@@ -61,7 +61,7 @@ class BugReportFormState extends State<BugReportForm> {
 
     bugDescriptions.forEach(
       (int key, Tuple2<String, String> tup) =>
-          {bugList.add(DropdownMenuItem(value: key, child: Text(tup.item1)))},
+          bugList.add(DropdownMenuItem(value: key, child: Text(tup.item1))),
     );
   }
 
@@ -117,9 +117,9 @@ class BugReportFormState extends State<BugReportForm> {
   Widget bugReportTitle(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
-      child: Row(
+      child: const Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: const <Widget>[
+        children: <Widget>[
           Icon(Icons.bug_report, size: 40),
           PageTitle(name: 'Bugs e Sugestões', center: false),
           Icon(Icons.bug_report, size: 40),
