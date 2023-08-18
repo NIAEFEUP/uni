@@ -40,6 +40,7 @@ dependencies:
   http: ^0.13.0
   image: ^4.0.13
   intl: ^0.18.1
+  json_annotation: ^4.8.1
   latlong2: ^0.8.1
   logger: ^1.1.0
   material_design_icons_flutter: ^7.0.7296
@@ -56,24 +57,16 @@ dependencies:
   tuple: ^2.0.0
   url_launcher: ^6.0.2
   workmanager: ^0.5.1
-  json_annotation: ^4.8.1
 
 dev_dependencies:
+  build_runner: ^2.3.3
   flutter_launcher_icons: ^0.13.1
   flutter_test:
     sdk: flutter
+  json_serializable: ^6.6.0
   mockito: ^5.2.0
   test: any
   very_good_analysis: ^4.0.0+1
-  build_runner: ^2.3.3
-  json_serializable: ^6.6.0
-
-  # The "flutter_lints" package below contains a set of recommended lints to
-  # encourage good coding practices. The lint set provided by the package is
-  # activated in the `analysis_options.yaml` file located at the root of your
-  # package. See that file for information about deactivating specific lint
-  # rules and activating additional ones.
-  flutter_lints: ^2.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
