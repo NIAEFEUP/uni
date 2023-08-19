@@ -15,7 +15,7 @@ class CalendarDatabase extends AppDatabase {
     final db = await getDatabase();
     await db.transaction((txn) async {
       await txn.delete('CALENDAR');
-      for (var event in calendar) {
+      for (final event in calendar) {
         await txn.insert('CALENDAR', event.toJson());
       }
     });

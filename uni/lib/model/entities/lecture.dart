@@ -34,6 +34,9 @@ class Lecture {
     this.occurrId,
   );
 
+  factory Lecture.fromJson(Map<String, dynamic> json) =>
+      _$LectureFromJson(json);
+
   factory Lecture.fromApi(
     String subject,
     String typeClass,
@@ -121,9 +124,6 @@ class Lecture {
   DateTime endTime;
   int blocks;
   int occurrId;
-
-  factory Lecture.fromJson(Map<String, dynamic> json) =>
-      _$LectureFromJson(json);
   Map<String, dynamic> toJson() => _$LectureToJson(this);
 
   /// Prints the data in this lecture to the [Logger] with an INFO level.

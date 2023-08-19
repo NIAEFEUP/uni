@@ -17,6 +17,9 @@ class LocationGroup {
   }) : floors = locations != null
             ? groupBy(locations, (location) => location.floor)
             : Map.identity();
+
+  factory LocationGroup.fromJson(Map<String, dynamic> json) =>
+      _$LocationGroupFromJson(json);
   final Map<int, List<Location>> floors;
   final bool isFloorless;
   final LatLng latlng;
@@ -30,7 +33,5 @@ class LocationGroup {
     );
   }
 
-  factory LocationGroup.fromJson(Map<String, dynamic> json) =>
-      _$LocationGroupFromJson(json);
   Map<String, dynamic> toJson() => _$LocationGroupToJson(this);
 }

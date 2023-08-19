@@ -47,9 +47,12 @@ class AppReferencesDatabase extends AppDatabase {
   ///
   /// If a row with the same data is present, it will be replaced.
   Future<void> insertReferences(List<Reference> references) async {
-    for (Reference reference in references) {
-      await insertInDatabase('refs', reference.toJson(),
-          conflictAlgorithm: ConflictAlgorithm.replace);
+    for (final reference in references) {
+      await insertInDatabase(
+        'refs',
+        reference.toJson(),
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
     }
   }
 

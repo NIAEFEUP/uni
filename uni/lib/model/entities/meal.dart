@@ -9,13 +9,13 @@ class DateTimeConverter extends JsonConverter<DateTime, String> {
 
   @override
   DateTime fromJson(String json) {
-    final DateFormat format = DateFormat('d-M-y');
+    final format = DateFormat('d-M-y');
     return format.parse(json);
   }
 
   @override
   String toJson(DateTime object) {
-    final DateFormat format = DateFormat('d-M-y');
+    final format = DateFormat('d-M-y');
     return format.format(object);
   }
 }
@@ -24,21 +24,17 @@ class DateTimeConverter extends JsonConverter<DateTime, String> {
 @JsonSerializable()
 class Meal {
   Meal(this.type, this.name, this.dayOfWeek, this.date);
+
+  factory Meal.fromJson(Map<String, dynamic> json) => _$MealFromJson(json);
   final String type;
   final String name;
   final DayOfWeek dayOfWeek;
   final DateTime date;
-
-  factory Meal.fromJson(Map<String, dynamic> json) => _$MealFromJson(json);
   Map<String, dynamic> toJson() => _$MealToJson(this);
 
-  Map<String, dynamic> toMap(restaurantId) {
+  Map<String, dynamic> toMap(int restaurantId) {
     final map = toJson();
-    map.addEntries(
-      {
-        'id_restaurant': restaurantId,
-      } as Iterable<MapEntry<String, dynamic>>,
-    );
+    map['id_restaurant'] = restaurantId;
     return map;
   }
 }

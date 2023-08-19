@@ -13,6 +13,20 @@ part 'course.g.dart';
 /// - The course `state`
 @JsonSerializable()
 class Course {
+  Course({
+    required this.id,
+    this.festId = 0,
+    this.name,
+    this.abbreviation,
+    this.currYear,
+    this.firstEnrollment,
+    this.state,
+    this.faculty,
+    this.finishedEcts,
+    this.currentAverage,
+  });
+
+  factory Course.fromJson(Map<String, dynamic> json) => _$CourseFromJson(json);
   @JsonKey(name: 'cur_id')
   final int id;
   @JsonKey(name: 'fest_id')
@@ -30,19 +44,5 @@ class Course {
   String? state;
   num? finishedEcts;
   num? currentAverage;
-
-  Course(
-      {required this.id,
-      this.festId = 0,
-      this.name,
-      this.abbreviation,
-      this.currYear,
-      this.firstEnrollment,
-      this.state,
-      this.faculty,
-      this.finishedEcts,
-      this.currentAverage});
-
-  factory Course.fromJson(Map<String, dynamic> json) => _$CourseFromJson(json);
   Map<String, dynamic> toJson() => _$CourseToJson(this);
 }

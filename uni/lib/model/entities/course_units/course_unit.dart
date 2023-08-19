@@ -21,7 +21,10 @@ class CourseUnit {
     this.result,
     this.ects,
     this.schoolYear,
-  });
+  }); // e.g. 2020/2021
+
+  factory CourseUnit.fromJson(Map<String, dynamic> json) =>
+      _$CourseUnitFromJson(json);
 
   @JsonKey(name: 'ucurr_id')
   int id;
@@ -51,10 +54,7 @@ class CourseUnit {
   String? result;
   @JsonKey(name: 'creditos_ects')
   num? ects;
-  String? schoolYear; // e.g. 2020/2021
-
-  factory CourseUnit.fromJson(Map<String, dynamic> json) =>
-      _$CourseUnitFromJson(json);
+  String? schoolYear;
   Map<String, dynamic> toJson() => _$CourseUnitToJson(this);
 
   bool enrollmentIsValid() {

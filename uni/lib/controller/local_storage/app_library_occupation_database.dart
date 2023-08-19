@@ -18,7 +18,7 @@ CREATE TABLE FLOOR_OCCUPATION(
     final db = await getDatabase();
     await db.transaction((txn) async {
       await txn.delete('FLOOR_OCCUPATION');
-      for (var floor in occupation.floors) {
+      for (final floor in occupation.floors) {
         await txn.insert('FLOOR_OCCUPATION', floor.toJson());
       }
     });

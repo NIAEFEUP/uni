@@ -112,7 +112,7 @@ class RestaurantDatabase extends AppDatabase {
 
   /// Insert restaurant and meals in database
   Future<void> insertRestaurant(Transaction txn, Restaurant restaurant) async {
-    final int id = await txn.insert('RESTAURANTS', restaurant.toJson());
+    final id = await txn.insert('RESTAURANTS', restaurant.toJson());
     restaurant.meals.forEach((dayOfWeak, meals) async {
       for (final meal in meals) {
         await txn.insert('MEALS', meal.toMap(id));

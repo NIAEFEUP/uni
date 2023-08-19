@@ -7,6 +7,17 @@ part 'restaurant.g.dart';
 
 @JsonSerializable()
 class Restaurant {
+  Restaurant(this.id, this.name, this.reference, {required List<Meal> meals})
+      : meals = groupBy(meals, (meal) => meal.dayOfWeek);
+
+  factory Restaurant.fromMap(Map<String, dynamic> map, List<Meal> meals) {
+    final object = Restaurant.fromJson(map);
+    object.meals = object.groupMealsByDayOfWeek(meals);
+    return object;
+  }
+
+  factory Restaurant.fromJson(Map<String, dynamic> json) =>
+      _$RestaurantFromJson(json);
   @JsonKey(name: 'id')
   final int? id;
   @JsonKey(name: 'name')
@@ -19,20 +30,13 @@ class Restaurant {
     return meals.isNotEmpty;
   }
 
-  Restaurant(this.id, this.name, this.reference, {required List<Meal> meals})
-      : meals = groupBy(meals, (meal) => meal.dayOfWeek);
-
-  factory Restaurant.fromJson(Map<String, dynamic> json) =>
-      _$RestaurantFromJson(json);
   Map<String, dynamic> toJson() => _$RestaurantToJson(this);
-
-  static Restaurant fromMap(Map<String, dynamic> map, List<Meal> meals) {
-    final object = Restaurant.fromJson(map);
-    object.meals = meals as Map<DayOfWeek, List<Meal>>;
-    return object;
-  }
 
   List<Meal> getMealsOfDay(DayOfWeek dayOfWeek) {
     return meals[dayOfWeek] ?? [];
+  }
+
+  Map<DayOfWeek, List<Meal>> groupMealsByDayOfWeek(List<Meal> meals) {
+    return groupBy(meals, (meal) => meal.dayOfWeek);
   }
 }

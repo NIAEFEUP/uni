@@ -11,11 +11,11 @@ class Trip {
     required this.destination,
     required this.timeRemaining,
   });
+
+  factory Trip.fromJson(Map<String, dynamic> json) => _$TripFromJson(json);
   final String line;
   final String destination;
   final int timeRemaining;
-
-  factory Trip.fromJson(Map<String, dynamic> json) => _$TripFromJson(json);
   Map<String, dynamic> toJson() => _$TripToJson(this);
 
   /// Prints the data in this trip to the [Logger] with an INFO level.

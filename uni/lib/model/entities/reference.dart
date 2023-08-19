@@ -26,13 +26,13 @@ class Reference {
     this.reference,
     this.amount,
   );
+
+  factory Reference.fromJson(Map<String, dynamic> json) =>
+      _$ReferenceFromJson(json);
   final String description;
   final DateTime limitDate;
   final int entity;
   final int reference;
   final double amount;
-
-  factory Reference.fromJson(Map<String, dynamic> json) =>
-      _$ReferenceFromJson(json);
   Map<String, dynamic> toJson() => _$ReferenceToJson(this);
 }

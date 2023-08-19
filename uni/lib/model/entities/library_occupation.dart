@@ -8,6 +8,9 @@ class LibraryOccupation {
   LibraryOccupation(this.occupation, this.capacity) {
     floors = [];
   }
+
+  factory LibraryOccupation.fromJson(Map<String, dynamic> json) =>
+      _$LibraryOccupationFromJson(json);
   late int occupation;
   late int capacity;
   late List<FloorOccupation> floors;
@@ -28,8 +31,6 @@ class LibraryOccupation {
     return floors[number - 1];
   }
 
-  factory LibraryOccupation.fromJson(Map<String, dynamic> json) =>
-      _$LibraryOccupationFromJson(json);
   Map<String, dynamic> toJson() => _$LibraryOccupationToJson(this);
 }
 
@@ -37,6 +38,9 @@ class LibraryOccupation {
 @JsonSerializable()
 class FloorOccupation {
   FloorOccupation(this.number, this.occupation, this.capacity);
+
+  factory FloorOccupation.fromJson(Map<String, dynamic> json) =>
+      _$FloorOccupationFromJson(json);
   final int number;
   final int occupation;
   final int capacity;
@@ -46,7 +50,5 @@ class FloorOccupation {
     return (occupation * 100 / capacity).round();
   }
 
-  factory FloorOccupation.fromJson(Map<String, dynamic> json) =>
-      _$FloorOccupationFromJson(json);
   Map<String, dynamic> toJson() => _$FloorOccupationToJson(this);
 }

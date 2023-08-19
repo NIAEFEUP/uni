@@ -42,13 +42,13 @@ class DateTimeConverter extends JsonConverter<DateTime, String> {
 
   @override
   DateTime fromJson(String json) {
-    final DateFormat format = DateFormat('d-M-y');
+    final format = DateFormat('d-M-y');
     return format.parse(json);
   }
 
   @override
   String toJson(DateTime object) {
-    final DateFormat format = DateFormat('d-M-y');
+    final format = DateFormat('d-M-y');
     return format.format(object);
   }
 }
@@ -73,6 +73,8 @@ class Exam {
     this.type,
     this.faculty,
   );
+
+  factory Exam.fromJson(Map<String, dynamic> json) => _$ExamFromJson(json);
 
   Exam.secConstructor(
     this.id,
@@ -103,8 +105,6 @@ class Exam {
     'Exames ao abrigo de estatutos especiais': 'EAE'
   };
   static List<String> displayedTypes = types.keys.toList().sublist(0, 4);
-
-  factory Exam.fromJson(Map<String, dynamic> json) => _$ExamFromJson(json);
   Map<String, dynamic> toJson() => _$ExamToJson(this);
 
   /// Returns whether or not this exam has already ended.

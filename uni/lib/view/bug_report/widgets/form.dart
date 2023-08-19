@@ -239,12 +239,12 @@ class BugReportFormState extends State<BugReportForm> {
     });
     final faculties = await AppSharedPreferences.getUserFaculties();
     final bugReport = BugReport(
-            titleController.text,
-            descriptionController.text,
-            emailController.text,
-            bugDescriptions[_selectedBug],
-            faculties)
-        .toJson();
+      titleController.text,
+      descriptionController.text,
+      emailController.text,
+      bugDescriptions[_selectedBug],
+      faculties,
+    ).toJson();
     String toastMsg;
     bool status;
     try {

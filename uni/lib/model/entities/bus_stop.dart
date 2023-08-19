@@ -11,11 +11,11 @@ class BusStopData {
     this.favorited = false,
     this.trips = const [],
   });
-  final Set<String> configuredBuses;
-  bool favorited;
-  List<Trip> trips;
 
   factory BusStopData.fromJson(Map<String, dynamic> json) =>
       _$BusStopDataFromJson(json);
+  final Set<String> configuredBuses;
+  bool favorited;
+  List<Trip> trips;
   Map<String, dynamic> toJson() => _$BusStopDataToJson(this);
 }
