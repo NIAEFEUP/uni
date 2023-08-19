@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/utils/drawer_items.dart';
@@ -14,7 +13,6 @@ import 'package:uni/view/profile/profile.dart';
 /// Page with a hamburger menu and the user profile picture
 abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
   final double borderMargin = 18;
-  static ImageProvider? profileImageProvider;
 
   Future<void> onRefresh(BuildContext context);
 
@@ -34,10 +32,13 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
     BuildContext context, {
     bool forceRetrieval = false,
   }) async {
+    final sessionProvider =
+        Provider.of<SessionProvider>(context, listen: false);
+    await sessionProvider.ensureInitializedFromStorage();
     final profilePictureFile =
         await ProfileProvider.fetchOrGetCachedProfilePicture(
-      Provider.of<SessionProvider>(context, listen: false).session,
-      forceRetrieval: forceRetrieval || profileImageProvider == null,
+      sessionProvider.session,
+      forceRetrieval: forceRetrieval,
     );
     return getProfileDecorationImage(profilePictureFile);
   }
@@ -46,15 +47,12 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
   ///
   /// If the image is not found / doesn't exist returns a generic placeholder.
   DecorationImage getProfileDecorationImage(File? profilePicture) {
-    final fallbackPicture = profileImageProvider ??
-        const AssetImage('assets/images/profile_placeholder.png');
+    const fallbackPicture = AssetImage('assets/images/profile_placeholder.png');
     final image =
         profilePicture == null ? fallbackPicture : FileImage(profilePicture);
 
-    final result = DecorationImage(fit: BoxFit.cover, image: image);
-    if (profilePicture != null) {
-      profileImageProvider = image;
-    }
+    final result =
+        DecorationImage(fit: BoxFit.cover, image: image as ImageProvider);
     return result;
   }
 
@@ -143,20 +141,14 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
               ),
             )
           },
-          child: decorationImage.hasData
-              ? Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: decorationImage.data,
-                  ),
-                )
-              : Shimmer.fromColors(
-                  baseColor: Theme.of(context).highlightColor,
-                  highlightColor: Theme.of(context).colorScheme.onPrimary,
-                  child: const CircleAvatar(),
-                ),
+          child: Container(
+            width: 40,
+            height: 40,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              image: decorationImage.data,
+            ),
+          ),
         );
       },
     );

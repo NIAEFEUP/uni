@@ -20,8 +20,9 @@ import 'package:uni/model/request_status.dart';
 
 class ProfileProvider extends StateProviderNotifier {
   ProfileProvider()
-      : super(dependsOnSession: true, cacheDuration: const Duration(days: 1));
-  late Profile _profile;
+      : _profile = Profile(),
+        super(dependsOnSession: true, cacheDuration: const Duration(days: 1));
+  Profile _profile;
 
   Profile get profile => _profile;
 
@@ -165,12 +166,11 @@ class ProfileProvider extends StateProviderNotifier {
     final faculty = session.faculties[0];
     final url =
         'https://sigarra.up.pt/$faculty/pt/fotografias_service.foto?pct_cod=$studentNumber';
-    final headers = <String, String>{};
-    headers['cookie'] = session.cookies;
+
     return loadFileFromStorageOrRetrieveNew(
       '${studentNumber}_profile_picture',
       url,
-      headers,
+      session,
       forceRetrieval: forceRetrieval,
     );
   }

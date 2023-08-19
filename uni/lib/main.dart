@@ -78,11 +78,6 @@ Future<void> main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
 
-  // These providers must be valid at startup, since
-  // other lazy providers rely on their values
-  await stateProviders.sessionProvider.loadFromStorage();
-  await stateProviders.profileProvider.loadFromStorage();
-
   // Initialize WorkManager for background tasks
   await Workmanager().initialize(
     workerStartCallback,
