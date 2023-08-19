@@ -3,37 +3,45 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:uni/model/entities/location.dart';
 import 'package:uni/model/entities/location_group.dart';
-import 'package:uni/view/locations/widgets/faculty_maps.dart';
+import 'package:uni/view/locations/widgets/faculty_map.dart';
 
 class LocationMarker extends Marker {
-  final LocationGroup locationGroup;
-  final LatLng latlng;
-
   LocationMarker(this.latlng, this.locationGroup)
       : super(
           anchorPos: AnchorPos.align(AnchorAlign.center),
           height: 20,
           width: 20,
           point: latlng,
-          builder: (BuildContext ctx) => Container(
+          builder: (BuildContext ctx) => DecoratedBox(
             decoration: BoxDecoration(
-                color: Theme.of(ctx).colorScheme.background,
-                border: Border.all(
-                  color: Theme.of(ctx).colorScheme.primary,
-                ),
-                borderRadius: const BorderRadius.all(Radius.circular(20))),
-            child: getIcon(locationGroup.getLocationWithMostWeight(), ctx),
+              color: Theme.of(ctx).colorScheme.background,
+              border: Border.all(
+                color: Theme.of(ctx).colorScheme.primary,
+              ),
+              borderRadius: const BorderRadius.all(Radius.circular(20)),
+            ),
+            child: MarkerIcon(
+              location: locationGroup.getLocationWithMostWeight(),
+            ),
           ),
         );
+  final LocationGroup locationGroup;
+  final LatLng latlng;
+}
 
-  static Widget getIcon(Location? location, BuildContext context) {
+class MarkerIcon extends StatelessWidget {
+  const MarkerIcon({super.key, this.location});
+  final Location? location;
+
+  @override
+  Widget build(BuildContext context) {
     if (location == null) {
       return Container();
     }
 
-    final Color fontColor = FacultyMaps.getFontColor(context);
-    if (location.icon is IconData) {
-      return Icon(location.icon, color: fontColor, size: 12);
+    final fontColor = FacultyMap.getFontColor(context);
+    if (location?.icon is IconData) {
+      return Icon(location?.icon as IconData, color: fontColor, size: 12);
     } else {
       return Icon(Icons.device_unknown, color: fontColor, size: 12);
     }

@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
 
 class RestaurantPageCard extends GenericCard {
-  final String restaurantName;
-  final Widget meals;
-
   RestaurantPageCard(this.restaurantName, this.meals, {super.key})
       : super.customStyle(
-            editingMode: false, onDelete: () => null, smallTitle: true);
+          editingMode: false,
+          onDelete: () {},
+          hasSmallTitle: true,
+        );
+  final String restaurantName;
+  final Widget meals;
 
   @override
   Widget buildCardContent(BuildContext context) {
@@ -15,10 +17,13 @@ class RestaurantPageCard extends GenericCard {
   }
 
   @override
-  String getTitle(context) {
+  String getTitle(BuildContext context) {
     return restaurantName;
   }
 
   @override
-  onClick(BuildContext context) {}
+  void onClick(BuildContext context) {}
+
+  @override
+  void onRefresh(BuildContext context) {}
 }

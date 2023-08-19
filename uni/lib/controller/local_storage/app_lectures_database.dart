@@ -1,47 +1,48 @@
 import 'dart:async';
+
+import 'package:sqflite/sqflite.dart';
 import 'package:uni/controller/local_storage/app_database.dart';
 import 'package:uni/model/entities/lecture.dart';
-import 'package:sqflite/sqflite.dart';
 
 /// Manages the app's Lectures database.
 ///
 /// This database stores information about the user's lectures.
 /// See the [Lecture] class to see what data is stored in this database.
 class AppLecturesDatabase extends AppDatabase {
-  static const createScript =
-      '''CREATE TABLE lectures(subject TEXT, typeClass TEXT,
-          startDateTime TEXT, blocks INTEGER, room TEXT, teacher TEXT, classNumber TEXT, occurrId INTEGER)''';
-
   AppLecturesDatabase()
       : super(
-            'lectures.db',
-            [
-              createScript,
-            ],
-            onUpgrade: migrate,
-            version: 6);
+          'lectures.db',
+          [
+            createScript,
+          ],
+          onUpgrade: migrate,
+          version: 6,
+        );
+  static const createScript = '''
+CREATE TABLE lectures(subject TEXT, typeClass TEXT,
+          startDateTime TEXT, blocks INTEGER, room TEXT, teacher TEXT, classNumber TEXT, occurrId INTEGER)''';
 
-  /// Replaces all of the data in this database with [lecs].
-  saveNewLectures(List<Lecture> lecs) async {
+  /// Replaces all of the data in this database with [lectures].
+  Future<void> saveNewLectures(List<Lecture> lectures) async {
     await deleteLectures();
-    await _insertLectures(lecs);
+    await _insertLectures(lectures);
   }
 
   /// Returns a list containing all of the lectures stored in this database.
   Future<List<Lecture>> lectures() async {
-    final Database db = await getDatabase();
+    final db = await getDatabase();
     final List<Map<String, dynamic>> maps = await db.query('lectures');
 
     return List.generate(maps.length, (i) {
       return Lecture.fromApi(
-        maps[i]['subject'],
-        maps[i]['typeClass'],
-        maps[i]['startDateTime'],
-        maps[i]['blocks'],
-        maps[i]['room'],
-        maps[i]['teacher'],
-        maps[i]['classNumber'],
-        maps[i]['occurrId'],
+        maps[i]['subject'] as String,
+        maps[i]['typeClass'] as String,
+        maps[i]['startDateTime'] as DateTime,
+        maps[i]['blocks'] as int,
+        maps[i]['room'] as String,
+        maps[i]['teacher'] as String,
+        maps[i]['classNumber'] as String,
+        maps[i]['occurrId'] as int,
       );
     });
   }
@@ -50,7 +51,7 @@ class AppLecturesDatabase extends AppDatabase {
   ///
   /// If a row with the same data is present, it will be replaced.
   Future<void> _insertLectures(List<Lecture> lecs) async {
-    for (Lecture lec in lecs) {
+    for (final lec in lecs) {
       await insertInDatabase(
         'lectures',
         lec.toMap(),
@@ -62,7 +63,7 @@ class AppLecturesDatabase extends AppDatabase {
   /// Deletes all of the data stored in this database.
   Future<void> deleteLectures() async {
     // Get a reference to the database
-    final Database db = await getDatabase();
+    final db = await getDatabase();
 
     await db.delete('lectures');
   }
@@ -72,10 +73,13 @@ class AppLecturesDatabase extends AppDatabase {
   /// *Note:* This operation only updates the schema of the tables present in
   /// the database and, as such, all data is lost.
   static FutureOr<void> migrate(
-      Database db, int oldVersion, int newVersion) async {
-    final batch = db.batch();
-    batch.execute('DROP TABLE IF EXISTS lectures');
-    batch.execute(createScript);
+    Database db,
+    int oldVersion,
+    int newVersion,
+  ) async {
+    final batch = db.batch()
+      ..execute('DROP TABLE IF EXISTS lectures')
+      ..execute(createScript);
     await batch.commit();
   }
 }

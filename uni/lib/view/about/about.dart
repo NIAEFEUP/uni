@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/about/widgets/terms_and_conditions.dart';
+import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 
 class AboutPageView extends StatefulWidget {
   const AboutPageView({super.key});
@@ -14,28 +14,27 @@ class AboutPageView extends StatefulWidget {
 class AboutPageViewState extends GeneralPageViewState {
   @override
   Widget getBody(BuildContext context) {
-    final MediaQueryData queryData = MediaQuery.of(context);
+    final queryData = MediaQuery.of(context);
     return ListView(
       children: <Widget>[
-        SvgPicture.asset(
-          'assets/images/ni_logo.svg',
-          colorFilter:
-              ColorFilter.mode(Theme.of(context).primaryColor, BlendMode.srcIn),
-          width: queryData.size.height / 7,
-          height: queryData.size.height / 7,
+        Padding(
+          padding: EdgeInsets.only(top: queryData.size.width / 12),
+          child: SvgPicture.asset(
+            'assets/images/logo_ni.svg',
+            width: queryData.size.height / 7,
+            height: queryData.size.height / 7,
+          ),
         ),
         Center(
-            child: Padding(
-          padding: EdgeInsets.only(
-              left: queryData.size.width / 12,
-              right: queryData.size.width / 12,
-              top: queryData.size.width / 12,
-              bottom: queryData.size.width / 12),
-          child: Column(children: const <Widget>[
-            TermsAndConditions(),
-          ]),
-        ))
+          child: Padding(
+            padding: EdgeInsets.all(queryData.size.width / 12),
+            child: const TermsAndConditions(),
+          ),
+        )
       ],
     );
   }
+
+  @override
+  Future<void> onRefresh(BuildContext context) async {}
 }

@@ -1,39 +1,37 @@
-import 'dart:io';
-
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 
 enum WeekDays {
-  monday("Segunda", "Monday"),
-  tuesday("Terça", "Tuesday"),
-  wednesday("Quarta", "Wednesday"),
-  thursday("Quinta", "Thursday"),
-  friday("Sexta", "Friday"),
-  saturday("Sábado", "Saturday"),
-  sunday("Domingo", "Sunday");
+  monday('Segunda', 'Monday'),
+  tuesday('Terça', 'Tuesday'),
+  wednesday('Quarta', 'Wednesday'),
+  thursday('Quinta', 'Thursday'),
+  friday('Sexta', 'Friday'),
+  saturday('Sábado', 'Saturday'),
+  sunday('Domingo', 'Sunday');
 
+  const WeekDays(this.dayPT, this.dayEN);
   final String dayPT;
   final String dayEN;
-  const WeekDays(this.dayPT, this.dayEN);
 }
 
 enum Months {
-  january("janeiro", "January"),
-  february("fevereiro", "February"),
-  march("março", "March"),
-  april("abril", "April"),
-  may("maio", "May"),
-  june("junho", "June"),
-  july("julho", "July"),
-  august("agosto", "August"),
-  september("setembro", "September"),
-  october("outubro", "October"),
-  november("novembro", "November"),
-  december("dezembro", "December");
+  january('janeiro', 'January'),
+  february('fevereiro', 'February'),
+  march('março', 'March'),
+  april('abril', 'April'),
+  may('maio', 'May'),
+  june('junho', 'June'),
+  july('julho', 'July'),
+  august('agosto', 'August'),
+  september('setembro', 'September'),
+  october('outubro', 'October'),
+  november('novembro', 'November'),
+  december('dezembro', 'December');
 
+  const Months(this.monthPT, this.monthEN);
   final String monthPT;
   final String monthEN;
-  const Months(this.monthPT, this.monthEN);
 }
 
 /// Manages a generic Exam.
@@ -43,8 +41,29 @@ enum Months {
 /// - The Exam `subject`
 /// - A List with the `rooms` in which the Exam takes place
 /// - The Exam `type`
-
 class Exam {
+  Exam(
+    this.id,
+    this.begin,
+    this.end,
+    this.subject,
+    this.rooms,
+    this.type,
+    this.faculty,
+  );
+
+  Exam.secConstructor(
+    this.id,
+    this.subject,
+    this.begin,
+    this.end,
+    String rooms,
+    this.type,
+    this.faculty,
+  ) {
+    this.rooms = rooms.split(',');
+  }
+
   late final DateTime begin;
   late final DateTime end;
   late final String id;
@@ -61,23 +80,15 @@ class Exam {
     'Port.Est.Especiais': 'EE',
     'Exames ao abrigo de estatutos especiais': 'EAE'
   };
-
-  Exam(this.id, this.begin, this.end, this.subject, this.rooms, this.type,
-      this.faculty);
   static List<String> displayedTypes = types.keys.toList().sublist(0, 4);
-
-  Exam.secConstructor(this.id, this.subject, this.begin, this.end, String rooms,
-      this.type, this.faculty) {
-    this.rooms = rooms.split(',');
-  }
 
   /// Converts this exam to a map.
   Map<String, String> toMap() {
     return {
       'id': id,
       'subject': subject,
-      'begin': DateFormat("yyyy-MM-dd HH:mm:ss").format(begin),
-      'end': DateFormat("yyyy-MM-dd HH:mm:ss").format(end),
+      'begin': DateFormat('yyyy-MM-dd HH:mm:ss').format(begin),
+      'end': DateFormat('yyyy-MM-dd HH:mm:ss').format(end),
       'rooms': rooms.join(','),
       'examType': type,
       'faculty': faculty
@@ -87,14 +98,22 @@ class Exam {
   /// Returns whether or not this exam has already ended.
   bool hasEnded() => DateTime.now().compareTo(end) >= 0;
 
-  String get weekDay{
-    if(Platform.localeName == 'pt_PT') return WeekDays.values[begin.weekday - 1].dayPT;
-    return WeekDays.values[begin.weekday - 1].dayEN;
+  String locale = Intl.getCurrentLocale();
+
+  String get weekDay {
+    if (locale == 'pt_PT') {
+      return WeekDays.values[begin.weekday - 1].dayPT;
+    } else {
+      return WeekDays.values[begin.weekday - 1].dayEN;
+    }
   }
 
-  String get month{
-    if(Platform.localeName == 'pt_PT') return Months.values[begin.month - 1].monthPT;
-    return Months.values[begin.weekday - 1].monthEN;
+  String get month {
+    if (locale == 'pt_PT') {
+      return Months.values[begin.month - 1].monthPT;
+    } else {
+      return Months.values[begin.weekday - 1].monthEN;
+    }
   }
 
   String get beginTime => formatTime(begin);
@@ -105,7 +124,7 @@ class Exam {
 
   @override
   String toString() {
-    return '''$id - $subject - ${begin.year.toString()} - $month - ${begin.day} -  $beginTime-$endTime - $type - $rooms - $weekDay''';
+    return '''$id - $subject - ${begin.year} - $month - ${begin.day} -  $beginTime-$endTime - $type - $rooms - $weekDay''';
   }
 
   /// Prints the data in this exam to the [Logger] with an INFO level.
@@ -120,8 +139,8 @@ class Exam {
   @override
   int get hashCode => id.hashCode;
 
-  static getExamTypeLong(String abr) {
-    final Map<String, String> reversed = types.map((k, v) => MapEntry(v, k));
+  static String? getExamTypeLong(String abr) {
+    final reversed = types.map((k, v) => MapEntry(v, k));
     return reversed[abr];
   }
 }

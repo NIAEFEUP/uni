@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:uni/controller/local_storage/app_bus_stop_database.dart';
-import 'package:uni/model/entities/bus_stop.dart';
 import 'package:uni/generated/l10n.dart';
-import 'package:uni/model/providers/bus_stop_provider.dart';
+import 'package:uni/model/entities/bus_stop.dart';
+import 'package:uni/model/providers/lazy/bus_stop_provider.dart';
 import 'package:uni/view/bus_stop_selection/widgets/bus_stop_search.dart';
 import 'package:uni/view/bus_stop_selection/widgets/bus_stop_selection_row.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
+import 'package:uni/view/lazy_consumer.dart';
 
 class BusStopSelectionPage extends StatefulWidget {
   const BusStopSelectionPage({super.key});
@@ -19,7 +19,7 @@ class BusStopSelectionPage extends StatefulWidget {
 /// Manages the 'Bus stops' section of the app.
 class BusStopSelectionPageState
     extends SecondaryPageViewState<BusStopSelectionPage> {
-  final double borderRadius = 15.0;
+  final double borderRadius = 15;
   final DateTime now = DateTime.now();
 
   final db = AppBusStopDatabase();
@@ -27,7 +27,7 @@ class BusStopSelectionPageState
   final List<String> suggestionsList = [];
 
   List<Widget> getStopsTextList() {
-    final List<Widget> stops = [];
+    final stops = <Widget>[];
     configuredStops.forEach((stopCode, stopData) {
       stops.add(Text(stopCode));
     });
@@ -37,38 +37,52 @@ class BusStopSelectionPageState
   @override
   Widget getBody(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    return Consumer<BusStopProvider>(builder: (context, busProvider, _) {
-      final List<Widget> rows = [];
-      busProvider.configuredBusStops.forEach((stopCode, stopData) =>
-          rows.add(BusStopSelectionRow(stopCode, stopData)));
-      return ListView(
+    return LazyConsumer<BusStopProvider>(
+      builder: (context, busProvider) {
+        final rows = <Widget>[];
+        busProvider.configuredBusStops.forEach(
+          (stopCode, stopData) =>
+              rows.add(BusStopSelectionRow(stopCode, stopData)),
+        );
+        return ListView(
           padding: const EdgeInsets.only(
             bottom: 20,
           ),
           children: <Widget>[
             PageTitle(name: S.of(context).configured_buses),
             Container(
-                padding: const EdgeInsets.all(20.0),
-                child: Text( S.of(context).buses_text,
-                    textAlign: TextAlign.center)),
+              padding: const EdgeInsets.all(20),
+              child: Text(
+                S.of(context).buses_text,
+                textAlign: TextAlign.center,
+              ),
+            ),
             Column(children: rows),
             Container(
-                padding:
-                    EdgeInsets.only(left: width * 0.20, right: width * 0.20),
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      ElevatedButton(
-                        onPressed: () => showSearch(
-                            context: context, delegate: BusStopSearch()),
-                        child: Text(S.of(context).add),
-                      ),
-                      ElevatedButton(
-                        onPressed: () => Navigator.pop(context),
-                        child: Text(S.of(context).conclude),
-                      ),
-                    ]))
-          ]);
-    });
+              padding: EdgeInsets.only(left: width * 0.20, right: width * 0.20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  ElevatedButton(
+                    onPressed: () => showSearch(
+                      context: context,
+                      delegate: BusStopSearch(),
+                    ),
+                    child: Text(S.of(context).add),
+                  ),
+                  ElevatedButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: Text(S.of(context).conclude),
+                  ),
+                ],
+              ),
+            )
+          ],
+        );
+      },
+    );
   }
+
+  @override
+  Future<void> onRefresh(BuildContext context) async {}
 }

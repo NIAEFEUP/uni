@@ -10,7 +10,7 @@ import 'package:uni/generated/intl/messages_all.dart';
 
 // ignore_for_file: non_constant_identifier_names, lines_longer_than_80_chars
 // ignore_for_file: join_return_with_assignment, prefer_final_in_for_each
-// ignore_for_file: avoid_redundant_argument_values, avoid_escaping_inner_quotes
+// ignore_for_file: avoid_redundant_argument_values
 
 class S {
   S();
@@ -18,8 +18,10 @@ class S {
   static S? _current;
 
   static S get current {
-    assert(_current != null,
-        'No instance of S was loaded. Try to initialize the S delegate before accessing S.current.');
+    assert(
+      _current != null,
+      'No instance of S was loaded. Try to initialize the S delegate before accessing S.current.',
+    );
     return _current!;
   }
 
@@ -41,8 +43,10 @@ class S {
 
   static S of(BuildContext context) {
     final instance = S.maybeOf(context);
-    assert(instance != null,
-        'No instance of S present in the widget tree. Did you add S.delegate in localizationsDelegates?');
+    assert(
+      instance != null,
+      'No instance of S present in the widget tree. Did you add S.delegate in localizationsDelegates?',
+    );
     return instance!;
   }
 
@@ -143,7 +147,7 @@ class S {
   /// `Did you find any bugs in the application?\nDo you have any suggestions for the app?\nTell us so we can improve!`
   String get bs_description {
     return Intl.message(
-      'Did you find any bugs in the application?\\nDo you have any suggestions for the app?\\nTell us so we can improve!',
+      'Did you find any bugs in the application?\nDo you have any suggestions for the app?\nTell us so we can improve!',
       name: 'bs_description',
       desc: '',
       args: [],
@@ -183,7 +187,7 @@ class S {
   /// `Favorite buses will be displayed in the favorites 'Bus' widget. The remaining ones will only be displayed on the page.`
   String get buses_text {
     return Intl.message(
-      'Favorite buses will be displayed in the favorites \'Bus\' widget. The remaining ones will only be displayed on the page.',
+      "Favorite buses will be displayed in the favorites 'Bus' widget. The remaining ones will only be displayed on the page.",
       name: 'buses_text',
       desc: '',
       args: [],
@@ -353,7 +357,7 @@ class S {
   /// `D. Beatriz's stationery store`
   String get dona_bia {
     return Intl.message(
-      'D. Beatriz\'s stationery store',
+      "D. Beatriz's stationery store",
       name: 'dona_bia',
       desc: '',
       args: [],
@@ -603,7 +607,7 @@ class S {
     );
   }
 
-  /// `{title, select, horario{Schedule} exames{Exams} area{Personal Area} cadeiras{Course Units} autocarros{Buses} locais{Places} restaurantes{Restaurants} calendario{Calendar} biblioteca{Library} uteis{Utils} sobre{About} bugs{Bugs and Suggestions} other{Other}}`
+  /// `{title, select, horario{Schedule} exames{Exams} area{Personal Area} cadeiras{Course Units} autocarros{Buses} locais{Places} restaurantes{Restaurants} calendario{Calendar} biblioteca{Library} uteis{Utils} sobre{About} bugs{Bugs/ Suggestions} other{Other}}`
   String nav_title(Object title) {
     return Intl.select(
       title,
@@ -619,7 +623,7 @@ class S {
         'biblioteca': 'Library',
         'uteis': 'Utils',
         'sobre': 'About',
-        'bugs': 'Bugs and Suggestions',
+        'bugs': 'Bugs/ Suggestions',
         'other': 'Other',
       },
       name: 'nav_title',
@@ -633,6 +637,16 @@ class S {
     return Intl.message(
       'News',
       name: 'news',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Don't miss any bus!`
+  String get no_bus {
+    return Intl.message(
+      "Don't miss any bus!",
+      name: 'no_bus',
       desc: '',
       args: [],
     );
@@ -661,7 +675,7 @@ class S {
   /// `You don't have classes on`
   String get no_classes_on {
     return Intl.message(
-      'You don\'t have classes on',
+      "You don't have classes on",
       name: 'no_classes_on',
       desc: '',
       args: [],
@@ -698,11 +712,31 @@ class S {
     );
   }
 
+  /// `No date`
+  String get no_date {
+    return Intl.message(
+      'No date',
+      name: 'no_date',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `You have no exams scheduled\n`
   String get no_exams {
     return Intl.message(
       'You have no exams scheduled\n',
       name: 'no_exams',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Looks like you are on vacation!`
+  String get no_exams_label {
+    return Intl.message(
+      'Looks like you are on vacation!',
+      name: 'no_exams_label',
       desc: '',
       args: [],
     );
@@ -733,6 +767,16 @@ class S {
     return Intl.message(
       'Unnamed course',
       name: 'no_name_course',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `There are no references to pay`
+  String get no_references {
+    return Intl.message(
+      'There are no references to pay',
+      name: 'no_references',
       desc: '',
       args: [],
     );
@@ -798,6 +842,16 @@ class S {
     );
   }
 
+  /// `Pending references`
+  String get pendent_references {
+    return Intl.message(
+      'Pending references',
+      name: 'pendent_references',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Face-to-face assistance`
   String get personal_assistance {
     return Intl.message(
@@ -833,6 +887,16 @@ class S {
     return Intl.message(
       'Brief identification of the problem',
       name: 'problem_id',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete`
+  String get remove {
+    return Intl.message(
+      'Delete',
+      name: 'remove',
       desc: '',
       args: [],
     );
