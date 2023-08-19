@@ -16,7 +16,7 @@ import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/model/providers/state_providers.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 
-Future<void> logout(BuildContext context) async {
+Future<void> cleanupStoredData(BuildContext context) async {
   StateProviders.fromContext(context).markAsNotInitialized();
 
   final prefs = await SharedPreferences.getInstance();
