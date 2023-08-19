@@ -38,7 +38,6 @@ import 'package:uni/view/login/login.dart';
 import 'package:uni/view/navigation_service.dart';
 import 'package:uni/view/restaurant/restaurant_page_view.dart';
 import 'package:uni/view/schedule/schedule.dart';
-import 'package:uni/view/terms_and_condition_dialog.dart';
 import 'package:uni/view/theme.dart';
 import 'package:uni/view/theme_notifier.dart';
 import 'package:uni/view/useful_info/useful_info.dart';
@@ -178,117 +177,83 @@ class MyAppState extends State<MyApp> {
     ]);
 
     return Consumer<ThemeNotifier>(
-      builder: (context, themeNotifier, _) {
-        WidgetsBinding.instance.addPostFrameCallback(
-          (_) => requestTermsAndConditionsAcceptanceIfNeeded(),
-        );
-
-        return MaterialApp(
-          title: 'uni',
-          theme: applicationLightTheme,
-          darkTheme: applicationDarkTheme,
-          themeMode: themeNotifier.getTheme(),
-          initialRoute: widget.initialRoute,
-          navigatorKey: NavigationService.navigatorKey,
-          onGenerateRoute: (RouteSettings settings) {
-            final transitions = <String, Route<dynamic>>{
-              '/${DrawerItem.navPersonalArea.title}':
-                  PageTransition.makePageTransition(
-                page: const HomePageView(),
-                settings: settings,
-              ),
-              '/${DrawerItem.navSchedule.title}':
-                  PageTransition.makePageTransition(
-                page: const SchedulePage(),
-                settings: settings,
-              ),
-              '/${DrawerItem.navExams.title}':
-                  PageTransition.makePageTransition(
-                page: const ExamsPageView(),
-                settings: settings,
-              ),
-              '/${DrawerItem.navStops.title}':
-                  PageTransition.makePageTransition(
-                page: const BusStopNextArrivalsPage(),
-                settings: settings,
-              ),
-              '/${DrawerItem.navCourseUnits.title}':
-                  PageTransition.makePageTransition(
-                page: const CourseUnitsPageView(),
-                settings: settings,
-              ),
-              '/${DrawerItem.navLocations.title}':
-                  PageTransition.makePageTransition(
-                page: const LocationsPage(),
-                settings: settings,
-              ),
-              '/${DrawerItem.navRestaurants.title}':
-                  PageTransition.makePageTransition(
-                page: const RestaurantPageView(),
-                settings: settings,
-              ),
-              '/${DrawerItem.navCalendar.title}':
-                  PageTransition.makePageTransition(
-                page: const CalendarPageView(),
-                settings: settings,
-              ),
-              '/${DrawerItem.navLibrary.title}':
-                  PageTransition.makePageTransition(
-                page: const LibraryPageView(),
-                settings: settings,
-              ),
-              '/${DrawerItem.navUsefulInfo.title}':
-                  PageTransition.makePageTransition(
-                page: const UsefulInfoPageView(),
-                settings: settings,
-              ),
-              '/${DrawerItem.navAbout.title}':
-                  PageTransition.makePageTransition(
-                page: const AboutPageView(),
-                settings: settings,
-              ),
-              '/${DrawerItem.navBugReport.title}':
-                  PageTransition.makePageTransition(
-                page: const BugReportPageView(),
-                settings: settings,
-                maintainState: false,
-              ),
-              '/${DrawerItem.navLogIn.title}':
-                  PageTransition.makePageTransition(
-                page: const LoginPageView(),
-                settings: settings,
-              ),
-              '/${DrawerItem.navLogOut.title}':
-                  NavigationService.buildLogoutRoute(),
-            };
-            return transitions[settings.name];
-          },
-        );
-      },
+      builder: (context, themeNotifier, _) => MaterialApp(
+        title: 'uni',
+        theme: applicationLightTheme,
+        darkTheme: applicationDarkTheme,
+        themeMode: themeNotifier.getTheme(),
+        initialRoute: widget.initialRoute,
+        navigatorKey: NavigationService.navigatorKey,
+        onGenerateRoute: (RouteSettings settings) {
+          final transitions = <String, Route<dynamic>>{
+            '/${DrawerItem.navPersonalArea.title}':
+                PageTransition.makePageTransition(
+              page: const HomePageView(),
+              settings: settings,
+            ),
+            '/${DrawerItem.navSchedule.title}':
+                PageTransition.makePageTransition(
+              page: const SchedulePage(),
+              settings: settings,
+            ),
+            '/${DrawerItem.navExams.title}': PageTransition.makePageTransition(
+              page: const ExamsPageView(),
+              settings: settings,
+            ),
+            '/${DrawerItem.navStops.title}': PageTransition.makePageTransition(
+              page: const BusStopNextArrivalsPage(),
+              settings: settings,
+            ),
+            '/${DrawerItem.navCourseUnits.title}':
+                PageTransition.makePageTransition(
+              page: const CourseUnitsPageView(),
+              settings: settings,
+            ),
+            '/${DrawerItem.navLocations.title}':
+                PageTransition.makePageTransition(
+              page: const LocationsPage(),
+              settings: settings,
+            ),
+            '/${DrawerItem.navRestaurants.title}':
+                PageTransition.makePageTransition(
+              page: const RestaurantPageView(),
+              settings: settings,
+            ),
+            '/${DrawerItem.navCalendar.title}':
+                PageTransition.makePageTransition(
+              page: const CalendarPageView(),
+              settings: settings,
+            ),
+            '/${DrawerItem.navLibrary.title}':
+                PageTransition.makePageTransition(
+              page: const LibraryPageView(),
+              settings: settings,
+            ),
+            '/${DrawerItem.navUsefulInfo.title}':
+                PageTransition.makePageTransition(
+              page: const UsefulInfoPageView(),
+              settings: settings,
+            ),
+            '/${DrawerItem.navAbout.title}': PageTransition.makePageTransition(
+              page: const AboutPageView(),
+              settings: settings,
+            ),
+            '/${DrawerItem.navBugReport.title}':
+                PageTransition.makePageTransition(
+              page: const BugReportPageView(),
+              settings: settings,
+              maintainState: false,
+            ),
+            '/${DrawerItem.navLogIn.title}': PageTransition.makePageTransition(
+              page: const LoginPageView(),
+              settings: settings,
+            ),
+            '/${DrawerItem.navLogOut.title}':
+                NavigationService.buildLogoutRoute(),
+          };
+          return transitions[settings.name];
+        },
+      ),
     );
-  }
-
-  Future<void> requestTermsAndConditionsAcceptanceIfNeeded() async {
-    final userPersistentInfo =
-        await AppSharedPreferences.getPersistentUserInfo();
-    final userName = userPersistentInfo.item1;
-    final password = userPersistentInfo.item2;
-
-    if (!mounted) {
-      return;
-    }
-
-    final termsAcceptance = await TermsAndConditionDialog.buildIfTermsChanged(
-      context,
-      userName,
-      password,
-    );
-
-    switch (termsAcceptance) {
-      case TermsAndConditionsState.accepted:
-        return;
-      case TermsAndConditionsState.rejected:
-        NavigationService.logoutAndPopHistory(null);
-    }
   }
 }
