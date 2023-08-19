@@ -30,11 +30,11 @@ class LazyConsumer<T extends StateProviderNotifier> extends StatelessWidget {
         if (provider.dependsOnSession) {
           if (context.mounted) {
             await Provider.of<SessionProvider>(context, listen: false)
-                .ensureInitialized(context);
+                .ensureInitializedFromRemote(context);
           }
           if (context.mounted) {
             await Provider.of<ProfileProvider>(context, listen: false)
-                .ensureInitialized(context);
+                .ensureInitializedFromRemote(context);
           }
         }
 

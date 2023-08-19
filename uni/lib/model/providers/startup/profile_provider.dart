@@ -21,7 +21,7 @@ import 'package:uni/model/request_status.dart';
 class ProfileProvider extends StateProviderNotifier {
   ProfileProvider()
       : super(dependsOnSession: true, cacheDuration: const Duration(days: 1));
-  Profile _profile = Profile();
+  late Profile _profile;
 
   Profile get profile => _profile;
 

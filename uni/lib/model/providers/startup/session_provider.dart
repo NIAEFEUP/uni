@@ -13,14 +13,13 @@ import 'package:uni/model/request_status.dart';
 
 class SessionProvider extends StateProviderNotifier {
   SessionProvider()
-      : _session = Session(username: '', faculties: ['feup'], cookies: ''),
-        super(
+      : super(
           dependsOnSession: false,
           cacheDuration: null,
           initialStatus: RequestStatus.none,
         );
 
-  Session _session;
+  late Session _session;
 
   Session get session => _session;
 

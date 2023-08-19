@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/utils/drawer_items.dart';
@@ -142,14 +143,20 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
               ),
             )
           },
-          child: Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              image: decorationImage.data,
-            ),
-          ),
+          child: decorationImage.hasData
+              ? Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: decorationImage.data,
+                  ),
+                )
+              : Shimmer.fromColors(
+                  baseColor: Theme.of(context).highlightColor,
+                  highlightColor: Theme.of(context).colorScheme.onPrimary,
+                  child: const CircleAvatar(),
+                ),
         );
       },
     );
