@@ -127,14 +127,14 @@ Future<void> main() async {
             ChangeNotifierProvider(
               create: (context) => stateProviders.referenceProvider,
             ),
-          ],
-          child: ChangeNotifierProvider<LocaleNotifier>(
-            create: (_) => LocaleNotifier(savedLocale),
-            child: ChangeNotifierProvider<ThemeNotifier>(
-              create: (_) => ThemeNotifier(savedTheme),
-              child: const MyApp(),
+            ChangeNotifierProvider<LocaleNotifier>(
+              create: (_) => LocaleNotifier(savedLocale),
             ),
-          ),
+            ChangeNotifierProvider<ThemeNotifier>(
+              create: (_) => ThemeNotifier(savedTheme),
+            ),
+          ],
+          child: const MyApp(),
         ),
       )
     },
