@@ -46,6 +46,14 @@ class CalendarPageViewState extends GeneralPageViewState<CalendarPageView> {
   }
 
   Widget getTimeline(BuildContext context, List<CalendarEvent> calendar) {
+    // Filter out events where name or date is a non-breaking space
+    final filteredCalendar = calendar
+        .where(
+          (event) =>
+              event.name.trim() != '&nbsp;' && event.date.trim() != '&nbsp;',
+        )
+        .toList();
+
     return FixedTimeline.tileBuilder(
       theme: TimelineTheme.of(context).copyWith(
         connectorTheme: TimelineTheme.of(context)
@@ -60,7 +68,7 @@ class CalendarPageViewState extends GeneralPageViewState<CalendarPageView> {
         contentsBuilder: (context, index) => Padding(
           padding: const EdgeInsets.all(24),
           child: Text(
-            calendar[index].name,
+            filteredCalendar[index].name,
             style: Theme.of(context)
                 .textTheme
                 .titleLarge
@@ -70,13 +78,13 @@ class CalendarPageViewState extends GeneralPageViewState<CalendarPageView> {
         oppositeContentsBuilder: (context, index) => Padding(
           padding: const EdgeInsets.all(24),
           child: Text(
-            calendar[index].date,
+            filteredCalendar[index].date,
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
                   fontStyle: FontStyle.italic,
                 ),
           ),
         ),
-        itemCount: calendar.length,
+        itemCount: filteredCalendar.length,
       ),
     );
   }
