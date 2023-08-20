@@ -28,8 +28,6 @@ class BugReportFormState extends State<BugReportForm> {
     loadBugClassList();
   }
 
-  final String _gitHubPostUrl =
-      'https://api.github.com/repos/NIAEFEUP/project-schrodinger/issues';
   final String _sentryLink =
       'https://sentry.io/organizations/niaefeup/issues/?query=';
 
@@ -249,10 +247,6 @@ class BugReportFormState extends State<BugReportForm> {
     bool status;
     try {
       final sentryId = await submitSentryEvent(bugReport);
-      final gitHubRequestStatus = await submitGitHubIssue(sentryId, bugReport);
-      if (gitHubRequestStatus < 200 || gitHubRequestStatus > 400) {
-        throw Exception('Network error');
-      }
       Logger().i('Successfully submitted bug report.');
       toastMsg = 'Enviado com sucesso';
       status = true;
@@ -274,12 +268,12 @@ class BugReportFormState extends State<BugReportForm> {
       });
     }
   }
-
+/*
   Future<int> submitGitHubIssue(
     SentryId sentryEvent,
     Map<String, dynamic> bugReport,
   ) async {
-    final description = '${bugReport['bugLabel']}\nFurther information on: '
+    final description = '${bugReport['bugLabel']}'
         '$_sentryLink$sentryEvent';
     final data = {
       'title': bugReport['title'],
@@ -289,26 +283,17 @@ class BugReportFormState extends State<BugReportForm> {
     for (final faculty in bugReport['faculties'] as Iterable) {
       (data['labels'] as List).add(faculty);
     }
-    return http
-        .post(
-      Uri.parse(_gitHubPostUrl),
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'token ${dotenv.env["GH_TOKEN"]}}'
-      },
-      body: json.encode(data),
-    )
-        .then((http.Response response) {
-      return response.statusCode;
-    });
-  }
+  }*/
 
   Future<SentryId> submitSentryEvent(Map<String, dynamic> bugReport) async {
+    // Bug Report set tag email?
+
     final description = bugReport['email'] == ''
         ? '${bugReport['text']} from ${bugReport['faculty']}'
         : '${bugReport['text']} from ${bugReport['faculty']}\nContact: '
             '${bugReport['email']}';
-    return Sentry.captureMessage(
+
+    return HubAdapter().captureMessage(
       '${bugReport['bugLabel']}: ${bugReport['text']}\n$description',
     );
   }
