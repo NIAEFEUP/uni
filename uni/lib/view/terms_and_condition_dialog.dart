@@ -33,7 +33,7 @@ class TermsAndConditionDialog {
 
   static Future<void> _buildShowDialog(
     BuildContext context,
-    Completer<TermsAndConditionsState> routeCompleter,
+    Completer<TermsAndConditionsState> userTermsDecision,
     String userName,
     String password,
   ) {
@@ -60,7 +60,8 @@ class TermsAndConditionDialog {
                   ElevatedButton(
                     onPressed: () async {
                       Navigator.of(context).pop();
-                      routeCompleter.complete(TermsAndConditionsState.accepted);
+                      userTermsDecision
+                          .complete(TermsAndConditionsState.accepted);
                       await AppSharedPreferences
                           .setTermsAndConditionsAcceptance(areAccepted: true);
                     },
@@ -74,7 +75,8 @@ class TermsAndConditionDialog {
                   ElevatedButton(
                     onPressed: () async {
                       Navigator.of(context).pop();
-                      routeCompleter.complete(TermsAndConditionsState.rejected);
+                      userTermsDecision
+                          .complete(TermsAndConditionsState.rejected);
                       await AppSharedPreferences
                           .setTermsAndConditionsAcceptance(areAccepted: false);
                     },

@@ -13,18 +13,32 @@ import 'package:uni/model/request_status.dart';
 
 class SessionProvider extends StateProviderNotifier {
   SessionProvider()
-      : super(
+      : _session = Session(
+          faculties: ['feup'],
+          username: '',
+          cookies: '',
+        ),
+        super(
           dependsOnSession: false,
           cacheDuration: null,
           initialStatus: RequestStatus.none,
         );
 
-  late Session _session;
+  Session _session;
 
   Session get session => _session;
 
   @override
-  Future<void> loadFromStorage() async {}
+  Future<void> loadFromStorage() async {
+    final userPersistentInfo =
+        await AppSharedPreferences.getPersistentUserInfo();
+    final userName = userPersistentInfo.item1;
+    final password = userPersistentInfo.item2;
+
+    final faculties = await AppSharedPreferences.getUserFaculties();
+
+    restoreSession(userName, password, faculties);
+  }
 
   @override
   Future<void> loadFromRemote(Session session, Profile profile) async {
