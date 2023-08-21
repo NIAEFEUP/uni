@@ -68,12 +68,12 @@ Widget createPasswordInput(
 
 /// Creates the widget for the user to keep signed in (save his data).
 Widget createSaveDataCheckBox(
-  void Function(bool?)? setKeepSignedIn, {
+  void Function({bool? value})? setKeepSignedIn, {
   required bool keepSignedIn,
 }) {
   return CheckboxListTile(
     value: keepSignedIn,
-    onChanged: setKeepSignedIn,
+    onChanged: (value) => setKeepSignedIn?.call(value: value),
     title: const Text(
       'Manter sessão iniciada',
       textAlign: TextAlign.center,
