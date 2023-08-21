@@ -17,6 +17,7 @@ import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/lazy/exam_provider.dart';
 import 'package:uni/view/exams/exams.dart';
 
+import '../../mocks/integration/src/exams_page_test.mocks.dart';
 import '../../test_widget.dart';
 
 @GenerateNiceMocks([MockSpec<http.Client>(), MockSpec<http.Response>()])

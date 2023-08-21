@@ -16,6 +16,7 @@ import 'package:uni/model/providers/lazy/lecture_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/view/schedule/schedule.dart';
 
+import '../../mocks/integration/src/schedule_page_test.mocks.dart';
 import '../../test_widget.dart';
 import '../../unit/view/Widgets/schedule_slot_test.dart';
 
