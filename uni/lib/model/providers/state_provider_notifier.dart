@@ -12,8 +12,8 @@ import 'package:uni/model/request_status.dart';
 
 abstract class StateProviderNotifier extends ChangeNotifier {
   StateProviderNotifier({
-    required this.dependsOnSession,
     required this.cacheDuration,
+    this.dependsOnSession = true,
     RequestStatus initialStatus = RequestStatus.busy,
     bool initialize = true,
   })  : _initialStatus = initialStatus,
