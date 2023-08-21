@@ -246,7 +246,7 @@ class BugReportFormState extends State<BugReportForm> {
     String toastMsg;
     bool status;
     try {
-      final sentryId = await submitSentryEvent(bugReport);
+      await submitSentryEvent(bugReport);
       Logger().i('Successfully submitted bug report.');
       toastMsg = 'Enviado com sucesso';
       status = true;
@@ -268,34 +268,24 @@ class BugReportFormState extends State<BugReportForm> {
       });
     }
   }
-/*
-  Future<int> submitGitHubIssue(
-    SentryId sentryEvent,
-    Map<String, dynamic> bugReport,
-  ) async {
-    final description = '${bugReport['bugLabel']}'
-        '$_sentryLink$sentryEvent';
-    final data = {
-      'title': bugReport['title'],
-      'body': description,
-      'labels': ['In-app bug report', bugReport['bugLabel']],
-    };
-    for (final faculty in bugReport['faculties'] as Iterable) {
-      (data['labels'] as List).add(faculty);
-    }
-  }*/
 
-  Future<SentryId> submitSentryEvent(Map<String, dynamic> bugReport) async {
-    // Bug Report set tag email?
-
-    final description = bugReport['email'] == ''
-        ? '${bugReport['text']} from ${bugReport['faculty']}'
-        : '${bugReport['text']} from ${bugReport['faculty']}\nContact: '
-            '${bugReport['email']}';
-
-    return HubAdapter().captureMessage(
-      '${bugReport['bugLabel']}: ${bugReport['text']}\n$description',
+  Future<void> submitSentryEvent(Map<String, dynamic> bugReport) async {
+    final sentryId = await Sentry.captureMessage(
+      'User Feedback',
+      withScope: (scope) {
+        scope
+          ..setTag('report', 'true')
+          ..setTag('report.type', bugReport['bugLabel'] as String);
+      },
     );
+
+    final userFeedback = SentryUserFeedback(
+      eventId: sentryId,
+      comments: '${bugReport['title']}\n ${bugReport['text']}',
+      email: bugReport['email'] as String,
+    );
+
+    await Sentry.captureUserFeedback(userFeedback);
   }
 
   void clearForm() {
