@@ -10,10 +10,9 @@ import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/model/request_status.dart';
 
 class CalendarProvider extends StateProviderNotifier {
-  List<CalendarEvent> _calendar = [];
-
   CalendarProvider()
       : super(dependsOnSession: true, cacheDuration: const Duration(days: 30));
+  List<CalendarEvent> _calendar = [];
 
   UnmodifiableListView<CalendarEvent> get calendar =>
       UnmodifiableListView(_calendar);
@@ -27,8 +26,8 @@ class CalendarProvider extends StateProviderNotifier {
     try {
       _calendar = await CalendarFetcherHtml().getCalendar(session);
 
-      final CalendarDatabase db = CalendarDatabase();
-      db.saveCalendar(calendar);
+      final db = CalendarDatabase();
+      unawaited(db.saveCalendar(calendar));
 
       updateStatus(RequestStatus.successful);
     } catch (e) {
@@ -38,7 +37,7 @@ class CalendarProvider extends StateProviderNotifier {
 
   @override
   Future<void> loadFromStorage() async {
-    final CalendarDatabase db = CalendarDatabase();
+    final db = CalendarDatabase();
     _calendar = await db.calendar();
   }
 }

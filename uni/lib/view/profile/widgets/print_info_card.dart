@@ -6,11 +6,13 @@ import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/profile/widgets/create_print_mb_dialog.dart';
 
 class PrintInfoCard extends GenericCard {
-  PrintInfoCard({Key? key}) : super(key: key);
+  PrintInfoCard({super.key});
 
   const PrintInfoCard.fromEditingInformation(
-      Key key, bool editingMode, Function()? onDelete)
-      : super.fromEditingInformation(key, editingMode, onDelete);
+    super.key, {
+    required super.editingMode,
+    super.onDelete,
+  }) : super.fromEditingInformation();
 
   @override
   Widget buildCardContent(BuildContext context) {
@@ -21,38 +23,52 @@ class PrintInfoCard extends GenericCard {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Table(
-                columnWidths: const {
-                  1: FractionColumnWidth(0.4),
-                  2: FractionColumnWidth(.1)
-                },
-                defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-                children: [
-                  TableRow(children: [
+              columnWidths: const {
+                1: FractionColumnWidth(0.4),
+                2: FractionColumnWidth(.1)
+              },
+              defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+              children: [
+                TableRow(
+                  children: [
                     Container(
                       margin: const EdgeInsets.only(
-                          top: 20.0, bottom: 20.0, left: 20.0),
-                      child: Text('Valor disponível: ',
-                          style: Theme.of(context).textTheme.titleSmall),
+                        top: 20,
+                        bottom: 20,
+                        left: 20,
+                      ),
+                      child: Text(
+                        'Valor disponível: ',
+                        style: Theme.of(context).textTheme.titleSmall,
+                      ),
                     ),
                     Container(
-                        margin: const EdgeInsets.only(right: 15.0),
-                        child: Text(profile.printBalance,
-                            textAlign: TextAlign.end,
-                            style: Theme.of(context).textTheme.titleLarge)),
+                      margin: const EdgeInsets.only(right: 15),
+                      child: Text(
+                        profile.printBalance,
+                        textAlign: TextAlign.end,
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                    ),
                     Container(
-                        margin: const EdgeInsets.only(right: 5.0),
-                        height: 30,
-                        child: ElevatedButton(
-                          style: OutlinedButton.styleFrom(
-                            padding: EdgeInsets.zero,
-                          ),
-                          onPressed: () => addMoneyDialog(context),
-                          child: const Center(child: Icon(Icons.add)),
-                        )),
-                  ])
-                ]),
+                      margin: const EdgeInsets.only(right: 5),
+                      height: 30,
+                      child: ElevatedButton(
+                        style: OutlinedButton.styleFrom(
+                          padding: EdgeInsets.zero,
+                        ),
+                        onPressed: () => addMoneyDialog(context),
+                        child: const Center(child: Icon(Icons.add)),
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ),
             showLastRefreshedTime(
-                profileStateProvider.printRefreshTime, context)
+              profileStateProvider.lastUpdateTime?.toIso8601String(),
+              context,
+            )
           ],
         );
       },
@@ -63,7 +79,7 @@ class PrintInfoCard extends GenericCard {
   String getTitle() => 'Impressões';
 
   @override
-  onClick(BuildContext context) {}
+  void onClick(BuildContext context) {}
 
   @override
   void onRefresh(BuildContext context) {

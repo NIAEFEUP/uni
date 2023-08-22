@@ -1,5 +1,3 @@
-library constants;
-
 const faculties = [
   'faup',
   'fbaup',

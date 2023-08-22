@@ -1,5 +1,23 @@
 /// Stores information about a course unit.
 class CourseUnit {
+  CourseUnit({
+    required this.abbreviation,
+    required this.name,
+    required this.occurrId,
+    this.id = 0,
+    this.code = '',
+    this.curricularYear,
+    this.semesterCode,
+    this.semesterName,
+    this.type,
+    this.status,
+    this.grade,
+    this.ectsGrade,
+    this.result,
+    this.ects,
+    this.schoolYear,
+  });
+
   int id;
   String code;
   String abbreviation;
@@ -14,45 +32,33 @@ class CourseUnit {
   String? ectsGrade;
   String? result;
   num? ects;
-  String? schoolYear;
-
-  CourseUnit(
-      {this.id = 0,
-      this.code = '',
-      required this.abbreviation,
-      required this.name,
-      this.curricularYear,
-      required this.occurrId,
-      this.semesterCode,
-      this.semesterName,
-      this.type,
-      this.status,
-      this.grade,
-      this.ectsGrade,
-      this.result,
-      this.ects,
-      this.schoolYear});
+  String? schoolYear; // e.g. 2020/2021
 
   /// Creates a new instance from a JSON object.
-  static CourseUnit? fromJson(dynamic data) {
+  static CourseUnit? fromJson(Map<String, dynamic> data) {
     if (data['ucurr_id'] == null) {
       return null;
     }
+
     return CourseUnit(
-        id: data['ucurr_id'],
-        code: data['ucurr_codigo'],
-        abbreviation: data['ucurr_sigla'],
-        name: data['ucurr_nome'],
-        curricularYear: data['ano'],
-        occurrId: data['ocorr_id'],
-        semesterCode: data['per_codigo'],
-        semesterName: data['per_nome'],
-        type: data['tipo'],
-        status: data['estado'],
-        grade: data['resultado_melhor'],
-        ectsGrade: data['resultado_ects'],
-        result: data['resultado_insc'],
-        ects: data['creditos_ects']);
+      id: data['ucurr_id'] as int,
+      code: data['ucurr_codigo'] as String,
+      abbreviation: data['ucurr_sigla'] as String,
+      name: data['ucurr_nome'] as String,
+      curricularYear: data['ano'] as int,
+      occurrId: data['ocorr_id'] as int,
+      semesterCode: data['per_codigo'] as String?,
+      semesterName: data['per_nome'] as String?,
+      type: data['tipo'] as String?,
+      status: data['estado'] as String?,
+      grade: data['resultado_melhor'] as String?,
+      ectsGrade: data['resultado_ects'] as String?,
+      result: data['resultado_insc'] as String?,
+      ects: data['creditos_ects'] as num?,
+      schoolYear: data['a_lectivo'] == null
+          ? null
+          : toSchoolYear(data['a_lectivo'] as int),
+    );
   }
 
   Map<String, dynamic> toMap() {
@@ -77,5 +83,9 @@ class CourseUnit {
 
   bool enrollmentIsValid() {
     return status == 'V';
+  }
+
+  static String toSchoolYear(int year) {
+    return '$year/${year + 1}';
   }
 }

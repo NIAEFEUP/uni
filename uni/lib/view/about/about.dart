@@ -14,21 +14,23 @@ class AboutPageView extends StatefulWidget {
 class AboutPageViewState extends GeneralPageViewState {
   @override
   Widget getBody(BuildContext context) {
-    final MediaQueryData queryData = MediaQuery.of(context);
+    final queryData = MediaQuery.of(context);
     return ListView(
       children: <Widget>[
         Padding(
-            padding: EdgeInsets.only(top: queryData.size.width / 12),
-            child: SvgPicture.asset(
-              'assets/images/logo_ni.svg',
-              width: queryData.size.height / 7,
-              height: queryData.size.height / 7,
-            )),
+          padding: EdgeInsets.only(top: queryData.size.width / 12),
+          child: SvgPicture.asset(
+            'assets/images/logo_ni.svg',
+            width: queryData.size.height / 7,
+            height: queryData.size.height / 7,
+          ),
+        ),
         Center(
-            child: Padding(
-          padding: EdgeInsets.all(queryData.size.width / 12),
-          child: const TermsAndConditions(),
-        ))
+          child: Padding(
+            padding: EdgeInsets.all(queryData.size.width / 12),
+            child: const TermsAndConditions(),
+          ),
+        )
       ],
     );
   }

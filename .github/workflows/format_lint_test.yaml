@@ -1,4 +1,7 @@
-on: pull_request
+on:
+  pull_request:
+  push:
+    branches: [master, develop]
 
 env:
   FLUTTER_VERSION: 3.7.2
@@ -6,7 +9,7 @@ env:
 
 jobs:
   format:
-    name: 'Format'
+    name: "Format"
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -20,7 +23,7 @@ jobs:
       - run: dart format $(find . -type f -name "*.dart" -a -not -name "*.g.dart") --set-exit-if-changed
 
   lint:
-    name: 'Lint'
+    name: "Lint"
     runs-on: ubuntu-latest
     needs: format
     defaults:
@@ -31,7 +34,7 @@ jobs:
       - uses: actions/setup-java@v3
         with:
           java-version: ${{ env.JAVA_VERSION }}
-          distribution: 'zulu'
+          distribution: "zulu"
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
@@ -46,7 +49,7 @@ jobs:
       - run: flutter analyze .
 
   test:
-    name: 'Test'
+    name: "Test"
     runs-on: ubuntu-latest
     needs: lint
     defaults:
@@ -57,9 +60,16 @@ jobs:
       - uses: actions/setup-java@v3
         with:
           java-version: ${{ env.JAVA_VERSION }}
-          distribution: 'zulu'
+          distribution: "zulu"
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
 
-      - run: flutter test --no-sound-null-safety
+      - name: Test with coverage
+        run: flutter test --coverage
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: true

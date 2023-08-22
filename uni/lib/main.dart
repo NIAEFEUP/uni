@@ -8,6 +8,7 @@ import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:uni/controller/background_workers/background_callback.dart';
+import 'package:uni/controller/load_static/terms_and_conditions.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/model/providers/lazy/bus_stop_provider.dart';
 import 'package:uni/model/providers/lazy/calendar_provider.dart';
@@ -33,11 +34,10 @@ import 'package:uni/view/exams/exams.dart';
 import 'package:uni/view/home/home.dart';
 import 'package:uni/view/library/library.dart';
 import 'package:uni/view/locations/locations.dart';
-import 'package:uni/view/logout_route.dart';
+import 'package:uni/view/login/login.dart';
 import 'package:uni/view/navigation_service.dart';
 import 'package:uni/view/restaurant/restaurant_page_view.dart';
 import 'package:uni/view/schedule/schedule.dart';
-import 'package:uni/view/splash/splash.dart';
 import 'package:uni/view/theme.dart';
 import 'package:uni/view/theme_notifier.dart';
 import 'package:uni/view/useful_info/useful_info.dart';
@@ -47,75 +47,107 @@ SentryEvent? beforeSend(SentryEvent event) {
   return event.level == SentryLevel.info ? event : null;
 }
 
+Future<String> firstRoute() async {
+  final userPersistentInfo = await AppSharedPreferences.getPersistentUserInfo();
+  final userName = userPersistentInfo.item1;
+  final password = userPersistentInfo.item2;
+
+  if (userName != '' && password != '') {
+    return '/${DrawerItem.navPersonalArea.title}';
+  }
+
+  await acceptTermsAndConditions();
+  return '/${DrawerItem.navLogIn.title}';
+}
+
 Future<void> main() async {
   final stateProviders = StateProviders(
-      LectureProvider(),
-      ExamProvider(),
-      BusStopProvider(),
-      RestaurantProvider(),
-      ProfileProvider(),
-      CourseUnitsInfoProvider(),
-      SessionProvider(),
-      CalendarProvider(),
-      LibraryOccupationProvider(),
-      FacultyLocationsProvider(),
-      HomePageProvider(),
-      ReferenceProvider());
+    LectureProvider(),
+    ExamProvider(),
+    BusStopProvider(),
+    RestaurantProvider(),
+    ProfileProvider(),
+    CourseUnitsInfoProvider(),
+    SessionProvider(),
+    CalendarProvider(),
+    LibraryOccupationProvider(),
+    FacultyLocationsProvider(),
+    HomePageProvider(),
+    ReferenceProvider(),
+  );
 
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Workmanager().initialize(workerStartCallback,
-      isInDebugMode:
-          !kReleaseMode // run workmanager in debug mode when app is in debug mode
-      );
+  // Initialize WorkManager for background tasks
+  await Workmanager().initialize(
+    workerStartCallback,
+    isInDebugMode: !kReleaseMode,
+  );
 
+  // Read environment, which may include app tokens
   await dotenv
-      .load(fileName: "assets/env/.env", isOptional: true)
+      .load(fileName: 'assets/env/.env', isOptional: true)
       .onError((error, stackTrace) {
-    Logger().e("Error loading .env file: $error", error, stackTrace);
+    Logger().e('Error loading .env file: $error', error, stackTrace);
   });
 
   final savedTheme = await AppSharedPreferences.getThemeMode();
-  await SentryFlutter.init((options) {
-    options.dsn =
-        'https://a2661645df1c4992b24161010c5e0ecb@o553498.ingest.sentry.io/5680848';
-  },
-      appRunner: () => {
-            runApp(MultiProvider(
-                providers: [
-                  ChangeNotifierProvider(
-                      create: (context) => stateProviders.lectureProvider),
-                  ChangeNotifierProvider(
-                      create: (context) => stateProviders.examProvider),
-                  ChangeNotifierProvider(
-                      create: (context) => stateProviders.busStopProvider),
-                  ChangeNotifierProvider(
-                      create: (context) => stateProviders.restaurantProvider),
-                  ChangeNotifierProvider(
-                      create: (context) => stateProviders.profileProvider),
-                  ChangeNotifierProvider(
-                      create: (context) =>
-                          stateProviders.courseUnitsInfoProvider),
-                  ChangeNotifierProvider(
-                      create: (context) => stateProviders.sessionProvider),
-                  ChangeNotifierProvider(
-                      create: (context) => stateProviders.calendarProvider),
-                  ChangeNotifierProvider(
-                      create: (context) =>
-                          stateProviders.libraryOccupationProvider),
-                  ChangeNotifierProvider(
-                      create: (context) =>
-                          stateProviders.facultyLocationsProvider),
-                  ChangeNotifierProvider(
-                      create: (context) => stateProviders.homePageProvider),
-                  ChangeNotifierProvider(
-                      create: (context) => stateProviders.referenceProvider),
-                ],
-                child: ChangeNotifierProvider<ThemeNotifier>(
-                  create: (_) => ThemeNotifier(savedTheme),
-                  child: const MyApp(),
-                )))
-          });
+  final route = await firstRoute();
+
+  await SentryFlutter.init(
+    (options) {
+      options.dsn =
+          'https://a2661645df1c4992b24161010c5e0ecb@o553498.ingest.sentry.io/5680848';
+    },
+    appRunner: () {
+      runApp(
+        MultiProvider(
+          providers: [
+            ChangeNotifierProvider(
+              create: (context) => stateProviders.lectureProvider,
+            ),
+            ChangeNotifierProvider(
+              create: (context) => stateProviders.examProvider,
+            ),
+            ChangeNotifierProvider(
+              create: (context) => stateProviders.busStopProvider,
+            ),
+            ChangeNotifierProvider(
+              create: (context) => stateProviders.restaurantProvider,
+            ),
+            ChangeNotifierProvider(
+              create: (context) => stateProviders.profileProvider,
+            ),
+            ChangeNotifierProvider(
+              create: (context) => stateProviders.courseUnitsInfoProvider,
+            ),
+            ChangeNotifierProvider(
+              create: (context) => stateProviders.sessionProvider,
+            ),
+            ChangeNotifierProvider(
+              create: (context) => stateProviders.calendarProvider,
+            ),
+            ChangeNotifierProvider(
+              create: (context) => stateProviders.libraryOccupationProvider,
+            ),
+            ChangeNotifierProvider(
+              create: (context) => stateProviders.facultyLocationsProvider,
+            ),
+            ChangeNotifierProvider(
+              create: (context) => stateProviders.homePageProvider,
+            ),
+            ChangeNotifierProvider(
+              create: (context) => stateProviders.referenceProvider,
+            ),
+          ],
+          child: ChangeNotifierProvider<ThemeNotifier>(
+            create: (_) => ThemeNotifier(savedTheme),
+            child: MyApp(route),
+          ),
+        ),
+      );
+    },
+  );
 }
 
 /// Manages the state of the app
@@ -123,7 +155,9 @@ Future<void> main() async {
 /// This class is necessary to track the app's state for
 /// the current execution
 class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+  const MyApp(this.initialRoute, {super.key});
+
+  final String initialRoute;
 
   @override
   State<MyApp> createState() => MyAppState();
@@ -139,57 +173,82 @@ class MyAppState extends State<MyApp> {
 
     return Consumer<ThemeNotifier>(
       builder: (context, themeNotifier, _) => MaterialApp(
-          title: 'uni',
-          theme: applicationLightTheme,
-          darkTheme: applicationDarkTheme,
-          themeMode: themeNotifier.getTheme(),
-          home: const SplashScreen(),
-          navigatorKey: NavigationService.navigatorKey,
-          onGenerateRoute: (RouteSettings settings) {
-            final Map<String, Route<dynamic>> transitions = {
-              '/${DrawerItem.navPersonalArea.title}':
-                  PageTransition.makePageTransition(
-                      page: const HomePageView(), settings: settings),
-              '/${DrawerItem.navSchedule.title}':
-                  PageTransition.makePageTransition(
-                      page: const SchedulePage(), settings: settings),
-              '/${DrawerItem.navExams.title}':
-                  PageTransition.makePageTransition(
-                      page: const ExamsPageView(), settings: settings),
-              '/${DrawerItem.navStops.title}':
-                  PageTransition.makePageTransition(
-                      page: const BusStopNextArrivalsPage(),
-                      settings: settings),
-              '/${DrawerItem.navCourseUnits.title}':
-                  PageTransition.makePageTransition(
-                      page: const CourseUnitsPageView(), settings: settings),
-              '/${DrawerItem.navLocations.title}':
-                  PageTransition.makePageTransition(
-                      page: const LocationsPage(), settings: settings),
-              '/${DrawerItem.navRestaurants.title}':
-                  PageTransition.makePageTransition(
-                      page: const RestaurantPageView(), settings: settings),
-              '/${DrawerItem.navCalendar.title}':
-                  PageTransition.makePageTransition(
-                      page: const CalendarPageView(), settings: settings),
-              '/${DrawerItem.navLibrary.title}':
-                  PageTransition.makePageTransition(
-                      page: const LibraryPageView(), settings: settings),
-              '/${DrawerItem.navUsefulInfo.title}':
-                  PageTransition.makePageTransition(
-                      page: const UsefulInfoPageView(), settings: settings),
-              '/${DrawerItem.navAbout.title}':
-                  PageTransition.makePageTransition(
-                      page: const AboutPageView(), settings: settings),
-              '/${DrawerItem.navBugReport.title}':
-                  PageTransition.makePageTransition(
-                      page: const BugReportPageView(),
-                      settings: settings,
-                      maintainState: false),
-              '/${DrawerItem.navLogOut.title}': LogoutRoute.buildLogoutRoute()
-            };
-            return transitions[settings.name];
-          }),
+        title: 'uni',
+        theme: applicationLightTheme,
+        darkTheme: applicationDarkTheme,
+        themeMode: themeNotifier.getTheme(),
+        initialRoute: widget.initialRoute,
+        navigatorKey: NavigationService.navigatorKey,
+        onGenerateRoute: (RouteSettings settings) {
+          final transitions = <String, Route<dynamic>>{
+            '/${DrawerItem.navPersonalArea.title}':
+                PageTransition.makePageTransition(
+              page: const HomePageView(),
+              settings: settings,
+            ),
+            '/${DrawerItem.navSchedule.title}':
+                PageTransition.makePageTransition(
+              page: const SchedulePage(),
+              settings: settings,
+            ),
+            '/${DrawerItem.navExams.title}': PageTransition.makePageTransition(
+              page: const ExamsPageView(),
+              settings: settings,
+            ),
+            '/${DrawerItem.navStops.title}': PageTransition.makePageTransition(
+              page: const BusStopNextArrivalsPage(),
+              settings: settings,
+            ),
+            '/${DrawerItem.navCourseUnits.title}':
+                PageTransition.makePageTransition(
+              page: const CourseUnitsPageView(),
+              settings: settings,
+            ),
+            '/${DrawerItem.navLocations.title}':
+                PageTransition.makePageTransition(
+              page: const LocationsPage(),
+              settings: settings,
+            ),
+            '/${DrawerItem.navRestaurants.title}':
+                PageTransition.makePageTransition(
+              page: const RestaurantPageView(),
+              settings: settings,
+            ),
+            '/${DrawerItem.navCalendar.title}':
+                PageTransition.makePageTransition(
+              page: const CalendarPageView(),
+              settings: settings,
+            ),
+            '/${DrawerItem.navLibrary.title}':
+                PageTransition.makePageTransition(
+              page: const LibraryPageView(),
+              settings: settings,
+            ),
+            '/${DrawerItem.navUsefulInfo.title}':
+                PageTransition.makePageTransition(
+              page: const UsefulInfoPageView(),
+              settings: settings,
+            ),
+            '/${DrawerItem.navAbout.title}': PageTransition.makePageTransition(
+              page: const AboutPageView(),
+              settings: settings,
+            ),
+            '/${DrawerItem.navBugReport.title}':
+                PageTransition.makePageTransition(
+              page: const BugReportPageView(),
+              settings: settings,
+              maintainState: false,
+            ),
+            '/${DrawerItem.navLogIn.title}': PageTransition.makePageTransition(
+              page: const LoginPageView(),
+              settings: settings,
+            ),
+            '/${DrawerItem.navLogOut.title}':
+                NavigationService.buildLogoutRoute(),
+          };
+          return transitions[settings.name];
+        },
+      ),
     );
   }
 }

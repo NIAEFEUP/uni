@@ -24,7 +24,7 @@ class AppBusStopDatabase extends AppDatabase {
   /// * a value in this map is the corresponding [BusStopData] instance.
   Future<Map<String, BusStopData>> busStops() async {
     // Get a reference to the database
-    final Database db = await getDatabase();
+    final db = await getDatabase();
 
     // Query the table for all bus stops
     final List<Map<String, dynamic>> buses = await db.query('busstops');
@@ -32,23 +32,28 @@ class AppBusStopDatabase extends AppDatabase {
     final List<Map<String, dynamic>> favoritesQueryResult =
         await db.query('favoritestops');
 
-    final Map<String, bool> favorites = {};
-    for (var e in favoritesQueryResult) {
-      favorites[e['stopCode']] = e['favorited'] == '1';
+    final favorites = <String, bool>{};
+    for (final station in favoritesQueryResult) {
+      favorites[station['stopCode'] as String] = station['favorited'] == '1';
     }
 
-    final Map<String, BusStopData> stops = {};
-    groupBy(buses, (stop) => (stop! as dynamic)['stopCode']).forEach(
-        (stopCode, busCodeList) => stops[stopCode] = BusStopData(
-            configuredBuses: Set<String>.from(
-                busCodeList.map((busEntry) => busEntry['busCode'])),
-            favorited: favorites[stopCode]!));
+    final stops = <String, BusStopData>{};
+    groupBy(buses, (stop) => (stop! as Map<String, dynamic>)['stopCode'])
+        .forEach(
+      (stopCode, busCodeList) => stops[stopCode as String] = BusStopData(
+        configuredBuses: Set<String>.from(
+          busCodeList.map((busEntry) => busEntry['busCode']),
+        ),
+        favorited: favorites[stopCode]!,
+      ),
+    );
+
     return stops;
   }
 
   /// Toggles whether or not a bus stop is considered a user's favorite.
   Future<void> updateFavoriteBusStop(String stopCode) async {
-    final Map<String, BusStopData> stops = await busStops();
+    final stops = await busStops();
     stops[stopCode]!.favorited = !stops[stopCode]!.favorited;
     await deleteBusStops();
     await _insertBusStops(stops);
@@ -56,7 +61,7 @@ class AppBusStopDatabase extends AppDatabase {
 
   /// Adds a bus stop to this database.
   Future<void> addBusStop(String stopCode, BusStopData stopData) async {
-    final Map<String, BusStopData> stops = await busStops();
+    final stops = await busStops();
     stops[stopCode] = stopData;
     await deleteBusStops();
     await _insertBusStops(stops);
@@ -64,7 +69,7 @@ class AppBusStopDatabase extends AppDatabase {
 
   /// Removes a bus stop from this database.
   Future<void> removeBusStop(String stopCode) async {
-    final Map<String, BusStopData> stops = await busStops();
+    final stops = await busStops();
     stops.remove(stopCode);
     await deleteBusStops();
     await _insertBusStops(stops);
@@ -74,10 +79,12 @@ class AppBusStopDatabase extends AppDatabase {
   ///
   /// If a row with the same data is present, it will be replaced.
   Future<void> _insertBusStops(Map<String, BusStopData> stops) async {
-    stops.forEach((stopCode, stopData) async {
-      await insertInDatabase('favoritestops',
-          {'stopCode': stopCode, 'favorited': stopData.favorited ? '1' : '0'});
-      for (var busCode in stopData.configuredBuses) {
+    stops.forEach((String stopCode, BusStopData stopData) async {
+      await insertInDatabase(
+        'favoritestops',
+        {'stopCode': stopCode, 'favorited': stopData.favorited ? '1' : '0'},
+      );
+      for (final busCode in stopData.configuredBuses) {
         await insertInDatabase(
           'busstops',
           {
@@ -92,8 +99,7 @@ class AppBusStopDatabase extends AppDatabase {
 
   /// Deletes all of the bus stops from this database.
   Future<void> deleteBusStops() async {
-    // Get a reference to the database
-    final Database db = await getDatabase();
+    final db = await getDatabase();
     await db.delete('busstops');
   }
 

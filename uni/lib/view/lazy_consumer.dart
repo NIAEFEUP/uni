@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
@@ -10,12 +11,11 @@ import 'package:uni/model/providers/state_provider_notifier.dart';
 /// If the provider depends on the session, it will ensure that SessionProvider
 /// and ProfileProvider are initialized before initializing itself.
 class LazyConsumer<T extends StateProviderNotifier> extends StatelessWidget {
-  final Widget Function(BuildContext, T) builder;
-
   const LazyConsumer({
-    Key? key,
     required this.builder,
-  }) : super(key: key);
+    super.key,
+  });
+  final Widget Function(BuildContext, T) builder;
 
   @override
   Widget build(BuildContext context) {
@@ -42,14 +42,15 @@ class LazyConsumer<T extends StateProviderNotifier> extends StatelessWidget {
         if (context.mounted) {
           await provider.ensureInitializedFromRemote(context);
         }
-      } catch (_) {
-        // The provider won't be initialized
-        // Should only happen in tests
+      } catch (e) {
+        Logger().e('Failed to initialize provider: ', e);
       }
     });
 
-    return Consumer<T>(builder: (context, provider, _) {
-      return builder(context, provider);
-    });
+    return Consumer<T>(
+      builder: (context, provider, _) {
+        return builder(context, provider);
+      },
+    );
   }
 }

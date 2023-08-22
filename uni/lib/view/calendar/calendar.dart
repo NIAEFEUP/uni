@@ -10,7 +10,7 @@ import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
 import 'package:uni/view/lazy_consumer.dart';
 
 class CalendarPageView extends StatefulWidget {
-  const CalendarPageView({Key? key}) : super(key: key);
+  const CalendarPageView({super.key});
 
   @override
   State<StatefulWidget> createState() => CalendarPageViewState();
@@ -20,19 +20,26 @@ class CalendarPageViewState extends GeneralPageViewState<CalendarPageView> {
   @override
   Widget getBody(BuildContext context) {
     return LazyConsumer<CalendarProvider>(
-        builder: (context, calendarProvider) => ListView(children: [
-              Container(
-                  padding: const EdgeInsets.only(bottom: 6.0),
-                  child: const PageTitle(name: 'Calendário Escolar')),
-              RequestDependentWidgetBuilder(
-                  status: calendarProvider.status,
-                  builder: () =>
-                      getTimeline(context, calendarProvider.calendar),
-                  hasContentPredicate: calendarProvider.calendar.isNotEmpty,
-                  onNullContent: const Center(
-                      child: Text('Nenhum evento encontrado',
-                          style: TextStyle(fontSize: 18.0))))
-            ]));
+      builder: (context, calendarProvider) => ListView(
+        children: [
+          Container(
+            padding: const EdgeInsets.only(bottom: 6),
+            child: const PageTitle(name: 'Calendário Escolar'),
+          ),
+          RequestDependentWidgetBuilder(
+            status: calendarProvider.status,
+            builder: () => getTimeline(context, calendarProvider.calendar),
+            hasContentPredicate: calendarProvider.calendar.isNotEmpty,
+            onNullContent: const Center(
+              child: Text(
+                'Nenhum evento encontrado',
+                style: TextStyle(fontSize: 18),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
   }
 
   Widget getTimeline(BuildContext context, List<CalendarEvent> calendar) {
@@ -40,10 +47,10 @@ class CalendarPageViewState extends GeneralPageViewState<CalendarPageView> {
       theme: TimelineTheme.of(context).copyWith(
         connectorTheme: TimelineTheme.of(context)
             .connectorTheme
-            .copyWith(thickness: 2.0, color: Theme.of(context).dividerColor),
+            .copyWith(thickness: 2, color: Theme.of(context).dividerColor),
         indicatorTheme: TimelineTheme.of(context)
             .indicatorTheme
-            .copyWith(size: 15.0, color: Theme.of(context).primaryColor),
+            .copyWith(size: 15, color: Theme.of(context).primaryColor),
       ),
       builder: TimelineTileBuilder.fromStyle(
         contentsAlign: ContentsAlign.alternating,
