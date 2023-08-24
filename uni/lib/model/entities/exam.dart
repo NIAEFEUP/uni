@@ -60,17 +60,15 @@ class Exam {
     String rooms,
     this.type,
     this.faculty,
-  ) {
-    this.rooms = rooms.split(',');
-  }
+  ) : rooms = rooms.split(',');
 
-  late final DateTime begin;
-  late final DateTime end;
-  late final String id;
-  late final String subject;
-  late final List<String> rooms;
-  late final String type;
-  late final String faculty;
+  final DateTime begin;
+  final DateTime end;
+  final String id;
+  final String subject;
+  final List<String> rooms;
+  final String type;
+  final String faculty;
 
   static Map<String, String> types = {
     'Mini-testes': 'MT',
