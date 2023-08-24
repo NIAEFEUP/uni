@@ -1,6 +1,20 @@
 import 'package:flutter/material.dart';
 
 class FormTextField extends StatelessWidget {
+  const FormTextField(
+    this.controller,
+    this.icon, {
+    this.description = '',
+    this.minLines = 1,
+    this.maxLines = 1,
+    this.labelText = '',
+    this.hintText = '',
+    this.emptyText = 'Por favor preenche este campo',
+    this.bottomMargin = 0,
+    this.isOptional = false,
+    this.formatValidator,
+    super.key,
+  });
   final TextEditingController controller;
   final IconData icon;
   final String description;
@@ -11,20 +25,7 @@ class FormTextField extends StatelessWidget {
   final int maxLines;
   final double bottomMargin;
   final bool isOptional;
-  final Function? formatValidator;
-
-  const FormTextField(this.controller, this.icon,
-      {this.description = '',
-      this.minLines = 1,
-      this.maxLines = 1,
-      this.labelText = '',
-      this.hintText = '',
-      this.emptyText = 'Por favor preenche este campo',
-      this.bottomMargin = 0,
-      this.isOptional = false,
-      this.formatValidator,
-      Key? key})
-      : super(key: key);
+  final String? Function(String?)? formatValidator;
 
   @override
   Widget build(BuildContext context) {
@@ -35,36 +36,40 @@ class FormTextField extends StatelessWidget {
         children: <Widget>[
           Text(
             description,
-            style: Theme.of(context).textTheme.bodyText2,
+            style: Theme.of(context).textTheme.bodyMedium,
             textAlign: TextAlign.left,
           ),
-          Row(children: <Widget>[
-            Container(
+          Row(
+            children: <Widget>[
+              Container(
                 margin: const EdgeInsets.only(right: 15),
                 child: Icon(
                   icon,
-                )),
-            Expanded(
-                child: TextFormField(
-              // margins
-              minLines: minLines,
-              maxLines: maxLines,
-              decoration: InputDecoration(
-                focusedBorder: const UnderlineInputBorder(),
-                hintText: hintText,
-                hintStyle: Theme.of(context).textTheme.bodyText2,
-                labelText: labelText,
-                labelStyle: Theme.of(context).textTheme.bodyText2,
+                ),
               ),
-              controller: controller,
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return isOptional ? null : emptyText;
-                }
-                return formatValidator != null ? formatValidator!(value) : null;
-              },
-            ))
-          ])
+              Expanded(
+                child: TextFormField(
+                  // margins
+                  minLines: minLines,
+                  maxLines: maxLines,
+                  decoration: InputDecoration(
+                    focusedBorder: const UnderlineInputBorder(),
+                    hintText: hintText,
+                    hintStyle: Theme.of(context).textTheme.bodyMedium,
+                    labelText: labelText,
+                    labelStyle: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                  controller: controller,
+                  validator: (String? value) {
+                    if (value == null || value.isEmpty) {
+                      return isOptional ? null : emptyText;
+                    }
+                    return formatValidator?.call(value);
+                  },
+                ),
+              )
+            ],
+          )
         ],
       ),
     );

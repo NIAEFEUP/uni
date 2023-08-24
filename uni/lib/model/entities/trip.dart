@@ -2,14 +2,14 @@ import 'package:logger/logger.dart';
 
 /// Stores information about a bus trip.
 class Trip {
+  Trip({
+    required this.line,
+    required this.destination,
+    required this.timeRemaining,
+  });
   final String line;
   final String destination;
   final int timeRemaining;
-
-  Trip(
-      {required this.line,
-      required this.destination,
-      required this.timeRemaining});
 
   /// Converts this trip to a map.
   Map<String, dynamic> toMap() {
@@ -27,6 +27,6 @@ class Trip {
 
   /// Compares the remaining time of two trips.
   int compare(Trip other) {
-    return (timeRemaining.compareTo(other.timeRemaining));
+    return timeRemaining.compareTo(other.timeRemaining);
   }
 }

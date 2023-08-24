@@ -1,25 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/entities/library_reservation.dart';
-import 'package:uni/model/providers/library_reservations_provider.dart';
+import 'package:uni/model/providers/lazy/library_reservations_provider.dart';
 import 'package:uni/model/request_status.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
 import 'package:uni/view/library/widgets/reservation_row.dart';
 
 class LibraryReservationsCard extends GenericCard {
-  LibraryReservationsCard({Key? key}) : super(key: key);
+  LibraryReservationsCard({super.key});
 
   const LibraryReservationsCard.fromEditingInformation(
-      Key key, bool editingMode, Function()? onDelete)
-      : super.fromEditingInformation(key, editingMode, onDelete);
+    super.key, {
+    required super.editingMode,
+    super.onDelete,
+  }) : super.fromEditingInformation();
 
   @override
-  onClick(BuildContext context) => Navigator.pushNamed(
-      context, '/${DrawerItem.navLibraryReservations.title}');
+  Future<Object?> onClick(BuildContext context) => Navigator.pushNamed(
+      context, '/${DrawerItem.navLibraryReservations.title}',);
 
   @override
   String getTitle() => 'Gabinetes Reservados';
+
+  @override
+  void onRefresh(BuildContext context) {
+    Provider.of<LibraryReservationsProvider>(context, listen: false)
+        .forceRefresh(context);
+  }
 
   @override
   Widget buildCardContent(BuildContext context) {
@@ -30,34 +38,34 @@ class LibraryReservationsCard extends GenericCard {
       } else {
         return RoomsList(reservationsProvider.reservations);
       }
-      });
+      },);
   }
 }
 
 class RoomsList extends StatelessWidget {
-  final List<LibraryReservation> reservations;
 
   const RoomsList(this.reservations, {super.key});
+  final List<LibraryReservation> reservations;
 
   @override
-  Widget build(context) {
+  Widget build(BuildContext context) {
     if (reservations.isEmpty) {
       return Center(
           child: Text('Não tens salas reservadas!',
-              style: Theme.of(context).textTheme.headline6,
-              textAlign: TextAlign.center));
+              style: Theme.of(context).textTheme.titleLarge,
+              textAlign: TextAlign.center,),);
     }
-    final List<Widget> rooms = [];
+    final rooms = <Widget>[];
 
-    for (int i = 0; i < reservations.length && i < 2; i++) {
+    for (var i = 0; i < reservations.length && i < 2; i++) {
       rooms.add(Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
               border:
                   Border.all(color: Theme.of(context).dividerColor, width: 0.5),
-              borderRadius: const BorderRadius.all(Radius.circular(7))),
+              borderRadius: const BorderRadius.all(Radius.circular(7)),),
           margin: const EdgeInsets.all(8),
-          child: ReservationRow(reservations[i])));
+          child: ReservationRow(reservations[i]),),);
     }
 
     return Column(children: rooms);

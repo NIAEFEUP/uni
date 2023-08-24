@@ -7,9 +7,9 @@ enum FavoriteWidgetType {
   libraryReservations(faculties: {"feup"}),
   busStops;
 
-  final Set<String>? faculties;
-
   const FavoriteWidgetType({this.faculties});
+
+  final Set<String>? faculties;
 
   bool isVisible(List<String> userFaculties) {
     if (faculties == null) {

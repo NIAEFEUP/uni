@@ -12,12 +12,12 @@ abstract class ScheduleFetcher extends SessionDependantFetcher {
   Dates getDates() {
     var date = DateTime.now();
 
-    final String beginWeek = date.year.toString().padLeft(4, '0') +
+    final beginWeek = date.year.toString().padLeft(4, '0') +
         date.month.toString().padLeft(2, '0') +
         date.day.toString().padLeft(2, '0');
     date = date.add(const Duration(days: 6));
 
-    final String endWeek = date.year.toString().padLeft(4, '0') +
+    final endWeek = date.year.toString().padLeft(4, '0') +
         date.month.toString().padLeft(2, '0') +
         date.day.toString().padLeft(2, '0');
 
@@ -28,9 +28,8 @@ abstract class ScheduleFetcher extends SessionDependantFetcher {
 
 /// Stores the start and end dates of the week and the current lective year.
 class Dates {
+  Dates(this.beginWeek, this.endWeek, this.lectiveYear);
   final String beginWeek;
   final String endWeek;
   final int lectiveYear;
-
-  Dates(this.beginWeek, this.endWeek, this.lectiveYear);
 }

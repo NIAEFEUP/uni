@@ -12,7 +12,7 @@ class ParserExams {
   ///
   /// If an abbreviature doesn't exist, a '?' is returned.
   String getExamSeasonAbbr(String seasonStr) {
-    for (String type in Exam.types.keys) {
+    for (final type in Exam.types.keys) {
       if (seasonStr.contains(type)) return Exam.types[type]!;
     }
     return '?';
@@ -22,14 +22,15 @@ class ParserExams {
   Future<Set<Exam>> parseExams(http.Response response, Course course) async {
     final document = parse(response.body);
 
-    final Set<Exam> examsList = {};
-    final List<String> dates = [];
-    final List<String> examTypes = [];
-    List<String> rooms = [];
-    String? subject, schedule;
-    String id = '0';
-    int days = 0;
-    int tableNum = 0;
+    final examsList = <Exam>{};
+    final dates = <String>[];
+    final examTypes = <String>[];
+    var rooms = <String>[];
+    String? subject;
+    String? schedule;
+    var id = '0';
+    var days = 0;
+    var tableNum = 0;
     document.querySelectorAll('h3').forEach((Element examType) {
       examTypes.add(getExamSeasonAbbr(examType.text));
     });
@@ -46,22 +47,31 @@ class ParserExams {
             exams.querySelectorAll('td.exame').forEach((Element examsDay) {
               if (examsDay.querySelector('a') != null) {
                 subject = examsDay.querySelector('a')!.text;
-                id = Uri.parse(examsDay.querySelector('a')!.attributes['href']!).queryParameters['p_exa_id']!;
-
+                id = Uri.parse(examsDay.querySelector('a')!.attributes['href']!)
+                    .queryParameters['p_exa_id']!;
               }
               if (examsDay.querySelector('span.exame-sala') != null) {
                 rooms =
                     examsDay.querySelector('span.exame-sala')!.text.split(',');
               }
-              schedule = examsDay.text.substring(examsDay.text.indexOf(':') - 2,
-                  examsDay.text.indexOf(':') + 9);
-              final List<String> splittedSchedule = schedule!.split('-');
-              final DateTime begin =
+              schedule = examsDay.text.substring(
+                examsDay.text.indexOf(':') - 2,
+                examsDay.text.indexOf(':') + 9,
+              );
+              final splittedSchedule = schedule!.split('-');
+              final begin =
                   DateTime.parse('${dates[days]} ${splittedSchedule[0]}');
-              final DateTime end =
+              final end =
                   DateTime.parse('${dates[days]} ${splittedSchedule[1]}');
-              final Exam exam =
-                  Exam(id,begin, end, subject ?? '', rooms, examTypes[tableNum],course.faculty!);
+              final exam = Exam(
+                id,
+                begin,
+                end,
+                subject ?? '',
+                rooms,
+                examTypes[tableNum],
+                course.faculty!,
+              );
 
               examsList.add(exam);
             });
@@ -73,5 +83,4 @@ class ParserExams {
     });
     return examsList;
   }
-
 }

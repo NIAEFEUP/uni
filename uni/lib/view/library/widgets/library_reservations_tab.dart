@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/entities/library_reservation.dart';
-import 'package:uni/model/providers/library_reservations_provider.dart';
+import 'package:uni/model/providers/lazy/library_reservations_provider.dart';
 import 'package:uni/model/request_status.dart';
 import 'package:uni/view/library/widgets/reservation_row.dart';
 
