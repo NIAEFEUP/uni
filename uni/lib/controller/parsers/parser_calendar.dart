@@ -7,7 +7,7 @@ Future<List<CalendarEvent>> getCalendarFromHtml(Response response) async {
 
   final calendarHtml = document.querySelectorAll('tr');
 
-  return calendarHtml
+  final eventList = calendarHtml
       .map(
         (event) => CalendarEvent(
           event.children[0].innerHtml,
@@ -15,4 +15,13 @@ Future<List<CalendarEvent>> getCalendarFromHtml(Response response) async {
         ),
       )
       .toList();
+
+  final filteredCalendar = eventList
+      .where(
+        (event) =>
+            event.name.trim() != '&nbsp;' && event.date.trim() != '&nbsp;',
+      )
+      .toList();
+
+  return filteredCalendar;
 }
