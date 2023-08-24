@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/generated/l10n.dart';
 
@@ -13,14 +14,13 @@ Widget testableWidget(
 
 Widget wrapWidget(Widget widget) {
   return MaterialApp(
-    home: Scaffold(
-      body: Localizations(
-        delegates: const [
-          S.delegate,
-        ],
-        locale: const Locale('pt'),
-        child: widget,
-      ),
-    ),
+    localizationsDelegates: const [
+      S.delegate,
+      GlobalWidgetsLocalizations.delegate,
+      GlobalMaterialLocalizations.delegate,
+      GlobalCupertinoLocalizations.delegate,
+    ],
+    supportedLocales: S.delegate.supportedLocales,
+    home: widget,
   );
 }
