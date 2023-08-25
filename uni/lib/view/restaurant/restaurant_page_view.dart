@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/generated/l10n.dart';
+import 'package:uni/model/entities/meal.dart';
 import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/providers/lazy/restaurant_provider.dart';
 import 'package:uni/model/utils/day_of_week.dart';
@@ -16,10 +17,10 @@ class RestaurantPageView extends StatefulWidget {
   const RestaurantPageView({super.key});
 
   @override
-  State<StatefulWidget> createState() => _RestaurantPageState();
+  State<StatefulWidget> createState() => _RestaurantPageViewState();
 }
 
-class _RestaurantPageState extends GeneralPageViewState<RestaurantPageView>
+class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
     with SingleTickerProviderStateMixin {
   late List<Restaurant> aggRestaurant;
   late TabController tabController;
@@ -80,10 +81,7 @@ class _RestaurantPageState extends GeneralPageViewState<RestaurantPageView>
       if (restaurants is List<Restaurant>) {
         restaurantsWidgets = restaurants
             .map(
-              (restaurant) => RestaurantPageCard(
-                restaurant.name,
-                RestaurantDay(restaurant: restaurant, day: dayOfWeek),
-              ),
+              (restaurant) => createRestaurant(context, restaurant, dayOfWeek),
             )
             .toList();
       }
@@ -102,33 +100,39 @@ class _RestaurantPageState extends GeneralPageViewState<RestaurantPageView>
     final daysOfTheWeek =
         Provider.of<LocaleNotifier>(context).getWeekdaysWithLocale();
     final tabs = <Widget>[];
-
     for (var i = 0; i < DayOfWeek.values.length; i++) {
       tabs.add(
-        ColoredBox(
-          color: Theme.of(context).colorScheme.background,
-          child: Tab(key: Key('cantine-page-tab-$i'), text: daysOfTheWeek[i]),
+        Tab(
+          key: Key('cantine-page-tab-$i'),
+          text: daysOfTheWeek[i],
         ),
       );
     }
-
     return tabs;
   }
 
-  @override
-  Future<void> onRefresh(BuildContext context) {
-    return Provider.of<RestaurantProvider>(context, listen: false)
-        .forceRefresh(context);
+  Widget createRestaurant(
+    BuildContext context,
+    Restaurant restaurant,
+    DayOfWeek dayOfWeek,
+  ) {
+    return RestaurantPageCard(
+      restaurant,
+      createRestaurantByDay(context, restaurant, dayOfWeek),
+    );
   }
-}
 
-class RestaurantDay extends StatelessWidget {
-  const RestaurantDay({required this.restaurant, required this.day, super.key});
-  final Restaurant restaurant;
-  final DayOfWeek day;
+  List<Widget> createRestaurantRows(List<Meal> meals, BuildContext context) {
+    return meals
+        .map((meal) => RestaurantSlot(type: meal.type, name: meal.name))
+        .toList();
+  }
 
-  @override
-  Widget build(BuildContext context) {
+  Widget createRestaurantByDay(
+    BuildContext context,
+    Restaurant restaurant,
+    DayOfWeek day,
+  ) {
     final meals = restaurant.getMealsOfDay(day);
     if (meals.isEmpty) {
       return Container(
@@ -147,11 +151,15 @@ class RestaurantDay extends StatelessWidget {
         key: Key('restaurant-page-day-column-$day'),
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          children: meals
-              .map((meal) => RestaurantSlot(type: meal.type, name: meal.name))
-              .toList(),
+          children: createRestaurantRows(meals, context),
         ),
       );
     }
+  }
+
+  @override
+  Future<void> onRefresh(BuildContext context) {
+    return Provider.of<RestaurantProvider>(context, listen: false)
+        .forceRefresh(context);
   }
 }

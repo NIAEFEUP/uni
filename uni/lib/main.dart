@@ -9,6 +9,7 @@ import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:uni/controller/background_workers/background_callback.dart';
+import 'package:uni/controller/load_static/terms_and_conditions.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/providers/lazy/bus_stop_provider.dart';
@@ -36,11 +37,10 @@ import 'package:uni/view/home/home.dart';
 import 'package:uni/view/library/library.dart';
 import 'package:uni/view/locale_notifier.dart';
 import 'package:uni/view/locations/locations.dart';
-import 'package:uni/view/logout_route.dart';
+import 'package:uni/view/login/login.dart';
 import 'package:uni/view/navigation_service.dart';
 import 'package:uni/view/restaurant/restaurant_page_view.dart';
 import 'package:uni/view/schedule/schedule.dart';
-import 'package:uni/view/splash/splash.dart';
 import 'package:uni/view/theme.dart';
 import 'package:uni/view/theme_notifier.dart';
 import 'package:uni/view/useful_info/useful_info.dart';
@@ -48,6 +48,19 @@ import 'package:workmanager/workmanager.dart';
 
 SentryEvent? beforeSend(SentryEvent event) {
   return event.level == SentryLevel.info ? event : null;
+}
+
+Future<String> firstRoute() async {
+  final userPersistentInfo = await AppSharedPreferences.getPersistentUserInfo();
+  final userName = userPersistentInfo.item1;
+  final password = userPersistentInfo.item2;
+
+  if (userName != '' && password != '') {
+    return '/${DrawerItem.navPersonalArea.title}';
+  }
+
+  await acceptTermsAndConditions();
+  return '/${DrawerItem.navLogIn.title}';
 }
 
 Future<void> main() async {
@@ -68,12 +81,13 @@ Future<void> main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
 
+  // Initialize WorkManager for background tasks
   await Workmanager().initialize(
     workerStartCallback,
     isInDebugMode: !kReleaseMode,
-    // run workmanager in debug mode when app is in debug mode
   );
 
+  // Read environment, which may include app tokens
   await dotenv
       .load(fileName: 'assets/env/.env', isOptional: true)
       .onError((error, stackTrace) {
@@ -82,12 +96,14 @@ Future<void> main() async {
 
   final savedTheme = await AppSharedPreferences.getThemeMode();
   final savedLocale = await AppSharedPreferences.getLocale();
+  final route = await firstRoute();
+
   await SentryFlutter.init(
     (options) {
       options.dsn =
           'https://a2661645df1c4992b24161010c5e0ecb@o553498.ingest.sentry.io/5680848';
     },
-    appRunner: () => {
+    appRunner: () {
       runApp(
         MultiProvider(
           providers: [
@@ -134,9 +150,9 @@ Future<void> main() async {
               create: (_) => ThemeNotifier(savedTheme),
             ),
           ],
-          child: const MyApp(),
+          child: MyApp(route),
         ),
-      )
+      );
     },
   );
 }
@@ -146,7 +162,9 @@ Future<void> main() async {
 /// This class is necessary to track the app's state for
 /// the current execution
 class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+  const MyApp(this.initialRoute, {super.key});
+
+  final String initialRoute;
 
   @override
   State<MyApp> createState() => MyAppState();
@@ -166,7 +184,6 @@ class MyAppState extends State<MyApp> {
         darkTheme: applicationDarkTheme,
         themeMode: themeNotifier.getTheme(),
         locale: localeNotifier.getLocale(),
-        home: const SplashScreen(),
         localizationsDelegates: const [
           S.delegate,
           GlobalMaterialLocalizations.delegate,
@@ -174,6 +191,7 @@ class MyAppState extends State<MyApp> {
           GlobalCupertinoLocalizations.delegate,
         ],
         supportedLocales: S.delegate.supportedLocales,
+        initialRoute: widget.initialRoute,
         navigatorKey: NavigationService.navigatorKey,
         onGenerateRoute: (RouteSettings settings) {
           final transitions = {
@@ -235,7 +253,12 @@ class MyAppState extends State<MyApp> {
               settings: settings,
               maintainState: false,
             ),
-            '/${DrawerItem.navLogOut.title}': LogoutRoute.buildLogoutRoute()
+            '/${DrawerItem.navLogIn.title}': PageTransition.makePageTransition(
+              page: const LoginPageView(),
+              settings: settings,
+            ),
+            '/${DrawerItem.navLogOut.title}':
+                NavigationService.buildLogoutRoute(),
           };
           return transitions[settings.name];
         },

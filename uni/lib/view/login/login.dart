@@ -27,12 +27,6 @@ class LoginPageViewState extends State<LoginPageView> {
     'feup'
   ]; // May choose more than one faculty in the dropdown.
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    setState(() {});
-  }
-
   static final FocusNode usernameFocus = FocusNode();
   static final FocusNode passwordFocus = FocusNode();
 
@@ -108,15 +102,13 @@ class LoginPageViewState extends State<LoginPageView> {
 
     return Theme(
       data: applicationLightTheme.copyWith(
-        // The handle color is not applying due to a Flutter bug:
-        // https://github.com/flutter/flutter/issues/74890
         textSelectionTheme: const TextSelectionThemeData(
           cursorColor: Colors.white,
           selectionHandleColor: Colors.white,
         ),
       ),
       child: Builder(
-        builder: (themeContext) => Scaffold(
+        builder: (context) => Scaffold(
           backgroundColor: darkRed,
           body: WillPopScope(
             child: Padding(
@@ -165,7 +157,7 @@ class LoginPageViewState extends State<LoginPageView> {
                 ],
               ),
             ),
-            onWillPop: () => onWillPop(themeContext),
+            onWillPop: () => onWillPop(context),
           ),
         ),
       ),
