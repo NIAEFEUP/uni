@@ -29,6 +29,7 @@ void main() {
       );
 
       await tester.pumpWidget(testableWidget(widget));
+      await tester.pump();
 
       testScheduleSlot(subject, beginText, endText, rooms, typeClass, teacher);
     });
@@ -50,6 +51,8 @@ void testScheduleSlot(
       matching: find.text(begin),
     ),
     findsOneWidget,
+    reason:
+        'Expected to find widget with text $begin and key $scheduleSlotTimeKey',
   );
   expect(
     find.descendant(
