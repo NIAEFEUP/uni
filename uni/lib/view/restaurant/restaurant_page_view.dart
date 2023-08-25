@@ -99,12 +99,9 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
     final tabs = <Widget>[];
     for (var i = 0; i < DayOfWeek.values.length; i++) {
       tabs.add(
-        ColoredBox(
-          color: Theme.of(context).colorScheme.background,
-          child: Tab(
-            key: Key('restaurant-page-tab-$i'),
-            text: toString(DayOfWeek.values[i]),
-          ),
+        Tab(
+          key: Key('cantine-page-tab-$i'),
+          text: toString(DayOfWeek.values[i]),
         ),
       );
     }
