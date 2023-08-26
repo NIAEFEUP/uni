@@ -67,6 +67,7 @@ class ReservationRow extends StatelessWidget {
   }
 }
 
+//ignore: must_be_immutable
 class ReservationRemoveButton extends StatefulWidget {
   ReservationRemoveButton(this.reservation, {super.key});
   final LibraryReservation reservation;

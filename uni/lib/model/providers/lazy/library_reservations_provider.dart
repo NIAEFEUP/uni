@@ -14,7 +14,7 @@ class LibraryReservationsProvider extends StateProviderNotifier {
       : super(dependsOnSession: true, cacheDuration: const Duration(hours: 1));
   List<LibraryReservation> _reservations = [];
 
-  List<LibraryReservation> get reservations => _reservations ?? [];
+  List<LibraryReservation> get reservations => _reservations;
 
   @override
   Future<void> loadFromStorage() async {
