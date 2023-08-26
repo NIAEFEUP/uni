@@ -3,7 +3,7 @@ import 'package:uni/view/common_widgets/generic_expansion_card.dart';
 import 'package:uni/view/useful_info/widgets/text_components.dart';
 
 class MultimediaCenterCard extends GenericExpansionCard {
-  const MultimediaCenterCard({Key? key}) : super(key: key);
+  const MultimediaCenterCard({super.key});
 
   @override
   Widget buildCardContent(BuildContext context) {
@@ -15,8 +15,12 @@ class MultimediaCenterCard extends GenericExpansionCard {
         h1('Telefone', context),
         infoText('+351 225 081 466', context, link: 'tel:225 081 466'),
         h1('Email', context),
-        infoText('imprimir@fe.up.pt', context,
-            last: true, link: 'mailto:imprimir@fe.up.pt')
+        infoText(
+          'imprimir@fe.up.pt',
+          context,
+          last: true,
+          link: 'mailto:imprimir@fe.up.pt',
+        )
       ],
     );
   }

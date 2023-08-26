@@ -1,45 +1,46 @@
-import 'package:sqflite/sqflite.dart';
-import 'package:uni/model/entities/library_reservation.dart';
-
 import 'package:uni/controller/local_storage/app_database.dart';
+import 'package:uni/model/entities/library_reservation.dart';
 
 class LibraryReservationDatabase extends AppDatabase {
   LibraryReservationDatabase()
       : super('reservations.db', [
-          '''CREATE TABLE RESERVATION(
+          '''
+        CREATE TABLE RESERVATION(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         room TEXT,
         startDate TEXT,
-        duration_hours INT,
-        duration_minutes INT
+        duration INT
       )
       '''
         ]);
 
-  void saveReservations(List<LibraryReservation> reservations) async {
+  Future<void> saveReservations(List<LibraryReservation> reservations) async {
     final db = await getDatabase();
-    db.transaction((txn) async {
+    await db.transaction((txn) async {
       await txn.delete('RESERVATION');
-      for (var reservation in reservations) {
+      for (final reservation in reservations) {
         await txn.insert('RESERVATION', reservation.toMap());
       }
     });
   }
 
   Future<List<LibraryReservation>> reservations() async {
-    final Database db = await getDatabase();
+    final db = await getDatabase();
 
     final List<Map<String, dynamic>> items = await db.query('RESERVATION');
 
-    final List<LibraryReservation> reservations = [];
+    final reservations = <LibraryReservation>[];
 
-    for (int i = 0; i < items.length; i++) {
-      final int minutes = items[i]['duration'];
-      reservations.add(LibraryReservation(
-          items[i]['id'],
-          items[i]['room'],
-          DateTime.parse(items[i]['startDate']),
-          Duration(hours: minutes ~/ 60, minutes: minutes % 60)));
+    for (var i = 0; i < items.length; i++) {
+      final minutes = items[i]['duration'] as int;
+      reservations.add(
+        LibraryReservation(
+          items[i]['id'].toString(),
+          items[i]['room'] as String,
+          DateTime.parse(items[i]['startDate'] as String),
+          Duration(hours: minutes ~/ 60, minutes: minutes % 60),
+        ),
+      );
     }
 
     return reservations;

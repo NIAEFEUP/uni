@@ -5,8 +5,7 @@ import 'package:uni/model/entities/location_group.dart';
 class LocationFetcherAsset extends LocationFetcher {
   @override
   Future<List<LocationGroup>> getLocations() async {
-    final String json =
-        await rootBundle.loadString('assets/text/locations/feup.json');
+    final json = await rootBundle.loadString('assets/text/locations/feup.json');
     return getFromJSON(json);
   }
 }

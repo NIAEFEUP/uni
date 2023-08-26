@@ -3,7 +3,7 @@ import 'package:uni/view/common_widgets/generic_expansion_card.dart';
 import 'package:uni/view/useful_info/widgets/text_components.dart';
 
 class InfoDeskCard extends GenericExpansionCard {
-  const InfoDeskCard({Key? key}) : super(key: key);
+  const InfoDeskCard({super.key});
 
   @override
   Widget buildCardContent(BuildContext context) {
@@ -15,8 +15,12 @@ class InfoDeskCard extends GenericExpansionCard {
         h1('Telefone', context),
         infoText('+351 225 081 400', context, link: 'tel:225 081 400'),
         h1('Email', context),
-        infoText('infodesk@fe.up.pt', context,
-            last: true, link: 'mailto:infodesk@fe.up.pt')
+        infoText(
+          'infodesk@fe.up.pt',
+          context,
+          last: true,
+          link: 'mailto:infodesk@fe.up.pt',
+        )
       ],
     );
   }

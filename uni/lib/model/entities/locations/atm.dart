@@ -1,8 +1,8 @@
+import 'package:uni/model/entities/location.dart';
 import 'package:uni/view/locations/widgets/icons.dart';
 
-import 'package:uni/model/entities/location.dart';
-
 class Atm implements Location {
+  Atm(this.floor, {this.locationGroupId}) : super();
   @override
   final int floor;
 
@@ -13,8 +13,6 @@ class Atm implements Location {
   final icon = LocationIcons.cashMultiple;
 
   final int? locationGroupId;
-
-  Atm(this.floor, {this.locationGroupId}) : super();
 
   @override
   String description() {

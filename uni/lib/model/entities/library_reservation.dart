@@ -8,7 +8,7 @@ class LibraryReservation {
   LibraryReservation(this._id, this.room, this.startDate, this.duration);
 
   Map<String, dynamic> toMap() {
-    final Map<String, dynamic> map = {
+    final map = <String, dynamic>{
       'id': id,
       'room': room,
       'startDate': startDate.toIso8601String(),

@@ -3,14 +3,14 @@
 /// Stores the bus code (`busCode`), the `destination` of the bus
 /// and its `direction`.
 class Bus {
+  Bus({
+    required this.busCode,
+    required this.destination,
+    this.direction = false,
+  });
   String busCode;
   String destination;
   bool direction;
-
-  Bus(
-      {required this.busCode,
-      required this.destination,
-      this.direction = false});
 
   /// Converts a [Bus] instance to a map.
   ///

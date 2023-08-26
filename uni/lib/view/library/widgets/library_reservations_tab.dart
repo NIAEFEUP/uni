@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/entities/library_reservation.dart';
-import 'package:uni/model/providers/library_reservations_provider.dart';
-import 'package:uni/model/request_status.dart';
+import 'package:uni/model/providers/lazy/library_reservations_provider.dart';
+import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/library/widgets/reservation_row.dart';
 
 class LibraryReservationsTab extends StatelessWidget {
@@ -10,21 +10,22 @@ class LibraryReservationsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<LibraryReservationsProvider>(
-        builder: (context, reservationsProvider, _) {
-      if (reservationsProvider.status == RequestStatus.busy) {
-        return const Center(child: CircularProgressIndicator());
-      } else {
+    return LazyConsumer<LibraryReservationsProvider>(
+      builder: (context, reservationsProvider) {
         return LibraryReservationsTabView(reservationsProvider.reservations);
-      }
-    });
+      },
+    );
+  }
+
+  Future<void> refresh(BuildContext context) async {
+    await Provider.of<LibraryReservationsProvider>(context, listen: false)
+        .forceRefresh(context);
   }
 }
 
 class LibraryReservationsTabView extends StatelessWidget {
-  final List<LibraryReservation>? reservations;
-
   const LibraryReservationsTabView(this.reservations, {super.key});
+  final List<LibraryReservation>? reservations;
 
   @override
   Widget build(BuildContext context) {
@@ -37,25 +38,21 @@ class LibraryReservationsTabView extends StatelessWidget {
                 textAlign: TextAlign.center))
       ]);
     }
-    return ListView(
-        scrollDirection: Axis.vertical,
-        shrinkWrap: true,
-        children: [
-          LibraryReservationsList(reservations!),
-        ]);
+    return ListView(shrinkWrap: true, children: [
+      LibraryReservationsList(reservations!),
+    ]);
   }
 }
 
 class LibraryReservationsList extends StatelessWidget {
-  final List<LibraryReservation> reservations;
-
   const LibraryReservationsList(this.reservations, {super.key});
+  final List<LibraryReservation> reservations;
 
   @override
   Widget build(BuildContext context) {
-    final List<Widget> rooms = [];
+    final rooms = <Widget>[];
 
-    for (int i = 0; i < reservations.length && i < 2; i++) {
+    for (int i = 0; i < reservations.length; i++) {
       rooms.add(Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(

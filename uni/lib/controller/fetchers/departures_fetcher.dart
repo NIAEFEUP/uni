@@ -1,23 +1,24 @@
 import 'dart:convert';
 
+import 'package:html/dom.dart';
+import 'package:html/parser.dart';
+import 'package:http/http.dart' as http;
+import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/model/entities/bus.dart';
 import 'package:uni/model/entities/bus_stop.dart';
-import 'package:http/http.dart' as http;
-import 'package:html/parser.dart';
 import 'package:uni/model/entities/trip.dart';
-import 'package:uni/controller/networking/network_router.dart';
 
 class DeparturesFetcher {
+  DeparturesFetcher(this._stopCode, this._stopData);
+
   final String _stopCode;
   final BusStopData _stopData;
-
-  DeparturesFetcher(this._stopCode, this._stopData);
 
   Future<String> _getCSRFToken() async {
     final url =
         'https://www.stcp.pt/en/travel/timetables/?paragem=$_stopCode&t=smsbus';
 
-    final http.Response response = await http.get(url.toUri());
+    final response = await http.get(url.toUri());
     final htmlResponse = parse(response.body);
 
     final scriptText = htmlResponse
@@ -32,7 +33,9 @@ class DeparturesFetcher {
         .firstWhere((element) => element.contains(')'));
 
     final csrfToken = callParam.substring(
-        callParam.indexOf('\'') + 1, callParam.lastIndexOf('\''));
+      callParam.indexOf("'") + 1,
+      callParam.lastIndexOf("'"),
+    );
 
     return csrfToken;
   }
@@ -47,7 +50,7 @@ class DeparturesFetcher {
     final url =
         'https://www.stcp.pt/pt/itinerarium/soapclient.php?codigo=$_stopCode&hash123=$csrfToken';
 
-    final http.Response response = await http.get(url.toUri());
+    final response = await http.get(url.toUri());
     final htmlResponse = parse(response.body);
 
     final tableEntries =
@@ -57,7 +60,7 @@ class DeparturesFetcher {
 
     final tripList = <Trip>[];
 
-    for (var entry in tableEntries) {
+    for (final entry in tableEntries) {
       final rawBusInformation = entry.querySelectorAll('td');
 
       final busLine =
@@ -75,12 +78,13 @@ class DeparturesFetcher {
           .replaceAll('-', '')
           .substring(busLine!.length + 1);
 
-      final busTimeRemaining = getBusTimeRemaining(rawBusInformation);
+      final busTimeRemaining = _getBusTimeRemaining(rawBusInformation);
 
-      final Trip newTrip = Trip(
-          line: busLine,
-          destination: busDestination,
-          timeRemaining: busTimeRemaining);
+      final newTrip = Trip(
+        line: busLine,
+        destination: busDestination,
+        timeRemaining: busTimeRemaining,
+      );
 
       tripList.add(newTrip);
     }
@@ -88,28 +92,31 @@ class DeparturesFetcher {
   }
 
   /// Extracts the time remaining for a bus to reach a stop.
-  static int getBusTimeRemaining(rawBusInformation) {
+  static int _getBusTimeRemaining(List<Element> rawBusInformation) {
     if (rawBusInformation[1].text.trim() == 'a passar') {
       return 0;
     } else {
-      final regex = RegExp(r'([0-9]+)');
+      final regex = RegExp('([0-9]+)');
 
-      return int.parse(regex.stringMatch(rawBusInformation[2].text).toString());
+      return int.parse(
+        regex.stringMatch(rawBusInformation[2].text).toString(),
+      );
     }
   }
 
   /// Retrieves the name and code of the stops with code [stopCode].
   static Future<List<String>> getStopsByName(String stopCode) async {
-    final List<String> stopsList = [];
+    final stopsList = <String>[];
 
-    //Search by approximate name
-    final String url =
+    // Search by approximate name
+    final url =
         'https://www.stcp.pt/pt/itinerarium/callservice.php?action=srchstoplines&stopname=$stopCode';
-    final http.Response response = await http.post(url.toUri());
-    final List json = jsonDecode(response.body);
-    for (var busKey in json) {
-      final String stop = busKey['name'] + ' [' + busKey['code'] + ']';
-      stopsList.add(stop);
+    final response = await http.post(url.toUri());
+    final json = jsonDecode(response.body) as List<dynamic>;
+    for (final busKey in json) {
+      final bus = busKey as Map<String, dynamic>;
+      final stopDescription = '${bus['name']} [${bus['code']}]';
+      stopsList.add(stopDescription);
     }
 
     return stopsList;
@@ -117,27 +124,31 @@ class DeparturesFetcher {
 
   /// Retrieves real-time information about the user's selected bus lines.
   static Future<List<Trip>> getNextArrivalsStop(
-      String stopCode, BusStopData stopData) {
+    String stopCode,
+    BusStopData stopData,
+  ) {
     return DeparturesFetcher(stopCode, stopData).getDepartures();
   }
 
   /// Returns the bus lines that stop at the given [stop].
   static Future<List<Bus>> getBusesStoppingAt(String stop) async {
-    final String url =
+    final url =
         'https://www.stcp.pt/pt/itinerarium/callservice.php?action=srchstoplines&stopcode=$stop';
-    final http.Response response = await http.post(url.toUri());
+    final response = await http.post(url.toUri());
 
-    final List json = jsonDecode(response.body);
+    final json = jsonDecode(response.body) as List<dynamic>;
 
-    final List<Bus> buses = [];
+    final buses = <Bus>[];
 
-    for (var busKey in json) {
-      final lines = busKey['lines'];
-      for (var bus in lines) {
-        final Bus newBus = Bus(
-            busCode: bus['code'],
-            destination: bus['description'],
-            direction: (bus['dir'] == 0 ? false : true));
+    for (final data in json) {
+      final lines = (data as Map<String, dynamic>)['lines'] as List<dynamic>;
+      for (final busInfo in lines) {
+        final bus = busInfo as Map<String, dynamic>;
+        final newBus = Bus(
+          busCode: bus['code'] as String,
+          destination: bus['description'] as String,
+          direction: bus['dir'] != 0,
+        );
         buses.add(newBus);
       }
     }
