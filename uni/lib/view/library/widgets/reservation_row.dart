@@ -115,7 +115,7 @@ class _ReservationRemoveButtonState extends State<ReservationRemoveButton> {
                       child: const Text('Voltar'),
                     ),
                     ElevatedButton(
-                      child: const Text('Confirmar'),
+                      child: const Text('Sim'),
                       onPressed: () {
                         Navigator.of(context, rootNavigator: true).pop();
                         cancelReservation(widget.reservation.id);
@@ -139,9 +139,9 @@ class _ReservationRemoveButtonState extends State<ReservationRemoveButton> {
     final session =
         Provider.of<SessionProvider>(widget.context, listen: false).session;
     final result = await Provider.of<LibraryReservationsProvider>(
-            widget.context,
-            listen: false)
-        .cancelReservation(session, id);
+      widget.context,
+      listen: false,
+    ).cancelReservation(session, id);
 
     await displayToast(success: result);
   }

@@ -1,4 +1,3 @@
-import 'package:http/http.dart';
 import 'package:uni/controller/fetchers/session_dependant_fetcher.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/parsers/parser_library_reservation.dart';
@@ -17,13 +16,10 @@ class LibraryReservationsFetcherHtml implements SessionDependantFetcher {
   }
 
   Future<List<LibraryReservation>> getReservations(Session session) async {
-    final String baseUrl = getEndpoints(session)[0];
-    final Future<Response> response =
-        NetworkRouter.getWithCookies(baseUrl, {}, session);
-    final List<LibraryReservation> reservations =
-        await response.then((response) => getReservationsFromHtml(response));
+    final baseUrl = getEndpoints(session)[0];
+    final response = NetworkRouter.getWithCookies(baseUrl, {}, session);
+    final reservations = await response.then(getReservationsFromHtml);
 
     return reservations;
   }
-
 }

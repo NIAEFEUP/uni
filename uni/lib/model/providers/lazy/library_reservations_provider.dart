@@ -12,7 +12,7 @@ import 'package:uni/model/request_status.dart';
 class LibraryReservationsProvider extends StateProviderNotifier {
   LibraryReservationsProvider()
       : super(dependsOnSession: true, cacheDuration: const Duration(hours: 1));
-  List<LibraryReservation>? _reservations;
+  List<LibraryReservation> _reservations = [];
 
   List<LibraryReservation> get reservations => _reservations ?? [];
 
@@ -56,9 +56,11 @@ class LibraryReservationsProvider extends StateProviderNotifier {
     final response = await NetworkRouter.getWithCookies(url, {}, session);
 
     if (response.statusCode == 200) {
-      _reservations!
-          .remove(_reservations!.firstWhere((element) => element.id == id));
+      _reservations
+          .remove(_reservations.firstWhere((element) => element.id == id));
       notifyListeners();
+      final db = LibraryReservationDatabase();
+      unawaited(db.saveReservations(reservations));
       return true;
     }
     return false;
