@@ -18,7 +18,9 @@ class LibraryReservationsCard extends GenericCard {
 
   @override
   Future<Object?> onClick(BuildContext context) => Navigator.pushNamed(
-      context, '/${DrawerItem.navLibraryReservations.title}',);
+        context,
+        '/${DrawerItem.navLibraryReservations.title}',
+      );
 
   @override
   String getTitle() => 'Gabinetes Reservados';
@@ -31,19 +33,19 @@ class LibraryReservationsCard extends GenericCard {
 
   @override
   Widget buildCardContent(BuildContext context) {
-    return Consumer<LibraryReservationsProvider> (
+    return Consumer<LibraryReservationsProvider>(
       builder: (context, reservationsProvider, _) {
-      if (reservationsProvider.status == RequestStatus.busy) {
-        return const Center(child: CircularProgressIndicator());
-      } else {
-        return RoomsList(reservationsProvider.reservations);
-      }
-      },);
+        if (reservationsProvider.status == RequestStatus.busy) {
+          return const Center(child: CircularProgressIndicator());
+        } else {
+          return RoomsList(reservationsProvider.reservations);
+        }
+      },
+    );
   }
 }
 
 class RoomsList extends StatelessWidget {
-
   const RoomsList(this.reservations, {super.key});
   final List<LibraryReservation> reservations;
 
@@ -51,21 +53,28 @@ class RoomsList extends StatelessWidget {
   Widget build(BuildContext context) {
     if (reservations.isEmpty) {
       return Center(
-          child: Text('Não tens salas reservadas!',
-              style: Theme.of(context).textTheme.titleLarge,
-              textAlign: TextAlign.center,),);
+        child: Text(
+          'Não tens salas reservadas!',
+          style: Theme.of(context).textTheme.titleLarge,
+          textAlign: TextAlign.center,
+        ),
+      );
     }
     final rooms = <Widget>[];
 
     for (var i = 0; i < reservations.length && i < 2; i++) {
-      rooms.add(Container(
+      rooms.add(
+        Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-              border:
-                  Border.all(color: Theme.of(context).dividerColor, width: 0.5),
-              borderRadius: const BorderRadius.all(Radius.circular(7)),),
+            border:
+                Border.all(color: Theme.of(context).dividerColor, width: 0.5),
+            borderRadius: const BorderRadius.all(Radius.circular(7)),
+          ),
           margin: const EdgeInsets.all(8),
-          child: ReservationRow(reservations[i]),),);
+          child: ReservationRow(reservations[i]),
+        ),
+      );
     }
 
     return Column(children: rooms);

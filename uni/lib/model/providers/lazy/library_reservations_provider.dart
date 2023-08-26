@@ -17,8 +17,8 @@ class LibraryReservationsProvider extends StateProviderNotifier {
 
   @override
   Future<void> loadFromStorage() async {
-    final LibraryReservationDatabase db = LibraryReservationDatabase();
-    final List<LibraryReservation> reservations = await db.reservations();
+    final db = LibraryReservationDatabase();
+    final reservations = await db.reservations();
 
     _reservations = reservations;
   }
@@ -35,8 +35,8 @@ class LibraryReservationsProvider extends StateProviderNotifier {
       _reservations =
           await LibraryReservationsFetcherHtml().getReservations(session);
 
-      final LibraryReservationDatabase db = LibraryReservationDatabase();
-      db.saveReservations(reservations);
+      final db = LibraryReservationDatabase();
+      unawaited(db.saveReservations(reservations));
 
       updateStatus(RequestStatus.successful);
     } catch (e) {

@@ -16,8 +16,7 @@ class LibraryReservationsFetcherHtml implements SessionDependantFetcher {
     return [url];
   }
 
-  Future<List<LibraryReservation>> getReservations(
-      Session session) async {
+  Future<List<LibraryReservation>> getReservations(Session session) async {
     final String baseUrl = getEndpoints(session)[0];
     final Future<Response> response =
         NetworkRouter.getWithCookies(baseUrl, {}, session);

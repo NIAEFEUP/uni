@@ -133,8 +133,8 @@ Future<void> main() async {
               create: (context) => stateProviders.libraryOccupationProvider,
             ),
             ChangeNotifierProvider(
-                create: (context) =>
-                    stateProviders.libraryReservationsProvider,),
+              create: (context) => stateProviders.libraryReservationsProvider,
+            ),
             ChangeNotifierProvider(
               create: (context) => stateProviders.facultyLocationsProvider,
             ),
@@ -231,10 +231,11 @@ class MyAppState extends State<MyApp> {
             ),
             '/${DrawerItem.navLibraryReservations.title}':
                 PageTransition.makePageTransition(
-                    page: const LibraryPageView(
-                      startOnOccupationTab: true,
-                    ),
-                    settings: settings,),
+              page: const LibraryPageView(
+                startOnOccupationTab: false,
+              ),
+              settings: settings,
+            ),
             '/${DrawerItem.navUsefulInfo.title}':
                 PageTransition.makePageTransition(
               page: const UsefulInfoPageView(),
