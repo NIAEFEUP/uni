@@ -30,17 +30,25 @@ class LibraryReservationsTabView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (reservations == null || reservations!.isEmpty) {
-      return ListView(children: [
-        Center(
+      return ListView(
+        children: [
+          Center(
             heightFactor: 2,
-            child: Text('Não tens salas reservadas',
-                style: Theme.of(context).textTheme.titleLarge,
-                textAlign: TextAlign.center,),),
-      ],);
+            child: Text(
+              'Não tens salas reservadas',
+              style: Theme.of(context).textTheme.titleLarge,
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ],
+      );
     }
-    return ListView(shrinkWrap: true, children: [
-      LibraryReservationsList(reservations!),
-    ],);
+    return ListView(
+      shrinkWrap: true,
+      children: [
+        LibraryReservationsList(reservations!),
+      ],
+    );
   }
 }
 
@@ -53,14 +61,20 @@ class LibraryReservationsList extends StatelessWidget {
     final rooms = <Widget>[];
 
     for (var i = 0; i < reservations.length; i++) {
-      rooms.add(Container(
+      rooms.add(
+        Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-              border: Border(
-                  bottom: BorderSide(
-                      color: Theme.of(context).dividerColor,),),),
+            border: Border(
+              bottom: BorderSide(
+                color: Theme.of(context).dividerColor,
+              ),
+            ),
+          ),
           margin: const EdgeInsets.all(8),
-          child: ReservationRow(reservations[i]),),);
+          child: ReservationRow(reservations[i]),
+        ),
+      );
     }
 
     return Column(children: rooms);
