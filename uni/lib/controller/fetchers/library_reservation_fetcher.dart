@@ -10,7 +10,8 @@ class LibraryReservationsFetcherHtml implements SessionDependantFetcher {
   List<String> getEndpoints(Session session) {
     // TO DO: Implement parsers for all faculties
     // and dispatch for different fetchers
-    final String url =
+    // ignore: lines_longer_than_80_chars
+    final url =
         '${NetworkRouter.getBaseUrl('feup')}res_recursos_geral.pedidos_list?pct_tipo_grupo_id=3';
     return [url];
   }

@@ -46,6 +46,7 @@ class LibraryReservationsProvider extends StateProviderNotifier {
   }
 
   Future<bool> cancelReservation(Session session, String id) async {
+    // ignore: lines_longer_than_80_chars
     final url =
         '${NetworkRouter.getBaseUrl('feup')}res_recursos_geral.pedidos_cancelar?pct_pedido_id=$id';
 

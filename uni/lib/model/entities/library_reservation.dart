@@ -1,11 +1,11 @@
 /// Private room reservation from the library
 class LibraryReservation {
+
+  LibraryReservation(this._id, this.room, this.startDate, this.duration);
   final String _id;
   final String room;
   final DateTime startDate;
   final Duration duration;
-
-  LibraryReservation(this._id, this.room, this.startDate, this.duration);
 
   Map<String, dynamic> toMap() {
     final map = <String, dynamic>{
