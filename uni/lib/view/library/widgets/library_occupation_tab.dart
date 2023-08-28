@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/entities/library_occupation.dart';
-import 'package:uni/model/providers/library_occupation_provider.dart';
+import 'package:uni/model/providers/lazy/library_occupation_provider.dart';
 import 'package:uni/model/request_status.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
+import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/library/widgets/library_occupation_card.dart';
 
 class LibraryOccupationTab extends StatefulWidget {
@@ -12,13 +13,18 @@ class LibraryOccupationTab extends StatefulWidget {
 
   @override
   LibraryOccupationTabState createState() => LibraryOccupationTabState();
+
+  Future<void> refresh(BuildContext context) async {
+    await Provider.of<LibraryOccupationProvider>(context, listen: false)
+        .forceRefresh(context);
+  }
 }
 
 class LibraryOccupationTabState extends State<LibraryOccupationTab> {
   @override
   Widget build(BuildContext context) {
-    return Consumer<LibraryOccupationProvider>(
-        builder: (context, occupationProvider, _) {
+    return LazyConsumer<LibraryOccupationProvider>(
+        builder: (context, occupationProvider) {
       if (occupationProvider.status == RequestStatus.busy) {
         return const Center(child: CircularProgressIndicator());
       } else {

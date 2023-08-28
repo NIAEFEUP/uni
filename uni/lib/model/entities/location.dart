@@ -1,14 +1,14 @@
+import 'package:uni/model/entities/locations/atm.dart';
 import 'package:uni/model/entities/locations/coffee_machine.dart';
+import 'package:uni/model/entities/locations/printer.dart';
 import 'package:uni/model/entities/locations/restaurant_location.dart';
 import 'package:uni/model/entities/locations/room_group_location.dart';
+import 'package:uni/model/entities/locations/room_location.dart';
 import 'package:uni/model/entities/locations/special_room_location.dart';
 import 'package:uni/model/entities/locations/store_location.dart';
 import 'package:uni/model/entities/locations/unknown_location.dart';
 import 'package:uni/model/entities/locations/vending_machine.dart';
 import 'package:uni/model/entities/locations/wc_location.dart';
-import 'package:uni/model/entities/locations/atm.dart';
-import 'package:uni/model/entities/locations/printer.dart';
-import 'package:uni/model/entities/locations/room_location.dart';
 
 enum LocationType {
   vendingMachine,
@@ -45,23 +45,24 @@ String locationTypeToString(LocationType type) {
       return 'STORE';
     case LocationType.wc:
       return 'WC';
-    default:
-      return 'LOCATION';
   }
 }
 
 abstract class Location {
+  // String or IconData
+  Location(this.floor, this.weight, this.icon);
+
   final int floor;
   final int weight;
-  final dynamic icon; // String or IconData
-  Location(this.floor, this.weight, this.icon, {locationGroupId});
+  final dynamic icon;
 
   String description();
 
   Map<String, dynamic> toMap({int? groupId});
 
+  // ignore_for_file: argument_type_not_assignable
   static Location fromJSON(Map<String, dynamic> json, int floor) {
-    final Map<String, dynamic> args = json['args'];
+    final args = json['args'] as Map<String, dynamic>;
     switch (json['type']) {
       case 'COFFEE_MACHINE':
         return CoffeeMachine(floor);

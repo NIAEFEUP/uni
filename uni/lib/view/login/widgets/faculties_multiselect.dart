@@ -2,41 +2,53 @@ import 'package:flutter/material.dart';
 import 'package:uni/view/login/widgets/faculties_selection_form.dart';
 
 class FacultiesMultiselect extends StatelessWidget {
+  const FacultiesMultiselect(
+    this.selectedFaculties,
+    this.setFaculties, {
+    super.key,
+  });
   final List<String> selectedFaculties;
-  final Function setFaculties;
-
-  const FacultiesMultiselect(this.selectedFaculties, this.setFaculties,
-      {super.key});
+  final void Function(List<String>) setFaculties;
 
   @override
   Widget build(BuildContext context) {
-    const Color textColor = Color.fromARGB(255, 0xfa, 0xfa, 0xfa);
+    const textColor = Color.fromARGB(255, 0xfa, 0xfa, 0xfa);
 
     return TextButton(
-        style: TextButton.styleFrom(
-            textStyle: const TextStyle(
-                fontSize: 20, fontWeight: FontWeight.w300, color: textColor)),
-        onPressed: () {
-          showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return FacultiesSelectionForm(
-                    List<String>.from(selectedFaculties), setFaculties);
-              });
-        },
-        child: _createButtonContent(context));
+      style: TextButton.styleFrom(
+        textStyle: const TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.w300,
+          color: textColor,
+        ),
+      ),
+      onPressed: () {
+        showDialog<void>(
+          context: context,
+          builder: (BuildContext context) {
+            return FacultiesSelectionForm(
+              List<String>.from(selectedFaculties),
+              setFaculties,
+            );
+          },
+        );
+      },
+      child: _createButtonContent(context),
+    );
   }
 
   Widget _createButtonContent(BuildContext context) {
     return Container(
-        padding: const EdgeInsets.fromLTRB(5, 0, 5, 7),
-        decoration: const BoxDecoration(
-            border: Border(
-                bottom: BorderSide(
-          color: Colors.white,
-          width: 1,
-        ))),
-        child: Row(children: [
+      padding: const EdgeInsets.fromLTRB(5, 0, 5, 7),
+      decoration: const BoxDecoration(
+        border: Border(
+          bottom: BorderSide(
+            color: Colors.white,
+          ),
+        ),
+      ),
+      child: Row(
+        children: [
           Expanded(
             child: Text(
               _facultiesListText(),
@@ -47,17 +59,19 @@ class FacultiesMultiselect extends StatelessWidget {
             Icons.arrow_drop_down,
             color: Colors.white,
           ),
-        ]));
+        ],
+      ),
+    );
   }
 
   String _facultiesListText() {
     if (selectedFaculties.isEmpty) {
       return 'sem faculdade';
     }
-    String facultiesText = '';
-    for (String faculty in selectedFaculties) {
-      facultiesText += '${faculty.toUpperCase()}, ';
+    final buffer = StringBuffer();
+    for (final faculty in selectedFaculties) {
+      buffer.write('${faculty.toUpperCase()}, ');
     }
-    return facultiesText.substring(0, facultiesText.length - 2);
+    return buffer.toString().substring(0, buffer.length - 2);
   }
 }
