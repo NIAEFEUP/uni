@@ -27,6 +27,14 @@ class NetworkRouter {
   /// The mutual exclusion primitive for login requests.
   static final Lock _loginLock = Lock();
 
+  /// The last time the user was logged in.
+  /// Used to avoid repeated concurrent login requests.
+  static DateTime? _lastLoginTime;
+
+  /// Cached session for the current user.
+  /// Returned on repeated concurrent login requests.
+  static Session? _cachedSession;
+
   /// Performs a login using the Sigarra API,
   /// returning an authenticated [Session] on the given [faculties] with the
   /// given username [username] and password [password] if successful.
@@ -37,6 +45,14 @@ class NetworkRouter {
     required bool persistentSession,
   }) async {
     return _loginLock.synchronized(() async {
+      if (_lastLoginTime != null &&
+          DateTime.now().difference(_lastLoginTime!) <
+              const Duration(minutes: 1) &&
+          _cachedSession != null) {
+        Logger().d('Login request ignored due to recent login');
+        return _cachedSession;
+      }
+
       final url =
           '${NetworkRouter.getBaseUrls(faculties)[0]}mob_val_geral.autentica';
 
@@ -61,6 +77,9 @@ class NetworkRouter {
       }
 
       Logger().i('Login successful');
+      _lastLoginTime = DateTime.now();
+      _cachedSession = session;
+
       return session;
     });
   }
@@ -74,7 +93,7 @@ class NetworkRouter {
     final faculties = session.faculties;
     final persistentSession = session.persistentSession;
 
-    Logger().i('Re-logging in user $username');
+    Logger().d('Re-login from session: $username, $faculties');
 
     return login(
       username,
@@ -154,7 +173,8 @@ class NetworkRouter {
 
     final forbidden = response.statusCode == 403;
     if (forbidden) {
-      final userIsLoggedIn = await userLoggedIn(session);
+      final userIsLoggedIn =
+          _cachedSession != null && await userLoggedIn(session);
       if (!userIsLoggedIn) {
         final newSession = await reLoginFromSession(session);
 
@@ -189,13 +209,17 @@ class NetworkRouter {
   /// performing a health check on the user's personal page.
   static Future<bool> userLoggedIn(Session session) async {
     return _loginLock.synchronized(() async {
+      Logger().i('Checking if user is still logged in');
+
       final url = '${getBaseUrl(session.faculties[0])}'
           'fest_geral.cursos_list?pv_num_unico=${session.username}';
       final headers = <String, String>{};
       headers['cookie'] = session.cookies;
+
       final response = await (httpClient != null
           ? httpClient!.get(url.toUri(), headers: headers)
           : http.get(url.toUri(), headers: headers));
+
       return response.statusCode == 200;
     });
   }

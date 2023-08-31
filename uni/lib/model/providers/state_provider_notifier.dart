@@ -62,7 +62,7 @@ abstract class StateProviderNotifier extends ChangeNotifier {
         DateTime.now().difference(_lastUpdateTime!) > cacheDuration!;
 
     if (!shouldReload) {
-      Logger().i('Last info for $runtimeType is within cache period '
+      Logger().d('Last info for $runtimeType is within cache period '
           '(last updated on $_lastUpdateTime); skipping remote load');
       updateStatus(RequestStatus.successful);
       return;
