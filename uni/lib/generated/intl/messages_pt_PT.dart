@@ -24,7 +24,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static m1(time) =>
       "${Intl.plural(time as num, zero: 'Atualizado há ${time} minutos', one: 'Atualizado há ${time} minuto', other: 'Atualizado há ${time} minutos')}";
 
-  static m2(String title) => "${Intl.select(title, {
+  static m2(title) => "${Intl.select(title, {
             'horario': 'Horário',
             'exames': 'Exames',
             'area': 'Área Pessoal',
@@ -41,7 +41,7 @@ class MessageLookup extends MessageLookupByLibrary {
           })}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
-  static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+  static _notInlinedMessages(_) => <String, Function>{
         "academic_services":
             MessageLookupByLibrary.simpleMessage("Serviços académicos"),
         "account_card_title":
@@ -73,6 +73,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "change": MessageLookupByLibrary.simpleMessage("Alterar"),
         "change_prompt": MessageLookupByLibrary.simpleMessage(
             "Deseja alterar a palavra-passe?"),
+        "check_internet": MessageLookupByLibrary.simpleMessage(
+            "Verifica a tua ligação à internet"),
         "class_registration":
             MessageLookupByLibrary.simpleMessage("Inscrição de Turmas"),
         "college": MessageLookupByLibrary.simpleMessage("Faculdade: "),
@@ -128,6 +130,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "improvement_registration":
             MessageLookupByLibrary.simpleMessage("Inscrição para Melhoria"),
         "increment": MessageLookupByLibrary.simpleMessage("Incrementar 1,00€"),
+        "invalid_credentials":
+            MessageLookupByLibrary.simpleMessage("Credenciais inválidas"),
         "keep_login":
             MessageLookupByLibrary.simpleMessage("Manter sessão iniciada"),
         "last_refresh_time": m0,

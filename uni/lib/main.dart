@@ -170,6 +170,8 @@ class MyApp extends StatefulWidget {
   State<MyApp> createState() => MyAppState();
 }
 
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 /// Manages the app depending on its current state
 class MyAppState extends State<MyApp> {
   @override
@@ -192,7 +194,7 @@ class MyAppState extends State<MyApp> {
         ],
         supportedLocales: S.delegate.supportedLocales,
         initialRoute: widget.initialRoute,
-        navigatorKey: NavigationService.navigatorKey,
+        navigatorKey: navigatorKey,
         onGenerateRoute: (RouteSettings settings) {
           final transitions = {
             '/${DrawerItem.navPersonalArea.title}':
