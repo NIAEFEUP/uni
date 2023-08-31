@@ -177,8 +177,17 @@ class AppSharedPreferences {
   /// Returns a list containing the user's favorite widgets.
   static Future<List<FavoriteWidgetType>> getFavoriteCards() async {
     final prefs = await SharedPreferences.getInstance();
-    final storedFavorites = prefs.getStringList(favoriteCards);
-    if (storedFavorites == null) return defaultFavoriteCards;
+    final storedFavorites = prefs
+        .getStringList(favoriteCards)
+        ?.where(
+          (element) => int.parse(element) < FavoriteWidgetType.values.length,
+        )
+        .toList();
+
+    if (storedFavorites == null) {
+      return defaultFavoriteCards;
+    }
+
     return storedFavorites
         .map((i) => FavoriteWidgetType.values[int.parse(i)])
         .toList();
