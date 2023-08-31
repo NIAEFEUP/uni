@@ -159,7 +159,7 @@ class NetworkRouter {
         final newSession = await reLoginFromSession(session);
 
         if (newSession == null) {
-          NavigationService.logout();
+          NavigationService.logoutAndPopHistory(null);
           return Future.error('Login failed');
         }
         session
