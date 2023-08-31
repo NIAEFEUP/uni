@@ -45,7 +45,10 @@ class BusStopCard extends GenericCard {
               )
             ],
           ),
-          hasContentPredicate: busProvider.configuredBusStops.isNotEmpty,
+          hasContentPredicate:
+              busProvider.configuredBusStops.values.toList().any(
+                    (stopInfo) => stopInfo.trips.isNotEmpty,
+                  ),
           onNullContent: Container(
             padding: const EdgeInsets.all(8),
             child: Row(
