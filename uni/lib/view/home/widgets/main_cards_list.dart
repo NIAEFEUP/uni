@@ -179,7 +179,7 @@ class MainCardsList extends StatelessWidget {
   List<Widget> favoriteCardsFromTypes(
     List<FavoriteWidgetType> cardTypes,
     BuildContext context,
-    HomePageProvider editingModeProvider,
+    HomePageProvider homePageProvider,
   ) {
     final userSession =
         Provider.of<SessionProvider>(context, listen: false).session;
@@ -190,7 +190,7 @@ class MainCardsList extends StatelessWidget {
       final i = cardTypes.indexOf(type);
       return cardCreators[type]!(
         Key(i.toString()),
-        editingMode: editingModeProvider.isEditing,
+        editingMode: homePageProvider.isEditing,
         onDelete: () => removeCardIndexFromFavorites(i, context),
       );
     }).toList();
