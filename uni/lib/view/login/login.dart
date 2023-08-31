@@ -294,21 +294,20 @@ class LoginPageViewState extends State<LoginPageView> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('A tua palavra-passe expirou'),
+          title: Text(S.of(context).expired_password),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'Por razões de segurança, as palavras-passe têm de ser '
-                'alteradas periodicamente.',
+                S.of(context).pass_change_request,
                 textAlign: TextAlign.start,
                 style: Theme.of(context).textTheme.titleSmall,
               ),
               const SizedBox(height: 20),
-              const Align(
+              Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Deseja alterar a palavra-passe?',
+                  S.of(context).change_prompt,
                   textAlign: TextAlign.start,
                 ),
               ),
@@ -316,13 +315,13 @@ class LoginPageViewState extends State<LoginPageView> {
           ),
           actions: [
             TextButton(
-              child: const Text('Cancelar'),
+              child: Text(S.of(context).cancel),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             ElevatedButton(
-              child: const Text('Alterar'),
+              child: Text(S.of(context).change),
               onPressed: () async {
                 const url = 'https://self-id.up.pt/password';
                 if (await canLaunchUrl(Uri.parse(url))) {

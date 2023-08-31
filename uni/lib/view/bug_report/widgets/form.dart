@@ -60,16 +60,17 @@ class BugReportFormState extends State<BugReportForm> {
   bool _isConsentGiven = false;
 
   void loadBugClassList() {
-    bugList = [];
     final locale = Intl.getCurrentLocale();
 
-    bugDescriptions.forEach((int key, Tuple2<String, String> tup) {
-      if (locale == 'pt_PT') {
-        bugList.add(DropdownMenuItem(value: key, child: Text(tup.item1)));
-      } else {
-        bugList.add(DropdownMenuItem(value: key, child: Text(tup.item2)));
-      }
-    });
+    bugList = bugDescriptions.entries
+        .map(
+          (entry) => DropdownMenuItem(
+            value: entry.key,
+            child:
+                Text(locale == 'pt_PT' ? entry.value.item1 : entry.value.item2),
+          ),
+        )
+        .toList();
   }
 
   @override
@@ -264,7 +265,7 @@ class BugReportFormState extends State<BugReportForm> {
       bugDescriptions[_selectedBug],
       faculties,
     ).toMap();
-    String toastMsg;
+    var toastMsg = '';
     bool status;
     try {
       final sentryId = await submitSentryEvent(bugReport);
@@ -273,13 +274,11 @@ class BugReportFormState extends State<BugReportForm> {
         throw Exception('Network error');
       }
       Logger().i('Successfully submitted bug report.');
-      // ignore: use_build_context_synchronously
-      toastMsg = S.of(context).success;
+      if (context.mounted) toastMsg = S.of(context).success;
       status = true;
     } catch (e) {
       Logger().e('Error while posting bug report:$e');
-      // ignore: use_build_context_synchronously
-      toastMsg = S.of(context).sent_error;
+      if (context.mounted) toastMsg = S.of(context).sent_error;
       status = false;
     }
 

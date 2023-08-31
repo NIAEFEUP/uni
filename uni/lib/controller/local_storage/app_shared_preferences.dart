@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:encrypt/encrypt.dart' as encrypt;
 import 'package:flutter/material.dart';
@@ -125,7 +126,7 @@ class AppSharedPreferences {
 
   static Future<Locale> getLocale() async {
     final prefs = await SharedPreferences.getInstance();
-    final appLocale = prefs.getString(locale) ?? 'en';
+    final appLocale = prefs.getString(locale) ?? Platform.localeName;
     return Locale(appLocale);
   }
 

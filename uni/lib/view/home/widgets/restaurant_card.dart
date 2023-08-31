@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/meal.dart';
 import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/providers/lazy/restaurant_provider.dart';
@@ -21,7 +22,8 @@ class RestaurantCard extends GenericCard {
   }) : super.fromEditingInformation();
 
   @override
-  String getTitle(BuildContext context) => 'Restaurantes';
+  String getTitle(BuildContext context) =>
+      S.of(context).nav_title(DrawerItem.navRestaurants.title);
 
   @override
   Future<Object?> onClick(BuildContext context) =>
@@ -53,7 +55,7 @@ class RestaurantCard extends GenericCard {
                 padding: const EdgeInsets.only(top: 15, bottom: 10),
                 child: Center(
                   child: Text(
-                    'Sem restaurantes favoritos',
+                    S.of(context).no_favorite_restaurants,
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                 ),
@@ -63,7 +65,7 @@ class RestaurantCard extends GenericCard {
                   context,
                   '/${DrawerItem.navRestaurants.title}',
                 ),
-                child: const Text('Adicionar'),
+                child: Text(S.of(context).add),
               )
             ],
           ),

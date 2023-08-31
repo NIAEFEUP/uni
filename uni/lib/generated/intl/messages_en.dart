@@ -51,19 +51,20 @@ class MessageLookup extends MessageLookupByLibrary {
         "account_card_title":
             MessageLookupByLibrary.simpleMessage("Checking account"),
         "add": MessageLookupByLibrary.simpleMessage("Add"),
+        "add_quota": MessageLookupByLibrary.simpleMessage("Add quota"),
         "add_widget": MessageLookupByLibrary.simpleMessage("Add widget"),
-        "agree_terms":
-            MessageLookupByLibrary.simpleMessage("By entering you confirm that "
-                "you agree with these Terms and Conditions"),
-        "all_widgets_added":
-            MessageLookupByLibrary.simpleMessage("All available widgets have "
-                "already been added to your personal area!"),
+        "agree_terms": MessageLookupByLibrary.simpleMessage(
+          "By entering you confirm that you agree with these Terms and Conditions",
+        ),
+        "all_widgets_added": MessageLookupByLibrary.simpleMessage(
+          "All available widgets have already been added to your personal area!",
+        ),
         "at_least_one_college":
             MessageLookupByLibrary.simpleMessage("Select at least one college"),
         "average": MessageLookupByLibrary.simpleMessage("Average: "),
         "balance": MessageLookupByLibrary.simpleMessage("Balance:"),
         "bs_description": MessageLookupByLibrary.simpleMessage(
-          r"Did you find any bugs in the application?\nDo you have any suggestions for the app?\nTell us so we can improve!",
+          "Did you find any bugs in the application?\\nDo you have any suggestions for the app?\\nTell us so we can improve!",
         ),
         "bug_description": MessageLookupByLibrary.simpleMessage(
           "Bug found, how to reproduce it, etc.",
@@ -76,9 +77,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "buses_personalize":
             MessageLookupByLibrary.simpleMessage("Personalize your buses here"),
         "buses_text": MessageLookupByLibrary.simpleMessage(
-            "Favorite buses will be displayed in the favorites 'Bus' widget. "
-            "The remaining ones will only be displayed on the page."),
+          "Favorite buses will be displayed in the favorites \'Bus\' widget. The remaining ones will only be displayed on the page.",
+        ),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
+        "change": MessageLookupByLibrary.simpleMessage("Change"),
+        "change_prompt": MessageLookupByLibrary.simpleMessage(
+          "Do you want to change the password?",
+        ),
         "class_registration":
             MessageLookupByLibrary.simpleMessage("Class Registration"),
         "college": MessageLookupByLibrary.simpleMessage("College: "),
@@ -89,23 +94,26 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Configured Buses"),
         "confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
         "consent": MessageLookupByLibrary.simpleMessage(
-            "I consent to this information being reviewed by "
-            "NIAEFEUP and may be deleted at my request."),
+          "I consent to this information being reviewed by NIAEFEUP and may be deleted at my request.",
+        ),
         "contact": MessageLookupByLibrary.simpleMessage("Contact (optional)"),
         "copy_center": MessageLookupByLibrary.simpleMessage("Copy center"),
         "copy_center_building": MessageLookupByLibrary.simpleMessage(
           "Floor -1 of building B | AEFEUP building",
         ),
+        "course_class": MessageLookupByLibrary.simpleMessage("Classes"),
+        "course_info": MessageLookupByLibrary.simpleMessage("Info"),
         "current_state":
             MessageLookupByLibrary.simpleMessage("Current state: "),
         "current_year":
             MessageLookupByLibrary.simpleMessage("Current academic year: "),
+        "decrement": MessageLookupByLibrary.simpleMessage("Decrement 1,00€"),
         "description": MessageLookupByLibrary.simpleMessage("Description"),
         "desired_email": MessageLookupByLibrary.simpleMessage(
           "Email where you want to be contacted",
         ),
         "dona_bia": MessageLookupByLibrary.simpleMessage(
-          "D. Beatriz's stationery store",
+          "D. Beatriz\'s stationery store",
         ),
         "dona_bia_building": MessageLookupByLibrary.simpleMessage(
           "Floor -1 of building B (B-142)",
@@ -117,6 +125,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Please fill in this field"),
         "exams_filter":
             MessageLookupByLibrary.simpleMessage("Exam Filter Settings"),
+        "expired_password":
+            MessageLookupByLibrary.simpleMessage("Your password has expired"),
         "failed_login": MessageLookupByLibrary.simpleMessage("Login failed"),
         "fee_date":
             MessageLookupByLibrary.simpleMessage("Deadline for next fee:"),
@@ -129,10 +139,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "floors": MessageLookupByLibrary.simpleMessage("Floors"),
         "forgot_password":
             MessageLookupByLibrary.simpleMessage("Forgot password?"),
+        "generate_reference":
+            MessageLookupByLibrary.simpleMessage("Generate reference"),
         "geral_registration":
             MessageLookupByLibrary.simpleMessage("General Registration"),
         "improvement_registration":
             MessageLookupByLibrary.simpleMessage("Enrollment for Improvement"),
+        "increment": MessageLookupByLibrary.simpleMessage("Increment 1,00€"),
         "keep_login": MessageLookupByLibrary.simpleMessage("Stay signed in"),
         "last_refresh_time": m0,
         "last_timestamp": m1,
@@ -144,17 +157,22 @@ class MessageLookup extends MessageLookupByLibrary {
         "login": MessageLookupByLibrary.simpleMessage("Login"),
         "logout": MessageLookupByLibrary.simpleMessage("Log out"),
         "menus": MessageLookupByLibrary.simpleMessage("Menus"),
+        "min_value_reference":
+            MessageLookupByLibrary.simpleMessage("Minimum value: 1,00 €"),
         "multimedia_center":
             MessageLookupByLibrary.simpleMessage("Multimedia center"),
         "nav_title": m2,
         "news": MessageLookupByLibrary.simpleMessage("News"),
-        "no_bus": MessageLookupByLibrary.simpleMessage("Don't miss any bus!"),
+        "no_bus": MessageLookupByLibrary.simpleMessage("Don\'t miss any bus!"),
         "no_bus_stops":
             MessageLookupByLibrary.simpleMessage("No configured stops"),
+        "no_class": MessageLookupByLibrary.simpleMessage(
+          "There are no classes to display",
+        ),
         "no_classes":
             MessageLookupByLibrary.simpleMessage("No classes to present"),
         "no_classes_on":
-            MessageLookupByLibrary.simpleMessage("You don't have classes on"),
+            MessageLookupByLibrary.simpleMessage("You don\'t have classes on"),
         "no_college": MessageLookupByLibrary.simpleMessage("no college"),
         "no_course_units": MessageLookupByLibrary.simpleMessage(
           "No course units in the selected period",
@@ -168,6 +186,11 @@ class MessageLookup extends MessageLookupByLibrary {
         ),
         "no_exams_label": MessageLookupByLibrary.simpleMessage(
           "Looks like you are on vacation!",
+        ),
+        "no_favorite_restaurants":
+            MessageLookupByLibrary.simpleMessage("No favorite restaurants"),
+        "no_info": MessageLookupByLibrary.simpleMessage(
+          "There is no information to display",
         ),
         "no_menu_info": MessageLookupByLibrary.simpleMessage(
           "There is no information available about meals",
@@ -190,6 +213,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "occurrence_type":
             MessageLookupByLibrary.simpleMessage("Type of occurrence"),
         "other_links": MessageLookupByLibrary.simpleMessage("Other links"),
+        "pass_change_request": MessageLookupByLibrary.simpleMessage(
+          "For security reasons, passwords must be changed periodically.",
+        ),
         "password": MessageLookupByLibrary.simpleMessage("password"),
         "pendent_references":
             MessageLookupByLibrary.simpleMessage("Pending references"),
@@ -201,6 +227,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "problem_id": MessageLookupByLibrary.simpleMessage(
           "Brief identification of the problem",
         ),
+        "reference_sigarra_help": MessageLookupByLibrary.simpleMessage(
+          "The generated reference data will appear in Sigarra, checking account.\\nProfile > Checking Account",
+        ),
+        "reference_success": MessageLookupByLibrary.simpleMessage(
+          "Reference created successfully!",
+        ),
         "remove": MessageLookupByLibrary.simpleMessage("Delete"),
         "room": MessageLookupByLibrary.simpleMessage("Room"),
         "school_calendar":
@@ -210,6 +242,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "sent_error": MessageLookupByLibrary.simpleMessage(
           "An error occurred in sending",
         ),
+        "some_error": MessageLookupByLibrary.simpleMessage("Some error!"),
         "stcp_stops":
             MessageLookupByLibrary.simpleMessage("STCP - Upcoming Trips"),
         "student_number":

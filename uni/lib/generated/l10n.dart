@@ -1,7 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:uni/generated/intl/messages_all.dart';
+import 'intl/messages_all.dart';
 
 // **************************************************************************
 // Generator: Flutter Intl IDE plugin
@@ -18,35 +18,28 @@ class S {
   static S? _current;
 
   static S get current {
-    assert(
-      _current != null,
-      'No instance of S was loaded. Try to initialize the S delegate before accessing S.current.',
-    );
+    assert(_current != null, 'No instance of S was loaded. Try to initialize the S delegate before accessing S.current.');
     return _current!;
   }
 
-  static const AppLocalizationDelegate delegate = AppLocalizationDelegate();
+  static const AppLocalizationDelegate delegate =
+    AppLocalizationDelegate();
 
   static Future<S> load(Locale locale) {
-    final name = (locale.countryCode?.isEmpty ?? false)
-        ? locale.languageCode
-        : locale.toString();
-    final localeName = Intl.canonicalizedLocale(name);
+    final name = (locale.countryCode?.isEmpty ?? false) ? locale.languageCode : locale.toString();
+    final localeName = Intl.canonicalizedLocale(name); 
     return initializeMessages(localeName).then((_) {
       Intl.defaultLocale = localeName;
       final instance = S();
       S._current = instance;
-
+ 
       return instance;
     });
-  }
+  } 
 
   static S of(BuildContext context) {
     final instance = S.maybeOf(context);
-    assert(
-      instance != null,
-      'No instance of S present in the widget tree. Did you add S.delegate in localizationsDelegates?',
-    );
+    assert(instance != null, 'No instance of S present in the widget tree. Did you add S.delegate in localizationsDelegates?');
     return instance!;
   }
 
@@ -79,6 +72,16 @@ class S {
     return Intl.message(
       'Add',
       name: 'add',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add quota`
+  String get add_quota {
+    return Intl.message(
+      'Add quota',
+      name: 'add_quota',
       desc: '',
       args: [],
     );
@@ -187,7 +190,7 @@ class S {
   /// `Favorite buses will be displayed in the favorites 'Bus' widget. The remaining ones will only be displayed on the page.`
   String get buses_text {
     return Intl.message(
-      "Favorite buses will be displayed in the favorites 'Bus' widget. The remaining ones will only be displayed on the page.",
+      'Favorite buses will be displayed in the favorites \'Bus\' widget. The remaining ones will only be displayed on the page.',
       name: 'buses_text',
       desc: '',
       args: [],
@@ -209,6 +212,36 @@ class S {
     return Intl.message(
       'Cancel',
       name: 'cancel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Change`
+  String get change {
+    return Intl.message(
+      'Change',
+      name: 'change',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Do you want to change the password?`
+  String get change_prompt {
+    return Intl.message(
+      'Do you want to change the password?',
+      name: 'change_prompt',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Classes`
+  String get course_class {
+    return Intl.message(
+      'Classes',
+      name: 'course_class',
       desc: '',
       args: [],
     );
@@ -314,6 +347,16 @@ class S {
     );
   }
 
+  /// `Info`
+  String get course_info {
+    return Intl.message(
+      'Info',
+      name: 'course_info',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Current state: `
   String get current_state {
     return Intl.message(
@@ -329,6 +372,16 @@ class S {
     return Intl.message(
       'Current academic year: ',
       name: 'current_year',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Decrement 1,00€`
+  String get decrement {
+    return Intl.message(
+      'Decrement 1,00€',
+      name: 'decrement',
       desc: '',
       args: [],
     );
@@ -357,7 +410,7 @@ class S {
   /// `D. Beatriz's stationery store`
   String get dona_bia {
     return Intl.message(
-      "D. Beatriz's stationery store",
+      'D. Beatriz\'s stationery store',
       name: 'dona_bia',
       desc: '',
       args: [],
@@ -419,6 +472,16 @@ class S {
     return Intl.message(
       'Exam Filter Settings',
       name: 'exams_filter',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your password has expired`
+  String get expired_password {
+    return Intl.message(
+      'Your password has expired',
+      name: 'expired_password',
       desc: '',
       args: [],
     );
@@ -494,6 +557,16 @@ class S {
     );
   }
 
+  /// `Generate reference`
+  String get generate_reference {
+    return Intl.message(
+      'Generate reference',
+      name: 'generate_reference',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `General Registration`
   String get geral_registration {
     return Intl.message(
@@ -509,6 +582,16 @@ class S {
     return Intl.message(
       'Enrollment for Improvement',
       name: 'improvement_registration',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Increment 1,00€`
+  String get increment {
+    return Intl.message(
+      'Increment 1,00€',
+      name: 'increment',
       desc: '',
       args: [],
     );
@@ -597,6 +680,16 @@ class S {
     );
   }
 
+  /// `Minimum value: 1,00 €`
+  String get min_value_reference {
+    return Intl.message(
+      'Minimum value: 1,00 €',
+      name: 'min_value_reference',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Multimedia center`
   String get multimedia_center {
     return Intl.message(
@@ -645,7 +738,7 @@ class S {
   /// `Don't miss any bus!`
   String get no_bus {
     return Intl.message(
-      "Don't miss any bus!",
+      'Don\'t miss any bus!',
       name: 'no_bus',
       desc: '',
       args: [],
@@ -657,6 +750,16 @@ class S {
     return Intl.message(
       'No configured stops',
       name: 'no_bus_stops',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `There are no classes to display`
+  String get no_class {
+    return Intl.message(
+      'There are no classes to display',
+      name: 'no_class',
       desc: '',
       args: [],
     );
@@ -675,7 +778,7 @@ class S {
   /// `You don't have classes on`
   String get no_classes_on {
     return Intl.message(
-      "You don't have classes on",
+      'You don\'t have classes on',
       name: 'no_classes_on',
       desc: '',
       args: [],
@@ -737,6 +840,26 @@ class S {
     return Intl.message(
       'Looks like you are on vacation!',
       name: 'no_exams_label',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No favorite restaurants`
+  String get no_favorite_restaurants {
+    return Intl.message(
+      'No favorite restaurants',
+      name: 'no_favorite_restaurants',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `There is no information to display`
+  String get no_info {
+    return Intl.message(
+      'There is no information to display',
+      name: 'no_info',
       desc: '',
       args: [],
     );
@@ -832,6 +955,16 @@ class S {
     );
   }
 
+  /// `For security reasons, passwords must be changed periodically.`
+  String get pass_change_request {
+    return Intl.message(
+      'For security reasons, passwords must be changed periodically.',
+      name: 'pass_change_request',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `password`
   String get password {
     return Intl.message(
@@ -892,6 +1025,26 @@ class S {
     );
   }
 
+  /// `The generated reference data will appear in Sigarra, checking account.\nProfile > Checking Account`
+  String get reference_sigarra_help {
+    return Intl.message(
+      'The generated reference data will appear in Sigarra, checking account.\nProfile > Checking Account',
+      name: 'reference_sigarra_help',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reference created successfully!`
+  String get reference_success {
+    return Intl.message(
+      'Reference created successfully!',
+      name: 'reference_success',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Delete`
   String get remove {
     return Intl.message(
@@ -947,6 +1100,16 @@ class S {
     return Intl.message(
       'An error occurred in sending',
       name: 'sent_error',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Some error!`
+  String get some_error {
+    return Intl.message(
+      'Some error!',
+      name: 'some_error',
       desc: '',
       args: [],
     );

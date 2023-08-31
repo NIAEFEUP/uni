@@ -1,39 +1,6 @@
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 
-enum WeekDays {
-  monday('Segunda', 'Monday'),
-  tuesday('Terça', 'Tuesday'),
-  wednesday('Quarta', 'Wednesday'),
-  thursday('Quinta', 'Thursday'),
-  friday('Sexta', 'Friday'),
-  saturday('Sábado', 'Saturday'),
-  sunday('Domingo', 'Sunday');
-
-  const WeekDays(this.dayPT, this.dayEN);
-  final String dayPT;
-  final String dayEN;
-}
-
-enum Months {
-  january('janeiro', 'January'),
-  february('fevereiro', 'February'),
-  march('março', 'March'),
-  april('abril', 'April'),
-  may('maio', 'May'),
-  june('junho', 'June'),
-  july('julho', 'July'),
-  august('agosto', 'August'),
-  september('setembro', 'September'),
-  october('outubro', 'October'),
-  november('novembro', 'November'),
-  december('dezembro', 'December');
-
-  const Months(this.monthPT, this.monthEN);
-  final String monthPT;
-  final String monthEN;
-}
-
 /// Manages a generic Exam.
 ///
 /// The information stored is:
@@ -99,19 +66,11 @@ class Exam {
   String locale = Intl.getCurrentLocale();
 
   String get weekDay {
-    if (locale == 'pt_PT') {
-      return WeekDays.values[begin.weekday - 1].dayPT;
-    } else {
-      return WeekDays.values[begin.weekday - 1].dayEN;
-    }
+    return DateFormat.EEEE(locale).dateSymbols.WEEKDAYS[begin.weekday - 1];
   }
 
   String get month {
-    if (locale == 'pt_PT') {
-      return Months.values[begin.month - 1].monthPT;
-    } else {
-      return Months.values[begin.weekday - 1].monthEN;
-    }
+    return DateFormat.EEEE(locale).dateSymbols.MONTHS[begin.month - 1];
   }
 
   String get beginTime => formatTime(begin);
