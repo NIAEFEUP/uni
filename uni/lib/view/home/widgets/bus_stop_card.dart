@@ -31,24 +31,9 @@ class BusStopCard extends GenericCard {
       builder: (context, busProvider) {
         return RequestDependentWidgetBuilder(
           status: busProvider.status,
-          builder: () => Column(
-            children: <Widget>[
-              getCardTitle(context),
-              Container(
-                padding: const EdgeInsets.all(4),
-                child: Column(
-                  children: getEachBusStopInfo(
-                    context,
-                    busProvider.configuredBusStops,
-                  ),
-                ),
-              )
-            ],
-          ),
-          hasContentPredicate:
-              busProvider.configuredBusStops.values.toList().any(
-                    (stopInfo) => stopInfo.trips.isNotEmpty,
-                  ),
+          builder: () =>
+              getCardContent(context, busProvider.configuredBusStops),
+          hasContentPredicate: busProvider.configuredBusStops.isNotEmpty,
           onNullContent: Container(
             padding: const EdgeInsets.all(8),
             child: Row(
@@ -116,7 +101,55 @@ class BusStopCard extends GenericCard {
         );
       }
     });
-
     return rows;
+  }
+
+  /// Returns the bus stop info if it has trips
+  Widget getCardContent(
+    BuildContext context,
+    Map<String, BusStopData> stopData,
+  ) {
+    if (stopData.values.toList().any(
+          (stopInfo) => stopInfo.trips.isNotEmpty,
+        )) {
+      return Column(
+        children: <Widget>[
+          getCardTitle(context),
+          Container(
+            padding: const EdgeInsets.all(4),
+            child: Column(
+              children: getEachBusStopInfo(
+                context,
+                stopData,
+              ),
+            ),
+          )
+        ],
+      );
+    } else {
+      return Container(
+        padding: const EdgeInsets.all(8),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Text(
+              'Não há viagens disponíveis',
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.titleSmall!.apply(),
+            ),
+            IconButton(
+              icon: const Icon(Icons.settings),
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute<BusStopSelectionPage>(
+                  builder: (context) => const BusStopSelectionPage(),
+                ),
+              ),
+            )
+          ],
+        ),
+      );
+    }
   }
 }
