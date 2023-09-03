@@ -10,6 +10,7 @@ import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/home/widgets/bus_stop_card.dart';
 import 'package:uni/view/home/widgets/exam_card.dart';
 import 'package:uni/view/home/widgets/exit_app_dialog.dart';
+import 'package:uni/view/home/widgets/restaurant_card.dart';
 import 'package:uni/view/home/widgets/schedule_card.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/library/widgets/library_occupation_card.dart';
@@ -33,8 +34,9 @@ class MainCardsList extends StatelessWidget {
         PrintInfoCard.fromEditingInformation(k, em, od),*/
 
     FavoriteWidgetType.busStops: BusStopCard.fromEditingInformation,
+    FavoriteWidgetType.restaurant: RestaurantCard.fromEditingInformation,
     FavoriteWidgetType.libraryOccupation:
-        LibraryOccupationCard.fromEditingInformation
+        LibraryOccupationCard.fromEditingInformation,
   };
 
   @override

@@ -32,6 +32,7 @@ class AppSharedPreferences {
     FavoriteWidgetType.busStops
   ];
   static const String hiddenExams = 'hidden_exams';
+  static const String favoriteRestaurants = 'favorite_restaurants';
   static const String filteredExamsTypes = 'filtered_exam_types';
   static final List<String> defaultFilteredExamTypes = Exam.displayedTypes;
 
@@ -181,6 +182,20 @@ class AppSharedPreferences {
     return storedFavorites
         .map((i) => FavoriteWidgetType.values[int.parse(i)])
         .toList();
+  }
+
+  static Future<void> saveFavoriteRestaurants(
+    List<String> newFavoriteRestaurants,
+  ) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setStringList(favoriteRestaurants, newFavoriteRestaurants);
+  }
+
+  static Future<List<String>> getFavoriteRestaurants() async {
+    final prefs = await SharedPreferences.getInstance();
+    final storedFavoriteRestaurants =
+        prefs.getStringList(favoriteRestaurants) ?? [];
+    return storedFavoriteRestaurants;
   }
 
   static Future<void> saveHiddenExams(List<String> newHiddenExams) async {
