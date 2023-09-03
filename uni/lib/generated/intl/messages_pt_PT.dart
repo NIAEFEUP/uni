@@ -24,7 +24,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static m1(time) =>
       "${Intl.plural(time as num, zero: 'Atualizado há ${time} minutos', one: 'Atualizado há ${time} minuto', other: 'Atualizado há ${time} minutos')}";
 
-  static m2(title) => "${Intl.select(title, {
+  static m2(String title) => "${Intl.select(title, {
             'horario': 'Horário',
             'exames': 'Exames',
             'area': 'Área Pessoal',
@@ -41,7 +41,7 @@ class MessageLookup extends MessageLookupByLibrary {
           })}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
-  static _notInlinedMessages(_) => <String, Function>{
+  static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "academic_services":
             MessageLookupByLibrary.simpleMessage("Serviços académicos"),
         "account_card_title":
