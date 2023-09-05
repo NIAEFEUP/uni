@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/generated/l10n.dart';
+import 'package:uni/model/entities/app_locale.dart';
 import 'package:uni/view/locale_notifier.dart';
 
 Widget testableWidget(
@@ -11,7 +12,7 @@ Widget testableWidget(
   return MultiProvider(
     providers: [
       ChangeNotifierProvider<LocaleNotifier>(
-        create: (_) => LocaleNotifier(const Locale('pt')),
+        create: (_) => LocaleNotifier(AppLocale.pt),
       ),
       ...providers
     ],

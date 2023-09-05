@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/generated/l10n.dart';
+import 'package:uni/model/entities/app_locale.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/providers/lazy/exam_provider.dart';
 import 'package:uni/utils/drawer_items.dart';
@@ -13,6 +13,7 @@ import 'package:uni/view/exams/widgets/exam_row.dart';
 import 'package:uni/view/exams/widgets/exam_title.dart';
 import 'package:uni/view/home/widgets/exam_card_shimmer.dart';
 import 'package:uni/view/lazy_consumer.dart';
+import 'package:uni/view/locale_notifier.dart';
 
 /// Manages the exam card section inside the personal area.
 class ExamCard extends GenericCard {
@@ -106,10 +107,10 @@ class ExamCard extends GenericCard {
   /// Creates a row with the closest exam (which appears separated from the
   /// others in the card).
   Widget createRowFromExam(BuildContext context, Exam exam) {
-    final locale = Intl.getCurrentLocale();
+    final locale = Provider.of<LocaleNotifier>(context).getLocale();
     return Column(
       children: [
-        if (locale == 'pt_PT') ...[
+        if (locale == AppLocale.pt) ...[
           DateRectangle(
             date: '${exam.weekDay}, ${exam.begin.day} de ${exam.month}',
           )

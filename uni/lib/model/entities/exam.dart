@@ -1,5 +1,8 @@
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
+import 'package:provider/provider.dart';
+import 'package:uni/main.dart';
+import 'package:uni/view/locale_notifier.dart';
 
 /// Manages a generic Exam.
 ///
@@ -63,14 +66,19 @@ class Exam {
   /// Returns whether or not this exam has already ended.
   bool hasEnded() => DateTime.now().compareTo(end) >= 0;
 
-  String locale = Intl.getCurrentLocale();
+  final locale = Provider.of<LocaleNotifier>(MyApp.navigatorKey.currentContext!)
+      .getLocale();
 
   String get weekDay {
-    return DateFormat.EEEE(locale).dateSymbols.WEEKDAYS[begin.weekday - 1];
+    return DateFormat.EEEE(locale.localeCode.languageCode)
+        .dateSymbols
+        .WEEKDAYS[begin.weekday - 1];
   }
 
   String get month {
-    return DateFormat.EEEE(locale).dateSymbols.MONTHS[begin.month - 1];
+    return DateFormat.EEEE(locale.localeCode.languageCode)
+        .dateSymbols
+        .MONTHS[begin.month - 1];
   }
 
   String get beginTime => formatTime(begin);

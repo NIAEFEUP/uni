@@ -124,18 +124,20 @@ class SchedulePageViewState extends GeneralPageViewState<SchedulePageView>
   /// Returns a list of widgets empty with tabs for each day of the week.
   List<Widget> createTabs(MediaQueryData queryData, BuildContext context) {
     final tabs = <Widget>[];
-    for (var i = 0; i < 5; i++) {
+    final workWeekDays = Provider.of<LocaleNotifier>(context)
+        .getWeekdaysWithLocale()
+        .sublist(0, 5);
+    workWeekDays.asMap().forEach((index, day) {
       tabs.add(
         SizedBox(
           width: (queryData.size.width * 1) / 4,
           child: Tab(
-            key: Key('schedule-page-tab-$i'),
-            text:
-                Provider.of<LocaleNotifier>(context).getWeekdaysWithLocale()[i],
+            key: Key('schedule-page-tab-$index'),
+            text: day,
           ),
         ),
       );
-    }
+    });
     return tabs;
   }
 

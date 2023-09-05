@@ -5,6 +5,7 @@ import 'package:encrypt/encrypt.dart' as encrypt;
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tuple/tuple.dart';
+import 'package:uni/model/entities/app_locale.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/utils/favorite_widget_type.dart';
 
@@ -124,10 +125,11 @@ class AppSharedPreferences {
     await prefs.setString(locale, appLocale);
   }
 
-  static Future<Locale> getLocale() async {
+  static Future<AppLocale> getLocale() async {
     final prefs = await SharedPreferences.getInstance();
     final appLocale = prefs.getString(locale) ?? Platform.localeName;
-    return Locale(appLocale);
+
+    return appLocale == 'pt' ? AppLocale.pt : AppLocale.en;
   }
 
   /// Deletes the user's student number and password.

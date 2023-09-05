@@ -101,7 +101,7 @@ class AppNavigationDrawerState extends State<AppNavigationDrawer> {
           child: Container(
             padding: const EdgeInsets.all(15),
             child: Text(
-              localeNotifier.getLocale().languageCode.toUpperCase(),
+              localeNotifier.getLocale().localeCode.languageCode.toUpperCase(),
               style: Theme.of(context)
                   .textTheme
                   .titleLarge!

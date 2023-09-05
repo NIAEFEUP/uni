@@ -4,17 +4,20 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
+import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:tuple/tuple.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/generated/l10n.dart';
+import 'package:uni/main.dart';
+import 'package:uni/model/entities/app_locale.dart';
 import 'package:uni/model/entities/bug_report.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/bug_report/widgets/text_field.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/toast_message.dart';
+import 'package:uni/view/locale_notifier.dart';
 
 class BugReportForm extends StatefulWidget {
   const BugReportForm({super.key});
@@ -60,14 +63,17 @@ class BugReportFormState extends State<BugReportForm> {
   bool _isConsentGiven = false;
 
   void loadBugClassList() {
-    final locale = Intl.getCurrentLocale();
+    final locale =
+        Provider.of<LocaleNotifier>(MyApp.navigatorKey.currentContext!)
+            .getLocale();
 
     bugList = bugDescriptions.entries
         .map(
           (entry) => DropdownMenuItem(
             value: entry.key,
-            child:
-                Text(locale == 'pt_PT' ? entry.value.item1 : entry.value.item2),
+            child: Text(
+              locale == AppLocale.pt ? entry.value.item1 : entry.value.item2,
+            ),
           ),
         )
         .toList();

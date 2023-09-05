@@ -7,10 +7,10 @@ class ExpiredCredentialsException implements Exception {
 
 class InternetStatusException implements Exception {
   InternetStatusException();
-  String message = S.of(navigatorKey.currentContext!).check_internet;
+  String message = S.of(MyApp.navigatorKey.currentContext!).check_internet;
 }
 
 class WrongCredentialsException implements Exception {
   WrongCredentialsException();
-  String message = S.of(navigatorKey.currentContext!).invalid_credentials;
+  String message = S.of(MyApp.navigatorKey.currentContext!).invalid_credentials;
 }
