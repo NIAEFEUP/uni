@@ -127,7 +127,8 @@ class AppSharedPreferences {
 
   static Future<AppLocale> getLocale() async {
     final prefs = await SharedPreferences.getInstance();
-    final appLocale = prefs.getString(locale) ?? Platform.localeName;
+    final appLocale =
+        prefs.getString(locale) ?? Platform.localeName.substring(0, 2);
 
     return AppLocale.values
         .firstWhere((e) => e.toString() == 'AppLocale.$appLocale');

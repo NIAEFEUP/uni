@@ -10,6 +10,7 @@ import 'package:uni/view/exams/widgets/day_title.dart';
 import 'package:uni/view/exams/widgets/exam_page_title.dart';
 import 'package:uni/view/exams/widgets/exam_row.dart';
 import 'package:uni/view/lazy_consumer.dart';
+import 'package:uni/view/locale_notifier.dart';
 
 class ExamsPageView extends StatefulWidget {
   const ExamsPageView({super.key});
@@ -108,11 +109,12 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
   }
 
   Widget createExamsCards(BuildContext context, List<Exam> exams) {
+    final locale = Provider.of<LocaleNotifier>(context).getLocale();
     final examCards = <Widget>[
       DayTitle(
         day: exams[0].begin.day.toString(),
-        weekDay: exams[0].weekDay,
-        month: exams[0].month,
+        weekDay: exams[0].weekDay(locale),
+        month: exams[0].month(locale),
       ),
     ];
     for (var i = 0; i < exams.length; i++) {
