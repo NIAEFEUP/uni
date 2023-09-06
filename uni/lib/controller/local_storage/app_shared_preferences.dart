@@ -120,16 +120,17 @@ class AppSharedPreferences {
     return prefs.setInt(themeMode, (themeIndex + 1) % 3);
   }
 
-  static Future<void> setLocale(String appLocale) async {
+  static Future<void> setLocale(AppLocale appLocale) async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(locale, appLocale);
+    await prefs.setString(locale, appLocale.name);
   }
 
   static Future<AppLocale> getLocale() async {
     final prefs = await SharedPreferences.getInstance();
     final appLocale = prefs.getString(locale) ?? Platform.localeName;
 
-    return appLocale == 'pt' ? AppLocale.pt : AppLocale.en;
+    return AppLocale.values
+        .firstWhere((e) => e.toString() == 'AppLocale.$appLocale');
   }
 
   /// Deletes the user's student number and password.

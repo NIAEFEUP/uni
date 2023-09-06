@@ -11,16 +11,16 @@ class LocaleNotifier with ChangeNotifier {
   AppLocale getLocale() => _locale;
 
   void setNextLocale() {
-    final AppLocale nextLocale;
-    _locale == AppLocale.pt
-        ? nextLocale = AppLocale.en
-        : nextLocale = AppLocale.pt;
+    const availableLocales = AppLocale.values;
+    final currentIndex = availableLocales.indexOf(_locale);
+    final nextLocale =
+        availableLocales[(currentIndex + 1) % availableLocales.length];
     setLocale(nextLocale);
   }
 
   void setLocale(AppLocale locale) {
     _locale = locale;
-    AppSharedPreferences.setLocale(locale.localeCode.languageCode);
+    AppSharedPreferences.setLocale(locale);
     notifyListeners();
   }
 
