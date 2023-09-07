@@ -73,7 +73,44 @@ static gboolean my_application_local_command_line(GApplication* application, gch
      g_warning("Failed to register: %s", error->message);
      *exit_status = 1;
      return TRUE;
+  YourErrorHandlingWidget(
+  errorOccurred: true, // Set this to true when an error occurs
+  retryOperation: () {
+    // Implement retry logic here
+    // For example, make a network request again
+    // or reattempt the failed operation
+  },
+)
+}
+import 'package:flutter/material.dart';
+
+class YourErrorHandlingWidget extends StatelessWidget {
+  final bool errorOccurred;
+  final VoidCallback retryOperation;
+
+  YourErrorHandlingWidget({
+    required this.errorOccurred,
+    required this.retryOperation,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return errorOccurred
+        ? Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text("An error occurred. Please try again."),
+              ElevatedButton(
+                onPressed: retryOperation,
+                child: Text("Try Again"),
+              ),
+            ],
+          )
+        : Center(
+            child: CircularProgressIndicator(), // Loading state or other content
+          );
   }
+}
 
   g_application_activate(application);
   *exit_status = 0;
