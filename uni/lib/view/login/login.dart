@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
+import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/model/entities/login_exceptions.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/model/providers/state_providers.dart';
@@ -42,6 +43,7 @@ class LoginPageViewState extends State<LoginPageView> {
   Future<void> _login(BuildContext context) async {
     final stateProviders = StateProviders.fromContext(context);
     final sessionProvider = stateProviders.sessionProvider;
+
     if (sessionProvider.status != RequestStatus.busy &&
         _formKey.currentState!.validate()) {
       final user = usernameController.text.trim();
@@ -109,54 +111,51 @@ class LoginPageViewState extends State<LoginPageView> {
       child: Builder(
         builder: (context) => Scaffold(
           backgroundColor: darkRed,
-          body: WillPopScope(
-            child: Padding(
-              padding: EdgeInsets.only(
-                left: queryData.size.width / 8,
-                right: queryData.size.width / 8,
-              ),
-              child: ListView(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(
-                      bottom: queryData.size.height / 20,
-                    ),
-                  ),
-                  createTitle(queryData, context),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      bottom: queryData.size.height / 35,
-                    ),
-                  ),
-                  getLoginForm(queryData, context),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      bottom: queryData.size.height / 35,
-                    ),
-                  ),
-                  createForgetPasswordLink(context),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      bottom: queryData.size.height / 15,
-                    ),
-                  ),
-                  createLogInButton(queryData, context, _login),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      bottom: queryData.size.height / 35,
-                    ),
-                  ),
-                  createStatusWidget(context),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      bottom: queryData.size.height / 35,
-                    ),
-                  ),
-                  createSafeLoginButton(context),
-                ],
-              ),
+          body: Padding(
+            padding: EdgeInsets.only(
+              left: queryData.size.width / 8,
+              right: queryData.size.width / 8,
             ),
-            onWillPop: () => onWillPop(context),
+            child: ListView(
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(
+                    bottom: queryData.size.height / 20,
+                  ),
+                ),
+                createTitle(queryData, context),
+                Padding(
+                  padding: EdgeInsets.only(
+                    bottom: queryData.size.height / 35,
+                  ),
+                ),
+                getLoginForm(queryData, context),
+                Padding(
+                  padding: EdgeInsets.only(
+                    bottom: queryData.size.height / 35,
+                  ),
+                ),
+                createForgetPasswordLink(context),
+                Padding(
+                  padding: EdgeInsets.only(
+                    bottom: queryData.size.height / 15,
+                  ),
+                ),
+                createLogInButton(queryData, context, _login),
+                Padding(
+                  padding: EdgeInsets.only(
+                    bottom: queryData.size.height / 35,
+                  ),
+                ),
+                createStatusWidget(context),
+                Padding(
+                  padding: EdgeInsets.only(
+                    bottom: queryData.size.height / 35,
+                  ),
+                ),
+                createSafeLoginButton(context),
+              ],
+            ),
           ),
         ),
       ),

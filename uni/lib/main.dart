@@ -175,6 +175,7 @@ class MyAppState extends State<MyApp> {
       builder: (context, themeNotifier, _) => MaterialApp(
         title: 'uni',
         theme: applicationLightTheme,
+        debugShowCheckedModeBanner: false, // this here sanat
         darkTheme: applicationDarkTheme,
         themeMode: themeNotifier.getTheme(),
         initialRoute: widget.initialRoute,

@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:encrypt/encrypt.dart' as encrypt;
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tuple/tuple.dart';
 import 'package:uni/model/entities/exam.dart';
@@ -61,13 +63,20 @@ class AppSharedPreferences {
     String pass,
     List<String> faculties,
   ) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(userNumber, user);
-    await prefs.setString(userPw, encode(pass));
-    await prefs.setStringList(
-      userFaculties,
-      faculties,
-    ); // Could be multiple faculties
+    // changed from SharedPreference to FlutterSecureStorage
+    const storage = FlutterSecureStorage();
+    await storage.write(key: userNumber, value: user);
+    await storage.write(key: userPw, value: encode(pass));
+
+    final faculitiesList = faculties.map((e) => e).join(',');
+    await storage.write(key: userFaculties, value: faculitiesList);
+
+    // await prefs.setString(userNumber, user);
+    // await prefs.setString(userPw, encode(pass));
+    // await prefs.setStringList(
+    //   userFaculties,
+    //   faculties,
+    // ); // Could be multiple faculties
   }
 
   /// Sets whether or not the Terms and Conditions have been accepted.
@@ -119,9 +128,9 @@ class AppSharedPreferences {
 
   /// Deletes the user's student number and password.
   static Future<void> removePersistentUserInfo() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove(userNumber);
-    await prefs.remove(userPw);
+    const storage = FlutterSecureStorage();
+    await storage.delete(key: userNumber);
+    await storage.delete(key: userPw);
   }
 
   /// Returns a tuple containing the user's student number and password.
@@ -138,29 +147,30 @@ class AppSharedPreferences {
 
   /// Returns the user's faculties
   static Future<List<String>> getUserFaculties() async {
-    final prefs = await SharedPreferences.getInstance();
-    final storedFaculties = prefs.getStringList(userFaculties);
-    return storedFaculties ?? ['feup'];
+    const storage = FlutterSecureStorage();
+    final storedFaculties = await storage.read(key: userFaculties);
+    final res = storedFaculties!.split(',');
+    return res.isEmpty ? ['feup'] : res;
     // TODO(bdmendes): Store dropdown choices in the db for later storage;
   }
 
   /// Returns the user's student number.
   static Future<String> getUserNumber() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString(userNumber) ??
-        ''; // empty string for the case it does not exist
+    const storage = FlutterSecureStorage();
+    final usernumber = await storage.read(key: userNumber) ?? '';
+    return usernumber; // empty string for the case it does not exist
   }
 
   /// Returns the user's password, in plain text format.
   static Future<String> getUserPassword() async {
-    final prefs = await SharedPreferences.getInstance();
-    var pass = prefs.getString(userPw) ?? '';
+    const storage = FlutterSecureStorage();
+    var userpass = await storage.read(key: userPw) ?? '';
 
-    if (pass != '') {
-      pass = decode(pass);
+    if (userpass != '') {
+      userpass = decode(userpass);
     }
 
-    return pass;
+    return userpass;
   }
 
   /// Replaces the user's favorite widgets with [newFavorites].
