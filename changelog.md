@@ -79,3 +79,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Profile page with basic user information
 - Printing Quota widget
 - Live bus schedules of the Porto area
+- "Try Again" button
