@@ -153,13 +153,10 @@ class CourseUnitsPageViewState
         ),
       );
     }
-    return Expanded(
-      child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 20),
-        child: ListView(
-          shrinkWrap: true,
-          children: _generateCourseUnitsGridView(courseUnits),
-        ),
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 20),
+      child: Column(
+        children: _generateCourseUnitsGridView(courseUnits),
       ),
     );
   }
