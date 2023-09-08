@@ -14,9 +14,13 @@ class BugReportPageView extends StatefulWidget {
 class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
   @override
   Widget getBody(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-      child: const BugReportForm(),
+    return ListView(
+      children: [
+        Container(
+          margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+          child: const BugReportForm(),
+        )
+      ],
     );
   }
 
