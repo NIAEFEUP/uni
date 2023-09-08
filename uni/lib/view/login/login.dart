@@ -50,6 +50,7 @@ class LoginPageViewState extends State<LoginPageView> {
 
       try {
         await sessionProvider.postAuthentication(
+          context,
           user,
           pass,
           faculties,

@@ -130,8 +130,10 @@ class AppSharedPreferences {
     final appLocale =
         prefs.getString(locale) ?? Platform.localeName.substring(0, 2);
 
-    return AppLocale.values
-        .firstWhere((e) => e.toString() == 'AppLocale.$appLocale');
+    return AppLocale.values.firstWhere(
+      (e) => e.toString() == 'AppLocale.$appLocale',
+      orElse: () => AppLocale.en,
+    );
   }
 
   /// Deletes the user's student number and password.
