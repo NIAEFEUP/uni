@@ -63,20 +63,12 @@ class AppSharedPreferences {
     String pass,
     List<String> faculties,
   ) async {
-    // changed from SharedPreference to FlutterSecureStorage
     const storage = FlutterSecureStorage();
     await storage.write(key: userNumber, value: user);
     await storage.write(key: userPw, value: encode(pass));
 
     final faculitiesList = faculties.map((e) => e).join(',');
     await storage.write(key: userFaculties, value: faculitiesList);
-
-    // await prefs.setString(userNumber, user);
-    // await prefs.setString(userPw, encode(pass));
-    // await prefs.setStringList(
-    //   userFaculties,
-    //   faculties,
-    // ); // Could be multiple faculties
   }
 
   /// Sets whether or not the Terms and Conditions have been accepted.
@@ -157,8 +149,9 @@ class AppSharedPreferences {
   /// Returns the user's student number.
   static Future<String> getUserNumber() async {
     const storage = FlutterSecureStorage();
-    final usernumber = await storage.read(key: userNumber) ?? '';
-    return usernumber; // empty string for the case it does not exist
+    final usernumber = await storage.read(key: userNumber) ??
+        ''; // empty string for the case it does not exist
+    return usernumber;
   }
 
   /// Returns the user's password, in plain text format.
