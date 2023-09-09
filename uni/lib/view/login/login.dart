@@ -168,17 +168,6 @@ class LoginPageViewState extends State<LoginPageView> {
     _exitApp = false;
   }
 
-  /// If the user tries to leave, displays a quick prompt for him to confirm.
-  /// If this is already the second time, the user leaves the app.
-  Future<bool> onWillPop(BuildContext context) {
-    if (_exitApp) {
-      return Future.value(true);
-    }
-    ToastMessage.info(context, 'Pressione novamente para sair');
-    exitAppWaiter();
-    return Future.value(false);
-  }
-
   /// Creates the title for the login menu.
   Widget createTitle(MediaQueryData queryData, BuildContext context) {
     return ConstrainedBox(
