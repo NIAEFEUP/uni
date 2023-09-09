@@ -67,7 +67,7 @@ class LoginPageViewState extends State<LoginPageView> {
         } else if (error is WrongCredentialsException) {
           unawaited(ToastMessage.error(context, error.message));
         } else {
-          unawaited(ToastMessage.error(context, 'Erro no login'));
+          unawaited(ToastMessage.error(context, S.of(context).failed_login));
         }
       }
     }

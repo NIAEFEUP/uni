@@ -4,7 +4,7 @@
 // function name.
 
 // Ignore issues from commonly used lints in this file.
-// ignore_for_file:unnecessary_brace_in_string_interps, unnecessary_new, lines_longer_than_80_chars
+// ignore_for_file:unnecessary_brace_in_string_interps, unnecessary_new
 // ignore_for_file:prefer_single_quotes,comment_references, directives_ordering
 // ignore_for_file:annotate_overrides,prefer_generic_function_type_aliases
 // ignore_for_file:unused_import, file_names
@@ -57,7 +57,8 @@ class MessageLookup extends MessageLookupByLibrary {
           "Ao entrares confirmas que concordas com estes Termos e Condições",
         ),
         "all_widgets_added": MessageLookupByLibrary.simpleMessage(
-          "Todos os widgets disponíveis já foram adicionados à tua área pessoal!",
+          "Todos os widgets disponíveis já foram adicionados à tua "
+          "área pessoal!",
         ),
         "at_least_one_college": MessageLookupByLibrary.simpleMessage(
           "Seleciona pelo menos uma faculdade",
@@ -80,7 +81,8 @@ class MessageLookup extends MessageLookupByLibrary {
           "Configura aqui os teus autocarros",
         ),
         "buses_text": MessageLookupByLibrary.simpleMessage(
-          "Os autocarros favoritos serão apresentados no widget 'Autocarros' dos favoritos. Os restantes serão apresentados apenas na página.",
+          "Os autocarros favoritos serão apresentados no widget 'Autocarros' "
+          "dos favoritos. Os restantes serão apresentados apenas na página.",
         ),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancelar\n"),
         "change": MessageLookupByLibrary.simpleMessage("Alterar"),
@@ -101,7 +103,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Autocarros Configurados"),
         "confirm": MessageLookupByLibrary.simpleMessage("Confirmar"),
         "consent": MessageLookupByLibrary.simpleMessage(
-          "Consinto que esta informação seja revista pelo NIAEFEUP, podendo ser eliminada a meu pedido.",
+          "Consinto que esta informação seja revista pelo NIAEFEUP, "
+          "podendo ser eliminada a meu pedido.",
         ),
         "contact": MessageLookupByLibrary.simpleMessage("Contacto (opcional)"),
         "copy_center": MessageLookupByLibrary.simpleMessage("Centro de cópias"),
@@ -161,6 +164,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "last_timestamp": m1,
         "library_occupation":
             MessageLookupByLibrary.simpleMessage("Ocupação da Biblioteca"),
+        "load_error": MessageLookupByLibrary.simpleMessage(
+          "Aconteceu um erro ao carregar os dados",
+        ),
         "loading_terms": MessageLookupByLibrary.simpleMessage(
           "Carregando os Termos e Condições...",
         ),
@@ -226,7 +232,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Tipo de ocorrência"),
         "other_links": MessageLookupByLibrary.simpleMessage("Outros links"),
         "pass_change_request": MessageLookupByLibrary.simpleMessage(
-          "Por razões de segurança, as palavras-passe têm de ser alteradas periodicamente.",
+          "Por razões de segurança, as palavras-passe têm de ser "
+          "alteradas periodicamente.",
         ),
         "password": MessageLookupByLibrary.simpleMessage("palavra-passe"),
         "pendent_references":
@@ -247,6 +254,7 @@ class MessageLookup extends MessageLookupByLibrary {
           "Referência criada com sucesso!",
         ),
         "remove": MessageLookupByLibrary.simpleMessage("Remover"),
+        "report_error": MessageLookupByLibrary.simpleMessage("Reportar erro"),
         "room": MessageLookupByLibrary.simpleMessage("Sala"),
         "school_calendar":
             MessageLookupByLibrary.simpleMessage("Calendário Escolar"),

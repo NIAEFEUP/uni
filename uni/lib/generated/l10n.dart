@@ -667,6 +667,16 @@ class S {
     );
   }
 
+  /// `Error loading the information`
+  String get load_error {
+    return Intl.message(
+      'Error loading the information',
+      name: 'load_error',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Loading Terms and Conditions...`
   String get loading_terms {
     return Intl.message(
@@ -1077,6 +1087,16 @@ class S {
     return Intl.message(
       'Delete',
       name: 'remove',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Report error`
+  String get report_error {
+    return Intl.message(
+      'Report error',
+      name: 'report_error',
       desc: '',
       args: [],
     );
