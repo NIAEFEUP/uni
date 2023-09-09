@@ -63,11 +63,11 @@ class AppSharedPreferences {
     List<String> faculties,
   ) async {
     const storage = FlutterSecureStorage();
+    final prefs = await SharedPreferences.getInstance();
+
+    await prefs.setStringList(userFaculties, faculties);
     await storage.write(key: userNumber, value: user);
     await storage.write(key: userPw, value: encode(pass));
-
-    final faculitiesList = faculties.map((e) => e).join(',');
-    await storage.write(key: userFaculties, value: faculitiesList);
   }
 
   /// Sets whether or not the Terms and Conditions have been accepted.
@@ -138,10 +138,9 @@ class AppSharedPreferences {
 
   /// Returns the user's faculties
   static Future<List<String>> getUserFaculties() async {
-    const storage = FlutterSecureStorage();
-    final storedFaculties = await storage.read(key: userFaculties);
-    final res = storedFaculties!.split(',');
-    return res.isEmpty ? ['feup'] : res;
+    final prefs = await SharedPreferences.getInstance();
+    final storedFaculties = prefs.getStringList(userFaculties);
+    return storedFaculties ?? ['feup'];
     // TODO(bdmendes): Store dropdown choices in the db for later storage;
   }
 

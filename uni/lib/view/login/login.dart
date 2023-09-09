@@ -35,7 +35,6 @@ class LoginPageViewState extends State<LoginPageView> {
       TextEditingController();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  static bool _exitApp = false;
   bool _keepSignedIn = true;
   bool _obscurePasswordInput = true;
 
@@ -159,13 +158,6 @@ class LoginPageViewState extends State<LoginPageView> {
         ),
       ),
     );
-  }
-
-  /// Delay time before the user leaves the app
-  Future<void> exitAppWaiter() async {
-    _exitApp = true;
-    await Future<void>.delayed(const Duration(seconds: 2));
-    _exitApp = false;
   }
 
   /// Creates the title for the login menu.
