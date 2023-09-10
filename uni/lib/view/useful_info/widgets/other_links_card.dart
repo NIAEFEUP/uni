@@ -10,8 +10,8 @@ class OtherLinksCard extends GenericExpansionCard {
 
   @override
   Widget buildCardContent(BuildContext context) {
-    return Column(
-      children: const [
+    return const Column(
+      children: [
         // LinkButton(title: S.of(context).print, link: 'https://print.up.pt'),
         // TODO(Process-ing): Get fixed link
         LinkButton(
