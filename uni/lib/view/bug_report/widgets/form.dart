@@ -1,9 +1,5 @@
-import 'dart:convert';
-
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:tuple/tuple.dart';
@@ -27,9 +23,6 @@ class BugReportFormState extends State<BugReportForm> {
   BugReportFormState() {
     loadBugClassList();
   }
-
-  final String _sentryLink =
-      'https://sentry.io/organizations/niaefeup/issues/?query=';
 
   static final _formKey = GlobalKey<FormState>();
 
@@ -59,7 +52,7 @@ class BugReportFormState extends State<BugReportForm> {
 
     bugDescriptions.forEach(
       (int key, Tuple2<String, String> tup) =>
-          {bugList.add(DropdownMenuItem(value: key, child: Text(tup.item1)))},
+          bugList.add(DropdownMenuItem(value: key, child: Text(tup.item1))),
     );
   }
 
@@ -115,9 +108,9 @@ class BugReportFormState extends State<BugReportForm> {
   Widget bugReportTitle(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
-      child: Row(
+      child: const Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: const <Widget>[
+        children: <Widget>[
           Icon(Icons.bug_report, size: 40),
           PageTitle(name: 'Bugs e Sugestões', center: false),
           Icon(Icons.bug_report, size: 40),
@@ -170,7 +163,7 @@ class BugReportFormState extends State<BugReportForm> {
                   value: _selectedBug,
                   onChanged: (value) {
                     setState(() {
-                      _selectedBug = value! as int;
+                      _selectedBug = value!;
                     });
                   },
                   isExpanded: true,

@@ -19,11 +19,13 @@ abstract class GenericCard extends StatefulWidget {
   const GenericCard.customStyle({
     required this.editingMode,
     required this.onDelete,
+    this.cardAction = const SizedBox.shrink(),
     super.key,
     this.margin = const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
     this.hasSmallTitle = false,
   });
   final EdgeInsetsGeometry margin;
+  final Widget cardAction;
   final bool hasSmallTitle;
   final bool editingMode;
   final void Function()? onDelete;
@@ -133,6 +135,7 @@ class GenericCardState extends State<GenericCard> {
                           ),
                         ),
                       ),
+                      widget.cardAction,
                       if (widget.editingMode)
                         Container(
                           alignment: Alignment.center,

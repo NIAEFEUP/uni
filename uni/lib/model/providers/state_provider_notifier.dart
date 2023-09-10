@@ -12,8 +12,8 @@ import 'package:uni/model/request_status.dart';
 
 abstract class StateProviderNotifier extends ChangeNotifier {
   StateProviderNotifier({
-    required this.dependsOnSession,
     required this.cacheDuration,
+    this.dependsOnSession = true,
     RequestStatus initialStatus = RequestStatus.busy,
     bool initialize = true,
   })  : _initialStatus = initialStatus,
@@ -62,7 +62,7 @@ abstract class StateProviderNotifier extends ChangeNotifier {
         DateTime.now().difference(_lastUpdateTime!) > cacheDuration!;
 
     if (!shouldReload) {
-      Logger().i('Last info for $runtimeType is within cache period '
+      Logger().d('Last info for $runtimeType is within cache period '
           '(last updated on $_lastUpdateTime); skipping remote load');
       updateStatus(RequestStatus.successful);
       return;

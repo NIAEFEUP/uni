@@ -9,9 +9,14 @@ class OtherLinksCard extends GenericExpansionCard {
 
   @override
   Widget buildCardContent(BuildContext context) {
-    return Column(
-      children: const [
-        LinkButton(title: 'Impressão', link: 'https://print.up.pt')
+    return const Column(
+      children: [
+        // LinkButton(title: 'Impressão', link: 'https://print.up.pt'),
+        // TODO(Process-ing): Get fixed link
+        LinkButton(
+          title: 'Consultas SASUP',
+          link: 'https://www.up.pt/portal/pt/sasup/saude/marcar-consulta/',
+        ),
       ],
     );
   }
