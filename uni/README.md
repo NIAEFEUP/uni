@@ -4,18 +4,6 @@
 
 This is a Flutter project, totally compatible with Android and iOS. To run it, you need to have Flutter installed on your machine. If you don't, you can follow the instructions on https://flutter.dev/docs/get-started/install.
 
-### Further requirements
-
-In order to submit bug reports to the Github API (needed in order to enable in-app bug reporting), a Github Personal Access Token is required. If you don't have one, you can create it on https://github.com/settings/tokens. The only permission it needs is **repo > public_repo**.
-
-The token is read from the file assets/env/env.json, which you may need to create, and must be in the following format:
-
-```json
-{
-  "gh_token" : "your super secret token"
-}
-```
-
 ### Automated formatting
 
 In order to contribute, you must format your changed files using `dart format` manually or enabing _formatting on save_ using your IDE ([VSCode or IntelliJ](https://docs.flutter.dev/tools/formatting)). Alternatively, you can install the git pre-commit hook that formats your changed files when you commit, doing the following command at the **root directory of the repository**:
