@@ -10,9 +10,9 @@ class ExamPageTitle extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
       alignment: Alignment.center,
-      child: Row(
+      child: const Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: const [
+        children: [
           PageTitle(name: 'Exames', center: false, pad: false),
           Material(child: ExamFilterMenu()),
         ],
