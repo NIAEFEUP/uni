@@ -30,6 +30,34 @@ In order to remove it, is it as simple as running the following command, from th
  rm .git/hooks/pre-commit
 ```
 
+### Generated files
+
+Flutter doesn't support runtime reflection. In order to circumvent these limitations, we use **automatic code generation** or **static metaprogramming** for things like **mocks** and other possible usecases. By convention, you should **always commit** the generated `.dart` files into the repository. 
+
+Dart leverages annotations to signal the `build_runner` that it should generate some code. They look something like this:
+```dart
+  import 'package:mockito/annotations.dart'
+
+  class Cat{
+  }
+
+  @GenerateNiceMocks([MockSpec<Cat>()])
+  void main(){
+
+  }
+```
+In this case, `build_runner` will detect that `GenerateNiceMocks` is a generator function from `mockito` and will generate code to a different file.
+
+In order to run the `build_runner` once:
+```sh
+dart run build_runner build
+```
+
+But you can also watch for changes in `.dart` files and automatically run the `build_runner` on those file changes (useful if you find yourself in need to generate code very frequently):
+```sh
+dart run build_runner watch
+```
+
 ## Project structure
 
 ### Overview
