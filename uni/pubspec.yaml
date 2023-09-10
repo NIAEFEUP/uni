@@ -38,7 +38,7 @@ dependencies:
   html: ^0.15.0
   http: ^0.13.0
   image: ^4.0.13
-  intl: ^0.17.0
+  intl: ^0.18.0
   latlong2: ^0.8.1
   logger: ^1.1.0
   material_design_icons_flutter: ^7.0.7296
