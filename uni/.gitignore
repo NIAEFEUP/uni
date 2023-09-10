@@ -9,7 +9,6 @@
 .buildlog/
 .history
 .svn/
-assets/env/env.json
 *.env
 
 # IntelliJ related
