@@ -9,6 +9,7 @@ import 'dart:typed_data' as _i6;
 import 'dart:ui' as _i11;
 
 import 'package:flutter/material.dart' as _i10;
+import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:uni/model/entities/profile.dart' as _i9;
@@ -493,6 +494,7 @@ class MockSessionProvider extends _i1.Mock implements _i7.SessionProvider {
       );
   @override
   _i4.Future<void> postAuthentication(
+    BuildContext context,
     String? username,
     String? password,
     List<String>? faculties, {
