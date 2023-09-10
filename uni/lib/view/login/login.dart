@@ -83,7 +83,7 @@ class LoginPageViewState extends State<LoginPageView> {
 
   /// Tracks if the user wants to keep signed in (has a
   /// checkmark on the button).
-  void _setKeepSignedIn(bool? value) {
+  void _setKeepSignedIn({bool? value}) {
     if (value == null) return;
     setState(() {
       _keepSignedIn = value;
