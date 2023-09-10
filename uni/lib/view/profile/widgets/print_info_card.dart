@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
 import 'package:uni/view/lazy_consumer.dart';
@@ -38,7 +39,7 @@ class PrintInfoCard extends GenericCard {
                         left: 20,
                       ),
                       child: Text(
-                        'Valor disponível: ',
+                        S.of(context).available_amount,
                         style: Theme.of(context).textTheme.titleSmall,
                       ),
                     ),
@@ -76,7 +77,7 @@ class PrintInfoCard extends GenericCard {
   }
 
   @override
-  String getTitle(BuildContext context) => 'Impressões';
+  String getTitle(BuildContext context) => S.of(context).prints;
 
   @override
   void onClick(BuildContext context) {}

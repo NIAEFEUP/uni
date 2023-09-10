@@ -4,7 +4,7 @@
 // function name.
 
 // Ignore issues from commonly used lints in this file.
-// ignore_for_file:unnecessary_brace_in_string_interps, unnecessary_new
+// ignore_for_file:unnecessary_brace_in_string_interps, unnecessary_new, lines_longer_than_80_chars
 // ignore_for_file:prefer_single_quotes,comment_references, directives_ordering
 // ignore_for_file:annotate_overrides,prefer_generic_function_type_aliases
 // ignore_for_file:unused_import, file_names
@@ -54,15 +54,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "add_quota": MessageLookupByLibrary.simpleMessage("Add quota"),
         "add_widget": MessageLookupByLibrary.simpleMessage("Add widget"),
         "agree_terms": MessageLookupByLibrary.simpleMessage(
-          "By entering you confirm that you agree with these Terms "
-          "and Conditions",
+          "By entering you confirm that you agree with these Terms and Conditions",
         ),
         "all_widgets_added": MessageLookupByLibrary.simpleMessage(
-          "All available widgets have already been added to your personal "
-          "area!",
+          "All available widgets have already been added to your personal area!",
         ),
         "at_least_one_college":
             MessageLookupByLibrary.simpleMessage("Select at least one college"),
+        "available_amount":
+            MessageLookupByLibrary.simpleMessage("Available amount"),
         "average": MessageLookupByLibrary.simpleMessage("Average: "),
         "balance": MessageLookupByLibrary.simpleMessage("Balance:"),
         "bs_description": MessageLookupByLibrary.simpleMessage(
@@ -79,8 +79,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "buses_personalize":
             MessageLookupByLibrary.simpleMessage("Personalize your buses here"),
         "buses_text": MessageLookupByLibrary.simpleMessage(
-          "Favorite buses will be displayed in the favorites 'Bus' widget. "
-          "The remaining ones will only be displayed on the page.",
+          "Favorite buses will be displayed in the favorites 'Bus' widget. The remaining ones will only be displayed on the page.",
         ),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "change": MessageLookupByLibrary.simpleMessage("Change"),
@@ -100,8 +99,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Configured Buses"),
         "confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
         "consent": MessageLookupByLibrary.simpleMessage(
-          "I consent to this information being reviewed by NIAEFEUP "
-          "and may be deleted at my request.",
+          "I consent to this information being reviewed by NIAEFEUP and may be deleted at my request.",
         ),
         "contact": MessageLookupByLibrary.simpleMessage("Contact (optional)"),
         "copy_center": MessageLookupByLibrary.simpleMessage("Copy center"),
@@ -236,6 +234,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "press_again":
             MessageLookupByLibrary.simpleMessage("Press again to exit"),
         "print": MessageLookupByLibrary.simpleMessage("Print"),
+        "prints": MessageLookupByLibrary.simpleMessage("Prints"),
         "problem_id": MessageLookupByLibrary.simpleMessage(
           "Brief identification of the problem",
         ),

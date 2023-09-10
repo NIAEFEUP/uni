@@ -134,6 +134,16 @@ class S {
     );
   }
 
+  /// `Available amount`
+  String get available_amount {
+    return Intl.message(
+      'Available amount',
+      name: 'available_amount',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Average: `
   String get average {
     return Intl.message(
@@ -1047,6 +1057,16 @@ class S {
     return Intl.message(
       'Print',
       name: 'print',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Prints`
+  String get prints {
+    return Intl.message(
+      'Prints',
+      name: 'prints',
       desc: '',
       args: [],
     );

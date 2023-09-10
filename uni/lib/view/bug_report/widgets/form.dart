@@ -10,6 +10,7 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:tuple/tuple.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/generated/l10n.dart';
+import 'package:uni/main.dart';
 import 'package:uni/model/entities/app_locale.dart';
 import 'package:uni/model/entities/bug_report.dart';
 import 'package:uni/utils/drawer_items.dart';
@@ -62,7 +63,9 @@ class BugReportFormState extends State<BugReportForm> {
   bool _isConsentGiven = false;
 
   void loadBugClassList() {
-    final locale = Provider.of<LocaleNotifier>(context).getLocale();
+    final locale =
+        Provider.of<LocaleNotifier>(MyApp.navigatorKey.currentContext!)
+            .getLocale();
 
     bugList = bugDescriptions.entries
         .map(

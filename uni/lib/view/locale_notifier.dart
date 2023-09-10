@@ -25,13 +25,11 @@ class LocaleNotifier with ChangeNotifier {
   }
 
   List<String> getWeekdaysWithLocale() {
-    final weekdays = DateFormat.EEEE(_locale.localeCode.languageCode)
-        .dateSymbols
-        .WEEKDAYS
-        .skip(1)
+    final allWeekDays = DateFormat.EEEE().dateSymbols.WEEKDAYS;
+    final europeanWeekDays = allWeekDays.skip(1).toList()
+      ..add(allWeekDays.first);
+    return europeanWeekDays
         .map((weekday) => weekday[0].toUpperCase() + weekday.substring(1))
-        .toList()
-      ..add(_locale == AppLocale.en ? 'Sunday' : 'Domingo');
-    return weekdays;
+        .toList();
   }
 }
