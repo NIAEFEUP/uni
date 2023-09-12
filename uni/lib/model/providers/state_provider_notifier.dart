@@ -16,7 +16,8 @@ abstract class StateProviderNotifier extends ChangeNotifier {
     this.dependsOnSession = true,
     RequestStatus initialStatus = RequestStatus.busy,
     bool initialize = true,
-  })  : _initialStatus = initialStatus,
+  })
+      : _initialStatus = initialStatus,
         _status = initialStatus,
         _initializedFromStorage = !initialize,
         _initializedFromRemote = !initialize;
@@ -42,6 +43,8 @@ abstract class StateProviderNotifier extends ChangeNotifier {
   }
 
   Future<void> _loadFromStorage() async {
+    Logger().d('Loading $runtimeType info from storage');
+
     _lastUpdateTime = await AppSharedPreferences.getLastDataClassUpdateTime(
       runtimeType.toString(),
     );
@@ -51,11 +54,12 @@ abstract class StateProviderNotifier extends ChangeNotifier {
     Logger().i('Loaded $runtimeType info from storage');
   }
 
-  Future<void> _loadFromRemote(
-    Session session,
-    Profile profile, {
-    bool force = false,
-  }) async {
+  Future<void> _loadFromRemote(Session session,
+      Profile profile, {
+        bool force = false,
+      }) async {
+    Logger().d('Loading $runtimeType info from remote');
+
     final shouldReload = force ||
         _lastUpdateTime == null ||
         cacheDuration == null ||
@@ -109,15 +113,19 @@ abstract class StateProviderNotifier extends ChangeNotifier {
               const Duration(minutes: 1)) {
         Logger().w(
           'Last update for $runtimeType was less than a minute ago; '
-          'skipping refresh',
+              'skipping refresh',
         );
         return;
       }
 
       final session =
-          Provider.of<SessionProvider>(context, listen: false).session;
+          Provider
+              .of<SessionProvider>(context, listen: false)
+              .session;
       final profile =
-          Provider.of<ProfileProvider>(context, listen: false).profile;
+          Provider
+              .of<ProfileProvider>(context, listen: false)
+              .profile;
 
       await _loadFromRemote(session, profile, force: true);
     });
@@ -140,9 +148,13 @@ abstract class StateProviderNotifier extends ChangeNotifier {
       _initializedFromRemote = true;
 
       final session =
-          Provider.of<SessionProvider>(context, listen: false).session;
+          Provider
+              .of<SessionProvider>(context, listen: false)
+              .session;
       final profile =
-          Provider.of<ProfileProvider>(context, listen: false).profile;
+          Provider
+              .of<ProfileProvider>(context, listen: false)
+              .profile;
 
       await _loadFromRemote(session, profile);
     });

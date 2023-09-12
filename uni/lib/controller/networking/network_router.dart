@@ -176,6 +176,9 @@ class NetworkRouter {
       final userIsLoggedIn =
           _cachedSession != null && await userLoggedIn(session);
       if (!userIsLoggedIn) {
+        Logger()
+            .d('User is not logged in; performing re-login from saved data');
+
         final newSession = await reLoginFromSession(session);
 
         if (newSession == null) {
@@ -209,7 +212,7 @@ class NetworkRouter {
   /// performing a health check on the user's personal page.
   static Future<bool> userLoggedIn(Session session) async {
     return _loginLock.synchronized(() async {
-      Logger().i('Checking if user is still logged in');
+      Logger().d('Checking if user is still logged in');
 
       final url = '${getBaseUrl(session.faculties[0])}'
           'fest_geral.cursos_list?pv_num_unico=${session.username}';

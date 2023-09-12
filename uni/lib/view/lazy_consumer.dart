@@ -47,7 +47,9 @@ class LazyConsumer<T extends StateProviderNotifier> extends StatelessWidget {
           });
         }
       } catch (e) {
-        Logger().e('Failed to initialize $T: $e');
+        Logger().e(
+          'Failed to initialize $T: $e',
+        );
       }
     });
 
