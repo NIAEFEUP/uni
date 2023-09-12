@@ -42,6 +42,8 @@ abstract class StateProviderNotifier extends ChangeNotifier {
   }
 
   Future<void> _loadFromStorage() async {
+    Logger().d('Loading $runtimeType info from storage');
+
     _lastUpdateTime = await AppSharedPreferences.getLastDataClassUpdateTime(
       runtimeType.toString(),
     );
@@ -56,6 +58,8 @@ abstract class StateProviderNotifier extends ChangeNotifier {
     Profile profile, {
     bool force = false,
   }) async {
+    Logger().d('Loading $runtimeType info from remote');
+
     final shouldReload = force ||
         _lastUpdateTime == null ||
         cacheDuration == null ||
