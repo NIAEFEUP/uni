@@ -45,21 +45,21 @@ class LazyConsumer<T extends StateProviderNotifier> extends StatelessWidget {
                     .ensureInitialized(context);
               })
             : Future(() {});
-      } catch (e) {
+      } catch (exception, stackTrace) {
         Logger().e(
-          'Failed to initialize startup providers: $e',
+          'Failed to initialize startup providers: $exception',
         );
-        await Sentry.captureException(e);
+        await Sentry.captureException(exception, stackTrace: stackTrace);
       }
 
       // Load data stored in the database immediately
       try {
         await provider.ensureInitializedFromStorage();
-      } catch (e) {
+      } catch (exception, stackTrace) {
         Logger().e(
-          'Failed to initialize ${T.runtimeType} from storage: $e',
+          'Failed to initialize ${T.runtimeType} from storage: $exception',
         );
-        await Sentry.captureException(e);
+        await Sentry.captureException(exception, stackTrace: stackTrace);
       }
 
       // Finally, complete provider initialization
