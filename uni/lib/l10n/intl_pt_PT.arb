@@ -22,7 +22,7 @@
   "@average": {},
   "balance": "Saldo:",
   "@balance": {},
-  "bs_description": "Encontraste algum bug na aplicação?\\nTens alguma sugestão para a app?\\nConta-nos para que possamos melhorar!",
+  "bs_description": "Encontraste algum bug na aplicação?\nTens alguma sugestão para a app?\nConta-nos para que possamos melhorar!",
   "@bs_description": {},
   "bug_description": "Bug encontrado, como o reproduzir, etc",
   "@bug_description": {},

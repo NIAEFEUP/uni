@@ -1,7 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:uni/generated/intl/messages_all.dart';
+import 'intl/messages_all.dart';
 
 // **************************************************************************
 // Generator: Flutter Intl IDE plugin
@@ -10,7 +10,7 @@ import 'package:uni/generated/intl/messages_all.dart';
 
 // ignore_for_file: non_constant_identifier_names, lines_longer_than_80_chars
 // ignore_for_file: join_return_with_assignment, prefer_final_in_for_each
-// ignore_for_file: avoid_redundant_argument_values
+// ignore_for_file: avoid_redundant_argument_values, avoid_escaping_inner_quotes
 
 class S {
   S();
@@ -18,10 +18,8 @@ class S {
   static S? _current;
 
   static S get current {
-    assert(
-      _current != null,
-      'No instance of S was loaded. Try to initialize the S delegate before accessing S.current.',
-    );
+    assert(_current != null,
+        'No instance of S was loaded. Try to initialize the S delegate before accessing S.current.');
     return _current!;
   }
 
@@ -43,10 +41,8 @@ class S {
 
   static S of(BuildContext context) {
     final instance = S.maybeOf(context);
-    assert(
-      instance != null,
-      'No instance of S present in the widget tree. Did you add S.delegate in localizationsDelegates?',
-    );
+    assert(instance != null,
+        'No instance of S present in the widget tree. Did you add S.delegate in localizationsDelegates?');
     return instance!;
   }
 
@@ -207,7 +203,7 @@ class S {
   /// `Favorite buses will be displayed in the favorites 'Bus' widget. The remaining ones will only be displayed on the page.`
   String get buses_text {
     return Intl.message(
-      "Favorite buses will be displayed in the favorites 'Bus' widget. The remaining ones will only be displayed on the page.",
+      'Favorite buses will be displayed in the favorites \'Bus\' widget. The remaining ones will only be displayed on the page.',
       name: 'buses_text',
       desc: '',
       args: [],
@@ -437,7 +433,7 @@ class S {
   /// `D. Beatriz's stationery store`
   String get dona_bia {
     return Intl.message(
-      "D. Beatriz's stationery store",
+      'D. Beatriz\'s stationery store',
       name: 'dona_bia',
       desc: '',
       args: [],
@@ -494,10 +490,10 @@ class S {
     );
   }
 
-  /// `Exam Filter Settings`
+  /// `Exams Filter Settings`
   String get exams_filter {
     return Intl.message(
-      'Exam Filter Settings',
+      'Exams Filter Settings',
       name: 'exams_filter',
       desc: '',
       args: [],
@@ -747,7 +743,7 @@ class S {
     );
   }
 
-  /// `{title, select, horario{Schedule} exames{Exams} area{Personal Area} cadeiras{Course Units} autocarros{Buses} locais{Places} restaurantes{Restaurants} calendario{Calendar} biblioteca{Library} uteis{Utils} sobre{About} bugs{Bugs/ Suggestions} other{Other}}`
+  /// `{title, select, horario{Schedule} exames{Exams} area{Personal Area} cadeiras{Course Units} autocarros{Buses} locais{Places} restaurantes{Restaurants} calendario{Calendar} biblioteca{Library} uteis{Utils} sobre{About} bugs{Bugs/Suggestions} other{Other}}`
   String nav_title(Object title) {
     return Intl.select(
       title,
@@ -763,7 +759,7 @@ class S {
         'biblioteca': 'Library',
         'uteis': 'Utils',
         'sobre': 'About',
-        'bugs': 'Bugs/ Suggestions',
+        'bugs': 'Bugs/Suggestions',
         'other': 'Other',
       },
       name: 'nav_title',
@@ -785,7 +781,7 @@ class S {
   /// `Don't miss any bus!`
   String get no_bus {
     return Intl.message(
-      "Don't miss any bus!",
+      'Don\'t miss any bus!',
       name: 'no_bus',
       desc: '',
       args: [],
@@ -825,7 +821,7 @@ class S {
   /// `You don't have classes on`
   String get no_classes_on {
     return Intl.message(
-      "You don't have classes on",
+      'You don\'t have classes on',
       name: 'no_classes_on',
       desc: '',
       args: [],
@@ -1085,7 +1081,7 @@ class S {
   /// `The generated reference data will appear in Sigarra, checking account.\nProfile > Checking Account`
   String get reference_sigarra_help {
     return Intl.message(
-      'The generated reference data will appear in Sigarra, checking account.\nProfile > Checking Account',
+      'The generated reference data will appear in Sigarra, checking account.\\nProfile > Checking Account',
       name: 'reference_sigarra_help',
       desc: '',
       args: [],

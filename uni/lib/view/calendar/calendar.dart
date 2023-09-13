@@ -3,11 +3,14 @@ import 'package:provider/provider.dart';
 import 'package:timelines/timelines.dart';
 import 'package:uni/model/entities/calendar_event.dart';
 import 'package:uni/model/providers/lazy/calendar_provider.dart';
+import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/calendar/widgets/calendar_tile.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
 import 'package:uni/view/lazy_consumer.dart';
+
+import '../../generated/l10n.dart';
 
 class CalendarPageView extends StatefulWidget {
   const CalendarPageView({super.key});
@@ -24,7 +27,9 @@ class CalendarPageViewState extends GeneralPageViewState<CalendarPageView> {
         children: [
           Container(
             padding: const EdgeInsets.only(bottom: 6),
-            child: const PageTitle(name: 'Calendário Escolar'),
+            child: PageTitle(
+              name: S.of(context).nav_title(DrawerItem.navCalendar.title),
+            ),
           ),
           RequestDependentWidgetBuilder(
             status: calendarProvider.status,

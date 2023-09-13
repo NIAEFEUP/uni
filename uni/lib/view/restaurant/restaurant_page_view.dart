@@ -5,6 +5,7 @@ import 'package:uni/model/entities/meal.dart';
 import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/providers/lazy/restaurant_provider.dart';
 import 'package:uni/model/utils/day_of_week.dart';
+import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
@@ -49,7 +50,9 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
                   padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
                   alignment: Alignment.center,
                   child: PageTitle(
-                    name: S.of(context).menus,
+                    name: S
+                        .of(context)
+                        .nav_title(DrawerItem.navRestaurants.title),
                     center: false,
                     pad: false,
                   ),

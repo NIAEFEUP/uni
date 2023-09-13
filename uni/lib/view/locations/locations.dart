@@ -8,6 +8,9 @@ import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locations/widgets/faculty_map.dart';
 
+import '../../generated/l10n.dart';
+import '../../utils/drawer_items.dart';
+
 class LocationsPage extends StatefulWidget {
   const LocationsPage({super.key});
 
@@ -46,6 +49,7 @@ class LocationsPageView extends StatelessWidget {
     required this.status,
     super.key,
   });
+
   final List<LocationGroup> locations;
   final RequestStatus status;
 
@@ -56,7 +60,10 @@ class LocationsPageView extends StatelessWidget {
         Container(
           width: MediaQuery.of(context).size.width * 0.95,
           padding: const EdgeInsets.fromLTRB(0, 0, 0, 4),
-          child: PageTitle(name: 'Locais: ${getLocation()}'),
+          child: PageTitle(
+            name: '${S.of(context).nav_title(DrawerItem.navLocations.title)}:'
+                ' ${getLocation()}',
+          ),
         ),
         Container(
           padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
