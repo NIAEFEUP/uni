@@ -5,7 +5,6 @@ import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/app_locale.dart';
 
 import 'package:uni/model/providers/startup/profile_provider.dart';
-import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/view/locale_notifier.dart';
 
 Widget testableWidget(
@@ -14,7 +13,6 @@ Widget testableWidget(
 }) {
   return MultiProvider(
     providers: [
-      ChangeNotifierProvider(create: (context) => SessionProvider()),
       ChangeNotifierProvider(create: (context) => ProfileProvider()),
       ChangeNotifierProvider<LocaleNotifier>(
         create: (_) => LocaleNotifier(AppLocale.pt),
