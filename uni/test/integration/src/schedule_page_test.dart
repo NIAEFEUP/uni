@@ -58,7 +58,7 @@ void main() {
 
       final providers = [
         ChangeNotifierProvider(create: (_) => scheduleProvider),
-        ChangeNotifierProvider<SessionProvider>(create: (_) => sessionProvider),
+        ChangeNotifierProvider(create: (_) => sessionProvider),
       ];
 
       await tester.pumpWidget(testableWidget(widget, providers: providers));
