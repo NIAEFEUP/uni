@@ -46,6 +46,16 @@ But you can also watch for changes in `.dart` files and automatically run the `b
 dart run build_runner watch
 ```
 
+## Translation files
+
+Intl package allows the internationalization of the app, currently supporting Portuguese ('pt_PT') and English ('en_EN). This package creates `.arb` files (one for each language), mapping a key to the correspondent translated string. 
+In order to access those translations through getters, you must add the translations you want to the `.arb` files and run:
+```
+dart pub global run intl_utils:generate
+```
+This will generate `.dart` files with the getters you need to access the translations.
+You must include `'package:uni/generated/l10n.dart'` and, depending on the locale of the application, `S.of(context).{key_of_translation}` will get you the translated string.
+
 ## Project structure
 
 ### Overview
