@@ -139,7 +139,7 @@ class RestaurantCard extends GenericCard {
               child: Container(
                 padding: const EdgeInsets.fromLTRB(9, 0, 0, 0),
                 width: 400,
-                child: const Text('Não há refeições disponíveis'),
+                child: Text(S.of(context).no_menu_info),
               ),
             ),
           )

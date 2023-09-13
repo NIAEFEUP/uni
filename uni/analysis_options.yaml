@@ -5,6 +5,7 @@ analyzer:
   exclude:
     - "**.g.dart"
     - "**.mocks.dart"
+    - "**generated/**"
 
 # Custom linter rules. A list of all rules can be found at
 # https://dart-lang.github.io/linter/lints/options/options.html

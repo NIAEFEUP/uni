@@ -4,10 +4,11 @@
 // function name.
 
 // Ignore issues from commonly used lints in this file.
-// ignore_for_file:unnecessary_brace_in_string_interps, unnecessary_new, lines_longer_than_80_chars
+// ignore_for_file:unnecessary_brace_in_string_interps, unnecessary_new
 // ignore_for_file:prefer_single_quotes,comment_references, directives_ordering
 // ignore_for_file:annotate_overrides,prefer_generic_function_type_aliases
-// ignore_for_file:unused_import, file_names
+// ignore_for_file:unused_import, file_names, avoid_escaping_inner_quotes
+// ignore_for_file:unnecessary_string_interpolations, unnecessary_string_escapes
 
 import 'package:intl/intl.dart';
 import 'package:intl/message_lookup_by_library.dart';
@@ -19,30 +20,26 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
-  static String m0(dynamic time) => "last refresh at ${time}";
+  static String m0(time) => "last refresh at ${time}";
 
-  static String m1(dynamic time) => Intl.plural(
-        time as num,
-        zero: 'Refreshed ${time} minutes ago',
-        one: 'Refreshed ${time} minute ago',
-        other: 'Refreshed ${time} minutes ago',
-      );
+  static String m1(time) =>
+      "${Intl.plural(time, zero: 'Refreshed ${time} minutes ago', one: 'Refreshed ${time} minute ago', other: 'Refreshed ${time} minutes ago')}";
 
-  static String m2(String title) => Intl.select(title, {
-        'horario': 'Schedule',
-        'exames': 'Exams',
-        'area': 'Personal Area',
-        'cadeiras': 'Course Units',
-        'autocarros': 'Buses',
-        'locais': 'Places',
-        'restaurantes': 'Restaurants',
-        'calendario': 'Calendar',
-        'biblioteca': 'Library',
-        'uteis': 'Utils',
-        'sobre': 'About',
-        'bugs': 'Bugs/ Suggestions',
-        'other': 'Other',
-      });
+  static String m2(title) => "${Intl.select(title, {
+            'horario': 'Schedule',
+            'exames': 'Exams',
+            'area': 'Personal Area',
+            'cadeiras': 'Course Units',
+            'autocarros': 'Buses',
+            'locais': 'Places',
+            'restaurantes': 'Restaurants',
+            'calendario': 'Calendar',
+            'biblioteca': 'Library',
+            'uteis': 'Utils',
+            'sobre': 'About',
+            'bugs': 'Bugs/Suggestions',
+            'other': 'Other',
+          })}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -54,11 +51,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "add_quota": MessageLookupByLibrary.simpleMessage("Add quota"),
         "add_widget": MessageLookupByLibrary.simpleMessage("Add widget"),
         "agree_terms": MessageLookupByLibrary.simpleMessage(
-          "By entering you confirm that you agree with these Terms and Conditions",
-        ),
+            "By entering you confirm that you agree with these Terms and Conditions"),
         "all_widgets_added": MessageLookupByLibrary.simpleMessage(
-          "All available widgets have already been added to your personal area!",
-        ),
+            "All available widgets have already been added to your personal area!"),
         "at_least_one_college":
             MessageLookupByLibrary.simpleMessage("Select at least one college"),
         "available_amount":
@@ -66,29 +61,23 @@ class MessageLookup extends MessageLookupByLibrary {
         "average": MessageLookupByLibrary.simpleMessage("Average: "),
         "balance": MessageLookupByLibrary.simpleMessage("Balance:"),
         "bs_description": MessageLookupByLibrary.simpleMessage(
-          r"Did you find any bugs in the application?\nDo you have any suggestions for the app?\nTell us so we can improve!",
-        ),
+            "Did you find any bugs in the application?\nDo you have any suggestions for the app?\nTell us so we can improve!"),
         "bug_description": MessageLookupByLibrary.simpleMessage(
-          "Bug found, how to reproduce it, etc.",
-        ),
+            "Bug found, how to reproduce it, etc."),
         "bus_error":
             MessageLookupByLibrary.simpleMessage("Unable to get information"),
         "bus_information": MessageLookupByLibrary.simpleMessage(
-          "Select the buses you want information about:",
-        ),
+            "Select the buses you want information about:"),
         "buses_personalize":
             MessageLookupByLibrary.simpleMessage("Personalize your buses here"),
         "buses_text": MessageLookupByLibrary.simpleMessage(
-          "Favorite buses will be displayed in the favorites 'Bus' widget. The remaining ones will only be displayed on the page.",
-        ),
+            "Favorite buses will be displayed in the favorites \'Bus\' widget. The remaining ones will only be displayed on the page."),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "change": MessageLookupByLibrary.simpleMessage("Change"),
         "change_prompt": MessageLookupByLibrary.simpleMessage(
-          "Do you want to change the password?",
-        ),
+            "Do you want to change the password?"),
         "check_internet": MessageLookupByLibrary.simpleMessage(
-          "Check your internet connection",
-        ),
+            "Check your internet connection"),
         "class_registration":
             MessageLookupByLibrary.simpleMessage("Class Registration"),
         "college": MessageLookupByLibrary.simpleMessage("College: "),
@@ -99,13 +88,11 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Configured Buses"),
         "confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
         "consent": MessageLookupByLibrary.simpleMessage(
-          "I consent to this information being reviewed by NIAEFEUP and may be deleted at my request.",
-        ),
+            "I consent to this information being reviewed by NIAEFEUP and may be deleted at my request."),
         "contact": MessageLookupByLibrary.simpleMessage("Contact (optional)"),
         "copy_center": MessageLookupByLibrary.simpleMessage("Copy center"),
         "copy_center_building": MessageLookupByLibrary.simpleMessage(
-          "Floor -1 of building B | AEFEUP building",
-        ),
+            "Floor -1 of building B | AEFEUP building"),
         "course_class": MessageLookupByLibrary.simpleMessage("Classes"),
         "course_info": MessageLookupByLibrary.simpleMessage("Info"),
         "current_state":
@@ -115,21 +102,20 @@ class MessageLookup extends MessageLookupByLibrary {
         "decrement": MessageLookupByLibrary.simpleMessage("Decrement 1,00€"),
         "description": MessageLookupByLibrary.simpleMessage("Description"),
         "desired_email": MessageLookupByLibrary.simpleMessage(
-          "Email where you want to be contacted",
-        ),
+            "Email where you want to be contacted"),
         "dona_bia": MessageLookupByLibrary.simpleMessage(
-          "D. Beatriz's stationery store",
-        ),
+            "D. Beatriz\'s stationery store"),
         "dona_bia_building": MessageLookupByLibrary.simpleMessage(
-          "Floor -1 of building B (B-142)",
-        ),
+            "Floor -1 of building B (B-142)"),
         "ects": MessageLookupByLibrary.simpleMessage("ECTs performed: "),
         "edit_off": MessageLookupByLibrary.simpleMessage("Edit"),
         "edit_on": MessageLookupByLibrary.simpleMessage("Finish editing"),
         "empty_text":
             MessageLookupByLibrary.simpleMessage("Please fill in this field"),
         "exams_filter":
-            MessageLookupByLibrary.simpleMessage("Exam Filter Settings"),
+            MessageLookupByLibrary.simpleMessage("Exams Filter Settings"),
+        "exit_confirm":
+            MessageLookupByLibrary.simpleMessage("Do you really want to exit?"),
         "expired_password":
             MessageLookupByLibrary.simpleMessage("Your password has expired"),
         "failed_login": MessageLookupByLibrary.simpleMessage("Login failed"),
@@ -138,8 +124,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "fee_notification":
             MessageLookupByLibrary.simpleMessage("Notify next deadline:"),
         "first_year_registration": MessageLookupByLibrary.simpleMessage(
-          "Year of first registration: ",
-        ),
+            "Year of first registration: "),
         "floor": MessageLookupByLibrary.simpleMessage("Floor"),
         "floors": MessageLookupByLibrary.simpleMessage("Floors"),
         "forgot_password":
@@ -159,11 +144,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "library_occupation":
             MessageLookupByLibrary.simpleMessage("Library Occupation"),
         "load_error": MessageLookupByLibrary.simpleMessage(
-          "Error loading the information",
-        ),
+            "Error loading the information"),
         "loading_terms": MessageLookupByLibrary.simpleMessage(
-          "Loading Terms and Conditions...",
-        ),
+            "Loading Terms and Conditions..."),
         "login": MessageLookupByLibrary.simpleMessage("Login"),
         "logout": MessageLookupByLibrary.simpleMessage("Log out"),
         "menus": MessageLookupByLibrary.simpleMessage("Menus"),
@@ -173,59 +156,50 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Multimedia center"),
         "nav_title": m2,
         "news": MessageLookupByLibrary.simpleMessage("News"),
-        "no_bus": MessageLookupByLibrary.simpleMessage("Don't miss any bus!"),
+        "no": MessageLookupByLibrary.simpleMessage("No"),
+        "no_bus": MessageLookupByLibrary.simpleMessage("Don\'t miss any bus!"),
         "no_bus_stops":
             MessageLookupByLibrary.simpleMessage("No configured stops"),
         "no_class": MessageLookupByLibrary.simpleMessage(
-          "There are no classes to display",
-        ),
+            "There are no classes to display"),
         "no_classes":
             MessageLookupByLibrary.simpleMessage("No classes to present"),
         "no_classes_on":
-            MessageLookupByLibrary.simpleMessage("You don't have classes on"),
+            MessageLookupByLibrary.simpleMessage("You don\'t have classes on"),
         "no_college": MessageLookupByLibrary.simpleMessage("no college"),
         "no_course_units": MessageLookupByLibrary.simpleMessage(
-          "No course units in the selected period",
-        ),
+            "No course units in the selected period"),
         "no_data": MessageLookupByLibrary.simpleMessage(
-          "There is no data to show at this time",
-        ),
+            "There is no data to show at this time"),
         "no_date": MessageLookupByLibrary.simpleMessage("No date"),
         "no_exams": MessageLookupByLibrary.simpleMessage(
-          "You have no exams scheduled\n",
-        ),
+            "You have no exams scheduled\n"),
         "no_exams_label": MessageLookupByLibrary.simpleMessage(
-          "Looks like you are on vacation!",
-        ),
+            "Looks like you are on vacation!"),
         "no_favorite_restaurants":
             MessageLookupByLibrary.simpleMessage("No favorite restaurants"),
         "no_info": MessageLookupByLibrary.simpleMessage(
-          "There is no information to display",
-        ),
+            "There is no information to display"),
         "no_menu_info": MessageLookupByLibrary.simpleMessage(
-          "There is no information available about meals",
-        ),
+            "There is no information available about meals"),
         "no_menus": MessageLookupByLibrary.simpleMessage(
-          "There are no meals available",
-        ),
+            "There are no meals available"),
         "no_name_course":
             MessageLookupByLibrary.simpleMessage("Unnamed course"),
+        "no_places_info": MessageLookupByLibrary.simpleMessage(
+            "There is no information available about places"),
         "no_references": MessageLookupByLibrary.simpleMessage(
-          "There are no references to pay",
-        ),
+            "There are no references to pay"),
         "no_results": MessageLookupByLibrary.simpleMessage("No match"),
         "no_selected_courses": MessageLookupByLibrary.simpleMessage(
-          "There are no course units to display",
-        ),
+            "There are no course units to display"),
         "no_selected_exams": MessageLookupByLibrary.simpleMessage(
-          "There are no exams to present",
-        ),
+            "There are no exams to present"),
         "occurrence_type":
             MessageLookupByLibrary.simpleMessage("Type of occurrence"),
         "other_links": MessageLookupByLibrary.simpleMessage("Other links"),
         "pass_change_request": MessageLookupByLibrary.simpleMessage(
-          "For security reasons, passwords must be changed periodically.",
-        ),
+            "For security reasons, passwords must be changed periodically."),
         "password": MessageLookupByLibrary.simpleMessage("password"),
         "pendent_references":
             MessageLookupByLibrary.simpleMessage("Pending references"),
@@ -236,14 +210,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "print": MessageLookupByLibrary.simpleMessage("Print"),
         "prints": MessageLookupByLibrary.simpleMessage("Prints"),
         "problem_id": MessageLookupByLibrary.simpleMessage(
-          "Brief identification of the problem",
-        ),
+            "Brief identification of the problem"),
         "reference_sigarra_help": MessageLookupByLibrary.simpleMessage(
-          r"The generated reference data will appear in Sigarra, checking account.\nProfile > Checking Account",
-        ),
+            "The generated reference data will appear in Sigarra, checking account.\\nProfile > Checking Account"),
         "reference_success": MessageLookupByLibrary.simpleMessage(
-          "Reference created successfully!",
-        ),
+            "Reference created successfully!"),
         "remove": MessageLookupByLibrary.simpleMessage("Delete"),
         "report_error": MessageLookupByLibrary.simpleMessage("Report error"),
         "room": MessageLookupByLibrary.simpleMessage("Room"),
@@ -252,8 +223,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "semester": MessageLookupByLibrary.simpleMessage("Semester"),
         "send": MessageLookupByLibrary.simpleMessage("Send"),
         "sent_error": MessageLookupByLibrary.simpleMessage(
-          "An error occurred in sending",
-        ),
+            "An error occurred in sending"),
         "some_error": MessageLookupByLibrary.simpleMessage("Some error!"),
         "stcp_stops":
             MessageLookupByLibrary.simpleMessage("STCP - Upcoming Trips"),
@@ -263,8 +233,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "tele_assistance":
             MessageLookupByLibrary.simpleMessage("Telephone assistance"),
         "tele_personal_assistance": MessageLookupByLibrary.simpleMessage(
-          "Face-to-face and telephone assistance",
-        ),
+            "Face-to-face and telephone assistance"),
         "telephone": MessageLookupByLibrary.simpleMessage("Telephone"),
         "terms": MessageLookupByLibrary.simpleMessage("Terms and Conditions"),
         "title": MessageLookupByLibrary.simpleMessage("Title"),
@@ -272,8 +241,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "valid_email":
             MessageLookupByLibrary.simpleMessage("Please enter a valid email"),
         "widget_prompt": MessageLookupByLibrary.simpleMessage(
-          "Choose a widget to add to your personal area:",
-        ),
-        "year": MessageLookupByLibrary.simpleMessage("Year")
+            "Choose a widget to add to your personal area:"),
+        "year": MessageLookupByLibrary.simpleMessage("Year"),
+        "yes": MessageLookupByLibrary.simpleMessage("Yes")
       };
 }
