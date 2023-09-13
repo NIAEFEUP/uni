@@ -113,6 +113,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Por favor preenche este campo"),
         "exams_filter":
             MessageLookupByLibrary.simpleMessage("Definições Filtro de Exames"),
+        "exit_confirm": MessageLookupByLibrary.simpleMessage(
+            "Tem a certeza de que pretende sair?"),
         "expired_password":
             MessageLookupByLibrary.simpleMessage("A tua palavra-passe expirou"),
         "failed_login": MessageLookupByLibrary.simpleMessage("O login falhou"),
@@ -154,6 +156,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Centro de multimédia"),
         "nav_title": m2,
         "news": MessageLookupByLibrary.simpleMessage("Notícias"),
+        "no": MessageLookupByLibrary.simpleMessage("Não"),
         "no_bus": MessageLookupByLibrary.simpleMessage(
             "Não percas nenhum autocarro!"),
         "no_bus_stops": MessageLookupByLibrary.simpleMessage(
@@ -184,6 +187,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Não há refeições disponíveis"),
         "no_name_course":
             MessageLookupByLibrary.simpleMessage("Curso sem nome"),
+        "no_places_info": MessageLookupByLibrary.simpleMessage(
+            "Não há informação disponível sobre locais"),
         "no_references": MessageLookupByLibrary.simpleMessage(
             "Não existem referências a pagar"),
         "no_results": MessageLookupByLibrary.simpleMessage("Sem resultados"),
@@ -238,6 +243,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Por favor insere um email válido"),
         "widget_prompt": MessageLookupByLibrary.simpleMessage(
             "Escolhe um widget para adicionares à tua área pessoal:"),
-        "year": MessageLookupByLibrary.simpleMessage("Ano")
+        "year": MessageLookupByLibrary.simpleMessage("Ano"),
+        "yes": MessageLookupByLibrary.simpleMessage("Sim")
       };
 }

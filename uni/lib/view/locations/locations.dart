@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/location_group.dart';
 import 'package:uni/model/providers/lazy/faculty_locations_provider.dart';
 import 'package:uni/model/request_status.dart';
+import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locations/widgets/faculty_map.dart';
-
-import '../../generated/l10n.dart';
-import '../../utils/drawer_items.dart';
 
 class LocationsPage extends StatefulWidget {
   const LocationsPage({super.key});
@@ -73,8 +72,7 @@ class LocationsPageView extends StatelessWidget {
             status: status,
             builder: () => FacultyMap(faculty: 'FEUP', locations: locations),
             hasContentPredicate: locations.isNotEmpty,
-            onNullContent:
-                const Center(child: Text('Não existem locais disponíveis')),
+            onNullContent: Center(child: Text(S.of(context).no_places_info)),
           ),
           // TODO(bdmendes): add support for multiple faculties
         )

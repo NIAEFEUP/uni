@@ -50,6 +50,36 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
+  /// `Do you really want to exit?`
+  String get exit_confirm {
+    return Intl.message(
+      'Do you really want to exit?',
+      name: 'exit_confirm',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No`
+  String get no {
+    return Intl.message(
+      'No',
+      name: 'no',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Yes`
+  String get yes {
+    return Intl.message(
+      'Yes',
+      name: 'yes',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Academic services`
   String get academic_services {
     return Intl.message(
@@ -913,6 +943,16 @@ class S {
     return Intl.message(
       'There is no information available about meals',
       name: 'no_menu_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `There is no information available about places`
+  String get no_places_info {
+    return Intl.message(
+      'There is no information available about places',
+      name: 'no_places_info',
       desc: '',
       args: [],
     );

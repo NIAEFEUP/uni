@@ -114,6 +114,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Please fill in this field"),
         "exams_filter":
             MessageLookupByLibrary.simpleMessage("Exams Filter Settings"),
+        "exit_confirm":
+            MessageLookupByLibrary.simpleMessage("Do you really want to exit?"),
         "expired_password":
             MessageLookupByLibrary.simpleMessage("Your password has expired"),
         "failed_login": MessageLookupByLibrary.simpleMessage("Login failed"),
@@ -154,6 +156,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Multimedia center"),
         "nav_title": m2,
         "news": MessageLookupByLibrary.simpleMessage("News"),
+        "no": MessageLookupByLibrary.simpleMessage("No"),
         "no_bus": MessageLookupByLibrary.simpleMessage("Don\'t miss any bus!"),
         "no_bus_stops":
             MessageLookupByLibrary.simpleMessage("No configured stops"),
@@ -183,6 +186,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "There are no meals available"),
         "no_name_course":
             MessageLookupByLibrary.simpleMessage("Unnamed course"),
+        "no_places_info": MessageLookupByLibrary.simpleMessage(
+            "There is no information available about places"),
         "no_references": MessageLookupByLibrary.simpleMessage(
             "There are no references to pay"),
         "no_results": MessageLookupByLibrary.simpleMessage("No match"),
@@ -237,6 +242,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Please enter a valid email"),
         "widget_prompt": MessageLookupByLibrary.simpleMessage(
             "Choose a widget to add to your personal area:"),
-        "year": MessageLookupByLibrary.simpleMessage("Year")
+        "year": MessageLookupByLibrary.simpleMessage("Year"),
+        "yes": MessageLookupByLibrary.simpleMessage("Yes")
       };
 }
