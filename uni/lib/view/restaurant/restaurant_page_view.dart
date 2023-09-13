@@ -135,9 +135,9 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
       return Container(
         margin: const EdgeInsets.only(top: 10, bottom: 5),
         key: Key('restaurant-page-day-column-$day'),
-        child: Column(
+        child: const Column(
           mainAxisSize: MainAxisSize.min,
-          children: const [
+          children: [
             Center(
               child: Text('Não há informação disponível sobre refeições'),
             ),

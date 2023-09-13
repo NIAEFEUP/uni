@@ -1,11 +1,10 @@
-// @dart=2.10
-
 import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
@@ -17,14 +16,9 @@ import 'package:uni/model/providers/lazy/lecture_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/view/schedule/schedule.dart';
 
+import '../../mocks/integration/src/schedule_page_test.mocks.dart';
 import '../../test_widget.dart';
 import '../../unit/view/Widgets/schedule_slot_test.dart';
-
-class MockClient extends Mock implements http.Client {}
-
-class MockResponse extends Mock implements http.Response {}
-
-class MockSessionProvider extends Mock implements SessionProvider {}
 
 class UriMatcher extends CustomMatcher {
   UriMatcher(Matcher matcher) : super('Uri that has', 'string', matcher);
@@ -33,6 +27,11 @@ class UriMatcher extends CustomMatcher {
   Object featureValueOf(dynamic actual) => (actual as Uri).toString();
 }
 
+@GenerateNiceMocks([
+  MockSpec<http.Client>(),
+  MockSpec<http.Response>(),
+  MockSpec<SessionProvider>()
+])
 void main() {
   group('SchedulePage Integration Tests', () {
     final mockClient = MockClient();

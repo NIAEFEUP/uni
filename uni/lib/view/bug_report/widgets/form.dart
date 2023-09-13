@@ -1,9 +1,5 @@
-import 'dart:convert';
-
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:tuple/tuple.dart';
@@ -27,11 +23,6 @@ class BugReportFormState extends State<BugReportForm> {
   BugReportFormState() {
     loadBugClassList();
   }
-
-  final String _gitHubPostUrl =
-      'https://api.github.com/repos/NIAEFEUP/project-schrodinger/issues';
-  final String _sentryLink =
-      'https://sentry.io/organizations/niaefeup/issues/?query=';
 
   static final _formKey = GlobalKey<FormState>();
 
@@ -61,7 +52,7 @@ class BugReportFormState extends State<BugReportForm> {
 
     bugDescriptions.forEach(
       (int key, Tuple2<String, String> tup) =>
-          {bugList.add(DropdownMenuItem(value: key, child: Text(tup.item1)))},
+          bugList.add(DropdownMenuItem(value: key, child: Text(tup.item1))),
     );
   }
 
@@ -117,9 +108,9 @@ class BugReportFormState extends State<BugReportForm> {
   Widget bugReportTitle(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
-      child: Row(
+      child: const Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: const <Widget>[
+        children: <Widget>[
           Icon(Icons.bug_report, size: 40),
           PageTitle(name: 'Bugs e Sugestões', center: false),
           Icon(Icons.bug_report, size: 40),
@@ -172,7 +163,7 @@ class BugReportFormState extends State<BugReportForm> {
                   value: _selectedBug,
                   onChanged: (value) {
                     setState(() {
-                      _selectedBug = value! as int;
+                      _selectedBug = value!;
                     });
                   },
                   isExpanded: true,
@@ -248,11 +239,7 @@ class BugReportFormState extends State<BugReportForm> {
     String toastMsg;
     bool status;
     try {
-      final sentryId = await submitSentryEvent(bugReport);
-      final gitHubRequestStatus = await submitGitHubIssue(sentryId, bugReport);
-      if (gitHubRequestStatus < 200 || gitHubRequestStatus > 400) {
-        throw Exception('Network error');
-      }
+      await submitSentryEvent(bugReport);
       Logger().i('Successfully submitted bug report.');
       toastMsg = 'Enviado com sucesso';
       status = true;
@@ -275,42 +262,23 @@ class BugReportFormState extends State<BugReportForm> {
     }
   }
 
-  Future<int> submitGitHubIssue(
-    SentryId sentryEvent,
-    Map<String, dynamic> bugReport,
-  ) async {
-    final description = '${bugReport['bugLabel']}\nFurther information on: '
-        '$_sentryLink$sentryEvent';
-    final data = {
-      'title': bugReport['title'],
-      'body': description,
-      'labels': ['In-app bug report', bugReport['bugLabel']],
-    };
-    for (final faculty in bugReport['faculties'] as Iterable) {
-      (data['labels'] as List).add(faculty);
-    }
-    return http
-        .post(
-      Uri.parse(_gitHubPostUrl),
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'token ${dotenv.env["GH_TOKEN"]}}'
+  Future<void> submitSentryEvent(Map<String, dynamic> bugReport) async {
+    final sentryId = await Sentry.captureMessage(
+      'User Feedback',
+      withScope: (scope) {
+        scope
+          ..setTag('report', 'true')
+          ..setTag('report.type', bugReport['bugLabel'] as String);
       },
-      body: json.encode(data),
-    )
-        .then((http.Response response) {
-      return response.statusCode;
-    });
-  }
-
-  Future<SentryId> submitSentryEvent(Map<String, dynamic> bugReport) async {
-    final description = bugReport['email'] == ''
-        ? '${bugReport['text']} from ${bugReport['faculty']}'
-        : '${bugReport['text']} from ${bugReport['faculty']}\nContact: '
-            '${bugReport['email']}';
-    return Sentry.captureMessage(
-      '${bugReport['bugLabel']}: ${bugReport['text']}\n$description',
     );
+
+    final userFeedback = SentryUserFeedback(
+      eventId: sentryId,
+      comments: '${bugReport['title']}\n ${bugReport['text']}',
+      email: bugReport['email'] as String,
+    );
+
+    await Sentry.captureUserFeedback(userFeedback);
   }
 
   void clearForm() {

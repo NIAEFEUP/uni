@@ -14,5 +14,9 @@ Future<List<CalendarEvent>> getCalendarFromHtml(Response response) async {
           event.children[1].innerHtml,
         ),
       )
+      .where(
+        (event) =>
+            event.name.trim() != '&nbsp;' && event.date.trim() != '&nbsp;',
+      )
       .toList();
 }
