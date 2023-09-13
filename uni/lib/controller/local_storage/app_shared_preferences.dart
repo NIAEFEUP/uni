@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:encrypt/encrypt.dart' as encrypt;
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tuple/tuple.dart';
 import 'package:uni/model/entities/exam.dart';
@@ -61,13 +62,12 @@ class AppSharedPreferences {
     String pass,
     List<String> faculties,
   ) async {
+    const storage = FlutterSecureStorage();
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(userNumber, user);
-    await prefs.setString(userPw, encode(pass));
-    await prefs.setStringList(
-      userFaculties,
-      faculties,
-    ); // Could be multiple faculties
+
+    await prefs.setStringList(userFaculties, faculties);
+    await storage.write(key: userNumber, value: user);
+    await storage.write(key: userPw, value: encode(pass));
   }
 
   /// Sets whether or not the Terms and Conditions have been accepted.
@@ -119,9 +119,9 @@ class AppSharedPreferences {
 
   /// Deletes the user's student number and password.
   static Future<void> removePersistentUserInfo() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove(userNumber);
-    await prefs.remove(userPw);
+    const storage = FlutterSecureStorage();
+    await storage.delete(key: userNumber);
+    await storage.delete(key: userPw);
   }
 
   /// Returns a tuple containing the user's student number and password.
@@ -146,21 +146,22 @@ class AppSharedPreferences {
 
   /// Returns the user's student number.
   static Future<String> getUserNumber() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString(userNumber) ??
+    const storage = FlutterSecureStorage();
+    final usernumber = await storage.read(key: userNumber) ??
         ''; // empty string for the case it does not exist
+    return usernumber;
   }
 
   /// Returns the user's password, in plain text format.
   static Future<String> getUserPassword() async {
-    final prefs = await SharedPreferences.getInstance();
-    var pass = prefs.getString(userPw) ?? '';
+    const storage = FlutterSecureStorage();
+    var userpass = await storage.read(key: userPw) ?? '';
 
-    if (pass != '') {
-      pass = decode(pass);
+    if (userpass != '') {
+      userpass = decode(userpass);
     }
 
-    return pass;
+    return userpass;
   }
 
   /// Replaces the user's favorite widgets with [newFavorites].

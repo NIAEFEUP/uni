@@ -35,13 +35,13 @@ class LoginPageViewState extends State<LoginPageView> {
       TextEditingController();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  static bool _exitApp = false;
   bool _keepSignedIn = true;
   bool _obscurePasswordInput = true;
 
   Future<void> _login(BuildContext context) async {
     final stateProviders = StateProviders.fromContext(context);
     final sessionProvider = stateProviders.sessionProvider;
+
     if (sessionProvider.status != RequestStatus.busy &&
         _formKey.currentState!.validate()) {
       final user = usernameController.text.trim();
@@ -109,76 +109,55 @@ class LoginPageViewState extends State<LoginPageView> {
       child: Builder(
         builder: (context) => Scaffold(
           backgroundColor: darkRed,
-          body: WillPopScope(
-            child: Padding(
-              padding: EdgeInsets.only(
-                left: queryData.size.width / 8,
-                right: queryData.size.width / 8,
-              ),
-              child: ListView(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(
-                      bottom: queryData.size.height / 20,
-                    ),
-                  ),
-                  createTitle(queryData, context),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      bottom: queryData.size.height / 35,
-                    ),
-                  ),
-                  getLoginForm(queryData, context),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      bottom: queryData.size.height / 35,
-                    ),
-                  ),
-                  createForgetPasswordLink(context),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      bottom: queryData.size.height / 15,
-                    ),
-                  ),
-                  createLogInButton(queryData, context, _login),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      bottom: queryData.size.height / 35,
-                    ),
-                  ),
-                  createStatusWidget(context),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      bottom: queryData.size.height / 35,
-                    ),
-                  ),
-                  createSafeLoginButton(context),
-                ],
-              ),
+          body: Padding(
+            padding: EdgeInsets.only(
+              left: queryData.size.width / 8,
+              right: queryData.size.width / 8,
             ),
-            onWillPop: () => onWillPop(context),
+            child: ListView(
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(
+                    bottom: queryData.size.height / 20,
+                  ),
+                ),
+                createTitle(queryData, context),
+                Padding(
+                  padding: EdgeInsets.only(
+                    bottom: queryData.size.height / 35,
+                  ),
+                ),
+                getLoginForm(queryData, context),
+                Padding(
+                  padding: EdgeInsets.only(
+                    bottom: queryData.size.height / 35,
+                  ),
+                ),
+                createForgetPasswordLink(context),
+                Padding(
+                  padding: EdgeInsets.only(
+                    bottom: queryData.size.height / 15,
+                  ),
+                ),
+                createLogInButton(queryData, context, _login),
+                Padding(
+                  padding: EdgeInsets.only(
+                    bottom: queryData.size.height / 35,
+                  ),
+                ),
+                createStatusWidget(context),
+                Padding(
+                  padding: EdgeInsets.only(
+                    bottom: queryData.size.height / 35,
+                  ),
+                ),
+                createSafeLoginButton(context),
+              ],
+            ),
           ),
         ),
       ),
     );
-  }
-
-  /// Delay time before the user leaves the app
-  Future<void> exitAppWaiter() async {
-    _exitApp = true;
-    await Future<void>.delayed(const Duration(seconds: 2));
-    _exitApp = false;
-  }
-
-  /// If the user tries to leave, displays a quick prompt for him to confirm.
-  /// If this is already the second time, the user leaves the app.
-  Future<bool> onWillPop(BuildContext context) {
-    if (_exitApp) {
-      return Future.value(true);
-    }
-    ToastMessage.info(context, 'Pressione novamente para sair');
-    exitAppWaiter();
-    return Future.value(false);
   }
 
   /// Creates the title for the login menu.
