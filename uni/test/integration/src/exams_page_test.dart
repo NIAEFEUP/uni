@@ -154,7 +154,7 @@ void main() {
       await tester.tap(find.byWidget(mtCheckboxTile));
       await tester.pumpAndSettle();
 
-      final okButton = find.widgetWithText(ElevatedButton, 'Confirm');
+      final okButton = find.widgetWithText(ElevatedButton, 'Confirmar');
       expect(okButton, findsOneWidget);
 
       await tester.tap(okButton);

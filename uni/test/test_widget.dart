@@ -28,6 +28,7 @@ Widget wrapWidget(Widget widget) {
       GlobalMaterialLocalizations.delegate,
       GlobalCupertinoLocalizations.delegate,
     ],
+    locale: const Locale('pt'),
     supportedLocales: S.delegate.supportedLocales,
     home: Scaffold(
       body: widget,
