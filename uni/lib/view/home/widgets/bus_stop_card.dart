@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/entities/bus_stop.dart';
@@ -29,18 +30,14 @@ class BusStopCard extends GenericCard {
   Widget buildCardContent(BuildContext context) {
     return LazyConsumer<BusStopProvider>(
       builder: (context, busProvider) {
-        return RequestDependentWidgetBuilder(
-          status: busProvider.status,
-          builder: () =>
-              getCardContent(context, busProvider.configuredBusStops),
-          hasContentPredicate: busProvider.configuredBusStops.isNotEmpty,
-          onNullContent: Container(
+        if (busProvider.configuredBusStops.isEmpty) {
+          return Container(
             padding: const EdgeInsets.all(8),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
-                  'Configura os teus autocarros',
+                  'Configura teus autocarros',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.titleSmall!.apply(),
@@ -53,7 +50,40 @@ class BusStopCard extends GenericCard {
                       builder: (context) => const BusStopSelectionPage(),
                     ),
                   ),
-                )
+                ),
+              ],
+            ),
+          );
+        }
+        return RequestDependentWidgetBuilder(
+          status: busProvider.status,
+          builder: () =>
+              getCardContent(context, busProvider.configuredBusStops),
+          hasContentPredicate: busProvider.configuredBusStops.values
+              .map((b) => b.trips)
+              .flattened
+              .toList()
+              .isNotEmpty,
+          onNullContent: Container(
+            padding: const EdgeInsets.all(8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  'Não há viagens disponíveis',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.titleSmall!.apply(),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.settings),
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute<BusStopSelectionPage>(
+                      builder: (context) => const BusStopSelectionPage(),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -109,47 +139,19 @@ class BusStopCard extends GenericCard {
     BuildContext context,
     Map<String, BusStopData> stopData,
   ) {
-    if (stopData.values.toList().any(
-          (stopInfo) => stopInfo.trips.isNotEmpty,
-        )) {
-      return Column(
-        children: <Widget>[
-          getCardTitle(context),
-          Container(
-            padding: const EdgeInsets.all(4),
-            child: Column(
-              children: getEachBusStopInfo(
-                context,
-                stopData,
-              ),
+    return Column(
+      children: <Widget>[
+        getCardTitle(context),
+        Container(
+          padding: const EdgeInsets.all(4),
+          child: Column(
+            children: getEachBusStopInfo(
+              context,
+              stopData,
             ),
-          )
-        ],
-      );
-    } else {
-      return Container(
-        padding: const EdgeInsets.all(8),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Text(
-              'Não há viagens disponíveis',
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.titleSmall!.apply(),
-            ),
-            IconButton(
-              icon: const Icon(Icons.settings),
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute<BusStopSelectionPage>(
-                  builder: (context) => const BusStopSelectionPage(),
-                ),
-              ),
-            )
-          ],
+          ),
         ),
-      );
-    }
+      ],
+    );
   }
 }
