@@ -1,13 +1,18 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
+import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:tuple/tuple.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
+import 'package:uni/generated/l10n.dart';
+import 'package:uni/model/entities/app_locale.dart';
 import 'package:uni/model/entities/bug_report.dart';
+import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/bug_report/widgets/text_field.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/toast_message.dart';
+import 'package:uni/view/locale_notifier.dart';
 
 class BugReportForm extends StatefulWidget {
   const BugReportForm({super.key});
@@ -20,7 +25,9 @@ class BugReportForm extends StatefulWidget {
 
 /// Manages the 'Bugs and Suggestions' section of the app
 class BugReportFormState extends State<BugReportForm> {
-  BugReportFormState() {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     loadBugClassList();
   }
 
@@ -48,12 +55,26 @@ class BugReportFormState extends State<BugReportForm> {
   bool _isConsentGiven = false;
 
   void loadBugClassList() {
-    bugList = [];
+    final locale =
+        Provider.of<LocaleNotifier>(context, listen: false).getLocale();
 
-    bugDescriptions.forEach(
-      (int key, Tuple2<String, String> tup) =>
-          bugList.add(DropdownMenuItem(value: key, child: Text(tup.item1))),
-    );
+    bugList = bugDescriptions.entries
+        .map(
+          (entry) => DropdownMenuItem(
+            value: entry.key,
+            child: Text(
+              () {
+                switch (locale) {
+                  case AppLocale.pt:
+                    return entry.value.item1;
+                  case AppLocale.en:
+                    return entry.value.item2;
+                }
+              }(),
+            ),
+          ),
+        )
+        .toList();
   }
 
   @override
@@ -73,34 +94,38 @@ class BugReportFormState extends State<BugReportForm> {
         titleController,
         Icons.title,
         maxLines: 2,
-        description: 'Título',
-        labelText: 'Breve identificação do problema',
+        description: S.of(context).title,
+        labelText: S.of(context).problem_id,
         bottomMargin: 30,
       ),
       FormTextField(
         descriptionController,
         Icons.description,
         maxLines: 30,
-        description: 'Descrição',
-        labelText: 'Bug encontrado, como o reproduzir, etc',
+        description: S.of(context).description,
+        labelText: S.of(context).bug_description,
         bottomMargin: 30,
       ),
       FormTextField(
         emailController,
         Icons.mail,
         maxLines: 2,
-        description: 'Contacto (opcional)',
-        labelText: 'Email em que desejas ser contactado',
+        description: S.of(context).contact,
+        labelText: S.of(context).desired_email,
         bottomMargin: 30,
         isOptional: true,
         formatValidator: (String? value) {
-          return EmailValidator.validate(value ?? '')
+          if (value == null || value.isEmpty) {
+            return null;
+          }
+
+          return EmailValidator.validate(value)
               ? null
-              : 'Por favor insere um email válido';
+              : S.of(context).valid_email;
         },
       ),
       consentBox(context),
-      submitButton(context)
+      submitButton(context),
     ];
   }
 
@@ -108,12 +133,17 @@ class BugReportFormState extends State<BugReportForm> {
   Widget bugReportTitle(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
-      child: const Row(
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          Icon(Icons.bug_report, size: 40),
-          PageTitle(name: 'Bugs e Sugestões', center: false),
-          Icon(Icons.bug_report, size: 40),
+          const Icon(Icons.bug_report, size: 40),
+          PageTitle(
+            name: S.of(context).nav_title(
+                  DrawerItem.navBugReport.title,
+                ),
+            center: false,
+          ),
+          const Icon(Icons.bug_report, size: 40),
         ],
       ),
     );
@@ -126,8 +156,7 @@ class BugReportFormState extends State<BugReportForm> {
       padding: const EdgeInsets.only(bottom: 20),
       child: Center(
         child: Text(
-          '''Encontraste algum bug na aplicação?\nTens alguma '''
-          '''sugestão para a app?\nConta-nos para que possamos melhorar!''',
+          S.of(context).bs_description,
           style: Theme.of(context).textTheme.bodyMedium,
           textAlign: TextAlign.center,
         ),
@@ -144,7 +173,7 @@ class BugReportFormState extends State<BugReportForm> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            'Tipo de ocorrência',
+            S.of(context).occurrence_type,
             style: Theme.of(context).textTheme.bodyMedium,
             textAlign: TextAlign.left,
           ),
@@ -158,13 +187,15 @@ class BugReportFormState extends State<BugReportForm> {
               ),
               Expanded(
                 child: DropdownButton(
-                  hint: const Text('Tipo de ocorrência'),
+                  hint: Text(S.of(context).occurrence_type),
                   items: bugList,
                   value: _selectedBug,
-                  onChanged: (value) {
-                    setState(() {
-                      _selectedBug = value!;
-                    });
+                  onChanged: (int? value) {
+                    if (value != null) {
+                      setState(() {
+                        _selectedBug = value;
+                      });
+                    }
                   },
                   isExpanded: true,
                 ),
@@ -184,7 +215,7 @@ class BugReportFormState extends State<BugReportForm> {
         contentPadding: EdgeInsets.zero,
         child: CheckboxListTile(
           title: Text(
-            '''Consinto que esta informação seja revista pelo NIAEFEUP, podendo ser eliminada a meu pedido.''',
+            S.of(context).consent,
             style: Theme.of(context).textTheme.bodyMedium,
             textAlign: TextAlign.left,
           ),
@@ -212,9 +243,11 @@ class BugReportFormState extends State<BugReportForm> {
                 submitBugReport();
               }
             },
-      child: const Text(
-        'Enviar',
-        style: TextStyle(/*color: Colors.white*/ fontSize: 20),
+      child: Text(
+        S.of(context).send,
+        style: const TextStyle(
+          /*color: Colors.white*/ fontSize: 20,
+        ),
       ),
     );
   }
@@ -236,16 +269,16 @@ class BugReportFormState extends State<BugReportForm> {
       bugDescriptions[_selectedBug],
       faculties,
     ).toMap();
-    String toastMsg;
+    var toastMsg = '';
     bool status;
     try {
       await submitSentryEvent(bugReport);
       Logger().i('Successfully submitted bug report.');
-      toastMsg = 'Enviado com sucesso';
+      if (context.mounted) toastMsg = S.of(context).success;
       status = true;
     } catch (e) {
       Logger().e('Error while posting bug report:$e');
-      toastMsg = 'Ocorreu um erro no envio';
+      if (context.mounted) toastMsg = S.of(context).sent_error;
       status = false;
     }
 

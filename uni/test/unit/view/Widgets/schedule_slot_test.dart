@@ -29,6 +29,7 @@ void main() {
       );
 
       await tester.pumpWidget(testableWidget(widget));
+      await tester.pump();
 
       testScheduleSlot(subject, beginText, endText, rooms, typeClass, teacher);
     });

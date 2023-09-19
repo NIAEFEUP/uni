@@ -2,6 +2,7 @@ import 'package:currency_text_input_formatter/currency_text_input_formatter.dart
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/controller/fetchers/print_fetcher.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/view/common_widgets/toast_message.dart';
 
@@ -32,9 +33,7 @@ Future<void> addMoneyDialog(BuildContext context) async {
                   Padding(
                     padding: const EdgeInsets.only(top: 5, bottom: 10),
                     child: Text(
-                      'Os dados da referência gerada aparecerão no Sigarra, '
-                      'conta corrente. \n'
-                      'Perfil > Conta Corrente',
+                      S.of(context).reference_sigarra_help,
                       textAlign: TextAlign.start,
                       style: Theme.of(context).textTheme.titleSmall,
                     ),
@@ -43,7 +42,7 @@ Future<void> addMoneyDialog(BuildContext context) async {
                     children: [
                       IconButton(
                         icon: const Icon(Icons.indeterminate_check_box),
-                        tooltip: 'Decrementar 1,00€',
+                        tooltip: S.of(context).decrement,
                         onPressed: () {
                           final decreasedValue =
                               valueTextToNumber(controller.text) - 1;
@@ -83,7 +82,7 @@ Future<void> addMoneyDialog(BuildContext context) async {
                       ),
                       IconButton(
                         icon: const Icon(Icons.add_box),
-                        tooltip: 'Incrementar 1,00€',
+                        tooltip: S.of(context).increment,
                         onPressed: () {
                           controller.value = TextEditingValue(
                             text: numberToValueText(
@@ -98,20 +97,20 @@ Future<void> addMoneyDialog(BuildContext context) async {
               ),
             ),
             title: Text(
-              'Adicionar quota',
+              S.of(context).add_quota,
               style: Theme.of(context).textTheme.headlineSmall,
             ),
             actions: [
               TextButton(
                 child: Text(
-                  'Cancelar',
+                  S.of(context).cancel,
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
                 onPressed: () => Navigator.pop(context),
               ),
               ElevatedButton(
                 onPressed: () => generateReference(context, value),
-                child: const Text('Gerar referência'),
+                child: Text(S.of(context).generate_reference),
               )
             ],
           );
@@ -132,7 +131,7 @@ String numberToValueText(double number) =>
 
 Future<void> generateReference(BuildContext context, double amount) async {
   if (amount < 1) {
-    await ToastMessage.warning(context, 'Valor mínimo: 1,00 €');
+    await ToastMessage.warning(context, S.of(context).min_value_reference);
     return;
   }
 
@@ -142,8 +141,8 @@ Future<void> generateReference(BuildContext context, double amount) async {
 
   if (response.statusCode == 200 && context.mounted) {
     Navigator.of(context).pop(false);
-    await ToastMessage.success(context, 'Referência criada com sucesso!');
+    await ToastMessage.success(context, S.of(context).reference_success);
   } else {
-    await ToastMessage.error(context, 'Algum erro!');
+    await ToastMessage.error(context, S.of(context).some_error);
   }
 }
