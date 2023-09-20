@@ -59,14 +59,19 @@ List<CourseUnit> parseCourseUnitsAndCourseAverage(
       if (row.children.length <= 6 + i) {
         break;
       }
-      yearIncrement++;
-      grade = row.children[6 + i].innerHtml.replaceAll('&nbsp;', ' ').trim();
-      status = row.children[7 + i].innerHtml.replaceAll('&nbsp;', ' ').trim();
-      if (status != '') {
+      final candidateStatus =
+          row.children[7 + i].innerHtml.replaceAll('&nbsp;', ' ').trim();
+      if (status != null && candidateStatus.isEmpty) {
         break;
       }
+      yearIncrement++;
+      if (candidateStatus.isNotEmpty) {
+        grade = row.children[6 + i].innerHtml.replaceAll('&nbsp;', ' ').trim();
+        status = candidateStatus;
+      }
     }
-    if (yearIncrement < 0) {
+
+    if (status == null) {
       continue;
     }
 
