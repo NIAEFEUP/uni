@@ -3,8 +3,8 @@ enum FavoriteWidgetType {
   schedule,
   printBalance,
   account,
-  libraryOccupation(faculties: {"feup"}),
-  libraryReservations(faculties: {"feup"}),
+  libraryOccupation(faculties: {'feup'}),
+  libraryReservations(faculties: {'feup'}),
   busStops;
 
   const FavoriteWidgetType({this.faculties});

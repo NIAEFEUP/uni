@@ -131,9 +131,9 @@ class RestaurantDay extends StatelessWidget {
       return Container(
         margin: const EdgeInsets.only(top: 10, bottom: 5),
         key: Key('restaurant-page-day-column-$day'),
-        child: Column(
+        child: const Column(
           mainAxisSize: MainAxisSize.min,
-          children: const [
+          children: [
             SizedBox(height: 10),
             Center(
               child: Text('Não há informação disponível sobre refeições'),

@@ -9,7 +9,7 @@ import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/library/widgets/library_occupation_card.dart';
 
 class LibraryOccupationTab extends StatefulWidget {
-  const LibraryOccupationTab({Key? key}) : super(key: key);
+  const LibraryOccupationTab({super.key});
 
   @override
   LibraryOccupationTabState createState() => LibraryOccupationTabState();
@@ -30,28 +30,27 @@ class LibraryOccupationTabState extends State<LibraryOccupationTab> {
       } else {
         return LibraryOccupationTabView(occupationProvider.occupation);
       }
-    });
+    },);
   }
 }
 
 class LibraryOccupationTabView extends StatelessWidget {
-  final LibraryOccupation? occupation;
 
   const LibraryOccupationTabView(this.occupation, {super.key});
+  final LibraryOccupation? occupation;
 
   @override
   Widget build(BuildContext context) {
     if (occupation == null || occupation?.capacity == 0) {
-      return ListView(scrollDirection: Axis.vertical, children: [
+      return ListView(children: [
         Center(
             heightFactor: 2,
             child: Text('Não existem dados para apresentar',
-                style: Theme.of(context).textTheme.headline6,
-                textAlign: TextAlign.center))
-      ]);
+                style: Theme.of(context).textTheme.titleLarge,
+                textAlign: TextAlign.center,),)
+      ],);
     }
     return ListView(
-        scrollDirection: Axis.vertical,
         shrinkWrap: true,
         children: [
           LibraryOccupationCard(),
@@ -59,14 +58,14 @@ class LibraryOccupationTabView extends StatelessWidget {
             const PageTitle(name: 'Pisos'),
             FloorRows(occupation!),
           ]
-        ]);
+        ],);
   }
 }
 
 class FloorRows extends StatelessWidget {
-  final LibraryOccupation occupation;
 
   const FloorRows(this.occupation, {super.key});
+  final LibraryOccupation occupation;
 
   @override
   Widget build(BuildContext context) {
@@ -77,51 +76,51 @@ class FloorRows extends StatelessWidget {
       crossAxisSpacing: 25,
       mainAxisSpacing: 5,
       physics: const NeverScrollableScrollPhysics(),
-      children: occupation.floors.map((floor) => FloorCard(floor)).toList(),
+      children: occupation.floors.map(FloorCard.new).toList(),
     );
   }
 }
 
 class FloorCard extends StatelessWidget {
-  final FloorOccupation floor;
 
   const FloorCard(this.floor, {super.key});
+  final FloorOccupation floor;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
-      height: 150.0,
-      width: 150.0,
-      padding: const EdgeInsets.all(20.0),
+      height: 150,
+      width: 150,
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
           color: Theme.of(context).cardColor,
           boxShadow: const [
             BoxShadow(
               color: Color.fromARGB(0x1c, 0, 0, 0),
-              blurRadius: 7.0,
-              offset: Offset(0.0, 1.0),
+              blurRadius: 7,
+              offset: Offset(0, 1),
             )
-          ]),
+          ],),
       child:
           Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
         Text('Piso ${floor.number}',
-            style: Theme.of(context).textTheme.headline5),
+            style: Theme.of(context).textTheme.headlineSmall,),
         Text('${floor.percentage}%',
-            style: Theme.of(context).textTheme.headline6),
+            style: Theme.of(context).textTheme.titleLarge,),
         Text('${floor.occupation}/${floor.capacity}',
             style: Theme.of(context)
                 .textTheme
-                .headline6
-                ?.copyWith(color: Theme.of(context).colorScheme.background)),
+                .titleLarge
+                ?.copyWith(color: Theme.of(context).colorScheme.background),),
         LinearPercentIndicator(
-          lineHeight: 7.0,
+          lineHeight: 7,
           percent: floor.percentage / 100,
           progressColor: Theme.of(context).colorScheme.secondary,
           backgroundColor: Theme.of(context).dividerColor,
         )
-      ]),
+      ],),
     );
   }
 }
