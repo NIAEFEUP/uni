@@ -25,7 +25,7 @@ class Lecture {
     String classNumber,
     int occurrId,
   ) {
-    final endTime = startTime.add(Duration(seconds: 60 * 30 * blocks));
+    final endTime = startTime.add(Duration(minutes: 30 * blocks));
     final lecture = Lecture(
       subject,
       typeClass,
@@ -62,8 +62,8 @@ class Lecture {
       day.add(Duration(hours: startTimeHours, minutes: startTimeMinutes)),
       day.add(
         Duration(
-          hours: startTimeMinutes + endTimeHours,
-          minutes: startTimeMinutes + endTimeMinutes,
+          hours: endTimeHours,
+          minutes: endTimeMinutes,
         ),
       ),
       blocks,
