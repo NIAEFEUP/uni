@@ -4,7 +4,8 @@ enum FavoriteWidgetType {
   printBalance,
   account,
   libraryOccupation(faculties: {'feup'}),
-  busStops;
+  busStops,
+  restaurant;
 
   const FavoriteWidgetType({this.faculties});
 

@@ -1,6 +1,7 @@
 import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:logger/logger.dart';
+import 'package:uni/model/entities/app_locale.dart';
 
 part 'exam.g.dart';
 
@@ -84,17 +85,15 @@ class Exam {
     String rooms,
     this.type,
     this.faculty,
-  ) {
-    this.rooms = rooms.split(',');
-  }
+  ) : rooms = rooms.split(',');
 
-  late final DateTime begin;
-  late final DateTime end;
-  late final String id;
-  late final String subject;
-  late final List<String> rooms;
-  late final String type;
-  late final String faculty;
+  final DateTime begin;
+  final DateTime end;
+  final String id;
+  final String subject;
+  final List<String> rooms;
+  final String type;
+  final String faculty;
 
   static Map<String, String> types = {
     'Mini-testes': 'MT',
@@ -110,9 +109,17 @@ class Exam {
   /// Returns whether or not this exam has already ended.
   bool hasEnded() => DateTime.now().compareTo(end) >= 0;
 
-  String get weekDay => WeekDays.values[begin.weekday - 1].day;
+  String weekDay(AppLocale locale) {
+    return DateFormat.EEEE(locale.localeCode.languageCode)
+        .dateSymbols
+        .WEEKDAYS[begin.weekday - 1];
+  }
 
-  String get month => Months.values[begin.month - 1].month;
+  String month(AppLocale locale) {
+    return DateFormat.EEEE(locale.localeCode.languageCode)
+        .dateSymbols
+        .MONTHS[begin.month - 1];
+  }
 
   String get beginTime => formatTime(begin);
 

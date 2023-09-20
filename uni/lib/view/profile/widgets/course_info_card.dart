@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/course.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
 
@@ -19,13 +20,16 @@ class CourseInfoCard extends GenericCard {
             Container(
               margin: const EdgeInsets.only(top: 20, bottom: 8, left: 20),
               child: Text(
-                'Ano curricular atual: ',
+                S.of(context).current_year,
                 style: Theme.of(context).textTheme.titleSmall,
               ),
             ),
             Container(
               margin: const EdgeInsets.only(top: 20, bottom: 8, right: 20),
-              child: getInfoText(course.currYear ?? 'Indisponível', context),
+              child: getInfoText(
+                course.currYear ?? S.of(context).unavailable,
+                context,
+              ),
             )
           ],
         ),
@@ -34,13 +38,16 @@ class CourseInfoCard extends GenericCard {
             Container(
               margin: const EdgeInsets.only(top: 10, bottom: 8, left: 20),
               child: Text(
-                'Estado atual: ',
+                S.of(context).current_state,
                 style: Theme.of(context).textTheme.titleSmall,
               ),
             ),
             Container(
               margin: const EdgeInsets.only(top: 10, bottom: 8, right: 20),
-              child: getInfoText(course.state ?? 'Indisponível', context),
+              child: getInfoText(
+                course.state ?? S.of(context).unavailable,
+                context,
+              ),
             )
           ],
         ),
@@ -49,7 +56,7 @@ class CourseInfoCard extends GenericCard {
             Container(
               margin: const EdgeInsets.only(top: 10, bottom: 8, left: 20),
               child: Text(
-                'Ano da primeira inscrição: ',
+                S.of(context).first_year_registration,
                 style: Theme.of(context).textTheme.titleSmall,
               ),
             ),
@@ -69,14 +76,14 @@ class CourseInfoCard extends GenericCard {
             Container(
               margin: const EdgeInsets.only(top: 10, bottom: 8, left: 20),
               child: Text(
-                'Faculdade: ',
+                S.of(context).college,
                 style: Theme.of(context).textTheme.titleSmall,
               ),
             ),
             Container(
               margin: const EdgeInsets.only(top: 10, bottom: 8, right: 20),
               child: getInfoText(
-                course.faculty?.toUpperCase() ?? 'Indisponível',
+                course.faculty?.toUpperCase() ?? S.of(context).unavailable,
                 context,
               ),
             )
@@ -87,14 +94,14 @@ class CourseInfoCard extends GenericCard {
             Container(
               margin: const EdgeInsets.only(top: 10, bottom: 8, left: 20),
               child: Text(
-                'Média: ',
+                S.of(context).average,
                 style: Theme.of(context).textTheme.titleSmall,
               ),
             ),
             Container(
               margin: const EdgeInsets.only(top: 10, bottom: 8, right: 20),
               child: getInfoText(
-                course.currentAverage?.toString() ?? 'Indisponível',
+                course.currentAverage?.toString() ?? S.of(context).unavailable,
                 context,
               ),
             )
@@ -105,7 +112,7 @@ class CourseInfoCard extends GenericCard {
             Container(
               margin: const EdgeInsets.only(top: 10, bottom: 20, left: 20),
               child: Text(
-                'ECTs realizados: ',
+                S.of(context).ects,
                 style: Theme.of(context).textTheme.titleSmall,
               ),
             ),
@@ -123,8 +130,8 @@ class CourseInfoCard extends GenericCard {
   }
 
   @override
-  String getTitle() {
-    return course.name ?? 'Curso sem nome';
+  String getTitle(BuildContext context) {
+    return course.name ?? S.of(context).no_course_units;
   }
 
   @override

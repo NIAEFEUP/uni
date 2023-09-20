@@ -58,7 +58,7 @@ class CourseUnit {
   Map<String, dynamic> toJson() => _$CourseUnitToJson(this);
 
   bool enrollmentIsValid() {
-    return status == 'V';
+    return status == 'V' || status == 'C';
   }
 
   static String toSchoolYear(int year) {

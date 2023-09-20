@@ -40,7 +40,7 @@ jobs:
     env:
       PROPERTIES_PATH: "android/key.properties"
       JAVA_VERSION: "11.x"
-      FLUTTER_VERSION: "3.7.2"
+      FLUTTER_VERSION: "3.10.6"
     defaults:
       run:
         working-directory: ./uni
@@ -53,12 +53,6 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
-
-      - name: Setup production environment
-        run: |
-          mkdir -p assets/env
-          rm -f -- assets/env/env.json
-          echo "{\"gh_token\": \"${{ secrets.NIAEFEUPBOT_PAT }}\"}" >> assets/env/env.json
 
       - name: Download Android keystore
         run: echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 --decode > /tmp/key.jks

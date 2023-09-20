@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/providers/lazy/home_page_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
-import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/utils/favorite_widget_type.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/home/widgets/bus_stop_card.dart';
 import 'package:uni/view/home/widgets/exam_card.dart';
 import 'package:uni/view/home/widgets/exit_app_dialog.dart';
+import 'package:uni/view/home/widgets/restaurant_card.dart';
 import 'package:uni/view/home/widgets/schedule_card.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/library/widgets/library_occupation_card.dart';
@@ -33,8 +34,9 @@ class MainCardsList extends StatelessWidget {
         PrintInfoCard.fromEditingInformation(k, em, od),*/
 
     FavoriteWidgetType.busStops: BusStopCard.fromEditingInformation,
+    FavoriteWidgetType.restaurant: RestaurantCard.fromEditingInformation,
     FavoriteWidgetType.libraryOccupation:
-        LibraryOccupationCard.fromEditingInformation
+        LibraryOccupationCard.fromEditingInformation,
   };
 
   @override
@@ -85,7 +87,7 @@ class MainCardsList extends StatelessWidget {
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text(
-              'Escolhe um widget para adicionares à tua área pessoal:',
+              S.of(context).widget_prompt,
               style: Theme.of(context).textTheme.headlineSmall,
             ),
             content: SizedBox(
@@ -96,7 +98,7 @@ class MainCardsList extends StatelessWidget {
             actions: [
               TextButton(
                 child: Text(
-                  'Cancelar',
+                  S.of(context).cancel,
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
                 onPressed: () => Navigator.pop(context),
@@ -105,7 +107,7 @@ class MainCardsList extends StatelessWidget {
           );
         },
       ), //Add FAB functionality here
-      tooltip: 'Adicionar widget',
+      tooltip: S.of(context).add_widget,
       child: Icon(Icons.add, color: Theme.of(context).colorScheme.onPrimary),
     );
   }
@@ -126,7 +128,7 @@ class MainCardsList extends StatelessWidget {
               title: Text(
                 e
                     .value(Key(e.key.index.toString()), editingMode: false)
-                    .getTitle(),
+                    .getTitle(context),
                 textAlign: TextAlign.center,
               ),
               onTap: () {
@@ -139,11 +141,7 @@ class MainCardsList extends StatelessWidget {
         .toList();
 
     return possibleCardAdditions.isEmpty
-        ? [
-            const Text(
-              '''Todos os widgets disponíveis já foram adicionados à tua área pessoal!''',
-            )
-          ]
+        ? [Text(S.of(context).all_widgets_added)]
         : possibleCardAdditions;
   }
 
@@ -157,7 +155,7 @@ class MainCardsList extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           PageTitle(
-            name: DrawerItem.navPersonalArea.title,
+            name: S.of(context).nav_title('area'),
             center: false,
             pad: false,
           ),
@@ -167,7 +165,9 @@ class MainCardsList extends StatelessWidget {
               editingMode: !editingModeProvider.isEditing,
             ),
             child: Text(
-              editingModeProvider.isEditing ? 'Concluir Edição' : 'Editar',
+              editingModeProvider.isEditing
+                  ? S.of(context).edit_on
+                  : S.of(context).edit_off,
               style: Theme.of(context).textTheme.bodySmall,
             ),
           )
@@ -179,7 +179,7 @@ class MainCardsList extends StatelessWidget {
   List<Widget> favoriteCardsFromTypes(
     List<FavoriteWidgetType> cardTypes,
     BuildContext context,
-    HomePageProvider editingModeProvider,
+    HomePageProvider homePageProvider,
   ) {
     final userSession =
         Provider.of<SessionProvider>(context, listen: false).session;
@@ -190,7 +190,7 @@ class MainCardsList extends StatelessWidget {
       final i = cardTypes.indexOf(type);
       return cardCreators[type]!(
         Key(i.toString()),
-        editingMode: editingModeProvider.isEditing,
+        editingMode: homePageProvider.isEditing,
         onDelete: () => removeCardIndexFromFavorites(i, context),
       );
     }).toList();

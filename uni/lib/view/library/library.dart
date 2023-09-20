@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:provider/provider.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/library_occupation.dart';
 import 'package:uni/model/providers/lazy/library_occupation_provider.dart';
+import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/lazy_consumer.dart';
@@ -40,9 +42,9 @@ class LibraryPage extends StatelessWidget {
     return ListView(
       shrinkWrap: true,
       children: [
-        const PageTitle(name: 'Biblioteca'),
+        PageTitle(name: S.of(context).nav_title(DrawerItem.navLibrary.title)),
         LibraryOccupationCard(),
-        if (occupation != null) const PageTitle(name: 'Pisos'),
+        if (occupation != null) PageTitle(name: S.of(context).floors),
         if (occupation != null) getFloorRows(context, occupation!),
       ],
     );
@@ -99,7 +101,7 @@ class LibraryPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Text(
-            'Piso ${floor.number}',
+            '${S.of(context).floor} ${floor.number}',
             style: Theme.of(context).textTheme.headlineSmall,
           ),
           Text(
