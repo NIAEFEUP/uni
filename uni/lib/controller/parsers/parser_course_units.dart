@@ -52,42 +52,36 @@ List<CourseUnit> parseCourseUnitsAndCourseAverage(
     final codeName = row.children[2].children[0].innerHtml;
     final name = row.children[3].children[0].innerHtml;
     final ects = row.children[5].innerHtml.replaceAll(',', '.');
-    String? grade;
-    String? status;
+
     var yearIncrement = -1;
     for (var i = 0;; i += 2) {
       if (row.children.length <= 6 + i) {
         break;
       }
-      final candidateStatus =
-          row.children[7 + i].innerHtml.replaceAll('&nbsp;', ' ').trim();
-      if (status != null && candidateStatus.isEmpty) {
-        break;
-      }
       yearIncrement++;
-      if (candidateStatus.isNotEmpty) {
-        grade = row.children[6 + i].innerHtml.replaceAll('&nbsp;', ' ').trim();
-        status = candidateStatus;
+      final status =
+          row.children[7 + i].innerHtml.replaceAll('&nbsp;', ' ').trim();
+      final grade =
+          row.children[6 + i].innerHtml.replaceAll('&nbsp;', ' ').trim();
+
+      if (status.isEmpty) {
+        continue;
       }
-    }
 
-    if (status == null) {
-      continue;
+      final courseUnit = CourseUnit(
+        schoolYear:
+            '${firstSchoolYear + yearIncrement}/${firstSchoolYear + yearIncrement + 1}',
+        occurrId: int.parse(occurId),
+        abbreviation: codeName,
+        status: status,
+        grade: grade,
+        ects: double.parse(ects),
+        name: name,
+        curricularYear: int.parse(year),
+        semesterCode: semester,
+      );
+      courseUnits.add(courseUnit);
     }
-
-    final courseUnit = CourseUnit(
-      schoolYear:
-          '${firstSchoolYear + yearIncrement}/${firstSchoolYear + yearIncrement + 1}',
-      occurrId: int.parse(occurId),
-      abbreviation: codeName,
-      status: status,
-      grade: grade,
-      ects: double.parse(ects),
-      name: name,
-      curricularYear: int.parse(year),
-      semesterCode: semester,
-    );
-    courseUnits.add(courseUnit);
   }
 
   return courseUnits;
