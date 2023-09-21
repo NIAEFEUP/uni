@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/bus_stop.dart';
 import 'package:uni/model/providers/lazy/bus_stop_provider.dart';
 import 'package:uni/utils/drawer_items.dart';
@@ -20,7 +21,8 @@ class BusStopCard extends GenericCard {
   }) : super.fromEditingInformation();
 
   @override
-  String getTitle() => 'Autocarros';
+  String getTitle(BuildContext context) =>
+      S.of(context).nav_title(DrawerItem.navStops.title);
 
   @override
   Future<Object?> onClick(BuildContext context) =>

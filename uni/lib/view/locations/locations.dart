@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/location_group.dart';
 import 'package:uni/model/providers/lazy/faculty_locations_provider.dart';
 import 'package:uni/model/request_status.dart';
+import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
@@ -46,6 +48,7 @@ class LocationsPageView extends StatelessWidget {
     required this.status,
     super.key,
   });
+
   final List<LocationGroup> locations;
   final RequestStatus status;
 
@@ -56,7 +59,10 @@ class LocationsPageView extends StatelessWidget {
         Container(
           width: MediaQuery.of(context).size.width * 0.95,
           padding: const EdgeInsets.fromLTRB(0, 0, 0, 4),
-          child: PageTitle(name: 'Locais: ${getLocation()}'),
+          child: PageTitle(
+            name: '${S.of(context).nav_title(DrawerItem.navLocations.title)}:'
+                ' ${getLocation()}',
+          ),
         ),
         Container(
           padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
@@ -66,8 +72,7 @@ class LocationsPageView extends StatelessWidget {
             status: status,
             builder: () => FacultyMap(faculty: 'FEUP', locations: locations),
             hasContentPredicate: locations.isNotEmpty,
-            onNullContent:
-                const Center(child: Text('Não existem locais disponíveis')),
+            onNullContent: Center(child: Text(S.of(context).no_places_info)),
           ),
           // TODO(bdmendes): add support for multiple faculties
         )

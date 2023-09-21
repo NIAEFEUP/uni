@@ -17,6 +17,7 @@ class LocationsMap extends StatelessWidget {
     required this.locations,
     super.key,
   });
+
   final PopupController _popupLayerController = PopupController();
   final List<LocationGroup> locations;
   final LatLng northEastBoundary;
@@ -78,7 +79,7 @@ class LocationsMap extends StatelessWidget {
                       ? FloorlessLocationMarkerPopup(marker.locationGroup)
                       : LocationMarkerPopup(marker.locationGroup);
                 }
-                return const Card(child: Text('undefined'));
+                return const Card(child: Text(''));
               },
             ),
           ),

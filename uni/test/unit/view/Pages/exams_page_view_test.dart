@@ -48,6 +48,7 @@ void main() {
       final providers = [ChangeNotifierProvider(create: (_) => examProvider)];
 
       await tester.pumpWidget(testableWidget(widget, providers: providers));
+      await tester.pump();
 
       expect(find.byKey(Key(firstExam.toString())), findsOneWidget);
       expect(find.byKey(Key('$firstExam-exam')), findsOneWidget);
@@ -90,6 +91,7 @@ void main() {
       final providers = [ChangeNotifierProvider(create: (_) => examProvider)];
 
       await tester.pumpWidget(testableWidget(widget, providers: providers));
+      await tester.pump();
 
       expect(
         find.byKey(Key(examList.map((ex) => ex.toString()).join())),
@@ -135,6 +137,8 @@ void main() {
       final providers = [ChangeNotifierProvider(create: (_) => examProvider)];
 
       await tester.pumpWidget(testableWidget(widget, providers: providers));
+      await tester.pump();
+
       expect(find.byKey(Key(firstExam.toString())), findsOneWidget);
       expect(find.byKey(Key(secondExam.toString())), findsOneWidget);
       expect(find.byKey(Key('$firstExam-exam')), findsOneWidget);
@@ -202,6 +206,8 @@ void main() {
       final providers = [ChangeNotifierProvider(create: (_) => examProvider)];
 
       await tester.pumpWidget(testableWidget(widget, providers: providers));
+      await tester.pump();
+
       expect(find.byKey(Key(firstDayKey)), findsOneWidget);
       expect(find.byKey(Key(secondDayKey)), findsOneWidget);
       expect(find.byKey(Key('$firstExam-exam')), findsOneWidget);

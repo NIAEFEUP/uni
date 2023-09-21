@@ -2,14 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:uni/controller/load_static/terms_and_conditions.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class TermsAndConditions extends StatelessWidget {
   const TermsAndConditions({super.key});
-  static String termsAndConditionsSaved = 'Carregando os Termos e Condições...';
 
   @override
   Widget build(BuildContext context) {
+    var termsAndConditionsSaved = S.of(context).loading_terms;
     final termsAndConditionsFuture = fetchTermsAndConditions();
     return FutureBuilder(
       future: termsAndConditionsFuture,
