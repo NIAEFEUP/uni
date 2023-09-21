@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:encrypt/encrypt.dart' as encrypt;
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tuple/tuple.dart';
+import 'package:uni/model/entities/app_locale.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/utils/favorite_widget_type.dart';
 
@@ -21,6 +23,7 @@ class AppSharedPreferences {
   static const String tuitionNotificationsToggleKey =
       'tuition_notification_toogle';
   static const String themeMode = 'theme_mode';
+  static const String locale = 'app_locale';
   static const int keyLength = 32;
   static const int ivLength = 16;
   static final iv = encrypt.IV.fromLength(ivLength);
@@ -115,6 +118,22 @@ class AppSharedPreferences {
     final prefs = await SharedPreferences.getInstance();
     final themeIndex = (await getThemeMode()).index;
     return prefs.setInt(themeMode, (themeIndex + 1) % 3);
+  }
+
+  static Future<void> setLocale(AppLocale appLocale) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(locale, appLocale.name);
+  }
+
+  static Future<AppLocale> getLocale() async {
+    final prefs = await SharedPreferences.getInstance();
+    final appLocale =
+        prefs.getString(locale) ?? Platform.localeName.substring(0, 2);
+
+    return AppLocale.values.firstWhere(
+      (e) => e.toString() == 'AppLocale.$appLocale',
+      orElse: () => AppLocale.en,
+    );
   }
 
   /// Deletes the user's student number and password.

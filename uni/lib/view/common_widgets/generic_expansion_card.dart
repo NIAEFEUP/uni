@@ -16,14 +16,14 @@ abstract class GenericExpansionCard extends StatelessWidget {
             color: Theme.of(context).primaryColor,
           );
 
-  String getTitle();
+  String getTitle(BuildContext context);
 
   Widget buildCardContent(BuildContext context);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: cardMargin ?? const EdgeInsets.fromLTRB(20, 10, 20, 0),
+      margin: const EdgeInsets.fromLTRB(20, 10, 20, 0),
       child: ExpansionTileCard(
         expandedTextColor: Theme.of(context).primaryColor,
         heightFactorCurve: Curves.ease,
@@ -32,10 +32,11 @@ abstract class GenericExpansionCard extends StatelessWidget {
             ? const Color.fromARGB(0xf, 0, 0, 0)
             : const Color.fromARGB(255, 43, 43, 43),
         title: Text(
-          getTitle(),
-          style: Theme.of(context).textTheme.headlineSmall?.apply(
-                color: Theme.of(context).primaryColor,
-              ),
+          getTitle(context),
+          style: Theme.of(context)
+              .textTheme
+              .headlineSmall
+              ?.apply(color: Theme.of(context).primaryColor),
         ),
         elevation: 0,
         children: <Widget>[

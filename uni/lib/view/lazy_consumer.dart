@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:logger/logger.dart';
@@ -46,10 +47,14 @@ class LazyConsumer<T extends StateProviderNotifier> extends StatelessWidget {
               })
             : Future(() {});
       } catch (exception, stackTrace) {
-        Logger().e(
-          'Failed to initialize startup providers: $exception',
-        );
-        await Sentry.captureException(exception, stackTrace: stackTrace);
+        // In tests, it is ok to not find the startup providers:
+        // all provider data should be mocked by the test itself.
+        if (!Platform.environment.containsKey('FLUTTER_TEST')) {
+          Logger().e(
+            'Failed to initialize startup providers: $exception',
+          );
+          await Sentry.captureException(exception, stackTrace: stackTrace);
+        }
       }
 
       // Load data stored in the database immediately

@@ -58,10 +58,11 @@ void main() {
 
       final providers = [
         ChangeNotifierProvider(create: (_) => scheduleProvider),
-        ChangeNotifierProvider<SessionProvider>(create: (_) => sessionProvider),
+        ChangeNotifierProvider(create: (_) => sessionProvider),
       ];
 
       await tester.pumpWidget(testableWidget(widget, providers: providers));
+      await tester.pump();
 
       const scheduleSlotTimeKey1 = 'schedule-slot-time-11:00-13:00';
       const scheduleSlotTimeKey2 = 'schedule-slot-time-14:00-16:00';

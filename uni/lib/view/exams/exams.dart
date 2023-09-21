@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/providers/lazy/exam_provider.dart';
 import 'package:uni/view/common_widgets/expanded_image_label.dart';
@@ -9,6 +10,7 @@ import 'package:uni/view/exams/widgets/day_title.dart';
 import 'package:uni/view/exams/widgets/exam_page_title.dart';
 import 'package:uni/view/exams/widgets/exam_row.dart';
 import 'package:uni/view/lazy_consumer.dart';
+import 'package:uni/view/locale_notifier.dart';
 
 class ExamsPageView extends StatefulWidget {
   const ExamsPageView({super.key});
@@ -47,13 +49,13 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
           heightFactor: 1.2,
           child: ImageLabel(
             imagePath: 'assets/images/vacation.png',
-            label: 'Parece que estás de férias!',
+            label: S.of(context).no_exams_label,
             labelTextStyle: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 18,
               color: Theme.of(context).colorScheme.primary,
             ),
-            sublabel: 'Não tens exames marcados',
+            sublabel: S.of(context).no_exams,
             sublabelTextStyle: const TextStyle(fontSize: 15),
           ),
         ),
@@ -107,11 +109,12 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
   }
 
   Widget createExamsCards(BuildContext context, List<Exam> exams) {
+    final locale = Provider.of<LocaleNotifier>(context).getLocale();
     final examCards = <Widget>[
       DayTitle(
         day: exams[0].begin.day.toString(),
-        weekDay: exams[0].weekDay,
-        month: exams[0].month,
+        weekDay: exams[0].weekDay(locale),
+        month: exams[0].month(locale),
       ),
     ];
     for (var i = 0; i < exams.length; i++) {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/providers/lazy/course_units_info_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
@@ -67,8 +68,11 @@ class CourseUnitDetailPageViewState
             center: false,
             name: widget.courseUnit.name,
           ),
-          const TabBar(
-            tabs: [Tab(text: 'Ficha'), Tab(text: 'Turmas')],
+          TabBar(
+            tabs: [
+              Tab(text: S.of(context).course_info),
+              Tab(text: S.of(context).course_class)
+            ],
           ),
           Expanded(
             child: Padding(
@@ -90,9 +94,9 @@ class CourseUnitDetailPageViewState
     return LazyConsumer<CourseUnitsInfoProvider>(
       builder: (context, courseUnitsInfoProvider) {
         return RequestDependentWidgetBuilder(
-          onNullContent: const Center(
+          onNullContent: Center(
             child: Text(
-              'Não existem informações para apresentar',
+              S.of(context).no_info,
               textAlign: TextAlign.center,
             ),
           ),
@@ -114,9 +118,9 @@ class CourseUnitDetailPageViewState
     return LazyConsumer<CourseUnitsInfoProvider>(
       builder: (context, courseUnitsInfoProvider) {
         return RequestDependentWidgetBuilder(
-          onNullContent: const Center(
+          onNullContent: Center(
             child: Text(
-              'Não existem turmas para apresentar',
+              S.of(context).no_class,
               textAlign: TextAlign.center,
             ),
           ),

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:uni/generated/l10n.dart';
+import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/common_widgets/generic_expansion_card.dart';
 import 'package:uni/view/useful_info/widgets/text_components.dart';
 
@@ -9,10 +11,14 @@ class CopyCenterCard extends GenericExpansionCard {
   Widget buildCardContent(BuildContext context) {
     return Column(
       children: <Container>[
-        h1('Horário', context, initial: true),
-        h2('Piso -1 do edifício B | Edifício da AEFEUP', context),
+        h1(
+          S.of(context).nav_title(DrawerItem.navSchedule.title),
+          context,
+          initial: true,
+        ),
+        h2(S.of(context).copy_center_building, context),
         infoText('9:00h - 11:30h | 12:30h - 18:00h', context),
-        h1('Telefone', context),
+        h1(S.of(context).telephone, context),
         h2('FEUP ', context),
         infoText('+351 220 994 122', context, link: 'tel:220 994 122'),
         h2('AEFEUP ', context),
@@ -29,5 +35,5 @@ class CopyCenterCard extends GenericExpansionCard {
   }
 
   @override
-  String getTitle() => 'Centro de Cópias';
+  String getTitle(BuildContext context) => S.of(context).copy_center;
 }
