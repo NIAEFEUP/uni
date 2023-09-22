@@ -68,7 +68,7 @@ dev_dependencies:
       url: https://github.com/dart-lang/mockito.git
       ref: "e54a006"
   test: any
-  very_good_analysis: ^4.0.0+1
+  very_good_analysis: ^5.1.0
 
 flutter:
   generate: true
