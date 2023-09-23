@@ -14,7 +14,7 @@ import 'package:uni/utils/favorite_widget_type.dart';
 /// This database stores the user's student number, password and favorite
 /// widgets.
 class AppSharedPreferences {
-  static final iv = encrypt.IV.fromLength(16);
+  static final iv = encrypt.IV.fromBase64('jF9jjdSEPgsKnf0jCl1GAQ==');
   static final key =
       encrypt.Key.fromBase64('DT3/GTNYldhwOD3ZbpVLoAwA/mncsN7U7sJxfFn3y0A=');
 
