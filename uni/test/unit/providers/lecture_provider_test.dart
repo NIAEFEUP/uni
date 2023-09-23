@@ -2,7 +2,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tuple/tuple.dart';
 import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/model/entities/course.dart';
@@ -22,7 +21,6 @@ void main() {
     final fetcherMock = MockScheduleFetcher();
     final mockClient = MockClient();
     final mockResponse = MockResponse();
-    const userPersistentInfo = Tuple2('', '');
     final profile = Profile()..courses = [Course(id: 7474)];
     final session = Session(username: '', cookies: '', faculties: ['feup']);
     final day = DateTime(2021, 06);
@@ -66,10 +64,10 @@ void main() {
           .thenAnswer((_) async => [lecture1, lecture2]);
 
       await provider.fetchUserLectures(
-        userPersistentInfo,
         session,
         profile,
         fetcher: fetcherMock,
+        persistentSession: false,
       );
 
       expect(provider.lectures, [lecture1, lecture2]);
@@ -81,10 +79,10 @@ void main() {
           .thenAnswer((_) async => throw Exception('💥'));
 
       await provider.fetchUserLectures(
-        userPersistentInfo,
         session,
         profile,
         fetcher: fetcherMock,
+        persistentSession: false,
       );
 
       expect(provider.status, RequestStatus.failed);
