@@ -5,6 +5,8 @@ import 'package:uni/controller/parsers/parser_course_unit_info.dart';
 import 'package:uni/model/entities/course_units/course_unit_class.dart';
 import 'package:uni/model/entities/course_units/course_unit_sheet.dart';
 import 'package:uni/model/entities/session.dart';
+import 'package:uni/model/entities/course_units/course_unit_file.dart';
+import 'package:http/http.dart';
 
 class CourseUnitsInfoFetcher implements SessionDependantFetcher {
   @override
@@ -24,6 +26,26 @@ class CourseUnitsInfoFetcher implements SessionDependantFetcher {
       session,
     );
     return parseCourseUnitSheet(response);
+  }
+
+  Future<List<CourseUnitFile>> fetchCourseUnitFiles(
+    Session session,
+    int occurId,
+  ) async {
+    final urls =
+        getEndpoints(session).map((url) => '${url}mob_ucurr_geral.conteudos');
+    final responses = <Response>[];
+    for (final url in urls) {
+      final response = await NetworkRouter.getWithCookies(
+        url,
+        {
+          'pv_ocorrencia_id': occurId.toString(),
+        },
+        session,
+      );
+      responses.add(response);
+    }
+    return parseFilesMultipleRequests(responses);
   }
 
   Future<List<CourseUnitClass>> fetchCourseUnitClasses(
