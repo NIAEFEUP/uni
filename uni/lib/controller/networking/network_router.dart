@@ -71,6 +71,7 @@ class NetworkRouter {
         faculties,
         persistentSession: persistentSession,
       );
+
       if (session == null) {
         Logger().e('Login failed: user not authenticated');
         return null;
@@ -90,6 +91,12 @@ class NetworkRouter {
   static Future<Session?> reLoginFromSession(Session session) async {
     final username = session.username;
     final password = await AppSharedPreferences.getUserPassword();
+
+    if (password == null) {
+      Logger().e('Re-login failed: password not found');
+      return null;
+    }
+
     final faculties = session.faculties;
     final persistentSession = session.persistentSession;
 

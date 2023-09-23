@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/login_exceptions.dart';
@@ -67,6 +68,7 @@ class LoginPageViewState extends State<LoginPageView> {
         } else if (error is WrongCredentialsException) {
           unawaited(ToastMessage.error(context, error.message));
         } else {
+          Logger().e(error);
           unawaited(ToastMessage.error(context, S.of(context).failed_login));
         }
       }
