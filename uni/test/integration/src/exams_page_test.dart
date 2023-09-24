@@ -6,7 +6,6 @@ import 'package:http/http.dart' as http;
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
-import 'package:tuple/tuple.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/parsers/parser_exams.dart';
 import 'package:uni/model/entities/course.dart';
@@ -82,10 +81,10 @@ void main() {
 
       await examProvider.fetchUserExams(
         ParserExams(),
-        const Tuple2('', ''),
         profile,
         Session(username: '', cookies: '', faculties: ['feup']),
         [sopeCourseUnit, sdisCourseUnit],
+        persistentSession: false,
       );
 
       await tester.pumpAndSettle();
@@ -118,10 +117,10 @@ void main() {
 
       await examProvider.fetchUserExams(
         ParserExams(),
-        const Tuple2('', ''),
         profile,
         Session(username: '', cookies: '', faculties: ['feup']),
         [sopeCourseUnit, sdisCourseUnit],
+        persistentSession: false,
       );
 
       await tester.pumpAndSettle();

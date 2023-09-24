@@ -7,7 +7,6 @@ import 'package:http/http.dart' as http;
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
-import 'package:tuple/tuple.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/profile.dart';
@@ -58,10 +57,11 @@ void main() {
 
       final providers = [
         ChangeNotifierProvider(create: (_) => scheduleProvider),
-        ChangeNotifierProvider<SessionProvider>(create: (_) => sessionProvider),
+        ChangeNotifierProvider(create: (_) => sessionProvider),
       ];
 
       await tester.pumpWidget(testableWidget(widget, providers: providers));
+      await tester.pump();
 
       const scheduleSlotTimeKey1 = 'schedule-slot-time-11:00-13:00';
       const scheduleSlotTimeKey2 = 'schedule-slot-time-14:00-16:00';
@@ -70,9 +70,9 @@ void main() {
       expect(find.byKey(const Key(scheduleSlotTimeKey2)), findsNothing);
 
       await scheduleProvider.fetchUserLectures(
-        const Tuple2('', ''),
         Session(username: '', cookies: '', faculties: ['feup']),
         profile,
+        persistentSession: false,
       );
 
       await tester.tap(find.byKey(const Key('schedule-page-tab-2')));

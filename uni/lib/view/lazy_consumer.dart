@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
@@ -23,12 +25,20 @@ class LazyConsumer<T extends StateProviderNotifier> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
+      StateProviderNotifier? provider;
       try {
-        final provider = Provider.of<T>(context, listen: false);
+        provider = Provider.of<T>(context, listen: false);
+      } catch (e) {
+        // The provider was not found. This should only happen in tests.
+        Logger().e('LazyConsumer: ${T.runtimeType} not found');
+        return;
+      }
 
-        // If the provider fetchers depend on the session, make sure that
-        // SessionProvider and ProfileProvider are initialized
-        final sessionFuture = provider.dependsOnSession
+      // If the provider fetchers depend on the session, make sure that
+      // SessionProvider and ProfileProvider are initialized
+      Future<void>? sessionFuture;
+      try {
+        sessionFuture = provider.dependsOnSession
             ? Provider.of<SessionProvider>(context, listen: false)
                 .ensureInitialized(context)
                 .then((_) async {
@@ -36,18 +46,34 @@ class LazyConsumer<T extends StateProviderNotifier> extends StatelessWidget {
                     .ensureInitialized(context);
               })
             : Future(() {});
-
-        // Load data stored in the database immediately
-        await provider.ensureInitializedFromStorage();
-
-        // Finally, complete provider initialization
-        if (context.mounted) {
-          await sessionFuture.then((_) async {
-            await provider.ensureInitializedFromRemote(context);
-          });
+      } catch (exception, stackTrace) {
+        // In tests, it is ok to not find the startup providers:
+        // all provider data should be mocked by the test itself.
+        if (!Platform.environment.containsKey('FLUTTER_TEST')) {
+          Logger().e(
+            'Failed to initialize startup providers: $exception',
+          );
+          await Sentry.captureException(exception, stackTrace: stackTrace);
         }
-      } catch (e) {
-        Logger().e('Failed to initialize $T: $e');
+      }
+
+      // Load data stored in the database immediately
+      try {
+        await provider.ensureInitializedFromStorage();
+      } catch (exception, stackTrace) {
+        Logger().e(
+          'Failed to initialize ${T.runtimeType} from storage: $exception',
+        );
+        await Sentry.captureException(exception, stackTrace: stackTrace);
+      }
+
+      // Finally, complete provider initialization
+      if (context.mounted) {
+        // This will fail if the session initialization failed.
+        // That is the expected behavior.
+        await sessionFuture!.then((_) async {
+          await provider!.ensureInitializedFromRemote(context);
+        });
       }
     });
 

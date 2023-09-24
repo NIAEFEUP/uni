@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:uni/controller/background_workers/notifications.dart';
 import 'package:uni/controller/load_static/terms_and_conditions.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
@@ -10,6 +12,7 @@ import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/model/request_status.dart';
+import 'package:uni/view/locale_notifier.dart';
 
 class SessionProvider extends StateProviderNotifier {
   SessionProvider()
@@ -32,6 +35,11 @@ class SessionProvider extends StateProviderNotifier {
   Future<void> loadFromStorage() async {
     final userPersistentInfo =
         await AppSharedPreferences.getPersistentUserInfo();
+
+    if (userPersistentInfo == null) {
+      return;
+    }
+
     final userName = userPersistentInfo.item1;
     final password = userPersistentInfo.item2;
 
@@ -59,6 +67,7 @@ class SessionProvider extends StateProviderNotifier {
   }
 
   Future<void> postAuthentication(
+    BuildContext context,
     String username,
     String password,
     List<String> faculties, {
@@ -76,7 +85,9 @@ class SessionProvider extends StateProviderNotifier {
       );
     } catch (e) {
       updateStatus(RequestStatus.failed);
-      throw InternetStatusException();
+      throw InternetStatusException(
+        Provider.of<LocaleNotifier>(context).getLocale(),
+      );
     }
 
     if (session == null) {
@@ -85,10 +96,12 @@ class SessionProvider extends StateProviderNotifier {
 
       updateStatus(RequestStatus.failed);
 
-      if (isPasswordExpired(responseHtml)) {
+      if (isPasswordExpired(responseHtml) && context.mounted) {
         throw ExpiredCredentialsException();
       } else {
-        throw WrongCredentialsException();
+        throw WrongCredentialsException(
+          Provider.of<LocaleNotifier>(context).getLocale(),
+        );
       }
     }
 

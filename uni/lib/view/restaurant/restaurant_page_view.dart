@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/meal.dart';
 import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/providers/lazy/restaurant_provider.dart';
 import 'package:uni/model/utils/day_of_week.dart';
+import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
 import 'package:uni/view/lazy_consumer.dart';
+import 'package:uni/view/locale_notifier.dart';
 import 'package:uni/view/restaurant/widgets/restaurant_page_card.dart';
 import 'package:uni/view/restaurant/widgets/restaurant_slot.dart';
 
@@ -46,8 +49,10 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
                 Container(
                   padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
                   alignment: Alignment.center,
-                  child: const PageTitle(
-                    name: 'Restaurantes',
+                  child: PageTitle(
+                    name: S
+                        .of(context)
+                        .nav_title(DrawerItem.navRestaurants.title),
                     center: false,
                     pad: false,
                   ),
@@ -65,9 +70,8 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
               builder: () =>
                   createTabViewBuilder(restaurantProvider.restaurants, context),
               hasContentPredicate: restaurantProvider.restaurants.isNotEmpty,
-              onNullContent:
-                  const Center(child: Text('Não há refeições disponíveis.')),
-            )
+              onNullContent: Center(child: Text(S.of(context).no_menus)),
+            ),
           ],
         );
       },
@@ -96,12 +100,14 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
   }
 
   List<Widget> createTabs(BuildContext context) {
+    final daysOfTheWeek =
+        Provider.of<LocaleNotifier>(context).getWeekdaysWithLocale();
     final tabs = <Widget>[];
     for (var i = 0; i < DayOfWeek.values.length; i++) {
       tabs.add(
         Tab(
           key: Key('cantine-page-tab-$i'),
-          text: toString(DayOfWeek.values[i]),
+          text: daysOfTheWeek[i],
         ),
       );
     }
@@ -135,12 +141,10 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
       return Container(
         margin: const EdgeInsets.only(top: 10, bottom: 5),
         key: Key('restaurant-page-day-column-$day'),
-        child: const Column(
+        child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Center(
-              child: Text('Não há informação disponível sobre refeições'),
-            ),
+            Center(child: Text(S.of(context).no_menu_info)),
           ],
         ),
       );

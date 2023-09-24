@@ -71,6 +71,7 @@ class NetworkRouter {
         faculties,
         persistentSession: persistentSession,
       );
+
       if (session == null) {
         Logger().e('Login failed: user not authenticated');
         return null;
@@ -90,6 +91,12 @@ class NetworkRouter {
   static Future<Session?> reLoginFromSession(Session session) async {
     final username = session.username;
     final password = await AppSharedPreferences.getUserPassword();
+
+    if (password == null) {
+      Logger().e('Re-login failed: password not found');
+      return null;
+    }
+
     final faculties = session.faculties;
     final persistentSession = session.persistentSession;
 
@@ -176,6 +183,9 @@ class NetworkRouter {
       final userIsLoggedIn =
           _cachedSession != null && await userLoggedIn(session);
       if (!userIsLoggedIn) {
+        Logger()
+            .d('User is not logged in; performing re-login from saved data');
+
         final newSession = await reLoginFromSession(session);
 
         if (newSession == null) {
@@ -209,7 +219,7 @@ class NetworkRouter {
   /// performing a health check on the user's personal page.
   static Future<bool> userLoggedIn(Session session) async {
     return _loginLock.synchronized(() async {
-      Logger().i('Checking if user is still logged in');
+      Logger().d('Checking if user is still logged in');
 
       final url = '${getBaseUrl(session.faculties[0])}'
           'fest_geral.cursos_list?pv_num_unico=${session.username}';

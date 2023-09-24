@@ -35,6 +35,8 @@ void main() {
         ChangeNotifierProvider<ExamProvider>(create: (_) => ExamProvider())
       ];
       await tester.pumpWidget(testableWidget(widget, providers: providers));
+      await tester.pump();
+
       final roomsKey = '$subject-$rooms-$beginTime-$endTime';
 
       expect(
@@ -56,6 +58,8 @@ void main() {
       ];
 
       await tester.pumpWidget(testableWidget(widget, providers: providers));
+      await tester.pump();
+
       final roomsKey = '$subject-$rooms-$beginTime-$endTime';
 
       expect(

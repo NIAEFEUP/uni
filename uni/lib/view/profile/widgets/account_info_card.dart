@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/reference.dart';
 import 'package:uni/model/providers/lazy/reference_provider.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
@@ -51,7 +52,7 @@ class AccountInfoCard extends GenericCard {
                             left: 20,
                           ),
                           child: Text(
-                            'Saldo: ',
+                            S.of(context).balance,
                             style: Theme.of(context).textTheme.titleSmall,
                           ),
                         ),
@@ -74,7 +75,7 @@ class AccountInfoCard extends GenericCard {
                             left: 20,
                           ),
                           child: Text(
-                            'Data limite próxima prestação: ',
+                            S.of(context).fee_date,
                             style: Theme.of(context).textTheme.titleSmall,
                           ),
                         ),
@@ -88,7 +89,7 @@ class AccountInfoCard extends GenericCard {
                             profile.feesLimit != null
                                 ? DateFormat('yyyy-MM-dd')
                                     .format(profile.feesLimit!)
-                                : 'Sem data',
+                                : S.of(context).no_date,
                             context,
                           ),
                         )
@@ -103,7 +104,7 @@ class AccountInfoCard extends GenericCard {
                             left: 20,
                           ),
                           child: Text(
-                            'Notificar próxima data limite: ',
+                            S.of(context).fee_notification,
                             style: Theme.of(context).textTheme.titleSmall,
                           ),
                         ),
@@ -124,7 +125,7 @@ class AccountInfoCard extends GenericCard {
                   child: Row(
                     children: <Widget>[
                       Text(
-                        'Referências pendentes',
+                        S.of(context).pendent_references,
                         style: Theme.of(context).textTheme.titleLarge?.apply(
                               color: Theme.of(context).colorScheme.secondary,
                             ),
@@ -147,7 +148,7 @@ class AccountInfoCard extends GenericCard {
   }
 
   @override
-  String getTitle() => 'Conta Corrente';
+  String getTitle(BuildContext context) => S.of(context).account_card_title;
 
   @override
   void onClick(BuildContext context) {}
@@ -164,7 +165,7 @@ class ReferenceList extends StatelessWidget {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 10),
         child: Text(
-          'Não existem referências a pagar',
+          S.of(context).no_references,
           style: Theme.of(context).textTheme.titleSmall,
           textScaleFactor: 0.96,
         ),

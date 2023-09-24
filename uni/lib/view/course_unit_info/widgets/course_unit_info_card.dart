@@ -16,7 +16,7 @@ class CourseUnitInfoCard extends GenericExpansionCard {
   }
 
   @override
-  String getTitle() {
+  String getTitle(BuildContext context) {
     return sectionTitle;
   }
 }
