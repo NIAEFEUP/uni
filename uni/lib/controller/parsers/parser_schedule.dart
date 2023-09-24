@@ -24,8 +24,6 @@ Future<List<Lecture>> parseSchedule(http.Response response) async {
 
   final json = jsonDecode(response.body) as Map<String, dynamic>;
 
-  print(json);
-
   final schedule = json['horario'] as List<dynamic>;
   for (var lecture in schedule) {
     lecture = lecture as Map<String, dynamic>;

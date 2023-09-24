@@ -1,12 +1,12 @@
 import 'package:html/parser.dart';
+import 'package:http/http.dart';
 import 'package:uni/controller/fetchers/session_dependant_fetcher.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/parsers/parser_course_unit_info.dart';
 import 'package:uni/model/entities/course_units/course_unit_class.dart';
+import 'package:uni/model/entities/course_units/course_unit_file.dart';
 import 'package:uni/model/entities/course_units/course_unit_sheet.dart';
 import 'package:uni/model/entities/session.dart';
-import 'package:uni/model/entities/course_units/course_unit_file.dart';
-import 'package:http/http.dart';
 
 class CourseUnitsInfoFetcher implements SessionDependantFetcher {
   @override
@@ -28,7 +28,7 @@ class CourseUnitsInfoFetcher implements SessionDependantFetcher {
     return parseCourseUnitSheet(response);
   }
 
-  Future<List<CourseUnitFile>> fetchCourseUnitFiles(
+  Future<List<Map<String, List<CourseUnitFile>>>> fetchCourseUnitFiles(
     Session session,
     int occurId,
   ) async {
@@ -45,7 +45,7 @@ class CourseUnitsInfoFetcher implements SessionDependantFetcher {
       );
       responses.add(response);
     }
-    return parseFilesMultipleRequests(responses);
+    return parseFilesMultipleRequests(responses, session);
   }
 
   Future<List<CourseUnitClass>> fetchCourseUnitClasses(

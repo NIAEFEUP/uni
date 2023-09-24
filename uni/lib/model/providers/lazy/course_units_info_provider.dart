@@ -16,7 +16,8 @@ class CourseUnitsInfoProvider extends StateProviderNotifier {
       : super(dependsOnSession: true, cacheDuration: null, initialize: false);
   final Map<CourseUnit, CourseUnitSheet> _courseUnitsSheets = {};
   final Map<CourseUnit, List<CourseUnitClass>> _courseUnitsClasses = {};
-  final Map<CourseUnit, List<CourseUnitFile>> _courseUnitsFiles = {};
+  final Map<CourseUnit, List<Map<String, List<CourseUnitFile>>>>
+      _courseUnitsFiles = {};
 
   UnmodifiableMapView<CourseUnit, CourseUnitSheet> get courseUnitsSheets =>
       UnmodifiableMapView(_courseUnitsSheets);
@@ -24,8 +25,8 @@ class CourseUnitsInfoProvider extends StateProviderNotifier {
   UnmodifiableMapView<CourseUnit, List<CourseUnitClass>>
       get courseUnitsClasses => UnmodifiableMapView(_courseUnitsClasses);
 
-  UnmodifiableMapView<CourseUnit, List<CourseUnitFile>> get courseUnitsFiles =>
-      UnmodifiableMapView(_courseUnitsFiles);
+  UnmodifiableMapView<CourseUnit, List<Map<String, List<CourseUnitFile>>>>
+      get courseUnitsFiles => UnmodifiableMapView(_courseUnitsFiles);
 
   Future<void> fetchCourseUnitSheet(
     CourseUnit courseUnit,

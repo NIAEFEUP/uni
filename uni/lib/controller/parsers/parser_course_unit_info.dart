@@ -3,37 +3,46 @@ import 'dart:convert';
 import 'package:html/parser.dart';
 import 'package:http/http.dart' as http;
 import 'package:uni/model/entities/course_units/course_unit_class.dart';
-import 'package:uni/model/entities/course_units/course_unit_sheet.dart';
 import 'package:uni/model/entities/course_units/course_unit_file.dart';
+import 'package:uni/model/entities/course_units/course_unit_sheet.dart';
+import 'package:uni/model/entities/session.dart';
 
-Future<List<CourseUnitFile>> parseFilesMultipleRequests(
+Future<List<Map<String, List<CourseUnitFile>>>> parseFilesMultipleRequests(
   List<http.Response> responses,
+  Session session,
 ) async {
-  var files = <CourseUnitFile>[];
+  final files = <Map<String, List<CourseUnitFile>>>[];
   for (final response in responses) {
-    files += await parseFiles(response);
+    files.add(await parseFiles(response, session));
   }
   return files;
 }
 
-Future<List<CourseUnitFile>> parseFiles(http.Response response) async {
-  final files = <CourseUnitFile>[];
+Future<Map<String, List<CourseUnitFile>>> parseFiles(
+  http.Response response,
+  Session session,
+) async {
+  final folders = <String, List<CourseUnitFile>>{};
 
   final json = jsonDecode(response.body) as List<dynamic>;
-  if (json.isEmpty) return [];
+
+  if (json.isEmpty) return {};
+
   for (var item in json) {
     item = item as Map<String, dynamic>;
-    print(item);
+    final files = <CourseUnitFile>[];
     for (final file in item['ficheiros'] as Iterable) {
       final fileName = file['nome'] as String;
       final fileCode = file['codigo'];
-      final courseUnitFile = CourseUnitFile(fileName,
-          "https://sigarra.up.pt/feup/pt/conteudos_service.conteudos_cont?pct_id=$fileCode");
+      final courseUnitFile = CourseUnitFile(
+        fileName,
+        'https://sigarra.up.pt/feup/pt/conteudos_service.conteudos_cont?pct_id=$fileCode',
+      );
       files.add(courseUnitFile);
     }
+    folders[item['nome'] as String] = files;
   }
-  print(files);
-  return files;
+  return folders;
 }
 
 Future<CourseUnitSheet> parseCourseUnitSheet(http.Response response) async {
