@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/view/lazy_consumer.dart';
 
@@ -56,8 +57,7 @@ class _LastUpdateTimeStampState<T extends StateProviderNotifier>
     return Row(
       children: [
         Text(
-          'Atualizado há $elapsedTimeMinutes '
-          'minuto${elapsedTimeMinutes != 1 ? 's' : ''}',
+          S.of(context).last_timestamp(elapsedTimeMinutes),
           style: Theme.of(context).textTheme.titleSmall,
         )
       ],

@@ -75,7 +75,7 @@ class ProfileProvider extends StateProviderNotifier {
       final userPersistentInfo =
           await AppSharedPreferences.getPersistentUserInfo();
 
-      if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {
+      if (userPersistentInfo != null) {
         final profileDb = AppUserDataDatabase();
         await profileDb.saveUserFees(feesBalance, feesLimit);
       }
@@ -95,7 +95,7 @@ class ProfileProvider extends StateProviderNotifier {
 
       final userPersistentInfo =
           await AppSharedPreferences.getPersistentUserInfo();
-      if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {
+      if (userPersistentInfo != null) {
         final profileDb = AppUserDataDatabase();
         await profileDb.saveUserPrintBalance(printBalance);
       }
@@ -119,7 +119,7 @@ class ProfileProvider extends StateProviderNotifier {
 
       final userPersistentInfo =
           await AppSharedPreferences.getPersistentUserInfo();
-      if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {
+      if (userPersistentInfo != null) {
         // Course units are saved later, so we don't it here
         final profileDb = AppUserDataDatabase();
         await profileDb.insertUserData(_profile);
@@ -144,7 +144,7 @@ class ProfileProvider extends StateProviderNotifier {
 
       final userPersistentInfo =
           await AppSharedPreferences.getPersistentUserInfo();
-      if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {
+      if (userPersistentInfo != null) {
         final coursesDb = AppCoursesDatabase();
         await coursesDb.saveNewCourses(courses);
 

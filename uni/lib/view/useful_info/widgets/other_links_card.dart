@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/view/common_widgets/generic_expansion_card.dart';
 import 'package:uni/view/useful_info/widgets/link_button.dart';
 
@@ -11,7 +12,7 @@ class OtherLinksCard extends GenericExpansionCard {
   Widget buildCardContent(BuildContext context) {
     return const Column(
       children: [
-        // LinkButton(title: 'Impressão', link: 'https://print.up.pt'),
+        // LinkButton(title: S.of(context).print, link: 'https://print.up.pt'),
         // TODO(Process-ing): Get fixed link
         LinkButton(
           title: 'Consultas SASUP',
@@ -22,5 +23,5 @@ class OtherLinksCard extends GenericExpansionCard {
   }
 
   @override
-  String getTitle() => 'Outros Links';
+  String getTitle(BuildContext context) => S.of(context).other_links;
 }

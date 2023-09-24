@@ -82,7 +82,7 @@ class CourseUnit {
   }
 
   bool enrollmentIsValid() {
-    return status == 'V';
+    return status == 'V' || status == 'C';
   }
 
   static String toSchoolYear(int year) {

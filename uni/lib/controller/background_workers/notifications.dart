@@ -71,6 +71,10 @@ class NotificationManager {
     final userInfo = await AppSharedPreferences.getPersistentUserInfo();
     final faculties = await AppSharedPreferences.getUserFaculties();
 
+    if (userInfo == null || faculties.isEmpty) {
+      return;
+    }
+
     final session = await NetworkRouter.login(
       userInfo.item1,
       userInfo.item2,

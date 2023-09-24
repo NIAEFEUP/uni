@@ -1,6 +1,7 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/request_status.dart';
 import 'package:uni/utils/drawer_items.dart';
 
@@ -74,7 +75,7 @@ class RequestDependentWidgetBuilder extends StatelessWidget {
           return Center(
             heightFactor: 3,
             child: Text(
-              'Sem ligação à internet',
+              S.of(context).check_internet,
               style: Theme.of(context).textTheme.titleMedium,
             ),
           );
@@ -86,7 +87,7 @@ class RequestDependentWidgetBuilder extends StatelessWidget {
               padding: const EdgeInsets.only(top: 15, bottom: 10),
               child: Center(
                 child: Text(
-                  'Aconteceu um erro ao carregar os dados',
+                  S.of(context).load_error,
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
               ),
@@ -96,7 +97,7 @@ class RequestDependentWidgetBuilder extends StatelessWidget {
                 context,
                 '/${DrawerItem.navBugReport.title}',
               ),
-              child: const Text('Reportar erro'),
+              child: Text(S.of(context).report_error),
             )
           ],
         );

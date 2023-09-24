@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/login_exceptions.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/model/providers/state_providers.dart';
@@ -49,6 +51,7 @@ class LoginPageViewState extends State<LoginPageView> {
 
       try {
         await sessionProvider.postAuthentication(
+          context,
           user,
           pass,
           faculties,
@@ -65,7 +68,8 @@ class LoginPageViewState extends State<LoginPageView> {
         } else if (error is WrongCredentialsException) {
           unawaited(ToastMessage.error(context, error.message));
         } else {
-          unawaited(ToastMessage.error(context, 'Erro no login'));
+          Logger().e(error);
+          unawaited(ToastMessage.error(context, S.of(context).failed_login));
         }
       }
     }
@@ -176,7 +180,7 @@ class LoginPageViewState extends State<LoginPageView> {
     if (_exitApp) {
       return Future.value(true);
     }
-    ToastMessage.info(context, 'Pressione novamente para sair');
+    ToastMessage.info(context, S.of(context).press_again);
     exitAppWaiter();
     return Future.value(false);
   }
@@ -235,6 +239,7 @@ class LoginPageViewState extends State<LoginPageView> {
               padding: EdgeInsets.only(bottom: queryData.size.height / 35),
             ),
             createSaveDataCheckBox(
+              context,
               _setKeepSignedIn,
               keepSignedIn: _keepSignedIn,
             ),
@@ -249,7 +254,7 @@ class LoginPageViewState extends State<LoginPageView> {
     return InkWell(
       child: Center(
         child: Text(
-          'Esqueceu a palavra-passe?',
+          S.of(context).forgot_password,
           style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                 decoration: TextDecoration.underline,
                 color: Colors.white,
@@ -282,6 +287,8 @@ class LoginPageViewState extends State<LoginPageView> {
         context,
         '/${DrawerItem.navPersonalArea.title}',
       );
+    } else if (status == RequestStatus.failed) {
+      ToastMessage.error(context, S.of(context).failed_login);
     }
   }
 
@@ -290,21 +297,20 @@ class LoginPageViewState extends State<LoginPageView> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('A tua palavra-passe expirou'),
+          title: Text(S.of(context).expired_password),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'Por razões de segurança, as palavras-passe têm de ser '
-                'alteradas periodicamente.',
+                S.of(context).pass_change_request,
                 textAlign: TextAlign.start,
                 style: Theme.of(context).textTheme.titleSmall,
               ),
               const SizedBox(height: 20),
-              const Align(
+              Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Deseja alterar a palavra-passe?',
+                  S.of(context).change_prompt,
                   textAlign: TextAlign.start,
                 ),
               ),
@@ -312,13 +318,13 @@ class LoginPageViewState extends State<LoginPageView> {
           ),
           actions: [
             TextButton(
-              child: const Text('Cancelar'),
+              child: Text(S.of(context).cancel),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             ElevatedButton(
-              child: const Text('Alterar'),
+              child: Text(S.of(context).change),
               onPressed: () async {
                 const url = 'https://self-id.up.pt/password';
                 if (await canLaunchUrl(Uri.parse(url))) {

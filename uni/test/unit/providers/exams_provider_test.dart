@@ -2,7 +2,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tuple/tuple.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/parsers/parser_exams.dart';
 import 'package:uni/model/entities/course.dart';
@@ -61,8 +60,6 @@ void main() {
       'feup',
     );
 
-    const userPersistentInfo = Tuple2<String, String>('', '');
-
     final profile = Profile()..courses = [Course(id: 7474)];
     final session = Session(username: '', cookies: '', faculties: ['feup']);
     final userUcs = [sopeCourseUnit, sdisCourseUnit];
@@ -85,10 +82,10 @@ void main() {
 
       await provider.fetchUserExams(
         parserExams,
-        userPersistentInfo,
         profile,
         session,
         userUcs,
+        persistentSession: false,
       );
 
       expect(provider.exams.isNotEmpty, true);
@@ -102,10 +99,10 @@ void main() {
 
       await provider.fetchUserExams(
         parserExams,
-        userPersistentInfo,
         profile,
         session,
         userUcs,
+        persistentSession: false,
       );
 
       expect(provider.status, RequestStatus.successful);
@@ -132,10 +129,10 @@ When given three exams but one is to be parsed out,
 
       await provider.fetchUserExams(
         parserExams,
-        userPersistentInfo,
         profile,
         session,
         userUcs,
+        persistentSession: false,
       );
 
       expect(provider.status, RequestStatus.successful);
@@ -148,10 +145,10 @@ When given three exams but one is to be parsed out,
 
       await provider.fetchUserExams(
         parserExams,
-        userPersistentInfo,
         profile,
         session,
         userUcs,
+        persistentSession: false,
       );
       expect(provider.status, RequestStatus.failed);
     });
@@ -174,10 +171,10 @@ When given three exams but one is to be parsed out,
 
       await provider.fetchUserExams(
         parserExams,
-        userPersistentInfo,
         profile,
         session,
         userUcs,
+        persistentSession: false,
       );
 
       expect(provider.status, RequestStatus.successful);
@@ -202,10 +199,10 @@ When given three exams but one is to be parsed out,
 
       await provider.fetchUserExams(
         parserExams,
-        userPersistentInfo,
         profile,
         session,
         userUcs,
+        persistentSession: false,
       );
 
       expect(provider.status, RequestStatus.successful);
@@ -230,10 +227,10 @@ When given three exams but one is to be parsed out,
 
       await provider.fetchUserExams(
         parserExams,
-        userPersistentInfo,
         profile,
         session,
         userUcs,
+        persistentSession: false,
       );
 
       expect(provider.status, RequestStatus.successful);

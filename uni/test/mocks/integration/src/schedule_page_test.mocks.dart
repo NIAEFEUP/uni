@@ -493,6 +493,7 @@ class MockSessionProvider extends _i1.Mock implements _i7.SessionProvider {
       );
   @override
   _i4.Future<void> postAuthentication(
+    _i10.BuildContext? context,
     String? username,
     String? password,
     List<String>? faculties, {
@@ -502,6 +503,7 @@ class MockSessionProvider extends _i1.Mock implements _i7.SessionProvider {
         Invocation.method(
           #postAuthentication,
           [
+            context,
             username,
             password,
             faculties,
