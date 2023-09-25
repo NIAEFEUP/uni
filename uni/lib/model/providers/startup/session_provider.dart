@@ -109,7 +109,7 @@ class SessionProvider extends StateProviderNotifier {
 
     if (persistentSession) {
       await AppSharedPreferences.savePersistentUserInfo(
-        username,
+        session.username,
         password,
         faculties,
       );
