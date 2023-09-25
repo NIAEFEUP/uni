@@ -55,7 +55,6 @@ class NetworkRouter {
 
       final url =
           '${NetworkRouter.getBaseUrls(faculties)[0]}mob_val_geral.autentica';
-
       final response = await http.post(
         url.toUri(),
         body: {'pv_login': username, 'pv_password': password},
@@ -100,8 +99,6 @@ class NetworkRouter {
     final faculties = session.faculties;
     final persistentSession = session.persistentSession;
 
-    Logger().d('Re-login from session: $username, $faculties');
-
     return login(
       username,
       password,
@@ -117,17 +114,13 @@ class NetworkRouter {
     String pass,
     List<String> faculties,
   ) async {
-    return _loginLock.synchronized(() async {
-      final url =
-          '${NetworkRouter.getBaseUrls(faculties)[0]}vld_validacao.validacao';
-
-      final response = await http.post(
-        url.toUri(),
-        body: {'p_user': user, 'p_pass': pass},
-      ).timeout(_requestTimeout);
-
-      return response.body;
-    });
+    final url =
+        '${NetworkRouter.getBaseUrls(faculties)[0]}vld_validacao.validacao';
+    final response = await http.post(
+      url.toUri(),
+      body: {'p_user': user, 'p_pass': pass},
+    ).timeout(_requestTimeout);
+    return response.body;
   }
 
   /// Extracts the cookies present in [headers].
@@ -192,6 +185,7 @@ class NetworkRouter {
           NavigationService.logoutAndPopHistory(null);
           return Future.error('Login failed');
         }
+
         session
           ..username = newSession.username
           ..cookies = newSession.cookies;
@@ -218,20 +212,18 @@ class NetworkRouter {
   /// Check if the user is still logged in,
   /// performing a health check on the user's personal page.
   static Future<bool> userLoggedIn(Session session) async {
-    return _loginLock.synchronized(() async {
-      Logger().d('Checking if user is still logged in');
+    Logger().d('Checking if user is still logged in');
 
-      final url = '${getBaseUrl(session.faculties[0])}'
-          'fest_geral.cursos_list?pv_num_unico=${session.username}';
-      final headers = <String, String>{};
-      headers['cookie'] = session.cookies;
+    final url = '${getBaseUrl(session.faculties[0])}'
+        'fest_geral.cursos_list?pv_num_unico=${session.username}';
+    final headers = <String, String>{};
+    headers['cookie'] = session.cookies;
 
-      final response = await (httpClient != null
-          ? httpClient!.get(url.toUri(), headers: headers)
-          : http.get(url.toUri(), headers: headers));
+    final response = await (httpClient != null
+        ? httpClient!.get(url.toUri(), headers: headers)
+        : http.get(url.toUri(), headers: headers));
 
-      return response.statusCode == 200;
-    });
+    return response.statusCode == 200;
   }
 
   /// Returns the base url of the user's faculties.
@@ -253,17 +245,15 @@ class NetworkRouter {
   static Future<Response> killSigarraAuthentication(
     List<String> faculties,
   ) async {
-    return _loginLock.synchronized(() async {
-      final url = '${NetworkRouter.getBaseUrl(faculties[0])}vld_validacao.sair';
-      final response = await http.get(url.toUri()).timeout(_requestTimeout);
+    final url = '${NetworkRouter.getBaseUrl(faculties[0])}vld_validacao.sair';
+    final response = await http.get(url.toUri()).timeout(_requestTimeout);
 
-      if (response.statusCode == 200) {
-        Logger().i('Logout Successful');
-      } else {
-        Logger().i('Logout Failed');
-      }
+    if (response.statusCode == 200) {
+      Logger().i('Logout Successful');
+    } else {
+      Logger().i('Logout Failed');
+    }
 
-      return response;
-    });
+    return response;
   }
 }

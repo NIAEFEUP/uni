@@ -108,16 +108,6 @@ abstract class StateProviderNotifier extends ChangeNotifier {
 
   Future<void> forceRefresh(BuildContext context) async {
     await _lock.synchronized(() async {
-      if (_lastUpdateTime != null &&
-          DateTime.now().difference(_lastUpdateTime!) <
-              const Duration(minutes: 1)) {
-        Logger().w(
-          'Last update for $runtimeType was less than a minute ago; '
-          'skipping refresh',
-        );
-        return;
-      }
-
       final session =
           Provider.of<SessionProvider>(context, listen: false).session;
       final profile =
