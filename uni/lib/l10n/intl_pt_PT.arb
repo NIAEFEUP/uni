@@ -158,6 +158,8 @@
   "@news": {},
   "no_bus": "Não percas nenhum autocarro!",
   "@no_bus": {},
+  "no_trips": "Não há viagem disponível",
+  "@no_trips": {},
   "no_bus_stops": "Não existe nenhuma paragem configurada",
   "@no_bus_stops": {},
   "no_class": "Não existem turmas para apresentar",

@@ -158,6 +158,8 @@
   "@news": {},
   "no_bus": "Don't miss any bus!",
   "@no_bus": {},
+  "no_trips": "No trips available",
+  "@no_trips": {},
   "no_bus_stops": "No configured stops",
   "@no_bus_stops": {},
   "no_class": "There are no classes to display",

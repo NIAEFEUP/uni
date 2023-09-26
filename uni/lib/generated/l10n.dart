@@ -818,6 +818,16 @@ class S {
     );
   }
 
+  /// `No trips available`
+  String get no_trips {
+    return Intl.message(
+      'No trips available',
+      name: 'no_trips',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `No configured stops`
   String get no_bus_stops {
     return Intl.message(

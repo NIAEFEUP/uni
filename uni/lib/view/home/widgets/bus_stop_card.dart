@@ -39,7 +39,7 @@ class BusStopCard extends GenericCard {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
-                  'Configura teus autocarros',
+                  S.of(context).no_bus_stops,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.titleSmall!.apply(),
@@ -72,7 +72,7 @@ class BusStopCard extends GenericCard {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
-                  'Não há viagens disponíveis',
+                  S.of(context).no_trips,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.titleSmall!.apply(),
@@ -97,20 +97,6 @@ class BusStopCard extends GenericCard {
   @override
   void onRefresh(BuildContext context) {
     Provider.of<BusStopProvider>(context, listen: false).forceRefresh(context);
-  }
-
-  /// Returns a widget for the title of the bus stops card
-  Widget getCardTitle(BuildContext context) {
-    return Row(
-      children: <Widget>[
-        const Icon(Icons.directions_bus), // color lightgrey
-        Text(
-          'STCP - Próximas Viagens',
-          style: Theme.of(context).textTheme.titleMedium,
-        ),
-      ],
-    );
-    }
   }
 
   /// Returns a list of widgets for each bus stop info that exists
@@ -153,6 +139,19 @@ class BusStopCard extends GenericCard {
               stopData,
             ),
           ),
+        ),
+      ],
+    );
+  }
+
+  /// Returns a widget for the title of the bus stops card
+  Widget getCardTitle(BuildContext context) {
+    return Row(
+      children: <Widget>[
+        const Icon(Icons.directions_bus), // color lightgrey
+        Text(
+          'STCP - Próximas Viagens',
+          style: Theme.of(context).textTheme.titleMedium,
         ),
       ],
     );
