@@ -12,7 +12,7 @@ class OtherLinksCard extends GenericExpansionCard {
   Widget buildCardContent(BuildContext context) {
     return const Column(
       children: [
-        // LinkButton(title: 'Impressão', link: 'https://print.up.pt'),
+        // LinkButton(title: S.of(context).print, link: 'https://print.up.pt'),
         // TODO(Process-ing): Get fixed link
         LinkButton(
           title: 'Consultas SASUP',

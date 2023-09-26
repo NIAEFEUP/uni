@@ -18,31 +18,28 @@ class S {
   static S? _current;
 
   static S get current {
-    assert(_current != null,
-        'No instance of S was loaded. Try to initialize the S delegate before accessing S.current.');
+    assert(_current != null, 'No instance of S was loaded. Try to initialize the S delegate before accessing S.current.');
     return _current!;
   }
 
-  static const AppLocalizationDelegate delegate = AppLocalizationDelegate();
+  static const AppLocalizationDelegate delegate =
+    AppLocalizationDelegate();
 
   static Future<S> load(Locale locale) {
-    final name = (locale.countryCode?.isEmpty ?? false)
-        ? locale.languageCode
-        : locale.toString();
-    final localeName = Intl.canonicalizedLocale(name);
+    final name = (locale.countryCode?.isEmpty ?? false) ? locale.languageCode : locale.toString();
+    final localeName = Intl.canonicalizedLocale(name); 
     return initializeMessages(localeName).then((_) {
       Intl.defaultLocale = localeName;
       final instance = S();
       S._current = instance;
-
+ 
       return instance;
     });
-  }
+  } 
 
   static S of(BuildContext context) {
     final instance = S.maybeOf(context);
-    assert(instance != null,
-        'No instance of S present in the widget tree. Did you add S.delegate in localizationsDelegates?');
+    assert(instance != null, 'No instance of S present in the widget tree. Did you add S.delegate in localizationsDelegates?');
     return instance!;
   }
 
@@ -630,6 +627,16 @@ class S {
     );
   }
 
+  /// `Go back`
+  String get go_back {
+    return Intl.message(
+      'Go back',
+      name: 'go_back',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Enrollment for Improvement`
   String get improvement_registration {
     return Intl.message(
@@ -698,6 +705,46 @@ class S {
     return Intl.message(
       'Library',
       name: 'library',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Do you want to cancel this reservation?`
+  String get library_cancel_reservation {
+    return Intl.message(
+      'Do you want to cancel this reservation?',
+      name: 'library_cancel_reservation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancel reservation`
+  String get library_cancel_tooltip {
+    return Intl.message(
+      'Cancel reservation',
+      name: 'library_cancel_tooltip',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `An error occurred while canceling your reservation!`
+  String get library_cancel_error {
+    return Intl.message(
+      'An error occurred while canceling your reservation!',
+      name: 'library_cancel_error',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your reservation was canceled!`
+  String get library_cancel_success {
+    return Intl.message(
+      'Your reservation was canceled!',
+      name: 'library_cancel_success',
       desc: '',
       args: [],
     );
