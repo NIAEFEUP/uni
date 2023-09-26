@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/login_exceptions.dart';
@@ -10,6 +11,7 @@ import 'package:uni/model/providers/state_providers.dart';
 import 'package:uni/model/request_status.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/common_widgets/toast_message.dart';
+import 'package:uni/view/home/widgets/exit_app_dialog.dart';
 import 'package:uni/view/login/widgets/inputs.dart';
 import 'package:uni/view/theme.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -36,7 +38,6 @@ class LoginPageViewState extends State<LoginPageView> {
       TextEditingController();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  static bool _exitApp = false;
   bool _keepSignedIn = true;
   bool _obscurePasswordInput = true;
 
@@ -67,6 +68,7 @@ class LoginPageViewState extends State<LoginPageView> {
         } else if (error is WrongCredentialsException) {
           unawaited(ToastMessage.error(context, error.message));
         } else {
+          Logger().e(error);
           unawaited(ToastMessage.error(context, S.of(context).failed_login));
         }
       }
@@ -111,7 +113,7 @@ class LoginPageViewState extends State<LoginPageView> {
       child: Builder(
         builder: (context) => Scaffold(
           backgroundColor: darkRed,
-          body: WillPopScope(
+          body: BackButtonExitWrapper(
             child: Padding(
               padding: EdgeInsets.only(
                 left: queryData.size.width / 8,
@@ -158,29 +160,10 @@ class LoginPageViewState extends State<LoginPageView> {
                 ],
               ),
             ),
-            onWillPop: () => onWillPop(context),
           ),
         ),
       ),
     );
-  }
-
-  /// Delay time before the user leaves the app
-  Future<void> exitAppWaiter() async {
-    _exitApp = true;
-    await Future<void>.delayed(const Duration(seconds: 2));
-    _exitApp = false;
-  }
-
-  /// If the user tries to leave, displays a quick prompt for him to confirm.
-  /// If this is already the second time, the user leaves the app.
-  Future<bool> onWillPop(BuildContext context) {
-    if (_exitApp) {
-      return Future.value(true);
-    }
-    ToastMessage.info(context, S.of(context).press_again);
-    exitAppWaiter();
-    return Future.value(false);
   }
 
   /// Creates the title for the login menu.

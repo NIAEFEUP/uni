@@ -53,10 +53,8 @@ SentryEvent? beforeSend(SentryEvent event) {
 
 Future<String> firstRoute() async {
   final userPersistentInfo = await AppSharedPreferences.getPersistentUserInfo();
-  final userName = userPersistentInfo.item1;
-  final password = userPersistentInfo.item2;
 
-  if (userName != '' && password != '') {
+  if (userPersistentInfo != null) {
     return '/${DrawerItem.navPersonalArea.title}';
   }
 

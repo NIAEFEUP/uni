@@ -25,6 +25,7 @@ typedef CardCreator = GenericCard Function(
 
 class MainCardsList extends StatelessWidget {
   const MainCardsList({super.key});
+
   static Map<FavoriteWidgetType, CardCreator> cardCreators = {
     FavoriteWidgetType.schedule: ScheduleCard.fromEditingInformation,
     FavoriteWidgetType.exams: ExamCard.fromEditingInformation,
@@ -47,7 +48,6 @@ class MainCardsList extends StatelessWidget {
     return LazyConsumer<HomePageProvider>(
       builder: (context, homePageProvider) => Scaffold(
         body: BackButtonExitWrapper(
-          context: context,
           child: SizedBox(
             height: MediaQuery.of(context).size.height,
             child: homePageProvider.isEditing
