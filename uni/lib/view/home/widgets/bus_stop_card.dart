@@ -110,6 +110,7 @@ class BusStopCard extends GenericCard {
         ),
       ],
     );
+    }
   }
 
   /// Returns a list of widgets for each bus stop info that exists
