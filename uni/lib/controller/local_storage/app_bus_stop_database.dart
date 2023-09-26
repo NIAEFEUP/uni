@@ -38,8 +38,7 @@ class AppBusStopDatabase extends AppDatabase {
     }
 
     final stops = <String, BusStopData>{};
-    groupBy(buses, (stop) => (stop! as Map<String, dynamic>)['stopCode'])
-        .forEach(
+    groupBy(buses, (stop) => stop['stopCode']).forEach(
       (stopCode, busCodeList) => stops[stopCode as String] = BusStopData(
         configuredBuses: Set<String>.from(
           busCodeList.map((busEntry) => busEntry['busCode']),

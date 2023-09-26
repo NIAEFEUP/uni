@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:provider/provider.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/library_occupation.dart';
 import 'package:uni/model/providers/lazy/library_occupation_provider.dart';
 import 'package:uni/model/request_status.dart';
@@ -20,7 +21,7 @@ class LibraryOccupationCard extends GenericCard {
   }) : super.fromEditingInformation();
 
   @override
-  String getTitle() => 'Ocupação da Biblioteca';
+  String getTitle(BuildContext context) => S.of(context).library_occupation;
 
   @override
   Future<Object?> onClick(BuildContext context) => Navigator.pushNamed(
@@ -58,7 +59,7 @@ class LibraryOccupationCard extends GenericCard {
     if (occupation == null || occupation.capacity == 0) {
       return Center(
         child: Text(
-          'Não existem dados para apresentar',
+          S.of(context).no_data,
           style: Theme.of(context).textTheme.titleLarge,
           textAlign: TextAlign.center,
         ),

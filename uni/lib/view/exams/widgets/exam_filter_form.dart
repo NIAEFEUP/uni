@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/providers/lazy/exam_provider.dart';
 
 class ExamFilterForm extends StatefulWidget {
   const ExamFilterForm(this.filteredExamsTypes, {super.key});
+
   final Map<String, bool> filteredExamsTypes;
 
   @override
@@ -16,17 +18,19 @@ class ExamFilterFormState extends State<ExamFilterForm> {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text(
-        'Definições Filtro de Exames',
+        S.of(context).exams_filter,
         style: Theme.of(context).textTheme.headlineSmall,
       ),
       actions: [
         TextButton(
-          child:
-              Text('Cancelar', style: Theme.of(context).textTheme.bodyMedium),
+          child: Text(
+            S.of(context).cancel,
+            style: Theme.of(context).textTheme.bodyMedium,
+          ),
           onPressed: () => Navigator.pop(context),
         ),
         ElevatedButton(
-          child: const Text('Confirmar'),
+          child: Text(S.of(context).confirm),
           onPressed: () {
             Provider.of<ExamProvider>(context, listen: false)
                 .setFilteredExams(widget.filteredExamsTypes);

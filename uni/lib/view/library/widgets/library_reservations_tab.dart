@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/library_reservation.dart';
 import 'package:uni/model/providers/lazy/library_reservations_provider.dart';
 import 'package:uni/view/lazy_consumer.dart';
@@ -30,17 +31,25 @@ class LibraryReservationsTabView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (reservations == null || reservations!.isEmpty) {
-      return ListView(scrollDirection: Axis.vertical, children: [
-        Center(
+      return ListView(
+        children: [
+          Center(
             heightFactor: 2,
-            child: Text('Não tens salas reservadas',
-                style: Theme.of(context).textTheme.headline6,
-                textAlign: TextAlign.center))
-      ]);
+            child: Text(
+              S.of(context).no_data,
+              style: Theme.of(context).textTheme.titleLarge,
+              textAlign: TextAlign.center,
+            ),
+          )
+        ],
+      );
     }
-    return ListView(shrinkWrap: true, children: [
-      LibraryReservationsList(reservations!),
-    ]);
+    return ListView(
+      shrinkWrap: true,
+      children: [
+        LibraryReservationsList(reservations!),
+      ],
+    );
   }
 }
 
@@ -50,17 +59,23 @@ class LibraryReservationsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<Widget> rooms = [];
+    final rooms = <Widget>[];
 
-    for (int i = 0; i < reservations.length && i < 2; i++) {
-      rooms.add(Container(
+    for (var i = 0; i < reservations.length && i < 2; i++) {
+      rooms.add(
+        Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-              border: Border(
-                  bottom: BorderSide(
-                      color: Theme.of(context).dividerColor, width: 1))),
+            border: Border(
+              bottom: BorderSide(
+                color: Theme.of(context).dividerColor,
+              ),
+            ),
+          ),
           margin: const EdgeInsets.all(8),
-          child: ReservationRow(reservations[i])));
+          child: ReservationRow(reservations[i]),
+        ),
+      );
     }
 
     return Column(children: rooms);

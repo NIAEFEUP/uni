@@ -1,13 +1,12 @@
 /// Private room reservation from the library
 class LibraryReservation {
+  LibraryReservation(this.room, this.startDate, this.duration);
   final String room;
   final DateTime startDate;
   final Duration duration;
 
-  LibraryReservation(this.room, this.startDate, this.duration);
-
   Map<String, dynamic> toMap() {
-    final Map<String, dynamic> map = {
+    final map = <String, dynamic>{
       'room': room,
       'startDate': startDate.toIso8601String(),
       'duration': duration.inMinutes,

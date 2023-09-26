@@ -2,8 +2,8 @@ import 'dart:collection';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/lecture.dart';
-import 'package:uni/model/entities/time_utilities.dart';
 import 'package:uni/model/providers/lazy/lecture_provider.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/common_widgets/date_rectangle.dart';
@@ -11,6 +11,7 @@ import 'package:uni/view/common_widgets/generic_card.dart';
 import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
 import 'package:uni/view/home/widgets/schedule_card_shimmer.dart';
 import 'package:uni/view/lazy_consumer.dart';
+import 'package:uni/view/locale_notifier.dart';
 import 'package:uni/view/schedule/widgets/schedule_slot.dart';
 
 class ScheduleCard extends GenericCard {
@@ -40,7 +41,7 @@ class ScheduleCard extends GenericCard {
         hasContentPredicate: lectureProvider.lectures.isNotEmpty,
         onNullContent: Center(
           child: Text(
-            'Não existem aulas para apresentar',
+            S.of(context).no_classes,
             style: Theme.of(context).textTheme.titleLarge,
             textAlign: TextAlign.center,
           ),
@@ -74,8 +75,9 @@ class ScheduleCard extends GenericCard {
             lastAddedLectureDate.compareTo(lectures[i].startTime) <= 0) {
           rows.add(
             DateRectangle(
-              date: TimeString.getWeekdaysStrings()[
-                  (lectures[i].startTime.weekday - 1) % 7],
+              date:
+                  Provider.of<LocaleNotifier>(context).getWeekdaysWithLocale()[
+                      (lectures[i].startTime.weekday - 1) % 7],
             ),
           );
         }
@@ -90,8 +92,8 @@ class ScheduleCard extends GenericCard {
       rows
         ..add(
           DateRectangle(
-            date: TimeString.getWeekdaysStrings()[
-                lectures[0].startTime.weekday % 7],
+            date: Provider.of<LocaleNotifier>(context)
+                .getWeekdaysWithLocale()[lectures[0].startTime.weekday % 7],
           ),
         )
         ..add(createRowFromLecture(context, lectures[0]));
@@ -116,7 +118,8 @@ class ScheduleCard extends GenericCard {
   }
 
   @override
-  String getTitle() => 'Horário';
+  String getTitle(BuildContext context) =>
+      S.of(context).nav_title(DrawerItem.navSchedule.title);
 
   @override
   Future<Object?> onClick(BuildContext context) =>
