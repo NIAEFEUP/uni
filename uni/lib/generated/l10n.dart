@@ -1028,6 +1028,16 @@ class S {
     );
   }
 
+  /// `of`
+  String get exam_of {
+    return Intl.message(
+      'of',
+      name: 'exam_of',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Other links`
   String get other_links {
     return Intl.message(

@@ -200,6 +200,8 @@
   "@no_selected_exams": {},
   "occurrence_type": "Tipo de ocorrência",
   "@occurrence_type": {},
+  "exam_of": "de",
+  "@exam_of": {},
   "other_links": "Outros links",
   "@other_links": {},
   "pass_change_request": "Por razões de segurança, as palavras-passe têm de ser alteradas periodicamente.",
