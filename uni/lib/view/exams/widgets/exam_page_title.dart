@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:uni/generated/l10n.dart';
+import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/exams/widgets/exam_filter_menu.dart';
 
@@ -12,9 +14,13 @@ class ExamPageTitle extends StatelessWidget {
       alignment: Alignment.center,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: const [
-          PageTitle(name: 'Exames', center: false, pad: false),
-          Material(child: ExamFilterMenu()),
+        children: [
+          PageTitle(
+            name: S.of(context).nav_title(DrawerItem.navExams.title),
+            center: false,
+            pad: false,
+          ),
+          const Material(child: ExamFilterMenu()),
         ],
       ),
     );

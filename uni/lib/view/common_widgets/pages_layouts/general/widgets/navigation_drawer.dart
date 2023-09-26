@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/utils/drawer_items.dart';
+import 'package:uni/view/locale_notifier.dart';
 import 'package:uni/view/theme_notifier.dart';
 
 class AppNavigationDrawer extends StatefulWidget {
@@ -77,13 +79,37 @@ class AppNavigationDrawerState extends State<AppNavigationDrawer> {
       child: Container(
         padding: const EdgeInsets.all(15),
         child: Text(
-          logOutText,
+          S.of(context).logout,
           style: Theme.of(context)
               .textTheme
               .titleLarge!
               .copyWith(color: Theme.of(context).primaryColor),
         ),
       ),
+    );
+  }
+
+  Widget createLocaleBtn() {
+    return Consumer<LocaleNotifier>(
+      builder: (context, localeNotifier, _) {
+        return TextButton(
+          onPressed: () => localeNotifier.setNextLocale(),
+          style: TextButton.styleFrom(
+            elevation: 0,
+            padding: const EdgeInsets.symmetric(horizontal: 5),
+          ),
+          child: Container(
+            padding: const EdgeInsets.all(15),
+            child: Text(
+              localeNotifier.getLocale().localeCode.languageCode.toUpperCase(),
+              style: Theme.of(context)
+                  .textTheme
+                  .titleLarge!
+                  .copyWith(color: Theme.of(context).primaryColor),
+            ),
+          ),
+        );
+      },
     );
   }
 
@@ -116,7 +142,7 @@ class AppNavigationDrawerState extends State<AppNavigationDrawer> {
         title: Container(
           padding: const EdgeInsets.only(bottom: 3, left: 20),
           child: Text(
-            d.title,
+            S.of(context).nav_title(d.title),
             style: TextStyle(
               fontSize: 18,
               color: Theme.of(context).primaryColor,
@@ -156,7 +182,15 @@ class AppNavigationDrawerState extends State<AppNavigationDrawer> {
           ),
           Row(
             children: <Widget>[
-              Expanded(child: createLogoutBtn()),
+              Expanded(
+                child: Align(
+                  child: createLogoutBtn(),
+                ),
+              ),
+              Align(
+                alignment: Alignment.centerRight,
+                child: createLocaleBtn(),
+              ),
               createThemeSwitchBtn()
             ],
           )

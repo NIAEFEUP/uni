@@ -9,7 +9,6 @@
 .buildlog/
 .history
 .svn/
-assets/env/env.json
 *.env
 
 # IntelliJ related
@@ -101,12 +100,14 @@ unlinked_spec.ds
 **/ios/Flutter/flutter_export_environment.sh
 **/ios/ServiceDefinitions.json
 **/ios/Runner/GeneratedPluginRegistrant.*
+**/ios/Podfile
 
 # macOS
 **/Flutter/ephemeral/
 **/Pods/
 **/macos/Flutter/GeneratedPluginRegistrant.swift
 **/macos/Flutter/ephemeral
+**/macos/Podfile
 **/xcuserdata/
 
 # Windows

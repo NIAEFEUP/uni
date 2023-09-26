@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/bus_stop.dart';
 import 'package:uni/model/providers/lazy/bus_stop_provider.dart';
 import 'package:uni/model/request_status.dart';
+import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/bus_stop_next_arrivals/widgets/bus_stop_row.dart';
 import 'package:uni/view/bus_stop_selection/bus_stop_selection.dart';
 import 'package:uni/view/common_widgets/expanded_image_label.dart';
@@ -93,7 +95,7 @@ class NextArrivalsState extends State<NextArrivals> {
         ..add(
           ImageLabel(
             imagePath: 'assets/images/bus.png',
-            label: 'Não percas nenhum autocarro',
+            label: S.of(context).no_bus,
             labelTextStyle: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 17,
@@ -111,7 +113,7 @@ class NextArrivalsState extends State<NextArrivals> {
                     builder: (context) => const BusStopSelectionPage(),
                   ),
                 ),
-                child: const Text('Adicionar'),
+                child: Text(S.of(context).add),
               ),
             ],
           ),
@@ -136,7 +138,9 @@ class NextArrivalsState extends State<NextArrivals> {
   Container getPageTitle() {
     return Container(
       padding: const EdgeInsets.only(bottom: 12),
-      child: const PageTitle(name: 'Autocarros'),
+      child: PageTitle(
+        name: S.of(context).nav_title(DrawerItem.navStops.title),
+      ),
     );
   }
 

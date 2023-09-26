@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:uni/generated/l10n.dart';
+import 'package:uni/model/entities/meal.dart';
 import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/providers/lazy/restaurant_provider.dart';
 import 'package:uni/model/utils/day_of_week.dart';
+import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
 import 'package:uni/view/lazy_consumer.dart';
+import 'package:uni/view/locale_notifier.dart';
 import 'package:uni/view/restaurant/widgets/restaurant_page_card.dart';
 import 'package:uni/view/restaurant/widgets/restaurant_slot.dart';
 
@@ -14,10 +18,10 @@ class RestaurantPageView extends StatefulWidget {
   const RestaurantPageView({super.key});
 
   @override
-  State<StatefulWidget> createState() => _RestaurantPageState();
+  State<StatefulWidget> createState() => _RestaurantPageViewState();
 }
 
-class _RestaurantPageState extends GeneralPageViewState<RestaurantPageView>
+class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
     with SingleTickerProviderStateMixin {
   late List<Restaurant> aggRestaurant;
   late TabController tabController;
@@ -45,8 +49,10 @@ class _RestaurantPageState extends GeneralPageViewState<RestaurantPageView>
                 Container(
                   padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
                   alignment: Alignment.center,
-                  child: const PageTitle(
-                    name: 'Ementas',
+                  child: PageTitle(
+                    name: S
+                        .of(context)
+                        .nav_title(DrawerItem.navRestaurants.title),
                     center: false,
                     pad: false,
                   ),
@@ -64,9 +70,8 @@ class _RestaurantPageState extends GeneralPageViewState<RestaurantPageView>
               builder: () =>
                   createTabViewBuilder(restaurantProvider.restaurants, context),
               hasContentPredicate: restaurantProvider.restaurants.isNotEmpty,
-              onNullContent:
-                  const Center(child: Text('Não há refeições disponíveis.')),
-            )
+              onNullContent: Center(child: Text(S.of(context).no_menus)),
+            ),
           ],
         );
       },
@@ -79,10 +84,7 @@ class _RestaurantPageState extends GeneralPageViewState<RestaurantPageView>
       if (restaurants is List<Restaurant>) {
         restaurantsWidgets = restaurants
             .map(
-              (restaurant) => RestaurantPageCard(
-                restaurant.name,
-                RestaurantDay(restaurant: restaurant, day: dayOfWeek),
-              ),
+              (restaurant) => createRestaurant(context, restaurant, dayOfWeek),
             )
             .toList();
       }
@@ -98,34 +100,42 @@ class _RestaurantPageState extends GeneralPageViewState<RestaurantPageView>
   }
 
   List<Widget> createTabs(BuildContext context) {
+    final daysOfTheWeek =
+        Provider.of<LocaleNotifier>(context).getWeekdaysWithLocale();
     final tabs = <Widget>[];
-
     for (var i = 0; i < DayOfWeek.values.length; i++) {
       tabs.add(
         Tab(
           key: Key('cantine-page-tab-$i'),
-          text: toString(DayOfWeek.values[i]),
+          text: daysOfTheWeek[i],
         ),
       );
     }
-
     return tabs;
   }
 
-  @override
-  Future<void> onRefresh(BuildContext context) {
-    return Provider.of<RestaurantProvider>(context, listen: false)
-        .forceRefresh(context);
+  Widget createRestaurant(
+    BuildContext context,
+    Restaurant restaurant,
+    DayOfWeek dayOfWeek,
+  ) {
+    return RestaurantPageCard(
+      restaurant,
+      createRestaurantByDay(context, restaurant, dayOfWeek),
+    );
   }
-}
 
-class RestaurantDay extends StatelessWidget {
-  const RestaurantDay({required this.restaurant, required this.day, super.key});
-  final Restaurant restaurant;
-  final DayOfWeek day;
+  List<Widget> createRestaurantRows(List<Meal> meals, BuildContext context) {
+    return meals
+        .map((meal) => RestaurantSlot(type: meal.type, name: meal.name))
+        .toList();
+  }
 
-  @override
-  Widget build(BuildContext context) {
+  Widget createRestaurantByDay(
+    BuildContext context,
+    Restaurant restaurant,
+    DayOfWeek day,
+  ) {
     final meals = restaurant.getMealsOfDay(day);
     if (meals.isEmpty) {
       return Container(
@@ -133,11 +143,8 @@ class RestaurantDay extends StatelessWidget {
         key: Key('restaurant-page-day-column-$day'),
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          children: const [
-            SizedBox(height: 10),
-            Center(
-              child: Text('Não há informação disponível sobre refeições'),
-            ),
+          children: [
+            Center(child: Text(S.of(context).no_menu_info)),
           ],
         ),
       );
@@ -147,11 +154,15 @@ class RestaurantDay extends StatelessWidget {
         key: Key('restaurant-page-day-column-$day'),
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          children: meals
-              .map((meal) => RestaurantSlot(type: meal.type, name: meal.name))
-              .toList(),
+          children: createRestaurantRows(meals, context),
         ),
       );
     }
+  }
+
+  @override
+  Future<void> onRefresh(BuildContext context) {
+    return Provider.of<RestaurantProvider>(context, listen: false)
+        .forceRefresh(context);
   }
 }

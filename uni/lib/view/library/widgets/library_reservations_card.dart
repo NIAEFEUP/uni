@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/library_reservation.dart';
 import 'package:uni/model/providers/lazy/library_reservations_provider.dart';
 import 'package:uni/model/request_status.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
+import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/library/widgets/reservation_row.dart';
 
 class LibraryReservationsCard extends GenericCard {
@@ -23,7 +25,7 @@ class LibraryReservationsCard extends GenericCard {
       );
 
   @override
-  String getTitle() => 'Gabinetes Reservados';
+  String getTitle(BuildContext context) => S.of(context).library_reservations;
 
   @override
   void onRefresh(BuildContext context) {
@@ -33,8 +35,8 @@ class LibraryReservationsCard extends GenericCard {
 
   @override
   Widget buildCardContent(BuildContext context) {
-    return Consumer<LibraryReservationsProvider>(
-      builder: (context, reservationsProvider, _) {
+    return LazyConsumer<LibraryReservationsProvider>(
+      builder: (context, reservationsProvider) {
         if (reservationsProvider.status == RequestStatus.busy) {
           return const Center(child: CircularProgressIndicator());
         } else {
@@ -54,7 +56,7 @@ class RoomsList extends StatelessWidget {
     if (reservations.isEmpty) {
       return Center(
         child: Text(
-          'Não tens salas reservadas!',
+          S.of(context).no_data,
           style: Theme.of(context).textTheme.titleLarge,
           textAlign: TextAlign.center,
         ),

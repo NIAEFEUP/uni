@@ -2,20 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/library_reservation.dart';
-import 'package:uni/model/entities/time_utilities.dart';
 import 'package:uni/model/providers/lazy/library_reservations_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/view/common_widgets/toast_message.dart';
+import 'package:uni/view/locale_notifier.dart';
 
 class ReservationRow extends StatelessWidget {
   ReservationRow(this.reservation, {super.key}) {
     hoursStart = DateFormat('HH:mm').format(reservation.startDate);
     hoursEnd = DateFormat('HH:mm')
         .format(reservation.startDate.add(reservation.duration));
-    weekDay = TimeString.getWeekdaysStrings(
-      startMonday: false,
-    )[reservation.startDate.weekday];
     day = DateFormat('dd').format(reservation.startDate);
     initializeDateFormatting();
     month = DateFormat('MMMM', 'pt').format(reservation.startDate);
@@ -29,6 +27,9 @@ class ReservationRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final weekdays =
+        Provider.of<LocaleNotifier>(context).getWeekdaysWithLocale();
+    weekDay = weekdays[reservation.startDate.weekday];
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
@@ -97,14 +98,14 @@ class _ReservationRemoveButtonState extends State<ReservationRemoveButton> {
       iconSize: 24,
       color: Colors.grey,
       alignment: Alignment.centerRight,
-      tooltip: 'Cancelar reserva',
+      tooltip: S.of(context).library_cancel_tooltip,
       onPressed: () {
         showDialog<AlertDialog>(
           context: context,
           builder: (BuildContext toastContext) {
             return AlertDialog(
               content: Text(
-                'Queres cancelar este pedido?',
+                S.of(context).library_cancel_reservation,
                 style: Theme.of(context).textTheme.titleMedium,
               ),
               actions: <Widget>[
@@ -113,10 +114,10 @@ class _ReservationRemoveButtonState extends State<ReservationRemoveButton> {
                   children: [
                     TextButton(
                       onPressed: () => Navigator.of(toastContext).pop(),
-                      child: const Text('Voltar'),
+                      child: Text(S.of(context).go_back),
                     ),
                     ElevatedButton(
-                      child: const Text('Sim'),
+                      child: Text(S.of(context).yes),
                       onPressed: () {
                         Navigator.of(context, rootNavigator: true).pop();
                         cancelReservation(widget.reservation.id);
@@ -151,11 +152,14 @@ class _ReservationRemoveButtonState extends State<ReservationRemoveButton> {
     bool success = true,
   }) async {
     if (success) {
-      await ToastMessage.success(widget.context, 'A reserva foi cancelada!');
+      await ToastMessage.success(
+        widget.context,
+        S.of(context).library_cancel_success,
+      );
     } else {
       await ToastMessage.error(
         widget.context,
-        'Ocorreu um erro ao cancelar a reserva!',
+        S.of(context).library_cancel_success,
       );
     }
   }

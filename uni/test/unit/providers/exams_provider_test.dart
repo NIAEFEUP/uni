@@ -1,9 +1,9 @@
-// @dart=2.10
-
 import 'package:flutter_test/flutter_test.dart';
+import 'package:http/http.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tuple/tuple.dart';
 import 'package:uni/controller/networking/network_router.dart';
+import 'package:uni/controller/parsers/parser_exams.dart';
 import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/entities/exam.dart';
@@ -12,12 +12,15 @@ import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/lazy/exam_provider.dart';
 import 'package:uni/model/request_status.dart';
 
-import 'mocks.dart';
+import '../../mocks/unit/providers/exams_provider_test.mocks.dart';
 
+@GenerateNiceMocks(
+  [MockSpec<Client>(), MockSpec<ParserExams>(), MockSpec<Response>()],
+)
 void main() {
   group('ExamProvider', () {
     final mockClient = MockClient();
-    final parserExams = ParserExamsMock();
+    final parserExams = MockParserExams();
     final mockResponse = MockResponse();
 
     final sopeCourseUnit = CourseUnit(
@@ -57,8 +60,6 @@ void main() {
       'feup',
     );
 
-    const userPersistentInfo = Tuple2<String, String>('', '');
-
     final profile = Profile()..courses = [Course(id: 7474)];
     final session = Session(username: '', cookies: '', faculties: ['feup']);
     final userUcs = [sopeCourseUnit, sdisCourseUnit];
@@ -68,7 +69,7 @@ void main() {
         .thenAnswer((_) async => mockResponse);
     when(mockResponse.statusCode).thenReturn(200);
 
-    ExamProvider provider;
+    late ExamProvider provider;
 
     setUp(() {
       provider = ExamProvider();
@@ -81,10 +82,10 @@ void main() {
 
       await provider.fetchUserExams(
         parserExams,
-        userPersistentInfo,
         profile,
         session,
         userUcs,
+        persistentSession: false,
       );
 
       expect(provider.exams.isNotEmpty, true);
@@ -98,10 +99,10 @@ void main() {
 
       await provider.fetchUserExams(
         parserExams,
-        userPersistentInfo,
         profile,
         session,
         userUcs,
+        persistentSession: false,
       );
 
       expect(provider.status, RequestStatus.successful);
@@ -128,10 +129,10 @@ When given three exams but one is to be parsed out,
 
       await provider.fetchUserExams(
         parserExams,
-        userPersistentInfo,
         profile,
         session,
         userUcs,
+        persistentSession: false,
       );
 
       expect(provider.status, RequestStatus.successful);
@@ -144,10 +145,10 @@ When given three exams but one is to be parsed out,
 
       await provider.fetchUserExams(
         parserExams,
-        userPersistentInfo,
         profile,
         session,
         userUcs,
+        persistentSession: false,
       );
       expect(provider.status, RequestStatus.failed);
     });
@@ -170,10 +171,10 @@ When given three exams but one is to be parsed out,
 
       await provider.fetchUserExams(
         parserExams,
-        userPersistentInfo,
         profile,
         session,
         userUcs,
+        persistentSession: false,
       );
 
       expect(provider.status, RequestStatus.successful);
@@ -198,10 +199,10 @@ When given three exams but one is to be parsed out,
 
       await provider.fetchUserExams(
         parserExams,
-        userPersistentInfo,
         profile,
         session,
         userUcs,
+        persistentSession: false,
       );
 
       expect(provider.status, RequestStatus.successful);
@@ -226,10 +227,10 @@ When given three exams but one is to be parsed out,
 
       await provider.fetchUserExams(
         parserExams,
-        userPersistentInfo,
         profile,
         session,
         userUcs,
+        persistentSession: false,
       );
 
       expect(provider.status, RequestStatus.successful);

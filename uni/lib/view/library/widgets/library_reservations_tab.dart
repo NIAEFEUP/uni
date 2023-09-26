@@ -2,6 +2,7 @@ import 'package:duration_picker/duration_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/library_reservation.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/lazy/library_reservations_provider.dart';
@@ -41,7 +42,7 @@ class LibraryReservationsTabView extends StatelessWidget {
           Center(
             heightFactor: 2,
             child: Text(
-              'Não tens salas reservadas',
+              S.of(context).no_data,
               style: Theme.of(context).textTheme.titleLarge,
               textAlign: TextAlign.center,
             ),

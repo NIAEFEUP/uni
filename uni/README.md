@@ -4,18 +4,6 @@
 
 This is a Flutter project, totally compatible with Android and iOS. To run it, you need to have Flutter installed on your machine. If you don't, you can follow the instructions on https://flutter.dev/docs/get-started/install.
 
-### Further requirements
-
-In order to submit bug reports to the Github API (needed in order to enable in-app bug reporting), a Github Personal Access Token is required. If you don't have one, you can create it on https://github.com/settings/tokens. The only permission it needs is **repo > public_repo**.
-
-The token is read from the file assets/env/env.json, which you may need to create, and must be in the following format:
-
-```json
-{
-  "gh_token" : "your super secret token"
-}
-```
-
 ### Automated formatting
 
 In order to contribute, you must format your changed files using `dart format` manually or enabing _formatting on save_ using your IDE ([VSCode or IntelliJ](https://docs.flutter.dev/tools/formatting)). Alternatively, you can install the git pre-commit hook that formats your changed files when you commit, doing the following command at the **root directory of the repository**:
@@ -29,6 +17,44 @@ In order to remove it, is it as simple as running the following command, from th
 ```bash
  rm .git/hooks/pre-commit
 ```
+
+### Generated files
+
+Flutter doesn't support runtime reflection. In order to circumvent these limitations, we use **automatic code generation** or **static metaprogramming** for things like **mocks** and other possible usecases. By convention, you should **always commit** the generated `.dart` files into the repository. 
+
+Dart leverages annotations to signal the `build_runner` that it should generate some code. They look something like this:
+```dart
+  import 'package:mockito/annotations.dart'
+
+  class Cat{
+  }
+
+  @GenerateNiceMocks([MockSpec<Cat>()])
+  void main(){
+
+  }
+```
+In this case, `build_runner` will detect that `GenerateNiceMocks` is a generator function from `mockito` and will generate code to a different file.
+
+In order to run the `build_runner` once:
+```sh
+dart run build_runner build
+```
+
+But you can also watch for changes in `.dart` files and automatically run the `build_runner` on those file changes (useful if you find yourself in need to generate code very frequently):
+```sh
+dart run build_runner watch
+```
+
+## Translation files
+
+Intl package allows the internationalization of the app, currently supporting Portuguese ('pt_PT') and English ('en_EN). This package creates `.arb` files (one for each language), mapping a key to the correspondent translated string. 
+In order to access those translations through getters, you must add the translations you want to the `.arb` files and run:
+```
+dart pub global run intl_utils:generate
+```
+This will generate `.dart` files with the getters you need to access the translations.
+You must include `'package:uni/generated/l10n.dart'` and, depending on the locale of the application, `S.of(context).{key_of_translation}` will get you the translated string.
 
 ## Project structure
 
