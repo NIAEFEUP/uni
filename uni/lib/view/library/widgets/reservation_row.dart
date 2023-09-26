@@ -153,7 +153,9 @@ class _ReservationRemoveButtonState extends State<ReservationRemoveButton> {
   }) async {
     if (success) {
       await ToastMessage.success(
-          widget.context, S.of(context).library_cancel_success,);
+        widget.context,
+        S.of(context).library_cancel_success,
+      );
     } else {
       await ToastMessage.error(
         widget.context,
