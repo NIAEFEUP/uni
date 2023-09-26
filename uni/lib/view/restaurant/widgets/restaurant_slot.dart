@@ -2,60 +2,78 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class RestaurantSlot extends StatelessWidget {
-  final String type;
-  final String name;
-
   const RestaurantSlot({
-    Key? key,
     required this.type,
     required this.name,
-  }) : super(key: key);
+    super.key,
+  });
+  final String type;
+  final String name;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(
-      top: 10.0, bottom: 10.0, left: 10, right: 22.0),
+      padding: const EdgeInsets.only(top: 10, bottom: 10, left: 10, right: 22),
       child: Container(
-      key: Key('cantine-slot-type-$type'),
-      child: Row(
-
-        children: [
-          Container(
-              margin: const EdgeInsets.fromLTRB(0, 0, 8.0, 0),
+        key: Key('cantine-slot-type-$type'),
+        child: Row(
+          children: [
+            Container(
+              margin: const EdgeInsets.fromLTRB(0, 0, 8, 0),
               child: SizedBox(
                 width: 20,
-                child: createCantineSlotType(context),
-              )),Flexible(
+                child: RestaurantSlotType(type: type),
+              ),
+            ),
+            Flexible(
               child: Text(
                 name,
                 style: Theme.of(context).textTheme.bodyMedium,
                 textAlign: TextAlign.left,
-              )
-          )
-        ],
-      )),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class RestaurantSlotType extends StatelessWidget {
+  const RestaurantSlotType({required this.type, super.key});
+  final String type;
+
+  static const mealTypeIcons = {
+    'sopa': 'assets/meal-icons/soup.svg',
+    'carne': 'assets/meal-icons/chicken.svg',
+    'peixe': 'assets/meal-icons/fish.svg',
+    'dieta': 'assets/meal-icons/diet.svg',
+    'vegetariano': 'assets/meal-icons/vegetarian.svg',
+    'salada': 'assets/meal-icons/salad.svg',
+  };
+
+  @override
+  Widget build(BuildContext context) {
+    final icon = getIcon();
+    return Tooltip(
+      message: type,
+      child: icon != ''
+          ? SvgPicture.asset(
+              icon,
+              colorFilter: ColorFilter.mode(
+                Theme.of(context).primaryColor,
+                BlendMode.srcIn,
+              ),
+              height: 20,
+            )
+          : null,
     );
   }
 
-  Widget createCantineSlotType(context) {
-    final mealsType = type.toLowerCase();
-
-    String icon;
-    if (mealsType.contains("carne")) {icon = 'assets/icons-cantines/chicken.svg';}
-    else if (mealsType.contains("peixe")) {icon = 'assets/icons-cantines/fish.svg';}
-    else if (mealsType.contains("vegetariano")) {icon = 'assets/icons-cantines/salad.svg';}
-    else if (mealsType.contains("dieta")) {icon = 'assets/icons-cantines/diet.svg';}
-    else {icon = '';}
-
-    return Tooltip(
-      message: type,
-        child: SvgPicture.asset(
-      color: Theme.of(context).primaryColor,
-      icon,
-      height: 20,
-    ));
-
-  }
-
+  String getIcon() => mealTypeIcons.entries
+      .firstWhere(
+        (element) => type.toLowerCase().contains(element.key),
+        orElse: () => const MapEntry('', ''),
+      )
+      .value;
 }

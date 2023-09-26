@@ -1,46 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:intl/intl.dart';
 import 'package:uni/view/schedule/widgets/schedule_slot.dart';
 
-import '../../../testable_widget.dart';
-
-void testScheduleSlot(String subject, String begin, String end, String rooms,
-    String typeClass, String teacher) {
-  final scheduleSlotTimeKey = 'schedule-slot-time-$begin-$end';
-  expect(
-      find.descendant(
-          of: find.byKey(Key(scheduleSlotTimeKey)), matching: find.text(begin)),
-      findsOneWidget);
-  expect(
-      find.descendant(
-          of: find.byKey(Key(scheduleSlotTimeKey)), matching: find.text(end)),
-      findsOneWidget);
-  expect(
-      find.descendant(
-          of: find.byKey(Key(scheduleSlotTimeKey)),
-          matching: find.text(subject)),
-      findsOneWidget);
-  expect(
-      find.descendant(
-          of: find.byKey(Key(scheduleSlotTimeKey)),
-          matching: find.text(' ($typeClass)')),
-      findsOneWidget);
-  expect(true, true);
-}
+import '../../../test_widget.dart';
 
 void main() {
-  group('ScheduleSlot', () {
+  group('Schedule Slot', () {
     const subject = 'SOPE';
-    const begin = '10:00';
-    const end = '12:00';
+    final begin = DateTime(2021, 06, 01, 10);
+    final beginText = DateFormat('HH:mm').format(begin);
+    final end = DateTime(2021, 06, 01, 12);
+    final endText = DateFormat('HH:mm').format(end);
     const rooms = 'B315';
     const typeClass = 'T';
     const teacher = 'JAS';
     const occurrId = 12345;
 
     testWidgets('When given a single room', (WidgetTester tester) async {
-      final widget = makeTestableWidget(
-          child: const ScheduleSlot(
+      final widget = ScheduleSlot(
         subject: subject,
         typeClass: typeClass,
         rooms: rooms,
@@ -48,10 +26,51 @@ void main() {
         end: end,
         teacher: teacher,
         occurrId: occurrId,
-      ));
+      );
 
-      await tester.pumpWidget(widget);
-      testScheduleSlot(subject, begin, end, rooms, typeClass, teacher);
+      await tester.pumpWidget(testableWidget(widget));
+      await tester.pump();
+
+      testScheduleSlot(subject, beginText, endText, rooms, typeClass, teacher);
     });
   });
+}
+
+void testScheduleSlot(
+  String subject,
+  String begin,
+  String end,
+  String rooms,
+  String typeClass,
+  String teacher,
+) {
+  final scheduleSlotTimeKey = 'schedule-slot-time-$begin-$end';
+  expect(
+    find.descendant(
+      of: find.byKey(Key(scheduleSlotTimeKey)),
+      matching: find.text(begin),
+    ),
+    findsOneWidget,
+  );
+  expect(
+    find.descendant(
+      of: find.byKey(Key(scheduleSlotTimeKey)),
+      matching: find.text(end),
+    ),
+    findsOneWidget,
+  );
+  expect(
+    find.descendant(
+      of: find.byKey(Key(scheduleSlotTimeKey)),
+      matching: find.text(subject),
+    ),
+    findsOneWidget,
+  );
+  expect(
+    find.descendant(
+      of: find.byKey(Key(scheduleSlotTimeKey)),
+      matching: find.text(' ($typeClass)'),
+    ),
+    findsOneWidget,
+  );
 }

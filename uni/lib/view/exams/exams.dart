@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:uni/model/app_state.dart';
+import 'package:provider/provider.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/exam.dart';
+import 'package:uni/model/providers/lazy/exam_provider.dart';
+import 'package:uni/view/common_widgets/expanded_image_label.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
-import 'package:uni/view/exams/widgets/exam_page_title.dart';
 import 'package:uni/view/common_widgets/row_container.dart';
-import 'package:uni/view/exams/widgets/exam_row.dart';
 import 'package:uni/view/exams/widgets/day_title.dart';
+import 'package:uni/view/exams/widgets/exam_page_title.dart';
+import 'package:uni/view/exams/widgets/exam_row.dart';
+import 'package:uni/view/lazy_consumer.dart';
+import 'package:uni/view/locale_notifier.dart';
 
 class ExamsPageView extends StatefulWidget {
   const ExamsPageView({super.key});
@@ -17,60 +21,45 @@ class ExamsPageView extends StatefulWidget {
 
 /// Tracks the state of `ExamsLists`.
 class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
-  final double borderRadius = 10.0;
+  final double borderRadius = 10;
 
   @override
   Widget getBody(BuildContext context) {
-    return StoreConnector<AppState, List<dynamic>?>(
-      converter: (store) {
-        final List<Exam> exams = store.state.content['exams'];
-        final List<String> hiddenExams =
-            store.state.content['hiddenExams'] ?? <String>[];
-        for (var exam in exams) {
-          exam.isHidden = hiddenExams.contains(exam.id);
-        }
-        final Map<String, bool> filteredExams =
-            store.state.content['filteredExams'] ?? [];
-        return exams
-            .where((exam) =>
-                filteredExams[Exam.getExamTypeLong(exam.type)] ?? true)
-            .toList();
+    return LazyConsumer<ExamProvider>(
+      builder: (context, examProvider) {
+        return ListView(
+          children: <Widget>[
+            Column(
+              children:
+                  createExamsColumn(context, examProvider.getFilteredExams()),
+            )
+          ],
+        );
       },
-      builder: (context, exams) {
-        return ExamsList(exams: exams as List<Exam>);
-      },
-    );
-  }
-}
-
-/// Manages the 'Exams' section in the user's personal area and 'Exams Map'.
-class ExamsList extends StatelessWidget {
-  final List<Exam> exams;
-
-  const ExamsList({Key? key, required this.exams}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return ListView(
-      children: <Widget>[
-        Column(
-          mainAxisSize: MainAxisSize.max,
-          children: createExamsColumn(context, exams),
-        )
-      ],
     );
   }
 
   /// Creates a column with all the user's exams.
-  List<Widget> createExamsColumn(context, List<Exam> exams) {
-    final List<Widget> columns = <Widget>[];
-    columns.add(const ExamPageTitle());
+  List<Widget> createExamsColumn(BuildContext context, List<Exam> exams) {
+    final columns = <Widget>[const ExamPageTitle()];
 
     if (exams.isEmpty) {
-      columns.add(Center(
-        heightFactor: 2,
-        child: Text('Não possui exames marcados.',
-            style: Theme.of(context).textTheme.headline6),
-      ));
+      columns.add(
+        Center(
+          heightFactor: 1.2,
+          child: ImageLabel(
+            imagePath: 'assets/images/vacation.png',
+            label: S.of(context).no_exams_label,
+            labelTextStyle: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            sublabel: S.of(context).no_exams,
+            sublabelTextStyle: const TextStyle(fontSize: 15),
+          ),
+        ),
+      );
       return columns;
     }
 
@@ -79,9 +68,9 @@ class ExamsList extends StatelessWidget {
       return columns;
     }
 
-    final List<Exam> currentDayExams = <Exam>[];
+    final currentDayExams = <Exam>[];
 
-    for (int i = 0; i < exams.length; i++) {
+    for (var i = 0; i < exams.length; i++) {
       if (i + 1 >= exams.length) {
         if (exams[i].begin.day == exams[i - 1].begin.day &&
             exams[i].begin.month == exams[i - 1].begin.month) {
@@ -90,8 +79,9 @@ class ExamsList extends StatelessWidget {
           if (currentDayExams.isNotEmpty) {
             columns.add(createExamCard(context, currentDayExams));
           }
-          currentDayExams.clear();
-          currentDayExams.add(exams[i]);
+          currentDayExams
+            ..clear()
+            ..add(exams[i]);
         }
         columns.add(createExamCard(context, currentDayExams));
         break;
@@ -108,7 +98,7 @@ class ExamsList extends StatelessWidget {
     return columns;
   }
 
-  Widget createExamCard(context, exams) {
+  Widget createExamCard(BuildContext context, List<Exam> exams) {
     final keyValue = exams.map((exam) => exam.toString()).join();
     return Container(
       key: Key(keyValue),
@@ -118,31 +108,39 @@ class ExamsList extends StatelessWidget {
     );
   }
 
-  Widget createExamsCards(context, List<Exam> exams) {
-    final List<Widget> examCards = <Widget>[];
-    examCards.add(DayTitle(
+  Widget createExamsCards(BuildContext context, List<Exam> exams) {
+    final locale = Provider.of<LocaleNotifier>(context).getLocale();
+    final examCards = <Widget>[
+      DayTitle(
         day: exams[0].begin.day.toString(),
-        weekDay: exams[0].weekDay,
-        month: exams[0].month));
-    for (int i = 0; i < exams.length; i++) {
+        weekDay: exams[0].weekDay(locale),
+        month: exams[0].month(locale),
+      ),
+    ];
+    for (var i = 0; i < exams.length; i++) {
       examCards.add(createExamContext(context, exams[i]));
     }
     return Column(children: examCards);
   }
 
-  Widget createExamContext(context, Exam exam) {
-    final keyValue = '${exam.toString()}-exam';
+  Widget createExamContext(BuildContext context, Exam exam) {
+    final isHidden =
+        Provider.of<ExamProvider>(context).hiddenExams.contains(exam.id);
     return Container(
-        key: Key(keyValue),
-        margin: const EdgeInsets.fromLTRB(12, 4, 12, 0),
-        child: RowContainer(
-            color: exam.isHighlighted()
-                ? Theme.of(context).hintColor
-                : Theme.of(context).scaffoldBackgroundColor,
-            child: ExamRow(
-              exam: exam,
-              teacher: '',
-              mainPage: false,
-            )));
+      key: Key('$exam-exam'),
+      margin: const EdgeInsets.fromLTRB(12, 4, 12, 0),
+      child: RowContainer(
+        color: isHidden
+            ? Theme.of(context).hintColor
+            : Theme.of(context).scaffoldBackgroundColor,
+        child: ExamRow(exam: exam, teacher: '', mainPage: false),
+      ),
+    );
+  }
+
+  @override
+  Future<void> onRefresh(BuildContext context) async {
+    return Provider.of<ExamProvider>(context, listen: false)
+        .forceRefresh(context);
   }
 }

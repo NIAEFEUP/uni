@@ -1,129 +1,111 @@
 import 'package:logger/logger.dart';
-import 'package:uni/model/entities/time_utilities.dart';
 
 /// Stores information about a lecture.
 class Lecture {
-  String subject;
-  String startTime;
-  String endTime;
-  String typeClass;
-  String room;
-  String teacher;
-  String classNumber;
-  int day;
-  int blocks;
-  int startTimeSeconds;
-  int occurrId;
-
   /// Creates an instance of the class [Lecture].
   Lecture(
-      this.subject,
-      this.typeClass,
-      this.day,
-      this.blocks,
-      this.room,
-      this.teacher,
-      this.classNumber,
-      int startTimeHours,
-      int startTimeMinutes,
-      int endTimeHours,
-      int endTimeMinutes,
-      this.occurrId)
-      : startTime = '${startTimeHours.toString().padLeft(2, '0')}h'
-            '${startTimeMinutes.toString().padLeft(2, '0')}',
-        endTime = '${endTimeHours.toString().padLeft(2, '0')}h'
-            '${endTimeMinutes.toString().padLeft(2, '0')}',
-        startTimeSeconds = 0;
+    this.subject,
+    this.typeClass,
+    this.startTime,
+    this.endTime,
+    this.blocks,
+    this.room,
+    this.teacher,
+    this.classNumber,
+    this.occurrId,
+  );
 
   factory Lecture.fromApi(
-      String subject,
-      String typeClass,
-      int day,
-      int startTimeSeconds,
-      int blocks,
-      String room,
-      String teacher,
-      String classNumber,
-      int occurrId) {
-    final startTimeHours = (startTimeSeconds ~/ 3600);
-    final startTimeMinutes = ((startTimeSeconds % 3600) ~/ 60);
-    final endTimeSeconds = 60 * 30 * blocks + startTimeSeconds;
-    final endTimeHours = (endTimeSeconds ~/ 3600);
-    final endTimeMinutes = ((endTimeSeconds % 3600) ~/ 60);
+    String subject,
+    String typeClass,
+    DateTime startTime,
+    int blocks,
+    String room,
+    String teacher,
+    String classNumber,
+    int occurrId,
+  ) {
+    final endTime = startTime.add(Duration(minutes: 30 * blocks));
     final lecture = Lecture(
-        subject,
-        typeClass,
-        day,
-        blocks,
-        room,
-        teacher,
-        classNumber,
-        startTimeHours,
-        startTimeMinutes,
-        endTimeHours,
-        endTimeMinutes,
-        occurrId);
-    lecture.startTimeSeconds = startTimeSeconds;
+      subject,
+      typeClass,
+      startTime,
+      endTime,
+      blocks,
+      room,
+      teacher,
+      classNumber,
+      occurrId,
+    );
     return lecture;
   }
 
   factory Lecture.fromHtml(
-      String subject,
-      String typeClass,
-      int day,
-      String startTime,
-      int blocks,
-      String room,
-      String teacher,
-      String classNumber,
-      int occurrId) {
-    final startTimeHours = int.parse(startTime.substring(0, 2));
-    final startTimeMinutes = int.parse(startTime.substring(3, 5));
-    final endTimeHours =
-        (startTimeMinutes + (blocks * 30)) ~/ 60 + startTimeHours;
-    final endTimeMinutes = (startTimeMinutes + (blocks * 30)) % 60;
+    String subject,
+    String typeClass,
+    DateTime day,
+    String startTimeString,
+    int blocks,
+    String room,
+    String teacher,
+    String classNumber,
+    int occurrId,
+  ) {
+    final startTime = day.add(
+      Duration(
+        hours: int.parse(startTimeString.substring(0, 2)),
+        minutes: int.parse(startTimeString.substring(3, 5)),
+      ),
+    );
+    final endTime = startTime.add(Duration(minutes: 30 * blocks));
     return Lecture(
-        subject,
-        typeClass,
-        day,
-        blocks,
-        room,
-        teacher,
-        classNumber,
-        startTimeHours,
-        startTimeMinutes,
-        endTimeHours,
-        endTimeMinutes,
-        occurrId);
+      subject,
+      typeClass,
+      startTime,
+      endTime,
+      blocks,
+      room,
+      teacher,
+      classNumber,
+      occurrId,
+    );
   }
 
   /// Clones a lecture from the api.
-  static Lecture clone(Lecture lec) {
+  factory Lecture.clone(Lecture lec) {
     return Lecture.fromApi(
-        lec.subject,
-        lec.typeClass,
-        lec.day,
-        lec.startTimeSeconds,
-        lec.blocks,
-        lec.room,
-        lec.teacher,
-        lec.classNumber,
-        lec.occurrId);
+      lec.subject,
+      lec.typeClass,
+      lec.startTime,
+      lec.blocks,
+      lec.room,
+      lec.teacher,
+      lec.classNumber,
+      lec.occurrId,
+    );
   }
 
   /// Clones a lecture from the html.
-  static Lecture cloneHtml(Lecture lec) {
-    return Lecture.fromHtml(lec.subject, lec.typeClass, lec.day, lec.startTime,
-        lec.blocks, lec.room, lec.teacher, lec.classNumber, lec.occurrId);
+  factory Lecture.cloneHtml(Lecture lec) {
+    return Lecture.clone(lec);
   }
+
+  String subject;
+  String typeClass;
+  String room;
+  String teacher;
+  String classNumber;
+  DateTime startTime;
+  DateTime endTime;
+  int blocks;
+  int occurrId;
 
   /// Converts this lecture to a map.
   Map<String, dynamic> toMap() {
     return {
       'subject': subject,
       'typeClass': typeClass,
-      'day': day,
-      'startTime': startTime,
+      'startDateTime': startTime.toIso8601String(),
       'blocks': blocks,
       'room': room,
       'teacher': teacher,
@@ -133,27 +115,36 @@ class Lecture {
   }
 
   /// Prints the data in this lecture to the [Logger] with an INFO level.
-  printLecture() {
-    Logger().i('$subject $typeClass');
-    Logger().i('${TimeString.getWeekdaysStrings()[day]} $startTime $endTime $blocks blocos');
-    Logger().i('$room  $teacher\n');
+  void printLecture() {
+    Logger().i(toString());
+  }
+
+  @override
+  String toString() {
+    return '$subject $typeClass\n$startTime $endTime $blocks blocos\n $room  '
+        '$teacher\n';
   }
 
   /// Compares the date and time of two lectures.
   int compare(Lecture other) {
-    if (day == other.day) {
-      return startTime.compareTo(other.startTime);
-    } else {
-      return day.compareTo(other.day);
-    }
+    return startTime.compareTo(other.startTime);
   }
 
   @override
-  int get hashCode => Object.hash(subject, startTime, endTime, typeClass, room,
-      teacher, day, blocks, startTimeSeconds, occurrId);
+  int get hashCode => Object.hash(
+        subject,
+        startTime,
+        endTime,
+        typeClass,
+        room,
+        teacher,
+        startTime,
+        blocks,
+        occurrId,
+      );
 
   @override
-  bool operator ==(other) =>
+  bool operator ==(Object other) =>
       other is Lecture &&
       subject == other.subject &&
       startTime == other.startTime &&
@@ -161,8 +152,6 @@ class Lecture {
       typeClass == other.typeClass &&
       room == other.room &&
       teacher == other.teacher &&
-      day == other.day &&
       blocks == other.blocks &&
-      startTimeSeconds == other.startTimeSeconds &&
       occurrId == other.occurrId;
 }

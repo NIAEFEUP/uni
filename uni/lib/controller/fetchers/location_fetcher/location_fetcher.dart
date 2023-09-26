@@ -1,35 +1,43 @@
 import 'dart:convert';
+
 import 'package:latlong2/latlong.dart';
-import 'package:uni/model/app_state.dart';
-import 'package:redux/redux.dart';
 import 'package:uni/model/entities/location.dart';
 import 'package:uni/model/entities/location_group.dart';
 
 abstract class LocationFetcher {
-  Future<List<LocationGroup>> getLocations(Store<AppState> store);
+  Future<List<LocationGroup>> getLocations();
 
   Future<List<LocationGroup>> getFromJSON(String jsonStr) async {
-    final Map<String, dynamic> json = jsonDecode(jsonStr);
-    final List<dynamic> groupsMap = json['data'];
-    final List<LocationGroup> groups = [];
+    final json = jsonDecode(jsonStr) as Map<String, dynamic>;
+    final groupsMap = json['data'] as List<dynamic>;
+    final groups = <LocationGroup>[];
 
-    for (Map<String, dynamic> groupMap in groupsMap) {
-      final int id = groupMap['id'];
-      final double lat = groupMap['lat'];
-      final double lng = groupMap['lng'];
-      final bool isFloorless = groupMap['isFloorless'];
+    for (final groupMap in groupsMap) {
+      final map = groupMap as Map<String, dynamic>;
+      final id = map['id'] as int;
+      final lat = map['lat'] as double;
+      final lng = map['lng'] as double;
+      final isFloorless = map['isFloorless'] as bool;
 
-      final Map<String, dynamic> locationsMap = groupMap['locations'];
+      final locationsMap = map['locations'] as Map<String, dynamic>;
 
-      final List<Location> locations = [];
+      final locations = <Location>[];
       locationsMap.forEach((key, value) {
-        final int floor = int.parse(key);
-        value.forEach((locationJson) {
-          locations.add(Location.fromJSON(locationJson, floor));
-        });
+        final floor = int.parse(key);
+        for (final locationJson in value as List) {
+          locations.add(
+            Location.fromJSON(locationJson as Map<String, dynamic>, floor),
+          );
+        }
       });
-      groups.add(LocationGroup(LatLng(lat, lng),
-          locations: locations, isFloorless: isFloorless, id: id));
+      groups.add(
+        LocationGroup(
+          LatLng(lat, lng),
+          locations: locations,
+          isFloorless: isFloorless,
+          id: id,
+        ),
+      );
     }
 
     return groups;

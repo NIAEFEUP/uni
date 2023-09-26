@@ -1,36 +1,6 @@
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
-
-enum WeekDays {
-  monday("Segunda"),
-  tuesday("Terça"),
-  wednesday("Quarta"),
-  thursday("Quinta"),
-  friday("Sexta"),
-  saturday("Sábado"),
-  sunday("Domingo");
-
-  final String day;
-  const WeekDays(this.day);
-}
-
-enum Months {
-  january("janeiro"),
-  february("fevereiro"),
-  march("março"),
-  april("abril"),
-  may("maio"),
-  june("junho"),
-  july("julho"),
-  august("agosto"),
-  september("setembro"),
-  october("outubro"),
-  november("novembro"),
-  december("dezembro");
-
-  final String month;
-  const Months(this.month);
-}
+import 'package:uni/model/entities/app_locale.dart';
 
 /// Manages a generic Exam.
 ///
@@ -39,16 +9,34 @@ enum Months {
 /// - The Exam `subject`
 /// - A List with the `rooms` in which the Exam takes place
 /// - The Exam `type`
-
 class Exam {
-  late final DateTime begin;
-  late final DateTime end;
-  late final String id;
-  late final String subject;
-  late final List<String> rooms;
-  late final String type;
-  late final String faculty;
-  bool isHidden = false;
+  Exam(
+    this.id,
+    this.begin,
+    this.end,
+    this.subject,
+    this.rooms,
+    this.type,
+    this.faculty,
+  );
+
+  Exam.secConstructor(
+    this.id,
+    this.subject,
+    this.begin,
+    this.end,
+    String rooms,
+    this.type,
+    this.faculty,
+  ) : rooms = rooms.split(',');
+
+  final DateTime begin;
+  final DateTime end;
+  final String id;
+  final String subject;
+  final List<String> rooms;
+  final String type;
+  final String faculty;
 
   static Map<String, String> types = {
     'Mini-testes': 'MT',
@@ -58,35 +46,35 @@ class Exam {
     'Port.Est.Especiais': 'EE',
     'Exames ao abrigo de estatutos especiais': 'EAE'
   };
-
-  Exam(this.id, this.begin, this.end, this.subject, this.rooms, this.type, this.faculty);
   static List<String> displayedTypes = types.keys.toList().sublist(0, 4);
-
-
-  Exam.secConstructor(
-      this.id, this.subject, this.begin, this.end, String rooms, this.type,this.faculty) {
-    this.rooms = rooms.split(',');
-  }
 
   /// Converts this exam to a map.
   Map<String, String> toMap() {
     return {
       'id': id,
       'subject': subject,
-      'begin': DateFormat("yyyy-MM-dd HH:mm:ss").format(begin),
-      'end': DateFormat("yyyy-MM-dd HH:mm:ss").format(end),
+      'begin': DateFormat('yyyy-MM-dd HH:mm:ss').format(begin),
+      'end': DateFormat('yyyy-MM-dd HH:mm:ss').format(end),
       'rooms': rooms.join(','),
       'examType': type,
-      'faculty':faculty
+      'faculty': faculty
     };
   }
 
   /// Returns whether or not this exam has already ended.
   bool hasEnded() => DateTime.now().compareTo(end) >= 0;
 
-  String get weekDay => WeekDays.values[begin.weekday - 1].day;
+  String weekDay(AppLocale locale) {
+    return DateFormat.EEEE(locale.localeCode.languageCode)
+        .dateSymbols
+        .WEEKDAYS[begin.weekday - 1];
+  }
 
-  String get month => Months.values[begin.month - 1].month;
+  String month(AppLocale locale) {
+    return DateFormat.EEEE(locale.localeCode.languageCode)
+        .dateSymbols
+        .MONTHS[begin.month - 1];
+  }
 
   String get beginTime => formatTime(begin);
 
@@ -94,12 +82,9 @@ class Exam {
 
   String formatTime(DateTime time) => DateFormat('HH:mm').format(time);
 
-  /// Exam card background turns grey if exam is hidden
-  bool isHighlighted() => isHidden;
-
   @override
   String toString() {
-    return '''$id - $subject - ${begin.year.toString()} - $month - ${begin.day} -  $beginTime-$endTime - $type - $rooms - $weekDay''';
+    return '''$id - $subject - ${begin.year} - $month - ${begin.day} -  $beginTime-$endTime - $type - $rooms - $weekDay''';
   }
 
   /// Prints the data in this exam to the [Logger] with an INFO level.
@@ -114,8 +99,8 @@ class Exam {
   @override
   int get hashCode => id.hashCode;
 
-  static getExamTypeLong(String abr) {
-    final Map<String, String> reversed = types.map((k, v) => MapEntry(v, k));
+  static String? getExamTypeLong(String abr) {
+    final reversed = types.map((k, v) => MapEntry(v, k));
     return reversed[abr];
   }
 }

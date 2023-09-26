@@ -3,13 +3,13 @@ enum FavoriteWidgetType {
   schedule,
   printBalance,
   account,
-  libraryOccupation(faculties: {"feup"}),
-  busStops;
+  libraryOccupation(faculties: {'feup'}),
+  busStops,
+  restaurant;
+
+  const FavoriteWidgetType({this.faculties});
 
   final Set<String>? faculties;
-
-  // ignore: unused_element
-  const FavoriteWidgetType({this.faculties});
 
   bool isVisible(List<String> userFaculties) {
     if (faculties == null) {

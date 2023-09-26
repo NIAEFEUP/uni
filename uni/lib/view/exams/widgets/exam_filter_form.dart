@@ -1,15 +1,14 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:uni/model/app_state.dart';
+import 'package:provider/provider.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/exam.dart';
-import 'package:uni/redux/action_creators.dart';
+import 'package:uni/model/providers/lazy/exam_provider.dart';
 
 class ExamFilterForm extends StatefulWidget {
-  final Map<String, bool> filteredExams;
+  const ExamFilterForm(this.filteredExamsTypes, {super.key});
 
-  const ExamFilterForm(this.filteredExams, {super.key});
+  final Map<String, bool> filteredExamsTypes;
+
   @override
   ExamFilterFormState createState() => ExamFilterFormState();
 }
@@ -18,39 +17,46 @@ class ExamFilterFormState extends State<ExamFilterForm> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('Definições Filtro de Exames',
-          style: Theme.of(context).textTheme.headline5),
+      title: Text(
+        S.of(context).exams_filter,
+        style: Theme.of(context).textTheme.headlineSmall,
+      ),
       actions: [
         TextButton(
-            child:
-                Text('Cancelar', style: Theme.of(context).textTheme.bodyText2),
-            onPressed: () => Navigator.pop(context)),
+          child: Text(
+            S.of(context).cancel,
+            style: Theme.of(context).textTheme.bodyMedium,
+          ),
+          onPressed: () => Navigator.pop(context),
+        ),
         ElevatedButton(
-            child: const Text('Confirmar'),
-            onPressed: () {
-              StoreProvider.of<AppState>(context).dispatch(
-                  setFilteredExams(widget.filteredExams, Completer()));
-
-              Navigator.pop(context);
-            })
+          child: Text(S.of(context).confirm),
+          onPressed: () {
+            Provider.of<ExamProvider>(context, listen: false)
+                .setFilteredExams(widget.filteredExamsTypes);
+            Navigator.pop(context);
+          },
+        )
       ],
       content: SizedBox(
-          height: 230.0,
-          width: 200.0,
-          child: getExamCheckboxes(widget.filteredExams, context)),
+        height: 230,
+        width: 200,
+        child: getExamCheckboxes(widget.filteredExamsTypes, context),
+      ),
     );
   }
 
   Widget getExamCheckboxes(
-      Map<String, bool> filteredExams, BuildContext context) {
-    filteredExams
-        .removeWhere((key, value) => !Exam.types.containsKey(key));
+    Map<String, bool> filteredExams,
+    BuildContext context,
+  ) {
+    filteredExams.removeWhere((key, value) => !Exam.types.containsKey(key));
     return ListView(
-        children: List.generate(filteredExams.length, (i) {
-      final String key = filteredExams.keys.elementAt(i);
-      if (!Exam.types.containsKey(key)) return const Text("");
-      return CheckboxListTile(
-          contentPadding: const EdgeInsets.all(0),
+      children: List.generate(filteredExams.length, (i) {
+        final key = filteredExams.keys.elementAt(i);
+        if (!Exam.types.containsKey(key)) return const Text('');
+        return CheckboxListTile(
+          contentPadding: EdgeInsets.zero,
           title: Text(
             key,
             overflow: TextOverflow.ellipsis,
@@ -63,7 +69,9 @@ class ExamFilterFormState extends State<ExamFilterForm> {
             setState(() {
               filteredExams[key] = value!;
             });
-          });
-    }));
+          },
+        );
+      }),
+    );
   }
 }
