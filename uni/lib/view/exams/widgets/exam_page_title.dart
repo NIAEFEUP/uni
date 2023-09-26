@@ -12,7 +12,7 @@ class ExamPageTitle extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
       alignment: Alignment.center,
-      child: const Row(
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           PageTitle(
@@ -20,7 +20,7 @@ class ExamPageTitle extends StatelessWidget {
             center: false,
             pad: false,
           ),
-          Material(child: ExamFilterMenu()),
+          const Material(child: ExamFilterMenu()),
         ],
       ),
     );

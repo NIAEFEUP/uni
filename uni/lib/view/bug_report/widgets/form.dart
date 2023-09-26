@@ -133,17 +133,17 @@ class BugReportFormState extends State<BugReportForm> {
   Widget bugReportTitle(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
-      child: const Row(
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          Icon(Icons.bug_report, size: 40),
+          const Icon(Icons.bug_report, size: 40),
           PageTitle(
             name: S.of(context).nav_title(
                   DrawerItem.navBugReport.title,
                 ),
             center: false,
           ),
-          Icon(Icons.bug_report, size: 40),
+          const Icon(Icons.bug_report, size: 40),
         ],
       ),
     );

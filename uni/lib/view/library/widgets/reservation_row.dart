@@ -3,7 +3,6 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/entities/library_reservation.dart';
-import 'package:uni/model/entities/time_utilities.dart';
 import 'package:uni/model/providers/lazy/library_reservations_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/view/common_widgets/toast_message.dart';
@@ -14,9 +13,6 @@ class ReservationRow extends StatelessWidget {
     hoursStart = DateFormat('HH:mm').format(reservation.startDate);
     hoursEnd = DateFormat('HH:mm')
         .format(reservation.startDate.add(reservation.duration));
-    weekDay = TimeString.getWeekdaysStrings(
-      startMonday: false,
-    )[reservation.startDate.weekday];
     day = DateFormat('dd').format(reservation.startDate);
     initializeDateFormatting();
     month = DateFormat('MMMM', 'pt').format(reservation.startDate);
