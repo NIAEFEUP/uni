@@ -1,13 +1,11 @@
-// @dart=2.10
-
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
-import 'package:tuple/tuple.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/parsers/parser_exams.dart';
 import 'package:uni/model/entities/course.dart';
@@ -18,12 +16,10 @@ import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/lazy/exam_provider.dart';
 import 'package:uni/view/exams/exams.dart';
 
+import '../../mocks/integration/src/exams_page_test.mocks.dart';
 import '../../test_widget.dart';
 
-class MockClient extends Mock implements http.Client {}
-
-class MockResponse extends Mock implements http.Response {}
-
+@GenerateNiceMocks([MockSpec<http.Client>(), MockSpec<http.Response>()])
 void main() {
   group('ExamsPage Integration Tests', () {
     final mockClient = MockClient();
@@ -85,10 +81,10 @@ void main() {
 
       await examProvider.fetchUserExams(
         ParserExams(),
-        const Tuple2('', ''),
         profile,
         Session(username: '', cookies: '', faculties: ['feup']),
         [sopeCourseUnit, sdisCourseUnit],
+        persistentSession: false,
       );
 
       await tester.pumpAndSettle();
@@ -121,10 +117,10 @@ void main() {
 
       await examProvider.fetchUserExams(
         ParserExams(),
-        const Tuple2('', ''),
         profile,
         Session(username: '', cookies: '', faculties: ['feup']),
         [sopeCourseUnit, sdisCourseUnit],
+        persistentSession: false,
       );
 
       await tester.pumpAndSettle();

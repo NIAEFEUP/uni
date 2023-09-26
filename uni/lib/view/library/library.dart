@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:uni/utils/drawer_items.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/library/widgets/library_occupation_tab.dart';
@@ -14,14 +14,8 @@ class LibraryPageView extends StatefulWidget {
 }
 
 class LibraryPageViewState extends GeneralPageViewState<LibraryPageView> {
-  LibraryPageViewState() {
-    tabs = const <Tab>[
-      Tab(text: 'Ocupação'),
-      Tab(text: 'Gabinetes'),
-    ];
-  }
   late TabController tabController;
-  late final List<Tab> tabs;
+  late List<Tab> tabs;
   static const LibraryOccupationTab _libraryOccupationTab =
       LibraryOccupationTab();
   static const LibraryReservationsTab _libraryReservationTab =
@@ -38,11 +32,15 @@ class LibraryPageViewState extends GeneralPageViewState<LibraryPageView> {
 
   @override
   Widget getBody(BuildContext context) {
+    tabs = <Tab>[
+      Tab(text: S.of(context).library_tab_occupation),
+      Tab(text: S.of(context).library_tab_reservations),
+    ];
     return DefaultTabController(
       length: tabs.length,
       child: Builder(
-        builder: (BuildContext context) {
-          tabController = DefaultTabController.of(context);
+        builder: (BuildContext builderContext) {
+          tabController = DefaultTabController.of(builderContext);
           if (!widget.startOnOccupationTab) {
             tabController.index = 1;
           }
@@ -51,7 +49,7 @@ class LibraryPageViewState extends GeneralPageViewState<LibraryPageView> {
               ListView(
                 shrinkWrap: true,
                 children: <Widget>[
-                  PageTitle(name: DrawerItem.navLibraryOccupation.title),
+                  PageTitle(name: S.of(context).library),
                   TabBar(
                     controller: tabController,
                     physics: const BouncingScrollPhysics(),

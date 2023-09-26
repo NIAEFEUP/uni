@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/view/common_widgets/generic_expansion_card.dart';
 import 'package:uni/view/useful_info/widgets/link_button.dart';
 
@@ -22,5 +23,5 @@ class OtherLinksCard extends GenericExpansionCard {
   }
 
   @override
-  String getTitle() => 'Outros Links';
+  String getTitle(BuildContext context) => S.of(context).other_links;
 }

@@ -5,7 +5,8 @@ enum FavoriteWidgetType {
   account,
   libraryOccupation(faculties: {'feup'}),
   libraryReservations(faculties: {'feup'}),
-  busStops;
+  busStops,
+  restaurant;
 
   const FavoriteWidgetType({this.faculties});
 

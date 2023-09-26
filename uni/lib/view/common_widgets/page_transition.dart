@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-
-import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/view/navigation_service.dart';
 import 'package:uni/view/terms_and_condition_dialog.dart';
 
@@ -49,16 +47,9 @@ class PageTransition {
   static Future<void> requestTermsAndConditionsAcceptanceIfNeeded(
     BuildContext context,
   ) async {
-    final userPersistentInfo =
-        await AppSharedPreferences.getPersistentUserInfo();
-    final userName = userPersistentInfo.item1;
-    final password = userPersistentInfo.item2;
-
     if (context.mounted) {
       final termsAcceptance = await TermsAndConditionDialog.buildIfTermsChanged(
         context,
-        userName,
-        password,
       );
 
       switch (termsAcceptance) {

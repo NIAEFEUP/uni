@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:collection';
 
-import 'package:tuple/tuple.dart';
 import 'package:uni/controller/fetchers/exam_fetcher.dart';
 import 'package:uni/controller/local_storage/app_exams_database.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
@@ -42,27 +41,28 @@ class ExamProvider extends StateProviderNotifier {
   Future<void> loadFromRemote(Session session, Profile profile) async {
     await fetchUserExams(
       ParserExams(),
-      await AppSharedPreferences.getPersistentUserInfo(),
       profile,
       session,
       profile.courseUnits,
+      persistentSession:
+          (await AppSharedPreferences.getPersistentUserInfo()) != null,
     );
   }
 
   Future<void> fetchUserExams(
     ParserExams parserExams,
-    Tuple2<String, String> userPersistentInfo,
     Profile profile,
     Session session,
-    List<CourseUnit> userUcs,
-  ) async {
+    List<CourseUnit> userUcs, {
+    required bool persistentSession,
+  }) async {
     try {
       final exams = await ExamFetcher(profile.courses, userUcs)
           .extractExams(session, parserExams);
 
       exams.sort((exam1, exam2) => exam1.begin.compareTo(exam2.begin));
 
-      if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {
+      if (persistentSession) {
         await AppExamsDatabase().saveNewExams(exams);
       }
 

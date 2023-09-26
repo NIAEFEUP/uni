@@ -13,8 +13,6 @@ class TermsAndConditionDialog {
 
   static Future<TermsAndConditionsState> buildIfTermsChanged(
     BuildContext context,
-    String userName,
-    String password,
   ) async {
     final termsAreAccepted =
         await updateTermsAndConditionsAcceptancePreference();
@@ -22,8 +20,7 @@ class TermsAndConditionDialog {
     if (!termsAreAccepted) {
       final routeCompleter = Completer<TermsAndConditionsState>();
       SchedulerBinding.instance.addPostFrameCallback(
-        (timestamp) =>
-            _buildShowDialog(context, routeCompleter, userName, password),
+        (timestamp) => _buildShowDialog(context, routeCompleter),
       );
       return routeCompleter.future;
     }
@@ -34,8 +31,6 @@ class TermsAndConditionDialog {
   static Future<void> _buildShowDialog(
     BuildContext context,
     Completer<TermsAndConditionsState> userTermsDecision,
-    String userName,
-    String password,
   ) {
     return showDialog(
       context: context,

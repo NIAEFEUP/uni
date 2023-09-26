@@ -4,12 +4,14 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:uni/controller/background_workers/background_callback.dart';
 import 'package:uni/controller/load_static/terms_and_conditions.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/providers/lazy/bus_stop_provider.dart';
 import 'package:uni/model/providers/lazy/calendar_provider.dart';
 import 'package:uni/model/providers/lazy/course_units_info_provider.dart';
@@ -34,6 +36,7 @@ import 'package:uni/view/course_units/course_units.dart';
 import 'package:uni/view/exams/exams.dart';
 import 'package:uni/view/home/home.dart';
 import 'package:uni/view/library/library.dart';
+import 'package:uni/view/locale_notifier.dart';
 import 'package:uni/view/locations/locations.dart';
 import 'package:uni/view/login/login.dart';
 import 'package:uni/view/navigation_service.dart';
@@ -50,10 +53,8 @@ SentryEvent? beforeSend(SentryEvent event) {
 
 Future<String> firstRoute() async {
   final userPersistentInfo = await AppSharedPreferences.getPersistentUserInfo();
-  final userName = userPersistentInfo.item1;
-  final password = userPersistentInfo.item2;
 
-  if (userName != '' && password != '') {
+  if (userPersistentInfo != null) {
     return '/${DrawerItem.navPersonalArea.title}';
   }
 
@@ -94,6 +95,7 @@ Future<void> main() async {
   });
 
   final savedTheme = await AppSharedPreferences.getThemeMode();
+  final savedLocale = await AppSharedPreferences.getLocale();
   final route = await firstRoute();
 
   await SentryFlutter.init(
@@ -144,11 +146,14 @@ Future<void> main() async {
             ChangeNotifierProvider(
               create: (context) => stateProviders.referenceProvider,
             ),
+            ChangeNotifierProvider<LocaleNotifier>(
+              create: (_) => LocaleNotifier(savedLocale),
+            ),
+            ChangeNotifierProvider<ThemeNotifier>(
+              create: (_) => ThemeNotifier(savedTheme),
+            ),
           ],
-          child: ChangeNotifierProvider<ThemeNotifier>(
-            create: (_) => ThemeNotifier(savedTheme),
-            child: MyApp(route),
-          ),
+          child: MyApp(route),
         ),
       );
     },
@@ -175,17 +180,23 @@ class MyAppState extends State<MyApp> {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);
-
-    return Consumer<ThemeNotifier>(
-      builder: (context, themeNotifier, _) => MaterialApp(
+    return Consumer2<ThemeNotifier, LocaleNotifier>(
+      builder: (context, themeNotifier, localeNotifier, _) => MaterialApp(
         title: 'uni',
         theme: applicationLightTheme,
         darkTheme: applicationDarkTheme,
         themeMode: themeNotifier.getTheme(),
+        locale: localeNotifier.getLocale().localeCode,
+        localizationsDelegates: const [
+          S.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: S.delegate.supportedLocales,
         initialRoute: widget.initialRoute,
-        navigatorKey: NavigationService.navigatorKey,
         onGenerateRoute: (RouteSettings settings) {
-          final transitions = <String, Route<dynamic>>{
+          final transitions = {
             '/${DrawerItem.navPersonalArea.title}':
                 PageTransition.makePageTransition(
               page: const HomePageView(),

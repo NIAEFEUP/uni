@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/lecture.dart';
-import 'package:uni/model/entities/time_utilities.dart';
 import 'package:uni/model/providers/lazy/lecture_provider.dart';
 import 'package:uni/model/request_status.dart';
 import 'package:uni/utils/drawer_items.dart';
@@ -10,6 +10,7 @@ import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
 import 'package:uni/view/lazy_consumer.dart';
+import 'package:uni/view/locale_notifier.dart';
 import 'package:uni/view/schedule/widgets/schedule_slot.dart';
 
 class SchedulePage extends StatefulWidget {
@@ -46,13 +47,10 @@ class SchedulePageView extends StatefulWidget {
 
   final int weekDay = DateTime.now().weekday;
 
-  static final List<String> daysOfTheWeek =
-      TimeString.getWeekdaysStrings(includeWeekend: false);
-
   static List<Set<Lecture>> groupLecturesByDay(List<Lecture> schedule) {
     final aggLectures = <Set<Lecture>>[];
 
-    for (var i = 0; i < daysOfTheWeek.length; i++) {
+    for (var i = 0; i < 5; i++) {
       final lectures = <Lecture>{};
       for (var j = 0; j < schedule.length; j++) {
         if (schedule[j].startTime.weekday - 1 == i) lectures.add(schedule[j]);
@@ -75,11 +73,9 @@ class SchedulePageViewState extends GeneralPageViewState<SchedulePageView>
     super.initState();
     tabController = TabController(
       vsync: this,
-      length: SchedulePageView.daysOfTheWeek.length,
+      length: 5,
     );
-    final offset = (widget.weekDay > 5)
-        ? 0
-        : (widget.weekDay - 1) % SchedulePageView.daysOfTheWeek.length;
+    final offset = (widget.weekDay > 5) ? 0 : (widget.weekDay - 1) % 5;
     tabController?.animateTo(tabController!.index + offset);
   }
 
@@ -98,7 +94,11 @@ class SchedulePageViewState extends GeneralPageViewState<SchedulePageView>
         ListView(
           shrinkWrap: true,
           children: <Widget>[
-            PageTitle(name: DrawerItem.navSchedule.title),
+            PageTitle(
+              name: S.of(context).nav_title(
+                    DrawerItem.navSchedule.title,
+                  ),
+            ),
             TabBar(
               controller: tabController,
               isScrollable: true,
@@ -110,8 +110,11 @@ class SchedulePageViewState extends GeneralPageViewState<SchedulePageView>
         Expanded(
           child: TabBarView(
             controller: tabController,
-            children:
-                createSchedule(context, widget.lectures, widget.scheduleStatus),
+            children: createSchedule(
+              context,
+              widget.lectures,
+              widget.scheduleStatus,
+            ),
           ),
         )
       ],
@@ -121,17 +124,20 @@ class SchedulePageViewState extends GeneralPageViewState<SchedulePageView>
   /// Returns a list of widgets empty with tabs for each day of the week.
   List<Widget> createTabs(MediaQueryData queryData, BuildContext context) {
     final tabs = <Widget>[];
-    for (var i = 0; i < SchedulePageView.daysOfTheWeek.length; i++) {
+    final workWeekDays = Provider.of<LocaleNotifier>(context)
+        .getWeekdaysWithLocale()
+        .sublist(0, 5);
+    workWeekDays.asMap().forEach((index, day) {
       tabs.add(
         SizedBox(
-          width: queryData.size.width * 1 / 4,
+          width: (queryData.size.width * 1) / 4,
           child: Tab(
-            key: Key('schedule-page-tab-$i'),
-            text: SchedulePageView.daysOfTheWeek[i],
+            key: Key('schedule-page-tab-$index'),
+            text: day,
           ),
         ),
       );
-    }
+    });
     return tabs;
   }
 
@@ -141,7 +147,7 @@ class SchedulePageViewState extends GeneralPageViewState<SchedulePageView>
     RequestStatus? scheduleStatus,
   ) {
     final tabBarViewContent = <Widget>[];
-    for (var i = 0; i < SchedulePageView.daysOfTheWeek.length; i++) {
+    for (var i = 0; i < 5; i++) {
       tabBarViewContent
           .add(createScheduleByDay(context, i, lectures, scheduleStatus));
     }
@@ -190,6 +196,8 @@ class SchedulePageViewState extends GeneralPageViewState<SchedulePageView>
     List<Lecture> lectures,
     RequestStatus? scheduleStatus,
   ) {
+    final weekday =
+        Provider.of<LocaleNotifier>(context).getWeekdaysWithLocale()[day];
     final aggLectures = SchedulePageView.groupLecturesByDay(lectures);
     return RequestDependentWidgetBuilder(
       status: scheduleStatus ?? RequestStatus.none,
@@ -198,7 +206,7 @@ class SchedulePageViewState extends GeneralPageViewState<SchedulePageView>
       onNullContent: Center(
         child: ImageLabel(
           imagePath: 'assets/images/schedule.png',
-          label: 'Não possui aulas à ${SchedulePageView.daysOfTheWeek[day]}.',
+          label: '${S.of(context).no_classes_on} $weekday.',
           labelTextStyle: const TextStyle(fontSize: 15),
         ),
       ),

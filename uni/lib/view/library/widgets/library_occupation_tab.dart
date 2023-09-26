@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:provider/provider.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/library_occupation.dart';
 import 'package:uni/model/providers/lazy/library_occupation_provider.dart';
 import 'package:uni/model/request_status.dart';
@@ -47,7 +48,7 @@ class LibraryOccupationTabView extends StatelessWidget {
           Center(
             heightFactor: 2,
             child: Text(
-              'Não existem dados para apresentar',
+              S.of(context).no_data,
               style: Theme.of(context).textTheme.titleLarge,
               textAlign: TextAlign.center,
             ),
@@ -60,7 +61,7 @@ class LibraryOccupationTabView extends StatelessWidget {
       children: [
         LibraryOccupationCard(),
         if (occupation != null) ...[
-          const PageTitle(name: 'Pisos'),
+          PageTitle(name: S.of(context).floors),
           FloorRows(occupation!),
         ]
       ],

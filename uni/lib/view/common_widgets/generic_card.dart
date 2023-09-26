@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/time_utilities.dart';
 
 /// App default card
@@ -19,11 +20,13 @@ abstract class GenericCard extends StatefulWidget {
   const GenericCard.customStyle({
     required this.editingMode,
     required this.onDelete,
+    this.cardAction = const SizedBox.shrink(),
     super.key,
     this.margin = const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
     this.hasSmallTitle = false,
   });
   final EdgeInsetsGeometry margin;
+  final Widget cardAction;
   final bool hasSmallTitle;
   final bool editingMode;
   final void Function()? onDelete;
@@ -35,7 +38,7 @@ abstract class GenericCard extends StatefulWidget {
 
   Widget buildCardContent(BuildContext context);
 
-  String getTitle();
+  String getTitle(BuildContext context);
 
   void onClick(BuildContext context);
 
@@ -62,7 +65,9 @@ abstract class GenericCard extends StatefulWidget {
     return Container(
       alignment: Alignment.center,
       child: Text(
-        'última atualização às ${parsedTime.toTimeHourMinString()}',
+        S.of(context).last_refresh_time(
+              parsedTime.toTimeHourMinString(),
+            ),
         style: Theme.of(context).textTheme.bodySmall,
       ),
     );
@@ -121,7 +126,7 @@ class GenericCardState extends State<GenericCard> {
                           padding: const EdgeInsets.symmetric(horizontal: 15),
                           margin: const EdgeInsets.only(top: 15, bottom: 10),
                           child: Text(
-                            widget.getTitle(),
+                            widget.getTitle(context),
                             style: (widget.hasSmallTitle
                                     ? Theme.of(context).textTheme.titleLarge!
                                     : Theme.of(context)
@@ -133,6 +138,7 @@ class GenericCardState extends State<GenericCard> {
                           ),
                         ),
                       ),
+                      widget.cardAction,
                       if (widget.editingMode)
                         Container(
                           alignment: Alignment.center,

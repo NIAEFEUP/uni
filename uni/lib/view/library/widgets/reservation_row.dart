@@ -7,6 +7,7 @@ import 'package:uni/model/entities/time_utilities.dart';
 import 'package:uni/model/providers/lazy/library_reservations_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/view/common_widgets/toast_message.dart';
+import 'package:uni/view/locale_notifier.dart';
 
 class ReservationRow extends StatelessWidget {
   ReservationRow(this.reservation, {super.key}) {
@@ -29,6 +30,9 @@ class ReservationRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final weekdays =
+        Provider.of<LocaleNotifier>(context).getWeekdaysWithLocale();
+    weekDay = weekdays[reservation.startDate.weekday];
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[

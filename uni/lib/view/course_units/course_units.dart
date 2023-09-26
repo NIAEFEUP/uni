@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/model/request_status.dart';
@@ -90,7 +91,7 @@ class CourseUnitsPageViewState
           onNullContent: Center(
             heightFactor: 10,
             child: Text(
-              'Não existem cadeiras para apresentar',
+              S.of(context).no_selected_courses,
               style: Theme.of(context).textTheme.titleLarge,
             ),
           ),
@@ -106,12 +107,14 @@ class CourseUnitsPageViewState
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        PageTitle(name: DrawerItem.navCourseUnits.title),
+        PageTitle(
+          name: S.of(context).nav_title(DrawerItem.navCourseUnits.title),
+        ),
         const Spacer(),
         DropdownButtonHideUnderline(
           child: DropdownButton<String>(
             alignment: AlignmentDirectional.centerEnd,
-            disabledHint: const Text('Semestre'),
+            disabledHint: Text(S.of(context).semester),
             value: selectedSemester,
             icon: const Icon(Icons.arrow_drop_down),
             onChanged: (String? newValue) {
@@ -129,7 +132,7 @@ class CourseUnitsPageViewState
         const SizedBox(width: 10),
         DropdownButtonHideUnderline(
           child: DropdownButton<String>(
-            disabledHint: const Text('Ano'),
+            disabledHint: Text(S.of(context).year),
             value: selectedSchoolYear,
             icon: const Icon(Icons.arrow_drop_down),
             onChanged: (String? newValue) {
@@ -156,7 +159,7 @@ class CourseUnitsPageViewState
       return Center(
         heightFactor: 10,
         child: Text(
-          'Sem cadeiras no período selecionado',
+          S.of(context).no_course_units,
           style: Theme.of(context).textTheme.titleLarge,
         ),
       );

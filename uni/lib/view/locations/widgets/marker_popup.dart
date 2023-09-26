@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/location.dart';
 import 'package:uni/model/entities/location_group.dart';
 import 'package:uni/view/locations/widgets/faculty_map.dart';
@@ -46,6 +47,7 @@ class LocationMarkerPopup extends StatelessWidget {
 
 class Floor extends StatelessWidget {
   const Floor({required this.locations, required this.floor, super.key});
+
   final List<Location> locations;
   final int floor;
 
@@ -62,7 +64,10 @@ class Floor extends StatelessWidget {
       children: [
         Container(
           padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-          child: Text('Andar $floorString', style: TextStyle(color: fontColor)),
+          child: Text(
+            '${S.of(context).floor} $floorString',
+            style: TextStyle(color: fontColor),
+          ),
         )
       ],
     );
@@ -86,6 +91,7 @@ class Floor extends StatelessWidget {
 
 class LocationRow extends StatelessWidget {
   const LocationRow({required this.location, required this.color, super.key});
+
   final Location location;
   final Color color;
 
