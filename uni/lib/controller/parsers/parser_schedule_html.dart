@@ -9,9 +9,7 @@ import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/entities/time_utilities.dart';
 
 Future<List<Lecture>> getOverlappedClasses(
-  Session session,
-  Document document,
-) async {
+    Session session, Document document, Uri uri) async {
   final lecturesList = <Lecture>[];
 
   final monday = DateTime.now().getClosestMonday();
@@ -21,7 +19,7 @@ Future<List<Lecture>> getOverlappedClasses(
     final subject = element.querySelector('acronym > a')?.text;
     final typeClass = element
         .querySelector('td[headers=t1]')
-        ?.nodes[2]
+        ?.nodes[1]
         .text
         ?.trim()
         .replaceAll(RegExp('[()]+'), '');
@@ -37,20 +35,28 @@ Future<List<Lecture>> getOverlappedClasses(
     final classNumber = element.querySelector('td[headers=t6] > a')?.text;
 
     try {
+      final startTimeList = startTime?.split(':') ?? [];
+      if (startTimeList.isEmpty) {
+        throw FormatException(
+          'Overlapping class $subject has invalid startTime',
+        );
+      }
       final fullStartTime = monday.add(
         Duration(
           days: day,
-          hours: int.parse(startTime!.substring(0, 2)),
-          minutes: int.parse(startTime.substring(3, 5)),
+          hours: int.parse(startTimeList[0]),
+          minutes: int.parse(startTimeList[1]),
         ),
       );
-      final link =
+      final href =
           element.querySelector('td[headers=t6] > a')?.attributes['href'];
 
-      if (link == null) {
+      if (href == null) {
         throw Exception();
       }
-      final response = await NetworkRouter.getWithCookies(link, {}, session);
+      final faculty = uri.path.split('/')[1];
+      final response =
+          await NetworkRouter.getWithCookies('https://${uri.host}/$faculty/$href', {}, session);
 
       final classLectures = await getScheduleFromHtml(response, session);
 
@@ -148,7 +154,8 @@ Future<List<Lecture>> getScheduleFromHtml(
   });
 
   lecturesList
-    ..addAll(await getOverlappedClasses(session, document))
+    ..addAll(
+        await getOverlappedClasses(session, document, response.request!.url),)
     ..sort((a, b) => a.compare(b));
 
   return lecturesList;
