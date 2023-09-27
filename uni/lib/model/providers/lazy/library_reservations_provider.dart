@@ -16,8 +16,10 @@ class LibraryReservationsProvider extends StateProviderNotifier {
   LibraryReservationsProvider()
       : super(dependsOnSession: true, cacheDuration: const Duration(hours: 1));
   List<LibraryReservation> _reservations = [];
+  bool _isReserving = false;
 
   List<LibraryReservation> get reservations => _reservations;
+  bool get isReserving => _isReserving;
 
   @override
   Future<void> loadFromStorage() async {
@@ -71,7 +73,18 @@ class LibraryReservationsProvider extends StateProviderNotifier {
   }
 
   Future<bool> makeReservation(
-      Session session, String date, String hour, String duration,) async {
+    Session session,
+    String date,
+    String hour,
+    String duration,
+  ) async {
+    if (_isReserving) {
+      return false;
+    } else {
+      _isReserving = true;
+      notifyListeners();
+    }
+
     final url =
         '${NetworkRouter.getBaseUrl('feup')}res_recursos_geral.pedidos_valida';
 
@@ -102,9 +115,12 @@ class LibraryReservationsProvider extends StateProviderNotifier {
 
     final reserveResponse =
         await post(url.toUri(), headers: headers, body: body);
+    _isReserving = false;
     if (reserveResponse.statusCode == 200) {
-      final reservation =
-          getReservationFromRequest(reserveResponse);
+      final infoUrl =
+          '${NetworkRouter.getBaseUrl('feup')}res_recursos_geral.pedidos_view?pct_pedido_id=${sessionId}';
+      final reserveInfo = await get(infoUrl.toUri(), headers: headers);
+      final reservation = getReservationFromRequest(reserveInfo);
       _reservations.add(reservation);
       notifyListeners();
       return true;
