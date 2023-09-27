@@ -53,7 +53,7 @@ class LectureProvider extends StateProviderNotifier {
 
       _lectures = lectures;
       updateStatus(RequestStatus.successful);
-    } catch (e, stacktrace) {
+    } catch (e) {
       updateStatus(RequestStatus.failed);
     }
   }
