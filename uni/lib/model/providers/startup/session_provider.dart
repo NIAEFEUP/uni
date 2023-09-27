@@ -35,6 +35,11 @@ class SessionProvider extends StateProviderNotifier {
   Future<void> loadFromStorage() async {
     final userPersistentInfo =
         await AppSharedPreferences.getPersistentUserInfo();
+
+    if (userPersistentInfo == null) {
+      return;
+    }
+
     final userName = userPersistentInfo.item1;
     final password = userPersistentInfo.item2;
 
@@ -104,7 +109,7 @@ class SessionProvider extends StateProviderNotifier {
 
     if (persistentSession) {
       await AppSharedPreferences.savePersistentUserInfo(
-        username,
+        session.username,
         password,
         faculties,
       );
