@@ -41,6 +41,11 @@ abstract class StateProviderNotifier extends ChangeNotifier {
     _lastUpdateTime = null;
   }
 
+  void _updateStatus(RequestStatus status) {
+    _status = status;
+    notifyListeners();
+  }
+
   Future<void> _loadFromStorage() async {
     Logger().d('Loading $runtimeType info from storage');
 
@@ -48,8 +53,14 @@ abstract class StateProviderNotifier extends ChangeNotifier {
       runtimeType.toString(),
     );
 
-    await loadFromStorage();
-    notifyListeners();
+    try {
+      await loadFromStorage();
+      notifyListeners();
+    } catch (e, stackTrace) {
+      Logger()
+          .e('Failed to load $runtimeType info from storage: $e\n$stackTrace');
+    }
+
     Logger().i('Loaded $runtimeType info from storage');
   }
 
@@ -68,7 +79,7 @@ abstract class StateProviderNotifier extends ChangeNotifier {
     if (!shouldReload) {
       Logger().d('Last info for $runtimeType is within cache period '
           '(last updated on $_lastUpdateTime); skipping remote load');
-      updateStatus(RequestStatus.successful);
+      _updateStatus(RequestStatus.successful);
       return;
     }
 
@@ -77,42 +88,35 @@ abstract class StateProviderNotifier extends ChangeNotifier {
 
     if (!hasConnectivity) {
       Logger().w('No internet connection; skipping $runtimeType remote load');
-      updateStatus(RequestStatus.successful);
+      _updateStatus(RequestStatus.successful);
       return;
     }
 
-    updateStatus(RequestStatus.busy);
+    _updateStatus(RequestStatus.busy);
 
-    await loadFromRemote(session, profile);
+    try {
+      await loadFromRemote(session, profile);
 
-    if (_status == RequestStatus.successful) {
       Logger().i('Loaded $runtimeType info from remote');
       _lastUpdateTime = DateTime.now();
-      notifyListeners();
+      _updateStatus(RequestStatus.successful);
+
       await AppSharedPreferences.setLastDataClassUpdateTime(
         runtimeType.toString(),
         _lastUpdateTime!,
       );
-    } else if (_status == RequestStatus.failed) {
-      Logger().e('Failed to load $runtimeType info from remote');
-    } else {
+    } catch (e, stackTrace) {
       Logger()
-          .w('$runtimeType remote load method did not update request status');
+          .e('Failed to load $runtimeType info from remote: $e\n$stackTrace');
+      _updateStatus(RequestStatus.failed);
     }
-  }
-
-  void updateStatus(RequestStatus status) {
-    _status = status;
-    notifyListeners();
   }
 
   Future<void> forceRefresh(BuildContext context) async {
     await _lock.synchronized(() async {
-      final session =
-          Provider.of<SessionProvider>(context, listen: false).session;
-      final profile =
-          Provider.of<ProfileProvider>(context, listen: false).profile;
-
+      final session = context.read<SessionProvider>().session;
+      final profile = context.read<ProfileProvider>().profile;
+      _updateStatus(RequestStatus.busy);
       await _loadFromRemote(session, profile, force: true);
     });
   }
@@ -133,10 +137,8 @@ abstract class StateProviderNotifier extends ChangeNotifier {
 
       _initializedFromRemote = true;
 
-      final session =
-          Provider.of<SessionProvider>(context, listen: false).session;
-      final profile =
-          Provider.of<ProfileProvider>(context, listen: false).profile;
+      final session = context.read<SessionProvider>().session;
+      final profile = context.read<ProfileProvider>().profile;
 
       await _loadFromRemote(session, profile);
     });
@@ -160,10 +162,6 @@ abstract class StateProviderNotifier extends ChangeNotifier {
 
   /// Loads data from the remote server into the provider.
   /// This will run once when the provider is first initialized.
-  /// If the data is not available from the remote server
-  /// or the data is filled into the provider on demand,
-  /// this method should simply set the
-  /// request status to [RequestStatus.successful];
-  /// otherwise, it should set the status accordingly.
+  /// This method must not catch data loading errors.
   Future<void> loadFromRemote(Session session, Profile profile);
 }
