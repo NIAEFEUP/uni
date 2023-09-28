@@ -11,7 +11,7 @@ import 'package:uni/model/entities/time_utilities.dart';
 Future<List<Lecture>> getOverlappedClasses(
   Session session,
   Document document,
-  Uri uri,
+  String faculty,
 ) async {
   final lecturesList = <Lecture>[];
 
@@ -57,14 +57,14 @@ Future<List<Lecture>> getOverlappedClasses(
       if (href == null) {
         throw Exception();
       }
-      final faculty = uri.path.split('/')[1];
       final response = await NetworkRouter.getWithCookies(
-        'https://${uri.host}/$faculty/$href',
+        '$faculty$href',
         {},
         session,
       );
 
-      final classLectures = await getScheduleFromHtml(response, session);
+      final classLectures =
+          await getScheduleFromHtml(response, session, faculty);
 
       lecturesList.add(
         classLectures
@@ -100,6 +100,7 @@ Future<List<Lecture>> getOverlappedClasses(
 Future<List<Lecture>> getScheduleFromHtml(
   http.Response response,
   Session session,
+  String faculty,
 ) async {
   final document = parse(response.body);
   var semana = [0, 0, 0, 0, 0, 0];
@@ -161,7 +162,7 @@ Future<List<Lecture>> getScheduleFromHtml(
 
   lecturesList
     ..addAll(
-      await getOverlappedClasses(session, document, response.request!.url),
+      await getOverlappedClasses(session, document, faculty),
     )
     ..sort((a, b) => a.compare(b));
 
