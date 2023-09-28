@@ -42,6 +42,7 @@ dependencies:
   latlong2: ^0.8.1
   logger: ^1.1.0
   material_design_icons_flutter: ^7.0.7296
+  open_file_plus: ^3.4.1
   path: ^1.8.0
   path_provider: ^2.0.0
   percent_indicator: ^4.2.2

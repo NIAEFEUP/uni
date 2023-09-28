@@ -1,8 +1,8 @@
 class CourseUnitFile {
   CourseUnitFile(
     this.name,
-    this.url,
+    this.bodyBytes,
   );
   String name;
-  String url;
+  List<int> bodyBytes;
 }

@@ -48,6 +48,21 @@ class CourseUnitsInfoFetcher implements SessionDependantFetcher {
     return parseFilesMultipleRequests(responses, session);
   }
 
+  Future<List<int>> downloadFile(
+    Session session,
+    dynamic fileCode,
+  ) async {
+    final url = '${getEndpoints(session)[0]}conteudos_service.conteudos_cont';
+    final response = await NetworkRouter.getWithCookies(
+      url,
+      {
+        'pct_id': fileCode.toString(),
+      },
+      session,
+    );
+    return response.bodyBytes;
+  }
+
   Future<List<CourseUnitClass>> fetchCourseUnitClasses(
     Session session,
     int occurrId,

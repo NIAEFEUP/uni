@@ -6,6 +6,7 @@ import 'package:uni/model/entities/course_units/course_unit_class.dart';
 import 'package:uni/model/entities/course_units/course_unit_file.dart';
 import 'package:uni/model/entities/course_units/course_unit_sheet.dart';
 import 'package:uni/model/entities/session.dart';
+import 'package:uni/controller/fetchers/course_units_fetcher/course_units_info_fetcher.dart';
 
 Future<List<Map<String, List<CourseUnitFile>>>> parseFilesMultipleRequests(
   List<http.Response> responses,
@@ -34,9 +35,11 @@ Future<Map<String, List<CourseUnitFile>>> parseFiles(
     for (final file in item['ficheiros'] as Iterable) {
       final fileName = file['nome'] as String;
       final fileCode = file['codigo'];
+      final bodyBytes =
+          await CourseUnitsInfoFetcher().downloadFile(session, fileCode);
       final courseUnitFile = CourseUnitFile(
         fileName,
-        'https://sigarra.up.pt/feup/pt/conteudos_service.conteudos_cont?pct_id=$fileCode',
+        bodyBytes,
       );
       files.add(courseUnitFile);
     }

@@ -10,8 +10,9 @@ class CourseUnitFilesView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cards = files
-        .expand((file) =>
-            file.entries.map((item) => _buildCard(item.key, item.value)))
+        .expand((file) => file.entries
+            .where((item) => item.value.isNotEmpty)
+            .map((item) => _buildCard(item.key, item.value)))
         .toList();
 
     return Container(
