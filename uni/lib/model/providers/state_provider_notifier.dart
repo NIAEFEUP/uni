@@ -2,6 +2,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:synchronized/synchronized.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/model/entities/profile.dart';
@@ -66,6 +67,7 @@ abstract class StateProviderNotifier extends ChangeNotifier {
       await loadFromStorage();
       notifyListeners();
     } catch (e, stackTrace) {
+      await Sentry.captureException(e, stackTrace: stackTrace);
       Logger()
           .e('Failed to load $runtimeType info from storage: $e\n$stackTrace');
     }
@@ -115,6 +117,7 @@ abstract class StateProviderNotifier extends ChangeNotifier {
         _lastUpdateTime!,
       );
     } catch (e, stackTrace) {
+      await Sentry.captureException(e, stackTrace: stackTrace);
       Logger()
           .e('Failed to load $runtimeType info from remote: $e\n$stackTrace');
       _updateStatus(RequestStatus.failed);
