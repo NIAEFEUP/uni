@@ -14,12 +14,19 @@ jobs:
         with:
           token: ${{ secrets.NIAEFEUPBOT_PAT }}
 
+      - name: Get develop hash
+        if: github.ref == 'refs/heads/master'
+        run: |
+          git fetch origin develop
+          current_hash=$(git rev-parse origin/develop)
+          echo "DEVELOPHASH=$current_hash" >> $GITHUB_ENV
+
       - name: Bump flutter patch version
-        if: github.ref == 'refs/heads/develop'
+        if: github.ref == 'refs/heads/develop' || github.sha != env.DEVELOPHASH
         run: perl -i -pe 's/^(\d+\.\d+\.)(\d+)(\+)(\d+)$/$1.($2+1).($3).($4+1)/e' ${{ env.APP_VERSION_PATH }}
 
       - name: Bump flutter minor version
-        if: github.ref == 'refs/heads/master'
+        if: github.ref == 'refs/heads/master' && github.sha == env.DEVELOPHASH
         run: perl -i -pe 's/^(\d+)(\.)(\d+)(\.)(\d+)(\+)(\d+)$/$1.($2).($3+1).($4).(0).($6).($7+1)/e' ${{ env.APP_VERSION_PATH }}
 
       - name: Copy app version to pubspec
@@ -28,7 +35,6 @@ jobs:
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: "Bump app version [no ci]"
-
       - name: Propagate master version bump to develop
         if: github.ref == 'refs/heads/master'
         run: git push --force-with-lease origin HEAD:develop
