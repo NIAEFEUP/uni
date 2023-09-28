@@ -48,7 +48,6 @@ abstract class StateProviderNotifier extends ChangeNotifier {
     _initializedFromRemote = false;
     _status = _initialStatus;
     _lastUpdateTime = null;
-    notifyListeners();
   }
 
   void _updateStatus(RequestStatus status) {

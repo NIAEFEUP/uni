@@ -81,7 +81,7 @@ class SessionProvider extends StateProviderNotifier {
       );
     } catch (e) {
       throw InternetStatusException(
-        Provider.of<LocaleNotifier>(context).getLocale(),
+        Provider.of<LocaleNotifier>(context, listen: false).getLocale(),
       );
     }
 
@@ -93,7 +93,7 @@ class SessionProvider extends StateProviderNotifier {
         throw ExpiredCredentialsException();
       } else {
         throw WrongCredentialsException(
-          Provider.of<LocaleNotifier>(context).getLocale(),
+          Provider.of<LocaleNotifier>(context, listen: false).getLocale(),
         );
       }
     }
