@@ -32,9 +32,6 @@ jobs:
       - name: Copy app version to pubspec
         run: cat ${{ env.APP_VERSION_PATH }} | perl -i -pe 's/^(version:\s+)(\d+\.\d+\.\d+\+\d+)$/$1.(<STDIN>)/e' ${{ env.PUBSPEC_PATH }}
 
-      - name: debug cansdo
-        run: git --no-pager diff
-
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: "Bump app version [no ci]"
