@@ -34,11 +34,20 @@ abstract class StateProviderNotifier extends ChangeNotifier {
 
   DateTime? get lastUpdateTime => _lastUpdateTime;
 
+  void markAsInitialized() {
+    _initializedFromStorage = true;
+    _initializedFromRemote = true;
+    _status = RequestStatus.successful;
+    _lastUpdateTime = DateTime.now();
+    notifyListeners();
+  }
+
   void markAsNotInitialized() {
     _initializedFromStorage = false;
     _initializedFromRemote = false;
     _status = _initialStatus;
     _lastUpdateTime = null;
+    notifyListeners();
   }
 
   void _updateStatus(RequestStatus status) {
