@@ -39,12 +39,15 @@ class ScheduleFetcherHtml extends ScheduleFetcher {
       }
     }
 
+    final baseUrls = NetworkRouter.getBaseUrlsFromSession(session);
+
     final lectures = await Future.wait(
-      IterableZip(
-        [lectureResponses, NetworkRouter.getBaseUrlsFromSession(session)],
-      ).map(
-        (e) => getScheduleFromHtml(e[0] as Response, session, e[1] as String),
-      ),
+      lectureResponses
+        // FIXME: baseUrls[0] is a hack, because the course can be taught in more than one faculty
+        .map((e) => [e, baseUrls[0]])
+        .map(
+          (e) => getScheduleFromHtml(e[0] as Response, session, e[1] as String),
+        ),
     ).then((schedules) => schedules.expand((schedule) => schedule).toList());
 
     lectures.sort((l1, l2) => l1.compare(l2));
