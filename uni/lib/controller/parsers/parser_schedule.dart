@@ -35,7 +35,11 @@ Future<List<Lecture>> parseSchedule(http.Response response) async {
     // TODO(luisd): this was marked as a double on the develop branch but the
     //  tests' example api returns an integer. At the moment there are no
     //  classes so I can't test this.
-    final blocks = (lecture['aula_duracao'] as int) * 2;
+    final lectureDuration = lecture['aula_duracao'];
+    final blocks = lectureDuration is double
+      ? (lectureDuration * 2).toInt()
+      : (lectureDuration as int) * 2;
+
     final room =
         (lecture['sala_sigla'] as String).replaceAll(RegExp(r'\+'), '\n');
     final teacher = lecture['doc_sigla'] as String;
