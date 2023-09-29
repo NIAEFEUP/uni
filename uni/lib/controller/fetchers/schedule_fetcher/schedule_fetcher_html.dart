@@ -21,10 +21,13 @@ class ScheduleFetcherHtml extends ScheduleFetcher {
   @override
   Future<List<Lecture>> getLectures(Session session, Profile profile) async {
     final dates = getDates();
-    final urls = getEndpoints(session);
+    final baseUrls = NetworkRouter.getBaseUrlsFromSession(session);
+
     final lectureResponses = <Tuple2<Response, String>>[];
-    for (final course in profile.courses) {
-      for (final url in urls) {
+    for (final baseUrl in baseUrls) {
+      final url = '${baseUrl}hor_geral.estudantes_view';
+
+      for (final course in profile.courses) {
         final response = await NetworkRouter.getWithCookies(
           url,
           {
@@ -35,7 +38,7 @@ class ScheduleFetcherHtml extends ScheduleFetcher {
           },
           session,
         );
-        lectureResponses.add(Tuple2(response, url));
+        lectureResponses.add(Tuple2(response, baseUrl));
       }
     }
 
