@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:http/http.dart';
 import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher.dart';
 import 'package:uni/controller/networking/network_router.dart';
@@ -43,7 +42,8 @@ class ScheduleFetcherHtml extends ScheduleFetcher {
 
     final lectures = await Future.wait(
       lectureResponses
-          // FIXME: baseUrls[0] is a hack, because the course can be taught in more than one faculty
+          // FIXME: baseUrls[0] is a hack, because the course can be
+          // taught in more than one faculty
           .map((e) => [e, baseUrls[0]])
           .map(
             (e) =>
