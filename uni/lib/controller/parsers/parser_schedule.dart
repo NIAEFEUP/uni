@@ -32,14 +32,14 @@ Future<List<Lecture>> parseSchedule(http.Response response) async {
     final secBegin = lecture['hora_inicio'] as int;
     final subject = lecture['ucurr_sigla'] as String;
     final typeClass = lecture['tipo'] as String;
-    
-    // Note: aula_duracao returns an integer when the lecture is 1 hour long
+
+    // Note: aula_duracao is an integer when the lecture is 1 hour long
     // or 2 hours long and so on. When the lecture is 1.5 hours long, it
-    // returns a double, with the value 1.5. 
+    // returns a double, with the value 1.5.
     final lectureDuration = lecture['aula_duracao'];
     final blocks = lectureDuration is double
-      ? (lectureDuration * 2).toInt()
-      : (lectureDuration as int) * 2;
+        ? (lectureDuration * 2).toInt()
+        : (lectureDuration as int) * 2;
 
     final room =
         (lecture['sala_sigla'] as String).replaceAll(RegExp(r'\+'), '\n');
