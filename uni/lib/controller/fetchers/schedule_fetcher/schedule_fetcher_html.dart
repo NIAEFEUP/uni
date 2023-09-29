@@ -1,4 +1,5 @@
 import 'package:http/http.dart';
+import 'package:tuple/tuple.dart';
 import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/parsers/parser_schedule_html.dart';
@@ -21,7 +22,7 @@ class ScheduleFetcherHtml extends ScheduleFetcher {
   Future<List<Lecture>> getLectures(Session session, Profile profile) async {
     final dates = getDates();
     final urls = getEndpoints(session);
-    final lectureResponses = <Response>[];
+    final lectureResponses = <Tuple2<Response, String>>[];
     for (final course in profile.courses) {
       for (final url in urls) {
         final response = await NetworkRouter.getWithCookies(
@@ -34,21 +35,14 @@ class ScheduleFetcherHtml extends ScheduleFetcher {
           },
           session,
         );
-        lectureResponses.add(response);
+        lectureResponses.add(Tuple2(response, url));
       }
     }
 
-    final baseUrls = NetworkRouter.getBaseUrlsFromSession(session);
-
     final lectures = await Future.wait(
-      lectureResponses
-          // FIXME: baseUrls[0] is a hack, because the course can be
-          // taught in more than one faculty
-          .map((e) => [e, baseUrls[0]])
-          .map(
-            (e) =>
-                getScheduleFromHtml(e[0] as Response, session, e[1] as String),
-          ),
+      lectureResponses.map(
+        (e) => getScheduleFromHtml(e.item1, session, e.item2),
+      ),
     ).then((schedules) => schedules.expand((schedule) => schedule).toList());
 
     lectures.sort((l1, l2) => l1.compare(l2));
