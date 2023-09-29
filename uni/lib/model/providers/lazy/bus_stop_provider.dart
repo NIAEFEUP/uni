@@ -1,14 +1,12 @@
 import 'dart:async';
 import 'dart:collection';
 
-import 'package:logger/logger.dart';
 import 'package:uni/controller/fetchers/departures_fetcher.dart';
 import 'package:uni/controller/local_storage/app_bus_stop_database.dart';
 import 'package:uni/model/entities/bus_stop.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
-import 'package:uni/model/request_status.dart';
 
 class BusStopProvider extends StateProviderNotifier {
   BusStopProvider() : super(dependsOnSession: false, cacheDuration: null);
@@ -33,20 +31,14 @@ class BusStopProvider extends StateProviderNotifier {
   }
 
   Future<void> fetchUserBusTrips() async {
-    try {
-      for (final stopCode in configuredBusStops.keys) {
-        final stopTrips = await DeparturesFetcher.getNextArrivalsStop(
-          stopCode,
-          configuredBusStops[stopCode]!,
-        );
-        _configuredBusStops[stopCode]?.trips = stopTrips;
-      }
-      _timeStamp = DateTime.now();
-      updateStatus(RequestStatus.successful);
-    } catch (e) {
-      Logger().e('Failed to get Bus Stop information');
-      updateStatus(RequestStatus.failed);
+    for (final stopCode in configuredBusStops.keys) {
+      final stopTrips = await DeparturesFetcher.getNextArrivalsStop(
+        stopCode,
+        configuredBusStops[stopCode]!,
+      );
+      _configuredBusStops[stopCode]?.trips = stopTrips;
     }
+    _timeStamp = DateTime.now();
   }
 
   Future<void> addUserBusStop(String stopCode, BusStopData stopData) async {
@@ -59,7 +51,6 @@ class BusStopProvider extends StateProviderNotifier {
       _configuredBusStops[stopCode] = stopData;
     }
 
-    updateStatus(RequestStatus.busy);
     await fetchUserBusTrips();
 
     final db = AppBusStopDatabase();
@@ -69,7 +60,6 @@ class BusStopProvider extends StateProviderNotifier {
   Future<void> removeUserBusStop(
     String stopCode,
   ) async {
-    updateStatus(RequestStatus.busy);
     _configuredBusStops.remove(stopCode);
     notifyListeners();
 
