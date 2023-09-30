@@ -8,7 +8,6 @@ import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/login_exceptions.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/model/providers/state_providers.dart';
-import 'package:uni/model/request_status.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/common_widgets/toast_message.dart';
 import 'package:uni/view/home/widgets/exit_app_dialog.dart';
@@ -40,16 +39,19 @@ class LoginPageViewState extends State<LoginPageView> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _keepSignedIn = true;
   bool _obscurePasswordInput = true;
+  bool _loggingIn = false;
 
   Future<void> _login(BuildContext context) async {
     final stateProviders = StateProviders.fromContext(context);
     final sessionProvider = stateProviders.sessionProvider;
-    if (sessionProvider.status != RequestStatus.busy &&
-        _formKey.currentState!.validate()) {
+    if (!_loggingIn && _formKey.currentState!.validate()) {
       final user = usernameController.text.trim();
       final pass = passwordController.text.trim();
 
       try {
+        setState(() {
+          _loggingIn = true;
+        });
         await sessionProvider.postAuthentication(
           context,
           user,
@@ -58,9 +60,18 @@ class LoginPageViewState extends State<LoginPageView> {
           persistentSession: _keepSignedIn,
         );
         if (context.mounted) {
-          handleLogin(sessionProvider.status, context);
+          await Navigator.pushReplacementNamed(
+            context,
+            '/${DrawerItem.navPersonalArea.title}',
+          );
+          setState(() {
+            _loggingIn = false;
+          });
         }
       } catch (error) {
+        setState(() {
+          _loggingIn = false;
+        });
         if (error is ExpiredCredentialsException) {
           updatePasswordDialog();
         } else if (error is InternetStatusException) {
@@ -250,7 +261,7 @@ class LoginPageViewState extends State<LoginPageView> {
   Widget createStatusWidget(BuildContext context) {
     return Consumer<SessionProvider>(
       builder: (context, sessionProvider, _) {
-        if (sessionProvider.status == RequestStatus.busy) {
+        if (_loggingIn) {
           return const SizedBox(
             height: 60,
             child:
@@ -260,17 +271,6 @@ class LoginPageViewState extends State<LoginPageView> {
         return Container();
       },
     );
-  }
-
-  void handleLogin(RequestStatus? status, BuildContext context) {
-    if (status == RequestStatus.successful) {
-      Navigator.pushReplacementNamed(
-        context,
-        '/${DrawerItem.navPersonalArea.title}',
-      );
-    } else if (status == RequestStatus.failed) {
-      ToastMessage.error(context, S.of(context).failed_login);
-    }
   }
 
   void updatePasswordDialog() {

@@ -1,6 +1,5 @@
 import 'dart:collection';
 
-import 'package:logger/logger.dart';
 import 'package:uni/controller/fetchers/course_units_fetcher/course_units_info_fetcher.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/entities/course_units/course_unit_class.dart';
@@ -9,7 +8,6 @@ import 'package:uni/model/entities/course_units/course_unit_sheet.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
-import 'package:uni/model/request_status.dart';
 
 class CourseUnitsInfoProvider extends StateProviderNotifier {
   CourseUnitsInfoProvider()
@@ -32,33 +30,16 @@ class CourseUnitsInfoProvider extends StateProviderNotifier {
     CourseUnit courseUnit,
     Session session,
   ) async {
-    updateStatus(RequestStatus.busy);
-    try {
-      _courseUnitsSheets[courseUnit] = await CourseUnitsInfoFetcher()
-          .fetchCourseUnitSheet(session, courseUnit.occurrId);
-    } catch (e) {
-      updateStatus(RequestStatus.failed);
-      Logger().e('Failed to get course unit sheet for ${courseUnit.name}: $e');
-      return;
-    }
-    updateStatus(RequestStatus.successful);
+    _courseUnitsSheets[courseUnit] = await CourseUnitsInfoFetcher()
+        .fetchCourseUnitSheet(session, courseUnit.occurrId);
   }
 
   Future<void> fetchCourseUnitClasses(
     CourseUnit courseUnit,
     Session session,
   ) async {
-    updateStatus(RequestStatus.busy);
-    try {
-      _courseUnitsClasses[courseUnit] = await CourseUnitsInfoFetcher()
-          .fetchCourseUnitClasses(session, courseUnit.occurrId);
-    } catch (e) {
-      updateStatus(RequestStatus.failed);
-      Logger()
-          .e('Failed to get course unit classes for ${courseUnit.name}: $e');
-      return;
-    }
-    updateStatus(RequestStatus.successful);
+    _courseUnitsClasses[courseUnit] = await CourseUnitsInfoFetcher()
+        .fetchCourseUnitClasses(session, courseUnit.occurrId);
   }
 
   Future<void> fetchCourseUnitFiles(
