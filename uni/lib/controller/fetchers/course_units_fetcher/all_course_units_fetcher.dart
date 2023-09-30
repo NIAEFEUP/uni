@@ -8,8 +8,9 @@ import 'package:uni/model/entities/session.dart';
 class AllCourseUnitsFetcher {
   Future<List<CourseUnit>?> getAllCourseUnitsAndCourseAverages(
     List<Course> courses,
-    Session session,
-  ) async {
+    Session session, {
+    List<CourseUnit>? currentCourseUnits,
+  }) async {
     final allCourseUnits = <CourseUnit>[];
 
     for (final course in courses) {
@@ -17,6 +18,7 @@ class AllCourseUnitsFetcher {
         final courseUnits = await _getAllCourseUnitsAndCourseAveragesFromCourse(
           course,
           session,
+          currentCourseUnits: currentCourseUnits,
         );
         allCourseUnits.addAll(courseUnits.where((c) => c.enrollmentIsValid()));
       } catch (e) {
@@ -30,8 +32,9 @@ class AllCourseUnitsFetcher {
 
   Future<List<CourseUnit>> _getAllCourseUnitsAndCourseAveragesFromCourse(
     Course course,
-    Session session,
-  ) async {
+    Session session, {
+    List<CourseUnit>? currentCourseUnits,
+  }) async {
     final url = '${NetworkRouter.getBaseUrl(course.faculty!)}'
         'fest_geral.curso_percurso_academico_view';
     final response = await NetworkRouter.getWithCookies(
@@ -41,6 +44,10 @@ class AllCourseUnitsFetcher {
       },
       session,
     );
-    return parseCourseUnitsAndCourseAverage(response, course);
+    return parseCourseUnitsAndCourseAverage(
+      response,
+      course,
+      currentCourseUnits: currentCourseUnits,
+    );
   }
 }
