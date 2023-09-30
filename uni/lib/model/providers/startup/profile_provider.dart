@@ -112,8 +112,12 @@ class ProfileProvider extends StateProviderNotifier {
 
   Future<void> fetchCourseUnitsAndCourseAverages(Session session) async {
     final courses = profile.courses;
-    final allCourseUnits = await AllCourseUnitsFetcher()
-        .getAllCourseUnitsAndCourseAverages(profile.courses, session);
+    final allCourseUnits =
+        await AllCourseUnitsFetcher().getAllCourseUnitsAndCourseAverages(
+      profile.courses,
+      session,
+      currentCourseUnits: profile.courseUnits,
+    );
 
     if (allCourseUnits != null) {
       _profile.courseUnits = allCourseUnits;
