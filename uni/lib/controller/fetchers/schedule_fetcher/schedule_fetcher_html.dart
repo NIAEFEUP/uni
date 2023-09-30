@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:http/http.dart';
 import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher.dart';
 import 'package:uni/controller/networking/network_router.dart';
@@ -39,8 +40,11 @@ class ScheduleFetcherHtml extends ScheduleFetcher {
     }
 
     final lectures = await Future.wait(
-      lectureResponses
-          .map((response) => getScheduleFromHtml(response, session)),
+      IterableZip(
+        [lectureResponses, NetworkRouter.getBaseUrlsFromSession(session)],
+      ).map(
+        (e) => getScheduleFromHtml(e[0] as Response, session, e[1] as String),
+      ),
     ).then((schedules) => schedules.expand((schedule) => schedule).toList());
 
     lectures.sort((l1, l2) => l1.compare(l2));
