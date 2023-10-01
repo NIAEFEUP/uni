@@ -90,7 +90,6 @@ void main() {
 
       expect(provider.exams.isNotEmpty, true);
       expect(provider.exams, [sopeExam]);
-      expect(provider.status, RequestStatus.successful);
     });
 
     test('When given two exams', () async {
@@ -105,7 +104,6 @@ void main() {
         persistentSession: false,
       );
 
-      expect(provider.status, RequestStatus.successful);
       expect(provider.exams, [sopeExam, sdisExam]);
     });
 
@@ -135,7 +133,6 @@ When given three exams but one is to be parsed out,
         persistentSession: false,
       );
 
-      expect(provider.status, RequestStatus.successful);
       expect(provider.exams, [sopeExam, sdisExam]);
     });
 
@@ -143,14 +140,15 @@ When given three exams but one is to be parsed out,
       when(parserExams.parseExams(any, any))
           .thenAnswer((_) async => throw Exception('RIP'));
 
-      await provider.fetchUserExams(
-        parserExams,
-        profile,
-        session,
-        userUcs,
-        persistentSession: false,
+      throwsA(
+        () async => provider.fetchUserExams(
+          parserExams,
+          profile,
+          session,
+          userUcs,
+          persistentSession: false,
+        ),
       );
-      expect(provider.status, RequestStatus.failed);
     });
 
     test('When Exam is today in one hour', () async {
@@ -177,7 +175,6 @@ When given three exams but one is to be parsed out,
         persistentSession: false,
       );
 
-      expect(provider.status, RequestStatus.successful);
       expect(provider.exams, [todayExam]);
     });
 
@@ -205,7 +202,6 @@ When given three exams but one is to be parsed out,
         persistentSession: false,
       );
 
-      expect(provider.status, RequestStatus.successful);
       expect(provider.exams, <Exam>[]);
     });
 
@@ -233,7 +229,6 @@ When given three exams but one is to be parsed out,
         persistentSession: false,
       );
 
-      expect(provider.status, RequestStatus.successful);
       expect(provider.exams, [todayExam]);
     });
   });

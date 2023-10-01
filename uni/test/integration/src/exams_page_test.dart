@@ -87,6 +87,8 @@ void main() {
         persistentSession: false,
       );
 
+      examProvider.markAsInitialized();
+
       await tester.pumpAndSettle();
       expect(find.byKey(Key('$sdisExam-exam')), findsOneWidget);
       expect(find.byKey(Key('$sopeExam-exam')), findsOneWidget);
@@ -122,6 +124,8 @@ void main() {
         [sopeCourseUnit, sdisCourseUnit],
         persistentSession: false,
       );
+
+      examProvider.markAsInitialized();
 
       await tester.pumpAndSettle();
       expect(find.byKey(Key('$sdisExam-exam')), findsOneWidget);

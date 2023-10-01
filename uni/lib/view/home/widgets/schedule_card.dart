@@ -1,5 +1,6 @@
-import 'dart:collection';
+import 'dart:math';
 
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/generated/l10n.dart';
@@ -37,7 +38,10 @@ class ScheduleCard extends GenericCard {
     return LazyConsumer<LectureProvider>(
       builder: (context, lectureProvider) => RequestDependentWidgetBuilder(
         status: lectureProvider.status,
-        builder: () => generateSchedule(lectureProvider.lectures, context),
+        builder: () => Column(
+          mainAxisSize: MainAxisSize.min,
+          children: getScheduleRows(context, lectureProvider.lectures),
+        ),
         hasContentPredicate: lectureProvider.lectures.isNotEmpty,
         onNullContent: Center(
           child: Text(
@@ -51,53 +55,55 @@ class ScheduleCard extends GenericCard {
     );
   }
 
-  Widget generateSchedule(
-    UnmodifiableListView<Lecture> lectures,
-    BuildContext context,
-  ) {
-    final lectureList = List<Lecture>.of(lectures);
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: getScheduleRows(context, lectureList),
-    );
-  }
-
   List<Widget> getScheduleRows(BuildContext context, List<Lecture> lectures) {
     final rows = <Widget>[];
 
-    final now = DateTime.now();
-    var added = 0; // Lectures added to widget
-    var lastAddedLectureDate = DateTime.now(); // Day of last added lecture
+    final lecturesByDay = lectures
+        .groupListsBy(
+          (lecture) => lecture.startTime.weekday,
+        )
+        .entries
+        .toList()
+        .sortedBy<num>((element) {
+      // Sort by day of the week, but next days come first
+      final dayDiff = element.key - DateTime.now().weekday;
+      return dayDiff >= 0 ? dayDiff - 7 : dayDiff;
+    }).toList();
 
-    for (var i = 0; added < 2 && i < lectures.length; i++) {
-      if (now.compareTo(lectures[i].endTime) < 0) {
-        if (lastAddedLectureDate.weekday != lectures[i].startTime.weekday &&
-            lastAddedLectureDate.compareTo(lectures[i].startTime) <= 0) {
-          rows.add(
-            DateRectangle(
-              date:
-                  Provider.of<LocaleNotifier>(context).getWeekdaysWithLocale()[
-                      (lectures[i].startTime.weekday - 1) % 7],
-            ),
-          );
-        }
+    for (final dayLectures
+        in lecturesByDay.sublist(0, min(2, lecturesByDay.length))) {
+      final day = dayLectures.key;
+      final lectures = dayLectures.value
+          .where(
+            (element) =>
+                // Hide finished lectures from today
+                element.startTime.weekday != DateTime.now().weekday ||
+                element.endTime.isAfter(DateTime.now()),
+          )
+          .toList();
 
-        rows.add(createRowFromLecture(context, lectures[i]));
-        lastAddedLectureDate = lectures[i].startTime;
-        added++;
+      if (lectures.isEmpty) {
+        continue;
+      }
+
+      rows.add(
+        DateRectangle(
+          date: Provider.of<LocaleNotifier>(context)
+              .getWeekdaysWithLocale()[(day - 1) % 7],
+        ),
+      );
+
+      for (final lecture in lectures) {
+        rows.add(createRowFromLecture(context, lecture));
+      }
+
+      rows.add(const Padding(padding: EdgeInsets.only(bottom: 10)));
+
+      if (lectures.length >= 2) {
+        break;
       }
     }
 
-    if (rows.isEmpty) {
-      rows
-        ..add(
-          DateRectangle(
-            date: Provider.of<LocaleNotifier>(context)
-                .getWeekdaysWithLocale()[lectures[0].startTime.weekday % 7],
-          ),
-        )
-        ..add(createRowFromLecture(context, lectures[0]));
-    }
     return rows;
   }
 

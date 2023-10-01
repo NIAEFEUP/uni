@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:uni/model/entities/course_units/course_unit_file.dart';
-import 'package:uni/view/course_unit_info/widgets/course_unit_info_card.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_files_row.dart';
+import 'package:uni/view/course_unit_info/widgets/course_unit_info_card.dart';
 
 class CourseUnitFilesView extends StatelessWidget {
   const CourseUnitFilesView(this.files, {super.key});
