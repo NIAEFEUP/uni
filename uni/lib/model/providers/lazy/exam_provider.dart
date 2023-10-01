@@ -74,7 +74,7 @@ class ExamProvider extends StateProviderNotifier {
   }
 
   Future<void> setFilteredExams(Map<String, bool> newFilteredExams) async {
-    unawaited(AppSharedPreferences.saveFilteredExams(filteredExamsTypes));
+    unawaited(AppSharedPreferences.saveFilteredExams(newFilteredExams));
     _filteredExamsTypes = Map<String, bool>.from(newFilteredExams);
     notifyListeners();
   }
