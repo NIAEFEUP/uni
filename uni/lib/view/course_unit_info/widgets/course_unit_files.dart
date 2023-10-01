@@ -4,15 +4,17 @@ import 'package:uni/view/course_unit_info/widgets/course_unit_info_card.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_files_row.dart';
 
 class CourseUnitFilesView extends StatelessWidget {
-  const CourseUnitFilesView(this.files, {Key? key}) : super(key: key);
+  const CourseUnitFilesView(this.files, {super.key});
   final List<Map<String, List<CourseUnitFile>>> files;
 
   @override
   Widget build(BuildContext context) {
     final cards = files
-        .expand((file) => file.entries
-            .where((item) => item.value.isNotEmpty)
-            .map((item) => _buildCard(item.key, item.value)))
+        .expand(
+          (file) => file.entries
+              .where((item) => item.value.isNotEmpty)
+              .map((item) => _buildCard(item.key, item.value)),
+        )
         .toList();
 
     return Container(
@@ -25,7 +27,7 @@ class CourseUnitFilesView extends StatelessWidget {
     return CourseUnitInfoCard(
       folder,
       Column(
-        children: files.map((file) => CourseUnitFilesRow(file)).toList(),
+        children: files.map(CourseUnitFilesRow.new).toList(),
       ),
     );
   }

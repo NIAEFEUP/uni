@@ -2,11 +2,11 @@ import 'dart:convert';
 
 import 'package:html/parser.dart';
 import 'package:http/http.dart' as http;
+import 'package:uni/controller/fetchers/course_units_fetcher/course_units_info_fetcher.dart';
 import 'package:uni/model/entities/course_units/course_unit_class.dart';
 import 'package:uni/model/entities/course_units/course_unit_file.dart';
 import 'package:uni/model/entities/course_units/course_unit_sheet.dart';
 import 'package:uni/model/entities/session.dart';
-import 'package:uni/controller/fetchers/course_units_fetcher/course_units_info_fetcher.dart';
 
 Future<List<Map<String, List<CourseUnitFile>>>> parseFilesMultipleRequests(
   List<http.Response> responses,
