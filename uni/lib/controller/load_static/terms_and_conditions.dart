@@ -1,9 +1,7 @@
 import 'dart:convert';
 
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 
@@ -12,19 +10,6 @@ import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 ///
 /// If this operation is unsuccessful, an error message is returned.
 Future<String> fetchTermsAndConditions() async {
-  if (await Connectivity().checkConnectivity() != ConnectivityResult.none) {
-    try {
-      const url =
-          'https://raw.githubusercontent.com/NIAEFEUP/project-schrodinger/develop/uni/assets/text/TermsAndConditions.md';
-      final response = await http.get(Uri.parse(url));
-      if (response.statusCode == 200) {
-        return response.body;
-      }
-    } catch (e) {
-      Logger().e('Failed to fetch Terms and Conditions: $e');
-    }
-  }
-
   try {
     return await rootBundle.loadString('assets/text/TermsAndConditions.md');
   } catch (e) {
