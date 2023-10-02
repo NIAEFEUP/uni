@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/login_exceptions.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
@@ -68,7 +69,7 @@ class LoginPageViewState extends State<LoginPageView> {
             _loggingIn = false;
           });
         }
-      } catch (error) {
+      } catch (error, stackTrace) {
         setState(() {
           _loggingIn = false;
         });
@@ -79,7 +80,8 @@ class LoginPageViewState extends State<LoginPageView> {
         } else if (error is WrongCredentialsException) {
           unawaited(ToastMessage.error(context, error.message));
         } else {
-          Logger().e(error);
+          Logger().e(error, stackTrace: stackTrace);
+          unawaited(Sentry.captureException(error, stackTrace: stackTrace));
           unawaited(ToastMessage.error(context, S.of(context).failed_login));
         }
       }

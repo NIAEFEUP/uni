@@ -89,7 +89,12 @@ Future<void> main() async {
   await dotenv
       .load(fileName: 'assets/env/.env', isOptional: true)
       .onError((error, stackTrace) {
-    Logger().e('Error loading .env file: $error', error, stackTrace);
+    Sentry.captureException(error, stackTrace: stackTrace);
+    Logger().e(
+      'Error loading .env file: $error',
+      error: error,
+      stackTrace: stackTrace,
+    );
   });
 
   final savedTheme = await AppSharedPreferences.getThemeMode();
@@ -148,28 +153,29 @@ Future<void> main() async {
               create: (_) => ThemeNotifier(savedTheme),
             ),
           ],
-          child: MyApp(route),
+          child: Application(route),
         ),
       );
     },
   );
 }
 
-/// Manages the state of the app
-///
+/// Manages the state of the app.
 /// This class is necessary to track the app's state for
-/// the current execution
-class MyApp extends StatefulWidget {
-  const MyApp(this.initialRoute, {super.key});
+/// the current execution.
+class Application extends StatefulWidget {
+  const Application(this.initialRoute, {super.key});
 
   final String initialRoute;
 
+  static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
   @override
-  State<MyApp> createState() => MyAppState();
+  State<Application> createState() => ApplicationState();
 }
 
 /// Manages the app depending on its current state
-class MyAppState extends State<MyApp> {
+class ApplicationState extends State<Application> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
@@ -178,6 +184,7 @@ class MyAppState extends State<MyApp> {
     return Consumer2<ThemeNotifier, LocaleNotifier>(
       builder: (context, themeNotifier, localeNotifier, _) => MaterialApp(
         title: 'uni',
+        navigatorKey: Application.navigatorKey,
         theme: applicationLightTheme,
         darkTheme: applicationDarkTheme,
         themeMode: themeNotifier.getTheme(),

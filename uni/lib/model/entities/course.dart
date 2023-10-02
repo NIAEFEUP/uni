@@ -23,8 +23,8 @@ class Course {
 
   /// Creates a new instance from a JSON object.
   Course.fromJson(Map<String, dynamic> data)
-      : id = data['cur_id'] as int,
-        festId = data['fest_id'] as int,
+      : id = (data['cur_id'] ?? 0) as int,
+        festId = (data['fest_id'] ?? 0) as int,
         name = data['cur_nome'] as String?,
         currYear = data['ano_curricular'] as String?,
         firstEnrollment = data['fest_a_lect_1_insc'] as int,
