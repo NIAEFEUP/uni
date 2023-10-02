@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:flutter/services.dart' show rootBundle;
 
 import 'package:html/dom.dart';
 import 'package:html/parser.dart';
@@ -15,27 +14,17 @@ class DeparturesFetcher {
 
   final String _stopCode;
   final BusStopData _stopData;
-  static final _client = Future.microtask(() async {
-    // FIXME(limwa): replace `rootBundle` with `DefaultAssetBundle.of(context)`
-    final certificateBytes =
-        await rootBundle.load('assets/certificates/www.stcp.pt.crt');
-
-    final securityContext = SecurityContext(withTrustedRoots: true)
-      ..setTrustedCertificatesBytes(certificateBytes.buffer.asUint8List());
-
-    return http.IOClient(
-      HttpClient(
-        context: securityContext,
-      ),
-    );
-  });
+  static final _client = http.IOClient(
+    HttpClient(context: SecurityContext())
+      ..badCertificateCallback =
+          (cert, host, port) => host == 'www.stcp.pt' && port == 443,
+  );
 
   Future<String> _getCSRFToken() async {
     final url =
         'https://www.stcp.pt/en/travel/timetables/?paragem=$_stopCode&t=smsbus';
 
-    final client = await _client;
-    final response = await client.get(url.toUri());
+    final response = await _client.get(url.toUri());
     final htmlResponse = parse(response.body);
 
     final scriptText = htmlResponse
@@ -67,8 +56,7 @@ class DeparturesFetcher {
     final url =
         'https://www.stcp.pt/pt/itinerarium/soapclient.php?codigo=$_stopCode&hash123=$csrfToken';
 
-    final client = await _client;
-    final response = await client.get(url.toUri());
+    final response = await _client.get(url.toUri());
     final htmlResponse = parse(response.body);
 
     final tableEntries =
@@ -130,8 +118,7 @@ class DeparturesFetcher {
     final url =
         'https://www.stcp.pt/pt/itinerarium/callservice.php?action=srchstoplines&stopname=$stopCode';
 
-    final client = await _client;
-    final response = await client.post(url.toUri());
+    final response = await _client.post(url.toUri());
     final json = jsonDecode(response.body) as List<dynamic>;
     for (final busKey in json) {
       final bus = busKey as Map<String, dynamic>;
@@ -155,8 +142,7 @@ class DeparturesFetcher {
     final url =
         'https://www.stcp.pt/pt/itinerarium/callservice.php?action=srchstoplines&stopcode=$stop';
 
-    final client = await _client;
-    final response = await client.post(url.toUri());
+    final response = await _client.post(url.toUri());
 
     final json = jsonDecode(response.body) as List<dynamic>;
 
