@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/services.dart' show rootBundle;
 
 import 'package:html/dom.dart';
 import 'package:html/parser.dart';
@@ -8,7 +9,6 @@ import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/model/entities/bus.dart';
 import 'package:uni/model/entities/bus_stop.dart';
 import 'package:uni/model/entities/trip.dart';
-import 'package:flutter/services.dart' show rootBundle;
 
 class DeparturesFetcher {
   DeparturesFetcher(this._stopCode, this._stopData);
@@ -16,9 +16,12 @@ class DeparturesFetcher {
   final String _stopCode;
   final BusStopData _stopData;
   static final _client = Future.microtask(() async {
-    final certificateBytes = await rootBundle.load('assets/certificates/www.stcp.pt.crt');
+    // FIXME(limwa): replace `rootBundle` with `DefaultAssetBundle.of(context)`
+    final certificateBytes =
+        await rootBundle.load('assets/certificates/www.stcp.pt.crt');
+
     final securityContext = SecurityContext(withTrustedRoots: true)
-        ..setTrustedCertificatesBytes(certificateBytes.buffer.asUint8List());
+      ..setTrustedCertificatesBytes(certificateBytes.buffer.asUint8List());
 
     return http.IOClient(
       HttpClient(
