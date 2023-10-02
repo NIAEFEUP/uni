@@ -79,6 +79,7 @@ flutter:
     - assets/text/
     - assets/text/locations/
     - assets/meal-icons/
+    - assets/certificates/
   fonts:
     - family: Raleway
       fonts:
