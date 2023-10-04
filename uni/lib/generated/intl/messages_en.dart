@@ -150,6 +150,10 @@ class MessageLookup extends MessageLookupByLibrary {
             "Your reservation was canceled!"),
         "library_cancel_tooltip":
             MessageLookupByLibrary.simpleMessage("Cancel reservation"),
+        "library_create_error": MessageLookupByLibrary.simpleMessage(
+            "An error occurred while creating your reservation!"),
+        "library_create_success": MessageLookupByLibrary.simpleMessage(
+            "Your reservation was created!"),
         "library_occupation":
             MessageLookupByLibrary.simpleMessage("Library Occupation"),
         "library_reservations":

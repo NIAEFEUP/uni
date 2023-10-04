@@ -4,8 +4,6 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/library_reservation.dart';
-import 'package:uni/model/entities/session.dart';
-import 'package:uni/model/providers/lazy/library_occupation_provider.dart';
 import 'package:uni/model/providers/lazy/library_reservations_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/model/providers/state_providers.dart';
@@ -48,7 +46,7 @@ class LibraryReservationsTabView extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
           ),
-          CreateReservationButton(),
+          const CreateReservationButton(),
         ],
       );
     }
@@ -56,7 +54,7 @@ class LibraryReservationsTabView extends StatelessWidget {
       shrinkWrap: true,
       children: [
         LibraryReservationsList(reservations!),
-        CreateReservationButton(),
+        const CreateReservationButton(),
       ],
     );
   }
@@ -92,29 +90,36 @@ class LibraryReservationsList extends StatelessWidget {
 }
 
 class CreateReservationButton extends StatelessWidget {
+  const CreateReservationButton({super.key});
+
   @override
   Widget build(BuildContext context) {
     return LazyConsumer<LibraryReservationsProvider>(
-        builder: (tempContext, libraryReservationsProvider) =>
+        builder: (BuildContext tempContext, libraryReservationsProvider) =>
             libraryReservationsProvider.isReserving
                 ? const Center(child: CircularProgressIndicator())
                 : IconButton(
                     icon: const Icon(Icons.add),
                     iconSize: 35,
                     onPressed: () {
-                      showDialog(
+                      showDialog<void>(
                           context: tempContext,
                           builder: (BuildContext toastContext) {
-                            return ReservationPicker(context: context);
-                          });
+                            return ReservationPicker(
+                              context: context,
+                              toastContext: toastContext,
+                            );
+                          },);
                     },
-                  ));
+                  ),);
   }
 }
 
 class ReservationPicker extends StatefulWidget {
+  const ReservationPicker(
+      {required this.context, required this.toastContext, super.key,});
   final BuildContext context;
-  const ReservationPicker({super.key, required this.context});
+  final BuildContext toastContext;
 
   @override
   State<StatefulWidget> createState() => ReservationPickerState();
@@ -132,27 +137,27 @@ class ReservationPickerState extends State<ReservationPicker> {
   Widget build(BuildContext context) {
     return AlertDialog(
       actionsPadding:
-          const EdgeInsets.symmetric(horizontal: 25.0, vertical: 10.0),
+          const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
       title: const Center(child: Text('Reservar Sala')),
       actions: <Widget>[
         TextField(
             controller: dateInput,
             decoration: const InputDecoration(
-                icon: Icon(Icons.calendar_today), labelText: "Data"),
+                icon: Icon(Icons.calendar_today), labelText: 'Data',),
             readOnly: true,
-            onTap: () => onTapDate(context)),
+            onTap: () => onTapDate(context),),
         TextField(
             controller: timeInput,
             decoration: const InputDecoration(
-                icon: Icon(Icons.schedule), labelText: "Hora"),
+                icon: Icon(Icons.schedule), labelText: 'Hora',),
             readOnly: true,
-            onTap: () => onTapTime(context)),
+            onTap: () => onTapTime(context),),
         TextField(
             controller: durationInput,
             decoration: const InputDecoration(
-                icon: Icon(Icons.timer), labelText: "Duração"),
+                icon: Icon(Icons.timer), labelText: 'Duração',),
             readOnly: true,
-            onTap: () => onTapDuration(context)),
+            onTap: () => onTapDuration(context),),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
@@ -178,12 +183,12 @@ class ReservationPickerState extends State<ReservationPicker> {
             context: context,
             initialDate: DateTime.now().add(const Duration(days: 1)),
             firstDate: DateTime.now().add(const Duration(days: 1)),
-            lastDate: DateTime.now().add(const Duration(days: 7)))
+            lastDate: DateTime.now().add(const Duration(days: 7)),)
         .then((datePicked) => setState(() {
               date = datePicked;
               dateInput.text =
                   DateFormat('dd-MM-yyyy').format(date ?? DateTime.now());
-            }));
+            }),);
   }
 
   Future<void> onTapTime(BuildContext context) async {
@@ -191,12 +196,12 @@ class ReservationPickerState extends State<ReservationPicker> {
         .then((timePicked) => setState(() {
               time = timePicked;
               timeInput.text = (timePicked ?? TimeOfDay.now()).format(context);
-            }));
+            }),);
   }
 
   Future<void> onTapDuration(BuildContext context) async {
     await showDurationPicker(
-            context: context, initialTime: const Duration(hours: 1))
+            context: context, initialTime: const Duration(hours: 1),)
         .then((durationPicked) => setState(() {
               duration = durationPicked;
               durationInput.text = (durationPicked ?? const Duration(hours: 1))
@@ -204,11 +209,11 @@ class ReservationPickerState extends State<ReservationPicker> {
                   .split(':00.')
                   .first
                   .padLeft(5, '0');
-            }));
+            }),);
   }
 
   Future<void> makeReservation(BuildContext context) async {
-    Navigator.of(context).pop();
+    Navigator.of(widget.toastContext).pop();
     if (date != null && time != null && duration != null) {
       final session =
           Provider.of<SessionProvider>(widget.context, listen: false).session;
@@ -224,7 +229,7 @@ class ReservationPickerState extends State<ReservationPicker> {
                   ((time!.minute > 0 && time!.minute <= 30) ? '' : ',5'),
               ((durationMinutes > 0 && durationMinutes <= 30)
                   ? '${duration!.inHours},5'
-                  : (duration!.inHours + 1).toString()));
+                  : (duration!.inHours + 1).toString()),);
 
       await displayToast(success: result);
     }
@@ -236,12 +241,12 @@ class ReservationPickerState extends State<ReservationPicker> {
     if (success) {
       await ToastMessage.success(
         widget.context,
-        S.of(context).library_cancel_success,
+        S.of(widget.context).library_create_success,
       );
     } else {
       await ToastMessage.error(
         widget.context,
-        S.of(context).library_cancel_success,
+        S.of(widget.context).library_create_error,
       );
     }
   }

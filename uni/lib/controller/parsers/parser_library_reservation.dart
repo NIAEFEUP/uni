@@ -51,6 +51,6 @@ LibraryReservation getReservationFromRequest(Response response) {
   final durationHtml = reservationHtml[4].text;
   final duration = Duration(
       hours: int.parse(durationHtml.substring(0, 2)),
-      minutes: int.parse(durationHtml.substring(3, 5)));
+      minutes: int.parse(durationHtml.substring(3, 5)),);
   return LibraryReservation(id, room, startDate, duration);
 }

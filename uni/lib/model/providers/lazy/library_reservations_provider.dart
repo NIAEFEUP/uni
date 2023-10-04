@@ -107,6 +107,11 @@ class LibraryReservationsProvider extends StateProviderNotifier {
     final response = await post(url.toUri(), headers: headers, body: body);
     final document = parse(response.body);
     final redirect = document.querySelector('a')!.attributes['href']!;
+    if (redirect == '#ancora-conteudo') {
+      _isReserving = false;
+      notifyListeners();
+      return false;
+    }
     final sessionId =
         Uri.dataFromString(redirect).queryParameters['pct_session_id'];
 
@@ -118,7 +123,8 @@ class LibraryReservationsProvider extends StateProviderNotifier {
     _isReserving = false;
     if (reserveResponse.statusCode == 200) {
       final infoUrl =
-          '${NetworkRouter.getBaseUrl('feup')}res_recursos_geral.pedidos_view?pct_pedido_id=${sessionId}';
+      // ignore: lines_longer_than_80_chars
+          '${NetworkRouter.getBaseUrl('feup')}res_recursos_geral.pedidos_view?pct_pedido_id=$sessionId';
       final reserveInfo = await get(infoUrl.toUri(), headers: headers);
       final reservation = getReservationFromRequest(reserveInfo);
       _reservations.add(reservation);

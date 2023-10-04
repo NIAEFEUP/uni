@@ -753,6 +753,26 @@ class S {
     );
   }
 
+  /// `An error occurred while creating your reservation!`
+  String get library_create_error {
+    return Intl.message(
+      'An error occurred while creating your reservation!',
+      name: 'library_create_error',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your reservation was created!`
+  String get library_create_success {
+    return Intl.message(
+      'Your reservation was created!',
+      name: 'library_create_success',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Library Occupation`
   String get library_occupation {
     return Intl.message(
