@@ -1029,10 +1029,10 @@ class S {
   }
 
   /// `of`
-  String get exam_of {
+  String get of_month {
     return Intl.message(
       'of',
-      name: 'exam_of',
+      name: 'of_month',
       desc: '',
       args: [],
     );

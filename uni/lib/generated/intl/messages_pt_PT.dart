@@ -111,7 +111,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "edit_on": MessageLookupByLibrary.simpleMessage("Concluir edição"),
         "empty_text": MessageLookupByLibrary.simpleMessage(
             "Por favor preenche este campo"),
-        "exam_of": MessageLookupByLibrary.simpleMessage("de"),
+        "of_month": MessageLookupByLibrary.simpleMessage("de"),
         "exams_filter":
             MessageLookupByLibrary.simpleMessage("Definições Filtro de Exames"),
         "exit_confirm": MessageLookupByLibrary.simpleMessage(
