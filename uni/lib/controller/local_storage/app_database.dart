@@ -21,7 +21,7 @@ class AppDatabase {
   List<String> commands;
 
   /// The lock timeout for database operations.
-  static const Duration lockTimeout = Duration(seconds: 10);
+  static const Duration lockTimeout = Duration(seconds: 5);
 
   /// A lock that synchronizes all database insertions.
   static Lock lock = Lock();

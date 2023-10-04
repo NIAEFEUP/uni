@@ -22,7 +22,7 @@ class NetworkRouter {
   static http.Client? httpClient;
 
   /// The timeout for Sigarra login requests.
-  static const Duration _requestTimeout = Duration(seconds: 10);
+  static const Duration _requestTimeout = Duration(seconds: 30);
 
   /// The mutual exclusion primitive for login requests.
   static final Lock _loginLock = Lock();

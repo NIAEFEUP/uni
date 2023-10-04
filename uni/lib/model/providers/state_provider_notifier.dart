@@ -22,7 +22,7 @@ abstract class StateProviderNotifier extends ChangeNotifier {
         _initializedFromStorage = !initialize,
         _initializedFromRemote = !initialize;
 
-  static const lockTimeout = Duration(seconds: 10);
+  static const lockTimeout = Duration(seconds: 30);
   final Lock _lock = Lock();
   final RequestStatus _initialStatus;
   RequestStatus _status;
