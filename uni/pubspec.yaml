@@ -7,7 +7,7 @@ publish_to: 'none' # We do not publish to pub.dev
 # To change it manually, override the value in app_version.txt.
 # The app version code is automatically also bumped by CI.
 # Do not change it manually.
-version: 1.7.9+199
+version: 1.7.10+200
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
