@@ -16,7 +16,7 @@ class AppLecturesDatabase extends AppDatabase {
             createScript,
           ],
           onUpgrade: migrate,
-          version: 6,
+          version: 7,
         );
   static const createScript = '''
 CREATE TABLE lectures(subject TEXT, typeClass TEXT,
