@@ -1,9 +1,11 @@
 on:
   push:
-    branches: [ master, develop ]
+    branches: [master, develop]
 
 jobs:
   bump_version:
+    permissions:
+      actions: "write"
     name: "Bump pubspec version"
     runs-on: ubuntu-latest
     env:
@@ -35,9 +37,17 @@ jobs:
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: "Bump app version [no ci]"
-      - name: Propagate master version bump to develop
+
+      - name: Propagate master version bump to develop if master version is aad
         if: github.ref == 'refs/heads/master'
-        run: git push --force-with-lease origin HEAD:develop
+        run: |
+          git fetch origin develop
+          if [[ $(git diff --quiet HEAD~1 origin/develop) ]]; then
+            echo "Master version does not match develop version"
+          else
+            echo "Master version matches develop version"
+            git push --force-with-lease origin HEAD:develop
+          fi
 
   build:
     name: "Build App Bundle"
@@ -55,7 +65,7 @@ jobs:
       - uses: actions/setup-java@v3
         with:
           java-version: ${{env.JAVA_VERSION}}
-          distribution: 'zulu'
+          distribution: "zulu"
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
