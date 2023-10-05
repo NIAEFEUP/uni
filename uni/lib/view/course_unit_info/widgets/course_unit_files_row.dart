@@ -44,7 +44,7 @@ class CourseUnitFilesRow extends StatelessWidget {
     final fileName = '${unitFile.name}.pdf';
 
     final downloadDir = (await getTemporaryDirectory()).path;
-    final downloadPath = '$downloadDir$fileName';
+    final downloadPath = '$downloadDir/$fileName';
 
     final file = File(downloadPath);
     if (!file.existsSync()) {
