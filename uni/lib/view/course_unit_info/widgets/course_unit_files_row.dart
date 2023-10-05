@@ -13,25 +13,24 @@ class CourseUnitFilesRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.only(bottom: 20),
       child: Row(
         children: [
           const SizedBox(width: 8),
           const Icon(Icons.picture_as_pdf),
           const SizedBox(width: 1),
           Expanded(
-            child: Container(
-              padding: const EdgeInsets.only(left: 10),
-              child: Text(
-                file.name,
-                overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.bodyLarge,
+            child: InkWell(
+              onTap: () => openFile(context, file),
+              child: Container(
+                padding: const EdgeInsets.only(left: 10),
+                child: Text(
+                  file.name,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
               ),
             ),
-          ),
-          IconButton(
-            icon: const Icon(Icons.download),
-            onPressed: () => openFile(context, file),
           ),
         ],
       ),
