@@ -32,14 +32,14 @@ Future<Map<String, List<CourseUnitFile>>> parseFiles(
   for (var item in json) {
     item = item as Map<String, dynamic>;
     final files = <CourseUnitFile>[];
-    for (final file in item['ficheiros'] as Iterable) {
-      final fileName = file['nome'] as String;
+    for (final file in item['ficheiros'] as List<dynamic>) {
+      final fileName = file['nome'];
       final fileCode = file['codigo'];
-      final bodyBytes =
-          await CourseUnitsInfoFetcher().downloadFile(session, fileCode);
+      final url = await CourseUnitsInfoFetcher().getDownloadLink(session);
       final courseUnitFile = CourseUnitFile(
-        fileName,
-        bodyBytes,
+        fileName.toString(),
+        url,
+        fileCode.toString(),
       );
       files.add(courseUnitFile);
     }

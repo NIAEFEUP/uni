@@ -1,9 +1,9 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:open_file_plus/open_file_plus.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:provider/provider.dart';
+import 'package:uni/controller/local_storage/file_offline_storage.dart';
 import 'package:uni/model/entities/course_units/course_unit_file.dart';
+import 'package:uni/model/providers/startup/session_provider.dart';
 
 class CourseUnitFilesRow extends StatelessWidget {
   const CourseUnitFilesRow(this.file, {super.key});
@@ -31,26 +31,23 @@ class CourseUnitFilesRow extends StatelessWidget {
           ),
           IconButton(
             icon: const Icon(Icons.download),
-            onPressed: () => openFile(file),
+            onPressed: () => openFile(context, file),
           ),
         ],
       ),
     );
   }
 
-  Future<void> openFile(CourseUnitFile unitFile) async {
-    final response = unitFile.bodyBytes;
+  Future<void> openFile(BuildContext context, CourseUnitFile unitFile) async {
+    final session = context.read<SessionProvider>().session;
 
-    final fileName = '${unitFile.name}.pdf';
+    final result = await loadFileFromStorageOrRetrieveNew(
+      '${unitFile.name}.pdf',
+      unitFile.url,
+      session,
+      headers: {'pct_id': unitFile.fileCode},
+    );
 
-    final downloadDir = (await getTemporaryDirectory()).path;
-    final downloadPath = '$downloadDir/$fileName';
-
-    final file = File(downloadPath);
-    if (!file.existsSync()) {
-      file.createSync();
-    }
-    await file.writeAsBytes(response);
-    await OpenFile.open(file.path);
+    await OpenFile.open(result!.path);
   }
 }
