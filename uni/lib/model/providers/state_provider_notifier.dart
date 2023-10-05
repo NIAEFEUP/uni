@@ -22,6 +22,7 @@ abstract class StateProviderNotifier extends ChangeNotifier {
         _initializedFromStorage = !initialize,
         _initializedFromRemote = !initialize;
 
+  static const lockTimeout = Duration(seconds: 30);
   final Lock _lock = Lock();
   final RequestStatus _initialStatus;
   RequestStatus _status;
@@ -124,12 +125,18 @@ abstract class StateProviderNotifier extends ChangeNotifier {
   }
 
   Future<void> forceRefresh(BuildContext context) async {
-    await _lock.synchronized(() async {
-      final session = context.read<SessionProvider>().session;
-      final profile = context.read<ProfileProvider>().profile;
-      _updateStatus(RequestStatus.busy);
-      await _loadFromRemote(session, profile, force: true);
-    });
+    await _lock.synchronized(
+      () async {
+        if (!context.mounted) {
+          return;
+        }
+        final session = context.read<SessionProvider>().session;
+        final profile = context.read<ProfileProvider>().profile;
+        _updateStatus(RequestStatus.busy);
+        await _loadFromRemote(session, profile, force: true);
+      },
+      timeout: lockTimeout,
+    );
   }
 
   Future<void> ensureInitialized(BuildContext context) async {
@@ -141,32 +148,38 @@ abstract class StateProviderNotifier extends ChangeNotifier {
   }
 
   Future<void> ensureInitializedFromRemote(BuildContext context) async {
-    await _lock.synchronized(() async {
-      if (_initializedFromRemote) {
-        return;
-      }
+    await _lock.synchronized(
+      () async {
+        if (_initializedFromRemote || !context.mounted) {
+          return;
+        }
 
-      _initializedFromRemote = true;
+        final session = context.read<SessionProvider>().session;
+        final profile = context.read<ProfileProvider>().profile;
 
-      final session = context.read<SessionProvider>().session;
-      final profile = context.read<ProfileProvider>().profile;
+        _initializedFromRemote = true;
 
-      await _loadFromRemote(session, profile);
-    });
+        await _loadFromRemote(session, profile);
+      },
+      timeout: lockTimeout,
+    );
   }
 
   /// Loads data from storage into the provider.
   /// This will run once when the provider is first initialized.
   /// If the data is not available in storage, this method should do nothing.
   Future<void> ensureInitializedFromStorage() async {
-    await _lock.synchronized(() async {
-      if (_initializedFromStorage) {
-        return;
-      }
+    await _lock.synchronized(
+      () async {
+        if (_initializedFromStorage) {
+          return;
+        }
 
-      _initializedFromStorage = true;
-      await _loadFromStorage();
-    });
+        _initializedFromStorage = true;
+        await _loadFromStorage();
+      },
+      timeout: lockTimeout,
+    );
   }
 
   Future<void> loadFromStorage();

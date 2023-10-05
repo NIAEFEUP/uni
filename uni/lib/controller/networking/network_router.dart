@@ -22,7 +22,7 @@ class NetworkRouter {
   static http.Client? httpClient;
 
   /// The timeout for Sigarra login requests.
-  static const Duration _requestTimeout = Duration(seconds: 10);
+  static const Duration _requestTimeout = Duration(seconds: 30);
 
   /// The mutual exclusion primitive for login requests.
   static final Lock _loginLock = Lock();
@@ -44,44 +44,47 @@ class NetworkRouter {
     List<String> faculties, {
     required bool persistentSession,
   }) async {
-    return _loginLock.synchronized(() async {
-      if (_lastLoginTime != null &&
-          DateTime.now().difference(_lastLoginTime!) <
-              const Duration(minutes: 1) &&
-          _cachedSession != null) {
-        Logger().d('Login request ignored due to recent login');
-        return _cachedSession;
-      }
+    return _loginLock.synchronized(
+      () async {
+        if (_lastLoginTime != null &&
+            DateTime.now().difference(_lastLoginTime!) <
+                const Duration(minutes: 1) &&
+            _cachedSession != null) {
+          Logger().d('Login request ignored due to recent login');
+          return _cachedSession;
+        }
 
-      final url =
-          '${NetworkRouter.getBaseUrls(faculties)[0]}mob_val_geral.autentica';
-      final response = await http.post(
-        url.toUri(),
-        body: {'pv_login': username, 'pv_password': password},
-      ).timeout(_requestTimeout);
+        final url =
+            '${NetworkRouter.getBaseUrls(faculties)[0]}mob_val_geral.autentica';
+        final response = await http.post(
+          url.toUri(),
+          body: {'pv_login': username, 'pv_password': password},
+        ).timeout(_requestTimeout);
 
-      if (response.statusCode != 200) {
-        Logger().e('Login failed with status code ${response.statusCode}');
-        return null;
-      }
+        if (response.statusCode != 200) {
+          Logger().e('Login failed with status code ${response.statusCode}');
+          return null;
+        }
 
-      final session = Session.fromLogin(
-        response,
-        faculties,
-        persistentSession: persistentSession,
-      );
+        final session = Session.fromLogin(
+          response,
+          faculties,
+          persistentSession: persistentSession,
+        );
 
-      if (session == null) {
-        Logger().e('Login failed: user not authenticated');
-        return null;
-      }
+        if (session == null) {
+          Logger().e('Login failed: user not authenticated');
+          return null;
+        }
 
-      Logger().i('Login successful');
-      _lastLoginTime = DateTime.now();
-      _cachedSession = session;
+        Logger().i('Login successful');
+        _lastLoginTime = DateTime.now();
+        _cachedSession = session;
 
-      return session;
-    });
+        return session;
+      },
+      timeout: _requestTimeout,
+    );
   }
 
   /// Re-authenticates the user via the Sigarra API
@@ -182,8 +185,10 @@ class NetworkRouter {
         final newSession = await reLoginFromSession(session);
 
         if (newSession == null) {
-          NavigationService.logoutAndPopHistory(null);
-          return Future.error('Login failed');
+          NavigationService.logoutAndPopHistory();
+          return Future.error(
+            'Re-login failed; user might have changed password',
+          );
         }
 
         session

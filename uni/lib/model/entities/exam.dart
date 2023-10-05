@@ -1,5 +1,4 @@
 import 'package:intl/intl.dart';
-import 'package:logger/logger.dart';
 import 'package:uni/model/entities/app_locale.dart';
 
 /// Manages a generic Exam.
@@ -85,11 +84,6 @@ class Exam {
   @override
   String toString() {
     return '''$id - $subject - ${begin.year} - $month - ${begin.day} -  $beginTime-$endTime - $type - $rooms - $weekDay''';
-  }
-
-  /// Prints the data in this exam to the [Logger] with an INFO level.
-  void printExam() {
-    Logger().i(toString());
   }
 
   @override

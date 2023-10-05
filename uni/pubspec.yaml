@@ -7,7 +7,7 @@ publish_to: 'none' # We do not publish to pub.dev
 # To change it manually, override the value in app_version.txt.
 # The app version code is automatically also bumped by CI.
 # Do not change it manually.
-version: 1.7.9+199
+version: 1.7.11+201
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
@@ -30,17 +30,17 @@ dependencies:
   flutter_local_notifications: ^15.1.0+1
   flutter_localizations:
     sdk: flutter
-  flutter_map: ^4.0.0
+  flutter_map: ^5.0.0
   flutter_map_marker_popup: ^5.0.0
   flutter_markdown: ^0.6.0
   flutter_svg: ^2.0.0+1
   flutter_widget_from_html_core: ^0.10.3
   html: ^0.15.0
-  http: ^0.13.0
+  http: ^1.1.0
   image: ^4.0.13
   intl: ^0.18.0
-  latlong2: ^0.8.1
-  logger: ^1.1.0
+  latlong2: ^0.9.0
+  logger: ^2.0.2+1
   material_design_icons_flutter: ^7.0.7296
   open_file_plus: ^3.4.1
   path: ^1.8.0
