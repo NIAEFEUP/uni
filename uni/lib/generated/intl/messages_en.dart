@@ -107,7 +107,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "D. Beatriz\'s stationery store"),
         "dona_bia_building": MessageLookupByLibrary.simpleMessage(
             "Floor -1 of building B (B-142)"),
-        "ects": MessageLookupByLibrary.simpleMessage("ECTS performed: "),
+        "ects": MessageLookupByLibrary.simpleMessage("ECTs performed: "),
         "edit_off": MessageLookupByLibrary.simpleMessage("Edit"),
         "edit_on": MessageLookupByLibrary.simpleMessage("Finish editing"),
         "empty_text":

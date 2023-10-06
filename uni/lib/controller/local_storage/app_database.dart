@@ -20,10 +20,7 @@ class AppDatabase {
   /// A list of commands to be executed on database creation.
   List<String> commands;
 
-  /// The lock timeout for database operations.
-  static const Duration lockTimeout = Duration(seconds: 5);
-
-  /// A lock that synchronizes all database insertions.
+  // A lock that synchronizes all database insertions.
   static Lock lock = Lock();
 
   /// A function that is called when the [version] changes.
@@ -45,19 +42,16 @@ class AppDatabase {
     String? nullColumnHack,
     ConflictAlgorithm? conflictAlgorithm,
   }) async {
-    await lock.synchronized(
-      () async {
-        final db = await getDatabase();
+    await lock.synchronized(() async {
+      final db = await getDatabase();
 
-        await db.insert(
-          table,
-          values,
-          nullColumnHack: nullColumnHack,
-          conflictAlgorithm: conflictAlgorithm,
-        );
-      },
-      timeout: lockTimeout,
-    );
+      await db.insert(
+        table,
+        values,
+        nullColumnHack: nullColumnHack,
+        conflictAlgorithm: conflictAlgorithm,
+      );
+    });
   }
 
   /// Initializes this database.

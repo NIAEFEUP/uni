@@ -1,3 +1,4 @@
+import 'package:logger/logger.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/parsers/parser_course_units.dart';
 import 'package:uni/model/entities/course.dart';
@@ -13,12 +14,17 @@ class AllCourseUnitsFetcher {
     final allCourseUnits = <CourseUnit>[];
 
     for (final course in courses) {
-      final courseUnits = await _getAllCourseUnitsAndCourseAveragesFromCourse(
-        course,
-        session,
-        currentCourseUnits: currentCourseUnits,
-      );
-      allCourseUnits.addAll(courseUnits.where((c) => c.enrollmentIsValid()));
+      try {
+        final courseUnits = await _getAllCourseUnitsAndCourseAveragesFromCourse(
+          course,
+          session,
+          currentCourseUnits: currentCourseUnits,
+        );
+        allCourseUnits.addAll(courseUnits.where((c) => c.enrollmentIsValid()));
+      } catch (e) {
+        Logger().e('Failed to fetch course units for ${course.name}', e);
+        return null;
+      }
     }
 
     return allCourseUnits;

@@ -51,9 +51,7 @@ class BusStopProvider extends StateProviderNotifier {
       _configuredBusStops[stopCode] = stopData;
     }
 
-    notifyListeners();
     await fetchUserBusTrips();
-    notifyListeners();
 
     final db = AppBusStopDatabase();
     await db.setBusStops(configuredBusStops);
@@ -63,10 +61,9 @@ class BusStopProvider extends StateProviderNotifier {
     String stopCode,
   ) async {
     _configuredBusStops.remove(stopCode);
+    notifyListeners();
 
-    notifyListeners();
     await fetchUserBusTrips();
-    notifyListeners();
 
     final db = AppBusStopDatabase();
     await db.setBusStops(_configuredBusStops);
@@ -78,10 +75,9 @@ class BusStopProvider extends StateProviderNotifier {
   ) async {
     _configuredBusStops[stopCode]!.favorited =
         !_configuredBusStops[stopCode]!.favorited;
+    notifyListeners();
 
-    notifyListeners();
     await fetchUserBusTrips();
-    notifyListeners();
 
     final db = AppBusStopDatabase();
     await db.updateFavoriteBusStop(stopCode);

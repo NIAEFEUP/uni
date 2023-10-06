@@ -6,6 +6,7 @@
 .pub/
 build/
 *.bin
+uni/pubspec.lock
 .flutter-plugins*
 
 # IDE files

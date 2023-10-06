@@ -1,3 +1,5 @@
+import 'package:logger/logger.dart';
+
 /// Stores information about a bus trip.
 class Trip {
   Trip({
@@ -16,6 +18,11 @@ class Trip {
       'destination': destination,
       'timeRemaining': timeRemaining
     };
+  }
+
+  /// Prints the data in this trip to the [Logger] with an INFO level.
+  void printTrip() {
+    Logger().i('$line ($destination) - $timeRemaining');
   }
 
   /// Compares the remaining time of two trips.

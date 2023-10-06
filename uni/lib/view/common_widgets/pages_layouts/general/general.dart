@@ -25,7 +25,7 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      if (_loadedOnce || !mounted) {
+      if (_loadedOnce) {
         return;
       }
       _loadedOnce = true;
@@ -40,11 +40,9 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
         await Sentry.captureException(e, stackTrace: stackTrace);
       }
 
-      if (mounted) {
-        setState(() {
-          _loading = false;
-        });
-      }
+      setState(() {
+        _loading = false;
+      });
     });
 
     return getScaffold(

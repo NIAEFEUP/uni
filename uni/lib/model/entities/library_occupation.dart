@@ -1,5 +1,3 @@
-import 'dart:math';
-
 /// Overall occupation of the library
 class LibraryOccupation {
   LibraryOccupation(this.occupation, this.capacity) {
@@ -16,8 +14,8 @@ class LibraryOccupation {
   }
 
   int get percentage {
-    if (capacity <= 0) return 0;
-    return min(100, (occupation * 100 / capacity).round());
+    if (capacity == 0) return 0;
+    return (occupation * 100 / capacity).round();
   }
 
   FloorOccupation getFloor(int number) {
@@ -34,8 +32,8 @@ class FloorOccupation {
   final int capacity;
 
   int get percentage {
-    if (capacity <= 0) return 0;
-    return min(100, (occupation * 100 / capacity).round());
+    if (capacity == 0) return 0;
+    return (occupation * 100 / capacity).round();
   }
 
   Map<String, dynamic> toMap() {

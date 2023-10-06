@@ -23,10 +23,7 @@ class Profile {
     responseBody = responseBody as Map<String, dynamic>;
     final courses = <Course>[];
     for (final c in responseBody['cursos'] as List<dynamic>) {
-      final course = Course.fromJson(c as Map<String, dynamic>);
-      if (course != null) {
-        courses.add(course);
-      }
+      courses.add(Course.fromJson(c as Map<String, dynamic>));
     }
 
     return Profile(

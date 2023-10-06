@@ -113,7 +113,7 @@ class LibraryPage extends StatelessWidget {
             style: Theme.of(context)
                 .textTheme
                 .titleLarge
-                ?.copyWith(color: Theme.of(context).colorScheme.secondary),
+                ?.copyWith(color: Theme.of(context).colorScheme.background),
           ),
           LinearPercentIndicator(
             lineHeight: 7,

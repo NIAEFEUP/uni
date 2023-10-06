@@ -246,7 +246,7 @@ class BugReportFormState extends State<BugReportForm> {
       child: Text(
         S.of(context).send,
         style: const TextStyle(
-          fontSize: 20,
+          /*color: Colors.white*/ fontSize: 20,
         ),
       ),
     );
@@ -276,8 +276,7 @@ class BugReportFormState extends State<BugReportForm> {
       Logger().i('Successfully submitted bug report.');
       if (context.mounted) toastMsg = S.of(context).success;
       status = true;
-    } catch (e, stackTrace) {
-      await Sentry.captureException(e, stackTrace: stackTrace);
+    } catch (e) {
       Logger().e('Error while posting bug report:$e');
       if (context.mounted) toastMsg = S.of(context).sent_error;
       status = false;
@@ -285,17 +284,14 @@ class BugReportFormState extends State<BugReportForm> {
 
     clearForm();
 
-    if (context.mounted) {
+    if (mounted) {
       FocusScope.of(context).requestFocus(FocusNode());
       status
           ? await ToastMessage.success(context, toastMsg)
           : await ToastMessage.error(context, toastMsg);
-
-      if (context.mounted) {
-        setState(() {
-          _isButtonTapped = false;
-        });
-      }
+      setState(() {
+        _isButtonTapped = false;
+      });
     }
   }
 
