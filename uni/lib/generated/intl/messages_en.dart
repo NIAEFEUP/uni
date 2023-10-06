@@ -180,6 +180,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("No favorite restaurants"),
         "no_info": MessageLookupByLibrary.simpleMessage(
             "There is no information to display"),
+        "no_link":
+            MessageLookupByLibrary.simpleMessage("We couldn\'t open the link"),
         "no_menu_info": MessageLookupByLibrary.simpleMessage(
             "There is no information available about meals"),
         "no_menus": MessageLookupByLibrary.simpleMessage(

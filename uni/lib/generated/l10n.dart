@@ -1028,6 +1028,16 @@ class S {
     );
   }
 
+  /// `We couldn't open the link`
+  String get no_link {
+    return Intl.message(
+      'We couldn\'t open the link',
+      name: 'no_link',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Other links`
   String get other_links {
     return Intl.message(
