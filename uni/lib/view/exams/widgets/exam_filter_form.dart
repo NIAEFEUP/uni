@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/providers/lazy/exam_provider.dart';
 
 class ExamFilterForm extends StatefulWidget {
   const ExamFilterForm(this.filteredExamsTypes, {super.key});
+
   final Map<String, bool> filteredExamsTypes;
 
   @override
@@ -12,40 +14,62 @@ class ExamFilterForm extends StatefulWidget {
 }
 
 class ExamFilterFormState extends State<ExamFilterForm> {
+  void _changeFilteredExamList(String key, {bool? value}) {
+    setState(() {
+      widget.filteredExamsTypes[key] = value!;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text(
-        'Definições Filtro de Exames',
+        S.of(context).exams_filter,
         style: Theme.of(context).textTheme.headlineSmall,
       ),
       actions: [
         TextButton(
-          child:
-              Text('Cancelar', style: Theme.of(context).textTheme.bodyMedium),
+          child: Text(
+            S.of(context).cancel,
+            style: Theme.of(context).textTheme.bodyMedium,
+          ),
           onPressed: () => Navigator.pop(context),
         ),
         ElevatedButton(
-          child: const Text('Confirmar'),
+          child: Text(S.of(context).confirm),
           onPressed: () {
             Provider.of<ExamProvider>(context, listen: false)
                 .setFilteredExams(widget.filteredExamsTypes);
             Navigator.pop(context);
           },
-        )
+        ),
       ],
       content: SizedBox(
         height: 230,
         width: 200,
-        child: getExamCheckboxes(widget.filteredExamsTypes, context),
+        child: FilteredExamList(
+          widget.filteredExamsTypes,
+          _changeFilteredExamList,
+          context,
+        ),
       ),
     );
   }
+}
 
-  Widget getExamCheckboxes(
-    Map<String, bool> filteredExams,
-    BuildContext context,
-  ) {
+class FilteredExamList extends StatelessWidget {
+  const FilteredExamList(
+    this.filteredExams,
+    this.changeFilteredExamList,
+    this.context, {
+    super.key,
+  });
+  final void Function(String, {bool? value}) changeFilteredExamList;
+  final Map<String, bool> filteredExams;
+  final BuildContext context;
+
+  @override
+  Widget build(BuildContext context) {
     filteredExams.removeWhere((key, value) => !Exam.types.containsKey(key));
     return ListView(
       children: List.generate(filteredExams.length, (i) {
@@ -61,11 +85,7 @@ class ExamFilterFormState extends State<ExamFilterForm> {
           ),
           key: Key('ExamCheck$key'),
           value: filteredExams[key],
-          onChanged: (value) {
-            setState(() {
-              filteredExams[key] = value!;
-            });
-          },
+          onChanged: (value) => {changeFilteredExamList(key, value: value)},
         );
       }),
     );
