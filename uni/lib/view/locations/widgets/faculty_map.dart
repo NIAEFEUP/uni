@@ -13,9 +13,9 @@ class FacultyMap extends StatelessWidget {
     switch (faculty) {
       case 'FEUP':
         return LocationsMap(
-          northEastBoundary: LatLng(41.17986, -8.59298),
-          southWestBoundary: LatLng(41.17670, -8.59991),
-          center: LatLng(41.17731, -8.59522),
+          northEastBoundary: const LatLng(41.17986, -8.59298),
+          southWestBoundary: const LatLng(41.17670, -8.59991),
+          center: const LatLng(41.17731, -8.59522),
           locations: locations,
         );
       default:

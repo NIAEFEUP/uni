@@ -9,6 +9,7 @@
 
 [![Build badge](https://img.shields.io/github/actions/workflow/status/NIAEFEUP/uni/format_lint_test.yaml?style=for-the-badge&branch=develop)](https://github.com/NIAEFEUP/uni/actions)
 [![Deploy badge](https://img.shields.io/github/actions/workflow/status/NIAEFEUP/uni/deploy.yaml?label=Deploy&style=for-the-badge&branch=develop)](https://github.com/NIAEFEUP/uni/actions)
+[![Codecov branch](https://img.shields.io/codecov/c/github/NIAEFEUP/uni/develop?style=for-the-badge)](https://app.codecov.io/gh/NIAEFEUP/uni/)
 
 [![style: very good analysis](https://img.shields.io/badge/style-very_good_analysis-B22C89.svg?style=for-the-badge)](https://pub.dev/packages/very_good_analysis)
 [![License badge](https://img.shields.io/github/license/NIAEFEUP/uni?style=for-the-badge)](https://github.com/NIAEFEUP/uni/blob/develop/LICENSE)

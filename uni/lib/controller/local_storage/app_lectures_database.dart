@@ -16,7 +16,7 @@ class AppLecturesDatabase extends AppDatabase {
             createScript,
           ],
           onUpgrade: migrate,
-          version: 6,
+          version: 7,
         );
   static const createScript = '''
 CREATE TABLE lectures(subject TEXT, typeClass TEXT,
@@ -37,7 +37,7 @@ CREATE TABLE lectures(subject TEXT, typeClass TEXT,
       return Lecture.fromApi(
         maps[i]['subject'] as String,
         maps[i]['typeClass'] as String,
-        maps[i]['startDateTime'] as DateTime,
+        DateTime.parse(maps[i]['startDateTime'] as String),
         maps[i]['blocks'] as int,
         maps[i]['room'] as String,
         maps[i]['teacher'] as String,

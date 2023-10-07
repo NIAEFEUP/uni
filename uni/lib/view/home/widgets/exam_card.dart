@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:uni/generated/l10n.dart';
+import 'package:uni/model/entities/app_locale.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/providers/lazy/exam_provider.dart';
 import 'package:uni/utils/drawer_items.dart';
@@ -11,6 +13,7 @@ import 'package:uni/view/exams/widgets/exam_row.dart';
 import 'package:uni/view/exams/widgets/exam_title.dart';
 import 'package:uni/view/home/widgets/exam_card_shimmer.dart';
 import 'package:uni/view/lazy_consumer.dart';
+import 'package:uni/view/locale_notifier.dart';
 
 /// Manages the exam card section inside the personal area.
 class ExamCard extends GenericCard {
@@ -23,7 +26,8 @@ class ExamCard extends GenericCard {
   }) : super.fromEditingInformation();
 
   @override
-  String getTitle() => 'Exames';
+  String getTitle(BuildContext context) =>
+      S.of(context).nav_title(DrawerItem.navExams.title);
 
   @override
   Future<Object?> onClick(BuildContext context) =>
@@ -53,7 +57,7 @@ class ExamCard extends GenericCard {
           hasContentPredicate: exams.isNotEmpty,
           onNullContent: Center(
             child: Text(
-              'Não existem exames para apresentar',
+              S.of(context).no_selected_exams,
               style: Theme.of(context).textTheme.titleLarge,
             ),
           ),
@@ -103,18 +107,27 @@ class ExamCard extends GenericCard {
   /// Creates a row with the closest exam (which appears separated from the
   /// others in the card).
   Widget createRowFromExam(BuildContext context, Exam exam) {
+    final locale = Provider.of<LocaleNotifier>(context).getLocale();
     return Column(
       children: [
-        DateRectangle(
-          date: '${exam.weekDay}, ${exam.begin.day} de ${exam.month}',
-        ),
+        if (locale == AppLocale.pt) ...[
+          DateRectangle(
+            date: '''${exam.weekDay(locale)}, '''
+                '''${exam.begin.day} de ${exam.month(locale)}''',
+          )
+        ] else ...[
+          DateRectangle(
+            date: '''${exam.weekDay(locale)}, '''
+                '''${exam.begin.day} ${exam.month(locale)}''',
+          )
+        ],
         RowContainer(
           child: ExamRow(
             exam: exam,
             teacher: '',
             mainPage: true,
           ),
-        ),
+        )
       ],
     );
   }
@@ -122,6 +135,7 @@ class ExamCard extends GenericCard {
   /// Creates a row for the exams which will be displayed under the closest
   /// date exam with a separator between them.
   Widget createSecondaryRowFromExam(BuildContext context, Exam exam) {
+    final locale = Provider.of<LocaleNotifier>(context).getLocale();
     return Container(
       margin: const EdgeInsets.only(top: 8),
       child: RowContainer(
@@ -132,7 +146,7 @@ class ExamCard extends GenericCard {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text(
-                '${exam.begin.day} de ${exam.month}',
+                '${exam.begin.day} de ${exam.month(locale)}',
                 style: Theme.of(context).textTheme.bodyLarge,
               ),
               ExamTitle(

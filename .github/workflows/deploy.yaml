@@ -1,9 +1,11 @@
 on:
   push:
-    branches: [ master, develop ]
+    branches: [master, develop]
 
 jobs:
   bump_version:
+    permissions:
+      actions: "write"
     name: "Bump pubspec version"
     runs-on: ubuntu-latest
     env:
@@ -14,12 +16,19 @@ jobs:
         with:
           token: ${{ secrets.NIAEFEUPBOT_PAT }}
 
+      - name: Get develop hash
+        if: github.ref == 'refs/heads/master'
+        run: |
+          git fetch origin develop
+          current_hash=$(git rev-parse origin/develop)
+          echo "DEVELOPHASH=$current_hash" >> $GITHUB_ENV
+
       - name: Bump flutter patch version
-        if: github.ref == 'refs/heads/develop'
+        if: github.ref == 'refs/heads/develop' || github.sha != env.DEVELOPHASH
         run: perl -i -pe 's/^(\d+\.\d+\.)(\d+)(\+)(\d+)$/$1.($2+1).($3).($4+1)/e' ${{ env.APP_VERSION_PATH }}
 
       - name: Bump flutter minor version
-        if: github.ref == 'refs/heads/master'
+        if: github.ref == 'refs/heads/master' && github.sha == env.DEVELOPHASH
         run: perl -i -pe 's/^(\d+)(\.)(\d+)(\.)(\d+)(\+)(\d+)$/$1.($2).($3+1).($4).(0).($6).($7+1)/e' ${{ env.APP_VERSION_PATH }}
 
       - name: Copy app version to pubspec
@@ -29,9 +38,16 @@ jobs:
         with:
           commit_message: "Bump app version [no ci]"
 
-      - name: Propagate master version bump to develop
+      - name: Propagate master version bump to develop if master version is aad
         if: github.ref == 'refs/heads/master'
-        run: git push --force-with-lease origin HEAD:develop
+        run: |
+          git fetch origin develop
+          if [[ $(git diff --quiet HEAD~1 origin/develop) ]]; then
+            echo "Master version does not match develop version"
+          else
+            echo "Master version matches develop version"
+            git push --force-with-lease origin HEAD:develop
+          fi
 
   build:
     name: "Build App Bundle"
@@ -40,7 +56,7 @@ jobs:
     env:
       PROPERTIES_PATH: "android/key.properties"
       JAVA_VERSION: "11.x"
-      FLUTTER_VERSION: "3.7.2"
+      FLUTTER_VERSION: "3.10.6"
     defaults:
       run:
         working-directory: ./uni
@@ -49,16 +65,10 @@ jobs:
       - uses: actions/setup-java@v3
         with:
           java-version: ${{env.JAVA_VERSION}}
-          distribution: 'zulu'
+          distribution: "zulu"
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
-
-      - name: Setup production environment
-        run: |
-          mkdir -p assets/env
-          rm -f -- assets/env/env.json
-          echo "{\"gh_token\": \"${{ secrets.NIAEFEUPBOT_PAT }}\"}" >> assets/env/env.json
 
       - name: Download Android keystore
         run: echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 --decode > /tmp/key.jks

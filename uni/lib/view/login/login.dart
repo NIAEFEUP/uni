@@ -2,13 +2,16 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/login_exceptions.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/model/providers/state_providers.dart';
-import 'package:uni/model/request_status.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/common_widgets/toast_message.dart';
+import 'package:uni/view/home/widgets/exit_app_dialog.dart';
 import 'package:uni/view/login/widgets/inputs.dart';
 import 'package:uni/view/theme.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -26,12 +29,6 @@ class LoginPageViewState extends State<LoginPageView> {
     'feup'
   ]; // May choose more than one faculty in the dropdown.
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    setState(() {});
-  }
-
   static final FocusNode usernameFocus = FocusNode();
   static final FocusNode passwordFocus = FocusNode();
 
@@ -41,29 +38,41 @@ class LoginPageViewState extends State<LoginPageView> {
       TextEditingController();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  static bool _exitApp = false;
   bool _keepSignedIn = true;
   bool _obscurePasswordInput = true;
+  bool _loggingIn = false;
 
   Future<void> _login(BuildContext context) async {
     final stateProviders = StateProviders.fromContext(context);
     final sessionProvider = stateProviders.sessionProvider;
-    if (sessionProvider.status != RequestStatus.busy &&
-        _formKey.currentState!.validate()) {
+    if (!_loggingIn && _formKey.currentState!.validate()) {
       final user = usernameController.text.trim();
       final pass = passwordController.text.trim();
 
       try {
+        setState(() {
+          _loggingIn = true;
+        });
         await sessionProvider.postAuthentication(
+          context,
           user,
           pass,
           faculties,
           persistentSession: _keepSignedIn,
         );
         if (context.mounted) {
-          handleLogin(sessionProvider.status, context);
+          await Navigator.pushReplacementNamed(
+            context,
+            '/${DrawerItem.navPersonalArea.title}',
+          );
+          setState(() {
+            _loggingIn = false;
+          });
         }
-      } catch (error) {
+      } catch (error, stackTrace) {
+        setState(() {
+          _loggingIn = false;
+        });
         if (error is ExpiredCredentialsException) {
           updatePasswordDialog();
         } else if (error is InternetStatusException) {
@@ -71,7 +80,9 @@ class LoginPageViewState extends State<LoginPageView> {
         } else if (error is WrongCredentialsException) {
           unawaited(ToastMessage.error(context, error.message));
         } else {
-          unawaited(ToastMessage.error(context, 'Erro no login'));
+          Logger().e(error, stackTrace: stackTrace);
+          unawaited(Sentry.captureException(error, stackTrace: stackTrace));
+          unawaited(ToastMessage.error(context, S.of(context).failed_login));
         }
       }
     }
@@ -87,7 +98,7 @@ class LoginPageViewState extends State<LoginPageView> {
 
   /// Tracks if the user wants to keep signed in (has a
   /// checkmark on the button).
-  void _setKeepSignedIn(bool? value) {
+  void _setKeepSignedIn({bool? value}) {
     if (value == null) return;
     setState(() {
       _keepSignedIn = value;
@@ -107,17 +118,15 @@ class LoginPageViewState extends State<LoginPageView> {
 
     return Theme(
       data: applicationLightTheme.copyWith(
-        // The handle color is not applying due to a Flutter bug:
-        // https://github.com/flutter/flutter/issues/74890
         textSelectionTheme: const TextSelectionThemeData(
           cursorColor: Colors.white,
           selectionHandleColor: Colors.white,
         ),
       ),
       child: Builder(
-        builder: (themeContext) => Scaffold(
+        builder: (context) => Scaffold(
           backgroundColor: darkRed,
-          body: WillPopScope(
+          body: BackButtonExitWrapper(
             child: Padding(
               padding: EdgeInsets.only(
                 left: queryData.size.width / 8,
@@ -164,29 +173,10 @@ class LoginPageViewState extends State<LoginPageView> {
                 ],
               ),
             ),
-            onWillPop: () => onWillPop(themeContext),
           ),
         ),
       ),
     );
-  }
-
-  /// Delay time before the user leaves the app
-  Future<void> exitAppWaiter() async {
-    _exitApp = true;
-    await Future<void>.delayed(const Duration(seconds: 2));
-    _exitApp = false;
-  }
-
-  /// If the user tries to leave, displays a quick prompt for him to confirm.
-  /// If this is already the second time, the user leaves the app.
-  Future<bool> onWillPop(BuildContext context) {
-    if (_exitApp) {
-      return Future.value(true);
-    }
-    ToastMessage.info(context, 'Pressione novamente para sair');
-    exitAppWaiter();
-    return Future.value(false);
   }
 
   /// Creates the title for the login menu.
@@ -243,6 +233,7 @@ class LoginPageViewState extends State<LoginPageView> {
               padding: EdgeInsets.only(bottom: queryData.size.height / 35),
             ),
             createSaveDataCheckBox(
+              context,
               _setKeepSignedIn,
               keepSignedIn: _keepSignedIn,
             ),
@@ -257,7 +248,7 @@ class LoginPageViewState extends State<LoginPageView> {
     return InkWell(
       child: Center(
         child: Text(
-          'Esqueceu a palavra-passe?',
+          S.of(context).forgot_password,
           style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                 decoration: TextDecoration.underline,
                 color: Colors.white,
@@ -272,7 +263,7 @@ class LoginPageViewState extends State<LoginPageView> {
   Widget createStatusWidget(BuildContext context) {
     return Consumer<SessionProvider>(
       builder: (context, sessionProvider, _) {
-        if (sessionProvider.status == RequestStatus.busy) {
+        if (_loggingIn) {
           return const SizedBox(
             height: 60,
             child:
@@ -284,35 +275,25 @@ class LoginPageViewState extends State<LoginPageView> {
     );
   }
 
-  void handleLogin(RequestStatus? status, BuildContext context) {
-    if (status == RequestStatus.successful) {
-      Navigator.pushReplacementNamed(
-        context,
-        '/${DrawerItem.navPersonalArea.title}',
-      );
-    }
-  }
-
   void updatePasswordDialog() {
     showDialog<void>(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('A tua palavra-passe expirou'),
+          title: Text(S.of(context).expired_password),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'Por razões de segurança, as palavras-passe têm de ser '
-                'alteradas periodicamente.',
+                S.of(context).pass_change_request,
                 textAlign: TextAlign.start,
                 style: Theme.of(context).textTheme.titleSmall,
               ),
               const SizedBox(height: 20),
-              const Align(
+              Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Deseja alterar a palavra-passe?',
+                  S.of(context).change_prompt,
                   textAlign: TextAlign.start,
                 ),
               ),
@@ -320,13 +301,13 @@ class LoginPageViewState extends State<LoginPageView> {
           ),
           actions: [
             TextButton(
-              child: const Text('Cancelar'),
+              child: Text(S.of(context).cancel),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             ElevatedButton(
-              child: const Text('Alterar'),
+              child: Text(S.of(context).change),
               onPressed: () async {
                 const url = 'https://self-id.up.pt/password';
                 if (await canLaunchUrl(Uri.parse(url))) {

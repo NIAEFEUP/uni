@@ -1,4 +1,3 @@
-import 'package:logger/logger.dart';
 import 'package:uni/controller/fetchers/courses_fetcher.dart';
 import 'package:uni/controller/fetchers/session_dependant_fetcher.dart';
 import 'package:uni/controller/networking/network_router.dart';
@@ -30,27 +29,23 @@ class ProfileFetcher implements SessionDependantFetcher {
     }
 
     final profile = Profile.fromResponse(response);
-    try {
-      final coursesResponses = await Future.wait(
-        CoursesFetcher().getCoursesListResponses(session),
-      );
-      final courses = parseMultipleCourses(coursesResponses);
-      for (final course in courses) {
-        if (profile.courses
-            .map((c) => c.festId)
-            .toList()
-            .contains(course.festId)) {
-          profile.courses
-              .where((c) => c.festId == course.festId)
-              .first
-              .state ??= course.state;
-          continue;
-        }
-        profile.courses.add(course);
+    final coursesResponses = await Future.wait(
+      CoursesFetcher().getCoursesListResponses(session),
+    );
+    final courses = parseMultipleCourses(coursesResponses);
+
+    for (final course in courses) {
+      if (profile.courses
+          .map((c) => c.festId)
+          .toList()
+          .contains(course.festId)) {
+        profile.courses.where((c) => c.festId == course.festId).first.state ??=
+            course.state;
+        continue;
       }
-    } catch (e) {
-      Logger().e('Failed to get user courses via scrapping: $e');
+      profile.courses.add(course);
     }
+
     return profile;
   }
 }

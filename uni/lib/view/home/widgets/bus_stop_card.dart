@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/bus_stop.dart';
 import 'package:uni/model/providers/lazy/bus_stop_provider.dart';
 import 'package:uni/model/request_status.dart';
@@ -19,7 +20,8 @@ class BusStopCard extends GenericCard {
   }) : super.fromEditingInformation();
 
   @override
-  String getTitle() => 'Autocarros';
+  String getTitle(BuildContext context) =>
+      S.of(context).nav_title(DrawerItem.navStops.title);
 
   @override
   Future<Object?> onClick(BuildContext context) =>
@@ -66,7 +68,7 @@ Widget getCardContent(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text(
-                'Configura os teus autocarros',
+                S.of(context).buses_personalize,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.titleSmall!.apply(),
@@ -102,7 +104,7 @@ Widget getCardContent(
           Container(
             padding: const EdgeInsets.all(8),
             child: Text(
-              'Não foi possível obter informação',
+              S.of(context).bus_error,
               style: Theme.of(context).textTheme.titleMedium,
             ),
           )
@@ -115,9 +117,9 @@ Widget getCardContent(
 Widget getCardTitle(BuildContext context) {
   return Row(
     children: <Widget>[
-      const Icon(Icons.directions_bus), // color lightgrey
+      const Icon(Icons.directions_bus),
       Text(
-        'STCP - Próximas Viagens',
+        S.of(context).stcp_stops,
         style: Theme.of(context).textTheme.titleMedium,
       ),
     ],
@@ -137,9 +139,9 @@ Widget getBusStopsInfo(
       ),
     );
   } else {
-    return const Center(
+    return Center(
       child: Text(
-        'Não há dados a mostrar neste momento',
+        S.of(context).no_data,
         maxLines: 2,
         overflow: TextOverflow.fade,
       ),

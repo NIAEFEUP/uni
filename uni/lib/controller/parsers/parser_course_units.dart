@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:html/parser.dart';
 import 'package:http/http.dart' as http;
 import 'package:uni/model/entities/course.dart';
@@ -6,8 +7,9 @@ import 'package:uni/utils/url_parser.dart';
 
 List<CourseUnit> parseCourseUnitsAndCourseAverage(
   http.Response response,
-  Course course,
-) {
+  Course course, {
+  List<CourseUnit>? currentCourseUnits,
+}) {
   final document = parse(response.body);
   final table = document.getElementById('tabelapercurso');
   if (table == null) {
@@ -52,37 +54,41 @@ List<CourseUnit> parseCourseUnitsAndCourseAverage(
     final codeName = row.children[2].children[0].innerHtml;
     final name = row.children[3].children[0].innerHtml;
     final ects = row.children[5].innerHtml.replaceAll(',', '.');
-    String? grade;
-    String? status;
+
     var yearIncrement = -1;
     for (var i = 0;; i += 2) {
       if (row.children.length <= 6 + i) {
         break;
       }
       yearIncrement++;
-      grade = row.children[6 + i].innerHtml.replaceAll('&nbsp;', ' ').trim();
-      status = row.children[7 + i].innerHtml.replaceAll('&nbsp;', ' ').trim();
-      if (status != '') {
-        break;
-      }
-    }
-    if (yearIncrement < 0) {
-      continue;
-    }
+      final status =
+          row.children[7 + i].innerHtml.replaceAll('&nbsp;', ' ').trim();
+      final grade =
+          row.children[6 + i].innerHtml.replaceAll('&nbsp;', ' ').trim();
 
-    final courseUnit = CourseUnit(
-      schoolYear:
-          '${firstSchoolYear + yearIncrement}/${firstSchoolYear + yearIncrement + 1}',
-      occurrId: int.parse(occurId),
-      abbreviation: codeName,
-      status: status,
-      grade: grade,
-      ects: double.parse(ects),
-      name: name,
-      curricularYear: int.parse(year),
-      semesterCode: semester,
-    );
-    courseUnits.add(courseUnit);
+      if (status.isEmpty) {
+        continue;
+      }
+
+      final matchingCurrentCourseUnit = currentCourseUnits
+          ?.firstWhereOrNull((element) => element.code == codeName);
+
+      final courseUnit = CourseUnit(
+        schoolYear:
+            '${firstSchoolYear + yearIncrement}/${firstSchoolYear + yearIncrement + 1}',
+        occurrId: int.parse(occurId),
+        code: codeName,
+        abbreviation: matchingCurrentCourseUnit?.abbreviation ??
+            codeName, // FIXME: this is not the abbreviation
+        status: status,
+        grade: grade,
+        ects: double.tryParse(ects),
+        name: name,
+        curricularYear: int.parse(year),
+        semesterCode: semester,
+      );
+      courseUnits.add(courseUnit);
+    }
   }
 
   return courseUnits;

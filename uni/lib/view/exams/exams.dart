@@ -32,7 +32,7 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
             Column(
               children:
                   createExamsColumn(context, examProvider.getFilteredExams()),
-            )
+            ),
           ],
         );
       },
@@ -100,33 +100,40 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
 
   Widget createExamCard(BuildContext context, List<Exam> exams) {
     final keyValue = exams.map((exam) => exam.toString()).join();
-    final locale = Provider.of<LocaleNotifier>(context).getLocale();
     return Container(
       key: Key(keyValue),
       margin: const EdgeInsets.only(bottom: 8),
       padding: const EdgeInsets.all(8),
-      child: Column(
-        children: [
-          DayTitle(
-            day: exams[0].begin.day.toString(),
-            weekDay: exams[0].weekDay(locale),
-            month: exams[0].month(locale),
-          ),
-          ...exams.map(
-            (exam) => Container(
-              key: Key('$exam-exam'),
-              margin: const EdgeInsets.fromLTRB(12, 4, 12, 0),
-              child: RowContainer(
-                color: Provider.of<ExamProvider>(context)
-                        .hiddenExams
-                        .contains(exam.id)
-                    ? Theme.of(context).hintColor
-                    : Theme.of(context).scaffoldBackgroundColor,
-                child: ExamRow(exam: exam, teacher: '', mainPage: false),
-              ),
-            ),
-          ),
-        ],
+      child: createExamsCards(context, exams),
+    );
+  }
+
+  Widget createExamsCards(BuildContext context, List<Exam> exams) {
+    final locale = Provider.of<LocaleNotifier>(context).getLocale();
+    final examCards = <Widget>[
+      DayTitle(
+        day: exams[0].begin.day.toString(),
+        weekDay: exams[0].weekDay(locale),
+        month: exams[0].month(locale),
+      ),
+    ];
+    for (var i = 0; i < exams.length; i++) {
+      examCards.add(createExamContext(context, exams[i]));
+    }
+    return Column(children: examCards);
+  }
+
+  Widget createExamContext(BuildContext context, Exam exam) {
+    final isHidden =
+        Provider.of<ExamProvider>(context).hiddenExams.contains(exam.id);
+    return Container(
+      key: Key('$exam-exam'),
+      margin: const EdgeInsets.fromLTRB(12, 4, 12, 0),
+      child: RowContainer(
+        color: isHidden
+            ? Theme.of(context).hintColor
+            : Theme.of(context).scaffoldBackgroundColor,
+        child: ExamRow(exam: exam, teacher: '', mainPage: false),
       ),
     );
   }

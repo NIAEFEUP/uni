@@ -8,7 +8,6 @@ import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/reference.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
-import 'package:uni/model/request_status.dart';
 
 class ReferenceProvider extends StateProviderNotifier {
   ReferenceProvider()
@@ -31,18 +30,11 @@ class ReferenceProvider extends StateProviderNotifier {
   }
 
   Future<void> fetchUserReferences(Session session) async {
-    try {
-      final response =
-          await ReferenceFetcher().getUserReferenceResponse(session);
+    final response = await ReferenceFetcher().getUserReferenceResponse(session);
 
-      _references = await parseReferences(response);
+    _references = await parseReferences(response);
 
-      updateStatus(RequestStatus.successful);
-
-      final referencesDb = AppReferencesDatabase();
-      unawaited(referencesDb.saveNewReferences(references));
-    } catch (e) {
-      updateStatus(RequestStatus.failed);
-    }
+    final referencesDb = AppReferencesDatabase();
+    unawaited(referencesDb.saveNewReferences(references));
   }
 }

@@ -13,8 +13,6 @@ class TermsAndConditionDialog {
 
   static Future<TermsAndConditionsState> buildIfTermsChanged(
     BuildContext context,
-    String userName,
-    String password,
   ) async {
     final termsAreAccepted =
         await updateTermsAndConditionsAcceptancePreference();
@@ -22,8 +20,7 @@ class TermsAndConditionDialog {
     if (!termsAreAccepted) {
       final routeCompleter = Completer<TermsAndConditionsState>();
       SchedulerBinding.instance.addPostFrameCallback(
-        (timestamp) =>
-            _buildShowDialog(context, routeCompleter, userName, password),
+        (timestamp) => _buildShowDialog(context, routeCompleter),
       );
       return routeCompleter.future;
     }
@@ -33,9 +30,7 @@ class TermsAndConditionDialog {
 
   static Future<void> _buildShowDialog(
     BuildContext context,
-    Completer<TermsAndConditionsState> routeCompleter,
-    String userName,
-    String password,
+    Completer<TermsAndConditionsState> userTermsDecision,
   ) {
     return showDialog(
       context: context,
@@ -60,7 +55,8 @@ class TermsAndConditionDialog {
                   ElevatedButton(
                     onPressed: () async {
                       Navigator.of(context).pop();
-                      routeCompleter.complete(TermsAndConditionsState.accepted);
+                      userTermsDecision
+                          .complete(TermsAndConditionsState.accepted);
                       await AppSharedPreferences
                           .setTermsAndConditionsAcceptance(areAccepted: true);
                     },
@@ -74,7 +70,8 @@ class TermsAndConditionDialog {
                   ElevatedButton(
                     onPressed: () async {
                       Navigator.of(context).pop();
-                      routeCompleter.complete(TermsAndConditionsState.rejected);
+                      userTermsDecision
+                          .complete(TermsAndConditionsState.rejected);
                       await AppSharedPreferences
                           .setTermsAndConditionsAcceptance(areAccepted: false);
                     },
