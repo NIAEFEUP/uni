@@ -10,7 +10,6 @@ import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
-import 'package:uni/model/request_status.dart';
 
 class ExamProvider extends StateProviderNotifier {
   ExamProvider()
@@ -56,21 +55,16 @@ class ExamProvider extends StateProviderNotifier {
     List<CourseUnit> userUcs, {
     required bool persistentSession,
   }) async {
-    try {
-      final exams = await ExamFetcher(profile.courses, userUcs)
-          .extractExams(session, parserExams);
+    final exams = await ExamFetcher(profile.courses, userUcs)
+        .extractExams(session, parserExams);
 
-      exams.sort((exam1, exam2) => exam1.begin.compareTo(exam2.begin));
+    exams.sort((exam1, exam2) => exam1.begin.compareTo(exam2.begin));
 
-      if (persistentSession) {
-        await AppExamsDatabase().saveNewExams(exams);
-      }
-
-      _exams = exams;
-      updateStatus(RequestStatus.successful);
-    } catch (e) {
-      updateStatus(RequestStatus.failed);
+    if (persistentSession) {
+      await AppExamsDatabase().saveNewExams(exams);
     }
+
+    _exams = exams;
   }
 
   Future<void> updateFilteredExams() async {
@@ -80,7 +74,7 @@ class ExamProvider extends StateProviderNotifier {
   }
 
   Future<void> setFilteredExams(Map<String, bool> newFilteredExams) async {
-    unawaited(AppSharedPreferences.saveFilteredExams(filteredExamsTypes));
+    unawaited(AppSharedPreferences.saveFilteredExams(newFilteredExams));
     _filteredExamsTypes = Map<String, bool>.from(newFilteredExams);
     notifyListeners();
   }

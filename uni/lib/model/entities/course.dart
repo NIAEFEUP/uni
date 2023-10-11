@@ -10,7 +10,7 @@
 class Course {
   Course({
     required this.id,
-    this.festId = 0,
+    this.festId,
     this.name,
     this.abbreviation,
     this.currYear,
@@ -21,15 +21,21 @@ class Course {
     this.currentAverage,
   });
 
-  /// Creates a new instance from a JSON object.
-  Course.fromJson(Map<String, dynamic> data)
-      : id = data['cur_id'] as int,
-        festId = data['fest_id'] as int,
-        name = data['cur_nome'] as String?,
-        currYear = data['ano_curricular'] as String?,
-        firstEnrollment = data['fest_a_lect_1_insc'] as int,
-        abbreviation = data['abbreviation'] as String?,
-        faculty = data['inst_sigla']?.toString().toLowerCase();
+  static Course? fromJson(Map<String, dynamic> data) {
+    if (data['cur_id'] == null || data['fest_id'] == 0) {
+      return null;
+    }
+
+    return Course(
+      id: data['cur_id'] as int,
+      festId: data['fest_id'] as int,
+      name: data['cur_nome'] as String?,
+      currYear: data['ano_curricular'] as String?,
+      firstEnrollment: data['fest_a_lect_1_insc'] as int?,
+      abbreviation: data['abbreviation'] as String?,
+      faculty: data['inst_sigla']?.toString().toLowerCase(),
+    );
+  }
 
   final int id;
   final int? festId;

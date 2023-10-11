@@ -43,7 +43,7 @@ class SchedulePageView extends StatefulWidget {
   });
 
   final List<Lecture> lectures;
-  final RequestStatus? scheduleStatus;
+  final RequestStatus scheduleStatus;
 
   final int weekDay = DateTime.now().weekday;
 
@@ -144,7 +144,7 @@ class SchedulePageViewState extends GeneralPageViewState<SchedulePageView>
   List<Widget> createSchedule(
     BuildContext context,
     List<Lecture> lectures,
-    RequestStatus? scheduleStatus,
+    RequestStatus scheduleStatus,
   ) {
     final tabBarViewContent = <Widget>[];
     for (var i = 0; i < 5; i++) {
@@ -194,13 +194,13 @@ class SchedulePageViewState extends GeneralPageViewState<SchedulePageView>
     BuildContext context,
     int day,
     List<Lecture> lectures,
-    RequestStatus? scheduleStatus,
+    RequestStatus scheduleStatus,
   ) {
     final weekday =
         Provider.of<LocaleNotifier>(context).getWeekdaysWithLocale()[day];
     final aggLectures = SchedulePageView.groupLecturesByDay(lectures);
     return RequestDependentWidgetBuilder(
-      status: scheduleStatus ?? RequestStatus.none,
+      status: scheduleStatus,
       builder: () => dayColumnBuilder(day, aggLectures[day], context),
       hasContentPredicate: aggLectures[day].isNotEmpty,
       onNullContent: Center(

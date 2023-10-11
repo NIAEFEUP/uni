@@ -69,9 +69,7 @@ class LazyConsumer<T extends StateProviderNotifier> extends StatelessWidget {
 
       // Finally, complete provider initialization
       if (context.mounted) {
-        // This will fail if the session initialization failed.
-        // That is the expected behavior.
-        await sessionFuture!.then((_) async {
+        await sessionFuture?.then((_) async {
           await provider!.ensureInitializedFromRemote(context);
         });
       }
