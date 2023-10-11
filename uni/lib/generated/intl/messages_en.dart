@@ -107,7 +107,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "D. Beatriz\'s stationery store"),
         "dona_bia_building": MessageLookupByLibrary.simpleMessage(
             "Floor -1 of building B (B-142)"),
-        "ects": MessageLookupByLibrary.simpleMessage("ECTs performed: "),
+        "ects": MessageLookupByLibrary.simpleMessage("ECTS performed: "),
         "edit_off": MessageLookupByLibrary.simpleMessage("Edit"),
         "edit_on": MessageLookupByLibrary.simpleMessage("Finish editing"),
         "empty_text":
@@ -181,6 +181,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("No favorite restaurants"),
         "no_info": MessageLookupByLibrary.simpleMessage(
             "There is no information to display"),
+        "no_link":
+            MessageLookupByLibrary.simpleMessage("We couldn\'t open the link"),
         "no_menu_info": MessageLookupByLibrary.simpleMessage(
             "There is no information available about meals"),
         "no_menus": MessageLookupByLibrary.simpleMessage(

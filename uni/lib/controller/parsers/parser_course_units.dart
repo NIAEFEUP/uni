@@ -82,7 +82,7 @@ List<CourseUnit> parseCourseUnitsAndCourseAverage(
             codeName, // FIXME: this is not the abbreviation
         status: status,
         grade: grade,
-        ects: double.parse(ects),
+        ects: double.tryParse(ects),
         name: name,
         curricularYear: int.parse(year),
         semesterCode: semester,

@@ -56,7 +56,7 @@ class PageTransition {
         case TermsAndConditionsState.accepted:
           return;
         case TermsAndConditionsState.rejected:
-          NavigationService.logoutAndPopHistory(null);
+          NavigationService.logoutAndPopHistory();
       }
     }
   }
