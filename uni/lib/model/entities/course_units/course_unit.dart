@@ -45,7 +45,7 @@ class CourseUnit {
       code: data['ucurr_codigo'] as String,
       abbreviation: data['ucurr_sigla'] as String,
       name: data['ucurr_nome'] as String,
-      curricularYear: data['ano'] as int,
+      curricularYear: data['ano'] as int?,
       occurrId: data['ocorr_id'] as int,
       semesterCode: data['per_codigo'] as String?,
       semesterName: data['per_nome'] as String?,
