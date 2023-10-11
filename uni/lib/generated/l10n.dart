@@ -1037,7 +1037,7 @@ class S {
       args: [],
     );
   }
-  
+
   /// `We couldn't open the link`
   String get no_link {
     return Intl.message(
