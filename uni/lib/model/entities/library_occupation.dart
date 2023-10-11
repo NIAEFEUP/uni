@@ -1,12 +1,13 @@
+import 'dart:math';
+
 /// Overall occupation of the library
 class LibraryOccupation {
-  late int occupation;
-  late int capacity;
-  late List<FloorOccupation> floors;
-
   LibraryOccupation(this.occupation, this.capacity) {
     floors = [];
   }
+  late int occupation;
+  late int capacity;
+  late List<FloorOccupation> floors;
 
   void addFloor(FloorOccupation floor) {
     floors.add(floor);
@@ -15,8 +16,8 @@ class LibraryOccupation {
   }
 
   int get percentage {
-    if (capacity == 0) return 0;
-    return (occupation * 100 / capacity).round();
+    if (capacity <= 0) return 0;
+    return min(100, (occupation * 100 / capacity).round());
   }
 
   FloorOccupation getFloor(int number) {
@@ -27,19 +28,18 @@ class LibraryOccupation {
 
 /// Occupation values of a single floor
 class FloorOccupation {
+  FloorOccupation(this.number, this.occupation, this.capacity);
   final int number;
   final int occupation;
   final int capacity;
 
-  FloorOccupation(this.number, this.occupation, this.capacity);
-
   int get percentage {
-    if (capacity == 0) return 0;
-    return (occupation * 100 / capacity).round();
+    if (capacity <= 0) return 0;
+    return min(100, (occupation * 100 / capacity).round());
   }
 
   Map<String, dynamic> toMap() {
-    final Map<String, dynamic> map = {
+    final map = <String, dynamic>{
       'number': number,
       'occupation': occupation,
       'capacity': capacity,

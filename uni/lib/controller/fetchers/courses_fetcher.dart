@@ -17,8 +17,13 @@ class CoursesFetcher implements SessionDependantFetcher {
   List<Future<Response>> getCoursesListResponses(Session session) {
     final urls = getEndpoints(session);
     return urls
-        .map((url) => NetworkRouter.getWithCookies(
-            url, {'pv_num_unico': session.studentNumber}, session))
+        .map(
+          (url) => NetworkRouter.getWithCookies(
+            url,
+            {'pv_num_unico': session.username},
+            session,
+          ),
+        )
         .toList();
   }
 }

@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
 class DayTitle extends StatelessWidget {
-  final String day;
-  final String weekDay;
-  final String month;
   const DayTitle({
-    Key? key,
     required this.day,
     required this.weekDay,
     required this.month,
-  }) : super(key: key);
+    super.key,
+  });
+  final String day;
+  final String weekDay;
+  final String month;
 
   @override
   Widget build(BuildContext context) {

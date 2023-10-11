@@ -6,32 +6,34 @@ import 'package:uni/model/entities/session.dart';
 class PrintFetcher implements SessionDependantFetcher {
   @override
   List<String> getEndpoints(Session session) {
-    final url =
-        '${NetworkRouter.getBaseUrl('feup')}imp4_impressoes.atribs'; // endpoint only available for feup
+    final url = '${NetworkRouter.getBaseUrl('feup')}imp4_impressoes.atribs';
+    // endpoint only available for feup
     return [url];
   }
 
-  getUserPrintsResponse(Session session) {
-    final String url = getEndpoints(session)[0];
-    final Map<String, String> query = {'p_codigo': session.studentNumber};
+  Future<http.Response> getUserPrintsResponse(Session session) {
+    final url = getEndpoints(session)[0];
+    final query = {'p_codigo': session.username};
     return NetworkRouter.getWithCookies(url, query, session);
   }
 
-  static Future generatePrintMoneyReference(
-      double amount, Session session) async {
+  static Future<http.Response> generatePrintMoneyReference(
+    double amount,
+    Session session,
+  ) async {
     if (amount < 1.0) return Future.error('Amount less than 1,00€');
 
-    final url =
-        '${NetworkRouter.getBaseUrlsFromSession(session)[0]}gpag_ccorrentes_geral.gerar_mb';
+    final url = '${NetworkRouter.getBaseUrlsFromSession(session)[0]}'
+        'gpag_ccorrentes_geral.gerar_mb';
 
-    final Map data = {
+    final data = {
       'p_tipo_id': '3',
-      'pct_codigo': session.studentNumber,
+      'pct_codigo': session.username,
       'p_valor': '1',
       'p_valor_livre': amount.toStringAsFixed(2).trim().replaceAll('.', ',')
     };
 
-    final Map<String, String> headers = <String, String>{};
+    final headers = <String, String>{};
     headers['cookie'] = session.cookies;
     headers['content-type'] = 'application/x-www-form-urlencoded';
 

@@ -10,32 +10,34 @@ import 'package:uni/controller/local_storage/app_courses_database.dart';
 import 'package:uni/controller/local_storage/app_exams_database.dart';
 import 'package:uni/controller/local_storage/app_last_user_info_update_database.dart';
 import 'package:uni/controller/local_storage/app_lectures_database.dart';
-import 'package:uni/controller/local_storage/app_refresh_times_database.dart';
-import 'package:uni/controller/local_storage/app_user_database.dart';
-import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
-import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
+import 'package:uni/controller/local_storage/app_user_database.dart';
+import 'package:uni/controller/networking/network_router.dart';
+import 'package:uni/model/providers/state_providers.dart';
 
-Future logout(BuildContext context) async {
+Future<void> cleanupStoredData(BuildContext context) async {
+  StateProviders.fromContext(context).markAsNotInitialized();
+
   final prefs = await SharedPreferences.getInstance();
   final faculties = await AppSharedPreferences.getUserFaculties();
   await prefs.clear();
 
-  AppLecturesDatabase().deleteLectures();
-  AppExamsDatabase().deleteExams();
-  AppCoursesDatabase().deleteCourses();
-  AppRefreshTimesDatabase().deleteRefreshTimes();
-  AppUserDataDatabase().deleteUserData();
-  AppLastUserInfoUpdateDatabase().deleteLastUpdate();
-  AppBusStopDatabase().deleteBusStops();
-  AppCourseUnitsDatabase().deleteCourseUnits();
-  NetworkRouter.killAuthentication(faculties);
+  unawaited(
+    Future.wait([
+      AppLecturesDatabase().deleteLectures(),
+      AppExamsDatabase().deleteExams(),
+      AppCoursesDatabase().deleteCourses(),
+      AppUserDataDatabase().deleteUserData(),
+      AppLastUserInfoUpdateDatabase().deleteLastUpdate(),
+      AppBusStopDatabase().deleteBusStops(),
+      AppCourseUnitsDatabase().deleteCourseUnits(),
+      NetworkRouter.killSigarraAuthentication(faculties),
+    ]),
+  );
 
   final path = (await getApplicationDocumentsDirectory()).path;
   final directory = Directory(path);
   if (directory.existsSync()) {
     directory.deleteSync(recursive: true);
   }
-  GeneralPageViewState.profileImageProvider = null;
-  PaintingBinding.instance.imageCache.clear();
 }

@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'dart:collection';
 
-import 'package:logger/logger.dart';
-import 'package:tuple/tuple.dart';
 import 'package:uni/controller/fetchers/exam_fetcher.dart';
 import 'package:uni/controller/local_storage/app_exams_database.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
@@ -12,15 +10,13 @@ import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
-import 'package:uni/model/request_status.dart';
 
 class ExamProvider extends StateProviderNotifier {
+  ExamProvider()
+      : super(dependsOnSession: true, cacheDuration: const Duration(days: 1));
   List<Exam> _exams = [];
   List<String> _hiddenExams = [];
   Map<String, bool> _filteredExamsTypes = {};
-
-  ExamProvider()
-      : super(dependsOnSession: true, cacheDuration: const Duration(days: 1));
 
   UnmodifiableListView<Exam> get exams => UnmodifiableListView(_exams);
 
@@ -32,99 +28,81 @@ class ExamProvider extends StateProviderNotifier {
 
   @override
   Future<void> loadFromStorage() async {
-    setFilteredExams(
-        await AppSharedPreferences.getFilteredExams(), Completer());
-    setHiddenExams(await AppSharedPreferences.getHiddenExams(), Completer());
+    await setFilteredExams(await AppSharedPreferences.getFilteredExams());
+    await setHiddenExams(await AppSharedPreferences.getHiddenExams());
 
-    final AppExamsDatabase db = AppExamsDatabase();
-    final List<Exam> exams = await db.exams();
+    final db = AppExamsDatabase();
+    final exams = await db.exams();
     _exams = exams;
   }
 
   @override
   Future<void> loadFromRemote(Session session, Profile profile) async {
-    final Completer<void> action = Completer<void>();
-    final ParserExams parserExams = ParserExams();
-    final Tuple2<String, String> userPersistentInfo =
-        await AppSharedPreferences.getPersistentUserInfo();
-
-    fetchUserExams(action, parserExams, userPersistentInfo, profile, session,
-        profile.courseUnits);
-    await action.future;
+    await fetchUserExams(
+      ParserExams(),
+      profile,
+      session,
+      profile.courseUnits,
+      persistentSession:
+          (await AppSharedPreferences.getPersistentUserInfo()) != null,
+    );
   }
 
   Future<void> fetchUserExams(
-    Completer<void> action,
     ParserExams parserExams,
-    Tuple2<String, String> userPersistentInfo,
     Profile profile,
     Session session,
-    List<CourseUnit> userUcs,
-  ) async {
-    try {
-      //need to get student course here
-      updateStatus(RequestStatus.busy);
+    List<CourseUnit> userUcs, {
+    required bool persistentSession,
+  }) async {
+    final exams = await ExamFetcher(profile.courses, userUcs)
+        .extractExams(session, parserExams);
 
-      final List<Exam> exams = await ExamFetcher(profile.courses, userUcs)
-          .extractExams(session, parserExams);
+    exams.sort((exam1, exam2) => exam1.begin.compareTo(exam2.begin));
 
-      exams.sort((exam1, exam2) => exam1.begin.compareTo(exam2.begin));
-
-      // Updates local database according to the information fetched -- Exams
-      if (userPersistentInfo.item1 != '' && userPersistentInfo.item2 != '') {
-        final AppExamsDatabase db = AppExamsDatabase();
-        db.saveNewExams(exams);
-      }
-
-      _exams = exams;
-      updateStatus(RequestStatus.successful);
-      notifyListeners();
-    } catch (e) {
-      Logger().e('Failed to get Exams');
-      updateStatus(RequestStatus.failed);
+    if (persistentSession) {
+      await AppExamsDatabase().saveNewExams(exams);
     }
 
-    action.complete();
+    _exams = exams;
   }
 
-  updateFilteredExams() async {
+  Future<void> updateFilteredExams() async {
     final exams = await AppSharedPreferences.getFilteredExams();
     _filteredExamsTypes = exams;
     notifyListeners();
   }
 
-  setFilteredExams(
-      Map<String, bool> newFilteredExams, Completer<void> action) async {
+  Future<void> setFilteredExams(Map<String, bool> newFilteredExams) async {
+    unawaited(AppSharedPreferences.saveFilteredExams(newFilteredExams));
     _filteredExamsTypes = Map<String, bool>.from(newFilteredExams);
-    AppSharedPreferences.saveFilteredExams(filteredExamsTypes);
-    action.complete();
     notifyListeners();
   }
 
   List<Exam> getFilteredExams() {
     return exams
-        .where((exam) =>
-            filteredExamsTypes[Exam.getExamTypeLong(exam.type)] ?? true)
+        .where(
+          (exam) => filteredExamsTypes[Exam.getExamTypeLong(exam.type)] ?? true,
+        )
         .toList();
   }
 
-  setHiddenExams(List<String> newHiddenExams, Completer<void> action) async {
+  Future<void> setHiddenExams(List<String> newHiddenExams) async {
     _hiddenExams = List<String>.from(newHiddenExams);
-    AppSharedPreferences.saveHiddenExams(hiddenExams);
-    action.complete();
+    await AppSharedPreferences.saveHiddenExams(hiddenExams);
     notifyListeners();
   }
 
-  toggleHiddenExam(String newExamId, Completer<void> action) async {
+  Future<void> toggleHiddenExam(String newExamId) async {
     _hiddenExams.contains(newExamId)
         ? _hiddenExams.remove(newExamId)
         : _hiddenExams.add(newExamId);
+    await AppSharedPreferences.saveHiddenExams(hiddenExams);
     notifyListeners();
-    AppSharedPreferences.saveHiddenExams(hiddenExams);
-    action.complete();
   }
 
-  setExams(List<Exam> newExams) {
+  set exams(List<Exam> newExams) {
     _exams = newExams;
+    notifyListeners();
   }
 }

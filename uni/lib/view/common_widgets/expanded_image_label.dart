@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
 
 class ImageLabel extends StatelessWidget {
+  const ImageLabel({
+    required this.imagePath,
+    required this.label,
+    super.key,
+    this.labelTextStyle,
+    this.sublabel = '',
+    this.sublabelTextStyle,
+  });
   final String imagePath;
   final String label;
   final TextStyle? labelTextStyle;
   final String sublabel;
   final TextStyle? sublabelTextStyle;
 
-  const ImageLabel({Key? key, required this.imagePath, required this.label, this.labelTextStyle, this.sublabel = '', this.sublabelTextStyle}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Image.asset(
           imagePath,
@@ -24,12 +29,11 @@ class ImageLabel extends StatelessWidget {
           label,
           style: labelTextStyle,
         ),
-        if(sublabel.isNotEmpty)
-          const SizedBox(height: 20),
-          Text(
-            sublabel,
-            style: sublabelTextStyle,
-          ),
+        if (sublabel.isNotEmpty) const SizedBox(height: 20),
+        Text(
+          sublabel,
+          style: sublabelTextStyle,
+        ),
       ],
     );
   }

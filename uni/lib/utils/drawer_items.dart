@@ -1,25 +1,25 @@
 enum DrawerItem {
-  navPersonalArea('Área Pessoal'),
-  navSchedule('Horário'),
-  navExams('Exames'),
-  navCourseUnits('Cadeiras'),
-  navStops('Autocarros'),
-  navLocations('Locais', faculties: {'feup'}),
-  navRestaurants('Restaurantes'),
-  navCalendar('Calendário'),
-  navLibrary('Biblioteca', faculties: {'feup'}),
-  navUsefulInfo('Úteis', faculties: {'feup'}),
-  navAbout('Sobre'),
-  navBugReport('Bugs e Sugestões'),
+  navPersonalArea('area'),
+  navSchedule('horario'),
+  navExams('exames'),
+  navCourseUnits('cadeiras'),
+  navStops('autocarros'),
+  navLocations('locais', faculties: {'feup'}),
+  navRestaurants('restaurantes'),
+  navCalendar('calendario'),
+  navLibrary('biblioteca', faculties: {'feup'}),
+  navUsefulInfo('uteis', faculties: {'feup'}),
+  navAbout('sobre'),
+  navBugReport('bugs'),
+  navLogIn('Iniciar sessão'),
   navLogOut('Terminar sessão');
 
+  const DrawerItem(this.title, {this.faculties});
   final String title;
   final Set<String>? faculties;
 
-  const DrawerItem(this.title, {this.faculties});
-
   bool isVisible(List<String> userFaculties) {
-    if (this == DrawerItem.navLogOut) {
+    if (this == DrawerItem.navLogIn || this == DrawerItem.navLogOut) {
       return false;
     }
 

@@ -9,19 +9,19 @@ class AppLastUserInfoUpdateDatabase extends AppDatabase {
       : super('last_update.db', ['CREATE TABLE last_update(lastUpdate DATE)']);
 
   /// Replaces the timestamp in this database with [timestamp].
-  insertNewTimeStamp(DateTime timestamp) async {
+  Future<void> insertNewTimeStamp(DateTime timestamp) async {
     await deleteLastUpdate();
     await _insertTimeStamp(timestamp);
   }
 
   /// Deletes all of the data from this database.
-  deleteLastUpdate() async {
+  Future<void> deleteLastUpdate() async {
     final db = await getDatabase();
     await db.delete('last_update');
   }
 
   /// Replaces the timestamp of the last user info update with [timestamp].
-  _insertTimeStamp(DateTime timestamp) async {
+  Future<void> _insertTimeStamp(DateTime timestamp) async {
     final db = await getDatabase();
 
     await db.transaction((txn) async {
@@ -37,7 +37,7 @@ class AppLastUserInfoUpdateDatabase extends AppDatabase {
     final List<Map<String, dynamic>> maps = await db.query('last_update');
 
     if (maps.isNotEmpty) {
-      return DateTime.parse(maps[0]['lastUpdate']);
+      return DateTime.parse(maps[0]['lastUpdate'] as String);
     }
     return DateTime.now();
   }

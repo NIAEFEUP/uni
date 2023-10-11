@@ -2,14 +2,12 @@ import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
-import 'package:uni/model/request_status.dart';
 import 'package:uni/utils/favorite_widget_type.dart';
 
 class HomePageProvider extends StateProviderNotifier {
+  HomePageProvider() : super(dependsOnSession: false, cacheDuration: null);
   List<FavoriteWidgetType> _favoriteCards = [];
   bool _isEditing = false;
-
-  HomePageProvider() : super(dependsOnSession: false, cacheDuration: null);
 
   List<FavoriteWidgetType> get favoriteCards => _favoriteCards.toList();
 
@@ -21,21 +19,19 @@ class HomePageProvider extends StateProviderNotifier {
   }
 
   @override
-  Future<void> loadFromRemote(Session session, Profile profile) async {
-    updateStatus(RequestStatus.successful);
-  }
+  Future<void> loadFromRemote(Session session, Profile profile) async {}
 
-  setHomePageEditingMode(bool state) {
-    _isEditing = state;
+  void setHomePageEditingMode({required bool editingMode}) {
+    _isEditing = editingMode;
     notifyListeners();
   }
 
-  toggleHomePageEditingMode() {
+  void toggleHomePageEditingMode() {
     _isEditing = !_isEditing;
     notifyListeners();
   }
 
-  setFavoriteCards(List<FavoriteWidgetType> favoriteCards) {
+  void setFavoriteCards(List<FavoriteWidgetType> favoriteCards) {
     _favoriteCards = favoriteCards;
     notifyListeners();
   }
