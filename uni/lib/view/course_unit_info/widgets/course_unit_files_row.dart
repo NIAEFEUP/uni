@@ -25,7 +25,7 @@ class CourseUnitFilesRow extends StatelessWidget {
               child: Container(
                 padding: const EdgeInsets.only(left: 10),
                 child: Text(
-                  file.name,
+                  file.name.substring(0, file.name.indexOf('_')),
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.bodyLarge,
                 ),

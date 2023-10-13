@@ -33,7 +33,7 @@ Future<Map<String, List<CourseUnitFile>>> parseFiles(
     item = item as Map<String, dynamic>;
     final files = <CourseUnitFile>[];
     for (final file in item['ficheiros'] as List<dynamic>) {
-      final fileName = file['nome'];
+      final fileName = file['nome'] + '_' + file['data_actualizacao'];
       final fileCode = file['codigo'];
       final url = await CourseUnitsInfoFetcher().getDownloadLink(session);
       final courseUnitFile = CourseUnitFile(
