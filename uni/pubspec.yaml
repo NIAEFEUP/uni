@@ -1,7 +1,7 @@
 name: uni
 description: A UP no teu bolso.
 
-publish_to: 'none' # We do not publish to pub.dev
+publish_to: "none" # We do not publish to pub.dev
 
 # The app version name is automatically bumped by CI.
 # To change it manually, override the value in app_version.txt.
@@ -10,8 +10,8 @@ publish_to: 'none' # We do not publish to pub.dev
 version: 1.7.16+206
 
 environment:
-  sdk: '>=3.0.0 <4.0.0'
-  flutter: 3.13.0
+  sdk: ">=3.0.0 <4.0.0"
+  flutter: 3.13.7
 
 dependencies:
   add_2_calendar: ^2.2.5
