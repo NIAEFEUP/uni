@@ -11,7 +11,7 @@ version: 1.7.16+206
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
-  flutter: 3.10.6
+  flutter: 3.13.0
 
 dependencies:
   add_2_calendar: ^2.2.5
@@ -54,7 +54,7 @@ dependencies:
   timelines: ^0.1.0
   tuple: ^2.0.0
   url_launcher: ^6.0.2
-  workmanager: ^0.5.1
+  workmanager: ^0.5.2
 
 dev_dependencies:
   build_runner: ^2.4.6
