@@ -6,8 +6,11 @@ import 'package:uni/model/providers/lazy/exam_provider.dart';
 
 class ExamFilterForm extends StatefulWidget {
   const ExamFilterForm(this.filteredExamsTypes, {super.key});
-
   final Map<String, bool> filteredExamsTypes;
+
+  Map<String, bool> get filteredExamTypes =>
+      Map<String, bool>.from(filteredExamsTypes)
+        ..removeWhere((key, value) => !Exam.types.containsKey(key));
 
   @override
   ExamFilterFormState createState() => ExamFilterFormState();
@@ -17,6 +20,8 @@ class ExamFilterFormState extends State<ExamFilterForm> {
   void _changeFilteredExamList(String key, {bool? value}) {
     setState(() {
       widget.filteredExamsTypes[key] = value!;
+      Provider.of<ExamProvider>(context, listen: false)
+          .setFilteredExams(widget.filteredExamsTypes);
     });
   }
 
@@ -64,13 +69,12 @@ class FilteredExamList extends StatelessWidget {
     this.context, {
     super.key,
   });
-  final void Function(String, {bool? value}) changeFilteredExamList;
   final Map<String, bool> filteredExams;
+  final void Function(String, {bool? value}) changeFilteredExamList;
   final BuildContext context;
 
   @override
   Widget build(BuildContext context) {
-    filteredExams.removeWhere((key, value) => !Exam.types.containsKey(key));
     return ListView(
       children: List.generate(filteredExams.length, (i) {
         final key = filteredExams.keys.elementAt(i);
