@@ -40,7 +40,7 @@ class ProfileProvider extends StateProviderNotifier {
     await Future.wait([
       fetchUserFees(session),
       fetchUserPrintBalance(session),
-      fetchCourseUnitsAndCourseAverages(session)
+      fetchCourseUnitsAndCourseAverages(session),
     ]);
   }
 

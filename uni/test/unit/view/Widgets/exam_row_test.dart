@@ -32,7 +32,7 @@ void main() {
       final widget = ExamRow(exam: exam, teacher: '', mainPage: true);
 
       final providers = [
-        ChangeNotifierProvider<ExamProvider>(create: (_) => ExamProvider())
+        ChangeNotifierProvider<ExamProvider>(create: (_) => ExamProvider()),
       ];
       await tester.pumpWidget(testableWidget(widget, providers: providers));
       await tester.pump();
@@ -54,7 +54,7 @@ void main() {
       final widget = ExamRow(exam: exam, teacher: '', mainPage: true);
 
       final providers = [
-        ChangeNotifierProvider<ExamProvider>(create: (_) => ExamProvider())
+        ChangeNotifierProvider<ExamProvider>(create: (_) => ExamProvider()),
       ];
 
       await tester.pumpWidget(testableWidget(widget, providers: providers));

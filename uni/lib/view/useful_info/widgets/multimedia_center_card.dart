@@ -26,7 +26,7 @@ class MultimediaCenterCard extends GenericExpansionCard {
           context,
           last: true,
           link: 'mailto:imprimir@fe.up.pt',
-        )
+        ),
       ],
     );
   }

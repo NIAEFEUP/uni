@@ -30,7 +30,7 @@ class AboutPageViewState extends GeneralPageViewState {
             padding: EdgeInsets.all(queryData.size.width / 12),
             child: const TermsAndConditions(),
           ),
-        )
+        ),
       ],
     );
   }

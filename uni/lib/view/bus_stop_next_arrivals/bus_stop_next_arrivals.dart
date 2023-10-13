@@ -28,7 +28,7 @@ class BusStopNextArrivalsPageState
     return LazyConsumer<BusStopProvider>(
       builder: (context, busProvider) => ListView(
         children: [
-          NextArrivals(busProvider.configuredBusStops, busProvider.status)
+          NextArrivals(busProvider.configuredBusStops, busProvider.status),
         ],
       ),
     );
@@ -180,10 +180,10 @@ class NextArrivalsState extends State<NextArrivals> {
                   builder: (context) => const BusStopSelectionPage(),
                 ),
               ),
-            )
+            ),
           ],
         ),
-      )
+      ),
     ];
   }
 
@@ -212,7 +212,7 @@ class NextArrivalsState extends State<NextArrivals> {
             children: getEachBusStopInfo(context),
           ),
         ),
-      )
+      ),
     ];
   }
 
@@ -250,7 +250,7 @@ class NextArrivalsState extends State<NextArrivals> {
                 trips: widget.buses[stopCode]?.trips ?? [],
                 stopCodeShow: false,
               ),
-            )
+            ),
           ],
         ),
       );

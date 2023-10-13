@@ -57,7 +57,7 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
                   child: Center(
                     child: CircularProgressIndicator(),
                   ),
-                )
+                ),
               ],
             )
           : getBody(context),
@@ -179,7 +179,7 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
               MaterialPageRoute<ProfilePageView>(
                 builder: (__) => const ProfilePageView(),
               ),
-            )
+            ),
           },
           child: Container(
             width: 40,

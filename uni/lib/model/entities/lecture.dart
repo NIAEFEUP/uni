@@ -111,7 +111,7 @@ class Lecture {
       'room': room,
       'teacher': teacher,
       'classNumber': classNumber,
-      'occurrId': occurrId
+      'occurrId': occurrId,
     };
   }
 

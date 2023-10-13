@@ -47,7 +47,7 @@ class FloorlessLocationMarkerPopup extends StatelessWidget {
                 location.description(),
                 textAlign: TextAlign.left,
                 style: TextStyle(color: FacultyMap.getFontColor(context)),
-              )
+              ),
             ],
           ),
         )
@@ -68,7 +68,7 @@ class LocationRow extends StatelessWidget {
           location.description(),
           textAlign: TextAlign.left,
           style: TextStyle(color: FacultyMap.getFontColor(context)),
-        )
+        ),
       ],
     );
   }

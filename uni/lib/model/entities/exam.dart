@@ -43,7 +43,7 @@ class Exam {
     'Recurso': 'ER',
     'Especial de Conclusão': 'EC',
     'Port.Est.Especiais': 'EE',
-    'Exames ao abrigo de estatutos especiais': 'EAE'
+    'Exames ao abrigo de estatutos especiais': 'EAE',
   };
   static List<String> displayedTypes = types.keys.toList().sublist(0, 4);
 
@@ -56,7 +56,7 @@ class Exam {
       'end': DateFormat('yyyy-MM-dd HH:mm:ss').format(end),
       'rooms': rooms.join(','),
       'examType': type,
-      'faculty': faculty
+      'faculty': faculty,
     };
   }
 

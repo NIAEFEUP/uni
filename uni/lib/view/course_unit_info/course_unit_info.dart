@@ -70,7 +70,7 @@ class CourseUnitDetailPageViewState
           TabBar(
             tabs: [
               Tab(text: S.of(context).course_info),
-              Tab(text: S.of(context).course_class)
+              Tab(text: S.of(context).course_class),
             ],
           ),
           Expanded(
@@ -83,7 +83,7 @@ class CourseUnitDetailPageViewState
                 ],
               ),
             ),
-          )
+          ),
         ],
       ),
     );

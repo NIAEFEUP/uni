@@ -30,7 +30,7 @@ class PrintFetcher implements SessionDependantFetcher {
       'p_tipo_id': '3',
       'pct_codigo': session.username,
       'p_valor': '1',
-      'p_valor_livre': amount.toStringAsFixed(2).trim().replaceAll('.', ',')
+      'p_valor_livre': amount.toStringAsFixed(2).trim().replaceAll('.', ','),
     };
 
     final headers = <String, String>{};

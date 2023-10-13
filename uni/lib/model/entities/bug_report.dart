@@ -14,6 +14,6 @@ class BugReport {
         'text': text,
         'email': email,
         'bugLabel': bugLabel!.item2,
-        'faculties': faculties
+        'faculties': faculties,
       };
 }

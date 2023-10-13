@@ -33,7 +33,7 @@ class SpecialRoomLocation implements Location {
       'floor': floor,
       'type': locationTypeToString(LocationType.printer),
       'first_room': roomNumber,
-      'name': name
+      'name': name,
     };
   }
 }

@@ -43,7 +43,7 @@ abstract class GenericExpansionCard extends StatelessWidget {
           Container(
             padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
             child: buildCardContent(context),
-          )
+          ),
         ],
       ),
     );

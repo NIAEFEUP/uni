@@ -29,8 +29,8 @@ class _LastUpdateTimeStampState<T extends StateProviderNotifier>
           {
             setState(() {
               currentTime = DateTime.now();
-            })
-          }
+            }),
+          },
       },
     );
   }
@@ -59,7 +59,7 @@ class _LastUpdateTimeStampState<T extends StateProviderNotifier>
         Text(
           S.of(context).last_timestamp(elapsedTimeMinutes),
           style: Theme.of(context).textTheme.titleSmall,
-        )
+        ),
       ],
     );
   }

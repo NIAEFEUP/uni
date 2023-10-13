@@ -34,7 +34,7 @@ class ScheduleCardShimmer extends StatelessWidget {
                         color: Colors.black,
                       ),
                     ],
-                  )
+                  ),
                 ],
               ),
               Column(
