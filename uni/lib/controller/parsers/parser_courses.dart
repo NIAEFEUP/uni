@@ -40,8 +40,6 @@ List<Course> _parseCourses(http.Response response) {
     courses.add(
       Course(
         faculty: faculty,
-        id: int.parse(courseId ?? '0'),
-        state: courseState,
         name: courseName ?? '',
         festId: int.parse(courseFestId ?? '0'),
       ),
@@ -54,21 +52,12 @@ List<Course> _parseCourses(http.Response response) {
     final div = oldCourses[i];
     final courseName = div.children[0].firstChild?.text?.trim();
     final courseUrl = div.querySelector('a')?.attributes['href'];
-    final courseId = getUrlQueryParameters(courseUrl ?? '')['pv_curso_id'];
-    var courseFirstEnrollment = div.children[4].text;
-    courseFirstEnrollment = courseFirstEnrollment
-        .substring(0, courseFirstEnrollment.indexOf('/'))
-        .trim();
-    final courseState = div.children[5].text;
     final courseFestId = getUrlQueryParameters(
       div.children[6].firstChild?.attributes['href'] ?? '',
     )['pv_fest_id'];
     courses.add(
       Course(
-        firstEnrollment: int.parse(courseFirstEnrollment),
         faculty: faculty,
-        id: int.parse(courseId ?? '0'),
-        state: courseState,
         name: courseName ?? '',
         festId: int.parse(courseFestId ?? '0'),
       ),

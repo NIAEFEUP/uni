@@ -60,7 +60,7 @@ void main() {
       'feup',
     );
 
-    final profile = Profile()..courses = [Course(id: 7474)];
+    final profile = Profile()..courses = [Course(festId: 7474)];
     final session = Session(username: '', cookies: '', faculties: ['feup']);
     final userUcs = [sopeCourseUnit, sdisCourseUnit];
 

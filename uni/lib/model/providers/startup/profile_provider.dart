@@ -1,11 +1,10 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:logger/logger.dart';
+import 'package:collection/collection.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
-import 'package:uni/controller/fetchers/course_units_fetcher/all_course_units_fetcher_api.dart';
-import 'package:uni/controller/fetchers/course_units_fetcher/all_course_units_fetcher_html.dart';
-import 'package:uni/controller/fetchers/course_units_fetcher/current_course_units_fetcher.dart';
+import 'package:uni/controller/fetchers/courses_fetcher/all_course_units_fetcher_api.dart';
+import 'package:uni/controller/fetchers/courses_fetcher/all_course_units_fetcher_html.dart';
 import 'package:uni/controller/fetchers/fees_fetcher.dart';
 import 'package:uni/controller/fetchers/print_fetcher.dart';
 import 'package:uni/controller/fetchers/profile_fetcher.dart';
@@ -31,9 +30,8 @@ class ProfileProvider extends StateProviderNotifier {
   @override
   Future<void> loadFromStorage() async {
     await loadProfile();
-    await Future.wait(
-      [loadCourses(), loadCourseUnits()],
-    );
+    await loadCourses();
+    await loadCourseUnits();
   }
 
   @override
@@ -41,9 +39,9 @@ class ProfileProvider extends StateProviderNotifier {
     await fetchUserInfo(session);
 
     await Future.wait([
-      fetchUserFees(session),
+      fetchFees(session),
       // fetchUserPrintBalance(session), // FIXME: bring back when it's fixed
-      fetchCourseUnitsAndCourseAverages(session)
+      fetchCourses(session)
     ]);
   }
 
@@ -59,11 +57,21 @@ class ProfileProvider extends StateProviderNotifier {
   }
 
   Future<void> loadCourseUnits() async {
+    if (profile.courses.isEmpty) {
+      return;
+    }
+
     final db = AppCourseUnitsDatabase();
-    profile.courseUnits = await db.courseUnits();
+
+    // FIXME (bdmendes): This is assuming that the saved course units are from
+    // the first course. This is due to the db schema not saving the relation
+    // between course and course units.
+    // It currently has no effect, since we are not relating course units
+    // to courses, but it should be fixed for future UI improvements.
+    profile.courses[0].courseUnits = await db.courseUnits();
   }
 
-  Future<void> fetchUserFees(Session session) async {
+  Future<void> fetchFees(Session session) async {
     final response = await FeesFetcher().getUserFeesResponse(session);
 
     final feesBalance = parseFeesBalance(response);
@@ -104,30 +112,26 @@ class ProfileProvider extends StateProviderNotifier {
     final userPersistentInfo =
         await AppSharedPreferences.getPersistentUserInfo();
     if (userPersistentInfo != null) {
-      // Course units are saved later, so we don't it here
       final profileDb = AppUserDataDatabase();
       await profileDb.insertUserData(_profile);
     }
   }
 
-  Future<void> fetchCourseUnitsAndCourseAverages(Session session) async {
+  Future<void> fetchCourses(Session session) async {
     final courses = profile.courses;
 
-    final allCourseUnits = await AllCourseUnitsFetcherApi()
-        .getAllCourseUnitsAndCourseAverages(
-      courses,
+    final allCourses = await AllCourseUnitsFetcherApi()
+        .getCourses(
       session,
-      currentCourseUnits: profile.courseUnits,
     )
         .catchError((dynamic e) {
       Sentry.captureException(e);
-      return AllCourseUnitsFetcherHtml().getAllCourseUnitsAndCourseAverages(
-        courses,
+      return AllCourseUnitsFetcherHtml().getCourses(
         session,
-        currentCourseUnits: profile.courseUnits,
       );
     });
-    _profile.courseUnits = allCourseUnits!;
+
+    _profile.courses = allCourses;
 
     final userPersistentInfo =
         await AppSharedPreferences.getPersistentUserInfo();
@@ -136,7 +140,9 @@ class ProfileProvider extends StateProviderNotifier {
       await coursesDb.saveNewCourses(courses);
 
       final courseUnitsDatabase = AppCourseUnitsDatabase();
-      await courseUnitsDatabase.saveNewCourseUnits(_profile.courseUnits);
+      await courseUnitsDatabase.saveNewCourseUnits(
+        _profile.courses.map((e) => e.courseUnits).flattened.toList(),
+      );
     }
   }
 

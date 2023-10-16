@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:collection/collection.dart';
 import 'package:logger/logger.dart';
-import 'package:uni/controller/fetchers/course_units_fetcher/all_course_units_fetcher.dart';
+import 'package:uni/controller/fetchers/courses_fetcher/all_course_units_fetcher.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
@@ -19,12 +19,7 @@ class AllCourseUnitsFetcherApi implements AllCourseUnitsFetcher {
   }
 
   @override
-  Future<List<CourseUnit>?> getAllCourseUnitsAndCourseAverages(
-    List<Course> courses,
-    Session session, {
-    List<CourseUnit>? currentCourseUnits,
-  }) async {
-    Logger().e("meu deus");
+  Future<List<Course>> getCourses(Session session) async {
     final url = getEndpoints(session)[0];
     final response = await NetworkRouter.getWithCookies(
       url,
@@ -34,28 +29,17 @@ class AllCourseUnitsFetcherApi implements AllCourseUnitsFetcher {
       session,
     );
 
-    final allCourseUnits = <CourseUnit>[];
+    final allCourses = <Course>[];
 
     final responseCourses = jsonDecode(response.body) as List<dynamic>;
     for (final courseContent in responseCourses) {
-      final course = courseContent as Map<String, dynamic>;
-
-      final correspondingCourse = courses.firstWhereOrNull(
-        (c) => c.festId == course['fest_id'],
-      );
-      if (correspondingCourse == null) {
-        continue;
+      final courseData = courseContent as Map<String, dynamic>;
+      final course = Course.fromJson(courseData);
+      if (course != null) {
+        allCourses.add(course);
       }
-
-      correspondingCourse.currentAverage = course['media'] as double?;
-      final courseCourseUnits = (course['inscricoes'] as List<dynamic>)
-          .map((e) => CourseUnit.fromJson(e as Map<String, dynamic>))
-          .toList();
-      allCourseUnits.addAll(
-        courseCourseUnits.whereNotNull().where((c) => c.enrollmentIsValid()),
-      );
     }
 
-    return allCourseUnits;
+    return allCourses;
   }
 }

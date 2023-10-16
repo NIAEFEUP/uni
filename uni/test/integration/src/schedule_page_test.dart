@@ -41,7 +41,7 @@ void main() {
     const jsonFetcherIdentifier = 'mob_hor_geral.estudante';
 
     Future<void> testSchedule(WidgetTester tester) async {
-      final profile = Profile()..courses = [Course(id: 7474)];
+      final profile = Profile()..courses = [Course(festId: 7474)];
 
       NetworkRouter.httpClient = mockClient;
       when(badMockResponse.statusCode).thenReturn(500);

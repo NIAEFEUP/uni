@@ -55,7 +55,8 @@ void main() {
       filteredExams[type] = true;
     }
 
-    final profile = Profile()..courses = [Course(id: 7474, faculty: 'feup')];
+    final profile = Profile()
+      ..courses = [Course(festId: 7474, faculty: 'feup')];
 
     testWidgets('Exams', (WidgetTester tester) async {
       NetworkRouter.httpClient = mockClient;

@@ -28,7 +28,7 @@ class CourseUnit {
   String? semesterName;
   String? type;
   String? status;
-  String? grade;
+  int? grade;
   String? ectsGrade;
   String? result;
   num? ects;
@@ -51,7 +51,7 @@ class CourseUnit {
       semesterName: data['per_nome'] as String?,
       type: data['tipo'] as String?,
       status: data['estado'] as String?,
-      grade: data['resultado_melhor'] as String?,
+      grade: int.tryParse(data['resultado_melhor'] as String? ?? ''),
       ectsGrade: data['resultado_ects'] as String?,
       result: data['resultado_insc'] as String?,
       ects: data['creditos_ects'] as num?,

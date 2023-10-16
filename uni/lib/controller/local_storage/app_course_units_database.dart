@@ -5,11 +5,12 @@ import 'package:uni/controller/local_storage/app_database.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
 
 class AppCourseUnitsDatabase extends AppDatabase {
-  AppCourseUnitsDatabase() : super('course_units.db', [createScript]);
+  AppCourseUnitsDatabase()
+      : super('course_units.db', [createScript], version: 2);
   static const String createScript =
-      '''CREATE TABLE course_units(id INTEGER, code TEXT, abbreviation TEXT , '''
+  '''CREATE TABLE course_units(id INTEGER, code TEXT, abbreviation TEXT , '''
       '''name TEXT, curricularYear INTEGER, occurrId INTEGER, semesterCode TEXT, '''
-      '''semesterName TEXT, type TEXT, status TEXT, grade TEXT, ectsGrade TEXT, '''
+      '''semesterName TEXT, type TEXT, status TEXT, grade INTEGER, ectsGrade TEXT, '''
       '''result TEXT, ects REAL, schoolYear TEXT)''';
 
   Future<void> saveNewCourseUnits(List<CourseUnit> courseUnits) async {
@@ -33,7 +34,7 @@ class AppCourseUnitsDatabase extends AppDatabase {
         semesterName: maps[i]['semesterName'] as String?,
         type: maps[i]['type'] as String?,
         status: maps[i]['status'] as String?,
-        grade: maps[i]['grade'] as String?,
+        grade: maps[i]['grade'] as int?,
         ectsGrade: maps[i]['ectsGrade'] as String?,
         result: maps[i]['result'] as String?,
         ects: maps[i]['ects'] as double?,

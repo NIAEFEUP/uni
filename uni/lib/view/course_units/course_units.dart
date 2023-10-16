@@ -32,7 +32,10 @@ class CourseUnitsPageViewState
   Widget getBody(BuildContext context) {
     return LazyConsumer<ProfileProvider>(
       builder: (context, profileProvider) {
-        final courseUnits = profileProvider.profile.courseUnits;
+        final courseUnits = profileProvider.profile.courses
+            .map((e) => e.courseUnits)
+            .flattened
+            .toList();
         var availableYears = <String>[];
         var availableSemesters = <String>[];
 

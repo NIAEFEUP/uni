@@ -18,16 +18,16 @@ class CourseInfoCard extends GenericCard {
         TableRow(
           children: [
             Container(
-              margin: const EdgeInsets.only(top: 20, bottom: 8, left: 20),
+              margin: const EdgeInsets.only(top: 20, bottom: 8, left: 10),
               child: Text(
                 S.of(context).current_year,
                 style: Theme.of(context).textTheme.titleSmall,
               ),
             ),
             Container(
-              margin: const EdgeInsets.only(top: 20, bottom: 8, right: 20),
+              margin: const EdgeInsets.only(top: 20, bottom: 8, right: 10),
               child: getInfoText(
-                course.currYear ?? S.of(context).unavailable,
+                course.currYear?.toString() ?? S.of(context).unavailable,
                 context,
               ),
             )
@@ -36,52 +36,14 @@ class CourseInfoCard extends GenericCard {
         TableRow(
           children: [
             Container(
-              margin: const EdgeInsets.only(top: 10, bottom: 8, left: 20),
-              child: Text(
-                S.of(context).current_state,
-                style: Theme.of(context).textTheme.titleSmall,
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(top: 10, bottom: 8, right: 20),
-              child: getInfoText(
-                course.state ?? S.of(context).unavailable,
-                context,
-              ),
-            )
-          ],
-        ),
-        TableRow(
-          children: [
-            Container(
-              margin: const EdgeInsets.only(top: 10, bottom: 8, left: 20),
-              child: Text(
-                S.of(context).first_year_registration,
-                style: Theme.of(context).textTheme.titleSmall,
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(top: 10, bottom: 8, right: 20),
-              child: getInfoText(
-                course.firstEnrollment != null
-                    ? '${course.firstEnrollment}/${course.firstEnrollment! + 1}'
-                    : '?',
-                context,
-              ),
-            )
-          ],
-        ),
-        TableRow(
-          children: [
-            Container(
-              margin: const EdgeInsets.only(top: 10, bottom: 8, left: 20),
+              margin: const EdgeInsets.only(top: 10, bottom: 8, left: 10),
               child: Text(
                 S.of(context).college,
                 style: Theme.of(context).textTheme.titleSmall,
               ),
             ),
             Container(
-              margin: const EdgeInsets.only(top: 10, bottom: 8, right: 20),
+              margin: const EdgeInsets.only(top: 10, bottom: 8, right: 10),
               child: getInfoText(
                 course.faculty?.toUpperCase() ?? S.of(context).unavailable,
                 context,
@@ -92,16 +54,16 @@ class CourseInfoCard extends GenericCard {
         TableRow(
           children: [
             Container(
-              margin: const EdgeInsets.only(top: 10, bottom: 8, left: 20),
+              margin: const EdgeInsets.only(top: 10, bottom: 8, left: 10),
               child: Text(
                 S.of(context).average,
                 style: Theme.of(context).textTheme.titleSmall,
               ),
             ),
             Container(
-              margin: const EdgeInsets.only(top: 10, bottom: 8, right: 20),
+              margin: const EdgeInsets.only(top: 10, bottom: 8, right: 10),
               child: getInfoText(
-                course.currentAverage?.toString() ?? S.of(context).unavailable,
+                course.average.toString(),
                 context,
               ),
             )
@@ -110,22 +72,21 @@ class CourseInfoCard extends GenericCard {
         TableRow(
           children: [
             Container(
-              margin: const EdgeInsets.only(top: 10, bottom: 20, left: 20),
+              margin: const EdgeInsets.only(top: 10, bottom: 8, left: 10),
               child: Text(
                 S.of(context).ects,
                 style: Theme.of(context).textTheme.titleSmall,
               ),
             ),
             Container(
-              margin: const EdgeInsets.only(top: 10, bottom: 20, right: 20),
+              margin: const EdgeInsets.only(top: 10, bottom: 8, right: 10),
               child: getInfoText(
-                course.finishedEcts?.toString().replaceFirst('.0', '') ??
-                    S.of(context).unavailable,
+                course.performedECTS.toString().replaceFirst('.0', ''),
                 context,
               ),
             )
           ],
-        )
+        ),
       ],
     );
   }

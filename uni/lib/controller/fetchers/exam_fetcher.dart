@@ -30,7 +30,9 @@ class ExamFetcher implements SessionDependantFetcher {
         final currentCourseExams = await parserExams.parseExams(
           await NetworkRouter.getWithCookies(
             url,
-            {'p_curso_id': course.id.toString()},
+            // FIXME: fest_id does not work for this endpoint
+            // This is breaking, do not merge this!
+            {'p_curso_id': course.festId.toString()},
             session,
           ),
           course,

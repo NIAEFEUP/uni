@@ -16,16 +16,6 @@ List<CourseUnit> parseCourseUnitsAndCourseAverage(
     return [];
   }
 
-  final labels = document.querySelectorAll('.caixa .formulario-legenda');
-  if (labels.length >= 2) {
-    course.currentAverage ??= num.tryParse(
-      labels[0].nextElementSibling?.innerHtml.replaceFirst(',', '.') ?? '0',
-    );
-    course.finishedEcts ??= num.tryParse(
-      labels[1].nextElementSibling?.innerHtml.replaceFirst(',', '.') ?? '0',
-    );
-  }
-
   final firstSchoolYearData =
       table.querySelector('tr')?.children[1].text.trim();
   if (firstSchoolYearData == null) {
@@ -78,10 +68,10 @@ List<CourseUnit> parseCourseUnitsAndCourseAverage(
             '${firstSchoolYear + yearIncrement}/${firstSchoolYear + yearIncrement + 1}',
         occurrId: int.parse(occurId),
         code: codeName,
-        abbreviation: matchingCurrentCourseUnit?.abbreviation ??
-            codeName, // FIXME: this is not the abbreviation
+        abbreviation: matchingCurrentCourseUnit?.abbreviation ?? codeName,
+        // FIXME: this is not the abbreviation
         status: status,
-        grade: grade,
+        grade: int.tryParse(grade),
         ects: double.tryParse(ects),
         name: name,
         curricularYear: int.parse(year),
