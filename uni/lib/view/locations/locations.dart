@@ -75,7 +75,7 @@ class LocationsPageView extends StatelessWidget {
             onNullContent: Center(child: Text(S.of(context).no_places_info)),
           ),
           // TODO(bdmendes): add support for multiple faculties
-        )
+        ),
       ],
     );
   }

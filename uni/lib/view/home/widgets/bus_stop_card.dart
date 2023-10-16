@@ -58,7 +58,7 @@ Widget getCardContent(
         return Column(
           children: <Widget>[
             getCardTitle(context),
-            getBusStopsInfo(context, stopData)
+            getBusStopsInfo(context, stopData),
           ],
         );
       } else {
@@ -81,7 +81,7 @@ Widget getCardContent(
                     builder: (context) => const BusStopSelectionPage(),
                   ),
                 ),
-              )
+              ),
             ],
           ),
         );
@@ -93,7 +93,7 @@ Widget getCardContent(
           Container(
             padding: const EdgeInsets.all(22),
             child: const Center(child: CircularProgressIndicator()),
-          )
+          ),
         ],
       );
     case RequestStatus.failed:
@@ -107,7 +107,7 @@ Widget getCardContent(
               S.of(context).bus_error,
               style: Theme.of(context).textTheme.titleMedium,
             ),
-          )
+          ),
         ],
       );
   }

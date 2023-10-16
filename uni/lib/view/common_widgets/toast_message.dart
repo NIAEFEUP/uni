@@ -53,7 +53,7 @@ class MessageToast extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 maxLines: 10,
               ),
-            )
+            ),
           ],
         ),
       ),

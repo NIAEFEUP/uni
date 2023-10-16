@@ -55,8 +55,8 @@ jobs:
     needs: [bump_version]
     env:
       PROPERTIES_PATH: "android/key.properties"
-      JAVA_VERSION: "11.x"
-      FLUTTER_VERSION: "3.10.6"
+      JAVA_VERSION: "17.x"
+      FLUTTER_VERSION: "3.13.7"
     defaults:
       run:
         working-directory: ./uni

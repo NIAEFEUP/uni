@@ -114,12 +114,12 @@ class ExamCard extends GenericCard {
           DateRectangle(
             date: '''${exam.weekDay(locale)}, '''
                 '''${exam.begin.day} de ${exam.month(locale)}''',
-          )
+          ),
         ] else ...[
           DateRectangle(
             date: '''${exam.weekDay(locale)}, '''
                 '''${exam.begin.day} ${exam.month(locale)}''',
-          )
+          ),
         ],
         RowContainer(
           child: ExamRow(
@@ -127,7 +127,7 @@ class ExamCard extends GenericCard {
             teacher: '',
             mainPage: true,
           ),
-        )
+        ),
       ],
     );
   }
@@ -153,7 +153,7 @@ class ExamCard extends GenericCard {
                 subject: exam.subject,
                 type: exam.type,
                 reverseOrder: true,
-              )
+              ),
             ],
           ),
         ),

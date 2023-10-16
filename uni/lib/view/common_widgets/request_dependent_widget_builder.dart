@@ -98,7 +98,7 @@ class RequestDependentWidgetBuilder extends StatelessWidget {
                 '/${DrawerItem.navBugReport.title}',
               ),
               child: Text(S.of(context).report_error),
-            )
+            ),
           ],
         );
       },

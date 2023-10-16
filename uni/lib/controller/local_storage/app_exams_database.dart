@@ -23,7 +23,7 @@ class AppExamsDatabase extends AppDatabase {
     'Setembro': '09',
     'Outubro': '10',
     'Novembro': '11',
-    'Dezembro': '12'
+    'Dezembro': '12',
   };
 
   static const _createScript = '''
