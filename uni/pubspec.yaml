@@ -30,8 +30,8 @@ dependencies:
   flutter_local_notifications: ^15.1.0+1
   flutter_localizations:
     sdk: flutter
-  flutter_map: ^5.0.0
-  flutter_map_marker_popup: ^5.0.0
+  flutter_map: ^6.0.0
+  flutter_map_marker_popup: ^6.1.1
   flutter_markdown: ^0.6.0
   flutter_svg: ^2.0.0+1
   flutter_widget_from_html_core: ^0.10.3
