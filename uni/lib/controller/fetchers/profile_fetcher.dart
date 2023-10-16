@@ -1,3 +1,4 @@
+import 'package:logger/logger.dart';
 import 'package:uni/controller/fetchers/courses_fetcher.dart';
 import 'package:uni/controller/fetchers/session_dependant_fetcher.dart';
 import 'package:uni/controller/networking/network_router.dart';
@@ -14,7 +15,8 @@ class ProfileFetcher implements SessionDependantFetcher {
     return [url];
   }
 
-  /// Returns the user's [Profile].
+  /// Returns the user's [Profile], filled with information,
+  /// except for the [Profile.courses] list.
   static Future<Profile?> fetchProfile(Session session) async {
     final url = '${NetworkRouter.getBaseUrlsFromSession(session)[0]}'
         'mob_fest_geral.perfil?';
@@ -41,6 +43,9 @@ class ProfileFetcher implements SessionDependantFetcher {
           .contains(course.festId)) {
         profile.courses.where((c) => c.festId == course.festId).first.state ??=
             course.state;
+        continue;
+      }
+      if (course.currYear == null) {
         continue;
       }
       profile.courses.add(course);

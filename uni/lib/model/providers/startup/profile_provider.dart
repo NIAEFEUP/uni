@@ -1,7 +1,10 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:uni/controller/fetchers/course_units_fetcher/all_course_units_fetcher.dart';
+import 'package:logger/logger.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:uni/controller/fetchers/course_units_fetcher/all_course_units_fetcher_api.dart';
+import 'package:uni/controller/fetchers/course_units_fetcher/all_course_units_fetcher_html.dart';
 import 'package:uni/controller/fetchers/course_units_fetcher/current_course_units_fetcher.dart';
 import 'package:uni/controller/fetchers/fees_fetcher.dart';
 import 'package:uni/controller/fetchers/print_fetcher.dart';
@@ -20,7 +23,7 @@ import 'package:uni/model/providers/state_provider_notifier.dart';
 class ProfileProvider extends StateProviderNotifier {
   ProfileProvider()
       : _profile = Profile(),
-        super(dependsOnSession: true, cacheDuration: const Duration(days: 1));
+        super(dependsOnSession: true, cacheDuration: null);
   Profile _profile;
 
   Profile get profile => _profile;
@@ -39,7 +42,7 @@ class ProfileProvider extends StateProviderNotifier {
 
     await Future.wait([
       fetchUserFees(session),
-      fetchUserPrintBalance(session),
+      // fetchUserPrintBalance(session), // FIXME: bring back when it's fixed
       fetchCourseUnitsAndCourseAverages(session)
     ]);
   }
@@ -95,11 +98,8 @@ class ProfileProvider extends StateProviderNotifier {
 
   Future<void> fetchUserInfo(Session session) async {
     final profile = await ProfileFetcher.fetchProfile(session);
-    final currentCourseUnits =
-        await CurrentCourseUnitsFetcher().getCurrentCourseUnits(session);
 
     _profile = profile ?? Profile();
-    _profile.courseUnits = currentCourseUnits;
 
     final userPersistentInfo =
         await AppSharedPreferences.getPersistentUserInfo();
@@ -112,19 +112,22 @@ class ProfileProvider extends StateProviderNotifier {
 
   Future<void> fetchCourseUnitsAndCourseAverages(Session session) async {
     final courses = profile.courses;
-    final allCourseUnits =
-        await AllCourseUnitsFetcher().getAllCourseUnitsAndCourseAverages(
-      profile.courses,
+
+    final allCourseUnits = await AllCourseUnitsFetcherApi()
+        .getAllCourseUnitsAndCourseAverages(
+      courses,
       session,
       currentCourseUnits: profile.courseUnits,
-    );
-
-    if (allCourseUnits != null) {
-      _profile.courseUnits = allCourseUnits;
-    } else {
-      // Current course units should already have been fetched,
-      // so this is not a fatal error
-    }
+    )
+        .catchError((dynamic e) {
+      Sentry.captureException(e);
+      return AllCourseUnitsFetcherHtml().getAllCourseUnitsAndCourseAverages(
+        courses,
+        session,
+        currentCourseUnits: profile.courseUnits,
+      );
+    });
+    _profile.courseUnits = allCourseUnits!;
 
     final userPersistentInfo =
         await AppSharedPreferences.getPersistentUserInfo();

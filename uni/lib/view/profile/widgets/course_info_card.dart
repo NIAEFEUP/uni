@@ -119,7 +119,8 @@ class CourseInfoCard extends GenericCard {
             Container(
               margin: const EdgeInsets.only(top: 10, bottom: 20, right: 20),
               child: getInfoText(
-                course.finishedEcts?.toString().replaceFirst('.0', '') ?? '?',
+                course.finishedEcts?.toString().replaceFirst('.0', '') ??
+                    S.of(context).unavailable,
                 context,
               ),
             )
