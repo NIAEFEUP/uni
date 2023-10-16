@@ -48,20 +48,18 @@ class AppUserDataDatabase extends AppDatabase {
     }
 
     return Profile(
-      name: name ?? '?',
-      email: email ?? '?',
+      name: name!,
+      email: email!,
       courses: <Course>[],
-      printBalance: printBalance ?? '?',
-      feesBalance: feesBalance ?? '?',
+      printBalance: printBalance!,
+      feesBalance: feesBalance!,
       feesLimit: feesLimit,
     );
   }
 
   /// Deletes all of the data stored in this database.
   Future<void> deleteUserData() async {
-    // Get a reference to the database
     final db = await getDatabase();
-
     await db.delete('userdata');
   }
 

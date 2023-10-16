@@ -8,14 +8,12 @@ import 'package:uni/model/entities/exam.dart';
 
 /// Parses information about the user's exams.
 class ParserExams {
-  /// Returns the abbreviature of the exam season.
-  ///
-  /// If an abbreviature doesn't exist, a '?' is returned.
-  String getExamSeasonAbbr(String seasonStr) {
+  /// Returns the abbreviate of the exam season.
+  String? getExamSeasonAbbr(String seasonStr) {
     for (final type in Exam.types.keys) {
       if (seasonStr.contains(type)) return Exam.types[type]!;
     }
-    return '?';
+    return null;
   }
 
   /// Extracts a list of exams from an HTTP [response].
@@ -32,7 +30,10 @@ class ParserExams {
     var days = 0;
     var tableNum = 0;
     document.querySelectorAll('h3').forEach((Element examType) {
-      examTypes.add(getExamSeasonAbbr(examType.text));
+      final parsedExamType = getExamSeasonAbbr(examType.text);
+      if (parsedExamType != null) {
+        examTypes.add(parsedExamType);
+      }
     });
 
     document
@@ -58,11 +59,10 @@ class ParserExams {
                 examsDay.text.indexOf(':') - 2,
                 examsDay.text.indexOf(':') + 9,
               );
-              final splittedSchedule = schedule!.split('-');
+              final splitSchedule = schedule!.split('-');
               final begin =
-                  DateTime.parse('${dates[days]} ${splittedSchedule[0]}');
-              final end =
-                  DateTime.parse('${dates[days]} ${splittedSchedule[1]}');
+                  DateTime.parse('${dates[days]} ${splitSchedule[0]}');
+              final end = DateTime.parse('${dates[days]} ${splitSchedule[1]}');
               final exam = Exam(
                 id,
                 begin,

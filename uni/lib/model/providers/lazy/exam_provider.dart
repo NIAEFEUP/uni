@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:collection';
 
+import 'package:collection/collection.dart';
 import 'package:uni/controller/fetchers/exam_fetcher.dart';
 import 'package:uni/controller/local_storage/app_exams_database.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
@@ -42,7 +43,7 @@ class ExamProvider extends StateProviderNotifier {
       ParserExams(),
       profile,
       session,
-      profile.courseUnits,
+      profile.courses.map((e) => e.courseUnits).flattened.toList(),
       persistentSession:
           (await AppSharedPreferences.getPersistentUserInfo()) != null,
     );

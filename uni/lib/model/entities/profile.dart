@@ -14,8 +14,7 @@ class Profile {
     this.printBalance = '',
     this.feesBalance = '',
     this.feesLimit,
-  })  : courses = courses ?? [],
-        courseUnits = [];
+  }) : courses = courses ?? [];
 
   /// Creates a new instance from a JSON object.
   factory Profile.fromResponse(Response response) {
@@ -42,7 +41,6 @@ class Profile {
   String feesBalance;
   DateTime? feesLimit;
   List<Course> courses;
-  List<CourseUnit> courseUnits;
 
   /// Returns a list with two tuples: the first tuple contains the user's name
   /// and the other one contains the user's email.
