@@ -38,7 +38,7 @@ class BackButtonExitWrapper extends StatelessWidget {
                   Navigator.of(context).pop(false);
                 },
                 child: Text(S.of(context).yes),
-              )
+              ),
             ],
           ),
         );

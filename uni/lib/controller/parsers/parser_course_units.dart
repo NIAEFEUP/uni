@@ -84,7 +84,7 @@ List<CourseUnit> parseCourseUnitsAndCourseAverage(
         grade: grade,
         ects: double.tryParse(ects),
         name: name,
-        curricularYear: int.parse(year),
+        curricularYear: int.tryParse(year),
         semesterCode: semester,
       );
       courseUnits.add(courseUnit);

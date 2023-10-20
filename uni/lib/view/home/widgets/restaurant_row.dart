@@ -30,7 +30,7 @@ class RestaurantRow extends StatelessWidget {
             child: Column(
               children: getMenuRows(context),
             ),
-          )
+          ),
         ],
       ),
     );
@@ -43,7 +43,7 @@ class RestaurantRow extends StatelessWidget {
       meatMenu: MdiIcons.foodDrumstickOutline,
       fishMenu: MdiIcons.fish,
       vegetarianMenu: MdiIcons.corn,
-      dietMenu: MdiIcons.nutrition
+      dietMenu: MdiIcons.nutrition,
     };
 
     for (final element in meals) {

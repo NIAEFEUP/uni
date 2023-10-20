@@ -26,7 +26,7 @@ class ProfilePageViewState extends SecondaryPageViewState<ProfilePageView> {
             .map(
               (e) => [
                 CourseInfoCard(course: e),
-                const Padding(padding: EdgeInsets.all(5))
+                const Padding(padding: EdgeInsets.all(5)),
               ],
             )
             .flattened

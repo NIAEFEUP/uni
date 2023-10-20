@@ -199,9 +199,9 @@ class BugReportFormState extends State<BugReportForm> {
                   },
                   isExpanded: true,
                 ),
-              )
+              ),
             ],
-          )
+          ),
         ],
       ),
     );
