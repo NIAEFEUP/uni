@@ -28,6 +28,7 @@ class AppSharedPreferences {
       'tuition_notification_toogle';
   static const String themeMode = 'theme_mode';
   static const String locale = 'app_locale';
+  static const String lastCacheCleanUpDate = 'last_clean';
   static const String favoriteCards = 'favorite_cards';
   static final List<FavoriteWidgetType> defaultFavoriteCards = [
     FavoriteWidgetType.schedule,
@@ -134,6 +135,18 @@ class AppSharedPreferences {
       (e) => e.toString() == 'AppLocale.$appLocale',
       orElse: () => AppLocale.en,
     );
+  }
+
+  static Future<void> setLastCleanUpDate(DateTime date) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(lastCacheCleanUpDate, date.toString());
+  }
+
+  static Future<DateTime> getLastCleanUpDate() async {
+    final prefs = await SharedPreferences.getInstance();
+    final date =
+        prefs.getString(lastCacheCleanUpDate) ?? DateTime.now().toString();
+    return DateTime.parse(date);
   }
 
   /// Deletes the user's student number and password.

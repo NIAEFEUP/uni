@@ -9,6 +9,7 @@ import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:uni/controller/background_workers/background_callback.dart';
+import 'package:uni/controller/cleanup.dart';
 import 'package:uni/controller/load_static/terms_and_conditions.dart';
 import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/generated/l10n.dart';
@@ -78,6 +79,8 @@ Future<void> main() async {
   );
 
   WidgetsFlutterBinding.ensureInitialized();
+
+  unawaited(cleanupCachedFiles());
 
   // Initialize WorkManager for background tasks
   await Workmanager().initialize(

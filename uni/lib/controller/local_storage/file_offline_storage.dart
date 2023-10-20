@@ -11,7 +11,7 @@ import 'package:uni/model/entities/session.dart';
 
 /// The offline image storage location on the device.
 Future<String> get _localPath async {
-  final directory = await getTemporaryDirectory();
+  final directory = await getApplicationDocumentsDirectory();
   return directory.path;
 }
 
