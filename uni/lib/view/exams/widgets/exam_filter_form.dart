@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/generated/l10n.dart';
@@ -7,10 +9,6 @@ import 'package:uni/model/providers/lazy/exam_provider.dart';
 class ExamFilterForm extends StatefulWidget {
   const ExamFilterForm(this.filteredExamsTypes, {super.key});
   final Map<String, bool> filteredExamsTypes;
-
-  Map<String, bool> get filteredExamTypes =>
-      Map<String, bool>.from(filteredExamsTypes)
-        ..removeWhere((key, value) => !Exam.types.containsKey(key));
 
   @override
   ExamFilterFormState createState() => ExamFilterFormState();
@@ -53,7 +51,10 @@ class ExamFilterFormState extends State<ExamFilterForm> {
         height: 230,
         width: 200,
         child: FilteredExamList(
-          widget.filteredExamsTypes,
+          UnmodifiableMapView(
+            Map<String, bool>.from(widget.filteredExamsTypes)
+              ..removeWhere((key, value) => !Exam.types.containsKey(key)),
+          ),
           _changeFilteredExamList,
           context,
         ),
@@ -69,7 +70,7 @@ class FilteredExamList extends StatelessWidget {
     this.context, {
     super.key,
   });
-  final Map<String, bool> filteredExams;
+  final UnmodifiableMapView<String, bool> filteredExams;
   final void Function(String, {bool? value}) changeFilteredExamList;
   final BuildContext context;
 
