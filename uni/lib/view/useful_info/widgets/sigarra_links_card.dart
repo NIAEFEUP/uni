@@ -34,11 +34,6 @@ class SigarraLinksCard extends GenericExpansionCard {
           link:
               'https://sigarra.up.pt/feup/pt/inqueritos_geral.inqueritos_list',
         ),
-        LinkButton(
-          title: S.of(context).school_calendar,
-          link:
-              'https://sigarra.up.pt/feup/pt/web_base.gera_pagina?p_pagina=p%c3%a1gina%20est%c3%a1tica%20gen%c3%a9rica%20106',
-        ),
       ],
     );
   }
