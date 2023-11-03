@@ -139,7 +139,7 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
     final meals = restaurant.getMealsOfDay(day);
     if (meals.isEmpty) {
       return Container(
-        margin: const EdgeInsets.only(top: 10, bottom: 5),
+        margin: const EdgeInsets.only(top: 20, bottom: 5),
         key: Key('restaurant-page-day-column-$day'),
         child: Column(
           mainAxisSize: MainAxisSize.min,
