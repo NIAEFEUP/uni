@@ -40,7 +40,7 @@ class CalendarPageViewState extends GeneralPageViewState<CalendarPageView> {
                 style: TextStyle(fontSize: 18),
               ),
             ),
-          )
+          ),
         ],
       ),
     );

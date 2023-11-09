@@ -10,7 +10,6 @@ import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
-import 'package:uni/model/request_status.dart';
 
 class LectureProvider extends StateProviderNotifier {
   LectureProvider()
@@ -42,20 +41,15 @@ class LectureProvider extends StateProviderNotifier {
     required bool persistentSession,
     ScheduleFetcher? fetcher,
   }) async {
-    try {
-      final lectures =
-          await getLecturesFromFetcherOrElse(fetcher, session, profile);
+    final lectures =
+        await getLecturesFromFetcherOrElse(fetcher, session, profile);
 
-      if (persistentSession) {
-        final db = AppLecturesDatabase();
-        await db.saveNewLectures(lectures);
-      }
-
-      _lectures = lectures;
-      updateStatus(RequestStatus.successful);
-    } catch (e) {
-      updateStatus(RequestStatus.failed);
+    if (persistentSession) {
+      final db = AppLecturesDatabase();
+      await db.saveNewLectures(lectures);
     }
+
+    _lectures = lectures;
   }
 
   Future<List<Lecture>> getLecturesFromFetcherOrElse(

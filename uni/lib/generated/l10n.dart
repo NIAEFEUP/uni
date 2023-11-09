@@ -480,10 +480,10 @@ class S {
     );
   }
 
-  /// `ECTs performed: `
+  /// `ECTS performed: `
   String get ects {
     return Intl.message(
-      'ECTs performed: ',
+      'ECTS performed: ',
       name: 'ects',
       desc: '',
       args: [],

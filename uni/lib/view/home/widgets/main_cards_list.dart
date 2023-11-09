@@ -72,7 +72,7 @@ class MainCardsList extends StatelessWidget {
                         homePageProvider.favoriteCards,
                         context,
                         homePageProvider,
-                      )
+                      ),
                     ],
                   ),
           ),
@@ -105,7 +105,7 @@ class MainCardsList extends StatelessWidget {
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
                 onPressed: () => Navigator.pop(context),
-              )
+              ),
             ],
           );
         },
@@ -173,7 +173,7 @@ class MainCardsList extends StatelessWidget {
                   : S.of(context).edit_off,
               style: Theme.of(context).textTheme.bodySmall,
             ),
-          )
+          ),
         ],
       ),
     );

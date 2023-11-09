@@ -95,7 +95,7 @@ class CourseUnitsPageViewState
               style: Theme.of(context).textTheme.titleLarge,
             ),
           ),
-        )
+        ),
       ],
     );
   }
@@ -146,7 +146,7 @@ class CourseUnitsPageViewState
             }).toList(),
           ),
         ),
-        const SizedBox(width: 20)
+        const SizedBox(width: 20),
       ],
     );
   }
@@ -197,7 +197,7 @@ class CourseUnitsPageViewState
             children: [
               Flexible(child: CourseUnitCard(courseUnits[i])),
               const SizedBox(width: 10),
-              const Spacer()
+              const Spacer(),
             ],
           ),
         );

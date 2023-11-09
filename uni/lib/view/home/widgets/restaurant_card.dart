@@ -66,7 +66,7 @@ class RestaurantCard extends GenericCard {
                   '/${DrawerItem.navRestaurants.title}',
                 ),
                 child: Text(S.of(context).add),
-              )
+              ),
             ],
           ),
         );
@@ -90,7 +90,7 @@ class RestaurantCard extends GenericCard {
               context,
               restaurants[index],
               DayOfWeek.values[offset],
-            )
+            ),
           ],
         );
       },
@@ -142,7 +142,7 @@ class RestaurantCard extends GenericCard {
                 child: Text(S.of(context).no_menu_info),
               ),
             ),
-          )
+          ),
       ],
     );
   }

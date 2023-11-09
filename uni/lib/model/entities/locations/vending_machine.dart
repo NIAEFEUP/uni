@@ -23,7 +23,7 @@ class VendingMachine implements Location {
   Map<String, dynamic> toMap({int? groupId}) {
     return {
       'floor': floor,
-      'type': locationTypeToString(LocationType.vendingMachine)
+      'type': locationTypeToString(LocationType.vendingMachine),
     };
   }
 }

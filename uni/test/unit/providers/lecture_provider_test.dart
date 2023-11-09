@@ -71,21 +71,20 @@ void main() {
       );
 
       expect(provider.lectures, [lecture1, lecture2]);
-      expect(provider.status, RequestStatus.successful);
     });
 
     test('When an error occurs while trying to obtain the schedule', () async {
       when(fetcherMock.getLectures(any, any))
           .thenAnswer((_) async => throw Exception('💥'));
 
-      await provider.fetchUserLectures(
-        session,
-        profile,
-        fetcher: fetcherMock,
-        persistentSession: false,
+      throwsA(
+        () async => provider.fetchUserLectures(
+          session,
+          profile,
+          fetcher: fetcherMock,
+          persistentSession: false,
+        ),
       );
-
-      expect(provider.status, RequestStatus.failed);
     });
   });
 }

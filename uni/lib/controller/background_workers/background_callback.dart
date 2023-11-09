@@ -8,7 +8,7 @@ import 'package:workmanager/workmanager.dart';
 /// (they must not take any arguments, not checked)
 const taskMap = {
   'pt.up.fe.ni.uni.notificationworker':
-      Tuple2(NotificationManager.updateAndTriggerNotifications, true)
+      Tuple2(NotificationManager.updateAndTriggerNotifications, true),
 };
 
 @pragma('vm:entry-point')
@@ -35,8 +35,12 @@ Future<void> workerStartCallback() async {
       //try to keep the usage of this function BELOW +-30 seconds
       //to not be punished by the scheduler in future runs.
       await taskMap[taskName]!.item1();
-    } catch (err, stackstrace) {
-      Logger().e('Error while running $taskName job:', err, stackstrace);
+    } catch (err, stackTrace) {
+      Logger().e(
+        'Error while running $taskName job:',
+        error: err,
+        stackTrace: stackTrace,
+      );
       return false;
     }
     return true;

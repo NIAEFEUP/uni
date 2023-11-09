@@ -112,12 +112,14 @@ class ExamCard extends GenericCard {
       children: [
         if (locale == AppLocale.pt) ...[
           DateRectangle(
-            date: '${exam.weekDay}, ${exam.begin.day} de ${exam.month}',
-          )
+            date: '''${exam.weekDay(locale)}, '''
+                '''${exam.begin.day} de ${exam.month(locale)}''',
+          ),
         ] else ...[
           DateRectangle(
-            date: '${exam.weekDay}, ${exam.begin.day} ${exam.month}',
-          )
+            date: '''${exam.weekDay(locale)}, '''
+                '''${exam.begin.day} ${exam.month(locale)}''',
+          ),
         ],
         RowContainer(
           child: ExamRow(
@@ -125,7 +127,7 @@ class ExamCard extends GenericCard {
             teacher: '',
             mainPage: true,
           ),
-        )
+        ),
       ],
     );
   }
@@ -133,6 +135,7 @@ class ExamCard extends GenericCard {
   /// Creates a row for the exams which will be displayed under the closest
   /// date exam with a separator between them.
   Widget createSecondaryRowFromExam(BuildContext context, Exam exam) {
+    final locale = Provider.of<LocaleNotifier>(context).getLocale();
     return Container(
       margin: const EdgeInsets.only(top: 8),
       child: RowContainer(
@@ -143,14 +146,14 @@ class ExamCard extends GenericCard {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text(
-                '${exam.begin.day} de ${exam.month}',
+                '${exam.begin.day} de ${exam.month(locale)}',
                 style: Theme.of(context).textTheme.bodyLarge,
               ),
               ExamTitle(
                 subject: exam.subject,
                 type: exam.type,
                 reverseOrder: true,
-              )
+              ),
             ],
           ),
         ),

@@ -51,10 +51,11 @@ class Lecture {
     String classNumber,
     int occurrId,
   ) {
+    final startTimeList = startTimeString.split(':');
     final startTime = day.add(
       Duration(
-        hours: int.parse(startTimeString.substring(0, 2)),
-        minutes: int.parse(startTimeString.substring(3, 5)),
+        hours: int.parse(startTimeList[0]),
+        minutes: int.parse(startTimeList[1]),
       ),
     );
     final endTime = startTime.add(Duration(minutes: 30 * blocks));
@@ -110,7 +111,7 @@ class Lecture {
       'room': room,
       'teacher': teacher,
       'classNumber': classNumber,
-      'occurrId': occurrId
+      'occurrId': occurrId,
     };
   }
 

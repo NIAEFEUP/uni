@@ -31,7 +31,7 @@ class RestaurantSlot extends StatelessWidget {
                 style: Theme.of(context).textTheme.bodyMedium,
                 textAlign: TextAlign.left,
               ),
-            )
+            ),
           ],
         ),
       ),
