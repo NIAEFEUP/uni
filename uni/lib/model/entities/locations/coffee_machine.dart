@@ -23,7 +23,7 @@ class CoffeeMachine implements Location {
   Map<String, dynamic> toMap({int? groupId}) {
     return {
       'floor': floor,
-      'type': locationTypeToString(LocationType.coffeeMachine)
+      'type': locationTypeToString(LocationType.coffeeMachine),
     };
   }
 }

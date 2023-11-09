@@ -29,7 +29,7 @@ class UriMatcher extends CustomMatcher {
 @GenerateNiceMocks([
   MockSpec<http.Client>(),
   MockSpec<http.Response>(),
-  MockSpec<SessionProvider>()
+  MockSpec<SessionProvider>(),
 ])
 void main() {
   group('SchedulePage Integration Tests', () {

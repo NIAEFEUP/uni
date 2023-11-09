@@ -34,7 +34,7 @@ class BusStopSearch extends SearchDelegate<String> {
         onPressed: () {
           query = '';
         },
-      )
+      ),
     ];
   }
 
@@ -119,7 +119,7 @@ class BusStopSearch extends SearchDelegate<String> {
               Navigator.pop(context);
             }
           },
-        )
+        ),
       ],
     );
   }

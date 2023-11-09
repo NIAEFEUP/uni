@@ -99,7 +99,7 @@ class GenericCardState extends State<GenericCard> {
                 color: Color.fromARGB(0x1c, 0, 0, 0),
                 blurRadius: 7,
                 offset: Offset(0, 1),
-              )
+              ),
             ],
             borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
           ),
@@ -145,7 +145,7 @@ class GenericCardState extends State<GenericCard> {
                           margin: const EdgeInsets.only(top: 8),
                           child: getMoveIcon(context),
                         ),
-                      if (widget.editingMode) getDeleteIcon(context)
+                      if (widget.editingMode) getDeleteIcon(context),
                     ],
                   ),
                   Container(
@@ -155,7 +155,7 @@ class GenericCardState extends State<GenericCard> {
                       bottom: padding,
                     ),
                     child: widget.buildCardContent(context),
-                  )
+                  ),
                 ],
               ),
             ),

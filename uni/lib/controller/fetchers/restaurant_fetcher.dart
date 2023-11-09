@@ -45,7 +45,7 @@ class RestaurantFetcher {
   }
 
   final List<String> sigarraMenuEndpoints = [
-    '${NetworkRouter.getBaseUrl('feup')}CANTINA.EMENTASHOW'
+    '${NetworkRouter.getBaseUrl('feup')}CANTINA.EMENTASHOW',
   ];
 
   Future<List<Restaurant>> fetchSigarraRestaurants(Session session) async {

@@ -12,5 +12,5 @@ const faculties = [
   'fmup',
   'fmdup',
   'fpceup',
-  'icbas'
+  'icbas',
 ];

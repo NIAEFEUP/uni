@@ -37,7 +37,7 @@ class ExamCardShimmer extends StatelessWidget {
                             color: Colors.black,
                           ),
                         ],
-                      )
+                      ),
                     ],
                   ),
                   Container(
@@ -89,7 +89,7 @@ class ExamCardShimmer extends StatelessWidget {
                   color: Colors.black,
                 ),
               ],
-            )
+            ),
           ],
         ),
       ),

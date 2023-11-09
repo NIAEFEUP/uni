@@ -26,7 +26,7 @@ class PrintInfoCard extends GenericCard {
             Table(
               columnWidths: const {
                 1: FractionColumnWidth(0.4),
-                2: FractionColumnWidth(.1)
+                2: FractionColumnWidth(.1),
               },
               defaultVerticalAlignment: TableCellVerticalAlignment.middle,
               children: [
@@ -63,13 +63,13 @@ class PrintInfoCard extends GenericCard {
                       ),
                     ),
                   ],
-                )
+                ),
               ],
             ),
             showLastRefreshedTime(
               profileStateProvider.lastUpdateTime?.toIso8601String(),
               context,
-            )
+            ),
           ],
         );
       },

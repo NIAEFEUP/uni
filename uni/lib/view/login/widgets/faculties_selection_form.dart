@@ -61,7 +61,7 @@ class _FacultiesSelectionFormState extends State<FacultiesSelectionForm> {
           widget.setFaculties(widget.selectedFaculties);
         },
         child: Text(S.of(context).confirm),
-      )
+      ),
     ];
   }
 

@@ -48,7 +48,7 @@ class _ExamRowState extends State<ExamRow> {
                     children: [
                       ExamTime(
                         begin: widget.exam.beginTime,
-                      )
+                      ),
                     ],
                   ),
                   ExamTitle(
@@ -91,7 +91,7 @@ class _ExamRowState extends State<ExamRow> {
               key: Key(roomsKey),
               alignment: Alignment.topLeft,
               child: getExamRooms(context),
-            )
+            ),
           ],
         ),
       ),

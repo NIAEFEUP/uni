@@ -25,7 +25,7 @@ class RoomLocation implements Location {
     return {
       'floor': floor,
       'type': locationTypeToString(LocationType.room),
-      'first_room': roomNumber
+      'first_room': roomNumber,
     };
   }
 }

@@ -32,7 +32,7 @@ class AppSharedPreferences {
   static final List<FavoriteWidgetType> defaultFavoriteCards = [
     FavoriteWidgetType.schedule,
     FavoriteWidgetType.exams,
-    FavoriteWidgetType.busStops
+    FavoriteWidgetType.busStops,
   ];
   static const String hiddenExams = 'hidden_exams';
   static const String favoriteRestaurants = 'favorite_restaurants';

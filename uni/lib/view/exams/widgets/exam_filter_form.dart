@@ -36,7 +36,7 @@ class ExamFilterFormState extends State<ExamFilterForm> {
                 .setFilteredExams(widget.filteredExamsTypes);
             Navigator.pop(context);
           },
-        )
+        ),
       ],
       content: SizedBox(
         height: 230,

@@ -90,9 +90,9 @@ Future<void> addMoneyDialog(BuildContext context) async {
                             ),
                           );
                         },
-                      )
+                      ),
                     ],
-                  )
+                  ),
                 ],
               ),
             ),
@@ -111,7 +111,7 @@ Future<void> addMoneyDialog(BuildContext context) async {
               ElevatedButton(
                 onPressed: () => generateReference(context, value),
                 child: Text(S.of(context).generate_reference),
-              )
+              ),
             ],
           );
         },
@@ -142,7 +142,7 @@ Future<void> generateReference(BuildContext context, double amount) async {
   if (response.statusCode == 200 && context.mounted) {
     Navigator.of(context).pop(false);
     await ToastMessage.success(context, S.of(context).reference_success);
-  } else {
+  } else if (context.mounted) {
     await ToastMessage.error(context, S.of(context).some_error);
   }
 }
