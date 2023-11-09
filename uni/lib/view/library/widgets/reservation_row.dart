@@ -3,6 +3,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/generated/l10n.dart';
+import 'package:uni/main.dart';
 import 'package:uni/model/entities/library_reservation.dart';
 import 'package:uni/model/providers/lazy/library_reservations_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
@@ -27,8 +28,8 @@ class ReservationRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final weekdays =
-        Provider.of<LocaleNotifier>(context, listen: false).getWeekdaysWithLocale();
+    final weekdays = Provider.of<LocaleNotifier>(context, listen: false)
+        .getWeekdaysWithLocale();
     weekDay = weekdays[reservation.startDate.weekday];
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -61,16 +62,15 @@ class ReservationRow extends StatelessWidget {
             ),
           ],
         ),
-        ReservationRemoveButton(context, reservation),
+        ReservationRemoveButton(reservation),
       ],
     );
   }
 }
 
 class ReservationRemoveButton extends StatefulWidget {
-  const ReservationRemoveButton(this.context, this.reservation, {super.key});
+  const ReservationRemoveButton(this.reservation, {super.key});
   final LibraryReservation reservation;
-  final BuildContext context;
 
   @override
   State<ReservationRemoveButton> createState() =>
@@ -98,7 +98,7 @@ class _ReservationRemoveButtonState extends State<ReservationRemoveButton> {
       onPressed: () {
         showDialog<AlertDialog>(
           context: context,
-          builder: (BuildContext toastContext) {
+          builder: (BuildContext context) {
             return AlertDialog(
               content: Text(
                 S.of(context).library_cancel_reservation,
@@ -109,14 +109,14 @@ class _ReservationRemoveButtonState extends State<ReservationRemoveButton> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     TextButton(
-                      onPressed: () => Navigator.of(toastContext).pop(),
+                      onPressed: () => Navigator.of(context).pop(),
                       child: Text(S.of(context).go_back),
                     ),
                     ElevatedButton(
                       child: Text(S.of(context).yes),
                       onPressed: () {
-                        Navigator.of(context, rootNavigator: true).pop();
                         cancelReservation(widget.reservation.id);
+                        Navigator.of(context).pop();
                       },
                     ),
                   ],
@@ -134,33 +134,36 @@ class _ReservationRemoveButtonState extends State<ReservationRemoveButton> {
     setState(() {
       _loading = true;
     });
+    final context = Application.navigatorKey.currentContext!;
     final session =
-        Provider.of<SessionProvider>(widget.context, listen: false).session;
+        Provider.of<SessionProvider>(context, listen: false).session;
     final result = await Provider.of<LibraryReservationsProvider>(
-      widget.context,
+      context,
       listen: false,
     ).cancelReservation(session, id);
 
+    setState(() {
+      _loading = false;
+    });
     if (result) {
       await displayToastSuccess();
     } else {
       await displayToastFailure();
     }
-    setState(() {
-      _loading = false;
-    });
   }
 
   Future<void> displayToastSuccess() async {
+    final context = Application.navigatorKey.currentContext!;
     await ToastMessage.success(
-      widget.context,
+      context,
       S.of(context).library_cancel_success,
     );
   }
 
   Future<void> displayToastFailure() async {
+    final context = Application.navigatorKey.currentContext!;
     await ToastMessage.error(
-      widget.context,
+      context,
       S.of(context).library_cancel_error,
     );
   }
