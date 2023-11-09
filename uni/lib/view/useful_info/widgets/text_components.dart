@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:uni/controller/networking/url_launcher.dart';
 
 Container h1(String text, BuildContext context, {bool initial = false}) {
   final marginTop = initial ? 15.0 : 30.0;
@@ -44,7 +44,7 @@ Container infoText(
               .bodyLarge!
               .apply(color: Theme.of(context).colorScheme.tertiary),
         ),
-        onTap: () => link != '' ? launchUrl(Uri.parse(link)) : null,
+        onTap: () => launchUrlWithToast(context, link),
       ),
     ),
   );

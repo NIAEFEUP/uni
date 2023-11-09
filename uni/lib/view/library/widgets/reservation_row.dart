@@ -28,8 +28,8 @@ class ReservationRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final weekdays =
-        Provider.of<LocaleNotifier>(context).getWeekdaysWithLocale();
-    weekDay = weekdays[reservation.startDate.weekday - 1];
+        Provider.of<LocaleNotifier>(context, listen: false).getWeekdaysWithLocale();
+    weekDay = weekdays[reservation.startDate.weekday];
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
@@ -49,7 +49,6 @@ class ReservationRow extends StatelessWidget {
           children: [
             Text(
               reservation.room,
-              //textAlign: TextAlign.center,
               style: Theme.of(context)
                   .textTheme
                   .headlineSmall
@@ -62,18 +61,16 @@ class ReservationRow extends StatelessWidget {
             ),
           ],
         ),
-        ReservationRemoveButton(reservation),
+        ReservationRemoveButton(context, reservation),
       ],
     );
   }
 }
 
-//ignore: must_be_immutable
 class ReservationRemoveButton extends StatefulWidget {
-  ReservationRemoveButton(this.reservation, {super.key});
+  const ReservationRemoveButton(this.context, this.reservation, {super.key});
   final LibraryReservation reservation;
-  late bool loading = false;
-  late BuildContext context;
+  final BuildContext context;
 
   @override
   State<ReservationRemoveButton> createState() =>
@@ -81,12 +78,11 @@ class ReservationRemoveButton extends StatefulWidget {
 }
 
 class _ReservationRemoveButtonState extends State<ReservationRemoveButton> {
+  bool _loading = false;
+
   @override
   Widget build(BuildContext context) {
-    setState(() {
-      widget.context = context;
-    });
-    if (widget.loading) {
+    if (_loading) {
       return const CircularProgressIndicator();
     }
     return IconButton(
@@ -134,9 +130,9 @@ class _ReservationRemoveButtonState extends State<ReservationRemoveButton> {
   }
 
   Future<void> cancelReservation(String id) async {
-    if (widget.loading) return;
+    if (_loading) return;
     setState(() {
-      widget.loading = true;
+      _loading = true;
     });
     final session =
         Provider.of<SessionProvider>(widget.context, listen: false).session;
@@ -145,22 +141,27 @@ class _ReservationRemoveButtonState extends State<ReservationRemoveButton> {
       listen: false,
     ).cancelReservation(session, id);
 
-    await displayToast(success: result);
+    if (result) {
+      await displayToastSuccess();
+    } else {
+      await displayToastFailure();
+    }
+    setState(() {
+      _loading = false;
+    });
   }
 
-  Future<void> displayToast({
-    bool success = true,
-  }) async {
-    if (success) {
-      await ToastMessage.success(
-        widget.context,
-        S.of(context).library_cancel_success,
-      );
-    } else {
-      await ToastMessage.error(
-        widget.context,
-        S.of(context).library_cancel_success,
-      );
-    }
+  Future<void> displayToastSuccess() async {
+    await ToastMessage.success(
+      widget.context,
+      S.of(context).library_cancel_success,
+    );
+  }
+
+  Future<void> displayToastFailure() async {
+    await ToastMessage.error(
+      widget.context,
+      S.of(context).library_cancel_error,
+    );
   }
 }

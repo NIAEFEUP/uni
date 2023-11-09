@@ -3,7 +3,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/utils/drawer_items.dart';
@@ -13,6 +15,8 @@ import 'package:uni/view/profile/profile.dart';
 /// Page with a hamburger menu and the user profile picture
 abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
   final double borderMargin = 18;
+  bool _loadedOnce = false;
+  bool _loading = true;
 
   Future<void> onRefresh(BuildContext context);
 
@@ -20,8 +24,44 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) => onLoad(context));
-    return getScaffold(context, getBody(context));
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (_loadedOnce || !mounted) {
+        return;
+      }
+      _loadedOnce = true;
+      setState(() {
+        _loading = true;
+      });
+
+      try {
+        await onLoad(context);
+      } catch (e, stackTrace) {
+        Logger().e('Failed to load page info: $e\n$stackTrace');
+        await Sentry.captureException(e, stackTrace: stackTrace);
+      }
+
+      if (mounted) {
+        setState(() {
+          _loading = false;
+        });
+      }
+    });
+
+    return getScaffold(
+      context,
+      _loading
+          ? const Flex(
+              direction: Axis.vertical,
+              children: [
+                Expanded(
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                )
+              ],
+            )
+          : getBody(context),
+    );
   }
 
   Widget getBody(BuildContext context) {

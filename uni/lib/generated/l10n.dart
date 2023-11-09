@@ -480,10 +480,10 @@ class S {
     );
   }
 
-  /// `ECTs performed: `
+  /// `ECTS performed: `
   String get ects {
     return Intl.message(
-      'ECTs performed: ',
+      'ECTS performed: ',
       name: 'ects',
       desc: '',
       args: [],
@@ -1133,6 +1133,16 @@ class S {
     return Intl.message(
       'Type of occurrence',
       name: 'occurrence_type',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We couldn't open the link`
+  String get no_link {
+    return Intl.message(
+      'We couldn\'t open the link',
+      name: 'no_link',
       desc: '',
       args: [],
     );

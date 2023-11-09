@@ -1,4 +1,3 @@
-import 'package:logger/logger.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/parsers/parser_course_units.dart';
 import 'package:uni/model/entities/course.dart';
@@ -8,21 +7,18 @@ import 'package:uni/model/entities/session.dart';
 class AllCourseUnitsFetcher {
   Future<List<CourseUnit>?> getAllCourseUnitsAndCourseAverages(
     List<Course> courses,
-    Session session,
-  ) async {
+    Session session, {
+    List<CourseUnit>? currentCourseUnits,
+  }) async {
     final allCourseUnits = <CourseUnit>[];
 
     for (final course in courses) {
-      try {
-        final courseUnits = await _getAllCourseUnitsAndCourseAveragesFromCourse(
-          course,
-          session,
-        );
-        allCourseUnits.addAll(courseUnits.where((c) => c.enrollmentIsValid()));
-      } catch (e) {
-        Logger().e('Failed to fetch course units for ${course.name}', e);
-        return null;
-      }
+      final courseUnits = await _getAllCourseUnitsAndCourseAveragesFromCourse(
+        course,
+        session,
+        currentCourseUnits: currentCourseUnits,
+      );
+      allCourseUnits.addAll(courseUnits.where((c) => c.enrollmentIsValid()));
     }
 
     return allCourseUnits;
@@ -30,8 +26,9 @@ class AllCourseUnitsFetcher {
 
   Future<List<CourseUnit>> _getAllCourseUnitsAndCourseAveragesFromCourse(
     Course course,
-    Session session,
-  ) async {
+    Session session, {
+    List<CourseUnit>? currentCourseUnits,
+  }) async {
     final url = '${NetworkRouter.getBaseUrl(course.faculty!)}'
         'fest_geral.curso_percurso_academico_view';
     final response = await NetworkRouter.getWithCookies(
@@ -41,6 +38,10 @@ class AllCourseUnitsFetcher {
       },
       session,
     );
-    return parseCourseUnitsAndCourseAverage(response, course);
+    return parseCourseUnitsAndCourseAverage(
+      response,
+      course,
+      currentCourseUnits: currentCourseUnits,
+    );
   }
 }
