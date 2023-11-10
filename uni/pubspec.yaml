@@ -47,7 +47,7 @@ dependencies:
   percent_indicator: ^4.2.2
   provider: ^6.0.4
   sentry_flutter: ^7.9.0
-  shared_preferences: ^2.0.3
+  shared_preferences: ^2.2.2
   shimmer: ^3.0.0
   sqflite: ^2.0.3
   synchronized: ^3.0.0
