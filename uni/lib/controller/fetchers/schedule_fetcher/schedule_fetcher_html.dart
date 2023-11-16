@@ -1,4 +1,5 @@
 import 'package:http/http.dart';
+import 'package:tuple/tuple.dart';
 import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/parsers/parser_schedule_html.dart';
@@ -20,27 +21,31 @@ class ScheduleFetcherHtml extends ScheduleFetcher {
   @override
   Future<List<Lecture>> getLectures(Session session, Profile profile) async {
     final dates = getDates();
-    final urls = getEndpoints(session);
-    final lectureResponses = <Response>[];
-    for (final course in profile.courses) {
-      for (final url in urls) {
+    final baseUrls = NetworkRouter.getBaseUrlsFromSession(session);
+
+    final lectureResponses = <Tuple2<Response, String>>[];
+    for (final baseUrl in baseUrls) {
+      final url = '${baseUrl}hor_geral.estudantes_view';
+
+      for (final course in profile.courses) {
         final response = await NetworkRouter.getWithCookies(
           url,
           {
             'pv_fest_id': course.festId.toString(),
             'pv_ano_lectivo': dates.lectiveYear.toString(),
             'p_semana_inicio': dates.beginWeek,
-            'p_semana_fim': dates.endWeek
+            'p_semana_fim': dates.endWeek,
           },
           session,
         );
-        lectureResponses.add(response);
+        lectureResponses.add(Tuple2(response, baseUrl));
       }
     }
 
     final lectures = await Future.wait(
-      lectureResponses
-          .map((response) => getScheduleFromHtml(response, session)),
+      lectureResponses.map(
+        (e) => getScheduleFromHtml(e.item1, session, e.item2),
+      ),
     ).then((schedules) => schedules.expand((schedule) => schedule).toList());
 
     lectures.sort((l1, l2) => l1.compare(l2));

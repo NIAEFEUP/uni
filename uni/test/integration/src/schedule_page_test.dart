@@ -29,7 +29,7 @@ class UriMatcher extends CustomMatcher {
 @GenerateNiceMocks([
   MockSpec<http.Client>(),
   MockSpec<http.Response>(),
-  MockSpec<SessionProvider>()
+  MockSpec<SessionProvider>(),
 ])
 void main() {
   group('SchedulePage Integration Tests', () {
@@ -74,6 +74,8 @@ void main() {
         profile,
         persistentSession: false,
       );
+
+      scheduleProvider.markAsInitialized();
 
       await tester.tap(find.byKey(const Key('schedule-page-tab-2')));
       await tester.pumpAndSettle();

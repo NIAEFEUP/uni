@@ -7,7 +7,6 @@ import 'package:uni/model/entities/calendar_event.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
-import 'package:uni/model/request_status.dart';
 
 class CalendarProvider extends StateProviderNotifier {
   CalendarProvider()
@@ -23,16 +22,9 @@ class CalendarProvider extends StateProviderNotifier {
   }
 
   Future<void> fetchCalendar(Session session) async {
-    try {
-      _calendar = await CalendarFetcherHtml().getCalendar(session);
-
-      final db = CalendarDatabase();
-      unawaited(db.saveCalendar(calendar));
-
-      updateStatus(RequestStatus.successful);
-    } catch (e) {
-      updateStatus(RequestStatus.failed);
-    }
+    _calendar = await CalendarFetcherHtml().getCalendar(session);
+    final db = CalendarDatabase();
+    unawaited(db.saveCalendar(calendar));
   }
 
   @override

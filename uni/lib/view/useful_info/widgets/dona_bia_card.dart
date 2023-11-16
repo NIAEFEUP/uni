@@ -26,7 +26,7 @@ class DonaBiaCard extends GenericExpansionCard {
           context,
           last: true,
           link: 'mailto:papelaria.fe.up@gmail.com',
-        )
+        ),
       ],
     );
   }

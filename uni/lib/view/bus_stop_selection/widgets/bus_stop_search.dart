@@ -34,7 +34,7 @@ class BusStopSearch extends SearchDelegate<String> {
         onPressed: () {
           query = '';
         },
-      )
+      ),
     ];
   }
 
@@ -112,12 +112,14 @@ class BusStopSearch extends SearchDelegate<String> {
           child: Text(S.of(context).confirm),
           onPressed: () async {
             if (stopData!.configuredBuses.isNotEmpty) {
-              await Provider.of<BusStopProvider>(context, listen: false)
-                  .addUserBusStop(stopCode!, stopData!);
-              if (context.mounted) Navigator.pop(context);
+              unawaited(
+                Provider.of<BusStopProvider>(context, listen: false)
+                    .addUserBusStop(stopCode!, stopData!),
+              );
+              Navigator.pop(context);
             }
           },
-        )
+        ),
       ],
     );
   }

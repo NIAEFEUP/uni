@@ -8,7 +8,6 @@ import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
-import 'package:uni/model/request_status.dart';
 
 class RestaurantProvider extends StateProviderNotifier {
   RestaurantProvider()
@@ -37,18 +36,12 @@ class RestaurantProvider extends StateProviderNotifier {
   }
 
   Future<void> fetchRestaurants(Session session) async {
-    try {
-      final restaurants = await RestaurantFetcher().getRestaurants(session);
+    final restaurants = await RestaurantFetcher().getRestaurants(session);
 
-      final db = RestaurantDatabase();
-      unawaited(db.saveRestaurants(restaurants));
+    final db = RestaurantDatabase();
+    unawaited(db.saveRestaurants(restaurants));
 
-      _restaurants = filterPastMeals(restaurants);
-
-      updateStatus(RequestStatus.successful);
-    } catch (e) {
-      updateStatus(RequestStatus.failed);
-    }
+    _restaurants = filterPastMeals(restaurants);
   }
 
   Future<void> toggleFavoriteRestaurant(

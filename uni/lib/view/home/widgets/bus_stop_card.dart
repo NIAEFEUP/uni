@@ -104,25 +104,23 @@ class BusStopCard extends GenericCard {
     BuildContext context,
     Map<String, BusStopData> stopData,
   ) {
-    return stopData.entries
-        .where(
-          (busStop) =>
-              busStop.value.trips.isNotEmpty && busStop.value.favorited,
-        )
-        .map(
-          (busStop) => Container(
-            padding: const EdgeInsets.only(top: 12),
-            child: BusStopRow(
-              stopCode: busStop.key,
-              trips: busStop.value.trips,
-              singleTrip: true,
-            ),
-          ),
-        )
-        .toList()
-      ..add(
-        <Widget>[const LastUpdateTimeStamp<BusStopProvider>()] as Container,
-      );
+    return <Widget>[const LastUpdateTimeStamp<BusStopProvider>()] +
+        stopData.entries
+            .where(
+              (busStop) =>
+                  busStop.value.trips.isNotEmpty && busStop.value.favorited,
+            )
+            .map(
+              (busStop) => Container(
+                padding: const EdgeInsets.only(top: 12),
+                child: BusStopRow(
+                  stopCode: busStop.key,
+                  trips: busStop.value.trips,
+                  singleTrip: true,
+                ),
+              ),
+            )
+            .toList();
   }
 
   /// Returns the bus stop info if it has trips
@@ -132,7 +130,15 @@ class BusStopCard extends GenericCard {
   ) {
     return Column(
       children: <Widget>[
-        getCardTitle(context),
+        Row(
+          children: <Widget>[
+            const Icon(Icons.directions_bus),
+            Text(
+              'STCP - Próximas Viagens',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+          ],
+        ),
         Container(
           padding: const EdgeInsets.all(4),
           child: Column(
@@ -141,19 +147,6 @@ class BusStopCard extends GenericCard {
               stopData,
             ),
           ),
-        ),
-      ],
-    );
-  }
-
-  /// Returns a widget for the title of the bus stops card
-  Widget getCardTitle(BuildContext context) {
-    return Row(
-      children: <Widget>[
-        const Icon(Icons.directions_bus), // color lightgrey
-        Text(
-          'STCP - Próximas Viagens',
-          style: Theme.of(context).textTheme.titleMedium,
         ),
       ],
     );

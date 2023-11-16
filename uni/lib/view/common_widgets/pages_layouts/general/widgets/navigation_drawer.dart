@@ -191,9 +191,9 @@ class AppNavigationDrawerState extends State<AppNavigationDrawer> {
                 alignment: Alignment.centerRight,
                 child: createLocaleBtn(),
               ),
-              createThemeSwitchBtn()
+              createThemeSwitchBtn(),
             ],
-          )
+          ),
         ],
       ),
     );

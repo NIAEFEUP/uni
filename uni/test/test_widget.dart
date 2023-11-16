@@ -14,7 +14,7 @@ Widget testableWidget(
       ChangeNotifierProvider<LocaleNotifier>(
         create: (_) => LocaleNotifier(AppLocale.pt),
       ),
-      ...providers
+      ...providers,
     ],
     child: wrapWidget(widget),
   );

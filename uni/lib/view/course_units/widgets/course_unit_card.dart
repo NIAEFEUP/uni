@@ -22,7 +22,7 @@ class CourseUnitCard extends GenericCard {
         children: [
           Text("${courseUnit.ects.toString().replaceAll('.0', '')} ECTS"),
           const Spacer(),
-          Text(courseUnit.grade ?? '-')
+          Text(courseUnit.grade ?? '-'),
         ],
       ),
     );

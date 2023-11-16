@@ -1,5 +1,4 @@
 import 'package:intl/intl.dart';
-import 'package:logger/logger.dart';
 import 'package:uni/model/entities/app_locale.dart';
 
 /// Manages a generic Exam.
@@ -44,7 +43,7 @@ class Exam {
     'Recurso': 'ER',
     'Especial de Conclusão': 'EC',
     'Port.Est.Especiais': 'EE',
-    'Exames ao abrigo de estatutos especiais': 'EAE'
+    'Exames ao abrigo de estatutos especiais': 'EAE',
   };
   static List<String> displayedTypes = types.keys.toList().sublist(0, 4);
 
@@ -57,7 +56,7 @@ class Exam {
       'end': DateFormat('yyyy-MM-dd HH:mm:ss').format(end),
       'rooms': rooms.join(','),
       'examType': type,
-      'faculty': faculty
+      'faculty': faculty,
     };
   }
 
@@ -67,7 +66,7 @@ class Exam {
   String weekDay(AppLocale locale) {
     return DateFormat.EEEE(locale.localeCode.languageCode)
         .dateSymbols
-        .WEEKDAYS[begin.weekday - 1];
+        .WEEKDAYS[begin.weekday % 7];
   }
 
   String month(AppLocale locale) {
@@ -85,11 +84,6 @@ class Exam {
   @override
   String toString() {
     return '''$id - $subject - ${begin.year} - $month - ${begin.day} -  $beginTime-$endTime - $type - $rooms - $weekDay''';
-  }
-
-  /// Prints the data in this exam to the [Logger] with an INFO level.
-  void printExam() {
-    Logger().i(toString());
   }
 
   @override

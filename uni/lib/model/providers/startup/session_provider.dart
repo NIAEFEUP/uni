@@ -49,9 +49,7 @@ class SessionProvider extends StateProviderNotifier {
   }
 
   @override
-  Future<void> loadFromRemote(Session session, Profile profile) async {
-    updateStatus(RequestStatus.successful);
-  }
+  Future<void> loadFromRemote(Session session, Profile profile) async {}
 
   void restoreSession(
     String username,
@@ -73,8 +71,8 @@ class SessionProvider extends StateProviderNotifier {
     List<String> faculties, {
     required bool persistentSession,
   }) async {
-    updateStatus(RequestStatus.busy);
-
+    final locale =
+        Provider.of<LocaleNotifier>(context, listen: false).getLocale();
     Session? session;
     try {
       session = await NetworkRouter.login(
@@ -84,23 +82,18 @@ class SessionProvider extends StateProviderNotifier {
         persistentSession: persistentSession,
       );
     } catch (e) {
-      updateStatus(RequestStatus.failed);
-      throw InternetStatusException(
-        Provider.of<LocaleNotifier>(context).getLocale(),
-      );
+      throw InternetStatusException(locale);
     }
 
     if (session == null) {
       final responseHtml =
           await NetworkRouter.loginInSigarra(username, password, faculties);
 
-      updateStatus(RequestStatus.failed);
-
       if (isPasswordExpired(responseHtml) && context.mounted) {
         throw ExpiredCredentialsException();
       } else {
         throw WrongCredentialsException(
-          Provider.of<LocaleNotifier>(context).getLocale(),
+          locale,
         );
       }
     }
@@ -121,6 +114,5 @@ class SessionProvider extends StateProviderNotifier {
     );
 
     await acceptTermsAndConditions();
-    updateStatus(RequestStatus.successful);
   }
 }
