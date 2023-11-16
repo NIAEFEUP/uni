@@ -104,23 +104,25 @@ class BusStopCard extends GenericCard {
     BuildContext context,
     Map<String, BusStopData> stopData,
   ) {
-    final rows = <Widget>[const LastUpdateTimeStamp<BusStopProvider>()];
-
-    stopData.forEach((stopCode, stopInfo) {
-      if (stopInfo.trips.isNotEmpty && stopInfo.favorited) {
-        rows.add(
-          Container(
+    return stopData.entries
+        .where(
+          (busStop) =>
+              busStop.value.trips.isNotEmpty && busStop.value.favorited,
+        )
+        .map(
+          (busStop) => Container(
             padding: const EdgeInsets.only(top: 12),
             child: BusStopRow(
-              stopCode: stopCode,
-              trips: stopInfo.trips,
+              stopCode: busStop.key,
+              trips: busStop.value.trips,
               singleTrip: true,
             ),
           ),
-        );
-      }
-    });
-    return rows;
+        )
+        .toList()
+      ..add(
+        <Widget>[const LastUpdateTimeStamp<BusStopProvider>()] as Container,
+      );
   }
 
   /// Returns the bus stop info if it has trips
