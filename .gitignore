@@ -18,3 +18,7 @@ build/
 # Key properties
 uni/android/key.properties
 **.jks
+
+# Ruby
+/vendor/bundle
+/.bundle/
