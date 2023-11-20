@@ -449,10 +449,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_widget_from_html_core
-      sha256: a7dc9eb4bfdef4ea06d114528bf52a7efcdfc6ba46d933957c25067f17c1c6b4
+      sha256: d3239b1670e83fafb209d0ddccfd19bb1cd5382b3ac9a507eb1b36274df78fec
       url: "https://pub.dev"
     source: hosted
-    version: "0.10.5"
+    version: "0.14.7"
   frontend_server_client:
     dependency: transitive
     description:
