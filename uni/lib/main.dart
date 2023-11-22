@@ -6,6 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:logger/logger.dart';
+import 'package:plausible_analytics/navigator_observer.dart';
+import 'package:plausible_analytics/plausible_analytics.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:uni/controller/background_workers/background_callback.dart';
@@ -97,6 +99,17 @@ Future<void> main() async {
     );
   });
 
+  final plausibleUrl = dotenv.env['PLAUSIBLE_URL'];
+  final plausibleDomain = dotenv.env['PLAUSIBLE_DOMAIN'];
+
+  final plausible = plausibleUrl != null && plausibleDomain != null
+    ? Plausible(plausibleUrl, plausibleDomain)
+    : null;
+
+  if (plausible == null) {
+    Logger().w('Plausible is not enabled');
+  }
+
   final savedTheme = await AppSharedPreferences.getThemeMode();
   final savedLocale = await AppSharedPreferences.getLocale();
   final route = await firstRoute();
@@ -153,7 +166,7 @@ Future<void> main() async {
               create: (_) => ThemeNotifier(savedTheme),
             ),
           ],
-          child: Application(route),
+          child: Application(route, plausible: plausible),
         ),
       );
     },
@@ -164,9 +177,10 @@ Future<void> main() async {
 /// This class is necessary to track the app's state for
 /// the current execution.
 class Application extends StatefulWidget {
-  const Application(this.initialRoute, {super.key});
+  const Application(this.initialRoute, {this.plausible, super.key});
 
   final String initialRoute;
+  final Plausible? plausible;
 
   static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -176,6 +190,19 @@ class Application extends StatefulWidget {
 
 /// Manages the app depending on its current state
 class ApplicationState extends State<Application> {
+
+  final navigatorObservers = <NavigatorObserver>[];
+
+  @override
+  void initState() {
+    super.initState();
+
+    final plausible = widget.plausible;
+    if (plausible != null) {
+      navigatorObservers.add(PlausibleNavigatorObserver(plausible));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
@@ -197,6 +224,7 @@ class ApplicationState extends State<Application> {
         ],
         supportedLocales: S.delegate.supportedLocales,
         initialRoute: widget.initialRoute,
+        navigatorObservers: navigatorObservers,
         onGenerateRoute: (RouteSettings settings) {
           final transitions = {
             '/${DrawerItem.navPersonalArea.title}':
