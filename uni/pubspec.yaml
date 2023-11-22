@@ -48,6 +48,7 @@ dependencies:
   provider: ^6.1.1
   sentry_flutter: ^7.14.0
   shared_preferences: ^2.2.2
+  plausible_analytics: ^0.3.0
   shimmer: ^3.0.0
   sqflite: ^2.0.3
   synchronized: ^3.0.0
@@ -71,6 +72,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/
+    - assets/env/
     - assets/images/
     - assets/text/
     - assets/text/locations/
