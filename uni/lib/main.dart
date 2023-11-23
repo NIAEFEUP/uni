@@ -6,6 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:logger/logger.dart';
+import 'package:plausible_analytics/navigator_observer.dart';
+import 'package:plausible_analytics/plausible_analytics.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:uni/controller/background_workers/background_callback.dart';
@@ -39,6 +41,7 @@ import 'package:uni/view/locale_notifier.dart';
 import 'package:uni/view/locations/locations.dart';
 import 'package:uni/view/login/login.dart';
 import 'package:uni/view/navigation_service.dart';
+import 'package:uni/view/plausible_click_listener/plausible_click_listener.dart';
 import 'package:uni/view/restaurant/restaurant_page_view.dart';
 import 'package:uni/view/schedule/schedule.dart';
 import 'package:uni/view/theme.dart';
@@ -97,6 +100,19 @@ Future<void> main() async {
     );
   });
 
+  final plausibleUrl = dotenv.env['PLAUSIBLE_URL'];
+  final plausibleDomain = dotenv.env['PLAUSIBLE_DOMAIN'];
+
+  final plausible = plausibleUrl != null && plausibleDomain != null
+      ? Plausible(plausibleUrl, plausibleDomain)
+      : null;
+
+  plausible?.enabled = false;
+
+  if (plausible == null) {
+    Logger().w('Plausible is not enabled');
+  }
+
   final savedTheme = await AppSharedPreferences.getThemeMode();
   final savedLocale = await AppSharedPreferences.getLocale();
   final route = await firstRoute();
@@ -153,7 +169,7 @@ Future<void> main() async {
               create: (_) => ThemeNotifier(savedTheme),
             ),
           ],
-          child: Application(route),
+          child: Application(route, plausible: plausible),
         ),
       );
     },
@@ -164,9 +180,10 @@ Future<void> main() async {
 /// This class is necessary to track the app's state for
 /// the current execution.
 class Application extends StatefulWidget {
-  const Application(this.initialRoute, {super.key});
+  const Application(this.initialRoute, {this.plausible, super.key});
 
   final String initialRoute;
+  final Plausible? plausible;
 
   static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -176,12 +193,25 @@ class Application extends StatefulWidget {
 
 /// Manages the app depending on its current state
 class ApplicationState extends State<Application> {
+  final navigatorObservers = <NavigatorObserver>[];
+
+  @override
+  void initState() {
+    super.initState();
+
+    final plausible = widget.plausible;
+    if (plausible != null) {
+      navigatorObservers.add(PlausibleNavigatorObserver(plausible));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);
-    return Consumer2<ThemeNotifier, LocaleNotifier>(
+
+    final app = Consumer2<ThemeNotifier, LocaleNotifier>(
       builder: (context, themeNotifier, localeNotifier, _) => MaterialApp(
         title: 'uni',
         navigatorKey: Application.navigatorKey,
@@ -197,6 +227,7 @@ class ApplicationState extends State<Application> {
         ],
         supportedLocales: S.delegate.supportedLocales,
         initialRoute: widget.initialRoute,
+        navigatorObservers: navigatorObservers,
         onGenerateRoute: (RouteSettings settings) {
           final transitions = {
             '/${DrawerItem.navPersonalArea.title}':
@@ -267,6 +298,16 @@ class ApplicationState extends State<Application> {
           return transitions[settings.name];
         },
       ),
+    );
+
+    final plausible = widget.plausible;
+    if (plausible == null) {
+      return app;
+    }
+
+    return PlausibleClickListener(
+      plausible: plausible,
+      child: app,
     );
   }
 }
