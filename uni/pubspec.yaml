@@ -76,7 +76,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/
-    - assets/env/
+    - assets/env/.env
     - assets/images/
     - assets/text/
     - assets/text/locations/
