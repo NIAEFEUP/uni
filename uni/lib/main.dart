@@ -101,8 +101,8 @@ Future<void> main() async {
   final plausibleDomain = dotenv.env['PLAUSIBLE_DOMAIN'];
 
   final plausible = plausibleUrl != null && plausibleDomain != null
-    ? Plausible(plausibleUrl, plausibleDomain)
-    : null;
+      ? Plausible(plausibleUrl, plausibleDomain)
+      : null;
 
   if (plausible == null) {
     Logger().w('Plausible is not enabled');
@@ -186,7 +186,6 @@ class Application extends StatefulWidget {
 
 /// Manages the app depending on its current state
 class ApplicationState extends State<Application> {
-
   final navigatorObservers = <NavigatorObserver>[];
 
   @override
