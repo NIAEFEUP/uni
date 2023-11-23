@@ -41,6 +41,7 @@ import 'package:uni/view/locale_notifier.dart';
 import 'package:uni/view/locations/locations.dart';
 import 'package:uni/view/login/login.dart';
 import 'package:uni/view/navigation_service.dart';
+import 'package:uni/view/plausible_click_listener/plausible_click_listener.dart';
 import 'package:uni/view/restaurant/restaurant_page_view.dart';
 import 'package:uni/view/schedule/schedule.dart';
 import 'package:uni/view/theme.dart';
@@ -105,6 +106,8 @@ Future<void> main() async {
   final plausible = plausibleUrl != null && plausibleDomain != null
       ? Plausible(plausibleUrl, plausibleDomain)
       : null;
+
+  plausible?.enabled = false;
 
   if (plausible == null) {
     Logger().w('Plausible is not enabled');
@@ -207,7 +210,8 @@ class ApplicationState extends State<Application> {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);
-    return Consumer2<ThemeNotifier, LocaleNotifier>(
+
+    final app = Consumer2<ThemeNotifier, LocaleNotifier>(
       builder: (context, themeNotifier, localeNotifier, _) => MaterialApp(
         title: 'uni',
         navigatorKey: Application.navigatorKey,
@@ -294,6 +298,16 @@ class ApplicationState extends State<Application> {
           return transitions[settings.name];
         },
       ),
+    );
+
+    final plausible = widget.plausible;
+    if (plausible == null) {
+      return app;
+    }
+
+    return PlausibleClickListener(
+      plausible: plausible,
+      child: app,
     );
   }
 }
