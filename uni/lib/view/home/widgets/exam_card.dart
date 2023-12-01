@@ -75,18 +75,36 @@ class ExamCard extends GenericCard {
     );
   }
 
+  /// Returns true if two exams are in the same day
+  bool isSameDay(DateTime datetime1, DateTime datetime2) {
+    return datetime1.year == datetime2.year
+           && datetime1.month == datetime2.month
+           && datetime1.day == datetime2.day;
+  }
+
   /// Returns a list of widgets with the primary and secondary exams to
   /// be displayed in the exam card.
   List<Widget> getExamRows(BuildContext context, List<Exam> exams) {
     final rows = <Widget>[];
-    for (var i = 0; i < 1 && i < exams.length; i++) {
-      rows.add(createRowFromExam(context, exams[i]));
-    }
-    if (exams.length > 1) {
+
+    rows.add(createRowFromExam(context, exams[0], isFirst: true));
+
+    var sameDayExamCount = exams.sublist(1).takeWhile(
+          (exam) => isSameDay(exam.begin, exams[0].begin),
+    ).toList().fold(0, (count, exam) {
+      rows.addAll([
+        Container(
+          margin: const EdgeInsets.only(top: 8),
+        ),
+        createRowFromExam(context, exam),
+      ]);
+      return count + 1;
+    });
+
+    if (exams.length > 1 && sameDayExamCount > 0) {
       rows.add(
         Container(
-          margin:
-              const EdgeInsets.only(right: 80, left: 80, top: 15, bottom: 7),
+          margin: const EdgeInsets.only(right: 80, left: 80, top: 15, bottom: 7),
           decoration: BoxDecoration(
             border: Border(
               bottom: BorderSide(
@@ -98,28 +116,33 @@ class ExamCard extends GenericCard {
         ),
       );
     }
-    for (var i = 1; i < 4 && i < exams.length; i++) {
-      rows.add(createSecondaryRowFromExam(context, exams[i]));
-    }
+
+    // Processing secondary exams without a loop
+    exams.sublist(1 + sameDayExamCount)
+        .take(4 - sameDayExamCount - 1)
+        .forEach((exam) => rows.add(createSecondaryRowFromExam(context, exam)));
+
     return rows;
   }
 
   /// Creates a row with the closest exam (which appears separated from the
   /// others in the card).
-  Widget createRowFromExam(BuildContext context, Exam exam) {
+  Widget createRowFromExam(BuildContext context, Exam exam, {bool isFirst = false}) {
     final locale = Provider.of<LocaleNotifier>(context).getLocale();
     return Column(
       children: [
-        if (locale == AppLocale.pt) ...[
-          DateRectangle(
-            date: '''${exam.weekDay(locale)}, '''
-                '''${exam.begin.day} de ${exam.month(locale)}''',
-          ),
-        ] else ...[
-          DateRectangle(
-            date: '''${exam.weekDay(locale)}, '''
-                '''${exam.begin.day} ${exam.month(locale)}''',
-          ),
+        if(isFirst) ...[
+          if (locale == AppLocale.pt) ...[
+            DateRectangle(
+              date: '''${exam.weekDay(locale)}, '''
+                  '''${exam.begin.day} de ${exam.month(locale)}''',
+            ),
+          ] else ...[
+            DateRectangle(
+              date: '''${exam.weekDay(locale)}, '''
+                  '''${exam.begin.day} ${exam.month(locale)}''',
+            ),
+          ],
         ],
         RowContainer(
           child: ExamRow(
