@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:open_file_plus/open_file_plus.dart';
 import 'package:provider/provider.dart';
@@ -5,10 +7,35 @@ import 'package:uni/controller/local_storage/file_offline_storage.dart';
 import 'package:uni/model/entities/course_units/course_unit_file.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 
-class CourseUnitFilesRow extends StatelessWidget {
+class CourseUnitFilesRow extends StatefulWidget {
   const CourseUnitFilesRow(this.file, {super.key});
 
   final CourseUnitFile file;
+
+  @override
+  State<StatefulWidget> createState() {
+    return CourseUnitFilesRowState();
+  }
+}
+
+class CourseUnitFilesRowState extends State<CourseUnitFilesRow>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 1500),
+      vsync: this,
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,14 +47,28 @@ class CourseUnitFilesRow extends StatelessWidget {
           const Icon(Icons.picture_as_pdf),
           const SizedBox(width: 1),
           Expanded(
-            child: InkWell(
-              onTap: () => openFile(context, file),
+            child: GestureDetector(
+              onTap: () {
+                _controller
+                  ..reset()
+                  ..repeat(reverse: true);
+                openFile(context, widget.file);
+              },
               child: Container(
                 padding: const EdgeInsets.only(left: 10),
-                child: Text(
-                  file.name.substring(0, file.name.indexOf('_')),
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.bodyLarge,
+                child: AnimatedBuilder(
+                  animation: _controller,
+                  builder: (context, child) {
+                    return Opacity(
+                      opacity: 1 - 0.5 * sin(_controller.value * pi),
+                      child: Text(
+                        widget.file.name
+                            .substring(0, widget.file.name.indexOf('_')),
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                    );
+                  },
                 ),
               ),
             ),
@@ -48,5 +89,6 @@ class CourseUnitFilesRow extends StatelessWidget {
     );
 
     await OpenFile.open(result!.path);
+    _controller.reset();
   }
 }

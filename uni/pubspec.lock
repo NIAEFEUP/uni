@@ -351,7 +351,7 @@ packages:
     source: sdk
     version: "0.0.0"
   flutter_cache_manager:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: flutter_cache_manager
       sha256: "8207f27539deb83732fdda03e259349046a39a4c767269285f449ade355d54ba"
@@ -681,10 +681,11 @@ packages:
   open_file_plus:
     dependency: "direct main"
     description:
-      name: open_file_plus
-      sha256: f087e32722ffe4bac71925e7a1a9848a1008fd789e47c6628da3ed7845922227
-      url: "https://pub.dev"
-    source: hosted
+      path: "."
+      ref: "3c32191"
+      resolved-ref: "3c321911c54388d1316e34d4f999776281398fc2"
+      url: "https://github.com/joutvhu/open_file_plus.git"
+    source: git
     version: "3.4.1"
   package_config:
     dependency: transitive

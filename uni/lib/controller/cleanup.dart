@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uni/controller/local_storage/app_bus_stop_database.dart';
@@ -52,11 +51,10 @@ Future<void> cleanupCachedFiles() async {
     return;
   }
 
-  final cacheManager = DefaultCacheManager();
-  final cacheDirectory = await getApplicationDocumentsDirectory();
+  final toCleanDirectory = await getApplicationDocumentsDirectory();
   final treshold = DateTime.now().subtract(const Duration(days: 30));
+  final directories = toCleanDirectory.listSync(followLinks: false);
 
-  final directories = cacheDirectory.listSync(followLinks: false);
   for (final directory in directories) {
     if (directory is Directory) {
       final files = directory.listSync(recursive: true, followLinks: false);
@@ -71,7 +69,7 @@ Future<void> cleanupCachedFiles() async {
       });
 
       for (final file in oldFiles) {
-        await cacheManager.removeFile(file.path);
+        await File(file.path).delete();
       }
     }
   }

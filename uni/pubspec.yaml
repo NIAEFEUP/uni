@@ -26,6 +26,7 @@ dependencies:
   expansion_tile_card: ^3.0.0
   flutter:
     sdk: flutter
+  flutter_cache_manager: ^3.3.1
   flutter_dotenv: ^5.0.2
   flutter_local_notifications: ^15.1.0+1
   flutter_localizations:
@@ -42,7 +43,10 @@ dependencies:
   latlong2: ^0.9.0
   logger: ^2.0.2+1
   material_design_icons_flutter: ^7.0.7296
-  open_file_plus: ^3.4.1
+  open_file_plus:
+    git:
+      url: https://github.com/joutvhu/open_file_plus.git
+      ref: "3c32191"
   path: ^1.8.0
   path_provider: ^2.0.0
   percent_indicator: ^4.2.2
@@ -68,8 +72,10 @@ dev_dependencies:
     git:
       url: https://github.com/dart-lang/mockito.git
       ref: "e54a006"
+  
   test: any
   very_good_analysis: ^5.1.0
+  
 
 flutter:
   generate: true

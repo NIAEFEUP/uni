@@ -83,7 +83,7 @@ class CourseUnitDetailPageViewState
               Tab(text: S.of(context).course_class),
               const Tab(
                 text: 'Ficheiros',
-              )
+              ),
             ],
           ),
           Expanded(

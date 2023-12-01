@@ -33,15 +33,19 @@ Future<Map<String, List<CourseUnitFile>>> parseFiles(
     item = item as Map<String, dynamic>;
     final files = <CourseUnitFile>[];
     for (final file in item['ficheiros'] as List<dynamic>) {
-      final fileName = file['nome'] + '_' + file['data_actualizacao'];
-      final fileCode = file['codigo'];
-      final url = await CourseUnitsInfoFetcher().getDownloadLink(session);
-      final courseUnitFile = CourseUnitFile(
-        fileName.toString(),
-        url,
-        fileCode.toString(),
-      );
-      files.add(courseUnitFile);
+      if(file is Map<String, dynamic>){
+          final fileName = file['nome'].toString();
+          final fileDate = file['data_actualizacao'].toString();
+          final fileCode = file['codigo'].toString();
+          final url = await CourseUnitsInfoFetcher().getDownloadLink(session);
+          final courseUnitFile = CourseUnitFile(
+            '${fileName}_$fileDate',
+            url,
+            fileCode,
+          );
+          files.add(courseUnitFile);
+      }
+      
     }
     folders[item['nome'] as String] = files;
   }
