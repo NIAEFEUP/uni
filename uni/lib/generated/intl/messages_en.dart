@@ -156,6 +156,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Multimedia center"),
         "nav_title": m2,
         "news": MessageLookupByLibrary.simpleMessage("News"),
+        "next_trips": MessageLookupByLibrary.simpleMessage("STCP - Next Trips"),
         "no": MessageLookupByLibrary.simpleMessage("No"),
         "no_bus": MessageLookupByLibrary.simpleMessage("Don\'t miss any bus!"),
         "no_bus_stops":

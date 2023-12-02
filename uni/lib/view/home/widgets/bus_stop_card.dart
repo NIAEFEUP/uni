@@ -134,7 +134,7 @@ class BusStopCard extends GenericCard {
           children: <Widget>[
             const Icon(Icons.directions_bus),
             Text(
-              'STCP - Próximas Viagens',
+              S.of(context).next_trips,
               style: Theme.of(context).textTheme.titleMedium,
             ),
           ],

@@ -158,6 +158,8 @@
   "@news": {},
   "no_bus": "Don't miss any bus!",
   "@no_bus": {},
+  "next_trips": "STCP - Next Trips",
+  "@next_trips": {},
   "no_trips": "No trips available",
   "@no_trips": {},
   "no_bus_stops": "No configured stops",

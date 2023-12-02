@@ -818,6 +818,16 @@ class S {
     );
   }
 
+  /// `STCP - Next Trips`
+  String get next_trips {
+    return Intl.message(
+      'STCP - Next Trips',
+      name: 'next_trips',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `No trips available`
   String get no_trips {
     return Intl.message(

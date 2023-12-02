@@ -158,6 +158,8 @@
   "@news": {},
   "no_bus": "Não percas nenhum autocarro!",
   "@no_bus": {},
+  "next_trips": "STCP - Próximas Viagens",
+  "@next_trips": {},
   "no_trips": "Não há viagem disponível",
   "@no_trips": {},
   "no_bus_stops": "Não existe nenhuma paragem configurada",
