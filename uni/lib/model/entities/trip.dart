@@ -14,7 +14,7 @@ class Trip {
     return {
       'line': line,
       'destination': destination,
-      'timeRemaining': timeRemaining
+      'timeRemaining': timeRemaining,
     };
   }
 

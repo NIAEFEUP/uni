@@ -31,7 +31,7 @@ class UsefulInfoPageViewState extends GeneralPageViewState {
         const CopyCenterCard(),
         const MultimediaCenterCard(),
         const SigarraLinksCard(),
-        const OtherLinksCard()
+        const OtherLinksCard(),
       ],
     );
   }

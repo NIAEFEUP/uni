@@ -116,7 +116,7 @@ class SchedulePageViewState extends GeneralPageViewState<SchedulePageView>
               widget.scheduleStatus,
             ),
           ),
-        )
+        ),
       ],
     );
   }

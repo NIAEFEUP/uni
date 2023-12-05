@@ -28,7 +28,7 @@ class ScheduleFetcherApi extends ScheduleFetcher {
         {
           'pv_codigo': session.username,
           'pv_semana_ini': dates.beginWeek,
-          'pv_semana_fim': dates.endWeek
+          'pv_semana_fim': dates.endWeek,
         },
         session,
       );

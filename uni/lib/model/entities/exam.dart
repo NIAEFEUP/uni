@@ -66,7 +66,7 @@ class Exam {
   String weekDay(AppLocale locale) {
     return DateFormat.EEEE(locale.localeCode.languageCode)
         .dateSymbols
-        .WEEKDAYS[begin.weekday - 1];
+        .WEEKDAYS[begin.weekday % 7];
   }
 
   String month(AppLocale locale) {

@@ -40,7 +40,7 @@ class TripRow extends StatelessWidget {
               timeRemaining: trip.timeRemaining.toString(),
             ),
           ],
-        )
+        ),
       ],
     );
   }

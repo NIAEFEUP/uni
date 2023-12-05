@@ -16,7 +16,7 @@ class Meal {
       'type': type,
       'name': name,
       'date': format.format(date),
-      'id_restaurant': restaurantId
+      'id_restaurant': restaurantId,
     };
   }
 }

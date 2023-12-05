@@ -82,7 +82,7 @@ class AppUserDataDatabase extends AppDatabase {
     );
     await insertInDatabase('userdata', {
       'key': 'feesLimit',
-      'value': feesLimit != null ? feesLimit.toIso8601String() : ''
+      'value': feesLimit != null ? feesLimit.toIso8601String() : '',
     });
   }
 }
