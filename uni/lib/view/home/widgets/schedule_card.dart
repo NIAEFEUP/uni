@@ -97,8 +97,6 @@ class ScheduleCard extends GenericCard {
         rows.add(createRowFromLecture(context, lecture));
       }
 
-      rows.add(const Padding(padding: EdgeInsets.only(bottom: 10)));
-
       if (lectures.length >= 2) {
         break;
       }

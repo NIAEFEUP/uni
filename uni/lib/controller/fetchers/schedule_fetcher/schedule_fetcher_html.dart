@@ -34,7 +34,7 @@ class ScheduleFetcherHtml extends ScheduleFetcher {
             'pv_fest_id': course.festId.toString(),
             'pv_ano_lectivo': dates.lectiveYear.toString(),
             'p_semana_inicio': dates.beginWeek,
-            'p_semana_fim': dates.endWeek
+            'p_semana_fim': dates.endWeek,
           },
           session,
         );

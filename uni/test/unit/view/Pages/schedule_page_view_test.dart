@@ -89,7 +89,7 @@ void main() {
       'Terça-feira',
       'Quarta-feira',
       'Quinta-feira',
-      'Sexta-feira'
+      'Sexta-feira',
     ];
 
     testWidgets('When given one lecture on a single day',
@@ -147,7 +147,7 @@ void main() {
             lecture3,
             lecture4,
             lecture5,
-            lecture6
+            lecture6,
           ],
           scheduleStatus: RequestStatus.successful,
         ),

@@ -63,7 +63,7 @@ class AccountInfoCard extends GenericCard {
                             right: 30,
                           ),
                           child: getInfoText(profile.feesBalance, context),
-                        )
+                        ),
                       ],
                     ),
                     TableRow(
@@ -92,7 +92,7 @@ class AccountInfoCard extends GenericCard {
                                 : S.of(context).no_date,
                             context,
                           ),
-                        )
+                        ),
                       ],
                     ),
                     TableRow(
@@ -115,9 +115,9 @@ class AccountInfoCard extends GenericCard {
                             left: 20,
                           ),
                           child: const TuitionNotificationSwitch(),
-                        )
+                        ),
                       ],
-                    )
+                    ),
                   ],
                 ),
                 Container(
@@ -138,7 +138,7 @@ class AccountInfoCard extends GenericCard {
                 showLastRefreshedTime(
                   profileStateProvider.lastUpdateTime?.toIso8601String(),
                   context,
-                )
+                ),
               ],
             );
           },

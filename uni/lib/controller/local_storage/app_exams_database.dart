@@ -10,7 +10,7 @@ import 'package:uni/model/entities/exam.dart';
 /// See the [Exam] class to see what data is stored in this database.
 class AppExamsDatabase extends AppDatabase {
   AppExamsDatabase()
-      : super('exams.db', [_createScript], onUpgrade: migrate, version: 4);
+      : super('exams.db', [_createScript], onUpgrade: migrate, version: 5);
   Map<String, String> months = {
     'Janeiro': '01',
     'Fevereiro': '02',
@@ -23,7 +23,7 @@ class AppExamsDatabase extends AppDatabase {
     'Setembro': '09',
     'Outubro': '10',
     'Novembro': '11',
-    'Dezembro': '12'
+    'Dezembro': '12',
   };
 
   static const _createScript = '''

@@ -10,13 +10,7 @@ import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 ///
 /// If this operation is unsuccessful, an error message is returned.
 Future<String> fetchTermsAndConditions() async {
-  try {
-    return await rootBundle.loadString('assets/text/TermsAndConditions.md');
-  } catch (e) {
-    Logger().e('Failed to read Terms and Conditions: $e');
-    return 'Não foi possível carregar os Termos e Condições. '
-        'Por favor tente mais tarde.';
-  }
+  return rootBundle.loadString('assets/text/TermsAndConditions.md');
 }
 
 /// Checks if the current Terms and Conditions have been accepted by the user,

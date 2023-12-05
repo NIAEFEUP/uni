@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/login_exceptions.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
@@ -25,7 +26,7 @@ class LoginPageView extends StatefulWidget {
 /// Manages the 'login section' view.
 class LoginPageViewState extends State<LoginPageView> {
   List<String> faculties = [
-    'feup'
+    'feup',
   ]; // May choose more than one faculty in the dropdown.
 
   static final FocusNode usernameFocus = FocusNode();
@@ -44,6 +45,7 @@ class LoginPageViewState extends State<LoginPageView> {
   Future<void> _login(BuildContext context) async {
     final stateProviders = StateProviders.fromContext(context);
     final sessionProvider = stateProviders.sessionProvider;
+
     if (!_loggingIn && _formKey.currentState!.validate()) {
       final user = usernameController.text.trim();
       final pass = passwordController.text.trim();
@@ -68,19 +70,26 @@ class LoginPageViewState extends State<LoginPageView> {
             _loggingIn = false;
           });
         }
-      } catch (error) {
+      } catch (error, stackTrace) {
         setState(() {
           _loggingIn = false;
         });
         if (error is ExpiredCredentialsException) {
           updatePasswordDialog();
         } else if (error is InternetStatusException) {
-          unawaited(ToastMessage.warning(context, error.message));
+          if (context.mounted) {
+            unawaited(ToastMessage.warning(context, error.message));
+          }
         } else if (error is WrongCredentialsException) {
-          unawaited(ToastMessage.error(context, error.message));
+          if (context.mounted) {
+            unawaited(ToastMessage.error(context, error.message));
+          }
         } else {
-          Logger().e(error);
-          unawaited(ToastMessage.error(context, S.of(context).failed_login));
+          Logger().e(error, stackTrace: stackTrace);
+          unawaited(Sentry.captureException(error, stackTrace: stackTrace));
+          if (context.mounted) {
+            unawaited(ToastMessage.error(context, S.of(context).failed_login));
+          }
         }
       }
     }

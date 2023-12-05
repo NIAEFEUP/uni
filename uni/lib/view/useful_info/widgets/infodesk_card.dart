@@ -26,7 +26,7 @@ class InfoDeskCard extends GenericExpansionCard {
           context,
           last: true,
           link: 'mailto:infodesk@fe.up.pt',
-        )
+        ),
       ],
     );
   }

@@ -69,9 +69,9 @@ class FormTextField extends StatelessWidget {
                     return formatValidator?.call(value);
                   },
                 ),
-              )
+              ),
             ],
-          )
+          ),
         ],
       ),
     );

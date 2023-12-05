@@ -30,7 +30,7 @@ class CourseInfoCard extends GenericCard {
                 course.currYear ?? S.of(context).unavailable,
                 context,
               ),
-            )
+            ),
           ],
         ),
         TableRow(
@@ -48,7 +48,7 @@ class CourseInfoCard extends GenericCard {
                 course.state ?? S.of(context).unavailable,
                 context,
               ),
-            )
+            ),
           ],
         ),
         TableRow(
@@ -68,7 +68,7 @@ class CourseInfoCard extends GenericCard {
                     : '?',
                 context,
               ),
-            )
+            ),
           ],
         ),
         TableRow(
@@ -86,7 +86,7 @@ class CourseInfoCard extends GenericCard {
                 course.faculty?.toUpperCase() ?? S.of(context).unavailable,
                 context,
               ),
-            )
+            ),
           ],
         ),
         TableRow(
@@ -104,7 +104,7 @@ class CourseInfoCard extends GenericCard {
                 course.currentAverage?.toString() ?? S.of(context).unavailable,
                 context,
               ),
-            )
+            ),
           ],
         ),
         TableRow(
@@ -122,9 +122,9 @@ class CourseInfoCard extends GenericCard {
                 course.finishedEcts?.toString().replaceFirst('.0', '') ?? '?',
                 context,
               ),
-            )
+            ),
           ],
-        )
+        ),
       ],
     );
   }

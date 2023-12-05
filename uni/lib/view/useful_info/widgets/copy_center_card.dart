@@ -29,7 +29,7 @@ class CopyCenterCard extends GenericExpansionCard {
           context,
           link: 'mailto:editorial@aefeup.pt',
           last: true,
-        )
+        ),
       ],
     );
   }

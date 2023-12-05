@@ -25,7 +25,7 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      if (_loadedOnce) {
+      if (_loadedOnce || !mounted) {
         return;
       }
       _loadedOnce = true;
@@ -40,9 +40,11 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
         await Sentry.captureException(e, stackTrace: stackTrace);
       }
 
-      setState(() {
-        _loading = false;
-      });
+      if (mounted) {
+        setState(() {
+          _loading = false;
+        });
+      }
     });
 
     return getScaffold(
@@ -55,7 +57,7 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
                   child: Center(
                     child: CircularProgressIndicator(),
                   ),
-                )
+                ),
               ],
             )
           : getBody(context),
@@ -177,7 +179,7 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
               MaterialPageRoute<ProfilePageView>(
                 builder: (__) => const ProfilePageView(),
               ),
-            )
+            ),
           },
           child: Container(
             width: 40,

@@ -71,6 +71,8 @@ class SessionProvider extends StateProviderNotifier {
     List<String> faculties, {
     required bool persistentSession,
   }) async {
+    final locale =
+        Provider.of<LocaleNotifier>(context, listen: false).getLocale();
     Session? session;
     try {
       session = await NetworkRouter.login(
@@ -80,9 +82,7 @@ class SessionProvider extends StateProviderNotifier {
         persistentSession: persistentSession,
       );
     } catch (e) {
-      throw InternetStatusException(
-        Provider.of<LocaleNotifier>(context, listen: false).getLocale(),
-      );
+      throw InternetStatusException(locale);
     }
 
     if (session == null) {
@@ -93,7 +93,7 @@ class SessionProvider extends StateProviderNotifier {
         throw ExpiredCredentialsException();
       } else {
         throw WrongCredentialsException(
-          Provider.of<LocaleNotifier>(context, listen: false).getLocale(),
+          locale,
         );
       }
     }

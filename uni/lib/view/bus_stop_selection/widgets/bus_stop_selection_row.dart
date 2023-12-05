@@ -65,9 +65,9 @@ class BusStopSelectionRowState extends State<BusStopSelectionRow> {
                     onPressed: () {
                       deleteStop(context);
                     },
-                  )
+                  ),
                 ],
-              )
+              ),
             ],
           ),
         ),

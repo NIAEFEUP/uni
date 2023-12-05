@@ -4,8 +4,8 @@ on:
     branches: [master, develop]
 
 env:
-  FLUTTER_VERSION: 3.10.6
-  JAVA_VERSION: 11.x
+  FLUTTER_VERSION: 3.13.7
+  JAVA_VERSION: 17.x
 
 jobs:
   format:
