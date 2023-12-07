@@ -56,8 +56,7 @@ class CardFavoriteButton extends StatelessWidget {
               restaurant.name,
             ),
             if (!isFavorite &&
-                !favoriteCardTypes.contains(FavoriteWidgetType.restaurant) &&
-                restaurantProvider.favoriteRestaurants.length < 2)
+                !favoriteCardTypes.contains(FavoriteWidgetType.restaurant))
               showRestaurantCardHomeDialog(context, favoriteCardTypes),
           },
         );
@@ -82,9 +81,10 @@ class CardFavoriteButton extends StatelessWidget {
           ),
           ElevatedButton(
             onPressed: () {
-              favoriteCardTypes.add(FavoriteWidgetType.restaurant);
               Provider.of<HomePageProvider>(context, listen: false)
-                  .setFavoriteCards(favoriteCardTypes);
+                  .setFavoriteCards(
+                favoriteCardTypes + [FavoriteWidgetType.restaurant],
+              );
               Navigator.of(context).pop();
             },
             child: Text(S.of(context).yes),
