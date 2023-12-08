@@ -80,7 +80,6 @@ class MockScheduleFetcher extends _i1.Mock implements _i2.ScheduleFetcher {
         returnValueForMissingStub:
             _i4.Future<List<_i5.Lecture>>.value(<_i5.Lecture>[]),
       ) as _i4.Future<List<_i5.Lecture>>);
-
   @override
   _i2.Dates getDates() => (super.noSuchMethod(
         Invocation.method(
@@ -102,7 +101,6 @@ class MockScheduleFetcher extends _i1.Mock implements _i2.ScheduleFetcher {
           ),
         ),
       ) as _i2.Dates);
-
   @override
   List<String> getEndpoints(_i6.Session? session) => (super.noSuchMethod(
         Invocation.method(
@@ -147,7 +145,6 @@ class MockClient extends _i1.Mock implements _i3.Client {
           ),
         )),
       ) as _i4.Future<_i3.Response>);
-
   @override
   _i4.Future<_i3.Response> get(
     Uri? url, {
@@ -177,7 +174,6 @@ class MockClient extends _i1.Mock implements _i3.Client {
           ),
         )),
       ) as _i4.Future<_i3.Response>);
-
   @override
   _i4.Future<_i3.Response> post(
     Uri? url, {
@@ -221,7 +217,6 @@ class MockClient extends _i1.Mock implements _i3.Client {
           ),
         )),
       ) as _i4.Future<_i3.Response>);
-
   @override
   _i4.Future<_i3.Response> put(
     Uri? url, {
@@ -265,7 +260,6 @@ class MockClient extends _i1.Mock implements _i3.Client {
           ),
         )),
       ) as _i4.Future<_i3.Response>);
-
   @override
   _i4.Future<_i3.Response> patch(
     Uri? url, {
@@ -309,7 +303,6 @@ class MockClient extends _i1.Mock implements _i3.Client {
           ),
         )),
       ) as _i4.Future<_i3.Response>);
-
   @override
   _i4.Future<_i3.Response> delete(
     Uri? url, {
@@ -353,7 +346,6 @@ class MockClient extends _i1.Mock implements _i3.Client {
           ),
         )),
       ) as _i4.Future<_i3.Response>);
-
   @override
   _i4.Future<String> read(
     Uri? url, {
@@ -368,7 +360,6 @@ class MockClient extends _i1.Mock implements _i3.Client {
         returnValue: _i4.Future<String>.value(''),
         returnValueForMissingStub: _i4.Future<String>.value(''),
       ) as _i4.Future<String>);
-
   @override
   _i4.Future<_i9.Uint8List> readBytes(
     Uri? url, {
@@ -384,7 +375,6 @@ class MockClient extends _i1.Mock implements _i3.Client {
         returnValueForMissingStub:
             _i4.Future<_i9.Uint8List>.value(_i9.Uint8List(0)),
       ) as _i4.Future<_i9.Uint8List>);
-
   @override
   _i4.Future<_i3.StreamedResponse> send(_i3.BaseRequest? request) =>
       (super.noSuchMethod(
@@ -409,7 +399,6 @@ class MockClient extends _i1.Mock implements _i3.Client {
           ),
         )),
       ) as _i4.Future<_i3.StreamedResponse>);
-
   @override
   void close() => super.noSuchMethod(
         Invocation.method(
@@ -430,35 +419,30 @@ class MockResponse extends _i1.Mock implements _i3.Response {
         returnValue: _i9.Uint8List(0),
         returnValueForMissingStub: _i9.Uint8List(0),
       ) as _i9.Uint8List);
-
   @override
   String get body => (super.noSuchMethod(
         Invocation.getter(#body),
         returnValue: '',
         returnValueForMissingStub: '',
       ) as String);
-
   @override
   int get statusCode => (super.noSuchMethod(
         Invocation.getter(#statusCode),
         returnValue: 0,
         returnValueForMissingStub: 0,
       ) as int);
-
   @override
   Map<String, String> get headers => (super.noSuchMethod(
         Invocation.getter(#headers),
         returnValue: <String, String>{},
         returnValueForMissingStub: <String, String>{},
       ) as Map<String, String>);
-
   @override
   bool get isRedirect => (super.noSuchMethod(
         Invocation.getter(#isRedirect),
         returnValue: false,
         returnValueForMissingStub: false,
       ) as bool);
-
   @override
   bool get persistentConnection => (super.noSuchMethod(
         Invocation.getter(#persistentConnection),

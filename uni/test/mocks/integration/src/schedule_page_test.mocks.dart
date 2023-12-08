@@ -93,7 +93,6 @@ class MockClient extends _i1.Mock implements _i2.Client {
           ),
         )),
       ) as _i4.Future<_i2.Response>);
-
   @override
   _i4.Future<_i2.Response> get(
     Uri? url, {
@@ -123,7 +122,6 @@ class MockClient extends _i1.Mock implements _i2.Client {
           ),
         )),
       ) as _i4.Future<_i2.Response>);
-
   @override
   _i4.Future<_i2.Response> post(
     Uri? url, {
@@ -167,7 +165,6 @@ class MockClient extends _i1.Mock implements _i2.Client {
           ),
         )),
       ) as _i4.Future<_i2.Response>);
-
   @override
   _i4.Future<_i2.Response> put(
     Uri? url, {
@@ -211,7 +208,6 @@ class MockClient extends _i1.Mock implements _i2.Client {
           ),
         )),
       ) as _i4.Future<_i2.Response>);
-
   @override
   _i4.Future<_i2.Response> patch(
     Uri? url, {
@@ -255,7 +251,6 @@ class MockClient extends _i1.Mock implements _i2.Client {
           ),
         )),
       ) as _i4.Future<_i2.Response>);
-
   @override
   _i4.Future<_i2.Response> delete(
     Uri? url, {
@@ -299,7 +294,6 @@ class MockClient extends _i1.Mock implements _i2.Client {
           ),
         )),
       ) as _i4.Future<_i2.Response>);
-
   @override
   _i4.Future<String> read(
     Uri? url, {
@@ -314,7 +308,6 @@ class MockClient extends _i1.Mock implements _i2.Client {
         returnValue: _i4.Future<String>.value(''),
         returnValueForMissingStub: _i4.Future<String>.value(''),
       ) as _i4.Future<String>);
-
   @override
   _i4.Future<_i6.Uint8List> readBytes(
     Uri? url, {
@@ -330,7 +323,6 @@ class MockClient extends _i1.Mock implements _i2.Client {
         returnValueForMissingStub:
             _i4.Future<_i6.Uint8List>.value(_i6.Uint8List(0)),
       ) as _i4.Future<_i6.Uint8List>);
-
   @override
   _i4.Future<_i2.StreamedResponse> send(_i2.BaseRequest? request) =>
       (super.noSuchMethod(
@@ -355,7 +347,6 @@ class MockClient extends _i1.Mock implements _i2.Client {
           ),
         )),
       ) as _i4.Future<_i2.StreamedResponse>);
-
   @override
   void close() => super.noSuchMethod(
         Invocation.method(
@@ -376,35 +367,30 @@ class MockResponse extends _i1.Mock implements _i2.Response {
         returnValue: _i6.Uint8List(0),
         returnValueForMissingStub: _i6.Uint8List(0),
       ) as _i6.Uint8List);
-
   @override
   String get body => (super.noSuchMethod(
         Invocation.getter(#body),
         returnValue: '',
         returnValueForMissingStub: '',
       ) as String);
-
   @override
   int get statusCode => (super.noSuchMethod(
         Invocation.getter(#statusCode),
         returnValue: 0,
         returnValueForMissingStub: 0,
       ) as int);
-
   @override
   Map<String, String> get headers => (super.noSuchMethod(
         Invocation.getter(#headers),
         returnValue: <String, String>{},
         returnValueForMissingStub: <String, String>{},
       ) as Map<String, String>);
-
   @override
   bool get isRedirect => (super.noSuchMethod(
         Invocation.getter(#isRedirect),
         returnValue: false,
         returnValueForMissingStub: false,
       ) as bool);
-
   @override
   bool get persistentConnection => (super.noSuchMethod(
         Invocation.getter(#persistentConnection),
@@ -429,14 +415,12 @@ class MockSessionProvider extends _i1.Mock implements _i7.SessionProvider {
           Invocation.getter(#session),
         ),
       ) as _i3.Session);
-
   @override
   bool get dependsOnSession => (super.noSuchMethod(
         Invocation.getter(#dependsOnSession),
         returnValue: false,
         returnValueForMissingStub: false,
       ) as bool);
-
   @override
   set dependsOnSession(bool? _dependsOnSession) => super.noSuchMethod(
         Invocation.setter(
@@ -445,7 +429,6 @@ class MockSessionProvider extends _i1.Mock implements _i7.SessionProvider {
         ),
         returnValueForMissingStub: null,
       );
-
   @override
   set cacheDuration(Duration? _cacheDuration) => super.noSuchMethod(
         Invocation.setter(
@@ -454,21 +437,18 @@ class MockSessionProvider extends _i1.Mock implements _i7.SessionProvider {
         ),
         returnValueForMissingStub: null,
       );
-
   @override
   _i8.RequestStatus get status => (super.noSuchMethod(
         Invocation.getter(#status),
         returnValue: _i8.RequestStatus.none,
         returnValueForMissingStub: _i8.RequestStatus.none,
       ) as _i8.RequestStatus);
-
   @override
   bool get hasListeners => (super.noSuchMethod(
         Invocation.getter(#hasListeners),
         returnValue: false,
         returnValueForMissingStub: false,
       ) as bool);
-
   @override
   _i4.Future<void> loadFromStorage() => (super.noSuchMethod(
         Invocation.method(
@@ -478,7 +458,6 @@ class MockSessionProvider extends _i1.Mock implements _i7.SessionProvider {
         returnValue: _i4.Future<void>.value(),
         returnValueForMissingStub: _i4.Future<void>.value(),
       ) as _i4.Future<void>);
-
   @override
   _i4.Future<void> loadFromRemote(
     _i3.Session? session,
@@ -495,7 +474,6 @@ class MockSessionProvider extends _i1.Mock implements _i7.SessionProvider {
         returnValue: _i4.Future<void>.value(),
         returnValueForMissingStub: _i4.Future<void>.value(),
       ) as _i4.Future<void>);
-
   @override
   void restoreSession(
     String? username,
@@ -513,7 +491,6 @@ class MockSessionProvider extends _i1.Mock implements _i7.SessionProvider {
         ),
         returnValueForMissingStub: null,
       );
-
   @override
   _i4.Future<void> postAuthentication(
     _i10.BuildContext? context,
@@ -536,16 +513,6 @@ class MockSessionProvider extends _i1.Mock implements _i7.SessionProvider {
         returnValue: _i4.Future<void>.value(),
         returnValueForMissingStub: _i4.Future<void>.value(),
       ) as _i4.Future<void>);
-
-  @override
-  void markAsInitialized() => super.noSuchMethod(
-        Invocation.method(
-          #markAsInitialized,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
-
   @override
   void markAsNotInitialized() => super.noSuchMethod(
         Invocation.method(
@@ -554,7 +521,14 @@ class MockSessionProvider extends _i1.Mock implements _i7.SessionProvider {
         ),
         returnValueForMissingStub: null,
       );
-
+  @override
+  void updateStatus(_i8.RequestStatus? status) => super.noSuchMethod(
+        Invocation.method(
+          #updateStatus,
+          [status],
+        ),
+        returnValueForMissingStub: null,
+      );
   @override
   _i4.Future<void> forceRefresh(_i10.BuildContext? context) =>
       (super.noSuchMethod(
@@ -565,7 +539,6 @@ class MockSessionProvider extends _i1.Mock implements _i7.SessionProvider {
         returnValue: _i4.Future<void>.value(),
         returnValueForMissingStub: _i4.Future<void>.value(),
       ) as _i4.Future<void>);
-
   @override
   _i4.Future<void> ensureInitialized(_i10.BuildContext? context) =>
       (super.noSuchMethod(
@@ -576,7 +549,6 @@ class MockSessionProvider extends _i1.Mock implements _i7.SessionProvider {
         returnValue: _i4.Future<void>.value(),
         returnValueForMissingStub: _i4.Future<void>.value(),
       ) as _i4.Future<void>);
-
   @override
   _i4.Future<void> ensureInitializedFromRemote(_i10.BuildContext? context) =>
       (super.noSuchMethod(
@@ -587,7 +559,6 @@ class MockSessionProvider extends _i1.Mock implements _i7.SessionProvider {
         returnValue: _i4.Future<void>.value(),
         returnValueForMissingStub: _i4.Future<void>.value(),
       ) as _i4.Future<void>);
-
   @override
   _i4.Future<void> ensureInitializedFromStorage() => (super.noSuchMethod(
         Invocation.method(
@@ -597,7 +568,6 @@ class MockSessionProvider extends _i1.Mock implements _i7.SessionProvider {
         returnValue: _i4.Future<void>.value(),
         returnValueForMissingStub: _i4.Future<void>.value(),
       ) as _i4.Future<void>);
-
   @override
   void addListener(_i11.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
@@ -606,7 +576,6 @@ class MockSessionProvider extends _i1.Mock implements _i7.SessionProvider {
         ),
         returnValueForMissingStub: null,
       );
-
   @override
   void removeListener(_i11.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
@@ -615,7 +584,6 @@ class MockSessionProvider extends _i1.Mock implements _i7.SessionProvider {
         ),
         returnValueForMissingStub: null,
       );
-
   @override
   void dispose() => super.noSuchMethod(
         Invocation.method(
@@ -624,7 +592,6 @@ class MockSessionProvider extends _i1.Mock implements _i7.SessionProvider {
         ),
         returnValueForMissingStub: null,
       );
-
   @override
   void notifyListeners() => super.noSuchMethod(
         Invocation.method(
