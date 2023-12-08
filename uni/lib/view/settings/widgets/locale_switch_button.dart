@@ -9,21 +9,10 @@ class LocaleSwitchButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<LocaleNotifier>(
       builder: (context, localeNotifier, _) {
-        return TextButton(
+        return ElevatedButton(
           onPressed: () => localeNotifier.setNextLocale(),
-          style: TextButton.styleFrom(
-            elevation: 0,
-            padding: const EdgeInsets.symmetric(horizontal: 5),
-          ),
-          child: Container(
-            padding: const EdgeInsets.all(15),
-            child: Text(
-              localeNotifier.getLocale().localeCode.languageCode.toUpperCase(),
-              style: Theme.of(context)
-                  .textTheme
-                  .titleLarge!
-                  .copyWith(color: Theme.of(context).primaryColor),
-            ),
+          child: Text(
+            localeNotifier.getLocale().localeCode.languageCode.toUpperCase(),
           ),
         );
       },
