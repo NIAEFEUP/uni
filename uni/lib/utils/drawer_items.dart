@@ -15,6 +15,7 @@ enum DrawerItem {
   navLogOut('Terminar sessão');
 
   const DrawerItem(this.title, {this.faculties});
+
   final String title;
   final Set<String>? faculties;
 

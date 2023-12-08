@@ -144,6 +144,8 @@
   "@loading_terms": {},
   "login": "Login",
   "@login": {},
+  "settings": "Settings",
+   "@settings": {},
   "logout": "Log out",
   "@logout": {},
   "menus": "Menus",

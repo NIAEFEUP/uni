@@ -6,8 +6,11 @@ import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/locale_notifier.dart';
 import 'package:uni/view/theme_notifier.dart';
 
+import '../../../../settings/settings.dart';
+
 class AppNavigationDrawer extends StatefulWidget {
   const AppNavigationDrawer({required this.parentContext, super.key});
+
   final BuildContext parentContext;
 
   @override
@@ -31,7 +34,6 @@ class AppNavigationDrawerState extends State<AppNavigationDrawer> {
     }
   }
 
-  // Callback Functions
   String getCurrentRoute() =>
       ModalRoute.of(widget.parentContext)!.settings.name == null
           ? drawerItems.keys.toList()[0].title
@@ -51,8 +53,6 @@ class AppNavigationDrawerState extends State<AppNavigationDrawer> {
     Navigator.of(context)
         .pushNamedAndRemoveUntil('/$key', (Route<dynamic> route) => false);
   }
-
-  // End of Callback Functions
 
   BoxDecoration? _getSelectionDecoration(String name) {
     return (name == getCurrentRoute())
@@ -89,52 +89,6 @@ class AppNavigationDrawerState extends State<AppNavigationDrawer> {
     );
   }
 
-  Widget createLocaleBtn() {
-    return Consumer<LocaleNotifier>(
-      builder: (context, localeNotifier, _) {
-        return TextButton(
-          onPressed: () => localeNotifier.setNextLocale(),
-          style: TextButton.styleFrom(
-            elevation: 0,
-            padding: const EdgeInsets.symmetric(horizontal: 5),
-          ),
-          child: Container(
-            padding: const EdgeInsets.all(15),
-            child: Text(
-              localeNotifier.getLocale().localeCode.languageCode.toUpperCase(),
-              style: Theme.of(context)
-                  .textTheme
-                  .titleLarge!
-                  .copyWith(color: Theme.of(context).primaryColor),
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  Widget createThemeSwitchBtn() {
-    Icon getThemeIcon(ThemeMode theme) {
-      switch (theme) {
-        case ThemeMode.light:
-          return const Icon(Icons.wb_sunny);
-        case ThemeMode.dark:
-          return const Icon(Icons.nightlight_round);
-        case ThemeMode.system:
-          return const Icon(Icons.brightness_6);
-      }
-    }
-
-    return Consumer<ThemeNotifier>(
-      builder: (context, themeNotifier, _) {
-        return IconButton(
-          icon: getThemeIcon(themeNotifier.getTheme()),
-          onPressed: themeNotifier.setNextTheme,
-        );
-      },
-    );
-  }
-
   Widget createDrawerNavigationOption(DrawerItem d) {
     return DecoratedBox(
       decoration: _getSelectionDecoration(d.title) ?? const BoxDecoration(),
@@ -161,7 +115,7 @@ class AppNavigationDrawerState extends State<AppNavigationDrawer> {
   @override
   Widget build(BuildContext context) {
     final drawerOptions = <Widget>[];
-    final userSession = Provider.of<SessionProvider>(context).session;
+    final userSession = context.read<SessionProvider>().session;
 
     for (final key in drawerItems.keys) {
       if (key.isVisible(userSession.faculties)) {
@@ -187,11 +141,15 @@ class AppNavigationDrawerState extends State<AppNavigationDrawer> {
                   child: createLogoutBtn(),
                 ),
               ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: createLocaleBtn(),
+              IconButton(
+                icon: const Icon(Icons.settings),
+                onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute<SettingsPage>(
+                    builder: (_) => const SettingsPage(),
+                  ),
+                ),
               ),
-              createThemeSwitchBtn(),
             ],
           ),
         ],

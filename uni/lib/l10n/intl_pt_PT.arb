@@ -1,5 +1,7 @@
 {
   "@@locale": "pt_PT",
+  "settings": "Definições",
+    "@settings": {},
   "exit_confirm": "Tem a certeza de que pretende sair?",
   "@exit_confirm": {},
   "no": "Não",

@@ -64,9 +64,7 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
     );
   }
 
-  Widget getBody(BuildContext context) {
-    return Container();
-  }
+  Widget getBody(BuildContext context);
 
   Future<DecorationImage> buildProfileDecorationImage(
     BuildContext context, {

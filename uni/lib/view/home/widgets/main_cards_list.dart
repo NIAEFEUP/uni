@@ -150,7 +150,7 @@ class MainCardsList extends StatelessWidget {
     HomePageProvider editingModeProvider,
   ) {
     return Container(
-      padding: const EdgeInsets.fromLTRB(20, 20, 20, 5),
+      padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -159,16 +159,16 @@ class MainCardsList extends StatelessWidget {
             center: false,
             pad: false,
           ),
-          GestureDetector(
-            onTap: () => Provider.of<HomePageProvider>(context, listen: false)
-                .setHomePageEditingMode(
+          OutlinedButton(
+            onPressed: () =>
+                Provider.of<HomePageProvider>(context, listen: false)
+                    .setHomePageEditingMode(
               editingMode: !editingModeProvider.isEditing,
             ),
             child: Text(
               editingModeProvider.isEditing
                   ? S.of(context).edit_on
                   : S.of(context).edit_off,
-              style: Theme.of(context).textTheme.bodySmall,
             ),
           ),
         ],
