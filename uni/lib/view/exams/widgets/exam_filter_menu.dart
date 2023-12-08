@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/providers/lazy/exam_provider.dart';
 import 'package:uni/view/exams/widgets/exam_filter_form.dart';
+import 'package:uni/view/lazy_consumer.dart';
 
 class ExamFilterMenu extends StatefulWidget {
   const ExamFilterMenu({super.key});
@@ -19,14 +20,14 @@ class ExamFilterMenuState extends State<ExamFilterMenu> {
         showDialog<void>(
           context: context,
           builder: (_) {
-            final examProvider =
-                Provider.of<ExamProvider>(context, listen: false);
-            final filteredExamsTypes = examProvider.filteredExamsTypes;
-            return ChangeNotifierProvider.value(
-              value: examProvider,
-              child: ExamFilterForm(
-                Map<String, bool>.from(filteredExamsTypes),
-              ),
+            return LazyConsumer<ExamProvider>(
+              builder: (context, examProvider) {
+                return ExamFilterForm(
+                    Map<String, bool>.from(examProvider.filteredExamsTypes),
+                    (newFilteredExams) {
+                  examProvider.setFilteredExams(newFilteredExams);
+                });
+              },
             );
           },
         );

@@ -1,27 +1,17 @@
 import 'dart:collection';
-
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/exam.dart';
-import 'package:uni/model/providers/lazy/exam_provider.dart';
 
-class ExamFilterForm extends StatefulWidget {
-  const ExamFilterForm(this.filteredExamsTypes, {super.key});
+class ExamFilterForm extends StatelessWidget {
+  const ExamFilterForm(
+    this.filteredExamsTypes,
+    this.setExamsTypesCallback, {
+    super.key,
+  });
+
   final Map<String, bool> filteredExamsTypes;
-
-  @override
-  ExamFilterFormState createState() => ExamFilterFormState();
-}
-
-class ExamFilterFormState extends State<ExamFilterForm> {
-  void _changeFilteredExamList(String key, {bool? value}) {
-    setState(() {
-      widget.filteredExamsTypes[key] = value!;
-      Provider.of<ExamProvider>(context, listen: false)
-          .setFilteredExams(widget.filteredExamsTypes);
-    });
-  }
+  final void Function(Map<String, bool>) setExamsTypesCallback;
 
   @override
   Widget build(BuildContext context) {
@@ -38,25 +28,16 @@ class ExamFilterFormState extends State<ExamFilterForm> {
           ),
           onPressed: () => Navigator.pop(context),
         ),
-        ElevatedButton(
-          child: Text(S.of(context).confirm),
-          onPressed: () {
-            Provider.of<ExamProvider>(context, listen: false)
-                .setFilteredExams(widget.filteredExamsTypes);
-            Navigator.pop(context);
-          },
-        ),
       ],
       content: SizedBox(
         height: 230,
         width: 200,
         child: FilteredExamList(
           UnmodifiableMapView(
-            Map<String, bool>.from(widget.filteredExamsTypes)
+            Map<String, bool>.from(filteredExamsTypes)
               ..removeWhere((key, value) => !Exam.types.containsKey(key)),
           ),
-          _changeFilteredExamList,
-          context,
+          setExamsTypesCallback,
         ),
       ),
     );
@@ -66,13 +47,12 @@ class ExamFilterFormState extends State<ExamFilterForm> {
 class FilteredExamList extends StatelessWidget {
   const FilteredExamList(
     this.filteredExams,
-    this.changeFilteredExamList,
-    this.context, {
+    this.changeFilteredExamList, {
     super.key,
   });
+
   final UnmodifiableMapView<String, bool> filteredExams;
-  final void Function(String, {bool? value}) changeFilteredExamList;
-  final BuildContext context;
+  final void Function(Map<String, bool>) changeFilteredExamList;
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +70,11 @@ class FilteredExamList extends StatelessWidget {
           ),
           key: Key('ExamCheck$key'),
           value: filteredExams[key],
-          onChanged: (value) => {changeFilteredExamList(key, value: value)},
+          onChanged: (value) {
+            final newFilteredExams = Map<String, bool>.from(filteredExams);
+            newFilteredExams[key] = value!;
+            changeFilteredExamList(newFilteredExams);
+          },
         );
       }),
     );
