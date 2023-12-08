@@ -157,11 +157,6 @@ void main() {
       await tester.tap(find.byWidget(mtCheckboxTile));
       await tester.pumpAndSettle();
 
-      final okButton = find.widgetWithText(ElevatedButton, 'Confirmar');
-      expect(okButton, findsOneWidget);
-
-      await tester.tap(okButton);
-
       await tester.pumpAndSettle();
 
       expect(find.byKey(Key('$sdisExam-exam')), findsNothing);
