@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:open_file_plus/open_file_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/controller/local_storage/file_offline_storage.dart';
-import 'package:uni/model/entities/course_units/course_unit_file.dart';
-import 'package:uni/view/common_widgets/toast_message.dart';
 import 'package:uni/generated/l10n.dart';
+import 'package:uni/model/entities/course_units/course_unit_file.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
+import 'package:uni/view/common_widgets/toast_message.dart';
 
 class CourseUnitFilesRow extends StatefulWidget {
   const CourseUnitFilesRow(this.file, {super.key});
