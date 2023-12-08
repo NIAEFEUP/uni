@@ -5,6 +5,8 @@ import 'package:open_file_plus/open_file_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/controller/local_storage/file_offline_storage.dart';
 import 'package:uni/model/entities/course_units/course_unit_file.dart';
+import 'package:uni/view/common_widgets/toast_message.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 
 class CourseUnitFilesRow extends StatefulWidget {
@@ -81,14 +83,23 @@ class CourseUnitFilesRowState extends State<CourseUnitFilesRow>
   Future<void> openFile(BuildContext context, CourseUnitFile unitFile) async {
     final session = context.read<SessionProvider>().session;
 
-    final result = await loadFileFromStorageOrRetrieveNew(
-      '${unitFile.name}.pdf',
-      unitFile.url,
-      session,
-      headers: {'pct_id': unitFile.fileCode},
-    );
+    try {
+      final result = await loadFileFromStorageOrRetrieveNew(
+        '${unitFile.name}.pdf',
+        unitFile.url,
+        session,
+        headers: {'pct_id': unitFile.fileCode},
+      );
 
-    await OpenFile.open(result!.path);
+      await OpenFile.open(result!.path);
+    } catch (e) {
+      if (context.mounted) {
+        await ToastMessage.error(
+          context,
+          S.of(context).load_error,
+        );
+      }
+    }
     _controller.reset();
   }
 }
