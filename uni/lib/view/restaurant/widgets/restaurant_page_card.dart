@@ -47,17 +47,22 @@ class CardFavoriteButton extends StatelessWidget {
       builder: (context, restaurantProvider) {
         final isFavorite =
             restaurantProvider.favoriteRestaurants.contains(restaurant.name);
-        final favoriteCardTypes =
-            Provider.of<HomePageProvider>(context).favoriteCards;
         return IconButton(
           icon: isFavorite ? Icon(MdiIcons.heart) : Icon(MdiIcons.heartOutline),
-          onPressed: () => {
+          onPressed: () {
             restaurantProvider.toggleFavoriteRestaurant(
               restaurant.name,
-            ),
+            );
+            final favoriteCardTypes =
+                context.read<HomePageProvider>().favoriteCards;
             if (!isFavorite &&
-                !favoriteCardTypes.contains(FavoriteWidgetType.restaurant))
-              showRestaurantCardHomeDialog(context, favoriteCardTypes),
+                !favoriteCardTypes.contains(FavoriteWidgetType.restaurant)) {
+              showRestaurantCardHomeDialog(context, favoriteCardTypes,
+                  (newFavoriteCards) {
+                Provider.of<HomePageProvider>(context, listen: false)
+                    .setFavoriteCards(newFavoriteCards);
+              });
+            }
           },
         );
       },
@@ -67,6 +72,7 @@ class CardFavoriteButton extends StatelessWidget {
   void showRestaurantCardHomeDialog(
     BuildContext context,
     List<FavoriteWidgetType> favoriteCardTypes,
+    void Function(List<FavoriteWidgetType>) updateHomePage,
   ) {
     showDialog<void>(
       context: context,
@@ -81,8 +87,7 @@ class CardFavoriteButton extends StatelessWidget {
           ),
           ElevatedButton(
             onPressed: () {
-              Provider.of<HomePageProvider>(context, listen: false)
-                  .setFavoriteCards(
+              updateHomePage(
                 favoriteCardTypes + [FavoriteWidgetType.restaurant],
               );
               Navigator.of(context).pop();
