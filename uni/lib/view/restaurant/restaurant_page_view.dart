@@ -65,12 +65,21 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
               ],
             ),
             const SizedBox(height: 10),
-            RequestDependentWidgetBuilder(
-              status: restaurantProvider.status,
-              builder: () =>
-                  createTabViewBuilder(restaurantProvider.restaurants, context),
-              hasContentPredicate: restaurantProvider.restaurants.isNotEmpty,
-              onNullContent: Center(child: Text(S.of(context).no_menus)),
+            Expanded(
+              child: RequestDependentWidgetBuilder(
+                status: restaurantProvider.status,
+                builder: () => createTabViewBuilder(
+                  restaurantProvider.restaurants,
+                  context,
+                ),
+                hasContentPredicate: restaurantProvider.restaurants.isNotEmpty,
+                onNullContent: Center(
+                  child: Text(
+                    S.of(context).no_menus,
+                    style: const TextStyle(fontSize: 18),
+                  ),
+                ),
+              ),
             ),
           ],
         );
@@ -78,15 +87,24 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
     );
   }
 
-  Widget createTabViewBuilder(dynamic restaurants, BuildContext context) {
-    final List<Widget> dayContents = DayOfWeek.values.map((dayOfWeek) {
-      var restaurantsWidgets = <Widget>[];
-      if (restaurants is List<Restaurant>) {
-        restaurantsWidgets = restaurants
-            .map(
-              (restaurant) => createRestaurant(context, restaurant, dayOfWeek),
-            )
-            .toList();
+  Widget createTabViewBuilder(
+    List<Restaurant> restaurants,
+    BuildContext context,
+  ) {
+    final dayContents = DayOfWeek.values.map((dayOfWeek) {
+      final restaurantsWidgets = restaurants
+          .where((element) => element.meals[dayOfWeek]?.isNotEmpty ?? false)
+          .map(
+            (restaurant) => createRestaurant(context, restaurant, dayOfWeek),
+          )
+          .toList();
+      if (restaurantsWidgets.isEmpty) {
+        return Center(
+          child: Text(
+            S.of(context).no_menus,
+            style: const TextStyle(fontSize: 18),
+          ),
+        );
       }
       return ListView(children: restaurantsWidgets);
     }).toList();
