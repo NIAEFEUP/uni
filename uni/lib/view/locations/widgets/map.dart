@@ -15,6 +15,7 @@ class LocationsMap extends StatelessWidget {
     required this.southWestBoundary,
     required this.center,
     required this.locations,
+    this.searchFilter = '',
     super.key,
   });
 
@@ -24,8 +25,22 @@ class LocationsMap extends StatelessWidget {
   final LatLng southWestBoundary;
   final LatLng center;
 
+  final String searchFilter;
+
   @override
   Widget build(BuildContext context) {
+    final filteredLocations = List<LocationGroup>.from(locations);
+    if (searchFilter.trim().isNotEmpty) {
+      filteredLocations.retainWhere((location) {
+        final allLocations = location.floors.values.expand((x) => x).toList();
+        return allLocations.any((location) {
+          return location.description().toLowerCase().contains(
+                searchFilter.toLowerCase(),
+              );
+        });
+      });
+    }
+
     return FlutterMap(
       options: MapOptions(
         minZoom: 17,
@@ -65,7 +80,7 @@ class LocationsMap extends StatelessWidget {
         ),
         PopupMarkerLayer(
           options: PopupMarkerLayerOptions(
-            markers: locations.map((location) {
+            markers: filteredLocations.map((location) {
               return LocationMarker(location.latlng, location);
             }).toList(),
             popupController: _popupLayerController,

@@ -42,7 +42,7 @@ class LocationsPageState extends GeneralPageViewState
   Future<void> onRefresh(BuildContext context) async {}
 }
 
-class LocationsPageView extends StatelessWidget {
+class LocationsPageView extends StatefulWidget {
   const LocationsPageView({
     required this.locations,
     required this.status,
@@ -53,28 +53,65 @@ class LocationsPageView extends StatelessWidget {
   final RequestStatus status;
 
   @override
+  LocationsPageViewState createState() => LocationsPageViewState();
+}
+
+class LocationsPageViewState extends State<LocationsPageView> {
+  static GlobalKey<FormState> searchFormKey = GlobalKey<FormState>();
+  static String searchTerms = '';
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Container(
-          width: MediaQuery.of(context).size.width * 0.95,
-          padding: const EdgeInsets.fromLTRB(0, 0, 0, 4),
-          child: PageTitle(
-            name: '${S.of(context).nav_title(DrawerItem.navLocations.title)}:'
-                ' ${getLocation()}',
+        Row(
+          children: [
+            PageTitle(
+              name: '${S.of(context).nav_title(DrawerItem.navLocations.title)}:'
+                  ' ${getLocation()}',
+              center: false,
+            ),
+            Expanded(
+              child: Container(
+                margin: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+                child: TextFormField(
+                  key: searchFormKey,
+                  onChanged: (text) {
+                    setState(() {
+                      searchTerms = text;
+                    });
+                  },
+                  decoration: const InputDecoration(
+                    contentPadding: EdgeInsets.all(10),
+                    border: OutlineInputBorder(),
+                    hintText: 'Enter a search term',
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 10),
+        Expanded(
+          child: Container(
+            height: 10,
+            padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+            alignment: Alignment.center,
+            child: RequestDependentWidgetBuilder(
+              status: widget.status,
+              builder: () => FacultyMap(
+                faculty: getLocation(),
+                locations: widget.locations,
+                searchFilter: searchTerms,
+              ),
+              hasContentPredicate: widget.locations.isNotEmpty,
+              onNullContent: Center(child: Text(S.of(context).no_places_info)),
+            ),
+            // TODO(bdmendes): add support for multiple faculties
           ),
         ),
-        Container(
-          padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-          height: MediaQuery.of(context).size.height * 0.75,
-          alignment: Alignment.center,
-          child: RequestDependentWidgetBuilder(
-            status: status,
-            builder: () => FacultyMap(faculty: 'FEUP', locations: locations),
-            hasContentPredicate: locations.isNotEmpty,
-            onNullContent: Center(child: Text(S.of(context).no_places_info)),
-          ),
-          // TODO(bdmendes): add support for multiple faculties
+        const SizedBox(
+          height: 20,
         ),
       ],
     );
