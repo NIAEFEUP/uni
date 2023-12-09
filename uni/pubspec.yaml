@@ -31,6 +31,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   flutter_map: ^5.0.0
+  diacritic: ^0.1.4
   flutter_map_marker_popup: ^5.0.0
   flutter_markdown: ^0.6.0
   flutter_svg: ^2.0.0+1

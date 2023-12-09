@@ -263,5 +263,7 @@
   "widget_prompt": "Escolhe um widget para adicionares à tua área pessoal:",
   "@widget_prompt": {},
   "year": "Ano",
-  "@year": {}
+  "@year": {},
+  "search": "Pesquisar",
+  "@search": {}
 }
