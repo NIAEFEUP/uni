@@ -65,27 +65,31 @@ class LocationsPageViewState extends State<LocationsPageView> {
     return Column(
       children: [
         Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             PageTitle(
               name: '${S.of(context).nav_title(DrawerItem.navLocations.title)}:'
                   ' ${getLocation()}',
               center: false,
             ),
-            Expanded(
-              child: Container(
-                margin: const EdgeInsets.fromLTRB(20, 10, 20, 0),
-                child: TextFormField(
-                  key: searchFormKey,
-                  onChanged: (text) {
-                    setState(() {
-                      searchTerms = text;
-                    });
-                  },
-                  decoration: const InputDecoration(
-                    contentPadding: EdgeInsets.all(10),
-                    border: OutlineInputBorder(),
-                    hintText: 'Enter a search term',
+            Container(
+              width: 160,
+              height: 40,
+              margin: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+              child: TextFormField(
+                key: searchFormKey,
+                onChanged: (text) {
+                  setState(() {
+                    searchTerms = text;
+                  });
+                },
+                decoration: InputDecoration(
+                  prefixIcon: const Icon(Icons.search),
+                  contentPadding: const EdgeInsets.all(10),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(50),
                   ),
+                  hintText: '${S.of(context).search}...',
                 ),
               ),
             ),

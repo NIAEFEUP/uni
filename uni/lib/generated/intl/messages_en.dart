@@ -220,6 +220,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "room": MessageLookupByLibrary.simpleMessage("Room"),
         "school_calendar":
             MessageLookupByLibrary.simpleMessage("School Calendar"),
+        "search": MessageLookupByLibrary.simpleMessage("Search"),
         "semester": MessageLookupByLibrary.simpleMessage("Semester"),
         "send": MessageLookupByLibrary.simpleMessage("Send"),
         "sent_error": MessageLookupByLibrary.simpleMessage(
