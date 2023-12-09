@@ -96,25 +96,23 @@ class AccountInfoCard extends GenericCard {
                     ),
                   ],
                 ),
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  child: Row(
-                    children: <Widget>[
-                      Text(
-                        S.of(context).pendent_references,
-                        style: Theme.of(context).textTheme.titleLarge?.apply(
-                              color: Theme.of(context).colorScheme.secondary,
-                            ),
-                      ),
-                    ],
+                if (references.isNotEmpty)
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    child: Row(
+                      children: <Widget>[
+                        Text(
+                          S.of(context).pendent_references,
+                          style: Theme.of(context).textTheme.titleLarge?.apply(
+                                color: Theme.of(context).colorScheme.secondary,
+                              ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                ReferenceList(references: references),
+                if (references.isNotEmpty)
+                  ReferenceList(references: references),
                 const SizedBox(height: 10),
-                showLastRefreshedTime(
-                  profileStateProvider.lastUpdateTime?.toIso8601String(),
-                  context,
-                ),
               ],
             );
           },
