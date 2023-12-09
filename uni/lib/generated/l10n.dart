@@ -1158,6 +1158,16 @@ class S {
     );
   }
 
+  /// `Do you want to see your favorite restaurants in the main page?`
+  String get restaurant_main_page {
+    return Intl.message(
+      'Do you want to see your favorite restaurants in the main page?',
+      name: 'restaurant_main_page',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Room`
   String get room {
     return Intl.message(
