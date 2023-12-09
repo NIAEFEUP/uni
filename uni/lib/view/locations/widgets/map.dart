@@ -31,15 +31,13 @@ class LocationsMap extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final filteredLocations = List<LocationGroup>.from(locations);
-    final cleanSearchFilter =
-        removeDiacritics(searchFilter.toLowerCase().trim());
     if (searchFilter.trim().isNotEmpty) {
       filteredLocations.retainWhere((location) {
         final allLocations = location.floors.values.expand((x) => x);
         return allLocations.any((location) {
           return removeDiacritics(location.description().toLowerCase().trim())
               .contains(
-            cleanSearchFilter,
+            searchFilter,
           );
         });
       });

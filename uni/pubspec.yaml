@@ -21,6 +21,7 @@ dependencies:
   crypto: ^3.0.1
   cupertino_icons: ^1.0.2
   currency_text_input_formatter: ^2.1.5
+  diacritic: ^0.1.4
   email_validator: ^2.0.1
   encrypt: ^5.0.3
   expansion_tile_card: ^3.0.0
@@ -31,7 +32,6 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   flutter_map: ^5.0.0
-  diacritic: ^0.1.4
   flutter_map_marker_popup: ^5.0.0
   flutter_markdown: ^0.6.0
   flutter_svg: ^2.0.0+1
