@@ -218,6 +218,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Referência criada com sucesso!"),
         "remove": MessageLookupByLibrary.simpleMessage("Remover"),
         "report_error": MessageLookupByLibrary.simpleMessage("Reportar erro"),
+        "restaurant_main_page": MessageLookupByLibrary.simpleMessage(
+            "Queres ver os teus restaurantes favoritos na página principal?"),
         "room": MessageLookupByLibrary.simpleMessage("Sala"),
         "school_calendar":
             MessageLookupByLibrary.simpleMessage("Calendário Escolar"),
