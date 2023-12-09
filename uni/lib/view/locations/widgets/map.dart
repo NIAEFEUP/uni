@@ -55,7 +55,7 @@ class LocationsMap extends StatelessWidget {
               ),
             ),
           ),
-        )
+        ),
       ],
       children: <Widget>[
         TileLayer(

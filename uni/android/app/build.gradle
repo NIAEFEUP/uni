@@ -32,7 +32,11 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    compileSdkVersion 33 // default is flutter.compileSdkVersion
+    if (project.android.hasProperty("namespace")) {
+        namespace "pt.up.fe.ni.uni"
+    }
+
+    compileSdkVersion 34 // default is flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
 
     compileOptions {
@@ -51,7 +55,7 @@ android {
     defaultConfig {
         applicationId "pt.up.fe.ni.uni"
         minSdkVersion 21 // default is flutter.minSdkVersion
-        targetSdkVersion 33 // default is flutter.targetSdkVersion
+        targetSdkVersion 34 // default is flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }

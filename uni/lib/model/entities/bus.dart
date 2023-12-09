@@ -20,7 +20,7 @@ class Bus {
     return {
       'busCode': busCode,
       'destination': destination,
-      'direction': direction
+      'direction': direction,
     };
   }
 }

@@ -206,7 +206,7 @@ Future<void> _showLoginDetails(BuildContext context) async {
           SimpleDialogOption(
             onPressed: () => Navigator.pop(context),
             child: const Text('OK'),
-          )
+          ),
         ],
       );
     },

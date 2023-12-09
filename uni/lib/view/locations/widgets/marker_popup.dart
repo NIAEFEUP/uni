@@ -68,7 +68,7 @@ class Floor extends StatelessWidget {
             '${S.of(context).floor} $floorString',
             style: TextStyle(color: fontColor),
           ),
-        )
+        ),
       ],
     );
     final Widget locationsColumn = Container(
@@ -104,7 +104,7 @@ class LocationRow extends StatelessWidget {
           location.description(),
           textAlign: TextAlign.left,
           style: TextStyle(color: color),
-        )
+        ),
       ],
     );
   }

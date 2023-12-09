@@ -26,7 +26,7 @@ class RestaurantLocation implements Location {
     return {
       'floor': floor,
       'type': locationTypeToString(LocationType.restaurant),
-      'name': name
+      'name': name,
     };
   }
 }

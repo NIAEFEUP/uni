@@ -32,7 +32,7 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
             Column(
               children:
                   createExamsColumn(context, examProvider.getFilteredExams()),
-            )
+            ),
           ],
         );
       },
