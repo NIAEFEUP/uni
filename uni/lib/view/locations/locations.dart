@@ -1,3 +1,4 @@
+import 'package:diacritic/diacritic.dart';
 import 'package:flutter/material.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/location_group.dart';
@@ -73,14 +74,14 @@ class LocationsPageViewState extends State<LocationsPageView> {
               center: false,
             ),
             Container(
-              width: 160,
+              width: 150,
               height: 40,
               margin: const EdgeInsets.fromLTRB(20, 10, 20, 0),
               child: TextFormField(
                 key: searchFormKey,
                 onChanged: (text) {
                   setState(() {
-                    searchTerms = text;
+                    searchTerms = removeDiacritics(text.trim().toLowerCase());
                   });
                 },
                 decoration: InputDecoration(
