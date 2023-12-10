@@ -1347,6 +1347,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Tooltip`
+  String get tooltip {
+    return Intl.message(
+      'Add to Personal Area',
+      name: 'tooltip',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

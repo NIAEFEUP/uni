@@ -245,6 +245,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "widget_prompt": MessageLookupByLibrary.simpleMessage(
             "Choose a widget to add to your personal area:"),
         "year": MessageLookupByLibrary.simpleMessage("Year"),
-        "yes": MessageLookupByLibrary.simpleMessage("Yes")
+        "yes": MessageLookupByLibrary.simpleMessage("Yes"),
+        "tooltip":MessageLookupByLibrary.simpleMessage("Add to Personal Area")
       };
 }
