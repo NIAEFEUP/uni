@@ -48,6 +48,7 @@ class CardFavoriteButton extends StatelessWidget {
         final isFavorite =
             restaurantProvider.favoriteRestaurants.contains(restaurant.name);
         return IconButton(
+          tooltip: S.of(context).tooltip,
           icon: isFavorite ? Icon(MdiIcons.heart) : Icon(MdiIcons.heartOutline),
           onPressed: () {
             restaurantProvider.toggleFavoriteRestaurant(

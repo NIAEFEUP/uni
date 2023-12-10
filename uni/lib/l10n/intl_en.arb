@@ -264,4 +264,6 @@
   "@widget_prompt": {},
   "year": "Year",
   "@year": {}
+  "tooltip": "Add to Personal Area",
+  "tooltip": {}
 }

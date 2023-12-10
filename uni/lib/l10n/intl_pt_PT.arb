@@ -264,4 +264,6 @@
   "@widget_prompt": {},
   "year": "Ano",
   "@year": {}
+  "tooltip": "Adicionar à Àrea Pessoal",
+  "@tooltip": {}
 }
