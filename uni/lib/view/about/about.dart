@@ -37,9 +37,4 @@ class AboutPageViewState extends SecondaryPageViewState<AboutPageView> {
 
   @override
   Future<void> onRefresh(BuildContext context) async {}
-
-  @override
-  Widget getTopRightButton(BuildContext context) {
-    return Container();
-  }
 }
