@@ -6,7 +6,6 @@ import 'package:uni/model/entities/library_reservation.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
-import 'package:uni/model/request_status.dart';
 
 class LibraryReservationsProvider extends StateProviderNotifier {
   LibraryReservationsProvider()
@@ -31,16 +30,10 @@ class LibraryReservationsProvider extends StateProviderNotifier {
   Future<void> fetchLibraryReservations(
     Session session,
   ) async {
-    try {
-      _reservations =
-          await LibraryReservationsFetcherHtml().getReservations(session);
+    _reservations =
+        await LibraryReservationsFetcherHtml().getReservations(session);
 
-      final db = LibraryReservationDatabase();
-      unawaited(db.saveReservations(reservations));
-
-      updateStatus(RequestStatus.successful);
-    } catch (e) {
-      updateStatus(RequestStatus.failed);
-    }
+    final db = LibraryReservationDatabase();
+    unawaited(db.saveReservations(reservations));
   }
 }

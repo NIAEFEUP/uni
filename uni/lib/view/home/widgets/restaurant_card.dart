@@ -52,7 +52,7 @@ class RestaurantCard extends GenericCard {
           onNullContent: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.only(top: 15, bottom: 10),
+                padding: const EdgeInsets.only(top: 10, bottom: 10),
                 child: Center(
                   child: Text(
                     S.of(context).no_favorite_restaurants,
@@ -74,10 +74,32 @@ class RestaurantCard extends GenericCard {
     );
   }
 
-  Widget generateRestaurants(List<Restaurant> data, BuildContext context) {
+  Widget generateRestaurants(
+    List<Restaurant> restaurants,
+    BuildContext context,
+  ) {
     final weekDay = DateTime.now().weekday;
     final offset = (weekDay - 1) % 7;
-    final restaurants = data;
+
+    if (restaurants
+        .map((e) => e.meals[DayOfWeek.values[offset]])
+        .every((element) => element?.isEmpty ?? true)) {
+      return Column(
+        children: [
+          const SizedBox(
+            height: 15,
+          ),
+          Text(
+            S.of(context).no_menus,
+            style: Theme.of(context).textTheme.titleSmall,
+          ),
+          const SizedBox(
+            height: 15,
+          ),
+        ],
+      );
+    }
+
     return ListView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
@@ -108,12 +130,13 @@ class RestaurantCard extends GenericCard {
         Center(
           child: Container(
             alignment: Alignment.centerLeft,
-            padding: const EdgeInsets.fromLTRB(12, 20, 12, 5),
+            padding: const EdgeInsets.fromLTRB(10, 15, 5, 10),
             child: Text(
               restaurant.name,
               style: TextStyle(
+                fontSize: 16,
                 color: Theme.of(context).primaryColor,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w400,
               ),
             ),
           ),
@@ -143,6 +166,7 @@ class RestaurantCard extends GenericCard {
               ),
             ),
           ),
+        const SizedBox(height: 10),
       ],
     );
   }
