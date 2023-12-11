@@ -9,21 +9,14 @@ enum DrawerItem {
   navCalendar('calendario'),
   navLibraryOccupation('biblioteca', faculties: {'feup'}),
   navLibraryReservations('reservas', faculties: {'feup'}),
-  navUsefulInfo('uteis', faculties: {'feup'}),
-  navAbout('sobre'),
-  navBugReport('bugs'),
-  navLogIn('Iniciar sessão'),
-  navLogOut('Terminar sessão');
+  navUsefulInfo('uteis', faculties: {'feup'});
 
   const DrawerItem(this.title, {this.faculties});
+
   final String title;
   final Set<String>? faculties;
 
   bool isVisible(List<String> userFaculties) {
-    if (this == DrawerItem.navLogIn || this == DrawerItem.navLogOut) {
-      return false;
-    }
-
     if (faculties == null) {
       return true;
     }

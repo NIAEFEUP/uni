@@ -27,8 +27,6 @@ import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/model/providers/state_providers.dart';
 import 'package:uni/utils/drawer_items.dart';
-import 'package:uni/view/about/about.dart';
-import 'package:uni/view/bug_report/bug_report.dart';
 import 'package:uni/view/bus_stop_next_arrivals/bus_stop_next_arrivals.dart';
 import 'package:uni/view/calendar/calendar.dart';
 import 'package:uni/view/common_widgets/page_transition.dart';
@@ -39,7 +37,6 @@ import 'package:uni/view/library/library.dart';
 import 'package:uni/view/locale_notifier.dart';
 import 'package:uni/view/locations/locations.dart';
 import 'package:uni/view/login/login.dart';
-import 'package:uni/view/navigation_service.dart';
 import 'package:uni/view/restaurant/restaurant_page_view.dart';
 import 'package:uni/view/schedule/schedule.dart';
 import 'package:uni/view/theme.dart';
@@ -51,15 +48,15 @@ SentryEvent? beforeSend(SentryEvent event) {
   return event.level == SentryLevel.info ? event : null;
 }
 
-Future<String> firstRoute() async {
+Future<Widget> firstRoute() async {
   final userPersistentInfo = await AppSharedPreferences.getPersistentUserInfo();
 
   if (userPersistentInfo != null) {
-    return '/${DrawerItem.navPersonalArea.title}';
+    return const HomePageView();
   }
 
   await acceptTermsAndConditions();
-  return '/${DrawerItem.navLogIn.title}';
+  return const LoginPageView();
 }
 
 Future<void> main() async {
@@ -169,9 +166,9 @@ Future<void> main() async {
 /// This class is necessary to track the app's state for
 /// the current execution.
 class Application extends StatefulWidget {
-  const Application(this.initialRoute, {super.key});
+  const Application(this.initialWidget, {super.key});
 
-  final String initialRoute;
+  final Widget initialWidget;
 
   static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -201,7 +198,7 @@ class ApplicationState extends State<Application> {
           GlobalCupertinoLocalizations.delegate,
         ],
         supportedLocales: S.delegate.supportedLocales,
-        initialRoute: widget.initialRoute,
+        home: widget.initialWidget,
         onGenerateRoute: (RouteSettings settings) {
           final transitions = {
             '/${DrawerItem.navPersonalArea.title}':
@@ -259,22 +256,6 @@ class ApplicationState extends State<Application> {
               page: const UsefulInfoPageView(),
               settings: settings,
             ),
-            '/${DrawerItem.navAbout.title}': PageTransition.makePageTransition(
-              page: const AboutPageView(),
-              settings: settings,
-            ),
-            '/${DrawerItem.navBugReport.title}':
-                PageTransition.makePageTransition(
-              page: const BugReportPageView(),
-              settings: settings,
-              maintainState: false,
-            ),
-            '/${DrawerItem.navLogIn.title}': PageTransition.makePageTransition(
-              page: const LoginPageView(),
-              settings: settings,
-            ),
-            '/${DrawerItem.navLogOut.title}':
-                NavigationService.buildLogoutRoute(),
           };
           return transitions[settings.name];
         },
