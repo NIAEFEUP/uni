@@ -95,9 +95,4 @@ class SettingsPageState extends SecondaryPageViewState<SettingsPage> {
 
   @override
   Future<void> onRefresh(BuildContext context) async {}
-
-  @override
-  Widget getTopRightButton(BuildContext context) {
-    return Container();
-  }
 }
