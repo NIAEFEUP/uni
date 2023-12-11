@@ -22,9 +22,4 @@ class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
 
   @override
   Future<void> onRefresh(BuildContext context) async {}
-
-  @override
-  Container getTopRightButton(BuildContext context) {
-    return Container();
-  }
 }
