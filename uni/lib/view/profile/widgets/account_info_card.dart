@@ -8,7 +8,6 @@ import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/profile/widgets/reference_section.dart';
-import 'package:uni/view/profile/widgets/tuition_notification_switch.dart';
 
 /// Manages the 'Current account' section inside the user's page (accessible
 /// through the top-right widget with the user picture)
@@ -95,50 +94,25 @@ class AccountInfoCard extends GenericCard {
                         ),
                       ],
                     ),
-                    TableRow(
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.only(
-                            top: 8,
-                            bottom: 20,
-                            left: 20,
-                          ),
-                          child: Text(
-                            S.of(context).fee_notification,
-                            style: Theme.of(context).textTheme.titleSmall,
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(
-                            top: 8,
-                            bottom: 20,
-                            left: 20,
-                          ),
-                          child: const TuitionNotificationSwitch(),
+                  ],
+                ),
+                if (references.isNotEmpty)
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    child: Row(
+                      children: <Widget>[
+                        Text(
+                          S.of(context).pendent_references,
+                          style: Theme.of(context).textTheme.titleLarge?.apply(
+                                color: Theme.of(context).colorScheme.secondary,
+                              ),
                         ),
                       ],
                     ),
-                  ],
-                ),
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  child: Row(
-                    children: <Widget>[
-                      Text(
-                        S.of(context).pendent_references,
-                        style: Theme.of(context).textTheme.titleLarge?.apply(
-                              color: Theme.of(context).colorScheme.secondary,
-                            ),
-                      ),
-                    ],
                   ),
-                ),
-                ReferenceList(references: references),
+                if (references.isNotEmpty)
+                  ReferenceList(references: references),
                 const SizedBox(height: 10),
-                showLastRefreshedTime(
-                  profileStateProvider.lastUpdateTime?.toIso8601String(),
-                  context,
-                ),
               ],
             );
           },

@@ -11,4 +11,9 @@ abstract class SecondaryPageViewState<T extends StatefulWidget>
       body: refreshState(context, body),
     );
   }
+
+  @override
+  Widget getTopRightButton(BuildContext context) {
+    return Container();
+  }
 }
