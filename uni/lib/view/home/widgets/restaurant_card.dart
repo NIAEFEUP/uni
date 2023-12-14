@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/meal.dart';
 import 'package:uni/model/entities/restaurant.dart';
@@ -39,14 +40,14 @@ class RestaurantCard extends GenericCard {
   Widget buildCardContent(BuildContext context) {
     return LazyConsumer<RestaurantProvider>(
       builder: (context, restaurantProvider) {
-        final favoriteRestaurants = restaurantProvider.restaurants
+        final favoriteRestaurants = restaurantProvider.state!
             .where(
-              (restaurant) => restaurantProvider.favoriteRestaurants
+              (restaurant) => PreferencesController.getFavoriteRestaurants()
                   .contains(restaurant.name),
             )
             .toList();
         return RequestDependentWidgetBuilder(
-          status: restaurantProvider.status,
+          status: restaurantProvider.requestStatus,
           builder: () => generateRestaurants(favoriteRestaurants, context),
           hasContentPredicate: favoriteRestaurants.isNotEmpty,
           onNullContent: Column(

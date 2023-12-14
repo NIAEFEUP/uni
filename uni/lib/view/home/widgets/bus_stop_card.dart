@@ -33,8 +33,8 @@ class BusStopCard extends GenericCard {
       builder: (context, busProvider) {
         return getCardContent(
           context,
-          busProvider.configuredBusStops,
-          busProvider.status,
+          busProvider.state!,
+          busProvider.requestStatus,
         );
       },
     );

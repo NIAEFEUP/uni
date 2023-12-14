@@ -21,8 +21,9 @@ class LibraryPageViewState extends GeneralPageViewState<LibraryPageView> {
   @override
   Widget getBody(BuildContext context) {
     return LazyConsumer<LibraryOccupationProvider>(
-      builder: (context, libraryOccupationProvider) =>
-          LibraryPage(libraryOccupationProvider.occupation),
+      builder: (context, libraryOccupationProvider) => LibraryPage(
+        libraryOccupationProvider.state,
+      ),
     );
   }
 
@@ -35,6 +36,7 @@ class LibraryPageViewState extends GeneralPageViewState<LibraryPageView> {
 
 class LibraryPage extends StatelessWidget {
   const LibraryPage(this.occupation, {super.key});
+
   final LibraryOccupation? occupation;
 
   @override

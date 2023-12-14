@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:uni/controller/load_static/terms_and_conditions.dart';
+import 'package:uni/controller/fetchers/terms_and_conditions_fetcher.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:url_launcher/url_launcher.dart';
 

@@ -26,8 +26,8 @@ class SchedulePageState extends State<SchedulePage> {
     return LazyConsumer<LectureProvider>(
       builder: (context, lectureProvider) {
         return SchedulePageView(
-          lectures: lectureProvider.lectures,
-          scheduleStatus: lectureProvider.status,
+          lectures: lectureProvider.state!,
+          scheduleStatus: lectureProvider.requestStatus,
         );
       },
     );

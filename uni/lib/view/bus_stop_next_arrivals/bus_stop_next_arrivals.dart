@@ -28,7 +28,7 @@ class BusStopNextArrivalsPageState
     return LazyConsumer<BusStopProvider>(
       builder: (context, busProvider) => ListView(
         children: [
-          NextArrivals(busProvider.configuredBusStops, busProvider.status),
+          NextArrivals(busProvider.state!, busProvider.requestStatus),
         ],
       ),
     );
@@ -43,6 +43,7 @@ class BusStopNextArrivalsPageState
 
 class NextArrivals extends StatefulWidget {
   const NextArrivals(this.buses, this.busStopStatus, {super.key});
+
   //final Map<String, List<Trip>> trips;
   final Map<String, BusStopData> buses;
   final RequestStatus busStopStatus;

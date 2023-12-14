@@ -37,12 +37,12 @@ class ScheduleCard extends GenericCard {
   Widget buildCardContent(BuildContext context) {
     return LazyConsumer<LectureProvider>(
       builder: (context, lectureProvider) => RequestDependentWidgetBuilder(
-        status: lectureProvider.status,
+        status: lectureProvider.requestStatus,
         builder: () => Column(
           mainAxisSize: MainAxisSize.min,
-          children: getScheduleRows(context, lectureProvider.lectures),
+          children: getScheduleRows(context, lectureProvider.state!),
         ),
-        hasContentPredicate: lectureProvider.lectures.isNotEmpty,
+        hasContentPredicate: lectureProvider.state!.isNotEmpty,
         onNullContent: Center(
           child: Text(
             S.of(context).no_classes,

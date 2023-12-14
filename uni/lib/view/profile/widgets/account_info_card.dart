@@ -33,8 +33,8 @@ class AccountInfoCard extends GenericCard {
       builder: (context, profileStateProvider) {
         return LazyConsumer<ReferenceProvider>(
           builder: (context, referenceProvider) {
-            final profile = profileStateProvider.profile;
-            final List<Reference> references = referenceProvider.references;
+            final profile = profileStateProvider.state!;
+            final references = referenceProvider.state!;
 
             return Column(
               children: [

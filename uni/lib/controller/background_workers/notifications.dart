@@ -7,8 +7,8 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:logger/logger.dart';
 import 'package:tuple/tuple.dart';
 import 'package:uni/controller/background_workers/notifications/tuition_notification.dart';
-import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/controller/local_storage/notification_timeout_storage.dart';
+import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:workmanager/workmanager.dart';
@@ -68,8 +68,8 @@ class NotificationManager {
   static const Duration _notificationWorkerPeriod = Duration(hours: 1);
 
   static Future<void> updateAndTriggerNotifications() async {
-    final userInfo = await AppSharedPreferences.getPersistentUserInfo();
-    final faculties = await AppSharedPreferences.getUserFaculties();
+    final userInfo = PreferencesController.getPersistentUserInfo();
+    final faculties = PreferencesController.getUserFaculties();
 
     if (userInfo == null || faculties.isEmpty) {
       return;

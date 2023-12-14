@@ -14,7 +14,8 @@ import 'package:uni/model/providers/state_provider_notifier.dart';
 /// The provider will not reload its data if it has already been loaded before.
 /// If the provider depends on the session, it will ensure that SessionProvider
 /// and ProfileProvider are initialized before initializing itself.
-class LazyConsumer<T extends StateProviderNotifier> extends StatelessWidget {
+class LazyConsumer<T extends StateProviderNotifier<dynamic>>
+    extends StatelessWidget {
   const LazyConsumer({
     required this.builder,
     super.key,
@@ -25,7 +26,7 @@ class LazyConsumer<T extends StateProviderNotifier> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      StateProviderNotifier? provider;
+      StateProviderNotifier<dynamic>? provider;
       try {
         provider = Provider.of<T>(context, listen: false);
       } catch (e) {
@@ -57,21 +58,11 @@ class LazyConsumer<T extends StateProviderNotifier> extends StatelessWidget {
         }
       }
 
-      // Load data stored in the database immediately
-      try {
-        await provider.ensureInitializedFromStorage();
-      } catch (exception, stackTrace) {
-        Logger().e(
-          'Failed to initialize ${T.runtimeType} from storage: $exception',
-        );
-        await Sentry.captureException(exception, stackTrace: stackTrace);
-      }
-
-      // Finally, complete provider initialization
       if (context.mounted) {
-        await sessionFuture?.then((_) async {
-          await provider!.ensureInitializedFromRemote(context);
-        });
+        await sessionFuture;
+        if (context.mounted) {
+          await provider.ensureInitialized(context);
+        }
       }
     });
 

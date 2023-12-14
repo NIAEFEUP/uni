@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:uni/model/providers/lazy/home_page_provider.dart';
+import 'package:uni/controller/local_storage/preferences_controller.dart';
+import 'package:uni/utils/favorite_widget_type.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/home/widgets/main_cards_list.dart';
 
@@ -13,14 +13,23 @@ class HomePageView extends StatefulWidget {
 
 /// Tracks the state of Home page.
 class HomePageViewState extends GeneralPageViewState {
+  List<FavoriteWidgetType> favoriteCardTypes =
+      PreferencesController.getFavoriteCards();
+
+  void setFavoriteCards(List<FavoriteWidgetType> favorites) {
+    setState(() {
+      favoriteCardTypes = favorites;
+    });
+    PreferencesController.saveFavoriteCards(favorites);
+  }
+
   @override
   Widget getBody(BuildContext context) {
-    return const MainCardsList();
+    return MainCardsList(favoriteCardTypes, setFavoriteCards);
   }
 
   @override
   Future<void> onRefresh(BuildContext context) async {
-    final favoriteCardTypes = context.read<HomePageProvider>().favoriteCards;
     final cards = favoriteCardTypes
         .map(
           (e) =>

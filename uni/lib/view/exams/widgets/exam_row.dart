@@ -1,9 +1,8 @@
 import 'package:add_2_calendar/add_2_calendar.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:provider/provider.dart';
+import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/model/entities/exam.dart';
-import 'package:uni/model/providers/lazy/exam_provider.dart';
 import 'package:uni/view/exams/widgets/exam_time.dart';
 import 'package:uni/view/exams/widgets/exam_title.dart';
 
@@ -14,6 +13,7 @@ class ExamRow extends StatefulWidget {
     required this.mainPage,
     super.key,
   });
+
   final Exam exam;
   final String teacher;
   final bool mainPage;
@@ -27,8 +27,7 @@ class ExamRow extends StatefulWidget {
 class _ExamRowState extends State<ExamRow> {
   @override
   Widget build(BuildContext context) {
-    final isHidden =
-        Provider.of<ExamProvider>(context).hiddenExams.contains(widget.exam.id);
+    final isHidden = PreferencesController.hiddenExams.contains(widget.exam.id);
     final roomsKey =
         '${widget.exam.subject}-${widget.exam.rooms}-${widget.exam.beginTime}-'
         '${widget.exam.endTime}';
@@ -69,12 +68,22 @@ class _ExamRowState extends State<ExamRow> {
                           tooltip: isHidden
                               ? 'Mostrar na Área Pessoal'
                               : 'Ocultar da Área Pessoal',
-                          onPressed: () => setState(() {
-                            Provider.of<ExamProvider>(
-                              context,
-                              listen: false,
-                            ).toggleHiddenExam(widget.exam.id);
-                          }),
+                          onPressed: () async {
+                            final hiddenExams =
+                                PreferencesController.getHiddenExams();
+
+                            if (hiddenExams.contains(widget.exam.id)) {
+                              hiddenExams.remove(widget.exam.id);
+                            } else {
+                              hiddenExams.remove(widget.exam.id);
+                            }
+
+                            setState(() {
+                              PreferencesController.saveHiddenExams(
+                                hiddenExams,
+                              );
+                            });
+                          },
                         ),
                       IconButton(
                         icon: Icon(MdiIcons.calendarPlus, size: 30),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/model/providers/lazy/exam_provider.dart';
 import 'package:uni/view/exams/widgets/exam_filter_form.dart';
 
@@ -21,7 +22,7 @@ class ExamFilterMenuState extends State<ExamFilterMenu> {
           builder: (_) {
             final examProvider =
                 Provider.of<ExamProvider>(context, listen: false);
-            final filteredExamsTypes = examProvider.filteredExamsTypes;
+            final filteredExamsTypes = PreferencesController.getFilteredExams();
             return ChangeNotifierProvider.value(
               value: examProvider,
               child: ExamFilterForm(

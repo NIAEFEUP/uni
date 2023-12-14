@@ -31,8 +31,8 @@ class LocationsPageState extends GeneralPageViewState
     return LazyConsumer<FacultyLocationsProvider>(
       builder: (context, locationsProvider) {
         return LocationsPageView(
-          locations: locationsProvider.locations,
-          status: locationsProvider.status,
+          locations: locationsProvider.state!,
+          status: locationsProvider.requestStatus,
         );
       },
     );

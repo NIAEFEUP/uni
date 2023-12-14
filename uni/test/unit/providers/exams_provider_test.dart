@@ -73,7 +73,7 @@ void main() {
 
     setUp(() {
       provider = ExamProvider();
-      expect(provider.status, RequestStatus.busy);
+      expect(provider.requestStatus, RequestStatus.busy);
     });
 
     test('When given one exam', () async {
@@ -88,8 +88,8 @@ void main() {
         persistentSession: false,
       );
 
-      expect(provider.exams.isNotEmpty, true);
-      expect(provider.exams, [sopeExam]);
+      expect(provider.state!.isNotEmpty, true);
+      expect(provider.state, [sopeExam]);
     });
 
     test('When given two exams', () async {
@@ -104,7 +104,7 @@ void main() {
         persistentSession: false,
       );
 
-      expect(provider.exams, [sopeExam, sdisExam]);
+      expect(provider.state, [sopeExam, sdisExam]);
     });
 
     test('''
@@ -133,7 +133,7 @@ When given three exams but one is to be parsed out,
         persistentSession: false,
       );
 
-      expect(provider.exams, [sopeExam, sdisExam]);
+      expect(provider.state, [sopeExam, sdisExam]);
     });
 
     test('When an error occurs while trying to obtain the exams', () async {
@@ -175,7 +175,7 @@ When given three exams but one is to be parsed out,
         persistentSession: false,
       );
 
-      expect(provider.exams, [todayExam]);
+      expect(provider.state, [todayExam]);
     });
 
     test('When Exam was one hour ago', () async {
@@ -202,7 +202,7 @@ When given three exams but one is to be parsed out,
         persistentSession: false,
       );
 
-      expect(provider.exams, <Exam>[]);
+      expect(provider.state, <Exam>[]);
     });
 
     test('When Exam is ocurring', () async {
@@ -229,7 +229,7 @@ When given three exams but one is to be parsed out,
         persistentSession: false,
       );
 
-      expect(provider.exams, [todayExam]);
+      expect(provider.state, [todayExam]);
     });
   });
 }

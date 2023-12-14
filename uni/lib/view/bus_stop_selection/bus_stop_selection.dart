@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:uni/controller/local_storage/app_bus_stop_database.dart';
+import 'package:uni/controller/local_storage/database/app_bus_stop_database.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/bus_stop.dart';
 import 'package:uni/model/providers/lazy/bus_stop_provider.dart';
@@ -40,7 +40,7 @@ class BusStopSelectionPageState
     return LazyConsumer<BusStopProvider>(
       builder: (context, busProvider) {
         final rows = <Widget>[];
-        busProvider.configuredBusStops.forEach(
+        busProvider.state!.forEach(
           (stopCode, stopData) =>
               rows.add(BusStopSelectionRow(stopCode, stopData)),
         );

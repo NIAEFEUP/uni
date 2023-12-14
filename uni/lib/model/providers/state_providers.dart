@@ -5,7 +5,6 @@ import 'package:uni/model/providers/lazy/calendar_provider.dart';
 import 'package:uni/model/providers/lazy/course_units_info_provider.dart';
 import 'package:uni/model/providers/lazy/exam_provider.dart';
 import 'package:uni/model/providers/lazy/faculty_locations_provider.dart';
-import 'package:uni/model/providers/lazy/home_page_provider.dart';
 import 'package:uni/model/providers/lazy/lecture_provider.dart';
 import 'package:uni/model/providers/lazy/library_occupation_provider.dart';
 import 'package:uni/model/providers/lazy/reference_provider.dart';
@@ -25,7 +24,6 @@ class StateProviders {
     this.calendarProvider,
     this.libraryOccupationProvider,
     this.facultyLocationsProvider,
-    this.homePageProvider,
     this.referenceProvider,
   );
 
@@ -49,8 +47,6 @@ class StateProviders {
         Provider.of<LibraryOccupationProvider>(context, listen: false);
     final facultyLocationsProvider =
         Provider.of<FacultyLocationsProvider>(context, listen: false);
-    final homePageProvider =
-        Provider.of<HomePageProvider>(context, listen: false);
     final referenceProvider =
         Provider.of<ReferenceProvider>(context, listen: false);
 
@@ -65,7 +61,6 @@ class StateProviders {
       calendarProvider,
       libraryOccupationProvider,
       facultyLocationsProvider,
-      homePageProvider,
       referenceProvider,
     );
   }
@@ -80,21 +75,19 @@ class StateProviders {
   final CalendarProvider calendarProvider;
   final LibraryOccupationProvider libraryOccupationProvider;
   final FacultyLocationsProvider facultyLocationsProvider;
-  final HomePageProvider homePageProvider;
   final ReferenceProvider referenceProvider;
 
-  void markAsNotInitialized() {
-    lectureProvider.markAsNotInitialized();
-    examProvider.markAsNotInitialized();
-    busStopProvider.markAsNotInitialized();
-    restaurantProvider.markAsNotInitialized();
-    courseUnitsInfoProvider.markAsNotInitialized();
-    profileProvider.markAsNotInitialized();
-    sessionProvider.markAsNotInitialized();
-    calendarProvider.markAsNotInitialized();
-    libraryOccupationProvider.markAsNotInitialized();
-    facultyLocationsProvider.markAsNotInitialized();
-    homePageProvider.markAsNotInitialized();
-    referenceProvider.markAsNotInitialized();
+  void invalidate() {
+    lectureProvider.invalidate();
+    examProvider.invalidate();
+    busStopProvider.invalidate();
+    restaurantProvider.invalidate();
+    courseUnitsInfoProvider.invalidate();
+    profileProvider.invalidate();
+    sessionProvider.invalidate();
+    calendarProvider.invalidate();
+    libraryOccupationProvider.invalidate();
+    facultyLocationsProvider.invalidate();
+    referenceProvider.invalidate();
   }
 }

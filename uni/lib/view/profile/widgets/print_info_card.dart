@@ -19,7 +19,7 @@ class PrintInfoCard extends GenericCard {
   Widget buildCardContent(BuildContext context) {
     return LazyConsumer<ProfileProvider>(
       builder: (context, profileStateProvider) {
-        final profile = profileStateProvider.profile;
+        final profile = profileStateProvider.state!;
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[

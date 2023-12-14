@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/exam.dart';
-import 'package:uni/model/providers/lazy/exam_provider.dart';
 
 class ExamFilterForm extends StatefulWidget {
   const ExamFilterForm(this.filteredExamsTypes, {super.key});
@@ -32,8 +31,7 @@ class ExamFilterFormState extends State<ExamFilterForm> {
         ElevatedButton(
           child: Text(S.of(context).confirm),
           onPressed: () {
-            Provider.of<ExamProvider>(context, listen: false)
-                .setFilteredExams(widget.filteredExamsTypes);
+            PreferencesController.saveFilteredExams(widget.filteredExamsTypes);
             Navigator.pop(context);
           },
         ),

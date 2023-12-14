@@ -31,9 +31,9 @@ class CalendarPageViewState extends GeneralPageViewState<CalendarPageView> {
             ),
           ),
           RequestDependentWidgetBuilder(
-            status: calendarProvider.status,
-            builder: () => getTimeline(context, calendarProvider.calendar),
-            hasContentPredicate: calendarProvider.calendar.isNotEmpty,
+            status: calendarProvider.requestStatus,
+            builder: () => getTimeline(context, calendarProvider.state!),
+            hasContentPredicate: calendarProvider.state!.isNotEmpty,
             onNullContent: const Center(
               child: Text(
                 'Nenhum evento encontrado',

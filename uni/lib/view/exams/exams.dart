@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/providers/lazy/exam_provider.dart';
@@ -13,16 +14,17 @@ import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locale_notifier.dart';
 
 class ExamsPageView extends StatefulWidget {
-  const ExamsPageView({super.key});
+  ExamsPageView({super.key});
+
+  final List<String> hiddenExams = PreferencesController.getHiddenExams();
+  final Map<String, bool> filteredExamTypes =
+      PreferencesController.getFilteredExams();
 
   @override
   State<StatefulWidget> createState() => ExamsPageViewState();
 }
 
-/// Tracks the state of `ExamsLists`.
 class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
-  final double borderRadius = 10;
-
   @override
   Widget getBody(BuildContext context) {
     return LazyConsumer<ExamProvider>(
@@ -30,8 +32,17 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
         return ListView(
           children: <Widget>[
             Column(
-              children:
-                  createExamsColumn(context, examProvider.getFilteredExams()),
+              children: createExamsColumn(
+                context,
+                examProvider.state!
+                    .where(
+                      (exam) =>
+                          widget.filteredExamTypes[
+                              Exam.getExamTypeLong(exam.type)] ??
+                          true,
+                    )
+                    .toList(),
+              ),
             ),
           ],
         );
@@ -124,8 +135,7 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
   }
 
   Widget createExamContext(BuildContext context, Exam exam) {
-    final isHidden =
-        Provider.of<ExamProvider>(context).hiddenExams.contains(exam.id);
+    final isHidden = widget.hiddenExams.contains(exam.id);
     return Container(
       key: Key('$exam-exam'),
       margin: const EdgeInsets.fromLTRB(12, 4, 12, 0),

@@ -18,8 +18,8 @@ void main() {
     const secondExamDate = '2019-09-12';
 
     testWidgets('When given an empty list', (WidgetTester tester) async {
-      const widget = ExamsPageView();
-      final examProvider = ExamProvider()..exams = [];
+      final widget = ExamsPageView();
+      final examProvider = ExamProvider()..updateState([]);
 
       final providers = [ChangeNotifierProvider(create: (_) => examProvider)];
 
@@ -41,9 +41,9 @@ void main() {
         'feup',
       );
 
-      const widget = ExamsPageView();
+      final widget = ExamsPageView();
 
-      final examProvider = ExamProvider()..exams = [firstExam];
+      final examProvider = ExamProvider()..updateState([firstExam]);
 
       final providers = [ChangeNotifierProvider(create: (_) => examProvider)];
 
@@ -84,9 +84,9 @@ void main() {
         secondExam,
       ];
 
-      const widget = ExamsPageView();
+      final widget = ExamsPageView();
 
-      final examProvider = ExamProvider()..exams = examList;
+      final examProvider = ExamProvider()..updateState(examList);
 
       final providers = [ChangeNotifierProvider(create: (_) => examProvider)];
 
@@ -130,9 +130,9 @@ void main() {
         secondExam,
       ];
 
-      const widget = ExamsPageView();
+      final widget = ExamsPageView();
 
-      final examProvider = ExamProvider()..exams = examList;
+      final examProvider = ExamProvider()..updateState(examList);
 
       final providers = [ChangeNotifierProvider(create: (_) => examProvider)];
 
@@ -194,9 +194,9 @@ void main() {
       );
       final examList = [firstExam, secondExam, thirdExam, fourthExam];
 
-      const widget = ExamsPageView();
+      final widget = ExamsPageView();
 
-      final examProvider = ExamProvider()..exams = examList;
+      final examProvider = ExamProvider()..updateState(examList);
 
       final firstDayKey =
           [firstExam, secondExam].map((ex) => ex.toString()).join();

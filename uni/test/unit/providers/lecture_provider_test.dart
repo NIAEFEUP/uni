@@ -56,7 +56,7 @@ void main() {
     late LectureProvider provider;
     setUp(() {
       provider = LectureProvider();
-      expect(provider.status, RequestStatus.busy);
+      expect(provider.requestStatus, RequestStatus.busy);
     });
 
     test('When given a single schedule', () async {
@@ -70,7 +70,7 @@ void main() {
         persistentSession: false,
       );
 
-      expect(provider.lectures, [lecture1, lecture2]);
+      expect(provider.state, [lecture1, lecture2]);
     });
 
     test('When an error occurs while trying to obtain the schedule', () async {

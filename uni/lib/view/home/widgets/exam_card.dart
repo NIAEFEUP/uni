@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/app_locale.dart';
 import 'package:uni/model/entities/exam.dart';
@@ -46,13 +47,17 @@ class ExamCard extends GenericCard {
   Widget buildCardContent(BuildContext context) {
     return LazyConsumer<ExamProvider>(
       builder: (context, examProvider) {
-        final filteredExams = examProvider.getFilteredExams();
-        final hiddenExams = examProvider.hiddenExams;
-        final exams = filteredExams
-            .where((exam) => !hiddenExams.contains(exam.id))
+        final filteredExams = PreferencesController.getFilteredExams();
+        final hiddenExams = PreferencesController.getHiddenExams();
+        final exams = examProvider.state!
+            .where(
+              (exam) =>
+                  !hiddenExams.contains(exam.id) &&
+                  (filteredExams[Exam.getExamTypeLong(exam.type)] ?? true),
+            )
             .toList();
         return RequestDependentWidgetBuilder(
-          status: examProvider.status,
+          status: examProvider.requestStatus,
           builder: () => generateExams(exams, context),
           hasContentPredicate: exams.isNotEmpty,
           onNullContent: Center(

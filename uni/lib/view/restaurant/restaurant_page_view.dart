@@ -67,12 +67,12 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
             const SizedBox(height: 10),
             Expanded(
               child: RequestDependentWidgetBuilder(
-                status: restaurantProvider.status,
+                status: restaurantProvider.requestStatus,
                 builder: () => createTabViewBuilder(
-                  restaurantProvider.restaurants,
+                  restaurantProvider.state!,
                   context,
                 ),
-                hasContentPredicate: restaurantProvider.restaurants.isNotEmpty,
+                hasContentPredicate: restaurantProvider.state!.isNotEmpty,
                 onNullContent: Center(
                   child: Text(
                     S.of(context).no_menus,

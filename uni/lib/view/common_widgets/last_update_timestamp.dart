@@ -5,7 +5,7 @@ import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/view/lazy_consumer.dart';
 
-class LastUpdateTimeStamp<T extends StateProviderNotifier>
+class LastUpdateTimeStamp<T extends StateProviderNotifier<dynamic>>
     extends StatefulWidget {
   const LastUpdateTimeStamp({super.key});
 
@@ -15,7 +15,7 @@ class LastUpdateTimeStamp<T extends StateProviderNotifier>
   }
 }
 
-class _LastUpdateTimeStampState<T extends StateProviderNotifier>
+class _LastUpdateTimeStampState<T extends StateProviderNotifier<dynamic>>
     extends State<LastUpdateTimeStamp> {
   DateTime currentTime = DateTime.now();
 

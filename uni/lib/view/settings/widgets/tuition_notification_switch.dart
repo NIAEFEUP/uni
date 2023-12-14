@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:uni/controller/local_storage/app_shared_preferences.dart';
+import 'package:uni/controller/local_storage/preferences_controller.dart';
 
 class TuitionNotificationSwitch extends StatefulWidget {
   const TuitionNotificationSwitch({super.key});
@@ -9,21 +9,11 @@ class TuitionNotificationSwitch extends StatefulWidget {
 }
 
 class _TuitionNotificationSwitchState extends State<TuitionNotificationSwitch> {
-  bool tuitionNotificationToggle = true;
-
-  @override
-  void initState() {
-    super.initState();
-    getTuitionNotificationToggle();
-  }
-
-  Future<void> getTuitionNotificationToggle() async {
-    await AppSharedPreferences.getTuitionNotificationToggle()
-        .then((value) => setState(() => tuitionNotificationToggle = value));
-  }
+  bool tuitionNotificationToggle = PreferencesController
+      .getTuitionNotificationToggle();
 
   Future<void> saveTuitionNotificationToggle({required bool value}) async {
-    await AppSharedPreferences.setTuitionNotificationToggle(value: value);
+    await PreferencesController.setTuitionNotificationToggle(value: value);
     setState(() {
       tuitionNotificationToggle = value;
     });

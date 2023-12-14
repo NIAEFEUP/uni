@@ -75,7 +75,7 @@ void main() {
         persistentSession: false,
       );
 
-      scheduleProvider.markAsInitialized();
+      scheduleProvider.invalidate();
 
       await tester.tap(find.byKey(const Key('schedule-page-tab-2')));
       await tester.pumpAndSettle();
