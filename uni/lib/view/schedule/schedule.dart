@@ -8,8 +8,6 @@ import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/common_widgets/expanded_image_label.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
-import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
-import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locale_notifier.dart';
 import 'package:uni/view/schedule/widgets/schedule_slot.dart';
 
@@ -23,8 +21,10 @@ class SchedulePage extends StatefulWidget {
 class SchedulePageState extends State<SchedulePage> {
   @override
   Widget build(BuildContext context) {
-    return LazyConsumer<LectureProvider>(
-      builder: (context, lectureProvider) {
+    return Consumer<LectureProvider>(
+      builder: (context, lectureProvider, _) {
+        // TODO: Refactor to LazyConsumer
+        lectureProvider.ensureInitialized(context);
         return SchedulePageView(
           lectures: lectureProvider.state!,
           scheduleStatus: lectureProvider.requestStatus,
@@ -45,7 +45,9 @@ class SchedulePageView extends StatefulWidget {
   final List<Lecture> lectures;
   final RequestStatus scheduleStatus;
 
-  final int weekDay = DateTime.now().weekday;
+  final int weekDay = DateTime
+      .now()
+      .weekday;
 
   static List<Set<Lecture>> groupLecturesByDay(List<Lecture> schedule) {
     final aggLectures = <Set<Lecture>>[];
@@ -96,8 +98,8 @@ class SchedulePageViewState extends GeneralPageViewState<SchedulePageView>
           children: <Widget>[
             PageTitle(
               name: S.of(context).nav_title(
-                    DrawerItem.navSchedule.title,
-                  ),
+                DrawerItem.navSchedule.title,
+              ),
             ),
             TabBar(
               controller: tabController,
@@ -141,11 +143,9 @@ class SchedulePageViewState extends GeneralPageViewState<SchedulePageView>
     return tabs;
   }
 
-  List<Widget> createSchedule(
-    BuildContext context,
-    List<Lecture> lectures,
-    RequestStatus scheduleStatus,
-  ) {
+  List<Widget> createSchedule(BuildContext context,
+      List<Lecture> lectures,
+      RequestStatus scheduleStatus,) {
     final tabBarViewContent = <Widget>[];
     for (var i = 0; i < 5; i++) {
       tabBarViewContent
@@ -176,11 +176,9 @@ class SchedulePageViewState extends GeneralPageViewState<SchedulePageView>
     return scheduleContent;
   }
 
-  Widget dayColumnBuilder(
-    int day,
-    Set<Lecture> dayContent,
-    BuildContext context,
-  ) {
+  Widget dayColumnBuilder(int day,
+      Set<Lecture> dayContent,
+      BuildContext context,) {
     return Container(
       key: Key('schedule-page-day-column-$day'),
       child: Column(
@@ -190,27 +188,28 @@ class SchedulePageViewState extends GeneralPageViewState<SchedulePageView>
     );
   }
 
-  Widget createScheduleByDay(
-    BuildContext context,
-    int day,
-    List<Lecture> lectures,
-    RequestStatus scheduleStatus,
-  ) {
+  Widget createScheduleByDay(BuildContext context,
+      int day,
+      List<Lecture> lectures,
+      RequestStatus scheduleStatus,) {
     final weekday =
-        Provider.of<LocaleNotifier>(context).getWeekdaysWithLocale()[day];
+    Provider.of<LocaleNotifier>(context).getWeekdaysWithLocale()[day];
     final aggLectures = SchedulePageView.groupLecturesByDay(lectures);
-    return RequestDependentWidgetBuilder(
-      status: scheduleStatus,
-      builder: () => dayColumnBuilder(day, aggLectures[day], context),
-      hasContentPredicate: aggLectures[day].isNotEmpty,
-      onNullContent: Center(
+
+    // TODO: Refactor to LazyConsumer
+    if (aggLectures[day].isEmpty) {
+      return Center(
         child: ImageLabel(
           imagePath: 'assets/images/schedule.png',
-          label: '${S.of(context).no_classes_on} $weekday.',
+          label: '${S
+              .of(context)
+              .no_classes_on} $weekday.',
           labelTextStyle: const TextStyle(fontSize: 15),
         ),
-      ),
-    );
+      );
+    }
+
+    return dayColumnBuilder(day, aggLectures[day], context);
   }
 
   @override

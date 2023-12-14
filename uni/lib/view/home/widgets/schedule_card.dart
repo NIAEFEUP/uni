@@ -9,7 +9,6 @@ import 'package:uni/model/providers/lazy/lecture_provider.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/common_widgets/date_rectangle.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
-import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
 import 'package:uni/view/home/widgets/schedule_card_shimmer.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locale_notifier.dart';
@@ -35,23 +34,20 @@ class ScheduleCard extends GenericCard {
 
   @override
   Widget buildCardContent(BuildContext context) {
-    return LazyConsumer<LectureProvider>(
-      builder: (context, lectureProvider) => RequestDependentWidgetBuilder(
-        status: lectureProvider.requestStatus,
-        builder: () => Column(
-          mainAxisSize: MainAxisSize.min,
-          children: getScheduleRows(context, lectureProvider.state!),
-        ),
-        hasContentPredicate: lectureProvider.state!.isNotEmpty,
-        onNullContent: Center(
-          child: Text(
-            S.of(context).no_classes,
-            style: Theme.of(context).textTheme.titleLarge,
-            textAlign: TextAlign.center,
-          ),
-        ),
-        contentLoadingWidget: const ScheduleCardShimmer().build(context),
+    return LazyConsumer<LectureProvider, List<Lecture>>(
+      builder: (context, lectures) => Column(
+        mainAxisSize: MainAxisSize.min,
+        children: getScheduleRows(context, lectures),
       ),
+      hasContent: (lectures) => lectures.isNotEmpty,
+      onNullContent: Center(
+        child: Text(
+          S.of(context).no_classes,
+          style: Theme.of(context).textTheme.titleLarge,
+          textAlign: TextAlign.center,
+        ),
+      ),
+      contentLoadingWidget: const ScheduleCardShimmer().build(context),
     );
   }
 

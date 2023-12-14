@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/generated/l10n.dart';
@@ -11,7 +13,6 @@ import 'package:uni/view/common_widgets/expanded_image_label.dart';
 import 'package:uni/view/common_widgets/last_update_timestamp.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
-import 'package:uni/view/lazy_consumer.dart';
 
 class BusStopNextArrivalsPage extends StatefulWidget {
   const BusStopNextArrivalsPage({super.key});
@@ -25,13 +26,15 @@ class BusStopNextArrivalsPageState
     extends GeneralPageViewState<BusStopNextArrivalsPage> {
   @override
   Widget getBody(BuildContext context) {
-    return LazyConsumer<BusStopProvider>(
-      builder: (context, busProvider) => ListView(
+    return Consumer<BusStopProvider>(builder: (context, busProvider, _) {
+      // TODO: Refactor to LazyConsumer and automatic status checks
+      unawaited(busProvider.ensureInitialized(context));
+      return ListView(
         children: [
           NextArrivals(busProvider.state!, busProvider.requestStatus),
         ],
-      ),
-    );
+      );
+    });
   }
 
   @override
@@ -44,7 +47,6 @@ class BusStopNextArrivalsPageState
 class NextArrivals extends StatefulWidget {
   const NextArrivals(this.buses, this.busStopStatus, {super.key});
 
-  //final Map<String, List<Trip>> trips;
   final Map<String, BusStopData> buses;
   final RequestStatus busStopStatus;
 

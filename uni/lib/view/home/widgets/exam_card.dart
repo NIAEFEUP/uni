@@ -8,7 +8,6 @@ import 'package:uni/model/providers/lazy/exam_provider.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/common_widgets/date_rectangle.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
-import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
 import 'package:uni/view/common_widgets/row_container.dart';
 import 'package:uni/view/exams/widgets/exam_row.dart';
 import 'package:uni/view/exams/widgets/exam_title.dart';
@@ -45,30 +44,28 @@ class ExamCard extends GenericCard {
   /// that no exams exist is displayed.
   @override
   Widget buildCardContent(BuildContext context) {
-    return LazyConsumer<ExamProvider>(
-      builder: (context, examProvider) {
+    return LazyConsumer<ExamProvider, List<Exam>>(
+      builder: (context, exams) {
         final filteredExams = PreferencesController.getFilteredExams();
         final hiddenExams = PreferencesController.getHiddenExams();
-        final exams = examProvider.state!
+        final shownExams = exams
             .where(
               (exam) =>
                   !hiddenExams.contains(exam.id) &&
                   (filteredExams[Exam.getExamTypeLong(exam.type)] ?? true),
             )
             .toList();
-        return RequestDependentWidgetBuilder(
-          status: examProvider.requestStatus,
-          builder: () => generateExams(exams, context),
-          hasContentPredicate: exams.isNotEmpty,
-          onNullContent: Center(
-            child: Text(
-              S.of(context).no_selected_exams,
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-          ),
-          contentLoadingWidget: const ExamCardShimmer().build(context),
-        );
+
+        return generateExams(shownExams, context);
       },
+      hasContent: (exams) => exams.isNotEmpty,
+      onNullContent: Center(
+        child: Text(
+          S.of(context).no_selected_exams,
+          style: Theme.of(context).textTheme.titleLarge,
+        ),
+      ),
+      contentLoadingWidget: const ExamCardShimmer().build(context),
     );
   }
 

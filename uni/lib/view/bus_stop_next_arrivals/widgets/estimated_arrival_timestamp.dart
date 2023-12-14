@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:uni/model/providers/lazy/bus_stop_provider.dart';
 import 'package:uni/view/lazy_consumer.dart';
 
@@ -13,8 +14,8 @@ class EstimatedArrivalTimeStamp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LazyConsumer<BusStopProvider>(
-      builder: (context, busProvider) =>
+    return Consumer<BusStopProvider>(
+      builder: (context, busProvider, _) =>
           getContent(context, busProvider.lastUpdateTime ?? DateTime.now()),
     );
   }

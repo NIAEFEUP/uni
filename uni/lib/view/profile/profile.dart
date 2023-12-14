@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni/view/lazy_consumer.dart';
@@ -20,9 +21,8 @@ class ProfilePageView extends StatefulWidget {
 class ProfilePageViewState extends SecondaryPageViewState<ProfilePageView> {
   @override
   Widget getBody(BuildContext context) {
-    return LazyConsumer<ProfileProvider>(
-      builder: (context, profileStateProvider) {
-        final profile = profileStateProvider.state!;
+    return LazyConsumer<ProfileProvider, Profile>(
+      builder: (context, profile) {
         final courseWidgets = profile.courses
             .map(
               (e) => [
@@ -49,6 +49,8 @@ class ProfilePageViewState extends SecondaryPageViewState<ProfilePageView> {
           ],
         );
       },
+      hasContent: (Profile profile) => profile.courses.isNotEmpty,
+      onNullContent: Container(),
     );
   }
 

@@ -8,13 +8,16 @@ import 'package:uni/model/entities/course_units/course_unit_sheet.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
+import 'package:uni/model/providers/state_providers.dart';
 
 typedef SheetsMap = Map<CourseUnit, CourseUnitSheet>;
 typedef ClassesMap = Map<CourseUnit, List<CourseUnitClass>>;
 
 class CourseUnitsInfoProvider
     extends StateProviderNotifier<Tuple2<SheetsMap, ClassesMap>> {
-  CourseUnitsInfoProvider() : super(cacheDuration: null);
+  CourseUnitsInfoProvider() : super(cacheDuration: null) {
+    updateState(const Tuple2({}, {}));
+  }
 
   UnmodifiableMapView<CourseUnit, CourseUnitSheet> get courseUnitsSheets =>
       UnmodifiableMapView(state!.item1);
@@ -41,14 +44,15 @@ class CourseUnitsInfoProvider
 
   @override
   Future<Tuple2<SheetsMap, ClassesMap>> loadFromRemote(
-    Session session,
-    Profile profile,
+    StateProviders stateProviders,
   ) async {
     return const Tuple2({}, {});
   }
 
   @override
-  Future<Tuple2<SheetsMap, ClassesMap>> loadFromStorage() async {
+  Future<Tuple2<SheetsMap, ClassesMap>> loadFromStorage(
+    StateProviders stateProviders,
+  ) async {
     return const Tuple2({}, {});
   }
 }

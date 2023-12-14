@@ -9,16 +9,18 @@ import 'package:uni/view/profile/widgets/create_print_mb_dialog.dart';
 class PrintInfoCard extends GenericCard {
   PrintInfoCard({super.key});
 
-  const PrintInfoCard.fromEditingInformation(
-    super.key, {
+  const PrintInfoCard.fromEditingInformation(super.key, {
     required super.editingMode,
     super.onDelete,
   }) : super.fromEditingInformation();
 
   @override
   Widget buildCardContent(BuildContext context) {
-    return LazyConsumer<ProfileProvider>(
-      builder: (context, profileStateProvider) {
+    return Consumer<ProfileProvider>(
+      builder: (context, profileStateProvider, _) {
+        // TODO: Refactor to LazyConsumer
+        profileStateProvider.ensureInitialized(context);
+
         final profile = profileStateProvider.state!;
         return Column(
           mainAxisSize: MainAxisSize.min,
@@ -39,8 +41,13 @@ class PrintInfoCard extends GenericCard {
                         left: 20,
                       ),
                       child: Text(
-                        S.of(context).available_amount,
-                        style: Theme.of(context).textTheme.titleSmall,
+                        S
+                            .of(context)
+                            .available_amount,
+                        style: Theme
+                            .of(context)
+                            .textTheme
+                            .titleSmall,
                       ),
                     ),
                     Container(
@@ -48,7 +55,10 @@ class PrintInfoCard extends GenericCard {
                       child: Text(
                         profile.printBalance,
                         textAlign: TextAlign.end,
-                        style: Theme.of(context).textTheme.titleLarge,
+                        style: Theme
+                            .of(context)
+                            .textTheme
+                            .titleLarge,
                       ),
                     ),
                     Container(
@@ -73,7 +83,10 @@ class PrintInfoCard extends GenericCard {
   }
 
   @override
-  String getTitle(BuildContext context) => S.of(context).prints;
+  String getTitle(BuildContext context) =>
+      S
+          .of(context)
+          .prints;
 
   @override
   void onClick(BuildContext context) {}

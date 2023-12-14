@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:uni/controller/local_storage/database/app_bus_stop_database.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/bus_stop.dart';
@@ -37,8 +38,8 @@ class BusStopSelectionPageState
   @override
   Widget getBody(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    return LazyConsumer<BusStopProvider>(
-      builder: (context, busProvider) {
+    return Consumer<BusStopProvider>(
+      builder: (context, busProvider, _) {
         final rows = <Widget>[];
         busProvider.state!.forEach(
           (stopCode, stopData) =>

@@ -61,7 +61,7 @@ Future<Widget> firstRoute() async {
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  Application.sharedPreferences = await SharedPreferences.getInstance();
+  PreferencesController.prefs = await SharedPreferences.getInstance();
 
   final stateProviders = StateProviders(
     LectureProvider(),
@@ -164,8 +164,6 @@ class Application extends StatefulWidget {
   final Widget initialWidget;
 
   static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
-
-  static late SharedPreferences sharedPreferences;
 
   @override
   State<Application> createState() => ApplicationState();

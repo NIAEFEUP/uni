@@ -27,14 +27,14 @@ class ExamsPageView extends StatefulWidget {
 class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
   @override
   Widget getBody(BuildContext context) {
-    return LazyConsumer<ExamProvider>(
-      builder: (context, examProvider) {
+    return LazyConsumer<ExamProvider, List<Exam>>(
+      builder: (context, exams) {
         return ListView(
           children: <Widget>[
             Column(
               children: createExamsColumn(
                 context,
-                examProvider.state!
+                exams
                     .where(
                       (exam) =>
                           widget.filteredExamTypes[
@@ -47,38 +47,33 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
           ],
         );
       },
+      hasContent: (List<Exam> exams) => exams.isNotEmpty,
+      onNullContent: Center(
+        heightFactor: 1.2,
+        child: ImageLabel(
+          imagePath: 'assets/images/vacation.png',
+          label: S.of(context).no_exams_label,
+          labelTextStyle: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+            color: Theme.of(context).colorScheme.primary,
+          ),
+          sublabel: S.of(context).no_exams,
+          sublabelTextStyle: const TextStyle(fontSize: 15),
+        ),
+      ),
     );
   }
 
   /// Creates a column with all the user's exams.
   List<Widget> createExamsColumn(BuildContext context, List<Exam> exams) {
-    final columns = <Widget>[const ExamPageTitle()];
-
-    if (exams.isEmpty) {
-      columns.add(
-        Center(
-          heightFactor: 1.2,
-          child: ImageLabel(
-            imagePath: 'assets/images/vacation.png',
-            label: S.of(context).no_exams_label,
-            labelTextStyle: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 18,
-              color: Theme.of(context).colorScheme.primary,
-            ),
-            sublabel: S.of(context).no_exams,
-            sublabelTextStyle: const TextStyle(fontSize: 15),
-          ),
-        ),
-      );
-      return columns;
-    }
-
     if (exams.length == 1) {
-      columns.add(createExamCard(context, [exams[0]]));
-      return columns;
+      return [
+        createExamCard(context, [exams[0]]),
+      ];
     }
 
+    final columns = <Widget>[const ExamPageTitle()];
     final currentDayExams = <Exam>[];
 
     for (var i = 0; i < exams.length; i++) {

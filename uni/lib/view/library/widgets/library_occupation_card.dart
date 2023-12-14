@@ -4,10 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/library_occupation.dart';
 import 'package:uni/model/providers/lazy/library_occupation_provider.dart';
-import 'package:uni/model/request_status.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
-import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
 import 'package:uni/view/lazy_consumer.dart';
 
 /// Manages the library card section inside the personal area.
@@ -35,18 +33,13 @@ class LibraryOccupationCard extends GenericCard {
 
   @override
   Widget buildCardContent(BuildContext context) {
-    return LazyConsumer<LibraryOccupationProvider>(
-      builder: (context, libraryOccupationProvider) =>
-          RequestDependentWidgetBuilder(
-        status: libraryOccupationProvider.requestStatus,
-        builder: () => generateOccupation(
-          libraryOccupationProvider.state,
-          context,
-        ),
-        hasContentPredicate:
-            libraryOccupationProvider.requestStatus != RequestStatus.busy,
-        onNullContent: const CircularProgressIndicator(),
+    return LazyConsumer<LibraryOccupationProvider, LibraryOccupation>(
+      builder: (context, libraryOccupation) => generateOccupation(
+        libraryOccupation,
+        context,
       ),
+      hasContent: (libraryOccupation) => true,
+      onNullContent: const CircularProgressIndicator(),
     );
   }
 

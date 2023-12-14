@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/bus_stop.dart';
 import 'package:uni/model/providers/lazy/bus_stop_provider.dart';
-import 'package:uni/model/request_status.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/bus_stop_next_arrivals/widgets/bus_stop_row.dart';
 import 'package:uni/view/bus_stop_selection/bus_stop_selection.dart';
@@ -29,14 +28,19 @@ class BusStopCard extends GenericCard {
 
   @override
   Widget buildCardContent(BuildContext context) {
-    return LazyConsumer<BusStopProvider>(
-      builder: (context, busProvider) {
-        return getCardContent(
-          context,
-          busProvider.state!,
-          busProvider.requestStatus,
-        );
-      },
+    return LazyConsumer<BusStopProvider, Map<String, BusStopData>>(
+      contentLoadingWidget: Column(
+        children: <Widget>[
+          getCardTitle(context),
+          Container(
+            padding: const EdgeInsets.all(22),
+            child: const Center(child: CircularProgressIndicator()),
+          ),
+        ],
+      ),
+      builder: getCardContent,
+      hasContent: (Map<String, BusStopData> busStops) => false,
+      onNullContent: const CircularProgressIndicator(),
     );
   }
 
@@ -50,66 +54,38 @@ class BusStopCard extends GenericCard {
 Widget getCardContent(
   BuildContext context,
   Map<String, BusStopData> stopData,
-  RequestStatus busStopStatus,
 ) {
-  switch (busStopStatus) {
-    case RequestStatus.successful:
-      if (stopData.isNotEmpty) {
-        return Column(
-          children: <Widget>[
-            getCardTitle(context),
-            getBusStopsInfo(context, stopData),
-          ],
-        );
-      } else {
-        return Container(
-          padding: const EdgeInsets.all(8),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text(
-                S.of(context).buses_personalize,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.titleSmall!.apply(),
-              ),
-              IconButton(
-                icon: const Icon(Icons.settings),
-                onPressed: () => Navigator.push(
-                  context,
-                  MaterialPageRoute<BusStopSelectionPage>(
-                    builder: (context) => const BusStopSelectionPage(),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
-      }
-    case RequestStatus.busy:
-      return Column(
+  if (stopData.isNotEmpty) {
+    return Column(
+      children: <Widget>[
+        getCardTitle(context),
+        getBusStopsInfo(context, stopData),
+      ],
+    );
+  } else {
+    return Container(
+      padding: const EdgeInsets.all(8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          getCardTitle(context),
-          Container(
-            padding: const EdgeInsets.all(22),
-            child: const Center(child: CircularProgressIndicator()),
+          Text(
+            S.of(context).buses_personalize,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: Theme.of(context).textTheme.titleSmall!.apply(),
           ),
-        ],
-      );
-    case RequestStatus.failed:
-    case RequestStatus.none:
-      return Column(
-        children: <Widget>[
-          getCardTitle(context),
-          Container(
-            padding: const EdgeInsets.all(8),
-            child: Text(
-              S.of(context).bus_error,
-              style: Theme.of(context).textTheme.titleMedium,
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute<BusStopSelectionPage>(
+                builder: (context) => const BusStopSelectionPage(),
+              ),
             ),
           ),
         ],
-      );
+      ),
+    );
   }
 }
 
@@ -154,7 +130,9 @@ List<Widget> getEachBusStopInfo(
   BuildContext context,
   Map<String, BusStopData> stopData,
 ) {
-  final rows = <Widget>[const LastUpdateTimeStamp<BusStopProvider>()];
+  final rows = <Widget>[
+    const LastUpdateTimeStamp<BusStopProvider>(),
+  ];
 
   stopData.forEach((stopCode, stopInfo) {
     if (stopInfo.trips.isNotEmpty && stopInfo.favorited) {

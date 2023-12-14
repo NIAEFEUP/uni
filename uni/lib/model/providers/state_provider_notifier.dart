@@ -3,21 +3,18 @@ import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
-import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:synchronized/synchronized.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
-import 'package:uni/model/entities/profile.dart';
-import 'package:uni/model/entities/session.dart';
-import 'package:uni/model/providers/startup/profile_provider.dart';
-import 'package:uni/model/providers/startup/session_provider.dart';
+import 'package:uni/model/providers/state_providers.dart';
 import 'package:uni/model/request_status.dart';
 
 abstract class StateProviderNotifier<T> extends ChangeNotifier {
   StateProviderNotifier({
     required this.cacheDuration,
     this.dependsOnSession = true,
-  });
+    RequestStatus initialStatus = RequestStatus.busy,
+  }) : _requestStatus = initialStatus;
 
   /// The model that this notifier provides.
   /// This future will throw if the data loading fails.
@@ -27,7 +24,7 @@ abstract class StateProviderNotifier<T> extends ChangeNotifier {
   bool dependsOnSession;
 
   /// The data loading request status.
-  RequestStatus _requestStatus = RequestStatus.none;
+  RequestStatus _requestStatus;
 
   /// The timeout for concurrent state change operations.
   static const _lockTimeout = Duration(seconds: 30);
@@ -50,13 +47,13 @@ abstract class StateProviderNotifier<T> extends ChangeNotifier {
 
   /// Gets the model from the local database.
   /// This method such not catch data loading errors.
-  Future<T> loadFromStorage();
+  Future<T> loadFromStorage(StateProviders stateProviders);
 
   /// Gets the model from the remote server.
   /// This will run once when the provider is first initialized.
   /// This method must not catch data loading errors.
   /// This method should save data in the database, if appropriate.
-  Future<T> loadFromRemote(Session session, Profile profile);
+  Future<T> loadFromRemote(StateProviders stateProviders);
 
   /// Update the current model state, notifying the listeners.
   /// This should be called only to modify the model after
@@ -72,7 +69,7 @@ abstract class StateProviderNotifier<T> extends ChangeNotifier {
     _state = null;
   }
 
-  Future<void> _loadFromStorage() async {
+  Future<void> _loadFromStorage(BuildContext context) async {
     Logger().d('Loading $runtimeType info from storage');
 
     _updateStatus(RequestStatus.busy);
@@ -82,7 +79,7 @@ abstract class StateProviderNotifier<T> extends ChangeNotifier {
     );
 
     try {
-      updateState(await loadFromStorage());
+      updateState(await loadFromStorage(StateProviders.fromContext(context)));
     } catch (e, stackTrace) {
       await Sentry.captureException(e, stackTrace: stackTrace);
       Logger()
@@ -93,9 +90,8 @@ abstract class StateProviderNotifier<T> extends ChangeNotifier {
     Logger().i('Loaded $runtimeType info from storage');
   }
 
-  Future<void> _loadFromRemote(
-    Session session,
-    Profile profile, {
+  Future<void> _loadFromRemoteFromContext(
+    BuildContext context, {
     bool force = false,
   }) async {
     Logger().d('Loading $runtimeType info from remote');
@@ -124,7 +120,10 @@ abstract class StateProviderNotifier<T> extends ChangeNotifier {
     }
 
     try {
-      updateState(await loadFromRemote(session, profile));
+      if (!context.mounted) {
+        return;
+      }
+      updateState(await loadFromRemote(StateProviders.fromContext(context)));
 
       Logger().i('Loaded $runtimeType info from remote');
       _lastUpdateTime = DateTime.now();
@@ -154,9 +153,7 @@ abstract class StateProviderNotifier<T> extends ChangeNotifier {
         if (!context.mounted) {
           return;
         }
-        final session = context.read<SessionProvider>().state!;
-        final profile = context.read<ProfileProvider>().state!;
-        await _loadFromRemote(session, profile, force: true);
+        await _loadFromRemoteFromContext(context, force: true);
       },
       timeout: _lockTimeout,
     );
@@ -169,12 +166,10 @@ abstract class StateProviderNotifier<T> extends ChangeNotifier {
           return;
         }
 
-        await _loadFromStorage();
+        await _loadFromStorage(context);
 
         if (context.mounted) {
-          final session = context.read<SessionProvider>().state!;
-          final profile = context.read<ProfileProvider>().state!;
-          await _loadFromRemote(session, profile);
+          await _loadFromRemoteFromContext(context);
         }
       },
       timeout: _lockTimeout,

@@ -19,13 +19,14 @@ import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
+import 'package:uni/model/providers/state_providers.dart';
 
 class ProfileProvider extends StateProviderNotifier<Profile> {
   ProfileProvider()
       : super(cacheDuration: const Duration(days: 1), dependsOnSession: false);
 
   @override
-  Future<Profile> loadFromStorage() async {
+  Future<Profile> loadFromStorage(StateProviders stateProviders) async {
     final profile = await loadProfile();
     profile
       ..courses = await loadCourses()
@@ -34,7 +35,9 @@ class ProfileProvider extends StateProviderNotifier<Profile> {
   }
 
   @override
-  Future<Profile> loadFromRemote(Session session, Profile profile) async {
+  Future<Profile> loadFromRemote(StateProviders stateProviders) async {
+    final session = stateProviders.sessionProvider.state!;
+
     final profile = await fetchUserInfo(session);
 
     final userBalanceAndFeesLimit = await fetchUserFeesBalanceAndLimit(session);

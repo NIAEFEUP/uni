@@ -15,7 +15,8 @@ import 'package:uni/utils/favorite_widget_type.dart';
 /// This database stores the user's student number, password and favorite
 /// widgets.
 class PreferencesController {
-  static SharedPreferences get prefs => Application.sharedPreferences;
+  // TODO: Initilizate this also on workmanager
+  static late SharedPreferences prefs;
 
   static final iv = encrypt.IV.fromBase64('jF9jjdSEPgsKnf0jCl1GAQ==');
   static final key =

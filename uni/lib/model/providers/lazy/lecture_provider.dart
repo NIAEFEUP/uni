@@ -9,21 +9,22 @@ import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
+import 'package:uni/model/providers/state_providers.dart';
 
 class LectureProvider extends StateProviderNotifier<List<Lecture>> {
   LectureProvider() : super(cacheDuration: const Duration(hours: 6));
 
   @override
-  Future<List<Lecture>> loadFromStorage() async {
+  Future<List<Lecture>> loadFromStorage(StateProviders stateProviders) async {
     final db = AppLecturesDatabase();
     return db.lectures();
   }
 
   @override
-  Future<List<Lecture>> loadFromRemote(Session session, Profile profile) async {
+  Future<List<Lecture>> loadFromRemote(StateProviders stateProviders) async {
     return fetchUserLectures(
-      session,
-      profile,
+      stateProviders.sessionProvider.state!,
+      stateProviders.profileProvider.state!,
       persistentSession:
           (PreferencesController.getPersistentUserInfo()) != null,
     );

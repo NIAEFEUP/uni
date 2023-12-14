@@ -3,23 +3,23 @@ import 'dart:async';
 import 'package:uni/controller/fetchers/departures_fetcher.dart';
 import 'package:uni/controller/local_storage/database/app_bus_stop_database.dart';
 import 'package:uni/model/entities/bus_stop.dart';
-import 'package:uni/model/entities/profile.dart';
-import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
+import 'package:uni/model/providers/state_providers.dart';
 
 class BusStopProvider extends StateProviderNotifier<Map<String, BusStopData>> {
   BusStopProvider() : super(cacheDuration: null);
 
   @override
-  Future<Map<String, BusStopData>> loadFromStorage() {
+  Future<Map<String, BusStopData>> loadFromStorage(
+    StateProviders stateProviders,
+  ) {
     final busStopsDb = AppBusStopDatabase();
     return busStopsDb.busStops();
   }
 
   @override
   Future<Map<String, BusStopData>> loadFromRemote(
-    Session session,
-    Profile profile,
+    StateProviders stateProviders,
   ) async {
     return fetchUserBusTrips(state!);
   }

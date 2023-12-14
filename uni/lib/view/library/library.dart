@@ -20,10 +20,14 @@ class LibraryPageView extends StatefulWidget {
 class LibraryPageViewState extends GeneralPageViewState<LibraryPageView> {
   @override
   Widget getBody(BuildContext context) {
-    return LazyConsumer<LibraryOccupationProvider>(
-      builder: (context, libraryOccupationProvider) => LibraryPage(
-        libraryOccupationProvider.state,
-      ),
+    return Consumer<LibraryOccupationProvider>(
+      builder: (context, libraryOccupationProvider, _) {
+        // TODO: Refactor to LazyConsumer
+        libraryOccupationProvider.ensureInitialized(context);
+        return LibraryPage(
+          libraryOccupationProvider.state,
+        );
+      },
     );
   }
 
