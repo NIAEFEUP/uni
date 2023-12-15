@@ -95,30 +95,35 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
   Widget refreshState(BuildContext context, Widget child) {
     return LayoutBuilder(
       builder: (_, viewportConstraints) {
-        return SingleChildScrollView(
-          child: RefreshIndicator(
-            key: GlobalKey<RefreshIndicatorState>(),
-            onRefresh: () => ProfileProvider.fetchOrGetCachedProfilePicture(
-              Provider.of<SessionProvider>(context, listen: false).state!,
-              forceRetrieval: true,
-            ).then((value) => onRefresh(context)),
-            child: ConstrainedBox(
-              constraints: BoxConstraints(
-                minHeight: viewportConstraints.maxHeight,
-                maxHeight: viewportConstraints.maxHeight,
-              ),
-              child: Builder(
-                builder: (context) => GestureDetector(
-                  onHorizontalDragEnd: (dragDetails) {
-                    if (dragDetails.primaryVelocity! > 2) {
-                      Scaffold.of(context).openDrawer();
-                    }
-                  },
-                  child: child,
+        return Column(
+          children: [
+            getHeader(context),
+            RefreshIndicator(
+              key: GlobalKey<RefreshIndicatorState>(),
+              onRefresh: () => ProfileProvider.fetchOrGetCachedProfilePicture(
+                Provider.of<SessionProvider>(context, listen: false).state!,
+                forceRetrieval: true,
+              ).then((value) => onRefresh(context)),
+              child: SingleChildScrollView(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minHeight: viewportConstraints.maxHeight,
+                    maxHeight: viewportConstraints.maxHeight,
+                  ),
+                  child: Builder(
+                    builder: (context) => GestureDetector(
+                      onHorizontalDragEnd: (dragDetails) {
+                        if (dragDetails.primaryVelocity! > 2) {
+                          Scaffold.of(context).openDrawer();
+                        }
+                      },
+                      child: child,
+                    ),
+                  ),
                 ),
               ),
             ),
-          ),
+          ],
         );
       },
     );
