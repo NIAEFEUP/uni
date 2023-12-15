@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/request_status.dart';
-import 'package:uni/utils/drawer_items.dart';
+import 'package:uni/view/bug_report/bug_report.dart';
 
 /// Wraps content given its fetch data from the redux store,
 /// hydrating the component, displaying an empty message,
@@ -93,9 +93,11 @@ class RequestDependentWidgetBuilder extends StatelessWidget {
               ),
             ),
             OutlinedButton(
-              onPressed: () => Navigator.pushNamed(
+              onPressed: () => Navigator.push(
                 context,
-                '/${DrawerItem.navBugReport.title}',
+                MaterialPageRoute<BugReportPageView>(
+                  builder: (context) => const BugReportPageView(),
+                ),
               ),
               child: Text(S.of(context).report_error),
             ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:uni/view/about/widgets/terms_and_conditions.dart';
-import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
+import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
 
 class AboutPageView extends StatefulWidget {
   const AboutPageView({super.key});
@@ -11,7 +11,7 @@ class AboutPageView extends StatefulWidget {
 }
 
 /// Manages the 'about' section of the app.
-class AboutPageViewState extends GeneralPageViewState {
+class AboutPageViewState extends SecondaryPageViewState<AboutPageView> {
   @override
   Widget getBody(BuildContext context) {
     final queryData = MediaQuery.of(context);
