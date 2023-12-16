@@ -36,13 +36,12 @@ class MessageLookup extends MessageLookupByLibrary {
             'calendario': 'Calendário',
             'biblioteca': 'Biblioteca',
             'uteis': 'Úteis',
-            'sobre': 'Sobre',
-            'bugs': 'Bugs e Sugestões',
             'other': 'Outros',
           })}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "about": MessageLookupByLibrary.simpleMessage("Sobre nós"),
         "academic_services":
             MessageLookupByLibrary.simpleMessage("Serviços académicos"),
         "account_card_title":
@@ -80,6 +79,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Verifica a tua ligação à internet"),
         "class_registration":
             MessageLookupByLibrary.simpleMessage("Inscrição de Turmas"),
+        "collect_usage_stats": MessageLookupByLibrary.simpleMessage(
+            "Partilhar estatísticas de uso"),
         "college": MessageLookupByLibrary.simpleMessage("Faculdade: "),
         "college_select": MessageLookupByLibrary.simpleMessage(
             "seleciona a(s) tua(s) faculdade(s)"),
@@ -87,6 +88,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "configured_buses":
             MessageLookupByLibrary.simpleMessage("Autocarros Configurados"),
         "confirm": MessageLookupByLibrary.simpleMessage("Confirmar"),
+        "confirm_logout": MessageLookupByLibrary.simpleMessage(
+            "Tens a certeza de que queres terminar sessão? Os teus dados locais serão apagados e terás de iniciar sessão novamente."),
         "consent": MessageLookupByLibrary.simpleMessage(
             "Consinto que esta informação seja revista pelo NIAEFEUP, podendo ser eliminada a meu pedido."),
         "contact": MessageLookupByLibrary.simpleMessage("Contacto (opcional)"),
@@ -120,8 +123,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "failed_login": MessageLookupByLibrary.simpleMessage("O login falhou"),
         "fee_date": MessageLookupByLibrary.simpleMessage(
             "Data limite próxima prestação:"),
-        "fee_notification": MessageLookupByLibrary.simpleMessage(
-            "Notificar próxima data limite:"),
+        "fee_notification":
+            MessageLookupByLibrary.simpleMessage("Data limite de propina"),
         "first_year_registration":
             MessageLookupByLibrary.simpleMessage("Ano da primeira inscrição: "),
         "floor": MessageLookupByLibrary.simpleMessage("Piso"),
@@ -139,6 +142,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Credenciais inválidas"),
         "keep_login":
             MessageLookupByLibrary.simpleMessage("Manter sessão iniciada"),
+        "language": MessageLookupByLibrary.simpleMessage("Idioma"),
         "last_refresh_time": m0,
         "last_timestamp": m1,
         "library_occupation":
@@ -196,6 +200,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Não existem cadeiras para apresentar"),
         "no_selected_exams": MessageLookupByLibrary.simpleMessage(
             "Não existem exames para apresentar"),
+        "notifications": MessageLookupByLibrary.simpleMessage("Notificações"),
         "occurrence_type":
             MessageLookupByLibrary.simpleMessage("Tipo de ocorrência"),
         "other_links": MessageLookupByLibrary.simpleMessage("Outros links"),
@@ -218,6 +223,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Referência criada com sucesso!"),
         "remove": MessageLookupByLibrary.simpleMessage("Remover"),
         "report_error": MessageLookupByLibrary.simpleMessage("Reportar erro"),
+        "report_error_suggestion":
+            MessageLookupByLibrary.simpleMessage("Reportar erro/sugestão"),
         "restaurant_main_page": MessageLookupByLibrary.simpleMessage(
             "Queres ver os teus restaurantes favoritos na página principal?"),
         "room": MessageLookupByLibrary.simpleMessage("Sala"),
@@ -227,6 +234,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "send": MessageLookupByLibrary.simpleMessage("Enviar"),
         "sent_error":
             MessageLookupByLibrary.simpleMessage("Ocorreu um erro no envio"),
+        "settings": MessageLookupByLibrary.simpleMessage("Definições"),
         "some_error": MessageLookupByLibrary.simpleMessage("Algum erro!"),
         "stcp_stops":
             MessageLookupByLibrary.simpleMessage("STCP - Próximas Viagens"),
@@ -239,6 +247,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Atendimento presencial e telefónico"),
         "telephone": MessageLookupByLibrary.simpleMessage("Telefone"),
         "terms": MessageLookupByLibrary.simpleMessage("Termos e Condições"),
+        "theme": MessageLookupByLibrary.simpleMessage("Tema"),
         "title": MessageLookupByLibrary.simpleMessage("Título"),
         "unavailable": MessageLookupByLibrary.simpleMessage("Indisponível"),
         "valid_email": MessageLookupByLibrary.simpleMessage(

@@ -7,7 +7,7 @@ publish_to: "none" # We do not publish to pub.dev
 # To change it manually, override the value in app_version.txt.
 # The app version code is automatically also bumped by CI.
 # Do not change it manually.
-version: 1.7.21+211
+version: 1.7.23+213
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
@@ -57,7 +57,7 @@ dependencies:
   workmanager: ^0.5.2
 
 dev_dependencies:
-  build_runner: ^2.4.6
+  build_runner: ^2.4.7
   flutter_launcher_icons: ^0.13.1
   flutter_test:
     sdk: flutter
