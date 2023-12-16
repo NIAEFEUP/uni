@@ -226,6 +226,8 @@
   "@remove": {},
   "report_error": "Report error",
   "@report_error": {},
+  "restaurant_main_page" : "Do you want to see your favorite restaurants in the main page?",
+  "@restaurant_main_page": {},
   "room": "Room",
   "@room": {},
   "school_calendar": "School Calendar",
