@@ -29,7 +29,7 @@ may be stored locally, but not in any way shared with us. These details are stor
 application data and we hold no responsibility for ensuring their concealment.
 \
 \
-**Ownership of Content:**
+**Ownership of Content**
 
 We do not own any data, information or material ("Content") that you submit in the Mobile
 Application in the course of using the Service. You shall have sole responsibility for the accuracy,
@@ -37,10 +37,17 @@ quality, integrity, legality, reliability, appropriateness, and intellectual pro
 right to use of all submitted Content.
 \
 \
-**Monitoring and Reviewing:**
+**Data Usage, Monitoring and Privacy**
 
 We may, at our discretion but with no obligation, monitor and review Content in the Mobile
 Application submitted or created using our Services by you.
+Personal data of users is not collected for any other purpose, unless providing the Services to you,
+except in certain circumstances described
+in [Play Store’ Privacy policy](https://support.google.com/googleplay/android-developer/answer/10144311?visit_id=638365485539535125-3072678242&rd=1)
+and [App Stores privacy policy](https://developer.apple.com/app-store/app-privacy-details/#user-tracking).
+\
+\
+**All user privacy and data use is in compliance with Play Store and App Store Policies.**
 \
 \
 **License and Usage Restrictions:**
@@ -52,28 +59,17 @@ Unless specifically permitted by you, your use of the Mobile Application does no
 license to link, reproduce, adapt, modify, publish or distribute the Content created by you or
 stored in your user account, for evaluating the effectiveness of existing product features, planning
 new features, or measuring size and characteristics about specific end-users, or devices with a data
-broker, for commercial, marketing or any similar purpose. Unless specifically permitted by you, your
+broker, for commercial, marketing or any similar purpose. 
+Unless specifically permitted by you, your
 use of the Mobile Application does not grant us the
 license to use analytics tools, advertising networks, third-party SDKs, or other external vendors
 whose code we have added to the Uni Mobile Application, to collect information such as user ID,
 device ID, or profiles with Third-Party Data for the purpose of accessing necessary data to
 implement
-the Services we provide. We do not have the license to sell or share sensitive data accessed trough
+the Services we provide. As of the last update, we anonymously track page visits and widget clicks, which is shared with our self-hosted instance of [Plausible Analytics](https://plausible.niaefeup.pt/).
+We do not have the license to sell or share sensitive data accessed trough
 API' permissions with the
 finality of facilitating sales.
-\
-\
-**Data Collection and Privacy:**
-
-Personal data of users is not collected for any purpose other than providing the Services to
-Personal data of users is not collected for any other purpose, unless providing the Services to you,
-except in certain circumstances described
-in [Play Store’ Privacy policy](https://support.google.com/googleplay/android-developer/answer/10144311?visit_id=638365485539535125-3072678242&rd=1)
-and [App Stores privacy policy](https://developer.apple.com/app-store/app-privacy-details/#user-tracking).
-\
-\
-**All user privacy and data use is in compliance with Play Store and App Store Policies mentioned
-above.**
 \
 \
 **Content Removal:**
@@ -126,7 +122,7 @@ remedy does not fully compensate you for any losses or fails of its essential pu
 We reserve the right to modify this Agreement or its policies relating to the Mobile Application or
 Services at any time, effective upon posting of an updated version of this Agreement in the Mobile
 Application. When we do, we will revise the updated date at the bottom of this page. Continued use
-of the Mobile Application after any such changes shall constitute your consent to such changes.
+of the Mobile Application after any such changes will only constitute if when prompted, you consent to them. Otherwise, you will be logged out of the Mobile Application.
 Policy was created with [Website Policies](https://www.websitepolicies.com).
 \
 \
