@@ -53,7 +53,7 @@ dependencies:
   synchronized: ^3.0.0
   timelines: ^0.1.0
   tuple: ^2.0.0
-  url_launcher: ^6.0.2
+  url_launcher: ^6.2.2
   workmanager: ^0.5.2
 
 dev_dependencies:
