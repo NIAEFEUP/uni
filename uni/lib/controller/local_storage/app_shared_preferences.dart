@@ -27,6 +27,8 @@ class AppSharedPreferences {
   static const String tuitionNotificationsToggleKey =
       'tuition_notification_toogle';
   static const String usageStatsToggleKey = 'usage_stats_toogle';
+  static const String isDataCollectionBannerViewedKey =
+      'data_collection_banner';
   static const String themeMode = 'theme_mode';
   static const String locale = 'app_locale';
   static const String favoriteCards = 'favorite_cards';
@@ -86,6 +88,18 @@ class AppSharedPreferences {
   static Future<bool> areTermsAndConditionsAccepted() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getBool(areTermsAndConditionsAcceptedKey) ?? false;
+  }
+
+  static Future<void> setDataCollectionBannerViewed({
+    required bool isViewed,
+  }) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(isDataCollectionBannerViewedKey, true);
+  }
+
+  static Future<bool> isDataCollectionBannerViewed() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(isDataCollectionBannerViewedKey) ?? false;
   }
 
   /// Returns the hash of the last Terms and Conditions that have
