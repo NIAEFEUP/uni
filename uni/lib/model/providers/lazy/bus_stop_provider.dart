@@ -6,6 +6,7 @@ import 'package:uni/model/entities/bus_stop.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/model/providers/state_providers.dart';
 
+//TODO (thePeras): what does <Map<String, BusStopData>> means? create a model for it
 class BusStopProvider extends StateProviderNotifier<Map<String, BusStopData>> {
   BusStopProvider() : super(cacheDuration: null);
 

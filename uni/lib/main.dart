@@ -234,7 +234,7 @@ class ApplicationState extends State<Application> {
             ),
             '/${DrawerItem.navLibrary.title}':
                 PageTransition.makePageTransition(
-              page: const LibraryPageView(),
+              page: const LibraryPage(),
               settings: settings,
             ),
             '/${DrawerItem.navUsefulInfo.title}':
