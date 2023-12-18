@@ -45,7 +45,7 @@ dependencies:
   path: ^1.8.0
   path_provider: ^2.0.0
   percent_indicator: ^4.2.2
-  provider: ^6.0.4
+  provider: ^6.1.1
   sentry_flutter: ^7.13.2
   shared_preferences: ^2.2.2
   shimmer: ^3.0.0
