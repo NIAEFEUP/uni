@@ -31,7 +31,7 @@ class LibraryPageState extends GeneralPageViewState<LibraryPage> {
           hasContent: (occupation) => occupation.floors.isNotEmpty,
           onNullContent: const Center(
             child: Text(
-              'Sem informação de ocupação',
+              S.of(context).no_library_info,
               style: TextStyle(fontSize: 18),
             ),
           ),

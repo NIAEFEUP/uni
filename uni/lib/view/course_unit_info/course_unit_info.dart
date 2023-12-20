@@ -24,13 +24,11 @@ class CourseUnitDetailPageViewState
     extends SecondaryPageViewState<CourseUnitDetailPageView> {
   Future<void> loadInfo({required bool force}) async {
     final courseUnitsProvider =
-    Provider.of<CourseUnitsInfoProvider>(context, listen: false);
-    final session = context
-        .read<SessionProvider>()
-        .state!;
+        Provider.of<CourseUnitsInfoProvider>(context, listen: false);
+    final session = context.read<SessionProvider>().state!;
 
     final courseUnitSheet =
-    courseUnitsProvider.courseUnitsSheets[widget.courseUnit];
+        courseUnitsProvider.courseUnitsSheets[widget.courseUnit];
     if (courseUnitSheet == null || force) {
       await courseUnitsProvider.fetchCourseUnitSheet(
         widget.courseUnit,
@@ -39,7 +37,7 @@ class CourseUnitDetailPageViewState
     }
 
     final courseUnitClasses =
-    courseUnitsProvider.courseUnitsClasses[widget.courseUnit];
+        courseUnitsProvider.courseUnitsClasses[widget.courseUnit];
     if (courseUnitClasses == null || force) {
       await courseUnitsProvider.fetchCourseUnitClasses(
         widget.courseUnit,
@@ -71,12 +69,8 @@ class CourseUnitDetailPageViewState
           ),
           TabBar(
             tabs: [
-              Tab(text: S
-                  .of(context)
-                  .course_info),
-              Tab(text: S
-                  .of(context)
-                  .course_class),
+              Tab(text: S.of(context).course_info),
+              Tab(text: S.of(context).course_class),
             ],
           ),
           Expanded(
@@ -103,9 +97,7 @@ class CourseUnitDetailPageViewState
     if (sheet == null || sheet.sections.isEmpty) {
       return Center(
         child: Text(
-          S
-              .of(context)
-              .no_info,
+          S.of(context).no_info,
           textAlign: TextAlign.center,
         ),
       );
@@ -122,9 +114,7 @@ class CourseUnitDetailPageViewState
     if (classes == null || classes.isEmpty) {
       return Center(
         child: Text(
-          S
-              .of(context)
-              .no_class,
+          S.of(context).no_class,
           textAlign: TextAlign.center,
         ),
       );

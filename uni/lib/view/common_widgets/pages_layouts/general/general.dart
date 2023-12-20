@@ -51,29 +51,30 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
       context,
       _loading
           ? const Flex(
-        direction: Axis.vertical,
-        children: [
-          Expanded(
-            child: Center(
-              child: CircularProgressIndicator(),
-            ),
-          ),
-        ],
-      )
+              direction: Axis.vertical,
+              children: [
+                Expanded(
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                ),
+              ],
+            )
           : getBody(context),
     );
   }
 
   Widget getBody(BuildContext context);
 
-  Future<DecorationImage> buildProfileDecorationImage(BuildContext context, {
+  Future<DecorationImage> buildProfileDecorationImage(
+    BuildContext context, {
     bool forceRetrieval = false,
   }) async {
     final sessionProvider =
-    Provider.of<SessionProvider>(context, listen: false);
+        Provider.of<SessionProvider>(context, listen: false);
     await sessionProvider.ensureInitialized(context);
     final profilePictureFile =
-    await ProfileProvider.fetchOrGetCachedProfilePicture(
+        await ProfileProvider.fetchOrGetCachedProfilePicture(
       sessionProvider.state!,
       forceRetrieval: forceRetrieval,
     );
@@ -86,33 +87,29 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
   DecorationImage getProfileDecorationImage(File? profilePicture) {
     const fallbackPicture = AssetImage('assets/images/profile_placeholder.png');
     final image =
-    profilePicture == null ? fallbackPicture : FileImage(profilePicture);
+        profilePicture == null ? fallbackPicture : FileImage(profilePicture);
 
     final result =
-    DecorationImage(fit: BoxFit.cover, image: image as ImageProvider);
+        DecorationImage(fit: BoxFit.cover, image: image as ImageProvider);
     return result;
   }
 
   Widget refreshState(BuildContext context, Widget child) {
     return RefreshIndicator(
       key: GlobalKey<RefreshIndicatorState>(),
-      onRefresh: () =>
-          ProfileProvider.fetchOrGetCachedProfilePicture(
-            Provider
-                .of<SessionProvider>(context, listen: false)
-                .state!,
-            forceRetrieval: true,
-          ).then((value) => onRefresh(context)),
+      onRefresh: () => ProfileProvider.fetchOrGetCachedProfilePicture(
+        Provider.of<SessionProvider>(context, listen: false).state!,
+        forceRetrieval: true,
+      ).then((value) => onRefresh(context)),
       child: Builder(
-        builder: (context) =>
-            GestureDetector(
-              onHorizontalDragEnd: (dragDetails) {
-                if (dragDetails.primaryVelocity! > 2) {
-                  Scaffold.of(context).openDrawer();
-                }
-              },
-              child: child,
-            ),
+        builder: (context) => GestureDetector(
+          onHorizontalDragEnd: (dragDetails) {
+            if (dragDetails.primaryVelocity! > 2) {
+              Scaffold.of(context).openDrawer();
+            }
+          },
+          child: child,
+        ),
       ),
     );
   }
@@ -136,53 +133,40 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
       bottom: PreferredSize(
         preferredSize: Size.zero,
         child: Container(
-          color: Theme
-              .of(context)
-              .dividerColor,
+          color: Theme.of(context).dividerColor,
           margin: EdgeInsets.only(left: borderMargin, right: borderMargin),
           height: 1.5,
         ),
       ),
       elevation: 0,
-      iconTheme: Theme
-          .of(context)
-          .iconTheme,
-      backgroundColor: Theme
-          .of(context)
-          .scaffoldBackgroundColor,
+      iconTheme: Theme.of(context).iconTheme,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       titleSpacing: 0,
       title: ButtonTheme(
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         shape: const RoundedRectangleBorder(),
         child: Builder(
-          builder: (context) =>
-              TextButton(
-                onPressed: () {
-                  final currentRouteName = ModalRoute
-                      .of(context)!
-                      .settings
-                      .name;
-                  if (currentRouteName !=
-                      '/${DrawerItem.navPersonalArea.title}') {
-                    Navigator.pushNamed(
-                      context,
-                      '/${DrawerItem.navPersonalArea.title}',
-                    );
-                  } else {
-                    Scaffold.of(context).openDrawer();
-                  }
-                },
-                child: SvgPicture.asset(
-                  colorFilter: ColorFilter.mode(
-                    Theme
-                        .of(context)
-                        .primaryColor,
-                    BlendMode.srcIn,
-                  ),
-                  'assets/images/logo_dark.svg',
-                  height: queryData.size.height / 25,
-                ),
+          builder: (context) => TextButton(
+            onPressed: () {
+              final currentRouteName = ModalRoute.of(context)!.settings.name;
+              if (currentRouteName != '/${DrawerItem.navPersonalArea.title}') {
+                Navigator.pushNamed(
+                  context,
+                  '/${DrawerItem.navPersonalArea.title}',
+                );
+              } else {
+                Scaffold.of(context).openDrawer();
+              }
+            },
+            child: SvgPicture.asset(
+              colorFilter: ColorFilter.mode(
+                Theme.of(context).primaryColor,
+                BlendMode.srcIn,
               ),
+              'assets/images/logo_dark.svg',
+              height: queryData.size.height / 25,
+            ),
+          ),
         ),
       ),
       actions: <Widget>[
@@ -195,11 +179,12 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
   Widget getTopRightButton(BuildContext context) {
     return FutureBuilder(
       future: buildProfileDecorationImage(context),
-      builder: (BuildContext context,
-          AsyncSnapshot<DecorationImage> decorationImage,) {
+      builder: (
+        BuildContext context,
+        AsyncSnapshot<DecorationImage> decorationImage,
+      ) {
         return TextButton(
-          onPressed: () =>
-          {
+          onPressed: () => {
             Navigator.push(
               context,
               MaterialPageRoute<ProfilePageView>(

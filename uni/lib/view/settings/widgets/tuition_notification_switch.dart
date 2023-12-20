@@ -9,8 +9,8 @@ class TuitionNotificationSwitch extends StatefulWidget {
 }
 
 class _TuitionNotificationSwitchState extends State<TuitionNotificationSwitch> {
-  bool tuitionNotificationToggle = PreferencesController
-      .getTuitionNotificationToggle();
+  bool tuitionNotificationToggle =
+      PreferencesController.getTuitionNotificationToggle();
 
   Future<void> saveTuitionNotificationToggle({required bool value}) async {
     await PreferencesController.setTuitionNotificationToggle(value: value);

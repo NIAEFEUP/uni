@@ -16,16 +16,17 @@ import 'package:uni/view/profile/widgets/account_info_card.dart';
 import 'package:uni/view/profile/widgets/print_info_card.dart';
 
 typedef CardCreator = GenericCard Function(
-    Key key, {
-    required bool editingMode,
-    void Function()? onDelete,
-    });
+  Key key, {
+  required bool editingMode,
+  void Function()? onDelete,
+});
 
 class MainCardsList extends StatefulWidget {
-  const MainCardsList(this.favoriteCardTypes,
-      this.saveFavoriteCards, {
-        super.key,
-      });
+  const MainCardsList(
+    this.favoriteCardTypes,
+    this.saveFavoriteCards, {
+    super.key,
+  });
 
   final List<FavoriteWidgetType> favoriteCardTypes;
   final void Function(List<FavoriteWidgetType>) saveFavoriteCards;
@@ -38,7 +39,7 @@ class MainCardsList extends StatefulWidget {
     FavoriteWidgetType.busStops: BusStopCard.fromEditingInformation,
     FavoriteWidgetType.restaurant: RestaurantCard.fromEditingInformation,
     FavoriteWidgetType.libraryOccupation:
-    LibraryOccupationCard.fromEditingInformation,
+        LibraryOccupationCard.fromEditingInformation,
   };
 
   @override
@@ -55,28 +56,25 @@ class MainCardsListState extends State<MainCardsList> {
     return Scaffold(
       body: BackButtonExitWrapper(
         child: SizedBox(
-          height: MediaQuery
-              .of(context)
-              .size
-              .height,
+          height: MediaQuery.of(context).size.height,
           child: isEditing
               ? ReorderableListView(
-            onReorder: reorderCard,
-            header: createTopBar(context),
-            children: favoriteCardsFromTypes(
-              widget.favoriteCardTypes,
-              context,
-            ),
-          )
+                  onReorder: reorderCard,
+                  header: createTopBar(context),
+                  children: favoriteCardsFromTypes(
+                    widget.favoriteCardTypes,
+                    context,
+                  ),
+                )
               : ListView(
-            children: <Widget>[
-              createTopBar(context),
-              ...favoriteCardsFromTypes(
-                widget.favoriteCardTypes,
-                context,
-              ),
-            ],
-          ),
+                  children: <Widget>[
+                    createTopBar(context),
+                    ...favoriteCardsFromTypes(
+                      widget.favoriteCardTypes,
+                      context,
+                    ),
+                  ],
+                ),
         ),
       ),
       floatingActionButton: isEditing ? createActionButton(context) : null,
@@ -85,64 +83,44 @@ class MainCardsListState extends State<MainCardsList> {
 
   Widget createActionButton(BuildContext context) {
     return FloatingActionButton(
-      onPressed: () =>
-          showDialog<void>(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: Text(
-                  S
-                      .of(context)
-                      .widget_prompt,
-                  style: Theme
-                      .of(context)
-                      .textTheme
-                      .headlineSmall,
+      onPressed: () => showDialog<void>(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(
+              S.of(context).widget_prompt,
+              style: Theme.of(context).textTheme.headlineSmall,
+            ),
+            content: SizedBox(
+              height: 200,
+              width: 100,
+              child: ListView(children: getCardAdders(context)),
+            ),
+            actions: [
+              TextButton(
+                child: Text(
+                  S.of(context).cancel,
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
-                content: SizedBox(
-                  height: 200,
-                  width: 100,
-                  child: ListView(children: getCardAdders(context)),
-                ),
-                actions: [
-                  TextButton(
-                    child: Text(
-                      S
-                          .of(context)
-                          .cancel,
-                      style: Theme
-                          .of(context)
-                          .textTheme
-                          .bodyMedium,
-                    ),
-                    onPressed: () => Navigator.pop(context),
-                  ),
-                ],
-              );
-            },
-          ), //Add FAB functionality here
-      tooltip: S
-          .of(context)
-          .add_widget,
-      child: Icon(Icons.add, color: Theme
-          .of(context)
-          .colorScheme
-          .onPrimary),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          );
+        },
+      ), //Add FAB functionality here
+      tooltip: S.of(context).add_widget,
+      child: Icon(Icons.add, color: Theme.of(context).colorScheme.onPrimary),
     );
   }
 
   List<Widget> getCardAdders(BuildContext context) {
-    final session =
-    Provider
-        .of<SessionProvider>(context, listen: false)
-        .state!;
+    final session = Provider.of<SessionProvider>(context, listen: false).state!;
 
     final possibleCardAdditions = MainCardsList.cardCreators.entries
         .where((e) => e.key.isVisible(session.faculties))
         .where((e) => !widget.favoriteCardTypes.contains(e.key))
         .map(
-          (e) =>
-          DecoratedBox(
+          (e) => DecoratedBox(
             decoration: const BoxDecoration(),
             child: ListTile(
               title: Text(
@@ -157,18 +135,17 @@ class MainCardsListState extends State<MainCardsList> {
               },
             ),
           ),
-    )
+        )
         .toList();
 
     return possibleCardAdditions.isEmpty
-        ? [Text(S
-        .of(context)
-        .all_widgets_added)
-    ]
+        ? [Text(S.of(context).all_widgets_added)]
         : possibleCardAdditions;
   }
 
-  Widget createTopBar(BuildContext context,) {
+  Widget createTopBar(
+    BuildContext context,
+  ) {
     return Container(
       padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
       child: Row(
@@ -181,26 +158,20 @@ class MainCardsListState extends State<MainCardsList> {
           ),
           if (isEditing)
             ElevatedButton(
-              onPressed: () =>
-                  setState(() {
-                    isEditing = false;
-                  }),
+              onPressed: () => setState(() {
+                isEditing = false;
+              }),
               child: Text(
-                S
-                    .of(context)
-                    .edit_on,
+                S.of(context).edit_on,
               ),
             )
           else
             OutlinedButton(
-              onPressed: () =>
-                  setState(() {
-                    isEditing = true;
-                  }),
+              onPressed: () => setState(() {
+                isEditing = true;
+              }),
               child: Text(
-                S
-                    .of(context)
-                    .edit_off,
+                S.of(context).edit_off,
               ),
             ),
         ],
@@ -208,12 +179,12 @@ class MainCardsListState extends State<MainCardsList> {
     );
   }
 
-  List<Widget> favoriteCardsFromTypes(List<FavoriteWidgetType> cardTypes,
-      BuildContext context,) {
+  List<Widget> favoriteCardsFromTypes(
+    List<FavoriteWidgetType> cardTypes,
+    BuildContext context,
+  ) {
     final userSession =
-    Provider
-        .of<SessionProvider>(context, listen: false)
-        .state!;
+        Provider.of<SessionProvider>(context, listen: false).state!;
     return cardTypes
         .where((type) => type.isVisible(userSession.faculties))
         .where((type) => MainCardsList.cardCreators.containsKey(type))
@@ -227,10 +198,12 @@ class MainCardsListState extends State<MainCardsList> {
     }).toList();
   }
 
-  void reorderCard(int oldIndex,
-      int newIndex,) {
+  void reorderCard(
+    int oldIndex,
+    int newIndex,
+  ) {
     final newFavorites =
-    List<FavoriteWidgetType>.from(widget.favoriteCardTypes);
+        List<FavoriteWidgetType>.from(widget.favoriteCardTypes);
     final tmp = newFavorites[oldIndex];
     newFavorites
       ..removeAt(oldIndex)

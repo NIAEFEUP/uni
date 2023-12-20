@@ -23,7 +23,7 @@ class PrintInfoCard extends GenericCard {
       hasContent: (profile) => profile.printBalance != '',
       onNullContent: const Center(
         child: Text(
-          'Sem informação de saldo',
+          S.of(context).no_print_info,
           style: TextStyle(fontSize: 18),
         ),
       ),

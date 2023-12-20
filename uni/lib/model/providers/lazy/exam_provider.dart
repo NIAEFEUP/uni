@@ -31,16 +31,17 @@ class ExamProvider extends StateProviderNotifier<List<Exam>> {
       session,
       profile.courseUnits,
       persistentSession:
-      (PreferencesController.getPersistentUserInfo()) != null,
+          (PreferencesController.getPersistentUserInfo()) != null,
     );
   }
 
-  Future<List<Exam>> fetchUserExams(ParserExams parserExams,
-      Profile profile,
-      Session session,
-      List<CourseUnit> userUcs, {
-        required bool persistentSession,
-      }) async {
+  Future<List<Exam>> fetchUserExams(
+    ParserExams parserExams,
+    Profile profile,
+    Session session,
+    List<CourseUnit> userUcs, {
+    required bool persistentSession,
+  }) async {
     final exams = await ExamFetcher(profile.courses, userUcs)
         .extractExams(session, parserExams);
 

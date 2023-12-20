@@ -60,8 +60,7 @@ void main() {
       'feup',
     );
 
-    final profile = Profile()
-      ..courses = [Course(id: 7474)];
+    final profile = Profile()..courses = [Course(id: 7474)];
     final session = Session(username: '', cookies: '', faculties: ['feup']);
     final userUcs = [sopeCourseUnit, sdisCourseUnit];
 
@@ -142,14 +141,13 @@ When given three exams but one is to be parsed out,
           .thenAnswer((_) async => throw Exception('RIP'));
 
       throwsA(
-            () async =>
-            provider.fetchUserExams(
-              parserExams,
-              profile,
-              session,
-              userUcs,
-              persistentSession: false,
-            ),
+        () async => provider.fetchUserExams(
+          parserExams,
+          profile,
+          session,
+          userUcs,
+          persistentSession: false,
+        ),
       );
     });
 

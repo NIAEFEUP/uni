@@ -21,8 +21,7 @@ void main() {
     final fetcherMock = MockScheduleFetcher();
     final mockClient = MockClient();
     final mockResponse = MockResponse();
-    final profile = Profile()
-      ..courses = [Course(id: 7474)];
+    final profile = Profile()..courses = [Course(id: 7474)];
     final session = Session(username: '', cookies: '', faculties: ['feup']);
     final day = DateTime(2021, 06);
 
@@ -79,13 +78,12 @@ void main() {
           .thenAnswer((_) async => throw Exception('💥'));
 
       throwsA(
-            () async =>
-            provider.fetchUserLectures(
-              session,
-              profile,
-              fetcher: fetcherMock,
-              persistentSession: false,
-            ),
+        () async => provider.fetchUserLectures(
+          session,
+          profile,
+          fetcher: fetcherMock,
+          persistentSession: false,
+        ),
       );
     });
   });
