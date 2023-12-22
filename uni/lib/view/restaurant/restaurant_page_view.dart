@@ -38,28 +38,37 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
   @override
   String? getTitle() =>
       S.of(context).nav_title(NavigationItem.navRestaurants.route);
+  
+  @override
+  Widget getHeader(BuildContext context) {
+    return TabBar(
+              controller: tabController,
+              isScrollable: true,
+              tabs: createTabs(context),
+      padding: const EdgeInsets.only(top: 40),
+            );
+  }
 
   @override
   Widget getBody(BuildContext context) {
     return Column(
-      children: [
-        TabBar(
-          controller: tabController,
-          isScrollable: true,
-          tabs: createTabs(context),
-        ),
-        LazyConsumer<RestaurantProvider, List<Restaurant>>(
-          builder: (context, restaurants) => createTabViewBuilder(
-            restaurants,
-            context,
-          ),
-          onNullContent: Center(
-            child: Text(
-              S.of(context).no_menus,
-              style: const TextStyle(fontSize: 18),
+          children: [
+        const SizedBox(height: 10),
+        Expanded(
+          child: LazyConsumer<RestaurantProvider, List<Restaurant>>(
+            builder: (context, restaurants) => createTabViewBuilder(
+              restaurants,
+              context,
             ),
+            onNullContent: Center(
+              child: Text(
+                S.of(context).no_menus,
+                style: const TextStyle(fontSize: 18),
+              ),
+            ),
+            hasContent: (restaurants) =>
+                restaurants.isNotEmpty,
           ),
-          hasContent: (restaurants) => restaurants.isNotEmpty,
         ),
       ],
     );
