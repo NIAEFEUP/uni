@@ -35,27 +35,35 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
   }
 
   @override
+  Widget getHeader(BuildContext context) {
+    return TabBar(
+              controller: tabController,
+              isScrollable: true,
+              tabs: createTabs(context),
+      padding: const EdgeInsets.only(top: 40),
+            );
+  }
+
+  @override
   Widget getBody(BuildContext context) {
     return Column(
-      children: [
-        TabBar(
-          controller: tabController,
-          isScrollable: true,
-          tabs: createTabs(context),
-          padding: const EdgeInsets.only(top: 40),
-        ),
-        LazyConsumer<RestaurantProvider, List<Restaurant>>(
-          builder: (context, restaurants) => createTabViewBuilder(
-            restaurants,
-            context,
-          ),
-          onNullContent: Center(
-            child: Text(
-              S.of(context).no_menus,
-              style: const TextStyle(fontSize: 18),
+          children: [
+        const SizedBox(height: 10),
+        Expanded(
+          child: LazyConsumer<RestaurantProvider, List<Restaurant>>(
+            builder: (context, restaurants) => createTabViewBuilder(
+              restaurants,
+              context,
             ),
+            onNullContent: Center(
+              child: Text(
+                S.of(context).no_menus,
+                style: const TextStyle(fontSize: 18),
+              ),
+            ),
+            hasContent: (List<Restaurant> restaurants) =>
+                restaurants.isNotEmpty,
           ),
-          hasContent: (List<Restaurant> restaurants) => restaurants.isNotEmpty,
         ),
       ],
     );
