@@ -6,13 +6,11 @@ import 'package:uni/view/exams/widgets/exam_title.dart';
 import 'package:uni/view/locale_notifier.dart';
 
 class RemainingExamsWidget extends StatelessWidget {
-
   const RemainingExamsWidget({required this.exams, super.key});
   final List<Exam> exams;
 
   @override
   Widget build(BuildContext context) {
-
     return Column(
       children: exams.map((exam) {
         final locale = Provider.of<LocaleNotifier>(context).getLocale();

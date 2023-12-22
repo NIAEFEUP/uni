@@ -11,15 +11,14 @@ import 'package:uni/view/home/widgets/next_exams_card.dart';
 import 'package:uni/view/home/widgets/remaining_exams_card.dart';
 import 'package:uni/view/lazy_consumer.dart';
 
-
 class ExamCard extends GenericCard {
   ExamCard({super.key});
 
   const ExamCard.fromEditingInformation(
-      super.key, {
-        required super.editingMode,
-        super.onDelete,
-      }) : super.fromEditingInformation();
+    super.key, {
+    required super.editingMode,
+    super.onDelete,
+  }) : super.fromEditingInformation();
 
   @override
   String getTitle(BuildContext context) =>
@@ -60,10 +59,11 @@ class ExamCard extends GenericCard {
   }
 
   Widget generateExams(List<Exam> allExams, BuildContext context) {
-    final nextExams = getPrimaryExams(allExams,
-        allExams.isNotEmpty ? allExams.first : null, );
+    final nextExams = getPrimaryExams(
+      allExams,
+      allExams.isNotEmpty ? allExams.first : null,
+    );
     final primaryExams = NextExamsWidget(exams: nextExams);
-
 
     final remainingExamsCount = 4 - nextExams.length;
     final List<Exam> remainingExams;
@@ -85,8 +85,8 @@ class ExamCard extends GenericCard {
           Column(
             children: [
               Container(
-                margin:
-                const EdgeInsets.only(right: 80, left: 80, top: 7, bottom: 7),
+                margin: const EdgeInsets.only(
+                    right: 80, left: 80, top: 7, bottom: 7),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
@@ -108,10 +108,10 @@ class ExamCard extends GenericCard {
     }
 
     final sameDayExams = allExams.where((exam) {
-      final nextExamDate =
-      DateTime(nextExam.begin.year, nextExam.begin.month, nextExam.begin.day);
+      final nextExamDate = DateTime(
+          nextExam.begin.year, nextExam.begin.month, nextExam.begin.day);
       final examDate =
-      DateTime(exam.begin.year, exam.begin.month, exam.begin.day);
+          DateTime(exam.begin.year, exam.begin.month, exam.begin.day);
       return nextExamDate.isAtSameMomentAs(examDate);
     }).toList();
 
