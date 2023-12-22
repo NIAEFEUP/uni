@@ -34,6 +34,11 @@ class BusStopSelectionPageState
   }
 
   @override
+  Widget getHeader(BuildContext context) {
+    return PageTitle(name: S.of(context).configured_buses);
+  }
+
+  @override
   Widget getBody(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     return Consumer<BusStopProvider>(

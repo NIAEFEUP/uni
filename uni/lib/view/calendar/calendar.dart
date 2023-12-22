@@ -18,6 +18,16 @@ class CalendarPageView extends StatefulWidget {
 
 class CalendarPageViewState extends SecondaryPageViewState<CalendarPageView> {
   @override
+  Widget getHeader(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.only(bottom: 6),
+      child: PageTitle(
+        name: S.of(context).nav_title(DrawerItem.navCalendar.title),
+      ),
+    );
+  }
+
+  @override
   Widget getBody(BuildContext context) {
     return LazyConsumer<CalendarProvider, List<CalendarEvent>>(
       builder: getTimeline,

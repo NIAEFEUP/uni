@@ -27,7 +27,7 @@ class CourseUnitsPageViewState
   String? selectedSemester;
 
   @override
-  Widget getBody(BuildContext context) {
+  Widget getHeader(BuildContext context) {
     return LazyConsumer<ProfileProvider, Profile>(
       builder: (context, profile) {
         final courseUnits = profile.courseUnits;
@@ -50,11 +50,28 @@ class CourseUnitsPageViewState
           }
         }
 
-        return Column(
-          children: [
-            _getFilters(availableYears, availableSemesters),
-            _getPageView(courseUnits, availableYears, availableSemesters),
-          ],
+        return _getFilters(availableYears, availableSemesters);
+      },
+    );
+  }
+
+  @override
+  Widget getBody(BuildContext context) {
+    return LazyConsumer<ProfileProvider, Profile>(
+      builder: (context, profile) {
+        final courseUnits = profile.courseUnits;
+        var availableYears = <String>[];
+        var availableSemesters = <String>[];
+
+        if (courseUnits.isNotEmpty) {
+          availableYears = _getAvailableYears(courseUnits);
+          availableSemesters = _getAvailableSemesters(courseUnits);
+        }
+
+        return _getPageView(
+          courseUnits,
+          availableYears,
+          availableSemesters,
         );
       },
       hasContent: (profile) => profile.courseUnits.isNotEmpty,

@@ -19,6 +19,13 @@ class LibraryPage extends StatefulWidget {
 
 class LibraryPageState extends SecondaryPageViewState<LibraryPage> {
   @override
+  Widget getHeader(BuildContext context) {
+    return PageTitle(
+      name: S.of(context).nav_title(DrawerItem.navLibrary.title),
+    );
+  }
+
+  @override
   Widget getBody(BuildContext context) {
     return ListView(
       shrinkWrap: true,
