@@ -21,7 +21,8 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m0(time) => "última atualização às ${time}";
 
-  static m1(time) => "${Intl.plural(time, zero: 'Atualizado há ${time} minutos', one: 'Atualizado há ${time} minuto', other: 'Atualizado há ${time} minutos')}";
+  static m1(time) =>
+      "${Intl.plural(time, zero: 'Atualizado há ${time} minutos', one: 'Atualizado há ${time} minuto', other: 'Atualizado há ${time} minutos')}";
 
   static m2(title) => "${Intl.select(title, {'horario': 'Horário', 'exames': 'Exames', 'area': 'Área Pessoal', 'cadeiras': 'Cadeiras', 'autocarros': 'Autocarros', 'locais': 'Locais', 'restaurantes': 'Restaurantes', 'calendario': 'Calendário', 'biblioteca': 'Biblioteca', 'percurso_academico': 'Percurso Académico', 'transportes': 'Transportes', 'faculdade': 'Faculdade', 'other': 'Outros', })}";
 
