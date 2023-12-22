@@ -7,6 +7,7 @@ import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/profile/widgets/account_info_card.dart';
 import 'package:uni/view/profile/widgets/course_info_card.dart';
 import 'package:uni/view/profile/widgets/profile_overview.dart';
+import 'package:uni/view/settings/settings.dart';
 
 class ProfilePageView extends StatefulWidget {
   const ProfilePageView({super.key});
@@ -35,6 +36,7 @@ class ProfilePageViewState extends SecondaryPageViewState<ProfilePageView> {
         return ListView(
           children: [
             const Padding(padding: EdgeInsets.all(5)),
+            const Padding(padding: EdgeInsets.all(10)),
             ProfileOverview(
               profile: profile,
               getProfileDecorationImage: getProfileDecorationImage,
@@ -52,7 +54,18 @@ class ProfilePageViewState extends SecondaryPageViewState<ProfilePageView> {
 
   @override
   Widget getTopRightButton(BuildContext context) {
-    return Container();
+    return Container(
+      padding: const EdgeInsets.fromLTRB(0, 10, 20, 10),
+      child: IconButton(
+        icon: const Icon(Icons.settings),
+        onPressed: () => Navigator.push(
+          context,
+          MaterialPageRoute<SettingsPage>(
+            builder: (_) => const SettingsPage(),
+          ),
+        ),
+      ),
+    );
   }
 
   @override
