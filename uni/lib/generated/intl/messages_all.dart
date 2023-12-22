@@ -20,8 +20,8 @@ import 'messages_pt_PT.dart' as messages_pt_pt;
 
 typedef Future<dynamic> LibraryLoader();
 Map<String, LibraryLoader> _deferredLibraries = {
-  'en': () => new SynchronousFuture(null),
-  'pt_PT': () => new SynchronousFuture(null),
+  'en': () => new Future.value(null),
+  'pt_PT': () => new Future.value(null),
 };
 
 MessageLookupByLibrary? _findExact(String localeName) {
