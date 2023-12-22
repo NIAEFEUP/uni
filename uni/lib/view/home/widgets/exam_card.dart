@@ -86,7 +86,11 @@ class ExamCard extends GenericCard {
             children: [
               Container(
                 margin: const EdgeInsets.only(
-                    right: 80, left: 80, top: 7, bottom: 7),
+                  right: 80,
+                  left: 80,
+                  top: 7,
+                  bottom: 7,
+                ),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
@@ -109,7 +113,10 @@ class ExamCard extends GenericCard {
 
     final sameDayExams = allExams.where((exam) {
       final nextExamDate = DateTime(
-          nextExam.begin.year, nextExam.begin.month, nextExam.begin.day);
+        nextExam.begin.year,
+        nextExam.begin.month,
+        nextExam.begin.day,
+      );
       final examDate =
           DateTime(exam.begin.year, exam.begin.month, exam.begin.day);
       return nextExamDate.isAtSameMomentAs(examDate);
