@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:uni/controller/networking/network_router.dart';
-import 'package:uni/controller/networking/url_launcher.dart';
+import 'package:uni/generated/l10n.dart';
+import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/view/common_widgets/row_container.dart';
+import 'package:uni/view/course_unit_info/course_unit_info.dart';
 
 class ScheduleSlot extends StatelessWidget {
   const ScheduleSlot({
@@ -16,6 +19,7 @@ class ScheduleSlot extends StatelessWidget {
     this.classNumber,
     super.key,
   });
+
   final String subject;
   final String rooms;
   final DateTime begin;
@@ -104,6 +108,7 @@ class ScheduleSlot extends StatelessWidget {
 
 class SubjectButtonWidget extends StatelessWidget {
   const SubjectButtonWidget({required this.occurrId, super.key});
+
   final int occurrId;
 
   String toUcLink(int occurrId) {
@@ -112,9 +117,18 @@ class SubjectButtonWidget extends StatelessWidget {
         'UCURR_GERAL.FICHA_UC_VIEW?pv_ocorrencia_id=$occurrId';
   }
 
-  Future<void> _launchURL(BuildContext context) async {
-    final url = toUcLink(occurrId);
-    await launchUrlWithToast(context, url);
+  void _launchURL(BuildContext context) {
+    final courseUnits = Provider.of<ProfileProvider>(context, listen: false)
+        .profile
+        .courseUnits;
+    final correspondingCourseUnit =
+        courseUnits.firstWhere((courseUnit) => courseUnit.occurrId == occurrId);
+    Navigator.push(
+      context,
+      MaterialPageRoute<CourseUnitDetailPageView>(
+        builder: (context) => CourseUnitDetailPageView(correspondingCourseUnit),
+      ),
+    );
   }
 
   @override
@@ -131,7 +145,7 @@ class SubjectButtonWidget extends StatelessWidget {
           iconSize: 18,
           color: Colors.grey,
           alignment: Alignment.centerRight,
-          tooltip: 'Abrir página da UC no browser',
+          tooltip: S.of(context).uc_info,
           onPressed: () => _launchURL(context),
         ),
       ],
@@ -145,6 +159,7 @@ class ScheduleTeacherClassInfoWidget extends StatelessWidget {
     this.classNumber,
     super.key,
   });
+
   final String? classNumber;
   final String teacher;
 
@@ -160,6 +175,7 @@ class ScheduleTeacherClassInfoWidget extends StatelessWidget {
 
 class ScheduleTimeWidget extends StatelessWidget {
   const ScheduleTimeWidget({required this.begin, required this.end, super.key});
+
   final String begin;
   final String end;
 
@@ -181,6 +197,7 @@ class ScheduleTimeTextField extends StatelessWidget {
     required this.context,
     super.key,
   });
+
   final String time;
   final BuildContext context;
 
@@ -201,6 +218,7 @@ class TextFieldWidget extends StatelessWidget {
     required this.alignment,
     super.key,
   });
+
   final String text;
   final TextStyle? style;
   final TextAlign alignment;
