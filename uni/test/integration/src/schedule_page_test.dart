@@ -71,13 +71,13 @@ void main() async {
       expect(find.byKey(const Key(scheduleSlotTimeKey1)), findsNothing);
       expect(find.byKey(const Key(scheduleSlotTimeKey2)), findsNothing);
 
-      await scheduleProvider.fetchUserLectures(
+      final lectures = await scheduleProvider.fetchUserLectures(
         Session(username: '', cookies: '', faculties: ['feup']),
         profile,
         persistentSession: false,
       );
 
-      scheduleProvider.invalidate();
+      scheduleProvider.setState(lectures);
 
       await tester.tap(find.byKey(const Key('schedule-page-tab-2')));
       await tester.pumpAndSettle();

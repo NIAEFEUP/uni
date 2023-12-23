@@ -81,7 +81,7 @@ void main() async {
       expect(find.byKey(Key('$sopeExam-exam')), findsNothing);
       expect(find.byKey(Key('$mdisExam-exam')), findsNothing);
 
-      await examProvider.fetchUserExams(
+      final exams = await examProvider.fetchUserExams(
         ParserExams(),
         profile,
         Session(username: '', cookies: '', faculties: ['feup']),
@@ -89,7 +89,7 @@ void main() async {
         persistentSession: false,
       );
 
-      examProvider.invalidate();
+      examProvider.setState(exams);
 
       await tester.pumpAndSettle();
       expect(find.byKey(Key('$sdisExam-exam')), findsOneWidget);
@@ -97,8 +97,7 @@ void main() async {
       expect(find.byKey(Key('$mdisExam-exam')), findsNothing);
     });
 
-    // TODO(bdmendes): Bring back filtered exams tests
-    /*testWidgets('Filtered Exams', (WidgetTester tester) async {
+    testWidgets('Filtered Exams', (WidgetTester tester) async {
       NetworkRouter.httpClient = mockClient;
       final mockHtml = File('test/integration/resources/exam_example.html')
           .readAsStringSync();
@@ -109,7 +108,7 @@ void main() async {
 
       final examProvider = ExamProvider();
 
-      final widget = ExamsPageView();
+      const widget = ExamsPageView();
 
       final providers = [
         ChangeNotifierProvider(create: (_) => examProvider),
@@ -120,7 +119,7 @@ void main() async {
       expect(find.byKey(Key('$sdisExam-exam')), findsNothing);
       expect(find.byKey(Key('$sopeExam-exam')), findsNothing);
 
-      await examProvider.fetchUserExams(
+      final exams = await examProvider.fetchUserExams(
         ParserExams(),
         profile,
         Session(username: '', cookies: '', faculties: ['feup']),
@@ -128,7 +127,7 @@ void main() async {
         persistentSession: false,
       );
 
-      examProvider.invalidate();
+      examProvider.setState(exams);
 
       await tester.pumpAndSettle();
       expect(find.byKey(Key('$sdisExam-exam')), findsOneWidget);
@@ -167,6 +166,6 @@ void main() async {
 
       expect(find.byKey(Key('$sdisExam-exam')), findsNothing);
       expect(find.byKey(Key('$sopeExam-exam')), findsNothing);
-    });*/
+    });
   });
 }

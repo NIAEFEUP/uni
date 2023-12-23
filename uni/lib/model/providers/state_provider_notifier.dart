@@ -14,7 +14,9 @@ abstract class StateProviderNotifier<T> extends ChangeNotifier {
     required this.cacheDuration,
     this.dependsOnSession = true,
     RequestStatus initialStatus = RequestStatus.busy,
-  }) : _requestStatus = initialStatus;
+    T? initialState,
+  })  : _requestStatus = initialStatus,
+        _state = initialState;
 
   /// The model that this notifier provides.
   /// This future will throw if the data loading fails.
@@ -71,8 +73,6 @@ abstract class StateProviderNotifier<T> extends ChangeNotifier {
 
   Future<void> _loadFromStorage(BuildContext context) async {
     Logger().d('Loading $runtimeType info from storage');
-
-    _updateStatus(RequestStatus.busy);
 
     _lastUpdateTime = PreferencesController.getLastDataClassUpdateTime(
       runtimeType.toString(),
@@ -165,12 +165,8 @@ abstract class StateProviderNotifier<T> extends ChangeNotifier {
         if (!context.mounted || _state != null) {
           return;
         }
-
-        await _loadFromStorage(context);
-
-        if (context.mounted) {
-          await _loadFromRemoteFromContext(context);
-        }
+        await _loadFromStorage(context)
+            .then((value) => _loadFromRemoteFromContext(context));
       },
       timeout: _lockTimeout,
     );

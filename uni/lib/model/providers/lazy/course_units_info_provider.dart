@@ -14,9 +14,14 @@ typedef ClassesMap = Map<CourseUnit, List<CourseUnitClass>>;
 
 class CourseUnitsInfoProvider
     extends StateProviderNotifier<Tuple2<SheetsMap, ClassesMap>> {
-  CourseUnitsInfoProvider() : super(cacheDuration: null) {
-    setState(const Tuple2({}, {}));
-  }
+  CourseUnitsInfoProvider()
+      : super(
+          cacheDuration: null,
+          // Const constructor is not allowed here because of the
+          // need for mutable maps
+          // ignore: prefer_const_constructors
+          initialState: Tuple2({}, {}),
+        );
 
   UnmodifiableMapView<CourseUnit, CourseUnitSheet> get courseUnitsSheets =>
       UnmodifiableMapView(state!.item1);
