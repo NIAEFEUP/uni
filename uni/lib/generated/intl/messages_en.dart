@@ -59,6 +59,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Available amount"),
         "average": MessageLookupByLibrary.simpleMessage("Average: "),
         "balance": MessageLookupByLibrary.simpleMessage("Balance:"),
+        "banner_info": MessageLookupByLibrary.simpleMessage(
+            "We do now collect anonymous usage statistics in order to improve your experience. You can change it in settings."),
         "bs_description": MessageLookupByLibrary.simpleMessage(
             "Did you find any bugs in the application?\nDo you have any suggestions for the app?\nTell us so we can improve!"),
         "bug_description": MessageLookupByLibrary.simpleMessage(

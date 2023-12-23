@@ -13,9 +13,8 @@ class HomePageView extends StatefulWidget {
   State<StatefulWidget> createState() => HomePageViewState();
 }
 
-/// Tracks the state of Home page.
 class HomePageViewState extends GeneralPageViewState {
-  bool? isBannerViewed;
+  bool isBannerViewed = true;
 
   @override
   void initState() {
@@ -24,20 +23,25 @@ class HomePageViewState extends GeneralPageViewState {
   }
 
   Future<void> checkBannerViewed() async {
-    isBannerViewed = await AppSharedPreferences.isDataCollectionBannerViewed();
+    final pref = await AppSharedPreferences.isDataCollectionBannerViewed();
+    setState(() {
+      isBannerViewed = pref;
+    });
+  }
+
+  Future<void> setBannerViewed() async {
     await AppSharedPreferences.setDataCollectionBannerViewed(isViewed: true);
-    setState(() {});
+    await checkBannerViewed();
   }
 
   @override
   Widget getBody(BuildContext context) {
-    return (isBannerViewed ?? false)
+    return isBannerViewed
         ? const MainCardsList()
-        : const Column(
+        : Column(
             children: [
-              BannerWidget(),
-              Expanded(
-                // Add this
+              BannerWidget(setBannerViewed),
+             const Expanded(
                 child: MainCardsList(),
               ),
             ],

@@ -230,6 +230,16 @@ class S {
     );
   }
 
+  /// `We do now collect anonymous usage statistics in order to improve your experience. You can change it in settings.`
+  String get banner_info {
+    return Intl.message(
+      'We do now collect anonymous usage statistics in order to improve your experience. You can change it in settings.',
+      name: 'banner_info',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Balance:`
   String get balance {
     return Intl.message(

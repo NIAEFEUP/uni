@@ -36,6 +36,8 @@
   "@available_amount": {},
   "average": "Average: ",
   "@average": {},
+  "banner_info": "We do now collect anonymous usage statistics in order to improve your experience. You can change it in settings.",
+  "@banner_info": {},
   "balance": "Balance:",
   "@balance": {},
   "bs_description": "Did you find any bugs in the application?\nDo you have any suggestions for the app?\nTell us so we can improve!",
