@@ -38,54 +38,42 @@ class BusStopCard extends GenericCard {
           ),
         ],
       ),
-      builder: getCardContent,
-      hasContent: (Map<String, BusStopData> busStops) => false,
-      onNullContent: const CircularProgressIndicator(),
+      builder: (context, stopData) => Column(
+        children: <Widget>[
+          getCardTitle(context),
+          getBusStopsInfo(context, stopData),
+        ],
+      ),
+      hasContent: (Map<String, BusStopData> busStops) => busStops.isNotEmpty,
+      onNullContent: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Text(
+              S.of(context).buses_personalize,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.titleSmall!.apply(),
+            ),
+            IconButton(
+              icon: const Icon(Icons.settings),
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute<BusStopSelectionPage>(
+                  builder: (context) => const BusStopSelectionPage(),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
   @override
   void onRefresh(BuildContext context) {
     Provider.of<BusStopProvider>(context, listen: false).forceRefresh(context);
-  }
-}
-
-/// Returns a widget with the bus stop card final content
-Widget getCardContent(
-  BuildContext context,
-  Map<String, BusStopData> stopData,
-) {
-  if (stopData.isNotEmpty) {
-    return Column(
-      children: <Widget>[
-        getCardTitle(context),
-        getBusStopsInfo(context, stopData),
-      ],
-    );
-  } else {
-    return Container(
-      padding: const EdgeInsets.all(8),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Text(
-            S.of(context).buses_personalize,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: Theme.of(context).textTheme.titleSmall!.apply(),
-          ),
-          IconButton(
-            icon: const Icon(Icons.settings),
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute<BusStopSelectionPage>(
-                builder: (context) => const BusStopSelectionPage(),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
   }
 }
 

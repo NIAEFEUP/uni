@@ -56,7 +56,6 @@ class BusStopNextArrivalsPageState
               ],
             ),
           ),
-          // Page Content
           LazyConsumer<BusStopProvider, Map<String, BusStopData>>(
             builder: getArrivals,
             hasContent: (buses) => buses.isNotEmpty,
