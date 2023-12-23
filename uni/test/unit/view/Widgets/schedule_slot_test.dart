@@ -7,7 +7,7 @@ import '../../../test_widget.dart';
 
 void main() async {
   await initTestEnvironment();
-  
+
   group('Schedule Slot', () {
     const subject = 'SOPE';
     final begin = DateTime(2021, 06, 01, 10);

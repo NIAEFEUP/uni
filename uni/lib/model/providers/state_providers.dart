@@ -15,17 +15,19 @@ import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 
 class StateProviders {
-  StateProviders(this.lectureProvider,
-      this.examProvider,
-      this.busStopProvider,
-      this.restaurantProvider,
-      this.profileProvider,
-      this.courseUnitsInfoProvider,
-      this.sessionProvider,
-      this.calendarProvider,
-      this.libraryOccupationProvider,
-      this.facultyLocationsProvider,
-      this.referenceProvider,);
+  StateProviders(
+    this.lectureProvider,
+    this.examProvider,
+    this.busStopProvider,
+    this.restaurantProvider,
+    this.profileProvider,
+    this.courseUnitsInfoProvider,
+    this.sessionProvider,
+    this.calendarProvider,
+    this.libraryOccupationProvider,
+    this.facultyLocationsProvider,
+    this.referenceProvider,
+  );
 
   factory StateProviders.fromContext(BuildContext context) {
     // In tests, one does not initialize all providers
@@ -56,17 +58,17 @@ class StateProviders {
     final courseUnitsInfoProvider =
         Provider.of<CourseUnitsInfoProvider>(context, listen: false);
     final profileProvider =
-    Provider.of<ProfileProvider>(context, listen: false);
+        Provider.of<ProfileProvider>(context, listen: false);
     final sessionProvider =
-    Provider.of<SessionProvider>(context, listen: false);
+        Provider.of<SessionProvider>(context, listen: false);
     final calendarProvider =
-    Provider.of<CalendarProvider>(context, listen: false);
+        Provider.of<CalendarProvider>(context, listen: false);
     final libraryOccupationProvider =
-    Provider.of<LibraryOccupationProvider>(context, listen: false);
+        Provider.of<LibraryOccupationProvider>(context, listen: false);
     final facultyLocationsProvider =
-    Provider.of<FacultyLocationsProvider>(context, listen: false);
+        Provider.of<FacultyLocationsProvider>(context, listen: false);
     final referenceProvider =
-    Provider.of<ReferenceProvider>(context, listen: false);
+        Provider.of<ReferenceProvider>(context, listen: false);
 
     return StateProviders(
       lectureProvider,

@@ -72,15 +72,15 @@ class _ExamRowState extends State<ExamRow> {
                           icon: !isHidden
                               ? const Icon(Icons.visibility, size: 30)
                               : const Icon(
-                            Icons.visibility_off,
-                            size: 30,
-                          ),
+                                  Icons.visibility_off,
+                                  size: 30,
+                                ),
                           tooltip: isHidden
                               ? 'Mostrar na Área Pessoal'
                               : 'Ocultar da Área Pessoal',
                           onPressed: () async {
                             final hiddenExams =
-                            PreferencesController.getHiddenExams();
+                                PreferencesController.getHiddenExams();
 
                             if (hiddenExams.contains(widget.exam.id)) {
                               hiddenExams.remove(widget.exam.id);
@@ -133,8 +133,8 @@ class _ExamRowState extends State<ExamRow> {
     return rooms
         .map(
           (room) =>
-          Text(room.trim(), style: Theme.of(context).textTheme.bodyMedium),
-    )
+              Text(room.trim(), style: Theme.of(context).textTheme.bodyMedium),
+        )
         .toList();
   }
 
