@@ -8,7 +8,6 @@ import 'package:uni/view/bus_stop_selection/widgets/bus_stop_search.dart';
 import 'package:uni/view/bus_stop_selection/widgets/bus_stop_selection_row.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
-import 'package:uni/view/lazy_consumer.dart';
 
 class BusStopSelectionPage extends StatefulWidget {
   const BusStopSelectionPage({super.key});

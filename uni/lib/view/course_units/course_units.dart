@@ -51,10 +51,12 @@ class CourseUnitsPageViewState
           }
         }
 
-        return Column(children: [
-          _getPageTitleAndFilters(availableYears, availableSemesters),
-          _getPageView(courseUnits, availableYears, availableSemesters),
-        ]);
+        return Column(
+          children: [
+            _getPageTitleAndFilters(availableYears, availableSemesters),
+            _getPageView(courseUnits, availableYears, availableSemesters),
+          ],
+        );
       },
       hasContent: (Profile profile) => profile.courseUnits.isNotEmpty,
       onNullContent: Column(

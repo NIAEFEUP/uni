@@ -11,7 +11,6 @@ import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locale_notifier.dart';
 import 'package:uni/view/schedule/widgets/schedule_slot.dart';
 
-// (thePeras) TODO: Remove this useless class
 class SchedulePage extends StatefulWidget {
   const SchedulePage({super.key});
 
@@ -22,15 +21,18 @@ class SchedulePage extends StatefulWidget {
 class SchedulePageState extends State<SchedulePage> {
   @override
   Widget build(BuildContext context) {
-    return SchedulePageView();
+    return LazyConsumer<LectureProvider, List<Lecture>>(
+      builder: (context, lectures) => SchedulePageView(lectures),
+      hasContent: (lectures) => lectures.isNotEmpty,
+      onNullContent: const SchedulePageView([]),
+    );
   }
 }
 
-/// Manages the 'schedule' sections of the app
 class SchedulePageView extends StatefulWidget {
-  SchedulePageView({super.key});
+  const SchedulePageView(this.lectures, {super.key});
 
-  final int weekDay = DateTime.now().weekday;
+  final List<Lecture> lectures;
 
   @override
   SchedulePageViewState createState() => SchedulePageViewState();
@@ -47,7 +49,8 @@ class SchedulePageViewState extends GeneralPageViewState<SchedulePageView>
       vsync: this,
       length: 5,
     );
-    final offset = (widget.weekDay > 5) ? 0 : (widget.weekDay - 1) % 5;
+    final weekDay = DateTime.now().weekday;
+    final offset = (weekDay > 5) ? 0 : (weekDay - 1) % 5;
     tabController?.animateTo(tabController!.index + offset);
   }
 
@@ -82,20 +85,14 @@ class SchedulePageViewState extends GeneralPageViewState<SchedulePageView>
         Expanded(
           child: TabBarView(
             controller: tabController,
-            children: Iterable<int>.generate(5)
-                .map(
-                  (day) => LazyConsumer<LectureProvider, List<Lecture>>(
-                    builder: (context, lectures) => dayColumnBuilder(
-                      day,
-                      lecturesOfDay(lectures, day),
-                      context,
-                    ),
-                    hasContent: (lectures) =>
-                        lecturesOfDay(lectures, day).isNotEmpty,
-                    onNullContent: emptyDayColumn(context, day),
-                  ),
-                )
-                .toList(),
+            children: Iterable<int>.generate(5).map((day) {
+              final lectures = lecturesOfDay(widget.lectures, day);
+              if (lectures.isEmpty) {
+                return emptyDayColumn(context, day);
+              } else {
+                return dayColumnBuilder(day, lectures, context);
+              }
+            }).toList(),
           ),
         ),
       ],
@@ -133,7 +130,8 @@ class SchedulePageViewState extends GeneralPageViewState<SchedulePageView>
         mainAxisSize: MainAxisSize.min,
         children: lectures
             .map(
-              //(thePeras) TODO: ScheduleSlot should receive a lecture instead of all these parameters
+              // TODO(thePeras): ScheduleSlot should receive a lecture
+              //  instead of all these parameters.
               (lecture) => ScheduleSlot(
                 subject: lecture.subject,
                 typeClass: lecture.typeClass,

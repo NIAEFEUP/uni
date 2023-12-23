@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/providers/lazy/bus_stop_provider.dart';
-import 'package:uni/view/lazy_consumer.dart';
 
 /// Manages the section with the estimated time for the bus arrival
 class EstimatedArrivalTimeStamp extends StatelessWidget {

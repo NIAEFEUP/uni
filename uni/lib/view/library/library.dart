@@ -29,10 +29,10 @@ class LibraryPageState extends GeneralPageViewState<LibraryPage> {
         LazyConsumer<LibraryOccupationProvider, LibraryOccupation>(
           builder: getFloorRows,
           hasContent: (occupation) => occupation.floors.isNotEmpty,
-          onNullContent: const Center(
+          onNullContent: Center(
             child: Text(
               S.of(context).no_library_info,
-              style: TextStyle(fontSize: 18),
+              style: const TextStyle(fontSize: 18),
             ),
           ),
           contentLoadingWidget: const CircularProgressIndicator(),

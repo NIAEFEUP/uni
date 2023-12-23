@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/generated/l10n.dart';
+import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/reference.dart';
 import 'package:uni/model/providers/lazy/reference_provider.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/profile/widgets/reference_section.dart';
-
-import '../../../model/entities/profile.dart';
 
 /// Manages the 'Current account' section inside the user's page (accessible
 /// through the top-right widget with the user picture)

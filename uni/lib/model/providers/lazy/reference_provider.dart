@@ -1,12 +1,9 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
 import 'package:uni/controller/fetchers/reference_fetcher.dart';
 import 'package:uni/controller/local_storage/database/app_references_database.dart';
 import 'package:uni/controller/parsers/parser_references.dart';
-import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/reference.dart';
-import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/model/providers/state_providers.dart';
 

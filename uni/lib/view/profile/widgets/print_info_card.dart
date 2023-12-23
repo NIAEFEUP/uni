@@ -21,10 +21,10 @@ class PrintInfoCard extends GenericCard {
     return LazyConsumer<ProfileProvider, Profile>(
       builder: getPrintInfo,
       hasContent: (profile) => profile.printBalance != '',
-      onNullContent: const Center(
+      onNullContent: Center(
         child: Text(
           S.of(context).no_print_info,
-          style: TextStyle(fontSize: 18),
+          style: const TextStyle(fontSize: 18),
         ),
       ),
     );

@@ -184,6 +184,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("No favorite restaurants"),
         "no_info": MessageLookupByLibrary.simpleMessage(
             "There is no information to display"),
+        "no_library_info": MessageLookupByLibrary.simpleMessage(
+            "No library occupation information available"),
         "no_menu_info": MessageLookupByLibrary.simpleMessage(
             "There is no information available about meals"),
         "no_menus": MessageLookupByLibrary.simpleMessage(
@@ -192,6 +194,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Unnamed course"),
         "no_places_info": MessageLookupByLibrary.simpleMessage(
             "There is no information available about places"),
+        "no_print_info": MessageLookupByLibrary.simpleMessage(
+            "No print balance information"),
         "no_references": MessageLookupByLibrary.simpleMessage(
             "There are no references to pay"),
         "no_results": MessageLookupByLibrary.simpleMessage("No match"),

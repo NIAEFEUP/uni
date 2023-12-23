@@ -90,7 +90,7 @@ class BusStopNextArrivalsPageState
               padding: const EdgeInsets.all(22),
               child: const Center(child: CircularProgressIndicator()),
             ),
-          )
+          ),
         ],
       ),
     );

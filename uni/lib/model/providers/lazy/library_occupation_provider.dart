@@ -12,7 +12,8 @@ class LibraryOccupationProvider
 
   @override
   Future<LibraryOccupation> loadFromStorage(
-      StateProviders stateProviders) async {
+    StateProviders stateProviders,
+  ) async {
     final db = LibraryOccupationDatabase();
     return db.occupation();
   }

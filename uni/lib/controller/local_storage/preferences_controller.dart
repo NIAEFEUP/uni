@@ -5,7 +5,6 @@ import 'package:encrypt/encrypt.dart' as encrypt;
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tuple/tuple.dart';
-import 'package:uni/main.dart';
 import 'package:uni/model/entities/app_locale.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/utils/favorite_widget_type.dart';
@@ -15,7 +14,7 @@ import 'package:uni/utils/favorite_widget_type.dart';
 /// This database stores the user's student number, password and favorite
 /// widgets.
 class PreferencesController {
-  // TODO: Initilizate this also on workmanager
+  // TODO(bdmendes): Initilizate this also on workmanager
   static late SharedPreferences prefs;
 
   static final iv = encrypt.IV.fromBase64('jF9jjdSEPgsKnf0jCl1GAQ==');

@@ -14,7 +14,8 @@ class FacultyLocationsProvider
 
   @override
   Future<List<LocationGroup>> loadFromRemote(
-      StateProviders stateProviders) async {
+    StateProviders stateProviders,
+  ) async {
     return state!;
   }
 }
