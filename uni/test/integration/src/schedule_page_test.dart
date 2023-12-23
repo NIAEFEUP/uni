@@ -78,6 +78,8 @@ void main() async {
       );
 
       scheduleProvider.setState(lectures);
+      
+      await tester.pumpAndSettle();
 
       await tester.tap(find.byKey(const Key('schedule-page-tab-2')));
       await tester.pumpAndSettle();
