@@ -16,11 +16,11 @@ class BannerWidget extends StatelessWidget {
       margin: const EdgeInsets.all(10),
       child: MaterialBanner(
         padding: const EdgeInsets.all(15),
-        content: Text(S.of(context).banner_info,
+        content: Text(
+          S.of(context).banner_info,
           style: const TextStyle(color: Colors.white),
         ),
-        backgroundColor:
-            Colors.transparent,
+        backgroundColor: Colors.transparent,
         actions: <Widget>[
           TextButton(
             onPressed: onDismiss,

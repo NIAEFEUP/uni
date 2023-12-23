@@ -41,7 +41,7 @@ class HomePageViewState extends GeneralPageViewState {
         : Column(
             children: [
               BannerWidget(setBannerViewed),
-             const Expanded(
+              const Expanded(
                 child: MainCardsList(),
               ),
             ],
