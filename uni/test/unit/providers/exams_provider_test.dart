@@ -13,11 +13,14 @@ import 'package:uni/model/providers/lazy/exam_provider.dart';
 import 'package:uni/model/request_status.dart';
 
 import '../../mocks/unit/providers/exams_provider_test.mocks.dart';
+import '../../test_widget.dart';
 
 @GenerateNiceMocks(
   [MockSpec<Client>(), MockSpec<ParserExams>(), MockSpec<Response>()],
 )
-void main() {
+void main() async {
+  await initTestEnvironment();
+
   group('ExamProvider', () {
     final mockClient = MockClient();
     final parserExams = MockParserExams();
@@ -80,13 +83,15 @@ void main() {
       when(parserExams.parseExams(any, any))
           .thenAnswer((_) async => {sopeExam});
 
-      await provider.fetchUserExams(
+      final exams = await provider.fetchUserExams(
         parserExams,
         profile,
         session,
         userUcs,
         persistentSession: false,
       );
+
+      provider.setState(exams);
 
       expect(provider.state!.isNotEmpty, true);
       expect(provider.state, [sopeExam]);
@@ -96,13 +101,15 @@ void main() {
       when(parserExams.parseExams(any, any))
           .thenAnswer((_) async => {sopeExam, sdisExam});
 
-      await provider.fetchUserExams(
+      final exams = await provider.fetchUserExams(
         parserExams,
         profile,
         session,
         userUcs,
         persistentSession: false,
       );
+
+      provider.setState(exams);
 
       expect(provider.state, [sopeExam, sdisExam]);
     });
@@ -125,13 +132,15 @@ When given three exams but one is to be parsed out,
       when(parserExams.parseExams(any, any))
           .thenAnswer((_) async => {sopeExam, sdisExam, specialExam});
 
-      await provider.fetchUserExams(
+      final exams = await provider.fetchUserExams(
         parserExams,
         profile,
         session,
         userUcs,
         persistentSession: false,
       );
+
+      provider.setState(exams);
 
       expect(provider.state, [sopeExam, sdisExam]);
     });
@@ -167,13 +176,15 @@ When given three exams but one is to be parsed out,
       when(parserExams.parseExams(any, any))
           .thenAnswer((_) async => {todayExam});
 
-      await provider.fetchUserExams(
+      final exams = await provider.fetchUserExams(
         parserExams,
         profile,
         session,
         userUcs,
         persistentSession: false,
       );
+
+      provider.setState(exams);
 
       expect(provider.state, [todayExam]);
     });
@@ -194,13 +205,15 @@ When given three exams but one is to be parsed out,
       when(parserExams.parseExams(any, any))
           .thenAnswer((_) async => {todayExam});
 
-      await provider.fetchUserExams(
+      final exams = await provider.fetchUserExams(
         parserExams,
         profile,
         session,
         userUcs,
         persistentSession: false,
       );
+
+      provider.setState(exams);
 
       expect(provider.state, <Exam>[]);
     });
@@ -221,13 +234,15 @@ When given three exams but one is to be parsed out,
       when(parserExams.parseExams(any, any))
           .thenAnswer((_) async => {todayExam});
 
-      await provider.fetchUserExams(
+      final exams = await provider.fetchUserExams(
         parserExams,
         profile,
         session,
         userUcs,
         persistentSession: false,
       );
+
+      provider.setState(exams);
 
       expect(provider.state, [todayExam]);
     });

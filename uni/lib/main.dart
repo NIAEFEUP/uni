@@ -205,7 +205,7 @@ class ApplicationState extends State<Application> {
               settings: settings,
             ),
             '/${DrawerItem.navExams.title}': PageTransition.makePageTransition(
-              page: ExamsPageView(),
+              page: const ExamsPageView(),
               settings: settings,
             ),
             '/${DrawerItem.navStops.title}': PageTransition.makePageTransition(

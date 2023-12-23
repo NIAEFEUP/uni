@@ -78,7 +78,7 @@ class SessionProvider extends StateProviderNotifier<Session> {
       }
     }
 
-    updateState(session);
+    setState(session);
 
     if (persistentSession) {
       await PreferencesController.savePersistentUserInfo(

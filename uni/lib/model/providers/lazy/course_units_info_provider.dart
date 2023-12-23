@@ -15,7 +15,7 @@ typedef ClassesMap = Map<CourseUnit, List<CourseUnitClass>>;
 class CourseUnitsInfoProvider
     extends StateProviderNotifier<Tuple2<SheetsMap, ClassesMap>> {
   CourseUnitsInfoProvider() : super(cacheDuration: null) {
-    updateState(const Tuple2({}, {}));
+    setState(const Tuple2({}, {}));
   }
 
   UnmodifiableMapView<CourseUnit, CourseUnitSheet> get courseUnitsSheets =>

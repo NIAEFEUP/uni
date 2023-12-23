@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/providers/lazy/exam_provider.dart';
 import 'package:uni/view/exams/exams.dart';
@@ -10,7 +12,9 @@ import '../../../test_widget.dart';
 
 class MockExamProvider extends Mock implements ExamProvider {}
 
-void main() {
+void main() async {
+  await initTestEnvironment();
+
   group('ExamsPage', () {
     const firstExamSubject = 'SOPE';
     const firstExamDate = '2019-09-11';
@@ -18,8 +22,8 @@ void main() {
     const secondExamDate = '2019-09-12';
 
     testWidgets('When given an empty list', (WidgetTester tester) async {
-      final widget = ExamsPageView();
-      final examProvider = ExamProvider()..updateState([]);
+      const widget = ExamsPageView();
+      final examProvider = ExamProvider()..setState([]);
 
       final providers = [ChangeNotifierProvider(create: (_) => examProvider)];
 
@@ -41,9 +45,9 @@ void main() {
         'feup',
       );
 
-      final widget = ExamsPageView();
+      const widget = ExamsPageView();
 
-      final examProvider = ExamProvider()..updateState([firstExam]);
+      final examProvider = ExamProvider()..setState([firstExam]);
 
       final providers = [ChangeNotifierProvider(create: (_) => examProvider)];
 
@@ -84,9 +88,9 @@ void main() {
         secondExam,
       ];
 
-      final widget = ExamsPageView();
+      const widget = ExamsPageView();
 
-      final examProvider = ExamProvider()..updateState(examList);
+      final examProvider = ExamProvider()..setState(examList);
 
       final providers = [ChangeNotifierProvider(create: (_) => examProvider)];
 
@@ -130,9 +134,9 @@ void main() {
         secondExam,
       ];
 
-      final widget = ExamsPageView();
+      const widget = ExamsPageView();
 
-      final examProvider = ExamProvider()..updateState(examList);
+      final examProvider = ExamProvider()..setState(examList);
 
       final providers = [ChangeNotifierProvider(create: (_) => examProvider)];
 
@@ -194,9 +198,9 @@ void main() {
       );
       final examList = [firstExam, secondExam, thirdExam, fourthExam];
 
-      final widget = ExamsPageView();
+      const widget = ExamsPageView();
 
-      final examProvider = ExamProvider()..updateState(examList);
+      final examProvider = ExamProvider()..setState(examList);
 
       final firstDayKey =
           [firstExam, secondExam].map((ex) => ex.toString()).join();

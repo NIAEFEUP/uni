@@ -14,31 +14,35 @@ import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locale_notifier.dart';
 
 class ExamsPageView extends StatefulWidget {
-  ExamsPageView({super.key});
-
-  final List<String> hiddenExams = PreferencesController.getHiddenExams();
-  final Map<String, bool> filteredExamTypes =
-      PreferencesController.getFilteredExams();
+  const ExamsPageView({super.key});
 
   @override
   State<StatefulWidget> createState() => ExamsPageViewState();
 }
 
 class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
+  List<String> hiddenExams = PreferencesController.getHiddenExams();
+  Map<String, bool> filteredExamTypes =
+      PreferencesController.getFilteredExams();
+
   @override
   Widget getBody(BuildContext context) {
     return LazyConsumer<ExamProvider, List<Exam>>(
       builder: (context, exams) {
         return ListView(
           children: <Widget>[
+            ExamPageTitle(
+              () => setState(() {
+                filteredExamTypes = PreferencesController.getFilteredExams();
+              }),
+            ),
             Column(
               children: createExamsColumn(
                 context,
                 exams
                     .where(
                       (exam) =>
-                          widget.filteredExamTypes[
-                              Exam.getExamTypeLong(exam.type)] ??
+                          filteredExamTypes[Exam.getExamTypeLong(exam.type)] ??
                           true,
                     )
                     .toList(),
@@ -73,7 +77,7 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
       ];
     }
 
-    final columns = <Widget>[const ExamPageTitle()];
+    final columns = <Widget>[];
     final currentDayExams = <Exam>[];
 
     for (var i = 0; i < exams.length; i++) {
@@ -101,6 +105,7 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
         currentDayExams.clear();
       }
     }
+
     return columns;
   }
 
@@ -130,7 +135,7 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
   }
 
   Widget createExamContext(BuildContext context, Exam exam) {
-    final isHidden = widget.hiddenExams.contains(exam.id);
+    final isHidden = hiddenExams.contains(exam.id);
     return Container(
       key: Key('$exam-exam'),
       margin: const EdgeInsets.fromLTRB(12, 4, 12, 0),
@@ -138,7 +143,16 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
         color: isHidden
             ? Theme.of(context).hintColor
             : Theme.of(context).scaffoldBackgroundColor,
-        child: ExamRow(exam: exam, teacher: '', mainPage: false),
+        child: ExamRow(
+          exam: exam,
+          teacher: '',
+          mainPage: false,
+          onChangeVisibility: () {
+            setState(() {
+              hiddenExams = PreferencesController.getHiddenExams();
+            });
+          },
+        ),
       ),
     );
   }

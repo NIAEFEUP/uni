@@ -6,7 +6,9 @@ import 'package:uni/view/schedule/widgets/schedule_slot.dart';
 
 import '../../../test_widget.dart';
 
-void main() {
+void main() async {
+  await initTestEnvironment();
+
   group('SchedulePage', () {
     const blocks = 4;
     const classNumber = 'MIEIC03';

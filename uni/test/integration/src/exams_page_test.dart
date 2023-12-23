@@ -20,7 +20,9 @@ import '../../mocks/integration/src/exams_page_test.mocks.dart';
 import '../../test_widget.dart';
 
 @GenerateNiceMocks([MockSpec<http.Client>(), MockSpec<http.Response>()])
-void main() {
+void main() async {
+  await initTestEnvironment();
+
   group('ExamsPage Integration Tests', () {
     final mockClient = MockClient();
     final mockResponse = MockResponse();
@@ -68,7 +70,7 @@ void main() {
 
       final examProvider = ExamProvider();
 
-      final widget = ExamsPageView();
+      const widget = ExamsPageView();
 
       final providers = [
         ChangeNotifierProvider(create: (_) => examProvider),

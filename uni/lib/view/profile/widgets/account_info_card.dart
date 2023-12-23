@@ -65,7 +65,6 @@ class AccountInfoCard extends GenericCard {
                   Container(
                     margin: const EdgeInsets.only(
                       top: 8,
-                      bottom: 20,
                       left: 20,
                     ),
                     child: Text(
@@ -76,7 +75,6 @@ class AccountInfoCard extends GenericCard {
                   Container(
                     margin: const EdgeInsets.only(
                       top: 8,
-                      bottom: 20,
                       right: 30,
                     ),
                     child: getInfoText(
@@ -98,7 +96,12 @@ class AccountInfoCard extends GenericCard {
             return Column(
               children: [
                 Container(
-                  padding: const EdgeInsets.all(10),
+                  padding: const EdgeInsets.only(
+                    top: 30,
+                    bottom: 10,
+                    right: 15,
+                    left: 15,
+                  ),
                   child: Row(
                     children: <Widget>[
                       Text(

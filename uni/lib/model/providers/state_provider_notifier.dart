@@ -58,7 +58,7 @@ abstract class StateProviderNotifier<T> extends ChangeNotifier {
   /// Update the current model state, notifying the listeners.
   /// This should be called only to modify the model after
   /// it has been loaded, for example as a UI callback side effect.
-  void updateState(T newState) {
+  void setState(T newState) {
     _state = newState;
     notifyListeners();
   }
@@ -79,7 +79,7 @@ abstract class StateProviderNotifier<T> extends ChangeNotifier {
     );
 
     try {
-      updateState(await loadFromStorage(StateProviders.fromContext(context)));
+      setState(await loadFromStorage(StateProviders.fromContext(context)));
     } catch (e, stackTrace) {
       await Sentry.captureException(e, stackTrace: stackTrace);
       Logger()
@@ -123,7 +123,7 @@ abstract class StateProviderNotifier<T> extends ChangeNotifier {
       if (!context.mounted) {
         return;
       }
-      updateState(await loadFromRemote(StateProviders.fromContext(context)));
+      setState(await loadFromRemote(StateProviders.fromContext(context)));
 
       Logger().i('Loaded $runtimeType info from remote');
       _lastUpdateTime = DateTime.now();

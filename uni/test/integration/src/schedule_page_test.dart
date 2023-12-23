@@ -31,7 +31,9 @@ class UriMatcher extends CustomMatcher {
   MockSpec<http.Response>(),
   MockSpec<SessionProvider>(),
 ])
-void main() {
+void main() async {
+  await initTestEnvironment();
+
   group('SchedulePage Integration Tests', () {
     final mockClient = MockClient();
     final mockResponse = MockResponse();
@@ -49,7 +51,7 @@ void main() {
       final scheduleProvider = LectureProvider();
       final sessionProvider = MockSessionProvider();
 
-      when(sessionProvider.session).thenReturn(
+      when(sessionProvider.state).thenReturn(
         Session(username: 'up1234', cookies: 'cookie', faculties: ['feup']),
       );
 

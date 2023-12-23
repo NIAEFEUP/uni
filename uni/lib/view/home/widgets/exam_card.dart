@@ -46,19 +46,9 @@ class ExamCard extends GenericCard {
   Widget buildCardContent(BuildContext context) {
     return LazyConsumer<ExamProvider, List<Exam>>(
       builder: (context, exams) {
-        final filteredExams = PreferencesController.getFilteredExams();
-        final hiddenExams = PreferencesController.getHiddenExams();
-        final shownExams = exams
-            .where(
-              (exam) =>
-                  !hiddenExams.contains(exam.id) &&
-                  (filteredExams[Exam.getExamTypeLong(exam.type)] ?? true),
-            )
-            .toList();
-
-        return generateExams(shownExams, context);
+        return generateExams(shownExams(exams), context);
       },
-      hasContent: (exams) => exams.isNotEmpty,
+      hasContent: (exams) => shownExams(exams).isNotEmpty,
       onNullContent: Center(
         child: Text(
           S.of(context).no_selected_exams,
@@ -67,6 +57,19 @@ class ExamCard extends GenericCard {
       ),
       contentLoadingWidget: const ExamCardShimmer().build(context),
     );
+  }
+
+  List<Exam> shownExams(List<Exam> exams) {
+    final filteredExams = PreferencesController.getFilteredExams();
+    final hiddenExams = PreferencesController.getHiddenExams();
+
+    return exams
+        .where(
+          (exam) =>
+              !hiddenExams.contains(exam.id) &&
+              (filteredExams[Exam.getExamTypeLong(exam.type)] ?? true),
+        )
+        .toList();
   }
 
   /// Returns a widget with all the exams.
@@ -128,6 +131,7 @@ class ExamCard extends GenericCard {
             exam: exam,
             teacher: '',
             mainPage: true,
+            onChangeVisibility: () {},
           ),
         ),
       ],
