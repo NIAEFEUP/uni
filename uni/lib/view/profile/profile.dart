@@ -7,6 +7,7 @@ import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/profile/widgets/account_info_card.dart';
 import 'package:uni/view/profile/widgets/course_info_card.dart';
+import 'package:uni/view/profile/widgets/print_info_card.dart';
 import 'package:uni/view/profile/widgets/profile_overview.dart';
 import 'package:uni/view/settings/settings.dart';
 
@@ -42,10 +43,9 @@ class ProfilePageViewState extends SecondaryPageViewState<ProfilePageView> {
               getProfileDecorationImage: getProfileDecorationImage,
             ),
             const Padding(padding: EdgeInsets.all(5)),
-            // TODO(bdmendes): Bring this back when print info is ready again
-            // PrintInfoCard()
             ...courseWidgets,
             AccountInfoCard(),
+            PrintInfoCard(),
           ],
         );
       },

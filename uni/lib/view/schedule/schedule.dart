@@ -18,14 +18,30 @@ class SchedulePage extends StatefulWidget {
   SchedulePageState createState() => SchedulePageState();
 }
 
-class SchedulePageState extends State<SchedulePage> {
+class SchedulePageState extends GeneralPageViewState<SchedulePage> {
   @override
-  Widget build(BuildContext context) {
-    return LazyConsumer<LectureProvider, List<Lecture>>(
-      builder: (context, lectures) => SchedulePageView(lectures),
-      hasContent: (lectures) => lectures.isNotEmpty,
-      onNullContent: const SchedulePageView([]),
+  Widget getBody(BuildContext context) {
+    return Column(
+      children: [
+        PageTitle(
+          name: S.of(context).nav_title(
+                DrawerItem.navSchedule.title,
+              ),
+        ),
+        Expanded(
+          child: LazyConsumer<LectureProvider, List<Lecture>>(
+            builder: (context, lectures) => SchedulePageView(lectures),
+            hasContent: (lectures) => lectures.isNotEmpty,
+            onNullContent: const SchedulePageView([]),
+          ),
+        ),
+      ],
     );
+  }
+
+  @override
+  Future<void> onRefresh(BuildContext context) async {
+    await context.read<LectureProvider>().forceRefresh(context);
   }
 }
 
@@ -38,7 +54,7 @@ class SchedulePageView extends StatefulWidget {
   SchedulePageViewState createState() => SchedulePageViewState();
 }
 
-class SchedulePageViewState extends GeneralPageViewState<SchedulePageView>
+class SchedulePageViewState extends State<SchedulePageView>
     with TickerProviderStateMixin {
   TabController? tabController;
 
@@ -61,26 +77,15 @@ class SchedulePageViewState extends GeneralPageViewState<SchedulePageView>
   }
 
   @override
-  Widget getBody(BuildContext context) {
+  Widget build(BuildContext context) {
     final queryData = MediaQuery.of(context);
-
     return Column(
       children: <Widget>[
-        ListView(
-          shrinkWrap: true,
-          children: <Widget>[
-            PageTitle(
-              name: S.of(context).nav_title(
-                    DrawerItem.navSchedule.title,
-                  ),
-            ),
-            TabBar(
-              controller: tabController,
-              isScrollable: true,
-              physics: const BouncingScrollPhysics(),
-              tabs: createTabs(queryData, context),
-            ),
-          ],
+        TabBar(
+          controller: tabController,
+          isScrollable: true,
+          physics: const BouncingScrollPhysics(),
+          tabs: createTabs(queryData, context),
         ),
         Expanded(
           child: TabBarView(
@@ -168,11 +173,5 @@ class SchedulePageViewState extends GeneralPageViewState<SchedulePageView>
         labelTextStyle: const TextStyle(fontSize: 15),
       ),
     );
-  }
-
-  @override
-  Future<void> onRefresh(BuildContext context) {
-    return Provider.of<LectureProvider>(context, listen: false)
-        .forceRefresh(context);
   }
 }

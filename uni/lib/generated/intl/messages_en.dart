@@ -221,7 +221,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "problem_id": MessageLookupByLibrary.simpleMessage(
             "Brief identification of the problem"),
         "reference_sigarra_help": MessageLookupByLibrary.simpleMessage(
-            "The generated reference data will appear in Sigarra, checking account.\\nProfile > Checking Account"),
+            "The generated reference data will appear in Sigarra, checking account.\nProfile > Checking Account"),
         "reference_success": MessageLookupByLibrary.simpleMessage(
             "Reference created successfully!"),
         "remove": MessageLookupByLibrary.simpleMessage("Delete"),

@@ -98,10 +98,9 @@ class LazyConsumer<T1 extends StateProviderNotifier<T2>, T2>
 
     return showContent
         ? builder(context, provider.state as T2)
-        : Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            child: SingleChildScrollView(
-              physics: const AlwaysScrollableScrollPhysics(),
+        : Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10),
               child: onNullContent,
             ),
           );

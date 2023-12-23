@@ -1199,7 +1199,7 @@ class S {
   /// `The generated reference data will appear in Sigarra, checking account.\nProfile > Checking Account`
   String get reference_sigarra_help {
     return Intl.message(
-      'The generated reference data will appear in Sigarra, checking account.\\nProfile > Checking Account',
+      'The generated reference data will appear in Sigarra, checking account.\nProfile > Checking Account',
       name: 'reference_sigarra_help',
       desc: '',
       args: [],
