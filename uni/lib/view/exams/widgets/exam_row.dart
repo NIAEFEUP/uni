@@ -53,7 +53,7 @@ class _ExamRowState extends State<ExamRow> {
                   ),
                   ExamTitle(
                     subject: widget.exam.subject,
-                    type: widget.exam.type,
+                    type: widget.exam.examType,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -117,7 +117,7 @@ class _ExamRowState extends State<ExamRow> {
 
   Event createExamEvent() {
     return Event(
-      title: '${widget.exam.type} ${widget.exam.subject}',
+      title: '${widget.exam.examType} ${widget.exam.subject}',
       location: widget.exam.rooms.toString(),
       startDate: widget.exam.begin,
       endDate: widget.exam.end,

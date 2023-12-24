@@ -59,9 +59,11 @@ CREATE TABLE exams(id TEXT, subject TEXT, begin TEXT, end TEXT,
   /// If a row with the same data is present, it will be replaced.
   Future<void> _insertExams(List<Exam> exams) async {
     for (final exam in exams) {
+      final examJson = exam.toJson();
+      examJson['rooms'] = (examJson['rooms'] as List<dynamic>).join(',');
       await insertInDatabase(
         'exams',
-        exam.toMap(),
+        examJson,
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
     }

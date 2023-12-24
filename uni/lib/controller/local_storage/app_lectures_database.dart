@@ -54,7 +54,7 @@ CREATE TABLE lectures(subject TEXT, typeClass TEXT,
     for (final lec in lecs) {
       await insertInDatabase(
         'lectures',
-        lec.toMap(),
+        lec.toJson(),
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
     }

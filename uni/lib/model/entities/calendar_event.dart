@@ -1,12 +1,17 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'calendar_event.g.dart';
+
 /// An event in the school calendar
+@JsonSerializable()
 class CalendarEvent {
-  /// Creates an instance of the class [CalendarEvent]
   CalendarEvent(this.name, this.date);
+  factory CalendarEvent.fromJson(Map<String, dynamic> json) =>
+      _$CalendarEventFromJson(json);
+
+  /// Creates an instance of the class [CalendarEvent]
+  ///
   String name;
   String date;
-
-  /// Converts the event into a map
-  Map<String, dynamic> toMap() {
-    return {'name': name, 'date': date};
-  }
+  Map<String, dynamic> toJson() => _$CalendarEventToJson(this);
 }

@@ -48,7 +48,6 @@ class AppDatabase {
     await lock.synchronized(
       () async {
         final db = await getDatabase();
-
         await db.insert(
           table,
           values,

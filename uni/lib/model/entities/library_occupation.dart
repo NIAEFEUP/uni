@@ -1,6 +1,11 @@
 import 'dart:math';
 
+import 'package:json_annotation/json_annotation.dart';
+
+part 'library_occupation.g.dart';
+
 /// Overall occupation of the library
+@JsonSerializable()
 class LibraryOccupation {
   LibraryOccupation(this.occupation, this.capacity) {
     floors = [];
@@ -8,6 +13,9 @@ class LibraryOccupation {
   late int occupation;
   late int capacity;
   late List<FloorOccupation> floors;
+
+  factory LibraryOccupation.fromJson(Map<String, dynamic> json) =>
+      _$LibraryOccupationFromJson(json);
 
   void addFloor(FloorOccupation floor) {
     floors.add(floor);
@@ -24,11 +32,18 @@ class LibraryOccupation {
     if (floors.length < number || number < 0) return FloorOccupation(0, 0, 0);
     return floors[number - 1];
   }
+
+  Map<String, dynamic> toJson() => _$LibraryOccupationToJson(this);
 }
 
 /// Occupation values of a single floor
+@JsonSerializable()
 class FloorOccupation {
   FloorOccupation(this.number, this.occupation, this.capacity);
+
+
+  factory FloorOccupation.fromJson(Map<String, dynamic> json) =>
+      _$FloorOccupationFromJson(json);
   final int number;
   final int occupation;
   final int capacity;
@@ -38,12 +53,5 @@ class FloorOccupation {
     return min(100, (occupation * 100 / capacity).round());
   }
 
-  Map<String, dynamic> toMap() {
-    final map = <String, dynamic>{
-      'number': number,
-      'occupation': occupation,
-      'capacity': capacity,
-    };
-    return map;
-  }
+  Map<String, dynamic> toJson() => _$FloorOccupationToJson(this);
 }

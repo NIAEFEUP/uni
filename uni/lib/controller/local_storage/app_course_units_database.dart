@@ -46,7 +46,7 @@ class AppCourseUnitsDatabase extends AppDatabase {
     for (final courseUnit in courseUnits) {
       await insertInDatabase(
         'course_units',
-        courseUnit.toMap(),
+        courseUnit.toJson(),
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
     }

@@ -82,7 +82,7 @@ class ExamProvider extends StateProviderNotifier {
   List<Exam> getFilteredExams() {
     return exams
         .where(
-          (exam) => filteredExamsTypes[Exam.getExamTypeLong(exam.type)] ?? true,
+          (exam) => filteredExamsTypes[Exam.getExamTypeLong(exam.examType)] ?? true,
         )
         .toList();
   }

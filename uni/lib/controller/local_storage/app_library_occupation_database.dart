@@ -19,7 +19,7 @@ CREATE TABLE FLOOR_OCCUPATION(
     await db.transaction((txn) async {
       await txn.delete('FLOOR_OCCUPATION');
       for (final floor in occupation.floors) {
-        await txn.insert('FLOOR_OCCUPATION', floor.toMap());
+        await txn.insert('FLOOR_OCCUPATION', floor.toJson());
       }
     });
   }

@@ -1,6 +1,25 @@
+import 'package:json_annotation/json_annotation.dart';
 import 'package:logger/logger.dart';
 
+part 'lecture.g.dart';
+
+class DateTimeConverter extends JsonConverter<DateTime, String> {
+  const DateTimeConverter();
+
+  @override
+  DateTime fromJson(String json) {
+    return DateTime.parse(json);
+  }
+
+  @override
+  String toJson(DateTime object) {
+    return object.toIso8601String();
+  }
+}
+
 /// Stores information about a lecture.
+@DateTimeConverter()
+@JsonSerializable()
 class Lecture {
   /// Creates an instance of the class [Lecture].
   Lecture(
@@ -14,6 +33,9 @@ class Lecture {
     this.classNumber,
     this.occurrId,
   );
+
+  factory Lecture.fromJson(Map<String, dynamic> json) =>
+      _$LectureFromJson(json);
 
   factory Lecture.fromApi(
     String subject,
@@ -51,19 +73,22 @@ class Lecture {
     String classNumber,
     int occurrId,
   ) {
-    final startTimeList = startTimeString.split(':');
-    final startTime = day.add(
-      Duration(
-        hours: int.parse(startTimeList[0]),
-        minutes: int.parse(startTimeList[1]),
-      ),
-    );
-    final endTime = startTime.add(Duration(minutes: 30 * blocks));
+
+    final startTimeHours = int.parse(startTimeString.substring(0, 2));
+    final startTimeMinutes = int.parse(startTimeString.substring(3, 5));
+    final endTimeHours =
+        (startTimeMinutes + (blocks * 30)) ~/ 60 + startTimeHours;
+    final endTimeMinutes = (startTimeMinutes + (blocks * 30)) % 60;
     return Lecture(
       subject,
       typeClass,
-      startTime,
-      endTime,
+      day.add(Duration(hours: startTimeHours, minutes: startTimeMinutes)),
+      day.add(
+        Duration(
+          hours: startTimeMinutes + endTimeHours,
+          minutes: startTimeMinutes + endTimeMinutes,
+        ),
+      ),
       blocks,
       room,
       teacher,
@@ -100,20 +125,7 @@ class Lecture {
   DateTime endTime;
   int blocks;
   int occurrId;
-
-  /// Converts this lecture to a map.
-  Map<String, dynamic> toMap() {
-    return {
-      'subject': subject,
-      'typeClass': typeClass,
-      'startDateTime': startTime.toIso8601String(),
-      'blocks': blocks,
-      'room': room,
-      'teacher': teacher,
-      'classNumber': classNumber,
-      'occurrId': occurrId,
-    };
-  }
+  Map<String, dynamic> toJson() => _$LectureToJson(this);
 
   /// Prints the data in this lecture to the [Logger] with an INFO level.
   void printLecture() {

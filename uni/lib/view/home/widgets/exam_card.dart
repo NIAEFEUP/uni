@@ -151,7 +151,7 @@ class ExamCard extends GenericCard {
               ),
               ExamTitle(
                 subject: exam.subject,
-                type: exam.type,
+                type: exam.examType,
                 reverseOrder: true,
               ),
             ],

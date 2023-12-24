@@ -1,4 +1,10 @@
+
+import 'package:json_annotation/json_annotation.dart';
+
+part 'course_unit.g.dart';
+
 /// Stores information about a course unit.
+@JsonSerializable()
 class CourseUnit {
   CourseUnit({
     required this.abbreviation,
@@ -16,70 +22,41 @@ class CourseUnit {
     this.result,
     this.ects,
     this.schoolYear,
-  });
+  }); // e.g. 2020/2021
 
+  factory CourseUnit.fromJson(Map<String, dynamic> json) =>
+      _$CourseUnitFromJson(json);
+
+  @JsonKey(name: 'ucurr_id')
   int id;
+  @JsonKey(name: 'ucurr_codigo')
   String code;
+  @JsonKey(name: 'ucurr_sigla')
   String abbreviation;
+  @JsonKey(name: 'ucurr_nome')
   String name;
+  @JsonKey(name: 'ano')
   int? curricularYear;
+  @JsonKey(name: 'ocorr_id')
   int occurrId;
+  @JsonKey(name: 'per_codigo')
   String? semesterCode;
+  @JsonKey(name: 'per_nome')
   String? semesterName;
+  @JsonKey(name: 'tipo')
   String? type;
+  @JsonKey(name: 'estado')
   String? status;
+  @JsonKey(name: 'resultado_melhor')
   String? grade;
+  @JsonKey(name: 'resultado_ects')
   String? ectsGrade;
+  @JsonKey(name: 'resultado_insc')
   String? result;
+  @JsonKey(name: 'creditos_ects')
   num? ects;
-  String? schoolYear; // e.g. 2020/2021
-
-  /// Creates a new instance from a JSON object.
-  static CourseUnit? fromJson(Map<String, dynamic> data) {
-    if (data['ucurr_id'] == null) {
-      return null;
-    }
-
-    return CourseUnit(
-      id: data['ucurr_id'] as int,
-      code: data['ucurr_codigo'] as String,
-      abbreviation: data['ucurr_sigla'] as String,
-      name: data['ucurr_nome'] as String,
-      curricularYear: data['ano'] as int?,
-      occurrId: data['ocorr_id'] as int,
-      semesterCode: data['per_codigo'] as String?,
-      semesterName: data['per_nome'] as String?,
-      type: data['tipo'] as String?,
-      status: data['estado'] as String?,
-      grade: data['resultado_melhor'] as String?,
-      ectsGrade: data['resultado_ects'] as String?,
-      result: data['resultado_insc'] as String?,
-      ects: data['creditos_ects'] as num?,
-      schoolYear: data['a_lectivo'] == null
-          ? null
-          : toSchoolYear(data['a_lectivo'] as int),
-    );
-  }
-
-  Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'code': code,
-      'abbreviation': abbreviation,
-      'name': name,
-      'curricularYear': curricularYear,
-      'occurrId': occurrId,
-      'semesterCode': semesterCode,
-      'semesterName': semesterName,
-      'type': type,
-      'status': status,
-      'grade': grade,
-      'ectsGrade': ectsGrade,
-      'result': result,
-      'ects': ects,
-      'schoolYear': schoolYear,
-    };
-  }
+  String? schoolYear;
+  Map<String, dynamic> toJson() => _$CourseUnitToJson(this);
 
   bool enrollmentIsValid() {
     return status == 'V' || status == 'C';

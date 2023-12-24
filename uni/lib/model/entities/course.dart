@@ -1,3 +1,7 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'course.g.dart';
+
 /// Stores information about a course.
 ///
 /// The information stored is:
@@ -7,10 +11,11 @@
 /// - The course current `year`
 /// - The date of the `firstEnrollment`
 /// - The course `state`
+@JsonSerializable()
 class Course {
   Course({
     required this.id,
-    this.festId,
+    this.festId = 0,
     this.name,
     this.abbreviation,
     this.currYear,
@@ -21,46 +26,23 @@ class Course {
     this.currentAverage,
   });
 
-  static Course? fromJson(Map<String, dynamic> data) {
-    if (data['cur_id'] == null || data['fest_id'] == 0) {
-      return null;
-    }
-
-    return Course(
-      id: data['cur_id'] as int,
-      festId: data['fest_id'] as int,
-      name: data['cur_nome'] as String?,
-      currYear: data['ano_curricular'] as String?,
-      firstEnrollment: data['fest_a_lect_1_insc'] as int?,
-      abbreviation: data['abbreviation'] as String?,
-      faculty: data['inst_sigla']?.toString().toLowerCase(),
-    );
-  }
-
+  factory Course.fromJson(Map<String, dynamic> json) => _$CourseFromJson(json);
+  @JsonKey(name: 'cur_id')
   final int id;
+  @JsonKey(name: 'fest_id')
   final int? festId;
+  @JsonKey(name: 'cur_nome')
   final String? name;
+  @JsonKey(name: 'abbreviation')
   final String? abbreviation;
+  @JsonKey(name: 'ano_curricular')
   final String? currYear;
+  @JsonKey(name: 'fest_a_lect_1_insc')
   final int? firstEnrollment;
+  @JsonKey(name: 'inst_sigla')
   final String? faculty;
   String? state;
   num? finishedEcts;
   num? currentAverage;
-
-  /// Converts this course to a map.
-  Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'fest_id': festId,
-      'name': name,
-      'abbreviation': abbreviation,
-      'currYear': currYear,
-      'firstEnrollment': firstEnrollment,
-      'state': state,
-      'faculty': faculty,
-      'currentAverage': currentAverage,
-      'finishedEcts': finishedEcts,
-    };
-  }
+  Map<String, dynamic> toJson() => _$CourseToJson(this);
 }

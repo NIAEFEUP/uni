@@ -39,6 +39,7 @@ dependencies:
   http: ^1.1.0
   image: ^4.0.13
   intl: ^0.18.0
+  json_annotation: ^4.8.1
   latlong2: ^0.9.0
   logger: ^2.0.2+1
   material_design_icons_flutter: ^7.0.7296
@@ -63,6 +64,7 @@ dev_dependencies:
     sdk: flutter
   # FIXME(luisd): Update mockito to a release version when 5.4.3 or above
   # is launched
+  json_serializable: ^6.7.1
   mockito:
     git:
       url: https://github.com/dart-lang/mockito.git
