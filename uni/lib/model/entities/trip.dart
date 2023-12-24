@@ -11,7 +11,6 @@ class Trip {
     required this.timeRemaining,
   });
 
-
   factory Trip.fromJson(Map<String, dynamic> json) => _$TripFromJson(json);
   final String line;
   final String destination;

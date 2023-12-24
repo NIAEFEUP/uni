@@ -10,12 +10,12 @@ class LibraryOccupation {
   LibraryOccupation(this.occupation, this.capacity) {
     floors = [];
   }
-  late int occupation;
-  late int capacity;
-  late List<FloorOccupation> floors;
 
   factory LibraryOccupation.fromJson(Map<String, dynamic> json) =>
       _$LibraryOccupationFromJson(json);
+  late int occupation;
+  late int capacity;
+  late List<FloorOccupation> floors;
 
   void addFloor(FloorOccupation floor) {
     floors.add(floor);
@@ -40,7 +40,6 @@ class LibraryOccupation {
 @JsonSerializable()
 class FloorOccupation {
   FloorOccupation(this.number, this.occupation, this.capacity);
-
 
   factory FloorOccupation.fromJson(Map<String, dynamic> json) =>
       _$FloorOccupationFromJson(json);

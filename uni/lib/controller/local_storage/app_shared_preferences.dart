@@ -294,6 +294,7 @@ class AppSharedPreferences {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(tuitionNotificationsToggleKey, value);
   }
+
   static Future<bool> getUsageStatsToggle() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getBool(usageStatsToggleKey) ?? true;

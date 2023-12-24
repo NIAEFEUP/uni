@@ -72,7 +72,6 @@ class FormTextField extends StatelessWidget {
               ),
             ],
           ),
-
         ],
       ),
     );

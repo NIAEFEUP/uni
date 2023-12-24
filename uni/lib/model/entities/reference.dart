@@ -27,7 +27,6 @@ class Reference {
     this.amount,
   );
 
-
   factory Reference.fromJson(Map<String, dynamic> json) =>
       _$ReferenceFromJson(json);
   final String description;

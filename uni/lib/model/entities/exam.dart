@@ -1,7 +1,7 @@
 import 'package:intl/intl.dart';
-import 'package:uni/model/entities/app_locale.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:logger/logger.dart';
+import 'package:uni/model/entities/app_locale.dart';
 
 part 'exam.g.dart';
 

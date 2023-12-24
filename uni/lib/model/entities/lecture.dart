@@ -73,7 +73,6 @@ class Lecture {
     String classNumber,
     int occurrId,
   ) {
-
     final startTimeHours = int.parse(startTimeString.substring(0, 2));
     final startTimeMinutes = int.parse(startTimeString.substring(3, 5));
     final endTimeHours =

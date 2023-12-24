@@ -12,7 +12,6 @@ class BusStopData {
     this.trips = const [],
   });
 
-
   factory BusStopData.fromJson(Map<String, dynamic> json) =>
       _$BusStopDataFromJson(json);
   final Set<String> configuredBuses;

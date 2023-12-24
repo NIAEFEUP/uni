@@ -24,13 +24,12 @@ class Restaurant {
   final String name;
   @JsonKey(name: 'ref')
   final String reference; // Used only in html parser
-  @JsonKey(includeToJson:true)
+  @JsonKey(includeToJson: true)
   late final Map<DayOfWeek, List<Meal>> meals;
 
   bool get isNotEmpty {
     return meals.isNotEmpty;
   }
-
 
   Map<String, dynamic> toJson() => _$RestaurantToJson(this);
 
