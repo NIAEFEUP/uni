@@ -66,7 +66,7 @@ class LibraryOccupationCard extends GenericCard {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6),
       child: CircularPercentIndicator(
-        radius: 60,
+        radius: 40,
         lineWidth: 8,
         percent: occupation.percentage / 100,
         center: Text(

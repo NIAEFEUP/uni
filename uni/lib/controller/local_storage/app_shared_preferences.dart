@@ -26,6 +26,7 @@ class AppSharedPreferences {
   static const String areTermsAndConditionsAcceptedKey = 'is_t&c_accepted';
   static const String tuitionNotificationsToggleKey =
       'tuition_notification_toogle';
+  static const String usageStatsToggleKey = 'usage_stats_toogle';
   static const String themeMode = 'theme_mode';
   static const String locale = 'app_locale';
   static const String lastCacheCleanUpDate = 'last_clean';
@@ -305,5 +306,17 @@ class AppSharedPreferences {
   }) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(tuitionNotificationsToggleKey, value);
+  }
+
+  static Future<bool> getUsageStatsToggle() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(usageStatsToggleKey) ?? true;
+  }
+
+  static Future<void> setUsageStatsToggle({
+    required bool value,
+  }) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(usageStatsToggleKey, value);
   }
 }
