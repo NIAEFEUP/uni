@@ -27,45 +27,43 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
 
   @override
   Widget getBody(BuildContext context) {
-    return LazyConsumer<ExamProvider, List<Exam>>(
-      builder: (context, exams) {
-        return ListView(
-          children: <Widget>[
-            ExamPageTitle(
-              () => setState(() {
-                filteredExamTypes = PreferencesController.getFilteredExams();
-              }),
-            ),
-            Column(
-              children: createExamsColumn(
-                context,
-                exams
-                    .where(
-                      (exam) =>
-                          filteredExamTypes[Exam.getExamTypeLong(exam.type)] ??
-                          true,
-                    )
-                    .toList(),
-              ),
-            ),
-          ],
-        );
-      },
-      hasContent: (List<Exam> exams) => exams.isNotEmpty,
-      onNullContent: Center(
-        heightFactor: 1.2,
-        child: ImageLabel(
-          imagePath: 'assets/images/vacation.png',
-          label: S.of(context).no_exams_label,
-          labelTextStyle: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 18,
-            color: Theme.of(context).colorScheme.primary,
-          ),
-          sublabel: S.of(context).no_exams,
-          sublabelTextStyle: const TextStyle(fontSize: 15),
+    return ListView(
+      children: [
+        ExamPageTitle(
+          () => setState(() {
+            filteredExamTypes = PreferencesController.getFilteredExams();
+          }),
         ),
-      ),
+        LazyConsumer<ExamProvider, List<Exam>>(
+          builder: (context, exams) => Column(
+            children: createExamsColumn(
+              context,
+              exams
+                  .where(
+                    (exam) =>
+                        filteredExamTypes[Exam.getExamTypeLong(exam.type)] ??
+                        true,
+                  )
+                  .toList(),
+            ),
+          ),
+          hasContent: (exams) => exams.isNotEmpty,
+          onNullContent: Center(
+            heightFactor: 1.2,
+            child: ImageLabel(
+              imagePath: 'assets/images/vacation.png',
+              label: S.of(context).no_exams_label,
+              labelTextStyle: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+              sublabel: S.of(context).no_exams,
+              sublabelTextStyle: const TextStyle(fontSize: 15),
+            ),
+          ),
+        ),
+      ],
     );
   }
 
