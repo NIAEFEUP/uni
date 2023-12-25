@@ -14,7 +14,7 @@ environment:
   flutter: 3.13.7
 
 dependencies:
-  add_2_calendar: ^2.2.5
+  add_2_calendar: ^3.0.1
   cached_network_image: ^3.2.3
   collection: ^1.16.0
   connectivity_plus: ^5.0.2
