@@ -47,7 +47,8 @@ class ProfileProvider extends StateProviderNotifier<Profile> {
       ..feesLimit = userBalanceAndFeesLimit.item2
       ..printBalance = await fetchUserPrintBalance(session);
 
-    final courseUnits = await fetchCourseUnitsAndCourseAverages(session);
+    final courseUnits =
+        await fetchCourseUnitsAndCourseAverages(session, profile);
     if (courseUnits != null) {
       profile.courseUnits = courseUnits;
     }
@@ -124,12 +125,13 @@ class ProfileProvider extends StateProviderNotifier<Profile> {
 
   Future<List<CourseUnit>?> fetchCourseUnitsAndCourseAverages(
     Session session,
+    Profile profile,
   ) async {
     final allCourseUnits =
         await AllCourseUnitsFetcher().getAllCourseUnitsAndCourseAverages(
-      state!.courses,
+      profile.courses,
       session,
-      currentCourseUnits: state!.courseUnits,
+      currentCourseUnits: profile.courseUnits,
     );
 
     if (allCourseUnits == null) {
@@ -139,7 +141,7 @@ class ProfileProvider extends StateProviderNotifier<Profile> {
     final userPersistentInfo = PreferencesController.getPersistentUserInfo();
     if (userPersistentInfo != null) {
       final coursesDb = AppCoursesDatabase();
-      await coursesDb.saveNewCourses(state!.courses);
+      await coursesDb.saveNewCourses(profile.courses);
 
       final courseUnitsDatabase = AppCourseUnitsDatabase();
       await courseUnitsDatabase.saveNewCourseUnits(allCourseUnits);
