@@ -53,38 +53,4 @@ class ExamProvider extends StateProviderNotifier<List<Exam>> {
 
     return exams;
   }
-
-/*Future<void> updateFilteredExams() async {
-    final exams = await AppSharedPreferences.getFilteredExams();
-    _filteredExamsTypes = exams;
-    notifyListeners();
-  }
-
-  Future<void> setFilteredExams(Map<String, bool> newFilteredExams) async {
-    unawaited(AppSharedPreferences.saveFilteredExams(newFilteredExams));
-    _filteredExamsTypes = Map<String, bool>.from(newFilteredExams);
-    notifyListeners();
-  }
-
-  List<Exam> getFilteredExams() {
-    return exams
-        .where(
-          (exam) => filteredExamsTypes[Exam.getExamTypeLong(exam.type)] ?? true,
-        )
-        .toList();
-  }
-
-  Future<void> setHiddenExams(List<String> newHiddenExams) async {
-    _hiddenExams = List<String>.from(newHiddenExams);
-    await AppSharedPreferences.saveHiddenExams(hiddenExams);
-    notifyListeners();
-  }
-
-  Future<void> toggleHiddenExam(String newExamId) async {
-    _hiddenExams.contains(newExamId)
-        ? _hiddenExams.remove(newExamId)
-        : _hiddenExams.add(newExamId);
-    await AppSharedPreferences.saveHiddenExams(hiddenExams);
-    notifyListeners();
-  }*/
 }
