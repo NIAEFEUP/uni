@@ -61,12 +61,8 @@ dev_dependencies:
   flutter_launcher_icons: ^0.13.1
   flutter_test:
     sdk: flutter
-  # FIXME(luisd): Update mockito to a release version when 5.4.3 or above
-  # is launched
-  mockito:
-    git:
-      url: https://github.com/dart-lang/mockito.git
-      ref: "e54a006"
+  mockito: 5.4.4
+  sqflite_common_ffi: ^2.3.0+4
   test: any
   very_good_analysis: ^5.1.0
 

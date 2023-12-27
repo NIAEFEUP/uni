@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:collection/collection.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:uni/controller/local_storage/app_database.dart';
+import 'package:uni/controller/local_storage/database/app_database.dart';
 import 'package:uni/model/entities/bus_stop.dart';
 
 /// Manages the app's Bus Stops database.

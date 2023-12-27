@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/app_locale.dart';
 import 'package:uni/model/entities/exam.dart';
@@ -7,7 +8,6 @@ import 'package:uni/model/providers/lazy/exam_provider.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/common_widgets/date_rectangle.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
-import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
 import 'package:uni/view/common_widgets/row_container.dart';
 import 'package:uni/view/exams/widgets/exam_row.dart';
 import 'package:uni/view/exams/widgets/exam_title.dart';
@@ -44,27 +44,32 @@ class ExamCard extends GenericCard {
   /// that no exams exist is displayed.
   @override
   Widget buildCardContent(BuildContext context) {
-    return LazyConsumer<ExamProvider>(
-      builder: (context, examProvider) {
-        final filteredExams = examProvider.getFilteredExams();
-        final hiddenExams = examProvider.hiddenExams;
-        final exams = filteredExams
-            .where((exam) => !hiddenExams.contains(exam.id))
-            .toList();
-        return RequestDependentWidgetBuilder(
-          status: examProvider.status,
-          builder: () => generateExams(exams, context),
-          hasContentPredicate: exams.isNotEmpty,
-          onNullContent: Center(
-            child: Text(
-              S.of(context).no_selected_exams,
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-          ),
-          contentLoadingWidget: const ExamCardShimmer().build(context),
-        );
+    return LazyConsumer<ExamProvider, List<Exam>>(
+      builder: (context, exams) {
+        return generateExams(shownExams(exams), context);
       },
+      hasContent: (exams) => shownExams(exams).isNotEmpty,
+      onNullContent: Center(
+        child: Text(
+          S.of(context).no_selected_exams,
+          style: Theme.of(context).textTheme.titleLarge,
+        ),
+      ),
+      contentLoadingWidget: const ExamCardShimmer().build(context),
     );
+  }
+
+  List<Exam> shownExams(List<Exam> exams) {
+    final filteredExams = PreferencesController.getFilteredExams();
+    final hiddenExams = PreferencesController.getHiddenExams();
+
+    return exams
+        .where(
+          (exam) =>
+              !hiddenExams.contains(exam.id) &&
+              (filteredExams[Exam.getExamTypeLong(exam.type)] ?? true),
+        )
+        .toList();
   }
 
   /// Returns a widget with all the exams.
@@ -126,6 +131,7 @@ class ExamCard extends GenericCard {
             exam: exam,
             teacher: '',
             mainPage: true,
+            onChangeVisibility: () {},
           ),
         ),
       ],
