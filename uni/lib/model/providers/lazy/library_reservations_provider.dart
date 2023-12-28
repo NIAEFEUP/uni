@@ -1,13 +1,13 @@
 import 'dart:async';
 
 import 'package:uni/controller/fetchers/library_reservation_fetcher.dart';
-import 'package:uni/controller/local_storage/app_library_reservation.dart';
+import 'package:uni/controller/local_storage/database/app_library_reservation.dart';
 import 'package:uni/model/entities/library_reservation.dart';
-import 'package:uni/model/entities/profile.dart';
-import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
+import 'package:uni/model/providers/state_providers.dart';
 
-class LibraryReservationsProvider extends StateProviderNotifier {
+class LibraryReservationsProvider
+    extends StateProviderNotifier<List<LibraryReservation>> {
   LibraryReservationsProvider()
       : super(dependsOnSession: true, cacheDuration: const Duration(hours: 1));
   List<LibraryReservation>? _reservations;
@@ -15,25 +15,23 @@ class LibraryReservationsProvider extends StateProviderNotifier {
   List<LibraryReservation> get reservations => _reservations ?? [];
 
   @override
-  Future<void> loadFromStorage() async {
+  Future<List<LibraryReservation>> loadFromStorage(
+      StateProviders stateProviders,) {
     final db = LibraryReservationDatabase();
-    final reservations = await db.reservations();
-
-    _reservations = reservations;
+    return db.reservations();
   }
 
   @override
-  Future<void> loadFromRemote(Session session, Profile profile) async {
-    await fetchLibraryReservations(session);
-  }
-
-  Future<void> fetchLibraryReservations(
-    Session session,
+  Future<List<LibraryReservation>> loadFromRemote(
+    StateProviders stateProviders,
   ) async {
-    _reservations =
+    final session = stateProviders.sessionProvider.state!;
+    final reservations =
         await LibraryReservationsFetcherHtml().getReservations(session);
 
     final db = LibraryReservationDatabase();
     unawaited(db.saveReservations(reservations));
+
+    return reservations;
   }
 }

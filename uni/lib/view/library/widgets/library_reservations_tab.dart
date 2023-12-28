@@ -11,10 +11,18 @@ class LibraryReservationsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LazyConsumer<LibraryReservationsProvider>(
-      builder: (context, reservationsProvider) {
-        return LibraryReservationsTabView(reservationsProvider.reservations);
+    return LazyConsumer<LibraryReservationsProvider, List<LibraryReservation>>(
+      builder: (context, reservations) {
+        return LibraryReservationsTabView(reservations);
       },
+      contentLoadingWidget: const Center(child: CircularProgressIndicator()),
+      hasContent: (reservations) => reservations.isNotEmpty,
+      onNullContent: Center(
+        child: Text(
+          S.of(context).no_data,
+          style: const TextStyle(fontSize: 18),
+        ),
+      ),
     );
   }
 

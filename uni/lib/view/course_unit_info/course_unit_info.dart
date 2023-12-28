@@ -25,7 +25,7 @@ class CourseUnitDetailPageViewState
   Future<void> loadInfo({required bool force}) async {
     final courseUnitsProvider =
         Provider.of<CourseUnitsInfoProvider>(context, listen: false);
-    final session = context.read<SessionProvider>().session;
+    final session = context.read<SessionProvider>().state!;
 
     final courseUnitSheet =
         courseUnitsProvider.courseUnitsSheets[widget.courseUnit];

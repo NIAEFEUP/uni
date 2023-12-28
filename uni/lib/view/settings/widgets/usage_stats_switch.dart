@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:uni/controller/local_storage/app_shared_preferences.dart';
+import 'package:uni/controller/local_storage/preferences_controller.dart';
 
 class UsageStatsSwitch extends StatefulWidget {
   const UsageStatsSwitch({super.key});
@@ -9,21 +9,10 @@ class UsageStatsSwitch extends StatefulWidget {
 }
 
 class _UsageStatsSwitchState extends State<UsageStatsSwitch> {
-  bool usageStatsToggle = true;
-
-  @override
-  void initState() {
-    super.initState();
-    getUsageStatsToggle();
-  }
-
-  Future<void> getUsageStatsToggle() async {
-    await AppSharedPreferences.getUsageStatsToggle()
-        .then((value) => setState(() => usageStatsToggle = value));
-  }
+  bool usageStatsToggle = PreferencesController.getUsageStatsToggle();
 
   Future<void> saveUsageStatsToggle({required bool value}) async {
-    await AppSharedPreferences.setUsageStatsToggle(value: value);
+    await PreferencesController.setUsageStatsToggle(value: value);
     setState(() {
       usageStatsToggle = value;
     });

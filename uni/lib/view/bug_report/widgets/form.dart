@@ -4,7 +4,7 @@ import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:tuple/tuple.dart';
-import 'package:uni/controller/local_storage/app_shared_preferences.dart';
+import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/app_locale.dart';
 import 'package:uni/model/entities/bug_report.dart';
@@ -243,7 +243,7 @@ class BugReportFormState extends State<BugReportForm> {
     setState(() {
       _isButtonTapped = true;
     });
-    final faculties = await AppSharedPreferences.getUserFaculties();
+    final faculties = PreferencesController.getUserFaculties();
     final bugReport = BugReport(
       titleController.text,
       descriptionController.text,

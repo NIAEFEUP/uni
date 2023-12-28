@@ -72,10 +72,10 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
   }) async {
     final sessionProvider =
         Provider.of<SessionProvider>(context, listen: false);
-    await sessionProvider.ensureInitializedFromStorage();
+    await sessionProvider.ensureInitialized(context);
     final profilePictureFile =
         await ProfileProvider.fetchOrGetCachedProfilePicture(
-      sessionProvider.session,
+      sessionProvider.state!,
       forceRetrieval: forceRetrieval,
     );
     return getProfileDecorationImage(profilePictureFile);
@@ -98,7 +98,7 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
     return RefreshIndicator(
       key: GlobalKey<RefreshIndicatorState>(),
       onRefresh: () => ProfileProvider.fetchOrGetCachedProfilePicture(
-        Provider.of<SessionProvider>(context, listen: false).session,
+        Provider.of<SessionProvider>(context, listen: false).state!,
         forceRetrieval: true,
       ).then((value) => onRefresh(context)),
       child: Builder(
