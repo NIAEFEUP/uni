@@ -200,8 +200,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Sem restaurantes favoritos"),
         "no_info": MessageLookupByLibrary.simpleMessage(
             "Não existem informações para apresentar"),
-        "no_link": MessageLookupByLibrary.simpleMessage(
-            "Não conseguimos abrir o link"),
+        "no_library_info":
+            MessageLookupByLibrary.simpleMessage("Sem informação de ocupação"),
         "no_menu_info": MessageLookupByLibrary.simpleMessage(
             "Não há informação disponível sobre refeições"),
         "no_menus": MessageLookupByLibrary.simpleMessage(
@@ -210,6 +210,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Curso sem nome"),
         "no_places_info": MessageLookupByLibrary.simpleMessage(
             "Não há informação disponível sobre locais"),
+        "no_print_info":
+            MessageLookupByLibrary.simpleMessage("Sem informação de saldo"),
         "no_references": MessageLookupByLibrary.simpleMessage(
             "Não existem referências a pagar"),
         "no_results": MessageLookupByLibrary.simpleMessage("Sem resultados"),
@@ -235,7 +237,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "problem_id": MessageLookupByLibrary.simpleMessage(
             "Breve identificação do problema"),
         "reference_sigarra_help": MessageLookupByLibrary.simpleMessage(
-            "Os dados da referência gerada aparecerão no Sigarra, conta corrente.\\nPerfil > Conta Corrente"),
+            "Os dados da referência gerada aparecerão no Sigarra, conta corrente. Perfil > Conta Corrente"),
         "reference_success": MessageLookupByLibrary.simpleMessage(
             "Referência criada com sucesso!"),
         "remove": MessageLookupByLibrary.simpleMessage("Remover"),

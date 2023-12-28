@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/library_reservation.dart';
 import 'package:uni/model/providers/lazy/library_reservations_provider.dart';
-import 'package:uni/model/request_status.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
 import 'package:uni/view/lazy_consumer.dart';
@@ -35,14 +34,18 @@ class LibraryReservationsCard extends GenericCard {
 
   @override
   Widget buildCardContent(BuildContext context) {
-    return LazyConsumer<LibraryReservationsProvider>(
-      builder: (context, reservationsProvider) {
-        if (reservationsProvider.status == RequestStatus.busy) {
-          return const Center(child: CircularProgressIndicator());
-        } else {
-          return RoomsList(reservationsProvider.reservations);
-        }
+    return LazyConsumer<LibraryReservationsProvider, List<LibraryReservation>>(
+      builder: (context, reservations) {
+        return RoomsList(reservations);
       },
+      contentLoadingWidget: const Center(child: CircularProgressIndicator()),
+      hasContent: (reservations) => reservations.isNotEmpty,
+      onNullContent: Center(
+        child: Text(
+          S.of(context).no_data,
+          style: const TextStyle(fontSize: 18),
+        ),
+      ),
     );
   }
 }

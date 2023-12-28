@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:uni/controller/local_storage/app_shared_preferences.dart';
 import 'package:uni/generated/l10n.dart';
-import 'package:uni/model/providers/lazy/home_page_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/utils/favorite_widget_type.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
@@ -12,10 +10,11 @@ import 'package:uni/view/home/widgets/exam_card.dart';
 import 'package:uni/view/home/widgets/exit_app_dialog.dart';
 import 'package:uni/view/home/widgets/restaurant_card.dart';
 import 'package:uni/view/home/widgets/schedule_card.dart';
-import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/library/widgets/library_occupation_card.dart';
 import 'package:uni/view/library/widgets/library_reservations_card.dart';
 import 'package:uni/view/profile/widgets/account_info_card.dart';
+
+import 'package:uni/view/profile/widgets/print_info_card.dart';
 
 typedef CardCreator = GenericCard Function(
   Key key, {
@@ -23,18 +22,21 @@ typedef CardCreator = GenericCard Function(
   void Function()? onDelete,
 });
 
-class MainCardsList extends StatelessWidget {
-  const MainCardsList({super.key});
+class MainCardsList extends StatefulWidget {
+  const MainCardsList(
+    this.favoriteCardTypes,
+    this.saveFavoriteCards, {
+    super.key,
+  });
+
+  final List<FavoriteWidgetType> favoriteCardTypes;
+  final void Function(List<FavoriteWidgetType>) saveFavoriteCards;
 
   static Map<FavoriteWidgetType, CardCreator> cardCreators = {
     FavoriteWidgetType.schedule: ScheduleCard.fromEditingInformation,
     FavoriteWidgetType.exams: ExamCard.fromEditingInformation,
     FavoriteWidgetType.account: AccountInfoCard.fromEditingInformation,
-
-    // TODO(bdmendes): Bring print card back when it is ready
-    /*FavoriteWidgetType.printBalance: (k, em, od) =>
-        PrintInfoCard.fromEditingInformation(k, em, od),*/
-
+    FavoriteWidgetType.printBalance: PrintInfoCard.fromEditingInformation,
     FavoriteWidgetType.busStops: BusStopCard.fromEditingInformation,
     FavoriteWidgetType.restaurant: RestaurantCard.fromEditingInformation,
     FavoriteWidgetType.libraryOccupation:
@@ -44,42 +46,41 @@ class MainCardsList extends StatelessWidget {
   };
 
   @override
+  State<StatefulWidget> createState() {
+    return MainCardsListState();
+  }
+}
+
+class MainCardsListState extends State<MainCardsList> {
+  bool isEditing = false;
+
+  @override
   Widget build(BuildContext context) {
-    return LazyConsumer<HomePageProvider>(
-      builder: (context, homePageProvider) => Scaffold(
-        body: BackButtonExitWrapper(
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height,
-            child: homePageProvider.isEditing
-                ? ReorderableListView(
-                    onReorder: (oldIndex, newIndex) => reorderCard(
-                      oldIndex,
-                      newIndex,
-                      homePageProvider.favoriteCards,
-                      context,
-                    ),
-                    header: createTopBar(context, homePageProvider),
-                    children: favoriteCardsFromTypes(
-                      homePageProvider.favoriteCards,
-                      context,
-                      homePageProvider,
-                    ),
-                  )
-                : ListView(
-                    children: <Widget>[
-                      createTopBar(context, homePageProvider),
-                      ...favoriteCardsFromTypes(
-                        homePageProvider.favoriteCards,
-                        context,
-                        homePageProvider,
-                      ),
-                    ],
+    return Scaffold(
+      body: BackButtonExitWrapper(
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height,
+          child: isEditing
+              ? ReorderableListView(
+                  onReorder: reorderCard,
+                  header: createTopBar(context),
+                  children: favoriteCardsFromTypes(
+                    widget.favoriteCardTypes,
+                    context,
                   ),
-          ),
+                )
+              : ListView(
+                  children: <Widget>[
+                    createTopBar(context),
+                    ...favoriteCardsFromTypes(
+                      widget.favoriteCardTypes,
+                      context,
+                    ),
+                  ],
+                ),
         ),
-        floatingActionButton:
-            homePageProvider.isEditing ? createActionButton(context) : null,
       ),
+      floatingActionButton: isEditing ? createActionButton(context) : null,
     );
   }
 
@@ -116,14 +117,11 @@ class MainCardsList extends StatelessWidget {
   }
 
   List<Widget> getCardAdders(BuildContext context) {
-    final session =
-        Provider.of<SessionProvider>(context, listen: false).session;
-    final favorites =
-        Provider.of<HomePageProvider>(context, listen: false).favoriteCards;
+    final session = Provider.of<SessionProvider>(context, listen: false).state!;
 
-    final possibleCardAdditions = cardCreators.entries
+    final possibleCardAdditions = MainCardsList.cardCreators.entries
         .where((e) => e.key.isVisible(session.faculties))
-        .where((e) => !favorites.contains(e.key))
+        .where((e) => !widget.favoriteCardTypes.contains(e.key))
         .map(
           (e) => DecoratedBox(
             decoration: const BoxDecoration(),
@@ -150,7 +148,6 @@ class MainCardsList extends StatelessWidget {
 
   Widget createTopBar(
     BuildContext context,
-    HomePageProvider editingModeProvider,
   ) {
     return Container(
       padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
@@ -162,24 +159,20 @@ class MainCardsList extends StatelessWidget {
             center: false,
             pad: false,
           ),
-          if (editingModeProvider.isEditing)
+          if (isEditing)
             ElevatedButton(
-              onPressed: () =>
-                  Provider.of<HomePageProvider>(context, listen: false)
-                      .setHomePageEditingMode(
-                editingMode: false,
-              ),
+              onPressed: () => setState(() {
+                isEditing = false;
+              }),
               child: Text(
                 S.of(context).edit_on,
               ),
             )
           else
             OutlinedButton(
-              onPressed: () =>
-                  Provider.of<HomePageProvider>(context, listen: false)
-                      .setHomePageEditingMode(
-                editingMode: true,
-              ),
+              onPressed: () => setState(() {
+                isEditing = true;
+              }),
               child: Text(
                 S.of(context).edit_off,
               ),
@@ -192,18 +185,17 @@ class MainCardsList extends StatelessWidget {
   List<Widget> favoriteCardsFromTypes(
     List<FavoriteWidgetType> cardTypes,
     BuildContext context,
-    HomePageProvider homePageProvider,
   ) {
     final userSession =
-        Provider.of<SessionProvider>(context, listen: false).session;
+        Provider.of<SessionProvider>(context, listen: false).state!;
     return cardTypes
         .where((type) => type.isVisible(userSession.faculties))
-        .where((type) => cardCreators.containsKey(type))
+        .where((type) => MainCardsList.cardCreators.containsKey(type))
         .map((type) {
       final i = cardTypes.indexOf(type);
-      return cardCreators[type]!(
+      return MainCardsList.cardCreators[type]!(
         Key(i.toString()),
-        editingMode: homePageProvider.isEditing,
+        editingMode: isEditing,
         onDelete: () => removeCardIndexFromFavorites(i, context),
       );
     }).toList();
@@ -212,38 +204,27 @@ class MainCardsList extends StatelessWidget {
   void reorderCard(
     int oldIndex,
     int newIndex,
-    List<FavoriteWidgetType> favorites,
-    BuildContext context,
   ) {
-    final tmp = favorites[oldIndex];
-    favorites
+    final newFavorites =
+        List<FavoriteWidgetType>.from(widget.favoriteCardTypes);
+    final tmp = newFavorites[oldIndex];
+    newFavorites
       ..removeAt(oldIndex)
       ..insert(oldIndex < newIndex ? newIndex - 1 : newIndex, tmp);
-    saveFavoriteCards(context, favorites);
+    widget.saveFavoriteCards(newFavorites);
   }
 
   void removeCardIndexFromFavorites(int i, BuildContext context) {
-    final favorites = Provider.of<HomePageProvider>(context, listen: false)
-        .favoriteCards
+    final favorites = List<FavoriteWidgetType>.from(widget.favoriteCardTypes)
       ..removeAt(i);
-    saveFavoriteCards(context, favorites);
+    widget.saveFavoriteCards(favorites);
   }
 
   void addCardToFavorites(FavoriteWidgetType type, BuildContext context) {
-    final favorites =
-        Provider.of<HomePageProvider>(context, listen: false).favoriteCards;
+    final favorites = List<FavoriteWidgetType>.from(widget.favoriteCardTypes);
     if (!favorites.contains(type)) {
       favorites.add(type);
     }
-    saveFavoriteCards(context, favorites);
-  }
-
-  void saveFavoriteCards(
-    BuildContext context,
-    List<FavoriteWidgetType> favorites,
-  ) {
-    Provider.of<HomePageProvider>(context, listen: false)
-        .setFavoriteCards(favorites);
-    AppSharedPreferences.saveFavoriteCards(favorites);
+    widget.saveFavoriteCards(favorites);
   }
 }

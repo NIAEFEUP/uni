@@ -135,7 +135,7 @@ Future<void> generateReference(BuildContext context, double amount) async {
     return;
   }
 
-  final session = Provider.of<SessionProvider>(context, listen: false).session;
+  final session = Provider.of<SessionProvider>(context, listen: false).state!;
   final response =
       await PrintFetcher.generatePrintMoneyReference(amount, session);
 

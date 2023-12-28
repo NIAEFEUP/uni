@@ -135,8 +135,7 @@ class _ReservationRemoveButtonState extends State<ReservationRemoveButton> {
       _loading = true;
     });
     final context = Application.navigatorKey.currentContext!;
-    final session =
-        Provider.of<SessionProvider>(context, listen: false).session;
+    final session = Provider.of<SessionProvider>(context, listen: false).state!;
     final result = await Provider.of<LibraryReservationsProvider>(
       context,
       listen: false,

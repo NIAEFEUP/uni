@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/library_occupation.dart';
 import 'package:uni/model/providers/lazy/library_occupation_provider.dart';
-import 'package:uni/model/request_status.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/library/widgets/library_occupation_card.dart';
@@ -24,14 +23,18 @@ class LibraryOccupationTab extends StatefulWidget {
 class LibraryOccupationTabState extends State<LibraryOccupationTab> {
   @override
   Widget build(BuildContext context) {
-    return LazyConsumer<LibraryOccupationProvider>(
-      builder: (context, occupationProvider) {
-        if (occupationProvider.status == RequestStatus.busy) {
-          return const Center(child: CircularProgressIndicator());
-        } else {
-          return LibraryOccupationTabView(occupationProvider.occupation);
-        }
+    return LazyConsumer<LibraryOccupationProvider, LibraryOccupation>(
+      builder: (context, occupation) {
+        return LibraryOccupationTabView(occupation);
       },
+      contentLoadingWidget: const Center(child: CircularProgressIndicator()),
+      hasContent: (occupation) => occupation.floors.isNotEmpty,
+      onNullContent: Center(
+        child: Text(
+          S.of(context).no_data,
+          style: const TextStyle(fontSize: 18),
+        ),
+      ),
     );
   }
 }
@@ -42,20 +45,6 @@ class LibraryOccupationTabView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (occupation == null || occupation?.capacity == 0) {
-      return ListView(
-        children: [
-          Center(
-            heightFactor: 2,
-            child: Text(
-              S.of(context).no_data,
-              style: Theme.of(context).textTheme.titleLarge,
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ],
-      );
-    }
     return ListView(
       shrinkWrap: true,
       children: [

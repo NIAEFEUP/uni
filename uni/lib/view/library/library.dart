@@ -5,15 +5,15 @@ import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/library/widgets/library_occupation_tab.dart';
 import 'package:uni/view/library/widgets/library_reservations_tab.dart';
 
-class LibraryPageView extends StatefulWidget {
-  const LibraryPageView({this.startOnOccupationTab = true, super.key});
+class LibraryPage extends StatefulWidget {
+  const LibraryPage({this.startOnOccupationTab = true, super.key});
   final bool startOnOccupationTab;
 
   @override
-  State<StatefulWidget> createState() => LibraryPageViewState();
+  State<StatefulWidget> createState() => LibraryPageState();
 }
 
-class LibraryPageViewState extends GeneralPageViewState<LibraryPageView> {
+class LibraryPageState extends GeneralPageViewState<LibraryPage> {
   late TabController tabController;
   late List<Tab> tabs;
   static const LibraryOccupationTab _libraryOccupationTab =

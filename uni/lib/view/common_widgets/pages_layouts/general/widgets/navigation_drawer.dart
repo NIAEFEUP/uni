@@ -83,7 +83,7 @@ class AppNavigationDrawerState extends State<AppNavigationDrawer> {
   @override
   Widget build(BuildContext context) {
     final drawerOptions = <Widget>[];
-    final userSession = context.read<SessionProvider>().session;
+    final userSession = context.read<SessionProvider>().state!;
 
     for (final key in drawerItems.keys) {
       if (key.isVisible(userSession.faculties)) {
