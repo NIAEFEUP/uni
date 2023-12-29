@@ -15,7 +15,8 @@ class LibraryReservationsProvider
 
   @override
   Future<List<LibraryReservation>> loadFromStorage(
-      StateProviders stateProviders,) {
+    StateProviders stateProviders,
+  ) {
     final db = LibraryReservationDatabase();
     return db.reservations();
   }
@@ -46,8 +47,7 @@ class LibraryReservationsProvider
     final response = await NetworkRouter.getWithCookies(url, {}, session);
 
     if (response.statusCode == 200) {
-      state
-          ?.remove(state?.firstWhere((element) => element.id == id));
+      state?.remove(state?.firstWhere((element) => element.id == id));
       notifyListeners();
       final db = LibraryReservationDatabase();
       unawaited(db.saveReservations(state!));
