@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'reference.g.dart';
+part '../../generated/model/entities/reference.g.dart';
 
 class DateTimeConverter extends JsonConverter<DateTime, String> {
   const DateTimeConverter();

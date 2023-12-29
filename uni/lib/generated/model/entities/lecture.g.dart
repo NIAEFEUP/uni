@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'lecture.dart';
+part of '../../../model/entities/lecture.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator

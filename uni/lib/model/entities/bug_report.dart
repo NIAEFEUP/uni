@@ -2,7 +2,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:tuple/tuple.dart';
 
-part 'bug_report.g.dart';
+part '../../generated/model/entities/bug_report.g.dart';
 
 class TupleConverter extends JsonConverter<Tuple2<String, String>?, String?> {
   const TupleConverter();

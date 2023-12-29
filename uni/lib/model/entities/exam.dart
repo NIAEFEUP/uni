@@ -3,40 +3,8 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:logger/logger.dart';
 import 'package:uni/model/entities/app_locale.dart';
 
-part 'exam.g.dart';
+part '../../generated/model/entities/exam.g.dart';
 
-enum WeekDays {
-  monday('Segunda'),
-  tuesday('Terça'),
-  wednesday('Quarta'),
-  thursday('Quinta'),
-  friday('Sexta'),
-  saturday('Sábado'),
-  sunday('Domingo');
-
-  const WeekDays(this.day);
-
-  final String day;
-}
-
-enum Months {
-  january('janeiro'),
-  february('fevereiro'),
-  march('março'),
-  april('abril'),
-  may('maio'),
-  june('junho'),
-  july('julho'),
-  august('agosto'),
-  september('setembro'),
-  october('outubro'),
-  november('novembro'),
-  december('dezembro');
-
-  const Months(this.month);
-
-  final String month;
-}
 
 class DateTimeConverter extends JsonConverter<DateTime, String> {
   const DateTimeConverter();

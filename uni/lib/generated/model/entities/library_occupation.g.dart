@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'library_occupation.dart';
+part of '../../../model/entities/library_occupation.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator

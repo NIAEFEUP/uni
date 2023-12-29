@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'meal.dart';
+part of '../../../model/entities/meal.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator

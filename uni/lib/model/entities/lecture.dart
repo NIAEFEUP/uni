@@ -1,7 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:logger/logger.dart';
 
-part 'lecture.g.dart';
+part '../../generated/model/entities/lecture.g.dart';
+
 
 class DateTimeConverter extends JsonConverter<DateTime, String> {
   const DateTimeConverter();
@@ -73,21 +74,19 @@ class Lecture {
     String classNumber,
     int occurrId,
   ) {
-    final startTimeHours = int.parse(startTimeString.substring(0, 2));
-    final startTimeMinutes = int.parse(startTimeString.substring(3, 5));
-    final endTimeHours =
-        (startTimeMinutes + (blocks * 30)) ~/ 60 + startTimeHours;
-    final endTimeMinutes = (startTimeMinutes + (blocks * 30)) % 60;
+    final startTimeList = startTimeString.split(':');
+    final startTime = day.add(
+      Duration(
+        hours: int.parse(startTimeList[0]),
+        minutes: int.parse(startTimeList[1]),
+      ),
+    );
+    final endTime = startTime.add(Duration(minutes: 30 * blocks));
     return Lecture(
       subject,
       typeClass,
-      day.add(Duration(hours: startTimeHours, minutes: startTimeMinutes)),
-      day.add(
-        Duration(
-          hours: startTimeMinutes + endTimeHours,
-          minutes: startTimeMinutes + endTimeMinutes,
-        ),
-      ),
+      startTime,
+      endTime,
       blocks,
       room,
       teacher,

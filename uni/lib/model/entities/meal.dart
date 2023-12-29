@@ -2,7 +2,8 @@ import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:uni/model/utils/day_of_week.dart';
 
-part 'meal.g.dart';
+part '../../generated/model/entities/meal.g.dart';
+
 
 class DateTimeConverter extends JsonConverter<DateTime, String> {
   const DateTimeConverter();

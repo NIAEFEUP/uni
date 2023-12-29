@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'calendar_event.dart';
+part of '../../../model/entities/calendar_event.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator

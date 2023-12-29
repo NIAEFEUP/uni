@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'bus.g.dart';
+part '../../generated/model/entities/bus.g.dart';
 
 /// Stores information about a bus.
 ///

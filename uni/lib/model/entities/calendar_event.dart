@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'calendar_event.g.dart';
+part '../../generated/model/entities/calendar_event.g.dart';
 
 /// An event in the school calendar
 @JsonSerializable()

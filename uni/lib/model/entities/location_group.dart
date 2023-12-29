@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:uni/model/entities/location.dart';
 
-part 'location_group.g.dart';
+part '../../generated/model/entities/location_group.g.dart';
 
 /// Store information about a location marker.
 /// What's located in each floor, like vending machines, rooms, etc...

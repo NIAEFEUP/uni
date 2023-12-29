@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'course.g.dart';
+part '../../generated/model/entities/course.g.dart';
 
 /// Stores information about a course.
 ///
@@ -11,11 +11,11 @@ part 'course.g.dart';
 /// - The course current `year`
 /// - The date of the `firstEnrollment`
 /// - The course `state`
-@JsonSerializable()
+@JsonSerializable(createFactory: false)
 class Course {
   Course({
     required this.id,
-    this.festId = 0,
+    this.festId,
     this.name,
     this.abbreviation,
     this.currYear,
@@ -26,10 +26,23 @@ class Course {
     this.currentAverage,
   });
 
-  factory Course.fromJson(Map<String, dynamic> json) => _$CourseFromJson(json);
+  factory Course.fromJson(Map<String, dynamic> json) {
+    return Course(
+      id: json['cur_id'] as int,
+      festId: json['fest_id'] as int?,
+      name: json['cur_nome'] as String?,
+      abbreviation: json['abbreviation'] as String?,
+      currYear: json['ano_curricular'] as String?,
+      firstEnrollment: json['fest_a_lect_1_insc'] as int?,
+      state: json['state'] as String?,
+      faculty: json['inst_sigla'].toString().toLowerCase(),
+      finishedEcts: json['finishedEcts'] as num?,
+      currentAverage: json['currentAverage'] as num?,
+    );
+  }
   @JsonKey(name: 'cur_id')
   final int id;
-  @JsonKey(name: 'fest_id')
+  @JsonKey(name: 'fest_id ')
   final int? festId;
   @JsonKey(name: 'cur_nome')
   final String? name;

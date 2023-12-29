@@ -1,7 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:uni/model/entities/trip.dart';
 
-part 'bus_stop.g.dart';
+part '../../generated/model/entities/bus_stop.g.dart';
 
 /// Stores information about a bus stop.
 @JsonSerializable()

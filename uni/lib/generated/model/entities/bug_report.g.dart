@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'bug_report.dart';
+part of '../../../model/entities/bug_report.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator

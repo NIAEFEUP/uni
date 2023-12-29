@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'reference.dart';
+part of '../../../model/entities/reference.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator

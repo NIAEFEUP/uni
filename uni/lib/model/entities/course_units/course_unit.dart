@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'course_unit.g.dart';
+part '../../../generated/model/entities/course_units/course_unit.g.dart';
 
 /// Stores information about a course unit.
 @JsonSerializable()

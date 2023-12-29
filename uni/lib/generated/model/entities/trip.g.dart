@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'trip.dart';
+part of '../../../model/entities/trip.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator

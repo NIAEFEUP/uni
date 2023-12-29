@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:json_annotation/json_annotation.dart';
 
-part 'library_occupation.g.dart';
+part '../../generated/model/entities/library_occupation.g.dart';
 
 /// Overall occupation of the library
 @JsonSerializable()

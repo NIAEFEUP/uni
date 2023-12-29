@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'bus_stop.dart';
+part of '../../../model/entities/bus_stop.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator

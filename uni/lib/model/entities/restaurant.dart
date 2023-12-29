@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:uni/model/entities/meal.dart';
 import 'package:uni/model/utils/day_of_week.dart';
 
-part 'restaurant.g.dart';
+part '../../generated/model/entities/restaurant.g.dart';
 
 @JsonSerializable()
 class Restaurant {
