@@ -48,7 +48,7 @@ class LibraryReservationsTabView extends StatelessWidget {
               style: Theme.of(context).textTheme.titleLarge,
               textAlign: TextAlign.center,
             ),
-          )
+          ),
         ],
       );
     }

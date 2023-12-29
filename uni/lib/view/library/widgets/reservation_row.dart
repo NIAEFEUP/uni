@@ -38,7 +38,7 @@ class ReservationRow extends StatelessWidget {
             Text(
               hoursEnd,
               style: Theme.of(context).textTheme.bodyLarge,
-            )
+            ),
           ],
         ),
         Column(
@@ -55,10 +55,10 @@ class ReservationRow extends StatelessWidget {
             Text(
               '$weekDay, $day de $month',
               style: Theme.of(context).textTheme.titleMedium,
-            )
+            ),
           ],
         ),
-        const ReservationRemoveButton()
+        const ReservationRemoveButton(),
       ],
     );
   }

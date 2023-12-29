@@ -16,7 +16,8 @@ class LibraryReservationsProvider
 
   @override
   Future<List<LibraryReservation>> loadFromStorage(
-      StateProviders stateProviders,) {
+    StateProviders stateProviders,
+  ) {
     final db = LibraryReservationDatabase();
     return db.reservations();
   }

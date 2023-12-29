@@ -11,7 +11,7 @@ class LibraryReservationsFetcherHtml implements SessionDependantFetcher {
     // TO DO: Implement parsers for all faculties
     // and dispatch for different fetchers
     final url =
-    // ignore: lines_longer_than_80_chars
+        // ignore: lines_longer_than_80_chars
         '${NetworkRouter.getBaseUrl('feup')}res_recursos_geral.pedidos_list?pct_tipo_grupo_id=3';
     return [url];
   }

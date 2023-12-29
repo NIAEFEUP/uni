@@ -95,7 +95,7 @@ class FloorCard extends StatelessWidget {
             color: Color.fromARGB(0x1c, 0, 0, 0),
             blurRadius: 7,
             offset: Offset(0, 1),
-          )
+          ),
         ],
       ),
       child: Column(
@@ -121,7 +121,7 @@ class FloorCard extends StatelessWidget {
             percent: floor.percentage / 100,
             progressColor: Theme.of(context).colorScheme.secondary,
             backgroundColor: Theme.of(context).dividerColor,
-          )
+          ),
         ],
       ),
     );
