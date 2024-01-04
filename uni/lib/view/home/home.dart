@@ -14,7 +14,8 @@ class HomePageView extends StatefulWidget {
 
 class HomePageViewState extends GeneralPageViewState {
   bool isBannerViewed = true;
-  List<FavoriteWidgetType> favoriteCardTypes = PreferencesController.getFavoriteCards();
+  List<FavoriteWidgetType> favoriteCardTypes =
+      PreferencesController.getFavoriteCards();
 
   @override
   void initState() {
