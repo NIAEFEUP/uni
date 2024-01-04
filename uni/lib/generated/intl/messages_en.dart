@@ -126,6 +126,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Deadline for next fee:"),
         "fee_notification":
             MessageLookupByLibrary.simpleMessage("Fee deadline"),
+        "files": MessageLookupByLibrary.simpleMessage("Files"),
         "first_year_registration": MessageLookupByLibrary.simpleMessage(
             "Year of first registration: "),
         "floor": MessageLookupByLibrary.simpleMessage("Floor"),

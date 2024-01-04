@@ -1246,6 +1246,16 @@ class S {
     );
   }
 
+  /// `Files`
+  String get files {
+    return Intl.message(
+      'Files',
+      name: 'files',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `School Calendar`
   String get school_calendar {
     return Intl.message(

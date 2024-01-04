@@ -4,30 +4,18 @@ import 'package:html/parser.dart';
 import 'package:http/http.dart' as http;
 import 'package:uni/controller/fetchers/course_units_fetcher/course_units_info_fetcher.dart';
 import 'package:uni/model/entities/course_units/course_unit_class.dart';
+import 'package:uni/model/entities/course_units/course_unit_directory.dart';
 import 'package:uni/model/entities/course_units/course_unit_file.dart';
 import 'package:uni/model/entities/course_units/course_unit_sheet.dart';
 import 'package:uni/model/entities/session.dart';
 
-Future<List<Map<String, List<CourseUnitFile>>>> parseFilesMultipleRequests(
-  List<http.Response> responses,
-  Session session,
-) async {
-  final files = <Map<String, List<CourseUnitFile>>>[];
-  for (final response in responses) {
-    files.add(await parseFiles(response, session));
-  }
-  return files;
-}
-
-Future<Map<String, List<CourseUnitFile>>> parseFiles(
+Future<List<CourseUnitFileDirectory>> parseFiles(
   http.Response response,
   Session session,
 ) async {
-  final folders = <String, List<CourseUnitFile>>{};
-
   final json = jsonDecode(response.body) as List<dynamic>;
-
-  if (json.isEmpty) return {};
+  final dirs = <CourseUnitFileDirectory>[];
+  if (json.isEmpty) return [];
 
   for (var item in json) {
     item = item as Map<String, dynamic>;
@@ -46,9 +34,9 @@ Future<Map<String, List<CourseUnitFile>>> parseFiles(
         files.add(courseUnitFile);
       }
     }
-    folders[item['nome'] as String] = files;
+    dirs.add(CourseUnitFileDirectory(item['nome'].toString(), files));
   }
-  return folders;
+  return dirs;
 }
 
 Future<CourseUnitSheet> parseCourseUnitSheet(http.Response response) async {

@@ -244,6 +244,8 @@
   "@restaurant_main_page": {},
   "room": "Room",
   "@room": {},
+  "files": "Files",
+  "@files": {},
   "school_calendar": "School Calendar",
   "@school_calendar": {},
   "semester": "Semester",

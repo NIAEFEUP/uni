@@ -3,7 +3,7 @@ import 'dart:collection';
 import 'package:uni/controller/fetchers/course_units_fetcher/course_units_info_fetcher.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/entities/course_units/course_unit_class.dart';
-import 'package:uni/model/entities/course_units/course_unit_file.dart';
+import 'package:uni/model/entities/course_units/course_unit_directory.dart';
 import 'package:uni/model/entities/course_units/course_unit_sheet.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/session.dart';
@@ -14,8 +14,7 @@ class CourseUnitsInfoProvider extends StateProviderNotifier {
       : super(dependsOnSession: true, cacheDuration: null, initialize: false);
   final Map<CourseUnit, CourseUnitSheet> _courseUnitsSheets = {};
   final Map<CourseUnit, List<CourseUnitClass>> _courseUnitsClasses = {};
-  final Map<CourseUnit, List<Map<String, List<CourseUnitFile>>>>
-      _courseUnitsFiles = {};
+  final Map<CourseUnit, List<CourseUnitFileDirectory>> _courseUnitsFiles = {};
 
   UnmodifiableMapView<CourseUnit, CourseUnitSheet> get courseUnitsSheets =>
       UnmodifiableMapView(_courseUnitsSheets);
@@ -23,7 +22,7 @@ class CourseUnitsInfoProvider extends StateProviderNotifier {
   UnmodifiableMapView<CourseUnit, List<CourseUnitClass>>
       get courseUnitsClasses => UnmodifiableMapView(_courseUnitsClasses);
 
-  UnmodifiableMapView<CourseUnit, List<Map<String, List<CourseUnitFile>>>>
+  UnmodifiableMapView<CourseUnit, List<CourseUnitFileDirectory>>
       get courseUnitsFiles => UnmodifiableMapView(_courseUnitsFiles);
 
   Future<void> fetchCourseUnitSheet(

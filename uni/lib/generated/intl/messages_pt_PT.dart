@@ -125,6 +125,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Data limite próxima prestação:"),
         "fee_notification":
             MessageLookupByLibrary.simpleMessage("Data limite de propina"),
+        "files": MessageLookupByLibrary.simpleMessage("Ficheiros"),
         "first_year_registration":
             MessageLookupByLibrary.simpleMessage("Ano da primeira inscrição: "),
         "floor": MessageLookupByLibrary.simpleMessage("Piso"),

@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:uni/model/entities/course_units/course_unit_directory.dart';
 import 'package:uni/model/entities/course_units/course_unit_file.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_files_row.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_info_card.dart';
 
 class CourseUnitFilesView extends StatelessWidget {
   const CourseUnitFilesView(this.files, {super.key});
-  final List<Map<String, List<CourseUnitFile>>> files;
+  final List<CourseUnitFileDirectory> files;
 
   @override
   Widget build(BuildContext context) {
     final cards = files
-        .expand(
-          (file) => file.entries
-              .where((item) => item.value.isNotEmpty)
-              .map((item) => _buildCard(item.key, item.value)),
-        )
+        .where((element) => element.files.isNotEmpty)
+        .map((e) => _buildCard(e.folderName, e.files))
         .toList();
 
     return Container(
@@ -23,12 +21,11 @@ class CourseUnitFilesView extends StatelessWidget {
     );
   }
 
-  CourseUnitInfoCard _buildCard(String folder, List<CourseUnitFile> files) {
-    return CourseUnitInfoCard(
-      folder,
-      Column(
-        children: files.map(CourseUnitFilesRow.new).toList(),
-      ),
-    );
-  }
+  CourseUnitInfoCard _buildCard(String folder, List<CourseUnitFile> files) =>
+      CourseUnitInfoCard(
+        folder,
+        Column(
+          children: files.map(CourseUnitFilesRow.new).toList(),
+        ),
+      );
 }

@@ -1,10 +1,9 @@
 import 'package:html/parser.dart';
-import 'package:http/http.dart';
 import 'package:uni/controller/fetchers/session_dependant_fetcher.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/parsers/parser_course_unit_info.dart';
 import 'package:uni/model/entities/course_units/course_unit_class.dart';
-import 'package:uni/model/entities/course_units/course_unit_file.dart';
+import 'package:uni/model/entities/course_units/course_unit_directory.dart';
 import 'package:uni/model/entities/course_units/course_unit_sheet.dart';
 import 'package:uni/model/entities/session.dart';
 
@@ -28,24 +27,19 @@ class CourseUnitsInfoFetcher implements SessionDependantFetcher {
     return parseCourseUnitSheet(response);
   }
 
-  Future<List<Map<String, List<CourseUnitFile>>>> fetchCourseUnitFiles(
+  Future<List<CourseUnitFileDirectory>> fetchCourseUnitFiles(
     Session session,
     int occurId,
   ) async {
-    final urls =
-        getEndpoints(session).map((url) => '${url}mob_ucurr_geral.conteudos');
-    final responses = <Response>[];
-    for (final url in urls) {
-      final response = await NetworkRouter.getWithCookies(
-        url,
-        {
-          'pv_ocorrencia_id': occurId.toString(),
-        },
-        session,
-      );
-      responses.add(response);
-    }
-    return parseFilesMultipleRequests(responses, session);
+    final url = '${getEndpoints(session)[0]}mob_ucurr_geral.conteudos';
+    final response = await NetworkRouter.getWithCookies(
+      url,
+      {
+        'pv_ocorrencia_id': occurId.toString(),
+      },
+      session,
+    );
+    return parseFiles(response, session);
   }
 
   Future<String> getDownloadLink(

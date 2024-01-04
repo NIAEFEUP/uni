@@ -81,8 +81,8 @@ class CourseUnitDetailPageViewState
             tabs: [
               Tab(text: S.of(context).course_info),
               Tab(text: S.of(context).course_class),
-              const Tab(
-                text: 'Ficheiros',
+              Tab(
+                text: S.of(context).files,
               ),
             ],
           ),
@@ -122,7 +122,7 @@ class CourseUnitDetailPageViewState
 
   Widget _courseUnitFilesView(BuildContext context) {
     final sheet = context
-        .read<CourseUnitsInfoProvider>()
+        .watch<CourseUnitsInfoProvider>()
         .courseUnitsFiles[widget.courseUnit];
 
     if (sheet == null || sheet.isEmpty) {
