@@ -3,65 +3,45 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/controller/background_workers/notifications.dart';
-import 'package:uni/controller/load_static/terms_and_conditions.dart';
-import 'package:uni/controller/local_storage/app_shared_preferences.dart';
+import 'package:uni/controller/fetchers/terms_and_conditions_fetcher.dart';
+import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/parsers/parser_session.dart';
 import 'package:uni/model/entities/login_exceptions.dart';
-import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
+import 'package:uni/model/providers/state_providers.dart';
 import 'package:uni/model/request_status.dart';
 import 'package:uni/view/locale_notifier.dart';
 
-class SessionProvider extends StateProviderNotifier {
+class SessionProvider extends StateProviderNotifier<Session> {
   SessionProvider()
-      : _session = Session(
-          faculties: ['feup'],
-          username: '',
-          cookies: '',
-        ),
-        super(
-          dependsOnSession: false,
+      : super(
           cacheDuration: null,
           initialStatus: RequestStatus.none,
+          dependsOnSession: false,
         );
 
-  Session _session;
-
-  Session get session => _session;
-
   @override
-  Future<void> loadFromStorage() async {
-    final userPersistentInfo =
-        await AppSharedPreferences.getPersistentUserInfo();
+  Future<Session> loadFromStorage(StateProviders stateProviders) async {
+    final userPersistentInfo = PreferencesController.getPersistentUserInfo();
+    final faculties = PreferencesController.getUserFaculties();
 
     if (userPersistentInfo == null) {
-      return;
+      return Session(username: '', cookies: '', faculties: faculties);
     }
 
-    final userName = userPersistentInfo.item1;
-    final password = userPersistentInfo.item2;
-
-    final faculties = await AppSharedPreferences.getUserFaculties();
-
-    restoreSession(userName, password, faculties);
-  }
-
-  @override
-  Future<void> loadFromRemote(Session session, Profile profile) async {}
-
-  void restoreSession(
-    String username,
-    String password,
-    List<String> faculties,
-  ) {
-    _session = Session(
+    return Session(
       faculties: faculties,
-      username: username,
+      username: userPersistentInfo.item1,
       cookies: '',
       persistentSession: true,
     );
+  }
+
+  @override
+  Future<Session> loadFromRemote(StateProviders stateProviders) async {
+    return state!;
   }
 
   Future<void> postAuthentication(
@@ -98,10 +78,10 @@ class SessionProvider extends StateProviderNotifier {
       }
     }
 
-    _session = session;
+    setState(session);
 
     if (persistentSession) {
-      await AppSharedPreferences.savePersistentUserInfo(
+      await PreferencesController.savePersistentUserInfo(
         session.username,
         password,
         faculties,

@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:provider/provider.dart';
+import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/restaurant.dart';
-import 'package:uni/model/providers/lazy/home_page_provider.dart';
-import 'package:uni/model/providers/lazy/restaurant_provider.dart';
 import 'package:uni/utils/favorite_widget_type.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
-import 'package:uni/view/lazy_consumer.dart';
 
 class RestaurantPageCard extends GenericCard {
   RestaurantPageCard(this.restaurant, this.meals, {super.key})
@@ -39,32 +36,37 @@ class RestaurantPageCard extends GenericCard {
 
 class CardFavoriteButton extends StatelessWidget {
   const CardFavoriteButton(this.restaurant, {super.key});
+
   final Restaurant restaurant;
 
   @override
   Widget build(BuildContext context) {
-    return LazyConsumer<RestaurantProvider>(
-      builder: (context, restaurantProvider) {
-        final isFavorite =
-            restaurantProvider.favoriteRestaurants.contains(restaurant.name);
-        return IconButton(
-          icon: isFavorite ? Icon(MdiIcons.heart) : Icon(MdiIcons.heartOutline),
-          onPressed: () {
-            restaurantProvider.toggleFavoriteRestaurant(
-              restaurant.name,
-            );
-            final favoriteCardTypes =
-                context.read<HomePageProvider>().favoriteCards;
-            if (!isFavorite &&
-                !favoriteCardTypes.contains(FavoriteWidgetType.restaurant)) {
-              showRestaurantCardHomeDialog(context, favoriteCardTypes,
-                  (newFavoriteCards) {
-                Provider.of<HomePageProvider>(context, listen: false)
-                    .setFavoriteCards(newFavoriteCards);
-              });
-            }
-          },
+    final isFavorite = PreferencesController.getFavoriteRestaurants()
+        .contains(restaurant.name);
+    return IconButton(
+      icon: isFavorite ? Icon(MdiIcons.heart) : Icon(MdiIcons.heartOutline),
+      onPressed: () async {
+        final favoriteRestaurants =
+            PreferencesController.getFavoriteRestaurants();
+        if (favoriteRestaurants.contains(restaurant.name)) {
+          favoriteRestaurants.remove(restaurant.name);
+        } else {
+          favoriteRestaurants.add(restaurant.name);
+        }
+        await PreferencesController.saveFavoriteRestaurants(
+          favoriteRestaurants,
         );
+
+        final favoriteCardTypes = PreferencesController.getFavoriteCards();
+        if (context.mounted &&
+            !isFavorite &&
+            !favoriteCardTypes.contains(FavoriteWidgetType.restaurant)) {
+          showRestaurantCardHomeDialog(
+            context,
+            favoriteCardTypes,
+            PreferencesController.saveFavoriteCards,
+          );
+        }
       },
     );
   }

@@ -11,9 +11,9 @@ import 'dart:ui' as _i11;
 import 'package:flutter/material.dart' as _i10;
 import 'package:http/http.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:uni/model/entities/profile.dart' as _i9;
 import 'package:uni/model/entities/session.dart' as _i3;
 import 'package:uni/model/providers/startup/session_provider.dart' as _i7;
+import 'package:uni/model/providers/state_providers.dart' as _i9;
 import 'package:uni/model/request_status.dart' as _i8;
 
 // ignore_for_file: type=lint
@@ -418,19 +418,6 @@ class MockResponse extends _i1.Mock implements _i2.Response {
 /// See the documentation for Mockito's code generation for more information.
 class MockSessionProvider extends _i1.Mock implements _i7.SessionProvider {
   @override
-  _i3.Session get session => (super.noSuchMethod(
-        Invocation.getter(#session),
-        returnValue: _FakeSession_2(
-          this,
-          Invocation.getter(#session),
-        ),
-        returnValueForMissingStub: _FakeSession_2(
-          this,
-          Invocation.getter(#session),
-        ),
-      ) as _i3.Session);
-
-  @override
   bool get dependsOnSession => (super.noSuchMethod(
         Invocation.getter(#dependsOnSession),
         returnValue: false,
@@ -456,8 +443,8 @@ class MockSessionProvider extends _i1.Mock implements _i7.SessionProvider {
       );
 
   @override
-  _i8.RequestStatus get status => (super.noSuchMethod(
-        Invocation.getter(#status),
+  _i8.RequestStatus get requestStatus => (super.noSuchMethod(
+        Invocation.getter(#requestStatus),
         returnValue: _i8.RequestStatus.none,
         returnValueForMissingStub: _i8.RequestStatus.none,
       ) as _i8.RequestStatus);
@@ -470,49 +457,50 @@ class MockSessionProvider extends _i1.Mock implements _i7.SessionProvider {
       ) as bool);
 
   @override
-  _i4.Future<void> loadFromStorage() => (super.noSuchMethod(
+  _i4.Future<_i3.Session> loadFromStorage(_i9.StateProviders? stateProviders) =>
+      (super.noSuchMethod(
         Invocation.method(
           #loadFromStorage,
-          [],
+          [stateProviders],
         ),
-        returnValue: _i4.Future<void>.value(),
-        returnValueForMissingStub: _i4.Future<void>.value(),
-      ) as _i4.Future<void>);
+        returnValue: _i4.Future<_i3.Session>.value(_FakeSession_2(
+          this,
+          Invocation.method(
+            #loadFromStorage,
+            [stateProviders],
+          ),
+        )),
+        returnValueForMissingStub: _i4.Future<_i3.Session>.value(_FakeSession_2(
+          this,
+          Invocation.method(
+            #loadFromStorage,
+            [stateProviders],
+          ),
+        )),
+      ) as _i4.Future<_i3.Session>);
 
   @override
-  _i4.Future<void> loadFromRemote(
-    _i3.Session? session,
-    _i9.Profile? profile,
-  ) =>
+  _i4.Future<_i3.Session> loadFromRemote(_i9.StateProviders? stateProviders) =>
       (super.noSuchMethod(
         Invocation.method(
           #loadFromRemote,
-          [
-            session,
-            profile,
-          ],
+          [stateProviders],
         ),
-        returnValue: _i4.Future<void>.value(),
-        returnValueForMissingStub: _i4.Future<void>.value(),
-      ) as _i4.Future<void>);
-
-  @override
-  void restoreSession(
-    String? username,
-    String? password,
-    List<String>? faculties,
-  ) =>
-      super.noSuchMethod(
-        Invocation.method(
-          #restoreSession,
-          [
-            username,
-            password,
-            faculties,
-          ],
-        ),
-        returnValueForMissingStub: null,
-      );
+        returnValue: _i4.Future<_i3.Session>.value(_FakeSession_2(
+          this,
+          Invocation.method(
+            #loadFromRemote,
+            [stateProviders],
+          ),
+        )),
+        returnValueForMissingStub: _i4.Future<_i3.Session>.value(_FakeSession_2(
+          this,
+          Invocation.method(
+            #loadFromRemote,
+            [stateProviders],
+          ),
+        )),
+      ) as _i4.Future<_i3.Session>);
 
   @override
   _i4.Future<void> postAuthentication(
@@ -537,19 +525,20 @@ class MockSessionProvider extends _i1.Mock implements _i7.SessionProvider {
         returnValueForMissingStub: _i4.Future<void>.value(),
       ) as _i4.Future<void>);
 
+
   @override
-  void markAsInitialized() => super.noSuchMethod(
+  void updateState(_i3.Session? newState) => super.noSuchMethod(
         Invocation.method(
-          #markAsInitialized,
-          [],
+          #updateState,
+          [newState],
         ),
         returnValueForMissingStub: null,
       );
 
   @override
-  void markAsNotInitialized() => super.noSuchMethod(
+  void invalidate() => super.noSuchMethod(
         Invocation.method(
-          #markAsNotInitialized,
+          #invalidate,
           [],
         ),
         returnValueForMissingStub: null,
@@ -577,26 +566,6 @@ class MockSessionProvider extends _i1.Mock implements _i7.SessionProvider {
         returnValueForMissingStub: _i4.Future<void>.value(),
       ) as _i4.Future<void>);
 
-  @override
-  _i4.Future<void> ensureInitializedFromRemote(_i10.BuildContext? context) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #ensureInitializedFromRemote,
-          [context],
-        ),
-        returnValue: _i4.Future<void>.value(),
-        returnValueForMissingStub: _i4.Future<void>.value(),
-      ) as _i4.Future<void>);
-
-  @override
-  _i4.Future<void> ensureInitializedFromStorage() => (super.noSuchMethod(
-        Invocation.method(
-          #ensureInitializedFromStorage,
-          [],
-        ),
-        returnValue: _i4.Future<void>.value(),
-        returnValueForMissingStub: _i4.Future<void>.value(),
-      ) as _i4.Future<void>);
 
   @override
   void addListener(_i11.VoidCallback? listener) => super.noSuchMethod(

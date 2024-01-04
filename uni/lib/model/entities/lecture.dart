@@ -3,7 +3,6 @@ import 'package:logger/logger.dart';
 
 part '../../generated/model/entities/lecture.g.dart';
 
-
 class DateTimeConverter extends JsonConverter<DateTime, String> {
   const DateTimeConverter();
 

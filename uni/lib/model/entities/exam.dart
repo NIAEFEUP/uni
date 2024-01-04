@@ -5,7 +5,6 @@ import 'package:uni/model/entities/app_locale.dart';
 
 part '../../generated/model/entities/exam.g.dart';
 
-
 class DateTimeConverter extends JsonConverter<DateTime, String> {
   const DateTimeConverter();
 

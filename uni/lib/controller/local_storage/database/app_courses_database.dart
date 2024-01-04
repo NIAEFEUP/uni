@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:sqflite/sqflite.dart';
-import 'package:uni/controller/local_storage/app_database.dart';
+import 'package:uni/controller/local_storage/database/app_database.dart';
 import 'package:uni/model/entities/course.dart';
 
 /// Manages the app's Courses database.

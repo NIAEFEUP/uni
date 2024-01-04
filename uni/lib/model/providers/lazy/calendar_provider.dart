@@ -1,35 +1,30 @@
 import 'dart:async';
-import 'dart:collection';
 
 import 'package:uni/controller/fetchers/calendar_fetcher_html.dart';
-import 'package:uni/controller/local_storage/app_calendar_database.dart';
+import 'package:uni/controller/local_storage/database/app_calendar_database.dart';
 import 'package:uni/model/entities/calendar_event.dart';
-import 'package:uni/model/entities/profile.dart';
-import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
+import 'package:uni/model/providers/state_providers.dart';
 
-class CalendarProvider extends StateProviderNotifier {
-  CalendarProvider()
-      : super(dependsOnSession: true, cacheDuration: const Duration(days: 30));
-  List<CalendarEvent> _calendar = [];
-
-  UnmodifiableListView<CalendarEvent> get calendar =>
-      UnmodifiableListView(_calendar);
+class CalendarProvider extends StateProviderNotifier<List<CalendarEvent>> {
+  CalendarProvider() : super(cacheDuration: const Duration(days: 30));
 
   @override
-  Future<void> loadFromRemote(Session session, Profile profile) async {
-    await fetchCalendar(session);
+  Future<List<CalendarEvent>> loadFromStorage(
+    StateProviders stateProviders,
+  ) async {
+    final db = CalendarDatabase();
+    return db.calendar();
   }
 
-  Future<void> fetchCalendar(Session session) async {
-    _calendar = await CalendarFetcherHtml().getCalendar(session);
+  @override
+  Future<List<CalendarEvent>> loadFromRemote(
+    StateProviders stateProviders,
+  ) async {
+    final session = stateProviders.sessionProvider.state!;
+    final calendar = await CalendarFetcherHtml().getCalendar(session);
     final db = CalendarDatabase();
     unawaited(db.saveCalendar(calendar));
-  }
-
-  @override
-  Future<void> loadFromStorage() async {
-    final db = CalendarDatabase();
-    _calendar = await db.calendar();
+    return calendar;
   }
 }
