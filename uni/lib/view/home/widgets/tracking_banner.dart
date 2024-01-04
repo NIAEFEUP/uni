@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:uni/generated/l10n.dart';
 
-class BannerWidget extends StatelessWidget {
-  const BannerWidget(this.onDismiss, {super.key});
+class TrackingBanner extends StatelessWidget {
+  const TrackingBanner(this.onDismiss, {super.key});
 
   final void Function() onDismiss;
 

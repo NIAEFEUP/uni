@@ -36,16 +36,17 @@ class HomePageViewState extends GeneralPageViewState {
 
   @override
   Widget getBody(BuildContext context) {
-    return isBannerViewed
-        ? const MainCardsList()
-        : Column(
-            children: [
-              BannerWidget(setBannerViewed),
-              const Expanded(
-                child: MainCardsList(),
-              ),
-            ],
-          );
+    return Column(
+      children: [
+        Visibility(
+          visible: !isBannerViewed,
+          child: TrackingBanner(setBannerViewed),
+        ),
+        const Expanded(
+          child: MainCardsList(),
+        ),
+      ],
+    );
   }
 
   @override

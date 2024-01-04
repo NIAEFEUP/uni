@@ -94,7 +94,7 @@ class AppSharedPreferences {
     required bool isViewed,
   }) async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(isDataCollectionBannerViewedKey, true);
+    await prefs.setBool(isDataCollectionBannerViewedKey, isViewed);
   }
 
   static Future<bool> isDataCollectionBannerViewed() async {
