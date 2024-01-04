@@ -1,11 +1,13 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/profile/widgets/account_info_card.dart';
 import 'package:uni/view/profile/widgets/course_info_card.dart';
+import 'package:uni/view/profile/widgets/print_info_card.dart';
 import 'package:uni/view/profile/widgets/profile_overview.dart';
 import 'package:uni/view/settings/settings.dart';
 
@@ -20,9 +22,8 @@ class ProfilePageView extends StatefulWidget {
 class ProfilePageViewState extends SecondaryPageViewState<ProfilePageView> {
   @override
   Widget getBody(BuildContext context) {
-    return LazyConsumer<ProfileProvider>(
-      builder: (context, profileStateProvider) {
-        final profile = profileStateProvider.profile;
+    return LazyConsumer<ProfileProvider, Profile>(
+      builder: (context, profile) {
         final courseWidgets = profile.courses
             .map(
               (e) => [
@@ -42,13 +43,14 @@ class ProfilePageViewState extends SecondaryPageViewState<ProfilePageView> {
               getProfileDecorationImage: getProfileDecorationImage,
             ),
             const Padding(padding: EdgeInsets.all(5)),
-            // TODO(bdmendes): Bring this back when print info is ready again
-            // PrintInfoCard()
             ...courseWidgets,
             AccountInfoCard(),
+            PrintInfoCard(),
           ],
         );
       },
+      hasContent: (Profile profile) => profile.courses.isNotEmpty,
+      onNullContent: Container(),
     );
   }
 

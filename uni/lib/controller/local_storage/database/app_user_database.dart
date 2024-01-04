@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:uni/controller/local_storage/app_database.dart';
+import 'package:uni/controller/local_storage/database/app_database.dart';
 import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/profile.dart';
 

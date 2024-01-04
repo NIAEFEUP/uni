@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:logger/logger.dart';
 import 'package:synchronized/synchronized.dart';
-import 'package:uni/controller/local_storage/app_shared_preferences.dart';
+import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/view/navigation_service.dart';
 
@@ -92,7 +92,7 @@ class NetworkRouter {
   /// returning an updated Session if successful.
   static Future<Session?> reLoginFromSession(Session session) async {
     final username = session.username;
-    final password = await AppSharedPreferences.getUserPassword();
+    final password = PreferencesController.getUserPassword();
 
     if (password == null) {
       Logger().e('Re-login failed: password not found');

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/generated/l10n.dart';
+import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/reference.dart';
 import 'package:uni/model/providers/lazy/reference_provider.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
@@ -29,95 +30,98 @@ class AccountInfoCard extends GenericCard {
 
   @override
   Widget buildCardContent(BuildContext context) {
-    return LazyConsumer<ProfileProvider>(
-      builder: (context, profileStateProvider) {
-        return LazyConsumer<ReferenceProvider>(
-          builder: (context, referenceProvider) {
-            final profile = profileStateProvider.profile;
-            final List<Reference> references = referenceProvider.references;
-
-            return Column(
-              children: [
-                Table(
-                  columnWidths: const {1: FractionColumnWidth(.4)},
-                  defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-                  children: [
-                    TableRow(
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.only(
-                            top: 20,
-                            bottom: 8,
-                            left: 20,
-                          ),
-                          child: Text(
-                            S.of(context).balance,
-                            style: Theme.of(context).textTheme.titleSmall,
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(
-                            top: 20,
-                            bottom: 8,
-                            right: 30,
-                          ),
-                          child: getInfoText(profile.feesBalance, context),
-                        ),
-                      ],
-                    ),
-                    TableRow(
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.only(
-                            top: 8,
-                            bottom: 20,
-                            left: 20,
-                          ),
-                          child: Text(
-                            S.of(context).fee_date,
-                            style: Theme.of(context).textTheme.titleSmall,
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(
-                            top: 8,
-                            bottom: 20,
-                            right: 30,
-                          ),
-                          child: getInfoText(
-                            profile.feesLimit != null
-                                ? DateFormat('yyyy-MM-dd')
-                                    .format(profile.feesLimit!)
-                                : S.of(context).no_date,
-                            context,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                if (references.isNotEmpty)
+    return Column(
+      children: [
+        LazyConsumer<ProfileProvider, Profile>(
+          builder: (BuildContext context, profile) => Table(
+            columnWidths: const {1: FractionColumnWidth(.4)},
+            defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+            children: [
+              TableRow(
+                children: [
                   Container(
-                    padding: const EdgeInsets.all(10),
-                    child: Row(
-                      children: <Widget>[
-                        Text(
-                          S.of(context).pendent_references,
-                          style: Theme.of(context).textTheme.titleLarge?.apply(
-                                color: Theme.of(context).colorScheme.secondary,
-                              ),
-                        ),
-                      ],
+                    margin: const EdgeInsets.only(
+                      top: 20,
+                      bottom: 8,
+                      left: 20,
+                    ),
+                    child: Text(
+                      S.of(context).balance,
+                      style: Theme.of(context).textTheme.titleSmall,
                     ),
                   ),
-                if (references.isNotEmpty)
-                  ReferenceList(references: references),
-                const SizedBox(height: 10),
+                  Container(
+                    margin: const EdgeInsets.only(
+                      top: 20,
+                      bottom: 8,
+                      right: 30,
+                    ),
+                    child: getInfoText(profile.feesBalance, context),
+                  ),
+                ],
+              ),
+              TableRow(
+                children: [
+                  Container(
+                    margin: const EdgeInsets.only(
+                      top: 8,
+                      left: 20,
+                    ),
+                    child: Text(
+                      S.of(context).fee_date,
+                      style: Theme.of(context).textTheme.titleSmall,
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(
+                      top: 8,
+                      right: 30,
+                    ),
+                    child: getInfoText(
+                      profile.feesLimit != null
+                          ? DateFormat('yyyy-MM-dd').format(profile.feesLimit!)
+                          : S.of(context).no_date,
+                      context,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          hasContent: (Profile profile) => true,
+          onNullContent: Container(),
+        ),
+        LazyConsumer<ReferenceProvider, List<Reference>>(
+          builder: (BuildContext context, references) {
+            return Column(
+              children: [
+                Container(
+                  padding: const EdgeInsets.only(
+                    top: 30,
+                    bottom: 10,
+                    right: 15,
+                    left: 15,
+                  ),
+                  child: Row(
+                    children: <Widget>[
+                      Text(
+                        S.of(context).pendent_references,
+                        style: Theme.of(context).textTheme.titleLarge?.apply(
+                              color: Theme.of(context).colorScheme.secondary,
+                            ),
+                      ),
+                    ],
+                  ),
+                ),
+                ReferenceList(references: references),
               ],
             );
           },
-        );
-      },
+          hasContent: (references) => references.isNotEmpty,
+          onNullContent: Container(),
+        ),
+        const SizedBox(height: 10),
+      ],
     );
   }
 

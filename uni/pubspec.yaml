@@ -7,15 +7,15 @@ publish_to: "none" # We do not publish to pub.dev
 # To change it manually, override the value in app_version.txt.
 # The app version code is automatically also bumped by CI.
 # Do not change it manually.
-version: 1.7.25+215
+version: 1.7.30+220
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
   flutter: 3.13.7
 
 dependencies:
-  add_2_calendar: ^2.2.5
-  cached_network_image: ^3.2.3
+  add_2_calendar: ^3.0.1
+  cached_network_image: ^3.3.1
   collection: ^1.16.0
   connectivity_plus: ^5.0.2
   crypto: ^3.0.1
@@ -33,7 +33,7 @@ dependencies:
   flutter_map: ^5.0.0
   flutter_map_marker_popup: ^5.0.0
   flutter_markdown: ^0.6.0
-  flutter_svg: ^2.0.0+1
+  flutter_svg: ^2.0.9
   flutter_widget_from_html_core: ^0.14.9
   html: ^0.15.0
   http: ^1.1.0
@@ -45,15 +45,15 @@ dependencies:
   path: ^1.8.0
   path_provider: ^2.0.0
   percent_indicator: ^4.2.2
-  provider: ^6.0.4
-  sentry_flutter: ^7.13.2
+  provider: ^6.1.1
+  sentry_flutter: ^7.14.0
   shared_preferences: ^2.2.2
   shimmer: ^3.0.0
   sqflite: ^2.0.3
   synchronized: ^3.0.0
   timelines: ^0.1.0
   tuple: ^2.0.0
-  url_launcher: ^6.0.2
+  url_launcher: ^6.2.2
   workmanager: ^0.5.2
 
 dev_dependencies:
@@ -61,12 +61,8 @@ dev_dependencies:
   flutter_launcher_icons: ^0.13.1
   flutter_test:
     sdk: flutter
-  # FIXME(luisd): Update mockito to a release version when 5.4.3 or above
-  # is launched
-  mockito:
-    git:
-      url: https://github.com/dart-lang/mockito.git
-      ref: "e54a006"
+  mockito: 5.4.4
+  sqflite_common_ffi: ^2.3.0+4
   test: any
   very_good_analysis: ^5.1.0
 
