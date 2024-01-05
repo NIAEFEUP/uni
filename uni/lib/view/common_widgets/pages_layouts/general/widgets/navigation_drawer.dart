@@ -93,9 +93,9 @@ class AppNavigationDrawerState extends State<AppNavigationDrawer> {
             child: Container(
               padding: const EdgeInsets.only(top: 55),
               child: ListView(
-                children: DrawerItem.values
-                    .where((item) => item.isVisible(userSession.faculties))
-                    .map((item) => DrawerNavigationOption(item: item))
+                children: drawerItems.keys
+                    .where((key) => key.isVisible(userSession.faculties))
+                    .map(createDrawerNavigationOption)
                     .toList(),
               ),
             ),
