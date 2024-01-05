@@ -30,7 +30,7 @@ class PreferencesController {
       'tuition_notification_toogle';
   static const String _usageStatsToggleKey = 'usage_stats_toogle';
   static const String _themeMode = 'theme_mode';
-  static const String isDataCollectionBannerViewedKey =
+  static const String _isDataCollectionBannerViewedKey =
       'data_collection_banner';
   static const String _locale = 'app_locale';
   static const String _favoriteCards = 'favorite_cards';
@@ -90,11 +90,11 @@ class PreferencesController {
   static Future<void> setDataCollectionBannerViewed({
     required bool isViewed,
   }) async {
-    await prefs.setBool(isDataCollectionBannerViewedKey, isViewed);
+    await prefs.setBool(_isDataCollectionBannerViewedKey, isViewed);
   }
 
   static bool isDataCollectionBannerViewed() {
-    return prefs.getBool(isDataCollectionBannerViewedKey) ?? false;
+    return prefs.getBool(_isDataCollectionBannerViewedKey) ?? false;
   }
 
   /// Returns the hash of the last Terms and Conditions that have
