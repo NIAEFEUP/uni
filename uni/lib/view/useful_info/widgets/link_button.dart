@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:uni/controller/networking/url_launcher.dart';
 
 class LinkButton extends StatelessWidget {
   const LinkButton({
@@ -27,7 +27,7 @@ class LinkButton extends StatelessWidget {
                       .headlineSmall!
                       .copyWith(decoration: TextDecoration.underline),
                 ),
-                onTap: () => launchUrl(Uri.parse(link)),
+                onTap: () => launchUrlWithToast(context, link),
               ),
             ),
           ],
