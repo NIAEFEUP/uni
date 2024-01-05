@@ -24,9 +24,8 @@ class HomePageViewState extends GeneralPageViewState {
   }
 
   Future<void> checkBannerViewed() async {
-    final pref = await PreferencesController.isDataCollectionBannerViewed();
     setState(() {
-      isBannerViewed = pref;
+      isBannerViewed = PreferencesController.isDataCollectionBannerViewed();
     });
   }
 

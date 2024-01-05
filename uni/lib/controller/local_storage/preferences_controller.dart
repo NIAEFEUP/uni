@@ -90,12 +90,10 @@ class PreferencesController {
   static Future<void> setDataCollectionBannerViewed({
     required bool isViewed,
   }) async {
-    final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(isDataCollectionBannerViewedKey, isViewed);
   }
 
-  static Future<bool> isDataCollectionBannerViewed() async {
-    final prefs = await SharedPreferences.getInstance();
+  static bool isDataCollectionBannerViewed() {
     return prefs.getBool(isDataCollectionBannerViewedKey) ?? false;
   }
 
