@@ -6,7 +6,6 @@ import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:uni/controller/networking/network_router.dart';
-
 import 'package:uni/model/entities/session.dart';
 
 /// The offline image storage location on the device.

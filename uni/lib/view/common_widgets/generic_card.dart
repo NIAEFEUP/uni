@@ -149,7 +149,7 @@ abstract class GenericCard extends StatelessWidget {
                       bottom: padding,
                     ),
                     child: buildCardContent(context),
-                  )
+                  ),
                 ],
               ),
             ),

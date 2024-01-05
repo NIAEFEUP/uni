@@ -4,8 +4,6 @@ import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/utils/drawer_items.dart';
 
-import 'package:uni/view/common_widgets/pages_layouts/general/widgets/drawer_navigation_option.dart';
-
 class AppNavigationDrawer extends StatefulWidget {
   const AppNavigationDrawer({required this.parentContext, super.key});
 

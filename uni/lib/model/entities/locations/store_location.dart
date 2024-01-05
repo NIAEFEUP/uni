@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:uni/model/entities/location.dart';
 
 class StoreLocation implements Location {
