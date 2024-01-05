@@ -1116,6 +1116,26 @@ class S {
     );
   }
 
+  /// `of`
+  String get of_month {
+    return Intl.message(
+      'of',
+      name: 'of_month',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We couldn't open the link`
+  String get no_link {
+    return Intl.message(
+      'We couldn\'t open the link',
+      name: 'no_link',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Other links`
   String get other_links {
     return Intl.message(
