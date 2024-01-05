@@ -16,9 +16,12 @@ class TopRightButton extends StatelessWidget {
     BuildContext context, {
     bool forceRetrieval = false,
   }) async {
+    final sessionProvider =
+        Provider.of<SessionProvider>(context, listen: false);
+    await sessionProvider.ensureInitialized(context);
     final profilePictureFile =
         await ProfileProvider.fetchOrGetCachedProfilePicture(
-      Provider.of<SessionProvider>(context, listen: false).state!,
+      sessionProvider.state!,
       forceRetrieval:
           forceRetrieval || GeneralPageViewState.profileImageProvider == null,
     );
@@ -30,9 +33,9 @@ class TopRightButton extends StatelessWidget {
     return FutureBuilder(
       future: buildProfileDecorationImage(context),
       builder: (
-        BuildContext context,
-        AsyncSnapshot<DecorationImage> decorationImage,
-      ) {
+          BuildContext context,
+          AsyncSnapshot<DecorationImage> decorationImage,
+          ) {
         return TextButton(
           onPressed: () => {
             Navigator.push(
