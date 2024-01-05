@@ -14,7 +14,7 @@ class RefreshState extends StatelessWidget {
     return RefreshIndicator(
       key: GlobalKey<RefreshIndicatorState>(),
       onRefresh: () => ProfileProvider.fetchOrGetCachedProfilePicture(
-        Provider.of<SessionProvider>(context, listen: false).session,
+        Provider.of<SessionProvider>(context, listen: false).state!,
         forceRetrieval: true,
       ).then((value) => onRefresh(context)),
       child: child,

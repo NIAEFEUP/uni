@@ -18,7 +18,7 @@ class TopRightButton extends StatelessWidget {
   }) async {
     final profilePictureFile =
         await ProfileProvider.fetchOrGetCachedProfilePicture(
-      Provider.of<SessionProvider>(context, listen: false).session,
+      Provider.of<SessionProvider>(context, listen: false).state!,
       forceRetrieval:
           forceRetrieval || GeneralPageViewState.profileImageProvider == null,
     );
