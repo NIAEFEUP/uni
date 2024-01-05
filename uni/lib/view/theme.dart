@@ -25,6 +25,7 @@ const _textTheme = TextTheme(
 );
 
 ThemeData applicationLightTheme = ThemeData(
+  useMaterial3: true,
   colorScheme: ColorScheme.fromSeed(
     seedColor: darkRed,
     background: _mildWhite,
@@ -77,6 +78,7 @@ ThemeData applicationLightTheme = ThemeData(
 );
 
 ThemeData applicationDarkTheme = ThemeData(
+  useMaterial3: true,
   colorScheme: ColorScheme.fromSeed(
     seedColor: lightRed,
     brightness: Brightness.dark,
