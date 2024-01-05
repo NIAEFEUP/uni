@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/meal.dart';
 import 'package:uni/model/entities/restaurant.dart';
@@ -7,7 +8,6 @@ import 'package:uni/model/providers/lazy/restaurant_provider.dart';
 import 'package:uni/model/utils/day_of_week.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
-import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
 import 'package:uni/view/common_widgets/row_container.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/restaurant/widgets/restaurant_slot.dart';
@@ -37,40 +37,38 @@ class RestaurantCard extends GenericCard {
 
   @override
   Widget buildCardContent(BuildContext context) {
-    return LazyConsumer<RestaurantProvider>(
-      builder: (context, restaurantProvider) {
-        final favoriteRestaurants = restaurantProvider.restaurants
+    return LazyConsumer<RestaurantProvider, List<Restaurant>>(
+      builder: (context, restaurants) {
+        final favoriteRestaurants = restaurants
             .where(
-              (restaurant) => restaurantProvider.favoriteRestaurants
+              (restaurant) => PreferencesController.getFavoriteRestaurants()
                   .contains(restaurant.name),
             )
             .toList();
-        return RequestDependentWidgetBuilder(
-          status: restaurantProvider.status,
-          builder: () => generateRestaurants(favoriteRestaurants, context),
-          hasContentPredicate: favoriteRestaurants.isNotEmpty,
-          onNullContent: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 10, bottom: 10),
-                child: Center(
-                  child: Text(
-                    S.of(context).no_favorite_restaurants,
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                ),
-              ),
-              OutlinedButton(
-                onPressed: () => Navigator.pushNamed(
-                  context,
-                  '/${DrawerItem.navRestaurants.title}',
-                ),
-                child: Text(S.of(context).add),
-              ),
-            ],
-          ),
-        );
+        return generateRestaurants(favoriteRestaurants, context);
       },
+      hasContent: (restaurants) =>
+          PreferencesController.getFavoriteRestaurants().isNotEmpty,
+      onNullContent: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 10, bottom: 10),
+            child: Center(
+              child: Text(
+                S.of(context).no_favorite_restaurants,
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+            ),
+          ),
+          OutlinedButton(
+            onPressed: () => Navigator.pushNamed(
+              context,
+              '/${DrawerItem.navRestaurants.title}',
+            ),
+            child: Text(S.of(context).add),
+          ),
+        ],
+      ),
     );
   }
 

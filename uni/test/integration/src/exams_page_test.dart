@@ -20,7 +20,9 @@ import '../../mocks/integration/src/exams_page_test.mocks.dart';
 import '../../test_widget.dart';
 
 @GenerateNiceMocks([MockSpec<http.Client>(), MockSpec<http.Response>()])
-void main() {
+void main() async {
+  await initTestEnvironment();
+
   group('ExamsPage Integration Tests', () {
     final mockClient = MockClient();
     final mockResponse = MockResponse();
@@ -79,7 +81,7 @@ void main() {
       expect(find.byKey(Key('$sopeExam-exam')), findsNothing);
       expect(find.byKey(Key('$mdisExam-exam')), findsNothing);
 
-      await examProvider.fetchUserExams(
+      final exams = await examProvider.fetchUserExams(
         ParserExams(),
         profile,
         Session(username: '', cookies: '', faculties: ['feup']),
@@ -87,7 +89,7 @@ void main() {
         persistentSession: false,
       );
 
-      examProvider.markAsInitialized();
+      examProvider.setState(exams);
 
       await tester.pumpAndSettle();
       expect(find.byKey(Key('$sdisExam-exam')), findsOneWidget);
@@ -117,7 +119,7 @@ void main() {
       expect(find.byKey(Key('$sdisExam-exam')), findsNothing);
       expect(find.byKey(Key('$sopeExam-exam')), findsNothing);
 
-      await examProvider.fetchUserExams(
+      final exams = await examProvider.fetchUserExams(
         ParserExams(),
         profile,
         Session(username: '', cookies: '', faculties: ['feup']),
@@ -125,7 +127,7 @@ void main() {
         persistentSession: false,
       );
 
-      examProvider.markAsInitialized();
+      examProvider.setState(exams);
 
       await tester.pumpAndSettle();
       expect(find.byKey(Key('$sdisExam-exam')), findsOneWidget);
@@ -133,8 +135,6 @@ void main() {
       expect(find.byIcon(Icons.filter_alt), findsOneWidget);
 
       filteredExams['ExamDoesNotExist'] = true;
-
-      await examProvider.setFilteredExams(filteredExams);
 
       await tester.pumpAndSettle();
 

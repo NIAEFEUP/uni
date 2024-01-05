@@ -12,11 +12,14 @@ import 'package:uni/model/providers/lazy/lecture_provider.dart';
 import 'package:uni/model/request_status.dart';
 
 import '../../mocks/unit/providers/lecture_provider_test.mocks.dart';
+import '../../test_widget.dart';
 
 @GenerateNiceMocks(
   [MockSpec<ScheduleFetcher>(), MockSpec<Client>(), MockSpec<Response>()],
 )
-void main() {
+void main() async {
+  await initTestEnvironment();
+
   group('Schedule Action Creator', () {
     final fetcherMock = MockScheduleFetcher();
     final mockClient = MockClient();
@@ -56,21 +59,23 @@ void main() {
     late LectureProvider provider;
     setUp(() {
       provider = LectureProvider();
-      expect(provider.status, RequestStatus.busy);
+      expect(provider.requestStatus, RequestStatus.busy);
     });
 
     test('When given a single schedule', () async {
       when(fetcherMock.getLectures(any, any))
           .thenAnswer((_) async => [lecture1, lecture2]);
 
-      await provider.fetchUserLectures(
+      final lectures = await provider.fetchUserLectures(
         session,
         profile,
         fetcher: fetcherMock,
         persistentSession: false,
       );
 
-      expect(provider.lectures, [lecture1, lecture2]);
+      provider.setState(lectures);
+
+      expect(provider.state, [lecture1, lecture2]);
     });
 
     test('When an error occurs while trying to obtain the schedule', () async {

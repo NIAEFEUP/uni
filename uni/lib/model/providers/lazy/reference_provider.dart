@@ -1,40 +1,31 @@
 import 'dart:async';
-import 'dart:collection';
 
 import 'package:uni/controller/fetchers/reference_fetcher.dart';
-import 'package:uni/controller/local_storage/app_references_database.dart';
+import 'package:uni/controller/local_storage/database/app_references_database.dart';
 import 'package:uni/controller/parsers/parser_references.dart';
-import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/reference.dart';
-import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
+import 'package:uni/model/providers/state_providers.dart';
 
-class ReferenceProvider extends StateProviderNotifier {
-  ReferenceProvider()
-      : super(dependsOnSession: true, cacheDuration: const Duration(hours: 1));
-  List<Reference> _references = [];
-
-  UnmodifiableListView<Reference> get references =>
-      UnmodifiableListView(_references);
+class ReferenceProvider extends StateProviderNotifier<List<Reference>> {
+  ReferenceProvider() : super(cacheDuration: const Duration(hours: 1));
 
   @override
-  Future<void> loadFromStorage() async {
+  Future<List<Reference>> loadFromStorage(StateProviders stateProviders) {
     final referencesDb = AppReferencesDatabase();
-    final references = await referencesDb.references();
-    _references = references;
+    return referencesDb.references();
   }
 
   @override
-  Future<void> loadFromRemote(Session session, Profile profile) async {
-    await fetchUserReferences(session);
-  }
+  Future<List<Reference>> loadFromRemote(StateProviders stateProviders) async {
+    final session = stateProviders.sessionProvider.state!;
 
-  Future<void> fetchUserReferences(Session session) async {
     final response = await ReferenceFetcher().getUserReferenceResponse(session);
-
-    _references = await parseReferences(response);
+    final references = await parseReferences(response);
 
     final referencesDb = AppReferencesDatabase();
     unawaited(referencesDb.saveNewReferences(references));
+
+    return references;
   }
 }

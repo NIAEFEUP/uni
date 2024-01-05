@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/course_units/course_unit_directory.dart';
 import 'package:uni/model/entities/course_units/course_unit_file.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_files_row.dart';
@@ -15,10 +16,19 @@ class CourseUnitFilesView extends StatelessWidget {
         .map((e) => _buildCard(e.folderName, e.files))
         .toList();
 
-    return Container(
+    return cards.isEmpty
+        ? Center(
+    child: Container(
       padding: const EdgeInsets.only(left: 10, right: 10),
-      child: ListView(children: cards),
-    );
+      child: Text(S.of(context).no_files_found),
+    ),
+  )
+        : Container(
+            padding: const EdgeInsets.only(left: 10, right: 10),
+            child: ListView(
+              children: cards,
+            ),
+          );
   }
 
   CourseUnitInfoCard _buildCard(String folder, List<CourseUnitFile> files) =>

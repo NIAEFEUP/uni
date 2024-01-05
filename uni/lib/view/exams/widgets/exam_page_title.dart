@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
-import 'package:uni/view/exams/widgets/exam_filter_menu.dart';
+import 'package:uni/view/exams/widgets/exam_filter_form.dart';
 
 class ExamPageTitle extends StatelessWidget {
-  const ExamPageTitle({super.key});
+  const ExamPageTitle(this.onDismissFilterDialog, {super.key});
+
+  final void Function() onDismissFilterDialog;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +23,22 @@ class ExamPageTitle extends StatelessWidget {
             center: false,
             pad: false,
           ),
-          const Material(child: ExamFilterMenu()),
+          IconButton(
+            icon: const Icon(Icons.filter_alt),
+            onPressed: () {
+              showDialog<void>(
+                context: context,
+                builder: (_) {
+                  final filteredExamsTypes =
+                      PreferencesController.getFilteredExams();
+                  return ExamFilterForm(
+                    Map<String, bool>.from(filteredExamsTypes),
+                    onDismissFilterDialog,
+                  );
+                },
+              );
+            },
+          ),
         ],
       ),
     );

@@ -81,7 +81,7 @@ class CourseUnitFilesRowState extends State<CourseUnitFilesRow>
   }
 
   Future<void> openFile(BuildContext context, CourseUnitFile unitFile) async {
-    final session = context.read<SessionProvider>().session;
+    final session = context.read<SessionProvider>().state!;
 
     try {
       final result = await loadFileFromStorageOrRetrieveNew(

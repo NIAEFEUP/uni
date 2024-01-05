@@ -1076,6 +1076,26 @@ class S {
     );
   }
 
+  /// `No print balance information`
+  String get no_print_info {
+    return Intl.message(
+      'No print balance information',
+      name: 'no_print_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No library occupation information available`
+  String get no_library_info {
+    return Intl.message(
+      'No library occupation information available',
+      name: 'no_library_info',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Type of occurrence`
   String get occurrence_type {
     return Intl.message(
@@ -1091,6 +1111,16 @@ class S {
     return Intl.message(
       'We couldn\'t open the link',
       name: 'no_link',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No files found`
+  String get no_files_found {
+    return Intl.message(
+      'No files found',
+      name: 'no_files_found',
       desc: '',
       args: [],
     );
@@ -1189,7 +1219,7 @@ class S {
   /// `The generated reference data will appear in Sigarra, checking account.\nProfile > Checking Account`
   String get reference_sigarra_help {
     return Intl.message(
-      'The generated reference data will appear in Sigarra, checking account.\\nProfile > Checking Account',
+      'The generated reference data will appear in Sigarra, checking account.\nProfile > Checking Account',
       name: 'reference_sigarra_help',
       desc: '',
       args: [],

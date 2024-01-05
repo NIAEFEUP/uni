@@ -8,17 +8,17 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uni/controller/background_workers/background_callback.dart';
 import 'package:uni/controller/cleanup.dart';
-import 'package:uni/controller/load_static/terms_and_conditions.dart';
-import 'package:uni/controller/local_storage/app_shared_preferences.dart';
+import 'package:uni/controller/fetchers/terms_and_conditions_fetcher.dart';
+import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/providers/lazy/bus_stop_provider.dart';
 import 'package:uni/model/providers/lazy/calendar_provider.dart';
 import 'package:uni/model/providers/lazy/course_units_info_provider.dart';
 import 'package:uni/model/providers/lazy/exam_provider.dart';
 import 'package:uni/model/providers/lazy/faculty_locations_provider.dart';
-import 'package:uni/model/providers/lazy/home_page_provider.dart';
 import 'package:uni/model/providers/lazy/lecture_provider.dart';
 import 'package:uni/model/providers/lazy/library_occupation_provider.dart';
 import 'package:uni/model/providers/lazy/reference_provider.dart';
@@ -49,7 +49,7 @@ SentryEvent? beforeSend(SentryEvent event) {
 }
 
 Future<Widget> firstRoute() async {
-  final userPersistentInfo = await AppSharedPreferences.getPersistentUserInfo();
+  final userPersistentInfo = PreferencesController.getPersistentUserInfo();
 
   if (userPersistentInfo != null) {
     return const HomePageView();
@@ -60,6 +60,10 @@ Future<Widget> firstRoute() async {
 }
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  PreferencesController.prefs = await SharedPreferences.getInstance();
+
   final stateProviders = StateProviders(
     LectureProvider(),
     ExamProvider(),
@@ -71,11 +75,8 @@ Future<void> main() async {
     CalendarProvider(),
     LibraryOccupationProvider(),
     FacultyLocationsProvider(),
-    HomePageProvider(),
     ReferenceProvider(),
   );
-
-  WidgetsFlutterBinding.ensureInitialized();
 
   unawaited(cleanupCachedFiles());
 
@@ -97,8 +98,8 @@ Future<void> main() async {
     );
   });
 
-  final savedTheme = await AppSharedPreferences.getThemeMode();
-  final savedLocale = await AppSharedPreferences.getLocale();
+  final savedTheme = PreferencesController.getThemeMode();
+  final savedLocale = PreferencesController.getLocale();
   final route = await firstRoute();
 
   await SentryFlutter.init(
@@ -139,9 +140,6 @@ Future<void> main() async {
             ),
             ChangeNotifierProvider(
               create: (context) => stateProviders.facultyLocationsProvider,
-            ),
-            ChangeNotifierProvider(
-              create: (context) => stateProviders.homePageProvider,
             ),
             ChangeNotifierProvider(
               create: (context) => stateProviders.referenceProvider,
@@ -239,7 +237,7 @@ class ApplicationState extends State<Application> {
             ),
             '/${DrawerItem.navLibrary.title}':
                 PageTransition.makePageTransition(
-              page: const LibraryPageView(),
+              page: const LibraryPage(),
               settings: settings,
             ),
             '/${DrawerItem.navUsefulInfo.title}':

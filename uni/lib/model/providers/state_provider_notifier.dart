@@ -1,86 +1,102 @@
+import 'dart:async';
+
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
-import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:synchronized/synchronized.dart';
-import 'package:uni/controller/local_storage/app_shared_preferences.dart';
-import 'package:uni/model/entities/profile.dart';
-import 'package:uni/model/entities/session.dart';
-import 'package:uni/model/providers/startup/profile_provider.dart';
-import 'package:uni/model/providers/startup/session_provider.dart';
+import 'package:uni/controller/local_storage/preferences_controller.dart';
+import 'package:uni/model/providers/state_providers.dart';
 import 'package:uni/model/request_status.dart';
 
-abstract class StateProviderNotifier extends ChangeNotifier {
+abstract class StateProviderNotifier<T> extends ChangeNotifier {
   StateProviderNotifier({
     required this.cacheDuration,
     this.dependsOnSession = true,
     RequestStatus initialStatus = RequestStatus.busy,
-    bool initialize = true,
-  })  : _initialStatus = initialStatus,
-        _status = initialStatus,
-        _initializedFromStorage = !initialize,
-        _initializedFromRemote = !initialize;
+    T? initialState,
+  })  : _requestStatus = initialStatus,
+        _state = initialState;
 
-  static const lockTimeout = Duration(seconds: 30);
-  final Lock _lock = Lock();
-  final RequestStatus _initialStatus;
-  RequestStatus _status;
-  bool _initializedFromStorage;
-  bool _initializedFromRemote;
-  DateTime? _lastUpdateTime;
+  /// The model that this notifier provides.
+  /// This future will throw if the data loading fails.
+  T? _state;
+
+  /// Whether this provider depends on Session and Profile to fetch data.
   bool dependsOnSession;
+
+  /// The data loading request status.
+  RequestStatus _requestStatus;
+
+  /// The timeout for concurrent state change operations.
+  static const _lockTimeout = Duration(seconds: 30);
+
+  /// The lock for concurrent state change operations.
+  final Lock _lock = Lock();
+
+  /// The last time the model was fetched from the remote.
+  DateTime? _lastUpdateTime;
+
+  /// The maximum time after the last update from the remote
+  /// to retrieve cached data.
   Duration? cacheDuration;
 
-  RequestStatus get status => _status;
+  RequestStatus get requestStatus => _requestStatus;
+
+  T? get state => _state;
 
   DateTime? get lastUpdateTime => _lastUpdateTime;
 
-  void markAsInitialized() {
-    _initializedFromStorage = true;
-    _initializedFromRemote = true;
-    _status = RequestStatus.successful;
-    _lastUpdateTime = DateTime.now();
+  /// Gets the model from the local database.
+  /// This method such not catch data loading errors.
+  Future<T> loadFromStorage(StateProviders stateProviders);
+
+  /// Gets the model from the remote server.
+  /// This will run once when the provider is first initialized.
+  /// This method must not catch data loading errors.
+  /// This method should save data in the database, if appropriate.
+  Future<T> loadFromRemote(StateProviders stateProviders);
+
+  /// Update the current model state, notifying the listeners.
+  /// This should be called only to modify the model after
+  /// it has been loaded, for example as a UI callback side effect.
+  void setState(T newState) {
+    _state = newState;
     notifyListeners();
   }
 
-  void markAsNotInitialized() {
-    _initializedFromStorage = false;
-    _initializedFromRemote = false;
-    _status = _initialStatus;
-    _lastUpdateTime = null;
+  /// Makes the state null, as if the model has never been loaded,
+  /// so that consumers may trigger the loading again.
+  void invalidate() {
+    _state = null;
   }
 
-  void _updateStatus(RequestStatus status) {
-    _status = status;
-    notifyListeners();
-  }
-
-  Future<void> _loadFromStorage() async {
+  Future<void> _loadFromStorage(BuildContext context) async {
     Logger().d('Loading $runtimeType info from storage');
 
-    _lastUpdateTime = await AppSharedPreferences.getLastDataClassUpdateTime(
+    _lastUpdateTime = PreferencesController.getLastDataClassUpdateTime(
       runtimeType.toString(),
     );
 
     try {
-      await loadFromStorage();
-      notifyListeners();
+      setState(await loadFromStorage(StateProviders.fromContext(context)));
     } catch (e, stackTrace) {
       await Sentry.captureException(e, stackTrace: stackTrace);
       Logger()
           .e('Failed to load $runtimeType info from storage: $e\n$stackTrace');
+      _updateStatus(RequestStatus.failed);
     }
 
     Logger().i('Loaded $runtimeType info from storage');
   }
 
-  Future<void> _loadFromRemote(
-    Session session,
-    Profile profile, {
+  Future<void> _loadFromRemoteFromContext(
+    BuildContext context, {
     bool force = false,
   }) async {
     Logger().d('Loading $runtimeType info from remote');
+
+    _updateStatus(RequestStatus.busy);
 
     final shouldReload = force ||
         _lastUpdateTime == null ||
@@ -103,19 +119,21 @@ abstract class StateProviderNotifier extends ChangeNotifier {
       return;
     }
 
-    _updateStatus(RequestStatus.busy);
-
     try {
-      await loadFromRemote(session, profile);
+      if (!context.mounted) {
+        return;
+      }
+      setState(await loadFromRemote(StateProviders.fromContext(context)));
 
       Logger().i('Loaded $runtimeType info from remote');
       _lastUpdateTime = DateTime.now();
-      _updateStatus(RequestStatus.successful);
 
-      await AppSharedPreferences.setLastDataClassUpdateTime(
+      await PreferencesController.setLastDataClassUpdateTime(
         runtimeType.toString(),
         _lastUpdateTime!,
       );
+
+      _updateStatus(RequestStatus.successful);
     } catch (e, stackTrace) {
       await Sentry.captureException(e, stackTrace: stackTrace);
       Logger()
@@ -124,68 +142,33 @@ abstract class StateProviderNotifier extends ChangeNotifier {
     }
   }
 
+  void _updateStatus(RequestStatus newStatus) {
+    _requestStatus = newStatus;
+    notifyListeners();
+  }
+
   Future<void> forceRefresh(BuildContext context) async {
     await _lock.synchronized(
       () async {
         if (!context.mounted) {
           return;
         }
-        final session = context.read<SessionProvider>().session;
-        final profile = context.read<ProfileProvider>().profile;
-        _updateStatus(RequestStatus.busy);
-        await _loadFromRemote(session, profile, force: true);
+        await _loadFromRemoteFromContext(context, force: true);
       },
-      timeout: lockTimeout,
+      timeout: _lockTimeout,
     );
   }
 
   Future<void> ensureInitialized(BuildContext context) async {
-    await ensureInitializedFromStorage();
-
-    if (context.mounted) {
-      await ensureInitializedFromRemote(context);
-    }
-  }
-
-  Future<void> ensureInitializedFromRemote(BuildContext context) async {
     await _lock.synchronized(
       () async {
-        if (_initializedFromRemote || !context.mounted) {
+        if (!context.mounted || _state != null) {
           return;
         }
-
-        final session = context.read<SessionProvider>().session;
-        final profile = context.read<ProfileProvider>().profile;
-
-        _initializedFromRemote = true;
-
-        await _loadFromRemote(session, profile);
+        await _loadFromStorage(context)
+            .then((value) => _loadFromRemoteFromContext(context));
       },
-      timeout: lockTimeout,
+      timeout: _lockTimeout,
     );
   }
-
-  /// Loads data from storage into the provider.
-  /// This will run once when the provider is first initialized.
-  /// If the data is not available in storage, this method should do nothing.
-  Future<void> ensureInitializedFromStorage() async {
-    await _lock.synchronized(
-      () async {
-        if (_initializedFromStorage) {
-          return;
-        }
-
-        _initializedFromStorage = true;
-        await _loadFromStorage();
-      },
-      timeout: lockTimeout,
-    );
-  }
-
-  Future<void> loadFromStorage();
-
-  /// Loads data from the remote server into the provider.
-  /// This will run once when the provider is first initialized.
-  /// This method must not catch data loading errors.
-  Future<void> loadFromRemote(Session session, Profile profile);
 }
