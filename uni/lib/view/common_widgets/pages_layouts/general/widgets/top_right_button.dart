@@ -33,9 +33,9 @@ class TopRightButton extends StatelessWidget {
     return FutureBuilder(
       future: buildProfileDecorationImage(context),
       builder: (
-          BuildContext context,
-          AsyncSnapshot<DecorationImage> decorationImage,
-          ) {
+        BuildContext context,
+        AsyncSnapshot<DecorationImage> decorationImage,
+      ) {
         return TextButton(
           onPressed: () => {
             Navigator.push(
