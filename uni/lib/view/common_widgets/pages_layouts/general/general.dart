@@ -118,7 +118,9 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
   Widget getScaffold(BuildContext context, Widget body) {
     return Scaffold(
       appBar: CustomAppBar(getTopRightButton: getTopRightButton),
-      drawer: const AppNavigationDrawer(),
+      drawer: AppNavigationDrawer(
+        parentContext: context,
+      ),
       body: RefreshState(onRefresh: onRefresh, child: body),
     );
   }

@@ -1,5 +1,8 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:uni/generated/l10n.dart';
+import 'package:uni/view/bug_report/bug_report.dart';
 
 class LoadingWidget extends StatelessWidget {
   const LoadingWidget({this.contentLoadingWidget, super.key});
@@ -60,12 +63,14 @@ class LoadingWidget extends StatelessWidget {
               ),
             ),
             OutlinedButton(
-              onPressed: () => Navigator.pushNamed(
+              onPressed: () => Navigator.push(
                 context,
-                '/${DrawerItem.navBugReport.title}',
+                MaterialPageRoute<BugReportPageView>(
+                  builder: (context) => const BugReportPageView(),
+                ),
               ),
-              child: const Text('Reportar erro'),
-            )
+              child: Text(S.of(context).report_error),
+            ),
           ],
         );
       },

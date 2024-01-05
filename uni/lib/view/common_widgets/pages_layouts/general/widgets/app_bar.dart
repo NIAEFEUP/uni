@@ -20,14 +20,15 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   AppBar build(BuildContext context) {
     final queryData = MediaQuery.of(context);
 
-    return final queryData = MediaQuery.of(context);
-
     return AppBar(
       bottom: PreferredSize(
         preferredSize: Size.zero,
         child: Container(
           color: Theme.of(context).dividerColor,
-          margin: EdgeInsets.only(left: borderMargin, right: borderMargin),
+          margin: const EdgeInsets.only(
+            left: borderMargin,
+            right: borderMargin,
+          ),
           height: 1.5,
         ),
       ),

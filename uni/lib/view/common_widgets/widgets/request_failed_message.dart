@@ -1,6 +1,7 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:uni/utils/drawer_items.dart';
+import 'package:uni/generated/l10n.dart';
+import 'package:uni/view/bug_report/bug_report.dart';
 
 class RequestFailedMessage extends StatelessWidget {
   const RequestFailedMessage({super.key});
@@ -24,7 +25,7 @@ class RequestFailedMessage extends StatelessWidget {
           return Center(
             heightFactor: 3,
             child: Text(
-              'Sem ligação à internet',
+              S.of(context).check_internet,
               style: Theme.of(context).textTheme.titleMedium,
             ),
           );
@@ -36,18 +37,20 @@ class RequestFailedMessage extends StatelessWidget {
               padding: const EdgeInsets.only(top: 15, bottom: 10),
               child: Center(
                 child: Text(
-                  'Aconteceu um erro ao carregar os dados',
+                  S.of(context).load_error,
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
               ),
             ),
             OutlinedButton(
-              onPressed: () => Navigator.pushNamed(
+              onPressed: () => Navigator.push(
                 context,
-                '/${DrawerItem.navBugReport.title}',
+                MaterialPageRoute<BugReportPageView>(
+                  builder: (context) => const BugReportPageView(),
+                ),
               ),
-              child: const Text('Reportar erro'),
-            )
+              child: Text(S.of(context).report_error),
+            ),
           ],
         );
       },
