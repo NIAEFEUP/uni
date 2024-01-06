@@ -18,11 +18,11 @@ class CourseUnitFilesView extends StatelessWidget {
 
     return cards.isEmpty
         ? Center(
-    child: Container(
-      padding: const EdgeInsets.only(left: 10, right: 10),
-      child: Text(S.of(context).no_files_found),
-    ),
-  )
+            child: Container(
+              padding: const EdgeInsets.only(left: 10, right: 10),
+              child: Text(S.of(context).no_files_found),
+            ),
+          )
         : Container(
             padding: const EdgeInsets.only(left: 10, right: 10),
             child: ListView(
