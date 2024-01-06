@@ -27,7 +27,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_dotenv: ^5.0.2
-  flutter_local_notifications: ^15.1.0+1
+  flutter_local_notifications: ^16.3.0
   flutter_localizations:
     sdk: flutter
   flutter_map: ^5.0.0
