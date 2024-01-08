@@ -43,7 +43,7 @@ Future<void> cleanupStoredData(BuildContext context) async {
 }
 
 Future<void> cleanupCachedFiles() async {
-  final lastCleanupDate = await PreferencesController.getLastCleanUpDate();
+  final lastCleanupDate = PreferencesController.getLastCleanUpDate();
   final daysSinceLastCleanup =
       DateTime.now().difference(lastCleanupDate).inDays;
 
@@ -52,7 +52,7 @@ Future<void> cleanupCachedFiles() async {
   }
 
   final toCleanDirectory = await getApplicationDocumentsDirectory();
-  final treshold = DateTime.now().subtract(const Duration(days: 30));
+  final threshold = DateTime.now().subtract(const Duration(days: 30));
   final directories = toCleanDirectory.listSync(followLinks: false);
 
   for (final directory in directories) {
@@ -62,7 +62,7 @@ Future<void> cleanupCachedFiles() async {
       final oldFiles = files.where((file) {
         try {
           final fileDate = File(file.path).lastModifiedSync();
-          return fileDate.isBefore(treshold);
+          return fileDate.isBefore(threshold);
         } catch (e) {
           return false;
         }

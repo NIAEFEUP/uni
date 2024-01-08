@@ -141,12 +141,10 @@ class PreferencesController {
   }
 
   static Future<void> setLastCleanUpDate(DateTime date) async {
-    final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_lastCacheCleanUpDate, date.toString());
   }
 
-  static Future<DateTime> getLastCleanUpDate() async {
-    final prefs = await SharedPreferences.getInstance();
+  static DateTime getLastCleanUpDate() {
     final date =
         prefs.getString(_lastCacheCleanUpDate) ?? DateTime.now().toString();
     return DateTime.parse(date);
