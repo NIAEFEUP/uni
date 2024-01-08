@@ -57,16 +57,14 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
                   child: Center(
                     child: CircularProgressIndicator(),
                   ),
-                )
+                ),
               ],
             )
           : getBody(context),
     );
   }
 
-  Widget getBody(BuildContext context) {
-    return Container();
-  }
+  Widget getBody(BuildContext context);
 
   Future<DecorationImage> buildProfileDecorationImage(
     BuildContext context, {
@@ -74,10 +72,10 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
   }) async {
     final sessionProvider =
         Provider.of<SessionProvider>(context, listen: false);
-    await sessionProvider.ensureInitializedFromStorage();
+    await sessionProvider.ensureInitialized(context);
     final profilePictureFile =
         await ProfileProvider.fetchOrGetCachedProfilePicture(
-      sessionProvider.session,
+      sessionProvider.state!,
       forceRetrieval: forceRetrieval,
     );
     return getProfileDecorationImage(profilePictureFile);
@@ -100,10 +98,19 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
     return RefreshIndicator(
       key: GlobalKey<RefreshIndicatorState>(),
       onRefresh: () => ProfileProvider.fetchOrGetCachedProfilePicture(
-        Provider.of<SessionProvider>(context, listen: false).session,
+        Provider.of<SessionProvider>(context, listen: false).state!,
         forceRetrieval: true,
       ).then((value) => onRefresh(context)),
-      child: child,
+      child: Builder(
+        builder: (context) => GestureDetector(
+          onHorizontalDragEnd: (dragDetails) {
+            if (dragDetails.primaryVelocity! > 2) {
+              Scaffold.of(context).openDrawer();
+            }
+          },
+          child: child,
+        ),
+      ),
     );
   }
 
@@ -138,23 +145,27 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
       title: ButtonTheme(
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         shape: const RoundedRectangleBorder(),
-        child: TextButton(
-          onPressed: () {
-            final currentRouteName = ModalRoute.of(context)!.settings.name;
-            if (currentRouteName != DrawerItem.navPersonalArea.title) {
-              Navigator.pushNamed(
-                context,
-                '/${DrawerItem.navPersonalArea.title}',
-              );
-            }
-          },
-          child: SvgPicture.asset(
-            colorFilter: ColorFilter.mode(
-              Theme.of(context).primaryColor,
-              BlendMode.srcIn,
+        child: Builder(
+          builder: (context) => TextButton(
+            onPressed: () {
+              final currentRouteName = ModalRoute.of(context)!.settings.name;
+              if (currentRouteName != '/${DrawerItem.navPersonalArea.title}') {
+                Navigator.pushNamed(
+                  context,
+                  '/${DrawerItem.navPersonalArea.title}',
+                );
+              } else {
+                Scaffold.of(context).openDrawer();
+              }
+            },
+            child: SvgPicture.asset(
+              colorFilter: ColorFilter.mode(
+                Theme.of(context).primaryColor,
+                BlendMode.srcIn,
+              ),
+              'assets/images/logo_dark.svg',
+              height: queryData.size.height / 25,
             ),
-            'assets/images/logo_dark.svg',
-            height: queryData.size.height / 25,
           ),
         ),
       ),
@@ -179,7 +190,7 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
               MaterialPageRoute<ProfilePageView>(
                 builder: (__) => const ProfilePageView(),
               ),
-            )
+            ),
           },
           child: Container(
             width: 40,

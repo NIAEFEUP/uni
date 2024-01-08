@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:uni/controller/local_storage/app_bus_stop_database.dart';
+import 'package:provider/provider.dart';
+import 'package:uni/controller/local_storage/database/app_bus_stop_database.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/bus_stop.dart';
 import 'package:uni/model/providers/lazy/bus_stop_provider.dart';
@@ -7,7 +8,6 @@ import 'package:uni/view/bus_stop_selection/widgets/bus_stop_search.dart';
 import 'package:uni/view/bus_stop_selection/widgets/bus_stop_selection_row.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
-import 'package:uni/view/lazy_consumer.dart';
 
 class BusStopSelectionPage extends StatefulWidget {
   const BusStopSelectionPage({super.key});
@@ -37,10 +37,10 @@ class BusStopSelectionPageState
   @override
   Widget getBody(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    return LazyConsumer<BusStopProvider>(
-      builder: (context, busProvider) {
+    return Consumer<BusStopProvider>(
+      builder: (context, busProvider, _) {
         final rows = <Widget>[];
-        busProvider.configuredBusStops.forEach(
+        busProvider.state!.forEach(
           (stopCode, stopData) =>
               rows.add(BusStopSelectionRow(stopCode, stopData)),
         );
@@ -76,7 +76,7 @@ class BusStopSelectionPageState
                   ),
                 ],
               ),
-            )
+            ),
           ],
         );
       },

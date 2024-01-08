@@ -8,16 +8,16 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uni/controller/background_workers/background_callback.dart';
-import 'package:uni/controller/load_static/terms_and_conditions.dart';
-import 'package:uni/controller/local_storage/app_shared_preferences.dart';
+import 'package:uni/controller/fetchers/terms_and_conditions_fetcher.dart';
+import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/providers/lazy/bus_stop_provider.dart';
 import 'package:uni/model/providers/lazy/calendar_provider.dart';
 import 'package:uni/model/providers/lazy/course_units_info_provider.dart';
 import 'package:uni/model/providers/lazy/exam_provider.dart';
 import 'package:uni/model/providers/lazy/faculty_locations_provider.dart';
-import 'package:uni/model/providers/lazy/home_page_provider.dart';
 import 'package:uni/model/providers/lazy/lecture_provider.dart';
 import 'package:uni/model/providers/lazy/library_occupation_provider.dart';
 import 'package:uni/model/providers/lazy/library_reservations_provider.dart';
@@ -27,8 +27,6 @@ import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/model/providers/state_providers.dart';
 import 'package:uni/utils/drawer_items.dart';
-import 'package:uni/view/about/about.dart';
-import 'package:uni/view/bug_report/bug_report.dart';
 import 'package:uni/view/bus_stop_next_arrivals/bus_stop_next_arrivals.dart';
 import 'package:uni/view/calendar/calendar.dart';
 import 'package:uni/view/common_widgets/page_transition.dart';
@@ -39,7 +37,6 @@ import 'package:uni/view/library/library.dart';
 import 'package:uni/view/locale_notifier.dart';
 import 'package:uni/view/locations/locations.dart';
 import 'package:uni/view/login/login.dart';
-import 'package:uni/view/navigation_service.dart';
 import 'package:uni/view/restaurant/restaurant_page_view.dart';
 import 'package:uni/view/schedule/schedule.dart';
 import 'package:uni/view/theme.dart';
@@ -51,18 +48,22 @@ SentryEvent? beforeSend(SentryEvent event) {
   return event.level == SentryLevel.info ? event : null;
 }
 
-Future<String> firstRoute() async {
-  final userPersistentInfo = await AppSharedPreferences.getPersistentUserInfo();
+Future<Widget> firstRoute() async {
+  final userPersistentInfo = PreferencesController.getPersistentUserInfo();
 
   if (userPersistentInfo != null) {
-    return '/${DrawerItem.navPersonalArea.title}';
+    return const HomePageView();
   }
 
   await acceptTermsAndConditions();
-  return '/${DrawerItem.navLogIn.title}';
+  return const LoginPageView();
 }
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  PreferencesController.prefs = await SharedPreferences.getInstance();
+
   final stateProviders = StateProviders(
     LectureProvider(),
     ExamProvider(),
@@ -75,11 +76,8 @@ Future<void> main() async {
     LibraryOccupationProvider(),
     LibraryReservationsProvider(),
     FacultyLocationsProvider(),
-    HomePageProvider(),
     ReferenceProvider(),
   );
-
-  WidgetsFlutterBinding.ensureInitialized();
 
   // Initialize WorkManager for background tasks
   await Workmanager().initialize(
@@ -99,8 +97,8 @@ Future<void> main() async {
     );
   });
 
-  final savedTheme = await AppSharedPreferences.getThemeMode();
-  final savedLocale = await AppSharedPreferences.getLocale();
+  final savedTheme = PreferencesController.getThemeMode();
+  final savedLocale = PreferencesController.getLocale();
   final route = await firstRoute();
 
   await SentryFlutter.init(
@@ -146,9 +144,6 @@ Future<void> main() async {
               create: (context) => stateProviders.facultyLocationsProvider,
             ),
             ChangeNotifierProvider(
-              create: (context) => stateProviders.homePageProvider,
-            ),
-            ChangeNotifierProvider(
               create: (context) => stateProviders.referenceProvider,
             ),
             ChangeNotifierProvider<LocaleNotifier>(
@@ -169,9 +164,9 @@ Future<void> main() async {
 /// This class is necessary to track the app's state for
 /// the current execution.
 class Application extends StatefulWidget {
-  const Application(this.initialRoute, {super.key});
+  const Application(this.initialWidget, {super.key});
 
-  final String initialRoute;
+  final Widget initialWidget;
 
   static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -201,7 +196,7 @@ class ApplicationState extends State<Application> {
           GlobalCupertinoLocalizations.delegate,
         ],
         supportedLocales: S.delegate.supportedLocales,
-        initialRoute: widget.initialRoute,
+        home: widget.initialWidget,
         onGenerateRoute: (RouteSettings settings) {
           final transitions = {
             '/${DrawerItem.navPersonalArea.title}':
@@ -244,12 +239,12 @@ class ApplicationState extends State<Application> {
             ),
             '/${DrawerItem.navLibraryOccupation.title}':
                 PageTransition.makePageTransition(
-              page: const LibraryPageView(),
+              page: const LibraryPage(),
               settings: settings,
             ),
             '/${DrawerItem.navLibraryReservations.title}':
                 PageTransition.makePageTransition(
-              page: const LibraryPageView(
+              page: const LibraryPage(
                 startOnOccupationTab: false,
               ),
               settings: settings,
@@ -259,22 +254,6 @@ class ApplicationState extends State<Application> {
               page: const UsefulInfoPageView(),
               settings: settings,
             ),
-            '/${DrawerItem.navAbout.title}': PageTransition.makePageTransition(
-              page: const AboutPageView(),
-              settings: settings,
-            ),
-            '/${DrawerItem.navBugReport.title}':
-                PageTransition.makePageTransition(
-              page: const BugReportPageView(),
-              settings: settings,
-              maintainState: false,
-            ),
-            '/${DrawerItem.navLogIn.title}': PageTransition.makePageTransition(
-              page: const LoginPageView(),
-              settings: settings,
-            ),
-            '/${DrawerItem.navLogOut.title}':
-                NavigationService.buildLogoutRoute(),
           };
           return transitions[settings.name];
         },

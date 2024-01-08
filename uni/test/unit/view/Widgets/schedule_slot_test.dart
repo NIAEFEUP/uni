@@ -5,7 +5,9 @@ import 'package:uni/view/schedule/widgets/schedule_slot.dart';
 
 import '../../../test_widget.dart';
 
-void main() {
+void main() async {
+  await initTestEnvironment();
+
   group('Schedule Slot', () {
     const subject = 'SOPE';
     final begin = DateTime(2021, 06, 01, 10);

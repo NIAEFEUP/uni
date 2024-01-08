@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/app_locale.dart';
 import 'package:uni/view/locale_notifier.dart';
+
+Future<void> initTestEnvironment() async {
+  SharedPreferences.setMockInitialValues({});
+  PreferencesController.prefs = await SharedPreferences.getInstance();
+  databaseFactory = databaseFactoryFfi;
+}
 
 Widget testableWidget(
   Widget widget, {
@@ -14,13 +23,13 @@ Widget testableWidget(
       ChangeNotifierProvider<LocaleNotifier>(
         create: (_) => LocaleNotifier(AppLocale.pt),
       ),
-      ...providers
+      ...providers,
     ],
-    child: wrapWidget(widget),
+    child: _wrapWidget(widget),
   );
 }
 
-Widget wrapWidget(Widget widget) {
+Widget _wrapWidget(Widget widget) {
   return MaterialApp(
     localizationsDelegates: const [
       S.delegate,

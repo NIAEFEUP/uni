@@ -8,7 +8,7 @@ import 'package:workmanager/workmanager.dart';
 /// (they must not take any arguments, not checked)
 const taskMap = {
   'pt.up.fe.ni.uni.notificationworker':
-      Tuple2(NotificationManager.updateAndTriggerNotifications, true)
+      Tuple2(NotificationManager.updateAndTriggerNotifications, true),
 };
 
 @pragma('vm:entry-point')

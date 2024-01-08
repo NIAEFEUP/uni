@@ -26,7 +26,7 @@ class StoreLocation implements Location {
     return {
       'floor': floor,
       'type': locationTypeToString(LocationType.store),
-      'name': name
+      'name': name,
     };
   }
 }

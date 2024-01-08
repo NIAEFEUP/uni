@@ -54,11 +54,11 @@ class CourseUnitStudentRow extends StatelessWidget {
                         child: Text(
                           'up${student.number}',
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),
-              )
+              ),
             ],
           ),
         );

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/providers/lazy/bus_stop_provider.dart';
@@ -5,7 +7,6 @@ import 'package:uni/model/providers/lazy/calendar_provider.dart';
 import 'package:uni/model/providers/lazy/course_units_info_provider.dart';
 import 'package:uni/model/providers/lazy/exam_provider.dart';
 import 'package:uni/model/providers/lazy/faculty_locations_provider.dart';
-import 'package:uni/model/providers/lazy/home_page_provider.dart';
 import 'package:uni/model/providers/lazy/lecture_provider.dart';
 import 'package:uni/model/providers/lazy/library_occupation_provider.dart';
 import 'package:uni/model/providers/lazy/library_reservations_provider.dart';
@@ -27,11 +28,29 @@ class StateProviders {
     this.libraryOccupationProvider,
     this.libraryReservationsProvider,
     this.facultyLocationsProvider,
-    this.homePageProvider,
     this.referenceProvider,
   );
 
   factory StateProviders.fromContext(BuildContext context) {
+    // In tests, one does not initialize all providers
+    // but a version of them is needed for the load methods.
+    if (Platform.environment.containsKey('FLUTTER_TEST')) {
+      return StateProviders(
+        LectureProvider(),
+        ExamProvider(),
+        BusStopProvider(),
+        RestaurantProvider(),
+        ProfileProvider(),
+        CourseUnitsInfoProvider(),
+        SessionProvider(),
+        CalendarProvider(),
+        LibraryOccupationProvider(),
+        LibraryReservationsProvider(),
+        FacultyLocationsProvider(),
+        ReferenceProvider(),
+      );
+    }
+
     final lectureProvider =
         Provider.of<LectureProvider>(context, listen: false);
     final examProvider = Provider.of<ExamProvider>(context, listen: false);
@@ -53,8 +72,6 @@ class StateProviders {
         Provider.of<LibraryReservationsProvider>(context, listen: false);
     final facultyLocationsProvider =
         Provider.of<FacultyLocationsProvider>(context, listen: false);
-    final homePageProvider =
-        Provider.of<HomePageProvider>(context, listen: false);
     final referenceProvider =
         Provider.of<ReferenceProvider>(context, listen: false);
 
@@ -70,7 +87,6 @@ class StateProviders {
       libraryOccupationProvider,
       libraryReservationsProvider,
       facultyLocationsProvider,
-      homePageProvider,
       referenceProvider,
     );
   }
@@ -86,22 +102,20 @@ class StateProviders {
   final LibraryOccupationProvider libraryOccupationProvider;
   final LibraryReservationsProvider libraryReservationsProvider;
   final FacultyLocationsProvider facultyLocationsProvider;
-  final HomePageProvider homePageProvider;
   final ReferenceProvider referenceProvider;
 
-  void markAsNotInitialized() {
-    lectureProvider.markAsNotInitialized();
-    examProvider.markAsNotInitialized();
-    busStopProvider.markAsNotInitialized();
-    restaurantProvider.markAsNotInitialized();
-    courseUnitsInfoProvider.markAsNotInitialized();
-    profileProvider.markAsNotInitialized();
-    sessionProvider.markAsNotInitialized();
-    calendarProvider.markAsNotInitialized();
-    libraryOccupationProvider.markAsNotInitialized();
-    libraryReservationsProvider.markAsNotInitialized();
-    facultyLocationsProvider.markAsNotInitialized();
-    homePageProvider.markAsNotInitialized();
-    referenceProvider.markAsNotInitialized();
+  void invalidate() {
+    lectureProvider.invalidate();
+    examProvider.invalidate();
+    busStopProvider.invalidate();
+    restaurantProvider.invalidate();
+    courseUnitsInfoProvider.invalidate();
+    profileProvider.invalidate();
+    sessionProvider.invalidate();
+    calendarProvider.invalidate();
+    libraryOccupationProvider.invalidate();
+    libraryReservationsProvider.invalidate();
+    facultyLocationsProvider.invalidate();
+    referenceProvider.invalidate();
   }
 }

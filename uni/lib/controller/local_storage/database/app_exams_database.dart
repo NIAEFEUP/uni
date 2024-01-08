@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:sqflite/sqflite.dart';
-import 'package:uni/controller/local_storage/app_database.dart';
+import 'package:uni/controller/local_storage/database/app_database.dart';
 import 'package:uni/model/entities/exam.dart';
 
 /// Manages the app's Exams database.
@@ -11,6 +11,20 @@ import 'package:uni/model/entities/exam.dart';
 class AppExamsDatabase extends AppDatabase {
   AppExamsDatabase()
       : super('exams.db', [_createScript], onUpgrade: migrate, version: 5);
+  Map<String, String> months = {
+    'Janeiro': '01',
+    'Fevereiro': '02',
+    'Março': '03',
+    'Abril': '04',
+    'Maio': '05',
+    'Junho': '06',
+    'Julho': '07',
+    'Agosto': '08',
+    'Setembro': '09',
+    'Outubro': '10',
+    'Novembro': '11',
+    'Dezembro': '12',
+  };
 
   static const _createScript = '''
 CREATE TABLE exams(id TEXT, subject TEXT, begin TEXT, end TEXT,

@@ -4,11 +4,10 @@ import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:tuple/tuple.dart';
-import 'package:uni/controller/local_storage/app_shared_preferences.dart';
+import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/app_locale.dart';
 import 'package:uni/model/entities/bug_report.dart';
-import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/bug_report/widgets/text_field.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/toast_message.dart';
@@ -81,69 +80,52 @@ class BugReportFormState extends State<BugReportForm> {
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
-      child: ListView(children: getFormWidget(context)),
-    );
-  }
-
-  List<Widget> getFormWidget(BuildContext context) {
-    return [
-      bugReportTitle(context),
-      bugReportIntro(context),
-      dropdownBugSelectWidget(context),
-      FormTextField(
-        titleController,
-        Icons.title,
-        maxLines: 2,
-        description: S.of(context).title,
-        labelText: S.of(context).problem_id,
-        bottomMargin: 30,
-      ),
-      FormTextField(
-        descriptionController,
-        Icons.description,
-        maxLines: 30,
-        description: S.of(context).description,
-        labelText: S.of(context).bug_description,
-        bottomMargin: 30,
-      ),
-      FormTextField(
-        emailController,
-        Icons.mail,
-        maxLines: 2,
-        description: S.of(context).contact,
-        labelText: S.of(context).desired_email,
-        bottomMargin: 30,
-        isOptional: true,
-        formatValidator: (String? value) {
-          if (value == null || value.isEmpty) {
-            return null;
-          }
-
-          return EmailValidator.validate(value)
-              ? null
-              : S.of(context).valid_email;
-        },
-      ),
-      consentBox(context),
-      submitButton(context),
-    ];
-  }
-
-  /// Returns a widget for the title of the bug report form
-  Widget bugReportTitle(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          const Icon(Icons.bug_report, size: 40),
+      child: ListView(
+        children: [
+          const Padding(padding: EdgeInsets.only(bottom: 10)),
           PageTitle(
-            name: S.of(context).nav_title(
-                  DrawerItem.navBugReport.title,
-                ),
-            center: false,
+            name: S.of(context).report_error_suggestion,
+            pad: false,
           ),
-          const Icon(Icons.bug_report, size: 40),
+          const Padding(padding: EdgeInsets.only(bottom: 10)),
+          bugReportIntro(context),
+          dropdownBugSelectWidget(context),
+          FormTextField(
+            titleController,
+            Icons.title,
+            maxLines: 2,
+            description: S.of(context).title,
+            labelText: S.of(context).problem_id,
+            bottomMargin: 30,
+          ),
+          FormTextField(
+            descriptionController,
+            Icons.description,
+            maxLines: 30,
+            description: S.of(context).description,
+            labelText: S.of(context).bug_description,
+            bottomMargin: 30,
+          ),
+          FormTextField(
+            emailController,
+            Icons.mail,
+            maxLines: 2,
+            description: S.of(context).contact,
+            labelText: S.of(context).desired_email,
+            bottomMargin: 30,
+            isOptional: true,
+            formatValidator: (String? value) {
+              if (value == null || value.isEmpty) {
+                return null;
+              }
+
+              return EmailValidator.validate(value)
+                  ? null
+                  : S.of(context).valid_email;
+            },
+          ),
+          consentBox(context),
+          submitButton(context),
         ],
       ),
     );
@@ -199,9 +181,9 @@ class BugReportFormState extends State<BugReportForm> {
                   },
                   isExpanded: true,
                 ),
-              )
+              ),
             ],
-          )
+          ),
         ],
       ),
     );
@@ -261,7 +243,7 @@ class BugReportFormState extends State<BugReportForm> {
     setState(() {
       _isButtonTapped = true;
     });
-    final faculties = await AppSharedPreferences.getUserFaculties();
+    final faculties = PreferencesController.getUserFaculties();
     final bugReport = BugReport(
       titleController.text,
       descriptionController.text,

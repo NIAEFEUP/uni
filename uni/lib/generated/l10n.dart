@@ -80,6 +80,56 @@ class S {
     );
   }
 
+  /// `About us`
+  String get about {
+    return Intl.message(
+      'About us',
+      name: 'about',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Report error/suggestion`
+  String get report_error_suggestion {
+    return Intl.message(
+      'Report error/suggestion',
+      name: 'report_error_suggestion',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Language`
+  String get language {
+    return Intl.message(
+      'Language',
+      name: 'language',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Theme`
+  String get theme {
+    return Intl.message(
+      'Theme',
+      name: 'theme',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Notifications`
+  String get notifications {
+    return Intl.message(
+      'Notifications',
+      name: 'notifications',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Academic services`
   String get academic_services {
     return Intl.message(
@@ -175,6 +225,16 @@ class S {
     return Intl.message(
       'Average: ',
       name: 'average',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We do now collect anonymous usage statistics in order to improve your experience. You can change it in settings.`
+  String get banner_info {
+    return Intl.message(
+      'We do now collect anonymous usage statistics in order to improve your experience. You can change it in settings.',
+      name: 'banner_info',
       desc: '',
       args: [],
     );
@@ -560,10 +620,10 @@ class S {
     );
   }
 
-  /// `Notify next deadline:`
+  /// `Fee deadline`
   String get fee_notification {
     return Intl.message(
-      'Notify next deadline:',
+      'Fee deadline',
       name: 'fee_notification',
       desc: '',
       args: [],
@@ -843,6 +903,16 @@ class S {
     );
   }
 
+  /// `Settings`
+  String get settings {
+    return Intl.message(
+      'Settings',
+      name: 'settings',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Log out`
   String get logout {
     return Intl.message(
@@ -883,7 +953,7 @@ class S {
     );
   }
 
-  /// `{title, select, horario{Schedule} exames{Exams} area{Personal Area} cadeiras{Course Units} autocarros{Buses} locais{Places} restaurantes{Restaurants} calendario{Calendar} biblioteca{Library} uteis{Utils} sobre{About} bugs{Bugs/Suggestions} other{Other}}`
+  /// `{title, select, horario{Schedule} exames{Exams} area{Personal Area} cadeiras{Course Units} autocarros{Buses} locais{Places} restaurantes{Restaurants} calendario{Calendar} biblioteca{Library} uteis{Utils} other{Other}}`
   String nav_title(Object title) {
     return Intl.select(
       title,
@@ -898,8 +968,6 @@ class S {
         'calendario': 'Calendar',
         'biblioteca': 'Library',
         'uteis': 'Utils',
-        'sobre': 'About',
-        'bugs': 'Bugs/Suggestions',
         'other': 'Other',
       },
       name: 'nav_title',
@@ -1128,11 +1196,41 @@ class S {
     );
   }
 
+  /// `No print balance information`
+  String get no_print_info {
+    return Intl.message(
+      'No print balance information',
+      name: 'no_print_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No library occupation information available`
+  String get no_library_info {
+    return Intl.message(
+      'No library occupation information available',
+      name: 'no_library_info',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Type of occurrence`
   String get occurrence_type {
     return Intl.message(
       'Type of occurrence',
       name: 'occurrence_type',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `of`
+  String get of_month {
+    return Intl.message(
+      'of',
+      name: 'of_month',
       desc: '',
       args: [],
     );
@@ -1273,6 +1371,16 @@ class S {
     return Intl.message(
       'Report error',
       name: 'report_error',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Do you want to see your favorite restaurants in the main page?`
+  String get restaurant_main_page {
+    return Intl.message(
+      'Do you want to see your favorite restaurants in the main page?',
+      name: 'restaurant_main_page',
       desc: '',
       args: [],
     );
@@ -1453,6 +1561,26 @@ class S {
     return Intl.message(
       'Year',
       name: 'year',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Do you really want to log out? Your local data will be deleted and you will have to log in again.`
+  String get confirm_logout {
+    return Intl.message(
+      'Do you really want to log out? Your local data will be deleted and you will have to log in again.',
+      name: 'confirm_logout',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Collect usage statistics`
+  String get collect_usage_stats {
+    return Intl.message(
+      'Collect usage statistics',
+      name: 'collect_usage_stats',
       desc: '',
       args: [],
     );
