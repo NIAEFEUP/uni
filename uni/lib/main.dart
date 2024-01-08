@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:battery_plus/battery_plus.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -60,6 +62,44 @@ Future<Widget> firstRoute() async {
   return const LoginPageView();
 }
 
+Future<Plausible?> createPlausible() async {
+  final plausibleUrl = dotenv.env['PLAUSIBLE_URL'];
+  final plausibleDomain = dotenv.env['PLAUSIBLE_DOMAIN'];
+
+  if (plausibleUrl == null || plausibleDomain == null) {
+    return null;
+  }
+
+  final plausible = Plausible(plausibleUrl, plausibleDomain);
+
+  final connectivity = Connectivity();
+  var currentConnectivity = await connectivity.checkConnectivity();
+
+  Future<bool> isBatteryGoodForAnalytics() async {
+    final battery = Battery();
+    final batteryLevel = await battery.batteryLevel;
+    final isInBatterySaveMode = await battery.isInBatterySaveMode;
+    return batteryLevel > 20 && !isInBatterySaveMode;
+  }
+
+  Future<void> updateAnalyticsState() async {
+    plausible.enabled = await isBatteryGoodForAnalytics() &&
+        currentConnectivity == ConnectivityResult.wifi;
+  }
+
+  connectivity.onConnectivityChanged.listen((result) async {
+    currentConnectivity = result;
+    await updateAnalyticsState();
+  });
+
+  Stream<void>.periodic(const Duration(minutes: 1)).listen((event) async {
+    await updateAnalyticsState();
+  });
+
+  await updateAnalyticsState();
+  return plausible;
+}
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -97,13 +137,7 @@ Future<void> main() async {
     );
   });
 
-  final plausibleUrl = dotenv.env['PLAUSIBLE_URL'];
-  final plausibleDomain = dotenv.env['PLAUSIBLE_DOMAIN'];
-
-  final plausible = plausibleUrl != null && plausibleDomain != null
-      ? Plausible(plausibleUrl, plausibleDomain)
-      : null;
-
+  final plausible = createPlausible();
   if (plausible == null) {
     Logger().w('Plausible is not enabled');
   }
