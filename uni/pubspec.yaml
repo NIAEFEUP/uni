@@ -7,7 +7,7 @@ publish_to: "none" # We do not publish to pub.dev
 # To change it manually, override the value in app_version.txt.
 # The app version code is automatically also bumped by CI.
 # Do not change it manually.
-version: 1.7.27+217
+version: 1.7.32+222
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
@@ -15,7 +15,7 @@ environment:
 
 dependencies:
   add_2_calendar: ^3.0.1
-  cached_network_image: ^3.2.3
+  cached_network_image: ^3.3.1
   collection: ^1.16.0
   connectivity_plus: ^5.0.2
   crypto: ^3.0.1
@@ -33,7 +33,7 @@ dependencies:
   flutter_map: ^5.0.0
   flutter_map_marker_popup: ^5.0.0
   flutter_markdown: ^0.6.0
-  flutter_svg: ^2.0.0+1
+  flutter_svg: ^2.0.9
   flutter_widget_from_html_core: ^0.14.9
   html: ^0.15.0
   http: ^1.1.0
@@ -46,7 +46,7 @@ dependencies:
   path_provider: ^2.0.0
   percent_indicator: ^4.2.2
   provider: ^6.1.1
-  sentry_flutter: ^7.13.2
+  sentry_flutter: ^7.14.0
   shared_preferences: ^2.2.2
   shimmer: ^3.0.0
   sqflite: ^2.0.3

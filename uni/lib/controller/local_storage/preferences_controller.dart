@@ -30,6 +30,8 @@ class PreferencesController {
       'tuition_notification_toogle';
   static const String _usageStatsToggleKey = 'usage_stats_toogle';
   static const String _themeMode = 'theme_mode';
+  static const String _isDataCollectionBannerViewedKey =
+      'data_collection_banner';
   static const String _locale = 'app_locale';
   static const String _favoriteCards = 'favorite_cards';
   static final List<FavoriteWidgetType> _defaultFavoriteCards = [
@@ -83,6 +85,16 @@ class PreferencesController {
   /// Returns whether or not the Terms and Conditions have been accepted.
   static bool areTermsAndConditionsAccepted() {
     return prefs.getBool(_areTermsAndConditionsAcceptedKey) ?? false;
+  }
+
+  static Future<void> setDataCollectionBannerViewed({
+    required bool isViewed,
+  }) async {
+    await prefs.setBool(_isDataCollectionBannerViewedKey, isViewed);
+  }
+
+  static bool isDataCollectionBannerViewed() {
+    return prefs.getBool(_isDataCollectionBannerViewedKey) ?? false;
   }
 
   /// Returns the hash of the last Terms and Conditions that have

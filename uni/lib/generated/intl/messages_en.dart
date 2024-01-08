@@ -39,7 +39,7 @@ class MessageLookup extends MessageLookupByLibrary {
           })}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
-  static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+  static _notInlinedMessages(_) => <String, Function>{
         "about": MessageLookupByLibrary.simpleMessage("About us"),
         "academic_services":
             MessageLookupByLibrary.simpleMessage("Academic services"),
@@ -58,6 +58,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Available amount"),
         "average": MessageLookupByLibrary.simpleMessage("Average: "),
         "balance": MessageLookupByLibrary.simpleMessage("Balance:"),
+        "banner_info": MessageLookupByLibrary.simpleMessage(
+            "We do now collect anonymous usage statistics in order to improve your experience. You can change it in settings."),
         "bs_description": MessageLookupByLibrary.simpleMessage(
             "Did you find any bugs in the application?\nDo you have any suggestions for the app?\nTell us so we can improve!"),
         "bug_description": MessageLookupByLibrary.simpleMessage(
@@ -201,6 +203,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "There is no information to display"),
         "no_library_info": MessageLookupByLibrary.simpleMessage(
             "No library occupation information available"),
+        "no_link":
+            MessageLookupByLibrary.simpleMessage("We couldn\'t open the link"),
         "no_menu_info": MessageLookupByLibrary.simpleMessage(
             "There is no information available about meals"),
         "no_menus": MessageLookupByLibrary.simpleMessage(
@@ -221,6 +225,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
         "occurrence_type":
             MessageLookupByLibrary.simpleMessage("Type of occurrence"),
+        "of_month": MessageLookupByLibrary.simpleMessage("of"),
         "other_links": MessageLookupByLibrary.simpleMessage("Other links"),
         "pass_change_request": MessageLookupByLibrary.simpleMessage(
             "For security reasons, passwords must be changed periodically."),
