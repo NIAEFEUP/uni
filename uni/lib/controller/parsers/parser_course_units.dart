@@ -3,6 +3,7 @@ import 'package:html/parser.dart';
 import 'package:http/http.dart' as http;
 import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
+
 List<CourseUnit> parseCourseUnitsAndCourseAverage(
   http.Response response,
   Course course, {
