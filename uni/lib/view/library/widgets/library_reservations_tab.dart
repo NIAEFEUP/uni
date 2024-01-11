@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/generated/l10n.dart';
+import 'package:uni/main.dart';
 import 'package:uni/model/entities/library_reservation.dart';
 import 'package:uni/model/providers/lazy/library_reservations_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
@@ -70,14 +71,13 @@ class LibraryReservationsTabView extends StatelessWidget {
         ),
       );
     }
-    if (Provider.of<LibraryReservationsProvider>(context, listen: true)
-        .isReserving) {
+    if (Provider.of<LibraryReservationsProvider>(context).isReserving) {
       rooms.add(const ReservationRowShimmer());
     }
     return ListView(children: [
       ...rooms,
       const CreateReservationButton(),
-    ]);
+    ],);
   }
 }
 
@@ -92,11 +92,8 @@ class CreateReservationButton extends StatelessWidget {
       onPressed: () {
         showDialog<void>(
           context: context,
-          builder: (BuildContext toastContext) {
-            return ReservationPicker(
-              context: context,
-              toastContext: toastContext,
-            );
+          builder: (BuildContext context) {
+            return const ReservationPicker();
           },
         );
       },
@@ -106,12 +103,8 @@ class CreateReservationButton extends StatelessWidget {
 
 class ReservationPicker extends StatefulWidget {
   const ReservationPicker({
-    required this.context,
-    required this.toastContext,
     super.key,
   });
-  final BuildContext context;
-  final BuildContext toastContext;
 
   @override
   State<StatefulWidget> createState() => ReservationPickerState();
@@ -173,7 +166,7 @@ class ReservationPickerState extends State<ReservationPicker> {
               child: Text(S.of(context).confirm),
             ),
           ],
-        )
+        ),
       ],
     );
   }
@@ -219,10 +212,10 @@ class ReservationPickerState extends State<ReservationPicker> {
   }
 
   Future<void> makeReservation(BuildContext context) async {
-    Navigator.of(widget.toastContext).pop();
+    Navigator.of(context).pop();
     if (date != null && time != null && duration != null) {
       final session =
-          Provider.of<SessionProvider>(widget.context, listen: false).state!;
+          Provider.of<SessionProvider>(context, listen: false).state!;
 
       final stateProviders = StateProviders.fromContext(context);
 
@@ -238,23 +231,27 @@ class ReservationPickerState extends State<ReservationPicker> {
             : (duration!.inHours + 1).toString()),
       );
 
-      await displayToast(success: result);
+      if (result) {
+        await displayToastSuccess();
+      } else {
+        await displayToastFailure();
+      }
     }
   }
 
-  Future<void> displayToast({
-    bool success = true,
-  }) async {
-    if (success) {
-      await ToastMessage.success(
-        widget.context,
-        S.of(widget.context).library_create_success,
-      );
-    } else {
-      await ToastMessage.error(
-        widget.context,
-        S.of(widget.context).library_create_error,
-      );
-    }
+  Future<void> displayToastSuccess() async {
+    final context = Application.navigatorKey.currentContext!;
+    await ToastMessage.success(
+      context,
+      S.of(context).library_create_success,
+    );
+  }
+
+  Future<void> displayToastFailure() async {
+    final context = Application.navigatorKey.currentContext!;
+    await ToastMessage.error(
+      context,
+      S.of(context).library_create_error,
+    );
   }
 }

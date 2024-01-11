@@ -15,7 +15,7 @@ class ReservationRowShimmer extends StatelessWidget {
         ),
       ),
       padding: const EdgeInsets.all(10),
-      margin: const EdgeInsets.fromLTRB(6, 10, 0, 0),
+      margin: const EdgeInsets.fromLTRB(6, 8, 0, 0),
       child: Shimmer.fromColors(
         baseColor: Theme.of(context).highlightColor,
         highlightColor: Theme.of(context).colorScheme.onPrimary,
@@ -32,10 +32,10 @@ class ReservationRowShimmer extends StatelessWidget {
                         height: 12,
                         color: Colors.white,
                       ),
-                      const SizedBox(width: 110),
+                      const SizedBox(width: 115),
                       Container(
                         width: 50,
-                        height: 16,
+                        height: 18,
                         color: Colors.white,
                       ),
                     ],
@@ -48,7 +48,7 @@ class ReservationRowShimmer extends StatelessWidget {
                         height: 12,
                         color: Colors.white,
                       ),
-                      const SizedBox(width: 70),
+                      const SizedBox(width: 75),
                       Container(
                         width: 130,
                         height: 12,
