@@ -5,6 +5,7 @@ import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/app_locale.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/providers/lazy/exam_provider.dart';
+import 'package:uni/utils/date_time_formatter.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/common_widgets/date_rectangle.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
@@ -117,13 +118,11 @@ class ExamCard extends GenericCard {
       children: [
         if (locale == AppLocale.pt) ...[
           DateRectangle(
-            date: '''${exam.weekDay(locale)}, '''
-                '''${exam.begin.day} de ${exam.month(locale)}''',
+            date: exam.begin.formattedDate(locale),
           ),
         ] else ...[
           DateRectangle(
-            date: '''${exam.weekDay(locale)}, '''
-                '''${exam.begin.day} ${exam.month(locale)}''',
+            date: exam.begin.formattedDate(locale),
           ),
         ],
         RowContainer(
@@ -152,7 +151,7 @@ class ExamCard extends GenericCard {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text(
-                '${exam.begin.day} de ${exam.month(locale)}',
+                exam.begin.formattedDate(locale),
                 style: Theme.of(context).textTheme.bodyLarge,
               ),
               ExamTitle(
