@@ -55,7 +55,6 @@ class ReservationRow extends StatelessWidget {
                   .headlineSmall
                   ?.apply(color: Theme.of(context).colorScheme.tertiary),
             ),
-            const Padding(padding: EdgeInsets.symmetric(vertical: 2)),
             Text(
               '$weekDay, $day de $month',
               style: Theme.of(context).textTheme.titleMedium,

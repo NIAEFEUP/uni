@@ -10,29 +10,33 @@ import 'package:uni/model/providers/state_providers.dart';
 import 'package:uni/view/common_widgets/toast_message.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/library/widgets/reservation_row.dart';
+import 'package:uni/view/library/widgets/reservation_row_shimmer.dart';
 
 class LibraryReservationsTab extends StatelessWidget {
   const LibraryReservationsTab({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final reservationsList =
-        LazyConsumer<LibraryReservationsProvider, List<LibraryReservation>>(
+    return LazyConsumer<LibraryReservationsProvider, List<LibraryReservation>>(
       builder: (context, reservations) {
         return LibraryReservationsTabView(reservations);
       },
-      contentLoadingWidget: const Center(child: CircularProgressIndicator()),
-      hasContent: (reservations) => reservations.isNotEmpty,
-      onNullContent: Center(
-        child: Text(
-          S.of(context).no_data,
-          style: const TextStyle(fontSize: 18),
-        ),
+      contentLoadingWidget: const ReservationRowShimmer(),
+      hasContent: (reservations) =>
+          reservations.isNotEmpty ||
+          Provider.of<LibraryReservationsProvider>(
+            context,
+            listen: false,
+          ).isReserving,
+      onNullContent: Column(
+        children: [
+          Text(
+            S.of(context).no_data,
+            style: const TextStyle(fontSize: 18),
+          ),
+          const CreateReservationButton(),
+        ],
       ),
-    );
-
-    return ListView(
-      children: [reservationsList, const CreateReservationButton()],
     );
   }
 
@@ -44,30 +48,6 @@ class LibraryReservationsTab extends StatelessWidget {
 
 class LibraryReservationsTabView extends StatelessWidget {
   const LibraryReservationsTabView(this.reservations, {super.key});
-  final List<LibraryReservation>? reservations;
-
-  @override
-  Widget build(BuildContext context) {
-    if (reservations == null || reservations!.isEmpty) {
-      return ListView(
-        children: [
-          Center(
-            heightFactor: 2,
-            child: Text(
-              S.of(context).no_data,
-              style: Theme.of(context).textTheme.titleLarge,
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ],
-      );
-    }
-    return LibraryReservationsList(reservations!);
-  }
-}
-
-class LibraryReservationsList extends StatelessWidget {
-  const LibraryReservationsList(this.reservations, {super.key});
   final List<LibraryReservation> reservations;
 
   @override
@@ -90,7 +70,14 @@ class LibraryReservationsList extends StatelessWidget {
         ),
       );
     }
-    return Column(children: rooms);
+    if (Provider.of<LibraryReservationsProvider>(context, listen: true)
+        .isReserving) {
+      rooms.add(const ReservationRowShimmer());
+    }
+    return ListView(children: [
+      ...rooms,
+      const CreateReservationButton(),
+    ]);
   }
 }
 
