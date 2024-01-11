@@ -24,7 +24,7 @@ class LibraryOccupationCard extends GenericCard {
   @override
   Future<Object?> onClick(BuildContext context) => Navigator.pushNamed(
         context,
-        '/${DrawerItem.navLibraryReservations.title}',
+        '/${DrawerItem.navLibraryOccupation.title}',
       );
 
   @override
