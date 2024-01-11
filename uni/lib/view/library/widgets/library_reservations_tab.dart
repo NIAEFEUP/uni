@@ -21,7 +21,7 @@ class LibraryReservationsTab extends StatelessWidget {
       builder: (context, reservations) {
         return LibraryReservationsTabView(reservations);
       },
-      contentLoadingWidget: const ReservationRowShimmer(),
+      contentLoadingWidget: const CircularProgressIndicator(),
       hasContent: (reservations) =>
           reservations.isNotEmpty ||
           Provider.of<LibraryReservationsProvider>(
@@ -129,31 +129,31 @@ class ReservationPickerState extends State<ReservationPicker> {
   Widget build(BuildContext context) {
     return AlertDialog(
       actionsPadding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-      title: const Center(child: Text('Reservar Sala')),
+      title: Center(child: Text(S.of(context).library_create_reservation)),
       actions: <Widget>[
         TextField(
           controller: dateInput,
-          decoration: const InputDecoration(
-            icon: Icon(Icons.calendar_today),
-            labelText: 'Data',
+          decoration: InputDecoration(
+            icon: const Icon(Icons.calendar_today),
+            labelText: S.of(context).date,
           ),
           readOnly: true,
           onTap: () => onTapDate(context),
         ),
         TextField(
           controller: timeInput,
-          decoration: const InputDecoration(
-            icon: Icon(Icons.schedule),
-            labelText: 'Hora',
+          decoration: InputDecoration(
+            icon: const Icon(Icons.schedule),
+            labelText: S.of(context).hour,
           ),
           readOnly: true,
           onTap: () => onTapTime(context),
         ),
         TextField(
           controller: durationInput,
-          decoration: const InputDecoration(
-            icon: Icon(Icons.timer),
-            labelText: 'Duração',
+          decoration: InputDecoration(
+            icon: const Icon(Icons.timer),
+            labelText: S.of(context).duration,
           ),
           readOnly: true,
           onTap: () => onTapDuration(context),
@@ -163,14 +163,14 @@ class ReservationPickerState extends State<ReservationPicker> {
           children: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Cancelar'),
+              child: Text(S.of(context).cancel.replaceAll('\n', '')),
             ),
             TextButton(
               onPressed: () => {
                 //Navigator.of(context).pop(),
                 makeReservation(context),
               },
-              child: const Text('Confirmar'),
+              child: Text(S.of(context).confirm),
             ),
           ],
         )

@@ -56,7 +56,7 @@ class ReservationRow extends StatelessWidget {
                   ?.apply(color: Theme.of(context).colorScheme.tertiary),
             ),
             Text(
-              '$weekDay, $day de $month',
+              '$weekDay, $day ${S.of(context).of_month} $month',
               style: Theme.of(context).textTheme.titleMedium,
             ),
           ],
