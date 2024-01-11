@@ -113,11 +113,11 @@ class LibraryReservationsProvider
     _isReserving = false;
     if (reserveResponse.statusCode == 200) {
       final infoUrl =
-      // ignore: lines_longer_than_80_chars
-          '${NetworkRouter.getBaseUrl('feup')}res_recursos_geral.pedidos_view?pct_pedido_id=$sessionId';
+          '${NetworkRouter.getBaseUrl('feup')}res_recursos_geral.pedidos_view'
+          '?pct_pedido_id=$sessionId';
       final reserveInfo = await get(infoUrl.toUri(), headers: headers);
       final reservation = getReservationFromRequest(reserveInfo);
-      _reservations.add(reservation);
+      state?.add(reservation);
       notifyListeners();
       return true;
     }

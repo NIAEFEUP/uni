@@ -16,7 +16,8 @@ class LibraryReservationsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LazyConsumer<LibraryReservationsProvider, List<LibraryReservation>>(
+    final reservationsList =
+        LazyConsumer<LibraryReservationsProvider, List<LibraryReservation>>(
       builder: (context, reservations) {
         return LibraryReservationsTabView(reservations);
       },
@@ -28,6 +29,10 @@ class LibraryReservationsTab extends StatelessWidget {
           style: const TextStyle(fontSize: 18),
         ),
       ),
+    );
+
+    return ListView(
+      children: [reservationsList, const CreateReservationButton()],
     );
   }
 
@@ -57,13 +62,7 @@ class LibraryReservationsTabView extends StatelessWidget {
         ],
       );
     }
-    return ListView(
-      shrinkWrap: true,
-      children: [
-        LibraryReservationsList(reservations!),
-        const CreateReservationButton(),
-      ],
-    );
+    return LibraryReservationsList(reservations!);
   }
 }
 
@@ -91,7 +90,6 @@ class LibraryReservationsList extends StatelessWidget {
         ),
       );
     }
-
     return Column(children: rooms);
   }
 }
@@ -101,30 +99,30 @@ class CreateReservationButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LazyConsumer<LibraryReservationsProvider>(
-        builder: (BuildContext tempContext, libraryReservationsProvider) =>
-            libraryReservationsProvider.isReserving
-                ? const Center(child: CircularProgressIndicator())
-                : IconButton(
-                    icon: const Icon(Icons.add),
-                    iconSize: 35,
-                    onPressed: () {
-                      showDialog<void>(
-                          context: tempContext,
-                          builder: (BuildContext toastContext) {
-                            return ReservationPicker(
-                              context: context,
-                              toastContext: toastContext,
-                            );
-                          },);
-                    },
-                  ),);
+    return IconButton(
+      icon: const Icon(Icons.add),
+      iconSize: 35,
+      onPressed: () {
+        showDialog<void>(
+          context: context,
+          builder: (BuildContext toastContext) {
+            return ReservationPicker(
+              context: context,
+              toastContext: toastContext,
+            );
+          },
+        );
+      },
+    );
   }
 }
 
 class ReservationPicker extends StatefulWidget {
-  const ReservationPicker(
-      {required this.context, required this.toastContext, super.key,});
+  const ReservationPicker({
+    required this.context,
+    required this.toastContext,
+    super.key,
+  });
   final BuildContext context;
   final BuildContext toastContext;
 
@@ -143,28 +141,36 @@ class ReservationPickerState extends State<ReservationPicker> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      actionsPadding:
-          const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+      actionsPadding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
       title: const Center(child: Text('Reservar Sala')),
       actions: <Widget>[
         TextField(
-            controller: dateInput,
-            decoration: const InputDecoration(
-                icon: Icon(Icons.calendar_today), labelText: 'Data',),
-            readOnly: true,
-            onTap: () => onTapDate(context),),
+          controller: dateInput,
+          decoration: const InputDecoration(
+            icon: Icon(Icons.calendar_today),
+            labelText: 'Data',
+          ),
+          readOnly: true,
+          onTap: () => onTapDate(context),
+        ),
         TextField(
-            controller: timeInput,
-            decoration: const InputDecoration(
-                icon: Icon(Icons.schedule), labelText: 'Hora',),
-            readOnly: true,
-            onTap: () => onTapTime(context),),
+          controller: timeInput,
+          decoration: const InputDecoration(
+            icon: Icon(Icons.schedule),
+            labelText: 'Hora',
+          ),
+          readOnly: true,
+          onTap: () => onTapTime(context),
+        ),
         TextField(
-            controller: durationInput,
-            decoration: const InputDecoration(
-                icon: Icon(Icons.timer), labelText: 'Duração',),
-            readOnly: true,
-            onTap: () => onTapDuration(context),),
+          controller: durationInput,
+          decoration: const InputDecoration(
+            icon: Icon(Icons.timer),
+            labelText: 'Duração',
+          ),
+          readOnly: true,
+          onTap: () => onTapDuration(context),
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
@@ -187,56 +193,63 @@ class ReservationPickerState extends State<ReservationPicker> {
 
   Future<void> onTapDate(BuildContext context) async {
     await showDatePicker(
-            context: context,
-            initialDate: DateTime.now().add(const Duration(days: 1)),
-            firstDate: DateTime.now().add(const Duration(days: 1)),
-            lastDate: DateTime.now().add(const Duration(days: 7)),)
-        .then((datePicked) => setState(() {
-              date = datePicked;
-              dateInput.text =
-                  DateFormat('dd-MM-yyyy').format(date ?? DateTime.now());
-            }),);
+      context: context,
+      initialDate: DateTime.now().add(const Duration(days: 1)),
+      firstDate: DateTime.now().add(const Duration(days: 1)),
+      lastDate: DateTime.now().add(const Duration(days: 7)),
+    ).then(
+      (datePicked) => setState(() {
+        date = datePicked;
+        dateInput.text =
+            DateFormat('dd-MM-yyyy').format(date ?? DateTime.now());
+      }),
+    );
   }
 
   Future<void> onTapTime(BuildContext context) async {
-    await showTimePicker(context: context, initialTime: TimeOfDay.now())
-        .then((timePicked) => setState(() {
-              time = timePicked;
-              timeInput.text = (timePicked ?? TimeOfDay.now()).format(context);
-            }),);
+    await showTimePicker(context: context, initialTime: TimeOfDay.now()).then(
+      (timePicked) => setState(() {
+        time = timePicked;
+        timeInput.text = (timePicked ?? TimeOfDay.now()).format(context);
+      }),
+    );
   }
 
   Future<void> onTapDuration(BuildContext context) async {
     await showDurationPicker(
-            context: context, initialTime: const Duration(hours: 1),)
-        .then((durationPicked) => setState(() {
-              duration = durationPicked;
-              durationInput.text = (durationPicked ?? const Duration(hours: 1))
-                  .toString()
-                  .split(':00.')
-                  .first
-                  .padLeft(5, '0');
-            }),);
+      context: context,
+      initialTime: const Duration(hours: 1),
+    ).then(
+      (durationPicked) => setState(() {
+        duration = durationPicked;
+        durationInput.text = (durationPicked ?? const Duration(hours: 1))
+            .toString()
+            .split(':00.')
+            .first
+            .padLeft(5, '0');
+      }),
+    );
   }
 
   Future<void> makeReservation(BuildContext context) async {
     Navigator.of(widget.toastContext).pop();
     if (date != null && time != null && duration != null) {
       final session =
-          Provider.of<SessionProvider>(widget.context, listen: false).session;
+          Provider.of<SessionProvider>(widget.context, listen: false).state!;
 
       final stateProviders = StateProviders.fromContext(context);
 
       final durationMinutes = duration!.inMinutes.remainder(60);
-      final result = await stateProviders.libraryReservationsProvider
-          .makeReservation(
-              session,
-              DateFormat('yyyy-MM-dd').format(date!),
-              time!.hour.toString() +
-                  ((time!.minute > 0 && time!.minute <= 30) ? '' : ',5'),
-              ((durationMinutes > 0 && durationMinutes <= 30)
-                  ? '${duration!.inHours},5'
-                  : (duration!.inHours + 1).toString()),);
+      final result =
+          await stateProviders.libraryReservationsProvider.makeReservation(
+        session,
+        DateFormat('yyyy-MM-dd').format(date!),
+        time!.hour.toString() +
+            ((time!.minute > 0 && time!.minute <= 30) ? '' : ',5'),
+        ((durationMinutes > 0 && durationMinutes <= 30)
+            ? '${duration!.inHours},5'
+            : (duration!.inHours + 1).toString()),
+      );
 
       await displayToast(success: result);
     }
