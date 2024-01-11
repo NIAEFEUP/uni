@@ -1,0 +1,79 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:uni/model/entities/location_group.dart';
+import 'package:uni/model/providers/lazy/faculty_locations_provider.dart';
+import 'package:uni/model/providers/lazy/library_occupation_provider.dart';
+import 'package:uni/view/common_widgets/page_title.dart';
+import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
+import 'package:uni/view/faculty/widgets/academic_services_card.dart';
+import 'package:uni/view/faculty/widgets/copy_center_card.dart';
+import 'package:uni/view/faculty/widgets/dona_bia_card.dart';
+import 'package:uni/view/faculty/widgets/infodesk_card.dart';
+import 'package:uni/view/faculty/widgets/multimedia_center_card.dart';
+import 'package:uni/view/faculty/widgets/other_links_card.dart';
+import 'package:uni/view/faculty/widgets/sigarra_links_card.dart';
+import 'package:uni/view/lazy_consumer.dart';
+import 'package:uni/view/library/widgets/library_occupation_card.dart';
+import 'package:uni/view/locations/widgets/faculty_map.dart';
+
+class FacultyPageView extends StatefulWidget {
+  const FacultyPageView({super.key});
+
+  @override
+  State<StatefulWidget> createState() => FacultyPageViewState();
+}
+
+class FacultyPageViewState extends GeneralPageViewState {
+  @override
+  Widget getBody(BuildContext context) {
+    return Column(
+      children: [
+        const PageTitle(name: 'Faculty'),
+        Expanded(
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                LazyConsumer<FacultyLocationsProvider, List<LocationGroup>>(
+                  builder: buildMapView,
+                  hasContent: (locations) => locations.isNotEmpty,
+                  onNullContent: const Center(child: Text('Erro')),
+                ),
+                LibraryOccupationCard(),
+                getUtilsSection(),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget getUtilsSection() {
+    return const Column(
+      children: [
+        AcademicServicesCard(),
+        InfoDeskCard(),
+        DonaBiaCard(),
+        CopyCenterCard(),
+        MultimediaCenterCard(),
+        SigarraLinksCard(),
+        OtherLinksCard(),
+      ],
+    );
+  }
+
+  Widget buildMapView(BuildContext context, List<LocationGroup> locations) {
+  return Container(
+      padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+      height: MediaQuery.of(context).size.height * 0.35,
+      alignment: Alignment.center,
+      child: FacultyMap(faculty: 'FEUP', locations: locations),
+    );
+}
+
+  @override
+  Future<void> onRefresh(BuildContext context) async {
+    return Provider.of<LibraryOccupationProvider>(context, listen: false)
+        .forceRefresh(context);
+  }
+}
