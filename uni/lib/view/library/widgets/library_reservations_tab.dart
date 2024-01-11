@@ -74,10 +74,12 @@ class LibraryReservationsTabView extends StatelessWidget {
     if (Provider.of<LibraryReservationsProvider>(context).isReserving) {
       rooms.add(const ReservationRowShimmer());
     }
-    return ListView(children: [
-      ...rooms,
-      const CreateReservationButton(),
-    ],);
+    return ListView(
+      children: [
+        ...rooms,
+        const CreateReservationButton(),
+      ],
+    );
   }
 }
 
