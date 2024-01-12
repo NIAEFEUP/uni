@@ -32,7 +32,9 @@ class ProfileOverview extends StatelessWidget {
                 height: 150,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  image: getProfileDecorationImage(profilePic.data),
+                  image: profilePic.data != null
+                      ? getProfileDecorationImage(profilePic.data)
+                      : null,
                 ),
               ),
               const Padding(padding: EdgeInsets.all(8)),
