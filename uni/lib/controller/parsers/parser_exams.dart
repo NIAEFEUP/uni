@@ -51,13 +51,19 @@ class ParserExams {
                     .queryParameters['p_exa_id']!;
               }
               if (examsDay.querySelector('span.exame-sala') != null) {
-                rooms =
-                    examsDay.querySelector('span.exame-sala')!.text.split(',');
+                rooms = examsDay
+                    .querySelector('span.exame-sala')!
+                    .text
+                    .split(',')
+                    .map((e) => e.trim())
+                    .toList();
               }
-              schedule = examsDay.text.substring(
-                examsDay.text.indexOf(':') - 2,
-                examsDay.text.indexOf(':') + 9,
-              );
+              schedule = examsDay.text.endsWith('0:00-')
+                  ? '00:00-00:00'
+                  : examsDay.text.substring(
+                      examsDay.text.indexOf(':') - 2,
+                      examsDay.text.indexOf(':') + 9,
+                    );
               final splittedSchedule = schedule!.split('-');
               final begin =
                   DateTime.parse('${dates[days]} ${splittedSchedule[0]}');
@@ -72,7 +78,6 @@ class ParserExams {
                 examTypes[tableNum],
                 course.faculty!,
               );
-
               examsList.add(exam);
             });
           }
