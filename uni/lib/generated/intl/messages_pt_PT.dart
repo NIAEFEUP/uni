@@ -59,6 +59,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Valor disponível"),
         "average": MessageLookupByLibrary.simpleMessage("Média: "),
         "balance": MessageLookupByLibrary.simpleMessage("Saldo:"),
+        "banner_info": MessageLookupByLibrary.simpleMessage(
+            "Agora recolhemos estatísticas de uso anónimas para melhorar a tua experiência. Podes alterá-lo nas definições."),
         "bs_description": MessageLookupByLibrary.simpleMessage(
             "Encontraste algum bug na aplicação?\nTens alguma sugestão para a app?\nConta-nos para que possamos melhorar!"),
         "bug_description": MessageLookupByLibrary.simpleMessage(
@@ -110,10 +112,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "dona_bia_building": MessageLookupByLibrary.simpleMessage(
             "Piso -1 do edifício B (B-142)"),
         "ects": MessageLookupByLibrary.simpleMessage("ECTS realizados: "),
-        "edit_off": MessageLookupByLibrary.simpleMessage("Editar\n"),
+        "edit_off": MessageLookupByLibrary.simpleMessage("Editar"),
         "edit_on": MessageLookupByLibrary.simpleMessage("Concluir edição"),
         "empty_text": MessageLookupByLibrary.simpleMessage(
             "Por favor preenche este campo"),
+        "of_month": MessageLookupByLibrary.simpleMessage("de"),
         "exams_filter":
             MessageLookupByLibrary.simpleMessage("Definições Filtro de Exames"),
         "exit_confirm": MessageLookupByLibrary.simpleMessage(
@@ -185,6 +188,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Sem restaurantes favoritos"),
         "no_info": MessageLookupByLibrary.simpleMessage(
             "Não existem informações para apresentar"),
+        "no_link": MessageLookupByLibrary.simpleMessage(
+            "Não conseguimos abrir o link"),
+        "no_library_info":
+            MessageLookupByLibrary.simpleMessage("Sem informação de ocupação"),
         "no_menu_info": MessageLookupByLibrary.simpleMessage(
             "Não há informação disponível sobre refeições"),
         "no_menus": MessageLookupByLibrary.simpleMessage(
@@ -193,6 +200,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Curso sem nome"),
         "no_places_info": MessageLookupByLibrary.simpleMessage(
             "Não há informação disponível sobre locais"),
+        "no_print_info":
+            MessageLookupByLibrary.simpleMessage("Sem informação de saldo"),
         "no_references": MessageLookupByLibrary.simpleMessage(
             "Não existem referências a pagar"),
         "no_results": MessageLookupByLibrary.simpleMessage("Sem resultados"),
@@ -218,7 +227,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "problem_id": MessageLookupByLibrary.simpleMessage(
             "Breve identificação do problema"),
         "reference_sigarra_help": MessageLookupByLibrary.simpleMessage(
-            "Os dados da referência gerada aparecerão no Sigarra, conta corrente.\\nPerfil > Conta Corrente"),
+            "Os dados da referência gerada aparecerão no Sigarra, conta corrente. Perfil > Conta Corrente"),
         "reference_success": MessageLookupByLibrary.simpleMessage(
             "Referência criada com sucesso!"),
         "remove": MessageLookupByLibrary.simpleMessage("Remover"),

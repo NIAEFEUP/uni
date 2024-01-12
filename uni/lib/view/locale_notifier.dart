@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:uni/controller/local_storage/app_shared_preferences.dart';
+import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/model/entities/app_locale.dart';
 
 class LocaleNotifier with ChangeNotifier {
@@ -20,7 +20,7 @@ class LocaleNotifier with ChangeNotifier {
 
   void setLocale(AppLocale locale) {
     _locale = locale;
-    AppSharedPreferences.setLocale(locale);
+    PreferencesController.setLocale(locale);
     notifyListeners();
   }
 

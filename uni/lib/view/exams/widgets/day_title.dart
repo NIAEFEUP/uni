@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uni/generated/l10n.dart';
 
 class DayTitle extends StatelessWidget {
   const DayTitle({
@@ -17,7 +18,7 @@ class DayTitle extends StatelessWidget {
       padding: const EdgeInsets.only(top: 15, bottom: 3),
       alignment: Alignment.center,
       child: Text(
-        '$weekDay, $day de $month',
+        '$weekDay, $day ${S.of(context).of_month} $month',
         style: Theme.of(context).textTheme.titleLarge,
       ),
     );

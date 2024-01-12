@@ -59,6 +59,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Available amount"),
         "average": MessageLookupByLibrary.simpleMessage("Average: "),
         "balance": MessageLookupByLibrary.simpleMessage("Balance:"),
+        "banner_info": MessageLookupByLibrary.simpleMessage(
+            "We do now collect anonymous usage statistics in order to improve your experience. You can change it in settings."),
         "bs_description": MessageLookupByLibrary.simpleMessage(
             "Did you find any bugs in the application?\nDo you have any suggestions for the app?\nTell us so we can improve!"),
         "bug_description": MessageLookupByLibrary.simpleMessage(
@@ -115,6 +117,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "edit_on": MessageLookupByLibrary.simpleMessage("Finish editing"),
         "empty_text":
             MessageLookupByLibrary.simpleMessage("Please fill in this field"),
+        "exam_of": MessageLookupByLibrary.simpleMessage("of"),
         "exams_filter":
             MessageLookupByLibrary.simpleMessage("Exams Filter Settings"),
         "exit_confirm":
@@ -184,6 +187,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("No favorite restaurants"),
         "no_info": MessageLookupByLibrary.simpleMessage(
             "There is no information to display"),
+        "no_link":
+            MessageLookupByLibrary.simpleMessage("We couldn\'t open the link"),
+        "no_library_info": MessageLookupByLibrary.simpleMessage(
+            "No library occupation information available"),
         "no_menu_info": MessageLookupByLibrary.simpleMessage(
             "There is no information available about meals"),
         "no_menus": MessageLookupByLibrary.simpleMessage(
@@ -192,6 +199,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Unnamed course"),
         "no_places_info": MessageLookupByLibrary.simpleMessage(
             "There is no information available about places"),
+        "no_print_info": MessageLookupByLibrary.simpleMessage(
+            "No print balance information"),
         "no_references": MessageLookupByLibrary.simpleMessage(
             "There are no references to pay"),
         "no_results": MessageLookupByLibrary.simpleMessage("No match"),
@@ -217,7 +226,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "problem_id": MessageLookupByLibrary.simpleMessage(
             "Brief identification of the problem"),
         "reference_sigarra_help": MessageLookupByLibrary.simpleMessage(
-            "The generated reference data will appear in Sigarra, checking account.\\nProfile > Checking Account"),
+            "The generated reference data will appear in Sigarra, checking account.\nProfile > Checking Account"),
         "reference_success": MessageLookupByLibrary.simpleMessage(
             "Reference created successfully!"),
         "remove": MessageLookupByLibrary.simpleMessage("Delete"),

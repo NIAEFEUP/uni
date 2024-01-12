@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:uni/controller/load_static/terms_and_conditions.dart';
-import 'package:uni/controller/local_storage/app_shared_preferences.dart';
+import 'package:uni/controller/fetchers/terms_and_conditions_fetcher.dart';
+import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/view/about/widgets/terms_and_conditions.dart';
 
 enum TermsAndConditionsState { accepted, rejected }
@@ -57,7 +57,7 @@ class TermsAndConditionDialog {
                       Navigator.of(context).pop();
                       userTermsDecision
                           .complete(TermsAndConditionsState.accepted);
-                      await AppSharedPreferences
+                      await PreferencesController
                           .setTermsAndConditionsAcceptance(areAccepted: true);
                     },
                     child: const Text(
@@ -72,7 +72,7 @@ class TermsAndConditionDialog {
                       Navigator.of(context).pop();
                       userTermsDecision
                           .complete(TermsAndConditionsState.rejected);
-                      await AppSharedPreferences
+                      await PreferencesController
                           .setTermsAndConditionsAcceptance(areAccepted: false);
                     },
                     child: const Text(
