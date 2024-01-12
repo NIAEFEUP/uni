@@ -52,6 +52,19 @@ class CourseUnitsPageViewState
 
         return _getFilters(availableYears, availableSemesters);
       },
+      hasContent: (Profile profile) => profile.courseUnits.isNotEmpty,
+      onNullContent: Column(
+        children: [
+          _getPageTitleAndFilters([], []),
+          Center(
+            heightFactor: 10,
+            child: Text(
+              S.of(context).no_selected_courses,
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -172,7 +185,7 @@ class CourseUnitsPageViewState
     }
     return Container(
       margin: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
-      child: Column(
+      child: ListView(
         children: _generateCourseUnitsGridView(courseUnits),
       ),
     );
