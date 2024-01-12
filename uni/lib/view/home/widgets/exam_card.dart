@@ -20,6 +20,8 @@ class ExamCard extends GenericCard {
     super.onDelete,
   }) : super.fromEditingInformation();
 
+  static const int maxExamsToDisplay = 4;
+
   @override
   String getTitle(BuildContext context) =>
       S.of(context).nav_title(DrawerItem.navExams.title);
@@ -42,9 +44,56 @@ class ExamCard extends GenericCard {
         final allExams = filteredExams
             .where((exam) => !hiddenExams.contains(exam.id))
             .toList();
+        final nextExams = getPrimaryExams(
+          allExams,
+          allExams.isNotEmpty ? allExams.first : null,
+        );
+
         return RequestDependentWidgetBuilder(
           status: examProvider.status,
-          builder: () => generateExams(allExams, context),
+          builder: () {
+            if (nextExams.isEmpty) {
+              return Center(
+                child: Text(
+                  S.of(context).no_selected_exams,
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+              );
+            }
+
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                NextExamsWidget(exams: nextExams),
+                if (nextExams.length < maxExamsToDisplay)
+                  Column(
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(
+                          right: 80,
+                          left: 80,
+                          top: 7,
+                          bottom: 7,
+                        ),
+                        decoration: BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(
+                              color: Theme.of(context).dividerColor,
+                            ),
+                          ),
+                        ),
+                      ),
+                      RemainingExamsWidget(
+                        exams: allExams
+                            .where((exam) => !nextExams.contains(exam))
+                            .take(maxExamsToDisplay - nextExams.length)
+                            .toList(),
+                      ),
+                    ],
+                  ),
+              ],
+            );
+          },
           hasContentPredicate: allExams.isNotEmpty,
           onNullContent: Center(
             child: Text(
@@ -58,70 +107,21 @@ class ExamCard extends GenericCard {
     );
   }
 
-  Widget generateExams(List<Exam> allExams, BuildContext context) {
-    final nextExams = getPrimaryExams(
-      allExams,
-      allExams.isNotEmpty ? allExams.first : null,
-    );
-    final primaryExams = NextExamsWidget(exams: nextExams);
-
-    final remainingExamsCount = 4 - nextExams.length;
-    final List<Exam> remainingExams;
-    if (remainingExamsCount > 0) {
-      remainingExams = allExams
-          .where((exam) => !nextExams.contains(exam))
-          .take(remainingExamsCount)
-          .toList();
-    } else {
-      remainingExams = [];
-    }
-    final secondaryExams = RemainingExamsWidget(exams: remainingExams);
-
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        primaryExams,
-        if (remainingExamsCount > 0)
-          Column(
-            children: [
-              Container(
-                margin: const EdgeInsets.only(
-                  right: 80,
-                  left: 80,
-                  top: 7,
-                  bottom: 7,
-                ),
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Theme.of(context).dividerColor,
-                    ),
-                  ),
-                ),
-              ),
-              secondaryExams,
-            ],
-          ),
-      ],
-    );
-  }
-
   List<Exam> getPrimaryExams(List<Exam> allExams, Exam? nextExam) {
     if (nextExam == null) {
       return [];
     }
 
     final sameDayExams = allExams.where((exam) {
-      final nextExamDate = DateTime(
-        nextExam.begin.year,
-        nextExam.begin.month,
-        nextExam.begin.day,
-      );
-      final examDate =
-          DateTime(exam.begin.year, exam.begin.month, exam.begin.day);
-      return nextExamDate.isAtSameMomentAs(examDate);
+      return isSameDay(nextExam.begin, exam.begin);
     }).toList();
 
     return sameDayExams;
+  }
+
+  bool isSameDay(DateTime? dateA, DateTime? dateB) {
+    return dateA?.year == dateB?.year &&
+        dateA?.month == dateB?.month &&
+        dateA?.day == dateB?.day;
   }
 }
