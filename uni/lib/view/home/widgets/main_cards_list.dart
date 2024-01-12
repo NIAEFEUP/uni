@@ -59,6 +59,7 @@ class MainCardsListState extends State<MainCardsList> {
           child: isEditing
               ? ReorderableListView(
                   onReorder: reorderCard,
+                  header: createTopBar(context),
                   children: favoriteCardsFromTypes(
                     widget.favoriteCardTypes,
                     context,

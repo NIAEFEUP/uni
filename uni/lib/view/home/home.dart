@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/utils/favorite_widget_type.dart';
-import 'package:provider/provider.dart';
-import 'package:uni/generated/l10n.dart';
-import 'package:uni/model/providers/lazy/home_page_provider.dart';
-import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/profile_button.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/top_navigation_bar.dart';
