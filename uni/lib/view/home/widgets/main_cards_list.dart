@@ -4,7 +4,6 @@ import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/utils/favorite_widget_type.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
-import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/home/widgets/bus_stop_card.dart';
 import 'package:uni/view/home/widgets/exam_card.dart';
 import 'package:uni/view/home/widgets/exit_app_dialog.dart';
@@ -29,6 +28,7 @@ class MainCardsList extends StatefulWidget {
     super.key,
   });
 
+  final bool isEditing;
   final List<FavoriteWidgetType> favoriteCardTypes;
   final void Function(List<FavoriteWidgetType>) saveFavoriteCards;
   final bool isEditing;
