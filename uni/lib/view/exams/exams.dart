@@ -28,7 +28,11 @@ class ExamsPageViewState extends SecondaryPageViewState<ExamsPageView> {
 
   @override
   Widget getHeader(BuildContext context) {
-    return const ExamPageTitle();
+    return ExamPageTitle(
+      () => setState(() {
+        filteredExamTypes = PreferencesController.getFilteredExams();
+      }),
+    );
   }
 
   @override
