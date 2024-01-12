@@ -45,7 +45,7 @@ class CardFavoriteButton extends StatelessWidget {
         .contains(restaurant.name);
     return IconButton(
       icon: isFavorite ? Icon(MdiIcons.heart) : Icon(MdiIcons.heartOutline),
-      onPressed: () async {
+      onPressed: () {
         final favoriteRestaurants =
             PreferencesController.getFavoriteRestaurants();
         if (favoriteRestaurants.contains(restaurant.name)) {
@@ -53,7 +53,7 @@ class CardFavoriteButton extends StatelessWidget {
         } else {
           favoriteRestaurants.add(restaurant.name);
         }
-        await PreferencesController.saveFavoriteRestaurants(
+        PreferencesController.saveFavoriteRestaurants(
           favoriteRestaurants,
         );
 

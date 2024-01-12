@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/location_group.dart';
 import 'package:uni/model/providers/lazy/faculty_locations_provider.dart';
@@ -36,7 +37,11 @@ class LocationsPageState extends GeneralPageViewState
             padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
             height: MediaQuery.of(context).size.height * 0.75,
             alignment: Alignment.center,
-            child: FacultyMap(faculty: 'FEUP', locations: locations),
+            child: FacultyMap(
+              faculty: 'FEUP',
+              locations: locations,
+              interactiveFlags: InteractiveFlag.all - InteractiveFlag.rotate,
+            ),
           ),
           hasContent: (locations) => locations.isNotEmpty,
           onNullContent: Center(child: Text(S.of(context).no_places_info)),

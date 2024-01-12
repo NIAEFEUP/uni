@@ -15,6 +15,7 @@ class LocationsMap extends StatelessWidget {
     required this.southWestBoundary,
     required this.center,
     required this.locations,
+    required this.interactiveFlags,
     super.key,
   });
 
@@ -23,6 +24,7 @@ class LocationsMap extends StatelessWidget {
   final LatLng northEastBoundary;
   final LatLng southWestBoundary;
   final LatLng center;
+  final int interactiveFlags;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +36,7 @@ class LocationsMap extends StatelessWidget {
         swPanBoundary: southWestBoundary,
         center: center,
         zoom: 17.5,
-        interactiveFlags: InteractiveFlag.all - InteractiveFlag.rotate,
+        interactiveFlags: interactiveFlags,
         onTap: (tapPosition, latlng) => _popupLayerController.hideAllPopups(),
       ),
       nonRotatedChildren: [
