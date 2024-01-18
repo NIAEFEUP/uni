@@ -10,6 +10,8 @@ enum DrawerItem {
   navLibrary('biblioteca', faculties: {'feup'}),
   navFaculty('faculdade'),
   navAcademicPath('percurso_academico'),
+  navProfile('perfil'),
+  navSettings('definicoes'),
   navTransports('transportes');
 
   const DrawerItem(this.title, {this.faculties});

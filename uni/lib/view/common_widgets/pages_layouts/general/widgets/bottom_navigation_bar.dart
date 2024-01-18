@@ -55,16 +55,16 @@ class AppBottomNavbarState extends State<AppBottomNavbar> {
     final currentIndex = _getCurrentIndex();
     return BottomNavigationBar(
       items: navbarItems,
-      type: currentIndex == -1 ? BottomNavigationBarType.fixed
-          : BottomNavigationBarType.shifting,
+      onTap: _onItemTapped,
       currentIndex: currentIndex == -1 ? 0 : currentIndex,
+      type: BottomNavigationBarType.fixed,
+      iconSize: 32,
       selectedItemColor: currentIndex == -1
           ? Theme.of(context).colorScheme.onSurface
           : Theme.of(context).primaryColor,
       unselectedItemColor: Theme.of(context).colorScheme.onSurface,
       showSelectedLabels: false,
       showUnselectedLabels: false,
-      onTap: _onItemTapped,
     );
   }
 }

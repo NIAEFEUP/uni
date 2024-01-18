@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
-import 'package:uni/view/profile/profile.dart';
+import 'package:uni/utils/drawer_items.dart';
 
 class ProfileButton extends StatelessWidget {
   const ProfileButton({required this.getProfileDecorationImage, super.key});
@@ -36,11 +36,9 @@ class ProfileButton extends StatelessWidget {
       ) {
         return TextButton(
           onPressed: () => {
-            Navigator.push(
+            Navigator.pushNamed(
               context,
-              MaterialPageRoute<ProfilePageView>(
-                builder: (__) => const ProfilePageView(),
-              ),
+              '/${DrawerItem.navProfile.title}',
             ),
           },
           child: Container(

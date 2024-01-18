@@ -42,8 +42,10 @@ import 'package:uni/view/library/library.dart';
 import 'package:uni/view/locale_notifier.dart';
 import 'package:uni/view/locations/locations.dart';
 import 'package:uni/view/login/login.dart';
+import 'package:uni/view/profile/profile.dart';
 import 'package:uni/view/restaurant/restaurant_page_view.dart';
 import 'package:uni/view/schedule/schedule.dart';
+import 'package:uni/view/settings/settings.dart';
 import 'package:uni/view/theme.dart';
 import 'package:uni/view/theme_notifier.dart';
 import 'package:uni/view/transports/transports.dart';
@@ -287,6 +289,13 @@ class ApplicationState extends State<Application> {
                 PageTransition.makePageTransition(
               page: const TransportsPageView(),
               settings: settings,
+            ),
+            '/${DrawerItem.navProfile.title}':
+                MaterialPageRoute<ProfilePageView>(
+              builder: (__) => const ProfilePageView(),
+            ),
+            '/${DrawerItem.navSettings.title}': MaterialPageRoute<SettingsPage>(
+              builder: (_) => const SettingsPage(),
             ),
           };
           return transitions[settings.name];

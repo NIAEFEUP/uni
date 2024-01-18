@@ -9,10 +9,7 @@ enum NavbarItem {
     Icons.school_outlined,
     ['horario', 'exames', 'cadeiras'],
   ),
-  navTransports(
-    Icons.directions_bus_filled_outlined,
-    ['autocarros']
-  ),
+  navTransports(Icons.directions_bus_filled_outlined, ['autocarros']),
   navFaculty(
     Icons.domain_outlined,
     ['locais', 'biblioteca', 'uteis'],

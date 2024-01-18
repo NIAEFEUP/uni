@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/app_bar.dart';
+import 'package:uni/view/common_widgets/pages_layouts/general/widgets/bottom_navigation_bar.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/refresh_state.dart';
 
 /// Page with a back button on top
@@ -10,6 +11,7 @@ abstract class SecondaryPageViewState<T extends StatefulWidget>
   Scaffold getScaffold(BuildContext context, Widget body) {
     return Scaffold(
       appBar: CustomAppBar(getTopRightButton: getTopRightButton),
+      bottomNavigationBar: AppBottomNavbar(parentContext: context,),
       body: RefreshState(onRefresh: onRefresh, child: body),
     );
   }

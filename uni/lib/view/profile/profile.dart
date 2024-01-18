@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
+import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/profile/widgets/account_info_card.dart';
 import 'package:uni/view/profile/widgets/course_info_card.dart';
 import 'package:uni/view/profile/widgets/print_info_card.dart';
 import 'package:uni/view/profile/widgets/profile_overview.dart';
-import 'package:uni/view/settings/settings.dart';
 
 class ProfilePageView extends StatefulWidget {
   const ProfilePageView({super.key});
@@ -61,11 +61,9 @@ class ProfilePageViewState extends SecondaryPageViewState<ProfilePageView> {
       padding: const EdgeInsets.fromLTRB(0, 10, 20, 10),
       child: IconButton(
         icon: const Icon(Icons.settings),
-        onPressed: () => Navigator.push(
+        onPressed: () => Navigator.pushNamed(
           context,
-          MaterialPageRoute<SettingsPage>(
-            builder: (_) => const SettingsPage(),
-          ),
+          '/${DrawerItem.navSettings.title}',
         ),
       ),
     );
