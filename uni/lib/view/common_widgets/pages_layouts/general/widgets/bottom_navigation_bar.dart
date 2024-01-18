@@ -20,13 +20,14 @@ class AppBottomNavbarState extends State<AppBottomNavbar> {
       .map((item) => item.toBottomNavigationBarItem())
       .toList();
 
-  String _getCurrentRoute() =>
-      ModalRoute.of(widget.parentContext)!.settings.name == null
-          ? DrawerItem.navPersonalArea.title
-          : ModalRoute.of(widget.parentContext)!.settings.name!.substring(1);
+  String? _getCurrentRoute() =>
+      ModalRoute.of(widget.parentContext)!.settings.name?.substring(1);
 
   int _getCurrentIndex() {
     final currentRoute = _getCurrentRoute();
+    if (_getCurrentRoute() == null) {
+      return -1;
+    }
 
     for (final item in NavbarItem.values) {
       if (item.routes.contains(currentRoute)) {
