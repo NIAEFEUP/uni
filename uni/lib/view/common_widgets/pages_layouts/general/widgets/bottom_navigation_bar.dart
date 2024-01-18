@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/utils/navbar_items.dart';
 
 class AppBottomNavbar extends StatefulWidget {
@@ -21,7 +22,7 @@ class AppBottomNavbarState extends State<AppBottomNavbar> {
 
   String _getCurrentRoute() =>
       ModalRoute.of(widget.parentContext)!.settings.name == null
-          ? NavbarItem.values.toList()[0].label
+          ? DrawerItem.navPersonalArea.title
           : ModalRoute.of(widget.parentContext)!.settings.name!.substring(1);
 
   int _getCurrentIndex() {
@@ -33,7 +34,7 @@ class AppBottomNavbarState extends State<AppBottomNavbar> {
       }
     }
 
-    return NavbarItem.navPersonalArea.index;
+    return -1;
   }
 
   void _onItemTapped(int index) {
@@ -41,7 +42,7 @@ class AppBottomNavbarState extends State<AppBottomNavbar> {
     final item = NavbarItem.values[index];
     final key = item.routes.isNotEmpty
         ? item.routes[0]
-        : NavbarItem.navPersonalArea.routes[0];
+        : DrawerItem.navPersonalArea.title;
 
     if (prev != key) {
       Navigator.of(context).pop();
@@ -51,11 +52,18 @@ class AppBottomNavbarState extends State<AppBottomNavbar> {
 
   @override
   Widget build(BuildContext context) {
+    final currentIndex = _getCurrentIndex();
     return BottomNavigationBar(
       items: navbarItems,
-      currentIndex: _getCurrentIndex(),
-      selectedItemColor: Theme.of(context).primaryColor,
+      type: currentIndex == -1 ? BottomNavigationBarType.fixed
+          : BottomNavigationBarType.shifting,
+      currentIndex: currentIndex == -1 ? 0 : currentIndex,
+      selectedItemColor: currentIndex == -1
+          ? Theme.of(context).colorScheme.onSurface
+          : Theme.of(context).primaryColor,
       unselectedItemColor: Theme.of(context).colorScheme.onSurface,
+      showSelectedLabels: false,
+      showUnselectedLabels: false,
       onTap: _onItemTapped,
     );
   }
