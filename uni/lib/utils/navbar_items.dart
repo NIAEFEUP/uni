@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 enum NavbarItem {
   navPersonalArea(
     Icons.home_outlined,
-    ['area'],
+    ['area', ''],
   ),
   navAcademicPath(
     Icons.school_outlined,
