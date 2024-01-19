@@ -315,5 +315,7 @@
   "collect_usage_stats": "Collect usage statistics",
   "@usage_stats": {},
   "try_again": "Try again",
-  "@try_again": {}
+  "@try_again": {},
+  "feature_flags": "Experimental features",
+  "@feature_flags": {}
 }

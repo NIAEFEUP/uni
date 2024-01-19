@@ -127,6 +127,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "expired_password":
             MessageLookupByLibrary.simpleMessage("A tua palavra-passe expirou"),
         "failed_login": MessageLookupByLibrary.simpleMessage("O login falhou"),
+        "feature_flags":
+            MessageLookupByLibrary.simpleMessage("Sinalizadores de recursos"),
         "fee_date": MessageLookupByLibrary.simpleMessage(
             "Data limite próxima prestação:"),
         "fee_notification":

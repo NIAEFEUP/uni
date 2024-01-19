@@ -1607,6 +1607,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Feature flags`
+  String get feature_flags {
+    return Intl.message(
+      'Feature flags',
+      name: 'feature_flags',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
