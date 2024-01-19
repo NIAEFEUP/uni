@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/providers/lazy/library_occupation_provider.dart';
+import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/faculty/widgets/academic_services_card.dart';
 import 'package:uni/view/faculty/widgets/copy_center_card.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/view/faculty/widgets/dona_bia_card.dart';
 import 'package:uni/view/faculty/widgets/infodesk_card.dart';
 import 'package:uni/view/faculty/widgets/map_snapshot_card.dart';
@@ -25,7 +27,7 @@ class FacultyPageViewState extends GeneralPageViewState {
   Widget getBody(BuildContext context) {
     return Column(
       children: [
-        const PageTitle(name: 'Faculty'),
+        PageTitle(name: S.of(context).nav_title(DrawerItem.navFaculty.title)),
         Expanded(
           child: SingleChildScrollView(
             child: Column(

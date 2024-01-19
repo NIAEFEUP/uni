@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/entities/location_group.dart';
 import 'package:uni/model/providers/lazy/faculty_locations_provider.dart';
@@ -18,7 +19,8 @@ class MapCard extends GenericCard {
   }) : super.fromEditingInformation();
 
   @override
-  String getTitle(BuildContext context) => 'Locais: FEUP';
+  String getTitle(BuildContext context) =>
+      '${S.of(context).nav_title(DrawerItem.navLocations.title)}: FEUP';
 
   @override
   Future<Object?> onClick(BuildContext context) =>

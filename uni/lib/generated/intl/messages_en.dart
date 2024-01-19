@@ -35,7 +35,7 @@ class MessageLookup extends MessageLookupByLibrary {
             'restaurantes': 'Restaurants',
             'calendario': 'Calendar',
             'biblioteca': 'Library',
-            'uteis': 'Utils',
+            'faculdade': 'Faculty',
             'other': 'Other',
           })}";
 
@@ -117,7 +117,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "edit_on": MessageLookupByLibrary.simpleMessage("Finish editing"),
         "empty_text":
             MessageLookupByLibrary.simpleMessage("Please fill in this field"),
-        "exam_of": MessageLookupByLibrary.simpleMessage("of"),
         "exams_filter":
             MessageLookupByLibrary.simpleMessage("Exams Filter Settings"),
         "exit_confirm":
@@ -187,10 +186,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("No favorite restaurants"),
         "no_info": MessageLookupByLibrary.simpleMessage(
             "There is no information to display"),
-        "no_link":
-            MessageLookupByLibrary.simpleMessage("We couldn\'t open the link"),
         "no_library_info": MessageLookupByLibrary.simpleMessage(
             "No library occupation information available"),
+        "no_link":
+            MessageLookupByLibrary.simpleMessage("We couldn\'t open the link"),
         "no_menu_info": MessageLookupByLibrary.simpleMessage(
             "There is no information available about meals"),
         "no_menus": MessageLookupByLibrary.simpleMessage(
@@ -211,6 +210,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
         "occurrence_type":
             MessageLookupByLibrary.simpleMessage("Type of occurrence"),
+        "of_month": MessageLookupByLibrary.simpleMessage("of"),
         "other_links": MessageLookupByLibrary.simpleMessage("Other links"),
         "pass_change_request": MessageLookupByLibrary.simpleMessage(
             "For security reasons, passwords must be changed periodically."),
