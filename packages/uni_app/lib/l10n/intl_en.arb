@@ -334,4 +334,6 @@
   "@wrong_credentials_exception": {},
   "internet_status_exception": "Check your internet connection",
   "@internet_status_exception": {}
+  "feature_flags": "Experimental features",
+  "@feature_flags": {}
 }

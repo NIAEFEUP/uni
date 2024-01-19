@@ -131,6 +131,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "fail_to_authenticate":
             MessageLookupByLibrary.simpleMessage("Failed to authenticate"),
         "failed_login": MessageLookupByLibrary.simpleMessage("Login failed"),
+        "feature_flags": MessageLookupByLibrary.simpleMessage("Feature flags"),
         "fee_date":
             MessageLookupByLibrary.simpleMessage("Deadline for next fee:"),
         "fee_notification":
@@ -233,6 +234,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
         "occurrence_type":
             MessageLookupByLibrary.simpleMessage("Type of occurrence"),
+        "of_month": MessageLookupByLibrary.simpleMessage("of"),
         "of_month": MessageLookupByLibrary.simpleMessage("of"),
         "open_error":
             MessageLookupByLibrary.simpleMessage("Error opening the file"),
