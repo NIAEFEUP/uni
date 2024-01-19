@@ -53,7 +53,7 @@ class _PlausibleProviderState extends State<PlausibleProvider> {
           _batteryLevel > 20 &&
           _connectivityResult == ConnectivityResult.wifi;
 
-      Logger().d("Plausible enabled: ${plausible.enabled}");
+      Logger().d('Plausible enabled: ${plausible.enabled}');
     }
   }
 
@@ -69,9 +69,6 @@ class _PlausibleProviderState extends State<PlausibleProvider> {
     _batteryLevel = await battery.batteryLevel;
     _isInBatterySaveMode = await battery.isInBatterySaveMode;
 
-    Logger().d("Battery level: $_batteryLevel");
-    Logger().d("Is in battery save mode: $_isInBatterySaveMode");
-
     _updateAnalyticsState();
   }
 
@@ -79,16 +76,11 @@ class _PlausibleProviderState extends State<PlausibleProvider> {
     final connectivity = Connectivity();
     _connectivityResult = await connectivity.checkConnectivity();
 
-    Logger().d("Connectivity result: $_connectivityResult");
-
     _updateAnalyticsState();
   }
 
   Future<void> _updateUsageStatsState() async {
     _isUsageStatsEnabled = PreferencesController.getUsageStatsToggle();
-
-    Logger().d("Usage stats enabled: $_isUsageStatsEnabled");
-
     _updateAnalyticsState();
   }
 
@@ -96,17 +88,11 @@ class _PlausibleProviderState extends State<PlausibleProvider> {
     final connectivity = Connectivity();
     connectivity.onConnectivityChanged.listen((result) {
       _connectivityResult = result;
-
-      Logger().d("Connectivity result: $_connectivityResult");
-
       _updateAnalyticsState();
     });
 
     PreferencesController.onStatsToggle.listen((event) {
       _isUsageStatsEnabled = event;
-
-      Logger().d("Usage stats enabled: $_isUsageStatsEnabled");
-
       _updateAnalyticsState();
     });
   }
