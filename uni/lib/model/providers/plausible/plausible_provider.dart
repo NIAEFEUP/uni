@@ -63,7 +63,7 @@ class _PlausibleProviderState extends State<PlausibleProvider> {
     }
 
     _canUpdateBatteryState = false;
-    Timer(const Duration(seconds: 10), () => _canUpdateBatteryState = true);
+    Timer(const Duration(minutes: 1), () => _canUpdateBatteryState = true);
 
     final battery = Battery();
     _batteryLevel = await battery.batteryLevel;
