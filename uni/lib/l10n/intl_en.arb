@@ -317,5 +317,7 @@
   "try_again": "Try again",
   "@try_again": {},
   "feature_flags": "Experimental features",
-  "@feature_flags": {}
+  "@feature_flags": {},
+  "library_modules": "Library modules",
+  "@library_modules": {}
 }

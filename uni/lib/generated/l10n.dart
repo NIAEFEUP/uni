@@ -1608,11 +1608,21 @@ class S {
     );
   }
 
-  /// `Feature flags`
+  /// `Experimental features`
   String get feature_flags {
     return Intl.message(
-      'Feature flags',
+      'Experimental features',
       name: 'feature_flags',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Library modules`
+  String get library_modules {
+    return Intl.message(
+      'Library modules',
+      name: 'library_modules',
       desc: '',
       args: [],
     );

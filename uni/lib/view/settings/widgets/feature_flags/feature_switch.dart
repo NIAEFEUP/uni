@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:uni/controller/local_storage/enabled_feature_controller.dart';
 
-abstract class GenericSwitch extends StatefulWidget {
-  const GenericSwitch({super.key});
+abstract class FeatureSwitch extends StatefulWidget {
+  const FeatureSwitch({required this.enabledFeatureController, super.key});
+
+  final EnabledFeatureController enabledFeatureController;
 
   @override
-  GenericSwitchState createState();
+  FeatureSwitchState createState();
 }
 
-abstract class GenericSwitchState<T extends GenericSwitch> extends State<T> {
-  GenericSwitchState();
+abstract class FeatureSwitchState<T extends FeatureSwitch> extends State<T> {
+  FeatureSwitchState();
 
   @override
   void initState() {

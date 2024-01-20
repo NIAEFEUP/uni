@@ -317,5 +317,7 @@
   "try_again": "Tentar de novo",
   "@try_again": {},
   "feature_flags": "Features experimentais",
-  "@feature_flags": {}
+  "@feature_flags": {},
+  "library_modules": "Módulos da biblioteca",
+  "@library_modules": {}
 }
