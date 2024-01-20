@@ -38,7 +38,7 @@ class FeatureFlagsDialogState extends State<FeatureFlagsDialog> {
             mainAxisSize: MainAxisSize.min,
             children: [
               ListTile(
-                title: const Text('Library modules'),
+                title: Text(S.of(context).library_modules),
                 trailing: LibraryModulesSwitch(
                   enabledFeatureController: enabledFeatureController,
                 ),

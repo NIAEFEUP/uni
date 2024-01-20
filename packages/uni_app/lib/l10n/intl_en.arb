@@ -335,5 +335,7 @@
   "internet_status_exception": "Check your internet connection",
   "@internet_status_exception": {}
   "feature_flags": "Experimental features",
-  "@feature_flags": {}
+  "@feature_flags": {},
+  "library_modules": "Library modules",
+  "@library_modules": {}
 }

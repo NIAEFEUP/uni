@@ -335,5 +335,7 @@
   "internet_status_exception": "Verifique sua conexão com a internet",
   "@internet_status_exception": {}
   "feature_flags": "Features experimentais",
-  "@feature_flags": {}
+  "@feature_flags": {},
+  "library_modules": "Módulos da biblioteca",
+  "@library_modules": {}
 }
