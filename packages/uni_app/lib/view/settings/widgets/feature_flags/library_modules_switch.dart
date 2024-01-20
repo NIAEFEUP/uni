@@ -1,28 +1,31 @@
-import 'package:uni/controller/local_storage/enabled_feature_controller.dart';
-import 'package:uni/view/settings/widgets/generic_switch.dart';
+import 'package:uni/view/settings/widgets/feature_flags/feature_switch.dart';
 
-class LibraryModulesSwitch extends GenericSwitch {
+class LibraryModulesSwitch extends FeatureSwitch {
   const LibraryModulesSwitch({
-    required this.enabledFeatureController,
+    required super.enabledFeatureController,
     super.key,
   });
 
-  final EnabledFeatureController enabledFeatureController;
-
   @override
-  GenericSwitchState<GenericSwitch> createState() =>
+  FeatureSwitchState<FeatureSwitch> createState() =>
       LibraryModulesSwitchState();
 }
 
 class LibraryModulesSwitchState
-    extends GenericSwitchState<LibraryModulesSwitch> {
+    extends FeatureSwitchState<LibraryModulesSwitch> {
+  static const String _featureCode = 'library_modules';
+
   @override
   bool initializeValue() {
-    return widget.enabledFeatureController.existsFeature('library_cards');
+    return widget.enabledFeatureController.existsFeature(_featureCode);
   }
 
   @override
   Future<void> storeValue({required bool value}) async {
-    await widget.enabledFeatureController.addFeature('library_cards');
+    if (value) {
+      await widget.enabledFeatureController.addFeature(_featureCode);
+    } else {
+      await widget.enabledFeatureController.removeFeature(_featureCode);
+    }
   }
 }
