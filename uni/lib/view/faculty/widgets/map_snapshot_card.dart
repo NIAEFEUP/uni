@@ -43,16 +43,21 @@ class MapCard extends GenericCard {
 
   Widget buildMapView(BuildContext context, List<LocationGroup> locations) {
     return GestureDetector(
-      onTapDown: (TapDownDetails details) =>
+      onTap: () =>
           Navigator.pushNamed(context, '/${DrawerItem.navLocations.title}'),
-      child: Container(
-        padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
-        height: MediaQuery.of(context).size.height * 0.3,
-        alignment: Alignment.center,
-        child: FacultyMap(
-          faculty: 'FEUP',
-          locations: locations,
-          interactiveFlags: InteractiveFlag.none,
+      child: AbsorbPointer(
+        child: Container(
+          padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+          height: MediaQuery.of(context).size.height * 0.3,
+          alignment: Alignment.center,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: FacultyMap(
+              faculty: 'FEUP',
+              locations: locations,
+              interactiveFlags: InteractiveFlag.none,
+            ),
+          ),
         ),
       ),
     );
