@@ -22,7 +22,7 @@ class ReservationRow extends StatelessWidget {
     final month = DateFormat('MMMM', 'pt').format(reservation.startDate);
     final weekdays = Provider.of<LocaleNotifier>(context, listen: false)
         .getWeekdaysWithLocale();
-    final weekDay = weekdays[reservation.startDate.weekday];
+    final weekDay = weekdays[reservation.startDate.weekday - 1];
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
