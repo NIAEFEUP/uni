@@ -11,6 +11,7 @@ import 'package:uni/view/home/widgets/exit_app_dialog.dart';
 import 'package:uni/view/home/widgets/restaurant_card.dart';
 import 'package:uni/view/home/widgets/schedule_card.dart';
 import 'package:uni/view/library/widgets/library_occupation_card.dart';
+import 'package:uni/view/library/widgets/library_reservations_card.dart';
 import 'package:uni/view/profile/widgets/account_info_card.dart';
 
 import 'package:uni/view/profile/widgets/print_info_card.dart';
@@ -40,6 +41,8 @@ class MainCardsList extends StatefulWidget {
     FavoriteWidgetType.restaurant: RestaurantCard.fromEditingInformation,
     FavoriteWidgetType.libraryOccupation:
         LibraryOccupationCard.fromEditingInformation,
+    FavoriteWidgetType.libraryReservations:
+        LibraryReservationsCard.fromEditingInformation,
   };
 
   @override

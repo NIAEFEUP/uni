@@ -9,6 +9,7 @@ import 'package:uni/model/providers/lazy/exam_provider.dart';
 import 'package:uni/model/providers/lazy/faculty_locations_provider.dart';
 import 'package:uni/model/providers/lazy/lecture_provider.dart';
 import 'package:uni/model/providers/lazy/library_occupation_provider.dart';
+import 'package:uni/model/providers/lazy/library_reservations_provider.dart';
 import 'package:uni/model/providers/lazy/reference_provider.dart';
 import 'package:uni/model/providers/lazy/restaurant_provider.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
@@ -25,6 +26,7 @@ class StateProviders {
     this.sessionProvider,
     this.calendarProvider,
     this.libraryOccupationProvider,
+    this.libraryReservationsProvider,
     this.facultyLocationsProvider,
     this.referenceProvider,
   );
@@ -43,6 +45,7 @@ class StateProviders {
         SessionProvider(),
         CalendarProvider(),
         LibraryOccupationProvider(),
+        LibraryReservationsProvider(),
         FacultyLocationsProvider(),
         ReferenceProvider(),
       );
@@ -65,6 +68,8 @@ class StateProviders {
         Provider.of<CalendarProvider>(context, listen: false);
     final libraryOccupationProvider =
         Provider.of<LibraryOccupationProvider>(context, listen: false);
+    final libraryReservationsProvider =
+        Provider.of<LibraryReservationsProvider>(context, listen: false);
     final facultyLocationsProvider =
         Provider.of<FacultyLocationsProvider>(context, listen: false);
     final referenceProvider =
@@ -80,6 +85,7 @@ class StateProviders {
       sessionProvider,
       calendarProvider,
       libraryOccupationProvider,
+      libraryReservationsProvider,
       facultyLocationsProvider,
       referenceProvider,
     );
@@ -94,6 +100,7 @@ class StateProviders {
   final SessionProvider sessionProvider;
   final CalendarProvider calendarProvider;
   final LibraryOccupationProvider libraryOccupationProvider;
+  final LibraryReservationsProvider libraryReservationsProvider;
   final FacultyLocationsProvider facultyLocationsProvider;
   final ReferenceProvider referenceProvider;
 
@@ -107,6 +114,7 @@ class StateProviders {
     sessionProvider.invalidate();
     calendarProvider.invalidate();
     libraryOccupationProvider.invalidate();
+    libraryReservationsProvider.invalidate();
     facultyLocationsProvider.invalidate();
     referenceProvider.invalidate();
   }

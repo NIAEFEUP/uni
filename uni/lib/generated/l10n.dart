@@ -10,7 +10,7 @@ import 'intl/messages_all.dart';
 
 // ignore_for_file: non_constant_identifier_names, lines_longer_than_80_chars
 // ignore_for_file: join_return_with_assignment, prefer_final_in_for_each
-// ignore_for_file: avoid_redundant_argument_values, avoid_escaping_inner_quotes
+// ignore_for_file: avoid_redundant_argument_values
 
 class S {
   S();
@@ -690,6 +690,16 @@ class S {
     );
   }
 
+  /// `Go back`
+  String get go_back {
+    return Intl.message(
+      'Go back',
+      name: 'go_back',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Enrollment for Improvement`
   String get improvement_registration {
     return Intl.message(
@@ -753,11 +763,91 @@ class S {
     );
   }
 
+  /// `Library`
+  String get library {
+    return Intl.message(
+      'Library',
+      name: 'library',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Do you want to cancel this reservation?`
+  String get library_cancel_reservation {
+    return Intl.message(
+      'Do you want to cancel this reservation?',
+      name: 'library_cancel_reservation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancel reservation`
+  String get library_cancel_tooltip {
+    return Intl.message(
+      'Cancel reservation',
+      name: 'library_cancel_tooltip',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `An error occurred while canceling your reservation!`
+  String get library_cancel_error {
+    return Intl.message(
+      'An error occurred while canceling your reservation!',
+      name: 'library_cancel_error',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your reservation was canceled!`
+  String get library_cancel_success {
+    return Intl.message(
+      'Your reservation was canceled!',
+      name: 'library_cancel_success',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Library Occupation`
   String get library_occupation {
     return Intl.message(
       'Library Occupation',
       name: 'library_occupation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Library Reservations`
+  String get library_reservations {
+    return Intl.message(
+      'Library Reservations',
+      name: 'library_reservations',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Occupation`
+  String get library_tab_occupation {
+    return Intl.message(
+      'Occupation',
+      name: 'library_tab_occupation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reservations`
+  String get library_tab_reservations {
+    return Intl.message(
+      'Reservations',
+      name: 'library_tab_reservations',
       desc: '',
       args: [],
     );
