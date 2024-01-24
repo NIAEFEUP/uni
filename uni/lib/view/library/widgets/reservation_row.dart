@@ -12,36 +12,30 @@ import 'package:uni/view/locale_notifier.dart';
 
 class ReservationRow extends StatelessWidget {
   ReservationRow(this.reservation, {super.key}) {
-    hoursStart = DateFormat('HH:mm').format(reservation.startDate);
-    hoursEnd = DateFormat('HH:mm')
-        .format(reservation.startDate.add(reservation.duration));
-    day = DateFormat('dd').format(reservation.startDate);
     initializeDateFormatting();
-    month = DateFormat('MMMM', 'pt').format(reservation.startDate);
   }
   final LibraryReservation reservation;
-  late final String hoursStart;
-  late final String hoursEnd;
-  late final String weekDay;
-  late final String day;
-  late final String month;
 
   @override
   Widget build(BuildContext context) {
+    final day = DateFormat('dd').format(reservation.startDate);
+    final month = DateFormat('MMMM', 'pt').format(reservation.startDate);
     final weekdays = Provider.of<LocaleNotifier>(context, listen: false)
         .getWeekdaysWithLocale();
-    weekDay = weekdays[reservation.startDate.weekday];
+    final weekDay = weekdays[reservation.startDate.weekday];
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         Column(
           children: [
             Text(
-              hoursStart,
+              DateFormat('HH:mm').format(reservation.startDate),
               style: Theme.of(context).textTheme.bodyLarge,
             ),
             Text(
-              hoursEnd,
+              DateFormat('HH:mm')
+                  .format(reservation.startDate.add(reservation.duration)),
               style: Theme.of(context).textTheme.bodyLarge,
             ),
           ],
