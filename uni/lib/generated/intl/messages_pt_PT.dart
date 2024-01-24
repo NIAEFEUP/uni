@@ -7,8 +7,7 @@
 // ignore_for_file:unnecessary_brace_in_string_interps, unnecessary_new
 // ignore_for_file:prefer_single_quotes,comment_references, directives_ordering
 // ignore_for_file:annotate_overrides,prefer_generic_function_type_aliases
-// ignore_for_file:unused_import, file_names, avoid_escaping_inner_quotes
-// ignore_for_file:unnecessary_string_interpolations, unnecessary_string_escapes
+// ignore_for_file:unused_import, file_names
 
 import 'package:intl/intl.dart';
 import 'package:intl/message_lookup_by_library.dart';
@@ -20,12 +19,12 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'pt_PT';
 
-  static String m0(time) => "última atualização às ${time}";
+  static m0(time) => "última atualização às ${time}";
 
-  static String m1(time) =>
+  static m1(time) =>
       "${Intl.plural(time, zero: 'Atualizado há ${time} minutos', one: 'Atualizado há ${time} minuto', other: 'Atualizado há ${time} minutos')}";
 
-  static String m2(title) => "${Intl.select(title, {
+  static m2(title) => "${Intl.select(title, {
             'horario': 'Horário',
             'exames': 'Exames',
             'area': 'Área Pessoal',
@@ -40,7 +39,7 @@ class MessageLookup extends MessageLookupByLibrary {
           })}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
-  static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+  static _notInlinedMessages(_) => <String, Function>{
         "about": MessageLookupByLibrary.simpleMessage("Sobre nós"),
         "academic_services":
             MessageLookupByLibrary.simpleMessage("Serviços académicos"),
@@ -103,6 +102,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "current_state": MessageLookupByLibrary.simpleMessage("Estado atual: "),
         "current_year":
             MessageLookupByLibrary.simpleMessage("Ano curricular atual: "),
+        "date": MessageLookupByLibrary.simpleMessage("Data"),
         "decrement": MessageLookupByLibrary.simpleMessage("Decrementar 1,00€"),
         "description": MessageLookupByLibrary.simpleMessage("Descrição"),
         "desired_email": MessageLookupByLibrary.simpleMessage(
@@ -111,12 +111,12 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Papelaria D. Beatriz"),
         "dona_bia_building": MessageLookupByLibrary.simpleMessage(
             "Piso -1 do edifício B (B-142)"),
+        "duration": MessageLookupByLibrary.simpleMessage("Duração"),
         "ects": MessageLookupByLibrary.simpleMessage("ECTS realizados: "),
         "edit_off": MessageLookupByLibrary.simpleMessage("Editar"),
         "edit_on": MessageLookupByLibrary.simpleMessage("Concluir edição"),
         "empty_text": MessageLookupByLibrary.simpleMessage(
             "Por favor preenche este campo"),
-        "of_month": MessageLookupByLibrary.simpleMessage("de"),
         "exams_filter":
             MessageLookupByLibrary.simpleMessage("Definições Filtro de Exames"),
         "exit_confirm": MessageLookupByLibrary.simpleMessage(
@@ -138,6 +138,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Gerar referência"),
         "geral_registration":
             MessageLookupByLibrary.simpleMessage("Inscrição Geral"),
+        "go_back": MessageLookupByLibrary.simpleMessage("Voltar"),
+        "hour": MessageLookupByLibrary.simpleMessage("Hora"),
         "improvement_registration":
             MessageLookupByLibrary.simpleMessage("Inscrição para Melhoria"),
         "increment": MessageLookupByLibrary.simpleMessage("Incrementar 1,00€"),
@@ -148,8 +150,29 @@ class MessageLookup extends MessageLookupByLibrary {
         "language": MessageLookupByLibrary.simpleMessage("Idioma"),
         "last_refresh_time": m0,
         "last_timestamp": m1,
+        "library": MessageLookupByLibrary.simpleMessage("Biblioteca"),
+        "library_cancel_error": MessageLookupByLibrary.simpleMessage(
+            "Ocorreu um erro ao cancelar a reserva!"),
+        "library_cancel_reservation": MessageLookupByLibrary.simpleMessage(
+            "Queres cancelar este pedido?"),
+        "library_cancel_success":
+            MessageLookupByLibrary.simpleMessage("A reserva foi cancelada!"),
+        "library_cancel_tooltip":
+            MessageLookupByLibrary.simpleMessage("Cancelar reserva"),
+        "library_create_error": MessageLookupByLibrary.simpleMessage(
+            "Ocorreu um erro ao criar a reserva!"),
+        "library_create_reservation":
+            MessageLookupByLibrary.simpleMessage("Reservar Sala"),
+        "library_create_success":
+            MessageLookupByLibrary.simpleMessage("A reserva foi criada!"),
         "library_occupation":
             MessageLookupByLibrary.simpleMessage("Ocupação da Biblioteca"),
+        "library_reservations":
+            MessageLookupByLibrary.simpleMessage("Gabinetes Reservados"),
+        "library_tab_occupation":
+            MessageLookupByLibrary.simpleMessage("Ocupação"),
+        "library_tab_reservations":
+            MessageLookupByLibrary.simpleMessage("Gabinetes"),
         "load_error": MessageLookupByLibrary.simpleMessage(
             "Aconteceu um erro ao carregar os dados"),
         "loading_terms": MessageLookupByLibrary.simpleMessage(
@@ -188,10 +211,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Sem restaurantes favoritos"),
         "no_info": MessageLookupByLibrary.simpleMessage(
             "Não existem informações para apresentar"),
-        "no_link": MessageLookupByLibrary.simpleMessage(
-            "Não conseguimos abrir o link"),
         "no_library_info":
             MessageLookupByLibrary.simpleMessage("Sem informação de ocupação"),
+        "no_link": MessageLookupByLibrary.simpleMessage(
+            "Não conseguimos abrir o link"),
         "no_menu_info": MessageLookupByLibrary.simpleMessage(
             "Não há informação disponível sobre refeições"),
         "no_menus": MessageLookupByLibrary.simpleMessage(
@@ -212,6 +235,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "notifications": MessageLookupByLibrary.simpleMessage("Notificações"),
         "occurrence_type":
             MessageLookupByLibrary.simpleMessage("Tipo de ocorrência"),
+        "of_month": MessageLookupByLibrary.simpleMessage("de"),
         "other_links": MessageLookupByLibrary.simpleMessage("Outros links"),
         "pass_change_request": MessageLookupByLibrary.simpleMessage(
             "Por razões de segurança, as palavras-passe têm de ser alteradas periodicamente."),

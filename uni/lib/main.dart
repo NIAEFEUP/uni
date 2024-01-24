@@ -20,6 +20,7 @@ import 'package:uni/model/providers/lazy/exam_provider.dart';
 import 'package:uni/model/providers/lazy/faculty_locations_provider.dart';
 import 'package:uni/model/providers/lazy/lecture_provider.dart';
 import 'package:uni/model/providers/lazy/library_occupation_provider.dart';
+import 'package:uni/model/providers/lazy/library_reservations_provider.dart';
 import 'package:uni/model/providers/lazy/reference_provider.dart';
 import 'package:uni/model/providers/lazy/restaurant_provider.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
@@ -73,6 +74,7 @@ Future<void> main() async {
     SessionProvider(),
     CalendarProvider(),
     LibraryOccupationProvider(),
+    LibraryReservationsProvider(),
     FacultyLocationsProvider(),
     ReferenceProvider(),
   );
@@ -134,6 +136,9 @@ Future<void> main() async {
             ),
             ChangeNotifierProvider(
               create: (context) => stateProviders.libraryOccupationProvider,
+            ),
+            ChangeNotifierProvider(
+              create: (context) => stateProviders.libraryReservationsProvider,
             ),
             ChangeNotifierProvider(
               create: (context) => stateProviders.facultyLocationsProvider,
@@ -232,9 +237,16 @@ class ApplicationState extends State<Application> {
               page: const CalendarPageView(),
               settings: settings,
             ),
-            '/${DrawerItem.navLibrary.title}':
+            '/${DrawerItem.navLibraryOccupation.title}':
                 PageTransition.makePageTransition(
               page: const LibraryPage(),
+              settings: settings,
+            ),
+            '/${DrawerItem.navLibraryReservations.title}':
+                PageTransition.makePageTransition(
+              page: const LibraryPage(
+                startOnOccupationTab: false,
+              ),
               settings: settings,
             ),
             '/${DrawerItem.navUsefulInfo.title}':
