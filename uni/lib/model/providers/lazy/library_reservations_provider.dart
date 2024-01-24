@@ -36,8 +36,7 @@ class LibraryReservationsProvider
   }
 
   Future<bool> cancelReservation(Session session, String id) async {
-    final url =
-        '${NetworkRouter.getBaseUrl('feup')}res_recursos_geral'
+    final url = '${NetworkRouter.getBaseUrl('feup')}res_recursos_geral'
         '.pedidos_cancelar?pct_pedido_id=$id';
 
     final headers = <String, String>{};
