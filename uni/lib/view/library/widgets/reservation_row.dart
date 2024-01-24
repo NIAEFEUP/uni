@@ -25,7 +25,7 @@ class ReservationRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final weekdays =
         Provider.of<LocaleNotifier>(context).getWeekdaysWithLocale();
-    weekDay = weekdays[reservation.startDate.weekday];
+    weekDay = weekdays[reservation.startDate.weekday - 1];
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
