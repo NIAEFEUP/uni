@@ -10,13 +10,14 @@ class DateTimeConverter extends JsonConverter<DateTime, String> {
 
   @override
   DateTime fromJson(String json) {
-    final format = DateFormat('d-M-y');
+    final format = DateFormat('yyyy-M-dd');
     return format.parse(json);
   }
 
   @override
   String toJson(DateTime object) {
-    final format = DateFormat('d-M-y');
+    final format = DateFormat('yyyy-MM-dd');
+
     return format.format(object);
   }
 }
