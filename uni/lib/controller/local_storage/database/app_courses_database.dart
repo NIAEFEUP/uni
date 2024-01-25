@@ -12,9 +12,9 @@ class AppCoursesDatabase extends AppDatabase {
   AppCoursesDatabase()
       : super('courses.db', [createScript], onUpgrade: migrate, version: 3);
   static const String createScript =
-      '''CREATE TABLE courses(id INTEGER, fest_id INTEGER, name TEXT, '''
-      '''abbreviation TEXT, currYear TEXT, firstEnrollment INTEGER, state TEXT, '''
-      '''faculty TEXT, currentAverage REAL, finishedEcts REAL)''';
+      '''CREATE TABLE courses(cur_id INTEGER, fest_id INTEGER, cur_nome TEXT, '''
+      '''abbreviation TEXT, ano_curricular TEXT, fest_a_lect_1_insc INTEGER, state TEXT, '''
+      '''inst_sigla TEXT, currentAverage REAL, finishedEcts REAL)''';
 
   /// Replaces all of the data in this database with the data from [courses].
   Future<void> saveNewCourses(List<Course> courses) async {

@@ -7,10 +7,10 @@ import 'package:uni/model/entities/course_units/course_unit.dart';
 class AppCourseUnitsDatabase extends AppDatabase {
   AppCourseUnitsDatabase() : super('course_units.db', [createScript]);
   static const String createScript =
-      '''CREATE TABLE course_units(id INTEGER, code TEXT, abbreviation TEXT , '''
-      '''name TEXT, curricularYear INTEGER, occurrId INTEGER, semesterCode TEXT, '''
-      '''semesterName TEXT, type TEXT, status TEXT, grade TEXT, ectsGrade TEXT, '''
-      '''result TEXT, ects REAL, schoolYear TEXT)''';
+      '''CREATE TABLE course_units(ucurr_id INTEGER, ucurr_codigo TEXT, ucurr_sigla TEXT , '''
+      '''ucurr_nome TEXT, ano INTEGER, ocorr_id INTEGER, per_codigo TEXT, '''
+      '''per_nome TEXT, tipo TEXT, estado TEXT, resultado_melhor TEXT, resultado_ects TEXT, '''
+      '''resultado_insc TEXT, creditos_ects REAL, schoolYear TEXT)''';
 
   Future<void> saveNewCourseUnits(List<CourseUnit> courseUnits) async {
     await deleteCourseUnits();

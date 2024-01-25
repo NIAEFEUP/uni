@@ -525,7 +525,6 @@ class MockSessionProvider extends _i1.Mock implements _i7.SessionProvider {
         returnValueForMissingStub: _i4.Future<void>.value(),
       ) as _i4.Future<void>);
 
-
   @override
   void updateState(_i3.Session? newState) => super.noSuchMethod(
         Invocation.method(
@@ -565,7 +564,6 @@ class MockSessionProvider extends _i1.Mock implements _i7.SessionProvider {
         returnValue: _i4.Future<void>.value(),
         returnValueForMissingStub: _i4.Future<void>.value(),
       ) as _i4.Future<void>);
-
 
   @override
   void addListener(_i11.VoidCallback? listener) => super.noSuchMethod(
