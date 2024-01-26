@@ -114,7 +114,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Floor -1 of building B (B-142)"),
         "ects": MessageLookupByLibrary.simpleMessage("ECTS performed: "),
         "edit_off": MessageLookupByLibrary.simpleMessage("Edit"),
-        "edit_on": MessageLookupByLibrary.simpleMessage("Finish editing"),
+        "edit_on": MessageLookupByLibrary.simpleMessage("Exit edit mode"),
         "empty_text":
             MessageLookupByLibrary.simpleMessage("Please fill in this field"),
         "exam_of": MessageLookupByLibrary.simpleMessage("of"),
