@@ -14,10 +14,10 @@ class ExamCard extends GenericCard {
   ExamCard({super.key});
 
   const ExamCard.fromEditingInformation(
-      super.key, {
-        required super.editingMode,
-        super.onDelete,
-      }) : super.fromEditingInformation();
+    super.key, {
+    required super.editingMode,
+    super.onDelete,
+  }) : super.fromEditingInformation();
 
   static const int maxExamsToDisplay = 4;
 
