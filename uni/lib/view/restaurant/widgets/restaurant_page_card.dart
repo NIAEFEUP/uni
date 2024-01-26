@@ -34,32 +34,43 @@ class RestaurantPageCard extends GenericCard {
   void onRefresh(BuildContext context) {}
 }
 
-class CardFavoriteButton extends StatelessWidget {
+class CardFavoriteButton extends StatefulWidget {
   const CardFavoriteButton(this.restaurant, {super.key});
 
   final Restaurant restaurant;
 
   @override
+  State<StatefulWidget> createState() {
+    return CardFavoriteButtonState();
+  }
+}
+
+class CardFavoriteButtonState extends State<CardFavoriteButton> {
+  @override
   Widget build(BuildContext context) {
-    final isFavorite = PreferencesController.getFavoriteRestaurants()
-        .contains(restaurant.name);
+    var isFavorite = PreferencesController.getFavoriteRestaurants()
+        .contains(widget.restaurant.name);
     return IconButton(
       icon: isFavorite ? Icon(MdiIcons.heart) : Icon(MdiIcons.heartOutline),
       onPressed: () async {
         final favoriteRestaurants =
             PreferencesController.getFavoriteRestaurants();
-        if (favoriteRestaurants.contains(restaurant.name)) {
-          favoriteRestaurants.remove(restaurant.name);
+        if (favoriteRestaurants.contains(widget.restaurant.name)) {
+          favoriteRestaurants.remove(widget.restaurant.name);
         } else {
-          favoriteRestaurants.add(restaurant.name);
+          favoriteRestaurants.add(widget.restaurant.name);
         }
-        await PreferencesController.saveFavoriteRestaurants(
-          favoriteRestaurants,
-        );
+
+        setState(() {
+          PreferencesController.saveFavoriteRestaurants(
+            favoriteRestaurants,
+          );
+          isFavorite = !isFavorite;
+        });
 
         final favoriteCardTypes = PreferencesController.getFavoriteCards();
         if (context.mounted &&
-            !isFavorite &&
+            isFavorite &&
             !favoriteCardTypes.contains(FavoriteWidgetType.restaurant)) {
           showRestaurantCardHomeDialog(
             context,
