@@ -29,6 +29,7 @@ import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/model/providers/state_providers.dart';
 import 'package:uni/utils/drawer_items.dart';
+import 'package:uni/view/academic_path/academic_path.dart';
 import 'package:uni/view/bus_stop_next_arrivals/bus_stop_next_arrivals.dart';
 import 'package:uni/view/calendar/calendar.dart';
 import 'package:uni/view/common_widgets/page_transition.dart';
@@ -271,6 +272,11 @@ class ApplicationState extends State<Application> {
             '/${DrawerItem.navUsefulInfo.title}':
                 PageTransition.makePageTransition(
               page: const UsefulInfoPageView(),
+              settings: settings,
+            ),
+            '/${DrawerItem.navAcademicPath.title}':
+                PageTransition.makePageTransition(
+              page: const AcademicPathPageView(),
               settings: settings,
             ),
           };
