@@ -20,7 +20,6 @@ class NextExamsWidget extends StatelessWidget {
         DateRectangle(
           date: exams.isNotEmpty ? getFormattedDate(exams.first, context) : '',
         ),
-        const SizedBox(height: 8),
         Column(
           children: exams.map((exam) {
             return Padding(
@@ -30,6 +29,7 @@ class NextExamsWidget extends StatelessWidget {
                   exam: exam,
                   teacher: '',
                   mainPage: true,
+                  onChangeVisibility: () {},
                 ),
               ),
             );
