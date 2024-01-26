@@ -7,8 +7,8 @@ import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/profile/profile.dart';
 
-class TopRightButton extends StatelessWidget {
-  const TopRightButton({required this.getProfileDecorationImage, super.key});
+class ProfileButton extends StatelessWidget {
+  const ProfileButton({required this.getProfileDecorationImage, super.key});
 
   final DecorationImage Function(File?) getProfileDecorationImage;
 
