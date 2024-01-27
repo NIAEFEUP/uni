@@ -15,10 +15,6 @@ extension DateTimeExtensions on DateTime {
   }
 
   String formattedDate(AppLocale locale) {
-    if (locale == AppLocale.pt) {
-      return '${weekDay(locale)}, $day de ${month(locale)}';
-    } else {
-      return '${weekDay(locale)}, $day ${month(locale)}';
-    }
+    return DateFormat.yMMMMd(locale.localeCode.languageCode).format(this);
   }
 }
