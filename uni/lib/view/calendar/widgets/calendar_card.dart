@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/calendar_event.dart';
@@ -32,20 +33,32 @@ class ScrollableCalendarCard extends GenericCard {
 
   @override
   Widget buildCardContent(BuildContext context) {
-    return SizedBox(
-      height: 200,
-      child: SingleChildScrollView(
-        child: LazyConsumer<CalendarProvider, List<CalendarEvent>>(
-          builder: CalendarPageViewState().getTimeline,
-          hasContent: (calendar) => calendar.isNotEmpty,
-          onNullContent: const Center(
-            child: Text(
-              'Nenhum evento encontrado',
-              style: TextStyle(fontSize: 18),
-            ),
+    return Expanded(
+      child: LazyConsumer<CalendarProvider, List<CalendarEvent>>(
+        builder: (context, events) => CalendarPageViewState()
+            .getTimeline(context, getFurtherEvents(events)),
+        hasContent: (calendar) => calendar.isNotEmpty,
+        onNullContent: const Center(
+          child: Text(
+            'Nenhum evento encontrado',
+            style: TextStyle(fontSize: 18),
           ),
         ),
       ),
     );
+  }
+
+  List<CalendarEvent> getFurtherEvents(List<CalendarEvent> events) {
+    final currentMonth = DateFormat.MMMM('pt').format(DateTime.now());
+    final pinEvent = events.firstWhere((element) {
+      final eventDate = element.date.split(' ');
+      final month = eventDate.where((element) =>
+          DateFormat.MMMM('pt').dateSymbols.MONTHS.contains(element) ||
+          element == 'TBD');
+      return month.contains(currentMonth);
+    });
+
+    return events.sublist(
+        events.indexOf(pinEvent), events.indexOf(pinEvent) + 3);
   }
 }
