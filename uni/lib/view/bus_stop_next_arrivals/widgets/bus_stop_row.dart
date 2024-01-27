@@ -79,9 +79,6 @@ class BusStopRow extends StatelessWidget {
       );
     } else {
       for (var i = 0; i < trips.length; i++) {
-/*         Color color = Theme.of(context).accentColor;
-        if (i == trips.length - 1) color = Colors.transparent; */
-
         tripRows.add(
           Container(
             padding: const EdgeInsets.all(12),

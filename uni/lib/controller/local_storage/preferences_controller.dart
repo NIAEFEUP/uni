@@ -13,36 +13,40 @@ import 'package:uni/utils/favorite_widget_type.dart';
 ///
 /// This database stores the user's student number, password and favorite
 /// widgets.
-class AppSharedPreferences {
+class PreferencesController {
+  static late SharedPreferences prefs;
+
   static final iv = encrypt.IV.fromBase64('jF9jjdSEPgsKnf0jCl1GAQ==');
   static final key =
       encrypt.Key.fromBase64('DT3/GTNYldhwOD3ZbpVLoAwA/mncsN7U7sJxfFn3y0A=');
 
-  static const lastUpdateTimeKeySuffix = '_last_update_time';
-  static const String userNumber = 'user_number';
-  static const String userPw = 'user_password';
-  static const String userFaculties = 'user_faculties';
-  static const String termsAndConditions = 'terms_and_conditions';
-  static const String areTermsAndConditionsAcceptedKey = 'is_t&c_accepted';
-  static const String tuitionNotificationsToggleKey =
+  static const _lastUpdateTimeKeySuffix = '_last_update_time';
+  static const String _userNumber = 'user_number';
+  static const String _userPw = 'user_password';
+  static const String _userFaculties = 'user_faculties';
+  static const String _termsAndConditions = 'terms_and_conditions';
+  static const String _areTermsAndConditionsAcceptedKey = 'is_t&c_accepted';
+  static const String _tuitionNotificationsToggleKey =
       'tuition_notification_toogle';
-  static const String themeMode = 'theme_mode';
-  static const String locale = 'app_locale';
-  static const String favoriteCards = 'favorite_cards';
-  static final List<FavoriteWidgetType> defaultFavoriteCards = [
+  static const String _usageStatsToggleKey = 'usage_stats_toogle';
+  static const String _themeMode = 'theme_mode';
+  static const String _isDataCollectionBannerViewedKey =
+      'data_collection_banner';
+  static const String _locale = 'app_locale';
+  static const String _favoriteCards = 'favorite_cards';
+  static final List<FavoriteWidgetType> _defaultFavoriteCards = [
     FavoriteWidgetType.schedule,
     FavoriteWidgetType.exams,
     FavoriteWidgetType.busStops,
   ];
-  static const String hiddenExams = 'hidden_exams';
-  static const String favoriteRestaurants = 'favorite_restaurants';
-  static const String filteredExamsTypes = 'filtered_exam_types';
-  static final List<String> defaultFilteredExamTypes = Exam.displayedTypes;
+  static const String _hiddenExams = 'hidden_exams';
+  static const String _favoriteRestaurants = 'favorite_restaurants';
+  static const String _filteredExamsTypes = 'filtered_exam_types';
+  static final List<String> _defaultFilteredExamTypes = Exam.displayedTypes;
 
   /// Returns the last time the data with given key was updated.
-  static Future<DateTime?> getLastDataClassUpdateTime(String dataKey) async {
-    final prefs = await SharedPreferences.getInstance();
-    final lastUpdateTime = prefs.getString(dataKey + lastUpdateTimeKeySuffix);
+  static DateTime? getLastDataClassUpdateTime(String dataKey) {
+    final lastUpdateTime = prefs.getString(dataKey + _lastUpdateTimeKeySuffix);
     return lastUpdateTime != null ? DateTime.parse(lastUpdateTime) : null;
   }
 
@@ -51,9 +55,8 @@ class AppSharedPreferences {
     String dataKey,
     DateTime dateTime,
   ) async {
-    final prefs = await SharedPreferences.getInstance();
     await prefs.setString(
-      dataKey + lastUpdateTimeKeySuffix,
+      dataKey + _lastUpdateTimeKeySuffix,
       dateTime.toString(),
     );
   }
@@ -64,11 +67,10 @@ class AppSharedPreferences {
     String pass,
     List<String> faculties,
   ) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(userNumber, user);
-    await prefs.setString(userPw, encode(pass));
+    await prefs.setString(_userNumber, user);
+    await prefs.setString(_userPw, encode(pass));
     await prefs.setStringList(
-      userFaculties,
+      _userFaculties,
       faculties,
     ); // Could be multiple faculties
   }
@@ -77,58 +79,59 @@ class AppSharedPreferences {
   static Future<void> setTermsAndConditionsAcceptance({
     required bool areAccepted,
   }) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(areTermsAndConditionsAcceptedKey, areAccepted);
+    await prefs.setBool(_areTermsAndConditionsAcceptedKey, areAccepted);
   }
 
   /// Returns whether or not the Terms and Conditions have been accepted.
-  static Future<bool> areTermsAndConditionsAccepted() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getBool(areTermsAndConditionsAcceptedKey) ?? false;
+  static bool areTermsAndConditionsAccepted() {
+    return prefs.getBool(_areTermsAndConditionsAcceptedKey) ?? false;
+  }
+
+  static Future<void> setDataCollectionBannerViewed({
+    required bool isViewed,
+  }) async {
+    await prefs.setBool(_isDataCollectionBannerViewedKey, isViewed);
+  }
+
+  static bool isDataCollectionBannerViewed() {
+    return prefs.getBool(_isDataCollectionBannerViewedKey) ?? false;
   }
 
   /// Returns the hash of the last Terms and Conditions that have
   /// been accepted by the user.
-  static Future<String?> getTermsAndConditionHash() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString(termsAndConditions);
+  static String? getTermsAndConditionHash() {
+    return prefs.getString(_termsAndConditions);
   }
 
   /// Sets the hash of the Terms and Conditions that have been accepted
   /// by the user.
   static Future<bool> setTermsAndConditionHash(String hashed) async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.setString(termsAndConditions, hashed);
+    return prefs.setString(_termsAndConditions, hashed);
   }
 
   /// Gets current used theme mode.
-  static Future<ThemeMode> getThemeMode() async {
-    final prefs = await SharedPreferences.getInstance();
-    return ThemeMode.values[prefs.getInt(themeMode) ?? ThemeMode.system.index];
+  static ThemeMode getThemeMode() {
+    return ThemeMode.values[prefs.getInt(_themeMode) ?? ThemeMode.system.index];
   }
 
   /// Set new app theme mode.
   static Future<bool> setThemeMode(ThemeMode thmMode) async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.setInt(themeMode, thmMode.index);
+    return prefs.setInt(_themeMode, thmMode.index);
   }
 
   /// Set app next theme mode.
   static Future<bool> setNextThemeMode() async {
-    final prefs = await SharedPreferences.getInstance();
-    final themeIndex = (await getThemeMode()).index;
-    return prefs.setInt(themeMode, (themeIndex + 1) % 3);
+    final themeIndex = getThemeMode().index;
+    return prefs.setInt(_themeMode, (themeIndex + 1) % 3);
   }
 
   static Future<void> setLocale(AppLocale appLocale) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(locale, appLocale.name);
+    await prefs.setString(_locale, appLocale.name);
   }
 
-  static Future<AppLocale> getLocale() async {
-    final prefs = await SharedPreferences.getInstance();
+  static AppLocale getLocale() {
     final appLocale =
-        prefs.getString(locale) ?? Platform.localeName.substring(0, 2);
+        prefs.getString(_locale) ?? Platform.localeName.substring(0, 2);
 
     return AppLocale.values.firstWhere(
       (e) => e.toString() == 'AppLocale.$appLocale',
@@ -138,9 +141,8 @@ class AppSharedPreferences {
 
   /// Deletes the user's student number and password.
   static Future<void> removePersistentUserInfo() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove(userNumber);
-    await prefs.remove(userPw);
+    await prefs.remove(_userNumber);
+    await prefs.remove(_userPw);
   }
 
   /// Returns a tuple containing the user's student number and password.
@@ -149,9 +151,9 @@ class AppSharedPreferences {
   /// * the first element in the tuple is the user's student number.
   /// * the second element in the tuple is the user's password, in plain text
   /// format.
-  static Future<Tuple2<String, String>?> getPersistentUserInfo() async {
-    final userNum = await getUserNumber();
-    final userPass = await getUserPassword();
+  static Tuple2<String, String>? getPersistentUserInfo() {
+    final userNum = getUserNumber();
+    final userPass = getUserPassword();
     if (userNum == null || userPass == null) {
       return null;
     }
@@ -159,23 +161,20 @@ class AppSharedPreferences {
   }
 
   /// Returns the user's faculties
-  static Future<List<String>> getUserFaculties() async {
-    final prefs = await SharedPreferences.getInstance();
-    final storedFaculties = prefs.getStringList(userFaculties);
+  static List<String> getUserFaculties() {
+    final storedFaculties = prefs.getStringList(_userFaculties);
     return storedFaculties ?? ['feup'];
     // TODO(bdmendes): Store dropdown choices in the db for later storage;
   }
 
   /// Returns the user's student number.
-  static Future<String?> getUserNumber() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString(userNumber);
+  static String? getUserNumber() {
+    return prefs.getString(_userNumber);
   }
 
   /// Returns the user's password, in plain text format.
-  static Future<String?> getUserPassword() async {
-    final prefs = await SharedPreferences.getInstance();
-    final password = prefs.getString(userPw);
+  static String? getUserPassword() {
+    final password = prefs.getString(_userPw);
     return password != null ? decode(password) : null;
   }
 
@@ -183,25 +182,23 @@ class AppSharedPreferences {
   static Future<void> saveFavoriteCards(
     List<FavoriteWidgetType> newFavorites,
   ) async {
-    final prefs = await SharedPreferences.getInstance();
     await prefs.setStringList(
-      favoriteCards,
+      _favoriteCards,
       newFavorites.map((a) => a.index.toString()).toList(),
     );
   }
 
   /// Returns a list containing the user's favorite widgets.
-  static Future<List<FavoriteWidgetType>> getFavoriteCards() async {
-    final prefs = await SharedPreferences.getInstance();
+  static List<FavoriteWidgetType> getFavoriteCards() {
     final storedFavorites = prefs
-        .getStringList(favoriteCards)
+        .getStringList(_favoriteCards)
         ?.where(
           (element) => int.parse(element) < FavoriteWidgetType.values.length,
         )
         .toList();
 
     if (storedFavorites == null) {
-      return defaultFavoriteCards;
+      return _defaultFavoriteCards;
     }
 
     return storedFavorites
@@ -212,25 +209,21 @@ class AppSharedPreferences {
   static Future<void> saveFavoriteRestaurants(
     List<String> newFavoriteRestaurants,
   ) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setStringList(favoriteRestaurants, newFavoriteRestaurants);
+    await prefs.setStringList(_favoriteRestaurants, newFavoriteRestaurants);
   }
 
-  static Future<List<String>> getFavoriteRestaurants() async {
-    final prefs = await SharedPreferences.getInstance();
+  static List<String> getFavoriteRestaurants() {
     final storedFavoriteRestaurants =
-        prefs.getStringList(favoriteRestaurants) ?? [];
+        prefs.getStringList(_favoriteRestaurants) ?? [];
     return storedFavoriteRestaurants;
   }
 
   static Future<void> saveHiddenExams(List<String> newHiddenExams) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setStringList(hiddenExams, newHiddenExams);
+    await prefs.setStringList(_hiddenExams, newHiddenExams);
   }
 
-  static Future<List<String>> getHiddenExams() async {
-    final prefs = await SharedPreferences.getInstance();
-    final storedHiddenExam = prefs.getStringList(hiddenExams) ?? [];
+  static List<String> getHiddenExams() {
+    final storedHiddenExam = prefs.getStringList(_hiddenExams) ?? [];
     return storedHiddenExam;
   }
 
@@ -238,24 +231,21 @@ class AppSharedPreferences {
   static Future<void> saveFilteredExams(
     Map<String, bool> newFilteredExamTypes,
   ) async {
-    final prefs = await SharedPreferences.getInstance();
-
     final newTypes = newFilteredExamTypes.keys
         .where((type) => newFilteredExamTypes[type] ?? false)
         .toList();
-    await prefs.setStringList(filteredExamsTypes, newTypes);
+    await prefs.setStringList(_filteredExamsTypes, newTypes);
   }
 
   /// Returns the user's exam filter settings.
-  static Future<Map<String, bool>> getFilteredExams() async {
-    final prefs = await SharedPreferences.getInstance();
-    final storedFilteredExamTypes = prefs.getStringList(filteredExamsTypes);
+  static Map<String, bool> getFilteredExams() {
+    final storedFilteredExamTypes = prefs.getStringList(_filteredExamsTypes);
 
     if (storedFilteredExamTypes == null) {
-      return Map.fromIterable(defaultFilteredExamTypes, value: (type) => true);
+      return Map.fromIterable(_defaultFilteredExamTypes, value: (type) => true);
     }
     return Map.fromIterable(
-      defaultFilteredExamTypes,
+      _defaultFilteredExamTypes,
       value: storedFilteredExamTypes.contains,
     );
   }
@@ -282,15 +272,23 @@ class AppSharedPreferences {
     return encrypt.Encrypter(encrypt.AES(key));
   }
 
-  static Future<bool> getTuitionNotificationToggle() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getBool(tuitionNotificationsToggleKey) ?? true;
+  static bool getTuitionNotificationToggle() {
+    return prefs.getBool(_tuitionNotificationsToggleKey) ?? true;
   }
 
   static Future<void> setTuitionNotificationToggle({
     required bool value,
   }) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(tuitionNotificationsToggleKey, value);
+    await prefs.setBool(_tuitionNotificationsToggleKey, value);
+  }
+
+  static bool getUsageStatsToggle() {
+    return prefs.getBool(_usageStatsToggleKey) ?? true;
+  }
+
+  static Future<void> setUsageStatsToggle({
+    required bool value,
+  }) async {
+    await prefs.setBool(_usageStatsToggleKey, value);
   }
 }

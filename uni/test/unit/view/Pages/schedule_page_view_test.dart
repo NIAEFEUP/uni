@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:uni/model/entities/lecture.dart';
-import 'package:uni/model/request_status.dart';
 import 'package:uni/view/schedule/schedule.dart';
 import 'package:uni/view/schedule/widgets/schedule_slot.dart';
 
 import '../../../test_widget.dart';
 
-void main() {
+void main() async {
+  await initTestEnvironment();
+
   group('SchedulePage', () {
     const blocks = 4;
     const classNumber = 'MIEIC03';
@@ -95,8 +96,7 @@ void main() {
     testWidgets('When given one lecture on a single day',
         (WidgetTester tester) async {
       final widget = SchedulePageView(
-        lectures: [lecture1],
-        scheduleStatus: RequestStatus.successful,
+        [lecture1],
       );
 
       await tester.pumpWidget(testableWidget(widget, providers: []));
@@ -118,8 +118,7 @@ void main() {
     testWidgets('When given two lectures on a single day',
         (WidgetTester tester) async {
       final widget = SchedulePageView(
-        lectures: [lecture1, lecture2],
-        scheduleStatus: RequestStatus.successful,
+        [lecture1, lecture2],
       );
       await tester.pumpWidget(testableWidget(widget, providers: []));
       await tester.pumpAndSettle();
@@ -136,12 +135,13 @@ void main() {
         findsNWidgets(2),
       );
     });
+
     testWidgets('When given lectures on different days',
         (WidgetTester tester) async {
       final widget = DefaultTabController(
         length: daysOfTheWeek.length,
         child: SchedulePageView(
-          lectures: [
+          [
             lecture1,
             lecture2,
             lecture3,
@@ -149,7 +149,6 @@ void main() {
             lecture5,
             lecture6,
           ],
-          scheduleStatus: RequestStatus.successful,
         ),
       );
 

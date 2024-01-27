@@ -3,11 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/location_group.dart';
 import 'package:uni/model/providers/lazy/faculty_locations_provider.dart';
-import 'package:uni/model/request_status.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
-import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locations/widgets/faculty_map.dart';
 
@@ -23,19 +21,15 @@ class LocationsPageState extends GeneralPageViewState
   ScrollController? scrollViewController;
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget getBody(BuildContext context) {
-    return LazyConsumer<FacultyLocationsProvider>(
-      builder: (context, locationsProvider) {
+    return LazyConsumer<FacultyLocationsProvider, List<LocationGroup>>(
+      builder: (context, locations) {
         return LocationsPageView(
-          locations: locationsProvider.locations,
-          status: locationsProvider.status,
+          locations: locations,
         );
       },
+      hasContent: (locations) => locations.isNotEmpty,
+      onNullContent: Center(child: Text(S.of(context).no_places_info)),
     );
   }
 
@@ -46,12 +40,10 @@ class LocationsPageState extends GeneralPageViewState
 class LocationsPageView extends StatefulWidget {
   const LocationsPageView({
     required this.locations,
-    required this.status,
     super.key,
   });
 
   final List<LocationGroup> locations;
-  final RequestStatus status;
 
   @override
   LocationsPageViewState createState() => LocationsPageViewState();
@@ -102,17 +94,12 @@ class LocationsPageViewState extends State<LocationsPageView> {
             height: 10,
             padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
             alignment: Alignment.center,
-            child: RequestDependentWidgetBuilder(
-              status: widget.status,
-              builder: () => FacultyMap(
-                faculty: getLocation(),
-                locations: widget.locations,
-                searchFilter: searchTerms,
-              ),
-              hasContentPredicate: widget.locations.isNotEmpty,
-              onNullContent: Center(child: Text(S.of(context).no_places_info)),
+            child: FacultyMap(
+              faculty: getLocation(),
+              locations: widget.locations,
+              searchFilter: searchTerms,
+              // TODO(bdmendes): add support for multiple faculties
             ),
-            // TODO(bdmendes): add support for multiple faculties
           ),
         ),
         const SizedBox(

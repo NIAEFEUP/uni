@@ -7,11 +7,12 @@ import 'package:uni/view/course_unit_info/widgets/course_unit_student_row.dart';
 
 class CourseUnitClassesView extends StatelessWidget {
   const CourseUnitClassesView(this.classes, {super.key});
+
   final List<CourseUnitClass> classes;
 
   @override
   Widget build(BuildContext context) {
-    final session = context.read<SessionProvider>().session;
+    final session = context.read<SessionProvider>().state!;
     final cards = <CourseUnitInfoCard>[];
     for (final courseUnitClass in classes) {
       final isMyClass = courseUnitClass.students

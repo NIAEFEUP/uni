@@ -1,24 +1,14 @@
 import 'dart:convert';
 
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:http/http.dart' as http;
-import 'package:uni/controller/local_storage/app_shared_preferences.dart';
+import 'package:uni/controller/local_storage/preferences_controller.dart';
 
 /// Returns the content of the Terms and Conditions remote file,
 /// or the local one if the remote file is not available.
 ///
 /// If this operation is unsuccessful, an error message is returned.
 Future<String> fetchTermsAndConditions() async {
-  if (await Connectivity().checkConnectivity() != ConnectivityResult.none) {
-    const url =
-        'https://raw.githubusercontent.com/NIAEFEUP/project-schrodinger/develop/uni/assets/text/TermsAndConditions.md';
-    final response = await http.get(Uri.parse(url));
-    if (response.statusCode == 200) {
-      return response.body;
-    }
-  }
   return rootBundle.loadString('assets/text/TermsAndConditions.md');
 }
 
@@ -29,27 +19,29 @@ Future<String> fetchTermsAndConditions() async {
 /// or true if they haven't.
 /// Returns the updated value.
 Future<bool> updateTermsAndConditionsAcceptancePreference() async {
-  final hash = await AppSharedPreferences.getTermsAndConditionHash();
+  final hash = PreferencesController.getTermsAndConditionHash();
   final termsAndConditions = await fetchTermsAndConditions();
   final currentHash = md5.convert(utf8.encode(termsAndConditions)).toString();
 
   if (hash == null) {
-    await AppSharedPreferences.setTermsAndConditionsAcceptance(
+    await PreferencesController.setTermsAndConditionsAcceptance(
       areAccepted: true,
     );
-    await AppSharedPreferences.setTermsAndConditionHash(currentHash);
+    await PreferencesController.setTermsAndConditionHash(currentHash);
     return true;
   }
 
   if (currentHash != hash) {
-    await AppSharedPreferences.setTermsAndConditionsAcceptance(
+    await PreferencesController.setTermsAndConditionsAcceptance(
       areAccepted: false,
     );
-    await AppSharedPreferences.setTermsAndConditionHash(currentHash);
+    await PreferencesController.setTermsAndConditionHash(currentHash);
     return false;
   }
 
-  await AppSharedPreferences.setTermsAndConditionsAcceptance(areAccepted: true);
+  await PreferencesController.setTermsAndConditionsAcceptance(
+    areAccepted: true,
+  );
   return true;
 }
 
@@ -57,6 +49,8 @@ Future<bool> updateTermsAndConditionsAcceptancePreference() async {
 Future<void> acceptTermsAndConditions() async {
   final termsAndConditions = await fetchTermsAndConditions();
   final currentHash = md5.convert(utf8.encode(termsAndConditions)).toString();
-  await AppSharedPreferences.setTermsAndConditionHash(currentHash);
-  await AppSharedPreferences.setTermsAndConditionsAcceptance(areAccepted: true);
+  await PreferencesController.setTermsAndConditionHash(currentHash);
+  await PreferencesController.setTermsAndConditionsAcceptance(
+    areAccepted: true,
+  );
 }
