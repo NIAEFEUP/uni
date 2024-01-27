@@ -7,7 +7,7 @@ publish_to: "none" # We do not publish to pub.dev
 # To change it manually, override the value in app_version.txt.
 # The app version code is automatically also bumped by CI.
 # Do not change it manually.
-version: 1.7.34+224
+version: 1.7.35+225
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
@@ -21,6 +21,7 @@ dependencies:
   crypto: ^3.0.1
   cupertino_icons: ^1.0.2
   currency_text_input_formatter: ^2.1.5
+  diacritic: ^0.1.4
   email_validator: ^2.0.1
   encrypt: ^5.0.3
   expansion_tile_card: ^3.0.0
