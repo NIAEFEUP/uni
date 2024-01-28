@@ -4,9 +4,16 @@ import 'package:uni/model/entities/location_group.dart';
 import 'package:uni/view/locations/widgets/map.dart';
 
 class FacultyMap extends StatelessWidget {
-  const FacultyMap({required this.faculty, required this.locations, super.key});
+  const FacultyMap({
+    required this.faculty,
+    required this.locations,
+    required this.searchFilter,
+    super.key,
+  });
+
   final String faculty;
   final List<LocationGroup> locations;
+  final String searchFilter;
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +24,7 @@ class FacultyMap extends StatelessWidget {
           southWestBoundary: const LatLng(41.17670, -8.59991),
           center: const LatLng(41.17731, -8.59522),
           locations: locations,
+          searchFilter: searchFilter,
         );
       default:
         return Container(); // Should not happen
