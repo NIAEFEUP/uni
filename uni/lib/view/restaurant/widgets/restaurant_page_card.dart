@@ -49,9 +49,14 @@ class CardFavoriteButtonState extends State<CardFavoriteButton> {
   bool isFavorite = false;
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
     isFavorite = PreferencesController.getFavoriteRestaurants()
         .contains(widget.restaurant.name);
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return IconButton(
       icon: isFavorite ? Icon(MdiIcons.heart) : Icon(MdiIcons.heartOutline),
       onPressed: () async {
