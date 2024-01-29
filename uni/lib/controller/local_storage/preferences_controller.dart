@@ -45,6 +45,10 @@ class PreferencesController {
   static const String _filteredExamsTypes = 'filtered_exam_types';
   static final List<String> _defaultFilteredExamTypes = Exam.displayedTypes;
 
+  static final _statsToggleStreamController =
+      StreamController<bool>.broadcast();
+  static final onStatsToggle = _statsToggleStreamController.stream;
+
   /// Returns the last time the data with given key was updated.
   static DateTime? getLastDataClassUpdateTime(String dataKey) {
     final lastUpdateTime = prefs.getString(dataKey + _lastUpdateTimeKeySuffix);
@@ -301,5 +305,6 @@ class PreferencesController {
     required bool value,
   }) async {
     await prefs.setBool(_usageStatsToggleKey, value);
+    _statsToggleStreamController.add(value);
   }
 }

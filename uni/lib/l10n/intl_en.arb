@@ -290,6 +290,8 @@
   "@widget_prompt": {},
   "year": "Year",
   "@year": {},
+  "search": "Search",
+  "@search": {},
   "confirm_logout": "Do you really want to log out? Your local data will be deleted and you will have to log in again.",
   "@confirm_logout": {},
   "collect_usage_stats": "Collect usage statistics",

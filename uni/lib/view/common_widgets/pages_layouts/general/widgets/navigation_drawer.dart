@@ -82,14 +82,7 @@ class AppNavigationDrawerState extends State<AppNavigationDrawer> {
 
   @override
   Widget build(BuildContext context) {
-    final drawerOptions = <Widget>[];
     final userSession = context.read<SessionProvider>().state!;
-
-    for (final key in drawerItems.keys) {
-      if (key.isVisible(userSession.faculties)) {
-        drawerOptions.add(createDrawerNavigationOption(key));
-      }
-    }
 
     return Drawer(
       child: Column(
@@ -98,7 +91,10 @@ class AppNavigationDrawerState extends State<AppNavigationDrawer> {
             child: Container(
               padding: const EdgeInsets.only(top: 55),
               child: ListView(
-                children: drawerOptions,
+                children: drawerItems.keys
+                    .where((key) => key.isVisible(userSession.faculties))
+                    .map(createDrawerNavigationOption)
+                    .toList(),
               ),
             ),
           ),
