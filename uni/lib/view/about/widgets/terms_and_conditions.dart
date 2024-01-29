@@ -2,15 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:uni/controller/fetchers/terms_and_conditions_fetcher.dart';
+import 'package:uni/controller/networking/url_launcher.dart';
 import 'package:uni/generated/l10n.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class TermsAndConditions extends StatelessWidget {
   const TermsAndConditions({super.key});
 
   @override
   Widget build(BuildContext context) {
-    var termsAndConditionsSaved = S.of(context).loading_terms;
+    String? termsAndConditionsSaved = S.of(context).loading_terms;
     final termsAndConditionsFuture = fetchTermsAndConditions();
     return FutureBuilder(
       future: termsAndConditionsFuture,
@@ -18,16 +18,14 @@ class TermsAndConditions extends StatelessWidget {
           (BuildContext context, AsyncSnapshot<String> termsAndConditions) {
         if (termsAndConditions.connectionState == ConnectionState.done &&
             termsAndConditions.hasData) {
-          termsAndConditionsSaved = termsAndConditions.data!;
+          termsAndConditionsSaved = termsAndConditions.data;
         }
         return MarkdownBody(
           styleSheet: MarkdownStyleSheet(),
           shrinkWrap: false,
-          data: termsAndConditionsSaved,
+          data: termsAndConditionsSaved!,
           onTapLink: (text, url, title) async {
-            if (await canLaunchUrl(Uri.parse(url!))) {
-              await launchUrl(Uri.parse(url));
-            }
+            await launchUrlWithToast(context, url!);
           },
         );
       },

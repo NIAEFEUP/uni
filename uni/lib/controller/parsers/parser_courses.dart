@@ -1,7 +1,6 @@
 import 'package:html/parser.dart' show parse;
 import 'package:http/http.dart' as http;
 import 'package:uni/model/entities/course.dart';
-import 'package:uni/utils/url_parser.dart';
 
 List<Course> parseMultipleCourses(List<http.Response> responses) {
   final courses = <Course>[];
@@ -27,7 +26,7 @@ List<Course> _parseCourses(http.Response response) {
     final courseUrl = div
         .querySelector('.estudante-lista-curso-nome > a')
         ?.attributes['href'];
-    final courseId = getUrlQueryParameters(courseUrl ?? '')['pv_curso_id'];
+    final courseId = Uri.parse(courseUrl ?? '').queryParameters['pv_curso_id'];
     final courseState = div.querySelectorAll('.formulario td')[3].text;
     final courseFestId = div
         .querySelector('.estudante-lista-curso-detalhes > a')
@@ -54,15 +53,15 @@ List<Course> _parseCourses(http.Response response) {
     final div = oldCourses[i];
     final courseName = div.children[0].firstChild?.text?.trim();
     final courseUrl = div.querySelector('a')?.attributes['href'];
-    final courseId = getUrlQueryParameters(courseUrl ?? '')['pv_curso_id'];
+    final courseId = Uri.parse(courseUrl ?? '').queryParameters['pv_curso_id'];
     var courseFirstEnrollment = div.children[4].text;
     courseFirstEnrollment = courseFirstEnrollment
         .substring(0, courseFirstEnrollment.indexOf('/'))
         .trim();
     final courseState = div.children[5].text;
-    final courseFestId = getUrlQueryParameters(
+    final courseFestId = Uri.parse(
       div.children[6].firstChild?.attributes['href'] ?? '',
-    )['pv_fest_id'];
+    ).queryParameters['pv_fest_id'];
     courses.add(
       Course(
         firstEnrollment: int.parse(courseFirstEnrollment),

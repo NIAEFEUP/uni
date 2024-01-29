@@ -30,6 +30,8 @@ class PreferencesController {
       'tuition_notification_toogle';
   static const String _usageStatsToggleKey = 'usage_stats_toogle';
   static const String _themeMode = 'theme_mode';
+  static const String _isDataCollectionBannerViewedKey =
+      'data_collection_banner';
   static const String _locale = 'app_locale';
   static const String _favoriteCards = 'favorite_cards';
   static final List<FavoriteWidgetType> _defaultFavoriteCards = [
@@ -41,6 +43,10 @@ class PreferencesController {
   static const String _favoriteRestaurants = 'favorite_restaurants';
   static const String _filteredExamsTypes = 'filtered_exam_types';
   static final List<String> _defaultFilteredExamTypes = Exam.displayedTypes;
+
+  static final _statsToggleStreamController =
+      StreamController<bool>.broadcast();
+  static final onStatsToggle = _statsToggleStreamController.stream;
 
   /// Returns the last time the data with given key was updated.
   static DateTime? getLastDataClassUpdateTime(String dataKey) {
@@ -83,6 +89,16 @@ class PreferencesController {
   /// Returns whether or not the Terms and Conditions have been accepted.
   static bool areTermsAndConditionsAccepted() {
     return prefs.getBool(_areTermsAndConditionsAcceptedKey) ?? false;
+  }
+
+  static Future<void> setDataCollectionBannerViewed({
+    required bool isViewed,
+  }) async {
+    await prefs.setBool(_isDataCollectionBannerViewedKey, isViewed);
+  }
+
+  static bool isDataCollectionBannerViewed() {
+    return prefs.getBool(_isDataCollectionBannerViewedKey) ?? false;
   }
 
   /// Returns the hash of the last Terms and Conditions that have
@@ -278,5 +294,6 @@ class PreferencesController {
     required bool value,
   }) async {
     await prefs.setBool(_usageStatsToggleKey, value);
+    _statsToggleStreamController.add(value);
   }
 }
