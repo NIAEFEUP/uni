@@ -5,7 +5,13 @@ import 'package:uni/controller/local_storage/database/app_database.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
 
 class AppCourseUnitsDatabase extends AppDatabase {
-  AppCourseUnitsDatabase() : super('course_units.db', [createScript]);
+  AppCourseUnitsDatabase()
+      : super(
+          'course_units.db',
+          [createScript],
+          onUpgrade: migrate,
+          version: 2,
+        );
   static const String createScript =
       '''CREATE TABLE course_units(ucurr_id INTEGER, ucurr_codigo TEXT, ucurr_sigla TEXT , '''
       '''ucurr_nome TEXT, ano INTEGER, ocorr_id INTEGER, per_codigo TEXT, '''
@@ -54,5 +60,16 @@ class AppCourseUnitsDatabase extends AppDatabase {
   Future<void> deleteCourseUnits() async {
     final db = await getDatabase();
     await db.delete('course_units');
+  }
+
+  static FutureOr<void> migrate(
+    Database db,
+    int oldVersion,
+    int newVersion,
+  ) async {
+    final batch = db.batch()
+      ..execute('DROP TABLE IF EXISTS courses')
+      ..execute(createScript);
+    await batch.commit();
   }
 }
