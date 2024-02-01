@@ -22,7 +22,7 @@ dependencies:
   crypto: ^3.0.1
   cupertino_icons: ^1.0.2
   currency_text_input_formatter: ^2.1.5
-  diacritic: ^0.1.4
+  diacritic: ^0.1.5
   email_validator: ^2.0.1
   encrypt: ^5.0.3
   expansion_tile_card: ^3.0.0
