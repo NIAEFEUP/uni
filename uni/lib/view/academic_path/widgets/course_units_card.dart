@@ -19,9 +19,14 @@ class CourseUnitsCard extends GenericCard {
 
   @override
   Widget buildCardContent(BuildContext context) {
+
     return LazyConsumer<ProfileProvider, Profile>(
       builder: (context, profile) {
-        final courseUnits = profile.courseUnits;
+        final courseUnits = profile.courseUnits
+            .where((courseUnit) => courseUnit.enrollmentIsValid()
+            && courseUnit.grade == '',)
+            .take(5)
+            .toList();
 
         return _generateCourseUnitsCards(courseUnits, context);
       },
@@ -49,30 +54,24 @@ class CourseUnitsCard extends GenericCard {
         ),
       );
     }
-    return Expanded(
-      child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 20),
-        child: ListView(
-          shrinkWrap: true,
-          children: _generateCourseUnitsList(courseUnits),
-        ),
-      ),
+
+    return ListView(
+      shrinkWrap: true,
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      children: courseUnits.map((courseUnit) {
+        return Column(
+          children: [
+            CourseUnitCard(courseUnit),
+            const SizedBox(height: 10),
+          ],
+        );
+      }).toList(),
     );
   }
 
-  List<Widget> _generateCourseUnitsList(List<CourseUnit> courseUnits) {
-    return courseUnits.map((courseUnit) {
-      return Column(
-        children: [
-          CourseUnitCard(courseUnit),
-          const SizedBox(height: 10),
-        ],
-      );
-    }).toList();
-  }
 
   @override
-  String getTitle(BuildContext context) => 'Current Course Units';
+  String getTitle(BuildContext context) => 'Course Units';
 
   @override
   Future<Object?> onClick(BuildContext context) =>
