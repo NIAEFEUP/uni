@@ -85,12 +85,11 @@ class CourseUnitFilesRowState extends State<CourseUnitFilesRow>
 
     try {
       final result = await loadFileFromStorageOrRetrieveNew(
-        '${unitFile.name}.pdf',
+        unitFile.name,
         unitFile.url,
         session,
         headers: {'pct_id': unitFile.fileCode},
       );
-
       await OpenFile.open(result!.path);
     } catch (e) {
       if (context.mounted) {

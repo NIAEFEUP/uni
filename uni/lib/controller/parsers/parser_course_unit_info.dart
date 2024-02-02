@@ -22,12 +22,15 @@ Future<List<CourseUnitFileDirectory>> parseFiles(
     final files = <CourseUnitFile>[];
     for (final file in item['ficheiros'] as List<dynamic>) {
       if (file is Map<String, dynamic>) {
-        final fileName = file['nome'].toString();
-        final fileDate = file['data_actualizacao'].toString();
+        final fileName = file['nome'];
+        final fileDate = file['data_actualizacao'];
         final fileCode = file['codigo'].toString();
+        final format = file['filename']
+            .toString()
+            .substring(file['filename'].toString().indexOf('.'));
         final url = await CourseUnitsInfoFetcher().getDownloadLink(session);
         final courseUnitFile = CourseUnitFile(
-          '${fileName}_$fileDate',
+          '${fileName}_$fileDate$format',
           url,
           fileCode,
         );
