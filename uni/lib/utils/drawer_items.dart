@@ -9,7 +9,7 @@ enum DrawerItem {
   navCalendar('calendario'),
   navLibrary('biblioteca', faculties: {'feup'}),
   navUsefulInfo('uteis', faculties: {'feup'}),
-  navAcademicPath('percurso academico');
+  navAcademicPath('percurso_academico');
 
   const DrawerItem(this.title, {this.faculties});
 

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:uni/generated/l10n.dart';
+import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/academic_path/widgets/course_units_card.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
@@ -25,7 +27,8 @@ class AcademicPathPageViewState extends GeneralPageViewState {
   Widget getBody(BuildContext context) {
     return Column(
       children: [
-        const PageTitle(name: 'Academic Path'),
+        PageTitle(name:
+        S.of(context).nav_title(DrawerItem.navAcademicPath.title),),
         Expanded(
           child: SingleChildScrollView(
             child: Column(
@@ -36,6 +39,7 @@ class AcademicPathPageViewState extends GeneralPageViewState {
       ],
     );
   }
+
 
   @override
   Future<void> onRefresh(BuildContext context) async {

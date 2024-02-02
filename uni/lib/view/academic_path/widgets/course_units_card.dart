@@ -71,7 +71,8 @@ class CourseUnitsCard extends GenericCard {
 
 
   @override
-  String getTitle(BuildContext context) => 'Course Units';
+  String getTitle(BuildContext context) =>
+      S.of(context).nav_title(DrawerItem.navCourseUnits.title);
 
   @override
   Future<Object?> onClick(BuildContext context) =>
