@@ -6,7 +6,7 @@ import 'package:uni/model/entities/library_occupation.dart';
 import 'package:uni/model/providers/lazy/library_occupation_provider.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
-import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
+import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/library/widgets/library_occupation_card.dart';
 
@@ -17,13 +17,12 @@ class LibraryPage extends StatefulWidget {
   State<StatefulWidget> createState() => LibraryPageState();
 }
 
-class LibraryPageState extends GeneralPageViewState<LibraryPage> {
+class LibraryPageState extends SecondaryPageViewState<LibraryPage> {
   @override
   Widget getBody(BuildContext context) {
     return ListView(
       shrinkWrap: true,
       children: [
-        PageTitle(name: S.of(context).nav_title(DrawerItem.navLibrary.title)),
         LibraryOccupationCard(),
         PageTitle(name: S.of(context).floors),
         LazyConsumer<LibraryOccupationProvider, LibraryOccupation>(
@@ -123,4 +122,7 @@ class LibraryPageState extends GeneralPageViewState<LibraryPage> {
     return Provider.of<LibraryOccupationProvider>(context, listen: false)
         .forceRefresh(context);
   }
+
+  @override
+  String? getTitle() => S.of(context).nav_title(DrawerItem.navLibrary.title);
 }

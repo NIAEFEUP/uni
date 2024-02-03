@@ -8,6 +8,7 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/bottom_navigation_bar.dart';
+import 'package:uni/view/common_widgets/pages_layouts/general/widgets/navigation_drawer.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/refresh_state.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/top_navigation_bar.dart';
 
@@ -116,6 +117,9 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
     return Scaffold(
       appBar: getTopNavbar(context),
       bottomNavigationBar: AppBottomNavbar(parentContext: context),
+      drawer: AppNavigationDrawer(
+        parentContext: context,
+      ),
       body: RefreshState(onRefresh: onRefresh, child: body),
     );
   }

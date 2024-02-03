@@ -10,8 +10,7 @@ import 'package:uni/view/bus_stop_next_arrivals/widgets/bus_stop_row.dart';
 import 'package:uni/view/bus_stop_selection/bus_stop_selection.dart';
 import 'package:uni/view/common_widgets/expanded_image_label.dart';
 import 'package:uni/view/common_widgets/last_update_timestamp.dart';
-import 'package:uni/view/common_widgets/page_title.dart';
-import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
+import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni/view/lazy_consumer.dart';
 
 class BusStopNextArrivalsPage extends StatefulWidget {
@@ -23,18 +22,12 @@ class BusStopNextArrivalsPage extends StatefulWidget {
 
 /// Manages the 'Bus arrivals' section inside the user's personal area
 class BusStopNextArrivalsPageState
-    extends GeneralPageViewState<BusStopNextArrivalsPage> {
+    extends SecondaryPageViewState<BusStopNextArrivalsPage> {
   @override
   Widget getBody(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         children: [
-          Container(
-            padding: const EdgeInsets.only(bottom: 12),
-            child: PageTitle(
-              name: S.of(context).nav_title(DrawerItem.navStops.title),
-            ),
-          ),
           Container(
             padding: const EdgeInsets.all(8),
             child: Row(
@@ -104,6 +97,9 @@ class BusStopNextArrivalsPageState
     return Provider.of<BusStopProvider>(context, listen: false)
         .forceRefresh(context);
   }
+
+  @override
+  String? getTitle() => S.of(context).nav_title(DrawerItem.navStops.title);
 }
 
 class NextArrivals extends StatefulWidget {

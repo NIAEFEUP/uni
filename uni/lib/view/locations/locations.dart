@@ -5,8 +5,7 @@ import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/location_group.dart';
 import 'package:uni/model/providers/lazy/faculty_locations_provider.dart';
 import 'package:uni/utils/drawer_items.dart';
-import 'package:uni/view/common_widgets/page_title.dart';
-import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
+import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locations/widgets/faculty_map.dart';
 
@@ -17,7 +16,7 @@ class LocationsPage extends StatefulWidget {
   LocationsPageState createState() => LocationsPageState();
 }
 
-class LocationsPageState extends GeneralPageViewState
+class LocationsPageState extends SecondaryPageViewState
     with SingleTickerProviderStateMixin {
   ScrollController? scrollViewController;
 
@@ -36,6 +35,9 @@ class LocationsPageState extends GeneralPageViewState
 
   @override
   Future<void> onRefresh(BuildContext context) async {}
+
+  @override
+  String? getTitle() => S.of(context).nav_title(DrawerItem.navLocations.title);
 }
 
 class LocationsPageView extends StatefulWidget {
@@ -61,11 +63,6 @@ class LocationsPageViewState extends State<LocationsPageView> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            PageTitle(
-              name: '${S.of(context).nav_title(DrawerItem.navLocations.title)}:'
-                  ' ${getLocation()}',
-              center: false,
-            ),
             Container(
               width: 150,
               height: 40,

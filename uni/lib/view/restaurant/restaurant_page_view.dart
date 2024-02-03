@@ -6,8 +6,7 @@ import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/providers/lazy/restaurant_provider.dart';
 import 'package:uni/model/utils/day_of_week.dart';
 import 'package:uni/utils/drawer_items.dart';
-import 'package:uni/view/common_widgets/page_title.dart';
-import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
+import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locale_notifier.dart';
 import 'package:uni/view/restaurant/widgets/restaurant_page_card.dart';
@@ -20,7 +19,8 @@ class RestaurantPageView extends StatefulWidget {
   State<StatefulWidget> createState() => _RestaurantPageViewState();
 }
 
-class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
+class _RestaurantPageViewState
+    extends SecondaryPageViewState<RestaurantPageView>
     with SingleTickerProviderStateMixin {
   late List<Restaurant> aggRestaurant;
   late TabController tabController;
@@ -40,24 +40,10 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
   Widget getBody(BuildContext context) {
     return Column(
       children: [
-        ListView(
-          shrinkWrap: true,
-          children: [
-            Container(
-              padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
-              alignment: Alignment.center,
-              child: PageTitle(
-                name: S.of(context).nav_title(DrawerItem.navRestaurants.title),
-                center: false,
-                pad: false,
-              ),
-            ),
-            TabBar(
-              controller: tabController,
-              isScrollable: true,
-              tabs: createTabs(context),
-            ),
-          ],
+        TabBar(
+          controller: tabController,
+          isScrollable: true,
+          tabs: createTabs(context),
         ),
         const SizedBox(height: 10),
         LazyConsumer<RestaurantProvider, List<Restaurant>>(
@@ -173,4 +159,8 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
     return Provider.of<RestaurantProvider>(context, listen: false)
         .forceRefresh(context);
   }
+
+  @override
+  String? getTitle() =>
+      S.of(context).nav_title(DrawerItem.navRestaurants.title);
 }

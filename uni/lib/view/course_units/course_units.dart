@@ -6,8 +6,7 @@ import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/utils/drawer_items.dart';
-import 'package:uni/view/common_widgets/page_title.dart';
-import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
+import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni/view/course_units/widgets/course_unit_card.dart';
 import 'package:uni/view/lazy_consumer.dart';
 
@@ -23,7 +22,7 @@ class CourseUnitsPageView extends StatefulWidget {
 }
 
 class CourseUnitsPageViewState
-    extends GeneralPageViewState<CourseUnitsPageView> {
+    extends SecondaryPageViewState<CourseUnitsPageView> {
   String? selectedSchoolYear;
   String? selectedSemester;
 
@@ -53,7 +52,7 @@ class CourseUnitsPageViewState
 
         return Column(
           children: [
-            _getPageTitleAndFilters(availableYears, availableSemesters),
+            _getFilters(availableYears, availableSemesters),
             _getPageView(courseUnits, availableYears, availableSemesters),
           ],
         );
@@ -61,7 +60,7 @@ class CourseUnitsPageViewState
       hasContent: (Profile profile) => profile.courseUnits.isNotEmpty,
       onNullContent: Column(
         children: [
-          _getPageTitleAndFilters([], []),
+          _getFilters([], []),
           Center(
             heightFactor: 10,
             child: Text(
@@ -94,16 +93,13 @@ class CourseUnitsPageViewState
     return _generateCourseUnitsCards(filteredCourseUnits, context);
   }
 
-  Widget _getPageTitleAndFilters(
+  Widget _getFilters(
     List<String> availableYears,
     List<String> availableSemesters,
   ) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        PageTitle(
-          name: S.of(context).nav_title(DrawerItem.navCourseUnits.title),
-        ),
         const Spacer(),
         DropdownButtonHideUnderline(
           child: DropdownButton<String>(
@@ -224,4 +220,8 @@ class CourseUnitsPageViewState
     return Provider.of<ProfileProvider>(context, listen: false)
         .forceRefresh(context);
   }
+
+  @override
+  String? getTitle() =>
+      S.of(context).nav_title(DrawerItem.navCourseUnits.title);
 }

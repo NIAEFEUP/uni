@@ -6,8 +6,7 @@ import 'package:uni/model/entities/calendar_event.dart';
 import 'package:uni/model/providers/lazy/calendar_provider.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/calendar/widgets/calendar_tile.dart';
-import 'package:uni/view/common_widgets/page_title.dart';
-import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
+import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni/view/lazy_consumer.dart';
 
 class CalendarPageView extends StatefulWidget {
@@ -17,17 +16,11 @@ class CalendarPageView extends StatefulWidget {
   State<StatefulWidget> createState() => CalendarPageViewState();
 }
 
-class CalendarPageViewState extends GeneralPageViewState<CalendarPageView> {
+class CalendarPageViewState extends SecondaryPageViewState<CalendarPageView> {
   @override
   Widget getBody(BuildContext context) {
     return ListView(
       children: [
-        Container(
-          padding: const EdgeInsets.only(bottom: 6),
-          child: PageTitle(
-            name: S.of(context).nav_title(DrawerItem.navCalendar.title),
-          ),
-        ),
         LazyConsumer<CalendarProvider, List<CalendarEvent>>(
           builder: getTimeline,
           hasContent: (calendar) => calendar.isNotEmpty,
@@ -67,4 +60,7 @@ class CalendarPageViewState extends GeneralPageViewState<CalendarPageView> {
     return Provider.of<CalendarProvider>(context, listen: false)
         .forceRefresh(context);
   }
+
+  @override
+  String? getTitle() => S.of(context).nav_title(DrawerItem.navCalendar.title);
 }

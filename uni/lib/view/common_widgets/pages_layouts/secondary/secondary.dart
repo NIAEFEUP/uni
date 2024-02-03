@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/bottom_navigation_bar.dart';
@@ -10,14 +11,7 @@ abstract class SecondaryPageViewState<T extends StatefulWidget>
   @override
   Scaffold getScaffold(BuildContext context, Widget body) {
     return Scaffold(
-      appBar: AppTopNavbar(
-        title: getTitle(),
-        leftButton: const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 5),
-          child: BackButton(),
-        ),
-        rightButton: getTopRightButton(context),
-      ),
+      appBar: getTopNavbar(context),
       bottomNavigationBar: AppBottomNavbar(
         parentContext: context,
       ),
@@ -31,5 +25,18 @@ abstract class SecondaryPageViewState<T extends StatefulWidget>
 
   Widget? getTopRightButton(BuildContext context) {
     return null;
+  }
+
+  @override
+  @nonVirtual
+  AppTopNavbar? getTopNavbar(BuildContext context) {
+    return AppTopNavbar(
+      title: getTitle(),
+      leftButton: const Padding(
+        padding: EdgeInsets.symmetric(horizontal: 5),
+        child: BackButton(),
+      ),
+      rightButton: getTopRightButton(context),
+    );
   }
 }
