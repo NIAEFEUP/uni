@@ -60,21 +60,18 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
           ],
         ),
         const SizedBox(height: 10),
-        Expanded(
-          child: LazyConsumer<RestaurantProvider, List<Restaurant>>(
-            builder: (context, restaurants) => createTabViewBuilder(
-              restaurants,
-              context,
-            ),
-            onNullContent: Center(
-              child: Text(
-                S.of(context).no_menus,
-                style: const TextStyle(fontSize: 18),
-              ),
-            ),
-            hasContent: (List<Restaurant> restaurants) =>
-                restaurants.isNotEmpty,
+        LazyConsumer<RestaurantProvider, List<Restaurant>>(
+          builder: (context, restaurants) => createTabViewBuilder(
+            restaurants,
+            context,
           ),
+          onNullContent: Center(
+            child: Text(
+              S.of(context).no_menus,
+              style: const TextStyle(fontSize: 18),
+            ),
+          ),
+          hasContent: (List<Restaurant> restaurants) => restaurants.isNotEmpty,
         ),
       ],
     );

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/view/about/about.dart';
 import 'package:uni/view/bug_report/bug_report.dart';
-import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni/view/settings/widgets/locale_switch_button.dart';
 import 'package:uni/view/settings/widgets/logout_confirm_dialog.dart';
@@ -24,8 +23,7 @@ class SettingsPageState extends SecondaryPageViewState<SettingsPage> {
   Widget getBody(BuildContext context) {
     return Column(
       children: [
-        PageTitle(name: S.of(context).settings),
-        const Padding(padding: EdgeInsets.only(top: 10)),
+        const Padding(padding: EdgeInsets.only(top: 50)),
         Expanded(
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -95,4 +93,7 @@ class SettingsPageState extends SecondaryPageViewState<SettingsPage> {
 
   @override
   Future<void> onRefresh(BuildContext context) async {}
+
+  @override
+  String? getTitle() => S.of(context).settings;
 }

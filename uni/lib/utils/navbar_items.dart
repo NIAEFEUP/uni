@@ -7,22 +7,23 @@ enum NavbarItem {
   ),
   navAcademicPath(
     Icons.school_outlined,
-    ['horario', 'exames', 'cadeiras'],
-  ),
-  navTransports(Icons.directions_bus_filled_outlined, ['autocarros']),
-  navFaculty(
-    Icons.domain_outlined,
-    ['locais', 'biblioteca', 'uteis'],
+    ['cadeiras', 'horario', 'exames'],
   ),
   navRestaurants(
     Icons.local_cafe_outlined,
     ['restaurantes'],
-  );
+  ),
+  navFaculty(
+    Icons.domain_outlined,
+    ['locais', 'biblioteca', 'uteis'],
+  ),
+  navTransports(Icons.map_outlined, ['autocarros']);
 
   const NavbarItem(this.icon, this.routes);
 
   final IconData icon;
   final List<String> routes;
+
   // TODO(Process-ing): Transform into single route when the new pages are done
 
   BottomNavigationBarItem toBottomNavigationBarItem() {
