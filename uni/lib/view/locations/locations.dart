@@ -56,7 +56,7 @@ class LocationsPageViewState extends State<LocationsPageView> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
+    return Column(
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -10,14 +10,26 @@ abstract class SecondaryPageViewState<T extends StatefulWidget>
   @override
   Scaffold getScaffold(BuildContext context, Widget body) {
     return Scaffold(
-      appBar: CustomAppBar(getTopRightButton: getTopRightButton),
-      bottomNavigationBar: AppBottomNavbar(parentContext: context,),
+      appBar: AppTopNavbar(
+        title: getTitle(),
+        leftButton: const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 5),
+          child: BackButton(),
+        ),
+        rightButton: getTopRightButton(context),
+      ),
+      bottomNavigationBar: AppBottomNavbar(
+        parentContext: context,
+      ),
       body: RefreshState(onRefresh: onRefresh, child: body),
     );
   }
 
-  @override
-  Widget getTopRightButton(BuildContext context) {
-    return Container();
+  String? getTitle() {
+    return null;
+  }
+
+  Widget? getTopRightButton(BuildContext context) {
+    return null;
   }
 }

@@ -41,9 +41,14 @@ class ProfileButton extends StatelessWidget {
               '/${DrawerItem.navProfile.title}',
             ),
           },
+          style: TextButton.styleFrom(
+            padding: EdgeInsets.zero,
+            minimumSize: Size.zero,
+            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          ),
           child: Container(
-            width: 40,
-            height: 40,
+            width: 50,
+            height: 50,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               image: decorationImage.data,

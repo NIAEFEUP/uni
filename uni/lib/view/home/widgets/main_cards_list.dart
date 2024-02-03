@@ -184,9 +184,9 @@ class MainCardsListState extends State<MainCardsList> {
     BuildContext context,
   ) {
     final userSession =
-        Provider.of<SessionProvider>(context, listen: false).state!;
+        Provider.of<SessionProvider>(context, listen: false).state;
     return cardTypes
-        .where((type) => type.isVisible(userSession.faculties))
+        .where((type) => type.isVisible(userSession?.faculties ?? []))
         .where((type) => MainCardsList.cardCreators.containsKey(type))
         .map((type) {
       final i = cardTypes.indexOf(type);
