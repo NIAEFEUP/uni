@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/model/entities/app_locale.dart';
+import 'schedule.dart';
 
 class LocaleNotifier with ChangeNotifier {
   LocaleNotifier(this._locale);
@@ -32,4 +33,11 @@ class LocaleNotifier with ChangeNotifier {
         .map((weekday) => weekday[0].toUpperCase() + weekday.substring(1))
         .toList();
   }
+
+  List<String> getWorkWeekDaysWithLocale() {
+    List<String> allDays = getWeekdaysWithLocale();
+    allDays.removeAt(6);
+    return allDays;
+  }
+
 }
