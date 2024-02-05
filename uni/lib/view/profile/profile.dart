@@ -74,4 +74,9 @@ class ProfilePageViewState extends SecondaryPageViewState<ProfilePageView> {
     return Provider.of<ProfileProvider>(context, listen: false)
         .forceRefresh(context);
   }
+
+  @override
+  String? getTitle() {
+    return null;
+  }
 }

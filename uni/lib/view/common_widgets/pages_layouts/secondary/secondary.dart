@@ -19,9 +19,7 @@ abstract class SecondaryPageViewState<T extends StatefulWidget>
     );
   }
 
-  String? getTitle() {
-    return null;
-  }
+  String? getTitle();
 
   Widget? getTopRightButton(BuildContext context) {
     return null;

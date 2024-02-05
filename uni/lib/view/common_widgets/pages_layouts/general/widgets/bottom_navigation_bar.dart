@@ -62,7 +62,7 @@ class AppBottomNavbarState extends State<AppBottomNavbar> {
       iconSize: 32,
       selectedItemColor: currentIndex == -1
           ? Theme.of(context).colorScheme.onSurface
-          : Theme.of(context).primaryColor,
+          : Theme.of(context).colorScheme.secondary,
       unselectedItemColor: Theme.of(context).colorScheme.onSurface,
       showSelectedLabels: false,
       showUnselectedLabels: false,
