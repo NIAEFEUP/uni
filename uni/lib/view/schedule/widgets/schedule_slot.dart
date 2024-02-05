@@ -64,10 +64,9 @@ class ScheduleSlot extends StatelessWidget {
       style: Theme.of(context).textTheme.bodyMedium,
       alignment: TextAlign.center,
     );
-    final roomTextField = TextFieldWidget(
-      text: rooms,
+    final roomTextField = Text(
+      rooms,
       style: Theme.of(context).textTheme.bodyMedium,
-      alignment: TextAlign.right,
     );
     return [
       ScheduleTimeWidget(
