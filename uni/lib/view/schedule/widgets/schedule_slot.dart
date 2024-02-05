@@ -97,7 +97,7 @@ class ScheduleSlot extends StatelessWidget {
           ],
         ),
       ),
-      roomTextField
+      roomTextField,
     ];
   }
 }
