@@ -58,13 +58,12 @@ class LocationsPageViewState extends State<LocationsPageView> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return Column(
           children: [
             Container(
-              width: 150,
+              width: constraints.maxWidth - 40,
               height: 40,
               margin: const EdgeInsets.fromLTRB(20, 10, 20, 0),
               child: TextFormField(
@@ -84,27 +83,27 @@ class LocationsPageViewState extends State<LocationsPageView> {
                 ),
               ),
             ),
-          ],
-        ),
-        const SizedBox(height: 10),
-        Expanded(
-          child: Container(
-            height: 10,
-            padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-            alignment: Alignment.center,
-            child: FacultyMap(
-              faculty: getLocation(),
-              locations: widget.locations,
-              searchFilter: searchTerms,
-              interactiveFlags: InteractiveFlag.all - InteractiveFlag.rotate,
-              // TODO(bdmendes): add support for multiple faculties
+            const SizedBox(height: 10),
+            Expanded(
+              child: Container(
+                height: 10,
+                padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                alignment: Alignment.center,
+                child: FacultyMap(
+                  faculty: getLocation(),
+                  locations: widget.locations,
+                  searchFilter: searchTerms,
+                  interactiveFlags: InteractiveFlag.all - InteractiveFlag.rotate,
+                  // TODO(bdmendes): add support for multiple faculties
+                ),
+              ),
             ),
-          ),
-        ),
-        const SizedBox(
-          height: 20,
-        ),
-      ],
+            const SizedBox(
+              height: 20,
+            ),
+          ],
+        );
+      },
     );
   }
 
