@@ -46,7 +46,9 @@ class AppBottomNavbarState extends State<AppBottomNavbar> {
         : DrawerItem.navPersonalArea.title;
 
     if (prev != key) {
-      Navigator.of(context).pop();
+      if (prev != '') {
+        Navigator.pop(context);
+      }
       Navigator.pushNamed(context, '/$key');
     }
   }
