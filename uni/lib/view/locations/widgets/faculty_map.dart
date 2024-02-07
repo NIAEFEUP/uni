@@ -7,11 +7,14 @@ class FacultyMap extends StatelessWidget {
   const FacultyMap({
     required this.faculty,
     required this.locations,
+    required this.searchFilter,
     required this.interactiveFlags,
     super.key,
   });
+
   final String faculty;
   final List<LocationGroup> locations;
+  final String searchFilter;
   final int interactiveFlags;
 
   @override
@@ -24,6 +27,7 @@ class FacultyMap extends StatelessWidget {
           center: const LatLng(41.17731, -8.59522),
           locations: locations,
           interactiveFlags: interactiveFlags,
+          searchFilter: searchFilter,
         );
       default:
         return Container(); // Should not happen

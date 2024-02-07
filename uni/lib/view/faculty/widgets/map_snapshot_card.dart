@@ -56,6 +56,7 @@ class MapCard extends GenericCard {
               faculty: 'FEUP',
               locations: locations,
               interactiveFlags: InteractiveFlag.none,
+              searchFilter: '',
             ),
           ),
         ),
