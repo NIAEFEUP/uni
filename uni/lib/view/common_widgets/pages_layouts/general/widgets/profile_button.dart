@@ -41,11 +41,6 @@ class ProfileButton extends StatelessWidget {
               '/${NavigationItem.navProfile.route}',
             ),
           },
-          style: TextButton.styleFrom(
-            padding: EdgeInsets.zero,
-            minimumSize: Size.zero,
-            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-          ),
           child: Container(
             width: 50,
             height: 50,

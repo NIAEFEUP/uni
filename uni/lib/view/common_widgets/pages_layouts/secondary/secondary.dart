@@ -31,7 +31,7 @@ abstract class SecondaryPageViewState<T extends StatefulWidget>
     return AppTopNavbar(
       title: getTitle(),
       leftButton: const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 5),
+        padding: EdgeInsets.symmetric(horizontal: 8),
         child: BackButton(),
       ),
       rightButton: getTopRightButton(context),

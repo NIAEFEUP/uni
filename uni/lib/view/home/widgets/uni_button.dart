@@ -24,9 +24,6 @@ class UniButton extends StatelessWidget {
               Scaffold.of(context).openDrawer();
             }
           },
-          style: TextButton.styleFrom(
-            padding: EdgeInsets.zero,
-          ),
           child: SvgPicture.asset(
             colorFilter: ColorFilter.mode(
               Theme.of(context).primaryColor,

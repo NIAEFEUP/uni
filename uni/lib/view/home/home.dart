@@ -77,11 +77,11 @@ class HomePageViewState extends GeneralPageViewState {
   AppTopNavbar? getTopNavbar(BuildContext context) {
     return AppTopNavbar(
       leftButton: const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20),
+        padding: EdgeInsets.symmetric(horizontal: 8),
         child: UniButton(),
       ),
       rightButton: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 8),
         child: ProfileButton(
           getProfileDecorationImage: getProfileDecorationImage,
         ),

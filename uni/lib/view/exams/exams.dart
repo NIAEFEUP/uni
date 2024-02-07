@@ -168,10 +168,13 @@ class ExamsPageViewState extends SecondaryPageViewState<ExamsPageView> {
 
   @override
   Widget? getTopRightButton(BuildContext context) {
-    return ExamFilterButton(
-      () => setState(() {
-        filteredExamTypes = PreferencesController.getFilteredExams();
-      }),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      child: ExamFilterButton(
+        () => setState(() {
+          filteredExamTypes = PreferencesController.getFilteredExams();
+        }),
+      ),
     );
   }
 }
