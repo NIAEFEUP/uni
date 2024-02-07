@@ -107,7 +107,8 @@ class Exam {
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) || other is Exam && id == other.id;
+      identical(this, other) ||
+      other is Exam && id == other.id && subject == other.subject;
 
   @override
   int get hashCode => id.hashCode;
