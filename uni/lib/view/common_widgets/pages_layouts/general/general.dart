@@ -2,21 +2,22 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
-import 'package:uni/utils/drawer_items.dart';
+import 'package:uni/view/common_widgets/pages_layouts/general/widgets/app_bar.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/navigation_drawer.dart';
-import 'package:uni/view/profile/profile.dart';
+import 'package:uni/view/common_widgets/pages_layouts/general/widgets/profile_button.dart';
+import 'package:uni/view/common_widgets/pages_layouts/general/widgets/refresh_state.dart';
 
 /// Page with a hamburger menu and the user profile picture
 abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
   final double borderMargin = 18;
   bool _loadedOnce = false;
   bool _loading = true;
+  static ImageProvider? profileImageProvider;
 
   Future<void> onRefresh(BuildContext context);
 
@@ -116,92 +117,15 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
 
   Widget getScaffold(BuildContext context, Widget body) {
     return Scaffold(
-      appBar: buildAppBar(context),
-      drawer: AppNavigationDrawer(parentContext: context),
-      body: refreshState(context, body),
-    );
-  }
-
-  /// Builds the upper bar of the app.
-  ///
-  /// This method returns an instance of `AppBar` containing the app's logo,
-  /// an option button and a button with the user's picture.
-  AppBar buildAppBar(BuildContext context) {
-    final queryData = MediaQuery.of(context);
-
-    return AppBar(
-      bottom: PreferredSize(
-        preferredSize: Size.zero,
-        child: Container(
-          color: Theme.of(context).dividerColor,
-          margin: EdgeInsets.only(left: borderMargin, right: borderMargin),
-          height: 1.5,
-        ),
+      appBar: CustomAppBar(getTopRightButton: getTopRightButton),
+      drawer: AppNavigationDrawer(
+        parentContext: context,
       ),
-      elevation: 0,
-      iconTheme: Theme.of(context).iconTheme,
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      titleSpacing: 0,
-      title: ButtonTheme(
-        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        shape: const RoundedRectangleBorder(),
-        child: Builder(
-          builder: (context) => TextButton(
-            onPressed: () {
-              final currentRouteName = ModalRoute.of(context)!.settings.name;
-              if (currentRouteName != '/${DrawerItem.navPersonalArea.title}') {
-                Navigator.pushNamed(
-                  context,
-                  '/${DrawerItem.navPersonalArea.title}',
-                );
-              } else {
-                Scaffold.of(context).openDrawer();
-              }
-            },
-            child: SvgPicture.asset(
-              colorFilter: ColorFilter.mode(
-                Theme.of(context).primaryColor,
-                BlendMode.srcIn,
-              ),
-              'assets/images/logo_dark.svg',
-              height: queryData.size.height / 25,
-            ),
-          ),
-        ),
-      ),
-      actions: <Widget>[
-        getTopRightButton(context),
-      ],
+      body: RefreshState(onRefresh: onRefresh, child: body),
     );
   }
 
-  // Gets a round shaped button with the photo of the current user.
-  Widget getTopRightButton(BuildContext context) {
-    return FutureBuilder(
-      future: buildProfileDecorationImage(context),
-      builder: (
-        BuildContext context,
-        AsyncSnapshot<DecorationImage> decorationImage,
-      ) {
-        return TextButton(
-          onPressed: () => {
-            Navigator.push(
-              context,
-              MaterialPageRoute<ProfilePageView>(
-                builder: (__) => const ProfilePageView(),
-              ),
-            ),
-          },
-          child: Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              image: decorationImage.data,
-            ),
-          ),
-        );
-      },
-    );
-  }
+  /// Gets a round shaped button with the photo of the current user.
+  Widget getTopRightButton(BuildContext context) =>
+      ProfileButton(getProfileDecorationImage: getProfileDecorationImage);
 }
