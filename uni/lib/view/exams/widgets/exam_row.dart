@@ -122,7 +122,7 @@ class _ExamRowState extends State<ExamRow> {
   }
 
   Widget? getExamRooms(BuildContext context) {
-    if (widget.exam.rooms[0] == '') return null;
+    if (widget.exam.rooms.isEmpty || widget.exam.rooms[0] == '') return null;
     return Wrap(
       spacing: 13,
       children: roomsList(context, widget.exam.rooms),

@@ -7,6 +7,7 @@ import 'package:uni/view/locale_notifier.dart';
 
 class RemainingExamsWidget extends StatelessWidget {
   const RemainingExamsWidget({required this.exams, super.key});
+
   final List<Exam> exams;
 
   @override
@@ -24,7 +25,7 @@ class RemainingExamsWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
-                    '${exam.begin.day} de ${exam.month(locale)}',
+                    '${exam.begin.day} ${exam.month(locale)}',
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                   ExamTitle(

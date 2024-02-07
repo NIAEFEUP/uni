@@ -40,13 +40,13 @@ class ExamCard extends GenericCard {
       builder: (context, allExams) {
         final nextExams = getPrimaryExams(
           allExams,
-          allExams.isNotEmpty ? allExams.first : null,
         );
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             NextExamsWidget(exams: nextExams),
-            if (nextExams.length < maxExamsToDisplay)
+            if (nextExams.length < maxExamsToDisplay &&
+                allExams.length > nextExams.length)
               Column(
                 children: [
                   Container(
@@ -86,13 +86,9 @@ class ExamCard extends GenericCard {
     );
   }
 
-  List<Exam> getPrimaryExams(List<Exam> allExams, Exam? nextExam) {
-    if (nextExam == null) {
-      return [];
-    }
-
+  List<Exam> getPrimaryExams(List<Exam> allExams) {
     return allExams
-        .where((exam) => isSameDay(nextExam.begin, exam.begin))
+        .where((exam) => isSameDay(allExams[0].begin, exam.begin))
         .toList();
   }
 
