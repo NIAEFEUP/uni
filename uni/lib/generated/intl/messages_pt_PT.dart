@@ -35,12 +35,12 @@ class MessageLookup extends MessageLookupByLibrary {
             'restaurantes': 'Restaurantes',
             'calendario': 'Calendário',
             'biblioteca': 'Biblioteca',
+            'percurso_academico': 'Percurso Académico',
             'faculdade': 'Faculdade',
             'other': 'Outros',
           })}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
-
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "about": MessageLookupByLibrary.simpleMessage("Sobre nós"),
         "academic_services":

@@ -166,7 +166,7 @@
   "@min_value_reference": {},
   "multimedia_center": "Centro de multimédia",
   "@multimedia_center": {},
-  "nav_title": "{title, select, horario{Horário} exames{Exames} area{Área Pessoal} cadeiras{Cadeiras} autocarros{Autocarros} locais{Locais} restaurantes{Restaurantes} calendario{Calendário} biblioteca{Biblioteca} faculdade{Faculdade} other{Outros}}",
+  "nav_title": "{title, select, horario{Horário} exames{Exames} area{Área Pessoal} cadeiras{Cadeiras} autocarros{Autocarros} locais{Locais} restaurantes{Restaurantes} calendario{Calendário} biblioteca{Biblioteca} percurso_academico{Percurso Académico} faculdade{Faculdade} other{Outros}}",
   "@nav_title": {},
   "news": "Notícias",
   "@news": {},
