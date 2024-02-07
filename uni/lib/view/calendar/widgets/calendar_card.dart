@@ -9,10 +9,10 @@ import 'package:uni/view/calendar/calendar.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
 import 'package:uni/view/lazy_consumer.dart';
 
-class ScrollableCalendarCard extends GenericCard {
-  ScrollableCalendarCard({super.key});
+class CalendarCard extends GenericCard {
+  CalendarCard({super.key});
 
-  const ScrollableCalendarCard.fromEditingInformation(
+  const CalendarCard.fromEditingInformation(
     super.key, {
     required super.editingMode,
     super.onDelete,
@@ -38,10 +38,10 @@ class ScrollableCalendarCard extends GenericCard {
         builder: (context, events) => CalendarPageViewState()
             .getTimeline(context, getFurtherEvents(events)),
         hasContent: (calendar) => calendar.isNotEmpty,
-        onNullContent: const Center(
+        onNullContent: Center(
           child: Text(
-            'Nenhum evento encontrado',
-            style: TextStyle(fontSize: 18),
+            S.of(context).no_events,
+            style: const TextStyle(fontSize: 18),
           ),
         ),
       ),

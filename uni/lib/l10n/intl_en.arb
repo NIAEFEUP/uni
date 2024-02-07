@@ -188,6 +188,8 @@
   "@no_data": {},
   "no_date": "No date",
   "@no_date": {},
+  "no_events": "No events found",
+  "@no_events": {},
   "no_exams": "You have no exams scheduled\n",
   "@no_exams": {},
   "no_exams_label": "Looks like you are on vacation!",

@@ -35,7 +35,7 @@ class FacultyPageViewState extends GeneralPageViewState {
               children: <Widget>[
                 MapCard(),
                 LibraryOccupationCard(),
-                ScrollableCalendarCard(),
+                CalendarCard(),
                 getUtilsSection(),
               ],
             ),

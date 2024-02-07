@@ -966,6 +966,16 @@ class S {
     );
   }
 
+  /// `No events found`
+  String get no_events {
+    return Intl.message(
+      'No events found',
+      name: 'no_events',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `You have no exams scheduled\n`
   String get no_exams {
     return Intl.message(
