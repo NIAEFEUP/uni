@@ -4,7 +4,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/location_group.dart';
 import 'package:uni/model/providers/lazy/faculty_locations_provider.dart';
-import 'package:uni/utils/drawer_items.dart';
+import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locations/widgets/faculty_map.dart';
@@ -37,7 +37,8 @@ class LocationsPageState extends SecondaryPageViewState
   Future<void> onRefresh(BuildContext context) async {}
 
   @override
-  String? getTitle() => S.of(context).nav_title(DrawerItem.navLocations.title);
+  String? getTitle() =>
+      S.of(context).nav_title(NavigationItem.navLocations.route);
 }
 
 class LocationsPageView extends StatefulWidget {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/utils/navbar_items.dart';
+import 'package:uni/utils/navigation_items.dart';
 
 class AppBottomNavbar extends StatefulWidget {
   const AppBottomNavbar({required this.parentContext, super.key});
@@ -43,7 +43,7 @@ class AppBottomNavbarState extends State<AppBottomNavbar> {
     final item = NavbarItem.values[index];
     final key = item.routes.isNotEmpty
         ? item.routes[0]
-        : DrawerItem.navPersonalArea.title;
+        : NavigationItem.navPersonalArea.route;
 
     if (prev != key) {
       if (prev != '') {

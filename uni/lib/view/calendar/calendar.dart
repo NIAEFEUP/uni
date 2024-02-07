@@ -4,7 +4,7 @@ import 'package:timelines/timelines.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/calendar_event.dart';
 import 'package:uni/model/providers/lazy/calendar_provider.dart';
-import 'package:uni/utils/drawer_items.dart';
+import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/calendar/widgets/calendar_tile.dart';
 import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni/view/lazy_consumer.dart';
@@ -62,5 +62,6 @@ class CalendarPageViewState extends SecondaryPageViewState<CalendarPageView> {
   }
 
   @override
-  String? getTitle() => S.of(context).nav_title(DrawerItem.navCalendar.title);
+  String? getTitle() =>
+      S.of(context).nav_title(NavigationItem.navCalendar.route);
 }

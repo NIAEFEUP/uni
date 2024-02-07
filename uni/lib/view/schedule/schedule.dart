@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/providers/lazy/lecture_provider.dart';
-import 'package:uni/utils/drawer_items.dart';
+import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/expanded_image_label.dart';
 import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni/view/lazy_consumer.dart';
@@ -33,7 +33,8 @@ class SchedulePageState extends SecondaryPageViewState<SchedulePage> {
   }
 
   @override
-  String? getTitle() => S.of(context).nav_title(DrawerItem.navSchedule.title);
+  String? getTitle() =>
+      S.of(context).nav_title(NavigationItem.navSchedule.route);
 }
 
 class SchedulePageView extends StatefulWidget {

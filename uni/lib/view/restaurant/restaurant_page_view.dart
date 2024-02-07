@@ -5,7 +5,7 @@ import 'package:uni/model/entities/meal.dart';
 import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/providers/lazy/restaurant_provider.dart';
 import 'package:uni/model/utils/day_of_week.dart';
-import 'package:uni/utils/drawer_items.dart';
+import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locale_notifier.dart';
@@ -162,5 +162,5 @@ class _RestaurantPageViewState
 
   @override
   String? getTitle() =>
-      S.of(context).nav_title(DrawerItem.navRestaurants.title);
+      S.of(context).nav_title(NavigationItem.navRestaurants.route);
 }

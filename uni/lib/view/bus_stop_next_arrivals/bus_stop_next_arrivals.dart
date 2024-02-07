@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/bus_stop.dart';
 import 'package:uni/model/providers/lazy/bus_stop_provider.dart';
-import 'package:uni/utils/drawer_items.dart';
+import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/bus_stop_next_arrivals/widgets/bus_stop_row.dart';
 import 'package:uni/view/bus_stop_selection/bus_stop_selection.dart';
 import 'package:uni/view/common_widgets/expanded_image_label.dart';
@@ -99,7 +99,7 @@ class BusStopNextArrivalsPageState
   }
 
   @override
-  String? getTitle() => S.of(context).nav_title(DrawerItem.navStops.title);
+  String? getTitle() => S.of(context).nav_title(NavigationItem.navStops.route);
 }
 
 class NextArrivals extends StatefulWidget {

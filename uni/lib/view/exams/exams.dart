@@ -5,7 +5,7 @@ import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/providers/lazy/exam_provider.dart';
 import 'package:uni/utils/date_time_formatter.dart';
-import 'package:uni/utils/drawer_items.dart';
+import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/expanded_image_label.dart';
 import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni/view/common_widgets/row_container.dart';
@@ -164,7 +164,7 @@ class ExamsPageViewState extends SecondaryPageViewState<ExamsPageView> {
   }
 
   @override
-  String? getTitle() => S.of(context).nav_title(DrawerItem.navExams.title);
+  String? getTitle() => S.of(context).nav_title(NavigationItem.navExams.route);
 
   @override
   Widget? getTopRightButton(BuildContext context) {

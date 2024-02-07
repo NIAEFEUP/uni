@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/library_occupation.dart';
 import 'package:uni/model/providers/lazy/library_occupation_provider.dart';
-import 'package:uni/utils/drawer_items.dart';
+import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni/view/lazy_consumer.dart';
@@ -124,5 +124,6 @@ class LibraryPageState extends SecondaryPageViewState<LibraryPage> {
   }
 
   @override
-  String? getTitle() => S.of(context).nav_title(DrawerItem.navLibrary.title);
+  String? getTitle() =>
+      S.of(context).nav_title(NavigationItem.navLibrary.route);
 }

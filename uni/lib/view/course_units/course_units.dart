@@ -5,7 +5,7 @@ import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
-import 'package:uni/utils/drawer_items.dart';
+import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni/view/course_units/widgets/course_unit_card.dart';
 import 'package:uni/view/lazy_consumer.dart';
@@ -223,5 +223,5 @@ class CourseUnitsPageViewState
 
   @override
   String? getTitle() =>
-      S.of(context).nav_title(DrawerItem.navCourseUnits.title);
+      S.of(context).nav_title(NavigationItem.navCourseUnits.route);
 }

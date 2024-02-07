@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:uni/utils/drawer_items.dart';
+import 'package:uni/utils/navigation_items.dart';
 
 class UniButton extends StatelessWidget {
   const UniButton({super.key});
@@ -14,10 +14,11 @@ class UniButton extends StatelessWidget {
         builder: (context) => TextButton(
           onPressed: () {
             final currentRouteName = ModalRoute.of(context)!.settings.name;
-            if (currentRouteName != '/${DrawerItem.navPersonalArea.title}') {
+            if (currentRouteName !=
+                '/${NavigationItem.navPersonalArea.route}') {
               Navigator.pushNamed(
                 context,
-                '/${DrawerItem.navPersonalArea.title}',
+                '/${NavigationItem.navPersonalArea.route}',
               );
             } else {
               Scaffold.of(context).openDrawer();
