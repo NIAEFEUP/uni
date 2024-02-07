@@ -33,16 +33,14 @@ class CalendarCard extends GenericCard {
 
   @override
   Widget buildCardContent(BuildContext context) {
-    return Expanded(
-      child: LazyConsumer<CalendarProvider, List<CalendarEvent>>(
-        builder: (context, events) => CalendarPageViewState()
-            .getTimeline(context, getFurtherEvents(events)),
-        hasContent: (calendar) => calendar.isNotEmpty,
-        onNullContent: Center(
-          child: Text(
-            S.of(context).no_events,
-            style: const TextStyle(fontSize: 18),
-          ),
+    return LazyConsumer<CalendarProvider, List<CalendarEvent>>(
+      builder: (context, events) => CalendarPageViewState()
+          .getTimeline(context, getFurtherEvents(events)),
+      hasContent: (calendar) => calendar.isNotEmpty,
+      onNullContent: Center(
+        child: Text(
+          S.of(context).no_events,
+          style: const TextStyle(fontSize: 18),
         ),
       ),
     );

@@ -12,6 +12,8 @@ import 'package:uni/view/lazy_consumer.dart';
 
 /// Manages the bus stops card displayed on the user's personal area
 class BusStopCard extends GenericCard {
+  BusStopCard({super.key});
+
   const BusStopCard.fromEditingInformation(
     super.key, {
     required super.editingMode,

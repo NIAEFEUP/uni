@@ -45,6 +45,7 @@ import 'package:uni/view/restaurant/restaurant_page_view.dart';
 import 'package:uni/view/schedule/schedule.dart';
 import 'package:uni/view/theme.dart';
 import 'package:uni/view/theme_notifier.dart';
+import 'package:uni/view/transports/transports.dart';
 import 'package:workmanager/workmanager.dart';
 
 SentryEvent? beforeSend(SentryEvent event) {
@@ -277,6 +278,11 @@ class ApplicationState extends State<Application> {
             '/${DrawerItem.navAcademicPath.title}':
                 PageTransition.makePageTransition(
               page: const AcademicPathPageView(),
+              settings: settings,
+            ),
+            '/${DrawerItem.navTransports.title}':
+                PageTransition.makePageTransition(
+              page: const TransportsPageView(),
               settings: settings,
             ),
           };
