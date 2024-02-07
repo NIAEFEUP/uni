@@ -114,7 +114,7 @@ class FloorCard extends StatelessWidget {
             style: Theme.of(context)
                 .textTheme
                 .titleLarge
-                ?.copyWith(color: Theme.of(context).colorScheme.background),
+                ?.copyWith(color: Theme.of(context).colorScheme.secondary),
           ),
           LinearPercentIndicator(
             lineHeight: 7,
