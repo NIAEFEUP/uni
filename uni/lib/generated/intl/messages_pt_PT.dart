@@ -39,7 +39,8 @@ class MessageLookup extends MessageLookupByLibrary {
           })}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
-  static _notInlinedMessages(_) => <String, Function>{
+
+  static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "about": MessageLookupByLibrary.simpleMessage("Sobre nós"),
         "academic_services":
             MessageLookupByLibrary.simpleMessage("Serviços académicos"),
@@ -72,7 +73,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Configura aqui os teus autocarros"),
         "buses_text": MessageLookupByLibrary.simpleMessage(
             "Os autocarros favoritos serão apresentados no widget \'Autocarros\' dos favoritos. Os restantes serão apresentados apenas na página."),
-        "cancel": MessageLookupByLibrary.simpleMessage("Cancelar\n"),
+        "cancel": MessageLookupByLibrary.simpleMessage("Cancelar"),
         "change": MessageLookupByLibrary.simpleMessage("Alterar"),
         "change_prompt": MessageLookupByLibrary.simpleMessage(
             "Deseja alterar a palavra-passe?"),

@@ -182,6 +182,8 @@
   "@no_bus": {},
   "no_bus_stops": "No configured stops",
   "@no_bus_stops": {},
+  "no_reservations": "There are no reservations to display",
+  "@no_reservations": {},
   "no_class": "There are no classes to display",
   "@no_class": {},
   "no_classes": "No classes to present",

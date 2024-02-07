@@ -85,6 +85,7 @@ class MainCardsListState extends State<MainCardsList> {
 
   Widget createActionButton(BuildContext context) {
     return FloatingActionButton(
+      backgroundColor: Theme.of(context).colorScheme.secondary,
       onPressed: () => showDialog<void>(
         context: context,
         builder: (BuildContext context) {
