@@ -10,7 +10,6 @@ import 'package:uni/view/faculty/widgets/academic_services_card.dart';
 import 'package:uni/view/faculty/widgets/copy_center_card.dart';
 import 'package:uni/view/faculty/widgets/dona_bia_card.dart';
 import 'package:uni/view/faculty/widgets/infodesk_card.dart';
-import 'package:uni/view/faculty/widgets/map_snapshot_card.dart';
 import 'package:uni/view/faculty/widgets/multimedia_center_card.dart';
 import 'package:uni/view/faculty/widgets/other_links_card.dart';
 import 'package:uni/view/faculty/widgets/sigarra_links_card.dart';
@@ -33,7 +32,6 @@ class FacultyPageViewState extends GeneralPageViewState {
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
-                MapCard(),
                 LibraryOccupationCard(),
                 CalendarCard(),
                 getUtilsSection(),
