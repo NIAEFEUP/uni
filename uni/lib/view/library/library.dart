@@ -5,9 +5,14 @@ import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/library/widgets/library_occupation_tab.dart';
 import 'package:uni/view/library/widgets/library_reservations_tab.dart';
 
+enum LibraryPageTab {
+  occupation,
+  reservations,
+}
+
 class LibraryPage extends StatefulWidget {
-  const LibraryPage({this.startOnOccupationTab = true, super.key});
-  final bool startOnOccupationTab;
+  const LibraryPage({this.startTab = LibraryPageTab.occupation, super.key});
+  final LibraryPageTab startTab;
 
   @override
   State<StatefulWidget> createState() => LibraryPageState();
@@ -16,17 +21,17 @@ class LibraryPage extends StatefulWidget {
 class LibraryPageState extends GeneralPageViewState<LibraryPage> {
   late TabController tabController;
   late List<Tab> tabs;
-  static const LibraryOccupationTab _libraryOccupationTab =
-      LibraryOccupationTab();
-  static const LibraryReservationsTab _libraryReservationTab =
-      LibraryReservationsTab();
+  static const List<Widget> tabsContent = [
+    LibraryOccupationTab(),
+    LibraryReservationsTab(),
+  ];
 
   @override
   Future<void> onRefresh(BuildContext context) {
     if (tabController.index == 0) {
-      return _libraryOccupationTab.refresh(context);
+      return (tabsContent[0] as LibraryOccupationTab).refresh(context);
     } else {
-      return _libraryReservationTab.refresh(context);
+      return (tabsContent[1] as LibraryReservationsTab).refresh(context);
     }
   }
 
@@ -41,9 +46,8 @@ class LibraryPageState extends GeneralPageViewState<LibraryPage> {
       child: Builder(
         builder: (BuildContext builderContext) {
           tabController = DefaultTabController.of(builderContext);
-          if (!widget.startOnOccupationTab) {
-            tabController.index = 1;
-          }
+          tabController.index =
+              (widget.startTab == LibraryPageTab.occupation) ? 0 : 1;
           return Column(
             children: <Widget>[
               ListView(
@@ -60,10 +64,7 @@ class LibraryPageState extends GeneralPageViewState<LibraryPage> {
               Expanded(
                 child: TabBarView(
                   controller: tabController,
-                  children: const [
-                    _libraryOccupationTab,
-                    _libraryReservationTab,
-                  ],
+                  children: tabsContent,
                 ),
               ),
             ],

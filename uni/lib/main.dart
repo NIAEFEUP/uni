@@ -276,7 +276,7 @@ class ApplicationState extends State<Application> {
             '/${DrawerItem.navLibraryReservations.title}':
                 PageTransition.makePageTransition(
               page: const LibraryPage(
-                startOnOccupationTab: false,
+                startTab: LibraryPageTab.reservations,
               ),
               settings: settings,
             ),

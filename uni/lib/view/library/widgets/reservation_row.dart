@@ -2,41 +2,35 @@ import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/library_reservation.dart';
 import 'package:uni/view/locale_notifier.dart';
 
 class ReservationRow extends StatelessWidget {
   ReservationRow(this.reservation, {super.key}) {
-    hoursStart = DateFormat('HH:mm').format(reservation.startDate);
-    hoursEnd = DateFormat('HH:mm')
-        .format(reservation.startDate.add(reservation.duration));
-    day = DateFormat('dd').format(reservation.startDate);
     initializeDateFormatting();
-    month = DateFormat('MMMM', 'pt').format(reservation.startDate);
   }
   final LibraryReservation reservation;
-  late final String hoursStart;
-  late final String hoursEnd;
-  late final String weekDay;
-  late final String day;
-  late final String month;
 
   @override
   Widget build(BuildContext context) {
+    final day = DateFormat('dd').format(reservation.startDate);
+    final month = DateFormat('MMMM', 'pt').format(reservation.startDate);
     final weekdays =
         Provider.of<LocaleNotifier>(context).getWeekdaysWithLocale();
-    weekDay = weekdays[reservation.startDate.weekday - 1];
+    final weekDay = weekdays[reservation.startDate.weekday - 1];
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         Column(
           children: [
             Text(
-              hoursStart,
+              DateFormat('HH:mm').format(reservation.startDate),
               style: Theme.of(context).textTheme.bodyLarge,
             ),
             Text(
-              hoursEnd,
+              DateFormat('HH:mm')
+                  .format(reservation.startDate.add(reservation.duration)),
               style: Theme.of(context).textTheme.bodyLarge,
             ),
           ],
@@ -45,7 +39,6 @@ class ReservationRow extends StatelessWidget {
           children: [
             Text(
               reservation.room,
-              //textAlign: TextAlign.center,
               style: Theme.of(context)
                   .textTheme
                   .headlineSmall
@@ -53,7 +46,7 @@ class ReservationRow extends StatelessWidget {
             ),
             const Padding(padding: EdgeInsets.symmetric(vertical: 2)),
             Text(
-              '$weekDay, $day de $month',
+              '$weekDay, $day ${S.of(context).of_month} $month',
               style: Theme.of(context).textTheme.titleMedium,
             ),
           ],

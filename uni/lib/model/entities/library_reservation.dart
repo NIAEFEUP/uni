@@ -1,3 +1,4 @@
+// TO DO: Change this after #1072 is merged
 /// Private room reservation from the library
 class LibraryReservation {
   LibraryReservation(this.room, this.startDate, this.duration);
