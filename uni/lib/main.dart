@@ -281,7 +281,7 @@ class ApplicationState extends State<Application> {
               settings: settings,
             ),
             '/${DrawerItem.navTransports.title}':
-            PageTransition.makePageTransition(
+                PageTransition.makePageTransition(
               page: const TransportsPageView(),
               settings: settings,
             ),
