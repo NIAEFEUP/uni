@@ -26,6 +26,9 @@ jobs:
 
       - name: Get develop hash
         if: github.ref == 'refs/heads/master'
+        # We get the master hash by assuming that the last commit is always a
+        #  merge commit. This is assured by requiring pull requests. You should 
+        #  use rebase or squash merges onto the master branch.
         run: |
           git fetch origin develop
           git pull origin master
