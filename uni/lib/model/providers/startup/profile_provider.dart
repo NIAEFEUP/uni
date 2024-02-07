@@ -27,10 +27,20 @@ class ProfileProvider extends StateProviderNotifier<Profile> {
 
   @override
   Future<Profile> loadFromStorage(StateProviders stateProviders) async {
-    final profile = await loadProfile();
+    final databaseFutures = await Future.wait([
+      loadProfile(),
+      loadCourses(),
+      loadCourseUnits(),
+    ]);
+
+    final profile = databaseFutures[0] as Profile;
+    final courses = databaseFutures[1] as List<Course>;
+    final courseUnits = databaseFutures[2] as List<CourseUnit>;
+
     profile
-      ..courses = await loadCourses()
-      ..courseUnits = await loadCourseUnits();
+      ..courses = courses
+      ..courseUnits = courseUnits;
+
     return profile;
   }
 
@@ -45,19 +55,20 @@ class ProfileProvider extends StateProviderNotifier<Profile> {
 
     final futures = await Future.wait([
       profileFuture,
+      courseUnitsFutures,
       fetchUserFeesBalanceAndLimit(session),
       fetchUserPrintBalance(session),
     ]);
     final profile = futures[0] as Profile?;
-    final userBalanceAndFeesLimit = futures[1]! as Tuple2<String, DateTime?>;
-    final printBalance = futures[2]! as String;
+    final courseUnits = futures[1] as List<CourseUnit>?;
+    final userBalanceAndFeesLimit = futures[2]! as Tuple2<String, DateTime?>;
+    final printBalance = futures[3]! as String;
 
     profile!
       ..feesBalance = userBalanceAndFeesLimit.item1
       ..feesLimit = userBalanceAndFeesLimit.item2
       ..printBalance = printBalance;
 
-    final courseUnits = await courseUnitsFutures;
     if (courseUnits != null) {
       profile.courseUnits = courseUnits;
     }
