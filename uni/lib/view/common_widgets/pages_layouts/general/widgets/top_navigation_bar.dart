@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uni/view/common_widgets/page_title.dart';
 
 /// Upper bar of the app.
 ///
@@ -37,15 +38,9 @@ class AppTopNavbar extends StatelessWidget implements PreferredSizeWidget {
             child: leftButton,
           ),
           Center(
-            child: Text(
-              title ?? '',
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                    color: Theme.of(context)
-                        .primaryTextTheme
-                        .headlineMedium
-                        ?.color,
-                  ),
+            child: PageTitle(
+              name: title ?? '',
+              pad: false,
             ),
           ),
           Align(
