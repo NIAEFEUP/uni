@@ -6,6 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:logger/logger.dart';
+import 'package:plausible_analytics/navigator_observer.dart';
+import 'package:plausible_analytics/plausible_analytics.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -23,6 +25,7 @@ import 'package:uni/model/providers/lazy/library_occupation_provider.dart';
 import 'package:uni/model/providers/lazy/library_reservations_provider.dart';
 import 'package:uni/model/providers/lazy/reference_provider.dart';
 import 'package:uni/model/providers/lazy/restaurant_provider.dart';
+import 'package:uni/model/providers/plausible/plausible_provider.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/model/providers/state_providers.dart';
@@ -97,8 +100,20 @@ Future<void> main() async {
     );
   });
 
+  final plausibleUrl = dotenv.env['PLAUSIBLE_URL'];
+  final plausibleDomain = dotenv.env['PLAUSIBLE_DOMAIN'];
+
+  final plausible = plausibleUrl != null && plausibleDomain != null
+      ? Plausible(plausibleUrl, plausibleDomain)
+      : null;
+
+  if (plausible == null) {
+    Logger().w('Plausible is not enabled');
+  }
+
   final savedTheme = PreferencesController.getThemeMode();
   final savedLocale = PreferencesController.getLocale();
+
   final route = await firstRoute();
 
   await SentryFlutter.init(
@@ -108,52 +123,55 @@ Future<void> main() async {
     },
     appRunner: () {
       runApp(
-        MultiProvider(
-          providers: [
-            ChangeNotifierProvider(
-              create: (context) => stateProviders.lectureProvider,
-            ),
-            ChangeNotifierProvider(
-              create: (context) => stateProviders.examProvider,
-            ),
-            ChangeNotifierProvider(
-              create: (context) => stateProviders.busStopProvider,
-            ),
-            ChangeNotifierProvider(
-              create: (context) => stateProviders.restaurantProvider,
-            ),
-            ChangeNotifierProvider(
-              create: (context) => stateProviders.profileProvider,
-            ),
-            ChangeNotifierProvider(
-              create: (context) => stateProviders.courseUnitsInfoProvider,
-            ),
-            ChangeNotifierProvider(
-              create: (context) => stateProviders.sessionProvider,
-            ),
-            ChangeNotifierProvider(
-              create: (context) => stateProviders.calendarProvider,
-            ),
-            ChangeNotifierProvider(
-              create: (context) => stateProviders.libraryOccupationProvider,
-            ),
-            ChangeNotifierProvider(
-              create: (context) => stateProviders.libraryReservationsProvider,
-            ),
-            ChangeNotifierProvider(
-              create: (context) => stateProviders.facultyLocationsProvider,
-            ),
-            ChangeNotifierProvider(
-              create: (context) => stateProviders.referenceProvider,
-            ),
-            ChangeNotifierProvider<LocaleNotifier>(
-              create: (_) => LocaleNotifier(savedLocale),
-            ),
-            ChangeNotifierProvider<ThemeNotifier>(
-              create: (_) => ThemeNotifier(savedTheme),
-            ),
-          ],
-          child: Application(route),
+        PlausibleProvider(
+          plausible: plausible,
+          child: MultiProvider(
+            providers: [
+              ChangeNotifierProvider(
+                create: (context) => stateProviders.lectureProvider,
+              ),
+              ChangeNotifierProvider(
+                create: (context) => stateProviders.examProvider,
+              ),
+              ChangeNotifierProvider(
+                create: (context) => stateProviders.busStopProvider,
+              ),
+              ChangeNotifierProvider(
+                create: (context) => stateProviders.restaurantProvider,
+              ),
+              ChangeNotifierProvider(
+                create: (context) => stateProviders.profileProvider,
+              ),
+              ChangeNotifierProvider(
+                create: (context) => stateProviders.courseUnitsInfoProvider,
+              ),
+              ChangeNotifierProvider(
+                create: (context) => stateProviders.sessionProvider,
+              ),
+              ChangeNotifierProvider(
+                create: (context) => stateProviders.calendarProvider,
+              ),
+              ChangeNotifierProvider(
+                create: (context) => stateProviders.libraryOccupationProvider,
+              ),
+              ChangeNotifierProvider(
+                create: (context) => stateProviders.libraryReservationsProvider,
+              ),
+              ChangeNotifierProvider(
+                create: (context) => stateProviders.facultyLocationsProvider,
+              ),
+              ChangeNotifierProvider(
+                create: (context) => stateProviders.referenceProvider,
+              ),
+              ChangeNotifierProvider<LocaleNotifier>(
+                create: (_) => LocaleNotifier(savedLocale),
+              ),
+              ChangeNotifierProvider<ThemeNotifier>(
+                create: (_) => ThemeNotifier(savedTheme),
+              ),
+            ],
+            child: Application(route),
+          ),
         ),
       );
     },
@@ -176,6 +194,18 @@ class Application extends StatefulWidget {
 
 /// Manages the app depending on its current state
 class ApplicationState extends State<Application> {
+  final navigatorObservers = <NavigatorObserver>[];
+
+  @override
+  void initState() {
+    super.initState();
+
+    final plausible = context.read<Plausible?>();
+    if (plausible != null) {
+      navigatorObservers.add(PlausibleNavigatorObserver(plausible));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
@@ -197,6 +227,7 @@ class ApplicationState extends State<Application> {
         ],
         supportedLocales: S.delegate.supportedLocales,
         home: widget.initialWidget,
+        navigatorObservers: navigatorObservers,
         onGenerateRoute: (RouteSettings settings) {
           final transitions = {
             '/${DrawerItem.navPersonalArea.title}':

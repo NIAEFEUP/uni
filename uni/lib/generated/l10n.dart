@@ -1496,6 +1496,16 @@ class S {
     );
   }
 
+  /// `Search`
+  String get search {
+    return Intl.message(
+      'Search',
+      name: 'search',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Do you really want to log out? Your local data will be deleted and you will have to log in again.`
   String get confirm_logout {
     return Intl.message(

@@ -245,6 +245,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "room": MessageLookupByLibrary.simpleMessage("Sala"),
         "school_calendar":
             MessageLookupByLibrary.simpleMessage("Calendário Escolar"),
+        "search": MessageLookupByLibrary.simpleMessage("Pesquisar"),
         "semester": MessageLookupByLibrary.simpleMessage("Semestre"),
         "send": MessageLookupByLibrary.simpleMessage("Enviar"),
         "sent_error":

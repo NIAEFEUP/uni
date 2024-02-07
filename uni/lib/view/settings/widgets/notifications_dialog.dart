@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/view/settings/widgets/tuition_notification_switch.dart';
 

@@ -1,3 +1,4 @@
+import 'package:diacritic/diacritic.dart';
 import 'package:flutter/material.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/location_group.dart';
@@ -21,30 +22,94 @@ class LocationsPageState extends GeneralPageViewState
 
   @override
   Widget getBody(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          width: MediaQuery.of(context).size.width * 0.95,
-          padding: const EdgeInsets.fromLTRB(0, 0, 0, 4),
-          child: PageTitle(
-            name: '${S.of(context).nav_title(DrawerItem.navLocations.title)}:'
-                ' FEUP', // TODO(bdmendes): Add locations for all faculties
-          ),
-        ),
-        LazyConsumer<FacultyLocationsProvider, List<LocationGroup>>(
-          builder: (context, locations) => Container(
-            padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-            height: MediaQuery.of(context).size.height * 0.75,
-            alignment: Alignment.center,
-            child: FacultyMap(faculty: 'FEUP', locations: locations),
-          ),
-          hasContent: (locations) => locations.isNotEmpty,
-          onNullContent: Center(child: Text(S.of(context).no_places_info)),
-        ),
-      ],
+    return LazyConsumer<FacultyLocationsProvider, List<LocationGroup>>(
+      builder: (context, locations) {
+        return LocationsPageView(
+          locations: locations,
+        );
+      },
+      hasContent: (locations) => locations.isNotEmpty,
+      onNullContent: Center(child: Text(S.of(context).no_places_info)),
     );
   }
 
   @override
   Future<void> onRefresh(BuildContext context) async {}
+}
+
+class LocationsPageView extends StatefulWidget {
+  const LocationsPageView({
+    required this.locations,
+    super.key,
+  });
+
+  final List<LocationGroup> locations;
+
+  @override
+  LocationsPageViewState createState() => LocationsPageViewState();
+}
+
+class LocationsPageViewState extends State<LocationsPageView> {
+  static GlobalKey<FormState> searchFormKey = GlobalKey<FormState>();
+  static String searchTerms = '';
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            PageTitle(
+              name: '${S.of(context).nav_title(DrawerItem.navLocations.title)}:'
+                  ' ${getLocation()}',
+              center: false,
+            ),
+            Container(
+              width: 150,
+              height: 40,
+              margin: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+              child: TextFormField(
+                key: searchFormKey,
+                onChanged: (text) {
+                  setState(() {
+                    searchTerms = removeDiacritics(text.trim().toLowerCase());
+                  });
+                },
+                decoration: InputDecoration(
+                  prefixIcon: const Icon(Icons.search),
+                  contentPadding: const EdgeInsets.all(10),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                  hintText: '${S.of(context).search}...',
+                ),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 10),
+        Expanded(
+          child: Container(
+            height: 10,
+            padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+            alignment: Alignment.center,
+            child: FacultyMap(
+              faculty: getLocation(),
+              locations: widget.locations,
+              searchFilter: searchTerms,
+              // TODO(bdmendes): add support for multiple faculties
+            ),
+          ),
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+      ],
+    );
+  }
+
+  String getLocation() {
+    return 'FEUP';
+  }
 }

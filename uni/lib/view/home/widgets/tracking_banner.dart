@@ -11,7 +11,9 @@ class TrackingBanner extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        color: Theme.of(context).primaryColor,
+        color: Theme.of(context).brightness == Brightness.light
+            ? Theme.of(context).primaryColor
+            : Theme.of(context).cardColor,
       ),
       margin: const EdgeInsets.all(10),
       child: MaterialBanner(
