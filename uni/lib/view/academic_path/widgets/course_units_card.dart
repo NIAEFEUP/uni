@@ -60,8 +60,10 @@ class CourseUnitsCard extends GenericCard {
           .map(
             (courseUnit) => Column(
               children: [
-                CourseUnitCard(courseUnit),
-                const SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.all(5),
+                  child: CourseUnitCard(courseUnit),
+                ),
               ],
             ),
           )
