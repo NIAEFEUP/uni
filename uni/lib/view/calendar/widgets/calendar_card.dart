@@ -1,5 +1,5 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/calendar_event.dart';
@@ -49,16 +49,15 @@ class ScrollableCalendarCard extends GenericCard {
   }
 
   List<CalendarEvent> getFurtherEvents(List<CalendarEvent> events) {
-    final currentMonth = DateFormat.MMMM('pt').format(DateTime.now());
-    final pinEvent = events.firstWhere((element) {
-      final eventDate = element.date.split(' ');
-      final month = eventDate.where((element) =>
-          DateFormat.MMMM('pt').dateSymbols.MONTHS.contains(element) ||
-          element == 'TBD');
-      return month.contains(currentMonth);
-    });
-
-    return events.sublist(
-        events.indexOf(pinEvent), events.indexOf(pinEvent) + 3);
+    final sortedEvents = events
+        .where((element) => element.closeDate != null)
+        .sorted((a, b) => a.closeDate!.compareTo(b.closeDate!));
+    final pinEvent = sortedEvents.firstWhere(
+      (element) => element.closeDate!.compareTo(DateTime.now()) == 1,
+    );
+    return sortedEvents.sublist(
+      sortedEvents.indexOf(pinEvent),
+      sortedEvents.indexOf(pinEvent) + 3,
+    );
   }
 }
