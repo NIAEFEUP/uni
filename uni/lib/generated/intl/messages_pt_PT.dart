@@ -36,12 +36,11 @@ class MessageLookup extends MessageLookupByLibrary {
             'calendario': 'Calendário',
             'biblioteca': 'Biblioteca',
             'percurso_academico': 'Percurso Académico',
-            'uteis': 'Úteis',
+            'faculdade': 'Faculdade',
             'other': 'Outros',
           })}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
-
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "about": MessageLookupByLibrary.simpleMessage("Sobre nós"),
         "academic_services":
@@ -181,6 +180,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "no_data": MessageLookupByLibrary.simpleMessage(
             "Não há dados a mostrar neste momento"),
         "no_date": MessageLookupByLibrary.simpleMessage("Sem data"),
+        "no_events":
+            MessageLookupByLibrary.simpleMessage("Nenhum evento encontrado"),
         "no_exams":
             MessageLookupByLibrary.simpleMessage("Não possui exames marcados"),
         "no_exams_label":

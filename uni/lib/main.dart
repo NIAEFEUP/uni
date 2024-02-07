@@ -35,6 +35,7 @@ import 'package:uni/view/calendar/calendar.dart';
 import 'package:uni/view/common_widgets/page_transition.dart';
 import 'package:uni/view/course_units/course_units.dart';
 import 'package:uni/view/exams/exams.dart';
+import 'package:uni/view/faculty/faculty.dart';
 import 'package:uni/view/home/home.dart';
 import 'package:uni/view/library/library.dart';
 import 'package:uni/view/locale_notifier.dart';
@@ -44,7 +45,6 @@ import 'package:uni/view/restaurant/restaurant_page_view.dart';
 import 'package:uni/view/schedule/schedule.dart';
 import 'package:uni/view/theme.dart';
 import 'package:uni/view/theme_notifier.dart';
-import 'package:uni/view/useful_info/useful_info.dart';
 import 'package:workmanager/workmanager.dart';
 
 SentryEvent? beforeSend(SentryEvent event) {
@@ -269,9 +269,9 @@ class ApplicationState extends State<Application> {
               page: const LibraryPage(),
               settings: settings,
             ),
-            '/${DrawerItem.navUsefulInfo.title}':
+            '/${DrawerItem.navFaculty.title}':
                 PageTransition.makePageTransition(
-              page: const UsefulInfoPageView(),
+              page: const FacultyPageView(),
               settings: settings,
             ),
             '/${DrawerItem.navAcademicPath.title}':

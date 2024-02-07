@@ -843,7 +843,7 @@ class S {
     );
   }
 
-  /// `{title, select, horario{Schedule} exames{Exams} area{Personal Area} cadeiras{Course Units} autocarros{Buses} locais{Places} restaurantes{Restaurants} calendario{Calendar} biblioteca{Library} uteis{Utils} other{Other}}`
+  /// `{title, select, horario{Schedule} exames{Exams} area{Personal Area} cadeiras{Course Units} autocarros{Buses} locais{Places} restaurantes{Restaurants} calendario{Calendar} biblioteca{Library} percurso_academico{Academic Path} faculdade{Faculty} other{Other}}`
   String nav_title(Object title) {
     return Intl.select(
       title,
@@ -857,7 +857,8 @@ class S {
         'restaurantes': 'Restaurants',
         'calendario': 'Calendar',
         'biblioteca': 'Library',
-        'uteis': 'Utils',
+        'percurso_academico': 'Academic Path',
+        'faculdade': 'Faculty',
         'other': 'Other',
       },
       name: 'nav_title',
@@ -961,6 +962,16 @@ class S {
     return Intl.message(
       'No date',
       name: 'no_date',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No events found`
+  String get no_events {
+    return Intl.message(
+      'No events found',
+      name: 'no_events',
       desc: '',
       args: [],
     );
