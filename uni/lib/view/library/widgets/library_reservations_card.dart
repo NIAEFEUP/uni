@@ -42,8 +42,8 @@ class LibraryReservationsCard extends GenericCard {
       hasContent: (reservations) => reservations.isNotEmpty,
       onNullContent: Center(
         child: Text(
-          S.of(context).no_data,
-          style: const TextStyle(fontSize: 18),
+          S.of(context).no_reservations,
+          style: Theme.of(context).textTheme.titleLarge,
         ),
       ),
     );

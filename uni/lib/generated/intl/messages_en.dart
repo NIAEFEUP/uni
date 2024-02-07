@@ -208,6 +208,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "No print balance information"),
         "no_references": MessageLookupByLibrary.simpleMessage(
             "There are no references to pay"),
+        "no_reservations": MessageLookupByLibrary.simpleMessage(
+            "There are no reservations to display"),
         "no_results": MessageLookupByLibrary.simpleMessage("No match"),
         "no_selected_courses": MessageLookupByLibrary.simpleMessage(
             "There are no course units to display"),

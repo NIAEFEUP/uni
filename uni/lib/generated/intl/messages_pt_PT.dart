@@ -39,7 +39,6 @@ class MessageLookup extends MessageLookupByLibrary {
           })}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
-
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "about": MessageLookupByLibrary.simpleMessage("Sobre nós"),
         "academic_services":
@@ -210,6 +209,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Sem informação de saldo"),
         "no_references": MessageLookupByLibrary.simpleMessage(
             "Não existem referências a pagar"),
+        "no_reservations": MessageLookupByLibrary.simpleMessage(
+            "Não existem reservas para apresentar"),
         "no_results": MessageLookupByLibrary.simpleMessage("Sem resultados"),
         "no_selected_courses": MessageLookupByLibrary.simpleMessage(
             "Não existem cadeiras para apresentar"),

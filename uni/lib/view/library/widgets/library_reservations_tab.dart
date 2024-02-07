@@ -19,7 +19,7 @@ class LibraryReservationsTab extends StatelessWidget {
       hasContent: (reservations) => reservations.isNotEmpty,
       onNullContent: Center(
         child: Text(
-          S.of(context).no_data,
+          S.of(context).no_reservations,
           style: const TextStyle(fontSize: 18),
         ),
       ),

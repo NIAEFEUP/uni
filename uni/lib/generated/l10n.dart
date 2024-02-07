@@ -936,6 +936,16 @@ class S {
     );
   }
 
+  /// `There are no reservations to display`
+  String get no_reservations {
+    return Intl.message(
+      'There are no reservations to display',
+      name: 'no_reservations',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `There are no classes to display`
   String get no_class {
     return Intl.message(
