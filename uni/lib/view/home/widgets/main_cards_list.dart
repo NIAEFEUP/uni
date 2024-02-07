@@ -12,7 +12,6 @@ import 'package:uni/view/home/widgets/restaurant_card.dart';
 import 'package:uni/view/home/widgets/schedule_card.dart';
 import 'package:uni/view/library/widgets/library_occupation_card.dart';
 import 'package:uni/view/profile/widgets/account_info_card.dart';
-
 import 'package:uni/view/profile/widgets/print_info_card.dart';
 
 typedef CardCreator = GenericCard Function(
