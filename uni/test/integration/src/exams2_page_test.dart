@@ -109,8 +109,6 @@ void main() async {
       expect(examProvider.state!.contains(fis3022Exam), true);
       expect(examProvider.state!.contains(m2030Exam), true);
 
-      // print(exams);
-
       await tester.pumpAndSettle();
 
       expect(find.byKey(Key('$fis3022Exam-exam')), findsOneWidget);

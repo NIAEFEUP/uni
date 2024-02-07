@@ -58,7 +58,7 @@ class ParserExams {
                     .map((e) => e.trim())
                     .toList();
               }
-              schedule = examsDay.text.endsWith('0:00-')
+              schedule = examsDay.text.endsWith('-')
                   ? '00:00-00:00'
                   : examsDay.text.substring(
                       examsDay.text.indexOf(':') - 2,
