@@ -38,17 +38,26 @@ class ProfileProvider extends StateProviderNotifier<Profile> {
   Future<Profile> loadFromRemote(StateProviders stateProviders) async {
     final session = stateProviders.sessionProvider.state!;
 
-    final profile = await fetchUserInfo(session);
+    final profileFuture = fetchUserInfo(session);
+    final courseUnitsFutures = profileFuture.then(
+      (profile) => fetchCourseUnitsAndCourseAverages(session, profile!),
+    );
 
-    final userBalanceAndFeesLimit = await fetchUserFeesBalanceAndLimit(session);
+    final futures = await Future.wait([
+      profileFuture,
+      fetchUserFeesBalanceAndLimit(session),
+      fetchUserPrintBalance(session),
+    ]);
+    final profile = futures[0] as Profile?;
+    final userBalanceAndFeesLimit = futures[1]! as Tuple2<String, DateTime?>;
+    final printBalance = futures[2]! as String;
 
     profile!
       ..feesBalance = userBalanceAndFeesLimit.item1
       ..feesLimit = userBalanceAndFeesLimit.item2
-      ..printBalance = await fetchUserPrintBalance(session);
+      ..printBalance = printBalance;
 
-    final courseUnits =
-        await fetchCourseUnitsAndCourseAverages(session, profile);
+    final courseUnits = await courseUnitsFutures;
     if (courseUnits != null) {
       profile.courseUnits = courseUnits;
     }
@@ -141,10 +150,10 @@ class ProfileProvider extends StateProviderNotifier<Profile> {
     final userPersistentInfo = PreferencesController.getPersistentUserInfo();
     if (userPersistentInfo != null) {
       final coursesDb = AppCoursesDatabase();
-      await coursesDb.saveNewCourses(profile.courses);
+      unawaited(coursesDb.saveNewCourses(profile.courses));
 
       final courseUnitsDatabase = AppCourseUnitsDatabase();
-      await courseUnitsDatabase.saveNewCourseUnits(allCourseUnits);
+      unawaited(courseUnitsDatabase.saveNewCourseUnits(allCourseUnits));
     }
 
     return allCourseUnits;
