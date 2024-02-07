@@ -50,10 +50,10 @@ class CalendarCard extends GenericCard {
 
   List<CalendarEvent> getFurtherEvents(List<CalendarEvent> events) {
     final sortedEvents = events
-        .where((element) => element.closeDate != null)
-        .sorted((a, b) => a.closeDate!.compareTo(b.closeDate!));
+        .where((element) => element.parsedStartDate != null)
+        .sorted((a, b) => a.parsedStartDate!.compareTo(b.parsedStartDate!));
     final pinEvent = sortedEvents.firstWhere(
-      (element) => element.closeDate!.compareTo(DateTime.now()) == 1,
+      (element) => element.parsedStartDate!.compareTo(DateTime.now()) == 1,
     );
     return sortedEvents.sublist(
       sortedEvents.indexOf(pinEvent),
