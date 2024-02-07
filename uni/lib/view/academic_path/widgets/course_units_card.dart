@@ -4,7 +4,7 @@ import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
-import 'package:uni/utils/drawer_items.dart';
+import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
 import 'package:uni/view/course_units/widgets/course_unit_card.dart';
 import 'package:uni/view/lazy_consumer.dart';
@@ -73,9 +73,9 @@ class CourseUnitsCard extends GenericCard {
 
   @override
   String getTitle(BuildContext context) =>
-      S.of(context).nav_title(DrawerItem.navCourseUnits.title);
+      S.of(context).nav_title(NavigationItem.navCourseUnits.route);
 
   @override
   Future<Object?> onClick(BuildContext context) =>
-      Navigator.pushNamed(context, '/${DrawerItem.navCourseUnits.title}');
+      Navigator.pushNamed(context, '/${NavigationItem.navCourseUnits.route}');
 }

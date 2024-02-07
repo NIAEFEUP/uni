@@ -94,7 +94,8 @@ class LocationsPageViewState extends State<LocationsPageView> {
                   faculty: getLocation(),
                   locations: widget.locations,
                   searchFilter: searchTerms,
-                  interactiveFlags: InteractiveFlag.all - InteractiveFlag.rotate,
+                  interactiveFlags:
+                      InteractiveFlag.all - InteractiveFlag.rotate,
                   // TODO(bdmendes): add support for multiple faculties
                 ),
               ),

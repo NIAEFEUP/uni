@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/providers/lazy/library_occupation_provider.dart';
-import 'package:uni/utils/drawer_items.dart';
+import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/calendar/widgets/calendar_card.dart';
 import 'package:uni/view/common_widgets/generic_expansion_card.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
@@ -28,7 +28,7 @@ class FacultyPageViewState extends GeneralPageViewState {
   Widget getBody(BuildContext context) {
     return ListView(
       children: [
-        PageTitle(name: S.of(context).nav_title(DrawerItem.navFaculty.title)),
+        PageTitle(name: S.of(context).nav_title(NavigationItem.navFaculty.route)),
         LibraryOccupationCard(),
         CalendarCard(),
         ...getUtilsSection(),

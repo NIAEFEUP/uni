@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uni/generated/l10n.dart';
-import 'package:uni/utils/drawer_items.dart';
+import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/academic_path/widgets/course_units_card.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
@@ -28,7 +28,7 @@ class AcademicPathPageViewState extends GeneralPageViewState {
     return ListView(
       children: [
         PageTitle(
-          name: S.of(context).nav_title(DrawerItem.navAcademicPath.title),
+          name: S.of(context).nav_title(NavigationItem.navAcademicPath.route),
         ),
         Column(
           children: academicPathCards,
