@@ -25,21 +25,17 @@ class AcademicPathPageViewState extends GeneralPageViewState {
 
   @override
   Widget getBody(BuildContext context) {
-    return Column(
+    return ListView(
       children: [
-        PageTitle(name:
-        S.of(context).nav_title(DrawerItem.navAcademicPath.title),),
-        Expanded(
-          child: SingleChildScrollView(
-            child: Column(
-              children: academicPathCards,
-            ),
-          ),
+        PageTitle(
+          name: S.of(context).nav_title(DrawerItem.navAcademicPath.title),
+        ),
+        Column(
+          children: academicPathCards,
         ),
       ],
     );
   }
-
 
   @override
   Future<void> onRefresh(BuildContext context) async {
