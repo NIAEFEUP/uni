@@ -22,11 +22,8 @@ class AcademicPathPageViewState extends GeneralPageViewState {
 
   @override
   Widget getBody(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 10),
-      child: ListView(
-        children: academicPathCards,
-      ),
+    return ListView(
+      children: academicPathCards,
     );
   }
 

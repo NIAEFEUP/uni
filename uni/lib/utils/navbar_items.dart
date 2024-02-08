@@ -17,7 +17,10 @@ enum NavbarItem {
     Icons.domain_outlined,
     ['faculdade'],
   ),
-  navTransports(Icons.map_outlined, ['locais', 'autocarros']);
+  navTransports(
+    Icons.map_outlined,
+    ['transportes'],
+  );
 
   const NavbarItem(this.icon, this.routes);
 

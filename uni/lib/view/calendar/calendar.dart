@@ -32,21 +32,24 @@ class CalendarPageViewState extends SecondaryPageViewState<CalendarPageView> {
   }
 
   Widget getTimeline(BuildContext context, List<CalendarEvent> calendar) {
-    return FixedTimeline.tileBuilder(
-      theme: TimelineTheme.of(context).copyWith(
-        connectorTheme: TimelineTheme.of(context)
-            .connectorTheme
-            .copyWith(thickness: 2, color: Theme.of(context).dividerColor),
-        indicatorTheme: TimelineTheme.of(context)
-            .indicatorTheme
-            .copyWith(size: 15, color: Theme.of(context).primaryColor),
-      ),
-      builder: TimelineTileBuilder.fromStyle(
-        contentsAlign: ContentsAlign.alternating,
-        contentsBuilder: (_, index) => CalendarTile(text: calendar[index].name),
-        oppositeContentsBuilder: (_, index) =>
-            CalendarTile(text: calendar[index].date, isOpposite: true),
-        itemCount: calendar.length,
+    return SingleChildScrollView(
+      child: FixedTimeline.tileBuilder(
+        theme: TimelineTheme.of(context).copyWith(
+          connectorTheme: TimelineTheme.of(context)
+              .connectorTheme
+              .copyWith(thickness: 2, color: Theme.of(context).dividerColor),
+          indicatorTheme: TimelineTheme.of(context)
+              .indicatorTheme
+              .copyWith(size: 15, color: Theme.of(context).primaryColor),
+        ),
+        builder: TimelineTileBuilder.fromStyle(
+          contentsAlign: ContentsAlign.alternating,
+          contentsBuilder: (_, index) =>
+              CalendarTile(text: calendar[index].name),
+          oppositeContentsBuilder: (_, index) =>
+              CalendarTile(text: calendar[index].date, isOpposite: true),
+          itemCount: calendar.length,
+        ),
       ),
     );
   }
