@@ -46,10 +46,11 @@ class AppBottomNavbarState extends State<AppBottomNavbar> {
         : NavigationItem.navPersonalArea.route;
 
     if (prev != key) {
-      if (prev != '') {
-        Navigator.pop(context);
+      if (prev == '') {
+        Navigator.pushNamed(context, '/$key');
+      } else {
+        Navigator.pushReplacementNamed(context, '/$key');
       }
-      Navigator.pushNamed(context, '/$key');
     }
   }
 

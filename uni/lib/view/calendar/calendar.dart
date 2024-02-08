@@ -19,19 +19,15 @@ class CalendarPageView extends StatefulWidget {
 class CalendarPageViewState extends SecondaryPageViewState<CalendarPageView> {
   @override
   Widget getBody(BuildContext context) {
-    return ListView(
-      children: [
-        LazyConsumer<CalendarProvider, List<CalendarEvent>>(
-          builder: getTimeline,
-          hasContent: (calendar) => calendar.isNotEmpty,
-          onNullContent: const Center(
-            child: Text(
-              'Nenhum evento encontrado',
-              style: TextStyle(fontSize: 18),
-            ),
-          ),
+    return LazyConsumer<CalendarProvider, List<CalendarEvent>>(
+      builder: getTimeline,
+      hasContent: (calendar) => calendar.isNotEmpty,
+      onNullContent: const Center(
+        child: Text(
+          'Nenhum evento encontrado',
+          style: TextStyle(fontSize: 18),
         ),
-      ],
+      ),
     );
   }
 

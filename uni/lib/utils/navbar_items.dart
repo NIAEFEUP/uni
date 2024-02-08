@@ -7,7 +7,7 @@ enum NavbarItem {
   ),
   navAcademicPath(
     Icons.school_outlined,
-    ['horario', 'exames', 'cadeiras'],
+    ['percurso_academico'],
   ),
   navRestaurants(
     Icons.local_cafe_outlined,
@@ -15,7 +15,7 @@ enum NavbarItem {
   ),
   navFaculty(
     Icons.domain_outlined,
-    ['biblioteca', 'uteis', 'calendario'],
+    ['faculdade'],
   ),
   navTransports(Icons.map_outlined, ['locais', 'autocarros']);
 

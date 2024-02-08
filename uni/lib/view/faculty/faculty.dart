@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/providers/lazy/library_occupation_provider.dart';
-import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/calendar/widgets/calendar_card.dart';
 import 'package:uni/view/common_widgets/generic_expansion_card.dart';
-import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/faculty/widgets/academic_services_card.dart';
 import 'package:uni/view/faculty/widgets/copy_center_card.dart';
@@ -26,13 +23,15 @@ class FacultyPageView extends StatefulWidget {
 class FacultyPageViewState extends GeneralPageViewState {
   @override
   Widget getBody(BuildContext context) {
-    return ListView(
+    return  Padding(
+        padding: const EdgeInsets.only(top: 10),
+    child: ListView(
       children: [
-        PageTitle(name: S.of(context).nav_title(NavigationItem.navFaculty.route)),
         LibraryOccupationCard(),
         CalendarCard(),
         ...getUtilsSection(),
       ],
+    ),
     );
   }
 

@@ -5,8 +5,7 @@ import 'package:uni/model/entities/meal.dart';
 import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/providers/lazy/restaurant_provider.dart';
 import 'package:uni/model/utils/day_of_week.dart';
-import 'package:uni/utils/navigation_items.dart';
-import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
+import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locale_notifier.dart';
 import 'package:uni/view/restaurant/widgets/restaurant_page_card.dart';
@@ -19,8 +18,7 @@ class RestaurantPageView extends StatefulWidget {
   State<StatefulWidget> createState() => _RestaurantPageViewState();
 }
 
-class _RestaurantPageViewState
-    extends SecondaryPageViewState<RestaurantPageView>
+class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
     with SingleTickerProviderStateMixin {
   late List<Restaurant> aggRestaurant;
   late TabController tabController;
@@ -44,8 +42,8 @@ class _RestaurantPageViewState
           controller: tabController,
           isScrollable: true,
           tabs: createTabs(context),
+          padding: const EdgeInsets.only(top: 20),
         ),
-        const SizedBox(height: 10),
         LazyConsumer<RestaurantProvider, List<Restaurant>>(
           builder: (context, restaurants) => createTabViewBuilder(
             restaurants,
@@ -82,7 +80,7 @@ class _RestaurantPageViewState
           ),
         );
       }
-      return ListView(children: restaurantsWidgets);
+      return ListView(padding: EdgeInsets.zero, children: restaurantsWidgets);
     }).toList();
 
     return Expanded(
@@ -133,7 +131,7 @@ class _RestaurantPageViewState
     final meals = restaurant.getMealsOfDay(day);
     if (meals.isEmpty) {
       return Container(
-        margin: const EdgeInsets.only(top: 10, bottom: 5),
+        margin: const EdgeInsets.only(bottom: 5),
         key: Key('restaurant-page-day-column-$day'),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -159,8 +157,4 @@ class _RestaurantPageViewState
     return Provider.of<RestaurantProvider>(context, listen: false)
         .forceRefresh(context);
   }
-
-  @override
-  String? getTitle() =>
-      S.of(context).nav_title(NavigationItem.navRestaurants.route);
 }
