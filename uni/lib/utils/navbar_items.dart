@@ -1,33 +1,28 @@
 import 'package:flutter/material.dart';
 
 enum NavbarItem {
-  navPersonalArea(
-    Icons.home_outlined,
-    ['area', ''],
-  ),
+  navPersonalArea(Icons.home_outlined, 'area'),
   navAcademicPath(
     Icons.school_outlined,
-    ['percurso_academico'],
+    'percurso_academico',
   ),
   navRestaurants(
     Icons.local_cafe_outlined,
-    ['restaurantes'],
+    'restaurantes',
   ),
   navFaculty(
     Icons.domain_outlined,
-    ['faculdade'],
+    'faculdade',
   ),
   navTransports(
     Icons.map_outlined,
-    ['transportes'],
+    'transportes',
   );
 
-  const NavbarItem(this.icon, this.routes);
+  const NavbarItem(this.icon, this.route);
 
   final IconData icon;
-  final List<String> routes;
-
-  // TODO(Process-ing): Transform into single route when the new pages are done
+  final String route;
 
   BottomNavigationBarItem toBottomNavigationBarItem() {
     return BottomNavigationBarItem(

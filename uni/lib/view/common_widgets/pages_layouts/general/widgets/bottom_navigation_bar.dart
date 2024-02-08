@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:uni/utils/navbar_items.dart';
-import 'package:uni/utils/navigation_items.dart';
 
 class AppBottomNavbar extends StatefulWidget {
   const AppBottomNavbar({required this.parentContext, super.key});
@@ -30,7 +29,7 @@ class AppBottomNavbarState extends State<AppBottomNavbar> {
     }
 
     for (final item in NavbarItem.values) {
-      if (item.routes.contains(currentRoute)) {
+      if (item.route == currentRoute) {
         return item.index;
       }
     }
@@ -41,16 +40,13 @@ class AppBottomNavbarState extends State<AppBottomNavbar> {
   void _onItemTapped(int index) {
     final prev = _getCurrentRoute();
     final item = NavbarItem.values[index];
-    final key = item.routes.isNotEmpty
-        ? item.routes[0]
-        : NavigationItem.navPersonalArea.route;
+    final key = item.route;
 
     if (prev != key) {
-      if (prev == '') {
-        Navigator.pushNamed(context, '/$key');
-      } else {
-        Navigator.pushReplacementNamed(context, '/$key');
-      }
+      Navigator.pushNamed(
+        context,
+        '/$key',
+      );
     }
   }
 
