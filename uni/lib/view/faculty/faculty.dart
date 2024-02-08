@@ -23,15 +23,15 @@ class FacultyPageView extends StatefulWidget {
 class FacultyPageViewState extends GeneralPageViewState {
   @override
   Widget getBody(BuildContext context) {
-    return  Padding(
-        padding: const EdgeInsets.only(top: 10),
-    child: ListView(
-      children: [
-        LibraryOccupationCard(),
-        CalendarCard(),
-        ...getUtilsSection(),
-      ],
-    ),
+    return Padding(
+      padding: const EdgeInsets.only(top: 10),
+      child: ListView(
+        children: [
+          LibraryOccupationCard(),
+          CalendarCard(),
+          ...getUtilsSection(),
+        ],
+      ),
     );
   }
 

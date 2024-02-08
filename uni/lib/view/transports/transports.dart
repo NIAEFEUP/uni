@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uni/generated/l10n.dart';
-import 'package:uni/utils/drawer_items.dart';
+import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
@@ -26,7 +26,7 @@ class TransportsPageViewState extends GeneralPageViewState {
     return ListView(
       children: [
         PageTitle(
-          name: S.of(context).nav_title(DrawerItem.navTransports.title),
+          name: S.of(context).nav_title(NavigationItem.navTransports.route),
         ),
         Column(
           children: transportsCards,
