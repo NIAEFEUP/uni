@@ -35,7 +35,9 @@ class MessageLookup extends MessageLookupByLibrary {
             'restaurantes': 'Restaurants',
             'calendario': 'Calendar',
             'biblioteca': 'Library',
-            'uteis': 'Utils',
+            'percurso_academico': 'Academic Path',
+            'transportes': 'Transports',
+            'faculdade': 'Faculty',
             'other': 'Other',
           })}";
 
@@ -179,6 +181,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "no_data": MessageLookupByLibrary.simpleMessage(
             "There is no data to show at this time"),
         "no_date": MessageLookupByLibrary.simpleMessage("No date"),
+        "no_events": MessageLookupByLibrary.simpleMessage("No events found"),
         "no_exams": MessageLookupByLibrary.simpleMessage(
             "You have no exams scheduled\n"),
         "no_exams_label": MessageLookupByLibrary.simpleMessage(

@@ -17,7 +17,6 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
   final double borderMargin = 18;
   bool _loadedOnce = false;
   bool _loading = true;
-  static ImageProvider? profileImageProvider;
 
   Future<void> onRefresh(BuildContext context);
 

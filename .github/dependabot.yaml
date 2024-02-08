@@ -1,8 +1,11 @@
 version: 2
 
-enable-beta-ecosystems: true
 updates:
   - package-ecosystem: "pub"
     directory: "/uni"
     schedule:
-      interval: "weekly"
+      interval: "daily"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-patch"]
+        
