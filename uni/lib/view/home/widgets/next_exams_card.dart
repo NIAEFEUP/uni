@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:uni/model/entities/app_locale.dart';
 import 'package:uni/model/entities/exam.dart';
+import 'package:uni/utils/date_time_formatter.dart';
 import 'package:uni/view/common_widgets/date_rectangle.dart';
 import 'package:uni/view/common_widgets/row_container.dart';
 import 'package:uni/view/exams/widgets/exam_row.dart';
@@ -14,11 +14,12 @@ class NextExamsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locale = Provider.of<LocaleNotifier>(context).getLocale();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         DateRectangle(
-          date: exams.isNotEmpty ? getFormattedDate(exams.first, context) : '',
+          date: exams.isNotEmpty ? exams.first.begin.formattedDate(locale) : '',
         ),
         Column(
           children: exams.map((exam) {
@@ -37,12 +38,5 @@ class NextExamsWidget extends StatelessWidget {
         ),
       ],
     );
-  }
-
-  String getFormattedDate(Exam exam, BuildContext context) {
-    final locale = Provider.of<LocaleNotifier>(context).getLocale();
-    return locale == AppLocale.pt
-        ? '${exam.weekDay(locale)}, ${exam.begin.day} de ${exam.month(locale)}'
-        : '${exam.weekDay(locale)}, ${exam.begin.day} ${exam.month(locale)}';
   }
 }
