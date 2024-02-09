@@ -35,7 +35,9 @@ class MessageLookup extends MessageLookupByLibrary {
             'restaurantes': 'Restaurantes',
             'calendario': 'Calendário',
             'biblioteca': 'Biblioteca',
-            'uteis': 'Úteis',
+            'percurso_academico': 'Percurso Académico',
+            'transportes': 'Transportes',
+            'faculdade': 'Faculdade',
             'other': 'Outros',
           })}";
 
@@ -73,7 +75,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Configura aqui os teus autocarros"),
         "buses_text": MessageLookupByLibrary.simpleMessage(
             "Os autocarros favoritos serão apresentados no widget \'Autocarros\' dos favoritos. Os restantes serão apresentados apenas na página."),
-        "cancel": MessageLookupByLibrary.simpleMessage("Cancelar\n"),
+        "cancel": MessageLookupByLibrary.simpleMessage("Cancelar"),
         "change": MessageLookupByLibrary.simpleMessage("Alterar"),
         "change_prompt": MessageLookupByLibrary.simpleMessage(
             "Deseja alterar a palavra-passe?"),
@@ -179,6 +181,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "no_data": MessageLookupByLibrary.simpleMessage(
             "Não há dados a mostrar neste momento"),
         "no_date": MessageLookupByLibrary.simpleMessage("Sem data"),
+        "no_events":
+            MessageLookupByLibrary.simpleMessage("Nenhum evento encontrado"),
         "no_exams":
             MessageLookupByLibrary.simpleMessage("Não possui exames marcados"),
         "no_exams_label":
