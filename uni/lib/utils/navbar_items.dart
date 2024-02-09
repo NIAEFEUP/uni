@@ -3,11 +3,20 @@ import 'package:uni/utils/navigation_items.dart';
 
 enum NavbarItem {
   navPersonalArea(
-      Icons.home_outlined, Icons.home, NavigationItem.navPersonalArea),
+    Icons.home_outlined,
+    Icons.home,
+    NavigationItem.navPersonalArea,
+  ),
   navAcademicPath(
-      Icons.school_outlined, Icons.school, NavigationItem.navAcademicPath),
-  navRestaurants(Icons.local_cafe_outlined, Icons.local_cafe,
-      NavigationItem.navRestaurants),
+    Icons.school_outlined,
+    Icons.school,
+    NavigationItem.navAcademicPath,
+  ),
+  navRestaurants(
+    Icons.local_cafe_outlined,
+    Icons.local_cafe,
+    NavigationItem.navRestaurants,
+  ),
   navFaculty(Icons.domain_outlined, Icons.domain, NavigationItem.navFaculty),
   navTransports(Icons.map_outlined, Icons.map, NavigationItem.navTransports);
 

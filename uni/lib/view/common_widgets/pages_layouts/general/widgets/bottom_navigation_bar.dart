@@ -42,10 +42,11 @@ class AppBottomNavbar extends StatelessWidget {
     for (var index = 0; index < NavbarItem.values.length; index++) {
       final item = NavbarItem.values[index];
       navbarItems.insert(
-          index,
-          index == currentIndex
-              ? item.toSelectedBottomNavigationBarItem()
-              : item.toUnselectedBottomNavigationBarItem());
+        index,
+        index == currentIndex
+            ? item.toSelectedBottomNavigationBarItem()
+            : item.toUnselectedBottomNavigationBarItem(),
+      );
     }
 
     return BottomNavigationBar(
