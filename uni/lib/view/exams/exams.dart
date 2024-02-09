@@ -4,10 +4,10 @@ import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/providers/lazy/exam_provider.dart';
+import 'package:uni/utils/date_time_formatter.dart';
 import 'package:uni/view/common_widgets/expanded_image_label.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/common_widgets/row_container.dart';
-import 'package:uni/view/exams/widgets/day_title.dart';
 import 'package:uni/view/exams/widgets/exam_page_title.dart';
 import 'package:uni/view/exams/widgets/exam_row.dart';
 import 'package:uni/view/lazy_consumer.dart';
@@ -120,10 +120,14 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
   Widget createExamsCards(BuildContext context, List<Exam> exams) {
     final locale = Provider.of<LocaleNotifier>(context).getLocale();
     final examCards = <Widget>[
-      DayTitle(
-        day: exams[0].begin.day.toString(),
-        weekDay: exams[0].weekDay(locale),
-        month: exams[0].month(locale),
+      Container(
+        padding: const EdgeInsets.only(top: 15, bottom: 3),
+        alignment: Alignment.center,
+        child: Text(
+          '${exams.first.weekDay(locale)}, '
+          '${exams.first.begin.formattedDate(locale)}',
+          style: Theme.of(context).textTheme.titleLarge,
+        ),
       ),
     ];
     for (var i = 0; i < exams.length; i++) {

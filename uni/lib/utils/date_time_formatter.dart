@@ -15,6 +15,6 @@ extension DateTimeExtensions on DateTime {
   }
 
   String formattedDate(AppLocale locale) {
-    return DateFormat.yMMMMd(locale.localeCode.languageCode).format(this);
+    return DateFormat.MMMMd(locale.localeCode.languageCode).format(this);
   }
 }
