@@ -24,6 +24,7 @@ class LocationMarkerPopup extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(12),
         child: Wrap(
+          clipBehavior: Clip.antiAlias,
           direction: Axis.vertical,
           spacing: 8,
           children: (showId
@@ -59,33 +60,37 @@ class Floor extends StatelessWidget {
         ? ' $floor'
         : '$floor';
 
-    final Widget floorCol = Column(
-      mainAxisSize: MainAxisSize.min,
+    return Row(
       children: [
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+              child: Text(
+                '${S.of(context).floor} $floorString',
+                style: TextStyle(color: fontColor),
+              ),
+            ),
+          ],
+        ),
         Container(
           padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-          child: Text(
-            '${S.of(context).floor} $floorString',
-            style: TextStyle(color: fontColor),
+          decoration:
+              BoxDecoration(border: Border(left: BorderSide(color: fontColor))),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: locations
+                .map(
+                  (location) =>
+                      LocationRow(location: location, color: fontColor),
+                )
+                .toList(),
           ),
-        )
+        ),
       ],
     );
-    final Widget locationsColumn = Container(
-      padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-      decoration:
-          BoxDecoration(border: Border(left: BorderSide(color: fontColor))),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: locations
-            .map(
-              (location) => LocationRow(location: location, color: fontColor),
-            )
-            .toList(),
-      ),
-    );
-    return Row(children: [floorCol, locationsColumn]);
   }
 }
 
@@ -103,8 +108,9 @@ class LocationRow extends StatelessWidget {
         Text(
           location.description(),
           textAlign: TextAlign.left,
+          overflow: TextOverflow.ellipsis,
           style: TextStyle(color: color),
-        )
+        ),
       ],
     );
   }

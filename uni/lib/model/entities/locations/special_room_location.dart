@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:uni/model/entities/location.dart';
 
 class SpecialRoomLocation implements Location {
@@ -33,7 +32,7 @@ class SpecialRoomLocation implements Location {
       'floor': floor,
       'type': locationTypeToString(LocationType.printer),
       'first_room': roomNumber,
-      'name': name
+      'name': name,
     };
   }
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:uni/model/entities/location.dart';
 
 class StoreLocation implements Location {
@@ -26,7 +25,7 @@ class StoreLocation implements Location {
     return {
       'floor': floor,
       'type': locationTypeToString(LocationType.store),
-      'name': name
+      'name': name,
     };
   }
 }

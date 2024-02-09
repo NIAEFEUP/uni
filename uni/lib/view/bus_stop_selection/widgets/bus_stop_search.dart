@@ -4,7 +4,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/controller/fetchers/departures_fetcher.dart';
-import 'package:uni/controller/local_storage/app_bus_stop_database.dart';
+import 'package:uni/controller/local_storage/database/app_bus_stop_database.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/bus_stop.dart';
 import 'package:uni/model/providers/lazy/bus_stop_provider.dart';
@@ -34,7 +34,7 @@ class BusStopSearch extends SearchDelegate<String> {
         onPressed: () {
           query = '';
         },
-      )
+      ),
     ];
   }
 
@@ -119,7 +119,7 @@ class BusStopSearch extends SearchDelegate<String> {
               Navigator.pop(context);
             }
           },
-        )
+        ),
       ],
     );
   }

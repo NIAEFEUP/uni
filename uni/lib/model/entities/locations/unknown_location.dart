@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:uni/model/entities/location.dart';
 
 class UnknownLocation implements Location {

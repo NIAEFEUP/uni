@@ -1,36 +1,34 @@
 import 'dart:async';
 
 import 'package:uni/controller/fetchers/library_occupation_fetcher.dart';
-import 'package:uni/controller/local_storage/app_library_occupation_database.dart';
+import 'package:uni/controller/local_storage/database/app_library_occupation_database.dart';
 import 'package:uni/model/entities/library_occupation.dart';
-import 'package:uni/model/entities/profile.dart';
-import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
+import 'package:uni/model/providers/state_providers.dart';
 
-class LibraryOccupationProvider extends StateProviderNotifier {
-  LibraryOccupationProvider()
-      : super(dependsOnSession: true, cacheDuration: const Duration(hours: 1));
-  LibraryOccupation? _occupation;
-
-  LibraryOccupation? get occupation => _occupation;
+class LibraryOccupationProvider
+    extends StateProviderNotifier<LibraryOccupation> {
+  LibraryOccupationProvider() : super(cacheDuration: const Duration(hours: 1));
 
   @override
-  Future<void> loadFromStorage() async {
+  Future<LibraryOccupation> loadFromStorage(
+    StateProviders stateProviders,
+  ) async {
     final db = LibraryOccupationDatabase();
-    final occupation = await db.occupation();
-    _occupation = occupation;
+    return db.occupation();
   }
 
   @override
-  Future<void> loadFromRemote(Session session, Profile profile) async {
-    await fetchLibraryOccupation(session);
-  }
-
-  Future<void> fetchLibraryOccupation(Session session) async {
-    _occupation = await LibraryOccupationFetcherSheets()
+  Future<LibraryOccupation> loadFromRemote(
+    StateProviders stateProviders,
+  ) async {
+    final session = stateProviders.sessionProvider.state!;
+    final occupation = await LibraryOccupationFetcherSheets()
         .getLibraryOccupationFromSheets(session);
 
     final db = LibraryOccupationDatabase();
-    unawaited(db.saveOccupation(_occupation!));
+    unawaited(db.saveOccupation(occupation));
+
+    return occupation;
   }
 }

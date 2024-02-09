@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
-import 'package:uni/view/lazy_consumer.dart';
 
-class LastUpdateTimeStamp<T extends StateProviderNotifier>
+class LastUpdateTimeStamp<T extends StateProviderNotifier<dynamic>>
     extends StatefulWidget {
   const LastUpdateTimeStamp({super.key});
 
@@ -15,8 +15,8 @@ class LastUpdateTimeStamp<T extends StateProviderNotifier>
   }
 }
 
-class _LastUpdateTimeStampState<T extends StateProviderNotifier>
-    extends State<LastUpdateTimeStamp> {
+class _LastUpdateTimeStampState<T extends StateProviderNotifier<dynamic>>
+    extends State<StatefulWidget> {
   DateTime currentTime = DateTime.now();
 
   @override
@@ -29,16 +29,16 @@ class _LastUpdateTimeStampState<T extends StateProviderNotifier>
           {
             setState(() {
               currentTime = DateTime.now();
-            })
-          }
+            }),
+          },
       },
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return LazyConsumer<T>(
-      builder: (context, provider) => Container(
+    return Consumer<T>(
+      builder: (context, provider, _) => Container(
         padding: const EdgeInsets.only(top: 8, bottom: 10),
         child: provider.lastUpdateTime != null
             ? _getContent(context, provider.lastUpdateTime!)
@@ -59,7 +59,7 @@ class _LastUpdateTimeStampState<T extends StateProviderNotifier>
         Text(
           S.of(context).last_timestamp(elapsedTimeMinutes),
           style: Theme.of(context).textTheme.titleSmall,
-        )
+        ),
       ],
     );
   }

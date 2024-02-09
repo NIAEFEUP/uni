@@ -1,86 +1,79 @@
 import 'dart:async';
-import 'dart:collection';
 
 import 'package:uni/controller/fetchers/departures_fetcher.dart';
-import 'package:uni/controller/local_storage/app_bus_stop_database.dart';
+import 'package:uni/controller/local_storage/database/app_bus_stop_database.dart';
 import 'package:uni/model/entities/bus_stop.dart';
-import 'package:uni/model/entities/profile.dart';
-import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
+import 'package:uni/model/providers/state_providers.dart';
 
-class BusStopProvider extends StateProviderNotifier {
-  BusStopProvider() : super(dependsOnSession: false, cacheDuration: null);
-  Map<String, BusStopData> _configuredBusStops = Map.identity();
-  DateTime _timeStamp = DateTime.now();
-
-  UnmodifiableMapView<String, BusStopData> get configuredBusStops =>
-      UnmodifiableMapView(_configuredBusStops);
-
-  DateTime get timeStamp => _timeStamp;
+class BusStopProvider extends StateProviderNotifier<Map<String, BusStopData>> {
+  BusStopProvider() : super(cacheDuration: null, dependsOnSession: false);
 
   @override
-  Future<void> loadFromStorage() async {
+  Future<Map<String, BusStopData>> loadFromStorage(
+    StateProviders stateProviders,
+  ) {
     final busStopsDb = AppBusStopDatabase();
-    final stops = await busStopsDb.busStops();
-    _configuredBusStops = stops;
+    return busStopsDb.busStops();
   }
 
   @override
-  Future<void> loadFromRemote(Session session, Profile profile) async {
-    await fetchUserBusTrips();
+  Future<Map<String, BusStopData>> loadFromRemote(
+    StateProviders stateProviders,
+  ) async {
+    return fetchUserBusTrips(state!);
   }
 
-  Future<void> fetchUserBusTrips() async {
-    for (final stopCode in configuredBusStops.keys) {
+  Future<Map<String, BusStopData>> fetchUserBusTrips(
+    Map<String, BusStopData> currentStops,
+  ) async {
+    for (final stopCode in currentStops.keys) {
       final stopTrips = await DeparturesFetcher.getNextArrivalsStop(
         stopCode,
-        configuredBusStops[stopCode]!,
+        currentStops[stopCode]!,
       );
-      _configuredBusStops[stopCode]?.trips = stopTrips;
+      currentStops[stopCode]?.trips = stopTrips;
     }
-    _timeStamp = DateTime.now();
+    return currentStops;
   }
 
   Future<void> addUserBusStop(String stopCode, BusStopData stopData) async {
-    if (_configuredBusStops.containsKey(stopCode)) {
-      _configuredBusStops[stopCode]!.configuredBuses.clear();
-      _configuredBusStops[stopCode]!
-          .configuredBuses
-          .addAll(stopData.configuredBuses);
+    if (state!.containsKey(stopCode)) {
+      state![stopCode]!.configuredBuses.clear();
+      state![stopCode]!.configuredBuses.addAll(stopData.configuredBuses);
     } else {
-      _configuredBusStops[stopCode] = stopData;
+      state![stopCode] = stopData;
     }
 
     notifyListeners();
-    await fetchUserBusTrips();
+    await fetchUserBusTrips(state!);
     notifyListeners();
 
     final db = AppBusStopDatabase();
-    await db.setBusStops(configuredBusStops);
+    await db.setBusStops(state!);
   }
 
   Future<void> removeUserBusStop(
     String stopCode,
   ) async {
-    _configuredBusStops.remove(stopCode);
+    state!.remove(stopCode);
 
     notifyListeners();
-    await fetchUserBusTrips();
+    await fetchUserBusTrips(state!);
     notifyListeners();
 
     final db = AppBusStopDatabase();
-    await db.setBusStops(_configuredBusStops);
+    await db.setBusStops(state!);
   }
 
   Future<void> toggleFavoriteUserBusStop(
     String stopCode,
     BusStopData stopData,
   ) async {
-    _configuredBusStops[stopCode]!.favorited =
-        !_configuredBusStops[stopCode]!.favorited;
+    state![stopCode]!.favorited = !state![stopCode]!.favorited;
 
     notifyListeners();
-    await fetchUserBusTrips();
+    await fetchUserBusTrips(state!);
     notifyListeners();
 
     final db = AppBusStopDatabase();

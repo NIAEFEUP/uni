@@ -8,7 +8,9 @@ import 'package:uni/view/exams/widgets/exam_row.dart';
 
 import '../../../test_widget.dart';
 
-void main() {
+void main() async {
+  await initTestEnvironment();
+
   group('Exam Row', () {
     const subject = 'SOPE';
     final begin = DateTime(
@@ -29,10 +31,15 @@ void main() {
     testWidgets('When given a single room', (WidgetTester tester) async {
       final rooms = ['B315'];
       final exam = Exam('1230', begin, end, subject, rooms, '', 'feup');
-      final widget = ExamRow(exam: exam, teacher: '', mainPage: true);
+      final widget = ExamRow(
+        exam: exam,
+        teacher: '',
+        mainPage: true,
+        onChangeVisibility: () {},
+      );
 
       final providers = [
-        ChangeNotifierProvider<ExamProvider>(create: (_) => ExamProvider())
+        ChangeNotifierProvider<ExamProvider>(create: (_) => ExamProvider()),
       ];
       await tester.pumpWidget(testableWidget(widget, providers: providers));
       await tester.pump();
@@ -51,10 +58,15 @@ void main() {
     testWidgets('When multiple rooms', (WidgetTester tester) async {
       final rooms = ['B315', 'B316', 'B330'];
       final exam = Exam('1230', begin, end, subject, rooms, '', 'feup');
-      final widget = ExamRow(exam: exam, teacher: '', mainPage: true);
+      final widget = ExamRow(
+        exam: exam,
+        teacher: '',
+        mainPage: true,
+        onChangeVisibility: () {},
+      );
 
       final providers = [
-        ChangeNotifierProvider<ExamProvider>(create: (_) => ExamProvider())
+        ChangeNotifierProvider<ExamProvider>(create: (_) => ExamProvider()),
       ];
 
       await tester.pumpWidget(testableWidget(widget, providers: providers));

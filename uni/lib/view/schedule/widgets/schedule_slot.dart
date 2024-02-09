@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:uni/controller/networking/network_router.dart';
+import 'package:uni/controller/networking/url_launcher.dart';
 import 'package:uni/view/common_widgets/row_container.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class ScheduleSlot extends StatelessWidget {
   const ScheduleSlot({
@@ -64,10 +64,9 @@ class ScheduleSlot extends StatelessWidget {
       style: Theme.of(context).textTheme.bodyMedium,
       alignment: TextAlign.center,
     );
-    final roomTextField = TextFieldWidget(
-      text: rooms,
+    final roomTextField = Text(
+      rooms,
       style: Theme.of(context).textTheme.bodyMedium,
-      alignment: TextAlign.right,
     );
     return [
       ScheduleTimeWidget(
@@ -98,7 +97,7 @@ class ScheduleSlot extends StatelessWidget {
           ],
         ),
       ),
-      roomTextField
+      roomTextField,
     ];
   }
 }
@@ -113,9 +112,9 @@ class SubjectButtonWidget extends StatelessWidget {
         'UCURR_GERAL.FICHA_UC_VIEW?pv_ocorrencia_id=$occurrId';
   }
 
-  Future<void> _launchURL() async {
+  Future<void> _launchURL(BuildContext context) async {
     final url = toUcLink(occurrId);
-    await launchUrl(Uri.parse(url));
+    await launchUrlWithToast(context, url);
   }
 
   @override
@@ -133,7 +132,7 @@ class SubjectButtonWidget extends StatelessWidget {
           color: Colors.grey,
           alignment: Alignment.centerRight,
           tooltip: 'Abrir página da UC no browser',
-          onPressed: _launchURL,
+          onPressed: () => _launchURL(context),
         ),
       ],
     );

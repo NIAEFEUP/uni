@@ -3,12 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
+import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
-import 'package:uni/model/request_status.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
-import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
 import 'package:uni/view/course_units/widgets/course_unit_card.dart';
 import 'package:uni/view/lazy_consumer.dart';
 
@@ -30,9 +29,9 @@ class CourseUnitsPageViewState
 
   @override
   Widget getBody(BuildContext context) {
-    return LazyConsumer<ProfileProvider>(
-      builder: (context, profileProvider) {
-        final courseUnits = profileProvider.profile.courseUnits;
+    return LazyConsumer<ProfileProvider, Profile>(
+      builder: (context, profile) {
+        final courseUnits = profile.courseUnits;
         var availableYears = <String>[];
         var availableSemesters = <String>[];
 
@@ -52,19 +51,31 @@ class CourseUnitsPageViewState
           }
         }
 
-        return _getPageView(
-          courseUnits,
-          profileProvider.status,
-          availableYears,
-          availableSemesters,
+        return Column(
+          children: [
+            _getPageTitleAndFilters(availableYears, availableSemesters),
+            _getPageView(courseUnits, availableYears, availableSemesters),
+          ],
         );
       },
+      hasContent: (Profile profile) => profile.courseUnits.isNotEmpty,
+      onNullContent: Column(
+        children: [
+          _getPageTitleAndFilters([], []),
+          Center(
+            heightFactor: 10,
+            child: Text(
+              S.of(context).no_selected_courses,
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+          ),
+        ],
+      ),
     );
   }
 
   Widget _getPageView(
     List<CourseUnit> courseUnits,
-    RequestStatus requestStatus,
     List<String> availableYears,
     List<String> availableSemesters,
   ) {
@@ -80,24 +91,7 @@ class CourseUnitsPageViewState
                       element.semesterCode == selectedSemester,
                 )
                 .toList();
-    return Column(
-      children: [
-        _getPageTitleAndFilters(availableYears, availableSemesters),
-        RequestDependentWidgetBuilder(
-          status: requestStatus,
-          builder: () =>
-              _generateCourseUnitsCards(filteredCourseUnits, context),
-          hasContentPredicate: courseUnits.isNotEmpty,
-          onNullContent: Center(
-            heightFactor: 10,
-            child: Text(
-              S.of(context).no_selected_courses,
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-          ),
-        )
-      ],
-    );
+    return _generateCourseUnitsCards(filteredCourseUnits, context);
   }
 
   Widget _getPageTitleAndFilters(
@@ -146,7 +140,7 @@ class CourseUnitsPageViewState
             }).toList(),
           ),
         ),
-        const SizedBox(width: 20)
+        const SizedBox(width: 20),
       ],
     );
   }
@@ -197,7 +191,7 @@ class CourseUnitsPageViewState
             children: [
               Flexible(child: CourseUnitCard(courseUnits[i])),
               const SizedBox(width: 10),
-              const Spacer()
+              const Spacer(),
             ],
           ),
         );

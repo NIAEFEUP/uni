@@ -3,11 +3,10 @@ import 'package:provider/provider.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/utils/drawer_items.dart';
-import 'package:uni/view/locale_notifier.dart';
-import 'package:uni/view/theme_notifier.dart';
 
 class AppNavigationDrawer extends StatefulWidget {
   const AppNavigationDrawer({required this.parentContext, super.key});
+
   final BuildContext parentContext;
 
   @override
@@ -31,7 +30,6 @@ class AppNavigationDrawerState extends State<AppNavigationDrawer> {
     }
   }
 
-  // Callback Functions
   String getCurrentRoute() =>
       ModalRoute.of(widget.parentContext)!.settings.name == null
           ? drawerItems.keys.toList()[0].title
@@ -39,20 +37,11 @@ class AppNavigationDrawerState extends State<AppNavigationDrawer> {
 
   void _onSelectPage(String key) {
     final prev = getCurrentRoute();
-
     Navigator.of(context).pop();
-
     if (prev != key) {
       Navigator.pushNamed(context, '/$key');
     }
   }
-
-  void _onLogOut(String key) {
-    Navigator.of(context)
-        .pushNamedAndRemoveUntil('/$key', (Route<dynamic> route) => false);
-  }
-
-  // End of Callback Functions
 
   BoxDecoration? _getSelectionDecoration(String name) {
     return (name == getCurrentRoute())
@@ -66,73 +55,6 @@ class AppNavigationDrawerState extends State<AppNavigationDrawer> {
             color: Theme.of(context).dividerColor,
           )
         : null;
-  }
-
-  Widget createLogoutBtn() {
-    final logOutText = DrawerItem.navLogOut.title;
-    return TextButton(
-      onPressed: () => _onLogOut(logOutText),
-      style: TextButton.styleFrom(
-        elevation: 0,
-        padding: const EdgeInsets.symmetric(horizontal: 5),
-      ),
-      child: Container(
-        padding: const EdgeInsets.all(15),
-        child: Text(
-          S.of(context).logout,
-          style: Theme.of(context)
-              .textTheme
-              .titleLarge!
-              .copyWith(color: Theme.of(context).primaryColor),
-        ),
-      ),
-    );
-  }
-
-  Widget createLocaleBtn() {
-    return Consumer<LocaleNotifier>(
-      builder: (context, localeNotifier, _) {
-        return TextButton(
-          onPressed: () => localeNotifier.setNextLocale(),
-          style: TextButton.styleFrom(
-            elevation: 0,
-            padding: const EdgeInsets.symmetric(horizontal: 5),
-          ),
-          child: Container(
-            padding: const EdgeInsets.all(15),
-            child: Text(
-              localeNotifier.getLocale().localeCode.languageCode.toUpperCase(),
-              style: Theme.of(context)
-                  .textTheme
-                  .titleLarge!
-                  .copyWith(color: Theme.of(context).primaryColor),
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  Widget createThemeSwitchBtn() {
-    Icon getThemeIcon(ThemeMode theme) {
-      switch (theme) {
-        case ThemeMode.light:
-          return const Icon(Icons.wb_sunny);
-        case ThemeMode.dark:
-          return const Icon(Icons.nightlight_round);
-        case ThemeMode.system:
-          return const Icon(Icons.brightness_6);
-      }
-    }
-
-    return Consumer<ThemeNotifier>(
-      builder: (context, themeNotifier, _) {
-        return IconButton(
-          icon: getThemeIcon(themeNotifier.getTheme()),
-          onPressed: themeNotifier.setNextTheme,
-        );
-      },
-    );
   }
 
   Widget createDrawerNavigationOption(DrawerItem d) {
@@ -160,14 +82,7 @@ class AppNavigationDrawerState extends State<AppNavigationDrawer> {
 
   @override
   Widget build(BuildContext context) {
-    final drawerOptions = <Widget>[];
-    final userSession = Provider.of<SessionProvider>(context).session;
-
-    for (final key in drawerItems.keys) {
-      if (key.isVisible(userSession.faculties)) {
-        drawerOptions.add(createDrawerNavigationOption(key));
-      }
-    }
+    final userSession = context.read<SessionProvider>().state!;
 
     return Drawer(
       child: Column(
@@ -176,24 +91,13 @@ class AppNavigationDrawerState extends State<AppNavigationDrawer> {
             child: Container(
               padding: const EdgeInsets.only(top: 55),
               child: ListView(
-                children: drawerOptions,
+                children: drawerItems.keys
+                    .where((key) => key.isVisible(userSession.faculties))
+                    .map(createDrawerNavigationOption)
+                    .toList(),
               ),
             ),
           ),
-          Row(
-            children: <Widget>[
-              Expanded(
-                child: Align(
-                  child: createLogoutBtn(),
-                ),
-              ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: createLocaleBtn(),
-              ),
-              createThemeSwitchBtn()
-            ],
-          )
         ],
       ),
     );

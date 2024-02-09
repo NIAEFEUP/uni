@@ -3,7 +3,6 @@ import 'package:html/parser.dart';
 import 'package:http/http.dart' as http;
 import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
-import 'package:uni/utils/url_parser.dart';
 
 List<CourseUnit> parseCourseUnitsAndCourseAverage(
   http.Response response,
@@ -48,9 +47,9 @@ List<CourseUnit> parseCourseUnitsAndCourseAverage(
 
     final year = row.children[0].innerHtml;
     final semester = row.children[1].innerHtml;
-    final occurId = getUrlQueryParameters(
+    final occurId = Uri.parse(
       row.children[2].firstChild!.attributes['href']!,
-    )['pv_ocorrencia_id']!;
+    ).queryParameters['pv_ocorrencia_id']!;
     final codeName = row.children[2].children[0].innerHtml;
     final name = row.children[3].children[0].innerHtml;
     final ects = row.children[5].innerHtml.replaceAll(',', '.');
@@ -84,7 +83,7 @@ List<CourseUnit> parseCourseUnitsAndCourseAverage(
         grade: grade,
         ects: double.tryParse(ects),
         name: name,
-        curricularYear: int.parse(year),
+        curricularYear: int.tryParse(year),
         semesterCode: semester,
       );
       courseUnits.add(courseUnit);
