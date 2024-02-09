@@ -4,10 +4,6 @@ import 'package:uni/utils/navbar_items.dart';
 class AppBottomNavbar extends StatelessWidget {
   const AppBottomNavbar({super.key});
 
-  static final List<BottomNavigationBarItem> navbarItems = NavbarItem.values
-      .map((item) => item.toBottomNavigationBarItem())
-      .toList();
-
   String? _getCurrentRoute(BuildContext context) =>
       ModalRoute.of(context)!.settings.name?.substring(1);
 
@@ -42,6 +38,16 @@ class AppBottomNavbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final currentIndex = _getCurrentIndex(context);
+    final navbarItems = <BottomNavigationBarItem>[];
+    for (var index = 0; index < NavbarItem.values.length; index++) {
+      final item = NavbarItem.values[index];
+      navbarItems.insert(
+          index,
+          index == currentIndex
+              ? item.toSelectedBottomNavigationBarItem()
+              : item.toUnselectedBottomNavigationBarItem());
+    }
+
     return BottomNavigationBar(
       items: navbarItems,
       onTap: (int index) => _onItemTapped(context, index),
