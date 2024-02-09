@@ -228,7 +228,7 @@ class ApplicationState extends State<Application> {
           GlobalCupertinoLocalizations.delegate,
         ],
         supportedLocales: S.delegate.supportedLocales,
-        initialRoute: '/area',
+        initialRoute: '/${NavigationItem.navPersonalArea.route}',
         home: widget.initialWidget,
         navigatorObservers: navigatorObservers,
         onGenerateRoute: (RouteSettings settings) {
