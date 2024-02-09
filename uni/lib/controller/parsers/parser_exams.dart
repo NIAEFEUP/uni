@@ -27,7 +27,6 @@ class ParserExams {
     final examTypes = <String>[];
     var rooms = <String>[];
     String? subject;
-    String? schedule;
     var id = '0';
     var days = 0;
     var tableNum = 0;
@@ -51,18 +50,24 @@ class ParserExams {
                     .queryParameters['p_exa_id']!;
               }
               if (examsDay.querySelector('span.exame-sala') != null) {
-                rooms =
-                    examsDay.querySelector('span.exame-sala')!.text.split(',');
+                rooms = examsDay
+                    .querySelector('span.exame-sala')!
+                    .text
+                    .split(',')
+                    .map((e) => e.trim())
+                    .toList();
               }
-              schedule = examsDay.text.substring(
-                examsDay.text.indexOf(':') - 2,
-                examsDay.text.indexOf(':') + 9,
-              );
-              final splittedSchedule = schedule!.split('-');
-              final begin =
-                  DateTime.parse('${dates[days]} ${splittedSchedule[0]}');
-              final end =
-                  DateTime.parse('${dates[days]} ${splittedSchedule[1]}');
+              final DateTime begin;
+              final DateTime end;
+              if (!examsDay.text.endsWith('-')) {
+                final rx = RegExp(r'(\d{2}:\d{2})-(\d{2}:\d{2})');
+                final match = rx.allMatches(examsDay.text).first;
+                begin = DateTime.parse('${dates[days]} ${match.group(1)!}');
+                end = DateTime.parse('${dates[days]} ${match.group(2)!}');
+              } else {
+                begin = DateTime.parse('${dates[days]} 00:00');
+                end = DateTime.parse('${dates[days]} 00:00');
+              }
               final exam = Exam(
                 id,
                 begin,
@@ -72,7 +77,6 @@ class ParserExams {
                 examTypes[tableNum],
                 course.faculty!,
               );
-
               examsList.add(exam);
             });
           }

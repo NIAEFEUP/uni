@@ -55,7 +55,6 @@ class ExamFetcher implements SessionDependantFetcher {
         }
       }
     }
-
     return exams.toList();
   }
 }

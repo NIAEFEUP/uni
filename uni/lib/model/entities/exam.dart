@@ -83,7 +83,7 @@ class Exam {
 
   @override
   String toString() {
-    return '''$id - $subject - ${begin.year} - $month - ${begin.day} -  $beginTime-$endTime - $type - $rooms - $weekDay''';
+    return '''$id - $subject - ${begin.year} - $month - ${begin.day} - $beginTime-$endTime - $type - $rooms - $weekDay''';
   }
 
   @override
