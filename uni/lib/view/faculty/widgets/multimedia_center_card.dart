@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/common_widgets/generic_expansion_card.dart';
-import 'package:uni/view/useful_info/widgets/text_components.dart';
+import 'package:uni/view/faculty/widgets/text_components.dart';
 
-class DonaBiaCard extends GenericExpansionCard {
-  const DonaBiaCard({super.key});
+class MultimediaCenterCard extends GenericExpansionCard {
+  const MultimediaCenterCard({super.key});
 
   @override
   Widget buildCardContent(BuildContext context) {
@@ -16,21 +16,21 @@ class DonaBiaCard extends GenericExpansionCard {
           context,
           initial: true,
         ),
-        h2(S.of(context).dona_bia_building, context),
-        infoText('8:30h - 12:00h | 13:30h - 19:00h', context),
+        h2('${S.of(context).room} B123', context),
+        infoText('9:00h - 12:30h | 14:30h - 17:00h', context),
         h1(S.of(context).telephone, context),
-        infoText('+351 225 081 416', context, link: 'tel:225 081 416'),
+        infoText('+351 225 081 466', context, link: 'tel:225 081 466'),
         h1('Email', context),
         infoText(
-          'papelaria.fe.up@gmail.com',
+          'imprimir@fe.up.pt',
           context,
           last: true,
-          link: 'mailto:papelaria.fe.up@gmail.com',
+          link: 'mailto:imprimir@fe.up.pt',
         ),
       ],
     );
   }
 
   @override
-  String getTitle(BuildContext context) => S.of(context).dona_bia;
+  String getTitle(BuildContext context) => S.of(context).multimedia_center;
 }

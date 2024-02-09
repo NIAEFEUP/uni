@@ -1,5 +1,6 @@
 import 'package:diacritic/diacritic.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/location_group.dart';
 import 'package:uni/model/providers/lazy/faculty_locations_provider.dart';
@@ -98,6 +99,7 @@ class LocationsPageViewState extends State<LocationsPageView> {
               faculty: getLocation(),
               locations: widget.locations,
               searchFilter: searchTerms,
+              interactiveFlags: InteractiveFlag.all - InteractiveFlag.rotate,
               // TODO(bdmendes): add support for multiple faculties
             ),
           ),

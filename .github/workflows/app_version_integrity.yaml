@@ -7,7 +7,7 @@ jobs:
     env:
       APP_VERSION_PATH: "uni/app_version.txt"
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Fetch origin target branch
         run: |

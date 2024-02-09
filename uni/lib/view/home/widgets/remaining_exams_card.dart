@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/entities/exam.dart';
+import 'package:uni/utils/date_time_formatter.dart';
 import 'package:uni/view/common_widgets/row_container.dart';
 import 'package:uni/view/exams/widgets/exam_title.dart';
 import 'package:uni/view/locale_notifier.dart';
@@ -25,7 +26,7 @@ class RemainingExamsWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
-                    '${exam.begin.day} ${exam.month(locale)}',
+                    exam.begin.formattedDate(locale),
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                   ExamTitle(
