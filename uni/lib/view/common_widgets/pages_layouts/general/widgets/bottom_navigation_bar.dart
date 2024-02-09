@@ -1,30 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:uni/utils/navbar_items.dart';
 
-class AppBottomNavbar extends StatefulWidget {
-  const AppBottomNavbar({required this.parentContext, super.key});
-
-  final BuildContext parentContext;
-
-  @override
-  State<StatefulWidget> createState() {
-    return AppBottomNavbarState();
-  }
-}
-
-class AppBottomNavbarState extends State<AppBottomNavbar> {
-  AppBottomNavbarState();
+class AppBottomNavbar extends StatelessWidget {
+  const AppBottomNavbar({super.key});
 
   static final List<BottomNavigationBarItem> navbarItems = NavbarItem.values
       .map((item) => item.toBottomNavigationBarItem())
       .toList();
 
-  String? _getCurrentRoute() =>
-      ModalRoute.of(widget.parentContext)!.settings.name?.substring(1);
+  String? _getCurrentRoute(BuildContext context) =>
+      ModalRoute.of(context)!.settings.name?.substring(1);
 
-  int _getCurrentIndex() {
-    final currentRoute = _getCurrentRoute();
-    if (_getCurrentRoute() == null) {
+  int _getCurrentIndex(BuildContext context) {
+    final currentRoute = _getCurrentRoute(context);
+    if (_getCurrentRoute(context) == null) {
       return -1;
     }
 
@@ -37,8 +26,8 @@ class AppBottomNavbarState extends State<AppBottomNavbar> {
     return -1;
   }
 
-  void _onItemTapped(int index) {
-    final prev = _getCurrentRoute();
+  void _onItemTapped(BuildContext context, int index) {
+    final prev = _getCurrentRoute(context);
     final item = NavbarItem.values[index];
     final key = item.route;
 
@@ -52,10 +41,10 @@ class AppBottomNavbarState extends State<AppBottomNavbar> {
 
   @override
   Widget build(BuildContext context) {
-    final currentIndex = _getCurrentIndex();
+    final currentIndex = _getCurrentIndex(context);
     return BottomNavigationBar(
       items: navbarItems,
-      onTap: _onItemTapped,
+      onTap: (int index) => _onItemTapped(context, index),
       currentIndex: currentIndex == -1 ? 0 : currentIndex,
       type: BottomNavigationBarType.fixed,
       iconSize: 32,

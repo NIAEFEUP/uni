@@ -12,9 +12,7 @@ abstract class SecondaryPageViewState<T extends StatefulWidget>
   Scaffold getScaffold(BuildContext context, Widget body) {
     return Scaffold(
       appBar: getTopNavbar(context),
-      bottomNavigationBar: AppBottomNavbar(
-        parentContext: context,
-      ),
+      bottomNavigationBar: const AppBottomNavbar(),
       body: RefreshState(onRefresh: onRefresh, child: body),
     );
   }

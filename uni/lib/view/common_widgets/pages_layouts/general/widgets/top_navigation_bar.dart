@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 
-/// Upper bar of the app.
-///
-/// This widget consists on an instance of `AppBar` containing the app's logo,
-/// an option button and a button with the user's picture.
 class AppTopNavbar extends StatelessWidget implements PreferredSizeWidget {
   const AppTopNavbar({
     this.title,
