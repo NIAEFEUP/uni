@@ -5,6 +5,7 @@ import 'package:open_file_plus/open_file_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/controller/local_storage/file_offline_storage.dart';
 import 'package:uni/generated/l10n.dart';
+import 'package:uni/view/common_widgets/pulse_animation.dart';
 import 'package:uni/model/entities/course_units/course_unit_file.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/view/common_widgets/toast_message.dart';
@@ -58,19 +59,9 @@ class CourseUnitFilesRowState extends State<CourseUnitFilesRow>
               },
               child: Container(
                 padding: const EdgeInsets.only(left: 10),
-                child: AnimatedBuilder(
-                  animation: _controller,
-                  builder: (context, child) {
-                    return Opacity(
-                      opacity: 1 - 0.5 * sin(_controller.value * pi),
-                      child: Text(
-                        widget.file.name
-                            .substring(0, widget.file.name.indexOf('_')),
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ),
-                    );
-                  },
+                child: PulseAnimation(
+                  description: widget.file.name,
+                  controller: _controller,
                 ),
               ),
             ),

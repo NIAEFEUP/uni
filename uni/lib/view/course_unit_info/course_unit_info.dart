@@ -125,16 +125,7 @@ class CourseUnitDetailPageViewState
         .watch<CourseUnitsInfoProvider>()
         .courseUnitsFiles[widget.courseUnit];
 
-    if (sheet == null || sheet.isEmpty) {
-      return Center(
-        child: Text(
-          S.of(context).no_info,
-          textAlign: TextAlign.center,
-        ),
-      );
-    }
-
-    return CourseUnitFilesView(sheet);
+    return CourseUnitFilesView(sheet!);
   }
 
   Widget _courseUnitClassesView(BuildContext context) {
