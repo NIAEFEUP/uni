@@ -10,18 +10,22 @@ class AllCourseUnitsFetcher {
     Session session, {
     List<CourseUnit>? currentCourseUnits,
   }) async {
-    final allCourseUnits = <CourseUnit>[];
+    final courseCourseUnits = await Future.wait(
+      courses
+          .map(
+            (course) => _getAllCourseUnitsAndCourseAveragesFromCourse(
+              course,
+              session,
+              currentCourseUnits: currentCourseUnits,
+            ),
+          )
+          .toList(),
+    );
 
-    for (final course in courses) {
-      final courseUnits = await _getAllCourseUnitsAndCourseAveragesFromCourse(
-        course,
-        session,
-        currentCourseUnits: currentCourseUnits,
-      );
-      allCourseUnits.addAll(courseUnits.where((c) => c.enrollmentIsValid()));
-    }
-
-    return allCourseUnits;
+    return courseCourseUnits
+        .expand((l) => l)
+        .where((c) => c.enrollmentIsValid())
+        .toList();
   }
 
   Future<List<CourseUnit>> _getAllCourseUnitsAndCourseAveragesFromCourse(
