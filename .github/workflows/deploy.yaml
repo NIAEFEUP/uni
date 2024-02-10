@@ -116,7 +116,7 @@ jobs:
           echo "keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}" >> ${{env.PROPERTIES_PATH}}
 
       - name: Create .env file
-        run: echo "${{env.UNI_ENV_FILE}}" > ./assets/env/.env
+        run: echo "${{vars.UNI_ENV_FILE}}" > ./assets/env/.env
         
       - name: Build Android App Bundle
         run: |
