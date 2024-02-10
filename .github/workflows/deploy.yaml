@@ -116,6 +116,9 @@ jobs:
           echo "keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}" >> ${{env.PROPERTIES_PATH}}
           echo "keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}" >> ${{env.PROPERTIES_PATH}}
 
+      - name: Create .env file
+        run: echo "${{env.UNI_ENV_FILE}}" > ./assets/env/.env
+        
       - name: Build Android App Bundle
         run: |
           flutter pub get
