@@ -8,7 +8,6 @@ jobs:
       actions: "write"
     name: "Bump version and Build App Bundle"
     runs-on: ubuntu-latest
-    needs: [bump_version]
     env:
       PROPERTIES_PATH: "android/key.properties"
       JAVA_VERSION: "17.x"
