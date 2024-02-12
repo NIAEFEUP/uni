@@ -763,11 +763,11 @@ class S {
     );
   }
 
-  /// `Error loading the information`
-  String get load_error {
+  /// `Error downloading the file`
+  String get download_error {
     return Intl.message(
-      'Error loading the information',
-      name: 'load_error',
+      'Error downloading the file',
+      name: 'download_error',
       desc: '',
       args: [],
     );
@@ -1223,6 +1223,56 @@ class S {
     return Intl.message(
       'Print',
       name: 'print',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `File opened successfully`
+  String get successful_open {
+    return Intl.message(
+      'File opened successfully',
+      name: 'successful_open',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Permission denied`
+  String get permission_denied {
+    return Intl.message(
+      'Permission denied',
+      name: 'permission_denied',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error opening the file`
+  String get open_error {
+    return Intl.message(
+      'Error opening the file',
+      name: 'open_error',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No app found to open the file`
+  String get no_app {
+    return Intl.message(
+      'No app found to open the file',
+      name: 'no_app',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error loading the information`
+  String get load_error {
+    return Intl.message(
+      'Error loading the information',
+      name: 'load_error',
       desc: '',
       args: [],
     );

@@ -113,6 +113,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Papelaria D. Beatriz"),
         "dona_bia_building": MessageLookupByLibrary.simpleMessage(
             "Piso -1 do edifício B (B-142)"),
+        "download_error": MessageLookupByLibrary.simpleMessage(
+            "Erro ao descarregar o ficheiro"),
         "ects": MessageLookupByLibrary.simpleMessage("ECTS realizados: "),
         "edit_off": MessageLookupByLibrary.simpleMessage("Editar"),
         "edit_on": MessageLookupByLibrary.simpleMessage("Concluir edição"),
@@ -153,7 +155,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "library_occupation":
             MessageLookupByLibrary.simpleMessage("Ocupação da Biblioteca"),
         "load_error": MessageLookupByLibrary.simpleMessage(
-            "Aconteceu um erro ao carregar os dados"),
+            "Erro ao carregar a informação"),
         "loading_terms": MessageLookupByLibrary.simpleMessage(
             "Carregando os Termos e Condições..."),
         "login": MessageLookupByLibrary.simpleMessage("Entrar"),
@@ -166,6 +168,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "nav_title": m2,
         "news": MessageLookupByLibrary.simpleMessage("Notícias"),
         "no": MessageLookupByLibrary.simpleMessage("Não"),
+        "no_app": MessageLookupByLibrary.simpleMessage(
+            "Nenhuma aplicação encontrada para abrir o ficheiro"),
         "no_bus": MessageLookupByLibrary.simpleMessage(
             "Não percas nenhum autocarro!"),
         "no_bus_stops": MessageLookupByLibrary.simpleMessage(
@@ -219,12 +223,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "occurrence_type":
             MessageLookupByLibrary.simpleMessage("Tipo de ocorrência"),
         "of_month": MessageLookupByLibrary.simpleMessage("de"),
+        "open_error":
+            MessageLookupByLibrary.simpleMessage("Erro ao abrir o ficheiro"),
         "other_links": MessageLookupByLibrary.simpleMessage("Outros links"),
         "pass_change_request": MessageLookupByLibrary.simpleMessage(
             "Por razões de segurança, as palavras-passe têm de ser alteradas periodicamente."),
         "password": MessageLookupByLibrary.simpleMessage("palavra-passe"),
         "pendent_references":
             MessageLookupByLibrary.simpleMessage("Referências pendentes"),
+        "permission_denied":
+            MessageLookupByLibrary.simpleMessage("Sem permissão"),
         "personal_assistance":
             MessageLookupByLibrary.simpleMessage("Atendimento presencial"),
         "press_again": MessageLookupByLibrary.simpleMessage(
@@ -258,6 +266,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "student_number":
             MessageLookupByLibrary.simpleMessage("número de estudante"),
         "success": MessageLookupByLibrary.simpleMessage("Enviado com sucesso"),
+        "successful_open":
+            MessageLookupByLibrary.simpleMessage("Ficheiro aberto com sucesso"),
         "tele_assistance":
             MessageLookupByLibrary.simpleMessage("Atendimento telefónico"),
         "tele_personal_assistance": MessageLookupByLibrary.simpleMessage(

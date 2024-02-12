@@ -2,23 +2,22 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 class PulseAnimation extends StatelessWidget {
-  const PulseAnimation(
-      {super.key, required this.description, required this.controller});
-  final String description;
+  const PulseAnimation({
+    required this.child,
+    required this.controller,
+    super.key,
+  });
+  final Widget child;
   final AnimationController controller;
 
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       animation: controller,
-      builder: (context, child) {
+      builder: (context, _) {
         return Opacity(
           opacity: 1 - 0.5 * sin(controller.value * pi),
-          child: Text(
-            description.substring(0, description.indexOf('_')),
-            overflow: TextOverflow.ellipsis,
-            style: Theme.of(context).textTheme.bodyLarge,
-          ),
+          child: child,
         );
       },
     );
