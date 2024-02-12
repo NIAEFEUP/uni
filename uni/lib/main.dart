@@ -12,6 +12,7 @@ import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uni/controller/background_workers/background_callback.dart';
+import 'package:uni/controller/cleanup.dart';
 import 'package:uni/controller/fetchers/terms_and_conditions_fetcher.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
@@ -81,6 +82,8 @@ Future<void> main() async {
     FacultyLocationsProvider(),
     ReferenceProvider(),
   );
+
+  unawaited(cleanupCachedFiles());
 
   // Initialize WorkManager for background tasks
   await Workmanager().initialize(

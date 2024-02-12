@@ -3,6 +3,7 @@ import 'package:uni/controller/fetchers/session_dependant_fetcher.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/parsers/parser_course_unit_info.dart';
 import 'package:uni/model/entities/course_units/course_unit_class.dart';
+import 'package:uni/model/entities/course_units/course_unit_directory.dart';
 import 'package:uni/model/entities/course_units/course_unit_sheet.dart';
 import 'package:uni/model/entities/session.dart';
 
@@ -24,6 +25,27 @@ class CourseUnitsInfoFetcher implements SessionDependantFetcher {
       session,
     );
     return parseCourseUnitSheet(response);
+  }
+
+  Future<List<CourseUnitFileDirectory>> fetchCourseUnitFiles(
+    Session session,
+    int occurId,
+  ) async {
+    final url = '${getEndpoints(session)[0]}mob_ucurr_geral.conteudos';
+    final response = await NetworkRouter.getWithCookies(
+      url,
+      {
+        'pv_ocorrencia_id': occurId.toString(),
+      },
+      session,
+    );
+    return parseFiles(response, session);
+  }
+
+  Future<String> getDownloadLink(
+    Session session,
+  ) async {
+    return '${getEndpoints(session)[0]}conteudos_service.conteudos_cont';
   }
 
   Future<List<CourseUnitClass>> fetchCourseUnitClasses(
