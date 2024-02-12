@@ -8,13 +8,14 @@ jobs:
       actions: "write"
     name: "Bump version and Build App Bundle"
     runs-on: ubuntu-latest
-    needs: [bump_version]
+    environment:
+      name: ${{ github.ref_name }}
     env:
       PROPERTIES_PATH: "android/key.properties"
       JAVA_VERSION: "17.x"
       FLUTTER_VERSION: "3.13.7"
-      APP_VERSION_PATH: "uni/app_version.txt"
-      PUBSPEC_PATH: "uni/pubspec.yaml"
+      APP_VERSION_PATH: "app_version.txt"
+      PUBSPEC_PATH: "pubspec.yaml"
     defaults:
       run:
         working-directory: ./uni
@@ -116,6 +117,9 @@ jobs:
           echo "keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}" >> ${{env.PROPERTIES_PATH}}
           echo "keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}" >> ${{env.PROPERTIES_PATH}}
 
+      - name: Create .env file
+        run: echo "${{vars.UNI_ENV_FILE}}" > ./assets/env/.env
+        
       - name: Build Android App Bundle
         run: |
           flutter pub get
