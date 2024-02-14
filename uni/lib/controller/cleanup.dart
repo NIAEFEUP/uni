@@ -41,3 +41,38 @@ Future<void> cleanupStoredData(BuildContext context) async {
     directory.deleteSync(recursive: true);
   }
 }
+
+Future<void> cleanupCachedFiles() async {
+  final lastCleanupDate = PreferencesController.getLastCleanUpDate();
+  final daysSinceLastCleanup =
+      DateTime.now().difference(lastCleanupDate).inDays;
+
+  if (daysSinceLastCleanup < 14) {
+    return;
+  }
+
+  final toCleanDirectory = await getApplicationDocumentsDirectory();
+  final threshold = DateTime.now().subtract(const Duration(days: 30));
+  final directories = toCleanDirectory.listSync(followLinks: false);
+
+  for (final directory in directories) {
+    if (directory is Directory) {
+      final files = directory.listSync(recursive: true, followLinks: false);
+
+      final oldFiles = files.where((file) {
+        try {
+          final fileDate = File(file.path).lastModifiedSync();
+          return fileDate.isBefore(threshold);
+        } catch (e) {
+          return false;
+        }
+      });
+
+      for (final file in oldFiles) {
+        await File(file.path).delete();
+      }
+    }
+  }
+
+  await PreferencesController.setLastCleanUpDate(DateTime.now());
+}

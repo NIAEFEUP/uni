@@ -12,6 +12,7 @@ import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uni/controller/background_workers/background_callback.dart';
+import 'package:uni/controller/cleanup.dart';
 import 'package:uni/controller/fetchers/terms_and_conditions_fetcher.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
@@ -30,11 +31,13 @@ import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/model/providers/state_providers.dart';
 import 'package:uni/utils/drawer_items.dart';
+import 'package:uni/view/academic_path/academic_path.dart';
 import 'package:uni/view/bus_stop_next_arrivals/bus_stop_next_arrivals.dart';
 import 'package:uni/view/calendar/calendar.dart';
 import 'package:uni/view/common_widgets/page_transition.dart';
 import 'package:uni/view/course_units/course_units.dart';
 import 'package:uni/view/exams/exams.dart';
+import 'package:uni/view/faculty/faculty.dart';
 import 'package:uni/view/home/home.dart';
 import 'package:uni/view/library/library.dart';
 import 'package:uni/view/locale_notifier.dart';
@@ -44,7 +47,7 @@ import 'package:uni/view/restaurant/restaurant_page_view.dart';
 import 'package:uni/view/schedule/schedule.dart';
 import 'package:uni/view/theme.dart';
 import 'package:uni/view/theme_notifier.dart';
-import 'package:uni/view/useful_info/useful_info.dart';
+import 'package:uni/view/transports/transports.dart';
 import 'package:workmanager/workmanager.dart';
 
 SentryEvent? beforeSend(SentryEvent event) {
@@ -81,6 +84,8 @@ Future<void> main() async {
     FacultyLocationsProvider(),
     ReferenceProvider(),
   );
+
+  unawaited(cleanupCachedFiles());
 
   // Initialize WorkManager for background tasks
   await Workmanager().initialize(
@@ -280,9 +285,19 @@ class ApplicationState extends State<Application> {
               ),
               settings: settings,
             ),
-            '/${DrawerItem.navUsefulInfo.title}':
+            '/${DrawerItem.navFaculty.title}':
                 PageTransition.makePageTransition(
-              page: const UsefulInfoPageView(),
+              page: const FacultyPageView(),
+              settings: settings,
+            ),
+            '/${DrawerItem.navAcademicPath.title}':
+                PageTransition.makePageTransition(
+              page: const AcademicPathPageView(),
+              settings: settings,
+            ),
+            '/${DrawerItem.navTransports.title}':
+                PageTransition.makePageTransition(
+              page: const TransportsPageView(),
               settings: settings,
             ),
           };

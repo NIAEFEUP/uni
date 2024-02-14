@@ -803,11 +803,11 @@ class S {
     );
   }
 
-  /// `Error loading the information`
-  String get load_error {
+  /// `Error downloading the file`
+  String get download_error {
     return Intl.message(
-      'Error loading the information',
-      name: 'load_error',
+      'Error downloading the file',
+      name: 'download_error',
       desc: '',
       args: [],
     );
@@ -883,7 +883,7 @@ class S {
     );
   }
 
-  /// `{title, select, horario{Schedule} exames{Exams} area{Personal Area} cadeiras{Course Units} autocarros{Buses} locais{Places} restaurantes{Restaurants} calendario{Calendar} biblioteca{Library} uteis{Utils} other{Other}}`
+  /// `{title, select, horario{Schedule} exames{Exams} area{Personal Area} cadeiras{Course Units} autocarros{Buses} locais{Places} restaurantes{Restaurants} calendario{Calendar} biblioteca{Library} percurso_academico{Academic Path} transportes{Transports} faculdade{Faculty} other{Other}}`
   String nav_title(Object title) {
     return Intl.select(
       title,
@@ -897,7 +897,9 @@ class S {
         'restaurantes': 'Restaurants',
         'calendario': 'Calendar',
         'biblioteca': 'Library',
-        'uteis': 'Utils',
+        'percurso_academico': 'Academic Path',
+        'transportes': 'Transports',
+        'faculdade': 'Faculty',
         'other': 'Other',
       },
       name: 'nav_title',
@@ -1011,6 +1013,16 @@ class S {
     return Intl.message(
       'No date',
       name: 'no_date',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No events found`
+  String get no_events {
+    return Intl.message(
+      'No events found',
+      name: 'no_events',
       desc: '',
       args: [],
     );
@@ -1186,6 +1198,16 @@ class S {
     );
   }
 
+  /// `No files found`
+  String get no_files_found {
+    return Intl.message(
+      'No files found',
+      name: 'no_files_found',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Other links`
   String get other_links {
     return Intl.message(
@@ -1251,6 +1273,56 @@ class S {
     return Intl.message(
       'Print',
       name: 'print',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `File opened successfully`
+  String get successful_open {
+    return Intl.message(
+      'File opened successfully',
+      name: 'successful_open',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Permission denied`
+  String get permission_denied {
+    return Intl.message(
+      'Permission denied',
+      name: 'permission_denied',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error opening the file`
+  String get open_error {
+    return Intl.message(
+      'Error opening the file',
+      name: 'open_error',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No app found to open the file`
+  String get no_app {
+    return Intl.message(
+      'No app found to open the file',
+      name: 'no_app',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error loading the information`
+  String get load_error {
+    return Intl.message(
+      'Error loading the information',
+      name: 'load_error',
       desc: '',
       args: [],
     );
@@ -1331,6 +1403,16 @@ class S {
     return Intl.message(
       'Room',
       name: 'room',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Files`
+  String get files {
+    return Intl.message(
+      'Files',
+      name: 'files',
       desc: '',
       args: [],
     );

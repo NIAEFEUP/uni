@@ -33,6 +33,7 @@ class PreferencesController {
   static const String _isDataCollectionBannerViewedKey =
       'data_collection_banner';
   static const String _locale = 'app_locale';
+  static const String _lastCacheCleanUpDate = 'last_clean';
   static const String _favoriteCards = 'favorite_cards';
   static final List<FavoriteWidgetType> _defaultFavoriteCards = [
     FavoriteWidgetType.schedule,
@@ -141,6 +142,16 @@ class PreferencesController {
       (e) => e.toString() == 'AppLocale.$appLocale',
       orElse: () => AppLocale.en,
     );
+  }
+
+  static Future<void> setLastCleanUpDate(DateTime date) async {
+    await prefs.setString(_lastCacheCleanUpDate, date.toString());
+  }
+
+  static DateTime getLastCleanUpDate() {
+    final date =
+        prefs.getString(_lastCacheCleanUpDate) ?? DateTime.now().toString();
+    return DateTime.parse(date);
   }
 
   /// Deletes the user's student number and password.

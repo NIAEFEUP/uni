@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
-import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/profile/profile.dart';
 
 class ProfileButton extends StatelessWidget {
@@ -22,8 +21,7 @@ class ProfileButton extends StatelessWidget {
     final profilePictureFile =
         await ProfileProvider.fetchOrGetCachedProfilePicture(
       sessionProvider.state!,
-      forceRetrieval:
-          forceRetrieval || GeneralPageViewState.profileImageProvider == null,
+      forceRetrieval: forceRetrieval,
     );
     return getProfileDecorationImage(profilePictureFile);
   }

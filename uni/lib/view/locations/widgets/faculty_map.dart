@@ -8,12 +8,14 @@ class FacultyMap extends StatelessWidget {
     required this.faculty,
     required this.locations,
     required this.searchFilter,
+    required this.interactiveFlags,
     super.key,
   });
 
   final String faculty;
   final List<LocationGroup> locations;
   final String searchFilter;
+  final int interactiveFlags;
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +26,7 @@ class FacultyMap extends StatelessWidget {
           southWestBoundary: const LatLng(41.17670, -8.59991),
           center: const LatLng(41.17731, -8.59522),
           locations: locations,
+          interactiveFlags: interactiveFlags,
           searchFilter: searchFilter,
         );
       default:
