@@ -25,23 +25,17 @@ class LibraryReservationDatabase extends AppDatabase {
   }
 
   Future<List<LibraryReservation>> reservations() async {
-    final db = await getDatabase();
+  final db = await getDatabase();
 
-    final List<Map<String, dynamic>> items = await db.query('RESERVATION');
+  final List<Map<String, dynamic>> items = await db.query('RESERVATION');
 
-    final reservations = <LibraryReservation>[];
-
-    for (var i = 0; i < items.length; i++) {
-      final minutes = items[i]['duration'] as int;
-      reservations.add(
-        LibraryReservation(
-          items[i]['room'] as String,
-          DateTime.parse(items[i]['startDate'] as String),
-          Duration(hours: minutes ~/ 60, minutes: minutes % 60),
-        ),
-      );
-    }
-
-    return reservations;
-  }
+  return items.map((item) {
+    final minutes = item['duration'] as int;
+    return LibraryReservation(
+      item['room'] as String,
+      DateTime.parse(item['startDate'] as String),
+      Duration(hours: minutes ~/ 60, minutes: minutes % 60),
+    );
+  }).toList();
+}
 }

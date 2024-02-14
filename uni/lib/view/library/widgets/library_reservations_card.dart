@@ -65,23 +65,23 @@ class RoomsList extends StatelessWidget {
         ),
       );
     }
-    final rooms = <Widget>[];
 
-    for (var i = 0; i < reservations.length && i < 2; i++) {
-      rooms.add(
-        Container(
+    final limitedReservations = reservations.take(2);
+    return Column(
+      children: limitedReservations.map((reservation) {
+        return Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            border:
-                Border.all(color: Theme.of(context).dividerColor, width: 0.5),
+            border: Border.all(
+              color: Theme.of(context).dividerColor,
+              width: 0.5,
+            ),
             borderRadius: const BorderRadius.all(Radius.circular(7)),
           ),
           margin: const EdgeInsets.all(8),
-          child: ReservationRow(reservations[i]),
-        ),
-      );
-    }
-
-    return Column(children: rooms);
+          child: ReservationRow(reservation),
+        );
+      }).toList(),
+    );
   }
 }

@@ -102,7 +102,7 @@ class FloorCard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Text(
-            'Piso ${floor.number}',
+            '${S.of(context).floor} ${floor.number}',
             style: Theme.of(context).textTheme.headlineSmall,
           ),
           Text(

@@ -34,14 +34,14 @@ class LibraryReservationsTab extends StatelessWidget {
 
 class LibraryReservationsTabView extends StatelessWidget {
   const LibraryReservationsTabView(this.reservations, {super.key});
-  final List<LibraryReservation>? reservations;
+  final List<LibraryReservation> reservations;
 
   @override
   Widget build(BuildContext context) {
     return ListView(
       shrinkWrap: true,
       children: [
-        LibraryReservationsList(reservations!),
+        LibraryReservationsList(reservations),
       ],
     );
   }
