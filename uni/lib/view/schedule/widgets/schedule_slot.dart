@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/generated/l10n.dart';
+import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/view/common_widgets/row_container.dart';
 import 'package:uni/view/course_unit_info/course_unit_info.dart';
@@ -110,29 +110,37 @@ class SubjectButtonWidget extends StatelessWidget {
   const SubjectButtonWidget({required this.occurrId, super.key});
 
   final int occurrId;
-
-  String toUcLink(int occurrId) {
-    const faculty = 'feup'; // should not be hardcoded
-    return '${NetworkRouter.getBaseUrl(faculty)}'
-        'UCURR_GERAL.FICHA_UC_VIEW?pv_ocorrencia_id=$occurrId';
-  }
-
-  void _launchURL(BuildContext context) {
+  CourseUnit correspondingCourseUnit(BuildContext context) {
     final courseUnits = Provider.of<ProfileProvider>(context, listen: false)
         .profile
         .courseUnits;
-    final correspondingCourseUnit =
-        courseUnits.firstWhere((courseUnit) => courseUnit.occurrId == occurrId);
+    final notFound =
+        CourseUnit(abbreviation: 'NF', name: 'not found', occurrId: 0);
+    final correspondingCourseUnit = courseUnits.firstWhere(
+      (courseUnit) => courseUnit.occurrId == occurrId,
+      orElse: () => notFound,
+    );
+
+    return correspondingCourseUnit;
+  }
+
+  void _launchURL(BuildContext context) {
+    final correspondCourseUnit = correspondingCourseUnit(context);
     Navigator.push(
       context,
       MaterialPageRoute<CourseUnitDetailPageView>(
-        builder: (context) => CourseUnitDetailPageView(correspondingCourseUnit),
+        builder: (context) => CourseUnitDetailPageView(correspondCourseUnit),
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    if (correspondingCourseUnit(context).name == 'not found') {
+      return const Column(
+        mainAxisSize: MainAxisSize.min,
+      );
+    }
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
