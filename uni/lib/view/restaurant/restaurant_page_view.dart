@@ -5,8 +5,6 @@ import 'package:uni/model/entities/meal.dart';
 import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/providers/lazy/restaurant_provider.dart';
 import 'package:uni/model/utils/day_of_week.dart';
-import 'package:uni/utils/drawer_items.dart';
-import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locale_notifier.dart';
@@ -40,41 +38,24 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
   Widget getBody(BuildContext context) {
     return Column(
       children: [
-        ListView(
-          shrinkWrap: true,
-          children: [
-            Container(
-              padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
-              alignment: Alignment.center,
-              child: PageTitle(
-                name: S.of(context).nav_title(DrawerItem.navRestaurants.title),
-                center: false,
-                pad: false,
-              ),
-            ),
-            TabBar(
-              controller: tabController,
-              isScrollable: true,
-              tabs: createTabs(context),
-            ),
-          ],
+        TabBar(
+          controller: tabController,
+          isScrollable: true,
+          tabs: createTabs(context),
+          padding: const EdgeInsets.only(top: 40),
         ),
-        const SizedBox(height: 10),
-        Expanded(
-          child: LazyConsumer<RestaurantProvider, List<Restaurant>>(
-            builder: (context, restaurants) => createTabViewBuilder(
-              restaurants,
-              context,
-            ),
-            onNullContent: Center(
-              child: Text(
-                S.of(context).no_menus,
-                style: const TextStyle(fontSize: 18),
-              ),
-            ),
-            hasContent: (List<Restaurant> restaurants) =>
-                restaurants.isNotEmpty,
+        LazyConsumer<RestaurantProvider, List<Restaurant>>(
+          builder: (context, restaurants) => createTabViewBuilder(
+            restaurants,
+            context,
           ),
+          onNullContent: Center(
+            child: Text(
+              S.of(context).no_menus,
+              style: const TextStyle(fontSize: 18),
+            ),
+          ),
+          hasContent: (List<Restaurant> restaurants) => restaurants.isNotEmpty,
         ),
       ],
     );
@@ -99,7 +80,7 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
           ),
         );
       }
-      return ListView(children: restaurantsWidgets);
+      return ListView(padding: EdgeInsets.zero, children: restaurantsWidgets);
     }).toList();
 
     return Expanded(
@@ -150,7 +131,7 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
     final meals = restaurant.getMealsOfDay(day);
     if (meals.isEmpty) {
       return Container(
-        margin: const EdgeInsets.only(top: 10, bottom: 5),
+        margin: const EdgeInsets.only(bottom: 5),
         key: Key('restaurant-page-day-column-$day'),
         child: Column(
           mainAxisSize: MainAxisSize.min,

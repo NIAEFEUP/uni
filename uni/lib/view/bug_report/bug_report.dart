@@ -22,4 +22,9 @@ class BugReportPageViewState extends SecondaryPageViewState<BugReportPageView> {
 
   @override
   Future<void> onRefresh(BuildContext context) async {}
+
+  @override
+  String? getTitle() {
+    return null;
+  }
 }

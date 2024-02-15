@@ -37,4 +37,9 @@ class AboutPageViewState extends SecondaryPageViewState<AboutPageView> {
 
   @override
   Future<void> onRefresh(BuildContext context) async {}
+
+  @override
+  String? getTitle() {
+    return null;
+  }
 }

@@ -144,4 +144,9 @@ class CourseUnitDetailPageViewState
 
     return CourseUnitClassesView(classes);
   }
+
+  @override
+  String? getTitle() {
+    return null;
+  }
 }

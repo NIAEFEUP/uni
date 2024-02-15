@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
+import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/profile/widgets/account_info_card.dart';
 import 'package:uni/view/profile/widgets/course_info_card.dart';
 import 'package:uni/view/profile/widgets/print_info_card.dart';
 import 'package:uni/view/profile/widgets/profile_overview.dart';
-import 'package:uni/view/settings/settings.dart';
 
 class ProfilePageView extends StatefulWidget {
   const ProfilePageView({super.key});
@@ -58,14 +58,12 @@ class ProfilePageViewState extends SecondaryPageViewState<ProfilePageView> {
   @override
   Widget getTopRightButton(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.fromLTRB(0, 10, 20, 10),
+      padding: const EdgeInsets.fromLTRB(0, 10, 8, 10),
       child: IconButton(
         icon: const Icon(Icons.settings),
-        onPressed: () => Navigator.push(
+        onPressed: () => Navigator.pushNamed(
           context,
-          MaterialPageRoute<SettingsPage>(
-            builder: (_) => const SettingsPage(),
-          ),
+          '/${NavigationItem.navSettings.route}',
         ),
       ),
     );
@@ -75,5 +73,10 @@ class ProfilePageViewState extends SecondaryPageViewState<ProfilePageView> {
   Future<void> onRefresh(BuildContext context) async {
     return Provider.of<ProfileProvider>(context, listen: false)
         .forceRefresh(context);
+  }
+
+  @override
+  String? getTitle() {
+    return null;
   }
 }

@@ -29,7 +29,7 @@ import 'package:uni/model/providers/plausible/plausible_provider.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/model/providers/state_providers.dart';
-import 'package:uni/utils/drawer_items.dart';
+import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/academic_path/academic_path.dart';
 import 'package:uni/view/bus_stop_next_arrivals/bus_stop_next_arrivals.dart';
 import 'package:uni/view/calendar/calendar.dart';
@@ -42,8 +42,10 @@ import 'package:uni/view/library/library.dart';
 import 'package:uni/view/locale_notifier.dart';
 import 'package:uni/view/locations/locations.dart';
 import 'package:uni/view/login/login.dart';
+import 'package:uni/view/profile/profile.dart';
 import 'package:uni/view/restaurant/restaurant_page_view.dart';
 import 'package:uni/view/schedule/schedule.dart';
+import 'package:uni/view/settings/settings.dart';
 import 'package:uni/view/theme.dart';
 import 'package:uni/view/theme_notifier.dart';
 import 'package:uni/view/transports/transports.dart';
@@ -226,67 +228,78 @@ class ApplicationState extends State<Application> {
           GlobalCupertinoLocalizations.delegate,
         ],
         supportedLocales: S.delegate.supportedLocales,
+        initialRoute: '/${NavigationItem.navPersonalArea.route}',
         home: widget.initialWidget,
         navigatorObservers: navigatorObservers,
         onGenerateRoute: (RouteSettings settings) {
           final transitions = {
-            '/${DrawerItem.navPersonalArea.title}':
+            '/${NavigationItem.navPersonalArea.route}':
                 PageTransition.makePageTransition(
               page: const HomePageView(),
               settings: settings,
             ),
-            '/${DrawerItem.navSchedule.title}':
+            '/${NavigationItem.navSchedule.route}':
                 PageTransition.makePageTransition(
               page: const SchedulePage(),
               settings: settings,
             ),
-            '/${DrawerItem.navExams.title}': PageTransition.makePageTransition(
+            '/${NavigationItem.navExams.route}':
+                PageTransition.makePageTransition(
               page: const ExamsPageView(),
               settings: settings,
             ),
-            '/${DrawerItem.navStops.title}': PageTransition.makePageTransition(
+            '/${NavigationItem.navStops.route}':
+                PageTransition.makePageTransition(
               page: const BusStopNextArrivalsPage(),
               settings: settings,
             ),
-            '/${DrawerItem.navCourseUnits.title}':
+            '/${NavigationItem.navCourseUnits.route}':
                 PageTransition.makePageTransition(
               page: const CourseUnitsPageView(),
               settings: settings,
             ),
-            '/${DrawerItem.navLocations.title}':
+            '/${NavigationItem.navLocations.route}':
                 PageTransition.makePageTransition(
               page: const LocationsPage(),
               settings: settings,
             ),
-            '/${DrawerItem.navRestaurants.title}':
+            '/${NavigationItem.navRestaurants.route}':
                 PageTransition.makePageTransition(
               page: const RestaurantPageView(),
               settings: settings,
             ),
-            '/${DrawerItem.navCalendar.title}':
+            '/${NavigationItem.navCalendar.route}':
                 PageTransition.makePageTransition(
               page: const CalendarPageView(),
               settings: settings,
             ),
-            '/${DrawerItem.navLibrary.title}':
+            '/${NavigationItem.navLibrary.route}':
                 PageTransition.makePageTransition(
               page: const LibraryPage(),
               settings: settings,
             ),
-            '/${DrawerItem.navFaculty.title}':
+            '/${NavigationItem.navFaculty.route}':
                 PageTransition.makePageTransition(
               page: const FacultyPageView(),
               settings: settings,
             ),
-            '/${DrawerItem.navAcademicPath.title}':
+            '/${NavigationItem.navAcademicPath.route}':
                 PageTransition.makePageTransition(
               page: const AcademicPathPageView(),
               settings: settings,
             ),
-            '/${DrawerItem.navTransports.title}':
+            '/${NavigationItem.navTransports.route}':
                 PageTransition.makePageTransition(
               page: const TransportsPageView(),
               settings: settings,
+            ),
+            '/${NavigationItem.navProfile.route}':
+                MaterialPageRoute<ProfilePageView>(
+              builder: (__) => const ProfilePageView(),
+            ),
+            '/${NavigationItem.navSettings.route}':
+                MaterialPageRoute<SettingsPage>(
+              builder: (_) => const SettingsPage(),
             ),
           };
           return transitions[settings.name];
