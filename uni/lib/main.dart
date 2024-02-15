@@ -293,10 +293,6 @@ class ApplicationState extends State<Application> {
               page: const TransportsPageView(),
               settings: settings,
             ),
-            '/${NavigationItem.navProfile.route}':
-                MaterialPageRoute<ProfilePageView>(
-              builder: (__) => const ProfilePageView(),
-            ),
             '/${NavigationItem.navSettings.route}':
                 MaterialPageRoute<SettingsPage>(
               builder: (_) => const SettingsPage(),

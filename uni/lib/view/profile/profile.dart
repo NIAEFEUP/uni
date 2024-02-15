@@ -12,7 +12,9 @@ import 'package:uni/view/profile/widgets/print_info_card.dart';
 import 'package:uni/view/profile/widgets/profile_overview.dart';
 
 class ProfilePageView extends StatefulWidget {
-  const ProfilePageView({super.key});
+  const ProfilePageView({required this.profileDecorationImage, super.key});
+
+  final DecorationImage profileDecorationImage;
 
   @override
   State<StatefulWidget> createState() => ProfilePageViewState();
@@ -20,6 +22,11 @@ class ProfilePageView extends StatefulWidget {
 
 /// Manages the 'Personal user page' section.
 class ProfilePageViewState extends SecondaryPageViewState<ProfilePageView> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget getBody(BuildContext context) {
     return LazyConsumer<ProfileProvider, Profile>(
@@ -40,7 +47,7 @@ class ProfilePageViewState extends SecondaryPageViewState<ProfilePageView> {
             const Padding(padding: EdgeInsets.all(10)),
             ProfileOverview(
               profile: profile,
-              getProfileDecorationImage: getProfileDecorationImage,
+              profileDecorationImage: widget.profileDecorationImage,
             ),
             const Padding(padding: EdgeInsets.all(5)),
             ...courseWidgets,

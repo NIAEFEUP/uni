@@ -6,6 +6,9 @@ import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/utils/navigation_items.dart';
 
+import '../../../../profile/profile.dart';
+import '../../../profile_transition.dart';
+
 class ProfileButton extends StatelessWidget {
   const ProfileButton({required this.getProfileDecorationImage, super.key});
 
@@ -36,17 +39,27 @@ class ProfileButton extends StatelessWidget {
       ) {
         return TextButton(
           onPressed: () => {
-            Navigator.pushNamed(
-              context,
-              '/${NavigationItem.navProfile.route}',
-            ),
+            if (decorationImage.hasData)
+              {
+                Navigator.push(
+                  context,
+                  ProfilePageRoute(
+                    builder: (_) => ProfilePageView(
+                      profileDecorationImage: decorationImage.requireData,
+                    ),
+                  ),
+                ),
+              },
           },
-          child: Container(
-            width: 50,
-            height: 50,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              image: decorationImage.data,
+          child: Hero(
+            tag: 'profilePicture',
+            child: Container(
+              width: 50,
+              height: 50,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                image: decorationImage.data,
+              ),
             ),
           ),
         );
