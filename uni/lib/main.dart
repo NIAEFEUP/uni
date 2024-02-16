@@ -34,6 +34,7 @@ import 'package:uni/view/academic_path/academic_path.dart';
 import 'package:uni/view/bus_stop_next_arrivals/bus_stop_next_arrivals.dart';
 import 'package:uni/view/calendar/calendar.dart';
 import 'package:uni/view/common_widgets/page_transition.dart';
+import 'package:uni/view/common_widgets/profile_transition.dart';
 import 'package:uni/view/course_units/course_units.dart';
 import 'package:uni/view/exams/exams.dart';
 import 'package:uni/view/faculty/faculty.dart';
@@ -292,6 +293,11 @@ class ApplicationState extends State<Application> {
                 PageTransition.makePageTransition(
               page: const TransportsPageView(),
               settings: settings,
+            ),
+            '/${NavigationItem.navProfile.route}': ProfilePageRoute(
+              builder: (_) => ProfilePageView(
+                profileDecorationImage: settings.arguments! as DecorationImage,
+              ),
             ),
             '/${NavigationItem.navSettings.route}':
                 MaterialPageRoute<SettingsPage>(
