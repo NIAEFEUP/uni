@@ -23,6 +23,14 @@ class CourseUnitDetailPageView extends StatefulWidget {
 
 class CourseUnitDetailPageViewState
     extends SecondaryPageViewState<CourseUnitDetailPageView> {
+  @override
+  void initState() {
+    super.initState();
+    super.onLoad = (BuildContext context) async {
+      await loadInfo(force: false);
+    };
+  }
+
   Future<void> loadInfo({required bool force}) async {
     final courseUnitsProvider =
         Provider.of<CourseUnitsInfoProvider>(context, listen: false);
@@ -59,11 +67,6 @@ class CourseUnitDetailPageViewState
   @override
   Future<void> onRefresh(BuildContext context) async {
     await loadInfo(force: true);
-  }
-
-  @override
-  Future<void> onLoad(BuildContext context) async {
-    await loadInfo(force: false);
   }
 
   @override

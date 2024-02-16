@@ -15,13 +15,15 @@ import 'package:uni/view/common_widgets/pages_layouts/general/widgets/top_naviga
 abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
   bool _loadedOnce = false;
   bool _loading = true;
+  Future<void> Function(BuildContext)? onLoad;
 
   Future<void> onRefresh(BuildContext context);
 
-  Future<void> onLoad(BuildContext context) async {}
-
   @override
   Widget build(BuildContext context) {
+    if (onLoad == null) {
+      return getScaffold(context, getBody(context));
+    }
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (_loadedOnce || !mounted) {
         return;
@@ -32,7 +34,7 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
       });
 
       try {
-        await onLoad(context);
+        await onLoad!(context);
       } catch (e, stackTrace) {
         Logger().e('Failed to load page info: $e\n$stackTrace');
         await Sentry.captureException(e, stackTrace: stackTrace);

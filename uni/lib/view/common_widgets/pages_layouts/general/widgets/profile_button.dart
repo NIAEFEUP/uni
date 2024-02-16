@@ -36,17 +36,24 @@ class ProfileButton extends StatelessWidget {
       ) {
         return TextButton(
           onPressed: () => {
-            Navigator.pushNamed(
-              context,
-              '/${NavigationItem.navProfile.route}',
-            ),
+            if (decorationImage.hasData)
+              {
+                Navigator.pushNamed(
+                  context,
+                  '/${NavigationItem.navProfile.route}',
+                  arguments: decorationImage.requireData,
+                ),
+              },
           },
-          child: Container(
-            width: 50,
-            height: 50,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              image: decorationImage.data,
+          child: Hero(
+            tag: 'profilePicture',
+            child: Container(
+              width: 50,
+              height: 50,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                image: decorationImage.data,
+              ),
             ),
           ),
         );
