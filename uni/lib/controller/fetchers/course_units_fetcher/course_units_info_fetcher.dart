@@ -19,12 +19,16 @@ class CourseUnitsInfoFetcher implements SessionDependantFetcher {
   ) async {
     // if course unit is not from the main faculty, Sigarra redirects
     final url = '${getEndpoints(session)[0]}ucurr_geral.ficha_uc_view';
-    final response = await NetworkRouter.getWithCookies(
-      url,
-      {'pv_ocorrencia_id': occurrId.toString()},
-      session,
-    );
-    return parseCourseUnitSheet(response);
+    try {
+      final response = await NetworkRouter.getWithCookies(
+        url,
+        {'pv_ocorrencia_id': occurrId.toString()},
+        session,
+      );
+      return parseCourseUnitSheet(response);
+    } catch (_) {
+      return CourseUnitSheet({});
+    }
   }
 
   Future<List<CourseUnitFileDirectory>> fetchCourseUnitFiles(
@@ -32,14 +36,18 @@ class CourseUnitsInfoFetcher implements SessionDependantFetcher {
     int occurId,
   ) async {
     final url = '${getEndpoints(session)[0]}mob_ucurr_geral.conteudos';
-    final response = await NetworkRouter.getWithCookies(
-      url,
-      {
-        'pv_ocorrencia_id': occurId.toString(),
-      },
-      session,
-    );
-    return parseFiles(response, session);
+    try {
+      final response = await NetworkRouter.getWithCookies(
+        url,
+        {
+          'pv_ocorrencia_id': occurId.toString(),
+        },
+        session,
+      );
+      return parseFiles(response, session);
+    } catch (_) {
+      return [CourseUnitFileDirectory('', [])];
+    }
   }
 
   Future<String> getDownloadLink(

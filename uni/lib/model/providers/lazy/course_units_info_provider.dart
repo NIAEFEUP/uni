@@ -40,7 +40,6 @@ class CourseUnitsInfoProvider
   ) async {
     state!.item1[courseUnit] = await CourseUnitsInfoFetcher()
         .fetchCourseUnitSheet(session, courseUnit.occurrId);
-    notifyListeners();
   }
 
   Future<void> fetchCourseUnitClasses(
