@@ -91,7 +91,7 @@ jobs:
           echo "$NEW_VERSION_NAME+$((${{steps.latest-production-version.outputs.latest_version_code}} + 1))" > ${{env.APP_VERSION_PATH}}
 
       - name: Copy app version to pubspec
-        run: cat ${{ env.APP_VERSION_PATH }} | perl -i -pe 's/^(version:\s+)(\d+\.\d+\.\d+\+\d+)$/$1.(<STDIN>)/e' ${{ env.PUBSPEC_PATH }}
+        run: cat ${{ env.APP_VERSION_PATH }} | tr -d '\n' | perl -i -pe 's/^(version:\s+)(.+)$/$1.(<STDIN>)/e' ${{ env.PUBSPEC_PATH }}
 
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
