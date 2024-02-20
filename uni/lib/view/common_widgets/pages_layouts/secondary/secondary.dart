@@ -14,7 +14,8 @@ abstract class SecondaryPageViewState<T extends StatefulWidget>
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: getTopNavbar(context),
       bottomNavigationBar: const AppBottomNavbar(),
-      body: RefreshState(onRefresh: onRefresh, child: body),
+      body: RefreshState(
+          onRefresh: onRefresh, header: getHeader(context), body: body),
     );
   }
 

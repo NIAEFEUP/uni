@@ -24,16 +24,6 @@ class BusStopNextArrivalsPage extends StatefulWidget {
 class BusStopNextArrivalsPageState
     extends SecondaryPageViewState<BusStopNextArrivalsPage> {
   @override
-  Widget getHeader(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.only(bottom: 12),
-      child: PageTitle(
-        name: S.of(context).nav_title(DrawerItem.navStops.title),
-      ),
-    );
-  }
-
-  @override
   Widget getBody(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
