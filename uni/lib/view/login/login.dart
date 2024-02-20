@@ -9,7 +9,7 @@ import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/login_exceptions.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/model/providers/state_providers.dart';
-import 'package:uni/utils/drawer_items.dart';
+import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/toast_message.dart';
 import 'package:uni/view/home/widgets/exit_app_dialog.dart';
 import 'package:uni/view/login/widgets/inputs.dart';
@@ -64,7 +64,7 @@ class LoginPageViewState extends State<LoginPageView> {
         if (context.mounted) {
           await Navigator.pushReplacementNamed(
             context,
-            '/${DrawerItem.navPersonalArea.title}',
+            '/${NavigationItem.navPersonalArea.route}',
           );
           setState(() {
             _loggingIn = false;

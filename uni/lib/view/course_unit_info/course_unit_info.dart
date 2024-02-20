@@ -7,6 +7,7 @@ import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_classes.dart';
+import 'package:uni/view/course_unit_info/widgets/course_unit_files.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_sheet.dart';
 
 class CourseUnitDetailPageView extends StatefulWidget {
@@ -36,6 +37,15 @@ class CourseUnitDetailPageViewState
       );
     }
 
+    final courseUnitFiles =
+        courseUnitsProvider.courseUnitsFiles[widget.courseUnit];
+    if (courseUnitFiles == null || force) {
+      await courseUnitsProvider.fetchCourseUnitFiles(
+        widget.courseUnit,
+        session,
+      );
+    }
+
     final courseUnitClasses =
         courseUnitsProvider.courseUnitsClasses[widget.courseUnit];
     if (courseUnitClasses == null || force) {
@@ -59,7 +69,7 @@ class CourseUnitDetailPageViewState
   @override
   Widget getBody(BuildContext context) {
     return DefaultTabController(
-      length: 2,
+      length: 3,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -71,6 +81,9 @@ class CourseUnitDetailPageViewState
             tabs: [
               Tab(text: S.of(context).course_info),
               Tab(text: S.of(context).course_class),
+              Tab(
+                text: S.of(context).files,
+              ),
             ],
           ),
           Expanded(
@@ -80,6 +93,7 @@ class CourseUnitDetailPageViewState
                 children: [
                   _courseUnitSheetView(context),
                   _courseUnitClassesView(context),
+                  _courseUnitFilesView(context),
                 ],
               ),
             ),
@@ -106,6 +120,14 @@ class CourseUnitDetailPageViewState
     return CourseUnitSheetView(sheet);
   }
 
+  Widget _courseUnitFilesView(BuildContext context) {
+    final sheet = context
+        .watch<CourseUnitsInfoProvider>()
+        .courseUnitsFiles[widget.courseUnit];
+
+    return CourseUnitFilesView(sheet!);
+  }
+
   Widget _courseUnitClassesView(BuildContext context) {
     final classes = context
         .read<CourseUnitsInfoProvider>()
@@ -121,5 +143,10 @@ class CourseUnitDetailPageViewState
     }
 
     return CourseUnitClassesView(classes);
+  }
+
+  @override
+  String? getTitle() {
+    return null;
   }
 }

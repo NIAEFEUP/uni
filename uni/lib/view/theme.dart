@@ -9,6 +9,7 @@ const Color _strongGrey = Color.fromARGB(255, 90, 90, 90);
 const Color _mildBlack = Color.fromARGB(255, 43, 43, 43);
 const Color _darkishBlack = Color.fromARGB(255, 43, 43, 43);
 const Color _darkBlack = Color.fromARGB(255, 27, 27, 27);
+const Color _lightBlue = Color.fromARGB(255, 172, 193, 206);
 
 const _textTheme = TextTheme(
   displayLarge: TextStyle(fontSize: 40, fontWeight: FontWeight.w400),
@@ -54,7 +55,7 @@ ThemeData applicationDarkTheme = ThemeData(
     background: _darkBlack,
     primary: _lightGrey,
     onPrimary: _darkishBlack,
-    secondary: _lightGrey,
+    secondary: _lightBlue,
     onSecondary: _darkishBlack,
     tertiary: _lightGrey,
     onTertiary: _darkishBlack,

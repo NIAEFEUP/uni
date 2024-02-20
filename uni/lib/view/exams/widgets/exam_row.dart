@@ -54,11 +54,13 @@ class _ExamRowState extends State<ExamRow> {
                 children: <Widget>[
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ExamTime(
-                        begin: widget.exam.beginTime,
-                      ),
-                    ],
+                    children: widget.exam.beginTime != '00:00'
+                        ? [
+                            ExamTime(
+                              begin: widget.exam.beginTime,
+                            ),
+                          ]
+                        : [],
                   ),
                   ExamTitle(
                     subject: widget.exam.subject,

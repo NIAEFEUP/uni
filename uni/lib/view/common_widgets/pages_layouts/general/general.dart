@@ -7,14 +7,12 @@ import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
-import 'package:uni/view/common_widgets/pages_layouts/general/widgets/app_bar.dart';
-import 'package:uni/view/common_widgets/pages_layouts/general/widgets/navigation_drawer.dart';
-import 'package:uni/view/common_widgets/pages_layouts/general/widgets/profile_button.dart';
+import 'package:uni/view/common_widgets/pages_layouts/general/widgets/bottom_navigation_bar.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/refresh_state.dart';
+import 'package:uni/view/common_widgets/pages_layouts/general/widgets/top_navigation_bar.dart';
 
 /// Page with a hamburger menu and the user profile picture
 abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
-  final double borderMargin = 18;
   bool _loadedOnce = false;
   bool _loading = true;
 
@@ -116,15 +114,13 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
 
   Widget getScaffold(BuildContext context, Widget body) {
     return Scaffold(
-      appBar: CustomAppBar(getTopRightButton: getTopRightButton),
-      drawer: AppNavigationDrawer(
-        parentContext: context,
-      ),
+      appBar: getTopNavbar(context),
+      bottomNavigationBar: const AppBottomNavbar(),
       body: RefreshState(onRefresh: onRefresh, child: body),
     );
   }
 
-  /// Gets a round shaped button with the photo of the current user.
-  Widget getTopRightButton(BuildContext context) =>
-      ProfileButton(getProfileDecorationImage: getProfileDecorationImage);
+  AppTopNavbar? getTopNavbar(BuildContext context) {
+    return null;
+  }
 }

@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/calendar_event.dart';
 import 'package:uni/model/providers/lazy/calendar_provider.dart';
-import 'package:uni/utils/drawer_items.dart';
+import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/calendar/calendar.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
 import 'package:uni/view/lazy_consumer.dart';
@@ -20,11 +20,11 @@ class CalendarCard extends GenericCard {
 
   @override
   String getTitle(BuildContext context) =>
-      S.of(context).nav_title(DrawerItem.navCalendar.title);
+      S.of(context).nav_title(NavigationItem.navCalendar.route);
 
   @override
   Future<Object?> onClick(BuildContext context) =>
-      Navigator.pushNamed(context, '/${DrawerItem.navCalendar.title}');
+      Navigator.pushNamed(context, '/${NavigationItem.navCalendar.route}');
 
   @override
   void onRefresh(BuildContext context) {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uni/generated/l10n.dart';
-import 'package:uni/utils/drawer_items.dart';
+import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/generic_expansion_card.dart';
 import 'package:uni/view/faculty/widgets/text_components.dart';
 
@@ -12,7 +12,7 @@ class CopyCenterCard extends GenericExpansionCard {
     return Column(
       children: <Container>[
         h1(
-          S.of(context).nav_title(DrawerItem.navSchedule.title),
+          S.of(context).nav_title(NavigationItem.navSchedule.route),
           context,
           initial: true,
         ),

@@ -4,6 +4,7 @@ import 'package:tuple/tuple.dart';
 import 'package:uni/controller/fetchers/course_units_fetcher/course_units_info_fetcher.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/entities/course_units/course_unit_class.dart';
+import 'package:uni/model/entities/course_units/course_unit_directory.dart';
 import 'package:uni/model/entities/course_units/course_unit_sheet.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
@@ -11,16 +12,17 @@ import 'package:uni/model/providers/state_providers.dart';
 
 typedef SheetsMap = Map<CourseUnit, CourseUnitSheet>;
 typedef ClassesMap = Map<CourseUnit, List<CourseUnitClass>>;
+typedef FilesMap = Map<CourseUnit, List<CourseUnitFileDirectory>>;
 
 class CourseUnitsInfoProvider
-    extends StateProviderNotifier<Tuple2<SheetsMap, ClassesMap>> {
+    extends StateProviderNotifier<Tuple3<SheetsMap, ClassesMap, FilesMap>> {
   CourseUnitsInfoProvider()
       : super(
           cacheDuration: null,
           // Const constructor is not allowed here because of the
           // need for mutable maps
           // ignore: prefer_const_constructors
-          initialState: Tuple2({}, {}),
+          initialState: Tuple3({}, {}, {}),
         );
 
   UnmodifiableMapView<CourseUnit, CourseUnitSheet> get courseUnitsSheets =>
@@ -28,6 +30,9 @@ class CourseUnitsInfoProvider
 
   UnmodifiableMapView<CourseUnit, List<CourseUnitClass>>
       get courseUnitsClasses => UnmodifiableMapView(state!.item2);
+
+  UnmodifiableMapView<CourseUnit, List<CourseUnitFileDirectory>>
+      get courseUnitsFiles => UnmodifiableMapView(state!.item3);
 
   Future<void> fetchCourseUnitSheet(
     CourseUnit courseUnit,
@@ -46,17 +51,25 @@ class CourseUnitsInfoProvider
         .fetchCourseUnitClasses(session, courseUnit.occurrId);
   }
 
-  @override
-  Future<Tuple2<SheetsMap, ClassesMap>> loadFromRemote(
-    StateProviders stateProviders,
+  Future<void> fetchCourseUnitFiles(
+    CourseUnit courseUnit,
+    Session session,
   ) async {
-    return const Tuple2({}, {});
+    state!.item3[courseUnit] = await CourseUnitsInfoFetcher()
+        .fetchCourseUnitFiles(session, courseUnit.occurrId);
   }
 
   @override
-  Future<Tuple2<SheetsMap, ClassesMap>> loadFromStorage(
+  Future<Tuple3<SheetsMap, ClassesMap, FilesMap>> loadFromRemote(
     StateProviders stateProviders,
   ) async {
-    return const Tuple2({}, {});
+    return const Tuple3({}, {}, {});
+  }
+
+  @override
+  Future<Tuple3<SheetsMap, ClassesMap, FilesMap>> loadFromStorage(
+    StateProviders stateProviders,
+  ) async {
+    return const Tuple3({}, {}, {});
   }
 }

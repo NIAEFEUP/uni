@@ -7,6 +7,7 @@ import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/providers/lazy/exam_provider.dart';
 import 'package:uni/utils/drawer_items.dart';
 import 'package:uni/view/common_widgets/date_rectangle.dart';
+import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
 import 'package:uni/view/common_widgets/row_container.dart';
 import 'package:uni/view/exams/widgets/exam_row.dart';
@@ -29,11 +30,11 @@ class ExamCard extends GenericCard {
 
   @override
   String getTitle(BuildContext context) =>
-      S.of(context).nav_title(DrawerItem.navExams.title);
+      S.of(context).nav_title(NavigationItem.navExams.route);
 
   @override
   Future<Object?> onClick(BuildContext context) =>
-      Navigator.pushNamed(context, '/${DrawerItem.navExams.title}');
+      Navigator.pushNamed(context, '/${NavigationItem.navExams.route}');
 
   @override
   void onRefresh(BuildContext context) {

@@ -21,7 +21,7 @@ class PageTitle extends StatelessWidget {
           ),
     );
     return Container(
-      padding: pad ? const EdgeInsets.fromLTRB(20, 20, 20, 10) : null,
+      padding: pad ? const EdgeInsets.fromLTRB(20, 30, 20, 10) : null,
       alignment: center ? Alignment.center : null,
       child: title,
     );

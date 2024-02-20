@@ -1,7 +1,46 @@
+import 'dart:convert';
+
 import 'package:html/parser.dart';
 import 'package:http/http.dart' as http;
+import 'package:uni/controller/fetchers/course_units_fetcher/course_units_info_fetcher.dart';
 import 'package:uni/model/entities/course_units/course_unit_class.dart';
+import 'package:uni/model/entities/course_units/course_unit_directory.dart';
+import 'package:uni/model/entities/course_units/course_unit_file.dart';
 import 'package:uni/model/entities/course_units/course_unit_sheet.dart';
+import 'package:uni/model/entities/session.dart';
+
+Future<List<CourseUnitFileDirectory>> parseFiles(
+  http.Response response,
+  Session session,
+) async {
+  final json = jsonDecode(response.body) as List<dynamic>;
+  final dirs = <CourseUnitFileDirectory>[];
+  if (json.isEmpty) return [];
+
+  for (var item in json) {
+    item = item as Map<String, dynamic>;
+    final files = <CourseUnitFile>[];
+    for (final file in item['ficheiros'] as List<dynamic>) {
+      if (file is Map<String, dynamic>) {
+        final fileName = file['nome'];
+        final fileDate = file['data_actualizacao'];
+        final fileCode = file['codigo'].toString();
+        final format = file['filename']
+            .toString()
+            .substring(file['filename'].toString().indexOf('.'));
+        final url = await CourseUnitsInfoFetcher().getDownloadLink(session);
+        final courseUnitFile = CourseUnitFile(
+          '${fileName}_$fileDate$format',
+          url,
+          fileCode,
+        );
+        files.add(courseUnitFile);
+      }
+    }
+    dirs.add(CourseUnitFileDirectory(item['nome'].toString(), files));
+  }
+  return dirs;
+}
 
 Future<CourseUnitSheet> parseCourseUnitSheet(http.Response response) async {
   final document = parse(response.body);
