@@ -27,15 +27,6 @@ class ExamsPageViewState extends SecondaryPageViewState<ExamsPageView> {
       PreferencesController.getFilteredExams();
 
   @override
-  Widget getHeader(BuildContext context) {
-    return ExamPageTitle(
-      () => setState(() {
-        filteredExamTypes = PreferencesController.getFilteredExams();
-      }),
-    );
-  }
-
-  @override
   Widget getBody(BuildContext context) {
     return ListView(
       children: [

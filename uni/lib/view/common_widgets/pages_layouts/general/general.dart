@@ -96,54 +96,15 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
     return result;
   }
 
-  Widget refreshState(BuildContext context, Widget child) {
-    return Column(
-      children: [
-        Align(
-          alignment: Alignment.centerLeft,
-          child: getHeader(context),
-        ),
-        Expanded(
-          child: LayoutBuilder(
-            builder: (context, viewportConstraints) {
-              return SingleChildScrollView(
-                child: RefreshIndicator(
-                  key: GlobalKey<RefreshIndicatorState>(),
-                  onRefresh: () =>
-                      ProfileProvider.fetchOrGetCachedProfilePicture(
-                    Provider.of<SessionProvider>(context, listen: false).state!,
-                    forceRetrieval: true,
-                  ).then((value) => onRefresh(context)),
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(
-                      minHeight: viewportConstraints.maxHeight,
-                      maxHeight: viewportConstraints.maxHeight,
-                    ),
-                    child: Builder(
-                      builder: (context) => GestureDetector(
-                        onHorizontalDragEnd: (dragDetails) {
-                          if (dragDetails.primaryVelocity! > 2) {
-                            Scaffold.of(context).openDrawer();
-                          }
-                        },
-                        child: child,
-                      ),
-                    ),
-                  ),
-                ),
-              );
-            },
-          ),
-        ),
-      ],
-    );
-  }
-
   Widget getScaffold(BuildContext context, Widget body) {
     return Scaffold(
       appBar: getTopNavbar(context),
       bottomNavigationBar: const AppBottomNavbar(),
-      body: RefreshState(onRefresh: onRefresh, child: body),
+      body: RefreshState(
+        onRefresh: onRefresh,
+        header: getHeader(context),
+        body: body,
+      ),
     );
   }
 
