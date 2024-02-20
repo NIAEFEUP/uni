@@ -92,55 +92,43 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
 
   Widget getBody(BuildContext context);
 
-  Widget refreshState(BuildContext context, Widget child) {
-    return Column(
-      children: [
-        Align(
-          alignment: Alignment.centerLeft,
-          child: getHeader(context),
-        ),
-        Expanded(
-          child: LayoutBuilder(
-            builder: (context, viewportConstraints) {
-              return SingleChildScrollView(
-                child: RefreshIndicator(
-                  key: GlobalKey<RefreshIndicatorState>(),
-                  onRefresh: () =>
-                      ProfileProvider.fetchOrGetCachedProfilePicture(
-                    Provider.of<SessionProvider>(context, listen: false).state!,
-                    forceRetrieval: true,
-                  ).then((value) => onRefresh(context)),
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(
-                      minHeight: viewportConstraints.maxHeight,
-                      maxHeight: viewportConstraints.maxHeight,
-                    ),
-                    child: Builder(
-                      builder: (context) => GestureDetector(
-                        onHorizontalDragEnd: (dragDetails) {
-                          if (dragDetails.primaryVelocity! > 2) {
-                            Scaffold.of(context).openDrawer();
-                          }
-                        },
-                        child: child,
-                      ),
-                    ),
-                  ),
-                ),
-              );
-            },
-          ),
-        ),
-      ],
+  Future<DecorationImage> buildProfileDecorationImage(
+    BuildContext context, {
+    bool forceRetrieval = false,
+  }) async {
+    final sessionProvider =
+        Provider.of<SessionProvider>(context, listen: false);
+    await sessionProvider.ensureInitialized(context);
+    final profilePictureFile =
+        await ProfileProvider.fetchOrGetCachedProfilePicture(
+      sessionProvider.state!,
+      forceRetrieval: forceRetrieval,
     );
+    return getProfileDecorationImage(profilePictureFile);
+  }
+
+  /// Returns the current user image.
+  ///
+  /// If the image is not found / doesn't exist returns a generic placeholder.
+  DecorationImage getProfileDecorationImage(File? profilePicture) {
+    const fallbackPicture = AssetImage('assets/images/profile_placeholder.png');
+    final image =
+        profilePicture == null ? fallbackPicture : FileImage(profilePicture);
+
+    final result =
+        DecorationImage(fit: BoxFit.cover, image: image as ImageProvider);
+    return result;
   }
 
   Widget getScaffold(BuildContext context, Widget body) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       bottomNavigationBar: const AppBottomNavbar(),
-      appBar: getTopNavbar(context),
-      body: RefreshState(onRefresh: onRefresh, child: body),
+      body: RefreshState(
+        onRefresh: onRefresh,
+        header: getHeader(context),
+        body: body,
+      ),
     );
   }
 

@@ -55,7 +55,7 @@ class CourseUnitsPageViewState
       hasContent: (Profile profile) => profile.courseUnits.isNotEmpty,
       onNullContent: Column(
         children: [
-          _getPageTitleAndFilters([], []),
+          _getFilters([], []),
           Center(
             heightFactor: 10,
             child: Text(
