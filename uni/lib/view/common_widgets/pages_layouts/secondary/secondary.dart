@@ -14,7 +14,10 @@ abstract class SecondaryPageViewState<T extends StatefulWidget>
       appBar: getTopNavbar(context),
       bottomNavigationBar: const AppBottomNavbar(),
       body: RefreshState(
-          onRefresh: onRefresh, header: getHeader(context), body: body),
+        onRefresh: onRefresh,
+        header: getHeader(context),
+        body: body,
+      ),
     );
   }
 
