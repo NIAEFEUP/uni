@@ -44,23 +44,28 @@ class AppBottomNavbar extends StatelessWidget {
       navbarItems.insert(
         index,
         index == currentIndex
-            ? item.toSelectedBottomNavigationBarItem()
-            : item.toUnselectedBottomNavigationBarItem(),
+            ? item.toSelectedBottomNavigationBarItem(context)
+            : item.toUnselectedBottomNavigationBarItem(context),
       );
     }
 
-    return BottomNavigationBar(
-      items: navbarItems,
-      onTap: (int index) => _onItemTapped(context, index),
-      currentIndex: currentIndex == -1 ? 0 : currentIndex,
-      type: BottomNavigationBarType.fixed,
-      iconSize: 32,
-      selectedItemColor: currentIndex == -1
-          ? Theme.of(context).colorScheme.onSurface
-          : Theme.of(context).colorScheme.secondary,
-      unselectedItemColor: Theme.of(context).colorScheme.onSurface,
-      showSelectedLabels: false,
-      showUnselectedLabels: false,
-    );
+    return Theme(
+        data: Theme.of(context).copyWith(
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+        ),
+        child: BottomNavigationBar(
+          items: navbarItems,
+          onTap: (int index) => _onItemTapped(context, index),
+          currentIndex: currentIndex == -1 ? 0 : currentIndex,
+          type: BottomNavigationBarType.fixed,
+          iconSize: 32,
+          selectedItemColor: currentIndex == -1
+              ? Theme.of(context).colorScheme.onSurface
+              : Theme.of(context).colorScheme.secondary,
+          unselectedItemColor: Theme.of(context).colorScheme.onSurface,
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
+        ));
   }
 }
