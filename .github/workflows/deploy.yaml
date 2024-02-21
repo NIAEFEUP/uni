@@ -169,5 +169,5 @@ jobs:
       - name: Propagate version to develop
         if: github.ref == 'refs/heads/master'
         run: |
-          cat ${{ secrets.NIAEFEUPBOT_PAT }} | gh auth login --with-token
+          echo '${{ secrets.NIAEFEUPBOT_PAT }}' | gh auth login --with-token
           gh workflow run 'Deploy Action' --ref develop
