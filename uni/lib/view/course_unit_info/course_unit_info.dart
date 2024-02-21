@@ -121,11 +121,20 @@ class CourseUnitDetailPageViewState
   }
 
   Widget _courseUnitFilesView(BuildContext context) {
-    final sheet = context
+    final files = context
         .watch<CourseUnitsInfoProvider>()
         .courseUnitsFiles[widget.courseUnit];
 
-    return CourseUnitFilesView(sheet!);
+    if (files == null || files.isEmpty) {
+      return Center(
+        child: Text(
+          S.of(context).no_files_found,
+          textAlign: TextAlign.center,
+        ),
+      );
+    }
+
+    return CourseUnitFilesView(files);
   }
 
   Widget _courseUnitClassesView(BuildContext context) {
