@@ -4,6 +4,7 @@ import 'package:html/parser.dart';
 import 'package:http/http.dart' as http;
 import 'package:uni/controller/fetchers/course_units_fetcher/course_units_info_fetcher.dart';
 import 'package:uni/model/entities/course_units/course_unit_class.dart';
+import 'package:uni/model/entities/course_units/sheet.dart';
 import 'package:uni/model/entities/course_units/course_unit_directory.dart';
 import 'package:uni/model/entities/course_units/course_unit_file.dart';
 import 'package:uni/model/entities/course_units/course_unit_sheet.dart';
@@ -40,6 +41,15 @@ Future<List<CourseUnitFileDirectory>> parseFiles(
     dirs.add(CourseUnitFileDirectory(item['nome'].toString(), files));
   }
   return dirs;
+}
+
+Future<Sheet> parseSheet(http.Response response) async {
+  final json = jsonDecode(response.body) as Map<String, dynamic>;
+  final sheet = <String, dynamic>{};
+  for (final item in json.entries) {
+    sheet[item.key] = item.value;
+  }
+  return Sheet(sheet);
 }
 
 Future<CourseUnitSheet> parseCourseUnitSheet(http.Response response) async {
