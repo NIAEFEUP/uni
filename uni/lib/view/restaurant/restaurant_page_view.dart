@@ -35,15 +35,20 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
   }
 
   @override
+  Widget getHeader(BuildContext context) {
+    return TabBar(
+      controller: tabController,
+      isScrollable: true,
+      tabs: createTabs(context),
+      padding: const EdgeInsets.only(top: 40),
+    );
+  }
+
+  @override
   Widget getBody(BuildContext context) {
     return Column(
       children: [
-        TabBar(
-          controller: tabController,
-          isScrollable: true,
-          tabs: createTabs(context),
-          padding: const EdgeInsets.only(top: 40),
-        ),
+        const SizedBox(height: 10),
         LazyConsumer<RestaurantProvider, List<Restaurant>>(
           builder: (context, restaurants) => createTabViewBuilder(
             restaurants,

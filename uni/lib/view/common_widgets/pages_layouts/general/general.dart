@@ -62,6 +62,10 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
     );
   }
 
+  Widget getHeader(BuildContext context) {
+    return Container();
+  }
+
   Widget getBody(BuildContext context);
 
   Future<DecorationImage> buildProfileDecorationImage(
@@ -92,31 +96,15 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
     return result;
   }
 
-  Widget refreshState(BuildContext context, Widget child) {
-    return RefreshIndicator(
-      key: GlobalKey<RefreshIndicatorState>(),
-      onRefresh: () => ProfileProvider.fetchOrGetCachedProfilePicture(
-        Provider.of<SessionProvider>(context, listen: false).state!,
-        forceRetrieval: true,
-      ).then((value) => onRefresh(context)),
-      child: Builder(
-        builder: (context) => GestureDetector(
-          onHorizontalDragEnd: (dragDetails) {
-            if (dragDetails.primaryVelocity! > 2) {
-              Scaffold.of(context).openDrawer();
-            }
-          },
-          child: child,
-        ),
-      ),
-    );
-  }
-
   Widget getScaffold(BuildContext context, Widget body) {
     return Scaffold(
       appBar: getTopNavbar(context),
       bottomNavigationBar: const AppBottomNavbar(),
-      body: RefreshState(onRefresh: onRefresh, child: body),
+      body: RefreshState(
+        onRefresh: onRefresh,
+        header: getHeader(context),
+        body: body,
+      ),
     );
   }
 
