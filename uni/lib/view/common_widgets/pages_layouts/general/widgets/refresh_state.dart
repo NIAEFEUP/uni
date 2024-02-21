@@ -4,11 +4,12 @@ import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 
 class RefreshState extends StatelessWidget {
-  const RefreshState(
-      {required this.onRefresh,
-      required this.header,
-      required this.body,
-      super.key});
+  const RefreshState({
+    required this.onRefresh,
+    required this.header,
+    required this.body,
+    super.key,
+  });
 
   final Future<void> Function(BuildContext) onRefresh;
   final Widget header;
