@@ -28,7 +28,8 @@ enum NavbarItem {
   final NavigationItem item;
 
   BottomNavigationBarItem toUnselectedBottomNavigationBarItem(
-      BuildContext context) {
+    BuildContext context,
+  ) {
     return BottomNavigationBarItem(
       icon: Icon(unselectedIcon),
       label: '',
@@ -37,7 +38,8 @@ enum NavbarItem {
   }
 
   BottomNavigationBarItem toSelectedBottomNavigationBarItem(
-      BuildContext context) {
+    BuildContext context,
+  ) {
     return BottomNavigationBarItem(
       icon: Icon(selectedIcon),
       label: '',
