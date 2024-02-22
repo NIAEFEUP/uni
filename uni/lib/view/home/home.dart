@@ -74,17 +74,17 @@ class HomePageViewState extends GeneralPageViewState {
   }
 
   @override
+  String? getTitle() => null;
+
+  @override
   AppTopNavbar? getTopNavbar(BuildContext context) {
     return AppTopNavbar(
       leftButton: const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 8),
-        child: UniIcon(),
-      ),
-      rightButton: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8),
-        child: ProfileButton(
-          getProfileDecorationImage: getProfileDecorationImage,
-        ),
+        child: const UniIcon(),
+      ),
+      rightButton: ProfileButton(
+        getProfileDecorationImage: getProfileDecorationImage,
       ),
     );
   }
