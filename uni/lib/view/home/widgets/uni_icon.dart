@@ -9,16 +9,13 @@ class UniIcon extends StatelessWidget {
     return ButtonTheme(
       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
       shape: const RoundedRectangleBorder(),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12),
-        child: SvgPicture.asset(
-          colorFilter: ColorFilter.mode(
-            Theme.of(context).primaryColor,
-            BlendMode.srcIn,
-          ),
-          'assets/images/logo_dark.svg',
-          height: 35,
+      child: SvgPicture.asset(
+        colorFilter: ColorFilter.mode(
+          Theme.of(context).primaryColor,
+          BlendMode.srcIn,
         ),
+        'assets/images/logo_dark.svg',
+        height: 35,
       ),
     );
   }

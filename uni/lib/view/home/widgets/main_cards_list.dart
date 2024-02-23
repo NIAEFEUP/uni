@@ -66,6 +66,7 @@ class MainCardsListState extends State<MainCardsList> {
                   ),
                 )
               : ListView(
+                  padding: EdgeInsets.zero,
                   children: <Widget>[
                     createTopBar(context),
                     ...favoriteCardsFromTypes(
@@ -147,7 +148,7 @@ class MainCardsListState extends State<MainCardsList> {
     BuildContext context,
   ) {
     return Container(
-      padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
