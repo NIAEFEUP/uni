@@ -34,20 +34,22 @@ class ProfileButton extends StatelessWidget {
         BuildContext context,
         AsyncSnapshot<DecorationImage> decorationImage,
       ) {
-        return TextButton(
+        return IconButton(
+          style: IconButton.styleFrom(
+            padding: const EdgeInsets.all(5),
+            shape: const CircleBorder(),
+          ),
           onPressed: () => {
             Navigator.pushNamed(
               context,
               '/${NavigationItem.navProfile.route}',
             ),
           },
-          child: Container(
-            width: 50,
-            height: 50,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              image: decorationImage.data,
-            ),
+          icon: CircleAvatar(
+            radius: 20,
+            foregroundImage: decorationImage.data?.image,
+            backgroundImage:
+                const AssetImage('assets/images/profile_placeholder.png'),
           ),
         );
       },
