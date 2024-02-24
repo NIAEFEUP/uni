@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/utils/navigation_items.dart';
-import 'package:uni/view/common_widgets/page_title.dart';
-import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni/view/library/widgets/library_occupation_tab.dart';
 import 'package:uni/view/library/widgets/library_reservations_tab.dart';
