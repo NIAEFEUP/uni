@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
@@ -37,8 +36,7 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
       try {
         await onLoad(context);
       } catch (e, stackTrace) {
-        final connectivity = await Connectivity().checkConnectivity();
-        if (connectivity == ConnectivityResult.none) {
+        if (e is SocketException) {
           setState(() {
             _connected = false;
           });
