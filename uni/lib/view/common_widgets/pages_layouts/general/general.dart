@@ -9,6 +9,7 @@ import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/bottom_navigation_bar.dart';
+import 'package:uni/view/common_widgets/pages_layouts/general/widgets/profile_button.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/refresh_state.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/top_navigation_bar.dart';
 
@@ -86,6 +87,8 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
     );
   }
 
+  String? getTitle();
+
   Widget getBody(BuildContext context);
 
   Future<DecorationImage> buildProfileDecorationImage(
@@ -138,13 +141,18 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
 
   Widget getScaffold(BuildContext context, Widget body) {
     return Scaffold(
-      appBar: getTopNavbar(context),
       bottomNavigationBar: const AppBottomNavbar(),
+      appBar: getTopNavbar(context),
       body: RefreshState(onRefresh: onRefresh, child: body),
     );
   }
 
   AppTopNavbar? getTopNavbar(BuildContext context) {
-    return null;
+    return AppTopNavbar(
+      title: this.getTitle(),
+      rightButton: ProfileButton(
+        getProfileDecorationImage: getProfileDecorationImage,
+      ),
+    );
   }
 }

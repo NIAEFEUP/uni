@@ -15,6 +15,33 @@ class AppTopNavbar extends StatelessWidget implements PreferredSizeWidget {
   final Widget? rightButton;
   final Widget? leftButton;
 
+  Widget _createTopWidgets(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(leftButton == null ? 20 : 12, 0, 8, 8),
+      child: Row(
+        children: [
+          if (leftButton != null)
+            Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: leftButton,
+            ),
+          Expanded(
+            child: PageTitle(
+              name: title ?? '',
+              pad: false,
+              center: false,
+            ),
+          ),
+          if (rightButton != null)
+            Padding(
+              padding: const EdgeInsets.only(left: 8),
+              child: rightButton,
+            ),
+        ],
+      ),
+    );
+  }
+
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 
@@ -24,27 +51,11 @@ class AppTopNavbar extends StatelessWidget implements PreferredSizeWidget {
       automaticallyImplyLeading: false,
       elevation: 0,
       iconTheme: Theme.of(context).iconTheme,
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      backgroundColor: Theme.of(context).colorScheme.background,
+      shadowColor: Theme.of(context).dividerColor,
+      surfaceTintColor: Theme.of(context).colorScheme.onSecondary,
       titleSpacing: 0,
-      title: Stack(
-        alignment: Alignment.center,
-        children: [
-          Align(
-            alignment: Alignment.centerLeft,
-            child: leftButton,
-          ),
-          Center(
-            child: PageTitle(
-              name: title ?? '',
-              pad: false,
-            ),
-          ),
-          Align(
-            alignment: Alignment.centerRight,
-            child: rightButton,
-          ),
-        ],
-      ),
+      title: _createTopWidgets(context),
     );
   }
 }
