@@ -1,7 +1,8 @@
 on:
   push:
     branches: [master, develop]
-
+  workflow_dispatch:
+name: Deploy Action
 jobs:
   build:
     permissions:
@@ -61,7 +62,7 @@ jobs:
           current_environment: staging
           production_version: ${{ steps.latest-production-version.outputs.latest_version_name }}
           staging_version: ${{ steps.latest-beta-version.outputs.latest_version_name }}
-          bump_type: preminor
+          bump_type: prerelease
       
       - name: Bump prod version (from develop)
         uses: LuisDuarte1/semver-bump-environment@v1.0.0
@@ -91,7 +92,7 @@ jobs:
           echo "$NEW_VERSION_NAME+$((${{steps.latest-production-version.outputs.latest_version_code}} + 1))" > ${{env.APP_VERSION_PATH}}
 
       - name: Copy app version to pubspec
-        run: cat ${{ env.APP_VERSION_PATH }} | perl -i -pe 's/^(version:\s+)(\d+\.\d+\.\d+\+\d+)$/$1.(<STDIN>)/e' ${{ env.PUBSPEC_PATH }}
+        run: cat ${{ env.APP_VERSION_PATH }} | tr -d '\n' | perl -i -pe 's/^(version:\s+)(.+)$/$1.(<STDIN>)/e' ${{ env.PUBSPEC_PATH }}
 
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
@@ -164,3 +165,9 @@ jobs:
           whatsNewDirectory: whatsnew
           track: production
           status: completed
+
+      - name: Propagate version to develop
+        if: github.ref == 'refs/heads/master'
+        run: |
+          echo '${{ secrets.NIAEFEUPBOT_PAT }}' | gh auth login --with-token
+          gh workflow run 'Deploy Action' --ref develop

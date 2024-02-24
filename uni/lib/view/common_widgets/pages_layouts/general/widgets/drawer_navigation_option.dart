@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:uni/utils/drawer_items.dart';
+import 'package:uni/utils/navigation_items.dart';
 
 class DrawerNavigationOption extends StatelessWidget {
   const DrawerNavigationOption({required this.item, super.key});
 
-  final DrawerItem item;
+  final NavigationItem item;
 
   String getCurrentRoute(BuildContext context) =>
       ModalRoute.of(context)!.settings.name == null
-          ? DrawerItem.values.toList()[0].title
+          ? NavigationItem.values.toList()[0].route
           : ModalRoute.of(context)!.settings.name!.substring(1);
 
   void onSelectPage(String key, BuildContext context) {
@@ -39,12 +39,12 @@ class DrawerNavigationOption extends StatelessWidget {
   Widget build(BuildContext context) {
     return DecoratedBox(
       decoration:
-          _getSelectionDecoration(item.title, context) ?? const BoxDecoration(),
+          _getSelectionDecoration(item.route, context) ?? const BoxDecoration(),
       child: ListTile(
         title: Container(
           padding: const EdgeInsets.only(bottom: 3, left: 20),
           child: Text(
-            item.title,
+            item.route,
             style: TextStyle(
               fontSize: 18,
               color: Theme.of(context).primaryColor,
@@ -54,8 +54,8 @@ class DrawerNavigationOption extends StatelessWidget {
         ),
         dense: true,
         contentPadding: EdgeInsets.zero,
-        selected: item.title == getCurrentRoute(context),
-        onTap: () => onSelectPage(item.title, context),
+        selected: item.route == getCurrentRoute(context),
+        onTap: () => onSelectPage(item.route, context),
       ),
     );
   }

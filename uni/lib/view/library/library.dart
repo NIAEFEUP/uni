@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:uni/generated/l10n.dart';
+import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
+import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni/view/library/widgets/library_occupation_tab.dart';
 import 'package:uni/view/library/widgets/library_reservations_tab.dart';
 
@@ -18,7 +20,7 @@ class LibraryPage extends StatefulWidget {
   State<StatefulWidget> createState() => LibraryPageState();
 }
 
-class LibraryPageState extends GeneralPageViewState<LibraryPage> {
+class LibraryPageState extends SecondaryPageViewState<LibraryPage> {
   late TabController tabController;
   late List<Tab> tabs;
   static const List<Widget> tabsContent = [
@@ -50,16 +52,10 @@ class LibraryPageState extends GeneralPageViewState<LibraryPage> {
               (widget.startTab == LibraryPageTab.occupation) ? 0 : 1;
           return Column(
             children: <Widget>[
-              ListView(
-                shrinkWrap: true,
-                children: <Widget>[
-                  PageTitle(name: S.of(context).library),
-                  TabBar(
-                    controller: tabController,
-                    physics: const BouncingScrollPhysics(),
-                    tabs: tabs,
-                  ),
-                ],
+              TabBar(
+                controller: tabController,
+                physics: const BouncingScrollPhysics(),
+                tabs: tabs,
               ),
               Expanded(
                 child: TabBarView(
@@ -73,4 +69,8 @@ class LibraryPageState extends GeneralPageViewState<LibraryPage> {
       ),
     );
   }
+
+  @override
+  String? getTitle() =>
+      S.of(context).nav_title(NavigationItem.navLibrary.route);
 }

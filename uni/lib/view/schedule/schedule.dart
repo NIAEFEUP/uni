@@ -3,10 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/providers/lazy/lecture_provider.dart';
-import 'package:uni/utils/drawer_items.dart';
+import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/expanded_image_label.dart';
-import 'package:uni/view/common_widgets/page_title.dart';
-import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
+import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locale_notifier.dart';
 import 'package:uni/view/schedule/widgets/schedule_slot.dart';
@@ -18,24 +17,13 @@ class SchedulePage extends StatefulWidget {
   SchedulePageState createState() => SchedulePageState();
 }
 
-class SchedulePageState extends GeneralPageViewState<SchedulePage> {
+class SchedulePageState extends SecondaryPageViewState<SchedulePage> {
   @override
   Widget getBody(BuildContext context) {
-    return Column(
-      children: [
-        PageTitle(
-          name: S.of(context).nav_title(
-                DrawerItem.navSchedule.title,
-              ),
-        ),
-        Expanded(
-          child: LazyConsumer<LectureProvider, List<Lecture>>(
-            builder: (context, lectures) => SchedulePageView(lectures),
-            hasContent: (lectures) => lectures.isNotEmpty,
-            onNullContent: const SchedulePageView([]),
-          ),
-        ),
-      ],
+    return LazyConsumer<LectureProvider, List<Lecture>>(
+      builder: (context, lectures) => SchedulePageView(lectures),
+      hasContent: (lectures) => lectures.isNotEmpty,
+      onNullContent: const SchedulePageView([]),
     );
   }
 
@@ -43,6 +31,10 @@ class SchedulePageState extends GeneralPageViewState<SchedulePage> {
   Future<void> onRefresh(BuildContext context) async {
     await context.read<LectureProvider>().forceRefresh(context);
   }
+
+  @override
+  String? getTitle() =>
+      S.of(context).nav_title(NavigationItem.navSchedule.route);
 }
 
 class SchedulePageView extends StatefulWidget {

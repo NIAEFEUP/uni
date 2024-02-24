@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/library_occupation.dart';
 import 'package:uni/model/providers/lazy/library_occupation_provider.dart';
-import 'package:uni/utils/drawer_items.dart';
+import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
 import 'package:uni/view/lazy_consumer.dart';
 
@@ -24,7 +24,7 @@ class LibraryOccupationCard extends GenericCard {
   @override
   Future<Object?> onClick(BuildContext context) => Navigator.pushNamed(
         context,
-        '/${DrawerItem.navLibraryOccupation.title}',
+        '/${NavigationItem.navLibraryOccupation.route}',
       );
 
   @override

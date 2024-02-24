@@ -4,9 +4,8 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/location_group.dart';
 import 'package:uni/model/providers/lazy/faculty_locations_provider.dart';
-import 'package:uni/utils/drawer_items.dart';
-import 'package:uni/view/common_widgets/page_title.dart';
-import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
+import 'package:uni/utils/navigation_items.dart';
+import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locations/widgets/faculty_map.dart';
 
@@ -17,7 +16,7 @@ class LocationsPage extends StatefulWidget {
   LocationsPageState createState() => LocationsPageState();
 }
 
-class LocationsPageState extends GeneralPageViewState
+class LocationsPageState extends SecondaryPageViewState
     with SingleTickerProviderStateMixin {
   ScrollController? scrollViewController;
 
@@ -36,6 +35,10 @@ class LocationsPageState extends GeneralPageViewState
 
   @override
   Future<void> onRefresh(BuildContext context) async {}
+
+  @override
+  String? getTitle() =>
+      S.of(context).nav_title(NavigationItem.navLocations.route);
 }
 
 class LocationsPageView extends StatefulWidget {
@@ -56,18 +59,12 @@ class LocationsPageViewState extends State<LocationsPageView> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return Column(
           children: [
-            PageTitle(
-              name: '${S.of(context).nav_title(DrawerItem.navLocations.title)}:'
-                  ' ${getLocation()}',
-              center: false,
-            ),
             Container(
-              width: 150,
+              width: constraints.maxWidth - 40,
               height: 40,
               margin: const EdgeInsets.fromLTRB(20, 10, 20, 0),
               child: TextFormField(
@@ -87,27 +84,28 @@ class LocationsPageViewState extends State<LocationsPageView> {
                 ),
               ),
             ),
-          ],
-        ),
-        const SizedBox(height: 10),
-        Expanded(
-          child: Container(
-            height: 10,
-            padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-            alignment: Alignment.center,
-            child: FacultyMap(
-              faculty: getLocation(),
-              locations: widget.locations,
-              searchFilter: searchTerms,
-              interactiveFlags: InteractiveFlag.all - InteractiveFlag.rotate,
-              // TODO(bdmendes): add support for multiple faculties
+            const SizedBox(height: 10),
+            Expanded(
+              child: Container(
+                height: 10,
+                padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                alignment: Alignment.center,
+                child: FacultyMap(
+                  faculty: getLocation(),
+                  locations: widget.locations,
+                  searchFilter: searchTerms,
+                  interactiveFlags:
+                      InteractiveFlag.all - InteractiveFlag.rotate,
+                  // TODO(bdmendes): add support for multiple faculties
+                ),
+              ),
             ),
-          ),
-        ),
-        const SizedBox(
-          height: 20,
-        ),
-      ],
+            const SizedBox(
+              height: 20,
+            ),
+          ],
+        );
+      },
     );
   }
 

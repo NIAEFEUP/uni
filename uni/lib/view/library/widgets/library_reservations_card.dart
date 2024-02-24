@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/library_reservation.dart';
 import 'package:uni/model/providers/lazy/library_reservations_provider.dart';
-import 'package:uni/utils/drawer_items.dart';
+import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/library/widgets/reservation_row.dart';
@@ -20,7 +20,7 @@ class LibraryReservationsCard extends GenericCard {
   @override
   Future<Object?> onClick(BuildContext context) => Navigator.pushNamed(
         context,
-        '/${DrawerItem.navLibraryReservations.title}',
+        '/${NavigationItem.navLibraryReservations.route}',
       );
 
   @override
