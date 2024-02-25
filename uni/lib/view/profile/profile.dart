@@ -54,14 +54,11 @@ class ProfilePageViewState extends SecondaryPageViewState<ProfilePageView> {
 
   @override
   Widget getTopRightButton(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.fromLTRB(0, 10, 8, 10),
-      child: IconButton(
-        icon: const Icon(Icons.settings),
-        onPressed: () => Navigator.pushNamed(
-          context,
-          '/${NavigationItem.navSettings.route}',
-        ),
+    return IconButton(
+      icon: const Icon(Icons.settings),
+      onPressed: () => Navigator.pushNamed(
+        context,
+        '/${NavigationItem.navSettings.route}',
       ),
     );
   }
