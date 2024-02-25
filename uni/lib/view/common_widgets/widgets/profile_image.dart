@@ -30,13 +30,13 @@ class ProfileImage extends StatelessWidget {
   ///
   /// If the image is not found / doesn't exist returns null.
   DecorationImage? getProfileDecorationImage(File? profilePicture) {
-    if (profilePicture == null) {
-      return null;
-    }
+    final image = profilePicture != null
+        ? FileImage(profilePicture) as ImageProvider<Object>
+        : const AssetImage('assets/images/profile_placeholder.png');
 
     return DecorationImage(
       fit: BoxFit.cover,
-      image: FileImage(profilePicture),
+      image: image,
     );
   }
 
@@ -51,8 +51,6 @@ class ProfileImage extends StatelessWidget {
         return CircleAvatar(
           radius: radius,
           foregroundImage: decorationImage.data?.image,
-          // backgroundImage:
-          //     const AssetImage('assets/images/profile_placeholder.png'),
           backgroundColor: Colors.transparent,
         );
       },
