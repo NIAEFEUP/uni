@@ -38,10 +38,7 @@ class ProfilePageViewState extends SecondaryPageViewState<ProfilePageView> {
           children: [
             const Padding(padding: EdgeInsets.all(5)),
             const Padding(padding: EdgeInsets.all(10)),
-            ProfileOverview(
-              profile: profile,
-              getProfileDecorationImage: getProfileDecorationImage,
-            ),
+            ProfileOverview(profile: profile),
             const Padding(padding: EdgeInsets.all(5)),
             ...courseWidgets,
             AccountInfoCard(),
@@ -57,14 +54,11 @@ class ProfilePageViewState extends SecondaryPageViewState<ProfilePageView> {
 
   @override
   Widget getTopRightButton(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.fromLTRB(0, 10, 8, 10),
-      child: IconButton(
-        icon: const Icon(Icons.settings),
-        onPressed: () => Navigator.pushNamed(
-          context,
-          '/${NavigationItem.navSettings.route}',
-        ),
+    return IconButton(
+      icon: const Icon(Icons.settings),
+      onPressed: () => Navigator.pushNamed(
+        context,
+        '/${NavigationItem.navSettings.route}',
       ),
     );
   }
