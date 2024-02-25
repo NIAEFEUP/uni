@@ -60,20 +60,16 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
         context,
         Center(
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            child: Column(
-              children: [
-                ImageLabel(
-                  imagePath: 'assets/images/no_wifi.png',
-                  label: "It looks like you're offline",
-                  labelTextStyle: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                  sublabel: S.of(context).check_internet,
-                ),
-              ],
+            padding: const EdgeInsets.symmetric(vertical: 35),
+            child: ImageLabel(
+              imagePath: 'assets/images/no_wifi.png',
+              label: "It looks like you're offline",
+              labelTextStyle: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+              sublabel: S.of(context).check_internet,
             ),
           ),
         ),
