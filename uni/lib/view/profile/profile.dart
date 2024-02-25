@@ -38,10 +38,7 @@ class ProfilePageViewState extends SecondaryPageViewState<ProfilePageView> {
           children: [
             const Padding(padding: EdgeInsets.all(5)),
             const Padding(padding: EdgeInsets.all(10)),
-            ProfileOverview(
-              profile: profile,
-              getProfileDecorationImage: getProfileDecorationImage,
-            ),
+            ProfileOverview(profile: profile),
             const Padding(padding: EdgeInsets.all(5)),
             ...courseWidgets,
             AccountInfoCard(),

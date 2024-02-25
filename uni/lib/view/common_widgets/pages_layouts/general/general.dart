@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
@@ -67,34 +66,6 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
 
   Widget getBody(BuildContext context);
 
-  Future<DecorationImage> buildProfileDecorationImage(
-    BuildContext context, {
-    bool forceRetrieval = false,
-  }) async {
-    final sessionProvider =
-        Provider.of<SessionProvider>(context, listen: false);
-    await sessionProvider.ensureInitialized(context);
-    final profilePictureFile =
-        await ProfileProvider.fetchOrGetCachedProfilePicture(
-      sessionProvider.state!,
-      forceRetrieval: forceRetrieval,
-    );
-    return getProfileDecorationImage(profilePictureFile);
-  }
-
-  /// Returns the current user image.
-  ///
-  /// If the image is not found / doesn't exist returns a generic placeholder.
-  DecorationImage getProfileDecorationImage(File? profilePicture) {
-    const fallbackPicture = AssetImage('assets/images/profile_placeholder.png');
-    final image =
-        profilePicture == null ? fallbackPicture : FileImage(profilePicture);
-
-    final result =
-        DecorationImage(fit: BoxFit.cover, image: image as ImageProvider);
-    return result;
-  }
-
   Widget refreshState(BuildContext context, Widget child) {
     return RefreshIndicator(
       key: GlobalKey<RefreshIndicatorState>(),
@@ -126,9 +97,7 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
   AppTopNavbar? getTopNavbar(BuildContext context) {
     return AppTopNavbar(
       title: this.getTitle(),
-      rightButton: ProfileButton(
-        getProfileDecorationImage: getProfileDecorationImage,
-      ),
+      rightButton: const ProfileButton(),
     );
   }
 }

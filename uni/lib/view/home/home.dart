@@ -83,9 +83,7 @@ class HomePageViewState extends GeneralPageViewState {
         padding: EdgeInsets.symmetric(horizontal: 8),
         child: UniIcon(),
       ),
-      rightButton: ProfileButton(
-        getProfileDecorationImage: getProfileDecorationImage,
-      ),
+      rightButton: const ProfileButton(),
     );
   }
 }
