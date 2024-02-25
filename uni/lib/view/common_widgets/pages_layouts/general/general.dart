@@ -8,6 +8,7 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
+import 'package:uni/view/common_widgets/expanded_image_label.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/bottom_navigation_bar.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/profile_button.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/refresh_state.dart';
@@ -57,15 +58,24 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
     if (!_connected) {
       return getScaffold(
         context,
-        Flex(
-          direction: Axis.vertical,
-          children: [
-            Expanded(
-              child: Center(
-                child: Text(S.of(context).check_internet),
-              ),
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: Column(
+              children: [
+                ImageLabel(
+                  imagePath: 'assets/images/no_wifi.png',
+                  label: "It looks like you're offline",
+                  labelTextStyle: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                  sublabel: S.of(context).check_internet,
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       );
     }
