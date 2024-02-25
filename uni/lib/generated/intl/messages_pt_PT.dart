@@ -198,6 +198,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Nenhum ficheiro encontrado"),
         "no_info": MessageLookupByLibrary.simpleMessage(
             "Não existem informações para apresentar"),
+        "no_internet":
+            MessageLookupByLibrary.simpleMessage("Parece que estás offline"),
         "no_library_info":
             MessageLookupByLibrary.simpleMessage("Sem informação de ocupação"),
         "no_link": MessageLookupByLibrary.simpleMessage(

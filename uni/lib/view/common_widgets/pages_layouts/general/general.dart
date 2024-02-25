@@ -63,7 +63,7 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
             padding: const EdgeInsets.symmetric(vertical: 35),
             child: ImageLabel(
               imagePath: 'assets/images/no_wifi.png',
-              label: "It looks like you're offline",
+              label: S.of(context).no_internet,
               labelTextStyle: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
