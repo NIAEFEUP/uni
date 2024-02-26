@@ -20,7 +20,8 @@ class CourseUnitCard extends GenericCard {
       padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
       child: Row(
         children: [
-          Text("${courseUnit.ects.toString().replaceAll('.0', '')} ECTS"),
+          if (courseUnit.ects != null)
+            Text("${courseUnit.ects.toString().replaceAll('.0', '')} ECTS"),
           const Spacer(),
           Text(courseUnit.grade ?? '-'),
         ],
