@@ -21,9 +21,7 @@ class CourseUnitCard extends GenericCard {
       child: Row(
         children: [
           if (courseUnit.ects != null)
-            Text("${courseUnit.ects.toString().replaceAll('.0', '')} ECTS")
-          else
-            const Text('--- ECTS'),
+            Text("${courseUnit.ects.toString().replaceAll('.0', '')} ECTS"),
           const Spacer(),
           Text(courseUnit.grade ?? '-'),
         ],
