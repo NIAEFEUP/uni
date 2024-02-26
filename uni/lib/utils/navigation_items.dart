@@ -7,6 +7,8 @@ enum NavigationItem {
   navLocations('locais', faculties: {'feup'}),
   navRestaurants('restaurantes'),
   navCalendar('calendario'),
+  navLibraryOccupation('biblioteca', faculties: {'feup'}),
+  navLibraryReservations('reservas', faculties: {'feup'}),
   navLibrary('biblioteca', faculties: {'feup'}),
   navFaculty('faculdade'),
   navAcademicPath('percurso_academico'),

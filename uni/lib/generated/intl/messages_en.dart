@@ -7,8 +7,7 @@
 // ignore_for_file:unnecessary_brace_in_string_interps, unnecessary_new
 // ignore_for_file:prefer_single_quotes,comment_references, directives_ordering
 // ignore_for_file:annotate_overrides,prefer_generic_function_type_aliases
-// ignore_for_file:unused_import, file_names, avoid_escaping_inner_quotes
-// ignore_for_file:unnecessary_string_interpolations, unnecessary_string_escapes
+// ignore_for_file:unused_import, file_names
 
 import 'package:intl/intl.dart';
 import 'package:intl/message_lookup_by_library.dart';
@@ -20,12 +19,12 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
-  static String m0(time) => "last refresh at ${time}";
+  static m0(time) => "last refresh at ${time}";
 
-  static String m1(time) =>
+  static m1(time) =>
       "${Intl.plural(time, zero: 'Refreshed ${time} minutes ago', one: 'Refreshed ${time} minute ago', other: 'Refreshed ${time} minutes ago')}";
 
-  static String m2(title) => "${Intl.select(title, {
+  static m2(title) => "${Intl.select(title, {
             'horario': 'Schedule',
             'exames': 'Exams',
             'area': 'Personal Area',
@@ -42,7 +41,7 @@ class MessageLookup extends MessageLookupByLibrary {
           })}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
-  static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+  static _notInlinedMessages(_) => <String, Function>{
         "about": MessageLookupByLibrary.simpleMessage("About us"),
         "academic_services":
             MessageLookupByLibrary.simpleMessage("Academic services"),
@@ -152,8 +151,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "language": MessageLookupByLibrary.simpleMessage("Language"),
         "last_refresh_time": m0,
         "last_timestamp": m1,
+        "library": MessageLookupByLibrary.simpleMessage("Library"),
         "library_occupation":
             MessageLookupByLibrary.simpleMessage("Library Occupation"),
+        "library_reservations":
+            MessageLookupByLibrary.simpleMessage("Library Reservations"),
+        "library_tab_occupation":
+            MessageLookupByLibrary.simpleMessage("Occupation"),
+        "library_tab_reservations":
+            MessageLookupByLibrary.simpleMessage("Reservations"),
         "load_error": MessageLookupByLibrary.simpleMessage(
             "Error loading the information"),
         "loading_terms": MessageLookupByLibrary.simpleMessage(
@@ -212,6 +218,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "No print balance information"),
         "no_references": MessageLookupByLibrary.simpleMessage(
             "There are no references to pay"),
+        "no_reservations": MessageLookupByLibrary.simpleMessage(
+            "There are no reservations to display"),
         "no_results": MessageLookupByLibrary.simpleMessage("No match"),
         "no_selected_courses": MessageLookupByLibrary.simpleMessage(
             "There are no course units to display"),

@@ -22,8 +22,10 @@ class LibraryOccupationCard extends GenericCard {
   String getTitle(BuildContext context) => S.of(context).library_occupation;
 
   @override
-  Future<Object?> onClick(BuildContext context) =>
-      Navigator.pushNamed(context, '/${NavigationItem.navLibrary.route}');
+  Future<Object?> onClick(BuildContext context) => Navigator.pushNamed(
+        context,
+        '/${NavigationItem.navLibraryOccupation.route}',
+      );
 
   @override
   void onRefresh(BuildContext context) {

@@ -14,6 +14,7 @@ import 'package:uni/view/faculty/widgets/multimedia_center_card.dart';
 import 'package:uni/view/faculty/widgets/other_links_card.dart';
 import 'package:uni/view/faculty/widgets/sigarra_links_card.dart';
 import 'package:uni/view/library/widgets/library_occupation_card.dart';
+import 'package:uni/view/library/widgets/library_reservations_card.dart';
 
 class FacultyPageView extends StatefulWidget {
   const FacultyPageView({super.key});
@@ -33,6 +34,7 @@ class FacultyPageViewState extends GeneralPageViewState {
       children: [
         LibraryOccupationCard(),
         CalendarCard(),
+        LibraryReservationsCard(),
         ...getUtilsSection(),
       ],
     );

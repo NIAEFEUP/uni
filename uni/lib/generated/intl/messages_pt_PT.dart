@@ -7,8 +7,7 @@
 // ignore_for_file:unnecessary_brace_in_string_interps, unnecessary_new
 // ignore_for_file:prefer_single_quotes,comment_references, directives_ordering
 // ignore_for_file:annotate_overrides,prefer_generic_function_type_aliases
-// ignore_for_file:unused_import, file_names, avoid_escaping_inner_quotes
-// ignore_for_file:unnecessary_string_interpolations, unnecessary_string_escapes
+// ignore_for_file:unused_import, file_names
 
 import 'package:intl/intl.dart';
 import 'package:intl/message_lookup_by_library.dart';
@@ -20,12 +19,12 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'pt_PT';
 
-  static String m0(time) => "última atualização às ${time}";
+  static m0(time) => "última atualização às ${time}";
 
-  static String m1(time) =>
+  static m1(time) =>
       "${Intl.plural(time, zero: 'Atualizado há ${time} minutos', one: 'Atualizado há ${time} minuto', other: 'Atualizado há ${time} minutos')}";
 
-  static String m2(title) => "${Intl.select(title, {
+  static m2(title) => "${Intl.select(title, {
             'horario': 'Horário',
             'exames': 'Exames',
             'area': 'Área Pessoal',
@@ -152,8 +151,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "language": MessageLookupByLibrary.simpleMessage("Idioma"),
         "last_refresh_time": m0,
         "last_timestamp": m1,
+        "library": MessageLookupByLibrary.simpleMessage("Biblioteca"),
         "library_occupation":
             MessageLookupByLibrary.simpleMessage("Ocupação da Biblioteca"),
+        "library_reservations":
+            MessageLookupByLibrary.simpleMessage("Gabinetes Reservados"),
+        "library_tab_occupation":
+            MessageLookupByLibrary.simpleMessage("Ocupação"),
+        "library_tab_reservations":
+            MessageLookupByLibrary.simpleMessage("Gabinetes"),
         "load_error": MessageLookupByLibrary.simpleMessage(
             "Erro ao carregar a informação"),
         "loading_terms": MessageLookupByLibrary.simpleMessage(
@@ -214,6 +220,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Sem informação de saldo"),
         "no_references": MessageLookupByLibrary.simpleMessage(
             "Não existem referências a pagar"),
+        "no_reservations": MessageLookupByLibrary.simpleMessage(
+            "Não existem reservas para apresentar"),
         "no_results": MessageLookupByLibrary.simpleMessage("Sem resultados"),
         "no_selected_courses": MessageLookupByLibrary.simpleMessage(
             "Não existem cadeiras para apresentar"),

@@ -10,7 +10,7 @@ import 'intl/messages_all.dart';
 
 // ignore_for_file: non_constant_identifier_names, lines_longer_than_80_chars
 // ignore_for_file: join_return_with_assignment, prefer_final_in_for_each
-// ignore_for_file: avoid_redundant_argument_values, avoid_escaping_inner_quotes
+// ignore_for_file: avoid_redundant_argument_values
 
 class S {
   S();
@@ -753,11 +753,51 @@ class S {
     );
   }
 
+  /// `Library`
+  String get library {
+    return Intl.message(
+      'Library',
+      name: 'library',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Library Occupation`
   String get library_occupation {
     return Intl.message(
       'Library Occupation',
       name: 'library_occupation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Library Reservations`
+  String get library_reservations {
+    return Intl.message(
+      'Library Reservations',
+      name: 'library_reservations',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Occupation`
+  String get library_tab_occupation {
+    return Intl.message(
+      'Occupation',
+      name: 'library_tab_occupation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reservations`
+  String get library_tab_reservations {
+    return Intl.message(
+      'Reservations',
+      name: 'library_tab_reservations',
       desc: '',
       args: [],
     );
@@ -893,6 +933,16 @@ class S {
     return Intl.message(
       'No configured stops',
       name: 'no_bus_stops',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `There are no reservations to display`
+  String get no_reservations {
+    return Intl.message(
+      'There are no reservations to display',
+      name: 'no_reservations',
       desc: '',
       args: [],
     );
