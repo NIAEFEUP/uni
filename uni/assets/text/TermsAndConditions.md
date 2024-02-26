@@ -1,8 +1,10 @@
-# App desenvolvida pelo niaefeup.
+# App desenvolvida pelo NIAEFEUP.
+
 # De estudantes, para estudantes.
+
 \
 \
-**Terms and Conditions**
+**Terms and Conditions**    
 
 These terms and conditions ("Terms", "Agreement") are an agreement between NIAEFEUP ("us", "we" or "
 our"), Núcleo de Informática da Associação de Estudantes da Universidade do Porto, and you ("
@@ -43,7 +45,7 @@ We may, at our discretion but with no obligation, monitor and review Content in 
 Application submitted or created using our Services by you.
 Personal data of users is not collected for any other purpose, unless providing the Services to you,
 except in certain circumstances described
-in [Play Store’ Privacy Policy](https://support.google.com/googleplay/android-developer/answer/10144311?visit_id=638365485539535125-3072678242&rd=1)
+in [Play Store’s Privacy Policy](https://support.google.com/googleplay/android-developer/answer/10144311?visit_id=638365485539535125-3072678242&rd=1)
 and [App Store's Privacy Policy](https://developer.apple.com/app-store/app-privacy-details/#user-tracking).
 \
 \
@@ -56,15 +58,17 @@ Unless specifically permitted by you, your use of the Mobile Application does no
 license to link, reproduce, adapt, modify, publish or distribute the Content created by you or
 stored in your user account, for evaluating the effectiveness of existing product features, planning
 new features, or measuring size and characteristics about specific end-users, or devices with a data
-broker, for commercial, marketing or any similar purpose. 
+broker, for commercial, marketing or any similar purpose.
 Unless specifically permitted by you, your
 use of the Mobile Application does not grant us the
-license to use analytics tools, advertising networks, third-party SDK's, or other external vendors
+license to use analytics tools, advertising networks, third-party SDKs, or other external vendors
 whose code we have added to the Uni Mobile Application, to collect information such as user ID,
 device ID, or profiles with Third-Party Data for the purpose of accessing necessary data to
 implement
-the Services we provide. We anonymously track page visits and widget clicks, which is shared with our self-hosted instance of [plausible analytics](https://plausible.niaefeup.pt/).
-we do not have the license to sell or share sensitive data collected with the purpose of facilitating sales.
+the Services we provide. We anonymously track page visits and widget clicks, which is shared with
+our self-hosted instance of [plausible analytics](https://plausible.niaefeup.pt/).
+we do not have the license to sell or share sensitive data collected with the purpose of
+facilitating sales.
 \
 \
 **Content Removal:**
@@ -117,8 +121,9 @@ remedy does not fully compensate you for any losses or fails of its essential pu
 We reserve the right to modify this Agreement or its policies relating to the Mobile Application or
 services at any time, effective upon posting of an updated version of this Agreement in the Mobile
 Application. When we do, we will revise the updated date at the bottom of this page. Continued use
-of the Mobile Application after any such changes will only constitute if when prompted, you consent to them. Otherwise, you will be logged out of the Mobile Application.
-Policy was created with [Website Policies](https://www.websitepolicies.com).
+of the Mobile Application after any such changes will only constitute if, when prompted, you consent
+to them. Otherwise, you will be logged out of the Mobile Application.
+This policy was created with [Website Policies](https://www.websitepolicies.com).
 \
 \
 **Acceptance of These Terms**
