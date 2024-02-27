@@ -16,11 +16,11 @@ class AppLecturesDatabase extends AppDatabase {
             createScript,
           ],
           onUpgrade: migrate,
-          version: 7,
+          version: 9,
         );
   static const createScript = '''
 CREATE TABLE lectures(subject TEXT, typeClass TEXT,
-          startDateTime TEXT, blocks INTEGER, room TEXT, teacher TEXT, classNumber TEXT, occurrId INTEGER)''';
+          startTime TEXT,endTime TEXT, blocks INTEGER, room TEXT, teacher TEXT, classNumber TEXT, occurrId INTEGER)''';
 
   /// Replaces all of the data in this database with [lectures].
   Future<void> saveNewLectures(List<Lecture> lectures) async {

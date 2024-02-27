@@ -1,20 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
-import 'package:uni/model/entities/app_locale.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/providers/lazy/exam_provider.dart';
-import 'package:uni/utils/drawer_items.dart';
-import 'package:uni/view/common_widgets/date_rectangle.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
-import 'package:uni/view/common_widgets/row_container.dart';
-import 'package:uni/view/exams/widgets/exam_row.dart';
-import 'package:uni/view/exams/widgets/exam_title.dart';
 import 'package:uni/view/home/widgets/exam_card_shimmer.dart';
+import 'package:uni/view/home/widgets/remaining_exams_card.dart';
 import 'package:uni/view/lazy_consumer.dart';
-import 'package:uni/view/locale_notifier.dart';
+
+import 'next_exams_card.dart';
 
 /// Manages the exam card section inside the personal area.
 class ExamCard extends GenericCard {
