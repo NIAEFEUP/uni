@@ -29,6 +29,7 @@ dependencies:
   expansion_tile_card: ^3.0.0
   flutter:
     sdk: flutter
+  flutter_secure_storage: ^9.0.0
   flutter_cache_manager: ^3.3.1
   flutter_dotenv: ^5.0.2
   flutter_local_notifications: ^15.1.0+1

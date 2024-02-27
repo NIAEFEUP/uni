@@ -104,7 +104,7 @@ class NetworkRouter {
 
     return login(
       username,
-      password,
+      password.toString(),
       faculties,
       persistentSession: persistentSession,
     );

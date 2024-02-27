@@ -3,11 +3,13 @@ import 'dart:io';
 
 import 'package:encrypt/encrypt.dart' as encrypt;
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tuple/tuple.dart';
 import 'package:uni/model/entities/app_locale.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/utils/favorite_widget_type.dart';
+
 
 /// Manages the app's Shared Preferences.
 ///
@@ -71,17 +73,15 @@ class PreferencesController {
   }
 
   /// Saves the user's student number, password and faculties.
+  static final FlutterSecureStorage storage = FlutterSecureStorage();
   static Future<void> savePersistentUserInfo(
     String user,
     String pass,
     List<String> faculties,
   ) async {
-    await prefs.setString(_userNumber, user);
-    await prefs.setString(_userPw, encode(pass));
-    await prefs.setStringList(
-      _userFaculties,
-      faculties,
-    ); // Could be multiple faculties
+    await storage.write(key: _userNumber, value: user);
+    await storage.write(key: _userPw, value: pass);
+    await storage.write(key: _userFaculties, value: faculties.join(',')); // Could be multiple faculties;
   }
 
   /// Sets whether or not the Terms and Conditions have been accepted.
@@ -176,7 +176,7 @@ class PreferencesController {
     if (userNum == null || userPass == null) {
       return null;
     }
-    return Tuple2(userNum, userPass);
+    return Tuple2(userNum.toString(), userPass.toString());
   }
 
   /// Returns the user's faculties
@@ -187,13 +187,13 @@ class PreferencesController {
   }
 
   /// Returns the user's student number.
-  static String? getUserNumber() {
-    return prefs.getString(_userNumber);
+  static Future<String?> getUserNumber(){
+    return storage.read(key: _userNumber);
   }
 
   /// Returns the user's password, in plain text format.
-  static String? getUserPassword() {
-    final password = prefs.getString(_userPw);
+  static Future<String?> getUserPassword() async {
+    final password = await storage.read(key: _userPw);
     return password != null ? decode(password) : null;
   }
 
