@@ -72,14 +72,9 @@ class NetworkRouter {
           persistentSession: persistentSession,
         );
 
-        if (session == null) {
-          Logger().e('Login failed: user not authenticated');
-          return null;
-        }
-
         Logger().i('Login successful');
         _lastLoginTime = DateTime.now();
-        _cachedSession = session;
+        _cachedSession = await session;
 
         return session;
       },
