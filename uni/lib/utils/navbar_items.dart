@@ -14,8 +14,8 @@ enum NavbarItem {
     NavigationItem.navAcademicPath,
   ),
   navRestaurants(
-    Icons.local_cafe_outlined,
-    Icons.local_cafe,
+    Icons.free_breakfast_outlined,
+    Icons.free_breakfast,
     NavigationItem.navRestaurants,
   ),
   navFaculty(Icons.domain_outlined, Icons.domain, NavigationItem.navFaculty),
