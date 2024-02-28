@@ -56,15 +56,18 @@ class ScheduleCard extends GenericCard {
 
     final lecturesByDay = lectures
         .groupListsBy(
-          (lecture) => lecture.startTime.weekday,
+          (lecture) => lecture.startTime.copyWith(
+            hour: 0,
+            minute: 0,
+            second: 0,
+            millisecond: 0,
+          ),
         )
         .entries
+        .where((element) => element.key.isAfter(DateTime.now()))
         .toList()
-        .sortedBy<num>((element) {
-      // Sort by day of the week, but next days come first
-      final dayDiff = element.key - DateTime.now().weekday;
-      return dayDiff >= 0 ? dayDiff - 7 : dayDiff;
-    }).toList();
+        .sortedBy<DateTime>((element) => element.key)
+        .toList();
 
     for (final dayLectures
         in lecturesByDay.sublist(0, min(2, lecturesByDay.length))) {
@@ -85,7 +88,7 @@ class ScheduleCard extends GenericCard {
       rows.add(
         DateRectangle(
           date: Provider.of<LocaleNotifier>(context)
-              .getWeekdaysWithLocale()[(day - 1) % 7],
+              .getWeekdaysWithLocale()[(day.weekday - 1) % 7],
         ),
       );
 

@@ -70,6 +70,14 @@ class SchedulePageViewState extends State<SchedulePageView>
 
   @override
   Widget build(BuildContext context) {
+    final startOfToday = DateTime.now().copyWith(
+      hour: 0,
+      minute: 0,
+      second: 0,
+      millisecond: 0,
+      microsecond: 0,
+    );
+
     final queryData = MediaQuery.of(context);
     return Column(
       children: <Widget>[
@@ -82,12 +90,19 @@ class SchedulePageViewState extends State<SchedulePageView>
         Expanded(
           child: TabBarView(
             controller: tabController,
-            children: Iterable<int>.generate(5).map((day) {
+            children: Iterable<DateTime>.generate(
+              5,
+              (int index) => index + 1 < startOfToday.weekday
+                  ? startOfToday
+                      .add(Duration(days: -startOfToday.weekday + index + 8))
+                  : startOfToday
+                      .add(Duration(days: -startOfToday.weekday + index + 1)),
+            ).map((day) {
               final lectures = lecturesOfDay(widget.lectures, day);
               if (lectures.isEmpty) {
-                return emptyDayColumn(context, day);
+                return emptyDayColumn(context, day.weekday - 1);
               } else {
-                return dayColumnBuilder(day, lectures, context);
+                return dayColumnBuilder(day.weekday - 1, lectures, context);
               }
             }).toList(),
           ),
@@ -144,10 +159,12 @@ class SchedulePageViewState extends State<SchedulePageView>
     );
   }
 
-  static List<Lecture> lecturesOfDay(List<Lecture> lectures, int day) {
+  static List<Lecture> lecturesOfDay(List<Lecture> lectures, DateTime day) {
     final filteredLectures = <Lecture>[];
     for (var i = 0; i < lectures.length; i++) {
-      if (lectures[i].startTime.weekday - 1 == day) {
+      if (lectures[i].startTime.year == day.year &&
+          lectures[i].startTime.month == day.month &&
+          lectures[i].startTime.day == day.day) {
         filteredLectures.add(lectures[i]);
       }
     }

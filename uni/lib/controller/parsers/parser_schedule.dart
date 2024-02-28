@@ -2,15 +2,16 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
+import 'package:logger/logger.dart';
+import 'package:tuple/tuple.dart';
 import 'package:uni/model/entities/lecture.dart';
-import 'package:uni/model/entities/time_utilities.dart';
 
 Future<List<Lecture>> parseScheduleMultipleRequests(
-  List<Response> responses,
+  List<Tuple2<Tuple2<DateTime, DateTime>, Response>> responses,
 ) async {
   var lectures = <Lecture>[];
   for (final response in responses) {
-    lectures += await parseSchedule(response);
+    lectures += await parseSchedule(response.item2, response.item1);
   }
   return lectures;
 }
@@ -19,7 +20,10 @@ Future<List<Lecture>> parseScheduleMultipleRequests(
 /// date.
 ///
 /// This function parses a JSON object.
-Future<List<Lecture>> parseSchedule(http.Response response) async {
+Future<List<Lecture>> parseSchedule(
+  http.Response response,
+  Tuple2<DateTime, DateTime> week,
+) async {
   final lectures = <Lecture>{};
 
   final json = jsonDecode(response.body) as Map<String, dynamic>;
@@ -27,9 +31,14 @@ Future<List<Lecture>> parseSchedule(http.Response response) async {
   final schedule = json['horario'] as List<dynamic>;
   for (var lecture in schedule) {
     lecture = lecture as Map<String, dynamic>;
-    final day = ((lecture['dia'] as int) - 2) %
-        7; // Api: monday = 2, Lecture.dart class: monday = 0
-    final secBegin = lecture['hora_inicio'] as int;
+
+    final startTime = week.item1.add(
+      Duration(
+        days: (lecture['dia'] as int) - 1,
+        seconds: lecture['hora_inicio'] as int,
+      ),
+    );
+
     final subject = lecture['ucurr_sigla'] as String;
     final typeClass = lecture['tipo'] as String;
 
@@ -47,18 +56,18 @@ Future<List<Lecture>> parseSchedule(http.Response response) async {
     final classNumber = lecture['turma_sigla'] as String;
     final occurrId = lecture['ocorrencia_id'] as int;
 
-    final monday = DateTime.now().getClosestMonday();
-
     final lec = Lecture.fromApi(
       subject,
       typeClass,
-      monday.add(Duration(days: day, seconds: secBegin)),
+      startTime,
       blocks,
       room,
       teacher,
       classNumber,
       occurrId,
     );
+
+    Logger().d('On week $week, found $lec');
 
     lectures.add(lec);
   }
