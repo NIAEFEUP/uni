@@ -123,7 +123,7 @@ class SubjectButtonWidget extends StatelessWidget {
     return correspondingCourseUnit;
   }
 
-  void _launchURL(BuildContext context) {
+  void _launchUcPage(BuildContext context) {
     final correspondCourseUnit = correspondingCourseUnit(context);
     Navigator.push(
       context,
@@ -153,7 +153,7 @@ class SubjectButtonWidget extends StatelessWidget {
           color: Colors.grey,
           alignment: Alignment.centerRight,
           tooltip: S.of(context).uc_info,
-          onPressed: () => _launchURL(context),
+          onPressed: () => _launchUcPage(context),
         ),
       ],
     );
