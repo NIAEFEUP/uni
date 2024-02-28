@@ -64,6 +64,8 @@ class AppBottomNavbar extends StatelessWidget {
             ? Theme.of(context).colorScheme.onSurface
             : Theme.of(context).colorScheme.secondary,
         unselectedItemColor: Theme.of(context).colorScheme.onSurface,
+        selectedFontSize: 0,
+        unselectedFontSize: 0,
         showSelectedLabels: false,
         showUnselectedLabels: false,
       ),
