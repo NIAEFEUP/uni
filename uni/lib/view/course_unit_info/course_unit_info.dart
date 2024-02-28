@@ -4,6 +4,7 @@ import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/providers/lazy/course_units_info_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
+import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_classes.dart';
@@ -121,11 +122,20 @@ class CourseUnitDetailPageViewState
   }
 
   Widget _courseUnitFilesView(BuildContext context) {
-    final sheet = context
+    final files = context
         .watch<CourseUnitsInfoProvider>()
         .courseUnitsFiles[widget.courseUnit];
 
-    return CourseUnitFilesView(sheet!);
+    if (files == null || files.isEmpty) {
+      return Center(
+        child: Text(
+          S.of(context).no_files_found,
+          textAlign: TextAlign.center,
+        ),
+      );
+    }
+
+    return CourseUnitFilesView(files);
   }
 
   Widget _courseUnitClassesView(BuildContext context) {
@@ -146,7 +156,6 @@ class CourseUnitDetailPageViewState
   }
 
   @override
-  String? getTitle() {
-    return null;
-  }
+  String? getTitle() =>
+      S.of(context).nav_title(NavigationItem.navCourseUnits.route);
 }

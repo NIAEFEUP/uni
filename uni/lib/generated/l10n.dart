@@ -1148,6 +1148,16 @@ class S {
     );
   }
 
+  /// `It looks like you're offline`
+  String get no_internet {
+    return Intl.message(
+      'It looks like you\'re offline',
+      name: 'no_internet',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `No files found`
   String get no_files_found {
     return Intl.message(

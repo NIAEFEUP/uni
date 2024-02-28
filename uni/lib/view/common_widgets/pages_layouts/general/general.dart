@@ -1,11 +1,14 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
+import 'package:uni/view/common_widgets/expanded_image_label.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/bottom_navigation_bar.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/profile_button.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/refresh_state.dart';
@@ -15,6 +18,7 @@ import 'package:uni/view/common_widgets/pages_layouts/general/widgets/top_naviga
 abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
   bool _loadedOnce = false;
   bool _loading = true;
+  bool _connected = true;
 
   Future<void> onRefresh(BuildContext context);
 
@@ -34,8 +38,14 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
       try {
         await onLoad(context);
       } catch (e, stackTrace) {
-        Logger().e('Failed to load page info: $e\n$stackTrace');
-        await Sentry.captureException(e, stackTrace: stackTrace);
+        if (e is SocketException) {
+          setState(() {
+            _connected = false;
+          });
+        } else {
+          Logger().e('Failed to load page info: $e\n$stackTrace');
+          await Sentry.captureException(e, stackTrace: stackTrace);
+        }
       }
 
       if (mounted) {
@@ -44,6 +54,27 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
         });
       }
     });
+
+    if (!_connected) {
+      return getScaffold(
+        context,
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 35),
+            child: ImageLabel(
+              imagePath: 'assets/images/no_wifi.png',
+              label: S.of(context).no_internet,
+              labelTextStyle: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+              sublabel: S.of(context).check_internet,
+            ),
+          ),
+        ),
+      );
+    }
 
     return getScaffold(
       context,
