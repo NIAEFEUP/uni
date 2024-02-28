@@ -22,7 +22,7 @@ mobile application is subject to
 the [Universidade do Porto's terms and conditions](https://sigarra.up.pt/up/pt/web_base.gera_pagina?p_pagina=termos%20e%20condicoes).
 By using your faculty account in the Mobile Application, you are responsible for maintaining the
 security of your account and you are fully responsible for all activities that occur under the
-account and any other actions taken in connection with it. we will not be liable for any acts or
+account and any other actions taken in connection with it. We will not be liable for any acts or
 omissions by you, including any damages of any kind incurred as a result of such acts or omissions.
 Any interaction with your data from Universidade do Porto's platform is made directly through it,
 and is not collected by us in any way.
@@ -34,7 +34,7 @@ application data and we hold no responsibility for ensuring their concealment.
 **Ownership of Content**
 
 We do not own any data, information or material ("Content") that you submit in the Mobile
-Application in the course of using the Service.You shall have sole responsibility for the accuracy,
+Application in the course of using the Service. You shall have sole responsibility for the accuracy,
 quality, integrity, legality, reliability, appropriateness, and intellectual property ownership or
 right to use of all submitted Content.
 \
@@ -140,4 +140,4 @@ If you would like to contact us to understand more about this Agreement or wish 
 concerning any matter relating to it, you may send an email to [ni@aefeup.pt](mailto:ni@aefeup.pt).
 \
 \
-This document was last updated on December 28, 2023
+This document was last updated on February 28, 2023.
