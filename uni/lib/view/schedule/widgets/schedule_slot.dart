@@ -111,9 +111,8 @@ class SubjectButtonWidget extends StatelessWidget {
 
   final int occurrId;
   CourseUnit correspondingCourseUnit(BuildContext context) {
-    final courseUnits = Provider.of<ProfileProvider>(context, listen: false)
-        .profile
-        .courseUnits;
+    final courseUnits =
+        Provider.of<ProfileProvider>(context, listen: false).state!.courseUnits;
     final notFound =
         CourseUnit(abbreviation: 'NF', name: 'not found', occurrId: 0);
     final correspondingCourseUnit = courseUnits.firstWhere(
