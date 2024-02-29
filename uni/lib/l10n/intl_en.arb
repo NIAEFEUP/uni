@@ -180,6 +180,8 @@
   "@no_classes": {},
   "no_classes_on": "You don't have classes on",
   "@no_classes_on": {},
+  "no_classes_on_weekend": "You don't have classes on",
+  "@no_classes_on_weekend": {},
   "no_college": "no college",
   "@no_college": {},
   "no_course_units": "No course units in the selected period",

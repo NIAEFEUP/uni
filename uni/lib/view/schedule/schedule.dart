@@ -158,10 +158,14 @@ class SchedulePageViewState extends State<SchedulePageView>
     final weekday =
         Provider.of<LocaleNotifier>(context).getWeekdaysWithLocale()[day];
 
+    final noClassesText = day >= DateTime.saturday - 1
+        ? S.of(context).no_classes_on_weekend
+        : S.of(context).no_classes_on;
+
     return Center(
       child: ImageLabel(
         imagePath: 'assets/images/schedule.png',
-        label: '${S.of(context).no_classes_on} $weekday.',
+        label: '$noClassesText $weekday.',
         labelTextStyle: const TextStyle(fontSize: 15),
       ),
     );
