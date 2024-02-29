@@ -68,7 +68,10 @@ Future<List<Lecture>> getOverlappedClasses(
       );
 
       final classLectures = await getScheduleFromHtml(
-          WeekResponse(week, response), session, faculty);
+        WeekResponse(week, response),
+        session,
+        faculty,
+      );
 
       lecturesList.add(
         classLectures
