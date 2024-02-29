@@ -122,4 +122,25 @@ class WeekdayMapper {
 
     return toWeekday;
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is WeekdayMapper &&
+        other._fromStart == _fromStart &&
+        other._fromMonday == _fromMonday &&
+        other._toStart == _toStart &&
+        other._toMonday == _toMonday;
+  }
+
+  @override
+  int get hashCode =>
+      _fromStart.hashCode ^
+      _fromMonday.hashCode ^
+      _toStart.hashCode ^
+      _toMonday.hashCode;
+
+  @override
+  String toString() => 'WeekdayMapper(fromStart: $_fromStart, '
+      'fromMonday: $_fromMonday, toStart: $_toStart, toMonday: $_toMonday)';
 }

@@ -125,6 +125,6 @@ class Week implements Comparable<Week> {
 
   @override
   String toString() {
-    return 'Week{start: $start, end: $end}';
+    return 'Week(start: $start, end: $end)';
   }
 }
