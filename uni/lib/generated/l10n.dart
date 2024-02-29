@@ -10,7 +10,7 @@ import 'intl/messages_all.dart';
 
 // ignore_for_file: non_constant_identifier_names, lines_longer_than_80_chars
 // ignore_for_file: join_return_with_assignment, prefer_final_in_for_each
-// ignore_for_file: avoid_redundant_argument_values, avoid_escaping_inner_quotes
+// ignore_for_file: avoid_redundant_argument_values
 
 class S {
   S();
@@ -1148,6 +1148,16 @@ class S {
     );
   }
 
+  /// `It looks like you're offline`
+  String get no_internet {
+    return Intl.message(
+      'It looks like you\'re offline',
+      name: 'no_internet',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `No files found`
   String get no_files_found {
     return Intl.message(
@@ -1493,6 +1503,16 @@ class S {
     return Intl.message(
       'Title',
       name: 'title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Open UC page in app`
+  String get uc_info {
+    return Intl.message(
+      'Open UC page in app',
+      name: 'uc_info',
       desc: '',
       args: [],
     );

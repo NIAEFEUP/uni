@@ -1,7 +1,8 @@
 on:
   push:
     branches: [master, develop]
-
+  workflow_dispatch:
+name: Deploy Action
 jobs:
   build:
     permissions:
@@ -164,3 +165,9 @@ jobs:
           whatsNewDirectory: whatsnew
           track: production
           status: completed
+
+      - name: Propagate version to develop
+        if: github.ref == 'refs/heads/master'
+        run: |
+          echo '${{ secrets.NIAEFEUPBOT_PAT }}' | gh auth login --with-token
+          gh workflow run 'Deploy Action' --ref develop
