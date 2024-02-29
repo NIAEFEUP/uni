@@ -52,8 +52,6 @@ void main() async {
       await tester.pumpWidget(testableWidget(widget, providers: providers));
       await tester.pumpAndSettle();
 
-      debugDumpApp();
-
       expect(find.byKey(Key(firstExam.toString())), findsOneWidget);
       expect(find.byKey(Key('$firstExam-exam')), findsOneWidget);
     });

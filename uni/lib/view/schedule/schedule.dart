@@ -55,10 +55,10 @@ class SchedulePageViewState extends State<SchedulePageView>
     super.initState();
     tabController = TabController(
       vsync: this,
-      length: 5,
+      length: 6,
     );
     final weekDay = DateTime.now().weekday;
-    final offset = (weekDay > 5) ? 0 : (weekDay - 1) % 5;
+    final offset = (weekDay > 6) ? 0 : (weekDay - 1) % 6;
     tabController?.animateTo(tabController!.index + offset);
   }
 
@@ -82,7 +82,7 @@ class SchedulePageViewState extends State<SchedulePageView>
         Expanded(
           child: TabBarView(
             controller: tabController,
-            children: Iterable<int>.generate(5).map((day) {
+            children: Iterable<int>.generate(6).map((day) {
               final lectures = lecturesOfDay(widget.lectures, day);
               if (lectures.isEmpty) {
                 return emptyDayColumn(context, day);
@@ -100,7 +100,7 @@ class SchedulePageViewState extends State<SchedulePageView>
   List<Widget> createTabs(MediaQueryData queryData, BuildContext context) {
     final tabs = <Widget>[];
     final workWeekDays =
-        context.read<LocaleNotifier>().getWeekdaysWithLocale().sublist(0, 5);
+        context.read<LocaleNotifier>().getWeekdaysWithLocale().sublist(0, 6);
     workWeekDays.asMap().forEach((index, day) {
       tabs.add(
         SizedBox(
@@ -158,10 +158,14 @@ class SchedulePageViewState extends State<SchedulePageView>
     final weekday =
         Provider.of<LocaleNotifier>(context).getWeekdaysWithLocale()[day];
 
+    final noClassesText = day >= DateTime.saturday - 1
+        ? S.of(context).no_classes_on_weekend
+        : S.of(context).no_classes_on;
+
     return Center(
       child: ImageLabel(
         imagePath: 'assets/images/schedule.png',
-        label: '${S.of(context).no_classes_on} $weekday.',
+        label: '$noClassesText $weekday.',
         labelTextStyle: const TextStyle(fontSize: 15),
       ),
     );
