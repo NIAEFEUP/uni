@@ -62,7 +62,7 @@ class SchedulePageViewState extends State<SchedulePageView>
       vsync: this,
       length: 6,
     );
-    
+
     final now = widget.now ?? DateTime.now();
     currentWeek = Week(start: now);
 
