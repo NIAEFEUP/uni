@@ -928,6 +928,16 @@ class S {
     );
   }
 
+  /// `You don't have classes on`
+  String get no_classes_on_weekend {
+    return Intl.message(
+      'You don\'t have classes on',
+      name: 'no_classes_on_weekend',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `no college`
   String get no_college {
     return Intl.message(

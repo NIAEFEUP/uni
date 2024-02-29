@@ -190,6 +190,8 @@
   "@no_classes": {},
   "no_classes_on": "Não possui aulas à",
   "@no_classes_on": {},
+  "no_classes_on_weekend": "Não possui aulas ao",
+  "@no_classes_on_weekend": {},
   "no_college": "sem faculdade",
   "@no_college": {},
   "no_course_units": "Sem cadeiras no período selecionado",
