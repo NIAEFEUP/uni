@@ -69,8 +69,15 @@ class WeekdayMapper {
     );
   }
 
+  WeekdayMapper get inverse => WeekdayMapper(
+        fromStart: _toStart,
+        fromMonday: _toMonday,
+        toStart: _fromStart,
+        toMonday: _fromMonday,
+      );
+
   int map(int fromWeekday) {
-    final mondayOffset = _toMonday - _fromMonday;
+    final mondayOffset = (_toMonday - _toStart) - (_fromMonday - _fromStart);
 
     // The algorithm is as follows:
     //
@@ -95,5 +102,6 @@ class WeekdayMapper {
 
     // In case you're wondering, like me, the compact formula is:
     // (fromWeekday - fromStart + toMonday - fromMonday) % 7 + toStart
+    // (fromWeekday + _toMonday - _toStart - _fromMonday) % 7 + _toStart
   }
 }
