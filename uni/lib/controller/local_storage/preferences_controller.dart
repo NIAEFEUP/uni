@@ -72,7 +72,7 @@ class PreferencesController {
   }
 
   /// Saves the user's student number, password and faculties.
-  static final FlutterSecureStorage storage = FlutterSecureStorage();
+  static const FlutterSecureStorage storage = FlutterSecureStorage();
   static Future<void> savePersistentUserInfo(
     String user,
     String pass,
@@ -81,8 +81,9 @@ class PreferencesController {
     await storage.write(key: _userNumber, value: user);
     await storage.write(key: _userPw, value: pass);
     await storage.write(
-        key: _userFaculties,
-        value: faculties.join(',')); // Could be multiple faculties;
+      key: _userFaculties,
+      value: faculties.join(','),
+    ); // Could be multiple faculties;
   }
 
   /// Sets whether or not the Terms and Conditions have been accepted.
@@ -171,13 +172,13 @@ class PreferencesController {
   /// * the first element in the tuple is the user's student number.
   /// * the second element in the tuple is the user's password, in plain text
   /// format.
-  static Tuple2<String, String>? getPersistentUserInfo() {
-    final userNum = getUserNumber();
-    final userPass = getUserPassword();
+  static Future<Tuple2<String, String>?> getPersistentUserInfo() async {
+    final userNum = await getUserNumber();
+    final userPass = await getUserPassword();
     if (userNum == null || userPass == null) {
       return null;
     }
-    return Tuple2(userNum.toString(), userPass.toString());
+    return Tuple2(userNum, userPass);
   }
 
   /// Returns the user's faculties

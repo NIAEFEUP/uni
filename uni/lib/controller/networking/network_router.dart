@@ -92,7 +92,7 @@ class NetworkRouter {
   /// returning an updated Session if successful.
   static Future<Session?> reLoginFromSession(Session session) async {
     final username = session.username;
-    final password = PreferencesController.getUserPassword();
+    final password = await PreferencesController.getUserPassword();
 
     if (password == null) {
       Logger().e('Re-login failed: password not found');
@@ -104,7 +104,7 @@ class NetworkRouter {
 
     return login(
       username,
-      password.toString(),
+      password,
       faculties,
       persistentSession: persistentSession,
     );

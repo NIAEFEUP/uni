@@ -29,7 +29,6 @@ dependencies:
   expansion_tile_card: ^3.0.0
   flutter:
     sdk: flutter
-  flutter_secure_storage: ^9.0.0
   flutter_cache_manager: ^3.3.1
   flutter_dotenv: ^5.0.2
   flutter_local_notifications: ^15.1.0+1
@@ -38,6 +37,7 @@ dependencies:
   flutter_map: ^5.0.0
   flutter_map_marker_popup: ^5.0.0
   flutter_markdown: ^0.6.0
+  flutter_secure_storage: ^9.0.0
   flutter_svg: ^2.0.9
   flutter_widget_from_html_core: ^0.14.11
   html: ^0.15.0
