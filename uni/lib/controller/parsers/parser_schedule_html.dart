@@ -116,7 +116,7 @@ Future<List<Lecture>> getScheduleFromHtml(
   Session session,
   String faculty,
 ) async {
-  final document = parse(response.response);
+  final document = parse(response.response.body);
   var semana = [0, 0, 0, 0, 0, 0];
 
   final lecturesList = <Lecture>[];
