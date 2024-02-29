@@ -10,7 +10,6 @@ import 'package:uni/model/entities/app_locale.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/utils/favorite_widget_type.dart';
 
-
 /// Manages the app's Shared Preferences.
 ///
 /// This database stores the user's student number, password and favorite
@@ -81,7 +80,9 @@ class PreferencesController {
   ) async {
     await storage.write(key: _userNumber, value: user);
     await storage.write(key: _userPw, value: pass);
-    await storage.write(key: _userFaculties, value: faculties.join(',')); // Could be multiple faculties;
+    await storage.write(
+        key: _userFaculties,
+        value: faculties.join(',')); // Could be multiple faculties;
   }
 
   /// Sets whether or not the Terms and Conditions have been accepted.
@@ -187,7 +188,7 @@ class PreferencesController {
   }
 
   /// Returns the user's student number.
-  static Future<String?> getUserNumber(){
+  static Future<String?> getUserNumber() {
     return storage.read(key: _userNumber);
   }
 
