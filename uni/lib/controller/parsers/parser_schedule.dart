@@ -11,7 +11,7 @@ Future<List<Lecture>> parseScheduleMultipleRequests(
 ) async {
   var lectures = <Lecture>[];
   for (final response in responses) {
-    lectures += await parseSchedule(response.response, response.week);
+    lectures += await parseSchedule(response.innerResponse, response.week);
   }
   return lectures;
 }
