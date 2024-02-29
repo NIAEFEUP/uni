@@ -77,31 +77,49 @@ class WeekdayMapper {
       );
 
   int map(int fromWeekday) {
-    final mondayOffset = (_toMonday - _toStart) - (_fromMonday - _fromStart);
-
-    // The algorithm is as follows:
+    // To find the resulting weekday, it goes like this:
     //
-    // 1. Find the 0-based index of `fromWeekday` in the `from` system, by
-    // subtracting `fromStart` from it. At this point, you're working with a
-    // system that starts at 0 and ends at 6. You don't know which day is
-    // Monday.
-    // 2. Add the offset between the `from` and `to` Monday. Since we assume
-    // that the `to` system starts at 0, we can simply add the difference
-    // between the `from` and `to` Monday. This difference is `mondayOffset`.
-    // By adding this positive difference, we're now working with a system that
-    // is [mondayOffset, 6 + mondayOffset]. To go back to the 0-based system,
-    // we take the modulo 7 of the day.
-    // 3. At this point, we're working with a 0-based system that has been
-    // shifted by `mondayOffset`. We can now add `toStart` to get the final
-    // result.
-    final fromWeekdayZeroBased = fromWeekday - _fromStart;
-    final toWeekdayZeroBased = (fromWeekdayZeroBased + mondayOffset) % 7;
+    // 1. The resulting weekday will be `toWeekdayZeroBased + toStart`.
+    // `toWeekdayZeroBased` corresponds to the resulting weekday in a system
+    // that is [0, 6]. By adding `toStart`, we are mapping it to the `to`
+    // system.
+    //
+    // 2. The `toWeekdayZeroBased` will be `toWeekdayZeroBasedUnbound % 7`.
+    // This operation is essential to return a value that is bound within the
+    // 7 weekdays that a week has.
+    //
+    // 3. The `toWeekdayZeroBasedUnbound` will be
+    // `fromWeekdayZeroBased + mondayIndexOffset`. `fromWeekdayZeroBased`
+    // corresponds to the provided weekday in a system that is [0, 6]. This
+    // can be obtained by performing the operation `fromWeekday - fromStart`.
+    //
+    // 4. `mondayIndexOffset` corresponds to the number of days that we need
+    // to advance a monday (or any other day) in the `from` system to get the
+    // corresponding weekday in the `to` system. This can be obtained by taking
+    // difference between `toMondayZeroBased` and `fromMondayZeroBased`. These
+    // two values can be obtained in the same fashion as `fromWeekdayZeroBased`.
+    //
+    // Taking these steps into account, we can derive the following formula:
+    //
+    // 1. toWeekdayZeroBased + toStart
+    // 2. toWeekdayZeroBasedUnbound % 7 + toStart
+    // 3. (fromWeekdayZeroBased + mondayIndexOffset) % 7 + toStart
+    // 4. (fromWeekday - fromStart + mondayIndexOffset) % 7 + toStart
+    // 5. (fromWeekday - fromStart
+    //  + toMondayZeroBased - fromMondayZeroBased) % 7 + toStart
+    // 6. (fromWeekday - fromStart
+    //  + (toMonday - toStart) - fromMondayZeroBased) % 7 + toStart
+    // 7. (fromWeekday - fromStart
+    //  + (toMonday - toStart) - (fromMonday - fromStart)) % 7 + toStart
+    // 8. (fromWeekday - fromStart
+    //  + (toMonday - toStart) - (fromMonday - fromStart)) % 7 + toStart
+    // 9. (fromWeekday - fromStart
+    //  + toMonday - toStart - fromMonday + fromStart) % 7 + toStart
+    // 10. (fromWeekday + toMonday - toStart - fromMonday) % 7 + toStart
+    final toWeekdayZeroBased =
+        (fromWeekday + _toMonday - _toStart - _fromMonday) % 7;
     final toWeekday = toWeekdayZeroBased + _toStart;
 
     return toWeekday;
-
-    // In case you're wondering, like me, the compact formula is:
-    // (fromWeekday - fromStart + toMonday - fromMonday) % 7 + toStart
-    // (fromWeekday + _toMonday - _toStart - _fromMonday) % 7 + _toStart
   }
 }

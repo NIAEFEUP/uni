@@ -26,17 +26,16 @@ void exhaustivelyTestWeekdayMapper(
     var toWeekday = toMonday;
 
     for (var i = 0; i < 7; i++) {
-      group('[DateTime.weekday = ${i + 1}]', () {
-        test('fromWeekday = $fromWeekday should map to toWeekday = $toMonday',
-            () {
-          expect(mapper.map(fromWeekday), toWeekday);
-        });
+      test(
+          '[DateTime.weekday = ${i + 1}] fromWeekday = $fromWeekday should'
+          ' map to toWeekday = $toMonday', () {
+        expect(mapper.map(fromWeekday), toWeekday);
+      });
 
-        test(
-            'toWeekday = $toWeekday should inversely map to'
-            ' fromWeekday = $fromWeekday', () {
-          expect(inverseMapper.map(toWeekday), fromWeekday);
-        });
+      test(
+          '[DateTime.weekday = ${i + 1}] toWeekday = $toWeekday should'
+          ' inversely map to fromWeekday = $fromWeekday', () {
+        expect(inverseMapper.map(toWeekday), fromWeekday);
       });
 
       fromWeekday = ++fromWeekday >= fromEnd ? fromStart : fromWeekday;
