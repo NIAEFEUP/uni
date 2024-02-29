@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -72,6 +73,8 @@ class ScheduleSlot extends StatelessWidget {
       rooms,
       style: Theme.of(context).textTheme.bodyMedium,
     );
+    final courseUnit = _correspondingCourseUnit(context);
+
     return [
       ScheduleTimeWidget(
         begin: DateFormat('HH:mm').format(begin),
@@ -84,9 +87,10 @@ class ScheduleSlot extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                SubjectButtonWidget(
-                  occurrId: occurrId,
-                ),
+                if (courseUnit != null)
+                  SubjectButtonWidget(
+                    courseUnit: courseUnit,
+                  ),
                 subjectTextField,
                 typeClassTextField,
               ],
@@ -104,42 +108,31 @@ class ScheduleSlot extends StatelessWidget {
       roomTextField,
     ];
   }
+
+  CourseUnit? _correspondingCourseUnit(BuildContext context) {
+    final courseUnits = context.read<ProfileProvider>().state!.courseUnits;
+    return courseUnits.firstWhereOrNull(
+      (courseUnit) => courseUnit.occurrId == occurrId,
+    );
+  }
 }
 
 class SubjectButtonWidget extends StatelessWidget {
-  const SubjectButtonWidget({required this.occurrId, super.key});
+  const SubjectButtonWidget({required this.courseUnit, super.key});
 
-  final int occurrId;
-  CourseUnit correspondingCourseUnit(BuildContext context) {
-    final courseUnits =
-        Provider.of<ProfileProvider>(context, listen: false).state!.courseUnits;
-    final notFound =
-        CourseUnit(abbreviation: 'NF', name: 'not found', occurrId: 0);
-    final correspondingCourseUnit = courseUnits.firstWhere(
-      (courseUnit) => courseUnit.occurrId == occurrId,
-      orElse: () => notFound,
-    );
-
-    return correspondingCourseUnit;
-  }
+  final CourseUnit courseUnit;
 
   void _launchUcPage(BuildContext context) {
-    final correspondCourseUnit = correspondingCourseUnit(context);
     Navigator.push(
       context,
       MaterialPageRoute<CourseUnitDetailPageView>(
-        builder: (context) => CourseUnitDetailPageView(correspondCourseUnit),
+        builder: (context) => CourseUnitDetailPageView(courseUnit),
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    if (correspondingCourseUnit(context).name == 'not found') {
-      return const Column(
-        mainAxisSize: MainAxisSize.min,
-      );
-    }
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
