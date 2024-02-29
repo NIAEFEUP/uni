@@ -1,4 +1,3 @@
-import 'package:http/http.dart';
 import 'package:tuple/tuple.dart';
 import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher.dart';
 import 'package:uni/controller/networking/network_router.dart';
@@ -6,6 +5,7 @@ import 'package:uni/controller/parsers/parser_schedule_html.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/session.dart';
+import 'package:uni/model/utils/week_response.dart';
 
 /// Class for fetching the user's lectures from the schedule's HTML page.
 class ScheduleFetcherHtml extends ScheduleFetcher {
@@ -23,22 +23,27 @@ class ScheduleFetcherHtml extends ScheduleFetcher {
     final dates = getDates();
     final baseUrls = NetworkRouter.getBaseUrlsFromSession(session);
 
-    final lectureResponses = <Tuple2<Response, String>>[];
+    final lectureResponses = <Tuple2<WeekResponse, String>>[];
     for (final baseUrl in baseUrls) {
       final url = '${baseUrl}hor_geral.estudantes_view';
 
       for (final course in profile.courses) {
-        final response = await NetworkRouter.getWithCookies(
-          url,
-          {
-            'pv_fest_id': course.festId.toString(),
-            'pv_ano_lectivo': dates.lectiveYear.toString(),
-            'p_semana_inicio': dates.beginWeek,
-            'p_semana_fim': dates.endWeek,
-          },
-          session,
+        final futures = dates.map(
+          (date) => NetworkRouter.getWithCookies(
+            url,
+            {
+              'pv_fest_id': course.festId.toString(),
+              'pv_ano_lectivo': date.lectiveYear.toString(),
+              'p_semana_inicio': date.asSigarraWeekStart,
+              'p_semana_fim': date.asSigarraWeekEnd,
+            },
+            session,
+          ).then(
+            (response) => Tuple2(WeekResponse(date.week, response), baseUrl),
+          ),
         );
-        lectureResponses.add(Tuple2(response, baseUrl));
+
+        lectureResponses.addAll(await Future.wait(futures));
       }
     }
 

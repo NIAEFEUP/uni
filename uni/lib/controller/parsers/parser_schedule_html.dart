@@ -2,20 +2,20 @@ import 'dart:async';
 
 import 'package:html/dom.dart';
 import 'package:html/parser.dart' show parse;
-import 'package:http/http.dart' as http;
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/entities/session.dart';
-import 'package:uni/model/entities/time_utilities.dart';
+import 'package:uni/model/utils/time/week.dart';
+import 'package:uni/model/utils/time/weekday_mapper.dart';
+import 'package:uni/model/utils/week_response.dart';
 
 Future<List<Lecture>> getOverlappedClasses(
   Session session,
   Document document,
   String faculty,
+  Week week,
 ) async {
   final lecturesList = <Lecture>[];
-
-  final monday = DateTime.now().getClosestMonday();
 
   final overlappingClasses = document.querySelectorAll('.dados > tbody > .d');
   for (final element in overlappingClasses) {
@@ -31,7 +31,11 @@ Future<List<Lecture>> getOverlappedClasses(
         .querySelector('.horario > tbody > tr:first-child')
         ?.children
         .indexWhere((element) => element.text == textDay);
-    final day = aDay != null ? aDay - 1 : 0;
+    final day = week.getWeekday(
+      aDay != null
+          ? WeekdayMapper.fromSigarraToDart.map(aDay)
+          : DateTime.monday,
+    );
     final startTime = element.querySelector('td[headers=t3]')?.text;
     final room = element.querySelector('td[headers=t4] > a')?.text;
     final teacher = element.querySelector('td[headers=t5] > a')?.text;
@@ -44,13 +48,13 @@ Future<List<Lecture>> getOverlappedClasses(
           'Overlapping class $subject has invalid startTime',
         );
       }
-      final fullStartTime = monday.add(
+      final fullStartTime = day.add(
         Duration(
-          days: day,
           hours: int.parse(startTimeList[0]),
           minutes: int.parse(startTimeList[1]),
         ),
       );
+
       final href =
           element.querySelector('td[headers=t6] > a')?.attributes['href'];
 
@@ -63,8 +67,8 @@ Future<List<Lecture>> getOverlappedClasses(
         session,
       );
 
-      final classLectures =
-          await getScheduleFromHtml(response, session, faculty);
+      final classLectures = await getScheduleFromHtml(
+          WeekResponse(week, response), session, faculty);
 
       lecturesList.add(
         classLectures
@@ -79,7 +83,7 @@ Future<List<Lecture>> getOverlappedClasses(
       final lect = Lecture.fromHtml(
         subject!,
         typeClass!,
-        monday.add(Duration(days: day)),
+        day,
         startTime!,
         0,
         room!,
@@ -94,20 +98,25 @@ Future<List<Lecture>> getOverlappedClasses(
   return lecturesList;
 }
 
+const fromParserToDart = WeekdayMapper.fromStartWeekdays(
+  fromStart: 0,
+  fromStartWeekday: DateTime.monday,
+  toStart: 1,
+  toStartWeekday: DateTime.monday,
+);
+
 /// Extracts the user's lectures from an HTTP [response] and sorts them by date.
 ///
 /// This function parses the schedule's HTML page.
 Future<List<Lecture>> getScheduleFromHtml(
-  http.Response response,
+  WeekResponse response,
   Session session,
   String faculty,
 ) async {
-  final document = parse(response.body);
+  final document = parse(response.response);
   var semana = [0, 0, 0, 0, 0, 0];
 
   final lecturesList = <Lecture>[];
-
-  final monday = DateTime.now().getClosestMonday();
 
   document.querySelectorAll('.horario > tbody > tr').forEach((Element element) {
     if (element.getElementsByClassName('horas').isNotEmpty) {
@@ -144,7 +153,7 @@ Future<List<Lecture>> getScheduleFromHtml(
           final lect = Lecture.fromHtml(
             subject,
             typeClass,
-            monday.add(Duration(days: day)),
+            response.week.getWeekday(fromParserToDart.map(day)),
             startTime,
             blocks,
             room ?? '',
@@ -162,7 +171,7 @@ Future<List<Lecture>> getScheduleFromHtml(
 
   lecturesList
     ..addAll(
-      await getOverlappedClasses(session, document, faculty),
+      await getOverlappedClasses(session, document, faculty, response.week),
     )
     ..sort((a, b) => a.compare(b));
 

@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/providers/lazy/lecture_provider.dart';
+import 'package:uni/model/utils/time/week.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/expanded_image_label.dart';
 import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
@@ -49,6 +50,7 @@ class SchedulePageView extends StatefulWidget {
 class SchedulePageViewState extends State<SchedulePageView>
     with TickerProviderStateMixin {
   TabController? tabController;
+  late Week currentWeek;
 
   @override
   void initState() {
@@ -57,7 +59,11 @@ class SchedulePageViewState extends State<SchedulePageView>
       vsync: this,
       length: 5,
     );
-    final weekDay = DateTime.now().weekday;
+
+    final now = DateTime.now();
+    currentWeek = Week(start: now);
+
+    final weekDay = now.weekday;
     final offset = (weekDay > 5) ? 0 : (weekDay - 1) % 5;
     tabController?.animateTo(tabController!.index + offset);
   }
@@ -70,14 +76,6 @@ class SchedulePageViewState extends State<SchedulePageView>
 
   @override
   Widget build(BuildContext context) {
-    final startOfToday = DateTime.now().copyWith(
-      hour: 0,
-      minute: 0,
-      second: 0,
-      millisecond: 0,
-      microsecond: 0,
-    );
-
     final queryData = MediaQuery.of(context);
     return Column(
       children: <Widget>[
@@ -92,11 +90,7 @@ class SchedulePageViewState extends State<SchedulePageView>
             controller: tabController,
             children: Iterable<DateTime>.generate(
               5,
-              (int index) => index + 1 < startOfToday.weekday
-                  ? startOfToday
-                      .add(Duration(days: -startOfToday.weekday + index + 8))
-                  : startOfToday
-                      .add(Duration(days: -startOfToday.weekday + index + 1)),
+              (int index) => currentWeek.getWeekday(index + 1),
             ).map((day) {
               final lectures = lecturesOfDay(widget.lectures, day);
               if (lectures.isEmpty) {
@@ -162,10 +156,11 @@ class SchedulePageViewState extends State<SchedulePageView>
   static List<Lecture> lecturesOfDay(List<Lecture> lectures, DateTime day) {
     final filteredLectures = <Lecture>[];
     for (var i = 0; i < lectures.length; i++) {
-      if (lectures[i].startTime.year == day.year &&
-          lectures[i].startTime.month == day.month &&
-          lectures[i].startTime.day == day.day) {
-        filteredLectures.add(lectures[i]);
+      final lecture = lectures[i];
+      if (lecture.startTime.day == day.day &&
+          lecture.startTime.month == day.month &&
+          lecture.startTime.year == day.year) {
+        filteredLectures.add(lecture);
       }
     }
     return filteredLectures;

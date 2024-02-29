@@ -1,17 +1,17 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:http/http.dart';
-import 'package:logger/logger.dart';
-import 'package:tuple/tuple.dart';
 import 'package:uni/model/entities/lecture.dart';
+import 'package:uni/model/utils/time/week.dart';
+import 'package:uni/model/utils/time/weekday_mapper.dart';
+import 'package:uni/model/utils/week_response.dart';
 
 Future<List<Lecture>> parseScheduleMultipleRequests(
-  List<Tuple2<Tuple2<DateTime, DateTime>, Response>> responses,
+  List<WeekResponse> responses,
 ) async {
   var lectures = <Lecture>[];
   for (final response in responses) {
-    lectures += await parseSchedule(response.item2, response.item1);
+    lectures += await parseSchedule(response.response, response.week);
   }
   return lectures;
 }
@@ -22,7 +22,7 @@ Future<List<Lecture>> parseScheduleMultipleRequests(
 /// This function parses a JSON object.
 Future<List<Lecture>> parseSchedule(
   http.Response response,
-  Tuple2<DateTime, DateTime> week,
+  Week week,
 ) async {
   final lectures = <Lecture>{};
 
@@ -32,12 +32,13 @@ Future<List<Lecture>> parseSchedule(
   for (var lecture in schedule) {
     lecture = lecture as Map<String, dynamic>;
 
-    final startTime = week.item1.add(
-      Duration(
-        days: (lecture['dia'] as int) - 1,
-        seconds: lecture['hora_inicio'] as int,
-      ),
-    );
+    final startTime = week
+        .getWeekday(WeekdayMapper.fromSigarraToDart.map(lecture['dia'] as int))
+        .add(
+          Duration(
+            seconds: lecture['hora_inicio'] as int,
+          ),
+        );
 
     final subject = lecture['ucurr_sigla'] as String;
     final typeClass = lecture['tipo'] as String;
@@ -66,8 +67,6 @@ Future<List<Lecture>> parseSchedule(
       classNumber,
       occurrId,
     );
-
-    Logger().d('On week $week, found $lec');
 
     lectures.add(lec);
   }

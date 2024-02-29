@@ -1,3 +1,5 @@
+import 'package:uni/model/utils/time/weekday_mapper.dart';
+
 DateTime getStartOfDay(DateTime date) {
   return date.copyWith(
     hour: 0,
@@ -11,7 +13,9 @@ DateTime getStartOfDay(DateTime date) {
 /// A [Week] represents a period of 7 days.
 class Week implements Comparable<Week> {
   /// Creates a [Week] that starts the given [start] **date** (not datetime).
-  factory Week(DateTime start) {
+  factory Week({
+    required DateTime start,
+  }) {
     final startAtMidnight = start.copyWith(
       hour: 0,
       minute: 0,
@@ -26,10 +30,17 @@ class Week implements Comparable<Week> {
   }
 
   // Recommended by https://dart.dev/language/constructors#factory-constructors
-  Week._internal(this.start, this.end);
+  Week._internal(this.start, this.end)
+      : toDartWeekday = WeekdayMapper(
+          fromStart: 1,
+          fromMonday: start.weekday,
+          toStart: 1,
+          toMonday: DateTime.monday,
+        );
 
   final DateTime start;
   final DateTime end;
+  final WeekdayMapper toDartWeekday;
 
   /// Returns whether the given [date] is within this [Week].
   bool contains(DateTime date) {
@@ -70,7 +81,7 @@ class Week implements Comparable<Week> {
   /// [Week].
   ///
   /// The values for [weekday] are according to [DateTime.weekday].
-  Week shiftStartTo(int weekday) {
+  Week startingOn(int weekday) {
     // For instance, if [weekday] is 1 and [start] is on weekday 3,
     // the final offset in days should be 5, since the offset must not be
     // negative (the start of the returned week must be contained in this week).
@@ -86,15 +97,22 @@ class Week implements Comparable<Week> {
   /// in this [Week].
   ///
   /// The values for [weekday] are according to [DateTime.weekday].
-  Week shiftEndTo(int weekday) {
-    return shiftStartTo(weekday).previous();
+  Week endingOn(int weekday) {
+    // For instance, if [weekday] is 1 and [end] is on weekday 3,
+    // the final offset in days should be 2.
+    final offsetInDays = (end.weekday - weekday) % 7;
+
+    return Week._internal(
+      start.subtract(Duration(days: offsetInDays)),
+      end.subtract(Duration(days: offsetInDays)),
+    );
   }
 
   /// Returns the [DateTime] at the start of the given [weekday].
   ///
   /// The values for [weekday] are according to [DateTime.weekday].
   DateTime getWeekday(int weekday) {
-    return start.add(Duration(days: weekday - start.weekday));
+    return start.add(Duration(days: (weekday - start.weekday) % 7));
   }
 
   Iterable<DateTime> get weekdays {
@@ -113,5 +131,10 @@ class Week implements Comparable<Week> {
   @override
   int compareTo(Week other) {
     return start.compareTo(other.start);
+  }
+
+  @override
+  String toString() {
+    return 'Week{start: $start, end: $end}';
   }
 }

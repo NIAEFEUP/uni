@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/providers/lazy/lecture_provider.dart';
+import 'package:uni/model/utils/time/week.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/date_rectangle.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
@@ -52,21 +53,19 @@ class ScheduleCard extends GenericCard {
   }
 
   List<Widget> getScheduleRows(BuildContext context, List<Lecture> lectures) {
+    final now = DateTime.now();
+    final week = Week(start: now);
+
     final rows = <Widget>[];
 
     final lecturesByDay = lectures
+        .where((lecture) => week.contains(lecture.startTime))
         .groupListsBy(
-          (lecture) => lecture.startTime.copyWith(
-            hour: 0,
-            minute: 0,
-            second: 0,
-            millisecond: 0,
-          ),
+          (lecture) => lecture.startTime.weekday,
         )
         .entries
-        .where((element) => element.key.isAfter(DateTime.now()))
         .toList()
-        .sortedBy<DateTime>((element) => element.key)
+        .sortedBy<DateTime>((element) => week.getWeekday(element.key))
         .toList();
 
     for (final dayLectures
@@ -88,7 +87,7 @@ class ScheduleCard extends GenericCard {
       rows.add(
         DateRectangle(
           date: Provider.of<LocaleNotifier>(context)
-              .getWeekdaysWithLocale()[(day.weekday - 1) % 7],
+              .getWeekdaysWithLocale()[(day - 1) % 7],
         ),
       );
 
