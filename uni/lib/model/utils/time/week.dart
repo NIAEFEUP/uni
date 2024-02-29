@@ -1,15 +1,5 @@
 import 'package:uni/model/utils/time/weekday_mapper.dart';
 
-DateTime getStartOfDay(DateTime date) {
-  return date.copyWith(
-    hour: 0,
-    minute: 0,
-    second: 0,
-    millisecond: 0,
-    microsecond: 0,
-  );
-}
-
 /// A [Week] represents a period of 7 days.
 class Week implements Comparable<Week> {
   /// Creates a [Week] that starts the given [start] **date** (not datetime).
