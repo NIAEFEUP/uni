@@ -54,6 +54,13 @@ class WeekdayMapper {
     toStartWeekday: DateTime.monday,
   );
 
+  static const fromDartToIndex = WeekdayMapper.fromStartWeekdays(
+    fromStart: 1,
+    fromStartWeekday: DateTime.monday,
+    toStart: 0,
+    toStartWeekday: DateTime.monday,
+  );
+
   final int _fromStart;
   final int _fromMonday;
 

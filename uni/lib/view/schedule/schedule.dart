@@ -4,6 +4,7 @@ import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/providers/lazy/lecture_provider.dart';
 import 'package:uni/model/utils/time/week.dart';
+import 'package:uni/model/utils/time/weekday_mapper.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/expanded_image_label.dart';
 import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
@@ -92,15 +93,13 @@ class SchedulePageViewState extends State<SchedulePageView>
         Expanded(
           child: TabBarView(
             controller: tabController,
-            children: Iterable<DateTime>.generate(
-              6,
-              (int index) => currentWeek.getWeekday(index + 1),
-            ).map((day) {
+            children: currentWeek.weekdays.take(6).map((day) {
               final lectures = lecturesOfDay(widget.lectures, day);
+              final index = WeekdayMapper.fromDartToIndex.map(day.weekday);
               if (lectures.isEmpty) {
-                return emptyDayColumn(context, day.weekday - 1);
+                return emptyDayColumn(context, index);
               } else {
-                return dayColumnBuilder(day.weekday - 1, lectures, context);
+                return dayColumnBuilder(index, lectures, context);
               }
             }).toList(),
           ),
