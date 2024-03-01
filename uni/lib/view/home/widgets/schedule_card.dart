@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/providers/lazy/lecture_provider.dart';
+import 'package:uni/model/utils/time/week.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/date_rectangle.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
@@ -52,19 +53,20 @@ class ScheduleCard extends GenericCard {
   }
 
   List<Widget> getScheduleRows(BuildContext context, List<Lecture> lectures) {
+    final now = DateTime.now();
+    final week = Week(start: now);
+
     final rows = <Widget>[];
 
     final lecturesByDay = lectures
+        .where((lecture) => week.contains(lecture.startTime))
         .groupListsBy(
           (lecture) => lecture.startTime.weekday,
         )
         .entries
         .toList()
-        .sortedBy<num>((element) {
-      // Sort by day of the week, but next days come first
-      final dayDiff = element.key - DateTime.now().weekday;
-      return dayDiff >= 0 ? dayDiff - 7 : dayDiff;
-    }).toList();
+        .sortedBy<DateTime>((element) => week.getWeekday(element.key))
+        .toList();
 
     for (final dayLectures
         in lecturesByDay.sublist(0, min(2, lecturesByDay.length))) {
