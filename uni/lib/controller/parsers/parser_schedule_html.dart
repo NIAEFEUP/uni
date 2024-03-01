@@ -2,12 +2,12 @@ import 'dart:async';
 
 import 'package:html/dom.dart';
 import 'package:html/parser.dart' show parse;
+import 'package:http/http.dart' as http;
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/utils/time/week.dart';
 import 'package:uni/model/utils/time/weekday_mapper.dart';
-import 'package:uni/model/utils/week_response.dart';
 
 Future<List<Lecture>> getOverlappedClasses(
   Session session,
@@ -68,7 +68,7 @@ Future<List<Lecture>> getOverlappedClasses(
       );
 
       final classLectures = await getScheduleFromHtml(
-        WeekResponse(week, response),
+        (week, response),
         session,
         faculty,
       );
@@ -112,11 +112,12 @@ const fromParserToDart = WeekdayMapper.fromStartWeekdays(
 ///
 /// This function parses the schedule's HTML page.
 Future<List<Lecture>> getScheduleFromHtml(
-  WeekResponse response,
+  (Week, http.Response) responsePerWeek,
   Session session,
   String faculty,
 ) async {
-  final document = parse(response.innerResponse.body);
+  final (week, response) = responsePerWeek;
+  final document = parse(response.body);
   var semana = [0, 0, 0, 0, 0, 0];
 
   final lecturesList = <Lecture>[];
@@ -156,7 +157,7 @@ Future<List<Lecture>> getScheduleFromHtml(
           final lect = Lecture.fromHtml(
             subject,
             typeClass,
-            response.week.getWeekday(fromParserToDart.map(day)),
+            week.getWeekday(fromParserToDart.map(day)),
             startTime,
             blocks,
             room ?? '',
@@ -174,7 +175,7 @@ Future<List<Lecture>> getScheduleFromHtml(
 
   lecturesList
     ..addAll(
-      await getOverlappedClasses(session, document, faculty, response.week),
+      await getOverlappedClasses(session, document, faculty, week),
     )
     ..sort((a, b) => a.compare(b));
 

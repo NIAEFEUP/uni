@@ -4,14 +4,13 @@ import 'package:http/http.dart' as http;
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/utils/time/week.dart';
 import 'package:uni/model/utils/time/weekday_mapper.dart';
-import 'package:uni/model/utils/week_response.dart';
 
 Future<List<Lecture>> parseScheduleMultipleRequests(
-  List<WeekResponse> responses,
+  List<(Week, http.Response)> responsesPerWeeks,
 ) async {
   var lectures = <Lecture>[];
-  for (final response in responses) {
-    lectures += await parseSchedule(response.innerResponse, response.week);
+  for (final (week, response) in responsesPerWeeks) {
+    lectures += await parseSchedule(response, week);
   }
   return lectures;
 }

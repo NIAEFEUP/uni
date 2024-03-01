@@ -1,3 +1,4 @@
+import 'package:http/http.dart' as http;
 import 'package:tuple/tuple.dart';
 import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher.dart';
 import 'package:uni/controller/networking/network_router.dart';
@@ -5,7 +6,7 @@ import 'package:uni/controller/parsers/parser_schedule_html.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/session.dart';
-import 'package:uni/model/utils/week_response.dart';
+import 'package:uni/model/utils/time/week.dart';
 
 /// Class for fetching the user's lectures from the schedule's HTML page.
 class ScheduleFetcherHtml extends ScheduleFetcher {
@@ -23,7 +24,7 @@ class ScheduleFetcherHtml extends ScheduleFetcher {
     final dates = getDates();
     final baseUrls = NetworkRouter.getBaseUrlsFromSession(session);
 
-    final lectureResponses = <Tuple2<WeekResponse, String>>[];
+    final lectureResponses = <Tuple2<(Week, http.Response), String>>[];
     for (final baseUrl in baseUrls) {
       final url = '${baseUrl}hor_geral.estudantes_view';
 
@@ -39,7 +40,7 @@ class ScheduleFetcherHtml extends ScheduleFetcher {
             },
             session,
           ).then(
-            (response) => Tuple2(WeekResponse(date.week, response), baseUrl),
+            (response) => Tuple2((date.week, response), baseUrl),
           ),
         );
 

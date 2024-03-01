@@ -1,10 +1,11 @@
+import 'package:http/http.dart' as http;
 import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/parsers/parser_schedule.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/session.dart';
-import 'package:uni/model/utils/week_response.dart';
+import 'package:uni/model/utils/time/week.dart';
 
 /// Class for fetching the user's lectures from the faculties' API.
 class ScheduleFetcherApi extends ScheduleFetcher {
@@ -22,7 +23,7 @@ class ScheduleFetcherApi extends ScheduleFetcher {
     final dates = getDates();
 
     final urls = getEndpoints(session);
-    final responses = <WeekResponse>[];
+    final responses = <(Week, http.Response)>[];
     for (final url in urls) {
       final futures = dates.map(
         (date) => NetworkRouter.getWithCookies(
@@ -33,7 +34,7 @@ class ScheduleFetcherApi extends ScheduleFetcher {
             'pv_semana_fim': date.asSigarraWeekEnd,
           },
           session,
-        ).then((response) => WeekResponse(date.week, response)),
+        ).then((response) => (date.week, response)),
       );
 
       responses.addAll(await Future.wait(futures));
