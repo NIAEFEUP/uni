@@ -45,10 +45,11 @@ class SchedulePageState extends SecondaryPageViewState<SchedulePage> {
 }
 
 class SchedulePageView extends StatefulWidget {
-  const SchedulePageView(this.lectures, {required this.now, super.key});
+  SchedulePageView(this.lectures, {required DateTime now, super.key})
+      : currentWeek = Week(start: now);
 
   final List<Lecture> lectures;
-  final DateTime now;
+  final Week currentWeek;
 
   @override
   SchedulePageViewState createState() => SchedulePageViewState();
@@ -57,7 +58,6 @@ class SchedulePageView extends StatefulWidget {
 class SchedulePageViewState extends State<SchedulePageView>
     with TickerProviderStateMixin {
   TabController? tabController;
-  late Week currentWeek;
 
   @override
   void initState() {
@@ -67,9 +67,7 @@ class SchedulePageViewState extends State<SchedulePageView>
       length: 6,
     );
 
-    currentWeek = Week(start: widget.now);
-
-    final weekDay = widget.now.weekday;
+    final weekDay = widget.currentWeek.start.weekday;
     final offset = (weekDay > 6) ? 0 : (weekDay - 1) % 6;
     tabController?.animateTo(tabController!.index + offset);
   }
@@ -94,7 +92,7 @@ class SchedulePageViewState extends State<SchedulePageView>
         Expanded(
           child: TabBarView(
             controller: tabController,
-            children: currentWeek.weekdays.take(6).map((day) {
+            children: widget.currentWeek.weekdays.take(6).map((day) {
               final lectures = lecturesOfDay(widget.lectures, day);
               final index = WeekdayMapper.fromDartToIndex.map(day.weekday);
               if (lectures.isEmpty) {
