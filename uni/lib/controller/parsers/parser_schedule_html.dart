@@ -101,13 +101,6 @@ Future<List<Lecture>> getOverlappedClasses(
   return lecturesList;
 }
 
-const fromParserToDart = WeekdayMapper.fromStartWeekdays(
-  fromStart: 0,
-  fromStartWeekday: DateTime.monday,
-  toStart: 1,
-  toStartWeekday: DateTime.monday,
-);
-
 /// Extracts the user's lectures from a Week-HTTP pair in [responsePerWeek] and
 /// sorts them by date.
 ///
@@ -125,14 +118,14 @@ Future<List<Lecture>> getScheduleFromHtml(
 
   document.querySelectorAll('.horario > tbody > tr').forEach((Element element) {
     if (element.getElementsByClassName('horas').isNotEmpty) {
-      var day = 0;
+      var dayIndex = 0;
       final children = element.children;
       for (var i = 1; i < children.length; i++) {
-        for (var d = day; d < semana.length; d++) {
+        for (var d = dayIndex; d < semana.length; d++) {
           if (semana[d] == 0) {
             break;
           }
-          day++;
+          dayIndex++;
         }
         final clsName = children[i].className;
         if (clsName == 'TE' || clsName == 'TP' || clsName == 'PL') {
@@ -153,12 +146,14 @@ Future<List<Lecture>> getScheduleFromHtml(
           final blocks = int.parse(children[i].attributes['rowspan']!);
           final startTime = children[0].text.substring(0, 5);
 
-          semana[day] += blocks;
+          semana[dayIndex] += blocks;
 
           final lect = Lecture.fromHtml(
             subject,
             typeClass,
-            week.getWeekday(fromParserToDart.map(day)),
+            week.getWeekday(
+              WeekdayMapper.fromDartToIndex.inverse.map(dayIndex),
+            ),
             startTime,
             blocks,
             room ?? '',
@@ -168,7 +163,7 @@ Future<List<Lecture>> getScheduleFromHtml(
           );
           lecturesList.add(lect);
         }
-        day++;
+        dayIndex++;
       }
       semana = semana.expand((i) => [if ((i - 1) < 0) 0 else i - 1]).toList();
     }
