@@ -1,5 +1,3 @@
-import 'package:uni/model/utils/time/weekday_mapper.dart';
-
 /// A [Week] represents a period of 7 days.
 class Week implements Comparable<Week> {
   /// Creates a [Week] that starts the given [start] **date** (not datetime).
@@ -20,17 +18,10 @@ class Week implements Comparable<Week> {
   }
 
   // Recommended by https://dart.dev/language/constructors#factory-constructors
-  Week._internal(this.start, this.end)
-      : toDartWeekday = WeekdayMapper(
-          fromStart: 1,
-          fromMonday: start.weekday,
-          toStart: 1,
-          toMonday: DateTime.monday,
-        );
+  Week._internal(this.start, this.end);
 
   final DateTime start;
   final DateTime end;
-  final WeekdayMapper toDartWeekday;
 
   /// Returns whether the given [date] is within this [Week].
   bool contains(DateTime date) {
