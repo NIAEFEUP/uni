@@ -240,7 +240,7 @@ class ApplicationState extends State<Application> {
             ),
             '/${NavigationItem.navSchedule.route}':
                 PageTransition.makePageTransition(
-              page: const SchedulePage(),
+              page: SchedulePage(),
               settings: settings,
             ),
             '/${NavigationItem.navExams.route}':

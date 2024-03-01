@@ -55,7 +55,7 @@ void main() async {
         Session(username: 'up1234', cookies: 'cookie', faculties: ['feup']),
       );
 
-      const widget = SchedulePage();
+      final widget = SchedulePage();
 
       final providers = [
         ChangeNotifierProvider(create: (_) => scheduleProvider),

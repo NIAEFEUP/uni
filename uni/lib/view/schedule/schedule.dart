@@ -13,9 +13,9 @@ import 'package:uni/view/locale_notifier.dart';
 import 'package:uni/view/schedule/widgets/schedule_slot.dart';
 
 class SchedulePage extends StatefulWidget {
-  const SchedulePage({super.key, this.now});
+  SchedulePage({super.key, DateTime? now}) : now = now ?? DateTime.now();
 
-  final DateTime? now;
+  final DateTime now;
 
   @override
   SchedulePageState createState() => SchedulePageState();
@@ -24,12 +24,13 @@ class SchedulePage extends StatefulWidget {
 class SchedulePageState extends SecondaryPageViewState<SchedulePage> {
   @override
   Widget getBody(BuildContext context) {
-    final now = widget.now ?? DateTime.now();
-
     return LazyConsumer<LectureProvider, List<Lecture>>(
-      builder: (context, lectures) => SchedulePageView(lectures, now: now),
+      builder: (context, lectures) => SchedulePageView(
+        lectures,
+        now: widget.now,
+      ),
       hasContent: (lectures) => lectures.isNotEmpty,
-      onNullContent: SchedulePageView(const [], now: now),
+      onNullContent: SchedulePageView(const [], now: widget.now),
     );
   }
 
