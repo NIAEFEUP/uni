@@ -23,10 +23,12 @@ class SchedulePage extends StatefulWidget {
 class SchedulePageState extends SecondaryPageViewState<SchedulePage> {
   @override
   Widget getBody(BuildContext context) {
+    final now = widget.now ?? DateTime.now();
+
     return LazyConsumer<LectureProvider, List<Lecture>>(
-      builder: (context, lectures) => SchedulePageView(lectures),
+      builder: (context, lectures) => SchedulePageView(lectures, now: now),
       hasContent: (lectures) => lectures.isNotEmpty,
-      onNullContent: SchedulePageView(const [], now: widget.now),
+      onNullContent: SchedulePageView(const [], now: now),
     );
   }
 
@@ -41,10 +43,10 @@ class SchedulePageState extends SecondaryPageViewState<SchedulePage> {
 }
 
 class SchedulePageView extends StatefulWidget {
-  const SchedulePageView(this.lectures, {super.key, this.now});
+  const SchedulePageView(this.lectures, {required this.now, super.key});
 
   final List<Lecture> lectures;
-  final DateTime? now;
+  final DateTime now;
 
   @override
   SchedulePageViewState createState() => SchedulePageViewState();
@@ -63,10 +65,9 @@ class SchedulePageViewState extends State<SchedulePageView>
       length: 6,
     );
 
-    final now = widget.now ?? DateTime.now();
-    currentWeek = Week(start: now);
+    currentWeek = Week(start: widget.now);
 
-    final weekDay = now.weekday;
+    final weekDay = widget.now.weekday;
     final offset = (weekDay > 6) ? 0 : (weekDay - 1) % 6;
     tabController?.animateTo(tabController!.index + offset);
   }
