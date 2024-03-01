@@ -81,17 +81,22 @@ void main() async {
 
       await tester.pumpAndSettle();
 
+      await tester.ensureVisible(find.byKey(const Key('schedule-page-tab-2')));
       await tester.tap(find.byKey(const Key('schedule-page-tab-2')));
       await tester.pumpAndSettle();
+      await tester.ensureVisible(find.byKey(const Key('schedule-page-tab-1')));
       await tester.tap(find.byKey(const Key('schedule-page-tab-1')));
       await tester.pumpAndSettle();
+      await tester.ensureVisible(find.byKey(const Key('schedule-page-tab-0')));
       await tester.tap(find.byKey(const Key('schedule-page-tab-0')));
       await tester.pumpAndSettle();
 
       testScheduleSlot('ASSO', '11:00', '13:00', 'EaD', 'TP', 'DRP');
 
+      await tester.ensureVisible(find.byKey(const Key('schedule-page-tab-2')));
       await tester.tap(find.byKey(const Key('schedule-page-tab-2')));
       await tester.pumpAndSettle();
+      await tester.ensureVisible(find.byKey(const Key('schedule-page-tab-3')));
       await tester.tap(find.byKey(const Key('schedule-page-tab-3')));
       await tester.pumpAndSettle();
 

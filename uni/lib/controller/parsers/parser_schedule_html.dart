@@ -107,7 +107,7 @@ Future<List<Lecture>> getOverlappedClasses(
 /// This function parses the schedule's HTML page.
 Future<List<Lecture>> getScheduleFromHtml(
   (Week, http.Response) responsePerWeek,
-  Session session,q
+  Session session,
   String faculty,
 ) async {
   final (week, response) = responsePerWeek;
