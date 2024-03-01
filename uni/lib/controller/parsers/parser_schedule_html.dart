@@ -108,7 +108,8 @@ const fromParserToDart = WeekdayMapper.fromStartWeekdays(
   toStartWeekday: DateTime.monday,
 );
 
-/// Extracts the user's lectures from an HTTP [response] and sorts them by date.
+/// Extracts the user's lectures from a Week-HTTP pair in [responsePerWeek] and
+/// sorts them by date.
 ///
 /// This function parses the schedule's HTML page.
 Future<List<Lecture>> getScheduleFromHtml(
