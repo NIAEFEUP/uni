@@ -45,6 +45,15 @@ class ProfileOverview extends StatelessWidget {
               fontWeight: FontWeight.w300,
             ),
           ),
+          const Padding(padding: EdgeInsets.all(5)),
+          Text(
+            session.faculties.map((e) => e.toUpperCase()).toList().join(', '),
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w300,
+            ),
+          ),
         ],
       ),
     );

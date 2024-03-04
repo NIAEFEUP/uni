@@ -36,20 +36,22 @@ class NetworkRouter {
   static Session? _cachedSession;
 
   /// Performs a login using the Sigarra API,
-  /// returning an authenticated [Session] on the given [faculties] with the
+  /// returning an authenticated [Session] with the
   /// given username [username] and password [password] if successful.
   static Future<Session?> login(
     String username,
     String password,
     List<String> faculties, {
     required bool persistentSession,
+    bool ignoreCached = false,
   }) async {
     return _loginLock.synchronized(
       () async {
         if (_lastLoginTime != null &&
             DateTime.now().difference(_lastLoginTime!) <
                 const Duration(minutes: 1) &&
-            _cachedSession != null) {
+            _cachedSession != null &&
+            !ignoreCached) {
           Logger().d('Login request ignored due to recent login');
           return _cachedSession;
         }
@@ -72,9 +74,14 @@ class NetworkRouter {
           persistentSession: persistentSession,
         );
 
+        if (session == null) {
+          Logger().e('Login failed: user not authenticated');
+          return null;
+        }
+
         Logger().i('Login successful');
         _lastLoginTime = DateTime.now();
-        _cachedSession = await session;
+        _cachedSession = session;
 
         return session;
       },
