@@ -18,10 +18,10 @@ Future<List<String>> getStudentFaculties(Session session) async {
     // The user is enrolled in a single faculty,
     // and the selection page is skipped.
     // We can extract the faculty from any anchor.
-    final singleFaculty = document.querySelector('a')!.attributes['href'];
-    final regex = RegExp(r'.*\/([a-z]+)\/.*');
-    final faculty = regex.firstMatch(singleFaculty!)?.group(1)?.toUpperCase();
-    return [faculty!.toLowerCase()];
+    final singleFaculty = document.querySelector('a')!.attributes['href']!;
+    final uri = Uri.parse(singleFaculty);
+    final faculty = uri.pathSegments[0];
+    return [faculty.toLowerCase()];
   }
 
   // We extract the faculties from the list.
