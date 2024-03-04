@@ -529,8 +529,7 @@ class MockSessionProvider extends _i1.Mock implements _i8.SessionProvider {
   _i4.Future<void> postAuthentication(
     _i11.BuildContext? context,
     String? username,
-    String? password,
-    List<String>? faculties, {
+    String? password, {
     required bool? persistentSession,
   }) =>
       (super.noSuchMethod(
@@ -540,7 +539,6 @@ class MockSessionProvider extends _i1.Mock implements _i8.SessionProvider {
             context,
             username,
             password,
-            faculties,
           ],
           {#persistentSession: persistentSession},
         ),
