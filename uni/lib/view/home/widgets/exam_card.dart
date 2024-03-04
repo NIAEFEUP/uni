@@ -7,10 +7,9 @@ import 'package:uni/model/providers/lazy/exam_provider.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
 import 'package:uni/view/home/widgets/exam_card_shimmer.dart';
+import 'package:uni/view/home/widgets/next_exams_card.dart';
 import 'package:uni/view/home/widgets/remaining_exams_card.dart';
 import 'package:uni/view/lazy_consumer.dart';
-
-import 'next_exams_card.dart';
 
 /// Manages the exam card section inside the personal area.
 class ExamCard extends GenericCard {
@@ -36,6 +35,7 @@ class ExamCard extends GenericCard {
   void onRefresh(BuildContext context) {
     Provider.of<ExamProvider>(context, listen: false).forceRefresh(context);
   }
+
   @override
   Widget buildCardContent(BuildContext context) {
     return StreamBuilder(

@@ -21,12 +21,8 @@ class CalendarEvent {
   DateTime? get parsedStartDate {
     final splitDate = date.split(' ');
     final month = splitDate.firstWhere(
-          (element) =>
-      DateFormat
-          .MMMM('pt')
-          .dateSymbols
-          .MONTHS
-          .contains(element) ||
+      (element) =>
+          DateFormat.MMMM('pt').dateSymbols.MONTHS.contains(element) ||
           element == 'TBD',
     );
 
