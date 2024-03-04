@@ -3,31 +3,31 @@ import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/model/entities/session.dart';
 
 Future<List<String>> getStudentFaculties(Session session) async {
-  final registerFaculties = <String>[];
+  final response = await NetworkRouter.getWithCookies(
+    'https://sigarra.up.pt/up/pt/vld_entidades_geral.entidade_pagina',
+    {'pct_codigo': session.username},
+    session,
+  );
 
-  final query = {'pct_codigo': session.username};
-  const baseUrl =
-      'https://sigarra.up.pt/up/pt/vld_entidades_geral.entidade_pagina';
+  final document = parse(response.body);
 
-  final pctRequest =
-      await NetworkRouter.getWithCookies(baseUrl, query, session);
+  final facultiesList =
+      document.querySelectorAll('#conteudoinner>ul a').map((e) => e.text);
 
-  final pctDocument = parse(pctRequest.body);
-
-  final list =
-      pctDocument.querySelectorAll('#conteudoinner>ul a').map((e) => e.text);
-
-  //user is enrolled in only one faculty
-  if (list.isEmpty) {
-    final singleFaculty = pctDocument.querySelector('a')!.attributes['href'];
-    final regex2 = RegExp(r'.*\/([a-z]+)\/.*');
-    final faculty = regex2.firstMatch(singleFaculty!)?.group(1)?.toUpperCase();
-    registerFaculties.add(faculty!);
-  } else {
-    final regex = RegExp(r'.*\(([A-Z]+)\)');
-    for (final element in list) {
-      registerFaculties.add(regex.firstMatch(element)!.group(1)!);
-    }
+  if (facultiesList.isEmpty) {
+    // The user is enrolled in a single faculty,
+    // and the selection page is skipped.
+    // We can extract the faculty from any anchor.
+    final singleFaculty = document.querySelector('a')!.attributes['href'];
+    final regex = RegExp(r'.*\/([a-z]+)\/.*');
+    final faculty = regex.firstMatch(singleFaculty!)?.group(1)?.toUpperCase();
+    return [faculty!.toLowerCase()];
   }
-  return registerFaculties;
+
+  // We extract the faculties from the list.
+  // An example list is (201906166 (FEUP), 201906166 (FCUP)).
+  final regex = RegExp(r'.*\(([A-Z]+)\)');
+  return facultiesList
+      .map((e) => regex.firstMatch(e)!.group(1)!.toLowerCase())
+      .toList();
 }
