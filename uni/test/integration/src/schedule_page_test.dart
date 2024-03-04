@@ -31,7 +31,9 @@ class UriMatcher extends CustomMatcher {
   MockSpec<http.Response>(),
   MockSpec<SessionProvider>(),
 ])
-void main() {
+void main() async {
+  await initTestEnvironment();
+
   group('SchedulePage Integration Tests', () {
     final mockClient = MockClient();
     final mockResponse = MockResponse();
@@ -49,11 +51,11 @@ void main() {
       final scheduleProvider = LectureProvider();
       final sessionProvider = MockSessionProvider();
 
-      when(sessionProvider.session).thenReturn(
+      when(sessionProvider.state).thenReturn(
         Session(username: 'up1234', cookies: 'cookie', faculties: ['feup']),
       );
 
-      const widget = SchedulePage();
+      final widget = SchedulePage();
 
       final providers = [
         ChangeNotifierProvider(create: (_) => scheduleProvider),
@@ -69,25 +71,32 @@ void main() {
       expect(find.byKey(const Key(scheduleSlotTimeKey1)), findsNothing);
       expect(find.byKey(const Key(scheduleSlotTimeKey2)), findsNothing);
 
-      await scheduleProvider.fetchUserLectures(
+      final lectures = await scheduleProvider.fetchUserLectures(
         Session(username: '', cookies: '', faculties: ['feup']),
         profile,
         persistentSession: false,
       );
 
-      scheduleProvider.markAsInitialized();
+      scheduleProvider.setState(lectures);
 
+      await tester.pumpAndSettle();
+
+      await tester.ensureVisible(find.byKey(const Key('schedule-page-tab-2')));
       await tester.tap(find.byKey(const Key('schedule-page-tab-2')));
       await tester.pumpAndSettle();
+      await tester.ensureVisible(find.byKey(const Key('schedule-page-tab-1')));
       await tester.tap(find.byKey(const Key('schedule-page-tab-1')));
       await tester.pumpAndSettle();
+      await tester.ensureVisible(find.byKey(const Key('schedule-page-tab-0')));
       await tester.tap(find.byKey(const Key('schedule-page-tab-0')));
       await tester.pumpAndSettle();
 
       testScheduleSlot('ASSO', '11:00', '13:00', 'EaD', 'TP', 'DRP');
 
+      await tester.ensureVisible(find.byKey(const Key('schedule-page-tab-2')));
       await tester.tap(find.byKey(const Key('schedule-page-tab-2')));
       await tester.pumpAndSettle();
+      await tester.ensureVisible(find.byKey(const Key('schedule-page-tab-3')));
       await tester.tap(find.byKey(const Key('schedule-page-tab-3')));
       await tester.pumpAndSettle();
 

@@ -6,12 +6,11 @@ import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:uni/controller/networking/network_router.dart';
-
 import 'package:uni/model/entities/session.dart';
 
 /// The offline image storage location on the device.
 Future<String> get _localPath async {
-  final directory = await getTemporaryDirectory();
+  final directory = await getApplicationDocumentsDirectory();
   return directory.path;
 }
 
@@ -67,9 +66,11 @@ Future<File?> _downloadAndSaveFile(
   Session? session,
   Map<String, String>? headers,
 ) async {
+  final header = headers ?? <String, String>{};
+
   final response = session == null
       ? await http.get(url.toUri(), headers: headers)
-      : await NetworkRouter.getWithCookies(url, {}, session);
+      : await NetworkRouter.getWithCookies(url, header, session);
 
   if (response.statusCode == 200) {
     return File(filePath).writeAsBytes(response.bodyBytes);

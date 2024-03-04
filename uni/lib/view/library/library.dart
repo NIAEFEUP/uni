@@ -4,52 +4,43 @@ import 'package:provider/provider.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/library_occupation.dart';
 import 'package:uni/model/providers/lazy/library_occupation_provider.dart';
-import 'package:uni/utils/drawer_items.dart';
+import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
-import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
+import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/library/widgets/library_occupation_card.dart';
 
-class LibraryPageView extends StatefulWidget {
-  const LibraryPageView({super.key});
+class LibraryPage extends StatefulWidget {
+  const LibraryPage({super.key});
 
   @override
-  State<StatefulWidget> createState() => LibraryPageViewState();
+  State<StatefulWidget> createState() => LibraryPageState();
 }
 
-class LibraryPageViewState extends GeneralPageViewState<LibraryPageView> {
+class LibraryPageState extends SecondaryPageViewState<LibraryPage> {
   @override
   Widget getBody(BuildContext context) {
-    return LazyConsumer<LibraryOccupationProvider>(
-      builder: (context, libraryOccupationProvider) =>
-          LibraryPage(libraryOccupationProvider.occupation),
-    );
-  }
-
-  @override
-  Future<void> onRefresh(BuildContext context) {
-    return Provider.of<LibraryOccupationProvider>(context, listen: false)
-        .forceRefresh(context);
-  }
-}
-
-class LibraryPage extends StatelessWidget {
-  const LibraryPage(this.occupation, {super.key});
-  final LibraryOccupation? occupation;
-
-  @override
-  Widget build(BuildContext context) {
     return ListView(
       shrinkWrap: true,
       children: [
-        PageTitle(name: S.of(context).nav_title(DrawerItem.navLibrary.title)),
         LibraryOccupationCard(),
-        if (occupation != null) PageTitle(name: S.of(context).floors),
-        if (occupation != null) getFloorRows(context, occupation!),
+        PageTitle(name: S.of(context).floors),
+        LazyConsumer<LibraryOccupationProvider, LibraryOccupation>(
+          builder: getFloorRows,
+          hasContent: (occupation) => occupation.floors.isNotEmpty,
+          onNullContent: Center(
+            child: Text(
+              S.of(context).no_library_info,
+              style: const TextStyle(fontSize: 18),
+            ),
+          ),
+          contentLoadingWidget: const CircularProgressIndicator(),
+        ),
       ],
     );
   }
 
+  // This will lazy consume
   Widget getFloorRows(BuildContext context, LibraryOccupation occupation) {
     final floors = <Widget>[];
     for (var i = 1; i < occupation.floors.length; i += 2) {
@@ -125,4 +116,14 @@ class LibraryPage extends StatelessWidget {
       ),
     );
   }
+
+  @override
+  Future<void> onRefresh(BuildContext context) {
+    return Provider.of<LibraryOccupationProvider>(context, listen: false)
+        .forceRefresh(context);
+  }
+
+  @override
+  String? getTitle() =>
+      S.of(context).nav_title(NavigationItem.navLibrary.route);
 }

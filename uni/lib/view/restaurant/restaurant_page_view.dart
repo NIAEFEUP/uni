@@ -5,10 +5,8 @@ import 'package:uni/model/entities/meal.dart';
 import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/providers/lazy/restaurant_provider.dart';
 import 'package:uni/model/utils/day_of_week.dart';
-import 'package:uni/utils/drawer_items.dart';
-import 'package:uni/view/common_widgets/page_title.dart';
+import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
-import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locale_notifier.dart';
 import 'package:uni/view/restaurant/widgets/restaurant_page_card.dart';
@@ -38,57 +36,55 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
   }
 
   @override
+  String? getTitle() =>
+      S.of(context).nav_title(NavigationItem.navRestaurants.route);
+
+  @override
   Widget getBody(BuildContext context) {
-    return LazyConsumer<RestaurantProvider>(
-      builder: (context, restaurantProvider) {
-        return Column(
-          children: [
-            ListView(
-              shrinkWrap: true,
-              children: [
-                Container(
-                  padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
-                  alignment: Alignment.center,
-                  child: PageTitle(
-                    name: S
-                        .of(context)
-                        .nav_title(DrawerItem.navRestaurants.title),
-                    center: false,
-                    pad: false,
-                  ),
-                ),
-                TabBar(
-                  controller: tabController,
-                  isScrollable: true,
-                  tabs: createTabs(context),
-                ),
-              ],
+    return Column(
+      children: [
+        TabBar(
+          controller: tabController,
+          isScrollable: true,
+          tabs: createTabs(context),
+        ),
+        LazyConsumer<RestaurantProvider, List<Restaurant>>(
+          builder: (context, restaurants) => createTabViewBuilder(
+            restaurants,
+            context,
+          ),
+          onNullContent: Center(
+            child: Text(
+              S.of(context).no_menus,
+              style: const TextStyle(fontSize: 18),
             ),
-            const SizedBox(height: 10),
-            RequestDependentWidgetBuilder(
-              status: restaurantProvider.status,
-              builder: () =>
-                  createTabViewBuilder(restaurantProvider.restaurants, context),
-              hasContentPredicate: restaurantProvider.restaurants.isNotEmpty,
-              onNullContent: Center(child: Text(S.of(context).no_menus)),
-            ),
-          ],
-        );
-      },
+          ),
+          hasContent: (List<Restaurant> restaurants) => restaurants.isNotEmpty,
+        ),
+      ],
     );
   }
 
-  Widget createTabViewBuilder(dynamic restaurants, BuildContext context) {
-    final List<Widget> dayContents = DayOfWeek.values.map((dayOfWeek) {
-      var restaurantsWidgets = <Widget>[];
-      if (restaurants is List<Restaurant>) {
-        restaurantsWidgets = restaurants
-            .map(
-              (restaurant) => createRestaurant(context, restaurant, dayOfWeek),
-            )
-            .toList();
+  Widget createTabViewBuilder(
+    List<Restaurant> restaurants,
+    BuildContext context,
+  ) {
+    final dayContents = DayOfWeek.values.map((dayOfWeek) {
+      final restaurantsWidgets = restaurants
+          .where((element) => element.meals[dayOfWeek]?.isNotEmpty ?? false)
+          .map(
+            (restaurant) => createRestaurant(context, restaurant, dayOfWeek),
+          )
+          .toList();
+      if (restaurantsWidgets.isEmpty) {
+        return Center(
+          child: Text(
+            S.of(context).no_menus,
+            style: const TextStyle(fontSize: 18),
+          ),
+        );
       }
-      return ListView(children: restaurantsWidgets);
+      return ListView(padding: EdgeInsets.zero, children: restaurantsWidgets);
     }).toList();
 
     return Expanded(
@@ -139,7 +135,7 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
     final meals = restaurant.getMealsOfDay(day);
     if (meals.isEmpty) {
       return Container(
-        margin: const EdgeInsets.only(top: 10, bottom: 5),
+        margin: const EdgeInsets.only(bottom: 5),
         key: Key('restaurant-page-day-column-$day'),
         child: Column(
           mainAxisSize: MainAxisSize.min,

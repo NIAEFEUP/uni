@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/providers/lazy/exam_provider.dart';
+import 'package:uni/utils/date_time_formatter.dart';
+import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/expanded_image_label.dart';
-import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
+import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni/view/common_widgets/row_container.dart';
-import 'package:uni/view/exams/widgets/day_title.dart';
-import 'package:uni/view/exams/widgets/exam_page_title.dart';
+import 'package:uni/view/exams/widgets/exam_filter_button.dart';
 import 'package:uni/view/exams/widgets/exam_row.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locale_notifier.dart';
@@ -19,55 +21,59 @@ class ExamsPageView extends StatefulWidget {
   State<StatefulWidget> createState() => ExamsPageViewState();
 }
 
-/// Tracks the state of `ExamsLists`.
-class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
-  final double borderRadius = 10;
+class ExamsPageViewState extends SecondaryPageViewState<ExamsPageView> {
+  List<String> hiddenExams = PreferencesController.getHiddenExams();
+  Map<String, bool> filteredExamTypes =
+      PreferencesController.getFilteredExams();
 
   @override
   Widget getBody(BuildContext context) {
-    return LazyConsumer<ExamProvider>(
-      builder: (context, examProvider) {
-        return ListView(
-          children: <Widget>[
-            Column(
-              children:
-                  createExamsColumn(context, examProvider.getFilteredExams()),
+    return ListView(
+      children: [
+        LazyConsumer<ExamProvider, List<Exam>>(
+          builder: (context, exams) {
+            return Column(
+              children: createExamsColumn(
+                context,
+                exams
+                    .where(
+                      (exam) =>
+                          filteredExamTypes[Exam.getExamTypeLong(exam.type)] ??
+                          true,
+                    )
+                    .toList(),
+              ),
+            );
+          },
+          hasContent: (exams) => exams.isNotEmpty,
+          onNullContent: Center(
+            heightFactor: 1.2,
+            child: ImageLabel(
+              imagePath: 'assets/images/vacation.png',
+              label: S.of(context).no_exams_label,
+              labelTextStyle: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+              sublabel: S.of(context).no_exams,
+              sublabelTextStyle: const TextStyle(fontSize: 15),
             ),
-          ],
-        );
-      },
+          ),
+        ),
+      ],
     );
   }
 
   /// Creates a column with all the user's exams.
   List<Widget> createExamsColumn(BuildContext context, List<Exam> exams) {
-    final columns = <Widget>[const ExamPageTitle()];
-
-    if (exams.isEmpty) {
-      columns.add(
-        Center(
-          heightFactor: 1.2,
-          child: ImageLabel(
-            imagePath: 'assets/images/vacation.png',
-            label: S.of(context).no_exams_label,
-            labelTextStyle: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 18,
-              color: Theme.of(context).colorScheme.primary,
-            ),
-            sublabel: S.of(context).no_exams,
-            sublabelTextStyle: const TextStyle(fontSize: 15),
-          ),
-        ),
-      );
-      return columns;
-    }
-
     if (exams.length == 1) {
-      columns.add(createExamCard(context, [exams[0]]));
-      return columns;
+      return [
+        createExamCard(context, [exams[0]]),
+      ];
     }
 
+    final columns = <Widget>[];
     final currentDayExams = <Exam>[];
 
     for (var i = 0; i < exams.length; i++) {
@@ -95,6 +101,7 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
         currentDayExams.clear();
       }
     }
+
     return columns;
   }
 
@@ -111,10 +118,14 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
   Widget createExamsCards(BuildContext context, List<Exam> exams) {
     final locale = Provider.of<LocaleNotifier>(context).getLocale();
     final examCards = <Widget>[
-      DayTitle(
-        day: exams[0].begin.day.toString(),
-        weekDay: exams[0].weekDay(locale),
-        month: exams[0].month(locale),
+      Container(
+        padding: const EdgeInsets.only(top: 15, bottom: 3),
+        alignment: Alignment.center,
+        child: Text(
+          '${exams.first.weekDay(locale)}, '
+          '${exams.first.begin.formattedDate(locale)}',
+          style: Theme.of(context).textTheme.titleLarge,
+        ),
       ),
     ];
     for (var i = 0; i < exams.length; i++) {
@@ -124,8 +135,7 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
   }
 
   Widget createExamContext(BuildContext context, Exam exam) {
-    final isHidden =
-        Provider.of<ExamProvider>(context).hiddenExams.contains(exam.id);
+    final isHidden = hiddenExams.contains(exam.id);
     return Container(
       key: Key('$exam-exam'),
       margin: const EdgeInsets.fromLTRB(12, 4, 12, 0),
@@ -133,7 +143,16 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
         color: isHidden
             ? Theme.of(context).hintColor
             : Theme.of(context).scaffoldBackgroundColor,
-        child: ExamRow(exam: exam, teacher: '', mainPage: false),
+        child: ExamRow(
+          exam: exam,
+          teacher: '',
+          mainPage: false,
+          onChangeVisibility: () {
+            setState(() {
+              hiddenExams = PreferencesController.getHiddenExams();
+            });
+          },
+        ),
       ),
     );
   }
@@ -142,5 +161,20 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
   Future<void> onRefresh(BuildContext context) async {
     return Provider.of<ExamProvider>(context, listen: false)
         .forceRefresh(context);
+  }
+
+  @override
+  String? getTitle() => S.of(context).nav_title(NavigationItem.navExams.route);
+
+  @override
+  Widget? getTopRightButton(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      child: ExamFilterButton(
+        () => setState(() {
+          filteredExamTypes = PreferencesController.getFilteredExams();
+        }),
+      ),
+    );
   }
 }

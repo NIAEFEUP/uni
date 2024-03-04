@@ -3,68 +3,59 @@ import 'package:provider/provider.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/providers/lazy/lecture_provider.dart';
-import 'package:uni/model/request_status.dart';
-import 'package:uni/utils/drawer_items.dart';
+import 'package:uni/model/utils/time/week.dart';
+import 'package:uni/model/utils/time/weekday_mapper.dart';
+import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/expanded_image_label.dart';
-import 'package:uni/view/common_widgets/page_title.dart';
-import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
-import 'package:uni/view/common_widgets/request_dependent_widget_builder.dart';
+import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locale_notifier.dart';
 import 'package:uni/view/schedule/widgets/schedule_slot.dart';
 
 class SchedulePage extends StatefulWidget {
-  const SchedulePage({super.key});
+  SchedulePage({super.key, DateTime? now}) : now = now ?? DateTime.now();
+
+  final DateTime now;
 
   @override
   SchedulePageState createState() => SchedulePageState();
 }
 
-class SchedulePageState extends State<SchedulePage> {
+class SchedulePageState extends SecondaryPageViewState<SchedulePage> {
   @override
-  Widget build(BuildContext context) {
-    return LazyConsumer<LectureProvider>(
-      builder: (context, lectureProvider) {
-        return SchedulePageView(
-          lectures: lectureProvider.lectures,
-          scheduleStatus: lectureProvider.status,
-        );
-      },
+  Widget getBody(BuildContext context) {
+    return LazyConsumer<LectureProvider, List<Lecture>>(
+      builder: (context, lectures) => SchedulePageView(
+        lectures,
+        now: widget.now,
+      ),
+      hasContent: (lectures) => lectures.isNotEmpty,
+      onNullContent: SchedulePageView(const [], now: widget.now),
     );
   }
+
+  @override
+  Future<void> onRefresh(BuildContext context) async {
+    await context.read<LectureProvider>().forceRefresh(context);
+  }
+
+  @override
+  String? getTitle() =>
+      S.of(context).nav_title(NavigationItem.navSchedule.route);
 }
 
-/// Manages the 'schedule' sections of the app
 class SchedulePageView extends StatefulWidget {
-  SchedulePageView({
-    required this.lectures,
-    required this.scheduleStatus,
-    super.key,
-  });
+  SchedulePageView(this.lectures, {required DateTime now, super.key})
+      : currentWeek = Week(start: now);
 
   final List<Lecture> lectures;
-  final RequestStatus scheduleStatus;
-
-  final int weekDay = DateTime.now().weekday;
-
-  static List<Set<Lecture>> groupLecturesByDay(List<Lecture> schedule) {
-    final aggLectures = <Set<Lecture>>[];
-
-    for (var i = 0; i < 5; i++) {
-      final lectures = <Lecture>{};
-      for (var j = 0; j < schedule.length; j++) {
-        if (schedule[j].startTime.weekday - 1 == i) lectures.add(schedule[j]);
-      }
-      aggLectures.add(lectures);
-    }
-    return aggLectures;
-  }
+  final Week currentWeek;
 
   @override
   SchedulePageViewState createState() => SchedulePageViewState();
 }
 
-class SchedulePageViewState extends GeneralPageViewState<SchedulePageView>
+class SchedulePageViewState extends State<SchedulePageView>
     with TickerProviderStateMixin {
   TabController? tabController;
 
@@ -73,9 +64,11 @@ class SchedulePageViewState extends GeneralPageViewState<SchedulePageView>
     super.initState();
     tabController = TabController(
       vsync: this,
-      length: 5,
+      length: 6,
     );
-    final offset = (widget.weekDay > 5) ? 0 : (widget.weekDay - 1) % 5;
+
+    final weekDay = widget.currentWeek.start.weekday;
+    final offset = (weekDay > 6) ? 0 : (weekDay - 1) % 6;
     tabController?.animateTo(tabController!.index + offset);
   }
 
@@ -86,35 +79,28 @@ class SchedulePageViewState extends GeneralPageViewState<SchedulePageView>
   }
 
   @override
-  Widget getBody(BuildContext context) {
+  Widget build(BuildContext context) {
     final queryData = MediaQuery.of(context);
-
     return Column(
       children: <Widget>[
-        ListView(
-          shrinkWrap: true,
-          children: <Widget>[
-            PageTitle(
-              name: S.of(context).nav_title(
-                    DrawerItem.navSchedule.title,
-                  ),
-            ),
-            TabBar(
-              controller: tabController,
-              isScrollable: true,
-              physics: const BouncingScrollPhysics(),
-              tabs: createTabs(queryData, context),
-            ),
-          ],
+        TabBar(
+          controller: tabController,
+          isScrollable: true,
+          physics: const BouncingScrollPhysics(),
+          tabs: createTabs(queryData, context),
         ),
         Expanded(
           child: TabBarView(
             controller: tabController,
-            children: createSchedule(
-              context,
-              widget.lectures,
-              widget.scheduleStatus,
-            ),
+            children: widget.currentWeek.weekdays.take(6).map((day) {
+              final lectures = lecturesOfDay(widget.lectures, day);
+              final index = WeekdayMapper.fromDartToIndex.map(day.weekday);
+              if (lectures.isEmpty) {
+                return emptyDayColumn(context, index);
+              } else {
+                return dayColumnBuilder(index, lectures, context);
+              }
+            }).toList(),
           ),
         ),
       ],
@@ -124,9 +110,8 @@ class SchedulePageViewState extends GeneralPageViewState<SchedulePageView>
   /// Returns a list of widgets empty with tabs for each day of the week.
   List<Widget> createTabs(MediaQueryData queryData, BuildContext context) {
     final tabs = <Widget>[];
-    final workWeekDays = Provider.of<LocaleNotifier>(context)
-        .getWeekdaysWithLocale()
-        .sublist(0, 5);
+    final workWeekDays =
+        context.read<LocaleNotifier>().getWeekdaysWithLocale().sublist(0, 6);
     workWeekDays.asMap().forEach((index, day) {
       tabs.add(
         SizedBox(
@@ -141,81 +126,62 @@ class SchedulePageViewState extends GeneralPageViewState<SchedulePageView>
     return tabs;
   }
 
-  List<Widget> createSchedule(
-    BuildContext context,
-    List<Lecture> lectures,
-    RequestStatus scheduleStatus,
-  ) {
-    final tabBarViewContent = <Widget>[];
-    for (var i = 0; i < 5; i++) {
-      tabBarViewContent
-          .add(createScheduleByDay(context, i, lectures, scheduleStatus));
-    }
-    return tabBarViewContent;
-  }
-
-  /// Returns a list of widgets for the rows with a singular class info.
-  List<Widget> createScheduleRows(Set<Lecture> lectures, BuildContext context) {
-    final scheduleContent = <Widget>[];
-    final lectureList = lectures.toList();
-    for (var i = 0; i < lectureList.length; i++) {
-      final lecture = lectureList[i];
-      scheduleContent.add(
-        ScheduleSlot(
-          subject: lecture.subject,
-          typeClass: lecture.typeClass,
-          rooms: lecture.room,
-          begin: lecture.startTime,
-          end: lecture.endTime,
-          occurrId: lecture.occurrId,
-          teacher: lecture.teacher,
-          classNumber: lecture.classNumber,
-        ),
-      );
-    }
-    return scheduleContent;
-  }
-
   Widget dayColumnBuilder(
     int day,
-    Set<Lecture> dayContent,
+    List<Lecture> lectures,
     BuildContext context,
   ) {
     return Container(
       key: Key('schedule-page-day-column-$day'),
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        children: createScheduleRows(dayContent, context),
+        children: lectures
+            .map(
+              // TODO(thePeras): ScheduleSlot should receive a lecture
+              //  instead of all these parameters.
+              (lecture) => ScheduleSlot(
+                subject: lecture.subject,
+                typeClass: lecture.typeClass,
+                rooms: lecture.room,
+                begin: lecture.startTime,
+                end: lecture.endTime,
+                occurrId: lecture.occurrId,
+                teacher: lecture.teacher,
+                classNumber: lecture.classNumber,
+              ),
+            )
+            .toList(),
       ),
     );
   }
 
-  Widget createScheduleByDay(
-    BuildContext context,
-    int day,
-    List<Lecture> lectures,
-    RequestStatus scheduleStatus,
-  ) {
+  static List<Lecture> lecturesOfDay(List<Lecture> lectures, DateTime day) {
+    final filteredLectures = <Lecture>[];
+    for (var i = 0; i < lectures.length; i++) {
+      final lecture = lectures[i];
+      if (lecture.startTime.day == day.day &&
+          lecture.startTime.month == day.month &&
+          lecture.startTime.year == day.year) {
+        filteredLectures.add(lecture);
+      }
+    }
+    return filteredLectures;
+  }
+
+  Widget emptyDayColumn(BuildContext context, int day) {
     final weekday =
         Provider.of<LocaleNotifier>(context).getWeekdaysWithLocale()[day];
-    final aggLectures = SchedulePageView.groupLecturesByDay(lectures);
-    return RequestDependentWidgetBuilder(
-      status: scheduleStatus,
-      builder: () => dayColumnBuilder(day, aggLectures[day], context),
-      hasContentPredicate: aggLectures[day].isNotEmpty,
-      onNullContent: Center(
-        child: ImageLabel(
-          imagePath: 'assets/images/schedule.png',
-          label: '${S.of(context).no_classes_on} $weekday.',
-          labelTextStyle: const TextStyle(fontSize: 15),
-        ),
+
+    final noClassesText = day >= DateTime.saturday - 1
+        ? S.of(context).no_classes_on_weekend
+        : S.of(context).no_classes_on;
+
+    return Center(
+      child: ImageLabel(
+        imagePath: 'assets/images/schedule.png',
+        label: '$noClassesText $weekday.',
+        labelTextStyle: const TextStyle(fontSize: 15),
       ),
     );
-  }
-
-  @override
-  Future<void> onRefresh(BuildContext context) {
-    return Provider.of<LectureProvider>(context, listen: false)
-        .forceRefresh(context);
   }
 }

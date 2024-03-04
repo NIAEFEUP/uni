@@ -6,62 +6,71 @@ import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:logger/logger.dart';
+import 'package:plausible_analytics/navigator_observer.dart';
+import 'package:plausible_analytics/plausible_analytics.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uni/controller/background_workers/background_callback.dart';
-import 'package:uni/controller/load_static/terms_and_conditions.dart';
-import 'package:uni/controller/local_storage/app_shared_preferences.dart';
+import 'package:uni/controller/cleanup.dart';
+import 'package:uni/controller/fetchers/terms_and_conditions_fetcher.dart';
+import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/providers/lazy/bus_stop_provider.dart';
 import 'package:uni/model/providers/lazy/calendar_provider.dart';
 import 'package:uni/model/providers/lazy/course_units_info_provider.dart';
 import 'package:uni/model/providers/lazy/exam_provider.dart';
 import 'package:uni/model/providers/lazy/faculty_locations_provider.dart';
-import 'package:uni/model/providers/lazy/home_page_provider.dart';
 import 'package:uni/model/providers/lazy/lecture_provider.dart';
 import 'package:uni/model/providers/lazy/library_occupation_provider.dart';
 import 'package:uni/model/providers/lazy/reference_provider.dart';
 import 'package:uni/model/providers/lazy/restaurant_provider.dart';
+import 'package:uni/model/providers/plausible/plausible_provider.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/model/providers/state_providers.dart';
-import 'package:uni/utils/drawer_items.dart';
-import 'package:uni/view/about/about.dart';
-import 'package:uni/view/bug_report/bug_report.dart';
+import 'package:uni/utils/navigation_items.dart';
+import 'package:uni/view/academic_path/academic_path.dart';
 import 'package:uni/view/bus_stop_next_arrivals/bus_stop_next_arrivals.dart';
 import 'package:uni/view/calendar/calendar.dart';
 import 'package:uni/view/common_widgets/page_transition.dart';
 import 'package:uni/view/course_units/course_units.dart';
 import 'package:uni/view/exams/exams.dart';
+import 'package:uni/view/faculty/faculty.dart';
 import 'package:uni/view/home/home.dart';
 import 'package:uni/view/library/library.dart';
 import 'package:uni/view/locale_notifier.dart';
 import 'package:uni/view/locations/locations.dart';
 import 'package:uni/view/login/login.dart';
-import 'package:uni/view/navigation_service.dart';
+import 'package:uni/view/profile/profile.dart';
 import 'package:uni/view/restaurant/restaurant_page_view.dart';
 import 'package:uni/view/schedule/schedule.dart';
+import 'package:uni/view/settings/settings.dart';
 import 'package:uni/view/theme.dart';
 import 'package:uni/view/theme_notifier.dart';
-import 'package:uni/view/useful_info/useful_info.dart';
+import 'package:uni/view/transports/transports.dart';
 import 'package:workmanager/workmanager.dart';
 
 SentryEvent? beforeSend(SentryEvent event) {
   return event.level == SentryLevel.info ? event : null;
 }
 
-Future<String> firstRoute() async {
-  final userPersistentInfo = await AppSharedPreferences.getPersistentUserInfo();
+Future<Widget> firstRoute() async {
+  final userPersistentInfo = PreferencesController.getPersistentUserInfo();
 
   if (userPersistentInfo != null) {
-    return '/${DrawerItem.navPersonalArea.title}';
+    return const HomePageView();
   }
 
   await acceptTermsAndConditions();
-  return '/${DrawerItem.navLogIn.title}';
+  return const LoginPageView();
 }
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  PreferencesController.prefs = await SharedPreferences.getInstance();
+
   final stateProviders = StateProviders(
     LectureProvider(),
     ExamProvider(),
@@ -73,11 +82,10 @@ Future<void> main() async {
     CalendarProvider(),
     LibraryOccupationProvider(),
     FacultyLocationsProvider(),
-    HomePageProvider(),
     ReferenceProvider(),
   );
 
-  WidgetsFlutterBinding.ensureInitialized();
+  unawaited(cleanupCachedFiles());
 
   // Initialize WorkManager for background tasks
   await Workmanager().initialize(
@@ -97,8 +105,20 @@ Future<void> main() async {
     );
   });
 
-  final savedTheme = await AppSharedPreferences.getThemeMode();
-  final savedLocale = await AppSharedPreferences.getLocale();
+  final plausibleUrl = dotenv.env['PLAUSIBLE_URL'];
+  final plausibleDomain = dotenv.env['PLAUSIBLE_DOMAIN'];
+
+  final plausible = plausibleUrl != null && plausibleDomain != null
+      ? Plausible(plausibleUrl, plausibleDomain)
+      : null;
+
+  if (plausible == null) {
+    Logger().w('Plausible is not enabled');
+  }
+
+  final savedTheme = PreferencesController.getThemeMode();
+  final savedLocale = PreferencesController.getLocale();
+
   final route = await firstRoute();
 
   await SentryFlutter.init(
@@ -108,52 +128,52 @@ Future<void> main() async {
     },
     appRunner: () {
       runApp(
-        MultiProvider(
-          providers: [
-            ChangeNotifierProvider(
-              create: (context) => stateProviders.lectureProvider,
-            ),
-            ChangeNotifierProvider(
-              create: (context) => stateProviders.examProvider,
-            ),
-            ChangeNotifierProvider(
-              create: (context) => stateProviders.busStopProvider,
-            ),
-            ChangeNotifierProvider(
-              create: (context) => stateProviders.restaurantProvider,
-            ),
-            ChangeNotifierProvider(
-              create: (context) => stateProviders.profileProvider,
-            ),
-            ChangeNotifierProvider(
-              create: (context) => stateProviders.courseUnitsInfoProvider,
-            ),
-            ChangeNotifierProvider(
-              create: (context) => stateProviders.sessionProvider,
-            ),
-            ChangeNotifierProvider(
-              create: (context) => stateProviders.calendarProvider,
-            ),
-            ChangeNotifierProvider(
-              create: (context) => stateProviders.libraryOccupationProvider,
-            ),
-            ChangeNotifierProvider(
-              create: (context) => stateProviders.facultyLocationsProvider,
-            ),
-            ChangeNotifierProvider(
-              create: (context) => stateProviders.homePageProvider,
-            ),
-            ChangeNotifierProvider(
-              create: (context) => stateProviders.referenceProvider,
-            ),
-            ChangeNotifierProvider<LocaleNotifier>(
-              create: (_) => LocaleNotifier(savedLocale),
-            ),
-            ChangeNotifierProvider<ThemeNotifier>(
-              create: (_) => ThemeNotifier(savedTheme),
-            ),
-          ],
-          child: Application(route),
+        PlausibleProvider(
+          plausible: plausible,
+          child: MultiProvider(
+            providers: [
+              ChangeNotifierProvider(
+                create: (context) => stateProviders.lectureProvider,
+              ),
+              ChangeNotifierProvider(
+                create: (context) => stateProviders.examProvider,
+              ),
+              ChangeNotifierProvider(
+                create: (context) => stateProviders.busStopProvider,
+              ),
+              ChangeNotifierProvider(
+                create: (context) => stateProviders.restaurantProvider,
+              ),
+              ChangeNotifierProvider(
+                create: (context) => stateProviders.profileProvider,
+              ),
+              ChangeNotifierProvider(
+                create: (context) => stateProviders.courseUnitsInfoProvider,
+              ),
+              ChangeNotifierProvider(
+                create: (context) => stateProviders.sessionProvider,
+              ),
+              ChangeNotifierProvider(
+                create: (context) => stateProviders.calendarProvider,
+              ),
+              ChangeNotifierProvider(
+                create: (context) => stateProviders.libraryOccupationProvider,
+              ),
+              ChangeNotifierProvider(
+                create: (context) => stateProviders.facultyLocationsProvider,
+              ),
+              ChangeNotifierProvider(
+                create: (context) => stateProviders.referenceProvider,
+              ),
+              ChangeNotifierProvider<LocaleNotifier>(
+                create: (_) => LocaleNotifier(savedLocale),
+              ),
+              ChangeNotifierProvider<ThemeNotifier>(
+                create: (_) => ThemeNotifier(savedTheme),
+              ),
+            ],
+            child: Application(route),
+          ),
         ),
       );
     },
@@ -164,9 +184,9 @@ Future<void> main() async {
 /// This class is necessary to track the app's state for
 /// the current execution.
 class Application extends StatefulWidget {
-  const Application(this.initialRoute, {super.key});
+  const Application(this.initialWidget, {super.key});
 
-  final String initialRoute;
+  final Widget initialWidget;
 
   static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -176,6 +196,18 @@ class Application extends StatefulWidget {
 
 /// Manages the app depending on its current state
 class ApplicationState extends State<Application> {
+  final navigatorObservers = <NavigatorObserver>[];
+
+  @override
+  void initState() {
+    super.initState();
+
+    final plausible = context.read<Plausible?>();
+    if (plausible != null) {
+      navigatorObservers.add(PlausibleNavigatorObserver(plausible));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
@@ -196,73 +228,79 @@ class ApplicationState extends State<Application> {
           GlobalCupertinoLocalizations.delegate,
         ],
         supportedLocales: S.delegate.supportedLocales,
-        initialRoute: widget.initialRoute,
+        initialRoute: '/${NavigationItem.navPersonalArea.route}',
+        home: widget.initialWidget,
+        navigatorObservers: navigatorObservers,
         onGenerateRoute: (RouteSettings settings) {
           final transitions = {
-            '/${DrawerItem.navPersonalArea.title}':
+            '/${NavigationItem.navPersonalArea.route}':
                 PageTransition.makePageTransition(
               page: const HomePageView(),
               settings: settings,
             ),
-            '/${DrawerItem.navSchedule.title}':
+            '/${NavigationItem.navSchedule.route}':
                 PageTransition.makePageTransition(
-              page: const SchedulePage(),
+              page: SchedulePage(),
               settings: settings,
             ),
-            '/${DrawerItem.navExams.title}': PageTransition.makePageTransition(
+            '/${NavigationItem.navExams.route}':
+                PageTransition.makePageTransition(
               page: const ExamsPageView(),
               settings: settings,
             ),
-            '/${DrawerItem.navStops.title}': PageTransition.makePageTransition(
+            '/${NavigationItem.navStops.route}':
+                PageTransition.makePageTransition(
               page: const BusStopNextArrivalsPage(),
               settings: settings,
             ),
-            '/${DrawerItem.navCourseUnits.title}':
+            '/${NavigationItem.navCourseUnits.route}':
                 PageTransition.makePageTransition(
               page: const CourseUnitsPageView(),
               settings: settings,
             ),
-            '/${DrawerItem.navLocations.title}':
+            '/${NavigationItem.navLocations.route}':
                 PageTransition.makePageTransition(
               page: const LocationsPage(),
               settings: settings,
             ),
-            '/${DrawerItem.navRestaurants.title}':
+            '/${NavigationItem.navRestaurants.route}':
                 PageTransition.makePageTransition(
               page: const RestaurantPageView(),
               settings: settings,
             ),
-            '/${DrawerItem.navCalendar.title}':
+            '/${NavigationItem.navCalendar.route}':
                 PageTransition.makePageTransition(
               page: const CalendarPageView(),
               settings: settings,
             ),
-            '/${DrawerItem.navLibrary.title}':
+            '/${NavigationItem.navLibrary.route}':
                 PageTransition.makePageTransition(
-              page: const LibraryPageView(),
+              page: const LibraryPage(),
               settings: settings,
             ),
-            '/${DrawerItem.navUsefulInfo.title}':
+            '/${NavigationItem.navFaculty.route}':
                 PageTransition.makePageTransition(
-              page: const UsefulInfoPageView(),
+              page: const FacultyPageView(),
               settings: settings,
             ),
-            '/${DrawerItem.navAbout.title}': PageTransition.makePageTransition(
-              page: const AboutPageView(),
-              settings: settings,
-            ),
-            '/${DrawerItem.navBugReport.title}':
+            '/${NavigationItem.navAcademicPath.route}':
                 PageTransition.makePageTransition(
-              page: const BugReportPageView(),
-              settings: settings,
-              maintainState: false,
-            ),
-            '/${DrawerItem.navLogIn.title}': PageTransition.makePageTransition(
-              page: const LoginPageView(),
+              page: const AcademicPathPageView(),
               settings: settings,
             ),
-            '/${DrawerItem.navLogOut.title}':
-                NavigationService.buildLogoutRoute(),
+            '/${NavigationItem.navTransports.route}':
+                PageTransition.makePageTransition(
+              page: const TransportsPageView(),
+              settings: settings,
+            ),
+            '/${NavigationItem.navProfile.route}':
+                MaterialPageRoute<ProfilePageView>(
+              builder: (__) => const ProfilePageView(),
+            ),
+            '/${NavigationItem.navSettings.route}':
+                MaterialPageRoute<SettingsPage>(
+              builder: (_) => const SettingsPage(),
+            ),
           };
           return transitions[settings.name];
         },

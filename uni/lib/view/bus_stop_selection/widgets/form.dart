@@ -7,6 +7,7 @@ import 'package:uni/model/providers/lazy/bus_stop_provider.dart';
 
 class BusesForm extends StatefulWidget {
   const BusesForm(this.stopCode, this.updateStopCallback, {super.key});
+
   final String stopCode;
   final void Function(String, BusStopData) updateStopCallback;
 
@@ -34,7 +35,7 @@ class BusesFormState extends State<BusesForm> {
     });
     if (!mounted) return;
     final currentConfig = Provider.of<BusStopProvider>(context, listen: false)
-        .configuredBusStops[widget.stopCode];
+        .state![widget.stopCode];
     if (currentConfig == null) {
       return;
     }
@@ -70,7 +71,7 @@ class BusesFormState extends State<BusesForm> {
 
   void updateBusStop() {
     final currentConfig = Provider.of<BusStopProvider>(context, listen: false)
-        .configuredBusStops[widget.stopCode];
+        .state![widget.stopCode];
     final newBuses = <String>{};
     for (var i = 0; i < buses.length; i++) {
       if (busesToAdd[i]) {

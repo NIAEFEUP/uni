@@ -2,21 +2,23 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
-import 'package:uni/utils/drawer_items.dart';
-import 'package:uni/view/common_widgets/pages_layouts/general/widgets/navigation_drawer.dart';
-import 'package:uni/view/profile/profile.dart';
+import 'package:uni/view/common_widgets/expanded_image_label.dart';
+import 'package:uni/view/common_widgets/pages_layouts/general/widgets/bottom_navigation_bar.dart';
+import 'package:uni/view/common_widgets/pages_layouts/general/widgets/profile_button.dart';
+import 'package:uni/view/common_widgets/pages_layouts/general/widgets/refresh_state.dart';
+import 'package:uni/view/common_widgets/pages_layouts/general/widgets/top_navigation_bar.dart';
 
 /// Page with a hamburger menu and the user profile picture
 abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
-  final double borderMargin = 18;
   bool _loadedOnce = false;
   bool _loading = true;
+  bool _connected = true;
 
   Future<void> onRefresh(BuildContext context);
 
@@ -36,8 +38,14 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
       try {
         await onLoad(context);
       } catch (e, stackTrace) {
-        Logger().e('Failed to load page info: $e\n$stackTrace');
-        await Sentry.captureException(e, stackTrace: stackTrace);
+        if (e is SocketException) {
+          setState(() {
+            _connected = false;
+          });
+        } else {
+          Logger().e('Failed to load page info: $e\n$stackTrace');
+          await Sentry.captureException(e, stackTrace: stackTrace);
+        }
       }
 
       if (mounted) {
@@ -46,6 +54,27 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
         });
       }
     });
+
+    if (!_connected) {
+      return getScaffold(
+        context,
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 35),
+            child: ImageLabel(
+              imagePath: 'assets/images/no_wifi.png',
+              label: S.of(context).no_internet,
+              labelTextStyle: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+              sublabel: S.of(context).check_internet,
+            ),
+          ),
+        ),
+      );
+    }
 
     return getScaffold(
       context,
@@ -64,133 +93,42 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
     );
   }
 
-  Widget getBody(BuildContext context) {
-    return Container();
-  }
+  String? getTitle();
 
-  Future<DecorationImage> buildProfileDecorationImage(
-    BuildContext context, {
-    bool forceRetrieval = false,
-  }) async {
-    final sessionProvider =
-        Provider.of<SessionProvider>(context, listen: false);
-    await sessionProvider.ensureInitializedFromStorage();
-    final profilePictureFile =
-        await ProfileProvider.fetchOrGetCachedProfilePicture(
-      sessionProvider.session,
-      forceRetrieval: forceRetrieval,
-    );
-    return getProfileDecorationImage(profilePictureFile);
-  }
-
-  /// Returns the current user image.
-  ///
-  /// If the image is not found / doesn't exist returns a generic placeholder.
-  DecorationImage getProfileDecorationImage(File? profilePicture) {
-    const fallbackPicture = AssetImage('assets/images/profile_placeholder.png');
-    final image =
-        profilePicture == null ? fallbackPicture : FileImage(profilePicture);
-
-    final result =
-        DecorationImage(fit: BoxFit.cover, image: image as ImageProvider);
-    return result;
-  }
+  Widget getBody(BuildContext context);
 
   Widget refreshState(BuildContext context, Widget child) {
     return RefreshIndicator(
       key: GlobalKey<RefreshIndicatorState>(),
       onRefresh: () => ProfileProvider.fetchOrGetCachedProfilePicture(
-        Provider.of<SessionProvider>(context, listen: false).session,
+        Provider.of<SessionProvider>(context, listen: false).state!,
         forceRetrieval: true,
       ).then((value) => onRefresh(context)),
-      child: child,
+      child: Builder(
+        builder: (context) => GestureDetector(
+          onHorizontalDragEnd: (dragDetails) {
+            if (dragDetails.primaryVelocity! > 2) {
+              Scaffold.of(context).openDrawer();
+            }
+          },
+          child: child,
+        ),
+      ),
     );
   }
 
   Widget getScaffold(BuildContext context, Widget body) {
     return Scaffold(
-      appBar: buildAppBar(context),
-      drawer: AppNavigationDrawer(parentContext: context),
-      body: refreshState(context, body),
+      bottomNavigationBar: const AppBottomNavbar(),
+      appBar: getTopNavbar(context),
+      body: RefreshState(onRefresh: onRefresh, child: body),
     );
   }
 
-  /// Builds the upper bar of the app.
-  ///
-  /// This method returns an instance of `AppBar` containing the app's logo,
-  /// an option button and a button with the user's picture.
-  AppBar buildAppBar(BuildContext context) {
-    final queryData = MediaQuery.of(context);
-
-    return AppBar(
-      bottom: PreferredSize(
-        preferredSize: Size.zero,
-        child: Container(
-          color: Theme.of(context).dividerColor,
-          margin: EdgeInsets.only(left: borderMargin, right: borderMargin),
-          height: 1.5,
-        ),
-      ),
-      elevation: 0,
-      iconTheme: Theme.of(context).iconTheme,
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      titleSpacing: 0,
-      title: ButtonTheme(
-        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        shape: const RoundedRectangleBorder(),
-        child: TextButton(
-          onPressed: () {
-            final currentRouteName = ModalRoute.of(context)!.settings.name;
-            if (currentRouteName != DrawerItem.navPersonalArea.title) {
-              Navigator.pushNamed(
-                context,
-                '/${DrawerItem.navPersonalArea.title}',
-              );
-            }
-          },
-          child: SvgPicture.asset(
-            colorFilter: ColorFilter.mode(
-              Theme.of(context).primaryColor,
-              BlendMode.srcIn,
-            ),
-            'assets/images/logo_dark.svg',
-            height: queryData.size.height / 25,
-          ),
-        ),
-      ),
-      actions: <Widget>[
-        getTopRightButton(context),
-      ],
-    );
-  }
-
-  // Gets a round shaped button with the photo of the current user.
-  Widget getTopRightButton(BuildContext context) {
-    return FutureBuilder(
-      future: buildProfileDecorationImage(context),
-      builder: (
-        BuildContext context,
-        AsyncSnapshot<DecorationImage> decorationImage,
-      ) {
-        return TextButton(
-          onPressed: () => {
-            Navigator.push(
-              context,
-              MaterialPageRoute<ProfilePageView>(
-                builder: (__) => const ProfilePageView(),
-              ),
-            ),
-          },
-          child: Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              image: decorationImage.data,
-            ),
-          ),
-        );
-      },
+  AppTopNavbar? getTopNavbar(BuildContext context) {
+    return AppTopNavbar(
+      title: this.getTitle(),
+      rightButton: const ProfileButton(),
     );
   }
 }

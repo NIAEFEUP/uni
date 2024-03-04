@@ -1,8 +1,12 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:uni/controller/networking/network_router.dart';
+import 'package:provider/provider.dart';
+import 'package:uni/generated/l10n.dart';
+import 'package:uni/model/entities/course_units/course_unit.dart';
+import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/view/common_widgets/row_container.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:uni/view/course_unit_info/course_unit_info.dart';
 
 class ScheduleSlot extends StatelessWidget {
   const ScheduleSlot({
@@ -16,6 +20,7 @@ class ScheduleSlot extends StatelessWidget {
     this.classNumber,
     super.key,
   });
+
   final String subject;
   final String rooms;
   final DateTime begin;
@@ -64,11 +69,12 @@ class ScheduleSlot extends StatelessWidget {
       style: Theme.of(context).textTheme.bodyMedium,
       alignment: TextAlign.center,
     );
-    final roomTextField = TextFieldWidget(
-      text: rooms,
+    final roomTextField = Text(
+      rooms,
       style: Theme.of(context).textTheme.bodyMedium,
-      alignment: TextAlign.right,
     );
+    final courseUnit = _correspondingCourseUnit(context);
+
     return [
       ScheduleTimeWidget(
         begin: DateFormat('HH:mm').format(begin),
@@ -81,9 +87,10 @@ class ScheduleSlot extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                SubjectButtonWidget(
-                  occurrId: occurrId,
-                ),
+                if (courseUnit != null)
+                  SubjectButtonWidget(
+                    courseUnit: courseUnit,
+                  ),
                 subjectTextField,
                 typeClassTextField,
               ],
@@ -101,21 +108,27 @@ class ScheduleSlot extends StatelessWidget {
       roomTextField,
     ];
   }
+
+  CourseUnit? _correspondingCourseUnit(BuildContext context) {
+    final courseUnits = context.read<ProfileProvider>().state!.courseUnits;
+    return courseUnits.firstWhereOrNull(
+      (courseUnit) => courseUnit.occurrId == occurrId,
+    );
+  }
 }
 
 class SubjectButtonWidget extends StatelessWidget {
-  const SubjectButtonWidget({required this.occurrId, super.key});
-  final int occurrId;
+  const SubjectButtonWidget({required this.courseUnit, super.key});
 
-  String toUcLink(int occurrId) {
-    const faculty = 'feup'; // should not be hardcoded
-    return '${NetworkRouter.getBaseUrl(faculty)}'
-        'UCURR_GERAL.FICHA_UC_VIEW?pv_ocorrencia_id=$occurrId';
-  }
+  final CourseUnit courseUnit;
 
-  Future<void> _launchURL() async {
-    final url = toUcLink(occurrId);
-    await launchUrl(Uri.parse(url));
+  void _launchUcPage(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute<CourseUnitDetailPageView>(
+        builder: (context) => CourseUnitDetailPageView(courseUnit),
+      ),
+    );
   }
 
   @override
@@ -132,8 +145,8 @@ class SubjectButtonWidget extends StatelessWidget {
           iconSize: 18,
           color: Colors.grey,
           alignment: Alignment.centerRight,
-          tooltip: 'Abrir página da UC no browser',
-          onPressed: _launchURL,
+          tooltip: S.of(context).uc_info,
+          onPressed: () => _launchUcPage(context),
         ),
       ],
     );
@@ -146,6 +159,7 @@ class ScheduleTeacherClassInfoWidget extends StatelessWidget {
     this.classNumber,
     super.key,
   });
+
   final String? classNumber;
   final String teacher;
 
@@ -161,6 +175,7 @@ class ScheduleTeacherClassInfoWidget extends StatelessWidget {
 
 class ScheduleTimeWidget extends StatelessWidget {
   const ScheduleTimeWidget({required this.begin, required this.end, super.key});
+
   final String begin;
   final String end;
 
@@ -182,6 +197,7 @@ class ScheduleTimeTextField extends StatelessWidget {
     required this.context,
     super.key,
   });
+
   final String time;
   final BuildContext context;
 
@@ -202,6 +218,7 @@ class TextFieldWidget extends StatelessWidget {
     required this.alignment,
     super.key,
   });
+
   final String text;
   final TextStyle? style;
   final TextAlign alignment;

@@ -80,6 +80,56 @@ class S {
     );
   }
 
+  /// `About us`
+  String get about {
+    return Intl.message(
+      'About us',
+      name: 'about',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Report error/suggestion`
+  String get report_error_suggestion {
+    return Intl.message(
+      'Report error/suggestion',
+      name: 'report_error_suggestion',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Language`
+  String get language {
+    return Intl.message(
+      'Language',
+      name: 'language',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Theme`
+  String get theme {
+    return Intl.message(
+      'Theme',
+      name: 'theme',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Notifications`
+  String get notifications {
+    return Intl.message(
+      'Notifications',
+      name: 'notifications',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Academic services`
   String get academic_services {
     return Intl.message(
@@ -175,6 +225,16 @@ class S {
     return Intl.message(
       'Average: ',
       name: 'average',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We do now collect anonymous usage statistics in order to improve your experience. You can change it in settings.`
+  String get banner_info {
+    return Intl.message(
+      'We do now collect anonymous usage statistics in order to improve your experience. You can change it in settings.',
+      name: 'banner_info',
       desc: '',
       args: [],
     );
@@ -560,10 +620,10 @@ class S {
     );
   }
 
-  /// `Notify next deadline:`
+  /// `Fee deadline`
   String get fee_notification {
     return Intl.message(
-      'Notify next deadline:',
+      'Fee deadline',
       name: 'fee_notification',
       desc: '',
       args: [],
@@ -703,11 +763,11 @@ class S {
     );
   }
 
-  /// `Error loading the information`
-  String get load_error {
+  /// `Error downloading the file`
+  String get download_error {
     return Intl.message(
-      'Error loading the information',
-      name: 'load_error',
+      'Error downloading the file',
+      name: 'download_error',
       desc: '',
       args: [],
     );
@@ -728,6 +788,16 @@ class S {
     return Intl.message(
       'Login',
       name: 'login',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Settings`
+  String get settings {
+    return Intl.message(
+      'Settings',
+      name: 'settings',
       desc: '',
       args: [],
     );
@@ -773,7 +843,7 @@ class S {
     );
   }
 
-  /// `{title, select, horario{Schedule} exames{Exams} area{Personal Area} cadeiras{Course Units} autocarros{Buses} locais{Places} restaurantes{Restaurants} calendario{Calendar} biblioteca{Library} uteis{Utils} sobre{About} bugs{Bugs/Suggestions} other{Other}}`
+  /// `{title, select, horario{Schedule} exames{Exams} area{Personal Area} cadeiras{Course Units} autocarros{Buses} locais{Places} restaurantes{Restaurants} calendario{Calendar} biblioteca{Library} percurso_academico{Academic Path} transportes{Transports} faculdade{Faculty} other{Other}}`
   String nav_title(Object title) {
     return Intl.select(
       title,
@@ -787,9 +857,9 @@ class S {
         'restaurantes': 'Restaurants',
         'calendario': 'Calendar',
         'biblioteca': 'Library',
-        'uteis': 'Utils',
-        'sobre': 'About',
-        'bugs': 'Bugs/Suggestions',
+        'percurso_academico': 'Academic Path',
+        'transportes': 'Transports',
+        'faculdade': 'Faculty',
         'other': 'Other',
       },
       name: 'nav_title',
@@ -858,6 +928,16 @@ class S {
     );
   }
 
+  /// `You don't have classes on`
+  String get no_classes_on_weekend {
+    return Intl.message(
+      'You don\'t have classes on',
+      name: 'no_classes_on_weekend',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `no college`
   String get no_college {
     return Intl.message(
@@ -893,6 +973,16 @@ class S {
     return Intl.message(
       'No date',
       name: 'no_date',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No events found`
+  String get no_events {
+    return Intl.message(
+      'No events found',
+      name: 'no_events',
       desc: '',
       args: [],
     );
@@ -1018,11 +1108,71 @@ class S {
     );
   }
 
+  /// `No print balance information`
+  String get no_print_info {
+    return Intl.message(
+      'No print balance information',
+      name: 'no_print_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No library occupation information available`
+  String get no_library_info {
+    return Intl.message(
+      'No library occupation information available',
+      name: 'no_library_info',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Type of occurrence`
   String get occurrence_type {
     return Intl.message(
       'Type of occurrence',
       name: 'occurrence_type',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `of`
+  String get of_month {
+    return Intl.message(
+      'of',
+      name: 'of_month',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We couldn't open the link`
+  String get no_link {
+    return Intl.message(
+      'We couldn\'t open the link',
+      name: 'no_link',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `It looks like you're offline`
+  String get no_internet {
+    return Intl.message(
+      'It looks like you\'re offline',
+      name: 'no_internet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No files found`
+  String get no_files_found {
+    return Intl.message(
+      'No files found',
+      name: 'no_files_found',
       desc: '',
       args: [],
     );
@@ -1098,6 +1248,56 @@ class S {
     );
   }
 
+  /// `File opened successfully`
+  String get successful_open {
+    return Intl.message(
+      'File opened successfully',
+      name: 'successful_open',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Permission denied`
+  String get permission_denied {
+    return Intl.message(
+      'Permission denied',
+      name: 'permission_denied',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error opening the file`
+  String get open_error {
+    return Intl.message(
+      'Error opening the file',
+      name: 'open_error',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No app found to open the file`
+  String get no_app {
+    return Intl.message(
+      'No app found to open the file',
+      name: 'no_app',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error loading the information`
+  String get load_error {
+    return Intl.message(
+      'Error loading the information',
+      name: 'load_error',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Prints`
   String get prints {
     return Intl.message(
@@ -1121,7 +1321,7 @@ class S {
   /// `The generated reference data will appear in Sigarra, checking account.\nProfile > Checking Account`
   String get reference_sigarra_help {
     return Intl.message(
-      'The generated reference data will appear in Sigarra, checking account.\\nProfile > Checking Account',
+      'The generated reference data will appear in Sigarra, checking account.\nProfile > Checking Account',
       name: 'reference_sigarra_help',
       desc: '',
       args: [],
@@ -1158,11 +1358,31 @@ class S {
     );
   }
 
+  /// `Do you want to see your favorite restaurants in the main page?`
+  String get restaurant_main_page {
+    return Intl.message(
+      'Do you want to see your favorite restaurants in the main page?',
+      name: 'restaurant_main_page',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Room`
   String get room {
     return Intl.message(
       'Room',
       name: 'room',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Files`
+  String get files {
+    return Intl.message(
+      'Files',
+      name: 'files',
       desc: '',
       args: [],
     );
@@ -1298,6 +1518,16 @@ class S {
     );
   }
 
+  /// `Open UC page`
+  String get uc_info {
+    return Intl.message(
+      'Open UC page',
+      name: 'uc_info',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Unavailable`
   String get unavailable {
     return Intl.message(
@@ -1333,6 +1563,36 @@ class S {
     return Intl.message(
       'Year',
       name: 'year',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search`
+  String get search {
+    return Intl.message(
+      'Search',
+      name: 'search',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Do you really want to log out? Your local data will be deleted and you will have to log in again.`
+  String get confirm_logout {
+    return Intl.message(
+      'Do you really want to log out? Your local data will be deleted and you will have to log in again.',
+      name: 'confirm_logout',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Collect usage statistics`
+  String get collect_usage_stats {
+    return Intl.message(
+      'Collect usage statistics',
+      name: 'collect_usage_stats',
       desc: '',
       args: [],
     );

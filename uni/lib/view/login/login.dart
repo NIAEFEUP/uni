@@ -9,7 +9,7 @@ import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/login_exceptions.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/model/providers/state_providers.dart';
-import 'package:uni/utils/drawer_items.dart';
+import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/toast_message.dart';
 import 'package:uni/view/home/widgets/exit_app_dialog.dart';
 import 'package:uni/view/login/widgets/inputs.dart';
@@ -25,10 +25,6 @@ class LoginPageView extends StatefulWidget {
 
 /// Manages the 'login section' view.
 class LoginPageViewState extends State<LoginPageView> {
-  List<String> faculties = [
-    'feup',
-  ]; // May choose more than one faculty in the dropdown.
-
   static final FocusNode usernameFocus = FocusNode();
   static final FocusNode passwordFocus = FocusNode();
 
@@ -58,13 +54,12 @@ class LoginPageViewState extends State<LoginPageView> {
           context,
           user,
           pass,
-          faculties,
           persistentSession: _keepSignedIn,
         );
         if (context.mounted) {
           await Navigator.pushReplacementNamed(
             context,
-            '/${DrawerItem.navPersonalArea.title}',
+            '/${NavigationItem.navPersonalArea.route}',
           );
           setState(() {
             _loggingIn = false;
@@ -93,14 +88,6 @@ class LoginPageViewState extends State<LoginPageView> {
         }
       }
     }
-  }
-
-  /// Updates the list of faculties
-  /// based on the options the user selected (used as a callback)
-  void setFaculties(List<String> faculties) {
-    setState(() {
-      this.faculties = faculties;
-    });
   }
 
   /// Tracks if the user wants to keep signed in (has a
@@ -215,7 +202,6 @@ class LoginPageViewState extends State<LoginPageView> {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            createFacultyInput(context, faculties, setFaculties),
             Padding(
               padding: EdgeInsets.only(bottom: queryData.size.height / 35),
             ),
