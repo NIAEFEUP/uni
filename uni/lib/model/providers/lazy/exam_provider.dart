@@ -31,7 +31,7 @@ class ExamProvider extends StateProviderNotifier<List<Exam>> {
       session,
       profile.courseUnits,
       persistentSession:
-          (PreferencesController.getPersistentUserInfo()) != null,
+          (await PreferencesController.getPersistentUserInfo()) != null,
     );
   }
 

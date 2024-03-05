@@ -70,7 +70,7 @@ class NotificationManager {
 
   static Future<void> updateAndTriggerNotifications() async {
     PreferencesController.prefs = await SharedPreferences.getInstance();
-    final userInfo = PreferencesController.getPersistentUserInfo();
+    final userInfo = await PreferencesController.getPersistentUserInfo();
     final faculties = PreferencesController.getUserFaculties();
 
     if (userInfo == null || faculties.isEmpty) {

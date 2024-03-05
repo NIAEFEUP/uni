@@ -99,7 +99,8 @@ class ProfileProvider extends StateProviderNotifier<Profile> {
     final feesBalance = parseFeesBalance(response);
     final feesLimit = parseFeesNextLimit(response);
 
-    final userPersistentInfo = PreferencesController.getPersistentUserInfo();
+    final userPersistentInfo =
+        await PreferencesController.getPersistentUserInfo();
 
     if (userPersistentInfo != null) {
       final profileDb = AppUserDataDatabase();
@@ -113,7 +114,8 @@ class ProfileProvider extends StateProviderNotifier<Profile> {
     final response = await PrintFetcher().getUserPrintsResponse(session);
     final printBalance = await getPrintsBalance(response);
 
-    final userPersistentInfo = PreferencesController.getPersistentUserInfo();
+    final userPersistentInfo =
+        await PreferencesController.getPersistentUserInfo();
     if (userPersistentInfo != null) {
       final profileDb = AppUserDataDatabase();
       await profileDb.saveUserPrintBalance(printBalance);
@@ -133,7 +135,8 @@ class ProfileProvider extends StateProviderNotifier<Profile> {
 
     profile.courseUnits = currentCourseUnits;
 
-    final userPersistentInfo = PreferencesController.getPersistentUserInfo();
+    final userPersistentInfo =
+        await PreferencesController.getPersistentUserInfo();
     if (userPersistentInfo != null) {
       // Course units are saved later, so we don't it here
       final profileDb = AppUserDataDatabase();
@@ -158,7 +161,8 @@ class ProfileProvider extends StateProviderNotifier<Profile> {
       return allCourseUnits;
     }
 
-    final userPersistentInfo = PreferencesController.getPersistentUserInfo();
+    final userPersistentInfo =
+        await PreferencesController.getPersistentUserInfo();
     if (userPersistentInfo != null) {
       final coursesDb = AppCoursesDatabase();
       unawaited(coursesDb.saveNewCourses(profile.courses));
