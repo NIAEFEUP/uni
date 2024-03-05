@@ -81,7 +81,9 @@ class _PlausibleProviderState extends State<PlausibleProvider> {
 
     try {
       _isInBatterySaveMode = await battery.isInBatterySaveMode;
-    } on PlatformException catch (_) {}
+    } on PlatformException catch (_) {
+      _isInBatterySaveMode = false;
+    }
 
     _updateAnalyticsState();
   }
