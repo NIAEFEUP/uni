@@ -136,6 +136,9 @@ Future<void> main() async {
                 create: (context) => stateProviders.sessionProvider,
               ),
               ChangeNotifierProvider(
+                create: (context) => stateProviders.profileProvider,
+              ),
+              ChangeNotifierProvider(
                 create: (context) => stateProviders.lectureProvider,
               ),
               ChangeNotifierProvider(
@@ -146,9 +149,6 @@ Future<void> main() async {
               ),
               ChangeNotifierProvider(
                 create: (context) => stateProviders.restaurantProvider,
-              ),
-              ChangeNotifierProvider(
-                create: (context) => stateProviders.profileProvider,
               ),
               ChangeNotifierProvider(
                 create: (context) => stateProviders.courseUnitsInfoProvider,
