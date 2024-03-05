@@ -133,6 +133,9 @@ Future<void> main() async {
           child: MultiProvider(
             providers: [
               ChangeNotifierProvider(
+                create: (context) => stateProviders.sessionProvider,
+              ),
+              ChangeNotifierProvider(
                 create: (context) => stateProviders.lectureProvider,
               ),
               ChangeNotifierProvider(
@@ -149,9 +152,6 @@ Future<void> main() async {
               ),
               ChangeNotifierProvider(
                 create: (context) => stateProviders.courseUnitsInfoProvider,
-              ),
-              ChangeNotifierProvider(
-                create: (context) => stateProviders.sessionProvider,
               ),
               ChangeNotifierProvider(
                 create: (context) => stateProviders.calendarProvider,
