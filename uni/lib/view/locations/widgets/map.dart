@@ -63,7 +63,9 @@ class LocationsMap extends StatelessWidget {
             color: Theme.of(context).colorScheme.onPrimary.withOpacity(0.8),
             child: GestureDetector(
               onTap: () => launchUrlWithToast(
-                  context, 'https://www.openstreetmap.org/copyright'),
+                context,
+                'https://www.openstreetmap.org/copyright',
+              ),
               child: const Padding(
                 padding: EdgeInsets.symmetric(vertical: 5, horizontal: 8),
                 child: MouseRegion(
