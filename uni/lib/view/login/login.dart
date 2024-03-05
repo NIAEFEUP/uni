@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:uni/controller/networking/url_launcher.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/login_exceptions.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
@@ -14,7 +15,6 @@ import 'package:uni/view/common_widgets/toast_message.dart';
 import 'package:uni/view/home/widgets/exit_app_dialog.dart';
 import 'package:uni/view/login/widgets/inputs.dart';
 import 'package:uni/view/theme.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class LoginPageView extends StatefulWidget {
   const LoginPageView({super.key});
@@ -248,7 +248,7 @@ class LoginPageViewState extends State<LoginPageView> {
               ),
         ),
       ),
-      onTap: () => launchUrl(Uri.parse('https://self-id.up.pt/reset')),
+      onTap: () => launchUrlWithToast(context, 'https://self-id.up.pt/reset'),
     );
   }
 
@@ -301,12 +301,8 @@ class LoginPageViewState extends State<LoginPageView> {
             ),
             ElevatedButton(
               child: Text(S.of(context).change),
-              onPressed: () async {
-                const url = 'https://self-id.up.pt/password';
-                if (await canLaunchUrl(Uri.parse(url))) {
-                  await launchUrl(Uri.parse(url));
-                }
-              },
+              onPressed: () =>
+                  launchUrlWithToast(context, 'https://self-id.up.pt/password'),
             ),
           ],
         );
