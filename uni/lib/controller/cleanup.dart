@@ -22,18 +22,16 @@ Future<void> cleanupStoredData(BuildContext context) async {
   final faculties = PreferencesController.getUserFaculties();
   await prefs.clear();
 
-  unawaited(
-    Future.wait([
-      AppLecturesDatabase().deleteLectures(),
-      AppExamsDatabase().deleteExams(),
-      AppCoursesDatabase().deleteCourses(),
-      AppUserDataDatabase().deleteUserData(),
-      AppLastUserInfoUpdateDatabase().deleteLastUpdate(),
-      AppBusStopDatabase().deleteBusStops(),
-      AppCourseUnitsDatabase().deleteCourseUnits(),
-      NetworkRouter.killSigarraAuthentication(faculties),
-    ]),
-  );
+  await Future.wait([
+    AppLecturesDatabase().deleteLectures(),
+    AppExamsDatabase().deleteExams(),
+    AppCoursesDatabase().deleteCourses(),
+    AppUserDataDatabase().deleteUserData(),
+    AppLastUserInfoUpdateDatabase().deleteLastUpdate(),
+    AppBusStopDatabase().deleteBusStops(),
+    AppCourseUnitsDatabase().deleteCourseUnits(),
+    NetworkRouter.killSigarraAuthentication(faculties),
+  ]);
 
   final path = (await getApplicationDocumentsDirectory()).path;
   final directory = Directory(path);
