@@ -28,7 +28,7 @@ class DeparturesFetcher {
     final htmlResponse = parse(response.body);
 
     final scriptText = htmlResponse
-        .querySelectorAll('script')
+        .querySelectorAll('table script')
         .where((element) => element.text.contains(_stopCode))
         .map((e) => e.text)
         .first;

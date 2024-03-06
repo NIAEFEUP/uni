@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_popup/flutter_map_marker_popup.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:uni/controller/networking/url_launcher.dart';
 import 'package:uni/model/entities/location_group.dart';
 import 'package:uni/view/locations/widgets/floorless_marker_popup.dart';
 import 'package:uni/view/locations/widgets/marker.dart';
 import 'package:uni/view/locations/widgets/marker_popup.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class LocationsMap extends StatelessWidget {
   LocationsMap({
@@ -62,8 +62,9 @@ class LocationsMap extends StatelessWidget {
           child: ColoredBox(
             color: Theme.of(context).colorScheme.onPrimary.withOpacity(0.8),
             child: GestureDetector(
-              onTap: () => launchUrl(
-                Uri(host: 'openstreetmap.org', path: '/copyright'),
+              onTap: () => launchUrlWithToast(
+                context,
+                'https://www.openstreetmap.org/copyright',
               ),
               child: const Padding(
                 padding: EdgeInsets.symmetric(vertical: 5, horizontal: 8),
