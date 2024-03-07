@@ -12,14 +12,13 @@ class NavigationService {
     final context = Application.navigatorKey.currentContext!;
 
     unawaited(cleanupStoredData(context));
-    StateProviders.fromContext(context).invalidate();
 
     Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute<LoginPageView>(
         builder: (context) => const LoginPageView(),
       ),
-      (route) => false,
+          (route) => false,
     );
   }
 
