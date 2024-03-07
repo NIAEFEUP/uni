@@ -177,7 +177,7 @@ class LazyConsumer<T1 extends StateProviderNotifier<T2>, T2>
                     ),
                   ),
                   child: Text(S.of(context).report_error),
-                )
+                ),
               ],
             ),
           ],

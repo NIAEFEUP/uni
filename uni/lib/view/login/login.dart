@@ -56,6 +56,10 @@ class LoginPageViewState extends State<LoginPageView> {
           pass,
           persistentSession: _keepSignedIn,
         );
+
+        usernameController.clear();
+        passwordController.clear();
+
         if (context.mounted) {
           await Navigator.pushReplacementNamed(
             context,
