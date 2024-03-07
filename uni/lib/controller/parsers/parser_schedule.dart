@@ -12,6 +12,11 @@ Future<List<Lecture>> parseScheduleMultipleRequests(
   for (final (week, response) in responsesPerWeeks) {
     lectures += await parseSchedule(response, week);
   }
+
+  if (lectures.isEmpty) {
+    return Future.error(Exception('Found empty schedule'));
+  }
+
   return lectures;
 }
 
@@ -70,11 +75,5 @@ Future<List<Lecture>> parseSchedule(
     lectures.add(lec);
   }
 
-  final lecturesList = lectures.toList()..sort((a, b) => a.compare(b));
-
-  if (lecturesList.isEmpty) {
-    return Future.error(Exception('Found empty schedule'));
-  }
-
-  return lecturesList;
+  return lectures.toList()..sort((a, b) => a.compare(b));
 }
