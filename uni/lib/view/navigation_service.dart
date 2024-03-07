@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:uni/controller/cleanup.dart';
 import 'package:uni/main.dart';
-import 'package:uni/model/providers/state_providers.dart';
 import 'package:uni/view/login/login.dart';
 
 /// Manages the navigation logic
@@ -18,7 +17,7 @@ class NavigationService {
       MaterialPageRoute<LoginPageView>(
         builder: (context) => const LoginPageView(),
       ),
-          (route) => false,
+      (route) => false,
     );
   }
 
