@@ -33,11 +33,8 @@ Future<void> cleanupStoredData(BuildContext context) async {
     NetworkRouter.killSigarraAuthentication(faculties),
   ]);
 
-  final path = (await getApplicationDocumentsDirectory()).path;
-  final directory = Directory(path);
-  if (directory.existsSync()) {
-    directory.deleteSync(recursive: true);
-  }
+  final toCleanDirectory = await getApplicationDocumentsDirectory();
+  await cleanDirectory(toCleanDirectory, DateTime.now());
 }
 
 Future<void> cleanupCachedFiles() async {
@@ -51,26 +48,24 @@ Future<void> cleanupCachedFiles() async {
 
   final toCleanDirectory = await getApplicationDocumentsDirectory();
   final threshold = DateTime.now().subtract(const Duration(days: 30));
-  final directories = toCleanDirectory.listSync(followLinks: false);
 
-  for (final directory in directories) {
-    if (directory is Directory) {
-      final files = directory.listSync(recursive: true, followLinks: false);
-
-      final oldFiles = files.where((file) {
-        try {
-          final fileDate = File(file.path).lastModifiedSync();
-          return fileDate.isBefore(threshold);
-        } catch (e) {
-          return false;
-        }
-      });
-
-      for (final file in oldFiles) {
-        await File(file.path).delete();
-      }
-    }
-  }
+  await cleanDirectory(toCleanDirectory, threshold);
 
   await PreferencesController.setLastCleanUpDate(DateTime.now());
+}
+
+Future<void> cleanDirectory(Directory directory, DateTime threshold) async {
+  final entities = directory.listSync(recursive: true, followLinks: false);
+  final toDeleteEntities = entities.where((e) {
+    try {
+      final fileDate = File(e.path).lastModifiedSync();
+      return fileDate.isBefore(threshold);
+    } catch (e) {
+      return false;
+    }
+  });
+
+  for (final entity in toDeleteEntities) {
+    await File(entity.path).delete();
+  }
 }
