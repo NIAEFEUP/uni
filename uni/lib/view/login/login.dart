@@ -152,6 +152,7 @@ class LoginPageViewState extends State<LoginPageView> {
                     ),
                   ),
                   createLogInButton(queryData, context, _login),
+                  createAFLogInButton(queryData, context, _login),
                   Padding(
                     padding: EdgeInsets.only(
                       bottom: queryData.size.height / 35,
