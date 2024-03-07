@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uni/controller/local_storage/database/app_bus_stop_database.dart';
@@ -56,16 +57,16 @@ Future<void> cleanupCachedFiles() async {
 
 Future<void> cleanDirectory(Directory directory, DateTime threshold) async {
   final entities = directory.listSync(recursive: true, followLinks: false);
-  final toDeleteEntities = entities.where((e) {
+  final toDeleteEntities = entities.whereType<File>().where((file) {
     try {
-      final fileDate = File(e.path).lastModifiedSync();
-      return fileDate.isBefore(threshold);
+      final fileDate = File(file.path).lastModifiedSync();
+      return fileDate.isBefore(threshold) && path.extension(file.path) != '.db';
     } catch (e) {
       return false;
     }
   });
 
   for (final entity in toDeleteEntities) {
-    await File(entity.path).delete();
+    entity.deleteSync();
   }
 }
