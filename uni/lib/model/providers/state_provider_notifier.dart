@@ -69,6 +69,7 @@ abstract class StateProviderNotifier<T> extends ChangeNotifier {
   /// so that consumers may trigger the loading again.
   void invalidate() {
     _state = null;
+    notifyListeners();
   }
 
   Future<void> _loadFromStorage(BuildContext context) async {
