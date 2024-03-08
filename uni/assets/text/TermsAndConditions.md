@@ -140,4 +140,4 @@ If you would like to contact us to understand more about this Agreement or wish 
 concerning any matter relating to it, you may send an email to [ni@aefeup.pt](mailto:ni@aefeup.pt).
 \
 \
-This document was last updated on February 28, 2023.
+This document was last updated on March 6, 2024.

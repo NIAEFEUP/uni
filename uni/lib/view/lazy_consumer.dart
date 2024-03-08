@@ -158,14 +158,27 @@ class LazyConsumer<T1 extends StateProviderNotifier<T2>, T2>
                 ),
               ),
             ),
-            OutlinedButton(
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute<BugReportPageView>(
-                  builder: (context) => const BugReportPageView(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                OutlinedButton(
+                  onPressed: () => Provider.of<T1>(context, listen: false)
+                      .forceRefresh(context),
+                  child: Text(S.of(context).try_again),
                 ),
-              ),
-              child: Text(S.of(context).report_error),
+                const SizedBox(
+                  width: 10,
+                ),
+                OutlinedButton(
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute<BugReportPageView>(
+                      builder: (context) => const BugReportPageView(),
+                    ),
+                  ),
+                  child: Text(S.of(context).report_error),
+                ),
+              ],
             ),
           ],
         );
