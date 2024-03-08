@@ -44,7 +44,6 @@ class DeparturesFetcher {
         callParam.indexOf("'") + 1,
         callParam.lastIndexOf("'"),
       );
-
       return csrfToken;
     } catch (e, stackTrace) {
       unawaited(
