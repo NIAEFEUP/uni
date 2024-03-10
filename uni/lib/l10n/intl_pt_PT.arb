@@ -190,6 +190,8 @@
   "@no_classes": {},
   "no_classes_on": "Não possui aulas à",
   "@no_classes_on": {},
+  "no_classes_on_weekend": "Não possui aulas ao",
+  "@no_classes_on_weekend": {},
   "no_college": "sem faculdade",
   "@no_college": {},
   "no_course_units": "Sem cadeiras no período selecionado",
@@ -224,6 +226,8 @@
   "@no_selected_courses": {},
   "no_selected_exams": "Não existem exames para apresentar",
   "@no_selected_exams": {},
+  "no_internet": "Parece que estás offline",
+  "@no_internet": {},
   "no_print_info": "Sem informação de saldo",
   "@no_print_info": {},
   "no_library_info": "Sem informação de ocupação",
@@ -294,6 +298,8 @@
   "@terms": {},
   "title": "Título",
   "@title": {},
+  "uc_info": "Abrir página da UC",
+  "@uc_info": {},
   "unavailable": "Indisponível",
   "@unavailable": {},
   "valid_email": "Por favor insere um email válido",
@@ -307,5 +313,7 @@
   "confirm_logout": "Tens a certeza de que queres terminar sessão? Os teus dados locais serão apagados e terás de iniciar sessão novamente.",
   "@confirm_logout": {},
   "collect_usage_stats": "Partilhar estatísticas de uso",
-  "@collect_usage_stats": {}
+  "@collect_usage_stats": {},
+  "try_again": "Tentar de novo",
+  "@try_again": {}
 }

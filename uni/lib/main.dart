@@ -55,15 +55,15 @@ SentryEvent? beforeSend(SentryEvent event) {
   return event.level == SentryLevel.info ? event : null;
 }
 
-Future<Widget> firstRoute() async {
+Future<String> firstRoute() async {
   final userPersistentInfo = PreferencesController.getPersistentUserInfo();
 
   if (userPersistentInfo != null) {
-    return const HomePageView();
+    return '/${NavigationItem.navPersonalArea.route}';
   }
 
   await acceptTermsAndConditions();
-  return const LoginPageView();
+  return '/${NavigationItem.navLogin.route}';
 }
 
 Future<void> main() async {
@@ -133,6 +133,12 @@ Future<void> main() async {
           child: MultiProvider(
             providers: [
               ChangeNotifierProvider(
+                create: (context) => stateProviders.sessionProvider,
+              ),
+              ChangeNotifierProvider(
+                create: (context) => stateProviders.profileProvider,
+              ),
+              ChangeNotifierProvider(
                 create: (context) => stateProviders.lectureProvider,
               ),
               ChangeNotifierProvider(
@@ -145,13 +151,7 @@ Future<void> main() async {
                 create: (context) => stateProviders.restaurantProvider,
               ),
               ChangeNotifierProvider(
-                create: (context) => stateProviders.profileProvider,
-              ),
-              ChangeNotifierProvider(
                 create: (context) => stateProviders.courseUnitsInfoProvider,
-              ),
-              ChangeNotifierProvider(
-                create: (context) => stateProviders.sessionProvider,
               ),
               ChangeNotifierProvider(
                 create: (context) => stateProviders.calendarProvider,
@@ -184,9 +184,9 @@ Future<void> main() async {
 /// This class is necessary to track the app's state for
 /// the current execution.
 class Application extends StatefulWidget {
-  const Application(this.initialWidget, {super.key});
+  const Application(this.initialRoute, {super.key});
 
-  final Widget initialWidget;
+  final String initialRoute;
 
   static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -228,11 +228,15 @@ class ApplicationState extends State<Application> {
           GlobalCupertinoLocalizations.delegate,
         ],
         supportedLocales: S.delegate.supportedLocales,
-        initialRoute: '/${NavigationItem.navPersonalArea.route}',
-        home: widget.initialWidget,
+        initialRoute: widget.initialRoute,
         navigatorObservers: navigatorObservers,
         onGenerateRoute: (RouteSettings settings) {
           final transitions = {
+            '/${NavigationItem.navLogin.route}':
+                PageTransition.makePageTransition(
+              page: const LoginPageView(),
+              settings: settings,
+            ),
             '/${NavigationItem.navPersonalArea.route}':
                 PageTransition.makePageTransition(
               page: const HomePageView(),
@@ -240,7 +244,7 @@ class ApplicationState extends State<Application> {
             ),
             '/${NavigationItem.navSchedule.route}':
                 PageTransition.makePageTransition(
-              page: const SchedulePage(),
+              page: SchedulePage(),
               settings: settings,
             ),
             '/${NavigationItem.navExams.route}':

@@ -928,6 +928,16 @@ class S {
     );
   }
 
+  /// `You don't have classes on`
+  String get no_classes_on_weekend {
+    return Intl.message(
+      'You don\'t have classes on',
+      name: 'no_classes_on_weekend',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `no college`
   String get no_college {
     return Intl.message(
@@ -1143,6 +1153,16 @@ class S {
     return Intl.message(
       'We couldn\'t open the link',
       name: 'no_link',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `It looks like you're offline`
+  String get no_internet {
+    return Intl.message(
+      'It looks like you\'re offline',
+      name: 'no_internet',
       desc: '',
       args: [],
     );
@@ -1498,6 +1518,16 @@ class S {
     );
   }
 
+  /// `Open UC page`
+  String get uc_info {
+    return Intl.message(
+      'Open UC page',
+      name: 'uc_info',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Unavailable`
   String get unavailable {
     return Intl.message(
@@ -1563,6 +1593,16 @@ class S {
     return Intl.message(
       'Collect usage statistics',
       name: 'collect_usage_stats',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Try again`
+  String get try_again {
+    return Intl.message(
+      'Try again',
+      name: 'try_again',
       desc: '',
       args: [],
     );

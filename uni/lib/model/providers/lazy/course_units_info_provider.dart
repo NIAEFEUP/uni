@@ -49,6 +49,7 @@ class CourseUnitsInfoProvider
   ) async {
     state!.item2[courseUnit] = await CourseUnitsInfoFetcher()
         .fetchCourseUnitClasses(session, courseUnit.occurrId);
+    notifyListeners();
   }
 
   Future<void> fetchCourseUnitFiles(
@@ -57,6 +58,7 @@ class CourseUnitsInfoProvider
   ) async {
     state!.item3[courseUnit] = await CourseUnitsInfoFetcher()
         .fetchCourseUnitFiles(session, courseUnit.occurrId);
+    notifyListeners();
   }
 
   @override
