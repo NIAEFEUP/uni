@@ -1,22 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:uni/view/common_widgets/generic_expandable.dart';
 import 'package:uni/view/common_widgets/generic_expansion_card.dart';
 
-class CourseUnitInfoCard extends GenericExpansionCard {
-  const CourseUnitInfoCard(this.sectionTitle, this.content, {super.key})
+class CourseUnitInfoCard extends GenericExpandable {
+  CourseUnitInfoCard(this.sectionTitle, this.info, {super.key})
       : super(
-          cardMargin: const EdgeInsets.only(bottom: 10),
-          smallTitle: true,
+          title: normalizeTitle(sectionTitle),
+          content: info,
         );
   final String sectionTitle;
-  final Widget content;
+  final Widget info;
+}
 
-  @override
-  Widget buildCardContent(BuildContext context) {
-    return Container(padding: const EdgeInsets.only(top: 10), child: content);
-  }
-
-  @override
-  String getTitle(BuildContext context) {
-    return sectionTitle;
-  }
+String normalizeTitle(String sectionTitle) {
+  return sectionTitle[0].toUpperCase() + sectionTitle.substring(1);
 }

@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:html/dom.dart' as dom;
 import 'package:uni/model/entities/course_units/course_unit_sheet.dart';
@@ -15,32 +16,33 @@ class CourseUnitSheetView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(left: 10, right: 10),
-      child: ListView(
-        children: courseUnitSheet.sections.entries
-            .map((e) => _buildCard(e.key, e.value))
-            .toList(),
-      ),
-    );
+        padding: const EdgeInsets.only(left: 10, right: 10),
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: ListView(
+            children: courseUnitSheet.sections.entries
+                .map((e) => _buildCard(e.key, e.value))
+                .toList(),
+          ),
+        ));
   }
 
-  CourseUnitInfoCard _buildCard(
+  Widget _buildCard(
     String sectionTitle,
     dynamic sectionContent,
   ) {
-    return CourseUnitInfoCard(
-      sectionTitle,
-      Container(
-        child: sectionContent is String || sectionContent is int
-            ? Text(sectionContent.toString())
-            : sectionContent is List<dynamic>
-                ? Column(
-                    children: sectionContent
-                        .map((item) => Text(item.toString()))
-                        .toList(),
-                  )
-                : sectionContent as Widget?,
-      ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Column(children: [
+        const Opacity(
+          opacity: 0.25,
+          child: Divider(color: Colors.grey),
+        ),
+        CourseUnitInfoCard(
+          sectionTitle,
+          HtmlWidget(sectionContent.toString()),
+        ),
+      ]),
     );
   }
 }
