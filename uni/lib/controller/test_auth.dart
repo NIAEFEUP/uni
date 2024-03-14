@@ -1,4 +1,5 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 import 'package:openid_client/openid_client.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -27,7 +28,7 @@ class FederatedLogin {
       _flow = Flow.authorizationCode(
         client,
         redirectUri: Uri.parse('pt.up.fe.ni.uni://auth'),
-        scopes: ['openid', 'profile', 'email', 'offline_access'],
+        scopes: ['openid', 'profile', 'email', 'offline_access', 'audience'],
       );
 
       await invoke(_flow.authenticationUri);
@@ -37,26 +38,26 @@ class FederatedLogin {
     }
   }
 
-  static Future<void> doTheRest(Uri uri) async {
+  static Future<Map<String, dynamic>> getSigarraCokie(Uri uri) async {
     final credential = await _flow.callback(uri.queryParameters);
 
     final userInfo = await credential.getUserInfo();
 
-    Logger().d((await credential.getTokenResponse()).expiresIn);
-    Logger().d((await credential.getTokenResponse()).refreshToken);
+    final token = (await credential.getTokenResponse()).accessToken;
 
-    Logger().d(userInfo.toJson());
+    const sigarraTokenEndpoint = 'https://sigarra.up.pt/auth/oidc/token';
+    final response = await http.get(
+      Uri.parse(sigarraTokenEndpoint),
+      headers: <String, String>{
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+      },
+    );
 
-    //do the rest of the login process
+    if (response.statusCode != 200) {
+      throw Exception('Failed to get token from SIGARRA');
+    }
 
-    //use token to get cookie from serviço de autenticação OIDC do SIGARRA
-    //const userinfoEndpoint = 'https://example.com/userinfo';
-    //final response = await http.get(
-    //  Uri.parse(userinfoEndpoint),
-    //  headers: <String, String>{
-    //    'Authorization': 'Bearer ${c.idToken}',
-    //    'Content-Type': 'application/json',
-    //  },
-    //);
+    return {'response': response, 'userInfo': userInfo};
   }
 }
