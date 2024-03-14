@@ -142,7 +142,10 @@ Widget createAFLogInButton(
         ),
         onPressed: () async {
           Logger().d('login');
-          await FederatedLogin.tryAuthenticate();
+          if (!(await FederatedLogin.tryAuthenticate())) {
+            // TODO(thePeras): tell the user the login failed.
+            Logger().e('Failed to authenticate');
+          }
         },
         child: Text(
           S.of(context).login,

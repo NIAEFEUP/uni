@@ -5,9 +5,9 @@ import 'package:openid_client/openid_client.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class FederatedLogin {
-  static late Flow _flow;
+  static late Flow? _flow;
 
-  static Future<void> invoke(Uri uri) async {
+  static Future<void> _invoke(Uri uri) async {
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri, mode: LaunchMode.inAppBrowserView);
     } else {
@@ -15,31 +15,40 @@ class FederatedLogin {
     }
   }
 
-  static Future<void> tryAuthenticate() async {
+  static Future<bool> tryAuthenticate() async {
     try {
       final realm = dotenv.env['REALM'] ?? '';
       final issuer = await Issuer.discover(Uri.parse(realm));
       final client = Client(
         issuer,
-        dotenv.env['CLIENT_ID'] ?? '',
+        dotenv.env['CLIENT_ID']!,
         clientSecret: dotenv.env['CLIENT_SECRET'],
       );
 
       _flow = Flow.authorizationCode(
         client,
         redirectUri: Uri.parse('pt.up.fe.ni.uni://auth'),
-        scopes: ['openid', 'profile', 'email', 'offline_access', 'audience'],
+        scopes: [
+          'openid',
+          'profile',
+          'email',
+          'offline_access',
+          'audience',
+          'uporto_data',
+        ],
       );
 
-      await invoke(_flow.authenticationUri);
+      await _invoke(_flow!.authenticationUri);
+      return true;
     } catch (e) {
       Logger().e(e);
       await closeInAppWebView();
+      return false;
     }
   }
 
   static Future<Map<String, dynamic>> getSigarraCokie(Uri uri) async {
-    final credential = await _flow.callback(uri.queryParameters);
+    final credential = await _flow!.callback(uri.queryParameters);
 
     final userInfo = await credential.getUserInfo();
 
@@ -55,6 +64,7 @@ class FederatedLogin {
     );
 
     if (response.statusCode != 200) {
+      Logger().e('Failed to get token from SIGARRA');
       throw Exception('Failed to get token from SIGARRA');
     }
 
