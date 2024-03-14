@@ -28,7 +28,14 @@ class FederatedLogin {
       _flow = Flow.authorizationCode(
         client,
         redirectUri: Uri.parse('pt.up.fe.ni.uni://auth'),
-        scopes: ['openid', 'profile', 'email', 'offline_access', 'audience'],
+        scopes: [
+          'openid',
+          'profile',
+          'email',
+          'offline_access',
+          'audience',
+          'uporto_data',
+        ],
       );
 
       await invoke(_flow.authenticationUri);
@@ -55,6 +62,7 @@ class FederatedLogin {
     );
 
     if (response.statusCode != 200) {
+      Logger().e('Failed to get token from SIGARRA');
       throw Exception('Failed to get token from SIGARRA');
     }
 
