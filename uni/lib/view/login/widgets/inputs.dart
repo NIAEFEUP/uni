@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
+import 'package:uni/controller/test_auth.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/view/about/widgets/terms_and_conditions.dart';
 
@@ -104,6 +106,43 @@ Widget createLogInButton(
             FocusScope.of(context).unfocus();
           }
           login(context);
+        },
+        child: Text(
+          S.of(context).login,
+          style: TextStyle(
+            color: Theme.of(context).primaryColor,
+            fontWeight: FontWeight.w400,
+            fontSize: 20,
+          ),
+          textAlign: TextAlign.center,
+        ),
+      ),
+    ),
+  );
+}
+
+Widget createAFLogInButton(
+  MediaQueryData queryData,
+  BuildContext context,
+  void Function(BuildContext) login,
+) {
+  return Padding(
+    padding: EdgeInsets.only(
+      left: queryData.size.width / 7,
+      right: queryData.size.width / 7,
+    ),
+    child: SizedBox(
+      height: queryData.size.height / 16,
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(25),
+          ),
+          backgroundColor: Colors.blue,
+        ),
+        onPressed: () async {
+          Logger().d('login');
+          await FederatedLogin.tryAuthenticate();
         },
         child: Text(
           S.of(context).login,

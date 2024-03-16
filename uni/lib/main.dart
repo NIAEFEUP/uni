@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:app_links/app_links.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -15,6 +16,7 @@ import 'package:uni/controller/background_workers/background_callback.dart';
 import 'package:uni/controller/cleanup.dart';
 import 'package:uni/controller/fetchers/terms_and_conditions_fetcher.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
+import 'package:uni/controller/test_auth.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/providers/lazy/bus_stop_provider.dart';
 import 'package:uni/model/providers/lazy/calendar_provider.dart';
@@ -49,6 +51,7 @@ import 'package:uni/view/settings/settings.dart';
 import 'package:uni/view/theme.dart';
 import 'package:uni/view/theme_notifier.dart';
 import 'package:uni/view/transports/transports.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:workmanager/workmanager.dart';
 
 SentryEvent? beforeSend(SentryEvent event) {
@@ -115,6 +118,19 @@ Future<void> main() async {
   if (plausible == null) {
     Logger().w('Plausible is not enabled');
   }
+
+  final appLinks = AppLinks();
+  appLinks.uriLinkStream.listen((uri) {
+    Logger().d('AppLinks intercepted: $uri');
+    closeInAppWebView();
+    if (uri.host == 'auth') {
+      try {
+        FederatedLogin.getSigarraCokie(uri);
+      } catch (e) {
+        Logger().e('Failed to login with FederatedLogin: $e');
+      }
+    }
+  });
 
   final savedTheme = PreferencesController.getThemeMode();
   final savedLocale = PreferencesController.getLocale();
