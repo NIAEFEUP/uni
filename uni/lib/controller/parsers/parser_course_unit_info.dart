@@ -46,21 +46,19 @@ Future<List<CourseUnitFileDirectory>> parseFiles(
 Future<Sheet> parseSheet(http.Response response) async {
   final json = jsonDecode(response.body) as Map<String, dynamic>;
   final professors = getCourseUnitProfessors(json['ds'] as List<dynamic>);
+  final regents = <Professor>[];
 
   json['responsabilidades'].forEach((dynamic element) {
-    final professor = Professor.fromJson(element as Map<String, dynamic>);
-    if (professors.contains(professor)) {
-      professors[professors.indexWhere((element) => element == professor)]
-          .regent = true;
-    } else {
-      professors.add(professor);
-    }
+    regents.add(Professor.fromJson(element as Map<String, dynamic>));
   });
+
+  print(regents);
 
   return Sheet(
     professors: professors,
     content: json['conteudo'].toString(),
     evaluation: json['for_avaliacao'].toString(),
+    regents: regents,
   );
 }
 
@@ -72,7 +70,6 @@ List<Professor> getCourseUnitProfessors(List<dynamic> ds) {
         code: docente['doc_codigo'].toString(),
         name: docente['nome'].toString(),
         classes: [map['tipo'].toString()],
-        regent: false,
       );
       if (professors.contains(professor)) {
         professors[professors.indexWhere((element) => element == professor)]

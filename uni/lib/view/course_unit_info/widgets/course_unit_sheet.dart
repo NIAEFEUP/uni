@@ -1,11 +1,16 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:html/dom.dart' as dom;
+import 'package:provider/provider.dart';
+import 'package:uni/model/providers/startup/session_provider.dart';
+import 'package:uni/model/providers/state_providers.dart';
 import 'package:uni/model/entities/course_units/course_unit_sheet.dart';
 import 'package:uni/model/entities/course_units/sheet.dart';
+import 'package:uni/model/providers/startup/profile_provider.dart';
 
 import 'package:uni/view/course_unit_info/widgets/course_unit_info_card.dart';
 
@@ -15,16 +20,41 @@ class CourseUnitSheetView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        padding: const EdgeInsets.only(left: 10, right: 10),
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: ListView(
-            children: courseUnitSheet.sections.entries
-                .map((e) => _buildCard(e.key, e.value))
-                .toList(),
+    final session = context.read<SessionProvider>().state!;
+
+    courseUnitSheet.regents.forEach((element) async {
+      element.picture = await ProfileProvider.fetchOrGetCachedProfilePicture(
+        session,
+        studentNumber: int.parse(element.code),
+      );
+    });
+
+    return FutureBuilder(
+      builder: (BuildContext context, AsyncSnapshot<List<Professor>> snapshot) {
+        return Container(
+          padding: const EdgeInsets.only(left: 20, right: 20),
+          child: Column(
+            children: [
+              SizedBox(
+                height: 100,
+                width: double.infinity,
+                child: Row(
+                  children: [
+                    ...(snapshot.data ?? []).map((regent) {
+                      return CircleAvatar(
+                        radius: 40,
+                        backgroundImage: FileImage(regent.picture!),
+                      );
+                    }),
+                  ],
+                ),
+              ),
+            ],
           ),
-        ));
+        );
+      },
+      future: Future.value(courseUnitSheet.regents),
+    );
   }
 
   Widget _buildCard(
