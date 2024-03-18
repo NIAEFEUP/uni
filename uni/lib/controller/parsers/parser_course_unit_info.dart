@@ -45,11 +45,45 @@ Future<List<CourseUnitFileDirectory>> parseFiles(
 
 Future<Sheet> parseSheet(http.Response response) async {
   final json = jsonDecode(response.body) as Map<String, dynamic>;
-  final sheet = <String, dynamic>{};
-  for (final item in json.entries) {
-    sheet[item.key] = item.value;
+  final professors = getCourseUnitProfessors(json['ds'] as List<dynamic>);
+
+  json['responsabilidades'].forEach((dynamic element) {
+    final professor = Professor.fromJson(element as Map<String, dynamic>);
+    if (professors.contains(professor)) {
+      professors[professors.indexWhere((element) => element == professor)]
+          .regent = true;
+    } else {
+      professors.add(professor);
+    }
+  });
+
+  return Sheet(
+    professors: professors,
+    content: json['conteudo'].toString(),
+    evaluation: json['for_avaliacao'].toString(),
+  );
+}
+
+List<Professor> getCourseUnitProfessors(List<dynamic> ds) {
+  final professors = <Professor>[];
+  for (final map in ds) {
+    for (final docente in map['docentes'] as Iterable) {
+      final professor = Professor(
+        code: docente['doc_codigo'].toString(),
+        name: docente['nome'].toString(),
+        classes: [map['tipo'].toString()],
+        regent: false,
+      );
+      if (professors.contains(professor)) {
+        professors[professors.indexWhere((element) => element == professor)]
+            .classes
+            .add(map['tipo'].toString());
+      } else {
+        professors.add(professor);
+      }
+    }
   }
-  return Sheet(sheet);
+  return professors;
 }
 
 Future<CourseUnitSheet> parseCourseUnitSheet(http.Response response) async {
