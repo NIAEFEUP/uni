@@ -43,7 +43,11 @@ class CourseUnitSheetView extends StatelessWidget {
                     ...(snapshot.data ?? []).map((regent) {
                       return CircleAvatar(
                         radius: 40,
-                        backgroundImage: FileImage(regent.picture!),
+                        backgroundImage: regent.picture != null
+                            ? FileImage(regent.picture!) as ImageProvider
+                            : const AssetImage(
+                                'assets/images/profile_placeholder.png',
+                              ), // Provide path to your default image asset
                       );
                     }),
                   ],
