@@ -1,7 +1,7 @@
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 
-abstract class GenericExpandable extends StatelessWidget {
+class GenericExpandable extends StatelessWidget {
   const GenericExpandable(
       {super.key, required this.title, required this.content});
 
@@ -23,9 +23,12 @@ abstract class GenericExpandable extends StatelessWidget {
           end: Alignment.bottomCenter,
         ).createShader(bounds),
         blendMode: BlendMode.dstIn,
-        child: LimitedBox(
-          maxHeight: 100,
-          child: content,
+        child: ClipRect(
+          child: Align(
+            alignment: Alignment.topCenter,
+            heightFactor: 0.25,
+            child: content,
+          ),
         ),
       ),
       expanded: content,

@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import 'dart:collection';
 import 'dart:convert';
 
@@ -5,10 +7,10 @@ import 'package:html/parser.dart';
 import 'package:http/http.dart' as http;
 import 'package:uni/controller/fetchers/course_units_fetcher/course_units_info_fetcher.dart';
 import 'package:uni/model/entities/course_units/course_unit_class.dart';
-import 'package:uni/model/entities/course_units/sheet.dart';
 import 'package:uni/model/entities/course_units/course_unit_directory.dart';
 import 'package:uni/model/entities/course_units/course_unit_file.dart';
 import 'package:uni/model/entities/course_units/course_unit_sheet.dart';
+import 'package:uni/model/entities/course_units/sheet.dart';
 import 'package:uni/model/entities/session.dart';
 
 Future<List<CourseUnitFileDirectory>> parseFiles(
@@ -52,8 +54,6 @@ Future<Sheet> parseSheet(http.Response response) async {
   json['responsabilidades'].forEach((dynamic element) {
     regents.add(Professor.fromJson(element as Map<String, dynamic>));
   });
-
-  print(regents);
 
   return Sheet(
     professors: professors,
