@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:convert';
 
 import 'package:html/parser.dart';
@@ -68,7 +69,7 @@ List<Professor> getCourseUnitProfessors(List<dynamic> ds) {
     for (final docente in map['docentes'] as Iterable) {
       final professor = Professor(
         code: docente['doc_codigo'].toString(),
-        name: docente['nome'].toString(),
+        name: shortName(docente['nome'].toString()),
         classes: [map['tipo'].toString()],
       );
       if (professors.contains(professor)) {
@@ -159,4 +160,9 @@ List<CourseUnitClass> parseCourseUnitClasses(
 String _htmlAfterElement(String body, String elementOuterHtml) {
   final index = body.indexOf(elementOuterHtml) + elementOuterHtml.length;
   return body.substring(index, body.indexOf('<h3>', index));
+}
+
+String shortName(String name) {
+  final splitName = name.split(' ');
+  return '${splitName.first} ${splitName.last}';
 }

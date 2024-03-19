@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:uni/controller/parsers/parser_course_unit_info.dart';
 
 class Sheet {
   Sheet({
@@ -27,7 +28,7 @@ class Professor {
   factory Professor.fromJson(Map<String, dynamic> json) {
     return Professor(
       code: json['codigo'].toString(),
-      name: json['nome'].toString(),
+      name: shortName(json['nome'].toString()),
       classes: [],
     );
   }
