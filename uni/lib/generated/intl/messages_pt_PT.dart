@@ -127,6 +127,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "expired_password":
             MessageLookupByLibrary.simpleMessage("A tua palavra-passe expirou"),
         "failed_login": MessageLookupByLibrary.simpleMessage("O login falhou"),
+        "feature_flags":
+            MessageLookupByLibrary.simpleMessage("Features experimentais"),
         "fee_date": MessageLookupByLibrary.simpleMessage(
             "Data limite próxima prestação:"),
         "fee_notification":
@@ -152,6 +154,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "language": MessageLookupByLibrary.simpleMessage("Idioma"),
         "last_refresh_time": m0,
         "last_timestamp": m1,
+        "library_modules":
+            MessageLookupByLibrary.simpleMessage("Módulos da biblioteca"),
         "library_occupation":
             MessageLookupByLibrary.simpleMessage("Ocupação da Biblioteca"),
         "load_error": MessageLookupByLibrary.simpleMessage(

@@ -315,5 +315,9 @@
   "collect_usage_stats": "Partilhar estatísticas de uso",
   "@collect_usage_stats": {},
   "try_again": "Tentar de novo",
-  "@try_again": {}
+  "@try_again": {},
+  "feature_flags": "Features experimentais",
+  "@feature_flags": {},
+  "library_modules": "Módulos da biblioteca",
+  "@library_modules": {}
 }

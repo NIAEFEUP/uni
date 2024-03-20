@@ -128,6 +128,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "expired_password":
             MessageLookupByLibrary.simpleMessage("Your password has expired"),
         "failed_login": MessageLookupByLibrary.simpleMessage("Login failed"),
+        "feature_flags":
+            MessageLookupByLibrary.simpleMessage("Experimental features"),
         "fee_date":
             MessageLookupByLibrary.simpleMessage("Deadline for next fee:"),
         "fee_notification":
@@ -152,6 +154,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "language": MessageLookupByLibrary.simpleMessage("Language"),
         "last_refresh_time": m0,
         "last_timestamp": m1,
+        "library_modules":
+            MessageLookupByLibrary.simpleMessage("Library modules"),
         "library_occupation":
             MessageLookupByLibrary.simpleMessage("Library Occupation"),
         "load_error": MessageLookupByLibrary.simpleMessage(
@@ -224,6 +228,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
         "occurrence_type":
             MessageLookupByLibrary.simpleMessage("Type of occurrence"),
+        "of_month": MessageLookupByLibrary.simpleMessage("of"),
         "of_month": MessageLookupByLibrary.simpleMessage("of"),
         "open_error":
             MessageLookupByLibrary.simpleMessage("Error opening the file"),
