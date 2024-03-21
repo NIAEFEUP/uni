@@ -28,6 +28,7 @@ jobs:
         with:
           channel: stable
           flutter-version: ${{ steps.get_flutter_version.outputs.result }}
+          cache: true
 
       - run: dart format $(find . -type f -name "*.dart" -a -not -name "*.g.dart" -a -not -name "*.mocks.dart") --set-exit-if-changed
 
@@ -58,6 +59,7 @@ jobs:
         with:
           channel: stable
           flutter-version: ${{ steps.get_flutter_version.outputs.result }}
+          cache: true
 
       - run: flutter analyze .
 
@@ -86,6 +88,7 @@ jobs:
         with:
           channel: stable
           flutter-version: ${{ steps.get_flutter_version.outputs.result }}
+          cache: true
 
       - name: Test with coverage
         run: flutter test --coverage
