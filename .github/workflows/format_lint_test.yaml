@@ -52,7 +52,7 @@ jobs:
         id: get_flutter_version
         with:
           cmd: yq '.environment.flutter' uni/pubspec.yaml
-  
+
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
@@ -80,7 +80,7 @@ jobs:
         id: get_flutter_version
         with:
           cmd: yq '.environment.flutter' uni/pubspec.yaml
-    
+
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
