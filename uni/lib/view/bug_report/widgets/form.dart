@@ -240,6 +240,8 @@ class BugReportFormState extends State<BugReportForm> {
   /// report is created in the project repository.
   /// If unsuccessful, the user receives an error message.
   Future<void> submitBugReport() async {
+    final s = S.of(context);
+
     setState(() {
       _isButtonTapped = true;
     });
@@ -256,18 +258,18 @@ class BugReportFormState extends State<BugReportForm> {
     try {
       await submitSentryEvent(bugReport);
       Logger().i('Successfully submitted bug report.');
-      if (context.mounted) toastMsg = S.of(context).success;
+      if (context.mounted) toastMsg = s.success;
       status = true;
     } catch (e, stackTrace) {
       await Sentry.captureException(e, stackTrace: stackTrace);
       Logger().e('Error while posting bug report:$e');
-      if (context.mounted) toastMsg = S.of(context).sent_error;
+      if (context.mounted) toastMsg = s.sent_error;
       status = false;
     }
 
     clearForm();
 
-    if (context.mounted) {
+    if (mounted) {
       FocusScope.of(context).requestFocus(FocusNode());
       status
           ? await ToastMessage.success(context, toastMsg)
