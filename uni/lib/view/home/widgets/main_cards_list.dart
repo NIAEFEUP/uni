@@ -52,8 +52,6 @@ class MainCardsList extends StatefulWidget {
 }
 
 class MainCardsListState extends State<MainCardsList> {
-  MainCardsListState();
-
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -78,7 +76,6 @@ class MainCardsListState extends State<MainCardsList> {
                     ),
                   )
                 : ListView(
-                    padding: EdgeInsets.zero,
                     children: <Widget>[
                       createTopBar(context),
                       ...favoriteCardsFromTypes(
