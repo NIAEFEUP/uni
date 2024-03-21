@@ -14,6 +14,7 @@ class BackButtonExitWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // ignore: deprecated_member_use, see #1209
     return WillPopScope(
       onWillPop: () {
         final userActionCompleter = Completer<bool>();
