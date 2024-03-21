@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:uni/generated/l10n.dart';
 
@@ -12,14 +14,10 @@ class BackButtonExitWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      canPop: false,
-      onPopInvoked: (didPop) async {
-        if (didPop) {
-          return;
-        }
-
-        final shouldPop = await showDialog<bool>(
+    return WillPopScope(
+      onWillPop: () {
+        final userActionCompleter = Completer<bool>();
+        showDialog<void>(
           context: context,
           builder: (context) => AlertDialog(
             title: Text(
@@ -28,19 +26,23 @@ class BackButtonExitWrapper extends StatelessWidget {
             ),
             actions: <Widget>[
               ElevatedButton(
-                onPressed: () => Navigator.of(context).pop(false),
+                onPressed: () {
+                  userActionCompleter.complete(false);
+                  Navigator.of(context).pop(false);
+                },
                 child: Text(S.of(context).no),
               ),
               ElevatedButton(
-                onPressed: () => Navigator.of(context).pop(true),
+                onPressed: () {
+                  userActionCompleter.complete(true);
+                  Navigator.of(context).pop(false);
+                },
                 child: Text(S.of(context).yes),
               ),
             ],
           ),
         );
-        if ((shouldPop ?? false) && context.mounted) {
-          Navigator.of(context).pop();
-        }
+        return userActionCompleter.future;
       },
       child: child,
     );

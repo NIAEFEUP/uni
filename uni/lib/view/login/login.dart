@@ -65,9 +65,6 @@ class LoginPageViewState extends State<LoginPageView> {
             context,
             '/${NavigationItem.navPersonalArea.route}',
           );
-          if (!mounted) {
-            return;
-          }
           setState(() {
             _loggingIn = false;
           });
