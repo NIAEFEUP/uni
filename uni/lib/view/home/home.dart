@@ -14,6 +14,7 @@ class HomePageView extends StatefulWidget {
 
 class HomePageViewState extends GeneralPageViewState {
   bool isBannerViewed = true;
+  bool isEditing = false;
   List<FavoriteWidgetType> favoriteCardTypes =
       PreferencesController.getFavoriteCards();
 
@@ -41,6 +42,12 @@ class HomePageViewState extends GeneralPageViewState {
     PreferencesController.saveFavoriteCards(favorites);
   }
 
+  void toggleEditing() {
+    setState(() {
+      isEditing = !isEditing;
+    });
+  }
+
   @override
   Widget getBody(BuildContext context) {
     return Column(
@@ -50,7 +57,12 @@ class HomePageViewState extends GeneralPageViewState {
           child: TrackingBanner(setBannerViewed),
         ),
         Expanded(
-          child: MainCardsList(favoriteCardTypes, setFavoriteCards),
+          child: MainCardsList(
+            favoriteCardTypes,
+            saveFavoriteCards: setFavoriteCards,
+            isEditing: isEditing,
+            toggleEditing: toggleEditing,
+          ),
         ),
       ],
     );

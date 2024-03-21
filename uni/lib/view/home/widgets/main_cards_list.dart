@@ -22,13 +22,17 @@ typedef CardCreator = GenericCard Function(
 
 class MainCardsList extends StatefulWidget {
   const MainCardsList(
-    this.favoriteCardTypes,
-    this.saveFavoriteCards, {
+    this.favoriteCardTypes, {
+    required this.saveFavoriteCards,
+    required this.isEditing,
+    required this.toggleEditing,
     super.key,
   });
 
   final List<FavoriteWidgetType> favoriteCardTypes;
   final void Function(List<FavoriteWidgetType>) saveFavoriteCards;
+  final bool isEditing;
+  final void Function() toggleEditing;
 
   static Map<FavoriteWidgetType, CardCreator> cardCreators = {
     FavoriteWidgetType.schedule: ScheduleCard.fromEditingInformation,
@@ -48,16 +52,14 @@ class MainCardsList extends StatefulWidget {
 }
 
 class MainCardsListState extends State<MainCardsList> {
-  bool isEditing = false;
+  MainCardsListState();
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        if (isEditing) {
-          setState(() {
-            isEditing = false;
-          });
+        if (widget.isEditing) {
+          widget.toggleEditing();
           return false;
         }
         return true;
@@ -66,18 +68,9 @@ class MainCardsListState extends State<MainCardsList> {
         body: BackButtonExitWrapper(
           child: SizedBox(
             height: MediaQuery.of(context).size.height,
-            child: isEditing
+            child: widget.isEditing
                 ? ReorderableListView(
-                    onReorder: (oldIndex, newIndex) {
-                      setState(() {
-                        if (oldIndex < newIndex) {
-                          newIndex -= 1;
-                        }
-                        final item =
-                            widget.favoriteCardTypes.removeAt(oldIndex);
-                        widget.favoriteCardTypes.insert(newIndex, item);
-                      });
-                    },
+                    onReorder: reorderCard,
                     header: createTopBar(context),
                     children: favoriteCardsFromTypes(
                       widget.favoriteCardTypes,
@@ -85,6 +78,7 @@ class MainCardsListState extends State<MainCardsList> {
                     ),
                   )
                 : ListView(
+                    padding: EdgeInsets.zero,
                     children: <Widget>[
                       createTopBar(context),
                       ...favoriteCardsFromTypes(
@@ -95,52 +89,39 @@ class MainCardsListState extends State<MainCardsList> {
                   ),
           ),
         ),
-        floatingActionButton: isEditing ? createActionButton(context) : null,
+        floatingActionButton:
+            widget.isEditing ? createActionButton(context) : null,
       ),
     );
   }
 
   Widget createActionButton(BuildContext context) {
     return FloatingActionButton(
-      onPressed: () async {
-        final result = await showDialog<bool>(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text(
-                S.of(context).widget_prompt,
-                style: Theme.of(context).textTheme.headlineSmall,
-              ),
-              content: SizedBox(
-                height: 200,
-                width: 100,
-                child: ListView(children: getCardAdders(context)),
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop(false);
-                  },
-                  child: Text(S.of(context).cancel),
+      onPressed: () => showDialog<void>(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(
+              S.of(context).widget_prompt,
+              style: Theme.of(context).textTheme.headlineSmall,
+            ),
+            content: SizedBox(
+              height: 200,
+              width: 100,
+              child: ListView(children: getCardAdders(context)),
+            ),
+            actions: [
+              TextButton(
+                child: Text(
+                  S.of(context).cancel,
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop(true);
-                  },
-                  child: Text(S.of(context).yes),
-                ),
-              ],
-            );
-          },
-        );
-
-        if (result ?? false) {
-          widget.saveFavoriteCards(widget.favoriteCardTypes);
-          setState(() {
-            isEditing = true;
-          });
-        }
-      },
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          );
+        },
+      ), //Add FAB functionality here
       tooltip: S.of(context).add_widget,
       child: Icon(Icons.add, color: Theme.of(context).colorScheme.onPrimary),
     );
@@ -189,20 +170,16 @@ class MainCardsListState extends State<MainCardsList> {
             center: false,
             pad: false,
           ),
-          if (isEditing)
+          if (widget.isEditing)
             ElevatedButton(
-              onPressed: () => setState(() {
-                isEditing = false;
-              }),
+              onPressed: widget.toggleEditing,
               child: Text(
                 S.of(context).edit_on,
               ),
             )
           else
             OutlinedButton(
-              onPressed: () => setState(() {
-                isEditing = true;
-              }),
+              onPressed: widget.toggleEditing,
               child: Text(
                 S.of(context).edit_off,
               ),
@@ -225,7 +202,7 @@ class MainCardsListState extends State<MainCardsList> {
       final i = cardTypes.indexOf(type);
       return MainCardsList.cardCreators[type]!(
         Key(i.toString()),
-        editingMode: isEditing,
+        editingMode: widget.isEditing,
         onDelete: () => removeCardIndexFromFavorites(i, context),
       );
     }).toList();
@@ -245,16 +222,16 @@ class MainCardsListState extends State<MainCardsList> {
   }
 
   void removeCardIndexFromFavorites(int i, BuildContext context) {
-    setState(() {
-      widget.favoriteCardTypes.removeAt(i);
-    });
+    final favorites = List<FavoriteWidgetType>.from(widget.favoriteCardTypes)
+      ..removeAt(i);
+    widget.saveFavoriteCards(favorites);
   }
 
   void addCardToFavorites(FavoriteWidgetType type, BuildContext context) {
-    setState(() {
-      if (!widget.favoriteCardTypes.contains(type)) {
-        widget.favoriteCardTypes.add(type);
-      }
-    });
+    final favorites = List<FavoriteWidgetType>.from(widget.favoriteCardTypes);
+    if (!favorites.contains(type)) {
+      favorites.add(type);
+    }
+    widget.saveFavoriteCards(favorites);
   }
 }
