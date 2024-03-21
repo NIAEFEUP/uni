@@ -18,7 +18,6 @@ jobs:
     env:
       PROPERTIES_PATH: "android/key.properties"
       JAVA_VERSION: "17.x"
-      FLUTTER_VERSION: "3.13.7"
       APP_VERSION_PATH: "app_version.txt"
       PUBSPEC_PATH: "pubspec.yaml"
     defaults:
@@ -106,9 +105,19 @@ jobs:
         with:
           java-version: ${{env.JAVA_VERSION}}
           distribution: "zulu"
-      - uses: subosito/flutter-action@v2
+
+      - uses: mikefarah/yq@master
+        name: Get Flutter version
+        id: get_flutter_version
         with:
-          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cmd: yq '.environment.flutter' pubspec.yaml
+          
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: ${{ steps.get_flutter_version.outputs.result }}
+          architecture: x64
 
       - name: Download Android keystore
         run: echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 --decode > /tmp/key.jks
