@@ -58,7 +58,6 @@ jobs:
         with:
           channel: stable
           flutter-version: ${{ steps.get_flutter_version.outputs.result }}
-          architecture: x64
 
       - run: flutter analyze .
 
@@ -87,7 +86,6 @@ jobs:
         with:
           channel: stable
           flutter-version: ${{ steps.get_flutter_version.outputs.result }}
-          architecture: x64
 
       - name: Test with coverage
         run: flutter test --coverage

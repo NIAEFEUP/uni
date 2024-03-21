@@ -117,7 +117,6 @@ jobs:
         with:
           channel: stable
           flutter-version: ${{ steps.get_flutter_version.outputs.result }}
-          architecture: x64
 
       - name: Download Android keystore
         run: echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 --decode > /tmp/key.jks
