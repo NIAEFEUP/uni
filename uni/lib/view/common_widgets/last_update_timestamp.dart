@@ -24,13 +24,12 @@ class _LastUpdateTimeStampState<T extends StateProviderNotifier<dynamic>>
     super.initState();
     Timer.periodic(
       const Duration(seconds: 60),
-      (timer) => {
-        if (mounted)
-          {
-            setState(() {
-              currentTime = DateTime.now();
-            }),
-          },
+      (timer) {
+        if (mounted) {
+          setState(() {
+            currentTime = DateTime.now();
+          });
+        }
       },
     );
   }

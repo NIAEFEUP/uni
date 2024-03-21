@@ -25,6 +25,7 @@ class MessageToast extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // ignore: deprecated_member_use, see #1210
     return WillPopScope(
       onWillPop: () async => false,
       child: Dialog(
