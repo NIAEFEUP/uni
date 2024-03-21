@@ -113,7 +113,9 @@ class NotificationManager {
   Future<void> initializeNotifications() async {
     // guarantees that the execution is only done
     // once in the lifetime of the app.
-    if (_initialized) return;
+    if (_initialized) {
+      return;
+    }
     _initialized = true;
     await _initFlutterNotificationsPlugin();
     await _buildNotificationWorker();

@@ -16,12 +16,16 @@ class LibraryOccupation {
   }
 
   int get percentage {
-    if (capacity <= 0) return 0;
+    if (capacity <= 0) {
+      return 0;
+    }
     return min(100, (occupation * 100 / capacity).round());
   }
 
   FloorOccupation getFloor(int number) {
-    if (floors.length < number || number < 0) return FloorOccupation(0, 0, 0);
+    if (floors.length < number || number < 0) {
+      return FloorOccupation(0, 0, 0);
+    }
     return floors[number - 1];
   }
 }
@@ -34,7 +38,9 @@ class FloorOccupation {
   final int capacity;
 
   int get percentage {
-    if (capacity <= 0) return 0;
+    if (capacity <= 0) {
+      return 0;
+    }
     return min(100, (occupation * 100 / capacity).round());
   }
 

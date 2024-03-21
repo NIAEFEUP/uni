@@ -47,7 +47,7 @@ class ProfilePageViewState extends SecondaryPageViewState<ProfilePageView> {
           ],
         );
       },
-      hasContent: (Profile profile) => profile.courses.isNotEmpty,
+      hasContent: (profile) => profile.courses.isNotEmpty,
       onNullContent: Container(),
     );
   }

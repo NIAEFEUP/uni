@@ -12,11 +12,11 @@ class LocationMarker extends Marker {
           height: 20,
           width: 20,
           point: latlng,
-          builder: (BuildContext ctx) => DecoratedBox(
+          builder: (context) => DecoratedBox(
             decoration: BoxDecoration(
-              color: Theme.of(ctx).colorScheme.background,
+              color: Theme.of(context).colorScheme.background,
               border: Border.all(
-                color: Theme.of(ctx).colorScheme.primary,
+                color: Theme.of(context).colorScheme.primary,
               ),
               borderRadius: const BorderRadius.all(Radius.circular(20)),
             ),

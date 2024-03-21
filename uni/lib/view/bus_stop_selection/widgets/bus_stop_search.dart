@@ -62,14 +62,16 @@ class BusStopSearch extends SearchDelegate<String> {
 
   /// Returns a widget for the list of search suggestions displayed to  the user
   Widget getSuggestionList(BuildContext context) {
-    if (suggestionsList.isEmpty) return ListView();
+    if (suggestionsList.isEmpty) {
+      return ListView();
+    }
     return ListView.builder(
       itemBuilder: (context, index) => ListTile(
         onTap: () {
           Navigator.pop(context);
           showDialog<void>(
             context: context,
-            builder: (BuildContext context) {
+            builder: (context) {
               return busListing(context, suggestionsList[index]);
             },
           );
@@ -132,7 +134,7 @@ class BusStopSearch extends SearchDelegate<String> {
   Widget buildSuggestions(BuildContext context) {
     return FutureBuilder(
       future: getStops(),
-      builder: (BuildContext context, AsyncSnapshot<List<String>?> snapshot) {
+      builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         }

@@ -102,7 +102,9 @@ class Week implements Comparable<Week> {
 
   @override
   bool operator ==(Object other) {
-    if (identical(this, other)) return true;
+    if (identical(this, other)) {
+      return true;
+    }
     return other is Week && other.start == start;
   }
 
