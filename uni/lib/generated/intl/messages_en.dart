@@ -35,7 +35,9 @@ class MessageLookup extends MessageLookupByLibrary {
             'restaurantes': 'Restaurants',
             'calendario': 'Calendar',
             'biblioteca': 'Library',
-            'uteis': 'Utils',
+            'percurso_academico': 'Academic Path',
+            'transportes': 'Transports',
+            'faculdade': 'Faculty',
             'other': 'Other',
           })}";
 
@@ -112,6 +114,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "D. Beatriz\'s stationery store"),
         "dona_bia_building": MessageLookupByLibrary.simpleMessage(
             "Floor -1 of building B (B-142)"),
+        "download_error":
+            MessageLookupByLibrary.simpleMessage("Error downloading the file"),
         "ects": MessageLookupByLibrary.simpleMessage("ECTS performed: "),
         "edit_off": MessageLookupByLibrary.simpleMessage("Edit"),
         "edit_on": MessageLookupByLibrary.simpleMessage("Exit edit mode"),
@@ -128,6 +132,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Deadline for next fee:"),
         "fee_notification":
             MessageLookupByLibrary.simpleMessage("Fee deadline"),
+        "files": MessageLookupByLibrary.simpleMessage("Files"),
         "first_year_registration": MessageLookupByLibrary.simpleMessage(
             "Year of first registration: "),
         "floor": MessageLookupByLibrary.simpleMessage("Floor"),
@@ -163,6 +168,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "nav_title": m2,
         "news": MessageLookupByLibrary.simpleMessage("News"),
         "no": MessageLookupByLibrary.simpleMessage("No"),
+        "no_app": MessageLookupByLibrary.simpleMessage(
+            "No app found to open the file"),
         "no_bus": MessageLookupByLibrary.simpleMessage("Don\'t miss any bus!"),
         "no_bus_stops":
             MessageLookupByLibrary.simpleMessage("No configured stops"),
@@ -172,20 +179,27 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("No classes to present"),
         "no_classes_on":
             MessageLookupByLibrary.simpleMessage("You don\'t have classes on"),
+        "no_classes_on_weekend":
+            MessageLookupByLibrary.simpleMessage("You don\'t have classes on"),
         "no_college": MessageLookupByLibrary.simpleMessage("no college"),
         "no_course_units": MessageLookupByLibrary.simpleMessage(
             "No course units in the selected period"),
         "no_data": MessageLookupByLibrary.simpleMessage(
             "There is no data to show at this time"),
         "no_date": MessageLookupByLibrary.simpleMessage("No date"),
+        "no_events": MessageLookupByLibrary.simpleMessage("No events found"),
         "no_exams": MessageLookupByLibrary.simpleMessage(
             "You have no exams scheduled\n"),
         "no_exams_label": MessageLookupByLibrary.simpleMessage(
             "Looks like you are on vacation!"),
         "no_favorite_restaurants":
             MessageLookupByLibrary.simpleMessage("No favorite restaurants"),
+        "no_files_found":
+            MessageLookupByLibrary.simpleMessage("No files found"),
         "no_info": MessageLookupByLibrary.simpleMessage(
             "There is no information to display"),
+        "no_internet": MessageLookupByLibrary.simpleMessage(
+            "It looks like you\'re offline"),
         "no_library_info": MessageLookupByLibrary.simpleMessage(
             "No library occupation information available"),
         "no_link":
@@ -211,12 +225,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "occurrence_type":
             MessageLookupByLibrary.simpleMessage("Type of occurrence"),
         "of_month": MessageLookupByLibrary.simpleMessage("of"),
+        "open_error":
+            MessageLookupByLibrary.simpleMessage("Error opening the file"),
         "other_links": MessageLookupByLibrary.simpleMessage("Other links"),
         "pass_change_request": MessageLookupByLibrary.simpleMessage(
             "For security reasons, passwords must be changed periodically."),
         "password": MessageLookupByLibrary.simpleMessage("password"),
         "pendent_references":
             MessageLookupByLibrary.simpleMessage("Pending references"),
+        "permission_denied":
+            MessageLookupByLibrary.simpleMessage("Permission denied"),
         "personal_assistance":
             MessageLookupByLibrary.simpleMessage("Face-to-face assistance"),
         "press_again":
@@ -238,6 +256,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "room": MessageLookupByLibrary.simpleMessage("Room"),
         "school_calendar":
             MessageLookupByLibrary.simpleMessage("School Calendar"),
+        "search": MessageLookupByLibrary.simpleMessage("Search"),
         "semester": MessageLookupByLibrary.simpleMessage("Semester"),
         "send": MessageLookupByLibrary.simpleMessage("Send"),
         "sent_error": MessageLookupByLibrary.simpleMessage(
@@ -249,6 +268,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "student_number":
             MessageLookupByLibrary.simpleMessage("student number"),
         "success": MessageLookupByLibrary.simpleMessage("Sent with success"),
+        "successful_open":
+            MessageLookupByLibrary.simpleMessage("File opened successfully"),
         "tele_assistance":
             MessageLookupByLibrary.simpleMessage("Telephone assistance"),
         "tele_personal_assistance": MessageLookupByLibrary.simpleMessage(
@@ -257,6 +278,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "terms": MessageLookupByLibrary.simpleMessage("Terms and Conditions"),
         "theme": MessageLookupByLibrary.simpleMessage("Theme"),
         "title": MessageLookupByLibrary.simpleMessage("Title"),
+        "try_again": MessageLookupByLibrary.simpleMessage("Try again"),
+        "uc_info": MessageLookupByLibrary.simpleMessage("Open UC page"),
         "unavailable": MessageLookupByLibrary.simpleMessage("Unavailable"),
         "valid_email":
             MessageLookupByLibrary.simpleMessage("Please enter a valid email"),

@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/bus_stop.dart';
 import 'package:uni/model/providers/lazy/bus_stop_provider.dart';
-import 'package:uni/utils/drawer_items.dart';
+import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/bus_stop_next_arrivals/widgets/bus_stop_row.dart';
 import 'package:uni/view/bus_stop_selection/bus_stop_selection.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
@@ -12,6 +12,8 @@ import 'package:uni/view/lazy_consumer.dart';
 
 /// Manages the bus stops card displayed on the user's personal area
 class BusStopCard extends GenericCard {
+  BusStopCard({super.key});
+
   const BusStopCard.fromEditingInformation(
     super.key, {
     required super.editingMode,
@@ -20,11 +22,11 @@ class BusStopCard extends GenericCard {
 
   @override
   String getTitle(BuildContext context) =>
-      S.of(context).nav_title(DrawerItem.navStops.title);
+      S.of(context).nav_title(NavigationItem.navStops.route);
 
   @override
   Future<Object?> onClick(BuildContext context) =>
-      Navigator.pushNamed(context, '/${DrawerItem.navStops.title}');
+      Navigator.pushNamed(context, '/${NavigationItem.navStops.route}');
 
   @override
   Widget buildCardContent(BuildContext context) {

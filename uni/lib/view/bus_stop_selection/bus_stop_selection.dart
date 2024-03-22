@@ -6,7 +6,6 @@ import 'package:uni/model/entities/bus_stop.dart';
 import 'package:uni/model/providers/lazy/bus_stop_provider.dart';
 import 'package:uni/view/bus_stop_selection/widgets/bus_stop_search.dart';
 import 'package:uni/view/bus_stop_selection/widgets/bus_stop_selection_row.dart';
-import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
 
 class BusStopSelectionPage extends StatefulWidget {
@@ -49,7 +48,6 @@ class BusStopSelectionPageState
             bottom: 20,
           ),
           children: <Widget>[
-            PageTitle(name: S.of(context).configured_buses),
             Container(
               padding: const EdgeInsets.all(20),
               child: Text(
@@ -85,4 +83,7 @@ class BusStopSelectionPageState
 
   @override
   Future<void> onRefresh(BuildContext context) async {}
+
+  @override
+  String? getTitle() => S.of(context).configured_buses;
 }

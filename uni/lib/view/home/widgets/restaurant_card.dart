@@ -6,9 +6,8 @@ import 'package:uni/model/entities/meal.dart';
 import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/providers/lazy/restaurant_provider.dart';
 import 'package:uni/model/utils/day_of_week.dart';
-import 'package:uni/utils/drawer_items.dart';
+import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
-import 'package:uni/view/common_widgets/row_container.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/restaurant/widgets/restaurant_slot.dart';
 
@@ -23,11 +22,11 @@ class RestaurantCard extends GenericCard {
 
   @override
   String getTitle(BuildContext context) =>
-      S.of(context).nav_title(DrawerItem.navRestaurants.title);
+      S.of(context).nav_title(NavigationItem.navRestaurants.route);
 
   @override
   Future<Object?> onClick(BuildContext context) =>
-      Navigator.pushNamed(context, '/${DrawerItem.navRestaurants.title}');
+      Navigator.pushNamed(context, '/${NavigationItem.navRestaurants.route}');
 
   @override
   void onRefresh(BuildContext context) {
@@ -63,7 +62,7 @@ class RestaurantCard extends GenericCard {
           OutlinedButton(
             onPressed: () => Navigator.pushNamed(
               context,
-              '/${DrawerItem.navRestaurants.title}',
+              '/${NavigationItem.navRestaurants.route}',
             ),
             child: Text(S.of(context).add),
           ),
@@ -140,29 +139,15 @@ class RestaurantCard extends GenericCard {
           ),
         ),
         if (meals.isNotEmpty)
-          Card(
-            elevation: 0,
-            child: RowContainer(
-              borderColor: Colors.transparent,
-              color: const Color.fromARGB(0, 0, 0, 0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: createRestaurantRows(meals, context),
-              ),
-            ),
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            children: createRestaurantRows(meals, context),
           )
         else
-          Card(
-            elevation: 0,
-            child: RowContainer(
-              borderColor: Colors.transparent,
-              color: const Color.fromARGB(0, 0, 0, 0),
-              child: Container(
-                padding: const EdgeInsets.fromLTRB(9, 0, 0, 0),
-                width: 400,
-                child: Text(S.of(context).no_menu_info),
-              ),
-            ),
+          Container(
+            padding: const EdgeInsets.fromLTRB(9, 0, 0, 0),
+            width: 400,
+            child: Text(S.of(context).no_menu_info),
           ),
         const SizedBox(height: 10),
       ],

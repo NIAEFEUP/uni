@@ -54,11 +54,13 @@ class _ExamRowState extends State<ExamRow> {
                 children: <Widget>[
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ExamTime(
-                        begin: widget.exam.beginTime,
-                      ),
-                    ],
+                    children: widget.exam.beginTime != '00:00'
+                        ? [
+                            ExamTime(
+                              begin: widget.exam.beginTime,
+                            ),
+                          ]
+                        : [],
                   ),
                   ExamTitle(
                     subject: widget.exam.subject,
@@ -122,7 +124,7 @@ class _ExamRowState extends State<ExamRow> {
   }
 
   Widget? getExamRooms(BuildContext context) {
-    if (widget.exam.rooms[0] == '') return null;
+    if (widget.exam.rooms.isEmpty || widget.exam.rooms[0] == '') return null;
     return Wrap(
       spacing: 13,
       children: roomsList(context, widget.exam.rooms),

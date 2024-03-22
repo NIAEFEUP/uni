@@ -6,6 +6,8 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/app_locale.dart';
+import 'package:uni/model/entities/profile.dart';
+import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/view/locale_notifier.dart';
 
 Future<void> initTestEnvironment() async {
@@ -22,6 +24,9 @@ Widget testableWidget(
     providers: [
       ChangeNotifierProvider<LocaleNotifier>(
         create: (_) => LocaleNotifier(AppLocale.pt),
+      ),
+      ChangeNotifierProvider(
+        create: (_) => ProfileProvider()..setState(Profile()),
       ),
       ...providers,
     ],

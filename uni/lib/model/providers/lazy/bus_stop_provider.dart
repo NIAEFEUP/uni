@@ -7,7 +7,7 @@ import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/model/providers/state_providers.dart';
 
 class BusStopProvider extends StateProviderNotifier<Map<String, BusStopData>> {
-  BusStopProvider() : super(cacheDuration: null);
+  BusStopProvider() : super(cacheDuration: null, dependsOnSession: false);
 
   @override
   Future<Map<String, BusStopData>> loadFromStorage(
@@ -59,7 +59,7 @@ class BusStopProvider extends StateProviderNotifier<Map<String, BusStopData>> {
     state!.remove(stopCode);
 
     notifyListeners();
-    await fetchUserBusTrips(state!);
+    await fetchUserBusTrips(Map.of(state!));
     notifyListeners();
 
     final db = AppBusStopDatabase();

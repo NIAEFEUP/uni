@@ -1,4 +1,4 @@
-enum DrawerItem {
+enum NavigationItem {
   navPersonalArea('area'),
   navSchedule('horario'),
   navExams('exames'),
@@ -8,11 +8,16 @@ enum DrawerItem {
   navRestaurants('restaurantes'),
   navCalendar('calendario'),
   navLibrary('biblioteca', faculties: {'feup'}),
-  navUsefulInfo('uteis', faculties: {'feup'});
+  navFaculty('faculdade'),
+  navAcademicPath('percurso_academico'),
+  navProfile('perfil'),
+  navSettings('definicoes'),
+  navTransports('transportes'),
+  navLogin('login');
 
-  const DrawerItem(this.title, {this.faculties});
+  const NavigationItem(this.route, {this.faculties});
 
-  final String title;
+  final String route;
   final Set<String>? faculties;
 
   bool isVisible(List<String> userFaculties) {

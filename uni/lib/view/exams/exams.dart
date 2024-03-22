@@ -4,11 +4,12 @@ import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/providers/lazy/exam_provider.dart';
+import 'package:uni/utils/date_time_formatter.dart';
+import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/expanded_image_label.dart';
-import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
+import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni/view/common_widgets/row_container.dart';
-import 'package:uni/view/exams/widgets/day_title.dart';
-import 'package:uni/view/exams/widgets/exam_page_title.dart';
+import 'package:uni/view/exams/widgets/exam_filter_button.dart';
 import 'package:uni/view/exams/widgets/exam_row.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locale_notifier.dart';
@@ -20,7 +21,7 @@ class ExamsPageView extends StatefulWidget {
   State<StatefulWidget> createState() => ExamsPageViewState();
 }
 
-class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
+class ExamsPageViewState extends SecondaryPageViewState<ExamsPageView> {
   List<String> hiddenExams = PreferencesController.getHiddenExams();
   Map<String, bool> filteredExamTypes =
       PreferencesController.getFilteredExams();
@@ -29,24 +30,21 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
   Widget getBody(BuildContext context) {
     return ListView(
       children: [
-        ExamPageTitle(
-          () => setState(() {
-            filteredExamTypes = PreferencesController.getFilteredExams();
-          }),
-        ),
         LazyConsumer<ExamProvider, List<Exam>>(
-          builder: (context, exams) => Column(
-            children: createExamsColumn(
-              context,
-              exams
-                  .where(
-                    (exam) =>
-                        filteredExamTypes[Exam.getExamTypeLong(exam.type)] ??
-                        true,
-                  )
-                  .toList(),
-            ),
-          ),
+          builder: (context, exams) {
+            return Column(
+              children: createExamsColumn(
+                context,
+                exams
+                    .where(
+                      (exam) =>
+                          filteredExamTypes[Exam.getExamTypeLong(exam.type)] ??
+                          true,
+                    )
+                    .toList(),
+              ),
+            );
+          },
           hasContent: (exams) => exams.isNotEmpty,
           onNullContent: Center(
             heightFactor: 1.2,
@@ -120,10 +118,14 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
   Widget createExamsCards(BuildContext context, List<Exam> exams) {
     final locale = Provider.of<LocaleNotifier>(context).getLocale();
     final examCards = <Widget>[
-      DayTitle(
-        day: exams[0].begin.day.toString(),
-        weekDay: exams[0].weekDay(locale),
-        month: exams[0].month(locale),
+      Container(
+        padding: const EdgeInsets.only(top: 15, bottom: 3),
+        alignment: Alignment.center,
+        child: Text(
+          '${exams.first.weekDay(locale)}, '
+          '${exams.first.begin.formattedDate(locale)}',
+          style: Theme.of(context).textTheme.titleLarge,
+        ),
       ),
     ];
     for (var i = 0; i < exams.length; i++) {
@@ -159,5 +161,20 @@ class ExamsPageViewState extends GeneralPageViewState<ExamsPageView> {
   Future<void> onRefresh(BuildContext context) async {
     return Provider.of<ExamProvider>(context, listen: false)
         .forceRefresh(context);
+  }
+
+  @override
+  String? getTitle() => S.of(context).nav_title(NavigationItem.navExams.route);
+
+  @override
+  Widget? getTopRightButton(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      child: ExamFilterButton(
+        () => setState(() {
+          filteredExamTypes = PreferencesController.getFilteredExams();
+        }),
+      ),
+    );
   }
 }

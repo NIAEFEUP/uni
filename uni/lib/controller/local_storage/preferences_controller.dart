@@ -33,6 +33,7 @@ class PreferencesController {
   static const String _isDataCollectionBannerViewedKey =
       'data_collection_banner';
   static const String _locale = 'app_locale';
+  static const String _lastCacheCleanUpDate = 'last_clean';
   static const String _favoriteCards = 'favorite_cards';
   static final List<FavoriteWidgetType> _defaultFavoriteCards = [
     FavoriteWidgetType.schedule,
@@ -43,6 +44,14 @@ class PreferencesController {
   static const String _favoriteRestaurants = 'favorite_restaurants';
   static const String _filteredExamsTypes = 'filtered_exam_types';
   static final List<String> _defaultFilteredExamTypes = Exam.displayedTypes;
+
+  static final _statsToggleStreamController =
+      StreamController<bool>.broadcast();
+  static final onStatsToggle = _statsToggleStreamController.stream;
+
+  static final _hiddenExamsChangeStreamController =
+      StreamController<List<String>>.broadcast();
+  static final onHiddenExamsChange = _hiddenExamsChangeStreamController.stream;
 
   /// Returns the last time the data with given key was updated.
   static DateTime? getLastDataClassUpdateTime(String dataKey) {
@@ -139,6 +148,16 @@ class PreferencesController {
     );
   }
 
+  static Future<void> setLastCleanUpDate(DateTime date) async {
+    await prefs.setString(_lastCacheCleanUpDate, date.toString());
+  }
+
+  static DateTime getLastCleanUpDate() {
+    final date =
+        prefs.getString(_lastCacheCleanUpDate) ?? DateTime.now().toString();
+    return DateTime.parse(date);
+  }
+
   /// Deletes the user's student number and password.
   static Future<void> removePersistentUserInfo() async {
     await prefs.remove(_userNumber);
@@ -220,6 +239,7 @@ class PreferencesController {
 
   static Future<void> saveHiddenExams(List<String> newHiddenExams) async {
     await prefs.setStringList(_hiddenExams, newHiddenExams);
+    _hiddenExamsChangeStreamController.add(newHiddenExams);
   }
 
   static List<String> getHiddenExams() {
@@ -290,5 +310,6 @@ class PreferencesController {
     required bool value,
   }) async {
     await prefs.setBool(_usageStatsToggleKey, value);
+    _statsToggleStreamController.add(value);
   }
 }

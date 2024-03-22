@@ -94,6 +94,7 @@ class MainCardsListState extends State<MainCardsList> {
 
   Widget createActionButton(BuildContext context) {
     return FloatingActionButton(
+      backgroundColor: Theme.of(context).colorScheme.secondary,
       onPressed: () => showDialog<void>(
         context: context,
         builder: (BuildContext context) {
@@ -158,7 +159,7 @@ class MainCardsListState extends State<MainCardsList> {
     BuildContext context,
   ) {
     return Container(
-      padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -191,9 +192,9 @@ class MainCardsListState extends State<MainCardsList> {
     BuildContext context,
   ) {
     final userSession =
-        Provider.of<SessionProvider>(context, listen: false).state!;
+        Provider.of<SessionProvider>(context, listen: false).state;
     return cardTypes
-        .where((type) => type.isVisible(userSession.faculties))
+        .where((type) => type.isVisible(userSession?.faculties ?? []))
         .where((type) => MainCardsList.cardCreators.containsKey(type))
         .map((type) {
       final i = cardTypes.indexOf(type);

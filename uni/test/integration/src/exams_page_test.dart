@@ -132,13 +132,13 @@ void main() async {
       await tester.pumpAndSettle();
       expect(find.byKey(Key('$sdisExam-exam')), findsOneWidget);
       expect(find.byKey(Key('$sopeExam-exam')), findsOneWidget);
-      expect(find.byIcon(Icons.filter_alt), findsOneWidget);
+      expect(find.byIcon(Icons.filter_list), findsOneWidget);
 
       filteredExams['ExamDoesNotExist'] = true;
 
       await tester.pumpAndSettle();
 
-      final filterButton = find.widgetWithIcon(IconButton, Icons.filter_alt);
+      final filterButton = find.widgetWithIcon(IconButton, Icons.filter_list);
       expect(filterButton, findsOneWidget);
 
       await tester.tap(filterButton);

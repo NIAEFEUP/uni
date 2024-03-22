@@ -83,12 +83,13 @@ class Exam {
 
   @override
   String toString() {
-    return '''$id - $subject - ${begin.year} - $month - ${begin.day} -  $beginTime-$endTime - $type - $rooms - $weekDay''';
+    return '''$id - $subject - ${begin.year} - $month - ${begin.day} - $beginTime-$endTime - $type - $rooms - $weekDay''';
   }
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) || other is Exam && id == other.id;
+      identical(this, other) ||
+      other is Exam && id == other.id && subject == other.subject;
 
   @override
   int get hashCode => id.hashCode;

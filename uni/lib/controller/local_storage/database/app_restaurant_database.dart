@@ -113,11 +113,11 @@ class RestaurantDatabase extends AppDatabase {
   /// Insert restaurant and meals in database
   Future<void> insertRestaurant(Transaction txn, Restaurant restaurant) async {
     final id = await txn.insert('RESTAURANTS', restaurant.toMap());
-    restaurant.meals.forEach((dayOfWeak, meals) async {
+    for (final meals in restaurant.meals.values) {
       for (final meal in meals) {
         await txn.insert('MEALS', meal.toMap(id));
       }
-    });
+    }
   }
 
   /// Deletes all restaurants and meals
