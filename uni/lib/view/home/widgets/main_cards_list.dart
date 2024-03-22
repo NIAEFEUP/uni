@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
@@ -54,13 +55,13 @@ class MainCardsList extends StatefulWidget {
 class MainCardsListState extends State<MainCardsList> {
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        if (widget.isEditing) {
+    return PopScope(
+      canPop: !widget.isEditing,
+      onPopInvoked: (didPop) {
+        Logger().d('Pop invoked $didPop');
+        if (!widget.isEditing) {
           widget.toggleEditing();
-          return false;
         }
-        return true;
       },
       child: Scaffold(
         body: BackButtonExitWrapper(
