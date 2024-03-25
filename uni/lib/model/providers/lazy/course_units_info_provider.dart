@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import 'dart:collection';
 
 import 'package:tuple/tuple.dart';
@@ -6,11 +8,12 @@ import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/entities/course_units/course_unit_class.dart';
 import 'package:uni/model/entities/course_units/course_unit_directory.dart';
 import 'package:uni/model/entities/course_units/course_unit_sheet.dart';
+import 'package:uni/model/entities/course_units/sheet.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/model/providers/state_providers.dart';
 
-typedef SheetsMap = Map<CourseUnit, CourseUnitSheet>;
+typedef SheetsMap = Map<CourseUnit, Sheet>;
 typedef ClassesMap = Map<CourseUnit, List<CourseUnitClass>>;
 typedef FilesMap = Map<CourseUnit, List<CourseUnitFileDirectory>>;
 
@@ -25,7 +28,7 @@ class CourseUnitsInfoProvider
           initialState: Tuple3({}, {}, {}),
         );
 
-  UnmodifiableMapView<CourseUnit, CourseUnitSheet> get courseUnitsSheets =>
+  UnmodifiableMapView<CourseUnit, Sheet> get courseUnitsSheets =>
       UnmodifiableMapView(state!.item1);
 
   UnmodifiableMapView<CourseUnit, List<CourseUnitClass>>
@@ -38,9 +41,8 @@ class CourseUnitsInfoProvider
     CourseUnit courseUnit,
     Session session,
   ) async {
-    state!.item1[courseUnit] = await CourseUnitsInfoFetcher()
-        .fetchCourseUnitSheet(session, courseUnit.occurrId);
-    notifyListeners();
+    state!.item1[courseUnit] =
+        await CourseUnitsInfoFetcher().fetchSheet(session, courseUnit.occurrId);
   }
 
   Future<void> fetchCourseUnitClasses(
