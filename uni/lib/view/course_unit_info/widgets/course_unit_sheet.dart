@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:provider/provider.dart';
@@ -13,11 +15,6 @@ class CourseUnitSheetView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final session = context.read<SessionProvider>().state!;
-
-    fetchProfessorPictures(courseUnitSheet.professors, session);
-    fetchProfessorPictures(courseUnitSheet.regents, session);
-
     return FutureBuilder(
       builder: (BuildContext context, AsyncSnapshot<Sheet> snapshot) {
         return Container(
@@ -30,12 +27,20 @@ class CourseUnitSheetView extends StatelessWidget {
                   'Regentes',
                   style: TextStyle(fontSize: 18),
                 ),
-                showProfessors(snapshot.data?.regents ?? [], regent: true),
+                showProfessors(
+                  context,
+                  snapshot.data?.regents ?? [],
+                  regent: true,
+                ),
                 const Text(
                   'Docentes',
                   style: TextStyle(fontSize: 18),
                 ),
-                showProfessors(snapshot.data?.professors ?? [], regent: false),
+                showProfessors(
+                  context,
+                  snapshot.data?.professors ?? [],
+                  regent: false,
+                ),
                 _buildCard('Programa', courseUnitSheet.content),
                 _buildCard('Avaliação', courseUnitSheet.evaluation),
               ],
@@ -47,16 +52,9 @@ class CourseUnitSheetView extends StatelessWidget {
     );
   }
 
-  void fetchProfessorPictures(List<Professor> professors, Session session) {
-    professors.forEach((element) async {
-      element.picture = await ProfileProvider.fetchOrGetCachedProfilePicture(
-        session,
-        studentNumber: int.parse(element.code),
-      );
-    });
-  }
-
-  Widget showProfessors(List<Professor> professors, {required bool regent}) {
+  Widget showProfessors(BuildContext context, List<Professor> professors,
+      {required bool regent}) {
+    final session = context.read<SessionProvider>().state!;
     return SizedBox(
       height: regent ? 100 : 75,
       width: double.infinity,
@@ -68,28 +66,39 @@ class CourseUnitSheetView extends StatelessWidget {
               final idx = professor.key;
               return Row(
                 children: [
-                  if (regent)
-                    CircleAvatar(
-                      radius: 40,
-                      backgroundImage: professor.value.picture != null
-                          ? FileImage(professor.value.picture!) as ImageProvider
-                          : const AssetImage(
-                              'assets/images/profile_placeholder.png',
-                            ),
-                    )
-                  else
-                    Transform.translate(
-                      offset: Offset(-10.0 * idx, 0),
-                      child: CircleAvatar(
-                        radius: 20,
-                        backgroundImage: professor.value.picture != null
-                            ? FileImage(professor.value.picture!)
-                                as ImageProvider
-                            : const AssetImage(
-                                'assets/images/profile_placeholder.png',
-                              ),
-                      ),
+                  FutureBuilder<File?>(
+                    builder:
+                        (BuildContext context, AsyncSnapshot<File?> snapshot) {
+                      if (regent) {
+                        return CircleAvatar(
+                          radius: 40,
+                          backgroundImage:
+                              snapshot.hasData && snapshot.data != null
+                                  ? FileImage(snapshot.data!) as ImageProvider
+                                  : const AssetImage(
+                                      'assets/images/profile_placeholder.png',
+                                    ),
+                        );
+                      } else {
+                        return Transform.translate(
+                          offset: Offset(-10.0 * idx, 0),
+                          child: CircleAvatar(
+                            radius: 20,
+                            backgroundImage:
+                                snapshot.hasData && snapshot.data != null
+                                    ? FileImage(snapshot.data!) as ImageProvider
+                                    : const AssetImage(
+                                        'assets/images/profile_placeholder.png',
+                                      ),
+                          ),
+                        );
+                      }
+                    },
+                    future: ProfileProvider.fetchOrGetCachedProfilePicture(
+                      session,
+                      studentNumber: int.parse(professor.value.code),
                     ),
+                  ),
                   if (regent)
                     Padding(
                       padding: const EdgeInsets.only(
