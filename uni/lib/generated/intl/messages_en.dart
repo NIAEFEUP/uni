@@ -118,7 +118,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Error downloading the file"),
         "ects": MessageLookupByLibrary.simpleMessage("ECTS performed: "),
         "edit_off": MessageLookupByLibrary.simpleMessage("Edit"),
-        "edit_on": MessageLookupByLibrary.simpleMessage("Finish editing"),
+        "edit_on": MessageLookupByLibrary.simpleMessage("Exit edit mode"),
         "empty_text":
             MessageLookupByLibrary.simpleMessage("Please fill in this field"),
         "exams_filter":
