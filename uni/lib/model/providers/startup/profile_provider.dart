@@ -140,7 +140,7 @@ class ProfileProvider extends StateProviderNotifier<Profile> {
     if (userPersistentInfo != null) {
       // Course units are saved later, so we don't it here
       final profileDb = AppUserDataDatabase();
-      await profileDb.insertUserData(profile);
+      await profileDb.saveToDatabase(profile);
     }
 
     return profile;
@@ -165,10 +165,10 @@ class ProfileProvider extends StateProviderNotifier<Profile> {
         await PreferencesController.getPersistentUserInfo();
     if (userPersistentInfo != null) {
       final coursesDb = AppCoursesDatabase();
-      unawaited(coursesDb.saveNewCourses(profile.courses));
+      unawaited(coursesDb.saveToDatabase(profile.courses));
 
       final courseUnitsDatabase = AppCourseUnitsDatabase();
-      unawaited(courseUnitsDatabase.saveNewCourseUnits(allCourseUnits));
+      unawaited(courseUnitsDatabase.saveToDatabase(allCourseUnits));
     }
 
     return allCourseUnits;
