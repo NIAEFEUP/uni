@@ -39,10 +39,8 @@ class LectureProvider extends StateProviderNotifier<List<Lecture>> {
     final lectures =
         await getLecturesFromFetcherOrElse(fetcher, session, profile);
 
-    if (persistentSession) {
-      final db = AppLecturesDatabase();
-      await db.saveNewLectures(lectures);
-    }
+    final db = AppLecturesDatabase();
+    await db.saveIfPersistentSession(lectures);
 
     return lectures;
   }
