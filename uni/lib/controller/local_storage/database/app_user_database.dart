@@ -7,12 +7,13 @@ import 'package:uni/model/entities/profile.dart';
 /// Manages the app's User Data database.
 ///
 /// This database stores information about the user's university profile.
-class AppUserDataDatabase extends AppDatabase {
+class AppUserDataDatabase extends AppDatabase<Profile> {
   AppUserDataDatabase()
       : super('userdata.db', ['CREATE TABLE userdata(key TEXT, value TEXT)']);
 
   /// Adds [profile] to this database.
-  Future<void> insertUserData(Profile profile) async {
+  @override
+  Future<void> saveToDatabase(Profile profile) async {
     for (final keymap in profile.keymapValues()) {
       await insertInDatabase(
         'userdata',

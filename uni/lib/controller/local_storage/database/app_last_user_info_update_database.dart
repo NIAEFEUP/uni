@@ -4,15 +4,12 @@ import 'package:uni/controller/local_storage/database/app_database.dart';
 ///
 /// This database stores information about when the app last fetched and updated
 /// the user's data.
-class AppLastUserInfoUpdateDatabase extends AppDatabase {
+class AppLastUserInfoUpdateDatabase extends AppDatabase<DateTime> {
   AppLastUserInfoUpdateDatabase()
-      : super('last_update.db', ['CREATE TABLE last_update(lastUpdate DATE)']);
-
-  /// Replaces the timestamp in this database with [timestamp].
-  Future<void> insertNewTimeStamp(DateTime timestamp) async {
-    await deleteLastUpdate();
-    await _insertTimeStamp(timestamp);
-  }
+      : super(
+          'last_update.db',
+          ['CREATE TABLE last_update(lastUpdate DATE)'],
+        );
 
   /// Deletes all of the data from this database.
   Future<void> deleteLastUpdate() async {
@@ -40,5 +37,12 @@ class AppLastUserInfoUpdateDatabase extends AppDatabase {
       return DateTime.parse(maps[0]['lastUpdate'] as String);
     }
     return DateTime.now();
+  }
+
+  /// Replaces the timestamp in this database with [timestamp].
+  @override
+  Future<void> saveToDatabase(DateTime timestamp) async {
+    await deleteLastUpdate();
+    await _insertTimeStamp(timestamp);
   }
 }

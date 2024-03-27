@@ -4,18 +4,17 @@ import 'package:sqflite/sqflite.dart';
 import 'package:uni/controller/local_storage/database/app_database.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
 
-class AppCourseUnitsDatabase extends AppDatabase {
-  AppCourseUnitsDatabase() : super('course_units.db', [createScript]);
+class AppCourseUnitsDatabase extends AppDatabase<List<CourseUnit>> {
+  AppCourseUnitsDatabase()
+      : super(
+          'course_units.db',
+          [createScript],
+        );
   static const String createScript =
       '''CREATE TABLE course_units(id INTEGER, code TEXT, abbreviation TEXT , '''
       '''name TEXT, curricularYear INTEGER, occurrId INTEGER, semesterCode TEXT, '''
       '''semesterName TEXT, type TEXT, status TEXT, grade TEXT, ectsGrade TEXT, '''
       '''result TEXT, ects REAL, schoolYear TEXT)''';
-
-  Future<void> saveNewCourseUnits(List<CourseUnit> courseUnits) async {
-    await deleteCourseUnits();
-    await _insertCourseUnits(courseUnits);
-  }
 
   Future<List<CourseUnit>> courseUnits() async {
     final db = await getDatabase();
@@ -55,5 +54,11 @@ class AppCourseUnitsDatabase extends AppDatabase {
   Future<void> deleteCourseUnits() async {
     final db = await getDatabase();
     await db.delete('course_units');
+  }
+
+  @override
+  Future<void> saveToDatabase(List<CourseUnit> courseUnits) async {
+    await deleteCourseUnits();
+    await _insertCourseUnits(courseUnits);
   }
 }
