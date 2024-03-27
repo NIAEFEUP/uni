@@ -54,6 +54,7 @@ class MainCardsList extends StatefulWidget {
 class MainCardsListState extends State<MainCardsList> {
   @override
   Widget build(BuildContext context) {
+    // ignore: deprecated_member_use, see #1209
     return WillPopScope(
       onWillPop: () async {
         if (widget.isEditing) {
