@@ -48,7 +48,7 @@ class ExamProvider extends StateProviderNotifier<List<Exam>> {
     exams.sort((exam1, exam2) => exam1.begin.compareTo(exam2.begin));
 
     if (persistentSession) {
-      await AppExamsDatabase().saveToDatabase(exams);
+      await AppExamsDatabase().saveIfPersistentSession(exams);
     }
 
     return exams;
