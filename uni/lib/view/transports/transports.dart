@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:uni/generated/l10n.dart';
+import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/home/widgets/bus_stop_card.dart';
@@ -17,6 +19,10 @@ class TransportsPageViewState extends GeneralPageViewState {
     BusStopCard(),
     // Add more cards if needed
   ];
+
+  @override
+  String? getTitle() =>
+      S.of(context).nav_title(NavigationItem.navTransports.route);
 
   @override
   Widget getBody(BuildContext context) {

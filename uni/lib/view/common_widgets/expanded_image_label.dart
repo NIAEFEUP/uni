@@ -24,12 +24,11 @@ class ImageLabel extends StatelessWidget {
           height: 300,
           width: 300,
         ),
-        const SizedBox(height: 10),
         Text(
           label,
           style: labelTextStyle,
         ),
-        if (sublabel.isNotEmpty) const SizedBox(height: 20),
+        if (sublabel.isNotEmpty) const SizedBox(height: 10),
         Text(
           sublabel,
           style: sublabelTextStyle,

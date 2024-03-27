@@ -2,10 +2,12 @@ import 'dart:async';
 
 import 'package:battery_plus/battery_plus.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:logger/logger.dart';
 import 'package:plausible_analytics/plausible_analytics.dart';
 import 'package:provider/provider.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 
 class PlausibleProvider extends StatefulWidget {
@@ -38,10 +40,19 @@ class _PlausibleProviderState extends State<PlausibleProvider> {
     if (plausible != null) {
       plausible.enabled = false;
 
-      _startListeners(plausible)
-          .then((_) => _updateBatteryState())
-          .then((_) => _updateConnectivityState())
-          .then((_) => _updateUsageStatsState());
+      unawaited(
+        _startListeners(plausible)
+            .then((_) => _updateBatteryState())
+            .then((_) => _updateConnectivityState())
+            .then((_) => _updateUsageStatsState())
+            .onError((error, stackTrace) {
+          unawaited(Sentry.captureException(error, stackTrace: stackTrace));
+          Logger().e(
+            'Error initializing plausible: $error',
+            stackTrace: stackTrace,
+          );
+        }),
+      );
     }
   }
 
@@ -67,7 +78,12 @@ class _PlausibleProviderState extends State<PlausibleProvider> {
 
     final battery = Battery();
     _batteryLevel = await battery.batteryLevel;
-    _isInBatterySaveMode = await battery.isInBatterySaveMode;
+
+    try {
+      _isInBatterySaveMode = await battery.isInBatterySaveMode;
+    } on PlatformException catch (_) {
+      _isInBatterySaveMode = false;
+    }
 
     _updateAnalyticsState();
   }

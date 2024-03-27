@@ -179,6 +179,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("No classes to present"),
         "no_classes_on":
             MessageLookupByLibrary.simpleMessage("You don\'t have classes on"),
+        "no_classes_on_weekend":
+            MessageLookupByLibrary.simpleMessage("You don\'t have classes on"),
         "no_college": MessageLookupByLibrary.simpleMessage("no college"),
         "no_course_units": MessageLookupByLibrary.simpleMessage(
             "No course units in the selected period"),
@@ -196,6 +198,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("No files found"),
         "no_info": MessageLookupByLibrary.simpleMessage(
             "There is no information to display"),
+        "no_internet": MessageLookupByLibrary.simpleMessage(
+            "It looks like you\'re offline"),
         "no_library_info": MessageLookupByLibrary.simpleMessage(
             "No library occupation information available"),
         "no_link":
@@ -274,6 +278,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "terms": MessageLookupByLibrary.simpleMessage("Terms and Conditions"),
         "theme": MessageLookupByLibrary.simpleMessage("Theme"),
         "title": MessageLookupByLibrary.simpleMessage("Title"),
+        "try_again": MessageLookupByLibrary.simpleMessage("Try again"),
+        "uc_info": MessageLookupByLibrary.simpleMessage("Open UC page"),
         "unavailable": MessageLookupByLibrary.simpleMessage("Unavailable"),
         "valid_email":
             MessageLookupByLibrary.simpleMessage("Please enter a valid email"),

@@ -180,6 +180,8 @@
   "@no_classes": {},
   "no_classes_on": "You don't have classes on",
   "@no_classes_on": {},
+  "no_classes_on_weekend": "You don't have classes on",
+  "@no_classes_on_weekend": {},
   "no_college": "no college",
   "@no_college": {},
   "no_course_units": "No course units in the selected period",
@@ -224,6 +226,8 @@
   "@of_month": {},
   "no_link": "We couldn't open the link",
   "@no_link": {},
+  "no_internet": "It looks like you're offline",
+  "@no_internet": {},
   "no_files_found": "No files found",
   "@no_files_found": {},
   "other_links": "Other links",
@@ -294,6 +298,8 @@
   "@terms": {},
   "title": "Title",
   "@title": {},
+  "uc_info": "Open UC page",
+  "@uc_info": {},
   "unavailable": "Unavailable",
   "@unavailable": {},
   "valid_email": "Please enter a valid email",
@@ -307,5 +313,7 @@
   "confirm_logout": "Do you really want to log out? Your local data will be deleted and you will have to log in again.",
   "@confirm_logout": {},
   "collect_usage_stats": "Collect usage statistics",
-  "@usage_stats": {}
+  "@usage_stats": {},
+  "try_again": "Try again",
+  "@try_again": {}
 }

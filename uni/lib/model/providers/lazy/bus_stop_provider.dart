@@ -59,7 +59,7 @@ class BusStopProvider extends StateProviderNotifier<Map<String, BusStopData>> {
     state!.remove(stopCode);
 
     notifyListeners();
-    await fetchUserBusTrips(state!);
+    await fetchUserBusTrips(Map.of(state!));
     notifyListeners();
 
     final db = AppBusStopDatabase();

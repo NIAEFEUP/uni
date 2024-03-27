@@ -12,7 +12,8 @@ enum NavigationItem {
   navAcademicPath('percurso_academico'),
   navProfile('perfil'),
   navSettings('definicoes'),
-  navTransports('transportes');
+  navTransports('transportes'),
+  navLogin('login');
 
   const NavigationItem(this.route, {this.faculties});
 

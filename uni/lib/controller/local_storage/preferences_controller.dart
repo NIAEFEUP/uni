@@ -49,6 +49,10 @@ class PreferencesController {
       StreamController<bool>.broadcast();
   static final onStatsToggle = _statsToggleStreamController.stream;
 
+  static final _hiddenExamsChangeStreamController =
+      StreamController<List<String>>.broadcast();
+  static final onHiddenExamsChange = _hiddenExamsChangeStreamController.stream;
+
   /// Returns the last time the data with given key was updated.
   static DateTime? getLastDataClassUpdateTime(String dataKey) {
     final lastUpdateTime = prefs.getString(dataKey + _lastUpdateTimeKeySuffix);
@@ -235,6 +239,7 @@ class PreferencesController {
 
   static Future<void> saveHiddenExams(List<String> newHiddenExams) async {
     await prefs.setStringList(_hiddenExams, newHiddenExams);
+    _hiddenExamsChangeStreamController.add(newHiddenExams);
   }
 
   static List<String> getHiddenExams() {

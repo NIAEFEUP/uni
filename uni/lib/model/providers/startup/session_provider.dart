@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/controller/background_workers/notifications.dart';
+import 'package:uni/controller/fetchers/faculties_fetcher.dart';
 import 'package:uni/controller/fetchers/terms_and_conditions_fetcher.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/controller/networking/network_router.dart';
@@ -47,27 +48,41 @@ class SessionProvider extends StateProviderNotifier<Session> {
   Future<void> postAuthentication(
     BuildContext context,
     String username,
-    String password,
-    List<String> faculties, {
+    String password, {
     required bool persistentSession,
   }) async {
     final locale =
         Provider.of<LocaleNotifier>(context, listen: false).getLocale();
     Session? session;
+    List<String> faculties;
+
     try {
+      // We need to login to fetch the faculties, so perform a temporary login.
+      final tempSession = await NetworkRouter.login(
+        username,
+        password,
+        ['feup'],
+        persistentSession: false,
+        ignoreCached: true,
+      );
+      faculties = await getStudentFaculties(tempSession!);
+
+      // Now get the session with the correct faculties.
       session = await NetworkRouter.login(
         username,
         password,
         faculties,
         persistentSession: persistentSession,
+        ignoreCached: true,
       );
     } catch (e) {
       throw InternetStatusException(locale);
     }
 
     if (session == null) {
+      // Get the fail reason.
       final responseHtml =
-          await NetworkRouter.loginInSigarra(username, password, faculties);
+          await NetworkRouter.loginInSigarra(username, password, ['feup']);
 
       if (isPasswordExpired(responseHtml) && context.mounted) {
         throw ExpiredCredentialsException();

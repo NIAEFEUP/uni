@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/utils/navigation_items.dart';
 
 enum NavbarItem {
@@ -13,8 +14,8 @@ enum NavbarItem {
     NavigationItem.navAcademicPath,
   ),
   navRestaurants(
-    Icons.local_cafe_outlined,
-    Icons.local_cafe,
+    Icons.free_breakfast_outlined,
+    Icons.free_breakfast,
     NavigationItem.navRestaurants,
   ),
   navFaculty(Icons.domain_outlined, Icons.domain, NavigationItem.navFaculty),
@@ -26,17 +27,23 @@ enum NavbarItem {
   final IconData selectedIcon;
   final NavigationItem item;
 
-  BottomNavigationBarItem toUnselectedBottomNavigationBarItem() {
+  BottomNavigationBarItem toUnselectedBottomNavigationBarItem(
+    BuildContext context,
+  ) {
     return BottomNavigationBarItem(
       icon: Icon(unselectedIcon),
       label: '',
+      tooltip: S.of(context).nav_title(item.route),
     );
   }
 
-  BottomNavigationBarItem toSelectedBottomNavigationBarItem() {
+  BottomNavigationBarItem toSelectedBottomNavigationBarItem(
+    BuildContext context,
+  ) {
     return BottomNavigationBarItem(
       icon: Icon(selectedIcon),
       label: '',
+      tooltip: S.of(context).nav_title(item.route),
     );
   }
 

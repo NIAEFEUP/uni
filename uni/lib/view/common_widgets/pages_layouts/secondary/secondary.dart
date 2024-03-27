@@ -17,6 +17,7 @@ abstract class SecondaryPageViewState<T extends StatefulWidget>
     );
   }
 
+  @override
   String? getTitle();
 
   Widget? getTopRightButton(BuildContext context) {
@@ -28,10 +29,7 @@ abstract class SecondaryPageViewState<T extends StatefulWidget>
   AppTopNavbar? getTopNavbar(BuildContext context) {
     return AppTopNavbar(
       title: getTitle(),
-      leftButton: const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 8),
-        child: BackButton(),
-      ),
+      leftButton: const BackButton(),
       rightButton: getTopRightButton(context),
     );
   }

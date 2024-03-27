@@ -12,6 +12,7 @@ void main() async {
   group('SchedulePage', () {
     const blocks = 4;
     const classNumber = 'MIEIC03';
+    final now = DateTime(2021, 06, 05);
     final day0 = DateTime(2021, 06, 07);
     final day1 = DateTime(2021, 06, 08);
     final day2 = DateTime(2021, 06, 09);
@@ -97,6 +98,7 @@ void main() async {
         (WidgetTester tester) async {
       final widget = SchedulePageView(
         [lecture1],
+        now: now,
       );
 
       await tester.pumpWidget(testableWidget(widget, providers: []));
@@ -119,6 +121,7 @@ void main() async {
         (WidgetTester tester) async {
       final widget = SchedulePageView(
         [lecture1, lecture2],
+        now: now,
       );
       await tester.pumpWidget(testableWidget(widget, providers: []));
       await tester.pumpAndSettle();
@@ -149,6 +152,7 @@ void main() async {
             lecture5,
             lecture6,
           ],
+          now: now,
         ),
       );
 

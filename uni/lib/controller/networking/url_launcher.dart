@@ -7,8 +7,14 @@ import 'package:url_launcher/url_launcher.dart';
 
 Future<void> launchUrlWithToast(BuildContext context, String url) async {
   final validUrl = Uri.parse(url);
-  if (url != '' && canLaunchUrl(validUrl) as bool) {
-    await launchUrl(Uri.parse(url));
+  final canLaunch = url != '' && await canLaunchUrl(validUrl);
+
+  if (!context.mounted) {
+    return;
+  }
+
+  if (canLaunch) {
+    await launchUrl(validUrl);
   } else {
     await ToastMessage.error(
       context,
