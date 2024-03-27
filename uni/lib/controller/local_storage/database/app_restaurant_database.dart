@@ -5,16 +5,18 @@ import 'package:uni/model/entities/meal.dart';
 import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/utils/day_of_week.dart';
 
-class RestaurantDatabase extends AppDatabase {
+class RestaurantDatabase extends AppDatabase<List<Restaurant>> {
   RestaurantDatabase()
-      : super('restaurant.db', [
-          '''
+      : super(
+          'restaurant.db',
+          [
+            '''
           CREATE TABLE RESTAURANTS(
           id INTEGER PRIMARY KEY,
           ref TEXT,
           name TEXT)
           ''',
-          '''
+            '''
           CREATE TABLE MEALS(
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           day TEXT,
@@ -24,18 +26,8 @@ class RestaurantDatabase extends AppDatabase {
           id_restaurant INTEGER,
           FOREIGN KEY (id_restaurant) REFERENCES RESTAURANTS(id))
           '''
-        ]);
-
-  /// Deletes all data, and saves the new restaurants
-  Future<void> saveRestaurants(List<Restaurant> restaurants) async {
-    final db = await getDatabase();
-    await db.transaction((transaction) async {
-      await deleteAll(transaction);
-      for (final restaurant in restaurants) {
-        await insertRestaurant(transaction, restaurant);
-      }
-    });
-  }
+          ],
+        );
 
   /// Get all restaurants and meals, if day is null, all meals are returned
   Future<List<Restaurant>> restaurants({DayOfWeek? day}) async {
@@ -124,6 +116,17 @@ class RestaurantDatabase extends AppDatabase {
   Future<void> deleteAll(Transaction txn) async {
     await txn.delete('meals');
     await txn.delete('restaurants');
+  }
+
+  @override
+  Future<void> saveToDatabase(List<Restaurant> restaurants) async {
+    final db = await getDatabase();
+    await db.transaction((transaction) async {
+      await deleteAll(transaction);
+      for (final restaurant in restaurants) {
+        await insertRestaurant(transaction, restaurant);
+      }
+    });
   }
 }
 
