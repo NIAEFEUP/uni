@@ -24,7 +24,7 @@ class CalendarProvider extends StateProviderNotifier<List<CalendarEvent>> {
     final session = stateProviders.sessionProvider.state!;
     final calendar = await CalendarFetcherHtml().getCalendar(session);
     final db = CalendarDatabase();
-    unawaited(db.saveToDatabase(calendar));
+    unawaited(db.saveIfPersistentSession(calendar));
     return calendar;
   }
 }
