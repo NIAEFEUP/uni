@@ -1,15 +1,24 @@
 import 'dart:async';
 
+import 'package:meta/meta.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:synchronized/synchronized.dart';
 
+import '../preferences_controller.dart';
+
 /// Manages a generic database.
 ///
 /// This class is the foundation for all other database managers.
-class AppDatabase {
-  AppDatabase(this.name, this.commands, {this.onUpgrade, this.version = 1});
+abstract class AppDatabase<T> {
+  AppDatabase(
+    this.name,
+    this.commands, {
+    this.onUpgrade,
+    this.version = 1,
+  }) : persistentSession =
+            PreferencesController.getPersistentUserInfo() != null;
 
   /// An instance of this database.
   Database? _db;
@@ -19,6 +28,9 @@ class AppDatabase {
 
   /// A list of commands to be executed on database creation.
   List<String> commands;
+
+  ///
+  bool persistentSession;
 
   /// The lock timeout for database operations.
   static const Duration lockTimeout = Duration(seconds: 5);
@@ -36,6 +48,15 @@ class AppDatabase {
   Future<Database> getDatabase() async {
     _db ??= await initializeDatabase();
     return _db!;
+  }
+
+  @protected
+  Future<void> saveToDatabase(T data);
+
+  Future<void> saveIfPersistentSession(T data) async {
+    if (persistentSession) {
+      await saveToDatabase(data);
+    }
   }
 
   /// Inserts [values] into the corresponding [table] in this database.
