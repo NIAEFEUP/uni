@@ -24,7 +24,7 @@ class ReferenceProvider extends StateProviderNotifier<List<Reference>> {
     final references = await parseReferences(response);
 
     final referencesDb = AppReferencesDatabase();
-    unawaited(referencesDb.saveToDatabase(references));
+    unawaited(referencesDb.saveIfPersistentSession(references));
 
     return references;
   }
