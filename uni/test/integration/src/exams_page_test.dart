@@ -59,7 +59,7 @@ void main() async {
 
     final profile = Profile()..courses = [Course(id: 7474, faculty: 'feup')];
 
-    testWidgets('Exams', (WidgetTester tester) async {
+    testWidgets('Exams', (tester) async {
       NetworkRouter.httpClient = mockClient;
       final mockHtml = File('test/integration/resources/exam_example.html')
           .readAsStringSync();
@@ -97,7 +97,7 @@ void main() async {
       expect(find.byKey(Key('$mdisExam-exam')), findsNothing);
     });
 
-    testWidgets('Filtered Exams', (WidgetTester tester) async {
+    testWidgets('Filtered Exams', (tester) async {
       NetworkRouter.httpClient = mockClient;
       final mockHtml = File('test/integration/resources/exam_example.html')
           .readAsStringSync();

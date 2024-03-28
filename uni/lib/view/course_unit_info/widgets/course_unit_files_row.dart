@@ -88,7 +88,9 @@ class CourseUnitFilesRowState extends State<CourseUnitFilesRow>
 
     if (result?.path != null) {
       final resultType = await OpenFile.open(result!.path);
-      if (context.mounted) handleFileOpening(resultType.type, context);
+      if (context.mounted) {
+        handleFileOpening(resultType.type, context);
+      }
     } else {
       if (context.mounted) {
         await ToastMessage.error(context, S.of(context).download_error);

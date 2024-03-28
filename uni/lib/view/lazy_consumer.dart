@@ -126,10 +126,7 @@ class LazyConsumer<T1 extends StateProviderNotifier<T2>, T2>
   Widget requestFailedMessage() {
     return FutureBuilder(
       future: Connectivity().checkConnectivity(),
-      builder: (
-        BuildContext context,
-        AsyncSnapshot<ConnectivityResult> connectivitySnapshot,
-      ) {
+      builder: (context, connectivitySnapshot) {
         if (!connectivitySnapshot.hasData) {
           return const Center(
             heightFactor: 3,

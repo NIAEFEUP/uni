@@ -19,7 +19,7 @@ void main() async {
     const secondExamSubject = 'SDIS';
     const secondExamDate = '2019-09-12';
 
-    testWidgets('When given an empty list', (WidgetTester tester) async {
+    testWidgets('When given an empty list', (tester) async {
       const widget = ExamsPageView();
       final examProvider = ExamProvider()..setState([]);
 
@@ -30,7 +30,7 @@ void main() async {
       expect(find.byType(Card), findsNothing);
     });
 
-    testWidgets('When given a single exam', (WidgetTester tester) async {
+    testWidgets('When given a single exam', (tester) async {
       final firstExamBegin = DateTime.parse('$firstExamDate 09:00');
       final firstExamEnd = DateTime.parse('$firstExamDate 12:00');
       final firstExam = Exam(
@@ -56,8 +56,7 @@ void main() async {
       expect(find.byKey(Key('$firstExam-exam')), findsOneWidget);
     });
 
-    testWidgets('When given two exams from the same date',
-        (WidgetTester tester) async {
+    testWidgets('When given two exams from the same date', (tester) async {
       final firstExamBegin = DateTime.parse('$firstExamDate 09:00');
       final firstExamEnd = DateTime.parse('$firstExamDate 12:00');
       final firstExam = Exam(
@@ -103,8 +102,7 @@ void main() async {
       expect(find.byKey(Key('$secondExam-exam')), findsOneWidget);
     });
 
-    testWidgets('When given two exams from different dates',
-        (WidgetTester tester) async {
+    testWidgets('When given two exams from different dates', (tester) async {
       final firstExamBegin = DateTime.parse('$firstExamDate 09:00');
       final firstExamEnd = DateTime.parse('$firstExamDate 12:00');
       final firstExam = Exam(
@@ -148,7 +146,7 @@ void main() async {
     });
 
     testWidgets('When given four exams from two different dates',
-        (WidgetTester tester) async {
+        (tester) async {
       final rooms = <String>['B119', 'B107', 'B205'];
       final firstExamBegin = DateTime.parse('$firstExamDate 09:00');
       final firstExamEnd = DateTime.parse('$firstExamDate 12:00');

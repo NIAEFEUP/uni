@@ -12,7 +12,7 @@ Future<void> addMoneyDialog(BuildContext context) async {
 
   return showDialog(
     context: context,
-    builder: (BuildContext context) {
+    builder: (context) {
       var value = 1.0;
 
       return StatefulBuilder(
@@ -46,7 +46,9 @@ Future<void> addMoneyDialog(BuildContext context) async {
                         onPressed: () {
                           final decreasedValue =
                               valueTextToNumber(controller.text) - 1;
-                          if (decreasedValue < 1) return;
+                          if (decreasedValue < 1) {
+                            return;
+                          }
 
                           controller.value = TextEditingValue(
                             text: numberToValueText(decreasedValue),

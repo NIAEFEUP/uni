@@ -33,7 +33,7 @@ class AccountInfoCard extends GenericCard {
     return Column(
       children: [
         LazyConsumer<ProfileProvider, Profile>(
-          builder: (BuildContext context, profile) => Table(
+          builder: (context, profile) => Table(
             columnWidths: const {1: FractionColumnWidth(.4)},
             defaultVerticalAlignment: TableCellVerticalAlignment.middle,
             children: [
@@ -88,11 +88,11 @@ class AccountInfoCard extends GenericCard {
               ),
             ],
           ),
-          hasContent: (Profile profile) => true,
+          hasContent: (profile) => true,
           onNullContent: Container(),
         ),
         LazyConsumer<ReferenceProvider, List<Reference>>(
-          builder: (BuildContext context, references) {
+          builder: (context, references) {
             return Column(
               children: [
                 Container(

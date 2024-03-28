@@ -15,9 +15,9 @@ class PageTransition {
   }) {
     return PageRouteBuilder(
       pageBuilder: (
-        BuildContext context,
-        Animation<double> animation,
-        Animation<double> secondaryAnimation,
+        context,
+        animation,
+        secondaryAnimation,
       ) {
         if (_isFirstPageTransition) {
           _isFirstPageTransition = false;
@@ -33,12 +33,7 @@ class PageTransition {
       transitionDuration: const Duration(milliseconds: pageTransitionDuration),
       settings: settings,
       maintainState: maintainState,
-      transitionsBuilder: (
-        BuildContext context,
-        Animation<double> animation,
-        Animation<double> secondaryAnimation,
-        Widget child,
-      ) {
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
         return FadeTransition(opacity: animation, child: child);
       },
     );

@@ -97,7 +97,9 @@ class LoginPageViewState extends State<LoginPageView> {
   /// Tracks if the user wants to keep signed in (has a
   /// checkmark on the button).
   void _setKeepSignedIn({bool? value}) {
-    if (value == null) return;
+    if (value == null) {
+      return;
+    }
     setState(() {
       _keepSignedIn = value;
     });
@@ -275,7 +277,7 @@ class LoginPageViewState extends State<LoginPageView> {
   void updatePasswordDialog() {
     showDialog<void>(
       context: context,
-      builder: (BuildContext context) {
+      builder: (context) {
         return AlertDialog(
           title: Text(S.of(context).expired_password),
           content: Column(

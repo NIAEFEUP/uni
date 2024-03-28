@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:uni/model/entities/course_units/course_unit_class.dart';
 import 'package:uni/model/entities/session.dart';
@@ -18,7 +16,7 @@ class CourseUnitStudentRow extends StatelessWidget {
       studentNumber: student.number,
     );
     return FutureBuilder(
-      builder: (BuildContext context, AsyncSnapshot<File?> snapshot) {
+      builder: (context, snapshot) {
         return Container(
           padding: const EdgeInsets.only(bottom: 10),
           child: Row(

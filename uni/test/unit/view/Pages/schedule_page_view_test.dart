@@ -94,8 +94,7 @@ void main() async {
       'Sexta-feira',
     ];
 
-    testWidgets('When given one lecture on a single day',
-        (WidgetTester tester) async {
+    testWidgets('When given one lecture on a single day', (tester) async {
       final widget = SchedulePageView(
         [lecture1],
         now: now,
@@ -117,8 +116,7 @@ void main() async {
       );
     });
 
-    testWidgets('When given two lectures on a single day',
-        (WidgetTester tester) async {
+    testWidgets('When given two lectures on a single day', (tester) async {
       final widget = SchedulePageView(
         [lecture1, lecture2],
         now: now,
@@ -139,8 +137,7 @@ void main() async {
       );
     });
 
-    testWidgets('When given lectures on different days',
-        (WidgetTester tester) async {
+    testWidgets('When given lectures on different days', (tester) async {
       final widget = DefaultTabController(
         length: daysOfTheWeek.length,
         child: SchedulePageView(

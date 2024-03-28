@@ -230,7 +230,7 @@ class ApplicationState extends State<Application> {
         supportedLocales: S.delegate.supportedLocales,
         initialRoute: widget.initialRoute,
         navigatorObservers: navigatorObservers,
-        onGenerateRoute: (RouteSettings settings) {
+        onGenerateRoute: (settings) {
           final transitions = {
             '/${NavigationItem.navLogin.route}':
                 PageTransition.makePageTransition(

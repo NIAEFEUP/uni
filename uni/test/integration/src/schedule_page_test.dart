@@ -103,7 +103,7 @@ void main() async {
       testScheduleSlot('IOPE', '14:00', '16:00', 'EaD', 'TE', 'MTD');
     }
 
-    testWidgets('Schedule with JSON Fetcher', (WidgetTester tester) async {
+    testWidgets('Schedule with JSON Fetcher', (tester) async {
       NetworkRouter.httpClient = mockClient;
       final mockJson = File('test/integration/resources/schedule_example.json')
           .readAsStringSync(encoding: const Latin1Codec());
@@ -126,7 +126,7 @@ void main() async {
       await testSchedule(tester);
     });
 
-    testWidgets('Schedule with HTML Fetcher', (WidgetTester tester) async {
+    testWidgets('Schedule with HTML Fetcher', (tester) async {
       final mockHtml = File('test/integration/resources/schedule_example.html')
           .readAsStringSync(encoding: const Latin1Codec());
       when(mockResponse.body).thenReturn(mockHtml);
