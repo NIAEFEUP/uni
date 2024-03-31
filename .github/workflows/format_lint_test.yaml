@@ -61,7 +61,11 @@ jobs:
           flutter-version: ${{ steps.get_flutter_version.outputs.result }}
           cache: true
 
-      - run: flutter analyze .
+      - run: flutter pub get
+
+      - run: |
+          flutter analyze .
+          dart run custom_lint
 
   test:
     name: Test
