@@ -69,23 +69,23 @@ class LoginPageViewState extends State<LoginPageView> {
             _loggingIn = false;
           });
         }
-      } catch (error, stackTrace) {
+      } catch (err, st) {
         setState(() {
           _loggingIn = false;
         });
-        if (error is ExpiredCredentialsException) {
+        if (err is ExpiredCredentialsException) {
           updatePasswordDialog();
-        } else if (error is InternetStatusException) {
+        } else if (err is InternetStatusException) {
           if (context.mounted) {
-            unawaited(ToastMessage.warning(context, error.message));
+            unawaited(ToastMessage.warning(context, err.message));
           }
-        } else if (error is WrongCredentialsException) {
+        } else if (err is WrongCredentialsException) {
           if (context.mounted) {
-            unawaited(ToastMessage.error(context, error.message));
+            unawaited(ToastMessage.error(context, err.message));
           }
         } else {
-          Logger().e(error, stackTrace: stackTrace);
-          unawaited(Sentry.captureException(error, stackTrace: stackTrace));
+          Logger().e(err, stackTrace: st);
+          unawaited(Sentry.captureException(err, stackTrace: st));
           if (context.mounted) {
             unawaited(ToastMessage.error(context, S.of(context).failed_login));
           }
@@ -242,7 +242,7 @@ class LoginPageViewState extends State<LoginPageView> {
     );
   }
 
-  ///Creates the widget for when the user forgets the password
+  /// Creates the widget for when the user forgets the password
   Widget createForgetPasswordLink(BuildContext context) {
     return InkWell(
       child: Center(

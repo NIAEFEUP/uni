@@ -56,7 +56,7 @@ class Floor extends StatelessWidget {
   Widget build(BuildContext context) {
     final fontColor = FacultyMap.getFontColor(context);
 
-    final floorString = 0 <= floor && floor <= 9 //To maintain layout of popup
+    final floorString = 0 <= floor && floor <= 9 // To maintain layout of popup
         ? ' $floor'
         : '$floor';
 

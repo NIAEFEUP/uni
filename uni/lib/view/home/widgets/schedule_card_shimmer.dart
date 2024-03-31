@@ -19,7 +19,7 @@ class ScheduleCardShimmer extends StatelessWidget {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: <Widget>[
-                      //timestamp section
+                      // timestamp section
                       Container(
                         height: 15,
                         width: 40,
@@ -44,7 +44,7 @@ class ScheduleCardShimmer extends StatelessWidget {
                     height: 25,
                     width: 100,
                     color: Colors.black,
-                  ), //UC section
+                  ), // UC section
                   const SizedBox(
                     height: 10,
                   ),
@@ -52,14 +52,14 @@ class ScheduleCardShimmer extends StatelessWidget {
                     height: 15,
                     width: 150,
                     color: Colors.black,
-                  ), //UC section
+                  ), // UC section
                 ],
               ),
               Container(
                 height: 15,
                 width: 40,
                 color: Colors.black,
-              ), //Room section
+              ), // Room section
             ],
           ),
         ),
@@ -76,7 +76,7 @@ class ScheduleCardShimmer extends StatelessWidget {
           height: 15,
           width: 80,
           color: Colors.black,
-        ), //Day of the week
+        ), // Day of the week
         const SizedBox(
           height: 10,
         ),

@@ -30,7 +30,7 @@ class NotificationTimeoutStorage {
     if (!_fileContent.containsKey(uniqueID)) {
       return DateTime.fromMicrosecondsSinceEpoch(
         0,
-      ); //get 1970 to always trigger notification
+      ); // get 1970 to always trigger notification
     }
     return DateTime.parse(_fileContent[uniqueID] as String);
   }
@@ -51,7 +51,7 @@ class NotificationTimeoutStorage {
     final applicationDirectory =
         (await getApplicationDocumentsDirectory()).path;
     if (!File('$applicationDirectory/notificationTimeout.json').existsSync()) {
-      //empty json
+      // empty json
       await File('$applicationDirectory/notificationTimeout.json')
           .writeAsString('{}');
     }
