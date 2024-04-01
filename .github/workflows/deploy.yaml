@@ -38,7 +38,7 @@ jobs:
           git fetch origin develop
           git pull origin master
           echo "DEVELOP_HASH=$(git rev-parse origin/develop)" >> $GITHUB_ENV
-          echo "MASTER_HASH=$(git rev-parse origin/master^2)" >> $GITHUB_ENV 
+          echo "MASTER_HASH=$(git rev-parse origin/master^2)" >> $GITHUB_ENV
 
       - name: Get latest version (develop)
         if: github.ref != 'refs/heads/master'
@@ -48,7 +48,7 @@ jobs:
           google_service_account_json: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
           package_name: ${{ secrets.ANDROID_PACKAGE_NAME }}
           track: "beta"
-      
+
       - name: Get latest production version
         uses: LuisDuarte1/google-play-latest-version-code@v0.2.1
         id: latest-production-version
@@ -56,7 +56,7 @@ jobs:
           google_service_account_json: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
           package_name: ${{ secrets.ANDROID_PACKAGE_NAME }}
           track: "production"
-      
+
       - name: Bump beta version
         uses: LuisDuarte1/semver-bump-environment@v1.0.0
         if: github.ref != 'refs/heads/master'
@@ -66,7 +66,7 @@ jobs:
           production_version: ${{ steps.latest-production-version.outputs.latest_version_name }}
           staging_version: ${{ steps.latest-beta-version.outputs.latest_version_name }}
           bump_type: prerelease
-      
+
       - name: Bump prod version (from develop)
         uses: LuisDuarte1/semver-bump-environment@v1.0.0
         if: github.ref == 'refs/heads/master' && env.MASTER_HASH == env.DEVELOP_HASH
@@ -84,7 +84,7 @@ jobs:
           current_environment: production
           production_version: ${{ steps.latest-production-version.outputs.latest_version_name }}
           bump_type: patch
-      
+
       - name: Combine output and write new version into file
         run: |
           export NEW_VERSION_NAME=${{ 
@@ -106,17 +106,11 @@ jobs:
           java-version: ${{env.JAVA_VERSION}}
           distribution: "zulu"
 
-      - uses: mikefarah/yq@master
-        name: Get Flutter version
-        id: get_flutter_version
-        with:
-          cmd: yq '.environment.flutter' uni/pubspec.yaml
-          
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: stable
-          flutter-version: ${{ steps.get_flutter_version.outputs.result }}
+          flutter-version-file: uni/pubspec.yaml
           cache: true
 
       - name: Download Android keystore
@@ -133,7 +127,7 @@ jobs:
 
       - name: Create .env file
         run: echo "${{vars.UNI_ENV_FILE}}" > ./assets/env/.env
-        
+
       - name: Build Android App Bundle
         run: |
           flutter pub get
