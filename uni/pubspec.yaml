@@ -40,6 +40,7 @@ dependencies:
   flutter_markdown: ^0.6.0
   flutter_svg: ^2.0.9
   flutter_widget_from_html: ^0.14.11
+  flutter_widget_from_html_core: ^0.14.11
   html: ^0.15.0
   http: ^1.1.0
   image: ^4.1.4

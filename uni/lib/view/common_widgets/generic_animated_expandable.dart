@@ -22,10 +22,24 @@ class AnimatedExpandableState extends State<AnimatedExpandable> {
   Widget build(BuildContext context) {
     return AnimatedCrossFade(
       duration: const Duration(milliseconds: 500),
-      firstChild: widget.firstChild,
-      secondChild: widget.secondChild,
+      firstChild: GestureDetector(
+        onTap: () {
+          setState(() {
+            _expanded = !_expanded;
+          });
+        },
+        child: widget.firstChild,
+      ),
+      secondChild: GestureDetector(
+        onTap: () {
+          setState(() {
+            _expanded = !_expanded;
+          });
+        },
+        child: widget.secondChild,
+      ),
       crossFadeState:
-          _expanded ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+          _expanded ? CrossFadeState.showSecond : CrossFadeState.showFirst,
     );
   }
 }
