@@ -1,0 +1,5 @@
+export_options({
+   provisioningProfiles: {
+      "pt.up.fe.ni.uni" => "uni-distribution"
+   }
+})
