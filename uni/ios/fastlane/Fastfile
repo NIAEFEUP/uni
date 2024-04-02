@@ -24,9 +24,22 @@ platform :ios do
   end
 
   lane :beta do
-    build_app(
-      workspace: "Runner.xcworkspace",
-      scheme: "Runner")
-  end
+    ensure_git_status_clean
+    increment_build_number(xcodeproj: "Runner.xcodeproj")
+    commit_version_bump(xcodeproj: "Runner.xcodeproj")
+    add_git_tag
+    push_to_git_remote
 
+    app_store_connect_api_key(
+      key_id: "B262X978LJ",
+      issuer_id: "b94a874d-3888-4b59-a6f9-63c3583b2a7e",
+      key_filepath: "./AuthKey_B262X978LJ.p8",
+    )
+
+    get_certificates
+    get_provisioning_profiles
+    build_app(workspace: "Runner.xcworkspace", scheme: "Runner")
+    upload_to_testflight
+    #slack(message: "Beta build distributed to test flight!")
+  end
 end
