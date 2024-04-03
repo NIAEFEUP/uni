@@ -19,27 +19,25 @@ class AnimatedExpandable extends StatefulWidget {
 class AnimatedExpandableState extends State<AnimatedExpandable> {
   bool _expanded = false;
 
+  @override
   Widget build(BuildContext context) {
-    return AnimatedCrossFade(
-      duration: const Duration(milliseconds: 500),
-      firstChild: GestureDetector(
-        onTap: () {
-          setState(() {
-            _expanded = !_expanded;
-          });
-        },
-        child: widget.firstChild,
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onTap: () {
+        setState(() {
+          _expanded = !_expanded;
+        });
+      },
+      child: AnimatedCrossFade(
+        firstCurve: Curves.easeInOutCubic,
+        secondCurve: Curves.easeInOut,
+        sizeCurve: Curves.easeInOut,
+        duration: const Duration(milliseconds: 500),
+        firstChild: widget.firstChild,
+        secondChild: widget.secondChild,
+        crossFadeState:
+            _expanded ? CrossFadeState.showSecond : CrossFadeState.showFirst,
       ),
-      secondChild: GestureDetector(
-        onTap: () {
-          setState(() {
-            _expanded = !_expanded;
-          });
-        },
-        child: widget.secondChild,
-      ),
-      crossFadeState:
-          _expanded ? CrossFadeState.showSecond : CrossFadeState.showFirst,
     );
   }
 }
