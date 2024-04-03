@@ -74,22 +74,26 @@ class AppUserDataDatabase extends AppDatabase<Profile> {
 
   /// Saves the user's print balance to the database.
   Future<void> saveUserPrintBalance(String userBalance) async {
-    await insertInDatabase(
-      'userdata',
-      {'key': 'printBalance', 'value': userBalance},
-    );
+    if (persistentSession) {
+      await insertInDatabase(
+        'userdata',
+        {'key': 'printBalance', 'value': userBalance},
+      );
+    }
   }
 
   /// Saves the user's balance and payment due date to the database.
   ///
   Future<void> saveUserFees(String feesBalance, DateTime? feesLimit) async {
-    await insertInDatabase(
-      'userdata',
-      {'key': 'feesBalance', 'value': feesBalance},
-    );
-    await insertInDatabase('userdata', {
-      'key': 'feesLimit',
-      'value': feesLimit != null ? feesLimit.toIso8601String() : '',
-    });
+    if (persistentSession) {
+      await insertInDatabase(
+        'userdata',
+        {'key': 'feesBalance', 'value': feesBalance},
+      );
+      await insertInDatabase('userdata', {
+        'key': 'feesLimit',
+        'value': feesLimit != null ? feesLimit.toIso8601String() : '',
+      });
+    }
   }
 }
