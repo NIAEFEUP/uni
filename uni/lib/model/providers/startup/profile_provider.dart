@@ -11,7 +11,6 @@ import 'package:uni/controller/local_storage/database/app_course_units_database.
 import 'package:uni/controller/local_storage/database/app_courses_database.dart';
 import 'package:uni/controller/local_storage/database/app_user_database.dart';
 import 'package:uni/controller/local_storage/file_offline_storage.dart';
-import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/controller/parsers/parser_fees.dart';
 import 'package:uni/controller/parsers/parser_print_balance.dart';
 import 'package:uni/model/entities/course.dart';
@@ -99,13 +98,8 @@ class ProfileProvider extends StateProviderNotifier<Profile> {
     final feesBalance = parseFeesBalance(response);
     final feesLimit = parseFeesNextLimit(response);
 
-    final userPersistentInfo =
-        await PreferencesController.getPersistentUserInfo();
-
-    if (userPersistentInfo != null) {
-      final profileDb = AppUserDataDatabase();
-      await profileDb.saveUserFees(feesBalance, feesLimit);
-    }
+    final profileDb = AppUserDataDatabase();
+    await profileDb.saveUserFees(feesBalance, feesLimit);
 
     return Tuple2(feesBalance, feesLimit);
   }
@@ -114,12 +108,8 @@ class ProfileProvider extends StateProviderNotifier<Profile> {
     final response = await PrintFetcher().getUserPrintsResponse(session);
     final printBalance = await getPrintsBalance(response);
 
-    final userPersistentInfo =
-        await PreferencesController.getPersistentUserInfo();
-    if (userPersistentInfo != null) {
-      final profileDb = AppUserDataDatabase();
-      await profileDb.saveUserPrintBalance(printBalance);
-    }
+    final profileDb = AppUserDataDatabase();
+    await profileDb.saveUserPrintBalance(printBalance);
 
     return printBalance;
   }
@@ -135,13 +125,8 @@ class ProfileProvider extends StateProviderNotifier<Profile> {
 
     profile.courseUnits = currentCourseUnits;
 
-    final userPersistentInfo =
-        await PreferencesController.getPersistentUserInfo();
-    if (userPersistentInfo != null) {
-      // Course units are saved later, so we don't it here
-      final profileDb = AppUserDataDatabase();
-      await profileDb.saveToDatabase(profile);
-    }
+    final profileDb = AppUserDataDatabase();
+    await profileDb.saveIfPersistentSession(profile);
 
     return profile;
   }
@@ -161,15 +146,11 @@ class ProfileProvider extends StateProviderNotifier<Profile> {
       return allCourseUnits;
     }
 
-    final userPersistentInfo =
-        await PreferencesController.getPersistentUserInfo();
-    if (userPersistentInfo != null) {
-      final coursesDb = AppCoursesDatabase();
-      unawaited(coursesDb.saveToDatabase(profile.courses));
+    final coursesDb = AppCoursesDatabase();
+    unawaited(coursesDb.saveIfPersistentSession(profile.courses));
 
-      final courseUnitsDatabase = AppCourseUnitsDatabase();
-      unawaited(courseUnitsDatabase.saveToDatabase(allCourseUnits));
-    }
+    final courseUnitsDatabase = AppCourseUnitsDatabase();
+    unawaited(courseUnitsDatabase.saveIfPersistentSession(allCourseUnits));
 
     return allCourseUnits;
   }
