@@ -186,17 +186,12 @@ class LoginPageViewState extends State<LoginPageView> {
         minWidth: queryData.size.width / 8,
         minHeight: queryData.size.height / 6,
       ),
-      child: Column(
-        children: [
-          SizedBox(
-            width: 100,
-            child: SvgPicture.asset(
-              'assets/images/logo_dark.svg',
-              colorFilter:
-                  const ColorFilter.mode(Colors.white, BlendMode.srcIn),
-            ),
-          ),
-        ],
+      child: SizedBox(
+        width: 100,
+        child: SvgPicture.asset(
+          'assets/images/logo_dark.svg',
+          colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+        ),
       ),
     );
   }

@@ -63,18 +63,14 @@ class BusStopNextArrivalsPageState
                     color: Theme.of(context).colorScheme.primary,
                   ),
                 ),
-                Column(
-                  children: [
-                    ElevatedButton(
-                      onPressed: () => Navigator.push(
-                        context,
-                        MaterialPageRoute<BusStopNextArrivalsPage>(
-                          builder: (context) => const BusStopSelectionPage(),
-                        ),
-                      ),
-                      child: Text(S.of(context).add),
+                ElevatedButton(
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute<BusStopNextArrivalsPage>(
+                      builder: (context) => const BusStopSelectionPage(),
                     ),
-                  ],
+                  ),
+                  child: Text(S.of(context).add),
                 ),
               ],
             ),
@@ -175,22 +171,18 @@ class NextArrivalsState extends State<NextArrivals> {
 
     widget.buses.forEach((stopCode, stopData) {
       rows.add(
-        Column(
-          children: <Widget>[
-            Container(
-              padding: const EdgeInsets.only(
-                top: 8,
-                bottom: 8,
-                left: 22,
-                right: 22,
-              ),
-              child: BusStopRow(
-                stopCode: stopCode,
-                trips: widget.buses[stopCode]?.trips ?? [],
-                stopCodeShow: false,
-              ),
-            ),
-          ],
+        Container(
+          padding: const EdgeInsets.only(
+            top: 8,
+            bottom: 8,
+            left: 22,
+            right: 22,
+          ),
+          child: BusStopRow(
+            stopCode: stopCode,
+            trips: widget.buses[stopCode]?.trips ?? [],
+            stopCodeShow: false,
+          ),
         ),
       );
     });
