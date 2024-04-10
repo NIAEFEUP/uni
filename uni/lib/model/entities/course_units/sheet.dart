@@ -8,11 +8,20 @@ class Sheet {
     required this.content,
     required this.evaluation,
     required this.regents,
+    required this.books,
   });
   List<Professor> professors;
   List<Professor> regents;
   String content;
   String evaluation;
+  List<Book> books;
+}
+
+class Book {
+  Book({required this.title, required this.isbn});
+
+  String title;
+  String isbn;
 }
 
 class Professor {

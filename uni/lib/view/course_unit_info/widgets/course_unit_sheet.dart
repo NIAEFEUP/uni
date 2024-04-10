@@ -1,8 +1,11 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:provider/provider.dart';
+import 'package:uni/controller/fetchers/book_fetcher.dart';
 import 'package:uni/model/entities/course_units/sheet.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
@@ -23,12 +26,12 @@ class CourseUnitSheetView extends StatelessWidget {
           children: [
             const Text(
               'Regentes',
-              style: TextStyle(fontSize: 18),
+              style: TextStyle(fontSize: 20),
             ),
             buildRegentsRow(context, courseUnitSheet.regents),
             const Text(
               'Docentes',
-              style: TextStyle(fontSize: 18),
+              style: TextStyle(fontSize: 20),
             ),
             AnimatedExpandable(
               firstChild:
@@ -38,6 +41,16 @@ class CourseUnitSheetView extends StatelessWidget {
             ),
             _buildCard('Programa', courseUnitSheet.content),
             _buildCard('Avaliação', courseUnitSheet.evaluation),
+            const Opacity(
+              opacity: 0.25,
+              child: Divider(color: Colors.grey),
+            ),
+            const Text(
+              'Bibliografia',
+              style: TextStyle(fontSize: 20),
+            ),
+            if (courseUnitSheet.books.isNotEmpty)
+              buildBooksRow(context, courseUnitSheet.books)
           ],
         ),
       ),
@@ -173,6 +186,45 @@ Widget buildExpandedProfessors(
             ),
           );
         }),
+      ],
+    ),
+  );
+}
+
+Widget buildBooksRow(BuildContext context, List<Book> books) {
+  return SizedBox(
+    height: 500,
+    width: double.infinity,
+    child: Wrap(
+      alignment: WrapAlignment.spaceBetween,
+      children: [
+        ...books.asMap().entries.map((book) {
+          return FutureBuilder<Image?>(
+            builder: (BuildContext context, AsyncSnapshot<Image?> snapshot) {
+              return Padding(
+                padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
+                child: Column(
+                  children: [
+                    SizedBox(
+                      width: 135,
+                      height: 140, // adjust this value as needed
+                      child: snapshot.data ??
+                          Image.asset('assets/images/profile_placeholder.png'),
+                    ),
+                    SizedBox(
+                      width: 135,
+                      child: Text(
+                        book.value.title,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+            future: BookThumbFetcher().fetchBookThumb(book.value.isbn),
+          );
+        })
       ],
     ),
   );

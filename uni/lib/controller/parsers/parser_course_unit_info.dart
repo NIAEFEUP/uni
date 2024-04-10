@@ -5,6 +5,7 @@ import 'dart:convert';
 
 import 'package:html/parser.dart';
 import 'package:http/http.dart' as http;
+import 'package:uni/controller/fetchers/book_fetcher.dart';
 import 'package:uni/controller/fetchers/course_units_fetcher/course_units_info_fetcher.dart';
 import 'package:uni/model/entities/course_units/course_unit_class.dart';
 import 'package:uni/model/entities/course_units/course_unit_directory.dart';
@@ -50,9 +51,17 @@ Future<Sheet> parseSheet(http.Response response) async {
   final json = jsonDecode(response.body) as Map<String, dynamic>;
   final professors = getCourseUnitProfessors(json['ds'] as List<dynamic>);
   final regents = <Professor>[];
+  final books = <Book>[];
 
   json['responsabilidades'].forEach((dynamic element) {
     regents.add(Professor.fromJson(element as Map<String, dynamic>));
+  });
+
+  json['bibliografia'].forEach((dynamic element) {
+    books.add(Book(
+      title: element['titulo'].toString(),
+      isbn: element['isbn'].toString(),
+    ));
   });
 
   return Sheet(
@@ -60,6 +69,7 @@ Future<Sheet> parseSheet(http.Response response) async {
     content: json['conteudo'].toString(),
     evaluation: json['for_avaliacao'].toString(),
     regents: regents,
+    books: books,
   );
 }
 
