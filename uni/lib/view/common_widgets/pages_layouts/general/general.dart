@@ -79,11 +79,7 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
     return getScaffold(
       context,
       _loading
-          ? const Expanded(
-              child: Center(
-                child: CircularProgressIndicator(),
-              ),
-            )
+          ? const Center(child: CircularProgressIndicator())
           : getBody(context),
     );
   }
