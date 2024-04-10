@@ -17,17 +17,11 @@ jobs:
       - name: Clone repository
         uses: actions/checkout@v4
 
-      - uses: mikefarah/yq@master
-        name: Get Flutter version
-        id: get_flutter_version
-        with:
-          cmd: yq '.environment.flutter' uni/pubspec.yaml
-
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: stable
-          flutter-version: ${{ steps.get_flutter_version.outputs.result }}
+          flutter-version-file: uni/pubspec.yaml
           cache: true
 
       - run: dart format $(find . -type f -name "*.dart" -a -not -name "*.g.dart" -a -not -name "*.mocks.dart") --set-exit-if-changed
@@ -48,17 +42,11 @@ jobs:
           java-version: ${{ env.JAVA_VERSION }}
           distribution: zulu
 
-      - uses: mikefarah/yq@master
-        name: Get Flutter version
-        id: get_flutter_version
-        with:
-          cmd: yq '.environment.flutter' uni/pubspec.yaml
-
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: stable
-          flutter-version: ${{ steps.get_flutter_version.outputs.result }}
+          flutter-version-file: uni/pubspec.yaml
           cache: true
 
       - run: flutter pub get
@@ -81,17 +69,11 @@ jobs:
           java-version: ${{ env.JAVA_VERSION }}
           distribution: zulu
 
-      - uses: mikefarah/yq@master
-        name: Get Flutter version
-        id: get_flutter_version
-        with:
-          cmd: yq '.environment.flutter' uni/pubspec.yaml
-
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: stable
-          flutter-version: ${{ steps.get_flutter_version.outputs.result }}
+          flutter-version-file: uni/pubspec.yaml
           cache: true
 
       - name: Test with coverage
