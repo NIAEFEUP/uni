@@ -72,17 +72,17 @@ class PreferencesController {
   }
 
   /// Saves the user's student number, password and faculties.
-  static const FlutterSecureStorage storage = FlutterSecureStorage();
+  static const FlutterSecureStorage _secureStorage = FlutterSecureStorage();
   static Future<void> savePersistentUserInfo(
     String user,
     String pass,
     List<String> faculties,
   ) async {
-    await storage.write(key: _userNumber, value: user);
-    await storage.write(key: _userPw, value: pass);
-    await storage.write(
-      key: _userFaculties,
-      value: faculties.join(','),
+    await _secureStorage.write(key: _userNumber, value: user);
+    await _secureStorage.write(key: _userPw, value: pass);
+    await prefs.setStringList(
+      _userFaculties,
+      faculties,
     ); // Could be multiple faculties;
   }
 
@@ -190,12 +190,12 @@ class PreferencesController {
 
   /// Returns the user's student number.
   static Future<String?> getUserNumber() {
-    return storage.read(key: _userNumber);
+    return _secureStorage.read(key: _userNumber);
   }
 
   /// Returns the user's password, in plain text format.
   static Future<String?> getUserPassword() async {
-    final password = await storage.read(key: _userPw);
+    final password = await _secureStorage.read(key: _userPw);
     return password != null ? decode(password) : null;
   }
 
