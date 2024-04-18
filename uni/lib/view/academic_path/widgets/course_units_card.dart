@@ -30,7 +30,7 @@ class CourseUnitsCard extends GenericCard {
             .toList();
         return _generateCourseUnitsCards(courseUnits, context);
       },
-      hasContent: (Profile profile) => profile.courseUnits.isNotEmpty,
+      hasContent: (profile) => profile.courseUnits.isNotEmpty,
       onNullContent: Center(
         heightFactor: 10,
         child: Text(

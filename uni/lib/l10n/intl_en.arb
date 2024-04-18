@@ -180,6 +180,8 @@
   "@no_classes": {},
   "no_classes_on": "You don't have classes on",
   "@no_classes_on": {},
+  "no_classes_on_weekend": "You don't have classes on",
+  "@no_classes_on_weekend": {},
   "no_college": "no college",
   "@no_college": {},
   "no_course_units": "No course units in the selected period",
@@ -311,5 +313,7 @@
   "confirm_logout": "Do you really want to log out? Your local data will be deleted and you will have to log in again.",
   "@confirm_logout": {},
   "collect_usage_stats": "Collect usage statistics",
-  "@usage_stats": {}
+  "@usage_stats": {},
+  "try_again": "Try again",
+  "@try_again": {}
 }

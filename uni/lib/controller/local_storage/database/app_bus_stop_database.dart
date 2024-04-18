@@ -78,7 +78,7 @@ class AppBusStopDatabase extends AppDatabase {
   ///
   /// If a row with the same data is present, it will be replaced.
   Future<void> _insertBusStops(Map<String, BusStopData> stops) async {
-    stops.forEach((String stopCode, BusStopData stopData) async {
+    stops.forEach((stopCode, stopData) async {
       await insertInDatabase(
         'favoritestops',
         {'stopCode': stopCode, 'favorited': stopData.favorited ? '1' : '0'},

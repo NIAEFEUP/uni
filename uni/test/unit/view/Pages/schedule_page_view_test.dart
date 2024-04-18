@@ -12,6 +12,7 @@ void main() async {
   group('SchedulePage', () {
     const blocks = 4;
     const classNumber = 'MIEIC03';
+    final now = DateTime(2021, 06, 05);
     final day0 = DateTime(2021, 06, 07);
     final day1 = DateTime(2021, 06, 08);
     final day2 = DateTime(2021, 06, 09);
@@ -93,10 +94,10 @@ void main() async {
       'Sexta-feira',
     ];
 
-    testWidgets('When given one lecture on a single day',
-        (WidgetTester tester) async {
+    testWidgets('When given one lecture on a single day', (tester) async {
       final widget = SchedulePageView(
         [lecture1],
+        now: now,
       );
 
       await tester.pumpWidget(testableWidget(widget, providers: []));
@@ -115,10 +116,10 @@ void main() async {
       );
     });
 
-    testWidgets('When given two lectures on a single day',
-        (WidgetTester tester) async {
+    testWidgets('When given two lectures on a single day', (tester) async {
       final widget = SchedulePageView(
         [lecture1, lecture2],
+        now: now,
       );
       await tester.pumpWidget(testableWidget(widget, providers: []));
       await tester.pumpAndSettle();
@@ -136,8 +137,7 @@ void main() async {
       );
     });
 
-    testWidgets('When given lectures on different days',
-        (WidgetTester tester) async {
+    testWidgets('When given lectures on different days', (tester) async {
       final widget = DefaultTabController(
         length: daysOfTheWeek.length,
         child: SchedulePageView(
@@ -149,6 +149,7 @@ void main() async {
             lecture5,
             lecture6,
           ],
+          now: now,
         ),
       );
 

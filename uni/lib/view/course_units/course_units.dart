@@ -57,7 +57,7 @@ class CourseUnitsPageViewState
           ],
         );
       },
-      hasContent: (Profile profile) => profile.courseUnits.isNotEmpty,
+      hasContent: (profile) => profile.courseUnits.isNotEmpty,
       onNullContent: Column(
         children: [
           _getFilters([], []),
@@ -107,11 +107,10 @@ class CourseUnitsPageViewState
             disabledHint: Text(S.of(context).semester),
             value: selectedSemester,
             icon: const Icon(Icons.arrow_drop_down),
-            onChanged: (String? newValue) {
+            onChanged: (newValue) {
               setState(() => selectedSemester = newValue);
             },
-            items: availableSemesters
-                .map<DropdownMenuItem<String>>((String value) {
+            items: availableSemesters.map<DropdownMenuItem<String>>((value) {
               return DropdownMenuItem<String>(
                 value: value,
                 child: Text(value),
@@ -125,10 +124,10 @@ class CourseUnitsPageViewState
             disabledHint: Text(S.of(context).year),
             value: selectedSchoolYear,
             icon: const Icon(Icons.arrow_drop_down),
-            onChanged: (String? newValue) {
+            onChanged: (newValue) {
               setState(() => selectedSchoolYear = newValue);
             },
-            items: availableYears.map<DropdownMenuItem<String>>((String value) {
+            items: availableYears.map<DropdownMenuItem<String>>((value) {
               return DropdownMenuItem<String>(
                 value: value,
                 child: Text(value),

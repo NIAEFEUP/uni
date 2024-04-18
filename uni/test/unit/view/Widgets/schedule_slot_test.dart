@@ -19,7 +19,7 @@ void main() async {
     const teacher = 'JAS';
     const occurrId = 12345;
 
-    testWidgets('When given a single room', (WidgetTester tester) async {
+    testWidgets('When given a single room', (tester) async {
       final widget = ScheduleSlot(
         subject: subject,
         typeClass: typeClass,

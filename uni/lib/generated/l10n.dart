@@ -10,7 +10,7 @@ import 'intl/messages_all.dart';
 
 // ignore_for_file: non_constant_identifier_names, lines_longer_than_80_chars
 // ignore_for_file: join_return_with_assignment, prefer_final_in_for_each
-// ignore_for_file: avoid_redundant_argument_values
+// ignore_for_file: avoid_redundant_argument_values, avoid_escaping_inner_quotes
 
 class S {
   S();
@@ -928,6 +928,16 @@ class S {
     );
   }
 
+  /// `You don't have classes on`
+  String get no_classes_on_weekend {
+    return Intl.message(
+      'You don\'t have classes on',
+      name: 'no_classes_on_weekend',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `no college`
   String get no_college {
     return Intl.message(
@@ -1508,10 +1518,10 @@ class S {
     );
   }
 
-  /// `Open UC page in app`
+  /// `Open UC page`
   String get uc_info {
     return Intl.message(
-      'Open UC page in app',
+      'Open UC page',
       name: 'uc_info',
       desc: '',
       args: [],
@@ -1583,6 +1593,16 @@ class S {
     return Intl.message(
       'Collect usage statistics',
       name: 'collect_usage_stats',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Try again`
+  String get try_again {
+    return Intl.message(
+      'Try again',
+      name: 'try_again',
       desc: '',
       args: [],
     );

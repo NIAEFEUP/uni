@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/entities/profile.dart';
@@ -22,8 +20,7 @@ class ProfileOverview extends StatelessWidget {
       future: ProfileProvider.fetchOrGetCachedProfilePicture(
         session,
       ),
-      builder: (BuildContext context, AsyncSnapshot<File?> profilePic) =>
-          Column(
+      builder: (context, profilePic) => Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           const ProfileImage(radius: 75),
@@ -39,6 +36,15 @@ class ProfileOverview extends StatelessWidget {
           const Padding(padding: EdgeInsets.all(5)),
           Text(
             profile.email,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w300,
+            ),
+          ),
+          const Padding(padding: EdgeInsets.all(5)),
+          Text(
+            session.faculties.map((e) => e.toUpperCase()).toList().join(', '),
             textAlign: TextAlign.center,
             style: const TextStyle(
               fontSize: 18,

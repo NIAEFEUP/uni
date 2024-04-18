@@ -56,7 +56,9 @@ class ExamFilterFormState extends State<ExamFilterForm> {
     return ListView(
       children: List.generate(filteredExams.length, (i) {
         final key = filteredExams.keys.elementAt(i);
-        if (!Exam.types.containsKey(key)) return const Text('');
+        if (!Exam.types.containsKey(key)) {
+          return const Text('');
+        }
         return CheckboxListTile(
           contentPadding: EdgeInsets.zero,
           title: Text(

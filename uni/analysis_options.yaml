@@ -1,4 +1,4 @@
-include: package:very_good_analysis/analysis_options.yaml
+include: package:leancode_lint/analysis_options.yaml
 
 analyzer:
   # Exclude auto-generated files from dart analysis
@@ -6,11 +6,3 @@ analyzer:
     - "**.g.dart"
     - "**.mocks.dart"
     - "**generated/**"
-
-# Custom linter rules. A list of all rules can be found at
-# https://dart-lang.github.io/linter/lints/options/options.html
-linter:
-  rules:
-    public_member_api_docs: false
-    avoid_equals_and_hash_code_on_mutable_classes: false
-    one_member_abstracts: false
