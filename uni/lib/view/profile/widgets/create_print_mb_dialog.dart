@@ -124,7 +124,10 @@ Future<void> addMoneyDialog(BuildContext context) async {
 
 final CurrencyTextInputFormatter formatter =
     CurrencyTextInputFormatter.currency(
-        locale: 'pt-PT', decimalDigits: 2, symbol: '€ ',);
+  locale: 'pt-PT',
+  decimalDigits: 2,
+  symbol: '€ ',
+);
 
 double valueTextToNumber(String value) =>
     double.parse(value.substring(0, value.length - 2).replaceAll(',', '.'));
