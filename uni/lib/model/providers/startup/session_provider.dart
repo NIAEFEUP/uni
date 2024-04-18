@@ -25,7 +25,8 @@ class SessionProvider extends StateProviderNotifier<Session> {
 
   @override
   Future<Session> loadFromStorage(StateProviders stateProviders) async {
-    final userPersistentInfo = PreferencesController.getPersistentUserInfo();
+    final userPersistentInfo =
+        await PreferencesController.getPersistentUserInfo();
     final faculties = PreferencesController.getUserFaculties();
 
     if (userPersistentInfo == null) {

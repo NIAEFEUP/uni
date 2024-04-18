@@ -36,6 +36,7 @@ dependencies:
   flutter_map: ^5.0.0
   flutter_map_marker_popup: ^5.0.0
   flutter_markdown: ^0.6.0
+  flutter_secure_storage: ^9.0.0
   flutter_svg: ^2.0.9
   flutter_widget_from_html_core: ^0.14.11
   html: ^0.15.0
