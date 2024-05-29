@@ -70,10 +70,10 @@ CREATE TABLE exams(id TEXT, subject TEXT, begin TEXT, end TEXT,
     await batch.commit();
   }
 
-  /// Replaces all of the data in this database with [exams].
+  /// Replaces all of the data in this database with [data].
   @override
-  Future<void> saveToDatabase(List<Exam> exams) async {
+  Future<void> saveToDatabase(List<Exam> data) async {
     await deleteExams();
-    await _insertExams(exams);
+    await _insertExams(data);
   }
 }

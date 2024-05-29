@@ -38,11 +38,11 @@ class LibraryOccupationDatabase extends AppDatabase<LibraryOccupation> {
   }
 
   @override
-  Future<void> saveToDatabase(LibraryOccupation occupation) async {
+  Future<void> saveToDatabase(LibraryOccupation data) async {
     final db = await getDatabase();
     await db.transaction((txn) async {
       await txn.delete('FLOOR_OCCUPATION');
-      for (final floor in occupation.floors) {
+      for (final floor in data.floors) {
         await txn.insert('FLOOR_OCCUPATION', floor.toMap());
       }
     });

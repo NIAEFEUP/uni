@@ -106,10 +106,10 @@ class AppBusStopDatabase extends AppDatabase<Map<String, BusStopData>> {
   }
 
   /// Replaces all the bus stops in this database with entries
-  /// from [stops].
+  /// from [data].
   @override
-  Future<void> saveToDatabase(Map<String, BusStopData> stops) async {
+  Future<void> saveToDatabase(Map<String, BusStopData> data) async {
     await deleteBusStops();
-    await _insertBusStops(stops);
+    await _insertBusStops(data);
   }
 }

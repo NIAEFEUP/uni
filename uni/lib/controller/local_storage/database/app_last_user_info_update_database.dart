@@ -39,10 +39,10 @@ class AppLastUserInfoUpdateDatabase extends AppDatabase<DateTime> {
     return DateTime.now();
   }
 
-  /// Replaces the timestamp in this database with [timestamp].
+  /// Replaces the timestamp in this database with [data].
   @override
-  Future<void> saveToDatabase(DateTime timestamp) async {
+  Future<void> saveToDatabase(DateTime data) async {
     await deleteLastUpdate();
-    await _insertTimeStamp(timestamp);
+    await _insertTimeStamp(data);
   }
 }

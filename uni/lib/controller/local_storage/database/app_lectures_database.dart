@@ -79,8 +79,8 @@ CREATE TABLE lectures(subject TEXT, typeClass TEXT,
 
   /// Replaces all of the data in this database with [lectures].
   @override
-  Future<void> saveToDatabase(List<Lecture> lectures) async {
+  Future<void> saveToDatabase(List<Lecture> data) async {
     await deleteLectures();
-    await _insertLectures(lectures);
+    await _insertLectures(data);
   }
 }

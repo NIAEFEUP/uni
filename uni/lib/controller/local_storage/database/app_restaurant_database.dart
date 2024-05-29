@@ -119,11 +119,11 @@ class RestaurantDatabase extends AppDatabase<List<Restaurant>> {
   }
 
   @override
-  Future<void> saveToDatabase(List<Restaurant> restaurants) async {
+  Future<void> saveToDatabase(List<Restaurant> data) async {
     final db = await getDatabase();
     await db.transaction((transaction) async {
       await deleteAll(transaction);
-      for (final restaurant in restaurants) {
+      for (final restaurant in data) {
         await insertRestaurant(transaction, restaurant);
       }
     });

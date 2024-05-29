@@ -11,10 +11,10 @@ class AppUserDataDatabase extends AppDatabase<Profile> {
   AppUserDataDatabase()
       : super('userdata.db', ['CREATE TABLE userdata(key TEXT, value TEXT)']);
 
-  /// Adds [profile] to this database.
+  /// Adds [data] (profile) to this database.
   @override
-  Future<void> saveToDatabase(Profile profile) async {
-    for (final keymap in profile.keymapValues()) {
+  Future<void> saveToDatabase(Profile data) async {
+    for (final keymap in data.keymapValues()) {
       await insertInDatabase(
         'userdata',
         {'key': keymap.item1, 'value': keymap.item2},

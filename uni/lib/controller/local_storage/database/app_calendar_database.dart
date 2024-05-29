@@ -29,11 +29,11 @@ class CalendarDatabase extends AppDatabase<List<CalendarEvent>> {
   }
 
   @override
-  Future<void> saveToDatabase(List<CalendarEvent> calendar) async {
+  Future<void> saveToDatabase(List<CalendarEvent> data) async {
     final db = await getDatabase();
     await db.transaction((txn) async {
       await txn.delete('CALENDAR');
-      for (final event in calendar) {
+      for (final event in data) {
         await txn.insert('CALENDAR', event.toMap());
       }
     });

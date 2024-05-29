@@ -77,10 +77,10 @@ class AppCoursesDatabase extends AppDatabase<List<Course>> {
     await batch.commit();
   }
 
-  /// Replaces all of the data in this database with the data from [courses].
+  /// Replaces all of the data in this database with the data from [data].
   @override
-  Future<void> saveToDatabase(List<Course> courses) async {
+  Future<void> saveToDatabase(List<Course> data) async {
     await deleteCourses();
-    await _insertCourses(courses);
+    await _insertCourses(data);
   }
 }

@@ -57,8 +57,8 @@ class AppCourseUnitsDatabase extends AppDatabase<List<CourseUnit>> {
   }
 
   @override
-  Future<void> saveToDatabase(List<CourseUnit> courseUnits) async {
+  Future<void> saveToDatabase(List<CourseUnit> data) async {
     await deleteCourseUnits();
-    await _insertCourseUnits(courseUnits);
+    await _insertCourseUnits(data);
   }
 }
