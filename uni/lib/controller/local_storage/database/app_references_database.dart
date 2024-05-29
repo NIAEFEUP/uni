@@ -67,10 +67,10 @@ class AppReferencesDatabase extends AppDatabase<List<Reference>> {
     await batch.commit();
   }
 
-  /// Replaces all of the data in this database with the data from [references].
+  /// Replaces all of the data in this database with the data from [data].
   @override
-  Future<void> saveToDatabase(List<Reference> references) async {
+  Future<void> saveToDatabase(List<Reference> data) async {
     await deleteReferences();
-    await insertReferences(references);
+    await insertReferences(data);
   }
 }
