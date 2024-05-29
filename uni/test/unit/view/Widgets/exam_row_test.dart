@@ -28,7 +28,7 @@ void main() async {
     final beginTime = DateFormat('HH:mm').format(begin);
     final endTime = DateFormat('HH:mm').format(end);
 
-    testWidgets('When given a single room', (WidgetTester tester) async {
+    testWidgets('When given a single room', (tester) async {
       final rooms = ['B315'];
       final exam = Exam('1230', begin, end, subject, rooms, '', 'feup');
       final widget = ExamRow(
@@ -55,7 +55,7 @@ void main() async {
       );
     });
 
-    testWidgets('When multiple rooms', (WidgetTester tester) async {
+    testWidgets('When multiple rooms', (tester) async {
       final rooms = ['B315', 'B316', 'B330'];
       final exam = Exam('1230', begin, end, subject, rooms, '', 'feup');
       final widget = ExamRow(

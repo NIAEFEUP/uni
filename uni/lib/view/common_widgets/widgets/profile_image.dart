@@ -44,10 +44,7 @@ class ProfileImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: buildProfileDecorationImage(context),
-      builder: (
-        BuildContext context,
-        AsyncSnapshot<DecorationImage?> decorationImage,
-      ) {
+      builder: (context, decorationImage) {
         return CircleAvatar(
           radius: radius,
           foregroundImage: decorationImage.data?.image,

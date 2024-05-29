@@ -74,7 +74,7 @@ void main() async {
 
     final profile = Profile()..courses = [Course(id: 9113, faculty: 'fcup')];
 
-    testWidgets('Exams', (WidgetTester tester) async {
+    testWidgets('Exams', (tester) async {
       NetworkRouter.httpClient = mockClient;
       final mockHtml = File('test/integration/resources/exam2_example.html')
           .readAsStringSync(encoding: latin1);

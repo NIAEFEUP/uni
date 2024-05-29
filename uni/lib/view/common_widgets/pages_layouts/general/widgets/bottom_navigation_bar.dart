@@ -56,7 +56,7 @@ class AppBottomNavbar extends StatelessWidget {
       ),
       child: BottomNavigationBar(
         items: navbarItems,
-        onTap: (int index) => _onItemTapped(context, index),
+        onTap: (index) => _onItemTapped(context, index),
         currentIndex: currentIndex == -1 ? 0 : currentIndex,
         type: BottomNavigationBarType.fixed,
         iconSize: 32,

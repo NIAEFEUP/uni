@@ -1,16 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/view/about/widgets/terms_and_conditions.dart';
-import 'package:uni/view/login/widgets/faculties_multiselect.dart';
-
-/// Creates the widget for the user to choose their faculty
-Widget createFacultyInput(
-  BuildContext context,
-  List<String> faculties,
-  void Function(List<String>) setFaculties,
-) {
-  return FacultiesMultiselect(faculties, setFaculties);
-}
 
 /// Creates the widget for the username input.
 Widget createUsernameInput(
@@ -32,8 +22,7 @@ Widget createUsernameInput(
     textInputAction: TextInputAction.next,
     textAlign: TextAlign.left,
     decoration: textFieldDecoration(S.of(context).student_number),
-    validator: (String? value) =>
-        value!.isEmpty ? S.of(context).empty_text : null,
+    validator: (value) => value!.isEmpty ? S.of(context).empty_text : null,
   );
 }
 
@@ -63,7 +52,7 @@ Widget createPasswordInput(
       toggleObscurePasswordInput,
       obscurePasswordInput: obscurePasswordInput,
     ),
-    validator: (String? value) =>
+    validator: (value) =>
         value != null && value.isEmpty ? S.of(context).empty_text : null,
   );
 }
@@ -198,7 +187,7 @@ InkResponse createSafeLoginButton(BuildContext context) {
 Future<void> _showLoginDetails(BuildContext context) async {
   await showDialog<void>(
     context: context,
-    builder: (BuildContext context) {
+    builder: (context) {
       return AlertDialog(
         title: Text(S.of(context).terms),
         content: const SingleChildScrollView(child: TermsAndConditions()),

@@ -101,7 +101,7 @@ class RestaurantCard extends GenericCard {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: restaurants.length,
-      itemBuilder: (BuildContext context, int index) {
+      itemBuilder: (context, index) {
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [

@@ -86,7 +86,7 @@ class MainCardsListState extends State<MainCardsList> {
       backgroundColor: Theme.of(context).colorScheme.secondary,
       onPressed: () => showDialog<void>(
         context: context,
-        builder: (BuildContext context) {
+        builder: (context) {
           return AlertDialog(
             title: Text(
               S.of(context).widget_prompt,

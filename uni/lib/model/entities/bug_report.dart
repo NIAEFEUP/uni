@@ -9,13 +9,17 @@ class TupleConverter extends JsonConverter<Tuple2<String, String>?, String?> {
 
   @override
   Tuple2<String, String>? fromJson(String? json) {
-    if (json == null) return null;
+    if (json == null) {
+      return null;
+    }
     return Tuple2<String, String>('', json);
   }
 
   @override
   String? toJson(Tuple2<String, String>? object) {
-    if (object == null) return null;
+    if (object == null) {
+      return null;
+    }
     return object.item2;
   }
 }

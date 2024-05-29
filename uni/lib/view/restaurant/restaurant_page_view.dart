@@ -59,7 +59,7 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
               style: const TextStyle(fontSize: 18),
             ),
           ),
-          hasContent: (List<Restaurant> restaurants) => restaurants.isNotEmpty,
+          hasContent: (restaurants) => restaurants.isNotEmpty,
         ),
       ],
     );
