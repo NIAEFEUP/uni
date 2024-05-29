@@ -17,26 +17,21 @@ class ExamCardShimmer extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: <Widget>[
-                          //timestamp section
-                          Container(
-                            height: 15,
-                            width: 40,
-                            color: Colors.black,
-                          ),
-                          const SizedBox(
-                            height: 2.5,
-                          ),
-                          Container(
-                            height: 15,
-                            width: 40,
-                            color: Colors.black,
-                          ),
-                        ],
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      // timestamp section
+                      Container(
+                        height: 15,
+                        width: 40,
+                        color: Colors.black,
+                      ),
+                      const SizedBox(
+                        height: 2.5,
+                      ),
+                      Container(
+                        height: 15,
+                        width: 40,
+                        color: Colors.black,
                       ),
                     ],
                   ),
@@ -44,12 +39,12 @@ class ExamCardShimmer extends StatelessWidget {
                     height: 30,
                     width: 100,
                     color: Colors.black,
-                  ), //UC section
+                  ), // UC section
                   Container(
                     height: 40,
                     width: 40,
                     color: Colors.black,
-                  ), //Calender add section
+                  ), // Calender add section
                 ],
               ),
             ),

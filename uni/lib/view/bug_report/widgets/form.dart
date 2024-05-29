@@ -262,9 +262,9 @@ class BugReportFormState extends State<BugReportForm> {
         toastMsg = s.success;
       }
       status = true;
-    } catch (e, stackTrace) {
-      await Sentry.captureException(e, stackTrace: stackTrace);
-      Logger().e('Error while posting bug report:$e');
+    } catch (err, st) {
+      await Sentry.captureException(err, stackTrace: st);
+      Logger().e('Error while posting bug report:$err');
       if (context.mounted) {
         toastMsg = s.sent_error;
       }

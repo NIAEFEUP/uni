@@ -283,7 +283,7 @@ class PreferencesController {
     final encrypter = _createEncrypter();
     try {
       return encrypter.decrypt64(base64Text, iv: iv);
-    } catch (e) {
+    } catch (_) {
       return null;
     }
   }

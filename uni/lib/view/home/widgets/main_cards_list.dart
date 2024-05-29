@@ -108,7 +108,7 @@ class MainCardsListState extends State<MainCardsList> {
             ],
           );
         },
-      ), //Add FAB functionality here
+      ), // Add FAB functionality here
       tooltip: S.of(context).add_widget,
       child: Icon(Icons.add, color: Theme.of(context).colorScheme.onPrimary),
     );
