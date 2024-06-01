@@ -11,6 +11,7 @@ import 'package:plausible_analytics/plausible_analytics.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:ua_client_hints/ua_client_hints.dart';
 import 'package:uni/controller/background_workers/background_callback.dart';
 import 'package:uni/controller/cleanup.dart';
 import 'package:uni/controller/fetchers/terms_and_conditions_fetcher.dart';
@@ -109,8 +110,10 @@ Future<void> main() async {
   final plausibleUrl = dotenv.env['PLAUSIBLE_URL'];
   final plausibleDomain = dotenv.env['PLAUSIBLE_DOMAIN'];
 
+  final ua = await userAgent();
+
   final plausible = plausibleUrl != null && plausibleDomain != null
-      ? Plausible(plausibleUrl, plausibleDomain)
+      ? Plausible(plausibleUrl, plausibleDomain, userAgent: ua)
       : null;
 
   if (plausible == null) {
