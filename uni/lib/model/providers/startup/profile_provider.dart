@@ -72,6 +72,9 @@ class ProfileProvider extends StateProviderNotifier<Profile> {
       profile.courseUnits = courseUnits;
     }
 
+    final profileDb = AppUserDataDatabase();
+    await profileDb.saveIfPersistentSession(profile);
+
     return profile;
   }
 
@@ -98,18 +101,12 @@ class ProfileProvider extends StateProviderNotifier<Profile> {
     final feesBalance = parseFeesBalance(response);
     final feesLimit = parseFeesNextLimit(response);
 
-    final profileDb = AppUserDataDatabase();
-    await profileDb.saveUserFees(feesBalance, feesLimit);
-
     return Tuple2(feesBalance, feesLimit);
   }
 
   Future<String> fetchUserPrintBalance(Session session) async {
     final response = await PrintFetcher().getUserPrintsResponse(session);
     final printBalance = await getPrintsBalance(response);
-
-    final profileDb = AppUserDataDatabase();
-    await profileDb.saveUserPrintBalance(printBalance);
 
     return printBalance;
   }
@@ -124,9 +121,6 @@ class ProfileProvider extends StateProviderNotifier<Profile> {
         await CurrentCourseUnitsFetcher().getCurrentCourseUnits(session);
 
     profile.courseUnits = currentCourseUnits;
-
-    final profileDb = AppUserDataDatabase();
-    await profileDb.saveIfPersistentSession(profile);
 
     return profile;
   }
