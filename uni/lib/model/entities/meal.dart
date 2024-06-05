@@ -1,24 +1,8 @@
-import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:uni/model/entities/reference.dart';
 import 'package:uni/model/utils/day_of_week.dart';
 
 part '../../generated/model/entities/meal.g.dart';
-
-class DateTimeConverter extends JsonConverter<DateTime, String> {
-  const DateTimeConverter();
-
-  @override
-  DateTime fromJson(String json) {
-    final format = DateFormat('d-M-y');
-    return format.parse(json);
-  }
-
-  @override
-  String toJson(DateTime object) {
-    final format = DateFormat('d-M-y');
-    return format.format(object);
-  }
-}
 
 @DateTimeConverter()
 @JsonSerializable()

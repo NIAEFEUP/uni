@@ -1,21 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:logger/logger.dart';
+import 'package:uni/model/entities/reference.dart';
 
 part '../../generated/model/entities/lecture.g.dart';
-
-class DateTimeConverter extends JsonConverter<DateTime, String> {
-  const DateTimeConverter();
-
-  @override
-  DateTime fromJson(String json) {
-    return DateTime.parse(json);
-  }
-
-  @override
-  String toJson(DateTime object) {
-    return object.toIso8601String();
-  }
-}
 
 /// Stores information about a lecture.
 @DateTimeConverter()
