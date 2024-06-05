@@ -61,7 +61,7 @@ Future<void> cleanDirectory(Directory directory, DateTime threshold) async {
     try {
       final fileDate = file.lastModifiedSync();
       return fileDate.isBefore(threshold) && path.extension(file.path) != '.db';
-    } catch (e) {
+    } catch (err) {
       return false;
     }
   });

@@ -40,7 +40,7 @@ class BusStopSearch extends SearchDelegate<String> {
 
   @override
   Widget buildLeading(BuildContext context) {
-    //Back arrow to go back to menu
+    // Back arrow to go back to menu
 
     return IconButton(
       icon: const Icon(Icons.arrow_back),

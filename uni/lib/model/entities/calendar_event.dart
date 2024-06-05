@@ -24,7 +24,7 @@ class CalendarEvent {
     try {
       return DateFormat('dd MMMM yyyy', 'pt')
           .parse('${splitDate[0]} $month ${splitDate.last}');
-    } catch (e) {
+    } catch (_) {
       return null;
     }
   }

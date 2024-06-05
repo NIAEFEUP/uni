@@ -125,7 +125,7 @@ class NotificationManager {
     const initializationSettingsAndroid =
         AndroidInitializationSettings('ic_notification');
 
-    //request for notifications immediatly on iOS
+    // request for notifications immediatly on iOS
     const darwinInitializationSettings = DarwinInitializationSettings(
       requestCriticalPermission: true,
     );
@@ -157,7 +157,7 @@ class NotificationManager {
     if (Platform.isAndroid) {
       await Workmanager().cancelByUniqueName(
         'pt.up.fe.ni.uni.notificationworker',
-      ); //stop task if it's already running
+      ); // stop task if it's already running
       await Workmanager().registerPeriodicTask(
         'pt.up.fe.ni.uni.notificationworker',
         'pt.up.fe.ni.uni.notificationworker',

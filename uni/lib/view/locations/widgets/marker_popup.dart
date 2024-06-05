@@ -56,23 +56,18 @@ class Floor extends StatelessWidget {
   Widget build(BuildContext context) {
     final fontColor = FacultyMap.getFontColor(context);
 
-    final floorString = 0 <= floor && floor <= 9 //To maintain layout of popup
+    final floorString = 0 <= floor && floor <= 9 // To maintain layout of popup
         ? ' $floor'
         : '$floor';
 
     return Row(
       children: [
-        Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-              child: Text(
-                '${S.of(context).floor} $floorString',
-                style: TextStyle(color: fontColor),
-              ),
-            ),
-          ],
+        Container(
+          padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+          child: Text(
+            '${S.of(context).floor} $floorString',
+            style: TextStyle(color: fontColor),
+          ),
         ),
         Container(
           padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
@@ -102,16 +97,11 @@ class LocationRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(
-          location.description(),
-          textAlign: TextAlign.left,
-          overflow: TextOverflow.ellipsis,
-          style: TextStyle(color: color),
-        ),
-      ],
+    return Text(
+      location.description(),
+      textAlign: TextAlign.left,
+      overflow: TextOverflow.ellipsis,
+      style: TextStyle(color: color),
     );
   }
 }

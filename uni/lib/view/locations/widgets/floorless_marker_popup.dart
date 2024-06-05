@@ -40,15 +40,10 @@ class FloorlessLocationMarkerPopup extends StatelessWidget {
   List<Widget> buildLocations(BuildContext context, List<Location> locations) {
     return locations
         .map(
-          (location) => Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                location.description(),
-                textAlign: TextAlign.left,
-                style: TextStyle(color: FacultyMap.getFontColor(context)),
-              ),
-            ],
+          (location) => Text(
+            location.description(),
+            textAlign: TextAlign.left,
+            style: TextStyle(color: FacultyMap.getFontColor(context)),
           ),
         )
         .toList();
@@ -61,15 +56,10 @@ class LocationRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(
-          location.description(),
-          textAlign: TextAlign.left,
-          style: TextStyle(color: FacultyMap.getFontColor(context)),
-        ),
-      ],
+    return Text(
+      location.description(),
+      textAlign: TextAlign.left,
+      style: TextStyle(color: FacultyMap.getFontColor(context)),
     );
   }
 }

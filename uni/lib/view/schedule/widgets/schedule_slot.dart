@@ -133,22 +133,17 @@ class SubjectButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        IconButton(
-          constraints: const BoxConstraints(
-            minHeight: kMinInteractiveDimension / 3,
-            minWidth: kMinInteractiveDimension / 3,
-          ),
-          icon: const Icon(Icons.open_in_browser),
-          iconSize: 18,
-          color: Colors.grey,
-          alignment: Alignment.centerRight,
-          tooltip: S.of(context).uc_info,
-          onPressed: () => _launchUcPage(context),
-        ),
-      ],
+    return IconButton(
+      constraints: const BoxConstraints(
+        minHeight: kMinInteractiveDimension / 3,
+        minWidth: kMinInteractiveDimension / 3,
+      ),
+      icon: const Icon(Icons.open_in_browser),
+      iconSize: 18,
+      color: Colors.grey,
+      alignment: Alignment.centerRight,
+      tooltip: S.of(context).uc_info,
+      onPressed: () => _launchUcPage(context),
     );
   }
 }
