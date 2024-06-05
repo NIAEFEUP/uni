@@ -39,6 +39,7 @@ class _LastUpdateTimeStampState<T extends StateProviderNotifier<dynamic>>
     return Consumer<T>(
       builder: (context, provider, _) => Container(
         padding: const EdgeInsets.only(top: 8, bottom: 10),
+        alignment: Alignment.centerLeft,
         child: provider.lastUpdateTime != null
             ? _getContent(context, provider.lastUpdateTime!)
             : null,
@@ -53,13 +54,9 @@ class _LastUpdateTimeStampState<T extends StateProviderNotifier<dynamic>>
       elapsedTimeMinutes = 0;
     }
 
-    return Row(
-      children: [
-        Text(
-          S.of(context).last_timestamp(elapsedTimeMinutes),
-          style: Theme.of(context).textTheme.titleSmall,
-        ),
-      ],
+    return Text(
+      S.of(context).last_timestamp(elapsedTimeMinutes),
+      style: Theme.of(context).textTheme.titleSmall,
     );
   }
 }

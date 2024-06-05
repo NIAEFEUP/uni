@@ -82,7 +82,7 @@ Future<List<Lecture>> getOverlappedClasses(
             )
             .first,
       );
-    } catch (e) {
+    } catch (_) {
       final lect = Lecture.fromHtml(
         subject!,
         typeClass!,

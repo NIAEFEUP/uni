@@ -93,11 +93,11 @@ class RestaurantDatabase extends AppDatabase {
       whereArgs.add(toString(day));
     }
 
-    //Get restaurant meals
+    // Get restaurant meals
     final List<Map<String, dynamic>> mealsMaps =
         await txn.query('meals', where: whereQuery, whereArgs: whereArgs);
 
-    //Retrieve data from query
+    // Retrieve data from query
     final meals = mealsMaps.map((map) {
       final day = parseDayOfWeek(map['day'] as String);
       final type = map['type'] as String;

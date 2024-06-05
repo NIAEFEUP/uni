@@ -21,7 +21,7 @@ class CalendarDatabase extends AppDatabase {
     });
   }
 
-  //Returns a list with all calendar events stored in the database
+  // Returns a list with all calendar events stored in the database
   Future<List<CalendarEvent>> calendar() async {
     final db = await getDatabase();
 

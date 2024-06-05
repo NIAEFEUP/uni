@@ -65,7 +65,7 @@ class CourseUnitSheetView extends StatelessWidget {
                       .toList(),
                 ),
               );
-            } catch (e) {
+            } catch (_) {
               return null;
             }
           }

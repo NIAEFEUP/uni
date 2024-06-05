@@ -14,7 +14,7 @@ import 'package:uni/model/utils/day_of_week.dart';
 List<Restaurant> getRestaurantsFromHtml(Response response) {
   final document = parse(response.body);
 
-  //Get restaurant reference number and name
+  // Get restaurant reference number and name
   final restaurantsHtml = document.querySelectorAll('#conteudoinner ul li > a');
 
   final restaurantsTuple = restaurantsHtml.map((restaurantHtml) {
@@ -23,7 +23,7 @@ List<Restaurant> getRestaurantsFromHtml(Response response) {
     return Tuple2(ref ?? '', name);
   }).toList();
 
-  //Get restaurant meals and create the Restaurant class
+  // Get restaurant meals and create the Restaurant class
   final restaurants = restaurantsTuple.map((restaurantTuple) {
     final meals = <Meal>[];
 
@@ -35,14 +35,14 @@ List<Restaurant> getRestaurantsFromHtml(Response response) {
     while (next != null && next.attributes['name'] == null) {
       next = next.nextElementSibling;
       if (next!.classes.contains('dados')) {
-        //It's the menu table
+        // It's the menu table
         final rows = next.querySelectorAll('tr');
-        //Check if is empty
+        // Check if is empty
         if (rows.length <= 1) {
           break;
         }
 
-        //Read rows, first row is ignored because it's the header
+        // Read rows, first row is ignored because it's the header
         rows.getRange(1, rows.length).forEach((row) {
           DayOfWeek? dayOfWeek;
           String? type;
@@ -55,7 +55,7 @@ List<Restaurant> getRestaurantsFromHtml(Response response) {
             if (header == 'Data') {
               final d = parseDayOfWeek(value);
               if (d == null) {
-                //It's a date
+                // It's a date
                 date = format.parseUtc(value);
               } else {
                 dayOfWeek = d;

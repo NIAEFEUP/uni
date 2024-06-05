@@ -102,15 +102,11 @@ class AccountInfoCard extends GenericCard {
                     right: 15,
                     left: 15,
                   ),
-                  child: Row(
-                    children: <Widget>[
-                      Text(
-                        S.of(context).pendent_references,
-                        style: Theme.of(context).textTheme.titleLarge?.apply(
-                              color: Theme.of(context).colorScheme.secondary,
-                            ),
-                      ),
-                    ],
+                  child: Text(
+                    S.of(context).pendent_references,
+                    style: Theme.of(context).textTheme.titleLarge?.apply(
+                          color: Theme.of(context).colorScheme.secondary,
+                        ),
                   ),
                 ),
                 ReferenceList(references: references),
