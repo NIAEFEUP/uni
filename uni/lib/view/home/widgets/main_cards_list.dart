@@ -64,6 +64,7 @@ class MainCardsListState extends State<MainCardsList> {
         return true;
       },
       child: Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.surface,
         body: BackButtonExitWrapper(
           child: SizedBox(
             height: MediaQuery.of(context).size.height,
