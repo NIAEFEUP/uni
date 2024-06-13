@@ -209,7 +209,11 @@ Widget buildBooksRow(BuildContext context, List<Book> books) {
                       width: 135,
                       height: 140, // adjust this value as needed
                       child: snapshot.data ??
-                          Image.asset('assets/images/profile_placeholder.png'),
+                          const Image(
+                            image: NetworkImage(
+                              'https://nidcap.org/wp-content/uploads/2021/03/book.png',
+                            ),
+                          ),
                     ),
                     SizedBox(
                       width: 135,
