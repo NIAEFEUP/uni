@@ -4,7 +4,7 @@ on:
     branches: [master, develop]
 
 env:
-  JAVA_VERSION: 17.x
+  JAVA_VERSION: 21.x
 
 jobs:
   format:
