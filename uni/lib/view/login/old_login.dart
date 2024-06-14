@@ -14,21 +14,20 @@ import 'package:uni/model/providers/state_providers.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/toast_message.dart';
 import 'package:uni/view/home/widgets/exit_app_dialog.dart';
-import 'package:uni/view/login/old_login.dart';
 import 'package:uni/view/login/widgets/inputs.dart';
 import 'package:uni/view/theme.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 // TODO(thePeras): Remove unecessary things
-class LoginPageView extends StatefulWidget {
-  const LoginPageView({super.key});
+class OldLoginPageView extends StatefulWidget {
+  const OldLoginPageView({super.key});
 
   @override
-  LoginPageViewState createState() => LoginPageViewState();
+  OldLoginPageViewState createState() => OldLoginPageViewState();
 }
 
 /// Manages the 'login section' view.
-class LoginPageViewState extends State<LoginPageView> {
+class OldLoginPageViewState extends State<OldLoginPageView> {
   static final FocusNode usernameFocus = FocusNode();
   static final FocusNode passwordFocus = FocusNode();
 
@@ -160,6 +159,8 @@ class LoginPageViewState extends State<LoginPageView> {
                     ),
                   ),
                   createTitle(queryData, context),
+
+                  getLoginForm(queryData, context),
                   Padding(
                     padding: EdgeInsets.only(
                       bottom: queryData.size.height / 35,
@@ -170,32 +171,20 @@ class LoginPageViewState extends State<LoginPageView> {
                       bottom: queryData.size.height / 15,
                     ),
                   ),
+                  createLogInButton(queryData, context, _login),
                   //createStatusWidget(context),
+
                   Padding(
                     padding: EdgeInsets.only(
                       bottom: queryData.size.height / 5,
                     ),
                   ),
-                  createAFLogInButton(queryData, context, _falogin),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      bottom: queryData.size.height / 35,
-                    ),
-                  ),
-
-                  createLink(
-                      context, 'Problems with login? Try a different login',
-                      () {
-                    //push new router creating oldLogin page
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const OldLoginPageView(),
-                      ),
-                    );
-                  }),
 
                   const SizedBox(height: 20),
+
+                  createLink(context, S.of(context).forgot_password, () {
+                    launchUrlWithToast(context, 'https://self-id.up.pt/reset');
+                  }),
 
                   Padding(
                     padding: EdgeInsets.only(

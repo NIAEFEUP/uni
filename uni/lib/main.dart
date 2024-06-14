@@ -16,7 +16,6 @@ import 'package:uni/controller/background_workers/background_callback.dart';
 import 'package:uni/controller/cleanup.dart';
 import 'package:uni/controller/fetchers/terms_and_conditions_fetcher.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
-import 'package:uni/controller/test_auth.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/providers/lazy/bus_stop_provider.dart';
 import 'package:uni/model/providers/lazy/calendar_provider.dart';
@@ -120,12 +119,20 @@ Future<void> main() async {
   }
 
   final appLinks = AppLinks();
-  appLinks.uriLinkStream.listen((uri) {
+  appLinks.uriLinkStream.listen((uri) async {
     Logger().d('AppLinks intercepted: $uri');
-    closeInAppWebView();
+    await closeInAppWebView();
     if (uri.host == 'auth') {
+      final sessionProvider = stateProviders.sessionProvider;
       try {
-        FederatedLogin.getSigarraCokie(uri);
+        await sessionProvider.finishFederatedAuthentication(uri);
+        final context = sessionProvider.context;
+        if (context != null && context.mounted) {
+          await Navigator.pushReplacementNamed(
+            context,
+            '/${NavigationItem.navPersonalArea.route}',
+          );
+        }
       } catch (e) {
         Logger().e('Failed to login with FederatedLogin: $e');
       }

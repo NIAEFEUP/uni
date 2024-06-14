@@ -89,27 +89,92 @@ class NetworkRouter {
     );
   }
 
+  static Future<Session?> loginWithToken(
+    String token,
+    Map<String, dynamic> userInfo, {
+    required bool persistentSession,
+  }) async {
+    //Get the cookie from SIGARRA
+    const sigarraTokenEndpoint = 'https://sigarra.up.pt/auth/oidc/token';
+    final response = await http.get(
+      Uri.parse(sigarraTokenEndpoint),
+      headers: <String, String>{
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+      },
+    );
+
+    if (response.statusCode != 200) {
+      Logger().e('Failed to get token from SIGARRA');
+      throw Exception('Failed to get token from SIGARRA');
+    }
+
+    // TODO(thePeras): implement this
+    //if(response.body.result != 'success') {
+    //  Logger().e('Failed to get token from SIGARRA');
+    //  throw Exception('Failed to get token from SIGARRA');
+    //}
+
+    final setCookies = response.headers['set-cookie'];
+    if (setCookies == null) {
+      Logger().e('Failed to get token from SIGARRA');
+      throw Exception('Failed to get token from SIGARRA');
+    }
+
+    final splitedCookies = setCookies.split(',').join('; ').split(';');
+    final cookiesMap = <String, String>{};
+    for (final cookie in splitedCookies) {
+      final parts = cookie.split('=');
+      if (parts.length < 2) continue;
+
+      final key = parts[0].replaceAll(' ', '');
+      final value = parts[1].replaceAll(' ', '');
+      cookiesMap[key] = value;
+    }
+
+    if (!cookiesMap.containsKey('SI_SESSION') ||
+        !cookiesMap.containsKey('SI_SECURITY')) {
+      Logger().e('Failed to get token from SIGARRA');
+      throw Exception('Failed to get token from SIGARRA');
+    }
+
+    final cookies =
+        'SI_SESSION=${cookiesMap['SI_SESSION']}; SI_SECURITY=${cookiesMap['SI_SECURITY']}';
+
+    final faculties = List<String>.from(userInfo['ous'] as List)
+        .map((element) => element.toLowerCase())
+        .toList();
+
+    return Session(
+      username: userInfo['nmec'] as String,
+      cookies: cookies,
+      faculties: faculties,
+      persistentSession: persistentSession,
+    );
+  }
+
   /// Re-authenticates the user via the Sigarra API
   /// using data stored in [session],
   /// returning an updated Session if successful.
   static Future<Session?> reLoginFromSession(Session session) async {
-    final username = session.username;
-    final password = PreferencesController.getUserPassword();
+    if (!session.federatedSession) {
+      final password = PreferencesController.getUserPassword();
 
-    if (password == null) {
-      Logger().e('Re-login failed: password not found');
-      return null;
+      if (password == null) {
+        Logger().e('Re-login failed: password not found');
+        return null;
+      }
+      return login(
+        session.username,
+        password,
+        session.faculties,
+        persistentSession: session.persistentSession,
+      );
     }
 
-    final faculties = session.faculties;
-    final persistentSession = session.persistentSession;
-
-    return login(
-      username,
-      password,
-      faculties,
-      persistentSession: persistentSession,
-    );
+    // TODO(thePeras): reLogin with Federated Authentication
+    // final refreshToken = PreferencesController.getRefreshToken();
+    return null;
   }
 
   /// Returns the response body of the login in Sigarra

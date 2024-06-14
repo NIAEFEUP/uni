@@ -10,12 +10,14 @@ class Session {
     required this.cookies,
     required this.faculties,
     this.persistentSession = false,
+    this.federatedSession = false,
   }) : assert(faculties.isNotEmpty, 'session must have faculties');
 
   String username;
   String cookies;
   List<String> faculties;
   bool persistentSession;
+  bool federatedSession;
 
   /// Creates a new Session instance from an HTTP response.
   /// Returns null if the authentication failed.
