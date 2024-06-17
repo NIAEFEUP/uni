@@ -24,6 +24,7 @@ class PreferencesController {
   static const String _userNumber = 'user_number';
   static const String _userPw = 'user_password';
   static const String _userFaculties = 'user_faculties';
+  static const String _refreshToken = 'refresh_token';
   static const String _termsAndConditions = 'terms_and_conditions';
   static const String _areTermsAndConditionsAcceptedKey = 'is_t&c_accepted';
   static const String _tuitionNotificationsToggleKey =
@@ -82,6 +83,20 @@ class PreferencesController {
       _userFaculties,
       faculties,
     ); // Could be multiple faculties
+  }
+
+  /// Saves the user's session refresh token, student number and faculties.
+  static Future<void> saveSessionRefreshToken(
+    String refreshToken,
+    String userNumber,
+    List<String> faculties,
+  ) async {
+    await prefs.setString(_userNumber, userNumber);
+    await prefs.setString(_refreshToken, refreshToken);
+    await prefs.setStringList(
+      _userFaculties,
+      faculties,
+    );
   }
 
   /// Sets whether or not the Terms and Conditions have been accepted.
@@ -164,6 +179,13 @@ class PreferencesController {
     await prefs.remove(_userPw);
   }
 
+  /// Deletes the user's session refresh token.
+  static Future<void> removeSessionRefreshToken() async {
+    await prefs.remove(_refreshToken);
+    await prefs.remove(_userNumber);
+    await prefs.remove(_userFaculties);
+  }
+
   /// Returns a tuple containing the user's student number and password.
   ///
   /// *Note:*
@@ -177,6 +199,11 @@ class PreferencesController {
       return null;
     }
     return Tuple2(userNum, userPass);
+  }
+
+  /// Returns the user's session refresh token.
+  static String? getSessionRefreshToken() {
+    return prefs.getString(_refreshToken);
   }
 
   /// Returns the user's faculties

@@ -1,9 +1,12 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:logger/logger.dart';
+import 'package:openid_client/openid_client.dart';
 import 'package:synchronized/synchronized.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/model/entities/session.dart';
@@ -91,7 +94,8 @@ class NetworkRouter {
 
   static Future<Session?> loginWithToken(
     String token,
-    Map<String, dynamic> userInfo, {
+    String studentNumber,
+    List<String> faculties, {
     required bool persistentSession,
   }) async {
     //Get the cookie from SIGARRA
@@ -141,15 +145,12 @@ class NetworkRouter {
     final cookies =
         'SI_SESSION=${cookiesMap['SI_SESSION']}; SI_SECURITY=${cookiesMap['SI_SECURITY']}';
 
-    final faculties = List<String>.from(userInfo['ous'] as List)
-        .map((element) => element.toLowerCase())
-        .toList();
-
     return Session(
-      username: userInfo['nmec'] as String,
+      username: studentNumber,
       cookies: cookies,
       faculties: faculties,
       persistentSession: persistentSession,
+      federatedSession: true,
     );
   }
 
@@ -172,9 +173,45 @@ class NetworkRouter {
       );
     }
 
-    // TODO(thePeras): reLogin with Federated Authentication
-    // final refreshToken = PreferencesController.getRefreshToken();
-    return null;
+    final refreshToken = PreferencesController.getSessionRefreshToken();
+    final faculties = PreferencesController.getUserFaculties();
+    final studentNumber = PreferencesController.getUserNumber();
+    if (refreshToken == null || studentNumber == null || faculties.isEmpty) {
+      Logger().e('Re-login failed: refresh token not found');
+      return null;
+    }
+
+    final realm = dotenv.env['REALM'] ?? '';
+    final issuer = await Issuer.discover(Uri.parse(realm));
+    if (issuer.metadata.tokenEndpoint == null) {
+      Logger().e('Re-login failed: token endpoint not found');
+      return null;
+    }
+
+    final response = await http.post(
+      issuer.metadata.tokenEndpoint!,
+      body: {
+        'grant_type': 'refresh_token',
+        'refresh_token': refreshToken,
+        'client_id': dotenv.env['CLIENT_ID'],
+        'client_secret': dotenv.env['CLIENT_SECRET'],
+      },
+    );
+
+    final body = json.decode(response.body) as Map<String, dynamic>;
+    final accessToken = body['access_token'] as String;
+
+    if (response.statusCode != 200) {
+      Logger().e('Re-login failed: status code ${response.statusCode}');
+      return null;
+    }
+
+    return loginWithToken(
+      accessToken,
+      studentNumber,
+      faculties,
+      persistentSession: session.persistentSession,
+    );
   }
 
   /// Returns the response body of the login in Sigarra
@@ -259,7 +296,7 @@ class NetworkRouter {
         }
 
         session
-          ..username = newSession.username
+          ..username = newSession.username //(thePeras): Why is this necessary?
           ..cookies = newSession.cookies;
         headers['cookie'] = session.cookies;
         return http.get(url.toUri(), headers: headers).timeout(timeout);

@@ -159,7 +159,7 @@ class SessionProvider extends StateProviderNotifier<Session> {
   }
 
   Future<void> finishFederatedAuthentication(Uri uri) async {
-    final credential = await _flow!.callback(uri.queryParameters);
+    final Credential credential = await _flow!.callback(uri.queryParameters);
     final userInfo = (await credential.getUserInfo()).toJson();
     final token = (await credential.getTokenResponse()).accessToken;
 
@@ -168,9 +168,15 @@ class SessionProvider extends StateProviderNotifier<Session> {
       throw Exception('Failed to get token from SIGARRA');
     }
 
+    final studentNumber = userInfo['nmec'] as String;
+    final faculties = List<String>.from(userInfo['ous'] as List)
+        .map((element) => element.toLowerCase())
+        .toList();
+
     final session = await NetworkRouter.loginWithToken(
       token,
-      userInfo,
+      studentNumber,
+      faculties,
       persistentSession: _persistentSession,
     );
 
@@ -180,12 +186,13 @@ class SessionProvider extends StateProviderNotifier<Session> {
 
     setState(session);
 
-    // TODO(thePeras):
-    if (_persistentSession) {
-      //await PreferencesController.saveSessionRefreshToken(
-      //  session.username,
-      //);
-      //_persistentSession = false;
+    if (_persistentSession && credential.refreshToken != null) {
+      await PreferencesController.saveSessionRefreshToken(
+        credential.refreshToken!,
+        studentNumber,
+        faculties,
+      );
+      _persistentSession = false;
     }
 
     Future.delayed(

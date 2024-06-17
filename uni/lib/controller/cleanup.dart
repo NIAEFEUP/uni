@@ -32,6 +32,8 @@ Future<void> cleanupStoredData(BuildContext context) async {
       AppBusStopDatabase().deleteBusStops(),
       AppCourseUnitsDatabase().deleteCourseUnits(),
       NetworkRouter.killSigarraAuthentication(faculties),
+      PreferencesController.removePersistentUserInfo(),
+      PreferencesController.removeSessionRefreshToken(),
     ]),
   );
 

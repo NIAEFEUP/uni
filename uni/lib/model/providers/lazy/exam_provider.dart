@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:logger/logger.dart';
 import 'package:uni/controller/fetchers/exam_fetcher.dart';
 import 'package:uni/controller/local_storage/database/app_exams_database.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
@@ -25,7 +26,10 @@ class ExamProvider extends StateProviderNotifier<List<Exam>> {
     final session = stateProviders.sessionProvider.state!;
     final profile = stateProviders.profileProvider.state!;
 
-    return fetchUserExams(
+    //print session
+    Logger().i('Session: {${session.cookies}}');
+
+    final exams = await fetchUserExams(
       ParserExams(),
       profile,
       session,
@@ -33,6 +37,10 @@ class ExamProvider extends StateProviderNotifier<List<Exam>> {
       persistentSession:
           (PreferencesController.getPersistentUserInfo()) != null,
     );
+
+    Logger().i('Fetched exams from the remote {${exams}}');
+
+    return exams;
   }
 
   Future<List<Exam>> fetchUserExams(
