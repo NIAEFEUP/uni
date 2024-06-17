@@ -14,7 +14,6 @@ import 'package:uni/model/providers/state_providers.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/toast_message.dart';
 import 'package:uni/view/home/widgets/exit_app_dialog.dart';
-import 'package:uni/view/login/old_login.dart';
 import 'package:uni/view/login/widgets/inputs.dart';
 import 'package:uni/view/theme.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -49,6 +48,8 @@ class LoginPageViewState extends State<LoginPageView> {
     if (!_loggingIn && _formKey.currentState!.validate()) {
       final user = usernameController.text.trim();
       final pass = passwordController.text.trim();
+      usernameController.clear();
+      passwordController.clear();
 
       try {
         setState(() {
@@ -109,10 +110,12 @@ class LoginPageViewState extends State<LoginPageView> {
       setState(() {
         _loggingIn = false;
       });
-    } catch (err, st) {
+    } catch (err, _) {
       await closeInAppWebView();
       Logger().e('Failed to authenticate');
-      // TODO(thePeras): Display toaster
+      if (context.mounted) {
+        unawaited(ToastMessage.error(context, 'Failed to authenticate'));
+      }
     }
   }
 
@@ -154,56 +157,36 @@ class LoginPageViewState extends State<LoginPageView> {
               ),
               child: ListView(
                 children: [
-                  Padding(
-                    padding: EdgeInsets.only(
-                      bottom: queryData.size.height / 20,
-                    ),
+                  SizedBox(height: queryData.size.height / 20),
+                  Column(
+                    children: [
+                      SizedBox(
+                        width: 100,
+                        child: SvgPicture.asset(
+                          'assets/images/logo_dark.svg',
+                          colorFilter: const ColorFilter.mode(
+                            Colors.white,
+                            BlendMode.srcIn,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  createTitle(queryData, context),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      bottom: queryData.size.height / 35,
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      bottom: queryData.size.height / 15,
-                    ),
-                  ),
-                  //createStatusWidget(context),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      bottom: queryData.size.height / 5,
-                    ),
+                  SizedBox(height: queryData.size.height / 20),
+                  createSaveDataCheckBox(
+                    context,
+                    _setKeepSignedIn,
+                    keepSignedIn: _keepSignedIn,
                   ),
                   createAFLogInButton(queryData, context, _falogin),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      bottom: queryData.size.height / 35,
-                    ),
-                  ),
-
+                  SizedBox(height: queryData.size.height / 35),
                   createLink(
-                      context, 'Problems with login? Try a different login',
-                      () {
-                    //push new router creating oldLogin page
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const OldLoginPageView(),
-                      ),
-                    );
-                  }),
-
-                  const SizedBox(height: 20),
-
-                  Padding(
-                    padding: EdgeInsets.only(
-                      bottom: queryData.size.height / 35,
-                    ),
+                    context,
+                    'Problems with login? Try a different login',
+                    _showAlternativeLogin,
                   ),
-
-                  createSafeLoginButton(context),
+                  SizedBox(height: queryData.size.height / 35),
+                  createTermsAndConditionsButton(context),
                 ],
               ),
             ),
@@ -213,58 +196,34 @@ class LoginPageViewState extends State<LoginPageView> {
     );
   }
 
-  /// Creates the title for the login menu.
-  Widget createTitle(MediaQueryData queryData, BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(
-          width: 100,
-          child: SvgPicture.asset(
-            'assets/images/logo_dark.svg',
-            colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
-          ),
-        ),
-      ],
-    );
-  }
-
   /// Creates the widgets for the user input fields.
-  Widget getLoginForm(MediaQueryData queryData, BuildContext context) {
+  Widget getLoginForm(BuildContext context) {
     return Form(
       key: _formKey,
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.only(bottom: queryData.size.height / 35),
-            ),
-            createUsernameInput(
-              context,
-              usernameController,
-              usernameFocus,
-              passwordFocus,
-            ),
-            Padding(
-              padding: EdgeInsets.only(bottom: queryData.size.height / 35),
-            ),
-            createPasswordInput(
-              context,
-              passwordController,
-              passwordFocus,
-              _toggleObscurePasswordInput,
-              () => _login(context),
-              obscurePasswordInput: _obscurePasswordInput,
-            ),
-            Padding(
-              padding: EdgeInsets.only(bottom: queryData.size.height / 35),
-            ),
-            createSaveDataCheckBox(
-              context,
-              _setKeepSignedIn,
-              keepSignedIn: _keepSignedIn,
-            ),
-          ],
-        ),
+      child: Column(
+        children: [
+          createUsernameInput(
+            context,
+            usernameController,
+            usernameFocus,
+            passwordFocus,
+          ),
+          const SizedBox(height: 20),
+          createPasswordInput(
+            context,
+            passwordController,
+            passwordFocus,
+            _toggleObscurePasswordInput,
+            () => _login(context),
+            obscurePasswordInput: _obscurePasswordInput,
+          ),
+          const SizedBox(height: 20),
+          createSaveDataCheckBox(
+            context,
+            _setKeepSignedIn,
+            keepSignedIn: _keepSignedIn,
+          ),
+        ],
       ),
     );
   }
@@ -298,6 +257,41 @@ class LoginPageViewState extends State<LoginPageView> {
           );
         }
         return Container();
+      },
+    );
+  }
+
+  // TODO(thePeras): add StatefulBuilder
+  Future<void> _showAlternativeLogin() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Login with credentials'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                getLoginForm(context),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            //TODO(thePeras): add loading effect
+            ElevatedButton(
+              onPressed: () {
+                _login(context);
+              },
+              child: const Text('Login'),
+            ),
+          ],
+        );
       },
     );
   }

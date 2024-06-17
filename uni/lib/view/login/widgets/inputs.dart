@@ -10,7 +10,7 @@ Widget createUsernameInput(
   FocusNode passwordFocus,
 ) {
   return TextFormField(
-    style: const TextStyle(color: Colors.white, fontSize: 20),
+    style: const TextStyle(fontSize: 20),
     enableSuggestions: false,
     autocorrect: false,
     controller: usernameController,
@@ -36,7 +36,7 @@ Widget createPasswordInput(
   required bool obscurePasswordInput,
 }) {
   return TextFormField(
-    style: const TextStyle(color: Colors.white, fontSize: 20),
+    style: const TextStyle(fontSize: 20),
     enableSuggestions: false,
     autocorrect: false,
     controller: passwordController,
@@ -79,46 +79,6 @@ Widget createSaveDataCheckBox(
   );
 }
 
-/// Creates the widget for the user to confirm the inputted login info
-Widget createLogInButton(
-  MediaQueryData queryData,
-  BuildContext context,
-  void Function(BuildContext) login,
-) {
-  return Padding(
-    padding: EdgeInsets.only(
-      left: queryData.size.width / 7,
-      right: queryData.size.width / 7,
-    ),
-    child: SizedBox(
-      height: queryData.size.height / 16,
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(25),
-          ),
-          backgroundColor: Colors.white,
-        ),
-        onPressed: () {
-          if (!FocusScope.of(context).hasPrimaryFocus) {
-            FocusScope.of(context).unfocus();
-          }
-          login(context);
-        },
-        child: Text(
-          S.of(context).login,
-          style: TextStyle(
-            color: Theme.of(context).primaryColor,
-            fontWeight: FontWeight.w400,
-            fontSize: 20,
-          ),
-          textAlign: TextAlign.center,
-        ),
-      ),
-    ),
-  );
-}
-
 Widget createAFLogInButton(
   MediaQueryData queryData,
   BuildContext context,
@@ -153,15 +113,16 @@ Widget createAFLogInButton(
 /// Decoration for the username field.
 InputDecoration textFieldDecoration(String placeholder) {
   return InputDecoration(
-    hintStyle: const TextStyle(color: Colors.white),
-    errorStyle: const TextStyle(
-      color: Colors.white70,
+    hintStyle: const TextStyle(
+      fontSize: 20,
+      fontWeight: FontWeight.w300,
+      color: Colors.black54,
     ),
     hintText: placeholder,
     contentPadding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
     border: const UnderlineInputBorder(),
     focusedBorder: const UnderlineInputBorder(
-      borderSide: BorderSide(color: Colors.white, width: 3),
+      borderSide: BorderSide(width: 2),
     ),
   );
 }
@@ -185,17 +146,15 @@ InputDecoration passwordFieldDecoration(
         obscurePasswordInput ? Icons.visibility : Icons.visibility_off,
       ),
       onPressed: toggleObscurePasswordInput,
-      color: Colors.white,
     ),
   );
 }
 
-/// Displays terms and conditions if the user is
-/// logging in for the first time.
-InkResponse createSafeLoginButton(BuildContext context) {
+/// Displays terms and conditions
+InkResponse createTermsAndConditionsButton(BuildContext context) {
   return InkResponse(
     onTap: () {
-      _showLoginDetails(context);
+      _showTermsAndConditions(context);
     },
     splashColor: Colors.transparent,
     highlightColor: Colors.transparent,
@@ -217,7 +176,7 @@ InkResponse createSafeLoginButton(BuildContext context) {
 }
 
 /// Displays 'Terms and conditions' section.
-Future<void> _showLoginDetails(BuildContext context) async {
+Future<void> _showTermsAndConditions(BuildContext context) async {
   await showDialog<void>(
     context: context,
     builder: (BuildContext context) {
