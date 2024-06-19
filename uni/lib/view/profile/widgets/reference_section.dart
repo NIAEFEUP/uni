@@ -43,7 +43,7 @@ class InfoText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      textScaleFactor: 0.9,
+      textScaler: const TextScaler.linear(0.9),
       style: Theme.of(context).textTheme.titleSmall?.copyWith(
             color: color,
           ),

@@ -6,11 +6,6 @@ class ExamTime extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: <Widget>[
-        Text(begin, style: Theme.of(context).textTheme.bodyMedium),
-      ],
-    );
+    return Text(begin, style: Theme.of(context).textTheme.bodyMedium);
   }
 }

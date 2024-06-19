@@ -42,7 +42,7 @@ class LazyConsumer<T1 extends StateProviderNotifier<T2>, T2>
       StateProviderNotifier<dynamic>? provider;
       try {
         provider = Provider.of<T1>(context, listen: false);
-      } catch (e) {
+      } catch (_) {
         // The provider was not found. This should only happen in tests.
         Logger().e('LazyConsumer: ${T1.runtimeType} not found');
         return;
@@ -60,14 +60,14 @@ class LazyConsumer<T1 extends StateProviderNotifier<T2>, T2>
                     .ensureInitialized(context);
               })
             : Future(() {});
-      } catch (exception, stackTrace) {
+      } catch (err, st) {
         // In tests, it is ok to not find the startup providers:
         // all provider data should be mocked by the test itself.
         if (!Platform.environment.containsKey('FLUTTER_TEST')) {
           Logger().e(
-            'Failed to initialize startup providers: $exception',
+            'Failed to initialize startup providers: $err',
           );
-          await Sentry.captureException(exception, stackTrace: stackTrace);
+          await Sentry.captureException(err, stackTrace: st);
         }
       }
 
@@ -126,10 +126,7 @@ class LazyConsumer<T1 extends StateProviderNotifier<T2>, T2>
   Widget requestFailedMessage() {
     return FutureBuilder(
       future: Connectivity().checkConnectivity(),
-      builder: (
-        BuildContext context,
-        AsyncSnapshot<ConnectivityResult> connectivitySnapshot,
-      ) {
+      builder: (context, connectivitySnapshot) {
         if (!connectivitySnapshot.hasData) {
           return const Center(
             heightFactor: 3,
@@ -158,14 +155,27 @@ class LazyConsumer<T1 extends StateProviderNotifier<T2>, T2>
                 ),
               ),
             ),
-            OutlinedButton(
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute<BugReportPageView>(
-                  builder: (context) => const BugReportPageView(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                OutlinedButton(
+                  onPressed: () => Provider.of<T1>(context, listen: false)
+                      .forceRefresh(context),
+                  child: Text(S.of(context).try_again),
                 ),
-              ),
-              child: Text(S.of(context).report_error),
+                const SizedBox(
+                  width: 10,
+                ),
+                OutlinedButton(
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute<BugReportPageView>(
+                      builder: (context) => const BugReportPageView(),
+                    ),
+                  ),
+                  child: Text(S.of(context).report_error),
+                ),
+              ],
             ),
           ],
         );

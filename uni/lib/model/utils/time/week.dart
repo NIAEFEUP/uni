@@ -1,3 +1,13 @@
+extension _ExactAddition on DateTime {
+  DateTime addExact(Duration duration) {
+    return copyWith(isUtc: true).add(duration).copyWith(isUtc: isUtc);
+  }
+
+  DateTime subtractExact(Duration duration) {
+    return copyWith(isUtc: true).subtract(duration).copyWith(isUtc: isUtc);
+  }
+}
+
 /// A [Week] represents a period of 7 days.
 class Week implements Comparable<Week> {
   /// Creates a [Week] that starts the given [start] **date** (not datetime).
@@ -12,7 +22,7 @@ class Week implements Comparable<Week> {
       microsecond: 0,
     );
 
-    final end = startAtMidnight.add(const Duration(days: 7));
+    final end = startAtMidnight.addExact(const Duration(days: 7));
 
     return Week._internal(startAtMidnight, end);
   }
@@ -32,20 +42,20 @@ class Week implements Comparable<Week> {
 
   /// Returns the [Week] that starts at the end of this [Week].
   Week next() {
-    return Week._internal(end, end.add(const Duration(days: 7)));
+    return Week._internal(end, end.addExact(const Duration(days: 7)));
   }
 
   /// Returns the [Week] that ends at the start of this [Week].
   Week previous() {
-    return Week._internal(start.subtract(const Duration(days: 7)), start);
+    return Week._internal(start.subtractExact(const Duration(days: 7)), start);
   }
 
   /// Returns the [Week] that is [duration] before this week.
   Week subtract(Duration duration) {
     final normalizedDuration = Duration(days: duration.inDays);
     return Week._internal(
-      start.subtract(normalizedDuration),
-      end.subtract(normalizedDuration),
+      start.subtractExact(normalizedDuration),
+      end.subtractExact(normalizedDuration),
     );
   }
 
@@ -53,8 +63,8 @@ class Week implements Comparable<Week> {
   Week add(Duration duration) {
     final normalizedDuration = Duration(days: duration.inDays);
     return Week._internal(
-      start.add(normalizedDuration),
-      end.add(normalizedDuration),
+      start.addExact(normalizedDuration),
+      end.addExact(normalizedDuration),
     );
   }
 
@@ -69,8 +79,8 @@ class Week implements Comparable<Week> {
     final offsetInDays = (weekday - start.weekday) % 7;
 
     return Week._internal(
-      start.add(Duration(days: offsetInDays)),
-      end.add(Duration(days: offsetInDays)),
+      start.addExact(Duration(days: offsetInDays)),
+      end.addExact(Duration(days: offsetInDays)),
     );
   }
 
@@ -84,8 +94,8 @@ class Week implements Comparable<Week> {
     final offsetInDays = (end.weekday - weekday) % 7;
 
     return Week._internal(
-      start.subtract(Duration(days: offsetInDays)),
-      end.subtract(Duration(days: offsetInDays)),
+      start.subtractExact(Duration(days: offsetInDays)),
+      end.subtractExact(Duration(days: offsetInDays)),
     );
   }
 
@@ -93,7 +103,7 @@ class Week implements Comparable<Week> {
   ///
   /// The values for [weekday] are according to [DateTime.weekday].
   DateTime getWeekday(int weekday) {
-    return start.add(Duration(days: (weekday - start.weekday) % 7));
+    return start.addExact(Duration(days: (weekday - start.weekday) % 7));
   }
 
   Iterable<DateTime> get weekdays {
@@ -102,7 +112,9 @@ class Week implements Comparable<Week> {
 
   @override
   bool operator ==(Object other) {
-    if (identical(this, other)) return true;
+    if (identical(this, other)) {
+      return true;
+    }
     return other is Week && other.start == start;
   }
 

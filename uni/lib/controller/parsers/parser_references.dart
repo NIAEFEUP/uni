@@ -1,4 +1,3 @@
-import 'package:html/dom.dart';
 import 'package:html/parser.dart' show parse;
 import 'package:http/http.dart' as http;
 import 'package:uni/model/entities/reference.dart';
@@ -13,7 +12,7 @@ Future<List<Reference>> parseReferences(http.Response response) async {
       document.querySelectorAll('div#tab0 > table.dadossz > tbody > tr');
 
   if (rows.length > 1) {
-    rows.sublist(1).forEach((Element tr) {
+    rows.sublist(1).forEach((tr) {
       final info = tr.querySelectorAll('td');
       final description = info[0].text;
       final limitDate = DateTime.parse(info[2].text);

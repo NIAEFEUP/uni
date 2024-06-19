@@ -1,5 +1,4 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="pt.up.fe.ni.uni">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
    <application
         android:label="uni"
         android:name="${applicationName}"

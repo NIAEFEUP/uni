@@ -115,6 +115,9 @@ class _PlausibleProviderState extends State<PlausibleProvider> {
 
   @override
   Widget build(BuildContext context) {
+    widget.plausible?.screenWidth =
+        MediaQuery.of(context).size.width.toString();
+
     return Listener(
       behavior: HitTestBehavior.translucent,
       onPointerDown: (event) {

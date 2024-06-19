@@ -36,12 +36,18 @@ class AppUserDataDatabase extends AppDatabase {
     String? feesBalance;
     DateTime? feesLimit;
     for (final entry in maps) {
-      if (entry['key'] == 'name') name = entry['value'] as String;
-      if (entry['key'] == 'email') email = entry['value'] as String;
+      if (entry['key'] == 'name') {
+        name = entry['value'] as String;
+      }
+      if (entry['key'] == 'email') {
+        email = entry['value'] as String;
+      }
       if (entry['key'] == 'printBalance') {
         printBalance = entry['value'] as String;
       }
-      if (entry['key'] == 'feesBalance') feesBalance = entry['value'] as String;
+      if (entry['key'] == 'feesBalance') {
+        feesBalance = entry['value'] as String;
+      }
       if (entry['key'] == 'feesLimit') {
         feesLimit = DateTime.tryParse(entry['value'] as String);
       }

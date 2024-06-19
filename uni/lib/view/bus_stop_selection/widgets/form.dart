@@ -33,7 +33,9 @@ class BusesFormState extends State<BusesForm> {
       this.buses = buses;
       busesToAdd.fillRange(0, buses.length, false);
     });
-    if (!mounted) return;
+    if (!mounted) {
+      return;
+    }
     final currentConfig = Provider.of<BusStopProvider>(context, listen: false)
         .state![widget.stopCode];
     if (currentConfig == null) {

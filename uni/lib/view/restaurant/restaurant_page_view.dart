@@ -59,7 +59,7 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
               style: const TextStyle(fontSize: 18),
             ),
           ),
-          hasContent: (List<Restaurant> restaurants) => restaurants.isNotEmpty,
+          hasContent: (restaurants) => restaurants.isNotEmpty,
         ),
       ],
     );
@@ -137,12 +137,7 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
       return Container(
         margin: const EdgeInsets.only(bottom: 5),
         key: Key('restaurant-page-day-column-$day'),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Center(child: Text(S.of(context).no_menu_info)),
-          ],
-        ),
+        child: Center(child: Text(S.of(context).no_menu_info)),
       );
     } else {
       return Container(

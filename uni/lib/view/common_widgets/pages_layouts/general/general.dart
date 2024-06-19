@@ -37,14 +37,14 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
 
       try {
         await onLoad(context);
-      } catch (e, stackTrace) {
-        if (e is SocketException) {
+      } catch (err, st) {
+        if (err is SocketException) {
           setState(() {
             _connected = false;
           });
         } else {
-          Logger().e('Failed to load page info: $e\n$stackTrace');
-          await Sentry.captureException(e, stackTrace: stackTrace);
+          Logger().e('Failed to load page info: $err\n$st');
+          await Sentry.captureException(err, stackTrace: st);
         }
       }
 
@@ -79,16 +79,7 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
     return getScaffold(
       context,
       _loading
-          ? const Flex(
-              direction: Axis.vertical,
-              children: [
-                Expanded(
-                  child: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                ),
-              ],
-            )
+          ? const Center(child: CircularProgressIndicator())
           : getBody(context),
     );
   }

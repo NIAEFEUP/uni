@@ -26,7 +26,7 @@ class LectureProvider extends StateProviderNotifier<List<Lecture>> {
       stateProviders.sessionProvider.state!,
       stateProviders.profileProvider.state!,
       persistentSession:
-          (PreferencesController.getPersistentUserInfo()) != null,
+          (await PreferencesController.getPersistentUserInfo()) != null,
     );
   }
 

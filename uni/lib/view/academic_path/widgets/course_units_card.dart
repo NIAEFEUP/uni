@@ -30,7 +30,7 @@ class CourseUnitsCard extends GenericCard {
             .toList();
         return _generateCourseUnitsCards(courseUnits, context);
       },
-      hasContent: (Profile profile) => profile.courseUnits.isNotEmpty,
+      hasContent: (profile) => profile.courseUnits.isNotEmpty,
       onNullContent: Center(
         heightFactor: 10,
         child: Text(
@@ -58,13 +58,9 @@ class CourseUnitsCard extends GenericCard {
     return Column(
       children: courseUnits
           .map(
-            (courseUnit) => Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(5),
-                  child: CourseUnitCard(courseUnit),
-                ),
-              ],
+            (courseUnit) => Padding(
+              padding: const EdgeInsets.all(5),
+              child: CourseUnitCard(courseUnit),
             ),
           )
           .toList(),

@@ -32,14 +32,14 @@ Future<void> workerStartCallback() async {
         });
         return true;
       }
-      //try to keep the usage of this function BELOW +-30 seconds
-      //to not be punished by the scheduler in future runs.
+      // try to keep the usage of this function BELOW +-30 seconds
+      // to not be punished by the scheduler in future runs.
       await taskMap[taskName]!.item1();
-    } catch (err, stackTrace) {
+    } catch (err, st) {
       Logger().e(
         'Error while running $taskName job:',
         error: err,
-        stackTrace: stackTrace,
+        stackTrace: st,
       );
       return false;
     }

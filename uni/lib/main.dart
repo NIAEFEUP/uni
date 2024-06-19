@@ -12,6 +12,7 @@ import 'package:plausible_analytics/plausible_analytics.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:ua_client_hints/ua_client_hints.dart';
 import 'package:uni/controller/background_workers/background_callback.dart';
 import 'package:uni/controller/cleanup.dart';
 import 'package:uni/controller/fetchers/terms_and_conditions_fetcher.dart';
@@ -57,15 +58,16 @@ SentryEvent? beforeSend(SentryEvent event) {
   return event.level == SentryLevel.info ? event : null;
 }
 
-Future<Widget> firstRoute() async {
-  final userPersistentInfo = PreferencesController.getPersistentUserInfo();
+Future<String> firstRoute() async {
+  final userPersistentInfo =
+      await PreferencesController.getPersistentUserInfo();
 
   if (userPersistentInfo != null) {
-    return const HomePageView();
+    return '/${NavigationItem.navPersonalArea.route}';
   }
 
   await acceptTermsAndConditions();
-  return const LoginPageView();
+  return '/${NavigationItem.navLogin.route}';
 }
 
 Future<void> main() async {
@@ -110,8 +112,10 @@ Future<void> main() async {
   final plausibleUrl = dotenv.env['PLAUSIBLE_URL'];
   final plausibleDomain = dotenv.env['PLAUSIBLE_DOMAIN'];
 
+  final ua = await userAgent();
+
   final plausible = plausibleUrl != null && plausibleDomain != null
-      ? Plausible(plausibleUrl, plausibleDomain)
+      ? Plausible(plausibleUrl, plausibleDomain, userAgent: ua)
       : null;
 
   if (plausible == null) {
@@ -207,9 +211,9 @@ Future<void> main() async {
 /// This class is necessary to track the app's state for
 /// the current execution.
 class Application extends StatefulWidget {
-  const Application(this.initialWidget, {super.key});
+  const Application(this.initialRoute, {super.key});
 
-  final Widget initialWidget;
+  final String initialRoute;
 
   static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -251,11 +255,15 @@ class ApplicationState extends State<Application> {
           GlobalCupertinoLocalizations.delegate,
         ],
         supportedLocales: S.delegate.supportedLocales,
-        initialRoute: '/${NavigationItem.navPersonalArea.route}',
-        home: widget.initialWidget,
+        initialRoute: widget.initialRoute,
         navigatorObservers: navigatorObservers,
-        onGenerateRoute: (RouteSettings settings) {
+        onGenerateRoute: (settings) {
           final transitions = {
+            '/${NavigationItem.navLogin.route}':
+                PageTransition.makePageTransition(
+              page: const LoginPageView(),
+              settings: settings,
+            ),
             '/${NavigationItem.navPersonalArea.route}':
                 PageTransition.makePageTransition(
               page: const HomePageView(),

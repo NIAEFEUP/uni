@@ -22,8 +22,7 @@ Widget createUsernameInput(
     textInputAction: TextInputAction.next,
     textAlign: TextAlign.left,
     decoration: textFieldDecoration(S.of(context).student_number),
-    validator: (String? value) =>
-        value!.isEmpty ? S.of(context).empty_text : null,
+    validator: (value) => value!.isEmpty ? S.of(context).empty_text : null,
   );
 }
 
@@ -53,7 +52,7 @@ Widget createPasswordInput(
       toggleObscurePasswordInput,
       obscurePasswordInput: obscurePasswordInput,
     ),
-    validator: (String? value) =>
+    validator: (value) =>
         value != null && value.isEmpty ? S.of(context).empty_text : null,
   );
 }
@@ -182,7 +181,7 @@ InkResponse createTermsAndConditionsButton(BuildContext context) {
 Future<void> _showTermsAndConditions(BuildContext context) async {
   await showDialog<void>(
     context: context,
-    builder: (BuildContext context) {
+    builder: (context) {
       return AlertDialog(
         title: Text(S.of(context).terms),
         content: const SingleChildScrollView(child: TermsAndConditions()),

@@ -69,6 +69,7 @@ abstract class StateProviderNotifier<T> extends ChangeNotifier {
   /// so that consumers may trigger the loading again.
   void invalidate() {
     _state = null;
+    notifyListeners();
   }
 
   Future<void> _loadFromStorage(BuildContext context) async {
@@ -80,10 +81,9 @@ abstract class StateProviderNotifier<T> extends ChangeNotifier {
 
     try {
       setState(await loadFromStorage(StateProviders.fromContext(context)));
-    } catch (e, stackTrace) {
-      await Sentry.captureException(e, stackTrace: stackTrace);
-      Logger()
-          .e('Failed to load $runtimeType info from storage: $e\n$stackTrace');
+    } catch (err, st) {
+      await Sentry.captureException(err, stackTrace: st);
+      Logger().e('Failed to load $runtimeType info from storage: $err\n$st');
       _updateStatus(RequestStatus.failed);
     }
 
@@ -134,10 +134,9 @@ abstract class StateProviderNotifier<T> extends ChangeNotifier {
       );
 
       _updateStatus(RequestStatus.successful);
-    } catch (e, stackTrace) {
-      await Sentry.captureException(e, stackTrace: stackTrace);
-      Logger()
-          .e('Failed to load $runtimeType info from remote: $e\n$stackTrace');
+    } catch (err, st) {
+      await Sentry.captureException(err, stackTrace: st);
+      Logger().e('Failed to load $runtimeType info from remote: $err\n$st');
       _updateStatus(RequestStatus.failed);
     }
   }

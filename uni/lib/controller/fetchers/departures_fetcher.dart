@@ -1,9 +1,11 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
 import 'package:html/dom.dart';
 import 'package:html/parser.dart';
 import 'package:http/io_client.dart' as http;
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/model/entities/bus.dart';
 import 'package:uni/model/entities/bus_stop.dart';
@@ -26,24 +28,38 @@ class DeparturesFetcher {
 
     final response = await _client.get(url.toUri());
     final htmlResponse = parse(response.body);
+    try {
+      final scriptText = htmlResponse
+          .querySelectorAll('table script')
+          .where((element) => element.text.contains(_stopCode))
+          .map((e) => e.text)
+          .first;
 
-    final scriptText = htmlResponse
-        .querySelectorAll('table script')
-        .where((element) => element.text.contains(_stopCode))
-        .map((e) => e.text)
-        .first;
+      final callParam = scriptText
+          .substring(scriptText.indexOf('('))
+          .split(',')
+          .firstWhere((element) => element.contains(')'));
 
-    final callParam = scriptText
-        .substring(scriptText.indexOf('('))
-        .split(',')
-        .firstWhere((element) => element.contains(')'));
-
-    final csrfToken = callParam.substring(
-      callParam.indexOf("'") + 1,
-      callParam.lastIndexOf("'"),
-    );
-
-    return csrfToken;
+      final csrfToken = callParam.substring(
+        callParam.indexOf("'") + 1,
+        callParam.lastIndexOf("'"),
+      );
+      return csrfToken;
+    } catch (err, st) {
+      unawaited(
+        Sentry.captureEvent(
+          SentryEvent(
+            throwable: err,
+            request: SentryRequest(
+              url: url,
+              data: response.body,
+            ),
+          ),
+          stackTrace: st,
+        ),
+      );
+      rethrow;
+    }
   }
 
   void throwCSRFTokenError() {
