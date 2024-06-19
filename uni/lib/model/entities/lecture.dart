@@ -115,11 +115,6 @@ class Lecture {
     };
   }
 
-  /// Prints the data in this lecture to the [Logger] with an INFO level.
-  void printLecture() {
-    Logger().i(toString());
-  }
-
   @override
   String toString() {
     return '$subject $typeClass\n$startTime $endTime $blocks blocos\n $room  '

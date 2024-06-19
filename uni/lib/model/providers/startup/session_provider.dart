@@ -160,7 +160,7 @@ class SessionProvider extends StateProviderNotifier<Session> {
   }
 
   Future<void> finishFederatedAuthentication(Uri uri) async {
-    final Credential credential = await _flow!.callback(uri.queryParameters);
+    final credential = await _flow!.callback(uri.queryParameters);
     final userInfo = (await credential.getUserInfo()).toJson();
     final token = (await credential.getTokenResponse()).accessToken;
 

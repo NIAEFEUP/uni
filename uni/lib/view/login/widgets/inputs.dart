@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/view/about/widgets/terms_and_conditions.dart';
 
@@ -93,11 +94,13 @@ Widget createAFLogInButton(
     onPressed: () {
       login(context);
     },
-    //image on left side of the button and text on right side
     child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        const Image(image: AssetImage('assets/images/AAI.png'), height: 30),
+        SvgPicture.asset(
+          'assets/images/AAI.svg',
+          height: 35,
+        ),
         Text(
           S.of(context).login,
           style: TextStyle(

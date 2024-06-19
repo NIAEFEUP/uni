@@ -129,11 +129,11 @@ class NetworkRouter {
     final cookiesMap = <String, String>{};
     for (final cookie in splitedCookies) {
       final parts = cookie.split('=');
-      if (parts.length < 2) continue;
-
-      final key = parts[0].replaceAll(' ', '');
-      final value = parts[1].replaceAll(' ', '');
-      cookiesMap[key] = value;
+      if (parts.length >= 2) {
+        final key = parts[0].replaceAll(' ', '');
+        final value = parts[1].replaceAll(' ', '');
+        cookiesMap[key] = value;
+      }
     }
 
     if (!cookiesMap.containsKey('SI_SESSION') ||
@@ -175,7 +175,7 @@ class NetworkRouter {
 
     final refreshToken = PreferencesController.getSessionRefreshToken();
     final faculties = PreferencesController.getUserFaculties();
-    final studentNumber = PreferencesController.getUserNumber();
+    final studentNumber = await PreferencesController.getUserNumber();
     if (refreshToken == null || studentNumber == null || faculties.isEmpty) {
       Logger().e('Re-login failed: refresh token not found');
       return null;

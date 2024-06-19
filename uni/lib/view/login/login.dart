@@ -145,19 +145,16 @@ class LoginPageViewState extends State<LoginPageView> {
               child: Column(
                 children: [
                   SizedBox(height: queryData.size.height / 20),
-                  Column(
-                    children: [
-                      SizedBox(
-                        width: 100,
-                        child: SvgPicture.asset(
-                          'assets/images/logo_dark.svg',
-                          colorFilter: const ColorFilter.mode(
-                            Colors.white,
-                            BlendMode.srcIn,
-                          ),
-                        ),
+                  SizedBox(
+                    width: 100,
+                    // TODO(thePeras): Divide into two svgs to add color
+                    child: SvgPicture.asset(
+                      'assets/images/logo_dark.svg',
+                      colorFilter: const ColorFilter.mode(
+                        Colors.white,
+                        BlendMode.srcIn,
                       ),
-                    ],
+                    ),
                   ),
                   SizedBox(height: queryData.size.height / 5),
                   createAFLogInButton(queryData, context, _falogin),
@@ -224,11 +221,11 @@ class LoginPageViewState extends State<LoginPageView> {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
+      builder: (context) {
         return AlertDialog(
           title: const Text('Login with credentials'),
           content: StatefulBuilder(
-            builder: (BuildContext context, StateSetter setState) {
+            builder: (context, setState) {
               return SingleChildScrollView(
                 child: Form(
                   key: _formKey,
