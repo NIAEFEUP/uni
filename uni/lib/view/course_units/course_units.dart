@@ -52,7 +52,7 @@ class CourseUnitsPageViewState
 
         return _getFilters(availableYears, availableSemesters);
       },
-      hasContent: (Profile profile) => profile.courseUnits.isNotEmpty,
+      hasContent: (profile) => profile.courseUnits.isNotEmpty,
       onNullContent: Column(
         children: [
           _getFilters([], []),
