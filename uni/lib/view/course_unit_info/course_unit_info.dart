@@ -68,7 +68,7 @@ class CourseUnitDetailPageViewState
   }
 
   @override
-  Widget getHeader(BuildContext context) {
+  Widget? getHeader(BuildContext context) {
     return PageTitle(
       center: false,
       name: widget.courseUnit.name,

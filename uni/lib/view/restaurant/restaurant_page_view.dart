@@ -40,7 +40,7 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
       S.of(context).nav_title(NavigationItem.navRestaurants.route);
 
   @override
-  Widget getHeader(BuildContext context) {
+  Widget? getHeader(BuildContext context) {
     return TabBar(
       controller: tabController,
       isScrollable: true,

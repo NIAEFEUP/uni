@@ -27,7 +27,7 @@ class CourseUnitsPageViewState
   String? selectedSemester;
 
   @override
-  Widget getHeader(BuildContext context) {
+  Widget? getHeader(BuildContext context) {
     return LazyConsumer<ProfileProvider, Profile>(
       builder: (context, profile) {
         final courseUnits = profile.courseUnits;
