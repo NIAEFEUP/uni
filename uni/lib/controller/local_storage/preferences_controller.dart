@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:encrypt/encrypt.dart' as encrypt;
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tuple/tuple.dart';
 import 'package:uni/model/entities/app_locale.dart';
@@ -71,17 +72,18 @@ class PreferencesController {
   }
 
   /// Saves the user's student number, password and faculties.
+  static const FlutterSecureStorage _secureStorage = FlutterSecureStorage();
   static Future<void> savePersistentUserInfo(
     String user,
     String pass,
     List<String> faculties,
   ) async {
-    await prefs.setString(_userNumber, user);
-    await prefs.setString(_userPw, encode(pass));
+    await _secureStorage.write(key: _userNumber, value: user);
+    await _secureStorage.write(key: _userPw, value: pass);
     await prefs.setStringList(
       _userFaculties,
       faculties,
-    ); // Could be multiple faculties
+    ); // Could be multiple faculties;
   }
 
   /// Sets whether or not the Terms and Conditions have been accepted.
@@ -170,9 +172,9 @@ class PreferencesController {
   /// * the first element in the tuple is the user's student number.
   /// * the second element in the tuple is the user's password, in plain text
   /// format.
-  static Tuple2<String, String>? getPersistentUserInfo() {
-    final userNum = getUserNumber();
-    final userPass = getUserPassword();
+  static Future<Tuple2<String, String>?> getPersistentUserInfo() async {
+    final userNum = await getUserNumber();
+    final userPass = await getUserPassword();
     if (userNum == null || userPass == null) {
       return null;
     }
@@ -187,13 +189,13 @@ class PreferencesController {
   }
 
   /// Returns the user's student number.
-  static String? getUserNumber() {
-    return prefs.getString(_userNumber);
+  static Future<String?> getUserNumber() {
+    return _secureStorage.read(key: _userNumber);
   }
 
   /// Returns the user's password, in plain text format.
-  static String? getUserPassword() {
-    final password = prefs.getString(_userPw);
+  static Future<String?> getUserPassword() async {
+    final password = await _secureStorage.read(key: _userPw);
     return password != null ? decode(password) : null;
   }
 
@@ -281,7 +283,7 @@ class PreferencesController {
     final encrypter = _createEncrypter();
     try {
       return encrypter.decrypt64(base64Text, iv: iv);
-    } catch (e) {
+    } catch (_) {
       return null;
     }
   }

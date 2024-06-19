@@ -93,7 +93,7 @@ class LocationsMap extends StatelessWidget {
               animation: const PopupAnimation.fade(
                 duration: Duration(milliseconds: 400),
               ),
-              builder: (_, Marker marker) {
+              builder: (_, marker) {
                 if (marker is LocationMarker) {
                   return marker.locationGroup.isFloorless
                       ? FloorlessLocationMarkerPopup(marker.locationGroup)

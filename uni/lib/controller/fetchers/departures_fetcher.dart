@@ -45,17 +45,17 @@ class DeparturesFetcher {
         callParam.lastIndexOf("'"),
       );
       return csrfToken;
-    } catch (e, stackTrace) {
+    } catch (err, st) {
       unawaited(
         Sentry.captureEvent(
           SentryEvent(
-            throwable: e,
+            throwable: err,
             request: SentryRequest(
               url: url,
               data: response.body,
             ),
           ),
-          stackTrace: stackTrace,
+          stackTrace: st,
         ),
       );
       rethrow;

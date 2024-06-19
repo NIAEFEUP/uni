@@ -9,14 +9,9 @@ class NotificationsDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text(S.of(context).notifications),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          ListTile(
-            title: Text(S.of(context).fee_notification),
-            trailing: const TuitionNotificationSwitch(),
-          ),
-        ],
+      content: ListTile(
+        title: Text(S.of(context).fee_notification),
+        trailing: const TuitionNotificationSwitch(),
       ),
     );
   }

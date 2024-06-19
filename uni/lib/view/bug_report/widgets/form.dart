@@ -114,7 +114,7 @@ class BugReportFormState extends State<BugReportForm> {
             labelText: S.of(context).desired_email,
             bottomMargin: 30,
             isOptional: true,
-            formatValidator: (String? value) {
+            formatValidator: (value) {
               if (value == null || value.isEmpty) {
                 return null;
               }
@@ -172,7 +172,7 @@ class BugReportFormState extends State<BugReportForm> {
                   hint: Text(S.of(context).occurrence_type),
                   items: bugList,
                   value: _selectedBug,
-                  onChanged: (int? value) {
+                  onChanged: (value) {
                     if (value != null) {
                       setState(() {
                         _selectedBug = value;
@@ -202,7 +202,7 @@ class BugReportFormState extends State<BugReportForm> {
             textAlign: TextAlign.left,
           ),
           value: _isConsentGiven,
-          onChanged: (bool? newValue) {
+          onChanged: (newValue) {
             setState(() {
               _isConsentGiven = newValue!;
             });
@@ -258,12 +258,16 @@ class BugReportFormState extends State<BugReportForm> {
     try {
       await submitSentryEvent(bugReport);
       Logger().i('Successfully submitted bug report.');
-      if (context.mounted) toastMsg = s.success;
+      if (context.mounted) {
+        toastMsg = s.success;
+      }
       status = true;
-    } catch (e, stackTrace) {
-      await Sentry.captureException(e, stackTrace: stackTrace);
-      Logger().e('Error while posting bug report:$e');
-      if (context.mounted) toastMsg = s.sent_error;
+    } catch (err, st) {
+      await Sentry.captureException(err, stackTrace: st);
+      Logger().e('Error while posting bug report:$err');
+      if (context.mounted) {
+        toastMsg = s.sent_error;
+      }
       status = false;
     }
 
@@ -307,7 +311,9 @@ class BugReportFormState extends State<BugReportForm> {
     descriptionController.clear();
     emailController.clear();
 
-    if (!mounted) return;
+    if (!mounted) {
+      return;
+    }
     setState(() {
       _selectedBug = 0;
       _isConsentGiven = false;
