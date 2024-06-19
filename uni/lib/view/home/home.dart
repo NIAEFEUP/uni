@@ -48,7 +48,7 @@ class HomePageViewState extends GeneralPageViewState {
   }
 
   @override
-  Widget getHeader(BuildContext context) {
+  Widget? getHeader(BuildContext context) {
     return Container(
       padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
       child: Row(

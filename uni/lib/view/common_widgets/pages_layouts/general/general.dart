@@ -84,8 +84,8 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
     );
   }
 
-  Widget getHeader(BuildContext context) {
-    return Container();
+  Widget? getHeader(BuildContext context) {
+    return null;
   }
 
   String? getTitle();

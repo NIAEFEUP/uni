@@ -12,14 +12,14 @@ class RefreshState extends StatelessWidget {
   });
 
   final Future<void> Function(BuildContext) onRefresh;
-  final Widget header;
+  final Widget? header;
   final Widget body;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        header,
+        if (header != null) header!,
         Expanded(
           child: LayoutBuilder(
             builder: (context, viewportConstraints) {
