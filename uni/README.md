@@ -51,6 +51,9 @@ dart run build_runner watch
 Intl package allows the internationalization of the app, currently supporting Portuguese ('pt_PT') and English ('en_EN). This package creates `.arb` files (one for each language), mapping a key to the correspondent translated string. 
 In order to access those translations through getters, you must add the translations you want to the `.arb` files and run:
 ```
+dart pub global activate intl_utils 2.1.0
+```
+```
 dart pub global run intl_utils:generate
 ```
 This will generate `.dart` files with the getters you need to access the translations.

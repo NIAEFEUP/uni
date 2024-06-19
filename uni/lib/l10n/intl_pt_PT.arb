@@ -136,7 +136,7 @@
   "@increment": {},
   "invalid_credentials": "Credenciais inválidas",
   "@invalid_credentials": {},
-  "keep_login": "Manter sessão iniciada",
+  "keep_login": "Manter sessão",
   "@keep_login": {},
   "last_refresh_time": "última atualização às {time}",
   "@last_refresh_time": {

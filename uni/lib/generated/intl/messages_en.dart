@@ -277,7 +277,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "terms": MessageLookupByLibrary.simpleMessage("Terms and Conditions"),
         "theme": MessageLookupByLibrary.simpleMessage("Theme"),
         "title": MessageLookupByLibrary.simpleMessage("Title"),
-        "uc_info": MessageLookupByLibrary.simpleMessage("Open UC page in app"),
+        "uc_info": MessageLookupByLibrary.simpleMessage("Open UC page"),
         "unavailable": MessageLookupByLibrary.simpleMessage("Unavailable"),
         "valid_email":
             MessageLookupByLibrary.simpleMessage("Please enter a valid email"),

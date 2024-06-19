@@ -61,17 +61,18 @@ Widget createPasswordInput(
 /// Creates the widget for the user to keep signed in (save his data).
 Widget createSaveDataCheckBox(
   BuildContext context,
-  void Function({bool? value})? setKeepSignedIn, {
+  void Function() toogleSignedIn, {
   required bool keepSignedIn,
+  Color? textColor,
 }) {
   return CheckboxListTile(
     value: keepSignedIn,
-    onChanged: (value) => setKeepSignedIn?.call(value: value),
+    onChanged: (_) => toogleSignedIn(),
     title: Text(
       S.of(context).keep_login,
       textAlign: TextAlign.center,
-      style: const TextStyle(
-        color: Colors.white,
+      style: TextStyle(
+        color: textColor ?? Colors.white,
         fontSize: 17,
         fontWeight: FontWeight.w300,
       ),
@@ -84,28 +85,30 @@ Widget createAFLogInButton(
   BuildContext context,
   void Function(BuildContext) login,
 ) {
-  return Padding(
-    padding: EdgeInsets.symmetric(
-      horizontal: queryData.size.width / 7,
+  return ElevatedButton(
+    style: ElevatedButton.styleFrom(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(25),
+      ),
     ),
-    child: ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(25),
+    onPressed: () {
+      login(context);
+    },
+    //image on left side of the button and text on right side
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        const Image(image: AssetImage('assets/images/AAI.png'), height: 30),
+        Text(
+          S.of(context).login,
+          style: TextStyle(
+            color: Theme.of(context).primaryColor,
+            fontWeight: FontWeight.w400,
+            fontSize: 20,
+          ),
+          textAlign: TextAlign.center,
         ),
-      ),
-      onPressed: () {
-        login(context);
-      },
-      child: Text(
-        S.of(context).login,
-        style: TextStyle(
-          color: Theme.of(context).primaryColor,
-          fontWeight: FontWeight.w400,
-          fontSize: 20,
-        ),
-        textAlign: TextAlign.center,
-      ),
+      ],
     ),
   );
 }

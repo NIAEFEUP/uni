@@ -18,7 +18,6 @@ import 'package:uni/view/login/widgets/inputs.dart';
 import 'package:uni/view/theme.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-// TODO(thePeras): Remove unecessary things
 class LoginPageView extends StatefulWidget {
   const LoginPageView({super.key});
 
@@ -48,8 +47,6 @@ class LoginPageViewState extends State<LoginPageView> {
     if (!_loggingIn && _formKey.currentState!.validate()) {
       final user = usernameController.text.trim();
       final pass = passwordController.text.trim();
-      usernameController.clear();
-      passwordController.clear();
 
       try {
         setState(() {
@@ -62,6 +59,8 @@ class LoginPageViewState extends State<LoginPageView> {
           persistentSession: _keepSignedIn,
         );
         if (context.mounted) {
+          usernameController.clear();
+          passwordController.clear();
           await Navigator.pushReplacementNamed(
             context,
             '/${NavigationItem.navPersonalArea.route}',
@@ -75,7 +74,7 @@ class LoginPageViewState extends State<LoginPageView> {
           _loggingIn = false;
         });
         if (error is ExpiredCredentialsException) {
-          updatePasswordDialog();
+          _updatePasswordDialog();
         } else if (error is InternetStatusException) {
           if (context.mounted) {
             unawaited(ToastMessage.warning(context, error.message));
@@ -119,22 +118,6 @@ class LoginPageViewState extends State<LoginPageView> {
     }
   }
 
-  /// Tracks if the user wants to keep signed in (has a
-  /// checkmark on the button).
-  void _setKeepSignedIn({bool? value}) {
-    if (value == null) return;
-    setState(() {
-      _keepSignedIn = value;
-    });
-  }
-
-  /// Makes the password input view hidden.
-  void _toggleObscurePasswordInput() {
-    setState(() {
-      _obscurePasswordInput = !_obscurePasswordInput;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     final queryData = MediaQuery.of(context);
@@ -155,7 +138,7 @@ class LoginPageViewState extends State<LoginPageView> {
                 left: queryData.size.width / 8,
                 right: queryData.size.width / 8,
               ),
-              child: ListView(
+              child: Column(
                 children: [
                   SizedBox(height: queryData.size.height / 20),
                   Column(
@@ -172,58 +155,30 @@ class LoginPageViewState extends State<LoginPageView> {
                       ),
                     ],
                   ),
-                  SizedBox(height: queryData.size.height / 20),
+                  SizedBox(height: queryData.size.height / 5),
+                  createAFLogInButton(queryData, context, _falogin),
+                  const SizedBox(height: 10),
                   createSaveDataCheckBox(
                     context,
-                    _setKeepSignedIn,
+                    () {
+                      setState(() {
+                        _keepSignedIn = !_keepSignedIn;
+                      });
+                    },
                     keepSignedIn: _keepSignedIn,
                   ),
-                  createAFLogInButton(queryData, context, _falogin),
-                  SizedBox(height: queryData.size.height / 35),
                   createLink(
                     context,
                     'Problems with login? Try a different login',
                     _showAlternativeLogin,
                   ),
-                  SizedBox(height: queryData.size.height / 35),
+                  SizedBox(height: queryData.size.height / 5),
                   createTermsAndConditionsButton(context),
                 ],
               ),
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  /// Creates the widgets for the user input fields.
-  Widget getLoginForm(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: Column(
-        children: [
-          createUsernameInput(
-            context,
-            usernameController,
-            usernameFocus,
-            passwordFocus,
-          ),
-          const SizedBox(height: 20),
-          createPasswordInput(
-            context,
-            passwordController,
-            passwordFocus,
-            _toggleObscurePasswordInput,
-            () => _login(context),
-            obscurePasswordInput: _obscurePasswordInput,
-          ),
-          const SizedBox(height: 20),
-          createSaveDataCheckBox(
-            context,
-            _setKeepSignedIn,
-            keepSignedIn: _keepSignedIn,
-          ),
-        ],
       ),
     );
   }
@@ -261,7 +216,6 @@ class LoginPageViewState extends State<LoginPageView> {
     );
   }
 
-  // TODO(thePeras): add StatefulBuilder
   Future<void> _showAlternativeLogin() async {
     return showDialog<void>(
       context: context,
@@ -269,12 +223,48 @@ class LoginPageViewState extends State<LoginPageView> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Login with credentials'),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                getLoginForm(context),
-              ],
-            ),
+          content: StatefulBuilder(
+            builder: (BuildContext context, StateSetter setState) {
+              return SingleChildScrollView(
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      createUsernameInput(
+                        context,
+                        usernameController,
+                        usernameFocus,
+                        passwordFocus,
+                      ),
+                      const SizedBox(height: 20),
+                      createPasswordInput(
+                        context,
+                        passwordController,
+                        passwordFocus,
+                        () {
+                          setState(() {
+                            _obscurePasswordInput = !_obscurePasswordInput;
+                          });
+                        },
+                        () => _login(context),
+                        obscurePasswordInput: _obscurePasswordInput,
+                      ),
+                      const SizedBox(height: 20),
+                      createSaveDataCheckBox(
+                        context,
+                        () {
+                          setState(() {
+                            _keepSignedIn = !_keepSignedIn;
+                          });
+                        },
+                        keepSignedIn: _keepSignedIn,
+                        textColor: Colors.black,
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
           ),
           actions: <Widget>[
             TextButton(
@@ -283,7 +273,6 @@ class LoginPageViewState extends State<LoginPageView> {
                 Navigator.of(context).pop();
               },
             ),
-            //TODO(thePeras): add loading effect
             ElevatedButton(
               onPressed: () {
                 _login(context);
@@ -296,7 +285,7 @@ class LoginPageViewState extends State<LoginPageView> {
     );
   }
 
-  void updatePasswordDialog() {
+  void _updatePasswordDialog() {
     showDialog<void>(
       context: context,
       builder: (BuildContext context) {

@@ -146,8 +146,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "increment": MessageLookupByLibrary.simpleMessage("Incrementar 1,00€"),
         "invalid_credentials":
             MessageLookupByLibrary.simpleMessage("Credenciais inválidas"),
-        "keep_login":
-            MessageLookupByLibrary.simpleMessage("Manter sessão iniciada"),
+        "keep_login": MessageLookupByLibrary.simpleMessage("Manter sessão"),
         "language": MessageLookupByLibrary.simpleMessage("Idioma"),
         "last_refresh_time": m0,
         "last_timestamp": m1,
@@ -279,8 +278,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "terms": MessageLookupByLibrary.simpleMessage("Termos e Condições"),
         "theme": MessageLookupByLibrary.simpleMessage("Tema"),
         "title": MessageLookupByLibrary.simpleMessage("Título"),
-        "uc_info":
-            MessageLookupByLibrary.simpleMessage("Abrir página da UC na app"),
+        "uc_info": MessageLookupByLibrary.simpleMessage("Abrir página da UC"),
         "unavailable": MessageLookupByLibrary.simpleMessage("Indisponível"),
         "valid_email": MessageLookupByLibrary.simpleMessage(
             "Por favor insere um email válido"),
