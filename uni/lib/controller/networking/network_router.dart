@@ -113,11 +113,12 @@ class NetworkRouter {
       throw Exception('Failed to get token from SIGARRA');
     }
 
-    // TODO(thePeras): implement this
-    //if(response.body.result != 'success') {
-    //  Logger().e('Failed to get token from SIGARRA');
-    //  throw Exception('Failed to get token from SIGARRA');
-    //}
+    final body = jsonDecode(response.body) as Map<String, dynamic>;
+
+    if (body['result'] != 'OK') {
+      Logger().e('Failed to get token from SIGARRA');
+      throw Exception('Failed to get token from SIGARRA');
+    }
 
     final setCookies = response.headers['set-cookie'];
     if (setCookies == null) {

@@ -1,5 +1,3 @@
-import 'package:logger/logger.dart';
-
 /// Stores information about a lecture.
 class Lecture {
   /// Creates an instance of the class [Lecture].

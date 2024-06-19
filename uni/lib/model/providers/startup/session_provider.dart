@@ -140,12 +140,10 @@ class SessionProvider extends StateProviderNotifier<Session> {
     final client = Client(
       issuer,
       dotenv.env['CLIENT_ID']!,
-      clientSecret: dotenv.env['CLIENT_SECRET'],
     );
 
-    _flow = Flow.authorizationCode(
+    _flow = Flow.authorizationCodeWithPKCE(
       client,
-      redirectUri: Uri.parse('pt.up.fe.ni.uni://auth'),
       scopes: [
         'openid',
         'profile',
@@ -155,6 +153,7 @@ class SessionProvider extends StateProviderNotifier<Session> {
         'uporto_data',
       ],
     );
+    _flow?.redirectUri = Uri.parse('pt.up.fe.ni.uni://auth');
 
     await _invoke(_flow!.authenticationUri);
   }
