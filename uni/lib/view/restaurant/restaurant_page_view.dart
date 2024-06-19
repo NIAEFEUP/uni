@@ -45,7 +45,6 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
       controller: tabController,
       isScrollable: true,
       tabs: createTabs(context),
-      padding: const EdgeInsets.only(top: 40),
     );
   }
 
