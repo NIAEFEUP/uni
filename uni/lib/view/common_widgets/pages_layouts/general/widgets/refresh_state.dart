@@ -27,7 +27,8 @@ class RefreshState extends StatelessWidget {
                 physics: const AlwaysScrollableScrollPhysics(),
                 child: RefreshIndicator(
                   key: GlobalKey<RefreshIndicatorState>(),
-                  notificationPredicate: (notification) => notification.metrics.axisDirection == AxisDirection.down,
+                  notificationPredicate: (notification) =>
+                      notification.metrics.axisDirection == AxisDirection.down,
                   onRefresh: () =>
                       ProfileProvider.fetchOrGetCachedProfilePicture(
                     Provider.of<SessionProvider>(context, listen: false).state!,
