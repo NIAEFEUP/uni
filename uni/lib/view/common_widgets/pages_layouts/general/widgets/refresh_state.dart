@@ -24,8 +24,10 @@ class RefreshState extends StatelessWidget {
           child: LayoutBuilder(
             builder: (context, viewportConstraints) {
               return SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
                 child: RefreshIndicator(
                   key: GlobalKey<RefreshIndicatorState>(),
+                  notificationPredicate: (notification) => notification.metrics.axisDirection == AxisDirection.down,
                   onRefresh: () =>
                       ProfileProvider.fetchOrGetCachedProfilePicture(
                     Provider.of<SessionProvider>(context, listen: false).state!,
