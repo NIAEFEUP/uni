@@ -297,7 +297,7 @@ class NetworkRouter {
         }
 
         session
-          ..username = newSession.username //(thePeras): Why is this necessary?
+          ..username = newSession.username // (thePeras): Why is this necessary?
           ..cookies = newSession.cookies;
         headers['cookie'] = session.cookies;
         return http.get(url.toUri(), headers: headers).timeout(timeout);

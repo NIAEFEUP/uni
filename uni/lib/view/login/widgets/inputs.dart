@@ -22,7 +22,10 @@ Widget createUsernameInput(
     },
     textInputAction: TextInputAction.next,
     textAlign: TextAlign.left,
-    decoration: textFieldDecoration(S.of(context).student_number),
+    decoration: textFieldDecoration(
+      S.of(context).student_number,
+      textColor: Theme.of(context).indicatorColor,
+    ),
     validator: (value) => value!.isEmpty ? S.of(context).empty_text : null,
   );
 }
@@ -49,6 +52,7 @@ Widget createPasswordInput(
     obscureText: obscurePasswordInput,
     textAlign: TextAlign.left,
     decoration: passwordFieldDecoration(
+      context,
       S.of(context).password,
       toggleObscurePasswordInput,
       obscurePasswordInput: obscurePasswordInput,
@@ -116,12 +120,15 @@ Widget createAFLogInButton(
 }
 
 /// Decoration for the username field.
-InputDecoration textFieldDecoration(String placeholder) {
+InputDecoration textFieldDecoration(
+  String placeholder, {
+  required Color textColor,
+}) {
   return InputDecoration(
-    hintStyle: const TextStyle(
+    hintStyle: TextStyle(
       fontSize: 20,
       fontWeight: FontWeight.w300,
-      color: Colors.black54,
+      color: textColor,
     ),
     hintText: placeholder,
     contentPadding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
@@ -134,11 +141,15 @@ InputDecoration textFieldDecoration(String placeholder) {
 
 /// Decoration for the password field.
 InputDecoration passwordFieldDecoration(
+  BuildContext context,
   String placeholder,
   void Function() toggleObscurePasswordInput, {
   required bool obscurePasswordInput,
 }) {
-  final genericDecoration = textFieldDecoration(placeholder);
+  final genericDecoration = textFieldDecoration(
+    placeholder,
+    textColor: Theme.of(context).indicatorColor,
+  );
   return InputDecoration(
     hintStyle: genericDecoration.hintStyle,
     errorStyle: genericDecoration.errorStyle,

@@ -157,7 +157,12 @@ class LoginPageViewState extends State<LoginPageView> {
                     ),
                   ),
                   SizedBox(height: queryData.size.height / 5),
-                  createAFLogInButton(queryData, context, _falogin),
+                  if (_loggingIn)
+                    const CircularProgressIndicator(
+                      color: Colors.white,
+                    ),
+                  if (!_loggingIn)
+                    createAFLogInButton(queryData, context, _falogin),
                   const SizedBox(height: 10),
                   createSaveDataCheckBox(
                     context,
@@ -221,7 +226,7 @@ class LoginPageViewState extends State<LoginPageView> {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
-      builder: (context) {
+      builder: (_) {
         return AlertDialog(
           title: Text(S.of(context).login_with_credentials),
           content: StatefulBuilder(
@@ -259,7 +264,7 @@ class LoginPageViewState extends State<LoginPageView> {
                           });
                         },
                         keepSignedIn: _keepSignedIn,
-                        textColor: Colors.black,
+                        textColor: Theme.of(context).indicatorColor,
                       ),
                     ],
                   ),
@@ -277,6 +282,9 @@ class LoginPageViewState extends State<LoginPageView> {
             ElevatedButton(
               onPressed: () {
                 _login(context);
+                if (_formKey.currentState!.validate()) {
+                  Navigator.of(context).pop();
+                }
               },
               child: Text(S.of(context).login),
             ),

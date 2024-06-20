@@ -137,8 +137,8 @@ Future<void> main() async {
             '/${NavigationItem.navPersonalArea.route}',
           );
         }
-      } catch (e) {
-        Logger().e('Failed to login with FederatedLogin: $e');
+      } catch (err) {
+        Logger().e('Failed to login with FederatedLogin: $err');
       }
     }
   });

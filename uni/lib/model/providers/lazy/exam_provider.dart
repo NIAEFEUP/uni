@@ -25,7 +25,7 @@ class ExamProvider extends StateProviderNotifier<List<Exam>> {
     final session = stateProviders.sessionProvider.state!;
     final profile = stateProviders.profileProvider.state!;
 
-    final exams = await fetchUserExams(
+    return fetchUserExams(
       ParserExams(),
       profile,
       session,
@@ -33,8 +33,6 @@ class ExamProvider extends StateProviderNotifier<List<Exam>> {
       persistentSession:
           (await PreferencesController.getPersistentUserInfo()) != null,
     );
-
-    return exams;
   }
 
   Future<List<Exam>> fetchUserExams(
