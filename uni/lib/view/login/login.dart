@@ -170,7 +170,7 @@ class LoginPageViewState extends State<LoginPageView> {
                   ),
                   createLink(
                     context,
-                    'Problems with login? Try a different login',
+                    S.of(context).try_different_login,
                     _showAlternativeLogin,
                   ),
                   SizedBox(height: queryData.size.height / 5),
@@ -184,7 +184,7 @@ class LoginPageViewState extends State<LoginPageView> {
     );
   }
 
-  ///Creates the widget for when the user forgets the password
+  /// Creates the widget for when the user forgets the password
   Widget createLink(BuildContext context, String text, void Function() onTap) {
     return RichText(
       textAlign: TextAlign.center,
@@ -223,7 +223,7 @@ class LoginPageViewState extends State<LoginPageView> {
       barrierDismissible: false, // user must tap button!
       builder: (context) {
         return AlertDialog(
-          title: const Text('Login with credentials'),
+          title: Text(S.of(context).login_with_credentials),
           content: StatefulBuilder(
             builder: (context, setState) {
               return SingleChildScrollView(
@@ -269,7 +269,7 @@ class LoginPageViewState extends State<LoginPageView> {
           ),
           actions: <Widget>[
             TextButton(
-              child: const Text('Cancel'),
+              child: Text(S.of(context).cancel),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -278,7 +278,7 @@ class LoginPageViewState extends State<LoginPageView> {
               onPressed: () {
                 _login(context);
               },
-              child: const Text('Login'),
+              child: Text(S.of(context).login),
             ),
           ],
         );

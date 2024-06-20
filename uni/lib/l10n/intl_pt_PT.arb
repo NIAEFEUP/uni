@@ -315,5 +315,9 @@
   "collect_usage_stats": "Partilhar estatísticas de uso",
   "@collect_usage_stats": {},
   "try_again": "Tentar de novo",
-  "@try_again": {}
+  "@try_again": {},
+  "try_different_login": "Problemas a iniciar sessão? Experimenta o login alternativo",
+  "@try_different_login": {},
+  "login_with_credentials": "Iniciar sessão com credenciais",
+  "@login_with_credentials": {}
 }

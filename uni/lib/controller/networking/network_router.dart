@@ -98,7 +98,7 @@ class NetworkRouter {
     List<String> faculties, {
     required bool persistentSession,
   }) async {
-    //Get the cookie from SIGARRA
+    // Get the cookie from SIGARRA
     const sigarraTokenEndpoint = 'https://sigarra.up.pt/auth/oidc/token';
     final response = await http.get(
       Uri.parse(sigarraTokenEndpoint),
@@ -174,7 +174,7 @@ class NetworkRouter {
       );
     }
 
-    final refreshToken = PreferencesController.getSessionRefreshToken();
+    final refreshToken = await PreferencesController.getSessionRefreshToken();
     final faculties = PreferencesController.getUserFaculties();
     final studentNumber = await PreferencesController.getUserNumber();
     if (refreshToken == null || studentNumber == null || faculties.isEmpty) {

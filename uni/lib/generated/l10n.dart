@@ -1607,6 +1607,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Problems with login? Try a different login`
+  String get try_different_login {
+    return Intl.message(
+      'Problems with login? Try a different login',
+      name: 'try_different_login',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Login with credentials`
+  String get login_with_credentials {
+    return Intl.message(
+      'Login with credentials',
+      name: 'login_with_credentials',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -93,8 +93,8 @@ class PreferencesController {
     String userNumber,
     List<String> faculties,
   ) async {
-    await prefs.setString(_userNumber, userNumber);
-    await prefs.setString(_refreshToken, refreshToken);
+    await _secureStorage.write(key: _userNumber, value: userNumber);
+    await _secureStorage.write(key: _refreshToken, value: refreshToken);
     await prefs.setStringList(
       _userFaculties,
       faculties,
@@ -177,14 +177,15 @@ class PreferencesController {
 
   /// Deletes the user's student number and password.
   static Future<void> removePersistentUserInfo() async {
-    await prefs.remove(_userNumber);
-    await prefs.remove(_userPw);
+    await _secureStorage.delete(key: _userNumber);
+    await _secureStorage.delete(key: _userPw);
+    await prefs.remove(_userFaculties);
   }
 
   /// Deletes the user's session refresh token.
   static Future<void> removeSessionRefreshToken() async {
-    await prefs.remove(_refreshToken);
-    await prefs.remove(_userNumber);
+    await _secureStorage.delete(key: _userNumber);
+    await _secureStorage.delete(key: _refreshToken);
     await prefs.remove(_userFaculties);
   }
 
@@ -205,8 +206,8 @@ class PreferencesController {
   }
 
   /// Returns the user's session refresh token.
-  static String? getSessionRefreshToken() {
-    return prefs.getString(_refreshToken);
+  static Future<String?> getSessionRefreshToken() {
+    return _secureStorage.read(key: _refreshToken);
   }
 
   /// Returns the user's faculties
