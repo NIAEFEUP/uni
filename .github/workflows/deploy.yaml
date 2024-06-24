@@ -16,10 +16,10 @@ jobs:
     environment:
       name: ${{ github.ref_name }}
     env:
-      PROPERTIES_PATH: "android/key.properties"
-      JAVA_VERSION: "17.x"
-      APP_VERSION_PATH: "app_version.txt"
-      PUBSPEC_PATH: "pubspec.yaml"
+      PROPERTIES_PATH: android/key.properties
+      JAVA_VERSION: 21.x
+      APP_VERSION_PATH: app_version.txt
+      PUBSPEC_PATH: pubspec.yaml
     defaults:
       run:
         working-directory: ./uni

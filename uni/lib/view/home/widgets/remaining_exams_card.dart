@@ -19,7 +19,7 @@ class RemainingExamsWidget extends StatelessWidget {
         return Container(
           margin: const EdgeInsets.only(top: 8),
           child: RowContainer(
-            color: Theme.of(context).colorScheme.background,
+            color: Theme.of(context).colorScheme.surface,
             child: Container(
               padding: const EdgeInsets.all(11),
               child: Row(

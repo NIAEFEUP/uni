@@ -17,7 +17,7 @@ class FloorlessLocationMarkerPopup extends StatelessWidget {
   Widget build(BuildContext context) {
     final locations = locationGroup.floors.values.expand((x) => x).toList();
     return Card(
-      color: Theme.of(context).colorScheme.background.withOpacity(0.8),
+      color: Theme.of(context).colorScheme.surface.withOpacity(0.8),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),
       ),
