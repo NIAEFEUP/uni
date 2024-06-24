@@ -135,6 +135,7 @@ class LoginPageViewState extends State<LoginPageView> {
       ),
       child: Builder(
         builder: (context) => Scaffold(
+          resizeToAvoidBottomInset: false,
           backgroundColor: darkRed,
           body: BackButtonExitWrapper(
             child: Padding(
