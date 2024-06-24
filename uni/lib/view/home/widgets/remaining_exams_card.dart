@@ -31,7 +31,7 @@ class RemainingExamsWidget extends StatelessWidget {
                   ),
                   ExamTitle(
                     subject: exam.subject,
-                    type: exam.type,
+                    type: exam.examType,
                     reverseOrder: true,
                   ),
                 ],

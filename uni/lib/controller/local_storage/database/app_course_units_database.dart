@@ -5,12 +5,18 @@ import 'package:uni/controller/local_storage/database/app_database.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
 
 class AppCourseUnitsDatabase extends AppDatabase {
-  AppCourseUnitsDatabase() : super('course_units.db', [createScript]);
+  AppCourseUnitsDatabase()
+      : super(
+          'course_units.db',
+          [createScript],
+          onUpgrade: migrate,
+          version: 2,
+        );
   static const String createScript =
-      '''CREATE TABLE course_units(id INTEGER, code TEXT, abbreviation TEXT , '''
-      '''name TEXT, curricularYear INTEGER, occurrId INTEGER, semesterCode TEXT, '''
-      '''semesterName TEXT, type TEXT, status TEXT, grade TEXT, ectsGrade TEXT, '''
-      '''result TEXT, ects REAL, schoolYear TEXT)''';
+      '''CREATE TABLE course_units(ucurr_id INTEGER, ucurr_codigo TEXT, ucurr_sigla TEXT , '''
+      '''ucurr_nome TEXT, ano INTEGER, ocorr_id INTEGER, per_codigo TEXT, '''
+      '''per_nome TEXT, tipo TEXT, estado TEXT, resultado_melhor TEXT, resultado_ects TEXT, '''
+      '''resultado_insc TEXT, creditos_ects REAL, schoolYear TEXT)''';
 
   Future<void> saveNewCourseUnits(List<CourseUnit> courseUnits) async {
     await deleteCourseUnits();
@@ -20,23 +26,22 @@ class AppCourseUnitsDatabase extends AppDatabase {
   Future<List<CourseUnit>> courseUnits() async {
     final db = await getDatabase();
     final List<Map<String, dynamic>> maps = await db.query('course_units');
-
     return List.generate(maps.length, (i) {
       return CourseUnit(
-        id: maps[i]['id'] as int,
-        code: maps[i]['code'] as String,
-        abbreviation: maps[i]['abbreviation'] as String,
-        name: maps[i]['name'] as String,
-        curricularYear: maps[i]['curricularYear'] as int?,
-        occurrId: maps[i]['occurrId'] as int,
-        semesterCode: maps[i]['semesterCode'] as String?,
-        semesterName: maps[i]['semesterName'] as String?,
-        type: maps[i]['type'] as String?,
-        status: maps[i]['status'] as String?,
-        grade: maps[i]['grade'] as String?,
+        id: maps[i]['ucurr_id'] as int,
+        code: maps[i]['ucurr_codigo'] as String,
+        abbreviation: maps[i]['ucurr_sigla'] as String,
+        name: maps[i]['ucurr_nome'] as String,
+        curricularYear: maps[i]['ano'] as int?,
+        occurrId: maps[i]['ocorr_id'] as int,
+        semesterCode: maps[i]['per_codigo'] as String?,
+        semesterName: maps[i]['per_nome'] as String?,
+        type: maps[i]['tipo'] as String?,
+        status: maps[i]['estado'] as String?,
+        grade: maps[i]['resultado_melhor'] as String?,
         ectsGrade: maps[i]['ectsGrade'] as String?,
-        result: maps[i]['result'] as String?,
-        ects: maps[i]['ects'] as double?,
+        result: maps[i]['resultado_insc'] as String?,
+        ects: maps[i]['creditos_ects'] as double?,
         schoolYear: maps[i]['schoolYear'] as String?,
       );
     });
@@ -46,7 +51,7 @@ class AppCourseUnitsDatabase extends AppDatabase {
     for (final courseUnit in courseUnits) {
       await insertInDatabase(
         'course_units',
-        courseUnit.toMap(),
+        courseUnit.toJson(),
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
     }
@@ -55,5 +60,16 @@ class AppCourseUnitsDatabase extends AppDatabase {
   Future<void> deleteCourseUnits() async {
     final db = await getDatabase();
     await db.delete('course_units');
+  }
+
+  static FutureOr<void> migrate(
+    Database db,
+    int oldVersion,
+    int newVersion,
+  ) async {
+    final batch = db.batch()
+      ..execute('DROP TABLE IF EXISTS courses')
+      ..execute(createScript);
+    await batch.commit();
   }
 }

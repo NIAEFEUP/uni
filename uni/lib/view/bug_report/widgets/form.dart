@@ -252,7 +252,7 @@ class BugReportFormState extends State<BugReportForm> {
       emailController.text,
       bugDescriptions[_selectedBug],
       faculties,
-    ).toMap();
+    ).toJson();
     var toastMsg = '';
     bool status;
     try {
@@ -278,7 +278,6 @@ class BugReportFormState extends State<BugReportForm> {
       status
           ? await ToastMessage.success(context, toastMsg)
           : await ToastMessage.error(context, toastMsg);
-
       if (context.mounted) {
         setState(() {
           _isButtonTapped = false;
