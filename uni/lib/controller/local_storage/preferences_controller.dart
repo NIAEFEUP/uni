@@ -79,7 +79,7 @@ class PreferencesController {
     List<String> faculties,
   ) async {
     await _secureStorage.write(key: _userNumber, value: user);
-    await _secureStorage.write(key: _userPw, value: pass);
+    await _secureStorage.write(key: _userPw, value: encode(pass));
     await prefs.setStringList(
       _userFaculties,
       faculties,
@@ -175,6 +175,7 @@ class PreferencesController {
   static Future<Tuple2<String, String>?> getPersistentUserInfo() async {
     final userNum = await getUserNumber();
     final userPass = await getUserPassword();
+
     if (userNum == null || userPass == null) {
       return null;
     }
@@ -281,11 +282,7 @@ class PreferencesController {
   /// Decrypts [base64Text].
   static String? decode(String base64Text) {
     final encrypter = _createEncrypter();
-    try {
-      return encrypter.decrypt64(base64Text, iv: iv);
-    } catch (_) {
-      return null;
-    }
+    return encrypter.decrypt64(base64Text, iv: iv);
   }
 
   /// Creates an [encrypt.Encrypter] for encrypting and decrypting the user's
