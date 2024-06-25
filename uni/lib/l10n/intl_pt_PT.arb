@@ -319,5 +319,7 @@
   "try_different_login": "Problemas a iniciar sessão? Experimenta o login alternativo",
   "@try_different_login": {},
   "login_with_credentials": "Iniciar sessão com credenciais",
-  "@login_with_credentials": {}
+  "@login_with_credentials": {},
+  "fail_to_authenticate": "Falha ao autenticar",
+  "@fail_to_authenticate": {}
 }

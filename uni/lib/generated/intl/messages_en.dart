@@ -117,7 +117,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Error downloading the file"),
         "ects": MessageLookupByLibrary.simpleMessage("ECTS performed: "),
         "edit_off": MessageLookupByLibrary.simpleMessage("Edit"),
-        "edit_on": MessageLookupByLibrary.simpleMessage("Exit edit mode"),
+        "edit_on": MessageLookupByLibrary.simpleMessage("Finish editing"),
         "empty_text":
             MessageLookupByLibrary.simpleMessage("Please fill in this field"),
         "exams_filter":
@@ -126,6 +126,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Do you really want to exit?"),
         "expired_password":
             MessageLookupByLibrary.simpleMessage("Your password has expired"),
+        "fail_to_authenticate":
+            MessageLookupByLibrary.simpleMessage("Failed to authenticate"),
         "failed_login": MessageLookupByLibrary.simpleMessage("Login failed"),
         "fee_date":
             MessageLookupByLibrary.simpleMessage("Deadline for next fee:"),

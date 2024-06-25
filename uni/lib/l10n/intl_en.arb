@@ -319,5 +319,7 @@
   "try_different_login": "Problems with login? Try a different login",
   "@try_different_login": {},
   "login_with_credentials": "Login with credentials",
-  "@login_with_credentials": {}
+  "@login_with_credentials": {},
+  "fail_to_authenticate": "Failed to authenticate",
+  "@fail_to_authenticate": {}
 }

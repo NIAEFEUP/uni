@@ -110,11 +110,11 @@ class LoginPageViewState extends State<LoginPageView> {
         context,
         persistentSession: _keepSignedIn,
       );
+    } catch (err, _) {
+      await closeInAppWebView();
       setState(() {
         _loggingIn = false;
       });
-    } catch (err, _) {
-      await closeInAppWebView();
       Logger().e('Failed to authenticate');
       if (context.mounted) {
         unawaited(ToastMessage.error(context, 'Failed to authenticate'));

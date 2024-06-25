@@ -316,7 +316,7 @@ packages:
   currency_text_input_formatter:
     dependency: "direct main"
     description:
-      name: currency_text_input_formatte
+      name: currency_text_input_formatter
       sha256: d2eed8c7d40520729ac38252368954aba430a7ee510e5d5357e45cde1f6417a6
       url: "https://pub.dev"
     source: hosted
