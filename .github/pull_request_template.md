@@ -1,5 +1,9 @@
 Closes #[issue number]
-[Description of the changes proposed in the pull request. Include steps to replicate the behavior and screenshots if UI is updated]
+<!--
+Description of the changes proposed in the pull request. 
+Include steps to replicate the behavior and screenshots if UI is updated.
+If this is release PR select it's template by adding ?template=release_pr_template.md to the url.
+-->
 
 # Review checklist
 
@@ -12,8 +16,3 @@ Closes #[issue number]
 ## Documentation
 
 - [ ] Properly adds an entry in `changelog.md` with the change
-- [ ] Terms and conditions reflect the current change
-
-# Release checklist
-
-- [ ] Writes a summary in `whatsnew/whatsnew-pt-PT`
