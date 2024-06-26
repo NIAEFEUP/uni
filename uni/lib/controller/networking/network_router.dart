@@ -182,6 +182,22 @@ class NetworkRouter {
       return null;
     }
 
+    final accessToken = await getAccessToken(refreshToken);
+    if (accessToken == null) {
+      Logger().e('Re-login failed: access token not retrived');
+      return null;
+    }
+
+    return loginWithToken(
+      accessToken,
+      studentNumber,
+      faculties,
+      persistentSession: session.persistentSession,
+    );
+  }
+
+  /// Get a new accessing Refresh with the refresh token
+  static Future<String?> getAccessToken(String refreshToken) async {
     final realm = dotenv.env['REALM'] ?? '';
     final issuer = await Issuer.discover(Uri.parse(realm));
     if (issuer.metadata.tokenEndpoint == null) {
@@ -207,12 +223,7 @@ class NetworkRouter {
       return null;
     }
 
-    return loginWithToken(
-      accessToken,
-      studentNumber,
-      faculties,
-      persistentSession: session.persistentSession,
-    );
+    return accessToken;
   }
 
   /// Returns the response body of the login in Sigarra
