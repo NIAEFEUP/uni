@@ -24,7 +24,7 @@ class RestaurantProvider extends StateProviderNotifier<List<Restaurant>> {
     final restaurants = await RestaurantFetcher().getRestaurants(session);
 
     final db = RestaurantDatabase();
-    unawaited(db.saveRestaurants(restaurants));
+    unawaited(db.saveIfPersistentSession(restaurants));
 
     return filterPastMeals(restaurants);
   }

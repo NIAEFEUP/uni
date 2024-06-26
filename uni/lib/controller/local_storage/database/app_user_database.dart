@@ -7,13 +7,14 @@ import 'package:uni/model/entities/profile.dart';
 /// Manages the app's User Data database.
 ///
 /// This database stores information about the user's university profile.
-class AppUserDataDatabase extends AppDatabase {
+class AppUserDataDatabase extends AppDatabase<Profile> {
   AppUserDataDatabase()
       : super('userdata.db', ['CREATE TABLE userdata(key TEXT, value TEXT)']);
 
-  /// Adds [profile] to this database.
-  Future<void> insertUserData(Profile profile) async {
-    for (final keymap in profile.keymapValues()) {
+  /// Adds [data] (profile) to this database.
+  @override
+  Future<void> saveToDatabase(Profile data) async {
+    for (final keymap in data.keymapValues()) {
       await insertInDatabase(
         'userdata',
         {'key': keymap.item1, 'value': keymap.item2},
@@ -69,26 +70,5 @@ class AppUserDataDatabase extends AppDatabase {
     final db = await getDatabase();
 
     await db.delete('userdata');
-  }
-
-  /// Saves the user's print balance to the database.
-  Future<void> saveUserPrintBalance(String userBalance) async {
-    await insertInDatabase(
-      'userdata',
-      {'key': 'printBalance', 'value': userBalance},
-    );
-  }
-
-  /// Saves the user's balance and payment due date to the database.
-  ///
-  Future<void> saveUserFees(String feesBalance, DateTime? feesLimit) async {
-    await insertInDatabase(
-      'userdata',
-      {'key': 'feesBalance', 'value': feesBalance},
-    );
-    await insertInDatabase('userdata', {
-      'key': 'feesLimit',
-      'value': feesLimit != null ? feesLimit.toIso8601String() : '',
-    });
   }
 }

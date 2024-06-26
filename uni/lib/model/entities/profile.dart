@@ -50,6 +50,12 @@ class Profile {
     return [
       Tuple2('name', name),
       Tuple2('email', email),
+      Tuple2('printBalance', printBalance),
+      Tuple2('feesBalance', feesBalance),
+      Tuple2(
+        'feesLimit',
+        feesLimit != null ? feesLimit!.toIso8601String() : '',
+      ),
     ];
   }
 }
