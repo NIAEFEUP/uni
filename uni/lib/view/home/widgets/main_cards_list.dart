@@ -145,33 +145,6 @@ class MainCardsListState extends State<MainCardsList> {
         : possibleCardAdditions;
   }
 
-  Widget createTopBar(
-    BuildContext context,
-  ) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          if (widget.isEditing)
-            ElevatedButton(
-              onPressed: widget.toggleEditing,
-              child: Text(
-                S.of(context).edit_on,
-              ),
-            )
-          else
-            OutlinedButton(
-              onPressed: widget.toggleEditing,
-              child: Text(
-                S.of(context).edit_off,
-              ),
-            ),
-        ],
-      ),
-    );
-  }
-
   List<Widget> favoriteCardsFromTypes(
     List<FavoriteWidgetType> cardTypes,
     BuildContext context,
