@@ -28,7 +28,6 @@ class MainCardsList extends StatefulWidget {
     super.key,
   });
 
-  final bool isEditing;
   final List<FavoriteWidgetType> favoriteCardTypes;
   final void Function(List<FavoriteWidgetType>) saveFavoriteCards;
   final bool isEditing;
@@ -55,42 +54,31 @@ class MainCardsListState extends State<MainCardsList> {
   @override
   Widget build(BuildContext context) {
     // ignore: deprecated_member_use, see #1209
-    return WillPopScope(
-      onWillPop: () async {
-        if (widget.isEditing) {
-          widget.toggleEditing();
-          return false;
-        }
-        return true;
-      },
-      child: Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.surface,
-        body: BackButtonExitWrapper(
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height,
-            child: widget.isEditing
-                ? ReorderableListView(
-                    onReorder: reorderCard,
-                    header: createTopBar(context),
-                    children: favoriteCardsFromTypes(
+    return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.surface,
+      body: BackButtonExitWrapper(
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height,
+          child: widget.isEditing
+              ? ReorderableListView(
+                  onReorder: reorderCard,
+                  children: favoriteCardsFromTypes(
+                    widget.favoriteCardTypes,
+                    context,
+                  ),
+                )
+              : ListView(
+                  children: <Widget>[
+                    ...favoriteCardsFromTypes(
                       widget.favoriteCardTypes,
                       context,
                     ),
-                  )
-                : ListView(
-                    children: <Widget>[
-                      createTopBar(context),
-                      ...favoriteCardsFromTypes(
-                        widget.favoriteCardTypes,
-                        context,
-                      ),
-                    ],
-                  ),
-          ),
+                  ],
+                ),
         ),
-        floatingActionButton:
-            widget.isEditing ? createActionButton(context) : null,
       ),
+      floatingActionButton:
+          widget.isEditing ? createActionButton(context) : null,
     );
   }
 
@@ -165,11 +153,6 @@ class MainCardsListState extends State<MainCardsList> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          PageTitle(
-            name: S.of(context).nav_title('area'),
-            center: false,
-            pad: false,
-          ),
           if (widget.isEditing)
             ElevatedButton(
               onPressed: widget.toggleEditing,
