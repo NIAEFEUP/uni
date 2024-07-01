@@ -110,7 +110,8 @@ class LoginPageViewState extends State<LoginPageView> {
         context,
         persistentSession: _keepSignedIn,
       );
-    } catch (err, _) {
+    } catch (err, st) {
+      await Sentry.captureException(err, stackTrace: st);
       await closeInAppWebView();
       setState(() {
         _loggingIn = false;
