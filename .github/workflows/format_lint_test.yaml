@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./uni
+        working-directory: ./packages/uni_app
     steps:
       - name: Clone repository
         uses: actions/checkout@v4
@@ -21,7 +21,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: stable
-          flutter-version-file: uni/pubspec.yaml
+          flutter-version-file: packages/uni_app/pubspec.yaml
           cache: true
 
       - run: dart format $(find . -type f -name "*.dart" -a -not -name "*.g.dart" -a -not -name "*.mocks.dart") --set-exit-if-changed
@@ -32,7 +32,7 @@ jobs:
     needs: format
     defaults:
       run:
-        working-directory: ./uni
+        working-directory: ./packages/uni_app
     steps:
       - name: Clone repository
         uses: actions/checkout@v4
@@ -46,7 +46,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: stable
-          flutter-version-file: uni/pubspec.yaml
+          flutter-version-file: packages/uni_app/pubspec.yaml
           cache: true
 
       - run: flutter pub get
@@ -61,7 +61,7 @@ jobs:
     needs: lint
     defaults:
       run:
-        working-directory: ./uni
+        working-directory: ./packages/uni_app
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
@@ -73,7 +73,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: stable
-          flutter-version-file: uni/pubspec.yaml
+          flutter-version-file: packages/uni_app/pubspec.yaml
           cache: true
 
       - name: Test with coverage

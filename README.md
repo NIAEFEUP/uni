@@ -34,4 +34,4 @@ This application is licensed under the [GNU General Public License v3.0](./LICEN
 
 Contributions are welcome, and can be made by opening a pull request. Please note, however, that a university's account is required to access most of the app's features.
 
-For further information about the project structure, please refer to [the app's README file](./uni/README.md).
+For further information about the project structure, please refer to [the README file of the main app package](./packages/uni_app/README.md).
