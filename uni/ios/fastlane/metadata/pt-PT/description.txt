@@ -1,0 +1,1 @@
+uni é uma aplicação desenvolvida pelos estudantes do Núcleo de Informática da Associação de Estudantes da Faculdade de Engenharia da Universidade do Porto. Pretende facilitar e tornar mais rápido o acesso a informações da plataforma da faculdade, bem como de outros serviços que possam interessar aos estudantes da mesma.

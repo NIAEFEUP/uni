@@ -128,3 +128,6 @@ app.*.symbols
 
 # Flutter Devtools
 devtools_options.yaml
+
+# Google Service Account Key
+/android/google-service-account-key.json
