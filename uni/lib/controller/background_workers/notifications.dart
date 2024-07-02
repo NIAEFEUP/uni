@@ -145,7 +145,8 @@ class NotificationManager {
           _localNotificationsPlugin.resolvePlatformSpecificImplementation<
               AndroidFlutterLocalNotificationsPlugin>()!;
       try {
-        final permissionGranted = await androidPlugin.requestPermission();
+        final permissionGranted =
+            await androidPlugin.requestNotificationsPermission();
         if (permissionGranted != true) {
           return;
         }
