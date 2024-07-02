@@ -19,35 +19,4 @@ dev_dependencies:
   test: any
 
 flutter:
-  generate: true
   uses-material-design: true
-  assets:
-    - assets/env/
-    - assets/images/
-    - assets/text/
-    - assets/text/locations/
-    - assets/meal-icons/
-  fonts:
-    - family: Raleway
-      fonts:
-        - asset: assets/fonts/Raleway-Black.ttf
-          weight: 900
-        - asset: assets/fonts/Raleway-Bold.ttf
-          weight: 700
-        - asset: assets/fonts/Raleway-ExtraBold.ttf
-          weight: 800
-        - asset: assets/fonts/Raleway-ExtraLight.ttf
-          weight: 200
-        - asset: assets/fonts/Raleway-Light.ttf
-          weight: 300
-        - asset: assets/fonts/Raleway-Medium.ttf
-          weight: 500
-        - asset: assets/fonts/Raleway-Regular.ttf
-          weight: 400
-        - asset: assets/fonts/Raleway-SemiBold.ttf
-          weight: 600
-        - asset: assets/fonts/Raleway-Thin.ttf
-          weight: 100
-    - family: LocationIcons
-      fonts:
-        - asset: assets/fonts/LocationIcons.ttf
