@@ -10,8 +10,8 @@ import 'package:uni/model/entities/app_locale.dart';
 import 'package:uni/model/entities/bug_report.dart';
 import 'package:uni/view/bug_report/widgets/text_field.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
-import 'package:uni/view/common_widgets/toast_message.dart';
 import 'package:uni/view/locale_notifier.dart';
+import 'package:uni_common_ui/common/toast_message.dart';
 
 class BugReportForm extends StatefulWidget {
   const BugReportForm({super.key});

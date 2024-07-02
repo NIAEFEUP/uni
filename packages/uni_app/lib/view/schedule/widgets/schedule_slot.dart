@@ -5,8 +5,8 @@ import 'package:provider/provider.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
-import 'package:uni/view/common_widgets/row_container.dart';
 import 'package:uni/view/course_unit_info/course_unit_info.dart';
+import 'package:uni_common_ui/common/row_container.dart';
 
 class ScheduleSlot extends StatelessWidget {
   const ScheduleSlot({

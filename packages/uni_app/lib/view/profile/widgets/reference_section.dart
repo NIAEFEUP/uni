@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:uni/model/entities/reference.dart';
-import 'package:uni/view/common_widgets/toast_message.dart';
+import 'package:uni_common_ui/common/toast_message.dart';
 
 class ReferenceSection extends StatelessWidget {
   const ReferenceSection({required this.reference, super.key});

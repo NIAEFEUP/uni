@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:uni/controller/fetchers/print_fetcher.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
-import 'package:uni/view/common_widgets/toast_message.dart';
+import 'package:uni_common_ui/common/toast_message.dart';
 
 Future<void> addMoneyDialog(BuildContext context) async {
   final formKey = GlobalKey<FormState>();

@@ -8,11 +8,11 @@ import 'package:uni/utils/date_time_formatter.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/expanded_image_label.dart';
 import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
-import 'package:uni/view/common_widgets/row_container.dart';
 import 'package:uni/view/exams/widgets/exam_filter_button.dart';
 import 'package:uni/view/exams/widgets/exam_row.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locale_notifier.dart';
+import 'package:uni_common_ui/common/row_container.dart';
 
 class ExamsPageView extends StatefulWidget {
   const ExamsPageView({super.key});

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/utils/date_time_formatter.dart';
-import 'package:uni/view/common_widgets/row_container.dart';
 import 'package:uni/view/exams/widgets/exam_title.dart';
 import 'package:uni/view/locale_notifier.dart';
+import 'package:uni_common_ui/common/row_container.dart';
 
 class RemainingExamsWidget extends StatelessWidget {
   const RemainingExamsWidget({required this.exams, super.key});

@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:uni/generated/l10n.dart';
-import 'package:uni/view/common_widgets/toast_message.dart';
+import 'package:uni_common_ui/common/toast_message.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 Future<void> launchUrlWithToast(BuildContext context, String url) async {

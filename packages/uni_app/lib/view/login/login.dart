@@ -11,10 +11,10 @@ import 'package:uni/model/entities/login_exceptions.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/model/providers/state_providers.dart';
 import 'package:uni/utils/navigation_items.dart';
-import 'package:uni/view/common_widgets/toast_message.dart';
 import 'package:uni/view/home/widgets/exit_app_dialog.dart';
 import 'package:uni/view/login/widgets/inputs.dart';
 import 'package:uni/view/theme.dart';
+import 'package:uni_common_ui/common/toast_message.dart';
 
 class LoginPageView extends StatefulWidget {
   const LoginPageView({super.key});
