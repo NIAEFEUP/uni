@@ -68,16 +68,20 @@ class CourseUnitDetailPageViewState
   }
 
   @override
+  Widget? getHeader(BuildContext context) {
+    return PageTitle(
+      center: false,
+      name: widget.courseUnit.name,
+    );
+  }
+
+  @override
   Widget getBody(BuildContext context) {
     return DefaultTabController(
       length: 3,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          PageTitle(
-            center: false,
-            name: widget.courseUnit.name,
-          ),
           TabBar(
             tabs: [
               Tab(text: S.of(context).course_info),

@@ -4,7 +4,6 @@ import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/utils/favorite_widget_type.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
-import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/home/widgets/bus_stop_card.dart';
 import 'package:uni/view/home/widgets/exam_card.dart';
 import 'package:uni/view/home/widgets/exit_app_dialog.dart';
@@ -55,42 +54,31 @@ class MainCardsListState extends State<MainCardsList> {
   @override
   Widget build(BuildContext context) {
     // ignore: deprecated_member_use, see #1209
-    return WillPopScope(
-      onWillPop: () async {
-        if (widget.isEditing) {
-          widget.toggleEditing();
-          return false;
-        }
-        return true;
-      },
-      child: Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.surface,
-        body: BackButtonExitWrapper(
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height,
-            child: widget.isEditing
-                ? ReorderableListView(
-                    onReorder: reorderCard,
-                    header: createTopBar(context),
-                    children: favoriteCardsFromTypes(
+    return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.surface,
+      body: BackButtonExitWrapper(
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height,
+          child: widget.isEditing
+              ? ReorderableListView(
+                  onReorder: reorderCard,
+                  children: favoriteCardsFromTypes(
+                    widget.favoriteCardTypes,
+                    context,
+                  ),
+                )
+              : ListView(
+                  children: <Widget>[
+                    ...favoriteCardsFromTypes(
                       widget.favoriteCardTypes,
                       context,
                     ),
-                  )
-                : ListView(
-                    children: <Widget>[
-                      createTopBar(context),
-                      ...favoriteCardsFromTypes(
-                        widget.favoriteCardTypes,
-                        context,
-                      ),
-                    ],
-                  ),
-          ),
+                  ],
+                ),
         ),
-        floatingActionButton:
-            widget.isEditing ? createActionButton(context) : null,
       ),
+      floatingActionButton:
+          widget.isEditing ? createActionButton(context) : null,
     );
   }
 
@@ -155,38 +143,6 @@ class MainCardsListState extends State<MainCardsList> {
     return possibleCardAdditions.isEmpty
         ? [Text(S.of(context).all_widgets_added)]
         : possibleCardAdditions;
-  }
-
-  Widget createTopBar(
-    BuildContext context,
-  ) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          PageTitle(
-            name: S.of(context).nav_title('area'),
-            center: false,
-            pad: false,
-          ),
-          if (widget.isEditing)
-            ElevatedButton(
-              onPressed: widget.toggleEditing,
-              child: Text(
-                S.of(context).edit_on,
-              ),
-            )
-          else
-            OutlinedButton(
-              onPressed: widget.toggleEditing,
-              child: Text(
-                S.of(context).edit_off,
-              ),
-            ),
-        ],
-      ),
-    );
   }
 
   List<Widget> favoriteCardsFromTypes(
