@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:logger/logger.dart';
@@ -15,6 +16,7 @@ import 'package:uni/view/common_widgets/toast_message.dart';
 import 'package:uni/view/home/widgets/exit_app_dialog.dart';
 import 'package:uni/view/login/widgets/inputs.dart';
 import 'package:uni/view/theme.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class LoginPageView extends StatefulWidget {
   const LoginPageView({super.key});
@@ -61,6 +63,8 @@ class LoginPageViewState extends State<LoginPageView> {
         passwordController.clear();
 
         if (context.mounted) {
+          usernameController.clear();
+          passwordController.clear();
           await Navigator.pushReplacementNamed(
             context,
             '/${NavigationItem.navPersonalArea.route}',
@@ -74,7 +78,7 @@ class LoginPageViewState extends State<LoginPageView> {
           _loggingIn = false;
         });
         if (err is ExpiredCredentialsException) {
-          updatePasswordDialog();
+          _updatePasswordDialog();
         } else if (err is InternetStatusException) {
           if (context.mounted) {
             unawaited(ToastMessage.warning(context, err.message));
@@ -94,22 +98,29 @@ class LoginPageViewState extends State<LoginPageView> {
     }
   }
 
-  /// Tracks if the user wants to keep signed in (has a
-  /// checkmark on the button).
-  void _setKeepSignedIn({bool? value}) {
-    if (value == null) {
-      return;
-    }
-    setState(() {
-      _keepSignedIn = value;
-    });
-  }
+  Future<void> _falogin(BuildContext context) async {
+    final stateProviders = StateProviders.fromContext(context);
+    final sessionProvider = stateProviders.sessionProvider;
 
-  /// Makes the password input view hidden.
-  void _toggleObscurePasswordInput() {
-    setState(() {
-      _obscurePasswordInput = !_obscurePasswordInput;
-    });
+    try {
+      setState(() {
+        _loggingIn = true;
+      });
+      await sessionProvider.federatedAuthentication(
+        context,
+        persistentSession: _keepSignedIn,
+      );
+    } catch (err, st) {
+      await Sentry.captureException(err, stackTrace: st);
+      await closeInAppWebView();
+      setState(() {
+        _loggingIn = false;
+      });
+      Logger().e('Failed to authenticate');
+      if (context.mounted) {
+        unawaited(ToastMessage.error(context, 'Failed to authenticate'));
+      }
+    }
   }
 
   @override
@@ -125,6 +136,7 @@ class LoginPageViewState extends State<LoginPageView> {
       ),
       child: Builder(
         builder: (context) => Scaffold(
+          resizeToAvoidBottomInset: false,
           backgroundColor: darkRed,
           body: BackButtonExitWrapper(
             child: Padding(
@@ -132,44 +144,44 @@ class LoginPageViewState extends State<LoginPageView> {
                 left: queryData.size.width / 8,
                 right: queryData.size.width / 8,
               ),
-              child: ListView(
+              child: Column(
                 children: [
-                  Padding(
-                    padding: EdgeInsets.only(
-                      bottom: queryData.size.height / 20,
+                  SizedBox(height: queryData.size.height / 20),
+                  SizedBox(
+                    width: 100,
+                    // TODO(thePeras): Divide into two svgs to add color
+                    child: SvgPicture.asset(
+                      'assets/images/logo_dark.svg',
+                      colorFilter: const ColorFilter.mode(
+                        Colors.white,
+                        BlendMode.srcIn,
+                      ),
                     ),
                   ),
-                  createTitle(queryData, context),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      bottom: queryData.size.height / 35,
+                  SizedBox(height: queryData.size.height / 5),
+                  if (_loggingIn)
+                    const CircularProgressIndicator(
+                      color: Colors.white,
                     ),
+                  if (!_loggingIn)
+                    createAFLogInButton(queryData, context, _falogin),
+                  const SizedBox(height: 10),
+                  createSaveDataCheckBox(
+                    context,
+                    () {
+                      setState(() {
+                        _keepSignedIn = !_keepSignedIn;
+                      });
+                    },
+                    keepSignedIn: _keepSignedIn,
                   ),
-                  getLoginForm(queryData, context),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      bottom: queryData.size.height / 35,
-                    ),
+                  createLink(
+                    context,
+                    S.of(context).try_different_login,
+                    _showAlternativeLogin,
                   ),
-                  createForgetPasswordLink(context),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      bottom: queryData.size.height / 15,
-                    ),
-                  ),
-                  createLogInButton(queryData, context, _login),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      bottom: queryData.size.height / 35,
-                    ),
-                  ),
-                  createStatusWidget(context),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      bottom: queryData.size.height / 35,
-                    ),
-                  ),
-                  createSafeLoginButton(context),
+                  SizedBox(height: queryData.size.height / 5),
+                  createTermsAndConditionsButton(context),
                 ],
               ),
             ),
@@ -179,77 +191,20 @@ class LoginPageViewState extends State<LoginPageView> {
     );
   }
 
-  /// Creates the title for the login menu.
-  Widget createTitle(MediaQueryData queryData, BuildContext context) {
-    return ConstrainedBox(
-      constraints: BoxConstraints(
-        minWidth: queryData.size.width / 8,
-        minHeight: queryData.size.height / 6,
-      ),
-      child: SizedBox(
-        width: 100,
-        child: SvgPicture.asset(
-          'assets/images/logo_dark.svg',
-          colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
-        ),
-      ),
-    );
-  }
-
-  /// Creates the widgets for the user input fields.
-  Widget getLoginForm(MediaQueryData queryData, BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.only(bottom: queryData.size.height / 35),
-            ),
-            createUsernameInput(
-              context,
-              usernameController,
-              usernameFocus,
-              passwordFocus,
-            ),
-            Padding(
-              padding: EdgeInsets.only(bottom: queryData.size.height / 35),
-            ),
-            createPasswordInput(
-              context,
-              passwordController,
-              passwordFocus,
-              _toggleObscurePasswordInput,
-              () => _login(context),
-              obscurePasswordInput: _obscurePasswordInput,
-            ),
-            Padding(
-              padding: EdgeInsets.only(bottom: queryData.size.height / 35),
-            ),
-            createSaveDataCheckBox(
-              context,
-              _setKeepSignedIn,
-              keepSignedIn: _keepSignedIn,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   /// Creates the widget for when the user forgets the password
-  Widget createForgetPasswordLink(BuildContext context) {
-    return InkWell(
-      child: Center(
-        child: Text(
-          S.of(context).forgot_password,
-          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                decoration: TextDecoration.underline,
-                color: Colors.white,
-              ),
-        ),
+  Widget createLink(BuildContext context, String text, void Function() onTap) {
+    return RichText(
+      textAlign: TextAlign.center,
+      text: TextSpan(
+        text: text,
+        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+              decoration: TextDecoration.underline,
+              color: Colors.white,
+              decorationColor: Colors.white,
+              decorationThickness: 2,
+            ),
+        recognizer: TapGestureRecognizer()..onTap = onTap,
       ),
-      onTap: () => launchUrlWithToast(context, 'https://self-id.up.pt/reset'),
     );
   }
 
@@ -269,7 +224,79 @@ class LoginPageViewState extends State<LoginPageView> {
     );
   }
 
-  void updatePasswordDialog() {
+  Future<void> _showAlternativeLogin() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (_) {
+        return AlertDialog(
+          title: Text(S.of(context).login_with_credentials),
+          content: StatefulBuilder(
+            builder: (context, setState) {
+              return SingleChildScrollView(
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      createUsernameInput(
+                        context,
+                        usernameController,
+                        usernameFocus,
+                        passwordFocus,
+                      ),
+                      const SizedBox(height: 20),
+                      createPasswordInput(
+                        context,
+                        passwordController,
+                        passwordFocus,
+                        () {
+                          setState(() {
+                            _obscurePasswordInput = !_obscurePasswordInput;
+                          });
+                        },
+                        () => _login(context),
+                        obscurePasswordInput: _obscurePasswordInput,
+                      ),
+                      const SizedBox(height: 20),
+                      createSaveDataCheckBox(
+                        context,
+                        () {
+                          setState(() {
+                            _keepSignedIn = !_keepSignedIn;
+                          });
+                        },
+                        keepSignedIn: _keepSignedIn,
+                        textColor: Theme.of(context).indicatorColor,
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text(S.of(context).cancel),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            ElevatedButton(
+              onPressed: () {
+                _login(context);
+                if (_formKey.currentState!.validate()) {
+                  Navigator.of(context).pop();
+                }
+              },
+              child: Text(S.of(context).login),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _updatePasswordDialog() {
     showDialog<void>(
       context: context,
       builder: (context) {

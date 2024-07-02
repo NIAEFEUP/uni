@@ -1,6 +1,9 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' as material;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:logger/logger.dart';
+import 'package:openid_client/openid_client.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/controller/background_workers/notifications.dart';
 import 'package:uni/controller/fetchers/faculties_fetcher.dart';
@@ -14,6 +17,7 @@ import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/model/providers/state_providers.dart';
 import 'package:uni/model/request_status.dart';
 import 'package:uni/view/locale_notifier.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SessionProvider extends StateProviderNotifier<Session> {
   SessionProvider()
@@ -46,8 +50,16 @@ class SessionProvider extends StateProviderNotifier<Session> {
     return state!;
   }
 
+  static Future<void> _invoke(Uri uri) async {
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.inAppBrowserView);
+    } else {
+      Logger().e('Could not launch $uri');
+    }
+  }
+
   Future<void> postAuthentication(
-    BuildContext context,
+    material.BuildContext context,
     String username,
     String password, {
     required bool persistentSession,
@@ -102,6 +114,85 @@ class SessionProvider extends StateProviderNotifier<Session> {
         password,
         faculties,
       );
+    }
+
+    Future.delayed(
+      const Duration(seconds: 20),
+      () => {NotificationManager().initializeNotifications()},
+    );
+
+    await acceptTermsAndConditions();
+  }
+
+  late Flow? _flow;
+  late material.BuildContext? context;
+  bool _persistentSession = false;
+
+  Future<void> federatedAuthentication(
+    material.BuildContext ctx, {
+    required bool persistentSession,
+  }) async {
+    context = ctx;
+    _persistentSession = persistentSession;
+
+    final realm = dotenv.env['REALM'] ?? '';
+    final issuer = await Issuer.discover(Uri.parse(realm));
+    final client = Client(
+      issuer,
+      dotenv.env['CLIENT_ID']!,
+    );
+
+    _flow = Flow.authorizationCodeWithPKCE(
+      client,
+      scopes: [
+        'openid',
+        'profile',
+        'email',
+        'offline_access',
+        'audience',
+        'uporto_data',
+      ],
+    );
+    _flow?.redirectUri = Uri.parse('pt.up.fe.ni.uni://auth');
+
+    await _invoke(_flow!.authenticationUri);
+  }
+
+  Future<void> finishFederatedAuthentication(Uri uri) async {
+    final credential = await _flow!.callback(uri.queryParameters);
+    final userInfo = (await credential.getUserInfo()).toJson();
+    final token = (await credential.getTokenResponse()).accessToken;
+
+    if (token == null) {
+      Logger().e('Failed to get token from SIGARRA');
+      throw Exception('Failed to get token from SIGARRA');
+    }
+
+    final studentNumber = userInfo['nmec'] as String;
+    final faculties = List<String>.from(userInfo['ous'] as List)
+        .map((element) => element.toLowerCase())
+        .toList();
+
+    final session = await NetworkRouter.loginWithToken(
+      token,
+      studentNumber,
+      faculties,
+      persistentSession: _persistentSession,
+    );
+
+    if (session == null) {
+      throw Exception('Failed to login with token');
+    }
+
+    setState(session);
+
+    if (_persistentSession && credential.refreshToken != null) {
+      await PreferencesController.saveSessionRefreshToken(
+        credential.refreshToken!,
+        studentNumber,
+        faculties,
+      );
+      _persistentSession = false;
     }
 
     Future.delayed(

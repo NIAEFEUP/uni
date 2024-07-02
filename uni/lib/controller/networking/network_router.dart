@@ -1,9 +1,12 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:logger/logger.dart';
+import 'package:openid_client/openid_client.dart';
 import 'package:synchronized/synchronized.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/model/entities/session.dart';
@@ -89,27 +92,138 @@ class NetworkRouter {
     );
   }
 
+  static Future<Session?> loginWithToken(
+    String token,
+    String studentNumber,
+    List<String> faculties, {
+    required bool persistentSession,
+  }) async {
+    // Get the cookie from SIGARRA
+    const sigarraTokenEndpoint = 'https://sigarra.up.pt/auth/oidc/token';
+    final response = await http.get(
+      Uri.parse(sigarraTokenEndpoint),
+      headers: <String, String>{
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+      },
+    );
+
+    if (response.statusCode != 200) {
+      Logger().e('Failed to get token from SIGARRA');
+      throw Exception('Failed to get token from SIGARRA');
+    }
+
+    final body = jsonDecode(response.body) as Map<String, dynamic>;
+
+    if (body['result'] != 'OK') {
+      Logger().e('Failed to get token from SIGARRA');
+      throw Exception('Failed to get token from SIGARRA');
+    }
+
+    final setCookies = response.headers['set-cookie'];
+    if (setCookies == null) {
+      Logger().e('Failed to get token from SIGARRA');
+      throw Exception('Failed to get token from SIGARRA');
+    }
+
+    final splitedCookies = setCookies.split(',').join('; ').split(';');
+    final cookiesMap = <String, String>{};
+    for (final cookie in splitedCookies) {
+      final parts = cookie.split('=');
+      if (parts.length >= 2) {
+        final key = parts[0].replaceAll(' ', '');
+        final value = parts[1].replaceAll(' ', '');
+        cookiesMap[key] = value;
+      }
+    }
+
+    if (!cookiesMap.containsKey('SI_SESSION') ||
+        !cookiesMap.containsKey('SI_SECURITY')) {
+      Logger().e('Failed to get token from SIGARRA');
+      throw Exception('Failed to get token from SIGARRA');
+    }
+
+    final cookies =
+        'SI_SESSION=${cookiesMap['SI_SESSION']}; SI_SECURITY=${cookiesMap['SI_SECURITY']}';
+
+    return Session(
+      username: studentNumber,
+      cookies: cookies,
+      faculties: faculties,
+      persistentSession: persistentSession,
+      federatedSession: true,
+    );
+  }
+
   /// Re-authenticates the user via the Sigarra API
   /// using data stored in [session],
   /// returning an updated Session if successful.
   static Future<Session?> reLoginFromSession(Session session) async {
-    final username = session.username;
-    final password = await PreferencesController.getUserPassword();
+    if (!session.federatedSession) {
+      final password = await PreferencesController.getUserPassword();
 
-    if (password == null) {
-      Logger().e('Re-login failed: password not found');
+      if (password == null) {
+        Logger().e('Re-login failed: password not found');
+        return null;
+      }
+      return login(
+        session.username,
+        password,
+        session.faculties,
+        persistentSession: session.persistentSession,
+      );
+    }
+
+    final refreshToken = await PreferencesController.getSessionRefreshToken();
+    final faculties = PreferencesController.getUserFaculties();
+    final studentNumber = await PreferencesController.getUserNumber();
+    if (refreshToken == null || studentNumber == null || faculties.isEmpty) {
+      Logger().e('Re-login failed: refresh token not found');
       return null;
     }
 
-    final faculties = session.faculties;
-    final persistentSession = session.persistentSession;
+    final accessToken = await getAccessToken(refreshToken);
+    if (accessToken == null) {
+      Logger().e('Re-login failed: access token not retrived');
+      return null;
+    }
 
-    return login(
-      username,
-      password,
+    return loginWithToken(
+      accessToken,
+      studentNumber,
       faculties,
-      persistentSession: persistentSession,
+      persistentSession: session.persistentSession,
     );
+  }
+
+  /// Get a new accessing Refresh with the refresh token
+  static Future<String?> getAccessToken(String refreshToken) async {
+    final realm = dotenv.env['REALM'] ?? '';
+    final issuer = await Issuer.discover(Uri.parse(realm));
+    if (issuer.metadata.tokenEndpoint == null) {
+      Logger().e('Re-login failed: token endpoint not found');
+      return null;
+    }
+
+    final response = await http.post(
+      issuer.metadata.tokenEndpoint!,
+      body: {
+        'grant_type': 'refresh_token',
+        'refresh_token': refreshToken,
+        'client_id': dotenv.env['CLIENT_ID'],
+        'client_secret': dotenv.env['CLIENT_SECRET'],
+      },
+    );
+
+    final body = json.decode(response.body) as Map<String, dynamic>;
+    final accessToken = body['access_token'] as String;
+
+    if (response.statusCode != 200) {
+      Logger().e('Re-login failed: status code ${response.statusCode}');
+      return null;
+    }
+
+    return accessToken;
   }
 
   /// Returns the response body of the login in Sigarra
@@ -194,7 +308,7 @@ class NetworkRouter {
         }
 
         session
-          ..username = newSession.username
+          ..username = newSession.username // (thePeras): Why is this necessary?
           ..cookies = newSession.cookies;
         headers['cookie'] = session.cookies;
         return http.get(url.toUri(), headers: headers).timeout(timeout);

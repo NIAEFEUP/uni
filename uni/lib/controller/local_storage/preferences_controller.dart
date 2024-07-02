@@ -20,6 +20,7 @@ class PreferencesController {
   static const String _userNumber = 'user_number';
   static const String _userPw = 'user_password';
   static const String _userFaculties = 'user_faculties';
+  static const String _refreshToken = 'refresh_token';
   static const String _termsAndConditions = 'terms_and_conditions';
   static const String _areTermsAndConditionsAcceptedKey = 'is_t&c_accepted';
   static const String _tuitionNotificationsToggleKey =
@@ -79,6 +80,20 @@ class PreferencesController {
       _userFaculties,
       faculties,
     ); // Could be multiple faculties;
+  }
+
+  /// Saves the user's session refresh token, student number and faculties.
+  static Future<void> saveSessionRefreshToken(
+    String refreshToken,
+    String userNumber,
+    List<String> faculties,
+  ) async {
+    await _secureStorage.write(key: _userNumber, value: userNumber);
+    await _secureStorage.write(key: _refreshToken, value: refreshToken);
+    await prefs.setStringList(
+      _userFaculties,
+      faculties,
+    );
   }
 
   /// Sets whether or not the Terms and Conditions have been accepted.
@@ -157,8 +172,16 @@ class PreferencesController {
 
   /// Deletes the user's student number and password.
   static Future<void> removePersistentUserInfo() async {
-    await prefs.remove(_userNumber);
-    await prefs.remove(_userPw);
+    await _secureStorage.delete(key: _userNumber);
+    await _secureStorage.delete(key: _userPw);
+    await prefs.remove(_userFaculties);
+  }
+
+  /// Deletes the user's session refresh token.
+  static Future<void> removeSessionRefreshToken() async {
+    await _secureStorage.delete(key: _userNumber);
+    await _secureStorage.delete(key: _refreshToken);
+    await prefs.remove(_userFaculties);
   }
 
   /// Returns a tuple containing the user's student number and password.
@@ -175,6 +198,11 @@ class PreferencesController {
       return null;
     }
     return Tuple2(userNum, userPass);
+  }
+
+  /// Returns the user's session refresh token.
+  static Future<String?> getSessionRefreshToken() {
+    return _secureStorage.read(key: _refreshToken);
   }
 
   /// Returns the user's faculties
