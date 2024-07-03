@@ -86,7 +86,6 @@ void main() async {
         profile,
         Session(username: '', cookies: '', faculties: ['feup']),
         [sopeCourseUnit, sdisCourseUnit],
-        persistentSession: false,
       );
 
       examProvider.setState(exams);
@@ -124,7 +123,6 @@ void main() async {
         profile,
         Session(username: '', cookies: '', faculties: ['feup']),
         [sopeCourseUnit, sdisCourseUnit],
-        persistentSession: false,
       );
 
       examProvider.setState(exams);
