@@ -4,7 +4,6 @@ import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher.dart';
 import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher_api.dart';
 import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher_html.dart';
 import 'package:uni/controller/local_storage/database/app_lectures_database.dart';
-import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/entities/session.dart';
@@ -25,15 +24,12 @@ class LectureProvider extends StateProviderNotifier<List<Lecture>> {
     return fetchUserLectures(
       stateProviders.sessionProvider.state!,
       stateProviders.profileProvider.state!,
-      persistentSession:
-          (await PreferencesController.getPersistentUserInfo()) != null,
     );
   }
 
   Future<List<Lecture>> fetchUserLectures(
     Session session,
     Profile profile, {
-    required bool persistentSession,
     ScheduleFetcher? fetcher,
   }) async {
     final lectures =
