@@ -80,7 +80,7 @@ class BugReportFormState extends State<BugReportForm> {
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
-      child: ListView(
+      child: Column(
         children: [
           const Padding(padding: EdgeInsets.only(bottom: 10)),
           PageTitle(
