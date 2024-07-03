@@ -6,3 +6,5 @@ analyzer:
     - "**.g.dart"
     - "**.mocks.dart"
     - "**generated/**"
+  plugins:
+    - custom_lint

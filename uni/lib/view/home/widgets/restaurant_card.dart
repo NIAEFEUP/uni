@@ -102,15 +102,10 @@ class RestaurantCard extends GenericCard {
       physics: const NeverScrollableScrollPhysics(),
       itemCount: restaurants.length,
       itemBuilder: (context, index) {
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            createRowFromRestaurant(
-              context,
-              restaurants[index],
-              DayOfWeek.values[offset],
-            ),
-          ],
+        return createRowFromRestaurant(
+          context,
+          restaurants[index],
+          DayOfWeek.values[offset],
         );
       },
     );
