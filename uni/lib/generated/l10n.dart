@@ -1637,6 +1637,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Invalid credentials`
+  String get wrong_credentials_exception {
+    return Intl.message(
+      'Invalid credentials',
+      name: 'wrong_credentials_exception',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Check your internet connection`
+  String get internet_status_exception {
+    return Intl.message(
+      'Check your internet connection',
+      name: 'internet_status_exception',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

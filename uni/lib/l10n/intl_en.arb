@@ -321,5 +321,9 @@
   "login_with_credentials": "Login with credentials",
   "@login_with_credentials": {},
   "fail_to_authenticate": "Failed to authenticate",
-  "@fail_to_authenticate": {}
+  "@fail_to_authenticate": {},
+  "wrong_credentials_exception": "Invalid credentials",
+  "@wrong_credentials_exception": {},
+  "internet_status_exception": "Check your internet connection",
+  "@internet_status_exception": {}
 }

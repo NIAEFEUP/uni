@@ -87,7 +87,7 @@ Widget createSaveDataCheckBox(
 Widget createAFLogInButton(
   MediaQueryData queryData,
   BuildContext context,
-  void Function(BuildContext) login,
+  void Function() login,
 ) {
   return ElevatedButton(
     style: ElevatedButton.styleFrom(
@@ -95,9 +95,7 @@ Widget createAFLogInButton(
         borderRadius: BorderRadius.circular(25),
       ),
     ),
-    onPressed: () {
-      login(context);
-    },
+    onPressed: login,
     child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[

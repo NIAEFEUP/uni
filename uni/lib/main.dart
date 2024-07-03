@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:app_links/app_links.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -51,7 +50,6 @@ import 'package:uni/view/settings/settings.dart';
 import 'package:uni/view/theme.dart';
 import 'package:uni/view/theme_notifier.dart';
 import 'package:uni/view/transports/transports.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:workmanager/workmanager.dart';
 
 SentryEvent? beforeSend(SentryEvent event) {
@@ -121,27 +119,6 @@ Future<void> main() async {
   if (plausible == null) {
     Logger().w('Plausible is not enabled');
   }
-
-  final appLinks = AppLinks();
-  appLinks.uriLinkStream.listen((uri) async {
-    Logger().d('AppLinks intercepted: $uri');
-    await closeInAppWebView();
-    if (uri.host == 'auth') {
-      final sessionProvider = stateProviders.sessionProvider;
-      try {
-        await sessionProvider.finishFederatedAuthentication(uri);
-        final context = sessionProvider.context;
-        if (context != null && context.mounted) {
-          await Navigator.pushReplacementNamed(
-            context,
-            '/${NavigationItem.navPersonalArea.route}',
-          );
-        }
-      } catch (err) {
-        Logger().e('Failed to login with FederatedLogin: $err');
-      }
-    }
-  });
 
   final savedTheme = PreferencesController.getThemeMode();
   final savedLocale = PreferencesController.getLocale();

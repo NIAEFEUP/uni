@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:app_links/app_links.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -40,9 +41,46 @@ class LoginPageViewState extends State<LoginPageView> {
   bool _obscurePasswordInput = true;
   bool _loggingIn = false;
 
-  Future<void> _login(BuildContext context) async {
-    final stateProviders = StateProviders.fromContext(context);
-    final sessionProvider = stateProviders.sessionProvider;
+  @override
+  void initState() {
+    super.initState();
+
+    final appLinks = AppLinks();
+    appLinks.uriLinkStream.listen((uri) async {
+      Logger().d('AppLinks intercepted: $uri');
+      await closeInAppWebView();
+
+      if (uri.host == 'auth') {
+        WidgetsBinding.instance.addPostFrameCallback((_) async {
+          final sessionProvider =
+              Provider.of<SessionProvider>(context, listen: false);
+          try {
+            await sessionProvider.finishFederatedAuthentication(uri);
+            if (mounted) {
+              await Navigator.pushReplacementNamed(
+                context,
+                '/${NavigationItem.navPersonalArea.route}',
+              );
+            }
+          } catch (err) {
+            Logger().e('Failed to login with FederatedLogin: $err');
+          }
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    // TODO(thePeras): Fix error used after being disposed
+    // usernameController.dispose();
+    // passwordController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _login() async {
+    final sessionProvider =
+        Provider.of<SessionProvider>(context, listen: false);
 
     if (!_loggingIn && _formKey.currentState!.validate()) {
       final user = usernameController.text.trim();
@@ -53,7 +91,6 @@ class LoginPageViewState extends State<LoginPageView> {
           _loggingIn = true;
         });
         await sessionProvider.postAuthentication(
-          context,
           user,
           pass,
           persistentSession: _keepSignedIn,
@@ -62,7 +99,7 @@ class LoginPageViewState extends State<LoginPageView> {
         usernameController.clear();
         passwordController.clear();
 
-        if (context.mounted) {
+        if (mounted) {
           usernameController.clear();
           passwordController.clear();
           await Navigator.pushReplacementNamed(
@@ -80,17 +117,27 @@ class LoginPageViewState extends State<LoginPageView> {
         if (err is ExpiredCredentialsException) {
           _updatePasswordDialog();
         } else if (err is InternetStatusException) {
-          if (context.mounted) {
-            unawaited(ToastMessage.warning(context, err.message));
+          if (mounted) {
+            unawaited(
+              ToastMessage.warning(
+                context,
+                S.of(context).internet_status_exception,
+              ),
+            );
           }
         } else if (err is WrongCredentialsException) {
-          if (context.mounted) {
-            unawaited(ToastMessage.error(context, err.message));
+          if (mounted) {
+            unawaited(
+              ToastMessage.error(
+                context,
+                S.of(context).wrong_credentials_exception,
+              ),
+            );
           }
         } else {
           Logger().e(err, stackTrace: st);
           unawaited(Sentry.captureException(err, stackTrace: st));
-          if (context.mounted) {
+          if (mounted) {
             unawaited(ToastMessage.error(context, S.of(context).failed_login));
           }
         }
@@ -98,7 +145,7 @@ class LoginPageViewState extends State<LoginPageView> {
     }
   }
 
-  Future<void> _falogin(BuildContext context) async {
+  Future<void> _falogin() async {
     final stateProviders = StateProviders.fromContext(context);
     final sessionProvider = stateProviders.sessionProvider;
 
@@ -107,7 +154,6 @@ class LoginPageViewState extends State<LoginPageView> {
         _loggingIn = true;
       });
       await sessionProvider.federatedAuthentication(
-        context,
         persistentSession: _keepSignedIn,
       );
     } catch (err, st) {
@@ -117,7 +163,7 @@ class LoginPageViewState extends State<LoginPageView> {
         _loggingIn = false;
       });
       Logger().e('Failed to authenticate');
-      if (context.mounted) {
+      if (mounted) {
         unawaited(ToastMessage.error(context, 'Failed to authenticate'));
       }
     }
@@ -254,7 +300,7 @@ class LoginPageViewState extends State<LoginPageView> {
                             _obscurePasswordInput = !_obscurePasswordInput;
                           });
                         },
-                        () => _login(context),
+                        _login,
                         obscurePasswordInput: _obscurePasswordInput,
                       ),
                       const SizedBox(height: 20),
@@ -283,7 +329,7 @@ class LoginPageViewState extends State<LoginPageView> {
             ),
             ElevatedButton(
               onPressed: () {
-                _login(context);
+                _login();
                 if (_formKey.currentState!.validate()) {
                   Navigator.of(context).pop();
                 }

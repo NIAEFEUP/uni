@@ -1,10 +1,8 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart' as material;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:logger/logger.dart';
 import 'package:openid_client/openid_client.dart';
-import 'package:provider/provider.dart';
 import 'package:uni/controller/background_workers/notifications.dart';
 import 'package:uni/controller/fetchers/faculties_fetcher.dart';
 import 'package:uni/controller/fetchers/terms_and_conditions_fetcher.dart';
@@ -16,7 +14,6 @@ import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/model/providers/state_providers.dart';
 import 'package:uni/model/request_status.dart';
-import 'package:uni/view/locale_notifier.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SessionProvider extends StateProviderNotifier<Session> {
@@ -59,50 +56,41 @@ class SessionProvider extends StateProviderNotifier<Session> {
   }
 
   Future<void> postAuthentication(
-    material.BuildContext context,
     String username,
     String password, {
     required bool persistentSession,
   }) async {
-    final locale =
-        Provider.of<LocaleNotifier>(context, listen: false).getLocale();
     Session? session;
     List<String> faculties;
 
-    try {
-      // We need to login to fetch the faculties, so perform a temporary login.
-      final tempSession = await NetworkRouter.login(
-        username,
-        password,
-        ['feup'],
-        persistentSession: false,
-        ignoreCached: true,
-      );
-      faculties = await getStudentFaculties(tempSession!);
+    // We need to login to fetch the faculties, so perform a temporary login.
+    final tempSession = await NetworkRouter.login(
+      username,
+      password,
+      ['feup'],
+      persistentSession: false,
+      ignoreCached: true,
+    );
+    faculties = await getStudentFaculties(tempSession!);
 
-      // Now get the session with the correct faculties.
-      session = await NetworkRouter.login(
-        username,
-        password,
-        faculties,
-        persistentSession: persistentSession,
-        ignoreCached: true,
-      );
-    } catch (_) {
-      throw InternetStatusException(locale);
-    }
+    // Now get the session with the correct faculties.
+    session = await NetworkRouter.login(
+      username,
+      password,
+      faculties,
+      persistentSession: persistentSession,
+      ignoreCached: true,
+    );
 
     if (session == null) {
       // Get the fail reason.
       final responseHtml =
           await NetworkRouter.loginInSigarra(username, password, ['feup']);
 
-      if (isPasswordExpired(responseHtml) && context.mounted) {
+      if (isPasswordExpired(responseHtml)) {
         throw ExpiredCredentialsException();
       } else {
-        throw WrongCredentialsException(
-          locale,
-        );
+        throw WrongCredentialsException();
       }
     }
 
@@ -125,14 +113,11 @@ class SessionProvider extends StateProviderNotifier<Session> {
   }
 
   late Flow? _flow;
-  late material.BuildContext? context;
   bool _persistentSession = false;
 
-  Future<void> federatedAuthentication(
-    material.BuildContext ctx, {
+  Future<void> federatedAuthentication({
     required bool persistentSession,
   }) async {
-    context = ctx;
     _persistentSession = persistentSession;
 
     final realm = dotenv.env['REALM'] ?? '';

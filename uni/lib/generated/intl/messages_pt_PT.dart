@@ -146,6 +146,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "improvement_registration":
             MessageLookupByLibrary.simpleMessage("Inscrição para Melhoria"),
         "increment": MessageLookupByLibrary.simpleMessage("Incrementar 1,00€"),
+        "internet_status_exception": MessageLookupByLibrary.simpleMessage(
+            "Verifique sua conexão com a internet"),
         "invalid_credentials":
             MessageLookupByLibrary.simpleMessage("Credenciais inválidas"),
         "keep_login": MessageLookupByLibrary.simpleMessage("Manter sessão"),
@@ -291,6 +293,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Por favor insere um email válido"),
         "widget_prompt": MessageLookupByLibrary.simpleMessage(
             "Escolhe um widget para adicionares à tua área pessoal:"),
+        "wrong_credentials_exception":
+            MessageLookupByLibrary.simpleMessage("Credenciais inválidas"),
         "year": MessageLookupByLibrary.simpleMessage("Ano"),
         "yes": MessageLookupByLibrary.simpleMessage("Sim")
       };

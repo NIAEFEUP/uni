@@ -321,5 +321,9 @@
   "login_with_credentials": "Iniciar sessão com credenciais",
   "@login_with_credentials": {},
   "fail_to_authenticate": "Falha ao autenticar",
-  "@fail_to_authenticate": {}
+  "@fail_to_authenticate": {},
+  "wrong_credentials_exception": "Credenciais inválidas",
+  "@wrong_credentials_exception": {},
+  "internet_status_exception": "Verifique sua conexão com a internet",
+  "@internet_status_exception": {}
 }
