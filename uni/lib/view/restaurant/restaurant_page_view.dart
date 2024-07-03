@@ -40,28 +40,28 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
       S.of(context).nav_title(NavigationItem.navRestaurants.route);
 
   @override
+  Widget? getHeader(BuildContext context) {
+    return TabBar(
+      controller: tabController,
+      isScrollable: true,
+      tabs: createTabs(context),
+    );
+  }
+
+  @override
   Widget getBody(BuildContext context) {
-    return Column(
-      children: [
-        TabBar(
-          controller: tabController,
-          isScrollable: true,
-          tabs: createTabs(context),
+    return LazyConsumer<RestaurantProvider, List<Restaurant>>(
+      builder: (context, restaurants) => createTabViewBuilder(
+        restaurants,
+        context,
+      ),
+      onNullContent: Center(
+        child: Text(
+          S.of(context).no_menus,
+          style: const TextStyle(fontSize: 18),
         ),
-        LazyConsumer<RestaurantProvider, List<Restaurant>>(
-          builder: (context, restaurants) => createTabViewBuilder(
-            restaurants,
-            context,
-          ),
-          onNullContent: Center(
-            child: Text(
-              S.of(context).no_menus,
-              style: const TextStyle(fontSize: 18),
-            ),
-          ),
-          hasContent: (restaurants) => restaurants.isNotEmpty,
-        ),
-      ],
+      ),
+      hasContent: (restaurants) => restaurants.isNotEmpty,
     );
   }
 
@@ -84,14 +84,15 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
           ),
         );
       }
-      return ListView(padding: EdgeInsets.zero, children: restaurantsWidgets);
+      return ListView(
+        padding: const EdgeInsets.only(top: 10),
+        children: restaurantsWidgets,
+      );
     }).toList();
 
-    return Expanded(
-      child: TabBarView(
-        controller: tabController,
-        children: dayContents,
-      ),
+    return TabBarView(
+      controller: tabController,
+      children: dayContents,
     );
   }
 
