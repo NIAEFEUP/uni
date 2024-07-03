@@ -22,13 +22,17 @@ typedef CardCreator = GenericCard Function(
 
 class MainCardsList extends StatefulWidget {
   const MainCardsList(
-    this.favoriteCardTypes,
-    this.saveFavoriteCards, {
+    this.favoriteCardTypes, {
+    required this.saveFavoriteCards,
+    required this.isEditing,
+    required this.toggleEditing,
     super.key,
   });
 
   final List<FavoriteWidgetType> favoriteCardTypes;
   final void Function(List<FavoriteWidgetType>) saveFavoriteCards;
+  final bool isEditing;
+  final void Function() toggleEditing;
 
   static Map<FavoriteWidgetType, CardCreator> cardCreators = {
     FavoriteWidgetType.schedule: ScheduleCard.fromEditingInformation,
@@ -48,36 +52,45 @@ class MainCardsList extends StatefulWidget {
 }
 
 class MainCardsListState extends State<MainCardsList> {
-  bool isEditing = false;
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: BackButtonExitWrapper(
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height,
-          child: isEditing
-              ? ReorderableListView(
-                  onReorder: reorderCard,
-                  header: createTopBar(context),
-                  children: favoriteCardsFromTypes(
-                    widget.favoriteCardTypes,
-                    context,
-                  ),
-                )
-              : ListView(
-                  padding: EdgeInsets.zero,
-                  children: <Widget>[
-                    createTopBar(context),
-                    ...favoriteCardsFromTypes(
+    // ignore: deprecated_member_use, see #1209
+    return WillPopScope(
+      onWillPop: () async {
+        if (widget.isEditing) {
+          widget.toggleEditing();
+          return false;
+        }
+        return true;
+      },
+      child: Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        body: BackButtonExitWrapper(
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height,
+            child: widget.isEditing
+                ? ReorderableListView(
+                    onReorder: reorderCard,
+                    header: createTopBar(context),
+                    children: favoriteCardsFromTypes(
                       widget.favoriteCardTypes,
                       context,
                     ),
-                  ],
-                ),
+                  )
+                : ListView(
+                    children: <Widget>[
+                      createTopBar(context),
+                      ...favoriteCardsFromTypes(
+                        widget.favoriteCardTypes,
+                        context,
+                      ),
+                    ],
+                  ),
+          ),
         ),
+        floatingActionButton:
+            widget.isEditing ? createActionButton(context) : null,
       ),
-      floatingActionButton: isEditing ? createActionButton(context) : null,
     );
   }
 
@@ -157,20 +170,16 @@ class MainCardsListState extends State<MainCardsList> {
             center: false,
             pad: false,
           ),
-          if (isEditing)
+          if (widget.isEditing)
             ElevatedButton(
-              onPressed: () => setState(() {
-                isEditing = false;
-              }),
+              onPressed: widget.toggleEditing,
               child: Text(
                 S.of(context).edit_on,
               ),
             )
           else
             OutlinedButton(
-              onPressed: () => setState(() {
-                isEditing = true;
-              }),
+              onPressed: widget.toggleEditing,
               child: Text(
                 S.of(context).edit_off,
               ),
@@ -193,7 +202,7 @@ class MainCardsListState extends State<MainCardsList> {
       final i = cardTypes.indexOf(type);
       return MainCardsList.cardCreators[type]!(
         Key(i.toString()),
-        editingMode: isEditing,
+        editingMode: widget.isEditing,
         onDelete: () => removeCardIndexFromFavorites(i, context),
       );
     }).toList();
