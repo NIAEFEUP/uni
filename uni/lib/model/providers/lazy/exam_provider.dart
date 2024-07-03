@@ -45,7 +45,6 @@ class ExamProvider extends StateProviderNotifier<List<Exam>> {
 
     final db = AppExamsDatabase();
     await db.saveIfPersistentSession(exams);
-
     return exams;
   }
 }

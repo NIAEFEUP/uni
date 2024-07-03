@@ -185,13 +185,27 @@ class PreferencesController {
   }
 
   /// Returns the user's student number.
-  static Future<String?> getUserNumber() {
-    return _secureStorage.read(key: _userNumber);
+  static Future<String?> getUserNumber() async {
+    try {
+      if (await _secureStorage.containsKey(key: _userNumber)) {
+        return await _secureStorage.read(key: _userNumber);
+      }
+      return null;
+    } catch (err) {
+      return null;
+    }
   }
 
   /// Returns the user's password, in plain text format.
-  static Future<String?> getUserPassword() {
-    return _secureStorage.read(key: _userPw);
+  static Future<String?> getUserPassword() async {
+    try {
+      if (await _secureStorage.containsKey(key: _userPw)) {
+        return await _secureStorage.read(key: _userPw);
+      }
+      return null;
+    } catch (err) {
+      return null;
+    }
   }
 
   /// Replaces the user's favorite widgets with [newFavorites].
