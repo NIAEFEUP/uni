@@ -39,6 +39,7 @@ abstract class GenericExpansionCard extends StatelessWidget {
               ?.apply(color: Theme.of(context).primaryColor),
         ),
         elevation: 0,
+        baseColor: Theme.of(context).colorScheme.surface,
         children: <Widget>[
           Container(
             padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),

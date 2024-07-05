@@ -51,7 +51,7 @@ class AppTopNavbar extends StatelessWidget implements PreferredSizeWidget {
       automaticallyImplyLeading: false,
       elevation: 0,
       iconTheme: Theme.of(context).iconTheme,
-      backgroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       shadowColor: Theme.of(context).dividerColor,
       surfaceTintColor: Theme.of(context).colorScheme.onSecondary,
       titleSpacing: 0,

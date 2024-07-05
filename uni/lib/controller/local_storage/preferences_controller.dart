@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:encrypt/encrypt.dart' as encrypt;
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,10 +15,6 @@ import 'package:uni/utils/favorite_widget_type.dart';
 /// widgets.
 class PreferencesController {
   static late SharedPreferences prefs;
-
-  static final iv = encrypt.IV.fromBase64('jF9jjdSEPgsKnf0jCl1GAQ==');
-  static final key =
-      encrypt.Key.fromBase64('DT3/GTNYldhwOD3ZbpVLoAwA/mncsN7U7sJxfFn3y0A=');
 
   static const _lastUpdateTimeKeySuffix = '_last_update_time';
   static const String _userNumber = 'user_number';
@@ -175,6 +170,7 @@ class PreferencesController {
   static Future<Tuple2<String, String>?> getPersistentUserInfo() async {
     final userNum = await getUserNumber();
     final userPass = await getUserPassword();
+
     if (userNum == null || userPass == null) {
       return null;
     }
@@ -194,9 +190,8 @@ class PreferencesController {
   }
 
   /// Returns the user's password, in plain text format.
-  static Future<String?> getUserPassword() async {
-    final password = await _secureStorage.read(key: _userPw);
-    return password != null ? decode(password) : null;
+  static Future<String?> getUserPassword() {
+    return _secureStorage.read(key: _userPw);
   }
 
   /// Replaces the user's favorite widgets with [newFavorites].
@@ -270,28 +265,6 @@ class PreferencesController {
       _defaultFilteredExamTypes,
       value: storedFilteredExamTypes.contains,
     );
-  }
-
-  /// Encrypts [plainText] and returns its base64 representation.
-  static String encode(String plainText) {
-    final encrypter = _createEncrypter();
-    return encrypter.encrypt(plainText, iv: iv).base64;
-  }
-
-  /// Decrypts [base64Text].
-  static String? decode(String base64Text) {
-    final encrypter = _createEncrypter();
-    try {
-      return encrypter.decrypt64(base64Text, iv: iv);
-    } catch (_) {
-      return null;
-    }
-  }
-
-  /// Creates an [encrypt.Encrypter] for encrypting and decrypting the user's
-  /// password.
-  static encrypt.Encrypter _createEncrypter() {
-    return encrypt.Encrypter(encrypt.AES(key));
   }
 
   static bool getTuitionNotificationToggle() {
