@@ -75,7 +75,7 @@ class SessionProvider extends StateProviderNotifier<Session> {
         persistentSession: persistentSession,
         ignoreCached: true,
       );
-    } catch (e) {
+    } catch (error) {
       throw InternetStatusException(locale);
     }
 

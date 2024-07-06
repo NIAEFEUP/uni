@@ -1,11 +1,7 @@
-// ignore_for_file: unused_import
-
-import 'dart:collection';
 import 'dart:convert';
 
 import 'package:html/parser.dart';
 import 'package:http/http.dart' as http;
-import 'package:uni/controller/fetchers/book_fetcher.dart';
 import 'package:uni/controller/fetchers/course_units_fetcher/course_units_info_fetcher.dart';
 import 'package:uni/model/entities/course_units/course_unit_class.dart';
 import 'package:uni/model/entities/course_units/course_unit_directory.dart';
@@ -49,20 +45,20 @@ Future<List<CourseUnitFileDirectory>> parseFiles(
 
 Future<Sheet> parseSheet(http.Response response) async {
   final json = jsonDecode(response.body) as Map<String, dynamic>;
-  final professors = getCourseUnitProfessors(json['ds'] as List<dynamic>);
-  final regents = <Professor>[];
-  final books = <Book>[];
+  final professors =
+      getCourseUnitProfessors(json['ds'] as Iterable<Map<String, dynamic>>);
+  final regents =
+      (json['responsabilidades'] as List<Map<String, dynamic>>).map((element) {
+    return Professor.fromJson(element);
+  }).toList();
 
-  json['responsabilidades'].forEach((dynamic element) {
-    regents.add(Professor.fromJson(element as Map<String, dynamic>));
-  });
-
-  json['bibliografia'].forEach((dynamic element) {
-    books.add(Book(
+  final books =
+      (json['bibliografia'] as List<Map<String, dynamic>>).map<Book>((element) {
+    return Book(
       title: element['titulo'].toString(),
       isbn: element['isbn'].toString(),
-    ));
-  });
+    );
+  }).toList();
 
   return Sheet(
     professors: professors,
@@ -73,10 +69,10 @@ Future<Sheet> parseSheet(http.Response response) async {
   );
 }
 
-List<Professor> getCourseUnitProfessors(List<dynamic> ds) {
+List<Professor> getCourseUnitProfessors(Iterable<Map<String, dynamic>> ds) {
   final professors = <Professor>[];
   for (final map in ds) {
-    for (final docente in map['docentes'] as Iterable) {
+    for (final docente in map['docentes'] as Iterable<Map<String, dynamic>>) {
       final professor = Professor(
         code: docente['doc_codigo'].toString(),
         name: shortName(docente['nome'].toString()),

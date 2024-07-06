@@ -120,14 +120,16 @@ Future<void> addMoneyDialog(BuildContext context) async {
   );
 }
 
-final CurrencyTextInputFormatter formatter =
-    CurrencyTextInputFormatter(locale: 'pt-PT', decimalDigits: 2, symbol: '€ ');
+final formatter = CurrencyTextInputFormatter.currency(
+  locale: 'pt',
+  decimalDigits: 2,
+  symbol: '€ ',
+);
 
 double valueTextToNumber(String value) =>
     double.parse(value.substring(0, value.length - 2).replaceAll(',', '.'));
 
-String numberToValueText(double number) =>
-    formatter.format(number.toStringAsFixed(2));
+String numberToValueText(double number) => number.toStringAsFixed(2);
 
 Future<void> generateReference(BuildContext context, double amount) async {
   if (amount < 1) {

@@ -2,8 +2,11 @@ import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 
 class GenericExpandable extends StatelessWidget {
-  const GenericExpandable(
-      {super.key, required this.title, required this.content});
+  const GenericExpandable({
+    required this.title,
+    required this.content,
+    super.key,
+  });
 
   final String title;
   final Widget content;

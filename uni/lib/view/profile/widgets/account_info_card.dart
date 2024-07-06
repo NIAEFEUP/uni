@@ -145,7 +145,7 @@ class ReferenceList extends StatelessWidget {
         child: Text(
           S.of(context).no_references,
           style: Theme.of(context).textTheme.titleSmall,
-          textScaleFactor: 0.96,
+          textScaler: const TextScaler.linear(0.96),
         ),
       );
     }

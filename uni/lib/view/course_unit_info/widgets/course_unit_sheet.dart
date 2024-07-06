@@ -1,8 +1,6 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/controller/fetchers/book_fetcher.dart';
@@ -50,7 +48,7 @@ class CourseUnitSheetView extends StatelessWidget {
               style: TextStyle(fontSize: 20),
             ),
             if (courseUnitSheet.books.isNotEmpty)
-              buildBooksRow(context, courseUnitSheet.books)
+              buildBooksRow(context, courseUnitSheet.books),
           ],
         ),
       ),
@@ -199,8 +197,8 @@ Widget buildBooksRow(BuildContext context, List<Book> books) {
       alignment: WrapAlignment.spaceBetween,
       children: [
         ...books.asMap().entries.map((book) {
-          return FutureBuilder<Image?>(
-            builder: (BuildContext context, AsyncSnapshot<Image?> snapshot) {
+          return FutureBuilder<String?>(
+            builder: (BuildContext context, AsyncSnapshot<String?> snapshot) {
               return Padding(
                 padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
                 child: Column(
@@ -208,12 +206,13 @@ Widget buildBooksRow(BuildContext context, List<Book> books) {
                     SizedBox(
                       width: 135,
                       height: 140, // adjust this value as needed
-                      child: snapshot.data ??
-                          const Image(
-                            image: NetworkImage(
-                              'https://nidcap.org/wp-content/uploads/2021/03/book.png',
+                      child: snapshot.data != null
+                          ? Image(image: NetworkImage(snapshot.data!))
+                          : const Image(
+                              image: AssetImage(
+                                'assets/images/book_placeholder.png',
+                              ),
                             ),
-                          ),
                     ),
                     SizedBox(
                       width: 135,
@@ -228,7 +227,7 @@ Widget buildBooksRow(BuildContext context, List<Book> books) {
             },
             future: BookThumbFetcher().fetchBookThumb(book.value.isbn),
           );
-        })
+        }),
       ],
     ),
   );
