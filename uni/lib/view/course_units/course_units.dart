@@ -27,7 +27,7 @@ class CourseUnitsPageViewState
   String? selectedSemester;
 
   @override
-  Widget getBody(BuildContext context) {
+  Widget? getHeader(BuildContext context) {
     return LazyConsumer<ProfileProvider, Profile>(
       builder: (context, profile) {
         final courseUnits = profile.courseUnits;
@@ -50,14 +50,44 @@ class CourseUnitsPageViewState
           }
         }
 
-        return Column(
-          children: [
-            _getFilters(availableYears, availableSemesters),
-            _getPageView(courseUnits, availableYears, availableSemesters),
-          ],
+        return _getFilters(availableYears, availableSemesters);
+      },
+      hasContent: (profile) => profile.courseUnits.isNotEmpty,
+      onNullContent: Column(
+        children: [
+          _getFilters([], []),
+          Center(
+            heightFactor: 10,
+            child: Text(
+              S.of(context).no_selected_courses,
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  Widget getBody(BuildContext context) {
+    return LazyConsumer<ProfileProvider, Profile>(
+      builder: (context, profile) {
+        final courseUnits = profile.courseUnits;
+        var availableYears = <String>[];
+        var availableSemesters = <String>[];
+
+        if (courseUnits.isNotEmpty) {
+          availableYears = _getAvailableYears(courseUnits);
+          availableSemesters = _getAvailableSemesters(courseUnits);
+        }
+
+        return _getPageView(
+          courseUnits,
+          availableYears,
+          availableSemesters,
         );
       },
-      hasContent: (Profile profile) => profile.courseUnits.isNotEmpty,
+      hasContent: (profile) => profile.courseUnits.isNotEmpty,
       onNullContent: Column(
         children: [
           _getFilters([], []),
@@ -107,11 +137,10 @@ class CourseUnitsPageViewState
             disabledHint: Text(S.of(context).semester),
             value: selectedSemester,
             icon: const Icon(Icons.arrow_drop_down),
-            onChanged: (String? newValue) {
+            onChanged: (newValue) {
               setState(() => selectedSemester = newValue);
             },
-            items: availableSemesters
-                .map<DropdownMenuItem<String>>((String value) {
+            items: availableSemesters.map<DropdownMenuItem<String>>((value) {
               return DropdownMenuItem<String>(
                 value: value,
                 child: Text(value),
@@ -125,10 +154,10 @@ class CourseUnitsPageViewState
             disabledHint: Text(S.of(context).year),
             value: selectedSchoolYear,
             icon: const Icon(Icons.arrow_drop_down),
-            onChanged: (String? newValue) {
+            onChanged: (newValue) {
               setState(() => selectedSchoolYear = newValue);
             },
-            items: availableYears.map<DropdownMenuItem<String>>((String value) {
+            items: availableYears.map<DropdownMenuItem<String>>((value) {
               return DropdownMenuItem<String>(
                 value: value,
                 child: Text(value),
@@ -154,13 +183,10 @@ class CourseUnitsPageViewState
         ),
       );
     }
-    return Expanded(
-      child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 20),
-        child: ListView(
-          shrinkWrap: true,
-          children: _generateCourseUnitsGridView(courseUnits),
-        ),
+    return Container(
+      margin: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
+      child: ListView(
+        children: _generateCourseUnitsGridView(courseUnits),
       ),
     );
   }

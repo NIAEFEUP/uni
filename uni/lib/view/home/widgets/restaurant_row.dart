@@ -23,15 +23,10 @@ class RestaurantRow extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.only(left: 12, bottom: 8, right: 12),
       margin: const EdgeInsets.only(top: 8),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-            child: Column(
-              children: getMenuRows(context),
-            ),
-          ),
-        ],
+      child: Expanded(
+        child: Column(
+          children: getMenuRows(context),
+        ),
       ),
     );
   }

@@ -82,7 +82,7 @@ Future<List<Lecture>> getOverlappedClasses(
             )
             .first,
       );
-    } catch (e) {
+    } catch (_) {
       final lect = Lecture.fromHtml(
         subject!,
         typeClass!,
@@ -116,7 +116,7 @@ Future<List<Lecture>> getScheduleFromHtml(
 
   final lecturesList = <Lecture>[];
 
-  document.querySelectorAll('.horario > tbody > tr').forEach((Element element) {
+  document.querySelectorAll('.horario > tbody > tr').forEach((element) {
     if (element.getElementsByClassName('horas').isNotEmpty) {
       var dayIndex = 0;
       final children = element.children;
@@ -130,12 +130,16 @@ Future<List<Lecture>> getScheduleFromHtml(
         final clsName = children[i].className;
         if (clsName == 'TE' || clsName == 'TP' || clsName == 'PL') {
           final subject = children[i].querySelector('b > acronym > a')?.text;
-          if (subject == null) return;
+          if (subject == null) {
+            return;
+          }
           String? classNumber;
 
           if (clsName == 'TP' || clsName == 'PL') {
             classNumber = children[i].querySelector('span > a')?.text;
-            if (classNumber == null) return;
+            if (classNumber == null) {
+              return;
+            }
           }
 
           final rowSmall = children[i].querySelector('table > tbody > tr');

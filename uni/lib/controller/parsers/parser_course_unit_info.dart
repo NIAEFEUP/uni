@@ -16,7 +16,9 @@ Future<List<CourseUnitFileDirectory>> parseFiles(
 ) async {
   final json = jsonDecode(response.body) as List<dynamic>;
   final dirs = <CourseUnitFileDirectory>[];
-  if (json.isEmpty) return [];
+  if (json.isEmpty) {
+    return [];
+  }
 
   for (var item in json) {
     item = item as Map<String, dynamic>;

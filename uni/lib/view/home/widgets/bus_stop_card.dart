@@ -46,7 +46,7 @@ class BusStopCard extends GenericCard {
           getBusStopsInfo(context, stopData),
         ],
       ),
-      hasContent: (Map<String, BusStopData> busStops) => busStops.isNotEmpty,
+      hasContent: (busStops) => busStops.isNotEmpty,
       onNullContent: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: Row(

@@ -10,12 +10,15 @@ import 'package:uni/model/entities/bus_stop.dart';
 /// This database stores information about the bus stops that the user
 /// wants to keep track of. It also stores information about
 /// which ones are the user's favorite stops.
-class AppBusStopDatabase extends AppDatabase {
+class AppBusStopDatabase extends AppDatabase<Map<String, BusStopData>> {
   AppBusStopDatabase()
-      : super('busstops.db', [
-          'CREATE TABLE busstops(stopCode TEXT, busCode TEXT)',
-          'CREATE TABLE favoritestops(stopCode TEXT, favorited TEXT)',
-        ]);
+      : super(
+          'busstops.db',
+          [
+            'CREATE TABLE busstops(stopCode TEXT, busCode TEXT)',
+            'CREATE TABLE favoritestops(stopCode TEXT, favorited TEXT)',
+          ],
+        );
 
   /// Returns a map containing all the data stored in this database.
   ///
@@ -78,7 +81,7 @@ class AppBusStopDatabase extends AppDatabase {
   ///
   /// If a row with the same data is present, it will be replaced.
   Future<void> _insertBusStops(Map<String, BusStopData> stops) async {
-    stops.forEach((String stopCode, BusStopData stopData) async {
+    stops.forEach((stopCode, stopData) async {
       await insertInDatabase(
         'favoritestops',
         {'stopCode': stopCode, 'favorited': stopData.favorited ? '1' : '0'},
@@ -103,9 +106,10 @@ class AppBusStopDatabase extends AppDatabase {
   }
 
   /// Replaces all the bus stops in this database with entries
-  /// from [stops].
-  Future<void> setBusStops(Map<String, BusStopData> stops) async {
+  /// from [data].
+  @override
+  Future<void> saveToDatabase(Map<String, BusStopData> data) async {
     await deleteBusStops();
-    await _insertBusStops(stops);
+    await _insertBusStops(data);
   }
 }

@@ -70,7 +70,6 @@ void main() async {
         session,
         profile,
         fetcher: fetcherMock,
-        persistentSession: false,
       );
 
       provider.setState(lectures);
@@ -87,7 +86,6 @@ void main() async {
           session,
           profile,
           fetcher: fetcherMock,
-          persistentSession: false,
         ),
       );
     });

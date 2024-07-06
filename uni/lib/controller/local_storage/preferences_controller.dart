@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:encrypt/encrypt.dart' as encrypt;
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tuple/tuple.dart';
 import 'package:uni/model/entities/app_locale.dart';
@@ -15,10 +15,6 @@ import 'package:uni/utils/favorite_widget_type.dart';
 /// widgets.
 class PreferencesController {
   static late SharedPreferences prefs;
-
-  static final iv = encrypt.IV.fromBase64('jF9jjdSEPgsKnf0jCl1GAQ==');
-  static final key =
-      encrypt.Key.fromBase64('DT3/GTNYldhwOD3ZbpVLoAwA/mncsN7U7sJxfFn3y0A=');
 
   static const _lastUpdateTimeKeySuffix = '_last_update_time';
   static const String _userNumber = 'user_number';
@@ -71,17 +67,18 @@ class PreferencesController {
   }
 
   /// Saves the user's student number, password and faculties.
+  static const FlutterSecureStorage _secureStorage = FlutterSecureStorage();
   static Future<void> savePersistentUserInfo(
     String user,
     String pass,
     List<String> faculties,
   ) async {
-    await prefs.setString(_userNumber, user);
-    await prefs.setString(_userPw, encode(pass));
+    await _secureStorage.write(key: _userNumber, value: user);
+    await _secureStorage.write(key: _userPw, value: pass);
     await prefs.setStringList(
       _userFaculties,
       faculties,
-    ); // Could be multiple faculties
+    ); // Could be multiple faculties;
   }
 
   /// Sets whether or not the Terms and Conditions have been accepted.
@@ -170,9 +167,10 @@ class PreferencesController {
   /// * the first element in the tuple is the user's student number.
   /// * the second element in the tuple is the user's password, in plain text
   /// format.
-  static Tuple2<String, String>? getPersistentUserInfo() {
-    final userNum = getUserNumber();
-    final userPass = getUserPassword();
+  static Future<Tuple2<String, String>?> getPersistentUserInfo() async {
+    final userNum = await getUserNumber();
+    final userPass = await getUserPassword();
+
     if (userNum == null || userPass == null) {
       return null;
     }
@@ -187,14 +185,27 @@ class PreferencesController {
   }
 
   /// Returns the user's student number.
-  static String? getUserNumber() {
-    return prefs.getString(_userNumber);
+  static Future<String?> getUserNumber() async {
+    try {
+      if (await _secureStorage.containsKey(key: _userNumber)) {
+        return await _secureStorage.read(key: _userNumber);
+      }
+      return null;
+    } catch (err) {
+      return null;
+    }
   }
 
   /// Returns the user's password, in plain text format.
-  static String? getUserPassword() {
-    final password = prefs.getString(_userPw);
-    return password != null ? decode(password) : null;
+  static Future<String?> getUserPassword() async {
+    try {
+      if (await _secureStorage.containsKey(key: _userPw)) {
+        return await _secureStorage.read(key: _userPw);
+      }
+      return null;
+    } catch (err) {
+      return null;
+    }
   }
 
   /// Replaces the user's favorite widgets with [newFavorites].
@@ -268,28 +279,6 @@ class PreferencesController {
       _defaultFilteredExamTypes,
       value: storedFilteredExamTypes.contains,
     );
-  }
-
-  /// Encrypts [plainText] and returns its base64 representation.
-  static String encode(String plainText) {
-    final encrypter = _createEncrypter();
-    return encrypter.encrypt(plainText, iv: iv).base64;
-  }
-
-  /// Decrypts [base64Text].
-  static String? decode(String base64Text) {
-    final encrypter = _createEncrypter();
-    try {
-      return encrypter.decrypt64(base64Text, iv: iv);
-    } catch (e) {
-      return null;
-    }
-  }
-
-  /// Creates an [encrypt.Encrypter] for encrypting and decrypting the user's
-  /// password.
-  static encrypt.Encrypter _createEncrypter() {
-    return encrypt.Encrypter(encrypt.AES(key));
   }
 
   static bool getTuitionNotificationToggle() {

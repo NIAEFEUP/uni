@@ -55,8 +55,9 @@ class AppBottomNavbar extends StatelessWidget {
         highlightColor: Colors.transparent,
       ),
       child: BottomNavigationBar(
+        backgroundColor: Theme.of(context).colorScheme.surface,
         items: navbarItems,
-        onTap: (int index) => _onItemTapped(context, index),
+        onTap: (index) => _onItemTapped(context, index),
         currentIndex: currentIndex == -1 ? 0 : currentIndex,
         type: BottomNavigationBarType.fixed,
         iconSize: 32,

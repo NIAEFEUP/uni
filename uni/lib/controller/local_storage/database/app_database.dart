@@ -1,15 +1,19 @@
-import 'dart:async';
-
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:synchronized/synchronized.dart';
+import 'package:uni/controller/local_storage/preferences_controller.dart';
 
 /// Manages a generic database.
 ///
 /// This class is the foundation for all other database managers.
-class AppDatabase {
-  AppDatabase(this.name, this.commands, {this.onUpgrade, this.version = 1});
+abstract class AppDatabase<T> {
+  AppDatabase(
+    this.name,
+    this.commands, {
+    this.onUpgrade,
+    this.version = 1,
+  });
 
   /// An instance of this database.
   Database? _db;
@@ -19,6 +23,9 @@ class AppDatabase {
 
   /// A list of commands to be executed on database creation.
   List<String> commands;
+
+  /// Whether the session is persistent or not.
+  bool? _persistentSession;
 
   /// The lock timeout for database operations.
   static const Duration lockTimeout = Duration(seconds: 5);
@@ -32,10 +39,26 @@ class AppDatabase {
   /// The version of this database.
   final int version;
 
+  /// Getter to determine if the session is persistent.
+  Future<bool> get persistentSession async {
+    _persistentSession ??=
+        await PreferencesController.getPersistentUserInfo() != null;
+    return _persistentSession!;
+  }
+
   /// Returns an instance of this database.
   Future<Database> getDatabase() async {
     _db ??= await initializeDatabase();
     return _db!;
+  }
+
+  Future<void> saveToDatabase(T data);
+
+  /// Calls saveToDatabase if the session is persistent
+  Future<void> saveIfPersistentSession(T data) async {
+    if (await persistentSession) {
+      await saveToDatabase(data);
+    }
   }
 
   /// Inserts [values] into the corresponding [table] in this database.

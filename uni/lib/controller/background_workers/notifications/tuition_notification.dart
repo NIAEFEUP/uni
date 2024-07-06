@@ -54,13 +54,17 @@ class TuitionNotification extends Notification {
   Future<bool> shouldDisplay(Session session) async {
     final notificationsAreDisabled =
         !PreferencesController.getTuitionNotificationToggle();
-    if (notificationsAreDisabled) return false;
+    if (notificationsAreDisabled) {
+      return false;
+    }
     final feesFetcher = FeesFetcher();
     final dueDate = parseFeesNextLimit(
       await feesFetcher.getUserFeesResponse(session),
     );
 
-    if (dueDate == null) return false;
+    if (dueDate == null) {
+      return false;
+    }
 
     _dueDate = dueDate;
     return DateTime.now().difference(_dueDate).inDays >= -3;

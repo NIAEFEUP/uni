@@ -70,7 +70,7 @@ class NotificationManager {
 
   static Future<void> updateAndTriggerNotifications() async {
     PreferencesController.prefs = await SharedPreferences.getInstance();
-    final userInfo = PreferencesController.getPersistentUserInfo();
+    final userInfo = await PreferencesController.getPersistentUserInfo();
     final faculties = PreferencesController.getUserFaculties();
 
     if (userInfo == null || faculties.isEmpty) {
@@ -113,7 +113,9 @@ class NotificationManager {
   Future<void> initializeNotifications() async {
     // guarantees that the execution is only done
     // once in the lifetime of the app.
-    if (_initialized) return;
+    if (_initialized) {
+      return;
+    }
     _initialized = true;
     await _initFlutterNotificationsPlugin();
     await _buildNotificationWorker();
@@ -123,7 +125,7 @@ class NotificationManager {
     const initializationSettingsAndroid =
         AndroidInitializationSettings('ic_notification');
 
-    //request for notifications immediatly on iOS
+    // request for notifications immediatly on iOS
     const darwinInitializationSettings = DarwinInitializationSettings(
       requestCriticalPermission: true,
     );
@@ -155,7 +157,7 @@ class NotificationManager {
     if (Platform.isAndroid) {
       await Workmanager().cancelByUniqueName(
         'pt.up.fe.ni.uni.notificationworker',
-      ); //stop task if it's already running
+      ); // stop task if it's already running
       await Workmanager().registerPeriodicTask(
         'pt.up.fe.ni.uni.notificationworker',
         'pt.up.fe.ni.uni.notificationworker',

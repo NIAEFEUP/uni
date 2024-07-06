@@ -21,12 +21,12 @@ Future<LibraryOccupation> parseLibraryOccupationFromSheets(
     int max;
     try {
       floor = (jsonDecoded['table']['rows'][i]['c'][0]['v'] as double).toInt();
-    } catch (e) {
+    } catch (err) {
       floor = 0;
     }
     try {
       max = (jsonDecoded['table']['rows'][i]['c'][1]['v'] as double).toInt();
-    } catch (e) {
+    } catch (err) {
       max = 0;
     }
     occupation.addFloor(FloorOccupation(i + 1, floor, max));

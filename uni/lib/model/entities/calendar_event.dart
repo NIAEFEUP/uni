@@ -3,10 +3,8 @@ import 'package:intl/intl.dart';
 /// An event in the school calendar
 class CalendarEvent {
   /// Creates an instance of the class [CalendarEvent]
-  CalendarEvent(this.name, this.date) {
-    name = name;
-    date = date;
-  }
+  CalendarEvent(this.name, this.date);
+
   String name;
   String date;
 
@@ -26,7 +24,7 @@ class CalendarEvent {
     try {
       return DateFormat('dd MMMM yyyy', 'pt')
           .parse('${splitDate[0]} $month ${splitDate.last}');
-    } catch (e) {
+    } catch (_) {
       return null;
     }
   }

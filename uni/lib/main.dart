@@ -11,6 +11,7 @@ import 'package:plausible_analytics/plausible_analytics.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:ua_client_hints/ua_client_hints.dart';
 import 'package:uni/controller/background_workers/background_callback.dart';
 import 'package:uni/controller/cleanup.dart';
 import 'package:uni/controller/fetchers/terms_and_conditions_fetcher.dart';
@@ -56,7 +57,8 @@ SentryEvent? beforeSend(SentryEvent event) {
 }
 
 Future<String> firstRoute() async {
-  final userPersistentInfo = PreferencesController.getPersistentUserInfo();
+  final userPersistentInfo =
+      await PreferencesController.getPersistentUserInfo();
 
   if (userPersistentInfo != null) {
     return '/${NavigationItem.navPersonalArea.route}';
@@ -108,8 +110,10 @@ Future<void> main() async {
   final plausibleUrl = dotenv.env['PLAUSIBLE_URL'];
   final plausibleDomain = dotenv.env['PLAUSIBLE_DOMAIN'];
 
+  final ua = await userAgent();
+
   final plausible = plausibleUrl != null && plausibleDomain != null
-      ? Plausible(plausibleUrl, plausibleDomain)
+      ? Plausible(plausibleUrl, plausibleDomain, userAgent: ua)
       : null;
 
   if (plausible == null) {
@@ -230,7 +234,7 @@ class ApplicationState extends State<Application> {
         supportedLocales: S.delegate.supportedLocales,
         initialRoute: widget.initialRoute,
         navigatorObservers: navigatorObservers,
-        onGenerateRoute: (RouteSettings settings) {
+        onGenerateRoute: (settings) {
           final transitions = {
             '/${NavigationItem.navLogin.route}':
                 PageTransition.makePageTransition(

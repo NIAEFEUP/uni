@@ -62,7 +62,7 @@ class FormTextField extends StatelessWidget {
                     labelStyle: Theme.of(context).textTheme.bodyMedium,
                   ),
                   controller: controller,
-                  validator: (String? value) {
+                  validator: (value) {
                     if (value == null || value.isEmpty) {
                       return isOptional ? null : S.of(context).empty_text;
                     }

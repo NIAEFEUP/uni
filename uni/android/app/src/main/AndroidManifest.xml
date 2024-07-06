@@ -1,5 +1,4 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="pt.up.fe.ni.uni">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
    <application
         android:label="uni"
         android:name="${applicationName}"
@@ -56,6 +55,7 @@
             <data android:mimeType="vnd.android.cursor.item/event" />
         </intent>
     </queries>
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" tools:node="remove" />
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_CALENDAR"/>
     <uses-permission android:name="android.permission.READ_CALENDAR"/>

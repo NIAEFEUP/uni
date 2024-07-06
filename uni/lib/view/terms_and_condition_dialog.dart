@@ -35,7 +35,7 @@ class TermsAndConditionDialog {
     return showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (BuildContext context) {
+      builder: (context) {
         return AlertDialog(
           title: Text(
             'Mudança nos Termos e Condições da uni',

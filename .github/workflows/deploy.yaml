@@ -16,11 +16,10 @@ jobs:
     environment:
       name: ${{ github.ref_name }}
     env:
-      PROPERTIES_PATH: "android/key.properties"
-      JAVA_VERSION: "17.x"
-      FLUTTER_VERSION: "3.13.7"
-      APP_VERSION_PATH: "app_version.txt"
-      PUBSPEC_PATH: "pubspec.yaml"
+      PROPERTIES_PATH: android/key.properties
+      JAVA_VERSION: 21.x
+      APP_VERSION_PATH: app_version.txt
+      PUBSPEC_PATH: pubspec.yaml
     defaults:
       run:
         working-directory: ./uni
@@ -39,7 +38,7 @@ jobs:
           git fetch origin develop
           git pull origin master
           echo "DEVELOP_HASH=$(git rev-parse origin/develop)" >> $GITHUB_ENV
-          echo "MASTER_HASH=$(git rev-parse origin/master^2)" >> $GITHUB_ENV 
+          echo "MASTER_HASH=$(git rev-parse origin/master^2)" >> $GITHUB_ENV
 
       - name: Get latest version (develop)
         if: github.ref != 'refs/heads/master'
@@ -49,7 +48,7 @@ jobs:
           google_service_account_json: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
           package_name: ${{ secrets.ANDROID_PACKAGE_NAME }}
           track: "beta"
-      
+
       - name: Get latest production version
         uses: LuisDuarte1/google-play-latest-version-code@v0.2.1
         id: latest-production-version
@@ -57,7 +56,7 @@ jobs:
           google_service_account_json: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
           package_name: ${{ secrets.ANDROID_PACKAGE_NAME }}
           track: "production"
-      
+
       - name: Bump beta version
         uses: LuisDuarte1/semver-bump-environment@v1.0.0
         if: github.ref != 'refs/heads/master'
@@ -67,7 +66,7 @@ jobs:
           production_version: ${{ steps.latest-production-version.outputs.latest_version_name }}
           staging_version: ${{ steps.latest-beta-version.outputs.latest_version_name }}
           bump_type: prerelease
-      
+
       - name: Bump prod version (from develop)
         uses: LuisDuarte1/semver-bump-environment@v1.0.0
         if: github.ref == 'refs/heads/master' && env.MASTER_HASH == env.DEVELOP_HASH
@@ -85,7 +84,7 @@ jobs:
           current_environment: production
           production_version: ${{ steps.latest-production-version.outputs.latest_version_name }}
           bump_type: patch
-      
+
       - name: Combine output and write new version into file
         run: |
           export NEW_VERSION_NAME=${{ 
@@ -102,13 +101,17 @@ jobs:
         with:
           commit_message: "Bump app version [no ci]"
 
-      - uses: actions/setup-java@v3
+      - uses: actions/setup-java@v4
         with:
           java-version: ${{env.JAVA_VERSION}}
           distribution: "zulu"
-      - uses: subosito/flutter-action@v2
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
         with:
-          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          flutter-version-file: uni/pubspec.yaml
+          cache: true
 
       - name: Download Android keystore
         run: echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 --decode > /tmp/key.jks
@@ -124,7 +127,7 @@ jobs:
 
       - name: Create .env file
         run: echo "${{vars.UNI_ENV_FILE}}" > ./assets/env/.env
-        
+
       - name: Build Android App Bundle
         run: |
           flutter pub get

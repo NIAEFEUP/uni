@@ -5,16 +5,18 @@ import 'package:uni/model/entities/meal.dart';
 import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/utils/day_of_week.dart';
 
-class RestaurantDatabase extends AppDatabase {
+class RestaurantDatabase extends AppDatabase<List<Restaurant>> {
   RestaurantDatabase()
-      : super('restaurant.db', [
-          '''
+      : super(
+          'restaurant.db',
+          [
+            '''
           CREATE TABLE RESTAURANTS(
           id INTEGER PRIMARY KEY,
           ref TEXT,
           name TEXT)
           ''',
-          '''
+            '''
           CREATE TABLE MEALS(
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           day TEXT,
@@ -24,18 +26,8 @@ class RestaurantDatabase extends AppDatabase {
           id_restaurant INTEGER,
           FOREIGN KEY (id_restaurant) REFERENCES RESTAURANTS(id))
           '''
-        ]);
-
-  /// Deletes all data, and saves the new restaurants
-  Future<void> saveRestaurants(List<Restaurant> restaurants) async {
-    final db = await getDatabase();
-    await db.transaction((transaction) async {
-      await deleteAll(transaction);
-      for (final restaurant in restaurants) {
-        await insertRestaurant(transaction, restaurant);
-      }
-    });
-  }
+          ],
+        );
 
   /// Get all restaurants and meals, if day is null, all meals are returned
   Future<List<Restaurant>> restaurants({DayOfWeek? day}) async {
@@ -93,11 +85,11 @@ class RestaurantDatabase extends AppDatabase {
       whereArgs.add(toString(day));
     }
 
-    //Get restaurant meals
+    // Get restaurant meals
     final List<Map<String, dynamic>> mealsMaps =
         await txn.query('meals', where: whereQuery, whereArgs: whereArgs);
 
-    //Retrieve data from query
+    // Retrieve data from query
     final meals = mealsMaps.map((map) {
       final day = parseDayOfWeek(map['day'] as String);
       final type = map['type'] as String;
@@ -124,6 +116,17 @@ class RestaurantDatabase extends AppDatabase {
   Future<void> deleteAll(Transaction txn) async {
     await txn.delete('meals');
     await txn.delete('restaurants');
+  }
+
+  @override
+  Future<void> saveToDatabase(List<Restaurant> data) async {
+    final db = await getDatabase();
+    await db.transaction((transaction) async {
+      await deleteAll(transaction);
+      for (final restaurant in data) {
+        await insertRestaurant(transaction, restaurant);
+      }
+    });
   }
 }
 

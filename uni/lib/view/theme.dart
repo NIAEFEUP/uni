@@ -30,6 +30,7 @@ ThemeData applicationLightTheme = ThemeData(
   colorScheme: ColorScheme.fromSeed(
     seedColor: darkRed,
     surface: _mildWhite,
+    surfaceContainer: _mildWhite,
     primary: darkRed,
     onPrimary: Colors.white,
     secondary: darkRed,
@@ -56,6 +57,7 @@ ThemeData applicationDarkTheme = ThemeData(
     seedColor: lightRed,
     brightness: Brightness.dark,
     surface: _darkBlack,
+    surfaceContainer: _darkBlack,
     primary: _lightGrey,
     onPrimary: _darkishBlack,
     secondary: _lightBlue,

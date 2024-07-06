@@ -50,7 +50,7 @@ class BusStopProvider extends StateProviderNotifier<Map<String, BusStopData>> {
     notifyListeners();
 
     final db = AppBusStopDatabase();
-    await db.setBusStops(state!);
+    await db.saveIfPersistentSession(state!);
   }
 
   Future<void> removeUserBusStop(
@@ -63,7 +63,7 @@ class BusStopProvider extends StateProviderNotifier<Map<String, BusStopData>> {
     notifyListeners();
 
     final db = AppBusStopDatabase();
-    await db.setBusStops(state!);
+    await db.saveIfPersistentSession(state!);
   }
 
   Future<void> toggleFavoriteUserBusStop(

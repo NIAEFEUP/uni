@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/utils/favorite_widget_type.dart';
+import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/profile_button.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/top_navigation_bar.dart';
@@ -17,6 +19,7 @@ class HomePageView extends StatefulWidget {
 
 class HomePageViewState extends GeneralPageViewState {
   bool isBannerViewed = true;
+  bool isEditing = false;
   List<FavoriteWidgetType> favoriteCardTypes =
       PreferencesController.getFavoriteCards();
 
@@ -45,6 +48,47 @@ class HomePageViewState extends GeneralPageViewState {
   }
 
   @override
+  Widget? getHeader(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          PageTitle(
+            name: S.of(context).nav_title('area'),
+            center: false,
+            pad: false,
+          ),
+          if (isEditing)
+            ElevatedButton(
+              onPressed: () => setState(() {
+                isEditing = false;
+              }),
+              child: Text(
+                S.of(context).edit_on,
+              ),
+            )
+          else
+            OutlinedButton(
+              onPressed: () => setState(() {
+                isEditing = true;
+              }),
+              child: Text(
+                S.of(context).edit_off,
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+
+  void toggleEditing() {
+    setState(() {
+      isEditing = !isEditing;
+    });
+  }
+
+  @override
   Widget getBody(BuildContext context) {
     return Column(
       children: [
@@ -53,7 +97,12 @@ class HomePageViewState extends GeneralPageViewState {
           child: TrackingBanner(setBannerViewed),
         ),
         Expanded(
-          child: MainCardsList(favoriteCardTypes, setFavoriteCards),
+          child: MainCardsList(
+            favoriteCardTypes,
+            saveFavoriteCards: setFavoriteCards,
+            isEditing: isEditing,
+            toggleEditing: toggleEditing,
+          ),
         ),
       ],
     );
