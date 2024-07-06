@@ -1,30 +1,35 @@
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:uni/model/feature_flag.dart';
 
 class FeatureFlagController {
-  FeatureFlagController(this.preferences): _featureFlags = _loadFromPreferences(preferences);
+  FeatureFlagController(this.preferences);
 
   final SharedPreferences preferences;
-  final Map<String, bool> _featureFlags;
+  final _featureFlags = <FeatureFlag>[];
   static const _flagPrefix = '__feature_flag__';
 
-  static Map<String, bool> _loadFromPreferences(SharedPreferences preferences) {
-    return Map.fromIterable(preferences.getKeys()
-      .where((key) => key.startsWith(_flagPrefix))
-      .map((key) {
-        final flagName = key.substring(_flagPrefix.length);
-        return { flagName, preferences.getBool(key) ?? false};
-      }),
-    );
-  }
-
-  bool isFeatureEnabled(String featureName) {
-    return _featureFlags[featureName] ?? false;
-  }
-
-  void setFeatureFlag(String featureName, { required bool enabled }) {
-    _featureFlags[featureName] = enabled;
-
-    final key = '$_flagPrefix$featureName';
+  void _saveEnabled(FeatureFlag featureFlag, { required bool enabled }) {
+    final key = '$_flagPrefix${featureFlag.code}';
     preferences.setBool(key, enabled);
+  }
+
+  FeatureFlag createFeatureFlag({ required String code, required String name }) {
+    final key = '$_flagPrefix$code';
+    final bool enabled;
+    if (!preferences.containsKey(key)) {
+      preferences.setBool(key, false);
+      enabled = false;
+    } else {
+      enabled = preferences.getBool(key)!;
+    }
+
+    final featureFlag = FeatureFlag(
+      code: code,
+      name: name,
+      enabled: enabled,
+      saveEnabled: _saveEnabled,
+    );
+    _featureFlags.add(featureFlag);
+    return featureFlag;
   }
 }
