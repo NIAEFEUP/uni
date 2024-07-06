@@ -47,15 +47,21 @@ Future<List<CourseUnitFileDirectory>> parseFiles(
 
 Future<Sheet> parseSheet(http.Response response) async {
   final json = jsonDecode(response.body) as Map<String, dynamic>;
-  final professors =
-      getCourseUnitProfessors(json['ds'] as Iterable<Map<String, dynamic>>);
-  final regents =
-      (json['responsabilidades'] as List<Map<String, dynamic>>).map((element) {
-    return Professor.fromJson(element);
+
+  final professors = getCourseUnitProfessors(
+    (json['ds'] as List)
+        .map((element) => element as Map<String, dynamic>)
+        .toList(),
+  );
+
+  final regents = (json['responsabilidades'] as List).map((element) {
+    return Professor.fromJson(element as Map<String, dynamic>);
   }).toList();
 
-  final books =
-      (json['bibliografia'] as List<Map<String, dynamic>>).map<Book>((element) {
+  final books = (json['bibliografia'] as List)
+      .map((element) => element as Map<String, dynamic>)
+      .toList()
+      .map<Book>((element) {
     return Book(
       title: element['titulo'].toString(),
       isbn: element['isbn'].toString(),
@@ -71,12 +77,12 @@ Future<Sheet> parseSheet(http.Response response) async {
   );
 }
 
-List<Professor> getCourseUnitProfessors(Iterable<Map<String, dynamic>> ds) {
+List<Professor> getCourseUnitProfessors(List<Map<String, dynamic>> ds) {
   final professors = <Professor>[];
   for (final map in ds) {
-    for (final docente in map['docentes'] as Iterable<Map<String, dynamic>>) {
+    for (final docente in map['docentes'] as List<dynamic>) {
       final professor = Professor(
-        code: docente['doc_codigo'].toString(),
+        code: (docente as Map<String, dynamic>)['doc_codigo'].toString(),
         name: shortName(docente['nome'].toString()),
         classes: [map['tipo'].toString()],
       );

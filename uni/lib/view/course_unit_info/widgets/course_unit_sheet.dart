@@ -82,15 +82,10 @@ Widget buildRegentsRow(BuildContext context, List<Professor> regents) {
                     left: 10,
                     right: 10,
                   ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        regent.value.name,
-                        style: const TextStyle(fontSize: 17),
-                      ),
-                    ],
+                  child: Text(
+                    regent.value.name,
+                    style: const TextStyle(fontSize: 17),
+                    textAlign: TextAlign.center,
                   ),
                 ),
               ],
@@ -113,19 +108,15 @@ Widget buildProfessorsRow(BuildContext context, List<Professor> professors) {
         children: [
           ...professors.asMap().entries.map((professor) {
             final idx = professor.key;
-            return Row(
-              children: [
-                FutureBuilder<File?>(
-                  builder: (context, snapshot) => Transform.translate(
-                    offset: Offset(-10.0 * idx, 0),
-                    child: _buildAvatar(snapshot, 20),
-                  ),
-                  future: ProfileProvider.fetchOrGetCachedProfilePicture(
-                    session,
-                    studentNumber: int.parse(professor.value.code),
-                  ),
-                ),
-              ],
+            return FutureBuilder<File?>(
+              builder: (context, snapshot) => Transform.translate(
+                offset: Offset(-10.0 * idx, 0),
+                child: _buildAvatar(snapshot, 20),
+              ),
+              future: ProfileProvider.fetchOrGetCachedProfilePicture(
+                session,
+                studentNumber: int.parse(professor.value.code),
+              ),
             );
           }),
         ],
@@ -153,9 +144,7 @@ Widget buildExpandedProfessors(
             child: Row(
               children: [
                 FutureBuilder<File?>(
-                  builder:
-                      (context, snapshot) =>
-                          _buildAvatar(snapshot, 20),
+                  builder: (context, snapshot) => _buildAvatar(snapshot, 20),
                   future: ProfileProvider.fetchOrGetCachedProfilePicture(
                     session,
                     studentNumber: int.parse(professor.value.code),
@@ -165,15 +154,10 @@ Widget buildExpandedProfessors(
                   padding: const EdgeInsets.only(
                     left: 10,
                   ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        professor.value.name,
-                        style: const TextStyle(fontSize: 14),
-                      ),
-                    ],
+                  child: Text(
+                    professor.value.name,
+                    style: const TextStyle(fontSize: 14),
+                    textAlign: TextAlign.center,
                   ),
                 ),
               ],
