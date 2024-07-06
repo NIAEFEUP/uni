@@ -1,5 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:uni/model/feature_flag.dart';
+import 'package:uni/model/feature_flags/feature_flag.dart';
 
 class FeatureFlagController {
   FeatureFlagController(this.preferences);
