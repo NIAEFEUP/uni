@@ -27,7 +27,7 @@ class LibraryOccupationProvider
         .getLibraryOccupationFromSheets(session);
 
     final db = LibraryOccupationDatabase();
-    unawaited(db.saveOccupation(occupation));
+    unawaited(db.saveIfPersistentSession(occupation));
 
     return occupation;
   }

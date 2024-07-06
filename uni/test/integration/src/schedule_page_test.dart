@@ -74,7 +74,6 @@ void main() async {
       final lectures = await scheduleProvider.fetchUserLectures(
         Session(username: '', cookies: '', faculties: ['feup']),
         profile,
-        persistentSession: false,
       );
 
       scheduleProvider.setState(lectures);

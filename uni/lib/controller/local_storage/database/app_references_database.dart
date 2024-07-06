@@ -8,18 +8,17 @@ import 'package:uni/model/entities/reference.dart';
 ///
 /// This database stores information about the user's references.
 /// See the [Reference] class to see what data is stored in this database.
-class AppReferencesDatabase extends AppDatabase {
+class AppReferencesDatabase extends AppDatabase<List<Reference>> {
   AppReferencesDatabase()
-      : super('refs.db', [createScript], onUpgrade: migrate, version: 2);
+      : super(
+          'refs.db',
+          [createScript],
+          onUpgrade: migrate,
+          version: 2,
+        );
   static const String createScript =
       '''CREATE TABLE refs(description TEXT, entity INTEGER, '''
       '''reference INTEGER, amount REAL, limitDate TEXT)''';
-
-  /// Replaces all of the data in this database with the data from [references].
-  Future<void> saveNewReferences(List<Reference> references) async {
-    await deleteReferences();
-    await insertReferences(references);
-  }
 
   /// Returns a list containing all the references stored in this database.
   Future<List<Reference>> references() async {
@@ -66,5 +65,12 @@ class AppReferencesDatabase extends AppDatabase {
       ..execute('DROP TABLE IF EXISTS refs')
       ..execute(createScript);
     await batch.commit();
+  }
+
+  /// Replaces all of the data in this database with the data from [data].
+  @override
+  Future<void> saveToDatabase(List<Reference> data) async {
+    await deleteReferences();
+    await insertReferences(data);
   }
 }
