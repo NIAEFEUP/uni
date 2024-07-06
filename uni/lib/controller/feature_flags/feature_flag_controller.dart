@@ -1,5 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uni/model/feature_flags/feature_flag.dart';
+import 'package:uni/model/feature_flags/generic_feature_flag.dart';
 
 class FeatureFlagController {
   FeatureFlagController(this.preferences);
@@ -8,7 +9,7 @@ class FeatureFlagController {
   final _featureFlags = <FeatureFlag>[];
   static const _flagPrefix = '__feature_flag__';
 
-  void _saveEnabled(FeatureFlag featureFlag, { required bool enabled }) {
+  void _saveEnabled(GenericFeatureFlag featureFlag, { required bool enabled }) {
     final key = '$_flagPrefix${featureFlag.code}';
     preferences.setBool(key, enabled);
   }
