@@ -71,9 +71,7 @@ Widget buildRegentsRow(BuildContext context, List<Professor> regents) {
             child: Row(
               children: [
                 FutureBuilder<File?>(
-                  builder:
-                      (BuildContext context, AsyncSnapshot<File?> snapshot) =>
-                          _buildAvatar(snapshot, 40),
+                  builder: (context, snapshot) => _buildAvatar(snapshot, 40),
                   future: ProfileProvider.fetchOrGetCachedProfilePicture(
                     session,
                     studentNumber: int.parse(regent.value.code),
@@ -118,9 +116,7 @@ Widget buildProfessorsRow(BuildContext context, List<Professor> professors) {
             return Row(
               children: [
                 FutureBuilder<File?>(
-                  builder:
-                      (BuildContext context, AsyncSnapshot<File?> snapshot) =>
-                          Transform.translate(
+                  builder: (context, snapshot) => Transform.translate(
                     offset: Offset(-10.0 * idx, 0),
                     child: _buildAvatar(snapshot, 20),
                   ),
@@ -158,7 +154,7 @@ Widget buildExpandedProfessors(
               children: [
                 FutureBuilder<File?>(
                   builder:
-                      (BuildContext context, AsyncSnapshot<File?> snapshot) =>
+                      (context, snapshot) =>
                           _buildAvatar(snapshot, 20),
                   future: ProfileProvider.fetchOrGetCachedProfilePicture(
                     session,
@@ -198,7 +194,7 @@ Widget buildBooksRow(BuildContext context, List<Book> books) {
       children: [
         ...books.asMap().entries.map((book) {
           return FutureBuilder<String?>(
-            builder: (BuildContext context, AsyncSnapshot<String?> snapshot) {
+            builder: (context, snapshot) {
               return Padding(
                 padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
                 child: Column(
