@@ -241,7 +241,7 @@ class BugReportFormState extends State<BugReportForm> {
   /// If unsuccessful, the user receives an error message.
   Future<void> submitBugReport() async {
     final s = S.of(context);
-    
+
     setState(() {
       _isButtonTapped = true;
     });
