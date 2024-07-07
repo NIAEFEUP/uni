@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
@@ -13,6 +14,7 @@ import 'package:uni/view/locale_notifier.dart';
 Future<void> initTestEnvironment() async {
   SharedPreferences.setMockInitialValues({});
   PreferencesController.prefs = await SharedPreferences.getInstance();
+  FlutterSecureStorage.setMockInitialValues({});
   databaseFactory = databaseFactoryFfi;
 }
 
