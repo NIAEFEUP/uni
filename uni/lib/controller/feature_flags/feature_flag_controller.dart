@@ -6,15 +6,18 @@ class FeatureFlagController {
   FeatureFlagController(this.preferences);
 
   final SharedPreferences preferences;
-  final _featureFlags = <FeatureFlag>[];
+  final Map<String, GenericFeatureFlag> _featureFlags = {};
   static const _flagPrefix = '__feature_flag__';
 
-  void _saveEnabled(GenericFeatureFlag featureFlag, { required bool enabled }) {
-    final key = '$_flagPrefix${featureFlag.code}';
-    preferences.setBool(key, enabled);
-  }
+  FeatureFlag getFeatureFlag(String code) {
+    if (_featureFlags.containsKey(code)) {
+      final featureFlag = _featureFlags[code]!;
+      if (featureFlag is! FeatureFlag) {
+        throw Exception('Feature flag code does not match a FeatureFlag instance.');
+      }
+      return featureFlag;
+    }
 
-  FeatureFlag createFeatureFlag({ required String code, required String name }) {
     final key = '$_flagPrefix$code';
     final bool enabled;
     if (!preferences.containsKey(key)) {
@@ -26,11 +29,11 @@ class FeatureFlagController {
 
     final featureFlag = FeatureFlag(
       code: code,
-      name: name,
+      name: code,
       enabled: enabled,
-      saveEnabled: _saveEnabled,
+      saveEnabled: ({ required enabled }) => preferences.setBool(key, enabled),
     );
-    _featureFlags.add(featureFlag);
+    _featureFlags[featureFlag.code] = featureFlag;
     return featureFlag;
   }
 }
