@@ -27,7 +27,8 @@ class LoginPageView extends StatefulWidget {
 }
 
 /// Manages the 'login section' view.
-class LoginPageViewState extends State<LoginPageView> {
+class LoginPageViewState extends State<LoginPageView>
+    with WidgetsBindingObserver {
   static final FocusNode usernameFocus = FocusNode();
   static final FocusNode passwordFocus = FocusNode();
 
@@ -40,15 +41,29 @@ class LoginPageViewState extends State<LoginPageView> {
   bool _keepSignedIn = true;
   bool _obscurePasswordInput = true;
   bool _loggingIn = false;
+  bool _intercepting = false;
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed && !_intercepting) {
+      setState(() => _loggingIn = false);
+    }
+  }
 
   @override
   void initState() {
     super.initState();
 
+    WidgetsBinding.instance.addObserver(this);
+
     final appLinks = AppLinks();
     appLinks.uriLinkStream.listen((uri) async {
       Logger().d('AppLinks intercepted: $uri');
       await closeInAppWebView();
+      setState(() {
+        _intercepting = true;
+        _loggingIn = true;
+      });
 
       if (uri.host == 'auth') {
         WidgetsBinding.instance.addPostFrameCallback((_) async {
@@ -67,6 +82,11 @@ class LoginPageViewState extends State<LoginPageView> {
           }
         });
       }
+
+      setState(() {
+        _loggingIn = true;
+        _intercepting = false;
+      });
     });
   }
 
@@ -75,6 +95,7 @@ class LoginPageViewState extends State<LoginPageView> {
     // TODO(thePeras): Fix error used after being disposed
     // usernameController.dispose();
     // passwordController.dispose();
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
