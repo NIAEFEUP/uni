@@ -1,5 +1,3 @@
-import 'package:logger/logger.dart';
-
 /// Stores information about a lecture.
 class Lecture {
   /// Creates an instance of the class [Lecture].
@@ -113,11 +111,6 @@ class Lecture {
       'classNumber': classNumber,
       'occurrId': occurrId,
     };
-  }
-
-  /// Prints the data in this lecture to the [Logger] with an INFO level.
-  void printLecture() {
-    Logger().i(toString());
   }
 
   @override

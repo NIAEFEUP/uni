@@ -7,8 +7,7 @@
 // ignore_for_file:unnecessary_brace_in_string_interps, unnecessary_new
 // ignore_for_file:prefer_single_quotes,comment_references, directives_ordering
 // ignore_for_file:annotate_overrides,prefer_generic_function_type_aliases
-// ignore_for_file:unused_import, file_names, avoid_escaping_inner_quotes
-// ignore_for_file:unnecessary_string_interpolations, unnecessary_string_escapes
+// ignore_for_file:unused_import, file_names
 
 import 'package:intl/intl.dart';
 import 'package:intl/message_lookup_by_library.dart';
@@ -20,12 +19,12 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
-  static String m0(time) => "last refresh at ${time}";
+  static m0(time) => "last refresh at ${time}";
 
-  static String m1(time) =>
+  static m1(time) =>
       "${Intl.plural(time, zero: 'Refreshed ${time} minutes ago', one: 'Refreshed ${time} minute ago', other: 'Refreshed ${time} minutes ago')}";
 
-  static String m2(title) => "${Intl.select(title, {
+  static m2(title) => "${Intl.select(title, {
             'horario': 'Schedule',
             'exames': 'Exams',
             'area': 'Personal Area',
@@ -42,7 +41,7 @@ class MessageLookup extends MessageLookupByLibrary {
           })}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
-  static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+  static _notInlinedMessages(_) => <String, Function>{
         "about": MessageLookupByLibrary.simpleMessage("About us"),
         "academic_services":
             MessageLookupByLibrary.simpleMessage("Academic services"),
@@ -118,7 +117,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Error downloading the file"),
         "ects": MessageLookupByLibrary.simpleMessage("ECTS performed: "),
         "edit_off": MessageLookupByLibrary.simpleMessage("Edit"),
-        "edit_on": MessageLookupByLibrary.simpleMessage("Exit edit mode"),
+        "edit_on": MessageLookupByLibrary.simpleMessage("Finish editing"),
         "empty_text":
             MessageLookupByLibrary.simpleMessage("Please fill in this field"),
         "exams_filter":
@@ -127,6 +126,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Do you really want to exit?"),
         "expired_password":
             MessageLookupByLibrary.simpleMessage("Your password has expired"),
+        "fail_to_authenticate":
+            MessageLookupByLibrary.simpleMessage("Failed to authenticate"),
         "failed_login": MessageLookupByLibrary.simpleMessage("Login failed"),
         "fee_date":
             MessageLookupByLibrary.simpleMessage("Deadline for next fee:"),
@@ -146,6 +147,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "improvement_registration":
             MessageLookupByLibrary.simpleMessage("Enrollment for Improvement"),
         "increment": MessageLookupByLibrary.simpleMessage("Increment 1,00€"),
+        "internet_status_exception": MessageLookupByLibrary.simpleMessage(
+            "Check your internet connection"),
         "invalid_credentials":
             MessageLookupByLibrary.simpleMessage("Invalid credentials"),
         "keep_login": MessageLookupByLibrary.simpleMessage("Stay signed in"),
@@ -159,6 +162,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "loading_terms": MessageLookupByLibrary.simpleMessage(
             "Loading Terms and Conditions..."),
         "login": MessageLookupByLibrary.simpleMessage("Login"),
+        "login_with_credentials":
+            MessageLookupByLibrary.simpleMessage("Login with credentials"),
         "logout": MessageLookupByLibrary.simpleMessage("Log out"),
         "menus": MessageLookupByLibrary.simpleMessage("Menus"),
         "min_value_reference":
@@ -279,12 +284,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "theme": MessageLookupByLibrary.simpleMessage("Theme"),
         "title": MessageLookupByLibrary.simpleMessage("Title"),
         "try_again": MessageLookupByLibrary.simpleMessage("Try again"),
+        "try_different_login": MessageLookupByLibrary.simpleMessage(
+            "Problems with login? Try a different login"),
         "uc_info": MessageLookupByLibrary.simpleMessage("Open UC page"),
         "unavailable": MessageLookupByLibrary.simpleMessage("Unavailable"),
         "valid_email":
             MessageLookupByLibrary.simpleMessage("Please enter a valid email"),
         "widget_prompt": MessageLookupByLibrary.simpleMessage(
             "Choose a widget to add to your personal area:"),
+        "wrong_credentials_exception":
+            MessageLookupByLibrary.simpleMessage("Invalid credentials"),
         "year": MessageLookupByLibrary.simpleMessage("Year"),
         "yes": MessageLookupByLibrary.simpleMessage("Yes")
       };

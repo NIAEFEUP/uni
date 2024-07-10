@@ -10,7 +10,7 @@ import 'intl/messages_all.dart';
 
 // ignore_for_file: non_constant_identifier_names, lines_longer_than_80_chars
 // ignore_for_file: join_return_with_assignment, prefer_final_in_for_each
-// ignore_for_file: avoid_redundant_argument_values, avoid_escaping_inner_quotes
+// ignore_for_file: avoid_redundant_argument_values
 
 class S {
   S();
@@ -1603,6 +1603,56 @@ class S {
     return Intl.message(
       'Try again',
       name: 'try_again',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Problems with login? Try a different login`
+  String get try_different_login {
+    return Intl.message(
+      'Problems with login? Try a different login',
+      name: 'try_different_login',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Login with credentials`
+  String get login_with_credentials {
+    return Intl.message(
+      'Login with credentials',
+      name: 'login_with_credentials',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed to authenticate`
+  String get fail_to_authenticate {
+    return Intl.message(
+      'Failed to authenticate',
+      name: 'fail_to_authenticate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invalid credentials`
+  String get wrong_credentials_exception {
+    return Intl.message(
+      'Invalid credentials',
+      name: 'wrong_credentials_exception',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Check your internet connection`
+  String get internet_status_exception {
+    return Intl.message(
+      'Check your internet connection',
+      name: 'internet_status_exception',
       desc: '',
       args: [],
     );

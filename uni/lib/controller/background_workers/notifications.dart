@@ -72,17 +72,38 @@ class NotificationManager {
     PreferencesController.prefs = await SharedPreferences.getInstance();
     final userInfo = await PreferencesController.getPersistentUserInfo();
     final faculties = PreferencesController.getUserFaculties();
+    final refreshToken = await PreferencesController.getSessionRefreshToken();
 
-    if (userInfo == null || faculties.isEmpty) {
+    if (faculties.isEmpty) {
       return;
     }
+    if (userInfo == null && refreshToken == null) {
+      return; // Session not persistent
+    }
 
-    final session = await NetworkRouter.login(
-      userInfo.item1,
-      userInfo.item2,
-      faculties,
-      persistentSession: false,
-    );
+    Session? session;
+    if (userInfo != null) {
+      session = await NetworkRouter.login(
+        userInfo.item1,
+        userInfo.item2,
+        faculties,
+        persistentSession: false,
+      );
+    }
+
+    if (refreshToken != null) {
+      final token = await NetworkRouter.getAccessToken(refreshToken);
+      final studentNumber = await PreferencesController.getUserNumber();
+      if (token == null || studentNumber == null) {
+        return;
+      }
+      session = await NetworkRouter.loginWithToken(
+        token,
+        studentNumber,
+        faculties,
+        persistentSession: false,
+      );
+    }
 
     if (session == null) {
       return;

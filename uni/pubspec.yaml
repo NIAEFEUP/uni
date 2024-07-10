@@ -15,6 +15,7 @@ environment:
 
 dependencies:
   add_2_calendar: ^3.0.1
+  app_links: ^3.5.1
   battery_plus: ^5.0.2
   cached_network_image: ^3.3.1
   collection: ^1.16.0
@@ -49,6 +50,7 @@ dependencies:
     git:
       url: https://github.com/joutvhu/open_file_plus.git
       ref: "3c32191"
+  openid_client: ^0.4.8
   path: ^1.8.0
   path_provider: ^2.1.2
   percent_indicator: ^4.2.2
