@@ -68,69 +68,6 @@ class NotificationManager {
 
   static const Duration _notificationWorkerPeriod = Duration(hours: 1);
 
-  static Future<void> updateAndTriggerNotifications() async {
-    PreferencesController.prefs = await SharedPreferences.getInstance();
-    final userInfo = await PreferencesController.getPersistentUserInfo();
-    final faculties = PreferencesController.getUserFaculties();
-    final refreshToken = await PreferencesController.getSessionRefreshToken();
-
-    if (faculties.isEmpty) {
-      return;
-    }
-    if (userInfo == null && refreshToken == null) {
-      return; // Session not persistent
-    }
-
-    Session? session;
-    if (userInfo != null) {
-      session = await NetworkRouter.login(
-        userInfo.item1,
-        userInfo.item2,
-        faculties,
-        persistentSession: false,
-      );
-    }
-
-    if (refreshToken != null) {
-      final token = await NetworkRouter.getAccessToken(refreshToken);
-      final studentNumber = await PreferencesController.getUserNumber();
-      if (token == null || studentNumber == null) {
-        return;
-      }
-      session = await NetworkRouter.loginWithToken(
-        token,
-        studentNumber,
-        faculties,
-        persistentSession: false,
-      );
-    }
-
-    if (session == null) {
-      return;
-    }
-
-    // Get the .json file that contains the last time that the
-    // notification has ran
-    await _initFlutterNotificationsPlugin();
-    final notificationStorage = await NotificationTimeoutStorage.create();
-
-    for (final value in notificationMap.values) {
-      final notification = value();
-      final lastRan = notificationStorage
-          .getLastTimeNotificationExecuted(notification.uniqueID);
-      if (lastRan.add(notification.timeout).isBefore(DateTime.now())) {
-        await notification.displayNotificationIfPossible(
-          session,
-          _localNotificationsPlugin,
-        );
-        await notificationStorage.addLastTimeNotificationExecuted(
-          notification.uniqueID,
-          DateTime.now(),
-        );
-      }
-    }
-  }
-
   Future<void> initializeNotifications() async {
     // guarantees that the execution is only done
     // once in the lifetime of the app.
@@ -201,6 +138,69 @@ class NotificationManager {
       throw PlatformException(
         code: 'WorkerManager is only supported in iOS and android...',
       );
+    }
+  }
+
+  static Future<void> updateAndTriggerNotifications() async {
+    PreferencesController.prefs = await SharedPreferences.getInstance();
+    final userInfo = await PreferencesController.getPersistentUserInfo();
+    final faculties = PreferencesController.getUserFaculties();
+    final refreshToken = await PreferencesController.getSessionRefreshToken();
+
+    if (faculties.isEmpty) {
+      return;
+    }
+    if (userInfo == null && refreshToken == null) {
+      return; // Session not persistent
+    }
+
+    Session? session;
+    if (userInfo != null) {
+      session = await NetworkRouter.login(
+        userInfo.item1,
+        userInfo.item2,
+        faculties,
+        persistentSession: false,
+      );
+    }
+
+    if (refreshToken != null) {
+      final token = await NetworkRouter.getAccessToken(refreshToken);
+      final studentNumber = await PreferencesController.getUserNumber();
+      if (token == null || studentNumber == null) {
+        return;
+      }
+      session = await NetworkRouter.loginWithToken(
+        token,
+        studentNumber,
+        faculties,
+        persistentSession: false,
+      );
+    }
+
+    if (session == null) {
+      return;
+    }
+
+    // Get the .json file that contains the last time that the
+    // notification has ran
+    await _initFlutterNotificationsPlugin();
+    final notificationStorage = await NotificationTimeoutStorage.create();
+
+    for (final value in notificationMap.values) {
+      final notification = value();
+      final lastRan = notificationStorage
+          .getLastTimeNotificationExecuted(notification.uniqueID);
+      if (lastRan.add(notification.timeout).isBefore(DateTime.now())) {
+        await notification.displayNotificationIfPossible(
+          session,
+          _localNotificationsPlugin,
+        );
+        await notificationStorage.addLastTimeNotificationExecuted(
+          notification.uniqueID,
+          DateTime.now(),
+        );
+      }
     }
   }
 }

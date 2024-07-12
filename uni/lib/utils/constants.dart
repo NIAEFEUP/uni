@@ -14,3 +14,6 @@ const faculties = [
   'fpceup',
   'icbas',
 ];
+
+const realm = 'https://open-id.up.pt/realms/sigarra';
+const clientId = 'mobile-app-uni';
