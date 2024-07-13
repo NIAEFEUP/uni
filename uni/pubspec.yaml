@@ -25,6 +25,7 @@ dependencies:
   currency_text_input_formatter: ^2.1.5
   diacritic: ^0.1.5
   email_validator: ^2.0.1
+  expandable: ^5.0.1
   expansion_tile_card: ^3.0.0
   flutter:
     sdk: flutter
@@ -38,6 +39,7 @@ dependencies:
   flutter_markdown: ^0.6.0
   flutter_secure_storage: ^9.0.0
   flutter_svg: ^2.0.9
+  flutter_widget_from_html: ^0.14.11
   flutter_widget_from_html_core: ^0.14.11
   html: ^0.15.0
   http: ^1.1.0

@@ -1,106 +1,246 @@
-import 'dart:math';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
-import 'package:html/dom.dart' as dom;
-import 'package:uni/model/entities/course_units/course_unit_sheet.dart';
-import 'package:uni/view/course_unit_info/widgets/course_unit_info_card.dart';
+import 'package:provider/provider.dart';
+import 'package:uni/controller/fetchers/book_fetcher.dart';
+import 'package:uni/model/entities/course_units/sheet.dart';
+import 'package:uni/model/providers/startup/profile_provider.dart';
+import 'package:uni/model/providers/startup/session_provider.dart';
+import 'package:uni/view/common_widgets/generic_animated_expandable.dart';
+import 'package:uni/view/common_widgets/generic_expandable.dart';
 
 class CourseUnitSheetView extends StatelessWidget {
   const CourseUnitSheetView(this.courseUnitSheet, {super.key});
-  final CourseUnitSheet courseUnitSheet;
+  final Sheet courseUnitSheet;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(left: 10, right: 10),
-      child: ListView(
-        children: courseUnitSheet.sections.entries
-            .map((e) => _buildCard(e.key, e.value))
-            .toList(),
+      padding: const EdgeInsets.only(left: 20, right: 20),
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Regentes',
+              style: TextStyle(fontSize: 20),
+            ),
+            buildRegentsRow(context, courseUnitSheet.regents),
+            const Text(
+              'Docentes',
+              style: TextStyle(fontSize: 20),
+            ),
+            AnimatedExpandable(
+              firstChild:
+                  buildProfessorsRow(context, courseUnitSheet.professors),
+              secondChild:
+                  buildExpandedProfessors(context, courseUnitSheet.professors),
+            ),
+            _buildCard('Programa', courseUnitSheet.content),
+            _buildCard('Avaliação', courseUnitSheet.evaluation),
+            const Opacity(
+              opacity: 0.25,
+              child: Divider(color: Colors.grey),
+            ),
+            const Text(
+              'Bibliografia',
+              style: TextStyle(fontSize: 20),
+            ),
+            if (courseUnitSheet.books.isNotEmpty)
+              buildBooksRow(context, courseUnitSheet.books),
+          ],
+        ),
       ),
     );
   }
+}
 
-  CourseUnitInfoCard _buildCard(
-    String sectionTitle,
-    String sectionContent,
-  ) {
-    return CourseUnitInfoCard(
-      sectionTitle,
-      HtmlWidget(
-        sectionContent,
-        customWidgetBuilder: (element) {
-          if (element.className == 'informa' || element.className == 'limpar') {
-            return Container();
-          }
-          if (element.localName == 'table') {
-            try {
-              element = _preprocessTable(element);
-              final tBody = element.children
-                  .firstWhere((element) => element.localName == 'tbody');
-              final rows = tBody.children;
+Widget buildRegentsRow(BuildContext context, List<Professor> regents) {
+  final session = context.read<SessionProvider>().state!;
+  return SizedBox(
+    height: (regents.length * 80) + 20,
+    width: double.infinity,
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        ...regents.asMap().entries.map((regent) {
+          final idx = regent.key;
+          return Padding(
+            padding: EdgeInsets.only(bottom: idx == regents.length - 1 ? 0 : 5),
+            child: Row(
+              children: [
+                FutureBuilder<File?>(
+                  builder: (context, snapshot) => _buildAvatar(snapshot, 40),
+                  future: ProfileProvider.fetchOrGetCachedProfilePicture(
+                    session,
+                    studentNumber: int.parse(regent.value.code),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    left: 10,
+                    right: 10,
+                  ),
+                  child: Text(
+                    regent.value.name,
+                    style: const TextStyle(fontSize: 17),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ],
+            ),
+          );
+        }),
+      ],
+    ),
+  );
+}
+
+Widget buildProfessorsRow(BuildContext context, List<Professor> professors) {
+  final session = context.read<SessionProvider>().state!;
+  return SizedBox(
+    height: 55,
+    width: double.infinity,
+    child: SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: [
+          ...professors.asMap().entries.map((professor) {
+            final idx = professor.key;
+            return FutureBuilder<File?>(
+              builder: (context, snapshot) => Transform.translate(
+                offset: Offset(-10.0 * idx, 0),
+                child: _buildAvatar(snapshot, 20),
+              ),
+              future: ProfileProvider.fetchOrGetCachedProfilePicture(
+                session,
+                studentNumber: int.parse(professor.value.code),
+              ),
+            );
+          }),
+        ],
+      ),
+    ),
+  );
+}
+
+Widget buildExpandedProfessors(
+  BuildContext context,
+  List<Professor> professors,
+) {
+  final session = context.read<SessionProvider>().state!;
+  return SizedBox(
+    height: (professors.length * 45) + 10,
+    width: double.infinity,
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        ...professors.asMap().entries.map((professor) {
+          final idx = professor.key;
+          return Padding(
+            padding:
+                EdgeInsets.only(bottom: idx == professors.length - 1 ? 0 : 5),
+            child: Row(
+              children: [
+                FutureBuilder<File?>(
+                  builder: (context, snapshot) => _buildAvatar(snapshot, 20),
+                  future: ProfileProvider.fetchOrGetCachedProfilePicture(
+                    session,
+                    studentNumber: int.parse(professor.value.code),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    left: 10,
+                  ),
+                  child: Text(
+                    professor.value.name,
+                    style: const TextStyle(fontSize: 14),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ],
+            ),
+          );
+        }),
+      ],
+    ),
+  );
+}
+
+Widget buildBooksRow(BuildContext context, List<Book> books) {
+  return SizedBox(
+    height: 500,
+    width: double.infinity,
+    child: Wrap(
+      alignment: WrapAlignment.spaceBetween,
+      children: [
+        ...books.asMap().entries.map((book) {
+          return FutureBuilder<String?>(
+            builder: (context, snapshot) {
               return Padding(
-                padding: const EdgeInsets.only(bottom: 10),
-                child: Table(
-                  border: TableBorder.all(),
-                  children: rows
-                      .map(
-                        (e) => TableRow(
-                          children: e.children
-                              .sublist(0, min(4, e.children.length))
-                              .map(
-                                (e) => TableCell(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8),
-                                    child: HtmlWidget(
-                                      e.outerHtml,
-                                    ),
-                                  ),
-                                ),
-                              )
-                              .toList(),
-                        ),
-                      )
-                      .toList(),
+                padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
+                child: Column(
+                  children: [
+                    SizedBox(
+                      width: 135,
+                      height: 140, // adjust this value as needed
+                      child: snapshot.data != null
+                          ? Image(image: NetworkImage(snapshot.data!))
+                          : const Image(
+                              image: AssetImage(
+                                'assets/images/book_placeholder.png',
+                              ),
+                            ),
+                    ),
+                    SizedBox(
+                      width: 135,
+                      child: Text(
+                        book.value.title,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ],
                 ),
               );
-            } catch (_) {
-              return null;
-            }
-          }
-          return null;
-        },
-      ),
-    );
-  }
+            },
+            future: BookThumbFetcher().fetchBookThumb(book.value.isbn),
+          );
+        }),
+      ],
+    ),
+  );
+}
 
-  dom.Element _preprocessTable(dom.Element tableElement) {
-    final processedTable = tableElement.clone(true);
-    final tBody = tableElement.children
-        .firstWhere((element) => element.localName == 'tbody');
-    final rows = tBody.children;
+Widget _buildCard(
+  String sectionTitle,
+  dynamic sectionContent,
+) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 8),
+    child: Column(
+      children: [
+        const Opacity(
+          opacity: 0.25,
+          child: Divider(color: Colors.grey),
+        ),
+        GenericExpandable(
+          content: HtmlWidget(sectionContent.toString()),
+          title: sectionTitle,
+        ),
+      ],
+    ),
+  );
+}
 
-    for (var i = 0; i < rows.length; i++) {
-      for (var j = 0; j < rows[i].children.length; j++) {
-        final cell = rows[i].children[j];
-        if (cell.attributes['rowspan'] != null) {
-          final rowSpan = int.parse(cell.attributes['rowspan']!);
-          if (rowSpan <= 1) {
-            continue;
-          }
-          processedTable.children[0].children[i].children[j].innerHtml = '';
-          for (var k = 1; k < rowSpan; k++) {
-            try {
-              processedTable.children[0].children[i + k].children
-                  .insert(j, cell.clone(true));
-            } catch (_) {
-              continue;
-            }
-          }
-        }
-      }
-    }
-    return processedTable;
-  }
+Widget _buildAvatar(AsyncSnapshot<File?> snapshot, double radius) {
+  return CircleAvatar(
+    radius: radius,
+    backgroundImage: snapshot.hasData && snapshot.data != null
+        ? FileImage(snapshot.data!) as ImageProvider
+        : const AssetImage(
+            'assets/images/profile_placeholder.png',
+          ),
+  );
 }
