@@ -1,5 +1,4 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:logger/logger.dart';
 import 'package:uni/model/entities/reference.dart';
 
 part '../../generated/model/entities/lecture.g.dart';
@@ -110,11 +109,6 @@ class Lecture {
   int blocks;
   int occurrId;
   Map<String, dynamic> toJson() => _$LectureToJson(this);
-
-  /// Prints the data in this lecture to the [Logger] with an INFO level.
-  void printLecture() {
-    Logger().i(toString());
-  }
 
   @override
   String toString() {

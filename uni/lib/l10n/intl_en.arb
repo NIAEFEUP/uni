@@ -315,5 +315,15 @@
   "collect_usage_stats": "Collect usage statistics",
   "@usage_stats": {},
   "try_again": "Try again",
-  "@try_again": {}
+  "@try_again": {},
+  "try_different_login": "Problems with login? Try a different login",
+  "@try_different_login": {},
+  "login_with_credentials": "Login with credentials",
+  "@login_with_credentials": {},
+  "fail_to_authenticate": "Failed to authenticate",
+  "@fail_to_authenticate": {},
+  "wrong_credentials_exception": "Invalid credentials",
+  "@wrong_credentials_exception": {},
+  "internet_status_exception": "Check your internet connection",
+  "@internet_status_exception": {}
 }

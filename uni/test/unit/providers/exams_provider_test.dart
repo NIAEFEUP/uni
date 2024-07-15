@@ -88,7 +88,6 @@ void main() async {
         profile,
         session,
         userUcs,
-        persistentSession: false,
       );
 
       provider.setState(exams);
@@ -106,7 +105,6 @@ void main() async {
         profile,
         session,
         userUcs,
-        persistentSession: false,
       );
 
       provider.setState(exams);
@@ -137,7 +135,6 @@ When given three exams but one is to be parsed out,
         profile,
         session,
         userUcs,
-        persistentSession: false,
       );
 
       provider.setState(exams);
@@ -155,7 +152,6 @@ When given three exams but one is to be parsed out,
           profile,
           session,
           userUcs,
-          persistentSession: false,
         ),
       );
     });
@@ -181,7 +177,6 @@ When given three exams but one is to be parsed out,
         profile,
         session,
         userUcs,
-        persistentSession: false,
       );
 
       provider.setState(exams);
@@ -210,7 +205,6 @@ When given three exams but one is to be parsed out,
         profile,
         session,
         userUcs,
-        persistentSession: false,
       );
 
       provider.setState(exams);
@@ -239,7 +233,6 @@ When given three exams but one is to be parsed out,
         profile,
         session,
         userUcs,
-        persistentSession: false,
       );
 
       provider.setState(exams);

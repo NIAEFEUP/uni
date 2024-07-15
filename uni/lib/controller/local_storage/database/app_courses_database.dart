@@ -8,19 +8,13 @@ import 'package:uni/model/entities/course.dart';
 ///
 /// This database stores information about the user's courses.
 /// See the [Course] class to see what data is stored in this database.
-class AppCoursesDatabase extends AppDatabase {
+class AppCoursesDatabase extends AppDatabase<List<Course>> {
   AppCoursesDatabase()
       : super('courses.db', [createScript], onUpgrade: migrate, version: 4);
   static const String createScript =
       '''CREATE TABLE courses(cur_id INTEGER, fest_id INTEGER, cur_nome TEXT, '''
       '''abbreviation TEXT, ano_curricular TEXT, fest_a_lect_1_insc INTEGER, state TEXT, '''
       '''inst_sigla TEXT, currentAverage REAL, finishedEcts REAL)''';
-
-  /// Replaces all of the data in this database with the data from [courses].
-  Future<void> saveNewCourses(List<Course> courses) async {
-    await deleteCourses();
-    await _insertCourses(courses);
-  }
 
   /// Returns a list containing all of the courses stored in this database.
   Future<List<Course>> courses() async {
@@ -76,5 +70,12 @@ class AppCoursesDatabase extends AppDatabase {
       ..execute('DROP TABLE IF EXISTS courses')
       ..execute(createScript);
     await batch.commit();
+  }
+
+  /// Replaces all of the data in this database with the data from [data].
+  @override
+  Future<void> saveToDatabase(List<Course> data) async {
+    await deleteCourses();
+    await _insertCourses(data);
   }
 }
