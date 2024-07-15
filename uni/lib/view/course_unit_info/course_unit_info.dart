@@ -112,8 +112,7 @@ class CourseUnitDetailPageViewState
     final sheet = context
         .read<CourseUnitsInfoProvider>()
         .courseUnitsSheets[widget.courseUnit];
-
-    if (sheet == null || sheet.sections.isEmpty) {
+    if (sheet == null) {
       return Center(
         child: Text(
           S.of(context).no_info,

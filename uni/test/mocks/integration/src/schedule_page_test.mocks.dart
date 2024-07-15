@@ -527,7 +527,6 @@ class MockSessionProvider extends _i1.Mock implements _i8.SessionProvider {
 
   @override
   _i4.Future<void> postAuthentication(
-    _i11.BuildContext? context,
     String? username,
     String? password, {
     required bool? persistentSession,
@@ -536,11 +535,34 @@ class MockSessionProvider extends _i1.Mock implements _i8.SessionProvider {
         Invocation.method(
           #postAuthentication,
           [
-            context,
             username,
             password,
           ],
           {#persistentSession: persistentSession},
+        ),
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
+
+  @override
+  _i4.Future<void> federatedAuthentication(
+          {required bool? persistentSession}) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #federatedAuthentication,
+          [],
+          {#persistentSession: persistentSession},
+        ),
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
+
+  @override
+  _i4.Future<void> finishFederatedAuthentication(Uri? uri) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #finishFederatedAuthentication,
+          [uri],
         ),
         returnValue: _i4.Future<void>.value(),
         returnValueForMissingStub: _i4.Future<void>.value(),

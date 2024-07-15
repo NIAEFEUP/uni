@@ -101,7 +101,6 @@ void main() async {
         profile,
         Session(username: '', cookies: '', faculties: ['fcup']),
         [fis3022CourseUnit, m2030CourseUnit],
-        persistentSession: false,
       );
 
       examProvider.setState(exams);
