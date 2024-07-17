@@ -1,4 +1,11 @@
+import 'package:json_annotation/json_annotation.dart';
+import 'package:uni/model/entities/reference.dart';
+
+part '../../generated/model/entities/lecture.g.dart';
+
 /// Stores information about a lecture.
+@DateTimeConverter()
+@JsonSerializable()
 class Lecture {
   /// Creates an instance of the class [Lecture].
   Lecture(
@@ -12,6 +19,9 @@ class Lecture {
     this.classNumber,
     this.occurrId,
   );
+
+  factory Lecture.fromJson(Map<String, dynamic> json) =>
+      _$LectureFromJson(json);
 
   factory Lecture.fromApi(
     String subject,
@@ -98,20 +108,7 @@ class Lecture {
   DateTime endTime;
   int blocks;
   int occurrId;
-
-  /// Converts this lecture to a map.
-  Map<String, dynamic> toMap() {
-    return {
-      'subject': subject,
-      'typeClass': typeClass,
-      'startDateTime': startTime.toIso8601String(),
-      'blocks': blocks,
-      'room': room,
-      'teacher': teacher,
-      'classNumber': classNumber,
-      'occurrId': occurrId,
-    };
-  }
+  Map<String, dynamic> toJson() => _$LectureToJson(this);
 
   @override
   String toString() {

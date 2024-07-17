@@ -31,20 +31,19 @@ class ExamsPageViewState extends SecondaryPageViewState<ExamsPageView> {
     return ListView(
       children: [
         LazyConsumer<ExamProvider, List<Exam>>(
-          builder: (context, exams) {
-            return Column(
-              children: createExamsColumn(
-                context,
-                exams
-                    .where(
-                      (exam) =>
-                          filteredExamTypes[Exam.getExamTypeLong(exam.type)] ??
-                          true,
-                    )
-                    .toList(),
-              ),
-            );
-          },
+          builder: (context, exams) => Column(
+            children: createExamsColumn(
+              context,
+              exams
+                  .where(
+                    (exam) =>
+                        filteredExamTypes[
+                            Exam.getExamTypeLong(exam.examType)] ??
+                        true,
+                  )
+                  .toList(),
+            ),
+          ),
           hasContent: (exams) => exams.isNotEmpty,
           onNullContent: Center(
             heightFactor: 1.2,

@@ -11,6 +11,7 @@ import 'package:uni/view/home/widgets/next_exams_card.dart';
 import 'package:uni/view/home/widgets/remaining_exams_card.dart';
 import 'package:uni/view/lazy_consumer.dart';
 
+/// Manages the exam card section inside the personal area.
 class ExamCard extends GenericCard {
   ExamCard({super.key});
 

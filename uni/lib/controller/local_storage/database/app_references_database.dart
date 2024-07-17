@@ -49,7 +49,7 @@ class AppReferencesDatabase extends AppDatabase<List<Reference>> {
     for (final reference in references) {
       await insertInDatabase(
         'refs',
-        reference.toMap(),
+        reference.toJson(),
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
     }
