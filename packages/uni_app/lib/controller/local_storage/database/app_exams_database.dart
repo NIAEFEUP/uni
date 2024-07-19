@@ -13,7 +13,7 @@ class AppExamsDatabase extends AppDatabase<List<Exam>> {
       : super('exams.db', [_createScript], onUpgrade: migrate, version: 6);
 
   static const _createScript = '''
-CREATE TABLE exams(id TEXT, subject TEXT, begin TEXT, end TEXT,
+CREATE TABLE exams(id TEXT, subject TEXT, start TEXT, finish TEXT,
           rooms TEXT, examType TEXT, faculty TEXT, PRIMARY KEY (id,faculty)) ''';
 
   /// Returns a list containing all of the exams stored in this database.
@@ -25,8 +25,8 @@ CREATE TABLE exams(id TEXT, subject TEXT, begin TEXT, end TEXT,
       return Exam.secConstructor(
         maps[i]['id'] as String,
         maps[i]['subject'] as String,
-        DateTime.parse(maps[i]['begin'] as String),
-        DateTime.parse(maps[i]['end'] as String),
+        DateTime.parse(maps[i]['start'] as String),
+        DateTime.parse(maps[i]['finish'] as String),
         maps[i]['rooms'] as String,
         maps[i]['examType'] as String,
         maps[i]['faculty'] as String,
