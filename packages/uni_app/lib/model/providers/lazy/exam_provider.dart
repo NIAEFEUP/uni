@@ -41,7 +41,7 @@ class ExamProvider extends StateProviderNotifier<List<Exam>> {
     final exams = await ExamFetcher(profile.courses, userUcs)
         .extractExams(session, parserExams);
 
-    exams.sort((exam1, exam2) => exam1.begin.compareTo(exam2.begin));
+    exams.sort((exam1, exam2) => exam1.start.compareTo(exam2.start));
 
     final db = AppExamsDatabase();
     await db.saveIfPersistentSession(exams);

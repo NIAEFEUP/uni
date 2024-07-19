@@ -9,7 +9,7 @@ part '../../generated/model/entities/exam.g.dart';
 /// Manages a generic Exam.
 ///
 /// The information stored is:
-/// - The `begin` and `end` times of the Exam
+/// - The `start` and `finish` times of the Exam
 /// - The Exam `subject`
 /// - A List with the `rooms` in which the Exam takes place
 /// - The Exam `type`
@@ -19,8 +19,8 @@ part '../../generated/model/entities/exam.g.dart';
 class Exam {
   Exam(
     this.id,
-    this.begin,
-    this.end,
+    this.start,
+    this.finish,
     this.subject,
     this.rooms,
     this.examType,
@@ -32,15 +32,15 @@ class Exam {
   Exam.secConstructor(
     this.id,
     this.subject,
-    this.begin,
-    this.end,
+    this.start,
+    this.finish,
     String rooms,
     this.examType,
     this.faculty,
   ) : rooms = rooms.split(',');
 
-  final DateTime begin;
-  final DateTime end;
+  final DateTime start;
+  final DateTime finish;
   final String id;
   final String subject;
   final List<String> rooms;
@@ -59,29 +59,29 @@ class Exam {
   Map<String, dynamic> toJson() => _$ExamToJson(this);
 
   /// Returns whether or not this exam has already ended.
-  bool hasEnded() => DateTime.now().compareTo(end) >= 0;
+  bool hasEnded() => DateTime.now().compareTo(finish) >= 0;
 
   String weekDay(AppLocale locale) {
     return DateFormat.EEEE(locale.localeCode.languageCode)
         .dateSymbols
-        .WEEKDAYS[begin.weekday % 7];
+        .WEEKDAYS[start.weekday % 7];
   }
 
   String month(AppLocale locale) {
     return DateFormat.EEEE(locale.localeCode.languageCode)
         .dateSymbols
-        .MONTHS[begin.month - 1];
+        .MONTHS[start.month - 1];
   }
 
-  String get beginTime => formatTime(begin);
+  String get startTime => formatTime(start);
 
-  String get endTime => formatTime(end);
+  String get finishTime => formatTime(finish);
 
   String formatTime(DateTime time) => DateFormat('HH:mm').format(time);
 
   @override
   String toString() {
-    return '''$id - $subject - ${begin.year} - $month - ${begin.day} -  $beginTime-$endTime - $examType - $rooms - $weekDay''';
+    return '''$id - $subject - ${start.year} - $month - ${start.day}  -  $startTime-$finishTime - $examType - $rooms - $weekDay''';
   }
 
   /// Prints the data in this exam to the [Logger] with an INFO level.
