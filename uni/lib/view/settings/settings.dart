@@ -78,10 +78,7 @@ class SettingsPageState extends SecondaryPageViewState<SettingsPage> {
                 ListTile(
                   title: Text(S.of(context).logout),
                   trailing: const Icon(Icons.arrow_forward_ios),
-                  onTap: () {
-                    Navigator.of(context).pop();
-                    NavigationService.logoutAndPopHistory();
-                  },
+                  onTap: NavigationService.logoutAndPopHistory,
                 ),
               ],
             ),
