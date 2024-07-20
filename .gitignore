@@ -18,3 +18,5 @@ build/
 # Key properties
 uni/android/key.properties
 **.jks
+
+custom_lint.log
