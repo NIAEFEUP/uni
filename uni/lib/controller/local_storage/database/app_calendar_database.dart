@@ -34,7 +34,7 @@ class CalendarDatabase extends AppDatabase<List<CalendarEvent>> {
     await db.transaction((txn) async {
       await txn.delete('CALENDAR');
       for (final event in data) {
-        await txn.insert('CALENDAR', event.toMap());
+        await txn.insert('CALENDAR', event.toJson());
       }
     });
   }

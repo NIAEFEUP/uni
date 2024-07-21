@@ -43,7 +43,7 @@ class LibraryOccupationDatabase extends AppDatabase<LibraryOccupation> {
     await db.transaction((txn) async {
       await txn.delete('FLOOR_OCCUPATION');
       for (final floor in data.floors) {
-        await txn.insert('FLOOR_OCCUPATION', floor.toMap());
+        await txn.insert('FLOOR_OCCUPATION', floor.toJson());
       }
     });
   }

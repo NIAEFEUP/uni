@@ -1,9 +1,13 @@
 import 'package:collection/collection.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:uni/model/entities/location.dart';
 
+part '../../generated/model/entities/location_group.g.dart';
+
 /// Store information about a location marker.
 /// What's located in each floor, like vending machines, rooms, etc...
+@JsonSerializable()
 class LocationGroup {
   LocationGroup(
     this.latlng, {
@@ -13,6 +17,9 @@ class LocationGroup {
   }) : floors = locations != null
             ? groupBy(locations, (location) => location.floor)
             : Map.identity();
+
+  factory LocationGroup.fromJson(Map<String, dynamic> json) =>
+      _$LocationGroupFromJson(json);
   final Map<int, List<Location>> floors;
   final bool isFloorless;
   final LatLng latlng;
@@ -26,12 +33,5 @@ class LocationGroup {
     );
   }
 
-  Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'lat': latlng.latitude,
-      'lng': latlng.longitude,
-      'is_floorless': isFloorless ? 1 : 0,
-    };
-  }
+  Map<String, dynamic> toJson() => _$LocationGroupToJson(this);
 }

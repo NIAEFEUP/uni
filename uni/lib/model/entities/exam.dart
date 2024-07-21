@@ -1,5 +1,10 @@
 import 'package:intl/intl.dart';
+import 'package:json_annotation/json_annotation.dart';
+import 'package:logger/logger.dart';
 import 'package:uni/model/entities/app_locale.dart';
+import 'package:uni/model/entities/reference.dart';
+
+part '../../generated/model/entities/exam.g.dart';
 
 /// Manages a generic Exam.
 ///
@@ -8,6 +13,9 @@ import 'package:uni/model/entities/app_locale.dart';
 /// - The Exam `subject`
 /// - A List with the `rooms` in which the Exam takes place
 /// - The Exam `type`
+
+@DateTimeConverter()
+@JsonSerializable()
 class Exam {
   Exam(
     this.id,
@@ -15,9 +23,11 @@ class Exam {
     this.end,
     this.subject,
     this.rooms,
-    this.type,
+    this.examType,
     this.faculty,
   );
+
+  factory Exam.fromJson(Map<String, dynamic> json) => _$ExamFromJson(json);
 
   Exam.secConstructor(
     this.id,
@@ -25,7 +35,7 @@ class Exam {
     this.begin,
     this.end,
     String rooms,
-    this.type,
+    this.examType,
     this.faculty,
   ) : rooms = rooms.split(',');
 
@@ -34,7 +44,7 @@ class Exam {
   final String id;
   final String subject;
   final List<String> rooms;
-  final String type;
+  final String examType;
   final String faculty;
 
   static Map<String, String> types = {
@@ -46,19 +56,7 @@ class Exam {
     'Exames ao abrigo de estatutos especiais': 'EAE',
   };
   static List<String> displayedTypes = types.keys.toList().sublist(0, 4);
-
-  /// Converts this exam to a map.
-  Map<String, String> toMap() {
-    return {
-      'id': id,
-      'subject': subject,
-      'begin': DateFormat('yyyy-MM-dd HH:mm:ss').format(begin),
-      'end': DateFormat('yyyy-MM-dd HH:mm:ss').format(end),
-      'rooms': rooms.join(','),
-      'examType': type,
-      'faculty': faculty,
-    };
-  }
+  Map<String, dynamic> toJson() => _$ExamToJson(this);
 
   /// Returns whether or not this exam has already ended.
   bool hasEnded() => DateTime.now().compareTo(end) >= 0;
@@ -83,7 +81,12 @@ class Exam {
 
   @override
   String toString() {
-    return '''$id - $subject - ${begin.year} - $month - ${begin.day} - $beginTime-$endTime - $type - $rooms - $weekDay''';
+    return '''$id - $subject - ${begin.year} - $month - ${begin.day} -  $beginTime-$endTime - $examType - $rooms - $weekDay''';
+  }
+
+  /// Prints the data in this exam to the [Logger] with an INFO level.
+  void printExam() {
+    Logger().i(toString());
   }
 
   @override

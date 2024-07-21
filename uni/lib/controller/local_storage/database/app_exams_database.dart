@@ -10,12 +10,7 @@ import 'package:uni/model/entities/exam.dart';
 /// See the [Exam] class to see what data is stored in this database.
 class AppExamsDatabase extends AppDatabase<List<Exam>> {
   AppExamsDatabase()
-      : super(
-          'exams.db',
-          [_createScript],
-          onUpgrade: migrate,
-          version: 5,
-        );
+      : super('exams.db', [_createScript], onUpgrade: migrate, version: 6);
 
   static const _createScript = '''
 CREATE TABLE exams(id TEXT, subject TEXT, begin TEXT, end TEXT,
@@ -44,9 +39,11 @@ CREATE TABLE exams(id TEXT, subject TEXT, begin TEXT, end TEXT,
   /// If a row with the same data is present, it will be replaced.
   Future<void> _insertExams(List<Exam> exams) async {
     for (final exam in exams) {
+      final examJson = exam.toJson();
+      examJson['rooms'] = (examJson['rooms'] as List<dynamic>).join(',');
       await insertInDatabase(
         'exams',
-        exam.toMap(),
+        examJson,
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
     }

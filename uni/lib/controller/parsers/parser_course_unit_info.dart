@@ -7,6 +7,7 @@ import 'package:uni/model/entities/course_units/course_unit_class.dart';
 import 'package:uni/model/entities/course_units/course_unit_directory.dart';
 import 'package:uni/model/entities/course_units/course_unit_file.dart';
 import 'package:uni/model/entities/course_units/course_unit_sheet.dart';
+import 'package:uni/model/entities/course_units/sheet.dart';
 import 'package:uni/model/entities/session.dart';
 
 Future<List<CourseUnitFileDirectory>> parseFiles(
@@ -42,6 +43,59 @@ Future<List<CourseUnitFileDirectory>> parseFiles(
     dirs.add(CourseUnitFileDirectory(item['nome'].toString(), files));
   }
   return dirs;
+}
+
+Future<Sheet> parseSheet(http.Response response) async {
+  final json = jsonDecode(response.body) as Map<String, dynamic>;
+
+  final professors = getCourseUnitProfessors(
+    (json['ds'] as List)
+        .map((element) => element as Map<String, dynamic>)
+        .toList(),
+  );
+
+  final regents = (json['responsabilidades'] as List).map((element) {
+    return Professor.fromJson(element as Map<String, dynamic>);
+  }).toList();
+
+  final books = (json['bibliografia'] as List)
+      .map((element) => element as Map<String, dynamic>)
+      .toList()
+      .map<Book>((element) {
+    return Book(
+      title: element['titulo'].toString(),
+      isbn: element['isbn'].toString(),
+    );
+  }).toList();
+
+  return Sheet(
+    professors: professors,
+    content: json['conteudo'].toString(),
+    evaluation: json['for_avaliacao'].toString(),
+    regents: regents,
+    books: books,
+  );
+}
+
+List<Professor> getCourseUnitProfessors(List<Map<String, dynamic>> ds) {
+  final professors = <Professor>[];
+  for (final map in ds) {
+    for (final docente in map['docentes'] as List<dynamic>) {
+      final professor = Professor(
+        code: (docente as Map<String, dynamic>)['doc_codigo'].toString(),
+        name: shortName(docente['nome'].toString()),
+        classes: [map['tipo'].toString()],
+      );
+      if (professors.contains(professor)) {
+        professors[professors.indexWhere((element) => element == professor)]
+            .classes
+            .add(map['tipo'].toString());
+      } else {
+        professors.add(professor);
+      }
+    }
+  }
+  return professors;
 }
 
 Future<CourseUnitSheet> parseCourseUnitSheet(http.Response response) async {
@@ -120,4 +174,9 @@ List<CourseUnitClass> parseCourseUnitClasses(
 String _htmlAfterElement(String body, String elementOuterHtml) {
   final index = body.indexOf(elementOuterHtml) + elementOuterHtml.length;
   return body.substring(index, body.indexOf('<h3>', index));
+}
+
+String shortName(String name) {
+  final splitName = name.split(' ');
+  return '${splitName.first} ${splitName.last}';
 }
