@@ -82,7 +82,7 @@ packages:
     source: hosted
     version: "2.11.0"
   audio_session:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: audio_session
       sha256: "343e83bc7809fbda2591a49e525d6b63213ade10c76f15813be9aed6657b3261"
@@ -790,7 +790,7 @@ packages:
     source: hosted
     version: "6.7.1"
   just_audio:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: just_audio
       sha256: ee50602364ba83fa6308f5512dd560c713ec3e1f2bc75f0db43618f0d82ef71a
