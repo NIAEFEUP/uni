@@ -25,7 +25,7 @@ class ScheduleFetcherNewApi extends ScheduleFetcher {
 
     for (final baseUrl in endpoints) {
       final future = Future(() async {
-        final scheduleRequest = await NetworkRouter.getWithCookies(
+        final scheduleResponse = await NetworkRouter.getWithCookies(
           baseUrl,
           {
             'pv_num_unico': session.username,
@@ -35,15 +35,15 @@ class ScheduleFetcherNewApi extends ScheduleFetcher {
           session,
         );
 
-        final scheduleApiUrl = getScheduleApiUrlFromHtml(scheduleRequest);
+        final scheduleApiUrl = getScheduleApiUrlFromHtml(scheduleResponse);
 
-        final scheduleApiRequest = await NetworkRouter.getWithCookies(
+        final scheduleApiResponse = await NetworkRouter.getWithCookies(
           scheduleApiUrl,
           {},
           session,
         );
 
-        return getLecturesFromApiResponse(scheduleApiRequest);
+        return getLecturesFromApiResponse(scheduleApiResponse);
       });
 
       futures.add(future);
