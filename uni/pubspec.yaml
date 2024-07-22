@@ -16,7 +16,6 @@ environment:
 dependencies:
   add_2_calendar: ^3.0.1
   app_links: ^3.5.1
-  audio_session: ^0.1.21
   battery_plus: ^5.0.2
   cached_network_image: ^3.3.1
   collection: ^1.16.0
@@ -48,7 +47,6 @@ dependencies:
   intl: ^0.19.0
   json_annotation: ^4.8.1
   json_serializable: ^6.7.1
-  just_audio: ^0.9.39
   latlong2: ^0.9.0
   logger: ^2.0.2+1
   material_design_icons_flutter: ^7.0.7296
