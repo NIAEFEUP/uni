@@ -9,8 +9,16 @@ part '../../../../../generated/controller/parsers/schedule/new_api/models/respon
 
 @JsonSerializable(explicitToJson: true)
 class ResponseLecture {
-  ResponseLecture(this.start, this.end, this.units, this.classes, this.persons,
-      this.rooms, this.typology);
+  ResponseLecture(
+    this.start,
+    this.end,
+    this.units,
+    this.classes,
+    this.persons,
+    this.rooms,
+    this.typology,
+  );
+
   factory ResponseLecture.fromJson(Map<String, dynamic> json) =>
       _$ResponseLectureFromJson(json);
 

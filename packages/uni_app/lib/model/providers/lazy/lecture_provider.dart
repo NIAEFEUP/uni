@@ -50,6 +50,7 @@ class LectureProvider extends StateProviderNotifier<List<Lecture>> {
 
   Future<List<Lecture>> getLectures(Session session, Profile profile) {
     return ScheduleFetcherApi().getLectures(session, profile).catchError(
-        (e) => ScheduleFetcherNewApi().getLectures(session, profile));
+          (e) => ScheduleFetcherNewApi().getLectures(session, profile),
+        );
   }
 }
