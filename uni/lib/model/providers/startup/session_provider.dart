@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:logger/logger.dart';
 import 'package:openid_client/openid_client.dart';
 import 'package:uni/controller/background_workers/notifications.dart';
@@ -14,6 +13,7 @@ import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/model/providers/state_providers.dart';
 import 'package:uni/model/request_status.dart';
+import 'package:uni/utils/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SessionProvider extends StateProviderNotifier<Session> {
@@ -120,11 +120,10 @@ class SessionProvider extends StateProviderNotifier<Session> {
   }) async {
     _persistentSession = persistentSession;
 
-    final realm = dotenv.env['REALM'] ?? '';
     final issuer = await Issuer.discover(Uri.parse(realm));
     final client = Client(
       issuer,
-      dotenv.env['CLIENT_ID']!,
+      clientId,
     );
 
     _flow = Flow.authorizationCodeWithPKCE(

@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:logger/logger.dart';
@@ -10,6 +9,7 @@ import 'package:openid_client/openid_client.dart';
 import 'package:synchronized/synchronized.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/model/entities/session.dart';
+import 'package:uni/utils/constants.dart';
 import 'package:uni/view/navigation_service.dart';
 
 extension UriString on String {
@@ -198,7 +198,6 @@ class NetworkRouter {
 
   /// Get a new accessing Refresh with the refresh token
   static Future<String?> getAccessToken(String refreshToken) async {
-    final realm = dotenv.env['REALM'] ?? '';
     final issuer = await Issuer.discover(Uri.parse(realm));
     if (issuer.metadata.tokenEndpoint == null) {
       Logger().e('Re-login failed: token endpoint not found');
@@ -210,8 +209,7 @@ class NetworkRouter {
       body: {
         'grant_type': 'refresh_token',
         'refresh_token': refreshToken,
-        'client_id': dotenv.env['CLIENT_ID'],
-        'client_secret': dotenv.env['CLIENT_SECRET'],
+        'client_id': clientId,
       },
     );
 
