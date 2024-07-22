@@ -19,6 +19,8 @@ class ScheduleFetcherNewApi extends ScheduleFetcher {
   @override
   Future<List<Lecture>> getLectures(Session session, Profile profile) async {
     final endpoints = getEndpoints(session);
+    final lectiveYear = getLectiveYear(DateTime.now());
+
     final futures = <Future<List<Lecture>>>[];
 
     for (final baseUrl in endpoints) {
@@ -27,6 +29,8 @@ class ScheduleFetcherNewApi extends ScheduleFetcher {
           baseUrl,
           {
             'pv_num_unico': session.username,
+            'pv_ano_lectivo': lectiveYear.toString(),
+            'pv_periodos': '1',
           },
           session,
         );

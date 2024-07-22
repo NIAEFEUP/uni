@@ -24,6 +24,7 @@ class ResponseLecture {
 
   DateTime start;
   DateTime end;
+  @JsonKey(name: 'ucs')
   List<ResponseLectureUnit> units;
   List<ResponseLectureClass> classes;
   List<ResponseLecturePerson> persons;

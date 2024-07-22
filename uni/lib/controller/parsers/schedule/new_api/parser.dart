@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:html/parser.dart' show parse;
 import 'package:http/http.dart' as http;
+import 'package:logger/logger.dart';
 import 'package:uni/controller/parsers/schedule/new_api/models/response_lecture.dart';
 import 'package:uni/model/entities/lecture.dart';
 
@@ -26,11 +27,16 @@ String getScheduleApiUrlFromHtml(
 List<Lecture> getLecturesFromApiResponse(
   http.Response response,
 ) {
+  Logger().d(response.body);
   final json = jsonDecode(response.body) as Map<String, dynamic>;
-  final data = json['data'] as List<Map<String, dynamic>>;
+  final data = json['data'] as List<dynamic>;
+
+  final now = DateTime.now();
 
   return data
+      .cast<Map<String, dynamic>>()
       .map(ResponseLecture.fromJson)
+      .where((lecture) => lecture.end.isAfter(now))
       .map(
         (lecture) => Lecture(
           lecture.units.first.acronym,

@@ -10,7 +10,7 @@ ResponseLecture _$ResponseLectureFromJson(Map<String, dynamic> json) =>
     ResponseLecture(
       DateTime.parse(json['start'] as String),
       DateTime.parse(json['end'] as String),
-      (json['units'] as List<dynamic>)
+      (json['ucs'] as List<dynamic>)
           .map((e) => ResponseLectureUnit.fromJson(e as Map<String, dynamic>))
           .toList(),
       (json['classes'] as List<dynamic>)
@@ -30,7 +30,7 @@ Map<String, dynamic> _$ResponseLectureToJson(ResponseLecture instance) =>
     <String, dynamic>{
       'start': instance.start.toIso8601String(),
       'end': instance.end.toIso8601String(),
-      'units': instance.units.map((e) => e.toJson()).toList(),
+      'ucs': instance.units.map((e) => e.toJson()).toList(),
       'classes': instance.classes.map((e) => e.toJson()).toList(),
       'persons': instance.persons.map((e) => e.toJson()).toList(),
       'rooms': instance.rooms.map((e) => e.toJson()).toList(),
