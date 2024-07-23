@@ -120,22 +120,14 @@ class NetworkRouter {
       throw Exception('Failed to get token from SIGARRA');
     }
 
-    final setCookies = response.headers['set-cookie'];
-    if (setCookies == null) {
-      Logger().e('Failed to get token from SIGARRA');
-      throw Exception('Failed to get token from SIGARRA');
-    }
-
-    final splitedCookies = setCookies.split(',').join('; ').split(';');
-    final cookiesMap = <String, String>{};
-    for (final cookie in splitedCookies) {
-      final parts = cookie.split('=');
-      if (parts.length >= 2) {
-        final key = parts[0].replaceAll(' ', '');
-        final value = parts[1].replaceAll(' ', '');
-        cookiesMap[key] = value;
-      }
-    }
+    final cookies = NetworkRouter.extractCookies(response.headers);
+    final cookiesMap = cookies.fold<Map<String, String>>(
+      {},
+      (previousValue, element) {
+        previousValue[element.name] = element.value;
+        return previousValue;
+      },
+    );
 
     if (!cookiesMap.containsKey('SI_SESSION') ||
         !cookiesMap.containsKey('SI_SECURITY')) {
@@ -143,12 +135,9 @@ class NetworkRouter {
       throw Exception('Failed to get token from SIGARRA');
     }
 
-    final cookies =
-        'SI_SESSION=${cookiesMap['SI_SESSION']}; SI_SECURITY=${cookiesMap['SI_SECURITY']}';
-
     return Session(
       username: studentNumber,
-      cookies: cookies,
+      cookies: NetworkRouter.extractCookies(response.headers),
       faculties: faculties,
       persistentSession: persistentSession,
       federatedSession: true,
@@ -241,18 +230,19 @@ class NetworkRouter {
   }
 
   /// Extracts the cookies present in [headers].
-  static String extractCookies(Map<String, String> headers) {
-    final cookieList = <String>[];
-    final cookies = headers['set-cookie'];
-
-    if (cookies != null && cookies != '') {
-      final rawCookies = cookies.split(',');
-      for (final c in rawCookies) {
-        cookieList.add(Cookie.fromSetCookieValue(c).toString());
-      }
+  static List<Cookie> extractCookies(Map<String, String> headers) {
+    final setCookieHeader = headers[HttpHeaders.setCookieHeader];
+    if (setCookieHeader == null) {
+      return [];
     }
 
-    return cookieList.join(';');
+    final cookies = <Cookie>[];
+    final values = setCookieHeader.split(RegExp(r'\s*,\s*'));
+    for (final value in values) {
+      cookies.add(Cookie.fromSetCookieValue(value));
+    }
+
+    return cookies;
   }
 
   /// Makes an authenticated GET request with the given [session] to the
@@ -277,7 +267,7 @@ class NetworkRouter {
     }
 
     final headers = <String, String>{};
-    headers['cookie'] = session.cookies;
+    headers['cookie'] = session.cookies.join('; ');
 
     final response = await (httpClient != null
             ? httpClient!.get(url.toUri(), headers: headers).timeout(timeout)
@@ -308,7 +298,7 @@ class NetworkRouter {
         session
           ..username = newSession.username // (thePeras): Why is this necessary?
           ..cookies = newSession.cookies;
-        headers['cookie'] = session.cookies;
+        headers['cookie'] = session.cookies.join('; ');
         return http.get(url.toUri(), headers: headers).timeout(timeout);
       } else {
         // If the user is logged in but still got a 403, they are
@@ -316,7 +306,7 @@ class NetworkRouter {
         // at the time of the request,
         // but other thread re-authenticated.
         // Since we do not know which one is the case, we try again.
-        headers['cookie'] = session.cookies;
+        headers['cookie'] = session.cookies.join('; ');
         final response =
             await http.get(url.toUri(), headers: headers).timeout(timeout);
         return response.statusCode == 200
@@ -336,7 +326,7 @@ class NetworkRouter {
     final url = '${getBaseUrl(session.faculties[0])}'
         'fest_geral.cursos_list?pv_num_unico=${session.username}';
     final headers = <String, String>{};
-    headers['cookie'] = session.cookies;
+    headers['cookie'] = session.cookies.join('; ');
 
     final response = await (httpClient != null
         ? httpClient!.get(url.toUri(), headers: headers)

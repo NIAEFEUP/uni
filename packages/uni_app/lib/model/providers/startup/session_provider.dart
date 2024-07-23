@@ -31,13 +31,13 @@ class SessionProvider extends StateProviderNotifier<Session> {
     final faculties = PreferencesController.getUserFaculties();
 
     if (userPersistentInfo == null) {
-      return Session(username: '', cookies: '', faculties: faculties);
+      return Session(username: '', cookies: [], faculties: faculties);
     }
 
     return Session(
       faculties: faculties,
       username: userPersistentInfo.item1,
-      cookies: '',
+      cookies: [],
       persistentSession: true,
     );
   }

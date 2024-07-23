@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:http/http.dart' as http;
 import 'package:uni/controller/networking/network_router.dart';
@@ -14,7 +15,7 @@ class Session {
   }) : assert(faculties.isNotEmpty, 'session must have faculties');
 
   String username;
-  String cookies;
+  List<Cookie> cookies;
   List<String> faculties;
   bool persistentSession;
   bool federatedSession;

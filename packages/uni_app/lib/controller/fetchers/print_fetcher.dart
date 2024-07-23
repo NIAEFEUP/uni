@@ -36,7 +36,7 @@ class PrintFetcher implements SessionDependantFetcher {
     };
 
     final headers = <String, String>{};
-    headers['cookie'] = session.cookies;
+    headers['cookie'] = session.cookies.join('; ');
     headers['content-type'] = 'application/x-www-form-urlencoded';
 
     final response = await http.post(url.toUri(), headers: headers, body: data);
