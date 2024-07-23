@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./uni
+        working-directory: ./packages/uni_app
     steps:
       - name: Clone repository
         uses: actions/checkout@v4
