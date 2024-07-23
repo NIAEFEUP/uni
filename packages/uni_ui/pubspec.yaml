@@ -1,0 +1,22 @@
+name: uni_ui
+description: User interface components for the Uni app.
+publish_to: none
+version: 1.0.0
+
+environment:
+  sdk: ">=3.4.0 <4.0.0"
+  flutter: 3.22.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  custom_lint: ^0.6.4
+  flutter_test:
+    sdk: flutter
+  leancode_lint: ^13.0.0
+  test: any
+
+flutter:
+  uses-material-design: true
