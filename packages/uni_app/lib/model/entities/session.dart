@@ -36,7 +36,7 @@ class Session {
     return Session(
       faculties: faculties,
       username: responseBody['codigo'] as String,
-      cookies: NetworkRouter.extractCookies(response.headers),
+      cookies: NetworkRouter.extractCookies(response),
     );
   }
 }

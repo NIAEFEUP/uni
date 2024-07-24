@@ -1,21 +1,47 @@
 import 'dart:convert';
 
+import 'package:json_annotation/json_annotation.dart';
 import 'package:logger/logger.dart';
 import 'package:openid_client/openid_client.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/session/federated/session.dart';
 import 'package:uni/controller/session/request.dart';
 
-class FederatedSessionRequest extends SessionRequest<FederatedSession> {
+part '../../../generated/controller/session/federated/request.g.dart';
+
+@JsonSerializable(explicitToJson: true)
+class FederatedSessionRequest extends SessionRequest {
   FederatedSessionRequest({
-    required this.username,
-    required this.faculties,
     required this.credential,
   });
 
-  final String username;
-  final List<String> faculties;
+  // Serialization logic
+
+  factory FederatedSessionRequest.fromJson(Map<String, dynamic> json) =>
+      _$FederatedSessionRequestFromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() => _$FederatedSessionRequestToJson(this);
+
+  // Request implementation
+
   final Credential credential;
+
+  Future<String> _getUsername() async {
+    final userInfo = await credential.getUserInfo();
+    return userInfo.getTyped<String>('nmec')!;
+  }
+
+  Future<List<String>> _getFaculties() async {
+    final userInfo = await credential.getUserInfo();
+    final faculties = userInfo
+        .getTyped<List<dynamic>>('ous')!
+        .cast<String>()
+        .map((element) => element.toLowerCase())
+        .toList();
+
+    return faculties;
+  }
 
   @override
   Future<FederatedSession> perform() async {
@@ -43,11 +69,11 @@ class FederatedSessionRequest extends SessionRequest<FederatedSession> {
       throw Exception('Failed to get token from SIGARRA');
     }
 
-    final cookies = NetworkRouter.extractCookies(response.headers);
+    final cookies = NetworkRouter.extractCookies(response);
 
     return FederatedSession(
-      username: username,
-      faculties: faculties,
+      username: await _getUsername(),
+      faculties: await _getFaculties(),
       cookies: cookies,
       credential: credential,
     );

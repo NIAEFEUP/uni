@@ -1,3 +1,4 @@
+import 'package:json_annotation/json_annotation.dart';
 import 'package:uni/controller/fetchers/faculties_fetcher.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/parsers/parser_session.dart';
@@ -5,11 +6,24 @@ import 'package:uni/controller/session/credentials/session.dart';
 import 'package:uni/controller/session/request.dart';
 import 'package:uni/model/entities/login_exceptions.dart';
 
-class CredentialsSessionRequest extends SessionRequest<CredentialsSession> {
+part '../../../generated/controller/session/credentials/request.g.dart';
+
+@JsonSerializable(explicitToJson: true)
+class CredentialsSessionRequest extends SessionRequest {
   CredentialsSessionRequest({
     required this.username,
     required this.password,
   });
+
+  // Serialization logic
+
+  factory CredentialsSessionRequest.fromJson(Map<String, dynamic> json) =>
+      _$CredentialsSessionRequestFromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() => _$CredentialsSessionRequestToJson(this);
+
+  // Request implementation
 
   final String username;
   final String password;

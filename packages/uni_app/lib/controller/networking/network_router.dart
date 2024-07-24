@@ -120,7 +120,7 @@ class NetworkRouter {
       throw Exception('Failed to get token from SIGARRA');
     }
 
-    final cookies = NetworkRouter.extractCookies(response.headers);
+    final cookies = NetworkRouter.extractCookies(response);
     final cookiesMap = cookies.fold<Map<String, String>>(
       {},
       (previousValue, element) {
@@ -137,7 +137,7 @@ class NetworkRouter {
 
     return Session(
       username: studentNumber,
-      cookies: NetworkRouter.extractCookies(response.headers),
+      cookies: NetworkRouter.extractCookies(response),
       faculties: faculties,
       persistentSession: persistentSession,
       federatedSession: true,
@@ -229,16 +229,16 @@ class NetworkRouter {
     return response.body;
   }
 
-  /// Extracts the cookies present in [headers].
-  static List<Cookie> extractCookies(Map<String, String> headers) {
-    final setCookieHeader = headers[HttpHeaders.setCookieHeader];
-    if (setCookieHeader == null) {
+  /// Extracts the cookies present in [response].
+  static List<Cookie> extractCookies(http.Response response) {
+    final setCookieHeaders =
+        response.headersSplitValues[HttpHeaders.setCookieHeader];
+    if (setCookieHeaders == null) {
       return [];
     }
 
     final cookies = <Cookie>[];
-    final values = setCookieHeader.split(RegExp(r'\s*,\s*'));
-    for (final value in values) {
+    for (final value in setCookieHeaders) {
       cookies.add(Cookie.fromSetCookieValue(value));
     }
 

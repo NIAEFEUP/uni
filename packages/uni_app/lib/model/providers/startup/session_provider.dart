@@ -8,6 +8,7 @@ import 'package:uni/controller/fetchers/terms_and_conditions_fetcher.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/parsers/parser_session.dart';
+import 'package:uni/controller/session/federated/request.dart';
 import 'package:uni/model/entities/login_exceptions.dart';
 import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
@@ -144,46 +145,28 @@ class SessionProvider extends StateProviderNotifier<Session> {
 
   Future<void> finishFederatedAuthentication(Uri uri) async {
     final credential = await _flow!.callback(uri.queryParameters);
-    final userInfo = (await credential.getUserInfo()).toJson();
-    final token = (await credential.getTokenResponse()).accessToken;
 
-    if (token == null) {
-      Logger().e('Failed to get token from SIGARRA');
-      throw Exception('Failed to get token from SIGARRA');
-    }
+    final request = FederatedSessionRequest(credential: credential);
+    final session = await request.perform();
 
-    final studentNumber = userInfo['nmec'] as String;
-    final faculties = List<String>.from(userInfo['ous'] as List)
-        .map((element) => element.toLowerCase())
-        .toList();
+    Logger().d('Session refresh: ${session.createRefreshRequest().toJson()}');
 
-    final session = await NetworkRouter.loginWithToken(
-      token,
-      studentNumber,
-      faculties,
-      persistentSession: _persistentSession,
-    );
+    // setState(session);
 
-    if (session == null) {
-      throw Exception('Failed to login with token');
-    }
+    // if (_persistentSession && credential.refreshToken != null) {
+    //   await PreferencesController.saveSessionRefreshToken(
+    //     credential.refreshToken!,
+    //     studentNumber,
+    //     faculties,
+    //   );
+    //   _persistentSession = false;
+    // }
 
-    setState(session);
+    // Future.delayed(
+    //   const Duration(seconds: 20),
+    //   () => {NotificationManager().initializeNotifications()},
+    // );
 
-    if (_persistentSession && credential.refreshToken != null) {
-      await PreferencesController.saveSessionRefreshToken(
-        credential.refreshToken!,
-        studentNumber,
-        faculties,
-      );
-      _persistentSession = false;
-    }
-
-    Future.delayed(
-      const Duration(seconds: 20),
-      () => {NotificationManager().initializeNotifications()},
-    );
-
-    await acceptTermsAndConditions();
+    // await acceptTermsAndConditions();
   }
 }
