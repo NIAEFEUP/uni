@@ -68,6 +68,8 @@ dependencies:
   timelines: ^0.1.0
   tuple: ^2.0.0
   ua_client_hints: ^1.3.1
+  uni_ui:
+    path: ../uni_ui
   url_launcher: ^6.2.2
   workmanager: ^0.5.2
 

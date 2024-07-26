@@ -22,7 +22,7 @@
 
 ## Overview
 
-**uni** is a project developed by [NIAEFEUP](https://ni.fe.up.pt/) to help students of the [University of Porto](https://up.pt) to manage their academic life, including useful features such as upcoming classes and exams. It is a mobile app that is available for both Android and iOS, and is developed using the [Flutter](https://flutter.dev/) framework.
+**uni** is a project developed by [NIAEFEUP](https://niaefeup.pt/) to help students of the [University of Porto](https://up.pt) to manage their academic life, including useful features such as upcoming classes and exams. It is a mobile app that is available for both Android and iOS, and is developed using the [Flutter](https://flutter.dev/) framework.
 
 Some of the features are only available to students of [FEUP](https://fe.up.pt). The reliability of the information provided by the app is not guaranteed, and the app is not affiliated with the University of Porto or any of its faculties.
 
@@ -34,4 +34,4 @@ This application is licensed under the [GNU General Public License v3.0](./LICEN
 
 Contributions are welcome, and can be made by opening a pull request. Please note, however, that a university's account is required to access most of the app's features.
 
-For further information about the project structure, please refer to [the app's README file](./uni/README.md).
+For further information about the project structure, please refer to [the app's README file](./packages/uni_app/README.md).
