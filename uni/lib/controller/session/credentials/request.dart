@@ -22,13 +22,7 @@ class CredentialsSessionRequest extends SessionRequest {
   Future<CredentialsSession> perform() async {
     // We need to login to fetch the faculties, so perform a temporary login.
 
-    final tempSession = await NetworkRouter.login(
-      username,
-      password,
-      ['feup'],
-      persistentSession: false,
-      ignoreCached: true,
-    );
+    final tempSession = await NetworkRouter.login(username, password);
 
     if (tempSession == null) {
       // Get the fail reason.

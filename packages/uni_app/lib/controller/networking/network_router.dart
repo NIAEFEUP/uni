@@ -5,8 +5,8 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:logger/logger.dart';
-import 'package:openid_client/openid_client.dart';
 import 'package:synchronized/synchronized.dart';
+import 'package:uni/controller/session/credentials/session.dart';
 import 'package:uni/controller/session/session.dart';
 import 'package:uni/utils/constants.dart';
 import 'package:uni/view/navigation_service.dart';
@@ -48,6 +48,39 @@ class NetworkRouter {
       Logger().e(err, stackTrace: st);
       return null;
     }
+  }
+
+  static Future<Session?> login(String username, String password) async {
+    final url = '${getBaseUrl('feup')}mob_val_geral.autentica';
+    final response = await http.post(
+      url.toUri(),
+      body: {'pv_login': username, 'pv_password': password},
+    ).timeout(_requestTimeout);
+
+    if (response.statusCode != 200) {
+      Logger().e('Login failed with status code ${response.statusCode}');
+      return null;
+    }
+
+    final responseBody = json.decode(response.body) as Map<String, dynamic>;
+    if (!(responseBody['authenticated'] as bool)) {
+      Logger().e('Login failed: user not authenticated');
+      return null;
+    }
+
+    final realUsername = responseBody['codigo'] as String;
+    final session = CredentialsSession(
+      username: realUsername,
+      cookies: extractCookies(response),
+      faculties: faculties,
+      password: password,
+    );
+
+    Logger().i('Login successful');
+    _lastLoginTime = DateTime.now();
+    _cachedSession = session;
+
+    return session;
   }
 
   /// Returns the response body of the login in Sigarra
