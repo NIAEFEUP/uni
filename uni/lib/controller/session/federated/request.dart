@@ -1,29 +1,15 @@
 import 'dart:convert';
 
-import 'package:json_annotation/json_annotation.dart';
 import 'package:logger/logger.dart';
 import 'package:openid_client/openid_client.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/session/federated/session.dart';
 import 'package:uni/controller/session/request.dart';
 
-part '../../../generated/controller/session/federated/request.g.dart';
-
-@JsonSerializable(explicitToJson: true)
 class FederatedSessionRequest extends SessionRequest {
   FederatedSessionRequest({
     required this.credential,
   });
-
-  // Serialization logic
-
-  factory FederatedSessionRequest.fromJson(Map<String, dynamic> json) =>
-      _$FederatedSessionRequestFromJson(json);
-
-  @override
-  Map<String, dynamic> toJson() => _$FederatedSessionRequestToJson(this);
-
-  // Request implementation
 
   final Credential credential;
 

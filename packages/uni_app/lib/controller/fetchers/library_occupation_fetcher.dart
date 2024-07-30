@@ -1,8 +1,8 @@
 import 'package:uni/controller/fetchers/session_dependant_fetcher.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/parsers/parser_library_occupation.dart';
+import 'package:uni/controller/session/session.dart';
 import 'package:uni/model/entities/library_occupation.dart';
-import 'package:uni/model/entities/session.dart';
 
 /// Fetch the library occupation from Google Sheets
 class LibraryOccupationFetcherSheets implements SessionDependantFetcher {

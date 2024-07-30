@@ -2,9 +2,9 @@ import 'package:http/http.dart' as http;
 import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/parsers/parser_schedule.dart';
+import 'package:uni/controller/session/session.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/entities/profile.dart';
-import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/utils/time/week.dart';
 
 /// Class for fetching the user's lectures from the faculties' API.

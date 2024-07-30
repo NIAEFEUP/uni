@@ -4,8 +4,8 @@ import 'package:html/dom.dart';
 import 'package:html/parser.dart' show parse;
 import 'package:http/http.dart' as http;
 import 'package:uni/controller/networking/network_router.dart';
+import 'package:uni/controller/session/session.dart';
 import 'package:uni/model/entities/lecture.dart';
-import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/utils/time/week.dart';
 import 'package:uni/model/utils/time/weekday_mapper.dart';
 

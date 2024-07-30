@@ -7,8 +7,7 @@ import 'package:http/http.dart';
 import 'package:logger/logger.dart';
 import 'package:openid_client/openid_client.dart';
 import 'package:synchronized/synchronized.dart';
-import 'package:uni/controller/local_storage/preferences_controller.dart';
-import 'package:uni/model/entities/session.dart';
+import 'package:uni/controller/session/session.dart';
 import 'package:uni/utils/constants.dart';
 import 'package:uni/view/navigation_service.dart';
 
@@ -38,179 +37,17 @@ class NetworkRouter {
   /// Returned on repeated concurrent login requests.
   static Session? _cachedSession;
 
-  /// Performs a login using the Sigarra API,
-  /// returning an authenticated [Session] with the
-  /// given username [username] and password [password] if successful.
-  static Future<Session?> login(
-    String username,
-    String password,
-    List<String> faculties, {
-    required bool persistentSession,
-    bool ignoreCached = false,
-  }) async {
-    return _loginLock.synchronized(
-      () async {
-        if (_lastLoginTime != null &&
-            DateTime.now().difference(_lastLoginTime!) <
-                const Duration(minutes: 1) &&
-            _cachedSession != null &&
-            !ignoreCached) {
-          Logger().d('Login request ignored due to recent login');
-          return _cachedSession;
-        }
-
-        final url =
-            '${NetworkRouter.getBaseUrls(faculties)[0]}mob_val_geral.autentica';
-        final response = await http.post(
-          url.toUri(),
-          body: {'pv_login': username, 'pv_password': password},
-        ).timeout(_requestTimeout);
-
-        if (response.statusCode != 200) {
-          Logger().e('Login failed with status code ${response.statusCode}');
-          return null;
-        }
-
-        final session = Session.fromLogin(
-          response,
-          faculties,
-          persistentSession: persistentSession,
-        );
-
-        if (session == null) {
-          Logger().e('Login failed: user not authenticated');
-          return null;
-        }
-
-        Logger().i('Login successful');
-        _lastLoginTime = DateTime.now();
-        _cachedSession = session;
-
-        return session;
-      },
-      timeout: _requestTimeout,
-    );
-  }
-
-  static Future<Session?> loginWithToken(
-    String token,
-    String studentNumber,
-    List<String> faculties, {
-    required bool persistentSession,
-  }) async {
-    // Get the cookie from SIGARRA
-    const sigarraTokenEndpoint = 'https://sigarra.up.pt/auth/oidc/token';
-    final response = await http.get(
-      Uri.parse(sigarraTokenEndpoint),
-      headers: <String, String>{
-        'Authorization': 'Bearer $token',
-        'Content-Type': 'application/json',
-      },
-    );
-
-    if (response.statusCode != 200) {
-      Logger().e('Failed to get token from SIGARRA');
-      throw Exception('Failed to get token from SIGARRA');
-    }
-
-    final body = jsonDecode(response.body) as Map<String, dynamic>;
-
-    if (body['result'] != 'OK') {
-      Logger().e('Failed to get token from SIGARRA');
-      throw Exception('Failed to get token from SIGARRA');
-    }
-
-    final cookies = NetworkRouter.extractCookies(response);
-    final cookiesMap = cookies.fold<Map<String, String>>(
-      {},
-      (previousValue, element) {
-        previousValue[element.name] = element.value;
-        return previousValue;
-      },
-    );
-
-    if (!cookiesMap.containsKey('SI_SESSION') ||
-        !cookiesMap.containsKey('SI_SECURITY')) {
-      Logger().e('Failed to get token from SIGARRA');
-      throw Exception('Failed to get token from SIGARRA');
-    }
-
-    return Session(
-      username: studentNumber,
-      cookies: NetworkRouter.extractCookies(response),
-      faculties: faculties,
-      persistentSession: persistentSession,
-      federatedSession: true,
-    );
-  }
-
   /// Re-authenticates the user via the Sigarra API
   /// using data stored in [session],
   /// returning an updated Session if successful.
   static Future<Session?> reLoginFromSession(Session session) async {
-    if (!session.federatedSession) {
-      final password = await PreferencesController.getUserPassword();
-
-      if (password == null) {
-        Logger().e('Re-login failed: password not found');
-        return null;
-      }
-      return login(
-        session.username,
-        password,
-        session.faculties,
-        persistentSession: session.persistentSession,
-      );
-    }
-
-    final refreshToken = await PreferencesController.getSessionRefreshToken();
-    final faculties = PreferencesController.getUserFaculties();
-    final studentNumber = await PreferencesController.getUserNumber();
-    if (refreshToken == null || studentNumber == null || faculties.isEmpty) {
-      Logger().e('Re-login failed: refresh token not found');
+    final request = session.createRefreshRequest();
+    try {
+      return request.perform();
+    } catch (err, st) {
+      Logger().e(err, stackTrace: st);
       return null;
     }
-
-    final accessToken = await getAccessToken(refreshToken);
-    if (accessToken == null) {
-      Logger().e('Re-login failed: access token not retrived');
-      return null;
-    }
-
-    return loginWithToken(
-      accessToken,
-      studentNumber,
-      faculties,
-      persistentSession: session.persistentSession,
-    );
-  }
-
-  /// Get a new accessing Refresh with the refresh token
-  static Future<String?> getAccessToken(String refreshToken) async {
-    final issuer = await Issuer.discover(Uri.parse(realm));
-    if (issuer.metadata.tokenEndpoint == null) {
-      Logger().e('Re-login failed: token endpoint not found');
-      return null;
-    }
-
-    final response = await http.post(
-      issuer.metadata.tokenEndpoint!,
-      body: {
-        'grant_type': 'refresh_token',
-        'refresh_token': refreshToken,
-        'client_id': clientId,
-      },
-    );
-
-    final body = json.decode(response.body) as Map<String, dynamic>;
-    final accessToken = body['access_token'] as String;
-
-    if (response.statusCode != 200) {
-      Logger().e('Re-login failed: status code ${response.statusCode}');
-      return null;
-    }
-
-    return accessToken;
   }
 
   /// Returns the response body of the login in Sigarra
@@ -297,7 +134,9 @@ class NetworkRouter {
 
         session
           ..username = newSession.username // (thePeras): Why is this necessary?
-          ..cookies = newSession.cookies;
+          ..cookies =
+              newSession.cookies; // TODO(limwa): because it is very bad code xD
+
         headers['cookie'] = session.cookies.join('; ');
         return http.get(url.toUri(), headers: headers).timeout(timeout);
       } else {
@@ -352,8 +191,7 @@ class NetworkRouter {
 
   /// Makes an HTTP request to terminate the session in Sigarra.
   static Future<Response> killSigarraAuthentication(
-    List<String> faculties,
-  ) async {
+      List<String> faculties) async {
     final url = '${NetworkRouter.getBaseUrl(faculties[0])}vld_validacao.sair';
     final response = await http.get(url.toUri()).timeout(_requestTimeout);
 

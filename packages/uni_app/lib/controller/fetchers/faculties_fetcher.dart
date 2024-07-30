@@ -1,6 +1,6 @@
 import 'package:html/parser.dart';
 import 'package:uni/controller/networking/network_router.dart';
-import 'package:uni/model/entities/session.dart';
+import 'package:uni/controller/session/session.dart';
 
 Future<List<String>> getStudentFaculties(Session session) async {
   final response = await NetworkRouter.getWithCookies(

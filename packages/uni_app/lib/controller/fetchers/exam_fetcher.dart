@@ -1,10 +1,10 @@
 import 'package:uni/controller/fetchers/session_dependant_fetcher.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/parsers/parser_exams.dart';
+import 'package:uni/controller/session/session.dart';
 import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/entities/exam.dart';
-import 'package:uni/model/entities/session.dart';
 
 class ExamFetcher implements SessionDependantFetcher {
   ExamFetcher(this.courses, this.userUcs);

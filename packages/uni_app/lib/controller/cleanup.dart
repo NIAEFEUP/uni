@@ -17,10 +17,15 @@ import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/model/providers/state_providers.dart';
 
 Future<void> cleanupStoredData(BuildContext context) async {
-  StateProviders.fromContext(context).invalidate();
+  final providers = StateProviders.fromContext(context);
+  final session = providers.sessionProvider.state;
+  if (session != null) {
+    unawaited(session.onClose());
+  }
+
+  providers.invalidate();
 
   final prefs = await SharedPreferences.getInstance();
-  final faculties = PreferencesController.getUserFaculties();
   await prefs.clear();
 
   await Future.wait([
@@ -31,9 +36,9 @@ Future<void> cleanupStoredData(BuildContext context) async {
     AppLastUserInfoUpdateDatabase().deleteLastUpdate(),
     AppBusStopDatabase().deleteBusStops(),
     AppCourseUnitsDatabase().deleteCourseUnits(),
-    NetworkRouter.killSigarraAuthentication(faculties),
-    PreferencesController.removePersistentUserInfo(),
-    PreferencesController.removeSessionRefreshToken(),
+    if (session != null)
+      NetworkRouter.killSigarraAuthentication(session.faculties),
+    PreferencesController.removeSavedSession(),
   ]);
 
   final toCleanDirectory = await getApplicationDocumentsDirectory();

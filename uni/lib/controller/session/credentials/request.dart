@@ -15,22 +15,13 @@ class CredentialsSessionRequest extends SessionRequest {
     required this.password,
   });
 
-  // Serialization logic
-
-  factory CredentialsSessionRequest.fromJson(Map<String, dynamic> json) =>
-      _$CredentialsSessionRequestFromJson(json);
-
-  @override
-  Map<String, dynamic> toJson() => _$CredentialsSessionRequestToJson(this);
-
-  // Request implementation
-
   final String username;
   final String password;
 
   @override
   Future<CredentialsSession> perform() async {
     // We need to login to fetch the faculties, so perform a temporary login.
+
     final tempSession = await NetworkRouter.login(
       username,
       password,

@@ -4,9 +4,9 @@ import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher.dart';
 import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher_api.dart';
 import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher_html.dart';
 import 'package:uni/controller/local_storage/database/app_lectures_database.dart';
+import 'package:uni/controller/session/session.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/entities/profile.dart';
-import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/model/providers/state_providers.dart';
 

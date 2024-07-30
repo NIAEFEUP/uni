@@ -1,8 +1,8 @@
 import 'package:uni/controller/fetchers/session_dependant_fetcher.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/parsers/parser_calendar.dart';
+import 'package:uni/controller/session/session.dart';
 import 'package:uni/model/entities/calendar_event.dart';
-import 'package:uni/model/entities/session.dart';
 
 /// Fetch the school calendar from HTML
 class CalendarFetcherHtml implements SessionDependantFetcher {

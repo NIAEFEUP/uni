@@ -8,6 +8,7 @@ import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:uni/controller/networking/url_launcher.dart';
+import 'package:uni/controller/session/credentials/request.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/login_exceptions.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
@@ -55,39 +56,6 @@ class LoginPageViewState extends State<LoginPageView>
     super.initState();
 
     WidgetsBinding.instance.addObserver(this);
-
-    final appLinks = AppLinks();
-    appLinks.uriLinkStream.listen((uri) async {
-      Logger().d('AppLinks intercepted: $uri');
-      await closeInAppWebView();
-      setState(() {
-        _intercepting = true;
-        _loggingIn = true;
-      });
-
-      if (uri.host == 'auth') {
-        WidgetsBinding.instance.addPostFrameCallback((_) async {
-          final sessionProvider =
-              Provider.of<SessionProvider>(context, listen: false);
-          try {
-            await sessionProvider.finishFederatedAuthentication(uri);
-            if (mounted) {
-              await Navigator.pushReplacementNamed(
-                context,
-                '/${NavigationItem.navPersonalArea.route}',
-              );
-            }
-          } catch (err) {
-            Logger().e('Failed to login with FederatedLogin: $err');
-          }
-        });
-      }
-
-      setState(() {
-        _loggingIn = true;
-        _intercepting = false;
-      });
-    });
   }
 
   @override
@@ -97,6 +65,15 @@ class LoginPageViewState extends State<LoginPageView>
     // passwordController.dispose();
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
+  }
+
+  Future<Uri> getInterceptedUri() async {
+    final appLinks = AppLinks();
+    final uri =
+        await appLinks.uriLinkStream.firstWhere((uri) => uri.host == 'auth');
+
+    Logger().d('AppLinks intercepted: $uri');
+    return uri;
   }
 
   Future<void> _login() async {
@@ -111,11 +88,10 @@ class LoginPageViewState extends State<LoginPageView>
         setState(() {
           _loggingIn = true;
         });
-        await sessionProvider.postAuthentication(
-          user,
-          pass,
-          persistentSession: _keepSignedIn,
-        );
+
+        final request =
+            CredentialsSessionRequest(username: user, password: pass);
+        await sessionProvider.login(request, persistentSession: _keepSignedIn);
 
         usernameController.clear();
         passwordController.clear();
@@ -174,9 +150,31 @@ class LoginPageViewState extends State<LoginPageView>
       setState(() {
         _loggingIn = true;
       });
+
+      final uri = getInterceptedUri();
       await sessionProvider.federatedAuthentication(
+        onAuthentication: uri,
         persistentSession: _keepSignedIn,
       );
+
+      await closeInAppWebView();
+
+      setState(() {
+        _intercepting = true;
+        _loggingIn = true;
+      });
+
+      if (mounted) {
+        await Navigator.pushReplacementNamed(
+          context,
+          '/${NavigationItem.navPersonalArea.route}',
+        );
+      }
+
+      setState(() {
+        _loggingIn = true;
+        _intercepting = false;
+      });
     } catch (err, st) {
       await Sentry.captureException(err, stackTrace: st);
       await closeInAppWebView();

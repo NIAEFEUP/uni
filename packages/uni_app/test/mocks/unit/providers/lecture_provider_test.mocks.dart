@@ -14,7 +14,7 @@ import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher.dart'
     as _i3;
 import 'package:uni/model/entities/lecture.dart' as _i5;
 import 'package:uni/model/entities/profile.dart' as _i7;
-import 'package:uni/model/entities/session.dart' as _i6;
+import 'package:uni/controller/session/session.dart' as _i6;
 import 'package:uni/model/utils/time/week.dart' as _i8;
 
 // ignore_for_file: type=lint
