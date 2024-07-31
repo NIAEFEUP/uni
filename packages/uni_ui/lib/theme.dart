@@ -39,7 +39,11 @@ ThemeData lightTheme = ThemeData(
         onTertiary: pureWhite
     ),
     primaryColor: darkRed,
-    cardColor: mildWhite,
+    cardTheme: CardTheme(
+        margin: EdgeInsets.all(4),
+        color: mildWhite,
+
+    ),
     dividerColor: lightGray,
     hintColor: lightGray,
     indicatorColor: darkRed,
