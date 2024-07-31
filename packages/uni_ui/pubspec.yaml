@@ -11,6 +11,7 @@ dependencies:
   figma_squircle: ^0.5.3
   flutter:
     sdk: flutter
+  phosphor_flutter: ^2.1.0
 
 dev_dependencies:
   custom_lint: ^0.6.4
