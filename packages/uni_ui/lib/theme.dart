@@ -10,8 +10,6 @@ const Color normalGray = Color.fromARGB(255, 127, 127, 127);
 const Color lightGray = Color.fromARGB(255, 229, 229, 229);
 const Color salmon = Color.fromARGB(255, 227, 145, 145);
 
-255, 255, 245, 243),
-
 const _textTheme = TextTheme(
   displayLarge: TextStyle(fontSize: 40, fontWeight: FontWeight.w400),
   displayMedium: TextStyle(fontSize: 32, fontWeight: FontWeight.w400),
@@ -27,27 +25,25 @@ const _textTheme = TextTheme(
 );
 
 ThemeData lightTheme = ThemeData(
-    useMaterial3: true,
-    textTheme: _textTheme,
-    colorScheme: ColorScheme.fromSeed(
-        seedColor: darkRed,
-        surface: mildWhite,
-        surfaceContainer: mildWhite,
-        primary: darkRed,
-        onPrimary: pureWhite,
-        secondary: dust,
-        onSecondary: pureWhite,
-        tertiary: salmon,
-        onTertiary: pureWhite
-    ),
-    primaryColor: darkRed,
-    cardTheme: CardTheme(
-        margin: EdgeInsets.all(4),
-        color: mildWhite,
-    ),
-    dividerColor: lightGray,
-    hintColor: lightGray,
-    indicatorColor: darkRed,
-    iconTheme: const IconThemeData(color: darkRed),
+  useMaterial3: true,
+  textTheme: _textTheme,
+  colorScheme: ColorScheme.fromSeed(
+      seedColor: darkRed,
+      surface: mildWhite,
+      surfaceContainer: mildWhite,
+      primary: darkRed,
+      onPrimary: pureWhite,
+      secondary: dust,
+      onSecondary: pureWhite,
+      tertiary: salmon,
+      onTertiary: pureWhite),
+  primaryColor: darkRed,
+  cardTheme: CardTheme(
+    margin: EdgeInsets.all(4),
+    color: mildWhite,
+  ),
+  dividerColor: lightGray,
+  hintColor: lightGray,
+  indicatorColor: darkRed,
+  iconTheme: const IconThemeData(color: darkRed),
 );
-
