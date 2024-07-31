@@ -24,6 +24,7 @@ class GenericCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cardTheme = CardTheme.of(context);
+    final theme = Theme.of(context);
 
     return Padding(
       padding: margin ?? cardTheme.margin ?? const EdgeInsets.all(4),
@@ -38,7 +39,7 @@ class GenericCard extends StatelessWidget {
             decoration: BoxDecoration(
               color: color ??
                   cardTheme.color ??
-                  const Color.fromARGB(255, 255, 245, 243),
+                  theme.colorScheme.surfaceContainer,
               boxShadow: [
                 BoxShadow(
                   color: shadowColor ??

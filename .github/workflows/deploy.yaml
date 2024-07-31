@@ -22,7 +22,7 @@ jobs:
       PUBSPEC_PATH: pubspec.yaml
     defaults:
       run:
-        working-directory: ./uni
+        working-directory: ./packages/uni/
     steps:
       - uses: actions/checkout@v4
         with:
@@ -110,7 +110,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: stable
-          flutter-version-file: uni/pubspec.yaml
+          flutter-version-file: packages/uni/pubspec.yaml
           cache: true
 
       - name: Download Android keystore
