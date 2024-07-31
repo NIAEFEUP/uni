@@ -25,27 +25,25 @@ const _textTheme = TextTheme(
 );
 
 ThemeData lightTheme = ThemeData(
-    useMaterial3: true,
-    textTheme: _textTheme,
-    colorScheme: ColorScheme.fromSeed(
-        seedColor: darkRed,
-        surface: mildWhite,
-        surfaceContainer: mildWhite,
-        primary: darkRed,
-        onPrimary: pureWhite,
-        secondary: dust,
-        onSecondary: pureWhite,
-        tertiary: salmon,
-        onTertiary: pureWhite
-    ),
-    primaryColor: darkRed,
-    cardTheme: CardTheme(
-        margin: EdgeInsets.all(4),
-        color: mildWhite,
-
-    ),
-    dividerColor: lightGray,
-    hintColor: lightGray,
-    indicatorColor: darkRed,
-    iconTheme: const IconThemeData(color: darkRed),
-)
+  useMaterial3: true,
+  textTheme: _textTheme,
+  colorScheme: ColorScheme.fromSeed(
+      seedColor: darkRed,
+      surface: mildWhite,
+      surfaceContainer: mildWhite,
+      primary: darkRed,
+      onPrimary: pureWhite,
+      secondary: dust,
+      onSecondary: pureWhite,
+      tertiary: salmon,
+      onTertiary: pureWhite),
+  primaryColor: darkRed,
+  cardTheme: CardTheme(
+    margin: EdgeInsets.all(4),
+    color: mildWhite,
+  ),
+  dividerColor: lightGray,
+  hintColor: lightGray,
+  indicatorColor: darkRed,
+  iconTheme: const IconThemeData(color: darkRed),
+);

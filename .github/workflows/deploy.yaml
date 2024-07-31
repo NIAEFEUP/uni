@@ -22,7 +22,7 @@ jobs:
       PUBSPEC_PATH: pubspec.yaml
     defaults:
       run:
-        working-directory: ./uni
+        working-directory: ./packages/uni_app
     steps:
       - uses: actions/checkout@v4
         with:
@@ -110,7 +110,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: stable
-          flutter-version-file: uni/pubspec.yaml
+          flutter-version-file: packages/uni_app/pubspec.yaml
           cache: true
 
       - name: Download Android keystore
@@ -138,7 +138,7 @@ jobs:
         with:
           name: appbundle
           if-no-files-found: error
-          path: uni/build/app/outputs/bundle/release/app-release.aab
+          path: packages/uni_app/build/app/outputs/bundle/release/app-release.aab
 
   deploy_play_store:
     name: "Deploy to Google Play Store"
