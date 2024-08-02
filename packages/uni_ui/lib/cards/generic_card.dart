@@ -50,7 +50,9 @@ class GenericCard extends StatelessWidget {
               ],
             ),
             child: Padding(
-                padding: padding ?? const EdgeInsets.all(15), child: child),
+                padding: padding ??
+                    const EdgeInsets.symmetric(vertical: 15, horizontal: 25),
+                child: child),
           ),
         ),
       ),

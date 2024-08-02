@@ -10,7 +10,7 @@ class ScheduleCard extends GenericCard {
       required this.acronym,
       required this.room,
       required this.type,
-      required this.badgeColor,
+      // required this.badgeColor,
       this.isActive = false,
       this.teacherName,
       this.teacherPhoto});
@@ -19,7 +19,7 @@ class ScheduleCard extends GenericCard {
   final String acronym;
   final String room;
   final String type;
-  final BadgeColors badgeColor;
+  // final BadgeColors badgeColor;
   final bool isActive;
   final String? teacherName;
   final String? teacherPhoto;
@@ -40,12 +40,23 @@ class ScheduleCard extends GenericCard {
                     Text(
                       acronym,
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleMedium,
+                      style: TextStyle(
+                          fontSize: Theme.of(context)
+                              .textTheme
+                              .headlineMedium!
+                              .fontSize,
+                          fontWeight: Theme.of(context)
+                              .textTheme
+                              .headlineMedium!
+                              .fontWeight,
+                          color: isActive
+                              ? Theme.of(context).colorScheme.secondary
+                              : Theme.of(context).colorScheme.primary),
                     ),
                     const SizedBox(width: 8), //TODO: Create a custom Gap()?
                     Badge(
                       label: Text(type),
-                      backgroundColor: badgeColor,
+                      backgroundColor: BadgeColors.tp,
                       textColor: Theme.of(context).colorScheme.surface,
                     ),
                   ],
@@ -53,27 +64,53 @@ class ScheduleCard extends GenericCard {
                 Text(
                   name,
                   overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.bodyMedium,
+                  style: TextStyle(
+                      fontSize:
+                          Theme.of(context).textTheme.titleLarge!.fontSize,
+                      fontWeight:
+                          Theme.of(context).textTheme.titleLarge!.fontWeight,
+                      color: isActive
+                          ? Theme.of(context).colorScheme.secondary
+                          : Theme.of(context).colorScheme.primary),
                 ),
+                SizedBox(height: 5),
+                if (isActive)
+                  Row(children: [
+                    CircleAvatar(
+                        radius: 15,
+                        backgroundImage: const AssetImage(
+                          'assets/images/profile_placeholder.png', // to change
+                        )),
+                    const SizedBox(width: 8), //TODO: create gap()?
+                    Text(teacherName!,
+                        style: TextStyle(
+                            color: isActive
+                                ? Theme.of(context).colorScheme.secondary
+                                : Theme.of(context).colorScheme.primary)),
+                  ])
               ],
             ),
           ),
-          const SizedBox(width: 8), //TODO: Create a custom Gap()?
           Column(
             children: [
               PhosphorIcon(
                 PhosphorIcons.mapPin(PhosphorIconsStyle.duotone),
-                color: Theme.of(context).iconTheme.color,
-                size: 30,
+                color: isActive
+                    ? Theme.of(context).colorScheme.secondary
+                    : Theme.of(context).iconTheme.color,
+                size: 35,
               ),
-              Text(
-                room,
-                overflow: TextOverflow.ellipsis,
-              ),
+              Text(room,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      color: isActive
+                          ? Theme.of(context).colorScheme.secondary
+                          : Theme.of(context).colorScheme.primary)),
             ],
           )
         ],
       ),
+      color: isActive ? Color.fromARGB(255, 40, 7, 9) : null,
     );
   }
 }

@@ -13,17 +13,14 @@ const Color salmon = Color.fromARGB(255, 227, 145, 145);
 const _textTheme = TextTheme(
   displayLarge: TextStyle(fontSize: 40, fontWeight: FontWeight.w400),
   displayMedium: TextStyle(fontSize: 32, fontWeight: FontWeight.w400),
-  displaySmall: TextStyle(fontSize: 28, fontWeight: FontWeight.w400),
-  headlineMedium: TextStyle(fontSize: 24, fontWeight: FontWeight.w300),
+  displaySmall: TextStyle(fontSize: 28, fontWeight: FontWeight.w500),
+  headlineMedium: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
   headlineSmall: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
-  titleLarge: TextStyle(fontSize: 18, fontWeight: FontWeight.w300),
-  titleMedium:
-      TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: darkRed),
+  titleLarge: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
+  titleMedium: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
   titleSmall: TextStyle(fontSize: 16, fontWeight: FontWeight.w300),
-  bodyLarge:
-      TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: darkRed),
-  bodyMedium:
-      TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: darkRed),
+  bodyLarge: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+  bodyMedium: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
   bodySmall: TextStyle(fontSize: 13, fontWeight: FontWeight.w400),
 );
 
