@@ -37,6 +37,14 @@ class ScheduleCard extends GenericCard {
               children: [
                 Row(
                   children: [
+                    if (isActive) ...[
+                      PhosphorIcon(
+                        PhosphorIcons.clock(PhosphorIconsStyle.duotone),
+                        color: Theme.of(context).colorScheme.secondary,
+                        size: 20,
+                      ),
+                      SizedBox(width: 5),
+                    ],
                     Text(
                       acronym,
                       overflow: TextOverflow.ellipsis,
