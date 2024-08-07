@@ -35,7 +35,6 @@ abstract class SecondaryPageViewState<T extends StatefulWidget>
     return AppTopNavbar(
       title: getTitle(),
       leftButton: const BackButton(),
-      rightButton: getTopRightButton(context),
     );
   }
 }
