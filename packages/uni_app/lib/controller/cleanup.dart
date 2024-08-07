@@ -20,7 +20,7 @@ Future<void> cleanupStoredData(BuildContext context) async {
   final providers = StateProviders.fromContext(context);
   final session = providers.sessionProvider.state;
   if (session != null) {
-    unawaited(session.onClose());
+    unawaited(session.close());
   }
 
   providers.invalidate();

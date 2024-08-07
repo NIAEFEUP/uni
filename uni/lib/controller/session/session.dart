@@ -44,7 +44,7 @@ abstract class Session {
   SessionRequest createRefreshRequest();
 
   @mustCallSuper
-  Future<void> onClose() async {}
+  Future<void> close() async {}
 }
 
 class CookieConverter implements JsonConverter<Cookie, String> {

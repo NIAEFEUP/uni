@@ -31,8 +31,8 @@ class FederatedSession extends Session {
       );
 
   @override
-  Future<void> onClose() async {
-    await super.onClose();
+  Future<void> close() async {
+    await super.close();
 
     final homeUri = Uri.parse('pt.up.fe.ni.uni://home');
     final logoutUri = credential.generateLogoutUrl(redirectUri: homeUri);
@@ -42,6 +42,5 @@ class FederatedSession extends Session {
     }
 
     await launchUrl(logoutUri);
-    // await openUrl(logoutUri);
   }
 }
