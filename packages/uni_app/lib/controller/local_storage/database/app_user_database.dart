@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:sqflite/sqlite_api.dart';
 import 'package:uni/controller/local_storage/database/app_database.dart';
 import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/profile.dart';
@@ -9,7 +10,12 @@ import 'package:uni/model/entities/profile.dart';
 /// This database stores information about the user's university profile.
 class AppUserDataDatabase extends AppDatabase<Profile> {
   AppUserDataDatabase()
-      : super('userdata.db', ['CREATE TABLE userdata(name TEXT, value TEXT)']);
+      : super(
+          'userdata.db',
+          ['CREATE TABLE userdata(name TEXT, value TEXT)'],
+          onUpgrade: migrate,
+          version: 2,
+        );
 
   /// Adds [data] (profile) to this database.
   @override
@@ -70,5 +76,16 @@ class AppUserDataDatabase extends AppDatabase<Profile> {
     final db = await getDatabase();
 
     await db.delete('userdata');
+  }
+
+  static FutureOr<void> migrate(
+    Database db,
+    int oldVersion,
+    int newVersion,
+  ) async {
+    final batch = db.batch()
+      ..execute('DROP TABLE IF EXISTS userdata')
+      ..execute('CREATE TABLE userdata(name TEXT, value TEXT)');
+    await batch.commit();
   }
 }

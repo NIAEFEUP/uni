@@ -10,7 +10,7 @@ import 'package:uni/model/entities/exam.dart';
 /// See the [Exam] class to see what data is stored in this database.
 class AppExamsDatabase extends AppDatabase<List<Exam>> {
   AppExamsDatabase()
-      : super('exams.db', [_createScript], onUpgrade: migrate, version: 6);
+      : super('exams.db', [_createScript], onUpgrade: migrate, version: 7);
 
   static const _createScript = '''
 CREATE TABLE exams(id TEXT, subject TEXT, start TEXT, finish TEXT,
