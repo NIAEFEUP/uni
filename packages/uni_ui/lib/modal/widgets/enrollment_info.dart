@@ -19,38 +19,38 @@ class ModalEnrollementInfo extends StatelessWidget {
           children: [
             Text("Enrollments", style: Theme.of(context).textTheme.bodyMedium),
             Wrap(
-              spacing: 1,
-              direction: Axis.horizontal,
-              children: createRows(context),
-            )
+                spacing: 1,
+                direction: Axis.horizontal,
+                children: enrollements.entries.map((entry) {
+                  return Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(entry.key,
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelLarge
+                              ?.copyWith(
+                                  color: Theme.of(context).primaryColor)),
+                      Container(
+                          padding: const EdgeInsets.all(4.0),
+                          margin: const EdgeInsets.all(3.0),
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20)),
+                              color: Theme.of(context).primaryColor),
+                          child: Text(
+                            entry.value,
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelSmall
+                                ?.copyWith(
+                                  color: pureWhite,
+                                ),
+                          ))
+                    ],
+                  );
+                }).toList())
           ],
         ));
-  }
-
-  List<Widget> createRows(BuildContext context) {
-    return enrollements.entries.map((entry) {
-      return Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(entry.key,
-              style: Theme.of(context)
-                  .textTheme
-                  .labelLarge
-                  ?.copyWith(color: Theme.of(context).primaryColor)),
-          Container(
-              padding: const EdgeInsets.all(4.0),
-              margin: const EdgeInsets.all(3.0),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                  color: Theme.of(context).primaryColor),
-              child: Text(
-                entry.value,
-                style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                      color: pureWhite,
-                    ),
-              ))
-        ],
-      );
-    }).toList();
   }
 }

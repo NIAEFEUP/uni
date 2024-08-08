@@ -11,17 +11,18 @@ class ModalDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-        backgroundColor: Theme.of(context).colorScheme.surface,
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: ClipSmoothRect(
-            radius: SmoothBorderRadius(cornerRadius: 20, cornerSmoothing: 1),
+      backgroundColor: Colors.transparent,
+      child: ClipSmoothRect(
+          radius: SmoothBorderRadius(cornerRadius: 30, cornerSmoothing: 1),
+          child: Container(
+            padding: const EdgeInsets.all(20.0),
+            color: Theme.of(context).colorScheme.surface,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               children: children,
             ),
-          ),
-        ));
+          )),
+    );
   }
 }

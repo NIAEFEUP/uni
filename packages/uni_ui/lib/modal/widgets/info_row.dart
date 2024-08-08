@@ -6,11 +6,13 @@ class ModalInfoRow extends StatelessWidget {
       {super.key,
       required this.title,
       required this.description,
-      required this.icon});
+      required this.icon,
+      this.onPressed});
 
   final String title;
   final String description;
-  final PhosphorIconData icon;
+  final IconData icon;
+  final void Function()? onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +38,7 @@ class ModalInfoRow extends StatelessWidget {
                 ],
               ),
             ),
-            PhosphorIcon(icon as IconData),
+            IconButton(onPressed: onPressed, icon: PhosphorIcon(icon))
           ],
         ));
   }

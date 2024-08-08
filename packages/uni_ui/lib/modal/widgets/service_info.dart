@@ -3,15 +3,10 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:uni_ui/theme.dart';
 
 class ModalServiceInfo extends StatelessWidget {
-  const ModalServiceInfo({
-    required this.name,
-    required this.morningDuration,
-    required this.afternoonDuration,
-  });
+  const ModalServiceInfo({required this.name, required this.durations});
 
   final String name;
-  final String morningDuration;
-  final String afternoonDuration;
+  final List<String> durations;
 
   @override
   Widget build(BuildContext context) {
@@ -31,14 +26,11 @@ class ModalServiceInfo extends StatelessWidget {
               duotoneSecondaryColor: normalGray,
             ),
             Column(
-              children: [
-                Text(morningDuration,
+              children: durations.map((duration) {
+                return Text(duration,
                     style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                        color: Theme.of(context).secondaryHeaderColor)),
-                Text(afternoonDuration,
-                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                        color: Theme.of(context).secondaryHeaderColor)),
-              ],
+                        color: Theme.of(context).secondaryHeaderColor));
+              }).toList(),
             )
           ],
         )
