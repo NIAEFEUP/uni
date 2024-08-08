@@ -40,7 +40,7 @@ class _ExamRowState extends State<ExamRow> {
   Widget build(BuildContext context) {
     final roomsKey =
         '${widget.exam.subject}-${widget.exam.rooms}-${widget.exam.startTime}-'
-        '${widget.exam.startTime}';
+        '${widget.exam.finishTime}';
     return Center(
       child: Container(
         padding: const EdgeInsets.only(left: 12, bottom: 8, right: 12),
