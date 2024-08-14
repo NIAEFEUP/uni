@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uni_ui/generic_card.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class CardTimeline extends StatelessWidget {
   const CardTimeline({super.key});
@@ -18,9 +19,8 @@ class CardTimeline extends StatelessWidget {
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             border: Border.all(
-              color:
-                  Theme.of(context).primaryColor, // Set the color of the border
-              width: 4.0, // Set the width of the border
+              color: Theme.of(context).primaryColor,
+              width: 4.0,
             ),
           ),
         ),
@@ -32,6 +32,70 @@ class CardTimeline extends StatelessWidget {
                 borderRadius: BorderRadius.all(Radius.circular(10)),
                 color: Theme.of(context).primaryColor))
       ]),
+      Expanded(
+          child: GenericCard(
+        key: key,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        'LCOM',
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            fontSize: Theme.of(context)
+                                .textTheme
+                                .headlineMedium!
+                                .fontSize,
+                            fontWeight: Theme.of(context)
+                                .textTheme
+                                .headlineMedium!
+                                .fontWeight,
+                            color: Theme.of(context).colorScheme.primary),
+                      ),
+                      const SizedBox(width: 8), //TODO: Create a custom Gap()?
+                      Badge(
+                        label: Text('MT'),
+                        backgroundColor: Colors.greenAccent,
+                        textColor: Theme.of(context).colorScheme.surface,
+                      ),
+                    ],
+                  ),
+                  Text(
+                    'Laboratório de Computadores',
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        fontSize:
+                            Theme.of(context).textTheme.titleLarge!.fontSize,
+                        fontWeight:
+                            Theme.of(context).textTheme.titleLarge!.fontWeight,
+                        color: Theme.of(context).colorScheme.primary),
+                  ),
+                  SizedBox(height: 5),
+                ],
+              ),
+            ),
+            Column(
+              children: [
+                PhosphorIcon(
+                  PhosphorIcons.mapPin(PhosphorIconsStyle.duotone),
+                  color: Theme.of(context).iconTheme.color,
+                  size: 35,
+                ),
+                Text('B315',
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.primary)),
+              ],
+            )
+          ],
+        ),
+      ))
     ]);
   }
 }
