@@ -4,6 +4,7 @@ import 'package:uni/view/common_widgets/page_title.dart';
 class AppTopNavbar extends StatelessWidget implements PreferredSizeWidget {
   const AppTopNavbar({
     this.title,
+    this.rightButton,
     this.leftButton,
     super.key,
   });
@@ -11,6 +12,7 @@ class AppTopNavbar extends StatelessWidget implements PreferredSizeWidget {
   static const double borderMargin = 18;
 
   final String? title;
+  final Widget? rightButton;
   final Widget? leftButton;
 
   Widget _createTopWidgets(BuildContext context) {
@@ -35,6 +37,11 @@ class AppTopNavbar extends StatelessWidget implements PreferredSizeWidget {
                   center: false,
                 ),
               ),
+              if (rightButton != null)
+                Padding(
+                  padding: const EdgeInsets.only(left: 8),
+                  child: rightButton,
+                ),
             ],
           ),
         ),
@@ -54,7 +61,7 @@ class AppTopNavbar extends StatelessWidget implements PreferredSizeWidget {
   Size get preferredSize => const Size.fromHeight(kToolbarHeight + 10);
 
   @override
-  AppBar build(BuildContext context) {
+  Widget build(BuildContext context) {
     return AppBar(
       automaticallyImplyLeading: false,
       elevation: 0,
