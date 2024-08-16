@@ -8,17 +8,21 @@ class ModalPersonInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        CircleAvatar(
-          radius: 60.0,
-          backgroundColor: Colors.green, // TODO: CHANGE TO IMAGE
-        ),
-        Text(
-          name,
-          style: Theme.of(context).textTheme.displaySmall,
-        )
-      ],
+    return Padding(
+      padding: EdgeInsets.only(bottom: 20.0),
+      child: Column(
+        children: [
+          CircleAvatar(
+            radius: 60.0,
+            backgroundImage: image?.image,
+            backgroundColor: Colors.green,
+          ),
+          Text(
+            name,
+            style: Theme.of(context).textTheme.displaySmall,
+          )
+        ],
+      ),
     );
   }
 }

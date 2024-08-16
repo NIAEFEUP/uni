@@ -10,31 +10,33 @@ class ModalServiceInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(
-          name,
-          style:
-              TextStyle(fontSize: 25.0, color: Theme.of(context).primaryColor),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+    return Padding(
+        padding: EdgeInsets.only(bottom: 20.0),
+        child: Column(
           children: [
-            PhosphorIcon(
-              PhosphorIcons.clock(PhosphorIconsStyle.duotone),
-              color: darkGray,
-              duotoneSecondaryColor: normalGray,
+            Text(
+              name,
+              style: TextStyle(
+                  fontSize: 25.0, color: Theme.of(context).primaryColor),
             ),
-            Column(
-              children: durations.map((duration) {
-                return Text(duration,
-                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                        color: Theme.of(context).secondaryHeaderColor));
-              }).toList(),
-            )
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                PhosphorIcon(
+                  PhosphorIcons.clock(PhosphorIconsStyle.duotone),
+                  color: darkGray,
+                  duotoneSecondaryColor: normalGray,
+                ),
+                Column(
+                  children: durations.map((duration) {
+                    return Text(duration,
+                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                            color: Theme.of(context).secondaryHeaderColor));
+                  }).toList(),
+                )
+              ],
+            ),
           ],
-        )
-      ],
-    );
+        ));
   }
 }
