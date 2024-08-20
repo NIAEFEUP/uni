@@ -9,6 +9,7 @@ environment:
 
 dependencies:
   figma_squircle: ^0.5.3
+  phosphor_flutter: ^2.1.0
   flutter:
     sdk: flutter
 
