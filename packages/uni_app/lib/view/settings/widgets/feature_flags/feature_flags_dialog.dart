@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:uni/controller/local_storage/enabled_feature_controller.dart';
+import 'package:uni/controller/feature_flags/feature_flag_table.dart';
 
 import 'package:uni/generated/l10n.dart';
-import 'package:uni/view/settings/widgets/feature_flags/library_modules_switch.dart';
 
 class FeatureFlagsDialog extends StatefulWidget {
   const FeatureFlagsDialog({super.key});
@@ -32,18 +31,9 @@ class FeatureFlagsDialogState extends State<FeatureFlagsDialog> {
             return Container();
           }
 
-          final enabledFeatureController =
-              EnabledFeatureController(snapshot.data!);
           return Column(
             mainAxisSize: MainAxisSize.min,
-            children: [
-              ListTile(
-                title: Text(S.of(context).library_modules),
-                trailing: LibraryModulesSwitch(
-                  enabledFeatureController: enabledFeatureController,
-                ),
-              ),
-            ],
+            children: FeatureFlagTable.getFeatureFlags().map((featureFlag) => Text(featureFlag.getName(context))).toList(),
           );
         },
       ),

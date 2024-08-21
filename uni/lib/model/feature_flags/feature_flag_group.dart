@@ -1,33 +1,36 @@
+import 'package:flutter/material.dart';
 import 'package:uni/model/feature_flags/feature_flag.dart';
 import 'package:uni/model/feature_flags/generic_feature_flag.dart';
 
 class FeatureFlagGroup extends GenericFeatureFlag {
   FeatureFlagGroup({
     required this.code,
-    required this.name,
-    required bool enabled,
-    required void Function(FeatureFlagGroup, { required bool enabled }) saveEnabled,
-  }): _enabled = enabled, _saveEnabled = saveEnabled;
+    required String Function(BuildContext) getName,
+    required bool Function() isEnabled,
+    required void Function({ required bool enabled }) saveEnabled,
+    required List<FeatureFlag> featureFlags,
+  }): _getName = getName, _isEnabled = isEnabled, _saveEnabled = saveEnabled, _featureFlags = featureFlags;
 
   @override
   final String code;
-  @override
-  final String name;
-  bool _enabled;
-  final void Function(FeatureFlagGroup, { required bool enabled }) _saveEnabled;
-  final List<FeatureFlag> _featureFlags = [];
+  final String Function(BuildContext) _getName;
+  final bool Function() _isEnabled;
+  final void Function({ required bool enabled }) _saveEnabled;
+  final List<FeatureFlag> _featureFlags;
 
   @override
-  bool get enabled => _enabled;
+  String getName(BuildContext context) => _getName(context);
+
+  @override
+  bool get enabled => _isEnabled();
 
   @override
   set enabled(bool enabled) {
-    _saveEnabled(this, enabled: enabled);
-    _enabled = enabled;
-  }
-  
-  void addFeatureFlag(FeatureFlag featureFlag) {
-    _featureFlags.add(featureFlag);
+    _saveEnabled(enabled: enabled);
+    
+    for (final featureFlag in _featureFlags) {
+      featureFlag.enabled = enabled;
+    }
   }
 
   List<FeatureFlag> getFeatureFlags() {
