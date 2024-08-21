@@ -1,26 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:uni/model/feature_flags/generic_feature_flag.dart';
 
-class FeatureSwitchTile extends StatelessWidget {
+class FeatureSwitchTile extends StatefulWidget {
   const FeatureSwitchTile({
     required this.featureFlag,
-    required this.refreshDialog,
     super.key,
   });
 
   final GenericFeatureFlag featureFlag;
-  final void Function() refreshDialog;
+
+  @override
+  FeatureSwitchTileState createState() => FeatureSwitchTileState();
+}
+
+class FeatureSwitchTileState extends State<FeatureSwitchTile> {
+  void refresh() {
+    setState(() {});
+  }
+
+  Future<void> _onChanged(bool value) async {
+    await widget.featureFlag.setEnabled(enabled: value);
+    refresh();
+  }
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(featureFlag.getName(context)),
+      title: Text(widget.featureFlag.getName(context)),
       trailing: Switch.adaptive(
-        value: featureFlag.isEnabled(),
-        onChanged: (value) async {
-          await featureFlag.setEnabled(enabled: value);
-          refreshDialog();
-        },
+        value: widget.featureFlag.isEnabled(),
+        onChanged: _onChanged,
       ),
     );
   }
