@@ -20,7 +20,8 @@ class FeatureFlagTable {
   static FeatureFlagController? _controller;
 
   static List<GenericFeatureFlag> _toFeatureFlags(
-      List<GenericFeatureFlagInfo> featureFlagInfos) {
+    List<GenericFeatureFlagInfo> featureFlagInfos,
+  ) {
     final featureFlags = <GenericFeatureFlag>[];
 
     for (final featureFlagInfo in featureFlagInfos) {
@@ -35,7 +36,8 @@ class FeatureFlagTable {
   }
 
   static Map<String, GenericFeatureFlag> _toFeatureFlagsMap(
-      List<GenericFeatureFlag> featureFlags) {
+    List<GenericFeatureFlag> featureFlags,
+  ) {
     final featureFlagsMap = <String, GenericFeatureFlag>{};
 
     for (final featureFlag in featureFlags) {
@@ -53,12 +55,12 @@ class FeatureFlagTable {
     return _controller!.isEnabled(code);
   }
 
-  static void _saveEnabled(String code, {required bool enabled}) {
+  static Future<void> _saveEnabled(String code, {required bool enabled}) async {
     if (_controller == null) {
       throw Exception('FeatureFlagController is not initialized.');
     }
 
-    _controller!.saveEnabled(code, enabled: enabled);
+    await _controller!.saveEnabled(code, enabled: enabled);
   }
 
   static FeatureFlag _createFeatureFlag(FeatureFlagInfo featureFlagInfo) {
@@ -74,7 +76,8 @@ class FeatureFlagTable {
   }
 
   static GenericFeatureFlag _createFeatureFlagGroup(
-      FeatureFlagGroupInfo featureFlagGroupInfo) {
+    FeatureFlagGroupInfo featureFlagGroupInfo,
+  ) {
     final code = featureFlagGroupInfo.code;
     final getName = featureFlagGroupInfo.getName;
     final featureFlags =
@@ -84,12 +87,7 @@ class FeatureFlagTable {
       code: code,
       getName: getName,
       isEnabled: () => _isEnabled(code),
-      saveEnabled: ({required enabled}) {
-        _saveEnabled(code, enabled: enabled);
-        for (final featureFlag in featureFlags) {
-          featureFlag.enabled = enabled;
-        }
-      },
+      saveEnabled: ({required enabled}) => _saveEnabled(code, enabled: enabled),
       featureFlags: featureFlags,
     );
 
