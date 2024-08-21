@@ -16,7 +16,7 @@ class ExperimentalFeatureWrapper extends StatelessWidget {
   static Widget _defaultOnDisabled(BuildContext context) {
     return Container();
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return featureFlag.isEnabled() ? onEnabled(context) : onDisabled(context);
