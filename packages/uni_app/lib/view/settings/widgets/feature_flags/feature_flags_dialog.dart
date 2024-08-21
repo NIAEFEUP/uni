@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uni/controller/feature_flags/feature_flag_table.dart';
 
 import 'package:uni/generated/l10n.dart';
+import 'package:uni/view/settings/widgets/feature_flags/feature_switch_tile.dart';
 
 class FeatureFlagsDialog extends StatefulWidget {
   const FeatureFlagsDialog({super.key});
@@ -12,32 +12,29 @@ class FeatureFlagsDialog extends StatefulWidget {
 }
 
 class FeatureFlagsDialogState extends State<FeatureFlagsDialog> {
-  late Future<SharedPreferences> _preferences;
-
   @override
   void initState() {
     super.initState();
-    _preferences = SharedPreferences.getInstance();
+  }
+
+  void refresh() {
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text(S.of(context).feature_flags),
-      content: FutureBuilder<SharedPreferences>(
-        future: _preferences,
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return Container();
-          }
-
-          return Column(
-            mainAxisSize: MainAxisSize.min,
-            children: FeatureFlagTable.getFeatureFlags()
-                .map((featureFlag) => Text(featureFlag.getName(context)))
-                .toList(),
-          );
-        },
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: FeatureFlagTable.getFeatureFlags()
+            .map(
+              (featureFlag) => FeatureSwitchTile(
+                featureFlag: featureFlag,
+                refreshDialog: refresh,
+              ),
+            )
+            .toList(),
       ),
     );
   }
