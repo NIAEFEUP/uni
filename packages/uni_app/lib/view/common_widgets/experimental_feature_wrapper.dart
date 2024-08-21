@@ -1,46 +1,24 @@
 import 'package:flutter/cupertino.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:uni/controller/local_storage/enabled_feature_controller.dart';
+import 'package:uni/model/feature_flags/generic_feature_flag.dart';
 
-class ExperimentalFeatureWrapper extends StatefulWidget {
+class ExperimentalFeatureWrapper extends StatelessWidget {
   const ExperimentalFeatureWrapper({
-    required this.featureCode,
-    required this.child,
+    required this.featureFlag,
+    required this.onEnabled,
+    this.onDisabled = _defaultOnDisabled,
     super.key,
   });
 
-  final String featureCode;
-  final Widget child;
+  final GenericFeatureFlag featureFlag;
+  final Widget Function(BuildContext) onEnabled;
+  final Widget Function(BuildContext) onDisabled;
 
-  @override
-  State<StatefulWidget> createState() => ExperimentalFeatureWrapperState();
-}
-
-class ExperimentalFeatureWrapperState
-    extends State<ExperimentalFeatureWrapper> {
-  late Future<SharedPreferences> _preferences;
-
-  @override
-  void initState() {
-    super.initState();
-    _preferences = SharedPreferences.getInstance();
+  static Widget _defaultOnDisabled(BuildContext context) {
+    return Container();
   }
-
+  
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: _preferences,
-      builder: (context, snapshot) {
-        if (!snapshot.hasData) {
-          return Container();
-        }
-
-        final enabledFeatureController =
-            EnabledFeatureController(snapshot.data!);
-        return enabledFeatureController.existsFeature(widget.featureCode)
-            ? widget.child
-            : Container();
-      },
-    );
+    return featureFlag.isEnabled() ? onEnabled(context) : onDisabled(context);
   }
 }
