@@ -14,6 +14,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ua_client_hints/ua_client_hints.dart';
 import 'package:uni/controller/background_workers/background_callback.dart';
 import 'package:uni/controller/cleanup.dart';
+import 'package:uni/controller/feature_flags/feature_flag_controller.dart';
+import 'package:uni/controller/feature_flags/feature_flag_table.dart';
 import 'package:uni/controller/fetchers/terms_and_conditions_fetcher.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
@@ -182,6 +184,9 @@ Future<void> main() async {
       );
     },
   );
+
+  final featureFlagController = FeatureFlagController(PreferencesController.prefs);
+  FeatureFlagTable.setController(featureFlagController);
 }
 
 /// Manages the state of the app.
