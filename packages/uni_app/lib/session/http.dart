@@ -6,7 +6,7 @@ import 'package:logger/logger.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/session/authentication_controller.dart';
 import 'package:uni/session/session.dart';
-
+/*
 class AuthenticatedClient extends http.BaseClient {
   AuthenticatedClient(
     http.Client inner, {
@@ -75,3 +75,4 @@ class AuthenticatedClient extends http.BaseClient {
   @override
   void close() => _inner.close();
 }
+*/
