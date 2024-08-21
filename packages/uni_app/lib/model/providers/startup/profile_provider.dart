@@ -13,7 +13,7 @@ import 'package:uni/controller/local_storage/database/app_user_database.dart';
 import 'package:uni/controller/local_storage/file_offline_storage.dart';
 import 'package:uni/controller/parsers/parser_fees.dart';
 import 'package:uni/controller/parsers/parser_print_balance.dart';
-import 'package:uni/controller/session/session.dart';
+import 'package:uni/session/session.dart';
 import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/entities/profile.dart';

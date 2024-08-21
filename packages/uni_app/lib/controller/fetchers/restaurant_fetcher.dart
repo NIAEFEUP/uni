@@ -1,6 +1,6 @@
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/parsers/parser_restaurants.dart';
-import 'package:uni/controller/session/session.dart';
+import 'package:uni/session/session.dart';
 import 'package:uni/model/entities/restaurant.dart';
 
 /// Class for fetching the menu

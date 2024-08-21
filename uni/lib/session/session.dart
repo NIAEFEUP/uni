@@ -1,10 +1,9 @@
 import 'dart:io';
 
-import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:uni/controller/session/credentials/session.dart';
-import 'package:uni/controller/session/federated/session.dart';
-import 'package:uni/controller/session/request.dart';
+import 'package:uni/session/credentials/session.dart';
+import 'package:uni/session/federated/session.dart';
+import 'package:uni/session/request.dart';
 
 const _sessionsFromJson = [
   FederatedSession.fromJson,
@@ -41,10 +40,9 @@ abstract class Session {
   @CookieConverter()
   final List<Cookie> cookies; // TODO(limwa): use a CookieJar
 
-  SessionRequest createRefreshRequest();
+  String get mainFaculty => faculties.first;
 
-  @mustCallSuper
-  Future<void> close() async {}
+  SessionRequest createRefreshRequest();
 }
 
 class CookieConverter implements JsonConverter<Cookie, String> {

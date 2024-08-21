@@ -245,7 +245,10 @@ class BugReportFormState extends State<BugReportForm> {
     setState(() {
       _isButtonTapped = true;
     });
-    final faculties = PreferencesController.getUserFaculties();
+    final savedSession = await PreferencesController.getSavedSession();
+    final faculties = savedSession?.faculties ??
+        []; // FIXME: get session from provider so that even non-persisted sessions can be used
+
     final bugReport = BugReport(
       titleController.text,
       descriptionController.text,

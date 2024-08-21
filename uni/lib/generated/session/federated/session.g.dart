@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of '../../../../controller/session/federated/session.dart';
+part of '../../../session/federated/session.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:uni/controller/session/session.dart';
+import 'package:uni/session/session.dart';
 
 class FacultyFilter extends StatelessWidget {
   const FacultyFilter({

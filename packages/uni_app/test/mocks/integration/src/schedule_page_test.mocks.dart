@@ -12,11 +12,11 @@ import 'package:flutter/material.dart' as _i12;
 import 'package:http/http.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i5;
-import 'package:uni/controller/session/request.dart' as _i11;
-import 'package:uni/controller/session/session.dart' as _i9;
 import 'package:uni/model/providers/startup/session_provider.dart' as _i7;
 import 'package:uni/model/providers/state_providers.dart' as _i10;
 import 'package:uni/model/request_status.dart' as _i8;
+import 'package:uni/session/request.dart' as _i11;
+import 'package:uni/session/session.dart' as _i9;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values

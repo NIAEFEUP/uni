@@ -3,7 +3,7 @@ import 'package:tuple/tuple.dart';
 import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/parsers/parser_schedule_html.dart';
-import 'package:uni/controller/session/session.dart';
+import 'package:uni/session/session.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/utils/time/week.dart';

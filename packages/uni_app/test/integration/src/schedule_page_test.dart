@@ -8,7 +8,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/controller/networking/network_router.dart';
-import 'package:uni/controller/session/session.dart';
+import 'package:uni/session/session.dart';
 import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/providers/lazy/lecture_provider.dart';

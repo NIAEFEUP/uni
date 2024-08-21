@@ -2,7 +2,7 @@ import 'dart:collection';
 
 import 'package:tuple/tuple.dart';
 import 'package:uni/controller/fetchers/course_units_fetcher/course_units_info_fetcher.dart';
-import 'package:uni/controller/session/session.dart';
+import 'package:uni/session/session.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/entities/course_units/course_unit_class.dart';
 import 'package:uni/model/entities/course_units/course_unit_directory.dart';

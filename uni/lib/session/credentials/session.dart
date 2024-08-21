@@ -1,8 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:uni/controller/session/credentials/request.dart';
-import 'package:uni/controller/session/session.dart';
+import 'package:uni/session/credentials/request.dart';
+import 'package:uni/session/session.dart';
 
-part '../../../generated/controller/session/credentials/session.g.dart';
+part '../../generated/session/credentials/session.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class CredentialsSession extends Session {
@@ -30,4 +30,18 @@ class CredentialsSession extends Session {
         username: username,
         password: password,
       );
+
+  // @override
+  // Future<void> close() async {
+  //   await super.close();
+
+  //   final url = '${NetworkRouter.getBaseUrl(faculties[0])}vld_validacao.sair';
+  //   final response = await http.get(url.toUri()); // TODO: make use of UniClient
+
+  //   if (response.statusCode == 200) {
+  //     Logger().i('Logout Successful');
+  //   } else {
+  //     Logger().i('Logout Failed');
+  //   }
+  // }
 }

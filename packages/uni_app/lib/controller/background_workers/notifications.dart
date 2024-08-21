@@ -10,7 +10,7 @@ import 'package:tuple/tuple.dart';
 import 'package:uni/controller/background_workers/notifications/tuition_notification.dart';
 import 'package:uni/controller/local_storage/notification_timeout_storage.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
-import 'package:uni/controller/session/session.dart';
+import 'package:uni/session/session.dart';
 import 'package:workmanager/workmanager.dart';
 
 ///

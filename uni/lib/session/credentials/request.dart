@@ -1,12 +1,13 @@
+import 'package:http/http.dart' as http;
 import 'package:json_annotation/json_annotation.dart';
 import 'package:uni/controller/fetchers/faculties_fetcher.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/parsers/parser_session.dart';
-import 'package:uni/controller/session/credentials/session.dart';
-import 'package:uni/controller/session/request.dart';
 import 'package:uni/model/entities/login_exceptions.dart';
+import 'package:uni/session/credentials/session.dart';
+import 'package:uni/session/request.dart';
 
-part '../../../generated/controller/session/credentials/request.g.dart';
+part '../../generated/session/credentials/request.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class CredentialsSessionRequest extends SessionRequest {
@@ -19,9 +20,9 @@ class CredentialsSessionRequest extends SessionRequest {
   final String password;
 
   @override
-  Future<CredentialsSession> perform() async {
+  Future<CredentialsSession> perform([http.Client? client]) async {
+    // TODO (limwa): Use client
     // We need to login to fetch the faculties, so perform a temporary login.
-
     final tempSession = await NetworkRouter.login(username, password);
 
     if (tempSession == null) {

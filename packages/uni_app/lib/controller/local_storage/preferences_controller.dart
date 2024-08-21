@@ -5,7 +5,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:uni/controller/session/session.dart';
+import 'package:uni/session/session.dart';
 import 'package:uni/model/entities/app_locale.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/utils/favorite_widget_type.dart';
@@ -71,7 +71,9 @@ class PreferencesController {
     Session session,
   ) async {
     await _secureStorage.write(
-        key: _userSession, value: jsonEncode(session.toJson()));
+      key: _userSession,
+      value: jsonEncode(session.toJson()),
+    );
   }
 
   static Future<Session?> getSavedSession() async {
@@ -82,6 +84,10 @@ class PreferencesController {
 
     final json = jsonDecode(value) as Map<String, dynamic>;
     return Session.fromJson(json);
+  }
+
+  static Future<bool> isSessionPersistent() async {
+    return _secureStorage.containsKey(key: _userSession);
   }
 
   /// Sets whether or not the Terms and Conditions have been accepted.

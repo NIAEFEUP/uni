@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of '../../../../controller/session/credentials/session.dart';
+part of '../../../session/credentials/session.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
