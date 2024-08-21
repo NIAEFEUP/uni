@@ -28,34 +28,37 @@ class FeatureSwitchTileState extends State<FeatureSwitchTile> {
   @override
   Widget build(BuildContext context) {
     return widget.featureFlag is FeatureFlag
-      ? ListTile(
-        title: Text(widget.featureFlag.getName(context)),
-        trailing: Switch.adaptive(
-          value: widget.featureFlag.isEnabled(),
-          onChanged: _onChanged,
-        ),
-      )
-      : Column(
-        children: [
-          ListTile(
-            title: Text(
-              widget.featureFlag.getName(context),
-            ),
+        ? ListTile(
+            title: Text(widget.featureFlag.getName(context)),
             trailing: Switch.adaptive(
               value: widget.featureFlag.isEnabled(),
               onChanged: _onChanged,
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 24),
-            child: Column(
-              children: (widget.featureFlag as FeatureFlagGroup)
-                .getFeatureFlags()
-                .map((featureFlag) => FeatureSwitchTile(featureFlag: featureFlag))
-                .toList(),
-            ),
-          ),
-        ],
-      );
+          )
+        : Column(
+            children: [
+              ListTile(
+                title: Text(
+                  widget.featureFlag.getName(context),
+                ),
+                trailing: Switch.adaptive(
+                  value: widget.featureFlag.isEnabled(),
+                  onChanged: _onChanged,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 24),
+                child: Column(
+                  children: (widget.featureFlag as FeatureFlagGroup)
+                      .getFeatureFlags()
+                      .map(
+                        (featureFlag) =>
+                            FeatureSwitchTile(featureFlag: featureFlag),
+                      )
+                      .toList(),
+                ),
+              ),
+            ],
+          );
   }
 }
