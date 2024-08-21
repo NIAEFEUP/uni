@@ -21,36 +21,31 @@ class ScheduleFetcherNewApi extends ScheduleFetcher {
     final endpoints = getEndpoints(session);
     final lectiveYear = getLectiveYear(DateTime.now());
 
-    final futures = <Future<List<Lecture>>>[];
+    final futures = endpoints.map((baseUrl) async {
+      final scheduleResponse = await NetworkRouter.getWithCookies(
+        baseUrl,
+        {
+          'pv_num_unico': session.username,
+          'pv_ano_lectivo': lectiveYear.toString(),
+          'pv_periodos': '1',
+        },
+        session,
+      );
 
-    for (final baseUrl in endpoints) {
-      final future = Future(() async {
-        final scheduleResponse = await NetworkRouter.getWithCookies(
-          baseUrl,
-          {
-            'pv_num_unico': session.username,
-            'pv_ano_lectivo': lectiveYear.toString(),
-            'pv_periodos': '1',
-          },
-          session,
-        );
+      final scheduleApiUrl = getScheduleApiUrlFromHtml(scheduleResponse);
 
-        final scheduleApiUrl = getScheduleApiUrlFromHtml(scheduleResponse);
+      final scheduleApiResponse = await NetworkRouter.getWithCookies(
+        scheduleApiUrl,
+        {},
+        session,
+      );
 
-        final scheduleApiResponse = await NetworkRouter.getWithCookies(
-          scheduleApiUrl,
-          {},
-          session,
-        );
-
-        return getLecturesFromApiResponse(scheduleApiResponse);
-      });
-
-      futures.add(future);
-    }
+      return getLecturesFromApiResponse(scheduleApiResponse);
+    });
 
     final results = await Future.wait(futures);
 
+    // TODO(limwa,#1281): Check if handling of lectures in both faculties is correct.
     final lectures = results.expand((element) => element).toList()
       ..sort((l1, l2) => l1.compare(l2));
 
