@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:uni/session/base/session.dart';
 import 'package:uni/session/credentials/request.dart';
-import 'package:uni/session/session.dart';
 
 part '../../generated/session/credentials/session.g.dart';
 

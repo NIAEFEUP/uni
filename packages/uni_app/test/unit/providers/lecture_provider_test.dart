@@ -4,12 +4,12 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher.dart';
 import 'package:uni/controller/networking/network_router.dart';
-import 'package:uni/session/session.dart';
 import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/providers/lazy/lecture_provider.dart';
 import 'package:uni/model/request_status.dart';
+import 'package:uni/session/base/session.dart';
 
 import '../../mocks/unit/providers/lecture_provider_test.mocks.dart';
 import '../../test_widget.dart';

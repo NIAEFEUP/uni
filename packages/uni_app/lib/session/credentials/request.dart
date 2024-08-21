@@ -4,8 +4,8 @@ import 'package:uni/controller/fetchers/faculties_fetcher.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/parsers/parser_session.dart';
 import 'package:uni/model/entities/login_exceptions.dart';
+import 'package:uni/session/base/request.dart';
 import 'package:uni/session/credentials/session.dart';
-import 'package:uni/session/request.dart';
 
 part '../../generated/session/credentials/request.g.dart';
 
@@ -20,7 +20,7 @@ class CredentialsSessionRequest extends SessionRequest {
   final String password;
 
   @override
-  Future<CredentialsSession> perform([http.Client? client]) async {
+  Future<CredentialsSession> perform([http.Client? httpClient]) async {
     // TODO (limwa): Use client
     // We need to login to fetch the faculties, so perform a temporary login.
     final tempSession = await NetworkRouter.login(username, password);

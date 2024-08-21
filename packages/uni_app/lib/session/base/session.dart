@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:json_annotation/json_annotation.dart';
+import 'package:uni/session/base/request.dart';
 import 'package:uni/session/credentials/session.dart';
 import 'package:uni/session/federated/session.dart';
-import 'package:uni/session/request.dart';
 
 const _sessionsFromJson = [
   FederatedSession.fromJson,

@@ -9,12 +9,12 @@ import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/parsers/parser_exams.dart';
-import 'package:uni/session/session.dart';
 import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/providers/lazy/exam_provider.dart';
+import 'package:uni/session/base/session.dart';
 import 'package:uni/view/exams/exams.dart';
 
 import '../../mocks/integration/src/exams_page_test.mocks.dart';

@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:http/http.dart' as http;
-import 'package:uni/session/authentication_exception.dart';
-import 'package:uni/session/initiator.dart';
-import 'package:uni/session/session.dart';
+import 'package:uni/session/base/initiator.dart';
+import 'package:uni/session/base/session.dart';
+import 'package:uni/session/exceptions.dart';
 
 /// In the authentication flow, a [SessionRequest] is the component responsible
 /// for performing the actual authentication of the user. A [SessionRequest]
@@ -17,5 +17,5 @@ abstract class SessionRequest {
   ///
   /// If the authentication fails, the method will throw an
   /// [AuthenticationException].
-  FutureOr<Session> perform([http.Client? client]);
+  FutureOr<Session> perform([http.Client? httpClient]);
 }

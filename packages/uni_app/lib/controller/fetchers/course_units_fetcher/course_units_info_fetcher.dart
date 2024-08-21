@@ -2,11 +2,11 @@ import 'package:html/parser.dart';
 import 'package:uni/controller/fetchers/session_dependant_fetcher.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/parsers/parser_course_unit_info.dart';
-import 'package:uni/session/session.dart';
 import 'package:uni/model/entities/course_units/course_unit_class.dart';
 import 'package:uni/model/entities/course_units/course_unit_directory.dart';
 import 'package:uni/model/entities/course_units/course_unit_sheet.dart';
 import 'package:uni/model/entities/course_units/sheet.dart';
+import 'package:uni/session/base/session.dart';
 
 class CourseUnitsInfoFetcher implements SessionDependantFetcher {
   @override

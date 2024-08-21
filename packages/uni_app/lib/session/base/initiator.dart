@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:uni/session/request.dart';
+import 'package:uni/session/base/request.dart';
 
 /// In the authentication flow, the [SessionInitiator] is the component
 /// responsible for handling the initial intention of the user to authenticate

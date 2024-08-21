@@ -1,8 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:openid_client/openid_client.dart';
+import 'package:uni/session/base/session.dart';
 import 'package:uni/session/federated/request.dart';
-import 'package:uni/session/session.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 part '../../generated/session/federated/session.g.dart';
 

@@ -1,7 +1,7 @@
 import 'package:http/http.dart';
 import 'package:uni/controller/fetchers/session_dependant_fetcher.dart';
 import 'package:uni/controller/networking/network_router.dart';
-import 'package:uni/session/session.dart';
+import 'package:uni/session/base/session.dart';
 
 class ReferenceFetcher implements SessionDependantFetcher {
   @override

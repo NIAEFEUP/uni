@@ -1,18 +1,18 @@
 import 'dart:async';
 
 import 'package:synchronized/synchronized.dart';
-import 'package:uni/session/session.dart';
+import 'package:uni/session/base/session.dart';
 
 class AuthenticationSnapshot {
   AuthenticationSnapshot(
     this.session, {
-    required void Function(AuthenticationSnapshot snapshot) onInvalidate,
-  }) : _onInvalidate = onInvalidate;
+    required Future<void> Function(AuthenticationSnapshot) invalidate,
+  }) : _invalidate = invalidate;
 
   final Session session;
-  final FutureOr<void> Function(AuthenticationSnapshot) _onInvalidate;
+  final Future<void> Function(AuthenticationSnapshot) _invalidate;
 
-  FutureOr<void> invalidate() => _onInvalidate(this);
+  Future<void> invalidate() => _invalidate(this);
 }
 
 class AuthenticationController {
@@ -31,15 +31,8 @@ class AuthenticationController {
 
     return AuthenticationSnapshot(
       _session,
-      onInvalidate: (snapshot) => _invalidate(snapshot.session),
+      invalidate: (snapshot) => _invalidate(snapshot.session),
     );
-  }
-
-  Future<void> _reauthenticate() async {
-    final refreshRequest = _session.createRefreshRequest();
-    _session = await refreshRequest.perform();
-
-    await _authenticationLock.synchronized(() => _nextAuthentication = null);
   }
 
   Future<void> _invalidate(Session session) async {
@@ -56,5 +49,12 @@ class AuthenticationController {
 
       _nextAuthentication = _reauthenticate();
     });
+  }
+
+  Future<void> _reauthenticate() async {
+    final refreshRequest = _session.createRefreshRequest();
+    _session = await refreshRequest.perform();
+
+    await _authenticationLock.synchronized(() => _nextAuthentication = null);
   }
 }

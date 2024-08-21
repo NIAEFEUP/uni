@@ -3,12 +3,12 @@ import 'dart:async';
 import 'package:uni/controller/fetchers/exam_fetcher.dart';
 import 'package:uni/controller/local_storage/database/app_exams_database.dart';
 import 'package:uni/controller/parsers/parser_exams.dart';
-import 'package:uni/session/session.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/model/providers/state_providers.dart';
+import 'package:uni/session/base/session.dart';
 
 class ExamProvider extends StateProviderNotifier<List<Exam>> {
   ExamProvider() : super(cacheDuration: const Duration(days: 1));

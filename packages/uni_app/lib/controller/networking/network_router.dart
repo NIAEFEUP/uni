@@ -1,15 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:http/http.dart' as http;
-import 'package:http/http.dart';
 import 'package:logger/logger.dart';
-import 'package:synchronized/synchronized.dart';
+import 'package:uni/http/client/cookie.dart';
+import 'package:uni/http/utils.dart';
+import 'package:uni/session/base/session.dart';
 import 'package:uni/session/credentials/session.dart';
-import 'package:uni/session/session.dart';
 import 'package:uni/utils/constants.dart';
-import 'package:uni/view/navigation_service.dart';
 
 extension UriString on String {
   /// Converts a [String] to an [Uri].
@@ -66,8 +64,6 @@ class NetworkRouter {
     );
 
     Logger().i('Login successful');
-    _lastLoginTime = DateTime.now();
-    _cachedSession = session;
 
     return session;
   }
@@ -101,5 +97,18 @@ class NetworkRouter {
   /// Returns the base url from the user's previous session.
   static List<String> getBaseUrlsFromSession(Session session) {
     return NetworkRouter.getBaseUrls(session.faculties);
+  }
+
+  static Future<http.Response> getWithCookies(
+    String url,
+    Map<String, String> headers,
+    Session session,
+  ) async {
+    final client = CookieClient(
+      httpClient ?? http.Client(),
+      cookies: () => session.cookies,
+    );
+
+    return client.get(url.toUri(), headers: headers);
   }
 }

@@ -18,10 +18,10 @@ import 'package:uni/model/providers/state_providers.dart';
 
 Future<void> cleanupStoredData(BuildContext context) async {
   final providers = StateProviders.fromContext(context);
-  final session = providers.sessionProvider.state;
-  if (session != null) {
-    unawaited(session.close());
-  }
+  // final session = providers.sessionProvider.state;
+  // if (session != null) {
+  //   unawaited(session.close());
+  // }
 
   providers.invalidate();
 
@@ -36,8 +36,8 @@ Future<void> cleanupStoredData(BuildContext context) async {
     AppLastUserInfoUpdateDatabase().deleteLastUpdate(),
     AppBusStopDatabase().deleteBusStops(),
     AppCourseUnitsDatabase().deleteCourseUnits(),
-    if (session != null)
-      NetworkRouter.killSigarraAuthentication(session.faculties),
+    // if (session != null)
+    //   NetworkRouter.killSigarraAuthentication(session.faculties),
     PreferencesController.removeSavedSession(),
   ]);
 

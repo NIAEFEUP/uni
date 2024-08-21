@@ -1,5 +1,5 @@
+import 'package:uni/session/base/initiator.dart';
 import 'package:uni/session/credentials/request.dart';
-import 'package:uni/session/initiator.dart';
 
 class CredentialsSessionInitiator extends SessionInitiator {
   CredentialsSessionInitiator({

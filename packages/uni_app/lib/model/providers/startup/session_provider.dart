@@ -5,12 +5,12 @@ import 'package:openid_client/openid_client.dart';
 import 'package:uni/controller/background_workers/notifications.dart';
 import 'package:uni/controller/fetchers/terms_and_conditions_fetcher.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
-import 'package:uni/session/federated/request.dart';
-import 'package:uni/session/request.dart';
-import 'package:uni/session/session.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/model/providers/state_providers.dart';
 import 'package:uni/model/request_status.dart';
+import 'package:uni/session/base/request.dart';
+import 'package:uni/session/base/session.dart';
+import 'package:uni/session/federated/request.dart';
 import 'package:uni/utils/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 

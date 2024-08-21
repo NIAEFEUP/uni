@@ -5,9 +5,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:uni/session/session.dart';
 import 'package:uni/model/entities/app_locale.dart';
 import 'package:uni/model/entities/exam.dart';
+import 'package:uni/session/base/session.dart';
 import 'package:uni/utils/favorite_widget_type.dart';
 
 /// Manages the app's Shared Preferences.
