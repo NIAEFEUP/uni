@@ -333,7 +333,7 @@
   "wrong_credentials_exception": "Credenciais inválidas",
   "@wrong_credentials_exception": {},
   "internet_status_exception": "Verifique sua conexão com a internet",
-  "@internet_status_exception": {}
+  "@internet_status_exception": {},
   "feature_flags": "Features experimentais",
   "@feature_flags": {},
   "library_modules": "Módulos da biblioteca",
