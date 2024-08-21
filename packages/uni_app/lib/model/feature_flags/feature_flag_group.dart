@@ -7,7 +7,7 @@ class FeatureFlagGroup extends GenericFeatureFlag {
     required this.code,
     required String Function(BuildContext) getName,
     required bool Function() isEnabled,
-    required void Function({required bool enabled}) saveEnabled,
+    required Future<void> Function({required bool enabled}) saveEnabled,
     required List<FeatureFlag> featureFlags,
   })  : _getName = getName,
         _isEnabled = isEnabled,
@@ -18,21 +18,21 @@ class FeatureFlagGroup extends GenericFeatureFlag {
   final String code;
   final String Function(BuildContext) _getName;
   final bool Function() _isEnabled;
-  final void Function({required bool enabled}) _saveEnabled;
+  final Future<void> Function({required bool enabled}) _saveEnabled;
   final List<FeatureFlag> _featureFlags;
 
   @override
   String getName(BuildContext context) => _getName(context);
 
   @override
-  bool get enabled => _isEnabled();
+  bool isEnabled() => _isEnabled();
 
   @override
-  set enabled(bool enabled) {
-    _saveEnabled(enabled: enabled);
+  Future<void> setEnabled({required bool enabled}) async {
+    await _saveEnabled(enabled: enabled);
 
     for (final featureFlag in _featureFlags) {
-      featureFlag.enabled = enabled;
+      await featureFlag.setEnabled(enabled: enabled);
     }
   }
 
