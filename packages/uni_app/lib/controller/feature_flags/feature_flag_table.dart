@@ -13,11 +13,14 @@ List<GenericFeatureFlagInfo> featureFlagInfos = [
 ];
 
 class FeatureFlagTable {
-  static final List<GenericFeatureFlag> _featureFlags = _toFeatureFlags(featureFlagInfos);            // To preserve order
-  static final Map<String, GenericFeatureFlag> _featureFlagsMap = _toFeatureFlagsMap(_featureFlags);  // For fast lookup
+  static final List<GenericFeatureFlag> _featureFlags =
+      _toFeatureFlags(featureFlagInfos); // To preserve order
+  static final Map<String, GenericFeatureFlag> _featureFlagsMap =
+      _toFeatureFlagsMap(_featureFlags); // For fast lookup
   static FeatureFlagController? _controller;
 
-  static List<GenericFeatureFlag> _toFeatureFlags(List<GenericFeatureFlagInfo> featureFlagInfos) {
+  static List<GenericFeatureFlag> _toFeatureFlags(
+      List<GenericFeatureFlagInfo> featureFlagInfos) {
     final featureFlags = <GenericFeatureFlag>[];
 
     for (final featureFlagInfo in featureFlagInfos) {
@@ -31,7 +34,8 @@ class FeatureFlagTable {
     return featureFlags;
   }
 
-  static Map<String, GenericFeatureFlag> _toFeatureFlagsMap(List<GenericFeatureFlag> featureFlags) {
+  static Map<String, GenericFeatureFlag> _toFeatureFlagsMap(
+      List<GenericFeatureFlag> featureFlags) {
     final featureFlagsMap = <String, GenericFeatureFlag>{};
 
     for (final featureFlag in featureFlags) {
@@ -69,10 +73,12 @@ class FeatureFlagTable {
     );
   }
 
-  static GenericFeatureFlag _createFeatureFlagGroup(FeatureFlagGroupInfo featureFlagGroupInfo) {
+  static GenericFeatureFlag _createFeatureFlagGroup(
+      FeatureFlagGroupInfo featureFlagGroupInfo) {
     final code = featureFlagGroupInfo.code;
     final getName = featureFlagGroupInfo.getName;
-    final featureFlags = featureFlagGroupInfo.featureFlags.map(_createFeatureFlag).toList();
+    final featureFlags =
+        featureFlagGroupInfo.featureFlags.map(_createFeatureFlag).toList();
 
     final featureFlagGroup = FeatureFlagGroup(
       code: code,

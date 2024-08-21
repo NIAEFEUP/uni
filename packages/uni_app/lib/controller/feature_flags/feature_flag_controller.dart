@@ -12,7 +12,7 @@ class FeatureFlagController {
     return preferences.getBool(_getKey(code)) ?? false;
   }
 
-  void saveEnabled(String code, { required bool enabled }) {
+  void saveEnabled(String code, {required bool enabled}) {
     preferences.setBool(_getKey(code), enabled);
   }
 }

@@ -11,7 +11,7 @@ class FeatureSwitch extends StatelessWidget {
     return Switch(
       value: featureFlag.enabled,
       onChanged: (value) {
-       featureFlag.enabled = value; 
+        featureFlag.enabled = value;
       },
     );
   }

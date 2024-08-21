@@ -187,7 +187,8 @@ Future<void> main() async {
     },
   );
 
-  final featureFlagController = FeatureFlagController(PreferencesController.prefs);
+  final featureFlagController =
+      FeatureFlagController(PreferencesController.prefs);
   FeatureFlagTable.setController(featureFlagController);
 }
 
