@@ -33,7 +33,9 @@ class FeatureFlagsDialogState extends State<FeatureFlagsDialog> {
 
           return Column(
             mainAxisSize: MainAxisSize.min,
-            children: FeatureFlagTable.getFeatureFlags().map((featureFlag) => Text(featureFlag.getName(context))).toList(),
+            children: FeatureFlagTable.getFeatureFlags()
+                .map((featureFlag) => Text(featureFlag.getName(context)))
+                .toList(),
           );
         },
       ),

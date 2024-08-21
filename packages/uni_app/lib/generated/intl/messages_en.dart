@@ -238,7 +238,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "occurrence_type":
             MessageLookupByLibrary.simpleMessage("Type of occurrence"),
         "of_month": MessageLookupByLibrary.simpleMessage("of"),
-        "of_month": MessageLookupByLibrary.simpleMessage("of"),
         "open_error":
             MessageLookupByLibrary.simpleMessage("Error opening the file"),
         "other_links": MessageLookupByLibrary.simpleMessage("Other links"),
