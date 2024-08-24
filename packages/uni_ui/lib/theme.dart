@@ -45,5 +45,6 @@ ThemeData lightTheme = ThemeData(
   dividerColor: lightGray,
   hintColor: lightGray,
   indicatorColor: darkRed,
+  secondaryHeaderColor: normalGray,
   iconTheme: const IconThemeData(color: darkRed),
 );
