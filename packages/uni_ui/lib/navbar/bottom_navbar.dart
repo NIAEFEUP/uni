@@ -21,28 +21,34 @@ class _BottomNavbarContainer extends StatelessWidget {
           )
         )
       ),
-      child: Container(
-        decoration: BoxDecoration(
-          gradient: RadialGradient(
-            colors: [
-              Theme.of(context).colorScheme.tertiary.withAlpha(0x3f),
-              Colors.transparent,
-            ],
-            center: Alignment(-0.5, -1.0),
-            radius: 2.5,
-          ),
+      child: ClipSmoothRect(
+        radius: SmoothBorderRadius(
+          cornerRadius: 20,
+          cornerSmoothing: 1,
         ),
         child: Container(
           decoration: BoxDecoration(
-              gradient: RadialGradient(
-            colors: [
-              Theme.of(context).colorScheme.tertiary.withAlpha(0x3f),
-              Colors.transparent,
-            ],
-            center: Alignment.bottomRight,
-            radius: 2.5,
-          )),
-          child: child,
+            gradient: RadialGradient(
+              colors: [
+                Theme.of(context).colorScheme.tertiary.withAlpha(0x3f),
+                Colors.transparent,
+              ],
+              center: Alignment(-0.5, -1.0),
+              radius: 2.5,
+            ),
+          ),
+          child: Container(
+            decoration: BoxDecoration(
+                gradient: RadialGradient(
+              colors: [
+                Theme.of(context).colorScheme.tertiary.withAlpha(0x3f),
+                Colors.transparent,
+              ],
+              center: Alignment.bottomRight,
+              radius: 2.5,
+            )),
+            child: child,
+          ),
         ),
       ),
     );
