@@ -28,22 +28,21 @@ class _BottomNavbarContainer extends StatelessWidget {
                 ],
                 center: Alignment(-0.5, -1.0),
                 radius: 2.5,
-              )
+              ),
             ),
             child: Container(
               decoration: BoxDecoration(
-                gradient: RadialGradient(
-                  colors: [
-                    Theme.of(context).colorScheme.tertiary.withAlpha(0x3f),
-                    Colors.transparent,
-                  ],
-                  center: Alignment.bottomRight,
-                  radius: 2.5,
-                )
-              ),
+                  gradient: RadialGradient(
+                colors: [
+                  Theme.of(context).colorScheme.tertiary.withAlpha(0x3f),
+                  Colors.transparent,
+                ],
+                center: Alignment.bottomRight,
+                radius: 2.5,
+              )),
               child: child,
             ),
-          )
+          ),
         ),
       ),
     );
@@ -83,7 +82,9 @@ class _BottomNavbarState extends State<BottomNavbar> {
           elevation: 0,
           iconSize: 32,
           type: BottomNavigationBarType.fixed,
-          items: widget.items.map((item) => item.toBottomNavigationBarItem(context)).toList(),
+          items: widget.items
+              .map((item) => item.toBottomNavigationBarItem(context))
+              .toList(),
           selectedFontSize: 0,
           unselectedFontSize: 0,
           showSelectedLabels: false,
