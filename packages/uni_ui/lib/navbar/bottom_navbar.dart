@@ -10,39 +10,39 @@ class _BottomNavbarContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(20),
       height: 80,
-      child: ClipSmoothRect(
-        radius: SmoothBorderRadius(
-          cornerRadius: 20,
-          cornerSmoothing: 1,
+      margin: EdgeInsets.only(left: 20, right: 20, bottom: 20),
+      decoration: ShapeDecoration(
+        color: Theme.of(context).colorScheme.primary,
+        shape: SmoothRectangleBorder(
+          borderRadius: SmoothBorderRadius(
+            cornerRadius: 20,
+            cornerSmoothing: 1,
+          )
+        )
+      ),
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: RadialGradient(
+            colors: [
+              Theme.of(context).colorScheme.tertiary.withAlpha(0x3f),
+              Colors.transparent,
+            ],
+            center: Alignment(-0.5, -1.0),
+            radius: 2.5,
+          ),
         ),
         child: Container(
-          color: Theme.of(context).colorScheme.primary,
-          child: Container(
-            decoration: BoxDecoration(
+          decoration: BoxDecoration(
               gradient: RadialGradient(
-                colors: [
-                  Theme.of(context).colorScheme.tertiary.withAlpha(0x3f),
-                  Colors.transparent,
-                ],
-                center: Alignment(-0.5, -1.0),
-                radius: 2.5,
-              ),
-            ),
-            child: Container(
-              decoration: BoxDecoration(
-                  gradient: RadialGradient(
-                colors: [
-                  Theme.of(context).colorScheme.tertiary.withAlpha(0x3f),
-                  Colors.transparent,
-                ],
-                center: Alignment.bottomRight,
-                radius: 2.5,
-              )),
-              child: child,
-            ),
-          ),
+            colors: [
+              Theme.of(context).colorScheme.tertiary.withAlpha(0x3f),
+              Colors.transparent,
+            ],
+            center: Alignment.bottomRight,
+            radius: 2.5,
+          )),
+          child: child,
         ),
       ),
     );
