@@ -1,6 +1,5 @@
 import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:uni_ui/navbar/bottom_navbar_item.dart';
 
 class _BottomNavbarContainer extends StatelessWidget {
@@ -11,7 +10,6 @@ class _BottomNavbarContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.transparent,
       margin: EdgeInsets.all(20),
       height: 80,
       child: ClipSmoothRect(
@@ -52,8 +50,24 @@ class _BottomNavbarContainer extends StatelessWidget {
   }
 }
 
-class BottomNavbar extends StatelessWidget {
-  BottomNavbar({super.key});
+class BottomNavbar extends StatefulWidget {
+  BottomNavbar({super.key, required this.items});
+
+  final List<BottomNavbarItem> items;
+
+  @override
+  _BottomNavbarState createState() => _BottomNavbarState();
+}
+
+class _BottomNavbarState extends State<BottomNavbar> {
+  void _refresh() {
+    setState(() {});
+  }
+
+  void _onTap(int index) {
+    widget.items[index].onTap();
+    _refresh();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,20 +78,12 @@ class BottomNavbar extends StatelessWidget {
           highlightColor: Colors.transparent,
         ),
         child: BottomNavigationBar(
+          onTap: _onTap,
           backgroundColor: Colors.transparent,
           elevation: 0,
           iconSize: 32,
           type: BottomNavigationBarType.fixed,
-          items: [
-            PhosphorIcons.house(PhosphorIconsStyle.duotone),
-            PhosphorIcons.graduationCap(PhosphorIconsStyle.duotone),
-            PhosphorIcons.forkKnife(PhosphorIconsStyle.duotone),
-            PhosphorIcons.buildings(PhosphorIconsStyle.duotone),
-            PhosphorIcons.mapTrifold(PhosphorIconsStyle.duotone),
-          ]
-            .map((icon) => BottomNavbarItem(icon: icon))
-            .map((item) => item.toBottomNavigationBarItem(context, true))
-            .toList(),
+          items: widget.items.map((item) => item.toBottomNavigationBarItem(context)).toList(),
           selectedFontSize: 0,
           unselectedFontSize: 0,
           showSelectedLabels: false,
