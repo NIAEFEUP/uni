@@ -10,10 +10,15 @@ class BottomNavbarItem {
 
   BottomNavigationBarItem toBottomNavigationBarItem(
     BuildContext context,
+    bool selected,
   ) {
     return BottomNavigationBarItem(
       icon: Container(
         padding: EdgeInsets.all(6),
+        decoration: selected ? BoxDecoration(
+          color: Theme.of(context).colorScheme.tertiary.withAlpha(0x2f),
+          borderRadius: BorderRadius.circular(10),
+        ) : null,
         child: PhosphorIcon(
           icon,
           color: Theme.of(context).colorScheme.secondary,

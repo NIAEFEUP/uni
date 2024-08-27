@@ -62,8 +62,6 @@ class BottomNavbar extends StatelessWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
         type: BottomNavigationBarType.fixed,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
         items: [
           PhosphorIcons.house(PhosphorIconsStyle.duotone),
           PhosphorIcons.graduationCap(PhosphorIconsStyle.duotone),
@@ -72,8 +70,12 @@ class BottomNavbar extends StatelessWidget {
           PhosphorIcons.mapTrifold(PhosphorIconsStyle.duotone),
         ]
           .map((icon) => BottomNavbarItem(icon: icon))
-          .map((item) => item.toBottomNavigationBarItem(context))
+          .map((item) => item.toBottomNavigationBarItem(context, true))
           .toList(),
+        selectedFontSize: 0,
+        unselectedFontSize: 0,
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
       ),
     );
   }
