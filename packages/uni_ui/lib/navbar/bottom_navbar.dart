@@ -1,6 +1,7 @@
 import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:uni_ui/navbar/bottom_navbar_item.dart';
 
 class _BottomNavbarContainer extends StatelessWidget {
   _BottomNavbarContainer({required this.child});
@@ -64,47 +65,15 @@ class BottomNavbar extends StatelessWidget {
         showSelectedLabels: false,
         showUnselectedLabels: false,
         items: [
-          BottomNavigationBarItem(
-            icon: PhosphorIcon(
-              PhosphorIcons.house(PhosphorIconsStyle.duotone),
-              color: Theme.of(context).colorScheme.secondary,
-              size: 32,
-            ),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: PhosphorIcon(
-              PhosphorIcons.graduationCap(PhosphorIconsStyle.duotone),
-              color: Theme.of(context).colorScheme.secondary,
-              size: 32,
-            ),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: PhosphorIcon(
-              PhosphorIcons.forkKnife(PhosphorIconsStyle.duotone),
-              color: Theme.of(context).colorScheme.secondary,
-              size: 32,
-            ),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: PhosphorIcon(
-              PhosphorIcons.buildings(PhosphorIconsStyle.duotone),
-              color: Theme.of(context).colorScheme.secondary,
-              size: 32,
-            ),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: PhosphorIcon(
-              PhosphorIcons.mapTrifold(PhosphorIconsStyle.duotone),
-              color: Theme.of(context).colorScheme.secondary,
-              size: 32,
-            ),
-            label: '',
-          ),
-        ],
+          PhosphorIcons.house(PhosphorIconsStyle.duotone),
+          PhosphorIcons.graduationCap(PhosphorIconsStyle.duotone),
+          PhosphorIcons.forkKnife(PhosphorIconsStyle.duotone),
+          PhosphorIcons.buildings(PhosphorIconsStyle.duotone),
+          PhosphorIcons.mapTrifold(PhosphorIconsStyle.duotone),
+        ]
+          .map((icon) => BottomNavbarItem(icon: icon))
+          .map((item) => item.toBottomNavigationBarItem(context))
+          .toList(),
       ),
     );
   }
