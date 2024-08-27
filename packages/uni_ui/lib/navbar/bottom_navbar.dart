@@ -58,24 +58,31 @@ class BottomNavbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _BottomNavbarContainer(
-      child: BottomNavigationBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        type: BottomNavigationBarType.fixed,
-        items: [
-          PhosphorIcons.house(PhosphorIconsStyle.duotone),
-          PhosphorIcons.graduationCap(PhosphorIconsStyle.duotone),
-          PhosphorIcons.forkKnife(PhosphorIconsStyle.duotone),
-          PhosphorIcons.buildings(PhosphorIconsStyle.duotone),
-          PhosphorIcons.mapTrifold(PhosphorIconsStyle.duotone),
-        ]
-          .map((icon) => BottomNavbarItem(icon: icon))
-          .map((item) => item.toBottomNavigationBarItem(context, true))
-          .toList(),
-        selectedFontSize: 0,
-        unselectedFontSize: 0,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
+      child: Theme(
+        data: Theme.of(context).copyWith(
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+        ),
+        child: BottomNavigationBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          iconSize: 32,
+          type: BottomNavigationBarType.fixed,
+          items: [
+            PhosphorIcons.house(PhosphorIconsStyle.duotone),
+            PhosphorIcons.graduationCap(PhosphorIconsStyle.duotone),
+            PhosphorIcons.forkKnife(PhosphorIconsStyle.duotone),
+            PhosphorIcons.buildings(PhosphorIconsStyle.duotone),
+            PhosphorIcons.mapTrifold(PhosphorIconsStyle.duotone),
+          ]
+            .map((icon) => BottomNavbarItem(icon: icon))
+            .map((item) => item.toBottomNavigationBarItem(context, true))
+            .toList(),
+          selectedFontSize: 0,
+          unselectedFontSize: 0,
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
+        ),
       ),
     );
   }

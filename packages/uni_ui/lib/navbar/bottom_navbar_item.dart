@@ -22,7 +22,6 @@ class BottomNavbarItem {
         child: PhosphorIcon(
           icon,
           color: Theme.of(context).colorScheme.secondary,
-          size: 32,
         ),
       ),
       label: '',
