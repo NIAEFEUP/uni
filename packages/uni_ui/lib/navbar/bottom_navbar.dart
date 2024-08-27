@@ -19,7 +19,14 @@ class _BottomNavbarContainer extends StatelessWidget {
             cornerRadius: 20,
             cornerSmoothing: 1,
           )
-        )
+        ),
+        shadows: [
+          BoxShadow(
+            color: Theme.of(context).colorScheme.shadow.withAlpha(0x7f),
+            blurRadius: 5,
+            offset: Offset(0, 3),
+          ),
+        ],
       ),
       child: ClipSmoothRect(
         radius: SmoothBorderRadius(
