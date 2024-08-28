@@ -86,7 +86,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
     return _BottomNavbarContainer(
       child: Theme(
         data: Theme.of(context).copyWith(
-          splashColor: Colors.transparent,
+          splashColor: Theme.of(context).colorScheme.tertiary.withAlpha(0x1f),
           highlightColor: Colors.transparent,
         ),
         child: BottomNavigationBar(
