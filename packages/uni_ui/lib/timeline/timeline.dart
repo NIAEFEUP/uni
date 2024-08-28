@@ -21,10 +21,14 @@ class _TimelineState extends State<Timeline> {
   final ItemScrollController _itemScrollController = ItemScrollController();
   final ItemPositionsListener _itemPositionsListener =
       ItemPositionsListener.create();
+  final ScrollController _tabScrollController = ScrollController();
+  final List<GlobalKey> _tabKeys = [];
 
   @override
   void initState() {
     super.initState();
+
+    _tabKeys.addAll(List.generate(widget.tabs.length, (index) => GlobalKey()));
 
     _itemPositionsListener.itemPositions.addListener(() {
       final positions = _itemPositionsListener.itemPositions.value;
@@ -35,19 +39,37 @@ class _TimelineState extends State<Timeline> {
                 current.itemLeadingEdge < next.itemLeadingEdge ? current : next)
             .index;
 
-        setState(() {
-          _currentIndex = firstVisibleIndex;
-        });
+        if (_currentIndex != firstVisibleIndex) {
+          setState(() {
+            _currentIndex = firstVisibleIndex;
+          });
+
+          _scrollToCenterTab(firstVisibleIndex);
+        }
       }
     });
   }
 
   void _onTabTapped(int index) {
-    setState(() {
-      _currentIndex = index;
-    });
     _itemScrollController.scrollTo(
       index: index,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
+    _scrollToCenterTab(index);
+  }
+
+  void _scrollToCenterTab(int index) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final RenderBox tabBox =
+        _tabKeys[index].currentContext!.findRenderObject() as RenderBox;
+    final tabPosition = tabBox.localToGlobal(Offset.zero);
+
+    final tabWidth = tabBox.size.width;
+    final offset = tabPosition.dx + (tabWidth / 2) - (screenWidth / 2);
+
+    _tabScrollController.animateTo(
+      _tabScrollController.offset + offset,
       duration: const Duration(milliseconds: 300),
       curve: Curves.easeInOut,
     );
@@ -59,6 +81,7 @@ class _TimelineState extends State<Timeline> {
       children: [
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
+          controller: _tabScrollController,
           child: Row(
             children: widget.tabs.asMap().entries.map((entry) {
               int index = entry.key;
@@ -69,10 +92,11 @@ class _TimelineState extends State<Timeline> {
                   padding: const EdgeInsets.all(7.0),
                   child: ClipSmoothRect(
                     radius: SmoothBorderRadius(
-                      cornerRadius: 20,
+                      cornerRadius: 10,
                       cornerSmoothing: 1,
                     ),
                     child: Container(
+                      key: _tabKeys[index],
                       padding: const EdgeInsets.symmetric(
                           vertical: 10.0, horizontal: 15.0),
                       color: _currentIndex == index
