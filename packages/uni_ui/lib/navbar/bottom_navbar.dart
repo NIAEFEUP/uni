@@ -15,11 +15,10 @@ class _BottomNavbarContainer extends StatelessWidget {
       decoration: ShapeDecoration(
         color: Theme.of(context).colorScheme.primary,
         shape: SmoothRectangleBorder(
-          borderRadius: SmoothBorderRadius(
-            cornerRadius: 20,
-            cornerSmoothing: 1,
-          )
-        ),
+            borderRadius: SmoothBorderRadius(
+          cornerRadius: 20,
+          cornerSmoothing: 1,
+        )),
         shadows: [
           BoxShadow(
             color: Theme.of(context).colorScheme.shadow.withAlpha(0x7f),
