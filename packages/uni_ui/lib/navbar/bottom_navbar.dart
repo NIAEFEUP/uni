@@ -37,10 +37,10 @@ class _BottomNavbarContainer extends StatelessWidget {
           decoration: BoxDecoration(
             gradient: RadialGradient(
               colors: [
-                Theme.of(context).colorScheme.tertiary.withAlpha(0x3f),
+                Theme.of(context).colorScheme.tertiary.withAlpha(0x4f),
                 Colors.transparent,
               ],
-              center: Alignment(-0.5, -1.0),
+              center: Alignment(-0.5, -1.1),
               radius: 2.5,
             ),
           ),
@@ -48,7 +48,7 @@ class _BottomNavbarContainer extends StatelessWidget {
             decoration: BoxDecoration(
                 gradient: RadialGradient(
               colors: [
-                Theme.of(context).colorScheme.tertiary.withAlpha(0x3f),
+                Theme.of(context).colorScheme.tertiary.withAlpha(0x4f),
                 Colors.transparent,
               ],
               center: Alignment.bottomRight,
