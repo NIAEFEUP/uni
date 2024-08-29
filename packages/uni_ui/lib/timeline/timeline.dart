@@ -63,13 +63,19 @@ class _TimelineState extends State<Timeline> {
     final screenWidth = MediaQuery.of(context).size.width;
     final RenderBox tabBox =
         _tabKeys[index].currentContext!.findRenderObject() as RenderBox;
-    final tabPosition = tabBox.localToGlobal(Offset.zero);
 
     final tabWidth = tabBox.size.width;
-    final offset = tabPosition.dx + (tabWidth / 2) - (screenWidth / 2);
+    final offset = (_tabScrollController.offset +
+            tabBox.localToGlobal(Offset.zero).dx +
+            (tabWidth / 2) -
+            (screenWidth / 2))
+        .clamp(
+      0.0,
+      _tabScrollController.position.maxScrollExtent,
+    );
 
     _tabScrollController.animateTo(
-      _tabScrollController.offset + offset,
+      offset,
       duration: const Duration(milliseconds: 300),
       curve: Curves.easeInOut,
     );
