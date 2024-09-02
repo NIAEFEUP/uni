@@ -3,33 +3,33 @@ import 'dart:async';
 import 'package:synchronized/synchronized.dart';
 import 'package:uni/session/base/session.dart';
 
-class AuthenticationSnapshot {
-  AuthenticationSnapshot(
+class SessionSnapshot {
+  SessionSnapshot(
     this.session, {
-    required Future<void> Function(AuthenticationSnapshot) invalidate,
+    required Future<void> Function(SessionSnapshot) invalidate,
   }) : _invalidate = invalidate;
 
   final Session session;
-  final Future<void> Function(AuthenticationSnapshot) _invalidate;
+  final Future<void> Function(SessionSnapshot) _invalidate;
 
   Future<void> invalidate() => _invalidate(this);
 }
 
-class AuthenticationController {
-  AuthenticationController(this._session);
+class SessionFreshnessController {
+  SessionFreshnessController(this._session);
 
   Session _session;
 
   final Lock _authenticationLock = Lock();
   Future<void>? _nextAuthentication;
 
-  Future<AuthenticationSnapshot> get snapshot async {
+  Future<SessionSnapshot> get snapshot async {
     final nextAuthentication = _nextAuthentication;
     if (nextAuthentication != null) {
       await nextAuthentication;
     }
 
-    return AuthenticationSnapshot(
+    return SessionSnapshot(
       _session,
       invalidate: (snapshot) => _invalidate(snapshot.session),
     );

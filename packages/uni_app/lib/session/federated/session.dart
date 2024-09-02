@@ -28,18 +28,4 @@ class FederatedSession extends Session {
   FederatedSessionRequest createRefreshRequest() => FederatedSessionRequest(
         credential: credential,
       );
-
-  // @override
-  // Future<void> close() async {
-  //   await super.close();
-
-  //   final homeUri = Uri.parse('pt.up.fe.ni.uni://home');
-  //   final logoutUri = credential.generateLogoutUrl(redirectUri: homeUri);
-
-  //   if (logoutUri == null) {
-  //     throw Exception('Failed to generate logout url');
-  //   }
-
-  //   await launchUrl(logoutUri);
-  // }
 }

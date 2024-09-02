@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:http/http.dart' as http;
 import 'package:uni/session/base/request.dart';
 
 /// In the authentication flow, the [SessionInitiator] is the component
@@ -10,5 +11,5 @@ import 'package:uni/session/base/request.dart';
 /// initiator. An initiator only needs to be able to create a [SessionRequest]
 /// and is not responsible for the actual authentication of the user.
 abstract class SessionInitiator {
-  FutureOr<SessionRequest> initiate();
+  FutureOr<SessionRequest> initiate([http.Client? httpClient]);
 }

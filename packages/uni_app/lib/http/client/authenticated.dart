@@ -6,16 +6,17 @@ import 'package:logger/logger.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/http/client/cookie.dart';
 import 'package:uni/session/base/session.dart';
-import 'package:uni/session/controller.dart';
+import 'package:uni/session/exception.dart';
+import 'package:uni/session/freshness_controller.dart';
 
 class AuthenticatedClient extends http.BaseClient {
   AuthenticatedClient(
     this._inner, {
-    required AuthenticationController controller,
+    required SessionFreshnessController controller,
   }) : _controller = controller;
 
   final http.Client _inner;
-  final AuthenticationController _controller;
+  final SessionFreshnessController _controller;
 
   /// Check if the user is still logged in,
   /// performing a health check on the user's personal page.
@@ -55,7 +56,14 @@ class AuthenticatedClient extends http.BaseClient {
       },
     );
 
-    return client.send(request);
+    final response = await client.send(request);
+
+    if (response.statusCode == 403 &&
+        !await _isUserLoggedIn(snapshot.session)) {
+      throw const AuthenticationException('User is not logged in SIGARRA');
+    }
+
+    return response;
   }
 
   @override

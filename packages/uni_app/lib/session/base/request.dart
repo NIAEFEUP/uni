@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:uni/session/base/initiator.dart';
 import 'package:uni/session/base/session.dart';
-import 'package:uni/session/exceptions.dart';
+import 'package:uni/session/exception.dart';
 
 /// In the authentication flow, a [SessionRequest] is the component responsible
 /// for performing the actual authentication of the user. A [SessionRequest]

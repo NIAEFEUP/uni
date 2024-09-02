@@ -1,3 +1,4 @@
+import 'package:http/http.dart' as http;
 import 'package:uni/session/base/initiator.dart';
 import 'package:uni/session/credentials/request.dart';
 
@@ -11,7 +12,8 @@ class CredentialsSessionInitiator extends SessionInitiator {
   final String password;
 
   @override
-  CredentialsSessionRequest initiate() => CredentialsSessionRequest(
+  CredentialsSessionRequest initiate([http.Client? httpClient]) =>
+      CredentialsSessionRequest(
         username: username,
         password: password,
       );
