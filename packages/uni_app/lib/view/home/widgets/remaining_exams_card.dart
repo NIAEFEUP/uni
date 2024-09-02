@@ -26,7 +26,7 @@ class RemainingExamsWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
-                    exam.begin.formattedDate(locale),
+                    exam.start.formattedDate(locale),
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                   ExamTitle(

@@ -8,8 +8,8 @@ part of '../../../model/entities/exam.dart';
 
 Exam _$ExamFromJson(Map<String, dynamic> json) => Exam(
       json['id'] as String,
-      const DateTimeConverter().fromJson(json['begin'] as String),
-      const DateTimeConverter().fromJson(json['end'] as String),
+      const DateTimeConverter().fromJson(json['start'] as String),
+      const DateTimeConverter().fromJson(json['finish'] as String),
       json['subject'] as String,
       (json['rooms'] as List<dynamic>).map((e) => e as String).toList(),
       json['examType'] as String,
@@ -17,8 +17,8 @@ Exam _$ExamFromJson(Map<String, dynamic> json) => Exam(
     );
 
 Map<String, dynamic> _$ExamToJson(Exam instance) => <String, dynamic>{
-      'begin': const DateTimeConverter().toJson(instance.begin),
-      'end': const DateTimeConverter().toJson(instance.end),
+      'start': const DateTimeConverter().toJson(instance.start),
+      'finish': const DateTimeConverter().toJson(instance.finish),
       'id': instance.id,
       'subject': instance.subject,
       'rooms': instance.rooms,
