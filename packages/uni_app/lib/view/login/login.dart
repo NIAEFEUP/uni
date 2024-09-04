@@ -12,7 +12,9 @@ import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/login_exceptions.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/model/providers/state_providers.dart';
-import 'package:uni/session/credentials/request.dart';
+import 'package:uni/session/credentials/initiator.dart';
+import 'package:uni/session/federated/initiator.dart';
+import 'package:uni/utils/constants.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/toast_message.dart';
 import 'package:uni/view/home/widgets/exit_app_dialog.dart';
@@ -89,9 +91,10 @@ class LoginPageViewState extends State<LoginPageView>
           _loggingIn = true;
         });
 
-        final request =
-            CredentialsSessionRequest(username: user, password: pass);
-        await sessionProvider.login(request, persistentSession: _keepSignedIn);
+        final initiator =
+            CredentialsSessionInitiator(username: user, password: pass);
+        await sessionProvider.login(initiator,
+            persistentSession: _keepSignedIn);
 
         usernameController.clear();
         passwordController.clear();
@@ -151,9 +154,20 @@ class LoginPageViewState extends State<LoginPageView>
         _loggingIn = true;
       });
 
-      final uri = getInterceptedUri();
-      await sessionProvider.federatedAuthentication(
-        onAuthentication: uri,
+      await sessionProvider.login(
+        FederatedSessionInitiator(
+          clientId: clientId,
+          realm: Uri.parse(realm),
+          redirectUri: Uri.parse('pt.up.fe.ni.uni://auth'),
+          performAuthentication: (flow) async {
+            final interceptedUri = getInterceptedUri();
+
+            final authenticationUri = flow.authenticationUri;
+            await launchUrl(authenticationUri);
+
+            return interceptedUri;
+          },
+        ),
         persistentSession: _keepSignedIn,
       );
 

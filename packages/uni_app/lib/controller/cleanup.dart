@@ -13,7 +13,6 @@ import 'package:uni/controller/local_storage/database/app_last_user_info_update_
 import 'package:uni/controller/local_storage/database/app_lectures_database.dart';
 import 'package:uni/controller/local_storage/database/app_user_database.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
-import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/model/providers/state_providers.dart';
 
 Future<void> cleanupStoredData(BuildContext context) async {

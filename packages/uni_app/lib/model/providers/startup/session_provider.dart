@@ -1,18 +1,13 @@
 import 'dart:async';
 
-import 'package:logger/logger.dart';
-import 'package:openid_client/openid_client.dart';
 import 'package:uni/controller/background_workers/notifications.dart';
 import 'package:uni/controller/fetchers/terms_and_conditions_fetcher.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/model/providers/state_providers.dart';
 import 'package:uni/model/request_status.dart';
-import 'package:uni/session/base/request.dart';
+import 'package:uni/session/base/initiator.dart';
 import 'package:uni/session/base/session.dart';
-import 'package:uni/session/federated/request.dart';
-import 'package:uni/utils/constants.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class SessionProvider extends StateProviderNotifier<Session?> {
   SessionProvider()
@@ -35,21 +30,16 @@ class SessionProvider extends StateProviderNotifier<Session?> {
     }
 
     final request = state!.createRefreshRequest();
-    return request.perform();
-  }
+    final newState = await request.perform();
 
-  static Future<void> _invoke(Uri uri) async {
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri, mode: LaunchMode.inAppBrowserView);
-    } else {
-      Logger().e('Could not launch $uri');
-    }
+    return newState;
   }
 
   Future<void> login(
-    SessionRequest request, {
+    SessionInitiator initiator, {
     required bool persistentSession,
   }) async {
+    final request = await initiator.initiate();
     final session = await request.perform();
 
     setState(session);
@@ -64,36 +54,5 @@ class SessionProvider extends StateProviderNotifier<Session?> {
     );
 
     await acceptTermsAndConditions();
-  }
-
-  Future<void> federatedAuthentication({
-    required Future<Uri> onAuthentication,
-    required bool persistentSession,
-  }) async {
-    final issuer = await Issuer.discover(Uri.parse(realm));
-    final client = Client(
-      issuer,
-      clientId,
-    );
-
-    final flow = Flow.authorizationCodeWithPKCE(
-      client,
-      scopes: [
-        'openid',
-        'profile',
-        'email',
-        'offline_access',
-        'audience',
-        'uporto_data',
-      ],
-    )..redirectUri = Uri.parse('pt.up.fe.ni.uni://auth');
-
-    await _invoke(flow.authenticationUri);
-    final uri = await onAuthentication;
-
-    final credential = await flow.callback(uri.queryParameters);
-
-    final request = FederatedSessionRequest(credential: credential);
-    await login(request, persistentSession: persistentSession);
   }
 }

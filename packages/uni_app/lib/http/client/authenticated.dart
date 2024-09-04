@@ -58,6 +58,7 @@ class AuthenticatedClient extends http.BaseClient {
 
     final response = await client.send(request);
 
+    // TODO(limwa): extract this logic to a method
     if (response.statusCode == 403 &&
         !await _isUserLoggedIn(snapshot.session)) {
       throw const AuthenticationException('User is not logged in SIGARRA');

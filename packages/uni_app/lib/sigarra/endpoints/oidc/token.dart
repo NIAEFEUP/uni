@@ -13,7 +13,7 @@ Future<List<Cookie>> getCookies({
   options = options ?? BaseRequestOptions();
 
   final tokenUrl = options.baseUrl.resolve('auth/oidc/token');
-  final response = await options.client.post(
+  final response = await options.client.get(
     tokenUrl,
     headers: {
       'Content-Type': 'application/json',
