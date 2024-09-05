@@ -9,7 +9,7 @@ import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/providers/lazy/lecture_provider.dart';
 import 'package:uni/model/request_status.dart';
-import 'package:uni/session/base/session.dart';
+import 'package:uni/session/flows/base/session.dart';
 
 import '../../mocks/unit/providers/lecture_provider_test.mocks.dart';
 import '../../test_widget.dart';

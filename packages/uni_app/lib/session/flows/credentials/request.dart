@@ -1,15 +1,11 @@
 import 'package:http/http.dart' as http;
-import 'package:json_annotation/json_annotation.dart';
 import 'package:uni/controller/fetchers/faculties_fetcher.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/parsers/parser_session.dart';
 import 'package:uni/model/entities/login_exceptions.dart';
-import 'package:uni/session/base/request.dart';
-import 'package:uni/session/credentials/session.dart';
+import 'package:uni/session/flows/base/request.dart';
+import 'package:uni/session/flows/credentials/session.dart';
 
-part '../../generated/session/credentials/request.g.dart';
-
-@JsonSerializable(explicitToJson: true)
 class CredentialsSessionRequest extends SessionRequest {
   CredentialsSessionRequest({
     required this.username,

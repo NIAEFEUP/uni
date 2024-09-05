@@ -6,8 +6,8 @@ import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/model/providers/state_providers.dart';
 import 'package:uni/model/request_status.dart';
-import 'package:uni/session/base/initiator.dart';
-import 'package:uni/session/base/session.dart';
+import 'package:uni/session/flows/base/initiator.dart';
+import 'package:uni/session/flows/base/session.dart';
 
 class SessionProvider extends StateProviderNotifier<Session?> {
   SessionProvider()

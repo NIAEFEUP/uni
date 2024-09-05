@@ -1,26 +1,27 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of '../../../session/credentials/session.dart';
+part of '../../../../session/flows/federated/session.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-CredentialsSession _$CredentialsSessionFromJson(Map<String, dynamic> json) =>
-    CredentialsSession(
+FederatedSession _$FederatedSessionFromJson(Map<String, dynamic> json) =>
+    FederatedSession(
       username: json['username'] as String,
       cookies: (json['cookies'] as List<dynamic>)
           .map((e) => const CookieConverter().fromJson(e as String))
           .toList(),
       faculties:
           (json['faculties'] as List<dynamic>).map((e) => e as String).toList(),
-      password: json['password'] as String,
+      credential:
+          Credential.fromJson(json['credential'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$CredentialsSessionToJson(CredentialsSession instance) =>
+Map<String, dynamic> _$FederatedSessionToJson(FederatedSession instance) =>
     <String, dynamic>{
       'username': instance.username,
       'faculties': instance.faculties,
       'cookies': instance.cookies.map(const CookieConverter().toJson).toList(),
-      'password': instance.password,
+      'credential': instance.credential.toJson(),
     };

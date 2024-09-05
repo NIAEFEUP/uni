@@ -1,11 +1,11 @@
 import 'package:html/parser.dart';
 import 'package:uni/controller/networking/network_router.dart';
-import 'package:uni/session/base/session.dart';
+import 'package:uni/session/flows/base/session.dart';
 
 Future<List<String>> getStudentFaculties(Session session) async {
   final response = await NetworkRouter.getWithCookies(
-    'https://sigarra.up.pt/up/pt/vld_entidades_geral.entidade_pagina?pct_codigo=${session.username}',
-    {},
+    'https://sigarra.up.pt/up/pt/vld_entidades_geral.entidade_pagina',
+    {'pct_codigo': session.username},
     session,
   );
 
@@ -18,9 +18,7 @@ Future<List<String>> getStudentFaculties(Session session) async {
     // The user is enrolled in a single faculty,
     // and the selection page is skipped.
     // We can extract the faculty from any anchor.
-    final singleFaculty = document
-        .querySelector('head link[rel="canonical"]')!
-        .attributes['href']!;
+    final singleFaculty = document.querySelector('a')!.attributes['href']!;
     final uri = Uri.parse(singleFaculty);
     final faculty = uri.pathSegments[0];
     return [faculty.toLowerCase()];

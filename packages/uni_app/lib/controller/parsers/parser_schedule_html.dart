@@ -7,7 +7,7 @@ import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/utils/time/week.dart';
 import 'package:uni/model/utils/time/weekday_mapper.dart';
-import 'package:uni/session/base/session.dart';
+import 'package:uni/session/flows/base/session.dart';
 
 Future<List<Lecture>> getOverlappedClasses(
   Session session,

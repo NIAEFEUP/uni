@@ -6,9 +6,9 @@ import 'package:http/http.dart' as http;
 import 'package:json_annotation/json_annotation.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:uni/http/client/cookie.dart';
-import 'package:uni/session/base/request.dart';
-import 'package:uni/session/credentials/session.dart';
-import 'package:uni/session/federated/session.dart';
+import 'package:uni/session/flows/base/request.dart';
+import 'package:uni/session/flows/credentials/session.dart';
+import 'package:uni/session/flows/federated/session.dart';
 import 'package:uni/sigarra/endpoints/html/authentication.dart'
     as authentication;
 import 'package:uni/sigarra/options.dart';

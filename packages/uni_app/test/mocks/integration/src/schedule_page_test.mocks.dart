@@ -15,8 +15,8 @@ import 'package:mockito/src/dummies.dart' as _i5;
 import 'package:uni/model/providers/startup/session_provider.dart' as _i7;
 import 'package:uni/model/providers/state_providers.dart' as _i10;
 import 'package:uni/model/request_status.dart' as _i8;
-import 'package:uni/session/request.dart' as _i11;
-import 'package:uni/session/session.dart' as _i9;
+import 'package:uni/session/flows/base/initiator.dart' as _i11;
+import 'package:uni/session/flows/base/session.dart' as _i9;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -495,32 +495,14 @@ class MockSessionProvider extends _i1.Mock implements _i7.SessionProvider {
 
   @override
   _i3.Future<void> login(
-    _i11.SessionRequest? request, {
+    _i11.SessionInitiator? initiator, {
     required bool? persistentSession,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
           #login,
-          [request],
+          [initiator],
           {#persistentSession: persistentSession},
-        ),
-        returnValue: _i3.Future<void>.value(),
-        returnValueForMissingStub: _i3.Future<void>.value(),
-      ) as _i3.Future<void>);
-
-  @override
-  _i3.Future<void> federatedAuthentication({
-    required _i3.Future<Uri>? onAuthentication,
-    required bool? persistentSession,
-  }) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #federatedAuthentication,
-          [],
-          {
-            #onAuthentication: onAuthentication,
-            #persistentSession: persistentSession,
-          },
         ),
         returnValue: _i3.Future<void>.value(),
         returnValueForMissingStub: _i3.Future<void>.value(),

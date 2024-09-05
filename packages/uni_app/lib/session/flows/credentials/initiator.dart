@@ -1,6 +1,6 @@
 import 'package:http/http.dart' as http;
-import 'package:uni/session/base/initiator.dart';
-import 'package:uni/session/credentials/request.dart';
+import 'package:uni/session/flows/base/initiator.dart';
+import 'package:uni/session/flows/credentials/request.dart';
 
 class CredentialsSessionInitiator extends SessionInitiator {
   CredentialsSessionInitiator({

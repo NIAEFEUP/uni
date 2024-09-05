@@ -5,7 +5,7 @@ import 'package:uni/controller/parsers/parser_schedule.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/utils/time/week.dart';
-import 'package:uni/session/base/session.dart';
+import 'package:uni/session/flows/base/session.dart';
 
 /// Class for fetching the user's lectures from the faculties' API.
 class ScheduleFetcherApi extends ScheduleFetcher {

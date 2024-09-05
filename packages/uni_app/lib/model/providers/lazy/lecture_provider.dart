@@ -8,7 +8,7 @@ import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/model/providers/state_providers.dart';
-import 'package:uni/session/base/session.dart';
+import 'package:uni/session/flows/base/session.dart';
 
 class LectureProvider extends StateProviderNotifier<List<Lecture>> {
   LectureProvider() : super(cacheDuration: const Duration(hours: 6));

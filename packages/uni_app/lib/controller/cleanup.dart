@@ -14,13 +14,15 @@ import 'package:uni/controller/local_storage/database/app_lectures_database.dart
 import 'package:uni/controller/local_storage/database/app_user_database.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/model/providers/state_providers.dart';
+import 'package:uni/session/logout/uni_logout_handler.dart';
 
 Future<void> cleanupStoredData(BuildContext context) async {
   final providers = StateProviders.fromContext(context);
-  // final session = providers.sessionProvider.state;
-  // if (session != null) {
-  //   unawaited(session.close());
-  // }
+
+  final session = providers.sessionProvider.state;
+  if (session != null) {
+    await UniLogoutHandler().close(session);
+  }
 
   providers.invalidate();
 
@@ -35,8 +37,6 @@ Future<void> cleanupStoredData(BuildContext context) async {
     AppLastUserInfoUpdateDatabase().deleteLastUpdate(),
     AppBusStopDatabase().deleteBusStops(),
     AppCourseUnitsDatabase().deleteCourseUnits(),
-    // if (session != null)
-    //   NetworkRouter.killSigarraAuthentication(session.faculties),
     PreferencesController.removeSavedSession(),
   ]);
 

@@ -1,8 +1,8 @@
 import 'package:http/http.dart' as http;
 import 'package:openid_client/openid_client.dart';
-import 'package:uni/session/base/initiator.dart';
-import 'package:uni/session/base/request.dart';
-import 'package:uni/session/federated/request.dart';
+import 'package:uni/session/flows/base/initiator.dart';
+import 'package:uni/session/flows/base/request.dart';
+import 'package:uni/session/flows/federated/request.dart';
 
 class FederatedSessionInitiator extends SessionInitiator {
   FederatedSessionInitiator({

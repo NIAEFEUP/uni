@@ -12,8 +12,8 @@ import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/login_exceptions.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/model/providers/state_providers.dart';
-import 'package:uni/session/credentials/initiator.dart';
-import 'package:uni/session/federated/initiator.dart';
+import 'package:uni/session/flows/credentials/initiator.dart';
+import 'package:uni/session/flows/federated/initiator.dart';
 import 'package:uni/utils/constants.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/toast_message.dart';
@@ -93,8 +93,10 @@ class LoginPageViewState extends State<LoginPageView>
 
         final initiator =
             CredentialsSessionInitiator(username: user, password: pass);
-        await sessionProvider.login(initiator,
-            persistentSession: _keepSignedIn);
+        await sessionProvider.login(
+          initiator,
+          persistentSession: _keepSignedIn,
+        );
 
         usernameController.clear();
         passwordController.clear();

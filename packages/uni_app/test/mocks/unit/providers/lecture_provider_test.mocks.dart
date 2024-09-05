@@ -15,7 +15,7 @@ import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher.dart'
 import 'package:uni/model/entities/lecture.dart' as _i5;
 import 'package:uni/model/entities/profile.dart' as _i7;
 import 'package:uni/model/utils/time/week.dart' as _i8;
-import 'package:uni/session/session.dart' as _i6;
+import 'package:uni/session/flows/base/session.dart' as _i6;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values

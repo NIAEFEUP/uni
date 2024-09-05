@@ -12,7 +12,7 @@ import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/providers/lazy/lecture_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
-import 'package:uni/session/base/session.dart';
+import 'package:uni/session/flows/base/session.dart';
 import 'package:uni/view/schedule/schedule.dart';
 
 import '../../mocks/integration/src/schedule_page_test.mocks.dart';

@@ -5,8 +5,8 @@ import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 import 'package:uni/http/client/cookie.dart';
 import 'package:uni/http/utils.dart';
-import 'package:uni/session/base/session.dart';
-import 'package:uni/session/credentials/session.dart';
+import 'package:uni/session/flows/base/session.dart';
+import 'package:uni/session/flows/credentials/session.dart';
 import 'package:uni/utils/constants.dart';
 
 extension UriString on String {
@@ -101,7 +101,7 @@ class NetworkRouter {
 
   static Future<http.Response> getWithCookies(
     String url,
-    Map<String, String> headers,
+    Map<String, String> query,
     Session session,
   ) async {
     final client = CookieClient(
@@ -109,6 +109,17 @@ class NetworkRouter {
       cookies: () => session.cookies,
     );
 
-    return client.get(url.toUri(), headers: headers);
+    final parsedUrl = url.toUri();
+
+    final allQueryParameters = {...parsedUrl.queryParametersAll};
+    for (final entry in query.entries) {
+      final existingValue = allQueryParameters[entry.key];
+      allQueryParameters[entry.key] = [
+        if (existingValue != null) ...existingValue,
+        entry.value,
+      ];
+    }
+
+    return client.get(parsedUrl.replace(queryParameters: allQueryParameters));
   }
 }

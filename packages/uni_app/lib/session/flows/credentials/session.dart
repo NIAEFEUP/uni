@@ -1,8 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:uni/session/base/session.dart';
-import 'package:uni/session/credentials/request.dart';
+import 'package:uni/session/flows/base/session.dart';
+import 'package:uni/session/flows/credentials/request.dart';
 
-part '../../generated/session/credentials/session.g.dart';
+part '../../../generated/session/flows/credentials/session.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class CredentialsSession extends Session {

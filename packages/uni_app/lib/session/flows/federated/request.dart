@@ -1,7 +1,7 @@
 import 'package:http/http.dart' as http;
 import 'package:openid_client/openid_client.dart';
-import 'package:uni/session/base/request.dart';
-import 'package:uni/session/federated/session.dart';
+import 'package:uni/session/flows/base/request.dart';
+import 'package:uni/session/flows/federated/session.dart';
 import 'package:uni/sigarra/endpoints/oidc.dart' as oidc;
 import 'package:uni/sigarra/options.dart';
 
