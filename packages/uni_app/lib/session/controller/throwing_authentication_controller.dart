@@ -4,7 +4,5 @@ import 'package:uni/session/exception.dart';
 class ThrowingAuthenticationController extends AuthenticationController {
   @override
   Future<AuthenticationSnapshot> get snapshot =>
-      throw const AuthenticationException(
-        'AuthenticationController is in idle',
-      );
+      throw const AuthenticationException('ThrowingAuthenticationController');
 }
