@@ -17,14 +17,7 @@ import 'package:uni/model/providers/state_providers.dart';
 import 'package:uni/session/logout/uni_logout_handler.dart';
 
 Future<void> cleanupStoredData(BuildContext context) async {
-  final providers = StateProviders.fromContext(context);
-
-  final session = providers.sessionProvider.state;
-  if (session != null) {
-    await UniLogoutHandler().close(session);
-  }
-
-  providers.invalidate();
+  StateProviders.fromContext(context).invalidate();
 
   final prefs = await SharedPreferences.getInstance();
   await prefs.clear();
