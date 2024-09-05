@@ -60,10 +60,11 @@ class RefreshingAuthenticationController extends AuthenticationController {
   }
 
   Future<void> _reauthenticate() async {
+    final currentSession = _currentSession;
+
     Future<void> releaseLock() =>
         _authenticationLock.synchronized(() => _nextAuthentication = null);
 
-    final currentSession = _currentSession;
     try {
       final request = currentSession.createRefreshRequest();
       _currentSession = await request.perform();
