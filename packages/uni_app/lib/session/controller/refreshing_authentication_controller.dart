@@ -82,6 +82,11 @@ class RefreshingAuthenticationController extends AuthenticationController {
         rethrow;
       }
 
+      // After the authentication attempt fails due to invalid credentials,
+      // we don't allow this authentication controller to create any other
+      // snapshots.
+      // Futhermore, we use the logout handler to signal to the app that the
+      // user must be logged out.
       await logoutHandler?.close(currentSession);
       rethrow;
     }
