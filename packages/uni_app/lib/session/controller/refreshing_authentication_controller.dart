@@ -60,17 +60,30 @@ class RefreshingAuthenticationController extends AuthenticationController {
   }
 
   Future<void> _reauthenticate() async {
+    Future<void> releaseLock() =>
+        _authenticationLock.synchronized(() => _nextAuthentication = null);
+
+    final currentSession = _currentSession;
     try {
-      final request = _currentSession.createRefreshRequest();
+      final request = currentSession.createRefreshRequest();
       _currentSession = await request.perform();
 
       // If the reauthentication is successful, we indicate that the
       // invalidation is no longer in progress and another one can be
       // performed.
-      await _authenticationLock.synchronized(() => _nextAuthentication = null);
-    } on AuthenticationException {
-      await logoutHandler?.close(_currentSession);
+      await releaseLock();
+    } catch (err) {
+      if (err is! AuthenticationException) {
+        // If the error thrown is not an authentication exception,
+        // for instance, a network error, we need to release the lock to
+        // ensure that future accesses to a snapshot will not block
+        // indefinitely.
+        await releaseLock();
+        rethrow;
+      }
+
+      await logoutHandler?.close(currentSession);
       rethrow;
-    } catch (_) {}
+    }
   }
 }
