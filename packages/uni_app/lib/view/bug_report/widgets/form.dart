@@ -8,6 +8,7 @@ import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/app_locale.dart';
 import 'package:uni/model/entities/bug_report.dart';
+import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/view/bug_report/widgets/text_field.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/toast_message.dart';
@@ -245,9 +246,9 @@ class BugReportFormState extends State<BugReportForm> {
     setState(() {
       _isButtonTapped = true;
     });
-    final savedSession = await PreferencesController.getSavedSession();
-    final faculties = savedSession?.faculties ??
-        []; // FIXME: get session from provider so that even non-persisted sessions can be used
+
+    final session = Provider.of<SessionProvider>(context, listen: false).state;
+    final faculties = session?.faculties ?? [];
 
     final bugReport = BugReport(
       titleController.text,

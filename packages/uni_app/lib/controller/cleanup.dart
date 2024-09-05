@@ -14,7 +14,6 @@ import 'package:uni/controller/local_storage/database/app_lectures_database.dart
 import 'package:uni/controller/local_storage/database/app_user_database.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/model/providers/state_providers.dart';
-import 'package:uni/session/logout/uni_logout_handler.dart';
 
 Future<void> cleanupStoredData(BuildContext context) async {
   StateProviders.fromContext(context).invalidate();
