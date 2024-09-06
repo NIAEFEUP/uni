@@ -111,7 +111,7 @@ class ExamCard extends GenericCard {
 
   List<Exam> getPrimaryExams(List<Exam> visibleExams) {
     return visibleExams
-        .where((exam) => isSameDay(visibleExams[0].begin, exam.begin))
+        .where((exam) => isSameDay(visibleExams[0].start, exam.start))
         .toList();
   }
 

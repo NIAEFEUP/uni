@@ -19,7 +19,7 @@ class NextExamsWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         DateRectangle(
-          date: exams.isNotEmpty ? exams.first.begin.formattedDate(locale) : '',
+          date: exams.isNotEmpty ? exams.first.start.formattedDate(locale) : '',
         ),
         Column(
           children: exams.map((exam) {
