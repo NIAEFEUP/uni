@@ -20,7 +20,7 @@ class AppLecturesDatabase extends AppDatabase<List<Lecture>> {
         );
   static const createScript = '''
 CREATE TABLE lectures(subject TEXT, typeClass TEXT,
-          startTime TEXT,endTime TEXT, blocks INTEGER, room TEXT, teacher TEXT, classNumber TEXT, occurrId INTEGER)''';
+          startTime TEXT, endTime TEXT, blocks INTEGER, room TEXT, teacher TEXT, classNumber TEXT, occurrId INTEGER)''';
 
   /// Returns a list containing all of the lectures stored in this database.
   Future<List<Lecture>> lectures() async {
@@ -31,7 +31,7 @@ CREATE TABLE lectures(subject TEXT, typeClass TEXT,
       return Lecture.fromApi(
         maps[i]['subject'] as String,
         maps[i]['typeClass'] as String,
-        DateTime.parse(maps[i]['startDateTime'] as String),
+        DateTime.parse(maps[i]['startTime'] as String),
         maps[i]['blocks'] as int,
         maps[i]['room'] as String,
         maps[i]['teacher'] as String,
