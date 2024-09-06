@@ -1,3 +1,7 @@
+import 'dart:async';
+
+import 'package:logger/logger.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:synchronized/synchronized.dart';
 import 'package:uni/session/controller/authentication_controller.dart';
 import 'package:uni/session/exception.dart';
@@ -73,14 +77,19 @@ class RefreshingAuthenticationController extends AuthenticationController {
       // invalidation is no longer in progress and another one can be
       // performed.
       await releaseLock();
-    } catch (err) {
+    } catch (err, st) {
       if (err is! AuthenticationException) {
         // If the error thrown is not an authentication exception,
         // for instance, a network error, we need to release the lock to
         // ensure that future accesses to a snapshot will not block
         // indefinitely.
         await releaseLock();
-        rethrow;
+
+        // Report the exception as it will not be thrown when
+        // awaiting a snapshot.
+        Logger().e('Failed to reauthenticate', error: err, stackTrace: st);
+        unawaited(Sentry.captureException(err, stackTrace: st));
+        return;
       }
 
       // After the authentication attempt fails due to invalid credentials,
