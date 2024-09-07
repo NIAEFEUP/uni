@@ -29,12 +29,9 @@ List<Lecture> getLecturesFromApiResponse(
   final json = jsonDecode(response.body) as Map<String, dynamic>;
   final data = json['data'] as List<dynamic>;
 
-  final now = DateTime.now();
-
   return data
       .cast<Map<String, dynamic>>()
       .map(ResponseLecture.fromJson)
-      .where((lecture) => lecture.end.isAfter(now))
       .map(
         (lecture) => Lecture(
           lecture.units.first.acronym,
