@@ -8,17 +8,13 @@ import 'package:uni/model/entities/lecture.dart';
 /// Extracts the user's lecture API URL.
 ///
 /// This function parses the schedule's HTML page.
-String getScheduleApiUrlFromHtml(
+String? getScheduleApiUrlFromHtml(
   http.Response response,
 ) {
   final document = parse(response.body);
 
   final scheduleElement = document.querySelector('#cal-shadow-container');
   final apiUrl = scheduleElement?.attributes['data-evt-source-url'];
-
-  if (apiUrl == null) {
-    throw Exception('Could not find schedule API URL in schedule page');
-  }
 
   return apiUrl;
 }
