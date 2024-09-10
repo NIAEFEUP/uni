@@ -1,17 +1,9 @@
-import 'dart:async';
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
-import 'package:http/http.dart' as http;
 import 'package:json_annotation/json_annotation.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
-import 'package:uni/http/client/cookie.dart';
 import 'package:uni/session/flows/base/request.dart';
 import 'package:uni/session/flows/credentials/session.dart';
 import 'package:uni/session/flows/federated/session.dart';
-import 'package:uni/sigarra/endpoints/html/authentication.dart'
-    as authentication;
-import 'package:uni/sigarra/options.dart';
 
 const _sessionsFromJson = [
   FederatedSession.fromJson,
@@ -56,20 +48,20 @@ abstract class Session {
   ///
   /// This is useful for performing cleanup operations, such as invalidating
   /// session cookies, since they will no longer be used.
-  @mustCallSuper
-  FutureOr<void> onRejection([http.Client? httpClient]) async {
-    final client = httpClient ?? http.Client();
+  // @mustCallSuper
+  // FutureOr<void> onRejection([http.Client? httpClient]) async {
+  //   final client = httpClient ?? http.Client();
 
-    try {
-      await authentication.logout(
-        options: FacultyRequestOptions(
-          client: CookieClient(client, cookies: () => cookies),
-        ),
-      );
-    } catch (err, st) {
-      unawaited(Sentry.captureException(err, stackTrace: st));
-    }
-  }
+  //   try {
+  //     await authentication.logout(
+  //       options: FacultyRequestOptions(
+  //         client: CookieClient(client, cookies: () => cookies),
+  //       ),
+  //     );
+  //   } catch (err, st) {
+  //     unawaited(Sentry.captureException(err, stackTrace: st));
+  //   }
+  // }
 }
 
 class CookieConverter implements JsonConverter<Cookie, String> {

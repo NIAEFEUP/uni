@@ -1,16 +1,11 @@
-import 'package:uni/sigarra/options.dart';
+import 'package:uni/sigarra/endpoints/html/authentication/login.dart';
+import 'package:uni/sigarra/endpoints/html/authentication/logout.dart';
+import 'package:uni/utils/lazy.dart';
 
-Future<void> logout({
-  FacultyRequestOptions? options,
-}) async {
-  options = options ?? FacultyRequestOptions();
+class SigarraHtmlAuthentication {
+  final _logout = Lazy(() => const Logout());
+  Logout get logout => _logout.value;
 
-  final logoutUrl = options.baseUrl.resolve('vld_validacao.sair');
-  final response = await options.client.get(logoutUrl);
-
-  if (response.statusCode == 200) {
-    return;
-  }
-
-  throw Exception('Failed to logout from SIGARRA');
+  final _login = Lazy(() => const Login());
+  Login get login => _login.value;
 }

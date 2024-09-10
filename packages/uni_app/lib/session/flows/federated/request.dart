@@ -1,8 +1,9 @@
 import 'package:http/http.dart' as http;
 import 'package:openid_client/openid_client.dart';
+import 'package:uni/session/exception.dart';
 import 'package:uni/session/flows/base/request.dart';
 import 'package:uni/session/flows/federated/session.dart';
-import 'package:uni/sigarra/endpoints/oidc.dart' as oidc;
+import 'package:uni/sigarra/endpoints/oidc.dart';
 import 'package:uni/sigarra/options.dart';
 
 class FederatedSessionUserInfo {
@@ -41,16 +42,23 @@ class FederatedSessionRequest extends SessionRequest {
     final userInfo = FederatedSessionUserInfo(await credential.getUserInfo());
 
     final authorizedClient = credential.createHttpClient(httpClient);
-    final cookies = await oidc.getCookies(
+
+    final oidc = SigarraOidc();
+    final response = await oidc.token.call(
       options: BaseRequestOptions(
         client: authorizedClient,
       ),
     );
 
+    if (!response.success) {
+      throw const AuthenticationException('Failed to get OIDC token');
+    }
+
+    final successfulResponse = response.asSuccessful();
     return FederatedSession(
       username: userInfo.username,
       faculties: userInfo.faculties,
-      cookies: cookies,
+      cookies: successfulResponse.cookies,
       credential: credential,
     );
   }

@@ -8,7 +8,8 @@ class Derived<I, O> {
     }
   }
 
-  final StreamController<O> _controller = StreamController.broadcast();
+  final StreamController<O> _controller =
+      StreamController.broadcast(sync: true);
   Stream<O> get stream => _controller.stream;
 
   final O Function(I) compute;

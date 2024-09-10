@@ -1,20 +1,7 @@
-import 'package:http/http.dart' as http;
-import 'package:uni/sigarra/options.dart';
+import 'package:uni/sigarra/endpoints/api/authentication/login.dart';
+import 'package:uni/utils/lazy.dart';
 
-Future<http.Response> login({
-  required String username,
-  required String password,
-  FacultyRequestOptions? options,
-}) {
-  options = options ?? FacultyRequestOptions();
-
-  final loginUrl = options.baseUrl.resolve('mob_val_geral.autentica');
-
-  return options.client.post(
-    loginUrl,
-    body: {
-      'pv_login': username,
-      'pv_password': password,
-    },
-  );
+class SigarraApiAuthentication {
+  final _login = Lazy(() => const Login());
+  Login get login => _login.value;
 }

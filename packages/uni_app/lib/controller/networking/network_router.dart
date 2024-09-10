@@ -1,13 +1,10 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:logger/logger.dart';
-import 'package:uni/http/client/cookie.dart';
-import 'package:uni/http/utils.dart';
+import 'package:uni/http/client/authenticated.dart';
+import 'package:uni/http/client/timeout.dart';
+import 'package:uni/session/controller/authentication_controller.dart';
 import 'package:uni/session/flows/base/session.dart';
-import 'package:uni/session/flows/credentials/session.dart';
-import 'package:uni/utils/constants.dart';
 
 extension UriString on String {
   /// Converts a [String] to an [Uri].
@@ -21,68 +18,10 @@ class NetworkRouter {
   /// This is useful for testing.
   static http.Client? httpClient;
 
+  static AuthenticationController? authenticationController;
+
   /// The timeout for Sigarra login requests.
   static const Duration _requestTimeout = Duration(seconds: 30);
-
-  /// Re-authenticates the user via the Sigarra API
-  /// using data stored in [session],
-  /// returning an updated Session if successful.
-  static Future<Session?> reLoginFromSession(Session session) async {
-    final request = session.createRefreshRequest();
-    try {
-      return request.perform();
-    } catch (err, st) {
-      Logger().e(err, stackTrace: st);
-      return null;
-    }
-  }
-
-  static Future<Session?> login(String username, String password) async {
-    final url = '${getBaseUrl('feup')}mob_val_geral.autentica';
-    final response = await http.post(
-      url.toUri(),
-      body: {'pv_login': username, 'pv_password': password},
-    ).timeout(_requestTimeout);
-
-    if (response.statusCode != 200) {
-      Logger().e('Login failed with status code ${response.statusCode}');
-      return null;
-    }
-
-    final responseBody = json.decode(response.body) as Map<String, dynamic>;
-    if (!(responseBody['authenticated'] as bool)) {
-      Logger().e('Login failed: user not authenticated');
-      return null;
-    }
-
-    final realUsername = responseBody['codigo'] as String;
-    final session = CredentialsSession(
-      username: realUsername,
-      cookies: extractCookies(response),
-      faculties: faculties,
-      password: password,
-    );
-
-    Logger().i('Login successful');
-
-    return session;
-  }
-
-  /// Returns the response body of the login in Sigarra
-  /// given username [user] and password [pass].
-  static Future<String> loginInSigarra(
-    String user,
-    String pass,
-    List<String> faculties,
-  ) async {
-    final url =
-        '${NetworkRouter.getBaseUrls(faculties)[0]}vld_validacao.validacao';
-    final response = await http.post(
-      url.toUri(),
-      body: {'p_user': user, 'p_pass': pass},
-    ).timeout(_requestTimeout);
-    return response.body;
-  }
 
   /// Returns the base url of the user's faculties.
   static List<String> getBaseUrls(List<String> faculties) {
@@ -104,9 +43,17 @@ class NetworkRouter {
     Map<String, String> query,
     Session session,
   ) async {
-    final client = CookieClient(
-      httpClient ?? http.Client(),
-      cookies: () => session.cookies,
+    final controller = authenticationController;
+    if (controller == null) {
+      throw Exception('Authentication controller not initialized');
+    }
+
+    final client = AuthenticatedClient(
+      TimeoutClient(
+        httpClient ?? http.Client(),
+        timeout: _requestTimeout,
+      ),
+      controller: controller,
     );
 
     final parsedUrl = url.toUri();

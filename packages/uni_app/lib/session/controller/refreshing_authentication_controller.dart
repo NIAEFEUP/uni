@@ -20,6 +20,10 @@ class RefreshingAuthenticationController extends AuthenticationController {
   Future<void>? _nextAuthentication;
   Session _currentSession;
 
+  final _snapshotsController =
+      StreamController<AuthenticationSnapshot>.broadcast();
+  Stream<AuthenticationSnapshot> get snapshots => _snapshotsController.stream;
+
   @override
   Future<AuthenticationSnapshot> get snapshot async {
     final nextAuthentication = _nextAuthentication;
@@ -27,16 +31,19 @@ class RefreshingAuthenticationController extends AuthenticationController {
       await nextAuthentication;
     }
 
-    final snapshottedSession = _currentSession;
-    return AuthenticationSnapshot(
-      snapshottedSession,
-      invalidate: () => _invalidate(snapshottedSession),
-    );
+    return _createSnapshot(_currentSession);
   }
 
   Future<void> invalidate() async {
     final currentSnapshot = await snapshot;
     await currentSnapshot.invalidate();
+  }
+
+  AuthenticationSnapshot _createSnapshot(Session session) {
+    return AuthenticationSnapshot(
+      session,
+      invalidate: () => _invalidate(session),
+    );
   }
 
   bool _shouldInvalidate(Session session) {
@@ -73,6 +80,8 @@ class RefreshingAuthenticationController extends AuthenticationController {
       final request = currentSession.createRefreshRequest();
       _currentSession = await request.perform();
 
+      _snapshotsController.add(_createSnapshot(_currentSession));
+
       // If the reauthentication is successful, we indicate that the
       // invalidation is no longer in progress and another one can be
       // performed.
@@ -98,6 +107,10 @@ class RefreshingAuthenticationController extends AuthenticationController {
       // Futhermore, we use the logout handler to signal to the app that the
       // user must be logged out.
       await logoutHandler?.close(currentSession);
+
+      _snapshotsController.addError(err, st);
+      unawaited(_snapshotsController.close());
+
       rethrow;
     }
   }

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:uni/session/flows/base/session.dart';
 
 class AuthenticationSnapshot {

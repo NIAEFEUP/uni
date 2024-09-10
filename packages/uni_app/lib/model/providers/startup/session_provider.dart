@@ -3,11 +3,15 @@ import 'dart:async';
 import 'package:uni/controller/background_workers/notifications.dart';
 import 'package:uni/controller/fetchers/terms_and_conditions_fetcher.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
+import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/model/providers/state_providers.dart';
 import 'package:uni/model/request_status.dart';
+import 'package:uni/session/controller/authentication_controller.dart';
+import 'package:uni/session/controller/refreshing_authentication_controller.dart';
 import 'package:uni/session/flows/base/initiator.dart';
 import 'package:uni/session/flows/base/session.dart';
+import 'package:uni/session/logout/uni_logout_handler.dart';
 
 class SessionProvider extends StateProviderNotifier<Session?> {
   SessionProvider()
@@ -17,9 +21,23 @@ class SessionProvider extends StateProviderNotifier<Session?> {
           dependsOnSession: false,
         );
 
+  AuthenticationController get controller =>
+      NetworkRouter.authenticationController!;
+
+  void initController(Session session) {
+    NetworkRouter.authenticationController = RefreshingAuthenticationController(
+      session,
+      logoutHandler: UniLogoutHandler(),
+    );
+  }
+
   @override
   Future<Session?> loadFromStorage(StateProviders stateProviders) async {
     final session = await PreferencesController.getSavedSession();
+    if (session != null) {
+      initController(session);
+    }
+
     return session;
   }
 
@@ -29,8 +47,11 @@ class SessionProvider extends StateProviderNotifier<Session?> {
       return null;
     }
 
-    final request = state!.createRefreshRequest();
-    final newState = await request.perform();
+    final oldSnapshot = await controller.snapshot;
+    await oldSnapshot.invalidate();
+
+    final newSnapshot = await controller.snapshot;
+    final newState = newSnapshot.session;
 
     return newState;
   }
@@ -42,6 +63,7 @@ class SessionProvider extends StateProviderNotifier<Session?> {
     final request = await initiator.initiate();
     final session = await request.perform();
 
+    initController(session);
     setState(session);
 
     if (persistentSession) {
