@@ -1,6 +1,6 @@
 import 'package:http/http.dart' as http;
 import 'package:uni/controller/fetchers/faculties_fetcher.dart';
-import 'package:uni/model/entities/login_exceptions.dart';
+import 'package:uni/session/exception.dart';
 import 'package:uni/session/flows/base/request.dart';
 import 'package:uni/session/flows/credentials/session.dart';
 import 'package:uni/sigarra/endpoints/api.dart';
@@ -31,13 +31,19 @@ class CredentialsSessionRequest extends SessionRequest {
 
       // FIXME(limwa): convey the reason to the user
       if (failureReason == LoginFailureReason.expiredCredentials) {
-        throw ExpiredCredentialsException();
+        throw const AuthenticationException(
+          'Failed to authenticate user',
+          AuthenticationExceptionType.expiredCredentials,
+        );
       } else {
-        throw WrongCredentialsException();
+        throw const AuthenticationException(
+          'Failed to authenticate user',
+          AuthenticationExceptionType.wrongCredentials,
+        );
       }
     }
 
-    final faculties = await getStudentFaculties(tempSession);
+    final faculties = await getStudentFaculties(tempSession, client);
 
     final session = CredentialsSession(
       username: tempSession.username,
@@ -59,7 +65,7 @@ class CredentialsSessionRequest extends SessionRequest {
     final loginResponse = await api.authentication.login.call(
       username: username,
       password: password,
-      options: FacultyRequestOptions(client: httpClient),
+      options: FacultyRequestOptions(faculty: 'feup', client: httpClient),
     );
 
     if (!loginResponse.success) {
@@ -71,7 +77,7 @@ class CredentialsSessionRequest extends SessionRequest {
       username: info.username,
       password: password,
       cookies: info.cookies,
-      faculties: ['up'],
+      faculties: ['feup'],
     );
   }
 

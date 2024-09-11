@@ -39,8 +39,6 @@ class FederatedSessionRequest extends SessionRequest {
 
   @override
   Future<FederatedSession> perform([http.Client? httpClient]) async {
-    final userInfo = FederatedSessionUserInfo(await credential.getUserInfo());
-
     final authorizedClient = credential.createHttpClient(httpClient);
 
     final oidc = SigarraOidc();
@@ -54,6 +52,7 @@ class FederatedSessionRequest extends SessionRequest {
       throw const AuthenticationException('Failed to get OIDC token');
     }
 
+    final userInfo = FederatedSessionUserInfo(await credential.getUserInfo());
     final successfulResponse = response.asSuccessful();
     return FederatedSession(
       username: userInfo.username,

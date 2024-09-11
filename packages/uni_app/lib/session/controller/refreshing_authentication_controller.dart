@@ -6,15 +6,13 @@ import 'package:synchronized/synchronized.dart';
 import 'package:uni/session/controller/authentication_controller.dart';
 import 'package:uni/session/exception.dart';
 import 'package:uni/session/flows/base/session.dart';
-import 'package:uni/session/logout/logout_handler.dart';
 
 class RefreshingAuthenticationController extends AuthenticationController {
   RefreshingAuthenticationController(
     Session initialSession, {
-    this.logoutHandler,
+    super.logoutHandler,
   }) : _currentSession = initialSession;
 
-  final LogoutHandler? logoutHandler;
   final Lock _authenticationLock = Lock();
 
   Future<void>? _nextAuthentication;

@@ -1,7 +1,6 @@
 import 'package:http/http.dart' as http;
 import 'package:openid_client/openid_client.dart';
 import 'package:uni/session/flows/base/initiator.dart';
-import 'package:uni/session/flows/base/request.dart';
 import 'package:uni/session/flows/federated/request.dart';
 
 class FederatedSessionInitiator extends SessionInitiator {
@@ -18,7 +17,7 @@ class FederatedSessionInitiator extends SessionInitiator {
   final Future<Uri> Function(Flow flow) performAuthentication;
 
   @override
-  Future<SessionRequest> initiate([http.Client? httpClient]) async {
+  Future<FederatedSessionRequest> initiate([http.Client? httpClient]) async {
     final issuer = await Issuer.discover(realm);
     final client = Client(issuer, clientId, httpClient: httpClient);
 
