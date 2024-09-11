@@ -6,7 +6,7 @@ abstract class NavbarDefaultIcons {
   static final academic =
       PhosphorIcons.graduationCap(PhosphorIconsStyle.duotone);
   static final restaurant = PhosphorIcons.forkKnife(PhosphorIconsStyle.duotone);
-  static final locations = PhosphorIcons.buildings(PhosphorIconsStyle.duotone);
+  static final faculty = PhosphorIcons.buildings(PhosphorIconsStyle.duotone);
   static final map = PhosphorIcons.mapTrifold(PhosphorIconsStyle.duotone);
 }
 
