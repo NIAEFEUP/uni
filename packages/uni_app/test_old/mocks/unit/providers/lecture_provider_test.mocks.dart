@@ -84,6 +84,16 @@ class MockScheduleFetcher extends _i1.Mock implements _i3.ScheduleFetcher {
       ) as List<_i8.Week>);
 
   @override
+  int getLectiveYear(DateTime? date) => (super.noSuchMethod(
+        Invocation.method(
+          #getLectiveYear,
+          [date],
+        ),
+        returnValue: 0,
+        returnValueForMissingStub: 0,
+      ) as int);
+
+  @override
   List<_i3.Dates> getDates() => (super.noSuchMethod(
         Invocation.method(
           #getDates,

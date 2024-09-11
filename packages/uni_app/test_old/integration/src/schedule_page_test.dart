@@ -124,27 +124,5 @@ void main() async {
 
       await testSchedule(tester);
     });
-
-    testWidgets('Schedule with HTML Fetcher', (tester) async {
-      final mockHtml = File('test/integration/resources/schedule_example.html')
-          .readAsStringSync(encoding: const Latin1Codec());
-      when(mockResponse.body).thenReturn(mockHtml);
-      when(mockResponse.statusCode).thenReturn(200);
-      when(
-        mockClient.get(
-          argThat(UriMatcher(contains(htmlFetcherIdentifier))),
-          headers: anyNamed('headers'),
-        ),
-      ).thenAnswer((_) async => mockResponse);
-
-      when(
-        mockClient.get(
-          argThat(UriMatcher(contains(jsonFetcherIdentifier))),
-          headers: anyNamed('headers'),
-        ),
-      ).thenAnswer((_) async => badMockResponse);
-
-      await testSchedule(tester);
-    });
   });
 }

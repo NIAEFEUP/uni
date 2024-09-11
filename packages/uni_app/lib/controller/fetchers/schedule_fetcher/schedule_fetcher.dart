@@ -23,12 +23,16 @@ abstract class ScheduleFetcher extends SessionDependantFetcher {
     return thisWeek == nextWeek ? [thisWeek] : [thisWeek, nextWeek];
   }
 
+  int getLectiveYear(DateTime date) {
+    return date.month < 8 ? date.year - 1 : date.year;
+  }
+
   /// Returns [Dates].
   List<Dates> getDates() {
     final date = DateTime.now();
 
     final weeks = getWeeks(date);
-    final lectiveYear = date.month < 8 ? date.year - 1 : date.year;
+    final lectiveYear = getLectiveYear(date);
 
     return weeks.map((week) => Dates(week, lectiveYear)).toList();
   }
