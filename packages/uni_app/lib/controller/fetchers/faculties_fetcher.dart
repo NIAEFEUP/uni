@@ -4,7 +4,9 @@ import 'package:uni/http/client/cookie.dart';
 import 'package:uni/session/flows/base/session.dart';
 
 Future<List<String>> getStudentFaculties(
-    Session session, http.Client httpClient) async {
+  Session session,
+  http.Client httpClient,
+) async {
   final client = CookieClient(httpClient, cookies: () => session.cookies);
 
   final response = await client.get(
