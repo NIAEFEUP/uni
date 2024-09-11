@@ -34,6 +34,10 @@ class ScheduleFetcherNewApi extends ScheduleFetcher {
 
       final scheduleApiUrl = getScheduleApiUrlFromHtml(scheduleResponse);
 
+      if (scheduleApiUrl == null) {
+        return <Lecture>[];
+      }
+
       final scheduleApiResponse = await NetworkRouter.getWithCookies(
         scheduleApiUrl,
         {},
