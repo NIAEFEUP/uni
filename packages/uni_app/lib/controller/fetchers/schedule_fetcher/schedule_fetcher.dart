@@ -1,8 +1,8 @@
 import 'package:uni/controller/fetchers/session_dependant_fetcher.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/entities/profile.dart';
-import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/utils/time/week.dart';
+import 'package:uni/session/flows/base/session.dart';
 
 /// Class for fetching the user's schedule.
 abstract class ScheduleFetcher extends SessionDependantFetcher {
@@ -23,12 +23,16 @@ abstract class ScheduleFetcher extends SessionDependantFetcher {
     return thisWeek == nextWeek ? [thisWeek] : [thisWeek, nextWeek];
   }
 
+  int getLectiveYear(DateTime date) {
+    return date.month < 8 ? date.year - 1 : date.year;
+  }
+
   /// Returns [Dates].
   List<Dates> getDates() {
     final date = DateTime.now();
 
     final weeks = getWeeks(date);
-    final lectiveYear = date.month < 8 ? date.year - 1 : date.year;
+    final lectiveYear = getLectiveYear(date);
 
     return weeks.map((week) => Dates(week, lectiveYear)).toList();
   }
