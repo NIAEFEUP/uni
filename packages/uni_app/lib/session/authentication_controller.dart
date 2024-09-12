@@ -49,6 +49,13 @@ class AuthenticationController {
     await currentSnapshot.invalidate();
   }
 
+  Future<void> close() async {
+    final currentSnapshot = await snapshot;
+    final session = currentSnapshot.session;
+
+    return logoutHandler?.close(session);
+  }
+
   AuthenticationSnapshot _createSnapshot(Session session) {
     return AuthenticationSnapshot(
       session,
