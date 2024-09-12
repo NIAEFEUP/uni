@@ -1,4 +1,4 @@
-import 'package:uni/sigarra/endpoints/api/authentication/login.dart';
+import 'package:uni/sigarra/endpoints/api/authentication/login/login.dart';
 import 'package:uni/utils/lazy.dart';
 
 class SigarraApiAuthentication {

@@ -3,9 +3,9 @@ import 'package:uni/controller/fetchers/faculties_fetcher.dart';
 import 'package:uni/session/exception.dart';
 import 'package:uni/session/flows/base/request.dart';
 import 'package:uni/session/flows/credentials/session.dart';
-import 'package:uni/sigarra/endpoints/api.dart';
-import 'package:uni/sigarra/endpoints/html.dart';
+import 'package:uni/sigarra/endpoints/api/api.dart';
 import 'package:uni/sigarra/endpoints/html/authentication/login/response.dart';
+import 'package:uni/sigarra/endpoints/html/html.dart';
 import 'package:uni/sigarra/options.dart';
 
 class CredentialsSessionRequest extends SessionRequest {
@@ -61,11 +61,12 @@ class CredentialsSessionRequest extends SessionRequest {
     http.Client httpClient,
   ) async {
     final api = SigarraApi();
+    const tempFaculty = 'feup';
 
     final loginResponse = await api.authentication.login.call(
       username: username,
       password: password,
-      options: FacultyRequestOptions(faculty: 'feup', client: httpClient),
+      options: FacultyRequestOptions(faculty: tempFaculty, client: httpClient),
     );
 
     if (!loginResponse.success) {
@@ -77,7 +78,7 @@ class CredentialsSessionRequest extends SessionRequest {
       username: info.username,
       password: password,
       cookies: info.cookies,
-      faculties: ['feup'],
+      faculties: [tempFaculty],
     );
   }
 

@@ -10,10 +10,5 @@ List<Cookie> extractCookies(http.Response response) {
     return [];
   }
 
-  final cookies = <Cookie>[];
-  for (final value in setCookieHeaders) {
-    cookies.add(Cookie.fromSetCookieValue(value));
-  }
-
-  return cookies;
+  return setCookieHeaders.map(Cookie.fromSetCookieValue).toList();
 }

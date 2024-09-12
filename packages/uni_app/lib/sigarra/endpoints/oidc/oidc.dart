@@ -1,4 +1,4 @@
-import 'package:uni/sigarra/endpoints/oidc/token.dart';
+import 'package:uni/sigarra/endpoints/oidc/token/token.dart';
 import 'package:uni/utils/lazy.dart';
 
 class SigarraOidc {

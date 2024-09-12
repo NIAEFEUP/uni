@@ -1,5 +1,5 @@
-import 'package:uni/sigarra/endpoints/html/authentication/login.dart';
-import 'package:uni/sigarra/endpoints/html/authentication/logout.dart';
+import 'package:uni/sigarra/endpoints/html/authentication/login/login.dart';
+import 'package:uni/sigarra/endpoints/html/authentication/logout/logout.dart';
 import 'package:uni/utils/lazy.dart';
 
 class SigarraHtmlAuthentication {

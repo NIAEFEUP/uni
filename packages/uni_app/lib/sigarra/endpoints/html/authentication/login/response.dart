@@ -18,8 +18,5 @@ enum LoginFailureReason {
 class LoginFailedResponse extends LoginResponse {
   const LoginFailedResponse({required this.reason}) : super(success: false);
 
-  @override
-  bool get success => false;
-
   final LoginFailureReason reason;
 }

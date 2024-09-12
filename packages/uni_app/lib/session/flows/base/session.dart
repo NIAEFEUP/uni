@@ -43,25 +43,6 @@ abstract class Session {
   String get mainFaculty => faculties.first;
 
   SessionRequest createRefreshRequest();
-
-  /// Executed when the authorization provided by this session is rejected.
-  ///
-  /// This is useful for performing cleanup operations, such as invalidating
-  /// session cookies, since they will no longer be used.
-  // @mustCallSuper
-  // FutureOr<void> onRejection([http.Client? httpClient]) async {
-  //   final client = httpClient ?? http.Client();
-
-  //   try {
-  //     await authentication.logout(
-  //       options: FacultyRequestOptions(
-  //         client: CookieClient(client, cookies: () => cookies),
-  //       ),
-  //     );
-  //   } catch (err, st) {
-  //     unawaited(Sentry.captureException(err, stackTrace: st));
-  //   }
-  // }
 }
 
 class CookieConverter implements JsonConverter<Cookie, String> {

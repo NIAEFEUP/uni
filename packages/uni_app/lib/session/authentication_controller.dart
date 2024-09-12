@@ -64,7 +64,7 @@ class AuthenticationController {
   }
 
   bool _shouldInvalidate(Session session) {
-    // We invalidate if the is not an invalidation in progress already
+    // We invalidate if there is not an invalidation in progress already
     // and the session is the same as the current one.
     return _nextAuthentication == null && _currentSession == session;
   }

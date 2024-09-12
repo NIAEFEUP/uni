@@ -1,12 +1,12 @@
 import 'dart:async';
 
-import 'package:app_links/app_links.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:uni/app_links/uni_app_links.dart';
 import 'package:uni/controller/networking/url_launcher.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/login_exceptions.dart';
@@ -56,26 +56,13 @@ class LoginPageViewState extends State<LoginPageView>
   @override
   void initState() {
     super.initState();
-
     WidgetsBinding.instance.addObserver(this);
   }
 
   @override
   void dispose() {
-    // TODO(thePeras): Fix error used after being disposed
-    // usernameController.dispose();
-    // passwordController.dispose();
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
-  }
-
-  Future<Uri> getInterceptedUri() async {
-    final appLinks = AppLinks();
-    final uri =
-        await appLinks.uriLinkStream.firstWhere((uri) => uri.host == 'auth');
-
-    Logger().d('AppLinks intercepted: $uri');
-    return uri;
   }
 
   Future<void> _login() async {
@@ -156,24 +143,25 @@ class LoginPageViewState extends State<LoginPageView>
         _loggingIn = true;
       });
 
+      final appLinks = UniAppLinks();
+
       await sessionProvider.login(
         FederatedSessionInitiator(
           clientId: clientId,
           realm: Uri.parse(realm),
-          redirectUri: Uri.parse('pt.up.fe.ni.uni://auth'),
           performAuthentication: (flow) async {
-            final interceptedUri = getInterceptedUri();
+            final data = await appLinks.login.intercept((redirectUri) async {
+              flow.redirectUri = redirectUri;
+              await launchUrl(flow.authenticationUri);
+            });
 
-            final authenticationUri = flow.authenticationUri;
-            await launchUrl(authenticationUri);
+            await closeInAppWebView();
 
-            return interceptedUri;
+            return data;
           },
         ),
         persistentSession: _keepSignedIn,
       );
-
-      await closeInAppWebView();
 
       setState(() {
         _intercepting = true;

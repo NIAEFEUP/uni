@@ -7,13 +7,11 @@ class FederatedSessionInitiator extends SessionInitiator {
   FederatedSessionInitiator({
     required this.realm,
     required this.clientId,
-    required this.redirectUri,
     required this.performAuthentication,
   });
 
   final Uri realm;
   final String clientId;
-  final Uri redirectUri;
   final Future<Uri> Function(Flow flow) performAuthentication;
 
   @override
@@ -31,7 +29,7 @@ class FederatedSessionInitiator extends SessionInitiator {
         'audience',
         'uporto_data',
       ],
-    )..redirectUri = redirectUri;
+    );
 
     final uri = await performAuthentication(flow);
     final credential = await flow.callback(uri.queryParameters);

@@ -4,7 +4,7 @@ import 'package:uni/controller/fetchers/faculties_fetcher.dart';
 import 'package:uni/session/exception.dart';
 import 'package:uni/session/flows/base/request.dart';
 import 'package:uni/session/flows/federated/session.dart';
-import 'package:uni/sigarra/endpoints/oidc.dart';
+import 'package:uni/sigarra/endpoints/oidc/oidc.dart';
 import 'package:uni/sigarra/options.dart';
 
 class FederatedSessionUserInfo {
