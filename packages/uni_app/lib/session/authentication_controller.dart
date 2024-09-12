@@ -3,17 +3,30 @@ import 'dart:async';
 import 'package:logger/logger.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:synchronized/synchronized.dart';
-import 'package:uni/session/controller/authentication_controller.dart';
 import 'package:uni/session/exception.dart';
 import 'package:uni/session/flows/base/session.dart';
+import 'package:uni/session/logout/logout_handler.dart';
 
-class RefreshingAuthenticationController extends AuthenticationController {
-  RefreshingAuthenticationController(
+class AuthenticationSnapshot {
+  AuthenticationSnapshot(
+    this.session, {
+    required Future<void> Function() invalidate,
+  }) : _invalidate = invalidate;
+
+  final Session session;
+  final Future<void> Function() _invalidate;
+
+  Future<void> invalidate() => _invalidate();
+}
+
+class AuthenticationController {
+  AuthenticationController(
     Session initialSession, {
-    super.logoutHandler,
+    this.logoutHandler,
   }) : _currentSession = initialSession;
 
   final Lock _authenticationLock = Lock();
+  final LogoutHandler? logoutHandler;
 
   Future<void>? _nextAuthentication;
   Session _currentSession;
@@ -22,7 +35,6 @@ class RefreshingAuthenticationController extends AuthenticationController {
       StreamController<AuthenticationSnapshot>.broadcast();
   Stream<AuthenticationSnapshot> get snapshots => _snapshotsController.stream;
 
-  @override
   Future<AuthenticationSnapshot> get snapshot async {
     final nextAuthentication = _nextAuthentication;
     if (nextAuthentication != null) {

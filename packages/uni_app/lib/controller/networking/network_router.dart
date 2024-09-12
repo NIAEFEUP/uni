@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:uni/http/client/authenticated.dart';
 import 'package:uni/http/client/timeout.dart';
-import 'package:uni/session/controller/authentication_controller.dart';
-import 'package:uni/session/controller/refreshing_authentication_controller.dart';
+import 'package:uni/session/authentication_controller.dart';
+import 'package:uni/session/controller/?authentication_controller.dart';
 import 'package:uni/session/flows/base/session.dart';
 
 extension UriString on String {

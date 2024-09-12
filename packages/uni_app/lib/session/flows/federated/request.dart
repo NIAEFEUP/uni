@@ -1,5 +1,6 @@
 import 'package:http/http.dart' as http;
 import 'package:openid_client/openid_client.dart';
+import 'package:uni/controller/fetchers/faculties_fetcher.dart';
 import 'package:uni/session/exception.dart';
 import 'package:uni/session/flows/base/request.dart';
 import 'package:uni/session/flows/federated/session.dart';
@@ -39,7 +40,9 @@ class FederatedSessionRequest extends SessionRequest {
 
   @override
   Future<FederatedSession> perform([http.Client? httpClient]) async {
-    final authorizedClient = credential.createHttpClient(httpClient);
+    final client = httpClient ?? http.Client();
+
+    final authorizedClient = credential.createHttpClient(client);
 
     final oidc = SigarraOidc();
     final response = await oidc.token.call(
@@ -54,9 +57,19 @@ class FederatedSessionRequest extends SessionRequest {
 
     final userInfo = FederatedSessionUserInfo(await credential.getUserInfo());
     final successfulResponse = response.asSuccessful();
-    return FederatedSession(
+
+    final tempSession = FederatedSession(
       username: userInfo.username,
       faculties: userInfo.faculties,
+      cookies: successfulResponse.cookies,
+      credential: credential,
+    );
+
+    final faculties = await getStudentFaculties(tempSession, client);
+
+    return FederatedSession(
+      username: userInfo.username,
+      faculties: faculties,
       cookies: successfulResponse.cookies,
       credential: credential,
     );

@@ -7,8 +7,7 @@ import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/model/providers/state_providers.dart';
 import 'package:uni/model/request_status.dart';
-import 'package:uni/session/controller/authentication_controller.dart';
-import 'package:uni/session/controller/refreshing_authentication_controller.dart';
+import 'package:uni/session/authentication_controller.dart';
 import 'package:uni/session/flows/base/initiator.dart';
 import 'package:uni/session/flows/base/session.dart';
 import 'package:uni/session/logout/uni_logout_handler.dart';
@@ -25,7 +24,7 @@ class SessionProvider extends StateProviderNotifier<Session?> {
       NetworkRouter.authenticationController!;
 
   void initController(Session session) {
-    NetworkRouter.authenticationController = RefreshingAuthenticationController(
+    NetworkRouter.authenticationController = AuthenticationController(
       session,
       logoutHandler: UniLogoutHandler(),
     );

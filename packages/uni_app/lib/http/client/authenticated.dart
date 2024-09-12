@@ -5,7 +5,7 @@ import 'package:http/retry.dart' show RetryClient;
 import 'package:logger/logger.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/http/client/cookie.dart';
-import 'package:uni/session/controller/authentication_controller.dart';
+import 'package:uni/session/authentication_controller.dart';
 import 'package:uni/session/exception.dart';
 import 'package:uni/session/flows/base/session.dart';
 
