@@ -52,6 +52,10 @@ class SessionProvider extends StateProviderNotifier<Session?> {
     final newSnapshot = await controller.snapshot;
     final newState = newSnapshot.session;
 
+    if (await PreferencesController.isSessionPersistent()) {
+      await PreferencesController.saveSession(newSnapshot.session);
+    }
+
     return newState;
   }
 
