@@ -9,7 +9,6 @@ import 'package:uni/view/login/login.dart';
 class NavigationService {
   static void logoutAndPopHistory() {
     final context = Application.navigatorKey.currentContext!;
-
     unawaited(cleanupStoredData(context));
 
     Navigator.pushAndRemoveUntil(

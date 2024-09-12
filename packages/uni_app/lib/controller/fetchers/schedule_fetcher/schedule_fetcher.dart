@@ -1,8 +1,8 @@
 import 'package:uni/controller/fetchers/session_dependant_fetcher.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/entities/profile.dart';
-import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/utils/time/week.dart';
+import 'package:uni/session/flows/base/session.dart';
 
 /// Class for fetching the user's schedule.
 abstract class ScheduleFetcher extends SessionDependantFetcher {

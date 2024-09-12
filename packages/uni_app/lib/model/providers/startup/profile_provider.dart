@@ -16,9 +16,9 @@ import 'package:uni/controller/parsers/parser_print_balance.dart';
 import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/entities/profile.dart';
-import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/model/providers/state_providers.dart';
+import 'package:uni/session/flows/base/session.dart';
 
 class ProfileProvider extends StateProviderNotifier<Profile> {
   ProfileProvider()

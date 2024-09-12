@@ -41,8 +41,7 @@ abstract class AppDatabase<T> {
 
   /// Getter to determine if the session is persistent.
   Future<bool> get persistentSession async {
-    _persistentSession ??=
-        await PreferencesController.getPersistentUserInfo() != null;
+    _persistentSession ??= await PreferencesController.isSessionPersistent();
     return _persistentSession!;
   }
 

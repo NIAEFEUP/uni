@@ -1,22 +1,18 @@
 import 'dart:async';
 
-import 'package:logger/logger.dart';
-import 'package:openid_client/openid_client.dart';
 import 'package:uni/controller/background_workers/notifications.dart';
-import 'package:uni/controller/fetchers/faculties_fetcher.dart';
 import 'package:uni/controller/fetchers/terms_and_conditions_fetcher.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/controller/networking/network_router.dart';
-import 'package:uni/controller/parsers/parser_session.dart';
-import 'package:uni/model/entities/login_exceptions.dart';
-import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/model/providers/state_providers.dart';
 import 'package:uni/model/request_status.dart';
-import 'package:uni/utils/constants.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:uni/session/authentication_controller.dart';
+import 'package:uni/session/flows/base/initiator.dart';
+import 'package:uni/session/flows/base/session.dart';
+import 'package:uni/session/logout/uni_logout_handler.dart';
 
-class SessionProvider extends StateProviderNotifier<Session> {
+class SessionProvider extends StateProviderNotifier<Session?> {
   SessionProvider()
       : super(
           cacheDuration: null,
@@ -24,159 +20,57 @@ class SessionProvider extends StateProviderNotifier<Session> {
           dependsOnSession: false,
         );
 
-  @override
-  Future<Session> loadFromStorage(StateProviders stateProviders) async {
-    final userPersistentInfo =
-        await PreferencesController.getPersistentUserInfo();
-    final faculties = PreferencesController.getUserFaculties();
+  AuthenticationController get controller =>
+      NetworkRouter.authenticationController!;
 
-    if (userPersistentInfo == null) {
-      return Session(username: '', cookies: '', faculties: faculties);
-    }
-
-    return Session(
-      faculties: faculties,
-      username: userPersistentInfo.item1,
-      cookies: '',
-      persistentSession: true,
+  void initController(Session session) {
+    NetworkRouter.authenticationController = AuthenticationController(
+      session,
+      logoutHandler: UniLogoutHandler(),
     );
   }
 
   @override
-  Future<Session> loadFromRemote(StateProviders stateProviders) async {
-    return state!;
-  }
-
-  static Future<void> _invoke(Uri uri) async {
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri, mode: LaunchMode.inAppBrowserView);
-    } else {
-      Logger().e('Could not launch $uri');
+  Future<Session?> loadFromStorage(StateProviders stateProviders) async {
+    final session = await PreferencesController.getSavedSession();
+    if (session != null) {
+      initController(session);
     }
+
+    return session;
   }
 
-  Future<void> postAuthentication(
-    String username,
-    String password, {
+  @override
+  Future<Session?> loadFromRemote(StateProviders stateProviders) async {
+    if (state == null) {
+      return null;
+    }
+
+    final oldSnapshot = await controller.snapshot;
+    await oldSnapshot.invalidate();
+
+    final newSnapshot = await controller.snapshot;
+    final newState = newSnapshot.session;
+
+    if (await PreferencesController.isSessionPersistent()) {
+      await PreferencesController.saveSession(newSnapshot.session);
+    }
+
+    return newState;
+  }
+
+  Future<void> login(
+    SessionInitiator initiator, {
     required bool persistentSession,
   }) async {
-    Session? session;
-    List<String> faculties;
+    final request = await initiator.initiate();
+    final session = await request.perform();
 
-    // We need to login to fetch the faculties, so perform a temporary login.
-    final tempSession = await NetworkRouter.login(
-      username,
-      password,
-      ['feup'],
-      persistentSession: false,
-      ignoreCached: true,
-    );
-    faculties = await getStudentFaculties(tempSession!);
-
-    // Now get the session with the correct faculties.
-    session = await NetworkRouter.login(
-      username,
-      password,
-      faculties,
-      persistentSession: persistentSession,
-      ignoreCached: true,
-    );
-
-    if (session == null) {
-      // Get the fail reason.
-      final responseHtml =
-          await NetworkRouter.loginInSigarra(username, password, ['feup']);
-
-      if (isPasswordExpired(responseHtml)) {
-        throw ExpiredCredentialsException();
-      } else {
-        throw WrongCredentialsException();
-      }
-    }
-
+    initController(session);
     setState(session);
 
     if (persistentSession) {
-      await PreferencesController.savePersistentUserInfo(
-        session.username,
-        password,
-        faculties,
-      );
-    }
-
-    Future.delayed(
-      const Duration(seconds: 20),
-      () => {NotificationManager().initializeNotifications()},
-    );
-
-    await acceptTermsAndConditions();
-  }
-
-  late Flow? _flow;
-  bool _persistentSession = false;
-
-  Future<void> federatedAuthentication({
-    required bool persistentSession,
-  }) async {
-    _persistentSession = persistentSession;
-
-    final issuer = await Issuer.discover(Uri.parse(realm));
-    final client = Client(
-      issuer,
-      clientId,
-    );
-
-    _flow = Flow.authorizationCodeWithPKCE(
-      client,
-      scopes: [
-        'openid',
-        'profile',
-        'email',
-        'offline_access',
-        'audience',
-        'uporto_data',
-      ],
-    );
-    _flow?.redirectUri = Uri.parse('pt.up.fe.ni.uni://auth');
-
-    await _invoke(_flow!.authenticationUri);
-  }
-
-  Future<void> finishFederatedAuthentication(Uri uri) async {
-    final credential = await _flow!.callback(uri.queryParameters);
-    final userInfo = (await credential.getUserInfo()).toJson();
-    final token = (await credential.getTokenResponse()).accessToken;
-
-    if (token == null) {
-      Logger().e('Failed to get token from SIGARRA');
-      throw Exception('Failed to get token from SIGARRA');
-    }
-
-    final studentNumber = userInfo['nmec'] as String;
-    final faculties = List<String>.from(userInfo['ous'] as List)
-        .map((element) => element.toLowerCase())
-        .toList();
-
-    final session = await NetworkRouter.loginWithToken(
-      token,
-      studentNumber,
-      faculties,
-      persistentSession: _persistentSession,
-    );
-
-    if (session == null) {
-      throw Exception('Failed to login with token');
-    }
-
-    setState(session);
-
-    if (_persistentSession && credential.refreshToken != null) {
-      await PreferencesController.saveSessionRefreshToken(
-        credential.refreshToken!,
-        studentNumber,
-        faculties,
-      );
-      _persistentSession = false;
+      await PreferencesController.saveSession(session);
     }
 
     Future.delayed(
