@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:collection/collection.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:uni/model/entities/library_occupation.dart';
@@ -20,30 +21,34 @@ class LibraryOccupationFetcher {
   Future<LibraryOccupation> getLibraryOccupation() async {
     final libraryOccupation = LibraryOccupation(0, 0);
 
-    for (var i = 0; i < floorMaxSeats.entries.length; i++) {
-      final floor = floorMaxSeats.entries.elementAt(i);
+    await Future.wait(
+      floorMaxSeats.entries.mapIndexed((i, entry) async {
+        final url = Uri.parse(baseUrl).replace(
+          queryParameters: {
+            'token': entry.key,
+          },
+        );
 
-      final url = Uri.parse(baseUrl).replace(
-        queryParameters: {
-          'token': floor.key,
-        },
-      );
+        final response = await http.get(url);
 
-      final response = await http.get(url);
+        final floorOccupation =
+            processFloorOccupation(response, entry.value, i);
 
-      final floorOccupation = processFloorOccupation(response, i);
-
-      libraryOccupation.addFloor(floorOccupation);
-    }
+        libraryOccupation.addFloor(floorOccupation);
+      }),
+    );
 
     return libraryOccupation;
   }
 
-  FloorOccupation processFloorOccupation(Response response, int floor) {
+  FloorOccupation processFloorOccupation(
+    Response response,
+    int floorCapacity,
+    int floor,
+  ) {
     final responseBody = jsonDecode(response.body) as Map<String, dynamic>;
 
     final floorOccupation = int.parse(responseBody['progress'].toString());
-    final floorCapacity = floorMaxSeats.entries.elementAt(floor).value;
 
     return FloorOccupation(
       floor + 1,
