@@ -1,0 +1,10 @@
+include: package:leancode_lint/analysis_options.yaml
+
+analyzer:
+  # Exclude auto-generated files from dart analysis
+  exclude:
+    - "**.g.dart"
+    - "**.mocks.dart"
+    - "**generated/**"
+  plugins:
+    - custom_lint
