@@ -58,9 +58,8 @@ Future<Sheet> parseSheet(http.Response response) async {
     return Professor.fromJson(element as Map<String, dynamic>);
   }).toList();
 
-  final books = (json['bibliografia'] as List)
+  final books = (json['bibliografia'] as List? ?? [])
       .map((element) => element as Map<String, dynamic>)
-      .toList()
       .map<Book>((element) {
     return Book(
       title: element['titulo'].toString(),
