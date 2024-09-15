@@ -46,11 +46,11 @@ class LectureProvider extends StateProviderNotifier<List<Lecture>> {
     Session session,
     Profile profile,
   ) =>
-      fetcher?.getLectures(session, profile) ?? getLectures(session, profile);
+      fetcher?.getLectures(session) ?? getLectures(session, profile);
 
   Future<List<Lecture>> getLectures(Session session, Profile profile) {
-    return ScheduleFetcherApi().getLectures(session, profile).catchError(
-          (e) => ScheduleFetcherNewApi().getLectures(session, profile),
+    return ScheduleFetcherApi().getLectures(session).catchError(
+          (e) => ScheduleFetcherNewApi().getLectures(session),
         );
   }
 }
