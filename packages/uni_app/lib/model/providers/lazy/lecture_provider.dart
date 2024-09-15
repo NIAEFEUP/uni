@@ -5,7 +5,6 @@ import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher_api.da
 import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher_new_api.dart';
 import 'package:uni/controller/local_storage/database/app_lectures_database.dart';
 import 'package:uni/model/entities/lecture.dart';
-import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/model/providers/state_providers.dart';
 import 'package:uni/session/flows/base/session.dart';
@@ -23,17 +22,14 @@ class LectureProvider extends StateProviderNotifier<List<Lecture>> {
   Future<List<Lecture>> loadFromRemote(StateProviders stateProviders) async {
     return fetchUserLectures(
       stateProviders.sessionProvider.state!,
-      stateProviders.profileProvider.state!,
     );
   }
 
   Future<List<Lecture>> fetchUserLectures(
-    Session session,
-    Profile profile, {
+    Session session, {
     ScheduleFetcher? fetcher,
   }) async {
-    final lectures =
-        await getLecturesFromFetcherOrElse(fetcher, session, profile);
+    final lectures = await getLecturesFromFetcherOrElse(fetcher, session);
 
     final db = AppLecturesDatabase();
     await db.saveIfPersistentSession(lectures);
@@ -44,11 +40,10 @@ class LectureProvider extends StateProviderNotifier<List<Lecture>> {
   Future<List<Lecture>> getLecturesFromFetcherOrElse(
     ScheduleFetcher? fetcher,
     Session session,
-    Profile profile,
   ) =>
-      fetcher?.getLectures(session) ?? getLectures(session, profile);
+      fetcher?.getLectures(session) ?? getLectures(session);
 
-  Future<List<Lecture>> getLectures(Session session, Profile profile) {
+  Future<List<Lecture>> getLectures(Session session) {
     return ScheduleFetcherApi().getLectures(session).catchError(
           (e) => ScheduleFetcherNewApi().getLectures(session),
         );
