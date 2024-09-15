@@ -21,7 +21,7 @@ class AppCourseUnitsDatabase extends AppDatabase<List<CourseUnit>> {
     final List<Map<String, dynamic>> maps = await db.query('course_units');
     return List.generate(maps.length, (i) {
       return CourseUnit(
-        id: maps[i]['ucurr_id'] as int,
+        id: maps[i]['ucurr_id'] as int?,
         code: maps[i]['ucurr_codigo'] as String,
         abbreviation: maps[i]['ucurr_sigla'] as String,
         name: maps[i]['ucurr_nome'] as String,
