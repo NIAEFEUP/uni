@@ -27,10 +27,15 @@ class Course {
   });
 
   factory Course.fromJson(Map<String, dynamic> json) {
+    var name = json['cur_nome'] as String?;
+    if (name == null || name.isEmpty) {
+      name = json['fest_tipo_descr'] as String?;
+    }
+
     return Course(
       id: json['cur_id'] as int?,
       festId: json['fest_id'] as int?,
-      name: json['cur_nome'] as String?,
+      name: name,
       abbreviation: json['abbreviation'] as String?,
       currYear: json['ano_curricular'] as String?,
       firstEnrollment: json['fest_a_lect_1_insc'] as int?,
