@@ -250,6 +250,16 @@ class S {
     );
   }
 
+  /// `Bibliography`
+  String get bibliography {
+    return Intl.message(
+      'Bibliography',
+      name: 'bibliography',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Did you find any bugs in the application?\nDo you have any suggestions for the app?\nTell us so we can improve!`
   String get bs_description {
     return Intl.message(
@@ -575,6 +585,16 @@ class S {
     return Intl.message(
       'Please fill in this field',
       name: 'empty_text',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Evaluation`
+  String get evaluation {
+    return Intl.message(
+      'Evaluation',
+      name: 'evaluation',
       desc: '',
       args: [],
     );
@@ -1263,6 +1283,16 @@ class S {
     return Intl.message(
       'Permission denied',
       name: 'permission_denied',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Program`
+  String get program {
+    return Intl.message(
+      'Program',
+      name: 'program',
       desc: '',
       args: [],
     );
