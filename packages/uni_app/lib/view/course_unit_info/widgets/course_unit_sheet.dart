@@ -220,7 +220,10 @@ Widget buildBooksRow(BuildContext context, List<Book> books) {
 }
 
 Widget _buildCard(
-    String sectionTitle, String sectionContent, BuildContext context) {
+  String sectionTitle,
+  String sectionContent,
+  BuildContext context,
+) {
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 8),
     child: Column(
