@@ -18,31 +18,28 @@ class S {
   static S? _current;
 
   static S get current {
-    assert(_current != null,
-        'No instance of S was loaded. Try to initialize the S delegate before accessing S.current.');
+    assert(_current != null, 'No instance of S was loaded. Try to initialize the S delegate before accessing S.current.');
     return _current!;
   }
 
-  static const AppLocalizationDelegate delegate = AppLocalizationDelegate();
+  static const AppLocalizationDelegate delegate =
+    AppLocalizationDelegate();
 
   static Future<S> load(Locale locale) {
-    final name = (locale.countryCode?.isEmpty ?? false)
-        ? locale.languageCode
-        : locale.toString();
-    final localeName = Intl.canonicalizedLocale(name);
+    final name = (locale.countryCode?.isEmpty ?? false) ? locale.languageCode : locale.toString();
+    final localeName = Intl.canonicalizedLocale(name); 
     return initializeMessages(localeName).then((_) {
       Intl.defaultLocale = localeName;
       final instance = S();
       S._current = instance;
-
+ 
       return instance;
     });
-  }
+  } 
 
   static S of(BuildContext context) {
     final instance = S.maybeOf(context);
-    assert(instance != null,
-        'No instance of S present in the widget tree. Did you add S.delegate in localizationsDelegates?');
+    assert(instance != null, 'No instance of S present in the widget tree. Did you add S.delegate in localizationsDelegates?');
     return instance!;
   }
 
@@ -245,6 +242,16 @@ class S {
     return Intl.message(
       'Balance:',
       name: 'balance',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Bibliografia`
+  String get bibliography {
+    return Intl.message(
+      'Bibliografia',
+      name: 'bibliography',
       desc: '',
       args: [],
     );
@@ -575,6 +582,16 @@ class S {
     return Intl.message(
       'Please fill in this field',
       name: 'empty_text',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Evaluation`
+  String get evaluation {
+    return Intl.message(
+      'Evaluation',
+      name: 'evaluation',
       desc: '',
       args: [],
     );
@@ -1263,6 +1280,16 @@ class S {
     return Intl.message(
       'Permission denied',
       name: 'permission_denied',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Program`
+  String get program {
+    return Intl.message(
+      'Program',
+      name: 'program',
       desc: '',
       args: [],
     );

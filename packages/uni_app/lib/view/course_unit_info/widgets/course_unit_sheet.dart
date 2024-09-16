@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/controller/fetchers/book_fetcher.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/course_units/sheet.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
@@ -37,16 +38,20 @@ class CourseUnitSheetView extends StatelessWidget {
               secondChild:
                   buildExpandedProfessors(context, courseUnitSheet.professors),
             ),
-            _buildCard('Programa', courseUnitSheet.content),
-            _buildCard('Avaliação', courseUnitSheet.evaluation),
+            _buildCard(S.of(context).program, courseUnitSheet.content, context),
+            _buildCard(
+              S.of(context).evaluation,
+              courseUnitSheet.evaluation,
+              context,
+            ),
             if (courseUnitSheet.books.isNotEmpty) ...[
               const Opacity(
                 opacity: 0.25,
                 child: Divider(color: Colors.grey),
               ),
-              const Text(
-                'Bibliografia',
-                style: TextStyle(fontSize: 20),
+              Text(
+                S.of(context).bibliography,
+                style: const TextStyle(fontSize: 20),
               ),
               buildBooksRow(context, courseUnitSheet.books),
             ],
@@ -215,9 +220,7 @@ Widget buildBooksRow(BuildContext context, List<Book> books) {
 }
 
 Widget _buildCard(
-  String sectionTitle,
-  String sectionContent,
-) {
+    String sectionTitle, String sectionContent, BuildContext context) {
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 8),
     child: Column(
@@ -228,9 +231,7 @@ Widget _buildCard(
         ),
         GenericExpandable(
           content: HtmlWidget(
-            sectionContent != 'null'
-                ? sectionContent
-                : 'Sem informações para apresentar',
+            sectionContent != 'null' ? sectionContent : S.of(context).no_info,
           ),
           title: sectionTitle,
         ),
