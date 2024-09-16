@@ -1,13 +1,12 @@
 import 'package:uni/controller/fetchers/session_dependant_fetcher.dart';
 import 'package:uni/model/entities/lecture.dart';
-import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/utils/time/week.dart';
 import 'package:uni/session/flows/base/session.dart';
 
 /// Class for fetching the user's schedule.
 abstract class ScheduleFetcher extends SessionDependantFetcher {
   // Returns the user's lectures.
-  Future<List<Lecture>> getLectures(Session session, Profile profile);
+  Future<List<Lecture>> getLectures(Session session);
 
   List<Week> getWeeks(DateTime now) {
     final week = Week(start: now);
