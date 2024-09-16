@@ -39,16 +39,17 @@ class CourseUnitSheetView extends StatelessWidget {
             ),
             _buildCard('Programa', courseUnitSheet.content),
             _buildCard('Avaliação', courseUnitSheet.evaluation),
-            const Opacity(
-              opacity: 0.25,
-              child: Divider(color: Colors.grey),
-            ),
-            const Text(
-              'Bibliografia',
-              style: TextStyle(fontSize: 20),
-            ),
-            if (courseUnitSheet.books.isNotEmpty)
+            if (courseUnitSheet.books.isNotEmpty) ...[
+              const Opacity(
+                opacity: 0.25,
+                child: Divider(color: Colors.grey),
+              ),
+              const Text(
+                'Bibliografia',
+                style: TextStyle(fontSize: 20),
+              ),
               buildBooksRow(context, courseUnitSheet.books),
+            ],
           ],
         ),
       ),
@@ -215,7 +216,7 @@ Widget buildBooksRow(BuildContext context, List<Book> books) {
 
 Widget _buildCard(
   String sectionTitle,
-  dynamic sectionContent,
+  String sectionContent,
 ) {
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 8),
@@ -226,7 +227,11 @@ Widget _buildCard(
           child: Divider(color: Colors.grey),
         ),
         GenericExpandable(
-          content: HtmlWidget(sectionContent.toString()),
+          content: HtmlWidget(
+            sectionContent != 'null'
+                ? sectionContent
+                : 'Sem informações para apresentar',
+          ),
           title: sectionTitle,
         ),
       ],
