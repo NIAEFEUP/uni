@@ -14,7 +14,7 @@ part '../../generated/model/entities/course.g.dart';
 @JsonSerializable(createFactory: false)
 class Course {
   Course({
-    required this.id,
+    this.id,
     this.festId,
     this.name,
     this.abbreviation,
@@ -28,7 +28,7 @@ class Course {
 
   factory Course.fromJson(Map<String, dynamic> json) {
     return Course(
-      id: json['cur_id'] as int,
+      id: json['cur_id'] as int?,
       festId: json['fest_id'] as int?,
       name: json['cur_nome'] as String?,
       abbreviation: json['abbreviation'] as String?,
@@ -41,8 +41,8 @@ class Course {
     );
   }
   @JsonKey(name: 'cur_id')
-  final int id;
-  @JsonKey(name: 'fest_id ')
+  final int? id;
+  @JsonKey(name: 'fest_id')
   final int? festId;
   @JsonKey(name: 'cur_nome')
   final String? name;
