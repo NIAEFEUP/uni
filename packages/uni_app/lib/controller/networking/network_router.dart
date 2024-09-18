@@ -11,6 +11,10 @@ extension UriString on String {
   Uri toUri() => Uri.parse(this);
 }
 
+extension SigarraUriEncoding on Uri {
+  Uri normalizeQueryComponent() => replace(query: query.replaceAll('+', '%20'));
+}
+
 /// Manages the networking of the app.
 class NetworkRouter {
   /// The HTTP client used for all requests.
@@ -65,6 +69,10 @@ class NetworkRouter {
       ];
     }
 
-    return client.get(parsedUrl.replace(queryParameters: allQueryParameters));
+    final requestUri = parsedUrl
+        .replace(queryParameters: allQueryParameters)
+        .normalizeQueryComponent();
+
+    return client.get(requestUri);
   }
 }
