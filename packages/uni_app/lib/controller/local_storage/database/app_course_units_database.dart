@@ -9,19 +9,21 @@ class AppCourseUnitsDatabase extends AppDatabase<List<CourseUnit>> {
       : super(
           'course_units.db',
           [createScript],
+          onUpgrade: migrate,
+          version: 2,
         );
   static const String createScript =
       '''CREATE TABLE course_units(ucurr_id INTEGER, ucurr_codigo TEXT, ucurr_sigla TEXT , '''
       '''ucurr_nome TEXT, ano INTEGER, ocorr_id INTEGER, per_codigo TEXT, '''
       '''per_nome TEXT, tipo TEXT, estado TEXT, resultado_melhor TEXT, resultado_ects TEXT, '''
-      '''resultado_insc TEXT, creditos_ects REAL, schoolYear TEXT)''';
+      '''ectsGrade TEXT, resultado_insc TEXT, creditos_ects REAL, schoolYear TEXT)''';
 
   Future<List<CourseUnit>> courseUnits() async {
     final db = await getDatabase();
     final List<Map<String, dynamic>> maps = await db.query('course_units');
     return List.generate(maps.length, (i) {
       return CourseUnit(
-        id: maps[i]['ucurr_id'] as int,
+        id: maps[i]['ucurr_id'] as int?,
         code: maps[i]['ucurr_codigo'] as String,
         abbreviation: maps[i]['ucurr_sigla'] as String,
         name: maps[i]['ucurr_nome'] as String,
@@ -53,6 +55,17 @@ class AppCourseUnitsDatabase extends AppDatabase<List<CourseUnit>> {
   Future<void> deleteCourseUnits() async {
     final db = await getDatabase();
     await db.delete('course_units');
+  }
+
+  static FutureOr<void> migrate(
+    Database db,
+    int oldVersion,
+    int newVersion,
+  ) async {
+    final batch = db.batch()
+      ..execute('DROP TABLE IF EXISTS course_units')
+      ..execute(createScript);
+    await batch.commit();
   }
 
   @override
