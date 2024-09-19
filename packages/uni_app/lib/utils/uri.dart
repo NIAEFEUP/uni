@@ -6,7 +6,7 @@ extension UriUtils on Uri {
       host: host,
       port: port,
       path: path,
-      fragment: fragment,
+      fragment: fragment.isNotEmpty ? fragment : null,
     );
   }
 
