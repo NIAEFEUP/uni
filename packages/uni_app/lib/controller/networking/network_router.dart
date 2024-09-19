@@ -5,14 +5,11 @@ import 'package:uni/http/client/authenticated.dart';
 import 'package:uni/http/client/timeout.dart';
 import 'package:uni/session/authentication_controller.dart';
 import 'package:uni/session/flows/base/session.dart';
+import 'package:uni/utils/uri.dart';
 
 extension UriString on String {
   /// Converts a [String] to an [Uri].
   Uri toUri() => Uri.parse(this);
-}
-
-extension SigarraUriEncoding on Uri {
-  Uri normalizeQueryComponent() => replace(query: query.replaceAll('+', '%20'));
 }
 
 /// Manages the networking of the app.
