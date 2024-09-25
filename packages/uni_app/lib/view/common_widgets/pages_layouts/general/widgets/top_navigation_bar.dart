@@ -50,7 +50,8 @@ class AppTopNavbar extends StatelessWidget implements PreferredSizeWidget {
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
             child: Container(
               height: 1,
-              color: const Color(0xFF7F7F7F).withOpacity(0.5), // Adjusted opacity
+              color:
+                  const Color(0xFF7F7F7F).withOpacity(0.5), // Adjusted opacity
             ),
           ),
       ],
