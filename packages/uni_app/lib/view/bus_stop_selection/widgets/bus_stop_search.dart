@@ -39,6 +39,13 @@ class BusStopSearch extends SearchDelegate<String> {
   }
 
   @override
+  ThemeData appBarTheme(BuildContext context) {
+    return Theme.of(context).copyWith(
+      scaffoldBackgroundColor: Theme.of(context).colorScheme.surface,
+    );
+  }
+
+  @override
   Widget buildLeading(BuildContext context) {
     // Back arrow to go back to menu
 
