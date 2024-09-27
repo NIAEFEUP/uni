@@ -229,6 +229,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Não existem cadeiras para apresentar"),
         "no_selected_exams": MessageLookupByLibrary.simpleMessage(
             "Não existem exames para apresentar"),
+        "no_trips": MessageLookupByLibrary.simpleMessage(
+            "Não há viagens planeadas de momento"),
         "notifications": MessageLookupByLibrary.simpleMessage("Notificações"),
         "occurrence_type":
             MessageLookupByLibrary.simpleMessage("Tipo de ocorrência"),

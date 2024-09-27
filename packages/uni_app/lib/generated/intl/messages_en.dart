@@ -228,6 +228,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "There are no course units to display"),
         "no_selected_exams": MessageLookupByLibrary.simpleMessage(
             "There are no exams to present"),
+        "no_trips": MessageLookupByLibrary.simpleMessage(
+            "No trips found at the moment"),
         "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
         "occurrence_type":
             MessageLookupByLibrary.simpleMessage("Type of occurrence"),

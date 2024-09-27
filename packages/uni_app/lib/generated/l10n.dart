@@ -1198,6 +1198,16 @@ class S {
     );
   }
 
+  /// `No trips found at the moment`
+  String get no_trips {
+    return Intl.message(
+      'No trips found at the moment',
+      name: 'no_trips',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Other links`
   String get other_links {
     return Intl.message(
