@@ -244,6 +244,8 @@
   "@no_link": {},
   "no_files_found": "Nenhum ficheiro encontrado",
   "@no_files_found": {},
+  "no_trips": "Não há viagens planeadas de momento",
+  "@no_trips": {},
   "other_links": "Outros links",
   "@other_links": {},
   "pass_change_request": "Por razões de segurança, as palavras-passe têm de ser alteradas periodicamente.",

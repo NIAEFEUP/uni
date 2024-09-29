@@ -234,6 +234,8 @@
   "@no_internet": {},
   "no_files_found": "No files found",
   "@no_files_found": {},
+  "no_trips": "No trips found at the moment",
+  "@no_trips": {},
   "other_links": "Other links",
   "@other_links": {},
   "pass_change_request": "For security reasons, passwords must be changed periodically.",
