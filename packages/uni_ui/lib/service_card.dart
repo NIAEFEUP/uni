@@ -39,12 +39,13 @@ class ServiceCard extends StatelessWidget {
               ),
               const SizedBox(width: 5),
               Column(
-                children: [
-                  for (var i = 0; i < openingHours.length; i++)
-                    Text(openingHours[i],
-                        style: Theme.of(context).textTheme.bodySmall),
-                ],
-              ),
+                children: openingHours.map((hour) {
+                  return Text(
+                    hour,
+                    style: Theme.of(context).textTheme.bodySmall,
+                  );
+                }).toList(),
+              )
             ],
           ),
         ],
