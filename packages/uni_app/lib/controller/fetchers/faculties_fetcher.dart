@@ -1,12 +1,17 @@
 import 'package:html/parser.dart';
-import 'package:uni/controller/networking/network_router.dart';
-import 'package:uni/model/entities/session.dart';
+import 'package:http/http.dart' as http;
+import 'package:uni/http/client/cookie.dart';
+import 'package:uni/session/flows/base/session.dart';
 
-Future<List<String>> getStudentFaculties(Session session) async {
-  final response = await NetworkRouter.getWithCookies(
-    'https://sigarra.up.pt/up/pt/vld_entidades_geral.entidade_pagina',
-    {'pct_codigo': session.username},
-    session,
+Future<List<String>> getStudentFaculties(
+  Session session,
+  http.Client httpClient,
+) async {
+  final client = CookieClient(httpClient, cookies: () => session.cookies);
+
+  final response = await client.get(
+    Uri.parse('https://sigarra.up.pt/up/pt/vld_entidades_geral.entidade_pagina')
+        .replace(queryParameters: {'pct_codigo': session.username}),
   );
 
   final document = parse(response.body);

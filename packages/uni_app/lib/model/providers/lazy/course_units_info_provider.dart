@@ -6,9 +6,9 @@ import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/entities/course_units/course_unit_class.dart';
 import 'package:uni/model/entities/course_units/course_unit_directory.dart';
 import 'package:uni/model/entities/course_units/sheet.dart';
-import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/model/providers/state_providers.dart';
+import 'package:uni/session/flows/base/session.dart';
 
 typedef SheetsMap = Map<CourseUnit, Sheet>;
 typedef ClassesMap = Map<CourseUnit, List<CourseUnitClass>>;
@@ -38,16 +38,26 @@ class CourseUnitsInfoProvider
     CourseUnit courseUnit,
     Session session,
   ) async {
+    final occurrId = courseUnit.occurrId;
+    if (occurrId == null) {
+      return;
+    }
+
     state!.item1[courseUnit] =
-        await CourseUnitsInfoFetcher().fetchSheet(session, courseUnit.occurrId);
+        await CourseUnitsInfoFetcher().fetchSheet(session, occurrId);
   }
 
   Future<void> fetchCourseUnitClasses(
     CourseUnit courseUnit,
     Session session,
   ) async {
+    final occurrId = courseUnit.occurrId;
+    if (occurrId == null) {
+      return;
+    }
+
     state!.item2[courseUnit] = await CourseUnitsInfoFetcher()
-        .fetchCourseUnitClasses(session, courseUnit.occurrId);
+        .fetchCourseUnitClasses(session, occurrId);
     notifyListeners();
   }
 
@@ -55,8 +65,13 @@ class CourseUnitsInfoProvider
     CourseUnit courseUnit,
     Session session,
   ) async {
-    state!.item3[courseUnit] = await CourseUnitsInfoFetcher()
-        .fetchCourseUnitFiles(session, courseUnit.occurrId);
+    final occurrId = courseUnit.occurrId;
+    if (occurrId == null) {
+      return;
+    }
+
+    state!.item3[courseUnit] =
+        await CourseUnitsInfoFetcher().fetchCourseUnitFiles(session, occurrId);
     notifyListeners();
   }
 

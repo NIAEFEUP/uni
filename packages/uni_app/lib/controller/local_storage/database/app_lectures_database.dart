@@ -16,11 +16,11 @@ class AppLecturesDatabase extends AppDatabase<List<Lecture>> {
             createScript,
           ],
           onUpgrade: migrate,
-          version: 9,
+          version: 10,
         );
   static const createScript = '''
 CREATE TABLE lectures(subject TEXT, typeClass TEXT,
-          startTime TEXT,endTime TEXT, blocks INTEGER, room TEXT, teacher TEXT, classNumber TEXT, occurrId INTEGER)''';
+          startTime TEXT, endTime TEXT, room TEXT, teacher TEXT, classNumber TEXT, occurrId INTEGER)''';
 
   /// Returns a list containing all of the lectures stored in this database.
   Future<List<Lecture>> lectures() async {
@@ -28,11 +28,11 @@ CREATE TABLE lectures(subject TEXT, typeClass TEXT,
     final List<Map<String, dynamic>> maps = await db.query('lectures');
 
     return List.generate(maps.length, (i) {
-      return Lecture.fromApi(
+      return Lecture(
         maps[i]['subject'] as String,
         maps[i]['typeClass'] as String,
-        DateTime.parse(maps[i]['startDateTime'] as String),
-        maps[i]['blocks'] as int,
+        DateTime.parse(maps[i]['startTime'] as String),
+        DateTime.parse(maps[i]['endTime'] as String),
         maps[i]['room'] as String,
         maps[i]['teacher'] as String,
         maps[i]['classNumber'] as String,

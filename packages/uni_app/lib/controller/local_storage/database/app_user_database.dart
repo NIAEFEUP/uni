@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:sqflite/sqlite_api.dart';
 import 'package:uni/controller/local_storage/database/app_database.dart';
 import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/profile.dart';
@@ -9,7 +10,12 @@ import 'package:uni/model/entities/profile.dart';
 /// This database stores information about the user's university profile.
 class AppUserDataDatabase extends AppDatabase<Profile> {
   AppUserDataDatabase()
-      : super('userdata.db', ['CREATE TABLE userdata(key TEXT, value TEXT)']);
+      : super(
+          'userdata.db',
+          ['CREATE TABLE userdata(name TEXT, value TEXT)'],
+          onUpgrade: migrate,
+          version: 2,
+        );
 
   /// Adds [data] (profile) to this database.
   @override
@@ -17,7 +23,7 @@ class AppUserDataDatabase extends AppDatabase<Profile> {
     for (final keymap in data.keymapValues()) {
       await insertInDatabase(
         'userdata',
-        {'key': keymap.item1, 'value': keymap.item2},
+        {'name': keymap.item1, 'value': keymap.item2},
       );
     }
   }
@@ -37,19 +43,19 @@ class AppUserDataDatabase extends AppDatabase<Profile> {
     String? feesBalance;
     DateTime? feesLimit;
     for (final entry in maps) {
-      if (entry['key'] == 'name') {
+      if (entry['name'] == 'name') {
         name = entry['value'] as String;
       }
-      if (entry['key'] == 'email') {
+      if (entry['name'] == 'email') {
         email = entry['value'] as String;
       }
-      if (entry['key'] == 'printBalance') {
+      if (entry['name'] == 'printBalance') {
         printBalance = entry['value'] as String;
       }
-      if (entry['key'] == 'feesBalance') {
+      if (entry['name'] == 'feesBalance') {
         feesBalance = entry['value'] as String;
       }
-      if (entry['key'] == 'feesLimit') {
+      if (entry['name'] == 'feesLimit') {
         feesLimit = DateTime.tryParse(entry['value'] as String);
       }
     }
@@ -70,5 +76,16 @@ class AppUserDataDatabase extends AppDatabase<Profile> {
     final db = await getDatabase();
 
     await db.delete('userdata');
+  }
+
+  static FutureOr<void> migrate(
+    Database db,
+    int oldVersion,
+    int newVersion,
+  ) async {
+    final batch = db.batch()
+      ..execute('DROP TABLE IF EXISTS userdata')
+      ..execute('CREATE TABLE userdata(name TEXT, value TEXT)');
+    await batch.commit();
   }
 }

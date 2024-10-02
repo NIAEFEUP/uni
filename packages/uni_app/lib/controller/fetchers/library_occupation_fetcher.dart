@@ -1,26 +1,60 @@
-import 'package:uni/controller/fetchers/session_dependant_fetcher.dart';
-import 'package:uni/controller/networking/network_router.dart';
-import 'package:uni/controller/parsers/parser_library_occupation.dart';
+import 'dart:convert';
+
+import 'package:collection/collection.dart';
+import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
+import 'package:tuple/tuple.dart';
 import 'package:uni/model/entities/library_occupation.dart';
-import 'package:uni/model/entities/session.dart';
 
 /// Fetch the library occupation from Google Sheets
-class LibraryOccupationFetcherSheets implements SessionDependantFetcher {
-  @override
-  List<String> getEndpoints(Session session) {
-    const baseUrl = 'https://docs.google.com/spreadsheets/d/';
-    const sheetId = '1gZRbEX4y8vNW7vrl15FCdAQ3pVNRJw_uRZtVL6ORP0g';
-    const url =
-        '$baseUrl$sheetId/gviz/tq?tqx=out:json&sheet=MANUAL&range=C2:E7&tq=SELECT+C,E';
-    return [url];
+class LibraryOccupationFetcher {
+  String baseUrl = 'https://webapi.affluences.com/api/fillRate?';
+
+  static const List<Tuple2<String, int>> floorMaxSeats = [
+    Tuple2('BruV6IlujdwAe1', 72),
+    Tuple2('cEhyzJZvC5nHSr', 114),
+    Tuple2('iceVfgwZWaZRhV', 114),
+    Tuple2('1yLPz9X0CNsg27', 114),
+    Tuple2('keu1j5zERlQn90', 40),
+    Tuple2('bY7K1v43HiAq55', 90),
+  ];
+
+  Future<LibraryOccupation> getLibraryOccupation() async {
+    final libraryOccupation = LibraryOccupation(0, 0);
+
+    await Future.wait(
+      floorMaxSeats.mapIndexed((i, entry) async {
+        final url = Uri.parse(baseUrl).replace(
+          queryParameters: {
+            'token': entry.item1,
+          },
+        );
+
+        final response = await http.get(url);
+
+        final floorOccupation =
+            processFloorOccupation(response, entry.item2, i);
+
+        libraryOccupation.addFloor(floorOccupation);
+      }),
+    );
+
+    return libraryOccupation;
   }
 
-  Future<LibraryOccupation> getLibraryOccupationFromSheets(
-    Session session,
-  ) async {
-    final url = getEndpoints(session)[0];
-    final response = NetworkRouter.getWithCookies(url, {}, session);
-    final occupation = await response.then(parseLibraryOccupationFromSheets);
-    return occupation;
+  FloorOccupation processFloorOccupation(
+    Response response,
+    int floorCapacity,
+    int floor,
+  ) {
+    final responseBody = jsonDecode(response.body) as Map<String, dynamic>;
+
+    final floorOccupation = responseBody['progress'] as int? ?? 0;
+
+    return FloorOccupation(
+      floor + 1,
+      (floorOccupation * floorCapacity / 100).round(),
+      floorCapacity,
+    );
   }
 }
