@@ -39,8 +39,8 @@ class _ExamRowState extends State<ExamRow> {
   @override
   Widget build(BuildContext context) {
     final roomsKey =
-        '${widget.exam.subject}-${widget.exam.rooms}-${widget.exam.beginTime}-'
-        '${widget.exam.endTime}';
+        '${widget.exam.subject}-${widget.exam.rooms}-${widget.exam.startTime}-'
+        '${widget.exam.finishTime}';
     return Center(
       child: Container(
         padding: const EdgeInsets.only(left: 12, bottom: 8, right: 12),
@@ -54,10 +54,10 @@ class _ExamRowState extends State<ExamRow> {
                 children: <Widget>[
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: widget.exam.beginTime != '00:00'
+                    children: widget.exam.startTime != '00:00'
                         ? [
                             ExamTime(
-                              begin: widget.exam.beginTime,
+                              begin: widget.exam.startTime,
                             ),
                           ]
                         : [],
@@ -146,8 +146,8 @@ class _ExamRowState extends State<ExamRow> {
     return Event(
       title: '${widget.exam.examType} ${widget.exam.subject}',
       location: widget.exam.rooms.toString(),
-      startDate: widget.exam.begin,
-      endDate: widget.exam.end,
+      startDate: widget.exam.start,
+      endDate: widget.exam.finish,
     );
   }
 }

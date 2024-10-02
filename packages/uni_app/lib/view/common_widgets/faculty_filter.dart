@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:uni/controller/local_storage/preferences_controller.dart';
+import 'package:provider/provider.dart';
+import 'package:uni/session/flows/base/session.dart';
 
 class FacultyFilter extends StatelessWidget {
   const FacultyFilter({
@@ -14,7 +15,9 @@ class FacultyFilter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final authorizedFaculties = PreferencesController.getUserFaculties()
+    final session = Provider.of<Session>(context);
+
+    final authorizedFaculties = session.faculties
         .where(
           faculties.contains,
         )

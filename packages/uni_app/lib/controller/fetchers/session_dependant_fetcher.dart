@@ -1,4 +1,4 @@
-import 'package:uni/model/entities/session.dart';
+import 'package:uni/session/flows/base/session.dart';
 
 abstract class SessionDependantFetcher {
   List<String> getEndpoints(Session session);

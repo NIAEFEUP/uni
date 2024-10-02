@@ -13,7 +13,6 @@ class Lecture {
     this.typeClass,
     this.startTime,
     this.endTime,
-    this.blocks,
     this.room,
     this.teacher,
     this.classNumber,
@@ -39,7 +38,6 @@ class Lecture {
       typeClass,
       startTime,
       endTime,
-      blocks,
       room,
       teacher,
       classNumber,
@@ -72,31 +70,11 @@ class Lecture {
       typeClass,
       startTime,
       endTime,
-      blocks,
       room,
       teacher,
       classNumber,
       occurrId,
     );
-  }
-
-  /// Clones a lecture from the api.
-  factory Lecture.clone(Lecture lec) {
-    return Lecture.fromApi(
-      lec.subject,
-      lec.typeClass,
-      lec.startTime,
-      lec.blocks,
-      lec.room,
-      lec.teacher,
-      lec.classNumber,
-      lec.occurrId,
-    );
-  }
-
-  /// Clones a lecture from the html.
-  factory Lecture.cloneHtml(Lecture lec) {
-    return Lecture.clone(lec);
   }
 
   String subject;
@@ -106,13 +84,12 @@ class Lecture {
   String classNumber;
   DateTime startTime;
   DateTime endTime;
-  int blocks;
   int occurrId;
   Map<String, dynamic> toJson() => _$LectureToJson(this);
 
   @override
   String toString() {
-    return '$subject $typeClass\n$startTime $endTime $blocks blocos\n $room  '
+    return '$subject $typeClass\n$startTime $endTime\n $room  '
         '$teacher\n';
   }
 
@@ -130,7 +107,6 @@ class Lecture {
         room,
         teacher,
         startTime,
-        blocks,
         occurrId,
       );
 
@@ -143,6 +119,5 @@ class Lecture {
       typeClass == other.typeClass &&
       room == other.room &&
       teacher == other.teacher &&
-      blocks == other.blocks &&
       occurrId == other.occurrId;
 }

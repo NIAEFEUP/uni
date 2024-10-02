@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/trip.dart';
 import 'package:uni/view/bus_stop_next_arrivals/widgets/trip_row.dart';
 
@@ -48,7 +49,7 @@ class BusStopRow extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 20),
       child: Text(
-        'Não há viagens planeadas de momento.',
+        S.of(context).no_trips,
         maxLines: 3,
         textAlign: TextAlign.center,
         overflow: TextOverflow.ellipsis,

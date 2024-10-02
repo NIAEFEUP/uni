@@ -57,10 +57,9 @@ SentryEvent? beforeSend(SentryEvent event) {
 }
 
 Future<String> firstRoute() async {
-  final userPersistentInfo =
-      await PreferencesController.getPersistentUserInfo();
+  final savedSession = await PreferencesController.getSavedSession();
 
-  if (userPersistentInfo != null) {
+  if (savedSession != null) {
     return '/${NavigationItem.navPersonalArea.route}';
   }
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:uni/view/navigation_service.dart';
+import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/view/terms_and_condition_dialog.dart';
 
 /// Transition used between pages
@@ -51,7 +51,7 @@ class PageTransition {
         case TermsAndConditionsState.accepted:
           return;
         case TermsAndConditionsState.rejected:
-          NavigationService.logoutAndPopHistory();
+          await NetworkRouter.authenticationController?.close();
       }
     }
   }

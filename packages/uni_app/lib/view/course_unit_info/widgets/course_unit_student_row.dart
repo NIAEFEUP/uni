@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:uni/model/entities/course_units/course_unit_class.dart';
-import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
+import 'package:uni/session/flows/base/session.dart';
 
 class CourseUnitStudentRow extends StatelessWidget {
   const CourseUnitStudentRow(this.student, this.session, {super.key});
