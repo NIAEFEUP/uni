@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/controller/fetchers/book_fetcher.dart';
+import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/course_units/sheet.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
@@ -37,18 +38,23 @@ class CourseUnitSheetView extends StatelessWidget {
               secondChild:
                   buildExpandedProfessors(context, courseUnitSheet.professors),
             ),
-            _buildCard('Programa', courseUnitSheet.content),
-            _buildCard('Avaliação', courseUnitSheet.evaluation),
-            const Opacity(
-              opacity: 0.25,
-              child: Divider(color: Colors.grey),
+            _buildCard(S.of(context).program, courseUnitSheet.content, context),
+            _buildCard(
+              S.of(context).evaluation,
+              courseUnitSheet.evaluation,
+              context,
             ),
-            const Text(
-              'Bibliografia',
-              style: TextStyle(fontSize: 20),
-            ),
-            if (courseUnitSheet.books.isNotEmpty)
+            if (courseUnitSheet.books.isNotEmpty) ...[
+              const Opacity(
+                opacity: 0.25,
+                child: Divider(color: Colors.grey),
+              ),
+              Text(
+                S.of(context).bibliography,
+                style: const TextStyle(fontSize: 20),
+              ),
               buildBooksRow(context, courseUnitSheet.books),
+            ],
           ],
         ),
       ),
@@ -215,7 +221,8 @@ Widget buildBooksRow(BuildContext context, List<Book> books) {
 
 Widget _buildCard(
   String sectionTitle,
-  dynamic sectionContent,
+  String sectionContent,
+  BuildContext context,
 ) {
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 8),
@@ -226,7 +233,9 @@ Widget _buildCard(
           child: Divider(color: Colors.grey),
         ),
         GenericExpandable(
-          content: HtmlWidget(sectionContent.toString()),
+          content: HtmlWidget(
+            sectionContent != 'null' ? sectionContent : S.of(context).no_info,
+          ),
           title: sectionTitle,
         ),
       ],

@@ -1,17 +1,20 @@
 import 'dart:async';
 
-import 'package:app_links/app_links.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:uni/app_links/uni_app_links.dart';
 import 'package:uni/controller/networking/url_launcher.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/login_exceptions.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/model/providers/state_providers.dart';
+import 'package:uni/session/flows/credentials/initiator.dart';
+import 'package:uni/session/flows/federated/initiator.dart';
+import 'package:uni/utils/constants.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/toast_message.dart';
 import 'package:uni/view/home/widgets/exit_app_dialog.dart';
@@ -53,48 +56,11 @@ class LoginPageViewState extends State<LoginPageView>
   @override
   void initState() {
     super.initState();
-
     WidgetsBinding.instance.addObserver(this);
-
-    final appLinks = AppLinks();
-    appLinks.uriLinkStream.listen((uri) async {
-      Logger().d('AppLinks intercepted: $uri');
-      await closeInAppWebView();
-      setState(() {
-        _intercepting = true;
-        _loggingIn = true;
-      });
-
-      if (uri.host == 'auth') {
-        WidgetsBinding.instance.addPostFrameCallback((_) async {
-          final sessionProvider =
-              Provider.of<SessionProvider>(context, listen: false);
-          try {
-            await sessionProvider.finishFederatedAuthentication(uri);
-            if (mounted) {
-              await Navigator.pushReplacementNamed(
-                context,
-                '/${NavigationItem.navPersonalArea.route}',
-              );
-            }
-          } catch (err) {
-            Logger().e('Failed to login with FederatedLogin: $err');
-          }
-        });
-      }
-
-      setState(() {
-        _loggingIn = true;
-        _intercepting = false;
-      });
-    });
   }
 
   @override
   void dispose() {
-    // TODO(thePeras): Fix error used after being disposed
-    // usernameController.dispose();
-    // passwordController.dispose();
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
@@ -111,9 +77,11 @@ class LoginPageViewState extends State<LoginPageView>
         setState(() {
           _loggingIn = true;
         });
-        await sessionProvider.postAuthentication(
-          user,
-          pass,
+
+        final initiator =
+            CredentialsSessionInitiator(username: user, password: pass);
+        await sessionProvider.login(
+          initiator,
           persistentSession: _keepSignedIn,
         );
 
@@ -174,9 +142,43 @@ class LoginPageViewState extends State<LoginPageView>
       setState(() {
         _loggingIn = true;
       });
-      await sessionProvider.federatedAuthentication(
+
+      final appLinks = UniAppLinks();
+
+      await sessionProvider.login(
+        FederatedSessionInitiator(
+          clientId: clientId,
+          realm: Uri.parse(realm),
+          performAuthentication: (flow) async {
+            final data = await appLinks.login.intercept((redirectUri) async {
+              flow.redirectUri = redirectUri;
+              await launchUrl(flow.authenticationUri);
+            });
+
+            await closeInAppWebView();
+
+            return data;
+          },
+        ),
         persistentSession: _keepSignedIn,
       );
+
+      setState(() {
+        _intercepting = true;
+        _loggingIn = true;
+      });
+
+      if (mounted) {
+        await Navigator.pushReplacementNamed(
+          context,
+          '/${NavigationItem.navPersonalArea.route}',
+        );
+      }
+
+      setState(() {
+        _loggingIn = true;
+        _intercepting = false;
+      });
     } catch (err, st) {
       await Sentry.captureException(err, stackTrace: st);
       await closeInAppWebView();

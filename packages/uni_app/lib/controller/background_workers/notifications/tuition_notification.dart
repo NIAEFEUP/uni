@@ -4,7 +4,7 @@ import 'package:uni/controller/background_workers/notifications.dart';
 import 'package:uni/controller/fetchers/fees_fetcher.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/controller/parsers/parser_fees.dart';
-import 'package:uni/model/entities/session.dart';
+import 'package:uni/session/flows/base/session.dart';
 import 'package:uni/utils/duration_string_formatter.dart';
 
 class TuitionNotification extends Notification {
