@@ -3,7 +3,6 @@ import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/parsers/schedule/api/parser.dart';
 import 'package:uni/model/entities/lecture.dart';
-import 'package:uni/model/entities/profile.dart';
 import 'package:uni/model/utils/time/week.dart';
 import 'package:uni/session/flows/base/session.dart';
 
@@ -19,7 +18,7 @@ class ScheduleFetcherApi extends ScheduleFetcher {
 
   /// Fetches the user's lectures from the faculties' API.
   @override
-  Future<List<Lecture>> getLectures(Session session, Profile profile) async {
+  Future<List<Lecture>> getLectures(Session session) async {
     final dates = getDates();
 
     final urls = getEndpoints(session);

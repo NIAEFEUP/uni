@@ -134,7 +134,7 @@ jobs:
           flutter build appbundle
 
       - name: Upload App Bundle
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: appbundle
           if-no-files-found: error
