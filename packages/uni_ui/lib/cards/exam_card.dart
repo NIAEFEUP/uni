@@ -34,72 +34,69 @@ class ExamCard extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        acronym,
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.headlineMedium!,
-                      ),
-                      const SizedBox(width: 8),
-                      Badge(
-                        label: Text(type),
-                        backgroundColor: BadgeColors.er,
-                        textColor: Theme.of(context).colorScheme.surface,
-                      ),
-                    ],
-                  ),
-                  Text(
-                    name,
-                    overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.titleLarge!,
-                  ),
-                  const SizedBox(height: 5),
-                  Row(
-                    children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      acronym,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.headlineMedium!,
+                    ),
+                    const SizedBox(width: 8),
+                    Badge(
+                      label: Text(type),
+                      backgroundColor: BadgeColors.er,
+                      textColor: Theme.of(context).colorScheme.surface,
+                    ),
+                  ],
+                ),
+                Text(
+                  name,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.titleLarge!,
+                ),
+                const SizedBox(height: 5),
+                Row(
+                  children: [
+                    PhosphorIcon(
+                      PhosphorIcons.clock(PhosphorIconsStyle.duotone),
+                      color: Theme.of(context).iconTheme.color,
+                      size: 20,
+                    ),
+                    const SizedBox(width: 4),
+                    Text(
+                      startTime ?? "--:--",
+                      style: Theme.of(context).textTheme.bodyMedium!,
+                    ),
+                    const SizedBox(width: 8),
+                    if (!rooms.isEmpty)
                       PhosphorIcon(
-                        PhosphorIcons.clock(PhosphorIconsStyle.duotone),
+                        PhosphorIcons.mapPin(PhosphorIconsStyle.duotone),
                         color: Theme.of(context).iconTheme.color,
                         size: 20,
                       ),
-                      const SizedBox(width: 4),
-                      Text(
-                        startTime ?? "--:--",
-                        style: Theme.of(context).textTheme.bodyMedium!,
+                    const SizedBox(width: 4),
+                    SizedBox(
+                      height: 20,
+                      child: ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        shrinkWrap: true,
+                        itemCount: rooms.length,
+                        separatorBuilder: (context, int index) {
+                          return const SizedBox(width: 4);
+                        },
+                        itemBuilder: (context, int index) {
+                          return IntrinsicWidth(
+                            child: Text(rooms[index]),
+                          );
+                        },
                       ),
-                      const SizedBox(width: 8),
-                      if (!rooms.isEmpty)
-                        PhosphorIcon(
-                          PhosphorIcons.mapPin(PhosphorIconsStyle.duotone),
-                          color: Theme.of(context).iconTheme.color,
-                          size: 20,
-                        ),
-                      const SizedBox(width: 4),
-                      SizedBox(
-                        height: 20,
-                        child: ListView.separated(
-                          scrollDirection: Axis.horizontal,
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: rooms.length,
-                          separatorBuilder: (context, int index) {
-                            return const SizedBox(width: 4);
-                          },
-                          itemBuilder: (context, int index) {
-                            return IntrinsicWidth(
-                              child: Text(rooms[index]),
-                            );
-                          },
-                        ),
-                      ),
-                    ],
-                  )
-                ],
-              ),
+                    ),
+                  ],
+                )
+              ],
             ),
             if (showIcon)
               IconButton(
