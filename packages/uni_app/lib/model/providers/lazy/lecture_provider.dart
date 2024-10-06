@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher.dart';
-import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher_api.dart';
 import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher_new_api.dart';
 import 'package:uni/controller/local_storage/database/app_lectures_database.dart';
 import 'package:uni/model/entities/lecture.dart';
@@ -44,8 +43,8 @@ class LectureProvider extends StateProviderNotifier<List<Lecture>> {
       fetcher?.getLectures(session) ?? getLectures(session);
 
   Future<List<Lecture>> getLectures(Session session) {
-    return ScheduleFetcherApi().getLectures(session).catchError(
-          (e) => ScheduleFetcherNewApi().getLectures(session),
+    return ScheduleFetcherNewApi().getLectures(session).catchError(
+          (e) => <Lecture>[],
         );
   }
 }
