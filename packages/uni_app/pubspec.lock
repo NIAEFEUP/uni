@@ -1515,10 +1515,10 @@ packages:
     dependency: "direct main"
     description:
       name: upgrader
-      sha256: a8751904c13f7699bce3b28d8eedb6260e1c25311b75d4b712faeaedd996b7cc
+      sha256: d45483694620883107c2f5ca1dff7cdd4237b16810337a9c9c234203eb79eb5f
       url: "https://pub.dev"
     source: hosted
-    version: "11.2.0"
+    version: "10.3.0"
   upower:
     dependency: transitive
     description:
