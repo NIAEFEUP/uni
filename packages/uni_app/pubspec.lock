@@ -766,10 +766,10 @@ packages:
     dependency: "direct dev"
     description:
       name: leancode_lint
-      sha256: "85b7c09c806400083faa37304c701fd1bd5dbcb826882438dd50f0e465f30fd8"
+      sha256: "6e6500dac54ea3d0ad01f6e851a09b815f3d75f7e87bb9ab589d1fd19dd826f1"
       url: "https://pub.dev"
     source: hosted
-    version: "13.0.0"
+    version: "14.1.0"
   lists:
     dependency: transitive
     description:
