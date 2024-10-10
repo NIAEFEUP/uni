@@ -56,8 +56,10 @@ class LazyConsumer<T1 extends StateProviderNotifier<T2>, T2>
             ? Provider.of<SessionProvider>(context, listen: false)
                 .ensureInitialized(context)
                 .then((_) async {
-                await Provider.of<ProfileProvider>(context, listen: false)
-                    .ensureInitialized(context);
+                if (context.mounted) {
+                  await Provider.of<ProfileProvider>(context, listen: false)
+                      .ensureInitialized(context);
+                }
               })
             : Future(() {});
       } catch (err, st) {

@@ -133,26 +133,23 @@ class SchedulePageViewState extends State<SchedulePageView>
   ) {
     return Container(
       key: Key('schedule-page-day-column-$day'),
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: lectures
-              .map(
-                // TODO(thePeras): ScheduleSlot should receive a lecture
-                //  instead of all these parameters.
-                (lecture) => ScheduleSlot(
-                  subject: lecture.subject,
-                  typeClass: lecture.typeClass,
-                  rooms: lecture.room,
-                  begin: lecture.startTime,
-                  end: lecture.endTime,
-                  occurrId: lecture.occurrId,
-                  teacher: lecture.teacher,
-                  classNumber: lecture.classNumber,
-                ),
-              )
-              .toList(),
-        ),
+      child: ListView(
+        children: lectures
+            .map(
+              // TODO(thePeras): ScheduleSlot should receive a lecture
+              //  instead of all these parameters.
+              (lecture) => ScheduleSlot(
+                subject: lecture.subject,
+                typeClass: lecture.typeClass,
+                rooms: lecture.room,
+                begin: lecture.startTime,
+                end: lecture.endTime,
+                occurrId: lecture.occurrId,
+                teacher: lecture.teacher,
+                classNumber: lecture.classNumber,
+              ),
+            )
+            .toList(),
       ),
     );
   }

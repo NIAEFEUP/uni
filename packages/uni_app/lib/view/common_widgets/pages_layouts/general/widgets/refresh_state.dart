@@ -33,7 +33,11 @@ class RefreshState extends StatelessWidget {
                       ProfileProvider.fetchOrGetCachedProfilePicture(
                     Provider.of<SessionProvider>(context, listen: false).state!,
                     forceRetrieval: true,
-                  ).then((value) => onRefresh(context)),
+                  ).then((value) {
+                    if (context.mounted) {
+                      onRefresh(context);
+                    }
+                  }),
                   child: ConstrainedBox(
                     constraints: BoxConstraints(
                       minHeight: viewportConstraints.maxHeight,

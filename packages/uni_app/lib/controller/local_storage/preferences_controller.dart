@@ -39,6 +39,8 @@ class PreferencesController {
   static const String _favoriteRestaurants = 'favorite_restaurants';
   static const String _filteredExamsTypes = 'filtered_exam_types';
   static final List<String> _defaultFilteredExamTypes = Exam.displayedTypes;
+  static const String _semesterValue = 'semester_value';
+  static const String _schoolYearValue = 'school_year_value';
 
   static final _statsToggleStreamController =
       StreamController<bool>.broadcast();
@@ -260,5 +262,27 @@ class PreferencesController {
   }) async {
     await prefs.setBool(_usageStatsToggleKey, value);
     _statsToggleStreamController.add(value);
+  }
+
+  static Future<void> setSemesterValue(String? value) async {
+    await prefs.setString(_semesterValue, value ?? '');
+    if (value == null) {
+      await prefs.remove(_semesterValue);
+    }
+  }
+
+  static String? getSemesterValue() {
+    return prefs.getString(_semesterValue);
+  }
+
+  static Future<void> setSchoolYearValue(String? value) async {
+    await prefs.setString(_schoolYearValue, value ?? '');
+    if (value == null) {
+      await prefs.remove(_schoolYearValue);
+    }
+  }
+
+  static String? getSchoolYearValue() {
+    return prefs.getString(_schoolYearValue);
   }
 }
