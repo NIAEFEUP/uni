@@ -18,7 +18,10 @@ class LibraryOccupation {
   late List<FloorOccupation> floors;
 
   void addFloor(FloorOccupation floor) {
-    floors.add(floor);
+    floors
+      ..add(floor)
+      ..sort((a, b) => a.number.compareTo(b.number));
+
     occupation += floor.occupation;
     capacity += floor.capacity;
   }
