@@ -26,9 +26,7 @@ class CourseGradeCard extends StatelessWidget {
             children: [
               Text(
                 courseName,
-                style: theme.textTheme.titleLarge?.copyWith(
-                    color: theme.colorScheme.primary,
-                    fontWeight: FontWeight.w600),
+                style: theme.textTheme.titleLarge,
                 overflow: TextOverflow.ellipsis,
               ),
               Row(
@@ -37,11 +35,9 @@ class CourseGradeCard extends StatelessWidget {
                   Text(
                     "${ects} ECTS",
                     style: theme.textTheme.bodyLarge
-                        ?.copyWith(color: theme.colorScheme.primary),
                   ),
                   Text("${grade.toInt()}",
-                      style: theme.textTheme.bodyLarge
-                          ?.copyWith(color: theme.colorScheme.primary))
+                      style: theme.textTheme.bodyLarge)
                 ],
               )
             ],
