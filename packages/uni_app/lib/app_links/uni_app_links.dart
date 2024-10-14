@@ -1,14 +1,9 @@
 import 'dart:async';
 
 import 'package:app_links/app_links.dart';
+import 'package:uni/utils/uri.dart';
 
 final _authUri = Uri(scheme: 'pt.up.fe.ni.uni', host: 'auth');
-
-extension _StripQueryParameters on Uri {
-  Uri stripQueryParameters() {
-    return Uri(scheme: scheme, host: host, path: path);
-  }
-}
 
 class UniAppLinks {
   final login = _AuthenticationAppLink(
@@ -30,7 +25,7 @@ class _AuthenticationAppLink {
     FutureOr<void> Function(Uri redirectUri) callback,
   ) async {
     final interceptedUri = _appLinks.uriLinkStream
-        .firstWhere((uri) => redirectUri == uri.stripQueryParameters());
+        .firstWhere((uri) => redirectUri == uri.stripQueryComponent());
 
     await callback(redirectUri);
     final data = await interceptedUri;

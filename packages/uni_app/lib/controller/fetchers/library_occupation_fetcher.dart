@@ -49,7 +49,7 @@ class LibraryOccupationFetcher {
   ) {
     final responseBody = jsonDecode(response.body) as Map<String, dynamic>;
 
-    final floorOccupation = int.parse(responseBody['progress'].toString());
+    final floorOccupation = responseBody['progress'] as int? ?? 0;
 
     return FloorOccupation(
       floor + 1,

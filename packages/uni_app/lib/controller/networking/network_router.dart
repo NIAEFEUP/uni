@@ -5,6 +5,7 @@ import 'package:uni/http/client/authenticated.dart';
 import 'package:uni/http/client/timeout.dart';
 import 'package:uni/session/authentication_controller.dart';
 import 'package:uni/session/flows/base/session.dart';
+import 'package:uni/utils/uri.dart';
 
 extension UriString on String {
   /// Converts a [String] to an [Uri].
@@ -65,6 +66,10 @@ class NetworkRouter {
       ];
     }
 
-    return client.get(parsedUrl.replace(queryParameters: allQueryParameters));
+    final requestUri = parsedUrl
+        .replace(queryParameters: allQueryParameters)
+        .normalizeQueryComponent();
+
+    return client.get(requestUri);
   }
 }

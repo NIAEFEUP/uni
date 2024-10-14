@@ -139,9 +139,7 @@ class ExamsPageViewState extends SecondaryPageViewState<ExamsPageView> {
       key: Key('$exam-exam'),
       margin: const EdgeInsets.fromLTRB(12, 4, 12, 0),
       child: RowContainer(
-        color: isHidden
-            ? Theme.of(context).hintColor
-            : Theme.of(context).scaffoldBackgroundColor,
+        color: isHidden ? Theme.of(context).hintColor : null,
         child: ExamRow(
           exam: exam,
           teacher: '',
