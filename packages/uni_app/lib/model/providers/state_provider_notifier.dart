@@ -16,7 +16,11 @@ abstract class StateProviderNotifier<T> extends ChangeNotifier {
     RequestStatus initialStatus = RequestStatus.busy,
     T? initialState,
   })  : _requestStatus = initialStatus,
+        _initialState = initialState,
         _state = initialState;
+
+  /// The initial state of the model.
+  final T? _initialState;
 
   /// The model that this notifier provides.
   /// This future will throw if the data loading fails.
@@ -68,7 +72,7 @@ abstract class StateProviderNotifier<T> extends ChangeNotifier {
   /// Makes the state null, as if the model has never been loaded,
   /// so that consumers may trigger the loading again.
   void invalidate() {
-    _state = null;
+    _state = _initialState;
     notifyListeners();
   }
 
@@ -164,8 +168,11 @@ abstract class StateProviderNotifier<T> extends ChangeNotifier {
         if (!context.mounted || _state != null) {
           return;
         }
-        await _loadFromStorage(context)
-            .then((value) => _loadFromRemoteFromContext(context));
+        await _loadFromStorage(context).then((value) {
+          if (context.mounted) {
+            _loadFromRemoteFromContext(context);
+          }
+        });
       },
       timeout: _lockTimeout,
     );

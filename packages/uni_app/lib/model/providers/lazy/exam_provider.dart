@@ -6,9 +6,9 @@ import 'package:uni/controller/parsers/parser_exams.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/entities/profile.dart';
-import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/model/providers/state_providers.dart';
+import 'package:uni/session/flows/base/session.dart';
 
 class ExamProvider extends StateProviderNotifier<List<Exam>> {
   ExamProvider() : super(cacheDuration: const Duration(days: 1));
@@ -41,7 +41,7 @@ class ExamProvider extends StateProviderNotifier<List<Exam>> {
     final exams = await ExamFetcher(profile.courses, userUcs)
         .extractExams(session, parserExams);
 
-    exams.sort((exam1, exam2) => exam1.begin.compareTo(exam2.begin));
+    exams.sort((exam1, exam2) => exam1.start.compareTo(exam2.start));
 
     final db = AppExamsDatabase();
     await db.saveIfPersistentSession(exams);

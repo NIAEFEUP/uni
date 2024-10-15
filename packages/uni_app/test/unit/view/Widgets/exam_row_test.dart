@@ -13,24 +13,24 @@ void main() async {
 
   group('Exam Row', () {
     const subject = 'SOPE';
-    final begin = DateTime(
+    final start = DateTime(
       DateTime.now().year,
       DateTime.now().month,
       DateTime.now().day,
       10,
     );
-    final end = DateTime(
+    final finish = DateTime(
       DateTime.now().year,
       DateTime.now().month,
       DateTime.now().day,
       12,
     );
-    final beginTime = DateFormat('HH:mm').format(begin);
-    final endTime = DateFormat('HH:mm').format(end);
+    final startTime = DateFormat('HH:mm').format(start);
+    final finishTime = DateFormat('HH:mm').format(finish);
 
     testWidgets('When given a single room', (tester) async {
       final rooms = ['B315'];
-      final exam = Exam('1230', begin, end, subject, rooms, '', 'feup');
+      final exam = Exam('1230', start, finish, subject, rooms, '', 'feup');
       final widget = ExamRow(
         exam: exam,
         teacher: '',
@@ -44,7 +44,7 @@ void main() async {
       await tester.pumpWidget(testableWidget(widget, providers: providers));
       await tester.pump();
 
-      final roomsKey = '$subject-$rooms-$beginTime-$endTime';
+      final roomsKey = '$subject-$rooms-$startTime-$finishTime';
 
       expect(
         find.descendant(
@@ -57,7 +57,7 @@ void main() async {
 
     testWidgets('When multiple rooms', (tester) async {
       final rooms = ['B315', 'B316', 'B330'];
-      final exam = Exam('1230', begin, end, subject, rooms, '', 'feup');
+      final exam = Exam('1230', start, finish, subject, rooms, '', 'feup');
       final widget = ExamRow(
         exam: exam,
         teacher: '',
@@ -72,7 +72,7 @@ void main() async {
       await tester.pumpWidget(testableWidget(widget, providers: providers));
       await tester.pump();
 
-      final roomsKey = '$subject-$rooms-$beginTime-$endTime';
+      final roomsKey = '$subject-$rooms-$startTime-$finishTime';
 
       expect(
         find.descendant(

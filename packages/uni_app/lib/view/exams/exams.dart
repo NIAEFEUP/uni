@@ -77,8 +77,8 @@ class ExamsPageViewState extends SecondaryPageViewState<ExamsPageView> {
 
     for (var i = 0; i < exams.length; i++) {
       if (i + 1 >= exams.length) {
-        if (exams[i].begin.day == exams[i - 1].begin.day &&
-            exams[i].begin.month == exams[i - 1].begin.month) {
+        if (exams[i].start.day == exams[i - 1].start.day &&
+            exams[i].start.month == exams[i - 1].start.month) {
           currentDayExams.add(exams[i]);
         } else {
           if (currentDayExams.isNotEmpty) {
@@ -91,8 +91,8 @@ class ExamsPageViewState extends SecondaryPageViewState<ExamsPageView> {
         columns.add(createExamCard(context, currentDayExams));
         break;
       }
-      if (exams[i].begin.day == exams[i + 1].begin.day &&
-          exams[i].begin.month == exams[i + 1].begin.month) {
+      if (exams[i].start.day == exams[i + 1].start.day &&
+          exams[i].start.month == exams[i + 1].start.month) {
         currentDayExams.add(exams[i]);
       } else {
         currentDayExams.add(exams[i]);
@@ -122,7 +122,7 @@ class ExamsPageViewState extends SecondaryPageViewState<ExamsPageView> {
         alignment: Alignment.center,
         child: Text(
           '${exams.first.weekDay(locale)}, '
-          '${exams.first.begin.formattedDate(locale)}',
+          '${exams.first.start.formattedDate(locale)}',
           style: Theme.of(context).textTheme.titleLarge,
         ),
       ),
@@ -139,9 +139,7 @@ class ExamsPageViewState extends SecondaryPageViewState<ExamsPageView> {
       key: Key('$exam-exam'),
       margin: const EdgeInsets.fromLTRB(12, 4, 12, 0),
       child: RowContainer(
-        color: isHidden
-            ? Theme.of(context).hintColor
-            : Theme.of(context).scaffoldBackgroundColor,
+        color: isHidden ? Theme.of(context).hintColor : null,
         child: ExamRow(
           exam: exam,
           teacher: '',

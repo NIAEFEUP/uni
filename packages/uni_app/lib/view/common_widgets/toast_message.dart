@@ -79,8 +79,11 @@ class ToastMessage {
       context: context,
       builder: (toastContext) {
         Future.delayed(const Duration(milliseconds: 2000), () {
-          Navigator.of(toastContext).pop();
+          if (toastContext.mounted) {
+            Navigator.of(toastContext).pop();
+          }
         });
+
         return mToast;
       },
     );
