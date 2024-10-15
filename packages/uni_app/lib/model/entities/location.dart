@@ -60,7 +60,6 @@ abstract class Location {
 
   Map<String, dynamic> toMap({int? groupId});
 
-  // ignore_for_file: argument_type_not_assignable
   static Location fromJSON(Map<String, dynamic> json, int floor) {
     final args = json['args'] as Map<String, dynamic>;
     switch (json['type']) {
@@ -69,23 +68,31 @@ abstract class Location {
       case 'VENDING_MACHINE':
         return VendingMachine(floor);
       case 'ROOM':
-        return RoomLocation(floor, args['room']);
+        return RoomLocation(floor, args['room'].toString());
       case 'SPECIAL_ROOM':
-        return SpecialRoomLocation(floor, args['room'], args['name']);
+        return SpecialRoomLocation(
+          floor,
+          args['room'].toString(),
+          args['name'].toString(),
+        );
       case 'ROOMS':
-        return RoomGroupLocation(floor, args['firstRoom'], args['lastRoom']);
+        return RoomGroupLocation(
+          floor,
+          args['firstRoom'].toString(),
+          args['lastRoom'].toString(),
+        );
       case 'ATM':
         return Atm(floor);
       case 'PRINTER':
         return Printer(floor);
       case 'RESTAURANT':
-        return RestaurantLocation(floor, args['name']);
+        return RestaurantLocation(floor, args['name'].toString());
       case 'STORE':
-        return StoreLocation(floor, args['name']);
+        return StoreLocation(floor, args['name'].toString());
       case 'WC':
         return WcLocation(floor);
       default:
-        return UnknownLocation(floor, json['type']);
+        return UnknownLocation(floor, json['type'].toString());
     }
   }
 }
