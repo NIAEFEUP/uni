@@ -7,14 +7,18 @@ import 'package:uni/sigarra/endpoints/api/authentication/login/response.dart';
 import 'package:uni/sigarra/options.dart';
 
 class Login {
-  const Login();
+  const Login({
+    required this.username,
+    required this.password,
+    this.options,
+  });
 
-  Future<LoginResponse> call({
-    required String username,
-    required String password,
-    required FacultyRequestOptions? options,
-  }) async {
-    options = options ?? FacultyRequestOptions();
+  final String username;
+  final String password;
+  final FacultyRequestOptions? options;
+
+  Future<LoginResponse> call() async {
+    final options = this.options ?? FacultyRequestOptions();
 
     final loginUrl = options.baseUrl.resolve('mob_val_geral.autentica');
 
