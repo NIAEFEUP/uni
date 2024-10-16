@@ -1,12 +1,13 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tuple/tuple.dart';
 import 'package:uni/model/entities/app_locale.dart';
 import 'package:uni/model/entities/exam.dart';
+import 'package:uni/session/flows/base/session.dart';
 import 'package:uni/utils/favorite_widget_type.dart';
 
 /// Manages the app's Shared Preferences.
@@ -17,10 +18,7 @@ class PreferencesController {
   static late SharedPreferences prefs;
 
   static const _lastUpdateTimeKeySuffix = '_last_update_time';
-  static const String _userNumber = 'user_number';
-  static const String _userPw = 'user_password';
-  static const String _userFaculties = 'user_faculties';
-  static const String _refreshToken = 'refresh_token';
+  static const String _userSession = 'user_session';
   static const String _termsAndConditions = 'terms_and_conditions';
   static const String _areTermsAndConditionsAcceptedKey = 'is_t&c_accepted';
   static const String _tuitionNotificationsToggleKey =
@@ -41,6 +39,8 @@ class PreferencesController {
   static const String _favoriteRestaurants = 'favorite_restaurants';
   static const String _filteredExamsTypes = 'filtered_exam_types';
   static final List<String> _defaultFilteredExamTypes = Exam.displayedTypes;
+  static const String _semesterValue = 'semester_value';
+  static const String _schoolYearValue = 'school_year_value';
 
   static final _statsToggleStreamController =
       StreamController<bool>.broadcast();
@@ -69,31 +69,27 @@ class PreferencesController {
 
   /// Saves the user's student number, password and faculties.
   static const FlutterSecureStorage _secureStorage = FlutterSecureStorage();
-  static Future<void> savePersistentUserInfo(
-    String user,
-    String pass,
-    List<String> faculties,
+  static Future<void> saveSession(
+    Session session,
   ) async {
-    await _secureStorage.write(key: _userNumber, value: user);
-    await _secureStorage.write(key: _userPw, value: pass);
-    await prefs.setStringList(
-      _userFaculties,
-      faculties,
-    ); // Could be multiple faculties;
+    await _secureStorage.write(
+      key: _userSession,
+      value: jsonEncode(session.toJson()),
+    );
   }
 
-  /// Saves the user's session refresh token, student number and faculties.
-  static Future<void> saveSessionRefreshToken(
-    String refreshToken,
-    String userNumber,
-    List<String> faculties,
-  ) async {
-    await _secureStorage.write(key: _userNumber, value: userNumber);
-    await _secureStorage.write(key: _refreshToken, value: refreshToken);
-    await prefs.setStringList(
-      _userFaculties,
-      faculties,
-    );
+  static Future<Session?> getSavedSession() async {
+    final value = await _secureStorage.read(key: _userSession);
+    if (value == null) {
+      return null;
+    }
+
+    final json = jsonDecode(value) as Map<String, dynamic>;
+    return Session.fromJson(json);
+  }
+
+  static Future<bool> isSessionPersistent() async {
+    return _secureStorage.containsKey(key: _userSession);
   }
 
   /// Sets whether or not the Terms and Conditions have been accepted.
@@ -170,70 +166,8 @@ class PreferencesController {
     return DateTime.parse(date);
   }
 
-  /// Deletes the user's student number and password.
-  static Future<void> removePersistentUserInfo() async {
-    await _secureStorage.delete(key: _userNumber);
-    await _secureStorage.delete(key: _userPw);
-    await prefs.remove(_userFaculties);
-  }
-
-  /// Deletes the user's session refresh token.
-  static Future<void> removeSessionRefreshToken() async {
-    await _secureStorage.delete(key: _userNumber);
-    await _secureStorage.delete(key: _refreshToken);
-    await prefs.remove(_userFaculties);
-  }
-
-  /// Returns a tuple containing the user's student number and password.
-  ///
-  /// *Note:*
-  /// * the first element in the tuple is the user's student number.
-  /// * the second element in the tuple is the user's password, in plain text
-  /// format.
-  static Future<Tuple2<String, String>?> getPersistentUserInfo() async {
-    final userNum = await getUserNumber();
-    final userPass = await getUserPassword();
-
-    if (userNum == null || userPass == null) {
-      return null;
-    }
-    return Tuple2(userNum, userPass);
-  }
-
-  /// Returns the user's session refresh token.
-  static Future<String?> getSessionRefreshToken() {
-    return _secureStorage.read(key: _refreshToken);
-  }
-
-  /// Returns the user's faculties
-  static List<String> getUserFaculties() {
-    final storedFaculties = prefs.getStringList(_userFaculties);
-    return storedFaculties ?? ['feup'];
-    // TODO(bdmendes): Store dropdown choices in the db for later storage;
-  }
-
-  /// Returns the user's student number.
-  static Future<String?> getUserNumber() async {
-    try {
-      if (await _secureStorage.containsKey(key: _userNumber)) {
-        return await _secureStorage.read(key: _userNumber);
-      }
-      return null;
-    } catch (err) {
-      return null;
-    }
-  }
-
-  /// Returns the user's password, in plain text format.
-  static Future<String?> getUserPassword() async {
-    try {
-      if (await _secureStorage.containsKey(key: _userPw)) {
-        return await _secureStorage.read(key: _userPw);
-      }
-      return null;
-    } catch (err) {
-      return null;
-    }
+  static Future<void> removeSavedSession() async {
+    await _secureStorage.delete(key: _userSession);
   }
 
   /// Replaces the user's favorite widgets with [newFavorites].
@@ -328,5 +262,27 @@ class PreferencesController {
   }) async {
     await prefs.setBool(_usageStatsToggleKey, value);
     _statsToggleStreamController.add(value);
+  }
+
+  static Future<void> setSemesterValue(String? value) async {
+    await prefs.setString(_semesterValue, value ?? '');
+    if (value == null) {
+      await prefs.remove(_semesterValue);
+    }
+  }
+
+  static String? getSemesterValue() {
+    return prefs.getString(_semesterValue);
+  }
+
+  static Future<void> setSchoolYearValue(String? value) async {
+    await prefs.setString(_schoolYearValue, value ?? '');
+    if (value == null) {
+      await prefs.remove(_schoolYearValue);
+    }
+  }
+
+  static String? getSchoolYearValue() {
+    return prefs.getString(_schoolYearValue);
   }
 }

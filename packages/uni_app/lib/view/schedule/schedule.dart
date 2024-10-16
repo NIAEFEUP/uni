@@ -133,8 +133,7 @@ class SchedulePageViewState extends State<SchedulePageView>
   ) {
     return Container(
       key: Key('schedule-page-day-column-$day'),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
+      child: ListView(
         children: lectures
             .map(
               // TODO(thePeras): ScheduleSlot should receive a lecture

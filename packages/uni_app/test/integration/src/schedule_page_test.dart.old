@@ -10,9 +10,9 @@ import 'package:provider/provider.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/profile.dart';
-import 'package:uni/model/entities/session.dart';
 import 'package:uni/model/providers/lazy/lecture_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
+import 'package:uni/session/flows/base/session.dart';
 import 'package:uni/view/schedule/schedule.dart';
 
 import '../../mocks/integration/src/schedule_page_test.mocks.dart';
@@ -121,28 +121,6 @@ void main() async {
           headers: anyNamed('headers'),
         ),
       ).thenAnswer((_) async => mockResponse);
-
-      await testSchedule(tester);
-    });
-
-    testWidgets('Schedule with HTML Fetcher', (tester) async {
-      final mockHtml = File('test/integration/resources/schedule_example.html')
-          .readAsStringSync(encoding: const Latin1Codec());
-      when(mockResponse.body).thenReturn(mockHtml);
-      when(mockResponse.statusCode).thenReturn(200);
-      when(
-        mockClient.get(
-          argThat(UriMatcher(contains(htmlFetcherIdentifier))),
-          headers: anyNamed('headers'),
-        ),
-      ).thenAnswer((_) async => mockResponse);
-
-      when(
-        mockClient.get(
-          argThat(UriMatcher(contains(jsonFetcherIdentifier))),
-          headers: anyNamed('headers'),
-        ),
-      ).thenAnswer((_) async => badMockResponse);
 
       await testSchedule(tester);
     });

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/view/about/about.dart';
 import 'package:uni/view/bug_report/bug_report.dart';
 import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
-import 'package:uni/view/navigation_service.dart';
 import 'package:uni/view/settings/widgets/locale_switch_button.dart';
 import 'package:uni/view/settings/widgets/notifications_dialog.dart';
 import 'package:uni/view/settings/widgets/theme_switch_button.dart';
@@ -78,7 +78,7 @@ class SettingsPageState extends SecondaryPageViewState<SettingsPage> {
                 ListTile(
                   title: Text(S.of(context).logout),
                   trailing: const Icon(Icons.arrow_forward_ios),
-                  onTap: NavigationService.logoutAndPopHistory,
+                  onTap: NetworkRouter.authenticationController?.close,
                 ),
               ],
             ),

@@ -91,6 +91,7 @@ Widget createAFLogInButton(
 ) {
   return ElevatedButton(
     style: ElevatedButton.styleFrom(
+      padding: const EdgeInsets.all(7),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(25),
       ),
