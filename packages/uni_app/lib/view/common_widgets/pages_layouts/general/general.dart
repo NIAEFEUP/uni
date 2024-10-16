@@ -10,7 +10,6 @@ import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/view/common_widgets/expanded_image_label.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/bottom_navigation_bar.dart';
-import 'package:uni/view/common_widgets/pages_layouts/general/widgets/profile_button.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/refresh_state.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/top_navigation_bar.dart';
 
@@ -136,7 +135,6 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
   AppTopNavbar? getTopNavbar(BuildContext context) {
     return AppTopNavbar(
       title: this.getTitle(),
-      rightButton: const ProfileButton(),
     );
   }
 }
