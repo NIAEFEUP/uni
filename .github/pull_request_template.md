@@ -9,9 +9,11 @@ If this is release PR select it's template by adding ?template=release_pr_templa
 
 ## View Changes
 
-- [ ] Tested both in light and dark mode
-- [ ] Description has screenshots of the UI changes
-- [ ] Text is both in portuguese and english.
+- [ ] Description has screenshots of the UI changes.
+- [ ] Tested both in light and dark mode.
+- [ ] New text is both in portuguese and english.
+- [ ] Works in diferent text zoom levels.
+- [ ] Works in different screen sizes. 
 
 ## Documentation
 
