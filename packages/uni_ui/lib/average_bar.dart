@@ -38,16 +38,25 @@ class AverageBar extends StatelessWidget {
         SizedBox(width: constraints.maxWidth * 0.05),
         Container(
             width: constraints.maxWidth * 0.70,
-            child: Column(children: [
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                Text('ECTS'),
-                Text('$completedCredits/$totalCredits'),
-              ]),
-              LinearProgressIndicator(
-                  minHeight: 8,
-                  value: completedCredits / totalCredits,
-                  borderRadius: BorderRadius.all(Radius.circular(5)))
-            ]))
+            height: 50,
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('ECTS'),
+                        Text('$completedCredits/$totalCredits'),
+                      ]),
+                  LinearProgressIndicator(
+                      minHeight: 8,
+                      value: completedCredits / totalCredits,
+                      borderRadius: BorderRadius.all(Radius.circular(5))),
+                  Text(completedCredits == totalCredits
+                      ? "Concluído"
+                      : "A frequentar")
+                ]))
       ]);
     });
   }
