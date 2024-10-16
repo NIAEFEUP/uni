@@ -1,6 +1,6 @@
 import 'package:uni/sigarra/response.dart';
 
-class LoginResponse extends SigarraResponse {
+class LoginResponse extends EndpointResponse {
   const LoginResponse({required super.success});
 
   LoginFailedResponse asFailed() => this as LoginFailedResponse;

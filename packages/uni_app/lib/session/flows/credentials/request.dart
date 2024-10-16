@@ -63,11 +63,16 @@ class CredentialsSessionRequest extends SessionRequest {
     final api = SigarraApi();
     const tempFaculty = 'feup';
 
-    final loginResponse = await api.authentication.login.call(
-      username: username,
-      password: password,
-      options: FacultyRequestOptions(faculty: tempFaculty, client: httpClient),
-    );
+    final loginResponse = await api.authentication
+        .login(
+          username: username,
+          password: password,
+          options: FacultyRequestOptions(
+            faculty: tempFaculty,
+            client: httpClient,
+          ),
+        )
+        .call();
 
     if (!loginResponse.success) {
       return null;
@@ -88,11 +93,13 @@ class CredentialsSessionRequest extends SessionRequest {
     http.Client httpClient,
   ) async {
     final html = SigarraHtml();
-    final response = await html.authentication.login.call(
-      username: username,
-      password: password,
-      options: FacultyRequestOptions(client: httpClient),
-    );
+    final response = await html.authentication
+        .login(
+          username: username,
+          password: password,
+          options: FacultyRequestOptions(client: httpClient),
+        )
+        .call();
 
     final error = response.asFailed();
     return error.reason;
