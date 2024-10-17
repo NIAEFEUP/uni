@@ -168,9 +168,9 @@ abstract class StateProviderNotifier<T> extends ChangeNotifier {
         if (!context.mounted || _state != null) {
           return;
         }
-        await _loadFromStorage(context).then((value) {
+        await _loadFromStorage(context).then((value) async {
           if (context.mounted) {
-            _loadFromRemoteFromContext(context);
+            await _loadFromRemoteFromContext(context);
           }
         });
       },
