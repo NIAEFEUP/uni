@@ -37,7 +37,7 @@ class LibraryOccupation {
     return floors[number - 1];
   }
 
-  void sortFloors(){
+  void sortFloors() {
     floors.sort((a, b) => a.number.compareTo(b.number));
   }
 

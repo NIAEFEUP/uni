@@ -38,7 +38,7 @@ class LibraryOccupationFetcher {
         libraryOccupation.addFloor(floorOccupation);
       }),
     );
-    
+
     libraryOccupation.sortFloors();
     return libraryOccupation;
   }
