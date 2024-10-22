@@ -21,10 +21,16 @@ class CalendarItem extends StatelessWidget {
         color: Theme.of(context).colorScheme.secondary,
         shape: SmoothRectangleBorder(
           borderRadius: SmoothBorderRadius(
-            cornerRadius: 15,
+            cornerRadius: 12,
             cornerSmoothing: 1,
+          ),
+        ),
+        shadows: [
+          BoxShadow(
+            color: Theme.of(context).colorScheme.shadow.withAlpha(0x3f),
+            blurRadius: 6,
           )
-        )
+        ]
       ),
       child: Text(
         this.title,
