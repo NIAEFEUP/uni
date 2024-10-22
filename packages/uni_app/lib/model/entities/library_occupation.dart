@@ -18,10 +18,7 @@ class LibraryOccupation {
   late List<FloorOccupation> floors;
 
   void addFloor(FloorOccupation floor) {
-    floors
-      ..add(floor)
-      ..sort((a, b) => a.number.compareTo(b.number));
-
+    floors.add(floor);
     occupation += floor.occupation;
     capacity += floor.capacity;
   }
@@ -38,6 +35,10 @@ class LibraryOccupation {
       return FloorOccupation(0, 0, 0);
     }
     return floors[number - 1];
+  }
+
+  void sortFloors(){
+    floors.sort((a, b) => a.number.compareTo(b.number));
   }
 
   Map<String, dynamic> toJson() => _$LibraryOccupationToJson(this);
