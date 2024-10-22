@@ -8,22 +8,24 @@ part of '../../../model/entities/library_occupation.dart';
 
 LibraryOccupation _$LibraryOccupationFromJson(Map<String, dynamic> json) =>
     LibraryOccupation(
-      (json['occupation'] as num).toInt(),
-      (json['capacity'] as num).toInt(),
-    )..floors = LibraryOccupation._floorsFromJson(json['floors'] as List);
+      json['occupation'] as int,
+      json['capacity'] as int,
+    )..floors = (json['floors'] as List<dynamic>)
+        .map((e) => FloorOccupation.fromJson(e as Map<String, dynamic>))
+        .toList();
 
 Map<String, dynamic> _$LibraryOccupationToJson(LibraryOccupation instance) =>
     <String, dynamic>{
       'occupation': instance.occupation,
       'capacity': instance.capacity,
-      'floors': LibraryOccupation._floorsToJson(instance.floors),
+      'floors': instance.floors,
     };
 
 FloorOccupation _$FloorOccupationFromJson(Map<String, dynamic> json) =>
     FloorOccupation(
-      (json['number'] as num).toInt(),
-      (json['occupation'] as num).toInt(),
-      (json['capacity'] as num).toInt(),
+      json['number'] as int,
+      json['occupation'] as int,
+      json['capacity'] as int,
     );
 
 Map<String, dynamic> _$FloorOccupationToJson(FloorOccupation instance) =>
