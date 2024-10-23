@@ -14,19 +14,35 @@ const _textTheme = TextTheme(
   displayLarge: TextStyle(fontSize: 40, fontWeight: FontWeight.w400),
   displayMedium: TextStyle(fontSize: 32, fontWeight: FontWeight.w400),
   displaySmall: TextStyle(fontSize: 28, fontWeight: FontWeight.w400),
+  headlineLarge: TextStyle(fontSize: 28, fontWeight: FontWeight.w300),
   headlineMedium: TextStyle(fontSize: 24, fontWeight: FontWeight.w300),
   headlineSmall: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
   titleLarge: TextStyle(fontSize: 18, fontWeight: FontWeight.w300),
   titleMedium: TextStyle(fontSize: 17, fontWeight: FontWeight.w300),
-  titleSmall: TextStyle(fontSize: 16, fontWeight: FontWeight.w300),
+  titleSmall: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
   bodyLarge: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
   bodyMedium: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
   bodySmall: TextStyle(fontSize: 13, fontWeight: FontWeight.w400),
 );
 
+var _lightTextTheme = TextTheme(
+  displayLarge: _textTheme.displayLarge!,
+  displayMedium: _textTheme.displayMedium!,
+  displaySmall: _textTheme.displaySmall!,
+  headlineLarge: _textTheme.headlineLarge!,
+  headlineMedium: _textTheme.headlineMedium!.copyWith(color: darkRed),
+  headlineSmall: _textTheme.headlineSmall!,
+  titleLarge: _textTheme.titleLarge!.copyWith(color: darkRed),
+  titleMedium: _textTheme.titleMedium!,
+  titleSmall: _textTheme.titleSmall!.copyWith(color: darkRed),
+  bodyLarge: _textTheme.bodyLarge!,
+  bodyMedium: _textTheme.bodyMedium!,
+  bodySmall: _textTheme.bodySmall!,
+);
+
 ThemeData lightTheme = ThemeData(
   useMaterial3: true,
-  textTheme: _textTheme,
+  textTheme: _lightTextTheme,
   colorScheme: ColorScheme.fromSeed(
       seedColor: darkRed,
       surface: mildWhite,
@@ -48,3 +64,10 @@ ThemeData lightTheme = ThemeData(
   secondaryHeaderColor: normalGray,
   iconTheme: const IconThemeData(color: darkRed),
 );
+
+class BadgeColors {
+  static const mt = Color(0xFF7ca5b8);
+  static const en = Color(0xFF769c87);
+  static const er = Color(0xFFab4d39);
+  static const ee = Color(0xFFfbc11f);
+}
