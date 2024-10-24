@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:uni/generated/l10n.dart';
 
 /// Manages the app section displayed when the user presses the back button
@@ -36,7 +37,7 @@ class BackButtonExitWrapper extends StatelessWidget {
               ElevatedButton(
                 onPressed: () {
                   userActionCompleter.complete(true);
-                  Navigator.of(context).pop(false);
+                  SystemChannels.platform.invokeMethod<void>('SystemNavigator.pop');
                 },
                 child: Text(S.of(context).yes),
               ),
