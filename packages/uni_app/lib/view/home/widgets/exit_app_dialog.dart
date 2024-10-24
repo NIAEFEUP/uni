@@ -37,7 +37,8 @@ class BackButtonExitWrapper extends StatelessWidget {
               ElevatedButton(
                 onPressed: () {
                   userActionCompleter.complete(true);
-                  SystemChannels.platform.invokeMethod<void>('SystemNavigator.pop');
+                  SystemChannels.platform
+                      .invokeMethod<void>('SystemNavigator.pop');
                 },
                 child: Text(S.of(context).yes),
               ),
