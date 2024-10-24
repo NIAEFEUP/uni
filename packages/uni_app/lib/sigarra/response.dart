@@ -1,5 +1,5 @@
-class SigarraResponse {
-  const SigarraResponse({required this.success});
+class EndpointResponse {
+  const EndpointResponse({required this.success});
 
   final bool success;
 }

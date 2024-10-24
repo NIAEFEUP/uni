@@ -45,11 +45,9 @@ class FederatedSessionRequest extends SessionRequest {
     final authorizedClient = credential.createHttpClient(client);
 
     final oidc = SigarraOidc();
-    final response = await oidc.token.call(
-      options: BaseRequestOptions(
-        client: authorizedClient,
-      ),
-    );
+    final response = await oidc
+        .token(options: SigarraRequestOptions(client: authorizedClient))
+        .call();
 
     if (!response.success) {
       throw const AuthenticationException('Failed to get OIDC token');
