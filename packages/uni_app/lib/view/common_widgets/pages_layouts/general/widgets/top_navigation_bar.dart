@@ -16,37 +16,53 @@ class AppTopNavbar extends StatelessWidget implements PreferredSizeWidget {
   final Widget? leftButton;
 
   Widget _createTopWidgets(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.fromLTRB(leftButton == null ? 20 : 12, 0, 20, 0),
-      child: Row(
-        children: [
-          if (leftButton != null)
-            Padding(
-              padding: const EdgeInsets.only(right: 8),
-              child: leftButton,
-            ),
-          Expanded(
-            child: PageTitle(
-              name: title ?? '',
-              pad: false,
-              center: false,
+    final shouldShowDivider = title == 'Faculty' || title == 'Restaurants';
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: EdgeInsets.fromLTRB(leftButton == null ? 20 : 12, 0, 20, 0),
+          child: Row(
+            children: [
+              if (leftButton != null)
+                Padding(
+                  padding: const EdgeInsets.only(right: 8),
+                  child: leftButton,
+                ),
+              Expanded(
+                child: PageTitle(
+                  name: title ?? '',
+                  pad: false,
+                  center: false,
+                ),
+              ),
+              if (rightButton != null)
+                Padding(
+                  padding: const EdgeInsets.only(left: 8),
+                  child: rightButton,
+                ),
+            ],
+          ),
+        ),
+        if (shouldShowDivider)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+            child: Container(
+              height: 1,
+              color:
+                  const Color(0xFF7F7F7F).withOpacity(0.5), // Adjusted opacity
             ),
           ),
-          if (rightButton != null)
-            Padding(
-              padding: const EdgeInsets.only(left: 8),
-              child: rightButton,
-            ),
-        ],
-      ),
+      ],
     );
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight + 10);
 
   @override
-  AppBar build(BuildContext context) {
+  Widget build(BuildContext context) {
     return AppBar(
       automaticallyImplyLeading: false,
       elevation: 0,
