@@ -39,6 +39,7 @@ class LibraryOccupationFetcher {
       }),
     );
 
+    libraryOccupation.sortFloors();
     return libraryOccupation;
   }
 
