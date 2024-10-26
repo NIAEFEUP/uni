@@ -31,20 +31,37 @@ class CalendarItem extends StatelessWidget {
             fontSize: 11,
           ),
         ),
-        Container(
-          margin: EdgeInsets.only(top: 5),
-          width: 20,
-          height: 20,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(
-              color: Theme.of(context).colorScheme.primary,
-              width: 4.0,
+        Stack(
+          alignment: Alignment.bottomCenter,
+          children: [
+            Container(
+              margin: EdgeInsets.only(top: 5, bottom: 12),
+              width: 20,
+              height: 20,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: Theme.of(context).colorScheme.primary,
+                  width: 4.0,
+                )
+              ),
+            ),
+            Container(
+              width: 6,
+              height: 14,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(3),
+                  bottomRight: Radius.circular(3)
+                ),
+                shape: BoxShape.rectangle,
+                color: Theme.of(context).primaryColor,
+              ),
             )
-          ),
+          ],
         ),
         Container(
-          margin: const EdgeInsets.all(10),
+          margin: const EdgeInsets.only(left: 5, right: 5, bottom: 10),
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 15),
           width: 140,
           decoration: ShapeDecoration(
@@ -90,7 +107,7 @@ class CalendarItem extends StatelessWidget {
         ? "${start.day} ${monthToString(start.month)}."
         : "${start.day}-${end.day} ${monthToString(start.month)}.";
     } else {
-      return "${start.day} ${monthToString(start.month)}. - ${end.day} ${monthToString(end.month)}.";
+      return "${start.day} ${monthToString(start.month)} - ${end.day} ${monthToString(end.month)}";
     }
   }
 }
