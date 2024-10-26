@@ -35,7 +35,7 @@ class CalendarItem extends StatelessWidget {
           alignment: Alignment.bottomCenter,
           children: [
             Container(
-              margin: EdgeInsets.only(top: 5, bottom: 12),
+              margin: EdgeInsets.only(top: 5, bottom: 10),
               width: 20,
               height: 20,
               decoration: BoxDecoration(
@@ -43,21 +43,49 @@ class CalendarItem extends StatelessWidget {
                 border: Border.all(
                   color: Theme.of(context).colorScheme.primary,
                   width: 4.0,
-                )
+                ),
               ),
             ),
             Container(
-              width: 6,
-              height: 14,
+              width: 4,
+              height: 12,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(3),
-                  bottomRight: Radius.circular(3)
-                ),
+                    bottomLeft: Radius.circular(3),
+                    bottomRight: Radius.circular(3)),
                 shape: BoxShape.rectangle,
                 color: Theme.of(context).primaryColor,
               ),
-            )
+            ),
+            Container(
+              margin: EdgeInsets.only(bottom: 18),
+              child: Row(
+                children: [
+                  Container(
+                    width: 60,
+                    height: 4,
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.primary,
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(3),
+                          bottomRight: Radius.circular(3),
+                        )),
+                  ),
+                  SizedBox(width: 30),
+                  Container(
+                    width: 60,
+                    height: 4,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.primary,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(3),
+                        bottomLeft: Radius.circular(3),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
         Container(
@@ -77,7 +105,7 @@ class CalendarItem extends StatelessWidget {
                 color: Theme.of(context).colorScheme.shadow.withAlpha(0x3f),
                 blurRadius: 6,
               )
-            ]
+            ],
           ),
           child: Text(
             this.eventName,
@@ -95,7 +123,20 @@ class CalendarItem extends StatelessWidget {
 
   static String monthToString(int month) {
     // TODO: Support English
-    const strMonths = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dec"];
+    const strMonths = [
+      "Jan",
+      "Fev",
+      "Mar",
+      "Abr",
+      "Mai",
+      "Jun",
+      "Jul",
+      "Ago",
+      "Set",
+      "Out",
+      "Nov",
+      "Dec"
+    ];
     return strMonths[month - 1];
   }
 
@@ -104,8 +145,8 @@ class CalendarItem extends StatelessWidget {
 
     if (start.month == end.month) {
       return start.day == end.day
-        ? "${start.day} ${monthToString(start.month)}."
-        : "${start.day}-${end.day} ${monthToString(start.month)}.";
+          ? "${start.day} ${monthToString(start.month)}."
+          : "${start.day} - ${end.day} ${monthToString(start.month)}.";
     } else {
       return "${start.day} ${monthToString(start.month)} - ${end.day} ${monthToString(end.month)}";
     }
