@@ -4,18 +4,35 @@ import 'package:flutter/material.dart';
 class CalendarItem extends StatelessWidget {
   const CalendarItem({
     super.key,
-    required this.date,
-    required this.title,
+    required this.eventName,
+    required this.eventPeriod,
   });
 
-  final String date;
-  final String title;
+  final String eventName;
+  final DateTimeRange eventPeriod;
 
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
+        Text(
+          parsePeriod(this.eventPeriod),
+          style: TextStyle(
+            fontSize: 15,
+            height: 1,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        Text(
+          this.eventPeriod.end.year.toString(),
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.outline,
+            fontSize: 11,
+          ),
+        ),
         Container(
+          margin: EdgeInsets.only(top: 5),
           width: 20,
           height: 20,
           decoration: BoxDecoration(
@@ -46,7 +63,7 @@ class CalendarItem extends StatelessWidget {
             ]
           ),
           child: Text(
-            this.title,
+            this.eventName,
             style: TextStyle(
               color: Theme.of(context).colorScheme.primary,
               fontSize: 16,
@@ -57,5 +74,23 @@ class CalendarItem extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  static String monthToString(int month) {
+    // TODO: Support English
+    const strMonths = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dec"];
+    return strMonths[month - 1];
+  }
+
+  static String parsePeriod(DateTimeRange period) {
+    final start = period.start, end = period.end;
+
+    if (start.month == end.month) {
+      return start.day == end.day
+        ? "${start.day} ${monthToString(start.month)}."
+        : "${start.day}-${end.day} ${monthToString(start.month)}.";
+    } else {
+      return "${start.day} ${monthToString(start.month)}. - ${end.day} ${monthToString(end.month)}.";
+    }
   }
 }

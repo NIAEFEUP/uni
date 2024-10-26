@@ -12,7 +12,8 @@ class Calendar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Row(
+      scrollDirection: Axis.horizontal,
+      child: Row(  // To avoid the widget from expanding vertically
         children: items,
       ),
     );
