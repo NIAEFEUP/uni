@@ -30,7 +30,6 @@ class _CalendarItemDate extends StatelessWidget {
           ),
         ],
       );
-
     } else {
       return Padding(
         padding: EdgeInsets.only(top: 10),
