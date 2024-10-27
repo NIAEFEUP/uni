@@ -53,39 +53,10 @@ class CalendarItem extends StatelessWidget {
               height: 12,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(3),
-                    bottomRight: Radius.circular(3)),
+                    bottomLeft: Radius.circular(2),
+                    bottomRight: Radius.circular(2)),
                 shape: BoxShape.rectangle,
                 color: Theme.of(context).primaryColor,
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(bottom: 18),
-              child: Row(
-                children: [
-                  Container(
-                    width: 60,
-                    height: 4,
-                    decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.primary,
-                        borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(3),
-                          bottomRight: Radius.circular(3),
-                        )),
-                  ),
-                  SizedBox(width: 30),
-                  Container(
-                    width: 60,
-                    height: 4,
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.primary,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(3),
-                        bottomLeft: Radius.circular(3),
-                      ),
-                    ),
-                  ),
-                ],
               ),
             ),
           ],
@@ -93,7 +64,7 @@ class CalendarItem extends StatelessWidget {
         GestureDetector(
           onTap: onTap,
           child: Container(
-            margin: const EdgeInsets.only(left: 5, right: 5, bottom: 10),
+            margin: const EdgeInsets.only(left: 5, right: 5, bottom: 5),
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 15),
             width: 140,
             decoration: ShapeDecoration(
