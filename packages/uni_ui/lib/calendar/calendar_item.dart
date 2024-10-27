@@ -6,10 +6,12 @@ class CalendarItem extends StatelessWidget {
     super.key,
     required this.eventName,
     required this.eventPeriod,
+    this.onTap,
   });
 
   final String eventName;
   final DateTimeRange eventPeriod;
+  final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +19,7 @@ class CalendarItem extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(
-          parsePeriod(this.eventPeriod),
+          parsePeriod(eventPeriod),
           style: TextStyle(
             fontSize: 15,
             height: 1,
@@ -25,7 +27,7 @@ class CalendarItem extends StatelessWidget {
           ),
         ),
         Text(
-          this.eventPeriod.end.year.toString(),
+          eventPeriod.end.year.toString(),
           style: TextStyle(
             color: Theme.of(context).colorScheme.outline,
             fontSize: 11,
@@ -88,32 +90,35 @@ class CalendarItem extends StatelessWidget {
             ),
           ],
         ),
-        Container(
-          margin: const EdgeInsets.only(left: 5, right: 5, bottom: 10),
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 15),
-          width: 140,
-          decoration: ShapeDecoration(
-            color: Theme.of(context).colorScheme.secondary,
-            shape: SmoothRectangleBorder(
-              borderRadius: SmoothBorderRadius(
-                cornerRadius: 12,
-                cornerSmoothing: 1,
+        GestureDetector(
+          onTap: onTap,
+          child: Container(
+            margin: const EdgeInsets.only(left: 5, right: 5, bottom: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 15),
+            width: 140,
+            decoration: ShapeDecoration(
+              color: Theme.of(context).colorScheme.secondary,
+              shape: SmoothRectangleBorder(
+                borderRadius: SmoothBorderRadius(
+                  cornerRadius: 12,
+                  cornerSmoothing: 1,
+                ),
               ),
+              shadows: [
+                BoxShadow(
+                  color: Theme.of(context).colorScheme.shadow.withAlpha(0x3f),
+                  blurRadius: 6,
+                )
+              ],
             ),
-            shadows: [
-              BoxShadow(
-                color: Theme.of(context).colorScheme.shadow.withAlpha(0x3f),
-                blurRadius: 6,
-              )
-            ],
-          ),
-          child: Text(
-            this.eventName,
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.primary,
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-              height: 1,
+            child: Text(
+              eventName,
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.primary,
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                height: 1,
+              ),
             ),
           ),
         ),
@@ -145,8 +150,8 @@ class CalendarItem extends StatelessWidget {
 
     if (start.month == end.month) {
       return start.day == end.day
-          ? "${start.day} ${monthToString(start.month)}."
-          : "${start.day} - ${end.day} ${monthToString(start.month)}.";
+          ? "${start.day} ${monthToString(start.month)}"
+          : "${start.day} - ${end.day} ${monthToString(start.month)}";
     } else {
       return "${start.day} ${monthToString(start.month)} - ${end.day} ${monthToString(end.month)}";
     }
