@@ -1,16 +1,92 @@
 import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/material.dart';
 
+class _CalendarItemDate extends StatelessWidget {
+  const _CalendarItemDate({
+    required this.eventPeriod,
+  });
+
+  final DateTimeRange? eventPeriod;
+
+  @override
+  Widget build(BuildContext context) {
+    if (eventPeriod != null) {
+      return Column(
+        children: [
+          Text(
+            parsePeriod(eventPeriod!),
+            style: TextStyle(
+              fontSize: 15,
+              height: 1,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          Text(
+            eventPeriod!.end.year.toString(),
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.outline,
+              fontSize: 11,
+            ),
+          ),
+        ],
+      );
+
+    } else {
+      return Padding(
+        padding: EdgeInsets.only(top: 10),
+        child: Text(
+          "TBD",
+          style: TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      );
+    }
+  }
+
+  static String monthToString(int month) {
+    // TODO: Support Portuguese
+    const strMonths = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec"
+    ];
+    return strMonths[month - 1];
+  }
+
+  static String parsePeriod(DateTimeRange period) {
+    final start = period.start, end = period.end;
+
+    if (start.month == end.month) {
+      return start.day == end.day
+          ? "${start.day} ${monthToString(start.month)}"
+          : "${start.day} - ${end.day} ${monthToString(start.month)}";
+    } else {
+      return "${start.day} ${monthToString(start.month)} - ${end.day} ${monthToString(end.month)}";
+    }
+  }
+}
+
 class CalendarItem extends StatelessWidget {
   const CalendarItem({
     super.key,
     required this.eventName,
-    required this.eventPeriod,
+    this.eventPeriod,
     this.onTap,
   });
 
   final String eventName;
-  final DateTimeRange eventPeriod;
+  final DateTimeRange? eventPeriod;
   final void Function()? onTap;
 
   @override
@@ -18,21 +94,7 @@ class CalendarItem extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(
-          parsePeriod(eventPeriod),
-          style: TextStyle(
-            fontSize: 15,
-            height: 1,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        Text(
-          eventPeriod.end.year.toString(),
-          style: TextStyle(
-            color: Theme.of(context).colorScheme.outline,
-            fontSize: 11,
-          ),
-        ),
+        _CalendarItemDate(eventPeriod: eventPeriod),
         Stack(
           alignment: Alignment.bottomCenter,
           children: [
@@ -95,36 +157,5 @@ class CalendarItem extends StatelessWidget {
         ),
       ],
     );
-  }
-
-  static String monthToString(int month) {
-    // TODO: Support English
-    const strMonths = [
-      "Jan",
-      "Fev",
-      "Mar",
-      "Abr",
-      "Mai",
-      "Jun",
-      "Jul",
-      "Ago",
-      "Set",
-      "Out",
-      "Nov",
-      "Dec"
-    ];
-    return strMonths[month - 1];
-  }
-
-  static String parsePeriod(DateTimeRange period) {
-    final start = period.start, end = period.end;
-
-    if (start.month == end.month) {
-      return start.day == end.day
-          ? "${start.day} ${monthToString(start.month)}"
-          : "${start.day} - ${end.day} ${monthToString(start.month)}";
-    } else {
-      return "${start.day} ${monthToString(start.month)} - ${end.day} ${monthToString(end.month)}";
-    }
   }
 }
