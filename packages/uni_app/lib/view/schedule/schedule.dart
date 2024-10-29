@@ -67,7 +67,34 @@ class SchedulePageViewState extends State<SchedulePageView>
       length: 6,
     );
 
-    final weekDay = widget.currentWeek.start.weekday;
+    var weekDay = widget.currentWeek.start.weekday;
+
+    final lecturesThisWeek = <Lecture>[];
+    widget.currentWeek.weekdays.take(6).forEach((day) {
+      final lectures = lecturesOfDay(widget.lectures, day);
+      lecturesThisWeek.addAll(lectures);
+    });
+
+    if (lecturesThisWeek.isNotEmpty) {
+      final now = DateTime.now();
+      Lecture? nextLecture;
+      Duration? closestDuration;
+
+      for (final lecture in lecturesThisWeek) {
+        if (lecture.endTime.isAfter(now)) {
+          final difference = lecture.endTime.difference(now);
+          if (closestDuration == null || difference < closestDuration) {
+            closestDuration = difference;
+            nextLecture = lecture;
+          }
+        }
+      }
+
+      if (nextLecture != null) {
+        weekDay = nextLecture.endTime.weekday;
+      }
+    }
+
     final offset = (weekDay > 6) ? 0 : (weekDay - 1) % 6;
     tabController?.animateTo(tabController!.index + offset);
   }
