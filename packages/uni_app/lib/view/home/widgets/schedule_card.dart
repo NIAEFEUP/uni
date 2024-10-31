@@ -49,7 +49,7 @@ class ScheduleCard extends GenericCard {
         ),
       ),
       contentLoadingWidget: const ScheduleCardShimmer().build(context),
-      mapper: (lectures) => (lectures as List<Lecture>)
+      mapper: (lectures) => lectures
           .where((lecture) => lecture.endTime.isAfter(DateTime.now()))
           .toList(),
     );
