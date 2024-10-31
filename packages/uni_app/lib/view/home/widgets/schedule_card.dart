@@ -50,11 +50,7 @@ class ScheduleCard extends GenericCard {
       ),
       contentLoadingWidget: const ScheduleCardShimmer().build(context),
       mapper: (lectures) => (lectures as List<Lecture>)
-          .where(
-            (lecture) =>
-                lecture.endTime.isAfter(DateTime.now()) ||
-                lecture.startTime.weekday != DateTime.now().weekday,
-          )
+          .where((lecture) => lecture.endTime.isAfter(DateTime.now()))
           .toList(),
     );
   }
