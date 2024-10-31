@@ -10,6 +10,7 @@ import 'package:uni/model/utils/time/week.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/date_rectangle.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
+import 'package:uni/view/exams/exams.dart';
 import 'package:uni/view/home/widgets/schedule_card_shimmer.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locale_notifier.dart';
@@ -50,7 +51,11 @@ class ScheduleCard extends GenericCard {
       ),
       contentLoadingWidget: const ScheduleCardShimmer().build(context),
       mapper: (lectures) => lectures
-          .where((lecture) => lecture.endTime.compareTo(DateTime.now()) > 0)
+          .where(
+            (lecture) =>
+                lecture.endTime.isAfter(DateTime.now()) ||
+                lecture.startTime.weekday != DateTime.now().weekday,
+          )
           .toList(),
     );
   }
@@ -74,16 +79,8 @@ class ScheduleCard extends GenericCard {
     for (final dayLectures
         in lecturesByDay.sublist(0, min(2, lecturesByDay.length))) {
       final day = dayLectures.key;
-      final lectures = dayLectures.value
-          .where(
-            (element) =>
-                // Hide finished lectures from today
-                element.startTime.weekday != DateTime.now().weekday ||
-                element.endTime.isAfter(DateTime.now()),
-          )
-          .toList();
 
-      if (lectures.isEmpty) {
+      if (dayLectures.value.isEmpty) {
         continue;
       }
 
@@ -94,11 +91,11 @@ class ScheduleCard extends GenericCard {
         ),
       );
 
-      for (final lecture in lectures) {
+      for (final lecture in dayLectures.value) {
         rows.add(createRowFromLecture(context, lecture));
       }
 
-      if (lectures.length >= 2) {
+      if (dayLectures.value.length >= 2) {
         break;
       }
     }
