@@ -36,9 +36,9 @@ class LazyConsumer<T1 extends StateProviderNotifier<T2>, T2>
   final bool Function(T2) hasContent;
   final Widget onNullContent;
   final Widget? contentLoadingWidget;
-  final T2 Function(T2)? mapper;
+  final T2 Function(dynamic)? mapper;
 
-  static T2 _defaultMapper<T2>(T2 value) => value;
+  static T2 _defaultMapper<T2>(dynamic value) => value as T2;
 
   @override
   Widget build(BuildContext context) {
@@ -94,8 +94,9 @@ class LazyConsumer<T1 extends StateProviderNotifier<T2>, T2>
 
   Widget requestDependantWidget(BuildContext context, T1 provider) {
     final mappedState = provider.state != null
-        ? (mapper ?? _defaultMapper)(provider.state as T2)
+        ? (mapper ?? _defaultMapper)(provider.state as dynamic)
         : null;
+
     final showContent = provider.state != null && hasContent(mappedState as T2);
 
     if (provider.requestStatus == RequestStatus.busy && !showContent) {

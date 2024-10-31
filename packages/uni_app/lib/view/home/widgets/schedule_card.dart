@@ -10,7 +10,6 @@ import 'package:uni/model/utils/time/week.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/date_rectangle.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
-import 'package:uni/view/exams/exams.dart';
 import 'package:uni/view/home/widgets/schedule_card_shimmer.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locale_notifier.dart';
@@ -50,7 +49,7 @@ class ScheduleCard extends GenericCard {
         ),
       ),
       contentLoadingWidget: const ScheduleCardShimmer().build(context),
-      mapper: (lectures) => lectures
+      mapper: (lectures) => (lectures as List<Lecture>)
           .where(
             (lecture) =>
                 lecture.endTime.isAfter(DateTime.now()) ||
