@@ -37,6 +37,10 @@ class LibraryOccupation {
     return floors[number - 1];
   }
 
+  void sortFloors() {
+    floors.sort((a, b) => a.number.compareTo(b.number));
+  }
+
   Map<String, dynamic> toJson() => _$LibraryOccupationToJson(this);
 }
 
