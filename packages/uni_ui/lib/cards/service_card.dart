@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-import 'package:uni_ui/generic_card.dart';
+import 'package:uni_ui/cards/generic_card.dart';
 
 class ServiceCard extends StatelessWidget {
   const ServiceCard({
