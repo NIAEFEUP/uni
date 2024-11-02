@@ -22,10 +22,7 @@ class LibraryOccupationProvider
   Future<LibraryOccupation> loadFromRemote(
     StateProviders stateProviders,
   ) async {
-    final session = stateProviders.sessionProvider.state!;
-    final occupation = await LibraryOccupationFetcherSheets()
-        .getLibraryOccupationFromSheets(session);
-
+    final occupation = await LibraryOccupationFetcher().getLibraryOccupation();
     final db = LibraryOccupationDatabase();
     unawaited(db.saveIfPersistentSession(occupation));
 

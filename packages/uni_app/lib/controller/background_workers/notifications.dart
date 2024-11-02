@@ -10,8 +10,7 @@ import 'package:tuple/tuple.dart';
 import 'package:uni/controller/background_workers/notifications/tuition_notification.dart';
 import 'package:uni/controller/local_storage/notification_timeout_storage.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
-import 'package:uni/controller/networking/network_router.dart';
-import 'package:uni/model/entities/session.dart';
+import 'package:uni/session/flows/base/session.dart';
 import 'package:workmanager/workmanager.dart';
 
 ///
@@ -103,7 +102,8 @@ class NotificationManager {
           _localNotificationsPlugin.resolvePlatformSpecificImplementation<
               AndroidFlutterLocalNotificationsPlugin>()!;
       try {
-        final permissionGranted = await androidPlugin.requestPermission();
+        final permissionGranted =
+            await androidPlugin.requestNotificationsPermission();
         if (permissionGranted != true) {
           return;
         }
@@ -143,44 +143,14 @@ class NotificationManager {
 
   static Future<void> updateAndTriggerNotifications() async {
     PreferencesController.prefs = await SharedPreferences.getInstance();
-    final userInfo = await PreferencesController.getPersistentUserInfo();
-    final faculties = PreferencesController.getUserFaculties();
-    final refreshToken = await PreferencesController.getSessionRefreshToken();
+    final savedSession = await PreferencesController.getSavedSession();
 
-    if (faculties.isEmpty) {
+    if (savedSession == null) {
       return;
     }
-    if (userInfo == null && refreshToken == null) {
-      return; // Session not persistent
-    }
 
-    Session? session;
-    if (userInfo != null) {
-      session = await NetworkRouter.login(
-        userInfo.item1,
-        userInfo.item2,
-        faculties,
-        persistentSession: false,
-      );
-    }
-
-    if (refreshToken != null) {
-      final token = await NetworkRouter.getAccessToken(refreshToken);
-      final studentNumber = await PreferencesController.getUserNumber();
-      if (token == null || studentNumber == null) {
-        return;
-      }
-      session = await NetworkRouter.loginWithToken(
-        token,
-        studentNumber,
-        faculties,
-        persistentSession: false,
-      );
-    }
-
-    if (session == null) {
-      return;
-    }
+    final request = savedSession.createRefreshRequest();
+    final session = await request.perform();
 
     // Get the .json file that contains the last time that the
     // notification has ran

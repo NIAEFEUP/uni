@@ -62,6 +62,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "balance": MessageLookupByLibrary.simpleMessage("Saldo:"),
         "banner_info": MessageLookupByLibrary.simpleMessage(
             "Agora recolhemos estatísticas de uso anónimas para melhorar a tua experiência. Podes alterá-lo nas definições."),
+        "bibliography": MessageLookupByLibrary.simpleMessage("Bibliografia"),
         "bs_description": MessageLookupByLibrary.simpleMessage(
             "Encontraste algum bug na aplicação?\nTens alguma sugestão para a app?\nConta-nos para que possamos melhorar!"),
         "bug_description": MessageLookupByLibrary.simpleMessage(
@@ -119,6 +120,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "edit_on": MessageLookupByLibrary.simpleMessage("Concluir edição"),
         "empty_text": MessageLookupByLibrary.simpleMessage(
             "Por favor preenche este campo"),
+        "evaluation": MessageLookupByLibrary.simpleMessage("Avaliação"),
         "exams_filter":
             MessageLookupByLibrary.simpleMessage("Definições Filtro de Exames"),
         "exit_confirm": MessageLookupByLibrary.simpleMessage(
@@ -227,6 +229,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Não existem cadeiras para apresentar"),
         "no_selected_exams": MessageLookupByLibrary.simpleMessage(
             "Não existem exames para apresentar"),
+        "no_trips": MessageLookupByLibrary.simpleMessage(
+            "Não há viagens planeadas de momento"),
         "notifications": MessageLookupByLibrary.simpleMessage("Notificações"),
         "occurrence_type":
             MessageLookupByLibrary.simpleMessage("Tipo de ocorrência"),
@@ -249,6 +253,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "prints": MessageLookupByLibrary.simpleMessage("Impressões"),
         "problem_id": MessageLookupByLibrary.simpleMessage(
             "Breve identificação do problema"),
+        "program": MessageLookupByLibrary.simpleMessage("Programa"),
         "reference_sigarra_help": MessageLookupByLibrary.simpleMessage(
             "Os dados da referência gerada aparecerão no Sigarra, conta corrente. Perfil > Conta Corrente"),
         "reference_success": MessageLookupByLibrary.simpleMessage(

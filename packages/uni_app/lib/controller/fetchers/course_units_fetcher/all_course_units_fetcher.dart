@@ -2,7 +2,7 @@ import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/parsers/parser_course_units.dart';
 import 'package:uni/model/entities/course.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
-import 'package:uni/model/entities/session.dart';
+import 'package:uni/session/flows/base/session.dart';
 
 class AllCourseUnitsFetcher {
   Future<List<CourseUnit>?> getAllCourseUnitsAndCourseAverages(

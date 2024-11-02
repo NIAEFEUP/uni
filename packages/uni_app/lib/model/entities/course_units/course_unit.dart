@@ -27,7 +27,7 @@ class CourseUnit {
       _$CourseUnitFromJson(json);
 
   @JsonKey(name: 'ucurr_id')
-  int id;
+  int? id;
   @JsonKey(name: 'ucurr_codigo')
   String code;
   @JsonKey(name: 'ucurr_sigla')
@@ -37,7 +37,7 @@ class CourseUnit {
   @JsonKey(name: 'ano')
   int? curricularYear;
   @JsonKey(name: 'ocorr_id')
-  int occurrId;
+  int? occurrId;
   @JsonKey(name: 'per_codigo')
   String? semesterCode;
   @JsonKey(name: 'per_nome')

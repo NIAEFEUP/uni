@@ -132,11 +132,9 @@ class NextArrivalsState extends State<NextArrivals> {
             ),
           ),
           constraints: const BoxConstraints(maxHeight: 150),
-          child: Material(
-            child: TabBar(
-              isScrollable: true,
-              tabs: createTabs(queryData),
-            ),
+          child: TabBar(
+            isScrollable: true,
+            tabs: createTabs(queryData),
           ),
         ),
         Expanded(

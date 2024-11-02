@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/entities/profile.dart';
@@ -23,8 +24,8 @@ class CourseUnitsPageView extends StatefulWidget {
 
 class CourseUnitsPageViewState
     extends SecondaryPageViewState<CourseUnitsPageView> {
-  String? selectedSchoolYear;
-  String? selectedSemester;
+  String? selectedSchoolYear = PreferencesController.getSchoolYearValue();
+  String? selectedSemester = PreferencesController.getSemesterValue();
 
   @override
   Widget? getHeader(BuildContext context) {
@@ -139,6 +140,7 @@ class CourseUnitsPageViewState
             icon: const Icon(Icons.arrow_drop_down),
             onChanged: (newValue) {
               setState(() => selectedSemester = newValue);
+              PreferencesController.setSemesterValue(newValue);
             },
             items: availableSemesters.map<DropdownMenuItem<String>>((value) {
               return DropdownMenuItem<String>(
@@ -156,6 +158,7 @@ class CourseUnitsPageViewState
             icon: const Icon(Icons.arrow_drop_down),
             onChanged: (newValue) {
               setState(() => selectedSchoolYear = newValue);
+              PreferencesController.setSchoolYearValue(newValue);
             },
             items: availableYears.map<DropdownMenuItem<String>>((value) {
               return DropdownMenuItem<String>(
