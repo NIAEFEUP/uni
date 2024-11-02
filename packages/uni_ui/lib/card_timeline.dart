@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:uni_ui/generic_card.dart';
 
-class CardTimeline extends StatelessWidget {
-  const CardTimeline(
+class TimelineItem extends StatelessWidget {
+  const TimelineItem(
       {required this.startTime,
       required this.endTime,
       required this.card,
@@ -11,7 +10,7 @@ class CardTimeline extends StatelessWidget {
 
   final String startTime;
   final String endTime;
-  final GenericCard card;
+  final Widget card;
   final bool isActive;
 
   @override
@@ -23,7 +22,8 @@ class CardTimeline extends StatelessWidget {
           children: [
             Text(startTime,
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-            Text(endTime, style: TextStyle(fontSize: 16))
+            Text(endTime,
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600))
           ],
         ),
       ),
@@ -52,7 +52,7 @@ class CardTimeline extends StatelessWidget {
                 : null),
         Container(
             margin: EdgeInsets.only(bottom: 5, left: 10, right: 10),
-            height: 50,
+            height: 55,
             width: 3,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -60,5 +60,18 @@ class CardTimeline extends StatelessWidget {
       ]),
       Expanded(child: card)
     ]);
+  }
+}
+
+class CardTimeline extends StatelessWidget {
+  const CardTimeline({required this.items, super.key});
+
+  final List<TimelineItem> items;
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: items.length,
+      itemBuilder: (context, index) => items[index],
+    );
   }
 }
