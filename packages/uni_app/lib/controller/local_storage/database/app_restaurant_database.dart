@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'dart:convert';
 import 'package:intl/intl.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:uni/controller/local_storage/database/app_database.dart';
@@ -9,14 +11,22 @@ class RestaurantDatabase extends AppDatabase<List<Restaurant>> {
   RestaurantDatabase()
       : super(
           'restaurant.db',
-          [
-            '''
+          [ createScript, _createScript ],
+          onUpgrade: migrate,
+          version: 2,
+        );
+
+  static const createScript =
+        '''
           CREATE TABLE RESTAURANTS(
           id INTEGER PRIMARY KEY,
           ref TEXT,
-          name TEXT)
-          ''',
-            '''
+          name TEXT,
+          meals TEXT)
+        ''';
+
+  static const _createScript =
+        '''
           CREATE TABLE MEALS(
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           day TEXT,
@@ -25,9 +35,7 @@ class RestaurantDatabase extends AppDatabase<List<Restaurant>> {
           name TEXT,
           id_restaurant INTEGER,
           FOREIGN KEY (id_restaurant) REFERENCES RESTAURANTS(id))
-          '''
-          ],
-        );
+        ''';
 
   /// Get all restaurants and meals, if day is null, all meals are returned
   Future<List<Restaurant>> restaurants({DayOfWeek? day}) async {
@@ -65,6 +73,7 @@ class RestaurantDatabase extends AppDatabase<List<Restaurant>> {
       for (final restaurantMap in restaurantsFromDB) {
         final id = restaurantMap['id'] as int;
         final meals = await getRestaurantMeals(txn, id);
+
         final restaurant = Restaurant.fromMap(restaurantMap, meals);
         restaurants.add(restaurant);
       }
@@ -104,7 +113,15 @@ class RestaurantDatabase extends AppDatabase<List<Restaurant>> {
 
   /// Insert restaurant and meals in database
   Future<void> insertRestaurant(Transaction txn, Restaurant restaurant) async {
-    final id = await txn.insert('RESTAURANTS', restaurant.toJson());
+    final mealsJson = jsonEncode(restaurant.meals);
+
+    final restaurantMap = {
+      'ref': restaurant.reference,
+      'name': restaurant.name,
+      'meals': mealsJson,
+    };
+    final id = await txn.insert('RESTAURANTS', restaurantMap);
+
     restaurant.meals.forEach((dayOfWeak, meals) async {
       for (final meal in meals) {
         await txn.insert('MEALS', meal.toMap(id));
@@ -116,6 +133,19 @@ class RestaurantDatabase extends AppDatabase<List<Restaurant>> {
   Future<void> deleteAll(Transaction txn) async {
     await txn.delete('meals');
     await txn.delete('restaurants');
+  }
+
+  static FutureOr<void> migrate(
+      Database db,
+      int oldVersion,
+      int newVersion,
+      ) async {
+    final batch = db.batch()
+      ..execute('DROP TABLE IF EXISTS RESTAURANTS')
+      ..execute('DROP TABLE IF EXISTS MEALS')
+      ..execute(createScript)
+      ..execute(_createScript);
+    await batch.commit();
   }
 
   @override
