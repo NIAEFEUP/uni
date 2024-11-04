@@ -63,7 +63,6 @@ class _ExamsPageState extends State<ExamsPage> {
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: entry.value.length,
                 prototypeItem: const ExamCard(
-                  //TODO(thePeras): Solve this at parser level
                   name: 'Computer Laboratory',
                   acronym: 'LCOM',
                   rooms: ['B315', 'B224', 'B207'],
@@ -73,9 +72,9 @@ class _ExamsPageState extends State<ExamsPage> {
                 itemBuilder: (context, index) {
                   final exam = entry.value[index];
                   return ExamCard(
-                    name: 'Subject Name',
-                    acronym: exam.subject,
-                    //TODO(thePeras): Solve this at parser level
+                    name: exam.subject,
+                    acronym: exam.subjectAcronym,
+                    // TODO(thePeras): Solve this at parser level
                     rooms: exam.rooms.where((room) => room.isNotEmpty).toList(),
                     type: exam.examType,
                     startTime: exam.formatTime(exam.start),
