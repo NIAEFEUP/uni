@@ -333,5 +333,11 @@
   "wrong_credentials_exception": "Credenciais inválidas",
   "@wrong_credentials_exception": {},
   "internet_status_exception": "Verifique sua conexão com a internet",
-  "@internet_status_exception": {}
+  "@internet_status_exception": {},
+  "schedule": "Horário",
+  "@schedule": {},
+  "exams": "Exames",
+  "@exams": {},
+  "courses": "Cursos",
+  "@courses": {}
 }

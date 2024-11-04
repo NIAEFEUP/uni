@@ -3,6 +3,8 @@ import 'package:uni/generated/l10n.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/academic_path/exam_page.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
+import 'package:uni_ui/icons.dart';
+import 'package:uni_ui/tabs/tab_icon.dart';
 
 class AcademicPathPageView extends StatefulWidget {
   const AcademicPathPageView({super.key});
@@ -11,40 +13,52 @@ class AcademicPathPageView extends StatefulWidget {
   State<StatefulWidget> createState() => AcademicPathPageViewState();
 }
 
-class AcademicPathPageViewState extends GeneralPageViewState {
+class AcademicPathPageViewState extends GeneralPageViewState
+    with SingleTickerProviderStateMixin {
   @override
   String? getTitle() =>
       S.of(context).nav_title(NavigationItem.navAcademicPath.route);
 
+  late TabController tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    tabController = TabController(vsync: this, length: 3);
+  }
+
+  @override
+  void dispose() {
+    tabController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget? getHeader(BuildContext context) {
+    return TabBar(
+      controller: tabController,
+      dividerHeight: 1,
+      tabs: [
+        TabIcon(icon: UniIcons.calendar, text: S.of(context).schedule),
+        TabIcon(icon: UniIcons.exam, text: S.of(context).exams),
+        TabIcon(icon: UniIcons.courses, text: S.of(context).courses),
+      ],
+    );
+  }
+
   @override
   Widget getBody(BuildContext context) {
-    return DefaultTabController(
-      length: 3,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            S.of(context).nav_title(NavigationItem.navAcademicPath.route),
-          ),
-          bottom: const TabBar(
-            tabs: [
-              Tab(text: 'Schedule'),
-              Tab(text: 'Exams'),
-              Tab(text: 'Courses'),
-            ],
-          ),
+    return TabBarView(
+      controller: tabController,
+      children: const [
+        Center(
+          child: Text('To be implemented'),
         ),
-        body: const TabBarView(
-          children: [
-            Center(
-              child: Text('To be implemented'),
-            ),
-            ExamsPage(),
-            Center(
-              child: Text('To be implemented'),
-            ),
-          ],
+        ExamsPage(),
+        Center(
+          child: Text('To be implemented'),
         ),
-      ),
+      ],
     );
   }
 

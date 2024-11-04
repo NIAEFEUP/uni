@@ -102,6 +102,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Floor -1 of building B | AEFEUP building"),
         "course_class": MessageLookupByLibrary.simpleMessage("Classes"),
         "course_info": MessageLookupByLibrary.simpleMessage("Info"),
+        "courses": MessageLookupByLibrary.simpleMessage("Courses"),
         "current_state":
             MessageLookupByLibrary.simpleMessage("Current state: "),
         "current_year":
@@ -122,6 +123,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "empty_text":
             MessageLookupByLibrary.simpleMessage("Please fill in this field"),
         "evaluation": MessageLookupByLibrary.simpleMessage("Evaluation"),
+        "exams": MessageLookupByLibrary.simpleMessage("Exams"),
         "exams_filter":
             MessageLookupByLibrary.simpleMessage("Exams Filter Settings"),
         "exit_confirm":
@@ -264,6 +266,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "restaurant_main_page": MessageLookupByLibrary.simpleMessage(
             "Do you want to see your favorite restaurants in the main page?"),
         "room": MessageLookupByLibrary.simpleMessage("Room"),
+        "schedule": MessageLookupByLibrary.simpleMessage("Schedule"),
         "school_calendar":
             MessageLookupByLibrary.simpleMessage("School Calendar"),
         "search": MessageLookupByLibrary.simpleMessage("Search"),
