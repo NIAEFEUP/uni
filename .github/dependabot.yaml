@@ -2,10 +2,9 @@ version: 2
 
 updates:
   - package-ecosystem: "pub"
-    directory: "/uni"
+    directory: "/packages/uni_app"
     schedule:
       interval: "daily"
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-patch"]
-        

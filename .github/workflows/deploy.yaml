@@ -16,13 +16,13 @@ jobs:
     environment:
       name: ${{ github.ref_name }}
     env:
-      PROPERTIES_PATH: "android/key.properties"
-      JAVA_VERSION: "17.x"
-      APP_VERSION_PATH: "app_version.txt"
-      PUBSPEC_PATH: "pubspec.yaml"
+      PROPERTIES_PATH: android/key.properties
+      JAVA_VERSION: 21.x
+      APP_VERSION_PATH: app_version.txt
+      PUBSPEC_PATH: pubspec.yaml
     defaults:
       run:
-        working-directory: ./uni
+        working-directory: ./packages/uni_app
     steps:
       - uses: actions/checkout@v4
         with:
@@ -110,7 +110,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: stable
-          flutter-version-file: uni/pubspec.yaml
+          flutter-version-file: packages/uni_app/pubspec.yaml
           cache: true
 
       - name: Download Android keystore
@@ -134,11 +134,11 @@ jobs:
           flutter build appbundle
 
       - name: Upload App Bundle
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: appbundle
           if-no-files-found: error
-          path: uni/build/app/outputs/bundle/release/app-release.aab
+          path: packages/uni_app/build/app/outputs/bundle/release/app-release.aab
 
   deploy_play_store:
     name: "Deploy to Google Play Store"
@@ -147,7 +147,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Get App Bundle
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: appbundle
 
