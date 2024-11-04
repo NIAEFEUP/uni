@@ -66,7 +66,7 @@ To use the translation import `'package:uni/generated/l10n.dart'` and use `S.of(
 For this project, we separate the code into *model, *view* and *controller*.
 By making sure view-only components are clear from the rest of the code, we can assure safe reuse of widgets as well as separated testing and development.
 
-![MVC Scheme](../readme-src/MVC.png "MVC Scheme")
+![MVC Scheme](../../readme-src/MVC.png "MVC Scheme")
 
 ### Model
 The *model* represents the entities that are used in the app, including the session, the classes, the exams. They should be generated from the controller's methods and passed to the view. The model should not contain logic, but only the data that is needed to display the information.
