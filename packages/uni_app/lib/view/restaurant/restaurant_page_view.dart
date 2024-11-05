@@ -36,6 +36,13 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
   }
 
   @override
+  void dispose() {
+    tabController.dispose();
+    scrollViewController.dispose();
+    super.dispose();
+  }
+
+  @override
   String? getTitle() =>
       S.of(context).nav_title(NavigationItem.navRestaurants.route);
 
