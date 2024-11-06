@@ -7,7 +7,6 @@ import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:uni/app_links/uni_app_links.dart';
-import 'package:uni/controller/networking/url_launcher.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/model/providers/state_providers.dart';
@@ -330,48 +329,6 @@ class LoginPageViewState extends State<LoginPageView>
                 }
               },
               child: Text(S.of(context).login),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void _updatePasswordDialog() {
-    showDialog<void>(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text(S.of(context).expired_password),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                S.of(context).pass_change_request,
-                textAlign: TextAlign.start,
-                style: Theme.of(context).textTheme.titleSmall,
-              ),
-              const SizedBox(height: 20),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  S.of(context).change_prompt,
-                  textAlign: TextAlign.start,
-                ),
-              ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              child: Text(S.of(context).cancel),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            ElevatedButton(
-              child: Text(S.of(context).change),
-              onPressed: () =>
-                  launchUrlWithToast(context, 'https://self-id.up.pt/password'),
             ),
           ],
         );
