@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'package:http/http.dart' as http;
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:uni/controller/fetchers/faculties_fetcher.dart';
 import 'package:uni/session/exception.dart';
 import 'package:uni/session/flows/base/request.dart';
@@ -35,10 +37,20 @@ class CredentialsSessionRequest extends SessionRequest {
           'Failed to authenticate user',
           AuthenticationExceptionType.expiredCredentials,
         );
-      } else {
+      } else if (failureReason == LoginFailureReason.internetError) {
+        throw const AuthenticationException(
+          'Failed to authenticate user',
+          AuthenticationExceptionType.internetError,
+        );
+      } else if (failureReason == LoginFailureReason.wrongCredentials) {
         throw const AuthenticationException(
           'Failed to authenticate user',
           AuthenticationExceptionType.wrongCredentials,
+        );
+      } else {
+        unawaited(Sentry.captureException(failureReason));
+        throw const AuthenticationException(
+          'Failed to authenticate user',
         );
       }
     }
