@@ -10,6 +10,8 @@ import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_classes.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_files.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_sheet.dart';
+import 'package:uni_ui/icons.dart';
+import 'package:uni_ui/tabs/tab_icon.dart';
 
 class CourseUnitDetailPageView extends StatefulWidget {
   const CourseUnitDetailPageView(this.courseUnit, {super.key});
@@ -84,11 +86,14 @@ class CourseUnitDetailPageViewState
         children: [
           TabBar(
             tabs: [
-              Tab(text: S.of(context).course_info),
-              Tab(text: S.of(context).course_class),
-              Tab(
-                text: S.of(context).files,
-              ),
+              TabIcon(icon: UniIcons.notebook, text: S.of(context).course_info),
+              // Tab(text: S.of(context).course_info),
+              TabIcon(icon: UniIcons.classes, text: S.of(context).course_class),
+              // Tab(text: S.of(context).course_class),
+              TabIcon(icon: UniIcons.files, text: S.of(context).files),
+              // Tab(
+              //   text: S.of(context).files,
+              // ),
             ],
           ),
           Expanded(
