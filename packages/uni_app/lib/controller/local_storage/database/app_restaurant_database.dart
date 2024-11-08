@@ -11,13 +11,12 @@ class RestaurantDatabase extends AppDatabase<List<Restaurant>> {
   RestaurantDatabase()
       : super(
           'restaurant.db',
-          [ createScript, _createScript ],
+          [createScript, _createScript],
           onUpgrade: migrate,
           version: 2,
         );
 
-  static const createScript =
-        '''
+  static const createScript = '''
           CREATE TABLE RESTAURANTS(
           id INTEGER PRIMARY KEY,
           ref TEXT,
@@ -25,8 +24,7 @@ class RestaurantDatabase extends AppDatabase<List<Restaurant>> {
           meals TEXT)
         ''';
 
-  static const _createScript =
-        '''
+  static const _createScript = '''
           CREATE TABLE MEALS(
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           day TEXT,
@@ -136,10 +134,10 @@ class RestaurantDatabase extends AppDatabase<List<Restaurant>> {
   }
 
   static FutureOr<void> migrate(
-      Database db,
-      int oldVersion,
-      int newVersion,
-      ) async {
+    Database db,
+    int oldVersion,
+    int newVersion,
+  ) async {
     final batch = db.batch()
       ..execute('DROP TABLE IF EXISTS RESTAURANTS')
       ..execute('DROP TABLE IF EXISTS MEALS')
