@@ -10,11 +10,6 @@ class Restaurant {
   Restaurant(this.id, this.name, this.reference, {required List<Meal> meals})
       : meals = groupBy(meals, (meal) => meal.dayOfWeek);
 
-  factory Restaurant.fromMap(Map<String, dynamic> map, List<Meal> meals) {
-    final object = Restaurant.fromJson(map);
-    object.meals = object.groupMealsByDayOfWeek(meals);
-    return object;
-  }
 
   factory Restaurant.fromJson(Map<String, dynamic> json) =>
       _$RestaurantFromJson(json);
