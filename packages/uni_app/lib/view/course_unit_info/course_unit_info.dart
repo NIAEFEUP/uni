@@ -86,7 +86,7 @@ class CourseUnitDetailPageViewState
         children: [
           TabBar(
             // todo : pixel font size might not be the best choice
-            labelStyle: TextStyle(fontSize: 12),
+            labelStyle: const TextStyle(fontSize: 12),
             tabs: [
               TabIcon(icon: UniIcons.notebook, text: S.of(context).course_info),
               TabIcon(icon: UniIcons.classes, text: S.of(context).course_class),
