@@ -7,4 +7,6 @@ class UniIcons {
   static const classes = PhosphorIconsDuotone.usersThree;
   static const files = PhosphorIconsDuotone.folderOpen;
   static const notebook = PhosphorIconsDuotone.notebook;
+  static const email = PhosphorIconsDuotone.paperPlaneTilt;
+  static const location = PhosphorIconsDuotone.mapPin;
 }
