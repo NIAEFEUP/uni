@@ -8,6 +8,7 @@ class LoginResponse extends SigarraResponse {
 
 enum LoginFailureReason {
   serverError,
+  internetError,
   wrongCredentials,
   expiredCredentials,
   blockedAccount,
