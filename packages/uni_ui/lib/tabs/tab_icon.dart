@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uni_ui/icons.dart';
 
 class TabIcon extends StatelessWidget {
   const TabIcon({
@@ -16,7 +17,7 @@ class TabIcon extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon),
+          UniIcon(icon),
           const SizedBox(width: 4),
           Text(text),
         ],

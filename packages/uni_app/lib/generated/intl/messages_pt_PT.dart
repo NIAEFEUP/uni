@@ -158,6 +158,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "language": MessageLookupByLibrary.simpleMessage("Idioma"),
         "last_refresh_time": m0,
         "last_timestamp": m1,
+        "lectures": MessageLookupByLibrary.simpleMessage("Aulas"),
         "library_occupation":
             MessageLookupByLibrary.simpleMessage("Ocupação da Biblioteca"),
         "load_error": MessageLookupByLibrary.simpleMessage(
@@ -267,7 +268,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "restaurant_main_page": MessageLookupByLibrary.simpleMessage(
             "Queres ver os teus restaurantes favoritos na página principal?"),
         "room": MessageLookupByLibrary.simpleMessage("Sala"),
-        "schedule": MessageLookupByLibrary.simpleMessage("Horário"),
         "school_calendar":
             MessageLookupByLibrary.simpleMessage("Calendário Escolar"),
         "search": MessageLookupByLibrary.simpleMessage("Pesquisar"),

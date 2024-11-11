@@ -1698,11 +1698,11 @@ class S {
     );
   }
 
-  /// `Schedule`
-  String get schedule {
+  /// `Lectures`
+  String get lectures {
     return Intl.message(
-      'Schedule',
-      name: 'schedule',
+      'Lectures',
+      name: 'lectures',
       desc: '',
       args: [],
     );

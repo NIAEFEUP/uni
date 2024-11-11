@@ -70,6 +70,7 @@ class Exam {
         .WEEKDAYS[start.weekday % 7];
   }
 
+  // TODO(thePeras): Remove this method and use {start.month} in the toString. Tests will fail and need to be updated.
   String month(AppLocale locale) {
     return DateFormat.EEEE(locale.localeCode.languageCode)
         .dateSymbols
