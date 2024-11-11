@@ -6,6 +6,7 @@ import 'package:uni/model/providers/lazy/exam_provider.dart';
 import 'package:uni/view/common_widgets/expanded_image_label.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni_ui/cards/exam_card.dart';
+import 'package:uni_ui/cards/timeline_card.dart';
 import 'package:uni_ui/timeline/timeline.dart';
 
 class ExamsPage extends StatefulWidget {
@@ -71,29 +72,33 @@ class _ExamsPageState extends State<ExamsPage> {
                 ),
                 itemBuilder: (context, index) {
                   final exam = entry.value[index];
-                  return ExamCard(
-                    name: exam.subject,
-                    acronym: exam.subjectAcronym,
-                    // TODO(thePeras): Solve this at parser level
-                    rooms: exam.rooms.where((room) => room.isNotEmpty).toList(),
-                    type: exam.examType,
-                    startTime: exam.formatTime(exam.start),
-                    isInvisible: hiddenExams.contains(exam.id),
-                    iconAction: () {
-                      setState(() {
-                        if (hiddenExams.contains(exam.id)) {
-                          hiddenExams.remove(exam.id);
-                        } else {
-                          hiddenExams.add(exam.id);
-                        }
-
+                  return TimelineItem(
+                    title: exam.start.day.toString(),
+                    subtitle: months[exam.start.month - 1],
+                    card: ExamCard(
+                      name: exam.subject,
+                      acronym: exam.subjectAcronym,
+                      rooms:
+                          exam.rooms.where((room) => room.isNotEmpty).toList(),
+                      type: exam.examType,
+                      startTime: exam.formatTime(exam.start),
+                      isInvisible: hiddenExams.contains(exam.id),
+                      iconAction: () {
                         setState(() {
-                          PreferencesController.saveHiddenExams(
-                            hiddenExams,
-                          );
+                          if (hiddenExams.contains(exam.id)) {
+                            hiddenExams.remove(exam.id);
+                          } else {
+                            hiddenExams.add(exam.id);
+                          }
+
+                          setState(() {
+                            PreferencesController.saveHiddenExams(
+                              hiddenExams,
+                            );
+                          });
                         });
-                      });
-                    },
+                      },
+                    ),
                   );
                 },
               ),
