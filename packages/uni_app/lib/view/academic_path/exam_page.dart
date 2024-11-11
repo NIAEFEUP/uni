@@ -82,9 +82,7 @@ class _ExamsPageState extends State<ExamsPage> {
                           card: ExamCard(
                             name: exam.subject,
                             acronym: exam.subjectAcronym,
-                            rooms: exam.rooms
-                                .where((room) => room.isNotEmpty)
-                                .toList(),
+                            rooms: exam.rooms,
                             type: exam.examType,
                             startTime: exam.formatTime(exam.start),
                             isInvisible: hiddenExams.contains(exam.id),
