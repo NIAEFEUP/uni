@@ -29,7 +29,6 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
   void initState() {
     super.initState();
     final weekDay = DateTime.now().weekday;
-    super.initState();
     tabController = TabController(vsync: this, length: DayOfWeek.values.length);
     tabController.animateTo(tabController.index + (weekDay - 1));
     scrollViewController = ScrollController();
