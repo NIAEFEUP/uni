@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/generated/l10n.dart';
@@ -58,6 +59,7 @@ class SchedulePageView extends StatefulWidget {
 class SchedulePageViewState extends State<SchedulePageView>
     with TickerProviderStateMixin {
   TabController? tabController;
+  late final List<Lecture> lecturesThisWeek;
 
   @override
   void initState() {
@@ -69,7 +71,7 @@ class SchedulePageViewState extends State<SchedulePageView>
 
     var weekDay = widget.currentWeek.start.weekday;
 
-    final lecturesThisWeek = <Lecture>[];
+    lecturesThisWeek = <Lecture>[];
     widget.currentWeek.weekdays.take(6).forEach((day) {
       final lectures = lecturesOfDay(widget.lectures, day);
       lecturesThisWeek.addAll(lectures);
@@ -77,18 +79,19 @@ class SchedulePageViewState extends State<SchedulePageView>
 
     if (lecturesThisWeek.isNotEmpty) {
       final now = DateTime.now();
-      Lecture? nextLecture;
-      Duration? closestDuration;
 
-      for (final lecture in lecturesThisWeek) {
-        if (lecture.endTime.isAfter(now)) {
-          final difference = lecture.endTime.difference(now);
-          if (closestDuration == null || difference < closestDuration) {
-            closestDuration = difference;
-            nextLecture = lecture;
-          }
+      lecturesThisWeek.clear();
+
+      final nextLecture = lecturesThisWeek
+          .where((lecture) => lecture.endTime.isAfter(now))
+          .fold<Lecture?>(null, (closest, lecture) {
+        if (closest == null) {
+          return lecture;
         }
-      }
+        return lecture.endTime.difference(now) < closest.endTime.difference(now)
+            ? lecture
+            : closest;
+      });
 
       if (nextLecture != null) {
         weekDay = nextLecture.endTime.weekday;
@@ -120,7 +123,7 @@ class SchedulePageViewState extends State<SchedulePageView>
           child: TabBarView(
             controller: tabController,
             children: widget.currentWeek.weekdays.take(6).map((day) {
-              final lectures = lecturesOfDay(widget.lectures, day);
+              final lectures = lecturesOfDay(lecturesThisWeek, day);
               final index = WeekdayMapper.fromDartToIndex.map(day.weekday);
               if (lectures.isEmpty) {
                 return emptyDayColumn(context, index);
