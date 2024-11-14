@@ -80,8 +80,6 @@ class SchedulePageViewState extends State<SchedulePageView>
     if (lecturesThisWeek.isNotEmpty) {
       final now = DateTime.now();
 
-      lecturesThisWeek.clear();
-
       final nextLecture = lecturesThisWeek
           .where((lecture) => lecture.endTime.isAfter(now))
           .fold<Lecture?>(null, (closest, lecture) {
