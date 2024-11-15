@@ -19,7 +19,7 @@ class Restaurant {
   final String name;
   @JsonKey(name: 'ref')
   final String reference; // Used only in html parser
-  @JsonKey(includeToJson: true)
+  @JsonKey(name: 'meals', includeToJson: true)
   late final Map<DayOfWeek, List<Meal>> meals;
 
   bool get isNotEmpty {

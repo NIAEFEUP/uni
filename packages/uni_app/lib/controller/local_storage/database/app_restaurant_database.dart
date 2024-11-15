@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:sqflite/sqflite.dart';
 import 'package:uni/controller/local_storage/database/app_database.dart';
 import 'package:uni/model/entities/restaurant.dart';
@@ -58,7 +59,11 @@ class RestaurantDatabase extends AppDatabase<List<Restaurant>> {
 
   /// Insert restaurant and meals in database
   Future<void> insertRestaurant(Transaction txn, Restaurant restaurant) async {
+    final mealsJson = jsonEncode(restaurant.meals);
     final restaurantMap = restaurant.toJson();
+    restaurantMap['meals'] = mealsJson;
+
+
     await txn.insert('RESTAURANTS', restaurantMap);
   }
 
