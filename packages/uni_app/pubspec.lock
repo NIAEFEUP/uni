@@ -1147,6 +1147,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.28.0"
+  scrollable_positioned_list:
+    dependency: transitive
+    description:
+      name: scrollable_positioned_list
+      sha256: "1b54d5f1329a1e263269abc9e2543d90806131aa14fe7c6062a8054d57249287"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.8"
   sentry:
     dependency: transitive
     description:
@@ -1511,6 +1519,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.2"
+  up_menus:
+    dependency: "direct main"
+    description:
+      name: up_menus
+      sha256: b973555072c6056b757f2740cf7c10fc190ff7f7cd3df3f26c303faf261ce112
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.1"
   upgrader:
     dependency: "direct main"
     description:
