@@ -9,13 +9,20 @@ import 'package:uni/model/providers/state_providers.dart';
 class RestaurantProvider extends StateProviderNotifier<List<Restaurant>> {
   RestaurantProvider() : super(cacheDuration: const Duration(days: 1));
 
+  // @override
+  // Future<List<Restaurant>> loadFromStorage(
+  //   StateProviders stateProviders,
+  // ) async {
+  //   final restaurantDb = RestaurantDatabase();
+  //   final restaurants = await restaurantDb.getRestaurants();
+  //   return restaurants;
+  // }
+
   @override
   Future<List<Restaurant>> loadFromStorage(
     StateProviders stateProviders,
   ) async {
-    final restaurantDb = RestaurantDatabase();
-    final restaurants = await restaurantDb.getRestaurants();
-    return restaurants;
+    return loadFromRemote(stateProviders);
   }
 
   @override
@@ -26,6 +33,7 @@ class RestaurantProvider extends StateProviderNotifier<List<Restaurant>> {
     final db = RestaurantDatabase();
     unawaited(db.saveIfPersistentSession(restaurants));
 
-    return filterPastMeals(restaurants);
+    // return filterPastMeals(restaurants);
+    return restaurants;
   }
 }
