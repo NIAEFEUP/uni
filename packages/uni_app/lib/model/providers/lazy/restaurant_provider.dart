@@ -9,20 +9,13 @@ import 'package:uni/model/providers/state_providers.dart';
 class RestaurantProvider extends StateProviderNotifier<List<Restaurant>> {
   RestaurantProvider() : super(cacheDuration: const Duration(days: 1));
 
-  // @override
-  // Future<List<Restaurant>> loadFromStorage(
-  //   StateProviders stateProviders,
-  // ) async {
-  //   final restaurantDb = RestaurantDatabase();
-  //   final restaurants = await restaurantDb.getRestaurants();
-  //   return restaurants;
-  // }
-
   @override
   Future<List<Restaurant>> loadFromStorage(
     StateProviders stateProviders,
   ) async {
-    return loadFromRemote(stateProviders);
+    final restaurantDb = RestaurantDatabase();
+    final restaurants = await restaurantDb.getRestaurants();
+    return restaurants;
   }
 
   @override
@@ -32,6 +25,8 @@ class RestaurantProvider extends StateProviderNotifier<List<Restaurant>> {
 
     final db = RestaurantDatabase();
     unawaited(db.saveIfPersistentSession(restaurants));
+
+    // TODO: enable past meals filtering after SASUP publishes the new menus (ALSO CHANGE IN THE STORAGE DATABASE!!!!).
 
     // return filterPastMeals(restaurants);
     return restaurants;

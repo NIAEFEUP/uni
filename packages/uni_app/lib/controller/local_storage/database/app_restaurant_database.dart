@@ -70,7 +70,11 @@ class RestaurantDatabase extends AppDatabase<List<Restaurant>> {
       }
     });
 
-    return filterPastMeals(restaurants);
+    // TODO: reimplement the filter.
+
+    // return filterPastMeals(restaurants);
+
+    return restaurants;
   }
 
   Future<List<Meal>> getRestaurantMeals(
