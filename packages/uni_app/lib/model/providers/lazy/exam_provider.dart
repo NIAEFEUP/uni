@@ -47,4 +47,11 @@ class ExamProvider extends StateProviderNotifier<List<Exam>> {
     await db.saveIfPersistentSession(exams);
     return exams;
   }
+
+  List<Exam> getExamsForCourseUnit(CourseUnit courseUnit) {
+    return state
+            ?.where((exam) => exam.subject == courseUnit.abbreviation)
+            .toList() ??
+        [];
+  }
 }
