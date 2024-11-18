@@ -8,23 +8,23 @@ import 'package:up_menus/up_menus.dart';
 
 /// Class for fetching the menu
 class RestaurantFetcher {
-  // TODO: remove later
-  void printRestaurants(List<Restaurant> restaurants) {
-    for (final restaurant in restaurants) {
-      print(restaurant.id);
-      print(restaurant.name);
-      print(restaurant.reference);
-      final meals = restaurant.meals;
-      meals.forEach((day, mealList) {
-        print(day);
-        for (final meal in mealList) {
-          print(' - ${meal.name}');
-        }
-      });
-    }
-  }
+  // Auxliary function to print a list of restaurants.
+  // void printRestaurants(List<Restaurant> restaurants) {
+  //   for (final restaurant in restaurants) {
+  //     print(restaurant.id);
+  //     print(restaurant.name);
+  //     print(restaurant.reference);
+  //     final meals = restaurant.meals;
+  //     meals.forEach((day, mealList) {
+  //       print(day);
+  //       for (final meal in mealList) {
+  //         print(' - ${meal.name}');
+  //       }
+  //     });
+  //   }
+  // }
 
-  Future<List<Restaurant>> getSASUPRestaurants() async {
+  Future<List<Restaurant>> fetchSASUPRestaurants() async {
     // TODO: change the implementation to accomodate changes for the new UI.
     final upMenus = UPMenusApi();
     final establishments = await upMenus.establishments.list();
@@ -37,8 +37,12 @@ class RestaurantFetcher {
         continue;
       }
       // HACK: hardcoded week number, because SASUP hasn't published the menus for the current week.
-      final dayMenus = (await upMenus.dayMenus
-              .get(establishment.id, Period.lunch, weekNumber: 40, year: 2024))
+      final dayMenus = (await upMenus.dayMenus.get(
+        establishment.id,
+        Period.lunch,
+        weekNumber: 40,
+        year: 2024,
+      ))
           .followedBy(
             await upMenus.dayMenus.get(
               establishment.id,
@@ -73,10 +77,8 @@ class RestaurantFetcher {
             Meal(
               dish.dishType.namePt,
               dish.dish.namePt,
-              DayOfWeek.monday,
-              dayMenu.day.weekday == DateTime.monday
-                  ? DateTime.now()
-                  : dayMenu.day,
+              parseDateTime(dayMenu.day),
+              dayMenu.day,
             ),
           );
         }
@@ -85,7 +87,6 @@ class RestaurantFetcher {
       restaurants.add(
         Restaurant(establishment.id, establishment.namePt, '', meals: meals),
       );
-      printRestaurants(restaurants);
     }
     return restaurants;
   }
@@ -111,9 +112,8 @@ class RestaurantFetcher {
 
   Future<List<Restaurant>> getRestaurants(Session session) async {
     final restaurants =
-        await getSASUPRestaurants() + await fetchSigarraRestaurants(session);
+        await fetchSASUPRestaurants() + await fetchSigarraRestaurants(session);
 
-    printRestaurants(restaurants);
     return restaurants;
   }
 }
