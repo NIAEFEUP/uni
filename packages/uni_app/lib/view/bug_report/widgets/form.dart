@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
-import 'package:tuple/tuple.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/app_locale.dart';
 import 'package:uni/model/entities/bug_report.dart';
@@ -32,15 +31,15 @@ class BugReportFormState extends State<BugReportForm> {
 
   static final _formKey = GlobalKey<FormState>();
 
-  final Map<int, Tuple2<String, String>> bugDescriptions = {
-    0: const Tuple2<String, String>('Detalhe visual', 'Visual detail'),
-    1: const Tuple2<String, String>('Erro', 'Error'),
-    2: const Tuple2<String, String>('Sugestão de funcionalidade', 'Suggestion'),
-    3: const Tuple2<String, String>(
+  final Map<int, (String, String)> bugDescriptions = {
+    0: const ('Detalhe visual', 'Visual detail'),
+    1: const ('Erro', 'Error'),
+    2: const ('Sugestão de funcionalidade', 'Suggestion'),
+    3: const (
       'Comportamento inesperado',
       'Unexpected behaviour',
     ),
-    4: const Tuple2<String, String>('Outro', 'Other'),
+    4: ('Outro', 'Other'),
   };
   List<DropdownMenuItem<int>> bugList = [];
 
@@ -65,9 +64,9 @@ class BugReportFormState extends State<BugReportForm> {
               () {
                 switch (locale) {
                   case AppLocale.pt:
-                    return entry.value.item1;
+                    return entry.value.$1;
                   case AppLocale.en:
-                    return entry.value.item2;
+                    return entry.value.$2;
                 }
               }(),
             ),

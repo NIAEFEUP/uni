@@ -1,5 +1,4 @@
 import 'package:logger/logger.dart';
-import 'package:tuple/tuple.dart';
 import 'package:uni/controller/background_workers/notifications.dart';
 import 'package:workmanager/workmanager.dart';
 
@@ -8,7 +7,7 @@ import 'package:workmanager/workmanager.dart';
 /// (they must not take any arguments, not checked)
 const taskMap = {
   'pt.up.fe.ni.uni.notificationworker':
-      Tuple2(NotificationManager.updateAndTriggerNotifications, true),
+      (NotificationManager.updateAndTriggerNotifications, true),
 };
 
 @pragma('vm:entry-point')
@@ -25,16 +24,16 @@ Future<void> workerStartCallback() async {
       // by the iOS scheduler.
       if (taskName == Workmanager.iOSBackgroundTask) {
         taskMap.forEach((key, value) async {
-          if (value.item2) {
+          if (value.$2) {
             Logger().d('''[$key]: Start executing job...''');
-            await value.item1();
+            await value.$1();
           }
         });
         return true;
       }
       // try to keep the usage of this function BELOW +-30 seconds
       // to not be punished by the scheduler in future runs.
-      await taskMap[taskName]!.item1();
+      await taskMap[taskName]!.$1();
     } catch (err, st) {
       Logger().e(
         'Error while running $taskName job:',
