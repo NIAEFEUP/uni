@@ -275,8 +275,7 @@ class LoginPageViewState extends State<LoginPageView>
                   if (_loggingIn)
                     const Align(
                       alignment: Alignment(0, 0.35),
-                      child: CircularProgressIndicator(
-                          color: Colors.white),
+                      child: CircularProgressIndicator(color: Colors.white),
                     ),
                   if (!_loggingIn)
                     Padding(
@@ -286,114 +285,37 @@ class LoginPageViewState extends State<LoginPageView>
                       ),
                       child: Align(
                         alignment: const Alignment(0, 0.35),
-                        child: createAFLogInButton(queryData, context, _falogin),
+                        child:
+                            // TODO(thePeras): Divide into two svgs to add color
+                            createAFLogInButton(queryData, context, _falogin),
                       ),
                     ),
                   Align(
                     alignment: const Alignment(0, 0.50),
-                    child:
-                      createSaveDataCheckBox(
-                        context,
-                            () {
-                          setState(() {
-                            _keepSignedIn = !_keepSignedIn;
-                          });
-                        },
-                        keepSignedIn: _keepSignedIn,
-                      ),
+                    child: createSaveDataCheckBox(
+                      context,
+                      () {
+                        setState(() {
+                          _keepSignedIn = !_keepSignedIn;
+                        });
+                      },
+                      keepSignedIn: _keepSignedIn,
+                    ),
                   ),
                   Align(
                     alignment: const Alignment(0, 0.58),
-                    child:
-                      createLink(
-                        context,
-                        S.of(context).try_different_login,
-                        _showAlternativeLogin,
-                      ),
+                    child: createLink(
+                      context,
+                      S.of(context).try_different_login,
+                      _showAlternativeLogin,
+                    ),
                   ),
                   Align(
                     alignment: const Alignment(0, 0.90),
-                    child:
-                      createTermsAndConditionsButton(context),
+                    child: createTermsAndConditionsButton(context),
                   ),
                 ],
               ),
-              /*Column(
-                children: [
-                  // SizedBox(height: queryData.size.height / 10),
-                  Align(
-                    alignment: const Alignment(0, -0.3),
-                    child: Hero(
-                      tag: 'logo',
-                      flightShuttleBuilder: (
-                          flightContext,
-                          animation,
-                          flightDirection,
-                          fromHeroContext,
-                          toHeroContext,
-                          ) {
-                        return ScaleTransition(
-                          scale: animation.drive(Tween(begin: 1.0, end: 1.0)
-                              .chain(CurveTween(curve: Curves.easeInOut))),
-                          child: SvgPicture.asset(
-                            'assets/images/logo_dark.svg',
-                            width: 90,
-                            height: 90,
-                            colorFilter: const ColorFilter.mode(
-                              Color(0xFFFFF5F3),
-                              BlendMode.srcIn,
-                            ),
-                          ),
-                        );
-                      },
-                      child: SvgPicture.asset(
-                        'assets/images/logo_dark.svg',
-                        width: 90,
-                        height: 90,
-                        colorFilter: const ColorFilter.mode(
-                          Color(0xFFFFF5F3),
-                          BlendMode.srcIn,
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 100,
-                    // TODO(thePeras): Divide into two svgs to add color
-                    child: SvgPicture.asset(
-                      'assets/images/logo_dark.svg',
-                      colorFilter: const ColorFilter.mode(
-                        Colors.white,
-                        BlendMode.srcIn,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: queryData.size.height / 5),
-                  if (_loggingIn)
-                    const CircularProgressIndicator(
-                      color: Colors.white,
-                    ),
-                  if (!_loggingIn)
-                    createAFLogInButton(queryData, context, _falogin),
-                  const SizedBox(height: 10),
-                  createSaveDataCheckBox(
-                    context,
-                    () {
-                      setState(() {
-                        _keepSignedIn = !_keepSignedIn;
-                      });
-                    },
-                    keepSignedIn: _keepSignedIn,
-                  ),
-                  createLink(
-                    context,
-                    S.of(context).try_different_login,
-                    _showAlternativeLogin,
-                  ),
-                  SizedBox(height: queryData.size.height / 5),
-                  createTermsAndConditionsButton(context),
-                ],
-              ),*/
             ),
           ),
         ));
