@@ -47,9 +47,11 @@ class RestaurantSlotType extends StatelessWidget {
     'sopa': 'assets/meal-icons/soup.svg',
     'carne': 'assets/meal-icons/chicken.svg',
     'peixe': 'assets/meal-icons/fish.svg',
+    'pescado': 'assets/meal-icons/fish.svg',
     'dieta': 'assets/meal-icons/diet.svg',
     'vegetariano': 'assets/meal-icons/vegetarian.svg',
     'salada': 'assets/meal-icons/salad.svg',
+    'hortícola': 'assets/meal-icons/salad.svg',
   };
 
   @override
