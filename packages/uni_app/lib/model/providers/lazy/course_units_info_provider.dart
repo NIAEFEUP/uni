@@ -78,20 +78,13 @@ class CourseUnitsInfoProvider
   Future<(SheetsMap, ClassesMap, FilesMap)> loadFromRemote(
     StateProviders stateProviders,
   ) async {
-    //return (sheetsMap, classesMap, filesMap);
-    return ({}, {}, {});
-    //return const Tuple3({}, {}, {});
+    return (<CourseUnit, Sheet>{}, <CourseUnit, List<CourseUnitClass>>{}, <CourseUnit, List<CourseUnitFileDirectory>>{});
   }
 
   @override
   Future<(SheetsMap, ClassesMap, FilesMap)> loadFromStorage(
     StateProviders stateProviders,
   ) async {
-    final SheetsMap sheetsMap = {};
-    final ClassesMap classesMap = {};
-    final FilesMap filesMap = {};
-    return (sheetsMap, classesMap, filesMap);
-    //return ({}, {}, {});
-    //return const Tuple3({}, {}, {});
+    return (<CourseUnit, Sheet>{}, <CourseUnit, List<CourseUnitClass>>{}, <CourseUnit, List<CourseUnitFileDirectory>>{});
   }
 }
