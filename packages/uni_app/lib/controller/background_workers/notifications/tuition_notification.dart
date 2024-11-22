@@ -71,7 +71,7 @@ class TuitionNotification extends Notification {
 
   @override
   void displayNotification(
-      (String, String) content,
+    (String, String) content,
     FlutterLocalNotificationsPlugin localNotificationsPlugin,
   ) {
     const androidNotificationDetails = AndroidNotificationDetails(

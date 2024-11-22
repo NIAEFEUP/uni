@@ -78,13 +78,21 @@ class CourseUnitsInfoProvider
   Future<(SheetsMap, ClassesMap, FilesMap)> loadFromRemote(
     StateProviders stateProviders,
   ) async {
-    return (<CourseUnit, Sheet>{}, <CourseUnit, List<CourseUnitClass>>{}, <CourseUnit, List<CourseUnitFileDirectory>>{});
+    return (
+      <CourseUnit, Sheet>{},
+      <CourseUnit, List<CourseUnitClass>>{},
+      <CourseUnit, List<CourseUnitFileDirectory>>{}
+    );
   }
 
   @override
   Future<(SheetsMap, ClassesMap, FilesMap)> loadFromStorage(
     StateProviders stateProviders,
   ) async {
-    return (<CourseUnit, Sheet>{}, <CourseUnit, List<CourseUnitClass>>{}, <CourseUnit, List<CourseUnitFileDirectory>>{});
+    return (
+      <CourseUnit, Sheet>{},
+      <CourseUnit, List<CourseUnitClass>>{},
+      <CourseUnit, List<CourseUnitFileDirectory>>{}
+    );
   }
 }

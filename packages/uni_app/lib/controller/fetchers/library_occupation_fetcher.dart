@@ -31,8 +31,7 @@ class LibraryOccupationFetcher {
 
         final response = await http.get(url);
 
-        final floorOccupation =
-            processFloorOccupation(response, entry.$2, i);
+        final floorOccupation = processFloorOccupation(response, entry.$2, i);
 
         libraryOccupation.addFloor(floorOccupation);
       }),

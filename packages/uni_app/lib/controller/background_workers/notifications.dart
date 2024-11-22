@@ -32,7 +32,7 @@ abstract class Notification {
   Future<bool> shouldDisplay(Session session);
 
   void displayNotification(
-      (String, String) content,
+    (String, String) content,
     FlutterLocalNotificationsPlugin localNotificationsPlugin,
   );
 

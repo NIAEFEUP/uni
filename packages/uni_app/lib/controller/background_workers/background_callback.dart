@@ -6,8 +6,10 @@ import 'package:workmanager/workmanager.dart';
 /// the bool is all functions that are ran by backgroundfetch in iOS
 /// (they must not take any arguments, not checked)
 const taskMap = {
-  'pt.up.fe.ni.uni.notificationworker':
-      (NotificationManager.updateAndTriggerNotifications, true),
+  'pt.up.fe.ni.uni.notificationworker': (
+    NotificationManager.updateAndTriggerNotifications,
+    true
+  ),
 };
 
 @pragma('vm:entry-point')
