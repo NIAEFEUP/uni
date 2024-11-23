@@ -197,72 +197,75 @@ class LoginPageViewState extends State<LoginPageView>
     final queryData = MediaQuery.of(context);
 
     return Theme(
-        data: applicationLightTheme.copyWith(
-          textSelectionTheme: const TextSelectionThemeData(
-            cursorColor: Colors.white,
-            selectionHandleColor: Colors.white,
-          ),
+      data: applicationLightTheme.copyWith(
+        textSelectionTheme: const TextSelectionThemeData(
+          cursorColor: Colors.white,
+          selectionHandleColor: Colors.white,
         ),
-        child: Builder(
-          builder: (context) => Scaffold(
-            resizeToAvoidBottomInset: false,
-            backgroundColor: const Color(0xFF280709),
-            body: BackButtonExitWrapper(
-              child: Stack(
-                children: [
-                  Center(
-                    child: Align(
-                      alignment: const Alignment(0, -0.4),
-                      child: Hero(
-                        tag: 'logo',
-                        flightShuttleBuilder: (
-                          flightContext,
-                          animation,
-                          flightDirection,
-                          fromHeroContext,
-                          toHeroContext,
-                        ) {
-                          return ScaleTransition(
-                            scale: animation.drive(Tween(begin: 1.0, end: 1.0)
-                                .chain(CurveTween(curve: Curves.easeInOut))),
-                            child: SvgPicture.asset(
-                              'assets/images/logo_dark.svg',
-                              width: 90,
-                              height: 90,
-                              colorFilter: const ColorFilter.mode(
-                                Color(0xFFFFF5F3),
-                                BlendMode.srcIn,
-                              ),
-                            ),
-                          );
-                        },
-                        child: SvgPicture.asset(
-                          'assets/images/logo_dark.svg',
-                          width: 90,
-                          height: 90,
-                          colorFilter: const ColorFilter.mode(
-                            Color(0xFFFFF5F3),
-                            BlendMode.srcIn,
+      ),
+      child: Builder(
+        builder: (context) => Scaffold(
+          resizeToAvoidBottomInset: false,
+          backgroundColor: const Color(0xFF280709),
+          body: BackButtonExitWrapper(
+            child: Stack(
+              children: [
+                Center(
+                  child: Align(
+                    alignment: const Alignment(0, -0.4),
+                    child: Hero(
+                      tag: 'logo',
+                      flightShuttleBuilder: (
+                        flightContext,
+                        animation,
+                        flightDirection,
+                        fromHeroContext,
+                        toHeroContext,
+                      ) {
+                        return ScaleTransition(
+                          scale: animation.drive(
+                            Tween(begin: 1, end: 1).chain(
+                              CurveTween(curve: Curves.easeInOut),
+                            ) as Animatable<double>,
                           ),
+                          child: SvgPicture.asset(
+                            'assets/images/logo_dark.svg',
+                            width: 90,
+                            height: 90,
+                            colorFilter: const ColorFilter.mode(
+                              Color(0xFFFFF5F3),
+                              BlendMode.srcIn,
+                            ),
+                          ),
+                        );
+                      },
+                      child: SvgPicture.asset(
+                        'assets/images/logo_dark.svg',
+                        width: 90,
+                        height: 90,
+                        colorFilter: const ColorFilter.mode(
+                          Color(0xFFFFF5F3),
+                          BlendMode.srcIn,
                         ),
                       ),
                     ),
                   ),
-                  Container(
-                    decoration: const BoxDecoration(
-                        gradient: RadialGradient(
+                ),
+                Container(
+                  decoration: const BoxDecoration(
+                    gradient: RadialGradient(
                       center: Alignment(-0.95, -1),
-                      radius: 0.5,
                       colors: [
                         Color(0x705F171D),
                         Color(0x02511515),
                       ],
                       stops: [0, 1],
-                    )),
+                    ),
                   ),
-                  Container(
-                    decoration: const BoxDecoration(
-                        gradient: RadialGradient(
+                ),
+                Container(
+                  decoration: const BoxDecoration(
+                    gradient: RadialGradient(
                       center: Alignment(0.1, 0.95),
                       radius: 0.3,
                       colors: [
@@ -270,55 +273,57 @@ class LoginPageViewState extends State<LoginPageView>
                         Color(0x02511515),
                       ],
                       stops: [0, 1],
-                    )),
-                  ),
-                  if (_loggingIn)
-                    const Align(
-                      alignment: Alignment(0, 0.35),
-                      child: CircularProgressIndicator(color: Colors.white),
-                    ),
-                  if (!_loggingIn)
-                    Padding(
-                      padding: EdgeInsets.only(
-                        left: queryData.size.width / 14,
-                        right: queryData.size.width / 14,
-                      ),
-                      child: Align(
-                        alignment: const Alignment(0, 0.35),
-                        child:
-                            // TODO(thePeras): Divide into two svgs to add color
-                            createAFLogInButton(queryData, context, _falogin),
-                      ),
-                    ),
-                  Align(
-                    alignment: const Alignment(0, 0.50),
-                    child: createSaveDataCheckBox(
-                      context,
-                      () {
-                        setState(() {
-                          _keepSignedIn = !_keepSignedIn;
-                        });
-                      },
-                      keepSignedIn: _keepSignedIn,
                     ),
                   ),
-                  Align(
-                    alignment: const Alignment(0, 0.58),
-                    child: createLink(
-                      context,
-                      S.of(context).try_different_login,
-                      _showAlternativeLogin,
+                ),
+                if (_loggingIn)
+                  const Align(
+                    alignment: Alignment(0, 0.35),
+                    child: CircularProgressIndicator(color: Colors.white),
+                  ),
+                if (!_loggingIn)
+                  Padding(
+                    padding: EdgeInsets.only(
+                      left: queryData.size.width / 14,
+                      right: queryData.size.width / 14,
+                    ),
+                    child: Align(
+                      alignment: const Alignment(0, 0.35),
+                      child:
+                          // TODO(thePeras): Divide into two svgs to add color
+                          createAFLogInButton(queryData, context, _falogin),
                     ),
                   ),
-                  Align(
-                    alignment: const Alignment(0, 0.90),
-                    child: createTermsAndConditionsButton(context),
+                Align(
+                  alignment: const Alignment(0, 0.50),
+                  child: createSaveDataCheckBox(
+                    context,
+                    () {
+                      setState(() {
+                        _keepSignedIn = !_keepSignedIn;
+                      });
+                    },
+                    keepSignedIn: _keepSignedIn,
                   ),
-                ],
-              ),
+                ),
+                Align(
+                  alignment: const Alignment(0, 0.58),
+                  child: createLink(
+                    context,
+                    S.of(context).try_different_login,
+                    _showAlternativeLogin,
+                  ),
+                ),
+                Align(
+                  alignment: const Alignment(0, 0.90),
+                  child: createTermsAndConditionsButton(context),
+                ),
+              ],
             ),
           ),
-        ));
+        ),
+      ),
+    );
   }
 
   /// Creates the widget for when the user forgets the password
