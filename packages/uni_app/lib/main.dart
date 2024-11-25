@@ -31,7 +31,9 @@ import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/model/providers/state_providers.dart';
 import 'package:uni/utils/navigation_items.dart';
+import 'package:uni/view/about/about.dart';
 import 'package:uni/view/academic_path/academic_path.dart';
+import 'package:uni/view/bug_report/bug_report.dart';
 import 'package:uni/view/bus_stop_next_arrivals/bus_stop_next_arrivals.dart';
 import 'package:uni/view/calendar/calendar.dart';
 import 'package:uni/view/common_widgets/page_transition.dart';
@@ -305,13 +307,26 @@ class ApplicationState extends State<Application> {
                 settings: settings,
               ),
               '/${NavigationItem.navProfile.route}':
-                  MaterialPageRoute<ProfilePageView>(
-                builder: (__) => const ProfilePageView(),
+                PageTransition.makePageTransition(
+                page: const ProfilePageView(),
+                settings: settings,
               ),
               '/${NavigationItem.navSettings.route}':
-                  MaterialPageRoute<SettingsPage>(
-                builder: (_) => const SettingsPage(),
+                PageTransition.makePageTransition(
+                page: const SettingsPage(),
+                settings: settings,
               ),
+              '/${NavigationItem. navBugreport.route}':
+              PageTransition.makePageTransition(
+                page: const BugReportPageView(),
+                settings: settings,
+              ),
+              '/${NavigationItem. navAboutus.route}':
+              PageTransition.makePageTransition(
+                page: const AboutPageView(),
+                settings: settings,
+              ),
+
             };
             return transitions[settings.name];
           },
