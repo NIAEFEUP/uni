@@ -17,7 +17,6 @@ enum NavigationItem {
   navBugreport('Bug_report'),
   navAboutus('sobre_nós');
 
-
   const NavigationItem(this.route, {this.faculties});
 
   final String route;

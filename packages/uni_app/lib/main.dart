@@ -307,26 +307,25 @@ class ApplicationState extends State<Application> {
                 settings: settings,
               ),
               '/${NavigationItem.navProfile.route}':
-                PageTransition.makePageTransition(
+                  PageTransition.makePageTransition(
                 page: const ProfilePageView(),
                 settings: settings,
               ),
               '/${NavigationItem.navSettings.route}':
-                PageTransition.makePageTransition(
+                  PageTransition.makePageTransition(
                 page: const SettingsPage(),
                 settings: settings,
               ),
-              '/${NavigationItem. navBugreport.route}':
-              PageTransition.makePageTransition(
+              '/${NavigationItem.navBugreport.route}':
+                  PageTransition.makePageTransition(
                 page: const BugReportPageView(),
                 settings: settings,
               ),
-              '/${NavigationItem. navAboutus.route}':
-              PageTransition.makePageTransition(
+              '/${NavigationItem.navAboutus.route}':
+                  PageTransition.makePageTransition(
                 page: const AboutPageView(),
                 settings: settings,
               ),
-
             };
             return transitions[settings.name];
           },

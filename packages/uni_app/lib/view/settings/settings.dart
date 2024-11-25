@@ -57,7 +57,7 @@ class SettingsPageState extends SecondaryPageViewState<SettingsPage> {
                   onTap: () {
                     Navigator.pushNamed(
                       context,
-                      '/${NavigationItem. navBugreport.route}',
+                      '/${NavigationItem.navBugreport.route}',
                     );
                   },
                 ),
@@ -67,8 +67,8 @@ class SettingsPageState extends SecondaryPageViewState<SettingsPage> {
                   onTap: () {
                     Navigator.pushNamed(
                       context,
-                        '/${NavigationItem. navAboutus.route}',
-                      );
+                      '/${NavigationItem.navAboutus.route}',
+                    );
                   },
                 ),
                 ListTile(
