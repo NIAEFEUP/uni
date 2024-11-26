@@ -329,5 +329,4 @@ class BugReportFormState extends State<BugReportForm> {
     emailController.dispose();
     super.dispose();
   }
-
 }
