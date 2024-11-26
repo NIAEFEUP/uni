@@ -7,7 +7,8 @@
 // ignore_for_file:unnecessary_brace_in_string_interps, unnecessary_new
 // ignore_for_file:prefer_single_quotes,comment_references, directives_ordering
 // ignore_for_file:annotate_overrides,prefer_generic_function_type_aliases
-// ignore_for_file:unused_import, file_names
+// ignore_for_file:unused_import, file_names, avoid_escaping_inner_quotes
+// ignore_for_file:unnecessary_string_interpolations, unnecessary_string_escapes
 
 import 'package:intl/intl.dart';
 import 'package:intl/message_lookup_by_library.dart';
@@ -19,12 +20,12 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
-  static m0(time) => "last refresh at ${time}";
+  static String m0(time) => "last refresh at ${time}";
 
-  static m1(time) =>
+  static String m1(time) =>
       "${Intl.plural(time, zero: 'Refreshed ${time} minutes ago', one: 'Refreshed ${time} minute ago', other: 'Refreshed ${time} minutes ago')}";
 
-  static m2(title) => "${Intl.select(title, {
+  static String m2(title) => "${Intl.select(title, {
             'horario': 'Schedule',
             'exames': 'Exams',
             'area': 'Personal Area',
@@ -41,7 +42,7 @@ class MessageLookup extends MessageLookupByLibrary {
           })}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
-  static _notInlinedMessages(_) => <String, Function>{
+  static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "about": MessageLookupByLibrary.simpleMessage("About us"),
         "academic_services":
             MessageLookupByLibrary.simpleMessage("Academic services"),
@@ -51,7 +52,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "add_quota": MessageLookupByLibrary.simpleMessage("Add quota"),
         "add_widget": MessageLookupByLibrary.simpleMessage("Add widget"),
         "agree_terms": MessageLookupByLibrary.simpleMessage(
-            "By entering you confirm that you agree with these Terms and Conditions"),
+            "By entering you agree with these"),
         "all_widgets_added": MessageLookupByLibrary.simpleMessage(
             "All available widgets have already been added to your personal area!"),
         "at_least_one_college":
@@ -153,7 +154,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Check your internet connection"),
         "invalid_credentials":
             MessageLookupByLibrary.simpleMessage("Invalid credentials"),
-        "keep_login": MessageLookupByLibrary.simpleMessage("Stay signed in"),
+        "keep_login": MessageLookupByLibrary.simpleMessage("Remember me"),
         "language": MessageLookupByLibrary.simpleMessage("Language"),
         "last_refresh_time": m0,
         "last_timestamp": m1,
@@ -289,8 +290,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "theme": MessageLookupByLibrary.simpleMessage("Theme"),
         "title": MessageLookupByLibrary.simpleMessage("Title"),
         "try_again": MessageLookupByLibrary.simpleMessage("Try again"),
-        "try_different_login": MessageLookupByLibrary.simpleMessage(
-            "Problems with login? Try a different login"),
+        "try_different_login":
+            MessageLookupByLibrary.simpleMessage("Having trouble sign in?"),
         "uc_info": MessageLookupByLibrary.simpleMessage("Open UC page"),
         "unavailable": MessageLookupByLibrary.simpleMessage("Unavailable"),
         "valid_email":

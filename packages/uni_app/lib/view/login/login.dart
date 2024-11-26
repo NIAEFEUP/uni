@@ -295,7 +295,7 @@ class LoginPageViewState extends State<LoginPageView>
                     ),
                   ),
                 Align(
-                  alignment: const Alignment(0, 0.50),
+                  alignment: const Alignment(0, 0.51),
                   child: createSaveDataCheckBox(
                     context,
                     () {
@@ -308,14 +308,18 @@ class LoginPageViewState extends State<LoginPageView>
                 ),
                 Align(
                   alignment: const Alignment(0, 0.58),
-                  child: createLink(
-                    context,
-                    S.of(context).try_different_login,
-                    _showAlternativeLogin,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 36),
+                    child: createLink(
+                      context,
+                      S.of(context).try_different_login,
+                      S.of(context).login_with_credentials,
+                      _showAlternativeLogin,
+                    ),
                   ),
                 ),
                 Align(
-                  alignment: const Alignment(0, 0.90),
+                  alignment: const Alignment(0, 0.88),
                   child: createTermsAndConditionsButton(context),
                 ),
               ],
@@ -327,18 +331,29 @@ class LoginPageViewState extends State<LoginPageView>
   }
 
   /// Creates the widget for when the user forgets the password
-  Widget createLink(BuildContext context, String text, void Function() onTap) {
+  Widget createLink(BuildContext context, String textStart, String textEnd, void Function() onTap) {
     return RichText(
       textAlign: TextAlign.center,
       text: TextSpan(
-        text: text,
+        text: textStart,
         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-              decoration: TextDecoration.underline,
+          color: Colors.white,
+          fontSize: 14,
+        ),
+        children: [
+          const TextSpan(text: ' '),
+          TextSpan(
+            text: textEnd,
+            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+              fontWeight: FontWeight.bold,
+              fontSize: 14,
               color: Colors.white,
+              decoration: TextDecoration.underline,
               decorationColor: Colors.white,
-              decorationThickness: 2,
             ),
-        recognizer: TapGestureRecognizer()..onTap = onTap,
+            recognizer: TapGestureRecognizer()..onTap = onTap,
+          ),
+        ],
       ),
     );
   }
