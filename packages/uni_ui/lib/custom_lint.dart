@@ -1,5 +1,7 @@
 import 'package:analyzer/error/listener.dart';
 import 'package:custom_lint_builder/custom_lint_builder.dart';
+import 'package:analyzer/dart/ast/ast.dart';
+import 'package:flutter/cupertino.dart';
 
 // This is the entrypoint of our custom linter
 PluginBase createPlugin() => _ExampleLinter();
@@ -9,18 +11,17 @@ class _ExampleLinter extends PluginBase {
   /// We list all the custom warnings/infos/errors
   @override
   List<LintRule> getLintRules(CustomLintConfigs configs) => [
-    MyCustomLintCode(),
+    StringLiteralsLint(),
   ];
 }
 
-class MyCustomLintCode extends DartLintRule {
-  MyCustomLintCode() : super(code: _code);
+class StringLiteralsLint extends DartLintRule {
+  StringLiteralsLint() : super(code: _code);
 
-  /// Metadata about the warning that will show-up in the IDE.
-  /// This is used for `// ignore: code` and enabling/disabling the lint
+
   static const _code = LintCode(
-    name: 'my_custom_lint_code',
-    problemMessage: 'This is the description of our custom lint',
+    name: 'string_literals_lint',
+    problemMessage: 'There is a string literal inside a widget',
   );
 
   @override
@@ -29,14 +30,32 @@ class MyCustomLintCode extends DartLintRule {
       ErrorReporter reporter,
       CustomLintContext context,
       ) {
-    // Our lint will highlight all variable declarations with our custom warning.
     context.registry.addVariableDeclaration((node) {
-      // "node" exposes metadata about the variable declaration. We could
-      // check "node" to show the lint only in some conditions.
-
-      // This line tells custom_lint to render a warning at the location of "node".
-      // And the warning shown will use our `code` variable defined above as description.
-      reporter.atNode(node, code);
+      if(isInsideWidgetClass(node)){
+        if(isStringLiteral(node)){
+          reporter.atNode(node, code);
+        }
+      }
     });
+  }
+
+  bool isInsideWidgetClass(VariableDeclaration node) {
+    var parent = node.thisOrAncestorOfType<ClassDeclaration>();
+    if (parent == null) return false;
+
+    final extendsClause = parent.extendsClause;
+    if (extendsClause != null) {
+      final superclass = extendsClause.superclass;
+      return superclass.runtimeType == StatelessWidget || superclass.runtimeType == StatefulWidget;
+    }
+    return false;
+  }
+
+  bool isStringLiteral(VariableDeclaration node) {
+    final initializer = node.initializer;
+    if (initializer is StringLiteral) {
+      return true;
+    }
+    return false;
   }
 }
