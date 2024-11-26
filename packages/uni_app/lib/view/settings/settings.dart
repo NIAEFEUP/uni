@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/generated/l10n.dart';
+import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni/view/settings/widgets/locale_switch_button.dart';
 import 'package:uni/view/settings/widgets/notifications_dialog.dart';
 import 'package:uni/view/settings/widgets/theme_switch_button.dart';
 import 'package:uni/view/settings/widgets/usage_stats_switch.dart';
-
-import '../../utils/navigation_items.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
