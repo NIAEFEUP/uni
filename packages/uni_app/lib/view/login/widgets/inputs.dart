@@ -84,7 +84,8 @@ Widget createSaveDataCheckBox(
     controlAffinity: ListTileControlAffinity.leading,
     contentPadding: const EdgeInsets.symmetric(horizontal: 36),
     checkboxShape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),),
+      borderRadius: BorderRadius.circular(15),
+    ),
   );
 }
 
@@ -97,7 +98,7 @@ Widget createAFLogInButton(
     style: ElevatedButton.styleFrom(
       padding: const EdgeInsets.all(18),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(25),
+        borderRadius: BorderRadius.circular(28),
       ),
     ),
     onPressed: login,
@@ -108,7 +109,7 @@ Widget createAFLogInButton(
           'assets/images/AAI.svg',
           height: 25,
         ),
-        const SizedBox(width: 20),
+        const SizedBox(width: 24),
         Text(
           S.of(context).login,
           style: TextStyle(
@@ -179,7 +180,7 @@ InkResponse createTermsAndConditionsButton(BuildContext context) {
     splashColor: Colors.transparent,
     highlightColor: Colors.transparent,
     child: Container(
-      padding: const EdgeInsets.fromLTRB(40,14,40,14),
+      padding: const EdgeInsets.fromLTRB(40, 14, 40, 14),
       child: RichText(
         text: TextSpan(
           text: S.of(context).agree_terms,
