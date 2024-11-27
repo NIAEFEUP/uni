@@ -89,6 +89,7 @@ Widget createSaveDataCheckBox(
   );
 }
 
+/// To delete if widget page accepted
 Widget createAFLogInButton(
   MediaQueryData queryData,
   BuildContext context,
@@ -107,15 +108,15 @@ Widget createAFLogInButton(
       children: <Widget>[
         SvgPicture.asset(
           'assets/images/AAI.svg',
-          height: 25,
+          height: 26,
         ),
-        const SizedBox(width: 24),
+        const SizedBox(width: 20),
         Text(
           S.of(context).login,
-          style: TextStyle(
-            color: Theme.of(context).primaryColor,
-            fontWeight: FontWeight.w400,
-            fontSize: 12,
+          style: const TextStyle(
+            color: Color(0xFF303030),
+            fontWeight: FontWeight.w500,
+            fontSize: 16,
           ),
           textAlign: TextAlign.left,
         ),

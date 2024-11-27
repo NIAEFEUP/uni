@@ -18,7 +18,10 @@ import 'package:uni/utils/constants.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/toast_message.dart';
 import 'package:uni/view/home/widgets/exit_app_dialog.dart';
+import 'package:uni/view/login/widgets/create_link.dart';
+import 'package:uni/view/login/widgets/f_login_button.dart';
 import 'package:uni/view/login/widgets/inputs.dart';
+import 'package:uni/view/login/widgets/remember_me_checkbox.dart';
 import 'package:uni/view/theme.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -194,7 +197,6 @@ class LoginPageViewState extends State<LoginPageView>
 
   @override
   Widget build(BuildContext context) {
-    final queryData = MediaQuery.of(context);
 
     return Theme(
       data: applicationLightTheme.copyWith(
@@ -283,38 +285,35 @@ class LoginPageViewState extends State<LoginPageView>
                   ),
                 if (!_loggingIn)
                   Padding(
-                    padding: EdgeInsets.only(
-                      left: queryData.size.width / 14,
-                      right: queryData.size.width / 14,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.of(context).size.width / 14,
                     ),
                     child: Align(
                       alignment: const Alignment(0, 0.35),
-                      child:
-                          // TODO(thePeras): Divide into two svgs to add color
-                          createAFLogInButton(queryData, context, _falogin),
+                      // TODO(thePeras): Divide into two svgs to add color
+                      child: FLoginButton(onPressed: _falogin),
                     ),
                   ),
                 Align(
                   alignment: const Alignment(0, 0.51),
-                  child: createSaveDataCheckBox(
-                    context,
-                    () {
+                  child: RememberMeCheckBox(
+                    keepSignedIn: _keepSignedIn,
+                    onToggle: () {
                       setState(() {
                         _keepSignedIn = !_keepSignedIn;
                       });
                     },
-                    keepSignedIn: _keepSignedIn,
                   ),
                 ),
                 Align(
                   alignment: const Alignment(0, 0.58),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 36),
-                    child: createLink(
-                      context,
-                      S.of(context).try_different_login,
-                      S.of(context).login_with_credentials,
-                      _showAlternativeLogin,
+                    child: LinkWidget(
+                      textStart: S.of(context).try_different_login,
+                      textEnd: S.of(context).login_with_credentials,
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = _showAlternativeLogin,
                     ),
                   ),
                 ),
@@ -326,39 +325,6 @@ class LoginPageViewState extends State<LoginPageView>
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  /// Creates the widget for when the user forgets the password
-  Widget createLink(
-    BuildContext context,
-    String textStart,
-    String textEnd,
-    void Function() onTap,
-  ) {
-    return RichText(
-      textAlign: TextAlign.center,
-      text: TextSpan(
-        text: textStart,
-        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-              color: Colors.white,
-              fontSize: 14,
-            ),
-        children: [
-          const TextSpan(text: ' '),
-          TextSpan(
-            text: textEnd,
-            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14,
-                  color: Colors.white,
-                  decoration: TextDecoration.underline,
-                  decorationColor: Colors.white,
-                ),
-            recognizer: TapGestureRecognizer()..onTap = onTap,
-          ),
-        ],
       ),
     );
   }
