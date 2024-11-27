@@ -49,6 +49,9 @@ class ScheduleCard extends GenericCard {
         ),
       ),
       contentLoadingWidget: const ScheduleCardShimmer().build(context),
+      mapper: (lectures) => lectures
+          .where((lecture) => lecture.endTime.isAfter(DateTime.now()))
+          .toList(),
     );
   }
 
@@ -71,16 +74,8 @@ class ScheduleCard extends GenericCard {
     for (final dayLectures
         in lecturesByDay.sublist(0, min(2, lecturesByDay.length))) {
       final day = dayLectures.key;
-      final lectures = dayLectures.value
-          .where(
-            (element) =>
-                // Hide finished lectures from today
-                element.startTime.weekday != DateTime.now().weekday ||
-                element.endTime.isAfter(DateTime.now()),
-          )
-          .toList();
 
-      if (lectures.isEmpty) {
+      if (dayLectures.value.isEmpty) {
         continue;
       }
 
@@ -91,11 +86,11 @@ class ScheduleCard extends GenericCard {
         ),
       );
 
-      for (final lecture in lectures) {
+      for (final lecture in dayLectures.value) {
         rows.add(createRowFromLecture(context, lecture));
       }
 
-      if (lectures.length >= 2) {
+      if (dayLectures.value.length >= 2) {
         break;
       }
     }
