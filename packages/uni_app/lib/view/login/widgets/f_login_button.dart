@@ -27,13 +27,13 @@ class FLoginButton extends StatelessWidget {
             'assets/images/AAI.svg',
             height: 26,
           ),
-          const SizedBox(width: 20),
+          const SizedBox(width: 18),
           Text(
             S.of(context).login,
             style: const TextStyle(
               color: Color(0xFF303030),
               fontWeight: FontWeight.w500,
-              fontSize: 16,
+              fontSize: 18,
             ),
             textAlign: TextAlign.left,
           ),

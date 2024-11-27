@@ -29,7 +29,7 @@ class TermsAndConditionsButton extends StatelessWidget {
               TextSpan(
                 text: S.of(context).terms,
                 style: const TextStyle(
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w700,
                   fontSize: 14,
                   decoration: TextDecoration.underline,
                   decorationColor: Colors.white,

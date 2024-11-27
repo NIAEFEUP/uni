@@ -15,22 +15,27 @@ class RememberMeCheckBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CheckboxListTile(
-      value: keepSignedIn,
-      onChanged: (_) => onToggle(),
-      title: Text(
-        S.of(context).keep_login,
-        textAlign: TextAlign.left,
-        style: TextStyle(
-          color: textColor ?? Colors.white,
-          fontSize: 14,
-          fontWeight: FontWeight.w300,
-        ),
-      ),
-      controlAffinity: ListTileControlAffinity.leading,
-      contentPadding: const EdgeInsets.symmetric(horizontal: 36),
-      checkboxShape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 38),
+      child: Row(
+        children: [
+          Checkbox(
+            value: keepSignedIn,
+            onChanged: (_) => onToggle(),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+            ),
+          ),
+          // Add Text directly after the checkbox
+          Text(
+            S.of(context).keep_login,
+            style: TextStyle(
+              color: textColor ?? Colors.white,
+              fontSize: 14,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+        ],
       ),
     );
   }

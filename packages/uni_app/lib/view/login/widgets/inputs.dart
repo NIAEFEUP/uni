@@ -173,6 +173,7 @@ InputDecoration passwordFieldDecoration(
   );
 }
 
+/// To delete if widget page accepted
 /// Displays terms and conditions
 InkResponse createTermsAndConditionsButton(BuildContext context) {
   return InkResponse(
@@ -213,6 +214,7 @@ InkResponse createTermsAndConditionsButton(BuildContext context) {
   );
 }
 
+/// To delete if widget page accepted
 /// Displays 'Terms and conditions' section.
 Future<void> _showTermsAndConditions(BuildContext context) async {
   await showDialog<void>(
