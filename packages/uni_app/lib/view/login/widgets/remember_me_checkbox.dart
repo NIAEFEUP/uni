@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:uni/generated/l10n.dart';
 
 class RememberMeCheckBox extends StatelessWidget {
-
   const RememberMeCheckBox({
     required this.keepSignedIn,
     required this.onToggle,

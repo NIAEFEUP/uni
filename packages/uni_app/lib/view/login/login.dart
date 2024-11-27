@@ -22,6 +22,7 @@ import 'package:uni/view/login/widgets/create_link.dart';
 import 'package:uni/view/login/widgets/f_login_button.dart';
 import 'package:uni/view/login/widgets/inputs.dart';
 import 'package:uni/view/login/widgets/remember_me_checkbox.dart';
+import 'package:uni/view/login/widgets/terms_and_conditions_button.dart';
 import 'package:uni/view/theme.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -197,7 +198,6 @@ class LoginPageViewState extends State<LoginPageView>
 
   @override
   Widget build(BuildContext context) {
-
     return Theme(
       data: applicationLightTheme.copyWith(
         textSelectionTheme: const TextSelectionThemeData(
@@ -317,9 +317,9 @@ class LoginPageViewState extends State<LoginPageView>
                     ),
                   ),
                 ),
-                Align(
-                  alignment: const Alignment(0, 0.88),
-                  child: createTermsAndConditionsButton(context),
+                const Align(
+                  alignment: Alignment(0, 0.88),
+                  child: TermsAndConditionsButton(),
                 ),
               ],
             ),

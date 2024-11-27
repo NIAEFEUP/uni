@@ -3,7 +3,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:uni/generated/l10n.dart';
 
 class FLoginButton extends StatelessWidget {
-
   const FLoginButton({
     required this.onPressed,
     super.key,

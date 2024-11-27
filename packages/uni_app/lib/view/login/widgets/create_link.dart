@@ -2,7 +2,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 class LinkWidget extends StatelessWidget {
-
   const LinkWidget({
     required this.textStart,
     required this.textEnd,
@@ -21,20 +20,20 @@ class LinkWidget extends StatelessWidget {
       text: TextSpan(
         text: textStart,
         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-          color: Colors.white,
-          fontSize: 14,
-        ),
+              color: Colors.white,
+              fontSize: 14,
+            ),
         children: [
           const TextSpan(text: ' '),
           TextSpan(
             text: textEnd,
             style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-              fontWeight: FontWeight.bold,
-              fontSize: 14,
-              color: Colors.white,
-              decoration: TextDecoration.underline,
-              decorationColor: Colors.white,
-            ),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                  color: Colors.white,
+                  decoration: TextDecoration.underline,
+                  decorationColor: Colors.white,
+                ),
             recognizer: recognizer,
           ),
         ],

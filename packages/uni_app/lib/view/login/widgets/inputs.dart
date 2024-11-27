@@ -62,6 +62,7 @@ Widget createPasswordInput(
   );
 }
 
+/// To delete if widget page accepted
 /// Creates the widget for the user to keep signed in (save his data).
 Widget createSaveDataCheckBox(
   BuildContext context,
