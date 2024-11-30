@@ -2,11 +2,12 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:uni/http/utils.dart';
+import 'package:uni/sigarra/endpoint.dart';
 import 'package:uni/sigarra/endpoints/api/authentication/login/json.dart';
 import 'package:uni/sigarra/endpoints/api/authentication/login/response.dart';
 import 'package:uni/sigarra/options.dart';
 
-class Login {
+class Login extends Endpoint<LoginResponse> {
   const Login({
     required this.username,
     required this.password,
@@ -17,6 +18,7 @@ class Login {
   final String password;
   final FacultyRequestOptions? options;
 
+  @override
   Future<LoginResponse> call() async {
     final options = this.options ?? FacultyRequestOptions();
 
