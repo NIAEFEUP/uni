@@ -24,7 +24,7 @@ class AppCoursesDatabase extends AppDatabase<List<Course>> {
     // Convert the List<Map<String, dynamic> into a List<Course>.
     return List.generate(maps.length, (i) {
       return Course(
-        id: maps[i]['cur_id'] as int? ?? 0,
+        id: maps[i]['cur_id'] as int?,
         festId: maps[i]['fest_id'] as int? ?? 0,
         name: maps[i]['cur_nome'] as String?,
         abbreviation: maps[i]['abbreviation'] as String?,

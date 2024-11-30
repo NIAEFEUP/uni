@@ -26,6 +26,10 @@ class ExamFetcher implements SessionDependantFetcher {
     var courseExams = <Exam>{};
     final urls = getEndpoints(session);
     for (final course in courses) {
+      if (course.id == null) {
+        continue;
+      }
+      
       for (final url in urls) {
         final currentCourseExams = await parserExams.parseExams(
           await NetworkRouter.getWithCookies(

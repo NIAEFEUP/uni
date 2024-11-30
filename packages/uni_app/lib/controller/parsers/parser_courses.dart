@@ -39,7 +39,7 @@ List<Course> _parseCourses(http.Response response) {
     courses.add(
       Course(
         faculty: faculty,
-        id: int.parse(courseId ?? '0'),
+        id: courseId != null ? int.parse(courseId) : null,
         state: courseState,
         name: courseName ?? '',
         festId: int.parse(courseFestId ?? '0'),
@@ -66,7 +66,7 @@ List<Course> _parseCourses(http.Response response) {
       Course(
         firstEnrollment: int.parse(courseFirstEnrollment),
         faculty: faculty,
-        id: int.parse(courseId ?? '0'),
+        id: courseId != null ? int.parse(courseId) : null,
         state: courseState,
         name: courseName ?? '',
         festId: int.parse(courseFestId ?? '0'),
