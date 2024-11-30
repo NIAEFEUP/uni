@@ -29,7 +29,7 @@ class ExamFetcher implements SessionDependantFetcher {
       if (course.id == null) {
         continue;
       }
-      
+
       for (final url in urls) {
         final currentCourseExams = await parserExams.parseExams(
           await NetworkRouter.getWithCookies(
