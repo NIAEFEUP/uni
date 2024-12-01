@@ -16,7 +16,7 @@ class RememberMeCheckBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 38),
+      padding: const EdgeInsets.symmetric(horizontal: 37),
       child: Row(
         children: [
           Checkbox(

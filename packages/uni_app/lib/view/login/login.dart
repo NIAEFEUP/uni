@@ -307,7 +307,7 @@ class LoginPageViewState extends State<LoginPageView>
                 Align(
                   alignment: const Alignment(0, 0.58),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 36),
+                    padding: const EdgeInsets.symmetric(horizontal: 35),
                     child: LinkWidget(
                       textStart: S.of(context).try_different_login,
                       textEnd: S.of(context).login_with_credentials,
