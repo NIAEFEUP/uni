@@ -13,6 +13,8 @@ class RestaurantProvider extends StateProviderNotifier<List<Restaurant>> {
   Future<List<Restaurant>> loadFromStorage(
     StateProviders stateProviders,
   ) async {
+    // TODO: remove this line after PR #1380 (fix: Added meals column to the RESTAURANTS table) is merged
+    return loadFromRemote(stateProviders);
     final restaurantDb = RestaurantDatabase();
     final restaurants = await restaurantDb.getRestaurants();
     return restaurants;
@@ -26,9 +28,6 @@ class RestaurantProvider extends StateProviderNotifier<List<Restaurant>> {
     final db = RestaurantDatabase();
     unawaited(db.saveIfPersistentSession(restaurants));
 
-    // TODO: enable past meals filtering after SASUP publishes the new menus (ALSO CHANGE IN THE STORAGE DATABASE!!!!).
-
-    // return filterPastMeals(restaurants);
     return restaurants;
   }
 }

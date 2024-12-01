@@ -70,10 +70,6 @@ class RestaurantDatabase extends AppDatabase<List<Restaurant>> {
       }
     });
 
-    // TODO: reimplement the filter.
-
-    // return filterPastMeals(restaurants);
-
     return restaurants;
   }
 
@@ -132,23 +128,4 @@ class RestaurantDatabase extends AppDatabase<List<Restaurant>> {
       }
     });
   }
-}
-
-List<Restaurant> filterPastMeals(List<Restaurant> restaurants) {
-  final restaurantsCopy = List<Restaurant>.from(restaurants);
-  // Hide past and next weeks' meals
-  // (To replicate sigarra's behaviour for the GSheets meals)
-  final now = DateTime.now().toUtc();
-  final today = DateTime.utc(now.year, now.month, now.day);
-  final nextSunday = today.add(Duration(days: DateTime.sunday - now.weekday));
-
-  for (final restaurant in restaurantsCopy) {
-    for (final meals in restaurant.meals.values) {
-      meals.removeWhere(
-        (meal) => meal.date.isBefore(today) || meal.date.isAfter(nextSunday),
-      );
-    }
-  }
-
-  return restaurantsCopy;
 }

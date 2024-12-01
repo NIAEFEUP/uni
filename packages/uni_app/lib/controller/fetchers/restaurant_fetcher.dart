@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/parsers/parser_restaurants.dart';
 import 'package:uni/model/entities/meal.dart';
@@ -9,20 +11,20 @@ import 'package:up_menus/up_menus.dart';
 /// Class for fetching the menu
 class RestaurantFetcher {
   // Auxliary function to print a list of restaurants.
-  // void printRestaurants(List<Restaurant> restaurants) {
-  //   for (final restaurant in restaurants) {
-  //     print(restaurant.id);
-  //     print(restaurant.name);
-  //     print(restaurant.reference);
-  //     final meals = restaurant.meals;
-  //     meals.forEach((day, mealList) {
-  //       print(day);
-  //       for (final meal in mealList) {
-  //         print(' - ${meal.name}');
-  //       }
-  //     });
-  //   }
-  // }
+  void printRestaurants(List<Restaurant> restaurants) {
+    for (final restaurant in restaurants) {
+      print(restaurant.id);
+      print(restaurant.name);
+      print(restaurant.reference);
+      final meals = restaurant.meals;
+      meals.forEach((day, mealList) {
+        print(day);
+        for (final meal in mealList) {
+          print(' - ${meal.name}');
+        }
+      });
+    }
+  }
 
   Future<List<Restaurant>> fetchSASUPRestaurants() async {
     // TODO: change the implementation to accomodate changes for the new UI.
@@ -36,12 +38,9 @@ class RestaurantFetcher {
       if (establishment.dayMenu == false) {
         continue;
       }
-      // HACK: hardcoded week number, because SASUP hasn't published the menus for the current week.
       final dayMenus = (await upMenus.dayMenus.get(
         establishment.id,
         Period.lunch,
-        weekNumber: 40,
-        year: 2024,
       ))
           .followedBy(
             await upMenus.dayMenus.get(
@@ -88,6 +87,7 @@ class RestaurantFetcher {
         Restaurant(establishment.id, establishment.namePt, '', meals: meals),
       );
     }
+    printRestaurants(restaurants);
     return restaurants;
   }
 
