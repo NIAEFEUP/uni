@@ -52,7 +52,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "add_quota": MessageLookupByLibrary.simpleMessage("Adicionar quota"),
         "add_widget": MessageLookupByLibrary.simpleMessage("Adicionar widget"),
         "agree_terms": MessageLookupByLibrary.simpleMessage(
-            "Ao entrares confirmas que concordas com estes Termos e Condições"),
+            "Ao entrares confirmas que concordas com estes"),
         "all_widgets_added": MessageLookupByLibrary.simpleMessage(
             "Todos os widgets disponíveis já foram adicionados à tua área pessoal!"),
         "at_least_one_college": MessageLookupByLibrary.simpleMessage(
@@ -153,7 +153,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Verifique sua conexão com a internet"),
         "invalid_credentials":
             MessageLookupByLibrary.simpleMessage("Credenciais inválidas"),
-        "keep_login": MessageLookupByLibrary.simpleMessage("Manter sessão"),
+        "keep_login": MessageLookupByLibrary.simpleMessage("Lembre-se de mim"),
         "language": MessageLookupByLibrary.simpleMessage("Idioma"),
         "last_refresh_time": m0,
         "last_timestamp": m1,
@@ -164,8 +164,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "loading_terms": MessageLookupByLibrary.simpleMessage(
             "Carregando os Termos e Condições..."),
         "login": MessageLookupByLibrary.simpleMessage("Entrar"),
-        "login_with_credentials": MessageLookupByLibrary.simpleMessage(
-            "Iniciar sessão com credenciais"),
+        "login_with_credentials":
+            MessageLookupByLibrary.simpleMessage("Entrar com credenciais"),
         "logout": MessageLookupByLibrary.simpleMessage("Terminar sessão"),
         "menus": MessageLookupByLibrary.simpleMessage("Ementas"),
         "min_value_reference":
@@ -291,8 +291,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "theme": MessageLookupByLibrary.simpleMessage("Tema"),
         "title": MessageLookupByLibrary.simpleMessage("Título"),
         "try_again": MessageLookupByLibrary.simpleMessage("Tentar de novo"),
-        "try_different_login": MessageLookupByLibrary.simpleMessage(
-            "Problemas a iniciar sessão? Experimenta o login alternativo"),
+        "try_different_login":
+            MessageLookupByLibrary.simpleMessage("Problemas a iniciar sessão?"),
         "uc_info": MessageLookupByLibrary.simpleMessage("Abrir página da UC"),
         "unavailable": MessageLookupByLibrary.simpleMessage("Indisponível"),
         "valid_email": MessageLookupByLibrary.simpleMessage(

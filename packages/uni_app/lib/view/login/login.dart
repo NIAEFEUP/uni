@@ -290,7 +290,6 @@ class LoginPageViewState extends State<LoginPageView>
                     ),
                     child: Align(
                       alignment: const Alignment(0, 0.35),
-                      // TODO(thePeras): Divide into two svgs to add color
                       child: FLoginButton(onPressed: _falogin),
                     ),
                   ),
@@ -329,6 +328,7 @@ class LoginPageViewState extends State<LoginPageView>
     );
   }
 
+  /// I don't think this is being used anywhere, should I delete to clean up?
   /// Creates a widget for the user login depending on the status of his login.
   Widget createStatusWidget(BuildContext context) {
     return Consumer<SessionProvider>(

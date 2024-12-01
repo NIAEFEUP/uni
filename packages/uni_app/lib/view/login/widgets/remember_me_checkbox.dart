@@ -26,7 +26,6 @@ class RememberMeCheckBox extends StatelessWidget {
               borderRadius: BorderRadius.circular(15),
             ),
           ),
-          // Add Text directly after the checkbox
           Text(
             S.of(context).keep_login,
             style: TextStyle(
