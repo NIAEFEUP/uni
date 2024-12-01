@@ -26,68 +26,86 @@ class RestaurantFetcher {
     }
   }
 
+  Restaurant convertToRestaurant(
+    Establishment establishment,
+    Iterable<DayMenu> dayMenus,
+    String period,
+  ) {
+    final meals = <Meal>[];
+    for (final dayMenu in dayMenus) {
+      for (final dish in dayMenu.dishes) {
+        // Extract the information about the meal.
+        meals.add(
+          Meal(
+            dish.dishType.namePt,
+            dish.dish.namePt,
+            parseDateTime(dayMenu.day),
+            dayMenu.day,
+          ),
+        );
+      }
+    }
+    return Restaurant(
+      establishment.id,
+      '${establishment.namePt} - $period',
+      '',
+      meals: meals,
+    );
+  }
+
   Future<List<Restaurant>> fetchSASUPRestaurants() async {
     // TODO: change the implementation to accomodate changes for the new UI.
     final upMenus = UPMenusApi();
     final establishments = await upMenus.establishments.list();
     final restaurants = <Restaurant>[];
 
-    // For every establishement...
     for (final establishment in establishments) {
-      // Get the menu for the current week
       if (establishment.dayMenu == false) {
         continue;
       }
-      final dayMenus = (await upMenus.dayMenus.get(
-        establishment.id,
-        Period.lunch,
-      ))
-          .followedBy(
+
+      restaurants
+        ..add(
+          convertToRestaurant(
+            establishment,
+            await upMenus.dayMenus.get(
+              establishment.id,
+              Period.lunch,
+            ),
+            'Almoço',
+          ),
+        )
+        ..add(
+          convertToRestaurant(
+            establishment,
             await upMenus.dayMenus.get(
               establishment.id,
               Period.dinner,
-              weekNumber: 40,
-              year: 2024,
             ),
-          )
-          .followedBy(
+            'Jantar',
+          ),
+        )
+        ..add(
+          convertToRestaurant(
+            establishment,
             await upMenus.dayMenus.get(
               establishment.id,
               Period.snackBar,
-              weekNumber: 40,
-              year: 2024,
             ),
-          )
-          .followedBy(
+            'Snackbar',
+          ),
+        )
+        ..add(
+          convertToRestaurant(
+            establishment,
             await upMenus.dayMenus.get(
               establishment.id,
               Period.breakfast,
-              weekNumber: 40,
-              year: 2024,
             ),
-          );
-      final meals = <Meal>[];
-      // For every day...
-      for (final dayMenu in dayMenus) {
-        // And for every dish...
-        for (final dish in dayMenu.dishes) {
-          // Extract the information about the meal.
-          meals.add(
-            Meal(
-              dish.dishType.namePt,
-              dish.dish.namePt,
-              parseDateTime(dayMenu.day),
-              dayMenu.day,
-            ),
-          );
-        }
-      }
-
-      restaurants.add(
-        Restaurant(establishment.id, establishment.namePt, '', meals: meals),
-      );
+            'Pequeno Almoço',
+          ),
+        );
     }
-    printRestaurants(restaurants);
     return restaurants;
   }
 
