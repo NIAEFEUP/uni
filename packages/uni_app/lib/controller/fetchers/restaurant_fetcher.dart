@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/parsers/parser_restaurants.dart';
 import 'package:uni/model/entities/meal.dart';
@@ -10,22 +8,6 @@ import 'package:up_menus/up_menus.dart';
 
 /// Class for fetching the menu
 class RestaurantFetcher {
-  // Auxliary function to print a list of restaurants.
-  void printRestaurants(List<Restaurant> restaurants) {
-    for (final restaurant in restaurants) {
-      print(restaurant.id);
-      print(restaurant.name);
-      print(restaurant.reference);
-      final meals = restaurant.meals;
-      meals.forEach((day, mealList) {
-        print(day);
-        for (final meal in mealList) {
-          print(' - ${meal.name}');
-        }
-      });
-    }
-  }
-
   Restaurant convertToRestaurant(
     Establishment establishment,
     Iterable<DayMenu> dayMenus,

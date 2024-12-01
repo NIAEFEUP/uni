@@ -15,9 +15,9 @@ class RestaurantProvider extends StateProviderNotifier<List<Restaurant>> {
   ) async {
     // TODO: remove this line after PR #1380 (fix: Added meals column to the RESTAURANTS table) is merged
     return loadFromRemote(stateProviders);
-    final restaurantDb = RestaurantDatabase();
-    final restaurants = await restaurantDb.getRestaurants();
-    return restaurants;
+    // final restaurantDb = RestaurantDatabase();
+    // final restaurants = await restaurantDb.getRestaurants();
+    // return restaurants;
   }
 
   @override
