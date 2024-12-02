@@ -94,11 +94,9 @@ class _ExamsPageState extends State<ExamsPage> {
                                   hiddenExams.add(exam.id);
                                 }
 
-                                setState(() {
-                                  PreferencesController.saveHiddenExams(
-                                    hiddenExams,
-                                  );
-                                });
+                                PreferencesController.saveHiddenExams(
+                                  hiddenExams,
+                                );
                               });
                             },
                           ),
