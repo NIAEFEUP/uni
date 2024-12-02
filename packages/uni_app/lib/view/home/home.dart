@@ -6,6 +6,7 @@ import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/profile_button.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/top_navigation_bar.dart';
+import 'package:uni/view/home/widgets/connectivity_warning_card.dart';
 import 'package:uni/view/home/widgets/main_cards_list.dart';
 import 'package:uni/view/home/widgets/tracking_banner.dart';
 import 'package:uni/view/home/widgets/uni_icon.dart';
@@ -49,36 +50,41 @@ class HomePageViewState extends GeneralPageViewState {
 
   @override
   Widget? getHeader(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          PageTitle(
-            name: S.of(context).nav_title('area'),
-            center: false,
-            pad: false,
+    return Column(
+      children: [
+        Container(
+          padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              PageTitle(
+                name: S.of(context).nav_title('area'),
+                center: false,
+                pad: false,
+              ),
+              if (isEditing)
+                ElevatedButton(
+                  onPressed: () => setState(() {
+                    isEditing = false;
+                  }),
+                  child: Text(
+                    S.of(context).edit_on,
+                  ),
+                )
+              else
+                OutlinedButton(
+                  onPressed: () => setState(() {
+                    isEditing = true;
+                  }),
+                  child: Text(
+                    S.of(context).edit_off,
+                  ),
+                ),
+            ],
           ),
-          if (isEditing)
-            ElevatedButton(
-              onPressed: () => setState(() {
-                isEditing = false;
-              }),
-              child: Text(
-                S.of(context).edit_on,
-              ),
-            )
-          else
-            OutlinedButton(
-              onPressed: () => setState(() {
-                isEditing = true;
-              }),
-              child: Text(
-                S.of(context).edit_off,
-              ),
-            ),
-        ],
-      ),
+        ),
+        const ConnectivityWarning(),
+      ]
     );
   }
 
