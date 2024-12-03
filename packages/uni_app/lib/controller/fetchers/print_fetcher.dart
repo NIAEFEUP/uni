@@ -1,7 +1,7 @@
 import 'package:http/http.dart' as http;
 import 'package:uni/controller/fetchers/session_dependant_fetcher.dart';
 import 'package:uni/controller/networking/network_router.dart';
-import 'package:uni/model/entities/session.dart';
+import 'package:uni/session/flows/base/session.dart';
 
 class PrintFetcher implements SessionDependantFetcher {
   @override
@@ -36,7 +36,7 @@ class PrintFetcher implements SessionDependantFetcher {
     };
 
     final headers = <String, String>{};
-    headers['cookie'] = session.cookies;
+    headers['cookie'] = session.cookies.join('; ');
     headers['content-type'] = 'application/x-www-form-urlencoded';
 
     final response = await http.post(url.toUri(), headers: headers, body: data);

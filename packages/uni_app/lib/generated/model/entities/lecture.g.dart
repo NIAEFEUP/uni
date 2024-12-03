@@ -11,7 +11,6 @@ Lecture _$LectureFromJson(Map<String, dynamic> json) => Lecture(
       json['typeClass'] as String,
       const DateTimeConverter().fromJson(json['startTime'] as String),
       const DateTimeConverter().fromJson(json['endTime'] as String),
-      json['blocks'] as int,
       json['room'] as String,
       json['teacher'] as String,
       json['classNumber'] as String,
@@ -26,6 +25,5 @@ Map<String, dynamic> _$LectureToJson(Lecture instance) => <String, dynamic>{
       'classNumber': instance.classNumber,
       'startTime': const DateTimeConverter().toJson(instance.startTime),
       'endTime': const DateTimeConverter().toJson(instance.endTime),
-      'blocks': instance.blocks,
       'occurrId': instance.occurrId,
     };

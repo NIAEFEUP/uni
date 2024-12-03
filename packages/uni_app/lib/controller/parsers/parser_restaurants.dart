@@ -8,8 +8,6 @@ import 'package:uni/model/entities/meal.dart';
 import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/utils/day_of_week.dart';
 
-// ignore_for_file: avoid_dynamic_calls
-
 /// Reads restaurants's menu from /feup/pt/CANTINA.EMENTASHOW
 List<Restaurant> getRestaurantsFromHtml(Response response) {
   final document = parse(response.body);
@@ -93,23 +91,30 @@ Restaurant getRestaurantFromGSheets(
     response.body.indexOf('(') + 1,
     response.body.lastIndexOf(')'),
   );
-  final parsedJson = jsonDecode(jsonString);
+  final parsedJson = jsonDecode(jsonString) as Map<String, dynamic>;
 
   final mealsList = <Meal>[];
 
   final format = DateFormat('d/M/y');
-  for (final row in parsedJson['table']['rows'] as List<dynamic>) {
-    final cellList = row['c'];
-    if ((cellList[1]['v'] == 'Almoço' && isDinner) ||
-        (cellList[1]['v'] != 'Almoço' && !isDinner)) {
+
+  final table = parsedJson['table'] as Map<String, dynamic>;
+  final rows = table['rows'] as List<dynamic>;
+
+  for (final row in rows) {
+    final cellList = (row as Map<String, dynamic>)['c'] as List<dynamic>;
+    if (((cellList[1] as Map<String, dynamic>)['v'] == 'Almoço' && isDinner) ||
+        ((cellList[1] as Map<String, dynamic>)['v'] != 'Almoço' && !isDinner)) {
       continue;
     }
 
     final meal = Meal(
-      cellList[2]['v'] as String,
-      cellList[3]['v'] as String,
-      DayOfWeek.values[format.parseUtc(cellList[0]['f'] as String).weekday - 1],
-      format.parseUtc(cellList[0]['f'] as String),
+      (cellList[2] as Map<String, dynamic>)['v'] as String,
+      (cellList[3] as Map<String, dynamic>)['v'] as String,
+      DayOfWeek.values[format
+              .parseUtc((cellList[0] as Map<String, dynamic>)['f'] as String)
+              .weekday -
+          1],
+      format.parseUtc((cellList[0] as Map<String, dynamic>)['f'] as String),
     );
     mealsList.add(meal);
   }

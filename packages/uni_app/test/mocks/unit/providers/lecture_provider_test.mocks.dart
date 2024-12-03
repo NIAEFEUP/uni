@@ -14,8 +14,8 @@ import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher.dart'
     as _i3;
 import 'package:uni/model/entities/lecture.dart' as _i5;
 import 'package:uni/model/entities/profile.dart' as _i7;
-import 'package:uni/model/entities/session.dart' as _i6;
 import 'package:uni/model/utils/time/week.dart' as _i8;
+import 'package:uni/session/flows/base/session.dart' as _i6;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -82,6 +82,16 @@ class MockScheduleFetcher extends _i1.Mock implements _i3.ScheduleFetcher {
         returnValue: <_i8.Week>[],
         returnValueForMissingStub: <_i8.Week>[],
       ) as List<_i8.Week>);
+
+  @override
+  int getLectiveYear(DateTime? date) => (super.noSuchMethod(
+        Invocation.method(
+          #getLectiveYear,
+          [date],
+        ),
+        returnValue: 0,
+        returnValueForMissingStub: 0,
+      ) as int);
 
   @override
   List<_i3.Dates> getDates() => (super.noSuchMethod(

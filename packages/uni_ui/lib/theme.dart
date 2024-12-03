@@ -24,9 +24,24 @@ const _textTheme = TextTheme(
   bodySmall: TextStyle(fontSize: 13, fontWeight: FontWeight.w400),
 );
 
+var _lightTextTheme = TextTheme(
+  displayLarge: _textTheme.displayLarge!,
+  displayMedium: _textTheme.displayMedium!,
+  displaySmall: _textTheme.displaySmall!,
+  headlineLarge: _textTheme.headlineLarge!,
+  headlineMedium: _textTheme.headlineMedium!.copyWith(color: darkRed),
+  headlineSmall: _textTheme.headlineSmall!,
+  titleLarge: _textTheme.titleLarge!.copyWith(color: darkRed),
+  titleMedium: _textTheme.titleMedium!,
+  titleSmall: _textTheme.titleSmall!,
+  bodyLarge: _textTheme.bodyLarge!,
+  bodyMedium: _textTheme.bodyMedium!,
+  bodySmall: _textTheme.bodySmall!,
+);
+
 ThemeData lightTheme = ThemeData(
   useMaterial3: true,
-  textTheme: _textTheme,
+  textTheme: _lightTextTheme,
   colorScheme: ColorScheme.fromSeed(
       seedColor: darkRed,
       surface: mildWhite,
@@ -46,6 +61,7 @@ ThemeData lightTheme = ThemeData(
   dividerColor: lightGray,
   hintColor: lightGray,
   indicatorColor: darkRed,
+  secondaryHeaderColor: normalGray,
   iconTheme: const IconThemeData(color: darkRed),
   scaffoldBackgroundColor: pureWhite,
 );
@@ -58,4 +74,8 @@ class BadgeColors {
   static const ot = Color(0xFF7ca5b8);
   static const tc = Color(0xFFcdbeb1);
   static const s = Color(0xFF917c9b);
+  static const mt = Color(0xFF7ca5b8);
+  static const en = Color(0xFF769c87);
+  static const er = Color(0xFFab4d39);
+  static const ee = Color(0xFFfbc11f);
 }

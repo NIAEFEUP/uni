@@ -28,6 +28,7 @@ class LazyConsumer<T1 extends StateProviderNotifier<T2>, T2>
     required this.hasContent,
     required this.onNullContent,
     this.contentLoadingWidget,
+    this.mapper,
     super.key,
   });
 
@@ -35,6 +36,9 @@ class LazyConsumer<T1 extends StateProviderNotifier<T2>, T2>
   final bool Function(T2) hasContent;
   final Widget onNullContent;
   final Widget? contentLoadingWidget;
+  final T2 Function(T2)? mapper;
+
+  static T2 _defaultMapper<T2>(T2 value) => value;
 
   @override
   Widget build(BuildContext context) {
@@ -56,8 +60,10 @@ class LazyConsumer<T1 extends StateProviderNotifier<T2>, T2>
             ? Provider.of<SessionProvider>(context, listen: false)
                 .ensureInitialized(context)
                 .then((_) async {
-                await Provider.of<ProfileProvider>(context, listen: false)
-                    .ensureInitialized(context);
+                if (context.mounted) {
+                  await Provider.of<ProfileProvider>(context, listen: false)
+                      .ensureInitialized(context);
+                }
               })
             : Future(() {});
       } catch (err, st) {
@@ -87,8 +93,11 @@ class LazyConsumer<T1 extends StateProviderNotifier<T2>, T2>
   }
 
   Widget requestDependantWidget(BuildContext context, T1 provider) {
-    final showContent =
-        provider.state != null && hasContent(provider.state as T2);
+    final mappedState = provider.state != null
+        ? (mapper ?? _defaultMapper)(provider.state as T2)
+        : null;
+
+    final showContent = provider.state != null && hasContent(mappedState as T2);
 
     if (provider.requestStatus == RequestStatus.busy && !showContent) {
       return loadingWidget(context);
@@ -97,7 +106,7 @@ class LazyConsumer<T1 extends StateProviderNotifier<T2>, T2>
     }
 
     return showContent
-        ? builder(context, provider.state as T2)
+        ? builder(context, mappedState)
         : Center(
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
