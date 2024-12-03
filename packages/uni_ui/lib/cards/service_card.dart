@@ -24,7 +24,7 @@ class ServiceCard extends StatelessWidget {
               Text(
                 name,
                 overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.headlineMedium!,
+                style: Theme.of(context).textTheme.headlineSmall!,
               ),
             ],
           ),
@@ -42,7 +42,7 @@ class ServiceCard extends StatelessWidget {
                 children: openingHours.map((hour) {
                   return Text(
                     hour,
-                    style: Theme.of(context).textTheme.bodySmall,
+                    style: Theme.of(context).textTheme.bodyLarge,
                   );
                 }).toList(),
               )

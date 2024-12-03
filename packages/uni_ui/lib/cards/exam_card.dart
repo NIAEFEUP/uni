@@ -42,7 +42,7 @@ class ExamCard extends StatelessWidget {
                       Text(
                         acronym,
                         overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.headlineMedium!,
+                        style: Theme.of(context).textTheme.headlineSmall!,
                       ),
                       const SizedBox(width: 8),
                       Badge(
@@ -55,7 +55,7 @@ class ExamCard extends StatelessWidget {
                   Text(
                     name,
                     overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.titleLarge!,
+                    style: Theme.of(context).textTheme.bodySmall!,
                   ),
                   const SizedBox(height: 5),
                   Row(
@@ -68,7 +68,7 @@ class ExamCard extends StatelessWidget {
                       const SizedBox(width: 4),
                       Text(
                         startTime ?? "--:--",
-                        style: Theme.of(context).textTheme.bodyMedium!,
+                        style: Theme.of(context).textTheme.labelSmall!,
                       ),
                       const SizedBox(width: 8),
                       if (!rooms.isEmpty)
@@ -94,7 +94,7 @@ class ExamCard extends StatelessWidget {
                             scrollDirection: Axis.horizontal,
                             child: Text(
                               rooms.join(" "),
-                              style: Theme.of(context).textTheme.bodyMedium,
+                              style: Theme.of(context).textTheme.labelSmall,
                             ),
                           ),
                         ),

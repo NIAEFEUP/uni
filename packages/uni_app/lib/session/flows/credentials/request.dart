@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:uni/controller/fetchers/faculties_fetcher.dart';
 import 'package:uni/session/exception.dart';
@@ -35,10 +36,19 @@ class CredentialsSessionRequest extends SessionRequest {
           'Failed to authenticate user',
           AuthenticationExceptionType.expiredCredentials,
         );
-      } else {
+      } else if (failureReason == LoginFailureReason.internetError) {
+        throw const AuthenticationException(
+          'Failed to authenticate user',
+          AuthenticationExceptionType.internetError,
+        );
+      } else if (failureReason == LoginFailureReason.wrongCredentials) {
         throw const AuthenticationException(
           'Failed to authenticate user',
           AuthenticationExceptionType.wrongCredentials,
+        );
+      } else {
+        throw const AuthenticationException(
+          'Failed to authenticate user',
         );
       }
     }
