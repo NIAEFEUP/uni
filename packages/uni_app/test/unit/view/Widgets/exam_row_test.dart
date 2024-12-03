@@ -12,7 +12,8 @@ void main() async {
   await initTestEnvironment();
 
   group('Exam Row', () {
-    const subject = 'SOPE';
+    const subjectAcronym = 'SOPE';
+    const subject = 'Sistemas Operativos';
     final start = DateTime(
       DateTime.now().year,
       DateTime.now().month,
@@ -30,7 +31,16 @@ void main() async {
 
     testWidgets('When given a single room', (tester) async {
       final rooms = ['B315'];
-      final exam = Exam('1230', start, finish, subject, rooms, '', 'feup');
+      final exam = Exam(
+        '1230',
+        start,
+        finish,
+        subjectAcronym,
+        subject,
+        rooms,
+        '',
+        'feup',
+      );
       final widget = ExamRow(
         exam: exam,
         teacher: '',
@@ -44,7 +54,7 @@ void main() async {
       await tester.pumpWidget(testableWidget(widget, providers: providers));
       await tester.pump();
 
-      final roomsKey = '$subject-$rooms-$startTime-$finishTime';
+      final roomsKey = '$subjectAcronym-$rooms-$startTime-$finishTime';
 
       expect(
         find.descendant(
@@ -57,7 +67,16 @@ void main() async {
 
     testWidgets('When multiple rooms', (tester) async {
       final rooms = ['B315', 'B316', 'B330'];
-      final exam = Exam('1230', start, finish, subject, rooms, '', 'feup');
+      final exam = Exam(
+        '1230',
+        start,
+        finish,
+        subjectAcronym,
+        subject,
+        rooms,
+        '',
+        'feup',
+      );
       final widget = ExamRow(
         exam: exam,
         teacher: '',
@@ -72,7 +91,7 @@ void main() async {
       await tester.pumpWidget(testableWidget(widget, providers: providers));
       await tester.pump();
 
-      final roomsKey = '$subject-$rooms-$startTime-$finishTime';
+      final roomsKey = '$subjectAcronym-$rooms-$startTime-$finishTime';
 
       expect(
         find.descendant(

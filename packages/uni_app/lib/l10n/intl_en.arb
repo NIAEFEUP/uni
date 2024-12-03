@@ -333,5 +333,11 @@
   "wrong_credentials_exception": "Invalid credentials",
   "@wrong_credentials_exception": {},
   "internet_status_exception": "Check your internet connection",
-  "@internet_status_exception": {}
+  "@internet_status_exception": {},
+  "lectures": "Lectures",
+  "@lectures": {},
+  "exams": "Exams",
+  "@exams": {},
+  "courses": "Courses",
+  "@courses": {}
 }

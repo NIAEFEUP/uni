@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 class TimelineItem extends StatelessWidget {
   const TimelineItem(
-      {required this.startTime,
-      required this.endTime,
+      {required this.title,
+      required this.subtitle,
       required this.card,
       this.isActive = false,
       super.key});
 
-  final String startTime;
-  final String endTime;
+  final String title;
+  final String subtitle;
   final Widget card;
   final bool isActive;
 
@@ -20,9 +20,9 @@ class TimelineItem extends StatelessWidget {
         width: 50,
         child: Column(
           children: [
-            Text(startTime,
+            Text(title,
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-            Text(endTime,
+            Text(subtitle,
                 style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600))
           ],
         ),

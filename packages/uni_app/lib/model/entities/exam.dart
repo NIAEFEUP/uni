@@ -21,6 +21,7 @@ class Exam {
     this.id,
     this.start,
     this.finish,
+    this.subjectAcronym,
     this.subject,
     this.rooms,
     this.examType,
@@ -31,6 +32,7 @@ class Exam {
 
   Exam.secConstructor(
     this.id,
+    this.subjectAcronym,
     this.subject,
     this.start,
     this.finish,
@@ -42,6 +44,7 @@ class Exam {
   final DateTime start;
   final DateTime finish;
   final String id;
+  final String subjectAcronym;
   final String subject;
   final List<String> rooms;
   final String examType;
@@ -67,6 +70,7 @@ class Exam {
         .WEEKDAYS[start.weekday % 7];
   }
 
+  // TODO(thePeras): Remove this method and use {start.month} in the toString. Tests will fail and need to be updated.
   String month(AppLocale locale) {
     return DateFormat.EEEE(locale.localeCode.languageCode)
         .dateSymbols
@@ -81,7 +85,7 @@ class Exam {
 
   @override
   String toString() {
-    return '''$id - $subject - ${start.year} - $month - ${start.day}  -  $startTime-$finishTime - $examType - $rooms - $weekDay''';
+    return '''$id - $subjectAcronym - ${start.year} - $month - ${start.day}  -  $startTime-$finishTime - $examType - $rooms - $weekDay''';
   }
 
   /// Prints the data in this exam to the [Logger] with an INFO level.
@@ -92,7 +96,7 @@ class Exam {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is Exam && id == other.id && subject == other.subject;
+      other is Exam && id == other.id && subjectAcronym == other.subjectAcronym;
 
   @override
   int get hashCode => id.hashCode;

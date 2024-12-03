@@ -25,6 +25,13 @@ class ExamCard extends StatelessWidget {
   final bool showIcon;
   final Function()? iconAction;
 
+  static const Map<String, Color> examTypeColors = {
+    'MT': BadgeColors.mt,
+    'EN': BadgeColors.en,
+    'ER': BadgeColors.er,
+    'EE': BadgeColors.ee,
+  };
+
   @override
   Widget build(BuildContext context) {
     return Opacity(
@@ -47,7 +54,7 @@ class ExamCard extends StatelessWidget {
                       const SizedBox(width: 8),
                       Badge(
                         label: Text(type),
-                        backgroundColor: BadgeColors.er,
+                        backgroundColor: examTypeColors[type],
                         textColor: Theme.of(context).colorScheme.surface,
                       ),
                     ],
