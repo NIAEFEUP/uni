@@ -6,11 +6,13 @@ class AverageBar extends StatelessWidget {
       {required this.average,
       required this.completedCredits,
       required this.totalCredits,
+      required this.statusText,
       super.key});
 
   final double average;
   final int completedCredits;
   final int totalCredits;
+  final String statusText;
 
   @override
   Widget build(BuildContext context) {
@@ -46,16 +48,17 @@ class AverageBar extends StatelessWidget {
                   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('ECTS'),
+                        Tooltip(
+                          message: "European Credit System",
+                          child: Text("ECTS"),
+                        ),
                         Text('$completedCredits/$totalCredits'),
                       ]),
                   LinearProgressIndicator(
                       minHeight: 8,
                       value: completedCredits / totalCredits,
                       borderRadius: BorderRadius.all(Radius.circular(5))),
-                  Text(completedCredits == totalCredits
-                      ? "Concluído"
-                      : "A frequentar")
+                  Text(statusText)
                 ]))
       ]);
     });
