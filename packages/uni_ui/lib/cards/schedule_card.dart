@@ -3,7 +3,7 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:uni_ui/cards/generic_card.dart';
 import 'package:uni_ui/theme.dart';
 
-class ScheduleCard extends GenericCard {
+class ScheduleCard extends StatelessWidget {
   const ScheduleCard(
       {super.key,
       required this.name,
@@ -27,6 +27,14 @@ class ScheduleCard extends GenericCard {
   @override
   Widget build(BuildContext context) {
     return GenericCard(
+      gradient: RadialGradient(
+          colors: [
+            Color(0xFF280709),
+            Color(0xFF511515),
+          ],
+          center: Alignment.topLeft,
+          radius: 1.5,
+          stops: [0, 1]),
       key: key,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -118,7 +126,6 @@ class ScheduleCard extends GenericCard {
           )
         ],
       ),
-      color: isActive ? Color.fromARGB(255, 40, 7, 9) : null,
     );
   }
 }

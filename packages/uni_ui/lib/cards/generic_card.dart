@@ -2,16 +2,16 @@ import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/material.dart';
 
 class GenericCard extends StatelessWidget {
-  const GenericCard({
-    super.key,
-    this.margin,
-    this.padding,
-    this.color,
-    this.shadowColor,
-    this.borderRadius,
-    this.onClick,
-    this.child,
-  });
+  const GenericCard(
+      {super.key,
+      this.margin,
+      this.padding,
+      this.color,
+      this.shadowColor,
+      this.borderRadius,
+      this.onClick,
+      this.child,
+      this.gradient});
 
   final EdgeInsetsGeometry? margin;
   final EdgeInsetsGeometry? padding;
@@ -20,6 +20,7 @@ class GenericCard extends StatelessWidget {
   final double? borderRadius;
   final Function? onClick;
   final Widget? child;
+  final Gradient? gradient;
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +41,7 @@ class GenericCard extends StatelessWidget {
               color: color ??
                   cardTheme.color ??
                   theme.colorScheme.surfaceContainer,
+              gradient: gradient,
               boxShadow: [
                 BoxShadow(
                   color: shadowColor ??
