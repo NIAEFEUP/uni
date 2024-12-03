@@ -63,7 +63,7 @@ class CardFavoriteButtonState extends State<CardFavoriteButton> {
   void initState() {
     super.initState();
     isFavorite = PreferencesController.getFavoriteRestaurants()
-        .contains(widget.restaurant.name);
+        .contains(widget.restaurant.name + widget.restaurant.period);
   }
 
   @override
@@ -73,10 +73,13 @@ class CardFavoriteButtonState extends State<CardFavoriteButton> {
       onPressed: () async {
         final favoriteRestaurants =
             PreferencesController.getFavoriteRestaurants();
-        if (favoriteRestaurants.contains(widget.restaurant.name)) {
-          favoriteRestaurants.remove(widget.restaurant.name);
+        if (favoriteRestaurants
+            .contains(widget.restaurant.name + widget.restaurant.period)) {
+          favoriteRestaurants
+              .remove(widget.restaurant.name + widget.restaurant.period);
         } else {
-          favoriteRestaurants.add(widget.restaurant.name);
+          favoriteRestaurants
+              .add(widget.restaurant.name + widget.restaurant.period);
         }
 
         setState(() {

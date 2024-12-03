@@ -41,7 +41,7 @@ class RestaurantCard extends GenericCard {
         final favoriteRestaurants = restaurants
             .where(
               (restaurant) => PreferencesController.getFavoriteRestaurants()
-                  .contains(restaurant.name),
+                  .contains(restaurant.name + restaurant.period),
             )
             .toList();
         return generateRestaurants(favoriteRestaurants, context);
@@ -117,6 +117,19 @@ class RestaurantCard extends GenericCard {
     DayOfWeek day,
   ) {
     final meals = restaurant.getMealsOfDay(day);
+    var period = '';
+    switch (restaurant.period) {
+      case 'lunch':
+        period = S.of(context).lunch;
+      case 'dinner':
+        period = S.of(context).dinner;
+      case 'breakfast':
+        period = S.of(context).breakfast;
+      case 'snackbar':
+        period = S.of(context).snackbar;
+      default:
+        period = '';
+    }
     return Column(
       children: [
         Center(
@@ -124,7 +137,7 @@ class RestaurantCard extends GenericCard {
             alignment: Alignment.centerLeft,
             padding: const EdgeInsets.fromLTRB(10, 15, 5, 10),
             child: Text(
-              restaurant.name,
+              '${restaurant.name} - $period',
               style: TextStyle(
                 fontSize: 16,
                 color: Theme.of(context).primaryColor,
