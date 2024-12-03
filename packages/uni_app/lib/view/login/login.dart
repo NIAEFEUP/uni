@@ -9,9 +9,9 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:uni/app_links/uni_app_links.dart';
 import 'package:uni/controller/networking/url_launcher.dart';
 import 'package:uni/generated/l10n.dart';
-import 'package:uni/model/entities/login_exceptions.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/model/providers/state_providers.dart';
+import 'package:uni/session/exception.dart';
 import 'package:uni/session/flows/credentials/initiator.dart';
 import 'package:uni/session/flows/federated/initiator.dart';
 import 'package:uni/utils/constants.dart';
@@ -99,36 +99,51 @@ class LoginPageViewState extends State<LoginPageView>
             _loggingIn = false;
           });
         }
-      } catch (err, st) {
+      } on AuthenticationException catch (err, st) {
         setState(() {
           _loggingIn = false;
         });
-        if (err is ExpiredCredentialsException) {
-          _updatePasswordDialog();
-        } else if (err is InternetStatusException) {
-          if (mounted) {
-            unawaited(
-              ToastMessage.warning(
-                context,
-                S.of(context).internet_status_exception,
-              ),
-            );
-          }
-        } else if (err is WrongCredentialsException) {
-          if (mounted) {
-            unawaited(
-              ToastMessage.error(
-                context,
-                S.of(context).wrong_credentials_exception,
-              ),
-            );
-          }
-        } else {
-          Logger().e(err, stackTrace: st);
-          unawaited(Sentry.captureException(err, stackTrace: st));
-          if (mounted) {
-            unawaited(ToastMessage.error(context, S.of(context).failed_login));
-          }
+
+        switch (err.type) {
+          case AuthenticationExceptionType.expiredCredentials:
+            _updatePasswordDialog();
+          case AuthenticationExceptionType.internetError:
+            if (mounted) {
+              unawaited(
+                ToastMessage.warning(
+                  context,
+                  S.of(context).internet_status_exception,
+                ),
+              );
+            }
+          case AuthenticationExceptionType.wrongCredentials:
+            if (mounted) {
+              unawaited(
+                ToastMessage.error(
+                  context,
+                  S.of(context).wrong_credentials_exception,
+                ),
+              );
+            }
+          default:
+            Logger().e(err, stackTrace: st);
+            unawaited(Sentry.captureException(err, stackTrace: st));
+            if (mounted) {
+              unawaited(
+                ToastMessage.error(context, S.of(context).failed_login),
+              );
+            }
+        }
+      }
+      // Handles other unexpected exceptions
+      catch (err, st) {
+        setState(() {
+          _loggingIn = false;
+        });
+        Logger().e(err, stackTrace: st);
+        unawaited(Sentry.captureException(err, stackTrace: st));
+        if (mounted) {
+          unawaited(ToastMessage.error(context, S.of(context).failed_login));
         }
       }
     }

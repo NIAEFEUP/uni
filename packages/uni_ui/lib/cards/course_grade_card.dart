@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:uni_ui/generic_card.dart';
+import 'package:uni_ui/cards/generic_card.dart';
 
 class CourseGradeCard extends StatelessWidget {
   const CourseGradeCard(
@@ -32,12 +32,8 @@ class CourseGradeCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    "${ects} ECTS",
-                    style: theme.textTheme.bodyLarge
-                  ),
-                  Text("${grade.toInt()}",
-                      style: theme.textTheme.bodyLarge)
+                  Text("${ects} ECTS", style: theme.textTheme.bodyLarge),
+                  Text("${grade.toInt()}", style: theme.textTheme.bodyLarge)
                 ],
               )
             ],

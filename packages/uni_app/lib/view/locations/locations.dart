@@ -39,6 +39,12 @@ class LocationsPageState extends SecondaryPageViewState
   @override
   String? getTitle() =>
       S.of(context).nav_title(NavigationItem.navLocations.route);
+
+  @override
+  void dispose() {
+    scrollViewController?.dispose();
+    super.dispose();
+  }
 }
 
 class LocationsPageView extends StatefulWidget {

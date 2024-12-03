@@ -1,4 +1,5 @@
 enum AuthenticationExceptionType {
+  internetError,
   wrongCredentials,
   expiredCredentials,
   other,

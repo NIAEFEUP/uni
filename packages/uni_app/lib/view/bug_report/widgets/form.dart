@@ -321,4 +321,12 @@ class BugReportFormState extends State<BugReportForm> {
       _isConsentGiven = false;
     });
   }
+
+  @override
+  void dispose() {
+    titleController.dispose();
+    descriptionController.dispose();
+    emailController.dispose();
+    super.dispose();
+  }
 }
