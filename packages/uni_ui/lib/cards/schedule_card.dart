@@ -27,14 +27,16 @@ class ScheduleCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GenericCard(
-      gradient: RadialGradient(
-          colors: [
-            Color(0xFF280709),
-            Color(0xFF511515),
-          ],
-          center: Alignment.topLeft,
-          radius: 1.5,
-          stops: [0, 1]),
+      gradient: isActive
+          ? RadialGradient(
+              colors: [
+                Color(0xFF280709),
+                Color(0xFF511515),
+              ],
+              center: Alignment.topLeft,
+              radius: 1.5,
+              stops: [0, 1])
+          : null,
       key: key,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
