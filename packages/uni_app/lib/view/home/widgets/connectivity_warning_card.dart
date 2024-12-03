@@ -5,6 +5,10 @@ import 'package:uni/view/theme.dart';
 class ConnectivityWarning extends StatelessWidget {
   const ConnectivityWarning({super.key});
 
+  /*
+  * TODO:
+  * Change the language of the text accordingly to the theme
+  */
   @override
   Widget build(BuildContext context) {
     return Container(

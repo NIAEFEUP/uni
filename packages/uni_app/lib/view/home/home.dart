@@ -84,7 +84,7 @@ class HomePageViewState extends GeneralPageViewState {
           ),
         ),
         const ConnectivityWarning(),
-      ]
+      ],
     );
   }
 
