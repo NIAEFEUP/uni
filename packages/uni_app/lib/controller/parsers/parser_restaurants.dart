@@ -72,52 +72,9 @@ List<Restaurant> getRestaurantsFromHtml(Response response) {
       null,
       restaurantTuple.item2,
       restaurantTuple.item1,
+      '',
       meals: meals,
     );
   }).toList();
   return restaurants;
-}
-
-Restaurant getRestaurantFromGSheets(
-  Response response,
-  String restaurantName, {
-  bool isDinner = false,
-}) {
-  // Ignore beginning of response: "/*O_o*/\ngoogle.visualization.Query.setResponse("
-  // Ignore the end of the response: ");"
-  // Check the structure by accessing the link:
-  // https://docs.google.com/spreadsheets/d/1TJauM0HwIf2RauQU2GmhdZZ1ZicFLMHuBkxWwVOw3Q4/gviz/tq?tqx=out:json&sheet=Cantina%20de%20Engenharia&range=A:D
-  final jsonString = response.body.substring(
-    response.body.indexOf('(') + 1,
-    response.body.lastIndexOf(')'),
-  );
-  final parsedJson = jsonDecode(jsonString) as Map<String, dynamic>;
-
-  final mealsList = <Meal>[];
-
-  final format = DateFormat('d/M/y');
-
-  final table = parsedJson['table'] as Map<String, dynamic>;
-  final rows = table['rows'] as List<dynamic>;
-
-  for (final row in rows) {
-    final cellList = (row as Map<String, dynamic>)['c'] as List<dynamic>;
-    if (((cellList[1] as Map<String, dynamic>)['v'] == 'Almoço' && isDinner) ||
-        ((cellList[1] as Map<String, dynamic>)['v'] != 'Almoço' && !isDinner)) {
-      continue;
-    }
-
-    final meal = Meal(
-      (cellList[2] as Map<String, dynamic>)['v'] as String,
-      (cellList[3] as Map<String, dynamic>)['v'] as String,
-      DayOfWeek.values[format
-              .parseUtc((cellList[0] as Map<String, dynamic>)['f'] as String)
-              .weekday -
-          1],
-      format.parseUtc((cellList[0] as Map<String, dynamic>)['f'] as String),
-    );
-    mealsList.add(meal);
-  }
-
-  return Restaurant(null, restaurantName, '', meals: mealsList);
 }

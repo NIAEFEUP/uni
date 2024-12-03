@@ -29,7 +29,8 @@ class RestaurantFetcher {
     }
     return Restaurant(
       establishment.id,
-      '${establishment.namePt} - $period',
+      establishment.namePt,
+      period,
       '',
       meals: meals,
     );
@@ -54,7 +55,7 @@ class RestaurantFetcher {
               establishment.id,
               Period.lunch,
             ),
-            'Almoço',
+            'lunch',
           ),
         )
         ..add(
@@ -64,7 +65,7 @@ class RestaurantFetcher {
               establishment.id,
               Period.dinner,
             ),
-            'Jantar',
+            'dinner',
           ),
         )
         ..add(
@@ -74,7 +75,7 @@ class RestaurantFetcher {
               establishment.id,
               Period.snackBar,
             ),
-            'Snackbar',
+            'snackbar',
           ),
         )
         ..add(
@@ -84,7 +85,7 @@ class RestaurantFetcher {
               establishment.id,
               Period.breakfast,
             ),
-            'Pequeno Almoço',
+            'breakfast',
           ),
         );
     }

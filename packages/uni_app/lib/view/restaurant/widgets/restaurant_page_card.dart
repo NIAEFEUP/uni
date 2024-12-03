@@ -24,7 +24,18 @@ class RestaurantPageCard extends GenericCard {
 
   @override
   String getTitle(BuildContext context) {
-    return restaurant.name;
+    switch (restaurant.period) {
+      case 'lunch':
+        return '${restaurant.name} - ${S.of(context).lunch}';
+      case 'dinner':
+        return '${restaurant.name} - ${S.of(context).dinner}';
+      case 'breakfast':
+        return '${restaurant.name} - ${S.of(context).breakfast}';
+      case 'snackbar':
+        return '${restaurant.name} - ${S.of(context).snackbar}';
+      default:
+        return restaurant.name;
+    }
   }
 
   @override
