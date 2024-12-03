@@ -58,12 +58,9 @@ class FederatedSessionRequest extends SessionRequest {
     final authorizedClient = credential.createHttpClient(httpClient);
 
     final oidc = SigarraOidc();
-    final response = await oidc.token
-        .call(
-          options: BaseRequestOptions(
-            client: authorizedClient,
-          ),
-        )
+    final response = await oidc
+        .token(options: SigarraRequestOptions(client: authorizedClient))
+        .call()
         .onError<OpenIdException>(_reportExceptionAndFail)
         .onError<HttpRequestException>(_reportExceptionAndFail);
 
