@@ -42,52 +42,28 @@ class RestaurantFetcher {
     final establishments = await upMenus.establishments.list();
     final restaurants = <Restaurant>[];
 
+    const periods = [
+      {'period': Period.lunch, 'meal': 'lunch'},
+      {'period': Period.dinner, 'meal': 'dinner'},
+      {'period': Period.snackBar, 'meal': 'snackbar'},
+      {'period': Period.breakfast, 'meal': 'breakfast'},
+    ];
+
     for (final establishment in establishments) {
       if (establishment.dayMenu == false) {
         continue;
       }
 
-      restaurants
-        ..add(
+      for (final period in periods) {
+        restaurants.add(
           convertToRestaurant(
             establishment,
-            await upMenus.dayMenus.get(
-              establishment.id,
-              Period.lunch,
-            ),
-            'lunch',
-          ),
-        )
-        ..add(
-          convertToRestaurant(
-            establishment,
-            await upMenus.dayMenus.get(
-              establishment.id,
-              Period.dinner,
-            ),
-            'dinner',
-          ),
-        )
-        ..add(
-          convertToRestaurant(
-            establishment,
-            await upMenus.dayMenus.get(
-              establishment.id,
-              Period.snackBar,
-            ),
-            'snackbar',
-          ),
-        )
-        ..add(
-          convertToRestaurant(
-            establishment,
-            await upMenus.dayMenus.get(
-              establishment.id,
-              Period.breakfast,
-            ),
-            'breakfast',
+            await upMenus.dayMenus
+                .get(establishment.id, period['period']! as Period),
+            period['meal']! as String,
           ),
         );
+      }
     }
     return restaurants;
   }

@@ -7,9 +7,13 @@ part '../../generated/model/entities/restaurant.g.dart';
 
 @JsonSerializable()
 class Restaurant {
-  Restaurant(this.id, this.name, this.period, this.reference,
-      {required List<Meal> meals})
-      : meals = groupBy(meals, (meal) => meal.dayOfWeek);
+  Restaurant(
+    this.id,
+    this.name,
+    this.period,
+    this.reference, {
+    required List<Meal> meals,
+  }) : meals = groupBy(meals, (meal) => meal.dayOfWeek);
 
   factory Restaurant.fromMap(Map<String, dynamic> map, List<Meal> meals) {
     final object = Restaurant.fromJson(map);
