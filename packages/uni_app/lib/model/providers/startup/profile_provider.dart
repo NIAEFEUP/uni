@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:tuple/tuple.dart';
 import 'package:uni/controller/fetchers/course_units_fetcher/all_course_units_fetcher.dart';
 import 'package:uni/controller/fetchers/course_units_fetcher/current_course_units_fetcher.dart';
 import 'package:uni/controller/fetchers/fees_fetcher.dart';
@@ -60,12 +59,12 @@ class ProfileProvider extends StateProviderNotifier<Profile> {
     ]);
     final profile = futures[0] as Profile?;
     final courseUnits = futures[1] as List<CourseUnit>?;
-    final userBalanceAndFeesLimit = futures[2]! as Tuple2<String, DateTime?>;
+    final userBalanceAndFeesLimit = futures[2]! as (String, DateTime?);
     final printBalance = futures[3]! as String;
 
     profile!
-      ..feesBalance = userBalanceAndFeesLimit.item1
-      ..feesLimit = userBalanceAndFeesLimit.item2
+      ..feesBalance = userBalanceAndFeesLimit.$1
+      ..feesLimit = userBalanceAndFeesLimit.$2
       ..printBalance = printBalance;
 
     if (courseUnits != null) {
@@ -93,7 +92,7 @@ class ProfileProvider extends StateProviderNotifier<Profile> {
     return db.courseUnits();
   }
 
-  Future<Tuple2<String, DateTime?>> fetchUserFeesBalanceAndLimit(
+  Future<(String, DateTime?)> fetchUserFeesBalanceAndLimit(
     Session session,
   ) async {
     final response = await FeesFetcher().getUserFeesResponse(session);
@@ -101,7 +100,7 @@ class ProfileProvider extends StateProviderNotifier<Profile> {
     final feesBalance = parseFeesBalance(response);
     final feesLimit = parseFeesNextLimit(response);
 
-    return Tuple2(feesBalance, feesLimit);
+    return (feesBalance, feesLimit);
   }
 
   Future<String> fetchUserPrintBalance(Session session) async {
