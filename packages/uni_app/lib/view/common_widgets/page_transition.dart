@@ -39,6 +39,17 @@ class PageTransition {
     );
   }
 
+  static Route<Widget> splashTransitionRoute({required Widget page, required RouteSettings settings, bool maintainState = true}) {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => page,
+      settings: settings,
+      maintainState: maintainState,
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        return FadeTransition(opacity: animation, child: child);
+      },
+    );
+  }
+
   static Future<void> requestTermsAndConditionsAcceptanceIfNeeded(
     BuildContext context,
   ) async {

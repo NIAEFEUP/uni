@@ -226,9 +226,9 @@ class LoginPageViewState extends State<LoginPageView>
                       ) {
                         return ScaleTransition(
                           scale: animation.drive(
-                            Tween(begin: 1, end: 1).chain(
+                            Tween(begin: 1.0, end: 1.0).chain(
                               CurveTween(curve: Curves.easeInOut),
-                            ) as Animatable<double>,
+                            ),
                           ),
                           child: SvgPicture.asset(
                             'assets/images/logo_dark.svg',

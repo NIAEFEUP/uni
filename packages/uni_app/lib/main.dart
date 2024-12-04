@@ -140,7 +140,7 @@ Future<void> main() async {
   final savedTheme = PreferencesController.getThemeMode();
   final savedLocale = PreferencesController.getLocale();
 
-  final route = await firstRoute();
+  const route = '/splash';
 
   await SentryFlutter.init(
     (options) {
@@ -193,7 +193,7 @@ Future<void> main() async {
                 create: (_) => ThemeNotifier(savedTheme),
               ),
             ],
-            child: Application(route),
+            child: const Application(route),
           ),
         ),
       );
@@ -218,7 +218,6 @@ class Application extends StatefulWidget {
 /// Manages the app depending on its current state
 class ApplicationState extends State<Application> {
   final navigatorObservers = <NavigatorObserver>[];
-  bool _showSplash = true;
 
   @override
   void initState() {
@@ -228,34 +227,10 @@ class ApplicationState extends State<Application> {
     if (plausible != null) {
       navigatorObservers.add(PlausibleNavigatorObserver(plausible));
     }
-
-    _initializeApp();
-  }
-
-  void _initializeApp() {
-    Future.delayed(const Duration(milliseconds: 3500), () {
-      if (mounted) {
-        setState(() {
-          _showSplash = false;
-        });
-      }
-    });
   }
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-    ]);
-
-    if (_showSplash) {
-      return SplashScreenView(nextScreen: _buildMainApp());
-    }
-
-    return _buildMainApp();
-  }
-
-  Widget _buildMainApp() {
     return Consumer2<ThemeNotifier, LocaleNotifier>(
       builder: (context, themeNotifier, localeNotifier, _) => UpgradeAlert(
         navigatorKey: Application.navigatorKey,
@@ -278,8 +253,12 @@ class ApplicationState extends State<Application> {
           navigatorObservers: navigatorObservers,
           onGenerateRoute: (settings) {
             final transitions = {
+              '/splash': PageTransition.makePageTransition(
+                page: const SplashScreenView(),
+                settings: settings,
+              ),
               '/${NavigationItem.navLogin.route}':
-                  PageTransition.makePageTransition(
+                  PageTransition.splashTransitionRoute(
                 page: const LoginPageView(),
                 settings: settings,
               ),
