@@ -12,17 +12,14 @@ class SplashScreenView extends StatefulWidget {
 class _SplashScreenViewState extends State<SplashScreenView> {
   @override
   Widget build(BuildContext context) {
-    Future.delayed(
-      const Duration(milliseconds: 1500),
-      () async {
-        if (mounted) {
-          final route = await firstRoute();
-          if (context.mounted) {
-            await Navigator.pushReplacementNamed(context, route);
-          }
+    Future.delayed(const Duration(milliseconds: 1500), () async {
+      if (mounted) {
+        final route = await firstRoute();
+        if (context.mounted) {
+          await Navigator.pushReplacementNamed(context, route);
         }
       }
-    );
+    });
     return Scaffold(
       extendBody: true,
       extendBodyBehindAppBar: true,

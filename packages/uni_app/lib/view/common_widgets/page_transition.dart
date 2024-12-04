@@ -39,7 +39,11 @@ class PageTransition {
     );
   }
 
-  static Route<Widget> splashTransitionRoute({required Widget page, required RouteSettings settings, bool maintainState = true}) {
+  static Route<Widget> splashTransitionRoute({
+    required Widget page,
+    required RouteSettings settings,
+    bool maintainState = true,
+  }) {
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) => page,
       settings: settings,
