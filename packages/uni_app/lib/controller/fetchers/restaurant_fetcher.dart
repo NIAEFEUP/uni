@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/parsers/parser_restaurants.dart';
 import 'package:uni/model/entities/meal.dart';
@@ -13,6 +14,8 @@ class RestaurantFetcher {
     Iterable<DayMenu> dayMenus,
     String period,
   ) {
+    final currentLocale = Intl.getCurrentLocale();
+
     final meals = <Meal>[];
     for (final dayMenu in dayMenus) {
       for (final dish in dayMenu.dishes) {
@@ -20,7 +23,11 @@ class RestaurantFetcher {
         meals.add(
           Meal(
             dish.dishType.namePt,
-            dish.dish.namePt,
+            currentLocale.startsWith('pt')
+                ? dish.dish.namePt
+                : dish.dish.nameEn ??
+                    dish.dish
+                        .namePt, // if there isn't an english name, use the portuguese one.
             parseDateTime(dayMenu.day),
             dayMenu.day,
           ),
@@ -29,7 +36,9 @@ class RestaurantFetcher {
     }
     return Restaurant(
       establishment.id,
-      establishment.namePt,
+      currentLocale.startsWith('pt')
+          ? establishment.namePt
+          : establishment.nameEn,
       period,
       '',
       meals: meals,
