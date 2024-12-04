@@ -13,9 +13,11 @@ class RestaurantProvider extends StateProviderNotifier<List<Restaurant>> {
   Future<List<Restaurant>> loadFromStorage(
     StateProviders stateProviders,
   ) async {
-    final restaurantDb = RestaurantDatabase();
-    final restaurants = await restaurantDb.getRestaurants();
-    return restaurants;
+    // TODO: remove this line after PR #1380 (fix: Added meals column to the RESTAURANTS table) is merged
+    return loadFromRemote(stateProviders);
+    // final restaurantDb = RestaurantDatabase();
+    // final restaurants = await restaurantDb.getRestaurants();
+    // return restaurants;
   }
 
   @override
@@ -26,6 +28,6 @@ class RestaurantProvider extends StateProviderNotifier<List<Restaurant>> {
     final db = RestaurantDatabase();
     unawaited(db.saveIfPersistentSession(restaurants));
 
-    return filterPastMeals(restaurants);
+    return restaurants;
   }
 }
