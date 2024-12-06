@@ -23,7 +23,7 @@ class AppUserDataDatabase extends AppDatabase<Profile> {
     for (final keymap in data.keymapValues()) {
       await insertInDatabase(
         'userdata',
-        {'name': keymap.item1, 'value': keymap.item2},
+        {'name': keymap.$1, 'value': keymap.$2},
       );
     }
   }
