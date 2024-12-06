@@ -199,26 +199,20 @@ Widget buildExpandedProfessors(
     ),
   );
 }
-Widget buildExamsRow(BuildContext context, List<Exam> exams) {
 
-  return SizedBox(
-    height: 200,
-    width: double.infinity,
-    child: Wrap(
-      alignment: WrapAlignment.spaceBetween,
-      children: [
-        ...exams.asMap().entries.map((exam) {
-          return ExamCard(
-            name: exam.value.subject,
-            acronym: exam.value.subject,
-            rooms: exam.value.rooms,
-            type: exam.value.examType,
-            startTime: exam.value.startTime,
-            showIcon: false,
-          );
-        }),
-      ],
-    ),
+Widget buildExamsRow(BuildContext context, List<Exam> exams) {
+  return Wrap(
+    spacing: 8, 
+    children: exams.map((exam) {
+      return ExamCard(
+        name: exam.subject,
+        acronym: exam.subject,
+        rooms: exam.rooms,
+        type: exam.examType,
+        startTime: exam.startTime,
+        showIcon: false,
+      );
+    }).toList(),
   );
 }
 
