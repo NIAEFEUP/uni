@@ -6,15 +6,18 @@ import 'package:provider/provider.dart';
 import 'package:uni/controller/fetchers/book_fetcher.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/course_units/sheet.dart';
+import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/view/common_widgets/generic_animated_expandable.dart';
 import 'package:uni/view/common_widgets/generic_expandable.dart';
 import 'package:uni/view/course_unit_info/widgets/modal_professor_info.dart';
+import 'package:uni_ui/cards/exam_card.dart';
 
 class CourseUnitSheetView extends StatelessWidget {
-  const CourseUnitSheetView(this.courseUnitSheet, {super.key});
+  const CourseUnitSheetView(this.courseUnitSheet, this.exams, {super.key});
   final Sheet courseUnitSheet;
+  final List<Exam> exams;
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +42,11 @@ class CourseUnitSheetView extends StatelessWidget {
               secondChild:
                   buildExpandedProfessors(context, courseUnitSheet.professors),
             ),
+            const Text(
+              'Exams',
+              style: TextStyle(fontSize: 20),
+            ),
+            buildExamsRow(context, exams),
             _buildCard(S.of(context).program, courseUnitSheet.content, context),
             _buildCard(
               S.of(context).evaluation,
@@ -185,6 +193,28 @@ Widget buildExpandedProfessors(
                 ],
               ),
             ),
+          );
+        }),
+      ],
+    ),
+  );
+}
+Widget buildExamsRow(BuildContext context, List<Exam> exams) {
+
+  return SizedBox(
+    height: 200,
+    width: double.infinity,
+    child: Wrap(
+      alignment: WrapAlignment.spaceBetween,
+      children: [
+        ...exams.asMap().entries.map((exam) {
+          return ExamCard(
+            name: exam.value.subject,
+            acronym: exam.value.subject,
+            rooms: exam.value.rooms,
+            type: exam.value.examType,
+            startTime: exam.value.startTime,
+            showIcon: false,
           );
         }),
       ],
