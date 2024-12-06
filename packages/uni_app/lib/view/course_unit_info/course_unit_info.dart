@@ -130,7 +130,7 @@ class CourseUnitDetailPageViewState
       );
     }
 
-    return CourseUnitSheetView(sheet);
+    return CourseUnitSheetView(sheet, courseUnitExams);
   }
 
   Widget _courseUnitFilesView(BuildContext context) {
