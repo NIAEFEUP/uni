@@ -226,7 +226,7 @@ class LoginPageViewState extends State<LoginPageView>
                       ) {
                         return ScaleTransition(
                           scale: animation.drive(
-                            Tween(begin: 1.0, end: 1.0).chain(
+                            Tween<double>(begin: 1, end: 1).chain(
                               CurveTween(curve: Curves.easeInOut),
                             ),
                           ),

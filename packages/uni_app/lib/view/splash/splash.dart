@@ -41,7 +41,7 @@ class _SplashScreenViewState extends State<SplashScreenView> {
                   ) {
                     return ScaleTransition(
                       scale: animation.drive(
-                        Tween(begin: 0.0, end: 1.0).chain(
+                        Tween<double>(begin: 0, end: 1).chain(
                           CurveTween(curve: Curves.easeInOut),
                         ),
                       ),
