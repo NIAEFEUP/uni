@@ -12,6 +12,8 @@ import 'package:uni/view/locale_notifier.dart';
 import 'package:uni/view/restaurant/widgets/restaurant_page_card.dart';
 import 'package:uni/view/restaurant/widgets/restaurant_slot.dart';
 
+import '../common_widgets/connectivity_warning_card.dart';
+
 class RestaurantPageView extends StatefulWidget {
   const RestaurantPageView({super.key});
 
@@ -47,12 +49,18 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
 
   @override
   Widget? getHeader(BuildContext context) {
-    return TabBar(
-      controller: tabController,
-      isScrollable: true,
-      tabs: createTabs(context),
+    return Column(
+      children: [
+        const ConnectivityWarning(),
+        TabBar(
+          controller: tabController,
+          isScrollable: true,
+          tabs: createTabs(context),
+        ),
+      ],
     );
   }
+
 
   @override
   Widget getBody(BuildContext context) {

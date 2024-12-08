@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/utils/navigation_items.dart';
+import 'package:uni/view/common_widgets/connectivity_warning_card.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/home/widgets/bus_stop_card.dart';
@@ -27,7 +28,10 @@ class TransportsPageViewState extends GeneralPageViewState {
   @override
   Widget getBody(BuildContext context) {
     return ListView(
-      children: transportsCards,
+      children: [
+        const ConnectivityWarning(),
+        ...transportsCards,
+      ],
     );
   }
 

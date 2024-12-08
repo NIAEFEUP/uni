@@ -7,6 +7,8 @@ import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/home/widgets/exam_card.dart';
 import 'package:uni/view/home/widgets/schedule_card.dart';
 
+import '../common_widgets/connectivity_warning_card.dart';
+
 class AcademicPathPageView extends StatefulWidget {
   const AcademicPathPageView({super.key});
 
@@ -29,7 +31,10 @@ class AcademicPathPageViewState extends GeneralPageViewState {
   @override
   Widget getBody(BuildContext context) {
     return ListView(
-      children: academicPathCards,
+      children: [
+        const ConnectivityWarning(),
+        ...academicPathCards,
+      ],
     );
   }
 
