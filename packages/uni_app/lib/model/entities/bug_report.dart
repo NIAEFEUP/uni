@@ -1,6 +1,5 @@
 // Stores information about Bug Report
 import 'package:json_annotation/json_annotation.dart';
-import 'package:tuple/tuple.dart';
 import 'package:uni/model/converters/tuple_converter.dart';
 
 part '../../generated/model/entities/bug_report.g.dart';
@@ -16,7 +15,7 @@ class BugReport {
   final String title;
   final String text;
   final String email;
-  final Tuple2<String, String>? bugLabel;
+  final (String, String)? bugLabel;
   final List<String> faculties;
 
   Map<String, dynamic> toJson() => _$BugReportToJson(this);
