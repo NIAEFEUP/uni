@@ -1,7 +1,6 @@
 import 'package:html/parser.dart';
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
-import 'package:tuple/tuple.dart';
 import 'package:uni/model/entities/meal.dart';
 import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/utils/day_of_week.dart';
@@ -16,7 +15,7 @@ List<Restaurant> getRestaurantsFromHtml(Response response) {
   final restaurantsTuple = restaurantsHtml.map((restaurantHtml) {
     final name = restaurantHtml.text;
     final ref = restaurantHtml.attributes['href']?.replaceAll('#', '');
-    return Tuple2(ref ?? '', name);
+    return (ref ?? '', name);
   }).toList();
 
   // Get restaurant meals and create the Restaurant class
@@ -24,7 +23,7 @@ List<Restaurant> getRestaurantsFromHtml(Response response) {
     final meals = <Meal>[];
 
     final referenceA =
-        document.querySelector('a[name="${restaurantTuple.item1}"]');
+        document.querySelector('a[name="${restaurantTuple.$1}"]');
     var next = referenceA?.nextElementSibling;
 
     final format = DateFormat('d-M-y');
@@ -68,8 +67,8 @@ List<Restaurant> getRestaurantsFromHtml(Response response) {
     }
     return Restaurant(
       null,
-      restaurantTuple.item2,
-      restaurantTuple.item1,
+      restaurantTuple.$2,
+      restaurantTuple.$1,
       '',
       meals: meals,
     );
