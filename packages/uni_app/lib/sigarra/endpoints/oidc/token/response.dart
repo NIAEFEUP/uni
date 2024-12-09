@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:uni/sigarra/response.dart';
 
-class TokenResponse extends SigarraResponse {
+class TokenResponse extends EndpointResponse {
   const TokenResponse({required super.success});
 
   TokenSuccessfulResponse asSuccessful() => this as TokenSuccessfulResponse;

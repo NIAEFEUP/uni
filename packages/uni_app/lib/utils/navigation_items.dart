@@ -13,7 +13,9 @@ enum NavigationItem {
   navProfile('perfil'),
   navSettings('definicoes'),
   navTransports('transportes'),
-  navLogin('login');
+  navLogin('login'),
+  navBugreport('bug_report'),
+  navAboutus('sobre_nos');
 
   const NavigationItem(this.route, {this.faculties});
 
