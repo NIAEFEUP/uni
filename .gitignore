@@ -21,3 +21,4 @@ uni/android/key.properties
 **.jks
 
 # Custom Lint log
+custom_lint.log
