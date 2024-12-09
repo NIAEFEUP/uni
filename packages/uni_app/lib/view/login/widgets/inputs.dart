@@ -62,28 +62,35 @@ Widget createPasswordInput(
   );
 }
 
+/// To delete if widget page accepted
 /// Creates the widget for the user to keep signed in (save his data).
 Widget createSaveDataCheckBox(
   BuildContext context,
-  void Function() toogleSignedIn, {
+  void Function() toggleSignedIn, {
   required bool keepSignedIn,
   Color? textColor,
 }) {
   return CheckboxListTile(
     value: keepSignedIn,
-    onChanged: (_) => toogleSignedIn(),
+    onChanged: (_) => toggleSignedIn(),
     title: Text(
       S.of(context).keep_login,
-      textAlign: TextAlign.center,
+      textAlign: TextAlign.left,
       style: TextStyle(
         color: textColor ?? Colors.white,
-        fontSize: 17,
+        fontSize: 14,
         fontWeight: FontWeight.w300,
       ),
+    ),
+    controlAffinity: ListTileControlAffinity.leading,
+    contentPadding: const EdgeInsets.symmetric(horizontal: 36),
+    checkboxShape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(15),
     ),
   );
 }
 
+/// To delete if widget page accepted
 Widget createAFLogInButton(
   MediaQueryData queryData,
   BuildContext context,
@@ -91,9 +98,9 @@ Widget createAFLogInButton(
 ) {
   return ElevatedButton(
     style: ElevatedButton.styleFrom(
-      padding: const EdgeInsets.all(7),
+      padding: const EdgeInsets.all(18),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(25),
+        borderRadius: BorderRadius.circular(28),
       ),
     ),
     onPressed: login,
@@ -102,16 +109,17 @@ Widget createAFLogInButton(
       children: <Widget>[
         SvgPicture.asset(
           'assets/images/AAI.svg',
-          height: 35,
+          height: 26,
         ),
+        const SizedBox(width: 20),
         Text(
           S.of(context).login,
-          style: TextStyle(
-            color: Theme.of(context).primaryColor,
-            fontWeight: FontWeight.w400,
-            fontSize: 20,
+          style: const TextStyle(
+            color: Color(0xFF303030),
+            fontWeight: FontWeight.w500,
+            fontSize: 16,
           ),
-          textAlign: TextAlign.center,
+          textAlign: TextAlign.left,
         ),
       ],
     ),
@@ -165,6 +173,7 @@ InputDecoration passwordFieldDecoration(
   );
 }
 
+/// To delete if widget page accepted
 /// Displays terms and conditions
 InkResponse createTermsAndConditionsButton(BuildContext context) {
   return InkResponse(
@@ -174,22 +183,38 @@ InkResponse createTermsAndConditionsButton(BuildContext context) {
     splashColor: Colors.transparent,
     highlightColor: Colors.transparent,
     child: Container(
-      padding: const EdgeInsets.all(8),
-      child: Text(
-        S.of(context).agree_terms,
-        textAlign: TextAlign.center,
-        style: const TextStyle(
-          decoration: TextDecoration.underline,
-          color: Colors.white,
-          fontSize: 17,
-          fontWeight: FontWeight.w400,
-          decorationColor: Colors.white,
+      padding: const EdgeInsets.fromLTRB(40, 14, 40, 14),
+      child: RichText(
+        text: TextSpan(
+          text: S.of(context).agree_terms,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 14,
+            fontWeight: FontWeight.w400,
+            decorationColor: Colors.white,
+          ),
+          children: [
+            const TextSpan(
+              text: ' ',
+            ),
+            TextSpan(
+              text: S.of(context).terms,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+                decoration: TextDecoration.underline,
+                decorationColor: Colors.white,
+              ),
+            ),
+          ],
         ),
+        textAlign: TextAlign.center,
       ),
     ),
   );
 }
 
+/// To delete if widget page accepted
 /// Displays 'Terms and conditions' section.
 Future<void> _showTermsAndConditions(BuildContext context) async {
   await showDialog<void>(

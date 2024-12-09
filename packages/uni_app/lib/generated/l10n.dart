@@ -10,7 +10,7 @@ import 'intl/messages_all.dart';
 
 // ignore_for_file: non_constant_identifier_names, lines_longer_than_80_chars
 // ignore_for_file: join_return_with_assignment, prefer_final_in_for_each
-// ignore_for_file: avoid_redundant_argument_values
+// ignore_for_file: avoid_redundant_argument_values, avoid_escaping_inner_quotes
 
 class S {
   S();
@@ -180,10 +180,10 @@ class S {
     );
   }
 
-  /// `By entering you confirm that you agree with these Terms and Conditions`
+  /// `By entering you agree with these`
   String get agree_terms {
     return Intl.message(
-      'By entering you confirm that you agree with these Terms and Conditions',
+      'By entering you agree with these',
       name: 'agree_terms',
       desc: '',
       args: [],
@@ -740,10 +740,10 @@ class S {
     );
   }
 
-  /// `Stay signed in`
+  /// `Remember me`
   String get keep_login {
     return Intl.message(
-      'Stay signed in',
+      'Remember me',
       name: 'keep_login',
       desc: '',
       args: [],
@@ -1648,10 +1648,10 @@ class S {
     );
   }
 
-  /// `Problems with login? Try a different login`
+  /// `Having trouble sign in?`
   String get try_different_login {
     return Intl.message(
-      'Problems with login? Try a different login',
+      'Having trouble sign in?',
       name: 'try_different_login',
       desc: '',
       args: [],
