@@ -5,11 +5,9 @@ version: 1.0.0
 
 environment:
   sdk: ">=3.4.0 <4.0.0"
-  flutter: 3.22.0
+  flutter: 3.24.3
 
 dependencies:
-  analyzer: ^6.7.0
-  analyzer_plugin: ^0.11.3
   figma_squircle: ^0.5.3
   flutter:
     sdk: flutter
@@ -17,11 +15,12 @@ dependencies:
   scrollable_positioned_list: ^0.3.5
 
 dev_dependencies:
-  custom_lint_builder: ^0.6.8
   custom_lint: ^0.6.4
   flutter_test:
     sdk: flutter
-  leancode_lint: ^13.0.0
+  leancode_lint: ^14.0.0
+  uni_lint:
+    path: ../uni_lint
   test: any
 
 flutter:

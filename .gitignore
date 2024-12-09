@@ -19,3 +19,5 @@ packages/uni_ui/pubspec.lock
 # Key properties
 uni/android/key.properties
 **.jks
+
+# Custom Lint log

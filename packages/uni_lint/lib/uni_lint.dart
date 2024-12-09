@@ -1,7 +1,6 @@
 import 'package:analyzer/error/listener.dart';
 import 'package:custom_lint_builder/custom_lint_builder.dart';
 import 'package:analyzer/dart/ast/ast.dart';
-import 'package:flutter/cupertino.dart';
 
 PluginBase createPlugin() => _ExampleLinter();
 
@@ -42,8 +41,10 @@ class StringLiteralsLint extends DartLintRule {
     final extendsClause = parent.extendsClause;
     if (extendsClause != null) {
       final superclass = extendsClause.superclass;
-      return superclass.runtimeType == StatelessWidget ||
-          superclass.runtimeType == StatefulWidget;
+      print(superclass.element?.displayName == "StatelessWidget");
+      return true;
+      // return superclass.runtimeType == StatelessWidget ||
+      //     superclass.runtimeType == StatefulWidget;
     }
     return false;
   }

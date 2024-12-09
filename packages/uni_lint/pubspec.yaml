@@ -1,0 +1,18 @@
+name: uni_lint
+description: Custom lint rules for Uni.
+publish_to: none
+version: 1.0.0
+
+environment:
+  sdk: ">=3.4.0 <4.0.0"
+  # flutter: 3.24.3
+
+dependencies:
+  custom_lint_builder: ^0.6.8
+  analyzer: ^6.7.0
+  analyzer_plugin: ^0.11.3
+  # flutter:
+  #   sdk: flutter
+
+dev_dependencies:
+  test: any
