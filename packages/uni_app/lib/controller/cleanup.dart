@@ -9,7 +9,6 @@ import 'package:uni/controller/local_storage/database/app_bus_stop_database.dart
 import 'package:uni/controller/local_storage/database/app_course_units_database.dart';
 import 'package:uni/controller/local_storage/database/app_courses_database.dart';
 import 'package:uni/controller/local_storage/database/app_exams_database.dart';
-import 'package:uni/controller/local_storage/database/app_last_user_info_update_database.dart';
 import 'package:uni/controller/local_storage/database/app_lectures_database.dart';
 import 'package:uni/controller/local_storage/database/app_user_database.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
@@ -26,7 +25,6 @@ Future<void> cleanupStoredData(BuildContext context) async {
     AppExamsDatabase().deleteExams(),
     AppCoursesDatabase().deleteCourses(),
     AppUserDataDatabase().deleteUserData(),
-    AppLastUserInfoUpdateDatabase().deleteLastUpdate(),
     AppBusStopDatabase().deleteBusStops(),
     AppCourseUnitsDatabase().deleteCourseUnits(),
     PreferencesController.removeSavedSession(),
