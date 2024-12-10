@@ -6,17 +6,20 @@ class CourseGradeCard extends StatelessWidget {
       {required this.courseName,
       required this.ects,
       required this.grade,
+      required this.tooltip,
       super.key});
 
   final String courseName;
   final double ects;
   final double grade;
+  final String tooltip;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return GenericCard(
         key: key,
+        tooltip: tooltip,
         child: SizedBox(
           width: MediaQuery.of(context).size.width * 0.35,
           height: MediaQuery.of(context).size.height * 0.09,

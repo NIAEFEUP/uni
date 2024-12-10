@@ -7,15 +7,18 @@ class ServiceCard extends StatelessWidget {
     super.key,
     required this.name,
     required this.openingHours,
+    required this.tooltip,
   });
 
   final String name;
   final List<String> openingHours;
+  final String tooltip;
 
   @override
   Widget build(BuildContext context) {
     return GenericCard(
       key: key,
+      tooltip: tooltip,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
