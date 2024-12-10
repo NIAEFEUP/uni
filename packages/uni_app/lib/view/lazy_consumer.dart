@@ -1,32 +1,9 @@
-import 'dart:async';
-import 'dart:io';
-
-import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
-import 'package:provider/provider.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
-import 'package:shimmer/shimmer.dart';
-import 'package:uni/generated/l10n.dart';
-import 'package:uni/model/providers/startup/profile_provider.dart';
-import 'package:uni/model/providers/startup/session_provider.dart';
-import 'package:uni/model/providers/state_provider_notifier.dart';
-import 'package:uni/model/request_status.dart';
-import 'package:uni/view/bug_report/bug_report.dart';
-
-/// Wrapper around Consumer that ensures that the provider is initialized,
-/// meaning that it has loaded its data from storage and/or remote.
-/// The provider will not reload its data if it has already been loaded before.
-/// If the provider depends on the session, it will ensure that SessionProvider
-/// and ProfileProvider are initialized before initializing itself.
-/// This widget also falls back to loading or error widgets if
-/// the provider data is not ready or has thrown an error, respectively.
-class LazyConsumer<T1 extends StateProviderNotifier<T2>, T2>
-    extends StatelessWidget {
+class LazyConsumer<T1 extends StateProviderNotifier<T2>, T2> extends StatelessWidget {
   const LazyConsumer({
     required this.builder,
     required this.hasContent,
-    required this.onNullContent,
+    required this.onNullContentText,
+    this.optionalImage,
     this.contentLoadingWidget,
     this.mapper,
     super.key,
@@ -34,7 +11,8 @@ class LazyConsumer<T1 extends StateProviderNotifier<T2>, T2>
 
   final Widget Function(BuildContext, T2) builder;
   final bool Function(T2) hasContent;
-  final Widget onNullContent;
+  final String onNullContentText;
+  final Widget? optionalImage;
   final Widget? contentLoadingWidget;
   final T2 Function(T2)? mapper;
 
@@ -47,32 +25,25 @@ class LazyConsumer<T1 extends StateProviderNotifier<T2>, T2>
       try {
         provider = Provider.of<T1>(context, listen: false);
       } catch (_) {
-        // The provider was not found. This should only happen in tests.
         Logger().e('LazyConsumer: ${T1.runtimeType} not found');
         return;
       }
 
-      // If the provider fetchers depend on the session, make sure that
-      // SessionProvider and ProfileProvider are initialized
       Future<void>? sessionFuture;
       try {
         sessionFuture = provider.dependsOnSession
             ? Provider.of<SessionProvider>(context, listen: false)
-                .ensureInitialized(context)
-                .then((_) async {
-                if (context.mounted) {
-                  await Provider.of<ProfileProvider>(context, listen: false)
-                      .ensureInitialized(context);
-                }
-              })
+            .ensureInitialized(context)
+            .then((_) async {
+          if (context.mounted) {
+            await Provider.of<ProfileProvider>(context, listen: false)
+                .ensureInitialized(context);
+          }
+        })
             : Future(() {});
       } catch (err, st) {
-        // In tests, it is ok to not find the startup providers:
-        // all provider data should be mocked by the test itself.
         if (!Platform.environment.containsKey('FLUTTER_TEST')) {
-          Logger().e(
-            'Failed to initialize startup providers: $err',
-          );
+          Logger().e('Failed to initialize startup providers: $err');
           await Sentry.captureException(err, stackTrace: st);
         }
       }
@@ -108,28 +79,48 @@ class LazyConsumer<T1 extends StateProviderNotifier<T2>, T2>
     return showContent
         ? builder(context, mappedState)
         : Center(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              child: onNullContent,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        child: onNullContent(context),
+      ),
+    );
+  }
+
+  Widget onNullContent(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          child: Text(
+            onNullContentText,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.normal,
+              color: Theme.of(context).textTheme.bodyText1?.color,
             ),
-          );
+          ),
+        ),
+        if (optionalImage != null) optionalImage!,
+      ],
+    );
   }
 
   Widget loadingWidget(BuildContext context) {
     return contentLoadingWidget == null
         ? const Center(
-            child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 20),
-              child: CircularProgressIndicator(),
-            ),
-          )
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: 20),
+        child: CircularProgressIndicator(),
+      ),
+    )
         : Center(
-            child: Shimmer.fromColors(
-              baseColor: Theme.of(context).highlightColor,
-              highlightColor: Theme.of(context).colorScheme.onPrimary,
-              child: contentLoadingWidget!,
-            ),
-          );
+      child: Shimmer.fromColors(
+        baseColor: Theme.of(context).highlightColor,
+        highlightColor: Theme.of(context).colorScheme.onPrimary,
+        child: contentLoadingWidget!,
+      ),
+    );
   }
 
   Widget requestFailedMessage() {
@@ -172,9 +163,7 @@ class LazyConsumer<T1 extends StateProviderNotifier<T2>, T2>
                       .forceRefresh(context),
                   child: Text(S.of(context).try_again),
                 ),
-                const SizedBox(
-                  width: 10,
-                ),
+                const SizedBox(width: 10),
                 OutlinedButton(
                   onPressed: () => Navigator.push(
                     context,
@@ -189,6 +178,6 @@ class LazyConsumer<T1 extends StateProviderNotifier<T2>, T2>
           ],
         );
       },
-    );
+    )
   }
 }
