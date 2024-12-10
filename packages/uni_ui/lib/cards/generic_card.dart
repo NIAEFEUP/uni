@@ -11,6 +11,7 @@ class GenericCard extends StatelessWidget {
     this.borderRadius,
     this.onClick,
     this.child,
+    required this.tooltip,
   });
 
   final EdgeInsetsGeometry? margin;
@@ -20,16 +21,29 @@ class GenericCard extends StatelessWidget {
   final double? borderRadius;
   final Function? onClick;
   final Widget? child;
+  final String tooltip;
 
   @override
   Widget build(BuildContext context) {
     final cardTheme = CardTheme.of(context);
     final theme = Theme.of(context);
 
-    return Padding(
-      padding: margin ?? cardTheme.margin ?? const EdgeInsets.all(4),
-      child: GestureDetector(
-        onTap: () => onClick,
+    return Tooltip(
+      message: tooltip,
+      child: Container(
+        margin: margin ?? cardTheme.margin ?? const EdgeInsets.all(4),
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: shadowColor ??
+                  cardTheme.shadowColor ??
+                  Colors.black.withOpacity(0.15),
+              blurRadius: 12,
+              spreadRadius: -4,
+              offset: const Offset(0, 6),
+            ),
+          ],
+        ),
         child: ClipSmoothRect(
           radius: SmoothBorderRadius(
             cornerRadius: borderRadius ?? 20,
@@ -40,17 +54,14 @@ class GenericCard extends StatelessWidget {
               color: color ??
                   cardTheme.color ??
                   theme.colorScheme.surfaceContainer,
-              boxShadow: [
-                BoxShadow(
-                  color: shadowColor ??
-                      cardTheme.shadowColor ??
-                      Colors.black.withOpacity(0.25),
-                  blurRadius: 6,
-                ),
-              ],
             ),
             child: Padding(
-                padding: padding ?? const EdgeInsets.all(10), child: child),
+              padding: padding ?? const EdgeInsets.all(10),
+              child: GestureDetector(
+                onTap: onClick != null ? () => onClick!() : null,
+                child: child,
+              ),
+            ),
           ),
         ),
       ),
