@@ -6,14 +6,18 @@ import 'package:provider/provider.dart';
 import 'package:uni/controller/fetchers/book_fetcher.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/course_units/sheet.dart';
+import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/view/common_widgets/generic_animated_expandable.dart';
 import 'package:uni/view/common_widgets/generic_expandable.dart';
+import 'package:uni/view/course_unit_info/widgets/modal_professor_info.dart';
+import 'package:uni_ui/cards/exam_card.dart';
 
 class CourseUnitSheetView extends StatelessWidget {
-  const CourseUnitSheetView(this.courseUnitSheet, {super.key});
+  const CourseUnitSheetView(this.courseUnitSheet, this.exams, {super.key});
   final Sheet courseUnitSheet;
+  final List<Exam> exams;
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +42,11 @@ class CourseUnitSheetView extends StatelessWidget {
               secondChild:
                   buildExpandedProfessors(context, courseUnitSheet.professors),
             ),
+            const Text(
+              'Exams',
+              style: TextStyle(fontSize: 20),
+            ),
+            buildExamsRow(context, exams),
             _buildCard(S.of(context).program, courseUnitSheet.content, context),
             _buildCard(
               S.of(context).evaluation,
@@ -74,27 +83,35 @@ Widget buildRegentsRow(BuildContext context, List<Professor> regents) {
           final idx = regent.key;
           return Padding(
             padding: EdgeInsets.only(bottom: idx == regents.length - 1 ? 0 : 5),
-            child: Row(
-              children: [
-                FutureBuilder<File?>(
-                  builder: (context, snapshot) => _buildAvatar(snapshot, 40),
-                  future: ProfileProvider.fetchOrGetCachedProfilePicture(
-                    session,
-                    studentNumber: int.parse(regent.value.code),
+            child: GestureDetector(
+              onTap: () {
+                showDialog<void>(
+                  context: context,
+                  builder: (context) => ProfessorInfoModal(regent),
+                );
+              },
+              child: Row(
+                children: [
+                  FutureBuilder<File?>(
+                    builder: (context, snapshot) => _buildAvatar(snapshot, 40),
+                    future: ProfileProvider.fetchOrGetCachedProfilePicture(
+                      session,
+                      studentNumber: int.parse(regent.value.code),
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    left: 10,
-                    right: 10,
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      left: 10,
+                      right: 10,
+                    ),
+                    child: Text(
+                      regent.value.name,
+                      style: const TextStyle(fontSize: 17),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
-                  child: Text(
-                    regent.value.name,
-                    style: const TextStyle(fontSize: 17),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           );
         }),
@@ -147,31 +164,55 @@ Widget buildExpandedProfessors(
           return Padding(
             padding:
                 EdgeInsets.only(bottom: idx == professors.length - 1 ? 0 : 5),
-            child: Row(
-              children: [
-                FutureBuilder<File?>(
-                  builder: (context, snapshot) => _buildAvatar(snapshot, 20),
-                  future: ProfileProvider.fetchOrGetCachedProfilePicture(
-                    session,
-                    studentNumber: int.parse(professor.value.code),
+            child: GestureDetector(
+              onTap: () {
+                showDialog<void>(
+                  context: context,
+                  builder: (context) => ProfessorInfoModal(professor),
+                );
+              },
+              child: Row(
+                children: [
+                  FutureBuilder<File?>(
+                    builder: (context, snapshot) => _buildAvatar(snapshot, 20),
+                    future: ProfileProvider.fetchOrGetCachedProfilePicture(
+                      session,
+                      studentNumber: int.parse(professor.value.code),
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    left: 10,
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      left: 10,
+                    ),
+                    child: Text(
+                      professor.value.name,
+                      style: const TextStyle(fontSize: 14),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
-                  child: Text(
-                    professor.value.name,
-                    style: const TextStyle(fontSize: 14),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           );
         }),
       ],
     ),
+  );
+}
+
+Widget buildExamsRow(BuildContext context, List<Exam> exams) {
+  return Wrap(
+    spacing: 8, 
+    children: exams.map((exam) {
+      return ExamCard(
+        name: exam.subject,
+        acronym: exam.subject,
+        rooms: exam.rooms,
+        type: exam.examType,
+        startTime: exam.startTime,
+        showIcon: false,
+      );
+    }).toList(),
   );
 }
 

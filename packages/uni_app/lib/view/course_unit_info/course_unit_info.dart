@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
+import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/providers/lazy/course_units_info_provider.dart';
+import 'package:uni/model/providers/lazy/exam_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
@@ -10,6 +12,8 @@ import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_classes.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_files.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_sheet.dart';
+import 'package:uni_ui/icons.dart';
+import 'package:uni_ui/tabs/tab_icon.dart';
 
 class CourseUnitDetailPageView extends StatefulWidget {
   const CourseUnitDetailPageView(this.courseUnit, {super.key});
@@ -24,6 +28,9 @@ class CourseUnitDetailPageView extends StatefulWidget {
 
 class CourseUnitDetailPageViewState
     extends SecondaryPageViewState<CourseUnitDetailPageView> {
+
+    List<Exam> courseUnitExams = [];
+
   Future<void> loadInfo({required bool force}) async {
     final courseUnitsProvider =
         Provider.of<CourseUnitsInfoProvider>(context, listen: false);
@@ -55,6 +62,10 @@ class CourseUnitDetailPageViewState
         session,
       );
     }
+
+
+    final examProvider = Provider.of<ExamProvider>(context, listen: false);
+    courseUnitExams = examProvider.getExamsForCourseUnit(widget.courseUnit);
   }
 
   @override
@@ -83,12 +94,12 @@ class CourseUnitDetailPageViewState
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           TabBar(
+            // todo : pixel font size might not be the best choice
+            labelStyle: const TextStyle(fontSize: 12),
             tabs: [
-              Tab(text: S.of(context).course_info),
-              Tab(text: S.of(context).course_class),
-              Tab(
-                text: S.of(context).files,
-              ),
+              TabIcon(icon: UniIcons.notebook, text: S.of(context).course_info),
+              TabIcon(icon: UniIcons.classes, text: S.of(context).course_class),
+              TabIcon(icon: UniIcons.files, text: S.of(context).files),
             ],
           ),
           Expanded(
@@ -121,7 +132,7 @@ class CourseUnitDetailPageViewState
       );
     }
 
-    return CourseUnitSheetView(sheet);
+    return CourseUnitSheetView(sheet, courseUnitExams);
   }
 
   Widget _courseUnitFilesView(BuildContext context) {
