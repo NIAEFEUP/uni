@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:logger/logger.dart';
 import 'package:plausible_analytics/navigator_observer.dart';
 import 'package:plausible_analytics/plausible_analytics.dart';
@@ -121,6 +122,8 @@ Future<void> main() async {
   if (plausible == null) {
     Logger().w('Plausible is not enabled');
   }
+
+  await Hive.initFlutter();
 
   final savedTheme = PreferencesController.getThemeMode();
   final savedLocale = PreferencesController.getLocale();

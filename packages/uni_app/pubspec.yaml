@@ -40,6 +40,7 @@ dependencies:
   flutter_secure_storage: ^9.2.2
   flutter_svg: ^2.0.9
   flutter_widget_from_html_core: ^0.14.11
+  hive_flutter: ^1.1.0
   html: ^0.15.0
   http: ^1.1.0
   image: ^4.1.4
