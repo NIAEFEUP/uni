@@ -1228,10 +1228,10 @@ class S {
     );
   }
 
-  /// `password`
+  /// `Password`
   String get password {
     return Intl.message(
-      'password',
+      'Password',
       name: 'password',
       desc: '',
       args: [],
@@ -1488,10 +1488,10 @@ class S {
     );
   }
 
-  /// `student number`
+  /// `Student Number`
   String get student_number {
     return Intl.message(
-      'student number',
+      'Student Number',
       name: 'student_number',
       desc: '',
       args: [],

@@ -241,7 +241,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "other_links": MessageLookupByLibrary.simpleMessage("Outros links"),
         "pass_change_request": MessageLookupByLibrary.simpleMessage(
             "Por razões de segurança, as palavras-passe têm de ser alteradas periodicamente."),
-        "password": MessageLookupByLibrary.simpleMessage("palavra-passe"),
+        "password": MessageLookupByLibrary.simpleMessage("Palavra-passe"),
         "pendent_references":
             MessageLookupByLibrary.simpleMessage("Referências pendentes"),
         "permission_denied":
@@ -278,7 +278,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "stcp_stops":
             MessageLookupByLibrary.simpleMessage("STCP - Próximas Viagens"),
         "student_number":
-            MessageLookupByLibrary.simpleMessage("número de estudante"),
+            MessageLookupByLibrary.simpleMessage("Número de Estudante"),
         "success": MessageLookupByLibrary.simpleMessage("Enviado com sucesso"),
         "successful_open":
             MessageLookupByLibrary.simpleMessage("Ficheiro aberto com sucesso"),

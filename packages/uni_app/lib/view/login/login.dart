@@ -302,6 +302,7 @@ class LoginPageViewState extends State<LoginPageView>
                         _keepSignedIn = !_keepSignedIn;
                       });
                     },
+                    padding: const EdgeInsets.symmetric(horizontal: 37),
                   ),
                 ),
                 Align(
@@ -400,6 +401,7 @@ class LoginPageViewState extends State<LoginPageView>
                           });
                         },
                         textColor: const Color(0xFF280709),
+                        padding: EdgeInsets.zero,
                       ),
                     ],
                   ),
@@ -419,7 +421,7 @@ class LoginPageViewState extends State<LoginPageView>
                 ),
                 shape: WidgetStateProperty.all(
                   RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(8),
                   ),
                 ),
               ),
@@ -428,6 +430,7 @@ class LoginPageViewState extends State<LoginPageView>
               },
               child: Text(S.of(context).cancel),
             ),
+            const SizedBox(width: 6),
             ElevatedButton(
               style: ButtonStyle(
                 backgroundColor:
@@ -435,10 +438,11 @@ class LoginPageViewState extends State<LoginPageView>
                 foregroundColor:
                     WidgetStateProperty.all(const Color(0xFFFFF5F3)),
                 side: WidgetStateProperty.all(
-                    const BorderSide(color: Color(0xFF56272B))),
+                  const BorderSide(color: Color(0xFF56272B)),
+                ),
                 shape: WidgetStateProperty.all(
                   RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(8),
                   ),
                 ),
               ),

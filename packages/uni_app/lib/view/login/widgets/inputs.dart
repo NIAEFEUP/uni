@@ -11,7 +11,7 @@ Widget createUsernameInput(
   FocusNode passwordFocus,
 ) {
   return TextFormField(
-    style: const TextStyle(fontSize: 20),
+    style: const TextStyle(fontSize: 14),
     enableSuggestions: false,
     autocorrect: false,
     controller: usernameController,
@@ -39,7 +39,7 @@ Widget createPasswordInput(
   required bool obscurePasswordInput,
 }) {
   return TextFormField(
-    style: const TextStyle(fontSize: 20),
+    style: const TextStyle(fontSize: 14),
     enableSuggestions: false,
     autocorrect: false,
     controller: passwordController,
@@ -133,12 +133,12 @@ InputDecoration textFieldDecoration(
 }) {
   return InputDecoration(
     hintStyle: TextStyle(
-      fontSize: 20,
-      fontWeight: FontWeight.w300,
+      fontSize: 14,
+      fontWeight: FontWeight.w500,
       color: textColor,
     ),
     hintText: placeholder,
-    contentPadding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+    contentPadding: const EdgeInsets.fromLTRB(10, 15, 0, 0),
     border: const UnderlineInputBorder(),
     focusedBorder: const UnderlineInputBorder(
       borderSide: BorderSide(width: 2),
@@ -153,17 +153,18 @@ InputDecoration passwordFieldDecoration(
   void Function() toggleObscurePasswordInput, {
   required bool obscurePasswordInput,
 }) {
-  final genericDecoration = textFieldDecoration(
-    placeholder,
-    textColor: Theme.of(context).indicatorColor,
-  );
   return InputDecoration(
-    hintStyle: genericDecoration.hintStyle,
-    errorStyle: genericDecoration.errorStyle,
-    hintText: genericDecoration.hintText,
-    contentPadding: genericDecoration.contentPadding,
-    border: genericDecoration.border,
-    focusedBorder: genericDecoration.focusedBorder,
+    hintStyle: TextStyle(
+      fontSize: 14,
+      fontWeight: FontWeight.w500,
+      color: Theme.of(context).indicatorColor,
+    ),
+    hintText: placeholder,
+    contentPadding: const EdgeInsets.fromLTRB(10, 20, 0, 0),
+    border: const UnderlineInputBorder(),
+    focusedBorder: const UnderlineInputBorder(
+      borderSide: BorderSide(width: 2),
+    ),
     suffixIcon: IconButton(
       icon: Icon(
         obscurePasswordInput ? Icons.visibility : Icons.visibility_off,

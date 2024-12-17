@@ -6,17 +6,19 @@ class RememberMeCheckBox extends StatelessWidget {
     required this.keepSignedIn,
     required this.onToggle,
     this.textColor,
+    required this.padding,
     super.key,
   });
 
   final bool keepSignedIn;
   final VoidCallback onToggle;
   final Color? textColor;
+  final EdgeInsets padding;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 37),
+      padding: padding,
       child: Row(
         children: [
           Checkbox(
