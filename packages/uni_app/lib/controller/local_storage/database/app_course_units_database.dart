@@ -23,7 +23,6 @@ class AppCourseUnitsDatabase extends AppDatabase<List<CourseUnit>> {
     final List<Map<String, dynamic>> maps = await db.query('course_units');
     return List.generate(maps.length, (i) {
       return CourseUnit.fromJson(maps[i]);
-
     });
   }
 
