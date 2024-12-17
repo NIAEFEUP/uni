@@ -42,7 +42,6 @@ class RestaurantDatabase extends AppDatabase<List<Restaurant>> {
         restaurantMaps.map((map) async {
           final restaurantId = map['id'] as int;
           final meals = await getRestaurantMeals(txn, restaurantId, day: day);
-
           return Restaurant(
             restaurantId,
             map['name'] as String,

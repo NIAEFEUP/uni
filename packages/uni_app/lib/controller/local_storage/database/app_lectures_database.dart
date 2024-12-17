@@ -26,18 +26,8 @@ CREATE TABLE lectures(subject TEXT, typeClass TEXT,
   Future<List<Lecture>> lectures() async {
     final db = await getDatabase();
     final List<Map<String, dynamic>> maps = await db.query('lectures');
-
     return List.generate(maps.length, (i) {
-      return Lecture(
-        maps[i]['subject'] as String,
-        maps[i]['typeClass'] as String,
-        DateTime.parse(maps[i]['startTime'] as String),
-        DateTime.parse(maps[i]['endTime'] as String),
-        maps[i]['room'] as String,
-        maps[i]['teacher'] as String,
-        maps[i]['classNumber'] as String,
-        maps[i]['occurrId'] as int,
-      );
+      return Lecture.fromJson(maps[i]);
     });
   }
 

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:sqflite/sqflite.dart';
 import 'package:uni/controller/local_storage/database/app_database.dart';
@@ -23,18 +24,7 @@ class AppCoursesDatabase extends AppDatabase<List<Course>> {
 
     // Convert the List<Map<String, dynamic> into a List<Course>.
     return List.generate(maps.length, (i) {
-      return Course(
-        id: maps[i]['cur_id'] as int? ?? 0,
-        festId: maps[i]['fest_id'] as int? ?? 0,
-        name: maps[i]['cur_nome'] as String?,
-        abbreviation: maps[i]['abbreviation'] as String?,
-        currYear: maps[i]['ano_curricular'] as String?,
-        firstEnrollment: maps[i]['fest_a_lect_1_insc'] as int? ?? 0,
-        state: maps[i]['state'] as String?,
-        faculty: maps[i]['inst_sigla'] as String?,
-        finishedEcts: maps[i]['finishedEcts'] as double? ?? 0,
-        currentAverage: maps[i]['currentAverage'] as double? ?? 0,
-      );
+      return Course.fromJson(maps[i]);
     });
   }
 
