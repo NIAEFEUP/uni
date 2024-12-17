@@ -351,7 +351,20 @@ class LoginPageViewState extends State<LoginPageView>
       barrierDismissible: false, // user must tap button!
       builder: (_) {
         return AlertDialog(
-          title: Text(S.of(context).login_with_credentials),
+          title: Text(
+            S.of(context).login_with_credentials,
+            textAlign: TextAlign.center,
+          ),
+          titleTextStyle: const TextStyle(
+            color: Color(0xFF280709),
+            fontSize: 20,
+            fontWeight: FontWeight.w500,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          backgroundColor: const Color(0xFFFFF5F3),
+          actionsAlignment: MainAxisAlignment.center,
           content: StatefulBuilder(
             builder: (context, setState) {
               return SingleChildScrollView(
@@ -379,15 +392,14 @@ class LoginPageViewState extends State<LoginPageView>
                         obscurePasswordInput: _obscurePasswordInput,
                       ),
                       const SizedBox(height: 20),
-                      createSaveDataCheckBox(
-                        context,
-                        () {
+                      RememberMeCheckBox(
+                        keepSignedIn: _keepSignedIn,
+                        onToggle: () {
                           setState(() {
                             _keepSignedIn = !_keepSignedIn;
                           });
                         },
-                        keepSignedIn: _keepSignedIn,
-                        textColor: Theme.of(context).indicatorColor,
+                        textColor: const Color(0xFF280709),
                       ),
                     ],
                   ),
@@ -396,13 +408,40 @@ class LoginPageViewState extends State<LoginPageView>
             },
           ),
           actions: <Widget>[
-            TextButton(
-              child: Text(S.of(context).cancel),
+            ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor:
+                    WidgetStateProperty.all(const Color(0xFF3C0A0E)),
+                foregroundColor:
+                    WidgetStateProperty.all(const Color(0xFFFFF5F3)),
+                side: WidgetStateProperty.all(
+                  const BorderSide(color: Color(0xFF56272B)),
+                ),
+                shape: WidgetStateProperty.all(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+              ),
               onPressed: () {
                 Navigator.of(context).pop();
               },
+              child: Text(S.of(context).cancel),
             ),
             ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor:
+                    WidgetStateProperty.all(const Color(0xFF3C0A0E)),
+                foregroundColor:
+                    WidgetStateProperty.all(const Color(0xFFFFF5F3)),
+                side: WidgetStateProperty.all(
+                    const BorderSide(color: Color(0xFF56272B))),
+                shape: WidgetStateProperty.all(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+              ),
               onPressed: () {
                 _login();
                 if (_formKey.currentState!.validate()) {
