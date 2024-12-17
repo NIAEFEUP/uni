@@ -5,6 +5,7 @@ import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/providers/lazy/exam_provider.dart';
 import 'package:uni/utils/navigation_items.dart';
+import 'package:uni/view/common_widgets/expanded_image_label.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
 import 'package:uni/view/home/widgets/exam_card_shimmer.dart';
 import 'package:uni/view/home/widgets/next_exams_card.dart';
@@ -89,12 +90,15 @@ class ExamCard extends GenericCard {
           },
           hasContent: (allExams) =>
               getVisibleExams(allExams, hiddenExams).isNotEmpty,
-          onNullContent: Center(
-            child: Text(
-              S.of(context).no_selected_exams,
-              style: Theme.of(context).textTheme.titleLarge,
+            onNullContent: const Center(
+              child: ImageLabel(
+                imagePath: 'assets/images/vacation.png', label: 'Férias',
+                labelTextStyle: TextStyle(fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.grey,
+                ),
+              ),
             ),
-          ),
           contentLoadingWidget: const ExamCardShimmer(),
         );
       },

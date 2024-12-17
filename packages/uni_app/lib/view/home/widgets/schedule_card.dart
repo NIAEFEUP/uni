@@ -9,6 +9,7 @@ import 'package:uni/model/providers/lazy/lecture_provider.dart';
 import 'package:uni/model/utils/time/week.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/date_rectangle.dart';
+import 'package:uni/view/common_widgets/expanded_image_label.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
 import 'package:uni/view/home/widgets/schedule_card_shimmer.dart';
 import 'package:uni/view/lazy_consumer.dart';
@@ -41,13 +42,15 @@ class ScheduleCard extends GenericCard {
         children: getScheduleRows(context, lectures),
       ),
       hasContent: (lectures) => lectures.isNotEmpty,
-      onNullContent: Center(
-        child: Text(
-          S.of(context).no_classes,
-          style: Theme.of(context).textTheme.titleLarge,
-          textAlign: TextAlign.center,
+      onNullContent: const Center(
+        child: ImageLabel(
+          imagePath: 'assets/images/vacation.png', label: 'Férias',
+          labelTextStyle: TextStyle(fontSize: 16,
+            fontWeight: FontWeight.w500,
+            color: Colors.grey,
         ),
-      ),
+        ),
+        ),
       contentLoadingWidget: const ScheduleCardShimmer().build(context),
       mapper: (lectures) => lectures
           .where((lecture) => lecture.endTime.isAfter(DateTime.now()))
