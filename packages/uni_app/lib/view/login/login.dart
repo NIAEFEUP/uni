@@ -395,7 +395,7 @@ class LoginPageViewState extends State<LoginPageView>
                         usernameFocus,
                         passwordFocus,
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 10),
                       createPasswordInput(
                         context,
                         passwordController,
@@ -408,7 +408,7 @@ class LoginPageViewState extends State<LoginPageView>
                         _login,
                         obscurePasswordInput: _obscurePasswordInput,
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 15),
                       RememberMeCheckBox(
                         keepSignedIn: _keepSignedIn,
                         onToggle: () {
