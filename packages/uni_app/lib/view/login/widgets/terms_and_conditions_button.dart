@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/view/about/widgets/terms_and_conditions.dart';
+import 'package:uni_ui/theme.dart';
 
 class TermsAndConditionsButton extends StatelessWidget {
   const TermsAndConditionsButton({super.key});
@@ -16,10 +17,8 @@ class TermsAndConditionsButton extends StatelessWidget {
         child: RichText(
           text: TextSpan(
             text: S.of(context).agree_terms,
-            style: const TextStyle(
+            style: lightTheme.textTheme.bodyMedium?.copyWith(
               color: Colors.white,
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
               decorationColor: Colors.white,
             ),
             children: [
@@ -28,9 +27,9 @@ class TermsAndConditionsButton extends StatelessWidget {
               ),
               TextSpan(
                 text: S.of(context).terms,
-                style: const TextStyle(
+                style: lightTheme.textTheme.bodyMedium?.copyWith(
+                  color: Colors.white,
                   fontWeight: FontWeight.w700,
-                  fontSize: 14,
                   decoration: TextDecoration.underline,
                   decorationColor: Colors.white,
                 ),
