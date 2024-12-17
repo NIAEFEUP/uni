@@ -90,17 +90,19 @@ class ExamCard extends GenericCard {
           },
           hasContent: (allExams) =>
               getVisibleExams(allExams, hiddenExams).isNotEmpty,
-            onNullContent: const Center(
-              child: ImageLabel(
-                imagePath: 'assets/images/papers.png', label: 'Não há exames',
-                labelTextStyle: TextStyle(fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.grey,
-                ),
-                subwidth: 130,
-                subheight: 130,
+          onNullContent: const Center(
+            child: ImageLabel(
+              imagePath: 'assets/images/papers.png',
+              label: 'Não há exames',
+              labelTextStyle: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                color: Colors.grey,
               ),
+              subwidth: 130,
+              subheight: 130,
             ),
+          ),
           contentLoadingWidget: const ExamCardShimmer(),
         );
       },

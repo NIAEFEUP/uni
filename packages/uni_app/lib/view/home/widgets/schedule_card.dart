@@ -44,15 +44,17 @@ class ScheduleCard extends GenericCard {
       hasContent: (lectures) => lectures.isNotEmpty,
       onNullContent: const Center(
         child: ImageLabel(
-          imagePath: 'assets/images/no_data.png', label: 'Não há aulas',
-          labelTextStyle: TextStyle(fontSize: 16,
+          imagePath: 'assets/images/no_data.png',
+          label: 'Não há aulas',
+          labelTextStyle: TextStyle(
+            fontSize: 16,
             fontWeight: FontWeight.w500,
             color: Colors.grey,
-        ),
+          ),
           subheight: 130,
           subwidth: 130,
         ),
-        ),
+      ),
       contentLoadingWidget: const ScheduleCardShimmer().build(context),
       mapper: (lectures) => lectures
           .where((lecture) => lecture.endTime.isAfter(DateTime.now()))
