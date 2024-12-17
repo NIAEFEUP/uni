@@ -44,11 +44,13 @@ class ScheduleCard extends GenericCard {
       hasContent: (lectures) => lectures.isNotEmpty,
       onNullContent: const Center(
         child: ImageLabel(
-          imagePath: 'assets/images/vacation.png', label: 'Férias',
+          imagePath: 'assets/images/no_data.png', label: 'Não há aulas',
           labelTextStyle: TextStyle(fontSize: 16,
             fontWeight: FontWeight.w500,
             color: Colors.grey,
         ),
+          subheight: 130,
+          subwidth: 130,
         ),
         ),
       contentLoadingWidget: const ScheduleCardShimmer().build(context),
