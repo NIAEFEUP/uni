@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uni/generated/l10n.dart';
+import 'package:uni_ui/theme.dart';
 
 /// Creates the widget for the username input.
 Widget createUsernameInput(
@@ -9,7 +10,7 @@ Widget createUsernameInput(
   FocusNode passwordFocus,
 ) {
   return TextFormField(
-    style: const TextStyle(fontSize: 14),
+    style: lightTheme.textTheme.titleMedium,
     enableSuggestions: false,
     autocorrect: false,
     controller: usernameController,
@@ -37,7 +38,7 @@ Widget createPasswordInput(
   required bool obscurePasswordInput,
 }) {
   return TextFormField(
-    style: const TextStyle(fontSize: 14),
+    style: lightTheme.textTheme.titleMedium,
     enableSuggestions: false,
     autocorrect: false,
     controller: passwordController,
@@ -66,13 +67,11 @@ InputDecoration textFieldDecoration(
   required Color textColor,
 }) {
   return InputDecoration(
-    hintStyle: TextStyle(
-      fontSize: 14,
-      fontWeight: FontWeight.w500,
-      color: textColor,
+    hintStyle: lightTheme.textTheme.titleMedium?.copyWith(
+      color: const Color(0xFF3C0A0E),
     ),
     hintText: placeholder,
-    contentPadding: const EdgeInsets.fromLTRB(10, 15, 0, 0),
+    contentPadding: const EdgeInsets.fromLTRB(10, 20, 0, 0),
     border: const UnderlineInputBorder(),
     focusedBorder: const UnderlineInputBorder(
       borderSide: BorderSide(width: 2),
@@ -88,17 +87,17 @@ InputDecoration passwordFieldDecoration(
   required bool obscurePasswordInput,
 }) {
   return InputDecoration(
-    hintStyle: TextStyle(
-      fontSize: 14,
-      fontWeight: FontWeight.w500,
-      color: Theme.of(context).indicatorColor,
+    hintStyle: lightTheme.textTheme.titleMedium?.copyWith(
+      color: const Color(0xFF3C0A0E),
     ),
     hintText: placeholder,
-    contentPadding: const EdgeInsets.fromLTRB(10, 20, 0, 0),
+    contentPadding: const EdgeInsets.fromLTRB(10, 25, 0, 0),
     border: const UnderlineInputBorder(),
     focusedBorder: const UnderlineInputBorder(
       borderSide: BorderSide(width: 2),
     ),
+
+    /// TO-DO change the Icon to a PhosphorIcon after the icons.dart is merged
     suffixIcon: IconButton(
       icon: Icon(
         obscurePasswordInput ? Icons.visibility : Icons.visibility_off,

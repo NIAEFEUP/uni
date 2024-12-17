@@ -7,6 +7,7 @@ class RememberMeCheckBox extends StatelessWidget {
     required this.onToggle,
     this.textColor,
     required this.padding,
+    required this.theme,
     super.key,
   });
 
@@ -14,6 +15,7 @@ class RememberMeCheckBox extends StatelessWidget {
   final VoidCallback onToggle;
   final Color? textColor;
   final EdgeInsets padding;
+  final TextStyle? theme;
 
   @override
   Widget build(BuildContext context) {
@@ -30,11 +32,7 @@ class RememberMeCheckBox extends StatelessWidget {
           ),
           Text(
             S.of(context).keep_login,
-            style: TextStyle(
-              color: textColor ?? Colors.white,
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-            ),
+            style: theme,
           ),
         ],
       ),
