@@ -8,6 +8,8 @@ class ImageLabel extends StatelessWidget {
     this.labelTextStyle,
     this.sublabel = '',
     this.sublabelTextStyle,
+    this.subheight = 300,
+    this.subwidth = 300,
   });
   final String imagePath;
   final String label;
@@ -15,14 +17,17 @@ class ImageLabel extends StatelessWidget {
   final String sublabel;
   final TextStyle? sublabelTextStyle;
 
+  final double subheight;
+  final double subwidth;
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
         Image.asset(
           imagePath,
-          height: 300,
-          width: 300,
+          height: subheight,
+          width: subwidth,
         ),
         Text(
           label,
