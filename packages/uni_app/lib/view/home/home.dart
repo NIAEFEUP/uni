@@ -1,6 +1,3 @@
-import 'dart:async';
-
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
@@ -24,17 +21,13 @@ class HomePageView extends StatefulWidget {
 class HomePageViewState extends GeneralPageViewState {
   bool isBannerViewed = true;
   bool isEditing = false;
-  bool isOffline = false;
   List<FavoriteWidgetType> favoriteCardTypes =
       PreferencesController.getFavoriteCards();
-
-  StreamSubscription<ConnectivityResult>? connectivitySubscription;
 
   @override
   void initState() {
     super.initState();
     checkBannerViewed();
-    checkInternetConnection();
   }
 
   Future<void> checkBannerViewed() async {
@@ -46,22 +39,6 @@ class HomePageViewState extends GeneralPageViewState {
   Future<void> setBannerViewed() async {
     await PreferencesController.setDataCollectionBannerViewed(isViewed: true);
     await checkBannerViewed();
-  }
-
-  void checkInternetConnection() {
-    connectivitySubscription = Connectivity()
-        .onConnectivityChanged
-        .listen((result) {
-      setState(() {
-        isOffline = result == ConnectivityResult.none;
-      });
-    });
-  }
-
-  @override
-  void dispose() {
-    connectivitySubscription?.cancel();
-    super.dispose();
   }
 
   void setFavoriteCards(List<FavoriteWidgetType> favorites) {
@@ -121,10 +98,6 @@ class HomePageViewState extends GeneralPageViewState {
   Widget getBody(BuildContext context) {
     return Column(
       children: [
-        Visibility(
-          visible: isOffline,
-          child: const ConnectivityWarning(),
-        ),
         Visibility(
           visible: !isBannerViewed,
           child: TrackingBanner(setBannerViewed),
