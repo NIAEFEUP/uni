@@ -18,8 +18,12 @@ import 'package:uni/utils/constants.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/toast_message.dart';
 import 'package:uni/view/home/widgets/exit_app_dialog.dart';
+import 'package:uni/view/login/widgets/create_link.dart';
+import 'package:uni/view/login/widgets/f_login_button.dart';
 import 'package:uni/view/login/widgets/inputs.dart';
-import 'package:uni/view/theme.dart';
+import 'package:uni/view/login/widgets/remember_me_checkbox.dart';
+import 'package:uni/view/login/widgets/terms_and_conditions_button.dart';
+import 'package:uni_ui/theme.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class LoginPageView extends StatefulWidget {
@@ -209,10 +213,8 @@ class LoginPageViewState extends State<LoginPageView>
 
   @override
   Widget build(BuildContext context) {
-    final queryData = MediaQuery.of(context);
-
     return Theme(
-      data: applicationLightTheme.copyWith(
+      data: lightTheme.copyWith(
         textSelectionTheme: const TextSelectionThemeData(
           cursorColor: Colors.white,
           selectionHandleColor: Colors.white,
@@ -221,53 +223,123 @@ class LoginPageViewState extends State<LoginPageView>
       child: Builder(
         builder: (context) => Scaffold(
           resizeToAvoidBottomInset: false,
-          backgroundColor: darkRed,
+          backgroundColor: const Color(0xFF280709),
           body: BackButtonExitWrapper(
-            child: Padding(
-              padding: EdgeInsets.only(
-                left: queryData.size.width / 8,
-                right: queryData.size.width / 8,
-              ),
-              child: Column(
-                children: [
-                  SizedBox(height: queryData.size.height / 20),
-                  SizedBox(
-                    width: 100,
-                    // TODO(thePeras): Divide into two svgs to add color
-                    child: SvgPicture.asset(
-                      'assets/images/logo_dark.svg',
-                      colorFilter: const ColorFilter.mode(
-                        Colors.white,
-                        BlendMode.srcIn,
+            child: Stack(
+              children: [
+                Center(
+                  child: Align(
+                    alignment: const Alignment(0, -0.4),
+                    child: Hero(
+                      tag: 'logo',
+                      flightShuttleBuilder: (
+                        flightContext,
+                        animation,
+                        flightDirection,
+                        fromHeroContext,
+                        toHeroContext,
+                      ) {
+                        return ScaleTransition(
+                          scale: animation.drive(
+                            Tween<double>(begin: 1, end: 1).chain(
+                              CurveTween(curve: Curves.easeInOut),
+                            ),
+                          ),
+                          child: SvgPicture.asset(
+                            'assets/images/logo_dark.svg',
+                            width: 90,
+                            height: 90,
+                            colorFilter: const ColorFilter.mode(
+                              Color(0xFFFFF5F3),
+                              BlendMode.srcIn,
+                            ),
+                          ),
+                        );
+                      },
+                      child: SvgPicture.asset(
+                        'assets/images/logo_dark.svg',
+                        width: 90,
+                        height: 90,
+                        colorFilter: const ColorFilter.mode(
+                          Color(0xFFFFF5F3),
+                          BlendMode.srcIn,
+                        ),
                       ),
                     ),
                   ),
-                  SizedBox(height: queryData.size.height / 5),
-                  if (_loggingIn)
-                    const CircularProgressIndicator(
-                      color: Colors.white,
+                ),
+                Container(
+                  decoration: const BoxDecoration(
+                    gradient: RadialGradient(
+                      center: Alignment(-0.95, -1),
+                      colors: [
+                        Color(0x705F171D),
+                        Color(0x02511515),
+                      ],
+                      stops: [0, 1],
                     ),
-                  if (!_loggingIn)
-                    createAFLogInButton(queryData, context, _falogin),
-                  const SizedBox(height: 10),
-                  createSaveDataCheckBox(
-                    context,
-                    () {
+                  ),
+                ),
+                Container(
+                  decoration: const BoxDecoration(
+                    gradient: RadialGradient(
+                      center: Alignment(0.1, 0.95),
+                      radius: 0.3,
+                      colors: [
+                        Color(0x705F171D),
+                        Color(0x02511515),
+                      ],
+                      stops: [0, 1],
+                    ),
+                  ),
+                ),
+                if (_loggingIn)
+                  const Align(
+                    alignment: Alignment(0, 0.35),
+                    child: CircularProgressIndicator(color: Colors.white),
+                  ),
+                if (!_loggingIn)
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.of(context).size.width / 14,
+                    ),
+                    child: Align(
+                      alignment: const Alignment(0, 0.35),
+                      child: FLoginButton(onPressed: _falogin),
+                    ),
+                  ),
+                Align(
+                  alignment: const Alignment(0, 0.51),
+                  child: RememberMeCheckBox(
+                    keepSignedIn: _keepSignedIn,
+                    onToggle: () {
                       setState(() {
                         _keepSignedIn = !_keepSignedIn;
                       });
                     },
-                    keepSignedIn: _keepSignedIn,
+                    padding: const EdgeInsets.symmetric(horizontal: 37),
+                    theme: lightTheme.textTheme.bodyLarge?.copyWith(
+                      color: const Color(0xFFFFFFFF),
+                    ),
                   ),
-                  createLink(
-                    context,
-                    S.of(context).try_different_login,
-                    _showAlternativeLogin,
+                ),
+                Align(
+                  alignment: const Alignment(0, 0.58),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 35),
+                    child: LinkWidget(
+                      textStart: S.of(context).try_different_login,
+                      textEnd: S.of(context).login_with_credentials,
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = _showAlternativeLogin,
+                    ),
                   ),
-                  SizedBox(height: queryData.size.height / 5),
-                  createTermsAndConditionsButton(context),
-                ],
-              ),
+                ),
+                const Align(
+                  alignment: Alignment(0, 0.88),
+                  child: TermsAndConditionsButton(),
+                ),
+              ],
             ),
           ),
         ),
@@ -275,25 +347,9 @@ class LoginPageViewState extends State<LoginPageView>
     );
   }
 
-  /// Creates the widget for when the user forgets the password
-  Widget createLink(BuildContext context, String text, void Function() onTap) {
-    return RichText(
-      textAlign: TextAlign.center,
-      text: TextSpan(
-        text: text,
-        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-              decoration: TextDecoration.underline,
-              color: Colors.white,
-              decorationColor: Colors.white,
-              decorationThickness: 2,
-            ),
-        recognizer: TapGestureRecognizer()..onTap = onTap,
-      ),
-    );
-  }
-
+  /// I don't think this is being used anywhere, should I delete to clean up?
   /// Creates a widget for the user login depending on the status of his login.
-  Widget createStatusWidget(BuildContext context) {
+  /*Widget createStatusWidget(BuildContext context) {
     return Consumer<SessionProvider>(
       builder: (context, sessionProvider, _) {
         if (_loggingIn) {
@@ -306,7 +362,7 @@ class LoginPageViewState extends State<LoginPageView>
         return Container();
       },
     );
-  }
+  }*/
 
   Future<void> _showAlternativeLogin() async {
     return showDialog<void>(
@@ -314,7 +370,19 @@ class LoginPageViewState extends State<LoginPageView>
       barrierDismissible: false, // user must tap button!
       builder: (_) {
         return AlertDialog(
-          title: Text(S.of(context).login_with_credentials),
+          title: Text(
+            S.of(context).login_with_credentials,
+            style: lightTheme.textTheme.headlineLarge?.copyWith(
+              color: const Color(0xFF280709),
+            ),
+            textAlign: TextAlign.center,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          contentPadding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+          backgroundColor: const Color(0xFFFFF5F3),
+          actionsAlignment: MainAxisAlignment.center,
           content: StatefulBuilder(
             builder: (context, setState) {
               return SingleChildScrollView(
@@ -328,7 +396,7 @@ class LoginPageViewState extends State<LoginPageView>
                         usernameFocus,
                         passwordFocus,
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 10),
                       createPasswordInput(
                         context,
                         passwordController,
@@ -341,16 +409,19 @@ class LoginPageViewState extends State<LoginPageView>
                         _login,
                         obscurePasswordInput: _obscurePasswordInput,
                       ),
-                      const SizedBox(height: 20),
-                      createSaveDataCheckBox(
-                        context,
-                        () {
+                      const SizedBox(height: 15),
+                      RememberMeCheckBox(
+                        keepSignedIn: _keepSignedIn,
+                        onToggle: () {
                           setState(() {
                             _keepSignedIn = !_keepSignedIn;
                           });
                         },
-                        keepSignedIn: _keepSignedIn,
-                        textColor: Theme.of(context).indicatorColor,
+                        textColor: const Color(0xFF280709),
+                        padding: EdgeInsets.zero,
+                        theme: lightTheme.textTheme.bodyLarge?.copyWith(
+                          color: const Color(0xFF280709),
+                        ),
                       ),
                     ],
                   ),
@@ -359,13 +430,42 @@ class LoginPageViewState extends State<LoginPageView>
             },
           ),
           actions: <Widget>[
-            TextButton(
-              child: Text(S.of(context).cancel),
+            ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor:
+                    WidgetStateProperty.all(const Color(0xFF3C0A0E)),
+                foregroundColor:
+                    WidgetStateProperty.all(const Color(0xFFFFF5F3)),
+                side: WidgetStateProperty.all(
+                  const BorderSide(color: Color(0xFF56272B)),
+                ),
+                shape: WidgetStateProperty.all(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+              ),
               onPressed: () {
                 Navigator.of(context).pop();
               },
+              child: Text(S.of(context).cancel),
             ),
+            const SizedBox(width: 6),
             ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor:
+                    WidgetStateProperty.all(const Color(0xFF3C0A0E)),
+                foregroundColor:
+                    WidgetStateProperty.all(const Color(0xFFFFF5F3)),
+                side: WidgetStateProperty.all(
+                  const BorderSide(color: Color(0xFF56272B)),
+                ),
+                shape: WidgetStateProperty.all(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+              ),
               onPressed: () {
                 _login();
                 if (_formKey.currentState!.validate()) {
