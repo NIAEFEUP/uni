@@ -34,7 +34,6 @@ class RememberMeCheckBox extends StatelessWidget {
             ),
             fillColor: WidgetStateProperty.all(const Color(0xFF3C0A0E)),
             checkColor: const Color(0xFFFFF5F3),
-
           ),
           Text(
             S.of(context).keep_login,
