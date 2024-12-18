@@ -10,11 +10,6 @@ class Restaurant {
   Restaurant(this.id, this.name, this.reference, {required List<Meal> meals})
       : meals = groupBy(meals, (meal) => meal.dayOfWeek);
 
-  factory Restaurant.fromMap(Map<String, dynamic> map, List<Meal> meals) {
-    final object = Restaurant.fromJson(map);
-    object.meals = object.groupMealsByDayOfWeek(meals);
-    return object;
-  }
 
   factory Restaurant.fromJson(Map<String, dynamic> json) =>
       _$RestaurantFromJson(json);
@@ -24,7 +19,7 @@ class Restaurant {
   final String name;
   @JsonKey(name: 'ref')
   final String reference; // Used only in html parser
-  @JsonKey(includeToJson: true)
+  @JsonKey(name: 'meals', includeToJson: true)
   late final Map<DayOfWeek, List<Meal>> meals;
 
   bool get isNotEmpty {
