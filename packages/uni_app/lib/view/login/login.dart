@@ -349,7 +349,7 @@ class LoginPageViewState extends State<LoginPageView>
 
   /// I don't think this is being used anywhere, should I delete to clean up?
   /// Creates a widget for the user login depending on the status of his login.
-  Widget createStatusWidget(BuildContext context) {
+  /*Widget createStatusWidget(BuildContext context) {
     return Consumer<SessionProvider>(
       builder: (context, sessionProvider, _) {
         if (_loggingIn) {
@@ -362,7 +362,7 @@ class LoginPageViewState extends State<LoginPageView>
         return Container();
       },
     );
-  }
+  }*/
 
   Future<void> _showAlternativeLogin() async {
     return showDialog<void>(
@@ -380,6 +380,7 @@ class LoginPageViewState extends State<LoginPageView>
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
+          contentPadding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
           backgroundColor: const Color(0xFFFFF5F3),
           actionsAlignment: MainAxisAlignment.center,
           content: StatefulBuilder(
