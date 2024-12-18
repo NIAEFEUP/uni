@@ -29,6 +29,12 @@ class RememberMeCheckBox extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15),
             ),
+            side: const BorderSide(
+              color: Color(0xFF56272B),
+            ),
+            fillColor: WidgetStateProperty.all(const Color(0xFF3C0A0E)),
+            checkColor: const Color(0xFFFFF5F3),
+
           ),
           Text(
             S.of(context).keep_login,
