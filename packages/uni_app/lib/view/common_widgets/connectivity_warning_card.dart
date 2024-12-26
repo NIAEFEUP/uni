@@ -21,10 +21,8 @@ class _ConnectivityWarningState extends State<ConnectivityWarning> {
   @override
   void initState() {
     super.initState();
-    checkInternetConnection();
-  }
+    checkInitialConnection();
 
-  void checkInternetConnection() {
     connectivitySubscription = Connectivity()
         .onConnectivityChanged
         .listen((result) {
@@ -32,8 +30,6 @@ class _ConnectivityWarningState extends State<ConnectivityWarning> {
             isOffline = result == ConnectivityResult.none;
           });
     });
-
-    checkInitialConnection();
   }
 
    Future<void> checkInitialConnection() async {
