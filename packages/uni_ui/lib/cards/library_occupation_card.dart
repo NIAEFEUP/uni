@@ -51,9 +51,18 @@ class LibraryOccupationCard extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            'Floor ${floor.number}',
-                            style: Theme.of(context).textTheme.bodyLarge,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Floor ${floor.number}',
+                                style: Theme.of(context).textTheme.bodyLarge,
+                              ),
+                              Text(
+                                '${floor.occupation}/${floor.capacity}',
+                                style: Theme.of(context).textTheme.bodyLarge,
+                              ),
+                            ],
                           ),
                           const SizedBox(height: 5),
                           LinearPercentIndicator(

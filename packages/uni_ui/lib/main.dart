@@ -505,15 +505,15 @@ class MyApp extends StatelessWidget {
 
   MyApp() {
     Map<String, dynamic> occupation_json = {
-      'occupation': 250,
+      'occupation': 200,
       'capacity': 300,
       'floors': [
         {'number': 1, 'occupation': 10, 'capacity': 50},
         {'number': 2, 'occupation': 20, 'capacity': 50},
-        {'number': 3, 'occupation': 30, 'capacity': 50},
+        {'number': 3, 'occupation': 35, 'capacity': 50},
         {'number': 4, 'occupation': 40, 'capacity': 50},
-        {'number': 5, 'occupation': 50, 'capacity': 50},
-        {'number': 6, 'occupation': 60, 'capacity': 50}
+        {'number': 5, 'occupation': 45, 'capacity': 50},
+        {'number': 6, 'occupation': 50, 'capacity': 50}
       ]
     };
     occupation = LibraryOccupation.fromJson(occupation_json);
