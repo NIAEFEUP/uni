@@ -21,10 +21,7 @@ class CalendarDatabase extends AppDatabase<List<CalendarEvent>> {
     final List<Map<String, dynamic>> maps = await db.query('calendar');
 
     return List.generate(maps.length, (i) {
-      return CalendarEvent(
-        maps[i]['name'] as String,
-        maps[i]['date'] as String,
-      );
+      return CalendarEvent.fromJson(maps[i]);
     });
   }
 
