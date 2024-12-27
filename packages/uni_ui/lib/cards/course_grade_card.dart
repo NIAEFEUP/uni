@@ -26,14 +26,14 @@ class CourseGradeCard extends StatelessWidget {
             children: [
               Text(
                 courseName,
-                style: theme.textTheme.titleLarge,
+                style: theme.textTheme.bodySmall,
                 overflow: TextOverflow.ellipsis,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("${ects} ECTS", style: theme.textTheme.bodyLarge),
-                  Text("${grade.toInt()}", style: theme.textTheme.bodyLarge)
+                  Text("${ects} ECTS", style: theme.textTheme.bodySmall),
+                  Text("${grade.toInt()}", style: theme.textTheme.bodySmall)
                 ],
               )
             ],
