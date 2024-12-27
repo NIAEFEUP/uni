@@ -71,6 +71,7 @@ dependencies:
   upgrader: ^10.3.0
   url_launcher: ^6.2.2
   workmanager: ^0.5.2
+  timezone: ^0.7.0
 
 dev_dependencies:
   build_runner: ^2.4.8
