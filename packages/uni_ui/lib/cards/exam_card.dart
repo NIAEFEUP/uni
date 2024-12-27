@@ -14,6 +14,8 @@ class ExamCard extends StatelessWidget {
     this.isInvisible = false,
     this.showIcon = true,
     this.iconAction,
+    this.examDay,
+    this.examMonth,
   });
 
   final String name;
@@ -24,6 +26,8 @@ class ExamCard extends StatelessWidget {
   final bool isInvisible;
   final bool showIcon;
   final Function()? iconAction;
+  final String? examDay;
+  final String? examMonth;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +35,7 @@ class ExamCard extends StatelessWidget {
       opacity: isInvisible ? 0.6 : 1.0,
       child: GenericCard(
         key: key,
-        color: Color.fromRGBO(255, 245, 243, 1), //TODO: Use theme
+        color: const Color.fromRGBO(255, 245, 243, 1), //TODO: Use theme
         child: Row(
           children: [
             Expanded(
@@ -71,8 +75,21 @@ class ExamCard extends StatelessWidget {
                         startTime ?? "--:--",
                         style: Theme.of(context).textTheme.bodyMedium!,
                       ),
+                      if (examDay != null && examMonth != null) ...[
+                        const SizedBox(width: 8),
+                        PhosphorIcon(
+                          PhosphorIcons.calendarBlank(PhosphorIconsStyle.duotone),
+                          color: Theme.of(context).iconTheme.color,
+                          size: 20,
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          '$examDay $examMonth',
+                          style: Theme.of(context).textTheme.bodyMedium!,
+                        ),
+                      ],
                       const SizedBox(width: 8),
-                      if (!rooms.isEmpty)
+                      if (rooms.isNotEmpty)
                         PhosphorIcon(
                           PhosphorIcons.mapPin(PhosphorIconsStyle.duotone),
                           color: Theme.of(context).iconTheme.color,

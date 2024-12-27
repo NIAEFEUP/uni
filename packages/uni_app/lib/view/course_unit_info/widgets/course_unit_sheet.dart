@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/controller/fetchers/book_fetcher.dart';
+import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/course_units/sheet.dart';
 import 'package:uni/model/entities/exam.dart';
@@ -27,25 +28,16 @@ class CourseUnitSheetView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Regentes',
-              style: TextStyle(fontSize: 20),
-            ),
+            const Text('Regentes',style: TextStyle(fontSize: 20),),
             buildRegentsRow(context, courseUnitSheet.regents),
-            const Text(
-              'Docentes',
-              style: TextStyle(fontSize: 20),
-            ),
+            const Text('Docentes',style: TextStyle(fontSize: 20),),
             AnimatedExpandable(
               firstChild:
                   buildProfessorsRow(context, courseUnitSheet.professors),
               secondChild:
                   buildExpandedProfessors(context, courseUnitSheet.professors),
             ),
-            const Text(
-              'Exams',
-              style: TextStyle(fontSize: 20),
-            ),
+            const Text('Exams',style: TextStyle(fontSize: 20),),
             if (exams.isNotEmpty) ...[
                 SizedBox(
                   height: 120,
@@ -57,20 +49,10 @@ class CourseUnitSheetView extends StatelessWidget {
 
             ],
             _buildCard(S.of(context).program, courseUnitSheet.content, context),
-            _buildCard(
-              S.of(context).evaluation,
-              courseUnitSheet.evaluation,
-              context,
-            ),
+            _buildCard(S.of(context).evaluation,courseUnitSheet.evaluation,context,),
             if (courseUnitSheet.books.isNotEmpty) ...[
-              const Opacity(
-                opacity: 0.25,
-                child: Divider(color: Colors.grey),
-              ),
-              Text(
-                S.of(context).bibliography,
-                style: const TextStyle(fontSize: 20),
-              ),
+              const Opacity(opacity: 0.25,child: Divider(color: Colors.grey),),
+              Text(S.of(context).bibliography,style: const TextStyle(fontSize: 20),),
               buildBooksRow(context, courseUnitSheet.books),
             ],
           ],
@@ -215,13 +197,15 @@ Widget buildExamsRow(BuildContext context, List<Exam> exams) {
       return Padding(
         padding: const EdgeInsets.only(right: 8),
         child: SizedBox(
-          width: 230,
+          width: 260,
           child: ExamCard(
             name: exam.subject,
             acronym: exam.subject,
             rooms: exam.rooms,
             type: exam.examType,
             startTime: exam.startTime,
+            examDay: exam.start.day.toString(),
+            examMonth: exam.monthAcronym(PreferencesController.getLocale()),
             showIcon: false,
           ),
         ),
