@@ -27,6 +27,7 @@ class ParserExams {
     final dates = <String>[];
     final examTypes = <String>[];
     var rooms = <String>[];
+    String? subjectAcronym;
     String? subject;
     var id = '0';
     var days = 0;
@@ -46,7 +47,8 @@ class ParserExams {
           if (exams.querySelector('td.exame') != null) {
             exams.querySelectorAll('td.exame').forEach((examsDay) {
               if (examsDay.querySelector('a') != null) {
-                subject = examsDay.querySelector('a')!.text;
+                subjectAcronym = examsDay.querySelector('a')!.text;
+                subject = examsDay.querySelector('a')!.attributes['title'];
                 id = Uri.parse(examsDay.querySelector('a')!.attributes['href']!)
                     .queryParameters['p_exa_id']!;
               }
@@ -73,6 +75,7 @@ class ParserExams {
                 id,
                 begin,
                 end,
+                subjectAcronym ?? '',
                 subject ?? '',
                 rooms,
                 examTypes[tableNum],
