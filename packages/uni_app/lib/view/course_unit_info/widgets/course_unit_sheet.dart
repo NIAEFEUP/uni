@@ -49,7 +49,7 @@ class CourseUnitSheetView extends StatelessWidget {
             ),
             if (exams.isNotEmpty) ...[
               SizedBox(
-                height: 120,
+                height: 100,
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: buildExamsRow(context, exams),
@@ -215,7 +215,7 @@ Widget buildExamsRow(BuildContext context, List<Exam> exams) {
       return Padding(
         padding: const EdgeInsets.only(right: 8),
         child: SizedBox(
-          width: 260,
+          width: 240,
           child: ExamCard(
             name: exam.subject,
             acronym: exam.subject,
