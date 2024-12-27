@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:uni/generated/l10n.dart';
-import 'package:uni/utils/connectivity_service.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/academic_path/widgets/course_units_card.dart';
 import 'package:uni/view/common_widgets/connectivity_warning_card.dart';
