@@ -47,7 +47,8 @@ class ExamFetcher implements SessionDependantFetcher {
             ) &&
             courseExam.examType != 'EE' &&
             courseExam.examType != 'EAE' &&
-            courseExam.subject == uc.abbreviation &&
+            courseExam.subjectAcronym == uc.abbreviation &&
+            courseExam.subject == uc.name &&
             uc.enrollmentIsValid() &&
             !courseExam.hasEnded()) {
           exams.add(courseExam);
