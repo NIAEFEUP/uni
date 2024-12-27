@@ -8,7 +8,6 @@ import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni_ui/icons.dart';
 import 'package:uni_ui/modal/modal.dart';
 
-
 class ProfessorInfoModal extends StatelessWidget {
   const ProfessorInfoModal(this.professor, {super.key});
   final MapEntry<int, Professor> professor;
@@ -48,7 +47,7 @@ class ProfessorInfoModal extends StatelessWidget {
                 PhosphorIcon(
                   UniIcons.email,
                   color: Theme.of(context).colorScheme.primary,
-                  duotoneSecondaryColor: Colors.red, 
+                  duotoneSecondaryColor: Colors.red,
                   size: 32,
                 ),
                 const Padding(
@@ -78,7 +77,7 @@ class ProfessorInfoModal extends StatelessWidget {
                 PhosphorIcon(
                   UniIcons.location,
                   color: Theme.of(context).colorScheme.primary,
-                  duotoneSecondaryColor: Colors.red, 
+                  duotoneSecondaryColor: Colors.red,
                   size: 32,
                 ),
                 const Padding(

@@ -28,8 +28,7 @@ class CourseUnitDetailPageView extends StatefulWidget {
 
 class CourseUnitDetailPageViewState
     extends SecondaryPageViewState<CourseUnitDetailPageView> {
-
-    List<Exam> courseUnitExams = [];
+  List<Exam> courseUnitExams = [];
 
   Future<void> loadInfo({required bool force}) async {
     final courseUnitsProvider =
@@ -62,7 +61,6 @@ class CourseUnitDetailPageViewState
         session,
       );
     }
-
 
     final examProvider = Provider.of<ExamProvider>(context, listen: false);
     courseUnitExams = examProvider.getExamsForCourseUnit(widget.courseUnit);

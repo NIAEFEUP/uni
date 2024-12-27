@@ -28,31 +28,49 @@ class CourseUnitSheetView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Regentes',style: TextStyle(fontSize: 20),),
+            const Text(
+              'Regentes',
+              style: TextStyle(fontSize: 20),
+            ),
             buildRegentsRow(context, courseUnitSheet.regents),
-            const Text('Docentes',style: TextStyle(fontSize: 20),),
+            const Text(
+              'Docentes',
+              style: TextStyle(fontSize: 20),
+            ),
             AnimatedExpandable(
               firstChild:
                   buildProfessorsRow(context, courseUnitSheet.professors),
               secondChild:
                   buildExpandedProfessors(context, courseUnitSheet.professors),
             ),
-            const Text('Exams',style: TextStyle(fontSize: 20),),
+            const Text(
+              'Exams',
+              style: TextStyle(fontSize: 20),
+            ),
             if (exams.isNotEmpty) ...[
-                SizedBox(
-                  height: 120,
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: buildExamsRow(context, exams),
-                  ),
+              SizedBox(
+                height: 120,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: buildExamsRow(context, exams),
                 ),
-
+              ),
             ],
             _buildCard(S.of(context).program, courseUnitSheet.content, context),
-            _buildCard(S.of(context).evaluation,courseUnitSheet.evaluation,context,),
+            _buildCard(
+              S.of(context).evaluation,
+              courseUnitSheet.evaluation,
+              context,
+            ),
             if (courseUnitSheet.books.isNotEmpty) ...[
-              const Opacity(opacity: 0.25,child: Divider(color: Colors.grey),),
-              Text(S.of(context).bibliography,style: const TextStyle(fontSize: 20),),
+              const Opacity(
+                opacity: 0.25,
+                child: Divider(color: Colors.grey),
+              ),
+              Text(
+                S.of(context).bibliography,
+                style: const TextStyle(fontSize: 20),
+              ),
               buildBooksRow(context, courseUnitSheet.books),
             ],
           ],
