@@ -46,7 +46,16 @@ class CourseUnitSheetView extends StatelessWidget {
               'Exams',
               style: TextStyle(fontSize: 20),
             ),
-            buildExamsRow(context, exams),
+            if (exams.isNotEmpty) ...[
+                SizedBox(
+                  height: 120,
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: buildExamsRow(context, exams),
+                  ),
+                ),
+
+            ],
             _buildCard(S.of(context).program, courseUnitSheet.content, context),
             _buildCard(
               S.of(context).evaluation,
@@ -201,16 +210,21 @@ Widget buildExpandedProfessors(
 }
 
 Widget buildExamsRow(BuildContext context, List<Exam> exams) {
-  return Wrap(
-    spacing: 8, 
+  return Row(
     children: exams.map((exam) {
-      return ExamCard(
-        name: exam.subject,
-        acronym: exam.subject,
-        rooms: exam.rooms,
-        type: exam.examType,
-        startTime: exam.startTime,
-        showIcon: false,
+      return Padding(
+        padding: const EdgeInsets.only(right: 8),
+        child: SizedBox(
+          width: 230,
+          child: ExamCard(
+            name: exam.subject,
+            acronym: exam.subject,
+            rooms: exam.rooms,
+            type: exam.examType,
+            startTime: exam.startTime,
+            showIcon: false,
+          ),
+        ),
       );
     }).toList(),
   );
