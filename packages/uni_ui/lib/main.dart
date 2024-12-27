@@ -394,6 +394,7 @@ class MyApp extends StatelessWidget {
 }
 */
 
+/*
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:uni_ui/modal/modal.dart';
@@ -485,6 +486,50 @@ class DialogExample extends StatelessWidget {
           child: const Text('Show Fullscreen Dialog'),
         ),
       ],
+    );
+  }
+}
+*/
+
+import 'package:flutter/material.dart';
+import 'package:uni_ui/cards/library_occupation_card.dart';
+import 'package:uni_ui/model/entities/library_occupation.dart';
+import 'package:uni_ui/theme.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  late final LibraryOccupation occupation;
+
+  MyApp() {
+    Map<String, dynamic> occupation_json = {
+      'occupation': 250,
+      'capacity': 300,
+      'floors': [
+        {'number': 1, 'occupation': 10, 'capacity': 50},
+        {'number': 2, 'occupation': 20, 'capacity': 50},
+        {'number': 3, 'occupation': 30, 'capacity': 50},
+        {'number': 4, 'occupation': 40, 'capacity': 50},
+        {'number': 5, 'occupation': 50, 'capacity': 50},
+        {'number': 6, 'occupation': 60, 'capacity': 50}
+      ]
+    };
+    occupation = LibraryOccupation.fromJson(occupation_json);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      theme: lightTheme,
+      home: Scaffold(
+          appBar: AppBar(
+            title: Text('Library Occupation Card Example'),
+          ),
+          body: ListView(
+            children: [LibraryOccupationCard(occupation: occupation)],
+          )),
     );
   }
 }
