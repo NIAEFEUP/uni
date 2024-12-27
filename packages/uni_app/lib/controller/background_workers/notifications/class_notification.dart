@@ -1,18 +1,20 @@
-import "dart:async";
-import "package:flutter_local_notifications/flutter_local_notifications.dart";
-import "package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher.dart";
-import "package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher_new_api.dart";
-import "package:uni/controller/local_storage/database/app_lectures_database.dart";
-import "package:uni/model/entities/lecture.dart";
-import "package:uni/model/providers/state_provider_notifier.dart";
-import "package:uni/model/providers/state_providers.dart";
-import "package:uni/session/flows/base/session.dart";
+import 'dart:async';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher.dart';
+import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher_new_api.dart';
+import 'package:uni/controller/local_storage/database/app_lectures_database.dart';
+import 'package:uni/model/entities/lecture.dart';
+import 'package:uni/model/providers/state_provider_notifier.dart';
+import 'package:uni/model/providers/state_providers.dart';
+import 'package:uni/session/flows/base/session.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest.dart' as tzData;
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
 
 void initializeNotifications() {
-    const androidInitialization = AndroidInitializationSettings("app_icon");
+    const androidInitialization = AndroidInitializationSettings('app_icon');
     const iOSInitialization = DarwinInitializationSettings();
     final initializationSettings = InitializationSettings(
         android: androidInitialization,
@@ -80,12 +82,12 @@ void scheduleLectureNotifications(List<Lecture> lectures, FlutterLocalNotificati
 
 
 Future<void> _scheduleNotification(DateTime notificationTime, Lecture lecture, FlutterLocalNotificationsPlugin localNotificationsPlugin) async {
-    final location = tz.getLocation("Europe/Lisbon");
+    final location = tz.getLocation('Europe/Lisbon');
     final zonedNotificationTime = tz.TZDateTime.from(notificationTime, location);
 
     const androidDetails = AndroidNotificationDetails(
-        "lecture_notification_channel",
-        "Lecture Notifications",
+        'lecture_notification_channel',
+        'Lecture Notifications',
         importance: Importance.high,
         priority: Priority.high,
         showWhen: false
@@ -103,8 +105,8 @@ Future<void> _scheduleNotification(DateTime notificationTime, Lecture lecture, F
 
     await localNotificationsPlugin.zonedSchedule(
         0,
-        "Upcoming Lecture: ${lecture.title}",
-        "Your lecture ${lecture.title} starts in 15 minutes!",
+        'Upcoming Lecture: ${lecture.subject}',
+        'Your lecture ${lecture.subject} starts in 15 minutes!',
         zonedNotificationTime,
         notificationDetails,
         androidAllowWhileIdle: true,
