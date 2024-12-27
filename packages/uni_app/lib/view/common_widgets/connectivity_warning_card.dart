@@ -1,51 +1,73 @@
+import 'dart:async';
+
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../generated/l10n.dart';
 
-class ConnectivityWarning extends StatelessWidget {
+class ConnectivityWarning extends StatefulWidget {
   const ConnectivityWarning({super.key});
 
+  @override
+  State<ConnectivityWarning> createState() => _ConnectivityWarningState();
+}
+
+class _ConnectivityWarningState extends State<ConnectivityWarning> {
+  bool isOffline = false;
+
+  StreamSubscription<ConnectivityResult>? connectivitySubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    checkInitialConnection();
+
+    connectivitySubscription = Connectivity()
+        .onConnectivityChanged
+        .listen((result) {
+          setState(() {
+            isOffline = result == ConnectivityResult.none;
+          });
+    });
+  }
+
+   Future<void> checkInitialConnection() async {
+    final result = await Connectivity().checkConnectivity();
+    setState(() {
+      isOffline = result == ConnectivityResult.none;
+    });
+   }
+
+  @override
+  void dispose() {
+    connectivitySubscription?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      /*  Image with background (delete if necessary)
-      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: Theme.of(context).cardColor,
-          boxShadow: const [
-            BoxShadow(
-            color: Color.fromARGB(0x1c, 0, 0, 0),
-            blurRadius: 7,
-            offset: Offset(0, 1),
+    return Visibility(
+      visible: isOffline,
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 20),
+        child: Row(
+          children: [
+            SvgPicture.asset('assets/images/circle-alert.svg',
+              colorFilter: ColorFilter.mode(
+                Theme.of(context).primaryColor,
+                BlendMode.srcIn,
+              ),
+              width: 21,
+              height: 21,
             ),
-          ]
-      ,),
-
-       */
-      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 20),
-      alignment: Alignment.center,
-      child: Row(
-        children: [
-          SvgPicture.asset('assets/images/circle-alert.svg',
-            colorFilter: ColorFilter.mode(
-              Theme.of(context).primaryColor,
-              BlendMode.srcIn,
+            const SizedBox(width: 8),
+            Text(
+              S.of(context).internet_status_exception,
+              style: Theme.of(context).textTheme.bodyMedium,
             ),
-            width: 21,
-            height: 21,
-          ),
-          const SizedBox(width: 8),
-          Text(
-            S.of(context).internet_status_exception,
-            //style: Theme.of(context).textTheme.bodyMedium,
-            style: TextStyle(
-             color: Theme.of(context).primaryColor
-           ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
