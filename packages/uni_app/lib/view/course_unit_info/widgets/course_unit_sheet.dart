@@ -231,46 +231,42 @@ Widget buildExamsRow(BuildContext context, List<Exam> exams) {
 }
 
 Widget buildBooksRow(BuildContext context, List<Book> books) {
-  return SizedBox(
-    height: 500,
-    width: double.infinity,
-    child: Wrap(
-      alignment: WrapAlignment.spaceBetween,
-      children: [
-        ...books.asMap().entries.map((book) {
-          return FutureBuilder<String?>(
-            builder: (context, snapshot) {
-              return Padding(
-                padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      width: 135,
-                      height: 140, // adjust this value as needed
-                      child: snapshot.data != null
-                          ? Image(image: NetworkImage(snapshot.data!))
-                          : const Image(
-                              image: AssetImage(
-                                'assets/images/book_placeholder.png',
-                              ),
+  return Wrap(
+    alignment: WrapAlignment.spaceBetween,
+    children: [
+      ...books.asMap().entries.map((book) {
+        return FutureBuilder<String?>(
+          builder: (context, snapshot) {
+            return Padding(
+              padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
+              child: Column(
+                children: [
+                  SizedBox(
+                    width: 135,
+                    height: 140, // adjust this value as needed
+                    child: snapshot.data != null
+                        ? Image(image: NetworkImage(snapshot.data!))
+                        : const Image(
+                            image: AssetImage(
+                              'assets/images/book_placeholder.png',
                             ),
+                          ),
+                  ),
+                  SizedBox(
+                    width: 135,
+                    child: Text(
+                      book.value.title,
+                      textAlign: TextAlign.center,
                     ),
-                    SizedBox(
-                      width: 135,
-                      child: Text(
-                        book.value.title,
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            },
-            future: BookThumbFetcher().fetchBookThumb(book.value.isbn),
-          );
-        }),
-      ],
-    ),
+                  ),
+                ],
+              ),
+            );
+          },
+          future: BookThumbFetcher().fetchBookThumb(book.value.isbn),
+        );
+      }),
+    ],
   );
 }
 
