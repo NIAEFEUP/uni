@@ -59,8 +59,8 @@ class ScheduleCard extends StatelessWidget {
                       acronym,
                       overflow: TextOverflow.ellipsis,
                       style: isActive
-                          ? lightTheme.textTheme.titleLarge
-                          : lightTheme.textTheme.headlineSmall,
+                          ? Theme.of(context).textTheme.titleLarge
+                          : Theme.of(context).textTheme.headlineSmall,
                     ),
                     const SizedBox(width: 8), //TODO: Create a custom Gap()?
                     Badge(
@@ -74,8 +74,8 @@ class ScheduleCard extends StatelessWidget {
                   name,
                   overflow: TextOverflow.ellipsis,
                   style: isActive
-                      ? lightTheme.textTheme.titleSmall
-                      : lightTheme.textTheme.bodySmall,
+                      ? Theme.of(context).textTheme.titleSmall
+                      : Theme.of(context).textTheme.bodySmall,
                 ),
                 SizedBox(height: 5),
                 if (isActive)
@@ -87,7 +87,8 @@ class ScheduleCard extends StatelessWidget {
                               'assets/images/profile_placeholder.png', // to change
                         )),
                     const SizedBox(width: 8), //TODO: create gap()?
-                    Text(teacherName!, style: lightTheme.textTheme.titleSmall),
+                    Text(teacherName!,
+                        style: Theme.of(context).textTheme.titleSmall),
                   ])
               ],
             ),
