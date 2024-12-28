@@ -26,11 +26,7 @@ class LibraryOccupationDatabase extends AppDatabase<LibraryOccupation> {
 
     for (var i = 0; i < maps.length; i++) {
       occupation.addFloor(
-        FloorOccupation(
-          maps[i]['number'] as int,
-          maps[i]['occupation'] as int,
-          maps[i]['capacity'] as int,
-        ),
+        FloorOccupation.fromJson(maps[i]),
       );
     }
 

@@ -1,19 +1,26 @@
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/controller/fetchers/book_fetcher.dart';
+import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/course_units/sheet.dart';
+import 'package:uni/model/entities/exam.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
 import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/view/common_widgets/generic_animated_expandable.dart';
 import 'package:uni/view/common_widgets/generic_expandable.dart';
+import 'package:uni/view/course_unit_info/widgets/modal_professor_info.dart';
+import 'package:uni_ui/cards/exam_card.dart';
+import 'package:uni_ui/theme.dart';
 
 class CourseUnitSheetView extends StatelessWidget {
-  const CourseUnitSheetView(this.courseUnitSheet, {super.key});
+  const CourseUnitSheetView(this.courseUnitSheet, this.exams, {super.key});
   final Sheet courseUnitSheet;
+  final List<Exam> exams;
 
   @override
   Widget build(BuildContext context) {
@@ -24,24 +31,50 @@ class CourseUnitSheetView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              'Regentes',
+              'Instructors',
               style: TextStyle(fontSize: 20),
             ),
-            buildRegentsRow(context, courseUnitSheet.regents),
+            if (courseUnitSheet.professors.length <= 4)
+              _buildInstructorsRow(context, courseUnitSheet.professors)
+            else
+              AnimatedExpandable(
+                firstChild: _buildLimitedInstructorsRow(
+                  context,
+                  courseUnitSheet.professors,
+                ),
+                secondChild:
+                    _buildInstructorsRow(context, courseUnitSheet.professors),
+              ),
+            const Opacity(
+              opacity: 0.25,
+              child: Divider(color: Colors.grey),
+            ),
             const Text(
-              'Docentes',
+              'Assessments',
               style: TextStyle(fontSize: 20),
             ),
-            AnimatedExpandable(
-              firstChild:
-                  buildProfessorsRow(context, courseUnitSheet.professors),
-              secondChild:
-                  buildExpandedProfessors(context, courseUnitSheet.professors),
-            ),
+            if (exams.isEmpty)
+              const Padding(
+                padding:  EdgeInsets.only(top: 8.0),
+                child:  Text('No exams scheduled'),
+              )
+            else
+              SizedBox(
+                height: 100,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: _buildExamsRow(context, exams),
+                ),
+              ),
             _buildCard(S.of(context).program, courseUnitSheet.content, context),
             _buildCard(
               S.of(context).evaluation,
               courseUnitSheet.evaluation,
+              context,
+            ),
+            _buildCard(
+              S.of(context).frequency,
+              courseUnitSheet.frequency,
               context,
             ),
             if (courseUnitSheet.books.isNotEmpty) ...[
@@ -53,203 +86,236 @@ class CourseUnitSheetView extends StatelessWidget {
                 S.of(context).bibliography,
                 style: const TextStyle(fontSize: 20),
               ),
-              buildBooksRow(context, courseUnitSheet.books),
+              _buildBooksRow(context, courseUnitSheet.books),
             ],
           ],
         ),
       ),
     );
   }
-}
 
-Widget buildRegentsRow(BuildContext context, List<Professor> regents) {
-  final session = context.read<SessionProvider>().state!;
-  return SizedBox(
-    height: (regents.length * 80) + 20,
-    width: double.infinity,
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
+  Widget _buildLimitedInstructorsRow(
+      BuildContext context, List<Professor> instructors) {
+    final firstThree = instructors.take(3).toList();
+    final remaining = instructors.skip(3).toList();
+
+    return Wrap(
+      spacing: 8.0,
+      runSpacing: 4.0,
       children: [
-        ...regents.asMap().entries.map((regent) {
-          final idx = regent.key;
-          return Padding(
-            padding: EdgeInsets.only(bottom: idx == regents.length - 1 ? 0 : 5),
+        ...firstThree
+            .map((instructor) => _buildInstructorWidget(context, instructor)),
+        if (remaining.isNotEmpty)
+          Container(
+            padding: const EdgeInsets.all(8.0),
+            decoration: BoxDecoration(
+              color: const Color.fromRGBO(255, 245, 243, 1),
+              borderRadius: BorderRadius.circular(8.0),
+            ),
             child: Row(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                FutureBuilder<File?>(
-                  builder: (context, snapshot) => _buildAvatar(snapshot, 40),
-                  future: ProfileProvider.fetchOrGetCachedProfilePicture(
-                    session,
-                    studentNumber: int.parse(regent.value.code),
+                SizedBox(
+                  width: 70,
+                  height: 40,
+                  child: Stack(
+                    children: remaining.asMap().entries.map((entry) {
+                      final index = entry.key;
+                      final instructor = entry.value;
+                      return Positioned(
+                        left: index * 20.0,
+                        child: _InstructorAvatar(instructor: instructor),
+                      );
+                    }).toList(),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    left: 10,
-                    right: 10,
-                  ),
-                  child: Text(
-                    regent.value.name,
-                    style: const TextStyle(fontSize: 17),
-                    textAlign: TextAlign.center,
-                  ),
+                const SizedBox(width: 8),
+                Text(
+                  '+${remaining.length} more',
+                  style: const TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.w500),
                 ),
               ],
             ),
-          );
-        }),
+          ),
       ],
-    ),
-  );
-}
+    );
+  }
 
-Widget buildProfessorsRow(BuildContext context, List<Professor> professors) {
-  final session = context.read<SessionProvider>().state!;
-  return SizedBox(
-    height: 55,
-    width: double.infinity,
-    child: SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
+  Widget _buildInstructorsRow(
+      BuildContext context, List<Professor> instructors) {
+    return Wrap(
+      spacing: 8.0,
+      runSpacing: 4.0,
+      children: instructors
+          .map((instructor) => _buildInstructorWidget(context, instructor))
+          .toList(),
+    );
+  }
+
+  Widget _buildInstructorWidget(BuildContext context, Professor instructor) {
+    return GestureDetector(
+      onTap: () {
+        showDialog<void>(
+          context: context,
+          builder: (context) => ProfessorInfoModal(instructor),
+        );
+      },
+      child: Container(
+        padding: const EdgeInsets.all(8.0),
+        decoration: BoxDecoration(
+          color: const Color.fromRGBO(255, 245, 243, 1),
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _InstructorAvatar(instructor: instructor),
+            const SizedBox(width: 8),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(
+                  width: 100,
+                  child: Text(
+                    instructor.name,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                Text(
+                  instructor.isRegent ? 'Course Regent' : 'Instructor',
+                  style: TextStyle(fontSize: 12, color: Colors.grey),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildExamsRow(BuildContext context, List<Exam> exams) {
+    return Row(
+      children: exams.map((exam) {
+        return Padding(
+          padding: const EdgeInsets.only(right: 8),
+          child: SizedBox(
+            width: 240,
+            child: ExamCard(
+              name: exam.subject,
+              acronym: exam.subject,
+              rooms: exam.rooms,
+              type: exam.examType,
+              startTime: exam.startTime,
+              examDay: exam.start.day.toString(),
+              examMonth: exam.monthAcronym(PreferencesController.getLocale()),
+              showIcon: false,
+            ),
+          ),
+        );
+      }).toList(),
+    );
+  }
+
+  Widget _buildBooksRow(BuildContext context, List<Book> books) {
+    return Wrap(
+      alignment: WrapAlignment.spaceBetween,
+      children: books.map((book) => _buildBookTile(context, book)).toList(),
+    );
+  }
+
+  Widget _buildBookTile(BuildContext context, Book book) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
+      child: Column(
         children: [
-          ...professors.asMap().entries.map((professor) {
-            final idx = professor.key;
-            return FutureBuilder<File?>(
-              builder: (context, snapshot) => Transform.translate(
-                offset: Offset(-10.0 * idx, 0),
-                child: _buildAvatar(snapshot, 20),
-              ),
-              future: ProfileProvider.fetchOrGetCachedProfilePicture(
-                session,
-                studentNumber: int.parse(professor.value.code),
-              ),
-            );
-          }),
+          SizedBox(
+            width: 135,
+            height: 140,
+            child: book.isbn.isNotEmpty
+                ? FutureBuilder<String?>(
+                    future: BookThumbFetcher().fetchBookThumb(book.isbn),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData && snapshot.data != null) {
+                        return Image(image: NetworkImage(snapshot.data!));
+                      } else {
+                        return const Image(
+                          image: AssetImage(
+                            'assets/images/book_placeholder.png',
+                          ),
+                        );
+                      }
+                    },
+                  )
+                : const Image(
+                    image: AssetImage(
+                      'assets/images/book_placeholder.png',
+                    ),
+                  ),
+          ),
+          SizedBox(
+            width: 135,
+            child: Text(
+              book.title,
+              textAlign: TextAlign.center,
+            ),
+          ),
         ],
       ),
-    ),
-  );
-}
+    );
+  }
 
-Widget buildExpandedProfessors(
-  BuildContext context,
-  List<Professor> professors,
-) {
-  final session = context.read<SessionProvider>().state!;
-  return SizedBox(
-    height: (professors.length * 45) + 10,
-    width: double.infinity,
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        ...professors.asMap().entries.map((professor) {
-          final idx = professor.key;
-          return Padding(
-            padding:
-                EdgeInsets.only(bottom: idx == professors.length - 1 ? 0 : 5),
-            child: Row(
-              children: [
-                FutureBuilder<File?>(
-                  builder: (context, snapshot) => _buildAvatar(snapshot, 20),
-                  future: ProfileProvider.fetchOrGetCachedProfilePicture(
-                    session,
-                    studentNumber: int.parse(professor.value.code),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    left: 10,
-                  ),
-                  child: Text(
-                    professor.value.name,
-                    style: const TextStyle(fontSize: 14),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ],
+  Widget _buildCard(
+    String sectionTitle,
+    String sectionContent,
+    BuildContext context,
+  ) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Column(
+        children: [
+          const Opacity(
+            opacity: 0.25,
+            child: Divider(color: Colors.grey),
+          ),
+          GenericExpandable(
+            content: HtmlWidget(
+              sectionContent != 'null' ? sectionContent : S.of(context).no_info,
             ),
-          );
-        }),
-      ],
-    ),
-  );
-}
-
-Widget buildBooksRow(BuildContext context, List<Book> books) {
-  return SizedBox(
-    height: 500,
-    width: double.infinity,
-    child: Wrap(
-      alignment: WrapAlignment.spaceBetween,
-      children: [
-        ...books.asMap().entries.map((book) {
-          return FutureBuilder<String?>(
-            builder: (context, snapshot) {
-              return Padding(
-                padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      width: 135,
-                      height: 140, // adjust this value as needed
-                      child: snapshot.data != null
-                          ? Image(image: NetworkImage(snapshot.data!))
-                          : const Image(
-                              image: AssetImage(
-                                'assets/images/book_placeholder.png',
-                              ),
-                            ),
-                    ),
-                    SizedBox(
-                      width: 135,
-                      child: Text(
-                        book.value.title,
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            },
-            future: BookThumbFetcher().fetchBookThumb(book.value.isbn),
-          );
-        }),
-      ],
-    ),
-  );
-}
-
-Widget _buildCard(
-  String sectionTitle,
-  String sectionContent,
-  BuildContext context,
-) {
-  return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 8),
-    child: Column(
-      children: [
-        const Opacity(
-          opacity: 0.25,
-          child: Divider(color: Colors.grey),
-        ),
-        GenericExpandable(
-          content: HtmlWidget(
-            sectionContent != 'null' ? sectionContent : S.of(context).no_info,
+            title: sectionTitle,
           ),
-          title: sectionTitle,
-        ),
-      ],
-    ),
-  );
+        ],
+      ),
+    );
+  }
 }
 
-Widget _buildAvatar(AsyncSnapshot<File?> snapshot, double radius) {
-  return CircleAvatar(
-    radius: radius,
-    backgroundImage: snapshot.hasData && snapshot.data != null
-        ? FileImage(snapshot.data!) as ImageProvider
-        : const AssetImage(
-            'assets/images/profile_placeholder.png',
-          ),
-  );
+class _InstructorAvatar extends StatelessWidget {
+  const _InstructorAvatar({required this.instructor});
+
+  final Professor instructor;
+
+  @override
+  Widget build(BuildContext context) {
+    final session = Provider.of<SessionProvider>(context, listen: false).state!;
+    return FutureBuilder<File?>(
+      builder: (context, snapshot) => CircleAvatar(
+        radius: 20,
+        backgroundImage: snapshot.hasData && snapshot.data != null
+            ? FileImage(snapshot.data!) as ImageProvider
+            : const AssetImage(
+                'assets/images/profile_placeholder.png',
+              ),
+      ),
+      future: ProfileProvider.fetchOrGetCachedProfilePicture(
+        session,
+        studentNumber: int.parse(instructor.code),
+      ),
+    );
+  }
 }

@@ -73,6 +73,10 @@ class Exam {
         .MONTHS[start.month - 1];
   }
 
+  String monthAcronym(AppLocale locale) {
+    return DateFormat.MMM(locale.localeCode.languageCode).format(start);
+  }
+
   String get startTime => formatTime(start);
 
   String get finishTime => formatTime(finish);

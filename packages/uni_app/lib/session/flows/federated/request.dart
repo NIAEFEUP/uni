@@ -1,10 +1,15 @@
+import 'dart:async';
+
 import 'package:http/http.dart' as http;
 import 'package:openid_client/openid_client.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:uni/controller/fetchers/faculties_fetcher.dart';
 import 'package:uni/session/exception.dart';
 import 'package:uni/session/flows/base/request.dart';
+import 'package:uni/session/flows/federated/client.dart';
 import 'package:uni/session/flows/federated/session.dart';
 import 'package:uni/sigarra/endpoints/oidc/oidc.dart';
+import 'package:uni/sigarra/endpoints/oidc/token/response.dart';
 import 'package:uni/sigarra/options.dart';
 
 class FederatedSessionUserInfo {
@@ -38,18 +43,26 @@ class FederatedSessionRequest extends SessionRequest {
 
   final Credential credential;
 
+  TokenFailedResponse _reportExceptionAndFail<E extends Object>(
+    E error,
+    StackTrace st,
+  ) {
+    unawaited(Sentry.captureException(error, stackTrace: st));
+    return const TokenFailedResponse();
+  }
+
   @override
   Future<FederatedSession> perform([http.Client? httpClient]) async {
-    final client = httpClient ?? http.Client();
+    httpClient ??= FederatedDefaultClient();
 
-    final authorizedClient = credential.createHttpClient(client);
+    final authorizedClient = credential.createHttpClient(httpClient);
 
     final oidc = SigarraOidc();
-    final response = await oidc.token.call(
-      options: BaseRequestOptions(
-        client: authorizedClient,
-      ),
-    );
+    final response = await oidc
+        .token(options: SigarraRequestOptions(client: authorizedClient))
+        .call()
+        .onError<OpenIdException>(_reportExceptionAndFail)
+        .onError<HttpRequestException>(_reportExceptionAndFail);
 
     if (!response.success) {
       throw const AuthenticationException('Failed to get OIDC token');
@@ -65,7 +78,7 @@ class FederatedSessionRequest extends SessionRequest {
       credential: credential,
     );
 
-    final faculties = await getStudentFaculties(tempSession, client);
+    final faculties = await getStudentFaculties(tempSession, httpClient);
 
     return FederatedSession(
       username: userInfo.username,

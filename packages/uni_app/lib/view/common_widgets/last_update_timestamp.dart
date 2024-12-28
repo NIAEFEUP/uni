@@ -18,11 +18,11 @@ class LastUpdateTimeStamp<T extends StateProviderNotifier<dynamic>>
 class _LastUpdateTimeStampState<T extends StateProviderNotifier<dynamic>>
     extends State<StatefulWidget> {
   DateTime currentTime = DateTime.now();
-
+  Timer? timer;
   @override
   void initState() {
     super.initState();
-    Timer.periodic(
+    timer = Timer.periodic(
       const Duration(seconds: 60),
       (timer) {
         if (mounted) {
@@ -32,6 +32,12 @@ class _LastUpdateTimeStampState<T extends StateProviderNotifier<dynamic>>
         }
       },
     );
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
   }
 
   @override

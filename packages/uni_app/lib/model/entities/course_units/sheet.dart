@@ -7,13 +7,13 @@ class Sheet {
     required this.professors,
     required this.content,
     required this.evaluation,
-    required this.regents,
+    required this.frequency,
     required this.books,
   });
   List<Professor> professors;
-  List<Professor> regents;
   String content;
   String evaluation;
+  String frequency;
   List<Book> books;
 }
 
@@ -22,6 +22,14 @@ class Book {
 
   String title;
   String isbn;
+
+  @override
+  String toString() {
+    if (isbn.isEmpty) {
+      return 'Book(title: $title)';
+    }
+    return 'Book(title: $title, isbn: $isbn)';
+  }
 }
 
 class Professor {
@@ -30,6 +38,7 @@ class Professor {
     required this.name,
     required this.classes,
     this.picture,
+    this.isRegent = false,
   });
 
   factory Professor.fromJson(Map<String, dynamic> json) {
@@ -44,6 +53,7 @@ class Professor {
   String code;
   String name;
   List<String> classes;
+  bool isRegent;
 
   @override
   bool operator ==(Object other) {
