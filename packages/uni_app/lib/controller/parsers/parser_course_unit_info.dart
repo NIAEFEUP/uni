@@ -54,9 +54,20 @@ Future<Sheet> parseSheet(http.Response response) async {
         .toList(),
   );
 
-  final regents = (json['responsabilidades'] as List).map((element) {
+  final regentsJson = (json['responsabilidades'] as List).map((element) {
     return Professor.fromJson(element as Map<String, dynamic>);
   }).toList();
+
+  for (final regent in regentsJson) {
+    final existingProfessorIndex =
+        professors.indexWhere((professor) => professor.code == regent.code);
+    if (existingProfessorIndex != -1) {
+      professors[existingProfessorIndex].isRegent = true;
+    } else {
+      regent.isRegent = true;
+      professors.add(regent);
+    }
+  }
 
   final books = (json['bibliografia'] as List? ?? [])
       .map((element) => element as Map<String, dynamic>)
@@ -69,7 +80,6 @@ Future<Sheet> parseSheet(http.Response response) async {
 
   return Sheet(
     professors: professors,
-    regents: regents,
     content: json['conteudo'].toString(),
     evaluation: json['for_avaliacao'].toString(),
     frequency: json['cond_frequencia'].toString(),

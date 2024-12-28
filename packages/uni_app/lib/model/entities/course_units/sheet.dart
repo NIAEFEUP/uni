@@ -5,14 +5,12 @@ import 'package:uni/controller/parsers/parser_course_unit_info.dart';
 class Sheet {
   Sheet({
     required this.professors,
-    required this.regents,
     required this.content,
     required this.evaluation,
     required this.frequency,
     required this.books,
   });
   List<Professor> professors;
-  List<Professor> regents;
   String content;
   String evaluation;
   String frequency;
@@ -40,6 +38,7 @@ class Professor {
     required this.name,
     required this.classes,
     this.picture,
+    this.isRegent = false,
   });
 
   factory Professor.fromJson(Map<String, dynamic> json) {
@@ -54,6 +53,7 @@ class Professor {
   String code;
   String name;
   List<String> classes;
+  bool isRegent;
 
   @override
   bool operator ==(Object other) {

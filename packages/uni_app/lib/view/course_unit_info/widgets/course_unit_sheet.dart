@@ -39,7 +39,9 @@ class CourseUnitSheetView extends StatelessWidget {
             else
               AnimatedExpandable(
                 firstChild: _buildLimitedInstructorsRow(
-                    context, courseUnitSheet.professors),
+                  context,
+                  courseUnitSheet.professors,
+                ),
                 secondChild:
                     _buildInstructorsRow(context, courseUnitSheet.professors),
               ),
@@ -51,13 +53,19 @@ class CourseUnitSheetView extends StatelessWidget {
               'Assessments',
               style: TextStyle(fontSize: 20),
             ),
-            SizedBox(
-              height: 100,
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: _buildExamsRow(context, exams),
+            if (exams.isEmpty)
+              const Padding(
+                padding:  EdgeInsets.only(top: 8.0),
+                child:  Text('No exams scheduled'),
+              )
+            else
+              SizedBox(
+                height: 100,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: _buildExamsRow(context, exams),
+                ),
               ),
-            ),
             _buildCard(S.of(context).program, courseUnitSheet.content, context),
             _buildCard(
               S.of(context).evaluation,
@@ -179,8 +187,8 @@ class CourseUnitSheetView extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                const Text(
-                  'Lead Instructor',
+                Text(
+                  instructor.isRegent ? 'Course Regent' : 'Instructor',
                   style: TextStyle(fontSize: 12, color: Colors.grey),
                 ),
               ],
@@ -192,15 +200,6 @@ class CourseUnitSheetView extends StatelessWidget {
   }
 
   Widget _buildExamsRow(BuildContext context, List<Exam> exams) {
-    bool isMock = false;
-    if (isMock) exams = getMockExams();
-
-    if (exams.isEmpty) {
-      return const Center(
-        child: Text('No exams scheduled'),
-      );
-    }
-
     return Row(
       children: exams.map((exam) {
         return Padding(
@@ -319,37 +318,4 @@ class _InstructorAvatar extends StatelessWidget {
       ),
     );
   }
-}
-
-
-List<Exam> getMockExams() {
-  return [
-    Exam(
-      'mock1',
-      DateTime(2024, 12, 10, 9, 0),
-      DateTime(2024, 12, 10, 11, 0),
-      'RCOM',
-      ['B315', 'B224', 'B207'],
-      'MT',
-      'Faculty of Science',
-    ),
-    Exam(
-      'RCOM',
-      DateTime(2025, 01, 15, 14, 30),
-      DateTime(2025, 01, 15, 16, 00),
-      'SDLE',
-      ['B315', 'B224', 'B207'],
-      'EN',
-      'Faculty of Science',
-    ),
-    Exam(
-      'RCOM',
-      DateTime(2025, 02, 20, 10, 00),
-      DateTime(2025, 02, 20, 12, 30),
-      'SDLE',
-      ['FC4126'],
-      'ER',
-      'Faculty of Science',
-    ),
-  ];
 }
