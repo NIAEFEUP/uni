@@ -5,15 +5,17 @@ import 'package:uni/controller/parsers/parser_course_unit_info.dart';
 class Sheet {
   Sheet({
     required this.professors,
+    required this.regents,
     required this.content,
     required this.evaluation,
-    required this.regents,
+    required this.frequency,
     required this.books,
   });
   List<Professor> professors;
   List<Professor> regents;
   String content;
   String evaluation;
+  String frequency;
   List<Book> books;
 }
 
@@ -22,6 +24,14 @@ class Book {
 
   String title;
   String isbn;
+
+  @override
+  String toString() {
+    if (isbn.isEmpty) {
+      return 'Book(title: $title)';
+    }
+    return 'Book(title: $title, isbn: $isbn)';
+  }
 }
 
 class Professor {

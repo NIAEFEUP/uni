@@ -64,6 +64,11 @@ class CourseUnitSheetView extends StatelessWidget {
               courseUnitSheet.evaluation,
               context,
             ),
+            _buildCard(
+              S.of(context).frequency,
+              courseUnitSheet.frequency,
+              context,
+            ),
             if (courseUnitSheet.books.isNotEmpty) ...[
               const Opacity(
                 opacity: 0.25,
@@ -188,58 +193,7 @@ class CourseUnitSheetView extends StatelessWidget {
 
   Widget _buildExamsRow(BuildContext context, List<Exam> exams) {
     bool isMock = false;
-
-    if (isMock) {
-      final List<Exam> mockExams = [
-        Exam(
-          'mock1',
-          DateTime(2024, 12, 10, 9, 0),
-          DateTime(2024, 12, 10, 11, 0),
-          'RCOM',
-          ['B315', 'B224', 'B207'],
-          'MT',
-          'Faculty of Science',
-        ),
-        Exam(
-          'RCOM',
-          DateTime(2025, 01, 15, 14, 30),
-          DateTime(2025, 01, 15, 16, 00),
-          'SDLE',
-          ['B315', 'B224', 'B207'],
-          'EN',
-          'Faculty of Science',
-        ),
-        Exam(
-          'RCOM',
-          DateTime(2025, 02, 20, 10, 00),
-          DateTime(2025, 02, 20, 12, 30),
-          'SDLE',
-          ['FC4126'],
-          'ER',
-          'Faculty of Science',
-        ),
-      ];
-      return Row(
-        children: mockExams.map((exam) {
-          return Padding(
-            padding: const EdgeInsets.only(right: 8),
-            child: SizedBox(
-              width: 240,
-              child: ExamCard(
-                name: 'Redes de Computadores',
-                acronym: exam.subject,
-                rooms: exam.rooms,
-                type: exam.examType,
-                startTime: exam.startTime,
-                examDay: exam.start.day.toString(),
-                examMonth: exam.monthAcronym(PreferencesController.getLocale()),
-                showIcon: false,
-              ),
-            ),
-          );
-        }).toList(),
-      );
-    }
+    if (isMock) exams = getMockExams();
 
     if (exams.isEmpty) {
       return const Center(
@@ -365,4 +319,37 @@ class _InstructorAvatar extends StatelessWidget {
       ),
     );
   }
+}
+
+
+List<Exam> getMockExams() {
+  return [
+    Exam(
+      'mock1',
+      DateTime(2024, 12, 10, 9, 0),
+      DateTime(2024, 12, 10, 11, 0),
+      'RCOM',
+      ['B315', 'B224', 'B207'],
+      'MT',
+      'Faculty of Science',
+    ),
+    Exam(
+      'RCOM',
+      DateTime(2025, 01, 15, 14, 30),
+      DateTime(2025, 01, 15, 16, 00),
+      'SDLE',
+      ['B315', 'B224', 'B207'],
+      'EN',
+      'Faculty of Science',
+    ),
+    Exam(
+      'RCOM',
+      DateTime(2025, 02, 20, 10, 00),
+      DateTime(2025, 02, 20, 12, 30),
+      'SDLE',
+      ['FC4126'],
+      'ER',
+      'Faculty of Science',
+    ),
+  ];
 }

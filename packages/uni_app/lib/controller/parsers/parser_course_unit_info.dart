@@ -69,9 +69,10 @@ Future<Sheet> parseSheet(http.Response response) async {
 
   return Sheet(
     professors: professors,
+    regents: regents,
     content: json['conteudo'].toString(),
     evaluation: json['for_avaliacao'].toString(),
-    regents: regents,
+    frequency: json['cond_frequencia'].toString(),
     books: books,
   );
 }

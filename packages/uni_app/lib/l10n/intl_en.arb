@@ -110,6 +110,8 @@
   "@empty_text": {},
   "evaluation": "Evaluation",
   "@evaluation": {},
+  "frequency": "Eligibility for exams",
+  "@frequency": {},
   "exams_filter": "Exams Filter Settings",
   "@exams_filter": {},
   "expired_password": "Your password has expired",

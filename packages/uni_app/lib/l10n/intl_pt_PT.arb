@@ -112,6 +112,8 @@
   "@empty_text": {},
   "evaluation": "Avaliação",
   "@evaluation": {},
+  "frequency": "Obtenção de Frequência",
+  "@frequency": {},
   "exams_filter": "Definições Filtro de Exames",
   "@exams_filter": {},
   "expired_password": "A tua palavra-passe expirou",
