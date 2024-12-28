@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:html/parser.dart';
 import 'package:uni/controller/fetchers/session_dependant_fetcher.dart';
 import 'package:uni/controller/networking/network_router.dart';
@@ -32,14 +33,34 @@ class CourseUnitsInfoFetcher implements SessionDependantFetcher {
     Session session,
     int occurId,
   ) async {
-    final url = '${getEndpoints(session)[0]}mob_ucurr_geral.perfil';
-    final response = await NetworkRouter.getWithCookies(
-      url,
-      {'pv_ocorrencia_id': occurId.toString()},
-      session,
+    for (final endpoint in getEndpoints(session)) {
+      final url = '$endpoint' 'mob_ucurr_geral.perfil';
+      try {
+        final response = await NetworkRouter.getWithCookies(
+          url,
+          {'pv_ocorrencia_id': occurId.toString()},
+          session,
+        );
+
+        final json = jsonDecode(response.body) as Map<String, dynamic>;
+        if (response != null && json['lingua'] != null) {
+          return parseSheet(response);
+        }
+      } catch (_) {
+        continue;
+      }
+    }
+
+    return Sheet(
+      professors: [],
+      regents: [],
+      content: '',
+      evaluation: '',
+      books: [],
     );
-    return parseSheet(response);
   }
+
+
 
   Future<List<CourseUnitFileDirectory>> fetchCourseUnitFiles(
     Session session,
