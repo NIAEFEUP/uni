@@ -272,40 +272,48 @@ class CourseUnitSheetView extends StatelessWidget {
   Widget _buildBooksRow(BuildContext context, List<Book> books) {
     return Wrap(
       alignment: WrapAlignment.spaceBetween,
-      children: [
-        ...books.asMap().entries.map((book) {
-          return FutureBuilder<String?>(
-            builder: (context, snapshot) {
-              return Padding(
-                padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      width: 135,
-                      height: 140,
-                      child: snapshot.data != null
-                          ? Image(image: NetworkImage(snapshot.data!))
-                          : const Image(
-                              image: AssetImage(
-                                'assets/images/book_placeholder.png',
-                              ),
-                            ),
+      children: books.map((book) => _buildBookTile(context, book)).toList(),
+    );
+  }
+
+  Widget _buildBookTile(BuildContext context, Book book) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
+      child: Column(
+        children: [
+          SizedBox(
+            width: 135,
+            height: 140,
+            child: book.isbn.isNotEmpty
+                ? FutureBuilder<String?>(
+                    future: BookThumbFetcher().fetchBookThumb(book.isbn),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData && snapshot.data != null) {
+                        return Image(image: NetworkImage(snapshot.data!));
+                      } else {
+                        return const Image(
+                          image: AssetImage(
+                            'assets/images/book_placeholder.png',
+                          ),
+                        );
+                      }
+                    },
+                  )
+                : const Image(
+                    image: AssetImage(
+                      'assets/images/book_placeholder.png',
                     ),
-                    SizedBox(
-                      width: 135,
-                      child: Text(
-                        book.value.title,
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            },
-            future: BookThumbFetcher().fetchBookThumb(book.value.isbn),
-          );
-        }),
-      ],
+                  ),
+          ),
+          SizedBox(
+            width: 135,
+            child: Text(
+              book.title,
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ],
+      ),
     );
   }
 
