@@ -32,7 +32,8 @@ class CourseUnitSheetView extends StatelessWidget {
               'Regentes',
               style: TextStyle(fontSize: 20),
             ),
-            buildRegentsRow(context, courseUnitSheet.regents),
+            buildIntructorsRow(context, courseUnitSheet.professors),
+            /*
             const Text(
               'Docentes',
               style: TextStyle(fontSize: 20),
@@ -42,9 +43,13 @@ class CourseUnitSheetView extends StatelessWidget {
                   buildProfessorsRow(context, courseUnitSheet.professors),
               secondChild:
                   buildExpandedProfessors(context, courseUnitSheet.professors),
-            ),
+            ),*/
+            const Opacity(
+                opacity: 0.25,
+              ),
             const Text(
               'Exams',
+              'Assessments',
               style: TextStyle(fontSize: 20),
             ),
             if (exams.isNotEmpty) ...[
@@ -54,8 +59,10 @@ class CourseUnitSheetView extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   child: buildExamsRow(context, exams),
                 ),
+                child: buildExamsRow(context, exams),
               ),
             ],
+            //],
             _buildCard(S.of(context).program, courseUnitSheet.content, context),
             _buildCard(
               S.of(context).evaluation,
@@ -79,6 +86,36 @@ class CourseUnitSheetView extends StatelessWidget {
     );
   }
 }
+
+              ),
+            ),
+            const SizedBox(width: 8),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                  child: Text(
+                    instructor.name,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                const Text(
+                  'Lead Instructor',
+                  style: TextStyle(fontSize: 12, color: Colors.grey),
+                ),
+              ],
+            ),
+          ],
+        ),
+      );
+    }).toList(),
+  );
+}
+
 
 Widget buildRegentsRow(BuildContext context, List<Professor> regents) {
   final session = context.read<SessionProvider>().state!;
