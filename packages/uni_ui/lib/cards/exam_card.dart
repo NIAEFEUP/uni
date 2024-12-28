@@ -133,9 +133,7 @@ class ExamCard extends StatelessWidget {
               IconButton(
                 onPressed: iconAction ?? () {},
                 icon: UniIcon(
-                  isInvisible
-                      ? UniIcons.eyeVisible
-                      : UniIcons.eyeHidden,
+                  isInvisible ? UniIcons.eyeVisible : UniIcons.eyeHidden,
                   color: Theme.of(context).iconTheme.color,
                   size: 35,
                 ),

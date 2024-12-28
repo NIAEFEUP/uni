@@ -10,7 +10,7 @@ import 'package:uni_ui/modal/modal.dart';
 
 class ProfessorInfoModal extends StatelessWidget {
   const ProfessorInfoModal(this.professor, {super.key});
-  final MapEntry<int, Professor> professor;
+  final Professor professor;
 
   @override
   Widget build(BuildContext context) {
@@ -30,12 +30,12 @@ class ProfessorInfoModal extends StatelessWidget {
               ),
               future: ProfileProvider.fetchOrGetCachedProfilePicture(
                 session,
-                studentNumber: int.parse(professor.value.code),
+                studentNumber: int.parse(professor.code),
               ),
             ),
             const SizedBox(height: 10),
             Text(
-              professor.value.name,
+              professor.name,
               style: Theme.of(context).textTheme.headlineMedium,
             ),
             const Opacity(

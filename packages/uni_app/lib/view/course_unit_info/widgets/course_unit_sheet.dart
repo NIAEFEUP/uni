@@ -15,6 +15,7 @@ import 'package:uni/view/common_widgets/generic_animated_expandable.dart';
 import 'package:uni/view/common_widgets/generic_expandable.dart';
 import 'package:uni/view/course_unit_info/widgets/modal_professor_info.dart';
 import 'package:uni_ui/cards/exam_card.dart';
+import 'package:uni_ui/theme.dart';
 
 class CourseUnitSheetView extends StatelessWidget {
   const CourseUnitSheetView(this.courseUnitSheet, this.exams, {super.key});
@@ -34,13 +35,13 @@ class CourseUnitSheetView extends StatelessWidget {
               style: TextStyle(fontSize: 20),
             ),
             if (courseUnitSheet.professors.length <= 4)
-              buildInstructorsRow(context, courseUnitSheet.professors) 
+              _buildInstructorsRow(context, courseUnitSheet.professors)
             else
               AnimatedExpandable(
-                firstChild: buildLimitedInstructorsRow(
+                firstChild: _buildLimitedInstructorsRow(
                     context, courseUnitSheet.professors),
                 secondChild:
-                    buildInstructorsRow(context, courseUnitSheet.professors),
+                    _buildInstructorsRow(context, courseUnitSheet.professors),
               ),
             const Opacity(
               opacity: 0.25,
@@ -54,7 +55,7 @@ class CourseUnitSheetView extends StatelessWidget {
               height: 100,
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
-                child: buildExamsRow(context, exams),
+                child: _buildExamsRow(context, exams),
               ),
             ),
             _buildCard(S.of(context).program, courseUnitSheet.content, context),
@@ -72,123 +73,82 @@ class CourseUnitSheetView extends StatelessWidget {
                 S.of(context).bibliography,
                 style: const TextStyle(fontSize: 20),
               ),
-              buildBooksRow(context, courseUnitSheet.books),
+              _buildBooksRow(context, courseUnitSheet.books),
             ],
           ],
         ),
       ),
     );
   }
-}
 
-Widget buildLimitedInstructorsRow(
-    BuildContext context, List<Professor> instructors) {
-  final session = context.read<SessionProvider>().state!;
-  final firstThree = instructors.take(3).toList();
-  final remaining = instructors.skip(3).toList();
+  Widget _buildLimitedInstructorsRow(
+      BuildContext context, List<Professor> instructors) {
+    final firstThree = instructors.take(3).toList();
+    final remaining = instructors.skip(3).toList();
 
-  List<Widget> children = [];
-  for (final instructor in firstThree) {
-    children.add(Container(
-      padding: const EdgeInsets.all(8.0),
-      decoration: BoxDecoration(
-        color: const Color.fromRGBO(255, 245, 243, 1),
-        borderRadius: BorderRadius.circular(8.0),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          FutureBuilder<File?>(
-            builder: (context, snapshot) => _buildAvatar(snapshot, 20),
-            future: ProfileProvider.fetchOrGetCachedProfilePicture(
-              session,
-              studentNumber: int.parse(instructor.code),
+    return Wrap(
+      spacing: 8.0,
+      runSpacing: 4.0,
+      children: [
+        ...firstThree
+            .map((instructor) => _buildInstructorWidget(context, instructor)),
+        if (remaining.isNotEmpty)
+          Container(
+            padding: const EdgeInsets.all(8.0),
+            decoration: BoxDecoration(
+              color: const Color.fromRGBO(255, 245, 243, 1),
+              borderRadius: BorderRadius.circular(8.0),
             ),
-          ),
-          const SizedBox(width: 8),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox(
-                width: 100,
-                child: Text(
-                  instructor.name,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(
+                  width: 70,
+                  height: 40,
+                  child: Stack(
+                    children: remaining.asMap().entries.map((entry) {
+                      final index = entry.key;
+                      final instructor = entry.value;
+                      return Positioned(
+                        left: index * 20.0,
+                        child: _InstructorAvatar(instructor: instructor),
+                      );
+                    }).toList(),
                   ),
-                  overflow: TextOverflow.ellipsis,
                 ),
-              ),
-              const Text(
-                'Lead Instructor',
-                style: TextStyle(fontSize: 12, color: Colors.grey),
-              ),
-            ],
+                const SizedBox(width: 8),
+                Text(
+                  '+${remaining.length} more',
+                  style: const TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.w500),
+                ),
+              ],
+            ),
           ),
-        ],
-      ),
-    ));
-  }
-
-  if (remaining.isNotEmpty) {
-    children.add(
-      Container(
-        padding: const EdgeInsets.all(8.0),
-        decoration: BoxDecoration(
-          color: const Color.fromRGBO(255, 245, 243, 1),
-          borderRadius: BorderRadius.circular(8.0),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SizedBox(
-              width: 70,
-              height: 40,
-              child: Stack( // Use Stack for overlapping
-                children: remaining.asMap().entries.map((entry) {
-                  final index = entry.key;
-                  final instructor = entry.value;
-                  return Positioned(
-                    left: index * 24.0, // Adjust this value for desired overlap
-                    child: FutureBuilder<File?>(
-                      builder: (context, snapshot) => _buildAvatar(snapshot, 20),
-                      future: ProfileProvider.fetchOrGetCachedProfilePicture(
-                        session,
-                        studentNumber: int.parse(instructor.code),
-                      ),
-                    ),
-                  );
-                }).toList(),
-              ),
-            ),
-            const SizedBox(width: 8),
-            Text(
-              '+${remaining.length} more',
-              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-            ),
-          ],
-        ),
-      ),
+      ],
     );
   }
 
-  return Wrap(
-    spacing: 8.0,
-    runSpacing: 4.0,
-    children: children,
-  );
-}
+  Widget _buildInstructorsRow(
+      BuildContext context, List<Professor> instructors) {
+    return Wrap(
+      spacing: 8.0,
+      runSpacing: 4.0,
+      children: instructors
+          .map((instructor) => _buildInstructorWidget(context, instructor))
+          .toList(),
+    );
+  }
 
-Widget buildInstructorsRow(
-    BuildContext context, List<Professor> instructors) {
-  final session = context.read<SessionProvider>().state!;
-  return Wrap(
-    spacing: 8.0,
-    runSpacing: 4.0,
-    children: instructors.map((instructor) {
-      return Container(
+  Widget _buildInstructorWidget(BuildContext context, Professor instructor) {
+    return GestureDetector(
+      onTap: () {
+        showDialog<void>(
+          context: context,
+          builder: (context) => ProfessorInfoModal(instructor),
+        );
+      },
+      child: Container(
         padding: const EdgeInsets.all(8.0),
         decoration: BoxDecoration(
           color: const Color.fromRGBO(255, 245, 243, 1),
@@ -197,13 +157,7 @@ Widget buildInstructorsRow(
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            FutureBuilder<File?>(
-              builder: (context, snapshot) => _buildAvatar(snapshot, 20),
-              future: ProfileProvider.fetchOrGetCachedProfilePicture(
-                session,
-                studentNumber: int.parse(instructor.code),
-              ),
-            ),
+            _InstructorAvatar(instructor: instructor),
             const SizedBox(width: 8),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -228,52 +182,79 @@ Widget buildInstructorsRow(
             ),
           ],
         ),
-      );
-    }).toList(),
-  );
-}
+      ),
+    );
+  }
 
-Widget buildExamsRow(BuildContext context, List<Exam> exams) {
-  bool isMock = false;
+  Widget _buildExamsRow(BuildContext context, List<Exam> exams) {
+    bool isMock = false;
 
-  if (isMock) {
+    if (isMock) {
       final List<Exam> mockExams = [
-      Exam(
-        'mock1',
-        DateTime(2024, 12, 10, 9, 0),
-        DateTime(2024, 12, 10, 11, 0),
-        'SDLE',
-        ['B315', 'B224', 'B207'],
-        'MT',
-        'Faculty of Science',
-      ),
-      Exam(
-        'mock2',
-        DateTime(2025, 01, 15, 14, 30),
-        DateTime(2025, 01, 15, 16, 00),
-        'SDLE',
-        ['B315', 'B224', 'B207'],
-        'EN',
-        'Faculty of Science',
-      ),
-      Exam(
-        'mock3',
-        DateTime(2025, 02, 20, 10, 00),
-        DateTime(2025, 02, 20, 12, 30),
-        'SDLE',
-        ['FC4126'],
-        'ER',
-        'Faculty of Science',
-      ),
-    ];
+        Exam(
+          'mock1',
+          DateTime(2024, 12, 10, 9, 0),
+          DateTime(2024, 12, 10, 11, 0),
+          'RCOM',
+          ['B315', 'B224', 'B207'],
+          'MT',
+          'Faculty of Science',
+        ),
+        Exam(
+          'RCOM',
+          DateTime(2025, 01, 15, 14, 30),
+          DateTime(2025, 01, 15, 16, 00),
+          'SDLE',
+          ['B315', 'B224', 'B207'],
+          'EN',
+          'Faculty of Science',
+        ),
+        Exam(
+          'RCOM',
+          DateTime(2025, 02, 20, 10, 00),
+          DateTime(2025, 02, 20, 12, 30),
+          'SDLE',
+          ['FC4126'],
+          'ER',
+          'Faculty of Science',
+        ),
+      ];
+      return Row(
+        children: mockExams.map((exam) {
+          return Padding(
+            padding: const EdgeInsets.only(right: 8),
+            child: SizedBox(
+              width: 240,
+              child: ExamCard(
+                name: 'Redes de Computadores',
+                acronym: exam.subject,
+                rooms: exam.rooms,
+                type: exam.examType,
+                startTime: exam.startTime,
+                examDay: exam.start.day.toString(),
+                examMonth: exam.monthAcronym(PreferencesController.getLocale()),
+                showIcon: false,
+              ),
+            ),
+          );
+        }).toList(),
+      );
+    }
+
+    if (exams.isEmpty) {
+      return const Center(
+        child: Text('No exams scheduled'),
+      );
+    }
+
     return Row(
-      children: mockExams.map((exam) {
+      children: exams.map((exam) {
         return Padding(
           padding: const EdgeInsets.only(right: 8),
           child: SizedBox(
             width: 240,
             child: ExamCard(
-              name: 'Sistemas Distribuídos de Larga Escala',
+              name: exam.subject,
               acronym: exam.subject,
               rooms: exam.rooms,
               type: exam.examType,
@@ -288,105 +269,92 @@ Widget buildExamsRow(BuildContext context, List<Exam> exams) {
     );
   }
 
-  if(exams.isEmpty) {
-    return const Center(
-      child: Text('No exams scheduled'),
+  Widget _buildBooksRow(BuildContext context, List<Book> books) {
+    return Wrap(
+      alignment: WrapAlignment.spaceBetween,
+      children: [
+        ...books.asMap().entries.map((book) {
+          return FutureBuilder<String?>(
+            builder: (context, snapshot) {
+              return Padding(
+                padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
+                child: Column(
+                  children: [
+                    SizedBox(
+                      width: 135,
+                      height: 140,
+                      child: snapshot.data != null
+                          ? Image(image: NetworkImage(snapshot.data!))
+                          : const Image(
+                              image: AssetImage(
+                                'assets/images/book_placeholder.png',
+                              ),
+                            ),
+                    ),
+                    SizedBox(
+                      width: 135,
+                      child: Text(
+                        book.value.title,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+            future: BookThumbFetcher().fetchBookThumb(book.value.isbn),
+          );
+        }),
+      ],
     );
   }
 
-  return Row(
-    children: exams.map((exam) {
-      return Padding(
-        padding: const EdgeInsets.only(right: 8),
-        child: SizedBox(
-          width: 240,
-          child: ExamCard(
-            name: exam.subject,
-            acronym: exam.subject,
-            rooms: exam.rooms,
-            type: exam.examType,
-            startTime: exam.startTime,
-            examDay: exam.start.day.toString(),
-            examMonth: exam.monthAcronym(PreferencesController.getLocale()),
-            showIcon: false,
+  Widget _buildCard(
+    String sectionTitle,
+    String sectionContent,
+    BuildContext context,
+  ) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Column(
+        children: [
+          const Opacity(
+            opacity: 0.25,
+            child: Divider(color: Colors.grey),
           ),
-        ),
-      );
-    }).toList(),
-  );
+          GenericExpandable(
+            content: HtmlWidget(
+              sectionContent != 'null' ? sectionContent : S.of(context).no_info,
+            ),
+            title: sectionTitle,
+          ),
+        ],
+      ),
+    );
+  }
 }
 
-Widget buildBooksRow(BuildContext context, List<Book> books) {
-  return Wrap(
-    alignment: WrapAlignment.spaceBetween,
-    children: [
-      ...books.asMap().entries.map((book) {
-        return FutureBuilder<String?>(
-          builder: (context, snapshot) {
-            return Padding(
-              padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
-              child: Column(
-                children: [
-                  SizedBox(
-                    width: 135,
-                    height: 140,
-                    child: snapshot.data != null
-                        ? Image(image: NetworkImage(snapshot.data!))
-                        : const Image(
-                            image: AssetImage(
-                              'assets/images/book_placeholder.png',
-                            ),
-                          ),
-                  ),
-                  SizedBox(
-                    width: 135,
-                    child: Text(
-                      book.value.title,
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ],
+class _InstructorAvatar extends StatelessWidget {
+  const _InstructorAvatar({required this.instructor});
+
+  final Professor instructor;
+
+  @override
+  Widget build(BuildContext context) {
+    final session = Provider.of<SessionProvider>(context, listen: false).state!;
+    return FutureBuilder<File?>(
+      builder: (context, snapshot) => CircleAvatar(
+        radius: 20,
+        backgroundImage: snapshot.hasData && snapshot.data != null
+            ? FileImage(snapshot.data!) as ImageProvider
+            : const AssetImage(
+                'assets/images/profile_placeholder.png',
               ),
-            );
-          },
-          future: BookThumbFetcher().fetchBookThumb(book.value.isbn),
-        );
-      }),
-    ],
-  );
-}
-
-Widget _buildCard(
-  String sectionTitle,
-  String sectionContent,
-  BuildContext context,
-) {
-  return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 8),
-    child: Column(
-      children: [
-        const Opacity(
-          opacity: 0.25,
-          child: Divider(color: Colors.grey),
-        ),
-        GenericExpandable(
-          content: HtmlWidget(
-            sectionContent != 'null' ? sectionContent : S.of(context).no_info,
-          ),
-          title: sectionTitle,
-        ),
-      ],
-    ),
-  );
-}
-
-Widget _buildAvatar(AsyncSnapshot<File?> snapshot, double radius) {
-  return CircleAvatar(
-    radius: radius,
-    backgroundImage: snapshot.hasData && snapshot.data != null
-        ? FileImage(snapshot.data!) as ImageProvider
-        : const AssetImage(
-            'assets/images/profile_placeholder.png',
-          ),
-  );
+      ),
+      future: ProfileProvider.fetchOrGetCachedProfilePicture(
+        session,
+        studentNumber: int.parse(instructor.code),
+      ),
+    );
+  }
 }
