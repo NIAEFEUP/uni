@@ -58,18 +58,9 @@ class ScheduleCard extends StatelessWidget {
                     Text(
                       acronym,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                          fontSize: Theme.of(context)
-                              .textTheme
-                              .headlineMedium!
-                              .fontSize,
-                          fontWeight: Theme.of(context)
-                              .textTheme
-                              .headlineMedium!
-                              .fontWeight,
-                          color: isActive
-                              ? Theme.of(context).colorScheme.secondary
-                              : Theme.of(context).colorScheme.primary),
+                      style: isActive
+                          ? lightTheme.textTheme.titleLarge
+                          : lightTheme.textTheme.headlineSmall,
                     ),
                     const SizedBox(width: 8), //TODO: Create a custom Gap()?
                     Badge(
@@ -82,29 +73,21 @@ class ScheduleCard extends StatelessWidget {
                 Text(
                   name,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                      fontSize:
-                          Theme.of(context).textTheme.titleLarge!.fontSize,
-                      fontWeight:
-                          Theme.of(context).textTheme.titleLarge!.fontWeight,
-                      color: isActive
-                          ? Theme.of(context).colorScheme.secondary
-                          : Theme.of(context).colorScheme.primary),
+                  style: isActive
+                      ? lightTheme.textTheme.titleSmall
+                      : lightTheme.textTheme.bodySmall,
                 ),
                 SizedBox(height: 5),
                 if (isActive)
                   Row(children: [
                     CircleAvatar(
                         radius: 15,
-                        backgroundImage: const AssetImage(
-                          'assets/images/profile_placeholder.png', // to change
+                        backgroundImage: AssetImage(
+                          teacherPhoto ??
+                              'assets/images/profile_placeholder.png', // to change
                         )),
                     const SizedBox(width: 8), //TODO: create gap()?
-                    Text(teacherName!,
-                        style: TextStyle(
-                            color: isActive
-                                ? Theme.of(context).colorScheme.secondary
-                                : Theme.of(context).colorScheme.primary)),
+                    Text(teacherName!, style: lightTheme.textTheme.titleSmall),
                   ])
               ],
             ),
