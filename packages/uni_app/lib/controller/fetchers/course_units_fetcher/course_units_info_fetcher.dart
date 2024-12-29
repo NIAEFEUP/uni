@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:html/parser.dart';
+import 'package:http/http.dart';
 import 'package:uni/controller/fetchers/session_dependant_fetcher.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/parsers/parser_course_unit_info.dart';
@@ -33,6 +34,10 @@ class CourseUnitsInfoFetcher implements SessionDependantFetcher {
     Session session,
     int occurId,
   ) async {
+    Response? bestResponse;
+    int bestResponseSize = -1;
+
+
     for (final endpoint in getEndpoints(session)) {
       final url = '$endpoint' 'mob_ucurr_geral.perfil';
       try {
@@ -42,13 +47,17 @@ class CourseUnitsInfoFetcher implements SessionDependantFetcher {
           session,
         );
 
-        final json = jsonDecode(response.body) as Map<String, dynamic>;
-        if (response != null && json['lingua'] != null) {
-          return parseSheet(response);
+        if (response.body.length > bestResponseSize) {
+          bestResponseSize = response.body.length;
+          bestResponse = response;
         }
       } catch (_) {
         continue;
       }
+    }
+
+    if (bestResponse != null) {
+      return parseSheet(bestResponse);
     }
 
     return Sheet(
@@ -59,8 +68,6 @@ class CourseUnitsInfoFetcher implements SessionDependantFetcher {
       books: [],
     );
   }
-
-
 
   Future<List<CourseUnitFileDirectory>> fetchCourseUnitFiles(
     Session session,
