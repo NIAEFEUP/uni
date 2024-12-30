@@ -57,7 +57,7 @@ List<Restaurant> getRestaurantsFromHtml(Response response) {
               }
             } else {
               type = document.querySelector('#$header')?.text;
-              final meal = Meal(type ?? '', value, dayOfWeek!, date!);
+              final meal = Meal(type ?? '', value, value, dayOfWeek!, date!);
               meals.add(meal);
             }
           }
@@ -67,6 +67,7 @@ List<Restaurant> getRestaurantsFromHtml(Response response) {
     }
     return Restaurant(
       null,
+      restaurantTuple.$2,
       restaurantTuple.$2,
       restaurantTuple.$1,
       '',

@@ -9,7 +9,8 @@ part '../../generated/model/entities/restaurant.g.dart';
 class Restaurant {
   Restaurant(
     this.id,
-    this.name,
+    this.namePt,
+    this.nameEn,
     this.period,
     this.reference, {
     required List<Meal> meals,
@@ -25,8 +26,10 @@ class Restaurant {
       _$RestaurantFromJson(json);
   @JsonKey(name: 'id')
   final int? id;
-  @JsonKey(name: 'name')
-  final String name;
+  @JsonKey(name: 'namePt')
+  final String namePt;
+  @JsonKey(name: 'nameEn')
+  final String nameEn;
   @JsonKey(name: 'period')
   final String period;
   @JsonKey(name: 'ref')

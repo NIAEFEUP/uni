@@ -14,7 +14,8 @@ class RestaurantDatabase extends AppDatabase<List<Restaurant>> {
           CREATE TABLE RESTAURANTS(
           id INTEGER PRIMARY KEY,
           ref TEXT,
-          name TEXT)
+          namePt TEXT
+					namePt TEXT)
           ''',
             '''
           CREATE TABLE MEALS(
@@ -22,7 +23,8 @@ class RestaurantDatabase extends AppDatabase<List<Restaurant>> {
           day TEXT,
           type TEXT,
           date TEXT,
-          name TEXT,
+          namePt TEXT,
+          nameEn TEXT,
           id_restaurant INTEGER,
           FOREIGN KEY (id_restaurant) REFERENCES RESTAURANTS(id))
           '''
@@ -45,7 +47,8 @@ class RestaurantDatabase extends AppDatabase<List<Restaurant>> {
 
           return Restaurant(
             restaurantId,
-            map['name'] as String,
+            map['namePt'] as String,
+            map['nameEn'] as String,
             map['period'] as String,
             map['ref'] as String,
             meals: meals,
@@ -94,10 +97,11 @@ class RestaurantDatabase extends AppDatabase<List<Restaurant>> {
     final meals = mealsMaps.map((map) {
       final day = parseDayOfWeek(map['day'] as String);
       final type = map['type'] as String;
-      final name = map['name'] as String;
+      final namePt = map['namePt'] as String;
+      final nameEn = map['nameEn'] as String;
       final format = DateFormat('d-M-y');
       final date = format.parseUtc(map['date'] as String);
-      return Meal(type, name, day!, date);
+      return Meal(type, namePt, nameEn, day!, date);
     }).toList();
 
     return meals;

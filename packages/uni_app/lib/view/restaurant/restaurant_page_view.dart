@@ -130,7 +130,8 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
 
   List<Widget> createRestaurantRows(List<Meal> meals, BuildContext context) {
     return meals
-        .map((meal) => RestaurantSlot(type: meal.type, name: meal.name))
+        .map((meal) => RestaurantSlot(
+            type: meal.type, namePt: meal.namePt, nameEn: meal.nameEn))
         .toList();
   }
 

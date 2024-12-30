@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
+import 'package:uni/model/entities/app_locale.dart';
 import 'package:uni/model/entities/meal.dart';
 import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/providers/lazy/restaurant_provider.dart';
@@ -9,6 +10,7 @@ import 'package:uni/model/utils/day_of_week.dart';
 import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
 import 'package:uni/view/lazy_consumer.dart';
+import 'package:uni/view/locale_notifier.dart';
 import 'package:uni/view/restaurant/widgets/restaurant_slot.dart';
 
 class RestaurantCard extends GenericCard {
@@ -41,7 +43,7 @@ class RestaurantCard extends GenericCard {
         final favoriteRestaurants = restaurants
             .where(
               (restaurant) => PreferencesController.getFavoriteRestaurants()
-                  .contains(restaurant.name + restaurant.period),
+                  .contains(restaurant.namePt + restaurant.period),
             )
             .toList();
         return generateRestaurants(favoriteRestaurants, context);
@@ -130,6 +132,7 @@ class RestaurantCard extends GenericCard {
       default:
         period = '';
     }
+    final locale = Provider.of<LocaleNotifier>(context).getLocale();
     return Column(
       children: [
         Center(
@@ -137,7 +140,7 @@ class RestaurantCard extends GenericCard {
             alignment: Alignment.centerLeft,
             padding: const EdgeInsets.fromLTRB(10, 15, 5, 10),
             child: Text(
-              '${restaurant.name} - $period',
+              '${locale == AppLocale.pt ? restaurant.namePt : restaurant.nameEn} - $period',
               style: TextStyle(
                 fontSize: 16,
                 color: Theme.of(context).primaryColor,
@@ -165,6 +168,7 @@ class RestaurantCard extends GenericCard {
 
 List<Widget> createRestaurantRows(List<Meal> meals, BuildContext context) {
   return meals
-      .map((meal) => RestaurantSlot(type: meal.type, name: meal.name))
+      .map((meal) => RestaurantSlot(
+          type: meal.type, namePt: meal.namePt, nameEn: meal.nameEn))
       .toList();
 }

@@ -14,8 +14,6 @@ class RestaurantFetcher {
     Iterable<DayMenu> dayMenus,
     String period,
   ) {
-    final currentLocale = Intl.getCurrentLocale();
-
     final meals = <Meal>[];
     for (final dayMenu in dayMenus) {
       for (final dish in dayMenu.dishes) {
@@ -23,11 +21,8 @@ class RestaurantFetcher {
         meals.add(
           Meal(
             dish.dishType.namePt,
-            currentLocale.startsWith('pt')
-                ? dish.dish.namePt
-                : dish.dish.nameEn ??
-                    dish.dish
-                        .namePt, // if there isn't an english name, use the portuguese one.
+            dish.dish.namePt,
+            dish.dish.nameEn ?? dish.dish.namePt,
             parseDateTime(dayMenu.day),
             dayMenu.day,
           ),
@@ -36,9 +31,8 @@ class RestaurantFetcher {
     }
     return Restaurant(
       establishment.id,
-      currentLocale.startsWith('pt')
-          ? establishment.namePt
-          : establishment.nameEn,
+      establishment.namePt,
+      establishment.nameEn,
       period,
       '',
       meals: meals,

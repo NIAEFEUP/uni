@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
+import 'package:uni/model/entities/app_locale.dart';
 import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/utils/favorite_widget_type.dart';
 import 'package:uni/view/common_widgets/generic_card.dart';
+import 'package:uni/view/locale_notifier.dart';
 
 class RestaurantPageCard extends GenericCard {
   RestaurantPageCard(this.restaurant, this.meals, {super.key})
@@ -24,17 +27,20 @@ class RestaurantPageCard extends GenericCard {
 
   @override
   String getTitle(BuildContext context) {
+    final locale = Provider.of<LocaleNotifier>(context).getLocale();
+    final restaurantName =
+        locale == AppLocale.pt ? restaurant.namePt : restaurant.nameEn;
     switch (restaurant.period) {
       case 'lunch':
-        return '${restaurant.name} - ${S.of(context).lunch}';
+        return '$restaurantName - ${S.of(context).lunch}';
       case 'dinner':
-        return '${restaurant.name} - ${S.of(context).dinner}';
+        return '$restaurantName - ${S.of(context).dinner}';
       case 'breakfast':
-        return '${restaurant.name} - ${S.of(context).breakfast}';
+        return '$restaurantName - ${S.of(context).breakfast}';
       case 'snackbar':
-        return '${restaurant.name} - ${S.of(context).snackbar}';
+        return '$restaurantName - ${S.of(context).snackbar}';
       default:
-        return restaurant.name;
+        return restaurantName;
     }
   }
 
@@ -63,7 +69,7 @@ class CardFavoriteButtonState extends State<CardFavoriteButton> {
   void initState() {
     super.initState();
     isFavorite = PreferencesController.getFavoriteRestaurants()
-        .contains(widget.restaurant.name + widget.restaurant.period);
+        .contains(widget.restaurant.namePt + widget.restaurant.period);
   }
 
   @override
@@ -74,12 +80,12 @@ class CardFavoriteButtonState extends State<CardFavoriteButton> {
         final favoriteRestaurants =
             PreferencesController.getFavoriteRestaurants();
         if (favoriteRestaurants
-            .contains(widget.restaurant.name + widget.restaurant.period)) {
+            .contains(widget.restaurant.namePt + widget.restaurant.period)) {
           favoriteRestaurants
-              .remove(widget.restaurant.name + widget.restaurant.period);
+              .remove(widget.restaurant.namePt + widget.restaurant.period);
         } else {
           favoriteRestaurants
-              .add(widget.restaurant.name + widget.restaurant.period);
+              .add(widget.restaurant.namePt + widget.restaurant.period);
         }
 
         setState(() {
