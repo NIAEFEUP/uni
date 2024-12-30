@@ -18,25 +18,23 @@ class CourseUnitsInfoFetcher implements SessionDependantFetcher {
     Session session,
     int occurId,
   ) async {
-    Response? bestResponse;
+    final responses = await Future.wait(
+      getEndpoints(session)
+          .map((endpoint) => '$endpoint' 'mob_ucurr_geral.perfil')
+          .map(
+            (url) => NetworkRouter.getWithCookies(
+              url,
+              {'pv_ocorrencia_id': occurId.toString()},
+              session,
+            ),
+          ),
+    );
 
-    for (final endpoint in getEndpoints(session)) {
-      final url = '$endpoint' 'mob_ucurr_geral.perfil';
-      try {
-        final response = await NetworkRouter.getWithCookies(
-          url,
-          {'pv_ocorrencia_id': occurId.toString()},
-          session,
-        );
-
-        if (bestResponse == null ||
-            response.body.length > bestResponse.body.length) {
-          bestResponse = response;
-        }
-      } catch (_) {
-        continue;
-      }
-    }
+    final bestResponse = responses.fold<Response?>(
+      null,
+      (best, current) =>
+          current.body.length > (best?.body.length ?? 0) ? current : best,
+    );
 
     return bestResponse != null
         ? parseSheet(bestResponse)
