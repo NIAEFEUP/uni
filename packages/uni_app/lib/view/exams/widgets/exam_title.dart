@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class ExamTitle extends StatelessWidget {
   const ExamTitle({
     required this.subject,
+    required this.subjectName,
     this.type,
     this.reverseOrder = false,
     super.key,
@@ -10,6 +11,7 @@ class ExamTitle extends StatelessWidget {
   static const double borderRadius = 12;
   static const double sideSizing = 12;
   final String subject;
+  final String subjectName;
   final String? type;
   final bool reverseOrder;
 
@@ -25,12 +27,15 @@ class ExamTitle extends StatelessWidget {
       type != null ? ' ($type) ' : '',
       style: Theme.of(context).textTheme.bodyMedium,
     );
-    final subjectWidget = Text(
-      subject,
-      style: Theme.of(context)
-          .textTheme
-          .headlineSmall
-          ?.apply(color: Theme.of(context).colorScheme.tertiary),
+    final subjectWidget = Tooltip(
+      message: subjectName,
+      child: Text(
+        subject,
+        style: Theme.of(context)
+            .textTheme
+            .headlineSmall
+            ?.apply(color: Theme.of(context).colorScheme.tertiary),
+      ),
     );
 
     return Row(

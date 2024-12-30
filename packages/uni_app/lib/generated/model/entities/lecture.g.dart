@@ -14,7 +14,7 @@ Lecture _$LectureFromJson(Map<String, dynamic> json) => Lecture(
       json['room'] as String,
       json['teacher'] as String,
       json['classNumber'] as String,
-      json['occurrId'] as int,
+      (json['occurrId'] as num).toInt(),
     );
 
 Map<String, dynamic> _$LectureToJson(Lecture instance) => <String, dynamic>{

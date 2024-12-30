@@ -7,7 +7,7 @@ part of '../../../model/entities/restaurant.dart';
 // **************************************************************************
 
 Restaurant _$RestaurantFromJson(Map<String, dynamic> json) => Restaurant(
-      json['id'] as int?,
+      (json['id'] as num?)?.toInt(),
       json['name'] as String,
       json['ref'] as String,
       meals: (json['meals'] as List<dynamic>)

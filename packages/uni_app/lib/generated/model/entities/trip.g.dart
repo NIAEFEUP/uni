@@ -9,7 +9,7 @@ part of '../../../model/entities/trip.dart';
 Trip _$TripFromJson(Map<String, dynamic> json) => Trip(
       line: json['line'] as String,
       destination: json['destination'] as String,
-      timeRemaining: json['timeRemaining'] as int,
+      timeRemaining: (json['timeRemaining'] as num).toInt(),
     );
 
 Map<String, dynamic> _$TripToJson(Trip instance) => <String, dynamic>{

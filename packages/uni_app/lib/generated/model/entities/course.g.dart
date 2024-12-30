@@ -8,7 +8,7 @@ part of '../../../model/entities/course.dart';
 
 Map<String, dynamic> _$CourseToJson(Course instance) => <String, dynamic>{
       'cur_id': instance.id,
-      'fest_id ': instance.festId,
+      'fest_id': instance.festId,
       'cur_nome': instance.name,
       'abbreviation': instance.abbreviation,
       'ano_curricular': instance.currYear,
