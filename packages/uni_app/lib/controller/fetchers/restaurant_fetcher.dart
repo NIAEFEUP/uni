@@ -1,4 +1,3 @@
-import 'package:intl/intl.dart';
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/parsers/parser_restaurants.dart';
 import 'package:uni/model/entities/meal.dart';
