@@ -26,15 +26,17 @@ class CourseUnitsInfoFetcher implements SessionDependantFetcher {
               url,
               {'pv_ocorrencia_id': occurId.toString()},
               session,
-            ),
+            ).catchError((_) => Response('', 500)),
           ),
     );
 
-    final bestResponse = responses.fold<Response?>(
-      null,
-      (best, current) =>
-          current.body.length > (best?.body.length ?? 0) ? current : best,
-    );
+    final bestResponse = responses
+        .where((response) => response.statusCode == 200)
+        .fold<Response?>(
+          null,
+          (best, current) =>
+              current.body.length > (best?.body.length ?? 0) ? current : best,
+        );
 
     return bestResponse != null
         ? parseSheet(bestResponse)
