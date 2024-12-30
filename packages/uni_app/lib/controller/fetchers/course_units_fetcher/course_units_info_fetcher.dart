@@ -16,27 +16,11 @@ class CourseUnitsInfoFetcher implements SessionDependantFetcher {
     return NetworkRouter.getBaseUrlsFromSession(session).toList();
   }
 
-  Future<CourseUnitSheet> fetchCourseUnitSheet(
-    Session session,
-    int occurrId,
-  ) async {
-    // if course unit is not from the main faculty, Sigarra redirects
-    final url = '${getEndpoints(session)[0]}ucurr_geral.ficha_uc_view';
-    final response = await NetworkRouter.getWithCookies(
-      url,
-      {'pv_ocorrencia_id': occurrId.toString()},
-      session,
-    );
-    return parseCourseUnitSheet(response);
-  }
-
   Future<Sheet> fetchSheet(
     Session session,
     int occurId,
   ) async {
     Response? bestResponse;
-    int bestResponseSize = -1;
-
 
     for (final endpoint in getEndpoints(session)) {
       final url = '$endpoint' 'mob_ucurr_geral.perfil';
@@ -47,8 +31,8 @@ class CourseUnitsInfoFetcher implements SessionDependantFetcher {
           session,
         );
 
-        if (response.body.length > bestResponseSize) {
-          bestResponseSize = response.body.length;
+        if (bestResponse == null ||
+            response.body.length > bestResponse.body.length) {
           bestResponse = response;
         }
       } catch (_) {
@@ -56,17 +40,15 @@ class CourseUnitsInfoFetcher implements SessionDependantFetcher {
       }
     }
 
-    if (bestResponse != null) {
-      return parseSheet(bestResponse);
-    }
-
-    return Sheet(
-      professors: [],
-      regents: [],
-      content: '',
-      evaluation: '',
-      books: [],
-    );
+    return bestResponse != null
+        ? parseSheet(bestResponse)
+        : Sheet(
+            professors: [],
+            regents: [],
+            content: '',
+            evaluation: '',
+            books: [],
+          );
   }
 
   Future<List<CourseUnitFileDirectory>> fetchCourseUnitFiles(
