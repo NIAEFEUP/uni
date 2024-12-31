@@ -1,3 +1,5 @@
+import 'package:uni/model/utils/time/weekday_mapper.dart';
+
 enum DayOfWeek {
   monday,
   tuesday,
@@ -9,25 +11,8 @@ enum DayOfWeek {
 }
 
 DayOfWeek parseDateTime(DateTime dateTime) {
-  final weekDay = dateTime.weekday;
-  switch (weekDay) {
-    case DateTime.monday:
-      return DayOfWeek.monday;
-    case DateTime.tuesday:
-      return DayOfWeek.tuesday;
-    case DateTime.wednesday:
-      return DayOfWeek.wednesday;
-    case DateTime.thursday:
-      return DayOfWeek.thursday;
-    case DateTime.friday:
-      return DayOfWeek.friday;
-    case DateTime.saturday:
-      return DayOfWeek.saturday;
-    case DateTime.sunday:
-      return DayOfWeek.sunday;
-    default:
-      throw Exception('Invalid day of week');
-  }
+  final index = WeekdayMapper.fromDartToIndex.map(dateTime.weekday);
+  return DayOfWeek.values[index];
 }
 
 DayOfWeek? parseDayOfWeek(String str) {
