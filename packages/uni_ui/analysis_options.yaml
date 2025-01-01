@@ -3,7 +3,6 @@ analyzer:
     - custom_lint
 
 custom_lint:
-  enable_all_lint_rules: false
   debug: true
   rules:
     - string_literals_lint
