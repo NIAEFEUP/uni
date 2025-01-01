@@ -25,26 +25,25 @@ class NoStringLiteralsInWidgetsLint extends DartLintRule {
     ErrorReporter reporter,
     CustomLintContext context,
   ) {
-    context.registry.addVariableDeclaration((node) {
-      if (isInsideWidgetClass(node)) {
-        if (isStringLiteral(node)) {
-          reporter.atNode(node, code);
-        }
+    context.registry.addStringLiteral((node) {
+      if (isInsideWidgetClass(node) && node.parent is VariableDeclaration) {
+        reporter.atNode(node, code);
+        //if (isStringLiteral(node)) {
+        //  reporter.atNode(node, code);
+        //}
       }
     });
   }
 
-  bool isInsideWidgetClass(VariableDeclaration node) {
+  bool isInsideWidgetClass(StringLiteral node) {
     var parent = node.thisOrAncestorOfType<ClassDeclaration>();
     if (parent == null) return false;
 
     final extendsClause = parent.extendsClause;
     if (extendsClause != null) {
       final superclass = extendsClause.superclass;
-      print(superclass.element?.displayName == "StatelessWidget");
-      return true;
-      // return superclass.runtimeType == StatelessWidget ||
-      //     superclass.runtimeType == StatefulWidget;
+      print(superclass.element?.displayName == "StatelessWidget" || superclass.element?.displayName == "StatefulWidget");
+      return superclass.element?.displayName == "StatelessWidget" || superclass.element?.displayName == "StatefulWidget";
     }
     return false;
   }
