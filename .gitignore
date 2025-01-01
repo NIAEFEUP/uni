@@ -8,6 +8,7 @@ build/
 *.bin
 .flutter-plugins*
 packages/uni_ui/pubspec.lock
+packages/uni_lint/pubspec.lock
 
 # IDE files
 .DS_Store
