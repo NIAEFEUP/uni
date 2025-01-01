@@ -2,21 +2,21 @@ import 'package:analyzer/error/listener.dart';
 import 'package:custom_lint_builder/custom_lint_builder.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 
-PluginBase createPlugin() => _ExampleLinter();
+PluginBase createPlugin() => UniUILint();
 
-class _ExampleLinter extends PluginBase {
+class UniUILint extends PluginBase {
   @override
   List<LintRule> getLintRules(CustomLintConfigs configs) => [
-        StringLiteralsLint(),
+    NoStringLiteralsInWidgetsLint(),
       ];
 }
 
-class StringLiteralsLint extends DartLintRule {
-  StringLiteralsLint() : super(code: _code);
+class NoStringLiteralsInWidgetsLint extends DartLintRule {
+  NoStringLiteralsInWidgetsLint() : super(code: _code);
 
   static const _code = LintCode(
     name: 'string_literals_lint',
-    problemMessage: 'There is a string literal inside a widget',
+    problemMessage: 'String literals are not allowed inside a widget. Please pass this value as a parameter for the widget.',
   );
 
   @override
