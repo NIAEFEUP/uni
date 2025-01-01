@@ -26,11 +26,10 @@ class NoStringLiteralsInWidgetsLint extends DartLintRule {
     CustomLintContext context,
   ) {
     context.registry.addStringLiteral((node) {
-      if (isInsideWidgetClass(node) && node.parent is VariableDeclaration) {
+      final fileUri = node.thisOrAncestorOfType<CompilationUnit>()?.declaredElement?.source?.uri;
+      final fileName = fileUri?.pathSegments.last;
+      if (isInsideWidgetClass(node) && fileName != "main.dart") {
         reporter.atNode(node, code);
-        //if (isStringLiteral(node)) {
-        //  reporter.atNode(node, code);
-        //}
       }
     });
   }
@@ -42,16 +41,7 @@ class NoStringLiteralsInWidgetsLint extends DartLintRule {
     final extendsClause = parent.extendsClause;
     if (extendsClause != null) {
       final superclass = extendsClause.superclass;
-      print(superclass.element?.displayName == "StatelessWidget" || superclass.element?.displayName == "StatefulWidget");
-      return superclass.element?.displayName == "StatelessWidget" || superclass.element?.displayName == "StatefulWidget";
-    }
-    return false;
-  }
-
-  bool isStringLiteral(VariableDeclaration node) {
-    final initializer = node.initializer;
-    if (initializer is StringLiteral) {
-      return true;
+      return superclass.element?.displayName == "StatelessWidget" || superclass.element?.displayName == "StatefulWidget" || superclass.element?.displayName == "State";
     }
     return false;
   }
