@@ -332,6 +332,6 @@
   "@fail_to_authenticate": {},
   "wrong_credentials_exception": "Invalid credentials",
   "@wrong_credentials_exception": {},
-  "internet_status_exception": "Check your internet connection",
+  "internet_status_exception": "Attention: No internet connection",
   "@internet_status_exception": {}
 }
