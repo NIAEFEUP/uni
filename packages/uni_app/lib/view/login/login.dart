@@ -93,8 +93,6 @@ class LoginPageViewState extends State<LoginPageView>
         passwordController.clear();
 
         if (mounted) {
-          usernameController.clear();
-          passwordController.clear();
           await Navigator.pushReplacementNamed(
             context,
             '/${NavigationItem.navPersonalArea.route}',
