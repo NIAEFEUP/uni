@@ -206,7 +206,8 @@ class LoginPageViewState extends State<LoginPageView>
       if (mounted) {
         Logger().e(S.of(context).fail_to_authenticate);
         unawaited(
-            ToastMessage.error(context, S.of(context).fail_to_authenticate),);
+          ToastMessage.error(context, S.of(context).fail_to_authenticate),
+        );
       }
     }
   }
