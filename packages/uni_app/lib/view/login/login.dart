@@ -203,9 +203,9 @@ class LoginPageViewState extends State<LoginPageView>
       setState(() {
         _loggingIn = false;
       });
-      Logger().e('Failed to authenticate');
       if (mounted) {
-        unawaited(ToastMessage.error(context, 'Failed to authenticate'));
+        Logger().e(S.of(context).failed_to_authenticate);
+        unawaited(ToastMessage.error(context, S.of(context).failed_to_authenticate));
       }
     }
   }

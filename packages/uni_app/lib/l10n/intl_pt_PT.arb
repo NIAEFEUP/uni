@@ -333,5 +333,7 @@
   "wrong_credentials_exception": "Credenciais inválidas",
   "@wrong_credentials_exception": {},
   "internet_status_exception": "Verifique sua conexão com a internet",
-  "@internet_status_exception": {}
+  "@internet_status_exception": {},
+  "failed_to_authenticate": "Falha ao autenticar",
+  "@failed_to_authenticate": {}
 }
