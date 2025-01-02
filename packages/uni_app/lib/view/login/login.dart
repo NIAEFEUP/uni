@@ -214,12 +214,7 @@ class LoginPageViewState extends State<LoginPageView>
   @override
   Widget build(BuildContext context) {
     return Theme(
-      data: lightTheme.copyWith(
-        textSelectionTheme: const TextSelectionThemeData(
-          cursorColor: Colors.white,
-          selectionHandleColor: Colors.white,
-        ),
-      ),
+      data: lightTheme,
       child: Builder(
         builder: (context) => Scaffold(
           resizeToAvoidBottomInset: false,
