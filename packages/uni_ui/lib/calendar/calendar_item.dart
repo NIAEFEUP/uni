@@ -2,11 +2,10 @@ import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/material.dart';
 
 class _CalendarItemDate extends StatelessWidget {
-  const _CalendarItemDate({
-    required this.eventPeriod,
-  });
+  const _CalendarItemDate({this.eventPeriod, this.endYear});
 
-  final DateTimeRange? eventPeriod;
+  final String? eventPeriod;
+  final String? endYear;
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +13,7 @@ class _CalendarItemDate extends StatelessWidget {
       return Column(
         children: [
           Text(
-            parsePeriod(eventPeriod!),
+            eventPeriod!,
             style: TextStyle(
               fontSize: 15,
               height: 1,
@@ -22,7 +21,7 @@ class _CalendarItemDate extends StatelessWidget {
             ),
           ),
           Text(
-            eventPeriod!.end.year.toString(),
+            endYear ?? '',
             style: TextStyle(
               color: Theme.of(context).colorScheme.outline,
               fontSize: 11,
@@ -44,6 +43,7 @@ class _CalendarItemDate extends StatelessWidget {
     }
   }
 
+/* TODO: move this to uni_app later
   static String monthToString(int month) {
     // TODO: Support Portuguese
     const strMonths = [
@@ -74,6 +74,8 @@ class _CalendarItemDate extends StatelessWidget {
       return "${start.day} ${monthToString(start.month)} - ${end.day} ${monthToString(end.month)}";
     }
   }
+
+  */
 }
 
 class CalendarItem extends StatelessWidget {
@@ -81,11 +83,13 @@ class CalendarItem extends StatelessWidget {
     super.key,
     required this.eventName,
     this.eventPeriod,
+    this.endYear,
     this.onTap,
   });
 
   final String eventName;
-  final DateTimeRange? eventPeriod;
+  final String? eventPeriod;
+  final String? endYear;
   final void Function()? onTap;
 
   @override
@@ -93,7 +97,10 @@ class CalendarItem extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        _CalendarItemDate(eventPeriod: eventPeriod),
+        _CalendarItemDate(
+          eventPeriod: eventPeriod,
+          endYear: endYear,
+        ),
         Stack(
           alignment: Alignment.bottomCenter,
           children: [
