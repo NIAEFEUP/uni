@@ -83,7 +83,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "expired_password" : MessageLookupByLibrary.simpleMessage("Your password has expired"),
     "fail_to_authenticate" : MessageLookupByLibrary.simpleMessage("Failed to authenticate"),
     "failed_login" : MessageLookupByLibrary.simpleMessage("Login failed"),
-    "failed_to_authenticate" : MessageLookupByLibrary.simpleMessage("Failed to authenticate"),
     "fee_date" : MessageLookupByLibrary.simpleMessage("Deadline for next fee:"),
     "fee_notification" : MessageLookupByLibrary.simpleMessage("Fee deadline"),
     "files" : MessageLookupByLibrary.simpleMessage("Files"),

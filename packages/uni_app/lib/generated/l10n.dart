@@ -1694,16 +1694,6 @@ class S {
       args: [],
     );
   }
-
-  /// `Failed to authenticate`
-  String get failed_to_authenticate {
-    return Intl.message(
-      'Failed to authenticate',
-      name: 'failed_to_authenticate',
-      desc: '',
-      args: [],
-    );
-  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
