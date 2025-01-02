@@ -90,6 +90,16 @@ class S {
     );
   }
 
+  /// `Leave feedback
+  String get leave_feedback {
+    return Intl.message(
+      'Leave feedback',
+      name: 'leave feedback',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Report error/suggestion`
   String get report_error_suggestion {
     return Intl.message(
