@@ -8,10 +8,17 @@ extension DateTimeExtensions on DateTime {
         .WEEKDAYS[weekday % 7];
   }
 
-  String month(AppLocale locale) {
+  String fullMonth(AppLocale locale) {
     return DateFormat.EEEE(locale.localeCode.languageCode)
         .dateSymbols
-        .MONTHS[this.month - 1];
+        .MONTHS[month - 1];
+  }
+
+  String shortMonth(AppLocale locale) {
+    return DateFormat.EEEE(locale.localeCode.languageCode)
+        .dateSymbols
+        .SHORTMONTHS[month - 1]
+        .replaceAll('.', '');
   }
 
   String formattedDate(AppLocale locale) {

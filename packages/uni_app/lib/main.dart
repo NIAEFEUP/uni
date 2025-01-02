@@ -51,6 +51,7 @@ import 'package:uni/view/splash/splash.dart';
 import 'package:uni/view/theme.dart';
 import 'package:uni/view/theme_notifier.dart';
 import 'package:uni/view/transports/transports.dart';
+import 'package:uni_ui/theme.dart';
 import 'package:upgrader/upgrader.dart';
 import 'package:workmanager/workmanager.dart';
 
@@ -238,7 +239,7 @@ class ApplicationState extends State<Application> {
         child: MaterialApp(
           title: 'uni',
           navigatorKey: Application.navigatorKey,
-          theme: applicationLightTheme,
+          theme: lightTheme,
           darkTheme: applicationDarkTheme,
           themeMode: themeNotifier.getTheme(),
           locale: localeNotifier.getLocale().localeCode,
