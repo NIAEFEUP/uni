@@ -324,7 +324,7 @@
   "@collect_usage_stats": {},
   "try_again": "Tentar de novo",
   "@try_again": {},
-  "try_different_login": "Problemas a iniciar sessão?",
+  "try_different_login": "Problemas ao iniciar sessão?",
   "@try_different_login": {},
   "login_with_credentials": "Entrar com credenciais",
   "@login_with_credentials": {},

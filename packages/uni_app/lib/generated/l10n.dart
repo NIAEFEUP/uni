@@ -1645,10 +1645,10 @@ class S {
     );
   }
 
-  /// `Having trouble sign in?`
+  /// `Having trouble signing in?`
   String get try_different_login {
     return Intl.message(
-      'Having trouble sign in?',
+      'Having trouble signing in?',
       name: 'try_different_login',
       desc: '',
       args: [],
