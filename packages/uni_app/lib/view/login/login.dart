@@ -205,7 +205,8 @@ class LoginPageViewState extends State<LoginPageView>
       });
       if (mounted) {
         Logger().e(S.of(context).failed_to_authenticate);
-        unawaited(ToastMessage.error(context, S.of(context).failed_to_authenticate));
+        unawaited(
+            ToastMessage.error(context, S.of(context).failed_to_authenticate));
       }
     }
   }
@@ -430,18 +431,12 @@ class LoginPageViewState extends State<LoginPageView>
           ),
           actions: <Widget>[
             ElevatedButton(
-              style: ButtonStyle(
-                backgroundColor:
-                    WidgetStateProperty.all(const Color(0xFF3C0A0E)),
-                foregroundColor:
-                    WidgetStateProperty.all(const Color(0xFFFFF5F3)),
-                side: WidgetStateProperty.all(
-                  const BorderSide(color: Color(0xFF56272B)),
-                ),
-                shape: WidgetStateProperty.all(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF3C0A0E),
+                foregroundColor: const Color(0xFFFFF5F3),
+                side: const BorderSide(color: Color(0xFF56272B)),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
                 ),
               ),
               onPressed: () {
@@ -451,18 +446,12 @@ class LoginPageViewState extends State<LoginPageView>
             ),
             const SizedBox(width: 6),
             ElevatedButton(
-              style: ButtonStyle(
-                backgroundColor:
-                    WidgetStateProperty.all(const Color(0xFF3C0A0E)),
-                foregroundColor:
-                    WidgetStateProperty.all(const Color(0xFFFFF5F3)),
-                side: WidgetStateProperty.all(
-                  const BorderSide(color: Color(0xFF56272B)),
-                ),
-                shape: WidgetStateProperty.all(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF3C0A0E),
+                foregroundColor: const Color(0xFFFFF5F3),
+                side: const BorderSide(color: Color(0xFF56272B)),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
                 ),
               ),
               onPressed: () {
