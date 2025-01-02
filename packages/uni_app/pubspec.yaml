@@ -15,7 +15,7 @@ environment:
 
 dependencies:
   add_2_calendar: ^3.0.1
-  app_links: ^3.5.1
+  app_links: ^6.3.3
   battery_plus: ^5.0.2
   cached_network_image: ^3.3.1
   collection: ^1.16.0
