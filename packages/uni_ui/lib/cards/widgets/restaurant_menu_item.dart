@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class RestaurantMenuItem extends StatelessWidget {
   const RestaurantMenuItem({
@@ -8,7 +7,7 @@ class RestaurantMenuItem extends StatelessWidget {
     required this.icon});
 
   final String name;
-  final PhosphorIcon icon;
+  final Icon icon;
 
   @override
   Widget build(BuildContext context) {

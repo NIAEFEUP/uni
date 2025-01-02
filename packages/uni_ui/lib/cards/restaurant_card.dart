@@ -14,7 +14,7 @@ class RestaurantCard extends StatelessWidget {
   });
 
   final String name;
-  final PhosphorIcon icon;
+  final Icon icon;
   final List<RestaurantMenuItem> menuItems;
   final bool isFavorite;
   final VoidCallback onFavoriteToggle;
@@ -48,13 +48,14 @@ class RestaurantCardHeader extends StatelessWidget {
   });
 
   final String name;
-  final PhosphorIcon icon;
+  final Icon icon;
   final bool isFavorite;
   final VoidCallback onFavoriteToggle;
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: EdgeInsets.only(bottom: 9),
       decoration: BoxDecoration(
         border: Border(
           bottom: BorderSide(
@@ -72,10 +73,7 @@ class RestaurantCardHeader extends StatelessWidget {
             flex: 4,
             child: Text(
               name,
-              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: Theme.of(context).primaryColor,
-              ),
+              style: Theme.of(context).textTheme.headlineSmall,
               overflow: TextOverflow.ellipsis,
             ),
           ),
@@ -84,30 +82,13 @@ class RestaurantCardHeader extends StatelessWidget {
             child: IconButton(
                 onPressed: onFavoriteToggle,
                 icon: isFavorite
-                    ? UniIcon(PhosphorIconsFill.heart,
+                    ? Icon(PhosphorIconsFill.heart,
                     color: Theme.of(context).primaryColor)
-                    : UniIcon(PhosphorIconsRegular.heart,
+                    : Icon(PhosphorIconsRegular.heart,
                     color: Theme.of(context).primaryColor)),
           ),
         ],
       ),
     );
   }
-}
-
-class UniIcon extends PhosphorIcon {
-  const UniIcon(
-      IconData icon, {
-        super.key,
-        double size = 24,
-        Color? color,
-        String? semanticLabel,
-        TextDirection? textDirection,
-      }) : super(
-    icon,
-    size: size,
-    color: color,
-    semanticLabel: semanticLabel,
-    textDirection: textDirection,
-  );
 }
