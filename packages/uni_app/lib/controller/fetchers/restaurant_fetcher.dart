@@ -1,47 +1,73 @@
 import 'package:uni/controller/networking/network_router.dart';
 import 'package:uni/controller/parsers/parser_restaurants.dart';
+import 'package:uni/model/entities/meal.dart';
 import 'package:uni/model/entities/restaurant.dart';
+import 'package:uni/model/utils/day_of_week.dart';
 import 'package:uni/session/flows/base/session.dart';
+import 'package:up_menus/up_menus.dart';
 
 /// Class for fetching the menu
 class RestaurantFetcher {
-  final String spreadSheetUrl = 'https://docs.google.com/spreadsheets/d/'
-      '1TJauM0HwIf2RauQU2GmhdZZ1ZicFLMHuBkxWwVOw3Q4';
-  final String jsonEndpoint = '/gviz/tq?tqx=out:json';
-
-  // Format: Date(dd/mm/yyyy), Meal("Almoço", "Jantar), Dish("Sopa", "Carne",
-  //         "Peixe", "Dieta", "Vegetariano", "Salada"), Description(String)
-  final String sheetsColumnRange = 'A:D';
-
-  // List the Restaurant sheet names in the Google Sheets Document
-  final List<String> restaurantSheets = ['Cantina'];
-
-  // Generate the Gsheets endpoints list based on a list of sheets
-  String buildGSheetsEndpoint(String sheet) {
-    return Uri.encodeFull(
-      '$spreadSheetUrl$jsonEndpoint&sheet=$sheet&range=$sheetsColumnRange',
+  Restaurant convertToRestaurant(
+    Establishment establishment,
+    Iterable<DayMenu> dayMenus,
+    String period,
+  ) {
+    final meals = <Meal>[];
+    for (final dayMenu in dayMenus) {
+      for (final dish in dayMenu.dishes) {
+        // Extract the information about the meal.
+        meals.add(
+          Meal(
+            dish.dishType.namePt,
+            dish.dish.namePt,
+            dish.dish.nameEn ?? dish.dish.namePt,
+            parseDateTime(dayMenu.day),
+            dayMenu.day,
+          ),
+        );
+      }
+    }
+    return Restaurant(
+      establishment.id,
+      establishment.namePt,
+      establishment.nameEn,
+      period,
+      '',
+      meals: meals,
     );
   }
 
-  String getRestaurantGSheetName(Restaurant restaurant) {
-    return restaurantSheets.firstWhere(
-      (sheetName) =>
-          restaurant.name.toLowerCase().contains(sheetName.toLowerCase()),
-      orElse: () => '',
-    );
-  }
+  Future<List<Restaurant>> fetchSASUPRestaurants() async {
+    // TODO: change the implementation to accomodate changes for the new UI.
+    final upMenus = UPMenusApi();
+    final establishments = await upMenus.establishments.list();
+    final restaurants = <Restaurant>[];
 
-  Future<Restaurant> fetchGSheetsRestaurant(
-    String url,
-    String restaurantName,
-    Session session, {
-    bool isDinner = false,
-  }) async {
-    return getRestaurantFromGSheets(
-      await NetworkRouter.getWithCookies(url, {}, session),
-      restaurantName,
-      isDinner: isDinner,
-    );
+    const periods = [
+      {'period': Period.lunch, 'meal': 'lunch'},
+      {'period': Period.dinner, 'meal': 'dinner'},
+      {'period': Period.snackBar, 'meal': 'snackbar'},
+      {'period': Period.breakfast, 'meal': 'breakfast'},
+    ];
+
+    for (final establishment in establishments) {
+      if (establishment.dayMenu == false) {
+        continue;
+      }
+
+      for (final period in periods) {
+        restaurants.add(
+          convertToRestaurant(
+            establishment,
+            await upMenus.dayMenus
+                .get(establishment.id, period['period']! as Period),
+            period['meal']! as String,
+          ),
+        );
+      }
+    }
+    return restaurants;
   }
 
   final List<String> sigarraMenuEndpoints = [
@@ -64,32 +90,8 @@ class RestaurantFetcher {
   }
 
   Future<List<Restaurant>> getRestaurants(Session session) async {
-    final restaurants = await fetchSigarraRestaurants(session);
-
-    // Check for restaurants without associated meals and attempt to parse them
-    // from GSheets
-    final restaurantsWithoutMeals =
-        restaurants.where((restaurant) => restaurant.meals.isEmpty).toList();
-
-    for (final restaurant in restaurantsWithoutMeals) {
-      final sheetName = getRestaurantGSheetName(restaurant);
-      if (sheetName.isEmpty) {
-        continue;
-      }
-
-      final gSheetsRestaurant = await fetchGSheetsRestaurant(
-        buildGSheetsEndpoint(sheetName),
-        restaurant.name,
-        session,
-        isDinner: restaurant.name.toLowerCase().contains('jantar'),
-      );
-
-      restaurants
-        ..removeWhere(
-          (restaurant) => restaurant.name == gSheetsRestaurant.name,
-        )
-        ..insert(0, gSheetsRestaurant);
-    }
+    final restaurants =
+        await fetchSASUPRestaurants() + await fetchSigarraRestaurants(session);
 
     return restaurants;
   }

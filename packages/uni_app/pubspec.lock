@@ -1511,6 +1511,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.2"
+  up_menus:
+    dependency: "direct main"
+    description:
+      name: up_menus
+      sha256: b973555072c6056b757f2740cf7c10fc190ff7f7cd3df3f26c303faf261ce112
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.1"
   upgrader:
     dependency: "direct main"
     description:

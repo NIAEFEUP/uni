@@ -8,14 +8,16 @@ part of '../../../model/entities/meal.dart';
 
 Meal _$MealFromJson(Map<String, dynamic> json) => Meal(
       json['type'] as String,
-      json['name'] as String,
+      json['namePt'] as String,
+      json['nameEn'] as String,
       $enumDecode(_$DayOfWeekEnumMap, json['dayOfWeek']),
       const DateTimeConverter().fromJson(json['date'] as String),
     );
 
 Map<String, dynamic> _$MealToJson(Meal instance) => <String, dynamic>{
       'type': instance.type,
-      'name': instance.name,
+      'namePt': instance.namePt,
+      'nameEn': instance.nameEn,
       'dayOfWeek': _$DayOfWeekEnumMap[instance.dayOfWeek]!,
       'date': const DateTimeConverter().toJson(instance.date),
     };
