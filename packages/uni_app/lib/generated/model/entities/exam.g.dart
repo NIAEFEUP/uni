@@ -14,7 +14,7 @@ Exam _$ExamFromJson(Map<String, dynamic> json) => Exam(
       (json['rooms'] as List<dynamic>).map((e) => e as String).toList(),
       json['examType'] as String,
       json['faculty'] as String,
-    );
+    )..dbId = (json['dbId'] as num?)?.toInt();
 
 Map<String, dynamic> _$ExamToJson(Exam instance) => <String, dynamic>{
       'start': const DateTimeConverter().toJson(instance.start),
@@ -24,4 +24,5 @@ Map<String, dynamic> _$ExamToJson(Exam instance) => <String, dynamic>{
       'rooms': instance.rooms,
       'examType': instance.examType,
       'faculty': instance.faculty,
+      'dbId': instance.dbId,
     };

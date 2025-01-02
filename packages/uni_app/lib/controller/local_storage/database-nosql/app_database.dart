@@ -1,29 +1,20 @@
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:uni/controller/local_storage/database-nosql/object_box_store.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
+import 'package:uni/objectbox.g.dart';
 
-/// Manages a generic database.
+/// Base class for ObjectBox database managers.
 ///
-/// This class is the foundation for all other database managers.
-///
-///
-/// TODO(thePeras): Auto migration script and add a key for last timeupdated?
+/// This class manages generic CRUD operations using ObjectBox.
 abstract class NoSQLDatabase<T> {
-  NoSQLDatabase(
-    this.name, {
-    this.version = 1,
-  });
+  NoSQLDatabase(this.name);
 
-  /// An instance of this database.
-  Box<T>? _db;
+  final String name;
 
-  /// The name of this database.
-  String name;
+  /// ObjectBox box (table) for the entity type `T`.
+  Box<T>? box;
 
   /// Whether the session is persistent or not.
   bool? _persistentSession;
-
-  /// The version of this database.
-  final int version;
 
   /// Getter to determine if the session is persistent.
   Future<bool> get persistentSession async {
@@ -31,52 +22,43 @@ abstract class NoSQLDatabase<T> {
     return _persistentSession!;
   }
 
-  /// Returns an instance of this box
-  Future<Box<T>> _getBox() async {
-    _db ??= await _initializeBox();
-    return _db!;
+  /// Returns an instance of this database.
+  Future<Box<T>> getBox() async {
+    box ??= await initializeBox();
+    return box!;
+  }
+
+  /// Initializes the ObjectBox store and box.
+  Future<Box<T>> initializeBox() async {
+    final storeInstance = await ObjectBoxStore.init();
+    final store = storeInstance.store;
+    return store.box<T>();
   }
 
   /// Saves the data to the database.
   Future<void> saveToDatabase(List<T> data) async {
-    final db = await _getBox();
-    await db.clear();
-    await db.addAll(data);
+    final bux = await getBox();
+    bux
+      ..removeAll()
+      ..putMany(data);
   }
 
-  /// Calls saveToDatabase if the session is persistent
+  /// Saves data only if the session is persistent.
   Future<void> saveIfPersistentSession(List<T> data) async {
     if (await persistentSession) {
       await saveToDatabase(data);
     }
   }
 
+  /// Retrieves all objects of type `T`.
   Future<List<T>> getAll() async {
-    final db = await _getBox();
-    return db.values.toList();
+    final bux = await getBox();
+    return bux.getAll();
   }
 
+  /// Deletes all objects of type `T`.
   Future<void> deleteAll() async {
-    final db = await _getBox();
-    await db.clear();
-  }
-
-  /// Initializes this database.
-  Future<Box<T>> _initializeBox() async {
-    if (Hive.isBoxOpen(name)) {
-      return Hive.box<T>(name);
-    }
-    return Hive.openBox<T>(name);
-  }
-
-  // TODO(thePeras): Why static?
-  /// Removes the database called [name].
-  static Future<void> removeDatabase(String name) async {
-    await Hive.deleteBoxFromDisk(name);
-  }
-
-  /// Registers the adapters for this database.
-  static void registerAdapters() {
-    // Implement this method in the subclass
+    final bux = await getBox();
+    bux.removeAll();
   }
 }

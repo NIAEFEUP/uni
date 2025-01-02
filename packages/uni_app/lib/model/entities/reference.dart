@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:objectbox/objectbox.dart';
 
 part '../../generated/model/entities/reference.g.dart';
 
@@ -18,6 +19,7 @@ class DateTimeConverter extends JsonConverter<DateTime, String> {
 
 @DateTimeConverter()
 @JsonSerializable()
+@Entity()
 class Reference {
   Reference(
     this.description,
@@ -29,6 +31,9 @@ class Reference {
 
   factory Reference.fromJson(Map<String, dynamic> json) =>
       _$ReferenceFromJson(json);
+
+  @Id()
+  int? id;
   final String description;
   final DateTime limitDate;
   final int entity;

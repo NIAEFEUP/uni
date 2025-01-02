@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:uni/controller/fetchers/reference_fetcher.dart';
-import 'package:uni/controller/local_storage/database/app_references_database.dart';
+import 'package:uni/controller/local_storage/database-nosql/references_database.dart';
 import 'package:uni/controller/parsers/parser_references.dart';
 import 'package:uni/model/entities/reference.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
@@ -12,8 +12,8 @@ class ReferenceProvider extends StateProviderNotifier<List<Reference>> {
 
   @override
   Future<List<Reference>> loadFromStorage(StateProviders stateProviders) {
-    final referencesDb = AppReferencesDatabase();
-    return referencesDb.references();
+    final referencesDb = ReferencesDatabase();
+    return referencesDb.getAll();
   }
 
   @override
@@ -23,7 +23,7 @@ class ReferenceProvider extends StateProviderNotifier<List<Reference>> {
     final response = await ReferenceFetcher().getUserReferenceResponse(session);
     final references = await parseReferences(response);
 
-    final referencesDb = AppReferencesDatabase();
+    final referencesDb = ReferencesDatabase();
     unawaited(referencesDb.saveIfPersistentSession(references));
 
     return references;

@@ -1,10 +1,12 @@
 import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:objectbox/objectbox.dart';
 
 part '../../generated/model/entities/calendar_event.g.dart';
 
 /// An event in the school calendar
 @JsonSerializable()
+@Entity()
 class CalendarEvent {
   CalendarEvent(this.name, this.date);
 
@@ -15,6 +17,9 @@ class CalendarEvent {
   ///
   String name;
   String date;
+
+  @Id()
+  int? id;
 
   Map<String, dynamic> toJson() => _$CalendarEventToJson(this);
 

@@ -40,7 +40,6 @@ dependencies:
   flutter_secure_storage: ^9.2.2
   flutter_svg: ^2.0.9
   flutter_widget_from_html_core: ^0.14.11
-  hive_flutter: ^1.1.0
   html: ^0.15.0
   http: ^1.1.0
   image: ^4.1.4
@@ -50,6 +49,8 @@ dependencies:
   latlong2: ^0.9.0
   logger: ^2.0.2+1
   material_design_icons_flutter: ^7.0.7296
+  objectbox: ^4.0.3
+  objectbox_flutter_libs: ^4.0.3
   open_file_plus:
     git:
       url: https://github.com/joutvhu/open_file_plus.git
@@ -81,6 +82,7 @@ dev_dependencies:
     sdk: flutter
   leancode_lint: ^14.0.0
   mockito: 5.4.4
+  objectbox_generator: any
   sqflite_common_ffi: ^2.3.0+4
   test: any
   very_good_analysis: ^5.1.0
