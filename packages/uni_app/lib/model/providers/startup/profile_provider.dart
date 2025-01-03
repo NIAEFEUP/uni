@@ -8,7 +8,7 @@ import 'package:uni/controller/fetchers/print_fetcher.dart';
 import 'package:uni/controller/fetchers/profile_fetcher.dart';
 import 'package:uni/controller/local_storage/database-nosql/course_units_database.dart';
 import 'package:uni/controller/local_storage/database-nosql/courses_database.dart';
-import 'package:uni/controller/local_storage/database/app_user_database.dart';
+import 'package:uni/controller/local_storage/database-nosql/database.dart';
 import 'package:uni/controller/local_storage/file_offline_storage.dart';
 import 'package:uni/controller/parsers/parser_fees.dart';
 import 'package:uni/controller/parsers/parser_print_balance.dart';
@@ -26,14 +26,13 @@ class ProfileProvider extends StateProviderNotifier<Profile> {
   @override
   Future<Profile> loadFromStorage(StateProviders stateProviders) async {
     final databaseFutures = await Future.wait([
-      loadProfile(),
       loadCourses(),
       loadCourseUnits(),
     ]);
 
-    final profile = databaseFutures[0] as Profile;
-    final courses = databaseFutures[1] as List<Course>;
-    final courseUnits = databaseFutures[2] as List<CourseUnit>;
+    final profile = Database().getProfile();
+    final courses = databaseFutures[0] as List<Course>;
+    final courseUnits = databaseFutures[1] as List<CourseUnit>;
 
     profile
       ..courses = courses
@@ -71,15 +70,9 @@ class ProfileProvider extends StateProviderNotifier<Profile> {
       profile.courseUnits = courseUnits;
     }
 
-    final profileDb = AppUserDataDatabase();
-    await profileDb.saveIfPersistentSession(profile);
+    Database().saveProfile(profile);
 
     return profile;
-  }
-
-  Future<Profile> loadProfile() {
-    final profileDb = AppUserDataDatabase();
-    return profileDb.getUserData();
   }
 
   Future<List<Course>> loadCourses() {

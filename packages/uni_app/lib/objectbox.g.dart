@@ -20,6 +20,7 @@ import 'model/entities/course_units/course_unit.dart';
 import 'model/entities/exam.dart';
 import 'model/entities/floor_occupation.dart';
 import 'model/entities/lecture.dart';
+import 'model/entities/profile.dart';
 import 'model/entities/reference.dart';
 
 export 'package:objectbox/objectbox.dart'; // so that callers only have to import this file
@@ -337,6 +338,45 @@ final _entities = <obx_int.ModelEntity>[
             flags: 0)
       ],
       relations: <obx_int.ModelRelation>[],
+      backlinks: <obx_int.ModelBacklink>[]),
+  obx_int.ModelEntity(
+      id: const obx_int.IdUid(8, 4515966536170961118),
+      name: 'Profile',
+      lastPropertyId: const obx_int.IdUid(6, 404969813464949614),
+      flags: 0,
+      properties: <obx_int.ModelProperty>[
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(1, 4821223422152753319),
+            name: 'id',
+            type: 6,
+            flags: 1),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(2, 3109289559488995371),
+            name: 'name',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(3, 1076693008672503872),
+            name: 'email',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(4, 7936654982277352457),
+            name: 'printBalance',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(5, 8258121621474177508),
+            name: 'feesBalance',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(6, 404969813464949614),
+            name: 'feesLimit',
+            type: 10,
+            flags: 0)
+      ],
+      relations: <obx_int.ModelRelation>[],
       backlinks: <obx_int.ModelBacklink>[])
 ];
 
@@ -375,7 +415,7 @@ Future<obx.Store> openStore(
 obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
       entities: _entities,
-      lastEntityId: const obx_int.IdUid(7, 7917687019476141119),
+      lastEntityId: const obx_int.IdUid(8, 4515966536170961118),
       lastIndexId: const obx_int.IdUid(0, 0),
       lastRelationId: const obx_int.IdUid(0, 0),
       lastSequenceId: const obx_int.IdUid(0, 0),
@@ -773,6 +813,58 @@ obx_int.ModelDefinition getObjectBoxModel() {
                 const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 4);
 
           return object;
+        }),
+    Profile: obx_int.EntityDefinition<Profile>(
+        model: _entities[7],
+        toOneRelations: (Profile object) => [],
+        toManyRelations: (Profile object) => {},
+        getId: (Profile object) => object.id,
+        setId: (Profile object, int id) {
+          object.id = id;
+        },
+        objectToFB: (Profile object, fb.Builder fbb) {
+          final nameOffset = fbb.writeString(object.name);
+          final emailOffset = fbb.writeString(object.email);
+          final printBalanceOffset = fbb.writeString(object.printBalance);
+          final feesBalanceOffset = fbb.writeString(object.feesBalance);
+          fbb.startTable(7);
+          fbb.addInt64(0, object.id ?? 0);
+          fbb.addOffset(1, nameOffset);
+          fbb.addOffset(2, emailOffset);
+          fbb.addOffset(3, printBalanceOffset);
+          fbb.addOffset(4, feesBalanceOffset);
+          fbb.addInt64(5, object.feesLimit?.millisecondsSinceEpoch);
+          fbb.finish(fbb.endTable());
+          return object.id ?? 0;
+        },
+        objectFromFB: (obx.Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+          final feesLimitValue =
+              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 14);
+          final nameParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 6, '');
+          final emailParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 8, '');
+          final printBalanceParam =
+              const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 10, '');
+          final feesBalanceParam =
+              const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 12, '');
+          final feesLimitParam = feesLimitValue == null
+              ? null
+              : DateTime.fromMillisecondsSinceEpoch(feesLimitValue);
+          final object = Profile(
+              name: nameParam,
+              email: emailParam,
+              printBalance: printBalanceParam,
+              feesBalance: feesBalanceParam,
+              feesLimit: feesLimitParam)
+            ..id =
+                const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 4);
+
+          return object;
         })
   };
 
@@ -995,4 +1087,31 @@ class Reference_ {
   /// See [Reference.amount].
   static final amount =
       obx.QueryDoubleProperty<Reference>(_entities[6].properties[5]);
+}
+
+/// [Profile] entity fields to define ObjectBox queries.
+class Profile_ {
+  /// See [Profile.id].
+  static final id =
+      obx.QueryIntegerProperty<Profile>(_entities[7].properties[0]);
+
+  /// See [Profile.name].
+  static final name =
+      obx.QueryStringProperty<Profile>(_entities[7].properties[1]);
+
+  /// See [Profile.email].
+  static final email =
+      obx.QueryStringProperty<Profile>(_entities[7].properties[2]);
+
+  /// See [Profile.printBalance].
+  static final printBalance =
+      obx.QueryStringProperty<Profile>(_entities[7].properties[3]);
+
+  /// See [Profile.feesBalance].
+  static final feesBalance =
+      obx.QueryStringProperty<Profile>(_entities[7].properties[4]);
+
+  /// See [Profile.feesLimit].
+  static final feesLimit =
+      obx.QueryDateProperty<Profile>(_entities[7].properties[5]);
 }

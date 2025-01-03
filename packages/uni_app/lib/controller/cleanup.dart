@@ -7,10 +7,10 @@ import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uni/controller/local_storage/database-nosql/course_units_database.dart';
 import 'package:uni/controller/local_storage/database-nosql/courses_database.dart';
+import 'package:uni/controller/local_storage/database-nosql/database.dart';
 import 'package:uni/controller/local_storage/database-nosql/exams_database.dart';
 import 'package:uni/controller/local_storage/database-nosql/lectures_database.dart';
 import 'package:uni/controller/local_storage/database/app_bus_stop_database.dart';
-import 'package:uni/controller/local_storage/database/app_user_database.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/model/providers/state_providers.dart';
 
@@ -25,10 +25,11 @@ Future<void> cleanupStoredData(BuildContext context) async {
     ExamsDatabase().deleteAll(),
     CoursesDatabase().deleteAll(),
     CourseUnitsDatabase().deleteAll(),
-    AppUserDataDatabase().deleteUserData(),
     AppBusStopDatabase().deleteBusStops(),
     PreferencesController.removeSavedSession(),
   ]);
+
+  Database().clear();
 
   final toCleanDirectory = await getApplicationDocumentsDirectory();
   await cleanDirectory(toCleanDirectory, DateTime.now());

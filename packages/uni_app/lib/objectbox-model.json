@@ -315,9 +315,48 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "8:4515966536170961118",
+      "lastPropertyId": "6:404969813464949614",
+      "name": "Profile",
+      "properties": [
+        {
+          "id": "1:4821223422152753319",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:3109289559488995371",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "3:1076693008672503872",
+          "name": "email",
+          "type": 9
+        },
+        {
+          "id": "4:7936654982277352457",
+          "name": "printBalance",
+          "type": 9
+        },
+        {
+          "id": "5:8258121621474177508",
+          "name": "feesBalance",
+          "type": 9
+        },
+        {
+          "id": "6:404969813464949614",
+          "name": "feesLimit",
+          "type": 10
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "7:7917687019476141119",
+  "lastEntityId": "8:4515966536170961118",
   "lastIndexId": "0:0",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",

@@ -56,6 +56,8 @@ import 'package:uni/view/transports/transports.dart';
 import 'package:upgrader/upgrader.dart';
 import 'package:workmanager/workmanager.dart';
 
+import 'controller/local_storage/database-nosql/database.dart';
+
 SentryEvent? beforeSend(SentryEvent event) {
   return event.level == SentryLevel.info ? event : null;
 }
@@ -123,6 +125,7 @@ Future<void> main() async {
     Logger().w('Plausible is not enabled');
   }
 
+  // Nosql array databases
   try {
     await ObjectBoxStore.init();
   } catch (err) {
@@ -135,6 +138,9 @@ Future<void> main() async {
       Logger().e('Error initializing ObjectBoxStore $err');
     }
   }
+
+  // Nosql single database
+  await Database().init();
 
   final savedTheme = PreferencesController.getThemeMode();
   final savedLocale = PreferencesController.getLocale();
