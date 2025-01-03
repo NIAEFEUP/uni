@@ -123,7 +123,18 @@ Future<void> main() async {
     Logger().w('Plausible is not enabled');
   }
 
-  await ObjectBoxStore.init();
+  try {
+    await ObjectBoxStore.init();
+  } catch (err) {
+    //TODO(thePeras): Improve error handling
+    if (err.toString().contains('ObjectBoxException')) {
+      Logger().w('Resetting database');
+      await ObjectBoxStore.remove();
+      await ObjectBoxStore.init();
+    } else {
+      Logger().e('Error initializing ObjectBoxStore $err');
+    }
+  }
 
   final savedTheme = PreferencesController.getThemeMode();
   final savedLocale = PreferencesController.getLocale();

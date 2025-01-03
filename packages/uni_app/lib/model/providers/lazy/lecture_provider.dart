@@ -33,7 +33,8 @@ class LectureProvider extends StateProviderNotifier<List<Lecture>> {
     final lectures = await getLecturesFromFetcherOrElse(fetcher, session);
 
     final db = LecturesDatabase();
-    await db.saveIfPersistentSession(lectures);
+    unawaited(db.saveIfPersistentSession(lectures));
+
     return lectures;
   }
 
