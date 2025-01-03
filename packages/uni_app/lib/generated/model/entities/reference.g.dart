@@ -12,9 +12,10 @@ Reference _$ReferenceFromJson(Map<String, dynamic> json) => Reference(
       (json['entity'] as num).toInt(),
       (json['reference'] as num).toInt(),
       (json['amount'] as num).toDouble(),
-    );
+    )..id = (json['id'] as num?)?.toInt();
 
 Map<String, dynamic> _$ReferenceToJson(Reference instance) => <String, dynamic>{
+      'id': instance.id,
       'description': instance.description,
       'limitDate': const DateTimeConverter().toJson(instance.limitDate),
       'entity': instance.entity,

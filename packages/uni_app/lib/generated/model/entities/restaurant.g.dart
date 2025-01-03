@@ -12,28 +12,17 @@ Restaurant _$RestaurantFromJson(Map<String, dynamic> json) => Restaurant(
       json['nameEn'] as String,
       json['period'] as String,
       json['ref'] as String,
-      meals: (json['meals'] as List<dynamic>)
-          .map((e) => Meal.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
+      const _MealRelToManyConverter()
+          .fromJson(json['meals'] as List<Map<String, dynamic>>?),
+    )..uniqueId = (json['uniqueId'] as num?)?.toInt();
 
 Map<String, dynamic> _$RestaurantToJson(Restaurant instance) =>
     <String, dynamic>{
+      'uniqueId': instance.uniqueId,
       'id': instance.id,
       'namePt': instance.namePt,
       'nameEn': instance.nameEn,
       'period': instance.period,
       'ref': instance.reference,
-      'meals':
-          instance.meals.map((k, e) => MapEntry(_$DayOfWeekEnumMap[k]!, e)),
+      'meals': const _MealRelToManyConverter().toJson(instance.meals),
     };
-
-const _$DayOfWeekEnumMap = {
-  DayOfWeek.monday: 'monday',
-  DayOfWeek.tuesday: 'tuesday',
-  DayOfWeek.wednesday: 'wednesday',
-  DayOfWeek.thursday: 'thursday',
-  DayOfWeek.friday: 'friday',
-  DayOfWeek.saturday: 'saturday',
-  DayOfWeek.sunday: 'sunday',
-};

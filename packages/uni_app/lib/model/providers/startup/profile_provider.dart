@@ -6,9 +6,9 @@ import 'package:uni/controller/fetchers/course_units_fetcher/current_course_unit
 import 'package:uni/controller/fetchers/fees_fetcher.dart';
 import 'package:uni/controller/fetchers/print_fetcher.dart';
 import 'package:uni/controller/fetchers/profile_fetcher.dart';
-import 'package:uni/controller/local_storage/database/app_course_units_database.dart';
-import 'package:uni/controller/local_storage/database/app_courses_database.dart';
-import 'package:uni/controller/local_storage/database/app_user_database.dart';
+import 'package:uni/controller/local_storage/database-nosql/course_units_database.dart';
+import 'package:uni/controller/local_storage/database-nosql/courses_database.dart';
+import 'package:uni/controller/local_storage/database-nosql/database.dart';
 import 'package:uni/controller/local_storage/file_offline_storage.dart';
 import 'package:uni/controller/parsers/parser_fees.dart';
 import 'package:uni/controller/parsers/parser_print_balance.dart';
@@ -26,14 +26,13 @@ class ProfileProvider extends StateProviderNotifier<Profile> {
   @override
   Future<Profile> loadFromStorage(StateProviders stateProviders) async {
     final databaseFutures = await Future.wait([
-      loadProfile(),
       loadCourses(),
       loadCourseUnits(),
     ]);
 
-    final profile = databaseFutures[0] as Profile;
-    final courses = databaseFutures[1] as List<Course>;
-    final courseUnits = databaseFutures[2] as List<CourseUnit>;
+    final profile = Database().getProfile();
+    final courses = databaseFutures[0] as List<Course>;
+    final courseUnits = databaseFutures[1] as List<CourseUnit>;
 
     profile
       ..courses = courses
@@ -71,25 +70,19 @@ class ProfileProvider extends StateProviderNotifier<Profile> {
       profile.courseUnits = courseUnits;
     }
 
-    final profileDb = AppUserDataDatabase();
-    await profileDb.saveIfPersistentSession(profile);
+    Database().saveProfile(profile);
 
     return profile;
   }
 
-  Future<Profile> loadProfile() {
-    final profileDb = AppUserDataDatabase();
-    return profileDb.getUserData();
-  }
-
   Future<List<Course>> loadCourses() {
-    final coursesDb = AppCoursesDatabase();
-    return coursesDb.courses();
+    final coursesDb = CoursesDatabase();
+    return coursesDb.getAll();
   }
 
   Future<List<CourseUnit>> loadCourseUnits() {
-    final db = AppCourseUnitsDatabase();
-    return db.courseUnits();
+    final db = CourseUnitsDatabase();
+    return db.getAll();
   }
 
   Future<(String, DateTime?)> fetchUserFeesBalanceAndLimit(
@@ -139,10 +132,10 @@ class ProfileProvider extends StateProviderNotifier<Profile> {
       return allCourseUnits;
     }
 
-    final coursesDb = AppCoursesDatabase();
+    final coursesDb = CoursesDatabase();
     unawaited(coursesDb.saveIfPersistentSession(profile.courses));
 
-    final courseUnitsDatabase = AppCourseUnitsDatabase();
+    final courseUnitsDatabase = CourseUnitsDatabase();
     unawaited(courseUnitsDatabase.saveIfPersistentSession(allCourseUnits));
 
     return allCourseUnits;
