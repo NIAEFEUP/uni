@@ -10,6 +10,7 @@ import 'package:uni/controller/local_storage/database-nosql/courses_database.dar
 import 'package:uni/controller/local_storage/database-nosql/database.dart';
 import 'package:uni/controller/local_storage/database-nosql/exams_database.dart';
 import 'package:uni/controller/local_storage/database-nosql/lectures_database.dart';
+import 'package:uni/controller/local_storage/database-nosql/restaurants_database.dart';
 import 'package:uni/controller/local_storage/database/app_bus_stop_database.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/model/providers/state_providers.dart';
@@ -25,6 +26,8 @@ Future<void> cleanupStoredData(BuildContext context) async {
     ExamsDatabase().deleteAll(),
     CoursesDatabase().deleteAll(),
     CourseUnitsDatabase().deleteAll(),
+    RestaurantsDatabase().deleteAll(),
+
     AppBusStopDatabase().deleteBusStops(),
     PreferencesController.removeSavedSession(),
   ]);

@@ -77,7 +77,10 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
   ) {
     final dayContents = DayOfWeek.values.map((dayOfWeek) {
       final restaurantsWidgets = restaurants
-          .where((element) => element.meals[dayOfWeek]?.isNotEmpty ?? false)
+          .where(
+            (element) =>
+                element.groupMealsByDayOfWeek()[dayOfWeek]?.isNotEmpty ?? false,
+          )
           .map(
             (restaurant) => createRestaurant(context, restaurant, dayOfWeek),
           )

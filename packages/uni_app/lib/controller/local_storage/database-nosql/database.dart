@@ -39,4 +39,10 @@ class Database {
   void close() {
     _store.close();
   }
+
+  Future<void> remove() async {
+    final appDir = await getApplicationDocumentsDirectory();
+    final storePath = '${appDir.path}/database';
+    Store.removeDbFiles(storePath);
+  }
 }

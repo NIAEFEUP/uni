@@ -359,17 +359,109 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "9:8593806623526644439",
+      "lastPropertyId": "6:1619262703215131232",
+      "name": "Restaurant",
+      "properties": [
+        {
+          "id": "1:8412443093606687605",
+          "name": "id",
+          "type": 6
+        },
+        {
+          "id": "2:2346213477361850697",
+          "name": "namePt",
+          "type": 9
+        },
+        {
+          "id": "3:5477430405475543381",
+          "name": "nameEn",
+          "type": 9
+        },
+        {
+          "id": "4:276897755102017976",
+          "name": "period",
+          "type": 9
+        },
+        {
+          "id": "5:5740732395773374659",
+          "name": "reference",
+          "type": 9
+        },
+        {
+          "id": "6:1619262703215131232",
+          "name": "uniqueId",
+          "type": 6,
+          "flags": 1
+        }
+      ],
+      "relations": [
+        {
+          "id": "1:4232741166114493489",
+          "name": "meals",
+          "targetId": "10:7804684898880346326"
+        }
+      ]
+    },
+    {
+      "id": "10:7804684898880346326",
+      "lastPropertyId": "10:8226375929086131956",
+      "name": "Meal",
+      "properties": [
+        {
+          "id": "1:2217941936139097442",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:4514448927584280007",
+          "name": "type",
+          "type": 9
+        },
+        {
+          "id": "3:6516233270701917997",
+          "name": "namePt",
+          "type": 9
+        },
+        {
+          "id": "4:7870030775251025092",
+          "name": "nameEn",
+          "type": 9
+        },
+        {
+          "id": "5:9026414350313814339",
+          "name": "date",
+          "type": 10
+        },
+        {
+          "id": "10:8226375929086131956",
+          "name": "dbDayOfWeek",
+          "type": 6
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "8:4515966536170961118",
-  "lastIndexId": "0:0",
-  "lastRelationId": "0:0",
+  "lastEntityId": "10:7804684898880346326",
+  "lastIndexId": "2:5553263973871522574",
+  "lastRelationId": "1:4232741166114493489",
   "lastSequenceId": "0:0",
   "modelVersion": 5,
   "modelVersionParserMinimum": 5,
   "retiredEntityUids": [],
-  "retiredIndexUids": [],
-  "retiredPropertyUids": [],
+  "retiredIndexUids": [
+    6025187928432397390,
+    5553263973871522574
+  ],
+  "retiredPropertyUids": [
+    7614762063660142831,
+    1965207517914420813,
+    5763920349665887316,
+    3569335303354936661
+  ],
   "retiredRelationUids": [],
   "version": 1
 }

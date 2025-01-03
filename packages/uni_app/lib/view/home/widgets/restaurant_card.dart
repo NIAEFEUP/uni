@@ -81,7 +81,7 @@ class RestaurantCard extends GenericCard {
     final offset = (weekDay - 1) % 7;
 
     if (restaurants
-        .map((e) => e.meals[DayOfWeek.values[offset]])
+        .map((e) => e.groupMealsByDayOfWeek()[DayOfWeek.values[offset]])
         .every((element) => element?.isEmpty ?? true)) {
       return Column(
         children: [

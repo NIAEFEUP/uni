@@ -140,7 +140,14 @@ Future<void> main() async {
   }
 
   // Nosql single database
-  await Database().init();
+  try{
+    await Database().init();
+  } catch (err) {
+    if (err.toString().contains('ObjectBoxException')) {
+      await Database().remove();
+      await Database().init();
+    }
+  }
 
   final savedTheme = PreferencesController.getThemeMode();
   final savedLocale = PreferencesController.getLocale();

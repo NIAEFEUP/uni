@@ -20,8 +20,10 @@ import 'model/entities/course_units/course_unit.dart';
 import 'model/entities/exam.dart';
 import 'model/entities/floor_occupation.dart';
 import 'model/entities/lecture.dart';
+import 'model/entities/meal.dart';
 import 'model/entities/profile.dart';
 import 'model/entities/reference.dart';
+import 'model/entities/restaurant.dart';
 
 export 'package:objectbox/objectbox.dart'; // so that callers only have to import this file
 
@@ -382,6 +384,89 @@ final _entities = <obx_int.ModelEntity>[
             flags: 0)
       ],
       relations: <obx_int.ModelRelation>[],
+      backlinks: <obx_int.ModelBacklink>[]),
+  obx_int.ModelEntity(
+      id: const obx_int.IdUid(9, 8593806623526644439),
+      name: 'Restaurant',
+      lastPropertyId: const obx_int.IdUid(6, 1619262703215131232),
+      flags: 0,
+      properties: <obx_int.ModelProperty>[
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(1, 8412443093606687605),
+            name: 'id',
+            type: 6,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(2, 2346213477361850697),
+            name: 'namePt',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(3, 5477430405475543381),
+            name: 'nameEn',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(4, 276897755102017976),
+            name: 'period',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(5, 5740732395773374659),
+            name: 'reference',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(6, 1619262703215131232),
+            name: 'uniqueId',
+            type: 6,
+            flags: 1)
+      ],
+      relations: <obx_int.ModelRelation>[
+        obx_int.ModelRelation(
+            id: const obx_int.IdUid(1, 4232741166114493489),
+            name: 'meals',
+            targetId: const obx_int.IdUid(10, 7804684898880346326))
+      ],
+      backlinks: <obx_int.ModelBacklink>[]),
+  obx_int.ModelEntity(
+      id: const obx_int.IdUid(10, 7804684898880346326),
+      name: 'Meal',
+      lastPropertyId: const obx_int.IdUid(10, 8226375929086131956),
+      flags: 0,
+      properties: <obx_int.ModelProperty>[
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(1, 2217941936139097442),
+            name: 'id',
+            type: 6,
+            flags: 1),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(2, 4514448927584280007),
+            name: 'type',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(3, 6516233270701917997),
+            name: 'namePt',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(4, 7870030775251025092),
+            name: 'nameEn',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(5, 9026414350313814339),
+            name: 'date',
+            type: 10,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(10, 8226375929086131956),
+            name: 'dbDayOfWeek',
+            type: 6,
+            flags: 0)
+      ],
+      relations: <obx_int.ModelRelation>[],
       backlinks: <obx_int.ModelBacklink>[])
 ];
 
@@ -420,13 +505,18 @@ Future<obx.Store> openStore(
 obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
       entities: _entities,
-      lastEntityId: const obx_int.IdUid(8, 4515966536170961118),
-      lastIndexId: const obx_int.IdUid(0, 0),
-      lastRelationId: const obx_int.IdUid(0, 0),
+      lastEntityId: const obx_int.IdUid(10, 7804684898880346326),
+      lastIndexId: const obx_int.IdUid(2, 5553263973871522574),
+      lastRelationId: const obx_int.IdUid(1, 4232741166114493489),
       lastSequenceId: const obx_int.IdUid(0, 0),
       retiredEntityUids: const [],
-      retiredIndexUids: const [],
-      retiredPropertyUids: const [],
+      retiredIndexUids: const [6025187928432397390, 5553263973871522574],
+      retiredPropertyUids: const [
+        7614762063660142831,
+        1965207517914420813,
+        5763920349665887316,
+        3569335303354936661
+      ],
       retiredRelationUids: const [],
       modelVersion: 5,
       modelVersionParserMinimum: 5,
@@ -882,6 +972,96 @@ obx_int.ModelDefinition getObjectBoxModel() {
                 const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 4);
 
           return object;
+        }),
+    Restaurant: obx_int.EntityDefinition<Restaurant>(
+        model: _entities[8],
+        toOneRelations: (Restaurant object) => [],
+        toManyRelations: (Restaurant object) => {
+              obx_int.RelInfo<Restaurant>.toMany(1, object.uniqueId!):
+                  object.meals
+            },
+        getId: (Restaurant object) => object.uniqueId,
+        setId: (Restaurant object, int id) {
+          object.uniqueId = id;
+        },
+        objectToFB: (Restaurant object, fb.Builder fbb) {
+          final namePtOffset = fbb.writeString(object.namePt);
+          final nameEnOffset = fbb.writeString(object.nameEn);
+          final periodOffset = fbb.writeString(object.period);
+          final referenceOffset = fbb.writeString(object.reference);
+          fbb.startTable(7);
+          fbb.addInt64(0, object.id);
+          fbb.addOffset(1, namePtOffset);
+          fbb.addOffset(2, nameEnOffset);
+          fbb.addOffset(3, periodOffset);
+          fbb.addOffset(4, referenceOffset);
+          fbb.addInt64(5, object.uniqueId ?? 0);
+          fbb.finish(fbb.endTable());
+          return object.uniqueId ?? 0;
+        },
+        objectFromFB: (obx.Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+          final idParam =
+              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 4);
+          final namePtParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 6, '');
+          final nameEnParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 8, '');
+          final periodParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 10, '');
+          final referenceParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 12, '');
+          final mealsParam = obx.ToMany<Meal>();
+          final object = Restaurant(idParam, namePtParam, nameEnParam,
+              periodParam, referenceParam, mealsParam)
+            ..uniqueId = const fb.Int64Reader()
+                .vTableGetNullable(buffer, rootOffset, 14);
+          obx_int.InternalToManyAccess.setRelInfo<Restaurant>(object.meals,
+              store, obx_int.RelInfo<Restaurant>.toMany(1, object.uniqueId!));
+          return object;
+        }),
+    Meal: obx_int.EntityDefinition<Meal>(
+        model: _entities[9],
+        toOneRelations: (Meal object) => [],
+        toManyRelations: (Meal object) => {},
+        getId: (Meal object) => object.id,
+        setId: (Meal object, int id) {
+          object.id = id;
+        },
+        objectToFB: (Meal object, fb.Builder fbb) {
+          final typeOffset = fbb.writeString(object.type);
+          final namePtOffset = fbb.writeString(object.namePt);
+          final nameEnOffset = fbb.writeString(object.nameEn);
+          fbb.startTable(11);
+          fbb.addInt64(0, object.id ?? 0);
+          fbb.addOffset(1, typeOffset);
+          fbb.addOffset(2, namePtOffset);
+          fbb.addOffset(3, nameEnOffset);
+          fbb.addInt64(4, object.date.millisecondsSinceEpoch);
+          fbb.addInt64(9, object.dbDayOfWeek);
+          fbb.finish(fbb.endTable());
+          return object.id ?? 0;
+        },
+        objectFromFB: (obx.Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+          final typeParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 6, '');
+          final namePtParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 8, '');
+          final nameEnParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 10, '');
+          final dateParam = DateTime.fromMillisecondsSinceEpoch(
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 12, 0));
+          final dbDayOfWeekParam =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 22, 0);
+          final object = Meal(typeParam, namePtParam, nameEnParam, dateParam,
+              dbDayOfWeek: dbDayOfWeekParam)
+            ..id =
+                const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 4);
+
+          return object;
         })
   };
 
@@ -1135,4 +1315,59 @@ class Profile_ {
   /// See [Profile.feesLimit].
   static final feesLimit =
       obx.QueryDateProperty<Profile>(_entities[7].properties[5]);
+}
+
+/// [Restaurant] entity fields to define ObjectBox queries.
+class Restaurant_ {
+  /// See [Restaurant.id].
+  static final id =
+      obx.QueryIntegerProperty<Restaurant>(_entities[8].properties[0]);
+
+  /// See [Restaurant.namePt].
+  static final namePt =
+      obx.QueryStringProperty<Restaurant>(_entities[8].properties[1]);
+
+  /// See [Restaurant.nameEn].
+  static final nameEn =
+      obx.QueryStringProperty<Restaurant>(_entities[8].properties[2]);
+
+  /// See [Restaurant.period].
+  static final period =
+      obx.QueryStringProperty<Restaurant>(_entities[8].properties[3]);
+
+  /// See [Restaurant.reference].
+  static final reference =
+      obx.QueryStringProperty<Restaurant>(_entities[8].properties[4]);
+
+  /// See [Restaurant.uniqueId].
+  static final uniqueId =
+      obx.QueryIntegerProperty<Restaurant>(_entities[8].properties[5]);
+
+  /// see [Restaurant.meals]
+  static final meals =
+      obx.QueryRelationToMany<Restaurant, Meal>(_entities[8].relations[0]);
+}
+
+/// [Meal] entity fields to define ObjectBox queries.
+class Meal_ {
+  /// See [Meal.id].
+  static final id = obx.QueryIntegerProperty<Meal>(_entities[9].properties[0]);
+
+  /// See [Meal.type].
+  static final type = obx.QueryStringProperty<Meal>(_entities[9].properties[1]);
+
+  /// See [Meal.namePt].
+  static final namePt =
+      obx.QueryStringProperty<Meal>(_entities[9].properties[2]);
+
+  /// See [Meal.nameEn].
+  static final nameEn =
+      obx.QueryStringProperty<Meal>(_entities[9].properties[3]);
+
+  /// See [Meal.date].
+  static final date = obx.QueryDateProperty<Meal>(_entities[9].properties[4]);
+
+  /// See [Meal.dbDayOfWeek].
+  static final dbDayOfWeek =
+      obx.QueryIntegerProperty<Meal>(_entities[9].properties[5]);
 }
