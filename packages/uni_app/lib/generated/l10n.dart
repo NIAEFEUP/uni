@@ -180,10 +180,10 @@ class S {
     );
   }
 
-  /// `By entering you confirm that you agree with these Terms and Conditions`
+  /// `By entering you agree with these`
   String get agree_terms {
     return Intl.message(
-      'By entering you confirm that you agree with these Terms and Conditions',
+      'By entering you agree with these',
       name: 'agree_terms',
       desc: '',
       args: [],
@@ -740,10 +740,10 @@ class S {
     );
   }
 
-  /// `Stay signed in`
+  /// `Remember me`
   String get keep_login {
     return Intl.message(
-      'Stay signed in',
+      'Remember me',
       name: 'keep_login',
       desc: '',
       args: [],
@@ -1228,10 +1228,10 @@ class S {
     );
   }
 
-  /// `password`
+  /// `Password`
   String get password {
     return Intl.message(
-      'password',
+      'Password',
       name: 'password',
       desc: '',
       args: [],
@@ -1488,10 +1488,10 @@ class S {
     );
   }
 
-  /// `student number`
+  /// `Student Number`
   String get student_number {
     return Intl.message(
-      'student number',
+      'Student Number',
       name: 'student_number',
       desc: '',
       args: [],
@@ -1648,10 +1648,10 @@ class S {
     );
   }
 
-  /// `Problems with login? Try a different login`
+  /// `Having trouble signing in?`
   String get try_different_login {
     return Intl.message(
-      'Problems with login? Try a different login',
+      'Having trouble signing in?',
       name: 'try_different_login',
       desc: '',
       args: [],

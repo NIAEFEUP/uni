@@ -47,6 +47,7 @@ import 'package:uni/view/profile/profile.dart';
 import 'package:uni/view/restaurant/restaurant_page_view.dart';
 import 'package:uni/view/schedule/schedule.dart';
 import 'package:uni/view/settings/settings.dart';
+import 'package:uni/view/splash/splash.dart';
 import 'package:uni/view/theme.dart';
 import 'package:uni/view/theme_notifier.dart';
 import 'package:uni/view/transports/transports.dart';
@@ -71,6 +72,22 @@ Future<String> firstRoute() async {
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await SystemChrome.setEnabledSystemUIMode(
+    SystemUiMode.edgeToEdge,
+    overlays: [
+      SystemUiOverlay.top,
+      SystemUiOverlay.bottom,
+    ],
+  );
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.light,
+      systemNavigationBarColor: Colors.transparent,
+      systemNavigationBarIconBrightness: Brightness.light,
+    ),
+  );
 
   PreferencesController.prefs = await SharedPreferences.getInstance();
 
@@ -124,7 +141,7 @@ Future<void> main() async {
   final savedTheme = PreferencesController.getThemeMode();
   final savedLocale = PreferencesController.getLocale();
 
-  final route = await firstRoute();
+  const route = '/splash';
 
   await SentryFlutter.init(
     (options) {
@@ -177,7 +194,7 @@ Future<void> main() async {
                 create: (_) => ThemeNotifier(savedTheme),
               ),
             ],
-            child: Application(route),
+            child: const Application(route),
           ),
         ),
       );
@@ -215,9 +232,6 @@ class ApplicationState extends State<Application> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-    ]);
     return Consumer2<ThemeNotifier, LocaleNotifier>(
       builder: (context, themeNotifier, localeNotifier, _) => UpgradeAlert(
         navigatorKey: Application.navigatorKey,
@@ -240,8 +254,12 @@ class ApplicationState extends State<Application> {
           navigatorObservers: navigatorObservers,
           onGenerateRoute: (settings) {
             final transitions = {
+              '/splash': PageTransition.makePageTransition(
+                page: const SplashScreenView(),
+                settings: settings,
+              ),
               '/${NavigationItem.navLogin.route}':
-                  PageTransition.makePageTransition(
+                  PageTransition.splashTransitionRoute(
                 page: const LoginPageView(),
                 settings: settings,
               ),
