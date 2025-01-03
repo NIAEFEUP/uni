@@ -102,6 +102,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Piso -1 do edifício B | Edifício da AEFEUP"),
         "course_class": MessageLookupByLibrary.simpleMessage("Turmas"),
         "course_info": MessageLookupByLibrary.simpleMessage("Ficha"),
+        "courses": MessageLookupByLibrary.simpleMessage("Cursos"),
         "current_state": MessageLookupByLibrary.simpleMessage("Estado atual: "),
         "current_year":
             MessageLookupByLibrary.simpleMessage("Ano curricular atual: "),
@@ -121,6 +122,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "empty_text": MessageLookupByLibrary.simpleMessage(
             "Por favor preenche este campo"),
         "evaluation": MessageLookupByLibrary.simpleMessage("Avaliação"),
+        "exams": MessageLookupByLibrary.simpleMessage("Exames"),
         "exams_filter":
             MessageLookupByLibrary.simpleMessage("Definições Filtro de Exames"),
         "exit_confirm": MessageLookupByLibrary.simpleMessage(
@@ -156,6 +158,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "language": MessageLookupByLibrary.simpleMessage("Idioma"),
         "last_refresh_time": m0,
         "last_timestamp": m1,
+        "lectures": MessageLookupByLibrary.simpleMessage("Aulas"),
         "library_occupation":
             MessageLookupByLibrary.simpleMessage("Ocupação da Biblioteca"),
         "load_error": MessageLookupByLibrary.simpleMessage(

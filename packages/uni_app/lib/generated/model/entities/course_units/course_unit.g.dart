@@ -9,10 +9,10 @@ part of '../../../../model/entities/course_units/course_unit.dart';
 CourseUnit _$CourseUnitFromJson(Map<String, dynamic> json) => CourseUnit(
       abbreviation: json['ucurr_sigla'] as String,
       name: json['ucurr_nome'] as String,
-      occurrId: json['ocorr_id'] as int?,
-      id: json['ucurr_id'] as int? ?? 0,
+      occurrId: (json['ocorr_id'] as num?)?.toInt(),
+      id: (json['ucurr_id'] as num?)?.toInt() ?? 0,
       code: json['ucurr_codigo'] as String? ?? '',
-      curricularYear: json['ano'] as int?,
+      curricularYear: (json['ano'] as num?)?.toInt(),
       semesterCode: json['per_codigo'] as String?,
       semesterName: json['per_nome'] as String?,
       type: json['tipo'] as String?,
