@@ -157,7 +157,7 @@
     },
     {
       "id": "4:78099361207870468",
-      "lastPropertyId": "8:9042264460759528897",
+      "lastPropertyId": "9:5211756815377605164",
       "name": "Exam",
       "properties": [
         {
@@ -200,6 +200,11 @@
           "name": "dbId",
           "type": 6,
           "flags": 1
+        },
+        {
+          "id": "9:5211756815377605164",
+          "name": "subjectAcronym",
+          "type": 9
         }
       ],
       "relations": []

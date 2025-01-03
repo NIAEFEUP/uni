@@ -181,7 +181,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
       id: const obx_int.IdUid(4, 78099361207870468),
       name: 'Exam',
-      lastPropertyId: const obx_int.IdUid(8, 9042264460759528897),
+      lastPropertyId: const obx_int.IdUid(9, 5211756815377605164),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
@@ -223,7 +223,12 @@ final _entities = <obx_int.ModelEntity>[
             id: const obx_int.IdUid(8, 9042264460759528897),
             name: 'dbId',
             type: 6,
-            flags: 1)
+            flags: 1),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(9, 5211756815377605164),
+            name: 'subjectAcronym',
+            type: 9,
+            flags: 0)
       ],
       relations: <obx_int.ModelRelation>[],
       backlinks: <obx_int.ModelBacklink>[]),
@@ -647,7 +652,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
               object.rooms.map(fbb.writeString).toList(growable: false));
           final examTypeOffset = fbb.writeString(object.examType);
           final facultyOffset = fbb.writeString(object.faculty);
-          fbb.startTable(9);
+          final subjectAcronymOffset = fbb.writeString(object.subjectAcronym);
+          fbb.startTable(10);
           fbb.addInt64(0, object.start.millisecondsSinceEpoch);
           fbb.addInt64(1, object.finish.millisecondsSinceEpoch);
           fbb.addOffset(2, idOffset);
@@ -656,6 +662,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
           fbb.addOffset(5, examTypeOffset);
           fbb.addOffset(6, facultyOffset);
           fbb.addInt64(7, object.dbId ?? 0);
+          fbb.addOffset(8, subjectAcronymOffset);
           fbb.finish(fbb.endTable());
           return object.dbId ?? 0;
         },
@@ -668,6 +675,9 @@ obx_int.ModelDefinition getObjectBoxModel() {
               const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0));
           final finishParam = DateTime.fromMillisecondsSinceEpoch(
               const fb.Int64Reader().vTableGet(buffer, rootOffset, 6, 0));
+          final subjectAcronymParam =
+              const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 20, '');
           final subjectParam = const fb.StringReader(asciiOptimization: true)
               .vTableGet(buffer, rootOffset, 10, '');
           final roomsParam = const fb.ListReader<String>(
@@ -678,8 +688,15 @@ obx_int.ModelDefinition getObjectBoxModel() {
               .vTableGet(buffer, rootOffset, 14, '');
           final facultyParam = const fb.StringReader(asciiOptimization: true)
               .vTableGet(buffer, rootOffset, 16, '');
-          final object = Exam(idParam, startParam, finishParam, subjectParam,
-              roomsParam, examTypeParam, facultyParam)
+          final object = Exam(
+              idParam,
+              startParam,
+              finishParam,
+              subjectAcronymParam,
+              subjectParam,
+              roomsParam,
+              examTypeParam,
+              facultyParam)
             ..dbId = const fb.Int64Reader()
                 .vTableGetNullable(buffer, rootOffset, 18);
 
@@ -1010,6 +1027,10 @@ class Exam_ {
   /// See [Exam.dbId].
   static final dbId =
       obx.QueryIntegerProperty<Exam>(_entities[3].properties[7]);
+
+  /// See [Exam.subjectAcronym].
+  static final subjectAcronym =
+      obx.QueryStringProperty<Exam>(_entities[3].properties[8]);
 }
 
 /// [FloorOccupation] entity fields to define ObjectBox queries.
