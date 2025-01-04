@@ -6,9 +6,7 @@ import 'package:uni/controller/fetchers/course_units_fetcher/current_course_unit
 import 'package:uni/controller/fetchers/fees_fetcher.dart';
 import 'package:uni/controller/fetchers/print_fetcher.dart';
 import 'package:uni/controller/fetchers/profile_fetcher.dart';
-import 'package:uni/controller/local_storage/database-nosql/course_units_database.dart';
-import 'package:uni/controller/local_storage/database-nosql/courses_database.dart';
-import 'package:uni/controller/local_storage/database-nosql/database.dart';
+import 'package:uni/controller/local_storage/database/database.dart';
 import 'package:uni/controller/local_storage/file_offline_storage.dart';
 import 'package:uni/controller/parsers/parser_fees.dart';
 import 'package:uni/controller/parsers/parser_print_balance.dart';
@@ -30,7 +28,7 @@ class ProfileProvider extends StateProviderNotifier<Profile> {
       loadCourseUnits(),
     ]);
 
-    final profile = Database().getProfile();
+    final profile = Database().profile;
     final courses = databaseFutures[0] as List<Course>;
     final courseUnits = databaseFutures[1] as List<CourseUnit>;
 
@@ -76,13 +74,13 @@ class ProfileProvider extends StateProviderNotifier<Profile> {
   }
 
   Future<List<Course>> loadCourses() {
-    final coursesDb = CoursesDatabase();
-    return coursesDb.getAll();
+    //TODO: Remove this Future.value
+    return Future.value(Database().courses);
   }
 
   Future<List<CourseUnit>> loadCourseUnits() {
-    final db = CourseUnitsDatabase();
-    return db.getAll();
+    //TODO: Remove this Future.value
+    return Future.value(Database().courseUnits);
   }
 
   Future<(String, DateTime?)> fetchUserFeesBalanceAndLimit(
@@ -132,11 +130,8 @@ class ProfileProvider extends StateProviderNotifier<Profile> {
       return allCourseUnits;
     }
 
-    final coursesDb = CoursesDatabase();
-    unawaited(coursesDb.saveIfPersistentSession(profile.courses));
-
-    final courseUnitsDatabase = CourseUnitsDatabase();
-    unawaited(courseUnitsDatabase.saveIfPersistentSession(allCourseUnits));
+    Database().saveCourses(profile.courses); //TODO(thePeras): Why is this here?
+    Database().saveCourseUnits(allCourseUnits);
 
     return allCourseUnits;
   }

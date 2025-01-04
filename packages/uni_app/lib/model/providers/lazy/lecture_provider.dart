@@ -1,9 +1,8 @@
 import 'dart:async';
 
-import 'package:logger/logger.dart';
 import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher.dart';
 import 'package:uni/controller/fetchers/schedule_fetcher/schedule_fetcher_new_api.dart';
-import 'package:uni/controller/local_storage/database-nosql/lectures_database.dart';
+import 'package:uni/controller/local_storage/database/database.dart';
 import 'package:uni/model/entities/lecture.dart';
 import 'package:uni/model/providers/state_provider_notifier.dart';
 import 'package:uni/model/providers/state_providers.dart';
@@ -14,9 +13,7 @@ class LectureProvider extends StateProviderNotifier<List<Lecture>> {
 
   @override
   Future<List<Lecture>> loadFromStorage(StateProviders stateProviders) async {
-    final lectures = await LecturesDatabase().getAll();
-    Logger().d('Loaded ${lectures.length} lectures from storage');
-    return lectures;
+    return Database().lectures;
   }
 
   @override
@@ -32,8 +29,7 @@ class LectureProvider extends StateProviderNotifier<List<Lecture>> {
   }) async {
     final lectures = await getLecturesFromFetcherOrElse(fetcher, session);
 
-    final db = LecturesDatabase();
-    unawaited(db.saveIfPersistentSession(lectures));
+    Database().saveLectures(lectures);
 
     return lectures;
   }

@@ -5,12 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:uni/controller/local_storage/database-nosql/course_units_database.dart';
-import 'package:uni/controller/local_storage/database-nosql/courses_database.dart';
-import 'package:uni/controller/local_storage/database-nosql/database.dart';
-import 'package:uni/controller/local_storage/database-nosql/exams_database.dart';
-import 'package:uni/controller/local_storage/database-nosql/lectures_database.dart';
-import 'package:uni/controller/local_storage/database-nosql/restaurants_database.dart';
+import 'package:uni/controller/local_storage/database/database.dart';
 import 'package:uni/controller/local_storage/database/app_bus_stop_database.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/model/providers/state_providers.dart';
@@ -22,17 +17,12 @@ Future<void> cleanupStoredData(BuildContext context) async {
   await prefs.clear();
 
   await Future.wait([
-    LecturesDatabase().deleteAll(),
-    ExamsDatabase().deleteAll(),
-    CoursesDatabase().deleteAll(),
-    CourseUnitsDatabase().deleteAll(),
-    RestaurantsDatabase().deleteAll(),
-
     AppBusStopDatabase().deleteBusStops(),
     PreferencesController.removeSavedSession(),
   ]);
 
   Database().clear();
+  await Database().remove();
 
   final toCleanDirectory = await getApplicationDocumentsDirectory();
   await cleanDirectory(toCleanDirectory, DateTime.now());
@@ -60,7 +50,7 @@ Future<void> cleanDirectory(Directory directory, DateTime threshold) async {
   final toDeleteEntities = entities.whereType<File>().where((file) {
     try {
       final fileDate = file.lastModifiedSync();
-      return fileDate.isBefore(threshold) && path.extension(file.path) != '.db';
+      return fileDate.isBefore(threshold) && path.extension(file.path) != '.mdb';
     } catch (err) {
       return false;
     }

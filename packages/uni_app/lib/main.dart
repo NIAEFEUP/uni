@@ -15,7 +15,6 @@ import 'package:ua_client_hints/ua_client_hints.dart';
 import 'package:uni/controller/background_workers/background_callback.dart';
 import 'package:uni/controller/cleanup.dart';
 import 'package:uni/controller/fetchers/terms_and_conditions_fetcher.dart';
-import 'package:uni/controller/local_storage/database-nosql/object_box_store.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/providers/lazy/bus_stop_provider.dart';
@@ -56,7 +55,7 @@ import 'package:uni/view/transports/transports.dart';
 import 'package:upgrader/upgrader.dart';
 import 'package:workmanager/workmanager.dart';
 
-import 'controller/local_storage/database-nosql/database.dart';
+import 'controller/local_storage/database/database.dart';
 
 SentryEvent? beforeSend(SentryEvent event) {
   return event.level == SentryLevel.info ? event : null;
@@ -92,7 +91,7 @@ Future<void> main() async {
     ReferenceProvider(),
   );
 
-  unawaited(cleanupCachedFiles());
+  //unawaited(cleanupCachedFiles());
 
   // Initialize WorkManager for background tasks
   await Workmanager().initialize(
@@ -125,29 +124,8 @@ Future<void> main() async {
     Logger().w('Plausible is not enabled');
   }
 
-  // Nosql array databases
-  try {
-    await ObjectBoxStore.init();
-  } catch (err) {
-    //TODO(thePeras): Improve error handling
-    if (err.toString().contains('ObjectBoxException')) {
-      Logger().w('Resetting database');
-      await ObjectBoxStore.remove();
-      await ObjectBoxStore.init();
-    } else {
-      Logger().e('Error initializing ObjectBoxStore $err');
-    }
-  }
-
-  // Nosql single database
-  try{
-    await Database().init();
-  } catch (err) {
-    if (err.toString().contains('ObjectBoxException')) {
-      await Database().remove();
-      await Database().init();
-    }
-  }
+  // NoSQL database initialization
+  await Database().init();
 
   final savedTheme = PreferencesController.getThemeMode();
   final savedLocale = PreferencesController.getLocale();

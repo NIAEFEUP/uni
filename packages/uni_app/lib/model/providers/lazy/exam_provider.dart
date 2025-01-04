@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:uni/controller/fetchers/exam_fetcher.dart';
-import 'package:uni/controller/local_storage/database-nosql/exams_database.dart';
+import 'package:uni/controller/local_storage/database/database.dart';
 import 'package:uni/controller/parsers/parser_exams.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/entities/exam.dart';
@@ -15,7 +15,7 @@ class ExamProvider extends StateProviderNotifier<List<Exam>> {
 
   @override
   Future<List<Exam>> loadFromStorage(StateProviders stateProviders) async {
-    return ExamsDatabase().getAll();
+    return Database().exams;
   }
 
   @override
@@ -42,9 +42,8 @@ class ExamProvider extends StateProviderNotifier<List<Exam>> {
 
     exams.sort((exam1, exam2) => exam1.start.compareTo(exam2.start));
 
-    final db = ExamsDatabase();
-    unawaited(db.saveIfPersistentSession(exams));
-
+    Database().saveExams(exams);
+    
     return exams;
   }
 }
