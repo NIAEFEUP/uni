@@ -12,8 +12,10 @@ Restaurant _$RestaurantFromJson(Map<String, dynamic> json) => Restaurant(
       json['nameEn'] as String,
       json['period'] as String,
       json['ref'] as String,
-      const _MealRelToManyConverter()
-          .fromJson(json['meals'] as List<Map<String, dynamic>>?),
+      meals: (json['meals'] as List<dynamic>?)
+              ?.map((e) => Meal.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
     )..uniqueId = (json['uniqueId'] as num?)?.toInt();
 
 Map<String, dynamic> _$RestaurantToJson(Restaurant instance) =>
@@ -24,5 +26,5 @@ Map<String, dynamic> _$RestaurantToJson(Restaurant instance) =>
       'nameEn': instance.nameEn,
       'period': instance.period,
       'ref': instance.reference,
-      'meals': const _MealRelToManyConverter().toJson(instance.meals),
+      'meals': instance.meals,
     };

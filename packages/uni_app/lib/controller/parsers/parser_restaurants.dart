@@ -1,7 +1,6 @@
 import 'package:html/parser.dart';
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
-import 'package:objectbox/objectbox.dart';
 import 'package:uni/model/entities/meal.dart';
 import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/utils/day_of_week.dart';
@@ -73,15 +72,13 @@ List<Restaurant> getRestaurantsFromHtml(Response response) {
       }
     }
 
-    final mealsToMany = ToMany<Meal>(items: meals);
-
     return Restaurant(
       null,
       restaurantTuple.$2,
       restaurantTuple.$2,
       restaurantTuple.$1,
       '',
-      mealsToMany,
+      meals: meals,
     );
   }).toList();
   return restaurants;

@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:logger/logger.dart';
 import 'package:uni/controller/fetchers/exam_fetcher.dart';
 import 'package:uni/controller/local_storage/database-nosql/exams_database.dart';
 import 'package:uni/controller/parsers/parser_exams.dart';
@@ -16,9 +15,7 @@ class ExamProvider extends StateProviderNotifier<List<Exam>> {
 
   @override
   Future<List<Exam>> loadFromStorage(StateProviders stateProviders) async {
-    final exams = await ExamsDatabase().getAll();
-    Logger().d('Loaded ${exams.length} exams from storage');
-    return exams;
+    return ExamsDatabase().getAll();
   }
 
   @override

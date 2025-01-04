@@ -1,6 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:objectbox/objectbox.dart';
-import 'package:uni/model/entities/reference.dart';
+import 'package:uni/model/converters/date_time_converter.dart';
+import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/utils/day_of_week.dart';
 
 part '../../generated/model/entities/meal.g.dart';
@@ -25,6 +26,7 @@ class Meal {
   final String namePt;
   final String nameEn;
   @JsonKey(includeFromJson: false, includeToJson: false)
+  @Transient()
   late DayOfWeek dayOfWeek;
 
   int get dbDayOfWeek => dayOfWeek.index;
@@ -33,6 +35,8 @@ class Meal {
   }
 
   final DateTime date;
+
+  final restaurant = ToOne<Restaurant>();
 
   Map<String, dynamic> toJson() => _$MealToJson(this);
 

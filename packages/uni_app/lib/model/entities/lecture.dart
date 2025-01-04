@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:objectbox/objectbox.dart';
-import 'package:uni/model/entities/reference.dart';
+import 'package:uni/model/converters/date_time_converter.dart';
 
 part '../../generated/model/entities/lecture.g.dart';
 

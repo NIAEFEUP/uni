@@ -14,14 +14,10 @@ class Restaurant {
     this.namePt,
     this.nameEn,
     this.period,
-    this.reference,
-    List<Meal>? meals,
-  ) : meals = ToMany<Meal>(items: meals ?? []);
-
-  factory Restaurant.fromMap(Map<String, dynamic> map, List<Meal> meals) {
-    final object = Restaurant.fromJson(map);
-    object.meals.addAll(meals);
-    return object;
+    this.reference, {
+    List<Meal> meals = const [],
+  }) : meals = ToMany<Meal>() {
+    this.meals.addAll(meals);
   }
 
   factory Restaurant.fromJson(Map<String, dynamic> json) =>
@@ -40,7 +36,7 @@ class Restaurant {
   final String period;
   @JsonKey(name: 'ref')
   final String reference; // Used only in html parser
-  @_MealRelToManyConverter()
+  @Backlink('restaurant')
   final ToMany<Meal> meals;
 
   bool get isNotEmpty {
@@ -56,18 +52,4 @@ class Restaurant {
   Map<DayOfWeek, List<Meal>> groupMealsByDayOfWeek() {
     return groupBy(meals, (meal) => meal.dayOfWeek);
   }
-}
-
-class _MealRelToManyConverter
-    implements JsonConverter<ToMany<Meal>, List<Map<String, dynamic>>?> {
-  const _MealRelToManyConverter();
-
-  @override
-  ToMany<Meal> fromJson(List<Map<String, dynamic>>? json) => ToMany<Meal>(
-        items: json?.map(Meal.fromJson).toList(),
-      );
-
-  @override
-  List<Map<String, dynamic>>? toJson(ToMany<Meal> rel) =>
-      rel.map((obj) => obj.toJson()).toList();
 }

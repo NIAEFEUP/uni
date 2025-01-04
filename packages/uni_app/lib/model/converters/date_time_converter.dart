@@ -10,6 +10,6 @@ class DateTimeConverter extends JsonConverter<DateTime, String> {
 
   @override
   String toJson(DateTime object) {
-    return object.toIso8601String();
+    return object.toString();
   }
 }

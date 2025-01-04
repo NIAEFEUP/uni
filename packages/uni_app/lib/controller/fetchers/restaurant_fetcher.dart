@@ -34,7 +34,7 @@ class RestaurantFetcher {
       establishment.nameEn,
       period,
       '',
-      meals,
+      meals: meals,
     );
   }
 

@@ -397,17 +397,11 @@
           "flags": 1
         }
       ],
-      "relations": [
-        {
-          "id": "1:4232741166114493489",
-          "name": "meals",
-          "targetId": "10:7804684898880346326"
-        }
-      ]
+      "relations": []
     },
     {
       "id": "10:7804684898880346326",
-      "lastPropertyId": "10:8226375929086131956",
+      "lastPropertyId": "11:1685783699901555017",
       "name": "Meal",
       "properties": [
         {
@@ -440,14 +434,22 @@
           "id": "10:8226375929086131956",
           "name": "dbDayOfWeek",
           "type": 6
+        },
+        {
+          "id": "11:1685783699901555017",
+          "name": "restaurantId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "3:1655954202899126503",
+          "relationTarget": "Restaurant"
         }
       ],
       "relations": []
     }
   ],
   "lastEntityId": "10:7804684898880346326",
-  "lastIndexId": "2:5553263973871522574",
-  "lastRelationId": "1:4232741166114493489",
+  "lastIndexId": "3:1655954202899126503",
+  "lastRelationId": "2:7979016610492408009",
   "lastSequenceId": "0:0",
   "modelVersion": 5,
   "modelVersionParserMinimum": 5,
@@ -462,6 +464,9 @@
     5763920349665887316,
     3569335303354936661
   ],
-  "retiredRelationUids": [],
+  "retiredRelationUids": [
+    4232741166114493489,
+    7979016610492408009
+  ],
   "version": 1
 }

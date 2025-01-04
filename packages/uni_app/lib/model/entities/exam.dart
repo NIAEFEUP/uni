@@ -2,8 +2,8 @@ import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:logger/logger.dart';
 import 'package:objectbox/objectbox.dart';
+import 'package:uni/model/converters/date_time_converter.dart';
 import 'package:uni/model/entities/app_locale.dart';
-import 'package:uni/model/entities/reference.dart';
 
 part '../../generated/model/entities/exam.g.dart';
 
