@@ -91,13 +91,16 @@ Future<void> main() async {
     ReferenceProvider(),
   );
 
-  //unawaited(cleanupCachedFiles());
+  unawaited(cleanupCachedFiles());
 
   // Initialize WorkManager for background tasks
   await Workmanager().initialize(
     workerStartCallback,
     isInDebugMode: !kReleaseMode,
   );
+
+  // NoSQL database initialization
+  await Database().init();
 
   // Read environment, which may include app tokens
   await dotenv
@@ -124,8 +127,7 @@ Future<void> main() async {
     Logger().w('Plausible is not enabled');
   }
 
-  // NoSQL database initialization
-  await Database().init();
+
 
   final savedTheme = PreferencesController.getThemeMode();
   final savedLocale = PreferencesController.getLocale();

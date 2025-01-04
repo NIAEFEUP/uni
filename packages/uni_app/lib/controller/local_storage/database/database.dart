@@ -20,6 +20,7 @@ class Database {
   static final Database _instance = Database._internal();
 
   late final Store _store;
+  Admin? _admin;
 
   late final Box<Exam> _examBox;
   late final Box<Lecture> _lectureBox;
@@ -103,6 +104,11 @@ class Database {
       }
     } finally {
       _boxesInitialization();
+
+      //TODO(thePeras): Check if is only runned in debug mode
+      if (Admin.isAvailable()) {
+        _admin = Admin(_store);
+      }
     }
   }
 
@@ -132,6 +138,7 @@ class Database {
 
   void close() {
     _store.close();
+    _admin?.close();
   }
 
   Future<void> remove() async {
