@@ -12,7 +12,7 @@ class ReferenceProvider extends StateProviderNotifier<List<Reference>> {
 
   @override
   Future<List<Reference>> loadFromStorage(StateProviders stateProviders) {
-    //TODO: Remove this Future.value
+    // TODO: Remove this Future.value
     return Future.value(Database().references);
   }
 

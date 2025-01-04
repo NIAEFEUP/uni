@@ -95,7 +95,7 @@ class Database {
     try {
       _store = await openStore(directory: storePath);
     } catch (err) {
-      //TODO(thePeras): Better error handling
+      // TODO(thePeras): Better error handling
       if (err.toString().contains('ObjectBoxException')) {
         await remove();
         _store = await openStore(directory: storePath);
@@ -105,7 +105,6 @@ class Database {
     } finally {
       _boxesInitialization();
 
-      //TODO(thePeras): Check if is only runned in debug mode
       if (Admin.isAvailable()) {
         _admin = Admin(_store);
       }

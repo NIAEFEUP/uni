@@ -74,12 +74,12 @@ class ProfileProvider extends StateProviderNotifier<Profile> {
   }
 
   Future<List<Course>> loadCourses() {
-    //TODO: Remove this Future.value
+    // TODO: Remove this Future.value
     return Future.value(Database().courses);
   }
 
   Future<List<CourseUnit>> loadCourseUnits() {
-    //TODO: Remove this Future.value
+    // TODO: Remove this Future.value
     return Future.value(Database().courseUnits);
   }
 
@@ -130,7 +130,8 @@ class ProfileProvider extends StateProviderNotifier<Profile> {
       return allCourseUnits;
     }
 
-    Database().saveCourses(profile.courses); //TODO(thePeras): Why is this here?
+    Database()
+        .saveCourses(profile.courses); // TODO(thePeras): Why is this here?
     Database().saveCourseUnits(allCourseUnits);
 
     return allCourseUnits;

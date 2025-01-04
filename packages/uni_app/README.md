@@ -4,25 +4,33 @@
 
 This is a Flutter project, totally compatible with Android and iOS. To run it, you need to have Flutter installed on your machine. If you don't, you can follow the instructions on https://flutter.dev/docs/get-started/install.
 
-### Automated formatting
-
-In order to contribute, you must format your changed files using `dart format` manually or enabing _formatting on save_ using your IDE ([VSCode or IntelliJ](https://docs.flutter.dev/tools/formatting)). Alternatively, you can install the git pre-commit hook that formats your changed files when you commit, doing the following command at the **root directory of the repository**:
-
-``` bash
-  chmod +x pre-commit-hook.sh && ./pre-commit-hook.sh
-```
-
-In order to remove it, is it as simple as running the following command, from the **root directory of the repository**:
-
-```bash
- rm .git/hooks/pre-commit
-```
-
 ### Generated files
 
-Flutter doesn't support runtime reflection. In order to circumvent these limitations, we use **automatic code generation** or **static metaprogramming** for things like **mocks** and other possible usecases. By convention, you should **always commit** the generated `.dart` files into the repository. 
+We use some code generation tools to make the development process easier.
+You should **always commit** the generated `.dart` files into the repository.
 
-Dart leverages annotations to signal the `build_runner` that it should generate some code. They look something like this:
+**JsonSerializable**, **ObjectBox** and **Mockito** use `build_runner` to generate code:
+
+You can generate the files once by running:
+```sh
+flutter pub run build_runner build
+```
+
+You can also watch for changes in `.dart` files and automatically run the `build_runner` on those file changes (useful if you find yourself in need to generate code very frequently):
+```sh
+flutter pub run build_runner watch
+```
+
+#### JsonSerializable
+
+(todo)
+
+#### ObjectBox Annotations
+
+(todo)
+
+#### Mockito
+
 ```dart
   import 'package:mockito/annotations.dart'
 
@@ -36,30 +44,85 @@ Dart leverages annotations to signal the `build_runner` that it should generate 
 ```
 In this case, `build_runner` will detect that `GenerateNiceMocks` is a generator function from `mockito` and will generate code to a different file.
 
-In order to run the `build_runner` once:
+### Translation files
+
+Intl package allows the internationalization of the app, currently supporting Portuguese ('pt_PT') and English ('en_EN'), by generating `.dart` files (one for each language).
+The generated files maps a key to the correspondent translated string as you can see at ```generated/intl``` files.
+
+#### How to create
+
+1. Add the translations you want in the `.arb` files of the ```I10n``` folder.
+Example:
+`intl_en.arb`
+```json
+{
+  "hello": "Hello",
+  "@hello": {
+    "description": "A conventional newborn greeting"
+  }
+}
+```
+`intl_pt.arb`
+```json
+{
+  "hello": "Olá",
+  "@hello": {
+    "description": "Uma saudação convencional para cansados"
+  }
+}
+```
+
+Note:
+[ARB Editor VS Code extension](https://marketplace.visualstudio.com/items?itemName=Google.arb-editor) its useful to edit `.arb` files.
+
+2. Generate the `.dart` files by running:
 ```sh
-dart run build_runner build
-```
-
-But you can also watch for changes in `.dart` files and automatically run the `build_runner` on those file changes (useful if you find yourself in need to generate code very frequently):
-```sh
-dart run build_runner watch
-```
-
-## Translation files
-
-Intl package allows the internationalization of the app, currently supporting Portuguese ('pt_PT') and English ('en_EN'), by generating `.dart` files (one for each language), mapping a key to the correspondent translated string as you can see at ```generated/intl``` files.
-To generate these files, you must add the translations you want in the `.arb` files of the ```I10n``` folder and run:
-```
 dart pub global activate intl_utils 2.1.0
-```
-```
 dart pub global run intl_utils:generate
 ```
 
-To use the translation import `'package:uni/generated/l10n.dart'` and use `S.of(context).{key_of_translation}`.
+#### How to use translations
+
+Import the generated file:
+```dart
+import 'package:uni/generated/l10n.dart';
+```
+
+And use the translations like this:
+```dart
+S.of(context).hello
+```
+Remember to replace `hello` with the key you defined in the `.arb` files.
+
+### Database Admin Dashboard (Optional)
+
+You can use the ObjectBox Admin Dashboard to visualize the database schema and its content.
+By default, the dashboard is available at `http://127.0.0.1:8090/` in the running emulator or device.
+
+If you want to access the dashboard from your development machine, you can use the following command to forward the port to your computer:
+```bash
+adb forward tcp:8090 tcp:8090
+```
+
+### Auto Format Hook (Optional)
+
+The project follows formating rules and so, you must commit formatted files.
+You can manually format files using `dart format` or by enabling _formatting on save_ using your IDE ([VSCode or IntelliJ](https://docs.flutter.dev/tools/formatting)).
+Alternatively, you can install the git pre-commit hook that formats your changed files when you make a commit.
+Install the hook by writing the following command at the **root directory of the repository**:
+
+``` bash
+chmod +x pre-commit-hook.sh && ./pre-commit-hook.sh
+```
+
+If you want to remove the hook, run command from the **root directory of the repository**:
+
+```bash
+rm .git/hooks/pre-commit
+```
 
 ## Project structure
+(unupdated)
 
 ### Overview
 

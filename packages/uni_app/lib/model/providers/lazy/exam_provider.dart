@@ -43,7 +43,7 @@ class ExamProvider extends StateProviderNotifier<List<Exam>> {
     exams.sort((exam1, exam2) => exam1.start.compareTo(exam2.start));
 
     Database().saveExams(exams);
-    
+
     return exams;
   }
 }

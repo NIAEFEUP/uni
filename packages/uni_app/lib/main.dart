@@ -127,8 +127,6 @@ Future<void> main() async {
     Logger().w('Plausible is not enabled');
   }
 
-
-
   final savedTheme = PreferencesController.getThemeMode();
   final savedLocale = PreferencesController.getLocale();
 
