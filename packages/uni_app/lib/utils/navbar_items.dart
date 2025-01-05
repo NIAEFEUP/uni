@@ -7,56 +7,29 @@ enum NavbarItem {
   // TODO(thePeras): Remove duplication
   navPersonalArea(
     UniIcons.home,
-    UniIcons.home,
     NavigationItem.navPersonalArea,
   ),
   navAcademicPath(
-    UniIcons.graduationCap,
     UniIcons.graduationCap,
     NavigationItem.navAcademicPath,
   ),
   navRestaurants(
     UniIcons.restaurant,
-    UniIcons.restaurant,
     NavigationItem.navRestaurants,
   ),
   navFaculty(
     UniIcons.faculty,
-    UniIcons.faculty,
     NavigationItem.navFaculty,
   ),
-  // TODO(thePeras): Change Transports to Map
-  navTransports(
+  navMap(
     UniIcons.map,
-    UniIcons.map,
-    NavigationItem.navTransports,
+    NavigationItem.navMap,
   );
 
-  const NavbarItem(this.unselectedIcon, this.selectedIcon, this.item);
+  const NavbarItem(this.icon, this.item);
 
-  final IconData unselectedIcon;
-  final IconData selectedIcon;
+  final IconData icon;
   final NavigationItem item;
-
-  BottomNavigationBarItem toUnselectedBottomNavigationBarItem(
-    BuildContext context,
-  ) {
-    return BottomNavigationBarItem(
-      icon: Icon(unselectedIcon),
-      label: '',
-      tooltip: S.of(context).nav_title(item.route),
-    );
-  }
-
-  BottomNavigationBarItem toSelectedBottomNavigationBarItem(
-    BuildContext context,
-  ) {
-    return BottomNavigationBarItem(
-      icon: Icon(selectedIcon),
-      label: '',
-      tooltip: S.of(context).nav_title(item.route),
-    );
-  }
 
   String get route {
     return item.route;

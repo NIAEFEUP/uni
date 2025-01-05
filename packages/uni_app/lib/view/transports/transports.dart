@@ -22,7 +22,7 @@ class TransportsPageViewState extends GeneralPageViewState {
 
   @override
   String? getTitle() =>
-      S.of(context).nav_title(NavigationItem.navTransports.route);
+      S.of(context).nav_title(NavigationItem.navMap.route);
 
   @override
   Widget getBody(BuildContext context) {

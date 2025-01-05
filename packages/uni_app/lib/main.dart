@@ -318,7 +318,7 @@ class ApplicationState extends State<Application> {
                 page: const AcademicPathPageView(),
                 settings: settings,
               ),
-              '/${NavigationItem.navTransports.route}':
+              '/${NavigationItem.navMap.route}':
                   PageTransition.makePageTransition(
                 page: const TransportsPageView(),
                 settings: settings,

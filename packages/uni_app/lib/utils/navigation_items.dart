@@ -12,7 +12,7 @@ enum NavigationItem {
   navAcademicPath('percurso_academico'),
   navProfile('perfil'),
   navSettings('definicoes'),
-  navTransports('transportes'),
+  navMap('mapa'),
   navLogin('login');
 
   const NavigationItem(this.route, {this.faculties});

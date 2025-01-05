@@ -44,7 +44,7 @@ class AppBottomNavbar extends StatelessWidget {
       navbarItems.insert(
         index,
         BottomNavbarItem(
-          icon: index == currentIndex ? item.selectedIcon : item.unselectedIcon,
+          icon: item.icon,
           isSelected: () => currentIndex == index,
           onTap: () => _onItemTapped(context, index),
         ),
