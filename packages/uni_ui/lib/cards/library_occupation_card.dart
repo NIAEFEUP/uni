@@ -6,62 +6,66 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class LibraryOccupationCard extends StatelessWidget {
   const LibraryOccupationCard({required this.occupation, super.key});
-
   final LibraryOccupation occupation;
 
   @override
   Widget build(BuildContext context) {
     return GenericCard(
       key: key,
+      padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           CircularPercentIndicator(
-            radius: 90,
-            lineWidth: 10,
+            radius: 100,
+            lineWidth: 12,
             percent: occupation.percentage / 100,
-            center: Text('${occupation.percentage}%',
-                style: Theme.of(context).textTheme.displayMedium),
+            center: Text(
+              '${occupation.percentage}%',
+              style: Theme.of(context).textTheme.displayMedium,
+            ),
             circularStrokeCap: CircularStrokeCap.round,
             backgroundColor: Theme.of(context).colorScheme.surface,
             progressColor: Theme.of(context).primaryColor,
           ),
           const SizedBox(width: 20),
           Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: occupation.floors.map((floor) {
-                return Container(
-                  padding: const EdgeInsets.symmetric(vertical: 2),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                return Column(
+                  children: occupation.floors.map((floor) {
+                    return Container(
+                      padding: const EdgeInsets.symmetric(vertical: 5),
+                      child: Column(
                         children: [
-                          Text(
-                            'Floor ${floor.number}',
-                            style: Theme.of(context).textTheme.titleMedium,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Floor ${floor.number}',
+                                style: Theme.of(context).textTheme.titleMedium,
+                              ),
+                              Text(
+                                '${floor.occupation}/${floor.capacity}',
+                                style: Theme.of(context).textTheme.titleMedium,
+                              ),
+                            ],
                           ),
-                          Text(
-                            '${floor.occupation}/${floor.capacity}',
-                            style: Theme.of(context).textTheme.titleMedium,
+                          LinearPercentIndicator(
+                            width: constraints.maxWidth,
+                            lineHeight: 8.0,
+                            percent: floor.percentage / 100,
+                            backgroundColor:
+                                Theme.of(context).colorScheme.surface,
+                            progressColor: Theme.of(context).primaryColor,
+                            barRadius: const Radius.circular(10),
+                            padding: EdgeInsets.zero,
                           ),
                         ],
                       ),
-                      const SizedBox(height: 5),
-                      LinearPercentIndicator(
-                        width: MediaQuery.of(context).size.width * 0.45,
-                        lineHeight: 8.0,
-                        percent: floor.percentage / 100,
-                        backgroundColor: Theme.of(context).colorScheme.surface,
-                        progressColor: Theme.of(context).primaryColor,
-                        barRadius: const Radius.circular(10),
-                        alignment: MainAxisAlignment.start,
-                      ),
-                    ],
-                  ),
+                    );
+                  }).toList(),
                 );
-              }).toList(),
+              },
             ),
           ),
         ],
