@@ -3,26 +3,47 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
-import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:uni/generated/l10n.dart';
-import 'package:uni/model/providers/startup/profile_provider.dart';
-import 'package:uni/model/providers/startup/session_provider.dart';
 import 'package:uni/view/common_widgets/expanded_image_label.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/bottom_navigation_bar.dart';
-import 'package:uni/view/common_widgets/pages_layouts/general/widgets/profile_button.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/refresh_state.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/top_navigation_bar.dart';
 
-/// Page with a hamburger menu and the user profile picture
 abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
   bool _loadedOnce = false;
   bool _loading = true;
   bool _connected = true;
 
+  // Function called when the user pulls down the screen to refresh
   Future<void> onRefresh(BuildContext context);
 
+  // Function called when the page is loaded
   Future<void> onLoad(BuildContext context) async {}
+
+  // Right action button on the top navigation bar
+  Widget? getTopRightButton(BuildContext context) {
+    return null;
+  }
+
+  // Top navigation bar
+  AppTopNavbar? getTopNavbar(BuildContext context) {
+    return AppTopNavbar(
+      title: this.getTitle(),
+      rightButton: getTopRightButton(context),
+    );
+  }
+
+  // This is the widget that will be displayed above the body and below the top navigation bar
+  Widget? getHeader(BuildContext context) {
+    return null;
+  }
+
+  // The title of the page
+  String? getTitle();
+
+  // The content of the page
+  Widget getBody(BuildContext context);
 
   @override
   Widget build(BuildContext context) {
@@ -55,6 +76,7 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
       }
     });
 
+    // TODO:(thePeras): Is this stills a thing?
     if (!_connected) {
       return getScaffold(
         context,
@@ -84,59 +106,19 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
     );
   }
 
-  Widget? getHeader(BuildContext context) {
-    return null;
-  }
-
-  String? getTitle();
-
-  Widget getBody(BuildContext context);
-
-  Future<DecorationImage> buildProfileDecorationImage(
-    BuildContext context, {
-    bool forceRetrieval = false,
-  }) async {
-    final sessionProvider =
-        Provider.of<SessionProvider>(context, listen: false);
-    await sessionProvider.ensureInitialized(context);
-    final profilePictureFile =
-        await ProfileProvider.fetchOrGetCachedProfilePicture(
-      sessionProvider.state!,
-      forceRetrieval: forceRetrieval,
-    );
-    return getProfileDecorationImage(profilePictureFile);
-  }
-
-  /// Returns the current user image.
-  ///
-  /// If the image is not found / doesn't exist returns a generic placeholder.
-  DecorationImage getProfileDecorationImage(File? profilePicture) {
-    const fallbackPicture = AssetImage('assets/images/profile_placeholder.png');
-    final image =
-        profilePicture == null ? fallbackPicture : FileImage(profilePicture);
-
-    final result =
-        DecorationImage(fit: BoxFit.cover, image: image as ImageProvider);
-    return result;
-  }
-
   Widget getScaffold(BuildContext context, Widget body) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: getTopNavbar(context),
+
+      // TODO:(thePeras): This should move to floating action button in order to be transparent in background
+      // See https://stackoverflow.com/questions/72246152/how-to-use-floating-bottom-navigation-bar-in-flutter
       bottomNavigationBar: const AppBottomNavbar(),
       body: RefreshState(
         onRefresh: onRefresh,
         header: getHeader(context),
         body: body,
       ),
-    );
-  }
-
-  AppTopNavbar? getTopNavbar(BuildContext context) {
-    return AppTopNavbar(
-      title: this.getTitle(),
-      rightButton: const ProfileButton(),
     );
   }
 }

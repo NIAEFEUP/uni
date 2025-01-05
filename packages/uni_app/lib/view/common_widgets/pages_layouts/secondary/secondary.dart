@@ -25,16 +25,18 @@ abstract class SecondaryPageViewState<T extends StatefulWidget>
   @override
   String? getTitle();
 
-  Widget? getTopRightButton(BuildContext context) {
-    return null;
-  }
-
   @override
   @nonVirtual
   AppTopNavbar? getTopNavbar(BuildContext context) {
     return AppTopNavbar(
       title: getTitle(),
-      leftButton: const BackButton(),
+      centerTitle: true,
+      leftButton: BackButton(
+        style: ButtonStyle(
+          iconColor:
+              WidgetStateProperty.all(Theme.of(context).colorScheme.primary),
+        ),
+      ),
       rightButton: getTopRightButton(context),
     );
   }

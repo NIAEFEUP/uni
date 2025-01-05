@@ -1,25 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/utils/navigation_items.dart';
+import 'package:uni_ui/icons.dart';
 
 enum NavbarItem {
+  // TODO(thePeras): Remove duplication
   navPersonalArea(
-    Icons.home_outlined,
-    Icons.home,
+    UniIcons.home,
+    UniIcons.home,
     NavigationItem.navPersonalArea,
   ),
   navAcademicPath(
-    Icons.school_outlined,
-    Icons.school,
+    UniIcons.graduationCap,
+    UniIcons.graduationCap,
     NavigationItem.navAcademicPath,
   ),
   navRestaurants(
-    Icons.free_breakfast_outlined,
-    Icons.free_breakfast,
+    UniIcons.restaurant,
+    UniIcons.restaurant,
     NavigationItem.navRestaurants,
   ),
-  navFaculty(Icons.domain_outlined, Icons.domain, NavigationItem.navFaculty),
-  navTransports(Icons.map_outlined, Icons.map, NavigationItem.navTransports);
+  navFaculty(
+    UniIcons.faculty,
+    UniIcons.faculty,
+    NavigationItem.navFaculty,
+  ),
+  // TODO(thePeras): Change Transports to Map
+  navTransports(
+    UniIcons.map,
+    UniIcons.map,
+    NavigationItem.navTransports,
+  );
 
   const NavbarItem(this.unselectedIcon, this.selectedIcon, this.item);
 

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:uni/utils/navbar_items.dart';
+import 'package:uni_ui/navbar/bottom_navbar.dart';
+import 'package:uni_ui/navbar/bottom_navbar_item.dart';
 
 class AppBottomNavbar extends StatelessWidget {
   const AppBottomNavbar({super.key});
@@ -23,14 +25,12 @@ class AppBottomNavbar extends StatelessWidget {
   }
 
   void _onItemTapped(BuildContext context, int index) {
-    final prev = _getCurrentRoute(context);
-    final item = NavbarItem.values[index];
-    final key = item.route;
+    final newRoute = NavbarItem.values[index].route;
 
-    if (prev != key) {
+    if (_getCurrentRoute(context) != newRoute) {
       Navigator.pushNamed(
         context,
-        '/$key',
+        '/$newRoute',
       );
     }
   }
@@ -38,38 +38,21 @@ class AppBottomNavbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final currentIndex = _getCurrentIndex(context);
-    final navbarItems = <BottomNavigationBarItem>[];
+    final navbarItems = <BottomNavbarItem>[];
     for (var index = 0; index < NavbarItem.values.length; index++) {
       final item = NavbarItem.values[index];
       navbarItems.insert(
         index,
-        index == currentIndex
-            ? item.toSelectedBottomNavigationBarItem(context)
-            : item.toUnselectedBottomNavigationBarItem(context),
+        BottomNavbarItem(
+          icon: index == currentIndex ? item.selectedIcon : item.unselectedIcon,
+          isSelected: () => currentIndex == index,
+          onTap: () => _onItemTapped(context, index),
+        ),
       );
     }
 
-    return Theme(
-      data: Theme.of(context).copyWith(
-        splashColor: Colors.transparent,
-        highlightColor: Colors.transparent,
-      ),
-      child: BottomNavigationBar(
-        backgroundColor: Theme.of(context).colorScheme.surface,
-        items: navbarItems,
-        onTap: (index) => _onItemTapped(context, index),
-        currentIndex: currentIndex == -1 ? 0 : currentIndex,
-        type: BottomNavigationBarType.fixed,
-        iconSize: 32,
-        selectedItemColor: currentIndex == -1
-            ? Theme.of(context).colorScheme.onSurface
-            : Theme.of(context).colorScheme.secondary,
-        unselectedItemColor: Theme.of(context).colorScheme.onSurface,
-        selectedFontSize: 0,
-        unselectedFontSize: 0,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-      ),
+    return BottomNavbar(
+      items: navbarItems,
     );
   }
 }
