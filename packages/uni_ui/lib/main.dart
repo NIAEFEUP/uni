@@ -528,7 +528,12 @@ class MyApp extends StatelessWidget {
             title: Text('Library Occupation Card Example'),
           ),
           body: ListView(
-            children: [LibraryOccupationCard(occupation: occupation)],
+            children: [
+              LibraryOccupationCard(
+                occupation: occupation,
+                floorText: "Floor",
+              )
+            ],
           )),
     );
   }

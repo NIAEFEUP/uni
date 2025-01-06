@@ -5,8 +5,10 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class LibraryOccupationCard extends StatelessWidget {
-  const LibraryOccupationCard({required this.occupation, super.key});
+  const LibraryOccupationCard(
+      {super.key, required this.occupation, required this.floorText});
   final LibraryOccupation occupation;
+  final String floorText;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +43,7 @@ class LibraryOccupationCard extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Floor ${floor.number}',
+                                '${floorText} ${floor.number}',
                                 style: Theme.of(context).textTheme.titleMedium,
                               ),
                               Text(
