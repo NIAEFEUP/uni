@@ -8,27 +8,9 @@ class BookThumbFetcher {
     final googleBooksFuture = _fetchFromGoogleBooks(isbn);
     final openLibraryFuture = _fetchFromOpenLibrary(isbn);
 
-    final completer = Completer<String?>();
+    final results = await Future.wait([googleBooksFuture, openLibraryFuture]);
 
-    googleBooksFuture.then((result) {
-      if (result != null && !completer.isCompleted) {
-        completer.complete(result);
-      }
-    });
-
-    openLibraryFuture.then((result) {
-      if (result != null && !completer.isCompleted) {
-        completer.complete(result);
-      }
-    });
-
-    Future.wait([googleBooksFuture, openLibraryFuture]).then((results) {
-      if (!completer.isCompleted) {
-        completer.complete(null);
-      }
-    });
-
-    return completer.future;
+    return results.firstWhere((result) => result != null, orElse: () => null);
   }
 
   Future<String?> _fetchFromGoogleBooks(String isbn) async {
@@ -41,9 +23,8 @@ class BookThumbFetcher {
     final response =
         await http.get(Uri.decodeComponent(googleBooksUrl.toString()).toUri());
 
-    final numBooks = ((json.decode(response.body)
-            as Map<String, dynamic>)['totalItems'] as int)
-        .toInt();
+    final numBooks = (json.decode(response.body)
+        as Map<String, dynamic>)['totalItems'] as int;
 
     if (numBooks > 0) {
       final bookInformation = ((json.decode(response.body)
@@ -61,21 +42,15 @@ class BookThumbFetcher {
   Future<String?> _fetchFromOpenLibrary(String isbn) async {
     final url = Uri.https('covers.openlibrary.org', '/b/isbn/$isbn-M.jpg');
 
-    try {
-      final response = await http.get(url);
+    final response = await http.get(url);
 
-      if (response.statusCode == 200) {
-        final contentType = response.headers['content-type'];
-        if (contentType != null && contentType.startsWith('image/')) {
-          return url.toString();
-        } else {
-          return null;
-        }
-      } else {
-        return null;
+    if (response.statusCode == 200) {
+      final contentType = response.headers['content-type'];
+      if (contentType != null && contentType.startsWith('image/')) {
+        return url.toString();
       }
-    } catch (e) {
-      return null;
     }
+
+    return null;
   }
 }
