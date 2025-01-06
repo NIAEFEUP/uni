@@ -493,7 +493,6 @@ class DialogExample extends StatelessWidget {
 
 import 'package:flutter/material.dart';
 import 'package:uni_ui/cards/library_occupation_card.dart';
-import 'package:uni_ui/model/entities/library_occupation.dart';
 import 'package:uni_ui/theme.dart';
 
 void main() {
@@ -501,10 +500,10 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  late final LibraryOccupation occupation;
+  late final Map<String, dynamic> occupation_map;
 
   MyApp() {
-    Map<String, dynamic> occupation_json = {
+    occupation_map = {
       'occupation': 200,
       'capacity': 300,
       'floors': [
@@ -516,7 +515,6 @@ class MyApp extends StatelessWidget {
         {'number': 6, 'occupation': 50, 'capacity': 50}
       ]
     };
-    occupation = LibraryOccupation.fromJson(occupation_json);
   }
 
   @override
@@ -530,7 +528,7 @@ class MyApp extends StatelessWidget {
           body: ListView(
             children: [
               LibraryOccupationCard(
-                occupation: occupation,
+                occupation_map: occupation_map,
                 floorText: "Floor",
               )
             ],

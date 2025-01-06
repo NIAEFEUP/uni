@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:uni_ui/cards/generic_card.dart';
-import 'package:uni_ui/model/entities/library_occupation.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class LibraryOccupationCard extends StatelessWidget {
   const LibraryOccupationCard(
-      {super.key, required this.occupation, required this.floorText});
-  final LibraryOccupation occupation;
+      {super.key, required this.occupation_map, required this.floorText});
+  final Map<String, dynamic> occupation_map;
   final String floorText;
 
   @override
@@ -20,9 +19,9 @@ class LibraryOccupationCard extends StatelessWidget {
           CircularPercentIndicator(
             radius: 100,
             lineWidth: 12,
-            percent: occupation.percentage / 100,
+            percent: occupation_map["occupation"] / occupation_map["capacity"],
             center: Text(
-              '${occupation.percentage}%',
+              '${(occupation_map["occupation"] / occupation_map["capacity"] * 100).round()}%',
               style: Theme.of(context).textTheme.displayMedium,
             ),
             circularStrokeCap: CircularStrokeCap.round,
@@ -34,7 +33,7 @@ class LibraryOccupationCard extends StatelessWidget {
             child: LayoutBuilder(
               builder: (context, constraints) {
                 return Column(
-                  children: occupation.floors.map((floor) {
+                  children: occupation_map["floors"].map<Widget>((floor) {
                     return Container(
                       padding: const EdgeInsets.symmetric(vertical: 5),
                       child: Column(
@@ -43,11 +42,11 @@ class LibraryOccupationCard extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                '${floorText} ${floor.number}',
+                                '${floorText} ${floor["number"]}',
                                 style: Theme.of(context).textTheme.titleMedium,
                               ),
                               Text(
-                                '${floor.occupation}/${floor.capacity}',
+                                '${floor["occupation"]}/${floor["capacity"]}',
                                 style: Theme.of(context).textTheme.titleMedium,
                               ),
                             ],
@@ -55,7 +54,7 @@ class LibraryOccupationCard extends StatelessWidget {
                           LinearPercentIndicator(
                             width: constraints.maxWidth,
                             lineHeight: 8.0,
-                            percent: floor.percentage / 100,
+                            percent: floor["occupation"] / floor["capacity"],
                             backgroundColor:
                                 Theme.of(context).colorScheme.surface,
                             progressColor: Theme.of(context).primaryColor,
