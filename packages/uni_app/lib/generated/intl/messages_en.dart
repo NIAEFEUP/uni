@@ -63,6 +63,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "banner_info": MessageLookupByLibrary.simpleMessage(
             "We do now collect anonymous usage statistics in order to improve your experience. You can change it in settings."),
         "bibliography": MessageLookupByLibrary.simpleMessage("Bibliography"),
+        "breakfast": MessageLookupByLibrary.simpleMessage("Breakfast"),
         "bs_description": MessageLookupByLibrary.simpleMessage(
             "Did you find any bugs in the application?\nDo you have any suggestions for the app?\nTell us so we can improve!"),
         "bug_description": MessageLookupByLibrary.simpleMessage(
@@ -111,6 +112,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "description": MessageLookupByLibrary.simpleMessage("Description"),
         "desired_email": MessageLookupByLibrary.simpleMessage(
             "Email where you want to be contacted"),
+        "dinner": MessageLookupByLibrary.simpleMessage("Dinner"),
         "dona_bia": MessageLookupByLibrary.simpleMessage(
             "D. Beatriz\'s stationery store"),
         "dona_bia_building": MessageLookupByLibrary.simpleMessage(
@@ -170,6 +172,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "login_with_credentials":
             MessageLookupByLibrary.simpleMessage("Login with credentials"),
         "logout": MessageLookupByLibrary.simpleMessage("Log out"),
+        "lunch": MessageLookupByLibrary.simpleMessage("Lunch"),
         "menus": MessageLookupByLibrary.simpleMessage("Menus"),
         "min_value_reference":
             MessageLookupByLibrary.simpleMessage("Minimum value: 1,00 €"),
@@ -275,6 +278,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "sent_error": MessageLookupByLibrary.simpleMessage(
             "An error occurred in sending"),
         "settings": MessageLookupByLibrary.simpleMessage("Settings"),
+        "snackbar": MessageLookupByLibrary.simpleMessage("Snackbar"),
         "some_error": MessageLookupByLibrary.simpleMessage("Some error!"),
         "stcp_stops":
             MessageLookupByLibrary.simpleMessage("STCP - Upcoming Trips"),
