@@ -19,7 +19,7 @@ class GenericCard extends StatelessWidget {
   final Color? color;
   final Color? shadowColor;
   final double? borderRadius;
-  final Function? onClick;
+  final VoidCallback? onClick;
   final Widget? child;
   final String tooltip;
 
@@ -58,7 +58,7 @@ class GenericCard extends StatelessWidget {
             child: Padding(
               padding: padding ?? const EdgeInsets.all(10),
               child: GestureDetector(
-                onTap: onClick != null ? () => onClick!() : null,
+                onTap: onClick,
                 child: child,
               ),
             ),
