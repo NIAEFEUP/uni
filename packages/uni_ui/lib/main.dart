@@ -500,10 +500,10 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  late final Map<String, dynamic> occupation_map;
+  late final Map<String, dynamic> occupationMap;
 
   MyApp() {
-    occupation_map = {
+    occupationMap = {
       'occupation': 200,
       'capacity': 300,
       'floors': [
@@ -528,7 +528,7 @@ class MyApp extends StatelessWidget {
           body: ListView(
             children: [
               LibraryOccupationCard(
-                occupation_map: occupation_map,
+                occupationMap: occupationMap,
                 floorText: "Floor",
               )
             ],
