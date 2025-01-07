@@ -53,7 +53,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "add_quota": MessageLookupByLibrary.simpleMessage("Adicionar quota"),
         "add_widget": MessageLookupByLibrary.simpleMessage("Adicionar widget"),
         "agree_terms": MessageLookupByLibrary.simpleMessage(
-            "Ao entrares confirmas que concordas com estes Termos e Condições"),
+            "Ao entrares confirmas que concordas com estes"),
         "all_widgets_added": MessageLookupByLibrary.simpleMessage(
             "Todos os widgets disponíveis já foram adicionados à tua área pessoal!"),
         "assessments": MessageLookupByLibrary.simpleMessage("Avaliações"),
@@ -66,6 +66,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "banner_info": MessageLookupByLibrary.simpleMessage(
             "Agora recolhemos estatísticas de uso anónimas para melhorar a tua experiência. Podes alterá-lo nas definições."),
         "bibliography": MessageLookupByLibrary.simpleMessage("Bibliografia"),
+        "breakfast": MessageLookupByLibrary.simpleMessage("Pequeno Almoço"),
         "bs_description": MessageLookupByLibrary.simpleMessage(
             "Encontraste algum bug na aplicação?\nTens alguma sugestão para a app?\nConta-nos para que possamos melhorar!"),
         "bug_description": MessageLookupByLibrary.simpleMessage(
@@ -107,6 +108,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Regente da Cadeira"),
         "course_class": MessageLookupByLibrary.simpleMessage("Turmas"),
         "course_info": MessageLookupByLibrary.simpleMessage("Ficha"),
+        "courses": MessageLookupByLibrary.simpleMessage("Cursos"),
         "current_state": MessageLookupByLibrary.simpleMessage("Estado atual: "),
         "current_year":
             MessageLookupByLibrary.simpleMessage("Ano curricular atual: "),
@@ -114,6 +116,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "description": MessageLookupByLibrary.simpleMessage("Descrição"),
         "desired_email": MessageLookupByLibrary.simpleMessage(
             "Email em que desejas ser contactado"),
+        "dinner": MessageLookupByLibrary.simpleMessage("Jantar"),
         "dona_bia":
             MessageLookupByLibrary.simpleMessage("Papelaria D. Beatriz"),
         "dona_bia_building": MessageLookupByLibrary.simpleMessage(
@@ -126,6 +129,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "empty_text": MessageLookupByLibrary.simpleMessage(
             "Por favor preenche este campo"),
         "evaluation": MessageLookupByLibrary.simpleMessage("Avaliação"),
+        "exams": MessageLookupByLibrary.simpleMessage("Exames"),
         "exams_filter":
             MessageLookupByLibrary.simpleMessage("Definições Filtro de Exames"),
         "exit_confirm": MessageLookupByLibrary.simpleMessage(
@@ -161,10 +165,11 @@ class MessageLookup extends MessageLookupByLibrary {
             "Verifique sua conexão com a internet"),
         "invalid_credentials":
             MessageLookupByLibrary.simpleMessage("Credenciais inválidas"),
-        "keep_login": MessageLookupByLibrary.simpleMessage("Manter sessão"),
+        "keep_login": MessageLookupByLibrary.simpleMessage("Lembre-se de mim"),
         "language": MessageLookupByLibrary.simpleMessage("Idioma"),
         "last_refresh_time": m0,
         "last_timestamp": m1,
+        "lectures": MessageLookupByLibrary.simpleMessage("Aulas"),
         "library_occupation":
             MessageLookupByLibrary.simpleMessage("Ocupação da Biblioteca"),
         "load_error": MessageLookupByLibrary.simpleMessage(
@@ -172,9 +177,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "loading_terms": MessageLookupByLibrary.simpleMessage(
             "Carregando os Termos e Condições..."),
         "login": MessageLookupByLibrary.simpleMessage("Entrar"),
-        "login_with_credentials": MessageLookupByLibrary.simpleMessage(
-            "Iniciar sessão com credenciais"),
+        "login_with_credentials":
+            MessageLookupByLibrary.simpleMessage("Entrar com credenciais"),
         "logout": MessageLookupByLibrary.simpleMessage("Terminar sessão"),
+        "lunch": MessageLookupByLibrary.simpleMessage("Almoço"),
         "menus": MessageLookupByLibrary.simpleMessage("Ementas"),
         "min_value_reference":
             MessageLookupByLibrary.simpleMessage("Valor mínimo: 1,00 €"),
@@ -252,7 +258,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "other_links": MessageLookupByLibrary.simpleMessage("Outros links"),
         "pass_change_request": MessageLookupByLibrary.simpleMessage(
             "Por razões de segurança, as palavras-passe têm de ser alteradas periodicamente."),
-        "password": MessageLookupByLibrary.simpleMessage("palavra-passe"),
+        "password": MessageLookupByLibrary.simpleMessage("Palavra-passe"),
         "pendent_references":
             MessageLookupByLibrary.simpleMessage("Referências pendentes"),
         "permission_denied":
@@ -285,11 +291,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "sent_error":
             MessageLookupByLibrary.simpleMessage("Ocorreu um erro no envio"),
         "settings": MessageLookupByLibrary.simpleMessage("Definições"),
+        "snackbar": MessageLookupByLibrary.simpleMessage("Snackbar"),
         "some_error": MessageLookupByLibrary.simpleMessage("Algum erro!"),
         "stcp_stops":
             MessageLookupByLibrary.simpleMessage("STCP - Próximas Viagens"),
         "student_number":
-            MessageLookupByLibrary.simpleMessage("número de estudante"),
+            MessageLookupByLibrary.simpleMessage("Número de Estudante"),
         "success": MessageLookupByLibrary.simpleMessage("Enviado com sucesso"),
         "successful_open":
             MessageLookupByLibrary.simpleMessage("Ficheiro aberto com sucesso"),
@@ -303,7 +310,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "title": MessageLookupByLibrary.simpleMessage("Título"),
         "try_again": MessageLookupByLibrary.simpleMessage("Tentar de novo"),
         "try_different_login": MessageLookupByLibrary.simpleMessage(
-            "Problemas a iniciar sessão? Experimenta o login alternativo"),
+            "Problemas ao iniciar sessão?"),
         "uc_info": MessageLookupByLibrary.simpleMessage("Abrir página da UC"),
         "unavailable": MessageLookupByLibrary.simpleMessage("Indisponível"),
         "valid_email": MessageLookupByLibrary.simpleMessage(

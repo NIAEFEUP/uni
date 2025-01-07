@@ -14,9 +14,11 @@ void main() async {
   await initTestEnvironment();
 
   group('ExamsPage', () {
-    const firstExamSubject = 'SOPE';
+    const firstExamSubjectAcronym = 'SOPE';
+    const firstExamSubject = 'Sistemas Operativos';
     const firstExamDate = '2019-09-11';
-    const secondExamSubject = 'SDIS';
+    const secondExamSubjectAcronym = 'SDIS';
+    const secondExamSubject = 'Sistemas Distribuídos';
     const secondExamDate = '2019-09-12';
 
     testWidgets('When given an empty list', (tester) async {
@@ -37,6 +39,7 @@ void main() async {
         '1230',
         firstExamBegin,
         firstExamEnd,
+        firstExamSubjectAcronym,
         firstExamSubject,
         ['B119', 'B107', 'B205'],
         'ER',
@@ -63,6 +66,7 @@ void main() async {
         '1231',
         firstExamBegin,
         firstExamEnd,
+        firstExamSubjectAcronym,
         firstExamSubject,
         ['B119', 'B107', 'B205'],
         'ER',
@@ -74,6 +78,7 @@ void main() async {
         '1232',
         secondExamBegin,
         secondExamEnd,
+        secondExamSubjectAcronym,
         secondExamSubject,
         ['B119', 'B107', 'B205'],
         'ER',
@@ -109,6 +114,7 @@ void main() async {
         '1233',
         firstExamBegin,
         firstExamEnd,
+        firstExamSubjectAcronym,
         firstExamSubject,
         ['B119', 'B107', 'B205'],
         'ER',
@@ -120,6 +126,7 @@ void main() async {
         '1234',
         secondExamBegin,
         secondExamEnd,
+        secondExamSubjectAcronym,
         secondExamSubject,
         ['B119', 'B107', 'B205'],
         'ER',
@@ -154,6 +161,7 @@ void main() async {
         '1235',
         firstExamBegin,
         firstExamEnd,
+        firstExamSubjectAcronym,
         firstExamSubject,
         rooms,
         'ER',
@@ -165,6 +173,7 @@ void main() async {
         '1236',
         secondExamBegin,
         secondExamEnd,
+        firstExamSubjectAcronym,
         firstExamSubject,
         rooms,
         'ER',
@@ -176,6 +185,7 @@ void main() async {
         '1237',
         thirdExamBegin,
         thirdExamEnd,
+        secondExamSubjectAcronym,
         secondExamSubject,
         rooms,
         'ER',
@@ -187,6 +197,7 @@ void main() async {
         '1238',
         fourthExamBegin,
         fourthExamEnd,
+        secondExamSubjectAcronym,
         secondExamSubject,
         rooms,
         'ER',

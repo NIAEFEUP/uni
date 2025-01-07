@@ -36,6 +36,13 @@ class ExamCard extends StatelessWidget {
     'EE': BadgeColors.ee,
   };
 
+  static const Map<String, Color> examTypeColors = {
+    'MT': BadgeColors.mt,
+    'EN': BadgeColors.en,
+    'ER': BadgeColors.er,
+    'EE': BadgeColors.ee,
+  };
+
   @override
   Widget build(BuildContext context) {
     return Opacity(
