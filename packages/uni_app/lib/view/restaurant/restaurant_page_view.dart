@@ -29,10 +29,16 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
   void initState() {
     super.initState();
     final weekDay = DateTime.now().weekday;
-    super.initState();
     tabController = TabController(vsync: this, length: DayOfWeek.values.length);
     tabController.animateTo(tabController.index + (weekDay - 1));
     scrollViewController = ScrollController();
+  }
+
+  @override
+  void dispose() {
+    tabController.dispose();
+    scrollViewController.dispose();
+    super.dispose();
   }
 
   @override
@@ -124,7 +130,13 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
 
   List<Widget> createRestaurantRows(List<Meal> meals, BuildContext context) {
     return meals
-        .map((meal) => RestaurantSlot(type: meal.type, name: meal.name))
+        .map(
+          (meal) => RestaurantSlot(
+            type: meal.type,
+            namePt: meal.namePt,
+            nameEn: meal.nameEn,
+          ),
+        )
         .toList();
   }
 
