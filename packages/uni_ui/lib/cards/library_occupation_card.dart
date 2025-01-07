@@ -4,17 +4,17 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class FloorOccupationWidget extends StatelessWidget {
+  final int capacity;
+  final int occupation;
   final String floorText;
   final int floorNumber;
-  final int occupation;
-  final int capacity;
 
   const FloorOccupationWidget({
     super.key,
+    required this.capacity,
+    required this.occupation,
     required this.floorText,
     required this.floorNumber,
-    required this.occupation,
-    required this.capacity,
   });
 
   @override
@@ -53,25 +53,17 @@ class FloorOccupationWidget extends StatelessWidget {
 class LibraryOccupationCard extends StatelessWidget {
   const LibraryOccupationCard({
     super.key,
-    required this.occupationMap,
-    required this.floorText,
+    required this.capacity,
+    required this.occupation,
+    required this.occupationCardsList,
   });
 
-  final Map<String, dynamic> occupationMap;
-  final String floorText;
+  final int capacity;
+  final int occupation;
+  final List<Widget> occupationCardsList;
 
   @override
   Widget build(BuildContext context) {
-    final FloorOccupationWidgets =
-        (occupationMap["floors"] as List).map((floor) {
-      return FloorOccupationWidget(
-        floorText: floorText,
-        floorNumber: floor["number"],
-        occupation: floor["occupation"],
-        capacity: floor["capacity"],
-      );
-    }).toList();
-
     return GenericCard(
       key: key,
       padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 15),
@@ -80,9 +72,9 @@ class LibraryOccupationCard extends StatelessWidget {
           CircularPercentIndicator(
             radius: 100,
             lineWidth: 12,
-            percent: occupationMap["occupation"] / occupationMap["capacity"],
+            percent: occupation / capacity,
             center: Text(
-              '${(occupationMap["occupation"] / occupationMap["capacity"] * 100).round()}%',
+              '${(occupation / capacity * 100).round()}%',
               style: Theme.of(context).textTheme.displayMedium,
             ),
             circularStrokeCap: CircularStrokeCap.round,
@@ -92,7 +84,7 @@ class LibraryOccupationCard extends StatelessWidget {
           const SizedBox(width: 20),
           Expanded(
             child: Column(
-              children: FloorOccupationWidgets,
+              children: occupationCardsList,
             ),
           ),
         ],

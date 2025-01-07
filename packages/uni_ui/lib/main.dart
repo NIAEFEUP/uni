@@ -502,20 +502,7 @@ void main() {
 class MyApp extends StatelessWidget {
   late final Map<String, dynamic> occupationMap;
 
-  MyApp() {
-    occupationMap = {
-      'occupation': 200,
-      'capacity': 300,
-      'floors': [
-        {'number': 1, 'occupation': 10, 'capacity': 50},
-        {'number': 2, 'occupation': 20, 'capacity': 50},
-        {'number': 3, 'occupation': 35, 'capacity': 50},
-        {'number': 4, 'occupation': 40, 'capacity': 50},
-        {'number': 5, 'occupation': 45, 'capacity': 50},
-        {'number': 6, 'occupation': 50, 'capacity': 50}
-      ]
-    };
-  }
+  MyApp() {}
 
   @override
   Widget build(BuildContext context) {
@@ -528,9 +515,47 @@ class MyApp extends StatelessWidget {
           body: ListView(
             children: [
               LibraryOccupationCard(
-                occupationMap: occupationMap,
-                floorText: "Floor",
-              )
+                capacity: 300,
+                occupation: 200,
+                occupationCardsList: [
+                  FloorOccupationWidget(
+                    capacity: 50,
+                    occupation: 10,
+                    floorText: "Floor",
+                    floorNumber: 1,
+                  ),
+                  FloorOccupationWidget(
+                    capacity: 50,
+                    occupation: 20,
+                    floorText: "Floor",
+                    floorNumber: 2,
+                  ),
+                  FloorOccupationWidget(
+                    capacity: 50,
+                    occupation: 25,
+                    floorText: "Floor",
+                    floorNumber: 3,
+                  ),
+                  FloorOccupationWidget(
+                    capacity: 50,
+                    occupation: 40,
+                    floorText: "Floor",
+                    floorNumber: 4,
+                  ),
+                  FloorOccupationWidget(
+                    capacity: 50,
+                    occupation: 45,
+                    floorText: "Floor",
+                    floorNumber: 5,
+                  ),
+                  FloorOccupationWidget(
+                    capacity: 50,
+                    occupation: 50,
+                    floorText: "Floor",
+                    floorNumber: 6,
+                  )
+                ],
+              ),
             ],
           )),
     );
