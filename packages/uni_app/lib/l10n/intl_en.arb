@@ -335,5 +335,23 @@
   "wrong_credentials_exception": "Invalid credentials",
   "@wrong_credentials_exception": {},
   "internet_status_exception": "Check your internet connection",
-  "@internet_status_exception": {}
+  "@internet_status_exception": {},
+  "instructors": "Instructors",
+  "@instructors": {},
+  "assessments": "Assessments",
+  "@assessments": {},
+  "noExamsScheduled": "No exams scheduled",
+  "@noExamsScheduled": {},
+  "bibliography": "Bibliography",
+  "@bibliography": {},
+  "moreInstructors": "{number} more",
+  "@moreInstructors": {
+    "placeholders": {
+      "number": {}
+    }
+  },
+  "courseRegent": "Course Regent",
+  "@courseRegent": {},
+  "instructor": "Instructor",
+  "@instructor": {}
 }

@@ -1,4 +1,3 @@
-import 'dart:ffi';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -15,7 +14,6 @@ import 'package:uni/view/common_widgets/generic_animated_expandable.dart';
 import 'package:uni/view/common_widgets/generic_expandable.dart';
 import 'package:uni/view/course_unit_info/widgets/modal_professor_info.dart';
 import 'package:uni_ui/cards/exam_card.dart';
-import 'package:uni_ui/theme.dart';
 
 class CourseUnitSheetView extends StatelessWidget {
   const CourseUnitSheetView(this.courseUnitSheet, this.exams, {super.key});
@@ -30,9 +28,9 @@ class CourseUnitSheetView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Instructors',
-              style: TextStyle(fontSize: 20),
+            Text(
+              S.of(context).instructors,
+              style: const TextStyle(fontSize: 20),
             ),
             if (courseUnitSheet.professors.length <= 4)
               _buildInstructorsRow(context, courseUnitSheet.professors)
@@ -49,14 +47,14 @@ class CourseUnitSheetView extends StatelessWidget {
               opacity: 0.25,
               child: Divider(color: Colors.grey),
             ),
-            const Text(
-              'Assessments',
-              style: TextStyle(fontSize: 20),
+            Text(
+              S.of(context).assessments,
+              style: const TextStyle(fontSize: 20),
             ),
             if (exams.isEmpty)
-              const Padding(
-                padding:  EdgeInsets.only(top: 8.0),
-                child:  Text('No exams scheduled'),
+              Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: Text(S.of(context).noExamsScheduled),
               )
             else
               SizedBox(
@@ -95,22 +93,24 @@ class CourseUnitSheetView extends StatelessWidget {
   }
 
   Widget _buildLimitedInstructorsRow(
-      BuildContext context, List<Professor> instructors) {
+    BuildContext context,
+    List<Professor> instructors,
+  ) {
     final firstThree = instructors.take(3).toList();
     final remaining = instructors.skip(3).toList();
 
     return Wrap(
-      spacing: 8.0,
-      runSpacing: 4.0,
+      spacing: 8,
+      runSpacing: 4,
       children: [
         ...firstThree
             .map((instructor) => _buildInstructorWidget(context, instructor)),
         if (remaining.isNotEmpty)
           Container(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
               color: const Color.fromRGBO(255, 245, 243, 1),
-              borderRadius: BorderRadius.circular(8.0),
+              borderRadius: BorderRadius.circular(8),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
@@ -131,9 +131,11 @@ class CourseUnitSheetView extends StatelessWidget {
                 ),
                 const SizedBox(width: 8),
                 Text(
-                  '+${remaining.length} more',
+                  S.of(context).moreInstructors(remaining.length),
                   style: const TextStyle(
-                      fontSize: 14, fontWeight: FontWeight.w500),
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
               ],
             ),
@@ -143,10 +145,12 @@ class CourseUnitSheetView extends StatelessWidget {
   }
 
   Widget _buildInstructorsRow(
-      BuildContext context, List<Professor> instructors) {
+    BuildContext context,
+    List<Professor> instructors,
+  ) {
     return Wrap(
-      spacing: 8.0,
-      runSpacing: 4.0,
+      spacing: 8,
+      runSpacing: 4,
       children: instructors
           .map((instructor) => _buildInstructorWidget(context, instructor))
           .toList(),
@@ -162,10 +166,10 @@ class CourseUnitSheetView extends StatelessWidget {
         );
       },
       child: Container(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
           color: const Color.fromRGBO(255, 245, 243, 1),
-          borderRadius: BorderRadius.circular(8.0),
+          borderRadius: BorderRadius.circular(8),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -188,8 +192,10 @@ class CourseUnitSheetView extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  instructor.isRegent ? 'Course Regent' : 'Instructor',
-                  style: TextStyle(fontSize: 12, color: Colors.grey),
+                  instructor.isRegent
+                      ? S.of(context).courseRegent
+                      : S.of(context).instructor,
+                  style: const TextStyle(fontSize: 12, color: Colors.grey),
                 ),
               ],
             ),

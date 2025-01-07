@@ -335,5 +335,23 @@
   "wrong_credentials_exception": "Credenciais inválidas",
   "@wrong_credentials_exception": {},
   "internet_status_exception": "Verifique sua conexão com a internet",
-  "@internet_status_exception": {}
+  "@internet_status_exception": {},
+  "instructors": "Docentes",
+  "@instructors": {},
+  "assessments": "Avaliações",
+  "@assessments": {},
+  "noExamsScheduled": "Não há exames agendados",
+  "@noExamsScheduled": {},
+  "bibliography": "Bibliografia",
+  "@bibliography": {},
+  "moreInstructors": "+{number} mais",
+  "@moreInstructors": {
+    "placeholders": {
+      "number": {}
+    }
+  },
+  "courseRegent": "Regente da Cadeira",
+  "@courseRegent": {},
+  "instructor": "Docente",
+  "@instructor": {}
 }
