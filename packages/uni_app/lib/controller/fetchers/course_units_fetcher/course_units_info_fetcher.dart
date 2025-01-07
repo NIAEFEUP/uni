@@ -49,7 +49,6 @@ class CourseUnitsInfoFetcher implements SessionDependantFetcher {
           );
   }
 
-  
   Future<List<CourseUnitFileDirectory>> fetchCourseUnitFiles(
     Session session,
     int occurId,

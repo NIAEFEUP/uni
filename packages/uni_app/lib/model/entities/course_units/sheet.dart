@@ -22,14 +22,6 @@ class Book {
 
   String title;
   String isbn;
-
-  @override
-  String toString() {
-    if (isbn.isEmpty) {
-      return 'Book(title: $title)';
-    }
-    return 'Book(title: $title, isbn: $isbn)';
-  }
 }
 
 class Professor {

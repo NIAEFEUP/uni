@@ -33,6 +33,7 @@ class CourseUnitDetailPageViewState
   Future<void> loadInfo({required bool force}) async {
     final courseUnitsProvider =
         Provider.of<CourseUnitsInfoProvider>(context, listen: false);
+    final examProvider = Provider.of<ExamProvider>(context, listen: false);
     final session = context.read<SessionProvider>().state!;
 
     final courseUnitSheet =
@@ -62,7 +63,6 @@ class CourseUnitDetailPageViewState
       );
     }
 
-    final examProvider = Provider.of<ExamProvider>(context, listen: false);
     courseUnitExams = examProvider.getExamsForCourseUnit(widget.courseUnit);
   }
 

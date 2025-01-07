@@ -54,7 +54,10 @@ class CourseUnitSheetView extends StatelessWidget {
             if (exams.isEmpty)
               Padding(
                 padding: const EdgeInsets.only(top: 8),
-                child: Text(S.of(context).noExamsScheduled, style: Theme.of(context).textTheme.bodyLarge),
+                child: Text(
+                  S.of(context).noExamsScheduled,
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
               )
             else
               SizedBox(

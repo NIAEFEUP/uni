@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/model/entities/course_units/sheet.dart';
 import 'package:uni/model/providers/startup/profile_provider.dart';
@@ -36,7 +35,7 @@ class ProfessorInfoModal extends StatelessWidget {
             const SizedBox(height: 10),
             Text(
               professor.name,
-              style: Theme.of(context).textTheme.headlineMedium,
+              style: Theme.of(context).textTheme.headlineLarge,
             ),
             const Opacity(
               opacity: 0.25,
@@ -44,10 +43,9 @@ class ProfessorInfoModal extends StatelessWidget {
             ),
             Row(
               children: [
-                PhosphorIcon(
+                UniIcon(
                   UniIcons.email,
                   color: Theme.of(context).colorScheme.primary,
-                  duotoneSecondaryColor: Colors.red,
                   size: 32,
                 ),
                 const Padding(
@@ -57,12 +55,12 @@ class ProfessorInfoModal extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Email: ',
-                      style: Theme.of(context).textTheme.titleSmall,
+                      'Email',
+                      style: Theme.of(context).textTheme.bodyLarge,
                     ),
                     Text(
                       '[email-professor@domain.com]',
-                      style: Theme.of(context).textTheme.bodySmall,
+                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ],
                 ),
@@ -74,10 +72,9 @@ class ProfessorInfoModal extends StatelessWidget {
             ),
             Row(
               children: [
-                PhosphorIcon(
+                UniIcon(
                   UniIcons.location,
                   color: Theme.of(context).colorScheme.primary,
-                  duotoneSecondaryColor: Colors.red,
                   size: 32,
                 ),
                 const Padding(
@@ -87,12 +84,12 @@ class ProfessorInfoModal extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Sala: ',
-                      style: Theme.of(context).textTheme.titleSmall,
+                      'Sala ',
+                      style: Theme.of(context).textTheme.bodyLarge,
                     ),
                     Text(
                       '[sala]',
-                      style: Theme.of(context).textTheme.bodySmall,
+                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ],
                 ),
