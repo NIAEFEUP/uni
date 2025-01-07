@@ -7,11 +7,12 @@ part '../../generated/model/entities/meal.g.dart';
 @DateTimeConverter()
 @JsonSerializable()
 class Meal {
-  Meal(this.type, this.name, this.dayOfWeek, this.date);
+  Meal(this.type, this.namePt, this.nameEn, this.dayOfWeek, this.date);
 
   factory Meal.fromJson(Map<String, dynamic> json) => _$MealFromJson(json);
   final String type;
-  final String name;
+  final String namePt;
+  final String nameEn;
   final DayOfWeek dayOfWeek;
   final DateTime date;
 
