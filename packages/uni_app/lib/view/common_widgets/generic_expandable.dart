@@ -16,7 +16,7 @@ class GenericExpandable extends StatelessWidget {
     return ExpandablePanel(
       header: Align(
         alignment: Alignment.centerLeft,
-        child: Text(title, style: const TextStyle(fontSize: 20)),
+        child: Text(title, style: Theme.of(context).textTheme.headlineLarge),
       ),
       collapsed: ShaderMask(
         shaderCallback: (bounds) => const LinearGradient(

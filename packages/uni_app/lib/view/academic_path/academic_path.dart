@@ -5,6 +5,7 @@ import 'package:uni/view/academic_path/exam_page.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni_ui/icons.dart';
 import 'package:uni_ui/tabs/tab_icon.dart';
+import 'package:uni/view/academic_path/widgets/course_units_card.dart';
 
 class AcademicPathPageView extends StatefulWidget {
   const AcademicPathPageView({super.key});
@@ -53,13 +54,13 @@ class AcademicPathPageViewState extends GeneralPageViewState
   Widget getBody(BuildContext context) {
     return TabBarView(
       controller: tabController,
-      children: const [
+      children: [
         Center(
           child: Text('To be implemented'),
         ),
         ExamsPage(),
         Center(
-          child: Text('To be implemented'),
+          child:  CourseUnitsCard(),
         ),
       ],
     );

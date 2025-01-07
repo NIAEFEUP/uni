@@ -42,13 +42,14 @@ class CourseUnitsInfoFetcher implements SessionDependantFetcher {
         ? parseSheet(bestResponse)
         : Sheet(
             professors: [],
-            regents: [],
             content: '',
             evaluation: '',
+            frequency: '',
             books: [],
           );
   }
 
+  
   Future<List<CourseUnitFileDirectory>> fetchCourseUnitFiles(
     Session session,
     int occurId,

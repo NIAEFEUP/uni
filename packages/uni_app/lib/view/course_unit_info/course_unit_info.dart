@@ -92,8 +92,6 @@ class CourseUnitDetailPageViewState
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           TabBar(
-            // todo : pixel font size might not be the best choice
-            labelStyle: const TextStyle(fontSize: 12),
             tabs: [
               TabIcon(icon: UniIcons.notebook, text: S.of(context).course_info),
               TabIcon(icon: UniIcons.classes, text: S.of(context).course_class),

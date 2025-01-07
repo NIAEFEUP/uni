@@ -30,7 +30,7 @@ class CourseUnitSheetView extends StatelessWidget {
           children: [
             Text(
               S.of(context).instructors,
-              style: const TextStyle(fontSize: 20),
+              style: Theme.of(context).textTheme.headlineLarge,
             ),
             if (courseUnitSheet.professors.length <= 4)
               _buildInstructorsRow(context, courseUnitSheet.professors)
@@ -49,12 +49,12 @@ class CourseUnitSheetView extends StatelessWidget {
             ),
             Text(
               S.of(context).assessments,
-              style: const TextStyle(fontSize: 20),
+              style: Theme.of(context).textTheme.headlineLarge,
             ),
             if (exams.isEmpty)
               Padding(
                 padding: const EdgeInsets.only(top: 8),
-                child: Text(S.of(context).noExamsScheduled),
+                child: Text(S.of(context).noExamsScheduled, style: Theme.of(context).textTheme.bodyLarge),
               )
             else
               SizedBox(
@@ -82,7 +82,7 @@ class CourseUnitSheetView extends StatelessWidget {
               ),
               Text(
                 S.of(context).bibliography,
-                style: const TextStyle(fontSize: 20),
+                style: Theme.of(context).textTheme.headlineLarge,
               ),
               _buildBooksRow(context, courseUnitSheet.books),
             ],
@@ -132,10 +132,7 @@ class CourseUnitSheetView extends StatelessWidget {
                 const SizedBox(width: 8),
                 Text(
                   S.of(context).moreInstructors(remaining.length),
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                  ),
+                  style: Theme.of(context).textTheme.bodyLarge,
                 ),
               ],
             ),
@@ -184,10 +181,7 @@ class CourseUnitSheetView extends StatelessWidget {
                   width: 100,
                   child: Text(
                     instructor.name,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                    ),
+                    style: Theme.of(context).textTheme.titleMedium,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
@@ -195,7 +189,7 @@ class CourseUnitSheetView extends StatelessWidget {
                   instructor.isRegent
                       ? S.of(context).courseRegent
                       : S.of(context).instructor,
-                  style: const TextStyle(fontSize: 12, color: Colors.grey),
+                  style: Theme.of(context).textTheme.labelLarge,
                 ),
               ],
             ),
@@ -269,6 +263,7 @@ class CourseUnitSheetView extends StatelessWidget {
             child: Text(
               book.title,
               textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.bodyLarge,
             ),
           ),
         ],
@@ -292,6 +287,7 @@ class CourseUnitSheetView extends StatelessWidget {
           GenericExpandable(
             content: HtmlWidget(
               sectionContent != 'null' ? sectionContent : S.of(context).no_info,
+              textStyle: Theme.of(context).textTheme.bodyLarge,
             ),
             title: sectionTitle,
           ),
