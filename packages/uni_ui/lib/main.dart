@@ -500,8 +500,6 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  late final Map<String, dynamic> occupationMap;
-
   MyApp() {}
 
   @override
@@ -517,7 +515,7 @@ class MyApp extends StatelessWidget {
               LibraryOccupationCard(
                 capacity: 300,
                 occupation: 200,
-                occupationCardsList: [
+                occupationWidgetsList: [
                   FloorOccupationWidget(
                     capacity: 50,
                     occupation: 10,

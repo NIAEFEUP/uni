@@ -55,12 +55,12 @@ class LibraryOccupationCard extends StatelessWidget {
     super.key,
     required this.capacity,
     required this.occupation,
-    required this.occupationCardsList,
+    required this.occupationWidgetsList,
   });
 
   final int capacity;
   final int occupation;
-  final List<Widget> occupationCardsList;
+  final List<FloorOccupationWidget> occupationWidgetsList;
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +84,7 @@ class LibraryOccupationCard extends StatelessWidget {
           const SizedBox(width: 20),
           Expanded(
             child: Column(
-              children: occupationCardsList,
+              children: occupationWidgetsList,
             ),
           ),
         ],
