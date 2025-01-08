@@ -110,10 +110,10 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: getTopNavbar(context),
-
-      // TODO:(thePeras): This should move to floating action button in order to be transparent in background
-      // See https://stackoverflow.com/questions/72246152/how-to-use-floating-bottom-navigation-bar-in-flutter
-      bottomNavigationBar: const AppBottomNavbar(),
+      extendBody: true,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: const AppBottomNavbar(),
+      floatingActionButtonAnimator: FloatingActionButtonAnimator.noAnimation,
       body: RefreshState(
         onRefresh: onRefresh,
         header: getHeader(context),

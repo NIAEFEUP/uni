@@ -6,6 +6,7 @@ class AppTopNavbar extends StatelessWidget implements PreferredSizeWidget {
     this.rightButton,
     this.leftButton,
     this.centerTitle = false,
+    this.heightSize = const Size.fromHeight(kToolbarHeight),
     super.key,
   });
 
@@ -13,9 +14,10 @@ class AppTopNavbar extends StatelessWidget implements PreferredSizeWidget {
   final Widget? rightButton;
   final Widget? leftButton;
   final bool centerTitle;
+  final Size heightSize;
 
   @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => heightSize;
 
   @override
   AppBar build(BuildContext context) {

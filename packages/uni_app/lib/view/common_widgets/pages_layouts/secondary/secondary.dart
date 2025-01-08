@@ -13,7 +13,10 @@ abstract class SecondaryPageViewState<T extends StatefulWidget>
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: getTopNavbar(context),
-      bottomNavigationBar: const AppBottomNavbar(),
+      extendBody: true,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: const AppBottomNavbar(),
+      floatingActionButtonAnimator: FloatingActionButtonAnimator.noAnimation,
       body: RefreshState(
         onRefresh: onRefresh,
         header: getHeader(context),
