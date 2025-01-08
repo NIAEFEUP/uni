@@ -79,10 +79,7 @@ class LocationsMap extends StatelessWidget {
       ],
       children: <Widget>[
         TileLayer(
-          // TODO(thePeras): Change layer in dark theme
-          //urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-          urlTemplate:
-              'https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png',
+          urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
           subdomains: const <String>['a', 'b', 'c'],
           tileProvider: CachedTileProvider(),
         ),

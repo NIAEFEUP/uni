@@ -43,6 +43,7 @@ import 'package:uni/view/library/library.dart';
 import 'package:uni/view/locale_notifier.dart';
 import 'package:uni/view/locations/locations.dart';
 import 'package:uni/view/login/login.dart';
+import 'package:uni/view/map/map.dart';
 import 'package:uni/view/profile/profile.dart';
 import 'package:uni/view/restaurant/restaurant_page_view.dart';
 import 'package:uni/view/schedule/schedule.dart';
@@ -320,7 +321,7 @@ class ApplicationState extends State<Application> {
               ),
               '/${NavigationItem.navMap.route}':
                   PageTransition.makePageTransition(
-                page: const TransportsPageView(),
+                page: const MapPage(),
                 settings: settings,
               ),
               '/${NavigationItem.navProfile.route}':
