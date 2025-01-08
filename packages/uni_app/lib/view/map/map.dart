@@ -71,9 +71,8 @@ class MapPageViewState extends State<MapPageView> {
       builder: (context, constraints) {
         return Column(
           children: [
-            Container(
-              width: constraints.maxWidth - 40,
-              height: 40,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: TextFormField(
                 key: searchFormKey,
                 onChanged: (text) {
@@ -91,6 +90,10 @@ class MapPageViewState extends State<MapPageView> {
                       semanticsLabel: 'search',
                       width: 10,
                     ),
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide.none,
                   ),
                   contentPadding: const EdgeInsets.all(10),
                   hintText: '${S.of(context).search}...',

@@ -6,6 +6,7 @@ import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/home/widgets/bus_stop_card.dart';
 import 'package:uni/view/transports/widgets/map_snapshot_card.dart';
 
+// TODO(thePeras): Remove full folder
 class TransportsPageView extends StatefulWidget {
   const TransportsPageView({super.key});
 

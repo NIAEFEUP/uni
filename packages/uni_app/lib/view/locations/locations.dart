@@ -9,6 +9,7 @@ import 'package:uni/view/common_widgets/pages_layouts/secondary/secondary.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locations/widgets/faculty_map.dart';
 
+// TODO(thePeras): To remove full folder
 class LocationsPage extends StatefulWidget {
   const LocationsPage({super.key});
 
