@@ -42,7 +42,6 @@ class ExamCard extends StatelessWidget {
       opacity: isInvisible ? 0.6 : 1.0,
       child: GenericCard(
         key: key,
-        color: const Color.fromRGBO(255, 245, 243, 1), //TODO: Use theme
         child: Row(
           children: [
             Expanded(

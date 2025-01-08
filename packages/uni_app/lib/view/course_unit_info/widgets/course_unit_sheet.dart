@@ -17,72 +17,36 @@ import 'package:uni_ui/cards/exam_card.dart';
 
 class CourseUnitSheetView extends StatelessWidget {
   const CourseUnitSheetView(this.courseUnitSheet, this.exams, {super.key});
+
   final Sheet courseUnitSheet;
   final List<Exam> exams;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.only(left: 20, right: 20),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              S.of(context).instructors,
-              style: Theme.of(context).textTheme.headlineLarge,
+            _buildInstructorsSection(context, courseUnitSheet.professors),
+            _buildAssessmentsSection(context, exams),
+            _buildContentCard(
+              S.of(context).program,
+              courseUnitSheet.content,
+              context,
             ),
-            if (courseUnitSheet.professors.length <= 4)
-              _buildInstructorsRow(context, courseUnitSheet.professors)
-            else
-              AnimatedExpandable(
-                firstChild: _buildLimitedInstructorsRow(
-                  context,
-                  courseUnitSheet.professors,
-                ),
-                secondChild:
-                    _buildInstructorsRow(context, courseUnitSheet.professors),
-              ),
-            const Opacity(
-              opacity: 0.25,
-              child: Divider(color: Colors.grey),
-            ),
-            Text(
-              S.of(context).assessments,
-              style: Theme.of(context).textTheme.headlineLarge,
-            ),
-            if (exams.isEmpty)
-              Padding(
-                padding: const EdgeInsets.only(top: 8),
-                child: Text(
-                  S.of(context).noExamsScheduled,
-                  style: Theme.of(context).textTheme.bodyLarge,
-                ),
-              )
-            else
-              SizedBox(
-                height: 100,
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: _buildExamsRow(context, exams),
-                ),
-              ),
-            _buildCard(S.of(context).program, courseUnitSheet.content, context),
-            _buildCard(
+            _buildContentCard(
               S.of(context).evaluation,
               courseUnitSheet.evaluation,
               context,
             ),
-            _buildCard(
+            _buildContentCard(
               S.of(context).frequency,
               courseUnitSheet.frequency,
               context,
             ),
             if (courseUnitSheet.books.isNotEmpty) ...[
-              const Opacity(
-                opacity: 0.25,
-                child: Divider(color: Colors.grey),
-              ),
               Text(
                 S.of(context).bibliography,
                 style: Theme.of(context).textTheme.headlineLarge,
@@ -95,133 +59,81 @@ class CourseUnitSheetView extends StatelessWidget {
     );
   }
 
-  Widget _buildLimitedInstructorsRow(
+  Widget _buildInstructorsSection(
     BuildContext context,
     List<Professor> instructors,
   ) {
-    final firstThree = instructors.take(3).toList();
-    final remaining = instructors.skip(3).toList();
-
-    return Wrap(
-      spacing: 8,
-      runSpacing: 4,
+    final textTheme = Theme.of(context).textTheme;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ...firstThree
-            .map((instructor) => _buildInstructorWidget(context, instructor)),
-        if (remaining.isNotEmpty)
-          Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: const Color.fromRGBO(255, 245, 243, 1),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox(
-                  width: 70,
-                  height: 40,
-                  child: Stack(
-                    children: remaining.asMap().entries.map((entry) {
-                      final index = entry.key;
-                      final instructor = entry.value;
-                      return Positioned(
-                        left: index * 20.0,
-                        child: _InstructorAvatar(instructor: instructor),
-                      );
-                    }).toList(),
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Text(
-                  S.of(context).moreInstructors(remaining.length),
-                  style: Theme.of(context).textTheme.bodyLarge,
-                ),
-              ],
-            ),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 8),
+          child: Text(
+            S.of(context).instructors,
+            style: textTheme.headlineLarge,
+          ),
+        ),
+        if (instructors.length <= 4)
+          _InstructorsRow(instructors: instructors)
+        else
+          AnimatedExpandable(
+            firstChild: _LimitedInstructorsRow(instructors: instructors),
+            secondChild: _InstructorsRow(instructors: instructors),
           ),
       ],
     );
   }
 
-  Widget _buildInstructorsRow(
-    BuildContext context,
-    List<Professor> instructors,
-  ) {
-    return Wrap(
-      spacing: 8,
-      runSpacing: 4,
-      children: instructors
-          .map((instructor) => _buildInstructorWidget(context, instructor))
-          .toList(),
-    );
-  }
-
-  Widget _buildInstructorWidget(BuildContext context, Professor instructor) {
-    return GestureDetector(
-      onTap: () {
-        showDialog<void>(
-          context: context,
-          builder: (context) => ProfessorInfoModal(instructor),
-        );
-      },
-      child: Container(
-        padding: const EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          color: const Color.fromRGBO(255, 245, 243, 1),
-          borderRadius: BorderRadius.circular(8),
+  Widget _buildAssessmentsSection(BuildContext context, List<Exam> exams) {
+    final textTheme = Theme.of(context).textTheme;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          child: Text(
+            S.of(context).assessments,
+            style: textTheme.headlineLarge,
+          ),
         ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _InstructorAvatar(instructor: instructor),
-            const SizedBox(width: 8),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox(
-                  width: 100,
-                  child: Text(
-                    instructor.name,
-                    style: Theme.of(context).textTheme.titleMedium,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                Text(
-                  instructor.isRegent
-                      ? S.of(context).courseRegent
-                      : S.of(context).instructor,
-                  style: Theme.of(context).textTheme.labelLarge,
-                ),
-              ],
+        if (exams.isEmpty)
+          Padding(
+            padding: const EdgeInsets.only(top: 8),
+            child: Text(
+              S.of(context).noExamsScheduled,
+              style: textTheme.bodyLarge,
             ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildExamsRow(BuildContext context, List<Exam> exams) {
-    return Row(
-      children: exams.map((exam) {
-        return Padding(
-          padding: const EdgeInsets.only(right: 8),
-          child: SizedBox(
-            width: 240,
-            child: ExamCard(
-              name: exam.subject,
-              acronym: exam.subjectAcronym,
-              rooms: exam.rooms,
-              type: exam.examType,
-              startTime: exam.startTime,
-              examDay: exam.start.day.toString(),
-              examMonth: exam.monthAcronym(PreferencesController.getLocale()),
-              showIcon: false,
+          )
+        else
+          SizedBox(
+            height: 100,
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              itemCount: exams.length,
+              separatorBuilder: (context, index) => const SizedBox(width: 8),
+              itemBuilder: (context, index) =>
+                  _buildExamCard(context, exams[index]),
             ),
           ),
-        );
-      }).toList(),
+        _addDivider(),
+      ],
+    );
+  }
+
+  Widget _buildExamCard(BuildContext context, Exam exam) {
+    return SizedBox(
+      width: 240,
+      child: ExamCard(
+        name: exam.subject,
+        acronym: exam.subjectAcronym,
+        rooms: exam.rooms,
+        type: exam.examType,
+        startTime: exam.startTime,
+        examDay: exam.start.day.toString(),
+        examMonth: exam.monthAcronym(PreferencesController.getLocale()),
+        showIcon: false,
+      ),
     );
   }
 
@@ -274,27 +186,152 @@ class CourseUnitSheetView extends StatelessWidget {
     );
   }
 
-  Widget _buildCard(
+  Widget _buildContentCard(
     String sectionTitle,
     String sectionContent,
     BuildContext context,
   ) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
+      padding: const EdgeInsets.symmetric(vertical: 12),
       child: Column(
         children: [
-          const Opacity(
-            opacity: 0.25,
-            child: Divider(color: Colors.grey),
-          ),
           GenericExpandable(
+            title: sectionTitle,
             content: HtmlWidget(
               sectionContent != 'null' ? sectionContent : S.of(context).no_info,
               textStyle: Theme.of(context).textTheme.bodyLarge,
             ),
-            title: sectionTitle,
           ),
+          _addDivider(),
         ],
+      ),
+    );
+  }
+}
+
+Widget _addDivider() {
+  return const Opacity(
+    opacity: 0.25,
+    child: Divider(color: Colors.grey),
+  );
+}
+
+class _LimitedInstructorsRow extends StatelessWidget {
+  const _LimitedInstructorsRow({required this.instructors});
+
+  final List<Professor> instructors;
+
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+    final firstThree = instructors.take(3).toList();
+    final remaining = instructors.skip(3).toList();
+
+    return Wrap(
+      spacing: 8,
+      runSpacing: 4,
+      children: [
+        ...firstThree
+            .map((instructor) => _InstructorChip(instructor: instructor)),
+        if (remaining.isNotEmpty)
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: const Color.fromRGBO(255, 245, 243, 1),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(
+                  width: 70,
+                  height: 40,
+                  child: Stack(
+                    children: remaining.asMap().entries.map((entry) {
+                      final index = entry.key;
+                      final instructor = entry.value;
+                      return Positioned(
+                        left: index * 20.0,
+                        child: _InstructorAvatar(instructor: instructor),
+                      );
+                    }).toList(),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  S.of(context).moreInstructors(remaining.length),
+                  style: textTheme.bodyLarge,
+                ),
+              ],
+            ),
+          ),
+      ],
+    );
+  }
+}
+
+class _InstructorsRow extends StatelessWidget {
+  const _InstructorsRow({required this.instructors});
+
+  final List<Professor> instructors;
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      spacing: 8,
+      runSpacing: 4,
+      children: instructors
+          .map((instructor) => _InstructorChip(instructor: instructor))
+          .toList(),
+    );
+  }
+}
+
+class _InstructorChip extends StatelessWidget {
+  const _InstructorChip({required this.instructor});
+
+  final Professor instructor;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => showDialog<void>(
+        context: context,
+        builder: (context) => ProfessorInfoModal(instructor),
+      ),
+      child: Container(
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: const Color.fromRGBO(255, 245, 243, 1),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _InstructorAvatar(instructor: instructor),
+            const SizedBox(width: 8),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(
+                  width: 100,
+                  child: Text(
+                    instructor.name,
+                    style: Theme.of(context).textTheme.titleMedium,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                Text(
+                  instructor.isRegent
+                      ? S.of(context).courseRegent
+                      : S.of(context).instructor,
+                  style: Theme.of(context).textTheme.labelLarge,
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -309,17 +346,15 @@ class _InstructorAvatar extends StatelessWidget {
   Widget build(BuildContext context) {
     final session = Provider.of<SessionProvider>(context, listen: false).state!;
     return FutureBuilder<File?>(
+      future: ProfileProvider.fetchOrGetCachedProfilePicture(
+        session,
+        studentNumber: int.parse(instructor.code),
+      ),
       builder: (context, snapshot) => CircleAvatar(
         radius: 20,
         backgroundImage: snapshot.hasData && snapshot.data != null
             ? FileImage(snapshot.data!) as ImageProvider
-            : const AssetImage(
-                'assets/images/profile_placeholder.png',
-              ),
-      ),
-      future: ProfileProvider.fetchOrGetCachedProfilePicture(
-        session,
-        studentNumber: int.parse(instructor.code),
+            : const AssetImage('assets/images/profile_placeholder.png'),
       ),
     );
   }

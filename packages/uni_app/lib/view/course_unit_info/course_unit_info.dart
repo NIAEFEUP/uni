@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:uni/controller/parsers/parser_exams.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/entities/exam.dart';
@@ -34,7 +33,6 @@ class CourseUnitDetailPageViewState
   Future<void> loadInfo({required bool force}) async {
     final courseUnitsProvider =
         Provider.of<CourseUnitsInfoProvider>(context, listen: false);
-    final examProvider = Provider.of<ExamProvider>(context, listen: false);
     final session = context.read<SessionProvider>().state!;
 
     final courseUnitSheet =
@@ -131,7 +129,9 @@ class CourseUnitDetailPageViewState
         }
 
         final courseExams = (examProvider.state ?? [])
-            .where((exam) => exam.subjectAcronym == widget.courseUnit.abbreviation)
+            .where(
+              (exam) => exam.subjectAcronym == widget.courseUnit.abbreviation,
+            )
             .toList();
 
         return CourseUnitSheetView(sheet, courseExams);

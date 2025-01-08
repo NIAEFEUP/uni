@@ -54,19 +54,19 @@ Future<Sheet> parseSheet(http.Response response) async {
         .toList(),
   );
 
-  final regentsJson = (json['responsabilidades'] as List).map((element) {
+  final regents = (json['responsabilidades'] as List).map((element) {
     return Professor.fromJson(element as Map<String, dynamic>);
   }).toList();
 
-  for (final regent in regentsJson) {
-    final existingProfessorIndex =
-        professors.indexWhere((professor) => professor.code == regent.code);
-    if (existingProfessorIndex != -1) {
-      professors[existingProfessorIndex].isRegent = true;
-    } else {
-      regent.isRegent = true;
-      professors.add(regent);
-    }
+  for (final regent in regents) {
+    professors.firstWhere(
+      (professor) => professor.code == regent.code,
+      orElse: () {
+        regent.isRegent = true;
+        professors.add(regent);
+        return regent;
+      },
+    ).isRegent = true;
   }
 
   final books = (json['bibliografia'] as List? ?? [])

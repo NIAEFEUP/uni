@@ -59,9 +59,7 @@ class AcademicPathPageViewState extends GeneralPageViewState
           child: Text('To be implemented'),
         ),
         const ExamsPage(),
-        Center(
-          child: CourseUnitsCard(),
-        ),
+        CourseUnitsCard(),
       ],
     );
   }
