@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uni/model/entities/location.dart';
 import 'package:uni/model/entities/location_group.dart';
-import 'package:uni/view/locations/widgets/faculty_map.dart';
 
 class FloorlessLocationMarkerPopup extends StatelessWidget {
   const FloorlessLocationMarkerPopup(
@@ -43,10 +42,17 @@ class FloorlessLocationMarkerPopup extends StatelessWidget {
           (location) => Text(
             location.description(),
             textAlign: TextAlign.left,
-            style: TextStyle(color: FacultyMap.getFontColor(context)),
+            style: TextStyle(color: _getFontColor(context)),
           ),
         )
         .toList();
+  }
+
+  // TODO(thePeras): Duplicated code
+  Color _getFontColor(BuildContext context) {
+    return Theme.of(context).brightness == Brightness.light
+        ? Theme.of(context).colorScheme.primary
+        : Theme.of(context).colorScheme.tertiary;
   }
 }
 
@@ -59,7 +65,14 @@ class LocationRow extends StatelessWidget {
     return Text(
       location.description(),
       textAlign: TextAlign.left,
-      style: TextStyle(color: FacultyMap.getFontColor(context)),
+      style: TextStyle(color: _getFontColor(context)),
     );
+  }
+
+  // TODO(thePeras): Duplicated code
+  Color _getFontColor(BuildContext context) {
+    return Theme.of(context).brightness == Brightness.light
+        ? Theme.of(context).colorScheme.primary
+        : Theme.of(context).colorScheme.tertiary;
   }
 }

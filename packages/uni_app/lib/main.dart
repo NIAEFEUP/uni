@@ -41,7 +41,6 @@ import 'package:uni/view/faculty/faculty.dart';
 import 'package:uni/view/home/home.dart';
 import 'package:uni/view/library/library.dart';
 import 'package:uni/view/locale_notifier.dart';
-import 'package:uni/view/locations/locations.dart';
 import 'package:uni/view/login/login.dart';
 import 'package:uni/view/map/map.dart';
 import 'package:uni/view/profile/profile.dart';
@@ -51,7 +50,6 @@ import 'package:uni/view/settings/settings.dart';
 import 'package:uni/view/splash/splash.dart';
 import 'package:uni/view/theme.dart';
 import 'package:uni/view/theme_notifier.dart';
-import 'package:uni/view/transports/transports.dart';
 import 'package:uni_ui/theme.dart';
 import 'package:upgrader/upgrader.dart';
 import 'package:workmanager/workmanager.dart';
@@ -289,9 +287,9 @@ class ApplicationState extends State<Application> {
                 page: const CourseUnitsPageView(),
                 settings: settings,
               ),
-              '/${NavigationItem.navLocations.route}':
+              '/${NavigationItem.navMap.route}':
                   PageTransition.makePageTransition(
-                page: const LocationsPage(),
+                page: const MapPage(),
                 settings: settings,
               ),
               '/${NavigationItem.navRestaurants.route}':
@@ -317,11 +315,6 @@ class ApplicationState extends State<Application> {
               '/${NavigationItem.navAcademicPath.route}':
                   PageTransition.makePageTransition(
                 page: const AcademicPathPageView(),
-                settings: settings,
-              ),
-              '/${NavigationItem.navMap.route}':
-                  PageTransition.makePageTransition(
-                page: const MapPage(),
                 settings: settings,
               ),
               '/${NavigationItem.navProfile.route}':

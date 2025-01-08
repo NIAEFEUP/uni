@@ -3,7 +3,6 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:uni/model/entities/location.dart';
 import 'package:uni/model/entities/location_group.dart';
-import 'package:uni/view/locations/widgets/faculty_map.dart';
 
 class LocationMarker extends Marker {
   LocationMarker(this.latlng, this.locationGroup)
@@ -39,11 +38,18 @@ class MarkerIcon extends StatelessWidget {
       return Container();
     }
 
-    final fontColor = FacultyMap.getFontColor(context);
+    final fontColor = _getFontColor(context);
     if (location?.icon is IconData) {
       return Icon(location?.icon as IconData, color: fontColor, size: 12);
     } else {
       return Icon(Icons.device_unknown, color: fontColor, size: 12);
     }
+  }
+
+  // TODO(thePeras): Duplicated code
+  Color _getFontColor(BuildContext context) {
+    return Theme.of(context).brightness == Brightness.light
+        ? Theme.of(context).colorScheme.primary
+        : Theme.of(context).colorScheme.tertiary;
   }
 }
