@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:uni/controller/parsers/parser_exams.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/course_units/course_unit.dart';
 import 'package:uni/model/entities/exam.dart';
@@ -62,8 +63,6 @@ class CourseUnitDetailPageViewState
         session,
       );
     }
-
-    courseUnitExams = examProvider.getExamsForCourseUnit(widget.courseUnit);
   }
 
   @override
@@ -116,19 +115,28 @@ class CourseUnitDetailPageViewState
   }
 
   Widget _courseUnitSheetView(BuildContext context) {
-    final sheet = context
-        .read<CourseUnitsInfoProvider>()
-        .courseUnitsSheets[widget.courseUnit];
-    if (sheet == null) {
-      return Center(
-        child: Text(
-          S.of(context).no_info,
-          textAlign: TextAlign.center,
-        ),
-      );
-    }
+    return Consumer<ExamProvider>(
+      builder: (context, examProvider, child) {
+        final sheet = context
+            .read<CourseUnitsInfoProvider>()
+            .courseUnitsSheets[widget.courseUnit];
 
-    return CourseUnitSheetView(sheet, courseUnitExams);
+        if (sheet == null) {
+          return Center(
+            child: Text(
+              S.of(context).no_info,
+              textAlign: TextAlign.center,
+            ),
+          );
+        }
+
+        final courseExams = (examProvider.state ?? [])
+            .where((exam) => exam.subjectAcronym == widget.courseUnit.abbreviation)
+            .toList();
+
+        return CourseUnitSheetView(sheet, courseExams);
+      },
+    );
   }
 
   Widget _courseUnitFilesView(BuildContext context) {

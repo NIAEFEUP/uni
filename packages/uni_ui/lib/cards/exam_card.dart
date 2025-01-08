@@ -92,7 +92,7 @@ class ExamCard extends StatelessWidget {
                         const SizedBox(width: 4),
                         Text(
                           '$examDay $examMonth',
-                          style: Theme.of(context).textTheme.bodyMedium!,
+                          style: Theme.of(context).textTheme.labelSmall!,
                         ),
                       ],
                       const SizedBox(width: 8),

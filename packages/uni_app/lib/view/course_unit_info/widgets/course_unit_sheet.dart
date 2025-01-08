@@ -211,7 +211,7 @@ class CourseUnitSheetView extends StatelessWidget {
             width: 240,
             child: ExamCard(
               name: exam.subject,
-              acronym: exam.subject,
+              acronym: exam.subjectAcronym,
               rooms: exam.rooms,
               type: exam.examType,
               startTime: exam.startTime,
