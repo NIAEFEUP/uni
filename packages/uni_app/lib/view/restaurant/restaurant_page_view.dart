@@ -54,7 +54,6 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
     );
   }
 
-
   @override
   Widget getBody(BuildContext context) {
     return LazyConsumer<RestaurantProvider, List<Restaurant>>(

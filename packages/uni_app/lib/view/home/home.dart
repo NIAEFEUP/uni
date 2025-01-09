@@ -49,40 +49,36 @@ class HomePageViewState extends GeneralPageViewState {
 
   @override
   Widget? getHeader(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              PageTitle(
-                name: S.of(context).nav_title('area'),
-                center: false,
-                pad: false,
-              ),
-              if (isEditing)
-                ElevatedButton(
-                  onPressed: () => setState(() {
-                    isEditing = false;
-                  }),
-                  child: Text(
-                    S.of(context).edit_on,
-                  ),
-                )
-              else
-                OutlinedButton(
-                  onPressed: () => setState(() {
-                    isEditing = true;
-                  }),
-                  child: Text(
-                    S.of(context).edit_off,
-                  ),
-                ),
-            ],
+    return Container(
+      padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          PageTitle(
+            name: S.of(context).nav_title('area'),
+            center: false,
+            pad: false,
           ),
-        ),
-      ],
+          if (isEditing)
+            ElevatedButton(
+              onPressed: () => setState(() {
+                isEditing = false;
+              }),
+              child: Text(
+                S.of(context).edit_on,
+              ),
+            )
+          else
+            OutlinedButton(
+              onPressed: () => setState(() {
+                isEditing = true;
+              }),
+              child: Text(
+                S.of(context).edit_off,
+              ),
+            ),
+        ],
+      ),
     );
   }
 
