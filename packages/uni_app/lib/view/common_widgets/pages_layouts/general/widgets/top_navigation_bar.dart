@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uni/view/common_widgets/connectivity_warning_card.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 
 class AppTopNavbar extends StatelessWidget implements PreferredSizeWidget {
@@ -16,29 +17,34 @@ class AppTopNavbar extends StatelessWidget implements PreferredSizeWidget {
   final Widget? leftButton;
 
   Widget _createTopWidgets(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.fromLTRB(leftButton == null ? 20 : 12, 0, 20, 0),
-      child: Row(
-        children: [
-          if (leftButton != null)
-            Padding(
-              padding: const EdgeInsets.only(right: 8),
-              child: leftButton,
-            ),
-          Expanded(
-            child: PageTitle(
-              name: title ?? '',
-              pad: false,
-              center: false,
+    return Column(
+      children: [
+        Padding(
+            padding: EdgeInsets.fromLTRB(leftButton == null ? 20 : 12, 0, 20, 0),
+            child: Row(
+              children: [
+                if (leftButton != null)
+                  Padding(
+                    padding: const EdgeInsets.only(right: 8),
+                    child: leftButton,
+                  ),
+                Expanded(
+                  child: PageTitle(
+                    name: title ?? '',
+                    pad: false,
+                    center: false,
+                  ),
+                ),
+                if (rightButton != null)
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8),
+                    child: rightButton,
+                  ),
+              ],
             ),
           ),
-          if (rightButton != null)
-            Padding(
-              padding: const EdgeInsets.only(left: 8),
-              child: rightButton,
-            ),
-        ],
-      ),
+        const ConnectivityWarning(),
+      ],
     );
   }
 

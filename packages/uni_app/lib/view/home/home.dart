@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:uni/controller/local_storage/preferences_controller.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/utils/favorite_widget_type.dart';
-import 'package:uni/view/common_widgets/connectivity_warning_card.dart';
 import 'package:uni/view/common_widgets/page_title.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/widgets/profile_button.dart';
@@ -83,7 +82,6 @@ class HomePageViewState extends GeneralPageViewState {
             ],
           ),
         ),
-        const ConnectivityWarning(),
       ],
     );
   }

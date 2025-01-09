@@ -49,7 +49,7 @@ class _ConnectivityWarningState extends State<ConnectivityWarning> {
     return Visibility(
       visible: isOffline,
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 20),
+        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 18),
         child: Row(
           children: [
             Icon(
@@ -60,10 +60,8 @@ class _ConnectivityWarningState extends State<ConnectivityWarning> {
             const SizedBox(width: 8),
             Text(
               S.of(context).internet_status_exception,
-              style: TextStyle(
-                color: Theme.of(context).primaryColor,
+              style: Theme.of(context).textTheme.bodyMedium,
               ),
-            ),
           ],
         ),
       ),

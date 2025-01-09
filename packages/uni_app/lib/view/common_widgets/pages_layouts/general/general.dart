@@ -120,6 +120,7 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
     return result;
   }
 
+
   Widget getScaffold(BuildContext context, Widget body) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
@@ -132,6 +133,34 @@ abstract class GeneralPageViewState<T extends StatefulWidget> extends State<T> {
       ),
     );
   }
+
+
+  /*
+  Widget getScaffold(BuildContext context, Widget body) {
+    return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.surface,
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(85),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            AppTopNavbar(
+              title: this.getTitle(),
+              rightButton: const ProfileButton(),
+            ),
+            const ConnectivityWarning(), // Add the warning below the navbar
+          ],
+        ),
+      ),
+      bottomNavigationBar: const AppBottomNavbar(),
+      body: RefreshState(
+        onRefresh: onRefresh,
+        header: getHeader(context),
+        body: body,
+      ),
+    );
+  }
+   */
 
   AppTopNavbar? getTopNavbar(BuildContext context) {
     return AppTopNavbar(

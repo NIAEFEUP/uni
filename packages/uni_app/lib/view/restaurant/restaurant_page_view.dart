@@ -6,7 +6,6 @@ import 'package:uni/model/entities/restaurant.dart';
 import 'package:uni/model/providers/lazy/restaurant_provider.dart';
 import 'package:uni/model/utils/day_of_week.dart';
 import 'package:uni/utils/navigation_items.dart';
-import 'package:uni/view/common_widgets/connectivity_warning_card.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locale_notifier.dart';
@@ -48,15 +47,10 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
 
   @override
   Widget? getHeader(BuildContext context) {
-    return Column(
-      children: [
-        const ConnectivityWarning(),
-        TabBar(
-          controller: tabController,
-          isScrollable: true,
-          tabs: createTabs(context),
-        ),
-      ],
+    return TabBar(
+      controller: tabController,
+      isScrollable: true,
+      tabs: createTabs(context),
     );
   }
 
