@@ -10,22 +10,22 @@ class DummyPage extends StatelessWidget {
     CourseUnitFileDirectory(
       'folder1',
       [
-        CourseUnitFile('file1_2024-01-01', 'url1', 'code1'),
-        CourseUnitFile('file2_2024-01-01', 'url2', 'code2'),
-        CourseUnitFile('file3_2024-01-01', 'url3', 'code3'),
+        CourseUnitFile('file1_2024-01-01.pdf', 'url1', 'code1'),
+        CourseUnitFile('file2_2024-01-01.docx', 'url2', 'code2'),
+        CourseUnitFile('file3_2024-01-01.ppt', 'url3', 'code3'),
       ],
     ),
     CourseUnitFileDirectory(
       'folder2',
       [
-        CourseUnitFile('file4_2024-01-01', 'url4', 'code4'),
-        CourseUnitFile('file5_2024-01-01', 'url5', 'code5'),
+        CourseUnitFile('file4_2024-01-01.pdf', 'url4', 'code4'),
+        CourseUnitFile('file5_2024-01-01.pdf', 'url5', 'code5'),
       ],
     ),
     CourseUnitFileDirectory(
       'folder3',
       [
-        CourseUnitFile('file6_2024-01-01', 'url6', 'code6'),
+        CourseUnitFile('file6_2024-01-01.pdf', 'url6', 'code6'),
       ],
     ),
   ];

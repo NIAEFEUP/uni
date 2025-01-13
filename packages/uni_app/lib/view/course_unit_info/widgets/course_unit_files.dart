@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/course_units/course_unit_directory.dart';
 import 'package:uni/model/entities/course_units/course_unit_file.dart';
-import 'package:uni/view/course_unit_info/widgets/course_unit_files_row.dart';
-import 'package:uni/view/course_unit_info/widgets/course_unit_info_card.dart';
+import 'package:uni_ui/cards/file_card.dart';
 import 'package:uni_ui/cards/folder_card.dart';
 
 class CourseUnitFilesView extends StatelessWidget {
@@ -41,7 +40,13 @@ class CourseUnitFilesView extends StatelessWidget {
     //   );
     return FolderCard(
       title: folder,
-      children: const [Text('1'), Text('2'), Text('3')],
+      children: files
+          .map(
+            (e) => FileCard(
+              filename: e.name,
+            ),
+          )
+          .toList(),
     );
   }
 }

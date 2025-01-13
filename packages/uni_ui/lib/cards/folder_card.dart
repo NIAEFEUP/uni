@@ -41,6 +41,7 @@ class _FolderCardState extends State<FolderCard> {
           size: 35,
         ),
       ),
+      shape: Border.all(color: Colors.transparent),
       onExpansionChanged: (isExpanded) {
         setState(() {
           _isExpanded = isExpanded;
