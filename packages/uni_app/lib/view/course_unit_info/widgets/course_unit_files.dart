@@ -4,6 +4,7 @@ import 'package:uni/model/entities/course_units/course_unit_directory.dart';
 import 'package:uni/model/entities/course_units/course_unit_file.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_files_row.dart';
 import 'package:uni/view/course_unit_info/widgets/course_unit_info_card.dart';
+import 'package:uni_ui/cards/folder_card.dart';
 
 class CourseUnitFilesView extends StatelessWidget {
   const CourseUnitFilesView(this.files, {super.key});
@@ -31,11 +32,16 @@ class CourseUnitFilesView extends StatelessWidget {
           );
   }
 
-  CourseUnitInfoCard _buildCard(String folder, List<CourseUnitFile> files) =>
-      CourseUnitInfoCard(
-        folder,
-        Column(
-          children: files.map(CourseUnitFilesRow.new).toList(),
-        ),
-      );
+  FolderCard _buildCard(String folder, List<CourseUnitFile> files) {
+    // return CourseUnitInfoCard(
+    //     folder,
+    //     Column(
+    //       children: files.map(CourseUnitFilesRow.new).toList(),
+    //     ),
+    //   );
+    return FolderCard(
+      title: folder,
+      children: const [Text('1'), Text('2'), Text('3')],
+    );
+  }
 }
