@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:uni/generated/l10n.dart';
 import 'package:uni/model/entities/meal.dart';
@@ -10,10 +9,8 @@ import 'package:uni/utils/navigation_items.dart';
 import 'package:uni/view/common_widgets/pages_layouts/general/general.dart';
 import 'package:uni/view/lazy_consumer.dart';
 import 'package:uni/view/locale_notifier.dart';
+import 'package:uni/view/restaurant/widgets/restaurant_page_card.dart';
 import 'package:uni/view/restaurant/widgets/restaurant_slot.dart';
-import 'package:uni_ui/cards/restaurant_card.dart';
-import 'package:uni_ui/cards/widgets/restaurant_menu_item.dart';
-import 'package:uni_ui/timeline/timeline.dart';
 
 class RestaurantPageView extends StatefulWidget {
   const RestaurantPageView({super.key});
@@ -50,9 +47,10 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
 
   @override
   Widget? getHeader(BuildContext context) {
-    return Timeline(
+    return TabBar(
+      controller: tabController,
+      isScrollable: true,
       tabs: createTabs(context),
-      content: createTabs(context),
     );
   }
 
@@ -74,15 +72,15 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
   }
 
   Widget createTabViewBuilder(
-      List<Restaurant> restaurants,
-      BuildContext context,
-      ) {
+    List<Restaurant> restaurants,
+    BuildContext context,
+  ) {
     final dayContents = DayOfWeek.values.map((dayOfWeek) {
       final restaurantsWidgets = restaurants
           .where((element) => element.meals[dayOfWeek]?.isNotEmpty ?? false)
           .map(
             (restaurant) => createRestaurant(context, restaurant, dayOfWeek),
-      )
+          )
           .toList();
       if (restaurantsWidgets.isEmpty) {
         return Center(
@@ -106,7 +104,7 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
 
   List<Widget> createTabs(BuildContext context) {
     final daysOfTheWeek =
-    Provider.of<LocaleNotifier>(context).getWeekdaysWithLocale();
+        Provider.of<LocaleNotifier>(context).getWeekdaysWithLocale();
     final tabs = <Widget>[];
     for (var i = 0; i < DayOfWeek.values.length; i++) {
       tabs.add(
@@ -120,56 +118,33 @@ class _RestaurantPageViewState extends GeneralPageViewState<RestaurantPageView>
   }
 
   Widget createRestaurant(
-      BuildContext context,
-      Restaurant restaurant,
-      DayOfWeek dayOfWeek,
-      ) {
-    return RestaurantCard(
-      name: restaurant.namePt,
-      icon: getRestaurantIcon(context, restaurant.period),
-      menuItems: createRestaurantMenuItems(restaurant.getMealsOfDay(DayOfWeek.wednesday)),
-      isFavorite: true,
-      onFavoriteToggle: () => {}
+    BuildContext context,
+    Restaurant restaurant,
+    DayOfWeek dayOfWeek,
+  ) {
+    return RestaurantPageCard(
+      restaurant,
+      createRestaurantByDay(context, restaurant, dayOfWeek),
     );
   }
-
-  List<RestaurantMenuItem> createRestaurantMenuItems(List<Meal> mealsOfTheDay) {
-    final menuItems = <RestaurantMenuItem>[];
-    for (final meal in mealsOfTheDay) {
-      menuItems.add(RestaurantMenuItem(name: meal.namePt, icon: getMenuItemIcon(context, meal.type)));
-    }
-    return menuItems;
-  }
-
-
-
-  Icon getRestaurantIcon(BuildContext context, String restaurantType) {
-    return PhosphorIcon(PhosphorIconsDuotone.cow, color: Theme.of(context).primaryColor);
-  }
-
-  Icon getMenuItemIcon(BuildContext context, String mealType) {
-    return PhosphorIcon(PhosphorIconsDuotone.bowlSteam, color: Theme.of(context).primaryColor);
-  }
-
-
 
   List<Widget> createRestaurantRows(List<Meal> meals, BuildContext context) {
     return meals
         .map(
           (meal) => RestaurantSlot(
-        type: meal.type,
-        namePt: meal.namePt,
-        nameEn: meal.nameEn,
-      ),
-    )
+            type: meal.type,
+            namePt: meal.namePt,
+            nameEn: meal.nameEn,
+          ),
+        )
         .toList();
   }
 
   Widget createRestaurantByDay(
-      BuildContext context,
-      Restaurant restaurant,
-      DayOfWeek day,
-      ) {
+    BuildContext context,
+    Restaurant restaurant,
+    DayOfWeek day,
+  ) {
     final meals = restaurant.getMealsOfDay(day);
     if (meals.isEmpty) {
       return Container(

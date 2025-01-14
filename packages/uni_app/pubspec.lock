@@ -1060,7 +1060,7 @@ packages:
     source: hosted
     version: "6.0.2"
   phosphor_flutter:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: phosphor_flutter
       sha256: "8a14f238f28a0b54842c5a4dc20676598dd4811fcba284ed828bd5a262c11fde"
