@@ -7,7 +7,7 @@ publish_to: "none" # We do not publish to pub.dev
 # To change it manually, override the value in app_version.txt.
 # The app version code is automatically also bumped by CI.
 # Do not change it manually.
-version: 1.10.0-beta.36+339
+version: 1.10.0-beta.53+358
 
 environment:
   sdk: ">=3.4.0 <4.0.0"
@@ -37,6 +37,7 @@ dependencies:
   flutter_map: ^5.0.0
   flutter_map_marker_popup: ^5.0.0
   flutter_markdown: ^0.6.0
+  flutter_native_splash: ^2.4.3
   flutter_secure_storage: ^9.2.2
   flutter_svg: ^2.0.9
   flutter_widget_from_html_core: ^0.14.11
@@ -65,10 +66,10 @@ dependencies:
   sqflite: ^2.0.3
   synchronized: ^3.0.0
   timelines: ^0.1.0
-  tuple: ^2.0.0
   ua_client_hints: ^1.3.1
   uni_ui:
     path: ../uni_ui
+  up_menus: ^1.0.1
   upgrader: ^10.3.0
   url_launcher: ^6.2.2
   workmanager: ^0.5.2
@@ -129,3 +130,9 @@ flutter_icons:
 
 flutter_intl:
   enabled: true
+
+flutter_native_splash:
+  color: "#280709"
+  android_12:
+    image: assets/images/blank_splash.png
+    color: "280709"

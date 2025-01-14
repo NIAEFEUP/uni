@@ -58,6 +58,7 @@ class SchedulePageView extends StatefulWidget {
 class SchedulePageViewState extends State<SchedulePageView>
     with TickerProviderStateMixin {
   TabController? tabController;
+  late final List<Lecture> lecturesThisWeek;
 
   @override
   void initState() {
@@ -67,7 +68,33 @@ class SchedulePageViewState extends State<SchedulePageView>
       length: 6,
     );
 
-    final weekDay = widget.currentWeek.start.weekday;
+    var weekDay = widget.currentWeek.start.weekday;
+
+    lecturesThisWeek = <Lecture>[];
+    widget.currentWeek.weekdays.take(6).forEach((day) {
+      final lectures = lecturesOfDay(widget.lectures, day);
+      lecturesThisWeek.addAll(lectures);
+    });
+
+    if (lecturesThisWeek.isNotEmpty) {
+      final now = DateTime.now();
+
+      final nextLecture = lecturesThisWeek
+          .where((lecture) => lecture.endTime.isAfter(now))
+          .fold<Lecture?>(null, (closest, lecture) {
+        if (closest == null) {
+          return lecture;
+        }
+        return lecture.endTime.difference(now) < closest.endTime.difference(now)
+            ? lecture
+            : closest;
+      });
+
+      if (nextLecture != null) {
+        weekDay = nextLecture.endTime.weekday;
+      }
+    }
+
     final offset = (weekDay > 6) ? 0 : (weekDay - 1) % 6;
     tabController?.animateTo(tabController!.index + offset);
   }
@@ -93,7 +120,7 @@ class SchedulePageViewState extends State<SchedulePageView>
           child: TabBarView(
             controller: tabController,
             children: widget.currentWeek.weekdays.take(6).map((day) {
-              final lectures = lecturesOfDay(widget.lectures, day);
+              final lectures = lecturesOfDay(lecturesThisWeek, day);
               final index = WeekdayMapper.fromDartToIndex.map(day.weekday);
               if (lectures.isEmpty) {
                 return emptyDayColumn(context, index);
