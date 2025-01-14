@@ -11,10 +11,10 @@ class UniIcons {
   static const caretDown = PhosphorIconsDuotone.caretDown;
   static const caretUp = PhosphorIconsDuotone.caretUp;
   static const file = PhosphorIconsDuotone.file;
-  // TODO: implement the different icons
   static const fileDoc = PhosphorIconsDuotone.fileDoc;
   static const filePdf = PhosphorIconsDuotone.filePdf;
   static const filePpt = PhosphorIconsDuotone.filePpt;
+  static const fileXls = PhosphorIconsDuotone.fileXls;
 }
 
 // The same as default Icon class from material.dart but allowing to use PhosphorIcons duotone icons

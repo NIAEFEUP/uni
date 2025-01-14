@@ -31,6 +31,15 @@ class CourseUnitFilesView extends StatelessWidget {
           );
   }
 
+  FileCard _buildFileCard(CourseUnitFile file) {
+    final parts = file.name.split('.');
+    final extension = parts.length > 1 ? parts.last : '';
+    return FileCard(
+      filename: file.name,
+      extension: extension,
+    );
+  }
+
   FolderCard _buildCard(String folder, List<CourseUnitFile> files) {
     // return CourseUnitInfoCard(
     //     folder,
@@ -42,9 +51,7 @@ class CourseUnitFilesView extends StatelessWidget {
       title: folder,
       children: files
           .map(
-            (e) => FileCard(
-              filename: e.name,
-            ),
+            _buildFileCard,
           )
           .toList(),
     );

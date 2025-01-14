@@ -25,7 +25,7 @@ class DummyPage extends StatelessWidget {
     CourseUnitFileDirectory(
       'folder3',
       [
-        CourseUnitFile('file6_2024-01-01.pdf', 'url6', 'code6'),
+        CourseUnitFile('file6_2024-01-01', 'url6', 'code6'),
       ],
     ),
   ];
