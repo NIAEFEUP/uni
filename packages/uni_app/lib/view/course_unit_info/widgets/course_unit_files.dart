@@ -32,21 +32,18 @@ class CourseUnitFilesView extends StatelessWidget {
   }
 
   FileCard _buildFileCard(CourseUnitFile file) {
-    final parts = file.name.split('.');
-    final extension = parts.length > 1 ? parts.last : '';
+    // Extract the extension and discard the date.
+    final parts = file.name.split('_');
+    final dateAndExtension = parts.last;
+    final extension = dateAndExtension.split('.').last;
+    final filename = parts.sublist(0, parts.length - 1).join('_');
     return FileCard(
-      filename: file.name,
+      filename: filename,
       extension: extension,
     );
   }
 
   FolderCard _buildCard(String folder, List<CourseUnitFile> files) {
-    // return CourseUnitInfoCard(
-    //     folder,
-    //     Column(
-    //       children: files.map(CourseUnitFilesRow.new).toList(),
-    //     ),
-    //   );
     return FolderCard(
       title: folder,
       children: files

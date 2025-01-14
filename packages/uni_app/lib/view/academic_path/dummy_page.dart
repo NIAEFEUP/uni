@@ -23,9 +23,38 @@ class DummyPage extends StatelessWidget {
       ],
     ),
     CourseUnitFileDirectory(
-      'folder3',
+      'Bloco de apontamentos I',
       [
-        CourseUnitFile('file6_2024-01-01', 'url6', 'code6'),
+        CourseUnitFile(
+          'Diferenciação em R_2022-09-14.pdf',
+          'https://sigarra.up.pt/feup/pt/conteudos_service.conteudos_cont',
+          '547600',
+        ),
+        CourseUnitFile(
+          'Integração em R_2022-09-14.pdf',
+          'https://sigarra.up.pt/feup/pt/conteudos_service.conteudos_cont',
+          '553479',
+        ),
+        CourseUnitFile(
+          'Integrais impróprios_2022-09-14.pdf',
+          'https://sigarra.up.pt/feup/pt/conteudos_service.conteudos_cont',
+          '563094',
+        ),
+        CourseUnitFile(
+          'Equações diferenciais ordinárias_2022-09-14.pdf',
+          'https://sigarra.up.pt/feup/pt/conteudos_service.conteudos_cont',
+          '563096',
+        ),
+        CourseUnitFile(
+          'Transformada de Laplace_2022-09-14.pdf',
+          'https://sigarra.up.pt/feup/pt/conteudos_service.conteudos_cont',
+          '563097',
+        ),
+        CourseUnitFile(
+          'Séries numéricas_2022-09-14.pdf',
+          'https://sigarra.up.pt/feup/pt/conteudos_service.conteudos_cont',
+          '567669',
+        ),
       ],
     ),
   ];
